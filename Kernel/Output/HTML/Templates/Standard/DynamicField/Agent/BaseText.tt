@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.ValueEscaped %]" />
+<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldID || Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.ValueEscaped %]" [% IF Data.ReadOnly %]readonly="readonly"[% END %] />
 [% IF Data.Mandatory %]
 <div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">
     <p>

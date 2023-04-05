@@ -117,23 +117,45 @@
                 </div>
 [% RenderBlockEnd("DynamicField_TitleDynamicFields") %]
 
+[% RenderBlockStart("Row_DynamicField") %]
+                <div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="grid-template-columns: [% Data.TemplateColumns | html %]">
 [% RenderBlockStart("DynamicField") %]
-                <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
-                    <div class="Field">
-                        [% Data.Field %]
-                    </div>
-                    [% IF Data.Tooltip %]
-                        <div class="Tooltip oooTooltip">
-                            <i class="ooofo ooofo-help"></i>
-                            <div class="Content">
-                                <p>[% Translate(Data.Tooltip) | html | html_line_break %]</p>
-                            </div>
+                    <div class="FieldCell[% Data.ColumnClasses %]" style="[% Data.ColumnStyle | html %]">
+                        <div class="Field">
+                            [% Data.Field %]
                         </div>
-                    [% END %]
-                    [% Data.Label %]
-                    <div class="Clear"></div>
-                </div>
+                        [% IF Data.Tooltip %]
+                            <div class="Tooltip oooTooltip">
+                                <i class="ooofo ooofo-help"></i>
+                                <div class="Content">
+                                    <p>[% Translate(Data.Tooltip) | html | html_line_break %]</p>
+                                </div>
+                            </div>
+                        [% END %]
+                        [% Data.Label %]
+                        [% IF Data.MultiValue && !Data.RowReadOnly %]
+                        <div class="AddRemoveValueRow">
+                            <a class="AddValueRow"><i class="ooofo ooofo-add"></i></a>
+                            [% IF Data.Index %]
+                            <a class="RemoveValueRow"><i class="ooofo ooofo-remove"></i></a>
+                            [% END %]
+                        </div>
+                        [% END %]
+                    </div>
 [% RenderBlockEnd("DynamicField") %]
+[% RenderBlockStart("DynamicFieldMultiValueTemplate") %]
+                    <div class="MultiValue_Template" style="[% Data.ColumnStyle | html %]">
+                        <div class="Field">
+                            [% Data.Field %]
+                        </div>
+                        <div class="AddRemoveValueRow">
+                            <a class="RemoveValueRow"><i class="ooofo ooofo-remove"></i></a>
+                            <a class="AddValueRow"><i class="ooofo ooofo-add"></i></a>
+                        </div>
+                    </div>
+[% RenderBlockEnd("DynamicFieldMultiValueTemplate") %]
+                </div>
+[% RenderBlockEnd("Row_DynamicField") %]
 
 [% RenderBlockStart("DynamicField_TitleMessage") %]
                 <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>

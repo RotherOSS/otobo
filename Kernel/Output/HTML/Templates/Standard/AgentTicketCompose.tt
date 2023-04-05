@@ -367,15 +367,38 @@
                     </div>
                     <div class="Clear"></div>
 [% RenderBlockEnd("IsVisibleForCustomer") %]
+[% RenderBlockStart("Row_DynamicField") %]
+                        <div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="grid-template-columns: [% Data.TemplateColumns | html %]">
 [% RenderBlockStart("DynamicField") %]
-                    <div class="Row Row_DynamicField_[% Data.Name | html %]">
-                        [% Data.Label %]
+                            <div class="FieldCell[% Data.ColumnClasses %]" style="[% Data.ColumnStyle | html %]">
+                                [% Data.Label %]
+                                <div class="Field">
+                                [% Data.Field %]
+                                </div>
+                                [% IF Data.MultiValue && !Data.RowReadOnly %]
+                                <div class="AddRemoveValueRow">
+                                    [% IF Data.Index %]
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    [% END %]
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                                [% END %]
+                                <div class="Clear"></div>
+                            </div>
+[% RenderBlockEnd("DynamicField") %]
+[% RenderBlockStart("DynamicFieldMultiValueTemplate") %]
+                    <div class="MultiValue_Template" style="[% Data.ColumnStyle | html %]">
                         <div class="Field">
                             [% Data.Field %]
                         </div>
-                        <div class="Clear"></div>
+                        <div class="AddRemoveValueRow">
+                            <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                            <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                        </div>
                     </div>
-[% RenderBlockEnd("DynamicField") %]
+[% RenderBlockEnd("DynamicFieldMultiValueTemplate") %]
+                        </div>
+[% RenderBlockEnd("Row_DynamicField") %]
 
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual

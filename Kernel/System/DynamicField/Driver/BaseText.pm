@@ -58,62 +58,127 @@ sub ValueGet {
     return if !IsArrayRefWithData($DFValue);
     return if !IsHashRefWithData( $DFValue->[0] );
 
-    return $DFValue->[0]->{ValueText};
+    # extract real values
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        my @ReturnData;
+        for my $Item ( @{$DFValue} ) {
+            push @ReturnData, $Item->{ValueText};
+        }
+        return \@ReturnData;
+    }
+    else {
+        return $DFValue->[0]->{ValueText};
+    }
 }
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
+    # check value
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        for my $Value ( @{ $Param{Value} } ) {
+            push @Values, { ValueText => $Value };
+        }
+    }
+    else {
+        @Values = ( { ValueText => $Param{Value} } );
+    }
+
+    # get dynamic field value object
+    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+
+    my $Success = $DynamicFieldValueObject->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
-        Value    => [
-            {
-                ValueText => $Param{Value},
-            },
-        ],
-        UserID => $Param{UserID},
+        Value    => \@Values,
+        UserID   => $Param{UserID},
     );
 
     return $Success;
 }
 
+sub ValueIsDifferent {
+    my ( $Self, %Param ) = @_;
+
+    # special cases where the values are different but they should be reported as equals
+    if (
+        !defined $Param{Value1}
+        && ref $Param{Value2} eq 'ARRAY'
+        && !IsArrayRefWithData( $Param{Value2} )
+        )
+    {
+        return;
+    }
+    if (
+        !defined $Param{Value2}
+        && ref $Param{Value1} eq 'ARRAY'
+        && !IsArrayRefWithData( $Param{Value1} )
+        )
+    {
+        return;
+    }
+
+    # compare the results
+    return DataIsDifferent(
+        Data1 => \$Param{Value1},
+        Data2 => \$Param{Value2},
+    );
+}
+
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
-        Value => {
-            ValueText => $Param{Value},
-        },
-        UserID => $Param{UserID}
-    );
-
-    my $CheckRegex = 1;
-    if ( defined $Param{NoValidateRegex} && $Param{NoValidateRegex} ) {
-        $CheckRegex = 0;
+    # check values
+    my @Values;
+    if ( IsArrayRefWithData( $Param{Value} ) ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = ( $Param{Value} );
     }
 
-    if (
-        IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
-        && IsStringWithData( $Param{Value} )
-        && $CheckRegex
-        )
-    {
-        # check regular expressions
-        my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+    # get dynamic field value object
+    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
-        REGEXENTRY:
-        for my $RegEx (@RegExList) {
+    my $Success;
+    for my $Item (@Values) {
+        $Success = $DynamicFieldValueObject->ValueValidate(
+            Value => {
+                ValueText => $Param{Value},
+            },
+            UserID => $Param{UserID}
+        );
 
-            if ( $Param{Value} !~ $RegEx->{Value} ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "The value '$Param{Value}' is not matching /"
-                        . $RegEx->{Value} . "/ ("
-                        . $RegEx->{ErrorMessage} . ")!",
-                );
-                $Success = undef;
-                last REGEXENTRY;
+        return if !$Success;
+
+        my $CheckRegex = 1;
+        if ( defined $Param{NoValidateRegex} && $Param{NoValidateRegex} ) {
+            $CheckRegex = 0;
+        }
+
+        # Potential autovification problem here?
+        if (
+            IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
+            && IsStringWithData( $Item )
+            && $CheckRegex
+            )
+        {
+            # check regular expressions
+            my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+
+            REGEXENTRY:
+            for my $RegEx (@RegExList) {
+
+                if ( $Item !~ $RegEx->{Value} ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "The value '$Item' is not matching /"
+                            . $RegEx->{Value} . "/ ("
+                            . $RegEx->{ErrorMessage} . ")!",
+                    );
+                    return;
+                }
             }
         }
     }
@@ -203,8 +268,18 @@ sub EditFieldRender {
     );
 
     # set values from ParamObject if present
-    if ( defined $FieldValue ) {
+    if ( IsArrayRefWithData( $FieldValue ) ) {
         $Value = $FieldValue;
+    }
+    elsif ( ref $FieldValue ne 'ARRAY' && $FieldValue ) {
+        $Value = [ $FieldValue ];
+    }
+
+    if ( ref $Value ne 'ARRAY' && $Value ) {
+        $Value = [ $Value ];
+    }
+    elsif ( !$Value ) {
+        undef $Value;
     }
 
     # check and set class if necessary
@@ -224,33 +299,63 @@ sub EditFieldRender {
     }
 
     my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $Value,
+        Text => '',
     );
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
         Text => $FieldLabel,
     );
 
-    my %FieldTemplateData = (
-        'FieldClass'        => $FieldClass,
-        'FieldName'         => $FieldName,
-        'FieldLabelEscaped' => $FieldLabelEscaped,
-        'ValueEscaped'      => $ValueEscaped,
-        'DivID'             => $FieldName,
-    );
-
-    if ( $Param{Mandatory} ) {
-        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
-
-        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
-
-        $FieldTemplateData{Mandatory} = $Param{Mandatory};
+    my @FieldTemplateData;
+    if ( !IsArrayRefWithData($Value) ) {
+        push @FieldTemplateData, {
+            'FieldClass'        => $FieldClass,
+            'FieldName'         => $FieldName,
+            'FieldLabelEscaped' => $FieldLabelEscaped,
+            'ValueEscaped'      => $ValueEscaped,
+            'DivID'             => $FieldName,
+            'MultiValue'        => $FieldConfig->{MultiValue} || 0,
+            'ReadOnly'          => $Param{ReadOnly},
+        };
     }
 
-    if ( $Param{ServerError} ) {
-        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
-        $FieldTemplateData{ServerError}      = $Param{ServerError};
+    if ( IsArrayRefWithData($Value) ) {
+        for my $ValueItem (@{ $Value }) {
+            # set values from ParamObject if present
+            if ( defined $ValueItem ) {
+                $Value = $ValueItem;
+            }
+
+            my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
+                Text => $ValueItem,
+            );
+
+            my %FieldTemplateInfo = (
+                'FieldClass'        => $FieldClass,
+                'FieldName'         => $FieldName,
+                'FieldLabelEscaped' => $FieldLabelEscaped,
+                'ValueEscaped'      => $ValueEscaped,
+                'DivID'             => $FieldName,
+                'MultiValue'        => $FieldConfig->{MultiValue} || 0,
+                'ReadOnly'          => $Param{ReadOnly},
+            );
+
+            if ( $Param{Mandatory} ) {
+                $FieldTemplateInfo{DivIDMandatory} = $FieldName . 'Error';
+
+                $FieldTemplateInfo{FieldRequiredMessage} = Translatable("This field is required.");
+
+                $FieldTemplateInfo{Mandatory} = $Param{Mandatory};
+            }
+
+            if ( $Param{ServerError} ) {
+                $FieldTemplateInfo{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+                $FieldTemplateInfo{DivIDServerError} = $FieldName . 'ServerError';
+                $FieldTemplateInfo{ServerError}      = $Param{ServerError};
+            }
+
+            push @FieldTemplateData, \%FieldTemplateInfo;
+        }
     }
 
     # call EditLabelRender on the common Driver
@@ -265,15 +370,29 @@ sub EditFieldRender {
         $FieldTemplateFile = 'DynamicField/Customer/BaseText';
     }
 
-    my $HTMLString = $Param{LayoutObject}->Output(
-        'TemplateFile' => $FieldTemplateFile,
-        'Data'         => \%FieldTemplateData
-    );
+    my %ResultHTML;
+    my $Index = 0;
+    for my $FieldTemplateInfo (@FieldTemplateData) {
+        if ( $FieldConfig->{MultiValue} && $Index > 0 ) {
+            $FieldTemplateInfo->{FieldID} = $FieldTemplateInfo->{FieldName} . '_' . $Index;
+        }
+        $ResultHTML{$Index} = $Param{LayoutObject}->Output(
+            'TemplateFile' => $FieldTemplateFile,
+            'Data'         => $FieldTemplateInfo,
+        );
+        $Index++;
+    }
 
     my $Data = {
-        Field => $HTMLString,
         Label => $LabelString,
     };
+
+    if ( $FieldConfig->{MultiValue} ) {
+        $Data->{HTML} = \%ResultHTML;
+    }
+    else {
+        $Data->{Field} = $ResultHTML{"0"};
+    }
 
     return $Data;
 }
@@ -296,7 +415,24 @@ sub EditFieldValueGet {
         && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
         )
     {
-        $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
+        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+            my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
+            my @Data;
+
+            # delete empty values (can happen if the user has selected the "-" entry)
+            my $Index = 0;
+            for my $Item ( @DataAll ) {
+                push @Data, $Item // '';
+            }
+            $Value = \@Data;
+        }
+        else {
+            $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
+        }
+    }
+
+    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} && ref $Value eq 'ARRAY' ) {
+        $Value = $Value->[0] || '';
     }
 
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
@@ -324,26 +460,38 @@ sub EditFieldValueValidate {
     my $ServerError;
     my $ErrorMessage;
 
-    # perform necessary validations
-    if ( $Param{Mandatory} && $Value eq '' ) {
+    my $ValueCount = $Param{ValueCount} || 1;
+
+    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        $Value = [ $Value ];
+    }
+
+    if ( $Param{Mandatory} && ( $ValueCount > scalar $Value->@* ) ) {
         $ServerError = 1;
     }
-    elsif (
-        IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
-        && ( $Param{Mandatory} || ( !$Param{Mandatory} && $Value ne '' ) )
-        )
-    {
 
-        # check regular expressions
-        my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+    for my $ValueItem ( @{ $Value } ) {
+        # perform necessary validations
+        if ( $Param{Mandatory} && $ValueItem eq '' ) {
+            $ServerError = 1;
+        }
+        elsif (
+            IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
+            && ( $Param{Mandatory} || ( !$Param{Mandatory} && $ValueItem ne '' ) )
+            )
+        {
 
-        REGEXENTRY:
-        for my $RegEx (@RegExList) {
+            # check regular expressions
+            my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
 
-            if ( $Value !~ $RegEx->{Value} ) {
-                $ServerError  = 1;
-                $ErrorMessage = $RegEx->{ErrorMessage};
-                last REGEXENTRY;
+            REGEXENTRY:
+            for my $RegEx (@RegExList) {
+
+                if ( $ValueItem !~ $RegEx->{Value} ) {
+                    $ServerError  = 1;
+                    $ErrorMessage = $RegEx->{ErrorMessage};
+                    last REGEXENTRY;
+                }
             }
         }
     }
@@ -366,29 +514,98 @@ sub DisplayValueRender {
     }
 
     # get raw Title and Value strings from field value
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
-    my $Title = $Value;
+    my $Value = '';
+    my $Title = '';
+    my $ValueMaxChars = $Param{ValueMaxChars} || '';
+    my $TitleMaxChars = $Param{TitleMaxChars} || '';
 
-    # HTMLOutput transformations
-    if ( $Param{HTMLOutput} ) {
-        $Value = $Param{LayoutObject}->Ascii2Html(
-            Text => $Value,
-            Max  => $Param{ValueMaxChars} || '',
-        );
-
-        $Title = $Param{LayoutObject}->Ascii2Html(
-            Text => $Title,
-            Max  => $Param{TitleMaxChars} || '',
-        );
+    # check value
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
     }
     else {
-        if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
-            $Value = substr( $Value, 0, $Param{ValueMaxChars} ) . '...';
+        @Values = ( $Param{Value} );
+    }
+
+    my @ReadableValues;
+    my @ReadableTitles;
+
+    my $ShowValueEllipsis;
+    my $ShowTitleEllipsis;
+
+    VALUEITEM:
+    for my $Item (@Values) {
+        $Item //= '';
+
+        my $ReadableValue = $Item;
+
+        my $ReadableLength = length $ReadableValue;
+
+        # set title equal value
+        my $ReadableTitle = $ReadableValue;
+
+        # cut strings if needed
+        if ( $ValueMaxChars ne '' ) {
+
+            if ( length $ReadableValue > $ValueMaxChars ) {
+                $ShowValueEllipsis = 1;
+            }
+            $ReadableValue = substr $ReadableValue, 0, $ValueMaxChars;
+
+            # decrease the max parameter
+            $ValueMaxChars = $ValueMaxChars - $ReadableLength;
+            if ( $ValueMaxChars < 0 ) {
+                $ValueMaxChars = 0;
+            }
         }
-        if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
-            $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
+
+        if ( $TitleMaxChars ne '' ) {
+
+            if ( length $ReadableTitle > $ValueMaxChars ) {
+                $ShowTitleEllipsis = 1;
+            }
+            $ReadableTitle = substr $ReadableTitle, 0, $TitleMaxChars;
+
+            # decrease the max parameter
+            $TitleMaxChars = $TitleMaxChars - $ReadableLength;
+            if ( $TitleMaxChars < 0 ) {
+                $TitleMaxChars = 0;
+            }
+        }
+
+        # HTMLOutput transformations
+        if ( $Param{HTMLOutput} ) {
+
+            $ReadableValue = $Param{LayoutObject}->Ascii2Html(
+                Text => $ReadableValue,
+            );
+
+            $ReadableTitle = $Param{LayoutObject}->Ascii2Html(
+                Text => $ReadableTitle,
+            );
+        }
+
+        push @ReadableValues, $ReadableValue;
+
+        if ( length $ReadableTitle ) {
+            push @ReadableTitles, $ReadableTitle;
         }
     }
+
+    # set new line separator
+    my $ItemSeparator = $Param{HTMLOutput} ? '<br>' : '\n';
+
+    $Value = join( $ItemSeparator, @ReadableValues );
+    $Title = join( $ItemSeparator, @ReadableTitles );
+
+    if ($ShowValueEllipsis) {
+        $Value .= '...';
+    }
+    if ($ShowTitleEllipsis) {
+        $Title .= '...';
+    }
+# EO MultiValueDynamicFields
 
     # set field link form config
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
@@ -551,7 +768,22 @@ sub StatsSearchFieldParameterBuild {
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = '';
+
+    # check value
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = ( $Param{Value} );
+    }
+
+    # set new line separator
+    my $ItemSeparator = ', ';
+
+    # Output transformations
+    $Value = join( $ItemSeparator, @Values );
     my $Title = $Value;
 
     # cut strings if needed

@@ -237,7 +237,8 @@ sub Run {
         }
 
         # result caching
-        my $CacheKey    = $DynamicFieldName . ';' . $Search . ';' . $Identifier;
+        # TODO DynamicFieldName vs. DynamicFieldNameLong
+        my $CacheKey    = $DynamicFieldNameLong . $Search . $Identifier;
         my $CacheTTL    = $DynamicFieldConfig->{Config}->{CacheTTL};
         my $CacheType   = 'DynamicFieldDB';
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');

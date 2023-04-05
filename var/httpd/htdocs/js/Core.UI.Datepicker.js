@@ -167,20 +167,16 @@ Core.UI.Datepicker = (function (TargetNS) {
                 var Container = $(Element.Day).parent();
 
                 // reorder dynamic fields
-                if ( Container.parent().hasClass('Row') ) {
-                    Container.wrapInner("<div class='oooDate'></div>");
-                    Container.addClass('oooDateContainer');
+                Container.wrapInner("<div class='oooDate'></div>");
+                Container.addClass('oooDateContainer');
 
-                    var Label = $('label', Container.parent());
-                    var Checkbox = $('.oooDate > input[type=checkbox]', Container);
-                    var Icon = $("<i class='oooAltCheck ooofo'></i>").on('click', function() {
-                        Checkbox.click();
-                    });
+                var Label = $('label', Container.parent());
+                var Checkbox = $('.oooDate > input[type=checkbox]', Container);
+                var Icon = $("<i class='oooAltCheck ooofo'></i>").on('click', function() {
+                    Checkbox.click();
+                });
 
-                    Container.prepend( Checkbox, Icon, $DatepickerElement, Label );
-                } else {
-                    Element.Day.after($DatepickerElement);
-                }
+                Container.prepend( Checkbox, Icon, $DatepickerElement, Label );
             } else {
                 // AgentInterface
                 Element.Year.after($DatepickerElement);

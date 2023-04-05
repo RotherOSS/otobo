@@ -57,22 +57,23 @@ sub ValueIsDifferent {
     return if !defined $Param{Value2} && ( defined $Param{Value1} && $Param{Value1} eq '' );
 
     # Special cases where one value is a scalar and the other one is an array (see bug#13998).
+    # TODO Causes error message, potentially rewrite this
     if ( ref \$Param{Value1} eq 'SCALAR' && ref $Param{Value2} eq 'ARRAY' ) {
-        my @TmpArray = sort split /,/, $Param{Value1};
-        @{ $Param{Value2} } = sort @{ $Param{Value2} };
+        my @TmpArray1 = sort split /,/, $Param{Value1};
+        my @TmpArray2 = sort @{ $Param{Value2} };
 
         return DataIsDifferent(
-            Data1 => \@TmpArray,
-            Data2 => $Param{Value2},
+            Data1 => \@TmpArray1,
+            Data2 => \@TmpArray2,
         );
     }
     if ( ref \$Param{Value2} eq 'SCALAR' && ref $Param{Value1} eq 'ARRAY' ) {
-        my @TmpArray = sort split /,/, $Param{Value2};
-        @{ $Param{Value1} } = sort @{ $Param{Value1} };
+        my @TmpArray2 = sort split /,/, $Param{Value2};
+        my @TmpArray1 = sort @{ $Param{Value1} };
 
         return DataIsDifferent(
-            Data1 => $Param{Value1},
-            Data2 => \@TmpArray,
+            Data1 => \@TmpArray1,
+            Data2 => \@TmpArray2,
         );
     }
 
@@ -300,7 +301,13 @@ sub EditFieldRender {
         %Param,
     );
     if ( defined $FieldValue ) {
-        $Value = $FieldValue;
+        if ( IsArrayRefWithData( $FieldValue ) ) {
+            $Value = join $ItemSeparator, $FieldValue->@*;
+            @Values = $FieldValue->@*;
+        }
+        elsif ( ref $FieldValue eq 'STRING' ) {
+            $Value = $FieldValue;
+        }
     }
 
     # check and set class if necessary
@@ -340,7 +347,8 @@ sub EditFieldRender {
         'RemoveValueMsg'          => $RemoveValueMsg,
         'DynamicFieldDBContainer' => $DynamicFieldDBContainer,
         'DivID'                   => $FieldName,
-
+        'MultiValue'              => $FieldConfig->{MultiValue} || 0,
+        'ReadOnly'                => $Param{ReadOnly},
     );
 
     if ( $FieldConfig->{Tooltip} ) {
@@ -378,10 +386,36 @@ sub EditFieldRender {
         $FieldTemplateFile = 'DynamicField/Customer/BaseDatabase';
     }
 
-    my $HTMLString = $Param{LayoutObject}->Output(
-        'TemplateFile' => $FieldTemplateFile,
-        'Data'         => \%FieldTemplateData
-    );
+    my %ResultHTML;
+    my $Index = 0;
+    if ( $FieldConfig->{MultiValue} ) {
+        if ( @Values ) {
+            for my $MultiValue ( @Values ) {
+                if ( $Index > 0 ) {
+                    $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_' . $Index;
+                }
+                $FieldTemplateData{Value} = $MultiValue;
+                $ResultHTML{$Index} = $Param{LayoutObject}->Output(
+                    'TemplateFile' => $FieldTemplateFile,
+                    'Data' => \%FieldTemplateData,
+                );
+                $Index++;
+            }
+        }
+        else {
+            $FieldTemplateData{Value} = '';
+            $ResultHTML{$Index} = $Param{LayoutObject}->Output(
+                'TemplateFile' => $FieldTemplateFile,
+                'Data' => \%FieldTemplateData,
+            );
+        }
+    }
+    else {
+        $ResultHTML{$Index} = $Param{LayoutObject}->Output(
+            'TemplateFile' => $FieldTemplateFile,
+            'Data'         => \%FieldTemplateData,
+        );
+    }
 
     $Param{LayoutObject}->AddJSData(
         Key   => 'ActiveAutoComplete',
@@ -389,7 +423,7 @@ sub EditFieldRender {
     );
 
     my $Data = {
-        Field => $HTMLString,
+        HTML  => \%ResultHTML,
         Label => $LabelString,
     };
 
@@ -414,7 +448,8 @@ sub EditFieldValueGet {
         && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
         )
     {
-        $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
+        my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
+        $Value   = \@Data;
     }
 
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
@@ -443,8 +478,16 @@ sub EditFieldValueValidate {
     my $ErrorMessage;
 
     # perform necessary validations
-    if ( $Param{Mandatory} && $Value eq '' ) {
-        $ServerError = 1;
+    my $ValueCount = $Param{ValueCount} || 1;
+    if ( $Param{Mandatory} ) {
+        if ( ref $Value eq 'ARRAY' && ( $ValueCount > scalar $Value->@* ) ) {
+            $ServerError = 1;
+        }
+        else {
+            if ( !$Value ) {
+                $ServerError = 1;
+            }
+        }
     }
 
     # create resulting structure
@@ -483,7 +526,7 @@ sub DisplayValueRender {
     VALUEITEM:
     for my $Item (@Values) {
 
-        next VALUEITEM if !$Item;
+        $Item //= '';
 
         my $ReadableTitle = $Item;
         my $ReadableValue = $Item;
@@ -511,16 +554,25 @@ sub DisplayValueRender {
             }
         }
 
-        if ( length $ReadableValue ) {
-            push @ReadableValues, $ReadableValue;
-        }
+        push @ReadableValues, $ReadableValue;
         if ( length $ReadableTitle ) {
             push @ReadableTitles, $ReadableTitle;
         }
     }
 
     # set new line separator
-    my $ItemSeparator = ', ';
+    my $ItemSeparator;
+    if ( $Param{DynamicFieldConfig}->{Config}{MultiValue} ) {
+        if ( $Param{HTMLOutput} ) {
+            $ItemSeparator = '<br>';
+        }
+        else {
+            $ItemSeparator = '\n';
+        }
+    }
+    else {
+        $ItemSeparator = ', ';
+    }
 
     $Value = join $ItemSeparator, @ReadableValues;
     $Title = join $ItemSeparator, @ReadableTitles;
@@ -692,26 +744,11 @@ sub ReadableValueRender {
         @Values = ( $Param{Value} );
     }
 
-    my @ReadableValues;
-
-    VALUEITEM:
-    for my $Item (@Values) {
-
-        next VALUEITEM if !$Item;
-
-        # cut strings if needed
-        if ( $Param{ValueMaxChars} && length $Item > $Param{ValueMaxChars} ) {
-            $Item = substr( $Item, 0, $Param{ValueMaxChars} ) . '...';
-        }
-
-        push @ReadableValues, $Item;
-    }
-
     # set new line separator
     my $ItemSeparator = ', ';
 
     # Output transformations
-    $Value = join $ItemSeparator, @ReadableValues;
+    $Value = join $ItemSeparator, @Values;
 
     # prepare title
     $Title = $Value;

@@ -102,6 +102,15 @@
                                 </div>
                                 <div class="Clear"></div>
 
+[% RenderBlockStart("DynamicFieldNameSpace") %]
+                                <label for="NameSpace">[% Translate("Namespace") | html %]:</label>
+                                <div class="Field">
+                                    [% Data.NameSpaceStrg %]
+                                    <p class="FieldExplanation">[% Translate("This is the namespace in which this field will be used as prefix with the name.") | html %]</p>
+                                </div>
+                                <div class="Clear"></div>
+[% RenderBlockEnd("DynamicFieldNameSpace") %]
+
                                 <label for="TooltipValue">[% Translate("Tooltip message:") | html %]</label>
                                 <div class="Field">
                                     <textarea id="TooltipValue" class="W75pc" rows="3" cols="80" name="Tooltip">[% Data.Tooltip | html %]</textarea>

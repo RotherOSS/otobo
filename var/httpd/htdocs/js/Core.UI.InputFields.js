@@ -275,80 +275,100 @@ Core.UI.InputFields = (function (TargetNS) {
         InitCallback();
         Core.App.Subscribe('Event.UI.ToggleWidget', InitCallback);
 
+        TargetNS.InitMultiValueDynamicFields();
+
         if ( Config.CustomerInterface ) {
 
             // for the customer interface
-            $('fieldset > .Row, fieldset > .RichTextHolder').each( function() {
-                var Label = $(this).children('label').first(),
-                    Checkbox = $('.Field > input[type=checkbox]', this),
-                    Select = $('.Field > select', this),
-                    Textarea = $('textarea:not(.HasCKEInstance)', this),
-                    TextInput = $('input[type="text"]', this),
-                    TextValue;
-
-                // move labels for checkboxes
-                if ( Checkbox.length > 0 && Select.length === 0 ) {
-                    $('.Field', this).addClass('oooCheckboxContainer');
-                    var Icon = $("<i class='oooAltCheck ooofo'></i>").on('click', function() {
-                        Checkbox.click();
-                    });
-                    $(Checkbox).after( Icon, Label );
-                }
-
-                // change label css for textareas
-                else if ( Textarea.length > 0 ) {
-                    Label.css({
-                        'display': 'inline-block',
-                        'vertical-align': 'top',
-                        'margin-top': '24px',
-                    });
-
-                    TextInput = Textarea;
-                    TextValue = Textarea.text();
-                }
-
-                // standard text input
-                else {
-                    TextValue = TextInput.attr('value');
-                }
-
-                if ( TextInput.length === 0 ) {
-                    return 1;
-                }
-
-                // fields already filled
-                if ( TextValue && $.trim(TextValue).length ) {
-                    TextInput.addClass('oooFull');
-                    $(this).addClass('oooFull');
-                    $(".Field", this).addClass('oooFull');
-                }
-
-                var Label = $(this).children('label').first();
-
-                TextInput.focus( function() {
-                    Label.addClass('oooFocus');
-                });
-                TextInput.blur( function() {
-                    // select boxes are handled in Core.UI.InputFields.js
-                    if ( $(this).attr('aria-expanded') ) {
-                        return 1;
-                    }
-
-                    Label.removeClass('oooFocus');
-
-                    // check whether field is filled
-                    if ( $.trim(this.value).length ) {
-                        $(this).addClass('oooFull');
-                        $(this).parent('.Field').addClass('oooFull');
-                    }
-                    else {
-                        $(this).removeClass('oooFull');
-                        $(this).parent('.Field').removeClass('oooFull');
-                    }
-                });
+            $(
+                'fieldset > .Row:not(.Row_DynamicField),' +
+                ' fieldset > .RichTextHolder,' +
+                ' fieldset > .Row > .FieldCell'
+            ).each( function() {
+                TargetNS.InitCustomerField( this );
             });
         }
     };
+
+    TargetNS.InitCustomerField = function ( Element ) {
+        var Label = $(Element).children('label').first(),
+            Checkbox = $('.Field > input[type=checkbox]', Element),
+            Select = $('.Field > select', Element),
+            Textarea = $('textarea:not(.HasCKEInstance)', Element),
+            // TODO suggestion, DB fields return two elements here (correct one and resultelementtext)
+            TextInput = $('input[type="text"]', Element).first(),
+            TextValue;
+
+        // move labels for checkboxes
+        if ( Checkbox.length > 0 && Select.length === 0 ) {
+            $('.Field', Element).addClass('oooCheckboxContainer');
+            var Icon = $("<i class='oooAltCheck ooofo'></i>").on('click', function() {
+                Checkbox.click();
+            });
+            $(Checkbox).after( Icon, Label );
+        }
+
+        // change label css for textareas
+        else if ( Textarea.length > 0 ) {
+            Label.css({
+                'display': 'inline-block',
+                'vertical-align': 'top',
+                'margin-top': '24px',
+            });
+
+            TextInput = Textarea;
+            TextValue = Textarea.text();
+        }
+
+        // standard text input
+        else {
+            TextValue = TextInput.attr('value');
+        }
+
+        if ( TextInput.length === 0 ) {
+            return 1;
+        }
+
+        // fields already filled
+        if ( TextValue && $.trim(TextValue).length ) {
+            TextInput.addClass('oooFull');
+            $(Element).addClass('oooFull');
+            $(".Field", Element).addClass('oooFull');
+        }
+
+        var Label = $(Element).children('label').first();
+
+        TextInput.focus( function() {
+            Label.addClass('oooFocus');
+        });
+        TextInput.blur( function() {
+            // select boxes are handled in Core.UI.InputFields.js
+            if ( $(this).attr('aria-expanded') ) {
+                return 1;
+            }
+
+            // special case dynamic db fields
+            var FieldValue;
+            if ($(this).hasClass('DynamicFieldDB')) {
+                FieldValue = $(this).closest('.Field').find('input[name]').val();
+            }
+            else {
+                FieldValue = this.value;
+            }
+
+            Label.removeClass('oooFocus');
+
+            // check whether field is filled
+            if ( $.trim(FieldValue).length ) {
+                $(this).addClass('oooFull');
+                $(this).parent('.Field').addClass('oooFull');
+            }
+            else {
+                $(this).removeClass('oooFull');
+                $(this).parent('.Field').removeClass('oooFull');
+            }
+        });
+    }
 
     /**
      * @private
@@ -1332,7 +1352,10 @@ Core.UI.InputFields = (function (TargetNS) {
                 Focused = null;
 
                 // Get width now, since we will hide the element
-                SelectWidth = $SelectObj.outerWidth();
+                // TODO: Angucken
+                if (!$SelectObj.closest('.Row').hasClass('Row_DynamicField')) {
+                    SelectWidth = $SelectObj.outerWidth();
+                }
 
                 // Hide original field
                 $SelectObj.hide();
@@ -1684,7 +1707,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         .appendTo('body');
 
                     if ( Config.CustomerInterface ) {
-                        $('<div class="oooClose"><i class="ooofo ooofo-close"></i></div>').on('click', function() {
+                        $('<div class="oooClose" style="background:#ccc;background:var(--colBGLight)"><svg style="margin-left:4px;margin-top:3px" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z"/></svg></div>').on('click', function() {
                             $ListContainerObj.blur();
                         }).appendTo($ListContainerObj);
                     }
@@ -2601,6 +2624,12 @@ Core.UI.InputFields = (function (TargetNS) {
                     CloseOpenSelections();
                 });
 
+                if ( $SelectObj.closest('.Row_DynamicField').hasClass('MultiValue') && $SelectObj.attr('id') != $SelectObj.attr('name') ) {
+                    $SelectObj.off('change.multivalue').on('change.multivalue', function() {
+                        $('[name=' + $SelectObj.attr('name') + ']').first().trigger('change');
+                    });
+                }
+
                 // Handle custom redraw event on original select field
                 // to update values when changed via AJAX calls
                 $SelectObj.off('redraw.InputField').on('redraw.InputField', function () {
@@ -2663,6 +2692,175 @@ Core.UI.InputFields = (function (TargetNS) {
         return true;
 
     };
+
+    TargetNS.InitMultiValueDynamicFields = function () {
+        $('.Row.MultiValue').each( function() {
+            var $Row = $(this);
+
+            InitMultiValueFieldRow( $Row );
+
+            if ( $Row.hasClass('MultiColumn') ) {
+                TargetNS.HideMultiAddRemoveButtons( $Row );
+            }
+        });
+    };
+
+    function InitMultiValueFieldRow( $Row, Start = 0, Shift = 0 ) {
+        var ValueRowCount = 0,
+            ValueRowCells = [];
+
+        $('.FieldCell', $Row).each( function() {
+            var $Cell = $(this);
+
+            // gather value rows and initiate them
+            if ( $Cell.hasClass( 'MultiValue_' + ValueRowCount ) ) {
+                if ( ValueRowCount < Start ) {
+                    return;
+                }
+                if ( Shift !== 0 ) {
+                    ReplaceCellIndex( $Cell, ValueRowCount, ValueRowCount + Shift );
+                }
+                ValueRowCells.push( $Cell );
+            }
+            else if ( $Cell.hasClass( 'MultiValue_' + (ValueRowCount + 1) ) ) {
+                if ( ValueRowCount + 1 < Start ) {
+                    ValueRowCount++;
+                    return;
+                }
+
+                InitValueRow( ValueRowCells, ValueRowCount + Shift );
+
+                ValueRowCount++;
+                if ( Shift !== 0 ) {
+                    ReplaceCellIndex( $Cell, ValueRowCount, ValueRowCount + Shift );
+                }
+                ValueRowCells = [ $Cell ];
+            }
+        });
+
+        InitValueRow( ValueRowCells, ValueRowCount );
+    }
+
+    function InitValueRow( ValueRowCells, ValueRowCount ) {
+        ValueRowCells.forEach( function( $Cell ) {
+            $('.AddValueRow', $Cell).off('click').on('click', function() {
+                var $Row = $Cell.closest('.Row');
+
+                // shift all higher values forward to make space
+                InitMultiValueFieldRow( $Row, ValueRowCount + 1, 1 );
+                // insert a new ValueRow
+                InsertRow( $Row, ValueRowCount + 1 );
+
+                if ( $Row.hasClass('MultiColumn') ) {
+                    TargetNS.HideMultiAddRemoveButtons( $Row, ValueRowCount + 1 );
+                }
+            });
+            $('.RemoveValueRow', $Cell).off('click').on('click', function() {
+                // delete current row
+                ValueRowCells.forEach( function( $ToRemove ) { $ToRemove.remove() } );
+                // shift all higher values back to close the gap
+                InitMultiValueFieldRow( $Cell.closest('.Row'), ValueRowCount + 1, -1 );
+            });
+        });
+    }
+
+    function ReplaceCellIndex( $Cell, From, To ) {
+        // replace fix stuff
+        $Cell.removeClass( 'MultiValue_' + From );
+        $Cell.addClass( 'MultiValue_' + To );
+
+        // replace DynamicField specifics
+        var ReplaceRegEx = new RegExp( '(DynamicField_[\\w\\d_-]+_)' + From + '(Data|Container)?', 'g' );
+
+        $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_]', $Cell).each( function() {
+            ['id', 'field'].forEach( Attribute => {
+                var Attr = $(this).attr(Attribute);
+                if ( Attr && Attr.match( ReplaceRegEx ) ) {
+                    $(this).attr( Attribute, Attr.replace( ReplaceRegEx, "$1" + To + "$2" ) );
+                }
+            });
+        });
+        $('[class^=ResultElementTemplate], [class^=DynamicFieldDBDetails]', $Cell).each( function() {
+            ['class', 'field'].forEach( Attribute =>{
+                var Attr = $(this).attr(Attribute);
+                if ( Attr && Attr.match(ReplaceRegEx) ) {
+                    $(this).attr( Attribute, Attr.replace( ReplaceRegEx, "$1" + To + "$2" ) );
+                }
+            });
+        });
+    }
+
+    function InsertRow( $Row, ValueRowCount ) {
+        var ValueRowCells = [],
+            $NextCell     = $('.MultiValue_' + ( ValueRowCount +1 ), $Row).first(),
+            $LastCell     = $('.FieldCell', $Row).last();
+
+        $('.MultiValue_Template', $Row).each( function() {
+            var $NewCell = $(this).clone().addClass('FieldCell');
+
+            $('[name^=DynamicField_][name$=_Template]', $NewCell).each( function() {
+                $(this).attr( 'name', $(this).attr('name').replace(/_Template$/, '') );
+                if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
+                    $(this).addClass('Validate_Required');
+                }
+            });
+            ReplaceCellIndex( $NewCell, 'Template', ValueRowCount );
+
+            if ( $NextCell.length ) {
+                ValueRowCells.push( $NewCell );
+            }
+            else {
+                ValueRowCells.unshift( $NewCell );
+            }
+        });
+
+        ValueRowCells.forEach( function( $NewCell ) {
+            if ( $NextCell.length ) {
+                $NextCell.before( $NewCell );
+            }
+            else {
+                $LastCell.after( $NewCell );
+            }
+
+            DynamicFieldInit( $NewCell );
+        });
+
+        InitValueRow( ValueRowCells, ValueRowCount );
+    }
+
+    function DynamicFieldInit( $Cell ) {
+        // DatabaseDynamicField
+        $('.DynamicFieldDB[name]', $Cell).each(function () {
+            Core.Agent.DynamicFieldDBSearch.InitElement( $(this).attr('name'), Core.Config.Get('ActiveAutoComplete'), $('.DynamicFieldDB[type="text"]', $Cell).attr('id') );
+            return;
+        });
+
+        TargetNS.InitCustomerField( $Cell );
+        // other fields
+        Core.UI.InputFields.Activate( $Cell );
+    }
+
+    TargetNS.HideMultiAddRemoveButtons = function ( $Row, InitialIndex ) {
+        var Index = InitialIndex || 0,
+            ValueRow = $( '.MultiValue_' + Index + ':visible', $Row ).toArray();
+
+        while ( ValueRow.length ) {
+            var $LastCell;
+
+            ValueRow.forEach( function( $Cell ) {
+                $LastCell = $Cell;
+                $( '.AddRemoveValueRow', $Cell ).hide();
+            });
+            $( '.AddRemoveValueRow', $LastCell ).show();
+
+            if ( InitialIndex ) {
+                return;
+            }
+
+            Index++;
+            ValueRow = $( '.MultiValue_' + Index + ':visible', $Row ).toArray();
+        }
+    }
 
     /**
      * @name IsEnabled

@@ -136,6 +136,27 @@ sub _AddAction {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
+    if ( $GetParam{FieldOrder} ) {
+
+        # check if field order is numeric and positive
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # add server error error class
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    for my $ConfigParam (
+        qw(
+            ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
+            TranslatableValues ValidID Link LinkPreview Tooltip MultiValue NameSpace
+        )
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
     if ( $GetParam{Name} ) {
 
         # check if name is alphanumeric
@@ -146,6 +167,8 @@ sub _AddAction {
             $Errors{NameServerErrorMessage} =
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
+
+        $GetParam{Name} = $GetParam{NameSpace} ? $GetParam{NameSpace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # check if name is duplicated
         my %DynamicFieldsList = %{
@@ -163,27 +186,6 @@ sub _AddAction {
             $Errors{NameServerError}        = 'ServerError';
             $Errors{NameServerErrorMessage} = Translatable('There is another field with the same name.');
         }
-    }
-
-    if ( $GetParam{FieldOrder} ) {
-
-        # check if field order is numeric and positive
-        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # add server error error class
-            $Errors{FieldOrderServerError}        = 'ServerError';
-            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    for my $ConfigParam (
-        qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-            TranslatableValues ValidID Link LinkPreview Tooltip
-        )
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -244,6 +246,7 @@ sub _AddAction {
         Link               => $GetParam{Link},
         LinkPreview        => $GetParam{LinkPreview},
         Tooltip            => $GetParam{Tooltip},
+        MultiValue         => $GetParam{MultiValue},
     };
 
     # create a new field
@@ -318,29 +321,17 @@ sub _Change {
     # extract configuration
     if ( IsHashRefWithData( $DynamicFieldData->{Config} ) ) {
 
-        # set PossibleValues
-        $Config{PossibleValues} = {};
-        if ( IsHashRefWithData( $DynamicFieldData->{Config}->{PossibleValues} ) ) {
-            $Config{PossibleValues} = $DynamicFieldData->{Config}->{PossibleValues};
-        }
+        %Config = (
+            PossibleValues     => IsHashRefWithData( $DynamicFieldData->{Config}->{PossibleValues} ) ? $DynamicFieldData->{Config}->{PossibleValues} : {},
+            DefaultValue       => $DynamicFieldData->{Config}->{DefaultValue},
+            PossibleNone       => $DynamicFieldData->{Config}->{PossibleNone},
+            TranslatableValues => $DynamicFieldData->{Config}->{TranslatableValues},
+            TreeView           => $DynamicFieldData->{Config}->{TreeView},
+            Link               => $DynamicFieldData->{Config}->{Link},
+            LinkPreview        => $DynamicFieldData->{Config}->{LinkPreview},
+            MultiValue         => $DynamicFieldData->{Config}->{MultiValue},
+        );
 
-        # set DefaultValue
-        $Config{DefaultValue} = $DynamicFieldData->{Config}->{DefaultValue};
-
-        # set PossibleNone
-        $Config{PossibleNone} = $DynamicFieldData->{Config}->{PossibleNone};
-
-        # set TranslatableValues
-        $Config{TranslatableValues} = $DynamicFieldData->{Config}->{TranslatableValues};
-
-        # set TreeView
-        $Config{TreeView} = $DynamicFieldData->{Config}->{TreeView};
-
-        # set Link
-        $Config{Link}        = $DynamicFieldData->{Config}->{Link};
-        $Config{LinkPreview} = $DynamicFieldData->{Config}->{LinkPreview};
-
-        $Config{Tooltip} = $DynamicFieldData->{Config}->{Tooltip};
     }
 
     return $Self->_ShowScreen(
@@ -399,6 +390,27 @@ sub _ChangeAction {
         );
     }
 
+    if ( $GetParam{FieldOrder} ) {
+
+        # check if field order is numeric and positive
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # add server error error class
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    for my $ConfigParam (
+        qw(
+            ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
+            TranslatableValues ValidID Link LinkPreview Tooltip MultiValue NameSpace
+        )
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
     if ( $GetParam{Name} ) {
 
         # check if name is lowercase
@@ -409,6 +421,8 @@ sub _ChangeAction {
             $Errors{NameServerErrorMessage} =
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
+
+        $GetParam{Name} = $GetParam{NameSpace} ? $GetParam{NameSpace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # check if name is duplicated
         my %DynamicFieldsList = %{
@@ -443,27 +457,6 @@ sub _ChangeAction {
             $Errors{NameServerErrorMessage} = Translatable('The name for this field should not change.');
             $Param{InternalField}           = $DynamicFieldData->{InternalField};
         }
-    }
-
-    if ( $GetParam{FieldOrder} ) {
-
-        # check if field order is numeric and positive
-        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # add server error error class
-            $Errors{FieldOrderServerError}        = 'ServerError';
-            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    for my $ConfigParam (
-        qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-            TranslatableValues ValidID Link LinkPreview Tooltip
-        )
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     # uncorrectable errors
@@ -551,6 +544,7 @@ sub _ChangeAction {
         Link               => $GetParam{Link},
         LinkPreview        => $GetParam{LinkPreview},
         Tooltip            => $GetParam{Tooltip},
+        MultiValue         => $GetParam{MultiValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -631,11 +625,21 @@ sub _ChangeAction {
 sub _ShowScreen {
     my ( $Self, %Param ) = @_;
 
+    my $NameSpace;
     $Param{DisplayFieldName} = 'New';
 
     if ( $Param{Mode} eq 'Change' ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
+
+        # check for namespace
+        if ( $Param{Name} =~ /(.*)-(.*)/ ) {
+            $NameSpace = $1;
+            $GetParam{PlainFieldName} = $2;
+        }
+        else {
+            $GetParam{PlainFieldName} = $GetParam{Name};
+        }
     }
 
     $Param{DeletedString} = $Self->{DeletedString};
@@ -691,6 +695,36 @@ sub _ShowScreen {
         Sort          => 'NumericKey',
         Class         => 'Modernize W75pc Validate_Number',
     );
+
+    # create translatable values option list
+    my $MultiValueStrg = $LayoutObject->BuildSelection(
+        Data       => {
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
+        },
+        Name       => 'MultiValue',
+        SelectedID => $Param{MultiValue} || '0',
+        Class      => 'Modernize W50pc',
+    );
+
+    my $NameSpaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::NameSpaces');
+    if ( IsArrayRefWithData($NameSpaceList) ) {
+        my $NameSpaceStrg = $LayoutObject->BuildSelection(
+            Data          => $NameSpaceList,
+            Name          => 'NameSpace',
+            SelectedValue => $NameSpace || '',
+            PossibleNone  => 1,
+            Translation   => 1,
+            Class         => 'Modernize W75pc',
+        );
+
+        $LayoutObject->Block(
+            Name => 'DynamicFieldNameSpace',
+            Data => {
+                NameSpaceStrg => $NameSpaceStrg,
+            },
+        );
+    }
 
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
@@ -929,6 +963,7 @@ sub _ShowScreen {
             DynamicFieldOrderStrg  => $DynamicFieldOrderStrg,
             ValueCounter           => $ValueCounter,
             DefaultValueStrg       => $DefaultValueStrg,
+            MultiValueStrg         => $MultiValueStrg,
             PossibleNoneStrg       => $PossibleNoneStrg,
             TreeViewStrg           => $TreeViewStrg,
             TranslatableValuesStrg => $TranslatableValuesStrg,

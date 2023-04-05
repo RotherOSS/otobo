@@ -1,0 +1,136 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Ticket Mask Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Ticket Mask Management'),
+                Link => 'AdminTicketMask',
+            },
+        ]
+    %]
+
+    [% IF (Data.MaskSelected) %]
+        [% BreadcrumbPath.push({
+            Name => 'Edit mask',
+        }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class='Content'>
+                <ul class="ActionList">
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="get">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="DefinitionChange"/>
+
+                            <div>[% Data.MaskOptionStrg %]</div>
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Add") | html %]">
+                                <span>[% Translate("Change mask definition") | html %]</span>
+                            </button>
+                        </form>
+                    </li>
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+[% RenderBlockStart("OverviewList") %]
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Ticket Mask") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("OverviewListRow") %]
+                        <tr>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DefinitionChange;Mask=[% Data.Mask | uri %]">[% Data.Mask | html %]</a>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("OverviewListRow") %]
+                    </tbody>
+                </table>
+            </div>
+[% RenderBlockEnd("OverviewList") %]
+[% RenderBlockStart("DefinitionChange") %]
+            <div class="Header">
+                <h2>[% Translate("Change") | html %]: </h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="DefinitionSave"/>
+                    <input type="hidden" name="Mask" value="[% Data.Mask | html %]"/>
+                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    <fieldset class="TableLike">
+
+
+                        <label>[% Translate("Ticket Mask") | html %]: </label>
+                        <div class="Field">
+                            [% Data.Mask | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Definition">[% Translate("Definition") | html %]: </label>
+                        <div class="Field">
+                            <textarea name="Definition" id="Definition" rows="[% Data.Rows | html %]" cols="80" wrap="off">[% Data.Definition | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button name="SubmitAndContinue" class="CallForAction Primary" id="SubmitAndContinue" type="button" value="Submit">
+                                <span>[% Translate("Save") | html %]</span>
+                            </button>
+                            [% Translate("or") | html %]
+                            <button name="Submit" class="CallForAction Primary" id="Submit" type="submit" value="Submit">
+                                <span>[% Translate("Save and finish") | html %]</span>
+                            </button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("DefinitionChange") %]
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

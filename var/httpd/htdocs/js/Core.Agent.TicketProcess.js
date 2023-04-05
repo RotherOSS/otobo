@@ -173,6 +173,8 @@ Core.Agent.TicketProcess = (function (TargetNS) {
 
                         Core.TicketProcess.Init();
 
+                        Core.UI.InputFields.InitMultiValueDynamicFields();
+
                         // Publish event when first activity dialog has loaded, so other code can know to execute again.
                         Core.App.Publish('TicketProcess.Init.FirstActivityDialog.Load', [$ElementToUpdate]);
                     }

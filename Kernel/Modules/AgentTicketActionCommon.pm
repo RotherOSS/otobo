@@ -442,6 +442,43 @@ sub Run {
         );
     }
 
+    # fetch input field definition
+    my $MaskObject = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
+    my $InputFieldDefinition = $MaskObject->DefinitionGet(
+        Mask => $Self->{Action},
+    );
+
+    my %DefinedFieldsList;
+    # If no definition is present, put all fields into a list (displaying one field per row)
+    if ( !IsArrayRefWithData( $InputFieldDefinition ) ) {
+        $InputFieldDefinition = [ { List => [ map { { 'Name' => $_->{Name} } } @{ $Param{TicketTypeDynamicFields} } ] } ];
+    }
+    else {
+        # Track used fields for appending the unused ones
+        my @UsedFields = map {
+            if ( $_->{Grid} ) {
+                map { $_->@* } $_->{Grid}->{Rows}->@*;
+            }
+            elsif ( $_->{List} ) {
+                $_->{List}->@*;
+            }
+        }
+        $InputFieldDefinition->@*;
+
+        %DefinedFieldsList = map { $_->{Name} => {
+                'ReadOnly' => $_->{ReadOnly},
+            }
+        } @UsedFields;
+
+        # Collect missing fields to put them in a list section at the end of the existing definition
+        my @NotDefinedFields = grep { !$DefinedFieldsList{ $_->{Name} } } $Param{TicketTypeDynamicFields}->@*;
+        my @ListMissing      = map { { Name => $_->{Name} } } @NotDefinedFields;
+
+        if ( @ListMissing ) {
+            push @{ $InputFieldDefinition }, { List => \@ListMissing };
+        }
+    }
+
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
@@ -452,6 +489,55 @@ sub Run {
         $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicFieldItem } = $DynamicFieldValues{$DynamicFieldItem};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
+
+    my %DynamicFieldValueCount;
+    for my $Area ( $InputFieldDefinition->@* ) {
+        my @AreaDynamicFields = ();
+        my $MaxValueCount     = 0;
+        my $ValueCount        = 0;
+        if ( $Area->{Grid} ) {
+            for my $Row ( $Area->{Grid}{Rows}->@* ) {
+
+                for my $Field ( $Row->@* ) {
+                    push @AreaDynamicFields, $Field->{Name};
+
+                    # $Param{GetParam} holds the dynamic field values
+                    if ( ref $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} ne 'ARRAY' ) {
+                        $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} = [ $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} // '' ];
+                    }
+                    else {
+                        $ValueCount = scalar $GetParam{DynamicField}{"DynamicField_$Field->{Name}"}->@*;
+                    }
+                    if ( $ValueCount > $MaxValueCount ) {
+                        $MaxValueCount = $ValueCount;
+                    }
+                }
+
+            }
+        }
+        elsif ( $Area->{List} ) {
+            my @AreaDynamicFields = ();
+            my $MaxValueCount = 0;
+            my $ValueCount = 0;
+            for my $Field ( $Area->{List}->@* ) {
+                push @AreaDynamicFields, $Field->{Name};
+
+                # $Param{GetParam} holds the dynamic field values
+                if ( ref $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} ne 'ARRAY' ) {
+                    $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} = [ $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} // '' ];
+                }
+                else {
+                    $ValueCount = scalar $GetParam{DynamicField}{"DynamicField_$Field->{Name}"}->@*;
+                }
+                if ( $ValueCount > $MaxValueCount ) {
+                    $MaxValueCount = $ValueCount;
+                }
+            }
+        }
+        for my $FieldName ( @AreaDynamicFields ) {
+            $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
+        }
+    }
 
     # transform pending time, time stamp based on user time zone
     if (
@@ -853,6 +939,7 @@ sub Run {
                     ParamObject          => $ParamObject,
                     Mandatory            =>
                         $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                    ValueCount           => $DynamicFieldValueCount{ $DynamicFieldConfig->{Name} };
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
@@ -885,6 +972,7 @@ sub Run {
                     ParamObject          => $ParamObject,
                     AJAXUpdate           => 1,
                     UpdatableFields      => $Self->_GetFieldsToUpdate(),
+                    ReadOnly             => $DefinedFieldsList{ $DynamicFieldConfig->{Name} }{ReadOnly};
                 );
 
                 push @TicketTypeDynamicFields, {
@@ -960,7 +1048,9 @@ sub Run {
 
                 %GetParam,
                 %Error,
-                Visibility => \%Visibility,
+                Visibility     => \%Visibility,
+                MaskDefinition => $InputFieldDefinition,
+                MaskObject     => $MaskObject,
             );
             $Output .= $LayoutObject->Footer(
                 Type => 'Small',
@@ -1311,6 +1401,7 @@ sub Run {
         for my $DynamicFieldConfig ( @{$DynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if !$Visibility{"DynamicField_$DynamicFieldConfig->{Name}"};
+            next DYNAMICFIELD if $DefinedFieldsList{ $DynamicFieldConfig->{Name} }{ReadOnly};
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
             my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
@@ -2175,6 +2266,17 @@ sub Run {
 
             if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
 
+                # Fill dynamic field values with empty strings till it matches the maximum value count
+                if ( $DynamicFieldConfig->{Config}{MultiValue} ) {
+                    if ( ref $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} ne 'ARRAY' ) {
+                        $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} = [ $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} ];
+                    }
+
+                    while ( ( scalar $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}->@* ) < ( $DynamicFieldValueCount{ $DynamicFieldConfig->{Name} } || 0 ) ) {
+                        push $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}->@*, '';
+                    }
+                }
+
                 # Get field html.
                 my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
                     DynamicFieldConfig   => $DynamicFieldConfig,
@@ -2187,13 +2289,13 @@ sub Run {
                     AJAXUpdate      => 1,
                     UpdatableFields => $Self->_GetFieldsToUpdate(),
                     Mandatory       => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                    ReadOnly        => $DefinedFieldsList{ $DynamicFieldConfig->{Name} }{ReadOnly},
                     %UseDefault,
                 );
 
                 push @TicketTypeDynamicFields, {
                     Name  => $DynamicFieldConfig->{Name},
-                    Label => $DynamicFieldHTML->{Label},
-                    Field => $DynamicFieldHTML->{Field},
+                    $DynamicFieldHTML->%*,
                 };
             }
             elsif ( $DynamicFieldConfig->{ObjectType} eq 'Article' ) {
@@ -2255,15 +2357,18 @@ sub Run {
             ArticleTypeDynamicFields => \@ArticleTypeDynamicFields,
             %GetParam,
             %Ticket,
-            NewQueueID       => $GetParam{QueueID},
-            NewOwnerID       => $GetParam{NewUserID},
-            NewStateID       => $GetParam{NextStateID},
-            NewPriorityID    => $GetParam{PriorityID},
-            SLAID            => $GetParam{SLAID},
-            ServiceID        => $GetParam{ServiceID},
-            TypeID           => $GetParam{TypeID},
-            HideAutoselected => $HideAutoselectedJSON,
-            Visibility       => $DynFieldStates{Visibility},
+            NewQueueID          => $GetParam{QueueID},
+            NewOwnerID          => $GetParam{NewUserID},
+            NewStateID          => $GetParam{NextStateID},
+            NewPriorityID       => $GetParam{PriorityID},
+            SLAID               => $GetParam{SLAID},
+            ServiceID           => $GetParam{ServiceID},
+            TypeID              => $GetParam{TypeID},
+            HideAutoselected    => $HideAutoselectedJSON,
+            Visibility          => $DynFieldStates{Visibility},
+            DynamicFieldConfigs => $DynamicField,
+            MaskDefinition      => $InputFieldDefinition,
+            MaskObject          => $MaskObject,
         );
         $Output .= $LayoutObject->Footer(
             Type => 'Small',
@@ -2747,31 +2852,22 @@ sub _Mask {
         );
     }
 
-    # Get Ticket type dynamic fields.
-    for my $TicketTypeDynamicField ( @{ $Param{TicketTypeDynamicFields} } ) {
-
-        # hide field
-        if ( !$Param{Visibility}{"DynamicField_$TicketTypeDynamicField->{Name}"} ) {
-            $TicketTypeDynamicField->{HiddenClass} = ' oooACLHidden';
-            $TicketTypeDynamicField->{HiddenStyle} = 'style=display:none;';
-
-            # ACL hidden fields cannot be mandatory
-            if ( $Config->{DynamicField}->{ $TicketTypeDynamicField->{Name} } == 2 ) {
-                $TicketTypeDynamicField->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/g;
-            }
+    $Param{DynamicFieldHTML}->%* = map {
+        $_->{Name} => {
+            Label => $_->{Label},
+            Field => $_->{Field},
+            HTML  => $_->{HTML},
         }
+    } $Param{TicketTypeDynamicFields}->@*;
 
-        $LayoutObject->Block(
-            Name => 'TicketTypeDynamicField',
-            Data => $TicketTypeDynamicField,
-        );
-
-        # Output customization block too, if it exists.
-        $LayoutObject->Block(
-            Name => 'TicketTypeDynamicField_' . $TicketTypeDynamicField->{Name},
-            Data => $TicketTypeDynamicField,
-        );
-    }
+    $Param{MaskObject}->RenderInput(
+        GetParam            => \%Param,
+        LayoutObject        => $LayoutObject,
+        MaskDefinition      => $Param{MaskDefinition},
+        DynamicFieldConfigs => $Param{DynamicFieldConfigs},
+        Config              => $Config,
+        Visibility          => $Param{Visibility},
+    );
 
     # End Widget Ticket Actions
 
@@ -2970,7 +3066,7 @@ sub _Mask {
             my @InformUserID    = $ParamObject->GetArray( Param => 'InformUserID' );
             my %InformAgentList = $GroupObject->PermissionGroupGet(
                 GroupID => $GID,
-                Type    => 'ro',
+                Type    => 'rw',
             );
             for my $UserID ( sort keys %InformAgentList ) {
                 $InformAgents{$UserID} = $AllGroupsMembers{$UserID};

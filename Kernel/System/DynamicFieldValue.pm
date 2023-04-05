@@ -118,12 +118,14 @@ sub ValueSet {
                 !defined $Param{Value}->[$Counter]->{ValueText}
 
                 # do not accept an empty string as it is the same as NULL on oracle
-                || !length $Param{Value}->[$Counter]->{ValueText}
+                # FIXME Solve this later
+                # || !length $Param{Value}->[$Counter]->{ValueText}
             )
             && !defined $Param{Value}->[$Counter]->{ValueInt}
             && !defined $Param{Value}->[$Counter]->{ValueDateTime}
             )
         {
+            # SUGGESTION next could be more useful in multivalue context
             last VALUE;
         }
 

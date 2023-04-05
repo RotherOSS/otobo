@@ -68,6 +68,18 @@ div.InputField_InputContainer {
     min-width: 0px;
 }
 
+.oooACLHidden {
+    display: none !important;
+}
+
+.MultiValue_Template {
+    display: none !important;
+}
+
+.Row_DynamicField {
+    display: grid;
+}
+
 @media only screen and (min-width: 1025px) {
     fieldset.TableLike > .Field > .Modernize#TypeID,
     fieldset.TableLike > .Field > .Modernize#Dest,
@@ -88,6 +100,18 @@ div.InputField_InputContainer {
 
     fieldset.TableLike > .Field > input.W50pc,
     fieldset.TableLike > .Row > .Field > input.W50pc {
+        max-width: 300px;
+    }
+
+    fieldset.TableLike > .Row > .FieldCell > .Field > select.Modernize,
+    fieldset.TableLike > .Row > .FieldCell > .Field > input.W75pc,
+    fieldset.TableLike > .Row > .FieldCell > .Field > input.W50pc,
+    fieldset.TableLike .FieldCell > .Field > div.InputField_Container > div.InputField_InputContainer > .InputField_Search,
+    fieldset.TableLike .FieldCell > .Field > div.InputField_Container > div.InputField_InputContainer > .InputField_Autocomplete {
+        min-width: 300px;
+    }
+
+    fieldset.TableLike > .Row:not(.MultiColumn) > .FieldCell > .Field > input.W50pc {
         max-width: 300px;
     }
 
@@ -146,6 +170,64 @@ div.InputField_InputContainer .InputField_Search {
 
 #ContextSettingsDialog div.InputField_InputContainer .InputField_Search {
     min-width: 0px;
+}
+
+fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > select.Modernize,
+fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > input.W75pc,
+fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > input.W50pc,
+fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > input,
+fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer > input {
+    min-width: 0 !important;
+    width: calc( 100% - 7px ) !important;
+}
+
+fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_Container,
+fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer {
+    padding-left: 0;
+    padding-right: 0;
+    width: 100% !important;
+}
+
+/*.FieldCell .InputField_Search {
+    width: 100% !important;
+}*/
+
+/*.MultiColumn > .FieldCell > .Field > div.InputField_Container > div.InputField_InputContainer > .InputField_Search,
+.MultiColumn > .FieldCell > .Field > div.InputField_Container > div.InputField_InputContainer > .InputField_Autocomplete {
+    min-width: 100%;
+    width: 100% !important;
+}*/
+
+.FieldCell {
+    white-space: nowrap;
+}
+
+/*div.Row.Row_DynamicField div.SingleColumn > label,
+div.Row.Row_DynamicField div.SingleColumn > div.MultiValueItem > label,
+div.Row.Row_DynamicField div.MultiColumn > label,
+div.Row.Row_DynamicField div.MultiColumn > div.MultiValueItem > label {
+    width: auto;
+    margin-right: 5px;
+    float: none;
+    text-align: left;
+    font-size: 0.9em;
+    overflow-wrap: break-word;
+    display: block;
+    line-height: 1.9em;
+    min-height: 17px;
+    padding-top: 0.3em;
+    padding-bottom: 1px;
+    text-shadow: 0 1px 0 #FAFAFA;
+}*/
+
+.AddRemoveValueRow {
+    display: inline-block;
+    padding-left: 8px;
+}
+
+.AddValueRow,
+.RemoveValueRow {
+    cursor: pointer;
 }
 
 a.InputField_Action {

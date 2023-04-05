@@ -131,17 +131,18 @@ sub Run {
         my $GetParam = $Self->_GetParams();
 
         # set new confguration
-        $ActivityDialogData->{Name}                       = $GetParam->{Name};
-        $ActivityDialogData->{EntityID}                   = $GetParam->{EntityID};
-        $ActivityDialogData->{Config}->{Interface}        = $GetParam->{Interface};
-        $ActivityDialogData->{Config}->{DescriptionShort} = $GetParam->{DescriptionShort};
-        $ActivityDialogData->{Config}->{DescriptionLong}  = $GetParam->{DescriptionLong};
-        $ActivityDialogData->{Config}->{Permission}       = $GetParam->{Permission};
-        $ActivityDialogData->{Config}->{RequiredLock}     = $GetParam->{RequiredLock} || 0;
-        $ActivityDialogData->{Config}->{SubmitAdviceText} = $GetParam->{SubmitAdviceText};
-        $ActivityDialogData->{Config}->{SubmitButtonText} = $GetParam->{SubmitButtonText};
-        $ActivityDialogData->{Config}->{Fields}           = {};
-        $ActivityDialogData->{Config}->{FieldOrder}       = [];
+        $ActivityDialogData->{Name}                           = $GetParam->{Name};
+        $ActivityDialogData->{EntityID}                       = $GetParam->{EntityID};
+        $ActivityDialogData->{Config}->{Interface}            = $GetParam->{Interface};
+        $ActivityDialogData->{Config}->{DescriptionShort}     = $GetParam->{DescriptionShort};
+        $ActivityDialogData->{Config}->{DescriptionLong}      = $GetParam->{DescriptionLong};
+        $ActivityDialogData->{Config}->{Permission}           = $GetParam->{Permission};
+        $ActivityDialogData->{Config}->{RequiredLock}         = $GetParam->{RequiredLock} || 0;
+        $ActivityDialogData->{Config}->{SubmitAdviceText}     = $GetParam->{SubmitAdviceText};
+        $ActivityDialogData->{Config}->{SubmitButtonText}     = $GetParam->{SubmitButtonText};
+        $ActivityDialogData->{Config}->{InputfieldDefinition} = $GetParam->{InputFieldDefinition};
+        $ActivityDialogData->{Config}->{Fields}               = {};
+        $ActivityDialogData->{Config}->{FieldOrder}           = [];
 
         if ( IsArrayRefWithData( $GetParam->{Fields} ) ) {
 
@@ -386,17 +387,18 @@ sub Run {
         my $GetParam = $Self->_GetParams();
 
         # set new confguration
-        $ActivityDialogData->{Name}                       = $GetParam->{Name};
-        $ActivityDialogData->{EntityID}                   = $GetParam->{EntityID};
-        $ActivityDialogData->{Config}->{Interface}        = $GetParam->{Interface};
-        $ActivityDialogData->{Config}->{DescriptionShort} = $GetParam->{DescriptionShort};
-        $ActivityDialogData->{Config}->{DescriptionLong}  = $GetParam->{DescriptionLong};
-        $ActivityDialogData->{Config}->{Permission}       = $GetParam->{Permission};
-        $ActivityDialogData->{Config}->{RequiredLock}     = $GetParam->{RequiredLock} || 0;
-        $ActivityDialogData->{Config}->{SubmitAdviceText} = $GetParam->{SubmitAdviceText};
-        $ActivityDialogData->{Config}->{SubmitButtonText} = $GetParam->{SubmitButtonText};
-        $ActivityDialogData->{Config}->{Fields}           = {};
-        $ActivityDialogData->{Config}->{FieldOrder}       = [];
+        $ActivityDialogData->{Name}                           = $GetParam->{Name};
+        $ActivityDialogData->{EntityID}                       = $GetParam->{EntityID};
+        $ActivityDialogData->{Config}->{Interface}            = $GetParam->{Interface};
+        $ActivityDialogData->{Config}->{DescriptionShort}     = $GetParam->{DescriptionShort};
+        $ActivityDialogData->{Config}->{DescriptionLong}      = $GetParam->{DescriptionLong};
+        $ActivityDialogData->{Config}->{Permission}           = $GetParam->{Permission};
+        $ActivityDialogData->{Config}->{RequiredLock}         = $GetParam->{RequiredLock} || 0;
+        $ActivityDialogData->{Config}->{SubmitAdviceText}     = $GetParam->{SubmitAdviceText};
+        $ActivityDialogData->{Config}->{SubmitButtonText}     = $GetParam->{SubmitButtonText};
+        $ActivityDialogData->{Config}->{InputfieldDefinition} = $GetParam->{InputFieldDefinition};
+        $ActivityDialogData->{Config}->{Fields}               = {};
+        $ActivityDialogData->{Config}->{FieldOrder}           = [];
 
         if ( IsArrayRefWithData( $GetParam->{Fields} ) ) {
 
@@ -932,10 +934,11 @@ sub _ShowEdit {
     }
 
     # extract parameters from config
-    $Param{DescriptionShort} = $Param{ActivityDialogData}->{Config}->{DescriptionShort};
-    $Param{DescriptionLong}  = $Param{ActivityDialogData}->{Config}->{DescriptionLong};
-    $Param{SubmitAdviceText} = $Param{ActivityDialogData}->{Config}->{SubmitAdviceText};
-    $Param{SubmitButtonText} = $Param{ActivityDialogData}->{Config}->{SubmitButtonText};
+    $Param{DescriptionShort}     = $Param{ActivityDialogData}->{Config}->{DescriptionShort};
+    $Param{DescriptionLong}      = $Param{ActivityDialogData}->{Config}->{DescriptionLong};
+    $Param{SubmitAdviceText}     = $Param{ActivityDialogData}->{Config}->{SubmitAdviceText};
+    $Param{SubmitButtonText}     = $Param{ActivityDialogData}->{Config}->{SubmitButtonText};
+    $Param{InputfieldDefinition} = $Param{ActivityDialogData}->{Config}->{InputFieldDefinition};
 
     my $Output = $LayoutObject->Header(
         Value => $Param{Title},

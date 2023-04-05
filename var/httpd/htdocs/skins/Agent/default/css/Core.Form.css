@@ -622,7 +622,8 @@ div.TooltipErrorMessage {
  */
 
 fieldset.TableLike > label,
-fieldset.TableLike > .Row > label {
+fieldset.TableLike > .Row > label,
+fieldset.TableLike > .Row > .FieldCell label {
     display: block;
     float: left;
     line-height: 1.9em;
@@ -633,6 +634,15 @@ fieldset.TableLike > .Row > label {
     padding-top: 0.3em;
     padding-bottom: 1px;
     text-shadow: 0 1px 0 #FAFAFA;
+}
+
+fieldset.TableLike > .Row.MultiColumn > .FieldCell label {
+    float: none;
+    line-height: 1.9em;
+    width: auto;
+    text-align: left;
+    padding-top: 0.3em;
+    padding-bottom: 1px;
 }
 
 
@@ -652,7 +662,7 @@ fieldset.TableLike > .Row > label {
 }
 
 fieldset.TableLike > .Field,
-fieldset.TableLike > .Row > .Field {
+fieldset.TableLike > .Row > .FieldCell > .Field {
     line-height: 1.9em;
     margin-left: 30%;
     margin-right: 0;
@@ -663,8 +673,45 @@ fieldset.TableLike > .Row > .Field {
     min-height: 20px;
 }
 
+fieldset.TableLike > .Row.MultiValue {
+    grid-row-gap: 2px;
+}
+
+fieldset.TableLike > .Row.MultiColumn {
+    margin-left: 15%;
+    width: calc( 80% - 40px );
+    grid-column-gap: 16px;
+}
+
+/*.Row.MultiColumn .AddRemoveValueRow {
+    position: absolute;
+    left: calc( 100% - 352px );
+    margin-top: 8px;
+}*/
+
+fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field {
+    display: inline-block;
+    margin-left: 0;
+}
+
+fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
+    display: inline-block;
+    margin-left: 0;
+    padding-left: 0;
+    width: 100%;
+}
+
+.RTL fieldset.TableLike > .Row.MultiColumn {
+    margin-right: 15%;
+}
+
+.RTL fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
+    margin-right: 0;
+    padding-right: 0;
+}
+
 .RTL fieldset.TableLike > .Field,
-.RTL fieldset.TableLike > .Row > .Field {
+.RTL fieldset.TableLike > .Row > .FieldCell > .Field {
     margin-left: 0;
     margin-right: 30%;
     padding-left: 0;
@@ -680,10 +727,12 @@ fieldset.TableLike select {
  *          for example for complex input elements.
  */
 fieldset.TableLike > .Field label,
-fieldset.TableLike > .Row > .Field label {
+fieldset.TableLike > .Row > .FieldCell label {
     color: #929292;
 }
 
+fieldset.TableLike > .Row > .FieldCell > .Field > select,
+fieldset.TableLike > .Row > .FieldCell > .Field > input,
 fieldset.TableLike > .Field > select,
 fieldset.TableLike > .Row > .Field > select,
 fieldset.TableLike > .Field > input,
@@ -794,12 +843,14 @@ fieldset.TableLike > .Row > .Value img {
  *              makes the labels have a fixed size
  */
 fieldset.TableLike.FixedLabel > label,
+fieldset.TableLike.FixedLabel > .Row > .FieldCell label,
 fieldset.TableLike.FixedLabel > .Row > label {
     width: 170px;
 }
 
 fieldset.TableLike.FixedLabel > .Field,
 fieldset.TableLike.FixedLabel > .Row > .Field,
+fieldset.TableLike.FixedLabel > .Row > .FieldCell > .Field,
 fieldset.TableLike.FixedLabel > .Value,
 fieldset.TableLike.FixedLabel > .Row > .Value {
     margin-left: 170px;
@@ -810,6 +861,7 @@ fieldset.TableLike.FixedLabel > .Row > .Value {
 
 .RTL fieldset.TableLike.FixedLabel > .Field,
 .RTL fieldset.TableLike.FixedLabel > .Row > .Field,
+.RTL fieldset.TableLike.FixedLabel > .Row > .FieldCell > .Field,
 .RTL fieldset.TableLike.FixedLabel > .Value,
 .RTL fieldset.TableLike.FixedLabel > .Row > .Value {
     margin-left: 0;

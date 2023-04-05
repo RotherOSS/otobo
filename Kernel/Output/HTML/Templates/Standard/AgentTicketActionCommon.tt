@@ -260,15 +260,38 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("Priority") %]
 
-[% RenderBlockStart("TicketTypeDynamicField") %]
-                        <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
-                        [% Data.Label %]
-                            <div class="Field">
-                            [% Data.Field %]
+[% RenderBlockStart("Row_DynamicField") %]
+                        <div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="grid-template-columns: [% Data.TemplateColumns | html %]">
+[% RenderBlockStart("DynamicField") %]
+                            <div class="FieldCell[% Data.ColumnClasses | html %]" style="[% Data.ColumnStyle | html %]">
+                                [% Data.Label %]
+                                <div class="Field">
+                                    [% Data.Field %]
+                                </div>
+                                [% IF Data.MultiValue && !Data.RowReadOnly %]
+                                <div class="AddRemoveValueRow">
+                                    [% IF Data.Index %]
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    [% END %]
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                                [% END %]
+                                <div class="Clear"></div>
                             </div>
-                            <div class="Clear"></div>
+[% RenderBlockEnd("DynamicField") %]
+[% RenderBlockStart("DynamicFieldMultiValueTemplate") %]
+                    <div class="MultiValue_Template" style="[% Data.ColumnStyle | html %]">
+                        <div class="Field">
+                            [% Data.Field %]
                         </div>
-[% RenderBlockEnd("TicketTypeDynamicField") %]
+                        <div class="AddRemoveValueRow">
+                            <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                            <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                        </div>
+                    </div>
+[% RenderBlockEnd("DynamicFieldMultiValueTemplate") %]
+                        </div>
+[% RenderBlockEnd("Row_DynamicField") %]
 
 # Example of how to use fixed dynamic field blocks for customizations. Block below is for fields of type 'Ticket'.
 #   NOTE: Field1 and Field2 are the names of the dynamic fields and have to be replaced with the actual field names.

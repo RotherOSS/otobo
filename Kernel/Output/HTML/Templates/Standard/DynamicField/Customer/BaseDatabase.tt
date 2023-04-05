@@ -14,16 +14,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" title="[% Data.FieldLabel %]" value="[% Data.Value %]" />
-<a href="#" id="DynamicFieldDBDetailedSearch_[% Data.FieldName %]" class="[% Data.WithTooltip %]" field="[% Data.FieldName %]" alt="[% Data.DetailedSearchMsg %]" title="[% Data.DetailedSearchMsg %]"><i class="fa fa-search"></i></a>
-<input type="hidden" class="[% Data.FieldClass %]" width="100%" id="[% Data.FieldName %]Data" name="[% Data.FieldName %]" title="[%Data.FieldLabel%]" value="[% Data.Value %]" />
+<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldID || Data.FieldName %]" title="[% Data.FieldLabel %]" value="[% Data.Value %]" [% IF Data.ReadOnly %]readonly="readonly"[% END %] />
+[% IF !Data.ReadOnly %]
+<a href="#" id="DynamicFieldDBDetailedSearch_[% Data.FieldID || Data.FieldName %]" class="[% Data.WithTooltip %]" field="[% Data.FieldID || Data.FieldName %]" alt="[% Data.DetailedSearchMsg %]" title="[% Data.DetailedSearchMsg %]"><i class="fa fa-search"></i></a>
+[% END %]
+<input type="hidden" class="[% Data.FieldClass %]" width="100%" id="[% Data.FieldID || Data.FieldName %]Data" name="[% Data.FieldName %]" title="[%Data.FieldLabel%]" value="[% Data.Value %]" />
 <div class="Field Hidden">
-    <div class="ResultElementTemplate[% Data.FieldName %] Hidden">
+    <div class="ResultElementTemplate[% Data.FieldID || Data.FieldName %] Hidden">
         <input id="ResultElementText" class="ResultElementText Radio" type="text" readonly="readonly" value="" name="ResultElementText" title="" />
-        <a href="#" class="DynamicFieldDBDetails_[% Data.FieldName %] AddButton" field="[% Data.FieldName %]" alt="[% Data.DetailsMsg %]" title="[% Data.DetailsMsg %]"><i class="fa fa-list-alt"></i></a>
+        <a href="#" class="DynamicFieldDBDetails_[% Data.FieldID || Data.FieldName %] AddButton" field="[% Data.FieldID || Data.FieldName %]" alt="[% Data.DetailsMsg %]" title="[% Data.DetailsMsg %]"><i class="fa fa-list-alt"></i></a>
+        [% IF !Data.ReadOnly %]
         <a id="RemoveDynamicFieldDBEntry" class="RemoveButton" title="[% Data.RemoveValueMsg %]" href="#"><i class="fa fa-minus-square-o"></i></a>
+        [% END %]
     </div>
-    <div id="[% Data.FieldName %]Container" class="[% Data.DynamicFieldDBContainer %]"></div>
+    <div id="[% Data.FieldID || Data.FieldName %]Container" class="[% Data.DynamicFieldDBContainer %]"></div>
 </div>
 [% IF Data.Mandatory %]
     <div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">

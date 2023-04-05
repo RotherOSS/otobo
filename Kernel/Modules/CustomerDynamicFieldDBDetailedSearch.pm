@@ -41,6 +41,7 @@ sub Run {
 
     # get params
     $Param{DynamicFieldName} = $ParamObject->GetParam( Param => 'DynamicFieldName' );
+    $Param{DynamicFieldID}   = $ParamObject->GetParam( Param => 'DynamicFieldID' );
     $Param{ActivityDialogID} = $ParamObject->GetParam( Param => 'ActivityDialogID' );
 
     # CustomerUserID and CustomerID are fixed.
@@ -144,6 +145,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'SearchResult',
             Data => {
+                DynamicFieldID   => $Param{DynamicFieldID},
                 DynamicFieldName => $DynamicFieldNameLong,
             },
         );
@@ -239,6 +241,7 @@ sub Run {
             Name => 'SearchOverview',
             Data => {
                 DynamicFieldName => $DynamicFieldNameLong,
+                DynamicFieldID   => $Param{DynamicFieldID},
                 ActivityDialogID => $Param{ActivityDialogID},
             },
         );

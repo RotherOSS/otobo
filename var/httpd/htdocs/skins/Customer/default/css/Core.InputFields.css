@@ -48,12 +48,38 @@ fieldset.Columns .Column .InputField_ListContainer div {
     display: none !important;
 }
 
+.MultiValue_Template {
+    display: none !important;
+}
+
 .Row,
 .RichTextHolder {
     margin-top: 40px;
     white-space: nowrap;
 }
 
+.AddValueRow,
+.RemoveValueRow {
+    cursor: pointer;
+}
+
+.Row_DynamicField {
+    display: grid;
+    grid-column-gap: 40px;
+}
+
+.FieldTemplate {
+    display: none;
+}
+
+.AddButtonDynamicField,
+.RemoveButtonDynamicField {
+    cursor: pointer;
+}
+
+.FieldCell > div.Field,
+.FieldCell > div.InputField_Container,
+.FieldCell > select,
 .Row > div.Field,
 .Row > div.InputField_Container,
 .Row > select {
@@ -123,6 +149,8 @@ input.DynamicFieldDB,
      -o-transition: border 0.2s ease;
         transition: border 0.2s ease; */
 }
+
+.FieldCell > select,
 .Row > select,
 #Subject {
     border-radius: 10px;
@@ -177,6 +205,7 @@ label {
 /* default */
 input,
 textarea {
+    font-family: inherit;
     color: #7f809d;
     color: var(--colTextLight);
     border: solid 1px rgba(247, 247, 249, 0);
@@ -189,6 +218,7 @@ textarea {
         transition: border 0.2s ease, color 0.2s ease;
 }
 
+.FieldCell > label,
 .Row > label {
     pointer-events: none;
     background-color: #f7f7f9;
@@ -204,9 +234,9 @@ textarea {
 }
 
 /* hover, selected and filled */
-input:hover,
+input:not([readonly="readonly"]):hover,
 input.oooFull,
-textarea:hover,
+textarea:not([readonly="readonly"]):hover,
 textarea.oooFull,
 .oooSelected input {
     border: solid 1px #7f809d;
@@ -214,15 +244,17 @@ textarea.oooFull,
     background-color: #fff;
 }
 
-.Row > input:hover ~ label,
+.FieldCell > input:not([readonly="readonly"]):hover ~ label,
+.Row > input:not([readonly="readonly"]):hover ~ label,
 .RichTextHolder > textarea:hover ~ label,
 textarea.oooFull ~ label,
 input.oooFull ~ label,
 .Field:hover ~ label,
 .Field.oooFull ~ label,
 .oooSelected ~ label,
-.DynamicFieldDB:hover ~ label,
+.DynamicFieldDB:not([readonly="readonly"]):hover ~ label,
 .InputField_Container:hover ~ label {
+    border-radius: 10px;
     top: -29px;
     font-size: 10px;
     line-height: 1.3;
@@ -233,11 +265,11 @@ input.oooFull ~ label,
 }
 
 /* focus */
-input:focus,
+input:not([readonly="readonly"]):focus,
 input[aria-expanded="true"],
 input.oooFull[aria-expanded="true"],
 input.oooFull:focus,
-textarea:focus,
+textarea:not([readonly="readonly"]):focus,
 textarea.oooFull:focus,
 .oooSelected input:focus {
     border: solid 1px #001bff;
@@ -245,11 +277,13 @@ textarea.oooFull:focus,
     background-color: #fff;
 }
 
-.Row > input:focus ~ label,
+.FieldCell > input:not([readonly="readonly"]):focus ~ label,
+.Row > input:not([readonly="readonly"]):focus ~ label,
 label.oooFocus,
 .Field ~ label.oooFocus,
 .DynamicFieldDB:hover ~ label.oooFocus,
 .InputField_Container ~ label.oooFocus {
+    border-radius: 10px;
     top: -29px;
     font-size: 10px;
     line-height: 1.3;
@@ -356,6 +390,8 @@ label.oooFocus.LabelError {
 }*/
 
 /* Checkboxes & Date */
+.FieldCell > div.Field.oooDateContainer,
+.FieldCell > div.Field.oooCheckboxContainer,
 .Row > div.Field.oooDateContainer,
 .Row > div.Field.oooCheckboxContainer {
     height: 38px;
@@ -376,6 +412,7 @@ label.oooFocus.LabelError {
     cursor: pointer;
 }
 
+.FieldCell input[type='checkbox'],
 .Row input[type='checkbox'] {
     width: 16px;
     height: 16px;
@@ -542,6 +579,12 @@ div.InputField_Selection > .Remove {
 input[readonly=readonly] {
     border: none !important;
     cursor: default !important;
+}
+
+.InputField_InputContainer > input[readonly=readonly],
+.Field > input[readonly=readonly] {
+    box-shadow: inset 0px 0px 8px 2px #bfbfce;
+    box-shadow: inset 0px 0px 8px 2px var(--colBGDark);
 }
 
 /* Tooltips */

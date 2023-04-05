@@ -361,7 +361,7 @@ Core.AJAX = (function (TargetNS) {
 
             var $Element = $('#' + DataKey);
 
-            if ((!$Element.length || !DataValue) && !$Element.is('textarea')) {
+            if ((!$Element.length || typeof DataValue == 'undefined') && !$Element.is('textarea')) {
                 return;
             }
 
@@ -440,10 +440,51 @@ Core.AJAX = (function (TargetNS) {
                 }
             }
 
+            var $FieldRow        = Field.closest('.Row'),
+                $FieldCell       = Field.closest('.FieldCell'),
+                MultiValueFields = [],
+                MultiColumnIndex;
+
+            if ( $FieldRow.hasClass('MultiValue') ) {
+                if ( $FieldRow.hasClass('MultiColumn') ) {
+                    $('.MultiValue_0', $FieldRow).each( function ( Index ) {
+                        if ( $(this).is( $FieldCell ) ) {
+                            MultiColumnIndex = Index;
+                        }
+                    });
+
+                    var ValueRowIndex = 1,
+                        ValueRow      = $( '.MultiValue_' + ValueRowIndex, $FieldRow );
+
+                    while ( ValueRow.length ) {
+                        MultiValueFields.push( ValueRow[ MultiColumnIndex ] );
+                        ValueRowIndex++;
+                        ValueRow = $( '.MultiValue_' + ValueRowIndex, $FieldRow );
+                    }
+                }
+                else {
+                    MultiValueFields = $( '.FieldCell:not(.MultiValue_0)', $FieldRow ).toArray();
+                }
+            }
+
             // field has to be hidden
             if ( FieldInfo[1] == 0 ) {
-                Field.closest('div.Row').hide();
-                Field.closest('div.Row').addClass("oooACLHidden");
+                $FieldCell.addClass("oooACLHidden");
+                if ( $FieldRow.hasClass('MultiValue') ) {
+                    MultiValueFields.forEach( function( Cell ) {
+                        $(Cell).addClass("oooACLHidden");
+                    });
+                    if ( $FieldRow.hasClass('MultiColumn') ) {
+                        Core.UI.InputFields.HideMultiAddRemoveButtons( $FieldRow );
+                    }
+                }
+                if ( !$FieldRow.hasClass('MultiColumn') || $FieldRow.children('.FieldCell:visible').length == 0 ) {
+                    $FieldRow.addClass('oooACLHidden');
+                    if ( $FieldRow.hasClass('MultiValue') ) {
+                        // delete only sibling elements of first multivalues
+                        $( '.FieldCell[class^=MultiValue]:not(.MultiValue_0)', $FieldRow ).remove();
+                    }
+                }
 
                 // hidden fields cannot be mandatory
                 if ( Field.hasClass("Validate_Required") ) {
@@ -467,12 +508,14 @@ Core.AJAX = (function (TargetNS) {
                 }
             }
             // field has to be shown again
-            else if ( Field.closest('div.Row').hasClass("oooACLHidden") ) {
-                Field.closest('div.Row').show();
-                // if it was hidden via autoselect before
-                Field.parent().show();
-                $("label[for='" + Field[0] + "']").show();
-                Field.closest('div.Row').removeClass("oooACLHidden");
+            else if ( $FieldCell.hasClass("oooACLHidden") ) {
+                $FieldCell.removeClass('oooACLHidden');
+                $FieldRow.removeClass("oooACLHidden");
+                if ( $FieldRow.hasClass('MultiValue') ) {
+                    MultiValueFields.forEach( function( Cell ) {
+                        $(Cell).removeClass("oooACLHidden");
+                    });
+                }
 
                 // restore validation on mandatory fields
                 if ( Field.hasClass("Validate_Required_IfVisible") ) {
@@ -503,6 +546,17 @@ Core.AJAX = (function (TargetNS) {
                     Field.trigger('redraw.InputField');
                 }
 
+                if ( $FieldRow.hasClass('MultiValue') ) {
+                    Core.UI.InputFields.InitSelect( $('select[name=' + FieldInfo[0] + ']') );
+                    MultiValueFields.forEach( function( $Cell ) {
+                        if ( Field.hasClass('Modernize')) {
+                            $('[name=' + FieldInfo[0] + ']').trigger('redraw.InputField');
+                        }
+                    });
+                    if ( $FieldRow.hasClass('MultiColumn') ) {
+                        Core.UI.InputFields.HideMultiAddRemoveButtons( $FieldRow );
+                    }
+                }
             }
         }
     }

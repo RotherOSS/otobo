@@ -24,6 +24,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         padding-top: 40px;
     }
 
+    div.FieldCell:first-child,
     .Row:first-child {
         margin-top: 0px;
     }
@@ -37,6 +38,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         border-radius: 0px;
     }
 
+    .FieldCell > div.Field,
+    .FieldCell > div.InputField_Container,
+    .FieldCell > select,
     .Row > div.Field,
     .Row > div.InputField_Container,
     .Row > select,
@@ -51,6 +55,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         margin-left: calc( 25% - 76px );
     }
 
+    .FieldCell > label,
     .Row > label,
     .RichTextHolder > label {
         left: calc( -50% - 126px );
@@ -72,6 +77,28 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         padding-top: 48.5px;
     }
 
+    .Row_DynamicField {
+        width: 66%;
+        margin-left: 17%;
+        grid-row-gap: 16px;
+        grid-column-gap: 40px;
+    }
+
+    .FieldCell > div.Field,
+    .FieldCell > div.InputField_Container,
+    .FieldCell > select {
+        width: 100% !important;
+        margin-left: 0;
+    }
+
+    .AddRemoveValueRow {
+        position: absolute;
+        display: inline;
+        margin-top: 20px;
+        left: calc( 83% - 16px );
+        width: 33px;
+    }
+
     .Row > div.Field,
     .Row > div.InputField_Container,
     .Row > select,
@@ -86,11 +113,21 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         margin-left: 17%;
     }
 
+    .FieldCell > label {
+        left: calc( -100% + 24px );
+    }
+
     .Row > label,
     .RichTextHolder > label {
         left: calc( -66% + 24px );
     }
 
+}
+
+@media only screen and (min-width: 1444px) {
+    .AddRemoveValueRow {
+        left: calc( 50% + 460px );
+    }
 }
 
 .TicketCompose ~ #oooFooter {

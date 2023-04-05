@@ -39,6 +39,7 @@
             <input type="hidden" name="Action" value="CustomerDynamicFieldDBDetailedSearch">
             <input type="hidden" name="Subaction" value="DetailedSearch">
             <input type="hidden" name="DynamicFieldName" value="DynamicField_[% Data.DynamicFieldName | html %]">
+            <input type="hidden" name="DynamicFieldID" value="[% Data.DynamicFieldID | html %]">
             <input type="hidden" name="ActivityDialogID" value="[% Data.ActivityDialogID | html %]">
 
             <fieldset class="TableLike FixedLabel SpacingTop">
@@ -90,7 +91,7 @@
 [% RenderBlockStart("SearchResult") %]
             <h1>[% Data.DynamicFieldName | html %] [% Translate("Search Results") | html %]</h1><br/>
 
-            <table id="ResultTable" field="DynamicField_[% Data.DynamicFieldName | html %]" class="DataTable">
+            <table id="ResultTable" field="DynamicField_[% Data.DynamicFieldName | html %]" class="DataTable" data-field-id="[% (Data.DynamicFieldID || Data.DynamicFieldName) | html %]">
                 <thead>
                     <tr>
 [% RenderBlockStart("SearchResultHeader") %]

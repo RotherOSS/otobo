@@ -16,19 +16,21 @@
 
 [% RenderBlockStart("rw:DynamicField") %]
 <div class="Row Row_DynamicField_[% Data.Name %]">
+<div class="FieldCell">
 [% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
-    <span class="FieldHelpContainer">
-        <i class="fa fa-question-circle FieldHelpTrigger"></i>
-        <span>[% Translate(Data.DescriptionLong) | html %]</span>
-    </span>
+        <span class="FieldHelpContainer">
+            <i class="fa fa-question-circle FieldHelpTrigger"></i>
+            <span>[% Translate(Data.DescriptionLong) | html %]</span>
+        </span>
 [% RenderBlockEnd("rw:DynamicField:DescriptionLong") %]
-    [% Data.Label %]
-    <div class="Field">
-        [% Data.Content %]
+        [% Data.Label %]
+        <div class="Field">
+            [% Data.Content %]
 [% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
-        <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
+            <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
 [% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
+        </div>
+        <div class="Clear"></div>
     </div>
-    <div class="Clear"></div>
 </div>
 [% RenderBlockEnd("rw:DynamicField") %]

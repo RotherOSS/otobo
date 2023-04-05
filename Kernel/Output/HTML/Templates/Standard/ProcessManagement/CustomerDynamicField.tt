@@ -16,21 +16,23 @@
 
 [% RenderBlockStart("rw:DynamicField") %]
 <div class="Row Row_DynamicField_[% Data.Name %]">
-    <div class="Field">
-        [% Data.Content %]
-    </div>
-[% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
-    <div class="Tooltip oooTooltip">
-        <i class="ooofo ooofo-help"></i>
-        <div class="Content">
-            <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
+    <div class="FieldCell">
+        <div class="Field">
+            [% Data.Content %]
         </div>
-    </div>
+[% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
+        <div class="Tooltip oooTooltip">
+            <i class="ooofo ooofo-help"></i>
+            <div class="Content">
+                <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
+            </div>
+        </div>
 [% RenderBlockEnd("rw:DynamicField:DescriptionLong") %]
-    [% Data.Label %]
+        [% Data.Label %]
 [% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
-        <p class="FieldExplanation ooo12g">[% Translate(Data.DescriptionShort) | html %]</p>
+            <p class="FieldExplanation ooo12g">[% Translate(Data.DescriptionShort) | html %]</p>
 [% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
-    <div class="Clear"></div>
+        <div class="Clear"></div>
+    </div>
 </div>
 [% RenderBlockEnd("rw:DynamicField") %]

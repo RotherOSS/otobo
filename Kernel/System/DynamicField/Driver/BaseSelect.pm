@@ -59,30 +59,47 @@ sub ValueGet {
     return if !IsArrayRefWithData($DFValue);
     return if !IsHashRefWithData( $DFValue->[0] );
 
-    return $DFValue->[0]->{ValueText};
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        my @ReturnData;
+        for my $Item ( @{$DFValue} ) {
+            push @ReturnData, $Item->{ValueText};
+        }
+        return \@ReturnData;
+    }
+    else {
+        return $DFValue->[0]->{ValueText};
+    }
 }
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    # check for valid possible values list
-    if ( !$Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need PossibleValues in DynamicFieldConfig!",
-        );
-        return;
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = ( $Param{Value} );
+    }
+
+    my @ValueText;
+    for my $Value ( @Values ) {
+        # check for valid possible values list
+        if ( !$Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need PossibleValues in DynamicFieldConfig!",
+            );
+            return;
+        }
+        push @ValueText, { ValueText => $Value };
     }
 
     my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
-        Value    => [
-            {
-                ValueText => $Param{Value},
-            },
-        ],
-        UserID => $Param{UserID},
+        Value    => \@ValueText,
+        UserID   => $Param{UserID},
     );
 
     return $Success;
@@ -91,12 +108,25 @@ sub ValueSet {
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
-        Value => {
-            ValueText => $Param{Value},
-        },
-        UserID => $Param{UserID}
-    );
+    # check values
+    my @Values;
+    if ( IsArrayRefWithData( $Param{Value} ) ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = ( $Param{Value} );
+    }
+
+    my $Success;
+    for my $Value ( @Values ) {
+        $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
+            Value => {
+                ValueText => $Param{Value},
+            },
+            UserID => $Param{UserID},
+        );
+        return if !$Success;
+    }
 
     return $Success;
 }
@@ -186,8 +216,15 @@ sub EditFieldRender {
     );
 
     # set values from ParamObject if present
-    if ( defined $FieldValue ) {
+    if ( IsArrayRefWithData( $FieldValue ) ) {
         $Value = $FieldValue;
+    }
+    elsif ( ref $FieldValue ne 'ARRAY' && $FieldValue ) {
+        $Value = [ $FieldValue ];
+    }
+
+    if ( !IsArrayRefWithData($Value) && $Value ) {
+        $Value = [ $Value ];
     }
 
     # check and set class if necessary
@@ -231,49 +268,110 @@ sub EditFieldRender {
         Value              => $Value,
     );
 
-    my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
-        Data        => $DataValues || {},
-        Name        => $FieldName,
-        SelectedID  => $Value,
-        Translation => $FieldConfig->{TranslatableValues} || 0,
-        Class       => $FieldClass,
-        Size        => $Size,
-        HTMLQuote   => 1,
-    );
-
-    my %FieldTemplateData = (
-        'SelectionHTML' => $SelectionHTML,
-        'DivID'         => $FieldName,
-    );
-
-    if ( $FieldConfig->{TreeView} ) {
-        $FieldTemplateData{TreeView}             = $FieldConfig->{TreeView};
-        $FieldTemplateData{TreeSelectionMessage} = Translatable("Show Tree Selection");
-    }
-
-    if ( $Param{Mandatory} ) {
-        $FieldTemplateData{Mandatory}      = $Param{Mandatory};
-        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
-
-        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
-    }
-
-    if ( $Param{ServerError} ) {
-
-        $FieldTemplateData{ServerError}      = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
-    }
-
     my $FieldTemplateFile = 'DynamicField/Agent/BaseSelect';
     if ( $Param{CustomerInterface} ) {
         $FieldTemplateFile = 'DynamicField/Customer/BaseSelect';
     }
 
-    my $HTMLString = $Param{LayoutObject}->Output(
-        'TemplateFile' => $FieldTemplateFile,
-        'Data'         => \%FieldTemplateData
-    );
+    my %ResultHTML;
+    my @FieldTemplateData;
+    if ( !IsArrayRefWithData($Value) || !@{ $Value } ) {
+
+        my %FieldTemplateInfo = (
+            'DivID'         => $FieldName,
+            'MultiValue'    => $FieldConfig->{MultiValue},
+        );
+
+        if ( $FieldConfig->{TreeView} ) {
+            $FieldTemplateInfo{TreeView}             = $FieldConfig->{TreeView};
+            $FieldTemplateInfo{TreeSelectionMessage} = Translatable("Show Tree Selection");
+        }
+
+        if ( $Param{Mandatory} ) {
+            $FieldTemplateInfo{Mandatory}      = $Param{Mandatory};
+            $FieldTemplateInfo{DivIDMandatory} = $FieldName . 'Error';
+
+            $FieldTemplateInfo{FieldRequiredMessage} = Translatable("This field is required.");
+        }
+
+        if ( $Param{ServerError} ) {
+
+            $FieldTemplateInfo{ServerError}      = $Param{ServerError};
+            $FieldTemplateInfo{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+            $FieldTemplateInfo{DivIDServerError} = $FieldName . 'ServerError';
+        }
+
+        my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
+            Data        => $DataValues || {},
+            Disabled    => $Param{ReadOnly},
+            Name        => $FieldName,
+            ID          => $FieldName,
+            Translation => $FieldConfig->{TranslatableValues} || 0,
+            Class       => $FieldClass,
+            Size        => $Size,
+            HTMLQuote   => 1,
+        );
+        $FieldTemplateInfo{SelectionHTML} = $SelectionHTML;
+        $ResultHTML{'0'} = $Param{LayoutObject}->Output(
+            'TemplateFile' => $FieldTemplateFile,
+            'Data'         => \%FieldTemplateInfo,
+        );
+    }
+
+    my $Index = 0;
+    if ( IsArrayRefWithData($Value) ) {
+        for my $ValueItem ( @{ $Value } ) {
+
+            my %FieldTemplateInfo = (
+                'DivID'         => $FieldName,
+                'MultiValue'    => $FieldConfig->{MultiValue},
+            );
+
+            if ( $FieldConfig->{TreeView} ) {
+                $FieldTemplateInfo{TreeView}             = $FieldConfig->{TreeView};
+                $FieldTemplateInfo{TreeSelectionMessage} = Translatable("Show Tree Selection");
+            }
+
+            if ( $Param{Mandatory} ) {
+                $FieldTemplateInfo{Mandatory}      = $Param{Mandatory};
+                $FieldTemplateInfo{DivIDMandatory} = $FieldName . 'Error';
+
+                $FieldTemplateInfo{FieldRequiredMessage} = Translatable("This field is required.");
+            }
+
+            if ( $Param{ServerError} ) {
+
+                $FieldTemplateInfo{ServerError}      = $Param{ServerError};
+                $FieldTemplateInfo{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+                $FieldTemplateInfo{DivIDServerError} = $FieldName . 'ServerError';
+            }
+
+            my $FieldID = $FieldName;
+            if ( $FieldConfig->{MultiValue} && $Index > 0 ) {
+                $FieldID .= '_' . $Index;
+            }
+            my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
+                Data        => $DataValues || {},
+                Disabled    => $Param{ReadOnly},
+                Name        => $FieldName,
+                ID          => $FieldID,
+                SelectedID  => $ValueItem,
+                Translation => $FieldConfig->{TranslatableValues} || 0,
+                Class       => $FieldClass,
+                Size        => $Size,
+                HTMLQuote   => 1,
+            );
+            $FieldTemplateInfo{SelectionHTML} = $SelectionHTML;
+            $ResultHTML{$Index} = $Param{LayoutObject}->Output(
+                'TemplateFile' => $FieldTemplateFile,
+                'Data'         => \%FieldTemplateInfo,
+            );
+            $Index++;
+        }
+    }
+    else {
+        # TODO Check this, don't know what I did this for
+    }
 
     if ( $Param{AJAXUpdate} ) {
 
@@ -311,9 +409,15 @@ EOF
     );
 
     my $Data = {
-        Field => $HTMLString,
         Label => $LabelString,
     };
+
+    if ( $FieldConfig->{MultiValue} ) {
+        $Data->{HTML} = \%ResultHTML;
+    }
+    else {
+        $Data->{Field} = $ResultHTML{'0'};
+    }
 
     return $Data;
 }
@@ -336,7 +440,20 @@ sub EditFieldValueGet {
         && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
         )
     {
-        $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
+        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+            my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
+            my @Data;
+
+            # delete empty values (can happen if the user has selected the "-" entry)
+            my $Index = 0;
+            for my $Item ( @DataAll ) {
+                push @Data, $Item // '';
+            }
+            $Value = \@Data;
+        }
+        else {
+            $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
+        }
     }
 
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq 1 ) {
@@ -364,26 +481,40 @@ sub EditFieldValueValidate {
     my $ServerError;
     my $ErrorMessage;
 
-    # perform necessary validations
-    if ( $Param{Mandatory} && !$Value ) {
+    my $ValueCount = $Param{ValueCount} || 1;
+
+    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        $Value = [ $Value ];
+    }
+
+    if ( $Param{Mandatory} && ( $ValueCount > scalar $Value->@* ) ) {
         return {
             ServerError => 1,
         };
     }
-    else {
 
-        # get possible values list
-        my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
-
-        # overwrite possible values if PossibleValuesFilter
-        if ( defined $Param{PossibleValuesFilter} ) {
-            $PossibleValues = $Param{PossibleValuesFilter};
+    for my $ValueItem ( @{ $Value } ) {
+        # perform necessary validations
+        if ( $Param{Mandatory} && !$ValueItem ) {
+            return {
+                ServerError => 1,
+            };
         }
+        else {
 
-        # validate if value is in possible values list (but let pass empty values)
-        if ( $Value && !$PossibleValues->{$Value} ) {
-            $ServerError  = 1;
-            $ErrorMessage = 'The field content is invalid';
+            # get possible values list
+            my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+
+            # overwrite possible values if PossibleValuesFilter
+            if ( defined $Param{PossibleValuesFilter} ) {
+                $PossibleValues = $Param{PossibleValuesFilter};
+            }
+
+            # validate if value is in possible values list (but let pass empty values)
+            if ( $ValueItem && !$PossibleValues->{$ValueItem} ) {
+                $ServerError  = 1;
+                $ErrorMessage = 'The field content is invalid';
+            }
         }
     }
 
@@ -404,33 +535,55 @@ sub DisplayValueRender {
         $Param{HTMLOutput} = 1;
     }
 
-    # get raw Value strings from field value
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = '';
+    my @Values;
 
-    # get real value
-    if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} ) {
-
-        # get readable value
-        $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = ( $Param{Value} );
     }
 
-    # check is needed to translate values
-    if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
+    my @ReadableValues;
+    for my $ValueItem ( @Values ) {
 
-        # translate value
-        $Value = $Param{LayoutObject}->{LanguageObject}->Translate($Value);
+        $ValueItem //= '';
+
+        # get real value
+        if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$ValueItem} ) {
+
+            # get readable value
+            $ValueItem = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$ValueItem};
+        }
+
+        # check is needed to translate values
+        if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
+
+            # translate value
+            $ValueItem = $Param{LayoutObject}->{LanguageObject}->Translate($ValueItem);
+        }
+
+        # HTML Output transformation
+        if ( $Param{HTMLOutput} ) {
+            $Value = $Param{LayoutObject}->Ascii2Html(
+                Text => $Value,
+                Max  => $Param{ValueMaxChars} || '',
+            );
+        }
+        push @ReadableValues, $ValueItem;
     }
+
+    # set new line separator
+    my $ItemSeparator = $Param{HTMLOutput} ? '<br>' : '\n';
+
+    $Value = join( $ItemSeparator, @ReadableValues );
 
     # set title as value after update and before limit
     my $Title = $Value;
 
     # HTMLOutput transformations
     if ( $Param{HTMLOutput} ) {
-        $Value = $Param{LayoutObject}->Ascii2Html(
-            Text => $Value,
-            Max  => $Param{ValueMaxChars} || '',
-        );
-
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
             Max  => $Param{TitleMaxChars} || '',
@@ -706,7 +859,22 @@ sub StatsSearchFieldParameterBuild {
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = '';
+
+    # check value
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = ( $Param{Value} );
+    }
+
+    # set new line separator
+    my $ItemSeparator = ', ';
+
+    # Output transformations
+    $Value = join( $ItemSeparator, @Values );
 
     # set title as value after update and before limit
     my $Title = $Value;

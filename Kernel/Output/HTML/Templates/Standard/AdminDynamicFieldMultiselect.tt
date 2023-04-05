@@ -75,7 +75,7 @@
                             <fieldset class="TableLike">
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
                                 <div class="Field">
-                                    <input id="Name" class="W50pc [% Data.NameServerError | html %] [% Data.ShowWarning | html %]  Validate_Alphanumeric" type="text" maxlength="200" value="[% Data.Name | html %]" name="Name" [% Data.ReadonlyInternalField | html %] />
+                                    <input id="Name" class="W50pc [% Data.NameServerError | html %] [% Data.ShowWarning | html %]  Validate_Alphanumeric" type="text" maxlength="200" value="[% Data.PlainFieldName | html %]" name="Name" [% Data.ReadonlyInternalField | html %] />
                                     <div id="NameError" class="TooltipErrorMessage"><p>[% Translate("This field is required, and the value should be alphabetic and numeric characters only.") | html %]</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>[% Translate(Data.NameServerErrorMessage) | html %]</p></div>
                                     <p class="FieldExplanation">[% Translate("Must be unique and only accept alphabetic and numeric characters.") | html %]</p>
@@ -100,6 +100,15 @@
                                     <p class="FieldExplanation">[% Translate("This is the order in which this field will be shown on the screens where is active.") | html %]</p>
                                 </div>
                                 <div class="Clear"></div>
+
+[% RenderBlockStart("DynamicFieldNameSpace") %]
+                                <label for="NameSpace">[% Translate("Namespace") | html %]:</label>
+                                <div class="Field">
+                                    [% Data.NameSpaceStrg %]
+                                    <p class="FieldExplanation">[% Translate("This is the namespace in which this field will be used as prefix with the name.") | html %]</p>
+                                </div>
+                                <div class="Clear"></div>
+[% RenderBlockEnd("DynamicFieldNameSpace") %]
 
                                 <label for="TooltipValue">[% Translate("Tooltip message:") | html %]</label>
                                 <div class="Field">

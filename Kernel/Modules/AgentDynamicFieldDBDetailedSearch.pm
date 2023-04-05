@@ -40,7 +40,7 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # get params
-    for (qw(DynamicFieldName TicketID ActivityDialogID)) {
+    for (qw(DynamicFieldName DynamicFieldID TicketID ActivityDialogID)) {
         $Param{$_} = $ParamObject->GetParam( Param => $_ );
     }
 
@@ -143,6 +143,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'SearchResult',
             Data => {
+                DynamicFieldID   => $Param{DynamicFieldID},
                 DynamicFieldName => $DynamicFieldNameLong,
             },
         );
@@ -237,6 +238,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'SearchOverview',
             Data => {
+                DynamicFieldID   => $Param{DynamicFieldID},
                 DynamicFieldName => $DynamicFieldNameLong,
                 ActivityDialogID => $Param{ActivityDialogID},
                 TicketID         => $Param{TicketID},

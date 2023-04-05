@@ -131,6 +131,12 @@
                                 <input type="text" name="SubmitButtonText" id="SubmitButtonText" value="[% Data.SubmitButtonText | html %]" class="W50pc" maxlength="70"/>
                             </div>
                             <div class="Clear"></div>
+
+                            <label for="InputFieldDefinition">[% Translate("Input Field Definition") | html %]:</label>
+                            <div class="Field">
+                                <textarea name="InputFieldDefinition" id="InputFieldDefinition" class="W50pc" rows="10" cols="20">[% Data.InputFieldDefinition | html %]</textarea>
+                            </div>
+                            <div class="Clear"></div>
                         </fieldset>
                     </div>
                 </div>

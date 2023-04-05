@@ -507,6 +507,32 @@ button.oooM.ActivityStartButton {
     margin-top: 32px;
 }
 
+.Row_DynamicField {
+    grid-row-gap: 16px;
+    grid-column-gap: 40px;
+}
+
+@media only screen and (min-width: 1024px) {
+
+    .AddRemoveValueRow {
+        position: absolute;
+        display: inline;
+        margin-top: 20px;
+        left: calc( 100% - 44px );
+        width: 33px;
+    }
+
+}
+@media only screen and (min-width: 1444px) {
+
+    .AddRemoveValueRow {
+        left: calc( 50% + 380px );
+    }
+
+}
+
+.Row > .FieldCell,
+.Row > .FieldCell > div.Field,
 .Row > div.Field,
 .Row > div.InputField_Container,
 .Row > select {
@@ -521,6 +547,7 @@ button.oooM.ActivityStartButton {
     width: calc( 100% - 32px);
 }
 
+.FieldCell > label,
 .Row > label,
 .RichTextHolder > label {
     left: calc( -100% + 24px );

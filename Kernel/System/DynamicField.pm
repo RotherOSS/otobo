@@ -116,7 +116,7 @@ sub DynamicFieldAdd {
     }
 
     # check needed structure for some fields
-    if ( $Param{Name} !~ m{ \A [a-zA-Z\d]+ \z }xms ) {
+    if ( $Param{Name} !~ m{ \A [a-zA-Z\d\-]+ \z }xms ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Not valid letters on Name:$Param{Name}!"
@@ -396,7 +396,7 @@ sub DynamicFieldUpdate {
     return if !$YAMLObject->Load( Data => $Config );
 
     # check needed structure for some fields
-    if ( $Param{Name} !~ m{ \A [a-zA-Z\d]+ \z }xms ) {
+    if ( $Param{Name} !~ m{ \A [a-zA-Z\d\-]+ \z }xms ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Not valid letters on Name:$Param{Name} or ObjectType:$Param{ObjectType}!",
@@ -476,6 +476,7 @@ sub DynamicFieldUpdate {
     );
 
     # trigger event
+    # TODO: Maybe do not trigger on "Reorder => 0"
     $Self->EventHandler(
         Event => 'DynamicFieldUpdate',
         Data  => {

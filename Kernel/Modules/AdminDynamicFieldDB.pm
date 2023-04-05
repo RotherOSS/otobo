@@ -127,6 +127,28 @@ sub _AddAction {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
+    if ( $GetParam{FieldOrder} ) {
+
+        # Check if field order is numeric and positive.
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # Add server error error class.
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    for my $ConfigParam (
+        qw(
+            ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
+            DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
+            SID Driver ResultLimit CaseSensitive Tooltip MultiValue NameSpace
+        )
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
     if ( $GetParam{Name} ) {
 
         # Check if name is alphanumeric.
@@ -137,6 +159,8 @@ sub _AddAction {
             $Errors{NameServerErrorMessage} =
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
+
+        $GetParam{Name} = $GetParam{NameSpace} ? $GetParam{NameSpace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # Check if name is duplicated.
         my %DynamicFieldsList = %{
@@ -154,28 +178,6 @@ sub _AddAction {
             $Errors{NameServerError}        = 'ServerError';
             $Errors{NameServerErrorMessage} = Translatable('There is another field with the same name.');
         }
-    }
-
-    if ( $GetParam{FieldOrder} ) {
-
-        # Check if field order is numeric and positive.
-        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # Add server error error class.
-            $Errors{FieldOrderServerError}        = 'ServerError';
-            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    for my $ConfigParam (
-        qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
-            DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
-            SID Driver ResultLimit CaseSensitive Tooltip
-        )
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     # Prepare the multiselect and case-sensitive parameters.
@@ -230,6 +232,7 @@ sub _AddAction {
         ResultLimit    => $GetParam{ResultLimit},
         CaseSensitive  => $GetParam{CaseSensitive},
         Tooltip        => $GetParam{Tooltip},
+        MultiValue     => $GetParam{MultiValue}
     };
 
     # Create a new field.
@@ -355,6 +358,28 @@ sub _ChangeAction {
         );
     }
 
+    if ( $GetParam{FieldOrder} ) {
+
+        # Check if field order is numeric and positive.
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # Add server error error class.
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    for my $ConfigParam (
+        qw(
+            ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
+            DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
+            SID Driver ResultLimit CaseSensitive Tooltip MultiValue NameSpace
+        )
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
     if ( $GetParam{Name} ) {
 
         # Check if name is lowercase.
@@ -365,6 +390,8 @@ sub _ChangeAction {
             $Errors{NameServerErrorMessage} =
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
+
+        $GetParam{Name} = $GetParam{NameSpace} ? $GetParam{NameSpace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # Check if name is duplicated.
         my %DynamicFieldsList = %{
@@ -399,28 +426,6 @@ sub _ChangeAction {
             $Errors{NameServerErrorMessage} = Translatable('The name for this field should not change.');
             $Param{InternalField}           = $DynamicFieldData->{InternalField};
         }
-    }
-
-    if ( $GetParam{FieldOrder} ) {
-
-        # Check if field order is numeric and positive.
-        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # Add server error error class.
-            $Errors{FieldOrderServerError}        = 'ServerError';
-            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    for my $ConfigParam (
-        qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
-            DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
-            SID Driver ResultLimit CaseSensitive Tooltip
-        )
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     # Prepare the multiselect and case-sensitive parameters.
@@ -505,6 +510,7 @@ sub _ChangeAction {
         ResultLimit    => $GetParam{ResultLimit},
         CaseSensitive  => $GetParam{CaseSensitive},
         Tooltip        => $GetParam{Tooltip},
+        MultiValue     => $GetParam{MultiValue},
     };
 
     # Update dynamic field (FieldType and ObjectType cannot be changed; use old values).
@@ -556,9 +562,19 @@ sub _ShowScreen {
 
     $Param{Name} //= '';
 
+    my $NameSpace;
     if ( $Param{Mode} eq 'Change' ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
+
+        # check for namespace identifier in dynamic field name
+        if ( $Param{Name} =~ /(.*)-(.*)/ ) {
+            $NameSpace = $1;
+            $Param{PlainFieldName} = $2;
+        }
+        else {
+            $Param{PlainFieldName} = $Param{Name};
+        }
     }
 
     $Param{DeletedString} = $Self->{DeletedString};
@@ -614,6 +630,36 @@ sub _ShowScreen {
         Sort          => 'NumericKey',
         Class         => 'Modernize W75pc Validate_Number',
     );
+
+    my $MultiValueStrg = $LayoutObject->BuildSelection(
+        Data       => {
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
+        },
+        Name       => 'MultiValue',
+        SelectedID => $Param{MultiValue} || '0',
+        Class      => 'Modernize W50pc',
+    );
+
+    # Build namespace selection
+    my $NameSpaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::NameSpaces');
+    if ( IsArrayRefWithData($NameSpaceList) ) {
+        my $NameSpaceStrg = $LayoutObject->BuildSelection(
+            Data          => $NameSpaceList,
+            Name          => 'NameSpace',
+            SelectedValue => $NameSpace || '',
+            PossibleNone  => 1,
+            Translation   => 1,
+            Class         => 'Modernize W75pc',
+        );
+
+        $LayoutObject->Block(
+            Name => 'DynamicFieldNameSpace',
+            Data => {
+                NameSpaceStrg => $NameSpaceStrg,
+            },
+        );
+    }
 
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
@@ -994,6 +1040,7 @@ sub _ShowScreen {
             ValidityStrg          => $ValidityStrg,
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             DefaultValue          => $DefaultValue,
+            MultiValueStrg        => $MultiValueStrg,
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
             Tooltip               => $Tooltip,
@@ -1013,6 +1060,8 @@ sub _GetPossibleValues {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my $ValueCounter = $ParamObject->GetParam( Param => 'ValueCounter' ) || 0;
+
+    my $ValueRealIndex = 1,
 
     VALUEINDEX:
     for my $ValueIndex ( 1 .. $ValueCounter ) {
@@ -1040,17 +1089,19 @@ sub _GetPossibleValues {
         $ValueListfield     = ( defined $ValueListfield     ? $ValueListfield     : '' );
 
         # Check for removed values.
-        next VALUEINDEX if !IsStringWithData($ValueFieldName);
-        next VALUEINDEX if !IsStringWithData($ValueFieldLabel);
-        next VALUEINDEX if !IsStringWithData($ValueFieldDatatype);
+        if ( !IsStringWithData( $ValueFieldName ) || !IsStringWithData( $ValueFieldLabel ) || !IsStringWithData( $ValueFieldDatatype ) ) {
+            next VALUEINDEX;
+        }
 
-        $PossibleValueConfig->{$KeyFieldName}     = $ValueFieldName;
-        $PossibleValueConfig->{$KeyFieldLabel}    = $ValueFieldLabel;
-        $PossibleValueConfig->{$KeyFieldDatatype} = $ValueFieldDatatype;
-        $PossibleValueConfig->{$KeyFieldFilter}   = $ValueFieldFilter;
-        $PossibleValueConfig->{$KeySearchfield}   = $ValueSearchfield;
-        $PossibleValueConfig->{$KeyListfield}     = $ValueListfield;
-        $PossibleValueConfig->{ValueCounter}      = $ValueCounter;
+        $PossibleValueConfig->{ 'FieldName_' . $ValueRealIndex }     = $ValueFieldName;
+        $PossibleValueConfig->{ 'FieldLabel_' . $ValueRealIndex }    = $ValueFieldLabel;
+        $PossibleValueConfig->{ 'FieldDataType_' . $ValueRealIndex } = $ValueFieldDatatype;
+        $PossibleValueConfig->{ 'FieldFilter_' . $ValueRealIndex }   = $ValueFieldFilter;
+        $PossibleValueConfig->{ 'Searchfield_' . $ValueRealIndex }   = $ValueSearchfield;
+        $PossibleValueConfig->{ 'Listfield_' . $ValueRealIndex }     = $ValueListfield;
+        $PossibleValueConfig->{ValueCounter}                         = $ValueCounter;
+
+        $ValueRealIndex++;
     }
 
     return $PossibleValueConfig;

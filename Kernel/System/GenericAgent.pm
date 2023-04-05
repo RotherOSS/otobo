@@ -987,7 +987,15 @@ sub _JobRunTicket {
 
         my %Ticket = $TicketObject->TicketGet(
             TicketID      => $Param{TicketID},
-            DynamicFields => 0,
+            DynamicFields => 1,
+        );
+
+        $Param{Config}->{New}->{NoteBody} = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->_Replace(
+            UserID => $Param{UserID},
+            Data => {},
+            TicketData => \%Ticket,
+            Text => $Param{Config}->{New}->{NoteBody},
+            RichText => 0,
         );
 
         if ( IsHashRefWithData( \%Ticket ) ) {
