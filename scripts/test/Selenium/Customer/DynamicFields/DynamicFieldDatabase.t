@@ -55,7 +55,6 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         my @DeleteACLIDs;
         my @DeleteTicketIDs;
-        my $Success;
 
         # Configure and create dynamic database field
         my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet( Name => 'TestDatabase' );
@@ -608,7 +607,7 @@ $Selenium->RunTest(
 
         # Delete test tickets
         for my $TicketID (@DeleteTicketIDs) {
-            $Success = $TicketObject->TicketDelete(
+            my $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
             );
@@ -643,7 +642,7 @@ $Selenium->RunTest(
                 );
 
                 # Delete test activity dialog.
-                $Success = $ActivityDialogObject->ActivityDialogDelete(
+                my $Success = $ActivityDialogObject->ActivityDialogDelete(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
@@ -651,7 +650,7 @@ $Selenium->RunTest(
             }
 
             # Delete test activity.
-            $Success = $ActivityObject->ActivityDelete(
+            my $Success = $ActivityObject->ActivityDelete(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
@@ -667,7 +666,7 @@ $Selenium->RunTest(
             );
 
             # Delete test transition action.
-            $Success = $TransitionActionsObject->TransitionActionDelete(
+            my $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
@@ -683,7 +682,7 @@ $Selenium->RunTest(
             );
 
             # Delete test transition.
-            $Success = $TransitionObject->TransitionDelete(
+            my $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
@@ -691,11 +690,11 @@ $Selenium->RunTest(
         }
 
         # Delete test Process.
-        $Success = $ProcessObject->ProcessDelete(
+        my $ProcessDeleteSuccess = $ProcessObject->ProcessDelete(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
-        ok( $Success, "Process $Process->{Name} is deleted");
+        ok( $ProcessDeleteSuccess, "Process $Process->{Name} is deleted" );
 
         # Dynchronize Process after deleting test Process.
         $Selenium->Login(
@@ -712,7 +711,7 @@ $Selenium->RunTest(
 
         # Delete test ACL
         for my $ACLID (@DeleteACLIDs) {
-            $Success = $ACLObject->ACLDelete(
+            my $Success = $ACLObject->ACLDelete(
                 ID     => $ACLID,
                 UserID => 1,
             );
@@ -726,11 +725,11 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy')]")->VerifiedClick();
 
         # Delete created test DynamicField.
-        $Success = $DynamicFieldObject->DynamicFieldDelete(
+        my $DynamicFieldDeleteSuccess = $DynamicFieldObject->DynamicFieldDelete(
             ID     => $DynamicFieldID,
             UserID => 1,
         );
-        ok( $Success, "DynamicFieldID $DynamicFieldID is deleted" );
+        ok( $DynamicFieldDeleteSuccess, "DynamicFieldID $DynamicFieldID is deleted" );
     }
 );
 
