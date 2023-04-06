@@ -16,9 +16,9 @@
 
 package Kernel::System::UnitTest::Selenium;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 use utf8;
 
@@ -235,48 +235,6 @@ sub BUILD {
     $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
     return;
-}
-
-=head2 button_up()
-
-In L<Selenium::Remote::Driver> 1.39 there seems to be a bug in the method C<button_up()>.
-In the original version the the type of the action is I<Pointer Down>.
-But the action I<Pointer Up> makes more sense and fixes DragAndDrop test failures.
-Therefore override that subroutine.
-
-=cut
-
-sub button_up {
-
-    my ($Self) = @_;
-
-    if (
-        $Self->{is_wd3}
-        && !( grep { $Self->browser_name() eq $_ } qw{MicrosoftEdge} )
-        )
-    {
-        my $Params = {
-            actions => [
-                {
-                    type       => "pointer",
-                    id         => 'mouse',
-                    parameters => { "pointerType" => "mouse" },
-                    actions    => [
-                        {
-                            type     => "pointerUp",
-                            duration => 0,
-                            button   => 0,
-                        },
-                    ],
-                }
-            ],
-        };
-        Selenium::Remote::Driver::_queue_action(%$Params);
-
-        return 1;
-    }
-
-    return $Self->_execute_command( { 'command' => 'buttonUp' } );
 }
 
 =head2 RunTest()
