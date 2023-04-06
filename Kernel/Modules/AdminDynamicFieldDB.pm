@@ -1061,7 +1061,7 @@ sub _GetPossibleValues {
 
     my $ValueCounter = $ParamObject->GetParam( Param => 'ValueCounter' ) || 0;
 
-    my $ValueRealIndex = 1,
+    my $ValueRealIndex = 1;
 
     VALUEINDEX:
     for my $ValueIndex ( 1 .. $ValueCounter ) {
