@@ -397,12 +397,12 @@ sub SettingGet {
 
 =head2 SettingUpdate()
 
-Update an existing SysConfig Setting.
+Update an existing SysConfig setting.
 
     my %Result = $SysConfigObject->SettingUpdate(
         Name                   => 'Setting::Name',           # (required) setting name
         IsValid                => 1,                         # (optional) 1 or 0, modified 0
-        EffectiveValue         => $SettingEffectiveValue,    # (optional)
+        EffectiveValue         => $SettingEffectiveValue,    # (optional) only needed when IsValid is turned on
         UserModificationActive => 0,                         # (optional) 1 or 0, modified 0
         TargetUserID           => 2,                         # (optional) ID of the user for which the modified setting is meant,
                                                              #   leave it undef for global changes.
@@ -4717,7 +4717,7 @@ This method locks provided settings(by force), updates them and deploys the chan
         Settings => [                                       # (required) List of settings to update.
             {
                 Name                   => 'Setting::Name',  # (required)
-                EffectiveValue         => 'Value',          # (optional)
+                EffectiveValue         => 'Value',          # (optional) only needed when IsValid is turned on
                 IsValid                => 1,                # (optional)
                 UserModificationActive => 1,                # (optional)
             },
@@ -4762,10 +4762,10 @@ sub SettingsSet {
             UserID => $Param{UserID},
         );
 
-        return if !$ExclusiveLockGUID;
+        return unless $ExclusiveLockGUID;
 
         my %UpdateResult = $Self->SettingUpdate(
-            %{$Setting},
+            $Setting->%*,
             ExclusiveLockGUID => $ExclusiveLockGUID,
             UserID            => $Param{UserID},
         );
