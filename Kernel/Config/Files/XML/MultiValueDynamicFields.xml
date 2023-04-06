@@ -69,7 +69,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="DynamicField::NameSpaces" Required="0" Valid="0">
+    <Setting Name="DynamicField::Namespaces" Required="0" Valid="0">
         <Description Translatable="1">Define possible namespaces for dynamic fields.</Description>
         <Navigation>Core::DynamicFields</Navigation>
         <Value>

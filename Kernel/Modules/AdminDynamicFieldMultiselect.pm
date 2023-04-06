@@ -149,7 +149,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            TranslatableValues ValidID Tooltip NameSpace
+            TranslatableValues ValidID Tooltip Namespace
         )
         )
     {
@@ -167,7 +167,7 @@ sub _AddAction {
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
 
-        $GetParam{Name} = $GetParam{NameSpace} ? $GetParam{NameSpace} . '-' . $GetParam{Name} : $GetParam{Name};
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # get dynamic field list
         my $DynamicFieldsList = $DynamicFieldObject->DynamicFieldList(
@@ -408,7 +408,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            TranslatableValues ValidID Tooltip NameSpace
+            TranslatableValues ValidID Tooltip Namespace
         )
         )
     {
@@ -426,7 +426,7 @@ sub _ChangeAction {
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
 
-        $GetParam{Name} = $GetParam{NameSpace} ? $GetParam{NameSpace} . '-' . $GetParam{Name} : $GetParam{Name};
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # get dynamic field list
         my $DynamicFieldsList = $DynamicFieldObject->DynamicFieldList(
@@ -632,14 +632,14 @@ sub _ShowScreen {
 
     $Param{DisplayFieldName} = 'New';
 
-    my $NameSpace;
+    my $Namespace;
     if ( $Param{Mode} eq 'Change' ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
 
         # check for namespace
         if ( $Param{Name} =~ /(.*)-(.*)/ ) {
-            $NameSpace = $1;
+            $Namespace = $1;
             $GetParam{PlainFieldName} = $2;
         }
         else {
@@ -701,21 +701,21 @@ sub _ShowScreen {
         Class         => 'Modernize W75pc Validate_Number',
     );
 
-    my $NameSpaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::NameSpaces');
-    if ( IsArrayRefWithData($NameSpaceList) ) {
-        my $NameSpaceStrg = $LayoutObject->BuildSelection(
-            Data         => $NameSpaceList,
-            Name         => 'NameSpace',
-            SelectedID   => $NameSpace || '',
+    my $NamespaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
+    if ( IsArrayRefWithData($NamespaceList) ) {
+        my $NamespaceStrg = $LayoutObject->BuildSelection(
+            Data         => $NamespaceList,
+            Name         => 'Namespace',
+            SelectedID   => $Namespace || '',
             PossibleNone => 1,
             Translation  => 1,
             Class        => 'Modernize W75pc',
         );
 
         $LayoutObject->Block(
-            Name => 'DynamicFieldNameSpace',
+            Name => 'DynamicFieldNamespace',
             Data => {
-                NameSpaceStrg => $NameSpaceStrg,
+                NamespaceStrg => $NamespaceStrg,
             },
         );
     }

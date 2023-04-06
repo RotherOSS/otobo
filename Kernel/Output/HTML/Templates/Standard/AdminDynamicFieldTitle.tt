@@ -141,14 +141,14 @@
                                 </div>
                                 <div class="Clear"></div>
 
-[% RenderBlockStart("DynamicFieldNameSpace") %]
-                                <label for="NameSpace">[% Translate("Namespace") | html %]:</label>
+[% RenderBlockStart("DynamicFieldNamespace") %]
+                                <label for="Namespace">[% Translate("Namespace") | html %]:</label>
                                 <div class="Field">
-                                    [% Data.NameSpaceStrg %]
+                                    [% Data.NamespaceStrg %]
                                     <p class="FieldExplanation">[% Translate("This is the namespace in which this field will be used as prefix with the name.") | html %]</p>
                                 </div>
                                 <div class="Clear"></div>
-[% RenderBlockEnd("DynamicFieldNameSpace") %]
+[% RenderBlockEnd("DynamicFieldNamespace") %]
 
                                 <label for="TooltipValue">[% Translate("Tooltip message:") | html %]</label>
                                 <div class="Field">

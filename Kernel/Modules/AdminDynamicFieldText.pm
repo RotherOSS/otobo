@@ -138,7 +138,7 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview Tooltip MultiValue NameSpace)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview Tooltip MultiValue Namespace)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -155,7 +155,7 @@ sub _AddAction {
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
 
-        $GetParam{Name} = $GetParam{NameSpace} ? $GetParam{NameSpace} . '-' . $GetParam{Name} : $GetParam{Name};
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # check if name is duplicated
         my %DynamicFieldsList = %{
@@ -355,7 +355,7 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview Tooltip MultiValue NameSpace)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview Tooltip MultiValue Namespace)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -372,7 +372,7 @@ sub _ChangeAction {
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
 
-        $GetParam{Name} = $GetParam{NameSpace} ? $GetParam{NameSpace} . '-' . $GetParam{Name} : $GetParam{Name};
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # check if name is duplicated
         my %DynamicFieldsList = %{
@@ -584,14 +584,14 @@ sub _ShowScreen {
 
     $Param{DisplayFieldName} = 'New';
 
-    my $NameSpace;
+    my $Namespace;
     if ( $Param{Mode} eq 'Change' ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
 
         # check for namespace
         if ( $Param{Name} =~ /(.*)-(.*)/ ) {
-            $NameSpace = $1;
+            $Namespace = $1;
             $Param{PlainFieldName} = $2;
         }
         else {
@@ -663,21 +663,21 @@ sub _ShowScreen {
         Class      => 'Modernize W50pc',
     );
 
-    my $NameSpaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::NameSpaces');
-    if ( IsArrayRefWithData($NameSpaceList) ) {
-        my $NameSpaceStrg = $LayoutObject->BuildSelection(
-            Data          => $NameSpaceList,
-            Name          => 'NameSpace',
-            SelectedValue => $NameSpace || '',
+    my $NamespaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
+    if ( IsArrayRefWithData($NamespaceList) ) {
+        my $NamespaceStrg = $LayoutObject->BuildSelection(
+            Data          => $NamespaceList,
+            Name          => 'Namespace',
+            SelectedValue => $Namespace || '',
             PossibleNone  => 1,
             Translation   => 1,
             Class         => 'Modernize W50pc',
         );
 
         $LayoutObject->Block(
-            Name => 'DynamicFieldNameSpace',
+            Name => 'DynamicFieldNamespace',
             Data => {
-                NameSpaceStrg => $NameSpaceStrg,
+                NamespaceStrg => $NamespaceStrg,
             },
         );
     }
