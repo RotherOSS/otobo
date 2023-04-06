@@ -11721,7 +11721,7 @@
         <Description Translatable="1">Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).</Description>
         <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^[0-9]{1,6}$">16384</Item>
+            <Item ValueType="String" ValueRegex="^[0-9]{1,6}$">32768</Item>
         </Value>
     </Setting>
     <Setting Name="PostMasterReconnectMessage" Required="1" Valid="1">
