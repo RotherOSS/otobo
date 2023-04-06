@@ -149,7 +149,7 @@ feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
 
 feature 'devel:test', 'Modules for running the test suite' => sub {
     # used by Kernel::System::UnitTest::Selenium
-    requires 'Selenium::Remote::Driver', ">= 1.40";
+    requires 'Selenium::Remote::Driver', ">= 1.49";
 
     # a quick compile check
     requires 'Test::Compile';
@@ -333,7 +333,7 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'String::Dump';
 
     # used by Kernel::System::UnitTest::Selenium
-    requires 'Selenium::Remote::Driver', ">= 1.40";
+    requires 'Selenium::Remote::Driver', ">= 1.49";
 
     # a quick compile check
     requires 'Test::Compile';

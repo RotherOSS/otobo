@@ -1025,7 +1025,7 @@ my @NeededModules = (
     # Feature devel:test
     {
         Module          => 'Selenium::Remote::Driver',
-        VersionRequired => '1.40',
+        VersionRequired => '1.49',
         Features        => ['devel:test'],
         Comment         => 'used by Kernel::System::UnitTest::Selenium',
         InstTypes       => {
