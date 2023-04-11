@@ -242,16 +242,17 @@ sub Run {
             @Files = shuffle @Files;
         }
 
+        # check if only some tests are requested
+        if (@ExecuteTestPatterns) {
+            @Files = grep {
+                any {m/\/\Q$_\E\.t$/smx} @ExecuteTestPatterns
+            } @Files;
+        }
+
+        # Check if a file with the same path and name exists in the Custom folder.
         FILE:
         for my $File (@Files) {
 
-            # check if only some tests are requested
-            if (@ExecuteTestPatterns) {
-                next FILE unless any { $File =~ /\/\Q$_\E\.t$/smx } @ExecuteTestPatterns;
-            }
-
-
-            # Check if a file with the same path and name exists in the Custom folder.
             my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
             push @ActualTestScripts, -e $CustomFile ? $CustomFile : $File;
         }
