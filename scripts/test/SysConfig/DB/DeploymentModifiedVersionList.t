@@ -27,6 +27,14 @@ use Test2::V0;
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet FixedTimeAddSeconds);
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
+use Kernel::Config;
+
+# the question whether there is a S3 backend must the resolved early
+my ($S3Active);
+{
+    my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+    $S3Active = $ClearConfigObject->Get('Storage::S3::Active');
+}
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -34,10 +42,12 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 FixedTimeSet();
 
 my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-my $Location = "$Home/Kernel/Config/Files/ZZZAAuto.pm";
+my $S3Key    = join '/', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
+my $Location = join '/', $Home, $S3Key;
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -463,15 +473,29 @@ for my $Test (@Tests) {
     }
 }
 
-my $FileLocation = $MainObject->FileWrite(
-    Location   => $Location,
-    Content    => $ContentSCALARRef,
-    Mode       => 'utf8',
-    Permission => '644',
-);
-ok(
-    defined $FileLocation,
-    "Restored original ZZZAAuto file",
-);
+if ($S3Active) {
+
+    # make sure the SyncWithS3() actually syncs
+    sleep 1;
+
+    # first write to S3
+    my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+    $StorageS3Object->StoreObject(
+        Key     => $S3Key,
+        Content => ${ $ContentSCALARRef || \'' },
+    );
+
+    # then sync to the file system
+    $Kernel::OM->Get('Kernel::Config')->SyncWithS3;
+}
+else {
+    my $FileLocation = $MainObject->FileWrite(
+        Location   => $Location,
+        Content    => $ContentSCALARRef,
+        Mode       => 'utf8',
+        Permission => '644',
+    );
+    ok( defined $FileLocation, "Restored original ZZZAAuto file" );
+}
 
 done_testing;
