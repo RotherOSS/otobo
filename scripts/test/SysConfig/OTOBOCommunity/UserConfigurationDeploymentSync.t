@@ -27,7 +27,7 @@ use List::Util qw(max);
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::Config;
 
 # the question whether there is a S3 backend must the resolved early
