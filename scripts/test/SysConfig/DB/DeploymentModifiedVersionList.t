@@ -14,15 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet FixedTimeAddSeconds);
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -137,9 +141,8 @@ EOF
         EffectiveValue => '0',
         UserID         => 1,
     );
-    $Self->IsNot(
-        $DefaultID,
-        undef,
+    ok(
+        defined $DefaultID,
         "DefaultSettingAdd() - $SettingName DefaultID",
     );
 }
@@ -155,10 +158,7 @@ my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
     AllSettings  => 1,
     NoValidation => 1,
 );
-$Self->True(
-    $DeploymentResult{Success},
-    "ConfigurationDeploy() Initial Deployment",
-);
+ok( $DeploymentResult{Success}, "ConfigurationDeploy() Initial Deployment" );
 my %LastDeployment = $SysConfigDBObject->DeploymentGetLast();
 push @DeploymentIDs, $LastDeployment{DeploymentID};
 FixedTimeAddSeconds(5);
@@ -181,10 +181,7 @@ my $UpdateSettings = sub {
             ExclusiveLockGUID => $ExclusiveLockGUID,
             UserID            => 1,
         );
-        $Self->True(
-            $Result{Success},
-            "SettingUpdate() - $SettingName with true",
-        );
+        ok( $Result{Success}, "SettingUpdate() - $SettingName with true" );
 
         my $Success = $SysConfigObject->SettingUnlock(
             Name => $SettingName,
@@ -193,7 +190,7 @@ my $UpdateSettings = sub {
         my %Setting = $SysConfigObject->SettingGet(
             Name => $SettingName,
         );
-        $Self->Is(
+        is(
             $Setting{EffectiveValue},
             $Param{EffectiveValue},
             "SettingGet() - $SettingName EffectiveValue",
@@ -237,10 +234,7 @@ for my $Update (@Updates) {
         AllSettings  => 1,
         NoValidation => 1,
     );
-    $Self->True(
-        $DeploymentResult{Success},
-        "ConfigurationDeploy() Deployment $Update->{EffectiveValue}",
-    );
+    ok( $DeploymentResult{Success}, "ConfigurationDeploy() Deployment $Update->{EffectiveValue}" );
     my %LastDeployment = $SysConfigDBObject->DeploymentGetLast();
     push @DeploymentIDs, $LastDeployment{DeploymentID};
 }
@@ -461,7 +455,7 @@ for my $Test (@Tests) {
             $Results{$1} = $ModifiedSettingVersion{EffectiveValue};
         }
 
-        $Self->IsDeeply(
+        is(
             \%Results,
             $Test->{Modes}->{$Mode},
             "ModifiedSettingVersionGet Deployment $Test->{DeploymentIndex} Mode $Mode",
@@ -475,10 +469,9 @@ my $FileLocation = $MainObject->FileWrite(
     Mode       => 'utf8',
     Permission => '644',
 );
-$Self->IsNot(
-    $FileLocation,
-    undef,
+ok(
+    defined $FileLocation,
     "Restored original ZZZAAuto file",
 );
 
-$Self->DoneTesting();
+done_testing;
