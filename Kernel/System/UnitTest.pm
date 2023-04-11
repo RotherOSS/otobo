@@ -23,8 +23,6 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use File::stat;
-use Storable();
 use Term::ANSIColor ();
 use TAP::Harness;
 use List::Util qw(any uniq shuffle);
