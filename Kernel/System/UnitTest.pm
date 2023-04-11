@@ -19,13 +19,11 @@ package Kernel::System::UnitTest;
 use v5.24;
 use strict;
 use warnings;
-use utf8;
 use namespace::autoclean;
+use utf8;
 
 # core modules
-use File::stat;
-use Storable();
-use Term::ANSIColor();
+use Term::ANSIColor ();
 use TAP::Harness;
 use List::Util qw(any uniq shuffle);
 use Sys::Hostname qw(hostname);
@@ -43,7 +41,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::UnitTest - functions to run all or some OTOBO unit tests
+Kernel::System::UnitTest - functions to run all or some OTOBO unit test scripts
 
 =head1 DESCRIPTION
 
@@ -115,8 +113,6 @@ by randomly ordering the test scripts.
 Please note that the individual test files are not executed in the main process,
 but instead in separate forked child processes which are controlled by L<Kernel::System::UnitTest::Driver>.
 Their results will be transmitted to the main process via a local file.
-
-Tests listed in B<UnitTest::Blacklist> are not executed.
 
 Tests in F<Custom/scripts/test> take precedence over the tests in F<scripts/test>.
 
@@ -224,28 +220,8 @@ sub Run {
         }
     }
 
-    # Determine which tests should be skipped because of UnitTest::Blacklist
-    my ( @SkippedTests, @ActualTests );
+    my @ActualTestScripts;
     {
-        # Get patterns for blacklisted tests. The blacklisted tests are given
-        # relative to $HOME/scripts/test.
-        my @BlacklistPatterns;
-        my $UnitTestBlacklist = $ConfigObject->Get('UnitTest::Blacklist');
-        if ( IsHashRefWithData($UnitTestBlacklist) ) {
-
-            CONFIGKEY:
-            for my $ConfigKey ( sort keys $UnitTestBlacklist->%* ) {
-
-                # check sanity of configuration, skip in case of problems
-                next CONFIGKEY unless $ConfigKey;
-                next CONFIGKEY unless $UnitTestBlacklist->{$ConfigKey};
-                next CONFIGKEY unless IsArrayRefWithData( $UnitTestBlacklist->{$ConfigKey} );
-
-                # filter empty values
-                push @BlacklistPatterns, grep {$_} $UnitTestBlacklist->{$ConfigKey}->@*;
-            }
-        }
-
         # Collect the files in default directory or in the passed directories.
         # An empty list will be returned when $Directory is empty or when it does not exist.
         my @Files;
@@ -266,24 +242,19 @@ sub Run {
             @Files = shuffle @Files;
         }
 
+        # check if only some tests are requested
+        if (@ExecuteTestPatterns) {
+            @Files = grep {
+                any {m/\/\Q$_\E\.t$/smx} @ExecuteTestPatterns
+            } @Files;
+        }
+
+        # Check if a file with the same path and name exists in the Custom folder.
         FILE:
         for my $File (@Files) {
 
-            # check if only some tests are requested
-            if (@ExecuteTestPatterns) {
-                next FILE unless any { $File =~ /\/\Q$_\E\.t$/smx } @ExecuteTestPatterns;
-            }
-
-            # Check blacklisted files.
-            if ( any { $File =~ m{\Q$TestDirectory/$_\E$}smx } @BlacklistPatterns ) {
-                push @SkippedTests, $File;
-
-                next FILE;
-            }
-
-            # Check if a file with the same path and name exists in the Custom folder.
             my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
-            push @ActualTests, -e $CustomFile ? $CustomFile : $File;
+            push @ActualTestScripts, -e $CustomFile ? $CustomFile : $File;
         }
     }
 
@@ -343,14 +314,7 @@ sub Run {
         );
     }
 
-    my $Aggregate = $Harness->runtests(@ActualTests);
-
-    if (@SkippedTests) {
-        say "Following blacklisted tests were skipped:";
-        for my $SkippedTest (@SkippedTests) {
-            say '  ', $Self->_Color( 'yellow', $SkippedTest );
-        }
-    }
+    my $Aggregate = $Harness->runtests(@ActualTestScripts);
 
     say sprintf
         'ran tests for product %s on host %s .',
