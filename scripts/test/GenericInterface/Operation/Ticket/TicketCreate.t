@@ -596,7 +596,7 @@ my $RequesterSessionResult = $RequesterSessionObject->Run(
 
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-my $TestTicketDelete = sub {
+sub TestTicketDelete {
     my %Param = @_;
 
     my @TicketIDs = @{ $Param{TicketIDs} };
@@ -626,7 +626,7 @@ my $TestTicketDelete = sub {
     }
 
     return 1;
-};
+}
 
 my $NewSessionID = $RequesterSessionResult->{Data}->{SessionID};
 my @Tests        = (
@@ -4548,9 +4548,7 @@ for my $Test (@Tests) {
         {
 
             my @TicketIDs = ( $LocalResult->{Data}->{TicketID}, $RequesterResult->{Data}->{TicketID} );
-            $TestTicketDelete->(
-                TicketIDs => \@TicketIDs,
-            );
+            TestTicketDelete( TicketIDs => \@TicketIDs );
 
             return;
         }
@@ -4867,9 +4865,7 @@ for my $Test (@Tests) {
             );
 
             my @TicketIDs = ( $LocalResult->{Data}->{TicketID}, $RequesterResult->{Data}->{TicketID} );
-            $TestTicketDelete->(
-                TicketIDs => \@TicketIDs,
-            );
+            TestTicketDelete( TicketIDs => \@TicketIDs );
         }
 
         # tests supposed to fail
@@ -4952,10 +4948,7 @@ my @TicketIDs = $TicketObject->TicketSearch(
     QueueIDs => \@QueueIDs,
     UserID   => 1,
 );
-
-$TestTicketDelete->(
-    TicketIDs => \@TicketIDs,
-);
+TestTicketDelete( TicketIDs => \@TicketIDs );
 
 # delete queues
 for my $QueueData (@Queues) {
