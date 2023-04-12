@@ -4447,6 +4447,136 @@ my @Tests        = (
         },
         Operation => 'TicketCreate',
     },
+    {
+        # the attachment should be rejected because the ContentType looks dubious
+        Name           => 'reject attachment: unknown charset',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $Queues[0]->{QueueID},
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                CommunicationChannel            => 'Email',
+                ContentType                     => 'text/plain; charset=utf8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [$UserID],
+                ExcludeNotificationToUserID     => [$UserID],
+                ExcludeMuteNotificationToUserID => [$UserID],
+                To                              =>
+                    "$TestCustomerUserLogin $TestCustomerUserLogin <${TestCustomerUserLogin}\@localunittest.com>, "
+                    . '"another \" recipient" <to_recipient_a@localunittest.com>, '
+                    . '<to_recipient_b@localunittest.com>',
+                Cc =>
+                    '"another \" recipient" <cc_recipient_a@localunittest.com>, '
+                    . '<cc_recipient_b@localunittest.com>',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => "text/plain; charset=notinventedhere",
+                Filename    => 'reject_charset',
+                Disposition => 'attachment',
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode    => 'TicketCreate.InvalidParameter',
+                    ErrorMessage => 'TicketCreate: Attachment->ContentType is invalid!',
+                },
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        # the attachment should be rejected because the ContentType looks dubious
+        Name           => 'reject attachment: Web-Cache-Poisoning',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $Queues[0]->{QueueID},
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                CommunicationChannel            => 'Email',
+                ContentType                     => 'text/plain; charset=utf8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [$UserID],
+                ExcludeNotificationToUserID     => [$UserID],
+                ExcludeMuteNotificationToUserID => [$UserID],
+                To                              =>
+                    "$TestCustomerUserLogin $TestCustomerUserLogin <${TestCustomerUserLogin}\@localunittest.com>, "
+                    . '"another \" recipient" <to_recipient_a@localunittest.com>, '
+                    . '<to_recipient_b@localunittest.com>',
+                Cc =>
+                    '"another \" recipient" <cc_recipient_a@localunittest.com>, '
+                    . '<cc_recipient_b@localunittest.com>',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => "text/plain\nHost-Header-Injection: Web-Cache-Poisoning",
+                Filename    => 'reject_injection',
+                Disposition => 'attachment',
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode    => 'TicketCreate.InvalidParameter',
+                    ErrorMessage => 'TicketCreate: Attachment->ContentType is invalid!',
+                },
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
 );
 
 # debugger object
@@ -4897,15 +5027,17 @@ for my $Test (@Tests) {
                 $Test->{ExpectedData}->{Data}->{Error}->{ErrorCode},
                 "Local result ErrorCode matched with expected local call result."
             );
-            ok(
-                $LocalResult->{Data}->{Error}->{ErrorMessage},
-                "Local result ErrorMessage with true."
-            );
-            isnt(
-                $LocalResult->{Data}->{Error}->{ErrorMessage},
-                '',
-                "Local result ErrorMessage is not empty."
-            );
+            ok( $LocalResult->{Data}->{Error}->{ErrorMessage}, "got a local result ErrorMessage" );
+
+            # The expected error message is not always given
+            if ( $Test->{ExpectedData}->{Data}->{Error}->{ErrorMessage} ) {
+                is(
+                    $LocalResult->{Data}->{Error}->{ErrorMessage},
+                    $Test->{ExpectedData}->{Data}->{Error}->{ErrorMessage},
+                    "Local result ErrorMessage matched with expected local call result."
+                );
+            }
+
             is(
                 $LocalResult->{ErrorMessage},
                 $LocalResult->{Data}->{Error}->{ErrorCode}
