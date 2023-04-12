@@ -4820,11 +4820,13 @@ for my $Test (@Tests) {
                 }
 
                 my @OriginalAttachments;
-                if ( ref $Test->{RequestData}->{Attachment} eq 'HASH' ) {
-                    push @OriginalAttachments, $Test->{RequestData}->{Attachment};
-                }
-                else {
-                    push @OriginalAttachments, $Test->{RequestData}->{Attachment}->@*;
+                {
+                    if ( ref $Test->{RequestData}->{Attachment} eq 'HASH' ) {
+                        push @OriginalAttachments, $Test->{RequestData}->{Attachment};
+                    }
+                    else {
+                        push @OriginalAttachments, $Test->{RequestData}->{Attachment}->@*;
+                    }
                 }
 
                 # the actual checks
@@ -4870,18 +4872,26 @@ for my $Test (@Tests) {
 
         # tests supposed to fail
         else {
-            ok(
-                !$LocalResult->{TicketID},
-                "Local result TicketID with false."
+
+            # check that there is an error, but no payload
+            ref_ok(
+                $LocalResult->{Data},
+                'HASH',
+                "Local result structure got Data"
             );
-            ok(
-                !$LocalResult->{TicketNumber},
-                "Local result TicketNumber with false."
+            ref_ok(
+                $LocalResult->{Data}->{Error},
+                'HASH',
+                "Local result structure got Data->Error"
             );
-            ok(
-                !$LocalResult->{ArticleID},
-                "Local result ArticleID with false."
-            );
+            for my $Attr (qw(TicketID TicketNumber ArticleID)) {
+                ok(
+                    !exists $LocalResult->{Data}->{$Attr},
+                    "Local result $Attr not present"
+                );
+            }
+
+            # Check the expected error code
             is(
                 $LocalResult->{Data}->{Error}->{ErrorCode},
                 $Test->{ExpectedData}->{Data}->{Error}->{ErrorCode},
