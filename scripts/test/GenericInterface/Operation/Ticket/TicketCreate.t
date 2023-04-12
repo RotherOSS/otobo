@@ -4499,7 +4499,7 @@ for my $Test (@Tests) {
             Password  => $Password,
         );
         if ( IsHashRefWithData( $Test->{Auth} ) ) {
-            %Auth = %{ $Test->{Auth} };
+            %Auth = $Test->{Auth}->%*;
         }
 
         # start requester with our web service
@@ -4508,7 +4508,7 @@ for my $Test (@Tests) {
             Invoker      => $Test->{Operation},
             Data         => {
                 %Auth,
-                %{ $Test->{RequestData} },
+                $Test->{RequestData}->%*,
             },
         );
 
@@ -4533,7 +4533,7 @@ for my $Test (@Tests) {
             Invoker      => $Test->{Operation},
             Data         => {
                 %Auth,
-                %{ $Test->{RequestData} },
+                $Test->{RequestData}->%*,
             },
         );
 
@@ -4736,14 +4736,14 @@ for my $Test (@Tests) {
             }
 
             # check dynamic fields
-            my @RequestedDynamicFields;
+            my @OriginalDynamicFields;
             if ( ref $Test->{RequestData}->{DynamicField} eq 'HASH' ) {
-                push @RequestedDynamicFields, $Test->{RequestData}->{DynamicField};
+                push @OriginalDynamicFields, $Test->{RequestData}->{DynamicField};
             }
             else {
-                @RequestedDynamicFields = @{ $Test->{RequestData}->{DynamicField} };
+                @OriginalDynamicFields = @{ $Test->{RequestData}->{DynamicField} };
             }
-            for my $DynamicField (@RequestedDynamicFields) {
+            for my $DynamicField (@OriginalDynamicFields) {
 
                 if (
                     ( $DynamicField->{FieldType} // '' ) eq 'Date'
@@ -4761,45 +4761,81 @@ for my $Test (@Tests) {
                 );
             }
 
-            # check attachments
-            my %AttachmentIndex = $LocalArticleBackendObject->ArticleAttachmentIndex(
-                ArticleID        => $LocalResult->{Data}->{ArticleID},
-                ExcludePlainText => 1,
-                ExcludeHTMLBody  => 1,
-            );
+            # check local and requester attachments against the originally submitted attachments
+            {
+                my @LocalAttachments;
+                {
+                    my %AttachmentIndex = $LocalArticleBackendObject->ArticleAttachmentIndex(
+                        ArticleID        => $LocalResult->{Data}->{ArticleID},
+                        ExcludePlainText => 1,
+                        ExcludeHTMLBody  => 1,
+                    );
 
-            my @Attachments;
-            ATTACHMENT:
-            for my $FileID ( sort keys %AttachmentIndex ) {
-                next ATTACHMENT unless $FileID;
+                    ATTACHMENT:
+                    for my $FileID ( sort keys %AttachmentIndex ) {
+                        next ATTACHMENT unless $FileID;
 
-                my %Attachment = $LocalArticleBackendObject->ArticleAttachment(
-                    ArticleID => $LocalResult->{Data}->{ArticleID},
-                    FileID    => $FileID,
-                );
+                        my %Attachment = $LocalArticleBackendObject->ArticleAttachment(
+                            ArticleID => $LocalResult->{Data}->{ArticleID},
+                            FileID    => $FileID,
+                        );
 
-                next ATTACHMENT unless IsHashRefWithData( \%Attachment );
+                        next ATTACHMENT unless IsHashRefWithData( \%Attachment );
 
-                # convert content to base64
-                $Attachment{Content} = encode_base64( $Attachment{Content}, '' );
+                        # convert content to base64
+                        $Attachment{Content} = encode_base64( $Attachment{Content}, '' );
 
-                # delete not needed attributes
-                delete @Attachment{qw(ContentAlternative ContentID Filesize FilesizeRaw)};
+                        # delete not needed attributes
+                        delete @Attachment{qw(ContentAlternative ContentID Filesize FilesizeRaw)};
 
-                push @Attachments, \%Attachment;
+                        push @LocalAttachments, \%Attachment;
+                    }
+                }
+
+                my @RequesterAttachments;
+                {
+                    my %AttachmentIndex = $RequesterArticleBackendObject->ArticleAttachmentIndex(
+                        ArticleID        => $LocalResult->{Data}->{ArticleID},
+                        ExcludePlainText => 1,
+                        ExcludeHTMLBody  => 1,
+                    );
+
+                    ATTACHMENT:
+                    for my $FileID ( sort keys %AttachmentIndex ) {
+                        next ATTACHMENT unless $FileID;
+
+                        my %Attachment = $RequesterArticleBackendObject->ArticleAttachment(
+                            ArticleID => $RequesterResult->{Data}->{ArticleID},
+                            FileID    => $FileID,
+                        );
+
+                        next ATTACHMENT unless IsHashRefWithData( \%Attachment );
+
+                        # convert content to base64
+                        $Attachment{Content} = encode_base64( $Attachment{Content}, '' );
+
+                        # delete not needed attributes
+                        delete @Attachment{qw(ContentAlternative ContentID Filesize FilesizeRaw)};
+
+                        push @RequesterAttachments, \%Attachment;
+                    }
+                }
+
+                my @OriginalAttachments;
+                if ( ref $Test->{RequestData}->{Attachment} eq 'HASH' ) {
+                    push @OriginalAttachments, $Test->{RequestData}->{Attachment};
+                }
+                else {
+                    push @OriginalAttachments, $Test->{RequestData}->{Attachment}->@*;
+                }
+
+                # the actual checks
+                is( \@LocalAttachments,     \@OriginalAttachments, "local Ticket->Attachment match test definition" );
+                is( \@RequesterAttachments, \@OriginalAttachments, "requester Ticket->Attachment match test definition" );
+                is( \@RequesterAttachments, \@LocalAttachments,    "requester and local attachments must match" );
             }
 
-            my @RequestedAttachments;
-            if ( ref $Test->{RequestData}->{Attachment} eq 'HASH' ) {
-                push @RequestedAttachments, $Test->{RequestData}->{Attachment};
-            }
-            else {
-                push @RequestedAttachments, $Test->{RequestData}->{Attachment}->@*;
-            }
-
-            is( \@Attachments, \@RequestedAttachments, "local Ticket->Attachment match test definition." );
-
-            # remove attributes that might be different from local and requester responses
+            # remove ticket attributes that might be different from local and requester responses
             for my $Attribute (
                 qw(TicketID TicketNumber Created Changed Age UnlockTimeout)
                 )
@@ -4827,7 +4863,7 @@ for my $Test (@Tests) {
             is(
                 \%LocalArticleData,
                 \%RequesterArticleData,
-                "Local article result matched with remote result."
+                'Local article result matched with remote result.'
             );
 
             my @TicketIDs = ( $LocalResult->{Data}->{TicketID}, $RequesterResult->{Data}->{TicketID} );
