@@ -137,6 +137,7 @@ sub EditSectionRender {
 
             # collect special classes
             my $RowClassString = $Row{Columns} > 1 ? ' MultiColumn' : '';
+            $RowClassString .= ( first { $Param{DynamicFields}{ $_->{DF} }{Config}{MultiValue} } $Row{Fields}->@* ) ? ' MultiValue' : '';
 
             # hide complete row if no field is visible
             if ( $Param{Visibility} && !grep { $Param{Visibility}{"DynamicField_$_->{DF}"} } $Row{Fields}->@* ) {
