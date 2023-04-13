@@ -973,6 +973,69 @@ sub ValidateCharset {
     # check validity of the charset
     return unless Encode::resolve_alias( $Param{Charset} );
 
+    # charset is valid
+    return 1;
+}
+
+=head2 ValidateContentType()
+
+checks the validity of the content type.
+
+Valid values for the MIME header I<Content-Type> are specified in L<RFC 2045|https://www.rfc-editor.org/rfc/rfc2045#section-5.1>.
+This spec allows e.g. bare carriage return and backslash quoted line feed characters in the value. But in OTOBO we
+can be more strict. This is because usually we are only interested in the media type and in the charset.
+Thus the following, somewhat arbitrary, conditions are imposed:
+
+=over 4
+
+=item The character carriage return is not allowed
+
+=item The character line feed is not allowed
+
+=item The MIME type, aka media type, is at the start of the value and matches C<qr{\w/\w}i>
+
+=item The character set is extracted by some regexes and is recognized by the C<Encode> module
+
+=back
+
+=cut
+
+sub ValidateContentType {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return unless $Param{ContentType};
+
+    my $ContentType = $Param{ContentType};
+
+    # prohibit carriage return and line feed
+    return if $ContentType =~ m/[\r\n]/;
+
+    # check the optional Charset part
+    my $Charset = '';
+    if ( $ContentType =~ m/charset=/i ) {
+        $Charset = $ContentType;
+        $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
+        $Charset =~ s/"|'//g;
+        $Charset =~ s/(.+?);.*/$1/g;
+    }
+
+    if ( $Charset && !$Self->ValidateCharset( Charset => $Charset ) ) {
+        return;
+    }
+
+    # check the required MimeType part
+    my $MimeType = '';
+    if ( $ContentType =~ m/^(\w+\/\w+)/i ) {
+        $MimeType = $1;
+        $MimeType =~ s/"|'//g;
+    }
+
+    if ( !$Self->ValidateMimeType( MimeType => $MimeType ) ) {
+        return;
+    }
+
+    # looks valid
     return 1;
 }
 

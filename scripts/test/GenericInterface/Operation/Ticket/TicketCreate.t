@@ -4513,7 +4513,7 @@ my @Tests        = (
         Operation => 'TicketCreate',
     },
     {
-        # the attachment should be rejected because the ContentType looks dubious
+        # the attachment should be rejected because the ContentType contains a newline
         Name           => 'reject attachment: Web-Cache-Poisoning',
         SuccessRequest => 1,
         SuccessCreate  => 0,
@@ -4574,6 +4574,62 @@ my @Tests        = (
                 },
             },
             Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        # the attachment should not be rejected because extra parameters are allowed
+        Name           => 'extra parameter in ContentType',
+        SuccessRequest => 1,
+        SuccessCreate  => 1,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $Queues[0]->{QueueID},
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                CommunicationChannel            => 'Email',
+                ContentType                     => "text/plain; charset=utf8",
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [$UserID],
+                ExcludeNotificationToUserID     => [$UserID],
+                ExcludeMuteNotificationToUserID => [$UserID],
+                To                              =>
+                    "$TestCustomerUserLogin $TestCustomerUserLogin <${TestCustomerUserLogin}\@localunittest.com>, "
+                    . '"another \" recipient" <to_recipient_a@localunittest.com>, '
+                    . '<to_recipient_b@localunittest.com>',
+                Cc =>
+                    '"another \" recipient" <cc_recipient_a@localunittest.com>, '
+                    . '<cc_recipient_b@localunittest.com>',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => "text/plain;extra_test_parameter=dummy_parameter",
+                Filename    => 'extra_test_parameter',
+                Disposition => 'attachment',
+            },
         },
         Operation => 'TicketCreate',
     },
@@ -4865,7 +4921,11 @@ for my $Test (@Tests) {
 
             # check dynamic fields
             my @OriginalDynamicFields;
-            if ( ref $Test->{RequestData}->{DynamicField} eq 'HASH' ) {
+            if ( !$Test->{RequestData}->{DynamicField} ) {
+
+                # nothing to do, dynamic fields are not required for all test cases
+            }
+            elsif ( ref $Test->{RequestData}->{DynamicField} eq 'HASH' ) {
                 push @OriginalDynamicFields, $Test->{RequestData}->{DynamicField};
             }
             else {
@@ -5155,7 +5215,7 @@ my $DeleteFieldList = $DynamicFieldObject->DynamicFieldList(
 my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 DYNAMICFIELD:
-for my $DynamicFieldID ( sort keys %{$DeleteFieldList} ) {
+for my $DynamicFieldID ( sort keys $DeleteFieldList->%* ) {
 
     next DYNAMICFIELD if !$DynamicFieldID;
     next DYNAMICFIELD if !$DeleteFieldList->{$DynamicFieldID};

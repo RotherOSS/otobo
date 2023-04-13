@@ -19,12 +19,17 @@ package Kernel::GenericInterface::Operation::Ticket::TicketCreate;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsString IsStringWithData);
-
 use parent qw(
     Kernel::GenericInterface::Operation::Common
     Kernel::GenericInterface::Operation::Ticket::Common
 );
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsString IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -37,15 +42,14 @@ Kernel::GenericInterface::Operation::Ticket::TicketCreate - GenericInterface Tic
 =head2 new()
 
 usually, you want to create an instance of this
-by using Kernel::GenericInterface::Operation->new();
+by using C<Kernel::GenericInterface::Operation->new();>.
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # check needed objects
     for my $Needed (qw( DebuggerObject WebserviceID )) {
@@ -933,32 +937,11 @@ sub _CheckArticle {
     # check Article->ContentType
     if ( $Article->{ContentType} ) {
 
+        # The MIME header field Content-Type is only in some parts case insensitive,
+        # but lowercasing the whole string simplifies the handling in OTOBO.
         $Article->{ContentType} = lc $Article->{ContentType};
 
-        # check Charset part
-        my $Charset = '';
-        if ( $Article->{ContentType} =~ /charset=/i ) {
-            $Charset = $Article->{ContentType};
-            $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
-            $Charset =~ s/"|'//g;
-            $Charset =~ s/(.+?);.*/$1/g;
-        }
-
-        if ( !$Self->ValidateCharset( Charset => $Charset ) ) {
-            return {
-                ErrorCode    => 'TicketCreate.InvalidParameter',
-                ErrorMessage => "TicketCreate: Article->ContentType is invalid!",
-            };
-        }
-
-        # check MimeType part
-        my $MimeType = '';
-        if ( $Article->{ContentType} =~ /^(\w+\/\w+)/i ) {
-            $MimeType = $1;
-            $MimeType =~ s/"|'//g;
-        }
-
-        if ( !$Self->ValidateMimeType( MimeType => $MimeType ) ) {
+        if ( !$Self->ValidateContentType( ContentType => $Article->{ContentType} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Article->ContentType is invalid!",
@@ -1160,35 +1143,14 @@ sub _CheckAttachment {
         }
     }
 
-    # check Article->ContentType
+    # check Attachment->ContentType
     if ( $Attachment->{ContentType} ) {
 
+        # The MIME header field Content-Type is only in some parts case insensitive,
+        # but lowercasing the whole string simplifies the handling in OTOBO.
         $Attachment->{ContentType} = lc $Attachment->{ContentType};
 
-        # check Charset part
-        my $Charset = '';
-        if ( $Attachment->{ContentType} =~ /charset=/i ) {
-            $Charset = $Attachment->{ContentType};
-            $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
-            $Charset =~ s/"|'//g;
-            $Charset =~ s/(.+?);.*/$1/g;
-        }
-
-        if ( $Charset && !$Self->ValidateCharset( Charset => $Charset ) ) {
-            return {
-                ErrorCode    => 'TicketCreate.InvalidParameter',
-                ErrorMessage => "TicketCreate: Attachment->ContentType is invalid!",
-            };
-        }
-
-        # check MimeType part
-        my $MimeType = '';
-        if ( $Attachment->{ContentType} =~ /^(\w+\/\w+)/i ) {
-            $MimeType = $1;
-            $MimeType =~ s/"|'//g;
-        }
-
-        if ( !$Self->ValidateMimeType( MimeType => $MimeType ) ) {
+        if ( !$Self->ValidateContentType( ContentType => $Attachment->{ContentType} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Attachment->ContentType is invalid!",
