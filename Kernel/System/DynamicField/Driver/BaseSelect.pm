@@ -391,7 +391,7 @@ EOF
 
     if ( $FieldConfig->{MultiValue} ) {
         $Data->{MultiValue}    = \@ResultHTML;
-        $Data->{FieldTemplate} = $TemplateHTML;
+        $Data->{MultiValueTemplate} = $TemplateHTML;
     }
     else {
         $Data->{Field} = $ResultHTML[0];

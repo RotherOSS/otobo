@@ -2694,7 +2694,7 @@ Core.UI.InputFields = (function (TargetNS) {
     };
 
     TargetNS.InitMultiValueDynamicFields = function () {
-        $('.Row.MultiValue').each( function() {
+        $('.Row.MultiColumn').each( function() {
             var $Row = $(this);
 
             InitMultiValueFieldRow( $Row );
