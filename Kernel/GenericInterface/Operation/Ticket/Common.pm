@@ -21,6 +21,7 @@ use warnings;
 
 use MIME::Base64();
 use Mail::Address;
+use Encode;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -967,10 +968,10 @@ sub ValidateCharset {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    return if !$Param{Charset};
+    return unless $Param{Charset};
 
-    use Encode;
-    return if !Encode::resolve_alias( $Param{Charset} );
+    # check validity of the charset
+    return unless Encode::resolve_alias( $Param{Charset} );
 
     return 1;
 }
