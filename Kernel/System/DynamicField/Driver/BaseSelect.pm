@@ -216,14 +216,16 @@ sub EditFieldRender {
     );
 
     # set values from ParamObject if present
-    if ( IsArrayRefWithData( $FieldValue ) ) {
+    if ( $FieldConfig->{MultiValue} ) {
+        if ( $FieldValue->@* ) {
+            $Value = $FieldValue;
+        }
+    }
+    elsif ( defined $FieldValue ) {
         $Value = $FieldValue;
     }
-    elsif ( ref $FieldValue ne 'ARRAY' && $FieldValue ) {
-        $Value = [ $FieldValue ];
-    }
 
-    if ( !IsArrayRefWithData($Value) && $Value ) {
+    if ( !ref $Value ) {
         $Value = [ $Value ];
     }
 
@@ -262,115 +264,90 @@ sub EditFieldRender {
         $Size = 5;
     }
 
-    my $DataValues = $Self->BuildSelectionDataGet(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        PossibleValues     => $PossibleValues,
-        Value              => $Value,
+    my %FieldTemplateData = (
+        'DivID'      => $FieldName,
+        'MultiValue' => $FieldConfig->{MultiValue},
     );
 
-    my $FieldTemplateFile = 'DynamicField/Agent/BaseSelect';
-    if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/BaseSelect';
+    if ( $FieldConfig->{TreeView} ) {
+        $FieldTemplateData{TreeView}             = $FieldConfig->{TreeView};
+        $FieldTemplateData{TreeSelectionMessage} = Translatable("Show Tree Selection");
     }
 
-    my %ResultHTML;
-    my @FieldTemplateData;
-    if ( !IsArrayRefWithData($Value) || !@{ $Value } ) {
+    if ( $Param{Mandatory} ) {
+        $FieldTemplateData{Mandatory}      = $Param{Mandatory};
+        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
 
-        my %FieldTemplateInfo = (
-            'DivID'         => $FieldName,
-            'MultiValue'    => $FieldConfig->{MultiValue},
+        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
+    }
+
+    if ( $Param{ServerError} ) {
+
+        $FieldTemplateData{ServerError}      = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
+    }
+
+    my $TemplateFile = $Param{CustomerInterface}
+        ? 'DynamicField/Customer/BaseSelect' : 'DynamicField/Agent/BaseSelect';
+
+    my @ResultHTML;
+    for my $ValueIndex ( 0 .. $#{ $Value } ) {
+        my $FieldID = $ValueIndex ? $FieldName . '_' . $ValueIndex : $FieldName;
+
+        # TODO: is this necessary?
+        my $DataValues = $Self->BuildSelectionDataGet(
+            DynamicFieldConfig => $Param{DynamicFieldConfig},
+            PossibleValues     => $PossibleValues,
+            Value              => $Value->[ $ValueIndex ],
         );
-
-        if ( $FieldConfig->{TreeView} ) {
-            $FieldTemplateInfo{TreeView}             = $FieldConfig->{TreeView};
-            $FieldTemplateInfo{TreeSelectionMessage} = Translatable("Show Tree Selection");
-        }
-
-        if ( $Param{Mandatory} ) {
-            $FieldTemplateInfo{Mandatory}      = $Param{Mandatory};
-            $FieldTemplateInfo{DivIDMandatory} = $FieldName . 'Error';
-
-            $FieldTemplateInfo{FieldRequiredMessage} = Translatable("This field is required.");
-        }
-
-        if ( $Param{ServerError} ) {
-
-            $FieldTemplateInfo{ServerError}      = $Param{ServerError};
-            $FieldTemplateInfo{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-            $FieldTemplateInfo{DivIDServerError} = $FieldName . 'ServerError';
-        }
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
             Data        => $DataValues || {},
             Disabled    => $Param{ReadOnly},
             Name        => $FieldName,
-            ID          => $FieldName,
+            ID          => $FieldID,
+            SelectedID  => $Value->[ $ValueIndex ],
             Translation => $FieldConfig->{TranslatableValues} || 0,
             Class       => $FieldClass,
             Size        => $Size,
             HTMLQuote   => 1,
         );
-        $FieldTemplateInfo{SelectionHTML} = $SelectionHTML;
-        $ResultHTML{'0'} = $Param{LayoutObject}->Output(
-            'TemplateFile' => $FieldTemplateFile,
-            'Data'         => \%FieldTemplateInfo,
+
+        push @ResultHTML, $Param{LayoutObject}->Output(
+            'TemplateFile' => $TemplateFile,
+            'Data'         => {
+                %FieldTemplateData,
+                SelectionHTML => $SelectionHTML,
+            },
         );
     }
 
-    my $Index = 0;
-    if ( IsArrayRefWithData($Value) ) {
-        for my $ValueItem ( @{ $Value } ) {
+    my $TemplateHTML;
+    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+        # TODO: is this necessary?
+        my $DataValues = $Self->BuildSelectionDataGet(
+            DynamicFieldConfig => $Param{DynamicFieldConfig},
+            PossibleValues     => $PossibleValues,
+        );
 
-            my %FieldTemplateInfo = (
-                'DivID'         => $FieldName,
-                'MultiValue'    => $FieldConfig->{MultiValue},
-            );
+        my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
+            Data        => $DataValues || {},
+            Disabled    => $Param{ReadOnly},
+            Name        => $FieldName . '_Template',
+            Translation => $FieldConfig->{TranslatableValues} || 0,
+            Class       => $FieldClass,
+            Size        => $Size,
+            HTMLQuote   => 1,
+        );
 
-            if ( $FieldConfig->{TreeView} ) {
-                $FieldTemplateInfo{TreeView}             = $FieldConfig->{TreeView};
-                $FieldTemplateInfo{TreeSelectionMessage} = Translatable("Show Tree Selection");
-            }
-
-            if ( $Param{Mandatory} ) {
-                $FieldTemplateInfo{Mandatory}      = $Param{Mandatory};
-                $FieldTemplateInfo{DivIDMandatory} = $FieldName . 'Error';
-
-                $FieldTemplateInfo{FieldRequiredMessage} = Translatable("This field is required.");
-            }
-
-            if ( $Param{ServerError} ) {
-
-                $FieldTemplateInfo{ServerError}      = $Param{ServerError};
-                $FieldTemplateInfo{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-                $FieldTemplateInfo{DivIDServerError} = $FieldName . 'ServerError';
-            }
-
-            my $FieldID = $FieldName;
-            if ( $FieldConfig->{MultiValue} && $Index > 0 ) {
-                $FieldID .= '_' . $Index;
-            }
-            my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
-                Data        => $DataValues || {},
-                Disabled    => $Param{ReadOnly},
-                Name        => $FieldName,
-                ID          => $FieldID,
-                SelectedID  => $ValueItem,
-                Translation => $FieldConfig->{TranslatableValues} || 0,
-                Class       => $FieldClass,
-                Size        => $Size,
-                HTMLQuote   => 1,
-            );
-            $FieldTemplateInfo{SelectionHTML} = $SelectionHTML;
-            $ResultHTML{$Index} = $Param{LayoutObject}->Output(
-                'TemplateFile' => $FieldTemplateFile,
-                'Data'         => \%FieldTemplateInfo,
-            );
-            $Index++;
-        }
-    }
-    else {
-        # TODO Check this, don't know what I did this for
+        $TemplateHTML = $Param{LayoutObject}->Output(
+            'TemplateFile' => $TemplateFile,
+            'Data'         => {
+                %FieldTemplateData,
+                SelectionHTML => $SelectionHTML,
+            },
+        );
     }
 
     if ( $Param{AJAXUpdate} ) {
@@ -413,10 +390,11 @@ EOF
     };
 
     if ( $FieldConfig->{MultiValue} ) {
-        $Data->{HTML} = \%ResultHTML;
+        $Data->{MultiValue}    = \@ResultHTML;
+        $Data->{FieldTemplate} = $TemplateHTML;
     }
     else {
-        $Data->{Field} = $ResultHTML{'0'};
+        $Data->{Field} = $ResultHTML[0];
     }
 
     return $Data;

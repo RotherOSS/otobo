@@ -1,0 +1,70 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+[% RenderBlockStart("Row_DynamicField") %]
+                        <div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="grid-template-columns: [% Data.TemplateColumns | html %]">
+[% RenderBlockStart("DynamicField") %]
+                            <div class="FieldCell[% Data.CellClasses %]" style="[% Data.CellStyle | html %]">
+                                [% Data.Label %]
+                                <div class="Field">
+                                [% Data.Field %]
+                                </div>
+                                [% IF Data.MultiValue && !Data.RowReadOnly %]
+                                <div class="AddRemoveValueRow">
+                                    [% IF Data.Index %]
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    [% END %]
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                                [% END %]
+                                <div class="Clear"></div>
+                            </div>
+[% RenderBlockEnd("DynamicField") %]
+[% RenderBlockStart("TemplateDynamicField") %]
+                            <div class="MultiValue_Template" style="[% Data.CellStyle | html %]">
+                                <div class="Field">
+                                    [% Data.Field %]
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                            </div>
+[% RenderBlockEnd("TemplateDynamicField") %]
+                        </div>
+[% RenderBlockEnd("Row_DynamicField") %]
+
+# TODO: change to new format
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#[% RenderBlockStart("DynamicField_Field1") %]
+#                    <div class="Row Row_DynamicField_[% Data.Name | html %]">
+#                        [% Data.Label %]
+#                        <div class="Field">
+#                            [% Data.Field %]
+#                        </div>
+#                        <div class="Clear"></div>
+#                    </div>
+#[% RenderBlockEnd("DynamicField_Field1") %]
+#[% RenderBlockStart("DynamicField_Field2") %]
+#                    <div class="Row Row_DynamicField_[% Data.Name | html %]">
+#                        [% Data.Label %]
+#                        <div class="Field">
+#                            [% Data.Field %]
+#                        </div>
+#                        <div class="Clear"></div>
+#                    </div>
+#[% RenderBlockEnd("DynamicField_Field2") %]
