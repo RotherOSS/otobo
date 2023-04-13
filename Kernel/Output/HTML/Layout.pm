@@ -2697,12 +2697,22 @@ sub Attachment {
         $Output .= $Param{AdditionalHeader} . "\n";
     }
 
-    if ( $Param{Charset} ) {
-        $Output .= "Content-Type: $Param{ContentType}; charset=$Param{Charset};\n\n";
+    # In the general case CR and LF are allowed in the MIME header Content-Type, but this
+    # is not really an use case in OTOBO. This means that there should be now CR and LF in $Param{ContentType}.
+    # However CR and LF could have been entered via the GenericInterface or via direct database manipulation.
+    # For these cases simply remove everything after the first CR or LF. This should avoid Header Injection.
+    {
+        my $ContentType = $Param{ContentType} =~ s/[\r\n].*//grs;
+        if ( $Param{Charset} ) {
+            $Output .= "Content-Type: $ContentType; charset=$Param{Charset};\n";
+        }
+        else {
+            $Output .= "Content-Type: $ContentType\n";
+        }
     }
-    else {
-        $Output .= "Content-Type: $Param{ContentType}\n\n";
-    }
+
+    # append an empty line in order to indicate the end of the headers
+    $Output .= "\n";
 
     # disable utf8 flag, to write binary to output
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
@@ -4628,7 +4638,6 @@ sub CustomerNavigationBar {
     # Only highlight the first matched navigation entry. If there are several entries
     #   with the same Action and Subaction, it cannot be determined which one was used.
     #   Therefore we just highlight the first one.
-    my $SelectedFlag;
 
     ITEM:
     for my $Item ( sort keys %NavBarModule ) {
