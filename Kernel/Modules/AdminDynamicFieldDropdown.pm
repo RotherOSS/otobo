@@ -635,10 +635,10 @@ sub _ShowScreen {
         # check for namespace
         if ( $Param{Name} =~ /(.*)-(.*)/ ) {
             $Namespace = $1;
-            $GetParam{PlainFieldName} = $2;
+            $Param{PlainFieldName} = $2;
         }
         else {
-            $GetParam{PlainFieldName} = $GetParam{Name};
+            $Param{PlainFieldName} = $Param{Name};
         }
     }
 
