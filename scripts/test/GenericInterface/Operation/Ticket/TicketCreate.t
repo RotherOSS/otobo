@@ -19,8 +19,7 @@ use warnings;
 use utf8;
 
 # core modules
-use Socket;
-use MIME::Base64;
+use MIME::Base64 qw(encode_base64);
 
 # CPAN modules
 use Test2::V0;
@@ -4713,7 +4712,7 @@ for my $Test (@Tests) {
             "Create requester object"
         );
 
-        # start requester with our web service
+        # start requester with our web-service
         my $RequesterResult = $RequesterObject->Run(
             WebserviceID => $WebserviceID,
             Invoker      => $Test->{Operation},
