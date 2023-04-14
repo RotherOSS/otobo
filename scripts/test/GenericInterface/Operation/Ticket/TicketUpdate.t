@@ -455,8 +455,7 @@ my @Tests = (
             Data => {
                 Error => {
                     ErrorCode    => 'TicketUpdate.AccessDenied',
-                    ErrorMessage =>
-                        'TicketUpdate: User does not have access to the ticket!'
+                    ErrorMessage => 'TicketUpdate: User does not have access to the ticket!',
                 },
             },
             Success => 1
@@ -465,8 +464,7 @@ my @Tests = (
             Data => {
                 Error => {
                     ErrorCode    => 'TicketUpdate.AccessDenied',
-                    ErrorMessage =>
-                        'TicketUpdate: User does not have access to the ticket!'
+                    ErrorMessage => 'TicketUpdate: User does not have access to the ticket!',
                 },
             },
             Success => 1
@@ -813,6 +811,55 @@ my @Tests = (
                 TicketID     => $Ticket{TicketID},
                 TicketNumber => $Ticket{TicketNumber},
             },
+        },
+        Operation => 'TicketUpdate',
+    },
+    {
+        Name           => 'Add email article with attachment where ContentType contains a carriage return")',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID => $TicketID1,
+            Ticket   => {
+                Title => 'Updated',
+            },
+            Article => {
+                Subject              => 'Article subject',
+                Body                 => 'Article body',
+                AutoResponseType     => 'auto reply',
+                IsVisibleForCustomer => 1,
+                CommunicationChannel => 'Email',
+                SenderType           => 'agent',
+                Charset              => 'utf8',
+                MimeType             => 'text/plain',
+                HistoryType          => 'AddNote',
+                HistoryComment       => '%%',
+            },
+            Attachment => [
+                {
+                    Content     => 'Ymx1YiBibHViIGJsdWIg',
+                    ContentType => "text/html\r",
+                    Filename    => 'reject_content_type',
+                },
+            ],
+        },
+        IncludeTicketData        => 1,
+        ExpectedReturnRemoteData => {
+            Data => {
+                Error => {
+                    ErrorCode    => 'TicketUpdate.Content',
+                    ErrorMessage => 'TicketUpdate: User does not have access to the ticket!',
+                },
+            },
+            Success => 1
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Error => {
+                    ErrorCode    => 'TicketUpdate.Content',
+                    ErrorMessage => 'TicketUpdate: User does not have access to the ticket!',
+                },
+            },
+            Success => 1
         },
         Operation => 'TicketUpdate',
     },
