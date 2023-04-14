@@ -17,15 +17,15 @@
 # Luis Armando Medina <lamedina@gmail.com>, 2019
 # Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2019
 # FCRUZ <francisco.cruz@otrs.com>, 2019
-# Fredy Aragón <fredmac48@hotmail.com>, 2021, 2022.
+# Fredy Aragón <fredmac48@hotmail.com>, 2021, 2022, 2023.
 # Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-04-01 11:31+0000\n"
-"Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
+"PO-Revision-Date: 2023-04-16 00:31+0000\n"
+"Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
 "Language: es_MX\n"
@@ -293,7 +293,7 @@ msgstr "Este campo es requerido y debe tener menos de 4000 caracteres."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "Quitar Acerca del idioma"
 
 #. Template: AdminAbout
 msgid "Add new language"
@@ -1963,6 +1963,7 @@ msgstr "Mensaje de ayuda:"
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the tooltip message shown inside the customer interface."
 msgstr ""
+"Este es el mensaje tooltip que se muestra dentro de la interfaz de cliente."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
@@ -2164,6 +2165,9 @@ msgid ""
 "You can reference the field with its own field name. You can also refer to "
 "other fields, e.g. with 'DynamicField_OtherFieldName'."
 msgstr ""
+"Puede hacer referencia al campo con su propio nombre de campo. También puede "
+"hacer referencia a otros campos, por ejemplo con "
+"'DynamicField_OtherFieldName'."
 
 #. Template: AdminDynamicFieldDB
 msgid "Link for preview"
@@ -3780,7 +3784,7 @@ msgstr "Añadir Nueva Condición"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "General invoker data"
-msgstr ""
+msgstr "Datos generales del invocador"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for outgoing request data"
