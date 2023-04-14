@@ -841,17 +841,16 @@ my @Tests = (
             Attachment => [
                 {
                     Content     => 'Ymx1YiBibHViIGJsdWIg',
-                    ContentType => "text/html\r",
+                    ContentType => qq{text/html\rsome="thing"},
                     Filename    => 'reject_content_type',
                 },
             ],
         },
-        IncludeTicketData        => 1,
         ExpectedReturnRemoteData => {
             Data => {
                 Error => {
-                    ErrorCode    => 'TicketUpdate.Content',
-                    ErrorMessage => 'TicketUpdate: User does not have access to the ticket!',
+                    ErrorCode    => 'TicketUpdate.InvalidParameter',
+                    ErrorMessage => 'TicketUpdate: Attachment->ContentType is invalid!',
                 },
             },
             Success => 1
@@ -859,8 +858,8 @@ my @Tests = (
         ExpectedReturnLocalData => {
             Data => {
                 Error => {
-                    ErrorCode    => 'TicketUpdate.Content',
-                    ErrorMessage => 'TicketUpdate: User does not have access to the ticket!',
+                    ErrorCode    => 'TicketUpdate.InvalidParameter',
+                    ErrorMessage => 'TicketUpdate: Attachment->ContentType is invalid!',
                 },
             },
             Success => 1
@@ -1043,11 +1042,8 @@ for my $Test (@Tests) {
                 last ARTICLE;
             }
 
-            if ( $Test->{ExpectedReturnLocalData} ) {
-                $Test->{ExpectedReturnLocalData}->{Data} = {
-                    %{ $Test->{ExpectedReturnLocalData}->{Data} },
-                    ArticleID => $ArticleID,
-                };
+            if ( $Test->{IncludeTicketData} && $Test->{ExpectedReturnLocalData} ) {
+                $Test->{ExpectedReturnLocalData}->{Data}->{ArticleID} = $ArticleID;
             }
         }
 
@@ -1074,8 +1070,9 @@ for my $Test (@Tests) {
 
         # TODO prevent failing test if enviroment on SaaS unit test system doesn't work.
         if (
-            $RequesterResult->{ErrorMessage} eq
-            'faultcode: Server, faultstring: Attachment could not be created, please contact the  system administrator'
+            $RequesterResult->{ErrorMessage}
+            &&
+            $RequesterResult->{ErrorMessage} eq 'faultcode: Server, faultstring: Attachment could not be created, please contact the  system administrator'
             )
         {
             return;
@@ -1269,14 +1266,11 @@ for my $Test (@Tests) {
                 $Article{$Key} = "$Article{$Key}";
             }
 
-            $Test->{ExpectedReturnRemoteData}->{Data}->{Ticket} = {
-                %{ $Test->{ExpectedReturnRemoteData}->{Data}->{Ticket} },
-                Article => \%Article,
-            };
-            $Test->{ExpectedReturnRemoteData}->{Data} = {
-                %{ $Test->{ExpectedReturnRemoteData}->{Data} },
-                ArticleID => $Article{ArticleID},
-            };
+            if ( $Test->{IncludeTicketData} ) {
+                $Test->{ExpectedReturnRemoteData}->{Data}->{Ticket} //= {};
+                $Test->{ExpectedReturnRemoteData}->{Data}->{Ticket}->{Article} = \%Article;
+                $Test->{ExpectedReturnRemoteData}->{Data}->{ArticleID} = $Article{ArticleID};
+            }
         }
 
         # Remove some fields before comparison since they might differ.

@@ -913,7 +913,7 @@ sub _CheckArticle {
 
         $Article->{MimeType} = lc $Article->{MimeType};
 
-        if ( !$Self->ValidateMimeType( %{$Article} ) ) {
+        if ( !$Self->ValidateMimeType( $Article->%* ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Article->MimeType is invalid!",
@@ -926,7 +926,7 @@ sub _CheckArticle {
 
         $Article->{Charset} = lc $Article->{Charset};
 
-        if ( !$Self->ValidateCharset( %{$Article} ) ) {
+        if ( !$Self->ValidateCharset( $Article->%* ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Article->Charset is invalid!",
