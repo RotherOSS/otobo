@@ -24,6 +24,7 @@ use Digest::MD5 qw(md5_hex);
 
 # CPAN modules
 use URI::Escape qw();
+use HTTP::Headers::Fast;    # is available as Plack requires it
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -2697,18 +2698,17 @@ sub Attachment {
         $Output .= $Param{AdditionalHeader} . "\n";
     }
 
-    # In the general case CR and LF are allowed in the MIME header Content-Type, but this
-    # is not really an use case in OTOBO. This means that there should be now CR and LF in $Param{ContentType}.
-    # However CR and LF could have been entered via the GenericInterface or via direct database manipulation.
-    # For these cases simply remove everything after the first CR or LF. This should avoid Header Injection.
+    # In the general case CR and LF are allowed in the MIME header Content-Type. This possibility is actually
+    # not used within OTOBO. But CR and LF could have been entered via the GenericInterface
+    # or via direct database manipulation. Therefore use HTTP::Headers::Fast for graciously handle this case.
     {
-        my $ContentType = $Param{ContentType} =~ s/[\r\n].*//grs;
-        if ( $Param{Charset} ) {
-            $Output .= "Content-Type: $ContentType; charset=$Param{Charset};\n";
-        }
-        else {
-            $Output .= "Content-Type: $ContentType\n";
-        }
+        my $ContentType = eval {
+            return join '; ', $Param{ContentType}, "charset=$Param{Charset}" if $Param{Charset};
+            return $Param{ContentType};
+        };
+        $Output .= HTTP::Headers::Fast->new(
+            Content_Type => $ContentType,
+        )->as_string;
     }
 
     # append an empty line in order to indicate the end of the headers
