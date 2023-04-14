@@ -2103,6 +2103,14 @@
     </Unique>
 </Table>
 
+<!-- dynamic field definitions for frontends -->
+<Table Name="frontend_mask_definition">
+    <Column Name="mask" Required="true" PrimaryKey="true" Type="VARCHAR" size="80" />
+    <Column Name="definition" Required="true" Type="LONGBLOB" />
+    <Column Name="create_time" Required="false" Type="DATE" />
+    <Column Name="create_by" Required="false" Type="INTEGER" />
+</Table>
+
 <Table Name="pm_process">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <!-- entity_id is a unique identifier independent from id -->
