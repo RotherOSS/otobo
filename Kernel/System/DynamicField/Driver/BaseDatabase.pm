@@ -386,34 +386,34 @@ sub EditFieldRender {
         $FieldTemplateFile = 'DynamicField/Customer/BaseDatabase';
     }
 
-    my %ResultHTML;
-    my $Index = 0;
-    if ( $FieldConfig->{MultiValue} ) {
-        if ( @Values ) {
-            for my $MultiValue ( @Values ) {
-                if ( $Index > 0 ) {
-                    $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_' . $Index;
-                }
-                $FieldTemplateData{Value} = $MultiValue;
-                $ResultHTML{$Index} = $Param{LayoutObject}->Output(
-                    'TemplateFile' => $FieldTemplateFile,
-                    'Data' => \%FieldTemplateData,
-                );
-                $Index++;
+    my @ResultHTML;
+    if ( $FieldConfig->{MultiValue} && @Values ) {
+        for my $ValueIndex (0 .. $#Values ) {
+            if ( $ValueIndex ) {
+                $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_' . $ValueIndex;
             }
-        }
-        else {
-            $FieldTemplateData{Value} = '';
-            $ResultHTML{$Index} = $Param{LayoutObject}->Output(
+            $FieldTemplateData{Value} = $Values[$ValueIndex];
+            push @ResultHTML, $Param{LayoutObject}->Output(
                 'TemplateFile' => $FieldTemplateFile,
                 'Data' => \%FieldTemplateData,
             );
         }
     }
     else {
-        $ResultHTML{$Index} = $Param{LayoutObject}->Output(
+        push @ResultHTML, $Param{LayoutObject}->Output(
             'TemplateFile' => $FieldTemplateFile,
             'Data'         => \%FieldTemplateData,
+        );
+    }
+
+    my $TemplateHTML;
+    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+        $TemplateHTML = $Param{LayoutObject}->Output(
+            'TemplateFile' => $FieldTemplateFile,
+            'Data'         => {
+                %FieldTemplateData,
+                FieldName => $FieldTemplateData{FieldName} . '_Template',
+            }
         );
     }
 
@@ -423,9 +423,16 @@ sub EditFieldRender {
     );
 
     my $Data = {
-        HTML  => \%ResultHTML,
         Label => $LabelString,
     };
+
+    if ( $FieldConfig->{MultiValue} ) {
+        $Data->{MultiValue}         = \@ResultHTML,
+        $Data->{MultiValueTemplate} = $TemplateHTML,
+    }
+    else {
+        $Data->{Field} = $ResultHTML[0];
+    }
 
     return $Data;
 }

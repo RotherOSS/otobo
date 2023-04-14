@@ -268,18 +268,17 @@ sub EditFieldRender {
     );
 
     # set values from ParamObject if present
-    if ( IsArrayRefWithData( $FieldValue ) ) {
+    if ( $FieldConfig->{MultiValue} ) {
+        if ( $FieldValue->@* ) {
+            $Value = $FieldValue;
+        }
+    }
+    elsif ( defined $FieldValue ) {
         $Value = $FieldValue;
     }
-    elsif ( ref $FieldValue ne 'ARRAY' && $FieldValue ) {
-        $Value = [ $FieldValue ];
-    }
 
-    if ( ref $Value ne 'ARRAY' && $Value ) {
+    if ( !ref $Value ) {
         $Value = [ $Value ];
-    }
-    elsif ( !$Value ) {
-        undef $Value;
     }
 
     # check and set class if necessary
@@ -298,64 +297,56 @@ sub EditFieldRender {
         $FieldClass .= ' ServerError';
     }
 
-    my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => '',
-    );
-
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
         Text => $FieldLabel,
     );
 
-    my @FieldTemplateData;
-    if ( !IsArrayRefWithData($Value) ) {
-        push @FieldTemplateData, {
-            'FieldClass'        => $FieldClass,
-            'FieldName'         => $FieldName,
-            'FieldLabelEscaped' => $FieldLabelEscaped,
-            'ValueEscaped'      => $ValueEscaped,
-            'DivID'             => $FieldName,
-            'MultiValue'        => $FieldConfig->{MultiValue} || 0,
-            'ReadOnly'          => $Param{ReadOnly},
-        };
+    my %FieldTemplateData = (
+        'FieldClass'        => $FieldClass,
+        'FieldName'         => $FieldName,
+        'FieldLabelEscaped' => $FieldLabelEscaped,
+        'DivID'             => $FieldName,
+        'MultiValue'        => $FieldConfig->{MultiValue} || 0,
+        'ReadOnly'          => $Param{ReadOnly},
+    );
+
+    my $TemplateFile = 'DynamicField/Agent/BaseText';
+    if ( $Param{CustomerInterface} ) {
+        $TemplateFile = 'DynamicField/Customer/BaseText';
     }
 
-    if ( IsArrayRefWithData($Value) ) {
-        for my $ValueItem (@{ $Value }) {
-            # set values from ParamObject if present
-            if ( defined $ValueItem ) {
-                $Value = $ValueItem;
-            }
+    my @ResultHTML;
+    for my $ValueIndex ( 0 .. $#{ $Value } ) {
+        my $ValueItem = $Value->[$ValueIndex];
+        $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . ( $ValueIndex ? '_' . $ValueIndex : '' );
 
-            my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
-                Text => $ValueItem,
-            );
-
-            my %FieldTemplateInfo = (
-                'FieldClass'        => $FieldClass,
-                'FieldName'         => $FieldName,
-                'FieldLabelEscaped' => $FieldLabelEscaped,
-                'ValueEscaped'      => $ValueEscaped,
-                'DivID'             => $FieldName,
-                'MultiValue'        => $FieldConfig->{MultiValue} || 0,
-                'ReadOnly'          => $Param{ReadOnly},
-            );
-
-            if ( $Param{Mandatory} ) {
-                $FieldTemplateInfo{DivIDMandatory} = $FieldName . 'Error';
-
-                $FieldTemplateInfo{FieldRequiredMessage} = Translatable("This field is required.");
-
-                $FieldTemplateInfo{Mandatory} = $Param{Mandatory};
-            }
-
-            if ( $Param{ServerError} ) {
-                $FieldTemplateInfo{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-                $FieldTemplateInfo{DivIDServerError} = $FieldName . 'ServerError';
-                $FieldTemplateInfo{ServerError}      = $Param{ServerError};
-            }
-
-            push @FieldTemplateData, \%FieldTemplateInfo;
+        # set values from ParamObject if present
+        if ( defined $ValueItem ) {
+            $Value = $ValueItem;
         }
+
+        my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
+            Text => $ValueItem,
+        );
+
+        $FieldTemplateData{ValueEscaped} = $ValueEscaped;
+
+        push @ResultHTML, $Param{LayoutObject}->Output(
+            'TemplateFile' => $TemplateFile,
+            'Data'         => \%FieldTemplateData,
+        );
+    }
+
+    my $TemplateHTML;
+    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+
+        $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_Template';
+
+        $TemplateHTML = $Param{LayoutObject}->Output(
+            'TemplateFile' => $TemplateFile,
+            'Data'         => \%FieldTemplateData,
+        );
+
     }
 
     # call EditLabelRender on the common Driver
@@ -365,33 +356,16 @@ sub EditFieldRender {
         FieldName => $FieldName,
     );
 
-    my $FieldTemplateFile = 'DynamicField/Agent/BaseText';
-    if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/BaseText';
-    }
-
-    my %ResultHTML;
-    my $Index = 0;
-    for my $FieldTemplateInfo (@FieldTemplateData) {
-        if ( $FieldConfig->{MultiValue} && $Index > 0 ) {
-            $FieldTemplateInfo->{FieldID} = $FieldTemplateInfo->{FieldName} . '_' . $Index;
-        }
-        $ResultHTML{$Index} = $Param{LayoutObject}->Output(
-            'TemplateFile' => $FieldTemplateFile,
-            'Data'         => $FieldTemplateInfo,
-        );
-        $Index++;
-    }
-
     my $Data = {
         Label => $LabelString,
     };
 
     if ( $FieldConfig->{MultiValue} ) {
-        $Data->{HTML} = \%ResultHTML;
+        $Data->{MultiValue}         = \@ResultHTML;
+        $Data->{MultiValueTemplate} = $TemplateHTML;
     }
     else {
-        $Data->{Field} = $ResultHTML{"0"};
+        $Data->{Field} = $ResultHTML[0];
     }
 
     return $Data;
