@@ -150,10 +150,19 @@ sub CacheCleanup {
 
 =head2 ExecuteXMLDBArray()
 
-Parse and execute an XML array.
+Parse and execute an array of XML snippets. Parameter I<Old2NewTableNames> is used for checking whether target tables already exist.
 
     $DBUpdateTo6Object->ExecuteXMLDBArray(
-        XMLArray          => \@XMLArray,
+        XMLArray          => [
+            '<Table Name="data_storage">
+                <Column Name="ds_type" Required="true" Type="VARCHAR" Size="191" />
+                ...
+                <Column Name="create_by" Required="true" Type="INTEGER" />
+                <ForeignKey ForeignTable="users">
+                    <Reference Local="create_by" Foreign="id"
+                </ForeignKey>
+            </Table>'
+        ],
         Old2NewTableNames => {                                        # optional
             'article'            => 'article_data_mime',
             'article_plain'      => 'article_data_mime_plain',
@@ -382,20 +391,18 @@ sub ExecuteXMLDBString {
     my $XMLString = $Param{XMLString};
 
     # Create database specific SQL and PostSQL commands out of XML.
-    my @SQL;
-    my @SQLPost;
     my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
     my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
     my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
 
     # Create database specific SQL.
-    push @SQL, $DBObject->SQLProcessor(
+    my @SQL = $DBObject->SQLProcessor(
         Database => \@XMLARRAY,
     );
 
     # Create database specific PostSQL.
-    push @SQLPost, $DBObject->SQLProcessorPost();
+    my @SQLPost = $DBObject->SQLProcessorPost();
 
     # Execute SQL.
     for my $SQL ( @SQL, @SQLPost ) {
