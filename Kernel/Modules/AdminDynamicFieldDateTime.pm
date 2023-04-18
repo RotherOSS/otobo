@@ -126,34 +126,7 @@ sub _AddAction {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
-    if ( $GetParam{Name} ) {
 
-        # check if name is alphanumeric
-        if ( $GetParam{Name} !~ m{\A (?: [a-zA-Z] | \d )+ \z}xms ) {
-
-            # add server error error class
-            $Errors{NameServerError} = 'ServerError';
-            $Errors{NameServerErrorMessage} =
-                Translatable('The field does not contain only ASCII letters and numbers.');
-        }
-
-        # check if name is duplicated
-        my %DynamicFieldsList = %{
-            $DynamicFieldObject->DynamicFieldList(
-                Valid      => 0,
-                ResultType => 'HASH',
-            )
-        };
-
-        %DynamicFieldsList = reverse %DynamicFieldsList;
-
-        if ( $DynamicFieldsList{ $GetParam{Name} } ) {
-
-            # add server error error class
-            $Errors{NameServerError}        = 'ServerError';
-            $Errors{NameServerErrorMessage} = Translatable('There is another field with the same name.');
-        }
-    }
 
     if ( $GetParam{FieldOrder} ) {
 
@@ -180,10 +153,41 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview Tooltip)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview Tooltip MultiValue Namespace)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
+    if ( $GetParam{Name} ) {
+
+        # check if name is alphanumeric
+        if ( $GetParam{Name} !~ m{\A (?: [a-zA-Z] | \d )+ \z}xms ) {
+
+            # add server error error class
+            $Errors{NameServerError} = 'ServerError';
+            $Errors{NameServerErrorMessage} =
+                Translatable('The field does not contain only ASCII letters and numbers.');
+        }
+
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
+
+        # check if name is duplicated
+        my %DynamicFieldsList = %{
+            $DynamicFieldObject->DynamicFieldList(
+                Valid      => 0,
+                ResultType => 'HASH',
+            )
+        };
+
+        %DynamicFieldsList = reverse %DynamicFieldsList;
+
+        if ( $DynamicFieldsList{ $GetParam{Name} } ) {
+
+            # add server error error class
+            $Errors{NameServerError}        = 'ServerError';
+            $Errors{NameServerErrorMessage} = Translatable('There is another field with the same name.');
+        }
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -215,6 +219,7 @@ sub _AddAction {
         Link            => $GetParam{Link},
         LinkPreview     => $GetParam{LinkPreview},
         Tooltip         => $GetParam{Tooltip},
+        MultiValue      => $GetParam{MultiValue},
     };
 
     # create a new field
@@ -342,52 +347,6 @@ sub _ChangeAction {
         );
     }
 
-    if ( $GetParam{Name} ) {
-
-        # check if name is lowercase
-        if ( $GetParam{Name} !~ m{\A (?: [a-zA-Z] | \d )+ \z}xms ) {
-
-            # add server error error class
-            $Errors{NameServerError} = 'ServerError';
-            $Errors{NameServerErrorMessage} =
-                Translatable('The field does not contain only ASCII letters and numbers.');
-        }
-
-        # check if name is duplicated
-        my %DynamicFieldsList = %{
-            $DynamicFieldObject->DynamicFieldList(
-                Valid      => 0,
-                ResultType => 'HASH',
-            )
-        };
-
-        %DynamicFieldsList = reverse %DynamicFieldsList;
-
-        if (
-            $DynamicFieldsList{ $GetParam{Name} } &&
-            $DynamicFieldsList{ $GetParam{Name} } ne $FieldID
-            )
-        {
-
-            # add server error class
-            $Errors{NameServerError}        = 'ServerError';
-            $Errors{NameServerErrorMessage} = Translatable('There is another field with the same name.');
-        }
-
-        # if it's an internal field, it's name should not change
-        if (
-            $DynamicFieldData->{InternalField} &&
-            $DynamicFieldsList{ $GetParam{Name} } ne $FieldID
-            )
-        {
-
-            # add server error class
-            $Errors{NameServerError}        = 'ServerError';
-            $Errors{NameServerErrorMessage} = Translatable('The name for this field should not change.');
-            $Param{InternalField}           = $DynamicFieldData->{InternalField};
-        }
-    }
-
     if ( $GetParam{FieldOrder} ) {
 
         # check if field order is numeric and positive
@@ -426,10 +385,58 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview Tooltip)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview Tooltip MultiValue Namespace)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
+    if ( $GetParam{Name} ) {
+
+        # check if name is lowercase
+        if ( $GetParam{Name} !~ m{\A (?: [a-zA-Z] | \d )+ \z}xms ) {
+
+            # add server error error class
+            $Errors{NameServerError} = 'ServerError';
+            $Errors{NameServerErrorMessage} =
+                Translatable('The field does not contain only ASCII letters and numbers.');
+        }
+
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
+
+        # check if name is duplicated
+        my %DynamicFieldsList = %{
+            $DynamicFieldObject->DynamicFieldList(
+                Valid      => 0,
+                ResultType => 'HASH',
+            )
+        };
+
+        %DynamicFieldsList = reverse %DynamicFieldsList;
+
+        if (
+            $DynamicFieldsList{ $GetParam{Name} } &&
+            $DynamicFieldsList{ $GetParam{Name} } ne $FieldID
+            )
+        {
+
+            # add server error class
+            $Errors{NameServerError}        = 'ServerError';
+            $Errors{NameServerErrorMessage} = Translatable('There is another field with the same name.');
+        }
+
+        # if it's an internal field, it's name should not change
+        if (
+            $DynamicFieldData->{InternalField} &&
+            $DynamicFieldsList{ $GetParam{Name} } ne $FieldID
+            )
+        {
+
+            # add server error class
+            $Errors{NameServerError}        = 'ServerError';
+            $Errors{NameServerErrorMessage} = Translatable('The name for this field should not change.');
+            $Param{InternalField}           = $DynamicFieldData->{InternalField};
+        }
     }
 
     # uncorrectable errors
@@ -488,6 +495,7 @@ sub _ChangeAction {
         Link            => $GetParam{Link},
         LinkPreview     => $GetParam{LinkPreview},
         Tooltip         => $GetParam{Tooltip},
+        MultiValue      => $GetParam{MultiValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -568,11 +576,21 @@ sub _ChangeAction {
 sub _ShowScreen {
     my ( $Self, %Param ) = @_;
 
+    my $Namespace;
     $Param{DisplayFieldName} = 'New';
 
     if ( $Param{Mode} eq 'Change' ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
+
+        # check for namespace
+        if ( $Param{Name} =~ /(.*)-(.*)/ ) {
+            $Namespace = $1;
+            $Param{PlainFieldName} = $2;
+        }
+        else {
+            $Param{PlainFieldName} = $Param{Name};
+        }
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -626,6 +644,35 @@ sub _ShowScreen {
         Sort          => 'NumericKey',
         Class         => 'Modernize W75pc Validate_Number',
     );
+
+    my $MultiValueStrg = $LayoutObject->BuildSelection(
+        Data       => {
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
+        },
+        Name       => 'MultiValue',
+        SelectedID => $Param{MultiValue} || '0',
+        Class      => 'Modernize W50pc',
+    );
+
+    my $NamespaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
+    if ( IsArrayRefWithData($NamespaceList) ) {
+        my $NamespaceStrg = $LayoutObject->BuildSelection(
+            Data          => $NamespaceList,
+            Name          => 'Namespace',
+            SelectedValue => $Namespace || '',
+            PossibleNone  => 1,
+            Translation   => 1,
+            Class         => 'Modernize W75pc',
+        );
+
+        $LayoutObject->Block(
+            Name => 'DynamicFieldNamespace',
+            Data => {
+                NamespaceStrg => $NamespaceStrg,
+            },
+        );
+    }
 
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
@@ -775,6 +822,7 @@ sub _ShowScreen {
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             YearsPeriodStrg       => $YearsPeriodStrg,
             DateRestrictionStrg   => $DateRestrictionStrg,
+            MultiValueStrg        => $MultiValueStrg,
             ClassYearsPeriod      => $ClassYearsPeriod,
             DefaultValue          => $DefaultValue,
             YearsInFuture         => $YearsInFuture,
