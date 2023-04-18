@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-03-31 02:36+0000\n"
+"PO-Revision-Date: 2023-04-19 12:07+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -22819,16 +22819,20 @@ msgid ""
 "binary needs to be 'fetchmail', if it is different please use a symbolic "
 "link."
 msgstr ""
+"يحدد المسار الاحتياطي لفتح ثنائي جلب البريد. ملاحظة: يجب أن يكون اسم الثنائي "
+"\"fetchmail\"، إذا كان مختلفا، فيرجى استخدام رابط رمزي."
 
 #. SysConfig
 msgid "Defines the filter that processes the HTML templates."
-msgstr ""
+msgstr "تعريف عامل التصفية الذي يعالج قوالب HTML."
 
 #. SysConfig
 msgid ""
 "Defines the filter that processes the text in the articles, in order to "
 "highlight URLs."
 msgstr ""
+"يحدد عامل التصفية الذي يعالج النص في المقالات، من أجل تسليط الضوء على عناوين "
+"URL."
 
 #. SysConfig
 msgid ""
@@ -22836,6 +22840,9 @@ msgid ""
 "interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | "
 "html %] is only realname of From)."
 msgstr ""
+"يتحكم في تنسيق الإجابات في شاشة إنشاء التذاكر في منطقة العميل ([% "
+"Data.OrigFrom | html %] يتوافق تماما مع المرسل، [% Data.OrigFromName | html "
+"%] يحتوي على الاسم الحقيقي للمرسل فقط)."
 
 #. SysConfig
 msgid ""
