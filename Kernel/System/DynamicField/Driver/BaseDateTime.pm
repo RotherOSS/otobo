@@ -59,20 +59,35 @@ sub ValueGet {
     return if !IsArrayRefWithData($DFValue);
     return if !IsHashRefWithData( $DFValue->[0] );
 
-    return $DFValue->[0]->{ValueDateTime};
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        my @ReturnData;
+        for my $Item ( @{$DFValue} ) {
+            push @ReturnData, $Item->{ValueDateTime};
+        }
+        return \@ReturnData;
+    }
+    else {
+        return $DFValue->[0]->{ValueDateTime};
+    }
 }
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = ( $Param{Value} );
+    }
+
+    my @ValueDateTime = map { { ValueDateTime => $_ } } @Values;
+
     my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
-        Value    => [
-            {
-                ValueDateTime => $Param{Value},
-            },
-        ],
+        Value    => \@ValueDateTime,
         UserID => $Param{UserID},
     );
 
@@ -172,6 +187,7 @@ sub EditFieldRender {
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
+    my @ValueParts;
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
@@ -182,19 +198,25 @@ sub EditFieldRender {
         $Value = $Param{Value};
     }
 
-    if ($Value) {
-        my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Value =~
+    if ( !IsArrayRefWithData($Value) ) {
+        $Value = [ $Value ];
+    }
+
+    for my $ValueItem ( $Value->@* ) {
+        my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $ValueItem =~
             m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
 
         # If a value is sent this value must be active, then the Used part needs to be set to 1
         #   otherwise user can easily forget to mark the checkbox and this could lead into data
         #   lost (Bug#8258).
-        $FieldConfig->{ $FieldName . 'Used' }   = 1;
-        $FieldConfig->{ $FieldName . 'Year' }   = $Year;
-        $FieldConfig->{ $FieldName . 'Month' }  = $Month;
-        $FieldConfig->{ $FieldName . 'Day' }    = $Day;
-        $FieldConfig->{ $FieldName . 'Hour' }   = $Hour;
-        $FieldConfig->{ $FieldName . 'Minute' } = $Minute;
+        push @ValueParts, {
+            $FieldName . 'Used'   => 1,
+            $FieldName . 'Year'   => $Year,
+            $FieldName . 'Month'  => $Month,
+            $FieldName . 'Day'    => $Day,
+            $FieldName . 'Hour'   => $Hour,
+            $FieldName . 'Minute' => $Minute,
+        };
     }
 
     # extract the dynamic field value from the web request
@@ -206,10 +228,8 @@ sub EditFieldRender {
     );
 
     # set values from ParamObject if present
-    if ( defined $FieldValues && IsHashRefWithData($FieldValues) ) {
-        for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $FieldConfig->{ $FieldName . $Type } = $FieldValues->{ $FieldName . $Type };
-        }
+    if ( defined $FieldValues && IsArrayRefWithData($FieldValues) ) {
+        @ValueParts = $FieldValues->@*;
     }
 
     # check and set class if necessary
@@ -254,21 +274,7 @@ sub EditFieldRender {
         }
     }
 
-    my $DateSelectionHTML = $Param{LayoutObject}->BuildDateSelection(
-        %Param,
-        Prefix                => $FieldName,
-        Format                => 'DateInputFormatLong',
-        $FieldName . 'Class'  => $FieldClass,
-        DiffTime              => $DiffTime,
-        $FieldName . Required => $Param{Mandatory} || 0,
-        $FieldName . Optional => 1,
-        Validate              => 1,
-        %{$FieldConfig},
-        %YearsPeriodRange,
-    );
-
     my %FieldTemplateData = (
-        'DateSelectionHTML' => $DateSelectionHTML,
         'DivID'             => $FieldName,
     );
 
@@ -292,6 +298,61 @@ sub EditFieldRender {
         $FieldTemplateFile = 'DynamicField/Customer/BaseDateTime';
     }
 
+    my @ResultHTML;
+    for my $ValueIndex ( 0 .. $#ValueParts ) {
+
+        my $Suffix = $ValueIndex ? '_' . $ValueIndex : '';
+        my $DateSelectionHTML = $Param{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix                => $FieldName,
+            Suffix                => $Suffix,
+            Format                => 'DateInputFormatLong',
+            $FieldName . 'Class'  => $FieldClass,
+            DiffTime              => $DiffTime,
+            $FieldName . Required => $Param{Mandatory} || 0,
+            $FieldName . Optional => 1,
+            Validate              => 1,
+            $FieldConfig->%*,
+            $ValueParts[$ValueIndex]->%*,
+            %YearsPeriodRange,
+        );
+
+        push @ResultHTML, $Param{LayoutObject}->Output(
+            'TemplateFile' => $FieldTemplateFile,
+            'Data'         => {
+                %FieldTemplateData,
+                DateSelectionHTML => $DateSelectionHTML,
+            },
+        );
+
+    }
+
+    my $TemplateHTML;
+    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+
+        my $DateSelectionHTML = $Param{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix                => $FieldName,
+            Suffix                => '_Template',
+            Format                => 'DateInputFormatLong',
+            $FieldName . 'Class'  => $FieldClass,
+            DiffTime              => $DiffTime,
+            $FieldName . Required => $Param{Mandatory} || 0,
+            $FieldName . Optional => 1,
+            Validate              => 1,
+            $FieldConfig->%*,
+            %YearsPeriodRange,
+        );
+
+        $TemplateHTML = $Param{LayoutObject}->Output(
+            'TemplateFile' => $FieldTemplateFile,
+            'Data'         => {
+                %FieldTemplateData,
+                DateSelectionHTML => $DateSelectionHTML,
+            },
+        );
+    }
+
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
@@ -299,15 +360,17 @@ sub EditFieldRender {
         FieldName => $FieldName . 'Used',
     );
 
-    my $HTMLString = $Param{LayoutObject}->Output(
-        'TemplateFile' => $FieldTemplateFile,
-        'Data'         => \%FieldTemplateData
-    );
-
     my $Data = {
-        Field => $HTMLString,
         Label => $LabelString,
     };
+
+    if ( $FieldConfig->{MultiValue} ) {
+        $Data->{MultiValue}         = \@ResultHTML;
+        $Data->{MultiValueTemplate} = $TemplateHTML;
+    }
+    else {
+        $Data->{Field} = $ResultHTML[0];
+    }
 
     return $Data;
 }
@@ -318,12 +381,12 @@ sub EditFieldValueGet {
     # set the Prefix as the dynamic field name
     my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
-    my %DynamicFieldValues;
+    my $DynamicFieldValues = {};
 
     # check if there is a Template and retrieve the dynamic field value from there
     if ( IsHashRefWithData( $Param{Template} ) && defined $Param{Template}->{ $Prefix . 'Used' } ) {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $DynamicFieldValues{ $Prefix . $Type } = $Param{Template}->{ $Prefix . $Type } || 0;
+            $DynamicFieldValues->{ $Prefix . $Type } = $Param{Template}->{ $Prefix . $Type } || 0;
         }
     }
 
@@ -333,66 +396,149 @@ sub EditFieldValueGet {
         && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
         )
     {
-        for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $DynamicFieldValues{ $Prefix . $Type } = $Param{ParamObject}->GetParam(
-                Param => $Prefix . $Type,
-            ) || 0;
+        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+            my @DataAll = ();
+            my %FetchedData;
+            for my $Type (qw(Used Year Month Day Hour Minute)) {
+                $FetchedData{ $Type }->@* = $Param{ParamObject}->GetArray( Param => $Prefix . $Type );
+            }
+            for my $Index ( 0 .. $#{ $FetchedData{Used} } ) {
+                my %ValueRow;
+                for my $Type (qw(Used Year Month Day Hour Minute)) {
+                    $ValueRow{ $Prefix . $Type } = $FetchedData{ $Type }[ $Index ];
+                }
+                push @DataAll, \%ValueRow;
+            }
+            $DynamicFieldValues = \@DataAll;
+        }
+        else {
+            for my $Type (qw(Used Year Month Day Hour Minute)) {
+                $DynamicFieldValues->{ $Prefix . $Type } = $Param{ParamObject}->GetParam(
+                    Param => $Prefix . $Type,
+                ) || 0;
+            }
         }
     }
 
-    # return if the field is empty (e.g. initial screen)
-    return if !$DynamicFieldValues{ $Prefix . 'Used' }
-        && !$DynamicFieldValues{ $Prefix . 'Year' }
-        && !$DynamicFieldValues{ $Prefix . 'Month' }
-        && !$DynamicFieldValues{ $Prefix . 'Day' }
-        && !$DynamicFieldValues{ $Prefix . 'Hour' }
-        && !$DynamicFieldValues{ $Prefix . 'Minute' };
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        my $IsEmpty = 1;
+        for my $ValueData ( $DynamicFieldValues->@* ) {
+            # return if the field is empty (e.g. initial screen)
+            if (
+                $ValueData->{ $Prefix . 'Used' }
+                || $ValueData->{ $Prefix . 'Year' }
+                || $ValueData->{ $Prefix . 'Month' }
+                || $ValueData->{ $Prefix . 'Day' }
+                || $ValueData->{ $Prefix . 'Hour' }
+                || $ValueData->{ $Prefix . 'Minute' }
+            ) {
+                $IsEmpty = 0;
+            }
+        }
+        return if $IsEmpty;
+    }
+    else {
+        # return if the field is empty (e.g. initial screen)
+        return if !$DynamicFieldValues->{ $Prefix . 'Used' }
+            && !$DynamicFieldValues->{ $Prefix . 'Year' }
+            && !$DynamicFieldValues->{ $Prefix . 'Month' }
+            && !$DynamicFieldValues->{ $Prefix . 'Day' }
+            && !$DynamicFieldValues->{ $Prefix . 'Hour' }
+            && !$DynamicFieldValues->{ $Prefix . 'Minute' };
+    }
+
 
     # check if need and can transform dates
     # transform the dates early for ReturnValueStructure or ManualTimeStamp Bug#8452
     if ( $Param{TransformDates} && $Param{LayoutObject} ) {
 
         # transform time stamp based on user time zone
-        %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
-            %DynamicFieldValues,
-            Prefix => $Prefix,
-        );
+        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+            for my $ValueData ( $DynamicFieldValues->@* ) {
+                $ValueData->%* = $Param{LayoutObject}->TransformDateSelection(
+                    $ValueData->%*,
+                    Prefix => $Prefix,
+                );
+            }
+        }
+        else {
+            $DynamicFieldValues->%* = $Param{LayoutObject}->TransformDateSelection(
+                $DynamicFieldValues->%*,
+                Prefix => $Prefix,
+            );
+        }
+
     }
 
     # check if return value structure is needed
     if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
-        return \%DynamicFieldValues;
+        return $DynamicFieldValues;
     }
 
     # check if return template structure is needed
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
-        return \%DynamicFieldValues;
+        return $DynamicFieldValues;
     }
 
     # add seconds as 0 to the DynamicFieldValues hash
-    $DynamicFieldValues{ 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} . 'Second' } = 0;
-
-    my $ManualTimeStamp = '';
-
-    if ( $DynamicFieldValues{ $Prefix . 'Used' } ) {
-
-        # add a leading zero for date parts that could be less than ten to generate a correct
-        # time stamp
-        for my $Type (qw(Month Day Hour Minute Second)) {
-            $DynamicFieldValues{ $Prefix . $Type } = sprintf "%02d",
-                $DynamicFieldValues{ $Prefix . $Type };
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        for my $ValueData ( $DynamicFieldValues->@* ) {
+            $ValueData->{ 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} . 'Second' } = 0;
         }
+    }
+    else {
+        $DynamicFieldValues->{ 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} . 'Second' } = 0;
+    }
 
-        my $Year   = $DynamicFieldValues{ $Prefix . 'Year' }   || '0000';
-        my $Month  = $DynamicFieldValues{ $Prefix . 'Month' }  || '00';
-        my $Day    = $DynamicFieldValues{ $Prefix . 'Day' }    || '00';
-        my $Hour   = $DynamicFieldValues{ $Prefix . 'Hour' }   || '00';
-        my $Minute = $DynamicFieldValues{ $Prefix . 'Minute' } || '00';
-        my $Second = $DynamicFieldValues{ $Prefix . 'Second' } || '00';
 
-        $ManualTimeStamp =
-            $Year . '-' . $Month . '-' . $Day . ' '
-            . $Hour . ':' . $Minute . ':' . $Second;
+    my $ManualTimeStamp;
+
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        my @ManualTimeStamps;
+        for my $ValueData ( $DynamicFieldValues->@* ) {
+            if ( $ValueData->{ $Prefix . 'Used' } ) {
+
+                # add a leading zero for date parts that could be less than ten to generate a correct
+                # time stamp
+                for my $Type (qw(Month Day Hour Minute Second)) {
+                    $ValueData->{ $Prefix . $Type } = sprintf "%02d",
+                        $ValueData->{ $Prefix . $Type };
+                }
+
+                my $Year   = $ValueData->{ $Prefix . 'Year' }   || '0000';
+                my $Month  = $ValueData->{ $Prefix . 'Month' }  || '00';
+                my $Day    = $ValueData->{ $Prefix . 'Day' }    || '00';
+                my $Hour   = $ValueData->{ $Prefix . 'Hour' }   || '00';
+                my $Minute = $ValueData->{ $Prefix . 'Minute' } || '00';
+                my $Second = $ValueData->{ $Prefix . 'Second' } || '00';
+
+                push @ManualTimeStamps, $Year . '-' . $Month . '-' . $Day . ' '
+                    . $Hour . ':' . $Minute . ':' . $Second;
+            }
+        }
+        $ManualTimeStamp = \@ManualTimeStamps;
+    }
+    else {
+        if ( $DynamicFieldValues->{ $Prefix . 'Used' } ) {
+
+            # add a leading zero for date parts that could be less than ten to generate a correct
+            # time stamp
+            for my $Type (qw(Month Day Hour Minute Second)) {
+                $DynamicFieldValues->{ $Prefix . $Type } = sprintf "%02d",
+                    $DynamicFieldValues->{ $Prefix . $Type };
+            }
+
+            my $Year   = $DynamicFieldValues->{ $Prefix . 'Year' }   || '0000';
+            my $Month  = $DynamicFieldValues->{ $Prefix . 'Month' }  || '00';
+            my $Day    = $DynamicFieldValues->{ $Prefix . 'Day' }    || '00';
+            my $Hour   = $DynamicFieldValues->{ $Prefix . 'Hour' }   || '00';
+            my $Minute = $DynamicFieldValues->{ $Prefix . 'Minute' } || '00';
+            my $Second = $DynamicFieldValues->{ $Prefix . 'Second' } || '00';
+
+            $ManualTimeStamp =
+                $Year . '-' . $Month . '-' . $Day . ' '
+                . $Hour . ':' . $Minute . ':' . $Second;
+        }
     }
 
     return $ManualTimeStamp;
@@ -420,6 +566,12 @@ sub EditFieldValueValidate {
     my $ServerError;
     my $ErrorMessage;
 
+    my $ValueCount = $Param{ValueCount} || 1;
+
+    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        $Value = [ $Value ];
+    }
+
     # set the date time prefix as field name
     my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
@@ -427,40 +579,40 @@ sub EditFieldValueValidate {
     my $DateRestriction = $Param{DynamicFieldConfig}->{Config}->{DateRestriction};
 
     # perform necessary validations
-    if ( $Param{Mandatory} && !$Value->{ $Prefix . 'Used' } ) {
+    if ( $Param{Mandatory} && ( $ValueCount > scalar $Value->@* ) ) {
         $ServerError = 1;
     }
 
-    if ( $Value->{ $Prefix . 'Used' } && $DateRestriction ) {
+    # get time object
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $SystemTime = $DateTimeObject->ToEpoch();
+    for my $ValueItem ( $Value->@* ) {
+        if ( $ValueItem->{ $Prefix . 'Used' } && $DateRestriction ) {
 
-        my $Year   = $Value->{ $Prefix . 'Year' }   || '0000';
-        my $Month  = $Value->{ $Prefix . 'Month' }  || '00';
-        my $Day    = $Value->{ $Prefix . 'Day' }    || '00';
-        my $Hour   = $Value->{ $Prefix . 'Hour' }   || '00';
-        my $Minute = $Value->{ $Prefix . 'Minute' } || '00';
-        my $Second = $Value->{ $Prefix . 'Second' } || '00';
+            my $Year   = $ValueItem->{ $Prefix . 'Year' }   || '0000';
+            my $Month  = $ValueItem->{ $Prefix . 'Month' }  || '00';
+            my $Day    = $ValueItem->{ $Prefix . 'Day' }    || '00';
+            my $Hour   = $ValueItem->{ $Prefix . 'Hour' }   || '00';
+            my $Minute = $ValueItem->{ $Prefix . 'Minute' } || '00';
+            my $Second = $ValueItem->{ $Prefix . 'Second' } || '00';
 
-        my $ManualTimeStamp =
-            $Year . '-' . $Month . '-' . $Day . ' '
-            . $Hour . ':' . $Minute . ':' . $Second;
+            my $ManualTimeStamp =
+                $Year . '-' . $Month . '-' . $Day . ' '
+                . $Hour . ':' . $Minute . ':' . $Second;
 
-        # get time object
-        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+            my $ValueItemSystemTime = $DateTimeObject->Set(
+                String => $ManualTimeStamp,
+            );
+            $ValueItemSystemTime = $ValueItemSystemTime ? $DateTimeObject->ToEpoch() : undef;
 
-        my $SystemTime = $DateTimeObject->ToEpoch();
-
-        my $ValueSystemTime = $DateTimeObject->Set(
-            String => $ManualTimeStamp,
-        );
-        $ValueSystemTime = $ValueSystemTime ? $DateTimeObject->ToEpoch() : undef;
-
-        if ( $DateRestriction eq 'DisableFutureDates' && $ValueSystemTime > $SystemTime ) {
-            $ServerError  = 1;
-            $ErrorMessage = "Invalid date (need a past date)!";
-        }
-        elsif ( $DateRestriction eq 'DisablePastDates' && $ValueSystemTime < $SystemTime ) {
-            $ServerError  = 1;
-            $ErrorMessage = "Invalid date (need a future date)!";
+            if ( $DateRestriction eq 'DisableFutureDates' && $ValueItemSystemTime > $SystemTime ) {
+                $ServerError  = 1;
+                $ErrorMessage = "Invalid date (need a past date)!";
+            }
+            elsif ( $DateRestriction eq 'DisablePastDates' && $ValueItemSystemTime < $SystemTime ) {
+                $ServerError  = 1;
+                $ErrorMessage = "Invalid date (need a future date)!";
+            }
         }
     }
 
@@ -477,15 +629,29 @@ sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
     my $Value = '';
+    my @Values;
+
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        @Values = $Param{Value}->@*;
+    }
+    else {
+        @Values = ( $Param{Value} );
+    }
 
     # convert date to localized string
-    if ( defined $Param{Value} ) {
-        $Value = $Param{LayoutObject}->{LanguageObject}->FormatTimeString(
-            $Param{Value},
+    for my $ValueItem ( @Values ) {
+        $ValueItem //= '';
+        $ValueItem = $Param{LayoutObject}->{LanguageObject}->FormatTimeString(
+            $ValueItem,
             'DateFormat',
             'NoSeconds',
         );
     }
+
+    # set new line separator
+    my $ItemSeparator = '<br />';
+
+    $Value = join( $ItemSeparator, @Values );
 
     # in this Driver there is no need for HTMLOutput
     # Title is always equal to Value
