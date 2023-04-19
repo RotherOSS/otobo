@@ -3511,6 +3511,7 @@ Depending on the SysConfig settings the controls to set the date could be multip
                                                   #   client side with JS
         Disabled => 1,                            # optional (1 or 0), when active select and checkbox controls gets the
                                                   #   disabled attribute and input fields gets the read only attribute
+        Suffix => 'some suffix',                  # optional, is attachted at the end of Names, IDs etc.
     );
 
 =cut
@@ -3523,6 +3524,7 @@ sub BuildDateSelection {
     my $DateInputStyle = $ConfigObject->Get('TimeInputFormat');
     my $MinuteStep     = $ConfigObject->Get('TimeInputMinutesStep');
     my $Prefix         = $Param{Prefix}   || '';
+    my $Suffix         = $Param{Suffix}   || '';
     my $DiffTime       = $Param{DiffTime} || 0;
     my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
     my $Area           = $Param{Area}                   || 'Agent';
@@ -3624,7 +3626,7 @@ sub BuildDateSelection {
         }
 
         $Param{Year} = $Self->BuildSelection(
-            Name        => $Prefix . 'Year',
+            Name        => $Prefix . 'Year' . $Suffix,
             Data        => \%Year,
             SelectedID  => int( $Param{ $Prefix . 'Year' } || $Y ),
             Translation => 0,
@@ -3636,7 +3638,7 @@ sub BuildDateSelection {
     else {
         $Param{Year} = "<input type=\"text\" "
             . ( $Validate ? "class=\"Validate_DateYear $Class\" " : "class=\"$Class\" " )
-            . "name=\"${Prefix}Year\" id=\"${Prefix}Year\" size=\"4\" maxlength=\"4\" "
+            . "name=\"${Prefix}Year${Suffix}\" id=\"${Prefix}Year${Suffix}\" size=\"4\" maxlength=\"4\" "
             . "title=\""
             . $Self->{LanguageObject}->Translate('Year')
             . "\" value=\""
@@ -3648,7 +3650,7 @@ sub BuildDateSelection {
     if ( $DateInputStyle eq 'Option' ) {
         my %Month = map { $_ => sprintf( "%02d", $_ ); } ( 1 .. 12 );
         $Param{Month} = $Self->BuildSelection(
-            Name        => $Prefix . 'Month',
+            Name        => $Prefix . 'Month' . $Suffix,
             Data        => \%Month,
             SelectedID  => int( $Param{ $Prefix . 'Month' } || $M ),
             Translation => 0,
@@ -3660,7 +3662,7 @@ sub BuildDateSelection {
     else {
         $Param{Month} = "<input type=\"text\" "
             . ( $Validate ? "class=\"Validate_DateMonth $Class\" " : "class=\"$Class\" " )
-            . "name=\"${Prefix}Month\" id=\"${Prefix}Month\" size=\"2\" maxlength=\"2\" "
+            . "name=\"${Prefix}Month${Suffix}\" id=\"${Prefix}Month${Suffix}\" size=\"2\" maxlength=\"2\" "
             . "title=\""
             . $Self->{LanguageObject}->Translate('Month')
             . "\" value=\""
@@ -3671,11 +3673,11 @@ sub BuildDateSelection {
     my $DateValidateClasses = '';
     if ($Validate) {
         $DateValidateClasses
-            .= "Validate_DateDay Validate_DateYear_${Prefix}Year Validate_DateMonth_${Prefix}Month";
+            .= "Validate_DateDay Validate_DateYear_${Prefix}Year${Suffix} Validate_DateMonth_${Prefix}Month${Suffix}";
 
         if ( $Format eq 'DateInputFormatLong' ) {
             $DateValidateClasses
-                .= " Validate_DateHour_${Prefix}Hour Validate_DateMinute_${Prefix}Minute";
+                .= " Validate_DateHour_${Prefix}Hour${Suffix} Validate_DateMinute_${Prefix}Minute${Suffix}";
         }
 
         if ($ValidateDateInFuture) {
@@ -3702,7 +3704,7 @@ sub BuildDateSelection {
     if ( $DateInputStyle eq 'Option' ) {
         my %Day = map { $_ => sprintf( "%02d", $_ ); } ( 1 .. 31 );
         $Param{Day} = $Self->BuildSelection(
-            Name               => $Prefix . 'Day',
+            Name               => $Prefix . 'Day' . $Suffix,
             Data               => \%Day,
             SelectedID         => int( $Param{ $Prefix . 'Day' } || $D ),
             Translation        => 0,
@@ -3716,7 +3718,7 @@ sub BuildDateSelection {
     else {
         $Param{Day} = "<input type=\"text\" "
             . "class=\"$DateValidateClasses $Class\" "
-            . "name=\"${Prefix}Day\" id=\"${Prefix}Day\" size=\"2\" maxlength=\"2\" "
+            . "name=\"${Prefix}Day${Suffix}\" id=\"${Prefix}Day${Suffix}\" size=\"2\" maxlength=\"2\" "
             . "title=\""
             . $Self->{LanguageObject}->Translate('Day')
             . "\" value=\""
@@ -3730,7 +3732,7 @@ sub BuildDateSelection {
         if ( $DateInputStyle eq 'Option' ) {
             my %Hour = map { $_ => sprintf( "%02d", $_ ); } ( 0 .. 23 );
             $Param{Hour} = $Self->BuildSelection(
-                Name       => $Prefix . 'Hour',
+                Name       => $Prefix . 'Hour' . $Suffix,
                 Data       => \%Hour,
                 SelectedID => defined( $Param{ $Prefix . 'Hour' } )
                 ? int( $Param{ $Prefix . 'Hour' } )
@@ -3744,7 +3746,7 @@ sub BuildDateSelection {
         else {
             $Param{Hour} = "<input type=\"text\" "
                 . ( $Validate ? "class=\"Validate_DateHour $Class\" " : "class=\"$Class\" " )
-                . "name=\"${Prefix}Hour\" id=\"${Prefix}Hour\" size=\"2\" maxlength=\"2\" "
+                . "name=\"${Prefix}Hour${Suffix}\" id=\"${Prefix}Hour${Suffix}\" size=\"2\" maxlength=\"2\" "
                 . "title=\""
                 . $Self->{LanguageObject}->Translate('Hours')
                 . "\" value=\""
@@ -3761,7 +3763,7 @@ sub BuildDateSelection {
         if ( $DateInputStyle eq 'Option' ) {
             my %Minute = map { $_ => sprintf( "%02d", $_ ); } map { $_ * $MinuteStep } ( 0 .. ( 60 / $MinuteStep - 1 ) );
             $Param{Minute} = $Self->BuildSelection(
-                Name       => $Prefix . 'Minute',
+                Name       => $Prefix . 'Minute' . $Suffix,
                 Data       => \%Minute,
                 SelectedID => defined( $Param{ $Prefix . 'Minute' } )
                 ? int( $Param{ $Prefix . 'Minute' } )
@@ -3775,7 +3777,7 @@ sub BuildDateSelection {
         else {
             $Param{Minute} = "<input type=\"text\" "
                 . ( $Validate ? "class=\"Validate_DateMinute $Class\" " : "class=\"$Class\" " )
-                . "name=\"${Prefix}Minute\" id=\"${Prefix}Minute\" size=\"2\" maxlength=\"2\" "
+                . "name=\"${Prefix}Minute${Suffix}\" id=\"${Prefix}Minute${Suffix}\" size=\"2\" maxlength=\"2\" "
                 . "title=\""
                 . $Self->{LanguageObject}->Translate('Minutes')
                 . "\" value=\""
@@ -3812,7 +3814,7 @@ sub BuildDateSelection {
         }
         $Output .= "<input type=\"checkbox\" name=\""
             . $Prefix
-            . "Used\" id=\"" . $Prefix . "Used\" value=\"1\""
+            . "Used" . $Suffix . "\" id=\"" . $Prefix . "Used" . $Suffix . "\" value=\"1\""
             . $Checked
             . " class=\"$Class\""
             . " title=\""
@@ -3847,11 +3849,11 @@ sub BuildDateSelection {
     # Add Datepicker JS to output.
     my $DatepickerJS = '
     Core.UI.Datepicker.Init({
-        Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"),
-        Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"),
-        Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"),
-        Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"),
-        Minute: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Minute"),
+    Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"' . ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
+        Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"' . ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
+        Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"' . ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
+        Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"' . ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
+        Minute: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Minute"' . ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
         VacationDays: ' . $VacationDaysJSON . ',
         DateInFuture: ' .    ( $ValidateDateInFuture    ? 'true' : 'false' ) . ',
         DateNotInFuture: ' . ( $ValidateDateNotInFuture ? 'true' : 'false' ) . ',
