@@ -210,13 +210,11 @@ EOF
     $Self->{FilterText} = $ConfigObject->Get('Frontend::Output::FilterText');
 
     # check browser
-    $Self->{Browser}        = 'Unknown';
-    $Self->{BrowserVersion} = 0;
-    $Self->{Platform}       = '';
-    $Self->{IsMobile}       = 0;
-
-    $Self->{BrowserJavaScriptSupport} = 1;
-    $Self->{BrowserRichText}          = 1;
+    $Self->{Browser}         = 'Unknown';
+    $Self->{BrowserVersion}  = 0;
+    $Self->{Platform}        = '';
+    $Self->{IsMobile}        = 0;
+    $Self->{BrowserRichText} = 1;
 
     my $HttpUserAgent = lc( $ParamObject->Header('User-Agent') // '' );
 
@@ -336,14 +334,14 @@ EOF
 
         # w3m
         elsif ( $HttpUserAgent =~ /^w3m.*/ ) {
-            $Self->{Browser}                  = 'w3m';
-            $Self->{BrowserJavaScriptSupport} = 0;
+            $Self->{Browser}         = 'w3m';
+            $Self->{BrowserRichText} = 0;       # as text browsers do not support JavaScript base rich text editors
         }
 
         # lynx
         elsif ( $HttpUserAgent =~ /^lynx.*/ ) {
-            $Self->{Browser}                  = 'Lynx';
-            $Self->{BrowserJavaScriptSupport} = 0;
+            $Self->{Browser}         = 'Lynx';
+            $Self->{BrowserRichText} = 0;        # as text browsers do not support JavaScript base rich text editors
         }
 
         # links
@@ -367,7 +365,7 @@ EOF
     }
 
     # check if rich text can be active
-    if ( !$Self->{BrowserJavaScriptSupport} || !$Self->{BrowserRichText} ) {
+    if ( !$Self->{BrowserRichText} ) {
         $ConfigObject->Set(
             Key   => 'Frontend::RichText',
             Value => 0,
