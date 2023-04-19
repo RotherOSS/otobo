@@ -1042,9 +1042,6 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                     # we know already if the browser supports cookies.
                     # ( the session cookie isn't available at that time ).
 
-                    # Restrict Cookie to HTTPS if it is used.
-                    my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
-
                     my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
                     if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
                         $Expires = '';
