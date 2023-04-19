@@ -155,13 +155,17 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         }
     }
 
-    # get common framework params
+    # Collect object parameters for the Layout object
     my %Param;
+
+    # Get the Session ID in case it was passed as a POST or GET parameter.
     $Param{SessionName} = $ConfigObject->Get('SessionName')                      || 'SessionID';
     $Param{SessionID}   = $ParamObject->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
     my $QueryString = $ParamObject->QueryString() || '';
+
+    # TODO: why is the pattern =.+?; not included ?
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
     # define framework params
@@ -182,8 +186,10 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         delete $Param{Lang};
     }
 
-    # Check if the browser sends the SessionID cookie and set the SessionID-cookie
-    # as SessionID! GET or POST SessionID have the lowest priority.
+    # Check if the browser sent the SessionID cookie and remember the SessionID-cookie
+    # as SessionID! This overrides a potential SessionID sent as GET or POST parameter.
+    # Setting the attribute 'SessionIDCookie' indicates that the value of the
+    # attribute 'SessionID' has been set from a cookie.
     if ( $ConfigObject->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
         if ( $Param{SessionIDCookie} ) {
@@ -191,6 +197,8 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         }
     }
 
+    # Store 'Lang' as object parameter so that the layout object
+    # is able to generate error messages in the chosen language.
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
             Lang         => $Param{Lang},
@@ -204,8 +212,8 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
     # Restrict Cookie to HTTPS if it is used.
     my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
 
+    # Sanity check whether the database is available
     my $DBCanConnect = $Kernel::OM->Get('Kernel::System::DB')->Connect();
-
     if ( !$DBCanConnect || $ParamObject->Error() ) {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ( !$DBCanConnect ) {

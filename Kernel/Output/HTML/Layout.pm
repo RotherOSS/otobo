@@ -581,7 +581,7 @@ sub Redirect {
         $RedirectURL = $Param{ExtURL};
     }
     else {
-        $RedirectURL = $Self->{Baselink};    # the fallback when there in param OP
+        $RedirectURL = $Self->{Baselink};    # the fallback when there is no parameter OP
 
         if ( $Param{OP} ) {
 
