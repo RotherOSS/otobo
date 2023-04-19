@@ -320,11 +320,6 @@ sub EditFieldRender {
         my $ValueItem = $Value->[$ValueIndex];
         $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . ( $ValueIndex ? '_' . $ValueIndex : '' );
 
-        # set values from ParamObject if present
-        if ( defined $ValueItem ) {
-            $Value = $ValueItem;
-        }
-
         my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
             Text => $ValueItem,
         );
