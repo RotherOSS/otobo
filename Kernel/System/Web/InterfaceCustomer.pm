@@ -1035,6 +1035,32 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             );
 
             if ( $PreAuth && $PreAuth->{RedirectURL} ) {
+
+                if ( $ConfigObject->Get('SessionUseCookie') ) {
+
+                    # always set a cookie, so that
+                    # we know already if the browser supports cookies.
+                    # ( the session cookie isn't available at that time ).
+
+                    # Restrict Cookie to HTTPS if it is used.
+                    my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
+
+                    my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
+                    if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
+                        $Expires = '';
+                    }
+
+                    # set a cookie tentatively for checking cookie support
+                    $LayoutObject->SetCookie(
+                        Key      => 'OTOBOBrowserHasCookie',
+                        Value    => 1,
+                        Expires  => $Expires,
+                        Path     => $ConfigObject->Get('ScriptAlias'),
+                        Secure   => $CookieSecureAttribute,
+                        HttpOnly => 1,
+                    );
+                }
+
                 $LayoutObject->Redirect(
                     ExtURL => $PreAuth->{RedirectURL},
                 );    # throws a Kernel::System::Web::Exception
