@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-04-19 12:07+0000\n"
+"PO-Revision-Date: 2023-04-20 20:14+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -22850,6 +22850,9 @@ msgid ""
 "as a variable, OTOBO_CONFIG_FQDN which is found in all forms of messaging "
 "used by the application, to build links to the tickets within your system."
 msgstr ""
+"يحدد اسم المجال المؤهل بالكامل للنظام. يتم استخدام هذا الإعداد كمتغير، "
+"OTOBO_CONFIG_FQDN الموجود في جميع أشكال الرسائل التي يستخدمها التطبيق ، "
+"لإنشاء روابط للتذاكر داخل نظامك."
 
 #. SysConfig
 msgid ""
@@ -22857,196 +22860,247 @@ msgid ""
 "is enabled and you don't want to manage every customer user for these "
 "groups)."
 msgstr ""
+"يتحكم في المجموعات التي تريد أن يكون مستخدم العميل فيها بشكل افتراضي (إذا تم "
+"تمكين CustomerGroupSupport ولا تريد التحكم في كل علاقة مجموعة للمستخدمين "
+"بشكل فردي)."
 
 #. SysConfig
 msgid ""
 "Defines the groups every customer will be in (if CustomerGroupSupport is "
 "enabled and you don't want to manage every customer for these groups)."
 msgstr ""
+"يتحكم في المجموعات التي تريد أن يكون العميل فيها بشكل افتراضي (إذا تم تمكين "
+"CustomerGroupSupport ولا تريد التحكم في كل علاقة مجموعة للعملاء بشكل فردي)."
 
 #. SysConfig
 msgid ""
 "Defines the headers which will be shown to generic content for the requested "
 "key."
-msgstr ""
+msgstr "يحدد الرؤوس التي يتم عرضها للمحتوى العام للقيمة المطلوبة."
 
 #. SysConfig
 msgid ""
 "Defines the height for the rich text editor component for this screen. Enter "
 "number (pixels) or percent value (relative)."
 msgstr ""
+"يحدد ارتفاع مكون محرر النص المنسق. حدد قيمة رقمية (بكسل) أو نسبة مئوية "
+"(نسبية)."
 
 #. SysConfig
 msgid ""
 "Defines the height for the rich text editor component. Enter number (pixels) "
 "or percent value (relative)."
 msgstr ""
+"يتحكم في ارتفاع مكون محرر النص المنسق. أدخل رقمًا (للارتفاع بالبكسل) أو نسبة "
+"مئوية (لارتفاع نسبي)."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the close ticket screen action, which gets "
 "used for ticket history in the agent interface."
-msgstr ""
+msgstr "يتحكم في تعليق محفوظات إجراءات إغلاق التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the email ticket screen action, which gets "
 "used for ticket history in the agent interface."
-msgstr ""
+msgstr "يتحكم في تعليق المحفوظات لتذاكر البريد الإلكتروني في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the phone ticket screen action, which gets "
 "used for ticket history in the agent interface."
-msgstr ""
+msgstr "يتحكم في تعليق المحفوظات لتذكرة الهاتف في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket free text screen action, which "
 "gets used for ticket history."
-msgstr ""
+msgstr "يتحكم في تعليق المحفوظات لإجراء النص الحر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket note screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"يحدد تعليق المحفوظات لإجراء شاشة ملاحظة التذاكر، والذي يتم استخدامه لمحفوظات "
+"التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket owner screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"يحدد تعليق المحفوظات لإجراء \"مالك التذكرة\" الذي يتم عرضه في محفوظات "
+"التذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket pending screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"يحدد تعليق المحفوظات لإجراء \"انتظار التذكير\"، والذي يتم عرضه في سجل "
+"التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket phone inbound screen action, "
 "which gets used for ticket history in the agent interface."
 msgstr ""
+"يحدد تعليق المحفوظات لإجراء \"مكالمة هاتفية واردة\"، والذي يتم عرضه في "
+"محفوظات التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket phone outbound screen action, "
 "which gets used for ticket history in the agent interface."
 msgstr ""
+"يحدد تعليق المحفوظات لإجراء \"مكالمة هاتفية صادرة\"، والذي يتم عرضه في "
+"محفوظات التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket priority screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
+"يحدد تعليق المحفوظات لإجراء \"أولوية التذكرة\"، والذي يتم عرضه في محفوظات "
+"التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket responsible screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
+"يحدد تعليق السجل لإجراء \"مالك التذكرة\"، والذي يتم عرضه في سجل التذاكر في "
+"واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket zoom action, which gets used for "
 "ticket history in the customer interface."
 msgstr ""
+"يحدد تعليق المحفوظات لإجراء \"انتظار التذكير\"، والذي يتم عرضه في سجل "
+"التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for this operation, which gets used for ticket "
 "history in the agent interface."
 msgstr ""
+"يحدد تعليق المحفوظات لهذه العملية المستخدمة لتاريخ التذاكر في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the close ticket screen action, which gets used "
 "for ticket history in the agent interface."
 msgstr ""
+"يعرف نوع المحفوظات للإجراء \"إقفال التذاكر\"، المستخدم لتاريخ التذاكر في "
+"واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the email ticket screen action, which gets used "
 "for ticket history in the agent interface."
 msgstr ""
+"يحدد نوع السجل لإجراء \"تذكرة بريد إلكتروني جديدة\"، والذي يتم استخدامه "
+"لمحفوظات التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the phone ticket screen action, which gets used "
 "for ticket history in the agent interface."
 msgstr ""
+"يحدد نوع السجل لإجراء \"تذكرة هاتف جديدة\"، والذي يتم استخدامه لمحفوظات "
+"التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket free text screen action, which gets "
 "used for ticket history."
 msgstr ""
+"يحدد نوع السجل لإجراء \"Ticket FreeText\" ، والذي يتم استخدامه لتاريخ "
+"التذاكر في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket note screen action, which gets used "
 "for ticket history in the agent interface."
 msgstr ""
+"يحدد نوع السجل لإجراء \"ملاحظة التذكرة\"، والذي يستخدم لتاريخ التذاكر في "
+"واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket owner screen action, which gets used "
 "for ticket history in the agent interface."
 msgstr ""
+"يحدد نوع السجل لإجراء \"مالك التذكرة\"، والذي يتم استخدامه لسجل التذاكر في "
+"واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket pending screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"يحدد نوع السجل لإجراء \"انتظار التذكير\"، والذي يتم استخدامه لمحفوظات "
+"التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket phone inbound screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
+"يحدد نوع السجل لإجراء \"مكالمة هاتفية واردة\"، والذي يتم استخدامه لسجل "
+"التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket phone outbound screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
+"يحدد نوع السجل لإجراء \"مكالمة هاتفية صادرة\"، والذي يتم استخدامه لتاريخ "
+"التذاكر في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket priority screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"يحدد نوع السجل لإجراء \"أولوية التذكرة\"، والذي يتم استخدامه لمحفوظات "
+"التذاكر في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket responsible screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
+"يعرف نوع المحفوظات للإجراء \"مسؤولية التذاكر\"، الذي يتم إستخدامه لتاريخ "
+"التذاكر في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket zoom action, which gets used for "
 "ticket history in the customer interface."
 msgstr ""
+"يحدد نوع سجل إجراءات تكبير التذاكر المستخدم لسجل التذاكر في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the history type for this operation, which gets used for ticket "
 "history in the agent interface."
 msgstr ""
+"يحدد نوع السجل لهذه العملية، والذي يتم استخدامه لمحفوظات التذكرة في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the hours and week days of the indicated calendar, to count the "
 "working time."
-msgstr ""
+msgstr "يحدد ساعات وأيام الأسبوع من التقويم المحدد لقياس وقت العمل."
 
 #. SysConfig
 msgid "Defines the hours and week days to count the working time."
-msgstr ""
+msgstr "يحدد فترة وأيام الأسبوع التي يتم احتسابها كوقت عمل."
 
 #. SysConfig
 msgid ""
