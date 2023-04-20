@@ -848,7 +848,7 @@ sub ReadableValueRender {
         @Values = ( $Param{Value} );
     }
 
-    # set new line separator
+    # set item separator
     my $ItemSeparator = ', ';
 
     # Output transformations
