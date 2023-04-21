@@ -59,6 +59,7 @@ sub ValueGet {
     return if !IsArrayRefWithData($DFValue);
     return if !IsHashRefWithData( $DFValue->[0] );
 
+    # return array when field is multivalue
     if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
         my @ReturnData;
         for my $Item ( @{$DFValue} ) {
@@ -74,6 +75,7 @@ sub ValueGet {
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
+    # transform value data type
     my @Values;
     if ( ref $Param{Value} eq 'ARRAY' ) {
         @Values = @{ $Param{Value} };
@@ -82,6 +84,7 @@ sub ValueSet {
         @Values = ( $Param{Value} );
     }
 
+    # convert data into needed structure
     my @ValueDateTime = map { { ValueDateTime => $_ } } @Values;
 
     my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
@@ -94,6 +97,7 @@ sub ValueSet {
     return $Success;
 }
 
+# TODO Rewrite for multivalue use
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
@@ -198,7 +202,7 @@ sub EditFieldRender {
         $Value = $Param{Value};
     }
 
-    if ( !IsArrayRefWithData($Value) ) {
+    if ( !ref $Value ) {
         $Value = [ $Value ];
     }
 
@@ -274,14 +278,11 @@ sub EditFieldRender {
         }
     }
 
-    my %FieldTemplateData = (
-        'DivID'             => $FieldName,
-    );
+    my %FieldTemplateData = ();
 
     if ( $Param{Mandatory} ) {
 
         $FieldTemplateData{Mandatory}            = $Param{Mandatory};
-        $FieldTemplateData{DivIDMandatory}       = $FieldName . 'UsedError';
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
 
     }
@@ -290,7 +291,7 @@ sub EditFieldRender {
 
         $FieldTemplateData{ServerError}      = $Param{ServerError};
         $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivIDServerError} = $FieldName . 'UsedServerError';
+
     }
 
     my $FieldTemplateFile = 'DynamicField/Agent/BaseDateTime';
@@ -301,7 +302,11 @@ sub EditFieldRender {
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#ValueParts ) {
 
-        my $Suffix = $ValueIndex ? '_' . $ValueIndex : '';
+        my $Suffix                           = $ValueIndex ? '_' . $ValueIndex : '';
+        $FieldTemplateData{DivID}            = $FieldName . $Suffix;
+        $FieldTemplateData{DivIDMandatory}   = $FieldName . 'UsedError' . $Suffix;
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'UsedServerError' . $Suffix;
+
         my $DateSelectionHTML = $Param{LayoutObject}->BuildDateSelection(
             %Param,
             Prefix                => $FieldName,
@@ -329,6 +334,10 @@ sub EditFieldRender {
 
     my $TemplateHTML;
     if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+
+        $FieldTemplateData{DivID}            = $FieldName . '_Template';
+        $FieldTemplateData{DivIDMandatory}   = $FieldName . 'UsedError_Template';
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'UsedServerError_Template';
 
         my $DateSelectionHTML = $Param{LayoutObject}->BuildDateSelection(
             %Param,
@@ -399,9 +408,11 @@ sub EditFieldValueGet {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
             my @DataAll = ();
             my %FetchedData;
+            # retrieve value parts as arrays
             for my $Type (qw(Used Year Month Day Hour Minute)) {
                 $FetchedData{ $Type }->@* = $Param{ParamObject}->GetArray( Param => $Prefix . $Type );
             }
+            # transform value arrays into rows
             for my $Index ( 0 .. $#{ $FetchedData{Used} } ) {
                 my %ValueRow;
                 for my $Type (qw(Used Year Month Day Hour Minute)) {
@@ -420,6 +431,7 @@ sub EditFieldValueGet {
         }
     }
 
+    # check for emptiness
     if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
         my $IsEmpty = 1;
         for my $ValueData ( $DynamicFieldValues->@* ) {
