@@ -657,6 +657,7 @@ Core.AJAX = (function (TargetNS) {
                     return;
                 }
 
+                // TODO MultiValue Think about a solution to transfer unchecked value
                 if ($(this).is(':checkbox, :radio')) {
                     if ($(this).is(':checked')) {
                         QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || 'on') + ";";
