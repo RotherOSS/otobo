@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-04-20 20:14+0000\n"
+"PO-Revision-Date: 2023-04-21 14:17+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -23107,12 +23107,17 @@ msgid ""
 "Defines the key to be checked with Kernel::Modules::AgentInfo module. If "
 "this user preferences key is true, the message is accepted by the system."
 msgstr ""
+"يحدد المفتاح الذي تم تحديده باستخدام الوحدة النمطية Kernel::Modules::"
+"AgentInfo. إذا كان مفتاح تفضيلات المستخدم هذا \"صحيح\"، فسيتم قبول الرسالة "
+"من قبل النظام."
 
 #. SysConfig
 msgid ""
 "Defines the key to check with CustomerAccept. If this user preferences key "
 "is true, then the message is accepted by the system."
 msgstr ""
+"تحديد المفتاح المراد التحقق منه مع CustomerAccept. إذا كان مفتاح تفضيلات "
+"المستخدم هذا صحيحا، فسيتم قبول الرسالة من قبل النظام."
 
 #. SysConfig
 msgid ""
@@ -23120,6 +23125,8 @@ msgid ""
 "contain the same value, the resulting link is a non-directional one; "
 "otherwise, the result is a directional link."
 msgstr ""
+"يحدد نوع الرابط \"عادي\". إذا كان اسم المصدر هو نفس اسم الوجهة، فإن الرابط "
+"الناتج هو رابط غير اتجاهي؛ خلاف ذلك، فإن النتيجة هي ارتباط اتجاهي."
 
 #. SysConfig
 msgid ""
@@ -23127,6 +23134,8 @@ msgid ""
 "contain the same value, the resulting link is a non-directional one; "
 "otherwise, the result is a directional link."
 msgstr ""
+"يحدد نوع الارتباط \"ParentChild\". إذا كان اسمي المصدر والهدف يحتويان على "
+"نفس القيمة، يكون الارتباط غير اتجاهي. خلاف ذلك، فإن النتيجة هي ارتباط اتجاهي."
 
 #. SysConfig
 msgid ""
@@ -23135,6 +23144,9 @@ msgid ""
 "then these tickets could not be additionally linked with link of a "
 "'ParentChild' relationship."
 msgstr ""
+"تعريف مختلف خيارات الربط. أنواع الارتباط من نفس المجموعة حصرية بشكل متبادل. "
+"على سبيل المثال، إذا كانت التذكرة \"أ\" مرتبطة بالنوع \"عادي\" بالتذكرة \"ب\""
+"، فلا يمكن ربط هاتين التذاكر بنوع \"ParentChild\"."
 
 #. SysConfig
 msgid ""
@@ -23142,33 +23154,42 @@ msgid ""
 "as repository, for example: Key=\"http://example.com/otobo/public.pl?"
 "Action=PublicRepository;File=\" and Content=\"Some Name\"."
 msgstr ""
+"تعريف قائمة المستودعات عبر الإنترنت. يمكن إستخدام عمليات تثبيت أخرى كمستودع، "
+"على سبيل المثال: Key=\"http://example.com/otobo/public."
+"pl?Action=PublicRepository;File=\" و Content=\"Some Name\"."
 
 #. SysConfig
 msgid ""
 "Defines the list of params that can be passed to ticket search function."
-msgstr ""
+msgstr "يحدد قائمة المعلمات التي يمكن تمريرها إلى وظيفة البحث عن التذاكر."
 
 #. SysConfig
 msgid ""
 "Defines the list of possible next actions on an error screen, a full path is "
 "required, then is possible to add external links if needed."
 msgstr ""
+"يحدد قائمة إجراءات المتابعة المحتملة في عرض الأخطاء. باستخدام مسار كامل، "
+"يمكنك إدراج روابط خارجية إذا لزم الأمر."
 
 #. SysConfig
 msgid "Defines the list of types for templates."
-msgstr ""
+msgstr "يحدد قائمة الأنواع للقوالب."
 
 #. SysConfig
 msgid ""
 "Defines the location to get online repository list for additional packages. "
 "The first available result will be used."
 msgstr ""
+"تحديد عنوان قائمة المستودع عبر الإنترنت للحزم الإضافية. سيتم إستخدام النتيجة "
+"الأولى المتوفرة."
 
 #. SysConfig
 msgid ""
 "Defines the log module for the system. \"File\" writes all messages in a "
 "given logfile, \"SysLog\" uses the syslog daemon of the system, e.g. syslogd."
 msgstr ""
+"يحدد وحدة السجل للنظام. يكتب \"ملف\" جميع الرسائل إلى ملف السجل المحدد، "
+"ويستخدم \"SysLog\" البرنامج الخفي لسجل النظام، على سبيل المثال syslogd."
 
 #. SysConfig
 msgid ""
@@ -23177,134 +23198,171 @@ msgid ""
 "masks in your OTOBO instance to stop working (probably any mask which takes "
 "input from the user)."
 msgstr ""
+"يحدد الحد الأقصى للحجم (بالبايت) لتحميل الملفات باستخدام المستعرض. انتباه: "
+"إذا اخترت الحجم صغيرا جدا، فلن تتمكن العديد من أقنعة الإدخال من العمل في "
+"مثيل OTOBO الخاص بك (من المفترض أن يكون أي قناع يتوقع إدخال المستخدم)."
 
 #. SysConfig
 msgid "Defines the maximal valid time (in seconds) for a session id."
-msgstr ""
+msgstr "يحدد الحد الأقصى لوقت الصلاحية (بالثواني) لمعرف الجلسة."
 
 #. SysConfig
 msgid "Defines the maximum number of affected tickets per job."
-msgstr ""
+msgstr "تحديد الحد الأقصى لعدد التذاكر المتأثرة لكل وظيفة."
 
 #. SysConfig
 msgid "Defines the maximum number of pages per PDF file."
-msgstr ""
+msgstr "يحدد الحد الأقصى لعدد الصفحات لكل ملف PDF."
 
 #. SysConfig
 msgid "Defines the maximum number of quoted lines to be added to responses."
-msgstr ""
+msgstr "يضبط الحد الأقصى لعدد الصفوف المقتبسة التي تمت إضافتها إلى الإجابات."
 
 #. SysConfig
 msgid "Defines the maximum number of tasks to be executed as the same time."
-msgstr ""
+msgstr "يحدد الحد الأقصى لعدد المهام المتزامنة."
 
 #. SysConfig
 msgid "Defines the maximum size (in MB) of the log file."
-msgstr ""
+msgstr "يحدد الحد الأقصى لحجم ملف السجل (بالميغابايت)."
 
 #. SysConfig
 msgid ""
 "Defines the maximum size in KiloByte of GenericInterface responses that get "
 "logged to the gi_debugger_entry_content table."
 msgstr ""
+"يحدد الحد الأقصى للحجم بالكيلو بايت من استجابات GenericInterface التي يتم "
+"تسجيلها في الجدول gi_debugger_entry_content."
 
 #. SysConfig
 msgid ""
 "Defines the module that shows all the currently logged in agents in the "
 "agent interface."
 msgstr ""
+"يحدد الوحدة النمطية التي تعرض جميع الوكلاء الذين قاموا بتسجيل الدخول حاليا "
+"في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the module that shows all the currently logged in customers in the "
 "agent interface."
 msgstr ""
+"يحدد الوحدة النمطية التي تعرض جميع العملاء الذين قاموا بتسجيل الدخول حاليا "
+"في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the module that shows the currently logged in agents in the customer "
 "interface."
 msgstr ""
+"يحدد الوحدة النمطية التي تعرض جميع الوكلاء الذين قاموا بتسجيل الدخول حاليا "
+"إلى منطقة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the module that shows the currently logged in customers in the "
 "customer interface."
 msgstr ""
+"يحدد الوحدة النمطية التي تعرض جميع العملاء الذين قاموا بتسجيل الدخول حاليا "
+"في منطقة العميل."
 
 #. SysConfig
 msgid "Defines the module to authenticate customers."
-msgstr ""
+msgstr "يحدد الوحدة النمطية لمصادقة العملاء."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface if the "
 "OTOBO Daemon is not running."
 msgstr ""
+"يحدد الوحدة النمطية التي تعرض إعلاما في منطقة العامل عندما لا يكون OTOBO "
+"Daemon قيد التشغيل."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface if the "
 "system configuration is out of sync."
 msgstr ""
+"تحديد الوحدة النمطية التي تعرض إخطارا في منطقة العميل إذا لم تتم مزامنة "
+"تكوين النظام."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent has not yet selected a time zone."
 msgstr ""
+"يحدد الوحدة النمطية التي تعرض إخطارا في منطقة العميل إذا لم يقم الوكيل بعد "
+"بتعيين منطقة زمنية."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent is logged in while having out-of-office active."
 msgstr ""
+"يعرف الوحدة النمطية التي تعرض إخطارا في واجهة البرنامج العميل عند تسجيل دخول "
+"العميل أثناء تنشيط وظيفة \"خارج المكتب\"."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent is logged in while having system maintenance active."
 msgstr ""
+"يحدد الوحدة النمطية التي تعرض إعلاما في واجهة العامل عند تسجيل دخول وكيل "
+"أثناء تنشيط صيانة النظام."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent session limit prior warning is reached."
 msgstr ""
+"يعرف الوحدة النمطية التي تعرض إخطارا في منطقة العميل عند الوصول إلى الحد "
+"الأقصى لجلسة عمل الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "system is used by the admin user (normally you shouldn't work as admin)."
 msgstr ""
+"تحديد الوحدة النمطية التي تعرض إخطارا في منطقة العميل عند إستخدام النظام مع "
+"مستخدم مسؤول (عادة لا يجب عليك العمل كمسؤول)."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if "
 "there are invalid sysconfig settings deployed."
 msgstr ""
+"تعريف الوحدة النمطية لعرض إعلام في واجهة الوكيل، في حالة نشر إعدادات التكوين "
+"غير صالحة."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if "
 "there are modified sysconfig settings that are not deployed yet."
 msgstr ""
+"يحدد الوحدة النمطية التي تعرض إعلاما في منطقة العامل عند ضبط إعدادات التكوين "
+"ولكن لم يتم تشغيلها بعد."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the customer interface, if "
 "the customer is logged in while having system maintenance active."
 msgstr ""
+"يحدد الوحدة النمطية التي تعرض إشعارا في منطقة العميل عند تسجيل دخول العميل "
+"أثناء صيانة النظام."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the customer interface, if "
 "the customer user has not yet selected a time zone."
 msgstr ""
+"تحديد الوحدة التي تعرض إخطارا في منطقة العميل إذا لم يقم العميل بعد بتعيين "
+"منطقة زمنية."
 
 #. SysConfig
 msgid "Defines the module to generate code for periodic page reloads."
 msgstr ""
+"يعرف الوحدة النمطية لإنشاء التعليمات البرمجية عند إعادة تحميل الصفحات بشكل "
+"دوري."
 
 #. SysConfig
 msgid ""
@@ -23314,6 +23372,11 @@ msgid ""
 "\"Test\" doesn't send emails, but writes them to $OTOBO_HOME/var/tmp/"
 "CacheFileStorable/EmailTest/ for testing purposes."
 msgstr ""
+"يحدد الوحدة النمطية لإرسال رسائل البريد الإلكتروني. \"DoNotSendEmail\" لا "
+"يرسل أي رسائل بريد إلكتروني على الإطلاق. تستخدم كل آلية من آليات \"SMTP\" "
+"خادم بريد (خارجي) محدد. يستخدم \"Sendmail\" مباشرة ثنائي sendmail لنظام "
+"التشغيل الخاص بك. لا يرسل \"اختبار\" رسائل البريد الإلكتروني، ولكنه يكتبها "
+"إلى $OTOBO_HOME/var/tmp/CacheFileStorable/EmailTest/ لأغراض الاختبار."
 
 #. SysConfig
 msgid ""
