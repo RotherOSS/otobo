@@ -288,18 +288,18 @@ sub EditFieldRender {
         for my $ValueItem ( $FieldValue->@* ) {
             if ( defined $ValueItem && IsHashRefWithData($ValueItem) ) {
                 if (
-                    !defined $FieldValue->{FieldValue}
-                    && defined $FieldValue->{UsedValue}
-                    && $FieldValue->{UsedValue} eq '1'
+                    !defined $ValueItem->{FieldValue}
+                    && defined $ValueItem->{UsedValue}
+                    && $ValueItem->{UsedValue} eq '1'
                     )
                 {
                     push $Value->@*, '0';
                 }
                 elsif (
-                    defined $FieldValue->{FieldValue}
-                    && $FieldValue->{FieldValue} eq '1'
-                    && defined $FieldValue->{UsedValue}
-                    && $FieldValue->{UsedValue} eq '1'
+                    defined $ValueItem->{FieldValue}
+                    && $ValueItem->{FieldValue} eq '1'
+                    && defined $ValueItem->{UsedValue}
+                    && $ValueItem->{UsedValue} eq '1'
                     )
                 {
                     push $Value->@*, '1';

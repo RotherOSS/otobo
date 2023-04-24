@@ -192,8 +192,8 @@ sub EditSectionRender {
 
             # set errors if present
             my %Error;
-            if ( $Param{Errors}{ $DFName } ) {
-                %Error = $Param{Errors}{ $DFName }->%*;
+            if ( $Param{Errors}{ $DynamicField->{Name} } ) {
+                %Error = $Param{Errors}{ $DynamicField->{Name} }->%*;
             }
 
             # fill dynamic field values with empty strings until it matches the maximum value count
