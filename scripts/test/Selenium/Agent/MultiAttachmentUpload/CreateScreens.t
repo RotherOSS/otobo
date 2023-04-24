@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -178,13 +178,15 @@ $Selenium->RunTest(
 
             my $Count = 2;
 
-            # Remove the existing files.
+            # Remove the two existing files.
             for my $DeleteExtension (qw(doc pdf)) {
 
-                # Delete Attachment.
-                $Selenium->find_element( "(//a[\@class='AttachmentDelete'])[$Count]", 'xpath' )->click();
+                # Delete attachment.
+                # There had been sporadic errros when selecting the trashbin with
+                # the XPath selector (//a[\@class='AttachmentDelete'])[$Count].
+                # Therefore a css selector is used here.
+                ( $Selenium->find_elements( 'a.AttachmentDelete', 'css' ) )[ $Count - 1 ]->click();
                 $Count--;
-                sleep 2;
 
                 # Wait until attachment is deleted.
                 $Selenium->WaitFor(
@@ -198,7 +200,6 @@ $Selenium->RunTest(
                     ),
                     "$Action - Upload '$DeleteExtension' file deleted"
                 );
-                sleep 1;
             }
 
             # Limit the max size per file (to 6 KB).
