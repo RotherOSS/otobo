@@ -1013,25 +1013,26 @@ sub GetDatabaseFunction {
 generate database-specific sql syntax (e. g. CREATE TABLE ...)
 
     my @SQL = $DBObject->SQLProcessor(
-        Database =>
-            [
+        Database => [
+            {
                 Tag  => 'TableCreate',
                 Name => 'table_name',
-            ],
-            [
+            },
+            {
                 Tag  => 'Column',
                 Name => 'col_name',
                 Type => 'VARCHAR',
                 Size => 150,
-            ],
-            [
+            },
+            {
                 Tag  => 'Column',
                 Name => 'col_name2',
                 Type => 'INTEGER',
-            ],
-            [
+            },
+            {
                 Tag => 'TableEnd',
-            ],
+            },
+        ]
     );
 
 =cut

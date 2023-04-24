@@ -18,6 +18,7 @@ package Kernel::System::Storage::S3;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
 # core modules
@@ -62,7 +63,7 @@ Create bucket on Docker host with:
 
 create a new object.
 
-    my $StorageS3Object = Kernel::System::Storage::S3->new();
+    my $StorageS3Object = Kernel::System::Storage::S3->new;
 
 But syncing from S3 is also required in the constructor of Kernel::Config object. And this constructor wants to use the config object,
 meaning that we have a bootstrapping problem. Therefore we have the parameter ConfigObject, where we can pass in a partly built Kernel::Config object.
@@ -257,7 +258,16 @@ sub StoreObject {
     # run blocking request
     $Self->{UserAgent}->start($Transaction);
 
+    # $Transaction->result is a Mojo::Message::Response object
     return $Param{Key} if $Transaction->result->is_success;
+
+    # log the error message
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Message  => $Transaction->result->body,
+        Priority => 'error',
+    );
+
+    # returning an empty list indicates an error
     return;
 }
 
@@ -375,7 +385,17 @@ sub RetrieveObject {
     # run blocking request
     $Self->{UserAgent}->start($Transaction);
 
-    return unless $Transaction->result->is_success;
+    if ( !$Transaction->result->is_success ) {
+
+        # log the error message
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Message  => $Transaction->result->body,
+            Priority => 'error',
+        );
+
+        # returning an empty list indicates an error
+        return;
+    }
 
     my %Data;
 
@@ -450,7 +470,8 @@ sub RetrieveObject {
 
 =head2 SaveObjectToFile()
 
-to be documented
+saves an object in S3 to the file system. Touches the saved file so that it has
+the same timestamp as the S3 object.
 
 =cut
 
@@ -484,6 +505,18 @@ sub SaveObjectToFile {
 
     # run blocking request
     $Self->{UserAgent}->start($Transaction);
+
+    if ( !$Transaction->result->is_success ) {
+
+        # log the error message
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Message  => $Transaction->result->body,
+            Priority => 'error',
+        );
+
+        # returning an empty list indicates an error
+        return;
+    }
 
     # Do not use the Kernel::System::Main in Kernel/Config/Defaults
     make_path( dirname( $Param{Location} ) );
@@ -535,7 +568,17 @@ sub DiscardObject {
     # run blocking request
     $Self->{UserAgent}->start($Transaction);
 
-    return 1 if $Transaction->result->is_success;    # success is indicated even when no object was deleted
+    # $Transaction->result is a Mojo::Message::Response object
+    # success is indicated even when no object was deleted
+    return 1 if $Transaction->result->is_success;
+
+    # log the error message
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Message  => $Transaction->result->body,
+        Priority => 'error',
+    );
+
+    # returning an empty list indicates an error
     return;
 }
 

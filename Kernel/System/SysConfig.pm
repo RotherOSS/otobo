@@ -397,12 +397,12 @@ sub SettingGet {
 
 =head2 SettingUpdate()
 
-Update an existing SysConfig Setting.
+Update an existing SysConfig setting.
 
     my %Result = $SysConfigObject->SettingUpdate(
         Name                   => 'Setting::Name',           # (required) setting name
         IsValid                => 1,                         # (optional) 1 or 0, modified 0
-        EffectiveValue         => $SettingEffectiveValue,    # (optional)
+        EffectiveValue         => $SettingEffectiveValue,    # (optional) only needed when IsValid is turned on
         UserModificationActive => 0,                         # (optional) 1 or 0, modified 0
         TargetUserID           => 2,                         # (optional) ID of the user for which the modified setting is meant,
                                                              #   leave it undef for global changes.
@@ -4717,7 +4717,7 @@ This method locks provided settings(by force), updates them and deploys the chan
         Settings => [                                       # (required) List of settings to update.
             {
                 Name                   => 'Setting::Name',  # (required)
-                EffectiveValue         => 'Value',          # (optional)
+                EffectiveValue         => 'Value',          # (optional) only needed when IsValid is turned on
                 IsValid                => 1,                # (optional)
                 UserModificationActive => 1,                # (optional)
             },
@@ -4762,10 +4762,10 @@ sub SettingsSet {
             UserID => $Param{UserID},
         );
 
-        return if !$ExclusiveLockGUID;
+        return unless $ExclusiveLockGUID;
 
         my %UpdateResult = $Self->SettingUpdate(
-            %{$Setting},
+            $Setting->%*,
             ExclusiveLockGUID => $ExclusiveLockGUID,
             UserID            => $Param{UserID},
         );
@@ -4933,7 +4933,10 @@ sub OverriddenFileNameGet {
 
 =head2 GlobalEffectiveValueGet()
 
-Returns global effective value for provided setting name.
+Creates a new instance of C<Kernel::Config>. The creation of the object includes reloading the files in F<Kernel::Config::Files>
+and reloading the configured Autoload modules.
+Returns global effective value for provided setting name. In the parameter C<SettingName>
+the string C<'####'> is used as a level separator.
 
     my $EffectiveValue = $SysConfigObject->GlobalEffectiveValueGet(
         SettingName    => 'Setting::Name',  # (required)
@@ -4958,18 +4961,20 @@ sub GlobalEffectiveValueGet {
     }
 
     my $GlobalConfigObject = Kernel::Config->new();
-
     my $LoadedEffectiveValue;
-
-    my @SettingStructure = split /###/, $Param{SettingName};
-    for my $Key (@SettingStructure) {
+    for my $Key ( split /###/, $Param{SettingName} ) {
         if ( !defined $LoadedEffectiveValue ) {
 
             # first iteration
             $LoadedEffectiveValue = $GlobalConfigObject->Get($Key);
         }
         elsif ( ref $LoadedEffectiveValue eq 'HASH' ) {
+
+            # descending one level into the setting data structure
             $LoadedEffectiveValue = $LoadedEffectiveValue->{$Key};
+        }
+        else {
+            # additional levels are silently ignored
         }
     }
 
@@ -5028,7 +5033,7 @@ sub _IsOverriddenInModule {
     );
 
     if ( $Param{Module} eq 'Kernel::Config' ) {
-        bless( $OverriddenSettings, 'Kernel::Config' );
+        bless $OverriddenSettings, 'Kernel::Config';
         $OverriddenSettings->Load();
     }
     else {
