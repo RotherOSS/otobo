@@ -515,7 +515,7 @@ sub EditFieldValueGet {
                 # complete the rest of the date with 0s to have a valid Date/Time value
                 # add seconds, as 0 to the DynamicFieldValues hash
                 for my $Type (qw(Hour Minute Second)) {
-                    $ValueRow{$Type} = 0;
+                    $ValueRow{ $Prefix . $Type } = '0';
                 }
                 push @DataAll, \%ValueRow;
             }
@@ -660,7 +660,7 @@ sub EditFieldValueValidate {
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
     my $SystemTime     = $DateTimeObject->ToEpoch();
     for my $ValueItem ( $Value->@* ) {
-        if ( $$ValueItem->{ $Prefix . 'Used' } && $DateRestriction ) {
+        if ( $ValueItem->{ $Prefix . 'Used' } && $DateRestriction ) {
 
             my $Year   = $$ValueItem->{ $Prefix . 'Year' }   || '0000';
             my $Month  = $$ValueItem->{ $Prefix . 'Month' }  || '00';
