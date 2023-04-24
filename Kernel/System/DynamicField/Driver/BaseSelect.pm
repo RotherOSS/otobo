@@ -83,7 +83,8 @@ sub ValueSet {
     }
 
     my @ValueText;
-    for my $Value ( @Values ) {
+    for my $Value (@Values) {
+
         # check for valid possible values list
         if ( !$Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -118,7 +119,7 @@ sub ValueValidate {
     }
 
     my $Success;
-    for my $Value ( @Values ) {
+    for my $Value (@Values) {
         $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
             Value => {
                 ValueText => $Param{Value},
@@ -226,7 +227,7 @@ sub EditFieldRender {
     }
 
     if ( !ref $Value ) {
-        $Value = [ $Value ];
+        $Value = [$Value];
     }
 
     # check and set class if necessary
@@ -292,14 +293,14 @@ sub EditFieldRender {
         ? 'DynamicField/Customer/BaseSelect' : 'DynamicField/Agent/BaseSelect';
 
     my @ResultHTML;
-    for my $ValueIndex ( 0 .. $#{ $Value } ) {
+    for my $ValueIndex ( 0 .. $#{$Value} ) {
         my $FieldID = $ValueIndex ? $FieldName . '_' . $ValueIndex : $FieldName;
 
         # TODO: is this necessary?
         my $DataValues = $Self->BuildSelectionDataGet(
             DynamicFieldConfig => $Param{DynamicFieldConfig},
             PossibleValues     => $PossibleValues,
-            Value              => $Value->[ $ValueIndex ],
+            Value              => $Value->[$ValueIndex],
         );
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
@@ -307,7 +308,7 @@ sub EditFieldRender {
             Disabled    => $Param{ReadOnly},
             Name        => $FieldName,
             ID          => $FieldID,
-            SelectedID  => $Value->[ $ValueIndex ],
+            SelectedID  => $Value->[$ValueIndex],
             Translation => $FieldConfig->{TranslatableValues} || 0,
             Class       => $FieldClass,
             Size        => $Size,
@@ -325,6 +326,7 @@ sub EditFieldRender {
 
     my $TemplateHTML;
     if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+
         # TODO: is this necessary?
         my $DataValues = $Self->BuildSelectionDataGet(
             DynamicFieldConfig => $Param{DynamicFieldConfig},
@@ -390,7 +392,7 @@ EOF
     };
 
     if ( $FieldConfig->{MultiValue} ) {
-        $Data->{MultiValue}    = \@ResultHTML;
+        $Data->{MultiValue}         = \@ResultHTML;
         $Data->{MultiValueTemplate} = $TemplateHTML;
     }
     else {
@@ -424,7 +426,7 @@ sub EditFieldValueGet {
 
             # delete empty values (can happen if the user has selected the "-" entry)
             my $Index = 0;
-            for my $Item ( @DataAll ) {
+            for my $Item (@DataAll) {
                 push @Data, $Item // '';
             }
             $Value = \@Data;
@@ -462,7 +464,7 @@ sub EditFieldValueValidate {
     my $ValueCount = $Param{ValueCount} || 1;
 
     if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        $Value = [ $Value ];
+        $Value = [$Value];
     }
 
     if ( $Param{Mandatory} && ( $ValueCount > scalar $Value->@* ) ) {
@@ -471,7 +473,8 @@ sub EditFieldValueValidate {
         };
     }
 
-    for my $ValueItem ( @{ $Value } ) {
+    for my $ValueItem ( @{$Value} ) {
+
         # perform necessary validations
         if ( $Param{Mandatory} && !$ValueItem ) {
             return {
@@ -524,7 +527,7 @@ sub DisplayValueRender {
     }
 
     my @ReadableValues;
-    for my $ValueItem ( @Values ) {
+    for my $ValueItem (@Values) {
 
         $ValueItem //= '';
 

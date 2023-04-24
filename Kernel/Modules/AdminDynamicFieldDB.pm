@@ -632,7 +632,7 @@ sub _ShowScreen {
     );
 
     my $MultiValueStrg = $LayoutObject->BuildSelection(
-        Data       => {
+        Data => {
             0 => Translatable('No'),
             1 => Translatable('Yes'),
         },
@@ -1089,7 +1089,7 @@ sub _GetPossibleValues {
         $ValueListfield     = ( defined $ValueListfield     ? $ValueListfield     : '' );
 
         # Check for removed values.
-        if ( !IsStringWithData( $ValueFieldName ) || !IsStringWithData( $ValueFieldLabel ) || !IsStringWithData( $ValueFieldDatatype ) ) {
+        if ( !IsStringWithData($ValueFieldName) || !IsStringWithData($ValueFieldLabel) || !IsStringWithData($ValueFieldDatatype) ) {
             next VALUEINDEX;
         }
 

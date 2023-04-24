@@ -126,8 +126,6 @@ sub _AddAction {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
-
-
     if ( $GetParam{FieldOrder} ) {
 
         # check if field order is numeric and positive
@@ -646,7 +644,7 @@ sub _ShowScreen {
     );
 
     my $MultiValueStrg = $LayoutObject->BuildSelection(
-        Data       => {
+        Data => {
             0 => Translatable('No'),
             1 => Translatable('Yes'),
         },

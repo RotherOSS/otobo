@@ -654,7 +654,7 @@ sub _ShowScreen {
     );
 
     my $MultiValueStrg = $LayoutObject->BuildSelection(
-        Data       => {
+        Data => {
             0 => Translatable('No'),
             1 => Translatable('Yes'),
         },
@@ -681,8 +681,6 @@ sub _ShowScreen {
             },
         );
     }
-
-
 
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 

@@ -586,7 +586,7 @@ sub _ShowScreen {
 
     # create translatable values option list
     my $MultiValueStrg = $LayoutObject->BuildSelection(
-        Data       => {
+        Data => {
             0 => Translatable('No'),
             1 => Translatable('Yes'),
         },

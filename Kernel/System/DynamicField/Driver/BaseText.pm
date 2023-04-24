@@ -160,7 +160,7 @@ sub ValueValidate {
         # Potential autovification problem here?
         if (
             IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
-            && IsStringWithData( $Item )
+            && IsStringWithData($Item)
             && $CheckRegex
             )
         {
@@ -278,7 +278,7 @@ sub EditFieldRender {
     }
 
     if ( !ref $Value ) {
-        $Value = [ $Value ];
+        $Value = [$Value];
     }
 
     # check and set class if necessary
@@ -316,7 +316,7 @@ sub EditFieldRender {
     }
 
     my @ResultHTML;
-    for my $ValueIndex ( 0 .. $#{ $Value } ) {
+    for my $ValueIndex ( 0 .. $#{$Value} ) {
         my $ValueItem = $Value->[$ValueIndex];
         $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . ( $ValueIndex ? '_' . $ValueIndex : '' );
 
@@ -390,7 +390,7 @@ sub EditFieldValueGet {
 
             # delete empty values (can happen if the user has selected the "-" entry)
             my $Index = 0;
-            for my $Item ( @DataAll ) {
+            for my $Item (@DataAll) {
                 push @Data, $Item // '';
             }
             $Value = \@Data;
@@ -432,14 +432,15 @@ sub EditFieldValueValidate {
     my $ValueCount = $Param{ValueCount} || 1;
 
     if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        $Value = [ $Value ];
+        $Value = [$Value];
     }
 
     if ( $Param{Mandatory} && ( $ValueCount > scalar $Value->@* ) ) {
         $ServerError = 1;
     }
 
-    for my $ValueItem ( @{ $Value } ) {
+    for my $ValueItem ( @{$Value} ) {
+
         # perform necessary validations
         if ( $Param{Mandatory} && $ValueItem eq '' ) {
             $ServerError = 1;
@@ -483,8 +484,8 @@ sub DisplayValueRender {
     }
 
     # get raw Title and Value strings from field value
-    my $Value = '';
-    my $Title = '';
+    my $Value         = '';
+    my $Title         = '';
     my $ValueMaxChars = $Param{ValueMaxChars} || '';
     my $TitleMaxChars = $Param{TitleMaxChars} || '';
 
@@ -574,7 +575,8 @@ sub DisplayValueRender {
     if ($ShowTitleEllipsis) {
         $Title .= '...';
     }
-# EO MultiValueDynamicFields
+
+    # EO MultiValueDynamicFields
 
     # set field link form config
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';

@@ -301,8 +301,8 @@ sub EditFieldRender {
         %Param,
     );
     if ( defined $FieldValue ) {
-        if ( IsArrayRefWithData( $FieldValue ) ) {
-            $Value = join $ItemSeparator, $FieldValue->@*;
+        if ( IsArrayRefWithData($FieldValue) ) {
+            $Value  = join $ItemSeparator, $FieldValue->@*;
             @Values = $FieldValue->@*;
         }
         elsif ( ref $FieldValue eq 'STRING' ) {
@@ -388,14 +388,14 @@ sub EditFieldRender {
 
     my @ResultHTML;
     if ( $FieldConfig->{MultiValue} && @Values ) {
-        for my $ValueIndex (0 .. $#Values ) {
-            if ( $ValueIndex ) {
+        for my $ValueIndex ( 0 .. $#Values ) {
+            if ($ValueIndex) {
                 $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_' . $ValueIndex;
             }
             $FieldTemplateData{Value} = $Values[$ValueIndex];
             push @ResultHTML, $Param{LayoutObject}->Output(
                 'TemplateFile' => $FieldTemplateFile,
-                'Data' => \%FieldTemplateData,
+                'Data'         => \%FieldTemplateData,
             );
         }
     }
@@ -427,8 +427,8 @@ sub EditFieldRender {
     };
 
     if ( $FieldConfig->{MultiValue} ) {
-        $Data->{MultiValue}         = \@ResultHTML,
-        $Data->{MultiValueTemplate} = $TemplateHTML,
+        $Data->{MultiValue}         = \@ResultHTML;
+        $Data->{MultiValueTemplate} = $TemplateHTML;
     }
     else {
         $Data->{Field} = $ResultHTML[0];
@@ -456,7 +456,7 @@ sub EditFieldValueGet {
         )
     {
         my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
-        $Value   = \@Data;
+        $Value = \@Data;
     }
 
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {

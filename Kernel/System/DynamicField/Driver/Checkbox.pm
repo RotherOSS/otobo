@@ -149,7 +149,7 @@ sub ValueSet {
 
     # check values for sanity and transform into final structure
     my @ValueInt;
-    for my $Value ( @Values ) {
+    for my $Value (@Values) {
         if ( defined $Value && !$Value ) {
             $Value = 0;
         }
@@ -178,6 +178,7 @@ sub ValueValidate {
 
     # transform value data type
     my @Values;
+
     # checking reference because no field config present
     if ( ref $Param{Value} eq 'ARRAY' ) {
         @Values = @{ $Param{Value} };
@@ -187,7 +188,8 @@ sub ValueValidate {
     }
 
     my @ValueInt;
-    for my $Value ( @Values ) {
+    for my $Value (@Values) {
+
         # check value for just 1 or 0
         if ( defined $Value && !$Value ) {
             $Value = 0;
@@ -202,7 +204,7 @@ sub ValueValidate {
     }
 
     my $Success;
-    for my $Value ( @ValueInt ) {
+    for my $Value (@ValueInt) {
         $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
             Value  => $Value,
             UserID => $Param{UserID}
@@ -280,6 +282,7 @@ sub EditFieldRender {
 
     # set values from ParamObject if present
     if ( defined $FieldValue && IsArrayRefWithData($FieldValue) ) {
+
         # emptying value for overriding previous value
         $Value = [];
         for my $ValueItem ( $FieldValue->@* ) {
@@ -306,7 +309,7 @@ sub EditFieldRender {
     }
 
     if ( !ref $Value ) {
-        $Value = [ $Value ];
+        $Value = [$Value];
     }
 
     # check and set class if necessary
@@ -370,8 +373,8 @@ sub EditFieldRender {
 
     if ( $Param{ServerError} ) {
 
-        $FieldTemplateData{ServerError}      = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{ServerError}  = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
     }
 
     my $FieldTemplateFile = 'DynamicField/Agent/Checkbox';
@@ -381,10 +384,10 @@ sub EditFieldRender {
 
     # build field html
     my @ResultHTML;
-    for my $ValueIndex ( 0 .. $#{ $Value } ) {
+    for my $ValueIndex ( 0 .. $#{$Value} ) {
 
         # set suffix and adjust ids for template
-        my $Suffix                      = $ValueIndex ? '_' . $ValueIndex : '';
+        my $Suffix = $ValueIndex ? '_' . $ValueIndex : '';
         $FieldTemplateData{FieldIDUsed} = $FieldName . 'Used' . $Suffix;
         $FieldTemplateData{FieldID}     = $FieldName . $Suffix;
         $FieldTemplateData{DivID}       = $FieldName . $Suffix;
@@ -497,6 +500,7 @@ sub EditFieldValueGet {
         )
     {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+
             # retrieve values and used markers as arrays
             my @Values     = $Param{ParamObject}->GetArray( Param => $FieldName );
             my @ValuesUsed = $Param{ParamObject}->GetArray( Param => $FieldName . 'Used' );
@@ -528,9 +532,10 @@ sub EditFieldValueGet {
 
     # check if return template structure is needed
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
+
         # transform data into needed structure and return based on multivalue
         my @ReturnStructure;
-        for my $ValueItem ( @Data ) {
+        for my $ValueItem (@Data) {
             push @ReturnStructure, {
                 $FieldName          => $ValueItem->{FieldValue},
                 $FieldName . 'Used' => $ValueItem->{UsedValue},
@@ -546,7 +551,7 @@ sub EditFieldValueGet {
 
     # return undef if the hidden value is not present
     my $IsUsed = 0;
-    for my $ValueItem ( @Data ) {
+    for my $ValueItem (@Data) {
         $IsUsed ||= $ValueItem->{UsedValue};
     }
     return if !$IsUsed;
@@ -588,7 +593,7 @@ sub EditFieldValueValidate {
     my $ValueCount = $Param{ValueCount} || 1;
     my $ValueExist = 0;
 
-    for my $Value ( @Values ) {
+    for my $Value (@Values) {
 
         $ValueExist += $Value;
 
@@ -636,6 +641,7 @@ sub DisplayValueRender {
 
     # convert value to user friendly string
     my @ReadableValues = map {
+
         # always translate value
         $_ ? $Param{LayoutObject}->{LanguageObject}->Translate('Checked') : $Param{LayoutObject}->{LanguageObject}->Translate('Unchecked')
     } @Values;

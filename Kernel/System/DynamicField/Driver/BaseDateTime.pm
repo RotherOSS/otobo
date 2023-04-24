@@ -203,7 +203,7 @@ sub EditFieldRender {
     }
 
     if ( !ref $Value ) {
-        $Value = [ $Value ];
+        $Value = [$Value];
     }
 
     for my $ValueItem ( $Value->@* ) {
@@ -237,7 +237,7 @@ sub EditFieldRender {
             @ValueParts = $FieldValues->@*;
         }
         else {
-            @ValueParts = ( $FieldValues );
+            @ValueParts = ($FieldValues);
         }
 
     }
@@ -295,8 +295,8 @@ sub EditFieldRender {
 
     if ( $Param{ServerError} ) {
 
-        $FieldTemplateData{ServerError}      = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{ServerError}  = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
 
     }
 
@@ -308,7 +308,7 @@ sub EditFieldRender {
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#ValueParts ) {
 
-        my $Suffix                           = $ValueIndex ? '_' . $ValueIndex : '';
+        my $Suffix = $ValueIndex ? '_' . $ValueIndex : '';
         $FieldTemplateData{DivID}            = $FieldName . $Suffix;
         $FieldTemplateData{DivIDMandatory}   = $FieldName . 'UsedError' . $Suffix;
         $FieldTemplateData{DivIDServerError} = $FieldName . 'UsedServerError' . $Suffix;
@@ -414,15 +414,17 @@ sub EditFieldValueGet {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
             my @DataAll = ();
             my %FetchedData;
+
             # retrieve value parts as arrays
             for my $Type (qw(Used Year Month Day Hour Minute)) {
-                $FetchedData{ $Type }->@* = $Param{ParamObject}->GetArray( Param => $Prefix . $Type );
+                $FetchedData{$Type}->@* = $Param{ParamObject}->GetArray( Param => $Prefix . $Type );
             }
+
             # transform value arrays into rows
             for my $Index ( 0 .. $#{ $FetchedData{Used} } ) {
                 my %ValueRow;
                 for my $Type (qw(Used Year Month Day Hour Minute)) {
-                    $ValueRow{ $Prefix . $Type } = $FetchedData{ $Type }[ $Index ];
+                    $ValueRow{ $Prefix . $Type } = $FetchedData{$Type}[$Index];
                 }
                 push @DataAll, \%ValueRow;
             }
@@ -441,6 +443,7 @@ sub EditFieldValueGet {
     if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
         my $IsEmpty = 1;
         for my $ValueData ( $DynamicFieldValues->@* ) {
+
             # return if the field is empty (e.g. initial screen)
             if (
                 $ValueData->{ $Prefix . 'Used' }
@@ -449,7 +452,8 @@ sub EditFieldValueGet {
                 || $ValueData->{ $Prefix . 'Day' }
                 || $ValueData->{ $Prefix . 'Hour' }
                 || $ValueData->{ $Prefix . 'Minute' }
-            ) {
+                )
+            {
                 $IsEmpty = 0;
             }
         }
@@ -464,7 +468,6 @@ sub EditFieldValueGet {
             && !$DynamicFieldValues->{ $Prefix . 'Hour' }
             && !$DynamicFieldValues->{ $Prefix . 'Minute' };
     }
-
 
     # check if need and can transform dates
     # transform the dates early for ReturnValueStructure or ManualTimeStamp Bug#8452
@@ -507,7 +510,6 @@ sub EditFieldValueGet {
     else {
         $DynamicFieldValues->{ 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} . 'Second' } = 0;
     }
-
 
     my $ManualTimeStamp;
 
@@ -587,7 +589,7 @@ sub EditFieldValueValidate {
     my $ValueCount = $Param{ValueCount} || 1;
 
     if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        $Value = [ $Value ];
+        $Value = [$Value];
     }
 
     # set the date time prefix as field name
@@ -603,7 +605,7 @@ sub EditFieldValueValidate {
 
     # get time object
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $SystemTime = $DateTimeObject->ToEpoch();
+    my $SystemTime     = $DateTimeObject->ToEpoch();
     for my $ValueItem ( $Value->@* ) {
         if ( $ValueItem->{ $Prefix . 'Used' } && $DateRestriction ) {
 
@@ -657,7 +659,7 @@ sub DisplayValueRender {
     }
 
     # convert date to localized string
-    for my $ValueItem ( @Values ) {
+    for my $ValueItem (@Values) {
         $ValueItem //= '';
         $ValueItem = $Param{LayoutObject}->{LanguageObject}->FormatTimeString(
             $ValueItem,
@@ -1311,14 +1313,14 @@ sub ReadableValueRender {
     }
 
     # only keep date and time without seconds or milliseconds
-    for my $ValueItem ( @Values ) {
+    for my $ValueItem (@Values) {
         $ValueItem =~ s{\A (\d{4} - \d{2} - \d{2} [ ] \d{2} : \d{2} ) }{$1}xms;
     }
 
     # set new line separator
     my $ItemSeparator = ',';
 
-    $Value = join( $ItemSeparator, @Values ):
+    $Value = join( $ItemSeparator, @Values );
 
     # Title is always equal to Value
     my $Title = $Value;
