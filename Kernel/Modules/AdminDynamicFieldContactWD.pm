@@ -723,7 +723,7 @@ sub _ShowScreen {
         my $NamespaceStrg = $LayoutObject->BuildSelection(
             Data          => $NamespaceList,
             Name          => 'Namespace',
-            SelectedValue => $Namespace,
+            SelectedValue => $Namespace || '',
             PossibleNone  => 1,
             Translation   => 1,
             Class         => 'Modernize W75pc',

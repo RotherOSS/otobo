@@ -124,35 +124,6 @@ sub _AddAction {
     }
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
-    if ( $GetParam{Name} ) {
-
-        # check if name is alphanumeric
-        if ( $GetParam{Name} !~ m{\A (?: [a-zA-Z] | \d )+ \z}xms ) {
-
-            # add server error error class
-            $Errors{NameServerError} = 'ServerError';
-            $Errors{NameServerErrorMessage} =
-                Translatable('The field does not contain only ASCII letters and numbers.');
-        }
-
-        # check if name is duplicated
-        my %DynamicFieldsList = %{
-            $DynamicFieldObject->DynamicFieldList(
-                Valid      => 0,
-                ResultType => 'HASH',
-            )
-        };
-
-        %DynamicFieldsList = reverse %DynamicFieldsList;
-
-        if ( $DynamicFieldsList{ $GetParam{Name} } ) {
-
-            # add server error error class
-            $Errors{NameServerError}        = 'ServerError';
-            $Errors{NameServerErrorMessage} = Translatable('There is another field with the same name.');
-        }
-    }
-
     if ( $GetParam{FontSize} ) {
 
         # check if field order is numeric and positive
@@ -176,10 +147,41 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID FontSize FontColor FontTemplate ActivateTemplate CBFontStyleItalic CBFontStyleBold CBFontStyleUnderLine CBFontStyleItalicValue CBFontStyleBoldValue CBFontStyleUnderLineValue Tooltip)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID FontSize FontColor FontTemplate ActivateTemplate CBFontStyleItalic CBFontStyleBold CBFontStyleUnderLine CBFontStyleItalicValue CBFontStyleBoldValue CBFontStyleUnderLineValue Tooltip Namespace)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
+    if ( $GetParam{Name} ) {
+
+        # check if name is alphanumeric
+        if ( $GetParam{Name} !~ m{\A (?: [a-zA-Z] | \d )+ \z}xms ) {
+
+            # add server error error class
+            $Errors{NameServerError} = 'ServerError';
+            $Errors{NameServerErrorMessage} =
+                Translatable('The field does not contain only ASCII letters and numbers.');
+        }
+
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
+
+        # check if name is duplicated
+        my %DynamicFieldsList = %{
+            $DynamicFieldObject->DynamicFieldList(
+                Valid      => 0,
+                ResultType => 'HASH',
+            )
+        };
+
+        %DynamicFieldsList = reverse %DynamicFieldsList;
+
+        if ( $DynamicFieldsList{ $GetParam{Name} } ) {
+
+            # add server error error class
+            $Errors{NameServerError}        = 'ServerError';
+            $Errors{NameServerErrorMessage} = Translatable('There is another field with the same name.');
+        }
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -338,6 +340,35 @@ sub _ChangeAction {
         );
     }
 
+    if ( $GetParam{FontSize} ) {
+
+        # check if field order is numeric and positive
+        if ( $GetParam{FontSize} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # add server error error class
+            $Errors{FontSizeServerError}              = 'ServerError';
+            $Errors{FontSizeServerServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    if ( $GetParam{FieldOrder} ) {
+
+        # check if field order is numeric and positive
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # add server error error class
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    for my $ConfigParam (
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID FontSize FontColor FontTemplate ActivateTemplate CBFontStyleItalic CBFontStyleBold CBFontStyleUnderLine CBFontStyleItalicValue CBFontStyleBoldValue CBFontStyleUnderLineValue Tooltip Namespace)
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
     if ( $GetParam{Name} ) {
 
         # check if name is lowercase
@@ -348,6 +379,8 @@ sub _ChangeAction {
             $Errors{NameServerErrorMessage} =
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
+
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # check if name is duplicated
         my %DynamicFieldsList = %{
@@ -382,34 +415,6 @@ sub _ChangeAction {
             $Errors{NameServerErrorMessage} = Translatable('The name for this field should not change.');
             $Param{InternalField}           = $DynamicFieldData->{InternalField};
         }
-    }
-    if ( $GetParam{FontSize} ) {
-
-        # check if field order is numeric and positive
-        if ( $GetParam{FontSize} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # add server error error class
-            $Errors{FontSizeServerError}              = 'ServerError';
-            $Errors{FontSizeServerServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    if ( $GetParam{FieldOrder} ) {
-
-        # check if field order is numeric and positive
-        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # add server error error class
-            $Errors{FieldOrderServerError}        = 'ServerError';
-            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID FontSize FontColor FontTemplate ActivateTemplate CBFontStyleItalic CBFontStyleBold CBFontStyleUnderLine CBFontStyleItalicValue CBFontStyleBoldValue CBFontStyleUnderLineValue Tooltip)
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     # uncorrectable errors
@@ -553,9 +558,19 @@ sub _ShowScreen {
 
     $Param{DisplayFieldName} = 'New';
 
+    my $Namespace;
     if ( $Param{Mode} eq 'Change' ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
+
+        # check for namespace
+        if ( $Param{Name} =~ /(.*)-(.*)/ ) {
+            $Namespace = $1;
+            $Param{PlainFieldName} = $2;
+        }
+        else {
+            $Param{PlainFieldName} = $Param{Name};
+        }
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -611,6 +626,26 @@ sub _ShowScreen {
         Sort          => 'NumericKey',
         Class         => 'Modernize W75pc Validate_Number',
     );
+
+    my $NamespaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
+    if ( IsArrayRefWithData($NamespaceList) ) {
+        my $NamespaceStrg = $LayoutObject->BuildSelection(
+            Data          => $NamespaceList,
+            Name          => 'Namespace',
+            SelectedValue => $Namespace || '',
+            PossibleNone  => 1,
+            Translation   => 1,
+            Class         => 'Modernize W75pc',
+        );
+
+        $LayoutObject->Block(
+            Name => 'DynamicFieldNamespace',
+            Data => {
+                NamespaceStrg => $NamespaceStrg,
+            },
+        );
+    }
+
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
     # create the Validity select
