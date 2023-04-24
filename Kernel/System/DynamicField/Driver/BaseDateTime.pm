@@ -77,7 +77,7 @@ sub ValueSet {
 
     # transform value data type
     my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
         @Values = @{ $Param{Value} };
     }
     else {
@@ -232,8 +232,14 @@ sub EditFieldRender {
     );
 
     # set values from ParamObject if present
-    if ( defined $FieldValues && IsArrayRefWithData($FieldValues) ) {
-        @ValueParts = $FieldValues->@*;
+    if ( defined $FieldValues ) {
+        if ( $FieldConfig->{MultiValue} ) {
+            @ValueParts = $FieldValues->@*;
+        }
+        else {
+            @ValueParts = ( $FieldValues );
+        }
+
     }
 
     # check and set class if necessary
@@ -1293,10 +1299,26 @@ sub StatsSearchFieldParameterBuild {
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = '';
+
+    # check value
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = ( $Param{Value} );
+    }
 
     # only keep date and time without seconds or milliseconds
-    $Value =~ s{\A (\d{4} - \d{2} - \d{2} [ ] \d{2} : \d{2} ) }{$1}xms;
+    for my $ValueItem ( @Values ) {
+        $ValueItem =~ s{\A (\d{4} - \d{2} - \d{2} [ ] \d{2} : \d{2} ) }{$1}xms;
+    }
+
+    # set new line separator
+    my $ItemSeparator = ',';
+
+    $Value = join( $ItemSeparator, @Values ):
 
     # Title is always equal to Value
     my $Title = $Value;
