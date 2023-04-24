@@ -299,22 +299,20 @@ sub EditFieldRender {
     }
 
     for my $ValueItem ( $Value->@* ) {
-        if ($ValueItem) {
-            my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $ValueItem =~
-                m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
+        my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $ValueItem =~
+            m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
 
-            # If a value is sent this value must be active, then the Used part needs to be set to 1
-            #   otherwise user can easily forget to mark the checkbox and this could lead into data
-            #   lost (Bug#8258).
-            push @ValueParts, {
-                $FieldName . 'Used'   => 1,
-                $FieldName . 'Year'   => $Year,
-                $FieldName . 'Month'  => $Month,
-                $FieldName . 'Day'    => $Day,
-                $FieldName . 'Hour'   => $Hour,
-                $FieldName . 'Minute' => $Minute,
-            };
-        }
+        # If a value is sent this value must be active, then the Used part needs to be set to 1
+        #   otherwise user can easily forget to mark the checkbox and this could lead into data
+        #   lost (Bug#8258).
+        push @ValueParts, {
+            $FieldName . 'Used'   => 1,
+            $FieldName . 'Year'   => $Year,
+            $FieldName . 'Month'  => $Month,
+            $FieldName . 'Day'    => $Day,
+            $FieldName . 'Hour'   => $Hour,
+            $FieldName . 'Minute' => $Minute,
+        };
     }
 
     # extract the dynamic field value from the web request
@@ -499,26 +497,25 @@ sub EditFieldValueGet {
         && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
         )
     {
-        if ( $Param{DynamicFieldConifg}->{Config}->{MultiValue} ) {
+        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
             my @DataAll = ();
             my %FetchedData;
 
             # retrieve value parts as arrays
             for my $Type (qw(Used Year Month Day)) {
-                $FetchedData{$Type} = $Param{ParamObject}->GetArray( Param => $Prefix . $Type );
-            }
-
-            # complete the rest of the date with 0s to have a valid Date/Time value
-            # add seconds, as 0 to the DynamicFieldValues hash
-            for my $Type (qw(Hour Minute Second)) {
-                $FetchedData{$Type} = 0;
+                $FetchedData{$Type}->@* = $Param{ParamObject}->GetArray( Param => $Prefix . $Type );
             }
 
             # transform value arrays into rows
             for my $Index ( 0 .. $#{ $FetchedData{Used} } ) {
                 my %ValueRow;
-                for my $Type (qw(Used Year Month Day Hour Minute Second)) {
+                for my $Type (qw(Used Year Month Day)) {
                     $ValueRow{ $Prefix . $Type } = $FetchedData{$Type}[$Index];
+                }
+                # complete the rest of the date with 0s to have a valid Date/Time value
+                # add seconds, as 0 to the DynamicFieldValues hash
+                for my $Type (qw(Hour Minute Second)) {
+                    $ValueRow{$Type} = 0;
                 }
                 push @DataAll, \%ValueRow;
             }
@@ -548,8 +545,8 @@ sub EditFieldValueGet {
             {
                 $IsEmpty = 0;
             }
-            return if $IsEmpty;
         }
+        return if $IsEmpty;
     }
     else {
         # return if the field is empty (e.g. initial screen)
