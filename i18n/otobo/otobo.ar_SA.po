@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-04-21 14:17+0000\n"
+"PO-Revision-Date: 2023-04-24 18:33+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -23383,163 +23383,196 @@ msgid ""
 "Defines the module used to store the session data. With \"DB\" the frontend "
 "server can be splitted from the db server. \"FS\" is faster."
 msgstr ""
+"يحدد الوحدة النمطية التي سيتم استخدامها لتخزين بيانات جلسة العمل. باستخدام "
+"\"DB\" ، يمكن تشغيل خادم العرض بشكل منفصل عن خادم DB. \"FS\" أسرع."
 
 #. SysConfig
 msgid ""
 "Defines the modules in Kernel/Output/HTML/GenericContent/ which provide the "
 "inner content to the chosen key."
 msgstr ""
+"يحدد الوحدات النمطية في Kernel/Output/HTML/GenericContent/ التي توفر المحتوى "
+"التابع للقيمة المحددة."
 
 #. SysConfig
 msgid ""
 "Defines the name of the application, shown in the web interface, tabs and "
 "title bar of the web browser."
 msgstr ""
+"يحدد اسم التطبيق الذي يتم عرضه في واجهة الويب وعلامات التبويب وشريط العنوان "
+"لمستعرض الويب."
 
 #. SysConfig
 msgid ""
 "Defines the name of the column to store the data in the preferences table."
-msgstr ""
+msgstr "يحدد اسم العمود الذي يتم تخزين البيانات تحته في جدول الخصائص."
 
 #. SysConfig
 msgid ""
 "Defines the name of the column to store the user identifier in the "
 "preferences table."
-msgstr ""
+msgstr "يحدد اسم العمود لتخزين معرف المستخدم في جدول التفضيلات."
 
 #. SysConfig
 msgid "Defines the name of the indicated calendar."
-msgstr ""
+msgstr "يحدد اسم التقويم المعروض."
 
 #. SysConfig
 msgid "Defines the name of the key for customer sessions."
-msgstr ""
+msgstr "يحدد اسم المفتاح لجلسات العميل."
 
 #. SysConfig
 msgid "Defines the name of the session key. E.g. Session, SessionID or OTOBO."
-msgstr ""
+msgstr "يحدد اسم مفتاح الجلسة. على سبيل المثال: الجلسة أو معرف الجلسة أو OTOBO."
 
 #. SysConfig
 msgid "Defines the name of the table where the user preferences are stored."
-msgstr ""
+msgstr "تحديد اسم الجدول الذي يتم تخزين إعدادات المستخدم فيه."
 
 #. SysConfig
 msgid ""
 "Defines the next possible states after composing / answering a ticket in the "
 "ticket compose screen of the agent interface."
 msgstr ""
+"يحدد الحالة المحتملة التالية بعد إنشاء / الرد على تذكرة في شاشة الإنشاء في "
+"واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the next possible states after forwarding a ticket in the ticket "
 "forward screen of the agent interface."
 msgstr ""
+"يحدد الحالات المحتملة التالية بعد إعادة توجيه تذكرة في شاشة إعادة توجيه "
+"التذكرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the next possible states after sending a message in the email "
 "outbound screen of the agent interface."
 msgstr ""
+"يحدد الحالات التالية القابلة للتحديد بعد إرسال رسالة بريد إلكتروني صادرة."
 
 #. SysConfig
 msgid ""
 "Defines the next possible states for customer tickets in the customer "
 "interface."
-msgstr ""
+msgstr "يحدد الحالات المحتملة التالية للتذاكر من العملاء في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the close ticket "
 "screen of the agent interface."
 msgstr ""
+"يحدد حالة التذكرة التالية بعد إضافة ملاحظة في عرض \"إغلاق التذكرة\" لواجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket free "
 "text screen of the agent interface."
 msgstr ""
+"يحدد الحالة التالية للتذكرة بعد إضافة ملاحظة، في شاشة النص الحر للتذكرة "
+"لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket note "
 "screen of the agent interface."
 msgstr ""
+"يحدد حالة التذكرة التالية بعد إضافة ملاحظة في عرض \"ملاحظة التذكرة\" لواجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket owner "
 "screen of a zoomed ticket in the agent interface."
 msgstr ""
+"يحدد حالة التذكرة التالية بعد إضافة ملاحظة في عرض \"مالك التذكرة\" لواجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "pending screen of a zoomed ticket in the agent interface."
 msgstr ""
+"يحدد حالة التذكرة التالية بعد إضافة ملاحظة في عرض \"الانتظار للتذكير\" "
+"لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "priority screen of a zoomed ticket in the agent interface."
 msgstr ""
+"يحدد حالة التذكرة التالية بعد إضافة ملاحظة في عرض \"أولوية التذكرة\" لواجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "responsible screen of the agent interface."
 msgstr ""
+"يحدد حالة التذكرة التالية بعد إضافة ملاحظة في عرض \"مسؤول التذكرة\" لواجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after being bounced, in the ticket bounce "
 "screen of the agent interface."
 msgstr ""
+"لتعيين حالة المتابعة للتذكرة المعاد توجيهها من شاشة إعادة التوجيه لمنطقة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after being moved to another queue, in "
 "the move ticket screen of the agent interface."
 msgstr ""
+"تحديد حالة التذاكر التالية بعد الانتقال إلى قائمة انتظار أخرى في عرض \"قائمة "
+"انتظار التذاكر\" لواجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket, in the ticket bulk screen of the agent "
 "interface."
-msgstr ""
+msgstr "يحدد حالة المتابعة لتذكرة، في شاشة معالجة الدفعات في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the number of character per line used in case an HTML article "
 "preview replacement on TemplateGenerator for EventNotifications."
 msgstr ""
+"تعيين عدد الأحرف لكل سطر لاستبدال معاينة المقالة في TemplateGenerator ل "
+"EventNotifications."
 
 #. SysConfig
 msgid "Defines the number of days to keep the daemon log files."
-msgstr ""
+msgstr "يحدد عدد الأيام للاحتفاظ بملفات السجل الخفي(Daemon log files)."
 
 #. SysConfig
 msgid ""
 "Defines the number of header fields in frontend modules for add and update "
 "postmaster filters. It can be up to 99 fields."
 msgstr ""
+"يضبط عدد حقول الرأس في الوحدات النمطية للواجهة الأمامية لإضافة / تحديث عوامل "
+"تصفية مدير مكتب البريد. إمكانية تصل إلى 99 مجالًا."
 
 #. SysConfig
 msgid ""
 "Defines the number of hours a communication will be stored, whichever its "
 "status."
-msgstr ""
+msgstr "يحدد عدد الساعات التي يجب تخزين الاتصال فيها، بغض النظر عن حالته."
 
 #. SysConfig
 msgid "Defines the number of hours a successful communication will be stored."
-msgstr ""
+msgstr "تحديد عدد الساعات التي يجب حفظ الاتصال الناجح بها."
 
 #. SysConfig
 msgid "Defines the number of tickets shown in the widget."
-msgstr ""
+msgstr "يعرف عدد التذاكر المعروضة في الودجة."
 
 #. SysConfig
 msgid "Defines the parameters for the customer preferences table."
-msgstr ""
+msgstr "تحديد معلمات الجدول بإعدادات العميل."
 
 #. SysConfig
 msgid ""
@@ -23552,6 +23585,14 @@ msgid ""
 "agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config."
 "pm."
 msgstr ""
+"يحدد معلمات النظرة العامة. يستخدم \"Cmd\" لتحديد أمر مع المعلمات. يتم "
+"استخدام \"المجموعة\" لتقييد الوصول إلى المكون الإضافي (على سبيل المثال Group:"
+" admin;group1;group2;). يشير \"Default\" إلى ما إذا كان المكون الإضافي قد تم "
+"تنشيطه افتراضيا أو ما إذا كان يتعين على المستخدم تنشيطه يدويا. يعرض "
+"\"CacheTTL\" وقت انتهاء صلاحية ذاكرة التخزين المؤقت للمكون الإضافي بالدقائق. "
+"يحدد \"Mandatory\" ما إذا كان يمكن دائما عرض المكون الإضافي وعدم إزالته "
+"بواسطة الوكلاء. سيعمل فقط إذا تم تمكين DashboardBackend :: AllowCmdOutput في "
+"ملف Config. pm."
 
 #. SysConfig
 msgid ""
@@ -23562,6 +23603,12 @@ msgid ""
 "minutes for the plugin. \"Mandatory\" determines if the plugin is always "
 "shown and can not be removed by agents."
 msgstr ""
+"يضبط المعلمات للواجهة الخلفية للوحة القيادة. تقيد \"المجموعة\" الوصول إلى "
+"البيانات المعنية (على سبيل المثال، المجموعة: Group: admin;group1;group2;). "
+"تحدد \"افتراضي\" ما إذا كانت dashlet نشطة بشكل افتراضي أو يجب تنشيطها يدويًا "
+"بواسطة المستخدم. يحدد \"CacheTTL\" وقت التخزين المؤقت ل dashlet بالدقائق. "
+"باستخدام \"Mandatory\"، يمكن تكوين dashlet بحيث لا يتمكن المستخدمون من "
+"إخفائها."
 
 #. SysConfig
 msgid ""
@@ -23573,6 +23620,12 @@ msgid ""
 "plugin. \"Mandatory\" determines if the plugin is always shown and can not "
 "be removed by agents."
 msgstr ""
+"يضبط المعلمات للواجهة الخلفية للوحة القيادة. يحدد \"الحد\" عدد الإدخالات "
+"التي يتم عرضها افتراضيًا. تقيد \"المجموعة\" الوصول إلى البيانات المعنية (على "
+"سبيل المثال: Group: admin;group1;group2;). تحدد \"Default\" ما إذا كانت "
+"dashlet نشطة بشكل افتراضي أو يجب تنشيطها يدويًا بواسطة المستخدم. يحدد "
+"\"CacheTTL\" وقت التخزين المؤقت ل dashlet بالدقائق. باستخدام \"Mandatory\"، "
+"يمكن تكوين dashlet بحيث لا يتمكن المستخدمون من إخفائها."
 
 #. SysConfig
 msgid ""
@@ -23584,24 +23637,34 @@ msgid ""
 "plugin. \"Mandatory\" determines if the plugin is always shown and can not "
 "be removed by agents."
 msgstr ""
+"يضبط المعلمات للواجهة الخلفية للوحة القيادة. يحدد \"الحد\" عدد الإدخالات "
+"التي يتم عرضها افتراضيًا. تقيد \"المجموعة\" الوصول إلى البيانات المعنية (على "
+"سبيل المثال: Group: admin;group1;group2;). تحدد \"افتراضي\" ما إذا كانت "
+"dashlet نشطة بشكل افتراضي أو يجب تنشيطها يدويًا بواسطة المستخدم. يحدد "
+"\"CacheTTLLocal\" وقت التخزين المؤقت ل dashlet بالدقائق. باستخدام \"Mandatory"
+"\"، يمكن تكوين dashlet بحيث لا يتمكن المستخدمون من إخفائها."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle bold italic monospaced font in PDF "
 "documents."
 msgstr ""
+"يحدد المسار وملف TTF للتعامل مع الخطوط الغامقة والمائلة أحادية المسافة في "
+"مستندات PDF."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle bold italic proportional font in PDF "
 "documents."
-msgstr ""
+msgstr "يعرف المسار وملف TTF لمعالجة الخط النسبي الغامق والمائل في وثائق PDF."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle bold monospaced font in PDF "
 "documents."
 msgstr ""
+"يعرف المسار وملف TTF لمعالجة الخط الغامق غير المتناسب (أحادي المسافة) في "
+"وثائق PDF."
 
 #. SysConfig
 msgid ""
