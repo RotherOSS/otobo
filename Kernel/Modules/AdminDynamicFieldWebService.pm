@@ -190,6 +190,27 @@ sub _AddAction {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
+    if ( $GetParam{FieldOrder} ) {
+
+        # Check if field order is numeric and positive.
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # Add server error error class.
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    for my $ConfigParam (
+        qw(
+            ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone TranslatableValues
+            ValidID WebserviceID Invoker Multiselect CacheTTL Link LinkPreview Tooltip Namespace
+        )
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
     if ( $GetParam{Name} ) {
 
         # Check if name is alphanumeric.
@@ -200,6 +221,8 @@ sub _AddAction {
             $Errors{NameServerErrorMessage} =
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
+
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # Check if name is duplicated.
         my %DynamicFieldsList = %{
@@ -217,27 +240,6 @@ sub _AddAction {
             $Errors{NameServerError}        = 'ServerError';
             $Errors{NameServerErrorMessage} = Translatable('There is another field with the same name.');
         }
-    }
-
-    if ( $GetParam{FieldOrder} ) {
-
-        # Check if field order is numeric and positive.
-        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # Add server error error class.
-            $Errors{FieldOrderServerError}        = 'ServerError';
-            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    for my $ConfigParam (
-        qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone TranslatableValues
-            ValidID WebserviceID Invoker Multiselect CacheTTL Link LinkPreview Tooltip
-        )
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -423,6 +425,27 @@ sub _ChangeAction {
         );
     }
 
+    if ( $GetParam{FieldOrder} ) {
+
+        # Check if field order is numeric and positive.
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # Add server error error class.
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    for my $ConfigParam (
+        qw(
+            ObjectType ObjectTypeName FieldType FieldTypeName WebserviceID Invoker Multiselect CacheTTL
+            PossibleNone TranslatableValues ValidID Link LinkPreview Tooltip Namespace
+        )
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
     if ( $GetParam{Name} ) {
 
         # Check if name is lowercase.
@@ -433,6 +456,8 @@ sub _ChangeAction {
             $Errors{NameServerErrorMessage} =
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
+
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # Check if name is duplicated.
         my %DynamicFieldsList = %{
@@ -467,27 +492,6 @@ sub _ChangeAction {
             $Errors{NameServerErrorMessage} = Translatable('The name for this field should not change.');
             $Param{InternalField}           = $DynamicFieldData->{InternalField};
         }
-    }
-
-    if ( $GetParam{FieldOrder} ) {
-
-        # Check if field order is numeric and positive.
-        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # Add server error error class.
-            $Errors{FieldOrderServerError}        = 'ServerError';
-            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    for my $ConfigParam (
-        qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName WebserviceID Invoker Multiselect CacheTTL
-            PossibleNone TranslatableValues ValidID Link LinkPreview Tooltip
-        )
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     # Uncorrectable errors.
@@ -635,9 +639,19 @@ sub _ShowScreen {
 
     $Param{DisplayFieldName} = 'New';
 
+    my $Namespace;
     if ( $Param{Mode} eq 'Change' ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
+
+        # check for namespace
+        if ( $Param{Name} =~ /(.*)-(.*)/ ) {
+            $Namespace = $1;
+            $Param{PlainFieldName} = $2;
+        }
+        else {
+            $Param{PlainFieldName} = $Param{Name};
+        }
     }
 
     $Param{DeletedString} = $Self->{DeletedString};
@@ -692,6 +706,26 @@ sub _ShowScreen {
         Sort          => 'NumericKey',
         Class         => 'Modernize W75pc Validate_Number',
     );
+
+    my $NamespaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
+
+    if ( IsArrayRefWithData($NamespaceList) ) {
+        my $NamespaceStrg = $LayoutObject->BuildSelection(
+            Data          => $NamespaceList,
+            Name          => 'Namespace',
+            SelectedValue => $Namespace || '',
+            PossibleNone  => 1,
+            Translation   => 1,
+            Class         => 'Modernize W75pc',
+        );
+
+        $LayoutObject->Block(
+            Name => 'DynamicFieldNamespace',
+            Data => {
+                NamespaceStrg => $NamespaceStrg,
+            },
+        );
+    }
 
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
