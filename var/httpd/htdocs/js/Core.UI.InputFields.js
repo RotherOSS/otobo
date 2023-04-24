@@ -2836,7 +2836,7 @@ Core.UI.InputFields = (function (TargetNS) {
         });
 
         //DateTimeDynamicField
-        $('.DynamicFieldDateTime', $Cell).each(function () {
+        $('.DynamicFieldDate', $Cell).each(function () {
             var Prefix = $('[name$="Year"]', $(this)).attr('name').replace('Year', '');
             Core.UI.Datepicker.Init({
                 Day: $('[name="' + Core.App.EscapeSelector(Prefix) + 'Day"]', $(this)),
