@@ -366,7 +366,7 @@ sub DisplayValueRender {
     }
 
     # get raw Title and Value strings from field value
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = $Param{Value} // '';
     my $Title = $Value;
 
     # HTMLOutput transformations
