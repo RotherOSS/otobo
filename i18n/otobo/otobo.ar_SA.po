@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-04-24 18:33+0000\n"
+"PO-Revision-Date: 2023-04-26 23:29+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -23671,62 +23671,78 @@ msgid ""
 "Defines the path and TTF-File to handle bold proportional font in PDF "
 "documents."
 msgstr ""
+"يحدد المسار وملف TTF للتعامل مع الخطوط المتناسبة الغامقة في مستندات PDF."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle italic monospaced font in PDF "
 "documents."
 msgstr ""
+"يعرف المسار وملف TTF لمعالجة الخط المائل غير النسبي (أحادي الوتيرة) في وثائق "
+"PDF."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle italic proportional font in PDF "
 "documents."
-msgstr ""
+msgstr "يحدد المسار وملف TTF لمعالجة الخطوط المتناسبة المائلة في مستندات PDF."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle monospaced font in PDF documents."
 msgstr ""
+"يحدد المسار وملف TTF لمعالجة الخطوط غير المتناسبة (أحادية المسافة) في "
+"مستندات PDF."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle proportional font in PDF documents."
-msgstr ""
+msgstr "يعرف المسار وملف TTF لمعالجة الخط التناسبي في وثائق PDF."
 
 #. SysConfig
 msgid ""
 "Defines the path of the shown info file, that is located under Kernel/Output/"
 "HTML/Templates/Standard/CustomerAccept.tt."
 msgstr ""
+"يحدد مسار ملف المعلومات المعروض، الموجود في Kernel/Output/HTML/Templates/"
+"Standard/CustomerAccept.tt."
 
 #. SysConfig
 msgid "Defines the path to PGP binary."
-msgstr ""
+msgstr "يضبط المسار إلى ملف PGP الثنائي."
 
 #. SysConfig
 msgid ""
 "Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = '/"
 "var/lib/wwwrun';)."
 msgstr ""
+"يحدد المسار إلى open ssl binary. قد يتطلب HOME env ($ENV{HOME} = '/var/lib/"
+"wwwrun';)."
 
 #. SysConfig
 msgid ""
 "Defines the path to the Google Chrome or Chromium binary. If set, this "
 "binary will be used instead of PhantomJS::Bin."
 msgstr ""
+"يحدد المسار إلى Google Chrome أو Chromium Binary. عند تحديده، يتم استخدام "
+"binary بدلاً من PhantomJS::Bin."
 
 #. SysConfig
 msgid ""
 "Defines the path to the PhantomJS binary. You can use a static build from "
 "http://phantomjs.org/download.html for an easy installation process."
 msgstr ""
+"يحدد المسار إلى ملف PhantomJS binary. يمكنك استخدام إصدار ثابت من "
+"http://phantomjs.org/download.html لعملية تثبيت سهلة."
 
 #. SysConfig
 msgid ""
 "Defines the period of time (in minutes) before agent is marked as \"away\" "
 "due to inactivity (e.g. in the \"Logged-In Users\" widget or for the chat)."
 msgstr ""
+"يضبط مقدار الوقت، بالدقائق، قبل وضع علامة على الوكيل على أنه \"بالخارج\" "
+"بسبب عدم النشاط (على سبيل المثال، في widget \"المستخدمون الذين قاموا بتسجيل "
+"الدخول\" أو في الدردشة)."
 
 #. SysConfig
 msgid ""
@@ -23734,14 +23750,17 @@ msgid ""
 "\" due to inactivity (e.g. in the \"Logged-In Users\" widget or for the "
 "chat)."
 msgstr ""
+"يضبط مقدار الوقت، بالدقائق، قبل وضع علامة على العميل على أنه \"بالخارج\" "
+"بسبب عدم النشاط (على سبيل المثال، في widget \"المستخدمون الذين قاموا بتسجيل "
+"الدخول\" أو في الدردشة)."
 
 #. SysConfig
 msgid "Defines the postmaster default queue."
-msgstr ""
+msgstr "يحدد قائمة انتظار الافتراضية لمسؤول البريد."
 
 #. SysConfig
 msgid "Defines the priority in which the information is logged and presented."
-msgstr ""
+msgstr "يحدد الأولوية التي يتم فيها تسجيل المعلومات وتقديمها."
 
 #. SysConfig
 msgid ""
@@ -23749,6 +23768,9 @@ msgid ""
 "ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
 msgstr ""
+"يحدد نوع المستلم لتذاكر الهاتف والمرسل لتذاكر البريد الإلكتروني في منطقة "
+"الوكيل (\"قائمة الانتظار\" تعرض جميع قوائم الانتظار، \"عنوان النظام\" جميع "
+"عناوين النظام)."
 
 #. SysConfig
 msgid ""
@@ -23756,16 +23778,19 @@ msgid ""
 "\"SystemAddress\" shows only the queues which are assigned to system "
 "addresses) in the customer interface."
 msgstr ""
+"يحدد نوع المستلم للتذاكر في منطقة العميل (تعرض \"قائمة الانتظار\" جميع قوائم "
+"الانتظار، و \"عنوان النظام\" فقط قوائم الانتظار التي تم تعيينها لعناوين "
+"النظام)."
 
 #. SysConfig
 msgid ""
 "Defines the required permission to show a ticket in the escalation view of "
 "the agent interface."
-msgstr ""
+msgstr "يحدد الإذن اللازم لعرض تذكرة في طريقة عرض التصعيد لواجهة الوكيل."
 
 #. SysConfig
 msgid "Defines the search limit for the stats."
-msgstr ""
+msgstr "يحدد الحد الأقصى لنتائج البحث للإحصائيات."
 
 #. SysConfig
 msgid ""
@@ -23773,22 +23798,28 @@ msgid ""
 "With the setting 'CustomerTicketTextField' the values for the recipient "
 "field can be specified."
 msgstr ""
+"تعيين معلمات البحث لشاشة AgentCustomerUserAddressBook. يسمح لك إعداد "
+"'CustomerTictTextField' لتحديد قيم حقل المستلم."
 
 #. SysConfig
 msgid "Defines the sender for rejected emails."
-msgstr ""
+msgstr "يحدد عنوان الإرسال لرسائل البريد الإلكتروني المرفوضة."
 
 #. SysConfig
 msgid ""
 "Defines the separator between the agents real name and the given queue email "
 "address."
 msgstr ""
+"يحدد الفاصل بين الاسم الحقيقي للوكيل وعنوان البريد الإلكتروني المحدد لقائمة "
+"الانتظار."
 
 #. SysConfig
 msgid ""
 "Defines the shown columns and the position in the "
 "AgentCustomerUserAddressBook result screen."
 msgstr ""
+"تعيين الأعمدة المعروضة وموضعها لشاشة النتائج الخاصة ب "
+"AgentCustomerUserAddressBook."
 
 #. SysConfig
 msgid ""
@@ -23797,10 +23828,14 @@ msgid ""
 "\"Content\" is the shown label. <OTOBO_CONFIG_HttpType>, <OTOBO_CONFIG_FQDN> "
 "and <OTOBO_CONFIG_ScriptAlias> will be substituted."
 msgstr ""
+"يحدد الروابط المعروضة في منطقة تذييل بوابة عملاء OTOBO. في حقل \"المفتاح\"، "
+"أدخل عنوان URL الخارجي، ونص الرابط الذي سيتم عرضه ك \"محتوى\". "
+"<OTOBO_CONFIG_HttpType>وسيتم <OTOBO_CONFIG_FQDN> <OTOBO_CONFIG_ScriptAlias> "
+"استبدالها."
 
 #. SysConfig
 msgid "Defines the source dynamic field for storing historical data."
-msgstr ""
+msgstr "يحدد حقل المصدر الديناميكي لتخزين البيانات التاريخية."
 
 #. SysConfig
 msgid ""
@@ -23810,10 +23845,14 @@ msgid ""
 "any of the afore mentioned permissions, that the \"rw\" permission remains "
 "the last entry."
 msgstr ""
+"يحدد الأذونات الافتراضية المتاحة للعملاء داخل التطبيق. إذا كانت هناك حاجة "
+"إلى مزيد من الأذونات، فيمكن إدخالها هنا. يجب أن تكون الأذونات مشفرة بشكل "
+"ثابت ليكون لها أي تأثير. عند إنشاء أذونات جديدة، يرجى التأكد من أن \"rw\" "
+"يظل دائما آخر إدخال."
 
 #. SysConfig
 msgid "Defines the standard size of PDF pages."
-msgstr ""
+msgstr "يضبط الحجم الافتراضي لصفحات PDF."
 
 #. SysConfig
 msgid ""
