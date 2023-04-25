@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-03-15 08:15+0000\n"
-"Last-Translator: Tore Morkemo <morkemo@gmail.com>\n"
+"PO-Revision-Date: 2023-04-26 23:29+0000\n"
+"Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
 "Language: nb_NO\n"
@@ -1405,7 +1405,7 @@ msgstr "Endre kunde"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr ""
+msgstr "Liste (bare %s vist - mer tilgjengelig)"
 
 #. Template: AdminCustomerCompany
 msgid "total"
@@ -1459,10 +1459,13 @@ msgid "These groups are automatically assigned to all customers."
 msgstr "Disse gruppene blir automatisk tildelt alle nye kunder."
 
 #. Template: AdminCustomerGroup
+#, fuzzy
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupCompanyAlwaysGroups\"."
 msgstr ""
+"Du kan administrere disse gruppene via konfigurasjonsinnstillingen "
+"\"CustomerGroupCompanyAlwaysGroups\"."
 
 #. Template: AdminCustomerGroup
 msgid "Filter for Groups"
@@ -1554,7 +1557,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "List (%s total)"
-msgstr ""
+msgstr "Liste (%s totalt)"
 
 #. Template: AdminCustomerUser
 msgid "Username"
@@ -1581,6 +1584,8 @@ msgid ""
 "This customer backend is read only, but the customer user preferences can be "
 "changed!"
 msgstr ""
+"Denne kunde-backenden er skrivebeskyttet, men kundens brukerpreferanser kan "
+"endres!"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -1605,11 +1610,11 @@ msgstr "Syntaksen på denne e-postadressen er feil."
 
 #. Template: AdminCustomerUser
 msgid "This CustomerID is invalid."
-msgstr ""
+msgstr "Denne kunde-IDen er ugyldig."
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
-msgstr ""
+msgstr "Effektive tillatelser for kundebruker"
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
@@ -1626,10 +1631,14 @@ msgid ""
 "groups). Note: The table does not consider changes made to this form without "
 "submitting it."
 msgstr ""
+"Tabellen ovenfor viser effektive gruppetillatelser for kundebrukeren. "
+"Matrisen tar hensyn til alle nedarvede tillatelser (f.eks. via kundegrupper)"
+". Merk: Tabellen tar ikke hensyn til endringer som er gjort i dette skjemaet "
+"uten å sende det inn."
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
-msgstr ""
+msgstr "Kundetilgang"
 
 #. Template: AdminCustomerUser
 msgid "Customer"
@@ -1637,7 +1646,7 @@ msgstr "Kunde"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no customer access."
-msgstr ""
+msgstr "Denne kundebrukeren har ingen kundetilgang."
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1646,14 +1655,18 @@ msgid ""
 "via customer groups). Note: The table does not consider changes made to this "
 "form without submitting it."
 msgstr ""
+"Tabellen ovenfor viser gitt kundetilgang for kundebrukeren etter "
+"tillatelseskontekst. Matrisen tar hensyn til all nedarvet tilgang (f.eks. "
+"via kundegrupper). Merk: Tabellen tar ikke hensyn til endringer som er gjort "
+"i dette skjemaet uten å sende det inn."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
-msgstr ""
+msgstr "Administrer kundebruker-kunderelasjoner"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
-msgstr ""
+msgstr "Velg kundebruker:kunderelasjoner."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Customer Users"
@@ -1661,11 +1674,11 @@ msgstr "Kunder"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer Relations for Customer User"
-msgstr ""
+msgstr "Endre kundeforhold for kundebruker"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer User Relations for Customer"
-msgstr ""
+msgstr "Endre kundebrukerforhold for kunden"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for all"
@@ -1681,21 +1694,23 @@ msgstr "Slå av/på aktivisering for %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer User-Group Relations"
-msgstr ""
+msgstr "Administrer kundebruker-grupperelasjoner"
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customer "
 "users."
 msgstr ""
+"Bare bruk denne funksjonen hvis du vil definere gruppetillatelser for "
+"kundebrukere."
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer User Default Groups"
-msgstr ""
+msgstr "Rediger standardgrupper for kundebrukere"
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customer users."
-msgstr ""
+msgstr "Disse gruppene blir automatisk tildelt alle kundebrukere."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
@@ -1707,25 +1722,27 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for groups"
-msgstr ""
+msgstr "Filtrer for grupper"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr ""
+msgstr "Velg kundebruker - gruppetillatelser."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets "
 "will not be available for the customer user)."
 msgstr ""
+"Hvis ingenting er valgt, er det ingen tillatelser i denne gruppen (saker vil "
+"ikke være tilgjengelige for kundebrukeren)."
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
-msgstr ""
+msgstr "Standardgrupper for kundebrukere:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "Administrer kundeservicerelasjoner"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1737,7 +1754,7 @@ msgstr "Filter for tjenester"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for services"
-msgstr ""
+msgstr "Filter for tjenester"
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -1753,21 +1770,23 @@ msgstr "Legg til nytt felt for et objekt"
 
 #. Template: AdminDynamicField
 msgid "Filter for Dynamic Fields"
-msgstr ""
+msgstr "Filter for dynamiske felt"
 
 #. Template: AdminDynamicField
 msgid "Filter for dynamic fields"
-msgstr ""
+msgstr "Filter for dynamiske felt"
 
 #. Template: AdminDynamicField
 msgid "New Dynamic Fields"
-msgstr ""
+msgstr "Nye dynamiske felt"
 
 #. Template: AdminDynamicField
 msgid ""
 "Would you like to benefit from additional dynamic field types? You have full "
 "access to the following field types:"
 msgstr ""
+"Vil du dra nytte av flere dynamiske felttyper? Du har full tilgang til "
+"følgende felttyper:"
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1777,20 +1796,26 @@ msgstr "Database"
 msgid ""
 "Use external databases as configurable data sources for this dynamic field."
 msgstr ""
+"Bruk eksterne databaser som konfigurerbare datakilder for dette dynamiske "
+"feltet."
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "Nettjeneste"
 
 #. Template: AdminDynamicField
 msgid ""
 "External web services can be configured as data sources for this dynamic "
 "field."
 msgstr ""
+"Eksternenettjenester kan konfigureres som datakilder for dette dynamiske "
+"feltet."
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
 msgstr ""
+"Denne funksjonen gjør det mulig å legge til (flere) kontakter med data til "
+"saker."
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1798,6 +1823,9 @@ msgid ""
 "object defines the boundary of the field and it can't be changed after the "
 "field creation."
 msgstr ""
+"For å legge til et nytt felt, velg felttypen fra en av objektets liste, "
+"objektet definerer grensen for feltet og det kan ikke endres etter "
+"feltopprettingen."
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
@@ -1825,7 +1853,7 @@ msgstr "Fjern dette feltet"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
-msgstr ""
+msgstr "Import / Eksport"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid ""
@@ -1833,22 +1861,26 @@ msgid ""
 "system. The file needs to be in .yml format as exported by dynamic field "
 "management module."
 msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere dynamiske felt til "
+"systemet ditt. Filen må være i .yml-format som eksportert av den dynamiske "
+"feltstyringsmodulen."
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
-msgstr ""
+msgstr "Import av dynamiske felter"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Export"
-msgstr ""
+msgstr "Eksport av dynamiske felter"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr ""
+msgstr "Dynamiske felt-skjermer"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
 msgstr ""
+"Her kan du administrere de dynamiske feltene i de respektive skjermbildene."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -1897,17 +1929,19 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Tooltip message:"
-msgstr ""
+msgstr "Verktøytipsmelding:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the tooltip message shown inside the customer interface."
-msgstr ""
+msgstr "Dette er verktøytipsmeldingen som vises i kundegrensesnittet."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
 "Is not possible to invalidate this entry, all config settings have to be "
 "changed beforehand."
 msgstr ""
+"Det er ikke mulig å ugyldiggjøre denne oppføringen, alle "
+"konfigurasjonsinnstillinger må endres på forhånd."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field type"
@@ -1927,7 +1961,7 @@ msgstr "Dette feltet er beskyttet og kan ikke slettes."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This dynamic field is used in the following config settings:"
-msgstr ""
+msgstr "Dette dynamiske feltet brukes i følgende konfigurasjonsinnstillinger:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
@@ -1943,31 +1977,35 @@ msgstr "Dette er standardverdien for dette feltet"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "Legg til eller rediger kontakter"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "To add contacts to this field please fill out all the needed information and "
 "save it."
 msgstr ""
+"For å legge til kontakter i dette feltet, fyll ut all nødvendig informasjon "
+"og lagre den."
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Click on the field name from the overview to edit it and find the "
 "corresponding action in the sidebar or from the 'Tickets' menu."
 msgstr ""
+"Klikk på feltnavnet fra oversikten for å redigere det og finn den "
+"tilsvarende handlingen i sidefeltet eller fra 'Saker'-menyen."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "Navnefelt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
-msgstr ""
+msgstr "Gyldig ID-felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "Andre felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
@@ -1983,7 +2021,7 @@ msgstr "Fjern verdi"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
-msgstr ""
+msgstr "Legg til felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
@@ -1991,37 +2029,44 @@ msgstr "Legg til verdi"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "Dette er de mulige dataattributtene for kontakter."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
-msgstr ""
+msgstr "Obligatoriske felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of mandatory keys (optional). Keys 'Name' and 'ValidID' "
 "are always mandatory and doesn't have to be listed here."
 msgstr ""
+"Kommaseparert liste over obligatoriske nøkler (valgfritt). Nøklene \"Navn\" "
+"og \"Gyldig ID\" er alltid obligatoriske og trenger ikke å være oppført her."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Sorted fields"
-msgstr ""
+msgstr "Sorterte felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of keys in sort order (optional). Keys listed here come "
 "first, all remaining fields afterwards and sorted alphabetically."
 msgstr ""
+"Kommaseparert liste over nøkler i sorteringsrekkefølge (valgfritt). Taster "
+"som er oppført her kommer først, alle gjenværende felt etterpå og sortert "
+"alfabetisk."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
-msgstr ""
+msgstr "Søkbare felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of searchable keys (optional). Key 'Name' is always "
 "searchable and doesn't have to be listed here."
 msgstr ""
+"Kommaseparert liste over søkbare nøkler (valgfritt). Nøkkel 'Navn' er alltid "
+"søkbar og trenger ikke å være oppført her."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Translatable values"
@@ -2051,7 +2096,7 @@ msgstr "Tilgjengelige verdier"
 
 #. Template: AdminDynamicFieldDB
 msgid "Datatype"
-msgstr ""
+msgstr "Datatype"
 
 #. Template: AdminDynamicFieldDB
 msgid "Filter"
@@ -2059,11 +2104,11 @@ msgstr "Filter"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchfield"
-msgstr ""
+msgstr "Søkefelt"
 
 #. Template: AdminDynamicFieldDB
 msgid "Listfield"
-msgstr ""
+msgstr "Listefelt"
 
 #. Template: AdminDynamicFieldDB
 msgid "Show link"
@@ -2074,6 +2119,8 @@ msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
 msgstr ""
+"Her kan du angi en valgfri HTTP-lenke for feltverdien i Oversikter og Zoom-"
+"skjermer."
 
 #. Template: AdminDynamicFieldDB
 msgid "Example"
@@ -2087,7 +2134,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldDB
 msgid "Link for preview"
-msgstr ""
+msgstr "Lenke for forhåndsvisning"
 
 #. Template: AdminDynamicFieldDB
 msgid ""
@@ -2095,18 +2142,23 @@ msgid ""
 "link is hovered in ticket zoom. Please note that for this to work, the "
 "regular URL field above needs to be filled in, too."
 msgstr ""
+"Hvis den er fylt ut, vil denne URL-en bli brukt for en forhåndsvisning som "
+"vises når denne lenken holdes i sak-zoom. Vær oppmerksom på at for at dette "
+"skal fungere, må det vanlige URL-feltet ovenfor også fylles ut."
 
 #. Template: AdminDynamicFieldDB
 msgid "SID"
 msgstr "SID"
 
 #. Template: AdminDynamicFieldDB
+#, fuzzy
 msgid "Driver"
-msgstr ""
+msgstr "Driver"
 
 #. Template: AdminDynamicFieldDB
+#, fuzzy
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
@@ -2114,7 +2166,7 @@ msgstr "Port"
 
 #. Template: AdminDynamicFieldDB
 msgid "Table / View"
-msgstr ""
+msgstr "Tabell / Visning"
 
 #. Template: AdminDynamicFieldDB
 msgid "User"
@@ -2130,31 +2182,31 @@ msgstr "Nøkkel"
 
 #. Template: AdminDynamicFieldDB
 msgid "Must be unique column from the table entered in Table/View."
-msgstr ""
+msgstr "Må være unik kolonne fra tabellen angitt i Tabell/Visning."
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiselect"
-msgstr ""
+msgstr "Flervalg"
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
-msgstr ""
+msgstr "CacheTTL"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchprefix"
-msgstr ""
+msgstr "Søkeprefiks"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchsuffix"
-msgstr ""
+msgstr "Søkesuffiks"
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr ""
+msgstr "Resultatgrense"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Skiller mellom store og små bokstaver"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Default date difference"
@@ -2169,46 +2221,52 @@ msgid ""
 "The difference from NOW (in seconds) to calculate the field default value (e."
 "g. 3600 or -60)."
 msgstr ""
+"Forskjellen fra NÅ (i sekunder) for å beregne feltets standardverdi (f.eks. "
+"3600 eller -60)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Define years period"
-msgstr ""
+msgstr "Definer årsperiode"
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "Activate this feature to define a fixed range of years (in the future and in "
 "the past) to be displayed on the year part of the field."
 msgstr ""
+"Aktiver denne funksjonen for å definere et fast område av år (i fremtiden og "
+"i fortiden) som skal vises på årsdelen av feltet."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the past"
-msgstr ""
+msgstr "År i fortiden"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the past to display (default: 5 years)."
-msgstr ""
+msgstr "År i det siste som skal vises (standard: 5 år)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the future"
-msgstr ""
+msgstr "År i fremtiden"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the future to display (default: 5 years)."
-msgstr ""
+msgstr "År i fremtiden som skal vises (standard: 5 år)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "If special characters (&, @, :, /, etc.) should not be encoded, use 'url' "
 "instead of 'uri' filter."
 msgstr ""
+"Hvis spesialtegn (&, @, :, / osv.) ikke skal kodes, bruk 'url' i stedet for "
+"'uri'-filter."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
-msgstr ""
+msgstr "Begrens inntasting av datoer"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Here you can restrict the entering of dates of tickets."
-msgstr ""
+msgstr "Her kan du begrense inntasting av datoer for saker."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add Value"
@@ -2232,15 +2290,15 @@ msgstr "Aktiver dette valget for å vise verdier som en trestruktur"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
-msgstr ""
+msgstr "Velg elementene du vil "
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
-msgstr ""
+msgstr "Velg de ønskede elementene og bekreft importen med 'importer'."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
@@ -2248,16 +2306,20 @@ msgid ""
 "screens to import these on another system. The configuration file is "
 "exported in yml format."
 msgstr ""
+"Her kan du eksportere en konfigurasjonsfil med dynamiske felt og dynamiske "
+"feltskjermer for å importere disse på et annet system. Konfigurasjonsfilen "
+"eksporteres i yml-format."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
 "The following dynamic fields can not be imported because of an invalid "
 "backend."
 msgstr ""
+"Følgende dynamiske felt kan ikke importeres på grunn av en ugyldig backend."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Toggle all available elements"
-msgstr ""
+msgstr "Veksle alle tilgjengelige elementer"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Fields"
@@ -2265,11 +2327,11 @@ msgstr "Felter"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Screens"
-msgstr ""
+msgstr "Skjermer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Management of Dynamic Fields <-> Screens"
-msgstr ""
+msgstr "Håndtering av dynamiske felt <-> skjermer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Overview"
@@ -2277,82 +2339,84 @@ msgstr "Oversikt"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Default Columns Screens"
-msgstr ""
+msgstr "Skjermer for standard kolonner"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Add DynamicField"
-msgstr ""
+msgstr "Legg til dynamisk felt"
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
 "You can assign elements to this Screen/Field by dragging the elements with "
 "the mouse from the left list to the right list."
 msgstr ""
+"Du kan tilordne elementer til denne skjermen/feltet ved å dra elementene med "
+"musen fra venstre liste til høyre liste."
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
 "Ordering the elements within the list is also possible by drag 'n' drop."
-msgstr ""
+msgstr "Det er også mulig å sortere elementene i listen ved å dra og slippe."
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter available elements"
-msgstr ""
+msgstr "Filtrer tilgjengelige elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to available elements"
-msgstr ""
+msgstr "valgt til tilgjengelige elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Available Elements"
-msgstr ""
+msgstr "Tilgjengelige elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter disabled elements"
-msgstr ""
+msgstr "Filtrer deaktiverte elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to disabled elements"
-msgstr ""
+msgstr "valgt til deaktiverte elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all disabled elements"
-msgstr ""
+msgstr "Veksle alle deaktiverte elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Disabled Elements"
-msgstr ""
+msgstr "Deaktiverte elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned elements"
-msgstr ""
+msgstr "Filtrer tilordnede elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned elements"
-msgstr ""
+msgstr "valgt til tilordnede elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned elements"
-msgstr ""
+msgstr "Veksle alle tildelte elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Elements"
-msgstr ""
+msgstr "Tilordnede elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned required elements"
-msgstr ""
+msgstr "Filtrer tildelte påkrevde elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned required elements"
-msgstr ""
+msgstr "valgt til tilordnede nødvendige elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned required elements"
-msgstr ""
+msgstr "Veksle alle tildelte nødvendige elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Required Elements"
-msgstr ""
+msgstr "Tilordnede påkrevd elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Reset"
@@ -2376,13 +2440,15 @@ msgstr "Spesifiser bredden (i antall tegn) for dette feltet i endrings-modus"
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
-msgstr ""
+msgstr "Sjekk RegEx"
 
 #. Template: AdminDynamicFieldText
 msgid ""
 "Here you can specify a regular expression to check the value. The regex will "
 "be executed with the modifiers xms."
 msgstr ""
+"Her kan du angi et regulært uttrykk for å kontrollere verdien. Regex vil bli "
+"utført med modifikatorene xms."
 
 #. Template: AdminDynamicFieldText
 msgid "RegEx"
@@ -2406,23 +2472,23 @@ msgstr "Mal"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Style"
-msgstr ""
+msgstr "Stil"
 
 #. Template: AdminDynamicFieldTitle
 msgid "bold"
-msgstr ""
+msgstr "fet skrift"
 
 #. Template: AdminDynamicFieldTitle
 msgid "italic"
-msgstr ""
+msgstr "kursiv"
 
 #. Template: AdminDynamicFieldTitle
 msgid "underline"
-msgstr ""
+msgstr "understreket"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font style of the label."
-msgstr ""
+msgstr "Skriftstilen til etiketten."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Size"
@@ -2430,11 +2496,11 @@ msgstr "Størrelse"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font size of the label."
-msgstr ""
+msgstr "Skriftstørrelse på etiketten."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Color in hex."
-msgstr ""
+msgstr "Farge i hex."
 
 #. Template: AdminDynamicFieldWebService
 msgid "This field is required"
@@ -2442,39 +2508,43 @@ msgstr "Dette feltet er obligatorisk"
 
 #. Template: AdminDynamicFieldWebService
 msgid "The web service to be executed for possible values."
-msgstr ""
+msgstr "Webtjenesten som skal utføres for mulige verdier."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Invoker"
-msgstr ""
+msgstr "Utløser"
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
 "The invoker to be used to perform requests (invoker needs to be of type "
 "'Generic::PassThrough')."
 msgstr ""
+"Utløseren som skal brukes til å utføre forespørsler (utløseren må være av "
+"typen 'Generic::PassThrough')."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Activate this option to allow multiselect on results."
-msgstr ""
+msgstr "Aktiver dette alternativet for å tillate flervalg på resultater."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache TTL"
-msgstr ""
+msgstr "Cache TTL"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache time to live (in minutes), to save the retrieved possible values."
-msgstr ""
+msgstr "Buffertid (i minutter), for å lagre de hentede mulige verdiene."
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens. Optional HTTP link works only for single-select fields."
 msgstr ""
+"Her kan du angi en valgfri HTTP-lenke for feltverdien i Oversikter og Zoom-"
+"skjermer. Valgfri HTTP-kobling fungerer bare for enkeltvalgte felt."
 
 #. Template: AdminEmail
 msgid "Admin Message"
-msgstr ""
+msgstr "Admin-melding"
 
 #. Template: AdminEmail
 msgid ""
@@ -2526,27 +2596,27 @@ msgstr "Send"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent Job Management"
-msgstr ""
+msgstr "Generisk agent jobbehandler"
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
-msgstr ""
+msgstr "Rediger jobb"
 
 #. Template: AdminGenericAgent
 msgid "Add Job"
-msgstr ""
+msgstr "Legg til jobb"
 
 #. Template: AdminGenericAgent
 msgid "Run Job"
-msgstr ""
+msgstr "Kjør jobb"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Jobs"
-msgstr ""
+msgstr "Filter for jobber"
 
 #. Template: AdminGenericAgent
 msgid "Filter for jobs"
-msgstr ""
+msgstr "Filter for jobber"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -2578,11 +2648,11 @@ msgstr "Navnet du oppga finnes allerede"
 
 #. Template: AdminGenericAgent
 msgid "Automatic Execution (Multiple Tickets)"
-msgstr ""
+msgstr "Automatisk utførelse (flere saker)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
-msgstr ""
+msgstr "Utførelsesplan"
 
 #. Template: AdminGenericAgent
 msgid "Schedule minutes"
@@ -2598,7 +2668,7 @@ msgstr "Dager"
 
 #. Template: AdminGenericAgent
 msgid "Automatic execution values are in the system timezone."
-msgstr ""
+msgstr "Verdiene for automatisk utførelse er i systemets tidssone."
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -2614,7 +2684,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
-msgstr ""
+msgstr "Hendelsesbasert gjennomføring (enkeltsak)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
@@ -2622,7 +2692,7 @@ msgstr "Hendelse utløser"
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
-msgstr ""
+msgstr "Liste over alle konfigurerte hendelser"
 
 #. Template: AdminGenericAgent
 msgid "Delete this event"
@@ -2633,16 +2703,20 @@ msgid ""
 "Additionally or alternatively to a periodic execution, you can define ticket "
 "events that will trigger this job."
 msgstr ""
+"I tillegg til eller alternativt til en periodisk utførelse, kan du definere "
+"sakshendelser som vil utløse denne jobben."
 
 #. Template: AdminGenericAgent
 msgid ""
 "If a ticket event is fired, the ticket filter will be applied to check if "
 "the ticket matches. Only then the job is run on that ticket."
 msgstr ""
+"Hvis en sakshendelse utløses, vil saksfilteret bli brukt for å sjekke om "
+"saken stemmer. Først da kjøres jobben på den saken."
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
-msgstr ""
+msgstr "Vil du virkelig slette denne hendelsesutløseren?"
 
 #. Template: AdminGenericAgent
 msgid "Add Event Trigger"
@@ -2651,6 +2725,7 @@ msgstr "Legg til hendelse utløser"
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name"
 msgstr ""
+"For å legge til en ny hendelse, velg hendelsesobjektet og hendelsesnavnet"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -2666,7 +2741,7 @@ msgstr "f.eks. 234321"
 
 #. Template: AdminGenericAgent
 msgid "Customer user ID"
-msgstr ""
+msgstr "Kundens bruker-ID"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -2722,7 +2797,7 @@ msgstr "Dynamiske felter"
 
 #. Template: AdminGenericAgent
 msgid "Add dynamic field"
-msgstr ""
+msgstr "Legg til dynamisk felt"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
@@ -2746,19 +2821,19 @@ msgstr "og"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr ""
+msgstr "Sist endrede tider"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
-msgstr ""
+msgstr "Ingen siste endrede tidsinnstillinger."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr ""
+msgstr "Saken ble sist endret"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
-msgstr ""
+msgstr "Sak sist byttet mellom"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
