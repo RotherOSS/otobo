@@ -33,4 +33,4 @@ more RELEASE git-*.txt >$log_file 2>/dev/null
 echo >>$log_file
 
 # run the test suite
-bin/otobo.Console.pl Dev::UnitTest::Run --verbose >>$log_file 2>&1
+bin/otobo.Console.pl Dev::UnitTest::Run --verbose --merge >>$log_file 2>&1
