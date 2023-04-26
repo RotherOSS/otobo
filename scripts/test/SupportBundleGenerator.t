@@ -729,6 +729,4 @@ if ($ArchiveExists) {
     ok( $Success, "Original ARCHIVE file is restored" );
 }
 
-# cleanup is done by RestoreDatabase
-
-done_testing();
+done_testing;

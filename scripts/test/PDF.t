@@ -18,10 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -42,7 +45,7 @@ my $DocumentNew1 = $PDFObject->DocumentNew(
     Testfonts => 1,
 );
 
-$Self->True(
+ok(
     $DocumentNew1,
     "DocumentNew1()",
 );
@@ -57,7 +60,7 @@ my $PageBlankNew1 = $PDFObject->PageBlankNew(
     MarginLeft   => 50,
 );
 
-$Self->True(
+ok(
     $PageBlankNew1,
     "PageBlankNew1()",
 );
@@ -74,7 +77,7 @@ my $PageNew1 = $PDFObject->PageNew(
     FooterRight  => 'Footer Right Text',
 );
 
-$Self->True(
+ok(
     $PageNew1,
     "PageNew1()",
 );
@@ -100,10 +103,10 @@ while ( chop($StringWidthText) ) {
         $TestOk = 1;
     }
     else {
-        print "ERROR Width $C1 --> $Width\n";
+        note "ERROR Width $C1 --> $Width";
     }
 
-    $Self->True(
+    ok(
         $TestOk,
         "_StringWidth$C1()",
     );
@@ -334,7 +337,7 @@ for ( sort keys %TextCalculateData ) {
             )
         {
             $PossibleRowsOK = 0;
-            print "ERROR Row $C1 -->" . $_ . "<--\n";
+            note "ERROR Row $C1 -->" . $_ . "<--";
         }
         $C1++;
     }
@@ -351,15 +354,13 @@ for ( sort keys %TextCalculateData ) {
         $TestOk = 1;
     }
     else {
-        print "\n";
-        print "ERROR TextCalculate$Test State -->$Return{State}\n";
-        print "ERROR TextCalculate$Test RequiredWidth -->$Return{RequiredWidth}\n";
-        print "ERROR TextCalculate$Test RequiredHeight -->$Return{RequiredHeight}\n";
-        print "ERROR TextCalculate$Test LeftOver -->$Return{LeftOver}<--\n";
-        print "\n";
+        note "ERROR TextCalculate$Test State -->$Return{State}";
+        note "ERROR TextCalculate$Test RequiredWidth -->$Return{RequiredWidth}";
+        note "ERROR TextCalculate$Test RequiredHeight -->$Return{RequiredHeight}";
+        note "ERROR TextCalculate$Test LeftOver -->$Return{LeftOver}<--";
     }
 
-    $Self->True(
+    ok(
         $TestOk,
         "_TextCalculate$Test()",
     );
@@ -514,15 +515,13 @@ for ( sort keys %TextData ) {
         $TestOk = 1;
     }
     else {
-        print "\n";
-        print "ERROR Text$Test State -->$Return{State}\n";
-        print "ERROR Text$Test RequiredWidth -->$Return{RequiredWidth}\n";
-        print "ERROR Text$Test RequiredHeight -->$Return{RequiredHeight}\n";
-        print "ERROR Text$Test LeftOver -->$Return{LeftOver}<--\n";
-        print "\n";
+        note "ERROR Text$Test State -->$Return{State}";
+        note "ERROR Text$Test RequiredWidth -->$Return{RequiredWidth}";
+        note "ERROR Text$Test RequiredHeight -->$Return{RequiredHeight}";
+        note "ERROR Text$Test LeftOver -->$Return{LeftOver}<--";
     }
 
-    $Self->True(
+    ok(
         $TestOk,
         "Text$Test()",
     );
@@ -541,7 +540,7 @@ my $PageNew2 = $PDFObject->PageNew(
     FooterRight  => 'footer right',
 );
 
-$Self->True(
+ok(
     $PageNew2,
     "PageNew2()",
 );
@@ -699,17 +698,15 @@ for ( sort keys %TextData2 ) {
         $TestOk = 1;
     }
     else {
-        print "\n";
-        print "ERROR Text$Test (Position) State -->$Return{State}\n";
-        print "ERROR Text$Test (Position) RequiredWidth -->$Return{RequiredWidth}\n";
-        print "ERROR Text$Test (Position) RequiredHeight -->$Return{RequiredHeight}\n";
-        print "ERROR Text$Test (Position) LeftOver -->$Return{LeftOver}<--\n";
-        print "ERROR Text$Test (Position) Position X -->$Position{X}<--\n";
-        print "ERROR Text$Test (Position) Position Y -->$Position{Y}<--\n";
-        print "\n";
+        note "ERROR Text$Test (Position) State -->$Return{State}";
+        note "ERROR Text$Test (Position) RequiredWidth -->$Return{RequiredWidth}";
+        note "ERROR Text$Test (Position) RequiredHeight -->$Return{RequiredHeight}";
+        note "ERROR Text$Test (Position) LeftOver -->$Return{LeftOver}<--";
+        note "ERROR Text$Test (Position) Position X -->$Position{X}<--";
+        note "ERROR Text$Test (Position) Position Y -->$Position{Y}<--";
     }
 
-    $Self->True(
+    ok(
         $TestOk,
         "Text$Test() (Position)",
     );
@@ -1745,18 +1742,11 @@ for my $Test ( sort keys %TableCalculate ) {
             $TestColumnOk = 1;
         }
         else {
-            print "\n";
-            print
-                "ERROR _TableCalculate$Test Column$CounterColumn Width -->$Return{ColumnData}->[$CounterColumn]->{Width}\n";
-            print
-                "ERROR _TableCalculate$Test Column$CounterColumn EstimateWidth -->$Return{ColumnData}->[$CounterColumn]->{EstimateWidth}\n";
-            print
-                "ERROR _TableCalculate$Test Column$CounterColumn TextWidth -->$Return{ColumnData}->[$CounterColumn]->{TextWidth}\n";
-            print
-                "ERROR _TableCalculate$Test Column$CounterColumn OutputWidth -->$Return{ColumnData}->[$CounterColumn]->{OutputWidth}\n";
-            print
-                "ERROR _TableCalculate$Test Column$CounterColumn Block -->$Return{ColumnData}->[$CounterColumn]->{Block}\n";
-            print "\n";
+            note "ERROR _TableCalculate$Test Column$CounterColumn Width -->$Return{ColumnData}->[$CounterColumn]->{Width}";
+            note "ERROR _TableCalculate$Test Column$CounterColumn EstimateWidth -->$Return{ColumnData}->[$CounterColumn]->{EstimateWidth}";
+            note "ERROR _TableCalculate$Test Column$CounterColumn TextWidth -->$Return{ColumnData}->[$CounterColumn]->{TextWidth}";
+            note "ERROR _TableCalculate$Test Column$CounterColumn OutputWidth -->$Return{ColumnData}->[$CounterColumn]->{OutputWidth}";
+            note "ERROR _TableCalculate$Test Column$CounterColumn Block -->$Return{ColumnData}->[$CounterColumn]->{Block}";
 
             $TestColumnOk = 0;
             last COLUMN;
@@ -1775,12 +1765,9 @@ for my $Test ( sort keys %TableCalculate ) {
                 $TestRowOk = 1;
             }
             else {
-                print "\n";
-                print
-                    "ERROR _TableCalculate$Test Row$CounterRow MinFontSize -->$Return{RowData}->[$CounterRow]->{MinFontSize}\n";
-                print "\n";
-
+                note "ERROR _TableCalculate$Test Row$CounterRow MinFontSize -->$Return{RowData}->[$CounterRow]->{MinFontSize}";
                 $TestRowOk = 0;
+
                 last ROW;
             }
 
@@ -1825,24 +1812,14 @@ for my $Test ( sort keys %TableCalculate ) {
                     $TestOk = 1;
                 }
                 else {
-                    print "\n";
-                    print
-                        "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Content -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Content}<--\n";
-                    print
-                        "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Type -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Type}\n";
-                    print
-                        "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Font -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Font}\n";
-                    print
-                        "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn FontSize -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{FontSize}\n";
-                    print
-                        "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn FontColor -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{FontColor}\n";
-                    print
-                        "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Align -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Align}\n";
-                    print
-                        "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Lead -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Lead}\n";
-                    print
-                        "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn BackgroundColor -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{BackgroundColor}\n";
-                    print "\n";
+                    note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Content -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Content}<--";
+                    note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Type -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Type}";
+                    note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Font -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Font}";
+                    note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn FontSize -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{FontSize}";
+                    note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn FontColor -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{FontColor}";
+                    note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Align -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Align}";
+                    note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Lead -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Lead}";
+                    note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn BackgroundColor -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{BackgroundColor}";
 
                     $TestOk = 0;
                     last CELL;
@@ -1856,7 +1833,7 @@ for my $Test ( sort keys %TableCalculate ) {
         }
     }
 
-    $Self->True(
+    ok(
         $TestOk,
         "_TableCalculate$Test()",
     );
@@ -2365,17 +2342,14 @@ for ( sort keys %TableBlockNextCalculate ) {
         $TestOk = 1;
     }
     else {
-        print "\n";
-        print "ERROR _TableBlockNextCalculate$Test State -->$Return{State}\n";
-        print "ERROR _TableBlockNextCalculate$Test ReturnBlock -->$Return{ReturnBlock}\n";
-        print "ERROR _TableBlockNextCalculate$Test ReturnRowStart -->$Return{ReturnRowStart}\n";
-        print
-            "ERROR _TableBlockNextCalculate$Test ReturnColumnStart -->$Return{ReturnColumnStart}\n";
-        print "ERROR _TableBlockNextCalculate$Test ReturnColumnStop -->$Return{ReturnColumnStop}\n";
-        print "\n";
+        note "ERROR _TableBlockNextCalculate$Test State -->$Return{State}";
+        note "ERROR _TableBlockNextCalculate$Test ReturnBlock -->$Return{ReturnBlock}";
+        note "ERROR _TableBlockNextCalculate$Test ReturnRowStart -->$Return{ReturnRowStart}";
+        note "ERROR _TableBlockNextCalculate$Test ReturnColumnStart -->$Return{ReturnColumnStart}";
+        note "ERROR _TableBlockNextCalculate$Test ReturnColumnStop -->$Return{ReturnColumnStop}";
     }
 
-    $Self->True(
+    ok(
         $TestOk,
         "_TableBlockNextCalculate$Test()",
     );
@@ -2576,15 +2550,12 @@ for ( sort keys %TableRowCalculate ) {
         $TestOk = 1;
     }
     else {
-        print "\n";
-        print "ERROR _TableRowCalculate$Test Height -->$Return{RowData}->[0]->{Height}\n";
-        print "ERROR _TableRowCalculate$Test TextHeight -->$Return{RowData}->[0]->{TextHeight}\n";
-        print
-            "ERROR _TableRowCalculate$Test OutputHeight -->$Return{RowData}->[0]->{OutputHeight}\n";
-        print "\n";
+        note "ERROR _TableRowCalculate$Test Height -->$Return{RowData}->[0]->{Height}";
+        note "ERROR _TableRowCalculate$Test TextHeight -->$Return{RowData}->[0]->{TextHeight}";
+        note "ERROR _TableRowCalculate$Test OutputHeight -->$Return{RowData}->[0]->{OutputHeight}";
     }
 
-    $Self->True(
+    ok(
         $TestOk,
         "_TableRowCalculate$Test()",
     );
@@ -2649,12 +2620,10 @@ for ( sort keys %TableCellOnCount ) {
         $TestOk = 1;
     }
     else {
-        print "\n";
-        print "ERROR _TableCellOnCount$Test Count -->$Return\n";
-        print "\n";
+        note "ERROR _TableCellOnCount$Test Count -->$Return";
     }
 
-    $Self->True(
+    ok(
         $TestOk,
         "_TableCellOnCount$Test()",
     );
@@ -2671,7 +2640,7 @@ my $DocumentNew2 = $PDFObject->DocumentNew(
     Testfonts => 1,
 );
 
-$Self->True(
+ok(
     $DocumentNew2,
     "DocumentNew2()",
 );
@@ -2686,7 +2655,7 @@ my $PageBlankNew2 = $PDFObject->PageBlankNew(
     MarginLeft   => 50,
 );
 
-$Self->True(
+ok(
     $PageBlankNew2,
     "PageBlankNew2()",
 );
@@ -2736,15 +2705,13 @@ if (
     $CharsetTest1Ok = 1;
 }
 else {
-    print "\n";
-    print "ERROR CharsetTest1 State -->$ReturnCharsetTestData1{State}\n";
-    print "ERROR CharsetTest1 RequiredWidth -->$ReturnCharsetTestData1{RequiredWidth}\n";
-    print "ERROR CharsetTest1 RequiredHeight -->$ReturnCharsetTestData1{RequiredHeight}\n";
-    print "ERROR CharsetTest1 LeftOver -->$ReturnCharsetTestData1{LeftOver}<--\n";
-    print "\n";
+    note "ERROR CharsetTest1 State -->$ReturnCharsetTestData1{State}";
+    note "ERROR CharsetTest1 RequiredWidth -->$ReturnCharsetTestData1{RequiredWidth}";
+    note "ERROR CharsetTest1 RequiredHeight -->$ReturnCharsetTestData1{RequiredHeight}";
+    note "ERROR CharsetTest1 LeftOver -->$ReturnCharsetTestData1{LeftOver}<--";
 }
 
-$Self->True(
+ok(
     $CharsetTest1Ok,
     "CharsetTest1()",
 );
@@ -2760,7 +2727,7 @@ my $DocumentNew3 = $PDFObject->DocumentNew(
     Testfonts => 1,
 );
 
-$Self->True(
+ok(
     $DocumentNew3,
     "DocumentNew3()",
 );
@@ -2775,7 +2742,7 @@ my $PageBlankNew3 = $PDFObject->PageBlankNew(
     MarginLeft   => 50,
 );
 
-$Self->True(
+ok(
     $PageBlankNew3,
     "PageBlankNew3()",
 );
@@ -2820,15 +2787,13 @@ if (
     $CharsetTest2Ok = 1;
 }
 else {
-    print "\n";
-    print "ERROR CharsetTest2 State -->$ReturnCharsetTestData2{State}\n";
-    print "ERROR CharsetTest2 RequiredWidth -->$ReturnCharsetTestData2{RequiredWidth}\n";
-    print "ERROR CharsetTest2 RequiredHeight -->$ReturnCharsetTestData2{RequiredHeight}\n";
-    print "ERROR CharsetTest2 LeftOver -->$ReturnCharsetTestData2{LeftOver}<--\n";
-    print "\n";
+    note "ERROR CharsetTest2 State -->$ReturnCharsetTestData2{State}";
+    note "ERROR CharsetTest2 RequiredWidth -->$ReturnCharsetTestData2{RequiredWidth}";
+    note "ERROR CharsetTest2 RequiredHeight -->$ReturnCharsetTestData2{RequiredHeight}";
+    note "ERROR CharsetTest2 LeftOver -->$ReturnCharsetTestData2{LeftOver}<--";
 }
 
-$Self->True(
+ok(
     $CharsetTest2Ok,
     "CharsetTest2()",
 );
@@ -2844,7 +2809,7 @@ my $DocumentNew4 = $PDFObject->DocumentNew(
     Testfonts => 1,
 );
 
-$Self->True(
+ok(
     $DocumentNew4,
     "DocumentNew4()",
 );
@@ -2859,7 +2824,7 @@ my $PageBlankNew4 = $PDFObject->PageBlankNew(
     MarginLeft   => 50,
 );
 
-$Self->True(
+ok(
     $PageBlankNew4,
     "PageBlankNew4()",
 );
@@ -2904,19 +2869,15 @@ if (
     $CharsetTest3Ok = 1;
 }
 else {
-    print "\n";
-    print "ERROR CharsetTest3 State -->$ReturnCharsetTestData3{State}\n";
-    print "ERROR CharsetTest3 RequiredWidth -->$ReturnCharsetTestData3{RequiredWidth}\n";
-    print "ERROR CharsetTest3 RequiredHeight -->$ReturnCharsetTestData3{RequiredHeight}\n";
-    print "ERROR CharsetTest3 LeftOver -->$ReturnCharsetTestData3{LeftOver}<--\n";
-    print "\n";
+    note "ERROR CharsetTest3 State -->$ReturnCharsetTestData3{State}";
+    note "ERROR CharsetTest3 RequiredWidth -->$ReturnCharsetTestData3{RequiredWidth}";
+    note "ERROR CharsetTest3 RequiredHeight -->$ReturnCharsetTestData3{RequiredHeight}";
+    note "ERROR CharsetTest3 LeftOver -->$ReturnCharsetTestData3{LeftOver}<--";
 }
 
-$Self->True(
+ok(
     $CharsetTest3Ok,
     "CharsetTest3()",
 );
 
-# cleanup cache is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

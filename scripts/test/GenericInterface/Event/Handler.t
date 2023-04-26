@@ -18,12 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
+use Test2::V0;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
+use URI::Escape();
 
 our $Self;
-
-use URI::Escape();
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -77,14 +78,14 @@ else {
 
 # Wait for slow systems
 my $SleepTime = 120;
-print "Waiting at most $SleepTime s until daemon stops\n";
+note "Waiting at most $SleepTime s until daemon stops";
 ACTIVESLEEP:
 for my $Seconds ( 1 .. $SleepTime ) {
     my $DaemonStatus = `perl $Daemon status`;
     if ( $DaemonStatus =~ m{Daemon not running}i ) {
         last ACTIVESLEEP;
     }
-    print "Sleeping for $Seconds seconds...\n";
+    note "Sleeping for $Seconds seconds...";
     sleep 1;
 }
 
@@ -495,14 +496,14 @@ for my $Test (@Tests) {
 
         # Wait for slow systems
         my $SleepTime = 5;
-        print "Waiting at most $SleepTime s until tasks are registered\n";
+        note "Waiting at most $SleepTime s until tasks are registered";
         ACTIVESLEEP:
         for my $Seconds ( 1 .. $SleepTime ) {
             my @List = $SchedulerDBObject->TaskList(
                 Type => 'GenericInterface',
             );
             last ACTIVESLEEP if scalar @List;
-            print "Sleeping for $Seconds seconds...\n";
+            note "Sleeping for $Seconds seconds...";
             sleep 1;
         }
 
@@ -511,7 +512,7 @@ for my $Test (@Tests) {
         # wait for daemon children to actually execute tasks
         WAITEXECUTE:
         for my $Wait ( 1 .. $TotalWaitToExecute ) {
-            print "Waiting for Daemon to execute tasks, $Wait seconds\n";
+            note "Waiting for Daemon to execute tasks, $Wait seconds";
 
             my $Success = $TaskWorkerObject->Run();
             $TaskWorkerObject->_WorkerPIDsCheck();
@@ -627,14 +628,14 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
 
     # Wait for slow systems
     my $SleepTime = 120;
-    print "Waiting at most $SleepTime s until daemon start\n";
+    note "Waiting at most $SleepTime s until daemon start";
     ACTIVESLEEP:
     for my $Seconds ( 1 .. $SleepTime ) {
         my $DaemonStatus = `perl $Daemon status`;
         if ( $DaemonStatus =~ m{Daemon running}i ) {
             last ACTIVESLEEP;
         }
-        print "Sleeping for $Seconds seconds...\n";
+        note "Sleeping for $Seconds seconds...";
         sleep 1;
     }
 }
@@ -647,4 +648,4 @@ $Self->Is(
     "Daemon has original state again.",
 );
 
-$Self->DoneTesting();
+done_testing;

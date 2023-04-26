@@ -18,6 +18,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Test2::V0;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
@@ -110,14 +112,14 @@ my $ExecuteXMLDBString = sub {
     for my $SQL ( @SQL, @SQLPost ) {
         my $Success = $DBObject->Do( SQL => $SQL );
 
-        print "\n$SQL\n";
+        note $SQL;
 
         if ( !$Success ) {
-            print "\n";
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Error during execution of '$SQL'!",
             );
+
             return;
         }
     }
@@ -227,4 +229,4 @@ for my $Test (@Tests) {
     }
 }
 
-$Self->DoneTesting();
+done_testing;

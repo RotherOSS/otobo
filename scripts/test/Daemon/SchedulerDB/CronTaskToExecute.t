@@ -45,8 +45,8 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     my $SleepTime = 2;
 
     # Wait to get daemon fully stopped before test continues.
-    print "A running Daemon was detected and need to be stopped...\n";
-    print 'Sleeping ' . $SleepTime . "s\n";
+    note "A running Daemon was detected and need to be stopped...";
+    note 'Sleeping ' . $SleepTime . "s";
     sleep $SleepTime;
 }
 
@@ -72,7 +72,7 @@ my $RunTasks = sub {
 
         sleep 1;
 
-        print "Waiting $Sec secs for scheduler tasks to be executed\n";
+        note "Waiting $Sec secs for scheduler tasks to be executed";
 
         if ( $Sec == 120 && scalar @List ) {
             $AllTaskIsDone = 0;
@@ -236,4 +236,4 @@ for my $Task (@List) {
     );
 }
 
-$Self->DoneTesting();
+done_testing;

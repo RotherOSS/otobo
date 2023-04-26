@@ -62,14 +62,14 @@ else {
 
 # Wait for slow systems
 my $SleepTime = 120;
-print "Waiting at most $SleepTime s until daemon stops\n";
+note "Waiting at most $SleepTime s until daemon stops";
 ACTIVESLEEP:
 for my $Seconds ( 1 .. $SleepTime ) {
     my $DaemonStatus = `perl $Daemon status`;
     if ( $DaemonStatus =~ m{Daemon not running}i ) {
         last ACTIVESLEEP;
     }
-    print "Sleeping for $Seconds seconds...\n";
+    note "Sleeping for $Seconds seconds...";
     sleep 1;
 }
 
@@ -347,4 +347,4 @@ is( $Success, 1, "Finish ConfigurationDeploymentSync() result" );
 
 ok( !-e $LocationUser, "Make sure that ConfigurationDeploymentSync() removed the user's file" );
 
-done_testing();
+done_testing;
