@@ -63,7 +63,7 @@ else {
         'Checksum file size in expected range (> 1KB && < 1MB)'
     );
 
-    my $ErrorsFound;
+    my $ErrorsFound = 0;
 
     # Verify MD5 digests in the checksum file.
     LINE:

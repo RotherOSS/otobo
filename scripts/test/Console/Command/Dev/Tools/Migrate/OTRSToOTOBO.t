@@ -121,6 +121,7 @@ subtest
                 $SourceDir->stringify(),
             );
         }
+        $Stderr //= '';
         note("stderr: $Stderr");
 
         # exit code 0 indicates success

@@ -239,7 +239,7 @@ $Selenium->RunTest(
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
 
             # Check error message if there is set wrong invalid date for x-axis
-            if ( $StatsData->{XAxis} eq 'XAxisCreateTime' ) {
+            if ( $StatsData->{XAxis} && $StatsData->{XAxis} eq 'XAxisCreateTime' ) {
                 $Self->Is(
                     $Selenium->execute_script("return \$('.Preview p.Error').text().trim();"),
                     "CreateTime: The selected date is not valid.",
