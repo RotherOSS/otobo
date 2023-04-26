@@ -14,16 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $main::Self
+use Kernel::System::PostMaster;
 
 our $Self;
-
-use Kernel::System::PostMaster;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -1159,7 +1164,7 @@ for my $Type (qw(Config DB)) {
             );
         }
         else {
-            print STDERR "\n Name: $Test->{Name} \n";
+            diag "Name: $Test->{Name}";
             $ConfigObject->Set(
                 Key   => 'PostMaster::PreFilterModule###' . $Test->{Name},
                 Value => {
@@ -1687,4 +1692,4 @@ $Self->Is(
 
 # cleanup is done by RestoreDatabase
 
-$Self->DoneTesting();
+done_testing;

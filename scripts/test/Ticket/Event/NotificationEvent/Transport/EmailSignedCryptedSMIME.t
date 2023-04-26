@@ -192,7 +192,7 @@ $ConfigObject->Set(
 my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
 if ( !$SMIMEObject ) {
-    print STDERR "NOTICE: No SMIME support!\n";
+    diag "NOTICE: No SMIME support!";
 
     if ( !-e $OpenSSLBin ) {
         $Self->False(
