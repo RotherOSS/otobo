@@ -18,6 +18,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Test2::V0;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
@@ -700,7 +702,7 @@ for my $Test (@Tests) {
     if ( $Test->{Success} ) {
 
         # try to update the Transition
-        print "Force a gap between create and update Transition, Waiting 2s\n";
+        note "Force a gap between create and update Transition, Waiting 2s";
 
         # wait 2 seconds
         FixedTimeAddSeconds(2);
@@ -984,6 +986,4 @@ $Self->IsDeeply(
     "TransitionListGet Test 2: Correct List | Cache",
 );
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

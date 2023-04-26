@@ -18,6 +18,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Test2::V0;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
@@ -57,12 +59,12 @@ $Selenium->RunTest(
             my @TaskList;
 
             # Wait for daemon to do it's magic.
-            print "Waiting at most $WaitTime s until tasks are executed\n";
+            note "Waiting at most $WaitTime s until tasks are executed";
             ACTIVESLEEP:
             for my $Seconds ( 1 .. $WaitTime ) {
                 @TaskList = $SchedulerDBObject->TaskList();
                 last ACTIVESLEEP if !scalar @TaskList;
-                print "Sleeping for $Seconds seconds...\n";
+                note "Sleeping for $Seconds seconds...";
                 sleep 1;
             }
 
@@ -801,4 +803,4 @@ $Selenium->RunTest(
     },
 );
 
-$Self->DoneTesting();
+done_testing;

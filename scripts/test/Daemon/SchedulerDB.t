@@ -18,6 +18,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Test2::V0;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
@@ -38,8 +40,8 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     my $SleepTime = 2;
 
     # wait to get daemon fully stopped before test continues
-    print "A running Daemon was detected and need to be stopped...\n";
-    print 'Sleeping ' . $SleepTime . "s\n";
+    note "A running Daemon was detected and need to be stopped...";
+    note 'Sleeping ' . $SleepTime . "s";
     sleep $SleepTime;
 }
 
@@ -585,7 +587,7 @@ for my $Test (@Tests) {
 
     if ( $Test->{PastSecondsAdd} ) {
         FixedTimeAddSeconds( -$Test->{PastSecondsAdd} );
-        print "  Set $Test->{PastSecondsAdd} seconds into the past.\n";
+        note "  Set $Test->{PastSecondsAdd} seconds into the past.";
     }
 
     my @AddedTasks;
@@ -613,7 +615,7 @@ for my $Test (@Tests) {
 
     if ( $Test->{PastSecondsAdd} ) {
         FixedTimeAddSeconds( $Test->{PastSecondsAdd} );
-        print "  Restored time.\n";
+        note "  Restored time.";
     }
 
     my $Success = $SchedulerDBObject->TaskCleanup();
@@ -885,6 +887,4 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     system("$^X $Daemon start");
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;
