@@ -76,7 +76,7 @@ $ConfigObject->Set(
 );
 
 # check if openssl is located there
-if ( !-e $OpenSSLBin ) {
+if ( !$OpenSSLBin || !-e $OpenSSLBin ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/openssl' ) {
@@ -90,7 +90,7 @@ if ( !-e $OpenSSLBin ) {
 my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
 if ( !$SMIMEObject ) {
-    print STDERR "NOTICE: No SMIME support!\n";
+    diag "NOTICE: No SMIME support!";
 
     if ( !-e $OpenSSLBin ) {
         $Self->False(

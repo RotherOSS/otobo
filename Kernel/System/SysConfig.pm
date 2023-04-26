@@ -2527,6 +2527,7 @@ sub ConfigurationXML2DB {
 
         # Extract otobo_config Init attribute. E.g. 'Framework', 'Config'
         my ($InitValue) = ${$ConfigFile} =~ m{<otobo_config.*?init="(.*?)"}gsmx;
+        $InitValue //= '';
 
         # Check if InitValue is Valid.
         if ( !defined $SettingsByInit{$InitValue} ) {

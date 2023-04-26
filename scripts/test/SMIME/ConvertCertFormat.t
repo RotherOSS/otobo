@@ -73,7 +73,7 @@ $ConfigObject->Set(
 );
 
 # check if openssl is located there
-if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
+if ( !$ConfigObject->Get('SMIME::Bin') || !-e $ConfigObject->Get('SMIME::Bin') ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/openssl' ) {

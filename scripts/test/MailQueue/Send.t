@@ -601,7 +601,7 @@ for my $Test (@Tests) {
         );
 
         # Article Email Notifications Events.
-        if ( $ArticleTransmissionError->{Status} eq 'Failed' ) {
+        if ( $ArticleTransmissionError->{Status} && $ArticleTransmissionError->{Status} eq 'Failed' ) {
             $CheckForQueueNotifications->(
                 ArticleID => $ArticleID,
             );

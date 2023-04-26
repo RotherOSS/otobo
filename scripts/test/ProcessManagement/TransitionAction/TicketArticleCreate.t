@@ -788,8 +788,7 @@ for my $Test (@Tests) {
                 $Article{$Attribute} //= '';
             }
 
-            if ( $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTOBO_AGENT_BODY[2]>' )
-            {
+            if ( $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTOBO_AGENT_BODY[2]>' ) {
                 my @Count = ( $Article{$Attribute} =~ /the message text/g );
                 $Self->Is(
                     scalar @Count,
@@ -798,8 +797,7 @@ for my $Test (@Tests) {
                 );
             }
 
-            if ( $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTOBO_AGENT_SUBJECT[10]>' )
-            {
+            if ( $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTOBO_AGENT_SUBJECT[10]>' ) {
                 $Self->Is(
                     $Article{$Attribute},
                     'Email for  [...]',

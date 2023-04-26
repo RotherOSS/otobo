@@ -59,7 +59,7 @@ $ConfigObject->Set(
 );
 
 # Check if GPG is located there.
-if ( !-e $ConfigObject->Get('PGP::Bin') ) {
+if ( !$ConfigObject->Get('PGP::Bin') || !-e $ConfigObject->Get('PGP::Bin') ) {
 
     if ( -e '/usr/bin/gpg' ) {
         $ConfigObject->Set(
