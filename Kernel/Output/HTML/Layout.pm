@@ -1383,7 +1383,7 @@ sub Header {
     }
 
     # run tool bar item modules
-    if ( $Self->{UserID} && $Self->{UserType} eq 'User' ) {
+    if ( $Self->{UserID} && ( $Self->{UserType} // '' ) eq 'User' ) {
         my $ToolBarModule = $ConfigObject->Get('Frontend::ToolBarModule');
         if ( $Param{ShowToolbarItems} && ref $ToolBarModule eq 'HASH' ) {
 
@@ -4777,7 +4777,7 @@ sub CustomerNavigationBar {
     my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
         User => $Self->{UserLogin},
     );
-    $Param{UserName} = "$User{UserFirstname} $User{UserLastname}";
+    $Param{UserName} = join ' ', ( $User{UserFirstname} // '' ), ( $User{UserLastname} // '' );
 
     # generate avatar
     if ( $ConfigObject->Get('Frontend::AvatarEngine') eq 'Gravatar' && $Self->{UserEmail} ) {

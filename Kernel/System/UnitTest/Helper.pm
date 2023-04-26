@@ -501,6 +501,7 @@ sub ConfigSettingChange {
 
         if ($Valid) {
             $ValueDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Value);
+            $ValueDump //= '';
             $ValueDump =~ s/\$VAR1/$KeyDump/;
         }
         else {
