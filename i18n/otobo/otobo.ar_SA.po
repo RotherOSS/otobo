@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-04-26 23:29+0000\n"
+"PO-Revision-Date: 2023-04-27 11:30+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -23858,61 +23858,73 @@ msgstr "يضبط الحجم الافتراضي لصفحات PDF."
 msgid ""
 "Defines the state of a ticket if it gets a follow-up and the ticket was "
 "already closed."
-msgstr ""
+msgstr "يحدد حالة التذكرة إذا حصلت على متابعة وكانت التذكرة مغلقة بالفعل."
 
 #. SysConfig
 msgid "Defines the state of a ticket if it gets a follow-up."
-msgstr ""
+msgstr "يحدد حالة التذكرة عند تلقي المتابعة."
 
 #. SysConfig
 msgid "Defines the state type of the reminder for pending tickets."
-msgstr ""
+msgstr "يحدد نوع حالة التذكير للتذاكر التي تم تعيينها على \"انتظار\"."
 
 #. SysConfig
 msgid ""
 "Defines the subject for notification mails sent to agents, about new "
 "password."
 msgstr ""
+"يحدد موضوع رسائل البريد الإلكتروني الخاصة بالإشعارات المرسلة إلى الوكلاء "
+"للحصول على كلمة مرور جديدة."
 
 #. SysConfig
 msgid ""
 "Defines the subject for notification mails sent to agents, with token about "
 "new requested password."
 msgstr ""
+"يضبط موضوع البريد الإلكتروني للإخطار الذي يتم إرساله إلى الوكلاء في حالة طلب "
+"كلمة مرور."
 
 #. SysConfig
 msgid ""
 "Defines the subject for notification mails sent to customers, about new "
 "account."
 msgstr ""
+"تحديد الموضوع لرسائل البريد الإلكتروني التي يتم إرسالها إلى العملاء للحصول "
+"على حساب جديد."
 
 #. SysConfig
 msgid ""
 "Defines the subject for notification mails sent to customers, about new "
 "password."
 msgstr ""
+"تعريف الموضوع لرسائل البريد الإلكتروني التي يتم إرسالها إلى العملاء لكلمة "
+"مرور جديدة."
 
 #. SysConfig
 msgid ""
 "Defines the subject for notification mails sent to customers, with token "
 "about new requested password."
 msgstr ""
+"تعيين موضوع رسالة البريد الإلكتروني للإخطار التي يتم إرسالها إلى العملاء في "
+"حالة طلب كلمة مرور."
 
 #. SysConfig
 msgid "Defines the subject for rejected emails."
-msgstr ""
+msgstr "يحدد موضوع رسائل البريد الإلكتروني المرفوضة."
 
 #. SysConfig
 msgid ""
 "Defines the subject for the quick close action, which gets used for ticket "
 "history in the agent interface."
 msgstr ""
+"يحدد موضوع إجراء الإغلاق السريع، والذي يتم استخدامه في سجل التذكرة في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the system administrator's email address. It will be displayed in "
 "the error screens of the application."
-msgstr ""
+msgstr "يحدد عنوان البريد الإلكتروني لمسؤول النظام. يتم عرضه في رسائل الخطأ."
 
 #. SysConfig
 msgid ""
@@ -23921,36 +23933,45 @@ msgid ""
 "will be processed as follow-ups (useful when communicating between two "
 "instances of OTOBO)."
 msgstr ""
+"يحدد معرف النظام. يحتوي كل رقم تذكرة وجلسة HTTP على هذا المعرف. هذا يضمن أن "
+"التذاكر التي تنتمي إلى نظام التذاكر الخاص بك فقط هي التي يتم تضمينها في نظام "
+"التذاكر (مفيد عند الاتصال بين مثيلين من OTOBO)."
 
 #. SysConfig
 msgid ""
 "Defines the target attribute in the link to external customer database. E.g. "
 "'AsPopup PopupType_TicketAction'."
 msgstr ""
+"تحدد السمة \"الهدف\" لارتباط إلى قاعدة بيانات العملاء الخارجيين. على سبيل "
+"المثال، \"AsPopup PopupType_TicketAction\"."
 
 #. SysConfig
 msgid ""
 "Defines the target attribute in the link to external customer database. E.g. "
 "'target=\"cdb\"'."
 msgstr ""
+"تحديد السمة المستهدفة للإرتباط بقاعدة بيانات العميل الخارجية. على سبيل "
+"المثال، 'target=\"cdb\"'."
 
 #. SysConfig
 msgid "Defines the target dynamic fields for storing historical data."
-msgstr ""
+msgstr "يحدد الحقول المستهدفة الديناميكية لتخزين البيانات التاريخية."
 
 #. SysConfig
 msgid ""
 "Defines the ticket appointment type backend for ticket dynamic field date "
 "time."
 msgstr ""
+"يصف نوع الواجهة الخلفية لموعد التذكرة للتاريخ/الوقت من خلال الحقول "
+"الديناميكية."
 
 #. SysConfig
 msgid "Defines the ticket appointment type backend for ticket escalation time."
-msgstr ""
+msgstr "يحدد الواجهة الخلفية لنوع موعد التذكرة لوقت تصعيد التذاكر."
 
 #. SysConfig
 msgid "Defines the ticket appointment type backend for ticket pending time."
-msgstr ""
+msgstr "يصف نوع الواجهة الخلفية لموعد التذكرة لأوقات انتظار التذكرة."
 
 #. SysConfig
 msgid ""
@@ -23958,16 +23979,20 @@ msgid ""
 "The \"Key\" defines the field or ticket attribute and the \"Content\" "
 "defines the display name."
 msgstr ""
+"يضبط خصائص التذاكر التي سيتم عرضها في أحداث التقويم. يحدد \"المفتاح\" الحقل "
+"أو سمة التذاكر، ويحدد \"المحتوى\" الاسم المراد عرضه."
 
 #. SysConfig
 msgid "Defines the ticket plugin for calendar appointments."
-msgstr ""
+msgstr "يضبط ملحق التذكرة للمواعيد."
 
 #. SysConfig
 msgid ""
 "Defines the time zone of the indicated calendar, which can be assigned later "
 "to a specific queue."
 msgstr ""
+"يحدد المنطقة الزمنية للتقويم المعروض، والتي يمكن تعيينها لاحقا إلى قائمة "
+"انتظار معينة."
 
 #. SysConfig
 msgid ""
@@ -23975,6 +24000,9 @@ msgid ""
 "collection with the public module 'PublicSupportDataCollector' (e.g. used "
 "from the OTOBO Daemon)."
 msgstr ""
+"يضبط المهلة بالثواني لجمع بيانات الدعم من الوحدة العامة "
+"'PublicSupportDataCollector'، والتي على سبيل المثال. مستخدم من قبل OTOBO "
+"Daemon (دقيقة ٢٠ ثانية)."
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."
