@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-04-27 11:30+0000\n"
+"PO-Revision-Date: 2023-04-27 12:45+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -24006,11 +24006,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."
-msgstr ""
+msgstr "يحدد الوحدة النمطية للمصادقة الثنائية للوكلاء."
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate customers."
-msgstr ""
+msgstr "يحدد الوحدة النمطية للمصادقة الثنائية للعملاء."
 
 #. SysConfig
 msgid ""
@@ -24026,6 +24026,14 @@ msgid ""
 "'https' is that the session management cookie will only be set for secure "
 "connections."
 msgstr ""
+"يحدد البروتوكول الذي يستخدمه خادم الويب للاتصال بالتطبيق. إذا كان خادم الويب "
+"يستخدم HTTP بدلا من HTTPS، فيجب تحديد \"http\" هنا. إعداد HttpType ليس له أي "
+"تأثير على إعدادات أو سلوك ملقم ويب. على وجه الخصوص، لن يغير كيفية الوصول إلى "
+"التطبيق. إذا كان الإعداد غير صحيح، فلن يمنعك من الوصول إلى التطبيق. يتم "
+"استخدام الإعداد بشكل أساسي عبر متغير القالب OTOBO_CONFIG_HttpType. يمكن "
+"العثور على هذا المتغير في جميع نماذج الإشعارات الخاصة بالتطبيق. يتم استخدامه "
+"لبناء روابط للتذاكر في نظامك. تأثير آخر لترك \"HttpType\" في \"https\" هو أن "
+"ملف تعريف ارتباط الجلسة يتم تعيينه فقط للاتصالات الآمنة."
 
 #. SysConfig
 msgid ""
