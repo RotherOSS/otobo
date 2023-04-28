@@ -96,6 +96,7 @@ $Selenium->RunTest(
         }
 
         # Check screens.
+        # For each screen Test1.pdf and Test1.doc are uploaded and then deleted.
         for my $Action (qw(AgentTicketPhone AgentTicketEmail)) {
 
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Action;$SessionName=$SessionToken");
@@ -154,11 +155,17 @@ $Selenium->RunTest(
                 JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 1"
             );
 
+            # Waiting for js to finish work to prevent erroneous upload of previous files
+            $Selenium->WaitFor( JavaScript => 'return $.active == 0' );
+
             $Location = "$Home/scripts/test/sample/Cache/Test1.doc";
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->WaitFor(
                 JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 2"
             );
+
+            # Waiting for js to finish work to prevent erroneous upload of previous files
+            $Selenium->WaitFor( JavaScript => 'return $.active == 0' );
 
             $Location = "$Home/scripts/test/sample/Cache/Test1.txt";
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
@@ -176,6 +183,7 @@ $Selenium->RunTest(
             # Accept alert.
             $Selenium->accept_alert();
 
+            # Wait until the attachment list is updated, two elements are expected
             my $Count = 2;
 
             # Remove the two existing files.
