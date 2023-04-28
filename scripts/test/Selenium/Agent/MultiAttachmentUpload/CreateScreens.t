@@ -196,7 +196,6 @@ $Selenium->RunTest(
                 # There had been sporadic errros when selecting the trashbin with
                 # the XPath selector (//a[\@class='AttachmentDelete'])[$Count].
                 # Therefore a css selector is used here.
-                sleep 1;    # another attempt to avoid test failures
                 ( $Selenium->find_elements( 'a.AttachmentDelete', 'css' ) )[ $Count - 1 ]->click();
                 $Count--;
 
