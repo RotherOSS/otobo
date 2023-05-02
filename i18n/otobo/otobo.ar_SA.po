@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-04-27 12:45+0000\n"
+"PO-Revision-Date: 2023-05-02 15:56+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -24041,10 +24041,13 @@ msgid ""
 "screen of the agent interface. If this is empty or inactive, original emails "
 "will not be quoted but appended to the response."
 msgstr ""
+"يضبط الحرف المستخدم لعلامات التنصيص في رسائل البريد الإلكتروني النصية "
+"العادية في شاشة المؤلف من جزء الوكالات. إذا كان الحقل فارغا أو لم يتم تمكين "
+"الإعداد، فلن يتم اقتباس البريد الإلكتروني الأصلي، بل سيتم إلحاقه بالإجابة."
 
 #. SysConfig
 msgid "Defines the user identifier for the customer panel."
-msgstr ""
+msgstr "يحدد معرف المستخدم لواجهة العميل."
 
 #. SysConfig
 msgid ""
@@ -24054,6 +24057,10 @@ msgid ""
 "another user's behalf. Use 'PreferenceGroup' to control in which area these "
 "settings should be shown in the user interface."
 msgstr ""
+"تعريف أفاتار المستخدمين. الرجاء ملاحظة: سيؤدي تعيين 'Active' إلى 0 فقط إلى "
+"منع الوكلاء من تحرير إعدادات هذه المجموعة في تفضيلاتهم الشخصية، ولكنه سيسمح "
+"للمسؤولين بتحرير إعدادات نيابة عن مستخدم آخر. أستخدم 'PreferenceGroup' "
+"للتحكم في المنطقة التي يجب إظهار هذه الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid ""
@@ -24061,12 +24068,16 @@ msgid ""
 "have any state type from this setting, this ticket will be considered as "
 "open, otherwise as closed."
 msgstr ""
+"يحدد أنواع الحالة الصالحة للتذكرة. إذا كانت التذكرة في حالة لها نوع حالة من "
+"هذا الإعداد، اعتبار هذه التذكرة مفتوحة، وإلا يتم إغلاقها."
 
 #. SysConfig
 msgid ""
 "Defines the valid states for unlocked tickets. To unlock tickets the script "
 "\"bin/otobo.Console.pl Maint::Ticket::UnlockTimeout\" can be used."
 msgstr ""
+"يحدد حالة التذاكر غير المؤمنة. لإلغاء تأمين التذاكر، يمكنك إستخدام البرنامج "
+"النصي bin/otobo.Console.pl Maint::Tict::UnlockingTimeout."
 
 #. SysConfig
 msgid ""
@@ -24074,40 +24085,46 @@ msgid ""
 "make sure to delete the cache in order to use the new value. Default: "
 "unlock, tmp_lock."
 msgstr ""
+"يحدد أنواع القفل المرئي للتذكرة. ملاحظة: يرجى التأكد من مسح ذاكرة التخزين "
+"المؤقت عند تغيير هذا الإعداد."
 
 #. SysConfig
 msgid ""
 "Defines the width for the rich text editor component for this screen. Enter "
 "number (pixels) or percent value (relative)."
-msgstr ""
+msgstr "يحدد عرض مكون محرر النص المنسق. أدخل رقمًا (بكسل) أو نسبة مئوية (نسبي)."
 
 #. SysConfig
 msgid ""
 "Defines the width for the rich text editor component. Enter number (pixels) "
 "or percent value (relative)."
-msgstr ""
+msgstr "يحدد عرض مكون محرر النص المنسق. أدخل رقمًا (بكسل) أو نسبة مئوية (نسبي)."
 
 #. SysConfig
 msgid ""
 "Defines time in minutes since last modification for drafts of specified type "
 "before they are considered expired."
 msgstr ""
+"تحديد الوقت بالدقائق منذ آخر تعديل للمسودات من النوع المحدد قبل اعتبارها "
+"منتهية الصلاحية."
 
 #. SysConfig
 msgid "Defines whether to index archived tickets for fulltext searches."
-msgstr ""
+msgstr "يحدد ما إذا كان يجب وضع التذاكر المحفوظة في فهرس البحث النصي الكامل."
 
 #. SysConfig
 msgid ""
 "Defines which article sender types should be shown in the preview of a "
 "ticket."
-msgstr ""
+msgstr "يحدد أنواع مرسلي العناصر التي يجب عرضها في معاينة التذكرة."
 
 #. SysConfig
 msgid ""
 "Defines which items are available for 'Action' in third level of the ACL "
 "structure."
 msgstr ""
+"يحدد المصطلحات المتاحة ل \"إجراء\" في المستوى الثالث من بنية قائمة التحكم في "
+"الوصول (ACL)."
 
 #. SysConfig
 msgid "Defines which items are available in first level of the ACL structure."
