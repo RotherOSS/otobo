@@ -2105,7 +2105,7 @@
 
 <!-- dynamic field definitions for frontends -->
 <Table Name="frontend_mask_definition">
-    <Column Name="mask" Required="true" PrimaryKey="true" Type="VARCHAR" size="80" />
+    <Column Name="mask" Required="true" PrimaryKey="true" Type="VARCHAR" Size="80" />
     <Column Name="definition" Required="true" Type="LONGBLOB" />
     <Column Name="create_time" Required="false" Type="DATE" />
     <Column Name="create_by" Required="false" Type="INTEGER" />
