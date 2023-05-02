@@ -4590,6 +4590,7 @@ for my $Test (@Tests) {
         # TODO prevent failing test if enviroment on SaaS unit test system doesn't work.
         if (
             $Test->{SuccessCreate}
+            && $RequesterResult->{ErrorMessage}
             && $RequesterResult->{ErrorMessage} eq
             'faultcode: Server, faultstring: Attachment could not be created, please contact the system administrator'
             )
@@ -4702,7 +4703,7 @@ for my $Test (@Tests) {
             else {
                 my $ExpectedCustomerUserID = $Test->{RequestData}->{Ticket}->{CustomerUser};
 
-                if ( $Test->{Type} eq 'EmailCustomerUser' ) {
+                if ( $Test->{Type} && $Test->{Type} eq 'EmailCustomerUser' ) {
                     $ExpectedCustomerUserID = $CustomerRand;
                 }
 
@@ -4793,7 +4794,11 @@ for my $Test (@Tests) {
             }
             for my $DynamicField (@RequestedDynamicFields) {
 
-                if ( $DynamicField->{FieldType} eq 'Date' && $DynamicField->{Value} =~ m{ \A \d{4}-\d{2}-\d{2} \z }xms ) {
+                if (
+                    $DynamicField->{FieldType} && $DynamicField->{FieldType} eq 'Date'
+                    && $DynamicField->{Value}  && $DynamicField->{Value} =~ m{ \A \d{4}-\d{2}-\d{2} \z }xms
+                    )
+                {
                     $DynamicField->{Value} .= ' 00:00:00';
                 }
 

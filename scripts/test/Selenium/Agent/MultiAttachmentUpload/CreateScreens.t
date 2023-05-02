@@ -155,11 +155,17 @@ $Selenium->RunTest(
                 JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 1"
             );
 
+            # Waiting for js to finish work to prevent erroneous upload of previous files
+            $Selenium->WaitFor( JavaScript => 'return $.active == 0' );
+
             $Location = "$Home/scripts/test/sample/Cache/Test1.doc";
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->WaitFor(
                 JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 2"
             );
+
+            # Waiting for js to finish work to prevent erroneous upload of previous files
+            $Selenium->WaitFor( JavaScript => 'return $.active == 0' );
 
             $Location = "$Home/scripts/test/sample/Cache/Test1.txt";
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
@@ -183,13 +189,15 @@ $Selenium->RunTest(
                 JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === $Count"
             );
 
-            # Remove the existing files.
+            # Remove the two existing files.
             for my $DeleteExtension (qw(doc pdf)) {
 
                 # Delete attachment.
-                $Selenium->find_element( "(//a[\@class='AttachmentDelete'])[$Count]", 'xpath' )->click();
+                # There had been sporadic errros when selecting the trashbin with
+                # the XPath selector (//a[\@class='AttachmentDelete'])[$Count].
+                # Therefore a css selector is used here.
+                ( $Selenium->find_elements( 'a.AttachmentDelete', 'css' ) )[ $Count - 1 ]->click();
                 $Count--;
-                sleep 2;    # Why ???
 
                 # Wait until attachment is deleted.
                 $Selenium->WaitFor(
@@ -203,7 +211,6 @@ $Selenium->RunTest(
                     ),
                     "$Action - Upload '$DeleteExtension' file deleted"
                 );
-                sleep 1;    # Why ???
             }
 
             # Limit the max size per file (to 6 KB).

@@ -174,7 +174,7 @@ for my $Test (@ArticleCreateTests) {
     else {
         $Self->False(
             $ArticleID,
-            "$Test->{Name} - Article not created - $ArticleID",
+            "$Test->{Name} - Article not created",
         );
     }
 }

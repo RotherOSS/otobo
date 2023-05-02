@@ -197,7 +197,7 @@ sub StatusGet {
 Starts a log object of a given object type.
 
     my $ObjectID = $CommunicationLogObject->ObjectLogStart(
-        ObjectType => 'Connection' # (required) Can be 'Connection' or 'Message'
+        ObjectLogType => 'Connection' # (required) Can be either 'Connection' or 'Message'
     );
 
 Returns:

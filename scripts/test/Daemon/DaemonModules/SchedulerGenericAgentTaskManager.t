@@ -18,6 +18,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Test2::V0;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
@@ -38,8 +40,8 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     my $SleepTime = 2;
 
     # wait to get daemon fully stopped before test continues
-    print "A running Daemon was detected and need to be stopped...\n";
-    print 'Sleeping ' . $SleepTime . "s\n";
+    note "A running Daemon was detected and need to be stopped...";
+    note 'Sleeping ' . $SleepTime . "s";
     sleep $SleepTime;
 }
 
@@ -66,7 +68,7 @@ my $RunTasks = sub {
 
         sleep 1;
 
-        print "Waiting $Sec secs for scheduler tasks to be executed\n";
+        note "Waiting $Sec secs for scheduler tasks to be executed";
     }
 };
 
@@ -246,7 +248,7 @@ for my $Test (@Tests) {
         my $SecondsAdd            = ( 60 - $StartSystemTimeObject->Get()->{Second} );
         FixedTimeAddSeconds($SecondsAdd);
         my $EndSystemTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-        printf(
+        note sprintf(
             "  Added %s seconds to time (initial adjustment) from %s to %s\n",
             $SecondsAdd,
             $StartSystemTimeObject->ToEpoch(),
@@ -261,7 +263,7 @@ for my $Test (@Tests) {
         my $StartSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
         FixedTimeAddSeconds( $Test->{SecondsAdd} );
         my $EndSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
-        printf(
+        note sprintf(
             "  Added %s seconds to time from %s to %s\n",
             $Test->{SecondsAdd},
             $StartSystemTime,
@@ -281,7 +283,7 @@ for my $Test (@Tests) {
         $CacheObject->CleanUp(
             Type => 'SchedulerDBRecurrentTaskExecute',
         );
-        print "  Cache cleared before task manager execution...\n";
+        note "  Cache cleared before task manager execution...";
     }
 
     # run the task manager
@@ -301,7 +303,7 @@ for my $Test (@Tests) {
             CacheInMemory  => 0,
             CacheInBackend => 1,
         );
-        print "  Cache restored after task manager execution...\n";
+        note "  Cache restored after task manager execution...";
     }
 
     my @List = $SchedulerDBObject->TaskList(
@@ -337,7 +339,7 @@ for my $Test (@Tests) {
 
             sleep 1;
 
-            print "  Waiting $Sec secs for the task to be executed\n";
+            note "  Waiting $Sec secs for the task to be executed";
         }
 
         @List = $SchedulerDBObject->TaskList(
@@ -519,4 +521,4 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-$Self->DoneTesting();
+done_testing;

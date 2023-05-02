@@ -53,7 +53,7 @@ $ConfigObject->Set(
 );
 
 # check if gpg is located there
-if ( !-e $ConfigObject->Get('PGP::Bin') ) {
+if ( !$ConfigObject->Get('PGP::Bin') || !-e $ConfigObject->Get('PGP::Bin') ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/gpg' ) {

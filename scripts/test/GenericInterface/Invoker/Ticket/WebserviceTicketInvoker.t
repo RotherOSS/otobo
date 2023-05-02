@@ -14,9 +14,10 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
+use utf8;
 
 # core modules
 use Storable;
@@ -243,8 +244,10 @@ $ConfigObject->Set(
     },
 );
 
+# declare test cases
 my @Tests = (
     {
+        Name             => 'Testcase 1',
         WebserviceUpdate => {
             TicketCreate => {},
             TicketUpdate => {},
@@ -401,6 +404,7 @@ my @Tests = (
         },
     },
     {
+        Name             => 'Testcase 2',
         WebserviceUpdate => {
             TicketUpdate => {
                 'TicketIdToDynamicField' => 'DynamicField' . $RandomID,
@@ -565,6 +569,7 @@ my @Tests = (
         },
     },
     {
+        Name             => 'Testcase 3',
         WebserviceUpdate => {
             TicketUpdate => {
                 'RequestArticleFields'        => [],
@@ -598,6 +603,7 @@ my @Tests = (
         },
     },
     {
+        Name             => 'Testcase 4',
         WebserviceUpdate => {
             TicketCreate => {
                 'TicketIdToDynamicField' => 'DynamicField' . $RandomID,
@@ -765,6 +771,7 @@ my @Tests = (
         },
     },
     {
+        Name             => 'Testcase 5',
         WebserviceUpdate => {
             TicketUpdate => {
                 'TicketIdToDynamicField' => 'DynamicField' . $RandomID,
@@ -932,6 +939,7 @@ my @Tests = (
         },
     },
     {
+        Name             => 'Testcase 6',
         WebserviceUpdate => {
             TicketCreate => {},
             TicketUpdate => {},
@@ -1037,215 +1045,221 @@ my @Tests = (
     },
 );
 
-# UnitTests
+# run the test cases
 TEST:
 for my $Test (@Tests) {
     if ( $Test->{TestOTOBODynamicField} && !$AttachmentDynamicFieldID ) {
+        diag "Skipping '$Test->{Name}' as there is not attachment dynamic field";
+
         next TEST;
     }
 
-    if ( $Test->{WebserviceUpdate} ) {
+    subtest $Test->{Name} => sub {
 
-        my $Webservice = $WebserviceObject->WebserviceGet(
-            ID => $WebserviceID,
-        );
-        $Webservice->{Config}->{Requester}->{Invoker} = $Test->{WebserviceUpdate};
-        $WebserviceObject->WebserviceUpdate(
-            %{$Webservice},
-            UserID => 1,
-        );
-    }
+        if ( $Test->{WebserviceUpdate} ) {
+            my $Webservice = $WebserviceObject->WebserviceGet(
+                ID => $WebserviceID,
+            );
+            $Webservice->{Config}->{Requester}->{Invoker} = $Test->{WebserviceUpdate};
+            $WebserviceObject->WebserviceUpdate(
+                %{$Webservice},
+                UserID => 1,
+            );
+        }
 
-    my $DynamicFieldSuccess = $DFBackendObject->ValueSet(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        ObjectID           => $TicketID,
-        Value              => "test",
-        UserID             => 1,
-    );
-    ok(
-        $DynamicFieldSuccess,
-        "Dynamic field 'DynamicField$RandomID' is set.",
-    );
-
-    if ( $Test->{TestOTOBODynamicField} ) {
-        my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
-
-        $FormID = $UploadCacheObject->FormIDCreate();
-
-        my $UploadSuccess = $UploadCacheObject->FormIDAddFile(
-            FormID      => $FormID,
-            Filename    => 'somefile.txt',
-            Content     => 'Attachment content',
-            ContentType => 'text/plain',
-            Disposition => 'inline',
-        );
-
-        ok(
-            $UploadSuccess,
-            'Attachment added to the upload cache.'
-        );
-
-        my $AttachmentDynamicFieldSuccess = $DFBackendObject->ValueSet(
-            DynamicFieldConfig => $AttachmentDynamicFieldConfig,
+        my $DynamicFieldSuccess = $DFBackendObject->ValueSet(
+            DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $TicketID,
-            Value              => {
-                FormID => $FormID,
-            },
-            UserID => 1,
+            Value              => "test",
+            UserID             => 1,
         );
         ok(
-            $AttachmentDynamicFieldSuccess,
-            "Dynamic field 'DynamicFieldAttachemt$RandomID' is set.",
-        );
-    }
-
-    INVOKERTYPE:
-    for my $InvokerType (qw(TicketCreate TicketUpdate)) {
-        next INVOKERTYPE if !$Test->{$InvokerType};
-
-        my $InvokerObject = Kernel::GenericInterface::Invoker->new(
-            DebuggerObject => $DebuggerObject,
-            InvokerType    => "Ticket::$InvokerType",
-            Invoker        => $InvokerType,
-            WebserviceID   => $WebserviceID,
+            $DynamicFieldSuccess,
+            "Dynamic field 'DynamicField$RandomID' is set.",
         );
 
-        isa_ok(
-            $InvokerObject,
-            ['Kernel::GenericInterface::Invoker'],
-            'InvokerObject was correctly instantiated',
-        );
+        if ( $Test->{TestOTOBODynamicField} ) {
+            my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
-        my $InvokerResult = $InvokerObject->PrepareRequest(
-            WebserviceID => $WebserviceID,
-            Data         => {
-                TicketID  => $TicketID,
-                ArticleID => $ArticleID,
-            },
-        );
+            $FormID = $UploadCacheObject->FormIDCreate();
 
-        ok(
-            IsHashRefWithData($InvokerResult),
-            "Invoker $InvokerType - Invoker PrepareRequest() return data is HASH",
-        );
+            my $UploadSuccess = $UploadCacheObject->FormIDAddFile(
+                FormID      => $FormID,
+                Filename    => 'somefile.txt',
+                Content     => 'Attachment content',
+                ContentType => 'text/plain',
+                Disposition => 'inline',
+            );
 
-        ok(
-            $InvokerResult->{Success},
-            "Invoker $InvokerType - PrepareRequest() ok"
-                . (
-                    $InvokerResult->{ErrorMessage}
-                    ? "(Error: "
-                    . $InvokerResult->{ErrorMessage} . ")"
-                    : ""
-                ),
-        );
+            ok(
+                $UploadSuccess,
+                'Attachment added to the upload cache.'
+            );
 
-        # check content of invoker result
-        is(
-            Storable::dclone( $InvokerResult->{Data} ),
-            $Test->{$InvokerType}->{ExpectedInvokerPrepareRequestResult},
-            "Invoker $InvokerType - Invoker PrepareRequest() return data matches expected result",
-        );
+            my $AttachmentDynamicFieldSuccess = $DFBackendObject->ValueSet(
+                DynamicFieldConfig => $AttachmentDynamicFieldConfig,
+                ObjectID           => $TicketID,
+                Value              => {
+                    FormID => $FormID,
+                },
+                UserID => 1,
+            );
+            ok(
+                $AttachmentDynamicFieldSuccess,
+                "Dynamic field 'DynamicFieldAttachemt$RandomID' is set.",
+            );
+        }
 
-        # create local object
-        my $OperatorObject = "Kernel::GenericInterface::Operation::Ticket::$InvokerType"->new(
-            DebuggerObject => $DebuggerObject,
-            WebserviceID   => $WebserviceID,
-        );
+        INVOKERTYPE:
+        for my $InvokerType (qw(TicketCreate TicketUpdate)) {
+            next INVOKERTYPE unless $Test->{$InvokerType};
 
-        isa_ok(
-            $OperatorObject,
-            ["Kernel::GenericInterface::Operation::Ticket::$InvokerType"],
-            "OperatorObject - Create local object",
-        );
+            my $InvokerObject = Kernel::GenericInterface::Invoker->new(
+                DebuggerObject => $DebuggerObject,
+                InvokerType    => "Ticket::$InvokerType",
+                Invoker        => $InvokerType,
+                WebserviceID   => $WebserviceID,
+            );
 
-        # create a new user for current test
-        my $UserLogin = $HelperObject->TestUserCreate(
-            Groups => [ 'admin', 'users' ],
-        );
-        my $Password = $UserLogin;
+            isa_ok(
+                $InvokerObject,
+                ['Kernel::GenericInterface::Invoker'],
+                'InvokerObject was correctly instantiated',
+            );
 
-        # Append FormID value to the Attachment Dynamic fields.
-        for my $DynamicField ( @{ $InvokerResult->{Data}->{DynamicField} } ) {
-            if ( $DynamicField->{Name} eq 'DynamicFieldAttachment' . $RandomID ) {
+            my $InvokerResult = $InvokerObject->PrepareRequest(
+                WebserviceID => $WebserviceID,
+                Data         => {
+                    TicketID  => $TicketID,
+                    ArticleID => $ArticleID,
+                },
+            );
 
-                # Dynamic field type is attachment.
-                for my $Attachment ( @{ $DynamicField->{Value} } ) {
-                    $Attachment->{FormID} = $FormID;
+            ok(
+                IsHashRefWithData($InvokerResult),
+                "Invoker $InvokerType - Invoker PrepareRequest() return data is HASH",
+            );
+
+            ok(
+                $InvokerResult->{Success},
+                "Invoker $InvokerType - PrepareRequest() ok"
+                    . (
+                        $InvokerResult->{ErrorMessage}
+                        ? "(Error: "
+                        . $InvokerResult->{ErrorMessage} . ")"
+                        : ""
+                    ),
+            );
+            use Data::Dumper;
+            diag Dumper($InvokerResult);
+
+            # check content of invoker result
+            is(
+                Storable::dclone( $InvokerResult->{Data} ),
+                $Test->{$InvokerType}->{ExpectedInvokerPrepareRequestResult},
+                "Invoker $InvokerType - Invoker PrepareRequest() return data matches expected result",
+            );
+
+            # create local object
+            my $OperatorObject = "Kernel::GenericInterface::Operation::Ticket::$InvokerType"->new(
+                DebuggerObject => $DebuggerObject,
+                WebserviceID   => $WebserviceID,
+            );
+
+            isa_ok(
+                $OperatorObject,
+                ["Kernel::GenericInterface::Operation::Ticket::$InvokerType"],
+                "OperatorObject - Create local object",
+            );
+
+            # create a new user for current test
+            my $UserLogin = $HelperObject->TestUserCreate(
+                Groups => [ 'admin', 'users' ],
+            );
+            my $Password = $UserLogin;
+
+            # Append FormID value to the Attachment Dynamic fields.
+            for my $DynamicField ( @{ $InvokerResult->{Data}->{DynamicField} } ) {
+                if ( $DynamicField->{Name} eq 'DynamicFieldAttachment' . $RandomID ) {
+
+                    # Dynamic field type is attachment.
+                    for my $Attachment ( @{ $DynamicField->{Value} } ) {
+                        $Attachment->{FormID} = $FormID;
+                    }
                 }
             }
-        }
 
-        my $OperatorResult = $OperatorObject->Run(
-            WebserviceID => $WebserviceID,
-            Invoker      => $InvokerType,
-            Data         => {
-                TicketID  => $TicketID,
-                UserLogin => $UserLogin,
-                Password  => $Password,
-                %{ $InvokerResult->{Data} },
-            },
-        );
-
-        ok(
-            IsHashRefWithData($OperatorResult),
-            "Operator $InvokerType - Invoker <--> Operation return data is HASH",
-        );
-
-        ok(
-            $OperatorResult->{Success},
-            "Operator $InvokerType - Invoker <--> Operation OK "
-                . (
-                    $OperatorResult->{Errormessage}
-                    ? "(Error: "
-                    . $OperatorResult->{Errormessage} . ")"
-                    : ""
-                ),
-        );
-
-        # set response dynamic field to invalid value in order to test invoker-based config
-        if ( $Test->{WebserviceUpdate} && $Test->{WebserviceUpdate}->{$InvokerType}->{TicketIdToDynamicField} ) {
-            $ConfigObject->Set(
-                Key   => 'GenericInterface::Invoker::Settings::ResponseDynamicField',
-                Value => {
-                    $WebserviceID => 'DynamicField' . $RandomID . 'Invalid',
+            my $OperatorResult = $OperatorObject->Run(
+                WebserviceID => $WebserviceID,
+                Invoker      => $InvokerType,
+                Data         => {
+                    TicketID  => $TicketID,
+                    UserLogin => $UserLogin,
+                    Password  => $Password,
+                    %{ $InvokerResult->{Data} },
                 },
             );
-        }
 
-        $InvokerResult = $InvokerObject->HandleResponse(
-            ResponseSuccess => 1,
-            Data            => {
-                TicketID => $TicketID,
-            },
-        );
+            ok(
+                IsHashRefWithData($OperatorResult),
+                "Operator $InvokerType - Invoker <--> Operation return data is HASH",
+            );
 
-        # restore response dynamic field
-        if ( $Test->{WebserviceUpdate} && $Test->{WebserviceUpdate}->{$InvokerType}->{TicketIdToDynamicField} ) {
-            $ConfigObject->Set(
-                Key   => 'GenericInterface::Invoker::Settings::ResponseDynamicField',
-                Value => {
-                    $WebserviceID => 'DynamicField' . $RandomID,
+            ok(
+                $OperatorResult->{Success},
+                "Operator $InvokerType - Invoker <--> Operation OK "
+                    . (
+                        $OperatorResult->{Errormessage}
+                        ? "(Error: "
+                        . $OperatorResult->{Errormessage} . ")"
+                        : ""
+                    ),
+            );
+
+            # set response dynamic field to invalid value in order to test invoker-based config
+            if ( $Test->{WebserviceUpdate} && $Test->{WebserviceUpdate}->{$InvokerType}->{TicketIdToDynamicField} ) {
+                $ConfigObject->Set(
+                    Key   => 'GenericInterface::Invoker::Settings::ResponseDynamicField',
+                    Value => {
+                        $WebserviceID => 'DynamicField' . $RandomID . 'Invalid',
+                    },
+                );
+            }
+
+            $InvokerResult = $InvokerObject->HandleResponse(
+                ResponseSuccess => 1,
+                Data            => {
+                    TicketID => $TicketID,
                 },
             );
+
+            # restore response dynamic field
+            if ( $Test->{WebserviceUpdate} && $Test->{WebserviceUpdate}->{$InvokerType}->{TicketIdToDynamicField} ) {
+                $ConfigObject->Set(
+                    Key   => 'GenericInterface::Invoker::Settings::ResponseDynamicField',
+                    Value => {
+                        $WebserviceID => 'DynamicField' . $RandomID,
+                    },
+                );
+            }
+
+            ok(
+                IsHashRefWithData($InvokerResult),
+                "Operator $InvokerType - Invoker HandleResponse() return data is HASH",
+            );
+
+            ok(
+                $InvokerResult->{Success},
+                "Invoker $InvokerType - HandleResponse() ok"
+                    . (
+                        $InvokerResult->{ErrorMessage}
+                        ? "(Error: "
+                        . $InvokerResult->{ErrorMessage} . ")"
+                        : ""
+                    ),
+            );
         }
-
-        ok(
-            IsHashRefWithData($InvokerResult),
-            "Operator $InvokerType - Invoker HandleResponse() return data is HASH",
-        );
-
-        ok(
-            $InvokerResult->{Success},
-            "Invoker $InvokerType - HandleResponse() ok"
-                . (
-                    $InvokerResult->{ErrorMessage}
-                    ? "(Error: "
-                    . $InvokerResult->{ErrorMessage} . ")"
-                    : ""
-                ),
-        );
-    }
+    };
 }
 
 # cleanup is done by RestoreDatabase
