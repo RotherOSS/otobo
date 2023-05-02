@@ -443,14 +443,15 @@ sub Run {
     }
 
     # fetch input field definition
-    my $MaskObject = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
+    my $MaskObject           = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
     my $InputFieldDefinition = $MaskObject->DefinitionGet(
         Mask => $Self->{Action},
     );
 
     my %DefinedFieldsList;
+
     # If no definition is present, put all fields into a list (displaying one field per row)
-    if ( !IsArrayRefWithData( $InputFieldDefinition ) ) {
+    if ( !IsArrayRefWithData($InputFieldDefinition) ) {
         $InputFieldDefinition = [ { List => [ map { { 'Name' => $_->{Name} } } @{ $Param{TicketTypeDynamicFields} } ] } ];
     }
     else {
@@ -462,20 +463,21 @@ sub Run {
             elsif ( $_->{List} ) {
                 $_->{List}->@*;
             }
-        }
-        $InputFieldDefinition->@*;
+            }
+            $InputFieldDefinition->@*;
 
-        %DefinedFieldsList = map { $_->{Name} => {
+        %DefinedFieldsList = map {
+            $_->{Name} => {
                 'ReadOnly' => $_->{ReadOnly},
             }
         } @UsedFields;
 
         # Collect missing fields to put them in a list section at the end of the existing definition
         my @NotDefinedFields = grep { !$DefinedFieldsList{ $_->{Name} } } $Param{TicketTypeDynamicFields}->@*;
-        my @ListMissing      = map { { Name => $_->{Name} } } @NotDefinedFields;
+        my @ListMissing      = map  { { Name => $_->{Name} } } @NotDefinedFields;
 
-        if ( @ListMissing ) {
-            push @{ $InputFieldDefinition }, { List => \@ListMissing };
+        if (@ListMissing) {
+            push @{$InputFieldDefinition}, { List => \@ListMissing };
         }
     }
 
@@ -516,9 +518,9 @@ sub Run {
             }
         }
         elsif ( $Area->{List} ) {
-            my @AreaDynamicFields = ();
-            my $MaxValueCount = 0;
-            my $ValueCount = 0;
+            my @AreaDynamicFields;
+            my $MaxValueCount     = 0;
+            my $ValueCount        = 0;
             for my $Field ( $Area->{List}->@* ) {
                 push @AreaDynamicFields, $Field->{Name};
 
@@ -534,7 +536,7 @@ sub Run {
                 }
             }
         }
-        for my $FieldName ( @AreaDynamicFields ) {
+        for my $FieldName (@AreaDynamicFields) {
             $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
         }
     }
@@ -937,9 +939,8 @@ sub Run {
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
-                    Mandatory            =>
-                        $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                    ValueCount           => $DynamicFieldValueCount{ $DynamicFieldConfig->{Name} };
+                    Mandatory            => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                    ValueCount           => $DynamicFieldValueCount{ $DynamicFieldConfig->{Name} },
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
@@ -972,7 +973,7 @@ sub Run {
                     ParamObject          => $ParamObject,
                     AJAXUpdate           => 1,
                     UpdatableFields      => $Self->_GetFieldsToUpdate(),
-                    ReadOnly             => $DefinedFieldsList{ $DynamicFieldConfig->{Name} }{ReadOnly};
+                    ReadOnly             => $DefinedFieldsList{ $DynamicFieldConfig->{Name} }{ReadOnly},
                 );
 
                 push @TicketTypeDynamicFields, {
@@ -2294,7 +2295,7 @@ sub Run {
                 );
 
                 push @TicketTypeDynamicFields, {
-                    Name  => $DynamicFieldConfig->{Name},
+                    Name => $DynamicFieldConfig->{Name},
                     $DynamicFieldHTML->%*,
                 };
             }
