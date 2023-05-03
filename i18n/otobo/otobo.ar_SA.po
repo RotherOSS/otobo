@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-02 15:56+0000\n"
+"PO-Revision-Date: 2023-05-03 21:30+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -24129,80 +24129,88 @@ msgstr ""
 #. SysConfig
 msgid "Defines which items are available in first level of the ACL structure."
 msgstr ""
+"يحدد المصطلحات المتوفرة في المستوى الأول من بنية قائمة التحكم بالوصول (ACL)."
 
 #. SysConfig
 msgid "Defines which items are available in second level of the ACL structure."
 msgstr ""
+"تحديد المصطلحات المتاحة في المستوى الثاني لبنية قائمة التحكم في الوصول (ACL)."
 
 #. SysConfig
 msgid ""
 "Defines which states should be set automatically (Content), after the "
 "pending time of state (Key) has been reached."
 msgstr ""
+"يحدد الحالة التي يتم تعيينها تلقائيا (المحتوى) بعد الوصول إلى وقت انتظار "
+"الحالة (المفتاح)."
 
 #. SysConfig
 msgid ""
 "Defines, which tickets of which ticket state types should not be listed in "
 "linked ticket lists."
 msgstr ""
+"يحدد أنه لا ينبغي عرض التذاكر ذات حالات التذاكر المحددة على التذاكر المرتبطة."
 
 #. SysConfig
 msgid "Delete expired cache from core modules."
-msgstr ""
+msgstr "يمسح ذاكرة التخزين المؤقت منتهية الصلاحية للوحدات الأساسية."
 
 #. SysConfig
 msgid "Delete expired loader cache weekly (Sunday mornings)."
-msgstr ""
+msgstr "يحذف ذاكرة التخزين المؤقت للمحمل منتهية الصلاحية أسبوعيا (صباح الأحد)."
 
 #. SysConfig
 msgid "Delete expired sessions."
-msgstr ""
+msgstr "حذف جلسات المستخدم منتهية الصلاحية."
 
 #. SysConfig
 msgid "Delete expired ticket draft entries."
-msgstr ""
+msgstr "حذف مسودات التذاكر القديمة."
 
 #. SysConfig
 msgid "Delete expired upload cache hourly."
-msgstr ""
+msgstr "احذف ذاكرات التخزين المؤقت للتحميل القديمة كل ساعة."
 
 #. SysConfig
 msgid "Delete this ticket"
-msgstr ""
+msgstr "حذف هذه التذكرة"
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr "التاريخ::تمحذف رابط للبطاقة"
+msgstr "تم حذف الارتباط ب \"%s\"."
 
 #. SysConfig
 msgid ""
 "Deletes a session if the session id is used with an invalid remote IP "
 "address."
-msgstr ""
+msgstr "حذف الجلسة إذا تم استخدام معرف الجلسة مع عنوان IP غير صالح."
 
 #. SysConfig
 msgid "Deletes requested sessions if they have timed out."
-msgstr ""
+msgstr "حذف الجلسة المطلوبة إذا انتهت المهلة."
 
 #. SysConfig
 msgid ""
 "Delivers extended debugging information in the frontend in case any AJAX "
 "errors occur, if enabled."
 msgstr ""
+"يوفر معلومات تصحيح أخطاء متقدمة حول أخطاء AJAX في الواجهة الأمامية، إذا تم "
+"تمكينها."
 
 #. SysConfig
 msgid "DeploymentHistory"
-msgstr ""
+msgstr "محفوظات النشر"
 
 #. SysConfig
 msgid "Detached"
-msgstr ""
+msgstr "مُنْفَصِلٌ"
 
 #. SysConfig
 msgid ""
 "Determines if a button to delete a link should be displayed next to each "
 "link in each zoom mask."
 msgstr ""
+"يحدد ما إذا كان يجب أن يظهر زر حذف بجوار كل رابط في كل قناع تكبير/تصغير."
 
 #. SysConfig
 msgid ""
@@ -24210,52 +24218,63 @@ msgid ""
 "displayed in a dropdown list or in a new window in the agent interface. If "
 "\"New Window\" is set you can add a move note to the ticket."
 msgstr ""
+"يحدد ما إذا كانت قائمة قوائم الانتظار المحتملة التي يمكن نقل التذكرة إليها "
+"معروضة كقائمة منسدلة أو في نافذة جديدة. إذا تم تعيين \"نافذة جديدة\"، يمكنك "
+"إضافة ملاحظة نقل إلى التذكرة."
 
 #. SysConfig
 msgid "Determines if the statistics module may generate ticket lists."
 msgstr ""
+"تحديد ما إذا كان من الممكن أن تقوم الوحدة النمطية للإحصاءات بإنشاء قوائم "
+"تذاكر."
 
 #. SysConfig
 msgid ""
 "Determines the next possible ticket states, after the creation of a new "
 "email ticket in the agent interface."
 msgstr ""
+"يحدد حالة التذكرة المحتملة التالية بعد إنشاء تذكرة بريد إلكتروني جديدة في "
+"واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Determines the next possible ticket states, after the creation of a new "
 "phone ticket in the agent interface."
 msgstr ""
+"يحدد حالة التذكرة المحتملة التالية بعد إنشاء تذكرة هاتف جديدة في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Determines the next possible ticket states, for process tickets in the agent "
 "interface."
-msgstr ""
+msgstr "تحدد حالة التذكرة المحتملة التالية لتذاكر العملية في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Determines the next possible ticket states, for process tickets in the "
 "customer interface."
-msgstr ""
+msgstr "تحديد حالة تذكرة المتابعة المحتملة لتذاكر العملية في منطقة العميل."
 
 #. SysConfig
 msgid ""
 "Determines the next screen after new customer ticket in the customer "
 "interface."
-msgstr ""
+msgstr "يحدد الشاشة التالية بعد تذكرة العميل في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Determines the next screen after the follow-up screen of a zoomed ticket in "
 "the customer interface."
 msgstr ""
+"يحدد الشاشة التي سيتم استدعاؤها بعد المتابعة من عرض تفاصيل التذكرة في منطقة "
+"العميل."
 
 #. SysConfig
 msgid ""
 "Determines the next screen after the process screen of a zoomed ticket in "
 "the customer interface."
-msgstr ""
+msgstr "يحدد الشاشة التي يتم عرضها بعد قناع العملية للتذكرة في واجهة العميل."
 
 #. SysConfig
 msgid ""
@@ -24263,12 +24282,16 @@ msgid ""
 "will return the last overview screen (e.g. search results, queueview, "
 "dashboard). TicketZoom will return to the TicketZoom."
 msgstr ""
+"يحدد النافذة التالية التي يتم بعدها نقل التذكرة. يتم تبديل نظرة عامة على "
+"LastScreenOverview إلى صفحة النظرة العامة الأخيرة. يتحول TicketZoom إلى عرض "
+"تفاصيل التذكرة."
 
 #. SysConfig
 msgid ""
 "Determines the possible states for pending tickets that changed state after "
 "reaching time limit."
 msgstr ""
+"يحدد الحالات المحتملة لتذكرة غير مكتملة غيرت حالتها بعد الوصول إلى حد المهلة."
 
 #. SysConfig
 msgid ""
@@ -24278,6 +24301,10 @@ msgid ""
 "for SystemAddress \"<Realname> <<Email>>\" shows the name and email of the "
 "recipient."
 msgstr ""
+"تحديد السلاسل المستخدمة كأجهزة استقبال (إلى:) من تذكرة الهاتف وكمرسل (من:) "
+"من تذكرة بريد إلكتروني في واجهة الوكيل. بالنسبة لقائمة الانتظار ك "
+"NewQueueSelectionType، يعرض \"\" اسم <Queue>قائمة الانتظار، وبالنسبة لعنوان "
+"النظام<Realname>، يعرض \"<<Email>>\" اسم المستلم وعنوان بريده الإلكتروني."
 
 #. SysConfig
 msgid ""
@@ -24286,22 +24313,28 @@ msgid ""
 "\" shows the names of the queues, and for SystemAddress, \"<Realname> "
 "<<Email>>\" shows the name and email of the recipient."
 msgstr ""
+"يحدد السلاسل التي سيتم عرضها كمستلم (إلى:) من التذكرة في واجهة العميل. "
+"بالنسبة لقائمة الانتظار ك CustomerPanelSelectionType، يعرض <Queue>أسماء "
+"قوائم الانتظار، وبالنسبة لعنوان النظام،<Realname> يعرض \"<<Email>>\" اسم "
+"المستلم وبريده الإلكتروني."
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
-msgstr ""
+msgstr "يحدد طريقة عرض الكائنات المرتبطة في كل قناع تكبير/تصغير."
 
 #. SysConfig
 msgid ""
 "Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
 msgstr ""
+"يحدد الخيارات الصالحة للمستلم (تذكرة الهاتف) والمرسل (تذكرة البريد "
+"الإلكتروني) في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Determines which queues will be valid for ticket's recepients in the "
 "customer interface."
-msgstr ""
+msgstr "يحدد قوائم الانتظار الصالحة لمستلمي التذاكر في واجهة العميل."
 
 #. SysConfig
 msgid ""
