@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-03 21:30+0000\n"
+"PO-Revision-Date: 2023-05-06 15:31+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -24342,6 +24342,9 @@ msgid ""
 "script contents. Disabling this HTTP header can be a security issue! Only "
 "disable it, if you know what you are doing!"
 msgstr ""
+"إذا تم تعطيل رأس HTTP \"سياسة أمان المحتوى Content-Security-Policy\"، فيمكن "
+"تحميل البرامج النصية الخارجية. هذه ثغرة أمنية! لذلك، يجب تعطيل هذا الإعداد "
+"فقط إذا كنت على دراية بالعواقب!"
 
 #. SysConfig
 msgid ""
@@ -24349,112 +24352,120 @@ msgid ""
 "included as an IFrame in other websites. Disabling this HTTP header can be a "
 "security issue! Only disable it, if you know what you are doing!"
 msgstr ""
+"إذا تم إيقاف تشغيل رأس HTTP \"X-Frame-Options: SAMEORIGIN\"، فيمكن دمج OTOBO "
+"في مواقع الويب الأخرى ك IFrame. هذه ثغرة أمنية! لذلك، يجب تعطيل هذا الإعداد "
+"فقط إذا كنت على دراية بالعواقب!"
 
 #. SysConfig
 msgid "Disable autocomplete in the login screen."
-msgstr ""
+msgstr "تعطيل الإكمال التلقائي في قناع تسجيل الدخول."
 
 #. SysConfig
 msgid "Disable cloud services"
-msgstr ""
+msgstr "تعطيل الخدمات السحابية"
 
 #. SysConfig
 msgid ""
 "Disables sending reminder notifications to the responsible agent of a ticket "
 "(Ticket::Responsible needs to be enabled)."
 msgstr ""
+"يمنع إرسال التذكيرات إلى الشخص المسؤول عن التذكرة (يجب تفعيل "
+"Ticket::Responsible)."
 
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
 "ticket is closed."
-msgstr ""
+msgstr "تعطيل إعادة التوجيه إلى آخر نظرة عامة / لوحة معلومات بعد إغلاق تذكرة."
 
 #. SysConfig
 msgid ""
 "Display a warning and prevent search when using stop words within fulltext "
 "search."
-msgstr ""
+msgstr "يعرض تحذيرا ويمنع البحث إذا تم إدخال كلمات إيقاف في البحث الكامل للنص."
 
 #. SysConfig
 msgid "Display communication log entries."
-msgstr ""
+msgstr "عرض الإدخالات في سجل الاتصال."
 
 #. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
-msgstr ""
+msgstr "عرض الإعدادات لتجاوز القيم الافتراضية لتذاكر العملية."
 
 #. SysConfig
 msgid "Displays the accounted time for an article in the ticket zoom view."
-msgstr ""
+msgstr "يعرض الوقت المحسوب لمقال في عرض تكبير التكبير/التصغير."
 
 #. SysConfig
 msgid ""
 "Displays the number of all tickets with the same CustomerID as current "
 "ticket in the ticket zoom view."
 msgstr ""
+"يعرض عدد جميع التذاكر بنفس رقم العميل الموجود في عرض \"تكبير/تصغير التذاكر\"."
 
 #. SysConfig
 msgid "Down"
-msgstr "أسفل"
+msgstr "من"
 
 #. SysConfig
 msgid "Dropdown"
-msgstr ""
+msgstr "اختيار واحد"
 
 #. SysConfig
 msgid "Dutch"
-msgstr ""
+msgstr "هولندي"
 
 #. SysConfig
 msgid ""
 "Dutch stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"كلمات التوقف الهولندية لفهرس النص الكامل. تتم إزالة هذه الكلمات من فهرس "
+"البحث."
 
 #. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
-msgstr ""
+msgstr "واجهة الحقول الديناميكية لمربعات الاختيار"
 
 #. SysConfig
 msgid "Dynamic Fields Contact Data Backend GUI"
-msgstr ""
+msgstr "واجهة الحقول الديناميكية لحقول بيانات جهة الاتصال"
 
 #. SysConfig
 msgid "Dynamic Fields Database Backend GUI"
-msgstr ""
+msgstr "واجهة الحقول الديناميكية لحقول قاعدة البيانات"
 
 #. SysConfig
 msgid "Dynamic Fields Date Time Backend GUI"
-msgstr ""
+msgstr "واجهة الحقول الديناميكية لحقول التاريخ والوقت"
 
 #. SysConfig
 msgid "Dynamic Fields Drop-down Backend GUI"
-msgstr ""
+msgstr "واجهة الحقول الديناميكية لمربعات الاختيار"
 
 #. SysConfig
 msgid "Dynamic Fields GUI"
-msgstr ""
+msgstr "واجهة الحقول الديناميكية"
 
 #. SysConfig
 msgid "Dynamic Fields Multiselect Backend GUI"
-msgstr ""
+msgstr "واجهة الحقول الديناميكية لمربعات التحديد المتعدد"
 
 #. SysConfig
 msgid "Dynamic Fields Overview Limit"
-msgstr ""
+msgstr "نظرة عامة على حدود الحقول الديناميكية"
 
 #. SysConfig
 msgid "Dynamic Fields Text Backend GUI"
-msgstr ""
+msgstr "واجهة الحقول الديناميكية لمربعات النص"
 
 #. SysConfig
 msgid "Dynamic Fields Web Service Backend GUI"
-msgstr ""
+msgstr "واجهة الحقول الديناميكية لحقول خدمة الويب"
 
 #. SysConfig
 msgid "Dynamic Fields used to export the search result in CSV format."
-msgstr ""
+msgstr "الحقول الديناميكية التي سيتم إخراجها بتنسيق CSV عند تصدير نتيجة البحث."
 
 #. SysConfig
 msgid ""
@@ -24462,10 +24473,15 @@ msgid ""
 "the value contains the fields to be shown. Example: 'Key => My Group', "
 "'Content: Name_X, NameY'."
 msgstr ""
+"مجموعات الحقول الديناميكية لعنصر واجهة المستخدم العملية. المفتاح هو اسم "
+"المجموعة، القيمة تحتوي على الحقول المراد عرضها. مثال: \"Key => My Group\"، "
+"\"Content: NameX، NameY\"."
 
 #. SysConfig
 msgid "Dynamic fields limit per page for Dynamic Fields Overview."
 msgstr ""
+"الحد الأقصى لعدد الحقول الديناميكية لكل صفحة في صفحة نظرة عامة للحقول "
+"الديناميكية."
 
 #. SysConfig
 msgid ""
@@ -24474,200 +24490,225 @@ msgid ""
 "of the customer interface, you have to enable them in "
 "CustomerTicketZoom###DynamicField."
 msgstr ""
+"الحقول الديناميكية المراد إدخالها في شاشة إنشاء تذكرة في منطقة العميل. "
+"ملاحظة: إذا كنت تريد أيضا عرض هذه الحقول في عرض تفاصيل التذكرة، فيرجى "
+"تمكينها في إعداد CustomerTicketZoom # # #DynamicField."
 
 #. SysConfig
 msgid ""
 "Dynamic fields options shown in the ticket reply section in the ticket zoom "
 "screen of the customer interface."
-msgstr ""
+msgstr "الحقول الديناميكية المراد إدخالها عند الرد على البطاقة في منطقة العميل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the email outbound screen of the agent interface."
 msgstr ""
+"الحقول الديناميكية المراد إدخالها في شاشة البريد الإلكتروني الصادر لمنطقة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the process widget in ticket zoom screen of the "
 "agent interface."
 msgstr ""
+"الحقول الديناميكية المعروضة في عنصر واجهة مستخدم العملية في طريقة عرض تفاصيل "
+"التذاكر في لوحة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the sidebar of the ticket zoom screen of the agent "
 "interface."
 msgstr ""
+"الحقول الديناميكية المعروضة في الشريط الجانبي في عرض تفاصيل التذكرة لمنطقة "
+"الوكيل."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket close screen of the agent interface."
 msgstr ""
+"الحقول الديناميكية المراد إدخالها في شاشة إغلاق التذكرة في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket compose screen of the agent interface."
-msgstr ""
+msgstr "الحقول الديناميكية المراد إدخالها في شاشة إنشاء تذكرة في منطقة الوكيل."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket email screen of the agent interface."
 msgstr ""
+"الحقول الديناميكية المراد إدخالها في شاشة تذكرة البريد الإلكتروني لمنطقة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket forward screen of the agent interface."
-msgstr ""
+msgstr "الحقول الديناميكية للدخول في شاشة إرسال التذكرة في لوحة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket free text screen of the agent interface."
-msgstr ""
+msgstr "الحقول الديناميكية لإدخالها في شاشة حقول النص الحر في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket medium format overview screen of the "
 "agent interface."
 msgstr ""
+"يتم عرض الحقول الديناميكية في العرض المتوسط لقوائم التذاكر في منطقة الوكيل."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket move screen of the agent interface."
-msgstr ""
+msgstr "الحقول الديناميكية المراد إدخالها في شاشة نقل التذكرة في منطقة الوكيل."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket note screen of the agent interface."
-msgstr ""
+msgstr "الحقول الديناميكية المراد إدخالها في شاشة إنشاء ملاحظة في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket overview screen of the customer interface."
-msgstr ""
+msgstr "الحقول الديناميكية المعروضة في نظرة عامة على التذاكر لمنطقة العميل."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket owner screen of the agent interface."
-msgstr ""
+msgstr "الحقول الديناميكية المراد إدخالها في شاشة تبديل المالك في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket pending screen of the agent interface."
 msgstr ""
+"قم بتعيين الحقول الديناميكية لإدخالها في شاشة وقت الانتظار في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone inbound screen of the agent "
 "interface."
 msgstr ""
+"الحقول الديناميكية المراد إدخالها في شاشة الاتصال الواردة لمنطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone outbound screen of the agent "
 "interface."
 msgstr ""
+"الحقول الديناميكية المراد إدخالها في شاشة الاتصال الصادرة لمنطقة الوكيل."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket phone screen of the agent interface."
-msgstr ""
+msgstr "الحقول الديناميكية المراد إدخالها في شاشة تذكرة الهاتف في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket preview format overview screen of the "
 "agent interface."
 msgstr ""
+"الحقول الديناميكية المعروضة في طريقة العرض الكبيرة لقوائم التذاكر في منطقة "
+"الوكيل."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket print screen of the agent interface."
-msgstr ""
+msgstr "الحقول الديناميكية المعروضة في طريقة عرض طباعة التذكرة في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket print screen of the customer interface."
-msgstr ""
+msgstr "الحقول الديناميكية المعروضة في طريقة عرض طباعة التذكرة في منطقة العميل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket priority screen of the agent interface."
-msgstr ""
+msgstr "قم بتعيين الحقول الديناميكية للإدخال في شاشة الأولوية لمنطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket responsible screen of the agent interface."
-msgstr ""
+msgstr "قم بتعيين الحقول الديناميكية للإدخال في شاشة المسؤول في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search overview results screen of the "
 "customer interface."
 msgstr ""
+"الحقول الديناميكية المعروضة في عرض نتائج البحث للبحث عن التذاكر في منطقة "
+"العميل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search screen of the agent interface."
 msgstr ""
+"الحقول الديناميكية المعروضة في نتيجة البحث لعمليات البحث عن التذاكر في منطقة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search screen of the customer interface."
 msgstr ""
+"الحقول الديناميكية المعروضة في نتيجة البحث لعمليات البحث عن التذاكر في منطقة "
+"العميل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket small format overview screen of the agent "
 "interface."
 msgstr ""
+"الحقول الديناميكية المعروضة في العرض الصغير لقوائم التذاكر في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket zoom screen of the customer interface."
-msgstr ""
+msgstr "الحقول الديناميكية المعروضة في عرض تفاصيل التذكرة في منطقة العميل."
 
 #. SysConfig
 msgid "DynamicField"
-msgstr ""
+msgstr "الحقل الديناميكي"
 
 #. SysConfig
 msgid "DynamicField backend registration."
-msgstr ""
+msgstr "تسجيل الواجهة الخلفية للحقول الديناميكية."
 
 #. SysConfig
 msgid "DynamicField object registration."
-msgstr ""
+msgstr "حقل تسجيل الكائن الديناميكي."
 
 #. SysConfig
 msgid "DynamicFieldScreen"
-msgstr ""
+msgstr "DynamicFieldScreen"
 
 #. SysConfig
 msgid "DynamicField_%s"
-msgstr ""
+msgstr "DynamicField_%s"
 
 #. SysConfig
 msgid "E-Mail Outbound"
-msgstr ""
+msgstr "البريد الإلكتروني الصادر"
 
 #. SysConfig
 msgid "Edit Customer Companies."
-msgstr ""
+msgstr "معالجة شركات العملاء."
 
 #. SysConfig
 msgid "Edit Customer Users."
-msgstr ""
+msgstr "تحرير مستخدمي العملاء."
 
 #. SysConfig
 msgid "Edit appointment"
-msgstr ""
+msgstr "تعديل الموعد"
 
 #. SysConfig
 msgid "Edit contacts with data"
-msgstr ""
+msgstr "تحرير جهة الاتصال"
 
 #. SysConfig
 msgid "Edit contacts with data."
-msgstr ""
+msgstr "تحرير بيانات جهة الاتصال."
 
 #. SysConfig
 msgid "Edit customer company"
-msgstr ""
+msgstr "تحرير شركة العميل"
 
 #. SysConfig
 msgid "Elasticsearch quick result module."
-msgstr ""
+msgstr "المعاينة الديناميكية لنتائج البحث Elasticesearch."
 
 #. SysConfig
 msgid "Email Addresses"
@@ -24675,33 +24716,35 @@ msgstr "عناوين البريد الإلكتروني"
 
 #. SysConfig
 msgid "Email Outbound"
-msgstr ""
+msgstr "البريد الإلكتروني الصادر"
 
 #. SysConfig
 msgid "Email Resend"
-msgstr ""
+msgstr "إعادة إرسال البريد الإلكتروني"
 
 #. SysConfig
 msgid "Email communication channel."
-msgstr ""
+msgstr "قناة الاتصال بالبريد الإلكتروني."
 
 #. SysConfig
 msgid "Enable highlighting queues based on ticket age."
-msgstr ""
+msgstr "تمكين تمييز قوائم الانتظار حسب عمر التذكرة."
 
 #. SysConfig
 msgid "Enable keep-alive connection header for SOAP responses."
-msgstr ""
+msgstr "تفعيل رؤوس الاتصال المستمرة لاستجابات SOAP."
 
 #. SysConfig
 msgid ""
 "Enable this if you trust in all your public and private pgp keys, even if "
 "they are not certified with a trusted signature."
 msgstr ""
+"قم بتمكين هذا الإعداد إذا كنت تثق في جميع مفاتيح PGP العامة والخاصة، حتى إذا "
+"لم يتم توقيعها بتوقيع موثوق به."
 
 #. SysConfig
 msgid "Enabled filters."
-msgstr ""
+msgstr "تم تمكين الفلتر."
 
 #. SysConfig
 msgid ""
@@ -24710,22 +24753,25 @@ msgid ""
 "Otherwise, there will be problems with the privileges when accessing .gnupg "
 "folder."
 msgstr ""
+"تمكن دعم PGP. إذا تم تشغيل دعم PGP لتوقيع وتشفير رسائل البريد، يوصى بشدة "
+"بتشغيل خادم الويب تحت مستخدم OTOBO. خلاف ذلك، ستحدث مشكلات الأذونات عند "
+"الوصول إلى دليل .gnupg."
 
 #. SysConfig
 msgid "Enables S/MIME support."
-msgstr ""
+msgstr "تمكين دعم S/MIME."
 
 #. SysConfig
 msgid "Enables customers to create their own accounts."
-msgstr ""
+msgstr "يسمح للعملاء بإنشاء حساباتهم الخاصة."
 
 #. SysConfig
 msgid "Enables fetch S/MIME from CustomerUser backend support."
-msgstr ""
+msgstr "تمكين دعم S/MIME لطلب الخلفيات لمستخدم العميل."
 
 #. SysConfig
 msgid "Enables file upload in the package manager frontend."
-msgstr ""
+msgstr "يسمح بتحميل الملف في مدير الحزم."
 
 #. SysConfig
 msgid ""
@@ -24733,50 +24779,61 @@ msgid ""
 "template caching for production environments for it will cause a massive "
 "performance drop! This setting should only be disabled for debugging reasons!"
 msgstr ""
+"تبديل التخزين المؤقت للقالب أو إيقاف تشغيله. تحذير: لا تقم بتعطيل التخزين "
+"المؤقت للقالب على أنظمة الإنتاج، لأن ذلك قد يتسبب في تدهور الأداء بشكل كبير. "
+"يجب إيقاف تشغيل هذا الإعداد فقط لاستكشاف الأخطاء وإصلاحها!"
 
 #. SysConfig
 msgid "Enables or disables the debug mode over frontend interface."
-msgstr ""
+msgstr "تمكين أو تعطيل وضع التصحيح (debug) للواجهة الأمامية."
 
 #. SysConfig
 msgid ""
 "Enables or disables the ticket watcher feature, to keep track of tickets "
 "without being the owner nor the responsible."
 msgstr ""
+"تمكين ميزة \"مراقبة التذاكر\" أو تعطيلها التي تتيح لك مشاهدة التذاكر دون أن "
+"تكون مالكها أو مسئولة عنها."
 
 #. SysConfig
 msgid ""
 "Enables performance log (to log the page response time). It will affect the "
 "system performance. Frontend::Module###AdminPerformanceLog must be enabled."
 msgstr ""
+"تمكين سجل الأداء من تسجيل أوقات إستجابة الصفحة. يؤثر هذا الإعداد على الأداء "
+"الكلي للنظام. Frontend::Module###AdminPerformanceLog يجب تمكين الوحدة."
 
 #. SysConfig
 msgid ""
 "Enables the minimal ticket counter size (if \"Date\" was selected as "
 "TicketNumberGenerator)."
 msgstr ""
+"تمكين الحد الأدنى لحجم عدادات التذاكر (عند تحديد التاريخ ك "
+"TicketNumberGenerator)."
 
 #. SysConfig
 msgid ""
 "Enables ticket bulk action feature for the agent frontend to work on more "
 "than one ticket at a time."
 msgstr ""
+"ينشط ميزة معالجة الدُفعات في منطقة الوكيل، مما يسمح بمعالجة تذاكر متعددة في "
+"نفس الوقت."
 
 #. SysConfig
 msgid "Enables ticket bulk action feature only for the listed groups."
-msgstr ""
+msgstr "تمكين ميزة معالجة الدفعات للمجموعات المسجلة فقط."
 
 #. SysConfig
 msgid "Enables ticket responsible feature, to keep track of a specific ticket."
-msgstr ""
+msgstr "لتمكين ميزة \"المسؤول\" التي تسمح بتتبع التذاكر ذات الصلة."
 
 #. SysConfig
 msgid "Enables ticket type feature."
-msgstr ""
+msgstr "تمكين أنواع التذاكر."
 
 #. SysConfig
 msgid "Enables ticket watcher feature only for the listed groups."
-msgstr ""
+msgstr "تمكين ميزة تذكرة المراقبة فقط للمجموعات المسجلة."
 
 #. SysConfig
 msgid ""
@@ -24787,28 +24844,34 @@ msgid ""
 "pre-populate the questions within the installer script. Enabling SecureMode "
 "also enables GenericAgent, PackageManager and SQL Box."
 msgstr ""
+"يؤدي تنشيط SecureMode إلى تعطيل مثبت الويب (http://yourhost.example.com/"
+"otobo/installer.pl) والترحيل. وهذا يتم لمنع النظام من الاختطاف. في حالة عدم "
+"تمكين SecureMode، يمكن إعادة تثبيت النظام في أي وقت. في هذه الحالة، يتم "
+"إستخدام التكوين الأساسي الحالي لإعداد البرنامج النصي المثبت. يؤدي تنشيط "
+"SecureMode أيضا إلى تمكين GenericAgent و PackageManager و SQL Box."
 
 #. SysConfig
 msgid "English (Canada)"
-msgstr ""
+msgstr "الإنجليزية (كندا)"
 
 #. SysConfig
 msgid "English (United Kingdom)"
-msgstr ""
+msgstr "الإنجليزية (المملكة المتحدة)"
 
 #. SysConfig
 msgid "English (United States)"
-msgstr ""
+msgstr "الإنجليزية (الولايات المتحدة)"
 
 #. SysConfig
 msgid ""
 "English stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"كلمات التوقف الإنجليزية لفهرس النص الكامل. تتم إزالة هذه الكلمات من الفهرس."
 
 #. SysConfig
 msgid "Enroll process for this ticket"
-msgstr ""
+msgstr "يبدأ عملية لهذه التذكرة"
 
 #. SysConfig
 msgid ""
@@ -24817,32 +24880,37 @@ msgid ""
 "application works well. Otherwise you will be not able to login anymore "
 "without the two factor token."
 msgstr ""
+"أدخل \"السر المشترك\" لتمكين المصادقة الثنائية. تحذير: تأكد من إضافة \"السر "
+"المشترك\" إلى تطبيق المولد الخاص بك وسيعمل التطبيق بشكل جيد. خلاف ذلك، لن "
+"تتمكن من تسجيل الدخول بدون الرمز المميز ذي العاملين."
 
 #. SysConfig
 msgid "Escalated Tickets"
-msgstr ""
+msgstr "تذاكر متصاعدة"
 
 #. SysConfig
 msgid "Escalation view"
-msgstr ""
+msgstr "عرض التصعيد"
 
 #. SysConfig
 msgid "EscalationTime"
-msgstr ""
+msgstr "مدة التصعيد"
 
 #. SysConfig
 msgid "Estonian"
-msgstr ""
+msgstr "الإستونية"
 
 #. SysConfig
 msgid "Event module registration (store historical data in dynamic fields)."
-msgstr ""
+msgstr "تسجيل وحدة الحدث (تخزين البيانات التاريخية في الحقول الديناميكية)."
 
 #. SysConfig
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate)."
 msgstr ""
+"تسجيل وحدة الحدث للحصول على أداء أعلى، يمكنك تحديد حدث المشغل (مثل: الحدث "
+"(Event) => TictCreate)."
 
 #. SysConfig
 msgid ""
@@ -24850,26 +24918,35 @@ msgid ""
 "event (e. g. Event => TicketCreate). This is only possible if all Ticket "
 "dynamic fields need the same event."
 msgstr ""
+"تسجيل وحدة الحدث للحصول على أداء أعلى، يمكنك تحديد حدث المشغل (مثل: الحدث => "
+"TictCreate). يكون هذا ممكنا فقط إذا كانت كافة حقول التذاكر الديناميكية تتطلب "
+"نفس الحدث."
 
 #. SysConfig
 msgid ""
 "Event module that performs an update statement on TicketIndex to rename the "
 "queue name there if needed and if StaticDB is actually used."
 msgstr ""
+"الوحدة النمطية للأحداث التي تنفذ بيان تحديث على TicketIndex لإعادة تسمية "
+"قائمة الانتظار (إذا لزم الأمر وإذا تم استخدام StaticDB)."
 
 #. SysConfig
 msgid ""
 "Event module that updates customer company object name for dynamic fields."
-msgstr ""
+msgstr "وحدة الحدث التي تقوم بتحديث اسم كائن شركة العميل للحقول الديناميكية."
 
 #. SysConfig
 msgid "Event module that updates customer user object name for dynamic fields."
 msgstr ""
+"الوحدة النمطية للأحداث التي تقوم بتحديث اسم كائن مستخدم العميل للحقول "
+"الديناميكية."
 
 #. SysConfig
 msgid ""
 "Event module that updates customer user search profiles if login changes."
 msgstr ""
+"وحدة الحدث التي تقوم بتحديث ملفات تعريف بحث العملاء عند تغيير أسماء تسجيل "
+"الدخول."
 
 #. SysConfig
 msgid ""
