@@ -2761,30 +2761,6 @@
             </Array>
         </Value>
     </Setting>
-    <Setting Name="DynamicFields::ObjectType###CustomerCompany" Required="0" Valid="1">
-        <Description Translatable="1">DynamicField object registration.</Description>
-        <Navigation>Core::DynamicFields::ObjectTypeRegistration</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="DisplayName" Translatable="1">Customer</Item>
-                <Item Key="Module">Kernel::System::DynamicField::ObjectType::CustomerCompany</Item>
-                <Item Key="Prio">120</Item>
-                <Item Key="UseObjectName">1</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="DynamicFields::ObjectType###CustomerUser" Required="0" Valid="1">
-        <Description Translatable="1">DynamicField object registration.</Description>
-        <Navigation>Core::DynamicFields::ObjectTypeRegistration</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="DisplayName" Translatable="1">Customer User</Item>
-                <Item Key="Module">Kernel::System::DynamicField::ObjectType::CustomerUser</Item>
-                <Item Key="Prio">130</Item>
-                <Item Key="UseObjectName">1</Item>
-            </Hash>
-        </Value>
-    </Setting>
     <Setting Name="SOAP::Keep-Alive" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Enable keep-alive connection header for SOAP responses.</Description>
         <Navigation>Core::SOAP</Navigation>

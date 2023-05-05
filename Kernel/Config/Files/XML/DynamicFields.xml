@@ -1,6 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otobo_config version="2.0" init="Application">
 
+    <!-- framework object types -->
+    <Setting Name="DynamicFields::ObjectType###Article" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField object registration.</Description>
+        <Navigation>Core::DynamicFields::ObjectTypeRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Article</Item>
+                <Item Key="Module">Kernel::System::DynamicField::ObjectType::Article</Item>
+                <Item Key="Prio">110</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::ObjectType###Ticket" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField object registration.</Description>
+        <Navigation>Core::DynamicFields::ObjectTypeRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Ticket</Item>
+                <Item Key="Module">Kernel::System::DynamicField::ObjectType::Ticket</Item>
+                <Item Key="Prio">100</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::ObjectType###CustomerCompany" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField object registration.</Description>
+        <Navigation>Core::DynamicFields::ObjectTypeRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Customer</Item>
+                <Item Key="Module">Kernel::System::DynamicField::ObjectType::CustomerCompany</Item>
+                <Item Key="Prio">120</Item>
+                <Item Key="UseObjectName">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::ObjectType###CustomerUser" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField object registration.</Description>
+        <Navigation>Core::DynamicFields::ObjectTypeRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Customer User</Item>
+                <Item Key="Module">Kernel::System::DynamicField::ObjectType::CustomerUser</Item>
+                <Item Key="Prio">130</Item>
+                <Item Key="UseObjectName">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <!-- End framework object types -->
+
+    <!-- generic dynamic fields -->
+    <Setting Name="DynamicFields::Driver###Text" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Text</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Text</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::Driver###TextArea" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Textarea</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::TextArea</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::Driver###Checkbox" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Checkbox</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Checkbox</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldCheckbox</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::Driver###Dropdown" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Dropdown</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Dropdown</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldDropdown</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::Driver###DateTime" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Date / Time</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::DateTime</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldDateTime</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::Driver###Date" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Date</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Date</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldDateTime</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::Driver###Multiselect" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Multiselect</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Multiselect</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldMultiselect</Item>
+                <Item Key="ItemSeparator">, </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::Driver###Title" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Title</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Title</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldTitle</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <!-- End generic dynamic fields -->
+
     <!-- DynamicField Database -->
     <Setting Name="Loader::Agent::CommonJS###200-DynamicFieldDB" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
@@ -762,6 +903,404 @@
         </Value>
     </Setting>
     <!-- End ContactWD -->
+
+    <!-- Admin Interface -->
+    <Setting Name="Frontend::Module###AdminDynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Dynamic Fields GUI</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminDynamicField###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.js</Item>
+                        <Item>Core.Agent.Admin.SysConfig.Entity.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###AdminDynamicField###002-Ticket" Required="0" Valid="0">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###AdminDynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Dynamic Fields</Item>
+                <Item Key="Block">Automation</Item>
+                <Item Key="Description" Translatable="1">Create and manage dynamic fields.</Item>
+                <Item Key="IconBig">fa-align-left</Item>
+                <Item Key="IconSmall"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="PreferencesGroups###DynamicFieldsOverviewPageShown" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
+                <Item Key="Label" Translatable="1">Dynamic Fields Overview Limit</Item>
+                <Item Key="Desc" Translatable="1">Dynamic fields limit per page for Dynamic Fields Overview.</Item>
+                <Item Key="Key" Translatable="1"></Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="100">100</Item>
+                        <Item Key="250">250</Item>
+                        <Item Key="500">500</Item>
+                    </Hash>
+                </Item>
+                <Item Key="DataSelected">250</Item>
+                <Item Key="PrefKey">AdminDynamicFieldsOverviewPageShown</Item>
+                <Item Key="Prio">8000</Item>
+                <Item Key="Active">0</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <Setting Name="AdminDynamicFieldTitle::Templates###001-Template" Required="0" Valid="1">
+        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
+        <Navigation>Core::DynamicFields::TitleTemplates</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Name">Template1</Item>
+                <Item Key="Italic">0</Item>
+                <Item Key="Bold">0</Item>
+                <Item Key="UnderLine">0</Item>
+                <Item Key="Size">12</Item>
+                <Item Key="Color">#000000</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="AdminDynamicFieldTitle::Templates###002-Template" Required="0" Valid="1">
+        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
+        <Navigation>Core::DynamicFields::TitleTemplates</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Name">Template2</Item>
+                <Item Key="Italic">0</Item>
+                <Item Key="Bold">0</Item>
+                <Item Key="UnderLine">1</Item>
+                <Item Key="Size">12</Item>
+                <Item Key="Color">#000000</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="AdminDynamicFieldTitle::Templates###003-Template" Required="0" Valid="0">
+        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
+        <Navigation>Core::DynamicFields::TitleTemplates</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Name">Template3</Item>
+                <Item Key="Italic">0</Item>
+                <Item Key="Bold">0</Item>
+                <Item Key="UnderLine">0</Item>
+                <Item Key="Size">12</Item>
+                <Item Key="Color">#000000</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="AdminDynamicFieldTitle::Templates###004-Template" Required="0" Valid="0">
+        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
+        <Navigation>Core::DynamicFields::TitleTemplates</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Name">Template4</Item>
+                <Item Key="Italic">0</Item>
+                <Item Key="Bold">0</Item>
+                <Item Key="UnderLine">0</Item>
+                <Item Key="Size">12</Item>
+                <Item Key="Color">#000000</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <Setting Name="Frontend::Module###AdminDynamicFieldTitle" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Dynamic Fields Text Backend GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminDynamicFieldTitle###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.js</Item>
+                        <Item>Core.Agent.Admin.DynamicFieldTitle.js</Item>
+                        <Item>Core.Agent.Admin.SysConfig.Entity.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminDynamicFieldText" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Dynamic Fields Text Backend GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminDynamicFieldText###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.js</Item>
+                        <Item>Core.Agent.Admin.DynamicFieldText.js</Item>
+                        <Item>Core.Agent.Admin.SysConfig.Entity.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminDynamicFieldCheckbox" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Dynamic Fields Checkbox Backend GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminDynamicFieldCheckbox###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.js</Item>
+                        <Item>Core.Agent.Admin.DynamicFieldCheckbox.js</Item>
+                        <Item>Core.Agent.Admin.SysConfig.Entity.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminDynamicFieldDropdown" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Dynamic Fields Drop-down Backend GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminDynamicFieldDropdown###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.js</Item>
+                        <Item>Core.Agent.Admin.DynamicFieldDropdown.js</Item>
+                        <Item>Core.Agent.Admin.SysConfig.Entity.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminDynamicFieldDateTime" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Dynamic Fields Date Time Backend GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminDynamicFieldDateTime###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.js</Item>
+                        <Item>Core.Agent.Admin.DynamicFieldDateTime.js</Item>
+                        <Item>Core.Agent.Admin.SysConfig.Entity.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminDynamicFieldMultiselect" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Dynamic Fields Multiselect Backend GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminDynamicFieldMultiselect###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.js</Item>
+                        <Item>Core.Agent.Admin.DynamicFieldMultiselect.js</Item>
+                        <Item>Core.Agent.Admin.SysConfig.Entity.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <!--End Admin Interface -->
 
     <!-- nofilter(TidyAll::Plugin::OTOBO::Znuny4OTOBO::Config::ACLKeysLevel3Actions) -->
     <!-- AdminDynamicFieldImportExport -->
