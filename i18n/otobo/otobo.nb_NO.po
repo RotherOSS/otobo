@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-04-26 23:29+0000\n"
+"PO-Revision-Date: 2023-05-06 15:31+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -1459,7 +1459,6 @@ msgid "These groups are automatically assigned to all customers."
 msgstr "Disse gruppene blir automatisk tildelt alle nye kunder."
 
 #. Template: AdminCustomerGroup
-#, fuzzy
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupCompanyAlwaysGroups\"."
@@ -1925,7 +1924,7 @@ msgid ""
 "This is the order in which this field will be shown on the screens where is "
 "active."
 msgstr ""
-"Dette er rekkefølgen som vises på feltene på skjermen hvor de er aktive"
+"Dette er rekkefølgen som vises på feltene på skjermen hvor de er aktive."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Tooltip message:"
@@ -1973,7 +1972,7 @@ msgstr "Standardverdi"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the default value for this field."
-msgstr "Dette er standardverdien for dette feltet"
+msgstr "Dette er standardverdien for dette feltet."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
@@ -2078,7 +2077,7 @@ msgid ""
 "defined language."
 msgstr ""
 "Om du aktiverer dette valget vil verdiene bli oversatt til det bruker har "
-"definert som språk"
+"definert som språk."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Note"
@@ -2088,7 +2087,7 @@ msgstr "Notis"
 msgid ""
 "You need to add the translations manually into the language translation "
 "files."
-msgstr "Du må legge til oversettelsen manuelt i språk filen"
+msgstr "Du må legge til oversettelsen manuelt i språkfilen."
 
 #. Template: AdminDynamicFieldDB
 msgid "Possible values"
@@ -2151,14 +2150,12 @@ msgid "SID"
 msgstr "SID"
 
 #. Template: AdminDynamicFieldDB
-#, fuzzy
 msgid "Driver"
 msgstr "Driver"
 
 #. Template: AdminDynamicFieldDB
-#, fuzzy
 msgid "Server"
-msgstr "Server"
+msgstr "Tjener"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
@@ -2214,7 +2211,7 @@ msgstr "Standard dato forskjeller"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "This field must be numeric."
-msgstr "Dette feltet må inneholde tall"
+msgstr "Dette feltet må inneholde tall."
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
@@ -2278,7 +2275,7 @@ msgstr "Legg til tom verdi"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to create an empty selectable value."
-msgstr "Aktiver dette valget for å lage tomme valgbare verdier"
+msgstr "Aktiver dette valget for å lage tomme valgbare verdier."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Tree View"
@@ -2286,7 +2283,7 @@ msgstr "Trestruktur"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to display values as a tree."
-msgstr "Aktiver dette valget for å vise verdier som en trestruktur"
+msgstr "Aktiver dette valget for å vise verdier som en trestruktur."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "%s - %s"
@@ -2428,7 +2425,7 @@ msgstr "Antall rader"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the height (in lines) for this field in the edit mode."
-msgstr "Spesifiser høyden (i antall linjer) for dette feltet i endrings-modus"
+msgstr "Spesifiser høyden (i antall linjer) for dette feltet i endrings-modus."
 
 #. Template: AdminDynamicFieldText
 msgid "Number of cols"
@@ -2436,7 +2433,7 @@ msgstr "Antall kolonner"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the width (in characters) for this field in the edit mode."
-msgstr "Spesifiser bredden (i antall tegn) for dette feltet i endrings-modus"
+msgstr "Spesifiser bredden (i antall tegn) for dette feltet i endrings-modus."
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
@@ -2552,7 +2549,7 @@ msgid ""
 "members."
 msgstr ""
 "Med denne modulen kan administratorer sende meldinger til saksbehandlere, "
-"gruppe- eller rolle-medlemmer"
+"gruppe- eller rolle-medlemmer."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
@@ -2644,7 +2641,7 @@ msgstr "Navn"
 
 #. Template: AdminGenericAgent
 msgid "The name you entered already exists."
-msgstr "Navnet du oppga finnes allerede"
+msgstr "Navnet du oppga finnes allerede."
 
 #. Template: AdminGenericAgent
 msgid "Automatic Execution (Multiple Tickets)"
@@ -2841,7 +2838,7 @@ msgstr "Bytt tider"
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
-msgstr "Ingen endringstidspunkt innstillinger"
+msgstr "Ingen endringstidspunkt innstillinger."
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed"
@@ -2853,19 +2850,19 @@ msgstr "Sak endret mellom"
 
 #. Template: AdminGenericAgent
 msgid "Last close times"
-msgstr ""
+msgstr "Siste lukkede tider"
 
 #. Template: AdminGenericAgent
 msgid "No last close time settings."
-msgstr ""
+msgstr "Ingen siste innstillinger for lukket tid."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close"
-msgstr ""
+msgstr "Sak sist lukket"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close between"
-msgstr ""
+msgstr "Sak sist lukket mellom"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
@@ -2873,7 +2870,7 @@ msgstr "Stengningstidspunkt"
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
-msgstr "Ingen stengetid-innstilling"
+msgstr "Ingen stengetid-innstilling."
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
@@ -2905,7 +2902,7 @@ msgstr "Eskaleringstid"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr "Ingen eskaleringsinnstillinger"
+msgstr "Ingen eskaleringsinnstillinger."
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
@@ -2957,7 +2954,7 @@ msgstr "Valg for arkivert søk"
 
 #. Template: AdminGenericAgent
 msgid "Update/Add Ticket Attributes"
-msgstr ""
+msgstr "Oppdater/legg til saksattributter"
 
 #. Template: AdminGenericAgent
 msgid "Set new service"
@@ -3001,7 +2998,7 @@ msgstr "Sett ny sakslås"
 
 #. Template: AdminGenericAgent
 msgid "New customer user ID"
-msgstr ""
+msgstr "Ny kunde-ID"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -3025,7 +3022,7 @@ msgstr "Legg til notis"
 
 #. Template: AdminGenericAgent
 msgid "Visible for customer"
-msgstr ""
+msgstr "Synlig for kunden"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
@@ -3033,7 +3030,7 @@ msgstr "Tidsenheter"
 
 #. Template: AdminGenericAgent
 msgid "Execute Ticket Commands"
-msgstr ""
+msgstr "Utfør sakskommandoer"
 
 #. Template: AdminGenericAgent
 msgid "Send agent/customer notifications on changes"
@@ -3093,6 +3090,8 @@ msgid ""
 "Warning: There are %s tickets affected but only %s may be modified during "
 "one job execution!"
 msgstr ""
+"Advarsel: Det er %s saker berørt, men bare %s kan endres i løpet av én "
+"jobbutførelse!"
 
 #. Template: AdminGenericAgent
 msgid "Affected Tickets"
@@ -3108,7 +3107,7 @@ msgstr "Administrasjon: Generiske webtjenester"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Service Management"
-msgstr ""
+msgstr "Web Service Management"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
@@ -3128,7 +3127,7 @@ msgstr "Vil du virkelig tømme feilsøkerloggen for denne web tjenesten?"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request List"
-msgstr ""
+msgstr "Forespørselsliste"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Time"
@@ -3136,7 +3135,7 @@ msgstr "Tid"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Communication ID"
-msgstr ""
+msgstr "Kommunikasjons-ID"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Remote IP"
@@ -3148,7 +3147,7 @@ msgstr "Laster"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Select a single request to see its details."
-msgstr ""
+msgstr "Velg en enkelt forespørsel for å se detaljene."
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter by type"
@@ -3176,15 +3175,15 @@ msgstr "Oppdater"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Add ErrorHandling"
-msgstr ""
+msgstr "Legg til feilhåndtering"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Edit ErrorHandling"
-msgstr ""
+msgstr "Rediger feilhåndtering"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Do you really want to delete this error handling module?"
-msgstr ""
+msgstr "Vil du virkelig slette denne feilhåndteringsmodulen?"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "All configuration data will be lost."
@@ -3192,48 +3191,54 @@ msgstr "Alle konfigurasjons-data vil gå tapt."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
-msgstr ""
+msgstr "Generelle alternativer"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "The name can be used to distinguish different error handling configurations."
 msgstr ""
+"Navnet kan brukes til å skille forskjellige feilhåndteringskonfigurasjoner."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Please provide a unique name for this web service."
-msgstr "Vennligst velg et unikt navn for denne web tjenesten"
+msgstr "Vennligst velg et unikt navn for denne webtjenesten."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error handling module backend"
-msgstr ""
+msgstr "Backend for feilhåndteringsmodul"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This OTOBO error handling backend module will be called internally to "
 "process the error handling mechanism."
 msgstr ""
+"Denne OTOBO-feilhåndteringsmodulen vil bli kalt internt for å behandle "
+"feilhåndteringsmekanismen."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
-msgstr ""
+msgstr "Behandlingsalternativer"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
 msgstr ""
+"Konfigurer filtre for å kontrollere utførelse av feilhåndteringsmoduler."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Only requests matching all configured filters (if any) will trigger module "
 "execution."
 msgstr ""
+"Bare forespørsler som samsvarer med alle konfigurerte filtre (hvis noen) vil "
+"utløse modulkjøring."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Operation filter"
-msgstr ""
+msgstr "Driftsfilter"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected operations."
-msgstr ""
+msgstr "Utfør bare feilhåndteringsmodul for utvalgte operasjoner."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -3241,99 +3246,122 @@ msgid ""
 "request data. Filters involving this error stage should not use operation "
 "filter."
 msgstr ""
+"Merk: Driften er ubestemt for feil som oppstår under mottak av innkommende "
+"forespørselsdata. Filtre som involverer dette feilstadiet skal ikke bruke "
+"operasjonsfilter."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Invoker filter"
-msgstr ""
+msgstr "Utløserfilter"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected invokers."
-msgstr ""
+msgstr "Utfør bare feilhåndteringsmodul for utvalgte utløsere."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message content filter"
-msgstr ""
+msgstr "Innholdsfilter for feilmelding"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Enter a regular expression to restrict which error messages should cause "
 "error handling module execution."
 msgstr ""
+"Skriv inn et regulært uttrykk for å begrense hvilke feilmeldinger som skal "
+"forårsake kjøring av feilhåndteringsmodul."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Error message subject and data (as seen in the debugger error entry) will "
 "considered for a match."
 msgstr ""
+"Feilmeldingsemne og data (som vist i feilsøkingsfeiloppføringen) vil "
+"vurderes for et samsvar."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
 msgstr ""
+"Eksempel: Skriv inn '^.*401 Uautorisert.*\\\\ for å håndtere kun "
+"autentiseringsrelaterte feil."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
-msgstr ""
+msgstr "Feil trinnfilter"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Only execute error handling module on errors that occur during specific "
 "processing stages."
 msgstr ""
+"Utfør bare feilhåndteringsmodulen på feil som oppstår under bestemte "
+"behandlingstrinn."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Example: Handle only errors where mapping for outgoing data could not be "
 "applied."
 msgstr ""
+"Eksempel: Håndter bare feil der kartlegging for utgående data ikke kunne "
+"brukes."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
-msgstr ""
+msgstr "Feilkode"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
-msgstr ""
+msgstr "En feilidentifikator for denne feilhåndteringsmodulen."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This identifier will be available in XSLT-Mapping and shown in debugger "
 "output."
 msgstr ""
+"Denne identifikatoren vil være tilgjengelig i XSLT-Mapping og vises i "
+"feilsøkingsutdata."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
-msgstr ""
+msgstr "Feilmelding"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
-msgstr ""
+msgstr "En feilforklaring for denne feilhåndteringsmodulen."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This message will be available in XSLT-Mapping and shown in debugger output."
 msgstr ""
+"Denne meldingen vil være tilgjengelig i XSLT-Mapping og vises i "
+"feilsøkingsutdata."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Define if processing should be stopped after module was executed, skipping "
 "all remaining modules or only those of the same backend."
 msgstr ""
+"Definer om behandlingen skal stoppes etter at modulen ble utført, og hoppe "
+"over alle gjenværende moduler eller bare de fra samme backend."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Default behavior is to resume, processing the next module."
-msgstr ""
+msgstr "Standard oppførsel er å gjenoppta og behandle neste modul."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This module allows to configure scheduled retries for failed requests."
 msgstr ""
+"Denne modulen lar deg konfigurere planlagte forsøk for mislykkede "
+"forespørsler."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Default behavior of GenericInterface web services is to send each request "
 "exactly once and not to reschedule after errors."
 msgstr ""
+"Standardoppførselen til GenericInterface-netttjenester er å sende hver "
+"forespørsel nøyaktig én gang og ikke å omplanlegge etter feil."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3341,48 +3369,59 @@ msgid ""
 "individual request, the module executed last is authoritative and determines "
 "if a retry is scheduled."
 msgstr ""
+"Hvis mer enn én modul som er i stand til å planlegge et nytt forsøk utføres "
+"for en individuell forespørsel, er modulen som ble utført sist autoritativ "
+"og avgjør om et nytt forsøk er planlagt."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Request retry options"
-msgstr ""
+msgstr "Alternativer for å prøve kallet på nytt"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Retry options are applied when requests cause error handling module "
 "execution (based on processing options)."
 msgstr ""
+"Alternativer for forsøk på nytt brukes når forespørsler forårsaker kjøring "
+"av feilhåndteringsmoduler (basert på behandlingsalternativer)."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Schedule retry"
-msgstr ""
+msgstr "Planlegg et nytt forsøk"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Should requests causing an error be triggered again at a later time?"
 msgstr ""
+"Bør forespørsler som forårsaker en feil utløses igjen på et senere tidspunkt?"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Initial retry interval"
-msgstr ""
+msgstr "Innledende forsøksintervall"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Interval after which to trigger the first retry."
-msgstr ""
+msgstr "Intervall som det første forsøket på nytt skal utløses etter."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Note: This and all further retry intervals are based on the error handling "
 "module execution time for the initial request."
 msgstr ""
+"Merk: Dette og alle ytterligere gjenforsøksintervaller er basert på "
+"utførelsestiden for feilhåndteringsmodulen for den første forespørselen."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Factor for further retries"
-msgstr ""
+msgstr "Faktor for ytterligere forsøk"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "If a request returns an error even after a first retry, define if subsequent "
 "retries are triggered using the same interval or in increasing intervals."
 msgstr ""
+"Hvis en forespørsel returnerer en feil selv etter et første forsøk på nytt, "
+"definer om påfølgende forsøk skal utløses med samme intervall eller i økende "
+"intervaller."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3391,22 +3430,30 @@ msgid ""
 "(1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 "
 "minutes), ..."
 msgstr ""
+"Eksempel: Hvis en forespørsel først utløses kl. 10:00 med startintervall på "
+"'1 minutt' og forsøksfaktor ved '2', vil gjenforsøk bli utløst kl. 10:01 (1 "
+"minutt), 10:03 (2*1=2) minutter), 10:07 (2*2=4 minutter), 10:15 (2*4=8 "
+"minutter), ..."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry interval"
-msgstr ""
+msgstr "Maksimalt gjenforsøksintervall"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "If a retry interval factor of '1.5' or '2' is selected, undesirably long "
 "intervals can be prevented by defining the largest interval allowed."
 msgstr ""
+"Hvis en ny forsøksintervallfaktor på '1,5' eller '2' er valgt, kan uønsket "
+"lange intervaller forhindres ved å definere det største tillatte intervallet."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Intervals calculated to exceed the maximum retry interval will then "
 "automatically be shortened accordingly."
 msgstr ""
+"Intervaller beregnet til å overskride det maksimale gjenforsøksintervallet "
+"vil da automatisk bli forkortet tilsvarende."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3415,16 +3462,22 @@ msgid ""
 "retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 "
 "minutes), 10:12 (8=>5 minutes), 10:17, ..."
 msgstr ""
+"Eksempel: Hvis en forespørsel først utløses kl. 10.00 med startintervall på "
+"'1 minutt', forsøksfaktor ved '2' og maksimalt intervall ved '5 minutter', "
+"vil gjenforsøk bli utløst kl. 10.01 (1 minutt), 10 :03 (2 minutter), 10:07 ("
+"4 minutter), 10:12 (8=>5 minutter), 10:17, ..."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry count"
-msgstr ""
+msgstr "Maksimalt antall forsøk på nytt"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Maximum number of retries before a failing request is discarded, not "
 "counting the initial request."
 msgstr ""
+"Maksimalt antall forsøk før en mislykket forespørsel blir forkastet, ikke "
+"medregnet den første forespørselen."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3432,20 +3485,25 @@ msgid ""
 "at '1 minute', retry factor at '2' and maximum retry count at '2', retries "
 "would be triggered at 10:01 and 10:02 only."
 msgstr ""
+"Eksempel: Hvis en forespørsel først utløses kl. 10:00 med et startintervall "
+"på '1 minutt', prøvefaktor på '2' og maksimalt antall forsøk ved '2', vil "
+"gjenforsøk kun utløses kl. 10:01 og 10:02."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Note: Maximum retry count might not be reached if a maximum retry period is "
 "configured as well and reached earlier."
 msgstr ""
+"Merk: Maksimalt antall gjenforsøk kan kanskje ikke nås hvis en maksimal "
+"gjenforsøksperiode også er konfigurert og nådd tidligere."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This field must be empty or contain a positive number."
-msgstr ""
+msgstr "Dette feltet må være tomt eller inneholde et positivt tall."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
-msgstr ""
+msgstr "Maksimal prøveperiode"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3453,6 +3511,9 @@ msgid ""
 "discarded (based on the error handling module execution time for the initial "
 "request)."
 msgstr ""
+"Maksimal tidsperiode for gjenforsøk av mislykkede forespørsler før de "
+"forkastes (basert på utførelsestiden for feilhåndteringsmodulen for den "
+"første forespørselen)."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3460,6 +3521,9 @@ msgid ""
 "(according to retry interval calculation) will automatically be triggered at "
 "maximum period exactly."
 msgstr ""
+"Nye forsøk som normalt vil bli utløst etter at maksimumsperioden er utløpt ("
+"i henhold til beregning av nytt forsøksintervall) vil automatisk bli utløst "
+"nøyaktig ved maksimal periode."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3468,20 +3532,26 @@ msgid ""
 "retries would be triggered at 10:01, 10:03, 10:07, 10:15 and finally at "
 "10:31=>10:30."
 msgstr ""
+"Eksempel: Hvis en forespørsel først utløses kl. 10:00 med startintervall på "
+"'1 minutt', prøvefaktor på '2' og maksimal prøveperiode ved '30 minutter', "
+"vil gjenforsøk bli utløst kl. 10:01, 10:03, 10:07, 10:15 og til slutt kl "
+"10:31=>10:30."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Note: Maximum retry period might not be reached if a maximum retry count is "
 "configured as well and reached earlier."
 msgstr ""
+"Merk: Maksimal gjenforsøkstid kan kanskje ikke nås hvis et maksimalt antall "
+"gjenforsøk også er konfigurert og nådd tidligere."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add Invoker"
-msgstr ""
+msgstr "Legg til utløser"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit Invoker"
-msgstr ""
+msgstr "Rediger utløser"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Do you really want to delete this invoker?"
@@ -3500,17 +3570,19 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
-msgstr ""
+msgstr "Utløser-backend"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "This OTOBO invoker backend module will be called to prepare the data to be "
 "sent to the remote system, and to process its response data."
 msgstr ""
+"Denne OTOBO utløserbackend-modulen vil bli kalt for å forberede dataene som "
+"skal sendes til det eksterne systemet, og for å behandle responsdataene."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for outgoing request data"
-msgstr ""
+msgstr "Kartlegging for utgående forespørselsdata"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Configure"
@@ -3521,16 +3593,20 @@ msgid ""
 "The data from the invoker of OTOBO will be processed by this mapping, to "
 "transform it to the kind of data the remote system expects."
 msgstr ""
+"Dataene fra utløseren til OTOBO vil bli behandlet av denne kartleggingen, "
+"for å transformere den til den typen data det eksterne systemet forventer."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for incoming response data"
-msgstr ""
+msgstr "Kartlegging for innkommende svardata"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the invoker of OTOBO expects."
 msgstr ""
+"Svardataene vil bli behandlet av denne kartleggingen, for å transformere den "
+"til den typen data som brukeren av OTOBO forventer."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
@@ -3542,11 +3618,11 @@ msgstr "Tilstand"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit this event"
-msgstr ""
+msgstr "Rediger denne hendelsen"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
-msgstr ""
+msgstr "Denne utløseren vil bli utløst av de konfigurerte hendelsene."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add Event"
@@ -3557,22 +3633,27 @@ msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
 msgstr ""
+"For å legge til en ny hendelse velg hendelsesobjektet og hendelsesnavnet og "
+"klikk på \"+\"-knappen"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "Asynchronous event triggers are handled by the OTOBO Scheduler Daemon in "
 "background (recommended)."
 msgstr ""
+"Asynkrone hendelsestriggere håndteres av OTOBO Scheduler Daemon i bakgrunnen "
+"(anbefalt)."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "Synchronous event triggers would be processed directly during the web "
 "request."
 msgstr ""
+"Synkrone hendelsestriggere vil bli behandlet direkte under nettforespørselen."
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "GenericInterface Invoker Event Settings for Web Service %s"
-msgstr ""
+msgstr "Innstillinger for GenericInterface utløserhendelse for nettjeneste %s"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Go back to"
@@ -3580,19 +3661,19 @@ msgstr "Gå tilbake til"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Delete all conditions"
-msgstr ""
+msgstr "Slett alle betingelser"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Do you really want to delete all the conditions for this event?"
-msgstr ""
+msgstr "Vil du virkelig slette alle betingelsene for dette arrangementet?"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
-msgstr ""
+msgstr "Generelle innstillinger"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
-msgstr ""
+msgstr "Hendelsestype"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions"
@@ -3600,7 +3681,7 @@ msgstr "Tilstander"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions can only operate on non-empty fields."
-msgstr ""
+msgstr "Betingelser kan kun operere på ikke-tomme felt."
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Type of Linking between Conditions"
@@ -3624,7 +3705,7 @@ msgstr "Fjern dette feltet"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "And can't be repeated on the same condition."
-msgstr ""
+msgstr "Og kan ikke gjentas på samme betingelse."
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Add New Condition"
@@ -3632,11 +3713,11 @@ msgstr "Legg til ny tilstand"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "General invoker data"
-msgstr ""
+msgstr "Generelle utløserdata"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for outgoing request data"
-msgstr ""
+msgstr "Innstillinger for utgående forespørselsdata"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket fields"
@@ -3645,40 +3726,43 @@ msgstr "Saksfelt"
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected ticket fields will be considered for the request data."
-msgstr ""
+msgstr "Kun de valgte saksfeltene vil bli vurdert for forespørselsdataene."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article fields"
-msgstr ""
+msgstr "Artikkelfelt"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected article fields will be considered for the request data."
-msgstr ""
+msgstr "Kun de valgte artikkelfeltene vil bli vurdert for forespørselsdataene."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket dynamic fields"
-msgstr ""
+msgstr "Dynamiske saksfelter"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected ticket dynamic fields will be considered for the request "
 "data."
 msgstr ""
+"Bare de valgte dynamiske saksfeltene vil bli vurdert for forespørselsdataene."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article dynamic fields"
-msgstr ""
+msgstr "Dynamiske artikkelfelt"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected article dynamic fields will be considered for the request "
 "data."
 msgstr ""
+"Bare de valgte dynamiske artikkelfeltene vil bli vurdert for "
+"forespørselsdataene."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Number of articles"
-msgstr ""
+msgstr "Antall artikler"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3771,7 +3855,7 @@ msgstr "Denne regelen vil brukes på alle nøkler uten kartleggingsregel."
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped values"
-msgstr "Standard regler for ukartlagte verdier."
+msgstr "Standard regler for ukartlagte verdier"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all values with no mapping rule."
@@ -4094,7 +4178,7 @@ msgstr "Maksimal lengde på melding"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "This field should be an integer number."
-msgstr "Dette feltet inneholde et heltall"
+msgstr "Dette feltet inneholde et heltall."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4534,7 +4618,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
-msgstr "Dette navnet må være unikt"
+msgstr "Dette navnet må være unikt."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
@@ -4554,7 +4638,7 @@ msgstr "Konfigurasjons-fil"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The file must be a valid web service configuration YAML file."
-msgstr "Filen må være en godkjent YAML web tjeneste konfigurasjons-fil"
+msgstr "Filen må være en godkjent YAML web tjeneste konfigurasjons-fil."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -4697,7 +4781,7 @@ msgid ""
 "export or even restore them."
 msgstr ""
 "Her kan du se eldre versjoner av gjeldende web tjeneste konfigurasjon, "
-"eksportere og gjenopprette dem"
+"eksportere og gjenopprette dem."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
@@ -4713,7 +4797,7 @@ msgstr "Opprettelses tid"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Select a single configuration version to see its details."
-msgstr "Velg en konfigurasjons-versjon for å se dens detaljer"
+msgstr "Velg en konfigurasjons-versjon for å se dens detaljer."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Export web service configuration"
@@ -4771,7 +4855,7 @@ msgstr "Systemlogg"
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
-msgstr "Her finner du logg-informasjon fra systemet ditt"
+msgstr "Her finner du logg-informasjon fra systemet ditt."
 
 #. Template: AdminLog
 msgid "Hide this message"
@@ -4862,7 +4946,7 @@ msgstr "IMAP mappe"
 msgid ""
 "Only modify this if you need to fetch mail from a different folder than "
 "INBOX."
-msgstr "Endre denne om du må hente e-post fra en annen mappe en INBOX"
+msgstr "Endre denne om du må hente e-post fra en annen mappe en INBOX."
 
 #. Template: AdminMailAccount
 msgid "Trusted"
@@ -5088,7 +5172,7 @@ msgstr "Sjekk PGP konfigurasjon"
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 "På denne måten kan du direkte redigere nøkkelringen som er konfigurert i "
-"SysConfig"
+"SysConfig."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -5533,7 +5617,7 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
-msgstr "Feltet må inneholde et ord bestående av bokstaver"
+msgstr "Feltet må inneholde et ord bestående av bokstaver."
 
 #. Template: AdminPostMasterFilter
 msgid "Header"
@@ -5681,7 +5765,7 @@ msgid ""
 "with the mouse from the left list to the right list."
 msgstr ""
 "Du kan tildele aktivitetsdialoger til denne aktiviteten ved å dra elementet "
-"med musepekeren fra venstre liste til høyre liste"
+"med musepekeren fra venstre liste til høyre liste."
 
 #. Template: AdminProcessManagementActivity
 msgid "Filter available Activity Dialogs"
@@ -5808,7 +5892,7 @@ msgid ""
 "elements with the mouse from the left list to the right list."
 msgstr ""
 "Du kan tildele overgangshandlinger til denne overgangen ved å dra elementet "
-"med musepekeren fra venstre liste til høyre liste"
+"med musepekeren fra venstre liste til høyre liste."
 
 #. Template: AdminProcessManagementPath
 msgid "Filter available Transition Actions"
@@ -5840,7 +5924,7 @@ msgstr "Opprett ny aktivitet"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activity Dialogs..."
-msgstr "Filtrer aktivitetsdialoger"
+msgstr "Filtrer aktivitetsdialoger..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Transitions"
@@ -5856,7 +5940,7 @@ msgstr "Opprett ny overgang"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Transition Actions..."
-msgstr "Filtrer overgangshandlinger"
+msgstr "Filtrer overgangshandlinger..."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process"
@@ -6123,7 +6207,7 @@ msgstr "timer"
 
 #. Template: AdminQueue
 msgid "Only business hours are counted."
-msgstr "Kun timene i åpningstiden telles"
+msgstr "Kun timene i åpningstiden telles."
 
 #. Template: AdminQueue
 msgid ""
@@ -6396,7 +6480,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "This is only the beginning!"
-msgstr "Dette er bare begynnelsen"
+msgstr "Dette er bare begynnelsen!"
 
 #. Template: AdminRegistration
 msgid "We will inform you about our new services and offerings soon."
@@ -6620,7 +6704,7 @@ msgstr "Roller"
 
 #. Template: AdminRoleGroup
 msgid "Select the role:group permissions."
-msgstr "Velg rolle:gruppe-rettigheter"
+msgstr "Velg rolle:grupperettigheter."
 
 #. Template: AdminRoleGroup
 msgid ""
@@ -6628,7 +6712,7 @@ msgid ""
 "will not be available for the role)."
 msgstr ""
 "Hvis ingenting blir valgt vil det ikke være noen tilgang til gruppen (rollen "
-"vil ikke se saker for gruppen)"
+"vil ikke se saker for gruppen)."
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
@@ -6656,7 +6740,7 @@ msgstr "notis"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
-msgstr "Rettigheter for å svare på saker i denne gruppen/køen"
+msgstr "Rettigheter for å svare på saker i denne gruppen/køen."
 
 #. Template: AdminRoleGroup
 msgid "owner"
@@ -6664,7 +6748,7 @@ msgstr "Eier"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
-msgstr "Rettigheter til å endre eier av saker i denne gruppen/køen"
+msgstr "Rettigheter til å endre eier av saker i denne gruppen/køen."
 
 #. Template: AdminRoleGroup
 msgid "priority"
@@ -6716,7 +6800,7 @@ msgstr ""
 
 #. Template: AdminSLA
 msgid "Please write only numbers!"
-msgstr "Vennligst skriv kun siffer"
+msgstr "Vennligst skriv kun siffer!"
 
 #. Template: AdminSMIME
 msgid "S/MIME Management"
@@ -6897,7 +6981,7 @@ msgid ""
 "application is already running."
 msgstr ""
 "Hvis sikkermodus ikke er slått på, slå det på via Systemkonfigurasjon fordi "
-"applikasjonen er i drift"
+"applikasjonen er i drift."
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
@@ -6921,7 +7005,7 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid "Here you can enter SQL to send it directly to the application database."
 msgstr ""
-"Her kan du skrive SQL for å sende kommandoer rett til OTOBO sin database"
+"Her kan du skrive SQL for å sende kommandoer rett til OTOBO sin database."
 
 #. Template: AdminSelectBox
 msgid "Options"
@@ -7082,7 +7166,7 @@ msgstr "OBS"
 
 #. Template: AdminState
 msgid "Please also update the states in SysConfig where needed."
-msgstr "Vennligst også oppdatert nødvendige statuser i SysConfig"
+msgstr "Vennligst også oppdatert nødvendige statuser i SysConfig."
 
 #. Template: AdminState
 msgid ""
@@ -7235,7 +7319,7 @@ msgid ""
 "selected queue."
 msgstr ""
 "All innkommende e-post til denne adressen i To eller CC vil bli lagt i den "
-"valgte køen"
+"valgte køen."
 
 #. Template: AdminSystemAddress
 msgid "Email address"
@@ -7251,7 +7335,7 @@ msgstr ""
 
 #. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
-msgstr "Vist navn og e-postadresse vil vises på e-posten du sender ut"
+msgstr "Vist navn og e-postadresse vil vises på e-posten du sender ut."
 
 #. Template: AdminSystemAddress
 msgid "This system address cannot be set to invalid."
@@ -7760,15 +7844,15 @@ msgstr ""
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
-msgstr "Saksbehandlere trengs for å behandle saker"
+msgstr "Saksbehandlere trengs for å behandle saker."
 
 #. Template: AdminUser
 msgid "Don't forget to add a new agent to groups and/or roles!"
-msgstr "Ikke glem å legge saksbehandlere i grupper og/eller roller"
+msgstr "Ikke glem å legge saksbehandlere i grupper og/eller roller!"
 
 #. Template: AdminUser
 msgid "Please enter a search term to look for agents."
-msgstr "Skriv et søk for å finne saksbehandlere"
+msgstr "Skriv et søk for å finne saksbehandlere."
 
 #. Template: AdminUser
 msgid "Last login"
@@ -7882,7 +7966,7 @@ msgstr ""
 
 #. Template: AgentAppointmentEdit
 msgid "Invalid date!"
-msgstr "Ugyldig dato"
+msgstr "Ugyldig dato!"
 
 #. Template: AgentAppointmentEdit
 msgid "Please set this to value before End date."
@@ -8364,7 +8448,7 @@ msgstr "Nivå"
 
 #. Template: AgentDashboardRSSOverview
 msgid "Posted %s ago."
-msgstr "Postet for %s siden"
+msgstr "Postet for %s siden."
 
 #. Template: AgentDashboardStats
 msgid ""
@@ -8479,7 +8563,7 @@ msgstr ""
 
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
-msgstr "For å akseptere nyheter, en lisens eller endringer"
+msgstr "For å akseptere nyheter, en lisens eller endringer."
 
 #. Template: AgentInfo
 msgid "Yes, accepted."
@@ -9048,7 +9132,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
-msgstr "For alle med ventende-tilstander"
+msgstr "For alle med ventende tilstander."
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
@@ -9086,7 +9170,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Invalid time!"
-msgstr "Ugyldig tid"
+msgstr "Ugyldig tid!"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s%s"
@@ -9102,7 +9186,7 @@ msgstr "Du trenger en e-postadresse."
 
 #. Template: AgentTicketBounce
 msgid "Need a valid email address or don't use a local email address."
-msgstr "Må ha en gyldig e-postadresse, og ikke en lokal adresse"
+msgstr "Må ha en gyldig e-postadresse, og ikke en lokal adresse."
 
 #. Template: AgentTicketBounce
 msgid "Next ticket state"
@@ -9134,7 +9218,7 @@ msgstr "Flett med"
 
 #. Template: AgentTicketBulk
 msgid "Invalid ticket identifier!"
-msgstr "Ugyldig Saksnummer"
+msgstr "Ugyldig saksnummer!"
 
 #. Template: AgentTicketBulk
 msgid "Merge to oldest"
@@ -9190,11 +9274,11 @@ msgstr ""
 
 #. Template: AgentTicketCompose
 msgid "Please remove this entry and enter a new one with the correct value."
-msgstr "Vennlist fjern innlegget og legg til en med riktige verdier"
+msgstr "Vennlist fjern innlegget og legg til en med riktige verdier."
 
 #. Template: AgentTicketCompose
 msgid "This address already exists on the address list."
-msgstr "Denne adressen finnes allerede i adresseboken"
+msgstr "Denne adressen finnes allerede i adresseboken."
 
 #. Template: AgentTicketCompose
 msgid "Remove Cc"
@@ -9214,7 +9298,7 @@ msgstr "Fjern Bcc"
 
 #. Template: AgentTicketCompose
 msgid "Date Invalid!"
-msgstr "Ugyldig dato"
+msgstr "Ugyldig dato!"
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s%s"
@@ -9326,7 +9410,7 @@ msgstr ""
 
 #. Template: AgentTicketMerge
 msgid "You need to use a ticket number!"
-msgstr "Du må bruke et saksnummer"
+msgstr "Du må bruke et saksnummer!"
 
 #. Template: AgentTicketMerge
 msgid "A valid ticket number is required."
@@ -9346,7 +9430,7 @@ msgstr ""
 
 #. Template: AgentTicketMerge
 msgid "Need a valid email address."
-msgstr "Trenger en gyldig e-postadresse"
+msgstr "Trenger en gyldig e-postadresse."
 
 #. Template: AgentTicketMove
 msgid "Move %s%s%s"
@@ -9362,7 +9446,7 @@ msgstr "Flytt"
 
 #. Template: AgentTicketOverviewMedium
 msgid "No ticket data found."
-msgstr "Ingen saker ble funnet"
+msgstr "Ingen saker ble funnet."
 
 #. Template: AgentTicketOverviewMedium
 msgid "Open / Close ticket action menu"
@@ -9430,7 +9514,7 @@ msgstr "Lag ny Telefon-sak"
 
 #. Template: AgentTicketPhone
 msgid "Please include at least one customer for the ticket."
-msgstr "Vennligst oppgi minst en kunde for denne saken"
+msgstr "Vennligst oppgi minst en kunde for denne saken."
 
 #. Template: AgentTicketPhone
 msgid "To queue"
@@ -9682,7 +9766,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Resize"
-msgstr "Gjør om størrelse."
+msgstr "Gjør om størrelse"
 
 #. Template: AgentTicketZoom
 msgid "Mark this article as read"
@@ -9796,7 +9880,7 @@ msgstr ""
 
 #. Template: AttachmentBlocker
 msgid "Load blocked content."
-msgstr "Last inn blokkert innhold"
+msgstr "Last inn blokkert innhold."
 
 #. Template: Breadcrumb
 msgid "Home"
@@ -9924,7 +10008,7 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
-msgstr "Et øyeblikk, du blir omdirigert"
+msgstr "Et øyeblikk, du blir omdirigert..."
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -9972,7 +10056,7 @@ msgstr "Ditt brukernavn"
 
 #. Template: CustomerLogin
 msgid "A new password will be sent to your email address."
-msgstr "Nytt passord vil bli sendt til din e-postadresse"
+msgstr "Nytt passord vil bli sendt til din e-postadresse."
 
 #. Template: CustomerLogin
 msgid "Create Account"
@@ -10134,7 +10218,7 @@ msgstr "Søkeresultater for"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Remove this Search Term."
-msgstr "Fjern dette søkekriteriet"
+msgstr "Fjern dette søkekriteriet."
 
 #. Template: CustomerTicketZoom
 msgid "Reply"
@@ -10280,7 +10364,7 @@ msgstr "Type"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
-msgstr "Velg type utgående e-post"
+msgstr "Velg type utgående e-post."
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail port"
@@ -10288,7 +10372,7 @@ msgstr "Utgående port for e-post"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail port."
-msgstr "Velg port for utgående e-post"
+msgstr "Velg port for utgående e-post."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP host"
@@ -10296,7 +10380,7 @@ msgstr "SMTP-tjener"
 
 #. Template: InstallerConfigureMail
 msgid "SMTP host."
-msgstr "SMTP-tjener"
+msgstr "SMTP-tjener."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP authentication"
@@ -10312,7 +10396,7 @@ msgstr "Bruker for autentisering"
 
 #. Template: InstallerConfigureMail
 msgid "Username for SMTP auth."
-msgstr "Brukernavn for SMTP-autentisering"
+msgstr "Brukernavn for SMTP-autentisering."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP auth password"
@@ -10320,7 +10404,7 @@ msgstr "Passord for autentisering"
 
 #. Template: InstallerConfigureMail
 msgid "Password for SMTP auth."
-msgstr "Passord for SMTP-autentisering"
+msgstr "Passord for SMTP-autentisering."
 
 #. Template: InstallerConfigureMail
 msgid "Configure Inbound Mail"
@@ -10332,7 +10416,7 @@ msgstr "Type"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
-msgstr "Velg type for innkommende e-post"
+msgstr "Velg type for innkommende e-post."
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail host"
@@ -10340,7 +10424,7 @@ msgstr "E-post-tjener"
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail host."
-msgstr "E-post-tjener"
+msgstr "E-post-tjener."
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
@@ -10348,7 +10432,7 @@ msgstr "Brukernavn"
 
 #. Template: InstallerConfigureMail
 msgid "User for inbound mail."
-msgstr "Bruker for innkommende e-post"
+msgstr "Bruker for innkommende e-post."
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail password"
@@ -10356,7 +10440,7 @@ msgstr "Passord"
 
 #. Template: InstallerConfigureMail
 msgid "Password for inbound mail."
-msgstr "Passord for innkommende e-post"
+msgstr "Passord for innkommende e-post."
 
 #. Template: InstallerConfigureMail
 msgid "Result of mail configuration check"
@@ -10380,7 +10464,7 @@ msgstr "Feil"
 
 #. Template: InstallerDBResult
 msgid "Database setup successful!"
-msgstr "Konfigurasjon av databasen var vellykket"
+msgstr "Konfigurasjon av databasen var vellykket!"
 
 #. Template: InstallerDBStart
 msgid "Install Type"
@@ -10498,7 +10582,7 @@ msgstr "Admin e-post"
 
 #. Template: InstallerSystem
 msgid "Email address of the system administrator."
-msgstr "E-postadresse til systemadministratoren"
+msgstr "E-postadresse til systemadministratoren."
 
 #. Template: InstallerSystem
 msgid "Organization"
@@ -10514,7 +10598,7 @@ msgstr "Logg-modul"
 
 #. Template: InstallerSystem
 msgid "Log backend to use."
-msgstr "Loggmetode som skal brukes"
+msgstr "Loggmetode som skal brukes."
 
 #. Template: InstallerSystem
 msgid "LogFile"
@@ -10852,7 +10936,7 @@ msgstr "Trenger FormID!"
 
 #. Template: PictureUpload
 msgid "No file found!"
-msgstr "Ingen fil ble funnet"
+msgstr "Ingen fil ble funnet!"
 
 #. Template: PictureUpload
 msgid "The file is not an image that can be shown inline!"
@@ -10903,7 +10987,7 @@ msgid ""
 "You can select one or more groups to define access for different agents."
 msgstr ""
 "Du kan velge en eller flere grupper for å gi tilgang for forskjellige "
-"saksbehandlere"
+"saksbehandlere."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
@@ -10957,7 +11041,7 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr "Hvis satt til ugyldig kan ikke sluttbrukere generere statistikken"
+msgstr "Hvis satt til ugyldig kan ikke sluttbrukere generere statistikken."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
@@ -11003,7 +11087,7 @@ msgstr "Konfigurer filter"
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr "Vennligst velg kun ett element, eller deaktivere 'Fast' knappen"
+msgstr "Vennligst velg kun ett element, eller deaktivere 'Fast' knappen."
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
@@ -11537,15 +11621,15 @@ msgstr "Adresse"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
-msgstr "Vis systemloggmeldinger"
+msgstr "Vis systemloggmeldinger."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Edit the system configuration settings."
-msgstr "Endre på systeminnstillingene"
+msgstr "Endre på systeminnstillingene."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Update and extend your system with software packages."
-msgstr "Oppdater og utvid systemet med programvarepakker"
+msgstr "Oppdater og utvid systemet med programvarepakker."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
@@ -12864,7 +12948,7 @@ msgid ""
 "configuration, please synchronize all processes."
 msgstr ""
 "Prosessstyringsinformasjon fra databasen er ikke synkronisert med "
-"systemkonfigurasjon. Vennligst synkroniser alle prosesser"
+"systemkonfigurasjon. Vennligst synkroniser alle prosesser."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
@@ -13463,7 +13547,7 @@ msgstr "Type lagt til!"
 
 #. Perl Module: Kernel/Modules/AdminUser.pm
 msgid "Agent updated!"
-msgstr "Saksbehandler oppdatert"
+msgstr "Saksbehandler oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminUserGroup.pm
 msgid "Change Group Relations for Agent"
@@ -13551,7 +13635,7 @@ msgstr "%s gang(er)"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "until ..."
-msgstr "til"
+msgstr "til..."
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "for ... time(s)"
@@ -13811,7 +13895,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr "Beklager, du må være eier av saken for å utføre denne handlingen"
+msgstr "Beklager, du må være eier av saken for å utføre denne handlingen."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Please change the owner first."
@@ -13936,11 +14020,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
-msgstr "Adressen %s er byttet ut med adressen som er registrert på kunde"
+msgstr "Adressen %s er byttet ut med adressen som er registrert på kunde."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Customer user automatically added in Cc."
-msgstr "Kundebrukeren ble automatisk lagt til Kopi-feltet"
+msgstr "Kundebrukeren ble automatisk lagt til Kopi-feltet."
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "Ticket \"%s\" created!"
@@ -14048,7 +14132,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketPhoneCommon.pm
 msgid "Ticket locked."
-msgstr "Saken er låst"
+msgstr "Saken er låst."
 
 #. Perl Module: Kernel/Modules/AgentTicketPlain.pm
 msgid "No ArticleID!"
@@ -14687,7 +14771,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
-msgstr "Opprett en ny sak"
+msgstr "Opprett en ny sak!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "SecureMode active!"
@@ -15214,7 +15298,7 @@ msgstr "klikk her"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "to open it in a new window."
-msgstr "for å åpne i nytt vindu"
+msgstr "for å åpne i nytt vindu."
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Year"
@@ -15333,7 +15417,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTOBO Daemon is not running."
-msgstr "OTOBO tjenesten kjører ikke"
+msgstr "OTOBO tjenesten kjører ikke."
 
 #. Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
 msgid "You have Out of Office enabled, would you like to disable it?"
@@ -15386,7 +15470,7 @@ msgstr "Gjenta passord"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "The current password is not correct. Please try again!"
-msgstr "Nåværende passord er ikke korrekt. Prøv igjen."
+msgstr "Nåværende passord er ikke korrekt. Prøv igjen!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
@@ -15635,7 +15719,7 @@ msgstr ""
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
 msgstr ""
-"Det er for tiden ikke mulig å logge inn på grunn et planlagt vedlikehold"
+"Det er for tiden ikke mulig å logge inn på grunn et planlagt vedlikehold."
 
 #. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
 msgid ""
@@ -16060,14 +16144,14 @@ msgstr "installert"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Unable to parse repository index document."
-msgstr "Kunne ikke lese fjernarkivets indeks"
+msgstr "Kunne ikke lese fjernarkivets indeks."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
 msgstr ""
-"Ingen pakker ble funnet for din rammeverk-versjon, kun for andre versjoner"
+"Ingen pakker ble funnet for din rammeverk-versjon, kun for andre versjoner."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
@@ -16415,7 +16499,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Setting character_set_client needs to be utf8."
-msgstr "Innstillingen character_set_client må være utf8"
+msgstr "Innstillingen character_set_client må være utf8."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Server Database Charset"
@@ -16470,7 +16554,7 @@ msgid ""
 "more than 512 MB)."
 msgstr ""
 "Innstillingen 'query_cache_size' bør brukes (over 10MB, men ikke større enn "
-"512MB)"
+"512MB)."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
@@ -16483,7 +16567,7 @@ msgstr ""
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid ""
 "Tables with a different storage engine than the default engine were found."
-msgstr "Tabeller med en annen lagringsmotor enn standardmotoren ble funnet"
+msgstr "Tabeller med en annen lagringsmotor enn standardmotoren ble funnet."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
@@ -17776,7 +17860,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "An error occurred during communication."
-msgstr "En feil oppstod under kommunikasjonen"
+msgstr "En feil oppstod under kommunikasjonen."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Request Details"
@@ -18440,7 +18524,7 @@ msgstr "En eller flere feil har oppstått!"
 
 #. JS File: Core.Installer
 msgid "Mail check successful."
-msgstr "E-postsjekk fullført"
+msgstr "E-postsjekk fullført."
 
 #. JS File: Core.Installer
 msgid "Error in the mail settings. Please correct and try again."
@@ -18472,11 +18556,11 @@ msgstr "Åpne datovelger"
 
 #. JS File: Core.UI.Datepicker
 msgid "Invalid date (need a future date)!"
-msgstr "Ugyldig dato (må være i fremtiden)"
+msgstr "Ugyldig dato (må være i fremtiden)!"
 
 #. JS File: Core.UI.Datepicker
 msgid "Invalid date (need a past date)!"
-msgstr "Ugyldig dato (må være tilbake i tid)"
+msgstr "Ugyldig dato (må være tilbake i tid)!"
 
 #. JS File: Core.UI.InputFields
 msgid "Not available"
@@ -18509,7 +18593,7 @@ msgstr "Tilbakestil søk"
 #. JS File: Core.UI.Popup
 msgid "If you now leave this page, all open popup windows will be closed, too!"
 msgstr ""
-"Hvis du forlater denne siden vil også alle åpne sprettopp-vinduer bli lukket."
+"Hvis du forlater denne siden vil også alle åpne sprettopp-vinduer bli lukket!"
 
 #. JS File: Core.UI.Popup
 msgid ""
@@ -18852,11 +18936,11 @@ msgid ""
 "inactive."
 msgstr ""
 "Slår på de tilgjengelige temaene i systemet. Verdien 1 betyr aktivert, mens "
-"0 betyr inaktivert"
+"0 betyr inaktivert."
 
 #. SysConfig
 msgid "Activates the ticket archive system search in the customer interface."
-msgstr "Slår på arkivsøk i kundegrensesnittet"
+msgstr "Slår på arkivsøk i kundegrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -18870,7 +18954,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Activates time accounting."
-msgstr "Slår på tids-kontering"
+msgstr "Slår på tids-kontering."
 
 #. SysConfig
 msgid "ActivityID"
@@ -19178,7 +19262,7 @@ msgstr "Alle eskalerte saker"
 
 #. SysConfig
 msgid "All new tickets, these tickets have not been worked on yet"
-msgstr "Alle nye saker som ikke har blitt sett på enda."
+msgstr "Alle nye saker som ikke har blitt sett på enda"
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
@@ -19233,7 +19317,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Allows agents to exchange the axis of a stat if they generate one."
-msgstr "Tillater saksbehandlere å bytte akse for statistikk de selv oppretter"
+msgstr "Tillater saksbehandlere å bytte akse for statistikk de selv oppretter."
 
 #. SysConfig
 msgid "Allows agents to generate individual-related stats."
@@ -19335,7 +19419,7 @@ msgid ""
 "the customer information)."
 msgstr ""
 "Tillater å bruke liten saksoversikt (Kunde-info => 1 - vis også "
-"kundeinformasjon)"
+"kundeinformasjon)."
 
 #. SysConfig
 msgid "Allows invalid agents to generate individual-related stats."
@@ -19353,7 +19437,7 @@ msgid ""
 "administration panel."
 msgstr ""
 "Tillater administratorer å logge seg inn som andre brukere, via "
-"brukeradministrasjonspanelet"
+"brukeradministrasjonspanelet."
 
 #. SysConfig
 msgid ""
@@ -19437,7 +19521,7 @@ msgstr ""
 msgid ""
 "Allows to set a new ticket state in the move ticket screen of the agent "
 "interface."
-msgstr "Tillater å endre sakens status når den skal flyttes"
+msgstr "Tillater å endre sakens status når den skal flyttes."
 
 #. SysConfig
 msgid "Always show RichText if available"
@@ -19537,7 +19621,7 @@ msgid ""
 "Bulk Action."
 msgstr ""
 "Automatisk lås og sett eier til nåværende agent etter å ha blitt valgt i en "
-"masseredigeringshandling"
+"masseredigeringshandling."
 
 #. SysConfig
 msgid ""
@@ -19553,7 +19637,7 @@ msgid ""
 "the first owner update."
 msgstr ""
 "Sett automatisk ansvarlig for en sak (hvis ikke satt) etter første "
-"eieroppdatering"
+"eieroppdatering."
 
 #. SysConfig
 msgid "Avatar"
@@ -19565,7 +19649,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas."
-msgstr "Balansert hvitt tema av Felix Niklas"
+msgstr "Balansert hvitt tema av Felix Niklas."
 
 #. SysConfig
 msgid "Based on global RichText setting"
@@ -19641,7 +19725,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Calendar manage screen."
-msgstr "Side for kalenderadministrasjon"
+msgstr "Side for kalenderadministrasjon."
 
 #. SysConfig
 msgid ""
@@ -20088,7 +20172,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
-msgstr "Konverter HTML e-poster til tekstmeldinger"
+msgstr "Konverter HTML e-poster til tekstmeldinger."
 
 #. SysConfig
 msgid "Create New process ticket."
@@ -20108,7 +20192,7 @@ msgstr "Opprett en avtale somer koblet til denne saken"
 
 #. SysConfig
 msgid "Create and manage Service Level Agreements (SLAs)."
-msgstr "Administrasjon av Tjenestenivåavtaler (SLAer)"
+msgstr "Administrasjon av Tjenestenivåavtaler (SLAer)."
 
 #. SysConfig
 msgid "Create and manage agents."
@@ -20132,11 +20216,11 @@ msgstr "Administrasjon av kundebrukere."
 
 #. SysConfig
 msgid "Create and manage customers."
-msgstr "Administrasjon av kunder"
+msgstr "Administrasjon av kunder."
 
 #. SysConfig
 msgid "Create and manage dynamic fields."
-msgstr "Administrasjon av dynamiske felter"
+msgstr "Administrasjon av dynamiske felter."
 
 #. SysConfig
 msgid "Create and manage groups."
@@ -20188,7 +20272,7 @@ msgstr "Administrasjon av sakstyper."
 
 #. SysConfig
 msgid "Create and manage web services."
-msgstr "Administrasjon av web tjenester"
+msgstr "Administrasjon av web tjenester."
 
 #. SysConfig
 msgid "Create new Ticket."
@@ -20418,7 +20502,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Default ACL values for ticket actions."
-msgstr "Standard ACL-verdier for sakshendelser"
+msgstr "Standard ACL-verdier for sakshendelser."
 
 #. SysConfig
 msgid ""
@@ -20459,7 +20543,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Default loop protection module."
-msgstr "Standard loop-beskyttelsesmodul"
+msgstr "Standard loop-beskyttelsesmodul."
 
 #. SysConfig
 msgid "Default queue ID used by the system in the agent interface."
@@ -20479,7 +20563,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Default ticket ID used by the system in the agent interface."
-msgstr "Standard Saksnr brukt av systemet i saksbehandler-delen"
+msgstr "Standard Saksnr brukt av systemet i saksbehandler-delen."
 
 #. SysConfig
 msgid "Default ticket ID used by the system in the customer interface."
@@ -20508,7 +20592,7 @@ msgstr ""
 "Sett et filter for HTML-visning som legger til lenker bak en gitt tekst. "
 "Bildeelementet tillater to typer inn-data. For det første navnet på et bilde "
 "(f.eks. bilde01.png). I det tilfellet vil OTOBO sin bilde-sti brukes. Den "
-"andre muligheten er å skrive inn URL til bildet"
+"andre muligheten er å skrive inn URL til bildet."
 
 #. SysConfig
 msgid ""
@@ -20792,7 +20876,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines all the possible stats output formats."
-msgstr "Definerer alle mulige formater for statistikk"
+msgstr "Definerer alle mulige formater for statistikk."
 
 #. SysConfig
 msgid "Defines an alternate URL, where the login link refers to."
@@ -21222,19 +21306,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the URL CSS path."
-msgstr "Definerer URL til CSS"
+msgstr "Definerer URL til CSS."
 
 #. SysConfig
 msgid "Defines the URL base path of icons, CSS and Java Script."
-msgstr "Definerer URL som basesti for icons, CSS og JavaScript"
+msgstr "Definerer URL som basesti for icons, CSS og JavaScript."
 
 #. SysConfig
 msgid "Defines the URL image path of icons for navigation."
-msgstr "Definerer URL for bildesti til navigasjons-icons"
+msgstr "Definerer URL for bildesti til navigasjons-icons."
 
 #. SysConfig
 msgid "Defines the URL java script path."
-msgstr "Definerer URL til JavaScript-filer"
+msgstr "Definerer URL til JavaScript-filer."
 
 #. SysConfig
 msgid "Defines the URL rich text editor path."
@@ -21312,7 +21396,8 @@ msgstr ""
 #. SysConfig
 msgid "Defines the column to store the keys for the preferences table."
 msgstr ""
-"Definerer hvilken kolonne som skal brukes for å lagre nøkler til valgtabellen"
+"Definerer hvilken kolonne som skal brukes for å lagre nøkler til "
+"valgtabellen."
 
 #. SysConfig
 msgid "Defines the communication chanel for the quick close article action."
@@ -21327,7 +21412,7 @@ msgid ""
 "Defines the config parameters of this item, to be shown in the preferences "
 "view."
 msgstr ""
-"Definerer parametrene som skal vises i Innstillinger for dette objektet"
+"Definerer parametrene som skal vises i Innstillinger for dette objektet."
 
 #. SysConfig
 msgid ""
@@ -21358,7 +21443,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the connections for http/ftp, via a proxy."
-msgstr "Spesifiserer proxy-oppsett for http/ftp"
+msgstr "Spesifiserer proxy-oppsett for http/ftp."
 
 #. SysConfig
 msgid ""
@@ -21429,7 +21514,7 @@ msgstr ""
 msgid ""
 "Defines the default maximum number of X-axis attributes for the time scale."
 msgstr ""
-"Setter standardverdi for maks. antall atributter på X-aksen for tidsskalaen"
+"Setter standardverdi for maks. antall atributter på X-aksen for tidsskalaen."
 
 #. SysConfig
 msgid ""
@@ -21473,7 +21558,7 @@ msgid ""
 "ticket owner screen of a zoomed ticket in the agent interface."
 msgstr ""
 "Definerer standard for neste saksstatus når agent legger til en notis i eier-"
-"delen"
+"delen."
 
 #. SysConfig
 msgid ""
@@ -21481,7 +21566,7 @@ msgid ""
 "ticket pending screen of a zoomed ticket in the agent interface."
 msgstr ""
 "Definerer standard for neste status for en sak etter å ha lagt til en notis "
-"i avventingsdelen av agents saksvisning"
+"i avventingsdelen av agents saksvisning."
 
 #. SysConfig
 msgid ""
@@ -21489,7 +21574,7 @@ msgid ""
 "ticket priority screen of a zoomed ticket in the agent interface."
 msgstr ""
 "Definerer standard for neste saksstatus etter at agent har lagt til en notis "
-"og endret prioritet på en sak"
+"og endret prioritet på en sak."
 
 #. SysConfig
 msgid ""
@@ -21497,7 +21582,7 @@ msgid ""
 "ticket responsible screen of the agent interface."
 msgstr ""
 "Definerer standard for neste saksstatus etter at agent har lagt til en notis "
-"under saksansvar"
+"under saksansvar."
 
 #. SysConfig
 msgid ""
@@ -21505,13 +21590,13 @@ msgid ""
 "ticket bounce screen of the agent interface."
 msgstr ""
 "Definerer standard for neste saksstatus etter at agent har lagt til en notis "
-"for en sak som blir avvist"
+"for en sak som blir avvist."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after being forwarded, in the "
 "ticket forward screen of the agent interface."
-msgstr "Definerer standard for neste saksstatus når agent videresender en sak"
+msgstr "Definerer standard for neste saksstatus når agent videresender en sak."
 
 #. SysConfig
 msgid ""
@@ -21524,7 +21609,7 @@ msgid ""
 "Defines the default next state of a ticket if it is composed / answered in "
 "the ticket compose screen of the agent interface."
 msgstr ""
-"Setter standard for neste saksstatus når den blir opprettet/besvart av agent"
+"Setter standard for neste saksstatus når den blir opprettet/besvart av agent."
 
 #. SysConfig
 msgid ""
@@ -24140,7 +24225,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Go to dashboard!"
-msgstr "Gå til kontrollpanel"
+msgstr "Gå til kontrollpanel!"
 
 #. SysConfig
 msgid "Good PGP signature."
@@ -25134,7 +25219,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Mark as Spam!"
-msgstr "Marker som søppel"
+msgstr "Marker som søppel!"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
