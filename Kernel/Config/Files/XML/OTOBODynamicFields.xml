@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otobo_config version="2.0" init="Application">
+
     <!-- DynamicField Database -->
     <Setting Name="Loader::Agent::CommonJS###200-DynamicFieldDB" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
@@ -525,6 +526,7 @@
         </Value>
     </Setting>
     <!-- End DynamicField Database -->
+
     <!-- DynamicField Web Service -->
     <Setting Name="Frontend::Module###AdminDynamicFieldWebService" Required="1" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
@@ -591,6 +593,7 @@
         </Value>
     </Setting>
     <!-- End DynamicField Web Service -->
+
     <!-- ContactWD -->
     <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0210-OTOBOCommunity-ContactWD" Required="1" Valid="1">
         <Description Translatable="1">AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.</Description>
@@ -758,7 +761,8 @@
             </Hash>
         </Value>
     </Setting>
-    <!-- ContactWD -->
+    <!-- End ContactWD -->
+
     <!-- nofilter(TidyAll::Plugin::OTOBO::Znuny4OTOBO::Config::ACLKeysLevel3Actions) -->
     <!-- AdminDynamicFieldImportExport -->
         <Setting Name="Frontend::Module###AdminDynamicFieldImportExport" Required="0" Valid="1">
@@ -1000,4 +1004,88 @@
                 </Hash>
             </Value>
         </Setting>
+
+    <!-- Ticket Masks -->
+    <Setting Name="Frontend::TicketMasks###007-MultiValueDynField" Required="0" Valid="1">
+        <Description Translatable="1">List of ticket masks which can be altered using AdminTicketMask.</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Array>
+                <Item>AgentTicketCompose</Item>
+                <Item>AgentTicketFreeText</Item>
+                <Item>AgentTicketPhone</Item>
+                <Item>CustomerTicketMessage</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminTicketMask" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Admin.</Item>
+                    <Item Key="Title" Translatable="1">Ticket Masks</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###AdminTicketMask###007-MultiValueDynField" Required="0" Valid="0">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###AdminTicketMask" Required="0" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Ticket Masks</Item>
+                <Item Key="Block">Ticket</Item>
+                <Item Key="Description" Translatable="1">Create and manage advanced definitions for ticket masks.</Item>
+                <Item Key="IconBig">fa-laptop</Item>
+                <Item Key="IconSmall"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <!-- End Ticket Masks -->
+
+    <!-- Namespaces -->
+    <Setting Name="DynamicField::Namespaces" Required="0" Valid="0">
+        <Description Translatable="1">Define possible namespaces for dynamic fields.</Description>
+        <Navigation>Core::DynamicFields</Navigation>
+        <Value>
+            <Array>
+            </Array>
+        </Value>
+    </Setting>
+    <!-- End Namespaces -->
+
 </otobo_config>
