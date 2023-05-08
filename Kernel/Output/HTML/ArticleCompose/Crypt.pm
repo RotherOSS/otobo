@@ -407,7 +407,6 @@ sub _CheckRecipient {
                 next ADDRESS;
             }
 
-
             PUBLICKEY:
             for my $PublicKey (@PublicKeys) {
 
