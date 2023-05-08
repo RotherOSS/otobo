@@ -1150,8 +1150,6 @@ for my $Test (@Tests) {
                         : ""
                     ),
             );
-            use Data::Dumper;
-            diag Dumper($InvokerResult);
 
             # check content of invoker result
             is(
