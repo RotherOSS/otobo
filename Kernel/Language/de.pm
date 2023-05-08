@@ -6227,7 +6227,7 @@ Thanks for your help!
 ' => '
 Sehr geehrter Kunde,
 
-leider enthält der von Ihnen verwendete Betreff keine gültige Ticketnummer, 
+leider enthält der von Ihnen verwendete Betreff keine gültige Ticketnummer,
 so dass diese E-Mail nicht automatisch verarbeitet werden kann.
 
 Bitte erstellen Sie ein neues Ticket im Kundenbereich.

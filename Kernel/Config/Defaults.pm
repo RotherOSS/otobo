@@ -1942,7 +1942,7 @@ via the Preferences button after logging in.
     #              OTOBO admin Priviledges                #
     #                                                     #
     # --------------------------------------------------- #
-    
+
     # WARNING!! Enabling these settings allows the OTOBO admin to execute any system call.
     # This can be a security issue!
 

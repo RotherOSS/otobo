@@ -1166,8 +1166,8 @@ sub _ACLItemOutput {
     my ( $Self, %Param ) = @_;
 
     # those params are expected to only contain one line
-    for my $Key ( qw( CreateBy ChangeBy Comment ) ) {
-        ( $Param{ $Key } ) = $Param{ $Key } =~ /(.+?)$/m;
+    for my $Key (qw( CreateBy ChangeBy Comment )) {
+        ( $Param{$Key} ) = $Param{$Key} =~ /(.+?)$/m;
     }
 
     my $Output = "# Created: $Param{CreateTime} ($Param{CreateBy})\n";
