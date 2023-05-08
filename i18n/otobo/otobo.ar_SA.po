@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-06 15:31+0000\n"
+"PO-Revision-Date: 2023-05-08 08:28+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -24952,43 +24952,49 @@ msgstr ""
 msgid ""
 "Event module that updates customer user service membership if login changes."
 msgstr ""
+"وحدة الأحداث التي تقوم بتحديث تعيينات الخدمة للعملاء عند تغيير أسماء تسجيل "
+"الدخول."
 
 #. SysConfig
 msgid ""
 "Event module that updates customer users after an update of the Customer."
-msgstr ""
+msgstr "وحدة الحدث التي تقوم بتحديث مستخدمي العميل بعد تحديث العميل."
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer User."
-msgstr ""
+msgstr "وحدة الحدث التي تقوم بتحديث تذكرة بعد تحديث مستخدم العميل."
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer."
-msgstr ""
+msgstr "وحدة الحدث التي تقوم بتحديث تذكرة بعد تحديث العميل."
 
 #. SysConfig
 msgid "Events Ticket Calendar"
-msgstr ""
+msgstr "تقويم حدث التذاكر"
 
 #. SysConfig
 msgid "Example package autoload configuration."
-msgstr ""
+msgstr "مثال على تكوين التحميل التلقائي للحزم."
 
 #. SysConfig
 msgid "Execute SQL statements."
-msgstr ""
+msgstr "تنفيذ أوامر SQL."
 
 #. SysConfig
 msgid ""
 "Executes a custom command or module. Note: if module is used, function is "
 "required."
 msgstr ""
+"يشغل أمرًا مخصصًا أو وحدة نمطية. ملاحظة: إذا تم استخدام وحدة نمطية، فيجب أن "
+"تكون الوظيفة متاحة."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on In-Reply-To or References headers for mails "
 "that don't have a ticket number in the subject."
 msgstr ""
+"يقوم بإجراء فحوصات متابعة على رؤوس الرسائل الواردة في الرد أو المراجع التي "
+"لا يحتوي موضوعها على رقم تذكرة."
 
 #. SysConfig
 msgid "Executes follow-up checks on OTOBO Header 'X-OTOBO-Bounce'."
