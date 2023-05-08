@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-08 08:28+0000\n"
+"PO-Revision-Date: 2023-05-09 02:49+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -24998,61 +24998,70 @@ msgstr ""
 
 #. SysConfig
 msgid "Executes follow-up checks on OTOBO Header 'X-OTOBO-Bounce'."
-msgstr ""
+msgstr "يقوم بإجراء فحوصات متابعة X-OTOBO-Bounce' OTOBO Header'."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on attachment contents for mails that don't have a "
 "ticket number in the subject."
 msgstr ""
+"يقوم بإجراء فحوصات متابعة على مرفقات رسائل البريد الإلكتروني التي لا يحتوي "
+"موضوعها على رقم تذكرة."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on email body for mails that don't have a ticket "
 "number in the subject."
 msgstr ""
+"يقوم بإجراء فحوصات متابعة على نص رسائل البريد الإلكتروني التي لا يحتوي "
+"موضوعها على رقم تذكرة."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on the raw source email for mails that don't have "
 "a ticket number in the subject."
 msgstr ""
+"يقوم بإجراء فحوصات متابعة على الكود المصدري لرسائل البريد الإلكتروني التي لا "
+"يحتوي موضوعها على رقم تذكرة."
 
 #. SysConfig
 msgid ""
 "Exports the whole article tree in search result (it can affect the system "
 "performance)."
-msgstr ""
+msgstr "تصدير شجرة المقالة الكاملة في نتيجة البحث (قد يؤثر على أداء النظام)."
 
 #. SysConfig
 msgid "External"
-msgstr ""
+msgstr "خَارِجِيّ"
 
 #. SysConfig
 msgid "External Link"
-msgstr ""
+msgstr "رابط خارجي"
 
 #. SysConfig
 msgid "Fetch emails via fetchmail (using SSL)."
-msgstr ""
+msgstr "يتلقى رسائل البريد الإلكتروني من خلال Fetchmail (مع SSL)."
 
 #. SysConfig
 msgid "Fetch emails via fetchmail."
-msgstr ""
+msgstr "إستلام رسائل البريد الإلكتروني من خلال fetchmail."
 
 #. SysConfig
 msgid "Fetch incoming emails from configured mail accounts."
 msgstr ""
+"استرداد رسائل البريد الإلكتروني الواردة من حسابات البريد التي تم تكوينها."
 
 #. SysConfig
 msgid "Fetches packages via proxy. Overwrites \"WebUserAgent::Proxy\"."
-msgstr ""
+msgstr "تنزيل الحزم من خلال وكيل (proxy). يلغي \"WebUserAgent :: Proxy\"."
 
 #. SysConfig
 msgid ""
 "Fields of the customer company index, used for the company fulltext search. "
 "Fields are also stored, but are not mandatory for the overall functionality."
 msgstr ""
+"حقول فهرس العملاء المستخدمة للبحث عن النص الكامل للشركة. يتم أيضا حفظ الحقول،"
+" ولكنها غير مطلوبة للوظائف العامة."
 
 #. SysConfig
 msgid ""
@@ -25062,6 +25071,10 @@ msgid ""
 "update event has to be added to the TicketManagement invoker of the "
 "Elasticsearch webservice!"
 msgstr ""
+"حقول فهرس التذاكر المستخدمة في البحث عن النص الكامل للتذكرة. يتم أيضًا حفظ "
+"الحقول، ولكنها ليست مطلوبة للوظيفة العامة. إذا تمت إضافة الحقول التي يمكن "
+"تحديثها (خاصة الحقول الديناميكية)، فيجب إضافة حدث التحديث المقابل إلى مُدعو "
+"TicketManagement لخدمة الويب Elasticsearch!"
 
 #. SysConfig
 msgid ""
@@ -25069,6 +25082,8 @@ msgid ""
 "besides fulltext searches. For the complete functionality all fields are "
 "mandatory."
 msgstr ""
+"الحقول المخزنة في فهرس العميل والمستخدمة لأغراض أخرى بجانب البحث الكامل في "
+"النص. كافة الحقول مطلوبة للوظائف العامة."
 
 #. SysConfig
 msgid ""
@@ -25076,6 +25091,8 @@ msgid ""
 "besides fulltext searches. For the complete functionality all fields are "
 "mandatory."
 msgstr ""
+"الحقول المخزنة في فهرس مستخدم العميل والمستخدمة لأغراض أخرى غير البحث عن نص "
+"كامل. جميع الحقول مطلوبة للوظيفة العامة."
 
 #. SysConfig
 msgid ""
@@ -25085,80 +25102,93 @@ msgid ""
 "respective update event has to be added to the TicketManagement invoker of "
 "the Elasticsearch webservice!"
 msgstr ""
+"تستخدم حقول فهرس التذاكر لأغراض أخرى غير البحث عن نص كامل. جميع الحقول "
+"مطلوبة للوظيفة العامة. إذا تمت إضافة الحقول التي يمكن تحديثها (خاصة الحقول "
+"الديناميكية)، فيجب إضافة حدث التحديث المقابل إلى مُدعو TicketManagement "
+"لخدمة الويب Elasticsearch!"
 
 #. SysConfig
 msgid ""
 "Fields to be searched in ticket index. Fields are also stored, but are not "
 "mandatory for the overall functionality."
 msgstr ""
+"الحقول المراد البحث فيها في فهرس التذكرة. يتم حفظ الحقول أيضا، ولكنها غير "
+"مطلوبة للوظائف العامة."
 
 #. SysConfig
 msgid ""
 "File that is displayed in the Kernel::Modules::AgentInfo module, if located "
 "under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt."
 msgstr ""
+"الملف المستخدم في وحدة Kernel::Modules::AgentInfo إذا كان موجودًا في Kernel/"
+"Output/HTML/Templates/Standard/AgentInfo.tt."
 
 #. SysConfig
 msgid ""
 "Filter for debugging ACLs. Note: More ticket attributes can be added in the "
 "format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>."
 msgstr ""
+"مرشحات لتصحيح أخطاء قوائم التحكم في الوصول (ACLs). ملاحظة: يمكن إضافة سمات "
+"تذكرة إضافية بالتنسيق <OTOBO_TICKET_Attribute> (على سبيل "
+"المثال<OTOBO_TICKET_Priority>)."
 
 #. SysConfig
 msgid ""
 "Filter for debugging Transitions. Note: More filters can be added in the "
 "format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>."
 msgstr ""
+"عوامل تصفية لتصحيح الانتقالات. ملاحظة: يمكن إضافة عوامل تصفية أخرى في تنسيق "
+"<OTOBO_TICKET_Attribute> (مثل <OTOBO_TICKET_Priority>)."
 
 #. SysConfig
 msgid "Filter incoming emails."
-msgstr ""
+msgstr "تصفية رسائل البريد الإلكتروني الواردة."
 
 #. SysConfig
 msgid "Finnish"
-msgstr ""
+msgstr "الفنلندية"
 
 #. SysConfig
 msgid "First Christmas Day"
-msgstr ""
+msgstr "اليوم الأول من عيد الميلاد"
 
 #. SysConfig
 msgid "First Queue"
-msgstr ""
+msgstr "قائمة الانتظار الأولى"
 
 #. SysConfig
 msgid "First response time"
-msgstr ""
+msgstr "وقت الاستجابة الأولى"
 
 #. SysConfig
 msgid "FirstLock"
-msgstr ""
+msgstr "فترة الحجب الأولية"
 
 #. SysConfig
 msgid "FirstResponse"
-msgstr ""
+msgstr "وقت الاستجابة الأولي"
 
 #. SysConfig
 msgid "FirstResponseDiffInMin"
-msgstr ""
+msgstr "فرق وقت الاستجابة الأولي بالدقائق"
 
 #. SysConfig
 msgid "FirstResponseInMin"
-msgstr ""
+msgstr "وقت الاستجابة الأولي بالدقائق"
 
 #. SysConfig
 msgid "Firstname Lastname"
-msgstr ""
+msgstr "الاسم الأول اسم العائلة"
 
 #. SysConfig
 msgid "Firstname Lastname (UserLogin)"
-msgstr ""
+msgstr "الاسم الأول اسم العائلة (تسجيل دخول المستخدم)"
 
 #. SysConfig
 msgid ""
 "For these state types the ticket numbers are striked through in the link "
 "table."
-msgstr ""
+msgstr "يتم شطب التذاكر ذات الأنواع المحددة هنا في جدول الكائنات المرتبطة."
 
 #. SysConfig
 msgid ""
@@ -25166,10 +25196,15 @@ msgid ""
 "without executing filters or applying stop word lists. This will increase "
 "the size of the search index and thus may slow down fulltext searches."
 msgstr ""
+"يفرض تخزين محتوى المقالة الأصلي في فهرس بحث المقالة دون تطبيق عوامل التصفية "
+"وإيقاف الكلمات. يؤدي ذلك إلى زيادة حجم فهرس البحث، مما قد يؤدي إلى إبطاء "
+"عمليات البحث عن النص الكامل."
 
 #. SysConfig
 msgid "Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64)."
 msgstr ""
+"يفرض تشفير رسائل البريد الإلكتروني الصادرة (7bit|8bit|quoted-"
+"printable|base64)."
 
 #. SysConfig
 msgid ""
@@ -25177,10 +25212,12 @@ msgid ""
 "Define the current state as key, and the next state after lock action as "
 "content."
 msgstr ""
+"يفرض إعداد حالة تذكرة تختلف عن الحالة الحالية بعد حظر التذكرة. قم بتعيين "
+"الحالة الحالية كمفتاح والحالة الجديدة كمحتوى."
 
 #. SysConfig
 msgid "Forces to unlock tickets after being moved to another queue."
-msgstr ""
+msgstr "تم إلغاء تأمين التذاكر بعد الانتقال إلى قائمة انتظار أخرى."
 
 #. SysConfig
 msgid ""
@@ -25188,102 +25225,115 @@ msgid ""
 "would be interpreted as '2020-01-22 18:07:23'. Please refer to http://search."
 "cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns."
 msgstr ""
+"تنسيق تاريخ الإنشاء المحدد للتذاكر. مثال: يتم عرض \"%Y-%m-%d %H:%M:%S' ك "
+"'2020-01-22 18:07:23'. لمزيد من المعلومات، راجع 'http://search.cpan.org/~"
+"drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns'."
 
 #. SysConfig
 msgid "Format to be ingested."
-msgstr ""
+msgstr "تنسيق للقراءة."
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
-msgstr "التاريخ::تقديم"
+msgstr "إعادة التوجيه إلى \"%s\"."
 
 #. SysConfig
 msgid "French"
-msgstr ""
+msgstr "فرنسي"
 
 #. SysConfig
 msgid "French (Canada)"
-msgstr ""
+msgstr "الفرنسية (كندا)"
 
 #. SysConfig
 msgid ""
 "French stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"كلمات التوقف الفرنسية لفهرس النص الكامل. يتم إزالة هذه الكلمات من فهرس البحث."
 
 #. SysConfig
 msgid "Frontend"
-msgstr ""
+msgstr "واجهة أمامية"
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
 "Service feature is not used)."
 msgstr ""
+"تسجيل وحدة الواجهة الأمامية (قم بإزالة ارتباط AgentTicketService إذا كانت "
+"ميزة الخدمة غير نشطة)."
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable company link if no company feature is "
 "used)."
 msgstr ""
+"تسجيل الوحدة النمطية الأمامية (قم بإزالة ارتباط الشركة إذا كانت ميزة الشركة "
+"غير نشطة)."
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable ticket processes screen if no process "
 "available)."
 msgstr ""
+"تسجيل وحدة الواجهة الأمامية (إخفاء عمليات التذاكر في حالة عدم توفر عملية)."
 
 #. SysConfig
 msgid ""
 "Frontend module registration (show personal favorites as sub navigation "
 "items of 'Admin')."
 msgstr ""
+"تسجيل الوحدة النمطية للواجهة الأمامية (عرض المفضلة الشخصية كقائمة فرعية "
+"لعنصر \"Admin\")."
 
 #. SysConfig
 msgid "Frontend module registration for the admin interface."
-msgstr ""
+msgstr "تسجيل وحدة الواجهة الأمامية في منطقة الوكيل."
 
 #. SysConfig
 msgid "Frontend module registration for the agent interface."
-msgstr ""
+msgstr "تسجيل الوحدة النمطية الأمامية في واجهة الوكيل."
 
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
-msgstr ""
+msgstr "تسجيل وحدة الواجهة الأمامية لمنطقة العميل."
 
 #. SysConfig
 msgid "Frontend module registration for the public interface."
-msgstr ""
+msgstr "تسجيل وحدة الواجهة الأمامية للواجهة العامة."
 
 #. SysConfig
 msgid "Full value"
-msgstr ""
+msgstr "القيمة الكاملة"
 
 #. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
-msgstr ""
+msgstr "مرشح Regex لفهرس النص الكامل لإزالة أجزاء من النص."
 
 #. SysConfig
 msgid "Fulltext search"
-msgstr ""
+msgstr "بحث كامل في النص"
 
 #. SysConfig
 msgid "Fulltext search using Elasticsearch."
-msgstr ""
+msgstr "بحث النص الكامل مع بحث Elasticsearch."
 
 #. SysConfig
 msgid "FulltextES"
-msgstr ""
+msgstr "FulltextES"
 
 #. SysConfig
 msgid "Galician"
-msgstr ""
+msgstr "الجاليكية"
 
 #. SysConfig
 msgid ""
 "General ticket data shown in the ticket overviews (fall-back). Note that "
 "TicketNumber can not be disabled, because it is necessary."
 msgstr ""
+"عرض بيانات التذاكر العامة في لمحات عامة عن التذاكر (احتياطي). لاحظ أنه لا "
+"يمكن إيقاف تشغيل رقم التذكرة."
 
 #. SysConfig
 msgid ""
