@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-06 15:31+0000\n"
+"PO-Revision-Date: 2023-05-09 06:08+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -3769,10 +3769,12 @@ msgid ""
 "The outgoing request data will only contain the configured number of "
 "articles. If left empty, only 1 article will be sent."
 msgstr ""
+"De utgående forespørselsdataene vil kun inneholde det konfigurerte antallet "
+"artikler. Hvis den står tom, vil kun 1 artikkel bli sendt."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Communication channels"
-msgstr ""
+msgstr "Kommunikasjonskanaler"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3780,20 +3782,25 @@ msgid ""
 "communication channels. If left empty, articles created by all communication "
 "channels will be used."
 msgstr ""
+"De utgående forespørselsdataene vil kun vurdere artikler fra de valgte "
+"kommunikasjonskanalene. Hvis den står tom, vil artikler opprettet av alle "
+"kommunikasjonskanaler bli brukt."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Customer visibility"
-msgstr ""
+msgstr "Kundesynlighet"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The outgoing request data will only consider articles created with the "
 "selected customer visibility."
 msgstr ""
+"De utgående forespørselsdataene vil kun vurdere artikler som er opprettet "
+"med valgt kundesynlighet."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Sender Types"
-msgstr ""
+msgstr "Avsendertyper"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3801,34 +3808,41 @@ msgid ""
 "selected sender types. If left empty, articles created by all sender types "
 "will be used."
 msgstr ""
+"De utgående forespørselsdataene vil kun vurdere artikler opprettet av de "
+"valgte avsendertypene. Hvis den står tom, vil artikler laget av alle "
+"avsendertyper bli brukt."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Mapping"
-msgstr ""
+msgstr "Kartlegging"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for incoming response data"
-msgstr ""
+msgstr "Innstillinger for innkommende svardata"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Remote TicketID dynamic field"
-msgstr ""
+msgstr "Ekstern TicketID dynamisk felt"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The selected ticket dynamic field is being used to store the remote TicketID."
 msgstr ""
+"Det valgte dynamiske saksfeltet brukes til å lagre den eksterne sak-IDen."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "If left empty, the remote TicketID will not be stored, unless you define a "
 "system configuration value for this web service."
 msgstr ""
+"Hvis den står tom, vil ikke den eksterne saksID-en bli lagret, med mindre du "
+"definerer en systemkonfigurasjonsverdi for denne webtjenesten."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The selected field is already in use by the Ticket dynamic fields option."
 msgstr ""
+"Det valgte feltet er allerede i bruk av alternativet dynamiske saksfelter."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3836,14 +3850,16 @@ msgid ""
 "the incoming response data. If left empty, no dynamic field will be "
 "processed."
 msgstr ""
+"Bare de valgte dynamiske saksfeltene vurderes for behandling av innkommende "
+"svardata. Hvis det står tomt, vil ikke noe dynamisk felt bli behandlet."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Event data"
-msgstr ""
+msgstr "Hendelsesdata"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
-msgstr ""
+msgstr "Kartlegging Enkel"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped keys"
@@ -3923,173 +3939,190 @@ msgstr "Vil du virkelig slette denne nøkkelen for mapping?"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "General Shortcuts"
-msgstr ""
+msgstr "Generelle snarveier"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "MacOS Shortcuts"
-msgstr ""
+msgstr "MacOS-snarveier"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment code"
-msgstr ""
+msgstr "Kommentarkode"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Uncomment code"
-msgstr ""
+msgstr "Avkommenter kode"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Auto format code"
-msgstr ""
+msgstr "Autoformater kode"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Expand/Collapse code block"
-msgstr ""
+msgstr "Utvid/skjul kodeblokk"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find"
-msgstr ""
+msgstr "Finn"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find next"
-msgstr ""
+msgstr "Finn neste"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find previous"
-msgstr ""
+msgstr "Finn forrige"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace"
-msgstr ""
+msgstr "Finn og erstatt"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace all"
-msgstr ""
+msgstr "Finn og erstatt alle"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
-msgstr ""
+msgstr "XSLT-kartlegging"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT stylesheet"
-msgstr ""
+msgstr "XSLT-stilark"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT style sheet."
-msgstr ""
+msgstr "De angitte dataene er ikke et gyldig XSLT-stilark."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Here you can add or modify your XSLT mapping code."
-msgstr ""
+msgstr "Her kan du legge til eller endre din XSLT-tilordningskode."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "The editing field allows you to use different functions like automatic "
 "formatting, window resize as well as tag- and bracket-completion."
 msgstr ""
+"Redigeringsfeltet lar deg bruke forskjellige funksjoner som automatisk "
+"formatering, endre vindusstørrelse samt tagg- og brakett-fullføring."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data includes"
-msgstr ""
+msgstr "Data inkluderer"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Select one or more sets of data that were created at earlier request/"
 "response stages to be included in mappable data."
 msgstr ""
+"Velg ett eller flere sett med data som ble opprettet på tidligere forespø"
+"rsels-/svarstadier som skal inkluderes i kartbare data."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "These sets will appear in the data structure at '/DataInclude/"
 "<DataSetName>' (see debugger output of actual requests for details)."
 msgstr ""
+"Disse settene vil vises i datastrukturen ved '/DataInclude/<DataSetName>' ("
+"se debugger-utdata for faktiske forespørsler for detaljer)."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (before mapping)"
-msgstr ""
+msgstr "Regex-filtre for datanøkkel (før kartlegging)"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (after mapping)"
-msgstr ""
+msgstr "Regex-filtre for datanøkkel (etter kartlegging)"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions"
-msgstr ""
+msgstr "Regex-er"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Replace"
-msgstr ""
+msgstr "Erstatt"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Remove regex"
-msgstr ""
+msgstr "Fjern regulært uttrykk"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Add regex"
-msgstr ""
+msgstr "Legg til regulært uttrykk"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "These filters can be used to transform keys using regular expressions."
 msgstr ""
+"Disse filtrene kan brukes til å transformere nøkler ved hjelp av regulære "
+"uttrykk."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "The data structure will be traversed recursively and all configured regexes "
 "will be applied to all keys."
 msgstr ""
+"Datastrukturen vil gjennomgås rekursivt og alle konfigurerte regexes vil bli "
+"brukt på alle nøkler."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Use cases are e.g. removing key prefixes that are undesired or correcting "
 "keys that are invalid as XML element names."
 msgstr ""
+"Brukstilfeller er f.eks. fjerne nøkkelprefikser som er uønskede eller "
+"korrigere nøkler som er ugyldige som XML-elementnavn."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Example 1: Search = '^jira:' / Replace = '' turns 'jira:element' into "
 "'element'."
 msgstr ""
+"Eksempel 1: Søk = '^jira:' / Replace = '' gjør 'jira:element' til 'element'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Example 2: Search = '^' / Replace = '_' turns '16x16' into '_16x16'."
-msgstr ""
+msgstr "Eksempel 2: Søk = '^' / Replace = '_' gjør '16x16' til '_16x16'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = '_\\\\"
 "$+{text}_\\\\$+{number}' turns '16 elementname' into '_elementname_16'."
 msgstr ""
+"Eksempel 3: Søk = '^(?<nummer>\\\\d+) (?<tekst>.+?)\\\\ / Erstatt = '_\\\\"
+"$+{tekst}_\\\\$+{nummer}' gjør '16 elementname' til '_elementname_16'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
-msgstr ""
+msgstr "For informasjon om regulære uttrykk i Perl, se her:"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Perl regular expressions tutorial"
-msgstr ""
+msgstr "Opplæring i Perl regulære uttrykk"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "If modifiers are desired they have to be specified within the regexes "
 "themselves."
 msgstr ""
+"Hvis modifikatorer er ønsket, må de spesifiseres i selve de regulære "
+"uttrykkene."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Regular expressions defined here will be applied before the XSLT mapping."
-msgstr ""
+msgstr "Regulære uttrykk definert her vil bli brukt før XSLT-tilordningen."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Regular expressions defined here will be applied after the XSLT mapping."
-msgstr ""
+msgstr "Regulære uttrykk definert her vil bli brukt etter XSLT-tilordningen."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
-msgstr ""
+msgstr "Legg til operasjon"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Edit Operation"
-msgstr ""
+msgstr "Rediger operasjon"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
@@ -4104,44 +4137,52 @@ msgid ""
 "The name is typically used to call up this web service operation from a "
 "remote system."
 msgstr ""
+"Navnet brukes vanligvis til å kalle opp denne webtjenesteoperasjonen fra et "
+"eksternt system."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
-msgstr ""
+msgstr "Operasjon backend"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "This OTOBO operation backend module will be called internally to process the "
 "request, generating data for the response."
 msgstr ""
+"Denne OTOBO-operasjonsbackend-modulen vil bli kalt internt for å behandle "
+"forespørselen, og generere data for svaret."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
-msgstr ""
+msgstr "Kartlegging for innkommende forespørselsdata"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The request data will be processed by this mapping, to transform it to the "
 "kind of data OTOBO expects."
 msgstr ""
+"Forespørselsdataene vil bli behandlet av denne kartleggingen, for å "
+"transformere den til den typen data OTOBO forventer."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
-msgstr ""
+msgstr "Kartlegging for utgående svardata"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the remote system expects."
 msgstr ""
+"Responsdataene vil bli behandlet av denne kartleggingen, for å transformere "
+"den til den typen data det eksterne systemet forventer."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include Ticket Data"
-msgstr ""
+msgstr "Inkluder saksdata"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include ticket data in response."
-msgstr ""
+msgstr "Ta med saksdata som svar."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network Transport"
@@ -4153,7 +4194,7 @@ msgstr "Egenskaper"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Route mapping for Operation"
-msgstr ""
+msgstr "Rutekartlegging for Drift"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4161,16 +4202,21 @@ msgid ""
 "by a ':' will get mapped to the entered name and passed along with the "
 "others to the mapping. (e.g. /Ticket/:TicketID)."
 msgstr ""
+"Definer ruten som skal tilordnes denne operasjonen. Variabler merket med en "
+"':' vil bli kartlagt til det angitte navnet og sendt sammen med de andre til "
+"kartleggingen. (f.eks. /Ticket/:TicketID)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
-msgstr ""
+msgstr "Gyldige forespørselsmetoder for drift"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "Limit this Operation to specific request methods. If no method is selected "
 "all requests will be accepted."
 msgstr ""
+"Begrens denne operasjonen til spesifikke forespørselsmetoder. Hvis ingen "
+"metode er valgt, vil alle forespørsler bli akseptert."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
@@ -4185,6 +4231,8 @@ msgid ""
 "Here you can specify the maximum size (in bytes) of REST messages that OTOBO "
 "will process."
 msgstr ""
+"Her kan du spesifisere maksimal størrelse (i byte) på REST-meldinger som "
+"OTOBO skal behandle."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
@@ -4195,14 +4243,16 @@ msgid ""
 "This configuration defines if incoming connections should get closed or kept "
 "alive."
 msgstr ""
+"Denne konfigurasjonen definerer om innkommende tilkoblinger skal stenges "
+"eller holdes i live."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers"
-msgstr ""
+msgstr "Ytterligere svaroverskrifter"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Add response header"
-msgstr ""
+msgstr "Legg til svaroverskrift"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Endpoint"
@@ -4210,19 +4260,20 @@ msgstr "Sluttpunkt"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "URI to indicate specific location for accessing a web service."
-msgstr ""
+msgstr "URI for å angi spesifikk plassering for tilgang til en nettjeneste."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
+"f.eks. https://www.otobo.de:10745/api/v1.0 (uten etterfølgende skråstrek)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
-msgstr ""
+msgstr "Pause"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout value for requests."
-msgstr ""
+msgstr "Tidsavbruddsverdi for forespørsler."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
@@ -4231,10 +4282,12 @@ msgstr "Autentisering"
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "An optional authentication mechanism to access the remote system."
 msgstr ""
+"En valgfri autentiseringsmekanisme for å få tilgang til det eksterne "
+"systemet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth User"
-msgstr ""
+msgstr "BasicAuth-bruker"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
@@ -4242,7 +4295,7 @@ msgstr "Brukernavnet til bruk for å få tilgang til det fjernstyrte systemet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth Password"
-msgstr ""
+msgstr "BasicAuth-passord"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the privileged user."
@@ -4250,11 +4303,12 @@ msgstr "Passordet for den priviligerte brukeren."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use Proxy Options"
-msgstr ""
+msgstr "Bruk proxy-alternativer"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide Proxy options to connect to the remote system."
 msgstr ""
+"Vis eller skjul proxy-alternativer for å koble til det eksterne systemet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Proxy Server"
@@ -4274,7 +4328,7 @@ msgstr "Proxy bruker"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the proxy server."
-msgstr ""
+msgstr "Brukernavnet som skal brukes for å få tilgang til proxy-serveren."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Proxy Password"
@@ -4286,11 +4340,11 @@ msgstr "Passordet for proxybrukeren."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip Proxy"
-msgstr ""
+msgstr "Hopp over proxy"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip proxy servers that might be configured globally?"
-msgstr ""
+msgstr "Vil du hoppe over proxy-servere som kan være konfigurert globalt?"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use SSL Options"
@@ -4302,49 +4356,55 @@ msgstr "Vis eller skjul SSL valg for å koble til fjernstyrte systemer."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate"
-msgstr ""
+msgstr "Klientsertifikat"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path and name of the SSL client certificate file (must be in PEM, "
 "DER or PKCS#12 format)."
 msgstr ""
+"Den fullstendige banen og navnet til SSL-klientsertifikatfilen (må være i "
+"PEM-, DER- eller PKCS#12-format)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/certificate.pem"
-msgstr ""
+msgstr "f.eks. /opt/otobo/var/certificates/SOAP/certificate.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
-msgstr ""
+msgstr "Klientsertifikatnøkkel"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path and name of the SSL client certificate key file (if not "
 "already included in certificate file)."
 msgstr ""
+"Den fullstendige banen og navnet til SSL-klientsertifikatnøkkelfilen (hvis "
+"den ikke allerede er inkludert i sertifikatfilen)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/key.pem"
-msgstr ""
+msgstr "f.eks. /opt/otobo/var/certificates/SOAP/key.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
-msgstr ""
+msgstr "Passord for klientsertifikatnøkkel"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password to open the SSL certificate if the key is encrypted."
-msgstr ""
+msgstr "Passordet for å åpne SSL-sertifikatet hvis nøkkelen er kryptert."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Certificate"
-msgstr ""
+msgstr "Sertifiseringsinstans (CA)-sertifikat"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates SSL certificate."
 msgstr ""
+"Den fullstendige banen og navnet på sertifiseringsinstansens sertifikatfil "
+"som validerer SSL-sertifikatet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/CA/ca.pem"
@@ -4352,21 +4412,23 @@ msgstr "f.eks. /opt/otobo/var/certificates/SOAP/CA/ca.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Directory"
-msgstr ""
+msgstr "Certification Authority (CA) Directory"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path of the certification authority directory where the CA "
 "certificates are stored in the file system."
 msgstr ""
+"Den fullstendige banen til sertifiseringsinstanskatalogen der CA-"
+"sertifikatene er lagret i filsystemet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/CA"
-msgstr ""
+msgstr "f.eks. /opt/otobo/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "SSL hostname verification."
-msgstr ""
+msgstr "SSL-vertsnavnbekreftelse."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4374,10 +4436,14 @@ msgid ""
 "Skipping verification is a security risk! Mainly for testing purposes in "
 "case of self-signed SSL certificates, or if you know what you are doing."
 msgstr ""
+"Avbryt forespørselen hvis vertsnavnet ikke kan bekreftes. Deaktiver med "
+"forsiktighet! Å hoppe over verifisering er en sikkerhetsrisiko! Hovedsakelig "
+"for testformål i tilfelle av selvsignerte SSL-sertifikater, eller hvis du "
+"vet hva du gjør."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
-msgstr ""
+msgstr "Kontrollermapping for utløser"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4385,15 +4451,21 @@ msgid ""
 "a ':' will get replaced by the data value and passed along with the request. "
 "(e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
 msgstr ""
+"Den behandlingsansvarlige som utløseren skal sende forespørsler til. "
+"Variabler merket med ':' vil bli erstattet av dataverdien og sendt sammen "
+"med forespørselen. (f.eks. /Ticket/"
+":TicketID?UserLogin=:UserLogin&Password=:Password)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request command for Invoker"
-msgstr ""
+msgstr "Gyldig forespørselskommando for utløser"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "A specific HTTP command to use for the requests with this Invoker (optional)."
 msgstr ""
+"En spesifikk HTTP-kommando som skal brukes for forespørslene med denne "
+"utløseren (valgfritt)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
@@ -4401,97 +4473,99 @@ msgstr "Standard kommando"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
-msgstr ""
+msgstr "Standard HTTP-kommando som skal brukes for forespørslene."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (all invokers)"
-msgstr ""
+msgstr "Ytterligere forespørselshoder (alle utløsere)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (invoker specific)"
-msgstr ""
+msgstr "Ytterligere forespørselshoder (utløser-spesifikke)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove all headers for this invoker"
-msgstr ""
+msgstr "Fjern alle overskrifter for denne utløseren"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Headers for invoker"
-msgstr ""
+msgstr "Forespørselshoder for utløser"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers (all operations)"
-msgstr ""
+msgstr "Ytterligere responshoder (alle operasjoner)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers (operation specific)"
-msgstr ""
+msgstr "Ytterligere responshoder (operasjonsspesifikke)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove all headers for this operation"
-msgstr ""
+msgstr "Fjern alle hoder for denne operasjonen"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Headers for operation"
-msgstr ""
+msgstr "Hoder for drift"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Common headers"
-msgstr ""
+msgstr "Vanlige forespørselshoder"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Header Name"
-msgstr ""
+msgstr "Navn på forespørselshode"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove header"
-msgstr ""
+msgstr "Fjern forespørselshode"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Add header"
-msgstr ""
+msgstr "Legg til forespørselshode"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
-msgstr ""
+msgstr "f.eks. https://local.otobo.de:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
-msgstr ""
+msgstr "Sett SOAPAction"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"Yes\" in order to send a filled SOAPAction header."
-msgstr ""
+msgstr "Sett til \"Ja\" for å sende en fylt SOAPAction-header."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"No\" in order to send an empty SOAPAction header."
-msgstr ""
+msgstr "Sett til \"Nei\" for å sende en tom SOAPAction-header."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Set to \"Yes\" in order to check the received SOAPAction header (if not "
 "empty)."
 msgstr ""
+"Sett til \"Ja\" for å sjekke den mottatte SOAPAction-headeren (hvis den ikke "
+"er tom)."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"No\" in order to ignore the received SOAPAction header."
-msgstr ""
+msgstr "Sett til \"Nei\" for å ignorere den mottatte SOAPAction-headeren."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction scheme"
-msgstr ""
+msgstr "SOAPAction ordning"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAPAction should be constructed."
-msgstr ""
+msgstr "Velg hvordan SOAPAction skal bygges opp."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Some web services require a specific construction."
-msgstr ""
+msgstr "Noen webtjenester krever en spesifikk konstruksjon."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Some web services send a specific construction."
-msgstr ""
+msgstr "Noen webtjenester sender en bestemt konstruksjon."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction separator"
@@ -4500,18 +4574,19 @@ msgstr "SOAPAction-separator"
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP operation."
 msgstr ""
+"Tegn som skal brukes som skilletegn mellom navneområde og SOAP-operasjon."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Usually .Net web services use \"/\" as separator."
-msgstr ""
+msgstr "Vanligvis bruker .Net webtjenester \"/\" som skilletegn."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction free text"
-msgstr ""
+msgstr "SOAPAction fritekst"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as SOAPAction."
-msgstr ""
+msgstr "Tekst som skal brukes som SOAPAction."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Namespace"
@@ -4519,60 +4594,67 @@ msgstr "Navneområde"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI to give SOAP methods a context, reducing ambiguities."
-msgstr ""
+msgstr "URI for å gi SOAP-metoder en kontekst og redusere tvetydigheter."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
 "actions"
 msgstr ""
+"f.eks. urn:otobo-com:soap:functions eller http://www.otobo.de/"
+"GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
-msgstr ""
+msgstr "Be om navneskjema"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP request function wrapper should be constructed."
-msgstr ""
+msgstr "Velg hvordan SOAP request-funksjonsomslag skal konstrueres."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FunctionName' is used as example for actual invoker/operation name."
 msgstr ""
+"'Funksjonsnavn' brukes som eksempel for faktisk utløser-/operasjonsnavn."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FreeText' is used as example for actual configured value."
-msgstr ""
+msgstr "'FreeText' brukes som eksempel for faktisk konfigurert verdi."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name free text"
-msgstr ""
+msgstr "Be om navn fritekst"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
-msgstr ""
+msgstr "Tekst som skal brukes som funksjonsomslagsnavnsuffiks eller erstatning."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Please consider XML element naming restrictions (e.g. don't use '<' and '&')."
 msgstr ""
+"Vennligst vurder navnebegrensninger for XML-elementer (ikke bruk f.eks. «<» "
+"og «&»)."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name scheme"
-msgstr ""
+msgstr "Svarnavnskjema"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP response function wrapper should be constructed."
-msgstr ""
+msgstr "Velg hvordan SOAP-responsfunksjonsinnpakningen skal konstrueres."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name free text"
-msgstr ""
+msgstr "Svarnavn fritekst"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Here you can specify the maximum size (in bytes) of SOAP messages that OTOBO "
 "will process."
 msgstr ""
+"Her kan du spesifisere maksimal størrelse (i byte) på SOAP-meldinger som "
+"OTOBO skal behandle."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
@@ -21627,7 +21709,7 @@ msgstr ""
 msgid ""
 "Defines the default note body text for phone tickets in the ticket phone "
 "outbound screen of the agent interface."
-msgstr "Definerer standard notistekst for utgående telefon-saker i agentdelen"
+msgstr "Definerer standard notistekst for utgående telefon-saker i agentdelen."
 
 #. SysConfig
 msgid ""
@@ -21639,11 +21721,11 @@ msgstr ""
 msgid ""
 "Defines the default priority of new customer tickets in the customer "
 "interface."
-msgstr "Setter standard prioritet på nye saker opprettet i kundeportalen"
+msgstr "Setter standard prioritet på nye saker opprettet i kundeportalen."
 
 #. SysConfig
 msgid "Defines the default priority of new tickets."
-msgstr "Setter standard prioritet på nye saker"
+msgstr "Setter standard prioritet på nye saker."
 
 #. SysConfig
 msgid ""
@@ -21660,7 +21742,7 @@ msgid ""
 "(Form: Common Specification)."
 msgstr ""
 "Definerer standard forvalg i menyen for dynamiske objekter (Form: Common "
-"Specification)"
+"Specification)."
 
 #. SysConfig
 msgid ""
@@ -21668,7 +21750,7 @@ msgid ""
 "Common Specification)."
 msgstr ""
 "Definerer standard forvalg i menyen for tilgangsrettigheter (Form: Common "
-"Specification)"
+"Specification)."
 
 #. SysConfig
 msgid ""
@@ -21676,7 +21758,7 @@ msgid ""
 "Common Specification). Please insert the format key (see Stats::Format)."
 msgstr ""
 "Definerer standard forvalg i menyen for statistikkformat (Form: Common "
-"Specification). Vennligst skriv inn formatnøkkelen (se Stats::Format)"
+"Specification). Vennligst skriv inn formatnøkkelen (se Stats::Format)."
 
 #. SysConfig
 msgid ""
@@ -21688,13 +21770,13 @@ msgstr ""
 msgid ""
 "Defines the default sender type for phone tickets in the ticket phone "
 "outbound screen of the agent interface."
-msgstr "Setter standard sendertype for utgående telefonsaker i agentdelen"
+msgstr "Setter standard sendertype for utgående telefonsaker i agentdelen."
 
 #. SysConfig
 msgid ""
 "Defines the default sender type for tickets in the ticket zoom screen of the "
 "customer interface."
-msgstr "Setter standard sendertype for saker i saksvisningen i kundeportalen"
+msgstr "Setter standard sendertype for saker i saksvisningen i kundeportalen."
 
 #. SysConfig
 msgid ""
@@ -21763,7 +21845,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default state of new tickets."
-msgstr "Definerer standard status for nye saker"
+msgstr "Definerer standard status for nye saker."
 
 #. SysConfig
 msgid ""
@@ -21871,7 +21953,7 @@ msgid ""
 "the agent interface. Up: oldest on top. Down: latest on top."
 msgstr ""
 "Definerer standard saksrekkefølge (etter de er sortert etter prioritet) i "
-"statusvisningen. Opp: eldste først. Ned: nyeste først"
+"statusvisningen. Opp: eldste først. Ned: nyeste først."
 
 #. SysConfig
 msgid ""
@@ -23612,11 +23694,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Enables S/MIME support."
-msgstr "Aktiverer støtte for S/MIME"
+msgstr "Aktiverer støtte for S/MIME."
 
 #. SysConfig
 msgid "Enables customers to create their own accounts."
-msgstr "Lar kunder opprette sine egne kontoer"
+msgstr "Lar kunder opprette sine egne kontoer."
 
 #. SysConfig
 msgid "Enables fetch S/MIME from CustomerUser backend support."
@@ -23798,7 +23880,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Execute SQL statements."
-msgstr "Kjør SQL-spørringer"
+msgstr "Kjør SQL-spørringer."
 
 #. SysConfig
 msgid ""
@@ -23928,7 +24010,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Filter incoming emails."
-msgstr "Filtrering av innkommende e-poster"
+msgstr "Filtrering av innkommende e-poster."
 
 #. SysConfig
 msgid "Finnish"
@@ -23996,7 +24078,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forces to unlock tickets after being moved to another queue."
-msgstr "Tvinger opp-låsing av saker ved flytting til ny kø"
+msgstr "Tvinger opp-låsing av saker ved flytting til ny kø."
 
 #. SysConfig
 msgid ""
@@ -24069,7 +24151,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Frontend module registration for the public interface."
-msgstr "Modulregistrering for den offentlige delen"
+msgstr "Modulregistrering for den offentlige delen."
 
 #. SysConfig
 msgid "Full value"
@@ -24420,7 +24502,7 @@ msgid ""
 msgstr ""
 "Hvis \"LDAP\" er valgt som Customer::AuthModule og brukerne kun har anonym "
 "tilgang til LDAP-treet kan du spesifisere en egen bruker for søking. "
-"Brukernavnet til denne brukeren skrives inn her"
+"Brukernavnet til denne brukeren skrives inn her."
 
 #. SysConfig
 msgid ""
@@ -24435,7 +24517,7 @@ msgid ""
 "specified."
 msgstr ""
 "Hvis \"LDAP\" er valgt som Customer::AuthModule kan du skrive inn LDAP-"
-"tjeneren her"
+"tjeneren her."
 
 #. SysConfig
 msgid ""
@@ -24486,8 +24568,8 @@ msgid ""
 "(mail=*), (objectclass=user) or (!objectclass=computer)."
 msgstr ""
 "Hvis \"LDAP\" er valgt som Customer::AuthModule kan du sette et filter for "
-"alle LDAP-søk. F.eks. (mail=*), (objectclass=user) eller (!"
-"objectclass=computer)"
+"alle LDAP-søk. F.eks. (mail=*), (objectclass=user) eller "
+"(!objectclass=computer)."
 
 #. SysConfig
 msgid ""
@@ -24573,7 +24655,8 @@ msgid ""
 "authentication to the mail server is needed, an username must be specified."
 msgstr ""
 "Hvis noen av \"SMTP\"-mekanismene er valgt som SendmailModule, og "
-"autentisering mot e-post-tjeneren er nødvendig, må et brukernavn spesifiseres"
+"autentisering mot e-post-tjeneren er nødvendig, må et brukernavn "
+"spesifiseres."
 
 #. SysConfig
 msgid ""
@@ -24629,7 +24712,7 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled, OTOBO will deliver all JavaScript files in minified form."
-msgstr "Hvis slått på vil OTOBO levere alle JavaScript-filer i minimert form"
+msgstr "Hvis slått på vil OTOBO levere alle JavaScript-filer i minimert form."
 
 #. SysConfig
 msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
@@ -24930,11 +25013,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Link agents to groups."
-msgstr "Koble saksbehandlere til grupper"
+msgstr "Koble saksbehandlere til grupper."
 
 #. SysConfig
 msgid "Link agents to roles."
-msgstr "Koble saksbehandlere til roller"
+msgstr "Koble saksbehandlere til roller."
 
 #. SysConfig
 msgid "Link customer users to customers."
@@ -24954,7 +25037,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Link queues to auto responses."
-msgstr "Koble køer til autosvar"
+msgstr "Koble køer til autosvar."
 
 #. SysConfig
 msgid "Link roles to groups."
@@ -24974,11 +25057,11 @@ msgstr "Koble denne saken til andre objekter"
 
 #. SysConfig
 msgid "Links 2 tickets with a \"Normal\" type link."
-msgstr "Koble 2 saker med en \"normal\" lenke"
+msgstr "Koble 2 saker med en \"normal\" lenke."
 
 #. SysConfig
 msgid "Links 2 tickets with a \"ParentChild\" type link."
-msgstr "Koble 2 saker med en hierarkisk lenke"
+msgstr "Koble 2 saker med en hierarkisk lenke."
 
 #. SysConfig
 msgid "Links appointments and tickets with a \"Normal\" type link."
@@ -24986,19 +25069,19 @@ msgstr "Koble avtaler og saker med en \"normal\" lenke."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
-msgstr "Liste med CSS-filer som alltid skal lastes for agentdelen"
+msgstr "Liste med CSS-filer som alltid skal lastes for agentdelen."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
-msgstr "Liste med CSS-filer som alltid skal lastes for kundeportalen"
+msgstr "Liste med CSS-filer som alltid skal lastes for kundeportalen."
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the agent interface."
-msgstr "Liste over JS-filer som alltid skal lastes for agentdelen"
+msgstr "Liste over JS-filer som alltid skal lastes for agentdelen."
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the customer interface."
-msgstr "Liste over JS-filer som alltid skal lastes for kundeportalen"
+msgstr "Liste over JS-filer som alltid skal lastes for kundeportalen."
 
 #. SysConfig
 msgid "List of all CustomerCompany events to be displayed in the GUI."
@@ -25179,15 +25262,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
-msgstr "Adminstrasjon av PGP-nøkler for kryptering og signering av e-poster"
+msgstr "Adminstrasjon av PGP-nøkler for kryptering og signering av e-poster."
 
 #. SysConfig
 msgid "Manage POP3 or IMAP accounts to fetch email from."
-msgstr "Administrasjon av POP3- og IMAP-kontoer for innkommende e-post"
+msgstr "Administrasjon av POP3- og IMAP-kontoer for innkommende e-post."
 
 #. SysConfig
 msgid "Manage S/MIME certificates for email encryption."
-msgstr "Adminstrasjon av S/MIME-sertifikater for e-postkryptering"
+msgstr "Adminstrasjon av S/MIME-sertifikater for e-postkryptering."
 
 #. SysConfig
 msgid "Manage System Configuration Deployments."
@@ -25203,7 +25286,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Manage existing sessions."
-msgstr "Administrasjon av aktive sesjoner"
+msgstr "Administrasjon av aktive sesjoner."
 
 #. SysConfig
 msgid "Manage support data."
@@ -25250,8 +25333,8 @@ msgstr ""
 msgid ""
 "Maximal auto email responses to own email-address a day (Loop-Protection)."
 msgstr ""
-"Maksimum antall autosvar til egne e-postadresser per dag (beskyttelse mot e-"
-"post-looping)"
+"Maksimum antall autosvar til egne e-postadresser per dag (beskyttelse mot e"
+"-post-looping)."
 
 #. SysConfig
 msgid ""
@@ -25267,7 +25350,7 @@ msgstr ""
 msgid ""
 "Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/"
 "IMAPS (KBytes)."
-msgstr "Maks. størrelse (i kilobytes) på e-post som kan hentes via POP3/IMAP"
+msgstr "Maks. størrelse (i kilobytes) på e-post som kan hentes via POP3/IMAP."
 
 #. SysConfig
 msgid "Maximum Number of a calendar shown in a dropdown."
@@ -25300,13 +25383,13 @@ msgstr ""
 msgid ""
 "Maximum number of tickets to be displayed in the result of a search in the "
 "agent interface."
-msgstr "Maks. antall viste saker i søkeresultater (agentdelen)"
+msgstr "Maks. antall viste saker i søkeresultater (agentdelen)."
 
 #. SysConfig
 msgid ""
 "Maximum number of tickets to be displayed in the result of a search in the "
 "customer interface."
-msgstr "Maks. antall viste saker i søkeresultater (kundeportalen)"
+msgstr "Maks. antall viste saker i søkeresultater (kundeportalen)."
 
 #. SysConfig
 msgid ""
@@ -25369,7 +25452,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
-msgstr "Modul for å lage signerte meldinger (PGP eller S/MIME)"
+msgstr "Modul for å lage signerte meldinger (PGP eller S/MIME)."
 
 #. SysConfig
 msgid "Module to define the email security options to use (PGP or S/MIME)."
@@ -25389,7 +25472,7 @@ msgid ""
 "email with From: noreply@ address."
 msgstr ""
 "Modul for å filtrere og manipulere innkommende meldinger Blokker/ignorer "
-"alle søppel-meldinger med \"From: noreply@\"-adresser"
+"alle søppel-meldinger med \"From: noreply@\"-adresser."
 
 #. SysConfig
 msgid ""
@@ -25761,7 +25844,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview of all open Tickets."
-msgstr "Oversikt over alle åpne saker"
+msgstr "Oversikt over alle åpne saker."
 
 #. SysConfig
 msgid "Overview of all open tickets."
@@ -26730,11 +26813,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Send notifications to users."
-msgstr "Send varsling til brukerne"
+msgstr "Send varsling til brukerne."
 
 #. SysConfig
 msgid "Sender type for new tickets from the customer inteface."
-msgstr "Sendingstype for nye meldinger på kundeweben"
+msgstr "Sendingstype for nye meldinger på kundeweben."
 
 #. SysConfig
 msgid ""
@@ -26828,7 +26911,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
-msgstr "Sett opp avsenderadresse for denne installasjonen"
+msgstr "Sett opp avsenderadresse for denne installasjonen."
 
 #. SysConfig
 msgid ""
@@ -27966,7 +28049,7 @@ msgid ""
 "you have a lot of customer identifiers)."
 msgstr ""
 "Viser alle kunde-identifikatorer i et multivalg-felt (ikke brukbart hvis du "
-"har mange identifikatorer)"
+"har mange identifikatorer)."
 
 #. SysConfig
 msgid ""
@@ -27977,7 +28060,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Shows an owner selection in phone and email tickets in the agent interface."
-msgstr "Viser et eier-valg i telefon- og e-post-saker i agentdelen"
+msgstr "Viser et eier-valg i telefon- og e-post-saker i agentdelen."
 
 #. SysConfig
 msgid ""
@@ -27999,7 +28082,7 @@ msgid ""
 "or a list."
 msgstr ""
 "Viser eksisterende foredldre/barn kølister i systemet i form av et tre eller "
-"en liste"
+"en liste."
 
 #. SysConfig
 msgid "Shows information on how to start OTOBO Daemon"
@@ -28027,7 +28110,8 @@ msgstr ""
 msgid ""
 "Shows the customer user information (phone and email) in the compose screen."
 msgstr ""
-"Viser kundens brukerinformasjon (telefon og e-post) når man komponerer en sak"
+"Viser kundens brukerinformasjon (telefon og e-post) når man komponerer en "
+"sak."
 
 #. SysConfig
 msgid ""
@@ -28046,7 +28130,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows the message of the day on login screen of the agent interface."
-msgstr "Viser Dagens Melding på innloggingsskjermen til agentdelen"
+msgstr "Viser Dagens Melding på innloggingsskjermen til agentdelen."
 
 #. SysConfig
 msgid "Shows the ticket history (reverse ordered) in the agent interface."
@@ -28056,13 +28140,13 @@ msgstr "Viser sakshistorikken (nyeste først) i agentdelen."
 msgid ""
 "Shows the ticket priority options in the close ticket screen of the agent "
 "interface."
-msgstr "Viser sakens prioritetsvalg i agentdelens skjerm for å avslutte saker"
+msgstr "Viser sakens prioritetsvalg i agentdelens skjerm for å avslutte saker."
 
 #. SysConfig
 msgid ""
 "Shows the ticket priority options in the move ticket screen of the agent "
 "interface."
-msgstr "Viser sakens prioritetsvalg i agentdelens skjerm for å flytte saker"
+msgstr "Viser sakens prioritetsvalg i agentdelens skjerm for å flytte saker."
 
 #. SysConfig
 msgid ""
@@ -28081,14 +28165,14 @@ msgstr "Viser sakens prioritetsvalg i agentdelens skjerm for fritekst."
 msgid ""
 "Shows the ticket priority options in the ticket note screen of the agent "
 "interface."
-msgstr "Viser sakens prioritetsvalg i agentdelens skjerm for notiser"
+msgstr "Viser sakens prioritetsvalg i agentdelens skjerm for notiser."
 
 #. SysConfig
 msgid ""
 "Shows the ticket priority options in the ticket owner screen of a zoomed "
 "ticket in the agent interface."
 msgstr ""
-"Viser sakens prioritetsvalg i agentdelens sakseier-skjerm i saksvisning"
+"Viser sakens prioritetsvalg i agentdelens sakseier-skjerm i saksvisning."
 
 #. SysConfig
 msgid ""
@@ -28275,7 +28359,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Specifies the directory where SSL certificates are stored."
-msgstr "Spesifiserer mappen der SSL-sertifikatene lagres"
+msgstr "Spesifiserer mappen der SSL-sertifikatene lagres."
 
 #. SysConfig
 msgid "Specifies the directory where private SSL certificates are stored."
@@ -28340,7 +28424,7 @@ msgid ""
 "files, in the web interface."
 msgstr ""
 "Spesifiserer stien til konverteringsprogrammet som tillater visning av "
-"Microsoft Excel-filer i webvisningen"
+"Microsoft Excel-filer i webvisningen."
 
 #. SysConfig
 msgid ""
@@ -28348,7 +28432,7 @@ msgid ""
 "files, in the web interface."
 msgstr ""
 "Spesifiserer stien til konverteringsprogrammet som tillater visning av "
-"Microsoft Word-filer i webvisningen"
+"Microsoft Word-filer i webvisningen."
 
 #. SysConfig
 msgid ""
@@ -28356,7 +28440,7 @@ msgid ""
 "in the web interface."
 msgstr ""
 "Spesifiserer stien til konverteringsprogrammet som tillater visning av PDF-"
-"filer i webvisningen"
+"filer i webvisningen."
 
 #. SysConfig
 msgid ""
@@ -28364,7 +28448,7 @@ msgid ""
 "the web interface."
 msgstr ""
 "Spesifiserer stien til konverteringsprogrammet som tillater visning av XML-"
-"filer"
+"filer."
 
 #. SysConfig
 msgid ""
@@ -28376,7 +28460,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Specifies user id of the postmaster data base."
-msgstr "Spesifiserer bruker-id for postmaster-databasen"
+msgstr "Spesifiserer bruker-id for postmaster-databasen."
 
 #. SysConfig
 msgid ""
@@ -28478,7 +28562,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Strips empty lines on the ticket preview in the queue view."
-msgstr "Tar vekk tomme linjer i saksvisningen i kølisten"
+msgstr "Tar vekk tomme linjer i saksvisningen i kølisten."
 
 #. SysConfig
 msgid "Strips empty lines on the ticket preview in the service view."
@@ -28597,7 +28681,7 @@ msgstr ""
 
 #. SysConfig
 msgid "The divider between TicketHook and ticket number. E.g ': '."
-msgstr "Skilletegnet mellom TicketHook og saksnummeret, f.eks. \":\""
+msgstr "Skilletegnet mellom TicketHook og saksnummeret, f.eks. \":\"."
 
 #. SysConfig
 msgid ""
@@ -28616,7 +28700,7 @@ msgstr ""
 
 #. SysConfig
 msgid "The headline shown in the customer interface."
-msgstr "Overskriften som vises i kundeportalen"
+msgstr "Overskriften som vises i kundeportalen."
 
 #. SysConfig
 msgid ""
@@ -28624,7 +28708,7 @@ msgid ""
 "Ticket#."
 msgstr ""
 "Identifikatoren for en sak, f.eks. Sak#, Ticket#, MinSak#. Standard er "
-"Ticket#"
+"Ticket#."
 
 #. SysConfig
 msgid ""
@@ -28681,14 +28765,15 @@ msgstr ""
 msgid ""
 "The text at the beginning of the subject in an email reply, e.g. RE, AW, or "
 "AS."
-msgstr "Teksten i begynnelsen av emnet på et e-post-svar, f.eks. RE, SV"
+msgstr "Teksten i begynnelsen av emnet på et e-post-svar, f.eks. RE, SV."
 
 #. SysConfig
 msgid ""
 "The text at the beginning of the subject when an email is forwarded, e.g. "
 "FW, Fwd, or WG."
 msgstr ""
-"Teksten i begynnelsen av emnet på en e-post som er videresendt, f.eks. VS, FW"
+"Teksten i begynnelsen av emnet på en e-post som er videresendt, f.eks. VS, "
+"FW."
 
 #. SysConfig
 msgid "The value of the From field"
@@ -29190,7 +29275,7 @@ msgstr "Vietnam"
 
 #. SysConfig
 msgid "View performance benchmark results."
-msgstr "Vis resultater etter ytelsesmålinger"
+msgstr "Vis resultater etter ytelsesmålinger."
 
 #. SysConfig
 msgid "Watch this ticket"
