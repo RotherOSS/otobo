@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-09 06:08+0000\n"
+"PO-Revision-Date: 2023-05-11 13:38+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -4662,11 +4662,11 @@ msgstr "Kodifisering"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The character encoding for the SOAP message contents."
-msgstr ""
+msgstr "Tegnkodingen for SOAP-meldingens innhold."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. utf-8, latin1, iso-8859-1, cp1250, Etc."
-msgstr ""
+msgstr "f.eks. utf-8, latin1, iso-8859-1, cp1250, etc."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
@@ -4674,29 +4674,31 @@ msgstr "Sorteringsvalg"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
-msgstr ""
+msgstr "Legg til nytt element på første nivå"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Element"
-msgstr ""
+msgstr "Element"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Outbound sort order for xml fields (structure starting below function name "
 "wrapper) - see documentation for SOAP transport."
 msgstr ""
+"Utgående sorteringsrekkefølge for xml-felt (struktur som starter under "
+"funksjonsnavninnpakning) - se dokumentasjon for SOAP-transport."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
-msgstr ""
+msgstr "Legg til webtjeneste"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Edit Web Service"
-msgstr ""
+msgstr "Rediger webtjeneste"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone Web Service"
-msgstr ""
+msgstr "Clone Web Service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -4708,7 +4710,7 @@ msgstr "Duplisere"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export Web Service"
-msgstr ""
+msgstr "Eksporter webtjeneste"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
@@ -4727,6 +4729,8 @@ msgid ""
 "Here you can specify a name for the webservice. If this field is empty, the "
 "name of the configuration file is used as name."
 msgstr ""
+"Her kan du angi et navn for webtjenesten. Hvis dette feltet er tomt, brukes "
+"navnet på konfigurasjonsfilen som navn."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
@@ -4734,7 +4738,7 @@ msgstr "Importer"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration History"
-msgstr ""
+msgstr "Konfigurasjonshistorikk"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
@@ -4746,27 +4750,32 @@ msgstr "Vil du virkelig fjerne denne webtjenesten?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready2Adopt Web Services"
-msgstr ""
+msgstr "Ready2Adopt Web Services"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate Ready2Adopt web services showcasing our best practices."
 msgstr ""
+"Her kan du aktivere Ready2Adopt-netttjenester som viser våre beste "
+"fremgangsmåter."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
-msgstr ""
+msgstr "Importer Ready2Adopt webtjeneste"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "After you save the configuration you will be redirected again to the edit "
 "screen."
 msgstr ""
+"Etter at du har lagret konfigurasjonen, blir du omdirigert igjen til "
+"redigeringsskjermen."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "If you want to return to overview please click the \"Go to overview\" button."
 msgstr ""
+"Hvis du vil gå tilbake til oversikten, klikk på \"Gå til oversikt\"-knappen."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
@@ -4774,11 +4783,11 @@ msgstr "Fjernstyrt system"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Provider transport"
-msgstr ""
+msgstr "Leverandørtransport"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Requester transport"
-msgstr ""
+msgstr "Søkertransport"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Debug threshold"
@@ -4788,10 +4797,11 @@ msgstr "Feilsøkergrense"
 msgid ""
 "In provider mode, OTOBO offers web services which are used by remote systems."
 msgstr ""
+"I leverandørmodus tilbyr OTOBO webtjenester som brukes av eksterne systemer."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "In requester mode, OTOBO uses web services of remote systems."
-msgstr ""
+msgstr "I forespørselsmodus bruker OTOBO webtjenester til eksterne systemer."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Network transport"
@@ -4799,7 +4809,7 @@ msgstr "Nettverkstransport"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Error Handling Modules"
-msgstr ""
+msgstr "Feilhåndteringsmoduler"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -4807,25 +4817,31 @@ msgid ""
 "communication. Those modules are executed in a specific order, which can be "
 "changed by drag and drop."
 msgstr ""
+"Feilhåndteringsmoduler brukes til å reagere ved feil under kommunikasjonen. "
+"Disse modulene kjøres i en bestemt rekkefølge, som kan endres ved å dra og "
+"slippe."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Backend"
-msgstr ""
+msgstr "Backend"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add error handling module"
-msgstr ""
+msgstr "Legg til feilhåndteringsmodul"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Operations are individual system functions which remote systems can request."
 msgstr ""
+"Operasjoner er individuelle systemfunksjoner som eksterne systemer kan be om."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Invokers prepare data for a request to a remote web service, and process its "
 "response data."
 msgstr ""
+"Utløsere forbereder data for en forespørsel til en ekstern nettjeneste, og "
+"behandler svardataene."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
@@ -4848,6 +4864,8 @@ msgid ""
 "At least one %s has a controller that is either not active or not present, "
 "please check the controller registration or delete the %s"
 msgstr ""
+"Minst én %s har en kontroller som enten ikke er aktiv eller ikke til stede, "
+"vennligst sjekk kontrollerregistreringen eller slett %s"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "History"
@@ -4893,10 +4911,11 @@ msgstr "Gjenopprett web tjeneste konfigurasjonen"
 msgid ""
 "Do you really want to restore this version of the web service configuration?"
 msgstr ""
+"Vil du virkelig gjenopprette denne versjonen av nettjenestekonfigurasjonen?"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Your current web service configuration will be overwritten."
-msgstr ""
+msgstr "Din nåværende nettjenestekonfigurasjon vil bli overskrevet."
 
 #. Template: AdminGroup
 msgid "Group Management"
@@ -4965,25 +4984,25 @@ msgstr "Legg til e-postkonto"
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account for host"
-msgstr ""
+msgstr "Rediger e-postkonto for vert"
 
 #. Template: AdminMailAccount
 msgid "and user account"
-msgstr ""
+msgstr "og brukerkonto"
 
 #. Template: AdminMailAccount
 msgid "Filter for Mail Accounts"
-msgstr ""
+msgstr "Filter for e-postkontoer"
 
 #. Template: AdminMailAccount
 msgid "Filter for mail accounts"
-msgstr ""
+msgstr "Filter for e-postkontoer"
 
 #. Template: AdminMailAccount
 msgid ""
 "All incoming emails with one account will be dispatched in the selected "
 "queue."
-msgstr ""
+msgstr "Alle innkommende e-poster med én konto vil bli sendt i den valgte køen."
 
 #. Template: AdminMailAccount
 msgid ""
@@ -4991,10 +5010,13 @@ msgid ""
 "at arrival time (for priority etc.) will be kept and used, for example in "
 "PostMaster filters."
 msgstr ""
+"Hvis kontoen din er merket som klarert, vil X-OTOBO-overskriftene som "
+"allerede eksisterer ved ankomsttid (for prioritet osv.) beholdes og brukes, "
+"for eksempel i PostMaster-filtre."
 
 #. Template: AdminMailAccount
 msgid "Outgoing email can be configured via the Sendmail* settings in %s."
-msgstr ""
+msgstr "Utgående e-post kan konfigureres via Sendmail*-innstillingene i %s."
 
 #. Template: AdminMailAccount
 msgid "System Configuration"
@@ -5014,7 +5036,7 @@ msgstr "Hent e-post"
 
 #. Template: AdminMailAccount
 msgid "Do you really want to delete this mail account?"
-msgstr ""
+msgstr "Vil du virkelig slette denne e-postkontoen?"
 
 #. Template: AdminMailAccount
 msgid "Example: mail.example.com"
@@ -5044,45 +5066,47 @@ msgstr "Rediger e-postkonto"
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
-msgstr ""
+msgstr "Administrasjonsoversikt"
 
 #. Template: AdminNavigationBar
 msgid "Filter for Items"
-msgstr ""
+msgstr "Filtrer etter varer"
 
 #. Template: AdminNavigationBar
 msgid "Favorites"
-msgstr ""
+msgstr "Favoritter"
 
 #. Template: AdminNavigationBar
 msgid ""
 "You can add favorites by moving your cursor over items on the right side and "
 "clicking the star icon."
 msgstr ""
+"Du kan legge til favoritter ved å flytte markøren over elementer på høyre "
+"side og klikke på stjerneikonet."
 
 #. Template: AdminNavigationBar
 msgid "Links"
-msgstr ""
+msgstr "Lenker"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual"
-msgstr ""
+msgstr "Se administrasjonsmanualen"
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
-msgstr ""
+msgstr "Ingen treff"
 
 #. Template: AdminNavigationBar
 msgid "Sorry, your search didn't match any items."
-msgstr ""
+msgstr "Beklager, søket ditt samsvarte ikke med noen elementer."
 
 #. Template: AdminNavigationBar
 msgid "Set as favorite"
-msgstr ""
+msgstr "Sett som favoritt"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
-msgstr ""
+msgstr "Håndtering av saksvarsling"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5090,6 +5114,9 @@ msgid ""
 "your system. The file needs to be in .yml format as exported by the Ticket "
 "Notification module."
 msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere saksvarsler til "
+"systemet ditt. Filen må være i .yml-format som eksportert av "
+"saksvarslingsmodulen."
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5097,6 +5124,8 @@ msgid ""
 "additional ticket filter can be applied below to only send for ticket with "
 "certain criteria."
 msgstr ""
+"Her kan du velge hvilke hendelser som skal utløse dette varselet. Et ekstra "
+"saksfilter kan brukes nedenfor for kun å sende for sak med visse kriterier."
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Filter"
@@ -5112,7 +5141,7 @@ msgstr "SLA"
 
 #. Template: AdminNotificationEvent
 msgid "Customer User ID"
-msgstr ""
+msgstr "Kundebruker-ID"
 
 #. Template: AdminNotificationEvent
 msgid "Article Filter"
@@ -5120,11 +5149,11 @@ msgstr "Artikkelfilter"
 
 #. Template: AdminNotificationEvent
 msgid "Only for ArticleCreate and ArticleSend event"
-msgstr ""
+msgstr "Bare for ArticleCreate og ArticleSend-hendelser"
 
 #. Template: AdminNotificationEvent
 msgid "Article sender type"
-msgstr ""
+msgstr "Artikkelavsendertype"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5132,10 +5161,12 @@ msgid ""
 "specify an article filter as well. Please select at least one of the article "
 "filter fields."
 msgstr ""
+"Hvis ArticleCreate eller ArticleSend brukes som en triggerhendelse, må du "
+"spesifisere et artikkelfilter også. Velg minst ett av artikkelfilterfeltene."
 
 #. Template: AdminNotificationEvent
 msgid "Communication channel"
-msgstr ""
+msgstr "Kommunikasjonskanal"
 
 #. Template: AdminNotificationEvent
 msgid "Include attachments to notification"
@@ -5146,6 +5177,7 @@ msgid ""
 "Notify user just once per day about a single ticket using a selected "
 "transport."
 msgstr ""
+"Varsle brukeren bare én gang om dagen om en enkeltsak med en valgt transport."
 
 #. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
@@ -5172,43 +5204,47 @@ msgstr "For å få de første 5 linjene av meldingen (fra den siste kundesaken).
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
-msgstr ""
+msgstr "Attributter til gjeldende kundebrukerdata"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
-msgstr ""
+msgstr "Attributter til gjeldende brukerdata for sakseiere"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket responsible user data"
-msgstr ""
+msgstr "Attributter til gjeldende saksansvarliges brukerdata"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
-msgstr ""
+msgstr "Attributter til gjeldende agentbruker som ba om denne handlingen"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the ticket data"
-msgstr ""
+msgstr "Attributter til saksdataene"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket dynamic fields internal key values"
-msgstr ""
+msgstr "Interne nøkkelverdier for saksdynamiske felt"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
 msgstr ""
+"Viste verdier for dynamiske felt for sak, nyttige for rullegardin- og "
+"flervalgsfelt"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Use comma or semicolon to separate email addresses."
-msgstr ""
+msgstr "Bruk komma eller semikolon for å skille e-postadresser."
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
 "You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values "
 "from the current ticket."
 msgstr ""
+"Du kan bruke OTOBO-tagger som <OTOBO_TICKET_DynamicField_...> for å sette "
+"inn verdier fra gjeldende sak."
 
 #. Template: AdminPGP
 msgid "PGP Management"
@@ -5286,7 +5322,7 @@ msgstr "Pakkehåndterer"
 
 #. Template: AdminPackageManager
 msgid "Uninstall Package"
-msgstr ""
+msgstr "Avinstaller pakken"
 
 #. Template: AdminPackageManager
 msgid "Uninstall package"
@@ -5309,70 +5345,72 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
-msgstr ""
+msgstr "Gå til oppdateringsinstruksjoner"
 
 #. Template: AdminPackageManager
 msgid "Go to the OTOBO customer portal"
-msgstr ""
+msgstr "Gå til OTOBO-kundeportalen"
 
 #. Template: AdminPackageManager
 msgid "package information"
-msgstr ""
+msgstr "pakkeinformasjon"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTOBO."
-msgstr ""
+msgstr "Pakkeinstallasjon krever en patch-nivåoppdatering av OTOBO."
 
 #. Template: AdminPackageManager
 msgid "Package update requires a patch level update of OTOBO."
-msgstr ""
+msgstr "Pakkeoppdatering krever en patch-nivåoppdatering av OTOBO."
 
 #. Template: AdminPackageManager
 msgid "Please note that your installed OTOBO version is %s."
-msgstr ""
+msgstr "Vær oppmerksom på at din installerte OTOBO-versjon er %s."
 
 #. Template: AdminPackageManager
 msgid ""
 "To install this package, you need to update OTOBO to version %s or newer."
 msgstr ""
+"For å installere denne pakken må du oppdatere OTOBO til versjon %s eller "
+"nyere."
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTOBO version %s or older."
-msgstr ""
+msgstr "Denne pakken kan bare installeres på OTOBO versjon %s eller eldre."
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTOBO version %s or newer."
-msgstr ""
+msgstr "Denne pakken kan bare installeres på OTOBO versjon %s eller nyere."
 
 #. Template: AdminPackageManager
 msgid "Why should I keep OTOBO up to date?"
-msgstr ""
+msgstr "Hvorfor bør jeg holde OTOBO oppdatert?"
 
 #. Template: AdminPackageManager
 msgid "You will receive updates about relevant security issues."
-msgstr ""
+msgstr "Du vil motta oppdateringer om relevante sikkerhetsproblemer."
 
 #. Template: AdminPackageManager
 msgid "You will receive updates for all other relevant OTOBO issues."
-msgstr ""
+msgstr "Du vil motta oppdateringer for alle andre relevante OTOBO-problemer."
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
-msgstr ""
+msgstr "Hvordan kan jeg gjøre en oppdatering hvis jeg ikke har en kontrakt?"
 
 #. Template: AdminPackageManager
 msgid ""
 "Please find all relevant information within the updating instructions at %s."
-msgstr ""
+msgstr "Finn all relevant informasjon i oppdateringsinstruksjonene på %s."
 
 #. Template: AdminPackageManager
 msgid ""
 "In case you would have further questions we would be glad to answer them."
-msgstr ""
+msgstr "Hvis du har flere spørsmål, svarer vi gjerne på dem."
 
 #. Template: AdminPackageManager
 msgid "Please visit our customer portal and file a request."
-msgstr ""
+msgstr "Vennligst besøk vår kundeportal og send inn en forespørsel."
 
 #. Template: AdminPackageManager
 msgid "Install Package"
@@ -5380,7 +5418,7 @@ msgstr "Installer pakke"
 
 #. Template: AdminPackageManager
 msgid "Update Package"
-msgstr ""
+msgstr "Oppdater pakke"
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -5392,6 +5430,9 @@ msgid ""
 "currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
 msgstr ""
+"Sørg for at databasen din aksepterer pakker over %s MB i størrelse (den "
+"godtar for øyeblikket bare pakker opptil %s MB). Vennligst tilpass "
+"max_allowed_packet-innstillingen for databasen for å unngå feil."
 
 #. Template: AdminPackageManager
 msgid "Install"
@@ -5403,19 +5444,19 @@ msgstr "Oppdater pakkelager-informasjon"
 
 #. Template: AdminPackageManager
 msgid "Cloud services are currently disabled."
-msgstr ""
+msgstr "Skytjenester er for øyeblikket deaktivert."
 
 #. Template: AdminPackageManager
 msgid "OTOBO Verify can not continue!"
-msgstr ""
+msgstr "OTOBO Verify kan ikke fortsette!"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
-msgstr ""
+msgstr "Aktiver skytjenester"
 
 #. Template: AdminPackageManager
 msgid "Update all installed packages"
-msgstr ""
+msgstr "Oppdater alle installerte pakker"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
@@ -5439,7 +5480,7 @@ msgstr "Lokalt pakkelager"
 
 #. Template: AdminPackageManager
 msgid "This package is verified by OTOBOverify (tm)"
-msgstr ""
+msgstr "Denne pakken er verifisert av OTOBOverify (tm)"
 
 #. Template: AdminPackageManager
 msgid "Uninstall"
@@ -5462,10 +5503,12 @@ msgid ""
 "With %s, you can benefit from the following optional features. Please make "
 "contact with %s if you need more information."
 msgstr ""
+"Med %s kan du dra nytte av følgende valgfrie funksjoner. Ta kontakt med %s "
+"hvis du trenger mer informasjon."
 
 #. Template: AdminPackageManager
 msgid "Package Information"
-msgstr ""
+msgstr "Pakkeinformasjon"
 
 #. Template: AdminPackageManager
 msgid "Download package"
@@ -5509,7 +5552,7 @@ msgstr "Primærnøkkel"
 
 #. Template: AdminPackageManager
 msgid "Auto Increment"
-msgstr ""
+msgstr "Automatisk økning"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -5517,7 +5560,7 @@ msgstr "SQL"
 
 #. Template: AdminPackageManager
 msgid "File Differences for File %s"
-msgstr ""
+msgstr "Filforskjeller for fil %s"
 
 #. Template: AdminPackageManager
 msgid "File differences for file %s"
@@ -5613,11 +5656,11 @@ msgstr "Endre Postmaster-filter"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster Filters"
-msgstr ""
+msgstr "Filter for PostMaster-filtre"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster filters"
-msgstr ""
+msgstr "Filter for PostMaster-filtre"
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -5648,6 +5691,9 @@ msgid ""
 "You can also use named captures %s and use the names in the 'Set' action %s "
 "(e.g. Regexp: %s, Set action: %s). A matched EMAILADDRESS has the name '%s'."
 msgstr ""
+"Du kan også bruke navngitte opptak %s og bruke navnene i 'Sett'-handlingen "
+"%s (f.eks. Regexp: %s, Angi handling: %s). En samsvarende EMAILADDRESS har "
+"navnet '%s'."
 
 #. Template: AdminPostMasterFilter
 msgid "Delete this filter"
@@ -5655,11 +5701,11 @@ msgstr "Slett dette filteret"
 
 #. Template: AdminPostMasterFilter
 msgid "Do you really want to delete this postmaster filter?"
-msgstr ""
+msgstr "Vil du virkelig slette dette postmesterfilteret?"
 
 #. Template: AdminPostMasterFilter
 msgid "A postmaster filter with this name already exists!"
-msgstr ""
+msgstr "Et postmesterfilter med dette navnet finnes allerede!"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
@@ -5667,23 +5713,23 @@ msgstr "Filter-tilstand"
 
 #. Template: AdminPostMasterFilter
 msgid "AND Condition"
-msgstr ""
+msgstr "OG Tilstand"
 
 #. Template: AdminPostMasterFilter
 msgid "Search header field"
-msgstr ""
+msgstr "Søkehodefelt"
 
 #. Template: AdminPostMasterFilter
 msgid "for value"
-msgstr ""
+msgstr "for verdi"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a valid regular expression or a literal word."
-msgstr ""
+msgstr "Feltet må være et gyldig regulært uttrykk eller et bokstavelig ord."
 
 #. Template: AdminPostMasterFilter
 msgid "Negate"
-msgstr ""
+msgstr "Inverter"
 
 #. Template: AdminPostMasterFilter
 msgid "Set Email Headers"
@@ -5695,7 +5741,7 @@ msgstr "Sett meldingshode"
 
 #. Template: AdminPostMasterFilter
 msgid "with value"
-msgstr ""
+msgstr "med verdi"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
@@ -5719,21 +5765,23 @@ msgstr "Endre Prioritering"
 
 #. Template: AdminPriority
 msgid "Filter for Priorities"
-msgstr ""
+msgstr "Filtrer etter prioriteringer"
 
 #. Template: AdminPriority
 msgid "Filter for priorities"
-msgstr ""
+msgstr "Filtrer for prioriteringer"
 
 #. Template: AdminPriority
 msgid ""
 "This priority is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new priority is needed!"
 msgstr ""
+"Denne prioriteten er tilstede i en SysConfig-innstilling, bekreftelse for "
+"oppdatering av innstillinger for å peke til den nye prioriteten er nødvendig!"
 
 #. Template: AdminPriority
 msgid "This priority is used in the following config settings:"
-msgstr ""
+msgstr "Denne prioriteten brukes i følgende konfigurasjonsinnstillinger:"
 
 #. Template: AdminProcessManagement
 msgid "Process Management"
@@ -5745,7 +5793,7 @@ msgstr "Filter for prosesser"
 
 #. Template: AdminProcessManagement
 msgid "Filter for processes"
-msgstr ""
+msgstr "Filter for prosesser"
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5753,13 +5801,16 @@ msgstr "Opprett ny prosess"
 
 #. Template: AdminProcessManagement
 msgid "Deploy All Processes"
-msgstr ""
+msgstr "Distribuer alle prosesser"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Here you can upload a configuration file to import a process to your system. "
 "The file needs to be in .yml format as exported by process management module."
 msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere en prosess til "
+"systemet ditt. Filen må være i .yml-format som eksportert av "
+"prosessadministrasjonsmodulen."
 
 #. Template: AdminProcessManagement
 msgid "Upload process configuration"
@@ -5771,23 +5822,27 @@ msgstr "Importer prosess konfigurasjon"
 
 #. Template: AdminProcessManagement
 msgid "Ready2Adopt Processes"
-msgstr ""
+msgstr "Ready2Adopt-prosesser"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Here you can activate Ready2Adopt processes showcasing our best practices. "
 "Please note that some additional configuration may be required."
 msgstr ""
+"Her kan du aktivere Ready2Adopt-prosesser som viser frem vår beste praksis. "
+"Vær oppmerksom på at noe ekstra konfigurasjon kan være nødvendig."
 
 #. Template: AdminProcessManagement
 msgid "Import Ready2Adopt process"
-msgstr ""
+msgstr "Importer Ready2Adopt-prosess"
 
 #. Template: AdminProcessManagement
 msgid ""
 "To create a new Process you can either import a Process that was exported "
 "from another system or create a complete new one."
 msgstr ""
+"For å opprette en ny prosess kan du enten importere en prosess som ble "
+"eksportert fra et annet system eller opprette en helt ny."
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -5795,6 +5850,9 @@ msgid ""
 "synchronize the Process data. By synchronizing the Processes, the newly made "
 "changes will be written to the Configuration."
 msgstr ""
+"Endringer i prosessene her påvirker bare oppførselen til systemet hvis du "
+"synkroniserer prosessdataene. Ved å synkronisere prosessene vil de "
+"nyinnførte endringene bli skrevet til konfigurasjonen."
 
 #. Template: AdminProcessManagement
 msgid "Processes"
@@ -5810,7 +5868,7 @@ msgstr "Utskrift"
 
 #. Template: AdminProcessManagement
 msgid "Export Process Configuration"
-msgstr ""
+msgstr "Eksporter prosesskonfigurasjon"
 
 #. Template: AdminProcessManagement
 msgid "Copy Process"
@@ -5828,6 +5886,8 @@ msgstr "Gå tilbake"
 msgid ""
 "Please note, that changing this activity will affect the following processes"
 msgstr ""
+"Vær oppmerksom på at endring av denne aktiviteten vil påvirke følgende "
+"prosesser"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity"
@@ -5851,7 +5911,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Filter available Activity Dialogs"
-msgstr ""
+msgstr "Filtrer tilgjengelige aktivitetsdialoger"
 
 #. Template: AdminProcessManagementActivity
 msgid "Available Activity Dialogs"
@@ -5859,7 +5919,7 @@ msgstr "Tilgjengelige aktivitetsdialoger"
 
 #. Template: AdminProcessManagementActivity
 msgid "Name: %s, EntityID: %s"
-msgstr ""
+msgstr "Navn: %s, enhets-ID: %s"
 
 #. Template: AdminProcessManagementActivity
 msgid "Create New Activity Dialog"
@@ -5874,12 +5934,16 @@ msgid ""
 "Please note that changing this activity dialog will affect the following "
 "activities"
 msgstr ""
+"Vær oppmerksom på at endring av denne aktivitetsdialogen vil påvirke "
+"følgende aktiviteter"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "Please note that customer users will not be able to see or use the following "
 "fields: Owner, Responsible, Lock, PendingTime and CustomerID."
 msgstr ""
+"Vær oppmerksom på at kundebrukere ikke vil kunne se eller bruke følgende "
+"felt: Eier, Ansvarlig, Lås, Ventende Tid og KundeID."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
@@ -5920,17 +5984,19 @@ msgstr "Den valgte påkrevde låsen eksisterer ikke."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Advice Text"
-msgstr ""
+msgstr "Send inn råd-tekst"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Button Text"
-msgstr ""
+msgstr "Tekst for Send inn-knapp"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "You can assign Fields to this Activity Dialog by dragging the elements with "
 "the mouse from the left list to the right list."
 msgstr ""
+"Du kan tilordne felt til denne aktivitetsdialogen ved å dra elementene med "
+"musen fra venstre liste til høyre liste."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Filter available fields"
@@ -5946,11 +6012,11 @@ msgstr "Tilordnede felter"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Communication Channel"
-msgstr ""
+msgstr "Kommunikasjonskanal"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
-msgstr ""
+msgstr "Er synlig for kunden"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
@@ -6049,18 +6115,25 @@ msgid ""
 "The Elements listed above in this sidebar can be moved to the canvas area on "
 "the right by using drag'n'drop."
 msgstr ""
+"Elementene som er oppført ovenfor i denne sidelinjen kan flyttes til "
+"lerretsområdet til høyre ved å bruke dra og slipp."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "You can place Activities on the canvas area to assign this Activity to the "
 "Process."
 msgstr ""
+"Du kan plassere aktiviteter på lerretsområdet for å tilordne denne "
+"aktiviteten til prosessen."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "To assign an Activity Dialog to an Activity drop the Activity Dialog element "
 "from this sidebar over the Activity placed in the canvas area."
 msgstr ""
+"For å tilordne en aktivitetsdialog til en aktivitet slipper du "
+"aktivitetsdialogelementet fra denne sidelinjen over aktiviteten som er "
+"plassert i lerretsområdet."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -6068,12 +6141,17 @@ msgid ""
 "element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
 msgstr ""
+"Du kan starte en forbindelse mellom to aktiviteter ved å slippe "
+"overgangselementet over startaktiviteten til forbindelsen. Etter det kan du "
+"flytte den løse enden av pilen til Avslutt-aktiviteten."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Actions can be assigned to a Transition by dropping the Action Element onto "
 "the label of a Transition."
 msgstr ""
+"Handlinger kan tilordnes en overgang ved å slippe handlingselementet på "
+"etiketten til en overgang."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process Information"
@@ -6089,19 +6167,19 @@ msgstr "Den valgte tilstand eksisterer ikke."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Add and Edit Activities, Activity Dialogs and Transitions"
-msgstr ""
+msgstr "Legg til og rediger aktiviteter, aktivitetsdialoger og overganger"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Show EntityIDs"
-msgstr ""
+msgstr "Vis enhets-IDer"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Extend the width of the Canvas"
-msgstr ""
+msgstr "Utvid bredden på lerretet"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Extend the height of the Canvas"
-msgstr ""
+msgstr "Forleng høyden på lerretet"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Remove the Activity from this Process"
@@ -6140,12 +6218,16 @@ msgid ""
 "Do you really want to remove this activity from the canvas? This can only be "
 "undone by leaving this screen without saving."
 msgstr ""
+"Vil du virkelig fjerne denne aktiviteten fra lerretet? Dette kan bare angres "
+"ved å forlate denne skjermen uten å lagre."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Do you really want to remove this transition from the canvas? This can only "
 "be undone by leaving this screen without saving."
 msgstr ""
+"Vil du virkelig fjerne denne overgangen fra lerretet? Dette kan bare angres "
+"ved å forlate denne skjermen uten å lagre."
 
 #. Template: AdminProcessManagementProcessNew
 msgid ""
@@ -6153,10 +6235,13 @@ msgid ""
 "process available to users, please make sure to set its state to 'Active' "
 "and synchronize after completing your work."
 msgstr ""
+"På denne skjermen kan du opprette en ny prosess. For å gjøre den nye "
+"prosessen tilgjengelig for brukere, må du sørge for å sette statusen til "
+"\"Aktiv\" og synkronisere etter at du har fullført arbeidet."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "avbryt og lukk"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -6164,7 +6249,7 @@ msgstr "Start aktivitet"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Contains %s dialog(s)"
-msgstr ""
+msgstr "Inneholder %s dialog(er)"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Assigned dialogs"
@@ -6184,7 +6269,7 @@ msgstr "Aktivitetsdialoger er ikke i bruk i denne prosessen."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Condition linking"
-msgstr ""
+msgstr "Tilstandskobling"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transitions are not being used in this process."
@@ -6196,12 +6281,14 @@ msgstr "Modulnavn"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transition actions are not being used in this process."
-msgstr ""
+msgstr "Overgangshandlinger brukes ikke i denne prosessen."
 
 #. Template: AdminProcessManagementTransition
 msgid ""
 "Please note that changing this transition will affect the following processes"
 msgstr ""
+"Vær oppmerksom på at endring av denne overgangen vil påvirke følgende "
+"prosesser"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition"
@@ -6216,6 +6303,8 @@ msgid ""
 "Please note that changing this transition action will affect the following "
 "processes"
 msgstr ""
+"Vær oppmerksom på at endring av denne overgangshandlingen vil påvirke "
+"følgende prosesser"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action"
@@ -6243,7 +6332,7 @@ msgstr "Fjern dette parameteret"
 
 #. Template: AdminQueue
 msgid "Queue Management"
-msgstr ""
+msgstr "Køhåndtering"
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -6259,17 +6348,19 @@ msgstr "Filter for køer"
 
 #. Template: AdminQueue
 msgid "Filter for queues"
-msgstr ""
+msgstr "Filtrer for køer"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
-msgstr ""
+msgstr "En kø med dette navnet eksisterer allerede!"
 
 #. Template: AdminQueue
 msgid ""
 "This queue is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new queue is needed!"
 msgstr ""
+"Denne køen er tilstede i en SysConfig-innstilling, bekreftelse for "
+"oppdatering av innstillinger for å peke til den nye køen er nødvendig!"
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
@@ -6377,6 +6468,8 @@ msgid ""
 "To use a sign key, PGP keys or S/MIME certificates need to be added with "
 "identifiers for selected queue system address."
 msgstr ""
+"For å bruke en signeringsnøkkel, må PGP-nøkler eller S/MIME-sertifikater "
+"legges til med identifikatorer for valgt køsystemadresse."
 
 #. Template: AdminQueue
 msgid "Salutation"
@@ -6396,7 +6489,7 @@ msgstr "Signatur for e-postsvar."
 
 #. Template: AdminQueue
 msgid "This queue is used in the following config settings:"
-msgstr ""
+msgstr "Denne køen brukes i følgende konfigurasjonsinnstillinger:"
 
 #. Template: AdminQueueAutoResponse
 msgid "Manage Queue-Auto Response Relations"
@@ -6408,19 +6501,19 @@ msgstr "Endre Autosvar-kopling for Kø"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show queues without auto responses"
-msgstr ""
+msgstr "Dette filteret lar deg vise køer uten autosvar"
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without Auto Responses"
-msgstr ""
+msgstr "Køer uten autosvar"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
-msgstr ""
+msgstr "Dette filteret lar deg vise alle køer"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr ""
+msgstr "Vis alle køer"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -6436,7 +6529,7 @@ msgstr "Filter for Maler"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for templates"
-msgstr ""
+msgstr "Filter for maler"
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -6444,7 +6537,7 @@ msgstr "Maler"
 
 #. Template: AdminRegistration
 msgid "System Registration Management"
-msgstr ""
+msgstr "Systemregistreringsadministrasjon"
 
 #. Template: AdminRegistration
 msgid "Edit System Registration"
@@ -6452,15 +6545,15 @@ msgstr "Endre systemregistrering"
 
 #. Template: AdminRegistration
 msgid "System Registration Overview"
-msgstr ""
+msgstr "Systemregistreringsoversikt"
 
 #. Template: AdminRegistration
 msgid "Register System"
-msgstr ""
+msgstr "Registrer System"
 
 #. Template: AdminRegistration
 msgid "Validate OTOBO-ID"
-msgstr ""
+msgstr "Valider OTOBO-ID"
 
 #. Template: AdminRegistration
 msgid "Deregister System"
