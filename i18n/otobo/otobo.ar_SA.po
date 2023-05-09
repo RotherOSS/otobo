@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-09 02:49+0000\n"
+"PO-Revision-Date: 2023-05-11 13:38+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -25339,97 +25339,97 @@ msgstr ""
 msgid ""
 "Generate HTML comment hooks for the specified blocks so that filters can use "
 "them."
-msgstr ""
+msgstr "إنشاء تعليقات HTML للكتل المحددة بحيث يمكن لعوامل التصفية إستخدامها."
 
 #. SysConfig
 msgid "Generate dashboard statistics."
-msgstr ""
+msgstr "إنشاء إحصائيات لوحة المعلومات."
 
 #. SysConfig
 msgid "Generic Info module."
-msgstr ""
+msgstr "وحدة المعلومات العامة."
 
 #. SysConfig
 msgid "GenericAgent"
-msgstr ""
+msgstr "GenericAgent"
 
 #. SysConfig
 msgid "GenericInterface Debugger GUI"
-msgstr ""
+msgstr "واجهة مصحح أخطاء GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface ErrorHandling GUI"
-msgstr ""
+msgstr "واجهة مستخدم معالجة أخطاء GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface Invoker Event GUI"
-msgstr ""
+msgstr "واجهة المستخدم الرسومية لحدث GenericInterface Invoker"
 
 #. SysConfig
 msgid "GenericInterface Invoker GUI"
-msgstr ""
+msgstr "واجهة مستخدم GenericInterface Invoker"
 
 #. SysConfig
 msgid "GenericInterface Operation GUI"
-msgstr ""
+msgstr "واجهة مستخدم GenericInterface Operation"
 
 #. SysConfig
 msgid "GenericInterface TransportHTTPREST GUI"
-msgstr ""
+msgstr "GenericInterface TransportHTTPREST واجهة المستخدم"
 
 #. SysConfig
 msgid "GenericInterface TransportHTTPSOAP GUI"
-msgstr ""
+msgstr "واجهة مستخدم GenericInterface TransportHTTPSOAP"
 
 #. SysConfig
 msgid "GenericInterface Web Service GUI"
-msgstr ""
+msgstr "واجهة مستخدم خدمات ويب GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface Web Service History GUI"
-msgstr ""
+msgstr "واجهة مستخدم سجل خدمة ويب GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface Web Service Mapping GUI"
-msgstr ""
+msgstr "واجهة مستخدم تعيين خدمة الويب (Web Service Mapping) GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface module registration for an error handling module."
-msgstr ""
+msgstr "تسجيل الوحدة النمطية ل GenericInterface لوحدة معالجة الأخطاء."
 
 #. SysConfig
 msgid "GenericInterface module registration for the PassThrough invoker layer."
-msgstr ""
+msgstr "تسجيل الوحدة النمطية GenericInterface لطبقة استدعاء Passthrough."
 
 #. SysConfig
 msgid ""
 "GenericInterface module registration for the TicketCreate invoker layer."
-msgstr ""
+msgstr "تسجيل وحدة GenericInterface لطبقة استدعاء TicketCreate-Invoker."
 
 #. SysConfig
 msgid ""
 "GenericInterface module registration for the TicketUpdate invoker layer."
-msgstr ""
+msgstr "تسجيل الوحدة النمطية GenericInterface لطبقة استدعاء TicketUpdate."
 
 #. SysConfig
 msgid "GenericInterface module registration for the invoker layer."
-msgstr ""
+msgstr "تسجيل الوحدة النمطية لطبقة المدعو من GenericInterface."
 
 #. SysConfig
 msgid "GenericInterface module registration for the mapping layer."
-msgstr ""
+msgstr "تسجيل الوحدة النمطية لتعيين طبقات GenericInterface."
 
 #. SysConfig
 msgid "GenericInterface module registration for the operation layer."
-msgstr ""
+msgstr "تسجيل الوحدة النمطية لطبقة التشغيل ل GenericInterface."
 
 #. SysConfig
 msgid "GenericInterface module registration for the transport layer."
-msgstr ""
+msgstr "تسجيل الوحدة النمطية لطبقة النقل ل GenericInterface."
 
 #. SysConfig
 msgid "German"
-msgstr ""
+msgstr "ألماني"
 
 #. SysConfig
 msgid ""
