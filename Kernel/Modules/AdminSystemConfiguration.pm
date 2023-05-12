@@ -621,22 +621,22 @@ sub Run {
             return $LayoutObject->SecureMode();
         }
 
-        my $ManualVersion = $Kernel::OM->Get('Kernel::Config')->Get('Version');
-        $ManualVersion =~ m{^(\d{1,2}).+};
-        $ManualVersion = $1;
+        # generate version for links to the manual,
+        # only major and minor version are relevant, like 11.0 for version 11.0.1
+        my ($ManualVersion) = $Kernel::OM->Get('Kernel::Config')->Get('Version') =~ m/^(\d{2}\.\d+)/;
 
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminSystemConfiguration',
-            Data         => {
-                ManualVersion => $ManualVersion,
-                SettingCount  => scalar @SettingList,
-                %OutputData,
-            },
-        );
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        return join '',
+            $LayoutObject->Header,
+            $LayoutObject->NavigationBar,
+            $LayoutObject->Output(
+                TemplateFile => 'AdminSystemConfiguration',
+                Data         => {
+                    ManualVersion => $ManualVersion,
+                    SettingCount  => scalar @SettingList,
+                    %OutputData,
+                },
+            ),
+            $LayoutObject->Footer;
     }
 }
 
