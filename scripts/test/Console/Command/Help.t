@@ -14,95 +14,58 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+use Capture::Tiny qw(capture);
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Help');
 
-my ( $Result, $ExitCode );
+subtest 'command without arguments' => sub {
+    my ( $Result, $Error, $ExitCode ) = capture {
+        return $CommandObject->Execute;
+    };
+    is( $ExitCode, 1, 'Exit code without arguments' );
+    like( $Error, qr/please provide a value for argument 'command'/, 'error message' );
+    is( $Result, '', 'no result' );
+};
 
-{
-    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-    $ExitCode = $CommandObject->Execute();
-}
-$Self->Is(
-    $ExitCode,
-    1,
-    "Exit code without arguments",
-);
+subtest 'command help' => sub {
+    my ( $Result, $Error, $ExitCode ) = capture {
+        return $CommandObject->Execute('Help');
+    };
+    is( $ExitCode, 0, "Exit code looking for one command" );
+    like( $Result, qr/otobo.Console.pl Help command/, "Found Help for 'Help' command" );
+    is( $Error, '', 'no error' );
+};
 
-# Check command help
+subtest 'command search' => sub {
+    my ( $Result, $Error, $ExitCode ) = capture {
+        return $CommandObject->Execute('Lis');
+    };
+    is( $ExitCode, 0, "Exit code searching for commands" );
+    unlike( $Result, qr/otobo.Console.pl Help command/, "Help for 'Help' command not found" );
+    like( $Result, qr/List all installed OTOBO packages/, 'Found Admin::Package::List command entry' );
+    is( $Error, '', 'no error' );
+};
 
-{
-    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-    $ExitCode = $CommandObject->Execute('Help');
-}
+subtest 'command search (empty)' => sub {
+    my ( $Result, $Error, $ExitCode ) = capture {
+        return $CommandObject->Execute('NonExistingSearchTerm');
+    };
+    is( $ExitCode, 0, 'Exit code searching for commands' );
+    unlike( $Result, qr/otobo.Console.pl Help command/, "Help for 'Help' command not found" );
+    like( $Result, qr/No commands found./, "No commands found." );
+    is( $Error, '', 'no error' );
+};
 
-$Self->Is(
-    $ExitCode,
-    0,
-    "Exit code looking for one command",
-);
-
-$Self->True(
-    index( $Result, 'otobo.Console.pl Help command' ) > -1,
-    "Found Help for 'Help' command",
-);
-
-# Check command search
-
-{
-    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-    $ExitCode = $CommandObject->Execute('Lis');
-}
-
-$Self->Is(
-    $ExitCode,
-    0,
-    "Exit code searching for commands",
-);
-
-$Self->False(
-    index( $Result, 'otobo.Console.pl Help command' ) > -1,
-    "Help for 'Help' command not found",
-);
-
-$Self->True(
-    index( $Result, 'List all installed OTOBO packages' ) > -1,
-    "Found Admin::Package::List command entry",
-);
-
-# Check command search (empty)
-
-{
-    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-    $ExitCode = $CommandObject->Execute('NonExistingSearchTerm');
-}
-
-$Self->Is(
-    $ExitCode,
-    0,
-    "Exit code searching for commands",
-);
-
-$Self->False(
-    index( $Result, 'otobo.Console.pl Help command' ) > -1,
-    "Help for 'Help' command not found",
-);
-
-$Self->True(
-    index( $Result, 'No commands found.' ) > -1,
-    "No commands found.",
-);
-
-$Self->DoneTesting();
+done_testing;
