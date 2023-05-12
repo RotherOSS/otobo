@@ -61,11 +61,7 @@ sub ValueGet {
 
     # return array when field is multivalue
     if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        my @ReturnData;
-        for my $Item ( @{$DFValue} ) {
-            push @ReturnData, $Item->{ValueDateTime};
-        }
-        return \@ReturnData;
+        return [ map { $_->{ValueDateTime} } $DFValue->@* ];
     }
     else {
         return $DFValue->[0]->{ValueDateTime};
@@ -191,7 +187,6 @@ sub EditFieldRender {
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
-    my @ValueParts;
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
@@ -206,6 +201,7 @@ sub EditFieldRender {
         $Value = [$Value];
     }
 
+    my @ValueParts;
     for my $ValueItem ( $Value->@* ) {
         my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $ValueItem =~
             m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
@@ -284,20 +280,16 @@ sub EditFieldRender {
         }
     }
 
-    my %FieldTemplateData = ();
+    my %FieldTemplateData;
 
     if ( $Param{Mandatory} ) {
-
         $FieldTemplateData{Mandatory}            = $Param{Mandatory};
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
-
     }
 
     if ( $Param{ServerError} ) {
-
         $FieldTemplateData{ServerError}  = $Param{ServerError};
         $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-
     }
 
     my $FieldTemplateFile = 'DynamicField/Agent/BaseDateTime';
@@ -315,6 +307,7 @@ sub EditFieldRender {
 
         my $DateSelectionHTML = $Param{LayoutObject}->BuildDateSelection(
             %Param,
+            $ValueParts[$ValueIndex]->%*,
             Prefix                => $FieldName,
             Suffix                => $Suffix,
             Format                => 'DateInputFormatLong',
@@ -324,7 +317,6 @@ sub EditFieldRender {
             $FieldName . Optional => 1,
             Validate              => 1,
             $FieldConfig->%*,
-            $ValueParts[$ValueIndex]->%*,
             %YearsPeriodRange,
         );
 
@@ -338,6 +330,8 @@ sub EditFieldRender {
 
     }
 
+    # create an empty date selection that can be used by JavaScript code
+    # for supporting multiple values
     my $TemplateHTML;
     if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
 
@@ -412,7 +406,7 @@ sub EditFieldValueGet {
         )
     {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-            my @DataAll = ();
+            my @DataAll;
             my %FetchedData;
 
             # retrieve value parts as arrays

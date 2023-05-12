@@ -3509,7 +3509,7 @@ Depending on the SysConfig settings the controls to set the date could be multip
                                                   #   client side with JS
         Disabled => 1,                            # optional (1 or 0), when active select and checkbox controls gets the
                                                   #   disabled attribute and input fields gets the read only attribute
-        Suffix => 'some suffix',                  # optional, is attachted at the end of Names, IDs etc.
+        Suffix => 'some suffix',                  # optional, is attached at the end of Names, IDs etc.
     );
 
 =cut
@@ -3524,7 +3524,7 @@ sub BuildDateSelection {
     my $Prefix         = $Param{Prefix}   || '';
     my $Suffix         = $Param{Suffix}   || '';
     my $DiffTime       = $Param{DiffTime} || 0;
-    my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
+    my $Format         = $Param{Format} // 'DateInputFormatLong';
     my $Area           = $Param{Area}                   || 'Agent';
     my $Optional       = $Param{ $Prefix . 'Optional' } || 0;
     my $Required       = $Param{ $Prefix . 'Required' } || 0;

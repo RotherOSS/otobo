@@ -18,14 +18,21 @@ package Kernel::System::DynamicField::Driver::Date;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::System::VariableCheck qw(:all);
-
-use Kernel::Language qw(Translatable);
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::BaseDateTime);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -38,7 +45,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Date
+Kernel::System::DynamicField::Driver::Date - Date dynamic field
 
 =head1 DESCRIPTION
 
@@ -60,8 +67,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # set field behaviors
     $Self->{Behaviors} = {
@@ -283,7 +289,6 @@ sub EditFieldRender {
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
-    my @ValueParts;
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
@@ -298,6 +303,7 @@ sub EditFieldRender {
         $Value = [$Value];
     }
 
+    my @ValueParts;
     for my $ValueItem ( $Value->@* ) {
         my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $ValueItem =~
             m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
@@ -373,7 +379,7 @@ sub EditFieldRender {
         }
     }
 
-    my %FieldTemplateData = ();
+    my %FieldTemplateData;
 
     if ( $Param{Mandatory} ) {
         $FieldTemplateData{Mandatory}            = $Param{Mandatory};
@@ -400,6 +406,7 @@ sub EditFieldRender {
 
         my $DateSelectionHTML = $Param{LayoutObject}->BuildDateSelection(
             %Param,
+            $ValueParts[$ValueIndex]->%*,
             Prefix                => $FieldName,
             Suffix                => $Suffix,
             Format                => 'DateInputFormat',
@@ -408,7 +415,7 @@ sub EditFieldRender {
             $FieldName . Required => $Param{Mandatory} || 0,
             $FieldName . Optional => 1,
             Validate              => 1,
-            %{$FieldConfig},
+            $FieldConfig->%*,
             %YearsPeriodRange,
             OverrideTimeZone => 1,
         );
@@ -423,6 +430,8 @@ sub EditFieldRender {
 
     }
 
+    # create an empty date selection that can be used by JavaScript code
+    # for supporting multiple values
     my $TemplateHTML;
     if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
 
@@ -440,7 +449,7 @@ sub EditFieldRender {
             $FieldName . Required => $Param{Mandatory} || 0,
             $FieldName . Optional => 1,
             Validate              => 1,
-            %{$FieldConfig},
+            $FieldConfig->%*,
             %YearsPeriodRange,
             OverrideTimeZone => 1,
         );
@@ -498,7 +507,7 @@ sub EditFieldValueGet {
         )
     {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-            my @DataAll = ();
+            my @DataAll;
             my %FetchedData;
 
             # retrieve value parts as arrays
@@ -580,6 +589,7 @@ sub EditFieldValueGet {
                     $ValueData->{ $Prefix . $Type } = sprintf "%02d",
                         $ValueData->{ $Prefix . $Type };
                 }
+
                 my $Year   = $ValueData->{ $Prefix . 'Year' }  || '0000';
                 my $Month  = $ValueData->{ $Prefix . 'Month' } || '00';
                 my $Day    = $ValueData->{ $Prefix . 'Day' }   || '00';
@@ -598,9 +608,11 @@ sub EditFieldValueGet {
 
             # add a leading zero for date parts that could be less than ten to generate a correct
             # time stamp
-            for my $Type (qw(Month Day Hour Minute Second)) {
-                $DynamicFieldValues->{ $Prefix . $Type } = sprintf "%02d",
-                    $DynamicFieldValues->{ $Prefix . $Type };
+            KEY:
+            for my $Key ( map { $Prefix . $_ } qw(Month Day Hour Minute Second) ) {
+                next KEY unless defined $DynamicFieldValues->{$Key};
+
+                $DynamicFieldValues->{$Key} = sprintf '%02d', $DynamicFieldValues->{$Key};
             }
             my $Year   = $DynamicFieldValues->{ $Prefix . 'Year' }  || '0000';
             my $Month  = $DynamicFieldValues->{ $Prefix . 'Month' } || '00';
@@ -1012,12 +1024,10 @@ EOF
         AdditionalText => $AdditionalText,
     );
 
-    my $Data = {
+    return {
         Field => $HTMLString,
         Label => $LabelString,
     };
-
-    return $Data;
 }
 
 sub SearchFieldValueGet {
