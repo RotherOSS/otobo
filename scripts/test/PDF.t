@@ -1819,7 +1819,8 @@ for my $Test ( sort keys %TableCalculate ) {
                     note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn FontColor -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{FontColor}";
                     note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Align -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Align}";
                     note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Lead -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Lead}";
-                    note "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn BackgroundColor -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{BackgroundColor}";
+                    note
+                        "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn BackgroundColor -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{BackgroundColor}";
 
                     $TestOk = 0;
                     last CELL;
