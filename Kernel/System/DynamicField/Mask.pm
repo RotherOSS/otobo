@@ -33,12 +33,13 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
 );
 
 =head1 NAME
 
-Kernel::System::DynamicField::Backend
+Kernel::System::DynamicField::Mask
 
 =head1 DESCRIPTION
 
@@ -179,7 +180,7 @@ sub EditSectionRender {
             my %InvisibleNoDefault;
             if (
                 $Param{Visibility}
-                && !$Param{Visibility}{ $DFName }
+                && !$Param{Visibility}{$DFName}
                 && $DynamicField->{FieldType} ne 'Date'
                 && $DynamicField->{FieldType} ne 'DateTime'
                 )
@@ -198,23 +199,23 @@ sub EditSectionRender {
 
             # fill dynamic field values with empty strings until it matches the maximum value count
             if ( $MultiValueMaxCount && $DynamicField->{Config}{MultiValue} ) {
-                if ( !defined $Param{DynamicFieldValues}{ $DFName } ) {
-                    $Param{DynamicFieldValues}{ $DFName } = [];
+                if ( !defined $Param{DynamicFieldValues}{$DFName} ) {
+                    $Param{DynamicFieldValues}{$DFName} = [];
                 }
-                elsif ( !ref $Param{DynamicFieldValues}{ $DFName } ) {
-                    $Param{DynamicFieldValues}{ $DFName } = [ $Param{DynamicFieldValues}{ $DFName } ];
+                elsif ( !ref $Param{DynamicFieldValues}{$DFName} ) {
+                    $Param{DynamicFieldValues}{$DFName} = [ $Param{DynamicFieldValues}{$DFName} ];
                 }
 
-                if ( scalar $Param{DynamicFieldValues}{ $DFName }->@* < $MultiValueMaxCount ) {
-                    push $Param{DynamicFieldValues}{ $DFName }->@*, ('') x ( $MultiValueMaxCount - scalar $Param{DynamicFieldValues}{ $DFName }->@* );
+                if ( scalar $Param{DynamicFieldValues}{$DFName}->@* < $MultiValueMaxCount ) {
+                    push $Param{DynamicFieldValues}{$DFName}->@*, ('') x ( $MultiValueMaxCount - scalar $Param{DynamicFieldValues}{$DFName}->@* );
                 }
             }
 
             # get field html
             my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
                 DynamicFieldConfig   => $DynamicField,
-                PossibleValuesFilter => $Param{PossibleValuesFilter}{ $DFName },
-                Value                => $Param{DynamicFieldValues}{ $DFName },
+                PossibleValuesFilter => $Param{PossibleValuesFilter}{$DFName},
+                Value                => $Param{DynamicFieldValues}{$DFName},
                 LayoutObject         => $Param{LayoutObject},
                 ParamObject          => $Param{ParamObject},
                 AJAXUpdate           => 1,
@@ -228,7 +229,7 @@ sub EditSectionRender {
             my $CellClassString = '';
 
             # hide fields
-            if ( $Param{Visibility} && !$Param{Visibility}{ $DFName} ) {
+            if ( $Param{Visibility} && !$Param{Visibility}{$DFName} ) {
                 $CellClassString .= ' oooACLHidden';
 
                 # ACL hidden fields cannot be mandatory
@@ -265,7 +266,7 @@ sub EditSectionRender {
                 for my $ValueRowIndex ( 0 .. $MultiValueMaxCount ) {
                     my %Label = $ValueRowIndex == 0 ? ( Label => $DynamicFieldHTML->{Label} ) : ();
 
-                    push $ValueGrid[ $ValueRowIndex ]->@*, {
+                    push $ValueGrid[$ValueRowIndex]->@*, {
                         Name => $ColBlockName,
                         Data => {
                             %CellBlockData,
@@ -274,7 +275,7 @@ sub EditSectionRender {
                             Index       => $ValueRowIndex,
                             CellClasses => $CellClassString . ' MultiValue_' . $ValueRowIndex,
                         },
-                    }
+                    };
                 }
 
                 push @MultiValueTemplates, {
@@ -283,7 +284,7 @@ sub EditSectionRender {
                         %CellBlockData,
                         Field => $DynamicFieldHTML->{MultiValueTemplate},
                     }
-                }
+                };
             }
 
             # no multi value
@@ -296,20 +297,20 @@ sub EditSectionRender {
                         Label => $DynamicFieldHTML->{Label},
                         Index => 0,
                     },
-                }
+                };
             }
         }
 
         # block all dynamic fields for this df row
         for my $ValueRowIndex ( 0 .. $MultiValueMaxCount ) {
-            for my $FieldData ( $ValueGrid[ $ValueRowIndex ]->@* ) {
+            for my $FieldData ( $ValueGrid[$ValueRowIndex]->@* ) {
                 $Param{LayoutObject}->Block(
                     $FieldData->%*,
                 );
             }
         }
 
-        for my $FieldData ( @MultiValueTemplates ) {
+        for my $FieldData (@MultiValueTemplates) {
             $Param{LayoutObject}->Block(
                 $FieldData->%*,
             );
@@ -319,7 +320,7 @@ sub EditSectionRender {
     # cycle through content rows
     ELEMENT:
     for my $Element ( $Param{Content}->@* ) {
-        if ( !IsHashRefWithData( $Element ) ) {
+        if ( !IsHashRefWithData($Element) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Misconfigured Definition!",
@@ -330,7 +331,7 @@ sub EditSectionRender {
 
         if ( $Element->{DF} ) {
             $RenderRow->(
-                Fields      => [ $Element ],
+                Fields      => [$Element],
                 Columns     => 1,
                 ColumnWidth => '1fr',
             );
@@ -355,9 +356,9 @@ sub EditSectionRender {
 
             # basic corrections for grid-template-rows
             my @Widths = ( $Element->{Grid}{ColumnWidth} =~ /([\d\.]*\w+)/g );
-            
+
             if ( @Widths < $Element->{Grid}{Columns} ) {
-                push @Widths, ('1fr') x ( $Element->{Grid}{ColumnWidth} - @Widths )
+                push @Widths, ('1fr') x ( $Element->{Grid}{ColumnWidth} - @Widths );
             }
 
             my $ColumnWidth = join( ' ', @Widths[ 0 .. $Element->{Grid}{Columns} - 1 ] );
@@ -372,7 +373,9 @@ sub EditSectionRender {
         }
     }
 
-    return 1;
+    return $Param{LayoutObject}->Output(
+        TemplateFile => 'DynamicField/AgentEditField',
+    );
 }
 
 =head2 DisplaySectionRender()
@@ -399,7 +402,8 @@ sub DisplaySectionRender {
         }
     }
 
-}
+    return;
 
+}
 
 1;

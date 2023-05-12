@@ -965,7 +965,7 @@ sub Run {
         my %DynamicFieldPossibleValues = map {
             'DynamicField_' . $Self->{DynamicField}[$_]{Name} => defined $DynFieldStates{Fields}{$_}
                 ? $DynFieldStates{Fields}{$_}{PossibleValues}
-                : undef,
+                : undef
         } ( 0 .. $#{ $Self->{DynamicField} } );
 
         # get all attachments meta data
@@ -1230,7 +1230,7 @@ sub Run {
 
                 # propagate validation error to the Error variable to be detected by the frontend
                 if ( $ValidationResult->{ServerError} ) {
-                    $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
+                    $Error{ $DynamicFieldConfig->{Name} }                        = ' ServerError';
                     $DynamicFieldValidationResult{ $DynamicFieldConfig->{Name} } = $ValidationResult;
                 }
             }
@@ -2184,7 +2184,7 @@ sub Run {
             my $DynamicFieldConfig = $Self->{DynamicField}->[$Index];
 
             if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
-                for my $i ( 0..$#{ $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
+                for my $i ( 0 .. $#{ $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
                     my $DataValues = $DynFieldStates{Fields}{$Index}{NotACLReducible}
                         ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i]
                         :
@@ -3093,7 +3093,7 @@ sub _MaskPhoneNew {
     # render dynamic fields
     {
         # Fetch input field definition
-        my $InputFieldDefinition   = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
+        my $InputFieldDefinition = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
             Mask => 'AgentTicketPhone',
         ) || [];
 
@@ -3115,7 +3115,7 @@ sub _MaskPhoneNew {
 
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-            next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig );
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
             $DynamicFieldConfigs{ $DynamicFieldConfig->{Name} } = $DynamicFieldConfig;
@@ -3125,7 +3125,7 @@ sub _MaskPhoneNew {
             push $InputFieldDefinition->@*, {
                 DF        => $DynamicFieldConfig->{Name},
                 Mandatory => $Config->{DynamicField}{ $DynamicFieldConfig->{Name} } == 2 ? 1 : 0,
-            }
+            };
         }
 
         $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
