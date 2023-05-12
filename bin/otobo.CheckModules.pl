@@ -56,9 +56,9 @@ Another usage is the generation of cpanfiles.
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 use File::Basename qw(dirname);
@@ -301,6 +301,17 @@ my @NeededModules = (
             emerge => 'dev-perl/Archive-Zip',
             zypper => 'perl-Archive-Zip',
             ports  => 'archivers/p5-Archive-Zip',
+        },
+    },
+    {
+        Module    => 'Capture::Tiny',
+        Required  => 1,
+        Comment   => 'Neater interface for capturing STDOUT and STDERR.',
+        InstTypes => {
+            aptget => 'libcapture-tiny-perl',
+            emerge => 'dev-perl/Capture-Tiny',
+            zypper => 'perl-Capture-Tiny',
+            ports  => 'devel/p5-Capture-Tiny',
         },
     },
     {
