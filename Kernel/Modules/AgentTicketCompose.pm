@@ -440,15 +440,16 @@ sub Run {
     }
 
     # Fetch input field definition
-    my $MaskObject = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
+    my $MaskObject           = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
     my $InputFieldDefinition = $MaskObject->DefinitionGet(
         Mask => $Self->{Action},
     );
 
     my %DefinedFieldsList;
+
     # If no definition is present, put all fields into a list (displaying one field per row)
-    if ( !IsArrayRefWithData( $InputFieldDefinition ) ) {
-        $InputFieldDefinition = [ { List => [ map { { 'Name' => $_->{Name} } } @{ $DynamicField } ] } ];
+    if ( !IsArrayRefWithData($InputFieldDefinition) ) {
+        $InputFieldDefinition = [ { List => [ map { { 'Name' => $_->{Name} } } @{$DynamicField} ] } ];
     }
     else {
         # Track used fields for appending the unused ones
@@ -461,17 +462,18 @@ sub Run {
             }
         } $InputFieldDefinition->@*;
 
-        %DefinedFieldsList = map { $_->{Name} => {
+        %DefinedFieldsList = map {
+            $_->{Name} => {
                 'ReadOnly' => $_->{ReadOnly},
             }
         } @UsedFields;
 
         # Collect missing fields to put them in a list section at the end of the existing definition
         my @NotDefinedFields = grep { !$DefinedFieldsList{ $_->{Name} } } $DynamicField->@*;
-        my @ListMissing      = map { { Name => $_->{Name} } } @NotDefinedFields;
+        my @ListMissing      = map  { { Name => $_->{Name} } } @NotDefinedFields;
 
-        if ( @ListMissing ) {
-            push @{ $InputFieldDefinition }, { List => \@ListMissing };
+        if (@ListMissing) {
+            push @{$InputFieldDefinition}, { List => \@ListMissing };
         }
     }
 
@@ -491,8 +493,8 @@ sub Run {
         if ( $Area->{Grid} ) {
             for my $Row ( $Area->{Grid}{Rows}->@* ) {
                 my @AreaDynamicFields = ();
-                my $MaxValueCount = 0;
-                my $ValueCount = 0;
+                my $MaxValueCount     = 0;
+                my $ValueCount        = 0;
                 for my $Field ( $Row->@* ) {
                     push @AreaDynamicFields, $Field->{Name};
 
@@ -507,15 +509,15 @@ sub Run {
                         $MaxValueCount = $ValueCount;
                     }
                 }
-                for my $FieldName ( @AreaDynamicFields ) {
+                for my $FieldName (@AreaDynamicFields) {
                     $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
                 }
             }
         }
         elsif ( $Area->{List} ) {
             my @AreaDynamicFields = ();
-            my $MaxValueCount = 0;
-            my $ValueCount = 0;
+            my $MaxValueCount     = 0;
+            my $ValueCount        = 0;
             for my $Field ( $Area->{List}->@* ) {
                 push @AreaDynamicFields, $Field->{Name};
 
@@ -530,7 +532,7 @@ sub Run {
                     $MaxValueCount = $ValueCount;
                 }
             }
-            for my $FieldName ( @AreaDynamicFields ) {
+            for my $FieldName (@AreaDynamicFields) {
                 $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
             }
         }
@@ -1013,8 +1015,8 @@ sub Run {
                 %Ticket,
                 DynamicFieldHTML => \%DynamicFieldHTML,
                 %GetParam,
-                MaskDefinition   => $InputFieldDefinition,
-                MaskObject       => $MaskObject,
+                MaskDefinition => $InputFieldDefinition,
+                MaskObject     => $MaskObject,
             );
             $Output .= $LayoutObject->Footer(
                 Type => 'Small',
@@ -1926,8 +1928,8 @@ sub Run {
 
             # Fill dynamic field values with empty strings till it matches the maximum value count
             if ( $DynamicFieldConfig->{Config}{MultiValue} ) {
-                if (ref $Value ne 'ARRAY') {
-                    $Value = [ $Value ];
+                if ( ref $Value ne 'ARRAY' ) {
+                    $Value = [$Value];
                 }
 
                 while ( ( scalar $Value->@* ) < $DynamicFieldValueCount{ $DynamicFieldConfig->{Name} } ) {

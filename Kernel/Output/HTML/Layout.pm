@@ -3847,10 +3847,10 @@ sub BuildDateSelection {
     # Add Datepicker JS to output.
     my $DatepickerJS = '
     Core.UI.Datepicker.Init({
-    Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"' . ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
-        Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"' . ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
-        Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"' . ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
-        Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"' . ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
+    Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"' .           ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
+        Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"' .   ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
+        Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"' .     ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
+        Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"' .     ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
         Minute: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Minute"' . ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
         VacationDays: ' . $VacationDaysJSON . ',
         DateInFuture: ' .    ( $ValidateDateInFuture    ? 'true' : 'false' ) . ',

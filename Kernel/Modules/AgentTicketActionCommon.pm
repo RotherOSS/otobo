@@ -519,8 +519,8 @@ sub Run {
         }
         elsif ( $Area->{List} ) {
             my @AreaDynamicFields;
-            my $MaxValueCount     = 0;
-            my $ValueCount        = 0;
+            my $MaxValueCount = 0;
+            my $ValueCount    = 0;
             for my $Field ( $Area->{List}->@* ) {
                 push @AreaDynamicFields, $Field->{Name};
 

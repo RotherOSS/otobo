@@ -432,9 +432,9 @@ sub Run {
         ProcessEntityID => $ProcessEntityID,
     );
 
-    my %DefinedFieldsList = ();
+    my %DefinedFieldsList;
     my %DynamicFieldValueCount = ();
-    if ( $ActivityDialogEntityID ) {
+    if ($ActivityDialogEntityID) {
         my $ActivityDialog = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog')->ActivityDialogGet(
             ActivityDialogEntityID => $ActivityDialogEntityID,
             Interface              => 'AgentInterface',
@@ -456,7 +456,8 @@ sub Run {
                 }
             } $Definition->@*;
 
-            %DefinedFieldsList = map { $_->{Name} => {
+            %DefinedFieldsList = map {
+                $_->{Name} => {
                     'ReadOnly' => $_->{ReadOnly},
                 }
             } @UsedFields;
@@ -464,8 +465,8 @@ sub Run {
                 if ( $Area->{Grid} ) {
                     for my $Row ( $Area->{Grid}{Rows}->@* ) {
                         my @AreaDynamicFields = ();
-                        my $MaxValueCount = 0;
-                        my $ValueCount = 0;
+                        my $MaxValueCount     = 0;
+                        my $ValueCount        = 0;
                         for my $Field ( $Row->@* ) {
                             push @AreaDynamicFields, $Field->{Name};
 
@@ -480,15 +481,15 @@ sub Run {
                                 $MaxValueCount = $ValueCount;
                             }
                         }
-                        for my $FieldName ( @AreaDynamicFields ) {
+                        for my $FieldName (@AreaDynamicFields) {
                             $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
                         }
                     }
                 }
                 elsif ( $Area->{List} ) {
-                    my @AreaDynamicFields = ();
+                    my @AreaDynamicFields;
                     my $MaxValueCount = 0;
-                    my $ValueCount = 0;
+                    my $ValueCount    = 0;
                     for my $Field ( $Area->{List}->@* ) {
                         push @AreaDynamicFields, $Field->{Name};
 
@@ -503,7 +504,7 @@ sub Run {
                             $MaxValueCount = $ValueCount;
                         }
                     }
-                    for my $FieldName ( @AreaDynamicFields ) {
+                    for my $FieldName (@AreaDynamicFields) {
                         $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
                     }
                 }
@@ -700,7 +701,7 @@ sub _RenderAjax {
             }
 
             if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
-                for my $i ( 0..$#{ $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
+                for my $i ( 0 .. $#{ $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
                     my $DataValues = $DynamicFieldBackendObject->BuildSelectionDataGet(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         PossibleValues     => $PossibleValues,
@@ -1801,7 +1802,8 @@ sub _OutputActivityDialog {
             }
         } $Definition->@*;
 
-        %DefinedFieldsList = map { $_->{Name} => {
+        %DefinedFieldsList = map {
+            $_->{Name} => {
                 'ReadOnly' => $_->{ReadOnly},
             }
         } @UsedFields;
@@ -1810,8 +1812,8 @@ sub _OutputActivityDialog {
             if ( $Area->{Grid} ) {
                 for my $Row ( $Area->{Grid}{Rows}->@* ) {
                     my @AreaDynamicFields = ();
-                    my $MaxValueCount = 0;
-                    my $ValueCount = 0;
+                    my $MaxValueCount     = 0;
+                    my $ValueCount        = 0;
                     for my $Field ( $Row->@* ) {
                         $MultiColumnFields{ 'DynamicField_' . $Field->{Name} } = $Area;
                         push @AreaDynamicFields, $Field->{Name};
@@ -1827,15 +1829,15 @@ sub _OutputActivityDialog {
                             $MaxValueCount = $ValueCount;
                         }
                     }
-                    for my $FieldName ( @AreaDynamicFields ) {
+                    for my $FieldName (@AreaDynamicFields) {
                         $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
                     }
                 }
             }
             elsif ( $Area->{List} ) {
-                my @AreaDynamicFields = ();
+                my @AreaDynamicFields;
                 my $MaxValueCount = 0;
-                my $ValueCount = 0;
+                my $ValueCount    = 0;
                 for my $Field ( $Area->{List}->@* ) {
                     $MultiColumnFields{ 'DynamicField_' . $Field->{Name} } = $Area;
                     push @AreaDynamicFields, $Field->{Name};
@@ -1851,7 +1853,7 @@ sub _OutputActivityDialog {
                         $MaxValueCount = $ValueCount;
                     }
                 }
-                for my $FieldName ( @AreaDynamicFields ) {
+                for my $FieldName (@AreaDynamicFields) {
                     $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
                 }
             }
@@ -1860,7 +1862,12 @@ sub _OutputActivityDialog {
 
     # Collect dynamic field html for passing it to RenderInput()
     for my $DynamicFieldConfig ( $DynamicField->@* ) {
-        my $Mandatory = ( $ActivityDialog->{Fields}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ? $ActivityDialog->{Fields}->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Display} : 0 ) == 2;
+        my $Mandatory
+            = (
+                $ActivityDialog->{Fields}{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                ? $ActivityDialog->{Fields}->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Display}
+                : 0
+            ) == 2;
 
         # Fill dynamic field values with empty strings till it matches the maximum value count
         if ( $DynamicFieldConfig->{Config}{MultiValue} ) {
@@ -1873,17 +1880,18 @@ sub _OutputActivityDialog {
 
         # TODO Fill PossibleValuesFilter, ServerError and ErrorMessage
         $Param{DynamicFieldHTML}{ $DynamicFieldConfig->{Name} } = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldRender(
-            DynamicFieldConfig   => $DynamicFieldConfig,
-#             PossibleValuesFilter => $PossibleValuesFilter,
-            Value                => $Param{GetParam}->{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
-            LayoutObject         => $LayoutObject,
-            ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
-            AJAXUpdate           => 1,
-            Mandatory            => $Mandatory,
-            UpdatableFields      => IsHashRefWithData( $AJAXUpdatableFields ) ? $AJAXUpdatableFields : undef,
-            ServerError          => $Error{ $DynamicFieldConfig->{Name} },
-            ErrorMessage         => $ErrorMessages{ $DynamicFieldConfig->{Name} },
-            ReadOnly             => $DefinedFieldsList{ $DynamicFieldConfig->{Name} }{ReadOnly},
+            DynamicFieldConfig => $DynamicFieldConfig,
+
+            #             PossibleValuesFilter => $PossibleValuesFilter,
+            Value           => $Param{GetParam}->{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            LayoutObject    => $LayoutObject,
+            ParamObject     => $Kernel::OM->Get('Kernel::System::Web::Request'),
+            AJAXUpdate      => 1,
+            Mandatory       => $Mandatory,
+            UpdatableFields => IsHashRefWithData($AJAXUpdatableFields) ? $AJAXUpdatableFields : undef,
+            ServerError     => $Error{ $DynamicFieldConfig->{Name} },
+            ErrorMessage    => $ErrorMessages{ $DynamicFieldConfig->{Name} },
+            ReadOnly        => $DefinedFieldsList{ $DynamicFieldConfig->{Name} }{ReadOnly},
         );
     }
 
@@ -1915,15 +1923,15 @@ sub _OutputActivityDialog {
         next DIALOGFIELD if !$FieldData{Display};
 
         # Handle multicolumn field rendering
-        if ( $MultiColumnFields{ $CurrentField } ) {
+        if ( $MultiColumnFields{$CurrentField} ) {
             $RenderedFields{$CurrentField} = 1;
 
-            next DIALOGFIELD if $MultiColumnFinishedArea{ $MultiColumnFields{ $CurrentField } }++;
+            next DIALOGFIELD if $MultiColumnFinishedArea{ $MultiColumnFields{$CurrentField} }++;
 
             $Kernel::OM->Get('Kernel::System::Ticket::Mask')->RenderInput(
                 GetParam            => \%Param,
                 LayoutObject        => $LayoutObject,
-                MaskDefinition      => [ $MultiColumnFields{ $CurrentField } ],
+                MaskDefinition      => [ $MultiColumnFields{$CurrentField} ],
                 DynamicFieldConfigs => $DynamicField,
                 Config              => $ActivityDialog->{Fields},
                 AJAXUpdatableFields => $AJAXUpdatableFields,
@@ -2760,8 +2768,8 @@ sub _RenderDynamicField {
     );
 
     my %Data = (
-        Name    => $DynamicFieldConfig->{Name},
-        Label   => $DynamicFieldHTML->{Label},
+        Name  => $DynamicFieldConfig->{Name},
+        Label => $DynamicFieldHTML->{Label},
     );
 
     # Create one block for each multivalue item

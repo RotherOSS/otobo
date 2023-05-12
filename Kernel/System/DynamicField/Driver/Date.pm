@@ -512,6 +512,7 @@ sub EditFieldValueGet {
                 for my $Type (qw(Used Year Month Day)) {
                     $ValueRow{ $Prefix . $Type } = $FetchedData{$Type}[$Index];
                 }
+
                 # complete the rest of the date with 0s to have a valid Date/Time value
                 # add seconds, as 0 to the DynamicFieldValues hash
                 for my $Type (qw(Hour Minute Second)) {

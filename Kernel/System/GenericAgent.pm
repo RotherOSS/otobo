@@ -991,11 +991,11 @@ sub _JobRunTicket {
         );
 
         $Param{Config}->{New}->{NoteBody} = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->_Replace(
-            UserID => $Param{UserID},
-            Data => {},
+            UserID     => $Param{UserID},
+            Data       => {},
             TicketData => \%Ticket,
-            Text => $Param{Config}->{New}->{NoteBody},
-            RichText => 0,
+            Text       => $Param{Config}->{New}->{NoteBody},
+            RichText   => 0,
         );
 
         if ( IsHashRefWithData( \%Ticket ) ) {
