@@ -506,8 +506,7 @@ sub Run {
             }
 
             # Extract file name.
-            $ExampleWebServiceFilename =~ m{(.*?)\.yml$}smx;
-            $FileWithoutExtension = $1;
+            ($FileWithoutExtension) = $ExampleWebServiceFilename =~ m{(.*?)\.yml$}smx;
 
             # Run _pre.pm if available.
             if ( -e "$Home/var/webservices/examples/" . $FileWithoutExtension . "_pre.pm" ) {

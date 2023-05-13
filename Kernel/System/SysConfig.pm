@@ -4858,8 +4858,7 @@ sub OverriddenFileNameGet {
     for my $File (@FilesInDirectory) {
 
         # Get only file name, without full path and extension.
-        $File =~ m{^.*/(.*?)\.pm$};
-        my $FileName = $1;
+        my ($FileName) = $File =~ m{^.*/(.*?)\.pm$};
 
         # Skip the file that was regularly deployed.
         next FILE if $FileName eq 'ZZZAAuto';

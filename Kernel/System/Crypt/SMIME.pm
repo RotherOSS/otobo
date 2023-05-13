@@ -2739,8 +2739,7 @@ sub _NormalizePrivateSecretFiles {
     for my $File (@WrongPrivateSecretList) {
 
         # build the correct file name
-        $File =~ m{(.+) \. P}smxi;
-        my $Hash = $1;
+        my ($Hash) = $File =~ m{(.+) \. P}smxi;
 
         my $CorrectFile;
         my @UsedPrivateSecretFiles;
@@ -2912,9 +2911,7 @@ sub _ReHashCertificates {
         );
 
         # split filename into Hash.Index (12345678.0 -> 12345678 / 0)
-        $File =~ m{ (.+) \. (\d+) }smx;
-        my $Hash  = $1;
-        my $Index = $2;
+        my ($Hash, $Index) = $File =~ m{ (.+) \. (\d+) }smx;
 
         # get new hash from certificate attributes
         my $NewHash     = $CertificateAttributes{Hash};

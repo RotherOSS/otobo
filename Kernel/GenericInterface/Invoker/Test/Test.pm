@@ -160,13 +160,14 @@ sub HandleResponse {
 
     # check Action
     if ( IsStringWithData( $Param{Data}->{Action} ) ) {
-        if ( $Param{Data}->{Action} !~ m{ \A ( .*? ) Test \z }xms ) {
-
+        if ( $Param{Data}->{Action} =~ m{ \A ( .*? ) Test \z }xms ) {
+            $ReturnData{Action} = $1;
+        }
+        else {
             return $Self->{DebuggerObject}->Error(
                 Summary => 'Got Action but it is not in required format!',
             );
         }
-        $ReturnData{Action} = $1;
     }
 
     return {
