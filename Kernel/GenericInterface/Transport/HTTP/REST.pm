@@ -119,9 +119,7 @@ sub ProviderProcessRequest {
 
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    my $Operation;
-    my %URIData;
-    my $RequestURI = $ParamObject->RequestURI();
+    my $RequestURI = $ParamObject->RequestURI;
     $RequestURI =~ s{.*Webservice(?:ID)?\/[^\/]+(\/.*)$}{$1}xms;
 
     # Remove any query parameter from the URL
@@ -130,6 +128,7 @@ sub ProviderProcessRequest {
     $RequestURI =~ s{([^?]+)(.+)?}{$1};
 
     # Remember the query parameters e.g. ?UserLogin=user&Password=secret.
+    # It is fine when $2 is not defined, that is when there is no '?' in $RequestURI
     my $QueryParamsStr = $2 || '';
     my %QueryParams;
 
@@ -172,6 +171,8 @@ sub ProviderProcessRequest {
         }
     }
 
+    my $Operation;
+    my %URIData;
     my $RequestMethod = $ParamObject->RequestMethod() || 'GET';
     ROUTE:
     for my $CurrentOperation ( sort keys %{ $Config->{RouteOperationMapping} } ) {
@@ -750,6 +751,7 @@ sub RequesterPerformRequest {
     $Controller =~ s{([^?]+)(.+)?}{$1};
 
     # Remember the query parameters e.g. ?:UserLogin&:Password.
+    # It is fine when $2 is not defined, that is when there is no '?' in $RequestURI
     my $QueryParamsStr = $2 || '';
 
     my @ParamsToDelete;
