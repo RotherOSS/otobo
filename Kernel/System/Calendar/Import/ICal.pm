@@ -587,14 +587,14 @@ sub Import {
                 )
             {
                 # extract lowercase plugin key
-                $PluginField =~ /x-otobo-plugin-(.*)$/;
-                my $PluginKeyLC = $1;
+                my ($PluginKeyLC) = $PluginField =~ m/x-otobo-plugin-(.*)$/;
 
                 # get proper plugin key
                 my $PluginKey = $PluginKeys->{$PluginKeyLC};
-                next PLUGINFIELD if !$PluginKey;
 
-                my @PluginData = split( /,/, $Properties->{$PluginField}->[0]->{'value'} );
+                next PLUGINFIELD unless $PluginKey;
+
+                my @PluginData = split /,/, $Properties->{$PluginField}->[0]->{'value'};
                 $LinkedObjects{$PluginKey} = \@PluginData;
             }
         }

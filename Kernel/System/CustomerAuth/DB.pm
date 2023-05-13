@@ -166,7 +166,7 @@ sub Auth {
 
             # strip Salt
             $Salt =~ s/^(\$.+?\$)(.+?)\$.*$/$2/;
-            my $Magic = $1;
+            my $Magic = $1;    # $1 set by the presumed successful substitution
 
             # encode output, needed by unix_md5_crypt() only non utf8 signs
             $EncodeObject->EncodeOutput( \$Pw );

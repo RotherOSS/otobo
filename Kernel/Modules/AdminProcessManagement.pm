@@ -108,8 +108,7 @@ sub Run {
             }
 
             # extract file name without extension
-            $ExampleProcessFilename =~ m{(.*?)\.yml$}smx;
-            $FileWithoutExtension = $1;
+            ($FileWithoutExtension) = $ExampleProcessFilename =~ m{(.*?)\.yml$}smx;
 
             # run _pre.pm if available
             if ( -e "$Home/var/processes/examples/" . $FileWithoutExtension . "_pre.pm" ) {
