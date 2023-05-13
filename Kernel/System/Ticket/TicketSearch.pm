@@ -1640,29 +1640,28 @@ sub TicketSearch {
         # get articles created older than xxxx-xx-xx xx:xx date
         my $CompareOlderNewerDate;
         if ( $Param{ $Key . 'OlderDate' } ) {
-            if (
-                $Param{ $Key . 'OlderDate' }
-                !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
-                )
-            {
+            my $SystemTime;
+            if ( $Param{ $Key . 'OlderDate' } =~ m/(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+                $SystemTime = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Year   => $1,
+                        Month  => $2,
+                        Day    => $3,
+                        Hour   => $4,
+                        Minute => $5,
+                        Second => $6,
+                    }
+                );
+            }
+            else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
                 );
+
                 return;
             }
-
-            my $SystemTime = $Kernel::OM->Create(
-                'Kernel::System::DateTime',
-                ObjectParams => {
-                    Year   => $1,
-                    Month  => $2,
-                    Day    => $3,
-                    Hour   => $4,
-                    Minute => $5,
-                    Second => $6,
-                }
-            );
 
             if ( !$SystemTime ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1683,31 +1682,31 @@ sub TicketSearch {
 
         # get articles created newer than xxxx-xx-xx xx:xx date
         if ( $Param{ $Key . 'NewerDate' } ) {
-            if (
-                $Param{ $Key . 'NewerDate' }
-                !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
-                )
-            {
+            my $SystemTime;
+            if ( $Param{ $Key . 'NewerDate' } =~ m/(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+
+                # convert param date to system time
+                $SystemTime = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Year   => $1,
+                        Month  => $2,
+                        Day    => $3,
+                        Hour   => $4,
+                        Minute => $5,
+                        Second => $6,
+                    }
+                );
+            }
+            else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
                 );
+
                 return;
             }
 
-            # convert param date to system time
-            my $SystemTime = $Kernel::OM->Create(
-                'Kernel::System::DateTime',
-                ObjectParams => {
-
-                    Year   => $1,
-                    Month  => $2,
-                    Day    => $3,
-                    Hour   => $4,
-                    Minute => $5,
-                    Second => $6,
-                }
-            );
             if ( !$SystemTime ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
