@@ -460,8 +460,9 @@ for my $Test (@Tests) {
                 ModifiedVersionID => $ModifiedVersionID,
             );
 
-            next MODIFIEDVERSIONID if !$ModifiedSettingVersion{Name};
-            next MODIFIEDVERSIONID if $ModifiedSettingVersion{Name} !~ m{UnitTest-(\d+)-$RandomID};
+            next MODIFIEDVERSIONID unless $ModifiedSettingVersion{Name};
+            next MODIFIEDVERSIONID unless $ModifiedSettingVersion{Name} =~ m{UnitTest-(\d+)-$RandomID};
+
             $Results{$1} = $ModifiedSettingVersion{EffectiveValue};
         }
 

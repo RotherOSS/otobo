@@ -605,7 +605,7 @@ sub _LogFilesSet {
     for my $LogFile (@LogFiles) {
 
         # skip if is not a backup file
-        next LOGFILE if ( $LogFile !~ m{(?: .* /)* $Param{Module} (?: OUT|ERR ) - (\d+) \.log}igmx );
+        next LOGFILE unless $LogFile =~ m{(?: .* /)* $Param{Module} (?: OUT|ERR ) - (\d+) \.log}igmx;
 
         # do not delete files during keep period if they have content
         next LOGFILE if ( ( $1 > $DaysToKeepTime ) && -s $LogFile );

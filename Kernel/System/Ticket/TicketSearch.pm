@@ -1593,8 +1593,8 @@ sub TicketSearch {
         # Only look at fields which start with DynamicField_ and contain a substructure that is meant for searching.
         #   It could happen that similar scalar parameters are sent to this method, that should be ignored
         #   (see bug#13412).
-        next PARAMS if !ref $Param{$Key};
-        next PARAMS if $Key !~ /^DynamicField_(.*)$/;
+        next PARAMS unless ref $Param{$Key};
+        next PARAMS unless $Key =~ /^DynamicField_(.*)$/;
 
         my $DynamicFieldName = $1;
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1640,29 +1640,28 @@ sub TicketSearch {
         # get articles created older than xxxx-xx-xx xx:xx date
         my $CompareOlderNewerDate;
         if ( $Param{ $Key . 'OlderDate' } ) {
-            if (
-                $Param{ $Key . 'OlderDate' }
-                !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
-                )
-            {
+            my $SystemTime;
+            if ( $Param{ $Key . 'OlderDate' } =~ m/(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+                $SystemTime = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Year   => $1,
+                        Month  => $2,
+                        Day    => $3,
+                        Hour   => $4,
+                        Minute => $5,
+                        Second => $6,
+                    }
+                );
+            }
+            else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
                 );
+
                 return;
             }
-
-            my $SystemTime = $Kernel::OM->Create(
-                'Kernel::System::DateTime',
-                ObjectParams => {
-                    Year   => $1,
-                    Month  => $2,
-                    Day    => $3,
-                    Hour   => $4,
-                    Minute => $5,
-                    Second => $6,
-                }
-            );
 
             if ( !$SystemTime ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1671,8 +1670,10 @@ sub TicketSearch {
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'OlderDate' } . "'!",
                 );
+
                 return;
             }
+
             $CompareOlderNewerDate = $SystemTime;
 
             $SQLExt .= " AND ($ArticleTime{$Key} <= '" . $SystemTime->ToString() . "')";
@@ -1681,31 +1682,31 @@ sub TicketSearch {
 
         # get articles created newer than xxxx-xx-xx xx:xx date
         if ( $Param{ $Key . 'NewerDate' } ) {
-            if (
-                $Param{ $Key . 'NewerDate' }
-                !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
-                )
-            {
+            my $SystemTime;
+            if ( $Param{ $Key . 'NewerDate' } =~ m/(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+
+                # convert param date to system time
+                $SystemTime = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Year   => $1,
+                        Month  => $2,
+                        Day    => $3,
+                        Hour   => $4,
+                        Minute => $5,
+                        Second => $6,
+                    }
+                );
+            }
+            else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
                 );
+
                 return;
             }
 
-            # convert param date to system time
-            my $SystemTime = $Kernel::OM->Create(
-                'Kernel::System::DateTime',
-                ObjectParams => {
-
-                    Year   => $1,
-                    Month  => $2,
-                    Day    => $3,
-                    Hour   => $4,
-                    Minute => $5,
-                    Second => $6,
-                }
-            );
             if ( !$SystemTime ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
@@ -1713,6 +1714,7 @@ sub TicketSearch {
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'NewerDate' } . "'!",
                 );
+
                 return;
             }
 

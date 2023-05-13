@@ -1473,7 +1473,8 @@ sub Run {
             my %SearchStrings;
             SEARCHSTRINGPARAMNAME:
             for my $SearchStringParamName ( sort @ParamNames ) {
-                next SEARCHSTRINGPARAMNAME if $SearchStringParamName !~ m{\ASearchStrings\[(.*)\]\z}sm;
+                next SEARCHSTRINGPARAMNAME unless $SearchStringParamName =~ m{\ASearchStrings\[(.*)\]\z}sm;
+
                 $SearchStrings{$1} = $ParamObject->GetParam( Param => $SearchStringParamName );
             }
 
