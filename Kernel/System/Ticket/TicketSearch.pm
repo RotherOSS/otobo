@@ -1593,8 +1593,8 @@ sub TicketSearch {
         # Only look at fields which start with DynamicField_ and contain a substructure that is meant for searching.
         #   It could happen that similar scalar parameters are sent to this method, that should be ignored
         #   (see bug#13412).
-        next PARAMS if !ref $Param{$Key};
-        next PARAMS if $Key !~ /^DynamicField_(.*)$/;
+        next PARAMS unless ref $Param{$Key};
+        next PARAMS unless $Key =~ /^DynamicField_(.*)$/;
 
         my $DynamicFieldName = $1;
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1671,8 +1671,10 @@ sub TicketSearch {
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'OlderDate' } . "'!",
                 );
+
                 return;
             }
+
             $CompareOlderNewerDate = $SystemTime;
 
             $SQLExt .= " AND ($ArticleTime{$Key} <= '" . $SystemTime->ToString() . "')";
@@ -1713,6 +1715,7 @@ sub TicketSearch {
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'NewerDate' } . "'!",
                 );
+
                 return;
             }
 
