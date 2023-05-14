@@ -97,7 +97,7 @@ sub Run {
     $Self->{UserObject}->SetPreferences(
         UserID => $Param{UserData}->{UserID},
         Key    => 'PGPFilename',
-        Value  => $UploadStuff{Filename},       # might be undefined
+        Value  => $Filename,                    # might be undefined
     );
 
     #        $Self->{UserObject}->SetPreferences(
