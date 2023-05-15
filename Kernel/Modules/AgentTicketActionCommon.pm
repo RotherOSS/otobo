@@ -448,45 +448,6 @@ sub Run {
         );
     }
 
-    # fetch input field definition
-    my $MaskObject           = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
-    my $InputFieldDefinition = $MaskObject->DefinitionGet(
-        Mask => $Self->{Action},
-    );
-
-    my %DefinedFieldsList;
-
-    # If no definition is present, put all fields into a list (displaying one field per row)
-    if ( !IsArrayRefWithData($InputFieldDefinition) ) {
-        $InputFieldDefinition = [ { List => [ map { { 'Name' => $_->{Name} } } @{ $Param{TicketTypeDynamicFields} } ] } ];
-    }
-    else {
-        # Track used fields for appending the unused ones
-        my @UsedFields = map {
-            if ( $_->{Grid} ) {
-                map { $_->@* } $_->{Grid}->{Rows}->@*;
-            }
-            elsif ( $_->{List} ) {
-                $_->{List}->@*;
-            }
-            }
-            $InputFieldDefinition->@*;
-
-        %DefinedFieldsList = map {
-            $_->{Name} => {
-                'ReadOnly' => $_->{ReadOnly},
-            }
-        } @UsedFields;
-
-        # Collect missing fields to put them in a list section at the end of the existing definition
-        my @NotDefinedFields = grep { !$DefinedFieldsList{ $_->{Name} } } $Param{TicketTypeDynamicFields}->@*;
-        my @ListMissing      = map  { { Name => $_->{Name} } } @NotDefinedFields;
-
-        if (@ListMissing) {
-            push @{$InputFieldDefinition}, { List => \@ListMissing };
-        }
-    }
-
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
@@ -497,55 +458,6 @@ sub Run {
         $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicFieldItem } = $DynamicFieldValues{$DynamicFieldItem};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
-
-    my %DynamicFieldValueCount;
-    for my $Area ( $InputFieldDefinition->@* ) {
-        my @AreaDynamicFields = ();
-        my $MaxValueCount     = 0;
-        my $ValueCount        = 0;
-        if ( $Area->{Grid} ) {
-            for my $Row ( $Area->{Grid}{Rows}->@* ) {
-
-                for my $Field ( $Row->@* ) {
-                    push @AreaDynamicFields, $Field->{Name};
-
-                    # $Param{GetParam} holds the dynamic field values
-                    if ( ref $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} ne 'ARRAY' ) {
-                        $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} = [ $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} // '' ];
-                    }
-                    else {
-                        $ValueCount = scalar $GetParam{DynamicField}{"DynamicField_$Field->{Name}"}->@*;
-                    }
-                    if ( $ValueCount > $MaxValueCount ) {
-                        $MaxValueCount = $ValueCount;
-                    }
-                }
-
-            }
-        }
-        elsif ( $Area->{List} ) {
-            my @AreaDynamicFields;
-            my $MaxValueCount = 0;
-            my $ValueCount    = 0;
-            for my $Field ( $Area->{List}->@* ) {
-                push @AreaDynamicFields, $Field->{Name};
-
-                # $Param{GetParam} holds the dynamic field values
-                if ( ref $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} ne 'ARRAY' ) {
-                    $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} = [ $GetParam{DynamicField}{"DynamicField_$Field->{Name}"} // '' ];
-                }
-                else {
-                    $ValueCount = scalar $GetParam{DynamicField}{"DynamicField_$Field->{Name}"}->@*;
-                }
-                if ( $ValueCount > $MaxValueCount ) {
-                    $MaxValueCount = $ValueCount;
-                }
-            }
-        }
-        for my $FieldName (@AreaDynamicFields) {
-            $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
-        }
-    }
 
     # transform pending time, time stamp based on user time zone
     if (
@@ -946,7 +858,6 @@ sub Run {
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
                     Mandatory            => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                    ValueCount           => $DynamicFieldValueCount{ $DynamicFieldConfig->{Name} },
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
@@ -1342,9 +1253,10 @@ sub Run {
         # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{$DynamicField} ) {
+
+            # TODO fetch and respect readonly
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if !$Visibility{"DynamicField_$DynamicFieldConfig->{Name}"};
-            next DYNAMICFIELD if $DefinedFieldsList{ $DynamicFieldConfig->{Name} }{ReadOnly};
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
             my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
