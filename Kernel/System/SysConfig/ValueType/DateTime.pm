@@ -464,17 +464,31 @@ sub AddItem {
     my $Result;
 
     if ($DefaultValue) {
-        $DefaultValue =~ m{(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})};
+
+        # TODO: this can be simplified
+        my %DateValues = (
+            $Name . 'Year'   => undef,
+            $Name . 'Month'  => undef,
+            $Name . 'Day'    => undef,
+            $Name . 'Hour'   => undef,
+            $Name . 'Minute' => undef,
+            $Name . 'Second' => undef,
+        );
+        if ( $DefaultValue =~ m{(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})} ) {
+            %DateValues = (
+                $Name . 'Year'   => $1,
+                $Name . 'Month'  => $2,
+                $Name . 'Day'    => $3,
+                $Name . 'Hour'   => $4,
+                $Name . 'Minute' => $5,
+                $Name . 'Second' => $6,
+            );
+        }
 
         $Result = $LayoutObject->BuildDateSelection(
+            %DateValues,
+            $Name . 'Class'  => $Class,
             Prefix           => $Name,
-            $Name . "Year"   => $1,
-            $Name . "Month"  => $2,
-            $Name . "Day"    => $3,
-            $Name . "Hour"   => $4,
-            $Name . "Minute" => $5,
-            $Name . "Second" => $6,
-            $Name . "Class"  => $Class,
             YearDiff         => 10,
             Format           => 'DateInputFormatLong',
             Validate         => 1,
@@ -484,7 +498,7 @@ sub AddItem {
     else {
         $Result = $LayoutObject->BuildDateSelection(
             Prefix           => $Name,
-            $Name . "Class"  => $Class,
+            $Name . 'Class'  => $Class,
             YearDiff         => 10,
             Format           => 'DateInputFormatLong',
             Validate         => 1,
