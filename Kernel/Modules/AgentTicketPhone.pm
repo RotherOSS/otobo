@@ -3128,7 +3128,7 @@ sub _MaskPhoneNew {
             };
         }
 
-        $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
+        $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
             Content              => $InputFieldDefinition,
             DynamicFields        => \%DynamicFieldConfigs,
             UpdatableFields      => $Self->_GetFieldsToUpdate(),
