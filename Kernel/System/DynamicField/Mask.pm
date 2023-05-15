@@ -355,10 +355,10 @@ sub EditSectionRender {
             }
 
             # basic corrections for grid-template-rows
-            my @Widths = ( $Element->{Grid}{ColumnWidth} =~ /([\d\.]*\w+)/g );
+            my @Widths = $Element->{Grid}{ColumnWidth} ? ( $Element->{Grid}{ColumnWidth} =~ /([\d\.]*\w+)/g ) : ();
 
             if ( @Widths < $Element->{Grid}{Columns} ) {
-                push @Widths, ('1fr') x ( $Element->{Grid}{ColumnWidth} - @Widths );
+                push @Widths, ('1fr') x ( $Element->{Grid}{Columns} - @Widths );
             }
 
             my $ColumnWidth = join( ' ', @Widths[ 0 .. $Element->{Grid}{Columns} - 1 ] );
