@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::DBUpdateTo10_1::Base;
+package scripts::DBUpdateTo11_0::Base;
 
 use strict;
 use warnings;
@@ -25,7 +25,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-_1::Base - Base class for migrations.
+_0::Base - Base class for migrations.
 
 =head1 PUBLIC INTERFACE
 
@@ -45,7 +45,7 @@ sub new {
 
 Refreshes the configuration to make sure that a ZZZAAuto.pm is present after the upgrade.
 
-    $DBUpdateTo6Object->RebuildConfig(
+    $DBUpdateObject->RebuildConfig(
         UnitTestMode      => 1,         # (optional) Prevent discarding all objects at the end.
         CleanUpIfPossible => 1,         # (optional) Removes leftover settings that are not contained in XML files,
                                         #   but only if all XML files for installed packages are present.
@@ -136,7 +136,7 @@ sub RebuildConfig {
 
 Clean up the cache.
 
-    $DBUpdateTo6Object->CacheCleanup();
+    $DBUpdateObject->CacheCleanup();
 
 =cut
 
@@ -150,19 +150,10 @@ sub CacheCleanup {
 
 =head2 ExecuteXMLDBArray()
 
-Parse and execute an array of XML snippets. Parameter I<Old2NewTableNames> is used for checking whether target tables already exist.
+Parse and execute an XML array.
 
-    $DBUpdateTo6Object->ExecuteXMLDBArray(
-        XMLArray          => [
-            '<Table Name="data_storage">
-                <Column Name="ds_type" Required="true" Type="VARCHAR" Size="191" />
-                ...
-                <Column Name="create_by" Required="true" Type="INTEGER" />
-                <ForeignKey ForeignTable="users">
-                    <Reference Local="create_by" Foreign="id"
-                </ForeignKey>
-            </Table>'
-        ],
+    $DBUpdateObject->ExecuteXMLDBArray(
+        XMLArray          => \@XMLArray,
         Old2NewTableNames => {                                        # optional
             'article'            => 'article_data_mime',
             'article_plain'      => 'article_data_mime_plain',
@@ -366,7 +357,7 @@ sub ExecuteXMLDBArray {
 
 Parse and execute an XML string.
 
-    $DBUpdateTo6Object->ExecuteXMLDBString(
+    $DBUpdateObject->ExecuteXMLDBString(
         XMLString => '
             <TableAlter Name="gi_webservice_config">
                 <ColumnDrop Name="config_md5"/>
@@ -391,18 +382,20 @@ sub ExecuteXMLDBString {
     my $XMLString = $Param{XMLString};
 
     # Create database specific SQL and PostSQL commands out of XML.
+    my @SQL;
+    my @SQLPost;
     my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
     my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
     my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
 
     # Create database specific SQL.
-    my @SQL = $DBObject->SQLProcessor(
+    push @SQL, $DBObject->SQLProcessor(
         Database => \@XMLARRAY,
     );
 
     # Create database specific PostSQL.
-    my @SQLPost = $DBObject->SQLProcessorPost();
+    push @SQLPost, $DBObject->SQLProcessorPost();
 
     # Execute SQL.
     for my $SQL ( @SQL, @SQLPost ) {
@@ -424,7 +417,7 @@ sub ExecuteXMLDBString {
 
 Checks if the given table exists in the database.
 
-    my $Result = $DBUpdateTo6Object->TableExists(
+    my $Result = $DBUpdateObject->TableExists(
         Table => 'ticket',
     );
 
@@ -457,7 +450,7 @@ sub TableExists {
 
 Checks if the given column exists in the given table.
 
-    my $Result = $DBUpdateTo6Object->ColumnExists(
+    my $Result = $DBUpdateObject->ColumnExists(
         Table  => 'ticket',
         Column =>  'id',
     );
@@ -498,7 +491,7 @@ sub ColumnExists {
 
 Checks if the given index exists in the given table.
 
-    my $Result = $DBUpdateTo6Object->IndexExists(
+    my $Result = $DBUpdateObject->IndexExists(
         Table => 'ticket',
         Index =>  'id',
     );
@@ -571,7 +564,7 @@ sub IndexExists {
 
 Clean up the cache.
 
-    $DBUpdateTo6Object->GetTaskConfig( Module => "TaskModuleName");
+    $DBUpdateObject->GetTaskConfig( Module => "TaskModuleName");
 
 =cut
 
@@ -617,7 +610,7 @@ sub GetTaskConfig {
 Update an existing SysConfig Setting in a migration context. It will skip updating both read-only and already modified
 settings by default.
 
-    $DBUpdateTo6Object->SettingUpdate(
+    $DBUpdateObject->SettingUpdate(
         Name                   => 'Setting::Name',           # (required) setting name
         IsValid                => 1,                         # (optional) 1 or 0, modified 0
         EffectiveValue         => $SettingEffectiveValue,    # (optional)

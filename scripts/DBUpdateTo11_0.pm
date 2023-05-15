@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::DBUpdateTo10_1;
+package scripts::DBUpdateTo11_0;
 
 use strict;
 use warnings;
@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-_1 - Perform system upgrade from OTOBO 10.0 to 10.1
+ - Perform system upgrade from OTOBO 10.1 to 11.0
 
 =head1 PUBLIC INTERFACE
 
@@ -33,7 +33,7 @@ _1 - Perform system upgrade from OTOBO 10.0 to 10.1
 
 Don't use the constructor directly, use the ObjectManager instead:
 
-    my $DBUpdateTo10_1Object = $Kernel::OM->Get('scripts::DBUpdateTo10_1');
+    my $DBUpdateObject = $Kernel::OM->Get('scripts::DBUpdateTo11_0');
 
 =cut
 
@@ -59,8 +59,8 @@ sub Run {
 
     my @Tasks = (
         {
-            Name   => 'Add data_storage table.',
-            Module => 'DBAddDataStorage',
+            Name   => 'Add frontend_mask_definition table.',
+            Module => 'DBAddFrontendMaskDefinition',
         },
     );
 
@@ -68,12 +68,12 @@ sub Run {
     for my $Task (@Tasks) {
         print "\tExecuting task '$Task->{Name}' ... \n";
 
-        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'scripts::DBUpdateTo10_1::' . $Task->{Module} ) ) {
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'scripts::DBUpdateTo11_0::' . $Task->{Module} ) ) {
             $SuccessfulMigration = 0;
             last TASK;
         }
 
-        my $Success = $Kernel::OM->Create( 'scripts::DBUpdateTo10_1::' . $Task->{Module} )->Run();
+        my $Success = $Kernel::OM->Create( 'scripts::DBUpdateTo11_0::' . $Task->{Module} )->Run();
 
         if ( !$Success ) {
             $SuccessfulMigration = 0;

@@ -30,7 +30,7 @@ use Getopt::Long;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
-        LogPrefix => 'OTOBO-DBUpdate-to-10.1.pl',
+        LogPrefix => 'OTOBO-DBUpdate-to-11.0.pl',
     },
 );
 
@@ -49,6 +49,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 #    'verbose',                   \$Options{Verbose},
 #);
 
-$Kernel::OM->Create('scripts::DBUpdateTo10_1')->Run();
+$Kernel::OM->Create('scripts::DBUpdateTo11_0')->Run();
 
 exit 0;
