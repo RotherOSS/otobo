@@ -66,7 +66,9 @@ sub Run {
                 ),
             );
         }
-        $FieldName = $1;
+        else {
+            $FieldName = $1;    # effectively remove prefix Autocomplete_DynamicField_ or Search_DynamicField_
+        }
 
         # get dynamic field
         my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(

@@ -2740,17 +2740,10 @@ sub _TimeCheck {
         }
     }
 
-    my $Result = '';
+    my ( $OriginalDate, $OriginalTime ) = $Param{OriginalTime} =~ m/(.*?)\s(.*?)$/;
+    my ($Date) = $Param{Time} =~ m/(.*?)\s(.*?)$/;
 
-    $Param{OriginalTime} =~ /(.*?)\s(.*?)$/;
-    my $OriginalDate = $1;
-    my $OriginalTime = $2;
-
-    $Param{Time} =~ /(.*?)\s(.*?)$/;
-    my $Date = $1;
-
-    $Result = "$Date $OriginalTime";
-    return $Result;
+    return "$Date $OriginalTime";
 }
 
 =head2 _CWDiff()

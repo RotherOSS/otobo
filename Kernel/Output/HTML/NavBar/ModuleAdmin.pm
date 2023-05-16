@@ -42,10 +42,9 @@ sub Run {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # generate manual link
-    my $ManualVersion = $ConfigObject->Get('Version');
-    $ManualVersion =~ m{^(\d{1,2}).+};
-    $ManualVersion = $1;
+    # generate version for links to the manual,
+    # only major and minor version are relevant, like 11.0 for version 11.0.1
+    my ($ManualVersion) = $ConfigObject->Get('Version') =~ m/^(\d{2}\.\d+)/;
 
     # get all Frontend::Module
     my %NavBarModule;

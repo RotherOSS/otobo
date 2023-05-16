@@ -2505,9 +2505,9 @@ sub _FetchAttributesFromCert {
         FILTER:
         for my $Filter ( sort keys %Filters ) {
 
-            next FILTER if $Line !~ m{ \A $Filters{$Filter} \z }xms;
+            next FILTER unless $Line =~ m{ \A $Filters{$Filter} \z }xms;
 
-            my $Match = $1 || '';
+            my $Match = $1 || '';    # fall back to '' just in case the filter regex has no capture
 
             # email filter is allowed to match multiple times for alternate names (SubjectAltName)
             if ( $Filter eq 'Email' ) {
@@ -2739,8 +2739,7 @@ sub _NormalizePrivateSecretFiles {
     for my $File (@WrongPrivateSecretList) {
 
         # build the correct file name
-        $File =~ m{(.+) \. P}smxi;
-        my $Hash = $1;
+        my ($Hash) = $File =~ m{(.+) \. P}smxi;
 
         my $CorrectFile;
         my @UsedPrivateSecretFiles;
@@ -2912,9 +2911,7 @@ sub _ReHashCertificates {
         );
 
         # split filename into Hash.Index (12345678.0 -> 12345678 / 0)
-        $File =~ m{ (.+) \. (\d+) }smx;
-        my $Hash  = $1;
-        my $Index = $2;
+        my ( $Hash, $Index ) = $File =~ m{ (.+) \. (\d+) }smx;
 
         # get new hash from certificate attributes
         my $NewHash     = $CertificateAttributes{Hash};

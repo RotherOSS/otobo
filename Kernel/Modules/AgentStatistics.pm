@@ -809,10 +809,9 @@ sub AddScreen {
         $Frontend{ShowFormInitially} = 1;
     }
 
-    # generate manual link
-    my $ManualVersion = $Kernel::OM->Get('Kernel::Config')->Get('Version');
-    $ManualVersion =~ m{^(\d{1,2}).+};
-    $ManualVersion = $1;
+    # generate version for links to the manual,
+    # only major and minor version are relevant, like 11.0 for version 11.0.1
+    my ($ManualVersion) = $Kernel::OM->Get('Kernel::Config')->Get('Version') =~ m/^(\d{2}\.\d+)/;
 
     # build output
     return join '',

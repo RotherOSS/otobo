@@ -119,20 +119,21 @@ sub ProviderProcessRequest {
 
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    my $Operation;
-    my %URIData;
-    my $RequestURI = $ParamObject->RequestURI();
+    my $RequestURI = $ParamObject->RequestURI;
     $RequestURI =~ s{.*Webservice(?:ID)?\/[^\/]+(\/.*)$}{$1}xms;
 
     # Remove any query parameter from the URL
     #   e.g. from /Ticket/1/2?UserLogin=user&Password=secret
     #   to /Ticket/1/2?.
-    $RequestURI =~ s{([^?]+)(.+)?}{$1};
+    my $QueryParamsStr = '';
+    if ( $RequestURI =~ s{([^?]+)(.+)?}{$1} ) {
 
-    # Remember the query parameters e.g. ?UserLogin=user&Password=secret.
-    my $QueryParamsStr = $2 || '';
+        # Remember the query parameters e.g. ?UserLogin=user&Password=secret.
+        # It is fine when $2 is not defined, that is when there is no '?' in $RequestURI
+        $QueryParamsStr = $2;
+    }
+
     my %QueryParams;
-
     if ($QueryParamsStr) {
 
         # Remove question mark '?' in the beginning.
@@ -172,6 +173,8 @@ sub ProviderProcessRequest {
         }
     }
 
+    my $Operation;
+    my %URIData;
     my $RequestMethod = $ParamObject->RequestMethod() || 'GET';
     ROUTE:
     for my $CurrentOperation ( sort keys %{ $Config->{RouteOperationMapping} } ) {
@@ -747,16 +750,18 @@ sub RequesterPerformRequest {
     # Remove any query parameters that might be in the config,
     #   For example, from the controller: /Ticket/:TicketID/?:UserLogin&:Password
     #   controller must remain  /Ticket/:TicketID/
-    $Controller =~ s{([^?]+)(.+)?}{$1};
+    my $QueryParamsStr = '';
+    if ( $Controller =~ s{([^?]+)(.+)?}{$1} ) {
 
-    # Remember the query parameters e.g. ?:UserLogin&:Password.
-    my $QueryParamsStr = $2 || '';
-
-    my @ParamsToDelete;
+        # Remember the query parameters e.g. ?:UserLogin&:Password.
+        # It is fine when $2 is not defined, that is when there is no '?' in $RequestURI
+        $QueryParamsStr = $2;
+    }
 
     # Replace any URI params with their actual value.
     #    for example: from /Ticket/:TicketID/:Other
     #    to /Ticket/1/2 (considering that $Param{Data} contains TicketID = 1 and Other = 2).
+    my @ParamsToDelete;
     for my $ParamName ( sort keys %{ $Param{Data} } ) {
         if ( $Controller =~ m{:$ParamName(?=/|\?|$)}msx ) {
             my $ParamValue = $Param{Data}->{$ParamName};

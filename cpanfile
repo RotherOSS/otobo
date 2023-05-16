@@ -8,6 +8,9 @@ requires 'Archive::Tar';
 # Required for compressed file generation.
 requires 'Archive::Zip';
 
+# Neater interface for capturing STDOUT and STDERR.
+requires 'Capture::Tiny';
+
 requires 'Date::Format';
 
 requires 'DateTime', ">= 1.08";

@@ -165,8 +165,10 @@ sub Auth {
         if ( $GetPw =~ m{\A \$.+? \$.+? \$.* \z}xms ) {
 
             # strip Salt
-            $Salt =~ s/^(\$.+?\$)(.+?)\$.*$/$2/;
-            my $Magic = $1;
+            my $Magic = '';
+            if ( $Salt =~ s/^(\$.+?\$)(.+?)\$.*$/$2/ ) {
+                $Magic = $1;    # a successful substitution means a successful match
+            }
 
             # encode output, needed by unix_md5_crypt() only non utf8 signs
             $EncodeObject->EncodeOutput( \$Pw );

@@ -1934,11 +1934,12 @@ sub Rollback {
 
 =cut
 
+# Attention: This method might be used outside this package, despite the prefix '_'
 sub _Decrypt {
-    my ( $Self, $Pw ) = @_;
+    my ( $Self, $CryptedPw ) = @_;
 
-    my $Length = length($Pw) * 4;
-    $Pw = pack "h$Length", $1;
+    my $Length = length($CryptedPw) * 4;
+    my $Pw     = pack "h$Length", $CryptedPw;
     $Pw = unpack "B$Length", $Pw;
     $Pw =~ s/1/A/g;
     $Pw =~ s/0/1/g;
@@ -1948,6 +1949,7 @@ sub _Decrypt {
     return $Pw;
 }
 
+# Attention: This method might be used outside this package, despite the prefix '_'
 sub _Encrypt {
     my ( $Self, $Pw ) = @_;
 

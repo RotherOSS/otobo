@@ -1106,8 +1106,7 @@ sub _HandleLog {
     for my $Line (@ComputableLines) {
 
         # get tag
-        $Line =~ m{(:?\[GNUPG\:\]\s)(\w*)(:?\s.*)?}xms;
-        my $Tag     = $2;
+        my ( undef, $Tag ) = $Line =~ m{(:?\[GNUPG\:\]\s)(\w*)(:?\s.*)?}xms;
         my $Message = $Line;
 
         $ComputableLog{$Tag} = {
