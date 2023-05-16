@@ -135,7 +135,7 @@ Set headers in Kernels::System::Web::Request singleton as side effect.
 
 =cut
 
-sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
+sub Content {
     my $Self = shift;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
