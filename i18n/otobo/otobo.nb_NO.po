@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-11 13:38+0000\n"
+"PO-Revision-Date: 2023-05-16 22:58+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -6577,7 +6577,7 @@ msgstr "Oversikt over registrerte systemet"
 
 #. Template: AdminRegistration
 msgid "This system is registered with OTOBO Team."
-msgstr ""
+msgstr "Dette systemet er registrert hos OTOBO Team."
 
 #. Template: AdminRegistration
 msgid "System type"
@@ -6593,7 +6593,7 @@ msgstr "Sist kommunikasjon med registreringstjeneren"
 
 #. Template: AdminRegistration
 msgid "System Registration not Possible"
-msgstr ""
+msgstr "Systemregistrering er ikke mulig"
 
 #. Template: AdminRegistration
 msgid ""
@@ -6609,7 +6609,7 @@ msgstr "Instruksjoner"
 
 #. Template: AdminRegistration
 msgid "System Deregistration not Possible"
-msgstr ""
+msgstr "Systemavregistrering ikke mulig"
 
 #. Template: AdminRegistration
 msgid "OTOBO-ID Login"
@@ -6620,6 +6620,7 @@ msgid ""
 "System registration is a service of OTOBO Team, which provides a lot of "
 "advantages!"
 msgstr ""
+"Systemregistrering er en tjeneste fra OTOBO Team, som gir mange fordeler!"
 
 #. Template: AdminRegistration
 msgid "Read more"
@@ -6627,13 +6628,15 @@ msgstr "Les mer"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTOBO-ID to register your system."
-msgstr ""
+msgstr "Du må logge inn med din OTOBO-ID for å registrere systemet ditt."
 
 #. Template: AdminRegistration
 msgid ""
 "Your OTOBO-ID is the email address you used to sign up on the OTOBO.com "
 "webpage."
 msgstr ""
+"Din OTOBO-ID er e-postadressen du brukte til å registrere deg på OTOBO.com-"
+"nettsiden."
 
 #. Template: AdminRegistration
 msgid "Data Protection"
@@ -6652,6 +6655,8 @@ msgid ""
 "With your system registration we can improve our services for you, because "
 "we have all relevant information available."
 msgstr ""
+"Med din systemregistrering kan vi forbedre tjenestene våre for deg, fordi vi "
+"har all relevant informasjon tilgjengelig."
 
 #. Template: AdminRegistration
 msgid "This is only the beginning!"
@@ -6659,7 +6664,7 @@ msgstr "Dette er bare begynnelsen!"
 
 #. Template: AdminRegistration
 msgid "We will inform you about our new services and offerings soon."
-msgstr ""
+msgstr "Vi vil informere deg om våre nye tjenester og tilbud snart."
 
 #. Template: AdminRegistration
 msgid "Can I use OTOBO without being registered?"
@@ -6687,7 +6692,7 @@ msgstr "Hvilke data blir overført ved registrering?"
 
 #. Template: AdminRegistration
 msgid "A registered system sends the following data to OTOBO Team:"
-msgstr ""
+msgstr "Et registrert system sender følgende data til OTOBO Team:"
 
 #. Template: AdminRegistration
 msgid ""
@@ -6710,6 +6715,8 @@ msgid ""
 "The description and system type you specify help you to identify and manage "
 "the details of your registered systems."
 msgstr ""
+"Beskrivelsen og systemtypen du angir hjelper deg med å identifisere og "
+"administrere detaljene til de registrerte systemene dine."
 
 #. Template: AdminRegistration
 msgid "How often does my OTOBO system send updates?"
@@ -6729,11 +6736,11 @@ msgstr "Typisk så vil dette være en gang vær tredje dag."
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
-msgstr ""
+msgstr "Hvis du avregistrerer systemet ditt, vil du miste disse fordelene:"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTOBO-ID to deregister your system."
-msgstr ""
+msgstr "Du må logge på med din OTOBO-ID for å avregistrere systemet ditt."
 
 #. Template: AdminRegistration
 msgid "OTOBO-ID"
@@ -6764,6 +6771,8 @@ msgid ""
 "This data will be frequently transferred to OTOBO Team when you register "
 "this system."
 msgstr ""
+"Disse dataene vil ofte bli overført til OTOBO Team når du registrerer dette "
+"systemet."
 
 #. Template: AdminRegistration
 msgid "Attribute"
@@ -6794,6 +6803,8 @@ msgid ""
 "This will allow the system to send additional support data information to "
 "OTOBO Team."
 msgstr ""
+"Dette vil tillate systemet å sende ytterligere støttedatainformasjon til "
+"OTOBO Team."
 
 #. Template: AdminRegistration
 msgid "Register"
@@ -6802,6 +6813,7 @@ msgstr "Registrer"
 #. Template: AdminRegistration
 msgid "Continuing with this step will deregister the system from OTOBO Team."
 msgstr ""
+"Hvis du fortsetter med dette trinnet, avregistreres systemet fra OTOBO Team."
 
 #. Template: AdminRegistration
 msgid "Deregister"
@@ -6813,7 +6825,7 @@ msgstr "Du kan endre registreringsinnstillingene her."
 
 #. Template: AdminRegistration
 msgid "Overview of Transmitted Data"
-msgstr ""
+msgstr "Oversikt over overførte data"
 
 #. Template: AdminRegistration
 msgid "There is no data regularly sent from your system to %s."
@@ -6822,20 +6834,20 @@ msgstr "Det finnes ikke noe jevnlig data som er sent fra ditt system til %s."
 #. Template: AdminRegistration
 msgid ""
 "The following data is sent at minimum every 3 days from your system to %s."
-msgstr ""
+msgstr "Følgende data sendes minimum hver 3. dag fra systemet til %s."
 
 #. Template: AdminRegistration
 msgid ""
 "The data will be transferred in JSON format via a secure https connection."
-msgstr ""
+msgstr "Dataene vil bli overført i JSON-format via en sikker https-tilkobling."
 
 #. Template: AdminRegistration
 msgid "System Registration Data"
-msgstr ""
+msgstr "Systemregistreringsdata"
 
 #. Template: AdminRegistration
 msgid "Support Data"
-msgstr ""
+msgstr "Støttedata"
 
 #. Template: AdminRole
 msgid "Role Management"
@@ -6855,7 +6867,7 @@ msgstr "Filter for Roller"
 
 #. Template: AdminRole
 msgid "Filter for roles"
-msgstr ""
+msgstr "Filtrer etter roller"
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
@@ -6947,7 +6959,7 @@ msgstr "Filter for Saksbehandlere"
 
 #. Template: AdminRoleUser
 msgid "Filter for agents"
-msgstr ""
+msgstr "Filter for agenter"
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -6971,7 +6983,7 @@ msgstr "Ny SLA"
 
 #. Template: AdminSLA
 msgid "Filter for SLAs"
-msgstr ""
+msgstr "Filter for SLAer"
 
 #. Template: AdminSLA
 msgid "Please write only numbers!"
@@ -6991,33 +7003,35 @@ msgstr "Legg til privat nøkkel"
 
 #. Template: AdminSMIME
 msgid "SMIME support is disabled"
-msgstr ""
+msgstr "SMIME-støtte er deaktivert"
 
 #. Template: AdminSMIME
 msgid "To be able to use SMIME in OTOBO, you have to enable it first."
-msgstr ""
+msgstr "For å kunne bruke SMIME i OTOBO, må du først aktivere det."
 
 #. Template: AdminSMIME
 msgid "Enable SMIME support"
-msgstr ""
+msgstr "Aktiver SMIME-støtte"
 
 #. Template: AdminSMIME
 msgid "Faulty SMIME configuration"
-msgstr ""
+msgstr "Feil SMIME-konfigurasjon"
 
 #. Template: AdminSMIME
 msgid ""
 "SMIME support is enabled, but the relevant configuration contains errors. "
 "Please check the configuration using the button below."
 msgstr ""
+"SMIME-støtte er aktivert, men den relevante konfigurasjonen inneholder feil. "
+"Vennligst sjekk konfigurasjonen ved å bruke knappen nedenfor."
 
 #. Template: AdminSMIME
 msgid "Check SMIME configuration"
-msgstr ""
+msgstr "Sjekk SMIME-konfigurasjonen"
 
 #. Template: AdminSMIME
 msgid "Filter for Certificates"
-msgstr ""
+msgstr "Filtrer etter sertifikater"
 
 #. Template: AdminSMIME
 msgid "Filter for certificates"
@@ -7038,6 +7052,9 @@ msgid ""
 "embedded to the S/MIME signature every time you use this certificate to sign "
 "an email."
 msgstr ""
+"Her kan du legge til relasjoner til ditt private sertifikat, disse vil bli "
+"innebygd i S/MIME-signaturen hver gang du bruker dette sertifikatet til å "
+"signere en e-post."
 
 #. Template: AdminSMIME
 msgid "See also"
@@ -7105,7 +7122,7 @@ msgstr "S/MIME-sertifikat"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate Details"
-msgstr ""
+msgstr "Sertifikatdetaljer"
 
 #. Template: AdminSMIMECertRead
 msgid "Close this dialog"
@@ -7125,11 +7142,11 @@ msgstr "Endre hilsning"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
-msgstr ""
+msgstr "Filter for hilsener"
 
 #. Template: AdminSalutation
 msgid "Filter for salutations"
-msgstr ""
+msgstr "Filter for hilsener"
 
 #. Template: AdminSalutation
 msgid "e. g."
@@ -7141,7 +7158,7 @@ msgstr "Eksempel på hilsning"
 
 #. Template: AdminSecureMode
 msgid "Secure Mode Needs to be Enabled!"
-msgstr ""
+msgstr "Sikker modus må aktiveres!"
 
 #. Template: AdminSecureMode
 msgid ""
@@ -7164,11 +7181,11 @@ msgstr "SQL-boks"
 
 #. Template: AdminSelectBox
 msgid "Filter for Results"
-msgstr ""
+msgstr "Filtrer for resultater"
 
 #. Template: AdminSelectBox
 msgid "Filter for results"
-msgstr ""
+msgstr "Filtrer for resultater"
 
 #. Template: AdminSelectBox
 msgid ""
@@ -7176,6 +7193,9 @@ msgid ""
 "is not possible to change the content of the tables, only select queries are "
 "allowed."
 msgstr ""
+"Her kan du skrive inn SQL for å sende den direkte til applikasjonsdatabasen. "
+"Det er ikke mulig å endre innholdet i tabellene, kun utvalgte spørringer er "
+"tillatt."
 
 #. Template: AdminSelectBox
 msgid "Here you can enter SQL to send it directly to the application database."
@@ -7209,7 +7229,7 @@ msgstr "Kjør spørring"
 
 #. Template: AdminSelectBox
 msgid "%s Results"
-msgstr ""
+msgstr "%s resultater"
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
@@ -7229,7 +7249,7 @@ msgstr "Endre Tjeneste"
 
 #. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
-msgstr ""
+msgstr "Tjenestenavnets maksimale lengde er 200 tegn (med undertjeneste)."
 
 #. Template: AdminService
 msgid "Sub-service of"
@@ -7241,7 +7261,7 @@ msgstr "Administrasjon: Sesjoner"
 
 #. Template: AdminSession
 msgid "Detail Session View for %s (%s)"
-msgstr ""
+msgstr "Detaljøktvisning for %s (%s)"
 
 #. Template: AdminSession
 msgid "All sessions"
@@ -7273,11 +7293,11 @@ msgstr "Terminer denne sesjonen"
 
 #. Template: AdminSession
 msgid "Filter for Sessions"
-msgstr ""
+msgstr "Filtrer for økter"
 
 #. Template: AdminSession
 msgid "Filter for sessions"
-msgstr ""
+msgstr "Filtrer for økter"
 
 #. Template: AdminSession
 msgid "Session"
@@ -7289,7 +7309,7 @@ msgstr "Terminer"
 
 #. Template: AdminSession
 msgid "Detail View for SessionID: %s - %s"
-msgstr ""
+msgstr "Detaljvisning for økt-ID: %s - %s"
 
 #. Template: AdminSignature
 msgid "Signature Management"
@@ -7305,11 +7325,11 @@ msgstr "Endre Signatur"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
-msgstr ""
+msgstr "Filter for signaturer"
 
 #. Template: AdminSignature
 msgid "Filter for signatures"
-msgstr ""
+msgstr "Filtrer for signaturer"
 
 #. Template: AdminSignature
 msgid "Example signature"
@@ -7329,11 +7349,11 @@ msgstr "Endre status"
 
 #. Template: AdminState
 msgid "Filter for States"
-msgstr ""
+msgstr "Filtrer etter tilstander"
 
 #. Template: AdminState
 msgid "Filter for states"
-msgstr ""
+msgstr "Filtrer etter tilstander"
 
 #. Template: AdminState
 msgid "Attention"
@@ -7348,6 +7368,8 @@ msgid ""
 "This state is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new type is needed!"
 msgstr ""
+"Denne tilstanden er tilstede i en SysConfig-innstilling, bekreftelse for "
+"oppdatering av innstillinger for å peke til den nye typen er nødvendig!"
 
 #. Template: AdminState
 msgid "State type"
@@ -7358,29 +7380,34 @@ msgid ""
 "It's not possible to invalidate this entry because there is no other merge "
 "states in system!"
 msgstr ""
+"Det er ikke mulig å ugyldiggjøre denne oppføringen fordi det ikke er andre "
+"flettetilstander i systemet!"
 
 #. Template: AdminState
 msgid "This state is used in the following config settings:"
-msgstr ""
+msgstr "Denne tilstanden brukes i følgende konfigurasjonsinnstillinger:"
 
 #. Template: AdminSupportDataCollector
 msgid "Sending support data to OTOBO Team is not possible!"
-msgstr ""
+msgstr "Det er ikke mulig å sende støttedata til OTOBO Team!"
 
 #. Template: AdminSupportDataCollector
 msgid "Enable Cloud Services"
-msgstr ""
+msgstr "Aktiver skytjenester"
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "This data is sent to OTOBO Team on a regular basis. To stop sending this "
 "data please update your system registration."
 msgstr ""
+"Disse dataene sendes til OTOBO Team med jevne mellomrom. For å slutte å "
+"sende disse dataene må du oppdatere systemregistreringen din."
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "You can manually trigger the Support Data sending by pressing this button:"
 msgstr ""
+"Du kan manuelt utløse sending av støttedata ved å trykke på denne knappen:"
 
 #. Template: AdminSupportDataCollector
 msgid "Send Update"
@@ -7388,13 +7415,15 @@ msgstr "Send oppdatering"
 
 #. Template: AdminSupportDataCollector
 msgid "Currently this data is only shown in this system."
-msgstr ""
+msgstr "Foreløpig vises disse dataene kun i dette systemet."
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "It is highly recommended to send this data to OTOBO Team in order to get "
 "better support."
 msgstr ""
+"Det anbefales sterkt å sende disse dataene til OTOBO Team for å få bedre "
+"støtte."
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -7402,6 +7431,9 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"For å aktivere datasending, vennligst registrer systemet ditt hos OTOBO Team "
+"eller oppdater systemregistreringsinformasjonen din (sørg for å aktivere "
+"alternativet 'send støttedata'.)"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -7409,18 +7441,21 @@ msgid ""
 "a list of installed packages and all locally modified source code files) can "
 "be generated by pressing this button:"
 msgstr ""
+"En støttepakke (inkludert: systemregistreringsinformasjon, støttedata, en "
+"liste over installerte pakker og alle lokalt modifiserte kildekodefiler) kan "
+"genereres ved å trykke på denne knappen:"
 
 #. Template: AdminSupportDataCollector
 msgid "Generate Support Bundle"
-msgstr ""
+msgstr "Generer støttepakke"
 
 #. Template: AdminSupportDataCollector
 msgid "The Support Bundle has been Generated"
-msgstr ""
+msgstr "Støttepakken er generert"
 
 #. Template: AdminSupportDataCollector
 msgid "Please choose one of the following options."
-msgstr ""
+msgstr "Velg ett av følgende alternativer."
 
 #. Template: AdminSupportDataCollector
 msgid "Send by Email"
@@ -7431,11 +7466,15 @@ msgid ""
 "The support bundle is too large to send it by email, this option has been "
 "disabled."
 msgstr ""
+"Støttepakken er for stor til å sende via e-post, dette alternativet er "
+"deaktivert."
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "The email address for this user is invalid, this option has been disabled."
 msgstr ""
+"E-postadressen til denne brukeren er ugyldig, dette alternativet er "
+"deaktivert."
 
 #. Template: AdminSupportDataCollector
 msgid "Sending"
@@ -7443,7 +7482,7 @@ msgstr "Sender"
 
 #. Template: AdminSupportDataCollector
 msgid "The support bundle will be sent to OTOBO Team via email automatically."
-msgstr ""
+msgstr "Støttepakken sendes automatisk til OTOBO Team via e-post."
 
 #. Template: AdminSupportDataCollector
 msgid "Download File"
@@ -7455,10 +7494,13 @@ msgid ""
 "Please save the file and send it to the OTOBO Team, using an alternate "
 "method."
 msgstr ""
+"En fil som inneholder støttepakken vil bli lastet ned til det lokale "
+"systemet. Vennligst lagre filen og send den til OTOBO-teamet ved å bruke en "
+"alternativ metode."
 
 #. Template: AdminSupportDataCollector
 msgid "Error: Support data could not be collected (%s)."
-msgstr ""
+msgstr "Feil: Støttedata kunne ikke samles inn (%s)."
 
 #. Template: AdminSupportDataCollector
 msgid "Details"
@@ -7478,15 +7520,15 @@ msgstr "Endre Systemadresse"
 
 #. Template: AdminSystemAddress
 msgid "Add System Address"
-msgstr ""
+msgstr "Legg til systemadresse"
 
 #. Template: AdminSystemAddress
 msgid "Filter for System Addresses"
-msgstr ""
+msgstr "Filter for systemadresser"
 
 #. Template: AdminSystemAddress
 msgid "Filter for system addresses"
-msgstr ""
+msgstr "Filter for systemadresser"
 
 #. Template: AdminSystemAddress
 msgid ""
@@ -7506,7 +7548,7 @@ msgstr "Vist navn"
 
 #. Template: AdminSystemAddress
 msgid "This email address is already used as system email address."
-msgstr ""
+msgstr "Denne e-postadressen er allerede brukt som system-e-postadresse."
 
 #. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
@@ -7514,55 +7556,63 @@ msgstr "Vist navn og e-postadresse vil vises på e-posten du sender ut."
 
 #. Template: AdminSystemAddress
 msgid "This system address cannot be set to invalid."
-msgstr ""
+msgstr "Denne systemadressen kan ikke settes til ugyldig."
 
 #. Template: AdminSystemAddress
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
 "more queue(s) or auto response(s)."
 msgstr ""
+"Denne systemadressen kan ikke settes til ugyldig, fordi den brukes i én "
+"eller flere kø(er) eller autosvar(er)."
 
 #. Template: AdminSystemConfiguration
 msgid "online administrator documentation"
-msgstr ""
+msgstr "online administratordokumentasjon"
 
 #. Template: AdminSystemConfiguration
 msgid "System configuration"
-msgstr ""
+msgstr "Systemkonfigurasjon"
 
 #. Template: AdminSystemConfiguration
 msgid ""
 "Navigate through the available settings by using the tree in the navigation "
 "box on the left side."
 msgstr ""
+"Naviger gjennom de tilgjengelige innstillingene ved å bruke treet i "
+"navigasjonsboksen på venstre side."
 
 #. Template: AdminSystemConfiguration
 msgid ""
 "Find certain settings by using the search field below or from search icon "
 "from the top navigation."
 msgstr ""
+"Finn bestemte innstillinger ved å bruke søkefeltet nedenfor eller fra "
+"søkeikonet fra toppnavigasjonen."
 
 #. Template: AdminSystemConfiguration
 msgid "Find out how to use the system configuration by reading the %s."
-msgstr ""
+msgstr "Finn ut hvordan du bruker systemkonfigurasjonen ved å lese %s."
 
 #. Template: AdminSystemConfiguration
 msgid "Search in all settings..."
-msgstr ""
+msgstr "Søk i alle innstillinger..."
 
 #. Template: AdminSystemConfiguration
 msgid ""
 "There are currently no settings available. Please make sure to run 'otobo."
 "Console.pl Maint::Config::Rebuild' before using the software."
 msgstr ""
+"Det er for øyeblikket ingen tilgjengelige innstillinger. Sørg for å kjøre "
+"'otobo.Console.pl Maint::Config::Rebuild' før du bruker programvaren."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Changes Deployment"
-msgstr ""
+msgstr "Endrer distribusjon"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Help"
-msgstr ""
+msgstr "Hjelp"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
@@ -7570,12 +7620,17 @@ msgid ""
 "you start it now. You can compare each setting to its former state by "
 "clicking the icon on the top right."
 msgstr ""
+"Dette er en oversikt over alle innstillinger som vil være en del av "
+"distribusjonen hvis du starter den nå. Du kan sammenligne hver innstilling "
+"med dens tidligere tilstand ved å klikke på ikonet øverst til høyre."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
 "To exclude certain settings from a deployment, click the checkbox on the "
 "header bar of a setting."
 msgstr ""
+"For å ekskludere visse innstillinger fra en distribusjon, klikk på "
+"avmerkingsboksen på overskriftslinjen til en innstilling."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
@@ -7583,87 +7638,104 @@ msgid ""
 "you'd like to deploy settings changed by other users, too, please click the "
 "link on top of the screen to enter the advanced deployment mode."
 msgstr ""
+"Som standard vil du bare distribuere innstillinger som du endret på egen "
+"hånd. Hvis du ønsker å distribuere innstillinger endret av andre brukere "
+"også, vennligst klikk på koblingen øverst på skjermen for å gå inn i "
+"avansert distribusjonsmodus."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
 "A deployment has just been restored, which means that all affected setting "
 "have been reverted to the state from the selected deployment."
 msgstr ""
+"En distribusjon har nettopp blitt gjenopprettet, noe som betyr at alle "
+"berørte innstillinger har blitt tilbakestilt til tilstanden fra den valgte "
+"distribusjonen."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Please review the changed settings and deploy afterwards."
-msgstr ""
+msgstr "Se gjennom de endrede innstillingene og distribuer etterpå."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
 "An empty list of changes means that there are no differences between the "
 "restored and the current state of the affected settings."
 msgstr ""
+"En tom liste over endringer betyr at det ikke er noen forskjeller mellom den "
+"gjenopprettede og gjeldende tilstanden til de berørte innstillingene."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Changes Overview"
-msgstr ""
+msgstr "Oversikt over endringer"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "There are %s changed settings which will be deployed in this run."
 msgstr ""
+"Det er %s endrede innstillinger som vil bli distribuert i denne kjøringen."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Switch to basic mode to deploy settings only changed by you."
 msgstr ""
+"Bytt til grunnleggende modus for å distribuere innstillinger bare endret av "
+"deg."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "You have %s changed settings which will be deployed in this run."
 msgstr ""
+"Du har %s endret innstillinger som vil bli distribuert i denne kjøringen."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Switch to advanced mode to deploy settings changed by other users, too."
 msgstr ""
+"Bytt til avansert modus for å distribuere innstillinger endret av andre "
+"brukere også."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "There are no settings to be deployed."
-msgstr ""
+msgstr "Det er ingen innstillinger som skal distribueres."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
 "Switch to advanced mode to see deployable settings changed by other users."
 msgstr ""
+"Bytt til avansert modus for å se distribuerbare innstillinger endret av "
+"andre brukere."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Deploy selected changes"
-msgstr ""
+msgstr "Implementer valgte endringer"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Deployment History"
-msgstr ""
+msgstr "Implementeringshistorikk"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Filter for Deployments"
-msgstr ""
+msgstr "Filter for distribusjoner"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Recent Deployments"
-msgstr ""
+msgstr "Nylige distribusjoner"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Restore"
-msgstr ""
+msgstr "Gjenopprett"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "View Details"
-msgstr ""
+msgstr "Vis detaljer"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Restore this deployment."
-msgstr ""
+msgstr "Gjenopprett denne distribusjonen."
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Export this deployment."
-msgstr ""
+msgstr "Eksporter denne distribusjonen."
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "Deployment Details"
-msgstr ""
+msgstr "Distribusjonsdetaljer"
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "by"
@@ -7671,75 +7743,80 @@ msgstr "av"
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "No settings have been deployed in this run."
-msgstr ""
+msgstr "Ingen innstillinger har blitt distribuert i denne kjøringen."
 
 #. Template: AdminSystemConfigurationGroup
 msgid ""
 "This group doesn't contain any settings. Please try navigating to one of its "
 "sub groups."
 msgstr ""
+"Denne gruppen inneholder ingen innstillinger. Prøv å navigere til en av "
+"undergruppene."
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Import & Export"
-msgstr ""
+msgstr "Import & eksport"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid ""
 "Upload a file to be imported to your system (.yml format as exported from "
 "the System Configuration module)."
 msgstr ""
+"Last opp en fil som skal importeres til systemet ditt (.yml-format som "
+"eksportert fra systemkonfigurasjonsmodulen)."
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Upload system configuration"
-msgstr ""
+msgstr "Last opp systemkonfigurasjon"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Import system configuration"
-msgstr ""
+msgstr "Importer systemkonfigurasjon"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Download current configuration settings of your system in a .yml file."
 msgstr ""
+"Last ned gjeldende konfigurasjonsinnstillinger for systemet i en .yml-fil."
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Include user settings"
-msgstr ""
+msgstr "Inkluder brukerinnstillinger"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Export current configuration"
-msgstr ""
+msgstr "Eksporter gjeldende konfigurasjon"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Search for"
-msgstr ""
+msgstr "Søk etter"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Search for category"
-msgstr ""
+msgstr "Søk etter kategori"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Settings I'm currently editing"
-msgstr ""
+msgstr "Innstillinger jeg er i ferd med å redigere"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Your search for \"%s\" in category \"%s\" did not return any results."
-msgstr ""
+msgstr "Ditt søk etter \"%s\" i kategorien \"%s\" ga ingen resultater."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Your search for \"%s\" in category \"%s\" returned one result."
-msgstr ""
+msgstr "Ditt søk etter \"%s\" i kategorien \"%s\" ga ett resultat."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Your search for \"%s\" in category \"%s\" returned %s results."
-msgstr ""
+msgstr "Ditt søk etter \"%s\" i kategorien \"%s\" ga %s resultater."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "You're currently not editing any settings."
-msgstr ""
+msgstr "Du redigerer for øyeblikket ingen innstillinger."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "You're currently editing %s setting(s)."
-msgstr ""
+msgstr "Du redigerer for øyeblikket %s innstilling(er)."
 
 #. Template: AdminSystemConfigurationSearchDialog
 msgid "Category"
@@ -7751,75 +7828,79 @@ msgstr "Start søk"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History"
-msgstr ""
+msgstr "Endre historikk"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History of %s"
-msgstr ""
+msgstr "Endringslogg for %s"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "No modified values for this setting, the default value is used."
-msgstr ""
+msgstr "Ingen endrede verdier for denne innstillingen, standardverdien brukes."
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Review users setting value"
-msgstr ""
+msgstr "Gjennomgå brukerinnstillingsverdien"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Users Value"
-msgstr ""
+msgstr "Brukerverdi"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "For"
-msgstr ""
+msgstr "Til"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Delete all user values."
-msgstr ""
+msgstr "Slett alle brukerverdier."
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "No user value for this setting."
-msgstr ""
+msgstr "Ingen brukerverdi for denne innstillingen."
 
 #. Template: AdminSystemConfigurationView
 msgid "View a custom List of Settings"
-msgstr ""
+msgstr "Vis en egendefinert liste over innstillinger"
 
 #. Template: AdminSystemConfigurationView
 msgid "View single Setting: %s"
-msgstr ""
+msgstr "Vis enkelt Innstilling: %s"
 
 #. Template: AdminSystemConfigurationView
 msgid "Go back to Deployment Details"
-msgstr ""
+msgstr "Gå tilbake til distribusjonsdetaljer"
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
-msgstr ""
+msgstr "Systemvedlikeholdsstyring"
 
 #. Template: AdminSystemMaintenance
 msgid "Schedule New System Maintenance"
-msgstr ""
+msgstr "Planlegg nytt systemvedlikehold"
 
 #. Template: AdminSystemMaintenance
 msgid "Filter for System Maintenances"
-msgstr ""
+msgstr "Filter for systemvedlikehold"
 
 #. Template: AdminSystemMaintenance
 msgid "Filter for system maintenances"
-msgstr ""
+msgstr "Filter for systemvedlikehold"
 
 #. Template: AdminSystemMaintenance
 msgid ""
 "Schedule a system maintenance period for announcing the Agents and Customers "
 "the system is down for a time period."
 msgstr ""
+"Planlegg en systemvedlikeholdsperiode for å kunngjøre agentene og kundene at "
+"systemet er nede i en tidsperiode."
 
 #. Template: AdminSystemMaintenance
 msgid ""
 "Some time before this system maintenance starts the users will receive a "
 "notification on each screen announcing about this fact."
 msgstr ""
+"En tid før dette systemvedlikeholdet starter vil brukerne motta et varsel på "
+"hver skjerm som kunngjør om dette."
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"
@@ -7827,15 +7908,15 @@ msgstr "Sluttdato"
 
 #. Template: AdminSystemMaintenance
 msgid "Delete System Maintenance"
-msgstr ""
+msgstr "Slett systemvedlikehold"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance"
-msgstr ""
+msgstr "Rediger systemvedlikehold"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance Information"
-msgstr ""
+msgstr "Rediger systemvedlikeholdsinformasjon"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
@@ -7847,7 +7928,7 @@ msgstr "Innloggingsmelding"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "This field must have less then 250 characters."
-msgstr ""
+msgstr "Dette feltet må ha mindre enn 250 tegn."
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
@@ -7875,11 +7956,11 @@ msgstr "Kunde-sesjoner"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
-msgstr ""
+msgstr "Avslutt alle økter, bortsett fra dine egne"
 
 #. Template: AdminTemplate
 msgid "Template Management"
-msgstr ""
+msgstr "Malbehandling"
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -7894,10 +7975,12 @@ msgid ""
 "A template is a default text which helps your agents to write faster "
 "tickets, answers or forwards."
 msgstr ""
+"En mal er en standardtekst som hjelper agentene dine til å skrive raskere "
+"saker, svar eller videresendinger."
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
-msgstr ""
+msgstr "Ikke glem å legge til nye maler i køene."
 
 #. Template: AdminTemplate
 msgid "Attachments"
@@ -7913,7 +7996,7 @@ msgstr "Virkelig slette denne malen?"
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
-msgstr ""
+msgstr "En standard mal med dette navnet finnes allerede!"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7921,6 +8004,9 @@ msgid ""
 "article (current for Answer and Forward, latest for Note template type). "
 "This tag is not supported for other template types."
 msgstr ""
+"For å få de første 20 tegnene i emnet for gjeldende/nyeste agentartikkel ("
+"gjeldende for Svar og Videresend, siste for Notat-maltype). Denne taggen "
+"støttes ikke for andre maltyper."
 
 #. Template: AdminTemplate
 msgid ""
@@ -7928,6 +8014,9 @@ msgid ""
 "(current for Answer and Forward, latest for Note template type). This tag is "
 "not supported for other template types."
 msgstr ""
+"For å få de første 5 linjene i brødteksten til gjeldende/nyeste "
+"agentartikkel (gjeldende for svar og videresend, siste for notatmaltype). "
+"Denne taggen støttes ikke for andre maltyper."
 
 #. Template: AdminTemplate
 msgid ""
@@ -7935,6 +8024,9 @@ msgid ""
 "(current for Answer and Forward, latest for Note template type). This tag is "
 "not supported for other template types."
 msgstr ""
+"For å få de første 20 tegnene i emnet for gjeldende/nyeste artikkel ("
+"gjeldende for Svar og Videresend, siste for Notat-maltype). Denne taggen "
+"støttes ikke for andre maltyper."
 
 #. Template: AdminTemplate
 msgid ""
@@ -7942,10 +8034,13 @@ msgid ""
 "for Answer and Forward, latest for Note template type). This tag is not "
 "supported for other template types."
 msgstr ""
+"For å få de første 5 linjene i brødteksten til gjeldende/nyeste artikkel ("
+"gjeldende for svar og videresend, siste for notatmaltype). Denne taggen "
+"støttes ikke for andre maltyper."
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
-msgstr ""
+msgstr "Opprett type maler støtter bare denne smarttaggene"
 
 #. Template: AdminTemplate
 msgid "Example template"
@@ -7961,7 +8056,7 @@ msgstr "Din e-postadresse er"
 
 #. Template: AdminTemplateAttachment
 msgid "Manage Template-Attachment Relations"
-msgstr ""
+msgstr "Administrer relasjoner mellom mal og vedlegg"
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
@@ -7985,25 +8080,27 @@ msgstr "Endre sakstype"
 
 #. Template: AdminType
 msgid "Filter for Types"
-msgstr ""
+msgstr "Filter for typer"
 
 #. Template: AdminType
 msgid "Filter for types"
-msgstr ""
+msgstr "Filter for typer"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
-msgstr ""
+msgstr "En type med dette navnet finnes allerede!"
 
 #. Template: AdminType
 msgid ""
 "This type is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new type is needed!"
 msgstr ""
+"Denne typen er tilstede i en SysConfig-innstilling, bekreftelse for å "
+"oppdatere innstillingene for å peke til den nye typen er nødvendig!"
 
 #. Template: AdminType
 msgid "This type is used in the following config settings:"
-msgstr ""
+msgstr "Denne typen brukes i følgende konfigurasjonsinnstillinger:"
 
 #. Template: AdminUser
 msgid "Agent Management"
@@ -8015,7 +8112,7 @@ msgstr "Endre Saksbehandler"
 
 #. Template: AdminUser
 msgid "Edit personal preferences for this agent"
-msgstr ""
+msgstr "Rediger personlige preferanser for denne agenten"
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
@@ -8039,7 +8136,7 @@ msgstr "Bytt til saksbehandler"
 
 #. Template: AdminUser
 msgid "Title or salutation"
-msgstr ""
+msgstr "Tittel eller hilsen"
 
 #. Template: AdminUser
 msgid "Firstname"
@@ -8051,11 +8148,11 @@ msgstr "Etternavn"
 
 #. Template: AdminUser
 msgid "A user with this username already exists!"
-msgstr ""
+msgstr "En bruker med dette brukernavnet eksisterer allerede!"
 
 #. Template: AdminUser
 msgid "Will be auto-generated if left empty."
-msgstr ""
+msgstr "Blir automatisk generert hvis den står tom."
 
 #. Template: AdminUser
 msgid "Mobile"
