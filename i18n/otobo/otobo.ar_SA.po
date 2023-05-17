@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-11 13:38+0000\n"
+"PO-Revision-Date: 2023-05-18 10:23+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -25436,12 +25436,16 @@ msgid ""
 "German stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"كلمات التوقف الألمانية لفهرس النص الكامل. ستتم إزالة هذه الكلمات من فهرس "
+"البحث."
 
 #. SysConfig
 msgid ""
 "Gives customer users group based access to tickets from customer users of "
 "the same customer (ticket CustomerID is a CustomerID of the customer user)."
 msgstr ""
+"يمنح العملاء حق الوصول إلى التذاكر من زبائن العميل نفسه على أساس المجموعة ("
+"رقم العميل للتذكرة هو رقم العميل الخاص بمستخدم العميل)."
 
 #. SysConfig
 msgid ""
@@ -25452,42 +25456,47 @@ msgid ""
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which "
 "area these settings should be shown in the user interface."
 msgstr ""
+"يمنح المستخدم النهائي القدرة على تحديد الحرف الفاصل لملفات CSV في ملف "
+"الترجمة. يرجى ملاحظة: إذا تم تعيين \"Active\" على 0، فهذا يمنع الوكلاء فقط "
+"من تغيير إعداد هذه المجموعة في إعداداتهم الشخصية. لا يزال بإمكان المسؤول "
+"تغيير هذه الإعدادات باسم المستخدمين. استخدم \"PreferenceGroup\" للتحكم في "
+"المنطقة التي يتم فيها عرض هذه الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid "Global Search Module."
-msgstr ""
+msgstr "وحدة البحث العالمية (Global)."
 
 #. SysConfig
 msgid "Go to dashboard!"
-msgstr ""
+msgstr "انتقل إلى النظرة العامة!"
 
 #. SysConfig
 msgid "Good PGP signature."
-msgstr ""
+msgstr "توقيع PGP صالح."
 
 #. SysConfig
 msgid "Google Authenticator"
-msgstr ""
+msgstr "Google Authenticator"
 
 #. SysConfig
 msgid "Graph: Bar Chart"
-msgstr ""
+msgstr "الرسم البياني: مخطط شريطي"
 
 #. SysConfig
 msgid "Graph: Line Chart"
-msgstr ""
+msgstr "الرسم البياني: مخطط خطي"
 
 #. SysConfig
 msgid "Graph: Stacked Area Chart"
-msgstr ""
+msgstr "الرسم البياني: المستويات المكدسة"
 
 #. SysConfig
 msgid "Greek"
-msgstr ""
+msgstr "اليونانية"
 
 #. SysConfig
 msgid "Hebrew"
-msgstr ""
+msgstr "العبرية"
 
 #. SysConfig
 msgid ""
@@ -25497,82 +25506,106 @@ msgid ""
 "initial index use \"bin/otobo.Console.pl Maint::Ticket::FulltextIndex --"
 "rebuild\"."
 msgstr ""
+"يساعد على توسيع فهرس البحث عن نص كامل لمقالتك (من، إلى، نسخة، الموضوع والبحث "
+"عن النص). يقوم بإنشاء فهرس بعد إنشاء المقالة، مما يزيد من سرعة البحث عن النص "
+"الكامل بحوالي 50٪. استخدم \"bin/otobo.Console.pl Maint::Ticket::"
+"FulltextIndex --rebuild\" لإنشاء فهرس أولي."
 
 #. SysConfig
 msgid "High Contrast"
-msgstr ""
+msgstr "تباين عالي"
 
 #. SysConfig
 msgid "High contrast skin for visually impaired users."
-msgstr ""
+msgstr "سطح (skin) عالي التباين للمستخدمين الذين يعانون من ضعف البصر."
 
 #. SysConfig
 msgid "Hindi"
-msgstr ""
+msgstr "الهندية"
 
 #. SysConfig
 msgid "Hungarian"
-msgstr ""
+msgstr "الهنغارية (المجرية)"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a database driver (normally "
 "autodetection is used) can be specified."
 msgstr ""
+"في حالة تحديد\"DB\" ك Customer::AuthModule، يمكن تعريف برنامج تشغيل قاعدة "
+"البيانات هنا. وإلا فسيتم تحديد برنامج التشغيل المطلوب تلقائيا."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a password to connect to "
 "the customer table can be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيمكن تخزين كلمة مرور هنا "
+"للاتصال بقاعدة البيانات."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a username to connect to "
 "the customer table can be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيمكن تخزين اسم مستخدم هنا "
+"للاتصال بقاعدة البيانات."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the DSN for the connection "
 "to the customer table must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيجب تخزين DSN هنا للاتصال "
+"بقاعدة البيانات."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the column name for the "
 "CustomerPassword in the customer table must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيجب تخزين اسم العمود الذي يحتوي "
+"على كلمة مرور العميل هنا."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
 "passwords must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيجب تخزين نوع تشفير كلمات "
+"المرور هنا."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the column for "
 "the CustomerKey in the customer table must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيجب تخزين اسم العمود الذي يحتوي "
+"على CustomerKey هنا."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the table where "
 "your customer data should be stored must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيجب تخزين اسم الجدول الذي سيتم "
+"تخزين بيانات العميل فيه هنا."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for SessionModule, a table in database where session "
 "data will be stored must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك SessionModule، فيجب تخزين اسم الجدول الذي سيتم تخزين "
+"بيانات الجلسة فيه هنا."
 
 #. SysConfig
 msgid ""
 "If \"FS\" was selected for SessionModule, a directory where the session data "
 "will be stored must be specified."
 msgstr ""
+"إذا تم تحديد \"FS\" ك SessionModule، فيجب تخزين اسم الدليل الذي سيتم تخزين "
+"بيانات الجلسة فيه هنا."
 
 #. SysConfig
 msgid ""
@@ -25580,6 +25613,10 @@ msgid ""
 "(by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove "
 "trailing domains). RegExp-Note, $1 will be the new Login."
 msgstr ""
+"إذا تم تحديد \"HTTPBasicAuth\" ك Customer::AuthModule، فيمكن تعريف تعبير "
+"عادي (باستخدام RegExp) هنا لإزالة أجزاء من REMOTE_USER (على سبيل المثال "
+"للمجالات المرفقة \"domains\"). ملاحظة: يحتوي 1 دولار على اسم تسجيل الدخول "
+"الجديد."
 
 #. SysConfig
 msgid ""
