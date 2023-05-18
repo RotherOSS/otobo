@@ -484,15 +484,16 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'JSON::XS',
-        Required  => 1,
-        Comment   => 'JSON parsing and generation',
-        InstTypes => {
-            aptget => 'libjson-xs-perl',
-            emerge => 'dev-perl/JSON-XS',
-            yum    => 'perl-JSON-XS',
-            zypper => 'perl-JSON-XS',
-            ports  => 'converters/p5-JSON-XS',
+        Module          => 'Cpanel::JSON::XS',
+        Required        => 1,
+        VersionRequired => '>= 4.0',
+        Comment         => 'correct and fast JSON support',
+        InstTypes       => {
+            aptget => 'libcpanel-jsperl',
+            emerge => 'dev-perl/Cpanel-JSON-XS',
+            yum    => 'perl-Cpanel-JSON-XS',
+            zypper => 'perl-Cpanel-JSON-XS',
+            ports  => 'converters/p5-Cpanel-JSON-XS',
         },
     },
     {
@@ -752,18 +753,6 @@ my @NeededModules = (
         Features        => ['storage:s3'],
         Comment         => 'support for the REST requests to the S3 storage',
         InstTypes       => {
-            aptget => undef,
-            emerge => undef,
-            yum    => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Cpanel::JSON::XS',
-        Features  => ['storage:s3'],
-        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
-        InstTypes => {
             aptget => undef,
             emerge => undef,
             yum    => undef,

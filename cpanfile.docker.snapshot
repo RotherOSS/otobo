@@ -298,12 +298,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
-  Canary-Stability-2013
-    pathname: M/ML/MLEHMANN/Canary-Stability-2013.tar.gz
-    provides:
-      Canary::Stability 2013
-    requirements:
-      ExtUtils::MakeMaker 0
   Capture-Tiny-0.48
     pathname: D/DA/DAGOLDEN/Capture-Tiny-0.48.tar.gz
     provides:
@@ -1990,15 +1984,6 @@ DISTRIBUTIONS
       JSON::PP 2.27300
       Scalar::Util 0
       perl 5.006
-  JSON-XS-4.03
-    pathname: M/ML/MLEHMANN/JSON-XS-4.03.tar.gz
-    provides:
-      JSON::XS 4.03
-    requirements:
-      Canary::Stability 0
-      ExtUtils::MakeMaker 6.52
-      Types::Serialiser 0
-      common::sense 0
   JavaScript-Minifier-XS-0.15
     pathname: G/GT/GTERMARS/JavaScript-Minifier-XS-0.15.tar.gz
     provides:
@@ -4716,6 +4701,7 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0

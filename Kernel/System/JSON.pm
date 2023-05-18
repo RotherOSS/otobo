@@ -25,7 +25,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use JSON::XS          ();
+use Cpanel::JSON::XS 4.0 ();
 use Types::Serialiser ();
 use Try::Tiny;
 
@@ -37,7 +37,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::JSON - JSON lib that wraps JSON::XS
+Kernel::System::JSON - JSON lib that wraps Cpanel::JSON::XS
 
 =head1 DESCRIPTION
 
@@ -71,9 +71,9 @@ An undefined value is fine too.
 The result will be Perl string that may have code points greater 255.
 
     my $JSONString = $JSONObject->Encode(
-        Data          => $Data,
-        SortKeys      => 1, # (optional) (0|1) default 0, to sort the keys of the JSON data
-        Pretty        => 1, # (optional) (0|1) default 0, to pretty print
+        Data     => $Data,
+        SortKeys => 1, # (optional) (0|1) default 0, to sort the keys of the JSON data
+        Pretty   => 1, # (optional) (0|1) default 0, to pretty print
     );
 
 =cut
@@ -92,7 +92,7 @@ sub Encode {
     }
 
     # create a JSON::XS compatible object
-    my $JSONObject = JSON::XS->new;
+    my $JSONObject = Cpanel::JSON::XS->new;
 
     # Accept non-reference data, data that is neither a hash- nor an array reference.
     # This is actually the default since JSON::XS 4.0 which was released in 2018.
@@ -181,7 +181,7 @@ sub Decode {
     return unless defined $Param{Data};
 
     # create a JSON::XS compatible object that does the actual parsing
-    my $JSONObject = JSON::XS->new;
+    my $JSONObject = Cpanel::JSON::XS->new;
 
     # Accept non-reference data, data that is neither a hash- nor an array reference.
     # This is actually the default since JSON::XS 4.0 which was released in 2018.
@@ -192,9 +192,8 @@ sub Decode {
     # with the plain integer values 0 and 1.
     # This behavior is reproduced with explicitly declaring
     # what should be emitted for JSON booleans 'true' and 'false'.
-    # Note that when using Cpanel::JSON::XS, the attribute unblessed_bool can be used
-    # for the same purpose.
-    $JSONObject->boolean_values( 0, 1 );
+    # Note that this attribute corresponds to the attribute boolean_value in JSON::XS.
+    $JSONObject->unblessed_bool(1);
 
     # Deserialize JSON and get a Perl data structure.
     # Use Try::Tiny as JSON::XS->decode() dies when providing a malformed JSON string.
