@@ -18,16 +18,19 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get needed objects
 my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
 # Tests for JSON encode method
-my @Tests = (
+my @EncodeTests = (
     {
         Input  => undef,
         Result => undef,
@@ -143,27 +146,19 @@ my @Tests = (
     },
 );
 
-for my $Test (@Tests) {
-
-    my %Params;
-    if ( $Test->{Params} ) {
-        %Params = %{ $Test->{Params} };
-    }
+for my $Test (@EncodeTests) {
 
     my $JSON = $JSONObject->Encode(
         Data     => $Test->{Input},
         SortKeys => 1,
-        %Params,
+        %{ $Test->{Params} // {} },
     );
 
-    $Self->Is(
-        $JSON,
-        $Test->{Result},
-        $Test->{Name},
-    );
+    is( $JSON, $Test->{Result}, $Test->{Name} );
 }
 
-@Tests = (
+# Tests for JSON decode method
+my @DecodeTests = (
     {
         Result      => undef,
         InputDecode => undef,
@@ -269,17 +264,13 @@ for my $Test (@Tests) {
     },
 );
 
-for my $Test (@Tests) {
+for my $Test (@DecodeTests) {
 
     my $JSON = $JSONObject->Decode(
         Data => $Test->{InputDecode},
     );
 
-    $Self->IsDeeply(
-        scalar $JSON,
-        scalar $Test->{Result},
-        $Test->{Name},
-    );
+    is( $JSON, $Test->{Result}, $Test->{Name} );
 }
 
-$Self->DoneTesting();
+done_testing;
