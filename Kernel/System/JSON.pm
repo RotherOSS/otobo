@@ -16,10 +16,18 @@
 
 package Kernel::System::JSON;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
-use JSON;
+# core modules
+
+# CPAN modules
+use Cpanel::JSON::XS;
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -47,10 +55,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 Encode()
@@ -75,13 +80,12 @@ sub Encode {
             Priority => 'error',
             Message  => 'Need Data!',
         );
+
         return;
     }
 
-    # create a JSON object
-    # The backend JSON::XS the default backend when it is available.
-    # As a fallback the backend JSON::PP is used.
-    my $JSONObject = JSON->new();
+    # create a JSON::XS compatible object
+    my $JSONObject = Cpanel::JSON::XS->new;
 
     # grudgingly accept data that is neither a hash- nor an array reference
     $JSONObject->allow_nonref(1);
@@ -152,9 +156,10 @@ sub Decode {
     # check for needed data
     return unless defined $Param{Data};
 
-    # create json object
-    my $JSONObject = JSON->new();
+    # create a JSON::XS compatible object
+    my $JSONObject = Cpanel::JSON::XS->new;
 
+    # grudgingly accept data that is neither a hash- nor an array reference
     $JSONObject->allow_nonref(1);
 
     # decode JSON encoded to perl structure
@@ -170,11 +175,6 @@ sub Decode {
 
         return;
     }
-
-    # sanitize leftover boolean objects
-    $Scalar = $Self->_BooleansProcess(
-        JSON => $Scalar,
-    );
 
     return $Scalar;
 }
@@ -197,10 +197,7 @@ as a JavaScript string instead.
 =cut
 
 sub True {
-
-    # Use constant instead of JSON::false() as this can cause nasty problems with JSON::XS on some platforms.
-    # (encountered object '1', but neither allow_blessed, convert_blessed nor allow_tags settings are enabled)
-    return \1;
+    return Cpanel::JSON::XS::true;
 }
 
 =head2 False()
@@ -210,59 +207,7 @@ like C<True()>, but for a false boolean value.
 =cut
 
 sub False {
-
-    # Use constant instead of JSON::false() as this can cause nasty problems with JSON::XS on some platforms.
-    # (encountered object '0', but neither allow_blessed, convert_blessed nor allow_tags settings are enabled)
-    return \0;
+    return Cpanel::JSON::XS::false;
 }
-
-=begin Internal:
-
-=cut
-
-=head2 _BooleansProcess()
-
-decode boolean values leftover from JSON decoder to simple scalar values
-
-    my $ProcessedJSON = $JSONObject->_BooleansProcess(
-        JSON => $JSONData,
-    );
-
-=cut
-
-sub _BooleansProcess {
-    my ( $Self, %Param ) = @_;
-
-    # convert scalars if needed
-    if ( JSON::is_bool( $Param{JSON} ) ) {
-        $Param{JSON} = ( $Param{JSON} ? 1 : 0 );
-    }
-
-    # recurse into arrays
-    elsif ( ref $Param{JSON} eq 'ARRAY' ) {
-
-        for my $Value ( @{ $Param{JSON} } ) {
-            $Value = $Self->_BooleansProcess(
-                JSON => $Value,
-            );
-        }
-    }
-
-    # recurse into hashes
-    elsif ( ref $Param{JSON} eq 'HASH' ) {
-
-        for my $Value ( values %{ $Param{JSON} } ) {
-            $Value = $Self->_BooleansProcess(
-                JSON => $Value,
-            );
-        }
-    }
-
-    return $Param{JSON};
-}
-
-=end Internal:
-
-=cut
 
 1;
