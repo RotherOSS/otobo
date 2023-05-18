@@ -207,7 +207,7 @@ my %FeatureDescription = (
     'div'             => 'Various features for additional functionality',
     'gazelle'         => 'Required packages if you want to use Gazelle webserver',
     'mail'            => 'Features enabling communication with a mail-server',
-    'performance'     => 'Optional features which can increase performance',
+    'performance'     => 'required and optional features which can increase performance',
     'storage:s3'      => 'AWS S3 compatible storage',
     'zzznone'         => 'Uncategorized',
 );
@@ -619,18 +619,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Cpanel::JSON::XS',
-        Features  => ['storage:s3'],
-        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
-        InstTypes => {
-            aptget => undef,
-            emerge => undef,
-            yum    => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
         Module    => 'Mojolicious::Plugin::AWS',
         Features  => ['storage:s3'],
         Comment   => 'support for S3 using Mojo::UserAgent',
@@ -778,14 +766,15 @@ my @NeededModules = (
 
     # Feature performance
     {
-        Module    => 'JSON::XS',
+        Module    => 'Cpanel::JSON::XS',
         Features  => ['performance:json'],
-        Comment   => 'Recommended for faster AJAX/JavaScript handling.',
+        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
         InstTypes => {
-            aptget => 'libjson-xs-perl',
-            emerge => 'dev-perl/JSON-XS',
-            zypper => 'perl-JSON-XS',
-            ports  => 'converters/p5-JSON-XS',
+            aptget => 'libcpanel-json-xs-perl',
+            emerge => 'dev-perl/Cpanel-JSON-XS',
+            yum    => 'perl-Cpanel-JSON-XS',
+            zypper => 'perl-Cpanel-JSON-XS',
+            ports  => 'converters/p5-Cpanel-JSON-XS',
         },
     },
     {

@@ -247,9 +247,6 @@ feature 'optional', 'Support for feature optional' => sub {
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', ">= 9.22";
 
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
-
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';
 
@@ -286,8 +283,8 @@ feature 'optional', 'Support for feature optional' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
 
-    # Recommended for faster AJAX/JavaScript handling.
-    requires 'JSON::XS';
+    # correct and fast JSON support, used by Mojo::JSON
+    requires 'Cpanel::JSON::XS';
 
     # Recommended for faster CSV handling.
     requires 'Text::CSV_XS';
@@ -362,8 +359,8 @@ feature 'performance:csv', 'Support for feature performance:csv' => sub {
 };
 
 feature 'performance:json', 'Support for feature performance:json' => sub {
-    # Recommended for faster AJAX/JavaScript handling.
-    requires 'JSON::XS';
+    # correct and fast JSON support, used by Mojo::JSON
+    requires 'Cpanel::JSON::XS';
 
 };
 
@@ -379,9 +376,6 @@ feature 'performance:redis', 'Support for feature performance:redis' => sub {
 feature 'storage:s3', 'AWS S3 compatible storage' => sub {
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', ">= 9.22";
-
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
 
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';
