@@ -38,8 +38,8 @@ requires 'HTTP::Message', '>= 6.18';
 # A JavaScript minifier written in XS
 requires 'JavaScript::Minifier::XS';
 
-# JSON parsing and generation
-requires 'JSON::XS';
+# correct and fast JSON support
+requires 'Cpanel::JSON::XS', '>= 4.0';
 
 requires 'List::Util', '>= 1.45';
 
@@ -330,9 +330,6 @@ feature 'optional', 'Support for feature optional' => sub {
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', '>= 9.22';
 
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
-
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';
 
@@ -494,9 +491,6 @@ feature 'performance:redis', 'Modules for running with Redis Cache Server' => su
 feature 'storage:s3', 'AWS S3 compatible storage' => sub {
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', '>= 9.22';
-
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
 
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';
