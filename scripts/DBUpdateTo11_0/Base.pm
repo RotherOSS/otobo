@@ -19,13 +19,18 @@ package scripts::DBUpdateTo11_0::Base;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-_0::Base - Base class for migrations.
+scripts::DBUpdateTo10_1::Base - base class for migrations.
 
 =head1 PUBLIC INTERFACE
 

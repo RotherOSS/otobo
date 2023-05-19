@@ -41,7 +41,7 @@ sub new {
     return bless {%Param}, $Type;
 }
 
-sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
+sub Run {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');

@@ -768,10 +768,8 @@ sub _FormatTime {
 
     # Include additional optional repeatable properties used by some iCalendar implementations, in
     #   order to prevent Perl warnings.
-    sub Data::ICal::Entry::Alarm::optional_repeatable_properties {    ## no critic qw(Subroutines::RequireFinalReturn OTOBO::RequireCamelCase)
-        qw(
-            uid acknowledged related-to description
-        );
+    sub Data::ICal::Entry::Alarm::optional_repeatable_properties {    ## no critic qw(OTOBO::RequireCamelCase)
+        return qw(uid acknowledged related-to description);
     }
 
     sub Data::ICal::Entry::Event::optional_repeatable_properties {    ## no critic qw(OTOBO::RequireCamelCase)
