@@ -119,15 +119,16 @@ sub Run {
     $DynamicField = \@CustomerDynamicFields;
 
     # Fetch mask definition and build layout
-    my $MaskObject = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
+    my $MaskObject           = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
     my $InputFieldDefinition = $MaskObject->DefinitionGet(
         Mask => 'CustomerTicketMessage',
     );
 
     my %DefinedFieldsList;
+
     # If no definition is present, put all fields into a list (displaying one field per row)
-    if ( !IsArrayRefWithData( $InputFieldDefinition ) ) {
-        $InputFieldDefinition = [ {List => [ map { { 'Name' => $_->{Name} } } @{ $DynamicField } ] } ];
+    if ( !IsArrayRefWithData($InputFieldDefinition) ) {
+        $InputFieldDefinition = [ { List => [ map { { 'Name' => $_->{Name} } } @{$DynamicField} ] } ];
     }
     else {
         # Track used fields for appending the unused ones
@@ -140,17 +141,18 @@ sub Run {
             }
         } $InputFieldDefinition->@*;
 
-        %DefinedFieldsList = map { $_->{Name} => {
+        %DefinedFieldsList = map {
+            $_->{Name} => {
                 'ReadOnly' => $_->{ReadOnly} || 0,
             }
         } @UsedFields;
 
         # Collect missing fields to put them in a list section at the end of the existing definition
         my @NotDefinedFields = grep { !$DefinedFieldsList{ $_->{Name} } } $DynamicField->@*;
-        my @ListMissing =      map { { Name => $_->{Name} } } @NotDefinedFields;
+        my @ListMissing      = map  { { Name => $_->{Name} } } @NotDefinedFields;
 
-        if ( @ListMissing ) {
-            push @{ $InputFieldDefinition }, { List => \@ListMissing };
+        if (@ListMissing) {
+            push @{$InputFieldDefinition}, { List => \@ListMissing };
         }
     }
 
@@ -184,8 +186,8 @@ sub Run {
         if ( $Area->{Grid} ) {
             for my $Row ( $Area->{Grid}{Rows}->@* ) {
                 my @AreaDynamicFields = ();
-                my $MaxValueCount = 0;
-                my $ValueCount = 0;
+                my $MaxValueCount     = 0;
+                my $ValueCount        = 0;
                 for my $Field ( $Row->@* ) {
                     push @AreaDynamicFields, $Field->{Name};
 
@@ -200,15 +202,15 @@ sub Run {
                         $MaxValueCount = $ValueCount;
                     }
                 }
-                for my $FieldName ( @AreaDynamicFields ) {
+                for my $FieldName (@AreaDynamicFields) {
                     $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
                 }
             }
         }
         elsif ( $Area->{List} ) {
             my @AreaDynamicFields = ();
-            my $MaxValueCount = 0;
-            my $ValueCount = 0;
+            my $MaxValueCount     = 0;
+            my $ValueCount        = 0;
             for my $Field ( $Area->{List}->@* ) {
                 push @AreaDynamicFields, $Field->{Name};
 
@@ -223,7 +225,7 @@ sub Run {
                     $MaxValueCount = $ValueCount;
                 }
             }
-            for my $FieldName ( @AreaDynamicFields ) {
+            for my $FieldName (@AreaDynamicFields) {
                 $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
             }
         }
@@ -760,7 +762,7 @@ sub Run {
                     ParamObject          => $ParamObject,
                     Mandatory            =>
                         $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                    ValueCount           => $DynamicFieldValueCount{ $DynamicFieldConfig->{Name} },
+                    ValueCount => $DynamicFieldValueCount{ $DynamicFieldConfig->{Name} },
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
@@ -1428,7 +1430,7 @@ sub Run {
             my $DynamicFieldConfig = $DynamicField->[$Index];
 
             if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
-                for my $i ( 0..$#{ $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
+                for my $i ( 0 .. $#{ $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
                     my $DataValues = $DynFieldStates{Fields}{$Index}{NotACLReducible}
                         ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i]
                         :
@@ -1478,8 +1480,6 @@ sub Run {
             };
         }
 
-        # define dynamic field visibility
-        my %FieldVisibility;
         if ( IsHashRefWithData( $DynFieldStates{Visibility} ) ) {
             push @DynamicFieldAJAX, {
                 Name => 'Restrictions_Visibility',

@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-_0::DBAddFrontendMaskDefinition - Adds new table frontend_mask_definition.
+scripts::DBUpdateTo11_0::DBAddFrontendMaskDefinition - Adds new table frontend_mask_definition.
 
 =cut
 

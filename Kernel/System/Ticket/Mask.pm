@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -19,12 +19,18 @@ package Kernel::System::Ticket::Mask;
 use strict;
 use warnings;
 
-use List::Util qw(first);
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::YAML',
 );
 
 =head1 NAME
@@ -55,7 +61,6 @@ sub new {
     return $Self;
 }
 
-
 =head2 DefinitionSet()
 
 Set the definition for a ticket mask
@@ -72,8 +77,8 @@ Set the definition for a ticket mask
 sub DefinitionSet {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed ( qw/UserID Mask/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/UserID Mask/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
@@ -83,6 +88,7 @@ sub DefinitionSet {
     }
 
     if ( $Param{DefinitionString} ) {
+
         # Validate YAML code by converting it to Perl.
         my $DefinitionRef = $Kernel::OM->Get('Kernel::System::YAML')->Load(
             Data => $Param{DefinitionString},
@@ -144,8 +150,8 @@ Get the definition for a ticket mask
 sub DefinitionGet {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed ( qw/Mask/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/Mask/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
@@ -164,7 +170,7 @@ sub DefinitionGet {
         Limit => 1,
     );
 
-    my ( $DefinitionString ) = $DBObject->FetchrowArray();
+    my ($DefinitionString) = $DBObject->FetchrowArray();
 
     return if !$DefinitionString;
 
@@ -188,8 +194,8 @@ Delete the definition for a ticket mask
 sub DefinitionDelete {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed ( qw/Mask/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/Mask/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
@@ -199,8 +205,8 @@ sub DefinitionDelete {
     }
 
     return $Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL   => 'DELETE FROM frontend_mask_definition WHERE mask = ?',
-        Bind  => [ \$Param{Mask} ],
+        SQL  => 'DELETE FROM frontend_mask_definition WHERE mask = ?',
+        Bind => [ \$Param{Mask} ],
     );
 }
 
@@ -218,7 +224,7 @@ sub ConfiguredMasksList {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     $DBObject->Prepare(
-        SQL   => 'SELECT mask FROM frontend_mask_definition',
+        SQL => 'SELECT mask FROM frontend_mask_definition',
     );
 
     my @Masks;

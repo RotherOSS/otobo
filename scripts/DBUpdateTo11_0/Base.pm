@@ -30,7 +30,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-scripts::DBUpdateTo10_1::Base - base class for migrations.
+scripts::DBUpdateTo11_0::Base - base class for migrations.
 
 =head1 PUBLIC INTERFACE
 
