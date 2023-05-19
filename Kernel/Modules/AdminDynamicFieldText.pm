@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2023 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -16,19 +16,29 @@
 
 package Kernel::Modules::AdminDynamicFieldText;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
-our $ObjectManagerDisabled = 1;
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
+
+    # Some setup
+    $Self->{TemplateFile} = 'AdminDynamicFieldText';
 
     return $Self;
 }
@@ -73,6 +83,7 @@ sub Run {
             %Param,
         );
     }
+
     return $LayoutObject->ErrorScreen(
         Message => Translatable('Undefined subaction.'),
     );
@@ -95,9 +106,8 @@ sub _Add {
 
     # get the object type and field type display name
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
-    my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName}
-        || '';
-    my $FieldTypeName = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName} || '';
+    my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
+    my $FieldTypeName  = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName}      || '';
 
     return $Self->_ShowScreen(
         %Param,
@@ -202,21 +212,21 @@ sub _AddAction {
     }
 
     # set specific config
-    my $FieldConfig = {
+    my %FieldConfig = (
         DefaultValue => $GetParam{DefaultValue},
         RegExList    => \@RegExList,
         Tooltip      => $GetParam{Tooltip},
         MultiValue   => $GetParam{MultiValue},
-    };
+    );
 
     if ( $GetParam{FieldType} eq 'Text' ) {
-        $FieldConfig->{Link}        = $GetParam{Link};
-        $FieldConfig->{LinkPreview} = $GetParam{LinkPreview};
+        $FieldConfig{Link}        = $GetParam{Link};
+        $FieldConfig{LinkPreview} = $GetParam{LinkPreview};
     }
 
     if ( $GetParam{FieldType} eq 'TextArea' ) {
-        $FieldConfig->{Rows} = $GetParam{Rows};
-        $FieldConfig->{Cols} = $GetParam{Cols};
+        $FieldConfig{Rows} = $GetParam{Rows};
+        $FieldConfig{Cols} = $GetParam{Cols};
     }
 
     # create a new field
@@ -226,7 +236,7 @@ sub _AddAction {
         FieldOrder => $GetParam{FieldOrder},
         FieldType  => $GetParam{FieldType},
         ObjectType => $GetParam{ObjectType},
-        Config     => $FieldConfig,
+        Config     => \%FieldConfig,
         ValidID    => $GetParam{ValidID},
         UserID     => $Self->{UserID},
     );
@@ -260,9 +270,8 @@ sub _Change {
 
     # get the object type and field type display name
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
-    my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName}
-        || '';
-    my $FieldTypeName = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName} || '';
+    my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
+    my $FieldTypeName  = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName}      || '';
 
     my $FieldID = $ParamObject->GetParam( Param => 'ID' );
 
@@ -285,7 +294,7 @@ sub _Change {
         );
     }
 
-    my %Config = ();
+    my %Config;
 
     # extract configuration
     if ( IsHashRefWithData( $DynamicFieldData->{Config} ) ) {
@@ -295,7 +304,7 @@ sub _Change {
     return $Self->_ShowScreen(
         %Param,
         %GetParam,
-        %${DynamicFieldData},
+        $DynamicFieldData->%*,
         %Config,
         ID             => $FieldID,
         Mode           => 'Change',
@@ -487,21 +496,21 @@ sub _ChangeAction {
     }
 
     # set specific config
-    my $FieldConfig = {
+    my %FieldConfig = (
         DefaultValue => $GetParam{DefaultValue},
         RegExList    => \@RegExList,
         Tooltip      => $GetParam{Tooltip},
         MultiValue   => $GetParam{MultiValue},
-    };
+    );
 
     if ( $GetParam{FieldType} eq 'Text' ) {
-        $FieldConfig->{Link}        = $GetParam{Link};
-        $FieldConfig->{LinkPreview} = $GetParam{LinkPreview};
+        $FieldConfig{Link}        = $GetParam{Link};
+        $FieldConfig{LinkPreview} = $GetParam{LinkPreview};
     }
 
     if ( $GetParam{FieldType} eq 'TextArea' ) {
-        $FieldConfig->{Rows} = $GetParam{Rows};
-        $FieldConfig->{Cols} = $GetParam{Cols};
+        $FieldConfig{Rows} = $GetParam{Rows};
+        $FieldConfig{Cols} = $GetParam{Cols};
     }
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -512,7 +521,7 @@ sub _ChangeAction {
         FieldOrder => $GetParam{FieldOrder},
         FieldType  => $DynamicFieldData->{FieldType},
         ObjectType => $DynamicFieldData->{ObjectType},
-        Config     => $FieldConfig,
+        Config     => \%FieldConfig,
         ValidID    => $GetParam{ValidID},
         UserID     => $Self->{UserID},
     );
@@ -602,8 +611,9 @@ sub _ShowScreen {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # header
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
+    my $Output = join '',
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar;
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
@@ -737,7 +747,7 @@ sub _ShowScreen {
     }
 
     # define tooltip
-    my $Tooltip = ( defined $Param{Tooltip} ? $Param{Tooltip} : '' );
+    my $Tooltip = $Param{Tooltip} // '';
 
     # create the default value element
     $LayoutObject->Block(
@@ -872,25 +882,24 @@ sub _ShowScreen {
     }
 
     # generate output
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AdminDynamicFieldText',
-        Data         => {
-            %Param,
-            RegExCounter          => $Param{RegExCounter},
-            ValidityStrg          => $ValidityStrg,
-            DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
-            DefaultValue          => $DefaultValue,
-            MultiValueStrg        => $MultiValueStrg,
-            ReadonlyInternalField => $ReadonlyInternalField,
-            Link                  => $Link,
-            LinkPreview           => $LinkPreview,
-            Tooltip               => $Tooltip,
-        }
-    );
-
-    $Output .= $LayoutObject->Footer();
-
-    return $Output;
+    return join '',
+        $Output,
+        $LayoutObject->Output(
+            TemplateFile => $Self->{TemplateFile},
+            Data         => {
+                %Param,
+                RegExCounter          => $Param{RegExCounter},
+                ValidityStrg          => $ValidityStrg,
+                DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
+                DefaultValue          => $DefaultValue,
+                MultiValueStrg        => $MultiValueStrg,
+                ReadonlyInternalField => $ReadonlyInternalField,
+                Link                  => $Link,
+                LinkPreview           => $LinkPreview,
+                Tooltip               => $Tooltip,
+            },
+        ),
+        $LayoutObject->Footer;
 }
 
 sub GetParamRegexList {

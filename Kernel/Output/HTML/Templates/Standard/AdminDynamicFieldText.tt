@@ -167,22 +167,22 @@
 [% RenderBlockEnd("InternalField") %]
                             </fieldset>
 [% RenderBlockStart("DynamicFieldInSysConfig") %]
-                    <input type="hidden" name="OldName" id="OldName" value="[% Data.OldName | html %]"/>
-                    <input type="hidden" name="UpdateEntity" id="UpdateEntity" value=""/>
-                    <div id="EntityInSetting" class="Hidden">
-                        <div class="TextDialog">
-                            <h1>[% Translate("This dynamic field is used in the following config settings:") | html %]</h1>
-                            <ul>
-                                [% RenderBlockStart("DynamicFieldInSysConfigRow") %]
-                                <li class="InSysConfigSetting">[% Data.SettingName %]</li>
-                                [% RenderBlockEnd("DynamicFieldInSysConfigRow") %]
-                            </ul>
-                            <p class="FieldExplanation"></p>
-                        </div>
-                    </div>
+                            <input type="hidden" name="OldName" id="OldName" value="[% Data.OldName | html %]"/>
+                            <input type="hidden" name="UpdateEntity" id="UpdateEntity" value=""/>
+                            <div id="EntityInSetting" class="Hidden">
+                                <div class="TextDialog">
+                                    <h1>[% Translate("This dynamic field is used in the following config settings:") | html %]</h1>
+                                    <ul>
+[% RenderBlockStart("DynamicFieldInSysConfigRow") %]
+                                        <li class="InSysConfigSetting">[% Data.SettingName %]</li>
+[% RenderBlockEnd("DynamicFieldInSysConfigRow") %]
+                                    </ul>
+                                    <p class="FieldExplanation"></p>
+                                </div>
+                            </div>
 [% RenderBlockEnd("DynamicFieldInSysConfig") %]
 [% RenderBlockStart("DynamicFieldInSysConfigDirty") %]
-                    <input type="hidden" name="SysConfigDirty" id="SysConfigDirty" value="1"/>
+                            <input type="hidden" name="SysConfigDirty" id="SysConfigDirty" value="1"/>
 [% RenderBlockEnd("DynamicFieldInSysConfigDirty") %]
                         </div>
                     </div>
