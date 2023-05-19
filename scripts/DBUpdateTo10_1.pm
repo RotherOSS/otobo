@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-_1 - Perform system upgrade from OTOBO 10.0 to 10.1
+scripts::DBUpdateTo10_1 - Perform system upgrade from OTOBO 10.0 to 10.1
 
 =head1 PUBLIC INTERFACE
 
