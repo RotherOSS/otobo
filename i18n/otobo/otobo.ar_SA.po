@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-19 20:29+0000\n"
+"PO-Revision-Date: 2023-05-23 12:58+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -25677,24 +25677,31 @@ msgid ""
 "you can do this with a user who has access to the LDAP directory. Specify "
 "the username for this special user here."
 msgstr ""
+"إذا تم تحديد LDAP باعتباره Customer::AuthModule وكان لدى المستخدمين فقط حق "
+"الوصول المجهول إلى شجرة LDAP، ولكنك تريد البحث في البيانات، يمكنك إجراء ذلك "
+"باستخدام مستخدم خاص يمكنك تحديد اسم المستخدم الخاص به هنا."
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, the BaseDN must be "
 "specified."
 msgstr ""
+"إذا تم تحديد \"LDAP\" على أنه Customer::AuthModule، يجب تحديد BaseDN هنا."
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, the LDAP host can be "
 "specified."
 msgstr ""
+"إذا تم تحديد \"LDAP\" على أنه Customer::AuthModule، يمكن تحديد مضيف LDAP هنا."
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, the user identifier must "
 "be specified."
 msgstr ""
+"إذا تم تحديد \"LDAP\" على أنه Customer::AuthModule، يجب تحديد معرف المستخدم "
+"هنا(User-Identifier)."
 
 #. SysConfig
 msgid ""
@@ -25702,12 +25709,16 @@ msgid ""
 "specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full "
 "user DN."
 msgstr ""
+"إذا تم تحديد \"LDAP\" ك Customer::AuthModule، يمكن تحديد سمات المستخدم هنا. "
+"استخدم UID ل LDAP-posixGroups، وهو الاسم المميز الكامل للمستخدم لغير LDAP-"
+"posixGroups."
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, you can specify access "
 "attributes here."
 msgstr ""
+"إذا تم تحديد \"LDAP\" ك Customer::AuthModule، فيمكن تحديد سمات الوصول هنا."
 
 #. SysConfig
 msgid ""
@@ -25715,6 +25726,9 @@ msgid ""
 "applications will stop if e. g. a connection to a server can't be "
 "established due to network problems."
 msgstr ""
+"إذا تم تحديد \"LDAP\" على أنه Customer::AuthModule، يمكنك هنا تحديد ما إذا "
+"كان يجب إيقاف التطبيقات في حالة تعذر إنشاء الاتصال بالخادم على سبيل المثال "
+"بسبب مشاكل في الشبكة."
 
 #. SysConfig
 msgid ""
@@ -25722,24 +25736,35 @@ msgid ""
 "is allowed to authenticate because he is in a posixGroup, e.g. user needs to "
 "be in a group xyz to use OTOBO. Specify the group, who may access the system."
 msgstr ""
+"إذا تم تحديد \"LDAP\" ك Customer::AuthModule، يمكنك التحقق مما إذا كان "
+"المستخدم مخولا بالمصادقة بسبب عضويته في posixGroup (على سبيل المثال، إذا كان "
+"يجب أن يكون المستخدم عضوا في المجموعة xyz حتى يسمح له باستخدام OTOBO). قم "
+"بتعيين هذه المجموعة هنا."
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected, you can add a filter to each LDAP query, e.g. "
 "(mail=*), (objectclass=user) or (!objectclass=computer)."
 msgstr ""
+"إذا تم اختيار \"LDAP\" ك Customer::AuthModule، يمكنك ضبط الفلاتر لكل طلب "
+"LDAP هنا، على سبيل المثال (*=mail) أو (objectclass=user) أو "
+"(objectclass=computer!)."
 
 #. SysConfig
 msgid ""
 "If \"Radius\" was selected for Customer::AuthModule, the password to "
 "authenticate to the radius host must be specified."
 msgstr ""
+"إذا تم تحديد \"Radius\" ك Customer::AuthModule، فيجب تخزين كلمة المرور هنا "
+"للمصادقة مع مضيف Radius."
 
 #. SysConfig
 msgid ""
 "If \"Radius\" was selected for Customer::AuthModule, the radius host must be "
 "specified."
 msgstr ""
+"إذا تم تحديد \"Radius\" على أنه Customer::AuthModule، يجب تخزين مضيف (host) "
+"Radius هنا."
 
 #. SysConfig
 msgid ""
@@ -25747,30 +25772,41 @@ msgid ""
 "applications will stop if e. g. a connection to a server can't be "
 "established due to network problems."
 msgstr ""
+"إذا تم تحديد \"Radius\" على أنه Customer::AuthModule، يمكنك هنا تحديد ما إذا "
+"كان يجب إيقاف التطبيقات إذا تعذر على سبيل المثال إنشاء الاتصال بالخادم بسبب "
+"مشاكل في الشبكة."
 
 #. SysConfig
 msgid ""
 "If \"Sendmail\" was selected as SendmailModule, the location of the sendmail "
 "binary and the needed options must be specified."
 msgstr ""
+"إذا تم تكوين \"Sendmail\" على أنه SendmailModule، فيجب تخزين المسار إلى "
+"sendmail binary والخيارات المطلوبة هنا."
 
 #. SysConfig
 msgid ""
 "If \"SysLog\" was selected for LogModule, a special log facility can be "
 "specified."
 msgstr ""
+"إذا تم تكوين \"SysLog\" ك LogModule، فيمكن تحديد فئة منفصلة (منشأة facility) "
+"هنا."
 
 #. SysConfig
 msgid ""
 "If \"SysLog\" was selected for LogModule, the charset that should be used "
 "for logging can be specified."
 msgstr ""
+"إذا تم تكوين \"SysLog\" ك LogModule، فيمكن تحديد مجموعة الأحرف التي سيتم "
+"استخدامها للتسجيل هنا."
 
 #. SysConfig
 msgid ""
 "If \"bcrypt\" was selected for CryptType, use cost specified here for bcrypt "
 "hashing. Currently max. supported cost value is 31."
 msgstr ""
+"إذا تم تحديد \"bcrypt\" على أنها CryptType، فسيتم استخدام معلمة التكلفة التي "
+"تم إدخالها هنا للحساب.الحد الأقصى للقيمة المدعومة هو 31."
 
 #. SysConfig
 msgid ""
