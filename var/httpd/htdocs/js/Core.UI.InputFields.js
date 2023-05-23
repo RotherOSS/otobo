@@ -2624,11 +2624,12 @@ Core.UI.InputFields = (function (TargetNS) {
                     CloseOpenSelections();
                 });
 
-                if ( $SelectObj.closest('.Row_DynamicField').hasClass('MultiValue') && $SelectObj.attr('id') != $SelectObj.attr('name') ) {
+                // TODO: Fix - the first multicalue id now has _0 and thus is different, too - what is the initial event?
+                /*if ( $SelectObj.closest('.Row_DynamicField').hasClass('MultiValue') && $SelectObj.attr('id') != $SelectObj.attr('name') ) {
                     $SelectObj.off('change.multivalue').on('change.multivalue', function() {
                         $('[name=' + $SelectObj.attr('name') + ']').first().trigger('change');
                     });
-                }
+                }*/
 
                 // Handle custom redraw event on original select field
                 // to update values when changed via AJAX calls
@@ -2693,8 +2694,15 @@ Core.UI.InputFields = (function (TargetNS) {
 
     };
 
-    TargetNS.InitMultiValueDynamicFields = function () {
-        $('.Row.MultiValue').each( function() {
+    /**
+     * @name InitMultiValueDynamicFields
+     * @memberof Core.UI.InputFields
+     * @param {jQueryObject} [$Context] - jQuery object for context (optional)
+     * @description
+     *      Initiates all multivalue dynamic fields Add/Remove ValueRow functionality
+     */
+    TargetNS.InitMultiValueDynamicFields = function ( $Context ) {
+        $('.Row.MultiValue', $Context).each( function() {
             var $Row = $(this);
 
             InitMultiValueFieldRow( $Row );
@@ -2705,106 +2713,226 @@ Core.UI.InputFields = (function (TargetNS) {
         });
     };
 
+    /**
+     * @private
+     * @name InitMultiValueFieldRow
+     * @memberof Core.UI.InputFields
+     * @param {jQueryObject} $Row - the dynamic field row to initiate
+     * @param {Integer} Start     - optional: the first index to (re)initiate (default: 0)
+     * @param {Integer} Shift     - optional: shift values in case of added or removed value rows (default: 0)
+     * @description
+     *      Assigns each FieldCell to a ValueRow, optionally shifts the index of those ValueRows
+     *      and triggers setting indices used in the fields to the correct values
+     */
     function InitMultiValueFieldRow( $Row, Start = 0, Shift = 0 ) {
-        var ValueRowCount = 0,
+        var ValueRowIndex = 0,
             ValueRowCells = [];
 
-        $('.FieldCell', $Row).each( function() {
+        $Row.children('.FieldCell').each( function() {
             var $Cell = $(this);
 
             // gather value rows and initiate them
-            if ( $Cell.hasClass( 'MultiValue_' + ValueRowCount ) ) {
-                if ( ValueRowCount < Start ) {
+            if ( $Cell.hasClass( 'MultiValue_' + ValueRowIndex ) ) {
+                if ( ValueRowIndex < Start ) {
                     return;
                 }
                 if ( Shift !== 0 ) {
-                    ReplaceCellIndex( $Cell, ValueRowCount, ValueRowCount + Shift );
+                    ReplaceCellIndex( $Cell, ValueRowIndex, ValueRowIndex + Shift );
                 }
                 ValueRowCells.push( $Cell );
             }
-            else if ( $Cell.hasClass( 'MultiValue_' + (ValueRowCount + 1) ) ) {
-                if ( ValueRowCount + 1 < Start ) {
-                    ValueRowCount++;
+            else if ( $Cell.hasClass( 'MultiValue_' + (ValueRowIndex + 1) ) ) {
+                if ( ValueRowIndex + 1 < Start ) {
+                    ValueRowIndex++;
                     return;
                 }
 
-                InitValueRow( ValueRowCells, ValueRowCount + Shift );
+                InitValueRow( ValueRowCells, ValueRowIndex + Shift );
 
-                ValueRowCount++;
+                ValueRowIndex++;
                 if ( Shift !== 0 ) {
-                    ReplaceCellIndex( $Cell, ValueRowCount, ValueRowCount + Shift );
+                    ReplaceCellIndex( $Cell, ValueRowIndex, ValueRowIndex + Shift );
                 }
                 ValueRowCells = [ $Cell ];
             }
         });
 
-        InitValueRow( ValueRowCells, ValueRowCount );
+        InitValueRow( ValueRowCells, ValueRowIndex + Shift );
     }
 
-    function InitValueRow( ValueRowCells, ValueRowCount ) {
+    /**
+     * @private
+     * @name InitValueRow
+     * @memberof Core.UI.InputFields
+     * @param {Array} ValueRowCells   - the field cells in this value row
+     * @param {Integer} ValueRowIndex - the index of the value row
+     * @description
+     *      Sets the add and remove events for the -/+ buttons of this value row
+     */
+    function InitValueRow( ValueRowCells, ValueRowIndex ) {
         ValueRowCells.forEach( function( $Cell ) {
-            $('.AddValueRow', $Cell).off('click').on('click', function() {
+            $( '.AddValueRow', $Cell.children('.AddRemoveValueRow') ).off('click').on('click', function() {
                 var $Row = $Cell.closest('.Row');
 
                 // shift all higher values forward to make space
-                InitMultiValueFieldRow( $Row, ValueRowCount + 1, 1 );
+                InitMultiValueFieldRow( $Row, ValueRowIndex + 1, 1 );
                 // insert a new ValueRow
-                InsertRow( $Row, ValueRowCount + 1 );
-
-                if ( $Row.hasClass('MultiColumn') ) {
-                    TargetNS.HideMultiAddRemoveButtons( $Row, ValueRowCount + 1 );
-                }
+                InsertRow( $Row, ValueRowIndex + 1 );
             });
-            $('.RemoveValueRow', $Cell).off('click').on('click', function() {
+            $( '.RemoveValueRow', $Cell.children('.AddRemoveValueRow') ).off('click').on('click', function() {
+                var $Row         = $Cell.closest('.Row'),
+                    LastValueRow = ValueRowIndex === 0 && $Row.children('.MultiValue_1').length === 0;
+
                 // delete current row
                 ValueRowCells.forEach( function( $ToRemove ) { $ToRemove.remove() } );
-                // shift all higher values back to close the gap
-                InitMultiValueFieldRow( $Cell.closest('.Row'), ValueRowCount + 1, -1 );
+
+                if ( LastValueRow ) {
+                    // insert an empty Value row again
+                    InsertRow( $Row, 0 );
+                }
+                else {
+                    // shift all higher values back to close the gap
+                    InitMultiValueFieldRow( $Row, ValueRowIndex + 1, -1 );
+                }
             });
+
+            // TODO: replace by a nice css-only version (MultiValue_0 vs MultiValue_X, respecting non multi value, possibly in multi value multicolumn grid)
+            if ( ValueRowIndex === 0 ) {
+                $Cell.children('label').show();
+            }
+            else {
+                $Cell.children('label').hide();
+            }
         });
     }
 
+    /**
+     * @private
+     * @name ReplaceCellIndex
+     * @memberof Core.UI.InputFields
+     * @param {jQueryObject} $Cell - the field cell
+     * @param {Integer} From       - current index
+     * @param {Integer} To         - new index
+     * @description
+     *      Replaces multivalue and set indices after adding or deleting rows
+     */
     function ReplaceCellIndex( $Cell, From, To ) {
         // replace fix stuff
         $Cell.removeClass( 'MultiValue_' + From );
         $Cell.addClass( 'MultiValue_' + To );
 
         // replace DynamicField specifics
-        var ReplaceRegEx = new RegExp( '(DynamicField_[\\w\\d_-]+_)' + From + '(Data|Container)?', 'g' );
+        var ReplaceRegEx = new RegExp( '(DynamicField_[\\w\\d_-]+_)'  + From + '((Data|Container)?)', 'g' );
 
-        $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_]', $Cell).each( function() {
-            ['id', 'field'].forEach( Attribute => {
-                var Attr = $(this).attr(Attribute);
-                if ( Attr && Attr.match( ReplaceRegEx ) ) {
-                    $(this).attr( Attribute, Attr.replace( ReplaceRegEx, "$1" + To + "$2" ) );
-                }
+        // standard multivalue field
+        if ( $Cell.children('.Field').children('.DynamicFieldSet').length === 0 ) {
+            $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_]', $Cell).each( function() {
+                ['id', 'field'].forEach( Attribute => {
+                    var Attr = $(this).attr(Attribute);
+                    if ( Attr && Attr.match( ReplaceRegEx ) ) {
+                        $(this).attr( Attribute, Attr.replace( ReplaceRegEx, "$1" + To + "$2" ) );
+                    }
+                });
             });
-        });
-        $('[class^=ResultElementTemplate], [class^=DynamicFieldDBDetails]', $Cell).each( function() {
-            ['class', 'field'].forEach( Attribute =>{
-                var Attr = $(this).attr(Attribute);
-                if ( Attr && Attr.match(ReplaceRegEx) ) {
-                    $(this).attr( Attribute, Attr.replace( ReplaceRegEx, "$1" + To + "$2" ) );
-                }
+            $('label[id^=LabelDynamicField_]', $Cell).each( function() {
+                ['id', 'for'].forEach( Attribute => {
+                    var Attr = $(this).attr(Attribute);
+                    if ( Attr && Attr.match( ReplaceRegEx ) ) {
+                        $(this).attr( Attribute, Attr.replace( ReplaceRegEx, "$1" + To + "$2" ) );
+                    }
+                });
             });
-        });
+            $('[class^=ResultElementTemplate], [class^=DynamicFieldDBDetails]', $Cell).each( function() {
+                ['class', 'field'].forEach( Attribute =>{
+                    var Attr = $(this).attr(Attribute);
+                    if ( Attr && Attr.match(ReplaceRegEx) ) {
+                        $(this).attr( Attribute, Attr.replace( ReplaceRegEx, "$1" + To + "$2" ) );
+                    }
+                });
+            });
+        }
+
+        // multivalue set
+        else {
+            // change the hidden SetIndex
+            $Cell.children('.Field').children('input[name^=SetIndex]').first().val(To);
+
+            $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_]', $Cell).each( function() {
+                ['name'].forEach( Attribute => {
+                    var Attr = $(this).attr(Attribute);
+                    if ( Attr && Attr.match( ReplaceRegEx ) ) {
+                        $(this).attr( Attribute, Attr.replace( ReplaceRegEx, "$1" + To + "$2" ) );
+                    }
+                });
+            });
+
+            // for attributes which can also contain multivalue data, we have to target the second to last index if two are present
+            ReplaceRegEx = new RegExp( '(DynamicField_[\\w\\d_-]+?_)' + From + '((_\d+)?(Data|Container)?)', 'g' );
+
+            $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_]', $Cell).each( function() {
+                ['id', 'field'].forEach( Attribute => {
+                    var Attr = $(this).attr(Attribute);
+                    if ( Attr && Attr.match( ReplaceRegEx ) ) {
+                        $(this).attr( Attribute, Attr.replace( ReplaceRegEx, "$1" + To + "$2" ) );
+                    }
+                });
+            });
+            $('label[id^=LabelDynamicField_]', $Cell).each( function() {
+                ['id', 'for'].forEach( Attribute => {
+                    var Attr = $(this).attr(Attribute);
+                    if ( Attr && Attr.match( ReplaceRegEx ) ) {
+                        $(this).attr( Attribute, Attr.replace( ReplaceRegEx, "$1" + To + "$2" ) );
+                    }
+                });
+            });
+            $('[class^=ResultElementTemplate], [class^=DynamicFieldDBDetails]', $Cell).each( function() {
+                ['class', 'field'].forEach( Attribute =>{
+                    var Attr = $(this).attr(Attribute);
+                    if ( Attr && Attr.match(ReplaceRegEx) ) {
+                        $(this).attr( Attribute, Attr.replace( ReplaceRegEx, "$1" + To + "$2" ) );
+                    }
+                });
+            });
+        }
     }
 
-    function InsertRow( $Row, ValueRowCount ) {
+    /**
+     * @private
+     * @name InsertRow
+     * @memberof Core.UI.InputFields
+     * @param {jQueryObject} $Row     - the dynamic field row
+     * @param {Integer} ValueRowIndex - the index at which to insert
+     * @description
+     *      Inserts a new value row at a given index
+     */
+    function InsertRow( $Row, ValueRowIndex ) {
         var ValueRowCells = [],
-            $NextCell     = $('.MultiValue_' + ( ValueRowCount +1 ), $Row).first(),
-            $LastCell     = $('.FieldCell', $Row).last();
+            $NextCell     = $Row.children('.MultiValue_' + ( ValueRowIndex + 1 )).first(),
+            $LastCell     = $Row.children('.FieldCell').last();
 
-        $('.MultiValue_Template', $Row).each( function() {
+        $Row.children('.MultiValue_Template').each( function() {
             var $NewCell = $(this).clone().addClass('FieldCell');
 
-            $('[name^=DynamicField_][name$=_Template]', $NewCell).each( function() {
-                $(this).attr( 'name', $(this).attr('name').replace(/_Template$/, '') );
-                if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
-                    $(this).addClass('Validate_Required');
-                }
-            });
-            ReplaceCellIndex( $NewCell, 'Template', ValueRowCount );
+            // standard multivalue field
+            if ( $NewCell.children('.Field').children('.DynamicFieldSet').length === 0 ) {
+                $('[name^=DynamicField_]', $NewCell).each( function() {
+                    if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
+                        $(this).addClass('Validate_Required');
+                    }
+                });
+            }
+
+            // multivalue set
+            else {
+                // TODO: We need a solution for sets here
+                /*$('[name^=DynamicField_]', $NewCell).each( function() {
+                    if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
+                        $(this).addClass('Validate_Required');
+                    }
+                });*/
+            }
+
+            ReplaceCellIndex( $NewCell, 'Template', ValueRowIndex );
 
             if ( $NextCell.length ) {
                 ValueRowCells.push( $NewCell );
@@ -2818,14 +2946,25 @@ Core.UI.InputFields = (function (TargetNS) {
             if ( $NextCell.length ) {
                 $NextCell.before( $NewCell );
             }
-            else {
+            else if( $LastCell.length ) {
                 $LastCell.after( $NewCell );
+            }
+            else {
+                // TODO: this is too simple for multivalue-multicolumn with multivalue fields trailing non multivalue fields
+                $Row.prepend( $NewCell );
             }
 
             DynamicFieldInit( $NewCell );
+
+            // init multivalue fields in sets
+            TargetNS.InitMultiValueDynamicFields( $NewCell );
         });
 
-        InitValueRow( ValueRowCells, ValueRowCount );
+        InitValueRow( ValueRowCells, ValueRowIndex );
+
+        if ( $Row.hasClass('MultiColumn') ) {
+            TargetNS.HideMultiAddRemoveButtons( $Row, ValueRowIndex );
+        }
     }
 
     function DynamicFieldInit( $Cell ) {
@@ -2855,7 +2994,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
     TargetNS.HideMultiAddRemoveButtons = function ( $Row, InitialIndex ) {
         var Index = InitialIndex || 0,
-            ValueRow = $( '.MultiValue_' + Index + ':visible', $Row ).toArray();
+            ValueRow = $Row.children( '.MultiValue_' + Index + ':visible').toArray();
 
         while ( ValueRow.length ) {
             var $LastCell;

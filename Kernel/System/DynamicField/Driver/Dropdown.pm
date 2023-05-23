@@ -66,6 +66,7 @@ sub new {
         'IsStatsCondition'             => 1,
         'IsCustomerInterfaceCapable'   => 1,
         'IsLikeOperatorCapable'        => 1,
+        'IsSetCapable'                 => 1,
     };
 
     # get the Dynamic Field Backend custom extensions
@@ -124,12 +125,35 @@ sub FieldValueValidate {
             Priority => 'error',
             Message  => "Need Value in Dropdown DynamicField!",
         );
+
         return;
     }
 
-    # Check if value parameter exists in possible values config.
-    if ( length $Param{Value} ) {
-        return if !defined $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{ $Param{Value} };
+    my $Value;
+
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        if ( !IsArrayRefWithData( $Param{Value} ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need array ref in Dropdown DynamicField $Param{DynamicFieldConfig}{Name}!",
+            );
+
+            return;
+        }
+
+        $Value = $Param{Value};
+    }
+
+    else {
+        $Value = [ $Param{Value} ];
+    }
+
+    for my $ValueItem ( @{$Value} ) {
+
+        # Check if value parameter exists in possible values config.
+        if ( length $ValueItem ) {
+            return if !defined $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$ValueItem};
+        }
     }
 
     return 1;

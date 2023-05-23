@@ -41,7 +41,7 @@ Kernel::System::DynamicField::Driver::Multiselect
 
 =head1 DESCRIPTION
 
-Date common functions.
+Select common functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -51,59 +51,74 @@ sub ValueGet {
     my ( $Self, %Param ) = @_;
 
     my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        FieldID  => $Param{DynamicFieldConfig}{ID},
         ObjectID => $Param{ObjectID},
     );
 
-    return if !$DFValue;
-    return if !IsArrayRefWithData($DFValue);
-    return if !IsHashRefWithData( $DFValue->[0] );
-
-    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        my @ReturnData;
-        for my $Item ( @{$DFValue} ) {
-            push @ReturnData, $Item->{ValueText};
-        }
-        return \@ReturnData;
-    }
-    else {
-        return $DFValue->[0]->{ValueText};
-    }
+    return $Self->ValueStructureFromDB(
+        ValueDB    => $DFValue,
+        ValueKey   => 'ValueText',
+        Set        => $Param{Set},
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+    );
 }
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-        @Values = ( $Param{Value} );
+    # check for valid possible values list
+    if ( !$Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need PossibleValues in DynamicFieldConfig!",
+        );
+        return;
     }
 
-    my @ValueText;
-    for my $Value (@Values) {
-
-        # check for valid possible values list
-        if ( !$Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need PossibleValues in DynamicFieldConfig!",
-            );
-            return;
-        }
-        push @ValueText, { ValueText => $Value };
-    }
+    my $Value = $Self->ValueStructureToDB(
+        Value      => $Param{Value},
+        ValueKey   => 'ValueText',
+        Set        => $Param{Set},
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+    );
 
     my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
-        Value    => \@ValueText,
+        Value    => $Value,
         UserID   => $Param{UserID},
     );
 
     return $Success;
+}
+
+# TODO: probably adjust Base.pm to check for arrays
+sub ValueIsDifferent {
+    my ( $Self, %Param ) = @_;
+
+    # special cases where the values are different but they should be reported as equals
+    if (
+        !defined $Param{Value1}
+        && ref $Param{Value2} eq 'ARRAY'
+        && !IsArrayRefWithData( $Param{Value2} )
+        )
+    {
+        return;
+    }
+    if (
+        !defined $Param{Value2}
+        && ref $Param{Value1} eq 'ARRAY'
+        && !IsArrayRefWithData( $Param{Value1} )
+        )
+    {
+        return;
+    }
+
+    # compare the results
+    return DataIsDifferent(
+        Data1 => \$Param{Value1},
+        Data2 => \$Param{Value2},
+    );
 }
 
 sub ValueValidate {
@@ -111,7 +126,7 @@ sub ValueValidate {
 
     # check values
     my @Values;
-    if ( IsArrayRefWithData( $Param{Value} ) ) {
+    if ( ref $Param{Value} eq 'ARRAY' ) {
         @Values = @{ $Param{Value} };
     }
     else {
@@ -266,7 +281,6 @@ sub EditFieldRender {
     }
 
     my %FieldTemplateData = (
-        'DivID'      => $FieldName,
         'MultiValue' => $FieldConfig->{MultiValue},
     );
 
@@ -294,7 +308,7 @@ sub EditFieldRender {
 
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
-        my $FieldID = $ValueIndex ? $FieldName . '_' . $ValueIndex : $FieldName;
+        my $FieldID = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
         # TODO: is this necessary?
         my $DataValues = $Self->BuildSelectionDataGet(
@@ -326,6 +340,7 @@ sub EditFieldRender {
 
     my $TemplateHTML;
     if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+        my $FieldID = $FieldName . '_Template';
 
         # TODO: is this necessary?
         my $DataValues = $Self->BuildSelectionDataGet(
@@ -336,7 +351,8 @@ sub EditFieldRender {
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
             Data        => $DataValues || {},
             Disabled    => $Param{ReadOnly},
-            Name        => $FieldName . '_Template',
+            Name        => $FieldName,
+            ID          => $FieldID,
             Translation => $FieldConfig->{TranslatableValues} || 0,
             Class       => $FieldClass,
             Size        => $Size,
@@ -384,7 +400,7 @@ EOF
     my $LabelString = $Self->EditLabelRender(
         %Param,
         Mandatory => $Param{Mandatory} || '0',
-        FieldName => $FieldName,
+        FieldName => $FieldConfig->{MultiValue} ? $FieldName . '_0' : $FieldName,
     );
 
     my $Data = {
@@ -461,17 +477,14 @@ sub EditFieldValueValidate {
     my $ServerError;
     my $ErrorMessage;
 
-    my $ValueCount = $Param{ValueCount} || 1;
-
     if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
         $Value = [$Value];
     }
 
-    if ( $Param{Mandatory} && ( $ValueCount > scalar $Value->@* ) ) {
-        return {
-            ServerError => 1,
-        };
-    }
+    # TODO: check whether EditFieldValueGet returns ('first','second','','','fifth','') in case of added but unfilled multivalue fields
+
+    # get possible values list
+    my $PossibleValues = $Param{PossibleValuesFilter} // $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
     for my $ValueItem ( @{$Value} ) {
 
@@ -482,15 +495,6 @@ sub EditFieldValueValidate {
             };
         }
         else {
-
-            # get possible values list
-            my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
-
-            # overwrite possible values if PossibleValuesFilter
-            if ( defined $Param{PossibleValuesFilter} ) {
-                $PossibleValues = $Param{PossibleValuesFilter};
-            }
-
             # validate if value is in possible values list (but let pass empty values)
             if ( $ValueItem && !$PossibleValues->{$ValueItem} ) {
                 $ServerError  = 1;
@@ -907,7 +911,34 @@ sub TemplateValueTypeGet {
 sub RandomValueSet {
     my ( $Self, %Param ) = @_;
 
-    my $Value = int( rand(500) );
+    my $Value;
+
+    if ( $Param{SetCount} ) {
+        if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+            for my $i ( 0 .. $Param{SetCount} - 1 ) {
+                for my $j ( 0 .. int( rand(3) ) ) {
+                    $Value->[$i][$j] = int( rand(500) );
+                }
+            }
+        }
+        else {
+            for my $i ( 0 .. $Param{SetCount} - 1 ) {
+                $Value->[$i] = int( rand(500) );
+            }
+        }
+
+        $Param{Set} = 1;
+    }
+
+    elsif ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+        for my $j ( 0 .. int( rand(3) ) ) {
+            $Value->[$j] = int( rand(500) );
+        }
+    }
+
+    else {
+        $Value = int( rand(500) );
+    }
 
     my $Success = $Self->ValueSet(
         %Param,
