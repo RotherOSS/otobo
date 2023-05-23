@@ -140,7 +140,7 @@ sub Run {
         $ActivityDialogData->{Config}->{RequiredLock}         = $GetParam->{RequiredLock} || 0;
         $ActivityDialogData->{Config}->{SubmitAdviceText}     = $GetParam->{SubmitAdviceText};
         $ActivityDialogData->{Config}->{SubmitButtonText}     = $GetParam->{SubmitButtonText};
-        $ActivityDialogData->{Config}->{InputfieldDefinition} = $GetParam->{InputFieldDefinition};
+        $ActivityDialogData->{Config}->{InputFieldDefinition} = $GetParam->{InputFieldDefinition};
         $ActivityDialogData->{Config}->{Fields}               = {};
         $ActivityDialogData->{Config}->{FieldOrder}           = [];
 
@@ -396,7 +396,7 @@ sub Run {
         $ActivityDialogData->{Config}->{RequiredLock}         = $GetParam->{RequiredLock} || 0;
         $ActivityDialogData->{Config}->{SubmitAdviceText}     = $GetParam->{SubmitAdviceText};
         $ActivityDialogData->{Config}->{SubmitButtonText}     = $GetParam->{SubmitButtonText};
-        $ActivityDialogData->{Config}->{InputfieldDefinition} = $GetParam->{InputFieldDefinition};
+        $ActivityDialogData->{Config}->{InputFieldDefinition} = $GetParam->{InputFieldDefinition};
         $ActivityDialogData->{Config}->{Fields}               = {};
         $ActivityDialogData->{Config}->{FieldOrder}           = [];
 
@@ -938,7 +938,7 @@ sub _ShowEdit {
     $Param{DescriptionLong}      = $Param{ActivityDialogData}->{Config}->{DescriptionLong};
     $Param{SubmitAdviceText}     = $Param{ActivityDialogData}->{Config}->{SubmitAdviceText};
     $Param{SubmitButtonText}     = $Param{ActivityDialogData}->{Config}->{SubmitButtonText};
-    $Param{InputfieldDefinition} = $Param{ActivityDialogData}->{Config}->{InputFieldDefinition};
+    $Param{InputFieldDefinition} = $Param{ActivityDialogData}->{Config}->{InputFieldDefinition};
 
     my $Output = $LayoutObject->Header(
         Value => $Param{Title},
@@ -966,7 +966,7 @@ sub _GetParams {
     # get parameters from web browser
     for my $ParamName (
         qw( Name EntityID Interface DescriptionShort DescriptionLong Permission RequiredLock SubmitAdviceText
-        SubmitButtonText )
+        SubmitButtonText InputFieldDefinition )
         )
     {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';
