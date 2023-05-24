@@ -124,6 +124,8 @@ sub _ShowOverview {
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $FieldTypeConfig    = $ConfigObject->Get('DynamicFields::Driver');
+    my $ObjectTypeFilter   = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ObjectType' ) || '';
+    my $NamespaceFilter    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Namespace' )  || '';
 
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
@@ -169,6 +171,7 @@ sub _ShowOverview {
     }
 
     my $ObjectTypeConfig = $ConfigObject->Get('DynamicFields::ObjectType');
+    my $Namespaces       = $ConfigObject->Get('DynamicField::Namespaces');
 
     if ( !IsHashRefWithData($ObjectTypeConfig) ) {
         return $LayoutObject->ErrorScreen(
@@ -181,6 +184,8 @@ sub _ShowOverview {
 
     # cycle thought all objects to create the select add field selects
     my @ObjectTypes;
+    my %ObjectTypesTranslated;
+
     OBJECTTYPE:
     for my $ObjectType (
         sort {
@@ -218,6 +223,10 @@ sub _ShowOverview {
 
         push @ObjectTypes, $ObjectType;
 
+        if ( $ObjectTypeName ne 'Article' ) {
+            $ObjectTypesTranslated{$ObjectType} = $LayoutObject->{LanguageObject}->Translate($ObjectTypeName);
+        }
+
         # call ActionAddDynamicField block
         $LayoutObject->Block(
             Name => 'ActionAddDynamicField',
@@ -230,6 +239,40 @@ sub _ShowOverview {
             },
         );
     }
+
+    my $DynamicFieldObjectStrg = $LayoutObject->BuildSelection(
+        Data         => \%ObjectTypesTranslated,
+        Name         => 'DynamicFieldObjectType',
+        PossibleNone => 1,
+        Sort         => 'AlphanumericValue',
+        SelectedID   => $ObjectTypeFilter,
+        Class        => 'Modernize W95pc',
+    );
+
+    $LayoutObject->Block(
+        Name => 'DynamicFieldObjectType',
+        Data => {
+            %Param,
+            DynamicFieldObjectStrg => $DynamicFieldObjectStrg,
+        },
+    );
+
+    my $DynamicFieldNamespaceStrg = $LayoutObject->BuildSelection(
+        Data         => $Namespaces,
+        Name         => 'DynamicFieldNamespace',
+        PossibleNone => 1,
+        Sort         => 'AlphanumericValue',
+        SelectedID   => $NamespaceFilter,
+        Class        => 'Modernize W95pc',
+    );
+
+    $LayoutObject->Block(
+        Name => 'DynamicFieldNamespace',
+        Data => {
+            %Param,
+            DynamicFieldNamespaceStrg => $DynamicFieldNamespaceStrg,
+        },
+    );
 
     # send data to JS
     $LayoutObject->AddJSData(
@@ -249,9 +292,20 @@ sub _ShowOverview {
         Data => \%Param,
     );
 
+    # merge Ticket and Article into one type
+    my $ObjectTypeFilterArrayRef;
+    if ( $ObjectTypeFilter eq 'Ticket' ) {
+        $ObjectTypeFilterArrayRef = [ 'Ticket', 'Article' ];
+    }
+    else {
+        $ObjectTypeFilterArrayRef = $ObjectTypeFilter ? [$ObjectTypeFilter] : undef;
+    }
+
     # get dynamic fields list
     my $DynamicFieldsList = $DynamicFieldObject->DynamicFieldList(
-        Valid => 0,
+        ObjectType => $ObjectTypeFilterArrayRef,
+        Namespace  => $NamespaceFilter,
+        Valid      => 0,
     );
 
     # print the list of dynamic fields
