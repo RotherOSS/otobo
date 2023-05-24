@@ -176,7 +176,17 @@ sub EditSectionRender {
         my @ValueGrid;
         my @MultiValueTemplates;
         my $CellStart = 1;
+        FIELD:
         for my $Field ( $Row{Fields}->@* ) {
+            if ( !$Param{DynamicFields}{ $Field->{DF} } ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Need DynamicFieldConfig for '$Field->{DF}'!",
+                );
+
+                next FIELD;
+            }
+
             my $DynamicField = $Param{DynamicFields}{ $Field->{DF} };
             my $DFName       = "DynamicField_$DynamicField->{Name}";
 
@@ -264,19 +274,17 @@ sub EditSectionRender {
                 MultiValue  => $DynamicField->{Config}{MultiValue},
                 RowReadOnly => $RowReadOnly,
                 CellClasses => $CellClassString,
+                Label       => $DynamicFieldHTML->{Label},
             );
 
             # multi value
             if ( $DynamicField->{Config}{MultiValue} ) {
                 for my $ValueRowIndex ( 0 .. $#{ $DynamicFieldHTML->{MultiValue} } ) {
-                    my %Label = $ValueRowIndex == 0 ? ( Label => $DynamicFieldHTML->{Label} ) : ();
-
                     push $ValueGrid[$ValueRowIndex]->@*, {
                         Name => $ColBlockName,
                         Data => {
                             %CellBlockData,
-                            %Label,
-                            Field       => $DynamicFieldHTML->{MultiValue}[$ValueRowIndex],
+                            Field       => $DynamicFieldHTML->{MultiValue}[0],
                             Index       => $ValueRowIndex,
                             CellClasses => $CellClassString . ' MultiValue_' . $ValueRowIndex,
                         },

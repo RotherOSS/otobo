@@ -50,54 +50,39 @@ sub ValueGet {
     my ( $Self, %Param ) = @_;
 
     my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        FieldID  => $Param{DynamicFieldConfig}{ID},
         ObjectID => $Param{ObjectID},
     );
 
-    return if !$DFValue;
-    return if !IsArrayRefWithData($DFValue);
-    return if !IsHashRefWithData( $DFValue->[0] );
-
-    # extract real values
-    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        my @ReturnData;
-        for my $Item ( @{$DFValue} ) {
-            push @ReturnData, $Item->{ValueText};
-        }
-        return \@ReturnData;
-    }
-    else {
-        return $DFValue->[0]->{ValueText};
-    }
+    return $Self->ValueStructureFromDB(
+        ValueDB    => $DFValue,
+        ValueKey   => 'ValueText',
+        Set        => $Param{Set},
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+    );
 }
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    # check value
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        for my $Value ( @{ $Param{Value} } ) {
-            push @Values, { ValueText => $Value };
-        }
-    }
-    else {
-        @Values = ( { ValueText => $Param{Value} } );
-    }
+    my $Value = $Self->ValueStructureToDB(
+        Value      => $Param{Value},
+        ValueKey   => 'ValueText',
+        Set        => $Param{Set},
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+    );
 
-    # get dynamic field value object
-    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
-
-    my $Success = $DynamicFieldValueObject->ValueSet(
+    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
-        Value    => \@Values,
+        Value    => $Value,
         UserID   => $Param{UserID},
     );
 
     return $Success;
 }
 
+# TODO: probably adjust Base.pm to check for arrays
 sub ValueIsDifferent {
     my ( $Self, %Param ) = @_;
 
@@ -131,7 +116,7 @@ sub ValueValidate {
 
     # check values
     my @Values;
-    if ( IsArrayRefWithData( $Param{Value} ) ) {
+    if ( ref $Param{Value} eq 'ARRAY' ) {
         @Values = @{ $Param{Value} };
     }
     else {
@@ -140,6 +125,16 @@ sub ValueValidate {
 
     # get dynamic field value object
     my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+
+    my $CheckRegex = 1;
+    if (
+        !IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
+        || ( defined $Param{NoValidateRegex} && $Param{NoValidateRegex} )
+        )
+    {
+
+        $CheckRegex = 0;
+    }
 
     my $Success;
     for my $Item (@Values) {
@@ -152,18 +147,8 @@ sub ValueValidate {
 
         return if !$Success;
 
-        my $CheckRegex = 1;
-        if ( defined $Param{NoValidateRegex} && $Param{NoValidateRegex} ) {
-            $CheckRegex = 0;
-        }
+        if ( $CheckRegex && IsStringWithData($Item) ) {
 
-        # Potential autovification problem here?
-        if (
-            IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
-            && IsStringWithData($Item)
-            && $CheckRegex
-            )
-        {
             # check regular expressions
             my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
 
@@ -305,7 +290,6 @@ sub EditFieldRender {
         'FieldClass'        => $FieldClass,
         'FieldName'         => $FieldName,
         'FieldLabelEscaped' => $FieldLabelEscaped,
-        'DivID'             => $FieldName,
         'MultiValue'        => $FieldConfig->{MultiValue} || 0,
         'ReadOnly'          => $Param{ReadOnly},
     );
@@ -317,9 +301,9 @@ sub EditFieldRender {
 
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
-        my $ValueItem = $Value->[$ValueIndex];
-        $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . ( $ValueIndex ? '_' . $ValueIndex : '' );
+        $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
+        my $ValueItem    = $Value->[$ValueIndex];
         my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
             Text => $ValueItem,
         );
@@ -388,8 +372,10 @@ sub EditFieldValueGet {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
             my @Data;
 
+            # delete the template value
+            pop @DataAll;
+
             # delete empty values (can happen if the user has selected the "-" entry)
-            my $Index = 0;
             for my $Item (@DataAll) {
                 push @Data, $Item // '';
             }
@@ -398,10 +384,6 @@ sub EditFieldValueGet {
         else {
             $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
         }
-    }
-
-    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} && ref $Value eq 'ARRAY' ) {
-        $Value = $Value->[0] || '';
     }
 
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
@@ -429,27 +411,23 @@ sub EditFieldValueValidate {
     my $ServerError;
     my $ErrorMessage;
 
-    my $ValueCount = $Param{ValueCount} || 1;
-
     if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
         $Value = [$Value];
     }
 
-    if ( $Param{Mandatory} && ( $ValueCount > scalar $Value->@* ) ) {
-        $ServerError = 1;
-    }
+    # TODO: check whether EditFieldValueGet returns ('first','second','','','fifth','') in case of added but unfilled multivalue fields
+
+    my $CheckRegex = IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} );
 
     for my $ValueItem ( @{$Value} ) {
 
         # perform necessary validations
-        if ( $Param{Mandatory} && $ValueItem eq '' ) {
-            $ServerError = 1;
+        if ( $ValueItem eq '' ) {
+            if ( $Param{Mandatory} ) {
+                $ServerError = 1;
+            }
         }
-        elsif (
-            IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
-            && ( $Param{Mandatory} || ( !$Param{Mandatory} && $ValueItem ne '' ) )
-            )
-        {
+        elsif ($CheckRegex) {
 
             # check regular expressions
             my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
@@ -575,8 +553,6 @@ sub DisplayValueRender {
     if ($ShowTitleEllipsis) {
         $Title .= '...';
     }
-
-    # EO MultiValueDynamicFields
 
     # set field link form config
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
@@ -805,7 +781,34 @@ sub TemplateValueTypeGet {
 sub RandomValueSet {
     my ( $Self, %Param ) = @_;
 
-    my $Value = int( rand(500) );
+    my $Value;
+
+    if ( $Param{SetCount} ) {
+        if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+            for my $i ( 0 .. $Param{SetCount} - 1 ) {
+                for my $j ( 0 .. int( rand(3) ) ) {
+                    $Value->[$i][$j] = int( rand(500) );
+                }
+            }
+        }
+        else {
+            for my $i ( 0 .. $Param{SetCount} - 1 ) {
+                $Value->[$i] = int( rand(500) );
+            }
+        }
+
+        $Param{Set} = 1;
+    }
+
+    elsif ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+        for my $j ( 0 .. int( rand(3) ) ) {
+            $Value->[$j] = int( rand(500) );
+        }
+    }
+
+    else {
+        $Value = int( rand(500) );
+    }
 
     my $Success = $Self->ValueSet(
         %Param,

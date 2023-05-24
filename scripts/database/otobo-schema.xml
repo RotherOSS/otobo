@@ -2026,7 +2026,7 @@
 </Table>
 
 <Table Name="dynamic_field_value">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <!-- foreign key to the dynamic_field -->
     <Column Name="field_id" Required="true" Type="INTEGER"/>
     <!-- the current object to link to (e. g. ticket or article ID) -->
@@ -2035,6 +2035,8 @@
     <Column Name="value_text" Required="false" Type="VARCHAR" Size="3800" />
     <Column Name="value_date" Required="false" Type="DATE" />
     <Column Name="value_int" Required="false" Type="BIGINT" />
+    <Column Name="index_value" Required="false" Type="SMALLINT" />
+    <Column Name="index_set" Required="false" Type="SMALLINT" />
 
     <!-- search objects with certain field content -->
     <Index Name="dynamic_field_value_search_text">

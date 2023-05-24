@@ -62,6 +62,10 @@ sub Run {
             Name   => 'Add frontend_mask_definition table.',
             Module => 'DBAddFrontendMaskDefinition',
         },
+        {
+            Name   => 'Add set and value indices to dynamic_field_value; change its id to BIGINT.',
+            Module => 'DBUpdateDynamicFieldValue',
+        },
     );
 
     TASK:

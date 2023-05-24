@@ -72,6 +72,8 @@ L</ValueGet()>.
                 ValueText          => 'some text',            # optional, one of these fields must be provided
                 ValueDateTime      => '1977-12-12 12:00:00',  # optional
                 ValueInt           => 123,                    # optional
+                IndexValue         => 0,                      # optional
+                IndexSet           => 5,                      # optional
             },
             ...
         ],
@@ -95,7 +97,7 @@ sub ValueSet {
     }
 
     # return if no Value was provided
-    if ( ref $Param{Value} ne 'ARRAY' || !$Param{Value}->[0] )
+    if ( ref $Param{Value} ne 'ARRAY' )
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -118,14 +120,12 @@ sub ValueSet {
                 !defined $Param{Value}->[$Counter]->{ValueText}
 
                 # do not accept an empty string as it is the same as NULL on oracle
-                # FIXME Solve this later
-                # || !length $Param{Value}->[$Counter]->{ValueText}
+                || !length $Param{Value}->[$Counter]->{ValueText}
             )
             && !defined $Param{Value}->[$Counter]->{ValueInt}
             && !defined $Param{Value}->[$Counter]->{ValueDateTime}
             )
         {
-            # SUGGESTION next could be more useful in multivalue context
             last VALUE;
         }
 
@@ -133,6 +133,8 @@ sub ValueSet {
             ValueText     => scalar $Param{Value}->[$Counter]->{ValueText},
             ValueInt      => scalar $Param{Value}->[$Counter]->{ValueInt},
             ValueDateTime => scalar $Param{Value}->[$Counter]->{ValueDateTime},
+            IndexValue    => scalar $Param{Value}->[$Counter]->{IndexValue},
+            IndexSet      => scalar $Param{Value}->[$Counter]->{IndexSet},
         );
 
         # data validation
@@ -169,11 +171,12 @@ sub ValueSet {
         # create a new value entry
         return if !$DBObject->Do(
             SQL =>
-                'INSERT INTO dynamic_field_value (field_id, object_id, value_text, value_date, value_int)'
-                . ' VALUES (?, ?, ?, ?, ?)',
+                'INSERT INTO dynamic_field_value (field_id, object_id, value_text, value_date, value_int, index_value, index_set)'
+                . ' VALUES (?, ?, ?, ?, ?, ?, ?)',
             Bind => [
-                \$Param{FieldID},     \$Param{ObjectID},
-                \$Value->{ValueText}, \$Value->{ValueDateTime}, \$Value->{ValueInt},
+                \$Param{FieldID},      \$Param{ObjectID},
+                \$Value->{ValueText},  \$Value->{ValueDateTime}, \$Value->{ValueInt},
+                \$Value->{IndexValue}, \$Value->{IndexSet},
             ],
         );
     }
@@ -252,7 +255,7 @@ sub ValueGet {
     # cache expiration); return only specified one dynamic field
     return if !$DBObject->Prepare(
         SQL =>
-            'SELECT id, value_text, value_date, value_int, field_id
+            'SELECT id, value_text, value_date, value_int, field_id, index_value, index_set
             FROM dynamic_field_value
             WHERE object_id = ?
             ORDER BY id',
@@ -277,6 +280,8 @@ sub ValueGet {
             ValueText     => $Data[1],
             ValueDateTime => $Data[2],
             ValueInt      => $Data[3],
+            IndexValue    => $Data[5],
+            IndexSet      => $Data[6],
         };
     }
 

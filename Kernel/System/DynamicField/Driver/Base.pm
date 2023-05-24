@@ -279,4 +279,138 @@ sub ValueSearch {
     return $Values;
 }
 
+=head2 ValueStructureFromDB()
+
+Generates the ValueGet return structure.
+
+    my $Value = $BaseObject->ValueStructureFromDB(
+        ValueDB    => $DynamicFieldValueObject->ValueGet(),
+        ValueKey   => 'ValueText',
+        Set        => 0|1,     # optional, default: 0
+        MultiValue => 0|1,     # optional, default: 0
+        BaseArray  => 0|1,     # optional, default: 0 - return array instead of scalar on dynamic field level
+    );
+
+=cut
+
+sub ValueStructureFromDB {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Param{ValueDB};
+    return if !IsArrayRefWithData( $Param{ValueDB} );
+    return if !IsHashRefWithData( $Param{ValueDB}->[0] );
+
+    my @ReturnValue;
+
+    if ( $Param{Set} ) {
+        if ( $Param{MultiValue} ) {
+            for my $Value ( $Param{ValueDB}->@* ) {
+                $ReturnValue[ $Value->{IndexSet} ][ $Value->{IndexValue} ] = $Value->{ $Param{ValueKey} };
+            }
+
+            return \@ReturnValue;
+        }
+
+        if ( $Param{BaseArray} ) {
+            for my $Value ( $Param{ValueDB}->@* ) {
+                $ReturnValue[ $Value->{IndexSet} ] = [ $Value->{ $Param{ValueKey} } ];
+            }
+
+            return \@ReturnValue;
+        }
+
+        for my $Value ( $Param{ValueDB}->@* ) {
+            $ReturnValue[ $Value->{IndexSet} ] = $Value->{ $Param{ValueKey} };
+        }
+
+        return \@ReturnValue;
+    }
+
+    if ( $Param{MultiValue} ) {
+        for my $Value ( $Param{ValueDB}->@* ) {
+            $ReturnValue[ $Value->{IndexValue} ] = $Value->{ $Param{ValueKey} };
+        }
+
+        return \@ReturnValue;
+    }
+
+    return [ $Param{ValueDB}[0]{ $Param{ValueKey} } ] if $Param{BaseArray};
+
+    return $Param{ValueDB}[0]{ $Param{ValueKey} };
+}
+
+=head2 ValueStructureToDB()
+
+Sets IndexValue and IndexSet for complex structures, if necessary.
+
+    my $DBValue = $BaseObject->ValueStructureToDB(
+        Value      => $DynamicFieldValueObject->ValueGet(),
+        ValueKey   => 'ValueText',
+        Set        => 0|1,     # optional, default: 0
+        MultiValue => 0|1,     # optional, default: 0
+    );
+
+=cut
+
+sub ValueStructureToDB {
+    my ( $Self, %Param ) = @_;
+
+    return () if !defined $Param{Value};
+
+    my @ReturnValue;
+
+    if ( $Param{Set} ) {
+        if ( $Param{MultiValue} ) {
+
+            # for a multi value field in a set, the structure is $Value[ $SetIndex ][ $MultiValueIndex ]
+            for my $i ( 0 .. $#{ $Param{Value} } ) {
+                VALUE:
+                for my $j ( 0 .. $#{ $Param{Value}[$i] } ) {
+                    next VALUE if !defined $Param{Value}[$i][$j] || $Param{Value}[$i][$j] eq '';
+
+                    push @ReturnValue, {
+                        $Param{ValueKey} => $Param{Value}[$i][$j],
+                        IndexSet         => $i,
+                        IndexValue       => $j,
+                    };
+                }
+            }
+        }
+        else {
+            # for a single value field in a set, the structure is $Value[ $SetIndex ]
+            VALUE:
+            for my $i ( 0 .. $#{ $Param{Value} } ) {
+                next VALUE if !defined $Param{Value}[$i] || $Param{Value}[$i] eq '';
+
+                push @ReturnValue, {
+                    $Param{ValueKey} => $Param{Value}[$i],
+                    IndexSet         => $i,
+                };
+            }
+        }
+    }
+
+    elsif ( $Param{MultiValue} ) {
+
+        # for a multi value field without set, the structure is $Value[ $MultiValueIndex ]
+        VALUE:
+        for my $j ( 0 .. $#{ $Param{Value} } ) {
+            next VALUE if !defined $Param{Value}[$j] || $Param{Value}[$j] eq '';
+
+            push @ReturnValue, {
+                $Param{ValueKey} => $Param{Value}[$j],
+                IndexValue       => $j,
+            };
+        }
+    }
+
+    else {
+        return [
+            { $Param{ValueKey} => $Param{Value} },
+        ];
+    }
+
+    return \@ReturnValue;
+}
+
 1;

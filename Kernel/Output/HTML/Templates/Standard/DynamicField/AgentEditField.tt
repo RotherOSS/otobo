@@ -23,9 +23,7 @@
                                 </div>
                                 [% IF Data.MultiValue && !Data.RowReadOnly %]
                                 <div class="AddRemoveValueRow">
-                                    [% IF Data.Index %]
                                     <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
-                                    [% END %]
                                     <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
                                 </div>
                                 [% END %]
@@ -34,8 +32,9 @@
 [% RenderBlockEnd("DynamicField") %]
 [% RenderBlockStart("TemplateDynamicField") %]
                             <div class="MultiValue_Template" style="[% Data.CellStyle | html %]">
+                                [% Data.Label %]
                                 <div class="Field">
-                                    [% Data.Field %]
+                                [% Data.Field %]
                                 </div>
                                 <div class="AddRemoveValueRow">
                                     <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>

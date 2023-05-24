@@ -230,6 +230,13 @@ div.Row.Row_DynamicField div.MultiColumn > div.MultiValueItem > label {
     cursor: pointer;
 }
 
+/* TODO: Add real style */
+fieldset.DynamicFieldSet {
+    border: 1px solid #777;
+    padding: 8px;
+    width: 600px;
+}
+
 a.InputField_Action {
     position: absolute;
     display: block;
