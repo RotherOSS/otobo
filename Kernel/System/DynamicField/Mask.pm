@@ -159,11 +159,12 @@ sub EditSectionRender {
         my $MultiValueMaxCount = 0;
         if ( $Row{Columns} > 1 && first { $Param{DynamicFields}{ $_->{DF} }{Config}{MultiValue} } $Row{Fields}->@* ) {
             for my $Field ( $Row{Fields}->@* ) {
-                if ( !ref $Param{DynamicFieldValues}{ $Field->{DF} } ) {
-                    $MultiValueMaxCount ||= $Param{DynamicFieldValues}{ $Field->{DF} } ? 1 : 0;
+                my $DFName = "DynamicField_$Field->{DF}";
+                if ( !ref $Param{DynamicFieldValues}{ $DFName } ) {
+                    $MultiValueMaxCount ||= $Param{DynamicFieldValues}{ $DFName } ? 1 : 0;
                 }
-                elsif ( scalar $Param{DynamicFieldValues}{ $Field->{DF} } > $MultiValueMaxCount ) {
-                    $MultiValueMaxCount = scalar $Param{DynamicFieldValues}{ $Field->{DF} };
+                elsif ( scalar $Param{DynamicFieldValues}{ $DFName }->@* > $MultiValueMaxCount ) {
+                    $MultiValueMaxCount = scalar $Param{DynamicFieldValues}{ $DFName }->@*;
                 }
             }
         }
@@ -207,6 +208,7 @@ sub EditSectionRender {
                 }
 
                 if ( scalar $Param{DynamicFieldValues}{$DFName}->@* < $MultiValueMaxCount ) {
+                    # TODO: Respect default values here and in the template
                     push $Param{DynamicFieldValues}{$DFName}->@*, ('') x ( $MultiValueMaxCount - scalar $Param{DynamicFieldValues}{$DFName}->@* );
                 }
             }
@@ -263,7 +265,7 @@ sub EditSectionRender {
 
             # multi value
             if ( $DynamicField->{Config}{MultiValue} ) {
-                for my $ValueRowIndex ( 0 .. $MultiValueMaxCount ) {
+                for my $ValueRowIndex ( 0 .. $#{ $DynamicFieldHTML->{MultiValue} } ) {
                     my %Label = $ValueRowIndex == 0 ? ( Label => $DynamicFieldHTML->{Label} ) : ();
 
                     push $ValueGrid[$ValueRowIndex]->@*, {
@@ -271,7 +273,7 @@ sub EditSectionRender {
                         Data => {
                             %CellBlockData,
                             %Label,
-                            Field       => $DynamicFieldHTML->{MultiValue}[0],
+                            Field       => $DynamicFieldHTML->{MultiValue}[$ValueRowIndex],
                             Index       => $ValueRowIndex,
                             CellClasses => $CellClassString . ' MultiValue_' . $ValueRowIndex,
                         },
@@ -302,8 +304,8 @@ sub EditSectionRender {
         }
 
         # block all dynamic fields for this df row
-        for my $ValueRowIndex ( 0 .. $MultiValueMaxCount ) {
-            for my $FieldData ( $ValueGrid[$ValueRowIndex]->@* ) {
+        for my $ValueRow ( @ValueGrid ) {
+            for my $FieldData ( $ValueRow->@* ) {
                 $Param{LayoutObject}->Block(
                     $FieldData->%*,
                 );
