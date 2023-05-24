@@ -480,19 +480,6 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="AutoComplete::Agent###DynamicFieldContactWD" Required="1" Valid="1">
-        <Description Translatable="1">Defines the config options for the autocompletion feature.</Description>
-        <Navigation>Frontend::Agent</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="AutoCompleteActive">1</Item>
-                <Item Key="MinQueryLength">2</Item>
-                <Item Key="QueryDelay">100</Item>
-                <Item Key="MaxResultsDisplayed">20</Item>
-                <Item Key="ButtonText" Translatable="1">Search</Item>
-            </Hash>
-        </Value>
-    </Setting>
     <Setting Name="AutoComplete::Customer###DynamicFieldDBSearch" Required="1" Valid="1">
         <Description Translatable="1">Defines the config options for the autocompletion feature.</Description>
         <Navigation>Frontend::Customer</Navigation>
@@ -746,7 +733,7 @@
     </Setting>
     <!-- End DynamicField Web Service -->
 
-    <!-- ContactWD -->
+    <!-- dynamic field ContactWD -->
     <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0210-OTOBOCommunity-ContactWD" Required="1" Valid="1">
         <Description Translatable="1">AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
@@ -818,6 +805,19 @@
             <Array>
                 <Item>Core.Agent.DynamicFieldContactWDSearch.js</Item>
             </Array>
+        </Value>
+    </Setting>
+    <Setting Name="AutoComplete::Agent###DynamicFieldContactWD" Required="1" Valid="1">
+        <Description Translatable="1">Defines the config options for the autocompletion feature.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="AutoCompleteActive">1</Item>
+                <Item Key="MinQueryLength">2</Item>
+                <Item Key="QueryDelay">100</Item>
+                <Item Key="MaxResultsDisplayed">20</Item>
+                <Item Key="ButtonText" Translatable="1">Search</Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="Frontend::Module###AgentContactWDSearch" Required="0" Valid="1">
@@ -913,7 +913,7 @@
             </Hash>
         </Value>
     </Setting>
-    <!-- End ContactWD -->
+    <!-- End dynamic field ContactWD -->
 
     <!-- Admin Interface -->
     <Setting Name="Frontend::Module###AdminDynamicField" Required="0" Valid="1">
