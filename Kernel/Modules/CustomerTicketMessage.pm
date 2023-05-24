@@ -1829,6 +1829,8 @@ sub _MaskNew {
 
             $DynamicFieldConfigs{ $DynamicFieldConfig->{Name} } = $DynamicFieldConfig;
 
+            next DYNAMICFIELD if $DefinedFieldsList{ $DynamicFieldConfig->{Name} };
+
             push $InputFieldDefinition->@*, {
                 DF        => $DynamicFieldConfig->{Name},
                 Mandatory => $Config->{DynamicField}{ $DynamicFieldConfig->{Name} } == 2 ? 1 : 0,
@@ -1845,7 +1847,7 @@ sub _MaskNew {
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
             Visibility           => $Param{Visibility},
-            Interface            => 'Customer',
+            CustomerInterface    => 1,
         );
     }
 

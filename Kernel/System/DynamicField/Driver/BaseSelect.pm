@@ -244,6 +244,9 @@ sub EditFieldRender {
     if ( !ref $Value ) {
         $Value = [$Value];
     }
+    elsif ( !$Value->@* ) {
+        $Value = [undef];
+    }
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldText Modernize';
@@ -443,6 +446,7 @@ sub EditFieldValueGet {
             pop @DataAll;
 
             my @Data;
+
             # delete empty values (can happen if the user has selected the "-" entry)
             for my $Item (@DataAll) {
                 push @Data, $Item // '';
