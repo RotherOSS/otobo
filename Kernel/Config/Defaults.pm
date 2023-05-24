@@ -174,10 +174,6 @@ sub LoadDefaults {
     # default valid
     $Self->{DefaultValid} = 'valid';
 
-    # DEPRECATED. Compatibilty setting for older 3.0 code.
-    # Internal charset must always be utf-8.
-    $Self->{DefaultCharset} = 'utf-8';
-
     # default language
     # (the default frontend language) [default: en]
     $Self->{DefaultLanguage} = 'en';
