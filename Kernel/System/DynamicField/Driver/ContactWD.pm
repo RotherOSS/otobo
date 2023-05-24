@@ -216,7 +216,8 @@ sub EditFieldRender {
     }
 
     # check and set class if necessary
-    my $FieldClass = 'DynamicFieldContactWD W50pc';
+    # The CSS class DynamicFieldContactWD is needed for Autocomplete
+    my $FieldClass = 'W50pc DynamicFieldContactWD';
     if ( defined $Param{Class} && $Param{Class} ne '' ) {
         $FieldClass .= ' ' . $Param{Class};
     }
