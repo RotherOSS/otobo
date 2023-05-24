@@ -265,6 +265,9 @@ sub EditFieldRender {
     if ( !ref $Value ) {
         $Value = [$Value];
     }
+    elsif ( !$Value->@* ) {
+        $Value = [undef];
+    }
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldText W50pc';
