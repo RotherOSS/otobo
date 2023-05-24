@@ -467,7 +467,7 @@ sub Run {
 
         # Send JSON response, $LayoutObject->{Charset} is actually 'utf-8'
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $Output,
             Type        => 'inline',
             NoCache     => 1,

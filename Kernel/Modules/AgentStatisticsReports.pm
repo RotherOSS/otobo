@@ -762,6 +762,7 @@ sub RunAction {
         UserID      => $Self->{UserID},
     );
     my $Title = $StatsReport{Config}->{Title};
+
     return $LayoutObject->Attachment(
         Filename    => $Title . '.pdf',
         ContentType => 'application/pdf',
@@ -802,7 +803,7 @@ sub StatsAddWidgetAJAX {
 
     if ( !$StatID ) {
         return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
-            ContentType => 'application/json; charset=utf-8',
+            ContentType => 'application/json',
             Content     => $Kernel::OM->Get('Kernel::System::JSON')->Encode( Data => { Success => 0 } ),
             Type        => 'inline',
             NoCache     => 1,
@@ -813,7 +814,7 @@ sub StatsAddWidgetAJAX {
 
     if ( !$Stat ) {
         return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
-            ContentType => 'application/json; charset=utf-8',
+            ContentType => 'application/json',
             Content     => $Kernel::OM->Get('Kernel::System::JSON')->Encode( Data => { Success => 0 } ),
             Type        => 'inline',
             NoCache     => 1,
@@ -844,7 +845,7 @@ sub StatsAddWidgetAJAX {
 
     if ( !$StatsParamsWidget ) {
         return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
-            ContentType => 'application/json; charset=utf-8',
+            ContentType => 'application/json',
             Content     => $Kernel::OM->Get('Kernel::System::JSON')->Encode( Data => { Success => 0 } ),
             Type        => 'inline',
             NoCache     => 1,
@@ -866,7 +867,7 @@ sub StatsAddWidgetAJAX {
         }
     );
     return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=utf-8',
+        ContentType => 'application/json',
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,

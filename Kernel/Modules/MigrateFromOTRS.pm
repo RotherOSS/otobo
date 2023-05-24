@@ -303,7 +303,7 @@ sub Run {
         my $OutputJSON = $LayoutObject->JSONEncode( Data => $Return );
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $OutputJSON,
             Type        => 'inline',
             NoCache     => 1,

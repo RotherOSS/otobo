@@ -237,7 +237,7 @@ sub Run {
         );
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $Charset,
+            ContentType => 'application/json',
             Content     => $LayoutObject->JSONEncode( Data => \%Result ),
             Type        => 'inline',
             NoCache     => 1,
