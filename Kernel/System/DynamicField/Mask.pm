@@ -88,7 +88,8 @@ creates the field HTML to be used in edit masks for multiple dynamic fields.
         Visibility            => \%Visibility,      # optional
         SeparateDynamicFields => {                  # optional TODO: deprecate
             Name3 => 1,
-        }
+        },
+        Interface             => 'Agent',           # optional 'Agent' or 'Customer', defaults to 'Agent' - used for determining template file
     );
 
 =cut
@@ -107,6 +108,8 @@ sub EditSectionRender {
             return;
         }
     }
+
+    my $TemplateFile = $Param{Interface} && $Param{Interface} eq 'Customer' ? 'DynamicField/CustomerEditField' : 'DynamicField/AgentEditField';
 
     if ( !IsArrayRefWithData( $Param{Content} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -376,7 +379,7 @@ sub EditSectionRender {
     }
 
     return $Param{LayoutObject}->Output(
-        TemplateFile => 'DynamicField/AgentEditField',
+        TemplateFile => $TemplateFile,
     );
 }
 
