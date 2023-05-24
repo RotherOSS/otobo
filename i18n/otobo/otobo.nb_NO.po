@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-23 12:58+0000\n"
+"PO-Revision-Date: 2023-05-24 19:06+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -2130,6 +2130,8 @@ msgid ""
 "You can reference the field with its own field name. You can also refer to "
 "other fields, e.g. with 'DynamicField_OtherFieldName'."
 msgstr ""
+"Du kan referere til feltet med sitt eget feltnavn. Du kan også vise til "
+"andre felt, f.eks. med 'DynamicField_OtherFieldName'."
 
 #. Template: AdminDynamicFieldDB
 msgid "Link for preview"
@@ -9978,11 +9980,11 @@ msgstr "Avslutningstidspunkt for sak (mellom)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (before/after)"
-msgstr ""
+msgstr "Saksopptrappingstid (før/etter)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (between)"
-msgstr ""
+msgstr "Sakseskaleringstid (mellom)"
 
 #. Template: AgentTicketSearch
 msgid "Archive Search"
@@ -9998,7 +10000,7 @@ msgstr "Lagre filter som standard"
 
 #. Template: AgentTicketZoom
 msgid "Event Type"
-msgstr ""
+msgstr "Hendelsestype"
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
@@ -10006,7 +10008,7 @@ msgstr "Lagre som standard"
 
 #. Template: AgentTicketZoom
 msgid "Drafts"
-msgstr ""
+msgstr "Utkast"
 
 #. Template: AgentTicketZoom
 msgid "Change Queue"
@@ -10015,22 +10017,23 @@ msgstr "Bytt kø"
 #. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
 msgstr ""
+"Det er ingen dialogbokser tilgjengelig på dette tidspunktet i prosessen."
 
 #. Template: AgentTicketZoom
 msgid "This item has no articles yet."
-msgstr ""
+msgstr "Dette elementet har ingen artikler ennå."
 
 #. Template: AgentTicketZoom
 msgid "Ticket Timeline View"
-msgstr ""
+msgstr "Tidslinjevisning for saker"
 
 #. Template: AgentTicketZoom
 msgid "Article Overview - %s Article(s)"
-msgstr ""
+msgstr "Artikkeloversikt – %s artikkel(er)"
 
 #. Template: AgentTicketZoom
 msgid "Page %s"
-msgstr ""
+msgstr "Side %s"
 
 #. Template: AgentTicketZoom
 msgid "Add Filter"
@@ -10054,7 +10057,7 @@ msgstr "Uleste innlegg"
 
 #. Template: AgentTicketZoom
 msgid "Via"
-msgstr ""
+msgstr "Via"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -10078,7 +10081,7 @@ msgstr "Intern melding"
 
 #. Template: AgentTicketZoom
 msgid "Sending of this message has failed."
-msgstr ""
+msgstr "Sending av denne meldingen mislyktes."
 
 #. Template: AgentTicketZoom
 msgid "Resize"
@@ -10094,39 +10097,44 @@ msgstr "Vis fulltekst"
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
-msgstr ""
+msgstr "Full artikkeltekst"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
-msgstr ""
+msgstr "Fant ingen flere hendelser. Prøv å endre filterinnstillingene."
 
 #. Template: Chat
 msgid "#%s"
-msgstr ""
+msgstr "#%s"
 
 #. Template: Chat
 msgid "via %s"
-msgstr ""
+msgstr "via %s"
 
 #. Template: Chat
 msgid "by %s"
-msgstr ""
+msgstr "av %s"
 
 #. Template: Chat
 msgid "Toggle article details"
-msgstr ""
+msgstr "Veksle artikkeldetaljer"
 
 #. Template: MIMEBase
 msgid ""
 "This message is being processed. Already tried to send %s time(s). Next try "
 "will be %s."
 msgstr ""
+"Denne meldingen er under behandling. Har allerede prøvd å sende %s gang(er). "
+"Neste forsøk vil være %s."
 
 #. Template: MIMEBase
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
 msgstr ""
+"For å åpne koblinger i den følgende artikkelen, må du kanskje trykke Ctrl "
+"eller Cmd eller Shift-tasten mens du klikker på koblingen (avhengig av "
+"nettleseren og operativsystemet)."
 
 #. Template: MIMEBase
 msgid "Close this message"
@@ -10134,7 +10142,7 @@ msgstr "Lukk denne meldingen"
 
 #. Template: MIMEBase
 msgid "Image"
-msgstr ""
+msgstr "Bilde"
 
 #. Template: MIMEBase
 msgid "PDF"
@@ -10174,7 +10182,7 @@ msgstr "Tilgjengelighet"
 
 #. Template: TicketInformation
 msgid "%s Ticket(s)"
-msgstr ""
+msgstr "%s sak(er)"
 
 #. Template: TicketInformation
 msgid "Accounted time"
@@ -10185,14 +10193,16 @@ msgid ""
 "Preview of this article is not possible because %s channel is missing in the "
 "system."
 msgstr ""
+"Forhåndsvisning av denne artikkelen er ikke mulig fordi %s kanal mangler i "
+"systemet."
 
 #. Template: Invalid
 msgid "Please re-install %s package in order to display this article."
-msgstr ""
+msgstr "Installer %s-pakken på nytt for å vise denne artikkelen."
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
-msgstr ""
+msgstr "For å beskytte personvernet ditt ble eksternt innhold blokkert."
 
 #. Template: AttachmentBlocker
 msgid "Load blocked content."
@@ -10200,15 +10210,15 @@ msgstr "Last inn blokkert innhold."
 
 #. Template: Breadcrumb
 msgid "Home"
-msgstr ""
+msgstr "Hjem"
 
 #. Template: Breadcrumb
 msgid "Back to admin overview"
-msgstr ""
+msgstr "Tilbake til adminoversikt"
 
 #. Template: CloudServicesDisabled
 msgid "This Feature Requires Cloud Services"
-msgstr ""
+msgstr "Denne funksjonen krever skytjenester"
 
 #. Template: CloudServicesDisabled
 msgid "You can"
@@ -10220,35 +10230,38 @@ msgstr "gå tilbake til forrige side"
 
 #. Template: CustomerAccept
 msgid "Click to accept"
-msgstr ""
+msgstr "Klikk for å godta"
 
 #. Template: TicketCustomerIDSelection
 msgid ""
 "The customer ID is not changeable, no other customer ID can be assigned to "
 "this ticket."
 msgstr ""
+"Kunde-ID kan ikke endres, ingen annen kunde-ID kan tilordnes denne saken."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
 "First select a customer user, then you can select a customer ID to assign to "
 "this ticket."
 msgstr ""
+"Velg først en kundebruker, deretter kan du velge en kunde-ID som skal "
+"tilordnes denne saken."
 
 #. Template: TicketCustomerIDSelection
 msgid "Select a customer ID to assign to this ticket."
-msgstr ""
+msgstr "Velg en kunde-ID som skal tilordnes denne saken."
 
 #. Template: TicketCustomerIDSelection
 msgid "From all Customer IDs"
-msgstr ""
+msgstr "Fra alle kunde-ID-er"
 
 #. Template: TicketCustomerIDSelection
 msgid "From assigned Customer IDs"
-msgstr ""
+msgstr "Fra tildelte kunde-ID-er"
 
 #. Template: CustomerDashboard
 msgid "Ticket Search"
-msgstr ""
+msgstr "Søk i saker"
 
 #. Template: CustomerDashboard
 msgid "New Ticket"
@@ -10256,7 +10269,7 @@ msgstr "Ny sak"
 
 #. Template: CustomerError
 msgid "An Error Occurred"
-msgstr ""
+msgstr "En feil oppstod"
 
 #. Template: CustomerError
 msgid "Error Details"
@@ -10272,6 +10285,9 @@ msgid ""
 "page manually or wait until your browser has re-established the connection "
 "on its own."
 msgstr ""
+"%s oppdaget mulige nettverksproblemer. Du kan enten prøve å laste inn denne "
+"siden på nytt manuelt eller vente til nettleseren din har reetablert "
+"tilkoblingen på egen hånd."
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10280,6 +10296,10 @@ msgid ""
 "order to be able to use all elements correctly again, it is strongly "
 "recommended to reload this page."
 msgstr ""
+"Forbindelsen er gjenopprettet etter et midlertidig tap av forbindelse. På "
+"grunn av dette kan elementene på denne siden ha sluttet å fungere korrekt. "
+"For å kunne bruke alle elementene riktig igjen, anbefales det sterkt å laste "
+"denne siden på nytt."
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -10290,6 +10310,7 @@ msgid ""
 "In order to experience this software, you'll need to enable JavaScript in "
 "your browser."
 msgstr ""
+"For å bruke denne programvaren, må du aktivere JavaScript i nettleseren din."
 
 #. Template: CustomerLogin
 msgid "Browser Warning"
@@ -10304,6 +10325,8 @@ msgid ""
 "This software runs with a huge lists of browsers, please upgrade to one of "
 "these."
 msgstr ""
+"Denne programvaren kjører med et stort antall nettlesere, vennligst "
+"oppgrader til en av disse."
 
 #. Template: CustomerLogin
 msgid "Please see the documentation or ask your admin for further information."
@@ -10315,12 +10338,15 @@ msgstr ""
 msgid ""
 "The browser you are using doesn't support css-grid. It's likely too old."
 msgstr ""
+"Nettleseren du bruker støtter ikke css-grid. Den er sannsynligvis for gammel."
 
 #. Template: CustomerLogin
 msgid ""
 "Internet Explorer is functional, but not all features are fully supported. "
 "Please consider updating to a modern browser."
 msgstr ""
+"Internet Explorer er funksjonell, men ikke alle funksjoner støttes fullt ut. "
+"Vennligst vurder å oppdatere til en moderne nettleser."
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
@@ -10348,11 +10374,11 @@ msgstr "Glemt passordet?"
 
 #. Template: CustomerLogin
 msgid "Your 2 Factor Token"
-msgstr ""
+msgstr "Ditt 2-faktor-token"
 
 #. Template: CustomerLogin
 msgid "2 Factor Token"
-msgstr ""
+msgstr "Tofaktor-token"
 
 #. Template: CustomerLogin
 msgid "Log In"
@@ -10360,7 +10386,7 @@ msgstr "Logg inn"
 
 #. Template: CustomerLogin
 msgid "Request Account"
-msgstr ""
+msgstr "Be om konto"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -10380,7 +10406,7 @@ msgstr "Opprett konto"
 
 #. Template: CustomerLogin
 msgid "Please fill out this form to receive login credentials."
-msgstr ""
+msgstr "Vennligst fyll ut dette skjemaet for å motta påloggingsinformasjon."
 
 #. Template: CustomerLogin
 msgid "How we should address you"
@@ -10404,13 +10430,15 @@ msgstr "Logg ut"
 
 #. Template: CustomerPassword
 msgid "Change Password"
-msgstr ""
+msgstr "Bytt passord"
 
 #. Template: CustomerPassword
 msgid ""
 "Password needs to contain at least 3 of the character classes: lower char, "
 "upper char, digit, special character."
 msgstr ""
+"Passordet må inneholde minst 3 av tegnklassene: små bokstaver, store "
+"bokstaver, siffer, spesialtegn."
 
 #. Template: CustomerTicketList
 msgid "Welcome!"
@@ -10418,19 +10446,19 @@ msgstr "Velkommen!"
 
 #. Template: CustomerTicketList
 msgid "You have no tickets yet. Please click here, to create a new one."
-msgstr ""
+msgstr "Du har ingen saker ennå. Klikk her for å opprette en ny."
 
 #. Template: CustomerTicketList
 msgid "Nothing to show."
-msgstr ""
+msgstr "Ingenting å vise."
 
 #. Template: CustomerTicketList
 msgid "Click here for an unfiltered list of all your tickets."
-msgstr ""
+msgstr "Klikk her for en ufiltrert liste over alle sakene dine."
 
 #. Template: CustomerTicketMessage
 msgid "Issue a new Ticket"
-msgstr ""
+msgstr "Lag en ny sak"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10438,7 +10466,7 @@ msgstr "Tjenestenivåavtale"
 
 #. Template: CustomerTicketOverview
 msgid "Your Tickets"
-msgstr ""
+msgstr "Dine saker"
 
 #. Template: CustomerTicketOverview
 msgid "Page"
@@ -10446,7 +10474,7 @@ msgstr "Side"
 
 #. Template: CustomerTicketOverview
 msgid "Sort"
-msgstr ""
+msgstr "Sortere"
 
 #. Template: CustomerTicketSearch
 msgid "Profile"
@@ -10462,7 +10490,7 @@ msgstr "Kunde-ID"
 
 #. Template: CustomerTicketSearch
 msgid "Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")"
-msgstr ""
+msgstr "Fulltekstsøk i saker (f.eks. \"John*n\" eller \"Will*\")"
 
 #. Template: CustomerTicketSearch
 msgid "Types"
@@ -10470,7 +10498,7 @@ msgstr "Typer"
 
 #. Template: CustomerTicketSearch
 msgid "Time Restrictions"
-msgstr ""
+msgstr "Tidsbegrensninger"
 
 #. Template: CustomerTicketSearch
 msgid "No time settings"
@@ -10490,7 +10518,7 @@ msgstr "Kun saker opprettet"
 
 #. Template: CustomerTicketSearch
 msgid "Date range"
-msgstr ""
+msgstr "Datointervall"
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created between"
@@ -10498,11 +10526,11 @@ msgstr "Kun saker opprettet mellom"
 
 #. Template: CustomerTicketSearch
 msgid "Ticket Archive System"
-msgstr ""
+msgstr "Saksarkivsystem"
 
 #. Template: CustomerTicketSearch
 msgid "Save Search as Template?"
-msgstr ""
+msgstr "Lagre søk som mal?"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
@@ -10542,7 +10570,7 @@ msgstr "Svar"
 
 #. Template: CustomerTicketZoom
 msgid "Discard"
-msgstr ""
+msgstr "Kast"
 
 #. Template: CustomerTicketZoom
 msgid "Ticket Information"
@@ -10550,11 +10578,11 @@ msgstr "Saksinformasjon"
 
 #. Template: CustomerTicketZoom
 msgid "Categories"
-msgstr ""
+msgstr "Kategorier"
 
 #. Template: CustomerTicketZoom
 msgid "Further actions"
-msgstr ""
+msgstr "Ytterligere handlinger"
 
 #. Template: Chat
 msgid "Expand article"
@@ -10562,7 +10590,7 @@ msgstr "Utvid artikkel"
 
 #. Template: MIMEBase
 msgid "Article Information"
-msgstr ""
+msgstr "Artikkelinformasjon"
 
 #. Template: CustomerWarning
 msgid "Warning"
@@ -10570,7 +10598,7 @@ msgstr "Advarsel"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
-msgstr ""
+msgstr "Utsted%sa sak"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
@@ -10586,37 +10614,39 @@ msgstr "Utvid"
 
 #. Template: Footer
 msgid "Powered by %s"
-msgstr ""
+msgstr "Drevet av %s"
 
 #. Template: AttachmentList
 msgid "Click to delete this attachment."
-msgstr ""
+msgstr "Klikk for å slette dette vedlegget."
 
 #. Template: DraftButtons
 msgid "Update draft"
-msgstr ""
+msgstr "Oppdater utkastet"
 
 #. Template: DraftButtons
 msgid "Save as new draft"
-msgstr ""
+msgstr "Lagre som nytt utkast"
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\"."
-msgstr ""
+msgstr "Du har lastet utkastet \"%s\"."
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". You last changed it %s."
-msgstr ""
+msgstr "Du har lastet utkastet \"%s\". Du endret det sist %s."
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". It was last changed %s by %s."
-msgstr ""
+msgstr "Du har lastet utkastet \"%s\". Det ble sist endret %s av %s."
 
 #. Template: DraftNotifications
 msgid ""
 "Please note that this draft is outdated because the ticket was modified "
 "since this draft was created."
 msgstr ""
+"Vær oppmerksom på at dette utkastet er utdatert fordi saken ble endret siden "
+"dette utkastet ble opprettet."
 
 #. Template: Header
 msgid "Edit personal preferences"
@@ -10624,7 +10654,7 @@ msgstr "Endre personlige innstillinger"
 
 #. Template: Header
 msgid "Personal preferences"
-msgstr ""
+msgstr "Personlige preferanser"
 
 #. Template: Header
 msgid "You are logged in as"
@@ -10660,7 +10690,7 @@ msgstr "Velkommen til %s"
 
 #. Template: Installer
 msgid "Germany"
-msgstr ""
+msgstr "Tyskland"
 
 #. Template: Installer
 msgid "Phone"
@@ -10788,11 +10818,11 @@ msgstr "Installasjonstype"
 
 #. Template: InstallerDBStart
 msgid "Create a new database for OTOBO"
-msgstr ""
+msgstr "Opprett en ny database for OTOBO"
 
 #. Template: InstallerDBStart
 msgid "Use an existing database for OTOBO"
-msgstr ""
+msgstr "Bruk en eksisterende database for OTOBO"
 
 #. Template: InstallerDBmssql
 msgid ""
@@ -10876,13 +10906,15 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "HTTP Type"
-msgstr ""
+msgstr "HTTP-type"
 
 #. Template: InstallerSystem
 msgid ""
 "Set the request scheme used for cookies and various links. For production "
 "purposes always use https."
 msgstr ""
+"Angi forespørselsskjemaet som brukes for informasjonskapsler og ulike "
+"lenker. For produksjonsformål bruk alltid https."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -10948,17 +10980,19 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "Elasticsearch"
-msgstr ""
+msgstr "Elasticsearch"
 
 #. Template: InstallerSystem
 msgid "Initialize Elasticsearch"
-msgstr ""
+msgstr "Initialiser Elasticsearch"
 
 #. Template: InstallerSystem
 msgid ""
 "Elasticsearch server was found, and it has been activated automatically for "
 "OTOBO."
 msgstr ""
+"Elasticsearch-serveren ble funnet, og den har blitt aktivert automatisk for "
+"OTOBO."
 
 #. Template: InstallerSystem
 msgid ""
@@ -10969,14 +11003,20 @@ msgid ""
 "ElasticsearchFulltext' in the SysConfig and run the otobo.Console command "
 "'Maint::Elasticsearch::Migration'."
 msgstr ""
+"Tilsynelatende kjører enten ingen ren Elasticsearch-server, eller så bruker "
+"den ikke standardkonfigurasjonen. For å aktivere Elasticsearch manuelt, "
+"vennligst rediger nettjenesten i administrasjonsgrensesnittet om nødvendig, "
+"aktiver 'Elasticsearch::Active' og 'Frontend::ToolBarModule###250-Ticket::"
+"ElasticsearchFulltext' i SysConfig og kjør kommandoen otobo.Console "
+"'Maint::Elasticsearch::Migration'."
 
 #. Template: LinkObject
 msgid "Delete link"
-msgstr ""
+msgstr "Slett lenke"
 
 #. Template: LinkObject
 msgid "Delete Link"
-msgstr ""
+msgstr "Slett lenke"
 
 #. Template: LinkObject
 msgid "Object#"
@@ -11000,49 +11040,55 @@ msgstr "Tilbake til innlogging"
 
 #. Template: MetaFloater
 msgid "Scale preview content"
-msgstr ""
+msgstr "Skaler forhåndsvisningsinnhold"
 
 #. Template: MetaFloater
 msgid "Open URL in new tab"
-msgstr ""
+msgstr "Åpne URL i ny fane"
 
 #. Template: MetaFloater
 msgid "Close preview"
-msgstr ""
+msgstr "Lukk forhåndsvisning"
 
 #. Template: MetaFloater
 msgid ""
 "A preview of this website can't be provided because it didn't allow to be "
 "embedded."
 msgstr ""
+"En forhåndsvisning av dette nettstedet kan ikke gis fordi det ikke tillot å "
+"bli innebygd."
 
 #. Template: Copy
 msgid "Start migration"
-msgstr ""
+msgstr "Start migrering"
 
 #. Template: Copy
 msgid "Result of data migration"
-msgstr ""
+msgstr "Resultat av datamigrering"
 
 #. Template: Copy
 msgid "Last successful task:"
-msgstr ""
+msgstr "Siste vellykkede oppgave:"
 
 #. Template: Copy
 msgid ""
 "Migration will restart from the last successfully finished task. Please do a "
 "complete rerun if you changed your system in the meantime."
 msgstr ""
+"Migreringen starter på nytt fra den siste fullførte oppgaven. Gjør en "
+"fullstendig omkjøring hvis du endret systemet i mellomtiden."
 
 #. Template: Copy
 msgid "Clean up and finish"
-msgstr ""
+msgstr "Rydd opp og fullfør"
 
 #. Template: Finish
 msgid ""
 "The migration is complete, thank you for trying out OTOBO - we hope you will "
 "like it."
 msgstr ""
+"Migreringen er fullført, takk for at du prøvde OTOBO - vi håper du vil like "
+"den."
 
 #. Template: Finish
 msgid ""
@@ -11066,28 +11112,38 @@ msgid ""
 "migrating your ticket system from OTRS or ((OTRS)) Community Edition version "
 "6 to OTOBO 10."
 msgstr ""
+"Dette migreringsskriptet vil lede deg trinn for trinn gjennom prosessen med "
+"å migrere sakssystemet ditt fra OTRS eller ((OTRS)) Community Edition "
+"versjon 6 til OTOBO 10."
 
 #. Template: Intro
 msgid ""
 "There is no danger whatsoever for your original system: nothing is changed "
 "there."
 msgstr ""
+"Det er ingen fare for det opprinnelige systemet ditt: ingenting er endret "
+"der."
 
 #. Template: Intro
 msgid ""
 "Instructions and details on migration prerequisites can be found in the "
 "migration manual. We strongly recommend reading it before starting migration."
 msgstr ""
+"Instruksjoner og detaljer om migreringsforutsetninger finnes i "
+"migreringshåndboken. Vi anbefaler på det sterkeste å lese den før du starter "
+"migreringen."
 
 #. Template: Intro
 msgid ""
 "In case you have to suspend migration, you can resume it anytime at the same "
 "point as long as the cache has not been deleted."
 msgstr ""
+"I tilfelle du må stanse migreringen, kan du gjenoppta den når som helst på "
+"samme tidspunkt så lenge hurtigbufferen ikke er slettet."
 
 #. Template: Intro
 msgid "All entered passwords are cached until the migration is finished."
-msgstr ""
+msgstr "Alle angitte passord bufres til migreringen er fullført."
 
 #. Template: Intro
 msgid ""
@@ -11095,40 +11151,45 @@ msgid ""
 "Directory will be able to read them. If you abort the migration, you are "
 "given the option to clear the cache by visiting this page again."
 msgstr ""
+" Alle med tilgang til denne siden, eller lesetillatelse for OTOBO Home "
+"Directory vil kunne lese dem. Hvis du avbryter migreringen, får du "
+"muligheten til å tømme hurtigbufferen ved å besøke denne siden igjen."
 
 #. Template: Intro
 msgid "If you need support, just ask our experts – either at"
-msgstr ""
+msgstr "Hvis du trenger støtte, spør ekspertene våre – enten på"
 
 #. Template: Intro
 msgid "OTOBO forum"
-msgstr ""
+msgstr "OTOBO forum"
 
 #. Template: Intro
 msgid "or directly via mail to"
-msgstr ""
+msgstr "eller direkte på mail til"
 
 #. Template: Intro
 msgid "Cached data found"
-msgstr ""
+msgstr "Bufret data funnet"
 
 #. Template: Intro
 msgid ""
 "You will continue where you aborted the migration last time. If you do not "
 "want this, please discard your previous progress."
 msgstr ""
+"Du fortsetter der du avbrøt migreringen forrige gang. Hvis du ikke ønsker "
+"dette, vennligst forkast din tidligere fremgang."
 
 #. Template: Intro
 msgid "An error occured."
-msgstr ""
+msgstr "En feil oppstod."
 
 #. Template: Intro
 msgid "Discard previous progress"
-msgstr ""
+msgstr "Forkast tidligere fremgang"
 
 #. Template: Intro
 msgid "Insecure HTTP connection"
-msgstr ""
+msgstr "Usikker HTTP-tilkobling"
 
 #. Template: Intro
 msgid ""
@@ -11137,63 +11198,67 @@ msgid ""
 "unencrypted. Anyone between you and the OTOBO server will be able to read "
 "them! Please consider setting up https instead."
 msgstr ""
+"Du bruker migreringsskriptet via http. Dette er svært usikkert da ulike "
+"passord kreves under prosessen, og vil bli overført ukryptert. Alle mellom "
+"deg og OTOBO-serveren vil kunne lese dem! Vurder å sette opp https i stedet."
 
 #. Template: Intro
 msgid "Continue anyways :("
-msgstr ""
+msgstr "Fortsett uansett :("
 
 #. Template: Intro
 msgid " Continue anyways :("
-msgstr ""
+msgstr " Fortsett uansett :("
 
 #. Template: OTRSDBSettings
 msgid "DSN"
-msgstr ""
+msgstr "DSN"
 
 #. Template: OTRSDBSettings
 msgid "Skip DB migration"
-msgstr ""
+msgstr "Hopp over DB-migrering"
 
 #. Template: OTRSDBSettings
 msgid ""
 "Expert option! Only works if the migration has already been done by hand."
 msgstr ""
+"Ekspertalternativ! Fungerer kun hvis migreringen allerede er gjort for hånd."
 
 #. Template: OTRSDBSettings
 msgid "Skipped."
-msgstr ""
+msgstr "Hoppet over."
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
-msgstr ""
+msgstr "OTRS server"
 
 #. Template: OTRSFileSettings
 msgid "SSH User"
-msgstr ""
+msgstr "SSH-bruker"
 
 #. Template: OTRSFileSettings
 msgid "OTRS home directory"
-msgstr ""
+msgstr "OTRS hjemmekatalog"
 
 #. Template: OTRSFileSettings
 msgid "Check settings"
-msgstr ""
+msgstr "Sjekk innstillingene"
 
 #. Template: OTRSFileSettings
 msgid "Result of settings check"
-msgstr ""
+msgstr "Resultat av innstillingskontroll"
 
 #. Template: OTRSFileSettings
 msgid "Settings check successful."
-msgstr ""
+msgstr "Innstillingssjekk vellykket."
 
 #. Template: PreChecks
 msgid "Execute migration pre-checks"
-msgstr ""
+msgstr "Utfør forhåndssjekker for migrering"
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not Available"
-msgstr ""
+msgstr "Funksjonen er ikke tilgjengelig"
 
 #. Template: MobileNotAvailableWidget
 msgid ""
@@ -11201,6 +11266,9 @@ msgid ""
 "devices. If you'd like to use it, you can either switch to desktop mode or "
 "use your regular desktop device."
 msgstr ""
+"Beklager, men denne funksjonen til OTOBO er for øyeblikket ikke tilgjengelig "
+"for mobile enheter. Hvis du vil bruke den, kan du enten bytte til "
+"skrivebordsmodus eller bruke den vanlige skrivebordsenheten."
 
 #. Template: Motd
 msgid "Message of the Day"
@@ -11208,7 +11276,7 @@ msgstr "Dagens melding"
 
 #. Template: Motd
 msgid "This is the message of the day. You can edit this in %s."
-msgstr ""
+msgstr "Dette er dagens budskap. Du kan redigere dette i %s."
 
 #. Template: NoPermission
 msgid "Insufficient Rights"
@@ -11220,7 +11288,7 @@ msgstr "Tilbake til forrige side"
 
 #. Template: Alert
 msgid "Alert"
-msgstr ""
+msgstr "Varsling"
 
 #. Template: Alert
 msgid "Powered by"
@@ -11260,11 +11328,11 @@ msgstr "Filen er ikke et bilde som kan vises i nettleseren!"
 
 #. Template: PreferencesNotificationEvent
 msgid "No user configurable notifications found."
-msgstr ""
+msgstr "Ingen brukerkonfigurerbare varsler funnet."
 
 #. Template: PreferencesNotificationEvent
 msgid "Receive messages for notification '%s' by transport method '%s'."
-msgstr ""
+msgstr "Motta meldinger for varsel '%s' med transportmetoden '%s'."
 
 #. Template: ActivityDialogHeader
 msgid "Process Information"
@@ -11287,12 +11355,16 @@ msgid ""
 "This is the default public interface of OTOBO! There was no action parameter "
 "given."
 msgstr ""
+"Dette er det offentlige standardgrensesnittet til OTOBO! Det ble ikke gitt "
+"noen handlingsparameter."
 
 #. Template: PublicDefault
 msgid ""
 "You could install a custom public module (via the package manager), for "
 "example the FAQ module, which has a public interface."
 msgstr ""
+"Du kan installere en tilpasset offentlig modul (via pakkebehandlingen), for "
+"eksempel FAQ-modulen, som har et offentlig grensesnitt."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
@@ -11307,7 +11379,7 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
-msgstr ""
+msgstr "Resultatformater"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Time Zone"
@@ -11315,45 +11387,49 @@ msgstr "Tidssone"
 
 #. Template: GeneralSpecificationsWidget
 msgid "The selected time periods in the statistic are time zone neutral."
-msgstr ""
+msgstr "De valgte tidsperiodene i statistikken er tidssonenøytrale."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
-msgstr ""
+msgstr "Opprett summeringsrad"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data rows."
-msgstr ""
+msgstr "Generer en ekstra rad som inneholder summer for alle datarader."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
-msgstr ""
+msgstr "Opprett summeringskolonne"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data columns."
-msgstr ""
+msgstr "Generer en ekstra kolonne som inneholder summer for alle datakolonner."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
-msgstr ""
+msgstr "Cache-resultater"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with "
 "the same configuration (requires at least one selected time field)."
 msgstr ""
+"Lagrer statistikkresultatdata i en hurtigbuffer som skal brukes i påfølgende "
+"visninger med samme konfigurasjon (krever minst ett valgt tidsfelt)."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Provide the statistic as a widget that agents can activate in their "
 "dashboard."
-msgstr ""
+msgstr "Oppgi statistikken som en widget som agenter kan aktivere i dashbordet."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Please note that enabling the dashboard widget will activate caching for "
 "this statistic in the dashboard."
 msgstr ""
+"Vær oppmerksom på at aktivering av dashboard-widgeten vil aktivere caching "
+"for denne statistikken i dashbordet."
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
@@ -11361,25 +11437,27 @@ msgstr "Hvis satt til ugyldig kan ikke sluttbrukere generere statistikken."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
-msgstr ""
+msgstr "Det er problemer i konfigurasjonen av denne statistikken:"
 
 #. Template: PreviewWidget
 msgid "You may now configure the X-axis of your statistic."
-msgstr ""
+msgstr "Du kan nå konfigurere X-aksen til statistikken."
 
 #. Template: PreviewWidget
 msgid "This statistic does not provide preview data."
-msgstr ""
+msgstr "Denne statistikken gir ikke forhåndsvisningsdata."
 
 #. Template: PreviewWidget
 msgid "Preview format"
-msgstr ""
+msgstr "Forhåndsvisningsformat"
 
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
 "filters."
 msgstr ""
+"Vær oppmerksom på at forhåndsvisningen bruker tilfeldige data og tar ikke "
+"hensyn til datafiltre."
 
 #. Template: PreviewWidget
 msgid "Configure X-Axis"
@@ -11411,7 +11489,7 @@ msgstr "Absolutt periode"
 
 #. Template: RestrictionsWidget
 msgid "Between %s and %s"
-msgstr ""
+msgstr "Mellom %s og %s"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
@@ -11419,11 +11497,11 @@ msgstr "Relativ periode"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
-msgstr ""
+msgstr "Den siste komplette %s og den nåværende+kommende komplette %s %s"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr ""
+msgstr "Ikke tillat endringer i dette elementet når statistikken genereres."
 
 #. Template: StatsParamsWidget
 msgid "Format"
@@ -11435,7 +11513,7 @@ msgstr "Bytt akser"
 
 #. Template: StatsParamsWidget
 msgid "Configurable Params of Static Stat"
-msgstr ""
+msgstr "Konfigurerbare parametere for statisk stat"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
@@ -11447,11 +11525,11 @@ msgstr "Skala"
 
 #. Template: StatsParamsWidget
 msgid "show more"
-msgstr ""
+msgstr "vis mer"
 
 #. Template: StatsParamsWidget
 msgid "show less"
-msgstr ""
+msgstr "vis mindre"
 
 #. Template: D3
 msgid "Download SVG"
@@ -11466,259 +11544,278 @@ msgid ""
 "The selected time period defines the default time frame for this statistic "
 "to collect data from."
 msgstr ""
+"Den valgte tidsperioden definerer standard tidsrammen for denne statistikken "
+"å samle inn data fra."
 
 #. Template: XAxisWidget
 msgid ""
 "Defines the time unit that will be used to split the selected time period "
 "into reporting data points."
 msgstr ""
+"Definerer tidsenheten som skal brukes til å dele den valgte tidsperioden inn "
+"i rapporteringsdatapunkter."
 
 #. Template: YAxisWidget
 msgid ""
 "Please remember that the scale for the Y-axis has to be larger than the "
 "scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
+"Husk at skalaen for Y-aksen må være større enn skalaen for X-aksen (f.eks. X-"
+"aksen => Måned, Y-aksen => År)."
 
 #. Template: StatsWidget
 msgid "Remove statistic"
-msgstr ""
+msgstr "Fjern statistikk"
 
 #. Template: StatsWidget
 msgid ""
 "If you don't specify a title here, the title of the statistic will be used."
 msgstr ""
+"Hvis du ikke spesifiserer en tittel her, vil tittelen på statistikken bli "
+"brukt."
 
 #. Template: StatsWidget
 msgid "Preface"
-msgstr ""
+msgstr "Forord"
 
 #. Template: StatsWidget
 msgid "Postface"
-msgstr ""
+msgstr "Etterord"
 
 #. Template: SettingHistoryListCompare
 msgid "On "
-msgstr ""
+msgstr "På "
 
 #. Template: SettingHistoryListCompare
 msgid "Reset to this value"
-msgstr ""
+msgstr "Tilbakestill til denne verdien"
 
 #. Template: SettingsList
 msgid "This setting is disabled."
-msgstr ""
+msgstr "Denne innstillingen er deaktivert."
 
 #. Template: SettingsList
 msgid "This setting is fixed but not deployed yet!"
-msgstr ""
+msgstr "Denne innstillingen er løst, men ikke distribuert ennå!"
 
 #. Template: SettingsList
 msgid ""
 "This setting is currently being overridden in %s and can't thus be changed "
 "here!"
 msgstr ""
+"Denne innstillingen blir for øyeblikket overstyrt i %s og kan derfor ikke "
+"endres her!"
 
 #. Template: SettingsList
 msgid "Changing this setting is only available in a higher config level!"
 msgstr ""
+"Endring av denne innstillingen er bare tilgjengelig på et høyere "
+"konfigurasjonsnivå!"
 
 #. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
-msgstr ""
+msgstr "%s (%s) jobber for øyeblikket med denne innstillingen."
 
 #. Template: SettingsList
 msgid "Toggle advanced options for this setting"
-msgstr ""
+msgstr "Slå på avanserte alternativer for denne innstillingen"
 
 #. Template: SettingsList
 msgid "Disable this setting, so it is no longer effective"
-msgstr ""
+msgstr "Deaktiver denne innstillingen, slik at den ikke lenger er effektiv"
 
 #. Template: SettingsList
 msgid "Disable"
-msgstr ""
+msgstr "Deaktiver"
 
 #. Template: SettingsList
 msgid "Enable this setting, so it becomes effective"
-msgstr ""
+msgstr "Aktiver denne innstillingen, så den blir effektiv"
 
 #. Template: SettingsList
 msgid "Enable"
-msgstr ""
+msgstr "Muliggjøre"
 
 #. Template: SettingsList
 msgid "Reset this setting to its default state"
-msgstr ""
+msgstr "Tilbakestill denne innstillingen til standardtilstanden"
 
 #. Template: SettingsList
 msgid "Reset setting"
-msgstr ""
+msgstr "Tilbakestill innstillingen"
 
 #. Template: SettingsList
 msgid ""
 "Allow users to adapt this setting from within their personal preferences"
 msgstr ""
+"Tillat brukere å tilpasse denne innstillingen fra sine personlige preferanser"
 
 #. Template: SettingsList
 msgid "Allow users to update"
-msgstr ""
+msgstr "Tillat brukere å oppdatere"
 
 #. Template: SettingsList
 msgid ""
 "Do not longer allow users to adapt this setting from within their personal "
 "preferences"
 msgstr ""
+"Ikke lenger la brukere tilpasse denne innstillingen fra sine personlige "
+"preferanser"
 
 #. Template: SettingsList
 msgid "Forbid users to update"
-msgstr ""
+msgstr "Forby brukere å oppdatere"
 
 #. Template: SettingsList
 msgid "Show user specific changes for this setting"
-msgstr ""
+msgstr "Vis brukerspesifikke endringer for denne innstillingen"
 
 #. Template: SettingsList
 msgid "Show user settings"
-msgstr ""
+msgstr "Vis brukerinnstillinger"
 
 #. Template: SettingsList
 msgid "Copy a direct link to this setting to your clipboard"
-msgstr ""
+msgstr "Kopier en direkte lenke til denne innstillingen til utklippstavlen"
 
 #. Template: SettingsList
 msgid "Copy direct link"
-msgstr ""
+msgstr "Kopier direkte lenke"
 
 #. Template: SettingsList
 msgid "Remove this setting from your favorites setting"
-msgstr ""
+msgstr "Fjern denne innstillingen fra favorittinnstillingen"
 
 #. Template: SettingsList
 msgid "Remove from favourites"
-msgstr ""
+msgstr "Fjern fra favoritter"
 
 #. Template: SettingsList
 msgid "Add this setting to your favorites"
-msgstr ""
+msgstr "Legg til denne innstillingen til dine favoritter"
 
 #. Template: SettingsList
 msgid "Add to favourites"
-msgstr ""
+msgstr "Legg til i favoritter"
 
 #. Template: SettingsList
 msgid "Cancel editing this setting"
-msgstr ""
+msgstr "Avbryt redigering av denne innstillingen"
 
 #. Template: SettingsList
 msgid "Save changes on this setting"
-msgstr ""
+msgstr "Lagre endringer på denne innstillingen"
 
 #. Template: SettingsList
 msgid "Edit this setting"
-msgstr ""
+msgstr "Rediger denne innstillingen"
 
 #. Template: SettingsList
 msgid "Enable this setting"
-msgstr ""
+msgstr "Aktiver denne innstillingen"
 
 #. Template: SettingsList
 msgid ""
 "This group doesn't contain any settings. Please try navigating to one of its "
 "sub groups or another group."
 msgstr ""
+"Denne gruppen inneholder ingen innstillinger. Prøv å navigere til en av "
+"undergruppene eller en annen gruppe."
 
 #. Template: SettingsListCompare
 msgid "Now"
-msgstr ""
+msgstr "Nå"
 
 #. Template: SettingsListCompare
 msgid "User modification"
-msgstr ""
+msgstr "Brukerendring"
 
 #. Template: SettingsListCompare
 msgid "enabled"
-msgstr ""
+msgstr "aktivert"
 
 #. Template: SettingsListCompare
 msgid "disabled"
-msgstr ""
+msgstr "funksjonshemmet"
 
 #. Template: SettingsListCompare
 msgid "Setting state"
-msgstr ""
+msgstr "Innstillingstilstand"
 
 #. Template: Actions
 msgid "Edit search"
-msgstr ""
+msgstr "Rediger søk"
 
 #. Template: Actions
 msgid "Go back to admin: "
-msgstr ""
+msgstr "Gå tilbake til admin: "
 
 #. Template: Actions
 msgid "Deployment"
-msgstr ""
+msgstr "Utplassering"
 
 #. Template: Actions
 msgid "My favourite settings"
-msgstr ""
+msgstr "Mine favorittinnstillinger"
 
 #. Template: Actions
 msgid "Invalid settings"
-msgstr ""
+msgstr "Ugyldige innstillinger"
 
 #. Template: DynamicActions
 msgid "Filter visible settings..."
-msgstr ""
+msgstr "Filtrer synlige innstillinger..."
 
 #. Template: DynamicActions
 msgid "Enable edit mode for all settings"
-msgstr ""
+msgstr "Aktiver redigeringsmodus for alle innstillinger"
 
 #. Template: DynamicActions
 msgid "Save all edited settings"
-msgstr ""
+msgstr "Lagre alle redigerte innstillinger"
 
 #. Template: DynamicActions
 msgid "Cancel editing for all settings"
-msgstr ""
+msgstr "Avbryt redigering for alle innstillinger"
 
 #. Template: DynamicActions
 msgid ""
 "All actions from this widget apply to the visible settings on the right only."
 msgstr ""
+"Alle handlinger fra denne widgeten gjelder kun for de synlige innstillingene "
+"til høyre."
 
 #. Template: Help
 msgid "Currently edited by me."
-msgstr ""
+msgstr "For øyeblikket redigert av meg."
 
 #. Template: Help
 msgid "Modified but not yet deployed."
-msgstr ""
+msgstr "Modifisert, men ikke utplassert ennå."
 
 #. Template: Help
 msgid "Currently edited by another user."
-msgstr ""
+msgstr "For øyeblikket redigert av en annen bruker."
 
 #. Template: Help
 msgid "Different from its default value."
-msgstr ""
+msgstr "Forskjellig fra standardverdien."
 
 #. Template: Help
 msgid "Save current setting."
-msgstr ""
+msgstr "Lagre gjeldende innstilling."
 
 #. Template: Help
 msgid "Cancel editing current setting."
-msgstr ""
+msgstr "Avbryt redigering av gjeldende innstilling."
 
 #. Template: Navigation
 msgid "Navigation"
-msgstr ""
+msgstr "Navigasjon"
 
 #. Template: UsersSettingListCompare
 msgid "Delete user's value."
-msgstr ""
+msgstr "Slett brukerens verdi."
 
 #. Template: Test
 msgid "OTOBO Test Page"
@@ -11746,15 +11843,15 @@ msgstr "Vis"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
-msgstr ""
+msgstr "Utkast til tittel"
 
 #. JS Template: ArticleViewSettingsDialog
 msgid "Article display"
-msgstr ""
+msgstr "Artikkelvisning"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Do you really want to delete \"%s\"?"
-msgstr ""
+msgstr "Vil du virkelig slette \"%s\"?"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Confirm"
@@ -11762,23 +11859,23 @@ msgstr "Bekreft"
 
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
-msgstr ""
+msgstr "Laster Vennligst vent..."
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show all"
-msgstr ""
+msgstr "Vis alt"
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show less"
-msgstr ""
+msgstr "Vis mindre"
 
 #. JS Template: UploadContainer
 msgid "Click to select a file for upload."
-msgstr ""
+msgstr "Klikk for å velge en fil for opplasting."
 
 #. JS Template: UploadContainer
 msgid "Click to select or drop files here."
-msgstr ""
+msgstr "Klikk for å velge eller slippe filer her."
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
@@ -11794,31 +11891,31 @@ msgstr "Laster opp..."
 
 #. JS Template: MigrationState
 msgid "Time needed"
-msgstr ""
+msgstr "Tid som trengs"
 
 #. JS Template: PackageResolve
 msgid "Package"
-msgstr ""
+msgstr "Pakke"
 
 #. JS Template: PackageResolve
 msgid "Uninstall from OTOBO"
-msgstr ""
+msgstr "Avinstaller fra OTOBO"
 
 #. JS Template: PackageResolve
 msgid "Ignore"
-msgstr ""
+msgstr "Overse"
 
 #. JS Template: PackageResolve
 msgid "Migrate"
-msgstr ""
+msgstr "Migrer"
 
 #. JS Template: InformationDialog
 msgid "Process state"
-msgstr ""
+msgstr "Prosesstilstand"
 
 #. JS Template: InformationDialog
 msgid "Running"
-msgstr ""
+msgstr "Løping"
 
 #. JS Template: InformationDialog
 msgid "Finished"
@@ -11826,7 +11923,7 @@ msgstr "Ferdig"
 
 #. JS Template: InformationDialog
 msgid "No package information available."
-msgstr ""
+msgstr "Ingen pakkeinformasjon tilgjengelig."
 
 #. JS Template: AddButton
 msgid "Add new entry"
@@ -11834,59 +11931,59 @@ msgstr "Ny post"
 
 #. JS Template: AddHashKey
 msgid "Add key"
-msgstr ""
+msgstr "Legg til nøkkel"
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
-msgstr ""
+msgstr "Implementeringskommentar..."
 
 #. JS Template: DialogDeployment
 msgid "This field can have no more than 250 characters."
-msgstr ""
+msgstr "Dette feltet kan ikke ha mer enn 250 tegn."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
-msgstr ""
+msgstr "Implementerer, vennligst vent..."
 
 #. JS Template: DialogDeployment
 msgid "Preparing to deploy, please wait..."
-msgstr ""
+msgstr "Forbereder distribusjon, vennligst vent..."
 
 #. JS Template: DialogDeployment
 msgid "Deploy now"
-msgstr ""
+msgstr "Distribuer nå"
 
 #. JS Template: DialogDeployment
 msgid "Try again"
-msgstr ""
+msgstr "Prøv igjen"
 
 #. JS Template: DialogReset
 msgid "Reset options"
-msgstr ""
+msgstr "Tilbakestill alternativer"
 
 #. JS Template: DialogReset
 msgid "Reset setting on global level."
-msgstr ""
+msgstr "Tilbakestill innstillingen på globalt nivå."
 
 #. JS Template: DialogReset
 msgid "Reset globally"
-msgstr ""
+msgstr "Tilbakestill globalt"
 
 #. JS Template: DialogReset
 msgid "Remove all user changes."
-msgstr ""
+msgstr "Fjern alle brukerendringer."
 
 #. JS Template: DialogReset
 msgid "Reset locally"
-msgstr ""
+msgstr "Tilbakestill lokalt"
 
 #. JS Template: DialogReset
 msgid "user(s) have modified this setting."
-msgstr ""
+msgstr "bruker(e) har endret denne innstillingen."
 
 #. JS Template: DialogReset
 msgid "Do you really want to reset this setting to it's default value?"
-msgstr ""
+msgstr "Vil du virkelig tilbakestille denne innstillingen til standardverdien?"
 
 #. JS Template: HelpDialog
 msgid ""
@@ -11894,10 +11991,13 @@ msgid ""
 "entries from the selected category. As soon as you select the category, the "
 "tree will be re-built."
 msgstr ""
+"Du kan bruke kategorivalget for å begrense navigasjonstreet nedenfor til "
+"oppføringer fra den valgte kategorien. Så snart du velger kategori, vil "
+"treet bli gjenoppbygd."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
-msgstr ""
+msgstr "Database-backend"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "CustomerIDs"
@@ -11960,142 +12060,148 @@ msgid ""
 "ACLs could not be Imported due to a unknown error, please check OTOBO logs "
 "for more information"
 msgstr ""
+"ACL-er kunne ikke importeres på grunn av en ukjent feil, vennligst sjekk "
+"OTOBO-loggene for mer informasjon"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been added successfully: %s"
-msgstr ""
+msgstr "Følgende tilgangskontrollister er lagt til: %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been updated successfully: %s"
-msgstr ""
+msgstr "Følgende tilgangskontrollister har blitt oppdatert: %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "There where errors adding/updating the following ACLs: %s. Please check the "
 "log file for more information."
 msgstr ""
+"Det var feil ved å legge til/oppdatere følgende tilgangskontrollister: %s. "
+"Vennligst sjekk loggfilen for mer informasjon."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error creating the ACL"
-msgstr ""
+msgstr "Det oppsto en feil ved opprettelse av tilgangskontrollisten"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Need ACLID!"
-msgstr ""
+msgstr "Trenger ACLID!"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Could not get data for ACLID %s"
-msgstr ""
+msgstr "Kunne ikke hente data for ACLID %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error updating the ACL"
-msgstr ""
+msgstr "Det oppsto en feil under oppdatering av tilgangskontrollisten"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error setting the entity sync status."
-msgstr ""
+msgstr "Det oppsto en feil under innstilling av enhetssynkroniseringsstatus."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error synchronizing the ACLs."
-msgstr ""
+msgstr "Det oppsto en feil under synkronisering av tilgangskontrollistene."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "ACL %s could not be deleted"
-msgstr ""
+msgstr "ACL %s kunne ikke slettes"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error getting data for ACL with ID %s"
-msgstr ""
+msgstr "Det oppsto en feil ved henting av data for ACL med ID %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "%s (copy) %s"
-msgstr ""
+msgstr "%s (kopi) %s'"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "Please note that ACL restrictions will be ignored for the Superuser account "
 "(UserID 1)."
 msgstr ""
+"Vær oppmerksom på at ACL-begrensninger vil bli ignorert for Superuser-"
+"kontoen (UserID 1)."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
-msgstr ""
+msgstr "Nøyaktig treff"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
-msgstr ""
+msgstr "Negert eksakt samsvar"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression"
-msgstr ""
+msgstr "Vanlig uttrykk"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression (ignore case)"
-msgstr ""
+msgstr "Regelmessig uttrykk (ignorer store og små bokstaver)"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression"
-msgstr ""
+msgstr "Negert regulært uttrykk"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression (ignore case)"
-msgstr ""
+msgstr "Negert regulært uttrykk (ignorer store og små bokstaver)"
 
 #. Perl Module: Kernel/Modules/AdminAbout.pm
 msgid "Could not update About message!"
-msgstr ""
+msgstr "Kunne ikke oppdatere Om melding!"
 
 #. Perl Module: Kernel/Modules/AdminAbout.pm
 msgid "About message updated!"
-msgstr ""
+msgstr "Om melding oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "System was unable to create Calendar!"
-msgstr ""
+msgstr "Systemet kunne ikke opprette kalender!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Please contact the administrator."
-msgstr ""
+msgstr "Vennligst kontakt administratoren."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "No CalendarID!"
-msgstr ""
+msgstr "Ingen kalender-ID!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "You have no access to this calendar!"
-msgstr ""
+msgstr "Du har ikke tilgang til denne kalenderen!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Error updating the calendar!"
-msgstr ""
+msgstr "Feil under oppdatering av kalenderen!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Couldn't read calendar configuration file."
-msgstr ""
+msgstr "Kunne ikke lese kalenderkonfigurasjonsfilen."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Please make sure your file is valid."
-msgstr ""
+msgstr "Sørg for at filen din er gyldig."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Could not import the calendar!"
-msgstr ""
+msgstr "Kunne ikke importere kalenderen!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Calendar imported!"
-msgstr ""
+msgstr "Kalender importert!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Need CalendarID!"
-msgstr ""
+msgstr "Trenger CalendarID!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Could not retrieve data for given CalendarID"
-msgstr ""
+msgstr "Kunne ikke hente data for gitt kalender-ID"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Successfully imported %s appointment(s) to calendar %s."
-msgstr ""
+msgstr "Vellykket importert %s avtale(r) til kalenderen %s."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+5 minutes"
@@ -12111,7 +12217,7 @@ msgstr "+30 minutter"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+1 hour"
-msgstr ""
+msgstr "+1 time'"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentImport.pm
 msgid "No permissions"
@@ -12119,72 +12225,76 @@ msgstr "Ingen rettigheter"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentImport.pm
 msgid "System was unable to import file!"
-msgstr ""
+msgstr "Systemet kunne ikke importere filen!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentImport.pm
 msgid "Please check the log for more information."
-msgstr ""
+msgstr "Vennligst sjekk loggen for mer informasjon."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification name already exists!"
-msgstr ""
+msgstr "Navnet på varselet finnes allerede!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification added!"
-msgstr ""
+msgstr "Varsling lagt til!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error getting data for Notification with ID:%s!"
-msgstr ""
+msgstr "Det oppsto en feil ved å hente data for varsling med ID:%s!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Unknown Notification %s!"
-msgstr ""
+msgstr "Ukjent varsel %s!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "%s (copy)"
-msgstr ""
+msgstr "%s (kopi)'"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
-msgstr ""
+msgstr "Det oppsto en feil da varselet skulle opprettes"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid ""
 "Notifications could not be Imported due to a unknown error, please check "
 "OTOBO logs for more information"
 msgstr ""
+"Varsler kunne ikke importeres på grunn av en ukjent feil, vennligst sjekk "
+"OTOBO-loggene for mer informasjon"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "The following Notifications have been added successfully: %s"
-msgstr ""
+msgstr "Følgende varsler er lagt til: %s"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "The following Notifications have been updated successfully: %s"
-msgstr ""
+msgstr "Følgende varsler har blitt oppdatert: %s"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid ""
 "There where errors adding/updating the following Notifications: %s. Please "
 "check the log file for more information."
 msgstr ""
+"Det var feil ved å legge til/oppdatere følgende varsler: %s. Vennligst sjekk "
+"loggfilen for mer informasjon."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification updated!"
-msgstr ""
+msgstr "Varsling oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Agent (resources), who are selected within the appointment"
-msgstr ""
+msgstr "Agent (ressurser), som velges innenfor avtalen"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid ""
 "All agents with (at least) read permission for the appointment (calendar)"
-msgstr ""
+msgstr "Alle agenter med (minst) lesetillatelse for avtalen (kalender)"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "All agents with write permission for the appointment (calendar)"
-msgstr ""
+msgstr "Alle agenter med skrivetillatelse for avtalen (kalender)"
 
 #. Perl Module: Kernel/Modules/AdminAttachment.pm
 msgid "Attachment added!"
@@ -12192,55 +12302,55 @@ msgstr "Vedlegg lagt til!"
 
 #. Perl Module: Kernel/Modules/AdminAutoResponse.pm
 msgid "Auto Response added!"
-msgstr ""
+msgstr "Autorespons lagt til!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid CommunicationID!"
-msgstr ""
+msgstr "Ugyldig kommunikasjons-ID!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "All communications"
-msgstr ""
+msgstr "All kommunikasjon"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 1 hour"
-msgstr ""
+msgstr "Siste 1 time"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 3 hours"
-msgstr ""
+msgstr "Siste 3 timer"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 6 hours"
-msgstr ""
+msgstr "Siste 6 timer"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 12 hours"
-msgstr ""
+msgstr "Siste 12 timer"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 24 hours"
-msgstr ""
+msgstr "Siste 24 timer"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last week"
-msgstr ""
+msgstr "Forrige uke"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last month"
-msgstr ""
+msgstr "Forrige måned"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid StartTime: %s!"
-msgstr ""
+msgstr "Ugyldig starttid: %s!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Successful"
-msgstr ""
+msgstr "Vellykket"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Processing"
-msgstr ""
+msgstr "Behandling"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Failed"
@@ -12248,23 +12358,23 @@ msgstr "Feilet"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid Filter: %s!"
-msgstr ""
+msgstr "Ugyldig filter: %s!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Less than a second"
-msgstr ""
+msgstr "Mindre enn et sekund"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "sorted descending"
-msgstr ""
+msgstr "sortert synkende"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "sorted ascending"
-msgstr ""
+msgstr "sortert stigende"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Trace"
-msgstr ""
+msgstr "Spor"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Debug"
@@ -12276,7 +12386,7 @@ msgstr "Informasjon"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Warn"
-msgstr ""
+msgstr "Varsle"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "days"
@@ -12304,45 +12414,47 @@ msgstr "sekund"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No contact is given!"
-msgstr ""
+msgstr "Ingen kontakt er gitt!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given contact in given source!"
-msgstr ""
+msgstr "Ingen data funnet for gitt kontakt i gitt kilde!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact updated!"
-msgstr ""
+msgstr "Kontakt oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No field data found!"
-msgstr ""
+msgstr "Ingen feltdata funnet!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact created!"
-msgstr ""
+msgstr "Kontakt opprettet!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Error creating contact!"
-msgstr ""
+msgstr "Feil ved opprettelse av kontakt!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid ""
 "No sources found, at least one \"Contact with data\" dynamic field must be "
 "added to the system!"
 msgstr ""
+"Ingen kilder funnet, minst ett \"Kontakt med data\" dynamisk felt må legges "
+"til systemet!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given source!"
-msgstr ""
+msgstr "Ingen data funnet for gitt kilde!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Could not update Privacy Policy!"
-msgstr ""
+msgstr "Kunne ikke oppdatere personvernerklæringen!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Privacy Policy updated!"
-msgstr ""
+msgstr "Personvernerklæring oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
@@ -12350,15 +12462,15 @@ msgstr "Kundebedrift oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Dynamic field %s not found!"
-msgstr ""
+msgstr "Dynamisk felt %s ikke funnet!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Unable to set value for dynamic field %s!"
-msgstr ""
+msgstr "Kan ikke angi verdi for dynamisk felt %s!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
-msgstr ""
+msgstr "Kundebedrift %s eksisterer allerede!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company added!"
@@ -12366,15 +12478,15 @@ msgstr "Kundebedrift lagt til!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "No configuration for 'CustomerGroupPermissionContext' found!"
-msgstr ""
+msgstr "Ingen konfigurasjon for 'CustomerGroupPermissionContext' funnet!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "Please check system configuration."
-msgstr ""
+msgstr "Vennligst sjekk systemkonfigurasjonen."
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "Invalid permission context configuration:"
-msgstr ""
+msgstr "Ugyldig konfigurasjon av tillatelseskontekst:"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Customer updated!"
@@ -12394,101 +12506,103 @@ msgstr "Kunde %s lagt til"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Customer user updated!"
-msgstr ""
+msgstr "Kundebruker oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Same Customer"
-msgstr ""
+msgstr "Samme kunde"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Direct"
-msgstr ""
+msgstr "Direkte"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Indirect"
-msgstr ""
+msgstr "Indirekte"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserGroup.pm
 msgid "Change Customer User Relations for Group"
-msgstr ""
+msgstr "Endre kundebrukerforhold for gruppe"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserGroup.pm
 msgid "Change Group Relations for Customer User"
-msgstr ""
+msgstr "Endre gruppeforhold for kundebruker"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserService.pm
 msgid "Allocate Customer Users to Service"
-msgstr ""
+msgstr "Tildel kundebrukere til tjeneste"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserService.pm
 msgid "Allocate Services to Customer User"
-msgstr ""
+msgstr "Tildel tjenester til kundebruker"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Fields configuration is not valid"
-msgstr ""
+msgstr "Feltkonfigurasjonen er ikke gyldig"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Objects configuration is not valid"
-msgstr ""
+msgstr "Objektkonfigurasjonen er ikke gyldig"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for "
 "more details."
 msgstr ""
+"Kunne ikke tilbakestille Dynamic Field-rekkefølgen riktig, sjekk feilloggen "
+"for mer informasjon."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Undefined subaction."
-msgstr ""
+msgstr "Udefinert delhandling."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
-msgstr ""
+msgstr "Trenger %s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Add %s field"
-msgstr ""
+msgstr "Legg til %s felt"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
-msgstr ""
+msgstr "Feltet inneholder ikke bare ASCII-bokstaver og tall."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "There is another field with the same name."
-msgstr ""
+msgstr "Det er et annet felt med samme navn."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field must be numeric."
-msgstr ""
+msgstr "Feltet må være numerisk."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need ValidID"
-msgstr ""
+msgstr "Trenger gyldig ID"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not create the new field"
-msgstr ""
+msgstr "Kunne ikke opprette det nye feltet"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need ID"
-msgstr ""
+msgstr "Trenger ID"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
-msgstr ""
+msgstr "Kunne ikke hente data for dynamisk felt %s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Change %s field"
-msgstr ""
+msgstr "Endre %s-feltet"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
-msgstr ""
+msgstr "Navnet på dette feltet skal ikke endres."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not update the field %s"
-msgstr ""
+msgstr "Kunne ikke oppdatere feltet %s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Currently"
@@ -12496,51 +12610,51 @@ msgstr "Nåværende"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Unchecked"
-msgstr ""
+msgstr "Ikke merket"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Checked"
-msgstr ""
+msgstr "Krysset av"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
 msgid "This field key is duplicated."
-msgstr ""
+msgstr "Denne feltnøkkelen er duplisert."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
 msgid "This field value is duplicated."
-msgstr ""
+msgstr "Denne feltverdien er duplisert."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
-msgstr ""
+msgstr "Hindre oppføring av datoer i fremtiden"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the past"
-msgstr ""
+msgstr "Forhindre oppføring av datoer i fortiden"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were saved."
-msgstr ""
+msgstr "Innstillingene ble lagret."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "System was not able to save the setting!"
-msgstr ""
+msgstr "Systemet kunne ikke lagre innstillingen!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Setting is locked by another user!"
-msgstr ""
+msgstr "Innstillingen er låst av en annen bruker!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "System was not able to reset the setting!"
-msgstr ""
+msgstr "Systemet kunne ikke tilbakestille innstillingen!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were reset."
-msgstr ""
+msgstr "Innstillingene ble tilbakestilt."
 
 #. Perl Module: Kernel/Modules/AdminEmail.pm
 msgid "Select at least one recipient."
-msgstr ""
+msgstr "Velg minst én mottaker."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "minute(s)"
@@ -12572,33 +12686,34 @@ msgstr "Aktive saker"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr ""
+msgstr "arkivbilletter"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "gjenopprette billetter fra arkivet"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "Trenger profil!"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
-msgstr ""
+msgstr "Har ingen verdier å sjekke."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid ""
 "Please remove the following words because they cannot be used for the ticket "
 "selection:"
 msgstr ""
+"Vennligst fjern følgende ord fordi de ikke kan brukes til billettvalget:"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Need WebserviceID!"
-msgstr ""
+msgstr "Trenger WebserviceID!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Could not get data for WebserviceID %s"
-msgstr ""
+msgstr "Kunne ikke hente data for webtjeneste-ID %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "ascending"
@@ -12610,111 +12725,111 @@ msgstr "synkende"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need communication type!"
-msgstr ""
+msgstr "Trenger kommunikasjonstype!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Communication type needs to be 'Requester' or 'Provider'!"
-msgstr ""
+msgstr "Kommunikasjonstypen må være 'Requester' eller 'Provider'!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invalid Subaction!"
-msgstr ""
+msgstr "Ugyldig subaksjon!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need ErrorHandlingType!"
-msgstr ""
+msgstr "Trenger ErrorHandlingType!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "ErrorHandlingType %s is not registered"
-msgstr ""
+msgstr "ErrorHandlingType %s er ikke registrert"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not update web service"
-msgstr ""
+msgstr "Kunne ikke oppdatere nettjenesten"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need ErrorHandling"
-msgstr ""
+msgstr "Trenger feilhåndtering"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not determine config for error handler %s"
-msgstr ""
+msgstr "Kunne ikke bestemme konfigurasjonen for feilbehandler %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker processing outgoing request data"
-msgstr ""
+msgstr "Invoker behandler utgående forespørselsdata"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping outgoing request data"
-msgstr ""
+msgstr "Kartlegging av utgående forespørselsdata"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Transport processing request into response"
-msgstr ""
+msgstr "Transportbehandlingsforespørsel til svar"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping incoming response data"
-msgstr ""
+msgstr "Kartlegging av innkommende svardata"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker processing incoming response data"
-msgstr ""
+msgstr "Invoker behandler innkommende svardata"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Transport receiving incoming request data"
-msgstr ""
+msgstr "Transport som mottar innkommende forespørselsdata"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping incoming request data"
-msgstr ""
+msgstr "Kartlegging av innkommende forespørselsdata"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation processing incoming request data"
-msgstr ""
+msgstr "Operasjon som behandler innkommende forespørselsdata"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping outgoing response data"
-msgstr ""
+msgstr "Kartlegging av utgående svardata"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Transport sending outgoing response data"
-msgstr ""
+msgstr "Transport sender utgående svardata"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "skip same backend modules only"
-msgstr ""
+msgstr "bare hoppe over de samme backend-modulene"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "skip all modules"
-msgstr ""
+msgstr "hoppe over alle moduler"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
-msgstr ""
+msgstr "Operasjonen er slettet"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker deleted"
-msgstr ""
+msgstr "Invoker slettet"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "0 seconds"
-msgstr ""
+msgstr "0 sekunder"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "15 seconds"
-msgstr ""
+msgstr "15 sekunder"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 seconds"
-msgstr ""
+msgstr "30 sekunder"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "45 seconds"
-msgstr ""
+msgstr "45 sekunder"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 minute"
-msgstr ""
+msgstr "1 minutt"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 minutes"
@@ -12746,247 +12861,253 @@ msgstr "30 minutter"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 hour"
-msgstr ""
+msgstr "1 time"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 hours"
-msgstr ""
+msgstr "2 timer"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 hours"
-msgstr ""
+msgstr "3 timer"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 hours"
-msgstr ""
+msgstr "4 timer"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 hours"
-msgstr ""
+msgstr "5 timer"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 hours"
-msgstr ""
+msgstr "6 timer"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "12 hours"
-msgstr ""
+msgstr "12 timer"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "18 hours"
-msgstr ""
+msgstr "18 timer"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 day"
-msgstr ""
+msgstr "1 dag"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 days"
-msgstr ""
+msgstr "2 dager"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 days"
-msgstr ""
+msgstr "3 dager"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 days"
-msgstr ""
+msgstr "4 dager"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 days"
-msgstr ""
+msgstr "6 dager"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 week"
-msgstr ""
+msgstr "1 uke"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
-msgstr ""
+msgstr "Kunne ikke bestemme konfigurasjonen for invoker %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "InvokerType %s is not registered"
-msgstr ""
+msgstr "InvokerType %s er ikke registrert"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "MappingType %s is not registered"
-msgstr ""
+msgstr "MappingType %s er ikke registrert"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
-msgstr ""
+msgstr "Trenger Invoker!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Event!"
-msgstr ""
+msgstr "Trenger arrangement!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not get registered modules for Invoker"
-msgstr ""
+msgstr "Kunne ikke hente registrerte moduler for Invoker"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not get backend for Invoker %s"
-msgstr ""
+msgstr "Kunne ikke hente backend for Invoker %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "The event %s is not valid."
-msgstr ""
+msgstr "Hendelsen %s er ikke gyldig."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not update configuration data for WebserviceID %s"
-msgstr ""
+msgstr "Kunne ikke oppdatere konfigurasjonsdata for webtjeneste-ID %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "This sub-action is not valid"
-msgstr ""
+msgstr "Denne underhandlingen er ikke gyldig"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "xor"
-msgstr ""
+msgstr "xor"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "String"
-msgstr ""
+msgstr "String"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Regexp"
-msgstr ""
+msgstr "Regexp"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Validation Module"
-msgstr ""
+msgstr "Valideringsmodul"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerTicket.pm
 msgid "Invisible only"
-msgstr ""
+msgstr "Kun usynlig"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerTicket.pm
 msgid "Visible only"
-msgstr ""
+msgstr "Kun synlig"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerTicket.pm
 msgid "Visible and invisible"
-msgstr ""
+msgstr "Synlig og usynlig"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Simple Mapping for Outgoing Data"
-msgstr ""
+msgstr "Enkel kartlegging for utgående data"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Simple Mapping for Incoming Data"
-msgstr ""
+msgstr "Enkel kartlegging for innkommende data"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
-msgstr ""
+msgstr "Kunne ikke hente registrert konfigurasjon for handlingstypen %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get backend for %s %s"
-msgstr ""
+msgstr "Kunne ikke hente backend for %s %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
-msgstr ""
+msgstr "Behold (la uendret)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop key/value pair)"
-msgstr ""
+msgstr "Ignorer (slippnøkkel/verdipar)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Map to (use provided value as default)"
-msgstr ""
+msgstr "Kart til (bruk oppgitt verdi som standard)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Exact value(s)"
-msgstr ""
+msgstr "Nøyaktig verdi(er)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop Value/value pair)"
-msgstr ""
+msgstr "Ignorer (slipp verdi/verdi-par)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "XSLT Mapping for Outgoing Data"
-msgstr ""
+msgstr "XSLT-kartlegging for utgående data"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "XSLT Mapping for Incoming Data"
-msgstr ""
+msgstr "XSLT-kartlegging for innkommende data"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
-msgstr ""
+msgstr "Kunne ikke finne det nødvendige biblioteket %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data before processing (RequesterRequestInput)"
-msgstr ""
+msgstr "Utgående forespørselsdata før behandling (RequesterRequestInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data before mapping (RequesterRequestPrepareOutput)"
 msgstr ""
+"Utgående forespørselsdata før kartlegging (RequesterRequestPrepareOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data after mapping (RequesterRequestMapOutput)"
-msgstr ""
+msgstr "Utgående forespørselsdata etter kartlegging (RequesterRequestMapOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming response data before mapping (RequesterResponseInput)"
-msgstr ""
+msgstr "Innkommende svardata før kartlegging (RequesterResponseInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid ""
 "Outgoing error handler data after error handling "
 "(RequesterErrorHandlingOutput)"
 msgstr ""
+"Utgående feilhåndteringsdata etter feilhåndtering "
+"(RequesterErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data before mapping (ProviderRequestInput)"
-msgstr ""
+msgstr "Innkommende forespørselsdata før kartlegging (ProviderRequestInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data after mapping (ProviderRequestMapOutput)"
 msgstr ""
+"Innkommende forespørselsdata etter kartlegging (ProviderRequestMapOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing response data before mapping (ProviderResponseInput)"
-msgstr ""
+msgstr "Utgående svardata før kartlegging (ProviderResponseInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid ""
 "Outgoing error handler data after error handling "
 "(ProviderErrorHandlingOutput)"
 msgstr ""
+"Utgående feilhåndteringsdata etter feilhåndtering "
+"(ProviderErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
-msgstr ""
+msgstr "Kunne ikke bestemme konfigurasjonen for operasjon %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "OperationType %s is not registered"
-msgstr ""
+msgstr "Operasjonstype %s er ikke registrert"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "Need valid Subaction!"
-msgstr ""
+msgstr "Trenger gyldig subaksjon!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "This field should be an integer."
-msgstr ""
+msgstr "Dette feltet skal være et heltall."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "File or Directory not found."
-msgstr ""
+msgstr "Fant ikke filen eller katalogen."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There is another web service with the same name."
-msgstr ""
+msgstr "Det finnes en annen nettjeneste med samme navn."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error updating the web service."
-msgstr ""
+msgstr "Det oppsto en feil under oppdatering av nettjenesten."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error creating the web service."
-msgstr ""
+msgstr "Det oppsto en feil ved opprettelse av nettjenesten."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" created!"
@@ -12994,29 +13115,31 @@ msgstr "Webtjeneste \"%s\" er opprettet!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need Name!"
-msgstr ""
+msgstr "Trenger navn!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
-msgstr ""
+msgstr "Trenger EksempelWebService!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not load %s."
-msgstr ""
+msgstr "Kunne ikke laste %s."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
-msgstr ""
+msgstr "Kunne ikke lese %s!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
-msgstr ""
+msgstr "Trenger en fil for å importere!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid ""
 "The imported file has not valid YAML content! Please check OTOBO log for "
 "details"
 msgstr ""
+"Den importerte filen har ikke gyldig YAML-innhold! Vennligst sjekk OTOBO-"
+"loggen for detaljer"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
@@ -13036,15 +13159,15 @@ msgstr "OTOBO som en etterspørrer"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Invokers"
-msgstr ""
+msgstr "Påkallere"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
-msgstr ""
+msgstr "Fikk ingen WebserviceHistoryID!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Could not get history data for WebserviceHistoryID %s"
-msgstr ""
+msgstr "Kunne ikke hente historikkdata for WebserviceHistoryID %s"
 
 #. Perl Module: Kernel/Modules/AdminGroup.pm
 msgid "Group updated!"
@@ -13059,6 +13182,8 @@ msgid ""
 "Email account fetch already fetched by another process. Please try again "
 "later!"
 msgstr ""
+"Henting av e-postkonto er allerede hentet av en annen prosess. Prøv igjen "
+"senere!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
@@ -13070,7 +13195,7 @@ msgstr "Utsending etter valgt kø."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who created the ticket"
-msgstr ""
+msgstr "Agent som opprettet billetten"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who owns the ticket"
@@ -13090,169 +13215,173 @@ msgstr "Alle saksbehandlere med skrivetilgang til saken"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's queue"
-msgstr ""
+msgstr "Alle agenter abonnerte på billettens kø"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's service"
-msgstr ""
+msgstr "Alle agenter abonnerte på billettens tjeneste"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to both the ticket's queue and service"
-msgstr ""
+msgstr "Alle agenter abonnerte på både billettens kø og service"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer user of the ticket"
-msgstr ""
+msgstr "Kundebruker av billetten"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the first article"
-msgstr ""
+msgstr "Alle mottakere av den første artikkelen"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the last article"
-msgstr ""
+msgstr "Alle mottakere av den siste artikkelen"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Invisible to customer"
-msgstr ""
+msgstr "Usynlig for kunden"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Visible to customer"
-msgstr ""
+msgstr "Synlig for kunden"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
-msgstr ""
+msgstr "PGP-miljøet fungerer ikke. Vennligst sjekk loggen for mer informasjon!"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Need param Key to delete!"
-msgstr ""
+msgstr "Trenger param nøkkel for å slette!"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Key %s deleted!"
-msgstr ""
+msgstr "Nøkkel %s slettet!"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Need param Key to download!"
-msgstr ""
+msgstr "Trenger param nøkkel for å laste ned!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
-msgstr ""
+msgstr "Ingen slik pakke!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
-msgstr ""
+msgstr "Ingen slik fil %s i pakken!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in local file system!"
-msgstr ""
+msgstr "Ingen slik fil %s i lokalt filsystem!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't read %s!"
-msgstr ""
+msgstr "Kan ikke lese %s!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "File is OK"
-msgstr ""
+msgstr "Filen er OK"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
-msgstr ""
+msgstr "Pakken har lokalt modifiserte filer."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package not verified by the OTOBO Team!"
-msgstr ""
+msgstr "Pakken er ikke bekreftet av OTOBO-teamet!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
-msgstr ""
+msgstr "Ikke begynt"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Updated"
-msgstr ""
+msgstr "Oppdatert"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Already up-to-date"
-msgstr ""
+msgstr "Allerede oppdatert"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Installed"
-msgstr ""
+msgstr "Installert"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not correctly deployed"
-msgstr ""
+msgstr "Ikke riktig utplassert"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
-msgstr ""
+msgstr "Pakken er riktig oppdatert"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package was already updated"
-msgstr ""
+msgstr "Pakken er allerede oppdatert"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
-msgstr ""
+msgstr "Dependency installert riktig"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package needs to be reinstalled"
-msgstr ""
+msgstr "Pakken må installeres på nytt"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package contains cyclic dependencies"
-msgstr ""
+msgstr "Pakken inneholder sykliske avhengigheter"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not found in on-line repositories"
-msgstr ""
+msgstr "Ikke funnet i online-depoter"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Required version is higher than available"
-msgstr ""
+msgstr "Nødvendig versjon er høyere enn tilgjengelig"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependencies fail to upgrade or install"
-msgstr ""
+msgstr "Avhengigheter klarer ikke å oppgradere eller installere"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be installed"
-msgstr ""
+msgstr "Pakken kunne ikke installeres"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be upgraded"
-msgstr ""
+msgstr "Pakken kunne ikke oppgraderes"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Repository List"
-msgstr ""
+msgstr "Depotliste"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "No packages found in selected repository. Please check log for more info!"
 msgstr ""
+"Ingen pakker funnet i det valgte depotet. Vennligst sjekk loggen for mer "
+"informasjon!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
 msgstr ""
+"Pakken er ikke bekreftet på grunn av et kommunikasjonsproblem med "
+"verifiseringsserveren!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't connect to OTOBO Feature Add-on list server!"
-msgstr ""
+msgstr "Kan ikke koble til OTOBO Feature Add-on List server!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTOBO Feature Add-on list from server!"
-msgstr ""
+msgstr "Kan ikke hente OTOBO Feature Add-on liste fra serveren!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTOBO Feature Add-on from server!"
-msgstr ""
+msgstr "Kan ikke hente OTOBO Feature Add-on fra serveren!"
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
-msgstr ""
+msgstr "Ikke noe slikt filter: %s"
 
 #. Perl Module: Kernel/Modules/AdminPriority.pm
 msgid "Priority added!"
@@ -13268,264 +13397,285 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
-msgstr ""
+msgstr "Trenger eksempelprosesser!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
-msgstr ""
+msgstr "Trenger prosessID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Yes (mandatory)"
-msgstr ""
+msgstr "Ja (obligatorisk)"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Unknown Process %s!"
-msgstr ""
+msgstr "Ukjent prosess %s!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error generating a new EntityID for this Process"
 msgstr ""
+"Det oppsto en feil under generering av en ny enhets-ID for denne prosessen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The StateEntityID for state Inactive does not exists"
-msgstr ""
+msgstr "StateEntityID for state Inactive eksisterer ikke"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error creating the Process"
-msgstr ""
+msgstr "Det oppsto en feil under opprettelsen av prosessen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
 "There was an error setting the entity sync status for Process entity: %s"
 msgstr ""
+"Det oppsto en feil ved innstilling av enhetssynkroniseringsstatus for "
+"prosessenhet: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get data for ProcessID %s"
-msgstr ""
+msgstr "Kunne ikke hente data for prosess-ID %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error updating the Process"
-msgstr ""
+msgstr "Det oppsto en feil under oppdatering av prosessen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s could not be deleted"
-msgstr ""
+msgstr "Prosess: %s kunne ikke slettes"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error synchronizing the processes."
-msgstr ""
+msgstr "Det oppsto en feil under synkronisering av prosessene."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s is still in use"
-msgstr ""
+msgstr "%s:%s er fortsatt i bruk"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s has a different EntityID"
-msgstr ""
+msgstr "%s:%s har en annen enhets-ID"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not delete %s:%s"
-msgstr ""
+msgstr "Kunne ikke slette %s:%s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error setting the entity sync status for %s entity: %s"
 msgstr ""
+"Det oppsto en feil ved innstilling av enhetssynkroniseringsstatus for %s "
+"enhet: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get %s"
-msgstr ""
+msgstr "Kunne ikke hente %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need %s!"
-msgstr ""
+msgstr "Trenger %s!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s is not Inactive"
-msgstr ""
+msgstr "Prosess: %s er ikke inaktiv"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error generating a new EntityID for this Activity"
 msgstr ""
+"Det oppsto en feil under generering av en ny enhets-ID for denne aktiviteten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error creating the Activity"
-msgstr ""
+msgstr "Det oppsto en feil under opprettelsen av aktiviteten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
 "There was an error setting the entity sync status for Activity entity: %s"
 msgstr ""
+"Det oppsto en feil ved innstilling av enhetssynkroniseringsstatus for "
+"aktivitetsenhet: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Need ActivityID!"
-msgstr ""
+msgstr "Trenger aktivitets-ID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Could not get data for ActivityID %s"
-msgstr ""
+msgstr "Kunne ikke hente data for aktivitets-ID %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
-msgstr ""
+msgstr "Det oppsto en feil under oppdatering av aktiviteten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Missing Parameter: Need Activity and ActivityDialog!"
-msgstr ""
+msgstr "Manglende parameter: Trenger aktivitet og aktivitetsdialog!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Activity not found!"
-msgstr ""
+msgstr "Finner ikke aktivitet!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "ActivityDialog not found!"
-msgstr ""
+msgstr "ActivityDialog ikke funnet!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
 "ActivityDialog already assigned to Activity. You cannot add an "
 "ActivityDialog twice!"
 msgstr ""
+"ActivityDialog er allerede tildelt aktivitet. Du kan ikke legge til en "
+"ActivityDialog to ganger!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Error while saving the Activity to the database!"
-msgstr ""
+msgstr "Feil under lagring av aktiviteten i databasen!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "This subaction is not valid"
-msgstr ""
+msgstr "Denne underhandlingen er ikke gyldig"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Edit Activity \"%s\""
-msgstr ""
+msgstr "Rediger aktivitet «%s»"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error generating a new EntityID for this ActivityDialog"
 msgstr ""
+"Det oppsto en feil under generering av en ny EntityID for denne "
+"ActivityDialog"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error creating the ActivityDialog"
-msgstr ""
+msgstr "Det oppsto en feil ved opprettelse av ActivityDialog"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid ""
 "There was an error setting the entity sync status for ActivityDialog entity: "
 "%s"
 msgstr ""
+"Det oppsto en feil ved innstilling av enhetssynkroniseringsstatus for "
+"ActivityDialog-enheten: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Need ActivityDialogID!"
-msgstr ""
+msgstr "Trenger ActivityDialogID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Could not get data for ActivityDialogID %s"
-msgstr ""
+msgstr "Kunne ikke hente data for ActivityDialogID %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error updating the ActivityDialog"
-msgstr ""
+msgstr "Det oppsto en feil under oppdatering av ActivityDialog"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Edit Activity Dialog \"%s\""
-msgstr ""
+msgstr "Rediger aktivitetsdialog \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
-msgstr ""
+msgstr "Agentgrensesnitt"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Customer Interface"
-msgstr ""
+msgstr "Kundegrensesnitt"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
-msgstr ""
+msgstr "Agent- og kundegrensesnitt"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Do not show Field"
-msgstr ""
+msgstr "Ikke vis felt"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Show Field"
-msgstr ""
+msgstr "Vis felt"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Show Field As Mandatory"
-msgstr ""
+msgstr "Vis felt som obligatorisk"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
 msgid "Edit Path"
-msgstr ""
+msgstr "Rediger bane"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error generating a new EntityID for this Transition"
 msgstr ""
+"Det oppsto en feil under generering av en ny enhets-ID for denne overgangen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error creating the Transition"
-msgstr ""
+msgstr "Det oppsto en feil da overgangen skulle opprettes"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid ""
 "There was an error setting the entity sync status for Transition entity: %s"
 msgstr ""
+"Det oppsto en feil ved innstilling av enhetssynkroniseringsstatus for "
+"overgangsenhet: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Need TransitionID!"
-msgstr ""
+msgstr "Trenger TransitionID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Could not get data for TransitionID %s"
-msgstr ""
+msgstr "Kunne ikke hente data for overgangs-ID %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
-msgstr ""
+msgstr "Det oppsto en feil under oppdatering av overgangen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
-msgstr ""
+msgstr "Rediger overgang \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
-msgstr ""
+msgstr "Overgangsvalideringsmodul"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "At least one valid config parameter is required."
-msgstr ""
+msgstr "Minst én gyldig konfigurasjonsparameter kreves."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error generating a new EntityID for this TransitionAction"
 msgstr ""
+"Det oppsto en feil under generering av en ny enhets-ID for denne "
+"overgangshandlingen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error creating the TransitionAction"
-msgstr ""
+msgstr "Det oppsto en feil under opprettelsen av TransitionAction"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid ""
 "There was an error setting the entity sync status for TransitionAction "
 "entity: %s"
 msgstr ""
+"Det oppsto en feil ved innstilling av enhetssynkroniseringsstatus for "
+"TransitionAction-enheten: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Need TransitionActionID!"
-msgstr ""
+msgstr "Trenger TransitionActionID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Could not get data for TransitionActionID %s"
-msgstr ""
+msgstr "Kunne ikke hente data for TransitionActionID %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
-msgstr ""
+msgstr "Det oppsto en feil under oppdatering av TransitionAction"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Edit Transition Action \"%s\""
-msgstr ""
+msgstr "Rediger overgangshandling «%s»"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Error: Not all keys seem to have values or vice versa."
-msgstr ""
+msgstr "Feil: Ikke alle nøkler ser ut til å ha verdier eller omvendt."
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Queue updated!"
@@ -13533,11 +13683,11 @@ msgstr "Kø oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Don't use :: in queue name!"
-msgstr ""
+msgstr "Ikke bruk :: i kønavn!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Click back and change it!"
-msgstr ""
+msgstr "Klikk tilbake og endre det!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "-none-"
@@ -13545,15 +13695,15 @@ msgstr "-ingen-"
 
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
-msgstr ""
+msgstr "Køer (uten autosvar)"
 
 #. Perl Module: Kernel/Modules/AdminQueueTemplates.pm
 msgid "Change Queue Relations for Template"
-msgstr ""
+msgstr "Endre kørelasjoner for mal"
 
 #. Perl Module: Kernel/Modules/AdminQueueTemplates.pm
 msgid "Change Template Relations for Queue"
-msgstr ""
+msgstr "Endre malrelasjoner for kø"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Production"
@@ -13561,7 +13711,7 @@ msgstr "Produksjon"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Training"
@@ -13569,7 +13719,7 @@ msgstr "Trening"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
-msgstr ""
+msgstr "Utvikling"
 
 #. Perl Module: Kernel/Modules/AdminRole.pm
 msgid "Role updated!"
@@ -13589,7 +13739,7 @@ msgstr "Endre gruppens koplinger til roller"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Role"
-msgstr ""
+msgstr "Rolle"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Change Role Relations for Agent"
@@ -13606,62 +13756,63 @@ msgstr "Vennligst aktiver %s først!"
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
 msgstr ""
+"S/MIME-miljøet fungerer ikke. Vennligst sjekk loggen for mer informasjon!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Need param Filename to delete!"
-msgstr ""
+msgstr "Trenger param filnavn for å slette!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Need param Filename to download!"
-msgstr ""
+msgstr "Trenger param filnavn for å laste ned!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Needed CertFingerprint and CAFingerprint!"
-msgstr ""
+msgstr "Trengs CertFingerprint og CAFingerprint!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "CAFingerprint must be different than CertFingerprint"
-msgstr ""
+msgstr "CAFingerprint må være annerledes enn CertFingerprint"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation exists!"
-msgstr ""
+msgstr "Forholdet eksisterer!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation added!"
-msgstr ""
+msgstr "Relasjon lagt til!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Impossible to add relation!"
-msgstr ""
+msgstr "Umulig å legge til relasjon!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation doesn't exists"
-msgstr ""
+msgstr "Forholdet eksisterer ikke"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation deleted!"
-msgstr ""
+msgstr "Forholdet er slettet!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Impossible to delete relation!"
-msgstr ""
+msgstr "Umulig å slette relasjon!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Certificate %s could not be read!"
-msgstr ""
+msgstr "Sertifikatet %s kunne ikke leses!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Needed Fingerprint"
-msgstr ""
+msgstr "Nødvendig fingeravtrykk"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Handle Private Certificate Relations"
-msgstr ""
+msgstr "Håndtere private sertifikatrelasjoner"
 
 #. Perl Module: Kernel/Modules/AdminSalutation.pm
 msgid "Salutation added!"
-msgstr ""
+msgstr "Hilsen lagt til!"
 
 #. Perl Module: Kernel/Modules/AdminSignature.pm
 msgid "Signature updated!"
@@ -13677,7 +13828,7 @@ msgstr "Status lagt til!"
 
 #. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
 msgid "File %s could not be read!"
-msgstr ""
+msgstr "Filen %s kunne ikke leses!"
 
 #. Perl Module: Kernel/Modules/AdminSystemAddress.pm
 msgid "System e-mail address added!"
@@ -13685,33 +13836,35 @@ msgstr "System e-postadresse lagt til!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Invalid Settings"
-msgstr ""
+msgstr "Ugyldige innstillinger"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "There are no invalid settings active at this time."
-msgstr ""
+msgstr "Det er ingen ugyldige innstillinger aktive for øyeblikket."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "You currently don't have any favourite settings."
-msgstr ""
+msgstr "Du har for øyeblikket ingen favorittinnstillinger."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
-msgstr ""
+msgstr "Følgende innstillinger ble ikke funnet: %s"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Import not allowed!"
-msgstr ""
+msgstr "Import ikke tillatt!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
 "System Configuration could not be imported due to an unknown error, please "
 "check OTOBO logs for more information."
 msgstr ""
+"Systemkonfigurasjonen kunne ikke importeres på grunn av en ukjent feil, "
+"vennligst sjekk OTOBO-loggene for mer informasjon."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Category Search"
-msgstr ""
+msgstr "Kategorisøk"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
 msgid ""
@@ -13719,6 +13872,9 @@ msgid ""
 "configuration or it was not possible to update them. Please check the OTOBO "
 "log for more information."
 msgstr ""
+"Noen importerte innstillinger er ikke til stede i den nåværende tilstanden "
+"til konfigurasjonen, eller det var ikke mulig å oppdatere dem. Vennligst "
+"sjekk OTOBO-loggen for mer informasjon."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "This deployment does not contain changes in the setting values!"
