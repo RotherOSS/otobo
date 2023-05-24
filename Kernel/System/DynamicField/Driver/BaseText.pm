@@ -372,8 +372,10 @@ sub EditFieldValueGet {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
             my @Data;
 
+            # delete the template value
+            pop @DataAll;
+
             # delete empty values (can happen if the user has selected the "-" entry)
-            my $Index = 0;
             for my $Item (@DataAll) {
                 push @Data, $Item // '';
             }
