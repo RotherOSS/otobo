@@ -89,7 +89,7 @@ creates the field HTML to be used in edit masks for multiple dynamic fields.
         SeparateDynamicFields => {                  # optional TODO: deprecate
             Name3 => 1,
         },
-        Interface             => 'Agent',           # optional 'Agent' or 'Customer', defaults to 'Agent' - used for determining template file
+        CustomerInterface     => 1,                 # optional indicates which templates are needed, defaults to 0 (Agent interface)
     );
 
 =cut
@@ -109,7 +109,7 @@ sub EditSectionRender {
         }
     }
 
-    my $TemplateFile = $Param{Interface} && $Param{Interface} eq 'Customer' ? 'DynamicField/CustomerEditField' : 'DynamicField/AgentEditField';
+    my $TemplateFile = $Param{CustomerInterface} ? 'DynamicField/CustomerEditField' : 'DynamicField/AgentEditField';
 
     if ( !IsArrayRefWithData( $Param{Content} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -163,11 +163,11 @@ sub EditSectionRender {
         if ( $Row{Columns} > 1 && first { $Param{DynamicFields}{ $_->{DF} }{Config}{MultiValue} } $Row{Fields}->@* ) {
             for my $Field ( $Row{Fields}->@* ) {
                 my $DFName = "DynamicField_$Field->{DF}";
-                if ( !ref $Param{DynamicFieldValues}{ $DFName } ) {
-                    $MultiValueMaxCount ||= $Param{DynamicFieldValues}{ $DFName } ? 1 : 0;
+                if ( !ref $Param{DynamicFieldValues}{$DFName} ) {
+                    $MultiValueMaxCount ||= $Param{DynamicFieldValues}{$DFName} ? 1 : 0;
                 }
-                elsif ( scalar $Param{DynamicFieldValues}{ $DFName }->@* > $MultiValueMaxCount ) {
-                    $MultiValueMaxCount = scalar $Param{DynamicFieldValues}{ $DFName }->@*;
+                elsif ( scalar $Param{DynamicFieldValues}{$DFName}->@* > $MultiValueMaxCount ) {
+                    $MultiValueMaxCount = scalar $Param{DynamicFieldValues}{$DFName}->@*;
                 }
             }
         }
@@ -221,6 +221,7 @@ sub EditSectionRender {
                 }
 
                 if ( scalar $Param{DynamicFieldValues}{$DFName}->@* < $MultiValueMaxCount ) {
+
                     # TODO: Respect default values here and in the template
                     push $Param{DynamicFieldValues}{$DFName}->@*, ('') x ( $MultiValueMaxCount - scalar $Param{DynamicFieldValues}{$DFName}->@* );
                 }
@@ -237,6 +238,7 @@ sub EditSectionRender {
                 UpdatableFields      => $Param{UpdatableFields},
                 Mandatory            => $Field->{Mandatory},
                 ReadOnly             => $Field->{ReadOnly},
+                CustomerInterface    => $Param{CustomerInterface},
                 %Error,
                 %InvisibleNoDefault,
             );
@@ -315,7 +317,7 @@ sub EditSectionRender {
         }
 
         # block all dynamic fields for this df row
-        for my $ValueRow ( @ValueGrid ) {
+        for my $ValueRow (@ValueGrid) {
             for my $FieldData ( $ValueRow->@* ) {
                 $Param{LayoutObject}->Block(
                     $FieldData->%*,
