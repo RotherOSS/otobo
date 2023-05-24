@@ -209,6 +209,19 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         // Initialize dynamic field filter
         Core.UI.Table.InitTableFilter($('#FilterDynamicFields'), $('#DynamicFieldsTable'));
 
+        $( "#DynamicFieldObjectType, #DynamicFieldNamespace" ).change(function() {
+            let ObjectType = $("#DynamicFieldObjectType").val();
+            let Namespace = $("#DynamicFieldNamespace").val();
+            let URL = Core.Config.Get('Baselink') + 'Action=AdminDynamicField';
+            if ( ObjectType ) {
+                URL += ';ObjectType=' + encodeURIComponent(ObjectType);
+            }
+            if ( Namespace ) {
+                URL += ';Namespace=' + encodeURIComponent(Namespace);
+            }
+            window.location = URL;
+        });
+
         Core.Config.Set('EntityType', 'DynamicField');
 
     };

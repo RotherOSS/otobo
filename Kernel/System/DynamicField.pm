@@ -598,6 +598,8 @@ get DynamicField list ordered by the the "Field Order" field in the DB
             ItemFive  => 0,
         },
 
+        Namespace => 'Namespace', # optional, Namespace as string
+
     );
 
 Returns:
@@ -656,6 +658,12 @@ sub DynamicFieldList {
         $ObjectType = $Param{ObjectType};
     }
 
+    # set cache key namespace component depending on the Namespace parameter
+    my $Namespace = 'All';
+    if ( IsStringWithData( $Param{Namespace} ) ) {
+        $Namespace = $Param{Namespace};
+    }
+
     my $ResultType = $Param{ResultType} || 'ARRAY';
     $ResultType = $ResultType eq 'HASH' ? 'HASH' : 'ARRAY';
 
@@ -666,6 +674,8 @@ sub DynamicFieldList {
         . $Valid
         . '::ObjectType::'
         . $ObjectType
+        . '::Namespace::'
+        . $Namespace
         . '::ResultType::'
         . $ResultType;
     my $Cache = $CacheObject->Get(
@@ -748,19 +758,44 @@ sub DynamicFieldList {
 
                 }
             }
+
+            if ( $Param{Namespace} ) {
+                if ( IsStringWithData( $Param{Namespace} ) && $Param{Namespace} ne 'All' ) {
+                    $SQL .=
+                        " AND name LIKE '"
+                        . $DBObject->Quote( $Param{Namespace} ) . "-%'";
+                }
+            }
+        }
+        elsif ( $Param{ObjectType} ) {
+
+            if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
+                $SQL .=
+                    " WHERE object_type = '"
+                    . $DBObject->Quote( $Param{ObjectType} ) . "'";
+            }
+            elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
+                my $ObjectTypeString =
+                    join ',',
+                    map { "'" . $DBObject->Quote($_) . "'" } @{ $Param{ObjectType} };
+                $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+            }
+
+            if ( $Param{Namespace} ) {
+                if ( IsStringWithData( $Param{Namespace} ) && $Param{Namespace} ne 'All' ) {
+                    $SQL .=
+                        " AND name LIKE '"
+                        . $DBObject->Quote( $Param{Namespace} ) . "-%'";
+                }
+            }
         }
         else {
-            if ( $Param{ObjectType} ) {
-                if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
+
+            if ( $Param{Namespace} ) {
+                if ( IsStringWithData( $Param{Namespace} ) && $Param{Namespace} ne 'All' ) {
                     $SQL .=
-                        " WHERE object_type = '"
-                        . $DBObject->Quote( $Param{ObjectType} ) . "'";
-                }
-                elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-                    my $ObjectTypeString =
-                        join ',',
-                        map { "'" . $DBObject->Quote($_) . "'" } @{ $Param{ObjectType} };
-                    $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+                        " WHERE name LIKE '"
+                        . $DBObject->Quote( $Param{Namespace} ) . "-%'";
                 }
             }
         }

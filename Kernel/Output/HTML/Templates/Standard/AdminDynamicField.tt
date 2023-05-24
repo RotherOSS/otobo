@@ -46,14 +46,14 @@
                 </div>
             </div>
 [% RenderBlockEnd("DynamicFieldObjectType") %]
-[% RenderBlockStart("DynamicFieldClassFilter") %]
+[% RenderBlockStart("DynamicFieldNamespace") %]
             <div class="Content">
-                [% Data.DynamicFieldClassStrg %]
+                [% Data.DynamicFieldNamespaceStrg %]
                 <div class="FieldExplanation">
-                    <p>[% Translate("Filter field by config item class") | html %]</p>
+                    <p>[% Translate("Filter field by namespace") | html %]</p>
                 </div>
             </div>
-[% RenderBlockEnd("DynamicFieldClassFilter") %]
+[% RenderBlockEnd("DynamicFieldNamespace") %]
         </div>
 
         <div class="WidgetSimple">
@@ -72,14 +72,6 @@
                     </li>
 [% RenderBlockEnd("ActionAddDynamicField") %]
                 </ul>
-            </div>
-        </div>
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2><label for="FilterDynamicFields">[% Translate("Filter for Dynamic Fields") | html %]</label></h2>
-            </div>
-            <div class="Content">
-                <input type="text" id="FilterDynamicFields" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterDynamicFields" value="" title="[% Translate("Filter for dynamic fields") | html %]">
             </div>
         </div>
 
