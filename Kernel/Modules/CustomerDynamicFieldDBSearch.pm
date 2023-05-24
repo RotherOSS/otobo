@@ -305,12 +305,10 @@ sub _Return {
 
     # send response
     return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
-        Content     => $JSON || $LayoutObject->JSONEncode(
-            Data => [],
-        ),
-        Type    => 'inline',
-        NoCache => 1,
+        ContentType => 'application/json',
+        Content     => $JSON || $LayoutObject->JSONEncode( Data => [] ),
+        Type        => 'inline',
+        NoCache     => 1,
     );
 }
 

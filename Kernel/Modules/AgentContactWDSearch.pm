@@ -146,7 +146,7 @@ sub _ReturnJSON {
     # send JSON response
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+        ContentType => 'application/json',
         Content     => $Param{Content} || '',
         Type        => 'inline',
         NoCache     => 1,

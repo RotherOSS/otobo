@@ -162,7 +162,7 @@ sub _GetWebserviceList {
 
     # Send JSON response.
     return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+        ContentType => 'application/json',
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,
@@ -273,7 +273,7 @@ sub _GetWebserviceHistoryDetails {
 
     # Send JSON response.
     return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+        ContentType => 'application/json',
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,
