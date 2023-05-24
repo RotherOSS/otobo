@@ -267,7 +267,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="DFWebServiceLink" for="Link">[% Translate("Link for preview") | html %]:</label>
+                        <label class="DFWebServiceLink" for="LinkPreview">[% Translate("Link for preview") | html %]:</label>
                         <div class="Field DFWebServiceLink">
                             <input id="LinkPreview" class="W50pc" type="text" maxlength="500" value="[% Data.LinkPreview | html %]" name="LinkPreview"/>
                             <p class="FieldExplanation">

@@ -282,7 +282,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Link">[% Translate("Link for preview") | html %]:</label>
+                        <label for="LinkPreview">[% Translate("Link for preview") | html %]:</label>
                         <div class="Field">
                             <input id="LinkPreview" class="W50pc" type="text" maxlength="500" value="[% Data.LinkPreview | html %]" name="LinkPreview"/>
                             <p class="FieldExplanation">
