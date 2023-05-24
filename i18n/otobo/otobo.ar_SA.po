@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-23 12:58+0000\n"
+"PO-Revision-Date: 2023-05-24 19:06+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -25813,36 +25813,48 @@ msgid ""
 "If \"file\" was selected for LogModule, a logfile must be specified. If the "
 "file doesn't exist, it will be created by the system."
 msgstr ""
+"إذا تم تكوين \"ملف\" ك LogModule، فيجب تخزين ملف السجل هنا. إذا لم يكن الملف "
+"موجودا، فسيقوم النظام بإنشائه تلقائيًا."
 
 #. SysConfig
 msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
 msgstr ""
+"عند تمكين هذا الخيار، قد لا تتطابق أي من التعبيرات المعتادة المعرفة هنا مع "
+"عنوان البريد الإلكتروني للمستخدم الذي يرغب في التسجيل."
 
 #. SysConfig
 msgid ""
 "If active, one of the regular expressions has to match the user's email "
 "address to allow registration."
 msgstr ""
+"في حالة التمكين، يجب أن يتطابق واحد على الأقل من التعبيرات العادية المحددة "
+"هنا مع عنوان البريد الإلكتروني للمستخدم الذي يريد التسجيل."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, and "
 "authentication to the mail server is needed, a password must be specified."
 msgstr ""
+"إذا تم تحديد إحدى آليات SMTP على أنها SendmailModule وكان الخادم يتطلب "
+"المصادقة، فيجب تحديد كلمة مرور هنا."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, and "
 "authentication to the mail server is needed, an username must be specified."
 msgstr ""
+"إذا تم تحديد إحدى آليات SMTP على أنها SendmailModule وكان الخادم يتطلب "
+"المصادقة، فيجب تحديد اسم مستخدم هنا."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, the "
 "mailhost that sends out the mails must be specified."
 msgstr ""
+"إذا تم تحديد إحدى آليات SMTP على أنها SendmailModule، فيجب تحديد مضيف البريد "
+"(mailhost) الذي يرسل الرسائل هنا."
 
 #. SysConfig
 msgid ""
