@@ -102,9 +102,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
             // Mark old row as readed
             $('#ArticleTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
-            $('.TimelineView li#ArticleID_' + ArticleID).find('.UnreadArticles').fadeOut(function() {
-                $(this).closest('li').addClass('Seen');
-            });
 
             // Mark article as seen in backend
             Core.AJAX.FunctionCall(
@@ -646,7 +643,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             Count, ArticleIDs = Core.Config.Get('ArticleIDs'),
             ArticleFilterDialog = parseInt(Core.Config.Get('ArticleFilterDialog'), 10),
             AsyncWidgetActions = Core.Config.Get('AsyncWidgetActions') || {},
-            TimelineView = Core.Config.Get('TimelineView'),
             ProcessWidget = Core.Config.Get('ProcessWidget');
 
         // create open popup event for dropdown elements
@@ -820,11 +816,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         // initialize article filter events
         if (typeof ArticleFilterDialog !== 'undefined') {
             ArticleFilterEvents(ArticleFilterDialog, TicketID);
-        }
-
-        // initialize timeline view
-        if (typeof TimelineView !== 'undefined' && parseInt(TimelineView.Enabled, 10) === 1) {
-            Core.Agent.TicketZoom.TimelineView.InitTimelineView(TimelineView);
         }
 
         // initialize events for process widget

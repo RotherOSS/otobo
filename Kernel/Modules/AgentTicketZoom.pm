@@ -46,7 +46,6 @@ sub new {
     $Self->{ArticleView}    = $ParamObject->GetParam( Param => 'ArticleView' );
     $Self->{ZoomExpand}     = $ParamObject->GetParam( Param => 'ZoomExpand' );
     $Self->{ZoomExpandSort} = $ParamObject->GetParam( Param => 'ZoomExpandSort' );
-    $Self->{ZoomTimeline}   = $ParamObject->GetParam( Param => 'ZoomTimeline' );
 
     my %UserPreferences = $UserObject->GetPreferences(
         UserID => $Self->{UserID},
@@ -58,7 +57,6 @@ sub new {
         if (
             !defined $Self->{ArticleView}
             && !defined $Self->{ZoomExpand}
-            && !defined $Self->{ZoomTimeline}
             )
         {
             $Self->{ZoomExpand} = $ConfigObject->Get('Ticket::Frontend::AgentZoomExpand');
@@ -69,17 +67,9 @@ sub new {
                 elsif ( $UserPreferences{UserLastUsedZoomViewType} eq 'Collapse' ) {
                     $Self->{ZoomExpand} = 0;
                 }
-                elsif ( $UserPreferences{UserLastUsedZoomViewType} eq 'Timeline' ) {
-                    $Self->{ZoomTimeline} = 1;
-                }
             }
         }
-        elsif (
-            defined $Self->{ArticleView}
-            || defined $Self->{ZoomExpand}
-            || defined $Self->{ZoomTimeline}
-            )
-        {
+        else {
             my $LastUsedZoomViewType = '';
 
             if ( defined $Self->{ArticleView} ) {
@@ -90,9 +80,6 @@ sub new {
                 }
                 elsif ( $Self->{ArticleView} eq 'Collapse' ) {
                     $Self->{ZoomExpand} = 0;
-                }
-                elsif ( $Self->{ArticleView} eq 'Timeline' ) {
-                    $Self->{ZoomTimeline} = 1;
                 }
                 else {
                     $LastUsedZoomViewType = $ConfigObject->Get('Ticket::Frontend::AgentZoomExpand')
@@ -106,19 +93,12 @@ sub new {
             elsif ( defined $Self->{ZoomExpand} && $Self->{ZoomExpand} == 0 ) {
                 $LastUsedZoomViewType = 'Collapse';
             }
-            elsif ( defined $Self->{ZoomTimeline} && $Self->{ZoomTimeline} == 1 ) {
-                $LastUsedZoomViewType = 'Timeline';
-            }
             $UserObject->SetPreferences(
                 UserID => $Self->{UserID},
                 Key    => 'UserLastUsedZoomViewType',
                 Value  => $LastUsedZoomViewType,
             );
         }
-    }
-
-    if ( !$ConfigObject->Get('TimelineViewEnabled') ) {
-        $Self->{ZoomTimeline} = 0;
     }
 
     if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
@@ -213,23 +193,6 @@ sub new {
         Move                            => Translatable('Queue Changed'),
         SendAgentNotification           => Translatable('Notification Was Sent'),
     };
-
-    # Add custom files to the zoom's frontend module registration on the fly
-    #    to avoid conflicts with other modules.
-    if (
-        defined $ConfigObject->Get('TimelineViewEnabled')
-        && $ConfigObject->Get('TimelineViewEnabled') == 1
-        )
-    {
-        $ConfigObject->Set(
-            Key   => 'Loader::Module::AgentTicketZoom###003-OTOBOCommunity',
-            Value => {
-                JavaScript => [
-                    'Core.Agent.TicketZoom.TimelineView.js',
-                ],
-            },
-        );
-    }
 
     return $Self;
 }
@@ -1133,7 +1096,7 @@ sub MaskAgentZoom {
     }
 
     # show articles items
-    if ( !$Self->{ZoomTimeline} ) {
+    {
 
         my @ArticleIDs;
         $Param{ArticleItems} = '';
@@ -1484,7 +1447,7 @@ sub MaskAgentZoom {
     }
 
     # show no articles block if ticket does not contain articles
-    if ( !@ArticleBox && !$Self->{ZoomTimeline} ) {
+    if ( !@ArticleBox ) {
         $LayoutObject->Block(
             Name => 'HintNoArticles',
         );
@@ -1839,33 +1802,7 @@ sub MaskAgentZoom {
 
     # article filter is activated in sysconfig
     if ( $Self->{ArticleFilterActive} ) {
-
-        if ( $Self->{ZoomTimeline} ) {
-
-            # build event type list for filter dialog
-            $Param{EventTypeFilterString} = $LayoutObject->BuildSelection(
-                Data        => $Self->{HistoryTypeMapping},
-                SelectedID  => $Self->{EventTypeFilter}->{EventTypeID},
-                Translation => 1,
-                Multiple    => 1,
-                Sort        => 'AlphanumericValue',
-                Name        => 'EventTypeFilter',
-                Class       => 'Modernize',
-            );
-
-            # send data to JS
-            $LayoutObject->AddJSData(
-                Key   => 'ArticleFilterDialog',
-                Value => 0,
-            );
-
-            $LayoutObject->Block(
-                Name => 'EventTypeFilterDialog',
-                Data => {%Param},
-            );
-        }
-        else {
-
+        {
             my @CommunicationChannels = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelList(
                 ValidID => 1,
             );
@@ -2006,11 +1943,10 @@ sub _ArticleTree {
         Data => {
             %Param,
             TableClasses => $TableClasses,
-            ZoomTimeline => $Self->{ZoomTimeline},
         },
     );
 
-    if ( $Param{Pagination} && !$Self->{ZoomTimeline} ) {
+    if ( $Param{Pagination} ) {
         $LayoutObject->Block(
             Name => 'ArticlePages',
             Data => $Param{Pagination},
@@ -2028,20 +1964,9 @@ sub _ArticleTree {
         },
     );
 
-    # Add timeline view option only if enabled.
-    if ( $Kernel::OM->Get('Kernel::Config')->Get('TimelineViewEnabled') ) {
-        push @ArticleViews, {
-            Key   => 'Timeline',
-            Value => Translatable('Show Ticket Timeline View'),
-        };
-    }
-
     my $ArticleViewSelected = 'Collapse';
     if ( $Self->{ZoomExpand} ) {
         $ArticleViewSelected = 'Expand';
-    }
-    elsif ( $Self->{ZoomTimeline} ) {
-        $ArticleViewSelected = 'Timeline';
     }
 
     my $ArticleViewStrg = $LayoutObject->BuildSelection(
@@ -2082,11 +2007,7 @@ sub _ArticleTree {
         );
 
         # build article filter reset link only if filter is set
-        if (
-            ( !$Self->{ZoomTimeline} && IsHashRefWithData( $Self->{ArticleFilter} ) )
-            || ( $Self->{ZoomTimeline} && $Self->{EventTypeFilter} )
-            )
-        {
+        if ( IsHashRefWithData( $Self->{ArticleFilter} ) ) {
             $LayoutObject->Block(
                 Name => 'ArticleFilterResetLink',
                 Data => {%Param},
@@ -2103,8 +2024,7 @@ sub _ArticleTree {
     my %ArticleSenderTypeList = $ArticleObject->ArticleSenderTypeList();
 
     # show article tree
-    if ( !$Self->{ZoomTimeline} ) {
-
+    {
         $LayoutObject->Block(
             Name => 'ArticleList',
             Data => {
@@ -2295,541 +2215,6 @@ sub _ArticleTree {
                         TicketID    => $Article{TicketID},
                         ArticleID   => $Article{ArticleID},
                         Attachments => $Attachments,
-                    },
-                );
-            }
-        }
-    }
-
-    # show timeline view
-    else {
-
-        # get ticket history
-        my @HistoryLines = $TicketObject->HistoryGet(
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID},
-        );
-
-        # get articles for later use
-        my @TimelineArticleBox = $ArticleObject->ArticleList(
-            TicketID => $Self->{TicketID},
-        );
-
-        for my $ArticleItem (@TimelineArticleBox) {
-            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$ArticleItem} );
-
-            my %Article = $ArticleBackendObject->ArticleGet(
-                TicketID      => $Self->{TicketID},
-                ArticleID     => $ArticleItem->{ArticleID},
-                DynamicFields => 1,
-                RealNames     => 1,
-            );
-
-            # Append article meta data.
-            $ArticleItem = {
-                %{$ArticleItem},
-                %Article,
-            };
-        }
-
-        my $ArticlesByArticleID = {};
-        for my $Article ( sort @TimelineArticleBox ) {
-            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
-
-            # Get attachment index (excluding body attachments).
-            my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
-                ArticleID => $Article->{ArticleID},
-                %{ $Self->{ExcludeAttachments} },
-            );
-            $Article->{Atms}                                = \%AtmIndex;
-            $Article->{Backend}                             = $ArticleBackendObject->ChannelNameGet();
-            $ArticlesByArticleID->{ $Article->{ArticleID} } = $Article;
-
-            # Check if there is HTML body attachment.
-            my %AttachmentIndexHTMLBody = $ArticleBackendObject->ArticleAttachmentIndex(
-                ArticleID    => $Article->{ArticleID},
-                OnlyHTMLBody => 1,
-            );
-            ( $Article->{HTMLBodyAttachmentID} ) = sort keys %AttachmentIndexHTMLBody;
-        }
-
-        # do not display these types
-        my @TypesDodge = qw(
-            Misc
-            ArchiveFlagUpdate
-            LoopProtection
-            Remove
-            Subscribe
-            Unsubscribe
-            SystemRequest
-            SendAgentNotification
-            SendCustomerNotification
-            SendAutoReject
-        );
-
-        # sort out non-filtered event types (if applicable)
-        if (
-            $Self->{EventTypeFilter}->{EventTypeID}
-            && IsArrayRefWithData( $Self->{EventTypeFilter}->{EventTypeID} )
-            )
-        {
-            for my $EventType ( sort keys %{ $Self->{HistoryTypeMapping} } ) {
-                if (
-                    $EventType ne 'NewTicket' && !grep { $_ eq $EventType }
-                    @{ $Self->{EventTypeFilter}->{EventTypeID} }
-                    )
-                {
-                    push @TypesDodge, $EventType;
-                }
-            }
-        }
-
-        # types which can be described as 'action on a ticket'
-        my @TypesTicketAction = qw(
-            ServiceUpdate
-            SLAUpdate
-            StateUpdate
-            SetPendingTime
-            Unlock
-            Lock
-            ResponsibleUpdate
-            OwnerUpdate
-            CustomerUpdate
-            NewTicket
-            TicketLinkAdd
-            TicketLinkDelete
-            TicketDynamicFieldUpdate
-            Move
-            Merged
-            PriorityUpdate
-            TitleUpdate
-            TypeUpdate
-            EscalationResponseTimeNotifyBefore
-            EscalationResponseTimeStart
-            EscalationResponseTimeStop
-            EscalationSolutionTimeNotifyBefore
-            EscalationSolutionTimeStart
-            EscalationSolutionTimeStop
-            EscalationUpdateTimeNotifyBefore
-            EscalationUpdateTimeStart
-            EscalationUpdateTimeStop
-            TimeAccounting
-        );
-
-        # types which are usually being connected to some kind of
-        # automatic process (e.g. triggered by another action)
-        my @TypesTicketAutoAction = qw(
-            SendAutoFollowUp
-            SendAutoReject
-            SendAutoReply
-        );
-
-        # types which can be considered as internal
-        my @TypesInternal = qw(
-            AddNote
-            ChatInternal
-            EmailAgentInternal
-        );
-
-        # outgoing types
-        my @TypesOutgoing = qw(
-            AddSMS
-            Forward
-            EmailAgent
-            PhoneCallAgent
-            Bounce
-            SendAnswer
-        );
-
-        # incoming types
-        my @TypesIncoming = qw(
-            EmailCustomer
-            AddNoteCustomer
-            AddSMSCustomer
-            PhoneCallCustomer
-            FollowUp
-            WebRequestCustomer
-            ChatExternal
-        );
-
-        my @TypesLeft = (
-            @TypesOutgoing,
-            @TypesInternal,
-            @TypesTicketAutoAction,
-        );
-
-        my @TypesRight = (
-            @TypesIncoming,
-            @TypesTicketAction,
-        );
-
-        my @TypesWithArticles = (
-            @TypesOutgoing,
-            @TypesInternal,
-            @TypesIncoming,
-            'PhoneCallCustomer',
-        );
-
-        my %HistoryItems;
-        my $ItemCounter = 0;
-        my $LastCreateTime;
-        my $LastCreateSystemTime;
-
-        # Get mapping of history types to readable strings
-        my %HistoryTypes;
-        my %HistoryTypeConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::HistoryTypes') // {} };
-        for my $Entry ( sort keys %HistoryTypeConfig ) {
-            %HistoryTypes = (
-                %HistoryTypes,
-                %{ $HistoryTypeConfig{$Entry} },
-            );
-        }
-
-        HISTORYITEM:
-        for my $Item ( reverse @HistoryLines ) {
-
-            # special treatment for certain types, e.g. external notes from customers
-            if (
-                $Item->{ArticleID}
-                && $Item->{HistoryType} eq 'AddNote'
-                && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticleSenderTypeList{ $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderTypeID} } eq 'customer'
-                )
-            {
-                $Item->{Class} = 'TypeIncoming';
-
-                # We fake a custom history type because external notes from customers still
-                # have the history type 'AddNote' which does not allow for distinguishing.
-                $Item->{HistoryType} = 'AddNoteCustomer';
-            }
-
-            # special treatment for certain types, e.g. external SMS from customers
-            elsif (
-                $Item->{ArticleID}
-                && $Item->{HistoryType} eq 'AddSMS'
-                && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticleSenderTypeList{ $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderTypeID} } eq 'customer'
-                )
-            {
-                $Item->{Class} = 'TypeIncoming';
-
-                # We fake a custom history type because external notes from customers still
-                # have the history type 'AddSMS' which does not allow for distinguishing.
-                $Item->{HistoryType} = 'AddSMSCustomer';
-            }
-
-            # special treatment for internal emails
-            elsif (
-                $Item->{ArticleID}
-                && $Item->{HistoryType} eq 'EmailAgent'
-                && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend} eq 'Email'
-                && $ArticleSenderTypeList{ $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderTypeID} } eq 'agent'
-                && !$ArticlesByArticleID->{ $Item->{ArticleID} }->{IsVisibleForCustomer}
-                )
-            {
-                $Item->{Class}       = 'TypeNoteInternal';
-                $Item->{HistoryType} = 'EmailAgentInternal';
-            }
-
-            # special treatment for certain types, e.g. external notes from customers
-            elsif (
-                $Item->{ArticleID}
-                && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend} eq 'Chat'
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{IsVisibleForCustomer}
-                )
-            {
-                $Item->{HistoryType} = 'ChatExternal';
-                $Item->{Class}       = 'TypeIncoming';
-            }
-            elsif (
-                $Item->{ArticleID}
-                && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend} eq 'Chat'
-                && !$ArticlesByArticleID->{ $Item->{ArticleID} }->{IsVisibleForCustomer}
-                )
-            {
-                $Item->{HistoryType} = 'ChatInternal';
-                $Item->{Class}       = 'TypeInternal';
-            }
-            elsif (
-                $Item->{HistoryType} eq 'Forward'
-                && $Item->{ArticleID}
-                && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend} eq 'Email'
-                && $ArticleSenderTypeList{ $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderTypeID} } eq 'agent'
-                && !$ArticlesByArticleID->{ $Item->{ArticleID} }->{IsVisibleForCustomer}
-                )
-            {
-
-                $Item->{Class} = 'TypeNoteInternal';
-            }
-            elsif ( grep { $_ eq $Item->{HistoryType} } @TypesTicketAction ) {
-                $Item->{Class} = 'TypeTicketAction';
-            }
-            elsif ( grep { $_ eq $Item->{HistoryType} } @TypesTicketAutoAction ) {
-                $Item->{Class} = 'TypeTicketAutoAction';
-            }
-            elsif ( grep { $_ eq $Item->{HistoryType} } @TypesInternal ) {
-                $Item->{Class} = 'TypeNoteInternal';
-            }
-            elsif ( grep { $_ eq $Item->{HistoryType} } @TypesIncoming ) {
-                $Item->{Class} = 'TypeIncoming';
-            }
-            elsif ( grep { $_ eq $Item->{HistoryType} } @TypesOutgoing ) {
-                $Item->{Class} = 'TypeOutgoing';
-            }
-
-            if ( grep { $_ eq $Item->{HistoryType} } @TypesDodge ) {
-                next HISTORYITEM;
-            }
-
-            $Item->{Counter} = $ItemCounter++;
-
-            if ( $Item->{HistoryType} eq 'NewTicket' ) {
-
-                # if the 'NewTicket' item has an article, display this "creation article" event separately
-                if ( $Item->{ArticleID} ) {
-                    push @{ $Param{Items} }, {
-                        %{$Item},
-                        Counter             => $Item->{Counter}++,
-                        Class               => 'NewTicket',
-                        Name                => '',
-                        ArticleID           => '',
-                        HistoryTypeReadable => Translatable('Ticket Created'),
-                        Orientation         => 'Right',
-                    };
-                }
-                else {
-                    $Item->{Class} = 'NewTicket';
-                    delete $Item->{ArticleID};
-                    delete $Item->{Name};
-                }
-            }
-
-            # remove article information from types which should not display articles
-            if ( !grep { $_ eq $Item->{HistoryType} } @TypesWithArticles ) {
-                delete $Item->{ArticleID};
-            }
-
-            # get article (if present)
-            if ( $Item->{ArticleID} ) {
-                $Item->{ArticleData} = $ArticlesByArticleID->{ $Item->{ArticleID} };
-
-                my %ArticleFields = $LayoutObject->ArticleFields(
-                    TicketID  => $Item->{ArticleData}->{TicketID},
-                    ArticleID => $Item->{ArticleData}->{ArticleID},
-                );
-                $Item->{ArticleData}->{ArticleFields} = \%ArticleFields;
-
-                # Get dynamic fields and accounted time
-                my $Backend = $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend};
-
-                # Get dynamic fields and accounted time
-                my %ArticleMetaFields = $Kernel::OM->Get("Kernel::Output::HTML::TicketZoom::Agent::$Backend")->ArticleMetaFields(
-                    TicketID  => $Item->{ArticleData}->{TicketID},
-                    ArticleID => $Item->{ArticleData}->{ArticleID},
-                    UserID    => $Self->{UserID},
-                );
-                $Item->{ArticleData}->{ArticleMetaFields} = \%ArticleMetaFields;
-
-                my @ArticleActions = $LayoutObject->ArticleActions(
-                    TicketID  => $Item->{ArticleData}->{TicketID},
-                    ArticleID => $Item->{ArticleData}->{ArticleID},
-                    Type      => 'OnLoad',
-                );
-
-                $Item->{ArticleData}->{ArticlePlain} = $LayoutObject->ArticlePreview(
-                    TicketID   => $Item->{ArticleData}->{TicketID},
-                    ArticleID  => $Item->{ArticleData}->{ArticleID},
-                    ResultType => 'plain',
-                );
-
-                $Item->{ArticleData}->{ArticleHTML} = $Kernel::OM->Get("Kernel::Output::HTML::TimelineView::$Backend")->ArticleRender(
-                    TicketID       => $Item->{ArticleData}->{TicketID},
-                    ArticleID      => $Item->{ArticleData}->{ArticleID},
-                    ArticleActions => \@ArticleActions,
-                    UserID         => $Self->{UserID},
-                );
-
-                # remove empty lines
-                $Item->{ArticleData}->{ArticlePlain} =~ s{^[\n\r]+}{}xmsg;
-
-                # Modify plain text and body to avoid '</script>' tag issue (see bug#14023).
-                $Item->{ArticleData}->{ArticlePlain} =~ s{</script>}{<###/script>}xmsg;
-                $Item->{ArticleData}->{Body}         =~ s{</script>}{<###/script>}xmsg;
-
-                my %ArticleFlagsAll = $ArticleObject->ArticleFlagGet(
-                    ArticleID => $Item->{ArticleID},
-                    UserID    => 1,
-                );
-
-                my %ArticleFlagsMe = $ArticleObject->ArticleFlagGet(
-                    ArticleID => $Item->{ArticleID},
-                    UserID    => $Self->{UserID},
-                );
-
-                $Item->{ArticleData}->{ArticleIsImportant} = $ArticleFlagsAll{Important};
-                $Item->{ArticleData}->{ArticleIsSeen}      = $ArticleFlagsMe{Seen};
-            }
-            else {
-
-                if ( $Item->{Name} && $Item->{Name} =~ m/^%%/x ) {
-
-                    $Item->{Name} =~ s/^%%//xg;
-                    my @Values = split( /%%/x, $Item->{Name} );
-
-                    # See documentation in AgentTicketHistory.pm, line 141+
-                    if ( $Item->{HistoryType} eq 'TicketDynamicFieldUpdate' ) {
-                        @Values = ( $Values[1], $Values[5] // '', $Values[3] // '' );
-                    }
-                    elsif ( $Item->{HistoryType} eq 'TypeUpdate' ) {
-                        @Values = ( $Values[2], $Values[3], $Values[0], $Values[1] );
-                    }
-
-                    $Item->{Name} = $LayoutObject->{LanguageObject}->Translate(
-                        $HistoryTypes{ $Item->{HistoryType} },
-                        @Values,
-                    );
-
-                    # remove not needed place holder
-                    $Item->{Name} =~ s/\%s//xg;
-                }
-            }
-
-            # make the history type more readable (if applicable)
-            $Item->{HistoryTypeReadable} = $Self->{HistoryTypeMapping}->{ $Item->{HistoryType} }
-                || $Item->{HistoryType};
-
-            # group items which happened (nearly) coincidently together
-            my $CreateSystemTimeObject = $Kernel::OM->Create(
-                'Kernel::System::DateTime',
-                ObjectParams => {
-                    String => $Item->{CreateTime},
-                },
-            );
-            $Item->{CreateSystemTime} = $CreateSystemTimeObject
-                ? $CreateSystemTimeObject->ToEpoch()
-                : undef;
-
-            # if we have two events that happened 'nearly' the same time, treat
-            # them as if they happened exactly on the same time (threshold 5 seconds)
-            if (
-                $LastCreateSystemTime
-                && $Item->{CreateSystemTime} <= $LastCreateSystemTime
-                && $Item->{CreateSystemTime} >= ( $LastCreateSystemTime - 5 )
-                )
-            {
-                push @{ $HistoryItems{$LastCreateTime} }, $Item;
-                $Item->{CreateTime} = $LastCreateTime;
-            }
-            else {
-                push @{ $HistoryItems{ $Item->{CreateTime} } }, $Item;
-            }
-
-            $LastCreateTime       = $Item->{CreateTime};
-            $LastCreateSystemTime = $Item->{CreateSystemTime};
-        }
-
-        my $SortByArticle = sub {
-
-            my $IsA = grep { $_ eq $a->{HistoryType} } @TypesWithArticles;
-            my $IsB = grep { $_ eq $b->{HistoryType} } @TypesWithArticles;
-            $IsB cmp $IsA;
-        };
-
-        # sort history items based on items with articles
-        # these items should always be on top of a list of connected items
-        $ItemCounter = 0;
-        for my $Item ( reverse sort keys %HistoryItems ) {
-
-            for my $SubItem ( sort $SortByArticle @{ $HistoryItems{$Item} } ) {
-                $SubItem->{Counter} = $ItemCounter++;
-
-                if ( grep { $_ eq $SubItem->{HistoryType} } @TypesRight ) {
-                    $SubItem->{Orientation} = 'Right';
-                }
-                else {
-                    $SubItem->{Orientation} = 'Left';
-                }
-                push @{ $Param{Items} }, $SubItem;
-            }
-        }
-
-        # set TicketID for usage in JS
-        $Param{TicketID} = $Self->{TicketID};
-
-        # set key 'TimeLong' for JS
-        for my $Item ( @{ $Param{Items} } ) {
-            $Item->{TimeLong} = $LayoutObject->{LanguageObject}->FormatTimeString( $Item->{CreateTime}, 'DateFormatLong' );
-        }
-
-        for my $ArticleID ( sort keys %{$ArticlesByArticleID} ) {
-
-            # Check if article has attachment(s).
-            if ( IsHashRefWithData( $ArticlesByArticleID->{$ArticleID}->{Atms} ) ) {
-
-                my ($Index) = grep { $Param{Items}->[$_]->{ArticleID} && $Param{Items}->[$_]->{ArticleID} == $ArticleID }
-                    0 .. @{ $Param{Items} };
-                $Param{Items}->[$Index]->{HasAttachment} = 1;
-            }
-        }
-
-        # Get NoTimelineViewAutoArticle config value for usage in JS.
-        $LayoutObject->AddJSData(
-            Key   => 'NoTimelineViewAutoArticle',
-            Value => $ConfigObject->Get('NoTimelineViewAutoArticle') || '0',
-        );
-
-        # Include current article ID only if it's selected.
-        $Param{CurrentArticleID} //= $Self->{ArticleID};
-
-        # Modify body text to avoid '</script>' tag issue (see bug#14023).
-        for my $ArticleBoxItem (@ArticleBox) {
-            $ArticleBoxItem->{Body} =~ s{</script>}{<###/script>}xmsg;
-        }
-
-        # send data to JS
-        $LayoutObject->AddJSData(
-            Key   => 'TimelineView',
-            Value => {
-                Enabled => $ConfigObject->Get('TimelineViewEnabled'),
-                Data    => \%Param,
-            },
-        );
-
-        $LayoutObject->Block(
-            Name => 'TimelineView',
-            Data => \%Param,
-        );
-
-        # jump to selected article
-        if ( $Self->{ArticleID} ) {
-            $LayoutObject->Block(
-                Name => 'ShowSelectedArticle',
-                Data => {
-                    ArticleID => $Self->{ArticleID},
-                },
-            );
-        }
-
-        # render action menu for all articles
-        for my $ArticleID ( sort keys %{$ArticlesByArticleID} ) {
-
-            # show attachments box
-            if ( IsHashRefWithData( $ArticlesByArticleID->{$ArticleID}->{Atms} ) ) {
-
-                my $ArticleAttachments = $Self->_CollectArticleAttachments(
-                    Article => $ArticlesByArticleID->{$ArticleID},
-                );
-
-                $LayoutObject->Block(
-                    Name => 'TimelineViewArticleAttachments',
-                    Data => {
-                        TicketID    => $Self->{TicketID},
-                        ArticleID   => $ArticleID,
-                        Attachments => $ArticleAttachments,
                     },
                 );
             }

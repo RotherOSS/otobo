@@ -313,11 +313,7 @@
             </a>
         </div>
         <h2>
-        [% IF Data.ZoomTimeline %]
-            [% Translate("Ticket Timeline View") | html %]
-        [% ELSE %]
-            [% Translate("Article Overview - %s Article(s)", Data.ArticleCount) | html %]
-        [% END %]
+        [% Translate("Article Overview - %s Article(s)", Data.ArticleCount) | html %]
         </h2>
         <div class="AdditionalInformation ControlRow">
 
@@ -465,75 +461,6 @@
             </div>
         </div>
 [% RenderBlockEnd("ArticleList") %]
-
-[% RenderBlockStart("TimelineView") %]
-
-        <div class="TimelineViewTicketActions Hidden">
-[% RenderBlockStart("TimelineViewTicketActions") %]
-            <div class="TicketActions ArticleID_[% Data.ArticleID | html %]">
-[% PROCESS ArticleActionMenu.tt %]
-            </div>
-[% RenderBlockEnd("TimelineViewTicketActions") %]
-        </div>
-
-        <div class="TimelineViewArticleAttachments Hidden">
-[% RenderBlockStart("TimelineViewArticleAttachments") %]
-            <div class="ArticleAttachments ArticleID_[% Data.ArticleID | html %]">
-[% PROCESS ArticleAttachments.tt %]
-            </div>
-[% RenderBlockEnd("TimelineViewArticleAttachments") %]
-        </div>
-
-        <ul class="Hidden">
-            <li id="TemplateListItem">
-                <h3>
-                    <div class="UnreadArticles Remarkable" title="[% Translate("Mark this article as read") | html %]">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                    </div>
-                    <i class="fa fa-info-circle" title="[% Translate("Important") | html %]"></i>
-                    <em></em>
-                    <strong class="Type"></strong>
-                    <span><span></span></span>
-                    <a href="#" class="ShowFullArticleText" title="[% Translate("Show Full Text") | html %]">
-                        <i class="fa fa-search-plus"></i>
-                    </a>
-                </h3>
-            </li>
-        </ul>
-
-        <div id="TemplateArticleData" class="Hidden">
-            <ul>
-                <li class="subject">
-                    <strong>[% Translate("Subject") | html %]: </strong>
-                </li>
-                <li class="from">
-                    <strong>[% Translate("From") | html %]: </strong>
-                </li>
-                <li class="to">
-                    <strong>[% Translate("To") | html %]: </strong>
-                </li>
-                <li class="cc">
-                    <strong>[% Translate("Cc") | html %]: </strong>
-                </li>
-            </ul>
-            <div class="Hidden FullArticlePlainText" data-title="[% Translate("Full Article Text") | html %]">
-                <div class="TimelinePlainText"></div>
-            </div>
-            <p class="PlainText"></p>
-            <div class="Hidden ArticleIFrame" data-title="[% Translate("Full Article Text") | html %]"></div>
-        </div>
-
-        <div class="TimelineView UseArticleColors">
-            <ul class="ListLeft">
-                <li class="NoEvents">[% Translate("No more events found. Please try changing the filter settings.") | html %]</li>
-            </ul>
-            <ul class="ListRight"></ul>
-            <div class="Clear"></div>
-            <span><i class="fa fa-spinner fa-spin"></i></span>
-        </div>
-
-[% RenderBlockEnd("TimelineView") %]
 
     </div>
 </div>
