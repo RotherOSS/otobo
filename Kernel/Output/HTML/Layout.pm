@@ -151,8 +151,7 @@ sub new {
         $Self->{LanguageObject} = $Kernel::OM->Get('Kernel::Language');
     }
 
-    # set charset if there is no charset given
-    $Self->{UserCharset} = 'utf-8';                 # used directly by frontend modules
+    $Self->{UserCharset} = 'utf-8';                 # only utf-8 is supported, used directly by frontend modules
     $Self->{Charset}     = $Self->{UserCharset};    # just for compatibility, used directly by frontend modules
     $Self->{SessionID}   = $Param{SessionID}          || '';
     $Self->{SessionName} = $Param{SessionName}        || 'SessionID';

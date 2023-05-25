@@ -310,7 +310,7 @@ sub Run {
         }
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $FilterContent,
             Type        => 'inline',
             NoCache     => 1,

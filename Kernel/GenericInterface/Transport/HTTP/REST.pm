@@ -560,7 +560,7 @@ sub RequesterPerformRequest {
 
     # Create header container and add proper content type.
     # These headers will be used for calling the remote server.
-    my %Headers = ( 'Content-Type' => 'application/json; charset=UTF-8' );
+    my %Headers = ( 'Content-Type' => 'application/json' );
 
     # Add AdditionalHeaders, but do not overwrite existing headers
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {

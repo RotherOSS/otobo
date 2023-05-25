@@ -88,7 +88,7 @@ sub Run {
         }
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $Kernel::OM->Get('Kernel::System::JSON')->Encode(
                 Data => \@AttachmentData,
             ),
@@ -138,7 +138,7 @@ sub Run {
         }
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $Kernel::OM->Get('Kernel::System::JSON')->Encode(
                 Data => $Return,
             ),

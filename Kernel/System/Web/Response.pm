@@ -143,8 +143,8 @@ sub Finalize {
     # Otherwise assume that the request was successful and set the code to 200.
     $Self->Code(200) unless $Self->Code();
 
-    # The content has either been set by the Content() method or here as the param Content.
-    # The param has precedence.
+    # The content has either been set by the Content() method or was passed as the parameter 'Content'.
+    # Passing the parameter 'Content' explicitly has precedence.
     if ( exists $Param{Content} ) {
 
         my $Content = $Param{Content} // '';
@@ -190,7 +190,7 @@ sub Finalize {
     }
 
     # return the PSGI response, an unblessed array reference with three elements
-    return $Self->{Response}->finalize();
+    return $Self->{Response}->finalize;
 }
 
 1;

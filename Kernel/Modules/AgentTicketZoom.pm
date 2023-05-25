@@ -411,7 +411,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -649,7 +649,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -712,7 +712,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,

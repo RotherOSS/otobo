@@ -4898,7 +4898,7 @@ via the Preferences button after logging in.
                         <Item Key="Order">4000</Item>
                     </Hash>
                 </Item>
-                <Item Key="OTOBOGroup">
+                <Item Key="OTOBOTeamServices">
                     <Hash>
                         <Item Key="Title" Translatable="1">OTOBO Team Services</Item>
                         <Item Key="Order">5000</Item>
@@ -6387,7 +6387,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">System Registration</Item>
-                <Item Key="Block">OTOBOGroup</Item>
+                <Item Key="Block">OTOBOTeamServices</Item>
                 <Item Key="Description" Translatable="1">Manage system registration.</Item>
                 <Item Key="IconBig">fa-edit</Item>
                 <Item Key="IconSmall"></Item>
@@ -6462,7 +6462,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Support Data Collector</Item>
-                <Item Key="Block">OTOBOGroup</Item>
+                <Item Key="Block">OTOBOTeamServices</Item>
                 <Item Key="Description" Translatable="1">Manage support data.</Item>
                 <Item Key="IconBig">fa-search</Item>
                 <Item Key="IconSmall"></Item>
@@ -6532,7 +6532,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Cloud Services</Item>
-                <Item Key="Block">OTOBOGroup</Item>
+                <Item Key="Block">OTOBOTeamServices</Item>
                 <Item Key="Description" Translatable="1">Manage OTOBO Team cloud services.</Item>
                 <Item Key="IconBig">fa-cloud</Item>
                 <Item Key="IconSmall"></Item>
