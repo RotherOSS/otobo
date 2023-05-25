@@ -731,7 +731,7 @@
     </Setting>
     <!-- new tasks -->
     <Setting Name="Daemon::SchedulerCronTaskManager::Task###RegistrationUpdateSend" Required="1" Valid="1" ReadOnly="1" ConfigLevel="100">
-        <Description Translatable="1">Sends registration information to OTOBO group.</Description>
+        <Description Translatable="1">Sends registration information to Rother OSS.</Description>
         <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
         <Value>
             <Hash>
