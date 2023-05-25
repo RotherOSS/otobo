@@ -296,14 +296,13 @@ Generates the ValueGet return structure.
 sub ValueStructureFromDB {
     my ( $Self, %Param ) = @_;
 
-    return if !$Param{ValueDB};
-    return if !IsArrayRefWithData( $Param{ValueDB} );
-    return if !IsHashRefWithData( $Param{ValueDB}->[0] );
-
-    my @ReturnValue;
+    return unless $Param{ValueDB};
+    return unless IsArrayRefWithData( $Param{ValueDB} );
+    return unless IsHashRefWithData( $Param{ValueDB}->[0] );
 
     if ( $Param{Set} ) {
         if ( $Param{MultiValue} ) {
+            my @ReturnValue;
             for my $Value ( $Param{ValueDB}->@* ) {
                 $ReturnValue[ $Value->{IndexSet} ][ $Value->{IndexValue} ] = $Value->{ $Param{ValueKey} };
             }
@@ -312,6 +311,7 @@ sub ValueStructureFromDB {
         }
 
         if ( $Param{BaseArray} ) {
+            my @ReturnValue;
             for my $Value ( $Param{ValueDB}->@* ) {
                 $ReturnValue[ $Value->{IndexSet} ] = [ $Value->{ $Param{ValueKey} } ];
             }
@@ -319,6 +319,7 @@ sub ValueStructureFromDB {
             return \@ReturnValue;
         }
 
+        my @ReturnValue;
         for my $Value ( $Param{ValueDB}->@* ) {
             $ReturnValue[ $Value->{IndexSet} ] = $Value->{ $Param{ValueKey} };
         }
@@ -327,6 +328,7 @@ sub ValueStructureFromDB {
     }
 
     if ( $Param{MultiValue} ) {
+        my @ReturnValue;
         for my $Value ( $Param{ValueDB}->@* ) {
             $ReturnValue[ $Value->{IndexValue} ] = $Value->{ $Param{ValueKey} };
         }
