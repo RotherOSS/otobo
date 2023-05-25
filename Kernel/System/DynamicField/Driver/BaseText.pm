@@ -18,9 +18,17 @@ package Kernel::System::DynamicField::Driver::BaseText;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -34,9 +42,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::BaseText - sub module of
-Kernel::System::DynamicField::Driver::Text and
-Kernel::System::DynamicField::Driver::TextArea
+Kernel::System::DynamicField::Driver::BaseText - sub module of Text and TextArea dynamic fields
 
 =head1 DESCRIPTION
 
@@ -44,11 +50,15 @@ Text common functions.
 
 =head1 PUBLIC INTERFACE
 
+Modules that are derived from this base module implement the public interface of L<Kernel::System::DynamicField::Backend>.
+Please look there for a detailed reference of the functions.
+
 =cut
 
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
+    # get raw values of the dynamic field
     my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
         FieldID  => $Param{DynamicFieldConfig}{ID},
         ObjectID => $Param{ObjectID},
@@ -56,7 +66,7 @@ sub ValueGet {
 
     return $Self->ValueStructureFromDB(
         ValueDB    => $DFValue,
-        ValueKey   => 'ValueText',
+        ValueKey   => $Self->{ValueKey},
         Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
     );
@@ -67,7 +77,7 @@ sub ValueSet {
 
     my $Value = $Self->ValueStructureToDB(
         Value      => $Param{Value},
-        ValueKey   => 'ValueText',
+        ValueKey   => $Self->{ValueKey},
         Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
     );
@@ -140,7 +150,7 @@ sub ValueValidate {
     for my $Item (@Values) {
         $Success = $DynamicFieldValueObject->ValueValidate(
             Value => {
-                ValueText => $Param{Value},
+                $Self->{ValueKey} => $Param{Value},
             },
             UserID => $Param{UserID}
         );
@@ -176,7 +186,7 @@ sub SearchSQLGet {
 
     if ( $Param{Operator} eq 'Like' ) {
         my $SQL = $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
-            Key   => "$Param{TableAlias}.value_text",
+            Key   => "$Param{TableAlias}.$Self->{TableAttribute}",
             Value => $Param{SearchTerm},
         );
 
@@ -228,7 +238,7 @@ sub SearchSQLGet {
 sub SearchSQLOrderFieldGet {
     my ( $Self, %Param ) = @_;
 
-    return "$Param{TableAlias}.value_text";
+    return "$Param{TableAlias}.$Self->{TableAttribute}";
 }
 
 sub EditFieldRender {
@@ -270,7 +280,7 @@ sub EditFieldRender {
     }
 
     # check and set class if necessary
-    my $FieldClass = 'DynamicFieldText W50pc';
+    my $FieldClass = "$Self->{FieldCSSClass} W50pc";    # for field specific JS
     if ( defined $Param{Class} && $Param{Class} ne '' ) {
         $FieldClass .= ' ' . $Param{Class};
     }
@@ -448,12 +458,10 @@ sub EditFieldValueValidate {
     }
 
     # create resulting structure
-    my $Result = {
+    return {
         ServerError  => $ServerError,
         ErrorMessage => $ErrorMessage,
     };
-
-    return $Result;
 }
 
 sub DisplayValueRender {

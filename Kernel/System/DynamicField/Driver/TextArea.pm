@@ -34,7 +34,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::TextArea
+Kernel::System::DynamicField::Driver::TextArea - driver for the TextArey dynamic field
 
 =head1 DESCRIPTION
 
@@ -53,11 +53,17 @@ by using Kernel::System::DynamicField::Backend->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
+
+    # Text dynamic fields are stored in the database table attribute dynamic_field_value.value_text
+    $Self->{ValueKey}       = 'ValueText';
+    $Self->{TableAttribute} = 'value_text';
+
+    # Used for declaring CSS classes
+    $Self->{FieldCSSClass} = 'DynamicFieldText';
 
     # set the maximum length for the text-area fields to still be a searchable field in some
     # databases
@@ -100,12 +106,11 @@ sub new {
             }
         }
 
-        # check if extension contains more behaviors
+        # merge the behaviors of the extension
         if ( IsHashRefWithData( $Extension->{Behaviors} ) ) {
-
-            %{ $Self->{Behaviors} } = (
-                %{ $Self->{Behaviors} },
-                %{ $Extension->{Behaviors} }
+            $Self->{Behaviors}->%* = (
+                $Self->{Behaviors}->%*,
+                $Extension->{Behaviors}->%*,
             );
         }
     }
