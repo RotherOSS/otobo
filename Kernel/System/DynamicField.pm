@@ -732,77 +732,62 @@ sub DynamicFieldList {
     }
 
     else {
+        # create sql query
         my $SQL = 'SELECT id, name, field_order FROM dynamic_field';
+        my @BindValues;
 
         # get database object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+        # collect where clauses in array for joining them later
+        my @WhereClauses;
 
         if ($Valid) {
 
             # get valid object
             my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
-            $SQL .= ' WHERE valid_id IN (' . join ', ', $ValidObject->ValidIDsGet() . ')';
+            my @ValidIDs = $ValidObject->ValidIDsGet();
 
-            if ( $Param{ObjectType} ) {
-                if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
-                    $SQL .=
-                        " AND object_type = '"
-                        . $DBObject->Quote( $Param{ObjectType} ) . "'";
-                }
-                elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-                    my $ObjectTypeString =
-                        join ',',
-                        map { "'" . $DBObject->Quote($_) . "'" } @{ $Param{ObjectType} };
-                    $SQL .= " AND object_type IN ($ObjectTypeString)";
+            # set one question mark for each valid id in order to use bind array
+            push @WhereClauses, 'valid_id IN (' . join( ', ', map {'?'} @ValidIDs ) . ')';
+            push @BindValues,   @ValidIDs;
 
-                }
-            }
-
-            if ( $Param{Namespace} ) {
-                if ( IsStringWithData( $Param{Namespace} ) && $Param{Namespace} ne 'All' ) {
-                    $SQL .=
-                        " AND name LIKE '"
-                        . $DBObject->Quote( $Param{Namespace} ) . "-%'";
-                }
-            }
         }
-        elsif ( $Param{ObjectType} ) {
 
+        if ( $Param{ObjectType} ) {
+
+            # differentiate whether we have an object type string or array
             if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
-                $SQL .=
-                    " WHERE object_type = '"
-                    . $DBObject->Quote( $Param{ObjectType} ) . "'";
+                push @WhereClauses, 'object_type = ?';
+                push @BindValues,   $Param{ObjectType};
             }
             elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-                my $ObjectTypeString =
-                    join ',',
-                    map { "'" . $DBObject->Quote($_) . "'" } @{ $Param{ObjectType} };
-                $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+                push @WhereClauses, 'object_type IN (' . join( ', ', map {'?'} $Param{ObjectType}->@* ) . ')';
+                push @BindValues,   $Param{ObjectType}->@*;
             }
 
-            if ( $Param{Namespace} ) {
-                if ( IsStringWithData( $Param{Namespace} ) && $Param{Namespace} ne 'All' ) {
-                    $SQL .=
-                        " AND name LIKE '"
-                        . $DBObject->Quote( $Param{Namespace} ) . "-%'";
-                }
-            }
         }
-        else {
 
-            if ( $Param{Namespace} ) {
-                if ( IsStringWithData( $Param{Namespace} ) && $Param{Namespace} ne 'All' ) {
-                    $SQL .=
-                        " WHERE name LIKE '"
-                        . $DBObject->Quote( $Param{Namespace} ) . "-%'";
-                }
+        if ( $Param{Namespace} ) {
+
+            if ( IsStringWithData( $Param{Namespace} ) && $Param{Namespace} ne 'All' ) {
+                push @WhereClauses, 'name LIKE ?';
+                push @BindValues,   "$Param{Namespace}-%";
             }
+
+        }
+
+        if ( @WhereClauses && @BindValues ) {
+            $SQL .= " WHERE " . join( " AND ", @WhereClauses );
         }
 
         $SQL .= " ORDER BY field_order, id";
 
-        return if !$DBObject->Prepare( SQL => $SQL );
+        return if !$DBObject->Prepare(
+            SQL  => $SQL,
+            Bind => @BindValues ? [ map { \$_ } @BindValues ] : undef,
+        );
 
         if ( $ResultType eq 'HASH' ) {
             my %Data;
