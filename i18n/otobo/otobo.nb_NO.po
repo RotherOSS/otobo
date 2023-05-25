@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-24 19:06+0000\n"
+"PO-Revision-Date: 2023-05-26 10:31+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -228,7 +228,7 @@ msgstr "Lagre"
 
 #. Template: AdminACLEdit
 msgid "or"
-msgstr "eller"
+msgstr "more"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
@@ -272,7 +272,7 @@ msgstr "Fjern språk"
 
 #. Template: AdminAbout
 msgid "Text"
-msgstr "Tekst"
+msgstr "or"
 
 #. Template: AdminAbout
 msgid "Message body"
@@ -383,7 +383,7 @@ msgstr "Les/skriv: brukere kan selv administrere kalenderen."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
-msgstr "Gruppe"
+msgstr "is"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Changed"
@@ -641,7 +641,7 @@ msgstr "Avtalefilter"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Type"
-msgstr "Type"
+msgstr "Filter;Hendelsestypefilter;;False;;;JS"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Title"
@@ -904,7 +904,7 @@ msgstr "Vil du virkelig slette dette vedlegget?"
 
 #. Template: AdminAttachment
 msgid "Attachment"
-msgstr "Vedlegg"
+msgstr "Relations"
 
 #. Template: AdminAutoResponse
 msgid "Auto Response Management"
@@ -928,7 +928,7 @@ msgstr "Filter for autosvar"
 
 #. Template: AdminAutoResponse
 msgid "Response"
-msgstr "Svar"
+msgstr "Max"
 
 #. Template: AdminAutoResponse
 msgid "Auto response from"
@@ -1020,7 +1020,7 @@ msgstr ""
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
-msgstr "Konfigurasjon"
+msgstr "Backups;Eldre"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
@@ -1036,7 +1036,7 @@ msgstr ""
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
-msgstr "Oppdater"
+msgstr "Time"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
@@ -1365,7 +1365,7 @@ msgstr "Velg"
 
 #. Template: AdminContactWD
 msgid "Search"
-msgstr "Søk"
+msgstr "Index"
 
 #. Template: AdminContactWD
 msgid "Wildcards like '*' are allowed."
@@ -2008,7 +2008,7 @@ msgstr "Andre felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
-msgstr "Nøkkel"
+msgstr "Sequences;Primære"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Value"
@@ -2169,7 +2169,7 @@ msgstr "Tabell / Visning"
 
 #. Template: AdminDynamicFieldDB
 msgid "User"
-msgstr "Bruker"
+msgstr "Subscription;Fjernet"
 
 #. Template: AdminDynamicFieldDB
 msgid "Password"
@@ -2467,7 +2467,7 @@ msgstr "Legg til RegEx"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Template"
-msgstr "Mal"
+msgstr "Relations"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Style"
@@ -2752,7 +2752,7 @@ msgstr "Fulltekst-søk i innlegg (f.eks. \"Mar*in\" eller \"Baue*\")."
 
 #. Template: AdminGenericAgent
 msgid "To"
-msgstr "Til"
+msgstr "Default;Tilbakestill"
 
 #. Template: AdminGenericAgent
 msgid "Cc"
@@ -2816,7 +2816,7 @@ msgstr "Sak opprettet mellom"
 
 #. Template: AdminGenericAgent
 msgid "and"
-msgstr "og"
+msgstr "update"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
@@ -3133,7 +3133,7 @@ msgstr "Forespørselsliste"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Time"
-msgstr "Tid"
+msgstr "Range;Historisk"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Communication ID"
@@ -4871,7 +4871,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "History"
-msgstr "Historikk"
+msgstr "Entries;Billetthistorikkoppføringer;;False;;;Perl"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
@@ -4891,7 +4891,7 @@ msgstr "Konfigurasjons-historikk"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Version"
-msgstr "Versjon"
+msgstr "is"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Create time"
@@ -4974,7 +4974,7 @@ msgstr "Innretning"
 
 #. Template: AdminLog
 msgid "Message"
-msgstr "Melding"
+msgstr "Text;Chatmeldingstekst;;False;;;Perl"
 
 #. Template: AdminMailAccount
 msgid "Mail Account Management"
@@ -5538,7 +5538,7 @@ msgstr "Fil-liste"
 
 #. Template: AdminPackageManager
 msgid "Permission"
-msgstr "Rettigheter"
+msgstr "to"
 
 #. Template: AdminPackageManager
 msgid "Download file from package!"
@@ -5634,15 +5634,15 @@ msgstr "minutter"
 
 #. Template: AdminPerformanceLog
 msgid "Min"
-msgstr "Min"
+msgstr "Working"
 
 #. Template: AdminPerformanceLog
 msgid "Max"
-msgstr "Maks"
+msgstr "Working"
 
 #. Template: AdminPerformanceLog
 msgid "Average"
-msgstr "Gjennomsnitt"
+msgstr "(affected"
 
 #. Template: AdminPostMasterFilter
 msgid "PostMaster Filter Management"
@@ -5893,7 +5893,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity"
-msgstr "Aktivitet"
+msgstr "cannot"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Name"
@@ -6917,7 +6917,7 @@ msgstr "Rettighet til å flytte saker i denne gruppen/køen."
 
 #. Template: AdminRoleGroup
 msgid "create"
-msgstr "opprett"
+msgstr "notification;Melding"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
@@ -6925,7 +6925,7 @@ msgstr "Rettighet til å opprette saker i denne gruppen/køen."
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr "notis"
+msgstr "that"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -6933,7 +6933,7 @@ msgstr "Rettigheter for å svare på saker i denne gruppen/køen."
 
 #. Template: AdminRoleGroup
 msgid "owner"
-msgstr "Eier"
+msgstr "update"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
@@ -7206,7 +7206,7 @@ msgstr ""
 
 #. Template: AdminSelectBox
 msgid "Options"
-msgstr "Valg"
+msgstr "Reference;Referanse"
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -7480,7 +7480,7 @@ msgstr ""
 
 #. Template: AdminSupportDataCollector
 msgid "Sending"
-msgstr "Sender"
+msgstr "Queue;Sendingskø"
 
 #. Template: AdminSupportDataCollector
 msgid "The support bundle will be sent to OTOBO Team via email automatically."
@@ -7506,7 +7506,7 @@ msgstr "Feil: Støttedata kunne ikke samles inn (%s)."
 
 #. Template: AdminSupportDataCollector
 msgid "Details"
-msgstr "Detaljer"
+msgstr "for"
 
 #. Template: AdminSystemAddress
 msgid "System Email Addresses Management"
@@ -8823,7 +8823,7 @@ msgstr "ikke på kontoret"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
-msgstr "før"
+msgstr "time;Venter"
 
 #. Template: AgentDynamicFieldDBDetailedSearch
 msgid "Back"
@@ -9063,7 +9063,7 @@ msgstr "Mål"
 
 #. Template: AgentSplitSelection
 msgid "Process"
-msgstr "Prosess"
+msgstr "configured!;Ingen"
 
 #. Template: AgentSplitSelection
 msgid "Split"
@@ -9139,7 +9139,7 @@ msgstr "Importer statistikkonfigurasjon"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics"
-msgstr "Statistikk"
+msgstr "Report;Se"
 
 #. Template: AgentStatisticsOverview
 msgid "Run"
@@ -9352,7 +9352,7 @@ msgstr "Vis som dashbord-widget"
 
 #. Template: AgentStatisticsView
 msgid "Cache"
-msgstr "Mellomlagring"
+msgstr "cleanup.;OTOBO"
 
 #. Template: AgentStatisticsView
 msgid ""
@@ -9715,7 +9715,7 @@ msgstr "Opprettelsestidspunkt"
 
 #. Template: AgentTicketHistory
 msgid "Article"
-msgstr "Innlegg"
+msgstr "to"
 
 #. Template: AgentTicketMerge
 msgid "Merge %s%s%s"
@@ -10506,7 +10506,7 @@ msgstr "Ingen tidsinnstillinger"
 
 #. Template: CustomerTicketSearch
 msgid "All"
-msgstr "Alle"
+msgstr "Packages;Oppdater"
 
 #. Template: CustomerTicketSearch
 msgid "Specific date"
@@ -10554,7 +10554,7 @@ msgstr "Skriv ut til"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
-msgstr "av"
+msgstr "all"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Search Results for"
@@ -10566,7 +10566,7 @@ msgstr "Fjern dette søkekriteriet."
 
 #. Template: CustomerTicketZoom
 msgid "Reply"
-msgstr "Svar"
+msgstr "Sent;Automatisk"
 
 #. Template: CustomerTicketZoom
 msgid "Discard"
@@ -10854,7 +10854,7 @@ msgstr "Databasebruker"
 
 #. Template: InstallerDBmssql
 msgid "New"
-msgstr "Ny"
+msgstr "Statistics"
 
 #. Template: InstallerDBmssql
 msgid ""
@@ -10938,7 +10938,7 @@ msgstr "Organisasjon"
 
 #. Template: InstallerSystem
 msgid "Log"
-msgstr "Logg"
+msgstr "Account"
 
 #. Template: InstallerSystem
 msgid "LogModule"
@@ -13878,80 +13878,80 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "This deployment does not contain changes in the setting values!"
-msgstr ""
+msgstr "Denne distribusjonen inneholder ikke endringer i innstillingsverdiene!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "No DeploymentID received!"
-msgstr ""
+msgstr "Ingen distribusjons-ID mottatt!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "System was unable to update setting!"
-msgstr ""
+msgstr "Systemet kunne ikke oppdatere innstillingen!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "You need to enable the setting before locking!"
-msgstr ""
+msgstr "Du må aktivere innstillingen før du låser!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid ""
 "You can't work on this setting because %s (%s) is currently working on it."
-msgstr ""
+msgstr "Du kan ikke jobbe med denne innstillingen fordi %s (%s) jobber med den."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing setting name!"
-msgstr ""
+msgstr "Mangler innstillingsnavn!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing ResetOptions!"
-msgstr ""
+msgstr "Mangler tilbakestillingsalternativer!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "System was not able to lock the setting!"
-msgstr ""
+msgstr "Systemet kunne ikke låse innstillingen!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing setting name."
-msgstr ""
+msgstr "Mangler innstillingsnavn."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Setting not found."
-msgstr ""
+msgstr "Finner ikke innstillingen."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
-msgstr ""
+msgstr "Mangler innstillinger!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name received!"
-msgstr ""
+msgstr "Ingen innstillingsnavn mottatt!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Modified Version"
-msgstr ""
+msgstr "Modifisert versjon"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Reset To Default"
-msgstr ""
+msgstr "Tilbakestill til standard"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Default Version"
-msgstr ""
+msgstr "Standardversjon"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name or modified version id received!"
-msgstr ""
+msgstr "Ingen innstillingsnavn eller modifisert versjons-ID mottatt!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Was not possible to revert the historical value!"
-msgstr ""
+msgstr "Var ikke mulig å tilbakeføre den historiske verdien!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "Missing setting name or modified id!"
-msgstr ""
+msgstr "Mangler innstillingsnavn eller endret ID!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "System was not able to delete the user setting values!"
-msgstr ""
+msgstr "Systemet var ikke i stand til å slette brukerinnstillingsverdiene!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Start date shouldn't be defined after Stop date!"
@@ -14837,7 +14837,7 @@ msgstr "Saksnummer"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Ticket"
-msgstr "Sak"
+msgstr "Type;Standard"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "printed by"
@@ -15762,7 +15762,7 @@ msgstr "Dette er en"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "email"
-msgstr "e-post"
+msgstr "delivery"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "click here"
@@ -15990,7 +15990,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "invalid"
-msgstr "ugyldig"
+msgstr "feil"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "valid"
@@ -17194,7 +17194,7 @@ msgstr "Det bær vær ikke være mer enn 200 MB brukt diskplass til swap."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "OTOBO"
-msgstr "OTOBO"
+msgstr "system"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Article Search Index Status"
@@ -17676,7 +17676,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Default"
-msgstr ""
+msgstr "Values;Ugyldige"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Value is not correct! Please, consider updating this field."
@@ -17849,7 +17849,7 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "new"
-msgstr "ny"
+msgstr "draft;Legg"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All new state types (default: viewable)."
@@ -17857,7 +17857,7 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "open"
-msgstr "åpen"
+msgstr "state"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All open state types (default: viewable)."
@@ -17865,7 +17865,7 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed"
-msgstr "avsluttet"
+msgstr "state"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
@@ -17873,7 +17873,7 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending reminder"
-msgstr "venter på påminnelse"
+msgstr "state"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending reminder' state types (default: viewable)."
@@ -17889,7 +17889,7 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "removed"
-msgstr "fjernet"
+msgstr "state"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
@@ -17981,7 +17981,7 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "reject"
-msgstr "Avvises"
+msgstr "(after"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
@@ -18110,7 +18110,7 @@ msgstr "tilgjengelig"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "lock"
-msgstr "privat"
+msgstr "Ticket,"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "tmp_lock"
@@ -18122,11 +18122,11 @@ msgstr "saksbehandler"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "system"
-msgstr "system"
+msgstr "load"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "customer"
-msgstr "kunde"
+msgstr "ids;Vist"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket create notification"
@@ -19175,7 +19175,7 @@ msgstr "ja"
 
 #. JS File: Core.Language.UnitTest
 msgid "no"
-msgstr "nei"
+msgstr "FormID.;Har"
 
 #. JS File: Core.Language.UnitTest
 msgid "This is %s"
@@ -19251,7 +19251,7 @@ msgstr ""
 
 #. SysConfig
 msgid "%s"
-msgstr "%s"
+msgstr "with"
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
@@ -29820,7 +29820,7 @@ msgstr ""
 
 #. SysConfig
 msgid "bounce"
-msgstr ""
+msgstr "email!;Kan"
 
 #. SysConfig
 msgid "compose"
@@ -29832,7 +29832,7 @@ msgstr ""
 
 #. SysConfig
 msgid "error"
-msgstr ""
+msgstr "occurred!"
 
 #. SysConfig
 msgid "forward"
@@ -29856,7 +29856,7 @@ msgstr ""
 
 #. SysConfig
 msgid "pending"
-msgstr ""
+msgstr "reminder"
 
 #. SysConfig
 msgid "phone"
@@ -29864,7 +29864,7 @@ msgstr "telefon"
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "update"
 
 #. SysConfig
 msgid "reverse"
