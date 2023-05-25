@@ -31,8 +31,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # set debug
     $Self->{Debug} = 0;
@@ -75,7 +74,6 @@ sub new {
                 }
             }
         }
-
         elsif (
             defined $Self->{ArticleView}
             || defined $Self->{ZoomExpand}
@@ -161,7 +159,7 @@ sub new {
         );
     }
 
-    # get zoom settings depending on ticket type
+    # get display settings for AgentTicketZoom, e.g. which widgets are shown
     $Self->{DisplaySettings} = $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom");
 
     # this is a mapping of history types which is being used
