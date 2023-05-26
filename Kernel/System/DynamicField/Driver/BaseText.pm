@@ -44,7 +44,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::BaseText - sub module of Text and TextArea dynamic fields
+Kernel::System::DynamicField::Driver::BaseText - base module of Text and TextArea dynamic fields
 
 =head1 DESCRIPTION
 
@@ -636,14 +636,12 @@ sub DisplayValueRender {
     my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';
 
     # create return structure
-    my $Data = {
+    return {
         Value       => $Value,
         Title       => $Title,
         Link        => $Link,
         LinkPreview => $LinkPreview,
     };
-
-    return $Data;
 }
 
 sub SearchFieldRender {
@@ -671,7 +669,7 @@ sub SearchFieldRender {
     }
 
     # check and set class if necessary
-    my $FieldClass = 'DynamicFieldText';
+    my $FieldClass = $Self->{FieldCSSClass};    # for field specific JS
 
     my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
         Text => $Value,
@@ -935,9 +933,7 @@ sub HistoricalValuesGet {
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Key} ? $Param{Key} : '';
-
-    return $Value;
+    return $Param{Key} // '';
 }
 
 1;
