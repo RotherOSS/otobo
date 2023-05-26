@@ -47,15 +47,15 @@ generates HTML output based on a template file.
 Using a template file:
 
     my $HTML = $LayoutObject->Output(
-        TemplateFile => 'AdminLog.tt',
-        Data         => \%Param,
+        TemplateFile => 'AdminLog',
+        Data         => \%TemplateData,
     );
 
 Using a template string:
 
     my $HTML = $LayoutObject->Output(
         Template => '<b>[% Data.SomeKey | html %]</b>',
-        Data     => \%Param,
+        Data     => \%TemplateData,
     );
 
 =head3 Additional parameters:
@@ -89,7 +89,7 @@ sub Output {
             Priority => 'error',
             Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
         );
-        $Self->FatalError();
+        $Self->FatalError;
     }
 
     # fill init Env
@@ -148,7 +148,7 @@ sub Output {
             Priority => 'error',
             Message  => 'Need Template or TemplateFile Param!',
         );
-        $Self->FatalError();
+        $Self->FatalError;
     }
 
     if ( !$Self->{TemplateObject} ) {
