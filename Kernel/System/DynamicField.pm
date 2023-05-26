@@ -749,9 +749,12 @@ sub DynamicFieldList {
 
             my @ValidIDs = $ValidObject->ValidIDsGet();
 
-            # set one question mark for each valid id in order to use bind array
-            push @WhereClauses, 'valid_id IN (' . join( ', ', map {'?'} @ValidIDs ) . ')';
-            push @Bind,         map { \$_ } @ValidIDs;
+            if (@ValidIDs) {
+
+                # set one question mark for each valid id in order to use bind array
+                push @WhereClauses, 'valid_id IN (' . join( ', ', map {'?'} @ValidIDs ) . ')';
+                push @Bind,         map { \$_ } @ValidIDs;
+            }
 
         }
 
@@ -778,7 +781,7 @@ sub DynamicFieldList {
 
         }
 
-        if ( @WhereClauses && @Bind ) {
+        if (@WhereClauses) {
             $SQL .= " WHERE " . join( " AND ", @WhereClauses );
         }
 
