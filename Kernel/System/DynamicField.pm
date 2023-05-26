@@ -734,7 +734,7 @@ sub DynamicFieldList {
     else {
         # create sql query
         my $SQL = 'SELECT id, name, field_order FROM dynamic_field';
-        my @BindValues;
+        my @Bind;
 
         # get database object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -751,7 +751,7 @@ sub DynamicFieldList {
 
             # set one question mark for each valid id in order to use bind array
             push @WhereClauses, 'valid_id IN (' . join( ', ', map {'?'} @ValidIDs ) . ')';
-            push @BindValues,   @ValidIDs;
+            push @Bind,         map { \$_ } @ValidIDs;
 
         }
 
@@ -760,11 +760,11 @@ sub DynamicFieldList {
             # differentiate whether we have an object type string or array
             if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
                 push @WhereClauses, 'object_type = ?';
-                push @BindValues,   $Param{ObjectType};
+                push @Bind,         \$Param{ObjectType};
             }
             elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
                 push @WhereClauses, 'object_type IN (' . join( ', ', map {'?'} $Param{ObjectType}->@* ) . ')';
-                push @BindValues,   $Param{ObjectType}->@*;
+                push @Bind,         map { \$_ } $Param{ObjectType}->@*;
             }
 
         }
@@ -773,12 +773,12 @@ sub DynamicFieldList {
 
             if ( IsStringWithData( $Param{Namespace} ) && $Param{Namespace} ne 'All' ) {
                 push @WhereClauses, 'name LIKE ?';
-                push @BindValues,   "$Param{Namespace}-%";
+                push @Bind,         \"$Param{Namespace}-%";
             }
 
         }
 
-        if ( @WhereClauses && @BindValues ) {
+        if ( @WhereClauses && @Bind ) {
             $SQL .= " WHERE " . join( " AND ", @WhereClauses );
         }
 
@@ -786,7 +786,7 @@ sub DynamicFieldList {
 
         return if !$DBObject->Prepare(
             SQL  => $SQL,
-            Bind => @BindValues ? [ map { \$_ } @BindValues ] : undef,
+            Bind => \@Bind,
         );
 
         if ( $ResultType eq 'HASH' ) {
@@ -1036,6 +1036,7 @@ sub DynamicFieldListGet {
     return if !$DBObject->Prepare( SQL => $SQL );
 
     my @DynamicFieldIDs;
+
     while ( my @Row = $DBObject->FetchrowArray() ) {
         push @DynamicFieldIDs, $Row[0];
     }
