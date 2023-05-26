@@ -35,9 +35,11 @@ use Kernel::Language qw(Translatable);
 use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::DB',
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
+    'Kernel::System::Main',
 );
 
 =head1 NAME
@@ -53,7 +55,71 @@ Text common functions.
 Modules that are derived from this base module implement the public interface of L<Kernel::System::DynamicField::Backend>.
 Please look there for a detailed reference of the functions.
 
+=head2 new()
+
+usually, you want to create an instance of this
+by using Kernel::System::DynamicField::Backend->new();
+
 =cut
+
+sub new {
+    my ($Type) = @_;
+
+    # allocate new hash for object
+    my $Self = bless {}, $Type;
+
+    # Text dynamic fields are stored in the database table attribute dynamic_field_value.value_text
+    $Self->{ValueKey}       = 'ValueText';
+    $Self->{TableAttribute} = 'value_text';
+
+    # Used for declaring CSS classes
+    $Self->{FieldCSSClass} = 'DynamicFieldText';
+
+    # set field behaviors
+    $Self->{Behaviors} = {
+        'IsACLReducible'               => 0,
+        'IsNotificationEventCondition' => 1,
+        'IsFiltrable'                  => 0,
+        'IsStatsCondition'             => 1,
+        'IsCustomerInterfaceCapable'   => 1,
+        'IsLikeOperatorCapable'        => 1,
+        'IsSetCapable'                 => 1,
+    };
+
+    # get the Dynamic Field Backend custom extensions
+    my ($ShortType) = reverse split /::/, $Type;    # 'Text' or 'TextArea'
+    my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::Extension::Driver::$ShortType");
+
+    EXTENSION:
+    for my $ExtensionKey ( sort keys $DynamicFieldDriverExtensions->%* ) {
+
+        # skip invalid extensions
+        next EXTENSION unless IsHashRefWithData( $DynamicFieldDriverExtensions->{$ExtensionKey} );
+
+        # create a extension config shortcut
+        my $Extension = $DynamicFieldDriverExtensions->{$ExtensionKey};
+
+        # check if extension declares a new parent module
+        if ( $Extension->{Module} ) {
+
+            # load extension module and bail out when that fails
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} ) ) {
+                die "Can't load dynamic fields backend module"
+                    . " $Extension->{Module}! $@";
+            }
+        }
+
+        # merge the behaviors of the extension
+        if ( IsHashRefWithData( $Extension->{Behaviors} ) ) {
+            $Self->{Behaviors}->%* = (
+                $Self->{Behaviors}->%*,
+                $Extension->{Behaviors}->%*,
+            );
+        }
+    }
+
+    return $Self;
+}
 
 sub ValueGet {
     my ( $Self, %Param ) = @_;

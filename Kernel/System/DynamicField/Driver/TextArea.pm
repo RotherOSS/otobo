@@ -18,18 +18,23 @@ package Kernel::System::DynamicField::Driver::TextArea;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(:all);
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::BaseText);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::DynamicFieldValue',
-    'Kernel::System::Main',
 );
 
 =head1 NAME
@@ -55,65 +60,17 @@ by using Kernel::System::DynamicField::Backend->new();
 sub new {
     my ($Type) = @_;
 
-    # allocate new hash for object
-    my $Self = bless {}, $Type;
+    # Call constructor of the base class.
+    my $Self = $Type->SUPER::new;
 
-    # Text dynamic fields are stored in the database table attribute dynamic_field_value.value_text
-    $Self->{ValueKey}       = 'ValueText';
-    $Self->{TableAttribute} = 'value_text';
+    # Settings that are specific to the TextArea dynamic field
 
-    # Used for declaring CSS classes
-    $Self->{FieldCSSClass} = 'DynamicFieldText';
-
-    # set the maximum length for the text-area fields to still be a searchable field in some
-    # databases
+    # set the maximum length for the text-area fields to still be a searchable field
+    # in some database systems
     $Self->{MaxLength} = 3800;
 
-    # set field behaviors
-    $Self->{Behaviors} = {
-        'IsACLReducible'               => 0,
-        'IsNotificationEventCondition' => 1,
-        'IsSortable'                   => 0,
-        'IsFiltrable'                  => 0,
-        'IsStatsCondition'             => 1,
-        'IsCustomerInterfaceCapable'   => 1,
-        'IsLikeOperatorCapable'        => 1,
-        'IsSetCapable'                 => 1,
-    };
-
-    # get the Dynamic Field Backend custom extensions
-    my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::TextArea');
-
-    EXTENSION:
-    for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
-
-        # skip invalid extensions
-        next EXTENSION if !IsHashRefWithData( $DynamicFieldDriverExtensions->{$ExtensionKey} );
-
-        # create a extension config shortcut
-        my $Extension = $DynamicFieldDriverExtensions->{$ExtensionKey};
-
-        # check if extension has a new module
-        if ( $Extension->{Module} ) {
-
-            # check if module can be loaded
-            if (
-                !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} )
-                )
-            {
-                die "Can't load dynamic fields backend module"
-                    . " $Extension->{Module}! $@";
-            }
-        }
-
-        # merge the behaviors of the extension
-        if ( IsHashRefWithData( $Extension->{Behaviors} ) ) {
-            $Self->{Behaviors}->%* = (
-                $Self->{Behaviors}->%*,
-                $Extension->{Behaviors}->%*,
-            );
-        }
-    }
+    # set Text specific field behaviors unless an extension already set it
+    $Self->{Behaviors}->{IsSortable} //= 0;
 
     return $Self;
 }
