@@ -653,16 +653,19 @@ sub ValueLookup {
             return;
         }
 
+        # TODO: where does $Param{Value} come from ?
         VALUE:
         for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
             next VALUE unless defined $Param{Value}[$SetIndex][$i];
 
+            # TODO: what if $Element is an arrayref ?
             my $Element = $BackendObject->ValueLookup(
                 %Param,
                 DynamicFieldConfig => $DynamicField,
                 Value              => $Param{Value}[$SetIndex][$i],
             );
 
+            # TODO: why concatenate to an undefined variable ?
             $SetValue[$SetIndex] .= " $DynamicField->{Label}: $Element;";
         }
     }
