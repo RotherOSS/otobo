@@ -1409,20 +1409,17 @@ sub HistoricalValuesGet {
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Key} ? $Param{Key} : '';
+    my $Value = $Param{Key} // '';
 
-    # check if a translation is possible
-    if ( defined $Param{LanguageObject} ) {
+    # check if formatting is possible
+    return $Value unless defined $Param{LanguageObject};
 
-        # translate value
-        $Value = $Param{LanguageObject}->FormatTimeString(
-            $Value,
-            'DateFormat',
-            'NoSeconds',
-        );
-    }
-
-    return $Value;
+    # format value as date without seconds
+    return $Param{LanguageObject}->FormatTimeString(
+        $Value,
+        'DateFormat',
+        'NoSeconds',
+    );
 }
 
 1;

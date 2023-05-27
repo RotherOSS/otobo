@@ -994,7 +994,7 @@ sub HistoricalValuesGet {
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Key} ? $Param{Key} : '';
+    my $Value = $Param{Key} // '';
 
     # get real values
     my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};

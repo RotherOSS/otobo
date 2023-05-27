@@ -1472,19 +1472,16 @@ sub RandomValueSet {
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Key} ? $Param{Key} : '';
+    my $Value = $Param{Key} // '';
 
-    # check if a translation is possible
-    if ( defined $Param{LanguageObject} ) {
+    # do not format when there is no language object
+    return $Value unless defined $Param{LanguageObject};
 
-        # translate value
-        $Value = $Param{LanguageObject}->FormatTimeString(
-            $Value,
-            'DateFormatShort',
-        );
-    }
-
-    return $Value;
+    # format the date value as short string
+    return $Param{LanguageObject}->FormatTimeString(
+        $Value,
+        'DateFormatShort',
+    );
 }
 
 =begin Internal:

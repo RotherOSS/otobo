@@ -996,8 +996,7 @@ sub HistoricalValuesGet {
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    return if !defined $Param{Key};
-
+    return unless defined $Param{Key};
     return '' if $Param{Key} eq '';
 
     my $Value = defined $Param{Key} && $Param{Key} eq '1' ? 'Checked' : 'Unchecked';

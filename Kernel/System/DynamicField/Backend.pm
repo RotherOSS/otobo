@@ -2159,19 +2159,24 @@ sub HistoricalValuesGet {
 
 returns the display value for a value key for a defined Dynamic Field. This function is meaningful
 for those Dynamic Fields that stores a value different than the value that is shown ( e.g. a
-Dropdown field could store Key = 1 and Display Value = One ) other fields return the same value
-as the value key
+Dropdown field could store Key = 1 and Display Value = One ). Other fields return the same value
+as the value key. For undefined keys usually an empty string is returned.
 
     my $Value = $BackendObject->ValueLookup(
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
-        Key                => 'sotred value',             # could also be an array ref for
-                                                         #    MultipleSelect fields
-        LanguageObject     => $LanguageObject,            # optional, used to get value translations
+        Key                => 'sorted value',            # could also be an array ref for MultipleSelect fields
+        LanguageObject     => $LanguageObject,           # optional, used to get value translations
     );
 
-    Returns:
+Returns:
 
     $Value = 'value to display';
+
+For multi value dynamic fields a reference to an array can be returned:
+
+    $Value = [ 'value 1', 'value with index 1', 'value 2' ];
+
+Most often the value returned by C<ValueLookup()> is passed on to the method C<ReadableValueRender()>.
 
 =cut
 

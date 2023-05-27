@@ -448,9 +448,7 @@ sub HistoricalValuesGet {
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Key} ? $Param{Key} : '';
-
-    return $Value;
+    return $Param{Key} // '';
 }
 
 =head2 EditTitleRender()

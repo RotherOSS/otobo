@@ -563,9 +563,7 @@ sub ReadableValueRender {
 
     my %Value;
     for my $Return (qw/Value Title/) {
-        @{ $SetValue{$Return} } = map { $_ // '' } $SetValue{$Return}->@*;
-
-        $Value{$Return} = join( ' - ', $SetValue{$Return}->@* );
+        $Value{$Return} = join ' - ', map { $_ // '' } $SetValue{$Return}->@*;
         $Value{$Return} //= '';
     }
 
@@ -632,8 +630,9 @@ sub RandomValueSet {
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    return    if !defined $Param{Key};
-    return '' if !ref $Param{Key} || ref $Param{Key} ne 'ARRAY';
+    return    unless defined $Param{Key};
+    return '' unless ref $Param{Key};
+    return '' unless ref $Param{Key} eq 'ARRAY';
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -656,7 +655,7 @@ sub ValueLookup {
 
         VALUE:
         for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
-            next VALUE if !defined $Param{Value}[$SetIndex][$i];
+            next VALUE unless defined $Param{Value}[$SetIndex][$i];
 
             my $Element = $BackendObject->ValueLookup(
                 %Param,
@@ -668,9 +667,7 @@ sub ValueLookup {
         }
     }
 
-    my $Value = join( ' - ', @SetValue );
-
-    return $Value;
+    return join ' - ', @SetValue;
 }
 
 1;

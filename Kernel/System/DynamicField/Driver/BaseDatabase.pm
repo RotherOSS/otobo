@@ -45,8 +45,6 @@ Text common functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
 =cut
 
 sub ValueIsDifferent {
@@ -854,13 +852,7 @@ sub HistoricalValuesGet {
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Key} ? $Param{Key} : '';
-
-    return $Value;
+    return $Param{Key} // '';
 }
-
-=back
-
-=cut
 
 1;

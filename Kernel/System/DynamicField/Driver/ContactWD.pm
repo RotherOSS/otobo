@@ -671,19 +671,18 @@ sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
     # we need a value to look up for
-    return '' if !$Param{Key};
+    return '' unless $Param{Key};
 
     # get all valid contacts
     my $Contacts = $Param{DynamicFieldConfig}->{Config}->{ContactsWithData};
 
     # check for contact to look up
-    return '' if !IsHashRefWithData($Contacts) || !$Contacts->{ $Param{Key} };
+    return '' unless IsHashRefWithData($Contacts);
+    return '' unless $Contacts->{ $Param{Key} };
 
     # get contact name
-    my $Name = $Contacts->{ $Param{Key} }->{Name};
-    return '' if !$Name;
-
-    return $Name;
+    # TODO: why exclude the name '0' ?
+    return $Contacts->{ $Param{Key} }->{Name} || '';
 }
 
 1;
