@@ -181,7 +181,7 @@ sub CustomerSearch {
         $Param{Search} =~ s/\s+$//;
     }
 
-    # Get dynamic fiekd object.
+    # Get dynamic field object.
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     my $DynamicFieldConfigs = $DynamicFieldObject->DynamicFieldListGet(
