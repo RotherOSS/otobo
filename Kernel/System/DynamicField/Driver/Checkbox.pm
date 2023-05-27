@@ -645,21 +645,18 @@ sub DisplayValueRender {
         $_ ? $Param{LayoutObject}->{LanguageObject}->Translate('Checked') : $Param{LayoutObject}->{LanguageObject}->Translate('Unchecked')
     } @Values;
 
-    my $ItemSeparator = '<br />';
+    my $ItemSeparator = '<br>';
     my $Value         = join $ItemSeparator, @ReadableValues;
 
     # in this backend there is no need for HTMLOutput
     # Title is always equal to Value
     my $Title = $Value;
 
-    # this field type does not support the Link Feature
-    my $Link;
-
     # return a data structure
     return {
         Value => $Value,
         Title => $Title,
-        Link  => $Link,
+        Link  => undef,    # this field type does not support the Link Feature
     };
 }
 

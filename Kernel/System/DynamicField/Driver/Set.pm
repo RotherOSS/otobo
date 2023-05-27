@@ -505,8 +505,8 @@ sub DisplayValueRender {
             next VALUE if !defined $Element->{Value} || $Element->{Value} eq '';
 
             # TODO: check Value vs Title (seems same for most DF), add Links (maybe use tt)
-            $SetValue{Value}[$SetIndex] .= "$DynamicField->{Label}: $Element->{Value}<br/>";
-            $SetValue{Title}[$SetIndex] .= "$DynamicField->{Label}: $Element->{Title}<br/>";
+            $SetValue{Value}[$SetIndex] .= "$DynamicField->{Label}: $Element->{Value}<br>";
+            $SetValue{Title}[$SetIndex] .= "$DynamicField->{Label}: $Element->{Title}<br>";
         }
     }
 

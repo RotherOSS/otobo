@@ -734,8 +734,6 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    my $Value = '';
-
     my @Values;
     if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
         @Values = $Param{Value}->@*;
@@ -754,9 +752,9 @@ sub DisplayValueRender {
     }
 
     # set new line separator
-    my $ItemSeparator = '<br />';
+    my $ItemSeparator = '<br>';
 
-    $Value = join( $ItemSeparator, @Values );
+    my $Value = join $ItemSeparator, @Values;
 
     # in this Driver there is no need for HTMLOutput
     # Title is always equal to Value
