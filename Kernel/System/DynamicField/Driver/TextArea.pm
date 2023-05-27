@@ -254,17 +254,15 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # set HTMLOutput as default if not specified
-    if ( !defined $Param{HTMLOutput} ) {
-        $Param{HTMLOutput} = 1;
-    }
+    # activate HTMLOutput when it wasn't specified
+    my $HTMLOutput = $Param{HTMLOutput} // 1;
 
     # get raw Title and Value strings from field value
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = $Param{Value} // '';
     my $Title = $Value;
 
     # HTMLOutput transformations
-    if ( $Param{HTMLOutput} ) {
+    if ($HTMLOutput) {
 
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text           => $Value,
@@ -289,14 +287,12 @@ sub DisplayValueRender {
     # this field type does not support the Link Feature
     my $Link;
 
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value => $Value,
         Title => $Title,
         Link  => $Link,
     };
-
-    return $Data;
 }
 
 sub SearchFieldRender {

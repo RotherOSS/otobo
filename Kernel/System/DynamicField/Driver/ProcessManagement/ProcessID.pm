@@ -110,10 +110,8 @@ sub new {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # set HTMLOutput as default if not specified
-    if ( !defined $Param{HTMLOutput} ) {
-        $Param{HTMLOutput} = 1;
-    }
+    # activate HTMLOutput when it wasn't specified
+    my $HTMLOutput = $Param{HTMLOutput} // 1;
 
     # get raw Title and Value strings from field value
     # convert the ProcessEntityID to the Process name
@@ -129,7 +127,7 @@ sub DisplayValueRender {
     my $Title = $Value;
 
     # HTMLOutput transformations
-    if ( $Param{HTMLOutput} ) {
+    if ($HTMLOutput) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
             Max  => $Param{ValueMaxChars} || '',
@@ -152,14 +150,12 @@ sub DisplayValueRender {
     # set field link form config
     my $Link = $Param{DynamicFieldConfig}->{Config}->{Link} || '';
 
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value => $Value,
         Title => $Title,
         Link  => $Link,
     };
-
-    return $Data;
 }
 
 sub ColumnFilterValuesGet {

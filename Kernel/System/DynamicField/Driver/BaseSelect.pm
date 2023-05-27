@@ -521,10 +521,8 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # set HTMLOutput as default if not specified
-    if ( !defined $Param{HTMLOutput} ) {
-        $Param{HTMLOutput} = 1;
-    }
+    # activate HTMLOutput when it wasn't specified
+    my $HTMLOutput = $Param{HTMLOutput} // 1;
 
     my $Value = '';
     my @Values;
@@ -556,7 +554,7 @@ sub DisplayValueRender {
         }
 
         # HTML Output transformation
-        if ( $Param{HTMLOutput} ) {
+        if ($HTMLOutput) {
             $Value = $Param{LayoutObject}->Ascii2Html(
                 Text => $Value,
                 Max  => $Param{ValueMaxChars} || '',
@@ -566,15 +564,15 @@ sub DisplayValueRender {
     }
 
     # set new line separator
-    my $ItemSeparator = $Param{HTMLOutput} ? '<br>' : '\n';
+    my $ItemSeparator = $HTMLOutput ? '<br>' : '\n';
 
-    $Value = join( $ItemSeparator, @ReadableValues );
+    $Value = join $ItemSeparator, @ReadableValues;
 
     # set title as value after update and before limit
     my $Title = $Value;
 
     # HTMLOutput transformations
-    if ( $Param{HTMLOutput} ) {
+    if ($HTMLOutput) {
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
             Max  => $Param{TitleMaxChars} || '',
@@ -593,14 +591,13 @@ sub DisplayValueRender {
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
     my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';
 
-    my $Data = {
+    # return a data structure
+    return {
         Value       => $Value,
         Title       => $Title,
         Link        => $Link,
         LinkPreview => $LinkPreview,
     };
-
-    return $Data;
 }
 
 sub SearchFieldRender {

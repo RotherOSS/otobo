@@ -384,18 +384,16 @@ sub DisplayValueRender {
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
-    # set HTMLOuput as default if not specified
-    if ( !defined $Param{HTMLOutput} ) {
-        $Param{HTMLOutput} = 1;
-    }
+    # activate HTMLOutput when it wasn't specified
+    my $HTMLOutput = $Param{HTMLOutput} // 1;
 
     # get raw Title and Value strings from field value
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = $Param{Value} // '';
     $Value = $FieldConfig->{ContactsWithData}->{$Value}->{Name} || '';
     my $Title = $Value;
 
-    # HTMLOuput transformations
-    if ( $Param{HTMLOutput} ) {
+    # HTMLOutput transformations
+    if ($HTMLOutput) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
             Max  => $Param{ValueMaxChars} || '',
@@ -415,13 +413,11 @@ sub DisplayValueRender {
         }
     }
 
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value => $Value,
         Title => $Title,
     };
-
-    return $Data;
 }
 
 sub SearchFieldRender {

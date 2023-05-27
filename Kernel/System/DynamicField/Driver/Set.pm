@@ -510,6 +510,7 @@ sub DisplayValueRender {
         }
     }
 
+    # return a data structure
     my %Value;
     for my $Return (qw/Value Title/) {
         @{ $SetValue{$Return} } = map { $_ // '' } $SetValue{$Return}->@*;

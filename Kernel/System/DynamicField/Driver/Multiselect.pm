@@ -543,14 +543,9 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # set HTMLOutput as default if not specified
-    if ( !defined $Param{HTMLOutput} ) {
-        $Param{HTMLOutput} = 1;
-    }
+    # activate HTMLOutput when it wasn't specified
+    my $HTMLOutput = $Param{HTMLOutput} // 1;
 
-    # set Value and Title variables
-    my $Value         = '';
-    my $Title         = '';
     my $ValueMaxChars = $Param{ValueMaxChars} || '';
     my $TitleMaxChars = $Param{TitleMaxChars} || '';
 
@@ -621,7 +616,7 @@ sub DisplayValueRender {
         }
 
         # HTMLOutput transformations
-        if ( $Param{HTMLOutput} ) {
+        if ($HTMLOutput) {
 
             $ReadableValue = $Param{LayoutObject}->Ascii2Html(
                 Text => $ReadableValue,
@@ -646,8 +641,8 @@ sub DisplayValueRender {
     # set new line separator
     my $ItemSeparator = $FieldConfig->{ItemSeparator} || ', ';
 
-    $Value = join( $ItemSeparator, @ReadableValues );
-    $Title = join( $ItemSeparator, @ReadableTitles );
+    my $Value = join $ItemSeparator, @ReadableValues;
+    my $Title = join $ItemSeparator, @ReadableTitles;
 
     if ($ShowValueEllipsis) {
         $Value .= '...';
@@ -659,14 +654,12 @@ sub DisplayValueRender {
     # this field type does not support the Link Feature
     my $Link;
 
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value => $Value,
         Title => $Title,
         Link  => $Link,
     };
-
-    return $Data;
 }
 
 sub SearchFieldParameterBuild {

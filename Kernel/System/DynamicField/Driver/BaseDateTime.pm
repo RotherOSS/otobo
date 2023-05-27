@@ -675,14 +675,13 @@ sub DisplayValueRender {
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
     my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';
 
-    my $Data = {
+    # return a data structure
+    return {
         Value       => $Value,
         Title       => $Title,
         Link        => $Link,
         LinkPreview => $LinkPreview,
     };
-
-    return $Data;
 }
 
 sub SearchFieldRender {

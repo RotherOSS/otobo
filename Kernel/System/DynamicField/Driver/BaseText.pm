@@ -533,10 +533,8 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # set HTMLOutput as default if not specified
-    if ( !defined $Param{HTMLOutput} ) {
-        $Param{HTMLOutput} = 1;
-    }
+    # activate HTMLOutput when it wasn't specified
+    my $HTMLOutput = $Param{HTMLOutput} // 1;
 
     # get raw Title and Value strings from field value
     my $Value         = '';
@@ -600,7 +598,7 @@ sub DisplayValueRender {
         }
 
         # HTMLOutput transformations
-        if ( $Param{HTMLOutput} ) {
+        if ($HTMLOutput) {
 
             $ReadableValue = $Param{LayoutObject}->Ascii2Html(
                 Text => $ReadableValue,
@@ -619,7 +617,7 @@ sub DisplayValueRender {
     }
 
     # set new line separator
-    my $ItemSeparator = $Param{HTMLOutput} ? '<br>' : '\n';
+    my $ItemSeparator = $HTMLOutput ? '<br>' : '\n';
 
     $Value = join( $ItemSeparator, @ReadableValues );
     $Title = join( $ItemSeparator, @ReadableTitles );
@@ -635,7 +633,7 @@ sub DisplayValueRender {
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
     my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';
 
-    # create return structure
+    # return a data structure
     return {
         Value       => $Value,
         Title       => $Title,

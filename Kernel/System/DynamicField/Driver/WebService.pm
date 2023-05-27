@@ -494,10 +494,8 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # Set HTMLOutput as default if not specified.
-    if ( !defined $Param{HTMLOutput} ) {
-        $Param{HTMLOutput} = 1;
-    }
+    # activate HTMLOutput when it wasn't specified
+    my $HTMLOutput = $Param{HTMLOutput} // 1;
 
     # Set Value and Title variables.
     my $Value         = '';
@@ -572,7 +570,7 @@ sub DisplayValueRender {
         }
 
         # HTMLOutput transformations.
-        if ( $Param{HTMLOutput} ) {
+        if ($HTMLOutput) {
 
             $ReadableValue = $Param{LayoutObject}->Ascii2Html(
                 Text => $ReadableValue,
@@ -611,15 +609,13 @@ sub DisplayValueRender {
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
     my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';
 
-    # Create return structure.
-    my $Data = {
+    # return a data structure
+    return {
         Value       => $Value,
         Title       => $Title,
         Link        => $Link,
         LinkPreview => $LinkPreview,
     };
-
-    return $Data;
 }
 
 sub SearchFieldRender {

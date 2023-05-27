@@ -630,7 +630,6 @@ sub DisplayValueRender {
     }
 
     # transform value data type
-    my $Value = '';
     my @Values;
     if ( ref $Param{Value} eq 'ARRAY' ) {
         @Values = @{ $Param{Value} };
@@ -647,8 +646,7 @@ sub DisplayValueRender {
     } @Values;
 
     my $ItemSeparator = '<br />';
-
-    $Value = join( $ItemSeparator, @ReadableValues );
+    my $Value         = join $ItemSeparator, @ReadableValues;
 
     # in this backend there is no need for HTMLOutput
     # Title is always equal to Value
@@ -657,14 +655,12 @@ sub DisplayValueRender {
     # this field type does not support the Link Feature
     my $Link;
 
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value => $Value,
         Title => $Title,
         Link  => $Link,
     };
-
-    return $Data;
 }
 
 sub SearchFieldRender {

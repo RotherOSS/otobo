@@ -1925,7 +1925,7 @@ sub ApplyOutputFilters {
 
 =head2 Ascii2Html()
 
-convert ASCII to html string
+convert ASCII to HTML string
 
     my $HTML = $LayoutObject->Ascii2Html(
         Text            => 'Some <> Test <font color="red">Test</font>',
@@ -1938,7 +1938,7 @@ convert ASCII to html string
         LinkFeature     => 0,        # do some URL detections
     );
 
-also string ref is possible
+A reference to a string can also be passed. In this cast the result will also be a reference to a string.
 
     my $HTMLStringRef = $LayoutObject->Ascii2Html(
         Text => \$String,
@@ -1950,14 +1950,12 @@ sub Ascii2Html {
     my ( $Self, %Param ) = @_;
 
     # check needed param
-    return '' if !defined $Param{Text};
+    return '' unless defined $Param{Text};
 
     # check text
-    my $TextScalar;
     my $Text;
     if ( !ref $Param{Text} ) {
-        $TextScalar = 1;
-        $Text       = \$Param{Text};
+        $Text = \$Param{Text};
     }
     elsif ( ref $Param{Text} eq 'SCALAR' ) {
         $Text = $Param{Text};
@@ -1967,6 +1965,7 @@ sub Ascii2Html {
             Priority => 'error',
             Message  => 'Invalid ref "' . ref( $Param{Text} ) . '" of Text param!',
         );
+
         return '';
     }
 
@@ -2101,6 +2100,7 @@ sub Ascii2Html {
         ${$Text} =~ s/'/\\'/g;
     }
 
+    # The input parameter Text determines the type of the returned value
     return $Text if ref $Param{Text};
     return ${$Text};
 }
