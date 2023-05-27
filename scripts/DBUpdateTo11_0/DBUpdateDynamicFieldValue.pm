@@ -40,8 +40,9 @@ sub Run {
             <ColumnAdd Name="index_value" Required="false" Type="SMALLINT" />
             <ColumnAdd Name="index_set" Required="false" Type="SMALLINT" />
         </TableAlter>',
-            # TODO: Update DB backends to be able to change a column respecting Required and AutoIncrement, include change to bigint:
-            #<ColumnChange NameOld="id" NameNew="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+
+        # TODO: Update DB backends to be able to change a column respecting Required and AutoIncrement, include change to bigint:
+        #<ColumnChange NameOld="id" NameNew="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
     );
 
     return if !$Self->ExecuteXMLDBArray(
