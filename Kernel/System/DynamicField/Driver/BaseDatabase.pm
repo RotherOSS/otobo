@@ -126,35 +126,27 @@ sub ValueSet {
     # get local dynamic field value object
     my $DynamicFieldValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
-    my $Success;
     if ( IsArrayRefWithData( \@Values ) ) {
 
         # if there is at least one value to set, this means one or more values are selected,
         # set those values!
-        my @ValueText;
-        for my $Item (@Values) {
-            push @ValueText, { ValueText => $Item };
-        }
+        my @ValueText = map { { ValueText => $_ } } @Values;
 
-        $Success = $DynamicFieldValue->ValueSet(
+        return $DynamicFieldValue->ValueSet(
             FieldID  => $Param{DynamicFieldConfig}->{ID},
             ObjectID => $Param{ObjectID},
             Value    => \@ValueText,
             UserID   => $Param{UserID},
         );
     }
-    else {
 
-        # otherwise no value was selected, then in fact this means that any value there should be
-        # deleted
-        $Success = $DynamicFieldValue->ValueDelete(
-            FieldID  => $Param{DynamicFieldConfig}->{ID},
-            ObjectID => $Param{ObjectID},
-            UserID   => $Param{UserID},
-        );
-    }
-
-    return $Success;
+    # otherwise no value was selected, then in fact this means that any value there should be
+    # deleted
+    return $DynamicFieldValue->ValueDelete(
+        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        ObjectID => $Param{ObjectID},
+        UserID   => $Param{UserID},
+    );
 }
 
 sub ValueValidate {
@@ -510,10 +502,6 @@ sub DisplayValueRender {
     # activate HTMLOutput when it wasn't specified
     my $HTMLOutput = $Param{HTMLOutput} // 1;
 
-    # set Value and Title variables
-    my $Value = '';
-    my $Title = '';
-
     # check value
     my @Values;
     if ( ref $Param{Value} eq 'ARRAY' ) {
@@ -528,7 +516,6 @@ sub DisplayValueRender {
 
     VALUEITEM:
     for my $Item (@Values) {
-
         $Item //= '';
 
         my $ReadableTitle = $Item;
@@ -577,10 +564,10 @@ sub DisplayValueRender {
         $ItemSeparator = ', ';
     }
 
-    $Value = join $ItemSeparator, @ReadableValues;
-    $Title = join $ItemSeparator, @ReadableTitles;
+    my $Value = join $ItemSeparator, @ReadableValues;
+    my $Title = join $ItemSeparator, @ReadableTitles;
 
-    # set field link form config
+    # set field link from config
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
     my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';
 

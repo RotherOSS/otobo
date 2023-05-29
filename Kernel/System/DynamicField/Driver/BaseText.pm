@@ -536,9 +536,6 @@ sub DisplayValueRender {
     # activate HTMLOutput when it wasn't specified
     my $HTMLOutput = $Param{HTMLOutput} // 1;
 
-    # get raw Title and Value strings from field value
-    my $Value         = '';
-    my $Title         = '';
     my $ValueMaxChars = $Param{ValueMaxChars} || '';
     my $TitleMaxChars = $Param{TitleMaxChars} || '';
 
@@ -619,8 +616,8 @@ sub DisplayValueRender {
     # set new line separator
     my $ItemSeparator = $HTMLOutput ? '<br>' : '\n';
 
-    $Value = join( $ItemSeparator, @ReadableValues );
-    $Title = join( $ItemSeparator, @ReadableTitles );
+    my $Value = join $ItemSeparator, @ReadableValues;
+    my $Title = join $ItemSeparator, @ReadableTitles;
 
     if ($ShowValueEllipsis) {
         $Value .= '...';
