@@ -258,7 +258,9 @@ creates the field HTML to be used in edit masks.
                                                           #      where applies (like TextArea)
     );
 
-    Returns {
+Returns:
+
+    $FieldHTML = {
         Field => $HTMLString,
         Label => $LabelString,
     };
@@ -1202,10 +1204,14 @@ extracts the value of a dynamic field from the param object.
                                                         #   Returns the structured values as got from the http request
     );
 
-    Returns $Value;                                     # depending on each field type e.g.
-                                                        #   $Value = 'a text';
-                                                        #   $Value = '1977-12-12 12:00:00';
-                                                        #   $Value = 1;
+
+Returns a value that depends on the field type:
+
+    $Value = 'a text';
+    $Value = '1977-12-12 12:00:00';
+    $Value = 1;
+
+There also is a variant of this method that is for internal use only:
 
     my $Value = $BackendObject->EditFieldValueGet(
         DynamicFieldConfig      => $DynamicFieldConfig, # complete config of the DynamicField
@@ -1220,17 +1226,18 @@ extracts the value of a dynamic field from the param object.
                                                         #   (only for backend internal use).
     );
 
-    Returns $Value;                                     # depending on each field type e.g.
-                                                        #   $Value = 'a text';
-                                                        #   $Value = {
-                                                                Used   => 1,
-                                                                Year   => '1977',
-                                                                Month  => '12',
-                                                                Day    => '12',
-                                                                Hour   => '12',
-                                                                Minute => '00'
-                                                            },
-                                                        #   $Value = 1;
+The returned value is also field dependent:
+
+    $Value = 'a text';
+    $Value = {
+        Used   => 1,
+        Year   => '1977',
+        Month  => '12',
+        Day    => '12',
+        Hour   => '12',
+        Minute => '00'
+    },
+    $Value = 1;
 
 =cut
 

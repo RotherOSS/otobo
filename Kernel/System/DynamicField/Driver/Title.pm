@@ -30,7 +30,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Title
+Kernel::System::DynamicField::Driver::Title - display a title
 
 =head1 DESCRIPTION
 
@@ -43,8 +43,9 @@ Please look there for a detailed reference of the functions.
 
 =head2 new()
 
-usually, you want to create an instance of this
-by using Kernel::System::DynamicField::Backend->new();
+it is usually not necessary to explicitly create instances of dynamic field drivers.
+Instances of the drivers are created in the constructor of the
+dynamic field backend object C<Kernel::System::DynamicField::Backend>.
 
 =cut
 
@@ -52,8 +53,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # set field behaviors
     $Self->{Behaviors} = {
