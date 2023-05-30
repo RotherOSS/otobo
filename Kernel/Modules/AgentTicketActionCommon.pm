@@ -437,8 +437,8 @@ sub Run {
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+    for my $DynamicFieldConfig ( $DynamicField->@* ) {
+        next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value from the web request
         $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $DynamicFieldBackendObject->EditFieldValueGet(
@@ -452,8 +452,8 @@ sub Run {
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
     for my $DynamicFieldItem ( sort keys %DynamicFieldValues ) {
-        next DYNAMICFIELD if !$DynamicFieldItem;
-        next DYNAMICFIELD if !defined $DynamicFieldValues{$DynamicFieldItem};
+        next DYNAMICFIELD unless $DynamicFieldItem;
+        next DYNAMICFIELD unless defined $DynamicFieldValues{$DynamicFieldItem};
 
         $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicFieldItem } = $DynamicFieldValues{$DynamicFieldItem};
     }

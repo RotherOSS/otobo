@@ -948,7 +948,8 @@ sub FieldValueValidate {
 
 =head2 ValueGet()
 
-get a dynamic field value.
+get a dynamic field value. This is used for example in C<Kernel::System::Ticket::TicketGet()> for getting
+the values of the dynamic fields for the requested ticket.
 
     my $Value = $BackendObject->ValueGet(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
@@ -959,10 +960,21 @@ get a dynamic field value.
                                                         # You have to give either ObjectID OR ObjectName
     );
 
-    Return $Value                                       # depends on backend type, i. e.
-                                                        # Text, $Value =  'a string'
-                                                        # DateTime, $Value = '1977-12-12 12:00:00'
-                                                        # Checkbox, $Value = 1
+The returned value depends on the backend type.
+
+    # Text:
+    $Value = 'a string';
+
+    # DateTime;
+    $Value = '1977-12-12 12:00:00';
+
+    # Checkbox;
+    $Value = 1;
+
+    # Title:
+    $Value = 1;
+
+An empty list is returned in the case of an error.
 
 =cut
 
@@ -1083,7 +1095,8 @@ sub SearchSQLGet {
     }
 
     # Ignore empty searches
-    return if ( !defined $Param{SearchTerm} || $Param{SearchTerm} eq '' );
+    return unless defined $Param{SearchTerm};
+    return if $Param{SearchTerm} eq '';
 
     # check DynamicFieldConfig (general)
     if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {

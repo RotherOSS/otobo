@@ -787,18 +787,17 @@ sub Run {
     }
 
     # generate output
-    my $Output = $LayoutObject->Header(
-        Value    => $Ticket{TicketNumber},
-        TicketID => $Ticket{TicketID},
-    );
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $Self->MaskAgentZoom(
-        Ticket    => \%Ticket,
-        AclAction => \%AclAction
-    );
-    $Output .= $LayoutObject->Footer();
-
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Value    => $Ticket{TicketNumber},
+            TicketID => $Ticket{TicketID},
+        ),
+        $LayoutObject->NavigationBar,
+        $Self->MaskAgentZoom(
+            Ticket    => \%Ticket,
+            AclAction => \%AclAction
+        ),
+        $LayoutObject->Footer;
 }
 
 sub MaskAgentZoom {
@@ -1066,7 +1065,9 @@ sub MaskAgentZoom {
             next WIDGET;
         }
         my $Success = eval { $MainObject->Require( $Config->{Module} ) };
-        next WIDGET if !$Success;
+
+        next WIDGET unless $Success;
+
         my $Module = eval { $Config->{Module}->new(%$Self) };
         if ( !$Module ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1074,16 +1075,18 @@ sub MaskAgentZoom {
                 Message  => "new() of Widget module $Config->{Module} not successful!",
 
             );
+
             next WIDGET;
         }
+
         my $WidgetOutput = $Module->Run(
             Ticket    => \%Ticket,
             AclAction => \%AclAction,
             Config    => $Config,
         );
-        if ( !$WidgetOutput ) {
-            next WIDGET;
-        }
+
+        next WIDGET unless $WidgetOutput;
+
         $WidgetOutput->{Rank} //= $Key;
         my $Location = $WidgetOutput->{Location} || $Config->{Location};
         push @{ $Widgets{$Location} }, $WidgetOutput;

@@ -1213,7 +1213,8 @@ like customer user logins and customer company IDs.
         ObjectType            => 'CustomerUser', # Type of object to get mapping for
     );
 
-    Returns for parameter ObjectID:
+Returns for parameter ObjectID:
+
     $ObjectMapping = {
         ObjectID => ObjectName,
         ObjectID => ObjectName,
@@ -1221,7 +1222,8 @@ like customer user logins and customer company IDs.
         # ...
     };
 
-    Returns for parameter ObjectName:
+Returns for parameter ObjectName:
+
     $ObjectMapping = {
         ObjectName => ObjectID,
         ObjectName => ObjectID,
@@ -1241,6 +1243,7 @@ sub ObjectMappingGet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -1250,6 +1253,7 @@ sub ObjectMappingGet {
             Priority => 'error',
             Message  => "Either give parameter ObjectName or ObjectID, not both."
         );
+
         return;
     }
 
@@ -1258,6 +1262,7 @@ sub ObjectMappingGet {
             Priority => 'error',
             Message  => "You have to give parameter ObjectName or ObjectID."
         );
+
         return;
     }
 
@@ -1273,6 +1278,7 @@ sub ObjectMappingGet {
             Priority => 'error',
             Message  => "Configuration for dynamic field object type $Param{ObjectType} is invalid!",
         );
+
         return;
     }
 
@@ -1281,6 +1287,7 @@ sub ObjectMappingGet {
             Priority => 'error',
             Message  => "Dynamic field object type $Param{ObjectType} does not support this function",
         );
+
         return;
     }
 
@@ -1290,7 +1297,7 @@ sub ObjectMappingGet {
             $Param{$Type},
         ];
     }
-    my %LookupValues = map { $_ => '?' } @{ $Param{$Type} };
+    my %LookupValues = map { $_ => '?' } $Param{$Type}->@*;
 
     my $CacheKey = 'ObjectMappingGet::'
         . $Type . '::'
@@ -1324,7 +1331,8 @@ sub ObjectMappingGet {
     }
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    return if !$DBObject->Prepare(
+
+    return unless $DBObject->Prepare(
         SQL  => $SQL,
         Bind => [
             \keys %LookupValues,

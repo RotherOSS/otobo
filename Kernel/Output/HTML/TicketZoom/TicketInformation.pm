@@ -16,11 +16,19 @@
 
 package Kernel::Output::HTML::TicketZoom::TicketInformation;
 
-use parent 'Kernel::Output::HTML::Base';
-
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
+use parent 'Kernel::Output::HTML::Base';
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
@@ -372,7 +380,7 @@ sub Run {
         ObjectType  => ['Ticket'],
         FieldFilter => $DynamicFieldFilter || {},
     );
-    my $DynamicFieldBeckendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # to store dynamic fields to be displayed in the process widget and in the sidebar
     my (@FieldsSidebar);
@@ -380,28 +388,24 @@ sub Run {
     # cycle trough the activated Dynamic Fields for ticket object
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+        next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD unless defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
         next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
 
         # Check if this field is supposed to be hidden from the ticket information box.
         #   For example, it's displayed by a different mechanism (i.e. async widget).
-        if (
-            $DynamicFieldBeckendObject->HasBehavior(
+        next DYNAMICFIELD if
+            $DynamicFieldBackendObject->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Behavior           => 'IsHiddenInTicketInformation',
-            )
-            )
-        {
-            next DYNAMICFIELD;
-        }
+            );
 
         # use translation here to be able to reduce the character length in the template
         my $Label = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} );
 
-        my $ValueStrg = $DynamicFieldBeckendObject->DisplayValueRender(
+        my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
-            Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            Value              => $Ticket{"DynamicField_$DynamicFieldConfig->{Name}"},
             LayoutObject       => $LayoutObject,
             ValueMaxChars      => $ConfigObject->
                 Get('Ticket::Frontend::DynamicFieldsZoomMaxSizeSidebar')
