@@ -121,8 +121,8 @@ sub EditFieldRender {
         Text => $FieldLabel,
     );
 
-    # call EditLabelRender on the common Driver
-    my $TitleString = $Self->EditTitleRender(
+    # get the formatted title
+    my $TitleString = $Self->_EditTitleRender(
         %Param,
         Mandatory => $Param{Mandatory} || '0',
         FieldName => $FieldName,
@@ -449,12 +449,12 @@ sub ValueLookup {
     return $Param{Key} // '';
 }
 
-=head2 EditTitleRender()
+=head2 _EditTitleRender()
 
 creates the title HTML to be used in edit masks. Actually only the title is displayed.
 There is no input possible.
 
-    my $TitleHTML = $BackendObject->EditTitleRender(
+    my $TitleHTML = $BackendObject->_EditTitleRender(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         FieldName          => 'TheField',               # the value to be set on the 'for' attribute
         AdditionalText     => 'Between'                 # other text to be placed next to FieldName
@@ -462,7 +462,7 @@ There is no input possible.
 
 =cut
 
-sub EditTitleRender {
+sub _EditTitleRender {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
