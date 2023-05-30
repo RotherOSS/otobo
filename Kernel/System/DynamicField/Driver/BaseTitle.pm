@@ -113,13 +113,8 @@ sub SearchSQLOrderFieldGet {
 sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
-    # take config from field config
-    my $FieldConfig       = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName         = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel        = $Param{DynamicFieldConfig}->{Label};
-    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
-    );
+    # take config from dynamic field config
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
     # get the formatted title
     my $TitleString = $Self->_EditTitleRender(
@@ -207,12 +202,11 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value
-    my $Value = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
+    my $Value = $Param{DefaultValue} // '';
 
     # get the field value, this function is always called after the profile is loaded
     my $FieldValue = $Self->SearchFieldValueGet(%Param);
@@ -224,7 +218,7 @@ sub SearchFieldRender {
 
     # check if value is an array reference (GenericAgent Jobs and NotificationEvents)
     if ( IsArrayRefWithData($Value) ) {
-        $Value = @{$Value}[0];
+        $Value = $Value->[0];
     }
 
     # check and set class if necessary
@@ -347,7 +341,7 @@ sub StatsSearchFieldParameterBuild {
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = $Param{Value} // '';
     my $Title = $Value;
 
     # cut strings if needed
