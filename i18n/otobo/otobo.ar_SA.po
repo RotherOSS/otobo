@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-24 19:06+0000\n"
+"PO-Revision-Date: 2023-05-31 23:04+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -25862,30 +25862,35 @@ msgid ""
 "where your mailserver is listening for incoming connections must be "
 "specified."
 msgstr ""
+"إذا تم تحديد إحدى آليات SMTP ك SendmailModule، فيجب تحديد المنفذ الذي يستمع "
+"إليه خادم البريد للاتصالات الواردة هنا."
 
 #. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
 msgstr ""
+"عند تمكين هذا الخيار، يتم تسجيل معلومات تصحيح أخطاء قوائم التحكم في "
+"الوصول(ACLs)."
 
 #. SysConfig
 msgid "If enabled debugging information for transitions is logged."
 msgstr ""
+"عند التمكين، يتم تسجيل معلومات تصحيح الأخطاء للانتقالات في تذاكر العملية."
 
 #. SysConfig
 msgid ""
 "If enabled defines the preselected state for customer follow-up in the "
 "customer interface."
-msgstr ""
+msgstr "تحديد الحالة المحددة مسبقا لمتابعة العميل عند تنشيطه في منطقة العميل."
 
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard error stream to a log file."
-msgstr ""
+msgstr "تمكين لإعادة توجيه إخراج الخطأ من daemon إلى ملف سجل."
 
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard output stream to a log file."
-msgstr ""
+msgstr "تمكين لإعادة توجيه الإخراج الافتراضي ل daemon إلى ملف سجل."
 
 #. SysConfig
 msgid ""
@@ -25893,18 +25898,21 @@ msgid ""
 "Please stop the daemon before any change and use this setting only if <"
 "$OTOBOHome>/var/run/ can not be used."
 msgstr ""
+"عند تمكين هذا الخيار، يستخدم المراقب (daemon) هذا الدليل لإنشاء ملفاته PID. "
+"ملاحظة: الرجاء إيقاف البرنامج قبل التغيير واستخدام هذا الإعداد فقط في حالة "
+"عدم إمكانية إستخدام <$OTOBOHome>/var/run/."
 
 #. SysConfig
 msgid "If enabled, OTOBO will deliver all CSS files in minified form."
-msgstr ""
+msgstr "عند تمكين هذا الخيار، سيقوم OTOBO بإرجاع ملفات CSS في نموذج مصغر."
 
 #. SysConfig
 msgid "If enabled, OTOBO will deliver all JavaScript files in minified form."
-msgstr ""
+msgstr "عند التمكين، سوف يوفر OTOBO ملفات JavaScript في نموذج مصغر."
 
 #. SysConfig
 msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
-msgstr ""
+msgstr "عند تنشيطه، يتم فتح TicketPhone و TicketEmail في نوافذ جديدة."
 
 #. SysConfig
 msgid ""
@@ -25912,36 +25920,46 @@ msgid ""
 "HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
 "option, please make sure to delete the cache."
 msgstr ""
+"عند تمكين هذا الخيار، يتم إزالة معلومات إصدار OTOBO من الواجهة ورؤوس HTTP "
+"ورؤوس X. ملاحظة: بعد تغيير هذا الخيار، يجب حذف ذاكرة التخزين المؤقت."
 
 #. SysConfig
 msgid "If enabled, the cache data be held in memory."
-msgstr ""
+msgstr "عند تمكين هذا الخيار، يتم الاحتفاظ ببيانات التخزين المؤقت في الذاكرة."
 
 #. SysConfig
 msgid "If enabled, the cache data will be stored in cache backend."
 msgstr ""
+"عند تمكين هذا الخيار، يتم تخزين بيانات ذاكرة التخزين المؤقت في نهاية خلفية "
+"التخزين المؤقت."
 
 #. SysConfig
 msgid ""
 "If enabled, the customer can search for tickets in all services (regardless "
 "what services are assigned to the customer)."
 msgstr ""
+"عند التمكين، يمكن للعملاء البحث عن التذاكر مع جميع الخدمات (بغض النظر عن "
+"الخدمات التي يتم تعيينها لكل عميل)."
 
 #. SysConfig
 msgid ""
 "If enabled, the different overviews (Dashboard, LockedView, QueueView) will "
 "automatically refresh after the specified time."
 msgstr ""
+"إذا كان هذا الخيار محددا، سيتم تحديث صفحات نظرة عامة مختلفة (لوحة المعلومات، "
+"LockedView، عرض قائمة الانتظار) تلقائيا بعد الوقت المحدد."
 
 #. SysConfig
 msgid ""
 "If enabled, the first level of the main menu opens on mouse hover (instead "
 "of click only)."
 msgstr ""
+"في حالة التنشيط، يتم فتح المستوى الأول من القائمة الرئيسية عند التمرير فوق "
+"الماوس (بدلا من النقر فقط)."
 
 #. SysConfig
 msgid "If enabled, the quick close action will create an article."
-msgstr ""
+msgstr "إذا تم تنشيط المعلمة، يتم إنشاء مقالة بواسطة إجراء \"إغلاق فوري\"."
 
 #. SysConfig
 msgid ""
@@ -25950,6 +25968,10 @@ msgid ""
 "a time zone and (2) OTOBOTimeZone and UserDefaultTimeZone do match and (3) "
 "are not set to UTC."
 msgstr ""
+"في حالة التمكين، سيتم إخطار المستخدمين الذين لم يختاروا منطقة زمنية بعد "
+"للقيام بذلك. ملاحظة: لن يتم عرض الإشعار إذا (1) لم يحدد المستخدم منطقة زمنية "
+"بعد، و (2) OTOBOTimeZone و UserDefaultTimeZone متماثلان، و (3) لم يتم "
+"تعيينهما على UTC."
 
 #. SysConfig
 msgid ""
@@ -25957,6 +25979,9 @@ msgid ""
 "possible to use the email's from address instead of an empty envelope sender "
 "(required in certain mail server configurations)."
 msgstr ""
+"إذا لم يتم تعريف SendmailNotificationEnvelopeFrom، فإن هذا الإعداد يسمح لك "
+"باستخدام عنوان مرسل البريد الإلكتروني بدلا من مرسل مغلف فارغ (مطلوب بواسطة "
+"بعض تكوينات خادم البريد)."
 
 #. SysConfig
 msgid ""
@@ -25964,6 +25989,9 @@ msgid ""
 "notifications. If no address is specified, the envelope sender header is "
 "empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
 msgstr ""
+"إذا تم تعيينه، استخدام هذا العنوان كرأس مرسل مغلف في إشعارات البريد الصادر. "
+"إذا لم يتم تحديد أي عنوان، يتم ترك الرأس فارغا (ما لم يتم تعيين "
+"SendmailNotificationEnvelopeFrom::FallbackToEmailFrom)."
 
 #. SysConfig
 msgid ""
@@ -25971,6 +25999,9 @@ msgid ""
 "notifications - see below). If no address is specified, the envelope sender "
 "is equal to queue e-mail address."
 msgstr ""
+"إذا تم تعيينه، استخدام هذا العنوان كرأس مرسل المغلف في الرسائل الصادرة (وليس "
+"الإشعارات، انظر أدناه). إذا لم يتم تحديد عنوان، فإن مرسل المغلف (envelope) "
+"يتوافق مع عنوان البريد الإلكتروني المخزن في قائمة الانتظار."
 
 #. SysConfig
 msgid ""
@@ -25978,28 +26009,37 @@ msgid ""
 "Customers or Agents, will receive an autoresponse if configured. If this "
 "option is not enabled, no autoresponses will be sent."
 msgstr ""
+"إذا تم تنشيط هذا الخيار، إرسال رد تلقائي للتذاكر التي تم إنشاؤها عبر الواجهة "
+"الخارجية أو واجهة الوكيل، بشرط تعيين ذلك في تكوين قائمة الانتظار. إذا لم يتم "
+"تنشيط هذا الخيار، فلن يتم إرسال أي ردود تلقائية."
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
 msgstr ""
+"في حالة تطبيق هذا التعبير النمطي(regex)، فلن يتم إرسال أي رسالة بواسطة "
+"المجيب الآلي."
 
 #. SysConfig
 msgid ""
 "If this setting is enabled, it is possible to install packages which are not "
 "verified by OTOBO Team. These packages could threaten your whole system!"
 msgstr ""
+"إذا تم تمكين هذا الإعداد، فيمكن أيضا تثبيت الحزم التي لم يتم التحقق منها "
+"بواسطة فريق OTOBO. يمكن أن تعرض هذه الحزم النظام بأكمله للخطر!"
 
 #. SysConfig
 msgid ""
 "If this setting is enabled, local modifications will not be highlighted as "
 "errors in the package manager and support data collector."
 msgstr ""
+"إذا كان الإعداد نشطا، فلن يتم عرض التغييرات المحلية في إدارة الحزم وتحليل "
+"بيانات الدعم كأخطاء."
 
 #. SysConfig
 msgid ""
 "If you're going to be out of office, you may wish to let other users know by "
 "setting the exact dates of your absence."
-msgstr ""
+msgstr "يبلغ المستخدمين الآخرين بالفترة المحددة لغيابهم."
 
 #. SysConfig
 msgid ""
@@ -26007,31 +26047,35 @@ msgid ""
 "notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
 "expanded automatically in Large view screens."
 msgstr ""
+"لا يتم وضع علامة على أنواع مقالات النظام (مثل الردود التلقائية أو إعلامات "
+"البريد الإلكتروني) كمقالات غير مقروءة في AgentTicketZoom أو لا يتم توسيعها "
+"تلقائيا في لمحات عامة كبيرة."
 
 #. SysConfig
 msgid "Ignores not ticket related attributes."
-msgstr ""
+msgstr "يتجاهل السمات غير المتعلقة بالتذاكر."
 
 #. SysConfig
 msgid "Import appointments screen."
-msgstr ""
+msgstr "واجهة استيراد المواعيد."
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
 msgstr ""
+"قم بتضمين التذاكر تلقائيا من قوائم الانتظار الفرعية عند تحديد قائمة انتظار."
 
 #. SysConfig
 msgid "Include unknown customers in ticket filter."
-msgstr ""
+msgstr "قم بتضمين العملاء غير المعروفين في مرشحات التذاكر."
 
 #. SysConfig
 msgid ""
 "Includes article create times in the ticket search of the agent interface."
-msgstr ""
+msgstr "يتضمن أوقات إنشاء المقالة في البحث في التذاكر في منطقة الوكيل."
 
 #. SysConfig
 msgid "Incoming Phone Call."
-msgstr ""
+msgstr "مكالمة هاتفية واردة."
 
 #. SysConfig
 msgid ""
