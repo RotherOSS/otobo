@@ -462,12 +462,16 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # check for Null value
-    if ( !defined $Param{Value} ) {
+    if ( !$Param{Value} ) {
         return {
             Value => '',
             Title => '',
         };
+    }
+
+    # set HTMLOutput as default if not specified
+    if ( !defined $Param{HTMLOutput} ) {
+        $Param{HTMLOutput} = 1;
     }
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -492,6 +496,19 @@ sub DisplayValueRender {
             return;
         }
 
+        my $Label;
+        if ( $Param{HTMLOutput} ) {
+            $Label = $Param{LayoutObject}->Output(
+                Template => '[% Translate( Data.Label ) | html %]',
+                Data     => {
+                    Label => $DynamicField->{Label},
+                },
+            );
+        }
+        else {
+            $Label = $Param{LayoutObject}->{LanguageObject}->Translate( $DynamicField->{Label} );
+        }
+
         VALUE:
         for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
             next VALUE if !defined $Param{Value}[$SetIndex][$i];
@@ -504,18 +521,35 @@ sub DisplayValueRender {
 
             next VALUE if !defined $Element->{Value} || $Element->{Value} eq '';
 
-            # TODO: check Value vs Title (seems same for most DF), add Links (maybe use tt)
-            $SetValue{Value}[$SetIndex] .= "$DynamicField->{Label}: $Element->{Value}<br/>";
-            $SetValue{Title}[$SetIndex] .= "$DynamicField->{Label}: $Element->{Title}<br/>";
+            if ( $Param{HTMLOutput} ) {
+                $SetValue{Value}[$SetIndex] .= "<label>$Label</label><p class='Value'><span title='$Element->{Title}'>$Element->{Value}</span></p>";
+            }
+            else {
+                $SetValue{Value}[$SetIndex] .= "$Label: $Element->{Value}\n";
+                $SetValue{Title}[$SetIndex] .= "$Label: $Element->{Title}\n";
+            }
         }
     }
 
-    my %Value;
-    for my $Return (qw/Value Title/) {
-        @{ $SetValue{$Return} } = map { $_ // '' } $SetValue{$Return}->@*;
+    if ( !scalar $SetValue{Value}->@* ) {
+        return {
+            Value => '',
+            Title => '',
+        };
+    }
 
-        $Value{$Return} = join( '<hr/>', $SetValue{$Return}->@* );
-        $Value{$Return} = $Value{$Return} ? "<div class='SetDisplayValue'>$Value{$Return}</div>" : '';
+    @{ $SetValue{Value} } = map { $_ // '' } $SetValue{Value}->@*;
+
+    my %Value;
+    if ( $Param{HTMLOutput} ) {
+        $Value{Value} = '<div class="SetDisplayValue">'
+            . join( '</div><div class="SetDisplayValue">', $SetValue{Value}->@* )
+            . '</div>';
+        $Value{Title} = '';
+    }
+    else {
+        $Value{Value} = join( "\n", $SetValue{Value}->@* );
+        $Value{Title} = join( "; ", $SetValue{Title}->@* );
     }
 
     return \%Value;

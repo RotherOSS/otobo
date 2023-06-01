@@ -923,6 +923,32 @@ fieldset.TableLike > .Row > label {
     overflow-wrap: break-word;
 }
 
+/* TODO: Temporary for TicketInfo in AgentTicketZoom; has to be more general; */
+fieldset.TableLike .SetDisplayValue > label {
+  display: block;
+  float: left;
+  line-height: 1.3em;
+  width: 126px;
+  text-align: right;
+  color: #929292;
+  min-height: 17px;
+  padding-top: 0.3em;
+  padding-bottom: 1px;
+  text-shadow: 0 1px 0 #FAFAFA;
+  overflow-wrap: break-word;
+}
+fieldset.TableLike .SetDisplayValue > .Value {
+  margin-left: 132px;
+  margin-right: 7px;
+  overflow-wrap: break-word;
+  padding: 0.3em 0 3px 8px;
+  line-height: 1.3em;
+}
+fieldset.TableLike .SetDisplayValue {
+  margin-top: 24px;
+}
+/* EO Temporary */
+
 iframe.Signature {
     border: 1px solid #888;
 }
