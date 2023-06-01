@@ -374,7 +374,7 @@ sub EditFieldValueGet {
     return if !@DataAll;
 
     # get the highest multivalue index (second to last; last is the empty template)
-    my $IndexMax = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $DataAll[-2] : 0;
+    my $IndexMax = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $DataAll[-2] // 0 : 0;
 
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
@@ -424,7 +424,7 @@ sub EditFieldValueValidate {
         );
 
         # get the highest multivalue index (second to last; last is the empty template)
-        $IndexMax = $DataAll[-2];
+        $IndexMax = $DataAll[-2] // 0;
     }
 
     my $Result;

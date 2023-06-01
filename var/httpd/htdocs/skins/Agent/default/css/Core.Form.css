@@ -691,6 +691,9 @@ fieldset.TableLike > .Row.MultiColumn {
 
 fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field {
     display: inline-block;
+}
+
+fieldset.TableLike > .Row.MultiValue > .FieldCell.MultiValue_0 > .Field {
     margin-left: 0;
 }
 
@@ -700,6 +703,28 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
     padding-left: 0;
     width: 100%;
 }
+
+/* TODO: Temporary, improve */
+fieldset.TableLike fieldset.DynamicFieldSet > .Field,
+fieldset.TableLike fieldset.DynamicFieldSet > .Row > .FieldCell > .Field {
+    line-height: 1.9em;
+    margin-left: 30%;
+    margin-right: 0;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 10px;
+    padding-right: 0px;
+    min-height: 20px;
+}
+
+fieldset.TableLike fieldset.DynamicFieldSet > .Row.MultiValue > .FieldCell > .Field {
+    display: inline-block;
+}
+
+fieldset.TableLike fieldset.DynamicFieldSet > .Row.MultiValue > .FieldCell.MultiValue_0 > .Field {
+    margin-left: 0;
+}
+/* EO TODO */
 
 .RTL fieldset.TableLike > .Row.MultiColumn {
     margin-right: 15%;
