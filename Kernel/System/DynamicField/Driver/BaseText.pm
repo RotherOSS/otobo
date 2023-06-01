@@ -536,104 +536,61 @@ sub DisplayValueRender {
     # activate HTMLOutput when it wasn't specified
     my $HTMLOutput = $Param{HTMLOutput} // 1;
 
-    my $ValueMaxChars = $Param{ValueMaxChars} || '';
-    my $TitleMaxChars = $Param{TitleMaxChars} || '';
+    # get raw Value strings from field value
+    my @Values = !ref $Param{Value} ? ( $Param{Value} )
+        : scalar $Param{Value}->@* ? $Param{Value}->@*
+        : ( '' );
 
-    # check value
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-        @Values = ( $Param{Value} );
-    }
+    $Param{ValueMaxChars} ||= '';
 
     my @ReadableValues;
     my @ReadableTitles;
+    for my $ValueItem (@Values) {
+        $ValueItem //= '';
 
-    my $ShowValueEllipsis;
-    my $ShowTitleEllipsis;
+        # set title as value after update and before limit
+        push @ReadableTitles, $ValueItem;
 
-    VALUEITEM:
-    for my $Item (@Values) {
-        $Item //= '';
-
-        my $ReadableValue = $Item;
-
-        my $ReadableLength = length $ReadableValue;
-
-        # set title equal value
-        my $ReadableTitle = $ReadableValue;
-
-        # cut strings if needed
-        if ( $ValueMaxChars ne '' ) {
-
-            if ( length $ReadableValue > $ValueMaxChars ) {
-                $ShowValueEllipsis = 1;
-            }
-            $ReadableValue = substr $ReadableValue, 0, $ValueMaxChars;
-
-            # decrease the max parameter
-            $ValueMaxChars = $ValueMaxChars - $ReadableLength;
-            if ( $ValueMaxChars < 0 ) {
-                $ValueMaxChars = 0;
-            }
-        }
-
-        if ( $TitleMaxChars ne '' ) {
-
-            if ( length $ReadableTitle > $ValueMaxChars ) {
-                $ShowTitleEllipsis = 1;
-            }
-            $ReadableTitle = substr $ReadableTitle, 0, $TitleMaxChars;
-
-            # decrease the max parameter
-            $TitleMaxChars = $TitleMaxChars - $ReadableLength;
-            if ( $TitleMaxChars < 0 ) {
-                $TitleMaxChars = 0;
-            }
-        }
-
-        # HTMLOutput transformations
-        if ($HTMLOutput) {
-
-            $ReadableValue = $Param{LayoutObject}->Ascii2Html(
-                Text => $ReadableValue,
-            );
-
-            $ReadableTitle = $Param{LayoutObject}->Ascii2Html(
-                Text => $ReadableTitle,
+        # HTML Output transformation
+        if ( $HTMLOutput ) {
+            $ValueItem = $Param{LayoutObject}->Ascii2Html(
+                Text => $ValueItem,
+                Max  => $Param{ValueMaxChars},
             );
         }
-
-        push @ReadableValues, $ReadableValue;
-
-        if ( length $ReadableTitle ) {
-            push @ReadableTitles, $ReadableTitle;
+        else {
+            if ( $Param{ValueMaxChars} && length($ValueItem) > $Param{ValueMaxChars} ) {
+                $ValueItem = substr( $ValueItem, 0, $Param{ValueMaxChars} ) . '...';
+            }
         }
+
+        push @ReadableValues, $ValueItem;
     }
 
-    # set new line separator
-    my $ItemSeparator = $HTMLOutput ? '<br>' : '\n';
-
-    my $Value = join $ItemSeparator, @ReadableValues;
-    my $Title = join $ItemSeparator, @ReadableTitles;
-
-    if ($ShowValueEllipsis) {
-        $Value .= '...';
+    my $ValueSeparator;
+    my $Title = join( ', ', @ReadableTitles );
+    if ( $HTMLOutput ) {
+        $Title = $Param{LayoutObject}->Ascii2Html(
+            Text => $Title,
+            Max  => $Param{TitleMaxChars} || '',
+        );
+        $ValueSeparator = '<br/>';
     }
-    if ($ShowTitleEllipsis) {
-        $Title .= '...';
+    else {
+        if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
+            $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
+        }
+        $ValueSeparator = "\n";
     }
-
-    # set field link form config
+        
+    # set field link from config
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
     my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';
 
     # return a data structure
     return {
-        Value       => $Value,
-        Title       => $Title,
+        Value       => '' . join( $ValueSeparator, @ReadableValues ),
+        Title       => '' . $Title,
         Link        => $Link,
         LinkPreview => $LinkPreview,
     };

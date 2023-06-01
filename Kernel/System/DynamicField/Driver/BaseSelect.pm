@@ -524,19 +524,16 @@ sub DisplayValueRender {
     # activate HTMLOutput when it wasn't specified
     my $HTMLOutput = $Param{HTMLOutput} // 1;
 
-    my $Value = '';
-    my @Values;
+    # get raw Value strings from field value
+    my @Values = !ref $Param{Value} ? ( $Param{Value} )
+        : scalar $Param{Value}->@* ? $Param{Value}->@*
+        : ( '' );
 
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-        @Values = ( $Param{Value} );
-    }
+    $Param{ValueMaxChars} ||= '';
 
     my @ReadableValues;
+    my @ReadableTitles;
     for my $ValueItem (@Values) {
-
         $ValueItem //= '';
 
         # get real value
@@ -553,23 +550,27 @@ sub DisplayValueRender {
             $ValueItem = $Param{LayoutObject}->{LanguageObject}->Translate($ValueItem);
         }
 
+        # set title as value after update and before limit
+        push @ReadableTitles, $ValueItem;
+
         # HTML Output transformation
         if ($HTMLOutput) {
-            $Value = $Param{LayoutObject}->Ascii2Html(
-                Text => $Value,
-                Max  => $Param{ValueMaxChars} || '',
+            $ValueItem = $Param{LayoutObject}->Ascii2Html(
+                Text => $ValueItem,
+                Max  => $Param{ValueMaxChars},
             );
         }
+        else {
+            if ( $Param{ValueMaxChars} && length($ValueItem) > $Param{ValueMaxChars} ) {
+                $ValueItem = substr( $ValueItem, 0, $Param{ValueMaxChars} ) . '...';
+            }
+        }
+
         push @ReadableValues, $ValueItem;
     }
 
-    # set new line separator
-    my $ItemSeparator = $HTMLOutput ? '<br>' : '\n';
-
-    $Value = join $ItemSeparator, @ReadableValues;
-
-    # set title as value after update and before limit
-    my $Title = $Value;
+    my $ValueSeparator;
+    my $Title = join( ', ', @ReadableTitles );
 
     # HTMLOutput transformations
     if ($HTMLOutput) {
@@ -577,24 +578,23 @@ sub DisplayValueRender {
             Text => $Title,
             Max  => $Param{TitleMaxChars} || '',
         );
+        $ValueSeparator = '<br/>';
     }
     else {
-        if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
-            $Value = substr( $Value, 0, $Param{ValueMaxChars} ) . '...';
-        }
         if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
             $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
         }
+        $ValueSeparator = "\n";
     }
-
+        
     # set field link from config
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
     my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';
 
     # return a data structure
     return {
-        Value       => $Value,
-        Title       => $Title,
+        Value       => '' . join( $ValueSeparator, @ReadableValues ),
+        Title       => '' . $Title,
         Link        => $Link,
         LinkPreview => $LinkPreview,
     };
