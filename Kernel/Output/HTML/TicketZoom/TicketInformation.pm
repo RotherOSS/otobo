@@ -42,8 +42,8 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
-    my %Ticket    = %{ $Param{Ticket} };
-    my %AclAction = %{ $Param{AclAction} };
+    my %Ticket    = $Param{Ticket}->%*;
+    my %AclAction = $Param{AclAction}->%*;
 
     # Show created by name, if different then root user (ID=1).
     if ( $Ticket{CreateBy} > 1 ) {
@@ -301,13 +301,20 @@ sub Run {
     }
 
     # owner info
-    my %OwnerInfo = $UserObject->GetUserData(
-        UserID => $Ticket{OwnerID},
-    );
-    $LayoutObject->Block(
-        Name => 'Owner',
-        Data => { %Ticket, %OwnerInfo, %AclAction, %{ $OnlineData{OwnerID} // {} } },
-    );
+    {
+        my %OwnerInfo = $UserObject->GetUserData(
+            UserID => $Ticket{OwnerID},
+        );
+        $LayoutObject->Block(
+            Name => 'Owner',
+            Data => {
+                %Ticket,
+                %OwnerInfo,
+                %AclAction,
+                { $OnlineData{OwnerID} // {} }->%*,
+            },
+        );
+    }
 
     if ( $ConfigObject->Get('Ticket::Responsible') ) {
 
@@ -387,7 +394,7 @@ sub Run {
 
     # cycle trough the activated Dynamic Fields for ticket object
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+    for my $DynamicFieldConfig ( $DynamicField->@* ) {
         next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
         next DYNAMICFIELD unless defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
         next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
@@ -407,9 +414,7 @@ sub Run {
             DynamicFieldConfig => $DynamicFieldConfig,
             Value              => $Ticket{"DynamicField_$DynamicFieldConfig->{Name}"},
             LayoutObject       => $LayoutObject,
-            ValueMaxChars      => $ConfigObject->
-                Get('Ticket::Frontend::DynamicFieldsZoomMaxSizeSidebar')
-                || 18,    # limit for sidebar display
+            ValueMaxChars      => $ConfigObject->Get('Ticket::Frontend::DynamicFieldsZoomMaxSizeSidebar') || 18,    # limit for sidebar display
         );
 
         if ( $Self->{DisplaySettings}->{DynamicField}->{ $DynamicFieldConfig->{Name} } ) {
