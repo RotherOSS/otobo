@@ -1483,8 +1483,6 @@ sub ValueLookup {
 
 =begin Internal:
 
-=cut
-
 =head2 _ConvertDate2DateTime()
 
 Append hh:mm:ss if only the ISO date was supplied to get a full date-time string.
