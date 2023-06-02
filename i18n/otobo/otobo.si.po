@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2022-12-20 16:14+0000\n"
+"POT-Creation-Date: 2023-03-10 16:34+0000\n"
 "PO-Revision-Date: 2021-03-10 18:28+0000\n"
 "Last-Translator: helabasa <R45XvezA@pm.me>\n"
 "Language-Team: Sinhala <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -1976,6 +1976,12 @@ msgstr ""
 
 #. Template: AdminDynamicFieldDB
 msgid "Example"
+msgstr ""
+
+#. Template: AdminDynamicFieldDB
+msgid ""
+"You can reference the field with its own field name. You can also refer to "
+"other fields, e.g. with 'DynamicField_OtherFieldName'."
 msgstr ""
 
 #. Template: AdminDynamicFieldDB
@@ -9757,10 +9763,6 @@ msgstr ""
 msgid ""
 "Password needs to contain at least 3 of the character classes: lower char, "
 "upper char, digit, special character."
-msgstr ""
-
-#. Template: CustomerTicketList
-msgid "Nr."
 msgstr ""
 
 #. Template: CustomerTicketList

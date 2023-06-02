@@ -163,7 +163,7 @@ sub Auth {
         $CacheObject->Delete(%StateCache);
     }
     else {
-        my $ErrorMessage = $StateCSRF eq $CookieCSRF ? 'Response state does not match cookie.' : 'Response state not found in cache.';
+        my $ErrorMessage = $StateCSRF eq $CookieCSRF ? 'Response state not found in cache.' : 'Response state does not match cookie.';
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'info',
