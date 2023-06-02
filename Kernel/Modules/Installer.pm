@@ -1250,22 +1250,33 @@ sub CheckDBRequirements {
     my %Result       = $Self->ConnectToDB(%Param);
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    {
-        # https://doc.otobo.org/manual/installation/10.1/en/content/requirements.html#software-requirements
-        my %DatabaseVersionRequirements = (
-            mysql      => '5.6',
-            postgresql => '9.2',
-            oracle     => '10g',
-        );
+    # Version checks are only active for some database systems.
+    # See https://doc.otobo.org/manual/installation/10.1/en/content/requirements.html#software-requirements
+    my %RequiredVersion = (
+        mysql   => '5.6',
+        mariadb => '10.0',
 
-        # version.pm is always available, as it is a core module
-        my $Have = version->parse( $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_VER} ) );
-        my $Want = version->parse( $DatabaseVersionRequirements{ $Param{DBType} } );
+        # postgresql => '9.2',   version check not implemented and tested yet
+        # oracle     => '10g',   version check not implemented and tested yet
+    );
+    if ( $RequiredVersion{ $Param{DBType} } ) {
+
+        # Compare versions with version.pm as this module is always available. It is a core module.
+        # MariaDB reports version like 10.5.20-MariaDB-1:10.5.20+maria~ubu2004. That string needs to be normlized.
+        my $ReportedVersion = $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_VER} );
+        my $DBType          = $Param{DBType};
+        if ( $ReportedVersion =~ m/MariaDB/ ) {
+            $DBType = 'mariadb';
+        }
+        my ($CleanedReportedVersion) = $ReportedVersion =~ m/([\d.]+)/;               # extract e.g. 10.5.20
+        my $Have                     = version->parse($CleanedReportedVersion);
+        my $Want                     = version->parse( $RequiredVersion{$DBType} );
         if ( $Have < $Want ) {
             $Result{Successful} = 0;
             $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
                 'Error: database version requirement not satisfied. Have version: %s Want version: %s',
-                $Have, $Want
+                $Have,
+                $Want
             );
         }
     }
