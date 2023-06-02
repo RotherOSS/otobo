@@ -36,9 +36,10 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $JSON = '';
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # search customers
+    # search contacts
+    my @Results;
     if ( !$Self->{Subaction} ) {
 
         # get needed params
@@ -46,8 +47,6 @@ sub Run {
         my $Search      = $ParamObject->GetParam( Param => 'Term' ) || '';
         my $MaxResults  = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
         my $FieldName   = $ParamObject->GetParam( Param => 'Field' );
-
-        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if (
             !$FieldName
             ||
@@ -57,13 +56,11 @@ sub Run {
             )
             )
         {
-            return $Self->_ReturnJSON(
-                Content => $LayoutObject->JSONEncode(
-                    Data => {
-                        Success  => 0,
-                        Messsage => 'Need Field!',
-                    }
-                ),
+            return $LayoutObject->JSONReply(
+                Data => {
+                    Success  => 0,
+                    Messsage => 'Need Field!',
+                }
             );
         }
         else {
@@ -80,13 +77,11 @@ sub Run {
             || $DynamicField->{ValidID} ne 1
             )
         {
-            return $Self->_ReturnJSON(
-                Content => $LayoutObject->JSONEncode(
-                    Data => {
-                        Success  => 0,
-                        Messsage => 'Error reading dynamic field!',
-                    }
-                ),
+            return $LayoutObject->JSONReply(
+                Data => {
+                    Success  => 0,
+                    Messsage => 'Error reading dynamic field!',
+                }
             );
         }
 
@@ -103,7 +98,6 @@ sub Run {
         $Search =~ s{ Z \z }{}xms;
 
         # get possible contacts
-        my @Data;
         my $MaxResultCount   = $MaxResults;
         my $PossibleContacts = $DynamicField->{Config}->{ContactsWithData};
         my $SearchableFields = $DynamicField->{Config}->{SearchableFieldsComputed};
@@ -121,37 +115,18 @@ sub Run {
 
             next CONTACT if !$ContactData{ValidID};
             next CONTACT if $ContactData{ValidID} ne 1;
-            push @Data, {
+            push @Results, {
                 Key   => $Contact,
                 Value => $ContactData{Name},
             };
             $MaxResultCount--;
             last CONTACT if $MaxResultCount <= 0;
         }
-
-        # build JSON output
-        $JSON = $LayoutObject->JSONEncode(
-            Data => \@Data,
-        );
     }
 
-    return $Self->_ReturnJSON(
-        Content => $JSON,
+    return $LayoutObject->JSONReply(
+        Data => \@Results,
     );
-}
-
-sub _ReturnJSON {
-    my ( $Self, %Param ) = @_;
-
-    # send JSON response
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json',
-        Content     => $Param{Content} || '',
-        Type        => 'inline',
-        NoCache     => 1,
-    );
-
 }
 
 1;

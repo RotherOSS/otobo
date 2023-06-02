@@ -2692,6 +2692,7 @@ sub Attachment {
                 Priority => 'error',
                 Message  => "Got no $_!",
             );
+
             $Self->FatalError();
         }
     }
@@ -2771,6 +2772,40 @@ sub Attachment {
     }
 
     return $Param{Content};
+}
+
+=head2 JSONReply()
+
+Give back a data structure as a JSON response.
+A bit like the method C<Attachments>.
+As a side effect headers of the HTTP response are set in the object C<Kernel::System::Web::Response>.
+
+=cut
+
+sub JSONReply {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(Data)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Got no $Needed!",
+            );
+
+            $Self->FatalError();
+        }
+    }
+    my $Content = $Self->JSONEncode(
+        Data => \$Param{Data},
+    );
+
+    return $Self->Attachment(
+        ContentType => 'application/json',
+        Content     => $Content || '',
+        Type        => 'inline',
+        NoCache     => 1,
+    );
 }
 
 =head2 PageNavBar()
