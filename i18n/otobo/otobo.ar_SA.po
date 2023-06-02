@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-31 23:04+0000\n"
+"PO-Revision-Date: 2023-06-02 11:45+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -26088,31 +26088,39 @@ msgid ""
 "\"bin/otobo.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
 msgstr ""
+"IndexAccelerator: اختيار وحدة الواجهة الخلفية لوحدة TicketViewAccelerator. "
+"يقوم \"RuntimeDB\" بإنشاء عرض كل قائمة انتظار ديناميكيا من جدول التذاكر (لا "
+"توجد مشاكل في الأداء تصل إلى حوالي 60.000 تذكرة في المجموع و 6.000 تذكرة "
+"مفتوحة في النظام). \"StaticDB\" هي أقوى وحدة، فهي تستخدم جدولا إضافيا لفهرس "
+"التذاكر، والذي يعمل كنظرة عامة (موصى به من أكثر من 80.000 تذكرة في المجموع و "
+"6.000 تذكرة مفتوحة في النظام). استخدم الأمر \"bin/otobo.Console.pl "
+"Maint::Ticket::QueueIndexRebuild\" لبناء الفهرس الأولي."
 
 #. SysConfig
 msgid ""
 "Indicates if a bounce e-mail should always be treated as normal follow-up."
 msgstr ""
+"يحدد ما إذا كان يجب دائما التعامل مع البريد الإلكتروني المرتد كمتابعة عادية."
 
 #. SysConfig
 msgid "Indonesian"
-msgstr ""
+msgstr "الأندونيسية"
 
 #. SysConfig
 msgid "Inline"
-msgstr ""
+msgstr "مضمنه"
 
 #. SysConfig
 msgid "Input"
-msgstr ""
+msgstr "إدْخَالٌ"
 
 #. SysConfig
 msgid "Interface language"
-msgstr ""
+msgstr "لغة الواجهة"
 
 #. SysConfig
 msgid "Internal communication channel."
-msgstr ""
+msgstr "قناة الاتصال الداخلية."
 
 #. SysConfig
 msgid "International Workers' Day"
@@ -26127,6 +26135,11 @@ msgid ""
 "domain, and the value in \"Content\" should be a valid skin on your system. "
 "Please see the example entries for the proper form of the regex."
 msgstr ""
+"من الممكن تكوين أشكال مختلفة (skins)، على سبيل المثال للتمييز بين العوامل "
+"المختلفة بناء على المجال المعني. يمكنك التحقق من المجالات باستخدام التعبيرات "
+"العادية باستخدام أزواج المفاتيح / القيم. يجب أن يتضمن محتوى \"المفتاح\" "
+"التحقق من المجال، ومحتوى \"القيمة\" اسم الجلد المراد تحديده لهذا المجال "
+"(domain). يرجى الرجوع إلى الإدخالات مع أمثلة على التعبيرات العادية الصحيحة."
 
 #. SysConfig
 msgid ""
@@ -26137,6 +26150,12 @@ msgid ""
 "domain, and the value in \"Content\" should be a valid skin on your system. "
 "Please see the example entries for the proper form of the regex."
 msgstr ""
+"من الممكن تكوين أشكال مختلفة (skins)، على سبيل المثال للتمييز بين العملاء "
+"المختلفين بناء على المجال المعني. يمكنك التحقق من المجالات باستخدام "
+"التعبيرات العادية باستخدام أزواج المفاتيح / القيم. يجب أن يتضمن محتوى "
+"\"المفتاح\" التحقق من المجال، ومحتوى \"القيمة\" اسم الجلد المراد تحديده لهذا "
+"المجال (domain). يرجى الرجوع إلى الإدخالات مع أمثلة على التعبيرات العادية "
+"الصحيحة."
 
 #. SysConfig
 msgid ""
@@ -26147,46 +26166,56 @@ msgid ""
 "domain, and the value in \"Content\" should be a valid theme on your system. "
 "Please see the example entries for the proper form of the regex."
 msgstr ""
+"من الممكن تكوين سمات مختلفة، على سبيل المثال للتمييز بين الوكلاء والعملاء "
+"المختلفين بناء على المجال المعني. يمكنك التحقق من المجالات باستخدام "
+"التعبيرات العادية باستخدام أزواج المفاتيح/القيم. يجب أن يتضمن محتوى \"المفتاح"
+"\" التحقق من المجال (domain)، ومحتوى \"القيمة\" اسم الموضوع المراد تحديده "
+"لهذا المجال. يرجى الرجوع إلى الإدخالات مع أمثلة على التعبيرات العادية "
+"الصحيحة."
 
 #. SysConfig
 msgid ""
 "It was not possible to check the PGP signature, this may be caused by a "
 "missing public key or an unsupported algorithm."
 msgstr ""
+"تعذر التحقق من توقيع PGP. الأسباب المحتملة هي الافتقار إلى المفاتيح العامة "
+"أو الخوارزمية غير المدعومة."
 
 #. SysConfig
 msgid "Italian"
-msgstr ""
+msgstr "الإيطالية"
 
 #. SysConfig
 msgid ""
 "Italian stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"كلمات الإيقاف الإيطالية لفهرس النص الكامل. يتم إزالة هذه الكلمات من فهرس "
+"البحث."
 
 #. SysConfig
 msgid "Ivory"
-msgstr ""
+msgstr "عَاج"
 
 #. SysConfig
 msgid "Ivory (Slim)"
-msgstr ""
+msgstr "العاج (قليل السمك)"
 
 #. SysConfig
 msgid "Japanese"
-msgstr ""
+msgstr "اليابانية"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
-msgstr ""
+msgstr "وظيفة JavaScript لواجهة البحث."
 
 #. SysConfig
 msgid "Jump to OTOBO!"
-msgstr ""
+msgstr "رابط إلى OTOBO!"
 
 #. SysConfig
 msgid "Korean"
-msgstr ""
+msgstr "الكورية"
 
 #. SysConfig
 msgid "Language"
@@ -26198,67 +26227,67 @@ msgstr "كبير"
 
 #. SysConfig
 msgid "Last Screen Overview"
-msgstr ""
+msgstr "نظرة عامة على الشاشة الأخيرة"
 
 #. SysConfig
 msgid "Last customer subject"
-msgstr ""
+msgstr "آخر موضوع للعميل"
 
 #. SysConfig
 msgid "Lastname Firstname"
-msgstr ""
+msgstr "اسم العائلة الاسم الأول"
 
 #. SysConfig
 msgid "Lastname Firstname (UserLogin)"
-msgstr ""
+msgstr "اسم العائلة الاسم الأول (تسجيل دخول المستخدم)"
 
 #. SysConfig
 msgid "Lastname, Firstname"
-msgstr ""
+msgstr "اسم العائلة، الاسم الأول"
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
-msgstr ""
+msgstr "الاسم الأخير ، الاسم الأول (تسجيل دخول المستخدم)"
 
 #. SysConfig
 msgid "LastnameFirstname"
-msgstr ""
+msgstr "اسم العائلةالاسم الأول"
 
 #. SysConfig
 msgid "Latvian"
-msgstr ""
+msgstr "اللاتفية"
 
 #. SysConfig
 msgid "Left"
-msgstr ""
+msgstr "يسار"
 
 #. SysConfig
 msgid "Link Object"
-msgstr "ربط الكائن"
+msgstr "كائن الارتباط"
 
 #. SysConfig
 msgid "Link Object."
-msgstr ""
+msgstr "كائن الارتباط."
 
 #. SysConfig
 msgid "Link agents to groups."
-msgstr ""
+msgstr "تعيين وكلاء للمجموعات."
 
 #. SysConfig
 msgid "Link agents to roles."
-msgstr ""
+msgstr "تعيين وكلاء للأدوار (roles)."
 
 #. SysConfig
 msgid "Link customer users to customers."
-msgstr ""
+msgstr "تعيين مستخدمي العملاء إلى العملاء."
 
 #. SysConfig
 msgid "Link customer users to groups."
-msgstr ""
+msgstr "تعيين مستخدمي العملاء إلى مجموعات."
 
 #. SysConfig
 msgid "Link customer users to services."
-msgstr ""
+msgstr "تعيين مستخدمي العملاء إلى الخدمات."
 
 #. SysConfig
 msgid "Link customers to groups."
