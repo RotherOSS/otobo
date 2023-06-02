@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-02 11:45+0000\n"
+"PO-Revision-Date: 2023-06-02 17:44+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -26291,95 +26291,97 @@ msgstr "تعيين مستخدمي العملاء إلى الخدمات."
 
 #. SysConfig
 msgid "Link customers to groups."
-msgstr ""
+msgstr "تعيين العملاء إلى مجموعات."
 
 #. SysConfig
 msgid "Link queues to auto responses."
-msgstr ""
+msgstr "تعيين ردود تلقائية لقوائم الانتظار."
 
 #. SysConfig
 msgid "Link roles to groups."
-msgstr ""
+msgstr "تعيين الأدوار للمجموعات."
 
 #. SysConfig
 msgid "Link templates to attachments."
-msgstr ""
+msgstr "ربط القوالب بالمرفقات."
 
 #. SysConfig
 msgid "Link templates to queues."
-msgstr ""
+msgstr "تعيين قوالب لقوائم الانتظار."
 
 #. SysConfig
 msgid "Link this ticket to other objects"
-msgstr ""
+msgstr "ربط هذه التذكرة بكائنات أخرى"
 
 #. SysConfig
 msgid "Links 2 tickets with a \"Normal\" type link."
-msgstr ""
+msgstr "يربط 2 تذاكر مع نوع الارتباط \"عادي\"."
 
 #. SysConfig
 msgid "Links 2 tickets with a \"ParentChild\" type link."
-msgstr ""
+msgstr "ربط تذكرتين مع نوع الارتباط \"الوالدين والطفل\"."
 
 #. SysConfig
 msgid "Links appointments and tickets with a \"Normal\" type link."
-msgstr ""
+msgstr "ربط المواعيد والتذاكر برابط \"عادي\"."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
-msgstr ""
+msgstr "قائمة ملفات CSS التي يجب تحميلها دائما في واجهة الوكيل."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
-msgstr ""
+msgstr "قائمة ملفات CSS التي يجب تحميلها دائما في واجهة العميل."
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the agent interface."
-msgstr ""
+msgstr "قائمة ملفات JavaScript التي يجب تحميلها دائما في واجهة الوكيل."
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the customer interface."
-msgstr ""
+msgstr "قائمة ملفات JavaScript التي يجب تحميلها دائما في واجهة العميل."
 
 #. SysConfig
 msgid "List of all CustomerCompany events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث العملاء التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all CustomerUser events to be displayed in the GUI."
 msgstr ""
+"قائمة بجميع أحداث مستخدم العميل التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all DynamicField events to be displayed in the GUI."
 msgstr ""
+"قائمة بجميع أحداث الحقل الديناميكي ليتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all LinkObject events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث LinkObject لعرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all Package events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث الحزم التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all appointment events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث المواعيد التي يتم عرضها في واجهة المستخدم."
 
 #. SysConfig
 msgid "List of all article events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث المقالة التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all calendar events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث التقويم التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all queue events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث قائمة الانتظار ليتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all ticket events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث التذاكر التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid ""
@@ -26387,6 +26389,9 @@ msgid ""
 "during calendar creation. Make sure the colors are dark enough so white text "
 "can be overlayed on them."
 msgstr ""
+"قائمة الألوان في hexadecimal RGB، والتي يتم تعيينها لتقويمات مستخدم مختلفة. "
+"تأكد من أن الألوان داكنة بما يكفي لعرض نص أبيض عليها. إذا تجاوز عدد "
+"التقويمات عدد الألوان المتاحة، استخدام هذه القائمة مرة أخرى من البداية."
 
 #. SysConfig
 msgid ""
