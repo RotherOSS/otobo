@@ -521,12 +521,28 @@ sub Block {
 
 =head2 JSONEncode()
 
-Encode perl data structure to JSON string
+Serialize a Perl data structure as JSON.
 
-    my $JSON = $LayoutObject->JSONEncode(
-        Data        => $Data,
-        NoQuotes    => 0|1, # optional: no double quotes at the start and the end of JSON string
+    my %Hash = (
+        Key1 => 'Something',
+        Key2 => [ "Foo", "Bar" ],
     );
+    my $JSON = $LayoutObject->JSONEncode(
+        Data     => \%Hash,
+        NoQuotes => 0, # optional: 0|1 no double quotes at the start and the end of JSON string, default is 0
+    );
+
+Returns:
+
+    $JSON = <<'END_JSON';
+    {
+       "Key1" : "Something",
+       "Key2" : [
+          "Foo",
+          "Bar"
+       ],
+    }
+    END_JSON
 
 =cut
 
@@ -534,7 +550,7 @@ sub JSONEncode {
     my ( $Self, %Param ) = @_;
 
     # check for needed data
-    return if !defined $Param{Data};
+    return unless defined $Param{Data};
 
     # get JSON encoded data
     my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
@@ -2667,7 +2683,7 @@ returns browser output to display/download a attachment.
                                                #   scripts, flash etc.
     );
 
-Or for AJAX html snippets:
+Or for AJAX HTML snippets:
 
     $HTML = $LayoutObject->Attachment(
         Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
