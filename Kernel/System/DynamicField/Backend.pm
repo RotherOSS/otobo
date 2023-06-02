@@ -60,8 +60,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
