@@ -474,7 +474,8 @@ sub SetEnv {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
     }
     $Self->{EnvNewRef}->{ $Param{Key} } = $Param{Value};
@@ -2472,14 +2473,16 @@ sub BuildSelection {
                 Priority => 'error',
                 Message  => 'Need Depend Param Ajax option!',
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
         if ( !$Param{Ajax}->{Update} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Need Update Param Ajax option()!',
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
         my $Selector = $Param{ID} || $Param{Name};
         $Param{OnChange} = "Core.AJAX.FormUpdate(\$('#"
@@ -2531,7 +2534,8 @@ sub BuildSelection {
                     Priority => 'error',
                     Message  => 'Each Filter must provide Name and Values!',
                 );
-                $Self->FatalError();
+
+                $Self->FatalError;
             }
             $Index++;
         }
@@ -2619,7 +2623,8 @@ sub Permission {
                 Priority => 'error',
                 Message  => "Got no $Needed!",
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
     }
 
@@ -2709,7 +2714,7 @@ sub Attachment {
                 Message  => "Got no $_!",
             );
 
-            $Self->FatalError();
+            $Self->FatalError;
         }
     }
 
@@ -2809,7 +2814,7 @@ sub JSONReply {
                 Message  => "Got no $Needed!",
             );
 
-            $Self->FatalError();
+            $Self->FatalError;
         }
     }
     my $Content = $Self->JSONEncode(
@@ -4498,7 +4503,7 @@ sub CustomerFatalError {
     my ( $Self, %Param ) = @_;
 
     # Prevent endless recursion in case of problems with Template engine.
-    return if ( $Self->{InFatalError}++ );
+    return if $Self->{InFatalError}++;
 
     if ( $Param{Message} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -4715,7 +4720,7 @@ sub CustomerNavigationBar {
 
             # load module
             if ( !$MainObject->Require( $Jobs{$Job}->{Module} ) ) {
-                $Self->FatalError();
+                $Self->FatalError;
             }
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
@@ -6290,7 +6295,8 @@ sub SetRichTextParameters {
             Priority => 'error',
             Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
         );
-        $Self->FatalError();
+
+        $Self->FatalError;
     }
 
     # get needed objects
@@ -6428,7 +6434,8 @@ sub CustomerSetRichTextParameters {
             Priority => 'error',
             Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
         );
-        $Self->FatalError();
+
+        $Self->FatalError;
     }
 
     # get needed objects
