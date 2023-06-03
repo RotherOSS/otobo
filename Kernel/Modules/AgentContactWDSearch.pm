@@ -27,68 +27,63 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $JSON = '';
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # search customers
-    if ( !$Self->{Subaction} ) {
+    # Return empty list when Subaction was passed as subactions are not supported here.
+    return $LayoutObject->JSONReply( Data => [] ) if $Self->{Subaction};
 
-        # get needed params
-        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-        my $Search      = $ParamObject->GetParam( Param => 'Term' ) || '';
-        my $MaxResults  = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
-        my $FieldName   = $ParamObject->GetParam( Param => 'Field' );
-
-        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-        if (
-            !$FieldName
-            ||
-            (
-                $FieldName !~ m{ \A Autocomplete_DynamicField_ (.*) \z }xms
-                && $FieldName !~ m{ \A Search_DynamicField_ (.*) \z }xms
-            )
-            )
-        {
-            return $Self->_ReturnJSON(
-                Content => $LayoutObject->JSONEncode(
-                    Data => {
-                        Success  => 0,
-                        Messsage => 'Need Field!',
-                    }
-                ),
-            );
-        }
-        else {
-            $FieldName = $1;    # effectively remove prefix Autocomplete_DynamicField_ or Search_DynamicField_
-        }
-
-        # get dynamic field
-        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-            Name => $FieldName,
+    # Get FieldName from $ParamObject, bail out when not found
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $FieldName   = $ParamObject->GetParam( Param => 'Field' );
+    if (
+        !$FieldName
+        ||
+        (
+            $FieldName !~ m{ \A Autocomplete_DynamicField_ (.*) \z }xms
+            && $FieldName !~ m{ \A Search_DynamicField_ (.*) \z }xms
+        )
+        )
+    {
+        return $LayoutObject->JSONReply(
+            Data => {
+                Success  => 0,
+                Messsage => 'Need Field!',
+            }
         );
-        if (
-            !IsHashRefWithData($DynamicField)
-            || $DynamicField->{FieldType} ne 'ContactWD'
-            || $DynamicField->{ValidID} ne 1
-            )
-        {
-            return $Self->_ReturnJSON(
-                Content => $LayoutObject->JSONEncode(
-                    Data => {
-                        Success  => 0,
-                        Messsage => 'Error reading dynamic field!',
-                    }
-                ),
-            );
-        }
+    }
+    else {
+        $FieldName = $1;    # effectively remove prefix Autocomplete_DynamicField_ or Search_DynamicField_
+    }
+
+    # Get config for the dynamic field and check the sanity
+    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+        Name => $FieldName,
+    );
+    if (
+        !IsHashRefWithData($DynamicField)
+        || $DynamicField->{FieldType} ne 'ContactWD'
+        || $DynamicField->{ValidID} ne 1
+        )
+    {
+        return $LayoutObject->JSONReply(
+            Data => {
+                Success  => 0,
+                Messsage => 'Error reading dynamic field!',
+            }
+        );
+    }
+
+    # search contacts, rthe results will be returned as JSON
+    my @Results;
+    {
+        my $Search               = $ParamObject->GetParam( Param => 'Term' ) || '';
+        my $RemainingResultCount = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
 
         # make search safe and use '*' as wildcard
         $Search =~ s{ \A \s+ }{}xms;
@@ -103,55 +98,43 @@ sub Run {
         $Search =~ s{ Z \z }{}xms;
 
         # get possible contacts
-        my @Data;
-        my $MaxResultCount   = $MaxResults;
         my $PossibleContacts = $DynamicField->{Config}->{ContactsWithData};
         my $SearchableFields = $DynamicField->{Config}->{SearchableFieldsComputed};
         CONTACT:
         for my $Contact ( sort { lc($a) cmp lc($b) } keys %{$PossibleContacts} ) {
+
+            # check whether the contact matches the search term
             my %ContactData = %{ $PossibleContacts->{$Contact} };
             my $SearchMatch;
             FIELD:
             for my $Field ( @{$SearchableFields} ) {
                 next FIELD if $ContactData{$Field} !~ m{ $Search }xmsi;
+
                 $SearchMatch = 1;
+
                 last FIELD;
             }
-            next CONTACT if !$SearchMatch;
 
-            next CONTACT if !$ContactData{ValidID};
-            next CONTACT if $ContactData{ValidID} ne 1;
-            push @Data, {
+            next CONTACT unless $SearchMatch;
+
+            # only valid contacts are returned
+            next CONTACT unless $ContactData{ValidID};
+            next CONTACT unless $ContactData{ValidID} eq 1;
+
+            push @Results, {
                 Key   => $Contact,
                 Value => $ContactData{Name},
             };
-            $MaxResultCount--;
-            last CONTACT if $MaxResultCount <= 0;
-        }
+            $RemainingResultCount--;
 
-        # build JSON output
-        $JSON = $LayoutObject->JSONEncode(
-            Data => \@Data,
-        );
+            # only a limited number of contacts are returned
+            last CONTACT if $RemainingResultCount <= 0;
+        }
     }
 
-    return $Self->_ReturnJSON(
-        Content => $JSON,
+    return $LayoutObject->JSONReply(
+        Data => \@Results,
     );
-}
-
-sub _ReturnJSON {
-    my ( $Self, %Param ) = @_;
-
-    # send JSON response
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json',
-        Content     => $Param{Content} || '',
-        Type        => 'inline',
-        NoCache     => 1,
-    );
-
 }
 
 1;
