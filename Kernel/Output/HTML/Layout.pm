@@ -474,7 +474,8 @@ sub SetEnv {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
     }
     $Self->{EnvNewRef}->{ $Param{Key} } = $Param{Value};
@@ -521,12 +522,28 @@ sub Block {
 
 =head2 JSONEncode()
 
-Encode perl data structure to JSON string
+Serialize a Perl data structure as JSON.
 
-    my $JSON = $LayoutObject->JSONEncode(
-        Data        => $Data,
-        NoQuotes    => 0|1, # optional: no double quotes at the start and the end of JSON string
+    my %Hash = (
+        Key1 => 'Something',
+        Key2 => [ "Foo", "Bar" ],
     );
+    my $JSON = $LayoutObject->JSONEncode(
+        Data     => \%Hash,
+        NoQuotes => 0, # optional: 0|1 no double quotes at the start and the end of JSON string, default is 0
+    );
+
+Returns:
+
+    $JSON = <<'END_JSON';
+    {
+       "Key1" : "Something",
+       "Key2" : [
+          "Foo",
+          "Bar"
+       ],
+    }
+    END_JSON
 
 =cut
 
@@ -534,7 +551,7 @@ sub JSONEncode {
     my ( $Self, %Param ) = @_;
 
     # check for needed data
-    return if !defined $Param{Data};
+    return unless defined $Param{Data};
 
     # get JSON encoded data
     my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
@@ -2456,14 +2473,16 @@ sub BuildSelection {
                 Priority => 'error',
                 Message  => 'Need Depend Param Ajax option!',
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
         if ( !$Param{Ajax}->{Update} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Need Update Param Ajax option()!',
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
         my $Selector = $Param{ID} || $Param{Name};
         $Param{OnChange} = "Core.AJAX.FormUpdate(\$('#"
@@ -2515,7 +2534,8 @@ sub BuildSelection {
                     Priority => 'error',
                     Message  => 'Each Filter must provide Name and Values!',
                 );
-                $Self->FatalError();
+
+                $Self->FatalError;
             }
             $Index++;
         }
@@ -2603,7 +2623,8 @@ sub Permission {
                 Priority => 'error',
                 Message  => "Got no $Needed!",
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
     }
 
@@ -2667,7 +2688,7 @@ returns browser output to display/download a attachment.
                                                #   scripts, flash etc.
     );
 
-Or for AJAX html snippets:
+Or for AJAX HTML snippets:
 
     $HTML = $LayoutObject->Attachment(
         Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
@@ -2692,7 +2713,8 @@ sub Attachment {
                 Priority => 'error',
                 Message  => "Got no $_!",
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
     }
 
@@ -2771,6 +2793,40 @@ sub Attachment {
     }
 
     return $Param{Content};
+}
+
+=head2 JSONReply()
+
+Give back a data structure as a JSON response.
+A bit like the method C<Attachments>.
+As a side effect headers of the HTTP response are set in the object C<Kernel::System::Web::Response>.
+
+=cut
+
+sub JSONReply {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(Data)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Got no $Needed!",
+            );
+
+            $Self->FatalError;
+        }
+    }
+    my $Content = $Self->JSONEncode(
+        Data => \$Param{Data},
+    );
+
+    return $Self->Attachment(
+        ContentType => 'application/json',
+        Content     => $Content || '',
+        Type        => 'inline',
+        NoCache     => 1,
+    );
 }
 
 =head2 PageNavBar()
@@ -4447,7 +4503,7 @@ sub CustomerFatalError {
     my ( $Self, %Param ) = @_;
 
     # Prevent endless recursion in case of problems with Template engine.
-    return if ( $Self->{InFatalError}++ );
+    return if $Self->{InFatalError}++;
 
     if ( $Param{Message} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -4664,7 +4720,7 @@ sub CustomerNavigationBar {
 
             # load module
             if ( !$MainObject->Require( $Jobs{$Job}->{Module} ) ) {
-                $Self->FatalError();
+                $Self->FatalError;
             }
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
@@ -6239,7 +6295,8 @@ sub SetRichTextParameters {
             Priority => 'error',
             Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
         );
-        $Self->FatalError();
+
+        $Self->FatalError;
     }
 
     # get needed objects
@@ -6377,7 +6434,8 @@ sub CustomerSetRichTextParameters {
             Priority => 'error',
             Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
         );
-        $Self->FatalError();
+
+        $Self->FatalError;
     }
 
     # get needed objects
