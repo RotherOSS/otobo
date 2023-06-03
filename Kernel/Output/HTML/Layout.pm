@@ -2817,8 +2817,10 @@ sub JSONReply {
             $Self->FatalError;
         }
     }
+
+    # Serialize as JSON. The passed in data is usually either a hash or array reference.
     my $Content = $Self->JSONEncode(
-        Data => \$Param{Data},
+        Data => $Param{Data},
     );
 
     return $Self->Attachment(
