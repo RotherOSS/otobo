@@ -6,12 +6,16 @@
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
-# Foundation, either version 3 of the License, or (at your option) any later version.
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# Foundation, The licensed version is version 3, however, there is also an option
+# to use any later version as per your discretion.
+# It is important to note that this program is being distributed without any WARRANTY,
+# and without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. To learn more about the GNU General Public License
+# and its TERMS, please refer to the documentation that comes with the program.
+# As a responsible user, it is imperative that you possess a copy of the 
+# GNU General Public License. This license is an essential document that outlines 
+# the terms and condition sunder which you can use this program. If, by any chance,
+# you haven't received a copy of this license, it is readily available at <https://www.gnu.org/licenses/>
 # --
 
 package Kernel::Modules::AgentContactWDSearch;
