@@ -40,17 +40,17 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # only search is supported
-    if ( $Self->{Subaction} ) {
-        return $Self->_ReturnJSON(
-            Data => {
-                Success  => 0,
-                Messsage => qq{Subaction '$Self->{Subaction}' is not supported!},
-            },
-        );
-    }
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # get the name of the dynamic field
+    # only search is supported
+    return $LayoutObject->JSONReply(
+        Data => {
+            Success  => 0,
+            Messsage => qq{Subaction '$Self->{Subaction}' is not supported!},
+        },
+    ) if $Self->{Subaction};
+
+    # Get name of the DF from $ParamObject, bail out when not found
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $Field       = $ParamObject->GetParam( Param => 'Field' );
     my $DFName;
@@ -63,7 +63,7 @@ sub Run {
         )
         )
     {
-        return $Self->_ReturnJSON(
+        return $LayoutObject->JSONReply(
             Data => {
                 Success  => 0,
                 Messsage => 'Need Field!',
@@ -74,24 +74,24 @@ sub Run {
         $DFName = $1;    # remove either the prefix Autocomplete_DynamicField_ or the prefix Search_DynamicField_
     }
 
-    # get dynamic field
-    my $DFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+    # Get config for the dynamic field and check the sanity.
+    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         Name => $DFName,
     );
 
     # check the dynamic field
-    if ( !IsHashRefWithData($DFConfig) || $DFConfig->{FieldType} ne 'Reference' ) {
-        return $Self->_ReturnJSON(
+    if ( !IsHashRefWithData($DynamicField) || $DynamicField->{FieldType} ne 'Reference' ) {
+        return $LayoutObject->JSONReply(
             Data => {
                 Success  => 0,
                 Messsage => 'Error reading dynamic field!',
-            },
+            }
         );
     }
 
     # search referenced object
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-    my $ObjectType   = $DFConfig->{Config}->{ReferencedObjectType};
+    my $ObjectType   = $DynamicField->{Config}->{ReferencedObjectType};
     my $PluginModule = join '::', 'Kernel::System::DynamicField::Driver::Reference', $ObjectType;
 
     if ( !$MainObject->Require($PluginModule) ) {
@@ -137,27 +137,8 @@ sub Run {
         };
     }
 
-    return $Self->_ReturnJSON(
+    return $LayoutObject->JSONReply(
         Data => \@Results,
-    );
-}
-
-sub _ReturnJSON {
-    my ( $Self, %Param ) = @_;
-
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # serialize as JSON
-    my $JSON = $LayoutObject->JSONEncode(
-        Data => $Param{Data} // {},
-    );
-
-    # send JSON response
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json',
-        Content     => $JSON,
-        Type        => 'inline',
-        NoCache     => 1,
     );
 }
 
