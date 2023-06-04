@@ -15,12 +15,14 @@
 # --
 
 package Kernel::Modules::Installer;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::ForeachToFor)
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
+
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 use Net::Domain qw(hostfqdn);
@@ -51,9 +53,7 @@ sub Run {
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         $LayoutObject->FatalError(
             Message => Translatable('SecureMode active!'),
-            Comment => Translatable(
-                'If you want to re-run the Installer, disable the SecureMode in the SysConfig.'
-            ),
+            Comment => Translatable('If you want to re-run the Installer, disable the SecureMode in the SysConfig.'),
         );
     }
 
@@ -182,7 +182,7 @@ sub Run {
                 TemplateFile => 'Installer',
                 Data         => {},
             ),
-            $LayoutObject->Footer();
+            $LayoutObject->Footer;
     }
 
     # Print license from.
@@ -207,7 +207,7 @@ sub Run {
                 TemplateFile => 'Installer',
                 Data         => {},
             ),
-            $LayoutObject->Footer();
+            $LayoutObject->Footer;
     }
 
     # Database selection screen.
@@ -223,7 +223,7 @@ sub Run {
                         'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'
                     ),
                 ),
-                $LayoutObject->Footer();
+                $LayoutObject->Footer;
         }
 
         my %Databases = (
@@ -258,7 +258,7 @@ sub Run {
                 TemplateFile => 'Installer',
                 Data         => {},
             ),
-            $LayoutObject->Footer();
+            $LayoutObject->Footer;
     }
 
     # Check different requirements (AJAX) and return the result as JSON.
@@ -283,7 +283,7 @@ sub Run {
 
         # Check mail configuration.
         elsif ( $CheckMode eq 'Mail' ) {
-            %Result = $Self->CheckMailConfiguration();
+            %Result = $Self->CheckMailConfiguration;
         }
 
         # No adequate check method found.
@@ -312,7 +312,7 @@ sub Run {
         my $DBInstallType = $ParamObject->GetParam( Param => 'DBInstallType' );
 
         # generate a random password for OTOBODBUser
-        my $GeneratedPassword = $MainObject->GenerateRandomString();
+        my $GeneratedPassword = $MainObject->GenerateRandomString;
 
         if ( $DBType eq 'mysql' ) {
             my $PasswordExplanation = $DBInstallType eq 'CreateDB'
@@ -355,7 +355,7 @@ sub Run {
                         Step => $StepCounter,
                     },
                 ),
-                $LayoutObject->Footer();
+                $LayoutObject->Footer;
         }
         elsif ( $DBType eq 'postgresql' ) {
             my $PasswordExplanation = $DBInstallType eq 'CreateDB'
@@ -395,7 +395,7 @@ sub Run {
                         Step => $StepCounter,
                     },
                 ),
-                $LayoutObject->Footer();
+                $LayoutObject->Footer;
         }
         elsif ( $DBType eq 'oracle' ) {
             $LayoutObject->Block(
@@ -417,7 +417,7 @@ sub Run {
                         Step => $StepCounter,
                     },
                 ),
-                $LayoutObject->Footer();
+                $LayoutObject->Footer;
         }
         else {
 
@@ -491,9 +491,9 @@ sub Run {
                     my ($ConnectionID) = $DBH->selectrow_array('select connection_id()');
 
                     my $StatementHandleProcessList = $DBH->prepare('show processlist');
-                    $StatementHandleProcessList->execute();
+                    $StatementHandleProcessList->execute;
                     PROCESSLIST:
-                    while ( my ( $ProcessID, undef, $ProcessHost ) = $StatementHandleProcessList->fetchrow_array() ) {
+                    while ( my ( $ProcessID, undef, $ProcessHost ) = $StatementHandleProcessList->fetchrow_array ) {
                         if ( $ProcessID eq $ConnectionID ) {
                             $Host = $ProcessHost;
 
@@ -642,7 +642,7 @@ sub Run {
                         'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'
                     ),
                 ),
-                $LayoutObject->Footer();
+                $LayoutObject->Footer;
         }
 
         # We need a database connection as the user 'otobo' for handling the XML files.
@@ -689,7 +689,7 @@ sub Run {
             );
 
             # If we parsed the schema, catch post instructions.
-            @SQLPost = $DBObject->SQLProcessorPost() if $SchemaFile eq 'otobo-schema';
+            @SQLPost = $DBObject->SQLProcessorPost if $SchemaFile eq 'otobo-schema';
 
             SQL:
             for my $SQL (@SQL) {
@@ -708,7 +708,7 @@ sub Run {
             # that stem from an incomplete database. A notorious example is a cached ValidList
             # that has an empty hashref as value. This leads to subsequent failures.
             # Clean up the cache completely as installer.pl does not use the cache for its operation.
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp;
 
             $LayoutObject->Block(
                 Name => 'DatabaseResultItemDone',
@@ -751,17 +751,17 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'System' ) {
 
         if ( !$Kernel::OM->Get('Kernel::System::DB') ) {
-            $LayoutObject->FatalError();    # throw a Kernel::System::Web::Exception exception
+            $LayoutObject->FatalError;    # throw a Kernel::System::Web::Exception exception
         }
 
         # Take care that default config is in the database.
-        $LayoutObject->FatalError() unless $Self->_CheckConfig();    # throw a Kernel::System::Web::Exception exception
+        $LayoutObject->FatalError unless $Self->_CheckConfig;    # throw a Kernel::System::Web::Exception exception
 
         # Install default files.
         if ( $MainObject->Require('Kernel::System::Package') ) {
             my $PackageObject = Kernel::System::Package->new( %{$Self} );
             if ($PackageObject) {
-                $PackageObject->PackageInstallDefaultFiles();
+                $PackageObject->PackageInstallDefaultFiles;
             }
         }
 
@@ -825,15 +825,15 @@ sub Run {
         }
 
         # test the connection
-        if ( $Success && !$ESObject->TestConnection() ) {
+        if ( $Success && !$ESObject->TestConnection ) {
             $Success = 0;
         }
 
         # try to set up Elasticsearch
         if ($Success) {
-            ( $Success, my $FatalError ) = $ESObject->InitialSetup();
+            ( $Success, my $FatalError ) = $ESObject->InitialSetup;
 
-            $LayoutObject->FatalError() if $FatalError;
+            $LayoutObject->FatalError if $FatalError;
         }
 
         # deactivate the webservice again in case of no success
@@ -881,7 +881,7 @@ sub Run {
             TemplateFile => 'Installer',
             Data         => {},
         );
-        $Output .= $LayoutObject->Footer();
+        $Output .= $LayoutObject->Footer;
 
         return $Output;
     }
@@ -890,11 +890,11 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ConfigureMail' ) {
 
         if ( !$Kernel::OM->Get('Kernel::System::DB') ) {
-            $LayoutObject->FatalError();
+            $LayoutObject->FatalError;
         }
 
         # Take care that default config is in the database.
-        $LayoutObject->FatalError() unless $Self->_CheckConfig();    # throw a Kernel::System::Web::Exception exception
+        $LayoutObject->FatalError unless $Self->_CheckConfig;    # throw a Kernel::System::Web::Exception exception
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
@@ -927,7 +927,7 @@ sub Run {
 
         # Get mail account object and check available back-ends.
         my $MailAccount  = $Kernel::OM->Get('Kernel::System::MailAccount');
-        my %MailBackends = $MailAccount->MailAccountBackendList();
+        my %MailBackends = $MailAccount->MailAccountBackendList;
 
         my $OutboundMailTypeSelection = $LayoutObject->BuildSelection(
             Data => {
@@ -975,7 +975,7 @@ sub Run {
             TemplateFile => 'Installer',
             Data         => {},
         );
-        $Output .= $LayoutObject->Footer();
+        $Output .= $LayoutObject->Footer;
 
         return $Output;
     }
@@ -983,7 +983,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Finish' ) {
 
         # Take care that default config is in the database.
-        $LayoutObject->FatalError() unless $Self->_CheckConfig();    # throw a Kernel::System::Web::Exception exception
+        $LayoutObject->FatalError unless $Self->_CheckConfig;    # throw a Kernel::System::Web::Exception exception
 
         my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $SettingName       = 'SecureMode';
@@ -1034,7 +1034,7 @@ sub Run {
 
         # webserver restart is never necessary
 
-        my $OTOBOHandle = $ParamObject->ScriptName();
+        my $OTOBOHandle = $ParamObject->ScriptName;
         $OTOBOHandle =~ s/\/(.*)\/installer\.pl/$1/;
 
         # Under Docker the scheme is correctly recognised as there are only two relevant cases:
@@ -1072,7 +1072,7 @@ sub Run {
                 TemplateFile => 'Installer',
                 Data         => {},
             ),
-            $LayoutObject->Footer();
+            $LayoutObject->Footer;
     }
 
     # Else error!
