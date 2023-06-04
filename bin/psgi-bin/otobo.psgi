@@ -410,15 +410,29 @@ my $DumpEnvApp = sub {
 
 # Handler for 'otobo', 'otobo/', 'otobo/not_existent', 'otobo/some/thing' and such.
 # Would also work for /dummy if mounted accordingly.
-# Redirect via a relative URL to Frontend::DefaultInterface.
+# Redirect via a relative URL to installer.pl when ZZAAuto.pm does not exist yet.
+# Redirect via a relative URL to Frontend::DefaultInterface otherwise.
+# Check whether customer.pl or public.pl are activated.
 # There is no permission check.
 my $RedirectOtoboApp = sub {
     my $Env = shift;
 
-    # determine the default interface,
-    # fall back to the Agent interface when the configured default interface is not activated.
-    my $Interface = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::DefaultInterface') || 'index.pl';
-    my $Active    = 1;
+    # Determine the default interface.
+    # Apply an heuristic for determining whether the installer should be opened.
+    # This is useful when otobo/installer.pl is misspelled.
+    my $Interface;
+    if ( -f "$Home/Kernel/Config/Files/ZZZAAuto.pm" ) {
+
+        # fall back to the Agent interface when the configured default interface is not activated.
+        $Interface = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::DefaultInterface') || 'index.pl';
+    }
+    else {
+
+        # OTOBO hasn't been installed yet
+        $Interface = 'installer.pl';
+    }
+
+    my $Active = 1;
     if ( $Interface eq 'customer.pl' ) {
         $Active = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Active');
     }
@@ -444,7 +458,7 @@ my $RedirectOtoboApp = sub {
     }
     else {
 
-        # hike up the approbriate number of levels, e.g. '',  '..',  or '../../../..'
+        # hike up the appropriate number of levels, e.g. '',  '..',  or '../../../..'
         my $OrigPath = Plack::Request->new($Env)->path;
         my $Levels   = $OrigPath =~ tr[/][];
         $Redirect = join '/', ( map {'..'} ( 1 .. ( $Levels - 1 ) ) ), $Interface;
@@ -455,7 +469,7 @@ my $RedirectOtoboApp = sub {
     $Res->redirect($Redirect);
 
     # send the PSGI response arrayref
-    return $Res->finalize();
+    return $Res->finalize;
 };
 
 # Check whether PublicFrontend::Active is on. If so serve the public interface.
