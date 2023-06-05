@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-26 10:31+0000\n"
+"PO-Revision-Date: 2023-06-05 11:48+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -228,7 +228,7 @@ msgstr "Lagre"
 
 #. Template: AdminACLEdit
 msgid "or"
-msgstr "more"
+msgstr "eller"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
@@ -272,7 +272,7 @@ msgstr "Fjern språk"
 
 #. Template: AdminAbout
 msgid "Text"
-msgstr "or"
+msgstr "Tekst"
 
 #. Template: AdminAbout
 msgid "Message body"
@@ -383,7 +383,7 @@ msgstr "Les/skriv: brukere kan selv administrere kalenderen."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
-msgstr "is"
+msgstr "Gruppe"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Changed"
@@ -641,7 +641,7 @@ msgstr "Avtalefilter"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Type"
-msgstr "Filter;Hendelsestypefilter;;False;;;JS"
+msgstr "Type"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Title"
@@ -928,7 +928,7 @@ msgstr "Filter for autosvar"
 
 #. Template: AdminAutoResponse
 msgid "Response"
-msgstr "Max"
+msgstr "Svar"
 
 #. Template: AdminAutoResponse
 msgid "Auto response from"
@@ -1036,7 +1036,7 @@ msgstr ""
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
-msgstr "Time"
+msgstr "Oppdater"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
@@ -2008,7 +2008,7 @@ msgstr "Andre felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
-msgstr "Sequences;Primære"
+msgstr "Nøkkel"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Value"
@@ -2169,7 +2169,7 @@ msgstr "Tabell / Visning"
 
 #. Template: AdminDynamicFieldDB
 msgid "User"
-msgstr "Subscription;Fjernet"
+msgstr "Bruker"
 
 #. Template: AdminDynamicFieldDB
 msgid "Password"
@@ -2816,7 +2816,7 @@ msgstr "Sak opprettet mellom"
 
 #. Template: AdminGenericAgent
 msgid "and"
-msgstr "update"
+msgstr "og"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
@@ -3133,7 +3133,7 @@ msgstr "Forespørselsliste"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Time"
-msgstr "Range;Historisk"
+msgstr "Tid"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Communication ID"
@@ -5634,15 +5634,15 @@ msgstr "minutter"
 
 #. Template: AdminPerformanceLog
 msgid "Min"
-msgstr "Working"
+msgstr "Min"
 
 #. Template: AdminPerformanceLog
 msgid "Max"
-msgstr "Working"
+msgstr "Maks"
 
 #. Template: AdminPerformanceLog
 msgid "Average"
-msgstr "(affected"
+msgstr "Gjennomsnitt"
 
 #. Template: AdminPostMasterFilter
 msgid "PostMaster Filter Management"
@@ -6917,7 +6917,7 @@ msgstr "Rettighet til å flytte saker i denne gruppen/køen."
 
 #. Template: AdminRoleGroup
 msgid "create"
-msgstr "notification;Melding"
+msgstr "ticket"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
@@ -10554,7 +10554,7 @@ msgstr "Skriv ut til"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
-msgstr "all"
+msgstr "av"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Search Results for"
@@ -13955,63 +13955,63 @@ msgstr "Systemet var ikke i stand til å slette brukerinnstillingsverdiene!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Start date shouldn't be defined after Stop date!"
-msgstr ""
+msgstr "Startdato bør ikke defineres etter stoppdato!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error creating the System Maintenance"
-msgstr ""
+msgstr "Det oppsto en feil ved opprettelse av systemvedlikehold"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Need SystemMaintenanceID!"
-msgstr ""
+msgstr "Trenger systemvedlikeholds-ID!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Could not get data for SystemMaintenanceID %s"
-msgstr ""
+msgstr "Kunne ikke hente data for SystemMaintenance ID %s"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "System Maintenance was added successfully!"
-msgstr ""
+msgstr "Systemvedlikehold ble lagt til!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "System Maintenance was updated successfully!"
-msgstr ""
+msgstr "Systemvedlikehold ble oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Session has been killed!"
-msgstr ""
+msgstr "Sesjonen har blitt drept!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "All sessions have been killed, except for your own."
-msgstr ""
+msgstr "Alle økter har blitt drept, bortsett fra dine egne."
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error updating the System Maintenance"
-msgstr ""
+msgstr "Det oppsto en feil under oppdatering av systemvedlikehold"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Was not possible to delete the SystemMaintenance entry: %s!"
-msgstr ""
+msgstr "Var ikke mulig å slette SystemMaintenance-oppføringen: %s!"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template updated!"
-msgstr ""
+msgstr "Malen er oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template added!"
-msgstr ""
+msgstr "Mal lagt til!"
 
 #. Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
 msgid "Change Attachment Relations for Template"
-msgstr ""
+msgstr "Endre vedleggsrelasjoner for mal"
 
 #. Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
 msgid "Change Template Relations for Attachment"
-msgstr ""
+msgstr "Endre malrelasjoner for vedlegg"
 
 #. Perl Module: Kernel/Modules/AdminType.pm
 msgid "Need Type!"
-msgstr ""
+msgstr "Trenger type!"
 
 #. Perl Module: Kernel/Modules/AdminType.pm
 msgid "Type added!"
@@ -14043,19 +14043,19 @@ msgstr "Dag"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
 msgid "All appointments"
-msgstr ""
+msgstr "Alle avtaler"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
 msgid "Appointments assigned to me"
-msgstr ""
+msgstr "Avtaler tildelt meg"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
 msgid "Showing only appointments assigned to you! Change settings"
-msgstr ""
+msgstr "Viser kun avtaler som er tildelt deg! Endre innstillinger"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Appointment not found!"
-msgstr ""
+msgstr "Finner ikke avtale!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Never"
@@ -14155,19 +14155,19 @@ msgstr "etter at avtalen er slutt"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "No permission!"
-msgstr ""
+msgstr "Ingen tillatelse!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Cannot delete ticket appointment!"
-msgstr ""
+msgstr "Kan ikke slette billettavtale!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "No permissions!"
-msgstr ""
+msgstr "Ingen tillatelser!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentList.pm
 msgid "+%s more"
-msgstr ""
+msgstr "+%s mer'"
 
 #. Perl Module: Kernel/Modules/AgentCustomerSearch.pm
 msgid "Customer History"
@@ -14175,11 +14175,11 @@ msgstr "Kundehistorikk"
 
 #. Perl Module: Kernel/Modules/AgentCustomerUserAddressBook.pm
 msgid "No RecipientField is given!"
-msgstr ""
+msgstr "Ingen mottakerfelt er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "No such config for %s"
-msgstr ""
+msgstr "Ingen slik konfigurasjon for %s"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
@@ -14187,31 +14187,31 @@ msgstr "Statistikk"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "No preferences for %s!"
-msgstr ""
+msgstr "Ingen preferanser for %s!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Can't get element data of %s!"
-msgstr ""
+msgstr "Kan ikke hente elementdata for %s!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Can't get filter content data of %s!"
-msgstr ""
+msgstr "Kan ikke hente filterinnholdsdata for %s!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer Name"
-msgstr ""
+msgstr "Kundenavn"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer User Name"
-msgstr ""
+msgstr "Kundens brukernavn"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
-msgstr ""
+msgstr "Trenger SourceObject og SourceKey!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
-msgstr ""
+msgstr "Du trenger ro tillatelse!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not delete link with %s!"
@@ -14219,11 +14219,11 @@ msgstr "Kan ikke slette sammenkoblingen med %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "%s Link(s) deleted successfully."
-msgstr ""
+msgstr "%s kobling(er) ble slettet."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not create link with %s! Object already linked as %s."
-msgstr ""
+msgstr "Kan ikke opprette link med %s! Objektet er allerede koblet som %s."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not create link with %s!"
@@ -14231,47 +14231,47 @@ msgstr "Kan ikke opprette sammenkobling med %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "%s links added successfully."
-msgstr ""
+msgstr "%s lenker ble lagt til."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "The object %s cannot link with other object!"
-msgstr ""
+msgstr "Objektet %s kan ikke koble til et annet objekt!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
-msgstr ""
+msgstr "Param Group er påkrevd!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "This feature is not available."
-msgstr ""
+msgstr "Denne funksjonen er ikke tilgjengelig."
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Updated user preferences"
-msgstr ""
+msgstr "Oppdaterte brukerpreferanser"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to deploy your changes."
-msgstr ""
+msgstr "Systemet kunne ikke distribuere endringene dine."
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Setting not found!"
-msgstr ""
+msgstr "Finner ikke innstillingen!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
-msgstr ""
+msgstr "Systemet kunne ikke tilbakestille innstillingen!"
 
 #. Perl Module: Kernel/Modules/AgentSplitSelection.pm
 msgid "Process ticket"
-msgstr ""
+msgstr "Behandle billett"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Parameter %s is missing."
-msgstr ""
+msgstr "Parameter %s mangler."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Invalid Subaction."
-msgstr ""
+msgstr "Ugyldig underhandling."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Statistic could not be imported."
@@ -14283,19 +14283,19 @@ msgstr "Vennligst last opp en gyldig statistikk fil."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Export: Need StatID!"
-msgstr ""
+msgstr "Eksporter: Trenger StatID!"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Delete: Get no StatID!"
-msgstr ""
+msgstr "Slett: Få ingen StatID!"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Need StatID!"
-msgstr ""
+msgstr "Trenger StatID!"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Could not load stat."
-msgstr ""
+msgstr "Kunne ikke laste inn statistikk."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Add New Statistic"
@@ -14303,59 +14303,59 @@ msgstr "Legg til ny statistikk"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Could not create statistic."
-msgstr ""
+msgstr "Kunne ikke lage statistikk."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Run: Get no %s!"
-msgstr ""
+msgstr "Kjør: Få ingen %s!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Got no %s!"
-msgstr ""
+msgstr "Har ingen %s!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Add New Statistics Report"
-msgstr ""
+msgstr "Legg til ny statistikkrapport"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "This name is already in use, please choose a different one."
-msgstr ""
+msgstr "Dette navnet er allerede i bruk, velg et annet."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not create report."
-msgstr ""
+msgstr "Kunne ikke opprette rapport."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Need StatsReportID!"
-msgstr ""
+msgstr "Trenger StatsReportID!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Edit Statistics Report"
-msgstr ""
+msgstr "Rediger statistikkrapport"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not find report."
-msgstr ""
+msgstr "Kunne ikke finne rapporten."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Please provide a valid cron entry."
-msgstr ""
+msgstr "Vennligst oppgi en gyldig cron-oppføring."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not update report."
-msgstr ""
+msgstr "Kunne ikke oppdatere rapporten."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "View Statistics Report"
-msgstr ""
+msgstr "Se statistikkrapport"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Delete: Got no StatsReportID!"
-msgstr ""
+msgstr "Slett: Fikk ingen StatsReportID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No TicketID is given!"
-msgstr ""
+msgstr "Ingen billett-ID er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "You need %s permissions!"
@@ -14837,7 +14837,7 @@ msgstr "Saksnummer"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Ticket"
-msgstr "Type;Standard"
+msgstr "Billett"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "printed by"
@@ -15762,7 +15762,7 @@ msgstr "Dette er en"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "email"
-msgstr "delivery"
+msgstr "address"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "click here"
@@ -17194,7 +17194,7 @@ msgstr "Det bær vær ikke være mer enn 200 MB brukt diskplass til swap."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "OTOBO"
-msgstr "system"
+msgstr "OTOBO"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Article Search Index Status"
@@ -17857,7 +17857,7 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "open"
-msgstr "state"
+msgstr "åpen"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All open state types (default: viewable)."
@@ -18122,25 +18122,27 @@ msgstr "saksbehandler"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "system"
-msgstr "load"
+msgstr "system"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "customer"
-msgstr "ids;Vist"
+msgstr "kunde"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket create notification"
-msgstr ""
+msgstr "Melding om opprettelse av sak"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
 msgstr ""
+"Du vil motta et varsel hver gang en ny sak opprettes i en av dine \"Mine "
+"køer\" eller \"Mine tjenester\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
-msgstr ""
+msgstr "Saksoppfølgingsvarsling (ulåst)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
@@ -19175,11 +19177,11 @@ msgstr "ja"
 
 #. JS File: Core.Language.UnitTest
 msgid "no"
-msgstr "FormID.;Har"
+msgstr "no"
 
 #. JS File: Core.Language.UnitTest
 msgid "This is %s"
-msgstr ""
+msgstr "Dette er %s"
 
 #. JS File: Core.Language.UnitTest
 msgid "Complex %s with %s arguments"
@@ -19251,7 +19253,7 @@ msgstr ""
 
 #. SysConfig
 msgid "%s"
-msgstr "with"
+msgstr "%s"
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
@@ -29832,19 +29834,19 @@ msgstr ""
 
 #. SysConfig
 msgid "error"
-msgstr "occurred!"
+msgstr "feil"
 
 #. SysConfig
 msgid "forward"
-msgstr ""
+msgstr "framover"
 
 #. SysConfig
 msgid "info"
-msgstr ""
+msgstr "info"
 
 #. SysConfig
 msgid "inline"
-msgstr ""
+msgstr "på linje"
 
 #. SysConfig
 msgid "normal"
@@ -29864,7 +29866,7 @@ msgstr "telefon"
 
 #. SysConfig
 msgid "responsible"
-msgstr "update"
+msgstr "ansvarlig"
 
 #. SysConfig
 msgid "reverse"
