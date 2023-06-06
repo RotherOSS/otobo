@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-05 11:48+0000\n"
+"PO-Revision-Date: 2023-06-06 14:39+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -26404,106 +26404,109 @@ msgstr ""
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the agent interface."
-msgstr ""
+msgstr "قائمة ملفات CSS سريعة الاستجابة لتحميلها دائما في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the customer interface."
-msgstr ""
+msgstr "قائمة ملفات CSS سريعة الاستجابة التي يجب تحميلها دائما في منطقة العميل."
 
 #. SysConfig
 msgid "List of states for which escalations should be suspended."
-msgstr ""
+msgstr "قائمة بجميع الحالات التي سيتم تعليق التصعيد من أجلها."
 
 #. SysConfig
 msgid "List view"
-msgstr ""
+msgstr "طريقة عرض القائمة"
 
 #. SysConfig
 msgid "Lithuanian"
-msgstr ""
+msgstr "الليتوانية"
 
 #. SysConfig
 msgid "Loader module registration for the agent interface."
-msgstr ""
+msgstr "تسجيل وحدة اللودر (Loader) لواجهة الوكيل."
 
 #. SysConfig
 msgid "Loader module registration for the customer interface."
-msgstr ""
+msgstr "تسجيل وحدة اللودر (Loader) لواجهة العميل."
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
-msgstr ""
+msgstr "إقفال / إلغاء تأمين هذه التذكرة"
 
 #. SysConfig
 msgid "Locked Tickets"
-msgstr "البطاقات المقفلة لي"
+msgstr "تذاكر مقفلة"
 
 #. SysConfig
 msgid "Locked Tickets."
-msgstr ""
+msgstr "تذاكر مقفلة."
 
 #. SysConfig
 msgid "Locked ticket."
-msgstr "التاريخ::إغلاق"
+msgstr "تذكرة مؤمنة."
 
 #. SysConfig
 msgid "Logged in users."
-msgstr ""
+msgstr "المستخدمون الذين قاموا بتسجيل الدخول."
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "المستخدمون المسجلون"
 
 #. SysConfig
 msgid "Logout of customer panel."
-msgstr ""
+msgstr "تسجيل الخروج من منطقة العملاء."
 
 #. SysConfig
 msgid "Look into a ticket!"
-msgstr "أحتكر هذه البطاقة!"
+msgstr "ألق نظرة فاحصة على التذكرة!"
 
 #. SysConfig
 msgid "Loop protection: no auto-response sent to \"%s\"."
 msgstr ""
+"الحماية من التكرار (Loop protection)! لم يتم إرسال أي رد تلقائي إلى \"%s\"."
 
 #. SysConfig
 msgid "Macedonian"
-msgstr ""
+msgstr "المقدونية"
 
 #. SysConfig
 msgid "Mail Accounts"
-msgstr ""
+msgstr "حسابات البريد الإلكتروني"
 
 #. SysConfig
 msgid "MailQueue configuration settings."
-msgstr ""
+msgstr "إعدادات تكوين قائمة انتظار البريد."
 
 #. SysConfig
 msgid "Main menu for the agent interface."
-msgstr ""
+msgstr "القائمة الرئيسية في منطقة الوكيل."
 
 #. SysConfig
 msgid "Main menu item registration."
-msgstr ""
+msgstr "تسجيل عنصر القائمة الرئيسية."
 
 #. SysConfig
 msgid "Main menu registration."
-msgstr ""
+msgstr "تسجيل القائمة الرئيسية."
 
 #. SysConfig
 msgid "Makes the application block external content loading."
-msgstr ""
+msgstr "يسمح للتطبيق بحظر تحميل المحتوى الخارجي."
 
 #. SysConfig
 msgid ""
 "Makes the application check the MX record of email addresses before sending "
 "an email or submitting a telephone or email ticket."
 msgstr ""
+"يتحقق من إدخال MX لعنوان البريد الإلكتروني قبل إرسال بريد إلكتروني أو إرسال "
+"تذكرة هاتف."
 
 #. SysConfig
 msgid "Makes the application check the syntax of email addresses."
-msgstr ""
+msgstr "يتحقق من بناء جملة عناوين البريد الإلكتروني (syntax)."
 
 #. SysConfig
 msgid ""
@@ -26511,122 +26514,139 @@ msgid ""
 "or if the client browser disabled html cookies, then the system will work as "
 "usual and append the session id to the links."
 msgstr ""
+"يستخدم ملفات تعريف الارتباط HTML لإدارة الجلسة. إذا تم تعطيل ملفات تعريف "
+"ارتباط HTML أو تعطيل ملفات تعريف ارتباط HTML في المتصفح، فإن النظام يعمل "
+"كالمعتاد ويلحق معرف الجلسة والروابط."
 
 #. SysConfig
 msgid "Malay"
-msgstr ""
+msgstr "ماليزية"
 
 #. SysConfig
 msgid "Manage OTOBO Team cloud services."
-msgstr ""
+msgstr "إدارة الخدمات السحابية لفريق OTOBO."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
-msgstr ""
+msgstr "إدارة مفاتيح PGP لتشفير البريد الإلكتروني."
 
 #. SysConfig
 msgid "Manage POP3 or IMAP accounts to fetch email from."
-msgstr ""
+msgstr "إدارة حسابات POP3 أو IMAP لاسترداد البريد الإلكتروني."
 
 #. SysConfig
 msgid "Manage S/MIME certificates for email encryption."
-msgstr ""
+msgstr "إدارة شهادات S/MIME لتشفير البريد الإلكتروني."
 
 #. SysConfig
 msgid "Manage System Configuration Deployments."
-msgstr ""
+msgstr "إدارة تشغيل تكوينات النظام."
 
 #. SysConfig
 msgid "Manage different calendars."
-msgstr ""
+msgstr "إدارة التقويمات المختلفة."
 
 #. SysConfig
 msgid "Manage dynamic field in screens."
-msgstr ""
+msgstr "إدارة الحقول الديناميكية في الواجهات."
 
 #. SysConfig
 msgid "Manage existing sessions."
-msgstr ""
+msgstr "إدارة الجلسات."
 
 #. SysConfig
 msgid "Manage support data."
-msgstr ""
+msgstr "إدارة بيانات الدعم."
 
 #. SysConfig
 msgid "Manage system registration."
-msgstr ""
+msgstr "إدارة سجل النظام."
 
 #. SysConfig
 msgid "Manage tasks triggered by event or time based execution."
-msgstr ""
+msgstr "إدارة المهام القائمة على الحدث أو الوقت."
 
 #. SysConfig
 msgid "Mark as Spam!"
-msgstr "حددها كرساله مزعجة"
+msgstr "حددها كرساله غير مرغوب فيها (Spam)!"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
-msgstr ""
+msgstr "ضع علامة على هذه التذكرة كغير هامة!"
 
 #. SysConfig
 msgid ""
 "Max size (in characters) of the customer information table (phone and email) "
 "in the compose screen."
 msgstr ""
+"الحد الأقصى لحجم (الحروف) لمعلومات العميل (الهاتف والبريد الإلكتروني) في "
+"واجهة التسجيل."
 
 #. SysConfig
 msgid "Max size (in rows) of the informed agents box in the agent interface."
-msgstr ""
+msgstr "الحد الأقصى للحجم (في صفوف) لمربع \"إبلاغ الوكلاء\" في واجهة الوكيل."
 
 #. SysConfig
 msgid "Max size (in rows) of the involved agents box in the agent interface."
-msgstr ""
+msgstr "الحد الأقصى للحجم (في صفوف) لمربع \"الوكلاء المعنيون\" في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Max size of the subjects in an email reply and in some overview screens."
 msgstr ""
+"الحد الأقصى لطول الموضوع في الرد بالبريد الإلكتروني وفي بعض شاشات النظرة "
+"العامة."
 
 #. SysConfig
 msgid ""
 "Maximal auto email responses to own email-address a day (Loop-Protection)."
 msgstr ""
+"الحد الأقصى لعدد استجابات البريد الإلكتروني التلقائية لعنوان البريد "
+"الإلكتروني الخاص بك في اليوم (الحماية من التكرار)."
 
 #. SysConfig
 msgid ""
 "Maximal auto email responses to own email-address a day, configurable by "
 "email address (Loop-Protection)."
 msgstr ""
+"الحد الأقصى لعدد استجابات البريد الإلكتروني التلقائية لعنوان البريد "
+"الإلكتروني الخاص بك في اليوم (الحماية من التكرار)."
 
 #. SysConfig
 msgid "Maximal number of results returned by ES per field."
-msgstr ""
+msgstr "الحد الأقصى لعدد نتائج إخراج ES لكل حقل."
 
 #. SysConfig
 msgid ""
 "Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/"
 "IMAPS (KBytes)."
 msgstr ""
+"الحد الأقصى للحجم بالكيلوبايت لرسائل البريد الإلكتروني المستلمة عبر POP3/"
+"POP3S/IMAP/IMAPS (بالكيلوبايت)."
 
 #. SysConfig
 msgid "Maximum Number of a calendar shown in a dropdown."
-msgstr ""
+msgstr "الحد الأقصى لعدد التقويمات المعروضة في قوائم التحديد."
 
 #. SysConfig
 msgid "Maximum file size for the ingest plugin."
-msgstr ""
+msgstr "الحد الأقصى لحجم الملف لاستيعاب المكون الإضافي."
 
 #. SysConfig
 msgid ""
 "Maximum length (in characters) of the dynamic field in the article of the "
 "ticket zoom view."
 msgstr ""
+"الحد الأقصى للطول (بالأحرف) للحقل الديناميكي في مقالة عرض تكبير التكبير/"
+"التصغير للتذكرة."
 
 #. SysConfig
 msgid ""
 "Maximum length (in characters) of the dynamic field in the sidebar of the "
 "ticket zoom view."
 msgstr ""
+"الحد الأقصى للطول (بالأحرف) للحقل الديناميكي في الشريط الجانبي لعرض تكبير/"
+"تصغير التذاكر."
 
 #. SysConfig
 msgid ""
@@ -26634,29 +26654,34 @@ msgid ""
 "large number of active calendars can have a performance impact on your "
 "server by making too much simultaneous calls."
 msgstr ""
+"الحد الأقصى لعدد التقويمات النشطة في شاشات النظرة العامة. يرجى ملاحظة أن "
+"عددا كبيرا من التقويمات النشطة يمكن أن يكون له تأثير على الأداء على الخادم "
+"الخاص بك بسبب العديد من الاستعلامات المتزامنة."
 
 #. SysConfig
 msgid ""
 "Maximum number of tickets to be displayed in the result of a search in the "
 "agent interface."
 msgstr ""
+"الحد الأقصى لعدد التذاكر التي سيتم عرضها في نتيجة البحث الخاصة بواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Maximum number of tickets to be displayed in the result of a search in the "
 "customer interface."
 msgstr ""
+"الحد الأقصى لعدد التذاكر التي سيتم عرضها في نتيجة البحث الخاصة بواجهة العميل."
 
 #. SysConfig
 msgid ""
 "Maximum number of tickets to be displayed in the result of this operation."
-msgstr ""
+msgstr "الحد الأقصى لعدد التذاكر التي سيتم عرضها نتيجة لهذا الإجراء."
 
 #. SysConfig
 msgid ""
 "Maximum size (in characters) of the customer information table in the ticket "
 "zoom view."
-msgstr ""
+msgstr "الحد الأقصى لعدد الأحرف لجدول معلومات العميل في عرض تكبير التذاكر."
 
 #. SysConfig
 msgid "Medium"
