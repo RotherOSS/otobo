@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-06 14:39+0000\n"
+"PO-Revision-Date: 2023-06-07 00:58+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -26689,11 +26689,11 @@ msgstr "وسط"
 
 #. SysConfig
 msgid "Merge this ticket and all articles into another ticket"
-msgstr ""
+msgstr "ادمج هذه التذكرة وجميع المقالات في تذكرة أخرى"
 
 #. SysConfig
 msgid "Merged Ticket (%s/%s) to (%s/%s)."
-msgstr ""
+msgstr "تم دمج التذكرة (‎%s/%s) مع (‎%s/%s)."
 
 #. SysConfig
 msgid "Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>."
