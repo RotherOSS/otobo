@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-05 11:48+0000\n"
+"PO-Revision-Date: 2023-06-08 05:52+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -3109,7 +3109,7 @@ msgstr "Administrasjon: Generiske webtjenester"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Service Management"
-msgstr "Web Service Management"
+msgstr "Nettjenestehåndtering"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
@@ -4700,7 +4700,7 @@ msgstr "Rediger webtjeneste"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone Web Service"
-msgstr "Clone Web Service"
+msgstr "Klon nettjeneste"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -4752,7 +4752,7 @@ msgstr "Vil du virkelig fjerne denne webtjenesten?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready2Adopt Web Services"
-msgstr "Ready2Adopt Web Services"
+msgstr "Ready2Adopt nettjenester"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -9139,7 +9139,7 @@ msgstr "Importer statistikkonfigurasjon"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics"
-msgstr "Report;Se"
+msgstr "Statistikk"
 
 #. Template: AgentStatisticsOverview
 msgid "Run"
@@ -11230,7 +11230,7 @@ msgstr "Hoppet over."
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
-msgstr "OTRS server"
+msgstr "OTRS-server"
 
 #. Template: OTRSFileSettings
 msgid "SSH User"
@@ -14359,11 +14359,11 @@ msgstr "Ingen billett-ID er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "You need %s permissions!"
-msgstr ""
+msgstr "Du trenger %s tillatelser!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Loading draft failed!"
-msgstr ""
+msgstr "Kunne ikke laste inn utkastet!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Sorry, you need to be the ticket owner to perform this action."
@@ -14375,19 +14375,19 @@ msgstr "Vennligst sett eier først."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "FormDraft functionality disabled!"
-msgstr ""
+msgstr "FormDraft-funksjonalitet deaktivert!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Draft name is required!"
-msgstr ""
+msgstr "Utkast til navn kreves!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "FormDraft name %s is already in use!"
-msgstr ""
+msgstr "FormDraft-navnet %s er allerede i bruk!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not perform validation on field %s!"
-msgstr ""
+msgstr "Kunne ikke utføre validering på feltet %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No subject"
@@ -14395,7 +14395,7 @@ msgstr "Tomt emne-felt"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not delete draft!"
-msgstr ""
+msgstr "Kunne ikke slette utkast!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Previous Owner"
@@ -14415,80 +14415,88 @@ msgstr "Sluttmelding"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "%s is needed!"
-msgstr ""
+msgstr "%s er nødvendig!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Plain article not found for article %s!"
-msgstr ""
+msgstr "Finner ikke vanlig artikkel for artikkelen %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Article does not belong to ticket %s!"
-msgstr ""
+msgstr "Artikkelen tilhører ikke billetten %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't bounce email!"
-msgstr ""
+msgstr "Kan ikke returnere e-post!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't send email!"
-msgstr ""
+msgstr "Kan ikke sende e-post!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Wrong Subaction!"
-msgstr ""
+msgstr "Feil subaksjon!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Can't lock Tickets, no TicketIDs are given!"
-msgstr ""
+msgstr "Kan ikke låse billetter, ingen billett-ID er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket (%s) is not unlocked!"
-msgstr ""
+msgstr "Billetten (%s) er ikke låst opp!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to tickets: %s."
 msgstr ""
+"Følgende billetter ble ignorert fordi de er låst av en annen agent eller du "
+"ikke har skrivetilgang til billetter: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following ticket was ignored because it is locked by another agent or "
 "you don't have write access to ticket: %s."
 msgstr ""
+"Følgende billett ble ignorert fordi den er låst av en annen agent eller du "
+"ikke har skrivetilgang til billetten: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
-msgstr ""
+msgstr "Du må velge minst én billett."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
-msgstr ""
+msgstr "Bulk-funksjonen er ikke aktivert!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "No selectable TicketID is given!"
-msgstr ""
+msgstr "Ingen valgbar TicketID er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents."
 msgstr ""
+"Du valgte enten ingen billett eller bare billetter som er låst av andre "
+"agenter."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to these tickets: %s."
 msgstr ""
+"Følgende billetter ble ignorert fordi de er låst av en annen agent eller du "
+"ikke har skrivetilgang til disse billettene: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "The following tickets were locked: %s."
-msgstr ""
+msgstr "Følgende billetter ble låst: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid ""
 "Article subject will be empty if the subject contains only the ticket hook!"
-msgstr ""
+msgstr "Artikkelemnet vil være tomt hvis emnet kun inneholder billettkroken!"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
@@ -14504,19 +14512,19 @@ msgstr "Sak «%s» opprettet!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "No Subaction!"
-msgstr ""
+msgstr "Ingen subaksjon!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "Got no TicketID!"
-msgstr ""
+msgstr "Har ikke billett-ID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "System Error!"
-msgstr ""
+msgstr "Systemfeil!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailResend.pm
 msgid "No ArticleID is given!"
-msgstr ""
+msgstr "Ingen artikkel-ID er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
 msgid "Next week"
@@ -14528,7 +14536,7 @@ msgstr "Eskaleringsvisning"
 
 #. Perl Module: Kernel/Modules/AgentTicketForward.pm
 msgid "Article %s could not be found!"
-msgstr ""
+msgstr "Artikkelen %s ble ikke funnet!"
 
 #. Perl Module: Kernel/Modules/AgentTicketForward.pm
 msgid "Forwarded message from"
@@ -14540,27 +14548,27 @@ msgstr "Avslutt videresendt melding"
 
 #. Perl Module: Kernel/Modules/AgentTicketHistory.pm
 msgid "Can't show history, no TicketID is given!"
-msgstr ""
+msgstr "Kan ikke vise historikk, ingen TicketID er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Can't lock Ticket, no TicketID is given!"
-msgstr ""
+msgstr "Kan ikke låse billett, ingen billett-ID er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Sorry, the current owner is %s!"
-msgstr ""
+msgstr "Beklager, den nåværende eieren er %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Please become the owner first."
-msgstr ""
+msgstr "Vennligst bli eier først."
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Ticket (ID=%s) is locked by %s!"
-msgstr ""
+msgstr "Billett (ID=%s) er låst av %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Change the owner!"
-msgstr ""
+msgstr "Bytt eier!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
 msgid "New Article"
@@ -14580,19 +14588,19 @@ msgstr "Mine låste saker"
 
 #. Perl Module: Kernel/Modules/AgentTicketMerge.pm
 msgid "Can't merge ticket with itself!"
-msgstr ""
+msgstr "Kan ikke slå sammen billett med seg selv!"
 
 #. Perl Module: Kernel/Modules/AgentTicketMove.pm
 msgid "You need move permissions!"
-msgstr ""
+msgstr "Du trenger flyttetillatelser!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "Chat is not active."
-msgstr ""
+msgstr "Chat er ikke aktiv."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "No permission."
-msgstr ""
+msgstr "Ingen tillatelse."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "%s has left the chat."
@@ -14600,7 +14608,7 @@ msgstr "%s har gått ut av chatten."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "This chat has been closed and will be removed in %s hours."
-msgstr ""
+msgstr "Denne chatten er stengt og vil bli fjernet om %s timer."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhoneCommon.pm
 msgid "Ticket locked."
@@ -14608,29 +14616,31 @@ msgstr "Saken er låst."
 
 #. Perl Module: Kernel/Modules/AgentTicketPlain.pm
 msgid "No ArticleID!"
-msgstr ""
+msgstr "Ingen artikkel-ID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPlain.pm
 msgid "This is not an email article."
-msgstr ""
+msgstr "Dette er ikke en e-postartikkel."
 
 #. Perl Module: Kernel/Modules/AgentTicketPlain.pm
 msgid ""
 "Can't read plain article! Maybe there is no plain email in backend! Read "
 "backend message."
 msgstr ""
+"Kan ikke lese vanlig artikkel! Kanskje det ikke er noen vanlig e-post i "
+"backend! Les backend-meldingen."
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "Need TicketID!"
-msgstr ""
+msgstr "Trenger billett-ID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "Kunne ikke hente ActivityDialogEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No Process configured!"
-msgstr ""
+msgstr "Ingen prosess konfigurert!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "The selected process is invalid!"
@@ -14638,76 +14648,86 @@ msgstr "Valgt prosess er ikke gyldig!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process %s is invalid!"
-msgstr ""
+msgstr "Prosessen %s er ugyldig!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Subaction is invalid!"
-msgstr ""
+msgstr "Subaksjonen er ugyldig!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Parameter %s is missing in %s."
-msgstr ""
+msgstr "Parameter %s mangler i %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No ActivityDialog configured for %s in _RenderAjax!"
-msgstr ""
+msgstr "Ingen ActivityDialog konfigurert for %s i _RenderAjax!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: "
 "%s in _GetParam!"
 msgstr ""
+"Fikk ingen Start ActivityEntityID eller Start ActivityDialogEntityID for "
+"prosess: %s i _GetParam!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Ticket for TicketID: %s in _GetParam!"
-msgstr ""
+msgstr "Kunne ikke få billett for TicketID: %s i _GetParam!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Couldn't determine ActivityEntityID. DynamicField or Config isn't set "
 "properly!"
 msgstr ""
+"Kunne ikke fastslå ActivityEntityID. DynamicField eller Config er ikke "
+"riktig satt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process::Default%s Config Value missing!"
-msgstr ""
+msgstr "Process::Standard%s konfigurasjonsverdi mangler!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Got no ProcessEntityID or TicketID and ActivityDialogEntityID!"
-msgstr ""
+msgstr "Fikk ingen ProcessEntityID eller TicketID og ActivityDialogEntityID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Can't get StartActivityDialog and StartActivityDialog for the "
 "ProcessEntityID \"%s\"!"
 msgstr ""
+"Kan ikke hente StartActivityDialog og StartActivityDialog for "
+"ProcessEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Ticket \"%s\"!"
-msgstr ""
+msgstr "Kan ikke få billett \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get ProcessEntityID or ActivityEntityID for Ticket \"%s\"!"
 msgstr ""
+"Kan ikke få ProcessEntityID eller ActivityEntityID for billetten \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Activity configuration for ActivityEntityID \"%s\"!"
-msgstr ""
+msgstr "Kan ikke hente aktivitetskonfigurasjon for ActivityEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Can't get ActivityDialog configuration for ActivityDialogEntityID \"%s\"!"
 msgstr ""
+"Kan ikke få ActivityDialog-konfigurasjon for ActivityDialogEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get data for Field \"%s\" of ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "Kan ikke hente data for feltet \"%s\" i ActivityDialog \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "PendingTime can just be used if State or StateID is configured for the same "
 "ActivityDialog. ActivityDialog: %s!"
 msgstr ""
+"PendingTime kan bare brukes hvis State eller StateID er konfigurert for "
+"samme ActivityDialog. ActivityDialog: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Pending Date"
@@ -14719,48 +14739,50 @@ msgstr "for vente-tilstander"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "ActivityDialogEntityID missing!"
-msgstr ""
+msgstr "ActivityDialogEntityID mangler!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "Kunne ikke hente Config for ActivityDialogEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't use CustomerID as an invisible field."
-msgstr ""
+msgstr "Kunne ikke bruke kunde-ID som et usynlig felt."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
-msgstr ""
+msgstr "Mangler ProcessEntityID, sjekk ActivityDialogHeader.tt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "No StartActivityDialog or StartActivityDialog for Process \"%s\" configured!"
 msgstr ""
+"Ingen StartActivityDialog eller StartActivityDialog for prosess \"%s\" er "
+"konfigurert!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't create ticket for Process with ProcessEntityID \"%s\"!"
-msgstr ""
+msgstr "Kunne ikke opprette billett for prosess med ProcessEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ProcessEntityID \"%s\" on TicketID \"%s\"!"
-msgstr ""
+msgstr "Kunne ikke angi ProcessEntityID \"%s\" på TicketID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ActivityEntityID \"%s\" on TicketID \"%s\"!"
-msgstr ""
+msgstr "Kunne ikke angi ActivityEntityID \"%s\" på TicketID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not store ActivityDialog, invalid TicketID: %s!"
-msgstr ""
+msgstr "Kunne ikke lagre ActivityDialog, ugyldig billett-ID: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Invalid TicketID: %s!"
-msgstr ""
+msgstr "Ugyldig billett-ID: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ActivityEntityID in Ticket %s!"
-msgstr ""
+msgstr "Mangler ActivityEntityID i billett %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -14768,21 +14790,28 @@ msgid ""
 "ticket '%s%s%s'! Another user changed this ticket in the meantime. Please "
 "close this window and reload the ticket."
 msgstr ""
+"Dette trinnet tilhører ikke lenger den gjeldende aktiviteten som er i gang "
+"for billetten '%s%s%s'! En annen bruker endret denne billetten i "
+"mellomtiden. Lukk dette vinduet og last inn billetten på nytt."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
-msgstr ""
+msgstr "Mangler ProcessEntityID i billett %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Could not set DynamicField value for %s of Ticket with ID \"%s\" in "
 "ActivityDialog \"%s\"!"
 msgstr ""
+"Kunne ikke angi DynamicField-verdi for %s av billett med ID \"%s\" i "
+"ActivityDialog \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Could not set PendingTime for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
 msgstr ""
+"Kunne ikke angi PendingTime for billett med ID \"%s\" i ActivityDialog \"%s\""
+"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -14790,18 +14819,21 @@ msgid ""
 "(Please change its configuration to be Display => 0 / Do not show field or "
 "Display => 2 / Show field as mandatory)!"
 msgstr ""
+"Feil ActivityDialog Feltkonfigurasjon: %s kan ikke være Vis => 1 / Vis felt ("
+"Vennligst endre konfigurasjonen til å være Vis => 0 / Ikke vis felt eller "
+"Vis => 2 / Vis felt som obligatorisk)!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not set %s for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "Kunne ikke angi %s for billett med ID \"%s\" i ActivityDialog \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Default Config for Process::Default%s missing!"
-msgstr ""
+msgstr "Standardkonfigurasjon for Process::Standard%s mangler!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Default Config for Process::Default%s invalid!"
-msgstr ""
+msgstr "Standardkonfigurasjon for Process::Default%s ugyldig!"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "Available tickets"
@@ -14829,7 +14861,7 @@ msgstr "siste søk"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Untitled"
-msgstr ""
+msgstr "Uten navn"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Ticket Number"
@@ -14845,11 +14877,11 @@ msgstr "skrevet ut av"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "CustomerID (complex search)"
-msgstr ""
+msgstr "Kunde-ID (komplekst søk)"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "CustomerID (exact match)"
-msgstr ""
+msgstr "Kunde-ID (eksakt samsvar)"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
@@ -14865,7 +14897,7 @@ msgstr "CSV"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Excel"
-msgstr ""
+msgstr "Excel"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "in more than ..."
@@ -14873,7 +14905,7 @@ msgstr "i mer enn ..."
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Feature not enabled!"
-msgstr ""
+msgstr "Funksjonen er ikke aktivert!"
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Service View"
@@ -14889,11 +14921,11 @@ msgstr "Mine overvåkede saker"
 
 #. Perl Module: Kernel/Modules/AgentTicketWatcher.pm
 msgid "Feature is not active"
-msgstr ""
+msgstr "Funksjonen er ikke aktiv"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Link Deleted"
-msgstr ""
+msgstr "Link slettet"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Locked"
@@ -14901,11 +14933,11 @@ msgstr "Saken er låst"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Pending Time Set"
-msgstr ""
+msgstr "Ventende tid satt"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Dynamic Field Updated"
-msgstr ""
+msgstr "Dynamisk felt oppdatert"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email (internal)"
@@ -14913,27 +14945,27 @@ msgstr "Utgående epost (intern)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
-msgstr ""
+msgstr "Billett opprettet"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Type Updated"
-msgstr ""
+msgstr "Type Oppdatert"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Update Time In Effect"
-msgstr ""
+msgstr "Tidspunkt for eskalering oppdatering"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Update Time Stopped"
-msgstr ""
+msgstr "Eskalering Oppdateringstid stoppet"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation First Response Time Stopped"
-msgstr ""
+msgstr "Eskalering Første responstid stoppet"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Customer Updated"
-msgstr ""
+msgstr "Kunde oppdatert"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Internal Chat"
@@ -14941,27 +14973,27 @@ msgstr "Intern chat"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Follow-Up Sent"
-msgstr ""
+msgstr "Automatisk oppfølging sendt"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added"
-msgstr ""
+msgstr "Merknad lagt til"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added (Customer)"
-msgstr ""
+msgstr "Merknad lagt til (kunde)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SMS Added"
-msgstr ""
+msgstr "SMS lagt til"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SMS Added (Customer)"
-msgstr ""
+msgstr "SMS lagt til (kunde)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "State Updated"
-msgstr ""
+msgstr "Status oppdatert"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Answer"
@@ -14969,11 +15001,11 @@ msgstr "Utgående svar"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Service Updated"
-msgstr ""
+msgstr "Tjenesten er oppdatert"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Link Added"
-msgstr ""
+msgstr "Link lagt til"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Customer Email"
@@ -15001,7 +15033,7 @@ msgstr "Tittel oppdatert"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Merged"
-msgstr ""
+msgstr "Billett slått sammen"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Phone Call"
@@ -15009,15 +15041,15 @@ msgstr "Utgående telefonsamtale"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forwarded Message"
-msgstr ""
+msgstr "Videresendt melding"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Removed User Subscription"
-msgstr ""
+msgstr "Fjernet brukerabonnement"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Time Accounted"
-msgstr ""
+msgstr "Tidsregning"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Phone Call"
@@ -15025,39 +15057,39 @@ msgstr "Innkommende telefonsamtale"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "System Request."
-msgstr ""
+msgstr "Systemforespørsel."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Follow-Up"
-msgstr ""
+msgstr "Innkommende oppfølging"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Reply Sent"
-msgstr ""
+msgstr "Automatisk svar sendt"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Reject Sent"
-msgstr ""
+msgstr "Automatisk avvisning sendt"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Solution Time In Effect"
-msgstr ""
+msgstr "Eskaleringsløsning Tid i kraft"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Solution Time Stopped"
-msgstr ""
+msgstr "Eskalering Løsning Tid stoppet"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Response Time In Effect"
-msgstr ""
+msgstr "Eskaleringsresponstid i kraft"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Response Time Stopped"
-msgstr ""
+msgstr "Eskalering Responstid stoppet"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SLA Updated"
-msgstr ""
+msgstr "SLA oppdatert"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "External Chat"
@@ -15065,41 +15097,43 @@ msgstr "Ekstern chat"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Queue Changed"
-msgstr ""
+msgstr "Kø endret"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Notification Was Sent"
-msgstr ""
+msgstr "Varsel ble sendt"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
 msgstr ""
+"Denne billetten eksisterer ikke, eller du har ikke tillatelse til å få "
+"tilgang til den i gjeldende tilstand."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
-msgstr ""
+msgstr "Mangler FormDraftID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
-msgstr ""
+msgstr "Kan ikke få ArtikkelID %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article filter settings were saved."
-msgstr ""
+msgstr "Innstillinger for artikkelfilter ble lagret."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Event type filter settings were saved."
-msgstr ""
+msgstr "Filterinnstillinger for hendelsestype ble lagret."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Need ArticleID!"
-msgstr ""
+msgstr "Trenger artikkel-ID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Invalid ArticleID!"
-msgstr ""
+msgstr "Ugyldig artikkel-ID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forward article via mail"
@@ -15111,11 +15145,11 @@ msgstr "Videresend"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
-msgstr ""
+msgstr "Felter uten gruppe"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article could not be opened! Perhaps it is on another article page?"
-msgstr ""
+msgstr "Artikkelen kunne ikke åpnes! Kanskje det er på en annen artikkelside?"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Show one article"
@@ -15127,82 +15161,89 @@ msgstr "Vis alle innlegg"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Show Ticket Timeline View"
-msgstr ""
+msgstr "Vis billetttidslinjevisning"
 
 #. Perl Module: Kernel/Modules/AjaxAttachment.pm
 msgid "Got no FormID."
-msgstr ""
+msgstr "Har ingen FormID."
 
 #. Perl Module: Kernel/Modules/AjaxAttachment.pm
 msgid ""
 "Error: the file could not be deleted properly. Please contact your "
 "administrator (missing FileID)."
 msgstr ""
+"Feil: filen kunne ikke slettes på riktig måte. Ta kontakt med "
+"administratoren din (mangler fil-ID)."
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid ""
 "Registration for tile %s of CustomerDashboard is invalid! Either Module or "
 "Template needed."
 msgstr ""
+"Registrering for flis %s av CustomerDashboard er ugyldig! Enten modul eller "
+"mal er nødvendig."
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid ""
 "Registration for tile %s of CustomerDashboard is invalid! Order needs to be "
 "a unique number."
 msgstr ""
+"Registrering for flis %s av CustomerDashboard er ugyldig! Bestillingen må "
+"være et unikt nummer."
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Need Key!"
-msgstr ""
+msgstr "Trenger nøkkel!"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Invalid Key!"
-msgstr ""
+msgstr "Ugyldig nøkkel!"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Failed to load Content!"
-msgstr ""
+msgstr "Kunne ikke laste inn innhold!"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Destination unknown."
-msgstr ""
+msgstr "Ukjent destinasjon."
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "ArticleID is needed!"
-msgstr ""
+msgstr "ArtikkelID er nødvendig!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "No TicketID for ArticleID (%s)!"
-msgstr ""
+msgstr "Ingen TicketID for ArticleID (%s)!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "HTML body attachment is missing!"
-msgstr ""
+msgstr "HTML-tekstvedlegg mangler!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "FileID and ArticleID are needed!"
-msgstr ""
+msgstr "FileID og ArticleID er nødvendig!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "No such attachment (%s)!"
-msgstr ""
+msgstr "Ikke noe slikt vedlegg (%s)!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::QueueDefault."
-msgstr ""
+msgstr "Sjekk SysConfig-innstillingen for %s::QueueDefault."
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
-msgstr ""
+msgstr "Sjekk SysConfig-innstillingen for %s::TicketTypeDefault."
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid ""
 "You don't have sufficient permissions for ticket creation in default queue."
 msgstr ""
+"Du har ikke tilstrekkelige tillatelser for å opprette billett i standardkøen."
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
-msgstr ""
+msgstr "Trenger kundeID!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "My Tickets"
@@ -15214,7 +15255,7 @@ msgstr "Bedriftsaker"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Untitled!"
-msgstr ""
+msgstr "Uten navn!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid "Customer Realname"
@@ -15231,15 +15272,15 @@ msgstr "Opprettet mer enn ... siden"
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid ""
 "Please remove the following words because they cannot be used for the search:"
-msgstr ""
+msgstr "Vennligst fjern følgende ord fordi de ikke kan brukes for søket:"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Could not load process module."
-msgstr ""
+msgstr "Kunne ikke laste inn prosessmodulen."
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
-msgstr ""
+msgstr "Kan ikke gjenåpne billett, ikke mulig i denne køen!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
@@ -15247,28 +15288,30 @@ msgstr "Opprett en ny sak!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "SecureMode active!"
-msgstr ""
+msgstr "SecureMode aktiv!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "If you want to re-run the Installer, disable the SecureMode in the SysConfig."
 msgstr ""
+"Hvis du vil kjøre installasjonsprogrammet på nytt, deaktiver SecureMode i "
+"SysConfig."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" doesn't exist!"
-msgstr ""
+msgstr "Katalog \"%s\" eksisterer ikke!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure \"Home\" in Kernel/Config.pm first!"
-msgstr ""
+msgstr "Konfigurer \"Hjem\" i Kernel/Config.pm først!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/Kernel/Config.pm\" not found!"
-msgstr ""
+msgstr "Filen \"%s/Kernel/Config.pm\" ble ikke funnet!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" not found!"
-msgstr ""
+msgstr "Katalog \"%s\" ikke funnet!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTOBO"
@@ -15280,13 +15323,15 @@ msgstr "Introduksjon"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Kernel/Config.pm isn't writable!"
-msgstr ""
+msgstr "Kernel/Config.pm er ikke skrivbar!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "If you want to use the installer, set the Kernel/Config.pm writable for the "
 "webserver user!"
 msgstr ""
+"Hvis du ønsker å bruke installasjonsprogrammet, sett inn Kernel/Config.pm "
+"skrivbar for nettserverbrukeren!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database Selection"
@@ -15294,11 +15339,11 @@ msgstr "Databasevalg"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Check!"
-msgstr ""
+msgstr "Ukjent sjekk!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "The check \"%s\" doesn't exist!"
-msgstr ""
+msgstr "Sjekken \"%s\" eksisterer ikke!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Enter the password for the database user."
@@ -15306,11 +15351,11 @@ msgstr "Skriv inn passordet for databasebrukeren."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure MySQL"
-msgstr ""
+msgstr "Konfigurer MySQL"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database %s"
-msgstr ""
+msgstr "Database %s"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Enter the password for the administrative database user."
@@ -15318,19 +15363,19 @@ msgstr "Skriv inn passordet for administrator-databasebrukeren."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure PostgreSQL"
-msgstr ""
+msgstr "Konfigurer PostgreSQL"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure Oracle"
-msgstr ""
+msgstr "Konfigurer Oracle"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
-msgstr ""
+msgstr "Ukjent databasetype \"%s\"."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Please go back."
-msgstr ""
+msgstr "Vennligst gå tilbake."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Create Database"
@@ -15338,27 +15383,27 @@ msgstr "Opprett database"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTOBO - Error"
-msgstr ""
+msgstr "Installer OTOBO - Feil"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/%s.xml\" not found!"
-msgstr ""
+msgstr "Filen \"%s/%s.xml\" ble ikke funnet!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Contact your Admin!"
-msgstr ""
+msgstr "Kontakt din administrator!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Execution of SQL statement failed: "
-msgstr ""
+msgstr "Utførelse av SQL-setning mislyktes: "
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "https"
-msgstr ""
+msgstr "https"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "http"
-msgstr ""
+msgstr "http"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "System Settings"
@@ -15366,7 +15411,7 @@ msgstr "Systeminnstillinger"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Syslog"
-msgstr ""
+msgstr "Syslog"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure Mail"
@@ -15378,15 +15423,15 @@ msgstr "E-postoppsett"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Subaction %s!"
-msgstr ""
+msgstr "Ukjent subaksjon %s!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't connect to database, Perl module DBD::%s not installed!"
-msgstr ""
+msgstr "Kan ikke koble til databasen, Perl-modul DBD::%s er ikke installert!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't connect to database, read comment!"
-msgstr ""
+msgstr "Kan ikke koble til databasen, les kommentar!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database already contains data - it should be empty!"
@@ -15398,6 +15443,9 @@ msgid ""
 "(it currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
 msgstr ""
+"Feil: Sørg for at databasen din aksepterer pakker over %s MB i størrelse ("
+"den godtar for øyeblikket bare pakker opptil %s MB). Vennligst tilpass "
+"max_allowed_packet-innstillingen for databasen for å unngå feil."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
@@ -15405,44 +15453,49 @@ msgid ""
 "least %s MB (current: %s MB, recommended: %s MB). For more information, "
 "please have a look at %s."
 msgstr ""
+"Feil: Sett verdien for innodb_log_file_size på databasen din til minst %s MB "
+"(gjeldende: %s MB, anbefalt: %s MB). For mer informasjon, vennligst ta en "
+"titt på %s."
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
 "the SysConfig."
 msgstr ""
+"Hvis du vil kjøre MigrateFromOTRS-verktøyet på nytt, deaktiverer du "
+"SecureMode i SysConfig."
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "OTRS to OTOBO migration"
-msgstr ""
+msgstr "OTRS til OTOBO migrering"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
-msgstr ""
+msgstr "Ingen %s!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No such user!"
-msgstr ""
+msgstr "Ingen slik bruker!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "Invalid calendar!"
-msgstr ""
+msgstr "Ugyldig kalender!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "Invalid URL!"
-msgstr ""
+msgstr "Ugyldig URL!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "There was an error exporting the calendar!"
-msgstr ""
+msgstr "Det oppsto en feil ved eksport av kalenderen!"
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Need config Package::RepositoryAccessRegExp"
-msgstr ""
+msgstr "Trenger config Package::RepositoryAccessRegExp"
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Authentication failed from %s!"
-msgstr ""
+msgstr "Autentisering mislyktes fra %s!"
 
 #. Perl Module: Kernel/Output/HTML/Article/Chat.pm
 msgid "Chat"
@@ -15450,7 +15503,7 @@ msgstr "Chat"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
 msgid "Bounce Article to a different mail address"
-msgstr ""
+msgstr "Send artikkelen tilbake til en annen e-postadresse"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
 msgid "Bounce"
@@ -15462,19 +15515,19 @@ msgstr "Svar Alle"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketEmailResend.pm
 msgid "Resend this article"
-msgstr ""
+msgstr "Send denne artikkelen på nytt"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketEmailResend.pm
 msgid "Resend"
-msgstr ""
+msgstr "Send på nytt"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketMessageLog.pm
 msgid "View message log details for this article"
-msgstr ""
+msgstr "Se meldingsloggdetaljer for denne artikkelen"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketMessageLog.pm
 msgid "Message Log"
-msgstr ""
+msgstr "Meldingslogg"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketNote.pm
 msgid "Reply to note"
@@ -15486,7 +15539,7 @@ msgstr "Skill ut denne artikkelen"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPlain.pm
 msgid "View the source for this Article"
-msgstr ""
+msgstr "Se kilden til denne artikkelen"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPlain.pm
 msgid "Plain Format"
@@ -15498,11 +15551,11 @@ msgstr "Skriv ut denne artikkelen"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.de"
-msgstr ""
+msgstr "Kontakt oss på hello@otobo.de"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
-msgstr ""
+msgstr "Få hjelp"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
 msgid "Mark"
@@ -15514,11 +15567,11 @@ msgstr "Fjern merking"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install Package"
-msgstr ""
+msgstr "Installer pakken på nytt"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install"
-msgstr ""
+msgstr "Installer på nytt"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Crypted"
@@ -15526,7 +15579,7 @@ msgstr "Kryptert"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Sent message encrypted to recipient!"
-msgstr ""
+msgstr "Sendt melding kryptert til mottaker!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Signed"
@@ -15534,43 +15587,43 @@ msgstr "Signert"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "\"PGP SIGNED MESSAGE\" header found, but invalid!"
-msgstr ""
+msgstr "\"PGP SIGNED MESSAGE\" header funnet, men ugyldig!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Internal error during verification!"
-msgstr ""
+msgstr "Intern feil under verifisering!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key not found!"
-msgstr ""
+msgstr "Umulig å dekryptere: privat nøkkel ikke funnet!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key for email was not found!"
-msgstr ""
+msgstr "Umulig å dekryptere: privat nøkkel for e-post ble ikke funnet!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Successful decryption"
-msgstr ""
+msgstr "Vellykket dekryptering"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "There are no encryption keys available for the addresses: '%s'. "
-msgstr ""
+msgstr "Det er ingen krypteringsnøkler tilgjengelig for adressene: '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "There are no selected encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "Det er ingen valgte krypteringsnøkler for adressene: '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use expired encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "Kan ikke bruke utløpte krypteringsnøkler for adressene: '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "Kan ikke bruke tilbakekalte krypteringsnøkler for adressene: '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
-msgstr ""
+msgstr "Krypter"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid ""
@@ -15578,50 +15631,53 @@ msgid ""
 "certificate. The first found key/certificate will be pre-selected. Please "
 "make sure to select the correct one."
 msgstr ""
+"Nøkler/sertifikater vil kun vises for mottakere med mer enn én nøkkel/"
+"sertifikat. Den først funnet nøkkelen/sertifikatet vil bli forhåndsvalgt. "
+"Sørg for å velge riktig."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "Email security"
-msgstr ""
+msgstr "E-postsikkerhet"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "PGP sign"
-msgstr ""
+msgstr "PGP-tegn"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "PGP sign and encrypt"
-msgstr ""
+msgstr "PGP signere og kryptere"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "PGP encrypt"
-msgstr ""
+msgstr "PGP-kryptering"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME sign"
-msgstr ""
+msgstr "SMIME-skilt"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME sign and encrypt"
-msgstr ""
+msgstr "SMIME signer og krypter"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME encrypt"
-msgstr ""
+msgstr "SMIME krypter"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use expired signing key: '%s'. "
-msgstr ""
+msgstr "Kan ikke bruke utløpt signeringsnøkkel: '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use revoked signing key: '%s'. "
-msgstr ""
+msgstr "Kan ikke bruke tilbakekalt signeringsnøkkel: '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no signing keys available for the addresses '%s'."
-msgstr ""
+msgstr "Det er ingen signeringsnøkler tilgjengelig for adressene '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no selected signing keys for the addresses '%s'."
-msgstr ""
+msgstr "Det er ingen valgte signeringsnøkler for adressene '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Sign"
@@ -15633,6 +15689,9 @@ msgid ""
 "certificate. The first found key/certificate will be pre-selected. Please "
 "make sure to select the correct one."
 msgstr ""
+"Nøkler/sertifikater vil kun vises for en avsender med mer enn én nøkkel/"
+"sertifikat. Den først funnet nøkkelen/sertifikatet vil bli forhåndsvalgt. "
+"Sørg for å velge riktig."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/AppointmentCalendar.pm
 msgid "Shown"
@@ -15648,7 +15707,7 @@ msgstr "av"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerIDList.pm
 msgid "Shown customer ids"
-msgstr ""
+msgstr "Vist kunde-ID"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "Shown customer users"
@@ -15656,27 +15715,27 @@ msgstr "Vis kunde-bruker"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "Offline"
-msgstr ""
+msgstr "Frakoblet"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "User is currently offline."
-msgstr ""
+msgstr "Brukeren er for øyeblikket frakoblet."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "User is currently active."
-msgstr ""
+msgstr "Brukeren er aktiv for øyeblikket."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "Away"
-msgstr ""
+msgstr "Borte"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "User was inactive for a while."
-msgstr ""
+msgstr "Brukeren var inaktiv en stund."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
-msgstr ""
+msgstr "Starttidspunktet for en billett er satt etter slutttiden!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/MyLastChangedTickets.pm
 msgid "Shown Tickets"
@@ -15684,23 +15743,23 @@ msgstr "Viste saker"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't connect to OTOBO News server!"
-msgstr ""
+msgstr "Kan ikke koble til OTOBO News server!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't get OTOBO News from server!"
-msgstr ""
+msgstr "Kan ikke hente OTOBO News fra serveren!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't connect to Product News server!"
-msgstr ""
+msgstr "Kan ikke koble til produktnyhetsserveren!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't get Product News from server!"
-msgstr ""
+msgstr "Kan ikke få produktnyheter fra serveren!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
 msgid "Can't connect to %s!"
-msgstr ""
+msgstr "Kan ikke koble til %s!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "Shown Columns"
@@ -15708,11 +15767,11 @@ msgstr "Vis kolonner"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter not active"
-msgstr ""
+msgstr "filter ikke aktivt"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter active"
-msgstr ""
+msgstr "filter aktivt"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
@@ -15724,11 +15783,11 @@ msgstr "7-dagers statistikk"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "User set their status to unavailable."
-msgstr ""
+msgstr "Brukeren satte statusen sin til utilgjengelig."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "Unavailable"
-msgstr ""
+msgstr "Utilgjengelig"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Standard"
@@ -15736,7 +15795,7 @@ msgstr "Standard"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "The following tickets are not updated: %s."
-msgstr ""
+msgstr "Følgende billetter er ikke oppdatert: %s."
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
@@ -15755,6 +15814,9 @@ msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state. You can take one of the following actions:"
 msgstr ""
+"Denne billetten eksisterer ikke, eller du har ikke tillatelse til å få "
+"tilgang til den i gjeldende tilstand. Du kan utføre en av følgende "
+"handlinger:"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "This is a"
@@ -15790,23 +15852,23 @@ msgstr "Kryss av for å aktivere denne datoen"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s TB"
-msgstr ""
+msgstr "%s TB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s GB"
-msgstr ""
+msgstr "%s GB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s MB"
-msgstr ""
+msgstr "%s MB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s KB"
-msgstr ""
+msgstr "%s KB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s B"
-msgstr ""
+msgstr "%s B"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission!"
@@ -15814,7 +15876,7 @@ msgstr "Ingen rettigheter!"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
-msgstr ""
+msgstr "Ingen tillatelse"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Show Tree Selection"
@@ -15822,11 +15884,11 @@ msgstr "Vis Trestruktur"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Split Quote"
-msgstr ""
+msgstr "Split sitat"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Remove Quote"
-msgstr ""
+msgstr "Fjern sitat"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
@@ -15834,7 +15896,7 @@ msgstr "Sammenkoblet som"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Search Result"
-msgstr ""
+msgstr "Søkeresultat"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked"
@@ -15858,7 +15920,7 @@ msgstr "Avtale"
 
 #. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
 msgid "Archive search"
-msgstr ""
+msgstr "Arkivsøk"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
 msgid "Online Agent: %s"
@@ -15873,6 +15935,8 @@ msgid ""
 "Please select a time zone in your preferences and confirm it by clicking the "
 "save button."
 msgstr ""
+"Velg en tidssone i innstillingene dine og bekreft den ved å klikke på lagre-"
+"knappen."
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerOnline.pm
 msgid "Online Customer: %s"
@@ -15880,12 +15944,13 @@ msgstr "Pålogget kunde: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "System maintenance is active!"
-msgstr ""
+msgstr "Systemvedlikehold er aktivt!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid ""
 "A system maintenance period will start at: %s and is expected to stop at: %s"
 msgstr ""
+"En systemvedlikeholdsperiode starter på: %s og forventes å stoppe på: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTOBO Daemon is not running."
@@ -15899,30 +15964,35 @@ msgstr "Du har fraværassistenten aktivert, vil du så den av?"
 msgid ""
 "You have %s invalid setting(s) deployed. Click here to show invalid settings."
 msgstr ""
+"Du har %s ugyldig(e) innstilling(er) distribuert. Klikk her for å vise "
+"ugyldige innstillinger."
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
 msgid "You have undeployed settings, would you like to deploy them?"
-msgstr ""
+msgstr "Du har ikke-distribuerte innstillinger, vil du distribuere dem?"
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
 msgid "The configuration is being updated, please be patient..."
-msgstr ""
+msgstr "Konfigurasjonen oppdateres, vær tålmodig..."
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
 msgid "There is an error updating the system configuration!"
-msgstr ""
+msgstr "Det er en feil under oppdatering av systemkonfigurasjonen!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/UIDCheck.pm
 msgid ""
 "Don't use the Superuser account to work with %s! Create new Agents and work "
 "with these accounts instead."
 msgstr ""
+"Ikke bruk Superbruker-kontoen til å jobbe med %s! Opprett nye agenter og "
+"arbeid med disse kontoene i stedet."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
 msgid ""
 "Please make sure you've chosen at least one transport method for mandatory "
 "notifications."
 msgstr ""
+"Sørg for at du har valgt minst én transportmetode for obligatoriske varsler."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
 msgid "Preferences updated successfully!"
@@ -15934,7 +16004,7 @@ msgstr "(under arbeid)"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
-msgstr ""
+msgstr "Vennligst spesifiser en sluttdato som er etter startdatoen."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Verify password"
@@ -15946,19 +16016,23 @@ msgstr "Nåværende passord er ikke korrekt. Prøv igjen!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
-msgstr ""
+msgstr "Vennligst oppgi ditt nye passord!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, the new password and the repeated password do not "
 "match."
 msgstr ""
+"Kan ikke oppdatere passordet, det nye passordet og det gjentatte passordet "
+"stemmer ikke overens."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "This password is forbidden by the current system configuration. Please "
 "contact the administrator if you have additional questions."
 msgstr ""
+"Dette passordet er forbudt av gjeldende systemkonfigurasjon. Ta kontakt med "
+"administratoren hvis du har flere spørsmål."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
@@ -15969,6 +16043,8 @@ msgid ""
 "Can't update password, it must contain at least 2 lowercase and 2 uppercase "
 "letter characters!"
 msgstr ""
+"Kan ikke oppdatere passordet, det må inneholde minst 2 små og 2 store "
+"bokstaver!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 1 digit!"
@@ -15976,17 +16052,19 @@ msgstr "Kan ikke oppdatere passordet, det må inneholde minst ett tall!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 2 letter characters!"
-msgstr ""
+msgstr "Kan ikke oppdatere passordet, det må inneholde minst 2 bokstaver!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, it must contain at least 3 of 4 (lower char, upper "
 "char, digit, special character)!"
 msgstr ""
+"Kan ikke oppdatere passord, det må inneholde minst 3 av 4 (nedre tegn, øvre "
+"tegn, siffer, spesialtegn)!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
 msgid "Time zone updated successfully!"
-msgstr ""
+msgstr "Tidssonen ble oppdatert!"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "invalid"
@@ -16005,16 +16083,20 @@ msgid ""
 "No past complete or the current+upcoming complete relative time value "
 "selected."
 msgstr ""
+"Ingen tidligere fullført eller gjeldende+kommende fullstendig relativ "
+"tidsverdi er valgt."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
-msgstr ""
+msgstr "Den valgte tidsperioden er større enn den tillatte tidsperioden."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "No time scale value available for the current selected time scale value on "
 "the X axis."
 msgstr ""
+"Ingen tidsskalaverdi tilgjengelig for gjeldende valgte tidsskalaverdi på "
+"X-aksen."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
@@ -16032,12 +16114,16 @@ msgstr "Det er noe galt med dine valg av tid."
 msgid ""
 "Please select only one element or allow modification at stat generation time."
 msgstr ""
+"Vennligst velg bare ett element eller tillat endring ved "
+"statistikkgenerering."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Please select at least one value of this field or allow modification at stat "
 "generation time."
 msgstr ""
+"Vennligst velg minst én verdi i dette feltet eller tillat endring ved "
+"statistikkgenerering."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
@@ -16057,16 +16143,17 @@ msgstr "Vennligst velg minst en verdi for dette feltet."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please provide a value or allow modification at stat generation time."
-msgstr ""
+msgstr "Oppgi en verdi eller tillat endring ved statistikkgenerering."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select a time scale."
-msgstr ""
+msgstr "Vennligst velg en tidsskala."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Your reporting time interval is too small, please use a larger time scale."
 msgstr ""
+"Rapporteringstidsintervallet ditt er for lite. Bruk en større tidsskala."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "second(s)"
@@ -16085,18 +16172,20 @@ msgid ""
 "Please remove the following words because they cannot be used for the ticket "
 "restrictions: %s."
 msgstr ""
+"Vennligst fjern følgende ord fordi de ikke kan brukes for "
+"billettrestriksjonene: %s."
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Cancel editing and unlock this setting"
-msgstr ""
+msgstr "Avbryt redigering og lås opp denne innstillingen"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Reset this setting to its default value."
-msgstr ""
+msgstr "Tilbakestill denne innstillingen til standardverdien."
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Unable to load %s!"
-msgstr ""
+msgstr "Kan ikke laste %s!"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
@@ -16168,24 +16257,24 @@ msgstr "Totalt antall overvåkede saker"
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "%s Report"
-msgstr ""
+msgstr "%s rapport"
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Error: this graph could not be generated: %s."
-msgstr ""
+msgstr "Feil: denne grafen kunne ikke genereres: %s."
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Table of Contents"
-msgstr ""
+msgstr "Innholdsfortegnelse"
 
 #. Perl Module: Kernel/Output/PDF/Ticket.pm
 msgid "Ticket Dynamic Fields"
-msgstr ""
+msgstr "Billett dynamiske felt"
 
 #. Perl Module: Kernel/System/ACL/DB/ACL.pm
 msgid ""
 "Couldn't read ACL configuration file. Please make sure the file is valid."
-msgstr ""
+msgstr "Kunne ikke lese ACL-konfigurasjonsfilen. Kontroller at filen er gyldig."
 
 #. Perl Module: Kernel/System/Auth.pm
 msgid ""
@@ -16198,10 +16287,12 @@ msgid ""
 "Invalid response from the authentication server. Maybe the process took too "
 "long. Please retry once."
 msgstr ""
+"Ugyldig svar fra autentiseringsserveren. Kanskje prosessen tok for lang tid. "
+"Prøv igjen én gang."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Please note that the session limit is almost reached."
-msgstr ""
+msgstr "Vær oppmerksom på at øktgrensen er nesten nådd."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session limit reached! Please try again later."
@@ -16210,7 +16301,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session per user limit reached!"
-msgstr ""
+msgstr "Økt per brukergrense nådd!"
 
 #. Perl Module: Kernel/System/AuthSession/DB.pm
 msgid "Session invalid. Please log in again."
@@ -16222,73 +16313,75 @@ msgstr "Sesjonen har gått ut på tid. Vennligst logg inn igjen."
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "PGP sign only"
-msgstr ""
+msgstr "Kun PGP-tegn"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "PGP encrypt only"
-msgstr ""
+msgstr "PGP-kryptering kun"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "SMIME sign only"
-msgstr ""
+msgstr "Kun SMIME-skilt"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "SMIME encrypt only"
-msgstr ""
+msgstr "SMIME krypter bare"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "PGP and SMIME not enabled."
-msgstr ""
+msgstr "PGP og SMIME er ikke aktivert."
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "Skip notification delivery"
-msgstr ""
+msgstr "Hopp over levering av varsler"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "Send unsigned notification"
-msgstr ""
+msgstr "Send usignert varsel"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "Send unencrypted notification"
-msgstr ""
+msgstr "Send ukryptert varsling"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "Configuration Options Reference"
-msgstr ""
+msgstr "Referanse for konfigurasjonsalternativer"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be changed."
-msgstr ""
+msgstr "Denne innstillingen kan ikke endres."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting is not active by default."
-msgstr ""
+msgstr "Denne innstillingen er ikke aktiv som standard."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be deactivated."
-msgstr ""
+msgstr "Denne innstillingen kan ikke deaktiveres."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting is not visible."
-msgstr ""
+msgstr "Denne innstillingen er ikke synlig."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can be overridden in the user preferences."
-msgstr ""
+msgstr "Denne innstillingen kan overstyres i brukerinnstillingene."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid ""
 "This setting can be overridden in the user preferences, but is not active by "
 "default."
 msgstr ""
+"Denne innstillingen kan overstyres i brukerpreferansene, men er ikke aktiv "
+"som standard."
 
 #. Perl Module: Kernel/System/CustomerUser.pm
 msgid "Customer user \"%s\" already exists."
-msgstr ""
+msgstr "Kundebruker \"%s\" eksisterer allerede."
 
 #. Perl Module: Kernel/System/CustomerUser/DB.pm
 msgid "This email address is already in use for another customer user."
-msgstr ""
+msgstr "Denne e-postadressen er allerede i bruk for en annen kundebruker."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
 msgid "before/after"
@@ -16300,11 +16393,11 @@ msgstr "mellom"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
-msgstr ""
+msgstr "f.eks. Tekst eller Te*t"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
-msgstr ""
+msgstr "Ignorer dette feltet."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
 msgid "This field is required or"
@@ -16320,7 +16413,7 @@ msgstr "Maksimal lengde er %s tegn."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
 msgid "Sanity checks for database."
-msgstr ""
+msgstr "Sanitetssjekker for database."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
@@ -18110,11 +18203,11 @@ msgstr "tilgjengelig"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "lock"
-msgstr "Ticket,"
+msgstr "lås"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "tmp_lock"
-msgstr ""
+msgstr "tmp_lock"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "agent"
