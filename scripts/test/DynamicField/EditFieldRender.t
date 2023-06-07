@@ -200,7 +200,6 @@ my @Tests = (
         Config  => undef,
         Success => 0,
     },
-
     {
         Name    => 'Empty Config',
         Config  => {},
@@ -3355,20 +3354,15 @@ for my $Test (@Tests) {
         if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
 
             # create a new HTTP::Request object to simulate a web request
-            my $HTTPRequest      = POST( '/', [ $Test->{Config}->{CGIParam}->%* ] );
-            my $LocalParamObject = Kernel::System::Web::Request->new(
+            my $HTTPRequest = POST( '/', [ $Test->{Config}->{CGIParam}->%* ] );
+            $Config{ParamObject} = Kernel::System::Web::Request->new(
                 HTTPRequest => $HTTPRequest,
-            );
-
-            %Config = (
-                %Config,
-                ParamObject => $LocalParamObject,
             );
         }
         $FieldHTML = $DFBackendObject->EditFieldRender(%Config);
     }
     else {
-        $FieldHTML = $DFBackendObject->EditFieldRender( %{ $Test->{Config} } );
+        $FieldHTML = $DFBackendObject->EditFieldRender;
     }
     if ( $Test->{Success} ) {
 
