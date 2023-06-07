@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::Modules::AdminDynamicFieldText;
+package Kernel::Modules::AdminDynamicFieldLens;
 
 use v5.24;
 use strict;
@@ -38,7 +38,7 @@ sub new {
     my $Self = bless {%Param}, $Type;
 
     # Some setup
-    $Self->{TemplateFile} = 'AdminDynamicFieldText';
+    $Self->{TemplateFile} = 'AdminDynamicFieldLens';
 
     # set up the field type specific settings
     # This dynamic field support multiple values.
@@ -49,16 +49,19 @@ sub new {
 
     # declare the field type specific settings
     $Self->{FieldTypeSettings} = {
-        Text => [
+        Lens => [
             {
-                ConfigParamName => 'MultiValue',
-                Label           => Translatable('Multiple Values'),
-                Explanation     => Translatable('Activate this option to allow multiple values for this field.'),
-                InputType       => 'Selection',
-                SelectionData   => \%MultiValueSelectionData,
+                ConfigParamName => 'ReferenceDF',
+                Label           => Translatable('The referenced DF'),
+                Explanation     => Translatable('Select the DF that references an object'),
+                InputType       => 'Integer',
             },
-        ],
-        TextArea => [
+            {
+                ConfigParamName => 'AttributeDF',
+                Label           => Translatable('The attribute DF of the referenced object'),
+                Explanation     => Translatable('Select the attribute DF that references an object'),
+                InputType       => 'Integer',
+            },
             {
                 ConfigParamName => 'MultiValue',
                 Label           => Translatable('Multiple Values'),
@@ -181,7 +184,7 @@ sub _AddAction {
 
     for my $ConfigParam (
         qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip Namespace
-        DefaultValue Rows Cols Link LinkPreview )
+        )
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -257,26 +260,6 @@ sub _AddAction {
             my $Name = $Setting->{ConfigParamName};
             $FieldConfig{$Name} = $GetParam{$Name};
         }
-    }
-
-    $GetParam{RegExCounter} = $ParamObject->GetParam( Param => 'RegExCounter' ) || 0;
-
-    my @RegExList = $Self->GetParamRegexList(
-        GetParam => \%GetParam,
-        Errors   => \%Errors,
-    );
-
-    $FieldConfig{DefaultValue} = $GetParam{DefaultValue};
-    $FieldConfig{RegExList}    = \@RegExList;
-
-    if ( $GetParam{FieldType} eq 'Text' ) {
-        $FieldConfig{Link}        = $GetParam{Link};
-        $FieldConfig{LinkPreview} = $GetParam{LinkPreview};
-    }
-
-    if ( $GetParam{FieldType} eq 'TextArea' ) {
-        $FieldConfig{Rows} = $GetParam{Rows};
-        $FieldConfig{Cols} = $GetParam{Cols};
     }
 
     # create a new field
@@ -414,7 +397,7 @@ sub _ChangeAction {
 
     for my $ConfigParam (
         qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip Namespace
-        DefaultValue Rows Cols Link LinkPreview )
+        )
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -484,37 +467,6 @@ sub _ChangeAction {
         );
     }
 
-    $GetParam{RegExCounter} = $ParamObject->GetParam( Param => 'RegExCounter' ) || 0;
-
-    my @RegExList = $Self->GetParamRegexList(
-        GetParam => \%GetParam,
-        Errors   => \%Errors,
-    );
-
-    # only for textarea
-    if ( $GetParam{FieldType} eq 'TextArea' ) {
-        if ( $GetParam{Rows} ) {
-
-            # check if field order is numeric and positive
-            if ( $GetParam{Rows} !~ m{\A (?: \d )+ \z}xms ) {
-
-                # add server error error class
-                $Errors{RowsServerError}        = 'ServerError';
-                $Errors{RowsServerErrorMessage} = Translatable('The field must be numeric.');
-            }
-        }
-        if ( $GetParam{Cols} ) {
-
-            # check if field order is numeric and positive
-            if ( $GetParam{Cols} !~ m{\A (?: \d )+ \z}xms ) {
-
-                # add server error error class
-                $Errors{ColsServerError}        = 'ServerError';
-                $Errors{ColsServerErrorMessage} = Translatable('The field must be numeric.');
-            }
-        }
-    }
-
     # Check if dynamic field is present in SysConfig setting
     my $UpdateEntity              = $ParamObject->GetParam( Param => 'UpdateEntity' ) || '';
     my $SysConfigObject           = $Kernel::OM->Get('Kernel::System::SysConfig');
@@ -564,19 +516,6 @@ sub _ChangeAction {
             my $Name = $Setting->{ConfigParamName};
             $FieldConfig{$Name} = $ParamObject->GetParam( Param => $Name );
         }
-    }
-
-    $FieldConfig{DefaultValue} = $GetParam{DefaultValue};
-    $FieldConfig{RegExList}    = \@RegExList;
-
-    if ( $GetParam{FieldType} eq 'Text' ) {
-        $FieldConfig{Link}        = $GetParam{Link};
-        $FieldConfig{LinkPreview} = $GetParam{LinkPreview};
-    }
-
-    if ( $GetParam{FieldType} eq 'TextArea' ) {
-        $FieldConfig{Rows} = $GetParam{Rows};
-        $FieldConfig{Cols} = $GetParam{Cols};
     }
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -733,14 +672,28 @@ sub _ShowScreen {
     my $FieldType = $Param{FieldType};
     if ( $Self->{FieldTypeSettings}->{$FieldType} ) {
         for my $Setting ( $Self->{FieldTypeSettings}->{$FieldType}->@* ) {
-            if ( $Setting->{InputType} eq 'Selection' ) {
-                my $Name      = $Setting->{ConfigParamName};
-                my $FieldStrg = $LayoutObject->BuildSelection(
+            my $Name = $Setting->{ConfigParamName};
+
+            my $FieldStrg;
+            if ( $Setting->{InputType} eq 'Integer' ) {
+
+                # TODO: proper HTML builder
+                $FieldStrg = sprintf
+                    qq{<input id="%s" class="W50pc" type="text" maxlength="500" value="%s" name="%s"/>},
+                    $Name,
+                    $Param{$Name},
+                    $Name;
+            }
+            elsif ( $Setting->{InputType} eq 'Selection' ) {
+                $FieldStrg = $LayoutObject->BuildSelection(
                     Name       => $Name,
                     Data       => $Setting->{SelectionData},
                     SelectedID => $Param{$Name} || '0',
                     Class      => 'Modernize W50pc',
                 );
+            }
+
+            if ($FieldStrg) {
                 $LayoutObject->Block(
                     Name => 'ConfigParamRow',
                     Data => {
@@ -786,46 +739,6 @@ sub _ShowScreen {
     );
 
     # define config field specific settings
-    my $DefaultValue = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
-
-    # create the default value element
-    $LayoutObject->Block(
-        Name => 'DefaultValue' . $Param{FieldType},
-        Data => {
-            %Param,
-            DefaultValue => $DefaultValue,
-        },
-    );
-
-    # define config field specific settings
-    my $Link        = $Param{Link}        || '';
-    my $LinkPreview = $Param{LinkPreview} || '';
-
-    if ( $Param{FieldType} eq 'Text' ) {
-
-        # create the default link element
-        $LayoutObject->Block(
-            Name => 'Link',
-            Data => {
-                %Param,
-                Link        => $Link,
-                LinkPreview => $LinkPreview,
-            },
-        );
-    }
-
-    if ( $Param{FieldType} eq 'TextArea' ) {
-
-        # create the default value element
-        $LayoutObject->Block(
-            Name => 'ColsRowsValues',
-            Data => {
-                %Param,
-                Rows => $Param{Rows},
-                Cols => $Param{Cols},
-            },
-        );
-    }
 
     # define tooltip
     my $Tooltip = $Param{Tooltip} // '';
@@ -862,58 +775,6 @@ sub _ShowScreen {
         );
 
         my $FieldConfig = $DynamicField->{Config};
-
-        if ( !$Param{RegExCounter} ) {
-
-            my $RegExCounter = 0;
-            for my $RegEx ( @{ $FieldConfig->{RegExList} } ) {
-
-                $RegExCounter++;
-                $Param{ 'RegEx_' . $RegExCounter }                     = $RegEx->{Value};
-                $Param{ 'CustomerRegExErrorMessage_' . $RegExCounter } = $RegEx->{ErrorMessage};
-            }
-
-            $Param{RegExCounter} = $RegExCounter;
-        }
-
-        if ( $Param{RegExCounter} ) {
-
-            REGEXENTRY:
-            for my $CurrentRegExEntryID ( 1 .. $Param{RegExCounter} ) {
-
-                # check existing regex
-                next REGEXENTRY if !$Param{ 'RegEx_' . $CurrentRegExEntryID };
-
-                $LayoutObject->Block(
-                    Name => 'RegExRow',
-                    Data => {
-                        EntryCounter     => $CurrentRegExEntryID,
-                        RegEx            => $Param{ 'RegEx_' . $CurrentRegExEntryID },
-                        RegExServerError =>
-                            $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' }
-                            || '',
-                        RegExServerErrorMessage =>
-                            $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' } || '',
-                        CustomerRegExErrorMessage =>
-                            $Param{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID },
-                        CustomerRegExErrorMessageServerError =>
-                            $Param{
-                                'CustomerRegExErrorMessage_'
-                                . $CurrentRegExEntryID
-                                . 'ServerError'
-                            }
-                            || '',
-                        CustomerRegExErrorMessageServerErrorMessage =>
-                            $Param{
-                                'CustomerRegExErrorMessage_'
-                                . $CurrentRegExEntryID
-                                . 'ServerErrorMessage'
-                            }
-                            || '',
-                    }
-                );
-            }
-        }
 
         my $DynamicFieldName = $DynamicField->{Name};
 
@@ -973,82 +834,9 @@ sub _ShowScreen {
                 DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
                 ReadonlyInternalField => $ReadonlyInternalField,
                 Tooltip               => $Tooltip,
-                RegExCounter          => $Param{RegExCounter},
-                DefaultValue          => $DefaultValue,
-                Link                  => $Link,
-                LinkPreview           => $LinkPreview,
             },
         ),
         $LayoutObject->Footer;
-}
-
-sub GetParamRegexList {
-    my ( $Self, %Param ) = @_;
-
-    my $GetParam = $Param{GetParam};
-    my $Errors   = $Param{Errors};
-    my @RegExList;
-
-    # Check regex list
-    if ( $GetParam->{RegExCounter} && $GetParam->{RegExCounter} =~ m{\A\d+\z}xms ) {
-
-        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-        REGEXENTRY:
-        for my $CurrentRegExEntryID ( 1 .. $GetParam->{RegExCounter} ) {
-
-            # check existing regex
-            $GetParam->{ 'RegEx_' . $CurrentRegExEntryID } = $ParamObject->GetParam( Param => 'RegEx_' . $CurrentRegExEntryID );
-
-            next REGEXENTRY if !$GetParam->{ 'RegEx_' . $CurrentRegExEntryID };
-
-            $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID } = $ParamObject->GetParam( Param => 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID );
-
-            my $RegEx                     = $GetParam->{ 'RegEx_' . $CurrentRegExEntryID };
-            my $CustomerRegExErrorMessage = $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID };
-
-            # is the regex valid?
-            my $RegExCheck = eval {
-                qr{$RegEx}xms;
-            };
-
-            my $CurrentEntryErrors = 0;
-            if ($@) {
-                $Errors->{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' } = 'ServerError';
-
-                # cut last part of regex error
-                # 'Invalid regular expression (Unmatched [ in regex; marked by
-                # <-- HERE in m/aaa[ <-- HERE / at
-                # /opt/otobo/bin/cgi-bin/../../Kernel/Modules/AdminDynamicFieldText.pm line 452..
-                my $ServerErrorMessage = $@;
-                $ServerErrorMessage =~ s{ (in \s regex); .*$ }{ $1 }xms;
-                $Errors->{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' } = $ServerErrorMessage;
-
-                $CurrentEntryErrors = 1;
-            }
-
-            # check required error message for regex
-            if ( !$CustomerRegExErrorMessage ) {
-                $Errors->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID . 'ServerError' } = 'ServerError';
-                $Errors->{
-                    'CustomerRegExErrorMessage_'
-                        . $CurrentRegExEntryID
-                        . 'ServerErrorMessage'
-                } = Translatable('This field is required.');
-
-                $CurrentEntryErrors = 1;
-            }
-
-            next REGEXENTRY if $CurrentEntryErrors;
-
-            push @RegExList, {
-                'Value'        => $RegEx,
-                'ErrorMessage' => $CustomerRegExErrorMessage,
-            };
-        }
-    }
-
-    return @RegExList;
 }
 
 1;

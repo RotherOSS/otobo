@@ -915,6 +915,121 @@
     </Setting>
     <!-- End dynamic field ContactWD -->
 
+    <!-- dynamic field Reference -->
+    <Setting Name="DynamicFields::Driver###Reference" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Reference</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Reference</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Agent::CommonJS###200-DynamicFieldReference" Required="1" Valid="1">
+        <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
+        <Navigation>Frontend::Base::Loader</Navigation>
+        <Value>
+            <Array>
+                <Item>Core.Agent.DynamicFieldReferenceSearch.js</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="AutoComplete::Agent###DynamicFieldReference" Required="1" Valid="1">
+        <Description Translatable="1">Defines the config options for the autocompletion feature.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="AutoCompleteActive">1</Item>
+                <Item Key="MinQueryLength">2</Item>
+                <Item Key="QueryDelay">100</Item>
+                <Item Key="MaxResultsDisplayed">20</Item>
+                <Item Key="ButtonText" Translatable="1">Search</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AgentReferenceSearch" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Agent reference dynamic field with data search.</Item>
+                    <Item Key="Title" Translatable="1">Agent Reference Dynamic Field With Data Search</Item>
+                    <Item Key="NavBarName">Ticket</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminDynamicFieldReference" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Dynamic Fields Reference Backend GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <!-- End dynamic field Reference -->
+
+    <!-- dynamic field Lens -->
+    <Setting Name="DynamicFields::Driver###Lens" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Lens</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Lens</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldLens</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminDynamicFieldLens" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Dynamic Fields Lens Backend GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <!-- End dynamic field Lens -->
+
     <!-- Admin Interface -->
     <Setting Name="Frontend::Module###AdminDynamicField" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
