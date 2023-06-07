@@ -329,12 +329,10 @@ sub EditFieldRender {
         return;
     }
 
-    # set use default value as default if not specified
-    if ( !defined $Param{UseDefaultValue} ) {
-        $Param{UseDefaultValue} = 1;
-    }
+    # use the default value per default
+    $Param{UseDefaultValue} //= 1;
 
-    # call EditFieldRender on the specific backend
+    # call the specific backend
     return $Self->{$DynamicFieldBackend}->EditFieldRender(%Param);
 }
 
@@ -418,7 +416,7 @@ sub DisplayValueRender {
 
 =head2 ValueSet()
 
-sets a dynamic field value.
+sets a dynamic field value. The values are usually not validated.
 
     my $Success = $BackendObject->ValueSet(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
@@ -491,8 +489,7 @@ sub ValueSet {
             if ( !$ObjectID ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  =>
-                        "Unable to create object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}->{ObjectType}!"
+                    Message  => "Unable to create object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}->{ObjectType}!"
                 );
 
                 return;
@@ -548,7 +545,7 @@ sub ValueSet {
         return 1;
     }
 
-    # call ValueSet on the specific backend
+    # call the specific backend
     my $Success = $Self->{$DynamicFieldBackend}->ValueSet(%Param);
 
     if ( !$Success ) {
@@ -562,8 +559,7 @@ sub ValueSet {
     }
 
     # set the dyanamic field object handler
-    my $DynamicFieldObjectHandler =
-        'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
+    my $DynamicFieldObjectHandler = 'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
 
     # If an ObjectType handler is registered, use it.
     if ( ref $Self->{$DynamicFieldObjectHandler} ) {
@@ -815,7 +811,7 @@ sub AllValuesDelete {
 
 =head2 ValueValidate()
 
-validates a dynamic field value.
+validates and transform a dynamic field value.
 
     my $Success = $BackendObject->ValueValidate(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField

@@ -18,13 +18,21 @@ package Kernel::System::DynamicField::Driver::BaseSelect;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(:all);
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::DB',
@@ -35,9 +43,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::BaseSelect - sub module of
-Kernel::System::DynamicField::Driver::Dropdown and
-Kernel::System::DynamicField::Driver::Multiselect
+Kernel::System::DynamicField::Driver::BaseSelect - base module of DropDown and MultiSelects dynamic fields
 
 =head1 DESCRIPTION
 
@@ -45,11 +51,15 @@ Select common functions.
 
 =head1 PUBLIC INTERFACE
 
+Modules that are derived from this base module implement the public interface of L<Kernel::System::DynamicField::Backend>.
+Please look there for a detailed reference of the functions.
+
 =cut
 
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
+    # get raw values of the dynamic field
     my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
         FieldID  => $Param{DynamicFieldConfig}{ID},
         ObjectID => $Param{ObjectID},
@@ -212,7 +222,7 @@ sub EditFieldRender {
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
-        $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
+        $Value = $FieldConfig->{DefaultValue} // '';
     }
     $Value = $Param{Value} // $Value;
 
@@ -293,9 +303,8 @@ sub EditFieldRender {
     }
 
     if ( $Param{Mandatory} ) {
-        $FieldTemplateData{Mandatory}      = $Param{Mandatory};
-        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
-
+        $FieldTemplateData{Mandatory}            = $Param{Mandatory};
+        $FieldTemplateData{DivIDMandatory}       = $FieldName . 'Error';
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
     }
 
@@ -306,8 +315,11 @@ sub EditFieldRender {
         $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
     }
 
-    my $TemplateFile = $Param{CustomerInterface}
-        ? 'DynamicField/Customer/BaseSelect' : 'DynamicField/Agent/BaseSelect';
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/BaseSelect'
+        :
+        'DynamicField/Agent/BaseSelect';
 
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
@@ -333,8 +345,8 @@ sub EditFieldRender {
         );
 
         push @ResultHTML, $Param{LayoutObject}->Output(
-            'TemplateFile' => $TemplateFile,
-            'Data'         => {
+            TemplateFile => $FieldTemplateFile,
+            Data         => {
                 %FieldTemplateData,
                 SelectionHTML => $SelectionHTML,
             },
@@ -363,8 +375,8 @@ sub EditFieldRender {
         );
 
         $TemplateHTML = $Param{LayoutObject}->Output(
-            'TemplateFile' => $TemplateFile,
-            'Data'         => {
+            TemplateFile => $FieldTemplateFile,
+            Data         => {
                 %FieldTemplateData,
                 SelectionHTML => $SelectionHTML,
             },
@@ -525,9 +537,10 @@ sub DisplayValueRender {
     my $HTMLOutput = $Param{HTMLOutput} // 1;
 
     # get raw Value strings from field value
-    my @Values = !ref $Param{Value} ? ( $Param{Value} )
+    my @Values = !ref $Param{Value}
+        ? ( $Param{Value} )
         : scalar $Param{Value}->@* ? $Param{Value}->@*
-        : ( '' );
+        :                            ('');
 
     $Param{ValueMaxChars} ||= '';
 
@@ -586,7 +599,7 @@ sub DisplayValueRender {
         }
         $ValueSeparator = "\n";
     }
-        
+
     # set field link from config
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
     my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';

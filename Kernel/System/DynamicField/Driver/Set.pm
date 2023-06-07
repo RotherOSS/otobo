@@ -238,10 +238,11 @@ sub EditFieldRender {
     #        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
     #    }
 
-    my $FieldTemplateFile = 'DynamicField/Agent/Set';
-    if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/Set';
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/Set'
+        :
+        'DynamicField/Agent/Set';
 
     my @SetValue = $Param{Value} ? $Param{Value}->@* : ( [] );
 
@@ -495,7 +496,7 @@ sub DisplayValueRender {
         }
 
         my $Label;
-        if ( $HTMLOutput ) {
+        if ($HTMLOutput) {
             $Label = $Param{LayoutObject}->Output(
                 Template => '[% Translate( Data.Label ) | html %]',
                 Data     => {
@@ -519,7 +520,7 @@ sub DisplayValueRender {
 
             next VALUE if !defined $Element->{Value} || $Element->{Value} eq '';
 
-            if ( $HTMLOutput ) {
+            if ($HTMLOutput) {
                 $SetValue{Value}[$SetIndex] .= "<label>$Label</label><p class='Value'><span title='$Element->{Title}'>$Element->{Value}</span></p>";
             }
             else {
@@ -539,7 +540,7 @@ sub DisplayValueRender {
     @{ $SetValue{Value} } = map { $_ // '' } $SetValue{Value}->@*;
 
     my %Value;
-    if ( $HTMLOutput ) {
+    if ($HTMLOutput) {
         $Value{Value} = '<div class="SetDisplayValue">'
             . join( '</div><div class="SetDisplayValue">', $SetValue{Value}->@* )
             . '</div>';

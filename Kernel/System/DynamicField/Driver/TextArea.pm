@@ -87,7 +87,7 @@ sub EditFieldRender {
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
-        $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
+        $Value = $FieldConfig->{DefaultValue} // '';
     }
     $Value = $Param{Value} // $Value;
 
@@ -181,10 +181,11 @@ sub EditFieldRender {
         FieldName => $FieldName,
     );
 
-    my $FieldTemplateFile = 'DynamicField/Agent/TextArea';
-    if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/TextArea';
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/TextArea'
+        :
+        'DynamicField/Agent/TextArea';
 
     my $HTMLString = $Param{LayoutObject}->Output(
         TemplateFile => $FieldTemplateFile,

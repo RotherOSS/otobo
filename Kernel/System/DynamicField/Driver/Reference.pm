@@ -288,7 +288,7 @@ sub EditFieldRender {
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
-        $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
+        $Value = $FieldConfig->{DefaultValue} // '';
     }
     $Value = $Param{Value} // $Value;
 
@@ -342,10 +342,11 @@ sub EditFieldRender {
         ReadOnly          => $Param{ReadOnly},
     );
 
-    my $TemplateFile = 'DynamicField/Agent/Reference';
-    if ( $Param{CustomerInterface} ) {
-        $TemplateFile = 'DynamicField/Customer/Reference';
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/Reference'
+        :
+        'DynamicField/Agent/Reference';
 
     # Get default agent autocomplete config.
     my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('AutoComplete::Agent')->{'Default'};
@@ -366,8 +367,8 @@ sub EditFieldRender {
         $FieldTemplateData{ValueEscaped} = $ValueEscaped;
 
         push @ResultHTML, $Param{LayoutObject}->Output(
-            'TemplateFile' => $TemplateFile,
-            'Data'         => \%FieldTemplateData,
+            TemplateFile => $FieldTemplateFile,
+            Data         => \%FieldTemplateData,
         );
     }
 
@@ -377,8 +378,8 @@ sub EditFieldRender {
         $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_Template';
 
         $TemplateHTML = $Param{LayoutObject}->Output(
-            'TemplateFile' => $TemplateFile,
-            'Data'         => \%FieldTemplateData,
+            TemplateFile => $FieldTemplateFile,
+            Data         => \%FieldTemplateData,
         );
 
     }

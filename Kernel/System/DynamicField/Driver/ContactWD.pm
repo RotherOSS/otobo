@@ -281,10 +281,11 @@ sub EditFieldRender {
         FieldName => $FieldName,
     );
 
-    my $FieldTemplateFile = 'DynamicField/Agent/ContactWD';
-    if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/ContactWD';
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/ContactWD'
+        :
+        'DynamicField/Agent/ContactWD';
 
     my $HTMLString = $Param{LayoutObject}->Output(
         'TemplateFile' => $FieldTemplateFile,

@@ -253,7 +253,7 @@ sub EditFieldRender {
 
     # Set the field value or default.
     if ( $Param{UseDefaultValue} ) {
-        $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
+        $Value = $FieldConfig->{DefaultValue} // '';
     }
     $Value = $Param{Value} // $Value;
 
@@ -357,14 +357,15 @@ sub EditFieldRender {
         $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
     }
 
-    my $FieldTemplateFile = 'DynamicField/Agent/WebService.tt';
-    if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/WebService.tt';
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/WebService'
+        :
+        'DynamicField/Agent/WebService';
 
     my $HTMLString = $Param{LayoutObject}->Output(
-        'Template' => $FieldTemplateFile,
-        'Data'     => \%FieldTemplateData
+        Template => $FieldTemplateFile,
+        Data     => \%FieldTemplateData
     );
 
     if ( $Param{AJAXUpdate} ) {

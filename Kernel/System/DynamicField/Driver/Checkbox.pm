@@ -18,13 +18,21 @@ package Kernel::System::DynamicField::Driver::Checkbox;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(:all);
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -37,11 +45,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Checkbox
+Kernel::System::DynamicField::Driver::Checkbox - checkbox dynamic field
 
 =head1 DESCRIPTION
 
-DynamicFields Checkbox Driver delegate
+DynamicFields Checkbox driver delegate
 
 =head1 PUBLIC INTERFACE
 
@@ -56,11 +64,10 @@ by using Kernel::System::DynamicField::Backend->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # set field behaviors
     $Self->{Behaviors} = {
@@ -84,14 +91,11 @@ sub new {
         # create a extension config shortcut
         my $Extension = $DynamicFieldDriverExtensions->{$ExtensionKey};
 
-        # check if extension has a new module
+        # check if extension declares a new parent module
         if ( $Extension->{Module} ) {
 
-            # check if module can be loaded
-            if (
-                !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} )
-                )
-            {
+            # load extension module and bail out when that fails
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} ) ) {
                 die "Can't load dynamic fields backend module"
                     . " $Extension->{Module}! $@";
             }
@@ -113,8 +117,9 @@ sub new {
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
+    # get raw values of the dynamic field
     my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        FieldID  => $Param{DynamicFieldConfig}{ID},
         ObjectID => $Param{ObjectID},
     );
 
@@ -270,7 +275,7 @@ sub EditFieldRender {
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
-        $Value = $FieldConfig->{DefaultValue} || '';
+        $Value = $FieldConfig->{DefaultValue} || '';    # TODO: why is '0' not allowed
     }
     $Value = $Param{Value} // $Value;
 
@@ -365,22 +370,20 @@ sub EditFieldRender {
     $FieldTemplateData{FieldLabelEscaped} = $FieldLabelEscaped;
 
     if ( $Param{Mandatory} ) {
-
         $FieldTemplateData{Mandatory}            = $Param{Mandatory};
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
-
     }
 
     if ( $Param{ServerError} ) {
-
         $FieldTemplateData{ServerError}  = $Param{ServerError};
         $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
     }
 
-    my $FieldTemplateFile = 'DynamicField/Agent/Checkbox';
-    if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/Checkbox';
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/Checkbox'
+        :
+        'DynamicField/Agent/Checkbox';
 
     # build field html
     my @ResultHTML;
@@ -423,8 +426,10 @@ sub EditFieldRender {
         }
 
         $TemplateHTML = $Param{LayoutObject}->Output(
-            'TemplateFile' => $FieldTemplateFile,
-            'Data'         => \%FieldTemplateData
+            TemplateFile => $FieldTemplateFile,
+            Data         => {
+                %FieldTemplateData,
+            },
         );
     }
 
@@ -609,12 +614,10 @@ sub EditFieldValueValidate {
     }
 
     # create resulting structure
-    my $Result = {
+    return {
         ServerError  => $ServerError,
         ErrorMessage => $ErrorMessage,
     };
-
-    return $Result;
 }
 
 sub DisplayValueRender {

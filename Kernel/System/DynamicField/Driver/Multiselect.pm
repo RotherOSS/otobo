@@ -295,7 +295,7 @@ sub EditFieldRender {
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
-        $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
+        $Value = $FieldConfig->{DefaultValue} // '';
     }
     $Value = $Param{Value} // $Value;
 
@@ -393,10 +393,11 @@ sub EditFieldRender {
         $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
     }
 
-    my $FieldTemplateFile = 'DynamicField/Agent/Multiselect';
-    if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/Multiselect';
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/Multiselect'
+        :
+        'DynamicField/Agent/Multiselect';
 
     my $HTMLString = $Param{LayoutObject}->Output(
         'TemplateFile' => $FieldTemplateFile,

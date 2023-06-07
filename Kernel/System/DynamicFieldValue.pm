@@ -31,7 +31,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicFieldValue
+Kernel::System::DynamicFieldValue - support for dynamic fields
 
 =head1 DESCRIPTION
 
@@ -48,13 +48,10 @@ create a DynamicFieldValue object. Do not use it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 ValueSet()
@@ -97,12 +94,12 @@ sub ValueSet {
     }
 
     # return if no Value was provided
-    if ( ref $Param{Value} ne 'ARRAY' )
-    {
+    if ( ref $Param{Value} ne 'ARRAY' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need Param{Value}!"
         );
+
         return;
     }
 
@@ -455,9 +452,9 @@ checks if the given value is valid for the value type.
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    return if !IsHashRefWithData( $Param{Value} );
+    return unless IsHashRefWithData( $Param{Value} );
 
-    my %Value = %{ $Param{Value} };
+    my %Value = $Param{Value}->%*;
 
     # validate date
     if ( $Value{ValueDateTime} ) {
@@ -494,6 +491,7 @@ sub ValueValidate {
         }
     }
 
+    # no validation for ValueText
     return 1;
 }
 

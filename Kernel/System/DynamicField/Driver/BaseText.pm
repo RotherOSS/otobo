@@ -24,15 +24,15 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
+use parent qw(Kernel::System::DynamicField::Driver::Base);
+
 # core modules
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
-
-use parent qw(Kernel::System::DynamicField::Driver::Base);
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -208,20 +208,18 @@ sub ValueValidate {
         || ( defined $Param{NoValidateRegex} && $Param{NoValidateRegex} )
         )
     {
-
         $CheckRegex = 0;
     }
 
-    my $Success;
     for my $Item (@Values) {
-        $Success = $DynamicFieldValueObject->ValueValidate(
+        my $IsValid = $DynamicFieldValueObject->ValueValidate(
             Value => {
                 $Self->{ValueKey} => $Param{Value},
             },
             UserID => $Param{UserID}
         );
 
-        return if !$Success;
+        return unless $IsValid;
 
         if ( $CheckRegex && IsStringWithData($Item) ) {
 
@@ -238,13 +236,15 @@ sub ValueValidate {
                             . $RegEx->{Value} . "/ ("
                             . $RegEx->{ErrorMessage} . ")!",
                     );
+
                     return;
                 }
             }
         }
     }
 
-    return $Success;
+    # There was no ealy exit, thus the Value is fine
+    return 1;
 }
 
 sub SearchSQLGet {
@@ -319,7 +319,7 @@ sub EditFieldRender {
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
-        $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
+        $Value = $FieldConfig->{DefaultValue} // '';
     }
     $Value = $Param{Value} // $Value;
 
@@ -373,10 +373,11 @@ sub EditFieldRender {
         ReadOnly          => $Param{ReadOnly},
     );
 
-    my $TemplateFile = 'DynamicField/Agent/BaseText';
-    if ( $Param{CustomerInterface} ) {
-        $TemplateFile = 'DynamicField/Customer/BaseText';
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/BaseText'
+        :
+        'DynamicField/Agent/BaseText';
 
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
@@ -390,7 +391,7 @@ sub EditFieldRender {
         $FieldTemplateData{ValueEscaped} = $ValueEscaped;
 
         push @ResultHTML, $Param{LayoutObject}->Output(
-            TemplateFile => $TemplateFile,
+            TemplateFile => $FieldTemplateFile,
             Data         => \%FieldTemplateData,
         );
     }
@@ -401,10 +402,11 @@ sub EditFieldRender {
         $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_Template';
 
         $TemplateHTML = $Param{LayoutObject}->Output(
-            'TemplateFile' => $TemplateFile,
-            'Data'         => \%FieldTemplateData,
+            TemplateFile => $FieldTemplateFile,
+            Data         => {
+                %FieldTemplateData,
+            },
         );
-
     }
 
     # call EditLabelRender on the common Driver
@@ -418,6 +420,7 @@ sub EditFieldRender {
         Label => $LabelString,
     };
 
+    # decide which structure to return
     if ( $FieldConfig->{MultiValue} ) {
         $Data->{MultiValue}         = \@ResultHTML;
         $Data->{MultiValueTemplate} = $TemplateHTML;
@@ -517,6 +520,7 @@ sub EditFieldValueValidate {
                 if ( $ValueItem !~ $RegEx->{Value} ) {
                     $ServerError  = 1;
                     $ErrorMessage = $RegEx->{ErrorMessage};
+
                     last REGEXENTRY;
                 }
             }
@@ -537,9 +541,10 @@ sub DisplayValueRender {
     my $HTMLOutput = $Param{HTMLOutput} // 1;
 
     # get raw Value strings from field value
-    my @Values = !ref $Param{Value} ? ( $Param{Value} )
+    my @Values = !ref $Param{Value}
+        ? ( $Param{Value} )
         : scalar $Param{Value}->@* ? $Param{Value}->@*
-        : ( '' );
+        :                            ('');
 
     $Param{ValueMaxChars} ||= '';
 
@@ -552,7 +557,7 @@ sub DisplayValueRender {
         push @ReadableTitles, $ValueItem;
 
         # HTML Output transformation
-        if ( $HTMLOutput ) {
+        if ($HTMLOutput) {
             $ValueItem = $Param{LayoutObject}->Ascii2Html(
                 Text => $ValueItem,
                 Max  => $Param{ValueMaxChars},
@@ -569,7 +574,7 @@ sub DisplayValueRender {
 
     my $ValueSeparator;
     my $Title = join( ', ', @ReadableTitles );
-    if ( $HTMLOutput ) {
+    if ($HTMLOutput) {
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
             Max  => $Param{TitleMaxChars} || '',
@@ -582,7 +587,7 @@ sub DisplayValueRender {
         }
         $ValueSeparator = "\n";
     }
-        
+
     # set field link from config
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
     my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';

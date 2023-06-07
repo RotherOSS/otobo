@@ -371,10 +371,11 @@ sub EditFieldRender {
         FieldName          => $FieldName,
     );
 
-    my $FieldTemplateFile = 'DynamicField/Agent/BaseDatabase';
-    if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/BaseDatabase';
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/BaseDatabase'
+        :
+        'DynamicField/Agent/BaseDatabase';
 
     my @ResultHTML;
     if ( $FieldConfig->{MultiValue} && @Values ) {

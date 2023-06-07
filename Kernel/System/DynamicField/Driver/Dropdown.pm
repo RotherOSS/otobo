@@ -19,9 +19,9 @@ package Kernel::System::DynamicField::Driver::Dropdown;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-
 use parent qw(Kernel::System::DynamicField::Driver::BaseSelect);
+
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -32,7 +32,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Dropdown
+Kernel::System::DynamicField::Driver::Dropdown - the Dropdown dynamic field
 
 =head1 DESCRIPTION
 

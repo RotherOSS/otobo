@@ -391,10 +391,11 @@ sub EditFieldRender {
         $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
     }
 
-    my $FieldTemplateFile = 'DynamicField/Agent/Date';
-    if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/Date';
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/Date'
+        :
+        'DynamicField/Agent/Date';
 
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#ValueParts ) {

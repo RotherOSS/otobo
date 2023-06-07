@@ -18,13 +18,21 @@ package Kernel::System::DynamicField::Driver::BaseDateTime;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::DateTime',
@@ -35,9 +43,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::BaseDateTime - sub module of
-Kernel::System::DynamicField::Driver::Date and
-Kernel::System::DynamicField::Driver::DateTime
+Kernel::System::DynamicField::Driver::BaseDateTime - base module of Date and DataTime dynamic fields
 
 =head1 DESCRIPTION
 
@@ -45,13 +51,17 @@ Date common functions.
 
 =head1 PUBLIC INTERFACE
 
+Modules that are derived from this base module implement the public interface of L<Kernel::System::DynamicField::Backend>.
+Please look there for a detailed reference of the functions.
+
 =cut
 
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
+    # get raw values of the dynamic field
     my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        FieldID  => $Param{DynamicFieldConfig}{ID},
         ObjectID => $Param{ObjectID},
     );
 
@@ -190,7 +200,7 @@ sub EditFieldRender {
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
-        $Value = $FieldConfig->{DefaultValue} || '';
+        $Value = $FieldConfig->{DefaultValue} || '';    # TODO: why is '0' not allowed
     }
 
     if ( defined $Param{Value} ) {
@@ -292,10 +302,11 @@ sub EditFieldRender {
         $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
     }
 
-    my $FieldTemplateFile = 'DynamicField/Agent/BaseDateTime';
-    if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/BaseDateTime';
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/BaseDateTime'
+        :
+        'DynamicField/Agent/BaseDateTime';
 
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#ValueParts ) {
@@ -354,8 +365,8 @@ sub EditFieldRender {
         );
 
         $TemplateHTML = $Param{LayoutObject}->Output(
-            'TemplateFile' => $FieldTemplateFile,
-            'Data'         => {
+            TemplateFile => $FieldTemplateFile,
+            Data         => {
                 %FieldTemplateData,
                 DateSelectionHTML => $DateSelectionHTML,
             },
