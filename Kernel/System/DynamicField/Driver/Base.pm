@@ -16,10 +16,18 @@
 
 package Kernel::System::DynamicField::Driver::Base;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(DataIsDifferent IsHashRefWithData IsArrayRefWithData IsPositiveInteger);
 
 our @ObjectDependencies = (
     'Kernel::System::DynamicFieldValue',
@@ -28,7 +36,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Base - common fields backend functions
+Kernel::System::DynamicField::Driver::Base - common dynamic field backend functions
 
 =head1 PUBLIC INTERFACE
 
@@ -75,7 +83,7 @@ sub HasBehavior {
     my ( $Self, %Param ) = @_;
 
     # return fail if Behaviors hash does not exists
-    return if !IsHashRefWithData( $Self->{Behaviors} );
+    return unless IsHashRefWithData( $Self->{Behaviors} );
 
     # return success if the dynamic field has the expected behavior
     return IsPositiveInteger( $Self->{Behaviors}->{ $Param{Behavior} } );
@@ -84,14 +92,12 @@ sub HasBehavior {
 sub SearchFieldPreferences {
     my ( $Self, %Param ) = @_;
 
-    my @Preferences = (
+    return [
         {
             Type        => '',
             LabelSuffix => '',
         },
-    );
-
-    return \@Preferences;
+    ];
 }
 
 =head2 EditLabelRender()
@@ -223,7 +229,9 @@ Searches/fetches dynamic field value.
         Search             => 'test',
     );
 
-    Returns [
+Returns:
+
+    [
         {
             ID            => 437,
             FieldID       => 23,
