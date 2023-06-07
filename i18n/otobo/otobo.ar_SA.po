@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-07 00:58+0000\n"
+"PO-Revision-Date: 2023-06-08 05:52+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -26697,23 +26697,25 @@ msgstr "تم دمج التذكرة (‎%s/%s) مع (‎%s/%s)."
 
 #. SysConfig
 msgid "Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>."
-msgstr ""
+msgstr "تم دمج التذكرة <OTOBO_TICKET> في <OTOBO_MERGE_TO_TICKET>."
 
 #. SysConfig
 msgid "Minute"
-msgstr ""
+msgstr "دقيقة"
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "مُتَنَوِّع"
 
 #. SysConfig
 msgid "Module for To-selection in new ticket screen in the customer interface."
-msgstr ""
+msgstr "وحدة لتحديد \"إلى\" في شاشة إنشاء تذكرة في منطقة العميل."
 
 #. SysConfig
 msgid "Module to check if a incoming e-mail message is bounce."
 msgstr ""
+"وحدة التحقق لاكتشاف ما إذا كان البريد الإلكتروني الوارد هو بريد إلكتروني "
+"مرفوض."
 
 #. SysConfig
 msgid ""
@@ -26721,36 +26723,41 @@ msgid ""
 "original forwarded internal email). IsVisibleForCustomer and SenderType "
 "define the values for the arrived email/article."
 msgstr ""
+"وحدة للتحقق مما إذا كان يجب وضع علامة على رسائل البريد الإلكتروني الواردة "
+"على أنها داخلية بسبب بريد إلكتروني داخلي تمت إعادة توجيهه مسبقا. يقوم "
+"IsVisibleForCustomer و SenderType بتعيين قيم البريد الإلكتروني/العنصر الوارد."
 
 #. SysConfig
 msgid "Module to check the group permissions for customer access to tickets."
-msgstr ""
+msgstr "وحدة للتحقق من أذونات المجموعة لوصول العملاء إلى التذاكر."
 
 #. SysConfig
 msgid "Module to check the group permissions for the access to tickets."
-msgstr ""
+msgstr "الوحدة النمطية للتحقق من أذونات المجموعة للوصول إلى التذاكر."
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
-msgstr ""
+msgstr "وحدة لإنشاء الرسائل الموقعة (PGP أو S/MIME)."
 
 #. SysConfig
 msgid "Module to define the email security options to use (PGP or S/MIME)."
-msgstr ""
+msgstr "وحدة لتحديد خيار أمان البريد الإلكتروني المستخدم (PGP أو S/MIME)."
 
 #. SysConfig
 msgid "Module to encrypt composed messages (PGP or S/MIME)."
-msgstr ""
+msgstr "وحدة لإنشاء رسائل مشفرة (PGP أو S/MIME)."
 
 #. SysConfig
 msgid "Module to fetch customer users SMIME certificates of incoming messages."
-msgstr ""
+msgstr "وحدة لتحديد شهادات SMIME الخاصة بمستخدم العميل للرسائل الواردة."
 
 #. SysConfig
 msgid ""
 "Module to filter and manipulate incoming messages. Block/ignore all spam "
 "email with From: noreply@ address."
 msgstr ""
+"وحدة نمطية لتصفية الرسائل الواردة ومعالجتها. حظر/تجاهل كافة رسائل البريد "
+"الإلكتروني العشوائي بعنوان من: noreply@."
 
 #. SysConfig
 msgid ""
@@ -26758,74 +26765,91 @@ msgid ""
 "ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () "
 "as [***] in Set =>."
 msgstr ""
+"وحدة لتصفية وتعديل الرسائل الواردة. على سبيل المثال، استخرج رقما مكونا من "
+"أربعة أرقام من الموضوع (SomeNumber: 1234) وقم بتخزينه في حقل ديناميكي عن "
+"طريق إنشاء مفتاح \"Subject\" بالتعبير العادي \"SomeNumber:(\\\\d\\\\d\\d\\d\\"
+"\\d)\" في \"Match\" ومفتاح \"X-OTOBO-DynamicField-Name\" بقيمة \"[***]\" في "
+"\"Set\"."
 
 #. SysConfig
 msgid "Module to filter encrypted bodies of incoming messages."
-msgstr ""
+msgstr "وحدة لتصفية النصوص المشفرة على الرسائل الواردة."
 
 #. SysConfig
 msgid "Module to generate accounted time ticket statistics."
-msgstr ""
+msgstr "وحدة لتوليد الإحصاءات لوقت المعالجة المطلوب."
 
 #. SysConfig
 msgid ""
 "Module to generate html OpenSearch profile for short ticket search in the "
 "agent interface."
 msgstr ""
+"وحدة لإنشاء ملف تعريف HTML OpenSearch للبحث السريع عن التذكرة في منطقة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Module to generate html OpenSearch profile for short ticket search in the "
 "customer interface."
 msgstr ""
+"وحدة لإنشاء ملف تعريف HTML OpenSearch للبحث السريع عن التذاكر في منطقة "
+"العميل."
 
 #. SysConfig
 msgid "Module to generate ticket solution and response time statistics."
-msgstr ""
+msgstr "وحدة نمطية لإنشاء إحصاءات الحلول ووقت الاستجابة."
 
 #. SysConfig
 msgid "Module to generate ticket statistics."
-msgstr ""
+msgstr "وحدة لإنشاء إحصاءات التذاكر."
 
 #. SysConfig
 msgid ""
 "Module to grant access if the CustomerID of the customer has necessary group "
 "permissions."
 msgstr ""
+"الوحدة النمطية لمنح حق الوصول إذا كان معرف العميل الخاص بالعميل لديه أذونات "
+"المجموعة اللازمة."
 
 #. SysConfig
 msgid ""
 "Module to grant access if the CustomerID of the ticket matches the "
 "CustomerID of the customer."
 msgstr ""
+"وحدة لمنح حق الوصول إذا كان معرف العميل الخاص بالتذكرة يتطابق مع معرف العميل "
+"الخاص بالعميل."
 
 #. SysConfig
 msgid ""
 "Module to grant access if the CustomerUserID of the ticket matches the "
 "CustomerUserID of the customer."
 msgstr ""
+"وحدة لمنح حق الوصول إذا كان CustomerUserID للتذكرة يتطابق مع CustomerUserID "
+"للعميل."
 
 #. SysConfig
 msgid ""
 "Module to grant access to any agent that has been involved in a ticket in "
 "the past (based on ticket history entries)."
 msgstr ""
+"وحدة للسماح بالوصول لأي وكيل شارك في أي وقت مضى في تذكرة (بناء على الإدخالات "
+"في سجل التذاكر)."
 
 #. SysConfig
 msgid "Module to grant access to the agent responsible of a ticket."
-msgstr ""
+msgstr "وحدة للسماح بالوصول إلى تذكرة من قبل الوكيل المسؤول."
 
 #. SysConfig
 msgid "Module to grant access to the creator of a ticket."
-msgstr ""
+msgstr "وحدة للسماح بالوصول إلى تذكرة من قبل الوكيل الذي أنشأ التذكرة في الأصل."
 
 #. SysConfig
 msgid "Module to grant access to the owner of a ticket."
-msgstr ""
+msgstr "وحدة للسماح بالوصول إلى تذكرة من قبل الوكيل الذي يملك التذكرة."
 
 #. SysConfig
 msgid "Module to grant access to the watcher agents of a ticket."
-msgstr ""
+msgstr "وحدة للسماح بالوصول إلى تذكرة من قبل الوكلاء الذين يراقبون التذكرة."
 
 #. SysConfig
 msgid ""
@@ -26833,70 +26857,78 @@ msgid ""
 "escalations, EscalationInMinutes: Show ticket which will escalation in, "
 "CacheTime: Cache of calculated escalations in seconds)."
 msgstr ""
+"وحدة لإظهار الإخطارات والتصعيد (ShownMax: الحد الأقصى للتصعيد المعروض، "
+"EscalationInMinutes: إظهار التذكرة التي سيتم تصعيدها، CacheTime: ذاكرة "
+"التخزين المؤقت للتصعيد المحسوب بالثواني)."
 
 #. SysConfig
 msgid "Module to use database filter storage."
-msgstr ""
+msgstr "الوحدة النمطية لاستخدام قاعدة بيانات تخزين المرشح."
 
 #. SysConfig
 msgid "Module used to detect if attachments are present."
-msgstr ""
+msgstr "وحدة للتحقق من وجود المرفقات."
 
 #. SysConfig
 msgid "My Queues"
-msgstr "بطاقاتي"
+msgstr "قوائم الانتظار الخاصة بي"
 
 #. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "خدماتي"
 
 #. SysConfig
 msgid "My last changed tickets"
-msgstr ""
+msgstr "التذاكر المعدلة مؤخرا"
 
 #. SysConfig
 msgid "MyLastChangedTickets dashboard widget."
-msgstr ""
+msgstr "أداة لوحة معلومات التذاكر المعدلة مؤخرا."
 
 #. SysConfig
 msgid ""
 "Name of custom queue. The custom queue is a queue selection of your "
 "preferred queues and can be selected in the preferences settings."
 msgstr ""
+"تعيين مجموعة قائمة الانتظار الشخصية الخاصة بك. \"قوائم الانتظار الخاصة بي\" "
+"عبارة عن تجميع لقوائم الانتظار المفضلة لديك، والتي يمكن تهيئتها في الإعدادات "
+"الشخصية."
 
 #. SysConfig
 msgid ""
 "Name of custom service. The custom service is a service selection of your "
 "preferred services and can be selected in the preferences settings."
 msgstr ""
+"تعيين مجموعة الخدمات الشخصية الخاصة بك. \"خدماتي\" هي مجموعة من الخدمات "
+"المفضلة التي يمكن تهيئتها في الإعدادات الشخصية."
 
 #. SysConfig
 msgid "NameX"
-msgstr ""
+msgstr "NameX"
 
 #. SysConfig
 msgid "New Tickets"
-msgstr ""
+msgstr "تذاكر جديدة"
 
 #. SysConfig
 msgid "New Window"
-msgstr ""
+msgstr "نافذة جديدة"
 
 #. SysConfig
 msgid "New Year's Day"
-msgstr "يوم السنة الجديدة"
+msgstr "عيد رأس السنة"
 
 #. SysConfig
 msgid "New Year's Eve"
-msgstr ""
+msgstr "ليلة رأس السنة الجديدة"
 
 #. SysConfig
 msgid "New process ticket"
-msgstr ""
+msgstr "تذكرة عملية جديدة"
 
 #. SysConfig
 msgid "News about OTOBO."
-msgstr ""
+msgstr "أخبار عن OTOBO."
 
 #. SysConfig
 msgid ""
