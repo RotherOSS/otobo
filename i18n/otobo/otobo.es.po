@@ -31,13 +31,14 @@
 # Santi Herranz <santi.herranz@isalus.es>, 2019
 # Fredy Aragón <fredmac48@hotmail.com>, 2021.
 # Pau Nadeu Rabat <PAU.NADEU@networkhero.tech>, 2021.
+# Miguel Sanchez Quintero <miguel@ayte.co>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2021-08-23 15:38+0000\n"
-"Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
+"PO-Revision-Date: 2023-06-08 05:52+0000\n"
+"Last-Translator: Miguel Sanchez Quintero <miguel@ayte.co>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
 "es/>\n"
 "Language: es\n"
@@ -10527,7 +10528,7 @@ msgstr "Información del ticket"
 
 #. Template: CustomerTicketZoom
 msgid "Categories"
-msgstr ""
+msgstr "Categorías"
 
 #. Template: CustomerTicketZoom
 msgid "Further actions"
