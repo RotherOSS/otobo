@@ -335,11 +335,11 @@ sub EditFieldRender {
     );
 
     my %FieldTemplateData = (
-        'FieldClass'        => $FieldClass,
-        'FieldName'         => $FieldName,
-        'FieldLabelEscaped' => $FieldLabelEscaped,
-        'MultiValue'        => $FieldConfig->{MultiValue} || 0,
-        'ReadOnly'          => $Param{ReadOnly},
+        FieldClass        => $FieldClass,
+        FieldName         => $FieldName,
+        FieldLabelEscaped => $FieldLabelEscaped,
+        MultiValue        => $FieldConfig->{MultiValue} || 0,
+        ReadOnly          => $Param{ReadOnly},
     );
 
     my $TemplateFile = 'DynamicField/Agent/Reference';

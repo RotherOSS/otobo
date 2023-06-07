@@ -328,17 +328,17 @@ sub EditFieldRender {
     }
 
     my %FieldTemplateData = (
-        'FieldName'               => ${FieldName},
-        'FieldLabel'              => $FieldLabel,
-        'Value'                   => $Value,
-        'DetailedSearchMsg'       => $DetailedSearchMsg,
-        'FieldClass'              => $FieldClass,
-        'DetailsMsg'              => $DetailsMsg,
-        'RemoveValueMsg'          => $RemoveValueMsg,
-        'DynamicFieldDBContainer' => $DynamicFieldDBContainer,
-        'DivID'                   => $FieldName,
-        'MultiValue'              => $FieldConfig->{MultiValue} || 0,
-        'ReadOnly'                => $Param{ReadOnly},
+        FieldName               => ${FieldName},
+        FieldLabel              => $FieldLabel,
+        Value                   => $Value,
+        DetailedSearchMsg       => $DetailedSearchMsg,
+        FieldClass              => $FieldClass,
+        DetailsMsg              => $DetailsMsg,
+        RemoveValueMsg          => $RemoveValueMsg,
+        DynamicFieldDBContainer => $DynamicFieldDBContainer,
+        DivID                   => $FieldName,
+        MultiValue              => $FieldConfig->{MultiValue} || 0,
+        ReadOnly                => $Param{ReadOnly},
     );
 
     if ( $FieldConfig->{Tooltip} ) {

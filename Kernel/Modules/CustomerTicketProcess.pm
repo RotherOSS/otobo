@@ -207,7 +207,7 @@ sub Run {
 
             %DefinedFieldsList = map {
                 $_->{Name} => {
-                    'ReadOnly' => $_->{ReadOnly},
+                    ReadOnly => $_->{ReadOnly},
                 }
             } @UsedFields;
 
@@ -1280,7 +1280,7 @@ sub _OutputActivityDialog {
 
         %DefinedFieldsList = map {
             $_->{Name} => {
-                'ReadOnly' => $_->{ReadOnly},
+                ReadOnly => $_->{ReadOnly},
             }
         } @UsedFields;
 

@@ -464,7 +464,7 @@ sub Run {
 
         %DefinedFieldsList = map {
             $_->{Name} => {
-                'ReadOnly' => $_->{ReadOnly},
+                ReadOnly => $_->{ReadOnly},
             }
         } @UsedFields;
 
