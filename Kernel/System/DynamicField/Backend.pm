@@ -353,7 +353,7 @@ and will transform dates to the current user's timezone.
         LayoutObject       => $LayoutObject,
     );
 
-    Returns
+Returns:
 
     $ValueStrg = {
         Title       => $Title,
@@ -401,9 +401,8 @@ sub DisplayValueRender {
         }
     }
 
-    # set the dynamic field specific backend
+    # the dynamic field specific backend has been created in the constructor
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
-
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -413,7 +412,7 @@ sub DisplayValueRender {
         return;
     }
 
-    # call DisplayValueRender on the specific backend
+    # call the specific backend
     return $Self->{$DynamicFieldBackend}->DisplayValueRender(%Param);
 }
 
@@ -722,6 +721,7 @@ sub ValueDelete {
         return;
     }
 
+    # call the specific backend
     my $Success = $Self->{$DynamicFieldBackend}->ValueDelete(%Param);
 
     if ( !$Success ) {
@@ -809,6 +809,7 @@ sub AllValuesDelete {
         return;
     }
 
+    # call the specific backend
     return $Self->{$DynamicFieldBackend}->AllValuesDelete(%Param);
 }
 
@@ -1902,7 +1903,7 @@ sub ReadableValueRender {
         return;
     }
 
-    # call DisplayValueRender on the specific backend
+    # call the specific backend
     return $Self->{$DynamicFieldBackend}->ReadableValueRender(%Param);
 }
 
