@@ -23,6 +23,8 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
+use parent qw(Kernel::System::DynamicField::Driver::Base);
+
 # core modules
 
 # CPAN modules
@@ -30,8 +32,6 @@ use utf8;
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 use Kernel::Language qw(Translatable);
-
-use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 our @ObjectDependencies = (
     'Kernel::Config',

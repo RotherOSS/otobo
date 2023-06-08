@@ -16,8 +16,20 @@
 
 package Kernel::System::DynamicField::Driver::Database;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+use parent qw(Kernel::System::DynamicField::Driver::BaseDatabase);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -25,13 +37,9 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::ColumnFilter'
 );
 
-use Kernel::System::VariableCheck qw(:all);
-
-use parent qw(Kernel::System::DynamicField::Driver::BaseDatabase);
-
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Database
+Kernel::System::DynamicField::Driver::Database - driver for the Database dynamic field
 
 =head1 DESCRIPTION
 
@@ -42,7 +50,6 @@ DynamicFields Database Driver delegate
 This module implements the public interface of L<Kernel::System::DynamicField::Backend>.
 Please look there for a detailed reference of the functions.
 
-
 =head2 new()
 
 usually, you want to create an instance of this
@@ -51,11 +58,10 @@ by using Kernel::System::DynamicField::Backend->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # set field behaviors
     $Self->{Behaviors} = {

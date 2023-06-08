@@ -18,8 +18,21 @@ package Kernel::System::DynamicField::Driver::BaseDatabase;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+use parent qw(Kernel::System::DynamicField::Driver::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -29,21 +42,18 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
 );
 
-use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(:all);
-
-use parent qw(Kernel::System::DynamicField::Driver::Base);
-
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::BaseDatabase - sub module of
-Kernel::System::DynamicField::Driver::Database
+Kernel::System::DynamicField::Driver::BaseDatabase - base module for the Database dynamic field
 
 =head1 DESCRIPTION
 
-Text common functions.
+Base module for the Database dynamic field.
 
 =head1 PUBLIC INTERFACE
+
+Modules that are derived from this base module implement the public interface of L<Kernel::System::DynamicField::Backend>.
+Please look there for a detailed reference of the functions.
 
 =cut
 

@@ -16,11 +16,19 @@
 
 package Kernel::System::DynamicField::Driver::Dropdown;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::BaseSelect);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -36,7 +44,7 @@ Kernel::System::DynamicField::Driver::Dropdown - the Dropdown dynamic field
 
 =head1 DESCRIPTION
 
-DynamicFields Dropdown Driver delegate
+DynamicFields Dropdown Driver delegate.
 
 =head1 PUBLIC INTERFACE
 
@@ -51,11 +59,10 @@ by using Kernel::System::DynamicField::Backend->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # set field behaviors
     $Self->{Behaviors} = {
