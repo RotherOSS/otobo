@@ -253,6 +253,7 @@ sub ValueSearch {
             Priority => 'error',
             Message  => "Need DynamicFieldConfig!"
         );
+
         return;
     }
 
@@ -365,11 +366,10 @@ Sets IndexValue and IndexSet for complex structures, if necessary.
 sub ValueStructureToDB {
     my ( $Self, %Param ) = @_;
 
-    return () if !defined $Param{Value};
-
-    my @ReturnValue;
+    return unless defined $Param{Value};
 
     if ( $Param{Set} ) {
+        my @ReturnValue;
         if ( $Param{MultiValue} ) {
 
             # for a multi value field in a set, the structure is $Value[ $SetIndex ][ $MultiValueIndex ]
@@ -398,11 +398,14 @@ sub ValueStructureToDB {
                 };
             }
         }
+
+        return \@ReturnValue;
     }
 
-    elsif ( $Param{MultiValue} ) {
+    if ( $Param{MultiValue} ) {
 
         # for a multi value field without set, the structure is $Value[ $MultiValueIndex ]
+        my @ReturnValue;
         VALUE:
         for my $j ( 0 .. $#{ $Param{Value} } ) {
             next VALUE if !defined $Param{Value}[$j] || $Param{Value}[$j] eq '';
@@ -412,15 +415,13 @@ sub ValueStructureToDB {
                 IndexValue       => $j,
             };
         }
+
+        return \@ReturnValue;
     }
 
-    else {
-        return [
-            { $Param{ValueKey} => $Param{Value} },
-        ];
-    }
-
-    return \@ReturnValue;
+    return [
+        { $Param{ValueKey} => $Param{Value} },
+    ];
 }
 
 1;
