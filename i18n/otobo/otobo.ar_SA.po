@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-09 13:29+0000\n"
+"PO-Revision-Date: 2023-06-09 18:07+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -27039,7 +27039,7 @@ msgstr "أخبار من OTOBO"
 
 #. SysConfig
 msgid "OTOBO Team Services"
-msgstr ""
+msgstr "خدمات فريق OTOBO"
 
 #. SysConfig
 msgid ""
@@ -27047,6 +27047,9 @@ msgid ""
 "like fulltext search or statistics generation. Here you can specify the DSN "
 "for the first mirror database."
 msgstr ""
+"يمكن ل OTOBO استخدام قاعدة بيانات متطابقة واحدة أو أكثر للعمليات المعقدة مثل "
+"عمليات البحث عن النص الكامل أو إنشاء الإحصاءات. هنا يمكنك تخزين DSN لقاعدة "
+"بيانات النسخة المتطابقة الأولى."
 
 #. SysConfig
 msgid ""
