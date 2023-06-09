@@ -79,14 +79,9 @@ sub Run {
                 Value     => $Value,
             );
         }
-        my $JSON = $LayoutObject->JSONEncode(
-            Data => $Success,
-        );
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json',
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
+
+        return $LayoutObject->JSONReply(
+            Data => $Success
         );
     }
 
@@ -166,19 +161,12 @@ sub Run {
             }
         }
 
-        my $JSON = $LayoutObject->JSONEncode(
+        return $LayoutObject->JSONReply(
             Data => {
                 'Message'     => $Message,
                 'Priority'    => $Priority,
                 'NeedsReload' => $ConfigNeedsReload
             },
-        );
-
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json',
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
         );
     }
 
@@ -311,7 +299,9 @@ sub Run {
                 "System was unable to update setting!",
             );
 
-            return $LayoutObject->JSONReply( Data => \%Result );
+            return $LayoutObject->JSONReply(
+                Data => \%Result
+            );
         }
 
         my $DataIsDifferent = DataIsDifferent(
@@ -385,15 +375,8 @@ sub Run {
         }
 
         # JSON response
-        my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-            Data => \%Result,
-        );
-
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json',
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
+        return $LayoutObject->JSONReply(
+            Data => \%Result
         );
     }
 
@@ -517,15 +500,8 @@ sub Run {
             $Favourites = $Kernel::OM->Get('Kernel::System::JSON')->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
         }
 
-        my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+        return $LayoutObject->JSONReply(
             Data => $Favourites,
-        );
-
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json',
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
         );
     }
 
@@ -973,15 +949,8 @@ sub _SettingReset {
     }
 
     # JSON response
-    my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-        Data => \%Result,
-    );
-
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json',
-        Content     => $JSON,
-        Type        => 'inline',
-        NoCache     => 1,
+    return $LayoutObject->JSONReply(
+        Data => \%Result
     );
 }
 

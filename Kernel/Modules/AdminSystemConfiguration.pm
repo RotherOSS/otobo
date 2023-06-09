@@ -116,17 +116,9 @@ sub Run {
             }
         }
 
-        # build JSON output
-        my $JSON = $LayoutObject->JSONEncode(
-            Data => \@Data,
-        );
-
-        # send JSON response
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json',
-            Content     => $JSON || '',
-            Type        => 'inline',
-            NoCache     => 1,
+        # JSON output
+        return $LayoutObject->JSONReply(
+            Data => \@Data
         );
     }
 
@@ -245,15 +237,8 @@ sub Run {
 
         my $Result = keys %UsersList;
 
-        my $JSON = $LayoutObject->JSONEncode(
-            Data => $Result // 0,
-        );
-
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json',
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
+        return $LayoutObject->JSONReply(
+            Data => $Result // 0
         );
     }
 
