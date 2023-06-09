@@ -53,7 +53,8 @@ sub Run {
             $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                 "Missing setting name or modified id!",
             );
-            return $Self->_ReturnJSON( Response => \%Result );
+
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
@@ -77,7 +78,8 @@ sub Run {
             $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                 "Setting is locked by another user!",
             );
-            return $Self->_ReturnJSON( Response => \%Result );
+
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
         else {
 
@@ -89,7 +91,8 @@ sub Run {
             $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                 "System was not able to lock the setting!",
             );
-            return $Self->_ReturnJSON( Response => \%Result );
+
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         my $Success = $SysConfigObject->UserSettingValueDelete(
@@ -103,7 +106,8 @@ sub Run {
             $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                 "System was not able to delete the user setting values!",
             );
-            return $Self->_ReturnJSON( Response => \%Result );
+
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         $SysConfigObject->SettingUnlock(
@@ -112,7 +116,7 @@ sub Run {
 
         $Result{Success} = 1;
 
-        return $Self->_ReturnJSON( Response => \%Result );
+        return $LayoutObject->JSONReply( Data => \%Result );
     }
 
     # Show user values for the given setting.
@@ -194,35 +198,6 @@ sub Run {
 
         return $LayoutObject->Redirect( OP => "Action=AdminSystemConfiguration;" );
     }
-}
-
-sub _ReturnJSON {
-    my ( $Self, %Param ) = @_;
-
-    for my $Needed (qw(Response)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
-
-            return;
-        }
-    }
-
-    # JSON response
-    my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-        Data => $Param{Response},
-    );
-
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json',
-        Content     => $JSON,
-        Type        => 'inline',
-        NoCache     => 1,
-    );
 }
 
 sub _GetCategoriesStrg {

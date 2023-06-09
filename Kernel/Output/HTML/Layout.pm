@@ -2819,13 +2819,14 @@ sub JSONReply {
     }
 
     # Serialize as JSON. The passed in data is usually either a hash or array reference.
+    # Strings and numbers are also supported.
     my $Content = $Self->JSONEncode(
         Data => $Param{Data},
     );
 
     return $Self->Attachment(
         ContentType => 'application/json',
-        Content     => $Content || '',
+        Content     => $Content // '',
         Type        => 'inline',
         NoCache     => 1,
     );

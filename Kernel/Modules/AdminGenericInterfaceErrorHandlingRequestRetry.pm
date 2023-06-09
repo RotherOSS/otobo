@@ -743,25 +743,4 @@ sub _ErrorHandlingTypeCheck {
     return 1;
 }
 
-sub _JSONResponse {
-    my ( $Self, %Param ) = @_;
-
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # Build JSON output.
-    my $JSON = $LayoutObject->JSONEncode(
-        Data => {
-            Success => $Param{Success} // 0,
-        },
-    );
-
-    # Send JSON response.
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json',
-        Content     => $JSON,
-        Type        => 'inline',
-        NoCache     => 1,
-    );
-}
-
 1;

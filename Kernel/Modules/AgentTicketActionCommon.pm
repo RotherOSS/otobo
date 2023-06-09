@@ -602,19 +602,10 @@ sub Run {
             }
         }
 
+        # Return JSON when there already is a response
         if (%FormDraftResponse) {
-
-            # build JSON output
-            my $JSON = $LayoutObject->JSONEncode(
-                Data => \%FormDraftResponse,
-            );
-
-            # send JSON response
-            return $LayoutObject->Attachment(
-                ContentType => 'application/json',
-                Content     => $JSON,
-                Type        => 'inline',
-                NoCache     => 1,
+            return $LayoutObject->JSONReply(
+                Data => \%FormDraftResponse
             );
         }
 
@@ -1802,6 +1793,8 @@ sub Run {
                 @TemplateAJAX,
             ],
         );
+
+        # can't use JSONReply here, as we already have JSON
         return $LayoutObject->Attachment(
             ContentType => 'application/json',
             Content     => $JSON,

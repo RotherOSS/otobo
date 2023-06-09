@@ -98,36 +98,16 @@ sub Run {
     }
 
     # start with page ...
-    my $Output = $LayoutObject->Header( Type => 'Small' );
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentDynamicFieldDBDetails',
-        Data         => {
-            %Param,
-            DynamicFieldName => $DynamicFieldName,
-        }
-    );
-    $Output .= $LayoutObject->Footer( Type => 'Small' );
-
-    return $Output;
-}
-
-sub _JSONReturn {
-    my ( $Self, %Param ) = @_;
-
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # build JSON output
-    my $JSON = $LayoutObject->JSONEncode(
-        Data => [ $Param{Success} ],
-    );
-
-    # send response
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json',
-        Content     => $JSON || $LayoutObject->JSONEncode( Data => [] ),
-        Type        => 'inline',
-        NoCache     => 1,
-    );
+    return join '',
+        $LayoutObject->Header( Type => 'Small' ),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentDynamicFieldDBDetails',
+            Data         => {
+                %Param,
+                DynamicFieldName => $DynamicFieldName,
+            }
+        ).
+        $LayoutObject->Footer( Type => 'Small' );
 }
 
 1;

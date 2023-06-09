@@ -349,19 +349,11 @@ sub Run {
             );
         }
 
-        # build empty JSON output
-        my $JSON = $LayoutObject->JSONEncode(
+        # send a simple JSON response
+        return $LayoutObject->JSONReply(
             Data => {
                 Success => 1,
-            },
-        );
-
-        # send JSON response
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json',
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
+            }
         );
     }
 
