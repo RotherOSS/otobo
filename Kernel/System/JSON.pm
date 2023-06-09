@@ -102,12 +102,19 @@ sub Encode {
     }
 
     # Serialise the Perl data structure into the format JSON.
+    #
     # The attribute utf8 of $JSONObject is not set. This means
     # that the result of encode() will be a Perl string that may
     # contain character with a code point greater 255.
     # Unicode LS and PS are not replaced. But see below.
     # $Param{Data}->{sample_newline} = "\x{2028}" if ref $Param{Data} eq 'HASH';
-    my $JSONEncoded = $JSONObject->encode( $Param{Data} ) || q{""};
+    #
+    # The method encode() croaks on error, so there should be no circumstances
+    # where undef or an empty list is returned. But, just in case, return the JSON
+    # for an empty string in that case.
+    # Note that the string `q{0}` is valid JSON and thus should not be
+    # turned into the string `q{""}`.
+    my $JSONEncoded = $JSONObject->encode( $Param{Data} ) // q{""};
 
     #use Devel::Peek;
     #Dump( $JSONEncoded );
