@@ -297,19 +297,14 @@ sub _Return {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # build JSON output
-    my $JSON;
     if ( IsArrayRefWithData( $Param{Data} ) ) {
-        $JSON = $LayoutObject->JSONEncode(
+        return $LayoutObject->JSONReply(
             Data => $Param{Data},
         );
     }
 
-    # send response
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json',
-        Content     => $JSON || $LayoutObject->JSONEncode( Data => [] ),
-        Type        => 'inline',
-        NoCache     => 1,
+    return $LayoutObject->JSONReply(
+        Data => [],
     );
 }
 

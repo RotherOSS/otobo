@@ -69,7 +69,7 @@ sub Run {
                 "System was unable to update setting!",
             );
 
-            return $Self->_ReturnJSON( Response => \%Result );
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         my %LockStatus = $SysConfigObject->SettingLockCheck(
@@ -91,7 +91,8 @@ sub Run {
                 $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                     "You need to enable the setting before locking!"
                 );
-                return $Self->_ReturnJSON( Response => \%Result );
+
+                return $LayoutObject->JSONReply( Data => \%Result );
             }
             $Setting{Locked} = $Guid ? 2 : 0;
         }
@@ -130,7 +131,7 @@ sub Run {
             $Result{Data}->{SettingData}->{Invalid} = 1;
         }
 
-        return $Self->_ReturnJSON( Response => \%Result );
+        return $LayoutObject->JSONReply( Data => \%Result );
     }
     elsif ( $Self->{Subaction} eq 'Unlock' ) {
 
@@ -185,7 +186,7 @@ sub Run {
             $Result{Data}->{SettingData}->{Invalid} = 1;
         }
 
-        return $Self->_ReturnJSON( Response => \%Result );
+        return $LayoutObject->JSONReply( Data => \%Result );
     }
 
     elsif ( $Self->{Subaction} eq 'SettingReset' ) {
@@ -204,14 +205,16 @@ sub Run {
             $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                 "Missing setting name!",
             );
-            return $Self->_ReturnJSON( Response => \%Result );
+
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         if ( !$ResetOptions ) {
             $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                 "Missing ResetOptions!",
             );
-            return $Self->_ReturnJSON( Response => \%Result );
+
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         my @Options = split /,/, $ResetOptions;
@@ -239,7 +242,8 @@ sub Run {
                 $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                     "Setting is locked by another user!",
                 );
-                return $Self->_ReturnJSON( Response => \%Result );
+
+                return $LayoutObject->JSONReply( Data => \%Result );
             }
             else {
 
@@ -251,7 +255,8 @@ sub Run {
                 $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                     "System was not able to lock the setting!",
                 );
-                return $Self->_ReturnJSON( Response => \%Result );
+
+                return $LayoutObject->JSONReply( Data => \%Result );
             }
 
             my $Success = $SysConfigObject->SettingReset(
@@ -264,7 +269,8 @@ sub Run {
                 $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                     "System was not able to reset the setting!",
                 );
-                return $Self->_ReturnJSON( Response => \%Result );
+
+                return $LayoutObject->JSONReply( Data => \%Result );
             }
 
             $SysConfigObject->SettingUnlock(
@@ -321,7 +327,7 @@ sub Run {
             $Result{Data}->{SettingData}->{Invalid} = 1;
         }
 
-        return $Self->_ReturnJSON( Response => \%Result );
+        return $LayoutObject->JSONReply( Data => \%Result );
     }
 
     elsif ( $Self->{Subaction} eq 'SettingUpdate' ) {
@@ -376,7 +382,7 @@ sub Run {
                 "System was unable to update setting!",
             );
 
-            return $Self->_ReturnJSON( Response => \%Result );
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         # try to lock to the current user
@@ -401,7 +407,8 @@ sub Run {
                 $Result{Data}->{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                     "System was unable to update setting!",
                 );
-                return $Self->_ReturnJSON( Response => \%Result );
+
+                return $LayoutObject->JSONReply( Data => \%Result );
             }
         }
 
@@ -460,7 +467,7 @@ sub Run {
             $Result{Data}->{SettingData}->{Invalid} = 1;
         }
 
-        return $Self->_ReturnJSON( Response => \%Result );
+        return $LayoutObject->JSONReply( Data => \%Result );
     }
     elsif ( $Self->{Subaction} eq 'SettingList' ) {
 
@@ -555,7 +562,8 @@ sub Run {
         my %Result;
         if ( !$SettingName ) {
             $Result{Error} = Translatable("Missing setting name.");
-            return $Self->_ReturnJSON( Response => \%Result );
+
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         my %Setting = $SysConfigObject->SettingGet(
@@ -564,7 +572,8 @@ sub Run {
 
         if ( !%Setting ) {
             $Result{Error} = Translatable("Setting not found.");
-            return $Self->_ReturnJSON( Response => \%Result );
+
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         my $Value = $Setting{XMLContentParsed}->{Value}->[0];
@@ -584,7 +593,7 @@ sub Run {
             $Result{IsComplex} = 1;
         }
 
-        return $Self->_ReturnJSON( Response => \%Result );
+        return $LayoutObject->JSONReply( Data => \%Result );
     }
     elsif ( $Self->{Subaction} eq 'AddHashKey' ) {
 
@@ -605,7 +614,8 @@ sub Run {
         for my $Needed (qw(Name Key)) {
             if ( !$Needed ) {
                 $Result{Error} = Translatable("Missing setting $Needed.");
-                return $Self->_ReturnJSON( Response => \%Result );
+
+                return $LayoutObject->JSONReply( Data => \%Result );
             }
         }
 
@@ -615,7 +625,8 @@ sub Run {
 
         if ( !%Setting ) {
             $Result{Error} = Translatable("Setting not found.");
-            return $Self->_ReturnJSON( Response => \%Result );
+
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         my $Value = $Setting{XMLContentParsed}->{Value}->[0];
@@ -630,7 +641,7 @@ sub Run {
             UserID            => $Self->{UserID},
         );
 
-        return $Self->_ReturnJSON( Response => \%Result );
+        return $LayoutObject->JSONReply( Data => \%Result );
     }
     elsif ( $Self->{Subaction} eq 'CheckSettings' ) {
 
@@ -647,7 +658,8 @@ sub Run {
             $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                 "Missing Settings!",
             );
-            return $Self->_ReturnJSON( Response => \%Result );
+
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         my $Settings = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
@@ -655,7 +667,7 @@ sub Run {
         );
 
         if ( !IsArrayRefWithData($Settings) ) {
-            return $Self->_ReturnJSON( Response => \%Result );
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
@@ -694,7 +706,7 @@ sub Run {
             push @{ $Result{Data} }, \%Item;
         }
 
-        return $Self->_ReturnJSON( Response => \%Result );
+        return $LayoutObject->JSONReply( Data => \%Result );
     }
 
     # Show the content of a group with all settings.
@@ -805,34 +817,6 @@ sub _GetCategoriesStrg {
     );
 
     return $CategoriesStrg;
-}
-
-sub _ReturnJSON {
-    my ( $Self, %Param ) = @_;
-
-    for my $Needed (qw(Response)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
-            return;
-        }
-    }
-
-    # JSON response
-    my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-        Data => $Param{Response},
-    );
-
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json',
-        Content     => $JSON,
-        Type        => 'inline',
-        NoCache     => 1,
-    );
 }
 
 sub _CheckInvalidSettings {

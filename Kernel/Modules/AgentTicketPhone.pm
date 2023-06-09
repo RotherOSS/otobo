@@ -2382,6 +2382,8 @@ sub Run {
                 @TemplateAJAX,
             ],
         );
+
+        # can't use JSONReply here, as we already have JSON
         return $LayoutObject->Attachment(
             ContentType => 'application/json',
             Content     => $JSON,
