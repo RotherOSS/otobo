@@ -34,12 +34,22 @@ my @EncodeTests = (
     {
         Input  => undef,
         Result => undef,
-        Name   => 'JSON - undef test',
+        Name   => 'JSON - undef',
     },
     {
         Input  => '',
         Result => '""',
-        Name   => 'JSON - empty test',
+        Name   => 'JSON - empty string',
+    },
+    {
+        Input  => q{"},
+        Result => q{"\""},
+        Name   => 'JSON - double quote',
+    },
+    {
+        Input  => q{'},
+        Result => q{"'"},
+        Name   => 'JSON - single quote',
     },
     {
         Input  => 'Some Text',
@@ -47,9 +57,39 @@ my @EncodeTests = (
         Name   => 'JSON - simple'
     },
     {
+        Input  => q{🎋 - U+1F38B - TANABATA TREE},
+        Result => q{"🎋 - U+1F38B - TANABATA TREE"},
+        Name   => 'JSON - tanabata tree'
+    },
+    {
         Input  => 42,
         Result => '42',
-        Name   => 'JSON - simple'
+        Name   => 'JSON - positive integer'
+    },
+    {
+        Input  => -1_000_001,
+        Result => '-1000001',
+        Name   => 'JSON - negative integer'
+    },
+    {
+        Input  => 0,
+        Result => '0',
+        Name   => 'JSON - number zero'
+    },
+    {
+        Input  => -0,
+        Result => '0',
+        Name   => 'JSON - number negative zero'
+    },
+    {
+        Input  => '0',
+        Result => '"0"',
+        Name   => 'JSON - string zero'
+    },
+    {
+        Input  => '-0',
+        Result => '"-0"',
+        Name   => 'JSON - string negative zero'
     },
     {
         Input  => [ 1, 2, "3", "Foo", 5 ],
@@ -154,7 +194,7 @@ for my $Test (@EncodeTests) {
         %{ $Test->{Params} // {} },
     );
 
-    is( $JSON, $Test->{Result}, $Test->{Name} );
+    is( $JSON, $Test->{Result}, "encode: $Test->{Name}" );
 }
 
 # Tests for JSON decode method
@@ -270,7 +310,7 @@ for my $Test (@DecodeTests) {
         Data => $Test->{InputDecode},
     );
 
-    is( $JSON, $Test->{Result}, $Test->{Name} );
+    is( $JSON, $Test->{Result}, "decode: $Test->{Name}" );
 }
 
 done_testing;

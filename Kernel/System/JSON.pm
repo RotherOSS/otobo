@@ -61,6 +61,7 @@ sub new {
 =head2 Encode()
 
 Serialise a perl data structure as a JSON string.
+Supported data structures are hashrefs, arrayrefs and simple scalars like strings and numbers.
 The result will be Perl string that may have code points greater 255.
 
     my $JSONString = $JSONObject->Encode(
