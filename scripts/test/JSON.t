@@ -74,12 +74,32 @@ my @EncodeTests = (
     {
         Input  => 0,
         Result => '0',
-        Name   => 'JSON - number zero'
+        Name   => 'JSON - integer zero'
     },
     {
         Input  => -0,
         Result => '0',
-        Name   => 'JSON - number negative zero'
+        Name   => 'JSON - negative integer zero'
+    },
+    {
+        Input  => 0.000,
+        Result => q{0.0},
+        Name   => 'JSON - float zero'
+    },
+    {
+        Input  => -0.000,
+        Result => q{-0.0},
+        Name   => 'JSON - negative float zero'
+    },
+    {
+        Input  => 000 . 000,
+        Result => q{"00"},
+        Name   => 'JSON - strange octal float zero'
+    },
+    {
+        Input  => -000 . 000,
+        Result => q{"00"},
+        Name   => 'JSON - negative strange octal float zero'
     },
     {
         Input  => '0',
