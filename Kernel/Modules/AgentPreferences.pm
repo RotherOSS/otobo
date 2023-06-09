@@ -311,7 +311,7 @@ sub Run {
                 "System was unable to update setting!",
             );
 
-            return $Self->_ReturnJSON( Response => \%Result );
+            return $LayoutObject->JSONReply( Data => \%Result );
         }
 
         my $DataIsDifferent = DataIsDifferent(
