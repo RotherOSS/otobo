@@ -35,7 +35,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::JSON - the JSON wrapper lib
+Kernel::System::JSON - JSON lib that wraps Cpanel::JSON::XS
 
 =head1 DESCRIPTION
 
@@ -52,7 +52,7 @@ create a JSON object. Do not use it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
     return bless {}, $Type;
@@ -62,6 +62,7 @@ sub new {
 
 Serialise a perl data structure as a JSON string.
 Supported data structures are hashrefs, arrayrefs and simple scalars like strings and numbers.
+An undefined value is fine too.
 The result will be Perl string that may have code points greater 255.
 
     my $JSONString = $JSONObject->Encode(
@@ -75,8 +76,8 @@ The result will be Perl string that may have code points greater 255.
 sub Encode {
     my ( $Self, %Param ) = @_;
 
-    # check for needed data
-    if ( !defined $Param{Data} ) {
+    # an undefined value is fine for the parameter Data
+    if ( !exists $Param{Data} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Data!',
