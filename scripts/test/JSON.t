@@ -33,8 +33,13 @@ my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 my @EncodeTests = (
     {
         Input  => undef,
-        Result => undef,
+        Result => q{null},
         Name   => 'JSON - undef',
+    },
+    {
+        Input  => [ 1, undef, "3", undef, 5 ],
+        Result => q{[1,null,"3",null,5]},
+        Name   => 'JSON - array containing two undefs'
     },
     {
         Input  => '',
@@ -114,7 +119,7 @@ my @EncodeTests = (
     {
         Input  => [ 1, 2, "3", "Foo", 5 ],
         Result => '[1,2,"3","Foo",5]',
-        Name   => 'JSON - simple'
+        Name   => 'JSON - simple array'
     },
     {
         Input => {
