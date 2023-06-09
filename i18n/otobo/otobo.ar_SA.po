@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-08 05:52+0000\n"
+"PO-Revision-Date: 2023-06-09 13:29+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -26935,59 +26935,65 @@ msgid ""
 "Next possible ticket states after adding a phone note in the ticket phone "
 "inbound screen of the agent interface."
 msgstr ""
+"حالات المتابعة المحتملة للتذاكر بعد إضافة ملاحظة هاتفية من شاشة المكالمة "
+"الواردة في لوحة الوكيل."
 
 #. SysConfig
 msgid ""
 "Next possible ticket states after adding a phone note in the ticket phone "
 "outbound screen of the agent interface."
 msgstr ""
+"حالات المتابعة المحتملة للتذاكر بعد إضافة ملاحظة هاتفية من شاشة المكالمة "
+"الصادرة في لوحة الوكيل."
 
 #. SysConfig
 msgid "No public key found."
-msgstr ""
+msgstr "لم يتم العثور على مفتاح عام."
 
 #. SysConfig
 msgid "No valid OpenPGP data found."
-msgstr ""
+msgstr "لم يتم العثور على بيانات OpenPGP صالحة."
 
 #. SysConfig
 msgid "None"
-msgstr ""
+msgstr "لا شَيْء"
 
 #. SysConfig
 msgid "Norwegian"
-msgstr ""
+msgstr "النرويجية"
 
 #. SysConfig
 msgid "Notification Settings"
-msgstr ""
+msgstr "إعدادات الإخطار"
 
 #. SysConfig
 msgid "Notified about response time escalation."
-msgstr ""
+msgstr "تم الإخطار بتصعيد وقت الاستجابة."
 
 #. SysConfig
 msgid "Notified about solution time escalation."
-msgstr ""
+msgstr "تم الإخطار بتصعيد وقت الحل."
 
 #. SysConfig
 msgid "Notified about update time escalation."
-msgstr ""
+msgstr "تم الإخطار بتصعيد وقت التحديث."
 
 #. SysConfig
 msgid "Number of displayed tickets"
-msgstr ""
+msgstr "عدد التذاكر المعروضة"
 
 #. SysConfig
 msgid ""
 "Number of lines (per ticket) that are shown by the search utility in the "
 "agent interface."
-msgstr ""
+msgstr "عدد الصفوف (لكل تذكرة) التي يتم عرضها عبر أداة البحث في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'."
 msgstr ""
+"عدد الأجزاء (shards) (NS) والنسخ المتماثلة (NR) والحد الأقصى للحقل لفهرس "
+"\"التذكرة\"."
 
 #. SysConfig
 msgid ""
@@ -26995,6 +27001,9 @@ msgid ""
 "'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
 "compatibility use 'Elasticsearch::IndexSettings###Default' instead."
 msgstr ""
+"عدد الأجزاء (NS) والنسخ المتماثلة (NR) وحد الحقل للفهرس. ملاحظة: لم يعد يتم "
+"استخدام \"Elasticsearch::ArticleIndexCreationSettings\". بدلا من ذلك، استخدم "
+"\"Elasticsearch::IndexSettings###Default\" لضمان التوافق مع الإصدارات الأحدث."
 
 #. SysConfig
 msgid ""
@@ -27005,22 +27014,28 @@ msgid ""
 "indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or "
 "'ConfigItem'."
 msgstr ""
+"عدد الأجزاء (NS) والنسخ المتماثلة (NR) وحد الحقل للفهارس. يحل هذا الإعداد "
+"محل \"Elasticsearch::ArticleIndexCreationSettings\" في الإصدارات الأحدث. إذا "
+"كان كلا الإعدادين موجودين ويختلفان، تحديد أولوياتهما. استخدم \"Elasticsearch"
+"::IndexSettings###... \" لتحديد إعدادات محددة للفهارس الفردية. '. . . ' يمكن "
+"أن تكون إحدى القيم التالية: \"Customer\" أو \"CustomerUser\" أو \"Ticket\" "
+"أو \"ConfigItem\"."
 
 #. SysConfig
 msgid ""
 "Number of tickets to be displayed in each page of a search result in the "
 "agent interface."
-msgstr ""
+msgstr "عدد التذاكر لكل صفحة في نتائج البحث في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Number of tickets to be displayed in each page of a search result in the "
 "customer interface."
-msgstr ""
+msgstr "عدد التذاكر المراد عرضها لكل صفحة في نتيجة بحث في واجهة العميل."
 
 #. SysConfig
 msgid "OTOBO News"
-msgstr ""
+msgstr "أخبار من OTOBO"
 
 #. SysConfig
 msgid "OTOBO Team Services"
