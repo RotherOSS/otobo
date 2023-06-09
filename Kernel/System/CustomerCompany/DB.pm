@@ -175,8 +175,7 @@ sub CustomerCompanyList {
 
     # dynamic field handling
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-    my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+    my $DynamicFieldConfigs       = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         ObjectType => 'CustomerCompany',
         Valid      => 1,
     );
@@ -396,24 +395,18 @@ sub CustomerCompanySearchDetail {
         }
     }
 
-    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    # dynamic field handling
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-    # Check all configured change dynamic fields, build lookup hash by name.
-    my %CustomerCompanyDynamicFieldName2Config;
-    my $CustomerCompanyDynamicFields = $DynamicFieldObject->DynamicFieldListGet(
+    my $DynamicFieldConfigs       = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         ObjectType => 'CustomerCompany',
     );
-    for my $DynamicField ( @{$CustomerCompanyDynamicFields} ) {
-        $CustomerCompanyDynamicFieldName2Config{ $DynamicField->{Name} } = $DynamicField;
-    }
 
     my $SQLDynamicFieldFrom     = '';
     my $SQLDynamicFieldWhere    = '';
     my $DynamicFieldJoinCounter = 1;
 
     DYNAMICFIELD:
-    for my $DynamicField ( @{$CustomerCompanyDynamicFields} ) {
+    for my $DynamicField ( @{$DynamicFieldConfigs} ) {
 
         my $SearchParam = $Param{ "DynamicField_" . $DynamicField->{Name} };
 
@@ -459,6 +452,7 @@ sub CustomerCompanySearchDetail {
                             . "' on field '"
                             . $DynamicField->{Name} . "'!",
                     );
+
                     return;
                 }
 
