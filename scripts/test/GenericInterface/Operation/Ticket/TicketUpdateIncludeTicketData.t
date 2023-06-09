@@ -14,34 +14,35 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
 use Kernel::GenericInterface::Requester;
-
 use Kernel::System::VariableCheck qw(:all);
 
 # get helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-
         SkipSSLVerify => 1,
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get a random number
-my $RandomID = $Helper->GetRandomNumber();
+my $RandomID = $Helper->GetRandomNumber;
 
 # create a new user for current test
 my $UserLogin = $Helper->TestUserCreate(
@@ -51,12 +52,12 @@ my $Password = $UserLogin;
 
 # new user object
 my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-
-$Self->{UserID} = $UserObject->UserLookup(
+my $UserID     = $UserObject->UserLookup(
     UserLogin => $UserLogin,
 );
 
 # create a new user without permissions for current test
+# TODO: why do we need a second user?
 my $UserLogin2 = $Helper->TestUserCreate();
 my $Password2  = $UserLogin2;
 
@@ -65,6 +66,7 @@ my $CustomerUserLogin = $Helper->TestCustomerUserCreate();
 my $CustomerPassword  = $CustomerUserLogin;
 
 # create a customer that will not have permissions
+# TODO: why do we need a second customer user?
 my $CustomerUserLogin2 = $Helper->TestCustomerUserCreate();
 my $CustomerPassword2  = $CustomerUserLogin2;
 
@@ -88,10 +90,7 @@ my $FieldTextID = $DynamicFieldObject->DynamicFieldAdd(
     UserID  => 1,
     Reorder => 0,
 );
-$Self->True(
-    $FieldTextID,
-    "Dynamic Field $FieldTextID",
-);
+ok( $FieldTextID, "Dynamic Field $FieldTextID" );
 
 # add ID
 $DynamicFieldTextConfig{ID} = $FieldTextID;
@@ -117,10 +116,7 @@ my $FieldDropdownID = $DynamicFieldObject->DynamicFieldAdd(
     UserID  => 1,
     Reorder => 0,
 );
-$Self->True(
-    $FieldDropdownID,
-    "Dynamic Field $FieldDropdownID",
-);
+ok( $FieldDropdownID, "Dynamic Field $FieldDropdownID" );
 
 # add ID
 $DynamicFieldDropdownConfig{ID} = $FieldDropdownID;
@@ -146,10 +142,7 @@ my $FieldMultiselectID = $DynamicFieldObject->DynamicFieldAdd(
     UserID  => 1,
     Reorder => 0,
 );
-$Self->True(
-    $FieldMultiselectID,
-    "Dynamic Field $FieldMultiselectID",
-);
+ok( $FieldMultiselectID, "Dynamic Field $FieldMultiselectID" );
 
 # add ID
 $DynamicFieldMultiselectConfig{ID} = $FieldMultiselectID;
@@ -171,10 +164,7 @@ my $ArticleFieldTextID = $DynamicFieldObject->DynamicFieldAdd(
     UserID  => 1,
     Reorder => 0,
 );
-$Self->True(
-    $ArticleFieldTextID,
-    "Dynamic Field $FieldTextID",
-);
+ok( $ArticleFieldTextID, "Dynamic Field $FieldTextID" );
 
 # add ID
 $ArticleDynamicFieldTextConfig{ID} = $ArticleFieldTextID;
@@ -199,10 +189,7 @@ my $TicketID1 = $TicketObject->TicketCreate(
 );
 
 # sanity check
-$Self->True(
-    $TicketID1,
-    "TicketCreate() successful for Ticket One ID $TicketID1",
-);
+ok( $TicketID1, "TicketCreate() successful for Ticket One ID $TicketID1", );
 
 my %Ticket = $TicketObject->TicketGet(
     TicketID => $TicketID1,
@@ -214,9 +201,9 @@ push @TicketIDs, $TicketID1;
 
 # create backed object
 my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-$Self->Is(
-    ref $BackendObject,
-    'Kernel::System::DynamicField::Backend',
+isa_ok(
+    $BackendObject,
+    ['Kernel::System::DynamicField::Backend'],
     'Backend object was created successfully',
 );
 
@@ -229,10 +216,7 @@ my $Result = $BackendObject->ValueSet(
 );
 
 # sanity check
-$Self->True(
-    $Result,
-    "Text ValueSet() for Ticket $TicketID1",
-);
+ok( $Result, "Text ValueSet() for Ticket $TicketID1", );
 
 # set dropdown field value
 $Result = $BackendObject->ValueSet(
@@ -243,10 +227,7 @@ $Result = $BackendObject->ValueSet(
 );
 
 # sanity check
-$Self->True(
-    $Result,
-    "Multiselect ValueSet() for Ticket $TicketID1",
-);
+ok( $Result, "Multiselect ValueSet() for Ticket $TicketID1", );
 
 # set multiselect field value
 $Result = $BackendObject->ValueSet(
@@ -257,20 +238,17 @@ $Result = $BackendObject->ValueSet(
 );
 
 # sanity check
-$Self->True(
-    $Result,
-    "Dropdown ValueSet() for Ticket $TicketID1",
-);
+ok( $Result, "Dropdown ValueSet() for Ticket $TicketID1", );
 
 # set web service name
-my $WebserviceName = $Helper->GetRandomID();
+my $WebserviceName = $Helper->GetRandomID;
 
 # create web-service object
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
-$Self->Is(
-    ref $WebserviceObject,
-    'Kernel::System::GenericInterface::Webservice',
+isa_ok(
+    $WebserviceObject,
+    ['Kernel::System::GenericInterface::Webservice'],
     "Create web service object",
 );
 
@@ -289,10 +267,7 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
     ValidID => 1,
     UserID  => 1,
 );
-$Self->True(
-    $WebserviceID,
-    "Added web service",
-);
+ok( $WebserviceID, "Added web service" );
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -367,12 +342,9 @@ my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
     Name    => $WebserviceName,
     Config  => $WebserviceConfig,
     ValidID => 1,
-    UserID  => $Self->{UserID},
+    UserID  => $UserID,
 );
-$Self->True(
-    $WebserviceUpdate,
-    "Updated web service $WebserviceID - $WebserviceName",
-);
+ok( $WebserviceUpdate, "Updated web service $WebserviceID - $WebserviceName", );
 
 # disable SessionCheckRemoteIP setting
 $ConfigObject->Set(
@@ -383,10 +355,9 @@ $ConfigObject->Set(
 # Get SessionID
 # create requester object
 my $RequesterSessionObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
-
-$Self->Is(
-    ref $RequesterSessionObject,
-    'Kernel::GenericInterface::Requester',
+isa_ok(
+    $RequesterSessionObject,
+    ['Kernel::GenericInterface::Requester'],
     "SessionID - Create requester object",
 );
 
@@ -650,7 +621,7 @@ my @Tests = (
 
 # debugger object
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
+    UserID         => $UserID,
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -658,9 +629,9 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => $WebserviceID,
     CommunicationType => 'Provider',
 );
-$Self->Is(
-    ref $DebuggerObject,
-    'Kernel::GenericInterface::Debugger',
+isa_ok(
+    $DebuggerObject,
+    ['Kernel::GenericInterface::Debugger'],
     'DebuggerObject instantiate correctly',
 );
 
@@ -673,9 +644,9 @@ for my $Test (@Tests) {
         Operation      => $Test->{Operation},
     );
 
-    $Self->Is(
-        ref $LocalObject,
-        "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}",
+    isa_ok(
+        $LocalObject,
+        ["Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"],
         "$Test->{Name} - Create local object",
     );
 
@@ -698,20 +669,20 @@ for my $Test (@Tests) {
     );
 
     # check result
-    $Self->Is(
-        ref $LocalResult,
+    ref_ok(
+        $LocalResult,
         'HASH',
         "$Test->{Name} - Local result structure is valid",
     );
 
     # create requester object
     my $RequesterObject = Kernel::GenericInterface::Requester->new(
-        %{$Self},
+        UserID       => $UserID,
         ConfigObject => $ConfigObject,
     );
-    $Self->Is(
-        ref $RequesterObject,
-        'Kernel::GenericInterface::Requester',
+    isa_ok(
+        $RequesterObject,
+        ['Kernel::GenericInterface::Requester'],
         "$Test->{Name} - Create requester object",
     );
 
@@ -726,13 +697,13 @@ for my $Test (@Tests) {
     );
 
     # check result
-    $Self->Is(
-        ref $RequesterResult,
+    ref_ok(
+        $RequesterResult,
         'HASH',
         "$Test->{Name} - Requester result structure is valid",
     );
 
-    $Self->Is(
+    is(
         $RequesterResult->{Success},
         $Test->{SuccessRequest},
         "$Test->{Name} - Requester successful result",
@@ -745,28 +716,28 @@ for my $Test (@Tests) {
     }
 
     if ( !$LocalResult->{Data}->{Error} ) {
-        $Self->True(
+        ok(
             $LocalResult->{Data}->{Ticket},
             "$Test->{Name} - Local result TicketData with True.",
         );
     }
 
     if ( !$RequesterResult->{Data}->{Error} ) {
-        $Self->True(
+        ok(
             $RequesterResult->{Data}->{Ticket},
             "$Test->{Name} - Local result TicketData with True.",
         );
     }
 
     my $RequestResultFound = IsHashRefWithData( $RequesterResult->{Data}->{Ticket} ) ? 1 : 0;
-    $Self->Is(
+    is(
         $RequestResultFound,
         1,
         "$Test->{Name} - RequesterResult includes ticket data.",
     );
 
     my $LocalResultFound = IsHashRefWithData( $Test->{ExpectedReturnLocalData}->{Data}->{Ticket} ) ? 1 : 0;
-    $Self->Is(
+    is(
         $LocalResultFound,
         1,
         "$Test->{Name} - LocalResult includes ticket data.",
@@ -776,7 +747,7 @@ for my $Test (@Tests) {
     my $ExpectedReturnRemoteDataKey = $Test->{ExpectedReturnRemoteData}->{Data}->{Ticket};
 
     # check several ticket data
-    $Self->Is(
+    is(
         $RequestResultKey->{Title},
         $ExpectedReturnRemoteDataKey->{Title},
         "$Test->{Name} - RequesterResult Ticket title Ok.",
@@ -784,13 +755,13 @@ for my $Test (@Tests) {
 
     # check several article data
     if ( $ExpectedReturnRemoteDataKey->{Article} ) {
-        $Self->Is(
+        is(
             $RequestResultKey->{Article}->{Body},
             $ExpectedReturnRemoteDataKey->{Article}->{Body},
             "$Test->{Name} - RequesterResult Article Body Ok.",
         );
 
-        $Self->Is(
+        is(
             $RequestResultKey->{Article}->{Subject},
             $ExpectedReturnRemoteDataKey->{Article}->{Subject},
             "$Test->{Name} - RequesterResult Article Subject Ok.",
@@ -802,7 +773,7 @@ for my $Test (@Tests) {
                 if ( $ExpectedReturnRemoteDataKey->{DynamicField}->[0]->{Value} eq $Field->{Value} ) {
                     $Matched = 1;
 
-                    $Self->Is(
+                    is(
                         $Matched,
                         1,
                         "$Test->{Name} - RequesterResult Article DynamicField Ok.",
@@ -814,7 +785,7 @@ for my $Test (@Tests) {
 
     # check DynamicField
     if ( $ExpectedReturnRemoteDataKey->{DynamicField} ) {
-        $Self->True(
+        ok(
             $RequestResultKey->{DynamicField},
             "$Test->{Name} - RequesterResult Ticket DynamicField Ok.",
         );
@@ -824,7 +795,7 @@ for my $Test (@Tests) {
     my $ExpectedReturnLocalDataKey = $Test->{ExpectedReturnLocalData}->{Data}->{Ticket};
 
     # check several ticket data
-    $Self->Is(
+    is(
         $LocalResultKey->{Title},
         $ExpectedReturnLocalDataKey->{Title},
         "$Test->{Name} - LocalResult Ticket title Ok.",
@@ -832,13 +803,13 @@ for my $Test (@Tests) {
 
     # check several article data
     if ( $ExpectedReturnLocalDataKey->{Article} ) {
-        $Self->Is(
+        is(
             $LocalResultKey->{Article}->{Body},
             $ExpectedReturnLocalDataKey->{Article}->{Body},
             "$Test->{Name} - LocalResult Article Body Ok.",
         );
 
-        $Self->Is(
+        is(
             $LocalResultKey->{Article}->{Subject},
             $ExpectedReturnLocalDataKey->{Article}->{Subject},
             "$Test->{Name} - LocalResult Article Subject Ok.",
@@ -850,7 +821,7 @@ for my $Test (@Tests) {
                 if ( $ExpectedReturnLocalDataKey->{DynamicField}->[0]->{Value} eq $Field->{Value} ) {
                     $Matched = 1;
 
-                    $Self->Is(
+                    is(
                         $Matched,
                         1,
                         "$Test->{Name} - LocalResult Article DynamicField Ok.",
@@ -862,7 +833,7 @@ for my $Test (@Tests) {
 
     # check DynamicField
     if ( $ExpectedReturnLocalDataKey->{DynamicField} ) {
-        $Self->True(
+        ok(
             $LocalResultKey->{DynamicField},
             "$Test->{Name} - LocalResult Ticket DynamicField Ok.",
         );
@@ -874,9 +845,9 @@ for my $Test (@Tests) {
 # delete web-service
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
-    UserID => $Self->{UserID},
+    UserID => $UserID,
 );
-$Self->True(
+ok(
     $WebserviceDelete,
     "Deleted web service $WebserviceID",
 );
@@ -885,11 +856,11 @@ $Self->True(
 for my $TicketID (@TicketIDs) {
     my $TicketDelete = $TicketObject->TicketDelete(
         TicketID => $TicketID,
-        UserID   => $Self->{UserID},
+        UserID   => $UserID,
     );
 
     # sanity check
-    $Self->True(
+    ok(
         $TicketDelete,
         "TicketDelete() successful for Ticket ID $TicketID",
     );
@@ -916,6 +887,6 @@ for my $DynamicFieldID ( sort keys %{$DeleteFieldList} ) {
 }
 
 # cleanup cache
-$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp;
 
-$Self->DoneTesting();
+done_testing;
