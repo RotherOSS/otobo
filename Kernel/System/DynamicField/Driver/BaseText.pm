@@ -27,6 +27,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 # core modules
+use List::Util qw(none);
 
 # CPAN modules
 
@@ -101,11 +102,22 @@ sub new {
 
         # check if extension declares a new parent module
         if ( $Extension->{Module} ) {
+            my $Module = $Extension->{Module};
 
-            # load extension module and bail out when that fails
-            if ( !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} ) ) {
-                die "Can't load dynamic fields backend module"
-                    . " $Extension->{Module}! $@";
+            # Load extension module and bail out when that fails.
+            die "Can't load dynamic fields extension module $Module! $@"
+                unless $Kernel::OM->Get('Kernel::System::Main')->Require($Module);
+
+            # Set up inheritance.
+            # RequireBaseClass() can't be used here as it would add the extension class to BaseText, instead of Text or TextArea.
+            {
+                no strict 'refs';    ## no critic (TestingAndDebugging::ProhibitNoStrict)
+
+                # Inherit when the parent class was not already declared.
+                # This can happen in an persistent environment.
+                if ( none { $_ eq $Module } @{"${Type}::ISA"} ) {
+                    push @{"${Type}::ISA"}, $Module;
+                }
             }
         }
 
