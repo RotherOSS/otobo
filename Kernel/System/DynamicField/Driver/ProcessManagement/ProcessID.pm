@@ -63,53 +63,16 @@ by using Kernel::System::DynamicField::Backend->new();
 sub new {
     my ($Type) = @_;
 
-    # allocate new hash for object
-    my $Self = bless {}, $Type;
+    # Call conststructor of the base class.
+    my $Self = $Type->SUPER::new(
+        ExtensionClass => 'Text',
+    );
 
-    # set field behaviors
-    $Self->{Behaviors} = {
-        'IsACLReducible'               => 0,
-        'IsNotificationEventCondition' => 1,
-        'IsSortable'                   => 1,
-        'IsFiltrable'                  => 1,
-        'IsStatsCondition'             => 1,
-        'IsCustomerInterfaceCapable'   => 1,
-    };
-
-    # get the Dynamic Field Backend custom extensions
-    my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Text');
-
-    EXTENSION:
-    for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
-
-        # skip invalid extensions
-        next EXTENSION if !IsHashRefWithData( $DynamicFieldDriverExtensions->{$ExtensionKey} );
-
-        # create a extension config shortcut
-        my $Extension = $DynamicFieldDriverExtensions->{$ExtensionKey};
-
-        # check if extension has a new module
-        if ( $Extension->{Module} ) {
-
-            # check if module can be loaded
-            if (
-                !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} )
-                )
-            {
-                die "Can't load dynamic fields backend module"
-                    . " $Extension->{Module}! $@";
-            }
-        }
-
-        # check if extension contains more behaviors
-        if ( IsHashRefWithData( $Extension->{Behaviors} ) ) {
-
-            %{ $Self->{Behaviors} } = (
-                %{ $Self->{Behaviors} },
-                %{ $Extension->{Behaviors} }
-            );
-        }
-    }
+    # set ProcessID specific field behaviours unless an extension already set it
+    $Self->{Behaviours}->{IsSortable}            //= 1;
+    $Self->{Behaviours}->{IsFiltrable}           //= 1;
+    $Self->{Behaviours}->{IsLikeOperatorCapable} //= 0;
+    $Self->{Behaviours}->{IsSetCapable}          //= 0;
 
     return $Self;
 }
