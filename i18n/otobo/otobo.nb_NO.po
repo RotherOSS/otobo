@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-08 05:52+0000\n"
+"PO-Revision-Date: 2023-06-12 09:20+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -228,7 +228,7 @@ msgstr "Lagre"
 
 #. Template: AdminACLEdit
 msgid "or"
-msgstr "eller"
+msgstr "av"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
@@ -3133,7 +3133,7 @@ msgstr "Forespørselsliste"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Time"
-msgstr "Tid"
+msgstr "Range;Historisk"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Communication ID"
@@ -5634,7 +5634,7 @@ msgstr "minutter"
 
 #. Template: AdminPerformanceLog
 msgid "Min"
-msgstr "Min"
+msgstr "Minimum"
 
 #. Template: AdminPerformanceLog
 msgid "Max"
@@ -6917,7 +6917,7 @@ msgstr "Rettighet til å flytte saker i denne gruppen/køen."
 
 #. Template: AdminRoleGroup
 msgid "create"
-msgstr "ticket"
+msgstr "opprett"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
@@ -6925,7 +6925,7 @@ msgstr "Rettighet til å opprette saker i denne gruppen/køen."
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr "that"
+msgstr "notis"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -10566,7 +10566,7 @@ msgstr "Fjern dette søkekriteriet."
 
 #. Template: CustomerTicketZoom
 msgid "Reply"
-msgstr "Sent;Automatisk"
+msgstr "Svar"
 
 #. Template: CustomerTicketZoom
 msgid "Discard"
@@ -10598,7 +10598,7 @@ msgstr "Advarsel"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
-msgstr "Utsted%sa sak"
+msgstr "Utsted%sen sak"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
@@ -10606,7 +10606,7 @@ msgstr "Hendelsesinformasjon"
 
 #. Template: Error
 msgid "Send a bugreport"
-msgstr "Sende en feilrapport"
+msgstr "Send en feilrapport"
 
 #. Template: Error
 msgid "Expand"
@@ -14869,7 +14869,7 @@ msgstr "Saksnummer"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Ticket"
-msgstr "Billett"
+msgstr "Sak"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "printed by"
@@ -15824,7 +15824,7 @@ msgstr "Dette er en"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "email"
-msgstr "address"
+msgstr "e-post"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "click here"
@@ -16068,7 +16068,7 @@ msgstr "Tidssonen ble oppdatert!"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "invalid"
-msgstr "feil"
+msgstr "ugyldig"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "valid"
@@ -16417,204 +16417,207 @@ msgstr "Sanitetssjekker for database."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
-msgstr ""
+msgstr "Distribuer ACL-konfigurasjonen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deployment completed, perfect!"
-msgstr ""
+msgstr "Utrullingen fullført, perfekt!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_responses."
-msgstr ""
+msgstr "Migrer databasetabell auto_responses."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration failed."
-msgstr ""
+msgstr "Migrering mislyktes."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_response."
-msgstr ""
+msgstr "Migrer databasetabell auto_response."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
-msgstr ""
+msgstr "Migrering fullført, perfekt!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "OTOBO Cache cleanup."
-msgstr ""
+msgstr "OTOBO Cache-opprydding."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "Completed."
-msgstr ""
+msgstr "Fullført."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Need OTRSData->%s!"
-msgstr ""
+msgstr "Trenger OTRSData->%s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Can't access OTRS Home: %s!"
-msgstr ""
+msgstr "Får ikke tilgang til OTRS-hjemmesiden: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
-msgstr ""
+msgstr "Alle nødvendige filer kopiert og migrert, perfekt!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
-msgstr ""
+msgstr "Kopier database."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Skipped..."
-msgstr ""
+msgstr "Hoppet over..."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
-msgstr ""
+msgstr "Systemet kunne ikke koble til OTRS-databasen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to complete data transfer."
-msgstr ""
+msgstr "Systemet kunne ikke fullføre dataoverføringen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
-msgstr ""
+msgstr "Dataoverføring fullført."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO version is correct."
-msgstr ""
+msgstr "Sjekk om OTOBO-versjonen er riktig."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS connect is possible."
-msgstr ""
+msgstr "Sjekk om OTOBO og OTRS-tilkobling er mulig."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
-msgstr ""
+msgstr "Kan ikke åpne RELEASE-filen fra OTRSHome: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS version is correct."
-msgstr ""
+msgstr "Sjekk om OTOBO- og OTRS-versjonen er riktig."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "%s does not exist!"
-msgstr ""
+msgstr "%s eksisterer ikke!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTOBO system found!"
-msgstr ""
+msgstr "Ingen OTOBO-system funnet!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "You are trying to run this script on the wrong framework version %s!"
-msgstr ""
+msgstr "Du prøver å kjøre dette skriptet på feil rammeversjon %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTOBO Version is correct: %s."
-msgstr ""
+msgstr "OTOBO-versjonen er riktig: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
-msgstr ""
+msgstr "Sjekk om OTRS-versjonen er riktig."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS RELEASE file %s does not exist!"
-msgstr ""
+msgstr "OTRS RELEASE-filen %s eksisterer ikke!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s"
-msgstr ""
+msgstr "Kan ikke lese OTRS RELEASE-fil: %s"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTRS system found!"
-msgstr ""
+msgstr "Ingen OTRS-system funnet!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s."
-msgstr ""
+msgstr "Ukjent PRODUKT funnet i OTRS RELASE-fil: %s. Forventede verdier er %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS Version is correct: %s."
-msgstr ""
+msgstr "OTRS-versjonen er riktig: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Migrate ITSM database tables."
-msgstr ""
+msgstr "Migrer ITSM-databasetabeller."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Nothing to do, as the the table '%s' does not exist."
-msgstr ""
+msgstr "Ingenting å gjøre, siden tabellen '%s' ikke eksisterer."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "UPDATE of the table '%s' failed."
-msgstr ""
+msgstr "OPPDATERING av tabellen '%s' mislyktes."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Migration completed."
-msgstr ""
+msgstr "Migrering fullført."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
-msgstr ""
+msgstr "Migrer konfigurasjonsinnstillinger."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid ""
 "An error occured during SysConfig data migration or no configuration exists."
 msgstr ""
+"Det oppstod en feil under SysConfig-datamigrering eller ingen konfigurasjon "
+"eksisterer."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig migration when writing XML to DB."
 msgstr ""
+"Det oppstod en feil under SysConfig-migrering ved skriving av XML til DB."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "SysConfig data migration completed."
-msgstr ""
+msgstr "SysConfig-datamigrering fullført."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Migrate web service configuration."
-msgstr ""
+msgstr "Migrer nettjenestekonfigurasjon."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Failed - see the log!"
-msgstr ""
+msgstr "Mislyktes - se loggen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
 msgid "Migrate database table notification."
-msgstr ""
+msgstr "Varsling om migrering av databasetabell."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
-msgstr ""
+msgstr "Kan ikke åpne Kernel/Config.pm-filen fra OTRSHome: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if Kernel/Config.pm exists in OTOBO home."
-msgstr ""
+msgstr "Sjekk om Kernel/Config.pm finnes i OTOBO home."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Kernel/Config.pm exists in OTOBO home"
-msgstr ""
+msgstr "Kernel/Config.pm finnes i OTOBO-hjemmet"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
-msgstr ""
+msgstr "Sjekk om vi er i stand til å koble til OTRS Home."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't connect to OTRS file directory."
-msgstr ""
+msgstr "Kan ikke koble til OTRS-filkatalogen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Connect to OTRS file directory is possible."
-msgstr ""
+msgstr "Koble til OTRS filkatalog er mulig."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Try database connect and sanity checks."
-msgstr ""
+msgstr "Prøv databasetilkobling og tilregnelighetssjekker."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Could not create database object."
-msgstr ""
+msgstr "Kunne ikke opprette databaseobjekt."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
-msgstr ""
+msgstr "Databasetilkobling og tilregnelighetskontroller fullført."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Check if all necessary packages are installed."
@@ -17291,59 +17294,59 @@ msgstr "OTOBO"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Article Search Index Status"
-msgstr ""
+msgstr "Artikkelsøkeindeksstatus"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Indexed Articles"
-msgstr ""
+msgstr "Indekserte artikler"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticlesPerCommunicationChannel.pm
 msgid "Articles Per Communication Channel"
-msgstr ""
+msgstr "Artikler per kommunikasjonskanal"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Incoming communications"
-msgstr ""
+msgstr "Innkommende kommunikasjon"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Outgoing communications"
-msgstr ""
+msgstr "Utgående kommunikasjon"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Failed communications"
-msgstr ""
+msgstr "Mislykket kommunikasjon"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Average processing time of communications (s)"
-msgstr ""
+msgstr "Gjennomsnittlig behandlingstid for kommunikasjon(er)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "Communication Log Account Status (last 24 hours)"
-msgstr ""
+msgstr "Kommunikasjonsloggkontostatus (siste 24 timer)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "No connections found."
-msgstr ""
+msgstr "Ingen tilkoblinger funnet."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "ok"
-msgstr ""
+msgstr "ok"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "permanent connection errors"
-msgstr ""
+msgstr "permanente tilkoblingsfeil"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "intermittent connection errors"
-msgstr ""
+msgstr "periodiske tilkoblingsfeil"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Config Settings"
-msgstr ""
+msgstr "Konfigurasjonsinnstillinger"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Could not determine value."
-msgstr ""
+msgstr "Kunne ikke bestemme verdien."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon"
@@ -17942,11 +17945,11 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "new"
-msgstr "draft;Legg"
+msgstr "ny"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All new state types (default: viewable)."
-msgstr ""
+msgstr "Alle nye tilstandstyper (standard: synlig)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "open"
@@ -17954,23 +17957,23 @@ msgstr "åpen"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All open state types (default: viewable)."
-msgstr ""
+msgstr "Alle åpne tilstandstyper (standard: synlig)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed"
-msgstr "state"
+msgstr "lukket"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
-msgstr ""
+msgstr "Alle lukkede tilstandstyper (standard: ikke synlig)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending reminder"
-msgstr "state"
+msgstr "venter på påminnelse"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending reminder' state types (default: viewable)."
-msgstr ""
+msgstr "Alle tilstandstyper «ventende påminnelse» (standard: synlig)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto"
@@ -17978,15 +17981,15 @@ msgstr "venter på automatisk endring"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
-msgstr ""
+msgstr "Alle \"ventende auto *\" tilstandstyper (standard: synlig)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "removed"
-msgstr "state"
+msgstr "fjernet"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
-msgstr ""
+msgstr "Alle \"fjernede\" tilstandstyper (standard: ikke synlig)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "merged"
@@ -18074,13 +18077,14 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "reject"
-msgstr "(after"
+msgstr "forkast"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. No new ticket will be "
 "created."
 msgstr ""
+"Oppfølging av lukkede saker er ikke mulig. Ingen ny sak vil bli opprettet."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "new ticket"
