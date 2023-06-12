@@ -643,7 +643,7 @@ sub PrepareRequest {
         # get the ticket
         my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
         my %Ticket           = $TicketObject->TicketGet(
-            TicketID     => $Param{Data}->{TicketID},
+            TicketID      => $Param{Data}->{TicketID},
             DynamicFields => $GetDynamicFields,
         );
 
