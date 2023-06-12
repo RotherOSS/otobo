@@ -18,10 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -236,7 +239,7 @@ $ConfigObject->Set(
 # get a new backend object including the extension registrations from the config object
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-my @Behaviors = (qw(Dummy1 Dummy2));
+my @Behaviors = qw(Dummy1 Dummy2);
 my %Functions = (
     Dummy1 => ['DummyFunction1'],
     Dummy2 => ['DummyFunction2'],
@@ -376,31 +379,32 @@ my @Tests = (
 
 # execute tests
 for my $Test (@Tests) {
-    for my $Behavior (@Behaviors) {
-        my $HasBehaviorResult = $DFBackendObject->HasBehavior(
-            DynamicFieldConfig => $Test->{Config}->{FieldConfig},
-            Behavior           => $Behavior,
-        );
-
-        $Self->Is(
-            $HasBehaviorResult,
-            $Test->{ExpectedResutls}->{Behaviors}->{$Behavior},
-            "$Test->{Name} HasBehavior $Behavior",
-        );
-        for my $FunctionName ( @{ $Functions{$Behavior} } ) {
-            my $FunctionResult = $DFBackendObject->$FunctionName(
+    subtest $Test->{Name} => sub {
+        for my $Behavior (@Behaviors) {
+            my $HasBehaviorResult = $DFBackendObject->HasBehavior(
                 DynamicFieldConfig => $Test->{Config}->{FieldConfig},
+                Behavior           => $Behavior,
             );
 
-            $Self->Is(
-                $FunctionResult,
-                $Test->{ExpectedResutls}->{Functions}->{$FunctionName},
-                "$Test->{Name} Function $FunctionName",
+            is(
+                $HasBehaviorResult,
+                $Test->{ExpectedResutls}->{Behaviors}->{$Behavior},
+                "HasBehavior $Behavior",
             );
+
+            for my $FunctionName ( @{ $Functions{$Behavior} } ) {
+                my $FunctionResult = $DFBackendObject->$FunctionName(
+                    DynamicFieldConfig => $Test->{Config}->{FieldConfig},
+                );
+
+                is(
+                    $FunctionResult,
+                    $Test->{ExpectedResutls}->{Functions}->{$FunctionName},
+                    "Function $FunctionName",
+                );
+            }
         }
-    }
+    };
 }
 
-# we don't need any cleanup
-
-$Self->DoneTesting();
+done_testing;
