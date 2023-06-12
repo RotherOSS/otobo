@@ -80,7 +80,7 @@
                         <div class="CustomerTicketTemplateToCustomer Hidden">
                             <input name="CustomerSelected" title="[% Translate("Select this customer as the main customer.") | html %]" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value=""/>
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText Radio" title="[% Translate("To customer user") | html %]" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText Radio" title="[% Translate("To customer user") | html %]" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly />
                             <a href="#" id="RemoveCustomerTicket" class="RemoveButton CustomerTicketRemove">
                                 <i class="fa fa-minus-square-o"></i>
                                 <span class="InvisibleText">[% Translate("Remove Ticket Customer User") | html %]</span>
@@ -95,7 +95,7 @@
                             <div>
                                 <input name="CustomerSelected" title="[% Translate("Select this customer as the main customer.") | html %]" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="[% Data.Count | html %]" [% Data.CustomerSelected | html %]  [% Data.CustomerDisabled | html %] />
                                 <input name="CustomerKey_[% Data.Count | html %]" id="CustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
-                                <input class="CustomerTicketText Radio [% Data.CustomerError | html %]" name="CustomerTicketText_[% Data.Count %]" id="CustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
+                                <input class="CustomerTicketText Radio [% Data.CustomerError | html %]" name="CustomerTicketText_[% Data.Count %]" id="CustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly />
                                 <a href="#" id="RemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
                                     <i class="fa fa-minus-square-o"></i>
                                     <span class="InvisibleText">[% Translate("Remove Ticket Customer User") | html %]</span>
@@ -156,7 +156,7 @@
                     <div class="Field [% Data.CcCustomerHiddenContainer | html %]">
                         <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
                             <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText" title="[% Translate("Cc") | html %]" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText" title="[% Translate("Cc") | html %]" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly />
                             <a href="#" id="CcRemoveCustomerTicket" class="RemoveButton CustomerTicketRemove">
                                 <i class="fa fa-minus-square-o"></i>
                                 <span class="InvisibleText">[% Translate("Remove Cc") | html %]</span>
@@ -170,7 +170,7 @@
 [% RenderBlockStart("CcMultipleCustomer") %]
                             <div>
                                 <input name="CcCustomerKey_[% Data.Count | html %]" id="CcCustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
-                                <input class="CustomerTicketText [% Data.CustomerError | html %]" name="CcCustomerTicketText_[% Data.Count %]" id="CcCustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
+                                <input class="CustomerTicketText [% Data.CustomerError | html %]" name="CcCustomerTicketText_[% Data.Count %]" id="CcCustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly />
                                 <a href="#" id="CcRemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
                                     <i class="fa fa-minus-square-o"></i>
                                     <span class="InvisibleText">[% Translate("Remove Cc") | html %]</span>
@@ -231,7 +231,7 @@
                     <div class="Field [% Data.BccCustomerHiddenContainer | html %]">
                         <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
                             <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText" title="[% Translate("Bcc") | html %]" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText" title="[% Translate("Bcc") | html %]" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly />
                             <a href="#" id="BccRemoveCustomerTicket" class="RemoveButton CustomerTicketRemove">
                                 <i class="fa fa-minus-square-o"></i>
                                 <span class="InvisibleText">[% Translate("Remove Bcc") | html %]</span>
@@ -245,7 +245,7 @@
 [% RenderBlockStart("BccMultipleCustomer") %]
                             <div>
                                 <input name="BccCustomerKey_[% Data.Count | html %]" id="BccCustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
-                                <input class="CustomerTicketText [% Data.CustomerError | html %]" name="BccCustomerTicketText_[% Data.Count %]" id="BccCustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
+                                <input class="CustomerTicketText [% Data.CustomerError | html %]" name="BccCustomerTicketText_[% Data.Count %]" id="BccCustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly />
                                 <a href="#" id="BccRemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
                                     <i class="fa fa-minus-square-o"></i>
                                     <span class="InvisibleText">[% Translate("Remove Bcc") | html %]</span>
@@ -286,7 +286,7 @@
                     <div class="Clear"></div>
 
 [% IF Config("Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly") %]
-                    <input type="hidden" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]" readonly="readonly"/>
+                    <input type="hidden" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]" readonly/>
 [% ELSE %]
                     [% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 0 Readonly = Config("Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly") %]
 [% END %]

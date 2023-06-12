@@ -116,7 +116,7 @@
 
                         <label for="OperationTypeDisplay">[% Translate("Operation backend") | html %]:</label>
                         <div class="Field">
-                            <input type="text" readonly="readonly" class="W50pc" id="OperationTypeDisplay" value="[% Data.OperationType | html %]" />
+                            <input type="text" readonly class="W50pc" id="OperationTypeDisplay" value="[% Data.OperationType | html %]" />
                             <p class="FieldExplanation">
                                 [% Translate("This OTOBO operation backend module will be called internally to process the request, generating data for the response.") | html %]
                             </p>
