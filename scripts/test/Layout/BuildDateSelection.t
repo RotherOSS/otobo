@@ -300,9 +300,9 @@ my @Tests = (
             Message => 'Set TimeInputFormat to Input',
         },
         ExpectedValue =>
-            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly="readonly"/>
-<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="08" readonly="readonly"/>
-<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly="readonly"/>',
+            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly/>
+<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="08" readonly/>
+<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly/>',
     },
     {
         Name           => 'Disabled (Input)',
@@ -318,9 +318,9 @@ my @Tests = (
             Message => 'Set TimeInputFormat to Input',
         },
         ExpectedValue =>
-            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly="readonly"/>
-<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="09" readonly="readonly"/>
-<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly="readonly"/>',
+            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly/>
+<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="09" readonly/>
+<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly/>',
     },
     {
         Name           => 'Disabled Long Format (Input)',
@@ -332,11 +332,11 @@ my @Tests = (
             Disabled => 1,
         },
         ExpectedValue =>
-            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly="readonly"/>
-<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="08" readonly="readonly"/>
-<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly="readonly"/>
-<input type="text" class="" name="Hour" id="Hour" size="2" maxlength="2" title="Hours" value="23" readonly="readonly"/>
-<input type="text" class="" name="Minute" id="Minute" size="2" maxlength="2" title="Minutes" value="24" readonly="readonly"/>',
+            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly/>
+<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="08" readonly/>
+<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly/>
+<input type="text" class="" name="Hour" id="Hour" size="2" maxlength="2" title="Hours" value="23" readonly/>
+<input type="text" class="" name="Minute" id="Minute" size="2" maxlength="2" title="Minutes" value="24" readonly/>',
     },
     {
         Name           => 'Disabled Long Format (Input)',
@@ -348,11 +348,11 @@ my @Tests = (
             Disabled => 1,
         },
         ExpectedValue =>
-            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly="readonly"/>
-<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="09" readonly="readonly"/>
-<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly="readonly"/>
-<input type="text" class="" name="Hour" id="Hour" size="2" maxlength="2" title="Hours" value="01" readonly="readonly"/>
-<input type="text" class="" name="Minute" id="Minute" size="2" maxlength="2" title="Minutes" value="24" readonly="readonly"/>',
+            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly/>
+<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="09" readonly/>
+<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly/>
+<input type="text" class="" name="Hour" id="Hour" size="2" maxlength="2" title="Hours" value="01" readonly/>
+<input type="text" class="" name="Minute" id="Minute" size="2" maxlength="2" title="Minutes" value="24" readonly/>',
     },
     {
         Name           => 'Disabled Optional (Input)',
@@ -366,9 +366,9 @@ my @Tests = (
         },
         ExpectedValue =>
             '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled="disabled"/>
-<input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" readonly="readonly"/>
-<input type="text" class=" " name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="08" readonly="readonly"/>
-<input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2014" readonly="readonly"/>',
+<input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" readonly/>
+<input type="text" class=" " name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="08" readonly/>
+<input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2014" readonly/>',
     },
     {
         Name           => 'Disabled Optional (Input)',
@@ -382,9 +382,9 @@ my @Tests = (
         },
         ExpectedValue =>
             '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled="disabled"/>
-<input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" readonly="readonly"/>
-<input type="text" class=" " name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="09" readonly="readonly"/>
-<input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2014" readonly="readonly"/>',
+<input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" readonly/>
+<input type="text" class=" " name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="09" readonly/>
+<input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2014" readonly/>',
     },
 );
 
