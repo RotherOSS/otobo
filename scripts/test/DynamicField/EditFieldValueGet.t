@@ -611,6 +611,7 @@ my @Tests = (
     },
 
     # Dynamic Field Checkbox
+    # In the case of success, he retured value is 0|1. This depends on whether the input is true or false.
     {
         Name   => 'Checkbox: Empty template and no ParamObject (Normal)',
         Config => {
@@ -640,8 +641,7 @@ my @Tests = (
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Checkbox},
             Template           => {
-                DynamicField_CheckboxField =>
-                    'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_CheckboxFieldUsed => 1,
             },
             ParamObject             => $ParamObject,
@@ -650,7 +650,7 @@ my @Tests = (
             ReturnTemplateStructure => 0,
         },
         Success         => 1,
-        ExpectedResults => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+        ExpectedResults => 1,
     },
     {
         Name   => 'Checkbox: empty template and UTF8 ParamObject (Normal)',
@@ -659,8 +659,7 @@ my @Tests = (
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_CheckboxField =>
-                    'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_CheckboxFieldUsed => 1,
             },
             TransformDates          => 0,
@@ -668,9 +667,10 @@ my @Tests = (
             ReturnTemplateStructure => 0,
         },
         Success         => 1,
-        ExpectedResults => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+        ExpectedResults => 1,
     },
     {
+        # The retured value is 0|1, depending on whether the input is true or false.
         Name   => 'Checkbox: wrong template and UTF8 ParamObject (Normal)',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Checkbox},
@@ -679,8 +679,7 @@ my @Tests = (
             },
             ParamObject => $ParamObject,
             CGIParam    => {
-                DynamicField_CheckboxField =>
-                    'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_CheckboxFieldUsed => 1,
             },
             TransformDates          => 0,
@@ -688,7 +687,7 @@ my @Tests = (
             ReturnTemplateStructure => 0,
         },
         Success         => 1,
-        ExpectedResults => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+        ExpectedResults => 1,
     },
     {
         Name   => 'Checkbox: Empty template and no ParamObject (ValueStructure)',
@@ -700,7 +699,7 @@ my @Tests = (
             ReturnValueStructure    => 1,
             ReturnTemplateStructure => 0,
         },
-        ExpectedResults => {},
+        ExpectedResults => undef,    # used to be {} before MultiValue support
         Success         => 1,
     },
     {
@@ -724,8 +723,7 @@ my @Tests = (
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Checkbox},
             Template           => {
-                DynamicField_CheckboxField =>
-                    'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_CheckboxFieldUsed => 1,
             },
             ParamObject             => $ParamObject,
@@ -735,7 +733,7 @@ my @Tests = (
         },
         Success         => 1,
         ExpectedResults => {
-            FieldValue => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+            FieldValue => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',    # TODO: is this consistent ?
             UsedValue  => 1,
         }
     },
@@ -756,7 +754,7 @@ my @Tests = (
         },
         Success         => 1,
         ExpectedResults => {
-            FieldValue => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+            FieldValue => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',    # TODO: is this consistent ?
             UsedValue  => 1
         },
 
@@ -771,11 +769,8 @@ my @Tests = (
             ReturnValueStructure    => 0,
             ReturnTemplateStructure => 1,
         },
-        ExpectedResults => {
-            DynamicField_CheckboxField     => undef,
-            DynamicField_CheckboxFieldUsed => undef,
-        },
-        Success => 1,
+        ExpectedResults => undef,    # changed with MultiValue support
+        Success         => 1,
     },
     {
         Name   => 'Checkbox: Empty template and empty ParamObject (TemplateStructure)',
@@ -808,7 +803,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+            DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',    # TODO: is this consistent
             DynamicField_CheckboxFieldUsed => 1,
         },
         Success => 1,
@@ -820,8 +815,7 @@ my @Tests = (
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_CheckboxField =>
-                    'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_CheckboxFieldUsed => 1,
             },
             TransformDates          => 0,
@@ -829,7 +823,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+            DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',    # TODO: is this consistent ?
             DynamicField_CheckboxFieldUsed => 1,
         },
         Success => 1,
@@ -1879,7 +1873,7 @@ my @Tests = (
             ReturnValueStructure    => 0,
             ReturnTemplateStructure => 0,
         },
-        ExpectedResults => '',
+        ExpectedResults => undef,    # changed with MultiValue support
         Success         => 1,
     },
     {
@@ -1889,8 +1883,7 @@ my @Tests = (
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_DateTimeField =>
-                    'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateTimeField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateTimeFieldUsed => 0,
             },
             TransformDates          => 0,
@@ -1917,7 +1910,7 @@ my @Tests = (
             ReturnValueStructure    => 0,
             ReturnTemplateStructure => 0,
         },
-        ExpectedResults => '',
+        ExpectedResults => undef,    # changed with MultiValue support
         Success         => 1,
     },
     {
@@ -2260,12 +2253,10 @@ my @Tests = (
         },
         Success         => 1,
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 1,
-            DynamicField_DateFieldYear   => 0,
-            DynamicField_DateFieldMonth  => 0,
-            DynamicField_DateFieldDay    => 0,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 1,
+            DynamicField_DateFieldYear  => 0,
+            DynamicField_DateFieldMonth => 0,
+            DynamicField_DateFieldDay   => 0,
         },
     },
     {
@@ -2284,12 +2275,10 @@ my @Tests = (
             ReturnTemplateStructure => 0,
         },
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 1,
-            DynamicField_DateFieldYear   => 2013,
-            DynamicField_DateFieldMonth  => 8,
-            DynamicField_DateFieldDay    => 21,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 1,
+            DynamicField_DateFieldYear  => 2013,
+            DynamicField_DateFieldMonth => 8,
+            DynamicField_DateFieldDay   => 21,
         },
         Success => 1,
     },
@@ -2308,12 +2297,10 @@ my @Tests = (
             ReturnTemplateStructure => 0,
         },
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 1,
-            DynamicField_DateFieldYear   => 0,
-            DynamicField_DateFieldMonth  => 0,
-            DynamicField_DateFieldDay    => 0,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 1,
+            DynamicField_DateFieldYear  => 0,
+            DynamicField_DateFieldMonth => 0,
+            DynamicField_DateFieldDay   => 0,
         },
         Success => 1,
     },
@@ -2334,12 +2321,10 @@ my @Tests = (
             ReturnTemplateStructure => 0,
         },
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 1,
-            DynamicField_DateFieldYear   => 2013,
-            DynamicField_DateFieldMonth  => 8,
-            DynamicField_DateFieldDay    => 21,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 1,
+            DynamicField_DateFieldYear  => 2013,
+            DynamicField_DateFieldMonth => 8,
+            DynamicField_DateFieldDay   => 21,
         },
         Success => 1,
     },
@@ -2382,12 +2367,10 @@ my @Tests = (
         },
         Success         => 1,
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 1,
-            DynamicField_DateFieldYear   => 0,
-            DynamicField_DateFieldMonth  => 0,
-            DynamicField_DateFieldDay    => 0,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 1,
+            DynamicField_DateFieldYear  => 0,
+            DynamicField_DateFieldMonth => 0,
+            DynamicField_DateFieldDay   => 0,
         },
     },
     {
@@ -2406,12 +2389,10 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 1,
-            DynamicField_DateFieldYear   => 2013,
-            DynamicField_DateFieldMonth  => 8,
-            DynamicField_DateFieldDay    => 21,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 1,
+            DynamicField_DateFieldYear  => 2013,
+            DynamicField_DateFieldMonth => 8,
+            DynamicField_DateFieldDay   => 21,
         },
         Success => 1,
     },
@@ -2430,12 +2411,10 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 1,
-            DynamicField_DateFieldYear   => 0,
-            DynamicField_DateFieldMonth  => 0,
-            DynamicField_DateFieldDay    => 0,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 1,
+            DynamicField_DateFieldYear  => 0,
+            DynamicField_DateFieldMonth => 0,
+            DynamicField_DateFieldDay   => 0,
         },
         Success => 1,
     },
@@ -2456,12 +2435,10 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 1,
-            DynamicField_DateFieldYear   => 2013,
-            DynamicField_DateFieldMonth  => 8,
-            DynamicField_DateFieldDay    => 21,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 1,
+            DynamicField_DateFieldYear  => 2013,
+            DynamicField_DateFieldMonth => 8,
+            DynamicField_DateFieldDay   => 21,
         },
         Success => 1,
     },
@@ -2564,12 +2541,10 @@ my @Tests = (
             ReturnTemplateStructure => 0,
         },
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 0,
-            DynamicField_DateFieldYear   => 2013,
-            DynamicField_DateFieldMonth  => 8,
-            DynamicField_DateFieldDay    => 21,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 0,
+            DynamicField_DateFieldYear  => 2013,
+            DynamicField_DateFieldMonth => 8,
+            DynamicField_DateFieldDay   => 21,
         },
         Success => 1,
     },
@@ -2606,12 +2581,10 @@ my @Tests = (
             ReturnTemplateStructure => 0,
         },
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 0,
-            DynamicField_DateFieldYear   => 2013,
-            DynamicField_DateFieldMonth  => 8,
-            DynamicField_DateFieldDay    => 21,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 0,
+            DynamicField_DateFieldYear  => 2013,
+            DynamicField_DateFieldMonth => 8,
+            DynamicField_DateFieldDay   => 21,
         },
         Success => 1,
     },
@@ -2646,12 +2619,10 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 0,
-            DynamicField_DateFieldYear   => 2013,
-            DynamicField_DateFieldMonth  => 8,
-            DynamicField_DateFieldDay    => 21,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 0,
+            DynamicField_DateFieldYear  => 2013,
+            DynamicField_DateFieldMonth => 8,
+            DynamicField_DateFieldDay   => 21,
         },
         Success => 1,
     },
@@ -2670,12 +2641,10 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 0,
-            DynamicField_DateFieldYear   => 0,
-            DynamicField_DateFieldMonth  => 0,
-            DynamicField_DateFieldDay    => 0,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 0,
+            DynamicField_DateFieldYear  => 0,
+            DynamicField_DateFieldMonth => 0,
+            DynamicField_DateFieldDay   => 0,
         },
         Success => 0,
     },
@@ -2696,12 +2665,10 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_DateFieldUsed   => 0,
-            DynamicField_DateFieldYear   => 2013,
-            DynamicField_DateFieldMonth  => 8,
-            DynamicField_DateFieldDay    => 21,
-            DynamicField_DateFieldHour   => 0,
-            DynamicField_DateFieldMinute => 0,
+            DynamicField_DateFieldUsed  => 0,
+            DynamicField_DateFieldYear  => 2013,
+            DynamicField_DateFieldMonth => 8,
+            DynamicField_DateFieldDay   => 21,
         },
         Success => 1,
     },
@@ -2717,6 +2684,7 @@ for my $Test (@Tests) {
 
     # When CGI parameters are given,
     # then create a new CGI object to simulate a web request.
+    # CGI parametes overrides ParamObject.
     if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
         $Config{ParamObject} = Kernel::System::Web::Request->new(
             HTTPRequest => POST( '/', [ $Test->{Config}->{CGIParam}->%* ] ),
@@ -2726,10 +2694,10 @@ for my $Test (@Tests) {
     my $Value = $DFBackendObject->EditFieldValueGet(%Config);
 
     if ( $Test->{Success} ) {
-        is( $Value, $Test->{ExpectedResults}, "$Test->{Name} | EditFieldValueLGet()" );
+        is( $Value, $Test->{ExpectedResults}, "$Test->{Name} | EditFieldValueGet()" );
     }
     else {
-        ok( !defined $Value, "$Test->{Name} | EditFieldValueLGet() returns undef", );
+        ok( !defined $Value, "$Test->{Name} | EditFieldValueGet() not successful", );
     }
 }
 
