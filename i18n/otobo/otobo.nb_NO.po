@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-12 09:20+0000\n"
+"PO-Revision-Date: 2023-06-13 17:13+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -16621,11 +16621,11 @@ msgstr "Databasetilkobling og tilregnelighetskontroller fullført."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Check if all necessary packages are installed."
-msgstr ""
+msgstr "Sjekk om alle nødvendige pakker er installert."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The following packages are only installed in OTRS:"
-msgstr ""
+msgstr "Følgende pakker er kun installert i OTRS:"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid ""
@@ -16633,78 +16633,85 @@ msgid ""
 "doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\"
 "\\@otobo.org. We will find a solution."
 msgstr ""
+"Installer (eller avinstaller) pakkene før migrering. Hvis en pakke ikke "
+"eksisterer for OTOBO så langt, vennligst kontakt OTOBO-teamet på bugs\\\\@"
+"otobo.org. Vi finner en løsning."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The same packages are installed on both systems, perfect!"
-msgstr ""
+msgstr "De samme pakkene er installert på begge systemene, perfekt!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Package specific tasks"
-msgstr ""
+msgstr "Pakkespesifikke oppgaver"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Done -"
-msgstr ""
+msgstr "Ferdig -"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Failed at -"
-msgstr ""
+msgstr "Mislyktes på -"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "Check if all needed Perl modules have been installed."
-msgstr ""
+msgstr "Sjekk om alle nødvendige Perl-moduler er installert."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "%s script does not exist."
-msgstr ""
+msgstr "%s-skriptet finnes ikke."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid ""
 "One or more required Perl modules are missing. Please install them as "
 "recommended, and run the migration script again."
 msgstr ""
+"En eller flere nødvendige Perl-moduler mangler. Installer dem som anbefalt, "
+"og kjør migreringsskriptet på nytt."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "All required Perl modules have been installed, perfect!"
-msgstr ""
+msgstr "Alle nødvendige Perl-moduler er installert, perfekt!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPostmasterFilterMigrate.pm
 msgid "Migrate postmaster filter."
-msgstr ""
+msgstr "Migrer postmaster-filter."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOProcessDeploy.pm
 msgid "Deploy the process management configuration."
-msgstr ""
+msgstr "Distribuer prosessadministrasjonskonfigurasjonen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOResponseTemplatesMigrate.pm
 msgid "Migrate database table response_template."
-msgstr ""
+msgstr "Migrer databasetabell responsmal."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSalutationsMigrate.pm
 msgid "Migrate database table salutation."
-msgstr ""
+msgstr "Migrer databasetabellhilsen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
 msgid "Migrate database table signature."
-msgstr ""
+msgstr "Migrer databasetabellsignatur."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
 msgid "Migrate statistics."
-msgstr ""
+msgstr "Migrer statistikk."
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid ""
 "Couldn't read Notification configuration file. Please make sure the file is "
 "valid."
 msgstr ""
+"Kunne ikke lese konfigurasjonsfilen for varsling. Kontroller at filen er "
+"gyldig."
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid "Imported notification has body text with more than 4000 characters."
-msgstr ""
+msgstr "Importert varsling har brødtekst med mer enn 4000 tegn."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
-msgstr ""
+msgstr "ikke installert"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "installed"
@@ -16723,15 +16730,15 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
-msgstr ""
+msgstr "Filen er ikke installert!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is different!"
-msgstr ""
+msgstr "Filen er annerledes!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
-msgstr ""
+msgstr "Kan ikke lese filen!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
@@ -16739,10 +16746,13 @@ msgid ""
 "Ensure, however, that the origin of this package is trustworthy, as it can "
 "modify OTOBO in any possible way.</p>"
 msgstr ""
+"<p>Ytterligere pakker kan forbedre OTOBO med mange nyttige funksjoner. Sørg "
+"imidlertid for at opprinnelsen til denne pakken er pålitelig, siden den kan "
+"endre OTOBO på alle mulige måter.</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Package not verified by the OTOBO community!"
-msgstr ""
+msgstr "Pakken er ikke bekreftet av OTOBO-fellesskapet!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
@@ -16750,14 +16760,17 @@ msgid ""
 "activate the installation of not verified packages via the \"Package::"
 "AllowNotVerifiedPackages\" system configuration setting.</p>"
 msgstr ""
+"<p>Installasjonen av pakker som ikke er bekreftet er deaktivert. Du kan "
+"aktivere installasjonen av ikke-verifiserte pakker via "
+"systemkonfigurasjonsinnstillingen \"Package::AllowNotVerifiedPackages\".</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Verification not possible (e.g. no internet connection)!"
-msgstr ""
+msgstr "Verifisering ikke mulig (f.eks. ingen internettforbindelse)!"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
-msgstr ""
+msgstr "Prosessen \"%s\" og alle dens data har blitt importert."
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
@@ -16765,7 +16778,7 @@ msgstr "Inaktiv"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "FadeAway"
-msgstr ""
+msgstr "Svinne hen"
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't contact registration server. Please try again later."
@@ -16777,7 +16790,7 @@ msgstr "Fikk ikke noe innhold fra registreringsserver. Prøv igjen senere."
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
-msgstr ""
+msgstr "Kan ikke hente Token fra serveren"
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Username and password do not match. Please try again."
@@ -16821,7 +16834,7 @@ msgstr "Tid"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Pending until time"
-msgstr ""
+msgstr "Venter til tid"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Close Time"
@@ -16853,7 +16866,7 @@ msgstr "Opprettet av Saksbehandler/Eier"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Assigned to Customer User Login"
-msgstr ""
+msgstr "Tilordnet til kundebrukerpålogging"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Evaluation by"
@@ -16913,7 +16926,7 @@ msgstr "Antall Innlegg"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "unlimited"
-msgstr ""
+msgstr "ubegrenset"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Attributes to be printed"
@@ -16925,15 +16938,15 @@ msgstr "Sorteringssekvens"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "State Historic"
-msgstr ""
+msgstr "Tilstandshistorikk"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "State Type Historic"
-msgstr ""
+msgstr "Statstype Historisk"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Historic Time Range"
-msgstr ""
+msgstr "Historisk tidsrom"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Number"
@@ -16941,72 +16954,76 @@ msgstr "Nummer"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Last Changed"
-msgstr ""
+msgstr "Sist endret"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
-msgstr ""
+msgstr "Løsningsgjennomsnitt"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Time"
-msgstr ""
+msgstr "Løsning Min tid"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Time"
-msgstr ""
+msgstr "Løsning Maks tid"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average (affected by escalation configuration)"
-msgstr ""
+msgstr "Løsningsgjennomsnitt (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Løsning min tid (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Løsning Maks tid (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Working Time Average (affected by escalation configuration)"
 msgstr ""
+"Løsning Gjennomsnittlig arbeidstid (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Løsning Min arbeidstid (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Løsning Maks arbeidstid (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Average (affected by escalation configuration)"
-msgstr ""
+msgstr "Gjennomsnitt for første respons (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Min Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Min tid for første respons (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Max Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Maks tid for første respons (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid ""
 "First Response Working Time Average (affected by escalation configuration)"
 msgstr ""
+"Gjennomsnittlig arbeidstid for første respons (påvirket av "
+"eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Min Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Første respons min arbeidstid (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Max Working Time (affected by escalation configuration)"
 msgstr ""
+"Første respons maksimal arbeidstid (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Number of Tickets (affected by escalation configuration)"
-msgstr ""
+msgstr "Antall saker (påvirket av eskaleringskonfigurasjon)"
 
 #. Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
 msgid "Days"
@@ -17014,20 +17031,22 @@ msgstr "Dager"
 
 #. Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
 msgid "Queues / Tickets"
-msgstr ""
+msgstr "Køer / saker"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
 msgid "Outdated Tables"
-msgstr ""
+msgstr "Utdaterte tabeller"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
 msgid ""
 "Outdated tables were found in the database. These can be removed if empty."
 msgstr ""
+"Utdaterte tabeller ble funnet i databasen. Disse kan fjernes hvis de er "
+"tomme."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Table Presence"
-msgstr ""
+msgstr "Tabell tilstedeværelse"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Internal Error: Could not open file."
@@ -17063,7 +17082,7 @@ msgstr "Kunne ikke bestemme databaseversjon."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Client Connection Charset"
-msgstr ""
+msgstr "Tegnsett for klienttilkobling"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Setting character_set_client needs to be utf8."
@@ -17075,7 +17094,7 @@ msgstr "Tjener databasetegnsett"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Please convert your database to the character set 'utf8mb4'."
-msgstr ""
+msgstr "Vennligst konverter databasen til tegnsettet 'utf8mb4'."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Table Charset"
@@ -17083,7 +17102,7 @@ msgstr "Tabel tegnsett"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "There were tables found which do not have 'utf8mb4' as charset."
-msgstr ""
+msgstr "Det ble funnet tabeller som ikke har 'utf8mb4' som tegnsett."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "InnoDB Log File Size"
@@ -17095,7 +17114,7 @@ msgstr "Innstillingen 'innodb_log_file_size' må minst være 256 MB."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
 msgid "Invalid Default Values"
-msgstr ""
+msgstr "Ugyldige standardverdier"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
 msgid ""
@@ -17103,6 +17122,9 @@ msgid ""
 "automatically, please run: bin/otobo.Console.pl Maint::Database::Check --"
 "repair"
 msgstr ""
+"Tabeller med ugyldige standardverdier ble funnet. For å fikse det "
+"automatisk, vennligst kjør: bin/otobo.Console.pl Maint::Database::Check "
+"--repair"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
@@ -17110,7 +17132,7 @@ msgstr "Maksimum størrelse på spørring"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
-msgstr ""
+msgstr "Innstillingen 'max_allowed_packet' må være 64 MB eller høyere."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid "Query Cache Size"
@@ -17130,7 +17152,7 @@ msgstr "Standard lagringsmotor"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Table Storage Engine"
-msgstr ""
+msgstr "Tabellagringsmotor"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid ""
@@ -17163,13 +17185,15 @@ msgstr "NLS_DATE_FORMAT innstilling for SQL sjekk"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
 msgid "Primary Key Sequences and Triggers"
-msgstr ""
+msgstr "Primære nøkkelsekvenser og utløsere"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
 msgid ""
 "The following sequences and/or triggers with possible wrong names have been "
 "found. Please rename them manually."
 msgstr ""
+"Følgende sekvenser og/eller utløsere med mulige feil navn er funnet. Gi dem "
+"nytt navn manuelt."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
@@ -17189,25 +17213,26 @@ msgstr "Innstilling DateStyle må være satt til ISO."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
 msgid "Primary Key Sequences"
-msgstr ""
+msgstr "Primære nøkkelsekvenser"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
 msgid ""
 "The following sequences with possible wrong names have been found. Please "
 "rename them manually."
 msgstr ""
+"Følgende sekvenser med mulig feil navn er funnet. Gi dem nytt navn manuelt."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
 msgid "PostgreSQL 9.2 or higher is required."
-msgstr ""
+msgstr "PostgreSQL 9.2 eller høyere kreves."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
 msgid "Certificate check"
-msgstr ""
+msgstr "Sertifikatkontroll"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
 msgid "Found obsolete cryptographic function."
-msgstr ""
+msgstr "Fant foreldet kryptografisk funksjon."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
 msgid "OTOBO Disk Partition"
@@ -17215,7 +17240,7 @@ msgstr "OTOBO diskpartisjon"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
 msgid "Disk Partitions Usage"
-msgstr ""
+msgstr "Bruk av diskpartisjoner"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
@@ -17223,7 +17248,7 @@ msgstr "Distribusjon"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Could not determine distribution."
-msgstr ""
+msgstr "Kunne ikke bestemme distribusjon."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
 msgid "Kernel Version"
@@ -17231,7 +17256,7 @@ msgstr "Kernel versjon"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
 msgid "Could not determine kernel version."
-msgstr ""
+msgstr "Kunne ikke bestemme kjerneversjonen."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
 msgid "System Load"
@@ -17242,6 +17267,8 @@ msgid ""
 "The system load should be at maximum the number of CPUs the system has (e.g. "
 "a load of 8 or less on a system with 8 CPUs is OK)."
 msgstr ""
+"Systembelastningen bør maksimalt være antallet CPUer systemet har (f.eks. er "
+"en belastning på 8 eller mindre på et system med 8 CPUer OK)."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
 msgid "Perl Modules"
@@ -17253,7 +17280,7 @@ msgstr "Ikke alle påkrevde Perl moduler er riktig installert."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
+msgstr "Perl Modules Audit"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
@@ -17261,12 +17288,17 @@ msgid ""
 "vulnerabilities. Please note that there might be false positives for "
 "distributions patching Perl modules without changing their version number."
 msgstr ""
+"CPAN::Audit rapporterte at en eller flere installerte Perl-moduler har "
+"kjente sårbarheter. Vær oppmerksom på at det kan være falske positiver for "
+"distribusjoner som patcher Perl-moduler uten å endre versjonsnummeret."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
 "CPAN::Audit did not report any known vulnerabilities in the installed Perl "
 "modules."
 msgstr ""
+"CPAN::Audit rapporterte ikke noen kjente sårbarheter i de installerte Perl-"
+"modulene."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
@@ -17354,7 +17386,7 @@ msgstr "Agent"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon is running."
-msgstr ""
+msgstr "Daemon kjører."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon is not running."
@@ -17366,7 +17398,7 @@ msgstr "Databaseposter"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Ticket History Entries"
-msgstr ""
+msgstr "Sakshistorikkoppføringer"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Articles"
@@ -17378,7 +17410,7 @@ msgstr "Vedlegg (DB, uten HTML)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Customers With At Least One Ticket"
-msgstr ""
+msgstr "Kunder med minst én sak"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Dynamic Field Values"
@@ -17394,11 +17426,11 @@ msgstr "Ugyldige dynamiske felt verdier"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
-msgstr ""
+msgstr "GenericInterface Web Services"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Process Tickets"
-msgstr ""
+msgstr "Behandle saker"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Months Between First And Last Ticket"
@@ -17421,14 +17453,16 @@ msgid ""
 "Security risk: the agent account root@localhost still has the default "
 "password. Please change it or invalidate the account."
 msgstr ""
+"Sikkerhetsrisiko: agentkontoen root@localhost har fortsatt "
+"standardpassordet. Vennligst endre den eller ugyldiggjøre kontoen."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/EmailQueue.pm
 msgid "Email Sending Queue"
-msgstr ""
+msgstr "Sendingskø for e-post"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/EmailQueue.pm
 msgid "Emails queued for sending"
-msgstr ""
+msgstr "E-poster i kø for sending"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "FQDN (domain name)"
@@ -17448,7 +17482,7 @@ msgstr "Din FQDN innstilling er ugyldig."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
 msgid "File System Writable"
-msgstr ""
+msgstr "Filsystem Skrivbar"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
 msgid "The file system on your OTOBO partition is not writable."
@@ -17456,23 +17490,27 @@ msgstr "Filsystemet for din OTOBO partisjon er ikke mulig å skrive til."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "Legacy Configuration Backups"
-msgstr ""
+msgstr "Eldre konfigurasjonssikkerhetskopier"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "No legacy configuration backup files found."
-msgstr ""
+msgstr "Finner ingen sikkerhetskopifiler for eldre konfigurasjoner."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files found in Kernel/Config/Backups folder, but "
 "they might still be required by some packages."
 msgstr ""
+"Eldre konfigurasjonssikkerhetskopieringsfiler funnet i mappen Kernel/Config/"
+"Backups, men de kan fortsatt kreves av enkelte pakker."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
 "packages, please remove them from Kernel/Config/Backups folder."
 msgstr ""
+"Sikkerhetskopieringsfiler for eldre konfigurasjoner er ikke lenger nødvendig "
+"for de installerte pakkene. Fjern dem fra mappen Kernel/Config/Backups."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Installation Status"
@@ -17480,7 +17518,7 @@ msgstr "Installasjonsstatus for pakker"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages have locally modified files."
-msgstr ""
+msgstr "Noen pakker har lokalt modifiserte filer."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not correctly installed."
@@ -17488,35 +17526,35 @@ msgstr "Noen pakker er ikke riktig installert."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Verification Status"
-msgstr ""
+msgstr "Pakkebekreftelsesstatus"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not verified by the OTOBO Team."
-msgstr ""
+msgstr "Noen pakker er ikke verifisert av OTOBO-teamet."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Framework Version Status"
-msgstr ""
+msgstr "Pakkerammeversjonsstatus"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not allowed for the current framework version."
-msgstr ""
+msgstr "Noen pakker er ikke tillatt for gjeldende rammeversjon."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageList.pm
 msgid "Package List"
-msgstr ""
+msgstr "Pakkeliste"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SessionConfigSettings.pm
 msgid "Session Config Settings"
-msgstr ""
+msgstr "Innstillinger for øktkonfigurasjon"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
 msgid "Spooled Emails"
-msgstr ""
+msgstr "Spoolte e-poster"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
 msgid "There are emails in var/spool that OTOBO could not process."
-msgstr ""
+msgstr "Det er e-poster i var/spool som OTOBO ikke kunne behandle."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -17524,39 +17562,43 @@ msgstr "Din SystemID innstilling er ugyldig, den kan bare inneholde tall."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/DefaultType.pm
 msgid "Default Ticket Type"
-msgstr ""
+msgstr "Standard sakstype"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/DefaultType.pm
 msgid ""
 "The configured default ticket type is invalid or missing. Please change the "
 "setting Ticket::Type::Default and select a valid ticket type."
 msgstr ""
+"Den konfigurerte standard sakstypen er ugyldig eller mangler. Vennligst "
+"endre innstillingen Ticket::Type::Standard og velg en gyldig sakstype."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
 msgid "Ticket Index Module"
-msgstr ""
+msgstr "Saksindeksmodul"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
 msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
 msgstr ""
+"Du har mer enn 60 000 saker og bør bruke StaticDB-backend. Se admin manual ("
+"Performance Tuning) for mer informasjon."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "Invalid Users with Locked Tickets"
-msgstr ""
+msgstr "Ugyldige brukere med låste saker"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
-msgstr ""
+msgstr "Det er ugyldige brukere med låste saker."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/OpenTickets.pm
 msgid "You should not have more than 8,000 open tickets in your system."
-msgstr ""
+msgstr "Du bør ikke ha mer enn 8000 åpne saker i systemet ditt."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
 msgid "Ticket Search Index Module"
-msgstr ""
+msgstr "Modul for sakssøkindeks"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
 msgid ""
@@ -17565,30 +17607,39 @@ msgid ""
 "This will increase the size of the search index and thus may slow down "
 "fulltext searches."
 msgstr ""
+"Indekseringsprosessen tvinger lagring av den opprinnelige artikkelteksten i "
+"artikkelsøkeindeksen, uten å utføre filtre eller bruke stoppordlister. Dette "
+"vil øke størrelsen på søkeindeksen og kan dermed redusere fulltekstsøk."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_lock_index Table"
-msgstr ""
+msgstr "Foreldreløse poster i ticket_lock_index-tabell"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
 "Table ticket_lock_index contains orphaned records. Please run bin/otobo."
 "Console.pl \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
 msgstr ""
+"Tabell ticket_lock_index inneholder foreldreløse poster. Vennligst kjør bin/"
+"otobo.Console.pl \"Maint::Ticket::QueueIndexCleanup\" for å rense StaticDB-"
+"indeksen."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_index Table"
-msgstr ""
+msgstr "Foreldreløse poster i ticket_index-tabell"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
 "Table ticket_index contains orphaned records. Please run bin/otobo.Console."
 "pl \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
 msgstr ""
+"Tabell ticket_index inneholder foreldreløse poster. Vennligst kjør bin/"
+"otobo.Console.pl \"Maint::Ticket::QueueIndexCleanup\" for å rense StaticDB-"
+"indeksen."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Time Settings"
-msgstr ""
+msgstr "Tidsinnstillinger"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Server time zone"
@@ -17596,43 +17647,43 @@ msgstr "Tjener tidssone"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "OTOBO time zone"
-msgstr ""
+msgstr "OTOBO-tidssone"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "OTOBO time zone is not set."
-msgstr ""
+msgstr "OTOBO-tidssone er ikke innstilt."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "User default time zone"
-msgstr ""
+msgstr "Bruker standard tidssone"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "User default time zone is not set."
-msgstr ""
+msgstr "Brukerens standard tidssone er ikke angitt."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Calendar time zone is not set."
-msgstr ""
+msgstr "Kalenderens tidssone er ikke angitt."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentSkinUsage.pm
 msgid "UI - Agent Skin Usage"
-msgstr ""
+msgstr "UI - Agents designbruk"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentThemeUsage.pm
 msgid "UI - Agent Theme Usage"
-msgstr ""
+msgstr "UI – Agentdesignbruk"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "UI - Special Statistics"
-msgstr ""
+msgstr "UI - Spesialstatistikk"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using custom main menu ordering"
-msgstr ""
+msgstr "Agenter bruker tilpasset hovedmenybestilling"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using favourites for the admin overview"
-msgstr ""
+msgstr "Agenter som bruker favoritter for adminoversikten"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Webserver"
@@ -17640,7 +17691,7 @@ msgstr "Webtjener"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Loaded Apache Modules"
-msgstr ""
+msgstr "Lastede Apache-moduler"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
 msgid "MPM model"
@@ -17684,23 +17735,23 @@ msgstr "Vennligst installer mod_headers for å forbedre hastigheten på GUI."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
-msgstr ""
+msgstr "Miljøvariabler"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support Data Collection"
-msgstr ""
+msgstr "Støtte datainnsamling"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support data could not be collected from the web server."
-msgstr ""
+msgstr "Støttedata kunne ikke samles inn fra webserveren."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
 msgid "PSGI Environment"
-msgstr ""
+msgstr "PSGI miljø"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
 msgid "Runs under PSGI"
-msgstr ""
+msgstr "Kjører under PSGI"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -17712,7 +17763,7 @@ msgstr "Kunne ikke bestemme webtjenerversjon."
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTOBO/ConcurrentUsers.pm
 msgid "Concurrent Users Details"
-msgstr ""
+msgstr "Detaljer om samtidige brukere"
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTOBO/ConcurrentUsers.pm
 msgid "Concurrent Users"
@@ -17728,15 +17779,15 @@ msgstr "Problem"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting %s does not exists!"
-msgstr ""
+msgstr "Innstillingen %s eksisterer ikke!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting %s is not locked to this user!"
-msgstr ""
+msgstr "Innstillingen %s er ikke låst til denne brukeren!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting value is not valid!"
-msgstr ""
+msgstr "Innstillingsverdi er ikke gyldig!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not add modified setting!"
