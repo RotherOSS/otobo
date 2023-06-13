@@ -257,22 +257,24 @@ sub _ShowOverview {
         },
     );
 
-    my $DynamicFieldNamespaceStrg = $LayoutObject->BuildSelection(
-        Data         => $Namespaces,
-        Name         => 'DynamicFieldNamespace',
-        PossibleNone => 1,
-        Sort         => 'AlphanumericValue',
-        SelectedID   => $NamespaceFilter,
-        Class        => 'Modernize W95pc',
-    );
+    if ( IsArrayRefWithData($Namespaces) ) {
+        my $DynamicFieldNamespaceStrg = $LayoutObject->BuildSelection(
+            Data         => $Namespaces,
+            Name         => 'DynamicFieldNamespace',
+            PossibleNone => 1,
+            Sort         => 'AlphanumericValue',
+            SelectedID   => $NamespaceFilter,
+            Class        => 'Modernize W95pc',
+        );
 
-    $LayoutObject->Block(
-        Name => 'DynamicFieldNamespace',
-        Data => {
-            %Param,
-            DynamicFieldNamespaceStrg => $DynamicFieldNamespaceStrg,
-        },
-    );
+        $LayoutObject->Block(
+            Name => 'DynamicFieldNamespace',
+            Data => {
+                %Param,
+                DynamicFieldNamespaceStrg => $DynamicFieldNamespaceStrg,
+            },
+        );
+    }
 
     # send data to JS
     $LayoutObject->AddJSData(
