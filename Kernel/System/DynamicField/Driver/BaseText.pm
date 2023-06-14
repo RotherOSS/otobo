@@ -184,6 +184,7 @@ sub ValueIsDifferent {
     {
         return;
     }
+
     if (
         !defined $Param{Value2}
         && ref $Param{Value1} eq 'ARRAY'
@@ -193,11 +194,8 @@ sub ValueIsDifferent {
         return;
     }
 
-    # compare the results
-    return DataIsDifferent(
-        Data1 => \$Param{Value1},
-        Data2 => \$Param{Value2},
-    );
+    # compare the results without the special cases
+    return $Self->SUPER::ValueIsDifferent(%Param);
 }
 
 sub ValueValidate {
