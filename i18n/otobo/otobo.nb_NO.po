@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-13 17:13+0000\n"
+"PO-Revision-Date: 2023-06-14 12:34+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -948,7 +948,7 @@ msgstr "For å hente de første 5 linjene i e-posten."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr "For å få navnet på billettens kundebruker (hvis gitt)."
+msgstr "For å få navnet på sakens kundebruker (hvis gitt)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -4871,7 +4871,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "History"
-msgstr "Entries;Billetthistorikkoppføringer;;False;;;Perl"
+msgstr "Historikk"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
@@ -12686,11 +12686,11 @@ msgstr "Aktive saker"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr "arkivbilletter"
+msgstr "arkivsaker"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr "gjenopprette billetter fra arkivet"
+msgstr "gjenopprette saker fra arkivet"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
@@ -12704,8 +12704,7 @@ msgstr "Har ingen verdier å sjekke."
 msgid ""
 "Please remove the following words because they cannot be used for the ticket "
 "selection:"
-msgstr ""
-"Vennligst fjern følgende ord fordi de ikke kan brukes til billettvalget:"
+msgstr "Vennligst fjern følgende ord fordi de ikke kan brukes til saksvalget:"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Need WebserviceID!"
@@ -13195,7 +13194,7 @@ msgstr "Utsending etter valgt kø."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who created the ticket"
-msgstr "Agent som opprettet billetten"
+msgstr "Agent som opprettet saken"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who owns the ticket"
@@ -13215,19 +13214,19 @@ msgstr "Alle saksbehandlere med skrivetilgang til saken"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's queue"
-msgstr "Alle agenter abonnerte på billettens kø"
+msgstr "Alle agenter abonnerte på sakens kø"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's service"
-msgstr "Alle agenter abonnerte på billettens tjeneste"
+msgstr "Alle agenter abonnerte på sakens tjeneste"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to both the ticket's queue and service"
-msgstr "Alle agenter abonnerte på både billettens kø og service"
+msgstr "Alle agenter abonnerte på både sakens kø og service"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer user of the ticket"
-msgstr "Kundebruker av billetten"
+msgstr "Kundebruker av saken"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the first article"
@@ -14159,7 +14158,7 @@ msgstr "Ingen tillatelse!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Cannot delete ticket appointment!"
-msgstr "Kan ikke slette billettavtale!"
+msgstr "Kan ikke slette saksavtale!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "No permissions!"
@@ -14263,7 +14262,7 @@ msgstr "Systemet kunne ikke tilbakestille innstillingen!"
 
 #. Perl Module: Kernel/Modules/AgentSplitSelection.pm
 msgid "Process ticket"
-msgstr "Behandle billett"
+msgstr "Behandle sak"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Parameter %s is missing."
@@ -14355,7 +14354,7 @@ msgstr "Slett: Fikk ingen StatsReportID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No TicketID is given!"
-msgstr "Ingen billett-ID er gitt!"
+msgstr "Ingen saks-ID er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "You need %s permissions!"
@@ -14423,7 +14422,7 @@ msgstr "Finner ikke vanlig artikkel for artikkelen %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Article does not belong to ticket %s!"
-msgstr "Artikkelen tilhører ikke billetten %s!"
+msgstr "Artikkelen tilhører ikke saken %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't bounce email!"
@@ -14439,31 +14438,31 @@ msgstr "Feil subaksjon!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Can't lock Tickets, no TicketIDs are given!"
-msgstr "Kan ikke låse billetter, ingen billett-ID er gitt!"
+msgstr "Kan ikke låse saker, ingen saks-ID er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket (%s) is not unlocked!"
-msgstr "Billetten (%s) er ikke låst opp!"
+msgstr "Saken (%s) er ikke låst opp!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to tickets: %s."
 msgstr ""
-"Følgende billetter ble ignorert fordi de er låst av en annen agent eller du "
-"ikke har skrivetilgang til billetter: %s."
+"Følgende saker ble ignorert fordi de er låst av en annen agent eller du ikke "
+"har skrivetilgang til saker: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following ticket was ignored because it is locked by another agent or "
 "you don't have write access to ticket: %s."
 msgstr ""
-"Følgende billett ble ignorert fordi den er låst av en annen agent eller du "
-"ikke har skrivetilgang til billetten: %s."
+"Følgende saker ble ignorert fordi den er låst av en annen agent eller du "
+"ikke har skrivetilgang til saken: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
-msgstr "Du må velge minst én billett."
+msgstr "Du må velge minst én sak."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
@@ -14478,25 +14477,24 @@ msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents."
 msgstr ""
-"Du valgte enten ingen billett eller bare billetter som er låst av andre "
-"agenter."
+"Du valgte enten ingen saker eller bare saker som er låst av andre agenter."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to these tickets: %s."
 msgstr ""
-"Følgende billetter ble ignorert fordi de er låst av en annen agent eller du "
-"ikke har skrivetilgang til disse billettene: %s."
+"Følgende saker ble ignorert fordi de er låst av en annen agent eller du ikke "
+"har skrivetilgang til disse sakene: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "The following tickets were locked: %s."
-msgstr "Følgende billetter ble låst: %s."
+msgstr "Følgende saker ble låst: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid ""
 "Article subject will be empty if the subject contains only the ticket hook!"
-msgstr "Artikkelemnet vil være tomt hvis emnet kun inneholder billettkroken!"
+msgstr "Artikkelemnet vil være tomt hvis emnet kun inneholder sakskroken!"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
@@ -14516,7 +14514,7 @@ msgstr "Ingen subaksjon!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "Got no TicketID!"
-msgstr "Har ikke billett-ID!"
+msgstr "Har ikke saks-ID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "System Error!"
@@ -14552,7 +14550,7 @@ msgstr "Kan ikke vise historikk, ingen TicketID er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Can't lock Ticket, no TicketID is given!"
-msgstr "Kan ikke låse billett, ingen billett-ID er gitt!"
+msgstr "Kan ikke låse sak, ingen saks-ID er gitt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Sorry, the current owner is %s!"
@@ -14564,7 +14562,7 @@ msgstr "Vennligst bli eier først."
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Ticket (ID=%s) is locked by %s!"
-msgstr "Billett (ID=%s) er låst av %s!"
+msgstr "Sak (ID=%s) er låst av %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Change the owner!"
@@ -14588,7 +14586,7 @@ msgstr "Mine låste saker"
 
 #. Perl Module: Kernel/Modules/AgentTicketMerge.pm
 msgid "Can't merge ticket with itself!"
-msgstr "Kan ikke slå sammen billett med seg selv!"
+msgstr "Kan ikke slå sammen sak med seg selv!"
 
 #. Perl Module: Kernel/Modules/AgentTicketMove.pm
 msgid "You need move permissions!"
@@ -14632,7 +14630,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "Need TicketID!"
-msgstr "Trenger billett-ID!"
+msgstr "Trenger saks-ID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get ActivityDialogEntityID \"%s\"!"
@@ -14672,7 +14670,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Ticket for TicketID: %s in _GetParam!"
-msgstr "Kunne ikke få billett for TicketID: %s i _GetParam!"
+msgstr "Kunne ikke få sak for TicketID: %s i _GetParam!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -14700,12 +14698,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Ticket \"%s\"!"
-msgstr "Kan ikke få billett \"%s\"!"
+msgstr "Kan ikke få sak \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get ProcessEntityID or ActivityEntityID for Ticket \"%s\"!"
-msgstr ""
-"Kan ikke få ProcessEntityID eller ActivityEntityID for billetten \"%s\"!"
+msgstr "Kan ikke få ProcessEntityID eller ActivityEntityID for saken \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Activity configuration for ActivityEntityID \"%s\"!"
@@ -14762,7 +14759,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't create ticket for Process with ProcessEntityID \"%s\"!"
-msgstr "Kunne ikke opprette billett for prosess med ProcessEntityID \"%s\"!"
+msgstr "Kunne ikke opprette sak for prosess med ProcessEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ProcessEntityID \"%s\" on TicketID \"%s\"!"
@@ -14774,15 +14771,15 @@ msgstr "Kunne ikke angi ActivityEntityID \"%s\" på TicketID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not store ActivityDialog, invalid TicketID: %s!"
-msgstr "Kunne ikke lagre ActivityDialog, ugyldig billett-ID: %s!"
+msgstr "Kunne ikke lagre ActivityDialog, ugyldig saks-ID: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Invalid TicketID: %s!"
-msgstr "Ugyldig billett-ID: %s!"
+msgstr "Ugyldig saks-ID: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ActivityEntityID in Ticket %s!"
-msgstr "Mangler ActivityEntityID i billett %s!"
+msgstr "Mangler ActivityEntityID i sak %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -14791,27 +14788,26 @@ msgid ""
 "close this window and reload the ticket."
 msgstr ""
 "Dette trinnet tilhører ikke lenger den gjeldende aktiviteten som er i gang "
-"for billetten '%s%s%s'! En annen bruker endret denne billetten i "
-"mellomtiden. Lukk dette vinduet og last inn billetten på nytt."
+"for saken '%s%s%s'! En annen bruker endret denne saken i mellomtiden. Lukk "
+"dette vinduet og last inn saken på nytt."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
-msgstr "Mangler ProcessEntityID i billett %s!"
+msgstr "Mangler ProcessEntityID i sak %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Could not set DynamicField value for %s of Ticket with ID \"%s\" in "
 "ActivityDialog \"%s\"!"
 msgstr ""
-"Kunne ikke angi DynamicField-verdi for %s av billett med ID \"%s\" i "
+"Kunne ikke angi DynamicField-verdi for %s av sak med ID \"%s\" i "
 "ActivityDialog \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Could not set PendingTime for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
 msgstr ""
-"Kunne ikke angi PendingTime for billett med ID \"%s\" i ActivityDialog \"%s\""
-"!"
+"Kunne ikke angi PendingTime for sak med ID \"%s\" i ActivityDialog \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -14825,7 +14821,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not set %s for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
-msgstr "Kunne ikke angi %s for billett med ID \"%s\" i ActivityDialog \"%s\"!"
+msgstr "Kunne ikke angi %s for sak med ID \"%s\" i ActivityDialog \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Default Config for Process::Default%s missing!"
@@ -14945,7 +14941,7 @@ msgstr "Utgående epost (intern)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
-msgstr "Billett opprettet"
+msgstr "Sak opprettet"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Type Updated"
@@ -15033,7 +15029,7 @@ msgstr "Tittel oppdatert"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Merged"
-msgstr "Billett slått sammen"
+msgstr "Sak slått sammen"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Phone Call"
@@ -15108,8 +15104,8 @@ msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
 msgstr ""
-"Denne billetten eksisterer ikke, eller du har ikke tillatelse til å få "
-"tilgang til den i gjeldende tilstand."
+"Denne saken eksisterer ikke, eller du har ikke tillatelse til å få tilgang "
+"til den i gjeldende tilstand."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
@@ -15161,7 +15157,7 @@ msgstr "Vis alle innlegg"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Show Ticket Timeline View"
-msgstr "Vis billetttidslinjevisning"
+msgstr "Vis sakstidslinjevisning"
 
 #. Perl Module: Kernel/Modules/AjaxAttachment.pm
 msgid "Got no FormID."
@@ -15239,7 +15235,7 @@ msgstr "Sjekk SysConfig-innstillingen for %s::TicketTypeDefault."
 msgid ""
 "You don't have sufficient permissions for ticket creation in default queue."
 msgstr ""
-"Du har ikke tilstrekkelige tillatelser for å opprette billett i standardkøen."
+"Du har ikke tilstrekkelige tillatelser for å opprette sak i standardkøen."
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -15280,7 +15276,7 @@ msgstr "Kunne ikke laste inn prosessmodulen."
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
-msgstr "Kan ikke gjenåpne billett, ikke mulig i denne køen!"
+msgstr "Kan ikke gjenåpne sak, ikke mulig i denne køen!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
@@ -15735,7 +15731,7 @@ msgstr "Brukeren var inaktiv en stund."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
-msgstr "Starttidspunktet for en billett er satt etter slutttiden!"
+msgstr "Starttidspunktet for en sak er satt etter slutttiden!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/MyLastChangedTickets.pm
 msgid "Shown Tickets"
@@ -15795,7 +15791,7 @@ msgstr "Standard"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "The following tickets are not updated: %s."
-msgstr "Følgende billetter er ikke oppdatert: %s."
+msgstr "Følgende saker er ikke oppdatert: %s."
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
@@ -15814,9 +15810,8 @@ msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state. You can take one of the following actions:"
 msgstr ""
-"Denne billetten eksisterer ikke, eller du har ikke tillatelse til å få "
-"tilgang til den i gjeldende tilstand. Du kan utføre en av følgende "
-"handlinger:"
+"Denne saken eksisterer ikke, eller du har ikke tillatelse til å få tilgang "
+"til den i gjeldende tilstand. Du kan utføre en av følgende handlinger:"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "This is a"
@@ -16172,8 +16167,8 @@ msgid ""
 "Please remove the following words because they cannot be used for the ticket "
 "restrictions: %s."
 msgstr ""
-"Vennligst fjern følgende ord fordi de ikke kan brukes for "
-"billettrestriksjonene: %s."
+"Vennligst fjern følgende ord fordi de ikke kan brukes for saksrestriksjonene:"
+" %s."
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Cancel editing and unlock this setting"
@@ -16269,7 +16264,7 @@ msgstr "Innholdsfortegnelse"
 
 #. Perl Module: Kernel/Output/PDF/Ticket.pm
 msgid "Ticket Dynamic Fields"
-msgstr "Billett dynamiske felt"
+msgstr "Dynamiske felt for saker"
 
 #. Perl Module: Kernel/System/ACL/DB/ACL.pm
 msgid ""
@@ -17791,35 +17786,35 @@ msgstr "Innstillingsverdi er ikke gyldig!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not add modified setting!"
-msgstr ""
+msgstr "Kunne ikke legge til endret innstilling!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not update modified setting!"
-msgstr ""
+msgstr "Kunne ikke oppdatere endret innstilling!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting could not be unlocked!"
-msgstr ""
+msgstr "Innstillingen kunne ikke låses opp!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Missing key %s!"
-msgstr ""
+msgstr "Mangler nøkkel %s!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Invalid setting: %s"
-msgstr ""
+msgstr "Ugyldig innstilling: %s"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not combine settings values into a perl hash."
-msgstr ""
+msgstr "Kunne ikke kombinere innstillingsverdier til en perl-hash."
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Can not lock the deployment for UserID '%s'!"
-msgstr ""
+msgstr "Kan ikke låse distribusjonen for bruker-ID '%s'!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
-msgstr ""
+msgstr "Alle innstillinger"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Default"
@@ -17827,11 +17822,11 @@ msgstr "Values;Ugyldige"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Value is not correct! Please, consider updating this field."
-msgstr ""
+msgstr "Verdien er ikke riktig! Vennligst vurder å oppdatere dette feltet."
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Value doesn't satisfy regex (%s)."
-msgstr ""
+msgstr "Verdien tilfredsstiller ikke regulært uttrykk (%s)."
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
 msgid "Enabled"
@@ -17843,35 +17838,36 @@ msgstr "Inaktiv"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
 msgid "System was not able to calculate user Date in OTOBOTimeZone!"
-msgstr ""
+msgstr "Systemet var ikke i stand til å beregne brukerdato i OTOBOTimeZone!"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
 msgid "System was not able to calculate user DateTime in OTOBOTimeZone!"
 msgstr ""
+"Systemet var ikke i stand til å beregne brukerens DateTime i OTOBOTimeZone!"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
 msgid "Value is not correct! Please, consider updating this module."
-msgstr ""
+msgstr "Verdien er ikke riktig! Vennligst vurder å oppdatere denne modulen."
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/VacationDays.pm
 msgid "Value is not correct! Please, consider updating this setting."
-msgstr ""
+msgstr "Verdien er ikke riktig! Vurder å oppdatere denne innstillingen."
 
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
-msgstr ""
+msgstr "Tilbakestilling av opplåsingstid."
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Participant"
-msgstr ""
+msgstr "Chat-deltaker"
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Message Text"
-msgstr ""
+msgstr "Chatmeldingstekst"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Too many failed login attempts, please retry in %s s."
-msgstr ""
+msgstr "For mange mislykkede påloggingsforsøk, prøv igjen om %s s."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -17882,14 +17878,16 @@ msgid ""
 "Authentication succeeded, but no user data record is found in the database. "
 "Please contact the administrator."
 msgstr ""
+"Autentiseringen lyktes, men ingen brukerdatapost ble funnet i databasen. "
+"Vennligst kontakt administratoren."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
-msgstr ""
+msgstr "Kan ikke fjerne SessionID."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
-msgstr ""
+msgstr "Vellykket avlogging."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Feature not active!"
@@ -17910,21 +17908,24 @@ msgstr "Nytt passord ble sendt til %s. Sjekk e-posten din."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Error: invalid session."
-msgstr ""
+msgstr "Feil: ugyldig økt."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
-msgstr ""
+msgstr "Ingen tillatelse til å bruke denne frontend-modulen!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact the administrator."
 msgstr ""
+"Autentiseringen lyktes, men ingen kundeoppføring ble funnet i kundestøtten. "
+"Vennligst kontakt administratoren."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact the administrator."
 msgstr ""
+"Tilbakestilling av passord mislyktes. Vennligst kontakt administratoren."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
@@ -17941,15 +17942,15 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
-msgstr ""
+msgstr "Lagt til via kundepanel (%s)"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Customer user can't be added!"
-msgstr ""
+msgstr "Kundebruker kan ikke legges til!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
-msgstr ""
+msgstr "Kan ikke sende kontoinformasjon!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
@@ -17963,20 +17964,24 @@ msgid ""
 "If you want to re-run installer.pl, then disable the SecureMode in the "
 "SysConfig."
 msgstr ""
+"Hvis du vil kjøre installer.pl på nytt, deaktiverer du SecureMode i "
+"SysConfig."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
-msgstr ""
+msgstr "Handlingen \"%s\" ble ikke funnet!"
 
 #. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
 msgid ""
 "If you want to re-run migration.pl, then disable the SecureMode in the "
 "SysConfig."
 msgstr ""
+"Hvis du vil kjøre migration.pl på nytt, deaktiverer du SecureMode i "
+"SysConfig."
 
 #. Perl Module: Kernel/System/Web/InterfacePublic.pm
 msgid "Could not connect to the database."
-msgstr ""
+msgstr "Kunne ikke koble til databasen."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
@@ -17984,15 +17989,15 @@ msgstr "midlertidig ugyldig"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group for default access."
-msgstr ""
+msgstr "Gruppe for standardtilgang."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group of all administrators."
-msgstr ""
+msgstr "Gruppe av alle administratorer."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group for statistics access."
-msgstr ""
+msgstr "Gruppe for statistikktilgang."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "new"
@@ -18048,7 +18053,7 @@ msgstr "flettet"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "State type for merged tickets (default: not viewable)."
-msgstr ""
+msgstr "Tilstandstype for sammenslåtte saker (standard: ikke synlig)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "New ticket created by customer."
@@ -18080,7 +18085,7 @@ msgstr "Kunden fjernet saken."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is pending for agent reminder."
-msgstr ""
+msgstr "Sak venter på agentpåminnelse."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto close+"
@@ -18088,7 +18093,7 @@ msgstr "auto-avslutning (løst)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is pending for automatic close."
-msgstr ""
+msgstr "Sak venter for automatisk lukking."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto close-"
@@ -18096,11 +18101,11 @@ msgstr "auto-avslutning (uløst)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "State for merged tickets."
-msgstr ""
+msgstr "Oppgi for sammenslåtte saker."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "system standard salutation (en)"
-msgstr ""
+msgstr "system standard hilsen (en)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Salutation."
@@ -18108,7 +18113,7 @@ msgstr "Standard hilsning."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "system standard signature (en)"
-msgstr ""
+msgstr "system standard signatur (en)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Signature."
@@ -18124,7 +18129,7 @@ msgstr "mulig"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
-msgstr ""
+msgstr "Oppfølging av lukkede saker er mulig. Saken vil bli gjenåpnet."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "reject"
@@ -18144,15 +18149,15 @@ msgstr "ny sak"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be created."
-msgstr ""
+msgstr "Oppfølging av lukkede saker er ikke mulig. En ny sak vil bli opprettet."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Postmaster queue."
-msgstr ""
+msgstr "Postmesterkø."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All default incoming tickets."
-msgstr ""
+msgstr "Alle innkommende saker som standard."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All junk tickets."
@@ -18169,7 +18174,7 @@ msgstr "Svar automatisk"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Automatic reply which will be sent out after a new ticket has been created."
-msgstr ""
+msgstr "Automatisk svar som sendes ut etter at ny sak er opprettet."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reject"
@@ -18180,6 +18185,8 @@ msgid ""
 "Automatic reject which will be sent out after a follow-up has been rejected "
 "(in case queue follow-up option is \"reject\")."
 msgstr ""
+"Automatisk avslag som sendes ut etter at en oppfølging er avvist (i tilfelle "
+"køoppfølgingsalternativet er \"avvis\")."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto follow up"
@@ -18190,6 +18197,8 @@ msgid ""
 "Automatic confirmation which is sent out after a follow-up has been received "
 "for a ticket (in case queue follow-up option is \"possible\")."
 msgstr ""
+"Automatisk bekreftelse som sendes ut etter at det er mottatt oppfølging på "
+"sak (i tilfelle køoppfølgingsmulighet er \"mulig\")."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply/new ticket"
@@ -18201,6 +18210,8 @@ msgid ""
 "rejected and a new ticket has been created (in case queue follow-up option "
 "is \"new ticket\")."
 msgstr ""
+"Automatisk svar som sendes ut etter at en oppfølging er avvist og ny sak er "
+"opprettet (i tilfelle køoppfølgingsalternativet er \"ny sak\")."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto remove"
@@ -18209,28 +18220,32 @@ msgstr "Fjern automatisk"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
 msgstr ""
+"Automatisk fjerning vil bli sendt ut etter at en kunde har fjernet "
+"forespørselen."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
-msgstr ""
+msgstr "standardsvar (etter at ny sak er opprettet)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
-msgstr ""
+msgstr "standard avvisning (etter oppfølging og avvisning av en lukket sak)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
-msgstr ""
+msgstr "standard oppfølging (etter at en saksoppfølging er lagt til)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "default reject/new ticket created (after closed follow-up with new ticket "
 "creation)"
 msgstr ""
+"standard avvisning/ny sak opprettet (etter lukket oppfølging med opprettelse "
+"av ny sak)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Unclassified"
-msgstr ""
+msgstr "Uklassifisert"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "1 very low"
@@ -18302,13 +18317,15 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
-msgstr ""
+msgstr "Saksoppfølgingsvarsling (låst)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to a locked "
 "ticket of which you are the ticket owner or responsible."
 msgstr ""
+"Du vil motta et varsel dersom en kunde sender en oppfølging av en låst sak "
+"som du er sak eier eller ansvarlig for."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket lock timeout notification"
@@ -18319,54 +18336,58 @@ msgid ""
 "You will receive a notification as soon as a ticket owned by you is "
 "automatically unlocked."
 msgstr ""
+"Du vil motta et varsel så snart en sak som eies av deg låses opp automatisk."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket owner update notification"
-msgstr ""
+msgstr "Melding om oppdatering av sakseier"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket responsible update notification"
-msgstr ""
+msgstr "Melding om oppdatering av saksansvarlig"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket new note notification"
-msgstr ""
+msgstr "Melding om ny sak"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket queue update notification"
-msgstr ""
+msgstr "Varsling om oppdatering av sakskø"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket is moved into one of your \"My "
 "Queues\"."
 msgstr ""
+"Du vil motta et varsel hvis en sak flyttes inn i en av dine \"Mine køer\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
-msgstr ""
+msgstr "Sak venter påminnelsesvarsling (låst)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
-msgstr ""
+msgstr "Sak venter påminnelsesvarsling (ulåst)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation notification"
-msgstr ""
+msgstr "Varsling om saksopptrapping"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation warning notification"
-msgstr ""
+msgstr "Varsel om saksopptrapping"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket service update notification"
-msgstr ""
+msgstr "Melding om oppdatering av saksservice"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket's service is changed to one of "
 "your \"My Services\"."
 msgstr ""
+"Du vil motta et varsel hvis en saks tjeneste endres til en av dine \"Mine "
+"tjenester\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Appointment reminder notification"
@@ -18382,15 +18403,15 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket email delivery failure notification"
-msgstr ""
+msgstr "Melding om leveringsfeil på e-post"
 
 #. JS File: Core.AJAX
 msgid "Error during AJAX communication. Status: %s, Error: %s"
-msgstr ""
+msgstr "Feil under AJAX-kommunikasjon. Status: %s, feil: %s"
 
 #. JS File: Core.AJAX
 msgid "This window must be called from compose window."
-msgstr ""
+msgstr "Dette vinduet må kalles opp fra skrivevinduet."
 
 #. JS File: Core.Agent.Admin.ACL
 msgid "Add all"
@@ -18405,10 +18426,12 @@ msgid ""
 "This item still contains sub items. Are you sure you want to remove this "
 "item including its sub items?"
 msgstr ""
+"Dette elementet inneholder fortsatt underelementer. Er du sikker på at du "
+"vil fjerne dette elementet inkludert underelementene?"
 
 #. JS File: Core.Agent.Admin.About
 msgid "Do you really want to delete this language?"
-msgstr ""
+msgstr "Vil du virkelig slette dette språket?"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "More"
@@ -18420,25 +18443,27 @@ msgstr "Færre"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
-msgstr ""
+msgstr "Trykk Ctrl+C (Cmd+C) for å kopiere til utklippstavlen"
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Delete this Attachment"
-msgstr ""
+msgstr "Slett dette vedlegget"
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Deleting attachment..."
-msgstr ""
+msgstr "Sletter vedlegg ..."
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid ""
 "There was an error deleting the attachment. Please check the logs for more "
 "information."
 msgstr ""
+"Det oppsto en feil under sletting av vedlegget. Vennligst sjekk loggene for "
+"mer informasjon."
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Attachment was deleted successfully."
-msgstr ""
+msgstr "Vedlegget ble slettet."
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid ""
@@ -18454,19 +18479,19 @@ msgstr "Fjern felt"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
-msgstr ""
+msgstr "Sletting av feltet og dets data. Dette kan ta en stund..."
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove this dynamic field"
-msgstr ""
+msgstr "Fjern dette dynamiske feltet"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "Fjern markering"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Do you really want to delete this generic agent job?"
-msgstr ""
+msgstr "Vil du virkelig slette denne generiske agentjobben?"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
@@ -18478,7 +18503,7 @@ msgstr "Klone hendelsen."
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "This event is already attached to the job, Please use a different one."
-msgstr ""
+msgstr "Denne hendelsen er allerede knyttet til jobben. Bruk en annen."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "An error occurred during communication."
@@ -18486,11 +18511,11 @@ msgstr "En feil oppstod under kommunikasjonen."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Request Details"
-msgstr ""
+msgstr "Be om detaljer"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Request Details for Communication ID"
-msgstr ""
+msgstr "Be om detaljer for kommunikasjons-ID"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Show or hide the content."
@@ -18502,12 +18527,14 @@ msgstr "Tøm feilsøker loggen"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceErrorHandling
 msgid "Delete error handling module"
-msgstr ""
+msgstr "Slett feilhåndteringsmodul"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid ""
 "It is not possible to add a new event trigger because the event is not set."
 msgstr ""
+"Det er ikke mulig å legge til en ny hendelsestrigger fordi hendelsen ikke er "
+"angitt."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
@@ -18515,23 +18542,23 @@ msgstr "Fjern denne Anroperen"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Sorry, the only existing condition can't be removed."
-msgstr ""
+msgstr "Beklager, den eneste eksisterende tilstanden kan ikke fjernes."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Sorry, the only existing field can't be removed."
-msgstr ""
+msgstr "Beklager, det eneste eksisterende feltet kan ikke fjernes."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Delete conditions"
-msgstr ""
+msgstr "Slett betingelser"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Mapping for Key %s"
-msgstr ""
+msgstr "Kartlegging for nøkkel %s"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Mapping for Key"
-msgstr ""
+msgstr "Kartlegging for Nøkkel"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Delete this Key Mapping"
@@ -18567,15 +18594,15 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
-msgstr ""
+msgstr "Slett denne e-postkontoen"
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Deleting the mail account and its data. This may take a while..."
-msgstr ""
+msgstr "Sletting av e-postkontoen og dens data. Dette kan ta en stund..."
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification language?"
-msgstr ""
+msgstr "Vil du virkelig slette dette varslingsspråket?"
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification?"
@@ -18583,21 +18610,24 @@ msgstr "Vil du virkelig slette dette varslet?"
 
 #. JS File: Core.Agent.Admin.PGP
 msgid "Do you really want to delete this key?"
-msgstr ""
+msgstr "Vil du virkelig slette denne nøkkelen?"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
 "information about the upgrade progress."
 msgstr ""
+"Det er en pakkeoppgraderingsprosess som kjører, klikk her for å se "
+"statusinformasjon om oppgraderingsfremdriften."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "A package upgrade was recently finished. Click here to see the results."
 msgstr ""
+"En pakkeoppgradering ble nylig fullført. Klikk her for å se resultatene."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade result."
-msgstr ""
+msgstr "Ingen svar fra get-pakkeoppgraderingsresultatet."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
