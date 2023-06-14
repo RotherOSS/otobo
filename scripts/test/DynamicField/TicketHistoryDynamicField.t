@@ -18,10 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -34,13 +37,21 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get needed objects
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-# start tests
+my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+ok( $BackendObject, 'Backend object was created' );
+isa_ok(
+    $BackendObject,
+    ['Kernel::System::DynamicField::Backend'],
+    'Backend object was created successfully',
+);
+
 # always random number with the same number of digits
 my $RandomID = $Helper->GetRandomNumber();
 $RandomID = substr $RandomID, -7, 7;
+
+# keep track of dynamic fields
 my @FieldIDs;
 
 # create a dynamic field with short name length (21 characters)
@@ -62,10 +73,7 @@ if ($FieldID1) {
 }
 
 # sanity check
-$Self->True(
-    $FieldID1,
-    "DynamicFieldAdd() successful for Field ID $FieldID1",
-);
+ok( $FieldID1, "DynamicFieldAdd() successful for Field ID $FieldID1" );
 
 # create a dynamic field with long name length (166 characters)
 my $FieldID2 = $DynamicFieldObject->DynamicFieldAdd(
@@ -83,52 +91,32 @@ my $FieldID2 = $DynamicFieldObject->DynamicFieldAdd(
 );
 
 # sanity check
-$Self->True(
-    $FieldID2,
-    "DynamicFieldAdd() successful for Field ID $FieldID2",
-);
+ok( $FieldID2, "DynamicFieldAdd() successful for Field ID $FieldID2" );
 if ($FieldID2) {
     push @FieldIDs, $FieldID2;
 }
 
 # get the Dynamic Fields configuration
 my $DynamicFieldsConfig = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver');
-
-# sanity check
-$Self->Is(
-    ref $DynamicFieldsConfig,
-    'HASH',
-    'Dynamic Field configuration',
-);
-$Self->IsNotDeeply(
+ref_ok( $DynamicFieldsConfig, 'HASH', 'Dynamic Field configuration' );
+isnt(
     $DynamicFieldsConfig,
     {},
     'Dynamic Field configuration is not empty',
 );
 
-$Self->True(
-    $BackendObject,
-    'Backend object was created',
-);
-
-$Self->Is(
-    ref $BackendObject,
-    'Kernel::System::DynamicField::Backend',
-    'Backend object was created successfully',
-);
-
-# check all registered backend delegates
-my $FieldType = 'TextArea';
-$Self->True(
-    $BackendObject->{ 'DynamicField' . $FieldType . 'Object' },
-    "Backend delegate for field type $FieldType was created",
-);
-
-$Self->Is(
-    ref $BackendObject->{ 'DynamicField' . $FieldType . 'Object' },
-    $DynamicFieldsConfig->{$FieldType}->{Module},
-    "Backend delegate for field type $FieldType was created successfully",
-);
+# check the relevant registered backend delegates
+for my $FieldType ('TextArea') {
+    ok(
+        $BackendObject->{ 'DynamicField' . $FieldType . 'Object' },
+        "Backend delegate for field type $FieldType was created",
+    );
+    isa_ok(
+        $BackendObject->{ 'DynamicField' . $FieldType . 'Object' },
+        [ $DynamicFieldsConfig->{$FieldType}->{Module} ],
+        "Backend delegate for field type $FieldType was created successfully",
+    );
+}
 
 # Tests for different length of Dynamic Field name and Value
 # short value there is 12 characters
@@ -323,7 +311,6 @@ my @Tests = (
         ExpectedDataWitoutOld =>
             "%%FieldName%%TestTextArea1TestTextArea2TestTextArea3TestTextArea4TestTextArea5TestTextArea6[...]%%Value%%TestTextArea1TestTextArea2TestTextArea3TestTextArea4TestTextArea5TestTextArea6[...]%%OldValue%%",
     },
-
     {
         Name               => 'empty Value and long FirstValue',
         DynamicFieldConfig => {
@@ -359,7 +346,6 @@ my @Tests = (
                 DefaultValue => 'TestTextArea',
             },
         },
-
         Value =>
             'TestTextArea1TestTextArea2TestTextArea3TestTextArea4TestTextArea5TestTextArea6TestTextArea7TestTextArea8TestTextArea9TestTextArea10TestTextArea11TestTextArea12TestTextArea1TestTextArea2TestTextArea3TestTextArea4TestTextArea5TestTextArea6TestTextArea7TestTextArea8TestTextArea9TestTextArea10TestTextArea11TestTextArea12',
         UserID       => 1,
@@ -374,157 +360,127 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
+    subtest $Test->{Name} => sub {
 
-    # create a ticket for test DynamicField Value
-    my $TicketID = $TicketObject->TicketCreate(
-        Title        => 'Some Ticket Title',
-        Queue        => 'Raw',
-        Lock         => 'unlock',
-        Priority     => '3 normal',
-        State        => 'new',
-        CustomerID   => 'unittest' . $RandomID,
-        CustomerUser => 'customer@example.com',
-        OwnerID      => 1,
-        UserID       => 1,
-    );
-
-    # sanity check
-    $Self->True(
-        $TicketID,
-        "$Test->{Name} - TicketCreate() successful for Ticket ID $TicketID",
-    );
-
-    #  set value of dynamic field, OldValue is not set on TicketCreate
-    my $Success = $BackendObject->ValueSet(
-        DynamicFieldConfig => $Test->{DynamicFieldConfig},
-        ObjectID           => $TicketID,
-        Value              => $Test->{FirstValue},
-        UserID             => $Test->{UserID},
-    );
-
-    #  update value of dynamic field for ticket history to set OldValue
-    $Success = $BackendObject->ValueSet(
-        DynamicFieldConfig => $Test->{DynamicFieldConfig},
-        ObjectID           => $TicketID,
-        Value              => $Test->{Value},
-        UserID             => $Test->{UserID},
-    );
-
-    if ( !$Test->{Success} ) {
-        $Self->False(
-            $Success,
-            "$Test->{Name} - ValueSet() - Test ($Test->{Name}) - with False",
+        # create a ticket for test DynamicField Value
+        my $TicketID = $TicketObject->TicketCreate(
+            Title        => 'Some Ticket Title',
+            Queue        => 'Raw',
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'new',
+            CustomerID   => 'unittest' . $RandomID,
+            CustomerUser => 'customer@example.com',
+            OwnerID      => 1,
+            UserID       => 1,
         );
+        ok( $TicketID, "TicketCreate() successful for Ticket ID $TicketID" );
 
-        # Try to get the value with ValueGet()
-        my $Value = $BackendObject->ValueGet(
+        #  set value of dynamic field, OldValue is not set on TicketCreate
+        my $Success = $BackendObject->ValueSet(
             DynamicFieldConfig => $Test->{DynamicFieldConfig},
             ObjectID           => $TicketID,
+            Value              => $Test->{FirstValue},
+            UserID             => $Test->{UserID},
         );
 
-        # fix Value if it's an array ref
-        if ( defined $Value && ref $Value eq 'ARRAY' ) {
-            $Value = join ',', @{$Value};
-        }
-
-        # compare data
-        if ( $Test->{ShouldGet} ) {
-
-            $Self->IsNot(
-                $Value,
-                $Test->{Value},
-                "$Test->{Name} - ValueGet() after unsuccessful ValueSet() - (Test $Test->{Name}) - Value",
-            );
-        }
-        else {
-            $Self->Is(
-                $Value,
-                undef,
-                "$Test->{Name} - ValueGet() after unsuccessful ValueSet() - (Test $Test->{Name}) - Value undef",
-            );
-        }
-
-    }
-    else {
-        $Self->True(
-            $Success,
-            "$Test->{Name} - ValueSet() - Test ($Test->{Name}) - with True",
-        );
-
-        # get the value with ValueGet()
-        my $Value = $BackendObject->ValueGet(
+        #  update value of dynamic field for ticket history to set OldValue
+        $Success = $BackendObject->ValueSet(
             DynamicFieldConfig => $Test->{DynamicFieldConfig},
             ObjectID           => $TicketID,
+            Value              => $Test->{Value},
+            UserID             => $Test->{UserID},
         );
 
-        # workaround for oracle
-        # oracle databases can't determine the difference between NULL and ''
-        if ( !defined $Value || $Value eq '' ) {
+        if ( !$Test->{Success} ) {
+            ok( !$Success, "ValueSet() failed" );
 
-            # test falseness
-            $Self->False(
-                $Value,
-                "$Test->{Name} - ValueGet() after successful ValueSet() - (Test $Test->{Name}) - "
-                    . "Value (Special case for '')"
+            # Try to get the value with ValueGet()
+            my $Value = $BackendObject->ValueGet(
+                DynamicFieldConfig => $Test->{DynamicFieldConfig},
+                ObjectID           => $TicketID,
             );
-        }
-        else {
-            if ( ref $Value eq 'ARRAY' ) {
 
-                # compare data
-                $Self->IsDeeply(
+            # fix Value if it's an array ref
+            if ( defined $Value && ref $Value eq 'ARRAY' ) {
+                $Value = join ',', @{$Value};
+            }
+
+            # compare data
+            if ( $Test->{ShouldGet} ) {
+
+                isnt(
                     $Value,
                     $Test->{Value},
-                    "$Test->{Name} - ValueGet() after successful ValueSet() - (Test $Test->{Name}) - Value",
+                    "ValueGet() after unsuccessful ValueSet() - Value",
                 );
+            }
+            else {
+                is(
+                    $Value,
+                    undef,
+                    "ValueGet() after unsuccessful ValueSet() - Value undef",
+                );
+            }
 
+        }
+        else {
+            ok( $Success, "ValueSet() - was successful" );
+
+            # get the value with ValueGet()
+            my $Value = $BackendObject->ValueGet(
+                DynamicFieldConfig => $Test->{DynamicFieldConfig},
+                ObjectID           => $TicketID,
+            );
+
+            # workaround for oracle
+            # oracle databases can't determine the difference between NULL and ''
+            if ( !defined $Value || $Value eq '' ) {
+
+                # test falseness
+                ok( !$Value, "ValueGet() after successful ValueSet() - Value (Special case for '')" );
             }
             else {
 
                 # compare data
-                $Self->Is(
+                is(
                     $Value,
                     $Test->{Value},
-                    "$Test->{Name} - ValueGet() after successful ValueSet() - (Test $Test->{Name}) - Value",
+                    "ValueGet() after successful ValueSet() - Value",
                 );
             }
-        }
 
-        my @HistoryGet = $TicketObject->HistoryGet(
-            UserID   => 1,
-            TicketID => $TicketID,
-        );
+            # look at the dynamic field update in the ticket history
+            my @HistoryLines = $TicketObject->HistoryGet(
+                UserID   => 1,
+                TicketID => $TicketID,
+            );
 
-        my $NoHistoryField = scalar @HistoryGet;
-        my $ResultEntry    = 'HistoryType';
-        for my $ResultCount ( 0 .. ( $NoHistoryField - 1 ) ) {
-
-            if ( $HistoryGet[$ResultCount]->{$ResultEntry} eq 'TicketDynamicFieldUpdate' ) {
+            HISTORY_LINE:
+            for my $HistoryEntry (@HistoryLines) {
+                next HISTORY_LINE unless $HistoryEntry->{HistoryType} eq 'TicketDynamicFieldUpdate';
 
                 my $ResultEntryDynamicField = 'Name';
 
-                #check if there is OldValue
-                ( my $CheckOldValue ) = $HistoryGet[$ResultCount]->{$ResultEntryDynamicField}
-                    =~ /\%\%OldValue\%\%(?:(.+?))?$/;
+                # check if there is OldValue
+                ( my $CheckOldValue ) = $HistoryEntry->{$ResultEntryDynamicField} =~ m/\%\%OldValue\%\%(?:(.+?))?$/;
                 if ($CheckOldValue) {
-                    $Self->Is(
-                        $HistoryGet[$ResultCount]->{$ResultEntryDynamicField},
+                    is(
+                        $HistoryEntry->{$ResultEntryDynamicField},
                         $Test->{ExpectedData},
-                        "$Test->{Name} for Ticket DynamicField Update - History Name for ticket $TicketID"
+                        "HistoryLine for Ticket DynamicField Update - History Name for ticket $TicketID"
                     );
                 }
                 else {
-                    $Self->Is(
-                        $HistoryGet[$ResultCount]->{$ResultEntryDynamicField},
+                    is(
+                        $HistoryEntry->{$ResultEntryDynamicField},
                         $Test->{ExpectedDataWitoutOld},
-                        "$Test->{Name} for TicketCreate - History Name for ticket $TicketID"
+                        "HistoryLines for TicketCreate - History Name for ticket $TicketID"
                     );
                 }
             }
         }
-    }
+    };
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;
