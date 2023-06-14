@@ -643,8 +643,8 @@ sub PrepareRequest {
         # get the ticket
         my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
         my %Ticket           = $TicketObject->TicketGet(
-            TicketID     => $Param{Data}->{TicketID},
-            DynamicField => $GetDynamicFields,
+            TicketID      => $Param{Data}->{TicketID},
+            DynamicFields => $GetDynamicFields,
         );
 
         # Nothing to do when the updated ticket is gone.

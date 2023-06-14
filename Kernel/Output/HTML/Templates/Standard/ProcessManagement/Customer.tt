@@ -14,8 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-[% InsertTemplate("AgentCustomerSearch.tt") %]
-
 [% RenderBlockStart("rw:Customer") %]
 <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="[% Data.SelectedCustomerUser | html %]"/>
 <label for="CustomerAutoComplete" class="[% Data.MandatoryClass | html %]">
