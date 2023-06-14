@@ -6132,8 +6132,6 @@ OwnerID, PriorityID, StateID, HistoryTypeID and TypeID)
 sub HistoryGet {
     my ( $Self, %Param ) = @_;
 
-    my @Lines;
-
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
@@ -6148,7 +6146,8 @@ sub HistoryGet {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    return if !$DBObject->Prepare(
+    # query the ticket history
+    return unless $DBObject->Prepare(
         SQL => 'SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ht.name, '
             . ' sh.queue_id, sh.owner_id, sh.priority_id, sh.state_id, sh.history_type_id, sh.type_id '
             . ' FROM ticket_history sh, ticket_history_type ht WHERE '
@@ -6157,6 +6156,8 @@ sub HistoryGet {
         Bind => [ \$Param{TicketID} ],
     );
 
+    # collect the results
+    my @Lines;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         my %Data;
         $Data{TicketID}      = $Param{TicketID};

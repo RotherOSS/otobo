@@ -135,7 +135,7 @@ sub ValueSet {
         );
 
         # data validation
-        return if !$Self->ValueValidate( Value => \%Value );
+        return unless $Self->ValueValidate( Value => \%Value );
 
         # data conversions
 
@@ -438,13 +438,13 @@ sub ObjectValuesDelete {
 
 checks if the given value is valid for the value type.
 
-    my $Success = $DynamicFieldValueObject->ValueValidate(
-        Value    =>  {
-                ValueText          => 'some text',            # optional, one of these fields must be provided
-                ValueDateTime      => '1977-12-12 12:00:00',  # optional
-                ValueInt           => 123,                    # optional
-            },
-        UserID   => $UserID,
+    my $IsValid = $DynamicFieldValueObject->ValueValidate(
+        Value  =>  {
+            ValueText          => 'some text',            # optional, one of these fields must be provided
+            ValueDateTime      => '1977-12-12 12:00:00',  # optional
+            ValueInt           => 123,                    # optional
+        },
+        UserID => $UserID,
     );
 
 =cut
@@ -467,15 +467,15 @@ sub ValueValidate {
             String => $Value{ValueDateTime},
         );
 
-        return if !defined $SystemTime;
+        return unless defined $SystemTime;
 
         # convert back to time stamp to check errors
-        my $TimeStamp = $DateTimeObject->ToString();
+        my $TimeStamp = $DateTimeObject->ToString;
 
-        return if !$TimeStamp;
+        return unless $TimeStamp;
 
         # compare if the date is the same
-        return if !( $Value{ValueDateTime} eq $TimeStamp );
+        return unless $Value{ValueDateTime} eq $TimeStamp;
     }
 
     # validate integer
@@ -492,6 +492,8 @@ sub ValueValidate {
     }
 
     # no validation for ValueText
+
+    # report as valid when no check found a reason to complain
     return 1;
 }
 

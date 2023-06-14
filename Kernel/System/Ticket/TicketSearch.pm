@@ -1473,7 +1473,8 @@ sub TicketSearch {
             my $Counter   = 0;
             TEXT:
             for my $Text (@SearchParams) {
-                next TEXT if ( !defined $Text || $Text eq '' );
+                next TEXT unless defined $Text;
+                next TEXT if $Text eq '';
 
                 $Text =~ s/\*/%/gi;
 

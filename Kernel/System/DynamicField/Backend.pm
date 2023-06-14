@@ -870,7 +870,7 @@ sub ValueValidate {
         return;
     }
 
-    # call ValueValidate on the specific backend
+    # call the specific backend
     return $Self->{$DynamicFieldBackend}->ValueValidate(%Param);
 }
 
@@ -939,6 +939,7 @@ sub FieldValueValidate {
         return $Self->{$DynamicFieldBackend}->FieldValueValidate(%Param);
     }
 
+    # call ValueValidate() on the specific backend as a fallback
     return $Self->{$DynamicFieldBackend}->ValueValidate(%Param);
 }
 

@@ -403,12 +403,11 @@ for my $Test (@Tests) {
 
             # fix Value if it's an array ref
             if ( defined $Value && ref $Value eq 'ARRAY' ) {
-                $Value = join ',', @{$Value};
+                $Value = join ',', $Value->@*;
             }
 
             # compare data
             if ( $Test->{ShouldGet} ) {
-
                 isnt(
                     $Value,
                     $Test->{Value},

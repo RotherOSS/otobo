@@ -158,11 +158,10 @@ sub ValueSet {
     return $Success;
 }
 
-# TODO Rewrite for multivalue use
+# There is no need for MultiValue support as only search terms are validated with this method.
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    my $Prefix          = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $DateRestriction = $Param{DynamicFieldConfig}->{Config}->{DateRestriction};
 
     # Convert the ISO date string to a ISO date time string, if only the date is given to
@@ -676,12 +675,12 @@ sub EditFieldValueValidate {
     for my $ValueItem ( $Value->@* ) {
         if ( $ValueItem->{ $Prefix . 'Used' } && $DateRestriction ) {
 
-            my $Year   = $$ValueItem->{ $Prefix . 'Year' }   || '0000';
-            my $Month  = $$ValueItem->{ $Prefix . 'Month' }  || '00';
-            my $Day    = $$ValueItem->{ $Prefix . 'Day' }    || '00';
-            my $Hour   = $$ValueItem->{ $Prefix . 'Hour' }   || '00';
-            my $Minute = $$ValueItem->{ $Prefix . 'Minute' } || '00';
-            my $Second = $$ValueItem->{ $Prefix . 'Second' } || '00';
+            my $Year   = $ValueItem->{ $Prefix . 'Year' }   || '0000';
+            my $Month  = $ValueItem->{ $Prefix . 'Month' }  || '00';
+            my $Day    = $ValueItem->{ $Prefix . 'Day' }    || '00';
+            my $Hour   = $ValueItem->{ $Prefix . 'Hour' }   || '00';
+            my $Minute = $ValueItem->{ $Prefix . 'Minute' } || '00';
+            my $Second = $ValueItem->{ $Prefix . 'Second' } || '00';
 
             my $ManualTimeStamp =
                 $Year . '-' . $Month . '-' . $Day . ' '
@@ -724,12 +723,10 @@ sub EditFieldValueValidate {
     }
 
     # create resulting structure
-    my $Result = {
+    return {
         ServerError  => $ServerError,
         ErrorMessage => $ErrorMessage,
     };
-
-    return $Result;
 }
 
 sub DisplayValueRender {
@@ -864,6 +861,7 @@ sub SearchFieldRender {
 
                 next ITEM;
             }
+
             if ( $Key =~ m{Start} ) {
                 $DefaultValue{ValueStart}->{$Key} = $Value;
             }

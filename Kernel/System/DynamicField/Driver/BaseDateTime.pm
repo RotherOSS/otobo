@@ -642,12 +642,10 @@ sub EditFieldValueValidate {
     }
 
     # create resulting structure
-    my $Result = {
+    return {
         ServerError  => $ServerError,
         ErrorMessage => $ErrorMessage,
     };
-
-    return $Result;
 }
 
 sub DisplayValueRender {
@@ -778,7 +776,6 @@ sub SearchFieldRender {
     {
         $Value = $FieldValues;
     }
-
     elsif (
         defined $FieldValues
         && $Param{Type} eq 'TimePoint'
@@ -917,12 +914,10 @@ EOF
         AdditionalText => $AdditionalText,
     );
 
-    my $Data = {
+    return {
         Field => $HTMLString,
         Label => $LabelString,
     };
-
-    return $Data;
 }
 
 sub SearchFieldValueGet {
@@ -1120,9 +1115,7 @@ sub SearchFieldParameterBuild {
     # search for a wild card in the value
     if ( $Value && IsHashRefWithData($Value) ) {
 
-        my $Prefix = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-
-        $Prefix .= $Param{Type};
+        my $Prefix = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} . $Param{Type};
 
         if (
             $Param{Type} eq 'TimePoint'
