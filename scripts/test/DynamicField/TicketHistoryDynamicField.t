@@ -349,7 +349,7 @@ my @Tests = (
             "%%FieldName%%TestTextArea$RandomID%%Value%%TestTextArea1TestTextArea2TestTextArea3TestTextArea4TestTextArea5TestTextArea6TextArea7TextArea8TextArea9TextArea10TextArea11TextArea12TextAre[...]%%OldValue%%",
     },
     {
-        Name               => 'long Value and empty FirstValue',
+        Name               => 'long Value and empty FirstValue, only a single history line',
         DynamicFieldConfig => {
             ID         => $FieldID2,
             Name       => "TestTextArea$RandomID",
@@ -367,7 +367,7 @@ my @Tests = (
         ShouldGet    => 1,
         FirstValue   => '',
         ExpectedData =>
-            "%%FieldName%%TestTextArea1TestTextArea2TestTextArea3TestTextAre[...]%%Value%%TestTextArea1TestTextArea2TestTextArea3TestTextArea4TestTextArea5TestTextArea6TestTextArea7TestTextArea8Te[...]%%OldValue%%",
+            "this is never checked as there is no history line with OldValue",
         ExpectedDataWitoutOld =>
             "%%FieldName%%TestTextArea$RandomID%%Value%%TestTextArea1TestTextArea2TestTextArea3TestTextArea4TestTextArea5TestTextArea6TestTextArea7TestTextArea8TestTextArea9TestTextArea10TestTextAre[...]%%OldValue%%",
     },
