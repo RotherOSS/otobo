@@ -115,14 +115,6 @@ sub PostValueSet {
         Bind => [ \$Param{UserID}, \$Param{ObjectID} ],
     );
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-    my %Ticket = $TicketObject->TicketGet(
-        TicketID      => $Param{ObjectID},
-        DynamicFields => 0,
-    );
-
     my $HistoryValue    = defined $Param{Value}    ? $Param{Value}    : '';
     my $HistoryOldValue = defined $Param{OldValue} ? $Param{OldValue} : '';
 
@@ -209,9 +201,9 @@ sub PostValueSet {
     $HistoryOldValue //= '';
 
     # Add history entry.
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     $TicketObject->HistoryAdd(
         TicketID    => $Param{ObjectID},
-        QueueID     => $Ticket{QueueID},
         HistoryType => 'TicketDynamicFieldUpdate',
 
         # This insert is not optimal at all (not human readable), but will be kept due to backwards compatibility. The

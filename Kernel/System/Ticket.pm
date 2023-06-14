@@ -6057,28 +6057,21 @@ sub HistoryAdd {
         }
     }
 
-    my %Ticket;
-    if ( !$Param{QueueID} || !$Param{TypeID} || !$Param{OwnerID} || !$Param{PriorityID} || !$Param{StateID} ) {
-        %Ticket = $Self->TicketGet(
-            %Param,
-            DynamicFields => 0,
-        );
-    }
+    # Extract some information from the ticket data unless already provided.
+    {
+        my %Ticket;
+        if ( !$Param{QueueID} || !$Param{TypeID} || !$Param{OwnerID} || !$Param{PriorityID} || !$Param{StateID} ) {
+            %Ticket = $Self->TicketGet(
+                %Param,
+                DynamicFields => 0,
+            );
+        }
 
-    if ( !$Param{QueueID} ) {
-        $Param{QueueID} = $Ticket{QueueID};
-    }
-    if ( !$Param{TypeID} ) {
-        $Param{TypeID} = $Ticket{TypeID};
-    }
-    if ( !$Param{OwnerID} ) {
-        $Param{OwnerID} = $Ticket{OwnerID};
-    }
-    if ( !$Param{PriorityID} ) {
-        $Param{PriorityID} = $Ticket{PriorityID};
-    }
-    if ( !$Param{StateID} ) {
-        $Param{StateID} = $Ticket{StateID};
+        $Param{QueueID}    ||= $Ticket{QueueID};
+        $Param{TypeID}     ||= $Ticket{TypeID};
+        $Param{OwnerID}    ||= $Ticket{OwnerID};
+        $Param{PriorityID} ||= $Ticket{PriorityID};
+        $Param{StateID}    ||= $Ticket{StateID};
     }
 
     # limit name to 200 chars
