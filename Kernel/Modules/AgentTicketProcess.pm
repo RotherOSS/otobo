@@ -2506,6 +2506,8 @@ sub _RenderDynamicField {
         };
     }
 
+    # TODO Suggestion: Move this entire section before call to EditSectionRender and
+    # pass PossibleValuesFilter and Errors as params to this function
     my $PossibleValuesFilter;
 
     # get dynamic field backend object
