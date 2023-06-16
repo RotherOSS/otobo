@@ -2245,13 +2245,19 @@ checks if the dynamic field as an specified behavior
                                                          #     ticket condition
                                                          # 'IsSortable' to sort by this field in
                                                          #     "Small" overviews
+                                                         # 'IsFiltrable' to enable columnwise filtering
+                                                         #     in ticket lists
                                                          # 'IsStatsCondition' to be used in
                                                          #     Statistics as a condition
                                                          # 'IsCustomerInterfaceCapable' to make
                                                          #     the field usable in the customer
                                                          #     interface
-                                                         # 'IsHTMLContent' to indicate that there is                                                        # 'IsCustomerInterfaceCapable' to make
+                                                         # 'IsHTMLContent' to indicate that there is
                                                          #     HTML content (avoid duble cnversion to HTML)
+                                                         # 'IsLikeOperatorCapable' to perform likewise
+                                                         #     search in ValueSearch function
+                                                         # 'IsHiddenInTicketInformation' to hide the field
+                                                         #     within the ticket information widget
     );
 
     Returns:
@@ -2762,7 +2768,7 @@ The following functions should be only used if the dynamic field has IsFiltrable
 
 =head2 ColumnFilterValuesGet()
 
-get the list distinct values for a dynamic field from a list of tickets
+get the list of distinct values for a dynamic field from a list of tickets
 
     my $ColumnFilterValues = $BackendObject->ColumnFilterValuesGet(
         DynamicFieldConfig => $DynamicFieldConfig,      #DynamicField configuraction
