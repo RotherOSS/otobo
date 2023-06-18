@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -22,13 +23,32 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Capture::Tiny qw(capture);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Dump');
-my $JSONObject    = $Kernel::OM->Get('Kernel::System::JSON');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $DumpCommand  = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Dump');
+my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
+
+my $ThawedCompleteDump;
+{
+    # run the console command and capture the output
+    my $DumpAllCommand = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::DumpAll');
+    my ( $JSONString, undef, $ExitCode ) = capture {
+        return $DumpAllCommand->Execute;
+    };
+    is( $ExitCode, 0, "command ran successfully" );
+
+    # Get a data structure from the printed JSON
+    $ThawedCompleteDump = $JSONObject->Decode( Data => $JSONString );
+    ref_ok(
+        $ThawedCompleteDump,
+        'HASH',
+        'got hash from DumpAll'
+    );
+}
 
 my @Keys = qw(
     Home
@@ -42,18 +62,20 @@ for my $Key (@Keys) {
     subtest "config dump for key '$Key'" => sub {
 
         # run the console command and capture the output
-        my ( $JSONString, $ExitCode );
-        {
-            local *STDOUT;                          ## no critic qw(Variables::RequireInitializationForLocalVars)
-            open STDOUT, '>:utf8', \$JSONString;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-            $ExitCode = $CommandObject->Execute($Key);
-        }
+        my ( $JSONString, undef, $ExitCode ) = capture {
+            return $DumpCommand->Execute($Key);
+        };
 
         is( $ExitCode, 0, "command ran successfully" );
         is(
             $JSONObject->Decode( Data => $JSONString ),
             $ConfigObject->Get($Key),
-            'roundtrip',
+            'verify Dump command',
+        );
+        is(
+            $ThawedCompleteDump->{$Key},
+            $ConfigObject->Get($Key),
+            'verify DumpAll command',
         );
     };
 }
