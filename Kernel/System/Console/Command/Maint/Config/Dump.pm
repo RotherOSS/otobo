@@ -37,10 +37,10 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Dump configuration settings.');
+    $Self->Description('Dump the specified configuration setting in JSON format.');
     $Self->AddArgument(
         Name        => 'name',
-        Description => "Specify which config setting should be dumped.",
+        Description => 'Specify which configuration setting should be dumped.',
         Required    => 1,
         ValueRegex  => qr/.*/smx,
     );
