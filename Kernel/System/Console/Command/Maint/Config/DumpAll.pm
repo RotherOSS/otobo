@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::Console::Command::Maint::Config::Dump;
+package Kernel::System::Console::Command::Maint::Config::DumpAll;
 
 use v5.24;
 use strict;
@@ -37,13 +37,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Dump the specified configuration setting in JSON format.');
-    $Self->AddArgument(
-        Name        => 'name',
-        Description => 'Specify which configuration setting should be dumped.',
-        Required    => 1,
-        ValueRegex  => qr/.*/smx,
-    );
+    $Self->Description('Dump all configuration settings in JSON format.');
 
     return;
 }
@@ -51,19 +45,12 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Key = $Self->GetArgument('name');
-    chomp $Key;
-    my $Value = $Kernel::OM->Get('Kernel::Config')->Get($Key);
-
-    if ( !defined $Value ) {
-        $Self->PrintError("The config setting $Key could not be found.");
-
-        return $Self->ExitCodeError();
-    }
-
-    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
-    print $JSONObject->Encode(
-        Data     => $Value,
+    # Cpanel::JSON::XS does not accept blessed references per default. So let's unbless
+    # the config object before dumping it. This should work because usually there are no
+    # other blessed references deep in the data structure.
+    my $UnblessedConfig = { $Kernel::OM->Get('Kernel::Config')->%* };
+    print $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+        Data     => $UnblessedConfig,
         SortKeys => 1,
         Pretty   => 1,
     );
