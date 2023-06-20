@@ -2225,7 +2225,8 @@ sub _Mask {
         }
 
         # grep dynamic field values from ticket data
-        my %DynamicFieldValues = map { $_ => $Param{$_} } grep { $DynamicFieldConfigs{$_}{ObjectType} eq 'Ticket' } keys %DynamicFieldConfigs;
+        my %DynamicFieldValues
+            = map { 'DynamicField_' . $_ => $Param{ 'DynamicField_' . $_ } } grep { $DynamicFieldConfigs{$_}->{ObjectType} eq 'Ticket' } keys %DynamicFieldConfigs;
 
         $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
             Content              => $InputFieldDefinition,
