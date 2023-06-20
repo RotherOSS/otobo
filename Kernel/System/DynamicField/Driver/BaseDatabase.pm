@@ -57,7 +57,7 @@ sub ValueIsDifferent {
 
     # Special cases where one value is a scalar and the other one is an array (see bug#13998).
     if ( ref \$Param{Value1} eq 'SCALAR' && ref $Param{Value2} eq 'ARRAY' ) {
-        my @TmpArray = sort { $a <=> $b } ( split ',', $Param{Value1} );
+        my @TmpArray = sort { $a <=> $b } ( split ',', $Param{Value1} // '' );
         @{ $Param{Value2} } = sort { $a <=> $b } @{ $Param{Value2} };
 
         return DataIsDifferent(
@@ -66,7 +66,7 @@ sub ValueIsDifferent {
         );
     }
     if ( ref \$Param{Value2} eq 'SCALAR' && ref $Param{Value1} eq 'ARRAY' ) {
-        my @TmpArray = sort { $a <=> $b } ( split ',', $Param{Value2} );
+        my @TmpArray = sort { $a <=> $b } ( split ',', $Param{Value2} // '' );
         @{ $Param{Value1} } = sort { $a <=> $b } @{ $Param{Value1} };
 
         return DataIsDifferent(
