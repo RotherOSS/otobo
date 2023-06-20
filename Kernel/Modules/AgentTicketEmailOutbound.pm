@@ -757,7 +757,7 @@ sub Form {
     }
 
     # grep dynamic field values from ticket data
-    my %DynamicFieldValues
+    my %DFValues
         = map { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } } grep { $_->{ObjectType} eq 'Ticket' } $DynamicField->@*;
 
     # build view ...
@@ -794,8 +794,8 @@ sub Form {
         Attachments         => \@Attachments,
         %Data,
         %GetParam,
-        DFPossibleValues   => \%DynamicFieldPossibleValues,
-        DynamicFieldValues => \%DynamicFieldValues,
+        DFPossibleValues => \%DynamicFieldPossibleValues,
+        DFValues         => \%DFValues,
     );
     $Output .= $LayoutObject->Footer(
         Type => 'Small',
@@ -1984,7 +1984,7 @@ sub _Mask {
             UpdatableFields      => $Self->_GetFieldsToUpdate(),
             LayoutObject         => $LayoutObject,
             ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
-            DynamicFieldValues   => $Param{DynamicFieldValues},
+            DynamicFieldValues   => $Param{DFValues},
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
         );
