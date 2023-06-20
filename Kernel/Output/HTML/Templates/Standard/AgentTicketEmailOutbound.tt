@@ -370,37 +370,7 @@
                     <input type="hidden" name="IsVisibleForCustomerPresent" value="1" />
                 </div>
 
-[% RenderBlockStart("DynamicField") %]
-                <div class="Row Row_DynamicField_[% Data.Name | html %]">
-                    [% Data.Label %]
-                    <div class="Field">
-                        [% Data.Field %]
-                    </div>
-                    <div class="Clear"></div>
-                </div>
-[% RenderBlockEnd("DynamicField") %]
-
-# example of how to use fixed dynamic field blocks for customizations
-# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
-# field names
-#[% RenderBlockStart("DynamicField_Field1") %]
-#                <div class="Row Row_DynamicField_[% Data.Name | html %]">
-#                    [% Data.Label %]
-#                    <div class="Field">
-#                        [% Data.Field %]
-#                    </div>
-#                    <div class="Clear"></div>
-#                </div>
-#[% RenderBlockEnd("DynamicField_Field1") %]
-#[% RenderBlockStart("DynamicField_Field2") %]
-#                <div class="Row Row_DynamicField_[% Data.Name | html %]">
-#                    [% Data.Label %]
-#                    <div class="Field">
-#                        [% Data.Field %]
-#                    </div>
-#                    <div class="Clear"></div>
-#                </div>
-#[% RenderBlockEnd("DynamicField_Field2") %]
+[% Data.DynamicFieldHTML %]
 
 [% RenderBlockStart("TimeUnitsLabel") %]
                 <label for="TimeUnits">[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
