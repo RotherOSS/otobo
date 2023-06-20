@@ -439,44 +439,6 @@ sub Run {
             );
     }
 
-    # Fetch input field definition
-    my $MaskObject           = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
-    my $InputFieldDefinition = $MaskObject->DefinitionGet(
-        Mask => $Self->{Action},
-    );
-
-    my %DefinedFieldsList;
-
-    # If no definition is present, put all fields into a list (displaying one field per row)
-    if ( !IsArrayRefWithData($InputFieldDefinition) ) {
-        $InputFieldDefinition = [ { List => [ map { { 'Name' => $_->{Name} } } @{$DynamicField} ] } ];
-    }
-    else {
-        # Track used fields for appending the unused ones
-        my @UsedFields = map {
-            if ( $_->{Grid} ) {
-                map { $_->@* } $_->{Grid}->{Rows}->@*;
-            }
-            elsif ( $_->{List} ) {
-                $_->{List}->@*;
-            }
-        } $InputFieldDefinition->@*;
-
-        %DefinedFieldsList = map {
-            $_->{Name} => {
-                ReadOnly => $_->{ReadOnly},
-            }
-        } @UsedFields;
-
-        # Collect missing fields to put them in a list section at the end of the existing definition
-        my @NotDefinedFields = grep { !$DefinedFieldsList{ $_->{Name} } } $DynamicField->@*;
-        my @ListMissing      = map  { { Name => $_->{Name} } } @NotDefinedFields;
-
-        if (@ListMissing) {
-            push @{$InputFieldDefinition}, { List => \@ListMissing };
-        }
-    }
-
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
@@ -487,56 +449,6 @@ sub Run {
         $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicFieldItem } = $DynamicFieldValues{$DynamicFieldItem};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
-
-    my %DynamicFieldValueCount;
-    for my $Area ( $InputFieldDefinition->@* ) {
-        if ( $Area->{Grid} ) {
-            for my $Row ( $Area->{Grid}{Rows}->@* ) {
-                my @AreaDynamicFields = ();
-                my $MaxValueCount     = 0;
-                my $ValueCount        = 0;
-                for my $Field ( $Row->@* ) {
-                    push @AreaDynamicFields, $Field->{Name};
-
-                    # $Param{GetParam} holds the dynamic field values
-                    if ( ref $GetParam{"DynamicField_$Field->{Name}"} ne 'ARRAY' ) {
-                        $GetParam{"DynamicField_$Field->{Name}"} = [ $GetParam{"DynamicField_$Field->{Name}"} // '' ];
-                    }
-                    else {
-                        $ValueCount = scalar $GetParam{"DynamicField_$Field->{Name}"}->@*;
-                    }
-                    if ( $ValueCount > $MaxValueCount ) {
-                        $MaxValueCount = $ValueCount;
-                    }
-                }
-                for my $FieldName (@AreaDynamicFields) {
-                    $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
-                }
-            }
-        }
-        elsif ( $Area->{List} ) {
-            my @AreaDynamicFields = ();
-            my $MaxValueCount     = 0;
-            my $ValueCount        = 0;
-            for my $Field ( $Area->{List}->@* ) {
-                push @AreaDynamicFields, $Field->{Name};
-
-                # $Param{GetParam} holds the dynamic field values
-                if ( ref $Param{GetParam}{"DynamicField_$Field->{Name}"} ne 'ARRAY' ) {
-                    $Param{GetParam}{"DynamicField_$Field->{Name}}"} = [ $Param{GetParam}{"DynamicField_$Field->{Name}"} // '' ];
-                }
-                else {
-                    $ValueCount = scalar $Param{GetParam}{"DynamicField_$Field->{Name}"}->@*;
-                }
-                if ( $ValueCount > $MaxValueCount ) {
-                    $MaxValueCount = $ValueCount;
-                }
-            }
-            for my $FieldName (@AreaDynamicFields) {
-                $DynamicFieldValueCount{$FieldName} = $MaxValueCount;
-            }
-        }
-    }
 
     # transform pending time, time stamp based on user time zone
     if (
@@ -883,8 +795,9 @@ sub Run {
             }
         }
 
-        # create html strings for all dynamic fields
-        my %DynamicFieldHTML;
+        # remember dynamic field validation results if erroneous
+        my %DynamicFieldValidationResult;
+        my %DynamicFieldPossibleValues;
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
@@ -932,12 +845,13 @@ sub Run {
                 }
             }
 
+            $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $PossibleValuesFilter;
+
             my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 ParamObject          => $ParamObject,
                 Mandatory            => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                ValueCount           => $DynamicFieldValueCount{ $DynamicFieldConfig->{Name} },
             );
 
             if ( !IsHashRefWithData($ValidationResult) ) {
@@ -952,24 +866,10 @@ sub Run {
 
             # propagate validation error to the Error variable to be detected by the frontend
             if ( $ValidationResult->{ServerError} ) {
-                $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
+                $Error{ $DynamicFieldConfig->{Name} }                        = ' ServerError';
+                $DynamicFieldValidationResult{ $DynamicFieldConfig->{Name} } = $ValidationResult;
             }
 
-            # get field html
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-                $DynamicFieldBackendObject->EditFieldRender(
-                    DynamicFieldConfig   => $DynamicFieldConfig,
-                    PossibleValuesFilter => $PossibleValuesFilter,
-                    Mandatory            =>
-                    $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                    ServerError     => $ValidationResult->{ServerError}  || '',
-                    ErrorMessage    => $ValidationResult->{ErrorMessage} || '',
-                    LayoutObject    => $LayoutObject,
-                    ParamObject     => $ParamObject,
-                    AJAXUpdate      => 1,
-                    UpdatableFields => $Self->_GetFieldsToUpdate(),
-                    ReadOnly        => $DefinedFieldsList{ $DynamicFieldConfig->{Name} }{ReadOnly},
-                );
         }
 
         if ( $Self->{LoadedFormDraftID} ) {
@@ -1012,10 +912,9 @@ sub Run {
                 GetParam            => \%GetParam,
                 TicketBackType      => $TicketBackType,
                 %Ticket,
-                DynamicFieldHTML => \%DynamicFieldHTML,
                 %GetParam,
-                MaskDefinition => $InputFieldDefinition,
-                MaskObject     => $MaskObject,
+                DFPossibleValues => \%DynamicFieldPossibleValues,
+                DFErrors         => \%DynamicFieldValidationResult,
             );
             $Output .= $LayoutObject->Footer(
                 Type => 'Small',
@@ -1865,8 +1764,8 @@ sub Run {
             }
         }
 
-        # create html strings for all dynamic fields
-        my %DynamicFieldHTML;
+        # remember dynamic field validation results if erroneous
+        my %DynamicFieldPossibleValues;
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
@@ -1914,42 +1813,8 @@ sub Run {
                 }
             }
 
-            # to store dynamic field value from database (or undefined)
-            my $Value;
+            $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $PossibleValuesFilter;
 
-            # only get values for Ticket fields (all screens based on AgentTickeActionCommon
-            # generates a new article, then article fields will be always empty at the beginign)
-            if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
-
-                # get value stored on the database from Ticket
-                $Value = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-            }
-
-            # Fill dynamic field values with empty strings till it matches the maximum value count
-            if ( $DynamicFieldConfig->{Config}{MultiValue} ) {
-                if ( ref $Value ne 'ARRAY' ) {
-                    $Value = [$Value];
-                }
-
-                while ( ( scalar $Value->@* ) < $DynamicFieldValueCount{ $DynamicFieldConfig->{Name} } ) {
-                    push $Value->@*, '';
-                }
-            }
-
-            # get field html
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-                $DynamicFieldBackendObject->EditFieldRender(
-                    DynamicFieldConfig   => $DynamicFieldConfig,
-                    PossibleValuesFilter => $PossibleValuesFilter,
-                    Value                => $Value,
-                    Mandatory            =>
-                    $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                    LayoutObject    => $LayoutObject,
-                    ParamObject     => $ParamObject,
-                    AJAXUpdate      => 1,
-                    UpdatableFields => $Self->_GetFieldsToUpdate(),
-                    ReadOnly        => $DefinedFieldsList{ $DynamicFieldConfig->{Name} }{ReadOnly},
-                );
         }
 
         # build references if exist
@@ -2017,9 +1882,7 @@ sub Run {
             InReplyTo        => $Data{MessageID},
             References       => "$References",
             TicketBackType   => $TicketBackType,
-            DynamicFieldHTML => \%DynamicFieldHTML,
-            MaskObject       => $MaskObject,
-            MaskDefinition   => $InputFieldDefinition,
+            DFPossibleValues => \%DynamicFieldPossibleValues,
         );
         $Output .= $LayoutObject->Footer(
             Type => 'Small',
@@ -2316,20 +2179,66 @@ sub _Mask {
         },
     );
 
-    # get the dynamic fields for this screen
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => [ 'Ticket', 'Article' ],
-        FieldFilter => $Config->{DynamicField} || {},
-    );
+    # render dynamic fields
+    {
+        # Fetch input field definition
+        my $InputFieldDefinition = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
+            Mask => 'AgentTicketCompose',
+        ) || [];
 
-    $Param{MaskObject}->RenderInput(
-        GetParam            => \%Param,
-        LayoutObject        => $LayoutObject,
-        MaskDefinition      => $Param{MaskDefinition},
-        DynamicFieldConfigs => $DynamicField,
-        Config              => $Config,
-    );
+        my %DefinedFieldsList;
+        for my $Row ( $InputFieldDefinition->@* ) {
+            if ( $Row->{DF} ) {
+                $DefinedFieldsList{ $Row->{DF} } = 1;
+            }
+            if ( $Row->{Grid} ) {
+                for my $GridRow ( $Row->{Grid}{Rows}->@* ) {
+                    for my $Field ( grep { $_->{DF} } $GridRow->@* ) {
+                        $DefinedFieldsList{ $Field->{DF} } = 1;
+                    }
+                }
+            }
+        }
+
+        # get the dynamic fields for this screen
+        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+            Valid       => 1,
+            ObjectType  => [ 'Ticket', 'Article' ],
+            FieldFilter => $Config->{DynamicField} || {},
+        );
+
+        my %DynamicFieldConfigs;
+
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$DynamicField} ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+            $DynamicFieldConfigs{ $DynamicFieldConfig->{Name} } = $DynamicFieldConfig;
+
+            next DYNAMICFIELD if $DefinedFieldsList{ $DynamicFieldConfig->{Name} };
+
+            push $InputFieldDefinition->@*, {
+                DF        => $DynamicFieldConfig->{Name},
+                Mandatory => $Config->{DynamicField}{ $DynamicFieldConfig->{Name} } == 2 ? 1 : 0,
+            };
+        }
+
+        # grep dynamic field values from ticket data
+        my %DynamicFieldValues = map { $_ => $Param{$_} } grep {/^DynamicField_/} keys %Param;
+
+        $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
+            Content              => $InputFieldDefinition,
+            DynamicFields        => \%DynamicFieldConfigs,
+            UpdatableFields      => $Self->_GetFieldsToUpdate(),
+            LayoutObject         => $LayoutObject,
+            ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
+            DynamicFieldValues   => \%DynamicFieldValues,
+            PossibleValuesFilter => $Param{DFPossibleValues},
+            Errors               => $Param{DFErrors},
+        );
+
+    }
 
     # show time accounting box
     if ( $ConfigObject->Get('Ticket::Frontend::AccountTime') ) {
