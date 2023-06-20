@@ -75,7 +75,6 @@ sub new {
         'IsFiltrable'                  => 0,
         'IsStatsCondition'             => 0,
         'IsCustomerInterfaceCapable'   => 1,
-        'IsMultiValueCapable'          => 1,
         'IsSetCapable'                 => 0,
     };
 
