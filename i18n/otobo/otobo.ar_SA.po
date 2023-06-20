@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-09 18:07+0000\n"
+"PO-Revision-Date: 2023-06-20 12:18+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -27058,42 +27058,52 @@ msgid ""
 "such Appointments. Instead, system creates all Appointments in the past, "
 "plus Appointments for the next N months (120 months/10 years by default)."
 msgstr ""
+"لا يدعم OTOBO المواعيد المتكررة بدون تاريخ انتهاء أو عدد التكرارات. أثناء "
+"عملية الاستيراد، قد يحدث أن يحتوي ملف ICS على مثل هذه المواعيد. بدلا من ذلك، "
+"يقوم النظام بإنشاء جميع المواعيد في الماضي، بالإضافة إلى المواعيد للأشهر N "
+"التالية (120 شهرا / 10 سنوات افتراضيا)."
 
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributs to show."
 msgstr ""
+"يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها."
 
 #. SysConfig
 msgid ""
 "Objects to search for, how many entries and which attributs to show. Ticket "
 "attributes, except queue, have to explicitely be stored via Elasticsearch."
 msgstr ""
+"يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها. "
+"يجب تخزين جميع سمات التذاكر باستثناء قائمة الانتظار بشكل صريح في "
+"Elasticsearch."
 
 #. SysConfig
 msgid "Open an external link!"
-msgstr ""
+msgstr "افتح الرابط الخارجي!"
 
 #. SysConfig
 msgid "Open the OTOBO home page in a new window"
-msgstr ""
+msgstr "يفتح صفحة OTOBO الرئيسية في نافذة جديدة"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
-msgstr ""
+msgstr "التذاكر المفتوحة (مستخدمو العملاء)"
 
 #. SysConfig
 msgid "Open tickets (customer)"
-msgstr ""
+msgstr "التذاكر المفتوحة (العميل)"
 
 #. SysConfig
 msgid "Option"
-msgstr ""
+msgstr "خيار"
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the CreatorCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
 msgstr ""
+"تقييد اختياري لقوائم الانتظار لوحدة إذن CreatorCheck. إذا تم تعيينها، يتم "
+"منح الإذن فقط للتذاكر في قوائم الانتظار المحددة هنا."
 
 #. SysConfig
 msgid ""
