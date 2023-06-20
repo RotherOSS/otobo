@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-20 12:18+0000\n"
+"PO-Revision-Date: 2023-06-20 13:03+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -27110,39 +27110,45 @@ msgid ""
 "Optional queue limitation for the InvolvedCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
 msgstr ""
+"قيود اختيارية على قوائم الانتظار لوحدة أذونات InvolvedCheck. إذا تم تعيينها، "
+"يتم منح الإذن فقط للتذاكر في قوائم الانتظار المحددة هنا."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the OwnerCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
 msgstr ""
+"قيود اختيارية على قوائم الانتظار لوحدة إذن التحقق من المالك. إذا تم تعيينها، "
+"يتم منح الإذن فقط للتذاكر في قوائم الانتظار المحددة هنا."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the ResponsibleCheck permission module. If "
 "set, permission is only granted for tickets in the specified queues."
 msgstr ""
+"تقييد اختياري لقوائم الانتظار لوحدة إذن Responsible Check. إذا تم تعيينها، "
+"يتم منح الإذن فقط للتذاكر في قوائم الانتظار المحددة هنا."
 
 #. SysConfig
 msgid "Other Customers"
-msgstr ""
+msgstr "عملاء آخرون"
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr ""
+msgstr "حاليا ليس في المكتب"
 
 #. SysConfig
 msgid "Out Of Office Time"
-msgstr ""
+msgstr "مدة الغياب"
 
 #. SysConfig
 msgid "Out of Office users."
-msgstr ""
+msgstr "المستخدمين الغائبين."
 
 #. SysConfig
 msgid ""
 "Outbound request headers not allowed to be used in frontend configuration."
-msgstr ""
+msgstr "رؤوس الطلبات الصادرة التي يجب عدم استخدامها في تكوين الواجهة الأمامية."
 
 #. SysConfig
 msgid ""
