@@ -1717,9 +1717,19 @@
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Array>
+                <Item>AgentTicketClose</Item>
                 <Item>AgentTicketCompose</Item>
+                <Item>AgentTicketEmailOutbound</Item>
+                <Item>AgentTicketEmail</Item>
                 <Item>AgentTicketFreeText</Item>
+                <Item>AgentTicketNote</Item>
+                <Item>AgentTicketOwner</Item>
+                <Item>AgentTicketPending</Item>
                 <Item>AgentTicketPhone</Item>
+                <Item>AgentTicketPhoneInbound</Item>
+                <Item>AgentTicketPhoneOutbound</Item>
+                <Item>AgentTicketPriority</Item>
+                <Item>AgentTicketResponsible</Item>
                 <Item>CustomerTicketMessage</Item>
             </Array>
         </Value>
