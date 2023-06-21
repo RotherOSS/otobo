@@ -1721,6 +1721,7 @@
                 <Item>AgentTicketCompose</Item>
                 <Item>AgentTicketEmailOutbound</Item>
                 <Item>AgentTicketEmail</Item>
+                <Item>AgentTicketForward</Item>
                 <Item>AgentTicketFreeText</Item>
                 <Item>AgentTicketNote</Item>
                 <Item>AgentTicketOwner</Item>
