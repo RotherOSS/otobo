@@ -57,7 +57,7 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
      *      Redirect to URL based on DynamicField config.
      */
     TargetNS.Redirect = function(FieldType, ObjectType) {
-        var DynamicFieldsConfig, Action, URL, FieldOrder;
+        var DynamicFieldsConfig, Action, URL, FieldOrder, Namespace;
 
         // get configuration
         DynamicFieldsConfig = Core.Config.Get('DynamicFields');
@@ -68,8 +68,11 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         // get field order
         FieldOrder = parseInt($('#MaxFieldOrder').val(), 10) + 1;
 
+        // get namespace
+        Namespace = $("#DynamicFieldNamespace").val();
+
         // redirect to correct url
-        URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder;
+        URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder + ';Namespace=' + Namespace;
         URL += SerializeData(Core.App.GetSessionInformation());
         window.location = URL;
     };

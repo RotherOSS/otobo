@@ -85,7 +85,7 @@ sub _Add {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my %GetParam;
-    for my $Needed (qw(ObjectType FieldType FieldOrder)) {
+    for my $Needed (qw(ObjectType FieldType FieldOrder Namespace)) {
         $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
@@ -100,12 +100,17 @@ sub _Add {
     my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
     my $FieldTypeName  = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName}      || '';
 
+    # check namespace validity
+    my $Namespaces = $ConfigObject->Get('DynamicField::Namespaces');
+    my $Namespace  = ( grep { $_ eq $GetParam{Namespace} } $Namespaces->@* ) ? $GetParam{Namespace} : '';
+
     return $Self->_ShowScreen(
         %Param,
         %GetParam,
         Mode           => 'Add',
         ObjectTypeName => $ObjectTypeName,
         FieldTypeName  => $FieldTypeName,
+        Namespace      => $Namespace,
     );
 }
 
@@ -562,7 +567,7 @@ sub _ShowScreen {
 
     $Param{Name} //= '';
 
-    my $Namespace;
+    my $Namespace = $Param{Namespace};
     if ( $Param{Mode} eq 'Change' ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};

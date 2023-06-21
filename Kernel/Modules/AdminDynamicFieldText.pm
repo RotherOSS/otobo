@@ -127,7 +127,7 @@ sub _Add {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my %GetParam;
-    for my $Needed (qw(ObjectType FieldType FieldOrder)) {
+    for my $Needed (qw(ObjectType FieldType FieldOrder Namespace)) {
         $GetParam{$Needed} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
@@ -141,6 +141,10 @@ sub _Add {
     my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
     my $FieldTypeName  = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName}      || '';
 
+    # check namespace validity
+    my $Namespaces = $ConfigObject->Get('DynamicField::Namespaces');
+    my $Namespace  = ( grep { $_ eq $GetParam{Namespace} } $Namespaces->@* ) ? $GetParam{Namespace} : '';
+
     return $Self->_ShowScreen(
         %Param,
         %GetParam,
@@ -148,6 +152,7 @@ sub _Add {
         BreadcrumbText => $LayoutObject->{LanguageObject}->Translate( 'Add %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
         ObjectTypeName => $ObjectTypeName,
         FieldTypeName  => $FieldTypeName,
+        Namespace      => $Namespace,
     );
 }
 
@@ -659,7 +664,7 @@ sub _ShowScreen {
 
     $Param{DisplayFieldName} = 'New';
 
-    my $Namespace;
+    my $Namespace = $Param{Namespace};
     if ( $Param{Mode} eq 'Change' ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
@@ -762,7 +767,7 @@ sub _ShowScreen {
             SelectedValue => $Namespace || '',
             PossibleNone  => 1,
             Translation   => 1,
-            Class         => 'Modernize W50pc',
+            Class         => 'Modernize W75pc',
         );
 
         $LayoutObject->Block(
