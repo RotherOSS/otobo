@@ -1723,6 +1723,7 @@
                 <Item>AgentTicketEmail</Item>
                 <Item>AgentTicketForward</Item>
                 <Item>AgentTicketFreeText</Item>
+                <Item>AgentTicketMove</Item>
                 <Item>AgentTicketNote</Item>
                 <Item>AgentTicketOwner</Item>
                 <Item>AgentTicketPending</Item>
