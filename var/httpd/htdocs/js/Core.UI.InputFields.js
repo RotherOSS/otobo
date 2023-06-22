@@ -2770,6 +2770,8 @@ Core.UI.InputFields = (function (TargetNS) {
      *      Sets the add and remove events for the -/+ buttons of this value row
      */
     function InitValueRow( ValueRowCells, ValueRowIndex ) {
+        var DynamicFields = Core.Config.Get('DynamicFieldNames');
+
         ValueRowCells.forEach( function( $Cell ) {
             $( '.AddValueRow', $Cell.children('.AddRemoveValueRow') ).off('click').on('click', function() {
                 var $Row = $Cell.closest('.Row');
@@ -2803,6 +2805,15 @@ Core.UI.InputFields = (function (TargetNS) {
             else {
                 $Cell.children('label').hide();
             }
+
+            // add ajax update handler to fields
+            $.each( DynamicFields, function( Index, DynamicFieldName ) {
+                $( '#'  + DynamicFieldName + '_' + ValueRowIndex ).on( 'change', function () {
+                    var FieldsToUpdate = Core.Data.CopyObject(DynamicFields);
+                    FieldsToUpdate.splice(Index, 1);
+                    Core.AJAX.FormUpdate( $Cell.closest('form'), 'AJAXUpdate', $(this).attr('name'), FieldsToUpdate );
+                });
+            });
         });
     }
 

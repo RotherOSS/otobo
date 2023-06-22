@@ -362,7 +362,11 @@ Core.AJAX = (function (TargetNS) {
             var $Element = $('#' + DataKey);
 
             if ((!$Element.length || typeof DataValue == 'undefined') && !$Element.is('textarea')) {
-                return;
+                // catch multivalue case where DataKey is present in attribute name
+                $Element = $('[name=' + DataKey + ']');
+                if ((!$Element.length || typeof DataValue == 'undefined')) {
+                    return;
+                }
             }
 
             // Select elements
