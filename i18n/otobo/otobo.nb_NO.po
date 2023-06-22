@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-14 12:34+0000\n"
+"PO-Revision-Date: 2023-06-23 06:31+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -18631,48 +18631,51 @@ msgstr "Ingen svar fra get-pakkeoppgraderingsresultatet."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
-msgstr ""
+msgstr "Oppdater alle pakker"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Dismiss"
-msgstr ""
+msgstr "Forkast"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
-msgstr ""
+msgstr "Oppdater alle pakker"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from package upgrade all."
-msgstr ""
+msgstr "Ingen svar fra pakkeoppgradering av alle."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
-msgstr ""
+msgstr "Foreløpig ikke mulig"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "This is currently disabled because of an ongoing package upgrade."
 msgstr ""
+"Dette er for øyeblikket deaktivert på grunn av en pågående pakkeoppgradering."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "This option is currently disabled because the OTOBO Daemon is not running."
 msgstr ""
+"Dette alternativet er for øyeblikket deaktivert fordi OTOBO Daemon ikke "
+"kjører."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
-msgstr ""
+msgstr "Er du sikker på at du vil oppdatere alle installerte pakker?"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade run status."
-msgstr ""
+msgstr "Ingen svar fra kjøringsstatus for get-pakkeoppgradering."
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
-msgstr ""
+msgstr "Slett dette PostMasterFilter"
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Deleting the postmaster filter and its data. This may take a while..."
-msgstr ""
+msgstr "Sletter postmaster-filteret og dets data. Dette kan ta en stund..."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "Remove Entity from canvas"
@@ -18680,27 +18683,31 @@ msgstr "Fjern entitet fra lerretet"
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "No TransitionActions assigned."
-msgstr ""
+msgstr "Ingen overgangshandlinger tilordnet."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid ""
 "No dialogs assigned yet. Just pick an activity dialog from the list on the "
 "left and drag it here."
 msgstr ""
+"Ingen dialogbokser er tildelt ennå. Bare velg en aktivitetsdialog fra listen "
+"til venstre og dra den hit."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "This Activity cannot be deleted because it is the Start Activity."
-msgstr ""
+msgstr "Denne aktiviteten kan ikke slettes fordi det er startaktiviteten."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "Remove the Transition from this Process"
-msgstr ""
+msgstr "Fjern overgangen fra denne prosessen"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "As soon as you use this button or link, you will leave this screen and its "
 "current state will be saved automatically. Do you want to continue?"
 msgstr ""
+"Så snart du bruker denne knappen eller lenken, vil du forlate denne skjermen "
+"og dens nåværende tilstand lagres automatisk. Vil du fortsette?"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Delete Entity"
@@ -18714,13 +18721,15 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Error during AJAX communication"
-msgstr ""
+msgstr "Feil under AJAX-kommunikasjon"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "An unconnected transition is already placed on the canvas. Please connect "
 "this transition first before placing another transition."
 msgstr ""
+"En usammenhengende overgang er allerede plassert på lerretet. Koble til "
+"denne overgangen først før du plasserer en ny overgang."
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
@@ -18738,7 +18747,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Hide EntityIDs"
-msgstr ""
+msgstr "Skjul enhets-ID-er"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Edit Field Details"
@@ -18747,14 +18756,15 @@ msgstr "Endre feltdetaljer"
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Customer interface does not support articles not visible for customers."
 msgstr ""
+"Kundegrensesnittet støtter ikke artikler som ikke er synlige for kunder."
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Sorry, the only existing parameter can't be removed."
-msgstr ""
+msgstr "Beklager, den eneste eksisterende parameteren kan ikke fjernes."
 
 #. JS File: Core.Agent.Admin.SMIME
 msgid "Do you really want to delete this certificate?"
-msgstr ""
+msgstr "Vil du virkelig slette dette sertifikatet?"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Sending Update..."
@@ -18762,11 +18772,11 @@ msgstr "Sender oppdatering..."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Support Data information was successfully sent."
-msgstr ""
+msgstr "Informasjon om støttedata ble sendt."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Was not possible to send Support Data information."
-msgstr ""
+msgstr "Var ikke mulig å sende støttedatainformasjon."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Update Result"
@@ -18778,47 +18788,52 @@ msgstr "Genererer...."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "It was not possible to generate the Support Bundle."
-msgstr ""
+msgstr "Det var ikke mulig å generere støttepakken."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generate Result"
-msgstr ""
+msgstr "Generer resultat"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Support Bundle"
-msgstr ""
+msgstr "Støttepakke"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "The mail could not be sent"
-msgstr ""
+msgstr "Posten kunne ikke sendes"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid ""
 "It is not possible to set this entry to invalid. All affected configuration "
 "settings have to be changed beforehand."
 msgstr ""
+"Det er ikke mulig å sette denne oppføringen til ugyldig. Alle berørte "
+"konfigurasjonsinnstillinger må endres på forhånd."
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Cannot proceed"
-msgstr ""
+msgstr "Kan ikke fortsette"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Update manually"
-msgstr ""
+msgstr "Oppdater manuelt"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid ""
 "You can either have the affected settings updated automatically to reflect "
 "the changes you just made or do it on your own by pressing 'update manually'."
 msgstr ""
+"Du kan enten oppdatere de berørte innstillingene automatisk for å gjenspeile "
+"endringene du nettopp har gjort, eller gjøre det på egen hånd ved å trykke "
+"\"oppdater manuelt\"."
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Save and update automatically"
-msgstr ""
+msgstr "Lagre og oppdater automatisk"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Don't save, update manually"
-msgstr ""
+msgstr "Ikke lagre, oppdater manuelt"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid ""
@@ -18827,6 +18842,11 @@ msgid ""
 "state. Please wait until the setting has been deployed. If you're unsure "
 "what to do next, please contact your system administrator."
 msgstr ""
+"Elementet du ser på for øyeblikket er en del av en konfigurasjonsinnstilling "
+"som ennå ikke er distribuert, noe som gjør det umulig å redigere det i "
+"gjeldende tilstand. Vent til innstillingen er implementert. Hvis du er "
+"usikker på hva du skal gjøre videre, vennligst kontakt systemadministratoren "
+"din."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Loading..."
@@ -18834,71 +18854,80 @@ msgstr "Laster..."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Search the System Configuration"
-msgstr ""
+msgstr "Søk i systemkonfigurasjonen"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
-msgstr ""
+msgstr "Skriv inn minst ett søkeord for å finne noe."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "Unfortunately deploying is currently not possible, maybe because another "
 "agent is already deploying. Please try again later."
 msgstr ""
+"Dessverre er distribusjon for øyeblikket ikke mulig, kanskje fordi en annen "
+"agent allerede distribuerer. Prøv igjen senere."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deploy"
-msgstr ""
+msgstr "Utplassere"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "The deployment is already running."
-msgstr ""
+msgstr "Utrullingen kjører allerede."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deployment successful. You're being redirected..."
-msgstr ""
+msgstr "Implementeringen var vellykket. Du blir omdirigert..."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "There was an error. Please save all settings you are editing and check the "
 "logs for more information."
 msgstr ""
+"Det var en feil. Vennligst lagre alle innstillingene du redigerer og sjekk "
+"loggene for mer informasjon."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Reset option is required!"
-msgstr ""
+msgstr "Tilbakestillingsalternativ er nødvendig!"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "By restoring this deployment all settings will be reverted to the value they "
 "had at the time of the deployment. Do you really want to continue?"
 msgstr ""
+"Ved å gjenopprette denne distribusjonen vil alle innstillinger bli "
+"tilbakestilt til verdien de hadde på tidspunktet for distribusjonen. Vil du "
+"virkelig fortsette?"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "Keys with values can't be renamed. Please remove this key/value pair instead "
 "and re-add it afterwards."
 msgstr ""
+"Nøkler med verdier kan ikke gis nytt navn. Vennligst fjern dette nøkkel/"
+"verdi-paret i stedet og legg det til på nytt etterpå."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Unlock setting."
-msgstr ""
+msgstr "Lås opp innstilling."
 
 #. JS File: Core.Agent.Admin.SystemConfigurationUser
 msgid "Are you sure you want to remove all user values?"
-msgstr ""
+msgstr "Er du sikker på at du vil fjerne alle brukerverdier?"
 
 #. JS File: Core.Agent.Admin.SystemMaintenance
 msgid "Do you really want to delete this scheduled system maintenance?"
-msgstr ""
+msgstr "Vil du virkelig slette dette planlagte systemvedlikeholdet?"
 
 #. JS File: Core.Agent.Admin.Template
 msgid "Delete this Template"
-msgstr ""
+msgstr "Slett denne malen"
 
 #. JS File: Core.Agent.Admin.Template
 msgid "Deleting the template and its data. This may take a while..."
-msgstr ""
+msgstr "Sletting av malen og dens data. Dette kan ta en stund..."
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Jump"
@@ -18906,15 +18935,15 @@ msgstr "Hopp"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Timeline Month"
-msgstr ""
+msgstr "Tidslinjemåned"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Timeline Week"
-msgstr ""
+msgstr "Tidslinje uke"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Timeline Day"
-msgstr ""
+msgstr "Tidslinjedag"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Previous"
@@ -18922,7 +18951,7 @@ msgstr "Forrige"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Resources"
-msgstr ""
+msgstr "Ressurser"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Su"
@@ -18975,23 +19004,27 @@ msgstr "For mange aktive kalendere"
 #. JS File: Core.Agent.AppointmentCalendar
 msgid ""
 "Please either turn some off first or increase the limit in configuration."
-msgstr ""
+msgstr "Slå enten av noen først eller øk grensen i konfigurasjonen."
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Restore default settings"
-msgstr ""
+msgstr "Gjenopprett standardinnstillinger"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid ""
 "Are you sure you want to delete this appointment? This operation cannot be "
 "undone."
 msgstr ""
+"Er du sikker på at du vil slette denne avtalen? Denne operasjonen kan ikke "
+"angres."
 
 #. JS File: Core.Agent.CustomerSearch
 msgid ""
 "First select a customer user, then select a customer ID to assign to this "
 "ticket."
 msgstr ""
+"Velg først en kundebruker, og velg deretter en kunde-ID som skal tilordnes "
+"denne saken."
 
 #. JS File: Core.Agent.CustomerSearch
 msgid "Duplicated entry"
@@ -18999,7 +19032,7 @@ msgstr "Doble innlegg"
 
 #. JS File: Core.Agent.CustomerSearch
 msgid "It is going to be deleted from the field, please try again."
-msgstr ""
+msgstr "Den kommer til å bli slettet fra feltet, prøv igjen."
 
 #. JS File: Core.Agent.CustomerUserAddressBook
 msgid "Please enter at least one search value or * to find anything."
@@ -19011,7 +19044,7 @@ msgstr "Informasjon om OTOBO Agenten"
 
 #. JS File: Core.Agent.Dashboard
 msgid "Please check the fields marked as red for valid inputs."
-msgstr ""
+msgstr "Vennligst sjekk feltene merket som røde for gyldige inndata."
 
 #. JS File: Core.Agent.Dashboard
 msgid "month"
@@ -19019,23 +19052,23 @@ msgstr "måned"
 
 #. JS File: Core.Agent.Dashboard
 msgid "Remove active filters for this widget."
-msgstr ""
+msgstr "Fjern aktive filtre for denne widgeten."
 
 #. JS File: Core.Agent.DynamicFieldDBSearch
 msgid "This dynamic field database value is already selected."
-msgstr ""
+msgstr "Denne dynamiske feltdatabaseverdien er allerede valgt."
 
 #. JS File: Core.Agent.LinkObject.SearchForm
 msgid "Please wait..."
-msgstr ""
+msgstr "Vennligst vent..."
 
 #. JS File: Core.Agent.LinkObject.SearchForm
 msgid "Searching for linkable objects. This may take a while..."
-msgstr ""
+msgstr "Søker etter koblingsbare objekter. Dette kan ta en stund..."
 
 #. JS File: Core.Agent.LinkObject
 msgid "Do you really want to delete this link?"
-msgstr ""
+msgstr "Vil du virkelig slette denne linken?"
 
 #. JS File: Core.Agent.Login
 msgid ""
@@ -19043,88 +19076,98 @@ msgid ""
 "several issues and we highly recommend you to add an exception for this "
 "domain."
 msgstr ""
+"Bruker du en nettleserplugin som AdBlock eller AdBlockPlus? Dette kan "
+"forårsake flere problemer, og vi anbefaler deg på det sterkeste å legge til "
+"et unntak for dette domenet."
 
 #. JS File: Core.Agent.Login
 msgid "Do not show this warning again."
-msgstr ""
+msgstr "Ikke vis denne advarselen igjen."
 
 #. JS File: Core.Agent.Preferences
 msgid ""
 "Sorry, but you can't disable all methods for notifications marked as "
 "mandatory."
 msgstr ""
+"Beklager, men du kan ikke deaktivere alle metoder for varsler merket som "
+"obligatoriske."
 
 #. JS File: Core.Agent.Preferences
 msgid "Sorry, but you can't disable all methods for this notification."
-msgstr ""
+msgstr "Beklager, men du kan ikke deaktivere alle metodene for dette varselet."
 
 #. JS File: Core.Agent.Preferences
 msgid ""
 "Please note that at least one of the settings you have changed requires a "
 "page reload. Click here to reload the current screen."
 msgstr ""
+"Vær oppmerksom på at minst én av innstillingene du har endret krever at "
+"siden lastes på nytt. Klikk her for å laste den gjeldende skjermen på nytt."
 
 #. JS File: Core.Agent.Preferences
 msgid "An unknown error occurred. Please contact the administrator."
-msgstr ""
+msgstr "En ukjent feil oppstod. Vennligst kontakt administratoren."
 
 #. JS File: Core.Agent.Responsive
 msgid "Switch to desktop mode"
-msgstr ""
+msgstr "Bytt til skrivebordsmodus"
 
 #. JS File: Core.Agent.Search
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
 msgstr ""
+"Vennligst fjern følgende ord fra søket ettersom de ikke kan søkes etter:"
 
 #. JS File: Core.Agent.SharedSecretGenerator
 msgid "Generate"
-msgstr ""
+msgstr "generere"
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
 msgstr ""
+"Dette elementet har underordnede elementer og kan for øyeblikket ikke "
+"fjernes."
 
 #. JS File: Core.Agent.Statistics
 msgid "Do you really want to delete this statistic?"
-msgstr ""
+msgstr "Vil du virkelig slette denne statistikken?"
 
 #. JS File: Core.Agent.StatisticsReports
 msgid "Do you really want to delete this report?"
-msgstr ""
+msgstr "Vil du virkelig slette denne rapporten?"
 
 #. JS File: Core.Agent.TicketAction
 msgid "Select a customer ID to assign to this ticket"
-msgstr ""
+msgstr "Velg en kunde-ID som skal tilordnes denne saken"
 
 #. JS File: Core.Agent.TicketAction
 msgid "Do you really want to continue?"
-msgstr ""
+msgstr "Vil du virkelig fortsette?"
 
 #. JS File: Core.Agent.TicketBulk
 msgid " ...and %s more"
-msgstr ""
+msgstr " ...og %s til"
 
 #. JS File: Core.Agent.TicketBulk
 msgid " ...show less"
-msgstr ""
+msgstr " ...Vis mindre"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Add new draft"
-msgstr ""
+msgstr "Legg til nytt utkast"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Delete draft"
-msgstr ""
+msgstr "Slett utkast"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "There are no more drafts available."
-msgstr ""
+msgstr "Det er ikke flere utkast tilgjengelig."
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "It was not possible to delete this draft."
-msgstr ""
+msgstr "Det var ikke mulig å slette dette utkastet."
 
 #. JS File: Core.Agent.TicketZoom
 msgid "Article filter"
@@ -19136,39 +19179,40 @@ msgstr "Lagre"
 
 #. JS File: Core.Agent.TicketZoom
 msgid "Event Type Filter"
-msgstr ""
+msgstr "Hendelsestypefilter"
 
 #. JS File: Core.Agent
 msgid "Slide the navigation bar"
-msgstr ""
+msgstr "Skyv navigasjonslinjen"
 
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
+msgstr "Slå av kompatibilitetsmodus i Internet Explorer!"
 
 #. JS File: Core.App.Responsive
 msgid "Switch to mobile mode"
-msgstr ""
+msgstr "Bytt til mobilmodus"
 
 #. JS File: Core.App
 msgid "Error: Browser Check failed!"
-msgstr ""
+msgstr "Feil: Nettlesersjekk mislyktes!"
 
 #. JS File: Core.App
 msgid "Reload page"
-msgstr ""
+msgstr "Last inn siden på nytt"
 
 #. JS File: Core.App
 msgid "Reload page (%ss)"
-msgstr ""
+msgstr "Last inn siden på nytt (%ss)"
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
-msgstr ""
+msgstr "Navneområdet %s kunne ikke initialiseres, fordi %s ikke ble funnet."
 
 #. JS File: Core.Exception
 msgid "An error occurred! Please check the browser error log for more details!"
 msgstr ""
+"En feil oppstod! Vennligst sjekk nettleserens feillogg for mer informasjon!"
 
 #. JS File: Core.Form.Validate
 msgid "One or more errors occurred!"
@@ -19184,23 +19228,24 @@ msgstr "Feil i e-postoppsettet. Korriger og prøv igjen."
 
 #. JS File: Core.SystemConfiguration
 msgid "Open this node in a new window"
-msgstr ""
+msgstr "Åpne denne noden i et nytt vindu"
 
 #. JS File: Core.SystemConfiguration
 msgid "Please add values for all keys before saving the setting."
-msgstr ""
+msgstr "Legg til verdier for alle nøkler før du lagrer innstillingen."
 
 #. JS File: Core.SystemConfiguration
 msgid "The key must not be empty."
-msgstr ""
+msgstr "Nøkkelen må ikke være tom."
 
 #. JS File: Core.SystemConfiguration
 msgid "A key with this name ('%s') already exists."
-msgstr ""
+msgstr "En nøkkel med dette navnet ('%s') finnes allerede."
 
 #. JS File: Core.SystemConfiguration
 msgid "Do you really want to revert this setting to its historical value?"
 msgstr ""
+"Vil du virkelig tilbakestille denne innstillingen til dens historiske verdi?"
 
 #. JS File: Core.UI.Datepicker
 msgid "Open date selection"
@@ -19220,15 +19265,15 @@ msgstr "Ikke tilgjengelig"
 
 #. JS File: Core.UI.InputFields
 msgid "and %s more..."
-msgstr ""
+msgstr "og %s til..."
 
 #. JS File: Core.UI.InputFields
 msgid "Show current selection"
-msgstr ""
+msgstr "Vis gjeldende utvalg"
 
 #. JS File: Core.UI.InputFields
 msgid "Current selection"
-msgstr ""
+msgstr "Gjeldende utvalg"
 
 #. JS File: Core.UI.InputFields
 msgid "Clear all"
@@ -19265,89 +19310,94 @@ msgstr ""
 
 #. JS File: Core.UI.Table.Sort
 msgid "Ascending sort applied, "
-msgstr ""
+msgstr "Stigende sortering brukt, "
 
 #. JS File: Core.UI.Table.Sort
 msgid "Descending sort applied, "
-msgstr ""
+msgstr "Synkende sortering er brukt, "
 
 #. JS File: Core.UI.Table.Sort
 msgid "No sort applied, "
-msgstr ""
+msgstr "Ingen sortering brukt, "
 
 #. JS File: Core.UI.Table.Sort
 msgid "sorting is disabled"
-msgstr ""
+msgstr "sortering er deaktivert"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to apply an ascending sort"
-msgstr ""
+msgstr "aktiver for å bruke en stigende sortering"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to apply a descending sort"
-msgstr ""
+msgstr "aktiver for å bruke en synkende sortering"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to remove the sort"
-msgstr ""
+msgstr "aktiver for å fjerne sorteringen"
 
 #. JS File: Core.UI.Table
 msgid "Remove the filter"
-msgstr ""
+msgstr "Fjern filteret"
 
 #. JS File: Core.UI.TreeSelection
 msgid "There are currently no elements available to select from."
-msgstr ""
+msgstr "Det er for øyeblikket ingen tilgjengelige elementer å velge mellom."
 
 #. JS File: Core.UI
 msgid "Please only select one file for upload."
-msgstr ""
+msgstr "Velg kun én fil for opplasting."
 
 #. JS File: Core.UI
 msgid "Sorry, you can only upload one file here."
-msgstr ""
+msgstr "Beklager, du kan bare laste opp én fil her."
 
 #. JS File: Core.UI
 msgid "Sorry, you can only upload %s files."
-msgstr ""
+msgstr "Beklager, du kan bare laste opp %s filer."
 
 #. JS File: Core.UI
 msgid "Please only select at most %s files for upload."
-msgstr ""
+msgstr "Velg maksimalt %s filer for opplasting."
 
 #. JS File: Core.UI
 msgid "The following files are not allowed to be uploaded: %s"
-msgstr ""
+msgstr "Følgende filer er ikke tillatt å lastes opp: %s"
 
 #. JS File: Core.UI
 msgid ""
 "The following files exceed the maximum allowed size per file of %s and were "
 "not uploaded: %s"
 msgstr ""
+"Følgende filer overskrider den maksimalt tillatte størrelsen per fil på %s "
+"og ble ikke lastet opp: %s"
 
 #. JS File: Core.UI
 msgid ""
 "The following files were already uploaded and have not been uploaded again: "
 "%s"
 msgstr ""
+"Følgende filer er allerede lastet opp og har ikke blitt lastet opp igjen: %s"
 
 #. JS File: Core.UI
 msgid "No space left for the following files: %s"
-msgstr ""
+msgstr "Ingen plass igjen for følgende filer: %s"
 
 #. JS File: Core.UI
 msgid "Available space %s of %s."
-msgstr ""
+msgstr "Tilgjengelig plass %s av %s."
 
 #. JS File: Core.UI
 msgid "Upload information"
-msgstr ""
+msgstr "Last opp informasjon"
 
 #. JS File: Core.UI
 msgid ""
 "An unknown error occurred when deleting the attachment. Please try again. If "
 "the error persists, please contact your system administrator."
 msgstr ""
+"Det oppstod en ukjent feil ved sletting av vedlegget. Vær så snill, prøv på "
+"nytt. Hvis feilen vedvarer, vennligst kontakt systemadministratoren."
 
 #. JS File: Core.Language.UnitTest
 msgid "yes"
@@ -19363,11 +19413,11 @@ msgstr "Dette er %s"
 
 #. JS File: Core.Language.UnitTest
 msgid "Complex %s with %s arguments"
-msgstr ""
+msgstr "Kompleks %s med %s argumenter"
 
 #. JS File: OTOBOLineChart
 msgid "No Data Available."
-msgstr ""
+msgstr "Ingen data tilgjengelig."
 
 #. JS File: OTOBOMultiBarChart
 msgid "Grouped"
@@ -19393,6 +19443,10 @@ msgid ""
 "            in an extra table\n"
 "        "
 msgstr ""
+"\n"
+"            Vis valgfrie parametere i parameterlisten også. Hvis deaktivert, "
+"vises kun de valgfrie parameterne i en ekstra tabell\n"
+"        "
 
 #. SysConfig
 msgid ""
@@ -19408,10 +19462,21 @@ msgid ""
 "\n"
 " Your Helpdesk Team\n"
 msgstr ""
+"\n"
+"Kjære kunde,\n"
+"\n"
+"Vi kunne dessverre ikke finne et gyldig saksnummer\n"
+"i emnet ditt, så denne e-posten kan ikke behandles.\n"
+"\n"
+"Vennligst opprett en ny sak via kundepanelet.\n"
+"\n"
+"Takk for hjelpen!\n"
+"\n"
+"Ditt Helpdesk-team\n"
 
 #. SysConfig
 msgid " (work units)"
-msgstr ""
+msgstr " (arbeidsenheter)"
 
 #. SysConfig
 msgid " 2 minutes"
@@ -19427,7 +19492,7 @@ msgstr " 7 minutter"
 
 #. SysConfig
 msgid "\"Slim\" skin which tries to save screen space for power users."
-msgstr ""
+msgstr "\"Slankt\" tema som prøver å spare skjermplass for superbrukere."
 
 #. SysConfig
 msgid "%s"
@@ -19447,19 +19512,19 @@ msgstr "(Brukernavn) Etternavn, Fornavn"
 
 #. SysConfig
 msgid "*** out of office until %s (%s d left) ***"
-msgstr ""
+msgstr "*** ikke på kontoret til %s (%s d igjen) ***"
 
 #. SysConfig
 msgid "0 - Disabled"
-msgstr ""
+msgstr "0 - Deaktivert"
 
 #. SysConfig
 msgid "1 - Available"
-msgstr ""
+msgstr "1 - Tilgjengelig"
 
 #. SysConfig
 msgid "1 - Enabled"
-msgstr ""
+msgstr "1 - Aktivert"
 
 #. SysConfig
 msgid "10 Minutes"
@@ -19467,7 +19532,7 @@ msgstr "10 minutter"
 
 #. SysConfig
 msgid "100 (Expert)"
-msgstr ""
+msgstr "100 (ekspert)"
 
 #. SysConfig
 msgid "15 Minutes"
@@ -19475,15 +19540,15 @@ msgstr "15 minutter"
 
 #. SysConfig
 msgid "2 - Enabled and required"
-msgstr ""
+msgstr "2 - Aktivert og nødvendig"
 
 #. SysConfig
 msgid "2 - Enabled and shown by default"
-msgstr ""
+msgstr "2 - Aktivert og vist som standard"
 
 #. SysConfig
 msgid "2 - Enabled by default"
-msgstr ""
+msgstr "2 - Aktivert som standard"
 
 #. SysConfig
 msgid "2 Minutes"
@@ -19491,7 +19556,7 @@ msgstr "2 minutter"
 
 #. SysConfig
 msgid "200 (Advanced)"
-msgstr ""
+msgstr "200 (avansert)"
 
 #. SysConfig
 msgid "30 Minutes"
@@ -19499,7 +19564,7 @@ msgstr "30 minutter"
 
 #. SysConfig
 msgid "300 (Beginner)"
-msgstr ""
+msgstr "300 (nybegynner)"
 
 #. SysConfig
 msgid "5 Minutes"
@@ -19507,7 +19572,7 @@ msgstr "5 minutter"
 
 #. SysConfig
 msgid "A TicketWatcher Module."
-msgstr ""
+msgstr "En TicketWatcher-modul."
 
 #. SysConfig
 msgid "A Website"
@@ -19518,6 +19583,8 @@ msgid ""
 "A list of dynamic fields that are merged into the main ticket during a merge "
 "operation. Only dynamic fields that are empty in the main ticket will be set."
 msgstr ""
+"En liste over dynamiske felt som er slått sammen til hovedsaken under en "
+"fletteoperasjon. Kun dynamiske felt som er tomme i hovedsaken vil bli satt."
 
 #. SysConfig
 msgid "A picture"
@@ -19535,27 +19602,27 @@ msgstr ""
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
-msgstr ""
+msgstr "Tilgangskontrolllister (ACL)"
 
 #. SysConfig
 msgid "AccountedTime"
-msgstr ""
+msgstr "Ført tid"
 
 #. SysConfig
 msgid "Activate Elasticsearch."
-msgstr ""
+msgstr "Aktiver Elasticsearch."
 
 #. SysConfig
 msgid "Activate the customer frontend."
-msgstr ""
+msgstr "Aktiver kundegrensesnittet."
 
 #. SysConfig
 msgid "Activate the public frontend."
-msgstr ""
+msgstr "Aktiver den offentlige frontend."
 
 #. SysConfig
 msgid "Activates Rendering of DynamicFields outside of the DynamicField block."
-msgstr ""
+msgstr "Aktiverer gjengivelse av DynamicFields utenfor DynamicField-blokken."
 
 #. SysConfig
 msgid ""
@@ -19572,7 +19639,7 @@ msgstr "Slår på glemt-passord-funksjonalitet for kundebrukere."
 
 #. SysConfig
 msgid "Activates support for customer and customer user groups."
-msgstr ""
+msgstr "Aktiverer støtte for kunde- og kundebrukergrupper."
 
 #. SysConfig
 msgid ""
@@ -19610,7 +19677,7 @@ msgstr "Slår på tids-kontering."
 
 #. SysConfig
 msgid "ActivityID"
-msgstr ""
+msgstr "Aktivitets-ID"
 
 #. SysConfig
 msgid "Add a note to this ticket"
@@ -19618,15 +19685,15 @@ msgstr "Legg til et notis på denne saken"
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
-msgstr ""
+msgstr "Legg til en innkommende telefonsamtale til denne saken"
 
 #. SysConfig
 msgid "Add an outbound phone call to this ticket"
-msgstr ""
+msgstr "Legg til en utgående telefonsamtale til denne saken"
 
 #. SysConfig
 msgid "Added %s time unit(s), for a total of %s time unit(s)."
-msgstr ""
+msgstr "Lagt til %s tidsenhet(er), for totalt %s tidsenhet(er)."
 
 #. SysConfig
 msgid "Added email. %s"
@@ -19634,7 +19701,7 @@ msgstr "Lagt e-post til sak. %s"
 
 #. SysConfig
 msgid "Added follow-up to ticket [%s]. %s"
-msgstr ""
+msgstr "Lagt til oppfølging til sak [%s]. %s"
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
@@ -19642,15 +19709,15 @@ msgstr "La til link til sak «%s»."
 
 #. SysConfig
 msgid "Added note (%s)."
-msgstr ""
+msgstr "Lagt til notat (%s)."
 
 #. SysConfig
 msgid "Added phone call from customer."
-msgstr ""
+msgstr "Lagt til telefon fra kunde."
 
 #. SysConfig
 msgid "Added phone call to customer."
-msgstr ""
+msgstr "Lagt til telefon til kunde."
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
@@ -19658,11 +19725,11 @@ msgstr "La til abonnement for brukeren «%s»."
 
 #. SysConfig
 msgid "Added system request (%s)."
-msgstr ""
+msgstr "Lagt til systemforespørsel (%s)."
 
 #. SysConfig
 msgid "Added web request from customer."
-msgstr ""
+msgstr "Lagt til nettforespørsel fra kunde."
 
 #. SysConfig
 msgid ""
@@ -19678,22 +19745,25 @@ msgid ""
 "the agent interface. The customers email address won't be added if the "
 "article type is email-internal."
 msgstr ""
+"Legger til kundenes e-postadresser til mottakere i saksskrivingsskjermen i "
+"agentgrensesnittet. Kundens e-postadresse vil ikke bli lagt til hvis "
+"artikkeltypen er e-postintern."
 
 #. SysConfig
 msgid "Adds the one time vacation days for the indicated calendar."
-msgstr ""
+msgstr "Legger til engangsferiedagene for den angitte kalenderen."
 
 #. SysConfig
 msgid "Adds the one time vacation days."
-msgstr ""
+msgstr "Legger til engangsferiedagene."
 
 #. SysConfig
 msgid "Adds the permanent vacation days for the indicated calendar."
-msgstr ""
+msgstr "Legger til de permanente feriedagene for den angitte kalenderen."
 
 #. SysConfig
 msgid "Adds the permanent vacation days."
-msgstr ""
+msgstr "Legger til de permanente feriedagene."
 
 #. SysConfig
 msgid "Admin"
@@ -19701,11 +19771,11 @@ msgstr "Administrator"
 
 #. SysConfig
 msgid "Admin Area."
-msgstr ""
+msgstr "Adminområde."
 
 #. SysConfig
 msgid "Admin Contact With Data"
-msgstr ""
+msgstr "Administratorkontakt med data"
 
 #. SysConfig
 msgid "Admin Notification"
@@ -19713,19 +19783,19 @@ msgstr "Administratorvarsling"
 
 #. SysConfig
 msgid "Admin area navigation for the agent interface."
-msgstr ""
+msgstr "Administratorområdenavigasjon for agentgrensesnittet."
 
 #. SysConfig
 msgid "Admin contact with data."
-msgstr ""
+msgstr "Administratorkontakt med data."
 
 #. SysConfig
 msgid "Admin modules overview."
-msgstr ""
+msgstr "Oversikt over administratormoduler."
 
 #. SysConfig
 msgid "Admin."
-msgstr ""
+msgstr "Admin."
 
 #. SysConfig
 msgid "Administration"
@@ -19733,73 +19803,75 @@ msgstr "Administrasjon"
 
 #. SysConfig
 msgid "Agent Contact With Data Search"
-msgstr ""
+msgstr "Agentkontakt med datasøk"
 
 #. SysConfig
 msgid "Agent Customer Search"
-msgstr ""
+msgstr "Agentkundesøk"
 
 #. SysConfig
 msgid "Agent Customer Search."
-msgstr ""
+msgstr "Agentkundesøk."
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "Agent Dynamic Field Database Detaljert søk"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Details"
-msgstr ""
+msgstr "Agent Dynamic Field Database Detaljer"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Search"
-msgstr ""
+msgstr "Agent Dynamic Field Database Søk"
 
 #. SysConfig
 msgid "Agent Name"
-msgstr ""
+msgstr "Agentnavn"
 
 #. SysConfig
 msgid "Agent Name + FromSeparator + System Address Display Name"
-msgstr ""
+msgstr "Agentnavn + FraSeparator + Visningsnavn for systemadresse"
 
 #. SysConfig
 msgid "Agent Preferences."
-msgstr ""
+msgstr "Agentinnstillinger."
 
 #. SysConfig
 msgid "Agent Statistics."
-msgstr ""
+msgstr "Agentstatistikk."
 
 #. SysConfig
 msgid "Agent User Search"
-msgstr ""
+msgstr "Agentbrukersøk"
 
 #. SysConfig
 msgid "Agent User Search."
-msgstr ""
+msgstr "Agentbrukersøk."
 
 #. SysConfig
 msgid "Agent contact with data search."
-msgstr ""
+msgstr "Agentkontakt med datasøk."
 
 #. SysConfig
 msgid "Agent dynamic field database detailed search."
-msgstr ""
+msgstr "Agent dynamisk feltdatabase detaljert søk."
 
 #. SysConfig
 msgid "Agent dynamic field database details."
-msgstr ""
+msgstr "Agent dynamisk feltdatabasedetaljer."
 
 #. SysConfig
 msgid "Agent dynamic field database search."
-msgstr ""
+msgstr "Agent dynamisk feltdatabasesøk."
 
 #. SysConfig
 msgid ""
 "Agent frontend module registration (disable 'Edit contacts with data' link "
 "if if there is no source field configured)."
 msgstr ""
+"Registrering av agentgrensesnittmodul (deaktiver koblingen \"Rediger "
+"kontakter med data\" hvis det ikke er konfigurert noe kildefelt)."
 
 #. SysConfig
 msgid "Agent interface article notification module to check PGP."
@@ -19815,6 +19887,10 @@ msgid ""
 "control to show or not show this link can be done by using Key \"Group\" and "
 "Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Agentgrensesnittmodul for å få tilgang til CIC-søk via navigasjonslinjen. "
+"Ytterligere tilgangskontroll for å vise eller ikke vise denne koblingen kan "
+"gjøres ved å bruke nøkkelen \"Gruppe\" og innhold som \"rw:gruppe1;move_into:"
+"group2\"."
 
 #. SysConfig
 msgid ""
@@ -19822,6 +19898,10 @@ msgid ""
 "access control to show or not show this link can be done by using Key \"Group"
 "\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Agentgrensesnittmodul for å få tilgang til fulltekstsøk via "
+"navigasjonslinjen. Ytterligere tilgangskontroll for å vise eller ikke vise "
+"denne koblingen kan gjøres ved å bruke nøkkelen \"Gruppe\" og innhold som "
+"\"rw:gruppe1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -19829,6 +19909,10 @@ msgid ""
 "access control to show or not show this link can be done by using Key \"Group"
 "\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Agentgrensesnittmodul for å få tilgang til søkeprofiler via "
+"navigasjonslinjen. Ytterligere tilgangskontroll for å vise eller ikke vise "
+"denne koblingen kan gjøres ved å bruke nøkkelen \"Gruppe\" og innhold som "
+"\"rw:gruppe1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -19844,6 +19928,9 @@ msgid ""
 "Additional access control to show or not show this link can be done by using "
 "Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Agentgrensesnittvarslingsmodul for å se antall låste saker. Ytterligere "
+"tilgangskontroll for å vise eller ikke vise denne koblingen kan gjøres ved å "
+"bruke nøkkelen \"Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -19852,6 +19939,10 @@ msgid ""
 "be done by using Key \"Group\" and Content like \"rw:group1;move_into:"
 "group2\"."
 msgstr ""
+"Agentgrensesnittvarslingsmodul for å se antall saker en agent er ansvarlig "
+"for. Ytterligere tilgangskontroll for å vise eller ikke vise denne koblingen "
+"kan gjøres ved å bruke nøkkelen \"Gruppe\" og innhold som \"rw"
+":gruppe1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -19859,6 +19950,10 @@ msgid ""
 "Services. Additional access control to show or not show this link can be "
 "done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Agentgrensesnittvarslingsmodul for å se antall saker i Mine tjenester. "
+"Ytterligere tilgangskontroll for å vise eller ikke vise denne koblingen kan "
+"gjøres ved å bruke nøkkelen \"Gruppe\" og innhold som \"rw:gruppe1;move_into:"
+"group2\"."
 
 #. SysConfig
 msgid ""
@@ -19866,43 +19961,49 @@ msgid ""
 "Additional access control to show or not show this link can be done by using "
 "Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Agentgrensesnittvarslingsmodul for å se antall overvåkede saker. Ytterligere "
+"tilgangskontroll for å vise eller ikke vise denne koblingen kan gjøres ved å "
+"bruke nøkkelen \"Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
 "AgentTicketZoom widget that displays Contact with data dynamic field in the "
 "side bar."
 msgstr ""
+"AgentTicketZoom-widget som viser kontakt med data dynamisk felt i sidelinjen."
 
 #. SysConfig
 msgid ""
 "AgentTicketZoom widget that displays a table of objects linked to the ticket."
 msgstr ""
+"AgentTicketZoom-widget som viser en tabell over objekter knyttet til saken."
 
 #. SysConfig
 msgid ""
 "AgentTicketZoom widget that displays customer information for the ticket in "
 "the side bar."
 msgstr ""
+"AgentTicketZoom-widget som viser kundeinformasjon for saken i sidelinjen."
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays ticket data in the side bar."
-msgstr ""
+msgstr "AgentTicketZoom-widget som viser saksdata i sidelinjen."
 
 #. SysConfig
 msgid "Agents ↔ Groups"
-msgstr ""
+msgstr "Agenter ↔ Grupper"
 
 #. SysConfig
 msgid "Agents ↔ Roles"
-msgstr ""
+msgstr "Agenter ↔ Roller"
 
 #. SysConfig
 msgid "All CustomerIDs of a customer user."
-msgstr ""
+msgstr "Alle kunde-ID-er til en kundebruker."
 
 #. SysConfig
 msgid "All closed tickets."
-msgstr ""
+msgstr "Alle lukkede saker."
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -19918,7 +20019,7 @@ msgstr "Alle nye saker som ikke har blitt sett på enda"
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
-msgstr ""
+msgstr "Alle åpne saker, disse sakene er allerede jobbet med."
 
 #. SysConfig
 msgid ""
@@ -19930,6 +20031,8 @@ msgid ""
 "Allows adding notes in the close ticket screen of the agent interface. Can "
 "be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"Gjør det mulig å legge til notater i skjermbildet for lukkesaks i "
+"agentgrensesnittet. Kan overskrives av Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
