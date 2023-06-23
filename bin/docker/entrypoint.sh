@@ -152,8 +152,9 @@ function copy_otobo_next() {
 
 function do_update_tasks() {
 
-    # reinstall package, rebuild config, purge cache
-    # Not that this works only if OTOBO has been properly configured
+    # Reinstall package, rebuild config, purge cache and loader files.
+    # Note that this works only if OTOBO has been properly configured,
+    # because some commands need access to the database.
     {
         echo "started do_update_tasks()"
         date
@@ -161,6 +162,7 @@ function do_update_tasks() {
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Cache::Delete 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Loader::CacheCleanup 2>&1)
         date
         echo "finished do_update_tasks()"
         echo

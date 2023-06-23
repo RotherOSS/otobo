@@ -66,6 +66,8 @@ sub new {
 
 Returns possible values, selected values, and visibility of fields
 
+    my $LoopProtection = 100;
+
     my %States = $FieldRestrictionsObject->GetFieldStates(
         TicketObject        => $TicketObject,
         DynamicFields       => $DynamicFieldConfigs,
@@ -80,9 +82,11 @@ Returns possible values, selected values, and visibility of fields
             %GetParam,
             OwnerID     => $GetParam{NewUserID},
         },
+        LoopProtection      => \$LoopProtection,                    # restricts number of recursive calls; passing a reference to 'undef' will lead to a warning
         Autoselect          => {},                                  # optional; default: undef; {Field => 0,1,2, ...}
         ACLPreselection     => 0|1,                                 # optional
         ForceVisibility     => 0|1,                                 # optional; always checks visibility, will be activated if fields were autoselected
+
     );
 
 Returns:
@@ -124,6 +128,8 @@ sub GetFieldStates {
         );
         return;
     }
+
+    # decrement on undef result in '-1', so if LoopProtection is undef, function aborts here
     if ( ${ $Param{LoopProtection} }-- < 1 ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
