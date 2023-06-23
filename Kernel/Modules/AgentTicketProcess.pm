@@ -1708,6 +1708,53 @@ sub _OutputActivityDialog {
     my $MultiColumnRendered = 0;
     my $DynamicField        = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet();
 
+    # retrieve field restrictions for dynamic fields
+    my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
+    my $ACLPreselection;
+    if ( $ConfigObject->Get('TicketACL::ACLPreselection') ) {
+
+        # get cached preselection rules
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+        $ACLPreselection = $CacheObject->Get(
+            Type => 'TicketACL',
+            Key  => 'Preselection',
+        );
+        if ( !$ACLPreselection ) {
+            $ACLPreselection = $FieldRestrictionsObject->SetACLPreselectionCache();
+        }
+    }
+
+    my $Autoselect     = $ConfigObject->Get('TicketACL::Autoselect') || undef;
+    my $LoopProtection = 100;
+
+    # get values and visibility of dynamic fields
+    my %DynFieldStates = $FieldRestrictionsObject->GetFieldStates(
+        TicketObject              => $TicketObject,
+        DynamicFields             => $DynamicField,
+        DynamicFieldBackendObject => $Kernel::OM->Get('Kernel::System::DynamicField::Backend'),
+        Action                    => $Self->{Action},
+        ChangedElements           => {},
+        UserID                    => $Self->{UserID},
+        TicketID                  => $Param{TicketID},
+        FormID                    => $Self->{FormID},
+        CustomerUser              => $Param{GetParam}{CustomerUserID} || '',
+        GetParam                  => {
+            $Param{GetParam}->%*,
+            OwnerID => $Param{GetParam}{OwnerID},
+        },
+        Autoselect      => $Autoselect,
+        ACLPreselection => $ACLPreselection // '',
+        LoopProtection  => \$LoopProtection,
+    );
+
+    my %DFPossibleValues = map { $_->{Name} => $_->{PossibleValues} } values $DynFieldStates{Fields}->%*;
+
+    # delete hidden fields cache
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'HiddenFields',
+        Key  => $Self->{FormID},
+    );
+
     # Parse definition if present
     my $InputFieldDefinition = $Kernel::OM->Get('Kernel::System::YAML')->Load(
         Data => $ActivityDialog->{InputFieldDefinition},
@@ -1768,9 +1815,14 @@ sub _OutputActivityDialog {
                 LayoutObject         => $LayoutObject,
                 ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
                 DynamicFieldValues   => $Param{GetParam}->{DynamicField},
-                PossibleValuesFilter => undef,
+                PossibleValuesFilter => \%DFPossibleValues,
                 Errors               => undef,
-                Visibility           => undef,
+                Visibility           => $DynFieldStates{Visibility},
+            );
+
+            $LayoutObject->AddJSData(
+                Key   => 'DynamicFieldNames',
+                Value => $AJAXUpdatableFields,
             );
 
             $MultiColumnRendered = 1;
@@ -1812,6 +1864,11 @@ sub _OutputActivityDialog {
             $Output .= $Response->{HTML};
 
             $RenderedFields{$CurrentField} = 1;
+
+            $LayoutObject->AddJSData(
+                Key   => 'DynamicFieldNames',
+                Value => $AJAXUpdatableFields,
+            );
 
         }
 
