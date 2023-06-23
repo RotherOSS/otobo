@@ -741,8 +741,9 @@ sub Run {
             %Visibility = map { 'DynamicField_' . $_->{Name} => 1 } @{$FollowUpDynamicField};
         }
 
-        # create html strings for all dynamic fields
-        my %DynamicFieldHTML;
+        # remember dynamic field validation result if erroneous
+        my %DynamicFieldValidationResult;
+        my %DynamicFieldPossibleValues;
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
@@ -790,6 +791,8 @@ sub Run {
                 }
             }
 
+            $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $PossibleValuesFilter;
+
             my $ValidationResult;
 
             # do not validate invisible fields
@@ -818,27 +821,14 @@ sub Run {
 
                 # propagate validation error to the Error variable to be detected by the frontend
                 if ( $ValidationResult->{ServerError} ) {
-                    $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
+                    $Error{ $DynamicFieldConfig->{Name} }                        = ' ServerError';
+                    $DynamicFieldValidationResult{ $DynamicFieldConfig->{Name} } = $ValidationResult;
 
                     # make FollowUp visible to correctly show the error
                     $GetParam{FollowUpVisible} = 'Visible';
                 }
             }
 
-            # get field html
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldRender(
-                DynamicFieldConfig   => $DynamicFieldConfig,
-                PossibleValuesFilter => $PossibleValuesFilter,
-                Mandatory            =>
-                    $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                ServerError       => $ValidationResult->{ServerError}  || '',
-                ErrorMessage      => $ValidationResult->{ErrorMessage} || '',
-                LayoutObject      => $LayoutObject,
-                ParamObject       => $ParamObject,
-                AJAXUpdate        => 1,
-                UpdatableFields   => $Self->_GetFieldsToUpdate(),
-                CustomerInterface => 1,
-            );
         }
 
         # show edit again
@@ -854,8 +844,9 @@ sub Run {
                 TicketState   => $Ticket{State},
                 TicketStateID => $Ticket{StateID},
                 %GetParam,
-                DynamicFieldHTML => \%DynamicFieldHTML,
                 Visibility       => \%Visibility,
+                DFPossibleValues => \%DynamicFieldPossibleValues,
+                DFErrors         => \%DynamicFieldValidationResult,
             );
             $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $LayoutObject->CustomerFooter();
@@ -1375,8 +1366,8 @@ sub Run {
         $InitialRun = 0;
     }
 
-    # create html strings for all dynamic fields
-    my %DynamicFieldHTML;
+    # remember dynamic field validation result if erroneous
+    my %DynamicFieldPossibleValues;
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
@@ -1398,22 +1389,8 @@ sub Run {
             );
         }
 
-        # get field html
-        $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldRender(
-            DynamicFieldConfig   => $DynamicFieldConfig,
-            PossibleValuesFilter => defined $DynFieldStates{Fields}{$i}
-            ? $DynFieldStates{Fields}{$i}{PossibleValues}
-            : undef,
-            ,
-            Mandatory         => $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-            LayoutObject      => $LayoutObject,
-            ParamObject       => $ParamObject,
-            AJAXUpdate        => 1,
-            UpdatableFields   => $Self->_GetFieldsToUpdate(),
-            Value             => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
-            CustomerInterface => 1,
-            %UseDefault,
-        );
+        $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynFieldStates{Fields}{$i}{PossibleValues};
+
     }
 
     # generate output
@@ -1434,12 +1411,12 @@ sub Run {
         TicketStateID => $Ticket{StateID},
         %GetParam,
         StateID           => $GetParam{NextStateID},
-        TicketStateID     => $GetParam{NextStateID},        # TODO: check whether this right
+        TicketStateID     => $GetParam{NextStateID},         # TODO: check whether this right
         AclAction         => \%AclAction,
-        DynamicFieldHTML  => \%DynamicFieldHTML,
         HideAutoselected  => $HideAutoselectedJSON,
         Visibility        => $DynFieldStates{Visibility},
         ActivityErrorHTML => \%ActivityErrorHTML,
+        DFPossibleValues  => \%DynamicFieldPossibleValues,
     );
 
     # return if HTML email
@@ -2395,59 +2372,59 @@ sub _Mask {
 
         my $SeparateDynamicFields = $ConfigObject->Get('Ticket::CustomerFrontend::SeparateDynamicFields');
 
-        # Dynamic fields
-        # cycle trough the activated Dynamic Fields for this screen
-        DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
-            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        # render dynamic fields
+        if ( $FollowUpDynamicField->@* ) {
 
-            # skip fields that HTML could not be retrieved
-            next DYNAMICFIELD if !IsHashRefWithData(
-                $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }
-            );
+            # Fetch input field definition
+            my $InputFieldDefinition = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
+                Mask => 'CustomerTicketZoom',
+            ) || [];
 
-            # get the html strings form $Param
-            my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} };
-
-            my %Hidden;
-
-            # hide field
-            if ( !$Param{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"} ) {
-                %Hidden = (
-                    HiddenClass => ' oooACLHidden',
-                    HiddenStyle => 'style=display:none;',
-                );
-
-                # ACL hidden fields cannot be mandatory
-                if ( $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2 ) {
-                    $DynamicFieldHTML->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/g;
+            my %DefinedFieldsList;
+            for my $Row ( $InputFieldDefinition->@* ) {
+                if ( $Row->{DF} ) {
+                    $DefinedFieldsList{ $Row->{DF} } = 1;
+                }
+                if ( $Row->{Grid} ) {
+                    for my $GridRow ( $Row->{Grid}{Rows}->@* ) {
+                        for my $Field ( grep { $_->{DF} } $GridRow->@* ) {
+                            $DefinedFieldsList{ $Field->{DF} } = 1;
+                        }
+                    }
                 }
             }
 
-            if ( $SeparateDynamicFields->{ $DynamicFieldConfig->{Name} } ) {
-                $LayoutObject->Block(
-                    Name => 'FollowUpDynamicField_' . $DynamicFieldConfig->{Name},
-                    Data => {
-                        Name    => $DynamicFieldConfig->{Name},
-                        Tooltip => $DynamicFieldConfig->{Config}{Tooltip},
-                        Label   => $DynamicFieldHTML->{Label},
-                        Field   => $DynamicFieldHTML->{Field},
-                        %Hidden,
-                    },
-                );
+            my %DynamicFieldConfigs;
+
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( $FollowUpDynamicField->@* ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+                $DynamicFieldConfigs{ $DynamicFieldConfig->{Name} } = $DynamicFieldConfig;
+
+                next DYNAMICFIELD if $DefinedFieldsList{ $DynamicFieldConfig->{Name} };
+
+                push $InputFieldDefinition->@*, {
+                    DF        => $DynamicFieldConfig->{Name},
+                    Mandatory => $Config->{FollowUpDynamicField}{ $DynamicFieldConfig->{Name} } == 2 ? 1 : 0,
+                };
             }
-            else {
-                $LayoutObject->Block(
-                    Name => 'FollowUpDynamicField',
-                    Data => {
-                        Name    => $DynamicFieldConfig->{Name},
-                        Tooltip => $DynamicFieldConfig->{Config}{Tooltip},
-                        Label   => $DynamicFieldHTML->{Label},
-                        Field   => $DynamicFieldHTML->{Field},
-                        %Hidden,
-                    },
-                );
-            }
+
+            $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
+                Content               => $InputFieldDefinition,
+                DynamicFields         => \%DynamicFieldConfigs,
+                UpdatableFields       => $Self->_GetFieldsToUpdate(),
+                LayoutObject          => $LayoutObject,
+                ParamObject           => $Kernel::OM->Get('Kernel::System::Web::Request'),
+                DynamicFieldValues    => $Param{GetParam}{DynamicField},
+                PossibleValuesFilter  => $Param{DFPossibleValues},
+                Errors                => $Param{DFErrors},
+                Visibility            => $Param{Visibility},
+                SeparateDynamicFields => $SeparateDynamicFields,
+                CustomerInterface     => 1,
+            );
+
         }
 
         # show attachments
