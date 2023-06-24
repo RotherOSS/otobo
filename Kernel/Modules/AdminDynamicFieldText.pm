@@ -703,15 +703,14 @@ sub _ShowScreen {
         },
     );
 
-    my $ReadonlyInternalField = '';
-
     # Internal fields can not be deleted and name should not change.
+    my $ReadonlyInternalField = '';
     if ( $Param{InternalField} ) {
         $LayoutObject->Block(
             Name => 'InternalField',
             Data => {%Param},
         );
-        $ReadonlyInternalField = 'readonly="readonly"';
+        $ReadonlyInternalField = 'readonly';
     }
 
     # get the field id

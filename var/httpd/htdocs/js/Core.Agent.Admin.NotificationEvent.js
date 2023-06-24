@@ -63,7 +63,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
                 $('.AgentEnabledByDefault').show();
             }
             else {
-                TooltipObject.attr('readonly', 'readonly');
+                TooltipObject.attr('readonly', true);
 
                 // hide default transport value
                 $('.AgentEnabledByDefault').hide();
@@ -124,7 +124,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
                 $.each(InputField, function(index, item) {
                     $('#' + item)
                         .attr({
-                            'readonly' : 'readonly',
+                            'readonly' : true,
                             'disabled' : 'disabled'
                         })
                         .parent()

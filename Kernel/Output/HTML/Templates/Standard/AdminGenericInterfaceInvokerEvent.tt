@@ -89,12 +89,12 @@
                     <fieldset class="TableLike FixedLabel" id="GeneralEventSettings">
                         <label for="Event">[% Translate("Event") | html %]:</label>
                         <div class="Field">
-                            <input type="text" readonly="readonly" name="Event" class="Validate_Required W50pc" value="[% Translate( Data.Event ) | html %]" id="Event" />
+                            <input type="text" readonly name="Event" class="Validate_Required W50pc" value="[% Translate( Data.Event ) | html %]" id="Event" />
                         </div>
                         <div class="Clear"></div>
                         <label for="EventType">[% Translate("Event type") | html %]:</label>
                         <div class="Field">
-                            <input type="text" readonly="readonly" name="EventType" class="Validate_Required W50pc" value="[% Translate( Data.EventType ) | html %]" id="EventType" />
+                            <input type="text" readonly name="EventType" class="Validate_Required W50pc" value="[% Translate( Data.EventType ) | html %]" id="EventType" />
                         </div>
                         <div class="Clear"></div>
 

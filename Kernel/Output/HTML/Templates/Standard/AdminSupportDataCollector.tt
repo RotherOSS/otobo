@@ -126,13 +126,13 @@
                     <legend><span>[% Translate("Send by Email") | html %]</span></legend>
                     <label for="Name">[% Translate("Name") | html %]:</label>
                     <div class="Field">
-                        <input type="text" id="Name" name="Name" value="[% Data.SenderName | html %]" class="W50pc" readonly="readonly" />
+                        <input type="text" id="Name" name="Name" value="[% Data.SenderName | html %]" class="W50pc" readonly />
                     </div>
                     <div class="Clear"></div>
 
                     <label for="Sender">[% Translate("Email") | html %]:</label>
                     <div class="Field">
-                        <input type="text" id="Sender" name="Sender" value="[% Data.SenderAddress | html %]" class="W50pc" readonly="readonly" />
+                        <input type="text" id="Sender" name="Sender" value="[% Data.SenderAddress | html %]" class="W50pc" readonly />
                     </div>
                     <div class="Clear"></div>
 
@@ -227,7 +227,7 @@
                             </h3>
                             <p class="SpacingTopSmall">[% Translate(Data.Message) | html %]</p>
 [% RenderBlockStart("SupportDataEntryValueMultiLine") %]
-                            <textarea rows="5" cols="80" readonly="readonly" class="Value">[% Data.Value | html %]</textarea>
+                            <textarea rows="5" cols="80" readonly class="Value">[% Data.Value | html %]</textarea>
 [% RenderBlockEnd("SupportDataEntryValueMultiLine") %]
 [% RenderBlockEnd("SupportDataEntry") %]
 [% RenderBlockStart("SupportDataSubGroup") %]

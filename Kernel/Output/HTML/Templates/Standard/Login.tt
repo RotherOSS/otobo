@@ -183,7 +183,7 @@
 <!--
 # TODO: Implement
 #                                <div class="Field">
-#                                    <input type="checkbox" id="Remember" name="Remember" title="Remember my login on this computer" readonly="readonly" />
+#                                    <input type="checkbox" id="Remember" name="Remember" title="Remember my login on this computer" readonly />
 #                                    <label for="Remember">Remember my login on this computer</label>
 #                                </div>
 #                                <div class="Clear"></div>
@@ -220,7 +220,7 @@
                                         [% Translate("Username") | html %]:
                                 </label>
                                 <div>
-                                    <input placeholder="[% Translate("Username") | html %]" type="text" id="PasswordUser" name="User" value="" class="W75pc Validate_Required" readonly="readonly"/>
+                                    <input placeholder="[% Translate("Username") | html %]" type="text" id="PasswordUser" name="User" value="" class="W75pc Validate_Required" readonly/>
                                     <div id="PasswordUserError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                                 </div>
                                 <div class="Clear"></div>

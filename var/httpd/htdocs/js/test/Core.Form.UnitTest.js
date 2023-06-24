@@ -28,7 +28,7 @@ Core.Form = (function (Namespace) {
              */
             var $TestForm = $('<form id="TestForm"></form>'), Checkboxes, CheckboxesSelected;
             $TestForm.append('<input type="text" value="ObjectOne" id="ObjectOne" name="ObjectOne" />');
-            $TestForm.append('<input type="text" readonly="readonly" data-initially-readonly="readonly" value="ObjectOne" id="ObjectOne" name="ObjectOne" />');
+            $TestForm.append('<input type="text" readonly data-initially-readonly="readonly" value="ObjectOne" id="ObjectOne" name="ObjectOne" />');
             $TestForm.append('<input type="password" value="ObjectTwo" id="ObjectTwo" name="ObjectTwo" />');
             $TestForm.append('<input type="checkbox" value="ObjectThree" id="ObjectThree" name="ObjectThree" />');
             $TestForm.append('<input type="radio" value="ObjectFour" id="ObjectFour" name="ObjectFour" />');

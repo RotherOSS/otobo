@@ -3697,7 +3697,7 @@ sub BuildDateSelection {
             . $Self->{LanguageObject}->Translate('Year')
             . "\" value=\""
             . sprintf( "%02d", ( $Param{ $Prefix . 'Year' } || $Y ) ) . "\" "
-            . ( $Param{Disabled} ? 'readonly="readonly"' : '' ) . "/>";
+            . ( $Param{Disabled} ? 'readonly' : '' ) . "/>";
     }
 
     # month
@@ -3721,7 +3721,7 @@ sub BuildDateSelection {
             . $Self->{LanguageObject}->Translate('Month')
             . "\" value=\""
             . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\" "
-            . ( $Param{Disabled} ? 'readonly="readonly"' : '' ) . "/>";
+            . ( $Param{Disabled} ? 'readonly' : '' ) . "/>";
     }
 
     my $DateValidateClasses = '';
@@ -3777,7 +3777,7 @@ sub BuildDateSelection {
             . $Self->{LanguageObject}->Translate('Day')
             . "\" value=\""
             . sprintf( "%02d", ( $Param{ $Prefix . 'Day' } || $D ) ) . "\" "
-            . ( $Param{Disabled} ? 'readonly="readonly"' : '' ) . "/>";
+            . ( $Param{Disabled} ? 'readonly' : '' ) . "/>";
 
     }
     if ( $Format eq 'DateInputFormatLong' ) {
@@ -3809,7 +3809,7 @@ sub BuildDateSelection {
                     ( defined( $Param{ $Prefix . 'Hour' } ) ? int( $Param{ $Prefix . 'Hour' } ) : $h )
                 )
                 . "\" "
-                . ( $Param{Disabled} ? 'readonly="readonly"' : '' ) . "/>";
+                . ( $Param{Disabled} ? 'readonly' : '' ) . "/>";
 
         }
 
@@ -3843,7 +3843,7 @@ sub BuildDateSelection {
                         : $m
                     )
                 ) . "\" "
-                . ( $Param{Disabled} ? 'readonly="readonly"' : '' ) . "/>";
+                . ( $Param{Disabled} ? 'readonly' : '' ) . "/>";
         }
     }
 

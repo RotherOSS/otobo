@@ -317,7 +317,8 @@ sub SettingAddItem {
                 my $HashKey = $Structure[$Index];
 
                 my ($Item) = grep { $HashKey eq $_->{Key} } @{ $DedicatedDefaultItem->{Item} };
-                last STRUCTURE if !$Item;
+
+                last STRUCTURE unless $Item;
 
                 $DedicatedDefaultItem = $Item->{Hash}->[0];
             }
@@ -755,7 +756,7 @@ sub _SettingRender {
                     $HashItem .= "disabled=\"disabled\" ";
                 }
 
-                $HashItem .= "readonly=\"readonly\" ";
+                $HashItem .= 'readonly ';
                 $HashItem .= "/>\n";
 
                 if ( !$Objects{$ValueType} ) {
