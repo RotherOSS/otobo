@@ -1101,7 +1101,7 @@ sub _GetPossibleValues {
 
         $PossibleValueConfig->{ 'FieldName_' . $ValueRealIndex }     = $ValueFieldName;
         $PossibleValueConfig->{ 'FieldLabel_' . $ValueRealIndex }    = $ValueFieldLabel;
-        $PossibleValueConfig->{ 'FieldDataType_' . $ValueRealIndex } = $ValueFieldDatatype;
+        $PossibleValueConfig->{ 'FieldDatatype_' . $ValueRealIndex } = $ValueFieldDatatype;
         $PossibleValueConfig->{ 'FieldFilter_' . $ValueRealIndex }   = $ValueFieldFilter;
         $PossibleValueConfig->{ 'Searchfield_' . $ValueRealIndex }   = $ValueSearchfield;
         $PossibleValueConfig->{ 'Listfield_' . $ValueRealIndex }     = $ValueListfield;
