@@ -67,7 +67,7 @@ sub ValueIsDifferent {
     # Special cases where one value is a scalar and the other one is an array (see bug#13998).
     # TODO Causes error message, potentially rewrite this
     if ( ref \$Param{Value1} eq 'SCALAR' && ref $Param{Value2} eq 'ARRAY' ) {
-        my @TmpArray1 = sort split /,/, $Param{Value1};
+        my @TmpArray1 = sort split /,/, $Param{Value1} // '';
         my @TmpArray2 = sort @{ $Param{Value2} };
 
         return DataIsDifferent(
@@ -76,7 +76,7 @@ sub ValueIsDifferent {
         );
     }
     if ( ref \$Param{Value2} eq 'SCALAR' && ref $Param{Value1} eq 'ARRAY' ) {
-        my @TmpArray2 = sort split /,/, $Param{Value2};
+        my @TmpArray2 = sort split /,/, $Param{Value2} // '';
         my @TmpArray1 = sort @{ $Param{Value1} };
 
         return DataIsDifferent(
