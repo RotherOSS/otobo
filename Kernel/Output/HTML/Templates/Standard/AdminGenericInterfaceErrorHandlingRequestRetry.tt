@@ -138,7 +138,7 @@
 
                         <label for="ErrorHandlingTypeDisplay">[% Translate("Error handling module backend") | html %]:</label>
                         <div class="Field">
-                            <input type="text" readonly="readonly" class="W50pc" id="ErrorHandlingTypeDisplay" value="[% Data.ErrorHandlingType | html %]" />
+                            <input type="text" readonly class="W50pc" id="ErrorHandlingTypeDisplay" value="[% Data.ErrorHandlingType | html %]" />
                             <p class="FieldExplanation">
                                 [% Translate("This OTOBO error handling backend module will be called internally to process the error handling mechanism.") | html %]
                             </p>

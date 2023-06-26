@@ -1338,7 +1338,7 @@ sub _Edit {
 
     # include read-only attribute
     if ( !$Param{VisibleForAgent} ) {
-        $Param{VisibleForAgentTooltipReadonly} = 'readonly="readonly"';
+        $Param{VisibleForAgentTooltipReadonly} = 'readonly';
     }
 
     # get registered transport layers

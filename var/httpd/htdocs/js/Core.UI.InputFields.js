@@ -388,7 +388,7 @@ Core.UI.InputFields = (function (TargetNS) {
         if ($SelectObj.attr('disabled') || $SearchObj.data('form-disabled')) {
             $SearchObj.attr('disabled', 'disabled');
             // Make background grey and elements white.
-            $SearchObj.attr('readonly', 'readonly');
+            $SearchObj.attr('readonly', true);
             $InputContainerObj.addClass('AlreadyDisabled');
             return;
         }
@@ -407,7 +407,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
             // Disable the field, add the tooltip and dash string
             $SearchObj
-                .attr('readonly', 'readonly')
+                .attr('readonly', true)
                 .attr('title', Core.Language.Translate('Not available'));
 
             // when the original field does no longer provide any valid options,

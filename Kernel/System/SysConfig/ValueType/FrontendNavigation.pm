@@ -319,16 +319,14 @@ sub SettingRender {
     my $RemoveThisEntry = $LanguageObject->Translate("Remove this entry");
     my $RequiredText    = $LanguageObject->Translate("This field is required.");
 
-    my $Readonly = '';
-    if ( !$Param{RW} ) {
-        $Readonly = "readonly='readonly'";
-    }
+    my $Readonly = $Param{RW} ? '' : ' readonly';
+
     for my $Key ( sort keys %{$EffectiveValue} ) {
 
         my $IsRequired = grep { $_ eq $Key } @{ $Self->{RequiredKeys} };
 
         $HTML .= "<div class='HashItem'>\n";
-        $HTML .= "<input type='text' value='$Key' readonly='readonly' class='Key' />\n";
+        $HTML .= "<input type='text' value='$Key' readonly class='Key' />\n";
         $HTML .= "<div class='SettingContent'>\n";
 
         if ( grep { $Key eq $_ } qw (Group GroupRo) ) {
@@ -344,8 +342,8 @@ sub SettingRender {
 
                 $HTML .= "<div class='ArrayItem'>\n";
                 $HTML .= "<div class='SettingContent'>\n";
-                $HTML .= "<input type=\"text\" value=\"$HTMLGroupItem\" $Readonly"
-                    . "id=\"$Param{Name}$Param{IDSuffix}_Hash###$Key\_Array$GroupIndex\" />\n";
+                $HTML .= "<input type=\"text\" value=\"$HTMLGroupItem\"$Readonly"
+                    . " id=\"$Param{Name}$Param{IDSuffix}_Hash###$Key\_Array$GroupIndex\" />\n";
                 $HTML .= "</div>\n";
 
                 if ( $Param{RW} ) {
@@ -385,8 +383,8 @@ sub SettingRender {
                 Type => 'Normal',
             );
 
-            $HTML .= "<input type=\"text\" value=\"$HTMLValue\" Class=\"$InputClass\" $Readonly"
-                . "id=\"$Param{Name}$Param{IDSuffix}_Hash###$Key\" />\n";
+            $HTML .= "<input type=\"text\" value=\"$HTMLValue\" Class=\"$InputClass\"$Readonly"
+                . " id=\"$Param{Name}$Param{IDSuffix}_Hash###$Key\" />\n";
 
             if ($IsRequired) {
 
@@ -492,7 +490,7 @@ sub AddItem {
         my $IsRequired = grep { $_ eq $Key } @{ $Self->{RequiredKeys} };
 
         $HTML .= "<div class='HashItem'>\n";
-        $HTML .= "<input type='text' value='$Key' readonly='readonly' class='Key' />\n";
+        $HTML .= "<input type='text' value='$Key' readonly class='Key' />\n";
         $HTML .= "<div class='SettingContent'>\n";
 
         if ( grep { $Key eq $_ } qw (Group GroupRo) ) {

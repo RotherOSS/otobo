@@ -139,7 +139,7 @@
 
                         <label for="InvokerTypeDisplay">[% Translate("Invoker backend") | html %]:</label>
                         <div class="Field">
-                            <input type="text" readonly="readonly" class="W50pc" id="InvokerTypeDisplay" value="[% Data.InvokerType | html %]" />
+                            <input type="text" readonly class="W50pc" id="InvokerTypeDisplay" value="[% Data.InvokerType | html %]" />
                             <p class="FieldExplanation">
                                 [% Translate("This OTOBO invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.") | html %]
                             </p>
