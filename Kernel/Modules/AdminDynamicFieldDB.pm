@@ -188,6 +188,7 @@ sub _AddAction {
     # Prepare the multiselect and case-sensitive parameters.
     if ( defined $GetParam{Multiselect} ) {
         $GetParam{Multiselect} = 'checked=checked';
+        $GetParam{MultiValue}  = 0;
     }
 
     if ( defined $GetParam{CaseSensitive} ) {
@@ -436,6 +437,7 @@ sub _ChangeAction {
     # Prepare the multiselect and case-sensitive parameters.
     if ( defined $GetParam{Multiselect} ) {
         $GetParam{Multiselect} = 'checked=checked';
+        $GetParam{MultiValue}  = 0;
     }
 
     if ( defined $GetParam{CaseSensitive} ) {
