@@ -210,9 +210,13 @@ sub EditFieldRender {
     if ( !ref $Value ) {
         $Value = [$Value];
     }
+    elsif ( !$Value->@* ) {
+        $Value = [undef];
+    }
 
     my @ValueParts;
     for my $ValueItem ( $Value->@* ) {
+        $ValueItem //= '';
         my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $ValueItem =~
             m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
 
