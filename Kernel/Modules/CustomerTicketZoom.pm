@@ -2411,13 +2411,16 @@ sub _Mask {
                 };
             }
 
+            # grep dynamic field values
+            my %DynamicFieldValues = map { $_ => $Param{$_} } grep {/^DynamicField_/} keys %Param;
+
             $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
                 Content               => $InputFieldDefinition,
                 DynamicFields         => \%DynamicFieldConfigs,
                 UpdatableFields       => $Self->_GetFieldsToUpdate(),
                 LayoutObject          => $LayoutObject,
                 ParamObject           => $Kernel::OM->Get('Kernel::System::Web::Request'),
-                DynamicFieldValues    => $Param{GetParam}{DynamicField},
+                DynamicFieldValues    => \%DynamicFieldValues,
                 PossibleValuesFilter  => $Param{DFPossibleValues},
                 Errors                => $Param{DFErrors},
                 Visibility            => $Param{Visibility},
