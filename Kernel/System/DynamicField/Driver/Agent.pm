@@ -253,9 +253,6 @@ sub ValueValidate {
     return $Success;
 }
 
-# TODO Overwrite EditFieldRender regarding Multiselect
-# TODO Overwrite DisplayValueRender regarding login -> userfullname
-
 sub FieldValueValidate {
     my ( $Self, %Param ) = @_;
 
@@ -397,8 +394,6 @@ sub EditFieldRender {
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
-
-        # TODO check whether to pass dynfieldconfig
         Mandatory => $Param{Mandatory} || '0',
         FieldName => $FieldName,
     );

@@ -842,7 +842,6 @@ sub _GetPossibleValues {
     my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
 
     # get parameters from web browser
-    # get ValueCounters
     my $GroupFilter = $ParamObject->GetParam( Param => 'GroupFilter' ) || '';
 
     my %PossibleValues;
