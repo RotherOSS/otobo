@@ -653,7 +653,7 @@ sub DisplayValueRender {
     }
 
     # get real values
-    my $PossibleValues = $Self->PossibleValuesGet( \%Param );
+    my $PossibleValues = $Self->PossibleValuesGet(%Param);
 
     my @ReadableValues;
     my @ReadableTitles;
