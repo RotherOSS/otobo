@@ -152,7 +152,7 @@ sub EditSectionRender {
             $Param{LayoutObject}->Block(
                 Name => $RowBlockName,
                 Data => {
-                    TemplateColumns => $Row{ColumnWidths},
+                    TemplateColumns => $Row{ColumnWidth},
                     RowClasses      => $RowClassString,
                 },
             );
