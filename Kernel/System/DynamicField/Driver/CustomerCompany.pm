@@ -44,7 +44,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::CustomerCompany - the CustomerCompany dynamic field
+Kernel::System::DynamicField::Driver::CustomerCompany - driver for the CustomerCompany dynamic field
 
 =head1 DESCRIPTION
 
@@ -126,6 +126,15 @@ sub ValueGet {
         ObjectID => $Param{ObjectID},
     );
 
+    if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+        return $Self->ValueStructureFromDB(
+            ValueDB    => $DFValue,
+            ValueKey   => 'ValueText',
+            Set        => $Param{Set},
+            MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+        );
+    }
+
     return if !$DFValue;
     return if !IsArrayRefWithData($DFValue);
     return if !IsHashRefWithData( $DFValue->[0] );
@@ -143,52 +152,71 @@ sub ValueSet {
     my ( $Self, %Param ) = @_;
 
     # check for valid possible values list
-    if ( !$Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) {
+    my $PossibleValues = $Self->PossibleValuesGet(%Param);
+    if ( !IsHashRefWithData($PossibleValues) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need PossibleValues in DynamicFieldConfig!",
+            Message  => "Possible values are empty!",
         );
         return;
-    }
-
-    # check value
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-        @Values = ( $Param{Value} );
     }
 
     # get dynamic field value object
     my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
+    my $Value;
     my $Success;
-    if ( IsArrayRefWithData( \@Values ) ) {
-
-        # if there is at least one value to set, this means one or more values are selected,
-        #    set those values!
-        my @ValueText;
-        for my $Item (@Values) {
-            push @ValueText, { ValueText => $Item };
-        }
+    if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+        $Value = $Self->ValueStructureToDB(
+            Value      => $Param{Value},
+            ValueKey   => 'ValueText',
+            Set        => $Param{Set},
+            MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+        );
 
         $Success = $DynamicFieldValueObject->ValueSet(
             FieldID  => $Param{DynamicFieldConfig}->{ID},
             ObjectID => $Param{ObjectID},
-            Value    => \@ValueText,
+            Value    => $Value,
             UserID   => $Param{UserID},
         );
     }
     else {
+        # check value
+        my @Values;
+        if ( ref $Param{Value} eq 'ARRAY' ) {
+            @Values = @{ $Param{Value} };
+        }
+        else {
+            @Values = ( $Param{Value} );
+        }
 
-        # otherwise no value was selected, then in fact this means that any value there should be
-        # deleted
-        $Success = $DynamicFieldValueObject->ValueDelete(
-            FieldID  => $Param{DynamicFieldConfig}->{ID},
-            ObjectID => $Param{ObjectID},
-            UserID   => $Param{UserID},
-        );
+        if ( IsArrayRefWithData( \@Values ) ) {
+
+            # if there is at least one value to set, this means one or more values are selected,
+            #    set those values!
+            my @ValueText;
+            for my $Item (@Values) {
+                push @ValueText, { ValueText => $Item };
+            }
+
+            $Success = $DynamicFieldValueObject->ValueSet(
+                FieldID  => $Param{DynamicFieldConfig}->{ID},
+                ObjectID => $Param{ObjectID},
+                Value    => \@ValueText,
+                UserID   => $Param{UserID},
+            );
+        }
+        else {
+
+            # otherwise no value was selected, then in fact this means that any value there should be
+            # deleted
+            $Success = $DynamicFieldValueObject->ValueDelete(
+                FieldID  => $Param{DynamicFieldConfig}->{ID},
+                ObjectID => $Param{ObjectID},
+                UserID   => $Param{UserID},
+            );
+        }
     }
 
     return $Success;
@@ -257,10 +285,11 @@ sub FieldValueValidate {
     my ( $Self, %Param ) = @_;
 
     # Check for valid possible values list.
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) ) {
+    my $PossibleValues = $Self->PossibleValuesGet(%Param);
+    if ( !IsHashRefWithData($PossibleValues) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need PossibleValues in Multiselect DynamicFieldConfig!",
+            Message  => "Possible values are empty!",
         );
         return;
     }
@@ -285,7 +314,7 @@ sub FieldValueValidate {
         }
 
         for my $Value (@Values) {
-            return if !defined $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
+            return if !defined $PossibleValues->{$Value};
         }
     }
 
@@ -353,11 +382,17 @@ sub EditFieldRender {
     # set PossibleValues, use PossibleValuesFilter if defined
     my $PossibleValues = $Param{PossibleValuesFilter} // $Self->PossibleValuesGet(%Param);
 
+    my $DataValues = $Self->BuildSelectionDataGet(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        PossibleValues     => $PossibleValues,
+        Value              => $Value,
+    );
+
     my @SelectionHTML;
     if ( $FieldConfig->{MultiValue} && @Values ) {
         for my $ValueItem (@Values) {
             push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
-                Data       => $PossibleValues || {},
+                Data       => $DataValues || {},
                 Name       => $FieldName,
                 SelectedID => $ValueItem,
                 Class      => $FieldClass,
@@ -367,7 +402,7 @@ sub EditFieldRender {
     }
     else {
         push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
-            Data       => $PossibleValues || {},
+            Data       => $DataValues || {},
             Name       => $FieldName,
             SelectedID => \@Values,
             Class      => $FieldClass,
@@ -400,9 +435,9 @@ sub EditFieldRender {
 
     my $FieldTemplateFile = $Param{CustomerInterface}
         ?
-        'DynamicField/Customer/CustomerCompany'
+        'DynamicField/Customer/BaseSelect'
         :
-        'DynamicField/Agent/CustomerCompany';
+        'DynamicField/Agent/BaseSelect';
 
     my @ResultHTML;
     if ( $FieldConfig->{MultiValue} ) {
@@ -574,7 +609,7 @@ sub EditFieldValueValidate {
     else {
 
         # get possible values list
-        my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+        my $PossibleValues = $Self->PossibleValuesGet(%Param);
 
         # overwrite possible values if PossibleValuesFilter
         if ( defined $Param{PossibleValuesFilter} ) {
@@ -618,8 +653,7 @@ sub DisplayValueRender {
     }
 
     # get real values
-    my $PossibleValues     = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
-    my $TranslatableValues = $Param{DynamicFieldConfig}->{Config}->{TranslatableValues};
+    my $PossibleValues = $Self->PossibleValuesGet( \%Param );
 
     my @ReadableValues;
     my @ReadableTitles;
@@ -717,6 +751,9 @@ sub DisplayValueRender {
 sub SearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
+    # get possible values
+    my $PossibleValues = $Self->PossibleValuesGet(%Param);
+
     # get field value
     my $Value = $Self->SearchFieldValueGet(%Param);
 
@@ -733,7 +770,7 @@ sub SearchFieldParameterBuild {
             for my $Item ( @{$Value} ) {
 
                 # set the display value
-                my $DisplayItem = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Item}
+                my $DisplayItem = $PossibleValues->{$Item}
                     || $Item;
 
                 push @DisplayItemList, $DisplayItem;
@@ -745,7 +782,7 @@ sub SearchFieldParameterBuild {
         else {
 
             # set the display value
-            $DisplayValue = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
+            $DisplayValue = $PossibleValues->{$Value};
         }
     }
 
@@ -762,7 +799,7 @@ sub StatsFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
     # set PossibleValues
-    my $Values = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+    my $Values = $Self->PossibleValuesGet(%Param);
 
     # get historical values from database
     my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
@@ -781,11 +818,10 @@ sub StatsFieldParameterBuild {
     $Values = $Param{PossibleValuesFilter} // $Values;
 
     return {
-        Values             => $Values,
-        Name               => $Param{DynamicFieldConfig}->{Label},
-        Element            => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
-        TranslatableValues => $Param{DynamicFieldConfig}->{Config}->{TranslatableValues},
-        Block              => 'MultiSelectField',
+        Values  => $Values,
+        Name    => $Param{DynamicFieldConfig}->{Label},
+        Element => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
+        Block   => 'MultiSelectField',
     };
 }
 
@@ -838,6 +874,73 @@ sub ReadableValueRender {
     return $Data;
 }
 
+sub TemplateValueTypeGet {
+    my ( $Self, %Param ) = @_;
+
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    # set the field types
+    my $EditValueType   = 'ARRAY';
+    my $SearchValueType = 'ARRAY';
+
+    # return the correct structure
+    if ( $Param{FieldType} eq 'Edit' ) {
+        return {
+            $FieldName => $EditValueType,
+        };
+    }
+    elsif ( $Param{FieldType} eq 'Search' ) {
+        return {
+            'Search_' . $FieldName => $SearchValueType,
+        };
+    }
+    else {
+        return {
+            $FieldName             => $EditValueType,
+            'Search_' . $FieldName => $SearchValueType,
+        };
+    }
+}
+
+sub ObjectMatch {
+    my ( $Self, %Param ) = @_;
+
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    # the attribute must be an array
+    return 0 if !IsArrayRefWithData( $Param{ObjectAttributes}->{$FieldName} );
+
+    my $Match;
+
+    # search in all values for this attribute
+    VALUE:
+    for my $AttributeValue ( @{ $Param{ObjectAttributes}->{$FieldName} } ) {
+
+        next VALUE if !defined $AttributeValue;
+
+        # only need to match one
+        if ( $Param{Value} eq $AttributeValue ) {
+            $Match = 1;
+            last VALUE;
+        }
+    }
+
+    return $Match;
+}
+
+sub HistoricalValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # get historical values from database
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+        FieldID   => $Param{DynamicFieldConfig}->{ID},
+        ValueType => 'Text',
+    );
+
+    # return the historical values from database
+    return $HistoricalValues;
+}
+
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
@@ -850,7 +953,7 @@ sub ValueLookup {
     }
 
     # get real values
-    my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+    my $PossibleValues = $Self->PossibleValuesGet(%Param);
 
     # to store final values
     my @Values;
@@ -871,6 +974,38 @@ sub ValueLookup {
     }
 
     return \@Values;
+}
+
+sub PossibleValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # to store the possible values
+    my %PossibleValues;
+
+    # set PossibleNone attribute
+    my $FieldPossibleNone;
+    if ( defined $Param{OverridePossibleNone} ) {
+        $FieldPossibleNone = $Param{OverridePossibleNone};
+    }
+    else {
+        $FieldPossibleNone = $Param{DynamicFieldConfig}{Config}{PossibleNone} || 0;
+    }
+
+    # set none value if defined on field config
+    if ($FieldPossibleNone) {
+        %PossibleValues = ( '' => '-' );
+    }
+
+    my %CustomerCompanyList = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyList(
+        Valid => 1,
+    );
+    %PossibleValues = (
+        %PossibleValues,
+        %CustomerCompanyList,
+    );
+
+    # return the possible values hash as a reference
+    return \%PossibleValues;
 }
 
 1;

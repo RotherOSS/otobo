@@ -204,54 +204,24 @@ sub _AddAction {
         );
     }
 
-    my $PossibleValues = $Self->_GetPossibleValues();
-
-    # set errors for possible values entries
-    KEY:
-    for my $Key ( sort keys %{$PossibleValues} ) {
-
-        # check for empty original values
-        if ( $Key =~ m{\A $Self->{EmptyString} (?: \d+)}smx ) {
-
-            # set a true entry in KeyEmptyError
-            $Errors{'PossibleValueErrors'}->{'KeyEmptyError'}->{$Key} = 1;
-        }
-
-        # otherwise check for duplicate original values
-        elsif ( $Key =~ m{\A (.+) - $Self->{DuplicateString} (?: \d+)}smx ) {
-
-            # set an entry in OrigValueDuplicateError with the duplicate key as value
-            $Errors{'PossibleValueErrors'}->{'KeyDuplicateError'}->{$Key} = $1;
-        }
-
-        # check for empty new values
-        if ( !defined $PossibleValues->{$Key} ) {
-
-            # set a true entry in NewValueEmptyError
-            $Errors{'PossibleValueErrors'}->{'ValueEmptyError'}->{$Key} = 1;
-        }
-    }
-
     # return to add screen if errors
     if (%Errors) {
         return $Self->_ShowScreen(
             %Param,
             %Errors,
             %GetParam,
-            PossibleValues => $PossibleValues,
-            Mode           => 'Add',
+            Mode => 'Add',
         );
     }
 
     # set specific config
     my $FieldConfig = {
-        PossibleValues => $PossibleValues,
-        PossibleNone   => $GetParam{PossibleNone},
-        Link           => $GetParam{Link},
-        LinkPreview    => $GetParam{LinkPreview},
-        Tooltip        => $GetParam{Tooltip},
-        Multiselect    => $GetParam{Multiselect},
-        MultiValue     => $GetParam{MultiValue},
+        PossibleNone => $GetParam{PossibleNone},
+        Link         => $GetParam{Link},
+        LinkPreview  => $GetParam{LinkPreview},
+        Tooltip      => $GetParam{Tooltip},
+        Multiselect  => $GetParam{Multiselect},
+        MultiValue   => $GetParam{MultiValue},
     };
 
     # create a new field
@@ -327,12 +297,11 @@ sub _Change {
     if ( IsHashRefWithData( $DynamicFieldData->{Config} ) ) {
 
         %Config = (
-            PossibleValues => IsHashRefWithData( $DynamicFieldData->{Config}->{PossibleValues} ) ? $DynamicFieldData->{Config}->{PossibleValues} : {},
-            PossibleNone   => $DynamicFieldData->{Config}->{PossibleNone},
-            Link           => $DynamicFieldData->{Config}->{Link},
-            LinkPreview    => $DynamicFieldData->{Config}->{LinkPreview},
-            Multiselect    => $DynamicFieldData->{Config}->{Multiselect},
-            MultiValue     => $DynamicFieldData->{Config}->{MultiValue},
+            PossibleNone => $DynamicFieldData->{Config}->{PossibleNone},
+            Link         => $DynamicFieldData->{Config}->{Link},
+            LinkPreview  => $DynamicFieldData->{Config}->{LinkPreview},
+            Multiselect  => $DynamicFieldData->{Config}->{Multiselect},
+            MultiValue   => $DynamicFieldData->{Config}->{MultiValue},
         );
 
     }
@@ -471,8 +440,6 @@ sub _ChangeAction {
         );
     }
 
-    my $PossibleValues = $Self->_GetPossibleValues();
-
     # Check if dynamic field is present in SysConfig setting
     my $UpdateEntity        = $ParamObject->GetParam( Param => 'UpdateEntity' ) || '';
     my $SysConfigObject     = $Kernel::OM->Get('Kernel::System::SysConfig');
@@ -514,13 +481,12 @@ sub _ChangeAction {
 
     # set specific config
     my $FieldConfig = {
-        PossibleValues => $PossibleValues,
-        PossibleNone   => $GetParam{PossibleNone},
-        Link           => $GetParam{Link},
-        LinkPreview    => $GetParam{LinkPreview},
-        Tooltip        => $GetParam{Tooltip},
-        Multiselect    => $GetParam{Multiselect},
-        MultiValue     => $GetParam{MultiValue},
+        PossibleNone => $GetParam{PossibleNone},
+        Link         => $GetParam{Link},
+        LinkPreview  => $GetParam{LinkPreview},
+        Tooltip      => $GetParam{Tooltip},
+        Multiselect  => $GetParam{Multiselect},
+        MultiValue   => $GetParam{MultiValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -815,12 +781,6 @@ sub _ShowScreen {
     $Output .= $LayoutObject->Footer();
 
     return $Output;
-}
-
-sub _GetPossibleValues {
-    my ( $Self, %Param ) = @_;
-
-    return { $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyList( Valid => 1 ) };
 }
 
 1;
