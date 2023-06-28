@@ -2394,7 +2394,7 @@ sub ConfigurationEntityCheck {
 
     my %EntitySettings = $Self->ConfigurationEntitiesGet();
 
-    my @Result = ();
+    my @Result;
 
     for my $EntityType ( sort keys %EntitySettings ) {
 

@@ -16,23 +16,27 @@
 
 package Kernel::Modules::AdminDynamicField;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
-our $ObjectManagerDisabled = 1;
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 use Kernel::System::CheckItem;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -127,8 +131,9 @@ sub _ShowOverview {
     my $ObjectTypeFilter   = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ObjectType' ) || '';
     my $NamespaceFilter    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Namespace' )  || '';
 
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
+    my $Output = join '',
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar;
 
     # check for possible order collisions or gaps
     my $OrderSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
@@ -146,9 +151,6 @@ sub _ShowOverview {
         }
     );
 
-    my %FieldTypes;
-    my %FieldDialogs;
-
     if ( !IsHashRefWithData($FieldTypeConfig) ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Fields configuration is not valid'),
@@ -156,6 +158,8 @@ sub _ShowOverview {
     }
 
     # get the field types (backends) and its config dialogs
+    my %FieldTypes;
+    my %FieldDialogs;
     FIELDTYPE:
     for my $FieldType ( sort keys %{$FieldTypeConfig} ) {
 
@@ -166,8 +170,7 @@ sub _ShowOverview {
         $FieldTypes{$FieldType} = $FieldTypeConfig->{$FieldType}->{DisplayName};
 
         # get the config dialog
-        $FieldDialogs{$FieldType} =
-            $FieldTypeConfig->{$FieldType}->{ConfigDialog};
+        $FieldDialogs{$FieldType} = $FieldTypeConfig->{$FieldType}->{ConfigDialog};
     }
 
     my $ObjectTypeConfig = $ConfigObject->Get('DynamicFields::ObjectType');
@@ -189,12 +192,11 @@ sub _ShowOverview {
     OBJECTTYPE:
     for my $ObjectType (
         sort {
-            ( int $ObjectTypeConfig{$a}->{Prio} || 0 )
-                <=> ( int $ObjectTypeConfig{$b}->{Prio} || 0 )
+            ( int $ObjectTypeConfig{$a}->{Prio} || 0 ) <=> ( int $ObjectTypeConfig{$b}->{Prio} || 0 )
         } keys %ObjectTypeConfig
         )
     {
-        next OBJECTTYPE if !$ObjectTypeConfig->{$ObjectType};
+        next OBJECTTYPE unless $ObjectTypeConfig->{$ObjectType};
 
         my $SelectName = $ObjectType . 'DynamicField';
 

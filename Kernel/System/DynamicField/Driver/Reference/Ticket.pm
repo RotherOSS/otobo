@@ -27,6 +27,7 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
