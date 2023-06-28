@@ -37,6 +37,7 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicFieldValue',
+    'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::User',
@@ -359,9 +360,9 @@ sub EditFieldRender {
 
     my $FieldTemplateFile = $Param{CustomerInterface}
         ?
-        'DynamicField/Customer/Agent'
+        'DynamicField/Customer/BaseSelect'
         :
-        'DynamicField/Agent/Agent';
+        'DynamicField/Agent/BaseSelect';
 
     my %Error = (
         ServerError => $Param{ServerError},
@@ -621,6 +622,9 @@ sub DisplayValueRender {
 sub SearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
+    # get possible values
+    my $PossibleValues = $Self->PossibleValuesGet(%Param);
+
     # get field value
     my $Value = $Self->SearchFieldValueGet(%Param);
 
@@ -637,7 +641,7 @@ sub SearchFieldParameterBuild {
             for my $Item ( @{$Value} ) {
 
                 # set the display value
-                my $DisplayItem = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Item}
+                my $DisplayItem = $PossibleValues->{$Item}
                     || $Item;
 
                 push @DisplayItemList, $DisplayItem;
@@ -649,7 +653,7 @@ sub SearchFieldParameterBuild {
         else {
 
             # set the display value
-            $DisplayValue = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
+            $DisplayValue = $PossibleValues->{$Value};
         }
     }
 
@@ -685,11 +689,10 @@ sub StatsFieldParameterBuild {
     $Values = $Param{PossibleValuesFilter} // $Values;
 
     return {
-        Values             => $Values,
-        Name               => $Param{DynamicFieldConfig}->{Label},
-        Element            => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
-        TranslatableValues => $Param{DynamicFieldConfig}->{Config}->{TranslatableValues},
-        Block              => 'MultiSelectField',
+        Values  => $Values,
+        Name    => $Param{DynamicFieldConfig}->{Label},
+        Element => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
+        Block   => 'MultiSelectField',
     };
 }
 
@@ -740,6 +743,73 @@ sub ReadableValueRender {
     };
 }
 
+sub TemplateValueTypeGet {
+    my ( $Self, %Param ) = @_;
+
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    # set the field types
+    my $EditValueType   = 'ARRAY';
+    my $SearchValueType = 'ARRAY';
+
+    # return the correct structure
+    if ( $Param{FieldType} eq 'Edit' ) {
+        return {
+            $FieldName => $EditValueType,
+        };
+    }
+    elsif ( $Param{FieldType} eq 'Search' ) {
+        return {
+            'Search_' . $FieldName => $SearchValueType,
+        };
+    }
+    else {
+        return {
+            $FieldName             => $EditValueType,
+            'Search_' . $FieldName => $SearchValueType,
+        };
+    }
+}
+
+sub ObjectMatch {
+    my ( $Self, %Param ) = @_;
+
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    # the attribute must be an array
+    return 0 if !IsArrayRefWithData( $Param{ObjectAttributes}->{$FieldName} );
+
+    my $Match;
+
+    # search in all values for this attribute
+    VALUE:
+    for my $AttributeValue ( @{ $Param{ObjectAttributes}->{$FieldName} } ) {
+
+        next VALUE if !defined $AttributeValue;
+
+        # only need to match one
+        if ( $Param{Value} eq $AttributeValue ) {
+            $Match = 1;
+            last VALUE;
+        }
+    }
+
+    return $Match;
+}
+
+sub HistoricalValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # get historical values from database
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+        FieldID   => $Param{DynamicFieldConfig}->{ID},
+        ValueType => 'Text',
+    );
+
+    # return the historical values from database
+    return $HistoricalValues;
+}
+
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
@@ -754,7 +824,7 @@ sub ValueLookup {
     }
 
     # get real values
-    my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+    my $PossibleValues = $Self->PossibleValuesGet(%Param);
 
     # to store final values
     my @Values;
@@ -775,6 +845,53 @@ sub ValueLookup {
     }
 
     return \@Values;
+}
+
+sub PossibleValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
+
+    # to store the possible values
+    my %PossibleValues;
+
+    # set PossibleNone attribute
+    my $FieldPossibleNone;
+    if ( defined $Param{OverridePossibleNone} ) {
+        $FieldPossibleNone = $Param{OverridePossibleNone};
+    }
+    else {
+        $FieldPossibleNone = $Param{DynamicFieldConfig}{Config}{PossibleNone} || 0;
+    }
+
+    # set none value if defined on field config
+    if ($FieldPossibleNone) {
+        %PossibleValues = ( '' => '-' );
+    }
+
+    my %AgentList;
+    my $GroupFilter = $Param{DynamicFieldConfig}{Config}{GroupFilter};
+    if ($GroupFilter) {
+        %AgentList = $GroupObject->PermissionGroupGet(
+            GroupID => $GroupFilter,
+            Type    => 'ro',
+        );
+    }
+    else {
+        %AgentList = $UserObject->UserSearch(
+            Search => '*',
+            Valid  => 1,
+        );
+    }
+
+    %PossibleValues = (
+        %PossibleValues,
+        %AgentList,
+    );
+
+    # return the possible values hash as a reference
+    return \%PossibleValues;
 }
 
 1;
