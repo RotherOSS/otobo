@@ -200,12 +200,32 @@ sub _ShowOverview {
 
         my $SelectName = $ObjectType . 'DynamicField';
 
-        my @FieldList = map { { Key => $_, Value => $FieldTypes{$_} } } sort keys %FieldTypes;
+        my @FieldList = map {
+            {
+                Key   => $_,
+                Value => $FieldTypes{$_}
+            }
+        } sort grep { $_ ne 'Reference' } keys %FieldTypes;
 
         for my $Field (@FieldList) {
 
             if ( !$ConfigObject->Get("Frontend::Module")->{ $FieldDialogs{ $Field->{Key} } } ) {
                 $Field->{Disabled} = 1;
+            }
+        }
+
+        # This is a workaround for Reference dynamic fields.
+        # We want a entry for each of the possible referenced object types.
+        # Sorting is handled by TreeView.
+        # The Key must be unique as otherwise the JS handler becomes confused.
+        if ( $FieldTypes{Reference} ) {
+            for my $ReferencedObjectType ( $FieldTypeConfig->{Reference}->{ReferencedObjectTypes}->@* ) {
+                push @FieldList,
+                    {
+                        Key   => join( '::', 'Reference', $ReferencedObjectType ),
+                        Value => join( '::', 'Reference', $ReferencedObjectType ),
+                    },
+                    ;
             }
         }
 
@@ -217,8 +237,14 @@ sub _ShowOverview {
             Translation   => 1,
             Sort          => 'AlphanumericValue',
             SelectedValue => '-',
+            TreeView      => 1,
             Class         => 'Modernize W75pc',
         );
+
+        # This is a workaround for Reference dynamic fields.
+        # Inject additional date in the option.
+        $AddDynamicFieldStrg =~ s[(?=>\s*ITSMConfigItem</option>)][ data-referenced_object_type="ITSMConfigItem"];
+        $AddDynamicFieldStrg =~ s[(?=>\s*Ticket</option>)][ data-referenced_object_type="Ticket"];
 
         my $ObjectTypeName = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::ObjectType')
             ->{$ObjectType}->{DisplayName} || $ObjectType;

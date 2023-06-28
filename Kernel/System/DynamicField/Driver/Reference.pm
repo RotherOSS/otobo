@@ -882,6 +882,60 @@ sub ValueLookup {
     return $Param{Key} // '';
 }
 
+sub GetFieldTypeSettings {
+    my ( $Self, %Param ) = @_;
+
+    # For reference dynamic fields we can select the
+    # type of the referenced object. Only objects
+    # that support dynamic fields can be reference.
+    my %ObjectTypeSelectionData;
+    {
+        my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
+        my $ObjectTypeConfig = $ConfigObject->Get('DynamicFields::ObjectType');
+
+        # The object types are assumed to be marked a translatable somewhere else
+        %ObjectTypeSelectionData = map { $_ => $_ } keys $ObjectTypeConfig->%*;
+    }
+
+    # set up the field type specific settings
+    # This dynamic field support multiple values.
+    my %MultiValueSelectionData = (
+        0 => Translatable('No'),
+        1 => Translatable('Yes'),
+    );
+
+    my @GenericSettings = (
+        {
+            ConfigParamName => 'ReferencedObjectType',
+            Label           => Translatable('Referenced object type'),
+            Explanation     => Translatable('Select the type of of referenced object'),
+            InputType       => 'Selection',
+            SelectionData   => \%ObjectTypeSelectionData,
+            PossibleNone    => 1,
+        },
+        {
+            ConfigParamName => 'MultiValue',
+            Label           => Translatable('Multiple Values'),
+            Explanation     => Translatable('Activate this option to allow multiple values for this field.'),
+            InputType       => 'Selection',
+            SelectionData   => \%MultiValueSelectionData,
+            PossibleNone    => 0,
+        }
+    );
+
+    my $ParamObject          = $Param{ParamObject};
+    my $ReferencedObjectType = $ParamObject->GetParam( Param => 'ReferencedObjectType' );
+    my @SpecificSettings;
+    if ($ReferencedObjectType) {
+        my $PluginObject = $Self->_GetObjectTypePlugin(
+            ObjectType => $ReferencedObjectType,
+        );
+        @SpecificSettings = $PluginObject->GetFieldTypeSettings;
+    }
+
+    return ( @GenericSettings, @SpecificSettings );
+}
+
 =begin Internal:
 
 =head2 _GetObjectTypePlugin()

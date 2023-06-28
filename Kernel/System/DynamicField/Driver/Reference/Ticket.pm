@@ -33,6 +33,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::Ticket',
+    'Kernel::System::Type',
 );
 
 =head1 NAME
@@ -58,6 +59,35 @@ sub new {
 
     # allocate new hash for object
     return bless {}, $Type;
+}
+
+=head2 GetFieldTypeSettings()
+
+Get field type settings that are specific to the specific referenced object type.
+
+=cut
+
+sub GetFieldTypeSettings {
+    my ( $Self, %Param ) = @_;
+
+    my @FieldTypeSettings;
+
+    # Support restriction by ticket type when the Ticket::Type feature is activated.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    if ( $ConfigObject->Get('Ticket::Type') ) {
+        my %TypeID2Name = $Kernel::OM->Get('Kernel::System::Type')->TypeList;
+        push @FieldTypeSettings,
+            {
+                ConfigParamName => 'TicketType',
+                Label           => Translatable('Type of the ticket'),
+                Explanation     => Translatable('Select the of the ticket'),
+                InputType       => 'Selection',
+                SelectionData   => \%TypeID2Name,
+                PossibleNone    => 1,
+            };
+    }
+
+    return @FieldTypeSettings;
 }
 
 =head2 ObjectPermission()

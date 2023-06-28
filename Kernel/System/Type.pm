@@ -319,12 +319,20 @@ sub TypeUpdate {
 
 get type list
 
-    my %List = $TypeObject->TypeList();
+    my %TypeID2Name = $TypeObject->TypeList();
 
 or
 
-    my %List = $TypeObject->TypeList(
+    my %TypeID2Name = $TypeObject->TypeList(
         Valid => 0,
+    );
+
+Returns a hash with the ID of the type as key and the name of the type as value.
+
+    my %TypeID2Name = (
+        1 => 'Unclassified',
+        2 => 'Warranty',
+        3 => 'No Warranty'
     );
 
 =cut

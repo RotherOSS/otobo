@@ -51,12 +51,13 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
      * @name Redirect
      * @memberof Core.Agent.Admin.DynamicField
      * @function
-     * @param {String} FieldType - Type of DynamicField.
-     * @param {String} ObjectType
+     * @param {String} FieldType  - Type of DynamicField.
+     * @param {String} ObjectType - Type of the object to which the dynamic field is attached
+     * @param {String} OptionData - Additional data from data attributes in the option tag
      * @description
      *      Redirect to URL based on DynamicField config.
      */
-    TargetNS.Redirect = function(FieldType, ObjectType) {
+    TargetNS.Redirect = function(FieldType, ObjectType, OptionData) {
         var DynamicFieldsConfig, Action, URL, FieldOrder, Namespace;
 
         // get configuration
@@ -73,6 +74,11 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
 
         // redirect to correct url
         URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder + ';Namespace=' + Namespace;
+
+        // some options have additional associated data
+        if( 'referenced_object_type' in OptionData ) {
+            URL += ';ReferencedObjectType=' + OptionData.referenced_object_type;
+        }
         URL += SerializeData(Core.App.GetSessionInformation());
         window.location = URL;
     };
@@ -119,7 +125,12 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         function FieldAddAction(Type) {
             $('#' + Type + 'DynamicField').on('change', function() {
                 if ($(this).val() !== null && $(this).val() !== '') {
-                    Core.Agent.Admin.DynamicField.Redirect($(this).val(), Type);
+                    var FieldType = $(this).val().split('::').shift();
+                    Core.Agent.Admin.DynamicField.Redirect(
+                        FieldType,
+                        Type,
+                        $(this).find("option:selected").data() // the data of the selected option
+                    );
 
                     // reset select value to none
                     $(this).val('');

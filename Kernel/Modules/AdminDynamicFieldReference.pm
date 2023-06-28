@@ -40,45 +40,6 @@ sub new {
     # Some setup
     $Self->{TemplateFile} = 'AdminDynamicFieldReference';
 
-    # set up the field type specific settings
-    # This dynamic field support multiple values.
-    my %MultiValueSelectionData = (
-        0 => Translatable('No'),
-        1 => Translatable('Yes'),
-    );
-
-    # For reference dynamic fields we can select the
-    # type of the referenced object. Only objects
-    # that support dynamic fields can be reference.
-    my %ObjectTypeSelectionData;
-    {
-        my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
-        my $ObjectTypeConfig = $ConfigObject->Get('DynamicFields::ObjectType');
-
-        # The object types are assumed to be marked a translatable somewhere else
-        %ObjectTypeSelectionData = map { $_ => $_ } keys $ObjectTypeConfig->%*;
-    }
-
-    # declare the field type specific settings
-    $Self->{FieldTypeSettings} = {
-        Reference => [
-            {
-                ConfigParamName => 'ReferencedObjectType',
-                Label           => Translatable('Referenced object type'),
-                Explanation     => Translatable('Select the type of of referenced object'),
-                InputType       => 'Selection',
-                SelectionData   => \%ObjectTypeSelectionData,
-            },
-            {
-                ConfigParamName => 'MultiValue',
-                Label           => Translatable('Multiple Values'),
-                Explanation     => Translatable('Activate this option to allow multiple values for this field.'),
-                InputType       => 'Selection',
-                SelectionData   => \%MultiValueSelectionData,
-            },
-        ],
-    };
-
     return $Self;
 }
 
@@ -94,9 +55,22 @@ sub Run {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    # Get the field specific setting during the runtime as the
+    # complete list depends on the previous selection of ReferencedObjectType.
+    # TODO: this is specifc to the dynamic field type Reference
+    # TODO: add GetFieldTypeSettings() to the backend object
+    my @FieldTypeSettings;
+    {
+        my $DriverObject = $Kernel::OM->Get('Kernel::System::DynamicField::Driver::Reference');
+        @FieldTypeSettings = $DriverObject->GetFieldTypeSettings(
+            ParamObject => $Kernel::OM->Get('Kernel::System::Web::Request'),
+        );
+    }
+
     if ( $Self->{Subaction} eq 'Add' ) {
         return $Self->_Add(
             %Param,
+            FieldTypeSettings => \@FieldTypeSettings,
         );
     }
 
@@ -107,12 +81,14 @@ sub Run {
 
         return $Self->_AddAction(
             %Param,
+            FieldTypeSettings => \@FieldTypeSettings,
         );
     }
 
     if ( $Self->{Subaction} eq 'Change' ) {
         return $Self->_Change(
             %Param,
+            FieldTypeSettings => \@FieldTypeSettings,
         );
     }
 
@@ -123,6 +99,7 @@ sub Run {
 
         return $Self->_ChangeAction(
             %Param,
+            FieldTypeSettings => \@FieldTypeSettings,
         );
     }
 
@@ -168,7 +145,7 @@ sub _AddAction {
 
     my %Errors;
     my %GetParam;
-    for my $Needed (qw(Name Label FieldOrder)) {
+    for my $Needed (qw(Name Label FieldOrder FieldTypeSettings)) {
         $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
@@ -198,12 +175,9 @@ sub _AddAction {
     }
 
     # extract field type specific parameters, e.g. MultiValue
-    my $FieldType = $GetParam{FieldType};
-    if ( $Self->{FieldTypeSettings}->{$FieldType} ) {
-        for my $Setting ( $Self->{FieldTypeSettings}->{$FieldType}->@* ) {
-            my $Name = $Setting->{ConfigParamName};
-            $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
-        }
+    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+        my $Name = $Setting->{ConfigParamName};
+        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
     }
 
     if ( $GetParam{Name} ) {
@@ -262,11 +236,9 @@ sub _AddAction {
     );
 
     # extract field type specific parameters, e.g. MultiValue
-    if ( $Self->{FieldTypeSettings}->{$FieldType} ) {
-        for my $Setting ( $Self->{FieldTypeSettings}->{$FieldType}->@* ) {
-            my $Name = $Setting->{ConfigParamName};
-            $FieldConfig{$Name} = $GetParam{$Name};
-        }
+    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+        my $Name = $Setting->{ConfigParamName};
+        $FieldConfig{$Name} = $GetParam{$Name};
     }
 
     # create a new field
@@ -361,7 +333,7 @@ sub _ChangeAction {
 
     my %Errors;
     my %GetParam;
-    for my $Needed (qw(Name Label FieldOrder)) {
+    for my $Needed (qw(Name Label FieldOrder FieldTypeSettings)) {
         $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
@@ -410,13 +382,9 @@ sub _ChangeAction {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
-    # extract field type specific parameters, e.g. MultiValue
-    my $FieldType = $GetParam{FieldType};
-    if ( $Self->{FieldTypeSettings}->{$FieldType} ) {
-        for my $Setting ( $Self->{FieldTypeSettings}->{$FieldType}->@* ) {
-            my $Name = $Setting->{ConfigParamName};
-            $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
-        }
+    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+        my $Name = $Setting->{ConfigParamName};
+        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
     }
 
     if ( $GetParam{Name} ) {
@@ -518,11 +486,9 @@ sub _ChangeAction {
     );
 
     # extract field type specific parameters, e.g. MultiValue
-    if ( $Self->{FieldTypeSettings}->{$FieldType} ) {
-        for my $Setting ( $Self->{FieldTypeSettings}->{$FieldType}->@* ) {
-            my $Name = $Setting->{ConfigParamName};
-            $FieldConfig{$Name} = $ParamObject->GetParam( Param => $Name );
-        }
+    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+        my $Name = $Setting->{ConfigParamName};
+        $FieldConfig{$Name} = $ParamObject->GetParam( Param => $Name );
     }
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -676,27 +642,25 @@ sub _ShowScreen {
     );
 
     # Selections may be set up in a declaritive way
-    my $FieldType = $Param{FieldType};
-    if ( $Self->{FieldTypeSettings}->{$FieldType} ) {
-        for my $Setting ( $Self->{FieldTypeSettings}->{$FieldType}->@* ) {
-            if ( $Setting->{InputType} eq 'Selection' ) {
-                my $Name      = $Setting->{ConfigParamName};
-                my $FieldStrg = $LayoutObject->BuildSelection(
-                    Name       => $Name,
-                    Data       => $Setting->{SelectionData},
-                    SelectedID => $Param{$Name} || '0',
-                    Class      => 'Modernize W50pc',
-                );
-                $LayoutObject->Block(
-                    Name => 'ConfigParamRow',
-                    Data => {
-                        ConfigParamName => $Name,
-                        Label           => $Setting->{Label},
-                        FieldStrg       => $FieldStrg,
-                        Explanation     => $Setting->{Explanation},
-                    },
-                );
-            }
+    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+        if ( $Setting->{InputType} eq 'Selection' ) {
+            my $Name      = $Setting->{ConfigParamName};
+            my $FieldStrg = $LayoutObject->BuildSelection(
+                Name         => $Name,
+                Data         => $Setting->{SelectionData},
+                PossibleNone => ( $Setting->{PossibleNone} // 0 ),
+                SelectedID   => $Param{$Name} || '0',
+                Class        => 'Modernize W50pc',
+            );
+            $LayoutObject->Block(
+                Name => 'ConfigParamRow',
+                Data => {
+                    ConfigParamName => $Name,
+                    Label           => $Setting->{Label},
+                    FieldStrg       => $FieldStrg,
+                    Explanation     => $Setting->{Explanation},
+                },
+            );
         }
     }
 

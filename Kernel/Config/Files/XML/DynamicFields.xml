@@ -979,6 +979,12 @@
                 <Item Key="DisplayName" Translatable="1">Reference</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Reference</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
+                <Item Key="ReferencedObjectTypes">
+                    <Array>
+                        <Item>Ticket</Item>
+                        <Item>ITSMConfigItem</Item>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -1047,6 +1053,25 @@
             </Item>
         </Value>
     </Setting>
+    <Setting Name="Loader::Module::AdminDynamicFieldReference###002-Ticket" Required="1" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.js</Item>
+                        <Item>Core.Agent.Admin.DynamicFieldReference.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
     <!-- End dynamic field Reference -->
 
     <!-- dynamic field Lens -->
@@ -1081,6 +1106,24 @@
                     <Item Key="NavBarName"></Item>
                 </Hash>
             </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminDynamicFieldLens###002-Ticket" Required="1" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
         </Value>
     </Setting>
     <!-- End dynamic field Lens -->
