@@ -100,10 +100,15 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( $Prefix . ' button.Update', 'css' )->click();
 
-        # Verify the deploy link click.
+        # verify the the deploy notification is faded in
         $Selenium->WaitFor(
             ElementExists => '//a[contains(@href,"Subaction=Deployment")]',
         );
+
+        # verify that the deploy notification contains the session cookie
+        $Selenium->find_element('//a[contains(@href,"Subaction=Deployment")][contains(@href,"OTOBOAgentInterface=")]');
+
+        # do the deployment, authenticated with the session cookie in the URL
         $Selenium->find_element('//a[contains(@href,"Subaction=Deployment")]')->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script("return \$('#DeploymentStart').length > 0"),
