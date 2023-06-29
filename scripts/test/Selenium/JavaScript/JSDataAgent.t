@@ -47,7 +47,7 @@ $Selenium->RunTest(
             },
             {
                 Key           => 'Subaction',
-                ExpectedValue => undef,
+                ExpectedValue => '',            # default of Subaction as set up in Kernel/System/Web/InterfaceAgent.pm
                 Environment   => 1,
             },
             {

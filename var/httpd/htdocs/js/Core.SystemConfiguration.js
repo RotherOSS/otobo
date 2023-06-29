@@ -492,7 +492,8 @@ var Core = Core || {};
                 TargetNS.SettingRender(Response, $Widget);
 
                 if (Response.Data.SettingData.IsDirty) {
-                    if (Core.Config.Get('SessionUseCookie') === '0') {
+                    // The untyped comparison with '==' works when SessionUseCookie is either the string '0' or the number 0.
+                    if ( ( Core.Config.Get('SessionUseCookie') ?? 'not configured' ) == '0') {
                         LinkURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
                     }
 
@@ -1101,9 +1102,11 @@ var Core = Core || {};
                         );
                     }
                     else {
-                        if (Core.Config.Get('SessionUseCookie') === '0') {
+                        // The untyped comparison with '==' works when SessionUseCookie is either the string '0' or the number 0.
+                        if ( ( Core.Config.Get('SessionUseCookie') ?? 'not configured' ) == '0') {
                             LinkURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
                         }
+
                         Core.UI.ShowNotification(
                             Core.Language.Translate('You have undeployed settings, would you like to deploy them?'),
                             'Notice',
