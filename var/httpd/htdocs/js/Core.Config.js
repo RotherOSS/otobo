@@ -85,8 +85,10 @@ Core.Config = (function (TargetNS) {
      * @memberof Core.Config
      * @function
      * @returns {Object} The value of the option. Can be every kind of javascript variable type. Returns undefined if setting could not be found.
-     * @param {String} Key - The name of the config option (also combined ones like Richtext.Width).
-     * @param {Object} [DefaultValue] - If nothing is saved in the config, return this default value.
+     * @param {String} Key            - The name of the config option. May also be a combined option like Richtext.Width.
+     * @param {Object} [DefaultValue] - If nothing is saved in the config, return this default value. The DefaultValue may be omitted.
+     *                                  In that case undefined is returned.
+     *                                  The saved values 0, '', false are supported.
      * @description
      *      Gets a single config value.
      */
@@ -96,6 +98,7 @@ Core.Config = (function (TargetNS) {
             ConfigLevel = Config,
             Count = 0;
 
+        // descend into the saved config
         for (KeyToken in Keys) {
             if (Keys.hasOwnProperty(KeyToken)) {
                 // if namespace does not exists in config object, there is nothing to search for or to return
@@ -103,9 +106,10 @@ Core.Config = (function (TargetNS) {
                     // If DefaultValue is not set, this also returns undefined
                     return DefaultValue;
                 }
-                // if we are in the last step of the namespace return the saved value. If nothing is saved return the default value
+                // If we are in the last step of the namespace return the saved value.
+                // If nothing is saved return the default value. The number 0 and the string '' are not nothing.
                 if (Keys.length === Count + 1) {
-                    return ConfigLevel[ConfigPrefix + Keys[KeyToken]] || DefaultValue;
+                    return ConfigLevel[ConfigPrefix + Keys[KeyToken]] ?? DefaultValue;
                 }
                 // otherwise go one level deeper and try again
                 else {
