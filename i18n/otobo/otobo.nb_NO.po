@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-27 05:31+0000\n"
+"PO-Revision-Date: 2023-06-30 09:31+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -22996,30 +22996,40 @@ msgid ""
 "Defines the default ticket attribute for ticket sorting of the ticket search "
 "result of the agent interface."
 msgstr ""
+"Definerer standard saksattributt for sakssortering av sakssøkeresultatet til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting of the ticket search "
 "result of this operation."
 msgstr ""
+"Definerer standard saksattributt for sakssortering av sakssøkeresultatet for "
+"denne operasjonen."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket bounced notification for customer/sender in the "
 "ticket bounce screen of the agent interface."
 msgstr ""
+"Definerer standard varsling for retur av sak for kunde/sender i skjermbildet "
+"for retur av sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket next state after adding a phone note in the "
 "ticket phone inbound screen of the agent interface."
 msgstr ""
+"Definerer standard saks neste tilstand etter å ha lagt til et telefonnotat i "
+"sakstelefonens inngående skjerm i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket next state after adding a phone note in the "
 "ticket phone outbound screen of the agent interface."
 msgstr ""
+"Definerer standard saks neste tilstand etter å ha lagt til en telefonnotat i "
+"sakstelefonens utgående skjerm i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -23042,12 +23052,16 @@ msgid ""
 "Defines the default ticket order in the responsible view of the agent "
 "interface. Up: oldest on top. Down: latest on top."
 msgstr ""
+"Definerer standard saksrekkefølge i ansvarlig visning av agentgrensesnittet. "
+"Opp: eldst på toppen. Ned: siste på toppen."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the ticket locked view of the agent "
 "interface. Up: oldest on top. Down: latest on top."
 msgstr ""
+"Definerer standard saksrekkefølge i sakslåst visning av agentgrensesnittet. "
+"Opp: eldst på toppen. Ned: siste på toppen."
 
 #. SysConfig
 msgid ""
@@ -23062,12 +23076,16 @@ msgid ""
 "Defines the default ticket order in the ticket search result of the this "
 "operation. Up: oldest on top. Down: latest on top."
 msgstr ""
+"Definerer standard saksrekkefølge i sakssøkeresultatet for denne "
+"operasjonen. Opp: eldst på toppen. Ned: siste på toppen."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the watch view of the agent interface. "
 "Up: oldest on top. Down: latest on top."
 msgstr ""
+"Definerer standard saksrekkefølge i vaktvisningen til agentgrensesnittet. "
+"Opp: eldst på toppen. Ned: siste på toppen."
 
 #. SysConfig
 msgid ""
@@ -23089,80 +23107,98 @@ msgid ""
 "Defines the default ticket priority in the ticket bulk screen of the agent "
 "interface."
 msgstr ""
+"Definerer standard saksprioritet i massesaksskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket free text screen of the "
 "agent interface."
 msgstr ""
+"Definerer standard saksprioritet i saksfritekstskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket note screen of the agent "
 "interface."
 msgstr ""
+"Definerer standard saksprioritet i saksnotatskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket owner screen of a zoomed "
 "ticket in the agent interface."
 msgstr ""
+"Definerer standard saksprioritet i sakseierskjermen for en zoomet sak i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket pending screen of a zoomed "
 "ticket in the agent interface."
 msgstr ""
+"Definerer standard saksprioritet i saksventer-skjermen for en zoomet sak i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket priority screen of a "
 "zoomed ticket in the agent interface."
 msgstr ""
+"Definerer standard saksprioritet i saksprioritetsskjermen til en zoomet sak "
+"i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket responsible screen of the "
 "agent interface."
 msgstr ""
+"Definerer standard saksprioritet i saksansvarlig skjerm i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket type for new customer tickets in the customer "
 "interface."
-msgstr ""
+msgstr "Definerer standard sakstype for nye kundesaker i kundegrensesnittet."
 
 #. SysConfig
 msgid "Defines the default ticket type."
-msgstr ""
+msgstr "Definerer standard sakstype."
 
 #. SysConfig
 msgid ""
 "Defines the default used Frontend-Module if no Action parameter given in the "
 "url on the agent interface."
 msgstr ""
+"Definerer standard frontend-modul hvis ingen handlingsparameter er gitt i "
+"url-en på agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default used Frontend-Module if no Action parameter given in the "
 "url on the customer interface."
 msgstr ""
+"Definerer standard frontend-modul hvis ingen handlingsparameter er gitt i "
+"url-en på kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the default value for the action parameter for the public frontend. "
 "The action parameter is used in the scripts of the system."
 msgstr ""
+"Definerer standardverdien for handlingsparameteren for den offentlige "
+"grensesnittet. Handlingsparameteren brukes i skriptene til systemet."
 
 #. SysConfig
 msgid ""
 "Defines the default viewable sender types of a ticket (default: customer)."
-msgstr ""
+msgstr "Definerer standard synlige avsendertyper for en sak (standard: kunde)."
 
 #. SysConfig
 msgid ""
 "Defines the default visibility of the article to customer for this operation."
 msgstr ""
+"Definerer standardsynlighet for artikkelen til kunden for denne operasjonen."
 
 #. SysConfig
 msgid ""
@@ -23170,17 +23206,23 @@ msgid ""
 "customers. A default agent name can be defined in Ticket::Frontend::"
 "CustomerTicketZoom###DefaultAgentName setting."
 msgstr ""
+"Definerer stilen som vises for Fra-feltet i notater som er synlige for "
+"kunder. Et standard agentnavn kan defineres i "
+"Ticket::Frontend::CustomerTicketZoom###DefaultAgentName-innstillingen."
 
 #. SysConfig
 msgid ""
 "Defines the dynamic fields that are used for displaying on calendar events."
 msgstr ""
+"Definerer de dynamiske feltene som brukes for visning på kalenderhendelser."
 
 #. SysConfig
 msgid ""
 "Defines the event object types that will be handled via "
 "AdminAppointmentNotificationEvent."
 msgstr ""
+"Definerer hendelsesobjekttypene som skal håndteres via "
+"AdminAppointmentNotificationEvent."
 
 #. SysConfig
 msgid ""
@@ -23188,16 +23230,20 @@ msgid ""
 "binary needs to be 'fetchmail', if it is different please use a symbolic "
 "link."
 msgstr ""
+"Definerer reservebanen for å åpne fetchmail binær. Merk: Navnet på "
+"binærfilen må være \"fetchmail\", hvis det er annerledes, bruk en symbolsk "
+"lenke."
 
 #. SysConfig
 msgid "Defines the filter that processes the HTML templates."
-msgstr ""
+msgstr "Definerer filteret som behandler HTML-malene."
 
 #. SysConfig
 msgid ""
 "Defines the filter that processes the text in the articles, in order to "
 "highlight URLs."
 msgstr ""
+"Definerer filteret som behandler teksten i artiklene, for å fremheve URL-er."
 
 #. SysConfig
 msgid ""
@@ -23205,6 +23251,9 @@ msgid ""
 "interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | "
 "html %] is only realname of From)."
 msgstr ""
+"Definerer formatet på svarene i saksskrivingsskjermen til agentgrensesnittet "
+"([% Data.OrigFrom | html %] er fra 1:1, [% Data.OrigFromName | html %] er "
+"bare ekte navn på From)."
 
 #. SysConfig
 msgid ""
@@ -23212,6 +23261,10 @@ msgid ""
 "as a variable, OTOBO_CONFIG_FQDN which is found in all forms of messaging "
 "used by the application, to build links to the tickets within your system."
 msgstr ""
+"Definerer det fullt kvalifiserte domenenavnet til systemet. Denne "
+"innstillingen brukes som en variabel, OTOBO_CONFIG_FQDN som finnes i alle "
+"former for meldinger som brukes av applikasjonen, for å bygge lenker til "
+"sakene i systemet ditt."
 
 #. SysConfig
 msgid ""
@@ -23219,192 +23272,256 @@ msgid ""
 "is enabled and you don't want to manage every customer user for these "
 "groups)."
 msgstr ""
+"Definerer gruppene hver kundebruker skal være i (hvis CustomerGroupSupport "
+"er aktivert og du ikke vil administrere hver kundebruker for disse gruppene)."
 
 #. SysConfig
 msgid ""
 "Defines the groups every customer will be in (if CustomerGroupSupport is "
 "enabled and you don't want to manage every customer for these groups)."
 msgstr ""
+"Definerer gruppene hver kunde skal være i (hvis CustomerGroupSupport er "
+"aktivert og du ikke vil administrere hver kunde for disse gruppene)."
 
 #. SysConfig
 msgid ""
 "Defines the headers which will be shown to generic content for the requested "
 "key."
 msgstr ""
+"Definerer overskriftene som skal vises til generisk innhold for den "
+"forespurte nøkkelen."
 
 #. SysConfig
 msgid ""
 "Defines the height for the rich text editor component for this screen. Enter "
 "number (pixels) or percent value (relative)."
 msgstr ""
+"Definerer høyden for redigeringskomponenten for rik tekst for denne "
+"skjermen. Skriv inn tall (piksler) eller prosentverdi (relativ)."
 
 #. SysConfig
 msgid ""
 "Defines the height for the rich text editor component. Enter number (pixels) "
 "or percent value (relative)."
 msgstr ""
+"Definerer høyden for redigeringskomponenten for rik tekst. Skriv inn tall "
+"(piksler) eller prosentverdi (relativ)."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the close ticket screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"Definerer historiekommentaren for handlingen for lukke saksskjermen, som "
+"brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the email ticket screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"Definerer historiekommentaren for handlingen for e-postsaksskjermen, som "
+"brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the phone ticket screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"Definerer historiekommentaren for handlingen på telefonsaksskjermen, som "
+"brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket free text screen action, which "
 "gets used for ticket history."
 msgstr ""
+"Definerer historiekommentaren for handlingen på saksfritekstskjermen, som "
+"brukes til sakshistorikk."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket note screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"Definerer historiekommentaren for handlingen på saksnotatskjermen, som "
+"brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket owner screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"Definerer historiekommentaren for handlingen på sakseierens skjerm, som "
+"brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket pending screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"Definerer historiekommentaren for handlingen på skjermbildet som venter på "
+"sak, som brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket phone inbound screen action, "
 "which gets used for ticket history in the agent interface."
 msgstr ""
+"Definerer historiekommentaren for handlingen på sakstelefonens innkommende "
+"skjerm, som brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket phone outbound screen action, "
 "which gets used for ticket history in the agent interface."
 msgstr ""
+"Definerer historiekommentaren for handlingen på sakstelefonens utgående "
+"skjerm, som brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket priority screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
+"Definerer historiekommentaren for handlingen på skjermbildet for "
+"saksprioritet, som brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket responsible screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
+"Definerer historiekommentaren for handlingen på den saksansvarlige skjermen, "
+"som brukes til sakshistorikken i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket zoom action, which gets used for "
 "ticket history in the customer interface."
 msgstr ""
+"Definerer historiekommentaren for sakszoomhandlingen, som brukes til "
+"sakshistorikk i kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for this operation, which gets used for ticket "
 "history in the agent interface."
 msgstr ""
+"Definerer historiekommentaren for denne operasjonen, som brukes til "
+"sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the close ticket screen action, which gets used "
 "for ticket history in the agent interface."
 msgstr ""
+"Definerer historikktypen for handlingen for \"lukk sak-skjermen\", som "
+"brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the email ticket screen action, which gets used "
 "for ticket history in the agent interface."
 msgstr ""
+"Definerer historikktypen for handlingen for e-postsaksskjermen, som brukes "
+"til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the phone ticket screen action, which gets used "
 "for ticket history in the agent interface."
 msgstr ""
+"Definerer historikktypen for handlingen på telefonsaksskjermen, som brukes "
+"til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket free text screen action, which gets "
 "used for ticket history."
 msgstr ""
+"Definerer historikktypen for handlingen for saksfritekstskjermen, som brukes "
+"til sakshistorikk."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket note screen action, which gets used "
 "for ticket history in the agent interface."
 msgstr ""
+"Definerer historikktypen for handlingen på saksnotatskjermen, som brukes til "
+"sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket owner screen action, which gets used "
 "for ticket history in the agent interface."
 msgstr ""
+"Definerer historikktypen for handlingen på skjermbildet for sakseier, som "
+"brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket pending screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"Definerer historikktypen for handlingen på skjermbildet som venter på sak, "
+"som brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket phone inbound screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
+"Definerer historikktypen for handlingen på sakstelefonens inngående skjerm, "
+"som brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket phone outbound screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
+"Definerer historikktypen for handlingen på sakstelefonens utgående skjerm, "
+"som brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket priority screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
+"Definerer historikktypen for handlingen på skjermbildet for saksprioritet, "
+"som brukes til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket responsible screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
+"Definerer historikktypen for den saksansvarlige skjermhandlingen, som brukes "
+"til sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket zoom action, which gets used for "
 "ticket history in the customer interface."
 msgstr ""
+"Definerer historikktypen for sakszoomhandlingen, som brukes til "
+"sakshistorikk i kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the history type for this operation, which gets used for ticket "
 "history in the agent interface."
 msgstr ""
+"Definerer historikktypen for denne operasjonen, som brukes til sakshistorikk "
+"i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the hours and week days of the indicated calendar, to count the "
 "working time."
 msgstr ""
+"Definerer timene og ukedagene i den angitte kalenderen, for å telle "
+"arbeidstiden."
 
 #. SysConfig
 msgid "Defines the hours and week days to count the working time."
@@ -23415,12 +23532,16 @@ msgid ""
 "Defines the key to be checked with Kernel::Modules::AgentInfo module. If "
 "this user preferences key is true, the message is accepted by the system."
 msgstr ""
+"Definerer nøkkelen som skal sjekkes med Kernel::Modules::AgentInfo-modulen. "
+"Hvis denne brukerpreferansenøkkelen er sann, godtas meldingen av systemet."
 
 #. SysConfig
 msgid ""
 "Defines the key to check with CustomerAccept. If this user preferences key "
 "is true, then the message is accepted by the system."
 msgstr ""
+"Definerer nøkkelen for å sjekke med CustomerAccept. Hvis denne "
+"brukerpreferansenøkkelen er sann, godtas meldingen av systemet."
 
 #. SysConfig
 msgid ""
@@ -23428,6 +23549,9 @@ msgid ""
 "contain the same value, the resulting link is a non-directional one; "
 "otherwise, the result is a directional link."
 msgstr ""
+"Definerer koblingstypen 'Normal'. Hvis kildenavnet og målnavnet inneholder "
+"samme verdi, er den resulterende koblingen en ikke-retningsbestemt en; "
+"ellers er resultatet en retningskobling."
 
 #. SysConfig
 msgid ""
@@ -23435,6 +23559,9 @@ msgid ""
 "contain the same value, the resulting link is a non-directional one; "
 "otherwise, the result is a directional link."
 msgstr ""
+"Definerer koblingstypen 'Foreldrebarn'. Hvis kildenavnet og målnavnet "
+"inneholder samme verdi, er den resulterende koblingen en ikke-"
+"retningsbestemt en; ellers er resultatet en retningskobling."
 
 #. SysConfig
 msgid ""
@@ -23443,6 +23570,10 @@ msgid ""
 "then these tickets could not be additionally linked with link of a "
 "'ParentChild' relationship."
 msgstr ""
+"Definerer koblingstypegruppene. Koblingstypene i samme gruppe kansellerer "
+"hverandre. Eksempel: Hvis sak A er knyttet til en 'Normal'-kobling med sak "
+"B, kan ikke disse sakene i tillegg knyttes til en kobling til et "
+"'Foreldrebarn'-forhold."
 
 #. SysConfig
 msgid ""
@@ -23450,33 +23581,42 @@ msgid ""
 "as repository, for example: Key=\"http://example.com/otobo/public.pl?"
 "Action=PublicRepository;File=\" and Content=\"Some Name\"."
 msgstr ""
+"Definerer listen over online repositories. En annen installasjon kan brukes "
+"som arkiv, for eksempel: Key=\"http://example.com/otobo/public."
+"pl?Action=PublicRepository;File=\" og Content=\"Some Name\"."
 
 #. SysConfig
 msgid ""
 "Defines the list of params that can be passed to ticket search function."
-msgstr ""
+msgstr "Definerer listen over parametere som kan sendes til sakssøkefunksjonen."
 
 #. SysConfig
 msgid ""
 "Defines the list of possible next actions on an error screen, a full path is "
 "required, then is possible to add external links if needed."
 msgstr ""
+"Definerer listen over mulige neste handlinger på en feilskjerm, en full bane "
+"kreves, så er det mulig å legge til eksterne lenker om nødvendig."
 
 #. SysConfig
 msgid "Defines the list of types for templates."
-msgstr ""
+msgstr "Definerer listen over typer for maler."
 
 #. SysConfig
 msgid ""
 "Defines the location to get online repository list for additional packages. "
 "The first available result will be used."
 msgstr ""
+"Definerer plasseringen for å få online depotliste for tilleggspakker. Det "
+"første tilgjengelige resultatet vil bli brukt."
 
 #. SysConfig
 msgid ""
 "Defines the log module for the system. \"File\" writes all messages in a "
 "given logfile, \"SysLog\" uses the syslog daemon of the system, e.g. syslogd."
 msgstr ""
+"Definerer loggmodulen for systemet. \"Fil\" skriver alle meldinger i en gitt "
+"loggfil, \"SysLog\" bruker syslog-daemonen til systemet, f.eks. syslogd."
 
 #. SysConfig
 msgid ""
@@ -23485,6 +23625,10 @@ msgid ""
 "masks in your OTOBO instance to stop working (probably any mask which takes "
 "input from the user)."
 msgstr ""
+"Definerer maksimal størrelse (i byte) for filopplasting via nettleseren. "
+"Advarsel: Hvis du setter dette alternativet til en verdi som er for lav, kan "
+"det føre til at mange masker i OTOBO-forekomsten din slutter å fungere ("
+"sannsynligvis en hvilken som helst maske som mottar input fra brukeren)."
 
 #. SysConfig
 msgid "Defines the maximal valid time (in seconds) for a session id."
@@ -23492,7 +23636,7 @@ msgstr "Definerer maksimal gyldig tid (i sekunder) for en sesjons-ID."
 
 #. SysConfig
 msgid "Defines the maximum number of affected tickets per job."
-msgstr ""
+msgstr "Definerer maksimalt antall berørte saker per jobb."
 
 #. SysConfig
 msgid "Defines the maximum number of pages per PDF file."
@@ -23501,10 +23645,11 @@ msgstr "Definerer maksimalt antall sider per PDF-fil."
 #. SysConfig
 msgid "Defines the maximum number of quoted lines to be added to responses."
 msgstr ""
+"Definerer det maksimale antallet siterte linjer som skal legges til svar."
 
 #. SysConfig
 msgid "Defines the maximum number of tasks to be executed as the same time."
-msgstr ""
+msgstr "Definerer maksimalt antall oppgaver som skal utføres på samme tid."
 
 #. SysConfig
 msgid "Defines the maximum size (in MB) of the log file."
@@ -23515,6 +23660,8 @@ msgid ""
 "Defines the maximum size in KiloByte of GenericInterface responses that get "
 "logged to the gi_debugger_entry_content table."
 msgstr ""
+"Definerer maksimal størrelse i KiloByte av GenericInterface-svar som blir "
+"logget til gi_debugger_entry_content-tabellen."
 
 #. SysConfig
 msgid ""
@@ -23528,19 +23675,21 @@ msgstr ""
 msgid ""
 "Defines the module that shows all the currently logged in customers in the "
 "agent interface."
-msgstr ""
+msgstr "Definerer modulen som viser alle påloggede kunder i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the module that shows the currently logged in agents in the customer "
 "interface."
 msgstr ""
+"Definerer modulen som viser gjeldende påloggede agenter i kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the module that shows the currently logged in customers in the "
 "customer interface."
 msgstr ""
+"Definerer modulen som viser gjeldende innloggede kunder i kundegrensesnittet."
 
 #. SysConfig
 msgid "Defines the module to authenticate customers."
@@ -23551,70 +23700,92 @@ msgid ""
 "Defines the module to display a notification in the agent interface if the "
 "OTOBO Daemon is not running."
 msgstr ""
+"Definerer modulen for å vise et varsel i agentgrensesnittet hvis OTOBO "
+"Daemon ikke kjører."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface if the "
 "system configuration is out of sync."
 msgstr ""
+"Definerer modulen for å vise et varsel i agentgrensesnittet hvis "
+"systemkonfigurasjonen er usynkronisert."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent has not yet selected a time zone."
 msgstr ""
+"Definerer modulen for å vise et varsel i agentgrensesnittet, hvis agenten "
+"ennå ikke har valgt en tidssone."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent is logged in while having out-of-office active."
 msgstr ""
+"Definerer modulen for å vise et varsel i agentgrensesnittet, hvis agenten er "
+"pålogget mens han ikke er på kontoret."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent is logged in while having system maintenance active."
 msgstr ""
+"Definerer modulen for å vise et varsel i agentgrensesnittet, hvis agenten er "
+"logget på mens systemvedlikehold er aktivt."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent session limit prior warning is reached."
 msgstr ""
+"Definerer modulen for å vise et varsel i agentgrensesnittet hvis "
+"forhåndsvarselet for agentsesjonsgrensen er nådd."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "system is used by the admin user (normally you shouldn't work as admin)."
 msgstr ""
+"Definerer modulen for å vise et varsel i agentgrensesnittet, hvis systemet "
+"brukes av admin-brukeren (normalt skal du ikke jobbe som admin)."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if "
 "there are invalid sysconfig settings deployed."
 msgstr ""
+"Definerer modulen for å vise et varsel i agentgrensesnittet hvis det er "
+"utplassert ugyldige sysconfig-innstillinger."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if "
 "there are modified sysconfig settings that are not deployed yet."
 msgstr ""
+"Definerer modulen for å vise et varsel i agentgrensesnittet, hvis det er "
+"endrede sysconfig-innstillinger som ikke er distribuert ennå."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the customer interface, if "
 "the customer is logged in while having system maintenance active."
 msgstr ""
+"Definerer modulen for å vise et varsel i kundegrensesnittet, hvis kunden er "
+"pålogget mens systemvedlikeholdet er aktivt."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the customer interface, if "
 "the customer user has not yet selected a time zone."
 msgstr ""
+"Definerer modulen for å vise et varsel i kundegrensesnittet, hvis "
+"kundebrukeren ikke har valgt en tidssone ennå."
 
 #. SysConfig
 msgid "Defines the module to generate code for periodic page reloads."
-msgstr ""
+msgstr "Definerer modulen for å generere kode for periodiske sideinnlastinger."
 
 #. SysConfig
 msgid ""
@@ -23624,18 +23795,27 @@ msgid ""
 "\"Test\" doesn't send emails, but writes them to $OTOBO_HOME/var/tmp/"
 "CacheFileStorable/EmailTest/ for testing purposes."
 msgstr ""
+"Definerer modulen for å sende e-post. \"DoNotSendEmail\" sender ikke e-post "
+"i det hele tatt. Enhver av \"SMTP\"-mekanismene bruker en spesifisert "
+"(ekstern) e-postserver. \"Sendmail\" bruker direkte sendmail-binæren til "
+"operativsystemet ditt. \"Test\" sender ikke e-poster, men skriver dem til $"
+"OTOBO_HOME/var/tmp/CacheFileStorable/EmailTest/ for testformål."
 
 #. SysConfig
 msgid ""
 "Defines the module used to store the session data. With \"DB\" the frontend "
 "server can be splitted from the db server. \"FS\" is faster."
 msgstr ""
+"Definerer modulen som brukes til å lagre øktdataene. Med \"DB\" kan frontend-"
+"serveren splittes fra db-serveren. \"FS\" er raskere."
 
 #. SysConfig
 msgid ""
 "Defines the modules in Kernel/Output/HTML/GenericContent/ which provide the "
 "inner content to the chosen key."
 msgstr ""
+"Definerer modulene i Kernel/Output/HTML/GenericContent/ som gir det indre "
+"innholdet til den valgte nøkkelen."
 
 #. SysConfig
 msgid ""
@@ -23648,17 +23828,19 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the name of the column to store the data in the preferences table."
-msgstr ""
+msgstr "Definerer navnet på kolonnen for å lagre dataene i preferansetabellen."
 
 #. SysConfig
 msgid ""
 "Defines the name of the column to store the user identifier in the "
 "preferences table."
 msgstr ""
+"Definerer navnet på kolonnen for å lagre brukeridentifikatoren i "
+"preferansetabellen."
 
 #. SysConfig
 msgid "Defines the name of the indicated calendar."
-msgstr ""
+msgstr "Definerer navnet på den angitte kalenderen."
 
 #. SysConfig
 msgid "Defines the name of the key for customer sessions."
