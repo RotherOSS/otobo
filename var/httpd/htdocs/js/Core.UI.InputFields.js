@@ -2806,6 +2806,20 @@ Core.UI.InputFields = (function (TargetNS) {
                 $Cell.children('label').hide();
             }
 
+            // for date(time) dynamic fields: append ValueRowIndex to validation classes
+            var TimeStrings = ['Day', 'Month', 'Year', 'Hour', 'Minute'];
+            TimeStrings.forEach(TimeString => {
+                var $TimeElement = $Cell.find('.Validate_Date' + TimeString);
+                if ( $TimeElement.length > 0 ) {
+                    var DateTimeFieldName = $TimeElement.attr('name').substr(0, $TimeElement.attr('name').lastIndexOf(TimeString));
+                    TimeStrings.forEach(ClassTimeString => {
+                        var ClassString = 'Validate_Date' + ClassTimeString + '_' + DateTimeFieldName + ClassTimeString;
+                        $TimeElement.hasClass(ClassString) && $TimeElement.removeClass(ClassString) && $TimeElement.addClass(ClassString + '_' + ValueRowIndex);
+                    });
+                }
+            });
+
+            // TODO Iterate only over fields in ValueRowCells
             // add ajax update handler to fields
             $.each( DynamicFields, function( Index, DynamicFieldName ) {
                 $( '#'  + DynamicFieldName + '_' + ValueRowIndex ).on( 'change', function () {
@@ -2853,7 +2867,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     }
                 });
             });
-            $('[class^=ResultElementTemplate], [class^=DynamicFieldDBDetails]', $Cell).each( function() {
+            $('[class^=ResultElementTemplate], [class^=DynamicFieldDBDetails], [class^=Validate_Date]', $Cell).each( function() {
                 ['class', 'field'].forEach( Attribute =>{
                     var Attr = $(this).attr(Attribute);
                     if ( Attr && Attr.match(ReplaceRegEx) ) {
