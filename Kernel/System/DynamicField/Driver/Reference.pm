@@ -36,6 +36,7 @@ use Kernel::Language qw(Translatable);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
+    'Kernel::System::DynamicField',
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -923,8 +924,27 @@ sub GetFieldTypeSettings {
         }
     );
 
-    my $ParamObject          = $Param{ParamObject};
+    # Get settings that depend on the referenced object type
+    my $ParamObject = $Param{ParamObject};
+
+    # The referenced object type might have been passed in the URL
     my $ReferencedObjectType = $ParamObject->GetParam( Param => 'ReferencedObjectType' );
+
+    # or it can be taken from the existing configuration
+    if ( !$ReferencedObjectType ) {
+        my $FieldID = $ParamObject->GetParam( Param => 'ID' );
+        if ($FieldID) {
+            my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+            my $DynamicField       = $DynamicFieldObject->DynamicFieldGet(
+                ID => $FieldID,
+            );
+
+            if ( ref $DynamicField eq 'HASH' && ref $DynamicField->{Config} eq 'HASH' ) {
+                $ReferencedObjectType = $DynamicField->{Config}->{ReferencedObjectType};
+            }
+        }
+    }
+
     my @SpecificSettings;
     if ($ReferencedObjectType) {
         my $PluginObject = $Self->_GetObjectTypePlugin(
@@ -932,7 +952,6 @@ sub GetFieldTypeSettings {
         );
         @SpecificSettings = $PluginObject->GetFieldTypeSettings;
     }
-
     return ( @GenericSettings, @SpecificSettings );
 }
 

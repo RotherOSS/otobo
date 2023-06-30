@@ -331,6 +331,13 @@ sub _ChangeAction {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    my $FieldID = $ParamObject->GetParam( Param => 'ID' );
+    if ( !$FieldID ) {
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('Need ID'),
+        );
+    }
+
     my %Errors;
     my %GetParam;
     for my $Needed (qw(Name Label FieldOrder)) {
@@ -341,17 +348,9 @@ sub _ChangeAction {
         }
     }
 
-    my $FieldID = $ParamObject->GetParam( Param => 'ID' );
-    if ( !$FieldID ) {
-        return $LayoutObject->ErrorScreen(
-            Message => Translatable('Need ID'),
-        );
-    }
-
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-
     # get dynamic field data
-    my $DynamicFieldData = $DynamicFieldObject->DynamicFieldGet(
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldData   = $DynamicFieldObject->DynamicFieldGet(
         ID => $FieldID,
     );
 
@@ -720,8 +719,9 @@ sub _ShowScreen {
         $ReadonlyInternalField = 'readonly="readonly"';
     }
 
-    # get the field id
-    my $FieldID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ID' );
+    # get the dynamic field id
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $FieldID     = $ParamObject->GetParam( Param => 'ID' );
 
     # only if the dymamic field exists and should be edited,
     # not if the field is added for the first time
@@ -730,9 +730,6 @@ sub _ShowScreen {
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
             ID => $FieldID,
         );
-
-        my $FieldConfig = $DynamicField->{Config};
-
         my $DynamicFieldName = $DynamicField->{Name};
 
         # Add warning in case the DynamicField belongs a SysConfig setting.
@@ -777,7 +774,6 @@ sub _ShowScreen {
                 ,
             );
         }
-
     }
 
     # generate output
