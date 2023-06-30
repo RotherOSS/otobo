@@ -145,7 +145,7 @@ sub _AddAction {
 
     my %Errors;
     my %GetParam;
-    for my $Needed (qw(Name Label FieldOrder FieldTypeSettings)) {
+    for my $Needed (qw(Name Label FieldOrder)) {
         $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
@@ -333,7 +333,7 @@ sub _ChangeAction {
 
     my %Errors;
     my %GetParam;
-    for my $Needed (qw(Name Label FieldOrder FieldTypeSettings)) {
+    for my $Needed (qw(Name Label FieldOrder)) {
         $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
