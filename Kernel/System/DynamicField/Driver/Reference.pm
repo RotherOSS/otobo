@@ -356,16 +356,23 @@ sub EditFieldRender {
         Value => $AutoCompleteConfig->{AutoCompleteActive},
     );
 
+    # for getting descriptive names for the values, e.g. TicketNumber for TicketID
+    my $PluginObject = $Self->_GetObjectTypePlugin(
+        ObjectType => $FieldConfig->{ReferencedObjectType},
+    );
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
         $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
-        my $ValueItem    = $Value->[$ValueIndex];
-        my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
-            Text => $ValueItem,
+        # The visible value depends on the referenced object
+        my $ObjectID    = $Value->[$ValueIndex];
+        my %Description = $PluginObject->ObjectDescriptionGet(
+            ObjectID => $ObjectID,
+            UserID   => 1,           # TODO: what about Permission check
         );
-
-        $FieldTemplateData{ValueEscaped} = $ValueEscaped;
+        $FieldTemplateData{VisibleValue} = $Param{LayoutObject}->Ascii2Html(
+            Text => $Description{Long},
+        );
 
         push @ResultHTML, $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
@@ -497,9 +504,9 @@ sub DisplayValueRender {
     # get descriptive names for the values, e.g. TicketNumber for TicketID
     my @LongObjectDescriptions;
     {
-        my $DFConfig     = $Param{DynamicFieldConfig};
+        my $FieldConfig  = $Param{DynamicFieldConfig}->{Config};
         my $PluginObject = $Self->_GetObjectTypePlugin(
-            ObjectType => $DFConfig->{Config}->{ReferencedObjectType},
+            ObjectType => $FieldConfig->{ReferencedObjectType},
         );
         if ($PluginObject) {
             for my $ObjectID (@ObjectIDs) {
