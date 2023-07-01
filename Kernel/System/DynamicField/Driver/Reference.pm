@@ -888,14 +888,15 @@ sub GetFieldTypeSettings {
 
     # For reference dynamic fields we can select the
     # type of the referenced object. Only objects
-    # that support dynamic fields can be reference.
+    # that support dynamic fields can be referenced.
+    # For now take the list from the SysConfig.
     my %ObjectTypeSelectionData;
     {
-        my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
-        my $ObjectTypeConfig = $ConfigObject->Get('DynamicFields::ObjectType');
-
-        # The object types are assumed to be marked a translatable somewhere else
-        %ObjectTypeSelectionData = map { $_ => $_ } keys $ObjectTypeConfig->%*;
+        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+        my $FieldTypeConfig = $ConfigObject->Get('DynamicFields::Driver');
+        %ObjectTypeSelectionData = map
+            { $_ => $_ }
+            $FieldTypeConfig->{Reference}->{ReferencedObjectTypes}->@*;
     }
 
     # set up the field type specific settings
