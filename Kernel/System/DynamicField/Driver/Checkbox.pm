@@ -126,7 +126,7 @@ sub ValueGet {
 
     return $Self->ValueStructureFromDB(
         ValueDB    => $DFValue,
-        ValueKey   => 'ValueText',
+        ValueKey   => 'ValueInt',
         Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
     );
@@ -579,7 +579,7 @@ sub EditFieldValueGet {
         return if !sum map { $_->{UsedValue} } $Value->@*;
     }
     else {
-        return if $Value->{UsedValue};
+        return if !$Value->{UsedValue};
     }
 
     # set the correct return value
