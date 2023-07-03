@@ -128,7 +128,7 @@ sub ValueValidate {
                 },
             );
             my $ValueDateTime = $ValueDateTimeObject->ToEpoch();
-            $ValueDateTime = $ValueDateTime ? $DateTimeObject->ToEpoch() : undef;
+            $ValueDateTime = $ValueDateTime ? $ValueDateTimeObject->ToEpoch() : undef;
 
             if ( $DateRestriction eq 'DisableFutureDates' && $ValueDateTime > $SystemTime ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1268,6 +1268,8 @@ sub StatsSearchFieldParameterBuild {
 
     my $Operator = $Param{Operator};
     my $Value    = $Param{Value};
+
+    return {} if !$Operator;
 
     return {
         $Operator => $Value,
