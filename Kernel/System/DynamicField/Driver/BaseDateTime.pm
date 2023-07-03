@@ -306,21 +306,19 @@ sub EditFieldRender {
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#ValueParts ) {
 
+        my $Suffix = $FieldConfig->{MultiValue} ? "_$ValueIndex" : '';
+        $FieldTemplateData{DivID} = $FieldName . $Suffix;
+
         if ( !$ValueIndex ) {
             if ( $Error{ServerError} ) {
-                $Error{DivIDServerError} = $FieldTemplateData{FieldID} . 'ServerError';
+                $Error{DivIDServerError} = $FieldName . 'UsedServerError' . $Suffix;
                 $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
             }
             if ( $Error{Mandatory} ) {
-                $Error{DivIDMandatory}       = $FieldTemplateData{FieldID} . 'Error';
+                $Error{DivIDMandatory}       = $FieldName . 'UsedError' . $Suffix;
                 $Error{FieldRequiredMessage} = Translatable('This field is required.');
             }
         }
-
-        my $Suffix = $FieldConfig->{MultiValue} ? "_$ValueIndex" : '';
-        $FieldTemplateData{DivID}            = $FieldName . $Suffix;
-        $FieldTemplateData{DivIDMandatory}   = $FieldName . 'UsedError' . $Suffix;
-        $FieldTemplateData{DivIDServerError} = $FieldName . 'UsedServerError' . $Suffix;
 
         my $DateSelectionHTML = $Param{LayoutObject}->BuildDateSelection(
             %Param,
