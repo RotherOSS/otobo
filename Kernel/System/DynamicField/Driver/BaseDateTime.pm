@@ -209,7 +209,7 @@ sub EditFieldRender {
     # extract the dynamic field value from the web request
     # TransformDates is always needed from EditFieldRender Bug#8452
     my $FieldValue = $Self->EditFieldValueGet(
-        TransformDates       => 1,
+        TransformDates => 1,
         %Param,
     );
 
