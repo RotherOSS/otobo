@@ -161,14 +161,12 @@ sub ValueSet {
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
     );
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         Value    => $Value,
         UserID   => $Param{UserID},
     );
-
-    return $Success;
 }
 
 # TODO: probably adjust Base.pm to check for arrays
@@ -262,12 +260,10 @@ sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
     if ( $Param{Operator} eq 'Like' ) {
-        my $SQL = $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
+        return $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
             Key   => "$Param{TableAlias}.$Self->{TableAttribute}",
             Value => $Param{SearchTerm},
         );
-
-        return $SQL;
     }
 
     my %Operators = (
@@ -390,9 +386,24 @@ sub EditFieldRender {
         :
         'DynamicField/Agent/BaseText';
 
+    my %Error = (
+        ServerError => $Param{ServerError},
+        Mandatory   => $Param{Mandatory},
+    );
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
         $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
+
+        if ( !$ValueIndex ) {
+            if ( $Error{ServerError} ) {
+                $Error{DivIDServerError} = $FieldTemplateData{FieldID} . 'ServerError';
+                $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+            }
+            if ( $Error{Mandatory} ) {
+                $Error{DivIDMandatory}       = $FieldTemplateData{FieldID} . 'Error';
+                $Error{FieldRequiredMessage} = Translatable('This field is required.');
+            }
+        }
 
         my $ValueItem    = $Value->[$ValueIndex];
         my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
@@ -403,7 +414,10 @@ sub EditFieldRender {
 
         push @ResultHTML, $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
-            Data         => \%FieldTemplateData,
+            Data         => {
+                %FieldTemplateData,
+                %Error,
+            },
         );
     }
 
@@ -663,12 +677,10 @@ EOF
         AdditionalText => $AdditionalText,
     );
 
-    my $Data = {
+    return {
         Field => $HTMLString,
         Label => $LabelString,
     };
-
-    return $Data;
 }
 
 sub SearchFieldValueGet {
@@ -784,13 +796,11 @@ sub ReadableValueRender {
         $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
     }
 
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value => $Value,
         Title => $Title,
     };
-
-    return $Data;
 }
 
 sub TemplateValueTypeGet {
@@ -888,14 +898,11 @@ sub ObjectMatch {
 sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
-    # get historical values from database
-    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    # return the historical values from database
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
     );
-
-    # return the historical values from database
-    return $HistoricalValues;
 }
 
 sub ValueLookup {
