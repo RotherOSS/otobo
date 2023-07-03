@@ -276,7 +276,7 @@ sub EditFieldRender {
 
     # set values from ParamObject if present
     if ( $FieldConfig->{MultiValue} ) {
-        if ( $FieldValue->@* ) {
+        if ( defined $FieldValue && $FieldValue->@* ) {
 
             # emptying value for overriding previous value
             $Value = [];
