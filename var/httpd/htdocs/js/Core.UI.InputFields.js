@@ -3012,7 +3012,10 @@ Core.UI.InputFields = (function (TargetNS) {
             });
         });
 
-        TargetNS.InitCustomerField( $Cell );
+        if ( Config.CustomerInterface ) {
+            TargetNS.InitCustomerField( $Cell );
+        }
+
         // other fields
         Core.UI.InputFields.Activate( $Cell );
     }
