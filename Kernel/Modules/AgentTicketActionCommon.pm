@@ -16,8 +16,11 @@
 
 package Kernel::Modules::AgentTicketActionCommon;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 use List::Util qw(any);
@@ -35,8 +38,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # Try to load draft if requested.
     if (
@@ -1310,10 +1312,7 @@ sub Run {
         $GetParam{PriorityID}  = $GetParam{NewPriorityID} || '';
 
         # get list type
-        my $TreeView = 0;
-        if ( $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-            $TreeView = 1;
-        }
+        my $TreeView = $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ? 1 : 0;
 
         my $OldOwners = $Self->_GetOldOwners(
             %GetParam,
@@ -1848,12 +1847,6 @@ sub Run {
             }
         }
 
-        # get list type
-        my $TreeView = 0;
-        if ( $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-            $TreeView = 1;
-        }
-
         my $Autoselect = $ConfigObject->Get('TicketACL::Autoselect') || undef;
 
         # gather fields which are supposed to be hidden when autoselected
@@ -2128,15 +2121,11 @@ sub Run {
 sub _Mask {
     my ( $Self, %Param ) = @_;
 
-    # get list type
-    my $TreeView = 0;
-
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    if ( $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-        $TreeView = 1;
-    }
+    # get list type
+    my $TreeView = $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ? 1 : 0;
 
     # get needed objects
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
