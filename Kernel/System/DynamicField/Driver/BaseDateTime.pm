@@ -83,14 +83,12 @@ sub ValueSet {
         MultiValue => $Param{DynamicFieldConfig}->{Config}->{MultiValue},
     );
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         Value    => $Value,
         UserID   => $Param{UserID},
     );
-
-    return $Success;
 }
 
 sub ValueValidate {
@@ -212,7 +210,6 @@ sub EditFieldRender {
     # TransformDates is always needed from EditFieldRender Bug#8452
     my $FieldValue = $Self->EditFieldValueGet(
         TransformDates       => 1,
-        ReturnValueStructure => 1,
         %Param,
     );
 
@@ -296,24 +293,29 @@ sub EditFieldRender {
 
     my %FieldTemplateData;
 
-    if ( $Param{Mandatory} ) {
-        $FieldTemplateData{Mandatory}            = $Param{Mandatory};
-        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
-    }
-
-    if ( $Param{ServerError} ) {
-        $FieldTemplateData{ServerError}  = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-    }
-
     my $FieldTemplateFile = $Param{CustomerInterface}
         ?
         'DynamicField/Customer/BaseDateTime'
         :
         'DynamicField/Agent/BaseDateTime';
 
+    my %Error = (
+        ServerError => $Param{ServerError},
+        Mandatory   => $Param{Mandatory},
+    );
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#ValueParts ) {
+
+        if ( !$ValueIndex ) {
+            if ( $Error{ServerError} ) {
+                $Error{DivIDServerError} = $FieldTemplateData{FieldID} . 'ServerError';
+                $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+            }
+            if ( $Error{Mandatory} ) {
+                $Error{DivIDMandatory}       = $FieldTemplateData{FieldID} . 'Error';
+                $Error{FieldRequiredMessage} = Translatable('This field is required.');
+            }
+        }
 
         my $Suffix = $FieldConfig->{MultiValue} ? "_$ValueIndex" : '';
         $FieldTemplateData{DivID}            = $FieldName . $Suffix;
@@ -339,6 +341,7 @@ sub EditFieldRender {
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
+                %Error,
                 DateSelectionHTML => $DateSelectionHTML,
             },
         );
@@ -835,12 +838,10 @@ EOF
             AdditionalText => $AdditionalText,
         );
 
-        my $Data = {
+        return {
             Field => $HTMLString,
             Label => $LabelString,
         };
-
-        return $Data;
     }
 
     # to set the years range
@@ -1060,7 +1061,7 @@ sub SearchFieldValueGet {
 sub SearchFieldPreferences {
     my ( $Self, %Param ) = @_;
 
-    my @Preferences = (
+    return [
         {
             Type        => 'TimePoint',
             LabelSuffix => 'before/after',
@@ -1069,9 +1070,7 @@ sub SearchFieldPreferences {
             Type        => 'TimeSlot',
             LabelSuffix => 'between',
         },
-    );
-
-    return \@Preferences;
+    ];
 }
 
 sub SearchFieldParameterBuild {
@@ -1302,12 +1301,10 @@ sub ReadableValueRender {
     # Title is always equal to Value
     my $Title = $Value;
 
-    my $Data = {
+    return {
         Value => $Value,
         Title => $Title,
     };
-
-    return $Data;
 }
 
 sub TemplateValueTypeGet {
@@ -1399,14 +1396,11 @@ sub ObjectMatch {
 sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
-    # get historical values from database
-    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    # return the historical values from database
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'DateTime',
     );
-
-    # return the historical values from database
-    return $HistoricalValues;
 }
 
 sub ValueLookup {
