@@ -59,24 +59,20 @@ sub ValueIsDifferent {
 sub ValueDelete {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueDelete(
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueDelete(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         UserID   => $Param{UserID},
     );
-
-    return $Success;
 }
 
 sub AllValuesDelete {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->AllValuesDelete(
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->AllValuesDelete(
         FieldID => $Param{DynamicFieldConfig}->{ID},
         UserID  => $Param{UserID},
     );
-
-    return $Success;
 }
 
 sub HasBehavior {
@@ -279,13 +275,11 @@ sub ValueSearch {
         return;
     }
 
-    my $Values = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSearch(
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSearch(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         Search    => $Param{Search},
         SearchSQL => $SearchSQL,
     );
-
-    return $Values;
 }
 
 =head2 ValueStructureFromDB()

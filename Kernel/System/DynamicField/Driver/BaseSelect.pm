@@ -92,14 +92,12 @@ sub ValueSet {
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
     );
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         Value    => $Value,
         UserID   => $Param{UserID},
     );
-
-    return $Success;
 }
 
 # TODO: probably adjust Base.pm to check for arrays
@@ -161,12 +159,10 @@ sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
     if ( $Param{Operator} eq 'Like' ) {
-        my $SQL = $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
+        return $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
             Key   => "$Param{TableAlias}.value_text",
             Value => $Param{SearchTerm},
         );
-
-        return $SQL;
     }
 
     my %Operators = (
@@ -521,13 +517,11 @@ sub EditFieldValueValidate {
         }
     }
 
-    # create resulting structure
-    my $Result = {
+    # return resulting structure
+    return {
         ServerError  => $ServerError,
         ErrorMessage => $ErrorMessage,
     };
-
-    return $Result;
 }
 
 sub DisplayValueRender {
@@ -714,12 +708,10 @@ sub SearchFieldRender {
         FieldName => $FieldName,
     );
 
-    my $Data = {
+    return {
         Field => $HTMLString,
         Label => $LabelString,
     };
-
-    return $Data;
 }
 
 sub SearchFieldValueGet {
@@ -888,12 +880,10 @@ sub ReadableValueRender {
         $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
     }
 
-    my $Data = {
+    return {
         Value => $Value,
         Title => $Title,
     };
-
-    return $Data;
 }
 
 sub TemplateValueTypeGet {
@@ -991,14 +981,11 @@ sub ObjectMatch {
 sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
-    # get historical values from database
-    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    # return historical values from database
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
     );
-
-    # return the historical values from database
-    return $HistoricalValues;
 }
 
 sub ValueLookup {
