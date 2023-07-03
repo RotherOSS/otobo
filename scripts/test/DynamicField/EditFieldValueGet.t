@@ -699,7 +699,7 @@ my @Tests = (
             ReturnValueStructure    => 1,
             ReturnTemplateStructure => 0,
         },
-        ExpectedResults => undef,    # used to be {} before MultiValue support
+        ExpectedResults => undef,
         Success         => 1,
     },
     {
@@ -769,8 +769,11 @@ my @Tests = (
             ReturnValueStructure    => 0,
             ReturnTemplateStructure => 1,
         },
-        ExpectedResults => undef,    # changed with MultiValue support
-        Success         => 1,
+        ExpectedResults => {
+            DynamicField_CheckboxField     => undef,
+            DynamicField_CheckboxFieldUsed => undef,
+        },
+        Success => 1,
     },
     {
         Name   => 'Checkbox: Empty template and empty ParamObject (TemplateStructure)',
@@ -1873,7 +1876,7 @@ my @Tests = (
             ReturnValueStructure    => 0,
             ReturnTemplateStructure => 0,
         },
-        ExpectedResults => undef,    # changed with MultiValue support
+        ExpectedResults => '',
         Success         => 1,
     },
     {
@@ -1910,7 +1913,7 @@ my @Tests = (
             ReturnValueStructure    => 0,
             ReturnTemplateStructure => 0,
         },
-        ExpectedResults => undef,    # changed with MultiValue support
+        ExpectedResults => '',
         Success         => 1,
     },
     {
