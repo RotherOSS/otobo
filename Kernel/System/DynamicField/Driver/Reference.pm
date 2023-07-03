@@ -279,7 +279,6 @@ sub EditFieldRender {
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
-    my $Object      = $FieldConfig->{ReferencedObjectType};
 
     my $Value = '';
 
@@ -395,19 +394,19 @@ sub EditFieldRender {
         FieldName => $FieldName,
     );
 
-    my $Data = {
+    my %Data = (
         Label => $LabelString,
-    };
+    );
 
     if ( $FieldConfig->{MultiValue} ) {
-        $Data->{MultiValue}         = \@ResultHTML;
-        $Data->{MultiValueTemplate} = $TemplateHTML;
+        $Data{MultiValue}         = \@ResultHTML;
+        $Data{MultiValueTemplate} = $TemplateHTML;
     }
     else {
-        $Data->{Field} = $ResultHTML[0];
+        $Data{Field} = $ResultHTML[0];
     }
 
-    return $Data;
+    return \%Data;
 }
 
 sub EditFieldValueGet {
