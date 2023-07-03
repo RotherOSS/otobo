@@ -311,7 +311,7 @@ sub Run {
                 %Ticket,
                 %OwnerInfo,
                 %AclAction,
-                { $OnlineData{OwnerID} // {} }->%*,
+                ( $OnlineData{OwnerID} // {} )->%*,
             },
         );
     }
