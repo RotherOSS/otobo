@@ -57,6 +57,61 @@ Please look there for a detailed reference of the functions.
 
 =cut
 
+sub ValueGet {
+    my ( $Self, %Param ) = @_;
+
+    # get raw values of the dynamic field
+    my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
+        FieldID  => $Param{DynamicFieldConfig}{ID},
+        ObjectID => $Param{ObjectID},
+    );
+
+    if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
+
+        return if !$DFValue;
+        return if !IsArrayRefWithData($DFValue);
+        return if !IsHashRefWithData( $DFValue->[0] );
+
+        my @ReturnData;
+        for my $Value ( $DFValue->@* ) {
+            push @ReturnData, $Value->{ValueText};
+        }
+        return \@ReturnData;
+    }
+
+    return $Self->ValueStructureFromDB(
+        ValueDB    => $DFValue,
+        ValueKey   => 'ValueText',
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+        BaseArray  => !$Param{DynamicFieldConfig}{Config}{MultiValue},
+    );
+}
+
+sub ValueSet {
+    my ( $Self, %Param ) = @_;
+
+    # check value
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = split /,/, $Param{Value} // '';
+        if ( !IsArrayRefWithData( \@Values ) ) {
+            @Values = $Param{Value};
+        }
+    }
+
+    my @ValueText = map { { ValueText => $_ } } @Values;
+
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
+        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        ObjectID => $Param{ObjectID},
+        Value    => \@ValueText,
+        UserID   => $Param{UserID},
+    );
+}
+
 sub ValueIsDifferent {
     my ( $Self, %Param ) = @_;
 
@@ -92,79 +147,12 @@ sub ValueIsDifferent {
     );
 }
 
-sub ValueGet {
-    my ( $Self, %Param ) = @_;
-
-    my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-    );
-
-    return if !$DFValue;
-    return if !IsArrayRefWithData($DFValue);
-    return if !IsHashRefWithData( $DFValue->[0] );
-
-    # extract real values
-    my @ReturnData;
-    for my $Item ( @{$DFValue} ) {
-        push @ReturnData, $Item->{ValueText};
-    }
-
-    return \@ReturnData;
-}
-
-sub ValueSet {
-    my ( $Self, %Param ) = @_;
-
-    # check value
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-
-        my @CommaSeparatedValues = split /,/, $Param{Value};
-
-        if ( IsArrayRefWithData( \@CommaSeparatedValues ) ) {
-            @Values = @CommaSeparatedValues;
-        }
-        else {
-            @Values = ( $Param{Value} );
-        }
-    }
-
-    # get local dynamic field value object
-    my $DynamicFieldValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
-
-    if ( IsArrayRefWithData( \@Values ) ) {
-
-        # if there is at least one value to set, this means one or more values are selected,
-        # set those values!
-        my @ValueText = map { { ValueText => $_ } } @Values;
-
-        return $DynamicFieldValue->ValueSet(
-            FieldID  => $Param{DynamicFieldConfig}->{ID},
-            ObjectID => $Param{ObjectID},
-            Value    => \@ValueText,
-            UserID   => $Param{UserID},
-        );
-    }
-
-    # otherwise no value was selected, then in fact this means that any value there should be
-    # deleted
-    return $DynamicFieldValue->ValueDelete(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-        UserID   => $Param{UserID},
-    );
-}
-
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    # check value
+    # check values
     my @Values;
-    if ( IsArrayRefWithData( $Param{Value} ) ) {
+    if ( ref $Param{Value} eq 'ARRAY' ) {
         @Values = @{ $Param{Value} };
     }
     else {
@@ -172,16 +160,13 @@ sub ValueValidate {
     }
 
     my $Success;
-
-    for my $Item (@Values) {
-
+    for my $Value (@Values) {
         $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
             Value => {
-                ValueText => $Item,
+                ValueText => $Value,
             },
-            UserID => $Param{UserID}
+            UserID => $Param{UserID},
         );
-
         return if !$Success;
     }
 
@@ -300,14 +285,22 @@ sub EditFieldRender {
     my $FieldValue = $Self->EditFieldValueGet(
         %Param,
     );
-    if ( defined $FieldValue ) {
-        if ( IsArrayRefWithData($FieldValue) ) {
-            $Value  = join $ItemSeparator, $FieldValue->@*;
-            @Values = $FieldValue->@*;
-        }
-        elsif ( ref $FieldValue eq 'STRING' ) {
+
+    # set values from ParamObject if present
+    if ( $FieldConfig->{MultiValue} ) {
+        if ( $FieldValue->@* ) {
             $Value = $FieldValue;
         }
+    }
+    elsif ( defined $FieldValue ) {
+        $Value = $FieldValue;
+    }
+
+    if ( !ref $Value ) {
+        $Value = [$Value];
+    }
+    elsif ( !$Value->@* ) {
+        $Value = [undef];
     }
 
     # check and set class if necessary
@@ -338,15 +331,12 @@ sub EditFieldRender {
     }
 
     my %FieldTemplateData = (
-        FieldName               => ${FieldName},
-        FieldLabel              => $FieldLabel,
-        Value                   => $Value,
+        FieldName               => $FieldName,
         DetailedSearchMsg       => $DetailedSearchMsg,
         FieldClass              => $FieldClass,
         DetailsMsg              => $DetailsMsg,
         RemoveValueMsg          => $RemoveValueMsg,
         DynamicFieldDBContainer => $DynamicFieldDBContainer,
-        DivID                   => $FieldName,
         MultiValue              => $FieldConfig->{MultiValue} || 0,
         ReadOnly                => $Param{ReadOnly},
     );
@@ -355,31 +345,9 @@ sub EditFieldRender {
         $FieldTemplateData{WithTooltip} = 'oooWithTT';
     }
 
-    if ( $Param{Mandatory} ) {
-        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
-
-        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
-        $FieldTemplateData{Mandatory}            = $Param{Mandatory};
-    }
-
-    if ( $Param{ServerError} ) {
-
-        $FieldTemplateData{ServerError}      = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
-    }
-
     my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('AutoComplete::Agent')
         ->{'DynamicFieldDBSearch'};
     my $ActiveAutoComplete = $AutoCompleteConfig->{AutoCompleteActive} || 0;
-
-    # call EditLabelRender on the common Driver
-    my $LabelString = $Self->EditLabelRender(
-        %Param,
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        Mandatory          => $Param{Mandatory} || '0',
-        FieldName          => $FieldName,
-    );
 
     my $FieldTemplateFile = $Param{CustomerInterface}
         ?
@@ -387,34 +355,43 @@ sub EditFieldRender {
         :
         'DynamicField/Agent/BaseDatabase';
 
+    my %Error = (
+        ServerError => $Param{ServerError},
+        Mandatory   => $Param{Mandatory},
+    );
     my @ResultHTML;
-    if ( $FieldConfig->{MultiValue} && @Values ) {
-        for my $ValueIndex ( 0 .. $#Values ) {
-            if ($ValueIndex) {
-                $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_' . $ValueIndex;
+    for my $ValueIndex ( 0 .. $#{$Value} ) {
+        $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
+        $FieldTemplateData{Value}   = $Value->[$ValueIndex];
+
+        if ( !$ValueIndex ) {
+            if ( $Error{ServerError} ) {
+                $Error{DivIDServerError} = $FieldTemplateData{FieldID} . 'ServerError';
+                $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
             }
-            $FieldTemplateData{Value} = $Values[$ValueIndex];
-            push @ResultHTML, $Param{LayoutObject}->Output(
-                'TemplateFile' => $FieldTemplateFile,
-                'Data'         => \%FieldTemplateData,
-            );
+            if ( $Error{Mandatory} ) {
+                $Error{DivIDMandatory}       = $FieldTemplateData{FieldID} . 'Error';
+                $Error{FieldRequiredMessage} = Translatable('This field is required.');
+            }
         }
-    }
-    else {
         push @ResultHTML, $Param{LayoutObject}->Output(
-            'TemplateFile' => $FieldTemplateFile,
-            'Data'         => \%FieldTemplateData,
+            TemplateFile => $FieldTemplateFile,
+            Data         => {
+                %FieldTemplateData,
+                %Error,
+            },
         );
     }
 
     my $TemplateHTML;
     if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+        my $FieldID = $FieldName . '_Template';
+
         $TemplateHTML = $Param{LayoutObject}->Output(
-            'TemplateFile' => $FieldTemplateFile,
-            'Data'         => {
+            TemplateFile => $FieldTemplateFile,
+            Data         => {
                 %FieldTemplateData,
-                FieldName => $FieldTemplateData{FieldName} . '_Template',
-            }
+            },
         );
     }
 
@@ -423,10 +400,18 @@ sub EditFieldRender {
         Value => $ActiveAutoComplete,
     );
 
+    # call EditLabelRender on the common Driver
+    my $LabelString = $Self->EditLabelRender(
+        %Param,
+        Mandatory => $Param{Mandatory} || '0',
+        FieldName => $FieldConfig->{MultiValue} ? $FieldName . '_0' : $FieldName,
+    );
+
     my $Data = {
         Label => $LabelString,
     };
 
+    # decide which structure to return
     if ( $FieldConfig->{MultiValue} ) {
         $Data->{MultiValue}         = \@ResultHTML;
         $Data->{MultiValueTemplate} = $TemplateHTML;
@@ -446,7 +431,7 @@ sub EditFieldValueGet {
     my $Value;
 
     # check if there is a Template and retrieve the dynamic field value from there
-    if ( IsHashRefWithData( $Param{Template} ) ) {
+    if ( IsHashRefWithData( $Param{Template} ) && defined $Param{Template}->{$FieldName} ) {
         $Value = $Param{Template}->{$FieldName};
     }
 
@@ -457,10 +442,16 @@ sub EditFieldValueGet {
         )
     {
         my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
+
+        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+
+            # delete the template value
+            pop @Data;
+        }
         $Value = \@Data;
     }
 
-    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
+    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq 1 ) {
         return {
             $FieldName => $Value,
         };
@@ -485,26 +476,25 @@ sub EditFieldValueValidate {
     my $ServerError;
     my $ErrorMessage;
 
-    # perform necessary validations
-    my $ValueCount = $Param{ValueCount} || 1;
-    if ( $Param{Mandatory} ) {
-        if ( ref $Value eq 'ARRAY' && ( $ValueCount > scalar $Value->@* ) ) {
-            $ServerError = 1;
-        }
-        else {
-            if ( !$Value ) {
-                $ServerError = 1;
-            }
+    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        $Value = [$Value];
+    }
+
+    for my $ValueItem ( @{$Value} ) {
+
+        # perform necessary validations
+        if ( $Param{Mandatory} && !$ValueItem ) {
+            return {
+                ServerError => 1,
+            };
         }
     }
 
-    # create resulting structure
-    my $Result = {
+    # return resulting structure
+    return {
         ServerError  => $ServerError,
         ErrorMessage => $ErrorMessage,
     };
-
-    return $Result;
 }
 
 sub DisplayValueRender {
@@ -513,70 +503,55 @@ sub DisplayValueRender {
     # activate HTMLOutput when it wasn't specified
     my $HTMLOutput = $Param{HTMLOutput} // 1;
 
-    # check value
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-        @Values = ( $Param{Value} );
-    }
+    # get raw Value strings from field value
+    my @Values = !ref $Param{Value}
+        ? ( $Param{Value} )
+        : scalar $Param{Value}->@* ? $Param{Value}->@*
+        :                            ('');
+
+    $Param{ValueMaxChars} ||= '';
 
     my @ReadableValues;
     my @ReadableTitles;
+    for my $ValueItem (@Values) {
+        $ValueItem //= '';
 
-    VALUEITEM:
-    for my $Item (@Values) {
-        $Item //= '';
+        # set title as value after update and before limit
+        push @ReadableTitles, $ValueItem;
 
-        my $ReadableTitle = $Item;
-        my $ReadableValue = $Item;
-
-        # HTMLOuput transformations
+        # HTML Output transformation
         if ($HTMLOutput) {
-
-            $ReadableValue = $Param{LayoutObject}->Ascii2Html(
-                Text => $ReadableValue,
-                Max  => $Param{ValueMaxChars} || '',
-            );
-
-            $ReadableTitle = $Param{LayoutObject}->Ascii2Html(
-                Text => $ReadableTitle,
-                Max  => $Param{TitleMaxChars} || '',
+            $ValueItem = $Param{LayoutObject}->Ascii2Html(
+                Text => $ValueItem,
+                Max  => $Param{ValueMaxChars},
             );
         }
         else {
-
-            if ( $Param{ValueMaxChars} && length($ReadableValue) > $Param{ValueMaxChars} ) {
-                $ReadableValue = substr( $ReadableValue, 0, $Param{ValueMaxChars} ) . '...';
-            }
-            if ( $Param{TitleMaxChars} && length($ReadableTitle) > $Param{TitleMaxChars} ) {
-                $ReadableTitle = substr( $ReadableTitle, 0, $Param{TitleMaxChars} ) . '...';
+            if ( $Param{ValueMaxChars} && length($ValueItem) > $Param{ValueMaxChars} ) {
+                $ValueItem = substr( $ValueItem, 0, $Param{ValueMaxChars} ) . '...';
             }
         }
 
-        push @ReadableValues, $ReadableValue;
-        if ( length $ReadableTitle ) {
-            push @ReadableTitles, $ReadableTitle;
-        }
+        push @ReadableValues, $ValueItem;
     }
 
-    # set new line separator
-    my $ItemSeparator;
-    if ( $Param{DynamicFieldConfig}->{Config}{MultiValue} ) {
-        if ($HTMLOutput) {
-            $ItemSeparator = '<br>';
-        }
-        else {
-            $ItemSeparator = '\n';
-        }
+    my $ValueSeparator;
+    my $Title = join( ', ', @ReadableTitles );
+
+    # HTMLOutput transformations
+    if ($HTMLOutput) {
+        $Title = $Param{LayoutObject}->Ascii2Html(
+            Text => $Title,
+            Max  => $Param{TitleMaxChars} || '',
+        );
+        $ValueSeparator = '<br/>';
     }
     else {
-        $ItemSeparator = ', ';
+        if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
+            $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
+        }
+        $ValueSeparator = "\n";
     }
-
-    my $Value = join $ItemSeparator, @ReadableValues;
-    my $Title = join $ItemSeparator, @ReadableTitles;
 
     # set field link from config
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
@@ -584,8 +559,8 @@ sub DisplayValueRender {
 
     # return a data structure
     return {
-        Value       => $Value,
-        Title       => $Title,
+        Value       => '' . join( $ValueSeparator, @ReadableValues ),
+        Title       => '' . $Title,
         Link        => $Link,
         LinkPreview => $LinkPreview,
         Class       => 'DynamicFieldType_Database',
@@ -636,12 +611,10 @@ EOF
         AdditionalText     => $AdditionalText,
     );
 
-    my $Data = {
+    return {
         Field => $HTMLString,
         Label => $LabelString,
     };
-
-    return $Data;
 }
 
 sub SearchFieldValueGet {
@@ -756,13 +729,11 @@ sub ReadableValueRender {
         $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
     }
 
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value => $Value,
         Title => $Title,
     };
-
-    return $Data;
 }
 
 sub TemplateValueTypeGet {
@@ -833,14 +804,11 @@ sub ObjectMatch {
 sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
-    # get historical values from database
-    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    # return the historical values from database
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
     );
-
-    # return the historical values from database
-    return $HistoricalValues;
 }
 
 sub ValueLookup {
