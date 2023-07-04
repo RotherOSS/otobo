@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-30 09:31+0000\n"
+"PO-Revision-Date: 2023-07-04 12:33+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -23844,133 +23844,166 @@ msgstr "Definerer navnet på den angitte kalenderen."
 
 #. SysConfig
 msgid "Defines the name of the key for customer sessions."
-msgstr ""
+msgstr "Definerer navnet på nøkkelen for kundeøkter."
 
 #. SysConfig
 msgid "Defines the name of the session key. E.g. Session, SessionID or OTOBO."
-msgstr ""
+msgstr "Definerer navnet på øktnøkkelen. f.eks. Session, SessionID eller OTOBO."
 
 #. SysConfig
 msgid "Defines the name of the table where the user preferences are stored."
-msgstr ""
+msgstr "Definerer navnet på tabellen der brukerpreferansene er lagret."
 
 #. SysConfig
 msgid ""
 "Defines the next possible states after composing / answering a ticket in the "
 "ticket compose screen of the agent interface."
 msgstr ""
+"Definerer de neste mulige tilstandene etter å ha skrevet/besvart en sak i "
+"saksskrivingsskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next possible states after forwarding a ticket in the ticket "
 "forward screen of the agent interface."
 msgstr ""
+"Definerer de neste mulige tilstandene etter videresending av en sak i "
+"saksvideresendingsskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next possible states after sending a message in the email "
 "outbound screen of the agent interface."
 msgstr ""
+"Definerer de neste mulige tilstandene etter sending av en melding i "
+"skjermbildet for utgående e-post i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next possible states for customer tickets in the customer "
 "interface."
 msgstr ""
+"Definerer de neste mulige tilstandene for kundesaker i kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the close ticket "
 "screen of the agent interface."
 msgstr ""
+"Definerer neste tilstand for en sak etter å ha lagt til et notat, i "
+"skjermbildet for lukke sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket free "
 "text screen of the agent interface."
 msgstr ""
+"Definerer neste tilstand for en sak etter å ha lagt til et notat, i "
+"saksfritekstskjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket note "
 "screen of the agent interface."
 msgstr ""
+"Definerer neste tilstand for en sak etter å ha lagt til en note, i "
+"saksnotatskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket owner "
 "screen of a zoomed ticket in the agent interface."
 msgstr ""
+"Definerer neste tilstand for en sak etter å ha lagt til et notat, i "
+"sakseierskjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "pending screen of a zoomed ticket in the agent interface."
 msgstr ""
+"Definerer neste tilstand for en sak etter å ha lagt til et notat, i "
+"saksventer-skjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "priority screen of a zoomed ticket in the agent interface."
 msgstr ""
+"Definerer neste tilstand for en sak etter å ha lagt til et notat, i "
+"saksprioritetsskjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "responsible screen of the agent interface."
 msgstr ""
+"Definerer neste tilstand for en sak etter å ha lagt til et notat, i "
+"saksansvarlig skjerm i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after being bounced, in the ticket bounce "
 "screen of the agent interface."
 msgstr ""
+"Definerer den neste tilstanden til en sak etter å ha blitt returnert, i "
+"sakssprett-skjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after being moved to another queue, in "
 "the move ticket screen of the agent interface."
 msgstr ""
+"Definerer den neste tilstanden til en sak etter å ha blitt flyttet til en "
+"annen kø, i skjermbildet for flytting av sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket, in the ticket bulk screen of the agent "
 "interface."
 msgstr ""
+"Definerer neste tilstand for en sak, i massesaksskjermen i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the number of character per line used in case an HTML article "
 "preview replacement on TemplateGenerator for EventNotifications."
 msgstr ""
+"Definerer antall tegn per linje som brukes i tilfelle en HTML-"
+"artikkelforhåndsvisningserstatning på TemplateGenerator for "
+"EventNotifications."
 
 #. SysConfig
 msgid "Defines the number of days to keep the daemon log files."
-msgstr ""
+msgstr "Definerer antall dager for å beholde daemon-loggfilene."
 
 #. SysConfig
 msgid ""
 "Defines the number of header fields in frontend modules for add and update "
 "postmaster filters. It can be up to 99 fields."
 msgstr ""
+"Definerer antall overskriftsfelt i frontend-moduler for å legge til og "
+"oppdatere postmaster-filtre. Det kan være opptil 99 felt."
 
 #. SysConfig
 msgid ""
 "Defines the number of hours a communication will be stored, whichever its "
 "status."
 msgstr ""
+"Definerer antall timer en kommunikasjon skal lagres, avhengig av status."
 
 #. SysConfig
 msgid "Defines the number of hours a successful communication will be stored."
-msgstr ""
+msgstr "Definerer antall timer en vellykket kommunikasjon vil bli lagret."
 
 #. SysConfig
 msgid "Defines the number of tickets shown in the widget."
-msgstr ""
+msgstr "Definerer antall saker som vises i widgeten."
 
 #. SysConfig
 msgid "Defines the parameters for the customer preferences table."
-msgstr ""
+msgstr "Definerer parametrene for tabellen med kundepreferanser."
 
 #. SysConfig
 msgid ""
@@ -23983,6 +24016,14 @@ msgid ""
 "agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config."
 "pm."
 msgstr ""
+"Definerer parametrene for dashbordets backend. \"Cmd\" brukes til å "
+"spesifisere kommando med parametere. \"Gruppe\" brukes til å begrense "
+"tilgangen til plugin-modulen (f.eks. Group: admin;group1;group2;). \"Standard"
+"\" indikerer om plugin-en er aktivert som standard eller om brukeren trenger "
+"å aktivere den manuelt. \"CacheTTL\" indikerer cache-utløpsperioden i "
+"minutter for plugin. \"Obligatorisk\" avgjør om plugin-en alltid vises og "
+"ikke kan fjernes av agenter. Fungerer bare hvis DashboardBackend::"
+"AllowCmdOutput er aktivert i Config.pm."
 
 #. SysConfig
 msgid ""
@@ -23993,6 +24034,12 @@ msgid ""
 "minutes for the plugin. \"Mandatory\" determines if the plugin is always "
 "shown and can not be removed by agents."
 msgstr ""
+"Definerer parametrene for dashbordets backend. \"Gruppe\" brukes til å "
+"begrense tilgangen til plugin-modulen (f.eks. Group: admin;group1;group2;). "
+"\"Standard\" indikerer om plugin-en er aktivert som standard eller om "
+"brukeren trenger å aktivere den manuelt. \"CacheTTL\" indikerer cache-"
+"utløpsperioden i minutter for plugin. \"Obligatorisk\" avgjør om plugin-en "
+"alltid vises og ikke kan fjernes av agenter."
 
 #. SysConfig
 msgid ""
@@ -24004,6 +24051,13 @@ msgid ""
 "plugin. \"Mandatory\" determines if the plugin is always shown and can not "
 "be removed by agents."
 msgstr ""
+"Definerer parametrene for dashbordets backend. \"Limit\" definerer antall "
+"oppføringer som vises som standard. \"Gruppe\" brukes til å begrense "
+"tilgangen til plugin-modulen (f.eks. Group: admin;group1;group2;). \"Standard"
+"\" indikerer om plugin-en er aktivert som standard eller om brukeren trenger "
+"å aktivere den manuelt. \"CacheTTL\" indikerer cache-utløpsperioden i "
+"minutter for plugin. \"Obligatorisk\" avgjør om plugin-en alltid vises og "
+"ikke kan fjernes av agenter."
 
 #. SysConfig
 msgid ""
@@ -24015,86 +24069,119 @@ msgid ""
 "plugin. \"Mandatory\" determines if the plugin is always shown and can not "
 "be removed by agents."
 msgstr ""
+"Definerer parametrene for dashbordets backend. \"Limit\" definerer antall "
+"oppføringer som vises som standard. \"Gruppe\" brukes til å begrense "
+"tilgangen til plugin-modulen (f.eks. Group: admin;group1;group2;). \"Standard"
+"\" indikerer om plugin-en er aktivert som standard eller om brukeren trenger "
+"å aktivere den manuelt. \"CacheTTLLocal\" definerer cache-utløpsperioden i "
+"minutter for plugin-modulen. \"Obligatorisk\" avgjør om plugin-en alltid "
+"vises og ikke kan fjernes av agenter."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle bold italic monospaced font in PDF "
 "documents."
 msgstr ""
+"Definerer banen og TTF-filen for å håndtere fet kursiv skrift med monospace "
+"i PDF-dokumenter."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle bold italic proportional font in PDF "
 "documents."
 msgstr ""
+"Definerer banen og TTF-filen for å håndtere fet kursiv proporsjonal skrift i "
+"PDF-dokumenter."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle bold monospaced font in PDF "
 "documents."
 msgstr ""
+"Definerer banen og TTF-filen for å håndtere fet monospace font i PDF-"
+"dokumenter."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle bold proportional font in PDF "
 "documents."
 msgstr ""
+"Definerer banen og TTF-filen for å håndtere fet proporsjonal skrift i PDF-"
+"dokumenter."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle italic monospaced font in PDF "
 "documents."
 msgstr ""
+"Definerer banen og TTF-filen for å håndtere kursiv skrift med monospace i "
+"PDF-dokumenter."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle italic proportional font in PDF "
 "documents."
 msgstr ""
+"Definerer banen og TTF-filen for å håndtere proporsjonal skrift i kursiv i "
+"PDF-dokumenter."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle monospaced font in PDF documents."
 msgstr ""
+"Definerer banen og TTF-filen for å håndtere monospace font i PDF-dokumenter."
 
 #. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle proportional font in PDF documents."
 msgstr ""
+"Definerer banen og TTF-filen for å håndtere proporsjonal skrift i PDF-"
+"dokumenter."
 
 #. SysConfig
 msgid ""
 "Defines the path of the shown info file, that is located under Kernel/Output/"
 "HTML/Templates/Standard/CustomerAccept.tt."
 msgstr ""
+"Definerer banen til den viste infofilen, som ligger under Kernel/Output/HTML/"
+"Templates/Standard/CustomerAccept.tt."
 
 #. SysConfig
 msgid "Defines the path to PGP binary."
-msgstr ""
+msgstr "Definerer banen til binær PGP."
 
 #. SysConfig
 msgid ""
 "Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = '/"
 "var/lib/wwwrun';)."
 msgstr ""
+"Definerer banen til openssl-binærfil. Det kan trenge en HOME-env ($ENV{HOME} "
+"= '/var/lib/wwwrun';)."
 
 #. SysConfig
 msgid ""
 "Defines the path to the Google Chrome or Chromium binary. If set, this "
 "binary will be used instead of PhantomJS::Bin."
 msgstr ""
+"Definerer banen til binærfilen Google Chrome eller Chromium. Hvis den er "
+"satt, vil denne binære filen bli brukt i stedet for PhantomJS::Bin."
 
 #. SysConfig
 msgid ""
 "Defines the path to the PhantomJS binary. You can use a static build from "
 "http://phantomjs.org/download.html for an easy installation process."
 msgstr ""
+"Definerer banen til PhantomJS-binæren. Du kan bruke en statisk build fra "
+"http://phantomjs.org/download.html for en enkel installasjonsprosess."
 
 #. SysConfig
 msgid ""
 "Defines the period of time (in minutes) before agent is marked as \"away\" "
 "due to inactivity (e.g. in the \"Logged-In Users\" widget or for the chat)."
 msgstr ""
+"Definerer tidsperioden (i minutter) før agenten merkes som \"borte\" på "
+"grunn av inaktivitet (f.eks. i \"påloggede brukere\"-widgeten eller for "
+"chatten)."
 
 #. SysConfig
 msgid ""
@@ -24102,14 +24189,16 @@ msgid ""
 "\" due to inactivity (e.g. in the \"Logged-In Users\" widget or for the "
 "chat)."
 msgstr ""
+"Definerer tidsperioden (i minutter) før kunden merkes som \"borte\" på grunn "
+"av inaktivitet (f.eks. i \"påloggede brukere\"-widgeten eller for chatten)."
 
 #. SysConfig
 msgid "Defines the postmaster default queue."
-msgstr ""
+msgstr "Definerer postmesterens standardkø."
 
 #. SysConfig
 msgid "Defines the priority in which the information is logged and presented."
-msgstr ""
+msgstr "Definerer prioriteten som informasjonen logges og presenteres i."
 
 #. SysConfig
 msgid ""
@@ -24117,6 +24206,9 @@ msgid ""
 "ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
 msgstr ""
+"Definerer mottakermålet for telefonsaken og avsenderen av e-postsaken (\"Kø\""
+" viser alle køer, \"Systemadresse\" viser alle systemadresser) i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -24124,16 +24216,20 @@ msgid ""
 "\"SystemAddress\" shows only the queues which are assigned to system "
 "addresses) in the customer interface."
 msgstr ""
+"Definerer mottakermålet for sakene (\"Kø\" viser alle køer, \"SystemAddress\""
+" viser bare køene som er tilordnet systemadresser) i kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the required permission to show a ticket in the escalation view of "
 "the agent interface."
 msgstr ""
+"Definerer den nødvendige tillatelsen til å vise en sak i "
+"eskaleringsvisningen til agentgrensesnittet."
 
 #. SysConfig
 msgid "Defines the search limit for the stats."
-msgstr ""
+msgstr "Definerer søkegrensen for statistikken."
 
 #. SysConfig
 msgid ""
@@ -24141,22 +24237,29 @@ msgid ""
 "With the setting 'CustomerTicketTextField' the values for the recipient "
 "field can be specified."
 msgstr ""
+"Definerer søkeparametrene for skjermbildet AgentCustomerUserAddressBook. Med "
+"innstillingen 'CustomerTicketTextField' kan verdiene for mottakerfeltet "
+"spesifiseres."
 
 #. SysConfig
 msgid "Defines the sender for rejected emails."
-msgstr ""
+msgstr "Definerer avsenderen for avviste e-poster."
 
 #. SysConfig
 msgid ""
 "Defines the separator between the agents real name and the given queue email "
 "address."
 msgstr ""
+"Definerer skillet mellom agentens virkelige navn og den oppgitte "
+"kø-e-postadressen."
 
 #. SysConfig
 msgid ""
 "Defines the shown columns and the position in the "
 "AgentCustomerUserAddressBook result screen."
 msgstr ""
+"Definerer de viste kolonnene og plasseringen i resultatskjermbildet "
+"AgentCustomerUserAddressBook."
 
 #. SysConfig
 msgid ""
@@ -24165,10 +24268,14 @@ msgid ""
 "\"Content\" is the shown label. <OTOBO_CONFIG_HttpType>, <OTOBO_CONFIG_FQDN> "
 "and <OTOBO_CONFIG_ScriptAlias> will be substituted."
 msgstr ""
+"Definerer de viste koblingene i bunntekstområdet i kundegrensesnittet til "
+"dette OTOBO-systemet. Verdien i \"Nøkkel\" er den eksterne URL-en, verdien i "
+"\"Innhold\" er den viste etiketten. <OTOBO_CONFIG_HttpType>, "
+"<OTOBO_CONFIG_FQDN> og <OTOBO_CONFIG_ScriptAlias> vil bli erstattet."
 
 #. SysConfig
 msgid "Defines the source dynamic field for storing historical data."
-msgstr ""
+msgstr "Definerer kildedynamikkfeltet for lagring av historiske data."
 
 #. SysConfig
 msgid ""
@@ -24178,6 +24285,11 @@ msgid ""
 "any of the afore mentioned permissions, that the \"rw\" permission remains "
 "the last entry."
 msgstr ""
+"Definerer standardtillatelsene som er tilgjengelige for kunder i "
+"applikasjonen. Hvis flere tillatelser er nødvendig, kan du legge dem inn "
+"her. Tillatelser må være hardkodet for å være effektive. Sørg for, når du "
+"legger til noen av de ovennevnte tillatelsene, at \"rw\"-tillatelsen forblir "
+"den siste oppføringen."
 
 #. SysConfig
 msgid "Defines the standard size of PDF pages."
@@ -24203,47 +24315,55 @@ msgstr "Definerer statustypen for påminnelser om saker på vent."
 msgid ""
 "Defines the subject for notification mails sent to agents, about new "
 "password."
-msgstr ""
+msgstr "Definerer emnet for varslingsposter sendt til agenter, om nytt passord."
 
 #. SysConfig
 msgid ""
 "Defines the subject for notification mails sent to agents, with token about "
 "new requested password."
 msgstr ""
+"Definerer emnet for varslingsposter sendt til agenter, med token om nytt "
+"forespurt passord."
 
 #. SysConfig
 msgid ""
 "Defines the subject for notification mails sent to customers, about new "
 "account."
-msgstr ""
+msgstr "Definerer emnet for varslingsposter sendt til kunder, om ny konto."
 
 #. SysConfig
 msgid ""
 "Defines the subject for notification mails sent to customers, about new "
 "password."
-msgstr ""
+msgstr "Definerer emnet for varslingsposter sendt til kunder, om nytt passord."
 
 #. SysConfig
 msgid ""
 "Defines the subject for notification mails sent to customers, with token "
 "about new requested password."
 msgstr ""
+"Definerer emnet for varslingsposter sendt til kunder, med token om nytt "
+"forespurt passord."
 
 #. SysConfig
 msgid "Defines the subject for rejected emails."
-msgstr ""
+msgstr "Definerer emnet for avviste e-poster."
 
 #. SysConfig
 msgid ""
 "Defines the subject for the quick close action, which gets used for ticket "
 "history in the agent interface."
 msgstr ""
+"Definerer emnet for den raske lukkehandlingen, som blir brukt til "
+"sakshistorikk i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Defines the system administrator's email address. It will be displayed in "
 "the error screens of the application."
 msgstr ""
+"Definerer systemadministratorens e-postadresse. Det vil vises på "
+"feilskjermbildene til applikasjonen."
 
 #. SysConfig
 msgid ""
@@ -24252,36 +24372,45 @@ msgid ""
 "will be processed as follow-ups (useful when communicating between two "
 "instances of OTOBO)."
 msgstr ""
+"Definerer systemidentifikatoren. Hvert saksnummer og http-sesjonsstreng "
+"inneholder denne IDen. Dette sikrer at kun saker som tilhører systemet ditt "
+"vil bli behandlet som oppfølging (nyttig ved kommunikasjon mellom to "
+"forekomster av OTOBO)."
 
 #. SysConfig
 msgid ""
 "Defines the target attribute in the link to external customer database. E.g. "
 "'AsPopup PopupType_TicketAction'."
 msgstr ""
+"Definerer målattributtet i lenken til ekstern kundedatabase. f.eks. 'AsPopup "
+"PopupType_TicketAction'."
 
 #. SysConfig
 msgid ""
 "Defines the target attribute in the link to external customer database. E.g. "
 "'target=\"cdb\"'."
 msgstr ""
+"Definerer målattributtet i lenken til ekstern kundedatabase. f.eks. 'target="
+"\"cdb\"'."
 
 #. SysConfig
 msgid "Defines the target dynamic fields for storing historical data."
-msgstr ""
+msgstr "Definerer de dynamiske målfeltene for lagring av historiske data."
 
 #. SysConfig
 msgid ""
 "Defines the ticket appointment type backend for ticket dynamic field date "
 "time."
 msgstr ""
+"Definerer saksavtaletypen backend for saksdynamisk felt dato og klokkeslett."
 
 #. SysConfig
 msgid "Defines the ticket appointment type backend for ticket escalation time."
-msgstr ""
+msgstr "Definerer saksavtaletypens backend for saksopptrappingstid."
 
 #. SysConfig
 msgid "Defines the ticket appointment type backend for ticket pending time."
-msgstr ""
+msgstr "Definerer saksavtaletypens backend for ventetid for sak."
 
 #. SysConfig
 msgid ""
@@ -24289,16 +24418,20 @@ msgid ""
 "The \"Key\" defines the field or ticket attribute and the \"Content\" "
 "defines the display name."
 msgstr ""
+"Definerer saksfeltene som skal vises kalenderhendelser. \"Nøkkel\" definerer "
+"feltet eller saksattributtet og \"Innhold\" definerer visningsnavnet."
 
 #. SysConfig
 msgid "Defines the ticket plugin for calendar appointments."
-msgstr ""
+msgstr "Definerer saksplugin for kalenderavtaler."
 
 #. SysConfig
 msgid ""
 "Defines the time zone of the indicated calendar, which can be assigned later "
 "to a specific queue."
 msgstr ""
+"Definerer tidssonen til den angitte kalenderen, som senere kan tilordnes en "
+"bestemt kø."
 
 #. SysConfig
 msgid ""
@@ -24306,14 +24439,17 @@ msgid ""
 "collection with the public module 'PublicSupportDataCollector' (e.g. used "
 "from the OTOBO Daemon)."
 msgstr ""
+"Definerer tidsavbruddet (i sekunder, minimum er 20 sekunder) for innsamling "
+"av støttedata med den offentlige modulen 'PublicSupportDataCollector' ("
+"f.eks. brukt fra OTOBO Daemon)."
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."
-msgstr ""
+msgstr "Definerer tofaktormodulen for å autentisere agenter."
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate customers."
-msgstr ""
+msgstr "Definerer tofaktormodulen for å autentisere kunder."
 
 #. SysConfig
 msgid ""
@@ -24329,6 +24465,17 @@ msgid ""
 "'https' is that the session management cookie will only be set for secure "
 "connections."
 msgstr ""
+"Definerer typen protokoll som brukes av webserveren for å betjene "
+"applikasjonen. Hvis webserveren bruker HTTP i stedet for HTTPS, må 'http' "
+"angis her. Innstillingen for 'HttpType' har ingen innvirkning på "
+"webserverens innstillinger eller oppførsel. Det vil spesifikt ikke endre "
+"metoden for tilgang til applikasjonen. Hvis innstillingen er feil, vil det "
+"ikke hindre deg i å logge på applikasjonen. Denne innstillingen brukes "
+"hovedsakelig via malvariabelen OTOBO_CONFIG_HttpType. Denne variabelen "
+"finnes i alle former for meldinger som brukes av applikasjonen. Den brukes "
+"til å bygge lenker til sakene i systemet ditt. En annen effekt av å holde "
+"'HttpType' satt til 'https' er at øktadministrasjonsinformasjonskapselen kun "
+"vil bli satt for sikre tilkoblinger."
 
 #. SysConfig
 msgid ""
@@ -24336,10 +24483,13 @@ msgid ""
 "screen of the agent interface. If this is empty or inactive, original emails "
 "will not be quoted but appended to the response."
 msgstr ""
+"Definerer det brukte tegnet for e-postsitater i klartekst i skjermbildet for "
+"bestilling av saker i agentgrensesnittet. Hvis dette er tomt eller inaktivt, "
+"vil ikke originale e-poster bli sitert, men lagt til svaret."
 
 #. SysConfig
 msgid "Defines the user identifier for the customer panel."
-msgstr ""
+msgstr "Definerer brukeridentifikatoren for kundepanelet."
 
 #. SysConfig
 msgid ""
@@ -24349,6 +24499,12 @@ msgid ""
 "another user's behalf. Use 'PreferenceGroup' to control in which area these "
 "settings should be shown in the user interface."
 msgstr ""
+"Definerer brukerens avatar. Vennligst merk: å sette 'Aktiv' til 0 vil bare "
+"forhindre agenter fra å redigere innstillingene for denne gruppen i sine "
+"personlige preferanser, men vil fortsatt tillate administratorer å redigere "
+"innstillingene til en annen brukers vegne. Bruk 'PreferenceGroup' for å "
+"kontrollere i hvilket område disse innstillingene skal vises i "
+"brukergrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -24356,12 +24512,17 @@ msgid ""
 "have any state type from this setting, this ticket will be considered as "
 "open, otherwise as closed."
 msgstr ""
+"Definerer gyldige tilstandstyper for en sak. Hvis en sak er i en tilstand "
+"som har en hvilken som helst tilstandstype fra denne innstillingen, vil "
+"denne saken anses som åpen, ellers som lukket."
 
 #. SysConfig
 msgid ""
 "Defines the valid states for unlocked tickets. To unlock tickets the script "
 "\"bin/otobo.Console.pl Maint::Ticket::UnlockTimeout\" can be used."
 msgstr ""
+"Definerer gyldige tilstander for ulåste saker. For å låse opp saker kan "
+"skriptet \"bin/otobo.Console.pl Maint::Ticket::UnlockTimeout\" brukes."
 
 #. SysConfig
 msgid ""
@@ -24369,80 +24530,101 @@ msgid ""
 "make sure to delete the cache in order to use the new value. Default: "
 "unlock, tmp_lock."
 msgstr ""
+"Definerer de synlige låsene til en sak. MERK: Når du endrer denne "
+"innstillingen, sørg for å slette hurtigbufferen for å bruke den nye verdien. "
+"Standard: unlock, tmp_lock."
 
 #. SysConfig
 msgid ""
 "Defines the width for the rich text editor component for this screen. Enter "
 "number (pixels) or percent value (relative)."
 msgstr ""
+"Definerer bredden for redigeringskomponenten for rik tekst for denne "
+"skjermen. Skriv inn tall (piksler) eller prosentverdi (relativ)."
 
 #. SysConfig
 msgid ""
 "Defines the width for the rich text editor component. Enter number (pixels) "
 "or percent value (relative)."
 msgstr ""
+"Definerer bredden for redigeringskomponenten for rik tekst. Skriv inn tall "
+"(piksler) eller prosentverdi (relativ)."
 
 #. SysConfig
 msgid ""
 "Defines time in minutes since last modification for drafts of specified type "
 "before they are considered expired."
 msgstr ""
+"Definerer tiden i minutter siden siste endring for utkast av spesifisert "
+"type før de anses som utløpt."
 
 #. SysConfig
 msgid "Defines whether to index archived tickets for fulltext searches."
-msgstr ""
+msgstr "Definerer om arkiverte saker skal indekseres for fulltekstsøk."
 
 #. SysConfig
 msgid ""
 "Defines which article sender types should be shown in the preview of a "
 "ticket."
 msgstr ""
+"Definerer hvilke artikkelavsendertyper som skal vises i forhåndsvisningen av "
+"en sak."
 
 #. SysConfig
 msgid ""
 "Defines which items are available for 'Action' in third level of the ACL "
 "structure."
 msgstr ""
+"Definerer hvilke elementer som er tilgjengelige for 'Handling' på tredje "
+"nivå i ACL-strukturen."
 
 #. SysConfig
 msgid "Defines which items are available in first level of the ACL structure."
 msgstr ""
+"Definerer hvilke elementer som er tilgjengelige på første nivå av ACL-"
+"strukturen."
 
 #. SysConfig
 msgid "Defines which items are available in second level of the ACL structure."
 msgstr ""
+"Definerer hvilke elementer som er tilgjengelige på andre nivå av ACL-"
+"strukturen."
 
 #. SysConfig
 msgid ""
 "Defines which states should be set automatically (Content), after the "
 "pending time of state (Key) has been reached."
 msgstr ""
+"Definerer hvilke tilstander som skal settes automatisk (Innhold), etter at "
+"ventetiden for tilstand (Nøkkel) er nådd."
 
 #. SysConfig
 msgid ""
 "Defines, which tickets of which ticket state types should not be listed in "
 "linked ticket lists."
 msgstr ""
+"Definerer hvilke saker av hvilke saksstatustyper som ikke skal vises i "
+"koblede sakslister."
 
 #. SysConfig
 msgid "Delete expired cache from core modules."
-msgstr ""
+msgstr "Slett utløpt cache fra kjernemoduler."
 
 #. SysConfig
 msgid "Delete expired loader cache weekly (Sunday mornings)."
-msgstr ""
+msgstr "Slett utløpt loader-cache ukentlig (søndag morgen)."
 
 #. SysConfig
 msgid "Delete expired sessions."
-msgstr ""
+msgstr "Slett utløpte økter."
 
 #. SysConfig
 msgid "Delete expired ticket draft entries."
-msgstr ""
+msgstr "Slett utløpte saksutkast."
 
 #. SysConfig
 msgid "Delete expired upload cache hourly."
-msgstr ""
+msgstr "Slett utløpt opplastingsbuffer hver time."
 
 #. SysConfig
 msgid "Delete this ticket"
@@ -24457,30 +24639,35 @@ msgid ""
 "Deletes a session if the session id is used with an invalid remote IP "
 "address."
 msgstr ""
+"Sletter en økt hvis sesjons-IDen brukes med en ugyldig ekstern IP-adresse."
 
 #. SysConfig
 msgid "Deletes requested sessions if they have timed out."
-msgstr ""
+msgstr "Sletter forespurte økter hvis de har tidsavbrutt."
 
 #. SysConfig
 msgid ""
 "Delivers extended debugging information in the frontend in case any AJAX "
 "errors occur, if enabled."
 msgstr ""
+"Leverer utvidet feilsøkingsinformasjon i frontend i tilfelle AJAX-feil "
+"oppstår, hvis aktivert."
 
 #. SysConfig
 msgid "DeploymentHistory"
-msgstr ""
+msgstr "DeploymentHistory"
 
 #. SysConfig
 msgid "Detached"
-msgstr ""
+msgstr "Frakoblet"
 
 #. SysConfig
 msgid ""
 "Determines if a button to delete a link should be displayed next to each "
 "link in each zoom mask."
 msgstr ""
+"Bestemmer om en knapp for å slette en kobling skal vises ved siden av hver "
+"lenke i hver zoommaske."
 
 #. SysConfig
 msgid ""
@@ -24488,52 +24675,67 @@ msgid ""
 "displayed in a dropdown list or in a new window in the agent interface. If "
 "\"New Window\" is set you can add a move note to the ticket."
 msgstr ""
+"Bestemmer om listen over mulige køer å flytte til sak til skal vises i en "
+"nedtrekksliste eller i et nytt vindu i agentgrensesnittet. Hvis \"Nytt "
+"vindu\" er satt kan du legge til en flyttelapp på saksen."
 
 #. SysConfig
 msgid "Determines if the statistics module may generate ticket lists."
-msgstr ""
+msgstr "Bestemmer om statistikkmodulen kan generere sakslister."
 
 #. SysConfig
 msgid ""
 "Determines the next possible ticket states, after the creation of a new "
 "email ticket in the agent interface."
 msgstr ""
+"Bestemmer de neste mulige sakstilstandene, etter opprettelsen av en ny e-"
+"postsak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Determines the next possible ticket states, after the creation of a new "
 "phone ticket in the agent interface."
 msgstr ""
+"Bestemmer de neste mulige sakstilstandene, etter opprettelsen av en ny "
+"telefonsak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Determines the next possible ticket states, for process tickets in the agent "
 "interface."
 msgstr ""
+"Bestemmer de neste mulige sakstilstandene for prosesssaker i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Determines the next possible ticket states, for process tickets in the "
 "customer interface."
 msgstr ""
+"Bestemmer de neste mulige sakstilstandene, for prosesssaker i "
+"kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Determines the next screen after new customer ticket in the customer "
 "interface."
-msgstr ""
+msgstr "Bestemmer neste skjermbilde etter ny kundesak i kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Determines the next screen after the follow-up screen of a zoomed ticket in "
 "the customer interface."
 msgstr ""
+"Bestemmer neste skjermbilde etter oppfølgingsskjermen til en zoomet sak i "
+"kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Determines the next screen after the process screen of a zoomed ticket in "
 "the customer interface."
 msgstr ""
+"Bestemmer neste skjermbilde etter prosessskjermbildet for en zoomet sak i "
+"kundegrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -24541,12 +24743,17 @@ msgid ""
 "will return the last overview screen (e.g. search results, queueview, "
 "dashboard). TicketZoom will return to the TicketZoom."
 msgstr ""
+"Bestemmer neste skjermbilde etter at saken er flyttet. LastScreenOverview "
+"vil returnere den siste oversiktsskjermen (f.eks. søkeresultater, køvisning, "
+"dashbord). TicketZoom kommer tilbake til TicketZoom."
 
 #. SysConfig
 msgid ""
 "Determines the possible states for pending tickets that changed state after "
 "reaching time limit."
 msgstr ""
+"Bestemmer mulige tilstander for ventende saker som endret tilstand etter å "
+"ha nådd tidsgrensen."
 
 #. SysConfig
 msgid ""
@@ -24556,6 +24763,11 @@ msgid ""
 "for SystemAddress \"<Realname> <<Email>>\" shows the name and email of the "
 "recipient."
 msgstr ""
+"Bestemmer strengene som skal vises som mottaker (Til:) av telefonsaken og "
+"som avsender (Fra:) av e-postsaken i agentgrensesnittet. For Queue as "
+"NewQueueSelectionType \"<Queue>\" viser navnene på køene og for "
+"SystemAddress \"<Realname> <<Email>>\" viser navnet og e-posten til "
+"mottakeren."
 
 #. SysConfig
 msgid ""
@@ -24564,22 +24776,30 @@ msgid ""
 "\" shows the names of the queues, and for SystemAddress, \"<Realname> "
 "<<Email>>\" shows the name and email of the recipient."
 msgstr ""
+"Bestemmer strengene som skal vises som mottaker (Til:) av saksen i "
+"kundegrensesnittet. For Queue as CustomerPanelSelectionType viser \"<Queue>\""
+" navnene på køene, og for SystemAddress viser \"<Realname> <<Email>>\" "
+"navnet og e-posten til mottakeren."
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
-msgstr ""
+msgstr "Bestemmer måten de koblede objektene vises på i hver zoommaske."
 
 #. SysConfig
 msgid ""
 "Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
 msgstr ""
+"Bestemmer hvilke alternativer som vil være gyldige for mottakeren "
+"(telefonsak) og avsenderen (e-postsak) i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Determines which queues will be valid for ticket's recepients in the "
 "customer interface."
 msgstr ""
+"Bestemmer hvilke køer som skal være gyldige for sakens mottakere i "
+"kundegrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -24587,6 +24807,9 @@ msgid ""
 "script contents. Disabling this HTTP header can be a security issue! Only "
 "disable it, if you know what you are doing!"
 msgstr ""
+"Deaktiver HTTP-header \"Content-Security-Policy\" for å tillate lasting av "
+"eksternt skriptinnhold. Deaktivering av denne HTTP-headeren kan være et "
+"sikkerhetsproblem! Deaktiver den bare hvis du vet hva du gjør!"
 
 #. SysConfig
 msgid ""
@@ -24594,50 +24817,60 @@ msgid ""
 "included as an IFrame in other websites. Disabling this HTTP header can be a "
 "security issue! Only disable it, if you know what you are doing!"
 msgstr ""
+"Deaktiver HTTP-header \"X-Frame-Options: SAMEORIGIN\" for å tillate OTOBO å "
+"bli inkludert som en IFrame på andre nettsteder. Deaktivering av denne HTTP-"
+"headeren kan være et sikkerhetsproblem! Deaktiver den bare hvis du vet hva "
+"du gjør!"
 
 #. SysConfig
 msgid "Disable autocomplete in the login screen."
-msgstr ""
+msgstr "Deaktiver autofullføring på påloggingsskjermen."
 
 #. SysConfig
 msgid "Disable cloud services"
-msgstr ""
+msgstr "Deaktiver skytjenester"
 
 #. SysConfig
 msgid ""
 "Disables sending reminder notifications to the responsible agent of a ticket "
 "(Ticket::Responsible needs to be enabled)."
 msgstr ""
+"Deaktiverer sending av påminnelsesvarsler til den ansvarlige agenten for en "
+"sak (Ticket::Responsible må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
 "ticket is closed."
 msgstr ""
+"Deaktiverer omdirigering til siste skjermoversikt / dashbord etter at en sak "
+"er stengt."
 
 #. SysConfig
 msgid ""
 "Display a warning and prevent search when using stop words within fulltext "
 "search."
-msgstr ""
+msgstr "Vis en advarsel og forhindre søk når du bruker stoppord i fulltekstsøk."
 
 #. SysConfig
 msgid "Display communication log entries."
-msgstr ""
+msgstr "Vis kommunikasjonsloggoppføringer."
 
 #. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr ""
+"Vis innstillinger for å overstyre standardinnstillinger for prosesssaker."
 
 #. SysConfig
 msgid "Displays the accounted time for an article in the ticket zoom view."
-msgstr ""
+msgstr "Viser regnskapsført tid for en artikkel i sakszoomvisningen."
 
 #. SysConfig
 msgid ""
 "Displays the number of all tickets with the same CustomerID as current "
 "ticket in the ticket zoom view."
 msgstr ""
+"Viser antall saker med samme kunde-ID som gjeldende sak i sakszoomvisningen."
 
 #. SysConfig
 msgid "Down"
@@ -24649,57 +24882,59 @@ msgstr "Nedfellsmeny"
 
 #. SysConfig
 msgid "Dutch"
-msgstr ""
+msgstr "nederlandsk"
 
 #. SysConfig
 msgid ""
 "Dutch stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"Nederlandsk stoppord for fulltekstindeks. Disse ordene vil bli fjernet fra "
+"søkeindeksen."
 
 #. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
-msgstr ""
+msgstr "Dynamic Fields Checkbox Backend GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Contact Data Backend GUI"
-msgstr ""
+msgstr "Dynamiske felt Kontakt Data Backend GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Database Backend GUI"
-msgstr ""
+msgstr "Dynamic Fields Database Backend GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Date Time Backend GUI"
-msgstr ""
+msgstr "Dynamiske felt Dato Tid Backend GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Drop-down Backend GUI"
-msgstr ""
+msgstr "Dynamiske felt rullegardinmeny Backend GUI"
 
 #. SysConfig
 msgid "Dynamic Fields GUI"
-msgstr ""
+msgstr "Dynamic Fields GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Multiselect Backend GUI"
-msgstr ""
+msgstr "Dynamic Fields Multiselect Backend GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Overview Limit"
-msgstr ""
+msgstr "Oversiktsgrense for dynamiske felt"
 
 #. SysConfig
 msgid "Dynamic Fields Text Backend GUI"
-msgstr ""
+msgstr "Dynamiske felt Tekst Backend GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Web Service Backend GUI"
-msgstr ""
+msgstr "Dynamic Fields Web Service Backend GUI"
 
 #. SysConfig
 msgid "Dynamic Fields used to export the search result in CSV format."
-msgstr ""
+msgstr "Dynamiske felt som brukes til å eksportere søkeresultatet i CSV-format."
 
 #. SysConfig
 msgid ""
@@ -24707,10 +24942,13 @@ msgid ""
 "the value contains the fields to be shown. Example: 'Key => My Group', "
 "'Content: Name_X, NameY'."
 msgstr ""
+"Dynamiske feltgrupper for prosesswidget. Nøkkelen er navnet på gruppen, "
+"verdien inneholder feltene som skal vises. Eksempel: 'Nøkkel => Min gruppe', "
+"'Innhold: Navn_X, NavnY'."
 
 #. SysConfig
 msgid "Dynamic fields limit per page for Dynamic Fields Overview."
-msgstr ""
+msgstr "Dynamiske feltgrense per side for dynamiske feltoversikt."
 
 #. SysConfig
 msgid ""
@@ -24719,168 +24957,191 @@ msgid ""
 "of the customer interface, you have to enable them in "
 "CustomerTicketZoom###DynamicField."
 msgstr ""
+"Dynamiske feltalternativer vist i saksmeldingsskjermen i kundegrensesnittet. "
+"MERK. Hvis du vil vise disse feltene også i sakszoom i kundegrensesnittet, "
+"må du aktivere dem i CustomerTicketZoom###DynamicField."
 
 #. SysConfig
 msgid ""
 "Dynamic fields options shown in the ticket reply section in the ticket zoom "
 "screen of the customer interface."
 msgstr ""
+"Dynamiske feltalternativer vist i sakssvarseksjonen i sakszoomskjermen i "
+"kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the email outbound screen of the agent interface."
 msgstr ""
+"Dynamiske felt som vises på skjermen for utgående e-post i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the process widget in ticket zoom screen of the "
 "agent interface."
 msgstr ""
+"Dynamiske felt vist i prosess-widgeten i sakszoomskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the sidebar of the ticket zoom screen of the agent "
 "interface."
 msgstr ""
+"Dynamiske felt vist i sidefeltet på sakszoomskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket close screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felt vist i sakslukkingsskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket compose screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felter vist i saksskrivingsskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket email screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felt vist i sak-e-postskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket forward screen of the agent interface."
 msgstr ""
+"Dynamiske felt som vises i skjermbildet for videresending av sak i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket free text screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felt vist i saksfritekstskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket medium format overview screen of the "
 "agent interface."
 msgstr ""
+"Dynamiske felt vist i oversiktsskjermbildet for saksmediumformat i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket move screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felt vist i saksflyttingsskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket note screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felter vist i sakslappskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket overview screen of the customer interface."
-msgstr ""
+msgstr "Dynamiske felt vist i saksoversiktsskjermen til kundegrensesnittet."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket owner screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felt vist på sakseierskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket pending screen of the agent interface."
 msgstr ""
+"Dynamiske felt vist i skjermbildet for ventende sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone inbound screen of the agent "
 "interface."
 msgstr ""
+"Dynamiske felt vist på sakstelefonens inngående skjerm i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone outbound screen of the agent "
 "interface."
 msgstr ""
+"Dynamiske felt som vises på utgående sakstelefonskjerm i agentgrensesnittet."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket phone screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felt vist på sakstelefonskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket preview format overview screen of the "
 "agent interface."
 msgstr ""
+"Dynamiske felt vist i oversiktsskjermbildet for forhåndsvisning av "
+"saksformat i agentgrensesnittet."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket print screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felt vist i saksutskriftsskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket print screen of the customer interface."
-msgstr ""
+msgstr "Dynamiske felt vist i saksutskriftsskjermen til kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket priority screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felt vist i saksprioritetsskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket responsible screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felt vist i saksansvarlig skjerm i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search overview results screen of the "
 "customer interface."
 msgstr ""
+"Dynamiske felt vist i oversiktsresultatskjermbildet for sakssøk i "
+"kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search screen of the agent interface."
-msgstr ""
+msgstr "Dynamiske felt vist i sakssøkeskjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search screen of the customer interface."
-msgstr ""
+msgstr "Dynamiske felt vist i sakssøkeskjermen i kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket small format overview screen of the agent "
 "interface."
 msgstr ""
+"Dynamiske felt vist i oversiktsskjermbildet for sak i liten format i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket zoom screen of the customer interface."
-msgstr ""
+msgstr "Dynamiske felter vist i sakszoomskjermen til kundegrensesnittet."
 
 #. SysConfig
 msgid "DynamicField"
-msgstr ""
+msgstr "Dynamisk felt"
 
 #. SysConfig
 msgid "DynamicField backend registration."
-msgstr ""
+msgstr "Dynamisk felt-backend-registrering."
 
 #. SysConfig
 msgid "DynamicField object registration."
-msgstr ""
+msgstr "Dynamisk felt-objektregistrering."
 
 #. SysConfig
 msgid "DynamicFieldScreen"
-msgstr ""
+msgstr "DynamicFieldScreen"
 
 #. SysConfig
 msgid "DynamicField_%s"
-msgstr ""
+msgstr "Dynamisk felt_%s"
 
 #. SysConfig
 msgid "E-Mail Outbound"
@@ -24888,11 +25149,11 @@ msgstr "Utgående e-post"
 
 #. SysConfig
 msgid "Edit Customer Companies."
-msgstr ""
+msgstr "Rediger kundebedrifter."
 
 #. SysConfig
 msgid "Edit Customer Users."
-msgstr ""
+msgstr "Rediger kundebrukere."
 
 #. SysConfig
 msgid "Edit appointment"
@@ -24900,11 +25161,11 @@ msgstr "Endre avtale"
 
 #. SysConfig
 msgid "Edit contacts with data"
-msgstr ""
+msgstr "Rediger kontakter med data"
 
 #. SysConfig
 msgid "Edit contacts with data."
-msgstr ""
+msgstr "Rediger kontakter med data."
 
 #. SysConfig
 msgid "Edit customer company"
@@ -24912,7 +25173,7 @@ msgstr "Endre kundebedrift"
 
 #. SysConfig
 msgid "Elasticsearch quick result module."
-msgstr ""
+msgstr "Elasticsearch rask resultatmodul."
 
 #. SysConfig
 msgid "Email Addresses"
@@ -24920,29 +25181,31 @@ msgstr "e-postadresser"
 
 #. SysConfig
 msgid "Email Outbound"
-msgstr ""
+msgstr "E-post utgående"
 
 #. SysConfig
 msgid "Email Resend"
-msgstr ""
+msgstr "Send e-post på nytt"
 
 #. SysConfig
 msgid "Email communication channel."
-msgstr ""
+msgstr "E-post kommunikasjonskanal."
 
 #. SysConfig
 msgid "Enable highlighting queues based on ticket age."
-msgstr ""
+msgstr "Aktiver utheving av køer basert på saksalderen."
 
 #. SysConfig
 msgid "Enable keep-alive connection header for SOAP responses."
-msgstr ""
+msgstr "Aktiver keep-alive-tilkoblingshode for SOAP-svar."
 
 #. SysConfig
 msgid ""
 "Enable this if you trust in all your public and private pgp keys, even if "
 "they are not certified with a trusted signature."
 msgstr ""
+"Aktiver dette hvis du stoler på alle dine offentlige og private pgp-nøkler, "
+"selv om de ikke er sertifisert med en klarert signatur."
 
 #. SysConfig
 msgid "Enabled filters."
@@ -24955,6 +25218,9 @@ msgid ""
 "Otherwise, there will be problems with the privileges when accessing .gnupg "
 "folder."
 msgstr ""
+"Aktiverer PGP-støtte. Når PGP-støtte er aktivert for signering og kryptering "
+"av e-post, anbefales det STERKT at webserveren kjører som OTOBO-bruker. "
+"Ellers vil det være problemer med privilegiene ved tilgang til .gnupg-mappen."
 
 #. SysConfig
 msgid "Enables S/MIME support."
@@ -24966,11 +25232,11 @@ msgstr "Lar kunder opprette sine egne kontoer."
 
 #. SysConfig
 msgid "Enables fetch S/MIME from CustomerUser backend support."
-msgstr ""
+msgstr "Gjør det mulig å hente S/MIME fra CustomerUser-støttestøtte."
 
 #. SysConfig
 msgid "Enables file upload in the package manager frontend."
-msgstr ""
+msgstr "Aktiverer filopplasting i pakkebehandlingsgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -24978,50 +25244,61 @@ msgid ""
 "template caching for production environments for it will cause a massive "
 "performance drop! This setting should only be disabled for debugging reasons!"
 msgstr ""
+"Aktiverer eller deaktiverer hurtigbufring for maler. ADVARSEL: IKKE "
+"deaktiver malbufring for produksjonsmiljøer, for det vil føre til et massivt "
+"ytelsesfall! Denne innstillingen bør bare deaktiveres av feilsøkingsårsaker!"
 
 #. SysConfig
 msgid "Enables or disables the debug mode over frontend interface."
-msgstr ""
+msgstr "Aktiverer eller deaktiverer feilsøkingsmodusen over grensesnittet."
 
 #. SysConfig
 msgid ""
 "Enables or disables the ticket watcher feature, to keep track of tickets "
 "without being the owner nor the responsible."
 msgstr ""
+"Aktiverer eller deaktiverer saksovervåker-funksjonen, for å holde styr på "
+"saker uten å være eier eller ansvarlig."
 
 #. SysConfig
 msgid ""
 "Enables performance log (to log the page response time). It will affect the "
 "system performance. Frontend::Module###AdminPerformanceLog must be enabled."
 msgstr ""
+"Aktiverer ytelseslogg (for å logge sidens responstid). Det vil påvirke "
+"systemytelsen. Frontend::Module###AdminPerformanceLog må være aktivert."
 
 #. SysConfig
 msgid ""
 "Enables the minimal ticket counter size (if \"Date\" was selected as "
 "TicketNumberGenerator)."
 msgstr ""
+"Aktiverer den minimale sakstellerstørrelsen (hvis \"Dato\" ble valgt som "
+"TicketNumberGenerator)."
 
 #. SysConfig
 msgid ""
 "Enables ticket bulk action feature for the agent frontend to work on more "
 "than one ticket at a time."
 msgstr ""
+"Aktiverer sak-bulkhandlingsfunksjon for agentens grensesnitt for å jobbe med "
+"mer enn én sak om gangen."
 
 #. SysConfig
 msgid "Enables ticket bulk action feature only for the listed groups."
-msgstr ""
+msgstr "Aktiverer bulkhandlingsfunksjonen bare for de oppførte gruppene."
 
 #. SysConfig
 msgid "Enables ticket responsible feature, to keep track of a specific ticket."
-msgstr ""
+msgstr "Aktiverer saksansvarlig funksjon for å holde styr på en spesifikk sak."
 
 #. SysConfig
 msgid "Enables ticket type feature."
-msgstr ""
+msgstr "Aktiverer sakstypefunksjonen."
 
 #. SysConfig
 msgid "Enables ticket watcher feature only for the listed groups."
-msgstr ""
+msgstr "Aktiverer saksovervåkingsfunksjonen bare for de oppførte gruppene."
 
 #. SysConfig
 msgid ""
@@ -25032,6 +25309,13 @@ msgid ""
 "pre-populate the questions within the installer script. Enabling SecureMode "
 "also enables GenericAgent, PackageManager and SQL Box."
 msgstr ""
+"Aktivering av SecureMode deaktiverer nettinstallasjonsprogrammet "
+"(http://yourhost.example.com/otobo/installer.pl) og migreringene. Dette "
+"gjøres for å forhindre at systemet blir kapret. Når SecureMode ikke er "
+"aktivert, kan systemet installeres på nytt. I dette tilfellet vil gjeldende "
+"grunnleggende konfigurasjon bli brukt til å forhåndsutfylle spørsmålene i "
+"installasjonsskriptet. Aktivering av SecureMode aktiverer også GenericAgent, "
+"PackageManager og SQL Box."
 
 #. SysConfig
 msgid "English (Canada)"
@@ -25050,10 +25334,12 @@ msgid ""
 "English stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"Engelske stoppord for fulltekstindeks. Disse ordene vil bli fjernet fra "
+"søkeindeksen."
 
 #. SysConfig
 msgid "Enroll process for this ticket"
-msgstr ""
+msgstr "Registreringsprosessen for denne saken"
 
 #. SysConfig
 msgid ""
@@ -25062,6 +25348,10 @@ msgid ""
 "application works well. Otherwise you will be not able to login anymore "
 "without the two factor token."
 msgstr ""
+"Skriv inn din delte hemmelighet for å aktivere tofaktorautentisering. "
+"ADVARSEL: Pass på at du legger til den delte hemmeligheten til "
+"generatorapplikasjonen din, og applikasjonen fungerer bra. Ellers vil du "
+"ikke kunne logge på lenger uten to-faktor-tokenet."
 
 #. SysConfig
 msgid "Escalated Tickets"
@@ -25073,7 +25363,7 @@ msgstr "Eskaleringsvisning"
 
 #. SysConfig
 msgid "EscalationTime"
-msgstr ""
+msgstr "Eskaleringstid"
 
 #. SysConfig
 msgid "Estonian"
@@ -25082,12 +25372,15 @@ msgstr "Estisk"
 #. SysConfig
 msgid "Event module registration (store historical data in dynamic fields)."
 msgstr ""
+"Registrering av hendelsesmodul (lagre historiske data i dynamiske felt)."
 
 #. SysConfig
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate)."
 msgstr ""
+"Registrering av arrangementsmodul. For mer ytelse kan du definere en "
+"triggerbegivenhet (f.eks. Event => TicketCreate)."
 
 #. SysConfig
 msgid ""
@@ -25095,52 +25388,60 @@ msgid ""
 "event (e. g. Event => TicketCreate). This is only possible if all Ticket "
 "dynamic fields need the same event."
 msgstr ""
+"Registrering av arrangementsmodul. For mer ytelse kan du definere en "
+"triggerbegivenhet (f.eks. Event => TicketCreate). Dette er kun mulig hvis "
+"alle saksdynamiske felt trenger samme arrangement."
 
 #. SysConfig
 msgid ""
 "Event module that performs an update statement on TicketIndex to rename the "
 "queue name there if needed and if StaticDB is actually used."
 msgstr ""
+"Hendelsesmodul som utfører en oppdateringssetning på TicketIndex for å gi "
+"nytt navn til kønavnet der om nødvendig og hvis StaticDB faktisk brukes."
 
 #. SysConfig
 msgid ""
 "Event module that updates customer company object name for dynamic fields."
 msgstr ""
+"Hendelsesmodul som oppdaterer kundeselskapets objektnavn for dynamiske felt."
 
 #. SysConfig
 msgid "Event module that updates customer user object name for dynamic fields."
-msgstr ""
+msgstr "Hendelsesmodul som oppdaterer kundebrukerobjektnavn for dynamiske felt."
 
 #. SysConfig
 msgid ""
 "Event module that updates customer user search profiles if login changes."
 msgstr ""
+"Hendelsesmodul som oppdaterer kundebrukersøkeprofiler hvis pålogging endres."
 
 #. SysConfig
 msgid ""
 "Event module that updates customer user service membership if login changes."
 msgstr ""
+"Eventmodul som oppdaterer kundebrukerservicemedlemskap hvis pålogging endres."
 
 #. SysConfig
 msgid ""
 "Event module that updates customer users after an update of the Customer."
-msgstr ""
+msgstr "Eventmodul som oppdaterer kundebrukere etter en oppdatering av Kunden."
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer User."
-msgstr ""
+msgstr "Eventmodul som oppdaterer saker etter oppdatering av Kundebruker."
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer."
-msgstr ""
+msgstr "Eventmodul som oppdaterer saker etter oppdatering av Kunden."
 
 #. SysConfig
 msgid "Events Ticket Calendar"
-msgstr ""
+msgstr "Eventsakskalender"
 
 #. SysConfig
 msgid "Example package autoload configuration."
-msgstr ""
+msgstr "Eksempel på autoload-konfigurasjon for pakke."
 
 #. SysConfig
 msgid "Execute SQL statements."
@@ -25151,70 +25452,84 @@ msgid ""
 "Executes a custom command or module. Note: if module is used, function is "
 "required."
 msgstr ""
+"Utfører en egendefinert kommando eller modul. Merk: hvis modul brukes, er "
+"funksjon nødvendig."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on In-Reply-To or References headers for mails "
 "that don't have a ticket number in the subject."
 msgstr ""
+"Utfører oppfølgingskontroller på In-Reply-To eller References-hoder for e-"
+"poster som ikke har et saksnummer i emnet."
 
 #. SysConfig
 msgid "Executes follow-up checks on OTOBO Header 'X-OTOBO-Bounce'."
-msgstr ""
+msgstr "Utfører oppfølgingskontroller på OTOBO Header 'X-OTOBO-Bounce'."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on attachment contents for mails that don't have a "
 "ticket number in the subject."
 msgstr ""
+"Utfører oppfølgingskontroller av vedleggsinnhold for e-poster som ikke har "
+"saksnummer i emnet."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on email body for mails that don't have a ticket "
 "number in the subject."
 msgstr ""
+"Utfører oppfølgingssjekker på e-posttekst for e-poster som ikke har et "
+"saksnummer i emnet."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on the raw source email for mails that don't have "
 "a ticket number in the subject."
 msgstr ""
+"Utfører oppfølgingssjekker av råkilde-e-posten for e-poster som ikke har et "
+"saksnummer i emnet."
 
 #. SysConfig
 msgid ""
 "Exports the whole article tree in search result (it can affect the system "
 "performance)."
 msgstr ""
+"Eksporterer hele artikkeltreet i søkeresultatet (det kan påvirke "
+"systemytelsen)."
 
 #. SysConfig
 msgid "External"
-msgstr ""
+msgstr "Ekstern"
 
 #. SysConfig
 msgid "External Link"
-msgstr ""
+msgstr "Ekstern lenke"
 
 #. SysConfig
 msgid "Fetch emails via fetchmail (using SSL)."
-msgstr ""
+msgstr "Hent e-poster via fetchmail (ved hjelp av SSL)."
 
 #. SysConfig
 msgid "Fetch emails via fetchmail."
-msgstr ""
+msgstr "Hent e-poster via fetchmail."
 
 #. SysConfig
 msgid "Fetch incoming emails from configured mail accounts."
-msgstr ""
+msgstr "Hent innkommende e-poster fra konfigurerte e-postkontoer."
 
 #. SysConfig
 msgid "Fetches packages via proxy. Overwrites \"WebUserAgent::Proxy\"."
-msgstr ""
+msgstr "Henter pakker via proxy. Overskriver \"WebUserAgent::Proxy\"."
 
 #. SysConfig
 msgid ""
 "Fields of the customer company index, used for the company fulltext search. "
 "Fields are also stored, but are not mandatory for the overall functionality."
 msgstr ""
+"Felter i kundebedriftsindeksen, brukt for selskapets fulltekstsøk. Felt "
+"lagres også, men er ikke obligatoriske for den generelle funksjonaliteten."
 
 #. SysConfig
 msgid ""
@@ -25224,6 +25539,11 @@ msgid ""
 "update event has to be added to the TicketManagement invoker of the "
 "Elasticsearch webservice!"
 msgstr ""
+"Felter i saksindeksen, brukt for saksfulltekstsøk. Felt lagres også, men er "
+"ikke obligatoriske for den generelle funksjonaliteten. Hvis det legges til "
+"felt som kan oppdateres (spesielt DynamicFields), må deres respektive "
+"oppdateringshendelse legges til TicketManagement-oppkalleren til "
+"Elasticsearch-netttjenesten!"
 
 #. SysConfig
 msgid ""
@@ -25231,6 +25551,8 @@ msgid ""
 "besides fulltext searches. For the complete functionality all fields are "
 "mandatory."
 msgstr ""
+"Felt lagret i kundebedriftsindeksen som brukes til andre ting enn "
+"fulltekstsøk. For fullstendig funksjonalitet er alle felt obligatoriske."
 
 #. SysConfig
 msgid ""
@@ -25238,6 +25560,8 @@ msgid ""
 "besides fulltext searches. For the complete functionality all fields are "
 "mandatory."
 msgstr ""
+"Felt lagret i kundebrukerindeksen som brukes til andre ting enn "
+"fulltekstsøk. For fullstendig funksjonalitet er alle felt obligatoriske."
 
 #. SysConfig
 msgid ""
@@ -25247,30 +25571,43 @@ msgid ""
 "respective update event has to be added to the TicketManagement invoker of "
 "the Elasticsearch webservice!"
 msgstr ""
+"Felt lagret i saksindeksen som brukes til andre ting enn fulltekstsøk. For "
+"fullstendig funksjonalitet er alle felt obligatoriske. Hvis det legges til "
+"felt som kan oppdateres (spesielt DynamicFields), må deres respektive "
+"oppdateringshendelse legges til TicketManagement-oppkalleren til "
+"Elasticsearch-netttjenesten!"
 
 #. SysConfig
 msgid ""
 "Fields to be searched in ticket index. Fields are also stored, but are not "
 "mandatory for the overall functionality."
 msgstr ""
+"Felter som skal søkes i saksregisteret. Felt lagres også, men er ikke "
+"obligatoriske for den generelle funksjonaliteten."
 
 #. SysConfig
 msgid ""
 "File that is displayed in the Kernel::Modules::AgentInfo module, if located "
 "under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt."
 msgstr ""
+"Fil som vises i Kernel::Modules::AgentInfo-modulen, hvis den ligger under "
+"Kernel/Output/HTML/Templates/Standard/AgentInfo.tt."
 
 #. SysConfig
 msgid ""
 "Filter for debugging ACLs. Note: More ticket attributes can be added in the "
 "format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>."
 msgstr ""
+"Filter for feilsøking av ACLer. Merk: Flere saksattributter kan legges til i "
+"formatet <OTOBO_TICKET_Attribute>, f.eks. <OTOBO_TICKET_Priority>."
 
 #. SysConfig
 msgid ""
 "Filter for debugging Transitions. Note: More filters can be added in the "
 "format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>."
 msgstr ""
+"Filter for feilsøking av overganger. Merk: Flere filtre kan legges til i "
+"formatet <OTOBO_TICKET_Attribute>, f.eks. <OTOBO_TICKET_Priority>."
 
 #. SysConfig
 msgid "Filter incoming emails."
@@ -25286,7 +25623,7 @@ msgstr "Første juledag"
 
 #. SysConfig
 msgid "First Queue"
-msgstr ""
+msgstr "Første kø"
 
 #. SysConfig
 msgid "First response time"
@@ -25321,6 +25658,7 @@ msgid ""
 "For these state types the ticket numbers are striked through in the link "
 "table."
 msgstr ""
+"For disse tilstandstypene er saksnumrene gjennomstreket i lenketabellen."
 
 #. SysConfig
 msgid ""
@@ -25328,10 +25666,14 @@ msgid ""
 "without executing filters or applying stop word lists. This will increase "
 "the size of the search index and thus may slow down fulltext searches."
 msgstr ""
+"Tving lagring av den opprinnelige artikkelteksten i artikkelsøkeindeksen, "
+"uten å kjøre filtre eller bruke stoppordlister. Dette vil øke størrelsen på "
+"søkeindeksen og kan dermed redusere fulltekstsøk."
 
 #. SysConfig
 msgid "Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64)."
 msgstr ""
+"Tvinger frem koding av utgående e-poster (7bit|8bit|quoted-printable|base64)."
 
 #. SysConfig
 msgid ""
@@ -25339,6 +25681,9 @@ msgid ""
 "Define the current state as key, and the next state after lock action as "
 "content."
 msgstr ""
+"Tvinger til å velge en annen saksstatus (fra gjeldende) etter låsehandling. "
+"Definer gjeldende tilstand som nøkkel, og neste tilstand etter låsehandling "
+"som innhold."
 
 #. SysConfig
 msgid "Forces to unlock tickets after being moved to another queue."
@@ -25350,10 +25695,13 @@ msgid ""
 "would be interpreted as '2020-01-22 18:07:23'. Please refer to http://search."
 "cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns."
 msgstr ""
+"Format for opprettelsesdato vist for saker. Som et eksempel vil '%Y-%m-%d "
+"%H:%M:%S' bli tolket som '2020-01-22 18:07:23'. Vennligst se http://search."
+"cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns."
 
 #. SysConfig
 msgid "Format to be ingested."
-msgstr ""
+msgstr "Format som skal inntas."
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
@@ -25372,38 +25720,48 @@ msgid ""
 "French stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"Franske stoppord for fulltekstindeks. Disse ordene vil bli fjernet fra "
+"søkeindeksen."
 
 #. SysConfig
 msgid "Frontend"
-msgstr ""
+msgstr "Frontend"
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
 "Service feature is not used)."
 msgstr ""
+"Frontend-modulregistrering (deaktiver AgentTicketService-lenken hvis "
+"sakstjenestefunksjonen ikke brukes)."
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable company link if no company feature is "
 "used)."
 msgstr ""
+"Frontend-modulregistrering (deaktiver firmalink hvis ingen firmafunksjon "
+"brukes)."
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable ticket processes screen if no process "
 "available)."
 msgstr ""
+"Frontend-modulregistrering (deaktiver skjermbildet for saksprosesser hvis "
+"ingen prosess er tilgjengelig)."
 
 #. SysConfig
 msgid ""
 "Frontend module registration (show personal favorites as sub navigation "
 "items of 'Admin')."
 msgstr ""
+"Frontend-modulregistrering (vis personlige favoritter som "
+"undernavigasjonselementer til 'Admin')."
 
 #. SysConfig
 msgid "Frontend module registration for the admin interface."
-msgstr ""
+msgstr "Frontend-modulregistrering for admin-grensesnittet."
 
 #. SysConfig
 msgid "Frontend module registration for the agent interface."
@@ -25411,7 +25769,7 @@ msgstr "Registrering av websidemodul i agentdelen."
 
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
-msgstr ""
+msgstr "Frontend-modulregistrering for kundegrensesnittet."
 
 #. SysConfig
 msgid "Frontend module registration for the public interface."
@@ -25419,11 +25777,11 @@ msgstr "Modulregistrering for den offentlige delen."
 
 #. SysConfig
 msgid "Full value"
-msgstr ""
+msgstr "Full verdi"
 
 #. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
-msgstr ""
+msgstr "Fulltekstindeksregex-filtre for å fjerne deler av teksten."
 
 #. SysConfig
 msgid "Fulltext search"
@@ -25431,11 +25789,11 @@ msgstr "Fulltekst-søk"
 
 #. SysConfig
 msgid "Fulltext search using Elasticsearch."
-msgstr ""
+msgstr "Fulltekstsøk med Elasticsearch."
 
 #. SysConfig
 msgid "FulltextES"
-msgstr ""
+msgstr "FulltekstES"
 
 #. SysConfig
 msgid "Galician"
@@ -25446,20 +25804,24 @@ msgid ""
 "General ticket data shown in the ticket overviews (fall-back). Note that "
 "TicketNumber can not be disabled, because it is necessary."
 msgstr ""
+"Generelle saksdata vist i saksoversiktene (fall-back). Merk at TicketNumber "
+"ikke kan deaktiveres, fordi det er nødvendig."
 
 #. SysConfig
 msgid ""
 "Generate HTML comment hooks for the specified blocks so that filters can use "
 "them."
 msgstr ""
+"Generer HTML-kommentarkroker for de angitte blokkene slik at filtre kan "
+"bruke dem."
 
 #. SysConfig
 msgid "Generate dashboard statistics."
-msgstr ""
+msgstr "Generer dashbordstatistikk."
 
 #. SysConfig
 msgid "Generic Info module."
-msgstr ""
+msgstr "Generisk infomodul."
 
 #. SysConfig
 msgid "GenericAgent"
@@ -25467,77 +25829,77 @@ msgstr "Administrasjon: Generisk Saksbehandler"
 
 #. SysConfig
 msgid "GenericInterface Debugger GUI"
-msgstr ""
+msgstr "GenericInterface Debugger GUI"
 
 #. SysConfig
 msgid "GenericInterface ErrorHandling GUI"
-msgstr ""
+msgstr "GenericInterface ErrorHandling GUI"
 
 #. SysConfig
 msgid "GenericInterface Invoker Event GUI"
-msgstr ""
+msgstr "GenericInterface Invoker Event GUI"
 
 #. SysConfig
 msgid "GenericInterface Invoker GUI"
-msgstr ""
+msgstr "GenericInterface Invoker GUI"
 
 #. SysConfig
 msgid "GenericInterface Operation GUI"
-msgstr ""
+msgstr "Generisk grensesnitt operasjon GUI"
 
 #. SysConfig
 msgid "GenericInterface TransportHTTPREST GUI"
-msgstr ""
+msgstr "Generisk grensesnitt TransportHTTPREST GUI"
 
 #. SysConfig
 msgid "GenericInterface TransportHTTPSOAP GUI"
-msgstr ""
+msgstr "Generisk grensesnitt TransportHTTPSOAP GUI"
 
 #. SysConfig
 msgid "GenericInterface Web Service GUI"
-msgstr ""
+msgstr "GenericInterface Web Service GUI"
 
 #. SysConfig
 msgid "GenericInterface Web Service History GUI"
-msgstr ""
+msgstr "GenericInterface Web Service History GUI"
 
 #. SysConfig
 msgid "GenericInterface Web Service Mapping GUI"
-msgstr ""
+msgstr "GenericInterface Web Service Mapping GUI"
 
 #. SysConfig
 msgid "GenericInterface module registration for an error handling module."
-msgstr ""
+msgstr "GenericInterface-modulregistrering for en feilhåndteringsmodul."
 
 #. SysConfig
 msgid "GenericInterface module registration for the PassThrough invoker layer."
-msgstr ""
+msgstr "GenericInterface-modulregistrering for PassThrough-invoker-laget."
 
 #. SysConfig
 msgid ""
 "GenericInterface module registration for the TicketCreate invoker layer."
-msgstr ""
+msgstr "GenericInterface-modulregistrering for TicketCreate-invokerlaget."
 
 #. SysConfig
 msgid ""
 "GenericInterface module registration for the TicketUpdate invoker layer."
-msgstr ""
+msgstr "GenericInterface-modulregistrering for TicketUpdate-invokerlaget."
 
 #. SysConfig
 msgid "GenericInterface module registration for the invoker layer."
-msgstr ""
+msgstr "GenericInterface-modulregistrering for invoker-laget."
 
 #. SysConfig
 msgid "GenericInterface module registration for the mapping layer."
-msgstr ""
+msgstr "GenericInterface-modulregistrering for kartleggingslaget."
 
 #. SysConfig
 msgid "GenericInterface module registration for the operation layer."
-msgstr ""
+msgstr "GenericInterface-modulregistrering for operasjonslaget."
 
 #. SysConfig
 msgid "GenericInterface module registration for the transport layer."
-msgstr ""
+msgstr "Generisk grensesnittmodulregistrering for transportlaget."
 
 #. SysConfig
 msgid "German"
@@ -25548,12 +25910,16 @@ msgid ""
 "German stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"Tyske stoppord for fulltekstindeks. Disse ordene vil bli fjernet fra "
+"søkeindeksen."
 
 #. SysConfig
 msgid ""
 "Gives customer users group based access to tickets from customer users of "
 "the same customer (ticket CustomerID is a CustomerID of the customer user)."
 msgstr ""
+"Gir kundebrukere gruppebasert tilgang til saker fra kundebrukere av samme "
+"kunde (sak KundeID er en KundeID for kundebruker)."
 
 #. SysConfig
 msgid ""
@@ -25564,10 +25930,17 @@ msgid ""
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which "
 "area these settings should be shown in the user interface."
 msgstr ""
+"Gir sluttbrukere muligheten til å overstyre skilletegnet for CSV-filer, "
+"definert i oversettelsesfilene. Vennligst merk: å sette 'Aktiv' til 0 vil "
+"bare forhindre agenter fra å redigere innstillingene for denne gruppen i "
+"sine personlige preferanser, men vil fortsatt tillate administratorer å "
+"redigere innstillingene til en annen brukers vegne. Bruk 'PreferenceGroup' "
+"for å kontrollere i hvilket område disse innstillingene skal vises i "
+"brukergrensesnittet."
 
 #. SysConfig
 msgid "Global Search Module."
-msgstr ""
+msgstr "Global søkemodul."
 
 #. SysConfig
 msgid "Go to dashboard!"
@@ -25575,23 +25948,23 @@ msgstr "Gå til kontrollpanel!"
 
 #. SysConfig
 msgid "Good PGP signature."
-msgstr ""
+msgstr "God PGP-signatur."
 
 #. SysConfig
 msgid "Google Authenticator"
-msgstr ""
+msgstr "Google Authenticator"
 
 #. SysConfig
 msgid "Graph: Bar Chart"
-msgstr ""
+msgstr "Graf: Søylediagram"
 
 #. SysConfig
 msgid "Graph: Line Chart"
-msgstr ""
+msgstr "Graf: Linjediagram"
 
 #. SysConfig
 msgid "Graph: Stacked Area Chart"
-msgstr ""
+msgstr "Graf: Stablet områdediagram"
 
 #. SysConfig
 msgid "Greek"
@@ -25609,14 +25982,19 @@ msgid ""
 "initial index use \"bin/otobo.Console.pl Maint::Ticket::FulltextIndex --"
 "rebuild\"."
 msgstr ""
+"Hjelper med å utvide artiklenes fulltekstsøk (Fra, Til, Kopi, Emne og "
+"Kroppssøk). Den vil fjerne alle artikler og bygge en indeks etter at "
+"artikkelen er opprettet, noe som øker fulltekstsøk med omtrent 50 %. For å "
+"lage en innledende indeks, bruk \"bin/otobo.Console.pl Maint::Ticket::"
+"FulltextIndex --rebuild\"."
 
 #. SysConfig
 msgid "High Contrast"
-msgstr ""
+msgstr "Høy kontrast"
 
 #. SysConfig
 msgid "High contrast skin for visually impaired users."
-msgstr ""
+msgstr "Høy kontrast-tema for synshemmede brukere."
 
 #. SysConfig
 msgid "Hindi"
@@ -25671,6 +26049,8 @@ msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
 "passwords must be specified."
 msgstr ""
+"Hvis \"DB\" ble valgt for Customer::AuthModule, må krypteringstypen for "
+"passord angis."
 
 #. SysConfig
 msgid ""
@@ -25710,6 +26090,10 @@ msgid ""
 "(by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove "
 "trailing domains). RegExp-Note, $1 will be the new Login."
 msgstr ""
+"Hvis \"HTTBPasicAuth\" ble valgt for Customer::AuthModule, kan du "
+"spesifisere (ved å bruke en RegExp) for å fjerne deler av REMOTE_USER ("
+"f.eks. for å fjerne etterfølgende domener). RegExp-Merk, $1 vil være den nye "
+"påloggingen."
 
 #. SysConfig
 msgid ""
@@ -25717,6 +26101,9 @@ msgid ""
 "to strip leading parts of user names (e. g. for domains like example_domain\\"
 "\\user to user)."
 msgstr ""
+"Hvis \"HTTBPasicAuth\" ble valgt for Customer::AuthModule, kan du "
+"spesifisere å fjerne ledende deler av brukernavn (f.eks. for domener som "
+"eksempel_domene\\\\bruker til bruker)."
 
 #. SysConfig
 msgid ""
@@ -25745,6 +26132,9 @@ msgid ""
 "be specified here. See Net::LDAP::start_tls for more information about the "
 "parameter."
 msgstr ""
+"Hvis \"LDAP\" ble valgt for Customer::AuthModule og du ønsker å bruke TLS-"
+"sikkerhet for å kommunisere med LDAP-serveren, kan \"verify\"-parameteren "
+"spesifiseres her. Se Net::LDAP::start_tls for mer informasjon om parameteren."
 
 #. SysConfig
 msgid ""
@@ -25825,6 +26215,10 @@ msgid ""
 "is allowed to authenticate because he is in a posixGroup, e.g. user needs to "
 "be in a group xyz to use OTOBO. Specify the group, who may access the system."
 msgstr ""
+"Hvis \"LDAP\" ble valgt for Customer::Authmodule, kan du sjekke om brukeren "
+"har lov til å autentisere fordi han er i en posixGroup, f.eks. brukeren må "
+"være i en gruppe xyz for å bruke OTOBO. Spesifiser gruppen som kan få "
+"tilgang til systemet."
 
 #. SysConfig
 msgid ""
@@ -25874,36 +26268,48 @@ msgid ""
 "If \"SysLog\" was selected for LogModule, a special log facility can be "
 "specified."
 msgstr ""
+"Hvis \"SysLog\" ble valgt for LogModule, kan en spesiell loggfunksjon "
+"spesifiseres."
 
 #. SysConfig
 msgid ""
 "If \"SysLog\" was selected for LogModule, the charset that should be used "
 "for logging can be specified."
 msgstr ""
+"Hvis \"SysLog\" ble valgt for LogModule, kan tegnsettet som skal brukes for "
+"logging spesifiseres."
 
 #. SysConfig
 msgid ""
 "If \"bcrypt\" was selected for CryptType, use cost specified here for bcrypt "
 "hashing. Currently max. supported cost value is 31."
 msgstr ""
+"Hvis \"bcrypt\" ble valgt for CryptType, bruk kostnadene som er spesifisert "
+"her for bcrypt-hashing. For øyeblikket maks. støttet kostnadsverdi er 31."
 
 #. SysConfig
 msgid ""
 "If \"file\" was selected for LogModule, a logfile must be specified. If the "
 "file doesn't exist, it will be created by the system."
 msgstr ""
+"Hvis \"fil\" ble valgt for LogModule, må en loggfil spesifiseres. Hvis filen "
+"ikke eksisterer, vil den bli opprettet av systemet."
 
 #. SysConfig
 msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
 msgstr ""
+"Hvis aktiv, kan ingen av de regulære uttrykkene samsvare med brukerens e-"
+"postadresse for å tillate registrering."
 
 #. SysConfig
 msgid ""
 "If active, one of the regular expressions has to match the user's email "
 "address to allow registration."
 msgstr ""
+"Hvis det er aktivt, må ett av regulære uttrykk samsvare med brukerens e-"
+"postadresse for å tillate registrering."
 
 #. SysConfig
 msgid ""
@@ -25941,27 +26347,33 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
-msgstr ""
+msgstr "Hvis aktivert, logges feilsøkingsinformasjon for tilgangskontrollister."
 
 #. SysConfig
 msgid "If enabled debugging information for transitions is logged."
-msgstr ""
+msgstr "Hvis aktivert, logges feilsøkingsinformasjon for overganger."
 
 #. SysConfig
 msgid ""
 "If enabled defines the preselected state for customer follow-up in the "
 "customer interface."
 msgstr ""
+"Hvis aktivert definerer forhåndsvalgt tilstand for kundeoppfølging i "
+"kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard error stream to a log file."
 msgstr ""
+"Hvis den er aktivert, vil daemonen omdirigere standard feilstrømmen til en "
+"loggfil."
 
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard output stream to a log file."
 msgstr ""
+"Hvis den er aktivert, vil daemonen omdirigere standard utdatastrømmen til en "
+"loggfil."
 
 #. SysConfig
 msgid ""
@@ -25969,10 +26381,13 @@ msgid ""
 "Please stop the daemon before any change and use this setting only if <"
 "$OTOBOHome>/var/run/ can not be used."
 msgstr ""
+"Hvis den er aktivert, vil daemonen bruke denne katalogen til å lage sine PID-"
+"filer. Merk: Stopp daemonen før noen endring og bruk denne innstillingen kun "
+"hvis <$OTOBOHome>/var/run/ ikke kan brukes."
 
 #. SysConfig
 msgid "If enabled, OTOBO will deliver all CSS files in minified form."
-msgstr ""
+msgstr "Hvis aktivert, vil OTOBO levere alle CSS-filer i forminsket form."
 
 #. SysConfig
 msgid "If enabled, OTOBO will deliver all JavaScript files in minified form."
@@ -25988,20 +26403,25 @@ msgid ""
 "HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
 "option, please make sure to delete the cache."
 msgstr ""
+"Hvis den er aktivert, vil OTOBO-versjonskoden fjernes fra webgrensesnittet, "
+"HTTP-hodene og X-hodene til utgående e-post. MERK: Hvis du endrer dette "
+"alternativet, må du sørge for å slette hurtigbufferen."
 
 #. SysConfig
 msgid "If enabled, the cache data be held in memory."
-msgstr ""
+msgstr "Hvis aktivert, lagres hurtigbufferdataene i minnet."
 
 #. SysConfig
 msgid "If enabled, the cache data will be stored in cache backend."
-msgstr ""
+msgstr "Hvis aktivert, vil cache-dataene bli lagret i cache-backend."
 
 #. SysConfig
 msgid ""
 "If enabled, the customer can search for tickets in all services (regardless "
 "what services are assigned to the customer)."
 msgstr ""
+"Hvis aktivert, kan kunden søke etter saker i alle tjenester (uavhengig av "
+"hvilke tjenester som er tildelt kunden)."
 
 #. SysConfig
 msgid ""
@@ -26016,10 +26436,12 @@ msgid ""
 "If enabled, the first level of the main menu opens on mouse hover (instead "
 "of click only)."
 msgstr ""
+"Hvis aktivert, åpnes det første nivået av hovedmenyen ved musepeking (i "
+"stedet for bare klikk)."
 
 #. SysConfig
 msgid "If enabled, the quick close action will create an article."
-msgstr ""
+msgstr "Hvis den er aktivert, vil hurtiglukkingen opprette en artikkel."
 
 #. SysConfig
 msgid ""
@@ -26028,6 +26450,10 @@ msgid ""
 "a time zone and (2) OTOBOTimeZone and UserDefaultTimeZone do match and (3) "
 "are not set to UTC."
 msgstr ""
+"Hvis aktivert, vil brukere som ikke har valgt en tidssone ennå bli varslet "
+"om å gjøre det. Merk: Varsling vil ikke vises hvis (1) bruker ennå ikke har "
+"valgt en tidssone og (2) OTOBOTimeZone og UserDefaultTimeZone stemmer "
+"overens og (3) ikke er satt til UTC."
 
 #. SysConfig
 msgid ""
@@ -26035,6 +26461,9 @@ msgid ""
 "possible to use the email's from address instead of an empty envelope sender "
 "(required in certain mail server configurations)."
 msgstr ""
+"Hvis ingen SendmailNotificationEnvelopeFrom er spesifisert, gjør denne "
+"innstillingen det mulig å bruke e-postens fra-adresse i stedet for en tom "
+"konvoluttavsender (påkrevd i visse e-postserverkonfigurasjoner)."
 
 #. SysConfig
 msgid ""
@@ -26042,6 +26471,10 @@ msgid ""
 "notifications. If no address is specified, the envelope sender header is "
 "empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
 msgstr ""
+"Hvis angitt, brukes denne adressen som konvoluttavsenderhode i utgående "
+"varsler. Hvis ingen adresse er spesifisert, er konvoluttavsenderoverskriften "
+"tom (med mindre SendmailNotificationEnvelopeFrom::FallbackToEmailFrom er "
+"angitt)."
 
 #. SysConfig
 msgid ""
@@ -26049,6 +26482,9 @@ msgid ""
 "notifications - see below). If no address is specified, the envelope sender "
 "is equal to queue e-mail address."
 msgstr ""
+"Hvis angitt, brukes denne adressen som konvoluttavsender i utgående "
+"meldinger (ikke varsler - se nedenfor). Hvis ingen adresse er spesifisert, "
+"er konvoluttavsenderen lik køens e-postadresse."
 
 #. SysConfig
 msgid ""
@@ -26056,6 +26492,9 @@ msgid ""
 "Customers or Agents, will receive an autoresponse if configured. If this "
 "option is not enabled, no autoresponses will be sent."
 msgstr ""
+"Hvis dette alternativet er aktivert, vil saker opprettet via "
+"nettgrensesnittet, via kunder eller agenter, motta et autosvar hvis de er "
+"konfigurert. Hvis dette alternativet ikke er aktivert, sendes ingen autosvar."
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
@@ -26067,18 +26506,24 @@ msgid ""
 "If this setting is enabled, it is possible to install packages which are not "
 "verified by OTOBO Team. These packages could threaten your whole system!"
 msgstr ""
+"Hvis denne innstillingen er aktivert, er det mulig å installere pakker som "
+"ikke er verifisert av OTOBO Team. Disse pakkene kan true hele systemet ditt!"
 
 #. SysConfig
 msgid ""
 "If this setting is enabled, local modifications will not be highlighted as "
 "errors in the package manager and support data collector."
 msgstr ""
+"Hvis denne innstillingen er aktivert, vil lokale modifikasjoner ikke bli "
+"uthevet som feil i pakkebehandlingen og støttedatainnsamleren."
 
 #. SysConfig
 msgid ""
 "If you're going to be out of office, you may wish to let other users know by "
 "setting the exact dates of your absence."
 msgstr ""
+"Hvis du skal være borte fra kontoret, kan det være lurt å gi beskjed til "
+"andre brukere ved å angi de nøyaktige datoene for fraværet ditt."
 
 #. SysConfig
 msgid ""
@@ -26086,10 +26531,13 @@ msgid ""
 "notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
 "expanded automatically in Large view screens."
 msgstr ""
+"Ignorer artikkeltyper av systemavsender (f.eks. automatiske svar eller "
+"e-postvarsler) som skal flagges som \"Ulest artikkel\" i AgentTicketZoom "
+"eller utvides automatisk i skjermer med stor visning."
 
 #. SysConfig
 msgid "Ignores not ticket related attributes."
-msgstr ""
+msgstr "Ignorerer ikke-saksrelaterte attributter."
 
 #. SysConfig
 msgid "Import appointments screen."
@@ -26097,11 +26545,11 @@ msgstr "Side for avtaleimport."
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
-msgstr ""
+msgstr "Inkluder saker til underkøer som standard når du velger en kø."
 
 #. SysConfig
 msgid "Include unknown customers in ticket filter."
-msgstr ""
+msgstr "Inkluder ukjente kunder i saksfilteret."
 
 #. SysConfig
 msgid ""
@@ -26110,7 +26558,7 @@ msgstr "Inkluder opprettelsestidspunkt i søkedelen av agentdelen."
 
 #. SysConfig
 msgid "Incoming Phone Call."
-msgstr ""
+msgstr "Innkommende telefonsamtale."
 
 #. SysConfig
 msgid ""
@@ -26123,19 +26571,28 @@ msgid ""
 "\"bin/otobo.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
 msgstr ""
+"IndexAccelerator: for å velge din backend TicketViewAccelerator-modul. "
+"\"RuntimeDB\" genererer hver køvisning på farten fra saksbordet (ingen "
+"ytelsesproblemer opp til ca. 60.000 saker totalt og 6.000 åpne saker i "
+"systemet). \"StaticDB\" er den kraftigste modulen, den bruker en ekstra "
+"saksindekstabell som fungerer som en visning (anbefales hvis mer enn 80.000 "
+"og 6.000 åpne saker er lagret i systemet). Bruk kommandoen \"bin/"
+"otobo.Console.pl Maint::Ticket::QueueIndexRebuild\" for første "
+"indeksoppretting."
 
 #. SysConfig
 msgid ""
 "Indicates if a bounce e-mail should always be treated as normal follow-up."
 msgstr ""
+"Indikerer om en retur-e-post alltid skal behandles som vanlig oppfølging."
 
 #. SysConfig
 msgid "Indonesian"
-msgstr ""
+msgstr "indonesisk"
 
 #. SysConfig
 msgid "Inline"
-msgstr ""
+msgstr "På linje"
 
 #. SysConfig
 msgid "Input"
@@ -26147,7 +26604,7 @@ msgstr "Språk for grensesnittet"
 
 #. SysConfig
 msgid "Internal communication channel."
-msgstr ""
+msgstr "Intern kommunikasjonskanal."
 
 #. SysConfig
 msgid "International Workers' Day"
@@ -26162,6 +26619,12 @@ msgid ""
 "domain, and the value in \"Content\" should be a valid skin on your system. "
 "Please see the example entries for the proper form of the regex."
 msgstr ""
+"Det er mulig å konfigurere forskjellige skins, for eksempel for å skille "
+"mellom ulike agenter, som skal brukes på en per-domene basis i "
+"applikasjonen. Ved å bruke et regulært uttrykk (regex), kan du konfigurere "
+"et nøkkel/innhold-par for å matche et domene. Verdien i \"Nøkkel\" skal "
+"samsvare med domenet, og verdien i \"Innhold\" skal være et gyldig skall på "
+"systemet ditt. Se eksempeloppføringene for riktig form for regulært uttrykk."
 
 #. SysConfig
 msgid ""
