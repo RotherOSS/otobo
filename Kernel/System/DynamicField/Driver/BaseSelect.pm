@@ -113,6 +113,7 @@ sub ValueIsDifferent {
     {
         return;
     }
+
     if (
         !defined $Param{Value2}
         && ref $Param{Value1} eq 'ARRAY'
@@ -142,7 +143,7 @@ sub ValueValidate {
     for my $Value (@Values) {
         $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
             Value => {
-                ValueText => $Param{Value},
+                ValueText => $Value,
             },
             UserID => $Param{UserID},
         );
@@ -295,28 +296,30 @@ sub EditFieldRender {
         $FieldTemplateData{TreeSelectionMessage} = Translatable("Show Tree Selection");
     }
 
-    if ( $Param{Mandatory} ) {
-        $FieldTemplateData{Mandatory}            = $Param{Mandatory};
-        $FieldTemplateData{DivIDMandatory}       = $FieldName . 'Error';
-        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
-    }
-
-    if ( $Param{ServerError} ) {
-
-        $FieldTemplateData{ServerError}      = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
-    }
-
     my $FieldTemplateFile = $Param{CustomerInterface}
         ?
         'DynamicField/Customer/BaseSelect'
         :
         'DynamicField/Agent/BaseSelect';
 
+    my %Error = (
+        ServerError => $Param{ServerError},
+        Mandatory   => $Param{Mandatory},
+    );
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
         my $FieldID = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
+
+        if ( !$ValueIndex ) {
+            if ( $Error{ServerError} ) {
+                $Error{DivIDServerError} = $FieldTemplateData{FieldID} . 'ServerError';
+                $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+            }
+            if ( $Error{Mandatory} ) {
+                $Error{DivIDMandatory}       = $FieldTemplateData{FieldID} . 'Error';
+                $Error{FieldRequiredMessage} = Translatable('This field is required.');
+            }
+        }
 
         # TODO: is this necessary?
         my $DataValues = $Self->BuildSelectionDataGet(
@@ -341,6 +344,7 @@ sub EditFieldRender {
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
+                %Error,
                 SelectionHTML => $SelectionHTML,
             },
         );
@@ -415,6 +419,7 @@ EOF
         Label => $LabelString,
     };
 
+    # decide which structure to return
     if ( $FieldConfig->{MultiValue} ) {
         $Data->{MultiValue}         = \@ResultHTML;
         $Data->{MultiValueTemplate} = $TemplateHTML;
@@ -446,11 +451,10 @@ sub EditFieldValueGet {
     {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
+            my @Data;
 
             # delete the template value
             pop @DataAll;
-
-            my @Data;
 
             # delete empty values (can happen if the user has selected the "-" entry)
             for my $Item (@DataAll) {
