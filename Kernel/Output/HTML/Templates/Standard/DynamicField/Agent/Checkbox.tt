@@ -15,10 +15,10 @@
 # --
 
 [% IF Data.ConfirmationNeeded AND NOT Data.NoIgnoreField %]
-<input type="radio" id="[% Data.FieldNameUsed0 %]" name="[% Data.FieldNameUsed %]" value="" [% Data.FieldUsedChecked0 %] />
+<input type="radio" id="[% Data.FieldIDUsed0 %]" name="[% Data.FieldNameUsed %]" value="" [% Data.FieldUsedChecked0 %] />
 [% Translate(Data.Description) | html %]
 <div class="clear"></div>
-<input type="radio" id="[% Data.FieldNameUsed1 %]" name="[% Data.FieldNameUsed %]" value="1" [% Data.FieldUsedChecked1 %] />
+<input type="radio" id="[% Data.FieldIDUsed1 %]" name="[% Data.FieldNameUsed %]" value="1" [% Data.FieldUsedChecked1 %] />
 [% ELSE %]
 <input type="hidden" id="[% Data.FieldIDUsed %]" name="[% Data.FieldNameUsed %]" value="1" />
 [% END %]

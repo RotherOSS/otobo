@@ -127,7 +127,6 @@ sub ValueGet {
     return $Self->ValueStructureFromDB(
         ValueDB    => $DFValue,
         ValueKey   => 'ValueInt',
-        Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
     );
 }
@@ -157,13 +156,20 @@ sub ValueSet {
             );
             return;
         }
-        push @ValueInt, { ValueInt => $Value };
+        push @ValueInt, $Value;
     }
+
+    my $Value = $Self->ValueStructureToDB(
+        Value      => \@ValueInt,
+        ValueKey   => 'ValueInt',
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+
+    );
 
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
-        Value    => \@ValueInt,
+        Value    => $Value,
         UserID   => $Param{UserID},
     );
 }
@@ -408,7 +414,7 @@ sub EditFieldRender {
 
         # set suffix and adjust ids for template
         my $Suffix = $ValueIndex ? '_' . $ValueIndex : '';
-        $FieldTemplateData{FieldIDUsed} = $FieldName . 'Used' . $Suffix;
+        $FieldTemplateData{FieldIDUsed} = $FieldNameUsed . $Suffix;
         $FieldTemplateData{FieldID}     = $FieldName . $Suffix;
         $FieldTemplateData{DivID}       = $FieldName . $Suffix;
 
@@ -584,7 +590,7 @@ sub EditFieldValueGet {
 
     # set the correct return value
     if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        return map { $_->{FieldValue} ? 1 : 0 } $Value->@*;
+        return [ map { $_->{FieldValue} ? 1 : 0 } $Value->@* ];
     }
     else {
         return $Value->{FieldValue} ? 1 : 0;
@@ -612,7 +618,7 @@ sub EditFieldValueValidate {
     for my $ValueItem ( @{$Value} ) {
 
         # validate only 0 or 1 as possible values
-        if ( $Value && $Value ne 1 ) {
+        if ( $ValueItem && $ValueItem ne 1 ) {
             $ServerError  = 1;
             $ErrorMessage = 'The field content is invalid';
         }
