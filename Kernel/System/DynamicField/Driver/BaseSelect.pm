@@ -312,11 +312,11 @@ sub EditFieldRender {
 
         if ( !$ValueIndex ) {
             if ( $Error{ServerError} ) {
-                $Error{DivIDServerError} = $FieldTemplateData{FieldID} . 'ServerError';
+                $Error{DivIDServerError} = $FieldID . 'ServerError';
                 $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
             }
             if ( $Error{Mandatory} ) {
-                $Error{DivIDMandatory}       = $FieldTemplateData{FieldID} . 'Error';
+                $Error{DivIDMandatory}       = $FieldID . 'Error';
                 $Error{FieldRequiredMessage} = Translatable('This field is required.');
             }
         }

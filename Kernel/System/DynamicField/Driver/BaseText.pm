@@ -377,7 +377,7 @@ sub EditFieldRender {
         FieldName         => $FieldName,
         FieldLabelEscaped => $FieldLabelEscaped,
         MultiValue        => $FieldConfig->{MultiValue} || 0,
-        ReadOnly          => $Param{ReadOnly},
+        Readonly          => $Param{Readonly},
     );
 
     my $FieldTemplateFile = $Param{CustomerInterface}
@@ -493,7 +493,7 @@ sub EditFieldValueGet {
         }
     }
 
-    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
+    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq 1 ) {
         return {
             $FieldName => $Value,
         };
@@ -529,10 +529,8 @@ sub EditFieldValueValidate {
     for my $ValueItem ( @{$Value} ) {
 
         # perform necessary validations
-        if ( $ValueItem eq '' ) {
-            if ( $Param{Mandatory} ) {
-                $ServerError = 1;
-            }
+        if ( $Param{Mandatory} && $ValueItem eq '' ) {
+            $ServerError = 1;
         }
         elsif ($CheckRegex) {
 
@@ -552,7 +550,7 @@ sub EditFieldValueValidate {
         }
     }
 
-    # create resulting structure
+    # return resulting structure
     return {
         ServerError  => $ServerError,
         ErrorMessage => $ErrorMessage,
@@ -599,6 +597,8 @@ sub DisplayValueRender {
 
     my $ValueSeparator;
     my $Title = join( ', ', @ReadableTitles );
+
+    # HTMLOutput transformations
     if ($HTMLOutput) {
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
@@ -781,11 +781,13 @@ sub ReadableValueRender {
         @Values = ( $Param{Value} );
     }
 
-    # set new line separator
+    # set item separator
     my $ItemSeparator = ', ';
 
     # Output transformations
     $Value = join( $ItemSeparator, @Values );
+
+    # set title as value after update and before limit
     my $Title = $Value;
 
     # cut strings if needed
@@ -796,7 +798,6 @@ sub ReadableValueRender {
         $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
     }
 
-    # return a data structure
     return {
         Value => $Value,
         Title => $Title,
@@ -898,7 +899,7 @@ sub ObjectMatch {
 sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
-    # return the historical values from database
+    # return historical values from database
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
