@@ -3437,11 +3437,8 @@ sub _GetQuotedReplyBody {
 sub _GetStandardTemplates {
     my ( $Self, %Param ) = @_;
 
-    # get create templates
-    my %Templates;
-
-    # check needed
-    return \%Templates if !$Param{QueueID} && !$Param{TicketID};
+    # either QueueID or TicketID is needed
+    return {} if !$Param{QueueID} && !$Param{TicketID};
 
     my $QueueID = $Param{QueueID} || '';
     if ( !$Param{QueueID} && $Param{TicketID} ) {
@@ -3462,7 +3459,7 @@ sub _GetStandardTemplates {
     );
 
     # return empty hash if there are no templates for this screen
-    return \%Templates if !IsHashRefWithData( $StandardTemplates{Note} );
+    return {} unless IsHashRefWithData( $StandardTemplates{Note} );
 
     # return just the templates for this screen
     return $StandardTemplates{Note};
