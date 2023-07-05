@@ -140,7 +140,7 @@ sub _AddAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Tooltip MultiValue Namespace))
+    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Tooltip Namespace))
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
@@ -199,7 +199,6 @@ sub _AddAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
         Tooltip      => $GetParam{Tooltip},
-        MultiValue   => $GetParam{MultiValue},
     };
 
     # create a new field
@@ -336,7 +335,7 @@ sub _ChangeAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Tooltip MultiValue Namespace))
+    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Tooltip Namespace))
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
@@ -439,7 +438,6 @@ sub _ChangeAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
         Tooltip      => $GetParam{Tooltip},
-        MultiValue   => $GetParam{MultiValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -589,17 +587,6 @@ sub _ShowScreen {
         Class         => 'Modernize W75pc Validate_Number',
     );
 
-    # create translatable values option list
-    my $MultiValueStrg = $LayoutObject->BuildSelection(
-        Data => {
-            0 => Translatable('No'),
-            1 => Translatable('Yes'),
-        },
-        Name       => 'MultiValue',
-        SelectedID => $Param{MultiValue} || '0',
-        Class      => 'Modernize W50pc',
-    );
-
     my $NamespaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
     if ( IsArrayRefWithData($NamespaceList) ) {
         my $NamespaceStrg = $LayoutObject->BuildSelection(
@@ -724,7 +711,6 @@ sub _ShowScreen {
             DefaultValueStrg      => $DefaultValueStrg,
             ReadonlyInternalField => $ReadonlyInternalField,
             Tooltip               => $Tooltip,
-            MultiValueStrg        => $MultiValueStrg,
         }
     );
 
