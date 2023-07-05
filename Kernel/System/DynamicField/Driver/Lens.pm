@@ -166,9 +166,30 @@ sub SearchSQLOrderFieldGet {
 sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
-    # TODO: only render the label
+    my $AttributeDFID = $Param{DynamicFieldConfig}->{Config}->{AttributeDF};
+
+    return unless $AttributeDFID;
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $AttributeDFConfig  = $DynamicFieldObject->DynamicFieldGet(
+        ID => $AttributeDFID
+    );
+
+    return unless $AttributeDFConfig;
+
+    # call EditLabelRender on the common Driver
+    my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $AttributeFieldHTML = $BackendObject->EditFieldRender(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
+
+    return unless $AttributeFieldHTML;
+
+    # But use the label of the Lens
     return {
-        Field => 'TODO: EditLabelRender for Lens',
+        Field => $AttributeFieldHTML->{Field},
+        Label => $Param{DynamicFieldConfig}->{Label},
     };
 }
 
