@@ -359,11 +359,14 @@ sub EditFieldRender {
     for my $ValueIndex ( 0 .. $#{$Value} ) {
         $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
+        # The actual value is the techical ID of the referenced object
+        my $ReferencedObjectID = $Value->[$ValueIndex];
+        $FieldTemplateData{ReferencedObjectID} = $ReferencedObjectID;
+
         # The visible value depends on the referenced object
-        my $ObjectID    = $Value->[$ValueIndex];
         my %Description = $PluginObject->ObjectDescriptionGet(
-            ObjectID => $ObjectID,
-            UserID   => 1,           # TODO: what about Permission check
+            ObjectID => $ReferencedObjectID,
+            UserID   => 1,                     # TODO: what about Permission check
         );
         $FieldTemplateData{VisibleValue} = $Param{LayoutObject}->Ascii2Html(
             Text => $Description{Long},
