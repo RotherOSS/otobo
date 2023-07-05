@@ -102,12 +102,16 @@ sub ValueSet {
         }
     }
 
-    my @ValueText = map { { ValueText => $_ } } @Values;
+    my $Value = $Self->ValueStructureToDB(
+        Value      => \@Values,
+        ValueKey   => 'ValueText',
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+    );
 
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
-        Value    => \@ValueText,
+        Value    => $Value,
         UserID   => $Param{UserID},
     );
 }
@@ -362,7 +366,6 @@ sub EditFieldRender {
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
         $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
-        $FieldTemplateData{Value}   = $Value->[$ValueIndex];
 
         if ( !$ValueIndex ) {
             if ( $Error{ServerError} ) {
@@ -379,13 +382,14 @@ sub EditFieldRender {
             Data         => {
                 %FieldTemplateData,
                 %Error,
+                Value => $Value->[$ValueIndex],
             },
         );
     }
 
     my $TemplateHTML;
     if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
-        my $FieldID = $FieldName . '_Template';
+        $FieldTemplateData{FieldID} = $FieldName . '_Template';
 
         $TemplateHTML = $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
