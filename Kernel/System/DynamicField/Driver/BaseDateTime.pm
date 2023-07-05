@@ -647,6 +647,9 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
+    # activate HTMLOutput when it wasn't specified
+    my $HTMLOutput = $Param{HTMLOutput} // 1;
+
     # get raw Value strings from field value
     my @Values = !ref $Param{Value}
         ? ( $Param{Value} )
@@ -663,9 +666,23 @@ sub DisplayValueRender {
         );
     }
 
-    # in this Driver there is no need for HTMLOutput
-    # Title is always equal to Value besides of newline
+    my $ValueSeparator;
     my $Title = join( ', ', @Values );
+
+    # HTMLOutput transformations - needed because of multivalue
+    if ($HTMLOutput) {
+        $Title = $Param{LayoutObject}->Ascii2Html(
+            Text => $Title,
+            Max  => $Param{TitleMaxChars} || '',
+        );
+        $ValueSeparator = '<br/>';
+    }
+    else {
+        if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
+            $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
+        }
+        $ValueSeparator = "\n";
+    }
 
     # set field link from config
     my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
@@ -673,7 +690,7 @@ sub DisplayValueRender {
 
     # return a data structure
     return {
-        Value       => join( '<br>', @Values ),
+        Value       => join( $ValueSeparator, @Values ),
         Title       => $Title,
         Link        => $Link,
         LinkPreview => $LinkPreview,
