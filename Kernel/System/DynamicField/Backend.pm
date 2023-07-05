@@ -18,9 +18,11 @@ package Kernel::System::DynamicField::Backend;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
 use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -449,7 +451,8 @@ sub ValueSet {
     # Either ObjectID or ObjectName has to be given
     if (
         ( !$Param{ObjectID} && !$Param{ObjectName} )
-        || ( $Param{ObjectID} && $Param{ObjectName} )
+        ||
+        ( $Param{ObjectID} && $Param{ObjectName} )
         )
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -527,7 +530,6 @@ sub ValueSet {
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         ObjectID           => $Param{ObjectID},
     );
-
     my $NewValue = $Param{Value};
 
     # do not proceed if there is nothing to update, each dynamic field requires special handling to
@@ -558,7 +560,7 @@ sub ValueSet {
         return;
     }
 
-    # set the dyanamic field object handler
+    # set the dynamic field object handler
     my $DynamicFieldObjectHandler = 'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
 
     # If an ObjectType handler is registered, use it.
@@ -1277,9 +1279,7 @@ sub EditFieldValueGet {
     }
 
     # define transform dates parameter
-    if ( !defined $Param{TransformDates} ) {
-        $Param{TransformDates} = 1;
-    }
+    $Param{TransformDates} //= 1;
 
     # check needed objects for transform dates
     if ( $Param{TransformDates} && !$Param{LayoutObject} ) {
@@ -1326,7 +1326,9 @@ sub EditFieldValueGet {
     }
 
     # return value from the specific backend
-    return $Self->{$DynamicFieldBackend}->EditFieldValueGet(%Param);
+    return $Self->{$DynamicFieldBackend}->EditFieldValueGet(
+        %Param,
+    );
 }
 
 =head2 EditFieldValueValidate()
