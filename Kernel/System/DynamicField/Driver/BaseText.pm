@@ -523,16 +523,17 @@ sub EditFieldValueValidate {
     }
 
     # TODO: check whether EditFieldValueGet returns ('first','second','','','fifth','') in case of added but unfilled multivalue fields
-
-    my $CheckRegex = IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} );
-
     for my $ValueItem ( @{$Value} ) {
 
         # perform necessary validations
         if ( $Param{Mandatory} && $ValueItem eq '' ) {
             $ServerError = 1;
         }
-        elsif ($CheckRegex) {
+        elsif (
+            IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
+            && ( $Param{Mandatory} || ( !$Param{Mandatory} && $ValueItem ne '' ) )
+            )
+        {
 
             # check regular expressions
             my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
