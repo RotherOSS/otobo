@@ -39,7 +39,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::TextArea - driver for the TextArey dynamic field
+Kernel::System::DynamicField::Driver::TextArea - driver for the TextArea dynamic field
 
 =head1 DESCRIPTION
 
@@ -97,8 +97,20 @@ sub EditFieldRender {
     );
 
     # set values from ParamObject if present
-    if ( defined $FieldValue ) {
+    if ( $FieldConfig->{MultiValue} ) {
+        if ( $FieldValue->@* ) {
+            $Value = $FieldValue;
+        }
+    }
+    elsif ( defined $FieldValue ) {
         $Value = $FieldValue;
+    }
+
+    if ( !ref $Value ) {
+        $Value = [$Value];
+    }
+    elsif ( !$Value->@* ) {
+        $Value = [undef];
     }
 
     # set the rows number
@@ -126,10 +138,6 @@ sub EditFieldRender {
     # set validation class for maximum characters
     $FieldClass .= ' Validate_MaxLength';
 
-    my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $Value,
-    );
-
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
         Text => $FieldLabel,
     );
@@ -147,31 +155,68 @@ sub EditFieldRender {
     my $ErrorMessage3 = $Param{LayoutObject}->{LanguageObject}->Translate( "Maximum size is %s characters.", $MaxLength );
 
     my %FieldTemplateData = (
-        'FieldClass'        => $FieldClass,
-        'FieldName'         => $FieldName,
-        'FieldLabelEscaped' => $FieldLabelEscaped,
-        'RowsNumber'        => $RowsNumber,
-        'ColsNumber'        => $ColsNumber,
-        'MaxLength'         => $MaxLength,
-        'ValueEscaped'      => $ValueEscaped,
-        'ErrorMessage1'     => $ErrorMessage1,
-        'ErrorMessage2'     => $ErrorMessage2,
-        'ErrorMessage3'     => $ErrorMessage3,
-        'DivID'             => $FieldName . 'Error',
+        FieldClass        => $FieldClass,
+        FieldName         => $FieldName,
+        FieldLabelEscaped => $FieldLabelEscaped,
+        MultiValue        => $FieldConfig->{MultiValue} || 0,
+        Readonly          => $Param{Readonly},
+        RowsNumber        => $RowsNumber,
+        ColsNumber        => $ColsNumber,
+        MaxLength         => $MaxLength,
+        ErrorMessage1     => $ErrorMessage1,
+        ErrorMessage2     => $ErrorMessage2,
+        ErrorMessage3     => $ErrorMessage3,
+        DivID             => $FieldName . 'Error',
     );
 
-    if ( $Param{Mandatory} ) {
-        $FieldTemplateData{Mandatory}            = $Param{Mandatory};
-        $FieldTemplateData{DivIDMandatory}       = $FieldName . 'Error';
-        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/TextArea'
+        :
+        'DynamicField/Agent/TextArea';
+
+    my %Error = (
+        ServerError => $Param{ServerError},
+        Mandatory   => $Param{Mandatory},
+    );
+    my @ResultHTML;
+    for my $ValueIndex ( 0 .. $#{$Value} ) {
+        $FieldTemplateData{FieldID}      = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
+        $FieldTemplateData{ValueEscaped} = $Param{LayoutObject}->Ascii2Html(
+            Text => $Value->[$ValueIndex],
+        );
+
+        if ( !$ValueIndex ) {
+            if ( $Error{ServerError} ) {
+                $Error{DivIDServerError} = $FieldTemplateData{FieldID} . 'ServerError';
+                $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+            }
+            if ( $Error{Mandatory} ) {
+                $Error{DivIDMandatory}       = $FieldTemplateData{FieldID} . 'Error';
+                $Error{FieldRequiredMessage} = Translatable('This field is required.');
+            }
+        }
+
+        push @ResultHTML, $Param{LayoutObject}->Output(
+            TemplateFile => $FieldTemplateFile,
+            Data         => {
+                %FieldTemplateData,
+                %Error,
+            },
+        );
     }
 
-    if ( $Param{ServerError} ) {
+    my $TemplateHTML;
+    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
 
-        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
+        $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_Template';
 
-        $FieldTemplateData{ServerError} = $Param{ServerError};
+        $TemplateHTML = $Param{LayoutObject}->Output(
+            TemplateFile => $FieldTemplateFile,
+            Data         => {
+                %FieldTemplateData,
+            },
+        );
     }
 
     # call EditLabelRender on the common Driver
@@ -181,21 +226,18 @@ sub EditFieldRender {
         FieldName => $FieldName,
     );
 
-    my $FieldTemplateFile = $Param{CustomerInterface}
-        ?
-        'DynamicField/Customer/TextArea'
-        :
-        'DynamicField/Agent/TextArea';
-
-    my $HTMLString = $Param{LayoutObject}->Output(
-        TemplateFile => $FieldTemplateFile,
-        Data         => \%FieldTemplateData
-    );
-
     my $Data = {
-        Field => $HTMLString,
         Label => $LabelString,
     };
+
+    # decide which structure to return
+    if ( $FieldConfig->{MultiValue} ) {
+        $Data->{MultiValue}         = \@ResultHTML;
+        $Data->{MultiValueTemplate} = $TemplateHTML;
+    }
+    else {
+        $Data->{Field} = $ResultHTML[0];
+    }
 
     return $Data;
 }
@@ -215,41 +257,47 @@ sub EditFieldValueValidate {
     my $ServerError;
     my $ErrorMessage;
 
-    # perform necessary validations
-    if ( $Param{Mandatory} && $Value eq '' ) {
-        $ServerError = 1;
+    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        $Value = [$Value];
     }
-    elsif ( length $Value > $Self->{MaxLength} ) {
-        $ServerError  = 1;
-        $ErrorMessage = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
-    }
-    elsif (
-        IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
-        && ( $Param{Mandatory} || ( !$Param{Mandatory} && $Value ne '' ) )
-        )
-    {
 
-        # check regular expressions
-        my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+    for my $ValueItem ( @{$Value} ) {
 
-        REGEXENTRY:
-        for my $RegEx (@RegExList) {
+        # perform necessary validations
+        if ( $Param{Mandatory} && $ValueItem eq '' ) {
+            $ServerError = 1;
+        }
+        elsif ( length $ValueItem > $Self->{MaxLength} ) {
+            $ServerError  = 1;
+            $ErrorMessage = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
+        }
+        elsif (
+            IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
+            && ( $Param{Mandatory} || ( !$Param{Mandatory} && $ValueItem ne '' ) )
+            )
+        {
 
-            if ( $Value !~ $RegEx->{Value} ) {
-                $ServerError  = 1;
-                $ErrorMessage = $RegEx->{ErrorMessage};
-                last REGEXENTRY;
+            # check regular expressions
+            my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+
+            REGEXENTRY:
+            for my $RegEx (@RegExList) {
+
+                if ( $ValueItem !~ $RegEx->{Value} ) {
+                    $ServerError  = 1;
+                    $ErrorMessage = $RegEx->{ErrorMessage};
+
+                    last REGEXENTRY;
+                }
             }
         }
     }
 
-    # create resulting structure
-    my $Result = {
+    # return resulting structure
+    return {
         ServerError  => $ServerError,
         ErrorMessage => $ErrorMessage,
     };
-
-    return $Result;
 }
 
 sub DisplayValueRender {
@@ -258,31 +306,54 @@ sub DisplayValueRender {
     # activate HTMLOutput when it wasn't specified
     my $HTMLOutput = $Param{HTMLOutput} // 1;
 
-    # get raw Title and Value strings from field value
-    my $Value = $Param{Value} // '';
-    my $Title = $Value;
+    # get raw Value strings from field value
+    my @Values = !ref $Param{Value}
+        ? ( $Param{Value} )
+        : scalar $Param{Value}->@* ? $Param{Value}->@*
+        :                            ('');
+
+    $Param{ValueMaxChars} ||= '';
+
+    my @ReadableValues;
+    my @ReadableTitles;
+    for my $ValueItem (@Values) {
+        $ValueItem //= '';
+
+        # set title as value after update and before limit
+        push @ReadableTitles, $ValueItem;
+
+        # HTML Output transformation
+        if ($HTMLOutput) {
+            $ValueItem = $Param{LayoutObject}->Ascii2Html(
+                Text => $ValueItem,
+                Max  => $Param{ValueMaxChars},
+            );
+        }
+        else {
+            if ( $Param{ValueMaxChars} && length($ValueItem) > $Param{ValueMaxChars} ) {
+                $ValueItem = substr( $ValueItem, 0, $Param{ValueMaxChars} ) . '...';
+            }
+        }
+
+        push @ReadableValues, $ValueItem;
+    }
+
+    my $ValueSeparator;
+    my $Title = join( ', ', @ReadableTitles );
 
     # HTMLOutput transformations
     if ($HTMLOutput) {
-
-        $Value = $Param{LayoutObject}->Ascii2Html(
-            Text           => $Value,
-            HTMLResultMode => 1,
-            Max            => $Param{ValueMaxChars} || '',
-        );
-
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
             Max  => $Param{TitleMaxChars} || '',
         );
+        $ValueSeparator = '<br/>';
     }
     else {
-        if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
-            $Value = substr( $Value, 0, $Param{ValueMaxChars} ) . '...';
-        }
         if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
             $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
         }
+        $ValueSeparator = "\n";
     }
 
     # this field type does not support the Link Feature
@@ -290,8 +361,8 @@ sub DisplayValueRender {
 
     # return a data structure
     return {
-        Value => $Value,
-        Title => $Title,
+        Value => '' . join( $ValueSeparator, @ReadableValues ),
+        Title => '' . $Title,
         Link  => $Link,
     };
 }
@@ -341,12 +412,10 @@ EOF
         FieldName => $FieldName,
     );
 
-    my $Data = {
+    return {
         Field => $HTMLString,
         Label => $LabelString,
     };
-
-    return $Data;
 }
 
 1;
