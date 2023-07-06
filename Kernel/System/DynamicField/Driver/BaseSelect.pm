@@ -139,9 +139,13 @@ sub ValueValidate {
         @Values = ( $Param{Value} );
     }
 
+    # get dynamic field value object
+    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+
     my $Success;
     for my $Value (@Values) {
-        $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
+
+        $Success = $DynamicFieldValueObject->ValueValidate(
             Value => {
                 ValueText => $Value,
             },
@@ -351,7 +355,7 @@ sub EditFieldRender {
     }
 
     my $TemplateHTML;
-    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+    if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
         my $FieldID = $FieldName . '_Template';
 
         # TODO: is this necessary?
@@ -456,7 +460,6 @@ sub EditFieldValueGet {
             # delete the template value
             pop @DataAll;
 
-            # delete empty values (can happen if the user has selected the "-" entry)
             for my $Item (@DataAll) {
                 push @Data, $Item // '';
             }
