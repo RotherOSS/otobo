@@ -286,7 +286,7 @@ sub EditSectionRender {
                         Name => $ColBlockName,
                         Data => {
                             %CellBlockData,
-                            Field       => $DynamicFieldHTML->{MultiValue}[0],
+                            Field       => $DynamicFieldHTML->{MultiValue}[$ValueRowIndex],
                             Index       => $ValueRowIndex,
                             CellClasses => $CellClassString . ' MultiValue_' . $ValueRowIndex,
                         },
