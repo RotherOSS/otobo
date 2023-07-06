@@ -39,7 +39,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::DateTime - DateTime dynamic field
+Kernel::System::DynamicField::Driver::DateTime - driver for the DateTime dynamic field
 
 =head1 DESCRIPTION
 
