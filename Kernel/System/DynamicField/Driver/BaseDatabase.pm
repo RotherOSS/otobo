@@ -102,11 +102,17 @@ sub ValueSet {
         }
     }
 
-    my $Value = $Self->ValueStructureToDB(
-        Value      => \@Values,
-        ValueKey   => 'ValueText',
-        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
-    );
+    my $Value;
+    if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
+        $Value->@* = map { { 'ValueText' => $_ } } @Values;
+    }
+    else {
+        $Value = $Self->ValueStructureToDB(
+            Value      => \@Values,
+            ValueKey   => 'ValueText',
+            MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+        );
+    }
 
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
