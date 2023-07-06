@@ -119,8 +119,9 @@ sub new {
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
+    # get raw values of the dynamic field
     my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        FieldID  => $Param{DynamicFieldConfig}{ID},
         ObjectID => $Param{ObjectID},
     );
 
@@ -204,6 +205,7 @@ sub ValueIsDifferent {
     {
         return;
     }
+
     if (
         !defined $Param{Value2}
         && ref $Param{Value1} eq 'ARRAY'
@@ -223,9 +225,9 @@ sub ValueIsDifferent {
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    # check value
+    # check values
     my @Values;
-    if ( IsArrayRefWithData( $Param{Value} ) ) {
+    if ( ref $Param{Value} eq 'ARRAY' ) {
         @Values = @{ $Param{Value} };
     }
     else {
@@ -236,15 +238,14 @@ sub ValueValidate {
     my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
     my $Success;
-    for my $Item (@Values) {
+    for my $Value (@Values) {
 
         $Success = $DynamicFieldValueObject->ValueValidate(
             Value => {
-                ValueText => $Item,
+                ValueText => $Value,
             },
-            UserID => $Param{UserID}
+            UserID => $Param{UserID},
         );
-
         return if !$Success;
     }
 
@@ -415,7 +416,7 @@ sub EditFieldRender {
 
         my $FieldSelector = '#' . $FieldName;
 
-        my $FieldsToUpdate;
+        my $FieldsToUpdate = '';
         if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
 
             # Remove current field from updatable fields list
@@ -446,12 +447,10 @@ EOF
         FieldName => $FieldName,
     );
 
-    my $Data = {
+    return {
         Field => $HTMLString,
         Label => $LabelString,
     };
-
-    return $Data;
 }
 
 sub EditFieldValueGet {
@@ -539,13 +538,11 @@ sub EditFieldValueValidate {
         }
     }
 
-    # create resulting structure
-    my $Result = {
+    # return resulting structure
+    return {
         ServerError  => $ServerError,
         ErrorMessage => $ErrorMessage,
     };
-
-    return $Result;
 }
 
 sub DisplayValueRender {
@@ -566,106 +563,65 @@ sub DisplayValueRender {
         @Values = ( $Param{Value} );
     }
 
-    # get real values
-    my $PossibleValues     = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
-    my $TranslatableValues = $Param{DynamicFieldConfig}->{Config}->{TranslatableValues};
-
     my @ReadableValues;
     my @ReadableTitles;
+    for my $ValueItem (@Values) {
+        $ValueItem //= '';
+        my $TitleItem;
 
-    my $ShowValueEllipsis;
-    my $ShowTitleEllipsis;
+        # get real value
+        if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$ValueItem} ) {
 
-    VALUEITEM:
-    for my $Item (@Values) {
-        next VALUEITEM if !$Item;
-
-        my $ReadableValue = $Item;
-
-        if ( $PossibleValues->{$Item} ) {
-            $ReadableValue = $PossibleValues->{$Item};
-            if ($TranslatableValues) {
-                $ReadableValue = $Param{LayoutObject}->{LanguageObject}->Translate($ReadableValue);
-            }
+            # get readable value
+            $ValueItem = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$ValueItem};
         }
 
-        my $ReadableLength = length $ReadableValue;
+        # check is needed to translate values
+        if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
 
-        # set title equal value
-        my $ReadableTitle = $ReadableValue;
-
-        # cut strings if needed
-        if ( $ValueMaxChars ne '' ) {
-
-            if ( length $ReadableValue > $ValueMaxChars ) {
-                $ShowValueEllipsis = 1;
-            }
-            $ReadableValue = substr $ReadableValue, 0, $ValueMaxChars;
-
-            # decrease the max parameter
-            $ValueMaxChars = $ValueMaxChars - $ReadableLength;
-            if ( $ValueMaxChars < 0 ) {
-                $ValueMaxChars = 0;
-            }
+            # translate value
+            $ValueItem = $Param{LayoutObject}->{LanguageObject}->Translate($ValueItem);
         }
 
-        if ( $TitleMaxChars ne '' ) {
+        # set title as value after update and before limit
+        $TitleItem = $ValueItem;
 
-            if ( length $ReadableTitle > $ValueMaxChars ) {
-                $ShowTitleEllipsis = 1;
-            }
-            $ReadableTitle = substr $ReadableTitle, 0, $TitleMaxChars;
-
-            # decrease the max parameter
-            $TitleMaxChars = $TitleMaxChars - $ReadableLength;
-            if ( $TitleMaxChars < 0 ) {
-                $TitleMaxChars = 0;
-            }
-        }
-
-        # HTMLOutput transformations
+        # HTML Output transformation
         if ($HTMLOutput) {
-
-            $ReadableValue = $Param{LayoutObject}->Ascii2Html(
-                Text => $ReadableValue,
+            $ValueItem = $Param{LayoutObject}->Ascii2Html(
+                Text => $ValueItem,
+                Max  => $Param{ValueMaxChars},
             );
-
-            $ReadableTitle = $Param{LayoutObject}->Ascii2Html(
-                Text => $ReadableTitle,
+            $TitleItem = $Param{LayoutObject}->Ascii2Html(
+                Text => $TitleItem,
+                Max  => $Param{TitleMaxChars},
             );
         }
+        else {
+            if ( $Param{ValueMaxChars} && length($ValueItem) > $Param{ValueMaxChars} ) {
+                $ValueItem = substr( $ValueItem, 0, $Param{ValueMaxChars} ) . '...';
+            }
+            if ( $Param{TitleMaxChars} && length($TitleItem) > $Param{TitleMaxChars} ) {
+                $TitleItem = substr( $TitleItem, 0, $Param{TitleMaxChars} ) . '...';
+            }
+        }
 
-        if ( length $ReadableValue ) {
-            push @ReadableValues, $ReadableValue;
-        }
-        if ( length $ReadableTitle ) {
-            push @ReadableTitles, $ReadableTitle;
-        }
+        push @ReadableValues, $ValueItem;
+        push @ReadableTitles, $TitleItem;
     }
 
     # get specific field settings
     my $FieldConfig = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver')->{Multiselect} || {};
 
-    # set new line separator
     my $ItemSeparator = $FieldConfig->{ItemSeparator} || ', ';
-
-    my $Value = join $ItemSeparator, @ReadableValues;
-    my $Title = join $ItemSeparator, @ReadableTitles;
-
-    if ($ShowValueEllipsis) {
-        $Value .= '...';
-    }
-    if ($ShowTitleEllipsis) {
-        $Title .= '...';
-    }
 
     # this field type does not support the Link Feature
     my $Link;
 
     # return a data structure
     return {
-        Value => $Value,
-        Title => $Title,
+        Value => '' . join( $ItemSeparator, @ReadableValues ),
+        Title => '' . join( $ItemSeparator, @ReadableTitles ),
         Link  => $Link,
     };
 }
@@ -766,9 +722,7 @@ sub StatsFieldParameterBuild {
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
-    # set Value and Title variables
     my $Value = '';
-    my $Title = '';
 
     # check value
     my @Values;
@@ -793,7 +747,7 @@ sub ReadableValueRender {
 
     # Output transformations
     $Value = join( $ItemSeparator, @ReadableValues );
-    $Title = $Value;
+    my $Title = $Value;
 
     # cut strings if needed
     if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
@@ -803,13 +757,10 @@ sub ReadableValueRender {
         $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
     }
 
-    # create return structure
-    my $Data = {
+    return {
         Value => $Value,
         Title => $Title,
     };
-
-    return $Data;
 }
 
 sub TemplateValueTypeGet {
@@ -869,14 +820,11 @@ sub ObjectMatch {
 sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
-    # get historical values from database
-    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    # return historical values from database
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
     );
-
-    # return the historical values from database
-    return $HistoricalValues;
 }
 
 sub ValueLookup {
