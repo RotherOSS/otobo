@@ -116,7 +116,7 @@ sub ValueValidate {
             Value => {
                 ValueDateTime => $Value,
             },
-            UserID => $Param{UserID}
+            UserID => $Param{UserID},
         );
 
         if ($DateRestriction) {
@@ -134,7 +134,7 @@ sub ValueValidate {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  =>
-                        "The value for the Data field ($Param{DynamicFieldConfig}->{Name}) is in the future! The date needs to be in the past!",
+                        "The value for the Date field ($Param{DynamicFieldConfig}->{Name}) is in the future! The date needs to be in the past!",
                 );
                 return;
             }
@@ -712,6 +712,7 @@ sub DisplayValueRender {
 
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
+    print STDERR "BaseDateTime.pm, L. 715: SearchFieldRender was called\n";
 
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
@@ -851,7 +852,7 @@ EOF
                 year   => Translatable('year(s)'),
             },
             Name       => $FieldName . 'Format',
-            SelectedID => $Value->{Format}->{ $FieldName . 'Format' } || 'day',
+            SelectedID => $Value->{Format}->{ $FieldName . 'Format' } || Translatable('day'),
         );
 
         my $AdditionalText;
