@@ -240,7 +240,7 @@ sub EditFieldRender {
         #   otherwise user can easily forget to mark the checkbox and this could lead into data
         #   lost (Bug#8258).
         push @ValueParts, {
-            $FieldName . 'Used'   => 1,
+            $FieldName . 'Used'   => $ValueItem ? 1 : 0,
             $FieldName . 'Year'   => $Year,
             $FieldName . 'Month'  => $Month,
             $FieldName . 'Day'    => $Day,
@@ -429,11 +429,19 @@ sub EditFieldValueGet {
                 $Data{$Type} = \@ValueColumn;
             }
 
+            my @Used;
+            for my $Index ( $Data{Used}->@* ) {
+                $Used[$Index] = 1;
+            }
+            $Data{Used} = \@Used;
+
             # transform value arrays into rows
             for my $Index ( 0 .. $#{ $Data{Used} } ) {
-                my %ValueRow;
-                for my $Type (qw(Used Year Month Day Hour Minute)) {
-                    $ValueRow{ $Prefix . $Type } = $Data{$Type}[$Index];
+                my %ValueRow = ();
+                if ( $Data{Used}->[$Index] ) {
+                    for my $Type (qw(Used Year Month Day Hour Minute)) {
+                        $ValueRow{ $Prefix . $Type } = $Data{$Type}[$Index];
+                    }
                 }
                 push $Value->@*, \%ValueRow;
             }
@@ -486,7 +494,9 @@ sub EditFieldValueGet {
 
         # transform time stamp based on user time zone
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+            TRANSFORMDATE:
             for my $ValueData ( $Value->@* ) {
+                next TRANSFORMDATE if !$ValueData->%*;
                 $ValueData->%* = $Param{LayoutObject}->TransformDateSelection(
                     $ValueData->%*,
                     Prefix => $Prefix,
@@ -543,6 +553,9 @@ sub EditFieldValueGet {
 
                 push @ManualTimeStamps, $Year . '-' . $Month . '-' . $Day . ' '
                     . $Hour . ':' . $Minute . ':' . $Second;
+            }
+            else {
+                push @ManualTimeStamps, '';
             }
         }
         $ManualTimeStamp = \@ManualTimeStamps;

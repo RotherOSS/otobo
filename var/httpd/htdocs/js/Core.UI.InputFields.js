@@ -2819,6 +2819,8 @@ Core.UI.InputFields = (function (TargetNS) {
                 }
             });
 
+            $('input[type="checkbox"]', $Cell).val(ValueRowIndex);
+
             // TODO Iterate only over fields in ValueRowCells
             // add ajax update handler to fields
             $.each( DynamicFields, function( Index, DynamicFieldName ) {
