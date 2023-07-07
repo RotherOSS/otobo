@@ -193,15 +193,14 @@ sub Decode {
 returns a constant that can be mapped to a boolean true value
 in JSON rather than a string with "true".
 
-    my $TrueConstant = $JSONObject->True();
-
-    my $TrueJS = $JSONObject->Encode(
-        Data => $TrueConstant,
+    my $Constant = $JSONObject->True();
+    my $JSON     = $JSONObject->Encode(
+        Data => $Constant,
     );
 
-This will return the string 'true'.
-If you pass the perl string 'true' to JSON, it will return '"true"'
-as a JavaScript string instead.
+This will return the string C<q{true}>.
+If you pass the perl string C<q{true}> to JSON, it will return C<q{"true"}>
+as a JSON string instead.
 
 =cut
 
@@ -212,6 +211,13 @@ sub True {
 =head2 False()
 
 like C<True()>, but for a false boolean value.
+
+    my $Constant = $JSONObject->False();
+    my $JSON     = $JSONObject->Encode(
+        Data => $Constant,
+    );
+
+This returns the String C<q{false}>.
 
 =cut
 
