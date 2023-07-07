@@ -54,8 +54,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{CacheObject} = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -69,24 +68,23 @@ Returns possible values, selected values, and visibility of fields
     my $LoopProtection = 100;
 
     my %States = $FieldRestrictionsObject->GetFieldStates(
-        TicketObject        => $TicketObject,
-        DynamicFields       => $DynamicFieldConfigs,
+        TicketObject              => $TicketObject,
+        DynamicFields             => $DynamicFieldConfigs,
         DynamicFieldBackendObject => $DynamicFieldBackendObject,
-        ChangedElements     => {},
-        CustomerUser        => $CustomerUser,
-        Action              => $Action,
-        UserID              => $UserID,
-        TicketID            => $TicketID,
-        FormID              => $Self->{FormID},
-        GetParam            => {
+        ChangedElements           => {},
+        CustomerUser              => $CustomerUser,           # optional: either UserID or CustomerUser
+        UserID                    => $UserID,                 # optional: either UserID or CustomerUser
+        Action                    => $Action,
+        TicketID                  => $TicketID,
+        FormID                    => $Self->{FormID},
+        GetParam                  => {
             %GetParam,
             OwnerID     => $GetParam{NewUserID},
         },
-        LoopProtection      => \$LoopProtection,                    # restricts number of recursive calls; passing a reference to 'undef' will lead to a warning
-        Autoselect          => {},                                  # optional; default: undef; {Field => 0,1,2, ...}
-        ACLPreselection     => 0|1,                                 # optional
-        ForceVisibility     => 0|1,                                 # optional; always checks visibility, will be activated if fields were autoselected
-
+        LoopProtection            => \$LoopProtection,        # restricts number of recursive calls; passing a reference to 'undef' will lead to a warning
+        Autoselect                => {},                      # optional; default: undef; {Field => 0,1,2, ...}
+        ACLPreselection           => 0|1,                     # optional
+        ForceVisibility           => 0|1,                     # optional; always checks visibility, will be activated if fields were autoselected
     );
 
 Returns:
@@ -104,6 +102,9 @@ Returns:
             Field1  => 1,
             Field2  => 0,
         },
+        NewValues => {
+            ...
+        },
     );
 
 =cut
@@ -118,14 +119,17 @@ sub GetFieldStates {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
+
     if ( !$Param{UserID} && !$Param{CustomerUser} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need UserID or CustomerUserID!"
         );
+
         return;
     }
 
@@ -135,6 +139,7 @@ sub GetFieldStates {
             Priority => 'error',
             Message  => "Ran into unresolvable loop!",
         );
+
         return;
     }
 
@@ -501,7 +506,6 @@ sub GetFieldStates {
                 %{ $Recu{NewValues} },
             );
         }
-
     }
 
     return (
@@ -509,7 +513,6 @@ sub GetFieldStates {
         Visibility => \%Visibility,
         NewValues  => \%NewValues,
     );
-
 }
 
 =head2 Autoselect()

@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<input type="hidden" id="[% Data.FieldName %]" name="[% Data.FieldName %]" value="[% Data.ValueEscaped %]" />
+<input type="hidden" id="[% Data.FieldName %]" name="[% Data.FieldName %]" value="[% Data.ReferencedObjectID %]" />
 <input type="text" class="[% Data.FieldClass %]" id="Autocomplete_[% Data.FieldName %]" name="Autocomplete_[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.VisibleValue %]" />
 [% IF Data.Mandatory %]
 <div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">

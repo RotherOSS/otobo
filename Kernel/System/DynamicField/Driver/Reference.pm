@@ -279,7 +279,6 @@ sub EditFieldRender {
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
-    my $Object      = $FieldConfig->{ReferencedObjectType};
 
     my $Value = '';
 
@@ -360,11 +359,14 @@ sub EditFieldRender {
     for my $ValueIndex ( 0 .. $#{$Value} ) {
         $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
+        # The actual value is the techical ID of the referenced object
+        my $ReferencedObjectID = $Value->[$ValueIndex];
+        $FieldTemplateData{ReferencedObjectID} = $ReferencedObjectID;
+
         # The visible value depends on the referenced object
-        my $ObjectID    = $Value->[$ValueIndex];
         my %Description = $PluginObject->ObjectDescriptionGet(
-            ObjectID => $ObjectID,
-            UserID   => 1,           # TODO: what about Permission check
+            ObjectID => $ReferencedObjectID,
+            UserID   => 1,                     # TODO: what about Permission check
         );
         $FieldTemplateData{VisibleValue} = $Param{LayoutObject}->Ascii2Html(
             Text => $Description{Long},
@@ -395,19 +397,19 @@ sub EditFieldRender {
         FieldName => $FieldName,
     );
 
-    my $Data = {
+    my %Data = (
         Label => $LabelString,
-    };
+    );
 
     if ( $FieldConfig->{MultiValue} ) {
-        $Data->{MultiValue}         = \@ResultHTML;
-        $Data->{MultiValueTemplate} = $TemplateHTML;
+        $Data{MultiValue}         = \@ResultHTML;
+        $Data{MultiValueTemplate} = $TemplateHTML;
     }
     else {
-        $Data->{Field} = $ResultHTML[0];
+        $Data{Field} = $ResultHTML[0];
     }
 
-    return $Data;
+    return \%Data;
 }
 
 sub EditFieldValueGet {

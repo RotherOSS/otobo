@@ -89,30 +89,18 @@ sub new {
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $LensDFConfig = $Param{DynamicFieldConfig};
 
-    # Get the referenced object
-    my $ReferenceDFID = $Param{DynamicFieldConfig}->{Config}->{ReferenceDF};
-
-    return '' unless $ReferenceDFID;
-
-    my $ReferenceDFConfig = $DynamicFieldObject->DynamicFieldGet( ID => $ReferenceDFID );
-
-    my $ReferencedObjectID = $BackendObject->ValueGet(
-        DynamicFieldConfig => $ReferenceDFConfig,
-        ObjectID           => $Param{ObjectID},
+    my $ReferencedObjectID = $Self->_GetReferencedObjectID(
+        ObjectID               => $Param{ObjectID},
+        LensDynamicFieldConfig => $LensDFConfig,
     );
 
-    return '' unless $ReferencedObjectID;
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
 
-    my $AttributeDFID = $Param{DynamicFieldConfig}->{Config}->{AttributeDF};
-
-    return '' unless $AttributeDFID;
-
-    my $AttributeDFConfig = $DynamicFieldObject->DynamicFieldGet( ID => $AttributeDFID );
-
-    return $BackendObject->ValueGet(
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $AttributeDFConfig,
         ObjectID           => $ReferencedObjectID,
     );
@@ -121,14 +109,29 @@ sub ValueGet {
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    # there is nothing to do
-    return 1;
+    my $LensDFConfig = $Param{DynamicFieldConfig};
+
+    my $ReferencedObjectID = $Self->_GetReferencedObjectID(
+        ObjectID               => $Param{ObjectID},
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+        ObjectID           => $ReferencedObjectID,
+    );
 }
 
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
     # there is nothing to validate, as all is in the config
+    # TODO: delegate to the referenced field
     return 1;
 }
 
@@ -166,56 +169,46 @@ sub SearchSQLOrderFieldGet {
 sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
-    # TODO: only render the label
+    my $LensDFConfig = $Param{DynamicFieldConfig};
+
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
+    # Call EditLabelRender on the common Driver.
+    # The edit field should be rendered like the attribute of the referenced object,
+    # But the name should be that of the Lens dynamic field.
+    $AttributeDFConfig->{Name} = $LensDFConfig->{Name};
+    my $AttributeFieldHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldRender(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
+
+    return unless $AttributeFieldHTML;
+
+    # But show the label of the Lens dynamic field
     return {
-        Field => 'TODO: EditLabelRender for Lens',
+        Field => $AttributeFieldHTML->{Field},
+        Label => $LensDFConfig->{Label},
     };
 }
 
 sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $LensDFConfig = $Param{DynamicFieldConfig};
 
-    my $Value;
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
 
-    # check if there is a Template and retrieve the dynamic field value from there
-    if ( IsHashRefWithData( $Param{Template} ) && defined $Param{Template}->{$FieldName} ) {
-        $Value = $Param{Template}->{$FieldName};
-    }
+    # The name used in the GUI is the name of the Lens
+    $AttributeDFConfig->{Name} = $LensDFConfig->{Name};
 
-    # otherwise get dynamic field value from the web request
-    elsif (
-        defined $Param{ParamObject}
-        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
-        )
-    {
-        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-            my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
-            my @Data;
-
-            # delete the template value
-            pop @DataAll;
-
-            # delete empty values (can happen if the user has selected the "-" entry)
-            for my $Item (@DataAll) {
-                push @Data, $Item // '';
-            }
-            $Value = \@Data;
-        }
-        else {
-            $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
-        }
-    }
-
-    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
-        return {
-            $FieldName => $Value,
-        };
-    }
-
-    # for this field the normal return an the ReturnValueStructure are the same
-    return $Value;
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
 }
 
 sub EditFieldValueValidate {
@@ -247,18 +240,16 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $LensDFConfig = $Param{DynamicFieldConfig};
 
-    # Delegate to the render method of the attribute.
-    my $AttributeDFID = $Param{DynamicFieldConfig}->{Config}->{AttributeDF};
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
 
-    return '' unless $AttributeDFID;
+    return '' unless $AttributeDFConfig;
 
-    my $AttributeDFConfig = $DynamicFieldObject->DynamicFieldGet( ID => $AttributeDFID );
-
-    return $BackendObject->DisplayValueRender(
-        %Param,    # e.g. Value and HTMLOuput
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
+        %Param,    # e.g. Value and HTMLOutput
         DynamicFieldConfig => $AttributeDFConfig,
     );
 }
@@ -505,6 +496,53 @@ sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
     return $Param{Key} // '';
+}
+
+=head1 internal methods
+
+Methods that are used only internally.
+
+=head2 _GetReferencedObjectID()
+
+The ID of the referenced object.
+
+=cut
+
+sub _GetReferencedObjectID {
+    my ( $Self, %Param ) = @_;
+
+    my $LensDFConfig = $Param{LensDynamicFieldConfig};
+    my $ObjectID     = $Param{ObjectID};
+
+    # Get the dynamic field for the referenced object
+    my $ReferenceDFID = $LensDFConfig->{Config}->{ReferenceDF};
+
+    my $ReferenceDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+        ID => $ReferenceDFID,
+    );
+
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
+        DynamicFieldConfig => $ReferenceDFConfig,
+        ObjectID           => $ObjectID,
+    );
+}
+
+=head2 _GetAttributeDFConfig()
+
+A dynamic field configuration that can be used as a delegate.
+
+=cut
+
+sub _GetAttributeDFConfig {
+    my ( $Self, %Param ) = @_;
+
+    my $LensDFConfig = $Param{LensDynamicFieldConfig};
+
+    my $AttributeDFID = $LensDFConfig->{Config}->{AttributeDF};
+
+    return $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+        ID => $AttributeDFID,
+    );
 }
 
 1;
