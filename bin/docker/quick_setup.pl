@@ -708,14 +708,6 @@ sub AddAdminUser {
         return 0, "$SubName: the parameter '$Key' is required";
     }
 
-    # do we have an admin group ?
-    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-    my $GroupID     = $GroupObject->GroupLookup(
-        Group => 'admin',
-    );
-
-    return 0, "Could not find the group 'admin'" unless $GroupID;
-
     # Disable email checks to create new user.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     local $ConfigObject->{CheckEmailAddresses} = 0;
@@ -743,22 +735,34 @@ sub AddAdminUser {
         Value  => 'en',
     );
 
-    # now set the permissions
-    my $Success = $GroupObject->PermissionGroupUserAdd(
-        GID        => $GroupID,
-        UID        => $UserID,
-        Permission => {
-            ro        => 1,
-            move_into => 1,
-            create    => 1,
-            owner     => 1,
-            priority  => 1,
-            rw        => 1,
-        },
-        UserID => 1,
     );
 
-    return 0, "Could not give admin privileges to the user '$Login'" unless $Success;
+    # do we have an admin group ?
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+    for my $Group (qw(admin users)) {
+        my $GroupID = $GroupObject->GroupLookup(
+            Group => $Group,
+        );
+
+        return 0, "Could not find the group '$Group'" unless $GroupID;
+
+        # now set the permissions
+        my $Success = $GroupObject->PermissionGroupUserAdd(
+            GID        => $GroupID,
+            UID        => $UserID,
+            Permission => {
+                ro        => 1,
+                move_into => 1,
+                create    => 1,
+                owner     => 1,
+                priority  => 1,
+                rw        => 1,
+            },
+            UserID => 1,
+        );
+
+        return 0, "Could not give $Group privileges to the user '$Login'" unless $Success;
+    }
 
     # looks good
     return 1, "Admin user: http://localhost:$Param{HTTPPort}/otobo/index.pl user: $Login pw: $Login";
