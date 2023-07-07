@@ -225,4 +225,24 @@ sub False {
     return Cpanel::JSON::XS::false;
 }
 
+=head2 ToBoolean()
+
+Return a boolean constant depending on whether the parameter evaluates to B<true> or B<false>
+in a Perl context.
+
+    my $Constant = $JSONObject->ToBoolean( 2 > 3 );
+    my $JSON = $JSONObject->Encode(
+        Data => $Constant,
+    );
+
+In this cast the returned JSON will be the string C<q{false}>.
+
+=cut
+
+sub ToBoolean {
+    my ( $Self, $Scalar ) = @_;
+
+    return $Scalar ? $Self->True : $Self->False;
+}
+
 1;
