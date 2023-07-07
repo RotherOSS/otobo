@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -131,14 +132,84 @@ my @EncodeTests = (
         Name   => 'JSON - simple'
     },
     {
-        Input  => Kernel::System::JSON::True(),
+        Input  => $JSONObject->True(),
         Result => 'true',
         Name   => 'JSON - bool true'
     },
     {
-        Input  => Kernel::System::JSON::False(),
+        Input  => $JSONObject->False(),
         Result => 'false',
         Name   => 'JSON - bool false'
+    },
+    {
+        Input  => $JSONObject->ToBoolean(),
+        Result => 'false',
+        Name   => 'ToBoolean() without arg',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(undef),
+        Result => 'false',
+        Name   => 'ToBoolean() with undef',
+    },
+    {
+        Input  => $JSONObject->ToBoolean('0'),
+        Result => 'false',
+        Name   => 'ToBoolean() with string q{0}',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(''),
+        Result => 'false',
+        Name   => 'ToBoolean() with empty string',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(0),
+        Result => 'false',
+        Name   => 'ToBoolean() with number 0',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(0.0),
+        Result => 'false',
+        Name   => 'ToBoolean() with number 0.0',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(-0),
+        Result => 'false',
+        Name   => 'ToBoolean() with number -0',
+    },
+    {
+        Input  => $JSONObject->ToBoolean( 4 < -4 ),
+        Result => 'false',
+        Name   => 'ToBoolean() with false expression',
+    },
+    {
+        Input  => $JSONObject->ToBoolean( 0 + "0 but true" ),
+        Result => 'false',
+        Name   => 'ToBoolean() with number q{0 but true}',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(-0.00001),
+        Result => 'true',
+        Name   => 'ToBoolean() with non-zero number',
+    },
+    {
+        Input  => $JSONObject->ToBoolean('0.0'),
+        Result => 'true',
+        Name   => 'ToBoolean() with string q{0.0}',
+    },
+    {
+        Input  => $JSONObject->ToBoolean('⛄'),
+        Result => 'true',
+        Name   => 'ToBoolean() with arbitrary string',
+    },
+    {
+        Input  => $JSONObject->ToBoolean( -4 < 4 ),
+        Result => 'true',
+        Name   => 'ToBoolean() with true expression',
+    },
+    {
+        Input  => $JSONObject->ToBoolean("0 but true"),
+        Result => 'true',
+        Name   => 'ToBoolean() with string q{0 but true}',
     },
     {
         Input => [
