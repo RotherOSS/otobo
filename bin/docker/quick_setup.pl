@@ -735,6 +735,11 @@ sub AddAdminUser {
         Value  => 'en',
     );
 
+    # Set user time zone, don't bother to check success
+    $UserObject->SetPreferences(
+        UserID => $UserID,
+        Key    => 'UserTimeZone',
+        Value  => 'Europe/Berlin',    # or to 'Antarctica/Rothera' ???
     );
 
     # do we have an admin group ?
