@@ -353,7 +353,9 @@ to get the database version
 
     my $DBVersion = $DBObject->Version();
 
-    returns: "MySQL 5.1.1";
+returns for example:
+
+    "MySQL 5.1.1";
 
 =cut
 
@@ -376,18 +378,17 @@ sub Version {
 
 to quote sql parameters
 
-    quote strings, date and time:
-    =============================
-    my $DBString = $DBObject->Quote( "This isn't a problem!" );
+Quote strings, date and time:
 
+    my $DBString = $DBObject->Quote( "This isn't a problem!" );
     my $DBString = $DBObject->Quote( "2005-10-27 20:15:01" );
 
-    quote integers:
-    ===============
+Quote integers:
+
     my $DBString = $DBObject->Quote( 1234, 'Integer' );
 
-    quote numbers (e. g. 1, 1.4, 42342.23424):
-    ==========================================
+Quote numbers (e. g. 1, 1.4, 42342.23424):
+
     my $DBString = $DBObject->Quote( 1234, 'Number' );
 
 =cut
@@ -469,7 +470,7 @@ to insert, update or delete values
 
     $DBObject->Do( SQL => "DELETE FROM table" );
 
-    you also can use DBI bind values (used for large strings):
+you also can use DBI bind values (used for large strings):
 
     my $Var1 = 'dog1';
     my $Var2 = 'dog2';
@@ -948,12 +949,12 @@ You can pass the same arguments as to the Prepare() method.
 
 Returns undef (if query failed), or an array ref (if query was successful):
 
-  my $ResultAsArrayRef = [
-    [ 1, 'itemOne' ],
-    [ 2, 'itemTwo' ],
-    [ 3, 'itemThree' ],
-    [ 4, 'itemFour' ],
-  ];
+    my $ResultAsArrayRef = [
+        [ 1, 'itemOne' ],
+        [ 2, 'itemTwo' ],
+        [ 3, 'itemThree' ],
+        [ 4, 'itemFour' ],
+    ];
 
 =cut
 
@@ -1199,8 +1200,8 @@ generate SQL condition query based on a search expression
         Value => '(ABC+DEF)',
     );
 
-    add SearchPrefix and SearchSuffix to search, in this case
-    for "(ABC*+DEF*)"
+add SearchPrefix and SearchSuffix to search, in this case
+for "(ABC*+DEF*)"
 
     my $SQL = $DBObject->QueryCondition(
         Key          => 'some_col',
@@ -1210,21 +1211,21 @@ generate SQL condition query based on a search expression
         Extended     => 1, # use also " " as "&&", e.g. "bob smith" -> "bob&&smith"
     );
 
-    example of a more complex search condition
+example of a more complex search condition
 
     my $SQL = $DBObject->QueryCondition(
         Key   => 'some_col',
         Value => '((ABC&&DEF)&&!GHI)',
     );
 
-    for a earch condition over more columns
+for a search condition over more columns
 
     my $SQL = $DBObject->QueryCondition(
         Key   => [ 'some_col_a', 'some_col_b' ],
         Value => '((ABC&&DEF)&&!GHI)',
     );
 
-    Returns the SQL string or "1=0" if the query could not be parsed correctly.
+Returns the SQL string or "1=0" if the query could not be parsed correctly.
 
     my $SQL = $DBObject->QueryCondition(
         Key      => [ 'some_col_a', 'some_col_b' ],
@@ -1232,7 +1233,7 @@ generate SQL condition query based on a search expression
         BindMode => 1,
     );
 
-    return the SQL String with ?-values and a array with values references:
+return the SQL String with ?-values and a array with values references:
 
     $BindModeResult = (
         'SQL'    => 'WHERE testa LIKE ? AND testb NOT LIKE ? AND testc = ?'
@@ -1691,7 +1692,7 @@ Return the SQL String with ?-values and a array with values references in bind m
         'Values' => [1, 2, 3, 4, 5, 6],
     );
 
-    or
+or
 
     $BindModeResult = (
         'SQL'    => '( ticket_id IN (?, ?, ?, ?, ?, ?) OR ticket_id IN ( ?, ... ) )',
@@ -1702,7 +1703,7 @@ Returns the SQL string for a negated in condition:
 
     my $SQL = "ticket_id NOT IN (1, 2, 3, 4, 5, 6)"
 
-    or
+or
 
     my $SQL = "( ticket_id NOT IN ( 1, 2, 3, 4, 5, 6 ... ) AND ticket_id NOT IN ( ... ) )"
 
@@ -1833,8 +1834,8 @@ escapes special characters within a query string
         QueryString => 'customer with (brackets) and & and -',
     );
 
-    Result would be a string in which all special characters are escaped.
-    Special characters are those which are returned by _SpecialCharactersGet().
+Result would be a string in which all special characters are escaped.
+Special characters are those which are returned by _SpecialCharactersGet().
 
     $QueryStringEscaped = 'customer with \(brackets\) and \& and \-';
 

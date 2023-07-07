@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-05-11 13:38+0000\n"
+"PO-Revision-Date: 2023-06-20 13:03+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -25436,12 +25436,16 @@ msgid ""
 "German stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"كلمات التوقف الألمانية لفهرس النص الكامل. ستتم إزالة هذه الكلمات من فهرس "
+"البحث."
 
 #. SysConfig
 msgid ""
 "Gives customer users group based access to tickets from customer users of "
 "the same customer (ticket CustomerID is a CustomerID of the customer user)."
 msgstr ""
+"يمنح العملاء حق الوصول إلى التذاكر من زبائن العميل نفسه على أساس المجموعة ("
+"رقم العميل للتذكرة هو رقم العميل الخاص بمستخدم العميل)."
 
 #. SysConfig
 msgid ""
@@ -25452,42 +25456,47 @@ msgid ""
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which "
 "area these settings should be shown in the user interface."
 msgstr ""
+"يمنح المستخدم النهائي القدرة على تحديد الحرف الفاصل لملفات CSV في ملف "
+"الترجمة. يرجى ملاحظة: إذا تم تعيين \"Active\" على 0، فهذا يمنع الوكلاء فقط "
+"من تغيير إعداد هذه المجموعة في إعداداتهم الشخصية. لا يزال بإمكان المسؤول "
+"تغيير هذه الإعدادات باسم المستخدمين. استخدم \"PreferenceGroup\" للتحكم في "
+"المنطقة التي يتم فيها عرض هذه الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid "Global Search Module."
-msgstr ""
+msgstr "وحدة البحث العالمية (Global)."
 
 #. SysConfig
 msgid "Go to dashboard!"
-msgstr ""
+msgstr "انتقل إلى النظرة العامة!"
 
 #. SysConfig
 msgid "Good PGP signature."
-msgstr ""
+msgstr "توقيع PGP صالح."
 
 #. SysConfig
 msgid "Google Authenticator"
-msgstr ""
+msgstr "Google Authenticator"
 
 #. SysConfig
 msgid "Graph: Bar Chart"
-msgstr ""
+msgstr "الرسم البياني: مخطط شريطي"
 
 #. SysConfig
 msgid "Graph: Line Chart"
-msgstr ""
+msgstr "الرسم البياني: مخطط خطي"
 
 #. SysConfig
 msgid "Graph: Stacked Area Chart"
-msgstr ""
+msgstr "الرسم البياني: المستويات المكدسة"
 
 #. SysConfig
 msgid "Greek"
-msgstr ""
+msgstr "اليونانية"
 
 #. SysConfig
 msgid "Hebrew"
-msgstr ""
+msgstr "العبرية"
 
 #. SysConfig
 msgid ""
@@ -25497,82 +25506,106 @@ msgid ""
 "initial index use \"bin/otobo.Console.pl Maint::Ticket::FulltextIndex --"
 "rebuild\"."
 msgstr ""
+"يساعد على توسيع فهرس البحث عن نص كامل لمقالتك (من، إلى، نسخة، الموضوع والبحث "
+"عن النص). يقوم بإنشاء فهرس بعد إنشاء المقالة، مما يزيد من سرعة البحث عن النص "
+"الكامل بحوالي 50٪. استخدم \"bin/otobo.Console.pl Maint::Ticket::"
+"FulltextIndex --rebuild\" لإنشاء فهرس أولي."
 
 #. SysConfig
 msgid "High Contrast"
-msgstr ""
+msgstr "تباين عالي"
 
 #. SysConfig
 msgid "High contrast skin for visually impaired users."
-msgstr ""
+msgstr "سطح (skin) عالي التباين للمستخدمين الذين يعانون من ضعف البصر."
 
 #. SysConfig
 msgid "Hindi"
-msgstr ""
+msgstr "الهندية"
 
 #. SysConfig
 msgid "Hungarian"
-msgstr ""
+msgstr "الهنغارية (المجرية)"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a database driver (normally "
 "autodetection is used) can be specified."
 msgstr ""
+"في حالة تحديد\"DB\" ك Customer::AuthModule، يمكن تعريف برنامج تشغيل قاعدة "
+"البيانات هنا. وإلا فسيتم تحديد برنامج التشغيل المطلوب تلقائيا."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a password to connect to "
 "the customer table can be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيمكن تخزين كلمة مرور هنا "
+"للاتصال بقاعدة البيانات."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a username to connect to "
 "the customer table can be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيمكن تخزين اسم مستخدم هنا "
+"للاتصال بقاعدة البيانات."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the DSN for the connection "
 "to the customer table must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيجب تخزين DSN هنا للاتصال "
+"بقاعدة البيانات."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the column name for the "
 "CustomerPassword in the customer table must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيجب تخزين اسم العمود الذي يحتوي "
+"على كلمة مرور العميل هنا."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
 "passwords must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيجب تخزين نوع تشفير كلمات "
+"المرور هنا."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the column for "
 "the CustomerKey in the customer table must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيجب تخزين اسم العمود الذي يحتوي "
+"على CustomerKey هنا."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the table where "
 "your customer data should be stored must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك Customer::AuthModule، فيجب تخزين اسم الجدول الذي سيتم "
+"تخزين بيانات العميل فيه هنا."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for SessionModule, a table in database where session "
 "data will be stored must be specified."
 msgstr ""
+"إذا تم تحديد \"DB\" ك SessionModule، فيجب تخزين اسم الجدول الذي سيتم تخزين "
+"بيانات الجلسة فيه هنا."
 
 #. SysConfig
 msgid ""
 "If \"FS\" was selected for SessionModule, a directory where the session data "
 "will be stored must be specified."
 msgstr ""
+"إذا تم تحديد \"FS\" ك SessionModule، فيجب تخزين اسم الدليل الذي سيتم تخزين "
+"بيانات الجلسة فيه هنا."
 
 #. SysConfig
 msgid ""
@@ -25580,6 +25613,10 @@ msgid ""
 "(by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove "
 "trailing domains). RegExp-Note, $1 will be the new Login."
 msgstr ""
+"إذا تم تحديد \"HTTPBasicAuth\" ك Customer::AuthModule، فيمكن تعريف تعبير "
+"عادي (باستخدام RegExp) هنا لإزالة أجزاء من REMOTE_USER (على سبيل المثال "
+"للمجالات المرفقة \"domains\"). ملاحظة: يحتوي 1 دولار على اسم تسجيل الدخول "
+"الجديد."
 
 #. SysConfig
 msgid ""
@@ -25587,6 +25624,9 @@ msgid ""
 "to strip leading parts of user names (e. g. for domains like example_domain\\"
 "\\user to user)."
 msgstr ""
+"إذا تم تحديد \"HTTPBasicAuth\" على أنها Customer::AuthModule، يمكنك تحديد ما "
+"إذا كنت تريد إزالة الأجزاء الموجودة في بداية اسم المستخدم (على سبيل المثال: "
+"لإزالة domains من أسماء المستخدمين مثل example_domain\\\\user)."
 
 #. SysConfig
 msgid ""
@@ -25594,6 +25634,9 @@ msgid ""
 "suffix to every customer login name, specifiy it here, e. g. you just want "
 "to write the username user but in your LDAP directory exists user@domain."
 msgstr ""
+"إذا تم تحديد \"LDAP\" ك Customer::AuthModule وتريد إضافة لاحقة (Suffix) إلى "
+"اسم تسجيل دخول كل عميل، فيمكنك تعيين هذا هنا (على سبيل المثال، إذا كان \"اسم "
+"المستخدم\" موجودا ك \"اسم المستخدم@domain\" في LDAP)."
 
 #. SysConfig
 msgid ""
@@ -25601,6 +25644,9 @@ msgid ""
 "needed for the Net::LDAP perl module, you can specify them here. See "
 "\"perldoc Net::LDAP\" for more information about the parameters."
 msgstr ""
+"إذا تم تحديد \"LDAP\" ك Customer::AuthModule وكانت المعلمات الخاصة مطلوبة "
+"لوحدة Perl Net::LDAP، فيمكنك تحديدها هنا. استخدم \"perldoc Net::LDAP\" لمزيد "
+"من المعلومات حول المعلمات."
 
 #. SysConfig
 msgid ""
@@ -25609,6 +25655,9 @@ msgid ""
 "be specified here. See Net::LDAP::start_tls for more information about the "
 "parameter."
 msgstr ""
+"إذا تم تحديد \"LDAP\" ك Customer::AuthModule وسيتم استخدام TLS للاتصال الآمن "
+"بخادم LDAP، يمكنك تحديد معلمة \"verify\" هنا. لمزيد من المعلومات، راجع "
+"Net::LDAP::start_tls."
 
 #. SysConfig
 msgid ""
@@ -25617,6 +25666,9 @@ msgid ""
 "you can do this with a user who has access to the LDAP directory. Specify "
 "the password for this special user here."
 msgstr ""
+"إذا تم تحديد \"LDAP\" ك Customer::AuthModule وكان لدى المستخدمين وصول مجهول "
+"فقط إلى شجرة LDAP، ولكنك تريد البحث في البيانات، فيمكنك القيام بذلك باستخدام "
+"مستخدم خاص يمكنك إدخال كلمة المرور الخاصة به هنا."
 
 #. SysConfig
 msgid ""
@@ -25625,24 +25677,31 @@ msgid ""
 "you can do this with a user who has access to the LDAP directory. Specify "
 "the username for this special user here."
 msgstr ""
+"إذا تم تحديد LDAP باعتباره Customer::AuthModule وكان لدى المستخدمين فقط حق "
+"الوصول المجهول إلى شجرة LDAP، ولكنك تريد البحث في البيانات، يمكنك إجراء ذلك "
+"باستخدام مستخدم خاص يمكنك تحديد اسم المستخدم الخاص به هنا."
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, the BaseDN must be "
 "specified."
 msgstr ""
+"إذا تم تحديد \"LDAP\" على أنه Customer::AuthModule، يجب تحديد BaseDN هنا."
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, the LDAP host can be "
 "specified."
 msgstr ""
+"إذا تم تحديد \"LDAP\" على أنه Customer::AuthModule، يمكن تحديد مضيف LDAP هنا."
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, the user identifier must "
 "be specified."
 msgstr ""
+"إذا تم تحديد \"LDAP\" على أنه Customer::AuthModule، يجب تحديد معرف المستخدم "
+"هنا(User-Identifier)."
 
 #. SysConfig
 msgid ""
@@ -25650,12 +25709,16 @@ msgid ""
 "specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full "
 "user DN."
 msgstr ""
+"إذا تم تحديد \"LDAP\" ك Customer::AuthModule، يمكن تحديد سمات المستخدم هنا. "
+"استخدم UID ل LDAP-posixGroups، وهو الاسم المميز الكامل للمستخدم لغير LDAP-"
+"posixGroups."
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, you can specify access "
 "attributes here."
 msgstr ""
+"إذا تم تحديد \"LDAP\" ك Customer::AuthModule، فيمكن تحديد سمات الوصول هنا."
 
 #. SysConfig
 msgid ""
@@ -25663,6 +25726,9 @@ msgid ""
 "applications will stop if e. g. a connection to a server can't be "
 "established due to network problems."
 msgstr ""
+"إذا تم تحديد \"LDAP\" على أنه Customer::AuthModule، يمكنك هنا تحديد ما إذا "
+"كان يجب إيقاف التطبيقات في حالة تعذر إنشاء الاتصال بالخادم على سبيل المثال "
+"بسبب مشاكل في الشبكة."
 
 #. SysConfig
 msgid ""
@@ -25670,24 +25736,35 @@ msgid ""
 "is allowed to authenticate because he is in a posixGroup, e.g. user needs to "
 "be in a group xyz to use OTOBO. Specify the group, who may access the system."
 msgstr ""
+"إذا تم تحديد \"LDAP\" ك Customer::AuthModule، يمكنك التحقق مما إذا كان "
+"المستخدم مخولا بالمصادقة بسبب عضويته في posixGroup (على سبيل المثال، إذا كان "
+"يجب أن يكون المستخدم عضوا في المجموعة xyz حتى يسمح له باستخدام OTOBO). قم "
+"بتعيين هذه المجموعة هنا."
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected, you can add a filter to each LDAP query, e.g. "
 "(mail=*), (objectclass=user) or (!objectclass=computer)."
 msgstr ""
+"إذا تم اختيار \"LDAP\" ك Customer::AuthModule، يمكنك ضبط الفلاتر لكل طلب "
+"LDAP هنا، على سبيل المثال (*=mail) أو (objectclass=user) أو "
+"(objectclass=computer!)."
 
 #. SysConfig
 msgid ""
 "If \"Radius\" was selected for Customer::AuthModule, the password to "
 "authenticate to the radius host must be specified."
 msgstr ""
+"إذا تم تحديد \"Radius\" ك Customer::AuthModule، فيجب تخزين كلمة المرور هنا "
+"للمصادقة مع مضيف Radius."
 
 #. SysConfig
 msgid ""
 "If \"Radius\" was selected for Customer::AuthModule, the radius host must be "
 "specified."
 msgstr ""
+"إذا تم تحديد \"Radius\" على أنه Customer::AuthModule، يجب تخزين مضيف (host) "
+"Radius هنا."
 
 #. SysConfig
 msgid ""
@@ -25695,66 +25772,89 @@ msgid ""
 "applications will stop if e. g. a connection to a server can't be "
 "established due to network problems."
 msgstr ""
+"إذا تم تحديد \"Radius\" على أنه Customer::AuthModule، يمكنك هنا تحديد ما إذا "
+"كان يجب إيقاف التطبيقات إذا تعذر على سبيل المثال إنشاء الاتصال بالخادم بسبب "
+"مشاكل في الشبكة."
 
 #. SysConfig
 msgid ""
 "If \"Sendmail\" was selected as SendmailModule, the location of the sendmail "
 "binary and the needed options must be specified."
 msgstr ""
+"إذا تم تكوين \"Sendmail\" على أنه SendmailModule، فيجب تخزين المسار إلى "
+"sendmail binary والخيارات المطلوبة هنا."
 
 #. SysConfig
 msgid ""
 "If \"SysLog\" was selected for LogModule, a special log facility can be "
 "specified."
 msgstr ""
+"إذا تم تكوين \"SysLog\" ك LogModule، فيمكن تحديد فئة منفصلة (منشأة facility) "
+"هنا."
 
 #. SysConfig
 msgid ""
 "If \"SysLog\" was selected for LogModule, the charset that should be used "
 "for logging can be specified."
 msgstr ""
+"إذا تم تكوين \"SysLog\" ك LogModule، فيمكن تحديد مجموعة الأحرف التي سيتم "
+"استخدامها للتسجيل هنا."
 
 #. SysConfig
 msgid ""
 "If \"bcrypt\" was selected for CryptType, use cost specified here for bcrypt "
 "hashing. Currently max. supported cost value is 31."
 msgstr ""
+"إذا تم تحديد \"bcrypt\" على أنها CryptType، فسيتم استخدام معلمة التكلفة التي "
+"تم إدخالها هنا للحساب.الحد الأقصى للقيمة المدعومة هو 31."
 
 #. SysConfig
 msgid ""
 "If \"file\" was selected for LogModule, a logfile must be specified. If the "
 "file doesn't exist, it will be created by the system."
 msgstr ""
+"إذا تم تكوين \"ملف\" ك LogModule، فيجب تخزين ملف السجل هنا. إذا لم يكن الملف "
+"موجودا، فسيقوم النظام بإنشائه تلقائيًا."
 
 #. SysConfig
 msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
 msgstr ""
+"عند تمكين هذا الخيار، قد لا تتطابق أي من التعبيرات المعتادة المعرفة هنا مع "
+"عنوان البريد الإلكتروني للمستخدم الذي يرغب في التسجيل."
 
 #. SysConfig
 msgid ""
 "If active, one of the regular expressions has to match the user's email "
 "address to allow registration."
 msgstr ""
+"في حالة التمكين، يجب أن يتطابق واحد على الأقل من التعبيرات العادية المحددة "
+"هنا مع عنوان البريد الإلكتروني للمستخدم الذي يريد التسجيل."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, and "
 "authentication to the mail server is needed, a password must be specified."
 msgstr ""
+"إذا تم تحديد إحدى آليات SMTP على أنها SendmailModule وكان الخادم يتطلب "
+"المصادقة، فيجب تحديد كلمة مرور هنا."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, and "
 "authentication to the mail server is needed, an username must be specified."
 msgstr ""
+"إذا تم تحديد إحدى آليات SMTP على أنها SendmailModule وكان الخادم يتطلب "
+"المصادقة، فيجب تحديد اسم مستخدم هنا."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, the "
 "mailhost that sends out the mails must be specified."
 msgstr ""
+"إذا تم تحديد إحدى آليات SMTP على أنها SendmailModule، فيجب تحديد مضيف البريد "
+"(mailhost) الذي يرسل الرسائل هنا."
 
 #. SysConfig
 msgid ""
@@ -25762,30 +25862,35 @@ msgid ""
 "where your mailserver is listening for incoming connections must be "
 "specified."
 msgstr ""
+"إذا تم تحديد إحدى آليات SMTP ك SendmailModule، فيجب تحديد المنفذ الذي يستمع "
+"إليه خادم البريد للاتصالات الواردة هنا."
 
 #. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
 msgstr ""
+"عند تمكين هذا الخيار، يتم تسجيل معلومات تصحيح أخطاء قوائم التحكم في "
+"الوصول(ACLs)."
 
 #. SysConfig
 msgid "If enabled debugging information for transitions is logged."
 msgstr ""
+"عند التمكين، يتم تسجيل معلومات تصحيح الأخطاء للانتقالات في تذاكر العملية."
 
 #. SysConfig
 msgid ""
 "If enabled defines the preselected state for customer follow-up in the "
 "customer interface."
-msgstr ""
+msgstr "تحديد الحالة المحددة مسبقا لمتابعة العميل عند تنشيطه في منطقة العميل."
 
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard error stream to a log file."
-msgstr ""
+msgstr "تمكين لإعادة توجيه إخراج الخطأ من daemon إلى ملف سجل."
 
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard output stream to a log file."
-msgstr ""
+msgstr "تمكين لإعادة توجيه الإخراج الافتراضي ل daemon إلى ملف سجل."
 
 #. SysConfig
 msgid ""
@@ -25793,18 +25898,21 @@ msgid ""
 "Please stop the daemon before any change and use this setting only if <"
 "$OTOBOHome>/var/run/ can not be used."
 msgstr ""
+"عند تمكين هذا الخيار، يستخدم المراقب (daemon) هذا الدليل لإنشاء ملفاته PID. "
+"ملاحظة: الرجاء إيقاف البرنامج قبل التغيير واستخدام هذا الإعداد فقط في حالة "
+"عدم إمكانية إستخدام <$OTOBOHome>/var/run/."
 
 #. SysConfig
 msgid "If enabled, OTOBO will deliver all CSS files in minified form."
-msgstr ""
+msgstr "عند تمكين هذا الخيار، سيقوم OTOBO بإرجاع ملفات CSS في نموذج مصغر."
 
 #. SysConfig
 msgid "If enabled, OTOBO will deliver all JavaScript files in minified form."
-msgstr ""
+msgstr "عند التمكين، سوف يوفر OTOBO ملفات JavaScript في نموذج مصغر."
 
 #. SysConfig
 msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
-msgstr ""
+msgstr "عند تنشيطه، يتم فتح TicketPhone و TicketEmail في نوافذ جديدة."
 
 #. SysConfig
 msgid ""
@@ -25812,36 +25920,46 @@ msgid ""
 "HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
 "option, please make sure to delete the cache."
 msgstr ""
+"عند تمكين هذا الخيار، يتم إزالة معلومات إصدار OTOBO من الواجهة ورؤوس HTTP "
+"ورؤوس X. ملاحظة: بعد تغيير هذا الخيار، يجب حذف ذاكرة التخزين المؤقت."
 
 #. SysConfig
 msgid "If enabled, the cache data be held in memory."
-msgstr ""
+msgstr "عند تمكين هذا الخيار، يتم الاحتفاظ ببيانات التخزين المؤقت في الذاكرة."
 
 #. SysConfig
 msgid "If enabled, the cache data will be stored in cache backend."
 msgstr ""
+"عند تمكين هذا الخيار، يتم تخزين بيانات ذاكرة التخزين المؤقت في نهاية خلفية "
+"التخزين المؤقت."
 
 #. SysConfig
 msgid ""
 "If enabled, the customer can search for tickets in all services (regardless "
 "what services are assigned to the customer)."
 msgstr ""
+"عند التمكين، يمكن للعملاء البحث عن التذاكر مع جميع الخدمات (بغض النظر عن "
+"الخدمات التي يتم تعيينها لكل عميل)."
 
 #. SysConfig
 msgid ""
 "If enabled, the different overviews (Dashboard, LockedView, QueueView) will "
 "automatically refresh after the specified time."
 msgstr ""
+"إذا كان هذا الخيار محددا، سيتم تحديث صفحات نظرة عامة مختلفة (لوحة المعلومات، "
+"LockedView، عرض قائمة الانتظار) تلقائيا بعد الوقت المحدد."
 
 #. SysConfig
 msgid ""
 "If enabled, the first level of the main menu opens on mouse hover (instead "
 "of click only)."
 msgstr ""
+"في حالة التنشيط، يتم فتح المستوى الأول من القائمة الرئيسية عند التمرير فوق "
+"الماوس (بدلا من النقر فقط)."
 
 #. SysConfig
 msgid "If enabled, the quick close action will create an article."
-msgstr ""
+msgstr "إذا تم تنشيط المعلمة، يتم إنشاء مقالة بواسطة إجراء \"إغلاق فوري\"."
 
 #. SysConfig
 msgid ""
@@ -25850,6 +25968,10 @@ msgid ""
 "a time zone and (2) OTOBOTimeZone and UserDefaultTimeZone do match and (3) "
 "are not set to UTC."
 msgstr ""
+"في حالة التمكين، سيتم إخطار المستخدمين الذين لم يختاروا منطقة زمنية بعد "
+"للقيام بذلك. ملاحظة: لن يتم عرض الإشعار إذا (1) لم يحدد المستخدم منطقة زمنية "
+"بعد، و (2) OTOBOTimeZone و UserDefaultTimeZone متماثلان، و (3) لم يتم "
+"تعيينهما على UTC."
 
 #. SysConfig
 msgid ""
@@ -25857,6 +25979,9 @@ msgid ""
 "possible to use the email's from address instead of an empty envelope sender "
 "(required in certain mail server configurations)."
 msgstr ""
+"إذا لم يتم تعريف SendmailNotificationEnvelopeFrom، فإن هذا الإعداد يسمح لك "
+"باستخدام عنوان مرسل البريد الإلكتروني بدلا من مرسل مغلف فارغ (مطلوب بواسطة "
+"بعض تكوينات خادم البريد)."
 
 #. SysConfig
 msgid ""
@@ -25864,6 +25989,9 @@ msgid ""
 "notifications. If no address is specified, the envelope sender header is "
 "empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
 msgstr ""
+"إذا تم تعيينه، استخدام هذا العنوان كرأس مرسل مغلف في إشعارات البريد الصادر. "
+"إذا لم يتم تحديد أي عنوان، يتم ترك الرأس فارغا (ما لم يتم تعيين "
+"SendmailNotificationEnvelopeFrom::FallbackToEmailFrom)."
 
 #. SysConfig
 msgid ""
@@ -25871,6 +25999,9 @@ msgid ""
 "notifications - see below). If no address is specified, the envelope sender "
 "is equal to queue e-mail address."
 msgstr ""
+"إذا تم تعيينه، استخدام هذا العنوان كرأس مرسل المغلف في الرسائل الصادرة (وليس "
+"الإشعارات، انظر أدناه). إذا لم يتم تحديد عنوان، فإن مرسل المغلف (envelope) "
+"يتوافق مع عنوان البريد الإلكتروني المخزن في قائمة الانتظار."
 
 #. SysConfig
 msgid ""
@@ -25878,28 +26009,37 @@ msgid ""
 "Customers or Agents, will receive an autoresponse if configured. If this "
 "option is not enabled, no autoresponses will be sent."
 msgstr ""
+"إذا تم تنشيط هذا الخيار، إرسال رد تلقائي للتذاكر التي تم إنشاؤها عبر الواجهة "
+"الخارجية أو واجهة الوكيل، بشرط تعيين ذلك في تكوين قائمة الانتظار. إذا لم يتم "
+"تنشيط هذا الخيار، فلن يتم إرسال أي ردود تلقائية."
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
 msgstr ""
+"في حالة تطبيق هذا التعبير النمطي(regex)، فلن يتم إرسال أي رسالة بواسطة "
+"المجيب الآلي."
 
 #. SysConfig
 msgid ""
 "If this setting is enabled, it is possible to install packages which are not "
 "verified by OTOBO Team. These packages could threaten your whole system!"
 msgstr ""
+"إذا تم تمكين هذا الإعداد، فيمكن أيضا تثبيت الحزم التي لم يتم التحقق منها "
+"بواسطة فريق OTOBO. يمكن أن تعرض هذه الحزم النظام بأكمله للخطر!"
 
 #. SysConfig
 msgid ""
 "If this setting is enabled, local modifications will not be highlighted as "
 "errors in the package manager and support data collector."
 msgstr ""
+"إذا كان الإعداد نشطا، فلن يتم عرض التغييرات المحلية في إدارة الحزم وتحليل "
+"بيانات الدعم كأخطاء."
 
 #. SysConfig
 msgid ""
 "If you're going to be out of office, you may wish to let other users know by "
 "setting the exact dates of your absence."
-msgstr ""
+msgstr "يبلغ المستخدمين الآخرين بالفترة المحددة لغيابهم."
 
 #. SysConfig
 msgid ""
@@ -25907,31 +26047,35 @@ msgid ""
 "notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
 "expanded automatically in Large view screens."
 msgstr ""
+"لا يتم وضع علامة على أنواع مقالات النظام (مثل الردود التلقائية أو إعلامات "
+"البريد الإلكتروني) كمقالات غير مقروءة في AgentTicketZoom أو لا يتم توسيعها "
+"تلقائيا في لمحات عامة كبيرة."
 
 #. SysConfig
 msgid "Ignores not ticket related attributes."
-msgstr ""
+msgstr "يتجاهل السمات غير المتعلقة بالتذاكر."
 
 #. SysConfig
 msgid "Import appointments screen."
-msgstr ""
+msgstr "واجهة استيراد المواعيد."
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
 msgstr ""
+"قم بتضمين التذاكر تلقائيا من قوائم الانتظار الفرعية عند تحديد قائمة انتظار."
 
 #. SysConfig
 msgid "Include unknown customers in ticket filter."
-msgstr ""
+msgstr "قم بتضمين العملاء غير المعروفين في مرشحات التذاكر."
 
 #. SysConfig
 msgid ""
 "Includes article create times in the ticket search of the agent interface."
-msgstr ""
+msgstr "يتضمن أوقات إنشاء المقالة في البحث في التذاكر في منطقة الوكيل."
 
 #. SysConfig
 msgid "Incoming Phone Call."
-msgstr ""
+msgstr "مكالمة هاتفية واردة."
 
 #. SysConfig
 msgid ""
@@ -25944,31 +26088,39 @@ msgid ""
 "\"bin/otobo.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
 msgstr ""
+"IndexAccelerator: اختيار وحدة الواجهة الخلفية لوحدة TicketViewAccelerator. "
+"يقوم \"RuntimeDB\" بإنشاء عرض كل قائمة انتظار ديناميكيا من جدول التذاكر (لا "
+"توجد مشاكل في الأداء تصل إلى حوالي 60.000 تذكرة في المجموع و 6.000 تذكرة "
+"مفتوحة في النظام). \"StaticDB\" هي أقوى وحدة، فهي تستخدم جدولا إضافيا لفهرس "
+"التذاكر، والذي يعمل كنظرة عامة (موصى به من أكثر من 80.000 تذكرة في المجموع و "
+"6.000 تذكرة مفتوحة في النظام). استخدم الأمر \"bin/otobo.Console.pl "
+"Maint::Ticket::QueueIndexRebuild\" لبناء الفهرس الأولي."
 
 #. SysConfig
 msgid ""
 "Indicates if a bounce e-mail should always be treated as normal follow-up."
 msgstr ""
+"يحدد ما إذا كان يجب دائما التعامل مع البريد الإلكتروني المرتد كمتابعة عادية."
 
 #. SysConfig
 msgid "Indonesian"
-msgstr ""
+msgstr "الأندونيسية"
 
 #. SysConfig
 msgid "Inline"
-msgstr ""
+msgstr "مضمنه"
 
 #. SysConfig
 msgid "Input"
-msgstr ""
+msgstr "إدْخَالٌ"
 
 #. SysConfig
 msgid "Interface language"
-msgstr ""
+msgstr "لغة الواجهة"
 
 #. SysConfig
 msgid "Internal communication channel."
-msgstr ""
+msgstr "قناة الاتصال الداخلية."
 
 #. SysConfig
 msgid "International Workers' Day"
@@ -25983,6 +26135,11 @@ msgid ""
 "domain, and the value in \"Content\" should be a valid skin on your system. "
 "Please see the example entries for the proper form of the regex."
 msgstr ""
+"من الممكن تكوين أشكال مختلفة (skins)، على سبيل المثال للتمييز بين العوامل "
+"المختلفة بناء على المجال المعني. يمكنك التحقق من المجالات باستخدام التعبيرات "
+"العادية باستخدام أزواج المفاتيح / القيم. يجب أن يتضمن محتوى \"المفتاح\" "
+"التحقق من المجال، ومحتوى \"القيمة\" اسم الجلد المراد تحديده لهذا المجال "
+"(domain). يرجى الرجوع إلى الإدخالات مع أمثلة على التعبيرات العادية الصحيحة."
 
 #. SysConfig
 msgid ""
@@ -25993,6 +26150,12 @@ msgid ""
 "domain, and the value in \"Content\" should be a valid skin on your system. "
 "Please see the example entries for the proper form of the regex."
 msgstr ""
+"من الممكن تكوين أشكال مختلفة (skins)، على سبيل المثال للتمييز بين العملاء "
+"المختلفين بناء على المجال المعني. يمكنك التحقق من المجالات باستخدام "
+"التعبيرات العادية باستخدام أزواج المفاتيح / القيم. يجب أن يتضمن محتوى "
+"\"المفتاح\" التحقق من المجال، ومحتوى \"القيمة\" اسم الجلد المراد تحديده لهذا "
+"المجال (domain). يرجى الرجوع إلى الإدخالات مع أمثلة على التعبيرات العادية "
+"الصحيحة."
 
 #. SysConfig
 msgid ""
@@ -26003,46 +26166,56 @@ msgid ""
 "domain, and the value in \"Content\" should be a valid theme on your system. "
 "Please see the example entries for the proper form of the regex."
 msgstr ""
+"من الممكن تكوين سمات مختلفة، على سبيل المثال للتمييز بين الوكلاء والعملاء "
+"المختلفين بناء على المجال المعني. يمكنك التحقق من المجالات باستخدام "
+"التعبيرات العادية باستخدام أزواج المفاتيح/القيم. يجب أن يتضمن محتوى \"المفتاح"
+"\" التحقق من المجال (domain)، ومحتوى \"القيمة\" اسم الموضوع المراد تحديده "
+"لهذا المجال. يرجى الرجوع إلى الإدخالات مع أمثلة على التعبيرات العادية "
+"الصحيحة."
 
 #. SysConfig
 msgid ""
 "It was not possible to check the PGP signature, this may be caused by a "
 "missing public key or an unsupported algorithm."
 msgstr ""
+"تعذر التحقق من توقيع PGP. الأسباب المحتملة هي الافتقار إلى المفاتيح العامة "
+"أو الخوارزمية غير المدعومة."
 
 #. SysConfig
 msgid "Italian"
-msgstr ""
+msgstr "الإيطالية"
 
 #. SysConfig
 msgid ""
 "Italian stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"كلمات الإيقاف الإيطالية لفهرس النص الكامل. يتم إزالة هذه الكلمات من فهرس "
+"البحث."
 
 #. SysConfig
 msgid "Ivory"
-msgstr ""
+msgstr "عَاج"
 
 #. SysConfig
 msgid "Ivory (Slim)"
-msgstr ""
+msgstr "العاج (قليل السمك)"
 
 #. SysConfig
 msgid "Japanese"
-msgstr ""
+msgstr "اليابانية"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
-msgstr ""
+msgstr "وظيفة JavaScript لواجهة البحث."
 
 #. SysConfig
 msgid "Jump to OTOBO!"
-msgstr ""
+msgstr "رابط إلى OTOBO!"
 
 #. SysConfig
 msgid "Korean"
-msgstr ""
+msgstr "الكورية"
 
 #. SysConfig
 msgid "Language"
@@ -26054,159 +26227,161 @@ msgstr "كبير"
 
 #. SysConfig
 msgid "Last Screen Overview"
-msgstr ""
+msgstr "نظرة عامة على الشاشة الأخيرة"
 
 #. SysConfig
 msgid "Last customer subject"
-msgstr ""
+msgstr "آخر موضوع للعميل"
 
 #. SysConfig
 msgid "Lastname Firstname"
-msgstr ""
+msgstr "اسم العائلة الاسم الأول"
 
 #. SysConfig
 msgid "Lastname Firstname (UserLogin)"
-msgstr ""
+msgstr "اسم العائلة الاسم الأول (تسجيل دخول المستخدم)"
 
 #. SysConfig
 msgid "Lastname, Firstname"
-msgstr ""
+msgstr "اسم العائلة، الاسم الأول"
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
-msgstr ""
+msgstr "الاسم الأخير ، الاسم الأول (تسجيل دخول المستخدم)"
 
 #. SysConfig
 msgid "LastnameFirstname"
-msgstr ""
+msgstr "اسم العائلةالاسم الأول"
 
 #. SysConfig
 msgid "Latvian"
-msgstr ""
+msgstr "اللاتفية"
 
 #. SysConfig
 msgid "Left"
-msgstr ""
+msgstr "يسار"
 
 #. SysConfig
 msgid "Link Object"
-msgstr "ربط الكائن"
+msgstr "كائن الارتباط"
 
 #. SysConfig
 msgid "Link Object."
-msgstr ""
+msgstr "كائن الارتباط."
 
 #. SysConfig
 msgid "Link agents to groups."
-msgstr ""
+msgstr "تعيين وكلاء للمجموعات."
 
 #. SysConfig
 msgid "Link agents to roles."
-msgstr ""
+msgstr "تعيين وكلاء للأدوار (roles)."
 
 #. SysConfig
 msgid "Link customer users to customers."
-msgstr ""
+msgstr "تعيين مستخدمي العملاء إلى العملاء."
 
 #. SysConfig
 msgid "Link customer users to groups."
-msgstr ""
+msgstr "تعيين مستخدمي العملاء إلى مجموعات."
 
 #. SysConfig
 msgid "Link customer users to services."
-msgstr ""
+msgstr "تعيين مستخدمي العملاء إلى الخدمات."
 
 #. SysConfig
 msgid "Link customers to groups."
-msgstr ""
+msgstr "تعيين العملاء إلى مجموعات."
 
 #. SysConfig
 msgid "Link queues to auto responses."
-msgstr ""
+msgstr "تعيين ردود تلقائية لقوائم الانتظار."
 
 #. SysConfig
 msgid "Link roles to groups."
-msgstr ""
+msgstr "تعيين الأدوار للمجموعات."
 
 #. SysConfig
 msgid "Link templates to attachments."
-msgstr ""
+msgstr "ربط القوالب بالمرفقات."
 
 #. SysConfig
 msgid "Link templates to queues."
-msgstr ""
+msgstr "تعيين قوالب لقوائم الانتظار."
 
 #. SysConfig
 msgid "Link this ticket to other objects"
-msgstr ""
+msgstr "ربط هذه التذكرة بكائنات أخرى"
 
 #. SysConfig
 msgid "Links 2 tickets with a \"Normal\" type link."
-msgstr ""
+msgstr "يربط 2 تذاكر مع نوع الارتباط \"عادي\"."
 
 #. SysConfig
 msgid "Links 2 tickets with a \"ParentChild\" type link."
-msgstr ""
+msgstr "ربط تذكرتين مع نوع الارتباط \"الوالدين والطفل\"."
 
 #. SysConfig
 msgid "Links appointments and tickets with a \"Normal\" type link."
-msgstr ""
+msgstr "ربط المواعيد والتذاكر برابط \"عادي\"."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
-msgstr ""
+msgstr "قائمة ملفات CSS التي يجب تحميلها دائما في واجهة الوكيل."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
-msgstr ""
+msgstr "قائمة ملفات CSS التي يجب تحميلها دائما في واجهة العميل."
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the agent interface."
-msgstr ""
+msgstr "قائمة ملفات JavaScript التي يجب تحميلها دائما في واجهة الوكيل."
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the customer interface."
-msgstr ""
+msgstr "قائمة ملفات JavaScript التي يجب تحميلها دائما في واجهة العميل."
 
 #. SysConfig
 msgid "List of all CustomerCompany events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث العملاء التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all CustomerUser events to be displayed in the GUI."
 msgstr ""
+"قائمة بجميع أحداث مستخدم العميل التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all DynamicField events to be displayed in the GUI."
 msgstr ""
+"قائمة بجميع أحداث الحقل الديناميكي ليتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all LinkObject events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث LinkObject لعرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all Package events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث الحزم التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all appointment events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث المواعيد التي يتم عرضها في واجهة المستخدم."
 
 #. SysConfig
 msgid "List of all article events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث المقالة التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all calendar events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث التقويم التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all queue events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث قائمة الانتظار ليتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid "List of all ticket events to be displayed in the GUI."
-msgstr ""
+msgstr "قائمة بجميع أحداث التذاكر التي سيتم عرضها في واجهة المستخدم الرسومية."
 
 #. SysConfig
 msgid ""
@@ -26214,116 +26389,124 @@ msgid ""
 "during calendar creation. Make sure the colors are dark enough so white text "
 "can be overlayed on them."
 msgstr ""
+"قائمة الألوان في hexadecimal RGB، والتي يتم تعيينها لتقويمات مستخدم مختلفة. "
+"تأكد من أن الألوان داكنة بما يكفي لعرض نص أبيض عليها. إذا تجاوز عدد "
+"التقويمات عدد الألوان المتاحة، استخدام هذه القائمة مرة أخرى من البداية."
 
 #. SysConfig
 msgid ""
 "List of default Standard Templates which are assigned automatically to new "
 "Queues upon creation."
 msgstr ""
+"قائمة القوالب القياسية التي سيتم تعيينها لقوائم الانتظار الجديدة تلقائيا بعد "
+"الإنشاء."
 
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the agent interface."
-msgstr ""
+msgstr "قائمة ملفات CSS سريعة الاستجابة لتحميلها دائما في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the customer interface."
-msgstr ""
+msgstr "قائمة ملفات CSS سريعة الاستجابة التي يجب تحميلها دائما في منطقة العميل."
 
 #. SysConfig
 msgid "List of states for which escalations should be suspended."
-msgstr ""
+msgstr "قائمة بجميع الحالات التي سيتم تعليق التصعيد من أجلها."
 
 #. SysConfig
 msgid "List view"
-msgstr ""
+msgstr "طريقة عرض القائمة"
 
 #. SysConfig
 msgid "Lithuanian"
-msgstr ""
+msgstr "الليتوانية"
 
 #. SysConfig
 msgid "Loader module registration for the agent interface."
-msgstr ""
+msgstr "تسجيل وحدة اللودر (Loader) لواجهة الوكيل."
 
 #. SysConfig
 msgid "Loader module registration for the customer interface."
-msgstr ""
+msgstr "تسجيل وحدة اللودر (Loader) لواجهة العميل."
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
-msgstr ""
+msgstr "إقفال / إلغاء تأمين هذه التذكرة"
 
 #. SysConfig
 msgid "Locked Tickets"
-msgstr "البطاقات المقفلة لي"
+msgstr "تذاكر مقفلة"
 
 #. SysConfig
 msgid "Locked Tickets."
-msgstr ""
+msgstr "تذاكر مقفلة."
 
 #. SysConfig
 msgid "Locked ticket."
-msgstr "التاريخ::إغلاق"
+msgstr "تذكرة مؤمنة."
 
 #. SysConfig
 msgid "Logged in users."
-msgstr ""
+msgstr "المستخدمون الذين قاموا بتسجيل الدخول."
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "المستخدمون المسجلون"
 
 #. SysConfig
 msgid "Logout of customer panel."
-msgstr ""
+msgstr "تسجيل الخروج من منطقة العملاء."
 
 #. SysConfig
 msgid "Look into a ticket!"
-msgstr "أحتكر هذه البطاقة!"
+msgstr "ألق نظرة فاحصة على التذكرة!"
 
 #. SysConfig
 msgid "Loop protection: no auto-response sent to \"%s\"."
 msgstr ""
+"الحماية من التكرار (Loop protection)! لم يتم إرسال أي رد تلقائي إلى \"%s\"."
 
 #. SysConfig
 msgid "Macedonian"
-msgstr ""
+msgstr "المقدونية"
 
 #. SysConfig
 msgid "Mail Accounts"
-msgstr ""
+msgstr "حسابات البريد الإلكتروني"
 
 #. SysConfig
 msgid "MailQueue configuration settings."
-msgstr ""
+msgstr "إعدادات تكوين قائمة انتظار البريد."
 
 #. SysConfig
 msgid "Main menu for the agent interface."
-msgstr ""
+msgstr "القائمة الرئيسية في منطقة الوكيل."
 
 #. SysConfig
 msgid "Main menu item registration."
-msgstr ""
+msgstr "تسجيل عنصر القائمة الرئيسية."
 
 #. SysConfig
 msgid "Main menu registration."
-msgstr ""
+msgstr "تسجيل القائمة الرئيسية."
 
 #. SysConfig
 msgid "Makes the application block external content loading."
-msgstr ""
+msgstr "يسمح للتطبيق بحظر تحميل المحتوى الخارجي."
 
 #. SysConfig
 msgid ""
 "Makes the application check the MX record of email addresses before sending "
 "an email or submitting a telephone or email ticket."
 msgstr ""
+"يتحقق من إدخال MX لعنوان البريد الإلكتروني قبل إرسال بريد إلكتروني أو إرسال "
+"تذكرة هاتف."
 
 #. SysConfig
 msgid "Makes the application check the syntax of email addresses."
-msgstr ""
+msgstr "يتحقق من بناء جملة عناوين البريد الإلكتروني (syntax)."
 
 #. SysConfig
 msgid ""
@@ -26331,122 +26514,139 @@ msgid ""
 "or if the client browser disabled html cookies, then the system will work as "
 "usual and append the session id to the links."
 msgstr ""
+"يستخدم ملفات تعريف الارتباط HTML لإدارة الجلسة. إذا تم تعطيل ملفات تعريف "
+"ارتباط HTML أو تعطيل ملفات تعريف ارتباط HTML في المتصفح، فإن النظام يعمل "
+"كالمعتاد ويلحق معرف الجلسة والروابط."
 
 #. SysConfig
 msgid "Malay"
-msgstr ""
+msgstr "ماليزية"
 
 #. SysConfig
 msgid "Manage OTOBO Team cloud services."
-msgstr ""
+msgstr "إدارة الخدمات السحابية لفريق OTOBO."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
-msgstr ""
+msgstr "إدارة مفاتيح PGP لتشفير البريد الإلكتروني."
 
 #. SysConfig
 msgid "Manage POP3 or IMAP accounts to fetch email from."
-msgstr ""
+msgstr "إدارة حسابات POP3 أو IMAP لاسترداد البريد الإلكتروني."
 
 #. SysConfig
 msgid "Manage S/MIME certificates for email encryption."
-msgstr ""
+msgstr "إدارة شهادات S/MIME لتشفير البريد الإلكتروني."
 
 #. SysConfig
 msgid "Manage System Configuration Deployments."
-msgstr ""
+msgstr "إدارة تشغيل تكوينات النظام."
 
 #. SysConfig
 msgid "Manage different calendars."
-msgstr ""
+msgstr "إدارة التقويمات المختلفة."
 
 #. SysConfig
 msgid "Manage dynamic field in screens."
-msgstr ""
+msgstr "إدارة الحقول الديناميكية في الواجهات."
 
 #. SysConfig
 msgid "Manage existing sessions."
-msgstr ""
+msgstr "إدارة الجلسات."
 
 #. SysConfig
 msgid "Manage support data."
-msgstr ""
+msgstr "إدارة بيانات الدعم."
 
 #. SysConfig
 msgid "Manage system registration."
-msgstr ""
+msgstr "إدارة سجل النظام."
 
 #. SysConfig
 msgid "Manage tasks triggered by event or time based execution."
-msgstr ""
+msgstr "إدارة المهام القائمة على الحدث أو الوقت."
 
 #. SysConfig
 msgid "Mark as Spam!"
-msgstr "حددها كرساله مزعجة"
+msgstr "حددها كرساله غير مرغوب فيها (Spam)!"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
-msgstr ""
+msgstr "ضع علامة على هذه التذكرة كغير هامة!"
 
 #. SysConfig
 msgid ""
 "Max size (in characters) of the customer information table (phone and email) "
 "in the compose screen."
 msgstr ""
+"الحد الأقصى لحجم (الحروف) لمعلومات العميل (الهاتف والبريد الإلكتروني) في "
+"واجهة التسجيل."
 
 #. SysConfig
 msgid "Max size (in rows) of the informed agents box in the agent interface."
-msgstr ""
+msgstr "الحد الأقصى للحجم (في صفوف) لمربع \"إبلاغ الوكلاء\" في واجهة الوكيل."
 
 #. SysConfig
 msgid "Max size (in rows) of the involved agents box in the agent interface."
-msgstr ""
+msgstr "الحد الأقصى للحجم (في صفوف) لمربع \"الوكلاء المعنيون\" في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Max size of the subjects in an email reply and in some overview screens."
 msgstr ""
+"الحد الأقصى لطول الموضوع في الرد بالبريد الإلكتروني وفي بعض شاشات النظرة "
+"العامة."
 
 #. SysConfig
 msgid ""
 "Maximal auto email responses to own email-address a day (Loop-Protection)."
 msgstr ""
+"الحد الأقصى لعدد استجابات البريد الإلكتروني التلقائية لعنوان البريد "
+"الإلكتروني الخاص بك في اليوم (الحماية من التكرار)."
 
 #. SysConfig
 msgid ""
 "Maximal auto email responses to own email-address a day, configurable by "
 "email address (Loop-Protection)."
 msgstr ""
+"الحد الأقصى لعدد استجابات البريد الإلكتروني التلقائية لعنوان البريد "
+"الإلكتروني الخاص بك في اليوم (الحماية من التكرار)."
 
 #. SysConfig
 msgid "Maximal number of results returned by ES per field."
-msgstr ""
+msgstr "الحد الأقصى لعدد نتائج إخراج ES لكل حقل."
 
 #. SysConfig
 msgid ""
 "Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/"
 "IMAPS (KBytes)."
 msgstr ""
+"الحد الأقصى للحجم بالكيلوبايت لرسائل البريد الإلكتروني المستلمة عبر POP3/"
+"POP3S/IMAP/IMAPS (بالكيلوبايت)."
 
 #. SysConfig
 msgid "Maximum Number of a calendar shown in a dropdown."
-msgstr ""
+msgstr "الحد الأقصى لعدد التقويمات المعروضة في قوائم التحديد."
 
 #. SysConfig
 msgid "Maximum file size for the ingest plugin."
-msgstr ""
+msgstr "الحد الأقصى لحجم الملف لاستيعاب المكون الإضافي."
 
 #. SysConfig
 msgid ""
 "Maximum length (in characters) of the dynamic field in the article of the "
 "ticket zoom view."
 msgstr ""
+"الحد الأقصى للطول (بالأحرف) للحقل الديناميكي في مقالة عرض تكبير التكبير/"
+"التصغير للتذكرة."
 
 #. SysConfig
 msgid ""
 "Maximum length (in characters) of the dynamic field in the sidebar of the "
 "ticket zoom view."
 msgstr ""
+"الحد الأقصى للطول (بالأحرف) للحقل الديناميكي في الشريط الجانبي لعرض تكبير/"
+"تصغير التذاكر."
 
 #. SysConfig
 msgid ""
@@ -26454,29 +26654,34 @@ msgid ""
 "large number of active calendars can have a performance impact on your "
 "server by making too much simultaneous calls."
 msgstr ""
+"الحد الأقصى لعدد التقويمات النشطة في شاشات النظرة العامة. يرجى ملاحظة أن "
+"عددا كبيرا من التقويمات النشطة يمكن أن يكون له تأثير على الأداء على الخادم "
+"الخاص بك بسبب العديد من الاستعلامات المتزامنة."
 
 #. SysConfig
 msgid ""
 "Maximum number of tickets to be displayed in the result of a search in the "
 "agent interface."
 msgstr ""
+"الحد الأقصى لعدد التذاكر التي سيتم عرضها في نتيجة البحث الخاصة بواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Maximum number of tickets to be displayed in the result of a search in the "
 "customer interface."
 msgstr ""
+"الحد الأقصى لعدد التذاكر التي سيتم عرضها في نتيجة البحث الخاصة بواجهة العميل."
 
 #. SysConfig
 msgid ""
 "Maximum number of tickets to be displayed in the result of this operation."
-msgstr ""
+msgstr "الحد الأقصى لعدد التذاكر التي سيتم عرضها نتيجة لهذا الإجراء."
 
 #. SysConfig
 msgid ""
 "Maximum size (in characters) of the customer information table in the ticket "
 "zoom view."
-msgstr ""
+msgstr "الحد الأقصى لعدد الأحرف لجدول معلومات العميل في عرض تكبير التذاكر."
 
 #. SysConfig
 msgid "Medium"
@@ -26484,31 +26689,33 @@ msgstr "وسط"
 
 #. SysConfig
 msgid "Merge this ticket and all articles into another ticket"
-msgstr ""
+msgstr "ادمج هذه التذكرة وجميع المقالات في تذكرة أخرى"
 
 #. SysConfig
 msgid "Merged Ticket (%s/%s) to (%s/%s)."
-msgstr ""
+msgstr "تم دمج التذكرة (‎%s/%s) مع (‎%s/%s)."
 
 #. SysConfig
 msgid "Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>."
-msgstr ""
+msgstr "تم دمج التذكرة <OTOBO_TICKET> في <OTOBO_MERGE_TO_TICKET>."
 
 #. SysConfig
 msgid "Minute"
-msgstr ""
+msgstr "دقيقة"
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "مُتَنَوِّع"
 
 #. SysConfig
 msgid "Module for To-selection in new ticket screen in the customer interface."
-msgstr ""
+msgstr "وحدة لتحديد \"إلى\" في شاشة إنشاء تذكرة في منطقة العميل."
 
 #. SysConfig
 msgid "Module to check if a incoming e-mail message is bounce."
 msgstr ""
+"وحدة التحقق لاكتشاف ما إذا كان البريد الإلكتروني الوارد هو بريد إلكتروني "
+"مرفوض."
 
 #. SysConfig
 msgid ""
@@ -26516,36 +26723,41 @@ msgid ""
 "original forwarded internal email). IsVisibleForCustomer and SenderType "
 "define the values for the arrived email/article."
 msgstr ""
+"وحدة للتحقق مما إذا كان يجب وضع علامة على رسائل البريد الإلكتروني الواردة "
+"على أنها داخلية بسبب بريد إلكتروني داخلي تمت إعادة توجيهه مسبقا. يقوم "
+"IsVisibleForCustomer و SenderType بتعيين قيم البريد الإلكتروني/العنصر الوارد."
 
 #. SysConfig
 msgid "Module to check the group permissions for customer access to tickets."
-msgstr ""
+msgstr "وحدة للتحقق من أذونات المجموعة لوصول العملاء إلى التذاكر."
 
 #. SysConfig
 msgid "Module to check the group permissions for the access to tickets."
-msgstr ""
+msgstr "الوحدة النمطية للتحقق من أذونات المجموعة للوصول إلى التذاكر."
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
-msgstr ""
+msgstr "وحدة لإنشاء الرسائل الموقعة (PGP أو S/MIME)."
 
 #. SysConfig
 msgid "Module to define the email security options to use (PGP or S/MIME)."
-msgstr ""
+msgstr "وحدة لتحديد خيار أمان البريد الإلكتروني المستخدم (PGP أو S/MIME)."
 
 #. SysConfig
 msgid "Module to encrypt composed messages (PGP or S/MIME)."
-msgstr ""
+msgstr "وحدة لإنشاء رسائل مشفرة (PGP أو S/MIME)."
 
 #. SysConfig
 msgid "Module to fetch customer users SMIME certificates of incoming messages."
-msgstr ""
+msgstr "وحدة لتحديد شهادات SMIME الخاصة بمستخدم العميل للرسائل الواردة."
 
 #. SysConfig
 msgid ""
 "Module to filter and manipulate incoming messages. Block/ignore all spam "
 "email with From: noreply@ address."
 msgstr ""
+"وحدة نمطية لتصفية الرسائل الواردة ومعالجتها. حظر/تجاهل كافة رسائل البريد "
+"الإلكتروني العشوائي بعنوان من: noreply@."
 
 #. SysConfig
 msgid ""
@@ -26553,74 +26765,91 @@ msgid ""
 "ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () "
 "as [***] in Set =>."
 msgstr ""
+"وحدة لتصفية وتعديل الرسائل الواردة. على سبيل المثال، استخرج رقما مكونا من "
+"أربعة أرقام من الموضوع (SomeNumber: 1234) وقم بتخزينه في حقل ديناميكي عن "
+"طريق إنشاء مفتاح \"Subject\" بالتعبير العادي \"SomeNumber:(\\\\d\\\\d\\d\\d\\"
+"\\d)\" في \"Match\" ومفتاح \"X-OTOBO-DynamicField-Name\" بقيمة \"[***]\" في "
+"\"Set\"."
 
 #. SysConfig
 msgid "Module to filter encrypted bodies of incoming messages."
-msgstr ""
+msgstr "وحدة لتصفية النصوص المشفرة على الرسائل الواردة."
 
 #. SysConfig
 msgid "Module to generate accounted time ticket statistics."
-msgstr ""
+msgstr "وحدة لتوليد الإحصاءات لوقت المعالجة المطلوب."
 
 #. SysConfig
 msgid ""
 "Module to generate html OpenSearch profile for short ticket search in the "
 "agent interface."
 msgstr ""
+"وحدة لإنشاء ملف تعريف HTML OpenSearch للبحث السريع عن التذكرة في منطقة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Module to generate html OpenSearch profile for short ticket search in the "
 "customer interface."
 msgstr ""
+"وحدة لإنشاء ملف تعريف HTML OpenSearch للبحث السريع عن التذاكر في منطقة "
+"العميل."
 
 #. SysConfig
 msgid "Module to generate ticket solution and response time statistics."
-msgstr ""
+msgstr "وحدة نمطية لإنشاء إحصاءات الحلول ووقت الاستجابة."
 
 #. SysConfig
 msgid "Module to generate ticket statistics."
-msgstr ""
+msgstr "وحدة لإنشاء إحصاءات التذاكر."
 
 #. SysConfig
 msgid ""
 "Module to grant access if the CustomerID of the customer has necessary group "
 "permissions."
 msgstr ""
+"الوحدة النمطية لمنح حق الوصول إذا كان معرف العميل الخاص بالعميل لديه أذونات "
+"المجموعة اللازمة."
 
 #. SysConfig
 msgid ""
 "Module to grant access if the CustomerID of the ticket matches the "
 "CustomerID of the customer."
 msgstr ""
+"وحدة لمنح حق الوصول إذا كان معرف العميل الخاص بالتذكرة يتطابق مع معرف العميل "
+"الخاص بالعميل."
 
 #. SysConfig
 msgid ""
 "Module to grant access if the CustomerUserID of the ticket matches the "
 "CustomerUserID of the customer."
 msgstr ""
+"وحدة لمنح حق الوصول إذا كان CustomerUserID للتذكرة يتطابق مع CustomerUserID "
+"للعميل."
 
 #. SysConfig
 msgid ""
 "Module to grant access to any agent that has been involved in a ticket in "
 "the past (based on ticket history entries)."
 msgstr ""
+"وحدة للسماح بالوصول لأي وكيل شارك في أي وقت مضى في تذكرة (بناء على الإدخالات "
+"في سجل التذاكر)."
 
 #. SysConfig
 msgid "Module to grant access to the agent responsible of a ticket."
-msgstr ""
+msgstr "وحدة للسماح بالوصول إلى تذكرة من قبل الوكيل المسؤول."
 
 #. SysConfig
 msgid "Module to grant access to the creator of a ticket."
-msgstr ""
+msgstr "وحدة للسماح بالوصول إلى تذكرة من قبل الوكيل الذي أنشأ التذكرة في الأصل."
 
 #. SysConfig
 msgid "Module to grant access to the owner of a ticket."
-msgstr ""
+msgstr "وحدة للسماح بالوصول إلى تذكرة من قبل الوكيل الذي يملك التذكرة."
 
 #. SysConfig
 msgid "Module to grant access to the watcher agents of a ticket."
-msgstr ""
+msgstr "وحدة للسماح بالوصول إلى تذكرة من قبل الوكلاء الذين يراقبون التذكرة."
 
 #. SysConfig
 msgid ""
@@ -26628,129 +26857,143 @@ msgid ""
 "escalations, EscalationInMinutes: Show ticket which will escalation in, "
 "CacheTime: Cache of calculated escalations in seconds)."
 msgstr ""
+"وحدة لإظهار الإخطارات والتصعيد (ShownMax: الحد الأقصى للتصعيد المعروض، "
+"EscalationInMinutes: إظهار التذكرة التي سيتم تصعيدها، CacheTime: ذاكرة "
+"التخزين المؤقت للتصعيد المحسوب بالثواني)."
 
 #. SysConfig
 msgid "Module to use database filter storage."
-msgstr ""
+msgstr "الوحدة النمطية لاستخدام قاعدة بيانات تخزين المرشح."
 
 #. SysConfig
 msgid "Module used to detect if attachments are present."
-msgstr ""
+msgstr "وحدة للتحقق من وجود المرفقات."
 
 #. SysConfig
 msgid "My Queues"
-msgstr "بطاقاتي"
+msgstr "قوائم الانتظار الخاصة بي"
 
 #. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "خدماتي"
 
 #. SysConfig
 msgid "My last changed tickets"
-msgstr ""
+msgstr "التذاكر المعدلة مؤخرا"
 
 #. SysConfig
 msgid "MyLastChangedTickets dashboard widget."
-msgstr ""
+msgstr "أداة لوحة معلومات التذاكر المعدلة مؤخرا."
 
 #. SysConfig
 msgid ""
 "Name of custom queue. The custom queue is a queue selection of your "
 "preferred queues and can be selected in the preferences settings."
 msgstr ""
+"تعيين مجموعة قائمة الانتظار الشخصية الخاصة بك. \"قوائم الانتظار الخاصة بي\" "
+"عبارة عن تجميع لقوائم الانتظار المفضلة لديك، والتي يمكن تهيئتها في الإعدادات "
+"الشخصية."
 
 #. SysConfig
 msgid ""
 "Name of custom service. The custom service is a service selection of your "
 "preferred services and can be selected in the preferences settings."
 msgstr ""
+"تعيين مجموعة الخدمات الشخصية الخاصة بك. \"خدماتي\" هي مجموعة من الخدمات "
+"المفضلة التي يمكن تهيئتها في الإعدادات الشخصية."
 
 #. SysConfig
 msgid "NameX"
-msgstr ""
+msgstr "NameX"
 
 #. SysConfig
 msgid "New Tickets"
-msgstr ""
+msgstr "تذاكر جديدة"
 
 #. SysConfig
 msgid "New Window"
-msgstr ""
+msgstr "نافذة جديدة"
 
 #. SysConfig
 msgid "New Year's Day"
-msgstr "يوم السنة الجديدة"
+msgstr "عيد رأس السنة"
 
 #. SysConfig
 msgid "New Year's Eve"
-msgstr ""
+msgstr "ليلة رأس السنة الجديدة"
 
 #. SysConfig
 msgid "New process ticket"
-msgstr ""
+msgstr "تذكرة عملية جديدة"
 
 #. SysConfig
 msgid "News about OTOBO."
-msgstr ""
+msgstr "أخبار عن OTOBO."
 
 #. SysConfig
 msgid ""
 "Next possible ticket states after adding a phone note in the ticket phone "
 "inbound screen of the agent interface."
 msgstr ""
+"حالات المتابعة المحتملة للتذاكر بعد إضافة ملاحظة هاتفية من شاشة المكالمة "
+"الواردة في لوحة الوكيل."
 
 #. SysConfig
 msgid ""
 "Next possible ticket states after adding a phone note in the ticket phone "
 "outbound screen of the agent interface."
 msgstr ""
+"حالات المتابعة المحتملة للتذاكر بعد إضافة ملاحظة هاتفية من شاشة المكالمة "
+"الصادرة في لوحة الوكيل."
 
 #. SysConfig
 msgid "No public key found."
-msgstr ""
+msgstr "لم يتم العثور على مفتاح عام."
 
 #. SysConfig
 msgid "No valid OpenPGP data found."
-msgstr ""
+msgstr "لم يتم العثور على بيانات OpenPGP صالحة."
 
 #. SysConfig
 msgid "None"
-msgstr ""
+msgstr "لا شَيْء"
 
 #. SysConfig
 msgid "Norwegian"
-msgstr ""
+msgstr "النرويجية"
 
 #. SysConfig
 msgid "Notification Settings"
-msgstr ""
+msgstr "إعدادات الإخطار"
 
 #. SysConfig
 msgid "Notified about response time escalation."
-msgstr ""
+msgstr "تم الإخطار بتصعيد وقت الاستجابة."
 
 #. SysConfig
 msgid "Notified about solution time escalation."
-msgstr ""
+msgstr "تم الإخطار بتصعيد وقت الحل."
 
 #. SysConfig
 msgid "Notified about update time escalation."
-msgstr ""
+msgstr "تم الإخطار بتصعيد وقت التحديث."
 
 #. SysConfig
 msgid "Number of displayed tickets"
-msgstr ""
+msgstr "عدد التذاكر المعروضة"
 
 #. SysConfig
 msgid ""
 "Number of lines (per ticket) that are shown by the search utility in the "
 "agent interface."
-msgstr ""
+msgstr "عدد الصفوف (لكل تذكرة) التي يتم عرضها عبر أداة البحث في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'."
 msgstr ""
+"عدد الأجزاء (shards) (NS) والنسخ المتماثلة (NR) والحد الأقصى للحقل لفهرس "
+"\"التذكرة\"."
 
 #. SysConfig
 msgid ""
@@ -26758,6 +27001,9 @@ msgid ""
 "'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
 "compatibility use 'Elasticsearch::IndexSettings###Default' instead."
 msgstr ""
+"عدد الأجزاء (NS) والنسخ المتماثلة (NR) وحد الحقل للفهرس. ملاحظة: لم يعد يتم "
+"استخدام \"Elasticsearch::ArticleIndexCreationSettings\". بدلا من ذلك، استخدم "
+"\"Elasticsearch::IndexSettings###Default\" لضمان التوافق مع الإصدارات الأحدث."
 
 #. SysConfig
 msgid ""
@@ -26768,26 +27014,32 @@ msgid ""
 "indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or "
 "'ConfigItem'."
 msgstr ""
+"عدد الأجزاء (NS) والنسخ المتماثلة (NR) وحد الحقل للفهارس. يحل هذا الإعداد "
+"محل \"Elasticsearch::ArticleIndexCreationSettings\" في الإصدارات الأحدث. إذا "
+"كان كلا الإعدادين موجودين ويختلفان، تحديد أولوياتهما. استخدم \"Elasticsearch"
+"::IndexSettings###... \" لتحديد إعدادات محددة للفهارس الفردية. '. . . ' يمكن "
+"أن تكون إحدى القيم التالية: \"Customer\" أو \"CustomerUser\" أو \"Ticket\" "
+"أو \"ConfigItem\"."
 
 #. SysConfig
 msgid ""
 "Number of tickets to be displayed in each page of a search result in the "
 "agent interface."
-msgstr ""
+msgstr "عدد التذاكر لكل صفحة في نتائج البحث في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Number of tickets to be displayed in each page of a search result in the "
 "customer interface."
-msgstr ""
+msgstr "عدد التذاكر المراد عرضها لكل صفحة في نتيجة بحث في واجهة العميل."
 
 #. SysConfig
 msgid "OTOBO News"
-msgstr ""
+msgstr "أخبار من OTOBO"
 
 #. SysConfig
 msgid "OTOBO Team Services"
-msgstr ""
+msgstr "خدمات فريق OTOBO"
 
 #. SysConfig
 msgid ""
@@ -26795,6 +27047,9 @@ msgid ""
 "like fulltext search or statistics generation. Here you can specify the DSN "
 "for the first mirror database."
 msgstr ""
+"يمكن ل OTOBO استخدام قاعدة بيانات متطابقة واحدة أو أكثر للعمليات المعقدة مثل "
+"عمليات البحث عن النص الكامل أو إنشاء الإحصاءات. هنا يمكنك تخزين DSN لقاعدة "
+"بيانات النسخة المتطابقة الأولى."
 
 #. SysConfig
 msgid ""
@@ -26803,81 +27058,97 @@ msgid ""
 "such Appointments. Instead, system creates all Appointments in the past, "
 "plus Appointments for the next N months (120 months/10 years by default)."
 msgstr ""
+"لا يدعم OTOBO المواعيد المتكررة بدون تاريخ انتهاء أو عدد التكرارات. أثناء "
+"عملية الاستيراد، قد يحدث أن يحتوي ملف ICS على مثل هذه المواعيد. بدلا من ذلك، "
+"يقوم النظام بإنشاء جميع المواعيد في الماضي، بالإضافة إلى المواعيد للأشهر N "
+"التالية (120 شهرا / 10 سنوات افتراضيا)."
 
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributs to show."
 msgstr ""
+"يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها."
 
 #. SysConfig
 msgid ""
 "Objects to search for, how many entries and which attributs to show. Ticket "
 "attributes, except queue, have to explicitely be stored via Elasticsearch."
 msgstr ""
+"يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها. "
+"يجب تخزين جميع سمات التذاكر باستثناء قائمة الانتظار بشكل صريح في "
+"Elasticsearch."
 
 #. SysConfig
 msgid "Open an external link!"
-msgstr ""
+msgstr "افتح الرابط الخارجي!"
 
 #. SysConfig
 msgid "Open the OTOBO home page in a new window"
-msgstr ""
+msgstr "يفتح صفحة OTOBO الرئيسية في نافذة جديدة"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
-msgstr ""
+msgstr "التذاكر المفتوحة (مستخدمو العملاء)"
 
 #. SysConfig
 msgid "Open tickets (customer)"
-msgstr ""
+msgstr "التذاكر المفتوحة (العميل)"
 
 #. SysConfig
 msgid "Option"
-msgstr ""
+msgstr "خيار"
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the CreatorCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
 msgstr ""
+"تقييد اختياري لقوائم الانتظار لوحدة إذن CreatorCheck. إذا تم تعيينها، يتم "
+"منح الإذن فقط للتذاكر في قوائم الانتظار المحددة هنا."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the InvolvedCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
 msgstr ""
+"قيود اختيارية على قوائم الانتظار لوحدة أذونات InvolvedCheck. إذا تم تعيينها، "
+"يتم منح الإذن فقط للتذاكر في قوائم الانتظار المحددة هنا."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the OwnerCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
 msgstr ""
+"قيود اختيارية على قوائم الانتظار لوحدة إذن التحقق من المالك. إذا تم تعيينها، "
+"يتم منح الإذن فقط للتذاكر في قوائم الانتظار المحددة هنا."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the ResponsibleCheck permission module. If "
 "set, permission is only granted for tickets in the specified queues."
 msgstr ""
+"تقييد اختياري لقوائم الانتظار لوحدة إذن Responsible Check. إذا تم تعيينها، "
+"يتم منح الإذن فقط للتذاكر في قوائم الانتظار المحددة هنا."
 
 #. SysConfig
 msgid "Other Customers"
-msgstr ""
+msgstr "عملاء آخرون"
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr ""
+msgstr "حاليا ليس في المكتب"
 
 #. SysConfig
 msgid "Out Of Office Time"
-msgstr ""
+msgstr "مدة الغياب"
 
 #. SysConfig
 msgid "Out of Office users."
-msgstr ""
+msgstr "المستخدمين الغائبين."
 
 #. SysConfig
 msgid ""
 "Outbound request headers not allowed to be used in frontend configuration."
-msgstr ""
+msgstr "رؤوس الطلبات الصادرة التي يجب عدم استخدامها في تكوين الواجهة الأمامية."
 
 #. SysConfig
 msgid ""

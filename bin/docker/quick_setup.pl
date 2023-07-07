@@ -33,6 +33,9 @@ quick_setup.pl - a quick OTOBO setup script for development
     # also activate Elasticsearch
     bin/docker/quick_setup.pl --db-password 'some-pass' --activate-elasticsearch
 
+    # create an initial admin agent in addition to root@localhost
+    bin/docker/quick_setup.pl --db-password 'some-pass' --add-admin-user
+
     # create an initial customer user
     bin/docker/quick_setup.pl --db-password 'some-pass' --add-customer-user
 
@@ -41,12 +44,14 @@ quick_setup.pl - a quick OTOBO setup script for development
 
 It might be convenient the call this script via an alias.
 
-    alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch --add-customer-user --add-calendar"'
+    alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch --add-admin-user --add-customer-user --add-calendar"'
 
 =head1 DESCRIPTION
 
 Quickly create a running system that is useful for development and for continous integration.
 But please note that this script is not meant as an replacement for the OTOBO installer.
+
+Allow to automatically create a sample customer user, admin user, and calendar.
 
 =head1 OPTIONS
 
@@ -69,6 +74,10 @@ The default value is 80
 
 Also set up the the Elasticsearch webservice.
 
+=item add-admin-user
+
+Add the admin I<admin> with the name I<Andy Admin>.
+
 =item add-customer-user
 
 Add the customer user I<tina> of the non-existing customer company I<Quick Example Company>.
@@ -82,6 +91,7 @@ Add the customer user I<tina> of the non-existing customer company I<Quick Examp
 =cut
 
 use v5.24;
+use strict;
 use warnings;
 use utf8;
 
@@ -108,6 +118,7 @@ sub Main {
     my $DBPassword;                    # required
     my $HTTPPort              = 80;    # only used for success message
     my $ActivateElasticsearch = 0;     # must be explicitly enabled
+    my $AddAdminUser          = 0;     # must be explicitly enabled
     my $AddCustomerUser       = 0;     # must be explicitly enabled
     my $AddCalendar           = 0;     # must be explicitly enabled
     my $ActivateSyncWithS3    = 0;     # activate S3 in the SysConfig, still experimental
@@ -117,6 +128,7 @@ sub Main {
         'db-password=s'          => \$DBPassword,
         'http-port=i'            => \$HTTPPort,
         'activate-elasticsearch' => \$ActivateElasticsearch,
+        'add-admin-user'         => \$AddAdminUser,
         'add-customer-user'      => \$AddCustomerUser,
         'add-calendar'           => \$AddCalendar,
         'activate-sync-with-S3'  => \$ActivateSyncWithS3,
@@ -276,6 +288,16 @@ sub Main {
     }
     else {
         my ( $Success, $Message ) = DeactivateElasticsearch();
+
+        say $Message if defined $Message;
+
+        return 0 unless $Success;
+    }
+
+    if ($AddAdminUser) {
+        my ( $Success, $Message ) = AddAdminUser(
+            HTTPPort => $HTTPPort
+        );
 
         say $Message if defined $Message;
 
@@ -703,6 +725,81 @@ sub ActivateElasticsearch {
     return 0, 'Initial setup of Elasticsearch was not successful' unless $SetupSuccess;
 
     return $SetupSuccess;
+}
+
+sub AddAdminUser {
+    my %Param = @_;
+
+    # check the params
+    for my $Key ( grep { !$Param{$_} } qw(HTTPPort) ) {
+        my $SubName = subname(__SUB__);
+
+        return 0, "$SubName: the parameter '$Key' is required";
+    }
+
+    # Disable email checks to create new user.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    local $ConfigObject->{CheckEmailAddresses} = 0;
+
+    # create an user
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+    my $Login      = 'admin';
+    my $UserID     = $UserObject->UserAdd(
+        UserFirstname => 'Andy',
+        UserLastname  => 'Admin',
+        UserLogin     => $Login,
+        UserPw        => $Login,
+        UserEmail     => 'Andy.Admin@example.com',
+        UserComment   => 'created by quick_setup.pl',
+        ValidID       => 1,
+        ChangeUserID  => 1,
+    );
+
+    return 0, "Could not create the user '$Login'" unless $UserID;
+
+    # Set user language to English, don't bother to check success
+    $UserObject->SetPreferences(
+        UserID => $UserID,
+        Key    => 'UserLanguage',
+        Value  => 'en',
+    );
+
+    # Set user time zone, don't bother to check success
+    $UserObject->SetPreferences(
+        UserID => $UserID,
+        Key    => 'UserTimeZone',
+        Value  => 'Europe/Berlin',    # or to 'Antarctica/Rothera' ???
+    );
+
+    # do we have an admin group ?
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+    for my $Group (qw(admin users)) {
+        my $GroupID = $GroupObject->GroupLookup(
+            Group => $Group,
+        );
+
+        return 0, "Could not find the group '$Group'" unless $GroupID;
+
+        # now set the permissions
+        my $Success = $GroupObject->PermissionGroupUserAdd(
+            GID        => $GroupID,
+            UID        => $UserID,
+            Permission => {
+                ro        => 1,
+                move_into => 1,
+                create    => 1,
+                owner     => 1,
+                priority  => 1,
+                rw        => 1,
+            },
+            UserID => 1,
+        );
+
+        return 0, "Could not give $Group privileges to the user '$Login'" unless $Success;
+    }
+
+    # looks good
+    return 1, "Admin user: http://localhost:$Param{HTTPPort}/otobo/index.pl user: $Login pw: $Login";
 }
 
 sub AddCustomerUser {
