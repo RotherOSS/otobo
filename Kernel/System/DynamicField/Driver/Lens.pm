@@ -141,12 +141,10 @@ sub SearchSQLGet {
     if ( $Param{Operator} eq 'Like' ) {
 
         # TODO: also search ConfigItemID when an integer is given
-        my $SQL = $DBObject->QueryCondition(
+        return $DBObject->QueryCondition(
             Key   => "$Param{TableAlias}.value_text",
             Value => $Param{SearchTerm},
         );
-
-        return $SQL;
     }
 
     # TODO: should other operators be supported ??
@@ -316,12 +314,10 @@ EOF
         AdditionalText => $AdditionalText,
     );
 
-    my $Data = {
+    return {
         Field => $HTMLString,
         Label => $LabelString,
     };
-
-    return $Data;
 }
 
 sub SearchFieldValueGet {
@@ -436,13 +432,11 @@ sub ReadableValueRender {
         $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
     }
 
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value => $Value,
         Title => $Title,
     };
-
-    return $Data;
 }
 
 sub TemplateValueTypeGet {
@@ -500,14 +494,11 @@ sub ObjectMatch {
 sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
-    # get historical values from database
-    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    # return the historical values from database
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
     );
-
-    # return the historical values from database
-    return $HistoricalValues;
 }
 
 sub ValueLookup {
