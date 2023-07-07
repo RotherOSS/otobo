@@ -325,7 +325,7 @@ sub Run {
     my $TextDirection = $LayoutObject->{LanguageObject}->{TextDirection} || '';
     $LayoutObject->AddJSData(
         Key   => 'IsRTLLanguage',
-        Value => ( $TextDirection eq 'rtl' ) ? '1' : '',
+        Value => $Kernel::OM->Get('Kernel::System::JSON')->ToBoolean( $TextDirection eq 'rtl' ),
     );
 
     $LayoutObject->AddJSData(
