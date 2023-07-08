@@ -23,13 +23,14 @@
 # sr <sr@otrs.ch>, 2021.
 # Grit Rother <mr@otobo.de>, 2021.
 # Intalio <intalio@intalio.pl>, 2021.
+# Miroslaw Lach <m.weblate@lach.waw.pl>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2021-05-17 15:10+0000\n"
-"Last-Translator: Intalio <intalio@intalio.pl>\n"
+"PO-Revision-Date: 2023-07-08 21:28+0000\n"
+"Last-Translator: Miroslaw Lach <m.weblate@lach.waw.pl>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
 ">\n"
 "Language: pl\n"
@@ -276,10 +277,12 @@ msgid ""
 "This language is not present or enabled on the system. This text could be "
 "deleted if it is not needed anymore."
 msgstr ""
+"Ten język jest nieobecny w Twoim systemie lub nie jest aktywny. Ten tekst "
+"może zostać usunięty jeżeli nie jest już potrzebny."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Usuń język"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -299,7 +302,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Dodaj nowy język"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -1064,6 +1067,9 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"Aby aktywować przesyłanie danych, zarejestruj swój system u ekipy OTOBO lub "
+"zaktualizuj informacje o rejestracji swojego systemu (upewnij się aby "
+"zaznaczyć opcje 'wysyłaj dane wsparcia'.)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -1389,11 +1395,11 @@ msgstr "Aktualne"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy Management"
-msgstr ""
+msgstr "Zarządzanie polityką prywatności"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Polityka prywatności"
 
 #. Template: AdminCustomerAccept
 msgid "Remove PrivacyPolicy Language"
@@ -1782,7 +1788,7 @@ msgstr "Filtr dla pól dynamicznych"
 
 #. Template: AdminDynamicField
 msgid "New Dynamic Fields"
-msgstr ""
+msgstr "Nowe Pola Dynamiczne"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1861,6 +1867,9 @@ msgid ""
 "system. The file needs to be in .yml format as exported by dynamic field "
 "management module."
 msgstr ""
+"Tutaj możesz wgrać plik konfiguracyjny aby zaimportować pola dynamiczne do "
+"systemu. Plik musi być w formacie .yml takim jak wyeksportowany z modułu pól "
+"dynamicznych."
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
@@ -1872,7 +1881,7 @@ msgstr "Wyeksportuj pola dynamiczne"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr ""
+msgstr "Ekrany Pól Dynamicznych"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
@@ -1927,11 +1936,11 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Tooltip message:"
-msgstr ""
+msgstr "Podpowiedź:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the tooltip message shown inside the customer interface."
-msgstr ""
+msgstr "To jest treść podpowiedzi widoczna w interfejsie klienta."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
@@ -1999,7 +2008,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "Inne pola"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
@@ -2176,7 +2185,7 @@ msgstr "Multiwybór"
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
-msgstr ""
+msgstr "Czas ważności pamięci podręcznej"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchprefix"
@@ -2188,7 +2197,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr ""
+msgstr "Ilość wyników"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
@@ -2284,7 +2293,7 @@ msgstr "Wybierz elementy, które chcesz "
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
-msgstr ""
+msgstr "Wybierz pożądane elementy i potwierdź import przyciskiem 'importuj'."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
@@ -2309,11 +2318,11 @@ msgstr "Pola"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Screens"
-msgstr ""
+msgstr "Ekrany"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Management of Dynamic Fields <-> Screens"
-msgstr ""
+msgstr "Zarządzanie powiązaniem Dynamiczne Pola <-> Ekrany"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Overview"
@@ -2342,7 +2351,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter available elements"
-msgstr ""
+msgstr "Filtruj dostępne elementy"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to available elements"
@@ -8984,147 +8993,155 @@ msgstr "Usuń statystykę %s"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Report Management"
-msgstr ""
+msgstr "Zarządzanie raportami"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Add Report"
-msgstr ""
+msgstr "Dodaj raport"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Edit Report"
-msgstr ""
+msgstr "Edytuj raport"
 
 #. Template: AgentStatisticsReportsEdit
 msgid ""
 "Here you can combine several statistics to a report which you can generate "
 "as a PDF manually or automatically at configured times."
 msgstr ""
+"Tutaj możesz połączyć kilka statystyk w raport który możesz wyeksportować "
+"jako PDF na żądanie (ręcznie) lub automatycznie (według harmonogramu)."
 
 #. Template: AgentStatisticsReportsEdit
 msgid ""
 "Please note that you can only select charts as statistics output format if "
 "you configured one of the renderer binaries on your system."
 msgstr ""
+"Pamiętaj, iż możesz wybrać wykresy jako statystyki jedynie wtedy, gdy "
+"skonfigurowałeś któreś z narzędzi binarnych do ich renderowanie w swoim "
+"systemie."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure PhantomJS"
-msgstr ""
+msgstr "Skonfiguruj PhantomJS"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure GoogleChrome"
-msgstr ""
+msgstr "Skonfiguruj GoogleChrome"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "General settings"
-msgstr ""
+msgstr "Ustawienia ogólne"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation settings"
-msgstr ""
+msgstr "Ustawienia automatycznego generowania"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation times (cron)"
-msgstr ""
+msgstr "Harmonogram generowania (cron)"
 
 #. Template: AgentStatisticsReportsEdit
 msgid ""
 "Specify when the report should be automatically generated in cron format, e. "
 "g. \"10 1 * * *\" for every day at 1:10 am."
 msgstr ""
+"Wskaż kiedy raport powinien zostać automatycznie wygenerowany w formacie "
+"cron, przykładowo \"10 1 * * *\" oznacza codziennie o 1:10 w nocy."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Times are in the system timezone."
-msgstr ""
+msgstr "Czasy podawane są w strefie czasowej systemu."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Last automatic generation time"
-msgstr ""
+msgstr "Ostatnie automatyczne wygenerowanie raportu"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Next planned automatic generation time"
-msgstr ""
+msgstr "Następne zaplanowane wygenerowanie"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation language"
-msgstr ""
+msgstr "Język dla automatycznego raportu"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "The language to be used when the report is automatically generated."
-msgstr ""
+msgstr "Język, który ma zostać użyty, gdy raport jest generowany automatycznie."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email subject"
-msgstr ""
+msgstr "Tytuł emaila"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify the subject for the automatically generated email."
-msgstr ""
+msgstr "Wprowadź tytuł dla wiadomości email z automatycznym raportem."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email body"
-msgstr ""
+msgstr "Treść wiadomości email"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify the text for the automatically generated email."
-msgstr ""
+msgstr "Wprowadź treść dla wiadomości email z automatycznym raportem."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email recipients"
-msgstr ""
+msgstr "Odbiorcy emaila"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify recipient email addresses (comma separated)."
-msgstr ""
+msgstr "Wprowadź adresy email odbiorców (oddzielane przecinkiem)."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Output settings"
-msgstr ""
+msgstr "Ustawienia wyjścia"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Headline"
-msgstr ""
+msgstr "Nagłówek"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Caption for preamble"
-msgstr ""
+msgstr "Opis wstępu"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Preamble"
-msgstr ""
+msgstr "Wstęp"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Caption for epilogue"
-msgstr ""
+msgstr "Opis zakończenia"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Epilogue"
-msgstr ""
+msgstr "Zakończenie"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Add statistic to report"
-msgstr ""
+msgstr "Dodaj statystyki do raportu"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Statistics Reports"
-msgstr ""
+msgstr "Raport statystyk"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Edit statistics report \"%s\"."
-msgstr ""
+msgstr "Edytuj raport statystyk \"%s\"."
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Delete statistics report \"%s\""
-msgstr ""
+msgstr "Usuń raport statystyk \"%s\""
 
 #. Template: AgentStatisticsReportsView
 msgid "View Report"
-msgstr ""
+msgstr "Zobacz raport"
 
 #. Template: AgentStatisticsReportsView
 msgid ""
 "This statistics report contains configuration errors and can currently not "
 "be used."
 msgstr ""
+"Ten raport statystyk zawiera błędy w konfiguracji i nie może zostać użyty."
 
 #. Template: AgentStatisticsView
 msgid "Statistics Overview"
@@ -9132,7 +9149,7 @@ msgstr "Przegląd statystyk"
 
 #. Template: AgentStatisticsView
 msgid "View Statistics"
-msgstr ""
+msgstr "Zobacz statystyki"
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
@@ -9169,7 +9186,7 @@ msgstr "Raport zawiera błędy konfiguracyjne i nie może być wygenerowany."
 
 #. Template: AgentTicketActionCommon
 msgid "Change Free Text of %s%s%s"
-msgstr ""
+msgstr "Zmień tekst %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s%s"
@@ -9209,7 +9226,7 @@ msgstr "Ustawienia zgłoszenia"
 
 #. Template: AgentTicketActionCommon
 msgid "Queue invalid."
-msgstr "Nie prawidłowa kolejka."
+msgstr "Nieprawidłowa kolejka."
 
 #. Template: AgentTicketActionCommon
 msgid "Service invalid."
@@ -9217,7 +9234,7 @@ msgstr "Nieprawidłowa usługa."
 
 #. Template: AgentTicketActionCommon
 msgid "SLA invalid."
-msgstr "Nie prawidłowe SLA."
+msgstr "Nieprawidłowe SLA."
 
 #. Template: AgentTicketActionCommon
 msgid "New Owner"
@@ -9229,7 +9246,7 @@ msgstr "Prosimy ustaw nowego właściciela!"
 
 #. Template: AgentTicketActionCommon
 msgid "Owner invalid."
-msgstr "Nie prawidłowy właściciel."
+msgstr "Nieprawidłowy właściciel."
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
@@ -9241,7 +9258,7 @@ msgstr "Ustaw nowego odpowiedzialnego!"
 
 #. Template: AgentTicketActionCommon
 msgid "Responsible invalid."
-msgstr "Nie prawidłowy odpowiedzialny."
+msgstr "Nieprawidłowy odpowiedzialny."
 
 #. Template: AgentTicketActionCommon
 msgid "Next state"
@@ -9249,7 +9266,7 @@ msgstr "Następny stan"
 
 #. Template: AgentTicketActionCommon
 msgid "State invalid."
-msgstr "Stan jest nie prawidłowy."
+msgstr "Niepoprawny stan."
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
@@ -9394,11 +9411,11 @@ msgstr "Usuń klienta ze zgłoszenia"
 
 #. Template: AgentTicketCompose
 msgid "Move to Cc"
-msgstr ""
+msgstr "Przenieś do DW (Cc)"
 
 #. Template: AgentTicketCompose
 msgid "Move to Bcc"
-msgstr ""
+msgstr "Przenieś do UDW (Bcc)"
 
 #. Template: AgentTicketCompose
 msgid "Please remove this entry and enter a new one with the correct value."
@@ -9414,7 +9431,7 @@ msgstr "Usuń DW"
 
 #. Template: AgentTicketCompose
 msgid "Move to To"
-msgstr ""
+msgstr "Przenieś do Do (To)"
 
 #. Template: AgentTicketCompose
 msgid "Bcc"
@@ -9618,7 +9635,7 @@ msgstr "Zgłoszeń na stronę"
 
 #. Template: AgentTicketOverviewPreview
 msgid "Missing channel"
-msgstr ""
+msgstr "Brakujący kanał"
 
 #. Template: AgentTicketOverviewSmall
 msgid "Reset overview"
@@ -9742,11 +9759,11 @@ msgstr "Czas utworzenia wiadomości (pomiędzy)"
 
 #. Template: AgentTicketSearch
 msgid "Please set this to value before end date."
-msgstr ""
+msgstr "Ustaw na wartość przed datą zakończenia."
 
 #. Template: AgentTicketSearch
 msgid "Please set this to value after start date."
-msgstr ""
+msgstr "Ustaw na wartość po dacie rozpoczęcia."
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
@@ -9934,6 +9951,8 @@ msgid ""
 "This message is being processed. Already tried to send %s time(s). Next try "
 "will be %s."
 msgstr ""
+"Ta wiadomość jest już przetwarzana. Próbowano ją wysłać %s raz(y). Następna "
+"próba %s."
 
 #. Template: MIMEBase
 msgid ""
@@ -10016,11 +10035,11 @@ msgstr "Załaduj zablokowaną treść."
 
 #. Template: Breadcrumb
 msgid "Home"
-msgstr ""
+msgstr "Strona główna"
 
 #. Template: Breadcrumb
 msgid "Back to admin overview"
-msgstr ""
+msgstr "Powrót do przeglądu administracyjnego"
 
 #. Template: CloudServicesDisabled
 msgid "This Feature Requires Cloud Services"
@@ -10036,7 +10055,7 @@ msgstr "powrócić do poprzedniej strony"
 
 #. Template: CustomerAccept
 msgid "Click to accept"
-msgstr ""
+msgstr "Kliknij aby zaakceptować"
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -10273,7 +10292,7 @@ msgstr "Strona"
 
 #. Template: CustomerTicketOverview
 msgid "Sort"
-msgstr ""
+msgstr "Sortuj"
 
 #. Template: CustomerTicketSearch
 msgid "Profile"
@@ -10290,6 +10309,7 @@ msgstr "Identyfikator klienta"
 #. Template: CustomerTicketSearch
 msgid "Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")"
 msgstr ""
+"Wyszukiwanie pełnotekstowe w Zgłoszeniach (np. \"Grze*orz\" lub \"Jan*\")"
 
 #. Template: CustomerTicketSearch
 msgid "Types"
@@ -10297,7 +10317,7 @@ msgstr "Typy zgłoszeń"
 
 #. Template: CustomerTicketSearch
 msgid "Time Restrictions"
-msgstr ""
+msgstr "Ograniczenia czasowe"
 
 #. Template: CustomerTicketSearch
 msgid "No time settings"
@@ -10361,7 +10381,7 @@ msgstr "Wyniki wyszukiwania dla"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Remove this Search Term."
-msgstr ""
+msgstr "Usuń to kryterium wyszukiwania."
 
 #. Template: CustomerTicketZoom
 msgid "Reply"
@@ -10377,7 +10397,7 @@ msgstr "Informacje o zgłoszeniu"
 
 #. Template: CustomerTicketZoom
 msgid "Categories"
-msgstr ""
+msgstr "Kategorie"
 
 #. Template: CustomerTicketZoom
 msgid "Further actions"
@@ -10413,7 +10433,7 @@ msgstr "Rozwiń"
 
 #. Template: Footer
 msgid "Powered by %s"
-msgstr ""
+msgstr "Napędzane przez %s"
 
 #. Template: AttachmentList
 msgid "Click to delete this attachment."
@@ -10489,7 +10509,7 @@ msgstr "Witaj w %s"
 
 #. Template: Installer
 msgid "Germany"
-msgstr ""
+msgstr "Niemcy"
 
 #. Template: Installer
 msgid "Phone"
@@ -10705,13 +10725,15 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "HTTP Type"
-msgstr ""
+msgstr "Typ HTTP"
 
 #. Template: InstallerSystem
 msgid ""
 "Set the request scheme used for cookies and various links. For production "
 "purposes always use https."
 msgstr ""
+"Ustaw schemat żądań dla ciasteczek i różnych odnośników. Na produkcji używaj "
+"zawsze https."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -10901,24 +10923,34 @@ msgid ""
 "migrating your ticket system from OTRS or ((OTRS)) Community Edition version "
 "6 to OTOBO 10."
 msgstr ""
+"Ten skrypt migracyjny poprowadzi Cię krok po kroku przez proces migracji "
+"Twojego systemu obsługi zgłoszeń z OTRS lub ((OTRS)) Community Edition w "
+"wersji 6 do OTOBO 10."
 
 #. Template: Intro
 msgid ""
 "There is no danger whatsoever for your original system: nothing is changed "
 "there."
 msgstr ""
+"Nie ma żadnego zagrożenia dla twojego pierwotnego systemu: nie są w nim "
+"wprowadzane żadne zmiany."
 
 #. Template: Intro
 msgid ""
 "Instructions and details on migration prerequisites can be found in the "
 "migration manual. We strongly recommend reading it before starting migration."
 msgstr ""
+"Instrukcje oraz szczegółowe informacje na temat wymagań dla migracji możesz "
+"odnaleźć w podręczniku migracji. Silnie zalecamy zapoznanie się z nim przed "
+"rozpoczęciem migracji."
 
 #. Template: Intro
 msgid ""
 "In case you have to suspend migration, you can resume it anytime at the same "
 "point as long as the cache has not been deleted."
 msgstr ""
+"W przypadku gdy wstrzymasz migrację, możesz ją wznowić w każdej chwili od "
+"tego samego miejsca tak długo jak pamięć podręczna nie została wyczyszczona."
 
 #. Template: Intro
 msgid "All entered passwords are cached until the migration is finished."
@@ -10932,6 +10964,10 @@ msgid ""
 "Directory will be able to read them. If you abort the migration, you are "
 "given the option to clear the cache by visiting this page again."
 msgstr ""
+" Każdy z dostępem do tej strony, lub prawami do odczytu z katalogu domowego "
+"OTOBO będzie w stanie je odczytać. Jeżeli przerwiesz migrację, będziesz miał "
+"do wyboru opcję aby wyczyścić dane tymczasowe poprzez ponowne odwiedzenie "
+"tej strony."
 
 #. Template: Intro
 msgid "If you need support, just ask our experts – either at"
@@ -10943,17 +10979,19 @@ msgstr "Forum OTOBO"
 
 #. Template: Intro
 msgid "or directly via mail to"
-msgstr ""
+msgstr "lub bezpośrednio wiadomością email do"
 
 #. Template: Intro
 msgid "Cached data found"
-msgstr ""
+msgstr "Wykryto dane tymczasowe"
 
 #. Template: Intro
 msgid ""
 "You will continue where you aborted the migration last time. If you do not "
 "want this, please discard your previous progress."
 msgstr ""
+"Będziesz kontynuował migrację od miejsca gdzie została przerwana. Jeżeli nie "
+"chcesz tego, odrzuć dotychczasowy postęp."
 
 #. Template: Intro
 msgid "An error occured."
@@ -10965,7 +11003,7 @@ msgstr "Odrzuć wcześniejszy postęp"
 
 #. Template: Intro
 msgid "Insecure HTTP connection"
-msgstr ""
+msgstr "Niezabezpieczone połączenie HTTP"
 
 #. Template: Intro
 msgid ""
@@ -10974,6 +11012,10 @@ msgid ""
 "unencrypted. Anyone between you and the OTOBO server will be able to read "
 "them! Please consider setting up https instead."
 msgstr ""
+"Korzystasz ze skryptu migracyjnego przez http. To wysoce niebezpieczne jako "
+"że podanie różnych haseł jest wymagane w trakcie trwania procesu i zostaną "
+"one przesłane bez szyfrowania. Każdy pomiędzy Tobą i serwerem OTOBO będzie w "
+"stanie przechwycić i odczytać je! Rozważ skonfigurowanie https."
 
 #. Template: Intro
 msgid "Continue anyways :("
@@ -10985,7 +11027,7 @@ msgstr " Kontynuuj mimo to :()"
 
 #. Template: OTRSDBSettings
 msgid "DSN"
-msgstr ""
+msgstr "DSN"
 
 #. Template: OTRSDBSettings
 msgid "Skip DB migration"
@@ -10995,6 +11037,8 @@ msgstr "Pomiń migrację bazy danych"
 msgid ""
 "Expert option! Only works if the migration has already been done by hand."
 msgstr ""
+"Opcja ekspercka! Działa jedynie gdy migracja została już przeprowadzona "
+"ręcznie."
 
 #. Template: OTRSDBSettings
 msgid "Skipped."
@@ -11038,6 +11082,9 @@ msgid ""
 "devices. If you'd like to use it, you can either switch to desktop mode or "
 "use your regular desktop device."
 msgstr ""
+"Przepraszamy, ale ta funkcja OTOBO nie jest obecnie dostępna na urządzeniach "
+"przenośnych. Jeżeli chcesz z niej skorzystać, możesz przełączyć przeglądarkę "
+"w tryb stacjonarny lub użyć przeglądarki na komputerze."
 
 #. Template: Motd
 msgid "Message of the Day"
@@ -11057,7 +11104,7 @@ msgstr "Powrót do poprzedniej strony"
 
 #. Template: Alert
 msgid "Alert"
-msgstr ""
+msgstr "Ostrzeżenie"
 
 #. Template: Alert
 msgid "Powered by"
@@ -11097,11 +11144,11 @@ msgstr "Plik nie jest obrazkiem, który może być pokazany w treści!"
 
 #. Template: PreferencesNotificationEvent
 msgid "No user configurable notifications found."
-msgstr ""
+msgstr "Nie znaleziono powiadomień konfigurowalnych przez użytkownika."
 
 #. Template: PreferencesNotificationEvent
 msgid "Receive messages for notification '%s' by transport method '%s'."
-msgstr ""
+msgstr "Otrzymuj wiadomości dla powiadomienia '%s' przy użyciu '%s'."
 
 #. Template: ActivityDialogHeader
 msgid "Process Information"
@@ -11160,7 +11207,7 @@ msgstr "Stwórz wiersz z podsumowaniem"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data rows."
-msgstr ""
+msgstr "Generuj dodatkowy wiersz z podsumami."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
@@ -11168,7 +11215,7 @@ msgstr "Stwórz kolumnę z podsumowaniem"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data columns."
-msgstr ""
+msgstr "Generuj dodatkową kolumnę z podsumami."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
@@ -11220,7 +11267,7 @@ msgstr "Format podglądu"
 msgid ""
 "Please note that the preview uses random data and does not consider data "
 "filters."
-msgstr ""
+msgstr "Uwaga. Podgląd używa losowych danych i nie bierze pod uwagę filtrów."
 
 #. Template: PreviewWidget
 msgid "Configure X-Axis"
@@ -11264,7 +11311,7 @@ msgstr "Zakończonych okresów %s oraz okres bieżący + przyszłe okresy %s%s"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr ""
+msgstr "Nie zezwalaj na zmiany w tym elemencie gdy statystyki są generowane."
 
 #. Template: StatsParamsWidget
 msgid "Format"
@@ -11322,16 +11369,16 @@ msgstr ""
 
 #. Template: StatsWidget
 msgid "Remove statistic"
-msgstr ""
+msgstr "Usuń statystykę"
 
 #. Template: StatsWidget
 msgid ""
 "If you don't specify a title here, the title of the statistic will be used."
-msgstr ""
+msgstr "Jeżeli nie podasz tutaj tytułu, użyty zostanie tytuł statystyki."
 
 #. Template: StatsWidget
 msgid "Preface"
-msgstr ""
+msgstr "Wstęp"
 
 #. Template: StatsWidget
 msgid "Postface"
@@ -14041,15 +14088,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not find report."
-msgstr ""
+msgstr "Nie znaleziono raportu."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Please provide a valid cron entry."
-msgstr ""
+msgstr "Wprowadź prawidłowy wpis harmonogramu cron."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not update report."
-msgstr ""
+msgstr "Nie udało się uaktualnić raportu."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "View Statistics Report"
@@ -14174,7 +14221,7 @@ msgstr "Musisz zaznaczyć przynajmniej jedno zgłoszenie."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
-msgstr ""
+msgstr "Funkcje wsadowe nie zostały aktywowane!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "No selectable TicketID is given!"
@@ -14204,6 +14251,8 @@ msgstr "Następujace zgłoszenia zostały zablokowane: %s."
 msgid ""
 "Article subject will be empty if the subject contains only the ticket hook!"
 msgstr ""
+"Tytuł artykułu będzie pusty jeżeli temat zawiera jedynie identyfikator "
+"zgłoszenia!"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
@@ -15420,7 +15469,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't get OTOBO News from server!"
-msgstr ""
+msgstr "Nie udało się pobrać nowości OTOBO z serwera!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't connect to Product News server!"
@@ -15524,23 +15573,23 @@ msgstr "Zaznacz aby aktywować tę datę"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s TB"
-msgstr ""
+msgstr "%s TB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s GB"
-msgstr ""
+msgstr "%s GB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s MB"
-msgstr ""
+msgstr "%s MB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s KB"
-msgstr ""
+msgstr "%s kB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s B"
-msgstr ""
+msgstr "%s B"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission!"
@@ -15622,6 +15671,7 @@ msgstr "Konserwacja systemu w toku!"
 msgid ""
 "A system maintenance period will start at: %s and is expected to stop at: %s"
 msgstr ""
+"Okienko serwisowe systemu rozpocznie się o %s i planowo zakończy się o %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTOBO Daemon is not running."
@@ -15654,12 +15704,16 @@ msgid ""
 "Don't use the Superuser account to work with %s! Create new Agents and work "
 "with these accounts instead."
 msgstr ""
+"Nie używaj konta Superusera do pracy z %s! Utwórz nowego Agenta i zamiast "
+"tego pracuj takim kontem."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
 msgid ""
 "Please make sure you've chosen at least one transport method for mandatory "
 "notifications."
 msgstr ""
+"Upewnij się, iż wybrałeś co najmniej jedną metodę przekazywania dla "
+"obowiązkowych powiadomień."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
 msgid "Preferences updated successfully!"
@@ -15667,7 +15721,7 @@ msgstr "Konfiguracja uaktualniona!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
-msgstr ""
+msgstr "(w trakcie)"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
@@ -15696,6 +15750,8 @@ msgid ""
 "This password is forbidden by the current system configuration. Please "
 "contact the administrator if you have additional questions."
 msgstr ""
+"To hasło jest niedozwolone przez obecną konfigurację systemu. Skontaktuj się "
+"z administratorem jeżeli masz dodatkowe pytania."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
@@ -15749,7 +15805,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
-msgstr ""
+msgstr "Wybrany okres czasu jest dłuższy niż dozwolony."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
@@ -15767,7 +15823,7 @@ msgstr "Wybrana data końcowa jest wcześniejsza niż początkowa."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "There is something wrong with your time selection."
-msgstr ""
+msgstr "Coś jest nie tak z wybranym przez Ciebie czasem."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
@@ -15782,15 +15838,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
-msgstr ""
+msgstr "Wybierz jeden element dla osi X."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one time element for the Y axis."
-msgstr ""
+msgstr "Możesz wybrać tylko jeden element przedstawiający czas na osi Y."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
-msgstr ""
+msgstr "Możesz użyć tylko jednego lub dwóch elementów na osi Y."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select at least one value of this field."
@@ -15802,7 +15858,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select a time scale."
-msgstr ""
+msgstr "Wybierz skalę czasu."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
@@ -15909,15 +15965,15 @@ msgstr "Obserwowane zgłoszenia razem"
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "%s Report"
-msgstr ""
+msgstr "Raport %s"
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Error: this graph could not be generated: %s."
-msgstr ""
+msgstr "Błąd: ten wykres nie mógł zostać wygenerowany: %s."
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Table of Contents"
-msgstr ""
+msgstr "Spis treści"
 
 #. Perl Module: Kernel/Output/PDF/Ticket.pm
 msgid "Ticket Dynamic Fields"
@@ -15927,6 +15983,8 @@ msgstr "Informacje dodatkowe"
 msgid ""
 "Couldn't read ACL configuration file. Please make sure the file is valid."
 msgstr ""
+"Nie udało się odczytać pliku konfiguracyjnego ACL. Upewnij się że plik jest "
+"prawidłowy."
 
 #. Perl Module: Kernel/System/Auth.pm
 msgid ""
@@ -15940,6 +15998,8 @@ msgid ""
 "Invalid response from the authentication server. Maybe the process took too "
 "long. Please retry once."
 msgstr ""
+"Nieprawidłowa odpowiedź od serwera uwierzytelniającego. Możliwe, że czynność "
+"trwała za długo. Spróbuj ponownie."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Please note that the session limit is almost reached."
@@ -15987,11 +16047,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "Send unsigned notification"
-msgstr ""
+msgstr "Wyślij niepodpisane powiadomienia"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "Send unencrypted notification"
-msgstr ""
+msgstr "Wyślij niezaszyfrowane powiadomienia"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "Configuration Options Reference"
@@ -16007,7 +16067,7 @@ msgstr "To ustawienie nie jest domyślnie aktywne."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be deactivated."
-msgstr ""
+msgstr "To ustawienie nie może zostać wyłączone."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting is not visible."
@@ -16048,7 +16108,7 @@ msgstr "np. Tekst albo Te*t"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
-msgstr ""
+msgstr "Ignoruj to pole."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
 msgid "This field is required or"
@@ -16064,7 +16124,7 @@ msgstr "Maksymalny rozmiar to %s znaków."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
 msgid "Sanity checks for database."
-msgstr ""
+msgstr "Sprawdzenie poprawności bazy danych."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
@@ -16076,7 +16136,7 @@ msgstr "Wdrożenie zakończone!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_responses."
-msgstr ""
+msgstr "Migruj tabelę bazodanową auto_responses."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration failed."
@@ -16084,7 +16144,7 @@ msgstr "Migracja nie powiodła się."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_response."
-msgstr ""
+msgstr "Migruj tabelę bazodanową auto_response."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
@@ -16096,11 +16156,11 @@ msgstr "Czyszczenie pamięci podręcznej OTOBO."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "Completed."
-msgstr ""
+msgstr "Ukończono."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Need OTRSData->%s!"
-msgstr ""
+msgstr "Wymagane OTRSData->%s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Can't access OTRS Home: %s!"
@@ -16168,11 +16228,11 @@ msgstr "Sprawdź czy wersja OTRS jest poprawna."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS RELEASE file %s does not exist!"
-msgstr ""
+msgstr "Plik %s OTRS RELEASE nie istnieje!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s"
-msgstr ""
+msgstr "Nie można odczytać pliku OTRS RELEASE: %s"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTRS system found!"
@@ -16181,6 +16241,8 @@ msgstr "Nie odnaleziono systemu OTRS!"
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s."
 msgstr ""
+"Nieznany PRODUKT znaleziony w pliku OTRS RELEASE: %s. Oczekiwane wartości to "
+"%s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS Version is correct: %s."
@@ -16188,11 +16250,11 @@ msgstr "Poprawna wersja OTRS: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Migrate ITSM database tables."
-msgstr ""
+msgstr "Migruj tabele bazodanowe ITSM."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Nothing to do, as the the table '%s' does not exist."
-msgstr ""
+msgstr "Nic do zrobienia, jako że tabela '%s' nie istnieje."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "UPDATE of the table '%s' failed."
@@ -16200,11 +16262,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Migration completed."
-msgstr ""
+msgstr "Migracja zakończona."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
-msgstr ""
+msgstr "Migruj ustawienia konfiguracyjne."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid ""
@@ -20070,11 +20132,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Change Ticket"
-msgstr ""
+msgstr "Modyfikuj Zgłoszenie"
 
 #. SysConfig
 msgid "Change Ticket information"
-msgstr ""
+msgstr "Zmień informacje o Zgłoszeniu"
 
 #. SysConfig
 msgid "Change queue!"
@@ -26084,7 +26146,7 @@ msgstr "Moje Usługi"
 
 #. SysConfig
 msgid "My last changed tickets"
-msgstr ""
+msgstr "Ostatnio zmodyfikowane przeze mnie"
 
 #. SysConfig
 msgid "MyLastChangedTickets dashboard widget."
