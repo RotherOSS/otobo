@@ -44,7 +44,7 @@ quick_setup.pl - a quick OTOBO setup script for development
 
 It might be convenient the call this script via an alias.
 
-    alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch --add-admin-user --add-customer-user --add-calendar"'
+    alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch --add-user --add-admin-user --add-customer-user --add-calendar"'
 
 =head1 DESCRIPTION
 
@@ -118,6 +118,7 @@ sub Main {
     my $DBPassword;                    # required
     my $HTTPPort              = 80;    # only used for success message
     my $ActivateElasticsearch = 0;     # must be explicitly enabled
+    my $AddUser               = 0;     # must be explicitly enabled
     my $AddAdminUser          = 0;     # must be explicitly enabled
     my $AddCustomerUser       = 0;     # must be explicitly enabled
     my $AddCalendar           = 0;     # must be explicitly enabled
@@ -127,6 +128,7 @@ sub Main {
         'db-password=s'          => \$DBPassword,
         'http-port=i'            => \$HTTPPort,
         'activate-elasticsearch' => \$ActivateElasticsearch,
+        'add-user'               => \$AddUser,
         'add-admin-user'         => \$AddAdminUser,
         'add-customer-user'      => \$AddCustomerUser,
         'add-calendar'           => \$AddCalendar,
@@ -259,6 +261,16 @@ sub Main {
     }
     else {
         my ( $Success, $Message ) = DeactivateElasticsearch();
+
+        say $Message if defined $Message;
+
+        return 0 unless $Success;
+    }
+
+    if ($AddUser) {
+        my ( $Success, $Message ) = AddUser(
+            HTTPPort => $HTTPPort
+        );
 
         say $Message if defined $Message;
 
@@ -698,6 +710,70 @@ sub ActivateElasticsearch {
     return $SetupSuccess;
 }
 
+sub AddUser {
+    my %Param = @_;
+
+    # check the params
+    for my $Key ( grep { !$Param{$_} } qw(HTTPPort) ) {
+        my $SubName = subname(__SUB__);
+
+        return 0, "$SubName: the parameter '$Key' is required";
+    }
+
+    # Disable email checks to create new user.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    local $ConfigObject->{CheckEmailAddresses} = 0;
+
+    # create an user
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+    my $Login      = 'toni';
+    my $UserID     = $UserObject->UserAdd(
+        UserFirstname => 'Toni',
+        UserLastname  => 'Tester',
+        UserLogin     => $Login,
+        UserPw        => $Login,
+        UserEmail     => 'Toni.Tester@example.com',
+        UserComment   => 'sample user created by quick_setup.pl',
+        UserLanguage  => 'en',
+        UserTimeZone  => 'Europe/Berlin',
+        UserMobile    => '1①๑໑༡༪၁',
+        ValidID       => 1,
+        ChangeUserID  => 1,
+    );
+
+    return 0, "Could not create the user '$Login'" unless $UserID;
+
+    # do we have an admin group ?
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+    for my $Group (qw(users)) {
+        my $GroupID = $GroupObject->GroupLookup(
+            Group => $Group,
+        );
+
+        return 0, "Could not find the group '$Group'" unless $GroupID;
+
+        # now set the permissions
+        my $Success = $GroupObject->PermissionGroupUserAdd(
+            GID        => $GroupID,
+            UID        => $UserID,
+            Permission => {
+                ro        => 1,
+                move_into => 1,
+                create    => 1,
+                owner     => 1,
+                priority  => 1,
+                rw        => 1,
+            },
+            UserID => 1,
+        );
+
+        return 0, "Could not give $Group privileges to the user '$Login'" unless $Success;
+    }
+
+    # looks good
+    return 1, "Sample user: http://localhost:$Param{HTTPPort}/otobo/index.pl user: $Login pw: $Login";
+}
+
 sub AddAdminUser {
     my %Param = @_;
 
@@ -721,26 +797,15 @@ sub AddAdminUser {
         UserLogin     => $Login,
         UserPw        => $Login,
         UserEmail     => 'Andy.Admin@example.com',
-        UserComment   => 'created by quick_setup.pl',
+        UserComment   => 'admin user created by quick_setup.pl',
+        UserLanguage  => 'en',
+        UserTimeZone  => 'Europe/Berlin',
+        UserMobile    => '2②२২৵੨૨',
         ValidID       => 1,
         ChangeUserID  => 1,
     );
 
     return 0, "Could not create the user '$Login'" unless $UserID;
-
-    # Set user language to English, don't bother to check success
-    $UserObject->SetPreferences(
-        UserID => $UserID,
-        Key    => 'UserLanguage',
-        Value  => 'en',
-    );
-
-    # Set user time zone, don't bother to check success
-    $UserObject->SetPreferences(
-        UserID => $UserID,
-        Key    => 'UserTimeZone',
-        Value  => 'Europe/Berlin',    # or to 'Antarctica/Rothera' ???
-    );
 
     # do we have an admin group ?
     my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
