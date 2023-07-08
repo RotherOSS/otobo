@@ -721,26 +721,15 @@ sub AddAdminUser {
         UserLogin     => $Login,
         UserPw        => $Login,
         UserEmail     => 'Andy.Admin@example.com',
-        UserComment   => 'created by quick_setup.pl',
+        UserComment   => 'admin user created by quick_setup.pl',
+        UserLanguage  => 'en',
+        UserTimeZone  => 'Europe/Berlin',
+        UserMobile    => '2②२২৵੨૨',
         ValidID       => 1,
         ChangeUserID  => 1,
     );
 
     return 0, "Could not create the user '$Login'" unless $UserID;
-
-    # Set user language to English, don't bother to check success
-    $UserObject->SetPreferences(
-        UserID => $UserID,
-        Key    => 'UserLanguage',
-        Value  => 'en',
-    );
-
-    # Set user time zone, don't bother to check success
-    $UserObject->SetPreferences(
-        UserID => $UserID,
-        Key    => 'UserTimeZone',
-        Value  => 'Europe/Berlin',    # or to 'Antarctica/Rothera' ???
-    );
 
     # do we have an admin group ?
     my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
