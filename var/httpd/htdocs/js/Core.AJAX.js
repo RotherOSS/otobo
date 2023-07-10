@@ -439,6 +439,12 @@ Core.AJAX = (function (TargetNS) {
                 if ( $( '#' + FieldInfo[0] + 'Used' ).length > 0 ) {
                     Field = $( '#' + FieldInfo[0] + 'Used' );
                 }
+                else if ( $( '#' + FieldInfo[0] + '_0' ).length > 0 ) {
+                    Field = $( '#' + FieldInfo[0] + '_0' );
+                }
+                else if ( $( '#' + FieldInfo[0] + 'Used_0' ).length ) {
+                    Field = $( '#' + FieldInfo[0] + 'Used_0' ).length
+                }
                 else {
                     continue;
                 }
