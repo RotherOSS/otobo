@@ -484,10 +484,16 @@ sub EditFieldValueValidate {
     );
 
     my $ServerError;
-    my $ErrorMessage;
 
-    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+    # ref comparison because EditFieldValuetet returns an arrayref except when using template value
+    if ( !ref $Value eq 'ARRAY' ) {
         $Value = [$Value];
+    }
+
+    if ( $Param{Mandatory} && !$Value->@* ) {
+        return {
+            ServerError => 1,
+        };
     }
 
     for my $ValueItem ( @{$Value} ) {
@@ -502,8 +508,7 @@ sub EditFieldValueValidate {
 
     # return resulting structure
     return {
-        ServerError  => $ServerError,
-        ErrorMessage => $ErrorMessage,
+        ServerError => $ServerError,
     };
 }
 
