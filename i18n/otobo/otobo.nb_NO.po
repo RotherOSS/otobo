@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-07-08 05:13+0000\n"
+"PO-Revision-Date: 2023-07-10 13:55+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -9643,7 +9643,7 @@ msgstr "Til kunde-bruker"
 
 #. Template: AgentTicketEmail
 msgid "Please include at least one customer user for the ticket."
-msgstr "Vennligst inkluder minst én kundebruker for saksen."
+msgstr "Vennligst inkluder minst én kundebruker for saken."
 
 #. Template: AgentTicketEmail
 msgid "Select this customer as the main customer."
@@ -22365,7 +22365,7 @@ msgid ""
 "current state of the ticket."
 msgstr ""
 "Definerer PostMaster-overskriften som skal brukes på filteret for å beholde "
-"gjeldende status for saksen."
+"gjeldende status for saken."
 
 #. SysConfig
 msgid "Defines the URL CSS path."
@@ -24677,7 +24677,7 @@ msgid ""
 msgstr ""
 "Bestemmer om listen over mulige køer å flytte til sak til skal vises i en "
 "nedtrekksliste eller i et nytt vindu i agentgrensesnittet. Hvis \"Nytt "
-"vindu\" er satt kan du legge til en flyttelapp på saksen."
+"vindu\" er satt kan du legge til en flyttelapp på saken."
 
 #. SysConfig
 msgid "Determines if the statistics module may generate ticket lists."
@@ -24776,7 +24776,7 @@ msgid ""
 "\" shows the names of the queues, and for SystemAddress, \"<Realname> "
 "<<Email>>\" shows the name and email of the recipient."
 msgstr ""
-"Bestemmer strengene som skal vises som mottaker (Til:) av saksen i "
+"Bestemmer strengene som skal vises som mottaker (Til:) av saken i "
 "kundegrensesnittet. For Queue as CustomerPanelSelectionType viser \"<Queue>\""
 " navnene på køene, og for SystemAddress viser \"<Realname> <<Email>>\" "
 "navnet og e-posten til mottakeren."
@@ -28093,7 +28093,7 @@ msgid ""
 "Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are "
 "allowed for DefaultColumns."
 msgstr ""
-"Parametere for dashbord-backend av saksen venter påminnelsesoversikt over "
+"Parametere for dashbord-backend av saken venter påminnelsesoversikt over "
 "agentgrensesnittet. \"Limit\" er antallet oppføringer som vises som "
 "standard. \"Gruppe\" brukes til å begrense tilgangen til plugin-modulen ("
 "f.eks. Group: admin;group1;group2;). \"Standard\" avgjør om plugin-en er "
@@ -28114,7 +28114,7 @@ msgid ""
 "Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
 "DefaultColumns."
 msgstr ""
-"Parametere for dashbord-backend av saksen venter påminnelsesoversikt over "
+"Parametere for dashbord-backend av saken venter påminnelsesoversikt over "
 "agentgrensesnittet. \"Limit\" er antallet oppføringer som vises som "
 "standard. \"Gruppe\" brukes til å begrense tilgangen til plugin-modulen ("
 "f.eks. Group: admin;group1;group2;). \"Standard\" avgjør om plugin-en er "
@@ -28133,7 +28133,7 @@ msgid ""
 "time in minutes for the plugin. Note: Only Ticket attributes and Dynamic "
 "Fields (DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
-"Parametere for dashbord-backend av saksen venter påminnelsesoversikt over "
+"Parametere for dashbord-backend av saken venter påminnelsesoversikt over "
 "agentgrensesnittet. \"Limit\" er antallet oppføringer som vises som "
 "standard. \"Gruppe\" brukes til å begrense tilgangen til plugin-modulen ("
 "f.eks. Group: admin;group1;group2;). \"Standard\" avgjør om plugin-en er "
@@ -28540,11 +28540,11 @@ msgstr "Fjerner gamle systemkonfigurasjonsinstallasjoner (søndag morgen)."
 
 #. SysConfig
 msgid "Removes old ticket number counters (each 10 minutes)."
-msgstr ""
+msgstr "Fjerner gamle saksnummertellere (hvert 10. minutt)."
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."
-msgstr ""
+msgstr "Fjerner saksovervåkerinformasjonen når en sak er arkivert."
 
 #. SysConfig
 msgid ""
@@ -28552,12 +28552,17 @@ msgid ""
 "SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer "
 "backend needs to be configured to fetch UserSMIMECertificate attribute."
 msgstr ""
+"Forny eksisterende SMIME-sertifikater fra kundestøtte. Merk: SMIME og SMIME::"
+"FetchFromCustomer må være aktivert i SysConfig og kundestøtten må "
+"konfigureres for å hente UserSMIMECertificate-attributtet."
 
 #. SysConfig
 msgid ""
 "Replaces the original sender with current customer's email address on "
 "compose answer in the ticket compose screen of the agent interface."
 msgstr ""
+"Erstatter den opprinnelige avsenderen med gjeldende kundes e-postadresse ved "
+"skriv svar i saksskrivingsskjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid "Reports"
@@ -28568,6 +28573,8 @@ msgid ""
 "Reprocess mails from spool directory that could not be imported in the first "
 "place."
 msgstr ""
+"Behandle e-post fra spool-katalogen på nytt som ikke kunne importeres i "
+"utgangspunktet."
 
 #. SysConfig
 msgid ""
@@ -28577,7 +28584,7 @@ msgstr "Nødvendige rettigheter for å endre kunde på en sak."
 
 #. SysConfig
 msgid "Required permissions to use quick close in the agent interface."
-msgstr ""
+msgstr "Nødvendige tillatelser for å bruke hurtiglukking i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -28588,16 +28595,21 @@ msgstr "Nødvendige rettigheter for å bruke \"Avslutt sak\" bildet."
 msgid ""
 "Required permissions to use the email outbound screen in the agent interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke skjermen for utgående e-post i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the email resend screen in the agent interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke skjermen for e-postsending på nytt i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket bounce screen in the agent interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke sakssprettskjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -28608,92 +28620,116 @@ msgstr "Nødvendige rettigheter for å bruke \"Opprett sak\" bildet."
 msgid ""
 "Required permissions to use the ticket forward screen in the agent interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke skjermbildet for videresending av saker i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket free text screen in the agent "
 "interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke saksfritekstskjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket merge screen of a zoomed ticket in "
 "the agent interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke sakssammenslåingsskjermen til en zoomet "
+"sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket note screen in the agent interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke saksnotatskjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket owner screen of a zoomed ticket in "
 "the agent interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke sakseierskjermen til en zoomet sak i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket pending screen of a zoomed ticket in "
 "the agent interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke skjermbildet for ventende sak til en "
+"zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket phone inbound screen in the agent "
 "interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke sakstelefonens inngående skjerm i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket phone outbound screen in the agent "
 "interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke sakstelefonens utgående skjerm i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket priority screen of a zoomed ticket in "
 "the agent interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke saksprioritetsskjermen til en zoomet sak "
+"i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket responsible screen in the agent "
 "interface."
 msgstr ""
+"Nødvendige tillatelser for å bruke saksansvarlig-skjermen i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid "Resend Ticket Email."
-msgstr ""
+msgstr "Send e-post om sak på nytt."
 
 #. SysConfig
 msgid "Resent email to \"%s\"."
-msgstr ""
+msgstr "Send e-post på nytt til \"%s\"."
 
 #. SysConfig
 msgid ""
 "Resets and unlocks the owner of a ticket if it was moved to another queue."
 msgstr ""
+"Tilbakestiller og låser opp eieren av en sak hvis den ble flyttet til en "
+"annen kø."
 
 #. SysConfig
 msgid "Responsible Tickets"
-msgstr ""
+msgstr "Ansvarlige saker"
 
 #. SysConfig
 msgid "Responsible Tickets."
-msgstr ""
+msgstr "Ansvarlige saker."
 
 #. SysConfig
 msgid ""
 "Restores a ticket from the archive (only if the event is a state change to "
 "any open available state)."
 msgstr ""
+"Gjenoppretter en sak fra arkivet (bare hvis hendelsen er en tilstandsendring "
+"til en åpen tilgjengelig tilstand)."
 
 #. SysConfig
 msgid ""
 "Retains all services in listings even if they are children of invalid "
 "elements."
 msgstr ""
+"Beholder alle tjenester i oppføringer selv om de er barn av ugyldige "
+"elementer."
 
 #. SysConfig
 msgid "Right"
@@ -28701,39 +28737,47 @@ msgstr "Høyre"
 
 #. SysConfig
 msgid "Roles ↔ Groups"
-msgstr ""
+msgstr "Roller ↔ Grupper"
 
 #. SysConfig
 msgid "Romanian"
-msgstr ""
+msgstr "rumensk"
 
 #. SysConfig
 msgid ""
 "Run file based generic agent jobs (Note: module name needs to be specified "
 "in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
 msgstr ""
+"Kjør filbaserte generiske agentjobber (Merk: modulnavnet må spesifiseres i "
+"-configuration-module param, f.eks. \"Kernel::System::GenericAgent\")."
 
 #. SysConfig
 msgid "Running Process Tickets"
-msgstr ""
+msgstr "Aktive prosesssaker"
 
 #. SysConfig
 msgid ""
 "Runs an initial wildcard search of the existing contacts with data when "
 "accessing the AdminContactWD module."
 msgstr ""
+"Kjører et innledende jokertegnsøk av eksisterende kontakter med data ved "
+"tilgang til AdminContactWD-modulen."
 
 #. SysConfig
 msgid ""
 "Runs an initial wildcard search of the existing customer company when "
 "accessing the AdminCustomerCompany module."
 msgstr ""
+"Kjører et første jokertegnsøk av det eksisterende kundeselskapet når du får "
+"tilgang til AdminCustomerCompany-modulen."
 
 #. SysConfig
 msgid ""
 "Runs an initial wildcard search of the existing customer users when "
 "accessing the AdminCustomerUser module."
 msgstr ""
+"Kjører et første jokertegnsøk av eksisterende kundebrukere når de får "
+"tilgang til AdminCustomerUser-modulen."
 
 #. SysConfig
 msgid ""
@@ -28742,6 +28786,10 @@ msgid ""
 "changes are only valid for the current session. It will not be possible for "
 "agents to change their passwords."
 msgstr ""
+"Kjører systemet i \"Demo\"-modus. Hvis aktivert, kan agenter endre "
+"preferanser, for eksempel valg av språk og tema via agentens "
+"nettgrensesnitt. Disse endringene er kun gyldige for gjeldende økt. Det vil "
+"ikke være mulig for agenter å endre passordene sine."
 
 #. SysConfig
 msgid "Russian"
@@ -28757,7 +28805,7 @@ msgstr "Hilsninger"
 
 #. SysConfig
 msgid "Sample command output"
-msgstr ""
+msgstr "Eksempel på kommandoresultat"
 
 #. SysConfig
 msgid ""
@@ -28768,10 +28816,16 @@ msgid ""
 "production without any loss of data. Note: Searching for attachment names is "
 "not supported when \"FS\" is used. \"S3\" is experimental."
 msgstr ""
+"Lagrer vedlegg til artikler. \"DB\" lagrer alle data i databasen (anbefales "
+"ikke for lagring av store vedlegg). \"FS\" lagrer dataene på filsystemet; "
+"dette er raskere, men webserveren skal kjøre under OTOBO-brukeren. Du kan "
+"bytte mellom modulene selv på et system som allerede er i produksjon uten "
+"tap av data. Merk: Søking etter vedleggsnavn støttes ikke når \"FS\" brukes. "
+"\"S3\" er eksperimentell."
 
 #. SysConfig
 msgid "Schedule a maintenance period."
-msgstr ""
+msgstr "Planlegg en vedlikeholdsperiode."
 
 #. SysConfig
 msgid "Screen after new ticket"
@@ -28783,11 +28837,11 @@ msgstr "Kunde-søk"
 
 #. SysConfig
 msgid "Search Ticket."
-msgstr ""
+msgstr "Søk sak."
 
 #. SysConfig
 msgid "Search Tickets."
-msgstr ""
+msgstr "Søk saker."
 
 #. SysConfig
 msgid "Search User"
@@ -28795,15 +28849,15 @@ msgstr "Søk etter bruker"
 
 #. SysConfig
 msgid "Search backend default router."
-msgstr ""
+msgstr "Søk backend standard ruter."
 
 #. SysConfig
 msgid "Search backend router."
-msgstr ""
+msgstr "Søk i backend-ruter."
 
 #. SysConfig
 msgid "Search."
-msgstr ""
+msgstr "Søk."
 
 #. SysConfig
 msgid "Second Christmas Day"
@@ -28811,16 +28865,16 @@ msgstr "Andre juledag"
 
 #. SysConfig
 msgid "Second Queue"
-msgstr ""
+msgstr "Andre kø"
 
 #. SysConfig
 msgid ""
 "Select after which period ticket overviews should refresh automatically."
-msgstr ""
+msgstr "Velg etter hvilken periode saksoversikter skal oppdateres automatisk."
 
 #. SysConfig
 msgid "Select how many tickets should be shown in overviews by default."
-msgstr ""
+msgstr "Velg hvor mange saker som skal vises i oversikter som standard."
 
 #. SysConfig
 msgid ""
@@ -28828,10 +28882,13 @@ msgid ""
 "openssl enc -ciphers\" to get a list of ciphers supported by your system "
 "(written without the leading '-')."
 msgstr ""
+"Velg algoritmen som brukes for kryptering. Fallback er aes256. Prøv \"/usr/"
+"bin/openssl enc -ciphers\" for å få en liste over chiffer som støttes av "
+"systemet ditt (skrevet uten innledende '-')."
 
 #. SysConfig
 msgid "Select the main interface language."
-msgstr ""
+msgstr "Velg hovedgrensesnittspråket."
 
 #. SysConfig
 msgid ""
@@ -28847,24 +28904,28 @@ msgid ""
 "Select your personal time zone. All times will be displayed relative to this "
 "time zone."
 msgstr ""
+"Velg din personlige tidssone. Alle tider vil vises i forhold til denne "
+"tidssonen."
 
 #. SysConfig
 msgid "Select your preferred layout for the software."
-msgstr ""
+msgstr "Velg ønsket layout for programvaren."
 
 #. SysConfig
 msgid "Select your preferred theme for OTOBO."
-msgstr ""
+msgstr "Velg ønsket tema for OTOBO."
 
 #. SysConfig
 msgid "Selects the cache backend to use."
-msgstr ""
+msgstr "Velger bufferens backend som skal brukes."
 
 #. SysConfig
 msgid ""
 "Selects the module to handle uploads via the web interface. \"DB\" stores "
 "all uploads in the database, \"FS\" uses the file system."
 msgstr ""
+"Velger modulen for å håndtere opplastinger via nettgrensesnittet. \"DB\" "
+"lagrer alle opplastinger i databasen, \"FS\" bruker filsystemet."
 
 #. SysConfig
 msgid ""
@@ -28878,10 +28939,19 @@ msgid ""
 "a daily basis. The format looks like Year.Month.Day.SystemID.Counter."
 "CheckSum (e.g. 2002070110101520, 2002070110101535)."
 msgstr ""
+"Velger saksnummergeneratormodulen. \"AutoIncrement\" øker saksnummeret, "
+"SystemID og telleren brukes med SystemID.counter format (f.eks. 1010138, "
+"1010139). Med \"Dato\" vil saksnumrene bli generert av gjeldende dato, "
+"SystemID og teller. Formatet ser ut som Year.Month.Day.SystemID.counter ("
+"f.eks. 200206231010138, 200206231010139). Med \"DateChecksum\" vil telleren "
+"bli lagt til som kontrollsum til strengen med dato og SystemID. "
+"Kontrollsummen vil bli rotert på daglig basis. Formatet ser ut som "
+"Year.Month.Day.SystemID.Counter.CheckSum (f.eks. 2002070110101520, "
+"2002070110101535)."
 
 #. SysConfig
 msgid "Send new outgoing mail from this ticket"
-msgstr ""
+msgstr "Send ny utgående post fra denne saken"
 
 #. SysConfig
 msgid "Send notifications to users."
@@ -28909,11 +28979,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Sends customer notifications just to the mapped customer."
-msgstr ""
+msgstr "Sender kundevarsler bare til den kartlagte kunden."
 
 #. SysConfig
 msgid "Sends registration information to OTOBO group."
-msgstr ""
+msgstr "Sender registreringsinformasjon til OTOBO-gruppen."
 
 #. SysConfig
 msgid ""
@@ -28928,34 +28998,36 @@ msgid ""
 "Sends the notifications which are configured in the admin interface under "
 "\"Ticket Notifications\"."
 msgstr ""
+"Sender varslene som er konfigurert i administrasjonsgrensesnittet under "
+"\"Saksvarslinger\"."
 
 #. SysConfig
 msgid "Sent \"%s\" notification to \"%s\" via \"%s\"."
-msgstr ""
+msgstr "Sendte \"%s\"-varsel til \"%s\" via \"%s\"."
 
 #. SysConfig
 msgid "Sent auto follow-up to \"%s\"."
-msgstr ""
+msgstr "Sendte automatisk oppfølging til \"%s\"."
 
 #. SysConfig
 msgid "Sent auto reject to \"%s\"."
-msgstr ""
+msgstr "Sendt automatisk avvisning til \"%s\"."
 
 #. SysConfig
 msgid "Sent auto reply to \"%s\"."
-msgstr ""
+msgstr "Sendte automatisk svar til \"%s\"."
 
 #. SysConfig
 msgid "Sent email to \"%s\"."
-msgstr ""
+msgstr "Sendte e-post til \"%s\"."
 
 #. SysConfig
 msgid "Sent email to customer."
-msgstr ""
+msgstr "Sendte e-post til kunde."
 
 #. SysConfig
 msgid "Sent notification to \"%s\"."
-msgstr ""
+msgstr "Sendte varsel til \"%s\"."
 
 #. SysConfig
 msgid "Serbian Cyrillic"
@@ -28975,11 +29047,11 @@ msgstr "Tjeneste visning"
 
 #. SysConfig
 msgid "ServiceView"
-msgstr ""
+msgstr "Tjenestevisning"
 
 #. SysConfig
 msgid "Set a new password by filling in your current password and a new one."
-msgstr ""
+msgstr "Angi et nytt passord ved å fylle inn ditt nåværende passord og et nytt."
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -28990,18 +29062,24 @@ msgid ""
 "Set the default height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
 msgstr ""
+"Angi standardhøyden (i piksler) for innebygde HTML-artikler i "
+"AgentTicketZoom."
 
 #. SysConfig
 msgid ""
 "Set the limit of tickets that will be executed on a single genericagent job "
 "execution."
 msgstr ""
+"Angi grensen for saker som skal utføres på en enkelt generisk agent-"
+"jobbkjøring."
 
 #. SysConfig
 msgid ""
 "Set the maximum height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
 msgstr ""
+"Angi maksimal høyde (i piksler) for innebygde HTML-artikler i "
+"AgentTicketZoom."
 
 #. SysConfig
 msgid ""
@@ -29009,6 +29087,9 @@ msgid ""
 "With 'debug' you get all logging messages. The order of log levels is: "
 "'debug', 'info', 'notice' and 'error'."
 msgstr ""
+"Still inn minimum loggnivå. Hvis du velger 'feil', logges bare feil. Med "
+"'debug' får du alle loggmeldinger. Rekkefølgen på loggnivåene er: "
+"'feilsøke', 'info', 'merknad' og 'feil'."
 
 #. SysConfig
 msgid "Set this ticket to pending"
@@ -29016,33 +29097,35 @@ msgstr "Sett sak som venter tilbakemelding"
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the agent."
-msgstr ""
+msgstr "Angir om SLA må velges av agenten."
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the customer."
-msgstr ""
+msgstr "Angir om SLA må velges av kunden."
 
 #. SysConfig
 msgid ""
 "Sets if note must be filled in by the agent. Can be overwritten by Ticket::"
 "Frontend::NeedAccountedTime."
 msgstr ""
+"Angir om notat må fylles ut av agenten. Kan overskrives av "
+"Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid "Sets if queue must be selected by the agent."
-msgstr ""
+msgstr "Angir om kø må velges av agenten."
 
 #. SysConfig
 msgid "Sets if service must be selected by the agent."
-msgstr ""
+msgstr "Angir om tjenesten må velges av agenten."
 
 #. SysConfig
 msgid "Sets if service must be selected by the customer."
-msgstr ""
+msgstr "Angir om tjenesten må velges av kunden."
 
 #. SysConfig
 msgid "Sets if state must be selected by the agent."
-msgstr ""
+msgstr "Angir om tilstanden må velges av agenten."
 
 #. SysConfig
 msgid "Sets if ticket owner must be selected by the agent."
@@ -29050,25 +29133,31 @@ msgstr "Angir om sakseier må velges av saksbehandleren."
 
 #. SysConfig
 msgid "Sets if ticket responsible must be selected by the agent."
-msgstr ""
+msgstr "Angir om saksansvarlig må velges av agenten."
 
 #. SysConfig
 msgid ""
 "Sets the PendingTime of a ticket to 0 if the state is changed to a non-"
 "pending state."
 msgstr ""
+"Setter PendingTime for en sak til 0 hvis tilstanden endres til en ikke-"
+"ventende tilstand."
 
 #. SysConfig
 msgid ""
 "Sets the age in minutes (first level) for highlighting queues that contain "
 "untouched tickets."
 msgstr ""
+"Angir alderen i minutter (første nivå) for utheving av køer som inneholder "
+"urørte saker."
 
 #. SysConfig
 msgid ""
 "Sets the age in minutes (second level) for highlighting queues that contain "
 "untouched tickets."
 msgstr ""
+"Angir alderen i minutter (andre nivå) for utheving av køer som inneholder "
+"urørte saker."
 
 #. SysConfig
 msgid ""
@@ -29078,195 +29167,256 @@ msgid ""
 "(e.g. Beginner is the highest), the less likely is it that the user can "
 "accidentally configure the system in a way that it is not usable any more."
 msgstr ""
+"Angir konfigurasjonsnivået til administratoren. Avhengig av "
+"konfigurasjonsnivået, vil noen sysconfig-alternativer ikke vises. "
+"Konfigurasjonsnivåene er i stigende rekkefølge: Ekspert, Avansert, "
+"Nybegynner. Jo høyere konfigurasjonsnivået er (f.eks. Nybegynner er høyest), "
+"jo mindre sannsynlig er det at brukeren ved et uhell kan konfigurere "
+"systemet på en måte som ikke lenger kan brukes."
 
 #. SysConfig
 msgid "Sets the count of articles visible in preview mode of ticket overviews."
 msgstr ""
+"Angir antall artikler som er synlige i forhåndsvisningsmodus for "
+"saksoversikter."
 
 #. SysConfig
 msgid ""
 "Sets the default article customer visibility for new email tickets in the "
 "agent interface."
 msgstr ""
+"Angir standard artikkelkundesynlighet for nye e-postsaker i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default article customer visibility for new phone tickets in the "
 "agent interface."
 msgstr ""
+"Angir standard artikkelkundesynlighet for nye telefonsaker i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default article customer visibility for quick close action in the "
 "agent interface."
 msgstr ""
+"Angir standard artikkelkundesynlighet for rask nærhandling i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the close ticket screen of the "
 "agent interface."
 msgstr ""
+"Angir standard brødtekst for notater som er lagt til i skjermbildet for "
+"\"lukk sak\" i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket move screen of the "
 "agent interface."
 msgstr ""
+"Angir standard brødtekst for notater lagt til i saksflyttingsskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket note screen of the "
 "agent interface."
 msgstr ""
+"Angir standard brødtekst for notater som er lagt til i saksnotatskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket owner screen of a "
 "zoomed ticket in the agent interface."
 msgstr ""
+"Angir standard brødtekst for notater lagt til på sakseierskjermen til en "
+"zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket pending screen of a "
 "zoomed ticket in the agent interface."
 msgstr ""
+"Angir standard brødtekst for notater som er lagt til i \"sak venter\"-"
+"skjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket priority screen of "
 "a zoomed ticket in the agent interface."
 msgstr ""
+"Angir standard brødtekst for notater som er lagt til i "
+"saksprioritetsskjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket responsible screen "
 "of the agent interface."
 msgstr ""
+"Angir standard brødtekst for notater lagt til i saksansvarlig skjerm i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default error message for the login screen on Agent and Customer "
 "interface, it's shown when a running system maintenance period is active."
 msgstr ""
+"Angir standard feilmelding for påloggingsskjermen på agent- og "
+"kundegrensesnittet, den vises når en løpende systemvedlikeholdsperiode er "
+"aktiv."
 
 #. SysConfig
 msgid "Sets the default link type of split tickets in the agent interface."
-msgstr ""
+msgstr "Angir standard koblingstype for delte saker i agentgrensesnittet."
 
 #. SysConfig
 msgid "Sets the default link type of splitted tickets in the agent interface."
-msgstr ""
+msgstr "Angir standard koblingstype for delte saker i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default message for the login screen on Agent and Customer "
 "interface, it's shown when a running system maintenance period is active."
 msgstr ""
+"Angir standardmeldingen for påloggingsskjermen på agent- og "
+"kundegrensesnittet, den vises når en løpende systemvedlikeholdsperiode er "
+"aktiv."
 
 #. SysConfig
 msgid ""
 "Sets the default message for the notification is shown on a running system "
 "maintenance period."
 msgstr ""
+"Angir standardmeldingen for varselet som vises på en løpende "
+"systemvedlikeholdsperiode."
 
 #. SysConfig
 msgid ""
 "Sets the default next state for new phone tickets in the agent interface."
 msgstr ""
+"Angir standard neste tilstand for nye telefonsaker i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default next ticket state, after the creation of an email ticket in "
 "the agent interface."
 msgstr ""
+"Angir standard neste saksstatus, etter opprettelsen av en e-postsak i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default note text for new telephone tickets. E.g 'New ticket via "
 "call' in the agent interface."
 msgstr ""
+"Angir standard notattekst for nye telefonsaker. For eksempel 'Ny sak via "
+"samtale' i agentgrensesnittet."
 
 #. SysConfig
 msgid "Sets the default priority for new email tickets in the agent interface."
-msgstr ""
+msgstr "Angir standardprioritet for nye e-postsaker i agentgrensesnittet."
 
 #. SysConfig
 msgid "Sets the default priority for new phone tickets in the agent interface."
-msgstr ""
+msgstr "Angir standardprioritet for nye telefonsaker i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default sender type for new email tickets in the agent interface."
-msgstr ""
+msgstr "Angir standard avsendertype for nye e-postsaker i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default sender type for new phone ticket in the agent interface."
-msgstr ""
+msgstr "Angir standard avsendertype for ny telefonsak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for new email tickets (e.g. 'email Outbound') in "
 "the agent interface."
 msgstr ""
+"Angir standardemnet for nye e-postsaker (f.eks. «e-post utgående») i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for new phone tickets (e.g. 'Phone call') in the "
 "agent interface."
 msgstr ""
+"Angir standardemnet for nye telefonsaker (f.eks. \"Telefonanrop\") i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the close ticket screen of the "
 "agent interface."
 msgstr ""
+"Angir standardemnet for notater lagt til i skjermbildet for \"lukk sak\" i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket move screen of the "
 "agent interface."
 msgstr ""
+"Angir standardemne for notater lagt til i saksflyttingsskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket note screen of the "
 "agent interface."
 msgstr ""
+"Angir standardemnet for notater som legges til i sakslappskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket owner screen of a "
 "zoomed ticket in the agent interface."
 msgstr ""
+"Angir standardemnet for notater som legges til på sakseierskjermen til en "
+"zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket pending screen of a "
 "zoomed ticket in the agent interface."
 msgstr ""
+"Angir standardemnet for notater som legges til i saksventer-skjermbildet for "
+"en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket priority screen of a "
 "zoomed ticket in the agent interface."
 msgstr ""
+"Angir standardemnet for notater som legges til i saksprioritetsskjermen til "
+"en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket responsible screen of "
 "the agent interface."
 msgstr ""
+"Angir standardemnet for notater som legges til i saksansvarlig skjerm i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid "Sets the default text for new email tickets in the agent interface."
-msgstr ""
+msgstr "Angir standardteksten for nye e-postsaker i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the inactivity time (in seconds) to pass before a session is killed and "
 "a user is logged out."
 msgstr ""
+"Angir inaktivitetstiden (i sekunder) som skal gå før en økt blir avsluttet "
+"og en bruker logges av."
 
 #. SysConfig
 msgid ""
@@ -29274,36 +29424,49 @@ msgid ""
 "SessionActiveTime before a prior warning will be visible for the logged in "
 "agents."
 msgstr ""
+"Angir maksimalt antall aktive agenter innenfor tidsrommet definert i "
+"SessionActiveTime før en tidligere advarsel vil være synlig for de påloggede "
+"agentene."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
 "SessionMaxIdleTime."
 msgstr ""
+"Angir maksimalt antall aktive agenter innenfor tidsrommet definert i "
+"SessionMaxIdleTime."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active customers within the timespan defined in "
 "SessionMaxIdleTime."
 msgstr ""
+"Angir maksimalt antall aktive kunder innenfor tidsrommet definert i "
+"SessionMaxIdleTime."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per agent within the timespan "
 "defined in SessionMaxIdleTime."
 msgstr ""
+"Angir maksimalt antall aktive økter per agent innenfor tidsrommet definert i "
+"SessionMaxIdleTime."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per customers within the timespan "
 "defined in SessionMaxIdleTime."
 msgstr ""
+"Angir maksimalt antall aktive økter per kunde innenfor tidsrommet definert i "
+"SessionMaxIdleTime."
 
 #. SysConfig
 msgid ""
 "Sets the method PGP will use to sing and encrypt emails. Note Inline method "
 "is not compatible with RichText messages."
 msgstr ""
+"Angir metoden PGP vil bruke for å synge og kryptere e-poster. Merk Inline-"
+"metoden er ikke kompatibel med RichText-meldinger."
 
 #. SysConfig
 msgid ""
@@ -29311,34 +29474,42 @@ msgid ""
 "TicketNumberGenerator. Default is 5, this means the counter starts from "
 "10000."
 msgstr ""
+"Angir den minimale sakstellerstørrelsen hvis \"AutoIncrement\" ble valgt som "
+"TicketNumberGenerator. Standard er 5, dette betyr at telleren starter fra "
+"10000."
 
 #. SysConfig
 msgid ""
 "Sets the minutes a notification is shown for notice about upcoming system "
 "maintenance period."
 msgstr ""
+"Angir minuttene et varsel skal vises for varsel om kommende "
+"systemvedlikeholdsperiode."
 
 #. SysConfig
 msgid ""
 "Sets the number of lines that are displayed in text messages (e.g. ticket "
 "lines in the QueueZoom)."
 msgstr ""
+"Angir antall linjer som vises i tekstmeldinger (f.eks. sakslinjer i "
+"QueueZoom)."
 
 #. SysConfig
 msgid "Sets the options for PGP binary."
-msgstr ""
+msgstr "Angir alternativene for PGP binær."
 
 #. SysConfig
 msgid "Sets the password for private PGP key."
-msgstr ""
+msgstr "Angir passordet for privat PGP-nøkkel."
 
 #. SysConfig
 msgid "Sets the prefered time units (e.g. work units, hours, minutes)."
 msgstr ""
+"Stiller inn foretrukne tidsenheter (f.eks. arbeidsenheter, timer, minutter)."
 
 #. SysConfig
 msgid "Sets the preferred digest to be used for PGP binary."
-msgstr ""
+msgstr "Angir det foretrukne sammendraget som skal brukes for PGP-binær."
 
 #. SysConfig
 msgid ""
@@ -29347,275 +29518,362 @@ msgid ""
 "which is found in all forms of messaging used by the application, to build "
 "links to the tickets within the system."
 msgstr ""
+"Setter prefikset til skriptmappen på serveren, slik den er konfigurert på "
+"webserveren. Denne innstillingen brukes som en variabel, "
+"OTOBO_CONFIG_ScriptAlias som finnes i alle former for meldinger som brukes "
+"av applikasjonen, for å bygge lenker til sakene i systemet."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket close screen of a zoomed ticket in the agent "
 "interface."
 msgstr ""
+"Stiller inn køen i billettlukkingsskjermen til en zoomet billett i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket free text screen of a zoomed ticket in the "
 "agent interface."
 msgstr ""
+"Stiller inn køen i billettfritekstskjermen til en zoomet billett i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket note screen of a zoomed ticket in the agent "
 "interface."
 msgstr ""
+"Stiller inn køen i billettnotatskjermen til en zoomet billett i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket owner screen of a zoomed ticket in the agent "
 "interface."
 msgstr ""
+"Stiller inn køen i billetteierskjermen til en zoomet billett i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket pending screen of a zoomed ticket in the agent "
 "interface."
 msgstr ""
+"Stiller inn køen i skjermbildet for ventende billett for en zoomet billett i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket priority screen of a zoomed ticket in the agent "
 "interface."
 msgstr ""
+"Stiller inn køen i billettprioritetsskjermen til en zoomet billett i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket responsible screen of a zoomed ticket in the "
 "agent interface."
 msgstr ""
+"Stiller inn køen i billettansvarlig skjerm for en zoomet billett i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the close ticket screen of the "
 "agent interface."
 msgstr ""
+"Angir den ansvarlige agenten for billetten i skjermbildet for lukke billett "
+"i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket bulk screen of the "
 "agent interface."
 msgstr ""
+"Angir den ansvarlige agenten for billetten i billettmasseskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket free text screen of "
 "the agent interface."
 msgstr ""
+"Angir den ansvarlige agenten for billetten i billettfritekstskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket note screen of the "
 "agent interface."
 msgstr ""
+"Angir den ansvarlige agenten for billetten i billettnotatskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket owner screen of a "
 "zoomed ticket in the agent interface."
 msgstr ""
+"Angir den ansvarlige agenten for billetten i billetteierskjermen til en "
+"zoomet billett i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket pending screen of a "
 "zoomed ticket in the agent interface."
 msgstr ""
+"Angir den ansvarlige agenten for billetten i billettventer-skjermen for en "
+"zoomet billett i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket priority screen of a "
 "zoomed ticket in the agent interface."
 msgstr ""
+"Angir den ansvarlige agenten for billetten i billettprioritetsskjermen til "
+"en zoomet billett i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket responsible screen of "
 "the agent interface."
 msgstr ""
+"Angir den ansvarlige agenten for billetten i billettansvarlig skjerm i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the service in the close ticket screen of the agent interface (Ticket::"
 "Service needs to be enabled)."
 msgstr ""
+"Angir tjenesten i skjermbildet for lukkebillett i agentgrensesnittet "
+"(Ticket::Service må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket free text screen of the agent interface "
 "(Ticket::Service needs to be enabled)."
 msgstr ""
+"Stiller inn tjenesten i billettfritekstskjermen til agentgrensesnittet "
+"(Ticket::Service må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket note screen of the agent interface (Ticket::"
 "Service needs to be enabled)."
 msgstr ""
+"Angir tjenesten i billettnotatskjermen til agentgrensesnittet (Ticket::"
+"Service må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket owner screen of a zoomed ticket in the agent "
 "interface (Ticket::Service needs to be enabled)."
 msgstr ""
+"Stiller inn tjenesten i billetteierskjermen til en zoomet billett i "
+"agentgrensesnittet (Ticket::Service må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket pending screen of a zoomed ticket in the "
 "agent interface (Ticket::Service needs to be enabled)."
 msgstr ""
+"Stiller inn tjenesten i skjermbildet for ventende billett for en zoomet "
+"billett i agentgrensesnittet (Ticket::Service må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket priority screen of a zoomed ticket in the "
 "agent interface (Ticket::Service needs to be enabled)."
 msgstr ""
+"Angir tjenesten i billettprioritetsskjermen til en zoomet billett i "
+"agentgrensesnittet (Ticket::Service må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket responsible screen of the agent interface "
 "(Ticket::Service needs to be enabled)."
 msgstr ""
+"Stiller inn tjenesten i billettansvarlig skjerm i agentgrensesnittet "
+"(Ticket::Service må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the state of a ticket in the close ticket screen of the agent interface."
 msgstr ""
+"Angir statusen til en billett i skjermbildet for lukke billett i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the state of a ticket in the ticket bulk screen of the agent interface."
 msgstr ""
+"Angir tilstanden til en billett på billett-bulkskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the state of a ticket in the ticket free text screen of the agent "
 "interface."
 msgstr ""
+"Angir tilstanden til en billett i billettfritekstskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the state of a ticket in the ticket note screen of the agent interface."
 msgstr ""
+"Angir statusen til en billett i billettnotatskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the state of a ticket in the ticket responsible screen of the agent "
 "interface."
 msgstr ""
+"Angir tilstanden til en billett på den billettansvarlige skjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the state of the ticket in the ticket owner screen of a zoomed ticket "
 "in the agent interface."
 msgstr ""
+"Angir tilstanden til billetten i billetteierskjermen til en zoomet billett i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the state of the ticket in the ticket pending screen of a zoomed ticket "
 "in the agent interface."
 msgstr ""
+"Angir tilstanden til billetten i skjermbildet for ventende billett til en "
+"zoomet billett i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the state of the ticket in the ticket priority screen of a zoomed "
 "ticket in the agent interface."
 msgstr ""
+"Angir statusen til billetten i billettprioritetsskjermen til en zoomet "
+"billett i agentgrensesnittet."
 
 #. SysConfig
 msgid "Sets the stats hook."
-msgstr ""
+msgstr "Setter statistikkroken."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the close ticket screen of the agent interface."
 msgstr ""
+"Stiller inn billett eieren i lukke billettskjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid "Sets the ticket owner in the ticket bulk screen of the agent interface."
-msgstr ""
+msgstr "Angir billett eieren i billett bulk-skjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket free text screen of the agent interface."
 msgstr ""
+"Stiller inn billetteieren i billettfritekstskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid "Sets the ticket owner in the ticket note screen of the agent interface."
 msgstr ""
+"Stiller inn billett eieren i billettnotatskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket owner screen of a zoomed ticket in the "
 "agent interface."
 msgstr ""
+"Stiller inn billetteieren i billetteierskjermen til en zoomet billett i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket pending screen of a zoomed ticket in the "
 "agent interface."
 msgstr ""
+"Stiller inn billetteieren i billettventer-skjermen for en zoomet billett i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket priority screen of a zoomed ticket in "
 "the agent interface."
 msgstr ""
+"Stiller inn billetteieren i billettprioritetsskjermen til en zoomet billett "
+"i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket responsible screen of the agent "
 "interface."
 msgstr ""
+"Stiller inn billett eieren i billettansvarlig skjerm i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the close ticket screen of the agent interface "
 "(Ticket::Type needs to be enabled)."
 msgstr ""
+"Stiller inn billetttypen i skjermbildet for lukkebillett i "
+"agentgrensesnittet (Ticket::Type må være aktivert)."
 
 #. SysConfig
 msgid "Sets the ticket type in the ticket bulk screen of the agent interface."
-msgstr ""
+msgstr "Angir billetttypen på billett-bulkskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket free text screen of the agent interface "
 "(Ticket::Type needs to be enabled)."
 msgstr ""
+"Angir billetttypen i billettfritekstskjermen til agentgrensesnittet (Ticket::"
+"Type må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket note screen of the agent interface "
 "(Ticket::Type needs to be enabled)."
 msgstr ""
+"Angir billetttypen i billettnotatskjermen til agentgrensesnittet (Ticket::"
+"Type må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket owner screen of a zoomed ticket in the "
 "agent interface (Ticket::Type needs to be enabled)."
 msgstr ""
+"Angir billetttypen i billetteierskjermen til en zoomet billett i "
+"agentgrensesnittet (Ticket::Type må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket pending screen of a zoomed ticket in the "
 "agent interface (Ticket::Type needs to be enabled)."
 msgstr ""
+"Angir billetttypen i skjermbildet for ventende billett for en zoomet billett "
+"i agentgrensesnittet (Ticket::Type må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket priority screen of a zoomed ticket in the "
 "agent interface (Ticket::Type needs to be enabled)."
 msgstr ""
+"Angir billetttypen i billettprioritetsskjermen til en zoomet billett i "
+"agentgrensesnittet (Ticket::Type må være aktivert)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket responsible screen of the agent interface "
 "(Ticket::Type needs to be enabled)."
 msgstr ""
+"Angir billetttypen i billettansvarlig skjerm i agentgrensesnittet (Ticket::"
+"Type må være aktivert)."
 
 #. SysConfig
 msgid ""
@@ -29623,6 +29881,10 @@ msgid ""
 "times in the database. WARNING: This setting must not be changed once set "
 "and tickets or any other data containing date/time have been created."
 msgstr ""
+"Setter tidssonen som brukes internt av OTOBO til e. g. lagre datoer og "
+"klokkeslett i databasen. ADVARSEL: Denne innstillingen må ikke endres når "
+"den er satt og billetter eller andre data som inneholder dato/klokkeslett er "
+"opprettet."
 
 #. SysConfig
 msgid ""
@@ -29631,54 +29893,61 @@ msgid ""
 "used as default to convert date and time between the OTOBO time zone and the "
 "user's time zone."
 msgstr ""
+"Angir tidssonen som skal tildeles nyopprettede brukere og som skal brukes "
+"for brukere som ennå ikke har angitt en tidssone. Dette er tidssonen som "
+"brukes som standard for å konvertere dato og klokkeslett mellom OTOBO-"
+"tidssonen og brukerens tidssone."
 
 #. SysConfig
 msgid "Sets the timeout (in seconds) for http/ftp downloads."
-msgstr ""
+msgstr "Angir tidsavbrudd (i sekunder) for http/ftp-nedlastinger."
 
 #. SysConfig
 msgid ""
 "Sets the timeout (in seconds) for package downloads. Overwrites "
 "\"WebUserAgent::Timeout\"."
 msgstr ""
+"Angir tidsavbrudd (i sekunder) for pakkenedlastinger. Overskriver "
+"\"WebUserAgent::Timeout\"."
 
 #. SysConfig
 msgid "Settings for the customer login screen."
-msgstr ""
+msgstr "Innstillinger for kundepåloggingsskjermen."
 
 #. SysConfig
 msgid "Shared Secret"
-msgstr ""
+msgstr "Delt hemmelighet"
 
 #. SysConfig
 msgid ""
 "Show a responsible selection in phone and email tickets in the agent "
 "interface."
 msgstr ""
+"Vis et ansvarlig utvalg i telefon- og e-postbilletter i agentgrensesnittet."
 
 #. SysConfig
 msgid "Show article as rich text even if rich text writing is disabled."
-msgstr ""
+msgstr "Vis artikkelen som rik tekst selv om rik tekstskriving er deaktivert."
 
 #. SysConfig
 msgid "Show command line output."
-msgstr ""
+msgstr "Vis kommandolinjeutdata."
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
-msgstr ""
+msgstr "Vis køer selv når kun låste billetter er inne."
 
 #. SysConfig
 msgid "Show the current owner in the customer interface."
-msgstr ""
+msgstr "Vis gjeldende eier i kundegrensesnittet."
 
 #. SysConfig
 msgid "Show the current queue in the customer interface."
-msgstr ""
+msgstr "Vis gjeldende kø i kundegrensesnittet."
 
 #. SysConfig
 msgid "Show the history for this ticket"
-msgstr ""
+msgstr "Vis historikken for denne billetten"
 
 #. SysConfig
 msgid "Show the ticket history"
@@ -29686,13 +29955,13 @@ msgstr "Vis saks-historikk"
 
 #. SysConfig
 msgid "Show various content."
-msgstr ""
+msgstr "Vis forskjellig innhold."
 
 #. SysConfig
 msgid ""
 "Shows a count of attachments in the ticket zoom, if the article has "
 "attachments."
-msgstr ""
+msgstr "Viser en telling av vedlegg i billettzoom, hvis artikkelen har vedlegg."
 
 #. SysConfig
 msgid ""
@@ -29704,6 +29973,13 @@ msgid ""
 "the UI. Use \"ClusterPriority\" to configure the order of a certain cluster "
 "within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å opprette en kalenderavtale knyttet til "
+"billetten direkte fra billettzoomvisningen i agentgrensesnittet. Ytterligere "
+"tilgangskontroll for å vise eller ikke vise denne koblingen kan gjøres ved å "
+"bruke nøkkelen Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\". For "
+"å gruppere menyelementer for nøkkelen \"ClusterName\" og for innholdet, bruk "
+"hvilket som helst navn du vil se i grensesnittet. Bruk \"ClusterPriority\" "
+"for å konfigurere rekkefølgen på en spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29715,6 +29991,13 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr ""
+"Viser en lenke i menyen for å abonnere / avslutte abonnement på en billett i "
+"billettzoomvisningen til agentgrensesnittet. Ytterligere tilgangskontroll "
+"for å vise eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen "
+"Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\".For å gruppere "
+"menyelementer for nøkkelen \"ClusterName\" og for innholdet, bruk hvilket "
+"som helst navn du vil se i grensesnittet. Bruk \"ClusterPriority\" for å "
+"konfigurere rekkefølgen på en spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29726,6 +30009,13 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr ""
+"Viser en lenke i menyen som gjør det mulig å koble en billett med et annet "
+"objekt i billettzoomvisningen til agentgrensesnittet. Ytterligere "
+"tilgangskontroll for å vise eller ikke vise denne koblingen kan gjøres ved å "
+"bruke nøkkelen Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\". For "
+"å gruppere menyelementer for nøkkelen \"ClusterName\" og for innholdet, bruk "
+"hvilket som helst navn du vil se i grensesnittet. Bruk \"ClusterPriority\" "
+"for å konfigurere rekkefølgen på en spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29736,6 +30026,13 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen som tillater sammenslåing av billetter i "
+"billettzoomvisningen til agentgrensesnittet. Ytterligere tilgangskontroll "
+"for å vise eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen "
+"Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\". For å gruppere "
+"menyelementer for nøkkelen \"ClusterName\" og for innholdet, bruk hvilket "
+"som helst navn du vil se i grensesnittet. Bruk \"ClusterPriority\" for å "
+"konfigurere rekkefølgen på en spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29746,6 +30043,13 @@ msgid ""
 "and for the Content any name you want to see in the UI. Use \"ClusterPriority"
 "\" to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å få tilgang til loggen til en billett i "
+"billettzoomvisningen til agentgrensesnittet. Ytterligere tilgangskontroll "
+"for å vise eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen "
+"Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\". For å gruppere "
+"menyelementer for nøkkelen \"ClusterName\" og for innholdet, bruk hvilket "
+"som helst navn du vil se i grensesnittet. Bruk \"ClusterPriority\" for å "
+"konfigurere rekkefølgen på en spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29756,6 +30060,13 @@ msgid ""
 "Content any name you want to see in the UI. Use \"ClusterPriority\" to "
 "configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å legge til et fritekstfelt i "
+"billettzoomvisningen til agentgrensesnittet. Ytterligere tilgangskontroll "
+"for å vise eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen "
+"Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\". For å gruppere "
+"menyelementer for nøkkelen \"ClusterName\" og for innholdet, bruk hvilket "
+"som helst navn du vil se i grensesnittet. Bruk \"ClusterPriority\" for å "
+"konfigurere rekkefølgen på en spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29766,12 +30077,21 @@ msgid ""
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å legge til et notat i billettzoomvisningen til "
+"agentgrensesnittet. Ytterligere tilgangskontroll for å vise eller ikke vise "
+"denne koblingen kan gjøres ved å bruke nøkkelen Gruppe\" og innhold som \"rw"
+":gruppe1;move_into:group2\". For å gruppere menyelementer for nøkkelen "
+"\"ClusterName\" og for innholdet, bruk hvilket som helst navn du vil se i "
+"grensesnittet. Bruk \"ClusterPriority\" for å konfigurere rekkefølgen på en "
+"spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to add a note to a ticket in every ticket overview "
 "of the agent interface."
 msgstr ""
+"Viser en lenke i menyen for å legge til et notat til en billett i hver "
+"billettoversikt over agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -29782,6 +30102,13 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en kobling i menyen for å legge til en innkommende telefonsamtale i "
+"billettzoomvisningen til agentgrensesnittet. Ytterligere tilgangskontroll "
+"for å vise eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen "
+"Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\". For å gruppere "
+"menyelementer for nøkkelen \"ClusterName\" og for innholdet, bruk hvilket "
+"som helst navn du vil se i grensesnittet. Bruk \"ClusterPriority\" for å "
+"konfigurere rekkefølgen på en spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29792,6 +30119,13 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å legge til en utgående telefonsamtale i "
+"billettzoomvisningen til agentgrensesnittet. Ytterligere tilgangskontroll "
+"for å vise eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen "
+"Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\". For å gruppere "
+"menyelementer for nøkkelen \"ClusterName\" og for innholdet, bruk hvilket "
+"som helst navn du vil se i grensesnittet. Bruk \"ClusterPriority\" for å "
+"konfigurere rekkefølgen på en spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29803,6 +30137,13 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr ""
+"Viser en lenke i menyen for å endre kunden som ba om billetten i "
+"billettzoomvisningen til agentgrensesnittet. Ytterligere tilgangskontroll "
+"for å vise eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen "
+"Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\". For å gruppere "
+"menyelementer for nøkkelen \"ClusterName\" og for innholdet, bruk hvilket "
+"som helst navn du vil se i grensesnittet. Bruk \"ClusterPriority\" for å "
+"konfigurere rekkefølgen på en spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29813,6 +30154,13 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å endre eieren av en billett i "
+"billettzoomvisningen til agentgrensesnittet. Ytterligere tilgangskontroll "
+"for å vise eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen "
+"Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\". For å gruppere "
+"menyelementer for nøkkelen \"ClusterName\" og for innholdet, bruk hvilket "
+"som helst navn du vil se i grensesnittet. Bruk \"ClusterPriority\" for å "
+"konfigurere rekkefølgen på en spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29824,12 +30172,21 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr ""
+"Viser en lenke i menyen for å endre ansvarlig agent for en billett i "
+"billettzoomvisningen til agentgrensesnittet. Ytterligere tilgangskontroll "
+"for å vise eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen "
+"Gruppe\" og innhold som \"rw:gruppe1;move_into:group2\". For å gruppere "
+"menyelementer for nøkkelen \"ClusterName\" og for innholdet, bruk hvilket "
+"som helst navn du vil se i grensesnittet. Bruk \"ClusterPriority\" for å "
+"konfigurere rekkefølgen på en spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to close a ticket in every ticket overview of the "
 "agent interface."
 msgstr ""
+"Viser en lenke i menyen for å lukke en billett i hver billettoversikt over "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -29840,6 +30197,13 @@ msgid ""
 "Content any name you want to see in the UI. Use \"ClusterPriority\" to "
 "configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å lukke en billett i billettzoomvisningen til "
+"agentgrensesnittet. Ytterligere tilgangskontroll for å vise eller ikke vise "
+"denne koblingen kan gjøres ved å bruke nøkkelen Gruppe\" og innhold som \"rw"
+":gruppe1;move_into:gruppe2\". For å gruppere menyelementer for nøkkelen "
+"\"ClusterName\" og for innholdet, bruk hvilket som helst navn du vil se i "
+"grensesnittet. Bruk \"ClusterPriority\" for å konfigurere rekkefølgen på en "
+"spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29848,6 +30212,13 @@ msgid ""
 "be done by using Key \"Group\" and Content like \"rw:group1;move_into:"
 "group2\"."
 msgstr ""
+"Viser en lenke i menyen for å slette en billett i hver billettoversikt over "
+"agentgrensesnittet. Ytterligere tilgangskontroll for å vise eller ikke vise "
+"denne koblingen kan gjøres ved å bruke nøkkelen Gruppe\" og innhold som \"rw"
+":gruppe1;move_into:gruppe2\". For å gruppere menyelementer for nøkkelen "
+"\"ClusterName\" og for innholdet, bruk hvilket som helst navn du vil se i "
+"grensesnittet. Bruk \"ClusterPriority\" for å konfigurere rekkefølgen på en "
+"spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29858,12 +30229,21 @@ msgid ""
 "Content any name you want to see in the UI. Use \"ClusterPriority\" to "
 "configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å slette en billett i billettzoomvisningen til "
+"agentgrensesnittet. Ytterligere tilgangskontroll for å vise eller ikke vise "
+"denne koblingen kan gjøres ved å bruke nøkkelen Gruppe\" og innhold som \"rw"
+":gruppe1;move_into:gruppe2\". For å gruppere menyelementer for nøkkelen "
+"\"ClusterName\" og for innholdet, bruk hvilket som helst navn du vil se i "
+"grensesnittet. Bruk \"ClusterPriority\" for å konfigurere rekkefølgen på en "
+"spesifikk gruppe i verktøylinjen."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to enroll a ticket into a process in the ticket "
 "zoom view of the agent interface."
 msgstr ""
+"Viser en lenke i menyen for å registrere en billett i en prosess i "
+"billettzoomvisningen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -29874,12 +30254,21 @@ msgid ""
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å gå tilbake i sakszoomvisningen av "
+"agentgrensesnittet. Ytterligere tilgangskontroll for å vise eller ikke vise "
+"denne koblingen kan gjøres ved å bruke nøkkelen \"Gruppe\" og innhold som "
+"\"rw:gruppe1;move_into:group2\". For å gruppere menyelementer, bruk for "
+"nøkkel \"ClusterName\" og for innholdet et hvilket som helst navn du vil se "
+"i brukergrensesnittet. Bruk \"ClusterPriority\" for å konfigurere "
+"rekkefølgen til en bestemt klynge i verktøylinjen."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to lock / unlock a ticket in the ticket overviews "
 "of the agent interface."
 msgstr ""
+"Viser en lenke i menyen for å låse eller låse opp en sak i saksoversiktene "
+"til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -29890,12 +30279,21 @@ msgid ""
 "Content any name you want to see in the UI. Use \"ClusterPriority\" to "
 "configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å låse eller låse opp saker i sakszoomvisningen "
+"til agentgrensesnittet. Ytterligere tilgangskontroll for å vise eller ikke "
+"vise denne koblingen kan gjøres ved å bruke nøkkelen \"Gruppe\" og innhold "
+"som \"rw:gruppe1;move_into:group2\". For å gruppere menyelementer, bruk for "
+"nøkkel \"ClusterName\" og for innholdet et hvilket som helst navn du vil se "
+"i brukergrensesnittet. Bruk \"ClusterPriority\" for å konfigurere "
+"rekkefølgen til en bestemt klynge i verktøylinjen."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to move a ticket in every ticket overview of the "
 "agent interface."
 msgstr ""
+"Viser en lenke i menyen for å flytte en sak i hver saksoversikt over "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -29906,24 +30304,37 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å skrive ut en sak eller en artikkel i "
+"sakszoomvisningen til agentgrensesnittet. Ytterligere tilgangskontroll for å "
+"vise eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen \"Gruppe"
+"\" og innhold som \"rw:gruppe1;move_into:group2\". For å gruppere "
+"menyelementer, bruk for nøkkel \"ClusterName\" og for innholdet et hvilket "
+"som helst navn du vil se i brukergrensesnittet. Bruk \"ClusterPriority\" for "
+"å konfigurere rekkefølgen til en bestemt klynge i verktøylinjen."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to quick close a ticket in every ticket overview of "
 "the agent interface."
 msgstr ""
+"Viser en lenke i menyen for å raskt lukke en sak i hver saksoversikt over "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to quick close a ticket in the ticket zoom view of "
 "the agent interface."
 msgstr ""
+"Viser en lenke i menyen for å raskt lukke en sak i sakszoomvisningen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to see the history of a ticket in every ticket "
 "overview of the agent interface."
 msgstr ""
+"Viser en lenke i menyen for å se historien til en sak i hver saksoversikt "
+"over agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -29934,6 +30345,13 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å se prioriteten til en sak i sakszoomvisningen "
+"til agentgrensesnittet. Ytterligere tilgangskontroll for å vise eller ikke "
+"vise denne koblingen kan gjøres ved å bruke nøkkelen \"Gruppe\" og innhold "
+"som \"rw:gruppe1;move_into:group2\". For å gruppere menyelementer, bruk for "
+"nøkkel \"ClusterName\" og for innholdet et hvilket som helst navn du vil se "
+"i brukergrensesnittet. Bruk \"ClusterPriority\" for å konfigurere "
+"rekkefølgen til en bestemt klynge i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29944,6 +30362,13 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å sende en utgående e-post i sakszoomvisningen "
+"til agentgrensesnittet. Ytterligere tilgangskontroll for å vise eller ikke "
+"vise denne koblingen kan gjøres ved å bruke nøkkelen \"Gruppe\" og innhold "
+"som \"rw:gruppe1;move_into:group2\". For å gruppere menyelementer, bruk for "
+"nøkkel \"ClusterName\" og for innholdet et hvilket som helst navn du vil se "
+"i brukergrensesnittet. Bruk \"ClusterPriority\" for å konfigurere "
+"rekkefølgen til en bestemt klynge i verktøylinjen."
 
 #. SysConfig
 msgid ""
@@ -29952,6 +30377,10 @@ msgid ""
 "can be done by using Key \"Group\" and Content like \"rw:group1;move_into:"
 "group2\"."
 msgstr ""
+"Viser en lenke i menyen for å angi en sak som søppelpost i hver saksoversikt "
+"over agentgrensesnittet. Ytterligere tilgangskontroll for å vise eller ikke "
+"vise denne koblingen kan gjøres ved å bruke nøkkelen \"Gruppe\" og innhold "
+"som \"rw:gruppe1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -29962,34 +30391,49 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke i menyen for å angi en sak som ventende i sakszoomvisningen "
+"til agentgrensesnittet. Ytterligere tilgangskontroll for å vise eller ikke "
+"vise denne koblingen kan gjøres ved å bruke nøkkelen \"Gruppe\" og innhold "
+"som \"rw:gruppe1;move_into:group2\". For å gruppere menyelementer, bruk for "
+"nøkkel \"ClusterName\" og for innholdet et hvilket som helst navn du vil se "
+"i brukergrensesnittet. Bruk \"ClusterPriority\" for å konfigurere "
+"rekkefølgen til en bestemt klynge i verktøylinjen."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to set the priority of a ticket in every ticket "
 "overview of the agent interface."
 msgstr ""
+"Viser en lenke i menyen for å angi prioritet til en sak i hver saksoversikt "
+"over agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to zoom a ticket in the ticket overviews of the "
 "agent interface."
 msgstr ""
+"Viser en lenke i menyen for å zoome inn en sak i saksoversiktene til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a link to access article attachments via a html online viewer in the "
 "zoom view of the article in the agent interface."
 msgstr ""
+"Viser en lenke for å få tilgang til artikkelvedlegg via en html-nettleser i "
+"zoomvisningen av artikkelen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a link to download article attachments in the zoom view of the article "
 "in the agent interface."
 msgstr ""
+"Viser en lenke for å laste ned artikkelvedlegg i zoomvisningen av artikkelen "
+"i agentgrensesnittet."
 
 #. SysConfig
 msgid "Shows a link to see a zoomed email ticket in plain text."
-msgstr ""
+msgstr "Viser en kobling for å se en zoomet e-postsak i ren tekst."
 
 #. SysConfig
 msgid ""
@@ -30000,48 +30444,69 @@ msgid ""
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
 msgstr ""
+"Viser en lenke for å angi en sak som søppel i sakszoomvisningen i "
+"agentgrensesnittet. Ytterligere tilgangskontroll for å vise eller ikke vise "
+"denne koblingen kan gjøres ved å bruke nøkkelen \"Gruppe\" og innhold som "
+"\"rw:gruppe1;move_into:group2\". For å gruppere menyelementer, bruk for "
+"nøkkel \"ClusterName\" og for innholdet et hvilket som helst navn du vil se "
+"i brukergrensesnittet. Bruk \"ClusterPriority\" for å konfigurere "
+"rekkefølgen til en bestemt klynge i verktøylinjen."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the close ticket "
 "screen of the agent interface."
 msgstr ""
+"Viser en liste over alle involverte agenter på denne saken, i skjermbildet "
+"for lukke sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket free "
 "text screen of the agent interface."
 msgstr ""
+"Viser en liste over alle involverte agenter på denne saken, i "
+"saksfritekstskjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket note "
 "screen of the agent interface."
 msgstr ""
+"Viser en liste over alle involverte agenter på denne saken, i "
+"saksnotatskjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket owner "
 "screen of a zoomed ticket in the agent interface."
 msgstr ""
+"Viser en liste over alle involverte agenter på denne saken, i "
+"sakseierskjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket "
 "pending screen of a zoomed ticket in the agent interface."
 msgstr ""
+"Viser en liste over alle involverte agenter på denne saken, i saksventer-"
+"skjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket "
 "priority screen of a zoomed ticket in the agent interface."
 msgstr ""
+"Viser en liste over alle involverte agenter på denne saken, i "
+"saksprioritetsskjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket "
 "responsible screen of the agent interface."
 msgstr ""
+"Viser en liste over alle involverte agenter på denne saken, i den "
+"saksansvarlige skjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -30049,6 +30514,9 @@ msgid ""
 "the queue/ticket) to determine who should be informed about this note, in "
 "the close ticket screen of the agent interface."
 msgstr ""
+"Viser en liste over alle mulige agenter (alle agenter med notatrettigheter "
+"på køen/saken) for å bestemme hvem som skal informeres om dette notatet, i "
+"lukesaksskjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -30056,6 +30524,9 @@ msgid ""
 "the queue/ticket) to determine who should be informed about this note, in "
 "the ticket free text screen of the agent interface."
 msgstr ""
+"Viser en liste over alle mulige agenter (alle agenter med notatrettigheter "
+"på køen/saken) for å bestemme hvem som skal informeres om dette notatet, i "
+"saksfritekstskjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -30063,6 +30534,9 @@ msgid ""
 "the queue/ticket) to determine who should be informed about this note, in "
 "the ticket note screen of the agent interface."
 msgstr ""
+"Viser en liste over alle mulige agenter (alle agenter med notatrettigheter "
+"på køen/saken) for å bestemme hvem som skal informeres om dette notatet, i "
+"saksnotatskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -30070,6 +30544,9 @@ msgid ""
 "the queue/ticket) to determine who should be informed about this note, in "
 "the ticket owner screen of a zoomed ticket in the agent interface."
 msgstr ""
+"Viser en liste over alle mulige agenter (alle agenter med notatrettigheter "
+"på køen/saken) for å bestemme hvem som skal informeres om dette notatet, i "
+"sakseierskjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -30077,6 +30554,9 @@ msgid ""
 "the queue/ticket) to determine who should be informed about this note, in "
 "the ticket pending screen of a zoomed ticket in the agent interface."
 msgstr ""
+"Viser en liste over alle mulige agenter (alle agenter med notatrettigheter "
+"på køen/saken) for å bestemme hvem som skal informeres om dette notatet, i "
+"\"sak venter\"-skjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -30084,6 +30564,9 @@ msgid ""
 "the queue/ticket) to determine who should be informed about this note, in "
 "the ticket priority screen of a zoomed ticket in the agent interface."
 msgstr ""
+"Viser en liste over alle mulige agenter (alle agenter med notatrettigheter "
+"på køen/saken) for å bestemme hvem som skal informeres om dette notatet, i "
+"saksprioritetsskjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -30091,29 +30574,34 @@ msgid ""
 "the queue/ticket) to determine who should be informed about this note, in "
 "the ticket responsible screen of the agent interface."
 msgstr ""
+"Viser en liste over alle mulige agenter (alle agenter med notatrettigheter "
+"på køen/saken) for å bestemme hvem som skal informeres om dette notatet, i "
+"den saksansvarlige skjermen i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows a preview of the ticket overview (CustomerInfo => 1 - shows also "
 "Customer-Info, CustomerInfoMaxSize max. size in characters of Customer-Info)."
 msgstr ""
+"Viser en forhåndsvisning av saksoversikten (CustomerInfo => 1 - viser også "
+"Customer-Info, CustomerInfoMaxSize maks. størrelse i tegn av Customer-Info)."
 
 #. SysConfig
 msgid "Shows all both ro and rw queues in the queue view."
-msgstr ""
+msgstr "Viser alle både ro- og rw-køer i køvisningen."
 
 #. SysConfig
 msgid "Shows all both ro and rw tickets in the service view."
-msgstr ""
+msgstr "Viser alle både ro- og rw-saker i servicevisningen."
 
 #. SysConfig
 msgid "Shows all the articles of the ticket (expanded) in the agent zoom view."
-msgstr ""
+msgstr "Viser alle artiklene i saken (utvidet) i agentzoomvisningen."
 
 #. SysConfig
 msgid ""
 "Shows all the articles of the ticket (expanded) in the customer zoom view."
-msgstr ""
+msgstr "Viser alle artiklene til saken (utvidet) i kundezoomvisningen."
 
 #. SysConfig
 msgid ""
@@ -30128,6 +30616,8 @@ msgid ""
 "Shows all the customer user identifiers in a multi-select field (not useful "
 "if you have a lot of customer user identifiers)."
 msgstr ""
+"Viser alle kundebrukeridentifikatorer i et flervalgsfelt (ikke nyttig hvis "
+"du har mange kundebrukeridentifikatorer)."
 
 #. SysConfig
 msgid ""
@@ -30166,10 +30656,14 @@ msgid ""
 "Additional access control to show or not show this link can be done by using "
 "Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Viser lenke til ekstern side i sakszoomvisningen til agentgrensesnittet. "
+"Ytterligere tilgangskontroll for å vise eller ikke vise denne koblingen kan "
+"gjøres ved å bruke nøkkelen \"Gruppe\" og innhold som \"rw:gruppe1;move_into:"
+"group2\"."
 
 #. SysConfig
 msgid "Shows the article head information in the agent zoom view."
-msgstr ""
+msgstr "Viser artikkelhodeinformasjonen i agentzoomvisningen."
 
 #. SysConfig
 msgid ""
@@ -30190,6 +30684,8 @@ msgid ""
 "Shows the enabled ticket attributes in the customer interface (0 = Disabled "
 "and 1 = Enabled)."
 msgstr ""
+"Viser de aktiverte saksattributtene i kundegrensesnittet (0 = Deaktivert og "
+"1 = Aktivert)."
 
 #. SysConfig
 msgid ""
@@ -30199,6 +30695,11 @@ msgid ""
 "needs to enable it manually. \"Mandatory\" determines if the plugin is "
 "always shown and can not be removed by agents."
 msgstr ""
+"Viser dagens melding (MOTD) i agentdashbordet. \"Gruppe\" brukes til å "
+"begrense tilgangen til plugin-modulen (f.eks. Group: admin;group1;group2;). "
+"\"Standard\" indikerer om plugin-en er aktivert som standard eller om "
+"brukeren trenger å aktivere den manuelt. \"Obligatorisk\" avgjør om plugin-"
+"en alltid vises og ikke kan fjernes av agenter."
 
 #. SysConfig
 msgid "Shows the message of the day on login screen of the agent interface."
@@ -30251,72 +30752,88 @@ msgid ""
 "Shows the ticket priority options in the ticket pending screen of a zoomed "
 "ticket in the agent interface."
 msgstr ""
+"Viser saksprioritetsalternativene i \"sak venter\"-skjermen for en zoomet "
+"sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows the ticket priority options in the ticket priority screen of a zoomed "
 "ticket in the agent interface."
 msgstr ""
+"Viser saksprioritetsalternativene i saksprioritetsskjermen til en zoomet sak "
+"i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows the ticket priority options in the ticket responsible screen of the "
 "agent interface."
 msgstr ""
+"Viser saksprioritetsalternativene i saksansvarlig skjerm i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the close ticket screen of the agent interface."
-msgstr ""
+msgstr "Viser tittelfeltet i skjermbildet for lukke sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket free text screen of the agent interface."
-msgstr ""
+msgstr "Viser tittelfeltet i saksfritekstskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid "Shows the title field in the ticket note screen of the agent interface."
-msgstr ""
+msgstr "Viser tittelfeltet i saksnotatskjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket owner screen of a zoomed ticket in the "
 "agent interface."
 msgstr ""
+"Viser tittelfeltet i sakseierskjermen til en zoomet sak i agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket pending screen of a zoomed ticket in the "
 "agent interface."
 msgstr ""
+"Viser tittelfeltet i skjermbildet for ventende sak til en zoomet sak i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket priority screen of a zoomed ticket in "
 "the agent interface."
 msgstr ""
+"Viser tittelfeltet i saksprioritetsskjermen til en zoomet sak i "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket responsible screen of the agent "
 "interface."
 msgstr ""
+"Viser tittelfeltet i den saksansvarlige skjermen til agentgrensesnittet."
 
 #. SysConfig
 msgid ""
 "Shows time in long format (days, hours, minutes), if enabled; or in short "
 "format (days, hours), if not enabled."
 msgstr ""
+"Viser tid i langt format (dager, timer, minutter), hvis aktivert; eller i "
+"kort format (dager, timer), hvis ikke aktivert."
 
 #. SysConfig
 msgid ""
 "Shows time use complete description (days, hours, minutes), if enabled; or "
 "just first letter (d, h, m), if not enabled."
 msgstr ""
+"Viser fullstendig beskrivelse av tidsbruk (dager, timer, minutter), hvis "
+"aktivert; eller bare første bokstav (d, h, m), hvis ikke aktivert."
 
 #. SysConfig
 msgid "Signature data."
-msgstr ""
+msgstr "Signaturdata."
 
 #. SysConfig
 msgid "Signatures"
@@ -30324,7 +30841,7 @@ msgstr "Signaturer"
 
 #. SysConfig
 msgid "Simple"
-msgstr ""
+msgstr "Enkel"
 
 #. SysConfig
 msgid "Skin"
@@ -30344,7 +30861,7 @@ msgstr "Liten"
 
 #. SysConfig
 msgid "Software Package Manager."
-msgstr ""
+msgstr "Programvarepakkebehandling."
 
 #. SysConfig
 msgid "Solution time"
@@ -30352,11 +30869,11 @@ msgstr "Løsningstid"
 
 #. SysConfig
 msgid "SolutionDiffInMin"
-msgstr ""
+msgstr "SolutionDiffInMin"
 
 #. SysConfig
 msgid "SolutionInMin"
-msgstr ""
+msgstr "SolutionInMin"
 
 #. SysConfig
 msgid "Some description!"
@@ -30373,6 +30890,10 @@ msgid ""
 "Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on "
 "top). Use the QueueID for the key and 0 or 1 for value."
 msgstr ""
+"Sorterer sakene (stigende eller synkende) når en enkelt kø er valgt i "
+"køvisningen og etter at sakene er sortert etter prioritet. Verdier: 0 = "
+"stigende (eldst på toppen, standard), 1 = synkende (yngst på toppen). Bruk "
+"QueueID for nøkkelen og 0 eller 1 for verdi."
 
 #. SysConfig
 msgid ""
@@ -30381,10 +30902,14 @@ msgid ""
 "Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on "
 "top). Use the ServiceID for the key and 0 or 1 for value."
 msgstr ""
+"Sorterer sakene (stigende eller synkende) når en enkelt kø er valgt i "
+"tjenestevisningen og etter at sakene er sortert etter prioritet. Verdier: 0 "
+"= stigende (eldst på toppen, standard), 1 = synkende (yngst på toppen). Bruk "
+"ServiceID for nøkkelen og 0 eller 1 for verdi."
 
 #. SysConfig
 msgid "Spam"
-msgstr ""
+msgstr "Spam"
 
 #. SysConfig
 msgid ""
@@ -30417,6 +30942,8 @@ msgid ""
 "Spanish stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"Spanske stoppord for fulltekstindeks. Disse ordene vil bli fjernet fra "
+"søkeindeksen."
 
 #. SysConfig
 msgid ""
@@ -30428,6 +30955,8 @@ msgid ""
 "Specifies the directory to store the data in, if \"FS\" was selected for "
 "ArticleStorage."
 msgstr ""
+"Spesifiserer katalogen som dataene skal lagres i, hvis \"FS\" ble valgt for "
+"ArticleStorage."
 
 #. SysConfig
 msgid "Specifies the directory where SSL certificates are stored."
@@ -30445,24 +30974,35 @@ msgid ""
 "otobo@your.example.com). You can use the OTOBO_CONFIG_FQDN variable as set "
 "in your configuation, or choose another email address."
 msgstr ""
+"Angir e-postadressen som skal brukes av programmet når du sender varsler. E-"
+"postadressen brukes til å bygge det fullstendige visningsnavnet for "
+"varslingsmasteren (dvs. \"OTOBO Notifications\" otobo@your.example.com). Du "
+"kan bruke OTOBO_CONFIG_FQDN-variabelen som angitt i konfigurasjonen, eller "
+"velge en annen e-postadresse."
 
 #. SysConfig
 msgid ""
 "Specifies the email addresses to get notification messages from scheduler "
 "tasks."
 msgstr ""
+"Spesifiserer e-postadressene for å motta varslingsmeldinger fra "
+"planleggeroppgaver."
 
 #. SysConfig
 msgid ""
 "Specifies the group where the user needs rw permissions so that he can "
 "access the \"SwitchToCustomer\" feature."
 msgstr ""
+"Spesifiserer gruppen der brukeren trenger rw-tillatelser slik at han kan få "
+"tilgang til \"SwitchToCustomer\"-funksjonen."
 
 #. SysConfig
 msgid ""
 "Specifies the group where the user needs rw permissions so that they can "
 "edit other users preferences."
 msgstr ""
+"Angir gruppen der brukeren trenger rw-tillatelser slik at de kan redigere "
+"andre brukers preferanser."
 
 #. SysConfig
 msgid ""
@@ -30471,12 +31011,15 @@ msgid ""
 "for the notification master (i.e. \"OTOBO Notifications\" otobo@your.example."
 "com)."
 msgstr ""
+"Angir navnet som skal brukes av applikasjonen når du sender varsler. "
+"Avsendernavnet brukes til å bygge det fullstendige visningsnavnet for "
+"varslingsmasteren (dvs. \"OTOBO Notifications\" otobo@your.example.com)."
 
 #. SysConfig
 msgid ""
 "Specifies the order in which the firstname and the lastname of agents will "
 "be displayed."
-msgstr ""
+msgstr "Angir rekkefølgen fornavnet og etternavnet til agenter skal vises i."
 
 #. SysConfig
 msgid ""
@@ -30540,26 +31083,32 @@ msgid ""
 "attachments. This is only required for installations where some attachments "
 "are in the file system, and others in the database."
 msgstr ""
+"Angir om alle lagringsbackends skal sjekkes når du ser etter vedlegg. Dette "
+"er kun nødvendig for installasjoner der noen vedlegg er i filsystemet, og "
+"andre i databasen."
 
 #. SysConfig
 msgid ""
 "Specifies whether the (MIMEBase) article attachments will be indexed and "
 "searchable."
-msgstr ""
+msgstr "Angir om (MIMEBase) artikkelvedlegg skal indekseres og søkbare."
 
 #. SysConfig
 msgid ""
 "Specify how many sub directory levels to use when creating cache files. This "
 "should prevent too many cache files being in one directory."
 msgstr ""
+"Spesifiser hvor mange underkatalognivåer som skal brukes når du oppretter "
+"hurtigbufferfiler. Dette bør forhindre at for mange cache-filer er i én "
+"katalog."
 
 #. SysConfig
 msgid "Specify the password to authenticate for the first mirror database."
-msgstr ""
+msgstr "Angi passordet for autentisering for den første speildatabasen."
 
 #. SysConfig
 msgid "Specify the username to authenticate for the first mirror database."
-msgstr ""
+msgstr "Angi brukernavnet som skal autentiseres for den første speildatabasen."
 
 #. SysConfig
 msgid ""
@@ -30570,6 +31119,12 @@ msgid ""
 "responsible, forward and bounce. Make sure that \"rw\" is always the last "
 "registered permission, as rw automatically grants all additional permissions."
 msgstr ""
+"Standard tilgjengelige tillatelser for agenter i applikasjonen. Hvis flere "
+"tillatelser er nødvendig, kan de legges inn her. Tillatelser må defineres "
+"for å være effektive. Noen andre gode tillatelser har også blitt gitt "
+"innebygd: noter, lukk, venter, kunde, fritekst, flytt, komponer, ansvarlig, "
+"forover og sprett. Sørg for at \"rw\" alltid er den siste registrerte "
+"tillatelsen, da rw automatisk gir alle tilleggsrettigheter."
 
 #. SysConfig
 msgid ""
@@ -30579,21 +31134,23 @@ msgstr ""
 
 #. SysConfig
 msgid "Started response time escalation."
-msgstr ""
+msgstr "Startet eskalering av responstid."
 
 #. SysConfig
 msgid "Started solution time escalation."
-msgstr ""
+msgstr "Startet opptrapping av løsningstid."
 
 #. SysConfig
 msgid "Started update time escalation."
-msgstr ""
+msgstr "Startet eskalering av oppdateringstid."
 
 #. SysConfig
 msgid ""
 "Starts a wildcard search of the active object after the link object mask is "
 "started."
 msgstr ""
+"Starter et jokertegnsøk på det aktive objektet etter at koblingsobjektmasken "
+"er startet."
 
 #. SysConfig
 msgid "Stat#"
@@ -30605,11 +31162,11 @@ msgstr "Status"
 
 #. SysConfig
 msgid "Statistics overview."
-msgstr ""
+msgstr "Statistikkoversikt."
 
 #. SysConfig
 msgid "Statistics reports."
-msgstr ""
+msgstr "Statistikkrapporter."
 
 #. SysConfig
 msgid "Status view"
@@ -30617,15 +31174,15 @@ msgstr "Statusvisning"
 
 #. SysConfig
 msgid "Stopped response time escalation."
-msgstr ""
+msgstr "Stoppet eskalering av responstid."
 
 #. SysConfig
 msgid "Stopped solution time escalation."
-msgstr ""
+msgstr "Stoppet eskalering av løsningstid."
 
 #. SysConfig
 msgid "Stopped update time escalation."
-msgstr ""
+msgstr "Stoppet eskalering av oppdateringstid."
 
 #. SysConfig
 msgid "Stores cookies after the browser has been closed."
@@ -30638,15 +31195,15 @@ msgstr "Tar vekk tomme linjer i saksvisningen i kølisten."
 
 #. SysConfig
 msgid "Strips empty lines on the ticket preview in the service view."
-msgstr ""
+msgstr "Fjerner tomme linjer på forhåndsvisningen av saken i tjenestevisningen."
 
 #. SysConfig
 msgid "Support Agent"
-msgstr ""
+msgstr "Supportagent"
 
 #. SysConfig
 msgid "Suspend already escalated tickets."
-msgstr ""
+msgstr "Suspender allerede eskalerte saker."
 
 #. SysConfig
 msgid "Swahili"
@@ -30658,19 +31215,19 @@ msgstr "Svensk"
 
 #. SysConfig
 msgid "System Address Display Name"
-msgstr ""
+msgstr "Visningsnavn for systemadresse"
 
 #. SysConfig
 msgid "System Configuration Deployment"
-msgstr ""
+msgstr "Systemkonfigurasjonsimplementering"
 
 #. SysConfig
 msgid "System Configuration Group"
-msgstr ""
+msgstr "Systemkonfigurasjonsgruppe"
 
 #. SysConfig
 msgid "System Configuration Setting History"
-msgstr ""
+msgstr "Innstillingshistorikk for systemkonfigurasjon"
 
 #. SysConfig
 msgid "System Maintenance"
@@ -30678,11 +31235,11 @@ msgstr "Vedlikehold av systemet"
 
 #. SysConfig
 msgid "Templates ↔ Attachments"
-msgstr ""
+msgstr "Maler ↔ Vedlegg"
 
 #. SysConfig
 msgid "Templates ↔ Queues"
-msgstr ""
+msgstr "Maler ↔ Køer"
 
 #. SysConfig
 msgid "Textarea"
@@ -30694,62 +31251,72 @@ msgstr "Tailandsk"
 
 #. SysConfig
 msgid "The PGP signature is expired."
-msgstr ""
+msgstr "PGP-signaturen er utløpt."
 
 #. SysConfig
 msgid ""
 "The PGP signature was made by a revoked key, this could mean that the "
 "signature is forged."
 msgstr ""
+"PGP-signaturen ble laget av en tilbakekalt nøkkel, dette kan bety at "
+"signaturen er forfalsket."
 
 #. SysConfig
 msgid "The PGP signature was made by an expired key."
-msgstr ""
+msgstr "PGP-signaturen ble laget av en utløpt nøkkel."
 
 #. SysConfig
 msgid "The PGP signature with the keyid has not been verified successfully."
-msgstr ""
+msgstr "PGP-signaturen med nøkkel-id er ikke verifisert."
 
 #. SysConfig
 msgid "The PGP signature with the keyid is good."
-msgstr ""
+msgstr "PGP-signaturen med keyid er god."
 
 #. SysConfig
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
 msgstr ""
+"Agentskallets interne navn som skal brukes i agentgrensesnittet. Vennligst "
+"sjekk tilgjengelige skins i Frontend::Agent::Skins."
 
 #. SysConfig
 msgid ""
 "The customer skin's InternalName which should be used in the customer "
 "interface. Please check the available skins in Frontend::Customer::Skins."
 msgstr ""
+"Kundens skins interne navn som skal brukes i kundegrensesnittet. Vennligst "
+"sjekk tilgjengelige skins i Frontend::Customer::Skins."
 
 #. SysConfig
 msgid "The daemon registration for sync with S3."
-msgstr ""
+msgstr "Daemonregistreringen for synkronisering med S3."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler cron task manager."
-msgstr ""
+msgstr "Daemonregistreringen for planleggeren av cron-oppgavebehandling."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler future task manager."
 msgstr ""
+"Daemonregistreringen for den fremtidige oppgavebehandleren for planleggeren."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler generic agent task manager."
 msgstr ""
+"Daemonregistreringen for den generiske oppgavebehandleren for planleggeren."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler task worker."
-msgstr ""
+msgstr "Daemonregistreringen for planleggeroppgavearbeideren."
 
 #. SysConfig
 msgid ""
 "The daemon registration for the system configuration deployment sync manager."
 msgstr ""
+"Daemonregistreringen for distribusjonssynkroniseringsbehandlingen for "
+"systemkonfigurasjon."
 
 #. SysConfig
 msgid "The divider between TicketHook and ticket number. E.g ': '."
@@ -30760,6 +31327,8 @@ msgid ""
 "The duration in minutes after emitting an event, in which the new escalation "
 "notify and start events are suppressed."
 msgstr ""
+"Varigheten i minutter etter utsendelse av en hendelse, der varslingen om ny "
+"eskalering og starthendelsene undertrykkes."
 
 #. SysConfig
 msgid ""
@@ -30769,6 +31338,11 @@ msgid ""
 "setting PostMaster::CheckFollowUpModule###0200-References is activated to "
 "recognize followups based on email headers."
 msgstr ""
+"Formatet til emnet. 'Venstre' betyr '[TicketHook#:12345] Noe emne', 'Høyre' "
+"betyr 'Noen emne [TicketHook#:12345]', 'Ingen' betyr 'Noen emne' og ikke noe "
+"saksnummer. I sistnevnte tilfelle bør du bekrefte at innstillingen "
+"PostMaster::CheckFollowUpModule###0200-References er aktivert for å "
+"gjenkjenne oppfølginger basert på e-posthoder."
 
 #. SysConfig
 msgid "The headline shown in the customer interface."
@@ -30790,12 +31364,19 @@ msgid ""
 "to 196px*32px. (In the mobile setup both have a height of 24px with variable "
 "length.)"
 msgstr ""
+"Logoen og signet vises i overskriften på kundegrensesnittet. URLen til "
+"bildet kan være en relativ URL til temabildekatalogen, eller en fullstendig "
+"URL til en ekstern nettserver. Signet skal skaleres til 32px*32px, logoen "
+"til 196px*32px. (I mobiloppsettet har begge en høyde på 24px med variabel "
+"lengde.)"
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"default"
 "\". See \"AgentLogo\" for further description."
 msgstr ""
+"Logoen som vises i overskriften til agentgrensesnittet for temaet \"standard"
+"\". Se \"AgentLogo\" for ytterligere beskrivelse."
 
 #. SysConfig
 msgid ""
@@ -30803,6 +31384,9 @@ msgid ""
 "can be a relative URL to the skin image directory, or a full URL to a remote "
 "web server."
 msgstr ""
+"Logoen som vises i overskriften til agentgrensesnittet. URLen til bildet kan "
+"være en relativ URL til temabildekatalogen, eller en fullstendig URL til en "
+"ekstern nettserver."
 
 #. SysConfig
 msgid ""
@@ -30810,28 +31394,34 @@ msgid ""
 "the image can be a relative URL to the skin image directory, or a full URL "
 "to a remote web server."
 msgstr ""
+"Logoen som vises på toppen av påloggingsboksen til agentgrensesnittet. URLen "
+"til bildet kan være en relativ URL til temabildekatalogen, eller en "
+"fullstendig URL til en ekstern nettserver."
 
 #. SysConfig
 msgid ""
 "The maximal number of articles expanded on a single page in AgentTicketZoom."
-msgstr ""
+msgstr "Maksimalt antall artikler utvidet på en enkelt side i AgentTicketZoom."
 
 #. SysConfig
 msgid ""
 "The maximal number of articles shown on a single page in AgentTicketZoom."
-msgstr ""
+msgstr "Maksimalt antall artikler vist på en enkelt side i AgentTicketZoom."
 
 #. SysConfig
 msgid ""
 "The maximum number of mails fetched at once before reconnecting to the "
 "server."
 msgstr ""
+"Maksimalt antall e-poster hentet på en gang før du kobler til serveren igjen."
 
 #. SysConfig
 msgid ""
 "The secret you supplied is invalid. The secret must only contain letters (A-"
 "Z, uppercase) and numbers (2-7) and must consist of 16 characters."
 msgstr ""
+"Hemmeligheten du oppga er ugyldig. Hemmeligheten må kun inneholde bokstaver "
+"(A-Z, store bokstaver) og tall (2-7) og må bestå av 16 tegn."
 
 #. SysConfig
 msgid ""
@@ -30849,7 +31439,7 @@ msgstr ""
 
 #. SysConfig
 msgid "The value of the From field"
-msgstr ""
+msgstr "Verdien i Fra-feltet"
 
 #. SysConfig
 msgid "Theme"
@@ -30860,18 +31450,24 @@ msgid ""
 "This configuration defines all possible screens to enable or disable default "
 "columns."
 msgstr ""
+"Denne konfigurasjonen definerer alle mulige skjermbilder for å aktivere "
+"eller deaktivere standardkolonner."
 
 #. SysConfig
 msgid ""
 "This configuration defines all possible screens to enable or disable dynamic "
 "fields."
 msgstr ""
+"Denne konfigurasjonen definerer alle mulige skjermbilder for å aktivere "
+"eller deaktivere dynamiske felt."
 
 #. SysConfig
 msgid ""
 "This configuration defines if only valids or all (invalids) dynamic fields "
 "should be shown."
 msgstr ""
+"Denne konfigurasjonen definerer om bare gyldige eller alle (ugyldige) "
+"dynamiske felt skal vises."
 
 #. SysConfig
 msgid ""
@@ -30879,12 +31475,17 @@ msgid ""
 "at max for calculating the WorkingTime for a Ticket. Attention: Setting this "
 "configuration to high can lead to performance issues."
 msgstr ""
+"Denne konfigurasjonen definerer antall iterasjoner som skal utføres ved maks "
+"for å beregne arbeidstiden for en sak. OBS: Å sette denne konfigurasjonen "
+"til høy kan føre til ytelsesproblemer."
 
 #. SysConfig
 msgid ""
 "This configuration registers an OutputFilter module that injects the "
 "javascript functionality to remove PendingTime."
 msgstr ""
+"Denne konfigurasjonen registrerer en OutputFilter-modul som injiserer "
+"javascript-funksjonaliteten for å fjerne PendingTime."
 
 #. SysConfig
 msgid ""
@@ -30892,26 +31493,29 @@ msgid ""
 "tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to "
 "configure the mapping."
 msgstr ""
+"Denne hendelsesmodulen lagrer attributter fra CustomerUser som DynamicFields-"
+"saker. Se DynamicFieldFromCustomerUser::Mapping-innstillingen for hvordan du "
+"konfigurerer tilordningen."
 
 #. SysConfig
 msgid "This is a Description for Comment on Framework."
-msgstr ""
+msgstr "Dette er en beskrivelse for kommentar til rammeverk."
 
 #. SysConfig
 msgid "This is a Description for DynamicField on Framework."
-msgstr ""
+msgstr "Dette er en beskrivelse for dynamiske felt i rammeverket."
 
 #. SysConfig
 msgid "This is the default orange - black skin for the customer interface."
-msgstr ""
+msgstr "Dette er standard oransje - svart tema for kundegrensesnittet."
 
 #. SysConfig
 msgid "This is the default orange - black skin."
-msgstr ""
+msgstr "Dette er standard oransje - svart tema."
 
 #. SysConfig
 msgid "This key is not certified with a trusted signature!"
-msgstr ""
+msgstr "Denne nøkkelen er ikke sertifisert med en klarert signatur!"
 
 #. SysConfig
 msgid ""
@@ -30925,45 +31529,51 @@ msgstr ""
 
 #. SysConfig
 msgid "This module is being used to extend the password policy."
-msgstr ""
+msgstr "Denne modulen brukes til å utvide passordpolicyen."
 
 #. SysConfig
 msgid "This module is part of the admin area of OTOBO."
-msgstr ""
+msgstr "Denne modulen er en del av administrasjonsområdet til OTOBO."
 
 #. SysConfig
 msgid ""
 "This option defines the dynamic field in which a Process Management activity "
 "entity id is stored."
 msgstr ""
+"Dette alternativet definerer det dynamiske feltet der en enhets-ID for "
+"prosessadministrasjonsaktivitet er lagret."
 
 #. SysConfig
 msgid ""
 "This option defines the dynamic field in which a Process Management process "
 "entity id is stored."
 msgstr ""
+"Dette alternativet definerer det dynamiske feltet der en "
+"prosessstyringsprosessentitets-ID er lagret."
 
 #. SysConfig
 msgid "This option defines the process tickets default lock."
-msgstr ""
+msgstr "Dette alternativet definerer prosessakers standardlås."
 
 #. SysConfig
 msgid "This option defines the process tickets default priority."
-msgstr ""
+msgstr "Dette alternativet definerer prosessakers standardprioritet."
 
 #. SysConfig
 msgid "This option defines the process tickets default queue."
-msgstr ""
+msgstr "Dette alternativet definerer standardkøen for prosessaker."
 
 #. SysConfig
 msgid "This option defines the process tickets default state."
-msgstr ""
+msgstr "Dette alternativet definerer prosessakers standardtilstand."
 
 #. SysConfig
 msgid ""
 "This option will deny the access to customer company tickets, which are not "
 "created by the customer user."
 msgstr ""
+"Dette alternativet vil nekte tilgang til kundeselskapssaker, som ikke er "
+"opprettet av kundebrukeren."
 
 #. SysConfig
 msgid ""
@@ -30971,72 +31581,77 @@ msgid ""
 "list of countries. This is particularly handy if you just want to use a "
 "small select group of countries."
 msgstr ""
+"Denne innstillingen lar deg overstyre den innebygde landlisten med din egen "
+"liste over land. Dette er spesielt nyttig hvis du bare vil bruke en liten "
+"utvalgt gruppe land."
 
 #. SysConfig
 msgid "This setting is deprecated. Set OTOBOTimeZone instead."
-msgstr ""
+msgstr "Denne innstillingen er utdatert. Sett OTOBOTimeZone i stedet."
 
 #. SysConfig
 msgid ""
 "This setting shows the sorting attributes in all overview screen, not only "
 "in queue view."
 msgstr ""
+"Denne innstillingen viser sorteringsattributtene i alle oversiktsskjermer, "
+"ikke bare i køvisning."
 
 #. SysConfig
 msgid "Ticket Close"
-msgstr ""
+msgstr "Lukk sak"
 
 #. SysConfig
 msgid "Ticket Close."
-msgstr ""
+msgstr "Lukk sak."
 
 #. SysConfig
 msgid "Ticket Compose Bounce Email."
-msgstr ""
+msgstr "Bounce-epost for opprett sak."
 
 #. SysConfig
 msgid "Ticket Compose email Answer."
-msgstr ""
+msgstr "E-postsvar for opprett sak."
 
 #. SysConfig
 msgid "Ticket Customer."
-msgstr ""
+msgstr "Sakskunde."
 
 #. SysConfig
 msgid "Ticket Forward Email."
-msgstr ""
+msgstr "E-post for videresending av sak."
 
 #. SysConfig
 msgid "Ticket FreeText."
-msgstr ""
+msgstr "Fritekst for sak."
 
 #. SysConfig
 msgid "Ticket History."
-msgstr ""
+msgstr "Sakshistorikk."
 
 #. SysConfig
 msgid "Ticket Lock."
-msgstr ""
+msgstr "Sakslås."
 
 #. SysConfig
 msgid "Ticket Merge."
-msgstr ""
+msgstr "Sakssammenslåing."
 
 #. SysConfig
 msgid "Ticket Move."
-msgstr ""
+msgstr "Saksflytting."
 
 #. SysConfig
 msgid "Ticket Note."
-msgstr ""
+msgstr "Saksmerknad."
 
 #. SysConfig
 msgid "Ticket Notifications"
-msgstr ""
+msgstr "Saksvarsler"
 
 #. SysConfig
 msgid "Ticket Outbound Email."
-msgstr ""
+msgstr "Sak utgående e-post."
 
 #. SysConfig
 msgid "Ticket Overview \"Medium\" Limit"
@@ -31052,65 +31667,67 @@ msgstr "Begrensning for saksvisning \"liten\""
 
 #. SysConfig
 msgid "Ticket Owner."
-msgstr ""
+msgstr "Sakseier."
 
 #. SysConfig
 msgid "Ticket Pending."
-msgstr ""
+msgstr "Sak venter."
 
 #. SysConfig
 msgid "Ticket Print."
-msgstr ""
+msgstr "Saksutskrift."
 
 #. SysConfig
 msgid "Ticket Priority."
-msgstr ""
+msgstr "Saksprioritet."
 
 #. SysConfig
 msgid "Ticket Queue Overview"
-msgstr ""
+msgstr "Sakskøoversikt"
 
 #. SysConfig
 msgid "Ticket Responsible."
-msgstr ""
+msgstr "Saksansvarlig."
 
 #. SysConfig
 msgid "Ticket Watcher"
-msgstr ""
+msgstr "Saksovervåker"
 
 #. SysConfig
 msgid "Ticket Zoom"
-msgstr ""
+msgstr "Sakszoom"
 
 #. SysConfig
 msgid "Ticket Zoom."
-msgstr ""
+msgstr "Sakszoom."
 
 #. SysConfig
 msgid ""
 "Ticket attributes that should be available in ticket invoker configuration "
 "frontend (0 = visible/selectable, 1 = default/preselected)."
 msgstr ""
+"Saksattributter som skal være tilgjengelige i ticket invoker-"
+"konfigurasjonsgrensesnittet (0 = synlig/valgbar, 1 = standard/forhåndsvalgt)."
 
 #. SysConfig
 msgid "Ticket bulk module."
-msgstr ""
+msgstr "Saksbulkmodul."
 
 #. SysConfig
 msgid "Ticket event module that triggers the escalation stop events."
-msgstr ""
+msgstr "Saksbegivenhetsmodul som utløser eskaleringsstopphendelsene."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Medium\"."
-msgstr ""
+msgstr "Saksgrense per side for saksoversikt \"Middels\"."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Preview\"."
-msgstr ""
+msgstr "Saksgrense per side for saksoversikt \"Forhåndsvisning\"."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Small\"."
-msgstr ""
+msgstr "Saksgrense per side for saksoversikt \"Liten\"."
 
 #. SysConfig
 msgid "Ticket notifications"
@@ -31122,19 +31739,19 @@ msgstr "Saksoversikt"
 
 #. SysConfig
 msgid "Ticket plain view of an email."
-msgstr ""
+msgstr "Sak oversikt over en e-post."
 
 #. SysConfig
 msgid "Ticket split dialog."
-msgstr ""
+msgstr "Delt dialogvisning for sak."
 
 #. SysConfig
 msgid "Ticket title"
-msgstr ""
+msgstr "Sakstittel"
 
 #. SysConfig
 msgid "Ticket zoom view."
-msgstr ""
+msgstr "Sakszoomvisning."
 
 #. SysConfig
 msgid "TicketNumber"
@@ -31146,36 +31763,41 @@ msgid ""
 "server. To apply this to existing tickets, the ticket migration has to be "
 "run via console, after changing this option."
 msgstr ""
+"Saker i følgende køer vil ikke bli lagret på Elasticsearch-serveren. For å "
+"bruke dette på eksisterende saker, må saksmigreringen kjøres via konsollen, "
+"etter å ha endret dette alternativet."
 
 #. SysConfig
 msgid "Tickets."
-msgstr ""
+msgstr "Saker."
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required."
-msgstr ""
+msgstr "Flisregistrering for CustomerDashboard. Modul er nødvendig."
 
 #. SysConfig
 msgid ""
 "Time in seconds that gets added to the actual time if setting a pending-"
 "state (default: 86400 = 1 day)."
 msgstr ""
+"Tid i sekunder som legges til den faktiske tiden hvis du angir en ventende "
+"tilstand (standard: 86400 = 1 dag)."
 
 #. SysConfig
 msgid "To accept login information, such as an EULA or license."
-msgstr ""
+msgstr "For å godta påloggingsinformasjon, for eksempel en EULA eller lisens."
 
 #. SysConfig
 msgid "To download attachments."
-msgstr ""
+msgstr "For å laste ned vedlegg."
 
 #. SysConfig
 msgid "To view HTML attachments."
-msgstr ""
+msgstr "For å se HTML-vedlegg."
 
 #. SysConfig
 msgid "Toggles display of OTOBO FeatureAddons list in PackageManager."
-msgstr ""
+msgstr "Bytter visning av OTOBO FeatureAddons-liste i PackageManager."
 
 #. SysConfig
 msgid ""
@@ -31183,6 +31805,9 @@ msgid ""
 "this link can be done by using Key \"Group\" and Content like \"rw:group1;"
 "move_into:group2\"."
 msgstr ""
+"Verktøylinjeelement for en snarvei. Ytterligere tilgangskontroll for å vise "
+"eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen \"Gruppe\" "
+"og innhold som \"rw:gruppe1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -31192,6 +31817,12 @@ msgid ""
 "the settings of another user's behalf. Use 'PreferenceGroup' to control in "
 "which area these settings should be shown in the user interface."
 msgstr ""
+"Transportvalg for avtalemeldinger. Vennligst merk: å sette 'Aktiv' til 0 vil "
+"bare forhindre agenter fra å redigere innstillingene for denne gruppen i "
+"sine personlige preferanser, men vil fortsatt tillate administratorer å "
+"redigere innstillingene til en annen brukers vegne. Bruk 'PreferenceGroup' "
+"for å kontrollere i hvilket område disse innstillingene skal vises i "
+"brukergrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -31201,21 +31832,29 @@ msgid ""
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which "
 "area these settings should be shown in the user interface."
 msgstr ""
+"Transportvalg for saksvarsler. Vennligst merk: å sette 'Aktiv' til 0 vil "
+"bare forhindre agenter fra å redigere innstillingene for denne gruppen i "
+"sine personlige preferanser, men vil fortsatt tillate administratorer å "
+"redigere innstillingene til en annen brukers vegne. Bruk 'PreferenceGroup' "
+"for å kontrollere i hvilket område disse innstillingene skal vises i "
+"brukergrensesnittet."
 
 #. SysConfig
 msgid "Tree view"
-msgstr ""
+msgstr "Trevisning"
 
 #. SysConfig
 msgid ""
 "Triggers add or update of automatic calendar appointments based on certain "
 "ticket times."
 msgstr ""
+"Utløsere legger til eller oppdatering av automatiske kalenderavtaler basert "
+"på bestemte sakstider."
 
 #. SysConfig
 msgid ""
 "Triggers ticket escalation events and notification events for escalation."
-msgstr ""
+msgstr "Utløser sak-eskaleringshendelser og varslingshendelser for eskalering."
 
 #. SysConfig
 msgid "Turkish"
@@ -31226,10 +31865,12 @@ msgid ""
 "Turns off SSL certificate validation, for example if you use a transparent "
 "HTTPS proxy. Use at your own risk!"
 msgstr ""
+"Slår av SSL-sertifikatvalidering, for eksempel hvis du bruker en "
+"gjennomsiktig HTTPS-proxy. Bruk på eget ansvar!"
 
 #. SysConfig
 msgid "Turns on drag and drop for the main navigation."
-msgstr ""
+msgstr "Slår på dra og slipp for hovednavigasjonen."
 
 #. SysConfig
 msgid ""
@@ -31237,10 +31878,14 @@ msgid ""
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
 msgstr ""
+"Slår på den eksterne ip-adressekontrollen. Den bør ikke aktiveres hvis "
+"applikasjonen brukes, for eksempel via en proxy-farm eller en oppringt "
+"tilkobling, fordi den eksterne ip-adressen stort sett er forskjellig for "
+"forespørslene."
 
 #. SysConfig
 msgid "Tweak the system as you wish."
-msgstr ""
+msgstr "Juster systemet som du ønsker."
 
 #. SysConfig
 msgid ""
@@ -31249,6 +31894,10 @@ msgid ""
 "mechanism (i.e. logrotate). Note: External rotation mechanism requires its "
 "own and independent configuration."
 msgstr ""
+"Type daemonloggrotasjon som skal brukes: Velg \"OTOBO\" for å la OTOBO-"
+"systemet håndtere filrotasjonen, eller velg \"Ekstern\" for å bruke en "
+"tredjeparts rotasjonsmekanisme (dvs. logrotere). Merk: Ekstern "
+"rotasjonsmekanisme krever sin egen og uavhengige konfigurasjon."
 
 #. SysConfig
 msgid "Ukrainian"
@@ -31256,11 +31905,12 @@ msgstr "Ukrainsk"
 
 #. SysConfig
 msgid "Unlock tickets that are past their unlock timeout."
-msgstr ""
+msgstr "Lås opp saker som har passert opplåsingstiden."
 
 #. SysConfig
 msgid "Unlock tickets whenever a note is added and the owner is out of office."
 msgstr ""
+"Lås opp saker hver gang en lapp legges til og eieren ikke er på kontoret."
 
 #. SysConfig
 msgid "Unlocked ticket."
@@ -31279,6 +31929,8 @@ msgid ""
 "Update Ticket \"Seen\" flag if every article got seen or a new Article got "
 "created."
 msgstr ""
+"Oppdater sak \"Sett\"-flagget hvis hver artikkel ble sett eller en ny "
+"artikkel ble opprettet."
 
 #. SysConfig
 msgid "Update time"
@@ -31288,32 +31940,35 @@ msgstr "Oppdateringstid"
 msgid ""
 "Updates the ticket escalation index after a ticket attribute got updated."
 msgstr ""
+"Oppdaterer sak-eskaleringsindeksen etter at et saksattributt ble oppdatert."
 
 #. SysConfig
 msgid "Updates the ticket index accelerator."
-msgstr ""
+msgstr "Oppdaterer saksindeksakseleratoren."
 
 #. SysConfig
 msgid "Upload your PGP key."
-msgstr ""
+msgstr "Last opp PGP-nøkkelen din."
 
 #. SysConfig
 msgid "Upload your S/MIME certificate."
-msgstr ""
+msgstr "Last opp S/MIME-sertifikatet ditt."
 
 #. SysConfig
 msgid "Use Redis::Fast instead of Redis."
-msgstr ""
+msgstr "Bruk Redis::Fast i stedet for Redis."
 
 #. SysConfig
 msgid ""
 "Use new type of select and autocomplete fields in agent interface, where "
 "applicable (InputFields)."
 msgstr ""
+"Bruk ny type valg- og autofullfør-felt i agentgrensesnittet, der det er "
+"aktuelt (InputFields)."
 
 #. SysConfig
 msgid "Use specified Redis logical database."
-msgstr ""
+msgstr "Bruk spesifisert Redis logisk database."
 
 #. SysConfig
 msgid "User Profile"
@@ -31329,17 +31984,19 @@ msgstr "Brukers-etternavn"
 
 #. SysConfig
 msgid "Users, Groups & Roles"
-msgstr ""
+msgstr "Brukere, grupper og roller"
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
-msgstr ""
+msgstr "Bruker rik tekst for å vise og redigere saksvarsel."
 
 #. SysConfig
 msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
 msgstr ""
+"Bruker rik tekst for visning og redigering: artikler, hilsener, signaturer, "
+"standardmaler, automatiske svar og varsler."
 
 #. SysConfig
 msgid "Vietnam"
@@ -31359,7 +32016,7 @@ msgstr "Overvåkede saker"
 
 #. SysConfig
 msgid "Watched Tickets."
-msgstr ""
+msgstr "Overvåkede saker."
 
 #. SysConfig
 msgid "We are performing scheduled maintenance."
@@ -31387,10 +32044,15 @@ msgid ""
 "last edited the ticket. Please deactivate this option to restore the "
 "behaviour of OTRS version 2-6 and OTOBO 10.."
 msgstr ""
+"Vi har endret standard saksopplåsingsadferd i OTOBO 10.1. Nå er saken ikke "
+"bare låst opp, men også overlevert systembrukeren igjen. Dermed er "
+"oppførselen tydeligere, men det er ikke lenger mulig å lese opp hvem som "
+"sist redigerte saken. Vennligst deaktiver dette alternativet for å "
+"gjenopprette oppførselen til OTRS versjon 2-6 og OTOBO 10."
 
 #. SysConfig
 msgid "Web Service"
-msgstr ""
+msgstr "Nettjeneste"
 
 #. SysConfig
 msgid "Web Services"
@@ -31402,12 +32064,17 @@ msgid ""
 "WelcomeText. \"UserTitle\", \"UserFirstname\", \"UserLastname\", \"UserEmail"
 "\" and \"UserLogin\" will be substituted."
 msgstr ""
+"Velkomsttekst for dashbordoverskriften. Navn vil bli satt inn i %s av "
+"velkomstteksten. \"UserTitle\", \"UserFirstname\", \"UserLastname\", "
+"\"UserEmail\" og \"UserLogin\" vil bli erstattet."
 
 #. SysConfig
 msgid ""
 "When agent creates a ticket, whether or not the ticket is automatically "
 "locked to the agent."
 msgstr ""
+"Når agenten oppretter en sak, om saken automatisk låses til agenten eller "
+"ikke."
 
 #. SysConfig
 msgid ""
@@ -31415,6 +32082,9 @@ msgid ""
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
 msgstr ""
+"Når sakene er slått sammen, legges det automatisk til et notat til saken som "
+"ikke lenger er aktiv. Her kan du definere teksten til denne notaten (denne "
+"teksten kan ikke endres av agenten)."
 
 #. SysConfig
 msgid ""
@@ -31422,6 +32092,9 @@ msgid ""
 "which is no longer active. Here you can define the subject of this note "
 "(this subject cannot be changed by the agent)."
 msgstr ""
+"Når sakene er slått sammen, legges det automatisk til et notat til saken som "
+"ikke lenger er aktiv. Her kan du definere emnet for dette notatet (dette "
+"emnet kan ikke endres av agenten)."
 
 #. SysConfig
 msgid ""
@@ -31429,24 +32102,33 @@ msgid ""
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
 msgstr ""
+"Når saker er slått sammen, kan kunden informeres per e-post ved å sette "
+"avkrysningsboksen \"Informer avsender\". I dette tekstområdet kan du "
+"definere en forhåndsformatert tekst som senere kan endres av agentene."
 
 #. SysConfig
 msgid ""
 "Whether extended customer information is shown in the ticket print screen of "
 "the customer interface."
 msgstr ""
+"Om utvidet kundeinformasjon vises i saksutskriftsskjermen i "
+"kundegrensesnittet."
 
 #. SysConfig
 msgid ""
 "Whether fields should be automatically filled (1), and in that case also be "
 "hidden from ticket formulars (2)."
 msgstr ""
+"Om felt skal fylles ut automatisk (1), og i så fall også skjules for "
+"saksformlene (2)."
 
 #. SysConfig
 msgid ""
 "Whether or not to collect meta information from articles using filters "
 "configured in Ticket::Frontend::ZoomCollectMetaFilters."
 msgstr ""
+"Hvorvidt man skal samle inn metainformasjon fra artikler ved hjelp av filtre "
+"konfigurert i Ticket::Frontend::ZoomCollectMetaFilters."
 
 #. SysConfig
 msgid ""
@@ -31454,6 +32136,9 @@ msgid ""
 "dependencies. This can improve loading times of ticket formulars, but has to "
 "be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes."
 msgstr ""
+"Om kjøringen av TicketACL kan unngås ved å sjekke bufrede feltavhengigheter. "
+"Dette kan forbedre lastetidene for saksformlere, men må deaktiveres hvis "
+"ACLModules skal brukes for sak- og skjema-returtyper."
 
 #. SysConfig
 msgid ""
@@ -31461,6 +32146,9 @@ msgid ""
 "check that your web server is configured correctly for https protocol before "
 "enable this option."
 msgstr ""
+"Om du skal tvinge omdirigering av alle forespørsler fra http til https-"
+"protokollen. Kontroller at webserveren din er riktig konfigurert for https-"
+"protokollen før du aktiverer dette alternativet."
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"
@@ -31471,6 +32159,8 @@ msgid ""
 "Your email with ticket number \"<OTOBO_TICKET>\" is bounced to "
 "\"<OTOBO_BOUNCE_TO>\". Contact this address for further information."
 msgstr ""
+"Din e-post med saksnummeret «<OTOBO_TICKET>» blir returnert til "
+"«<OTOBO_BOUNCE_TO>». Kontakt denne adressen for mer informasjon."
 
 #. SysConfig
 msgid ""
@@ -31485,12 +32175,16 @@ msgid ""
 "Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
 msgstr ""
+"Ditt køvalg av dine foretrukne køer. Du blir også varslet om disse køene via "
+"e-post hvis aktivert."
 
 #. SysConfig
 msgid ""
 "Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
 msgstr ""
+"Ditt tjenestevalg av dine foretrukne tjenester. Du blir også varslet om "
+"disse tjenestene via e-post hvis aktivert."
 
 #. SysConfig
 msgid "Zoom"
@@ -31498,7 +32192,7 @@ msgstr "Detaljer"
 
 #. SysConfig
 msgid "attachment"
-msgstr ""
+msgstr "vedlegg"
 
 #. SysConfig
 msgid "bounce"
@@ -31506,11 +32200,11 @@ msgstr "email!;Kan"
 
 #. SysConfig
 msgid "compose"
-msgstr ""
+msgstr "komponere"
 
 #. SysConfig
 msgid "debug"
-msgstr ""
+msgstr "feilsøke"
 
 #. SysConfig
 msgid "error"
@@ -31534,7 +32228,7 @@ msgstr "normal"
 
 #. SysConfig
 msgid "notice"
-msgstr ""
+msgstr "merknad"
 
 #. SysConfig
 msgid "pending"
@@ -31554,7 +32248,7 @@ msgstr "motsatt"
 
 #. SysConfig
 msgid "stats"
-msgstr ""
+msgstr "statistikk"
 
 #, fuzzy
 #~ msgid "Nr."
