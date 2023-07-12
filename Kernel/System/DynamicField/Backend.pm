@@ -2923,4 +2923,69 @@ sub ValueSearch {
     );
 }
 
+=head2 Evaluate()
+
+Evaluates a script dynamic field
+
+    my $Result = $BackendObject->Evaluate(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        %AdditionalData,                                # depends on the specific driver
+    );
+
+=cut
+
+sub Evaluate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+
+            return;
+        }
+    }
+
+    # set the dynamic field specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+
+        return;
+    }
+
+    # call Evaluate of the specific backend
+    return $Self->{$DynamicFieldBackend}->Evaluate(%Param);
+}
+
+
 1;

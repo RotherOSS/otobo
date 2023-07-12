@@ -13,8 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-
-[% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Ticket Mask Management") | html %]</h1>
 
@@ -108,8 +106,13 @@
 
                         <label for="Definition">[% Translate("Definition") | html %]: </label>
                         <div class="Field">
-                            <textarea name="Definition" id="Definition" rows="[% Data.Rows | html %]" cols="80" wrap="off">[% Data.Definition | html %]</textarea>
+                            <textarea name="Definition" id="Definition" [% IF Data.Error %]class="Error"[% END %] rows="[% Data.Rows | html %]" cols="80" wrap="off">[% Data.Definition | html %]</textarea>
                         </div>
+[% IF Data.Error %]
+                        <div class="Field">
+                            <p class="Error">[% Translate(Data.Error) %]</p>
+                        </div>
+[% END %]
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
@@ -133,4 +136,3 @@
     </div>
     <div class="Clear"></div>
 </div>
-[% RenderBlockEnd("Overview") %]

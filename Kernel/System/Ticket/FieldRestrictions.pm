@@ -19,6 +19,8 @@ package Kernel::System::Ticket::FieldRestrictions;
 use strict;
 use warnings;
 
+use List::Util qw(any);
+
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -57,6 +59,10 @@ sub new {
     my $Self = bless {}, $Type;
 
     $Self->{CacheObject} = $Kernel::OM->Get('Kernel::System::Cache');
+    # TODO: probably needs completion for all frontends
+    $Self->{Uniformity}  = {
+        Dest => 'Queue',
+    };
 
     return $Self;
 }
@@ -72,19 +78,19 @@ Returns possible values, selected values, and visibility of fields
         DynamicFields             => $DynamicFieldConfigs,
         DynamicFieldBackendObject => $DynamicFieldBackendObject,
         ChangedElements           => {},
-        CustomerUser              => $CustomerUser,           # optional: either UserID or CustomerUser
-        UserID                    => $UserID,                 # optional: either UserID or CustomerUser
+        CustomerUser              => $CustomerUser,
         Action                    => $Action,
+        UserID                    => $UserID,
         TicketID                  => $TicketID,
         FormID                    => $Self->{FormID},
         GetParam                  => {
             %GetParam,
             OwnerID     => $GetParam{NewUserID},
         },
-        LoopProtection            => \$LoopProtection,        # restricts number of recursive calls; passing a reference to 'undef' will lead to a warning
-        Autoselect                => {},                      # optional; default: undef; {Field => 0,1,2, ...}
-        ACLPreselection           => 0|1,                     # optional
-        ForceVisibility           => 0|1,                     # optional; always checks visibility, will be activated if fields were autoselected
+        LoopProtection            => \$LoopProtection,              # restricts number of recursive calls; passing a reference to 'undef' will lead to a warning
+        Autoselect                => {},                            # optional; default: undef; {Field => 0,1,2, ...}
+        ACLPreselection           => 0|1,                           # optional
+        InitialRun                => 1,                             # optional; evaluate script fields without AJAX Trigger once
     );
 
 Returns:
@@ -168,6 +174,7 @@ sub GetFieldStates {
     my %UserPreferences = ();
     my %Visibility;
     my $VisCheck = 1;
+    my $Queue;
 
     # whether to use ACLPreselection
     if ( !$CompleteRun ) {
@@ -176,7 +183,6 @@ sub GetFieldStates {
         # check whether form-ACLs are affected by any of the changed elements
         ELEMENT:
         for my $Element ( sort keys %{ $Param{ChangedElements} } ) {
-
             # autovivification could be avoided
             if ( $Param{ACLPreselection}{Rules}{Form}{$Element} ) {
                 $VisCheck = 1;
@@ -235,6 +241,79 @@ sub GetFieldStates {
     for my $DynamicFieldConfig ( @{ $Param{DynamicFields} } ) {
         $i++;
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if $DynamicFieldConfig->{Readonly};
+
+        # evaluate script fields if triggered
+        if (
+            $Param{DynamicFieldBackendObject}->HasBehavior(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsScriptField',
+            )
+        ) {
+            $Queue //= defined $Param{GetParam}{Queue} ? $Param{GetParam}{Queue}
+                : $Param{GetParam}{Dest} && $Param{GetParam}{Dest} =~ /\|\|(.+)$/ ? $1
+                : undef;
+
+            my %GetParam = (
+                Queue => $Queue,
+                $Param{GetParam}->%*,
+            );
+
+            # the required args have to be present
+            for my $Required ( @{ $DynamicFieldConfig->{Config}{RequiredArgs} // [] } ) {
+                my $Value = $GetParam{DynamicField}{ $Required } // $GetParam{ $Required };
+
+                next DYNAMICFIELD if !$Value || ( ref $Value && !IsArrayRefWithData( $Value ) );
+            }
+
+            my %ChangedElements = map { $Self->{Uniformity}{ $_ } // $_ => 1 } keys $Param{ChangedElements}->%*;
+            delete $ChangedElements{ 'DynamicField_' . $DynamicFieldConfig->{Name}};
+
+            # skip if it's only a rerun due to self change
+            next DYNAMICFIELD if !%ChangedElements && !$Param{InitialRun};
+
+            # if specific AJAX triggers are defined only update on changes to them...
+            if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{AJAXTriggers} ) ) {
+                next DYNAMICFIELD if !any { $ChangedElements{ $_ } } $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
+            }
+
+            # ...if not, only check in the first run
+            elsif ( !$Param{InitialRun} ) {
+                next DYNAMICFIELD;
+            }
+
+
+            next DYNAMICFIELD if IsArrayRefWithData( $DynamicFieldConfig->{Config}{AJAXTriggers} )
+                && !$Param{InitialRun}
+                && !any { $ChangedElements{ $Self->{Uniformity}{ $_ } // $_ } }
+                    $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
+
+            my $NewValue = $Param{DynamicFieldBackendObject}->Evaluate(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Object             => {
+                    CustomerUserID => $Param{CustomerUser},
+                    TicketID       => $Param{TicketID},
+                    %GetParam,
+                },
+            );
+
+            # do nothing if nothing changed
+            next DYNAMICFIELD if !$Param{DynamicFieldBackendObject}->ValueIsDifferent(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Value1             => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                Value2             => $NewValue,
+            );
+
+            $NewValues{"DynamicField_$DynamicFieldConfig->{Name}"} = $NewValue;
+
+            $Fields{$i} = {
+                Name            => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                PossibleValues  => undef,
+                NotACLReducible => 1,
+            };
+
+            next DYNAMICFIELD;
+        }
 
         my $IsACLReducible = $Param{DynamicFieldBackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
@@ -272,6 +351,7 @@ sub GetFieldStates {
                     };
                 }
             }
+
             next DYNAMICFIELD;
         }
 
@@ -297,6 +377,7 @@ sub GetFieldStates {
                     };
                 }
             }
+
             next DYNAMICFIELD;
         }
 

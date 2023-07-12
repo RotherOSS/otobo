@@ -41,6 +41,7 @@ sub Run {
         '<Table Name="frontend_mask_definition">
             <Column Name="mask" Required="true" Type="VARCHAR" Size="80"/>
             <Column Name="definition" Required="true" Type="LONGBLOB"/>
+            <Column Name="dynamic_field" Required="true" Type="LONGBLOB" />
             <Column Name="create_time" Required="true" Type="DATE"/>
             <Column Name="create_by" Required="true" Type="INTEGER"/>
         </Table>',

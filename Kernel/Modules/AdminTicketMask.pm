@@ -19,6 +19,8 @@ package Kernel::Modules::AdminTicketMask;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -64,62 +66,17 @@ sub Run {
         return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" ) if !$Mask;
 
         # get definition
-        my $Definition = $MaskObject->DefinitionGet(
+        my $DefinitionString = $MaskObject->DefinitionGet(
             Mask   => $Mask,
-            Return => 'STRING',
+            Return => 'Raw',
         );
 
-        my $DefinitionHTML = $LayoutObject->Ascii2Html(
-            Text => $Definition,
+        return $Self->_MaskChange(
+            Mask         => $Mask,
+            Definition   => $DefinitionString,
+            LayoutObject => $LayoutObject,
+            ValidMasks   => \%ValidMasks,
         );
-
-        # generate MaskOptionStrg
-        my $MaskOptionStrg = $LayoutObject->BuildSelection(
-            Data         => \%ValidMasks,
-            Name         => 'Mask',
-            PossibleNone => 1,
-            Translation  => 0,
-            SelectedID   => $Mask,
-            Class        => 'Modernize',
-        );
-
-        # output overview
-        $LayoutObject->Block(
-            Name => 'Overview',
-            Data => {
-                MaskOptionStrg => $MaskOptionStrg,
-                MaskSelected   => $Mask,
-                Edit           => 1,
-            },
-        );
-
-        # output overview result
-        $LayoutObject->Block(
-            Name => 'DefinitionChange',
-            Data => {
-                Definition => $DefinitionHTML,
-                Mask       => $Mask,
-                Rows       => 40,
-            },
-        );
-
-        # ActionOverview
-        $LayoutObject->Block(
-            Name => 'ActionOverview',
-        );
-
-        # output header
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-
-        # generate output
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminTicketMask',
-            Data         => \%Param,
-        );
-        $Output .= $LayoutObject->Footer();
-
-        return $Output;
     }
 
     # ------------------------------------------------------------ #
@@ -152,13 +109,21 @@ sub Run {
         }
         else {
             # add to database
-            my $Success = $MaskObject->DefinitionSet(
+            my $Return = $MaskObject->DefinitionSet(
                 Mask             => $GetParam{Mask},
                 DefinitionString => $GetParam{Definition},
                 UserID           => $Self->{UserID},
             );
 
-            return $LayoutObject->ErrorScreen() if !$Success;
+            return $LayoutObject->ErrorScreen() if !$Return;
+
+            return $Self->_MaskChange(
+                Mask         => $GetParam{Mask},
+                Definition   => $GetParam{Definition},
+                Error        => $Return->{Error},
+                LayoutObject => $LayoutObject,
+                ValidMasks   => \%ValidMasks,
+            ) if !$Return->{Success};
         }
 
         my $ContinueAfterSave = $ParamObject->GetParam( Param => 'ContinueAfterSave' );
@@ -176,23 +141,6 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
 
-        # generate ClassOptionStrg
-        my $MaskOptionStrg = $LayoutObject->BuildSelection(
-            Data         => \%ValidMasks,
-            Name         => 'Mask',
-            PossibleNone => 1,
-            Translation  => 0,
-            Class        => 'Modernize',
-        );
-
-        # output overview
-        $LayoutObject->Block(
-            Name => 'Overview',
-            Data => {
-                MaskOptionStrg => $MaskOptionStrg,
-            },
-        );
-
         # output overview result
         $LayoutObject->Block(
             Name => 'OverviewList',
@@ -207,19 +155,75 @@ sub Run {
             );
         }
 
-        # output header
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
+        # generate ClassOptionStrg
+        my $MaskOptionStrg = $LayoutObject->BuildSelection(
+            Data         => \%ValidMasks,
+            Name         => 'Mask',
+            PossibleNone => 1,
+            Translation  => 0,
+            Class        => 'Modernize',
+        );
 
         # generate output
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminTicketMask',
-            Data         => \%Param,
-        );
-        $Output .= $LayoutObject->Footer();
-
-        return $Output;
+        return join '',
+            $LayoutObject->Header(),
+            $LayoutObject->NavigationBar(),
+            $LayoutObject->Output(
+                TemplateFile => 'AdminTicketMask',
+                Data => {
+                    MaskOptionStrg => $MaskOptionStrg,
+                },
+            ),
+            $LayoutObject->Footer();
     }
+}
+
+sub _MaskChange {
+    my ( $Self, %Param ) = @_;
+
+    # ActionOverview
+    $Param{LayoutObject}->Block(
+        Name => 'ActionOverview',
+    );
+
+    my $DefinitionHTML = $Param{LayoutObject}->Ascii2Html(
+        Text => $Param{Definition},
+    );
+
+    # output change section
+    $Param{LayoutObject}->Block(
+        Name => 'DefinitionChange',
+        Data => {
+            Definition => $DefinitionHTML,
+            Mask       => $Param{Mask},
+            Rows       => 40,
+            Error      => $Param{Error},
+        },
+    );
+
+    # generate MaskOptionStrg
+    my $MaskOptionStrg = $Param{LayoutObject}->BuildSelection(
+        Data         => $Param{ValidMasks},
+        Name         => 'Mask',
+        PossibleNone => 1,
+        Translation  => 0,
+        SelectedID   => $Param{Mask},
+        Class        => 'Modernize',
+    );
+
+    # generate output
+    return join '',
+        $Param{LayoutObject}->Header(),
+        $Param{LayoutObject}->NavigationBar(),
+        $Param{LayoutObject}->Output(
+            TemplateFile => 'AdminTicketMask',
+            Data => {
+                MaskOptionStrg => $MaskOptionStrg,
+                MaskSelected   => $Param{Mask},
+                Edit           => 1,
+            },
+        ),
+        $Param{LayoutObject}->Footer();
 }
 
 1;

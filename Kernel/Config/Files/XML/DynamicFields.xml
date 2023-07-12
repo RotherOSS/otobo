@@ -151,6 +151,17 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="DynamicFields::Driver###ScriptTemplateToolkit" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Script (Template Toolkit)</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::ScriptTemplateToolkit</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldScript</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <!-- End generic dynamic fields -->
 
     <!-- DynamicField Database -->
@@ -1565,6 +1576,42 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Frontend::Module###AdminDynamicFieldScript" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Dynamic Fields Text Backend GUI</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminDynamicFieldScript###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.DynamicField.js</Item>
+                        <Item>Core.Agent.Admin.SysConfig.Entity.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
     <!--End Admin Interface -->
 
     <!-- nofilter(TidyAll::Plugin::OTOBO::Znuny4OTOBO::Config::ACLKeysLevel3Actions) -->
@@ -1905,4 +1952,15 @@
     </Setting>
     <!-- End Namespaces -->
 
+    <Setting Name="Ticket::EventModulePost###4000-ScriptDynamicFields" Required="0" Valid="1">
+        <Description Translatable="1">Evaluate all script fields.</Description>
+        <Navigation>Core::Event::Ticket</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::EvaluateScriptFields</Item>
+                <Item Key="Event"></Item>
+                <Item Key="Transaction">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
 </otobo_config>

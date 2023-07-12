@@ -25,6 +25,7 @@ use warnings;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -66,8 +67,7 @@ sub new {
 Set the definition for a ticket mask
 
     my $Success = $MaskObject->DefinitionSet(
-        Definition       => \@Definition,
-        DefinitionString => $YAMLString,  # either Definition or DefinitionString is needed
+        DefinitionString => $YAMLString,
         Mask             => $Mask,
         UserID           => $UserID,
     );
@@ -77,63 +77,62 @@ Set the definition for a ticket mask
 sub DefinitionSet {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw/UserID Mask/) {
+    for my $Needed (qw/UserID Mask DefinitionString/) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
-    if ( $Param{DefinitionString} ) {
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
-        # Validate YAML code by converting it to Perl.
-        my $DefinitionRef = $Kernel::OM->Get('Kernel::System::YAML')->Load(
-            Data => $Param{DefinitionString},
-        );
+    my $DefinitionRef = $YAMLObject->Load(
+        Data => $Param{DefinitionString},
+    );
 
-        if ( ref $DefinitionRef ne 'ARRAY' ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'Need and array in valid YAML!',
-            );
-            return;
-        }
-    }
-    elsif ( $Param{Definition} ) {
-        $Param{DefinitionString} = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
-            Data => $Param{Definition},
-        );
+    return {
+        Success => 0,
+        Error   => Translatable('Base structure is not valid. Please provide an array with data in YAML format.'),
+    } if !IsArrayRefWithData( $DefinitionRef );
 
-        if ( !$Param{DefinitionString} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'Could not generate YAML from provided Definition!',
-            );
-            return;
-        }
-    }
-    else {
+    # TODO: Introduce some checks on $DefinitionRef syntax
+
+    my $DynamicFieldReturn = $Self->_DefinitionDynamicFieldGet( Definition => $Param{DefinitionString} );
+
+    return {
+        Success => 0,
+        Error   => $DynamicFieldReturn->{Error} // Translatable('Error parsing dynamic fields.'),
+    } if !$DynamicFieldReturn || !$DynamicFieldReturn->{Success};
+
+    my $DynamicFieldString = $YAMLObject->Dump(
+        Data => $DynamicFieldReturn->{DynamicFields},
+    );
+
+    if ( !$DynamicFieldString ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need Definition or DefinitionString!',
+            Message  => 'Could not dump YAML!',
         );
+
         return;
     }
 
     $Self->DefinitionDelete(
         Mask      => $Param{Mask},
-        KeepCache => 1,
     );
 
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL  => 'INSERT INTO frontend_mask_definition ( mask, definition, create_time, create_by ) VALUES ( ?, ?, current_timestamp, ? )',
-        Bind => [ \$Param{Mask}, \$Param{DefinitionString}, \$Param{UserID} ],
+        SQL  => 'INSERT INTO frontend_mask_definition ( mask, definition, dynamic_field, create_time, create_by ) VALUES ( ?, ?, ?, current_timestamp, ? )',
+        Bind => [ \$Param{Mask}, \$Param{DefinitionString}, \$DynamicFieldString, \$Param{UserID} ],
     );
 
-    return 1;
+    return {
+        Success => 1,
+    };
 }
 
 =head2 DefinitionGet()
@@ -142,7 +141,7 @@ Get the definition for a ticket mask
 
     my $Definition = $MaskObject->DefinitionGet(
         Mask   => $Mask,
-        Return => 'ARRAY', # Optional either ARRAY (default) or STRING which returns the YAML
+        Return => 'Raw', # optional - return only the raw yaml string for the mask without dynamic fields
     );
 
 =cut
@@ -160,25 +159,34 @@ sub DefinitionGet {
         }
     }
 
-    $Param{Return} ||= 'ARRAY';
-
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     $DBObject->Prepare(
-        SQL   => 'SELECT definition FROM frontend_mask_definition WHERE mask = ?',
+        SQL   => 'SELECT definition, dynamic_field FROM frontend_mask_definition WHERE mask = ?',
         Bind  => [ \$Param{Mask} ],
         Limit => 1,
     );
 
-    my ($DefinitionString) = $DBObject->FetchrowArray();
+    my ( $DefinitionString, $DynamicFieldString ) = $DBObject->FetchrowArray();
 
     return if !$DefinitionString;
 
-    return $DefinitionString if $Param{Return} eq 'STRING';
+    return $DefinitionString if $Param{Return} && $Param{Return} eq 'Raw';
 
-    return $Kernel::OM->Get('Kernel::System::YAML')->Load(
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+
+    my $Definition = $YAMLObject->Load(
         Data => $DefinitionString,
     );
+
+    my $DynamicFields = $YAMLObject->Load(
+        Data => $DynamicFieldString,
+    );
+
+    return {
+        Mask          => $Definition,
+        DynamicFields => $DynamicFields,
+    };
 }
 
 =head2 DefinitionDelete()
@@ -233,6 +241,86 @@ sub ConfiguredMasksList {
     }
 
     return @Masks;
+}
+
+sub _DefinitionDynamicFieldGet {
+    my ( $Self, %Param ) = @_;
+
+    $Param{DefinitionPerl} //= $Kernel::OM->Get('Kernel::System::YAML')->Load(
+        Data => $Param{Definition},
+    );
+
+    my %ContentHash  = ref $Param{DefinitionPerl} && ref $Param{DefinitionPerl} eq 'HASH'  ? $Param{DefinitionPerl}->%* : ();
+    my @ContentArray = ref $Param{DefinitionPerl} && ref $Param{DefinitionPerl} eq 'ARRAY' ? $Param{DefinitionPerl}->@* : ();
+
+    if ( !%ContentHash && !@ContentArray ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Definition or DefinitionPerl as hash or array!",
+        );
+
+        return;
+    }
+
+    my %DynamicFields;
+
+    for my $Key ( keys %ContentHash ) {
+        if ( $Key eq 'DF' ) {
+            $DynamicFields{ $ContentHash{ $Key } } = \%ContentHash;
+        }
+        elsif ( ref $ContentHash{ $Key } ) {
+            %DynamicFields = (
+                %DynamicFields,
+                $Self->_DefinitionDynamicFieldGet( DefinitionPerl => $ContentHash{ $Key } ),
+            );
+        }
+    }
+
+    for my $Entry ( @ContentArray ) {
+        if ( ref $Entry ) {
+            %DynamicFields = (
+                %DynamicFields,
+                $Self->_DefinitionDynamicFieldGet( DefinitionPerl => $Entry ),
+            );
+        }
+    }
+
+    if ( $Param{Definition} ) {
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+        my %ReturnDynamicFields;
+
+        DYNAMICFIELD:
+        for my $Name ( keys %DynamicFields ) {
+            my $DynamicField = $DynamicFieldObject->DynamicFieldGet( Name => $Name );
+
+            return {
+                Success => 0,
+                Error   => sprintf( Translatable( 'No dynamic field "%s".' ), $Name ),
+            } if !$DynamicField;
+
+            return {
+                Success => 0,
+                Error   => sprintf( Translatable( 'Dynamic field "%s" not valid.' ), $Name ),
+            } if !$DynamicField->{ValidID} eq '1';
+
+            # Dynamic field has to be listed even without parameters
+            $ReturnDynamicFields{ $Name } = undef;
+
+            for my $Attribute ( qw/Mandatory Label Readonly/ ) {
+                if ( defined $DynamicFields{ $Name }{ $Attribute } ) {
+                    $ReturnDynamicFields{ $Name }{ $Attribute } = $DynamicFields{ $Name }{ $Attribute };
+                }
+            }
+        }
+
+        return {
+            Success       => 1,
+            DynamicFields => \%ReturnDynamicFields,
+        }
+    }
+
+    return %DynamicFields;
 }
 
 1;

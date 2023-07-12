@@ -40,12 +40,50 @@ sub new {
     # frontend specific config
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
 
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
     # get the dynamic fields for this screen
-    $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+    $Self->{DynamicField} = $DynamicFieldObject->DynamicFieldListGet(
         Valid       => 1,
         ObjectType  => [ 'Ticket', 'Article' ],
         FieldFilter => $Config->{DynamicField} || {},
     );
+
+    my $Definition = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
+        Mask => $Self->{Action},
+    ) || {};
+
+    $Self->{MaskDefinition} = $Definition->{Mask};
+
+    # align sysconfig and ticket mask data I
+    for my $DynamicField ( @{ $Self->{DynamicField} // [] } ) {
+        if ( exists $Definition->{DynamicFields}{ $DynamicField->{Name} } ) {
+            my $Parameters = delete $Definition->{DynamicFields}{ $DynamicField->{Name} } // {};
+
+            for my $Attribute ( keys $Parameters->%* ) {
+                $DynamicField->{ $Attribute } = $Parameters->{ $Attribute };
+            }
+        }
+        else {
+            push $Self->{MaskDefinition}->@*, {
+                DF        => $DynamicField->{Name},
+                Mandatory => $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ? 1 : 0,
+            };
+        }
+    }
+
+    # align sysconfig and ticket mask data II
+    for my $DynamicFieldName ( keys $Definition->{DynamicFields}->%* ) {
+        push $Self->{DynamicField}->@*, $DynamicFieldObject->DynamicFieldGet(
+            Name => $DynamicFieldName,
+        );
+
+        my $Parameters = $Definition->{DynamicFields}{ $DynamicFieldName } // {};
+
+        for my $Attribute ( keys $Parameters->%* ) {
+            $Self->{DynamicField}[-1]{ $Attribute } = $Parameters->{ $Attribute };
+        }
+    }
 
     # get form id
     $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
@@ -705,7 +743,7 @@ sub Run {
 
             # otherwise (on a new ticket). Check if the user has a user specific default value for
             # the dynamic field, otherwise will use Dynamic Field default value
-            else {
+            elsif( !$DynamicFieldConfig->{Readonly} ) {
                 # get default value from dynamic field config (if any)
                 $Value = $DynamicFieldConfig->{Config}->{DefaultValue} || '';
 
@@ -931,6 +969,7 @@ sub Run {
                     Autoselect      => $Autoselect,
                     ACLPreselection => $ACLPreselection,
                     LoopProtection  => \$LoopProtection,
+                    InitialRun      => $InitialRun,
                 );
 
                 # combine FieldStates
@@ -1565,6 +1604,7 @@ sub Run {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
             next DYNAMICFIELD if !$Visibility{"DynamicField_$DynamicFieldConfig->{Name}"};
+            next DYNAMICFIELD if $DynamicFieldConfig->{Readonly};
 
             # set the value
             my $Success = $DynamicFieldBackendObject->ValueSet(
@@ -1677,6 +1717,7 @@ sub Run {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Article';
             next DYNAMICFIELD if !$Visibility{"DynamicField_$DynamicFieldConfig->{Name}"};
+            next DYNAMICFIELD if $DynamicFieldConfig->{Readonly};
 
             # set the value
             my $Success = $DynamicFieldBackendObject->ValueSet(
@@ -2197,6 +2238,7 @@ sub Run {
                             || $DynFieldStates{Fields}{$Index}{PossibleValues}
                         );
 
+                    # TODO: Not necessary anymore
                     my $Name = $i ? "DynamicField_$DynamicFieldConfig->{Name}_$i" : "DynamicField_$DynamicFieldConfig->{Name}";
 
                     # add dynamic field to the list of fields to update
@@ -3094,44 +3136,10 @@ sub _MaskPhoneNew {
 
     # render dynamic fields
     {
-        # Fetch input field definition
-        my $InputFieldDefinition = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
-            Mask => 'AgentTicketPhone',
-        ) || [];
-
-        my %DefinedFieldsList;
-        for my $Row ( $InputFieldDefinition->@* ) {
-            if ( $Row->{DF} ) {
-                $DefinedFieldsList{ $Row->{DF} } = 1;
-            }
-            if ( $Row->{Grid} ) {
-                for my $GridRow ( $Row->{Grid}{Rows}->@* ) {
-                    for my $Field ( grep { $_->{DF} } $GridRow->@* ) {
-                        $DefinedFieldsList{ $Field->{DF} } = 1;
-                    }
-                }
-            }
-        }
-
-        my %DynamicFieldConfigs;
-
-        DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-
-            $DynamicFieldConfigs{ $DynamicFieldConfig->{Name} } = $DynamicFieldConfig;
-
-            next DYNAMICFIELD if $DefinedFieldsList{ $DynamicFieldConfig->{Name} };
-
-            push $InputFieldDefinition->@*, {
-                DF        => $DynamicFieldConfig->{Name},
-                Mandatory => $Config->{DynamicField}{ $DynamicFieldConfig->{Name} } == 2 ? 1 : 0,
-            };
-        }
+        my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{DynamicField}->@*;
 
         $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
-            Content              => $InputFieldDefinition,
+            Content              => $Self->{MaskDefinition},
             DynamicFields        => \%DynamicFieldConfigs,
             UpdatableFields      => $Self->_GetFieldsToUpdate(),
             LayoutObject         => $LayoutObject,

@@ -130,10 +130,10 @@ sub EditSectionRender {
         my %Row = @_;
 
         # prepare row block
-        my $RowReadOnly;
+        my $RowReadonly;
         {
             # set complete row read only, if one element is
-            $RowReadOnly = ( first { $_->{ReadOnly} } $Row{Fields}->@* ) ? 1 : 0;
+            $RowReadonly = ( first { $_->{Readonly} } $Row{Fields}->@* ) ? 1 : 0;
 
             # special treatment for separate dynamic fields based on first field TODO: maybe discard?
             my $RowBlockName = $Param{SeparateDynamicFields} && $Param{SeparateDynamicFields}->{ $Row{Fields}[0]{DF} }
@@ -237,7 +237,7 @@ sub EditSectionRender {
                 AJAXUpdate           => 1,
                 UpdatableFields      => $Param{UpdatableFields},
                 Mandatory            => $Field->{Mandatory},
-                ReadOnly             => $Field->{ReadOnly},
+                ReadOnly             => $Field->{Readonly},
                 CustomerInterface    => $Param{CustomerInterface},
                 %Error,
                 %InvisibleNoDefault,
@@ -274,7 +274,7 @@ sub EditSectionRender {
                 CellStyle   => $CellStyle,
                 Tooltip     => $DynamicField->{Config}{Tooltip},
                 MultiValue  => $DynamicField->{Config}{MultiValue},
-                RowReadOnly => $RowReadOnly,
+                RowReadonly => $RowReadonly,
                 CellClasses => $CellClassString,
                 Label       => $DynamicFieldHTML->{Label},
             );

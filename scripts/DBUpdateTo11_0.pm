@@ -66,6 +66,10 @@ sub Run {
             Name   => 'Add set and value indices to dynamic_field_value; change its id to BIGINT.',
             Module => 'DBUpdateDynamicFieldValue',
         },
+        {
+            Name   => 'Add script field event table.',
+            Module => 'DBAddScriptFieldEventTable',
+        },
     );
 
     TASK:
