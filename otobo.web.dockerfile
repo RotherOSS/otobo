@@ -39,7 +39,6 @@ RUN apt-get update\
  "vim"\
  "chromium"\
  "chromium-sandbox"\
- && rm -rf /var/lib/apt/lists/*\
  && install -d /opt/otobo_install
 
 # We want an UTF-8 console
@@ -60,8 +59,13 @@ COPY cpanfile.docker cpanfile
 ENV PERL5LIB "/opt/otobo_install/local/lib/perl5"
 ENV PATH "/opt/otobo_install/local/bin:${PATH}"
 RUN cpanm --local-lib local Carton \
-    && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install \
-    && rm -rf "$HOME/.cpanm"
+ && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
+
+# otobo.kerberos.web.dockerfile adds additional commands here
+
+# clean up apt and cpanm
+RUN rm -rf "$HOME/.cpanm"\
+ && rm -rf /var/lib/apt/lists/*
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
