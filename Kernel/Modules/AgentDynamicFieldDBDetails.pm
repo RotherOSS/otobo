@@ -106,7 +106,7 @@ sub Run {
                 %Param,
                 DynamicFieldName => $DynamicFieldName,
             }
-        ).
+        ),
         $LayoutObject->Footer( Type => 'Small' );
 }
 
