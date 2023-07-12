@@ -39,12 +39,6 @@ RUN apt-get update\
  "vim"\
  "chromium"\
  "chromium-sandbox"\
- "krb5-user"\
- "libpam-krb5"\
- "libpam-ccreds"\
- "krb5-multidev"\
- "libkrb5-dev"\
- && rm -rf /var/lib/apt/lists/*\
  && install -d /opt/otobo_install
 
 # We want an UTF-8 console
@@ -61,12 +55,25 @@ ENV LANG C.UTF-8
 # Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
-COPY cpanfile.docker.kerberos cpanfile
+COPY cpanfile.docker cpanfile
 ENV PERL5LIB "/opt/otobo_install/local/lib/perl5"
 ENV PATH "/opt/otobo_install/local/bin:${PATH}"
 RUN cpanm --local-lib local Carton \
-    && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install \
-    && rm -rf "$HOME/.cpanm"
+ && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
+
+# append extra modules needed for Kerberos
+RUN cpanm --local-lib local Authen::Krb5::Simple
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
+ "krb5-user"\
+ "libpam-krb5"\
+ "libpam-ccreds"\
+ "krb5-multidev"\
+ "libkrb5-dev"
+
+# clean up apt and cpanm
+RUN rm -rf "$HOME/.cpanm"\
+ && rm -rf /var/lib/apt/lists/*
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
