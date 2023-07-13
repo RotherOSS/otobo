@@ -22,6 +22,8 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
+use parent qw(Kernel::System::DynamicField::Reference::Base);
+
 # core modules
 
 # CPAN modules
@@ -45,21 +47,6 @@ Kernel::System::DynamicField::Driver::Reference::Ticket - backend for the Refere
 Ticket backend for the Reference dynamic field.
 
 =head1 PUBLIC INTERFACE
-
-=head2 new()
-
-Don't use the constructor directly, use the ObjectManager instead:
-
-    my $Backend = $Kernel::OM->Get('Kernel::System::DynamicField::Driver::Reference::Ticket');
-
-=cut
-
-sub new {
-    my ($Type) = @_;
-
-    # allocate new hash for object
-    return bless {}, $Type;
-}
 
 =head2 GetFieldTypeSettings()
 
