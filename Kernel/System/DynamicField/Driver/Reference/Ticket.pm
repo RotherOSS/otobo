@@ -22,7 +22,7 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
-use parent qw(Kernel::System::DynamicField::Reference::Base);
+use parent qw(Kernel::System::DynamicField::Driver::Reference::Base);
 
 # core modules
 
