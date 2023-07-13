@@ -653,6 +653,7 @@ builder {
     # some static pages, '/' is already translate to '/index.html'
     mount "/robots.txt" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/robots.txt" )->to_app;
     mount "/index.html" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/index.html" )->to_app;
+    mount "/health"     => Plack::App::File->new( file => "$Home/var/httpd/htdocs/health" )->to_app;
 
     # otherwise an error 404 it thrown, which is handled by Plack::Middleware::ErrorDocument
 };
