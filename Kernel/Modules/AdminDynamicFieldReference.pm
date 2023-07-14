@@ -123,6 +123,13 @@ sub _Add {
         }
     }
 
+    # extract field type specific parameters, e.g. MultiValue
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+        my $Name = $Setting->{ConfigParamName};
+        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
+    }
+
     # get the object type and field type display name
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
     my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
@@ -151,6 +158,12 @@ sub _AddAction {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
             $Errors{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required.');
         }
+    }
+
+    # extract field type specific parameters, e.g. MultiValue
+    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+        my $Name = $Setting->{ConfigParamName};
+        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
     }
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -280,6 +293,12 @@ sub _Change {
         }
     }
 
+    # extract field type specific parameters, e.g. MultiValue
+    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+        my $Name = $Setting->{ConfigParamName};
+        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
+    }
+
     # get the object type and field type display name
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
     my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
@@ -346,6 +365,12 @@ sub _ChangeAction {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
             $Errors{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required.');
         }
+    }
+
+    # extract field type specific parameters, e.g. MultiValue
+    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+        my $Name = $Setting->{ConfigParamName};
+        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
     }
 
     # get dynamic field data
@@ -585,13 +610,6 @@ sub _ShowScreen {
         }
     }
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # header
-    my $Output = join '',
-        $LayoutObject->Header,
-        $LayoutObject->NavigationBar;
-
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     # get all fields
@@ -619,6 +637,7 @@ sub _ShowScreen {
     }
 
     # show the names of the other fields to ease ordering
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my %OrderNamesList;
     my $CurrentlyText = $LayoutObject->{LanguageObject}->Translate('Currently') . ': ';
     for my $OrderNumber ( sort @DynamicfieldOrderList ) {
@@ -648,6 +667,7 @@ sub _ShowScreen {
                 Name         => $Name,
                 Data         => $Setting->{SelectionData},
                 PossibleNone => ( $Setting->{PossibleNone} // 0 ),
+                Disabled     => ( $Setting->{Disabled}     // 0 ),
                 SelectedID   => $Param{$Name} || '0',
                 Class        => 'Modernize W50pc',
             );
@@ -778,7 +798,8 @@ sub _ShowScreen {
 
     # generate output
     return join '',
-        $Output,
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar,
         $LayoutObject->Output(
             TemplateFile => $Self->{TemplateFile},
             Data         => {

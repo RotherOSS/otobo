@@ -884,46 +884,6 @@ sub ValueLookup {
 sub GetFieldTypeSettings {
     my ( $Self, %Param ) = @_;
 
-    # For reference dynamic fields we can select the
-    # type of the referenced object. Only objects
-    # that support dynamic fields can be referenced.
-    # For now take the list from the SysConfig.
-    my %ObjectTypeSelectionData;
-    {
-        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-        my $FieldTypeConfig = $ConfigObject->Get('DynamicFields::Driver');
-        %ObjectTypeSelectionData = map
-            { $_ => $_ }
-            $FieldTypeConfig->{Reference}->{ReferencedObjectTypes}->@*;
-    }
-
-    # set up the field type specific settings
-    # This dynamic field support multiple values.
-    my %MultiValueSelectionData = (
-        0 => Translatable('No'),
-        1 => Translatable('Yes'),
-    );
-
-    my @GenericSettings = (
-        {
-            ConfigParamName => 'ReferencedObjectType',
-            Label           => Translatable('Referenced object type'),
-            Explanation     => Translatable('Select the type of of referenced object'),
-            InputType       => 'Selection',
-            SelectionData   => \%ObjectTypeSelectionData,
-            PossibleNone    => 1,
-        },
-        {
-            ConfigParamName => 'MultiValue',
-            Label           => Translatable('Multiple Values'),
-            Explanation     => Translatable('Activate this option to allow multiple values for this field.'),
-            InputType       => 'Selection',
-            SelectionData   => \%MultiValueSelectionData,
-            PossibleNone    => 0,
-        }
-    );
-
-    # Get settings that depend on the referenced object type
     my $ParamObject = $Param{ParamObject};
 
     # The referenced object type might have been passed in the URL
@@ -944,14 +904,75 @@ sub GetFieldTypeSettings {
         }
     }
 
-    my @SpecificSettings;
-    if ($ReferencedObjectType) {
-        my $PluginObject = $Self->_GetObjectTypePlugin(
-            ObjectType => $ReferencedObjectType,
-        );
-        @SpecificSettings = $PluginObject->GetFieldTypeSettings;
+    # setting independent from the referenced object
+    my @GenericSettings;
+
+    # For reference dynamic fields we can select the
+    # type of the referenced object. Only objects
+    # that support dynamic fields can be referenced.
+    # For now take the list from the SysConfig.
+    {
+        push @GenericSettings,
+            {
+                ConfigParamName => 'ReferencedObjectType',
+                Label           => Translatable('Referenced object type'),
+                Explanation     => Translatable('Select the type of the referenced object'),
+                InputType       => 'Selection',
+                SelectionData   => { $ReferencedObjectType => $ReferencedObjectType },
+                PossibleNone    => 0,
+                Disabled        => 1,
+            };
     }
-    return ( @GenericSettings, @SpecificSettings );
+
+    # set up the field type specific settings
+    # This dynamic field support multiple values.
+    {
+        my %MultiValueSelectionData = (
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
+        );
+
+        push @GenericSettings,
+            {
+                ConfigParamName => 'MultiValue',
+                Label           => Translatable('Multiple Values'),
+                Explanation     => Translatable('Activate this option to allow multiple values for this field.'),
+                InputType       => 'Selection',
+                SelectionData   => \%MultiValueSelectionData,
+                PossibleNone    => 0,
+            };
+    }
+
+    # Get settings that depend on the type of the referenced object
+    my @SpecificSettings;
+    {
+        # The referenced object type might have been passed in the URL
+        my $ReferencedObjectType = $ParamObject->GetParam( Param => 'ReferencedObjectType' );
+
+        # or it can be taken from the existing configuration
+        if ( !$ReferencedObjectType ) {
+            my $FieldID = $ParamObject->GetParam( Param => 'ID' );
+            if ($FieldID) {
+                my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+                my $DynamicField       = $DynamicFieldObject->DynamicFieldGet(
+                    ID => $FieldID,
+                );
+
+                if ( ref $DynamicField eq 'HASH' && ref $DynamicField->{Config} eq 'HASH' ) {
+                    $ReferencedObjectType = $DynamicField->{Config}->{ReferencedObjectType};
+                }
+            }
+        }
+
+        if ($ReferencedObjectType) {
+            my $PluginObject = $Self->_GetObjectTypePlugin(
+                ObjectType => $ReferencedObjectType,
+            );
+            @SpecificSettings = $PluginObject->GetFieldTypeSettings;
+        }
+    }
+
+    return @GenericSettings, @SpecificSettings;
 }
 
 =begin Internal:
