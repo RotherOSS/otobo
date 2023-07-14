@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-06-20 13:03+0000\n"
+"PO-Revision-Date: 2023-07-14 15:58+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -27154,69 +27154,73 @@ msgstr "رؤوس الطلبات الصادرة التي يجب عدم استخد
 msgid ""
 "Outbound response headers not allowed to be used in frontend configuration."
 msgstr ""
+"رأس (headers) الردود الصادرة التي يجب عدم استخدامها في تكوين الواجهة "
+"الأمامية."
 
 #. SysConfig
 msgid ""
 "Output filter to inject the necessary Dynamic field names in hidden input."
-msgstr ""
+msgstr "مُصفِّي النتائج لإخفاء أسماء الحقول الديناميكية المطلوبة."
 
 #. SysConfig
 msgid ""
 "Overloads (redefines) existing functions in Kernel::System::Ticket. Used to "
 "easily add customizations."
 msgstr ""
+"يعيد تحميل الوظائف الموجودة في Kernel::System::Ticket (إعادة تعريف). يمكن "
+"استخدامه لإجراء التعديلات بأكبر سهولة ممكنة."
 
 #. SysConfig
 msgid "Overview Escalated Tickets."
-msgstr ""
+msgstr "نظرة عامة على التذاكر المتصاعدة."
 
 #. SysConfig
 msgid "Overview Refresh Time"
-msgstr ""
+msgstr "أوقات التحديث للنظرة العامة"
 
 #. SysConfig
 msgid "Overview of all Tickets per assigned Queue."
-msgstr ""
+msgstr "نظرة عامة على جميع التذاكر حسب قائمة الانتظار المُعيَّنة."
 
 #. SysConfig
 msgid "Overview of all appointments."
-msgstr ""
+msgstr "نظرة عامة على جميع المواعيد."
 
 #. SysConfig
 msgid "Overview of all escalated tickets."
-msgstr ""
+msgstr "نظرة عامة على جميع التذاكر المتصاعدة."
 
 #. SysConfig
 msgid "Overview of all open Tickets."
-msgstr ""
+msgstr "نظرة عامة على جميع التذاكر المفتوحة."
 
 #. SysConfig
 msgid "Overview of all open tickets."
-msgstr ""
+msgstr "نظرة عامة على جميع التذاكر المفتوحة."
 
 #. SysConfig
 msgid "Overview of customer tickets."
-msgstr ""
+msgstr "نظرة عامة على تذاكر العملاء."
 
 #. SysConfig
 msgid "PGP Key"
-msgstr ""
+msgstr "مفتاح PGP"
 
 #. SysConfig
 msgid "PGP Key Management"
-msgstr ""
+msgstr "إدارة مفاتيح PGP"
 
 #. SysConfig
 msgid "PGP Keys"
-msgstr ""
+msgstr "مفتاح PGP"
 
 #. SysConfig
 msgid "Package event module file a scheduler task for update registration."
-msgstr ""
+msgstr "الوحدة النمطية لجدولة تحديث سجل النظام تلقائيا."
 
 #. SysConfig
 msgid "Package event module trigger package reinstall in containers."
-msgstr ""
+msgstr "وحدة لتنشيط إعادة تثبيت الحزمة تلقائيًا في الحاويات."
 
 #. SysConfig
 msgid ""
@@ -27227,6 +27231,11 @@ msgid ""
 "'PreferenceGroup' to control in which area these settings should be shown in "
 "the user interface."
 msgstr ""
+"المعلمة الخاصة بكائن CreateNextMask في إعدادات المستخدمين في واجهة الوكلاء. "
+"يُرجى ملاحظة: عند تعيين 'Active' على 0، فإن ذلك يمنع فقط الوكلاء من تغيير "
+"إعدادات هذه المجموعة في إعداداتهم الشخصية. يمكن للمسؤول متابعة تعديل هذه "
+"الإعدادات باسم المستخدمين. استخدم 'PreferenceGroup' للتحكم في المجال الذي "
+"يتم عرض هذه الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid ""
@@ -27237,6 +27246,11 @@ msgid ""
 "'PreferenceGroup' to control in which area these settings should be shown in "
 "the user interface."
 msgstr ""
+"معاملات كائن CustomQueue في إعدادات المستخدمين في واجهة الوكلاء. يُرجى "
+"ملاحظة: عند تعيين 'Active' على 0، فإن ذلك سيمنع الوكلاء فقط من تعديل إعدادات "
+"هذه المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين بتعديل إعدادات "
+"مستخدم آخر بالنيابة عنه. استخدم 'PreferenceGroup' للتحكم في المجال الذي يجب "
+"عرض هذه الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid ""
@@ -27247,6 +27261,11 @@ msgid ""
 "'PreferenceGroup' to control in which area these settings should be shown in "
 "the user interface."
 msgstr ""
+"معاملات كائن CustomService في واجهة إعدادات واجهة الوكلاء. يُرجى ملاحظة: عند "
+"تعيين 'Active' على 0، فإن ذلك سيمنع الوكلاء فقط من تعديل إعدادات هذه "
+"المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين بتعديل إعدادات مستخدم "
+"آخر بالنيابة عنه. استخدم 'PreferenceGroup' للتحكم في المجال الذي يجب عرض هذه "
+"الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid ""
@@ -27257,6 +27276,11 @@ msgid ""
 "'PreferenceGroup' to control in which area these settings should be shown in "
 "the user interface."
 msgstr ""
+"معاملات كائن RefreshTime في واجهة إعدادات واجهة الوكلاء. يُرجى ملاحظة: عند "
+"تعيين 'Active' على 0، فإن ذلك سيمنع الوكلاء فقط من تعديل إعدادات هذه "
+"المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين بتعديل إعدادات مستخدم "
+"آخر بالنيابة عنه. استخدم 'PreferenceGroup' للتحكم في المجال الذي يجب عرض هذه "
+"الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid ""
@@ -27266,6 +27290,11 @@ msgid ""
 "edit the settings of another user's behalf. Use 'PreferenceGroup' to control "
 "in which area these settings should be shown in the user interface."
 msgstr ""
+"معاملات مرشحات الأعمدة لنظرة عامة عن تذاكر Small-Ticket. يُرجى ملاحظة: عند "
+"تعيين 'Active' على 0، فإن ذلك سيمنع الوكلاء فقط من تعديل إعدادات هذه "
+"المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين بتعديل إعدادات مستخدم "
+"آخر بالنيابة عنه. استخدم 'PreferenceGroup' للتحكم في المجال الذي يجب عرض هذه "
+"الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid ""
@@ -27277,6 +27306,14 @@ msgid ""
 "minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields "
 "(DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
+"معلمات الواجهة الخلفية للوحة المعلومات لنظرة عامة عن التذاكر المغلقة في "
+"واجهة الوكلاء. \"Limit\" هو عدد الإدخالات المعروضة بشكل افتراضي. يُستخدم "
+"\"Group\" لتقييد الوصول إلى المكون الإضافي (مثال: Group: "
+"admin;group1;group2;). \"Default\" يحدد ما إذا كان يجب تمكين المكون الإضافي "
+"تلقائيًا كإعداد افتراضي أو يجب على المستخدم تمكينه يدويًا. \"CacheTTLLocal\" "
+"هو وقت التخزين المؤقت بالدقائق للمكون الإضافي. ملاحظة: يُسمح فقط بسمات "
+"التذاكر والحقول الديناميكية (DynamicField_NameX) كأعمدة افتراضية "
+"(DefaultColumns)."
 
 #. SysConfig
 msgid ""
@@ -27286,6 +27323,10 @@ msgid ""
 "enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
 msgstr ""
+"يحدد المعلمات لواجهة الخلفية للوحة المعلومات. \"Group\" يحد من الوصول إلى "
+"الوحدة الصغيرة المعينة (مثال: Group: admin;group1;group2). \"Default\" يحدد "
+"ما إذا كانت الوحدة الصغيرة مفعّلة افتراضيًا أو يجب تفعيلها يدويًا بواسطة "
+"المستخدم. \"CacheTTLLocal\" يحدد فترة التخزين المؤقت للوحدة الصغيرة بالدقائق."
 
 #. SysConfig
 msgid ""
@@ -27296,6 +27337,11 @@ msgid ""
 "or if the user needs to enable it manually. \"CacheTTLLocal\" is the cache "
 "time in minutes for the plugin."
 msgstr ""
+"يحدد المعلمات لواجهة الخلفية لوحة المعلومات. \"Limit\" يحدد عدد العناصر التي "
+"يتم عرضها افتراضيًا. \"Group\" يحد من الوصول إلى الداشليت المحدد (مثال: "
+"Group: admin;group1;group2). \"Default\" يحدد ما إذا كان المكوّن الإضافي "
+"الداشليت مفعلًا افتراضيًا أم يجب تفعيله يدويًا بواسطة المستخدم. "
+"\"CacheTTLLocal\" يحدد مدة التخزين المؤقت للداشليت بالدقائق."
 
 #. SysConfig
 msgid ""
@@ -27305,6 +27351,11 @@ msgid ""
 "enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
 msgstr ""
+"يحدد المعلمات لواجهة الخلفية لوحة المعلومات لعنصر واجهة عرض حالة رقم العميل "
+"في منطقة الوكلاء. باستخدام \"Group\" يمكن تقييد الوصول إلى المكون الإضافي ("
+"على سبيل المثال: Group: admin;group1;group2;). يحدد \"Default\" ما إذا كان "
+"المكون الإضافي يجب تمكينه تلقائيًا أم يجب على المستخدم تمكينه يدويًا. يحدد "
+"\"CacheTTLLocal\" مدة التخزين المؤقت للمكون الإضافي بالدقائق."
 
 #. SysConfig
 msgid ""
