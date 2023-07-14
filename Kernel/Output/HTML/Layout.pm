@@ -1980,11 +1980,9 @@ sub Ascii2Html {
     return '' unless defined $Param{Text};
 
     # check text
-    my $TextScalar;
     my $Text;
     if ( !ref $Param{Text} ) {
-        $TextScalar = 1;
-        $Text       = \$Param{Text};
+        $Text = \$Param{Text};
     }
     elsif ( ref $Param{Text} eq 'SCALAR' ) {
         $Text = $Param{Text};
