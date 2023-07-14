@@ -465,6 +465,12 @@ EOF
     return $Self;
 }
 
+=head2 SetEnv()
+
+Add additional data to the template environment before output is generated.
+
+=cut
+
 sub SetEnv {
     my ( $Self, %Param ) = @_;
 
@@ -523,6 +529,7 @@ sub Block {
 =head2 JSONEncode()
 
 Serialize a Perl data structure as JSON.
+The parameters C<SortKeys> and C<Pretty> are passed on to the method C<Kernel::System::JSON::Encode()>.
 
     my %Hash = (
         Key1 => 'Something',
@@ -531,6 +538,7 @@ Serialize a Perl data structure as JSON.
     my $JSON = $LayoutObject->JSONEncode(
         Data     => \%Hash,
         NoQuotes => 0, # optional: 0|1 no double quotes at the start and the end of JSON string, default is 0
+        SortKeys => 1,
     );
 
 Returns:
@@ -555,7 +563,9 @@ sub JSONEncode {
 
     # get JSON encoded data
     my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-        Data => $Param{Data},
+        Data     => $Param{Data},
+        SortKeys => $Param{SortKeys},
+        Pretty   => $Param{Pretty},
     ) || '""';
 
     # remove leading and trailing double quotes if requested
@@ -2453,6 +2463,7 @@ sub BuildSelection {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -2543,7 +2554,7 @@ sub BuildSelection {
     }
 
     # generate output
-    my $String = $Self->_BuildSelectionOutput(
+    return $Self->_BuildSelectionOutput(
         AttributeRef       => $AttributeRef,
         DataRef            => $DataRef,
         OptionTitle        => $Param{OptionTitle},
@@ -2554,7 +2565,6 @@ sub BuildSelection {
         ValidateDateAfter  => $Param{ValidateDateAfter},
         ValidateDateBefore => $Param{ValidateDateBefore},
     );
-    return $String;
 }
 
 sub NoPermission {
@@ -2797,9 +2807,13 @@ sub Attachment {
 
 =head2 JSONReply()
 
-Give back a data structure as a JSON response.
-A bit like the method C<Attachments>.
-As a side effect headers of the HTTP response are set in the object C<Kernel::System::Web::Response>.
+Serialize the passed in data structure as JSON. The returned JSON is formatted in the canonical way,
+meaning that hash keys are sorted.
+
+This method acts like the method C<Attachment>.
+As a side effect, the headers of the HTTP response are set in the object C<Kernel::System::Web::Response>.
+
+Missing Data throws a fatal error.
 
 =cut
 
@@ -2820,8 +2834,10 @@ sub JSONReply {
 
     # Serialize as JSON. The passed in data is usually either a hash or array reference.
     # Strings and numbers are also supported.
+    # Hash keys are sorted.
     my $Content = $Self->JSONEncode(
-        Data => $Param{Data},
+        Data     => $Param{Data},
+        SortKeys => 1,
     );
 
     return $Self->Attachment(
@@ -5553,10 +5569,7 @@ sub _BuildSelectionOptionRefCreate {
     }
 
     # set PossibleNone option
-    $OptionRef->{PossibleNone} = 0;
-    if ( $Param{PossibleNone} ) {
-        $OptionRef->{PossibleNone} = 1;
-    }
+    $OptionRef->{PossibleNone} = $Param{PossibleNone} ? 1 : 0;
 
     # set TreeView option
     $OptionRef->{TreeView} = 0;
@@ -5597,6 +5610,8 @@ create the attribute hash
         %Param,
     );
 
+The result looks like:
+
     my $AttributeRef = {
         name     => 'TheName',
         multiple => undef,
@@ -5608,35 +5623,33 @@ create the attribute hash
 sub _BuildSelectionAttributeRefCreate {
     my ( $Self, %Param ) = @_;
 
-    my $AttributeRef = {};
+    my %Attributes;
 
     # check params with key and value
     for (qw(Name ID Size Class OnChange OnClick AutoComplete)) {
         if ( $Param{$_} ) {
-            $AttributeRef->{ lc($_) } = $Param{$_};
+            $Attributes{ lc $_ } = $Param{$_};
         }
     }
 
-    # add id attriubut
-    if ( !$AttributeRef->{id} ) {
-        $AttributeRef->{id} = $AttributeRef->{name};
-    }
+    # add a fallback for the id attibute
+    $Attributes{id} ||= $Attributes{name};
 
     # check params with key and value that need to be HTML-Quoted
     for (qw(Title)) {
         if ( $Param{$_} ) {
-            $AttributeRef->{ lc($_) } = $Self->Ascii2Html( Text => $Param{$_} );
+            $Attributes{ lc($_) } = $Self->Ascii2Html( Text => $Param{$_} );
         }
     }
 
-    # check HTML params
+    # check HTML params, TODO: the values are not really needed
     for (qw(Multiple Disabled)) {
         if ( $Param{$_} ) {
-            $AttributeRef->{ lc($_) } = lc($_);
+            $Attributes{ lc $_ } = lc $_;
         }
     }
 
-    return $AttributeRef;
+    return \%Attributes;
 }
 
 =head2 _BuildSelectionDataRefCreate()
@@ -6011,16 +6024,16 @@ sub _BuildSelectionDataRefCreate {
 
     # SortReverse option
     if ( $OptionRef->{SortReverse} ) {
-        @{$DataRef} = reverse( @{$DataRef} );
+        @{$DataRef} = reverse @{$DataRef};
     }
 
-    # PossibleNone option
+    # add an empty option as first option when PossibleNone is given
     if ( $OptionRef->{PossibleNone} ) {
-        my %None;
-        $None{Key}   = '';
-        $None{Value} = '-';
-
-        unshift( @{$DataRef}, \%None );
+        unshift $DataRef->@*,
+            {
+                Key   => '',
+                Value => '-',
+            };
     }
 
     # TreeView option
@@ -6102,26 +6115,14 @@ sub _BuildSelectionDataRefCreate {
 
 =head2 _BuildSelectionOutput()
 
-create the html string
+create the HTML string for a selection:
 
-    my $HTMLString = $LayoutObject->_BuildSelectionOutput(
-        AttributeRef       => $AttributeRef,
-        DataRef            => $DataRef,
-        TreeView           => 0,              # optional, see BuildSelection()
-        FiltersRef         => \@Filters,      # optional, see BuildSelection()
-        FilterActive       => $FilterActive,  # optional, see BuildSelection()
-        ExpandFilters      => 1,              # optional, see BuildSelection()
-        ValidateDateAfter  => '2016-01-01',   # optional, see BuildSelection()
-        ValidateDateBefore => '2016-01-01',   # optional, see BuildSelection()
-    );
-
-    my $AttributeRef = {
-        name => 'TheName',
+    my %Attributes = {
+        name     => 'TheName',
         multiple => undef,
-        size => 5,
+        size     => 5,
     }
-
-    my $DataRef  = [
+    my @Data = (
         {
             Key => 11,
             Value => 'Text',
@@ -6132,25 +6133,39 @@ create the html string
             Value => '&nbsp;&nbsp;Text',
             Selected => 1,
         },
-    ];
+    );
+
+    my $HTMLString = $LayoutObject->_BuildSelectionOutput(
+        AttributeRef       => \%Attributes,
+        DataRef            => \@DataRef,
+        TreeView           => 0,              # optional, see BuildSelection()
+        FiltersRef         => \@Filters,      # optional, see BuildSelection()
+        FilterActive       => $FilterActive,  # optional, see BuildSelection()
+        ExpandFilters      => 1,              # optional, see BuildSelection()
+        ValidateDateAfter  => '2016-01-01',   # optional, see BuildSelection()
+        ValidateDateBefore => '2016-01-01',   # optional, see BuildSelection()
+    );
+
+Returns undef when C<DataRef> or C<AttributeRef> is missing.
 
 =cut
 
 sub _BuildSelectionOutput {
     my ( $Self, %Param ) = @_;
 
-    # start generation, if AttributeRef and DataRef was found
-    my $String;
-    if ( $Param{AttributeRef} && $Param{DataRef} ) {
+    # start generation if AttributeRef and DataRef were found
+    return unless $Param{AttributeRef};
+    return unless $Param{DataRef};
 
-        # generate <select> row
-        $String = '<select';
-        for my $Key ( sort keys %{ $Param{AttributeRef} } ) {
-            if ( $Key && defined $Param{AttributeRef}->{$Key} ) {
-                $String .= " $Key=\"$Param{AttributeRef}->{$Key}\"";
+    # collect the attributes of the select tag
+    my @Attributes;
+    {
+        for my $Key ( sort grep {$_} keys $Param{AttributeRef}->%* ) {
+            if ( defined $Param{AttributeRef}->{$Key} ) {
+                push @Attributes, qq{$Key="$Param{AttributeRef}->{$Key}"};    # TODO: what if the value contains double quotes ?
             }
-            elsif ($Key) {
-                $String .= " $Key";
+            else {
+                push @Attributes, $Key;
             }
         }
 
@@ -6165,66 +6180,65 @@ sub _BuildSelectionOutput {
             my $JSONEscaped = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToHTML(
                 String => $JSON,
             );
-            $String .= " data-filters=\"$JSONEscaped\"";
+            push @Attributes, qq{data-filters="$JSONEscaped"};
+
             if ( $Param{FilterActive} ) {
-                $String .= ' data-filtered="' . int( $Param{FilterActive} ) . '"';
+                push @Attributes, 'data-filtered="' . int( $Param{FilterActive} ) . '"';
             }
+
             if ( $Param{ExpandFilters} ) {
-                $String .= ' data-expand-filters="' . int( $Param{ExpandFilters} ) . '"';
+                push @Attributes, 'data-expand-filters="' . int( $Param{ExpandFilters} ) . '"';
             }
         }
 
         # tree flag for Input Fields
         if ( $Param{TreeView} ) {
-            $String .= ' data-tree="true"';
+            push @Attributes, 'data-tree="true"';
         }
 
         # date validation values
         if ( $Param{ValidateDateAfter} ) {
-            $String .= ' data-validate-date-after="' . $Param{ValidateDateAfter} . '"';
+            push @Attributes, qq{data-validate-date-after="$Param{ValidateDateAfter}"};
         }
         if ( $Param{ValidateDateBefore} ) {
-            $String .= ' data-validate-date-before="' . $Param{ValidateDateBefore} . '"';
+            push @Attributes, qq{data-validate-date-before="$Param{ValidateDateBefore}"};
         }
-
-        $String .= ">\n";
-
-        # generate <option> rows
-        for my $Row ( @{ $Param{DataRef} } ) {
-            my $Key = '';
-            if ( defined $Row->{Key} ) {
-                $Key = $Row->{Key};
-            }
-            my $Value = '';
-            if ( defined $Row->{Value} ) {
-                $Value = $Row->{Value};
-            }
-            my $SelectedDisabled = '';
-            if ( $Row->{Selected} ) {
-                $SelectedDisabled = ' selected="selected"';
-            }
-            elsif ( $Row->{Disabled} ) {
-                $SelectedDisabled = ' disabled="disabled"';
-            }
-            my $OptionTitle = '';
-            if ( $Param{OptionTitle} ) {
-                $OptionTitle = ' title="' . $Value . '"';
-            }
-            $String .= "  <option value=\"$Key\"$SelectedDisabled$OptionTitle>$Value</option>\n";
-        }
-        $String .= '</select>';
-
-        if ( $Param{TreeView} ) {
-            my $TreeSelectionMessage = $Self->{LanguageObject}->Translate("Show Tree Selection");
-            $String
-                .= ' <a href="#" title="'
-                . $TreeSelectionMessage
-                . '" class="ShowTreeSelection"><span>'
-                . $TreeSelectionMessage . '</span><i class="fa fa-sitemap"></i></a>';
-        }
-
     }
-    return $String;
+
+    # generate <select> row
+
+    # generate <option> rows
+    my @OptionLines;
+    for my $Row ( $Param{DataRef}->@* ) {
+        my $Key              = $Row->{Key}   // '';
+        my $Value            = $Row->{Value} // '';
+        my $SelectedDisabled = '';
+        if ( $Row->{Selected} ) {
+            $SelectedDisabled = ' selected="selected"';
+        }
+        elsif ( $Row->{Disabled} ) {
+            $SelectedDisabled = ' disabled="disabled"';
+        }
+        my $OptionTitle = $Param{OptionTitle} ? qq{ title="$Value"} : '';
+
+        push @OptionLines, qq{  <option value="$Key"$SelectedDisabled$OptionTitle>$Value</option>};
+    }
+
+    my $HTML = join "\n",
+        qq{<select @Attributes>},
+        @OptionLines,
+        '</select>';
+
+    if ( $Param{TreeView} ) {
+        my $TreeSelectionMessage = $Self->{LanguageObject}->Translate("Show Tree Selection");
+        $HTML
+            .= ' <a href="#" title="'
+            . $TreeSelectionMessage
+            . '" class="ShowTreeSelection"><span>'
+            . $TreeSelectionMessage . '</span><i class="fa fa-sitemap"></i></a>';
+    }
+
+    return $HTML;
 }
 
 =end Internal:
@@ -6240,10 +6254,10 @@ Do this _just_ if the line, that should be wrapped, contains space characters at
 If you need more info to understand what it does, take a look at the UnitTest WrapPlainText.t to see
 use cases there.
 
-my $WrappedPlainText = $LayoutObject->WrapPlainText(
-    PlainText     => "Some Plain text that is longer than the amount stored in MaxCharacters",
-    MaxCharacters => 80,
-);
+    my $WrappedPlainText = $LayoutObject->WrapPlainText(
+        PlainText     => "Some Plain text that is longer than the amount stored in MaxCharacters",
+        MaxCharacters => 80,
+    );
 
 =cut
 
@@ -6257,13 +6271,12 @@ sub WrapPlainText {
             Priority => 'error',
             Message  => "Got no or invalid MaxCharacters!",
         );
+
         return;
     }
 
     # Return if we didn't get PlainText
-    if ( !defined $Param{PlainText} ) {
-        return;
-    }
+    return unless defined $Param{PlainText};
 
     # Return if we got no Scalar
     if ( ref $Param{PlainText} ) {
@@ -6271,19 +6284,19 @@ sub WrapPlainText {
             Priority => 'error',
             Message  => "Had no string in PlainText!",
         );
+
         return;
     }
 
     # Return PlainText if we have less than MaxCharacters
-    if ( length $Param{PlainText} < $Param{MaxCharacters} ) {
-        return $Param{PlainText};
-    }
+    return $Param{PlainText} if length $Param{PlainText} < $Param{MaxCharacters};
 
     my $WorkString = $Param{PlainText};
 
     # Normalize line endings to avoid problems with \r\n (bug#11078).
     $WorkString =~ s/\r\n?/\n/g;
     $WorkString =~ s/(^>.+|.{4,$Param{MaxCharacters}})(?:\s|\z)/$1\n/gm;
+
     return $WorkString;
 }
 

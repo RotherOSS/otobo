@@ -19,8 +19,13 @@ package Kernel::System::FetchMail;
 use strict;
 use warnings;
 
+# core modules
 use IPC::Open3;
 use Symbol;
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
