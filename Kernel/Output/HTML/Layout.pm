@@ -1977,7 +1977,7 @@ sub Ascii2Html {
     my ( $Self, %Param ) = @_;
 
     # check needed param
-    return '' if !defined $Param{Text};
+    return '' unless defined $Param{Text};
 
     # check text
     my $TextScalar;
@@ -1994,6 +1994,7 @@ sub Ascii2Html {
             Priority => 'error',
             Message  => 'Invalid ref "' . ref( $Param{Text} ) . '" of Text param!',
         );
+
         return '';
     }
 
@@ -2464,6 +2465,7 @@ sub BuildSelection {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -2554,7 +2556,7 @@ sub BuildSelection {
     }
 
     # generate output
-    my $String = $Self->_BuildSelectionOutput(
+    return $Self->_BuildSelectionOutput(
         AttributeRef       => $AttributeRef,
         DataRef            => $DataRef,
         OptionTitle        => $Param{OptionTitle},
@@ -2565,7 +2567,6 @@ sub BuildSelection {
         ValidateDateAfter  => $Param{ValidateDateAfter},
         ValidateDateBefore => $Param{ValidateDateBefore},
     );
-    return $String;
 }
 
 sub NoPermission {
@@ -3584,7 +3585,6 @@ Depending on the SysConfig settings the controls to set the date could be multip
                                                   #   client side with JS
         Disabled => 1,                            # optional (1 or 0), when active select and checkbox controls gets the
                                                   #   disabled attribute and input fields gets the read only attribute
-        Suffix => 'some suffix',                  # optional, is attached at the end of Names, IDs etc.
     );
 
 =cut
@@ -3598,7 +3598,7 @@ sub BuildDateSelection {
     my $MinuteStep     = $ConfigObject->Get('TimeInputMinutesStep');
     my $Prefix         = $Param{Prefix}   || '';
     my $DiffTime       = $Param{DiffTime} || 0;
-    my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
+    my $Format         = $Param{Format} // 'DateInputFormatLong';
     my $Area           = $Param{Area}                   || 'Agent';
     my $Optional       = $Param{ $Prefix . 'Optional' } || 0;
     my $Required       = $Param{ $Prefix . 'Required' } || 0;
@@ -5561,10 +5561,7 @@ sub _BuildSelectionOptionRefCreate {
     }
 
     # set PossibleNone option
-    $OptionRef->{PossibleNone} = 0;
-    if ( $Param{PossibleNone} ) {
-        $OptionRef->{PossibleNone} = 1;
-    }
+    $OptionRef->{PossibleNone} = $Param{PossibleNone} ? 1 : 0;
 
     # set TreeView option
     $OptionRef->{TreeView} = 0;
@@ -6021,16 +6018,16 @@ sub _BuildSelectionDataRefCreate {
 
     # SortReverse option
     if ( $OptionRef->{SortReverse} ) {
-        @{$DataRef} = reverse( @{$DataRef} );
+        @{$DataRef} = reverse @{$DataRef};
     }
 
     # add an empty option as first option when PossibleNone is given
     if ( $OptionRef->{PossibleNone} ) {
-        my %None;
-        $None{Key}   = '';
-        $None{Value} = '-';
-
-        unshift( @{$DataRef}, \%None );
+        unshift $DataRef->@*,
+            {
+                Key   => '',
+                Value => '-',
+            };
     }
 
     # TreeView option
@@ -6268,13 +6265,12 @@ sub WrapPlainText {
             Priority => 'error',
             Message  => "Got no or invalid MaxCharacters!",
         );
+
         return;
     }
 
     # Return if we didn't get PlainText
-    if ( !defined $Param{PlainText} ) {
-        return;
-    }
+    return unless defined $Param{PlainText};
 
     # Return if we got no Scalar
     if ( ref $Param{PlainText} ) {
@@ -6282,19 +6278,19 @@ sub WrapPlainText {
             Priority => 'error',
             Message  => "Had no string in PlainText!",
         );
+
         return;
     }
 
     # Return PlainText if we have less than MaxCharacters
-    if ( length $Param{PlainText} < $Param{MaxCharacters} ) {
-        return $Param{PlainText};
-    }
+    return $Param{PlainText} if length $Param{PlainText} < $Param{MaxCharacters};
 
     my $WorkString = $Param{PlainText};
 
     # Normalize line endings to avoid problems with \r\n (bug#11078).
     $WorkString =~ s/\r\n?/\n/g;
     $WorkString =~ s/(^>.+|.{4,$Param{MaxCharacters}})(?:\s|\z)/$1\n/gm;
+
     return $WorkString;
 }
 
