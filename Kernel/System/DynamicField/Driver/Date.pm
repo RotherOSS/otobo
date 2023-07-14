@@ -623,9 +623,9 @@ sub EditFieldValueGet {
 
                 # add a leading zero for date parts that could be less than ten to generate a correct
                 # time stamp
-                for my $Type (qw(Month Day Hour Minute Second)) {
-                    $ValueData->{ $Prefix . $Type } = sprintf "%02d",
-                        $ValueData->{ $Prefix . $Type };
+                KEY:
+                for my $Key ( map { $Prefix . $_ } qw(Month Day) ) {
+                    $ValueData->{$Key} = sprintf "%02d", $ValueData->{$Key};
                 }
 
                 my $Year   = $ValueData->{ $Prefix . 'Year' }  || '0000';
@@ -650,7 +650,7 @@ sub EditFieldValueGet {
             # add a leading zero for date parts that could be less than ten to generate a correct
             # time stamp
             KEY:
-            for my $Key ( map { $Prefix . $_ } qw(Month Day Hour) ) {
+            for my $Key ( map { $Prefix . $_ } qw(Month Day) ) {
                 next KEY unless defined $Value->{$Key};
 
                 $Value->{$Key} = sprintf '%02d', $Value->{$Key};
