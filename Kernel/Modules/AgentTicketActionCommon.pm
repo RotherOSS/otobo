@@ -1250,6 +1250,7 @@ sub Run {
             # TODO fetch and respect readonly
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if !$Visibility{"DynamicField_$DynamicFieldConfig->{Name}"};
+            next DYNAMICFIELD if $DynamicFieldConfig->{Readonly};
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
             my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
@@ -2159,45 +2160,48 @@ sub _Mask {
     # render ticket type dynamic fields
     my $TicketTypeDynamicFieldHTML;
     {
-        # Fetch input field definition
-        my $InputFieldDefinition = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
-            Mask => $Self->{Action},
-        ) || [];
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
-        my %DefinedFieldsList;
-        for my $Row ( $InputFieldDefinition->@* ) {
-            if ( $Row->{DF} ) {
-                $DefinedFieldsList{ $Row->{DF} } = 1;
-            }
-            if ( $Row->{Grid} ) {
-                for my $GridRow ( $Row->{Grid}{Rows}->@* ) {
-                    for my $Field ( grep { $_->{DF} } $GridRow->@* ) {
-                        $DefinedFieldsList{ $Field->{DF} } = 1;
-                    }
+        my $Definition = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
+            Mask => $Self->{Action},
+        ) || {};
+
+        my $Mask = $Definition->{Mask};
+
+        # align sysconfig and ticket mask data I
+        for my $DynamicFieldConfig ( @{ $DynamicField // [] } ) {
+            if ( exists $Definition->{DynamicFields}{ $DynamicFieldConfig->{Name} } ) {
+                my $Parameters = delete $Definition->{DynamicFields}{ $DynamicFieldConfig->{Name} } // {};
+
+                for my $Attribute ( keys $Parameters->%* ) {
+                    $DynamicFieldConfig->{$Attribute} = $Parameters->{$Attribute};
                 }
             }
+            else {
+                push $Mask->@*, {
+                    DF        => $DynamicFieldConfig->{Name},
+                    Mandatory => $Config->{DynamicField}{ $DynamicFieldConfig->{Name} } == 2 ? 1 : 0,
+                };
+            }
         }
 
-        my %DynamicFieldConfigs;
+        # align sysconfig and ticket mask data II
+        for my $DynamicFieldName ( keys $Definition->{DynamicFields}->%* ) {
+            push $DynamicField->@*, $DynamicFieldObject->DynamicFieldGet(
+                Name => $DynamicFieldName,
+            );
 
-        DYNAMICFIELD:
-        for my $DynamicFieldConfig ( $DynamicField->@* ) {
-            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-            next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
+            my $Parameters = $Definition->{DynamicFields}{$DynamicFieldName} // {};
 
-            $DynamicFieldConfigs{ $DynamicFieldConfig->{Name} } = $DynamicFieldConfig;
-
-            next DYNAMICFIELD if $DefinedFieldsList{ $DynamicFieldConfig->{Name} };
-
-            push $InputFieldDefinition->@*, {
-                DF        => $DynamicFieldConfig->{Name},
-                Mandatory => $Config->{DynamicField}{ $DynamicFieldConfig->{Name} } == 2 ? 1 : 0,
-            };
+            for my $Attribute ( keys $Parameters->%* ) {
+                $DynamicField->[-1]{$Attribute} = $Parameters->{$Attribute};
+            }
         }
+
+        my %DynamicFieldConfigs = map { $_->{Name} => $_ } $DynamicField->@*;
 
         $TicketTypeDynamicFieldHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
-            Content              => $InputFieldDefinition,
+            Content              => $Mask,
             DynamicFields        => \%DynamicFieldConfigs,
             UpdatableFields      => $Self->_GetFieldsToUpdate(),
             LayoutObject         => $LayoutObject,
