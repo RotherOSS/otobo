@@ -5613,35 +5613,33 @@ The result looks like:
 sub _BuildSelectionAttributeRefCreate {
     my ( $Self, %Param ) = @_;
 
-    my $AttributeRef = {};
+    my %Attributes;
 
     # check params with key and value
     for (qw(Name ID Size Class OnChange OnClick AutoComplete)) {
         if ( $Param{$_} ) {
-            $AttributeRef->{ lc($_) } = $Param{$_};
+            $Attributes{ lc $_ } = $Param{$_};
         }
     }
 
-    # add id attriubut
-    if ( !$AttributeRef->{id} ) {
-        $AttributeRef->{id} = $AttributeRef->{name};
-    }
+    # add a fallback for the id attibute
+    $Attributes{id} ||= $Attributes{name};
 
     # check params with key and value that need to be HTML-Quoted
     for (qw(Title)) {
         if ( $Param{$_} ) {
-            $AttributeRef->{ lc($_) } = $Self->Ascii2Html( Text => $Param{$_} );
+            $Attributes{ lc($_) } = $Self->Ascii2Html( Text => $Param{$_} );
         }
     }
 
     # check HTML params, TODO: the values are not really needed
     for (qw(Multiple Disabled)) {
         if ( $Param{$_} ) {
-            $AttributeRef->{ lc($_) } = lc($_);
+            $Attributes{ lc $_ } = lc $_;
         }
     }
 
-    return $AttributeRef;
+    return \%Attributes;
 }
 
 =head2 _BuildSelectionDataRefCreate()
