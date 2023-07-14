@@ -6143,18 +6143,19 @@ Returns undef when C<DataRef> or C<AttributeRef> is missing.
 sub _BuildSelectionOutput {
     my ( $Self, %Param ) = @_;
 
-    # start generation, if AttributeRef and DataRef was found
-    my $String;
-    if ( $Param{AttributeRef} && $Param{DataRef} ) {
+    # start generation if AttributeRef and DataRef were found
+    return unless $Param{AttributeRef};
+    return unless $Param{DataRef};
 
-        # generate <select> row
-        $String = '<select';
-        for my $Key ( sort keys %{ $Param{AttributeRef} } ) {
-            if ( $Key && defined $Param{AttributeRef}->{$Key} ) {
-                $String .= " $Key=\"$Param{AttributeRef}->{$Key}\"";
+    # collect the attributes of the select tag
+    my @Attributes;
+    {
+        for my $Key ( sort grep {$_} keys $Param{AttributeRef}->%* ) {
+            if ( defined $Param{AttributeRef}->{$Key} ) {
+                push @Attributes, qq{$Key="$Param{AttributeRef}->{$Key}"};    # TODO: what if the value contains double quotes ?
             }
-            elsif ($Key) {
-                $String .= " $Key";
+            else {
+                push @Attributes, $Key;
             }
         }
 
@@ -6169,66 +6170,65 @@ sub _BuildSelectionOutput {
             my $JSONEscaped = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToHTML(
                 String => $JSON,
             );
-            $String .= " data-filters=\"$JSONEscaped\"";
+            push @Attributes, qq{data-filters="$JSONEscaped"};
+
             if ( $Param{FilterActive} ) {
-                $String .= ' data-filtered="' . int( $Param{FilterActive} ) . '"';
+                push @Attributes, 'data-filtered="' . int( $Param{FilterActive} ) . '"';
             }
+
             if ( $Param{ExpandFilters} ) {
-                $String .= ' data-expand-filters="' . int( $Param{ExpandFilters} ) . '"';
+                push @Attributes, 'data-expand-filters="' . int( $Param{ExpandFilters} ) . '"';
             }
         }
 
         # tree flag for Input Fields
         if ( $Param{TreeView} ) {
-            $String .= ' data-tree="true"';
+            push @Attributes, 'data-tree="true"';
         }
 
         # date validation values
         if ( $Param{ValidateDateAfter} ) {
-            $String .= ' data-validate-date-after="' . $Param{ValidateDateAfter} . '"';
+            push @Attributes, qq{data-validate-date-after="$Param{ValidateDateAfter}"};
         }
         if ( $Param{ValidateDateBefore} ) {
-            $String .= ' data-validate-date-before="' . $Param{ValidateDateBefore} . '"';
+            push @Attributes, qq{data-validate-date-before="$Param{ValidateDateBefore}"};
         }
-
-        $String .= ">\n";
-
-        # generate <option> rows
-        for my $Row ( @{ $Param{DataRef} } ) {
-            my $Key = '';
-            if ( defined $Row->{Key} ) {
-                $Key = $Row->{Key};
-            }
-            my $Value = '';
-            if ( defined $Row->{Value} ) {
-                $Value = $Row->{Value};
-            }
-            my $SelectedDisabled = '';
-            if ( $Row->{Selected} ) {
-                $SelectedDisabled = ' selected="selected"';
-            }
-            elsif ( $Row->{Disabled} ) {
-                $SelectedDisabled = ' disabled="disabled"';
-            }
-            my $OptionTitle = '';
-            if ( $Param{OptionTitle} ) {
-                $OptionTitle = ' title="' . $Value . '"';
-            }
-            $String .= "  <option value=\"$Key\"$SelectedDisabled$OptionTitle>$Value</option>\n";
-        }
-        $String .= '</select>';
-
-        if ( $Param{TreeView} ) {
-            my $TreeSelectionMessage = $Self->{LanguageObject}->Translate("Show Tree Selection");
-            $String
-                .= ' <a href="#" title="'
-                . $TreeSelectionMessage
-                . '" class="ShowTreeSelection"><span>'
-                . $TreeSelectionMessage . '</span><i class="fa fa-sitemap"></i></a>';
-        }
-
     }
-    return $String;
+
+    # generate <select> row
+
+    # generate <option> rows
+    my @OptionLines;
+    for my $Row ( $Param{DataRef}->@* ) {
+        my $Key              = $Row->{Key}   // '';
+        my $Value            = $Row->{Value} // '';
+        my $SelectedDisabled = '';
+        if ( $Row->{Selected} ) {
+            $SelectedDisabled = ' selected="selected"';
+        }
+        elsif ( $Row->{Disabled} ) {
+            $SelectedDisabled = ' disabled="disabled"';
+        }
+        my $OptionTitle = $Param{OptionTitle} ? qq{ title="$Value"} : '';
+
+        push @OptionLines, qq{  <option value="$Key"$SelectedDisabled$OptionTitle>$Value</option>};
+    }
+
+    my $HTML = join "\n",
+        qq{<select @Attributes>},
+        @OptionLines,
+        '</select>';
+
+    if ( $Param{TreeView} ) {
+        my $TreeSelectionMessage = $Self->{LanguageObject}->Translate("Show Tree Selection");
+        $HTML
+            .= ' <a href="#" title="'
+            . $TreeSelectionMessage
+            . '" class="ShowTreeSelection"><span>'
+            . $TreeSelectionMessage . '</span><i class="fa fa-sitemap"></i></a>';
+    }
+
+    return $HTML;
 }
 
 =end Internal:
