@@ -465,6 +465,12 @@ EOF
     return $Self;
 }
 
+=head2 SetEnv()
+
+Add additional data to the template environment before output is generated.
+
+=cut
+
 sub SetEnv {
     my ( $Self, %Param ) = @_;
 
@@ -1946,7 +1952,7 @@ sub ApplyOutputFilters {
 
 =head2 Ascii2Html()
 
-convert ASCII to html string
+convert ASCII to HTML string
 
     my $HTML = $LayoutObject->Ascii2Html(
         Text            => 'Some <> Test <font color="red">Test</font>',
@@ -1959,7 +1965,7 @@ convert ASCII to html string
         LinkFeature     => 0,        # do some URL detections
     );
 
-also string ref is possible
+A reference to a string can also be passed. In this cast the result will also be a reference to a string.
 
     my $HTMLStringRef = $LayoutObject->Ascii2Html(
         Text => \$String,
@@ -2122,6 +2128,7 @@ sub Ascii2Html {
         ${$Text} =~ s/'/\\'/g;
     }
 
+    # The input parameter Text determines the type of the returned value
     return $Text if ref $Param{Text};
     return ${$Text};
 }
@@ -3577,6 +3584,7 @@ Depending on the SysConfig settings the controls to set the date could be multip
                                                   #   client side with JS
         Disabled => 1,                            # optional (1 or 0), when active select and checkbox controls gets the
                                                   #   disabled attribute and input fields gets the read only attribute
+        Suffix => 'some suffix',                  # optional, is attached at the end of Names, IDs etc.
     );
 
 =cut
@@ -5597,6 +5605,8 @@ create the attribute hash
         %Param,
     );
 
+The result looks like:
+
     my $AttributeRef = {
         name     => 'TheName',
         multiple => undef,
@@ -5629,7 +5639,7 @@ sub _BuildSelectionAttributeRefCreate {
         }
     }
 
-    # check HTML params
+    # check HTML params, TODO: the values are not really needed
     for (qw(Multiple Disabled)) {
         if ( $Param{$_} ) {
             $AttributeRef->{ lc($_) } = lc($_);
@@ -6014,7 +6024,7 @@ sub _BuildSelectionDataRefCreate {
         @{$DataRef} = reverse( @{$DataRef} );
     }
 
-    # PossibleNone option
+    # add an empty option as first option when PossibleNone is given
     if ( $OptionRef->{PossibleNone} ) {
         my %None;
         $None{Key}   = '';
@@ -6102,26 +6112,14 @@ sub _BuildSelectionDataRefCreate {
 
 =head2 _BuildSelectionOutput()
 
-create the html string
+create the HTML string for a selection:
 
-    my $HTMLString = $LayoutObject->_BuildSelectionOutput(
-        AttributeRef       => $AttributeRef,
-        DataRef            => $DataRef,
-        TreeView           => 0,              # optional, see BuildSelection()
-        FiltersRef         => \@Filters,      # optional, see BuildSelection()
-        FilterActive       => $FilterActive,  # optional, see BuildSelection()
-        ExpandFilters      => 1,              # optional, see BuildSelection()
-        ValidateDateAfter  => '2016-01-01',   # optional, see BuildSelection()
-        ValidateDateBefore => '2016-01-01',   # optional, see BuildSelection()
-    );
-
-    my $AttributeRef = {
-        name => 'TheName',
+    my %Attributes = {
+        name     => 'TheName',
         multiple => undef,
-        size => 5,
+        size     => 5,
     }
-
-    my $DataRef  = [
+    my @Data = (
         {
             Key => 11,
             Value => 'Text',
@@ -6132,7 +6130,20 @@ create the html string
             Value => '&nbsp;&nbsp;Text',
             Selected => 1,
         },
-    ];
+    );
+
+    my $HTMLString = $LayoutObject->_BuildSelectionOutput(
+        AttributeRef       => \%Attributes,
+        DataRef            => \@DataRef,
+        TreeView           => 0,              # optional, see BuildSelection()
+        FiltersRef         => \@Filters,      # optional, see BuildSelection()
+        FilterActive       => $FilterActive,  # optional, see BuildSelection()
+        ExpandFilters      => 1,              # optional, see BuildSelection()
+        ValidateDateAfter  => '2016-01-01',   # optional, see BuildSelection()
+        ValidateDateBefore => '2016-01-01',   # optional, see BuildSelection()
+    );
+
+Returns undef when C<DataRef> or C<AttributeRef> is missing.
 
 =cut
 
@@ -6240,10 +6251,10 @@ Do this _just_ if the line, that should be wrapped, contains space characters at
 If you need more info to understand what it does, take a look at the UnitTest WrapPlainText.t to see
 use cases there.
 
-my $WrappedPlainText = $LayoutObject->WrapPlainText(
-    PlainText     => "Some Plain text that is longer than the amount stored in MaxCharacters",
-    MaxCharacters => 80,
-);
+    my $WrappedPlainText = $LayoutObject->WrapPlainText(
+        PlainText     => "Some Plain text that is longer than the amount stored in MaxCharacters",
+        MaxCharacters => 80,
+    );
 
 =cut
 
