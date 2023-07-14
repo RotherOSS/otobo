@@ -910,10 +910,10 @@ sub GetFieldTypeSettings {
     # setting independent from the referenced object
     my @GenericSettings;
 
-    # For reference dynamic fields we can select the
-    # type of the referenced object. Only objects
-    # that support dynamic fields can be referenced.
-    # For now take the list from the SysConfig.
+    # For reference dynamic fields we want to display the referenced object type,
+    # but the user should not be able to easily change that.
+    # The select field can't be simply disabled as this would prevent that the info
+    # is passed to the backend. Therefore we set up a list with a single element.
     {
         push @GenericSettings,
             {
@@ -923,7 +923,6 @@ sub GetFieldTypeSettings {
                 InputType       => 'Selection',
                 SelectionData   => { $ReferencedObjectType => $ReferencedObjectType },
                 PossibleNone    => 0,
-                Disabled        => 1,
             };
     }
 
