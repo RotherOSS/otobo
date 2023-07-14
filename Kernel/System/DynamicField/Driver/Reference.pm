@@ -359,18 +359,21 @@ sub EditFieldRender {
     for my $ValueIndex ( 0 .. $#{$Value} ) {
         $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
-        # The actual value is the techical ID of the referenced object
+        # The actual value is the techical ID of the referenced object.
+        # This might be empty e.g. in a ticket createion mask.
         my $ReferencedObjectID = $Value->[$ValueIndex];
-        $FieldTemplateData{ReferencedObjectID} = $ReferencedObjectID;
+        if ($ReferencedObjectID) {
+            $FieldTemplateData{ReferencedObjectID} = $ReferencedObjectID;
 
-        # The visible value depends on the referenced object
-        my %Description = $PluginObject->ObjectDescriptionGet(
-            ObjectID => $ReferencedObjectID,
-            UserID   => 1,                     # TODO: what about Permission check
-        );
-        $FieldTemplateData{VisibleValue} = $Param{LayoutObject}->Ascii2Html(
-            Text => $Description{Long},
-        );
+            # The visible value depends on the referenced object
+            my %Description = $PluginObject->ObjectDescriptionGet(
+                ObjectID => $ReferencedObjectID,
+                UserID   => 1,                     # TODO: what about Permission check
+            );
+            $FieldTemplateData{VisibleValue} = $Param{LayoutObject}->Ascii2Html(
+                Text => $Description{Long},
+            );
+        }
 
         push @ResultHTML, $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
