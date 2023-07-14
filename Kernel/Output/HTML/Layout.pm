@@ -523,6 +523,7 @@ sub Block {
 =head2 JSONEncode()
 
 Serialize a Perl data structure as JSON.
+The parameters C<SortKeys> and C<Pretty> are passed on to the method C<Kernel::System::JSON::Encode()>.
 
     my %Hash = (
         Key1 => 'Something',
@@ -531,6 +532,7 @@ Serialize a Perl data structure as JSON.
     my $JSON = $LayoutObject->JSONEncode(
         Data     => \%Hash,
         NoQuotes => 0, # optional: 0|1 no double quotes at the start and the end of JSON string, default is 0
+        SortKeys => 1,
     );
 
 Returns:
@@ -555,7 +557,9 @@ sub JSONEncode {
 
     # get JSON encoded data
     my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-        Data => $Param{Data},
+        Data     => $Param{Data},
+        SortKeys => $Param{SortKeys},
+        Pretty   => $Param{Pretty},
     ) || '""';
 
     # remove leading and trailing double quotes if requested
@@ -2797,9 +2801,13 @@ sub Attachment {
 
 =head2 JSONReply()
 
-Give back a data structure as a JSON response.
-A bit like the method C<Attachments>.
-As a side effect headers of the HTTP response are set in the object C<Kernel::System::Web::Response>.
+Serialize the passed in data structure as JSON. The returned JSON is formatted in the canonical way,
+meaning that hash keys are sorted.
+
+This method acts like the method C<Attachment>.
+As a side effect, the headers of the HTTP response are set in the object C<Kernel::System::Web::Response>.
+
+Missing Data throws a fatal error.
 
 =cut
 
@@ -2820,8 +2828,10 @@ sub JSONReply {
 
     # Serialize as JSON. The passed in data is usually either a hash or array reference.
     # Strings and numbers are also supported.
+    # Hash keys are sorted.
     my $Content = $Self->JSONEncode(
-        Data => $Param{Data},
+        Data     => $Param{Data},
+        SortKeys => 1,
     );
 
     return $Self->Attachment(
