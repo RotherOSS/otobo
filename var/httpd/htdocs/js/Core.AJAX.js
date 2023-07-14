@@ -443,7 +443,7 @@ Core.AJAX = (function (TargetNS) {
                     Field = $( '#' + FieldInfo[0] + '_0' );
                 }
                 else if ( $( '#' + FieldInfo[0] + 'Used_0' ).length ) {
-                    Field = $( '#' + FieldInfo[0] + 'Used_0' ).length
+                    Field = $( '#' + FieldInfo[0] + 'Used_0' );
                 }
                 else {
                     continue;
