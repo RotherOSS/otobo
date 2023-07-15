@@ -870,13 +870,13 @@ sub XAxisWidget {
 
     for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
         my %BlockData;
-        $BlockData{Fixed}   = 'checked="checked"';
+        $BlockData{Fixed}   = 'checked ';
         $BlockData{Checked} = '';
         $BlockData{Block}   = $ObjectAttribute->{Block};
 
         # things which should be done if this attribute is selected
         if ( $ObjectAttribute->{Selected} ) {
-            $BlockData{Checked} = 'checked="checked"';
+            $BlockData{Checked} = 'checked ';
             if ( !$ObjectAttribute->{Fixed} ) {
                 $BlockData{Fixed} = '';
             }
@@ -973,12 +973,12 @@ sub YAxisWidget {
     OBJECTATTRIBUTE:
     for my $ObjectAttribute ( @{ $Stat->{UseAsValueSeries} } ) {
         my %BlockData;
-        $BlockData{Fixed}   = 'checked="checked"';
+        $BlockData{Fixed}   = 'checked ';
         $BlockData{Checked} = '';
         $BlockData{Block}   = $ObjectAttribute->{Block};
 
         if ( $ObjectAttribute->{Selected} ) {
-            $BlockData{Checked} = 'checked="checked"';
+            $BlockData{Checked} = 'checked ';
             if ( !$ObjectAttribute->{Fixed} ) {
                 $BlockData{Fixed} = '';
             }
@@ -1078,14 +1078,14 @@ sub RestrictionsWidget {
 
     for my $ObjectAttribute ( @{ $Stat->{UseAsRestriction} } ) {
         my %BlockData;
-        $BlockData{Fixed}              = 'checked="checked"';
+        $BlockData{Fixed}              = 'checked ';
         $BlockData{Checked}            = '';
         $BlockData{Block}              = $ObjectAttribute->{Block};
         $BlockData{CSSClass}           = $ObjectAttribute->{CSSClass};
         $BlockData{HTMLDataAttributes} = $ObjectAttribute->{HTMLDataAttributes};
 
         if ( $ObjectAttribute->{Selected} ) {
-            $BlockData{Checked} = 'checked="checked"';
+            $BlockData{Checked} = 'checked ';
             if ( !$ObjectAttribute->{Fixed} ) {
                 $BlockData{Fixed} = "";
             }
@@ -2134,10 +2134,10 @@ sub _TimeOutput {
         }
 
         if ( $Param{TimeRelativeUnit} ) {
-            $TimeOutput{CheckedRelative} = 'checked="checked"';
+            $TimeOutput{CheckedRelative} = 'checked ';
         }
         else {
-            $TimeOutput{CheckedAbsolut} = 'checked="checked"';
+            $TimeOutput{CheckedAbsolut} = 'checked ';
         }
     }
 

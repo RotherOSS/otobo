@@ -2062,7 +2062,7 @@ sub _GetExtendedParams {
         my $CustomerCounter = 1;
         for my $Count ( 1 ... $CustomersNumber ) {
             my $CustomerElement  = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
-            my $CustomerSelected = ( $Selected eq $Count ? 'checked="checked"' : '' );
+            my $CustomerSelected = ( $Selected eq $Count ? 'checked ' : '' );
             my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
                 || '';
             my $CustomerQueue = $ParamObject->GetParam( Param => 'CustomerQueue_' . $Count )

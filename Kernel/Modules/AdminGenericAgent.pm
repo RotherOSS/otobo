@@ -780,13 +780,13 @@ sub _MaskUpdate {
     {
         my $SearchType = $Map{$Type} . 'SearchType';
         if ( !$JobData{$SearchType} ) {
-            $JobData{ $SearchType . '::None' } = 'checked="checked"';
+            $JobData{ $SearchType . '::None' } = 'checked ';
         }
         elsif ( $JobData{$SearchType} eq 'TimePoint' ) {
-            $JobData{ $SearchType . '::TimePoint' } = 'checked="checked"';
+            $JobData{ $SearchType . '::TimePoint' } = 'checked ';
         }
         elsif ( $JobData{$SearchType} eq 'TimeSlot' ) {
-            $JobData{ $SearchType . '::TimeSlot' } = 'checked="checked"';
+            $JobData{ $SearchType . '::TimeSlot' } = 'checked ';
         }
 
         my %Counter;

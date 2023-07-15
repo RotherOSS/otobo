@@ -492,7 +492,7 @@ sub _Change {
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
         # set checked
-        my $Checked = $Param{Selected}->{$ID} ? "checked='checked'" : '';
+        my $Checked = $Param{Selected}->{$ID} ? 'checked ' : '';
 
         # Recover original Service Name
         if ( $NeType eq 'Service' ) {

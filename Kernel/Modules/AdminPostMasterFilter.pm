@@ -273,7 +273,7 @@ sub _MaskUpdate {
                 $Counter++;
                 $Data{"MatchValue$Counter"}  = $Data{Match}->[$Index]->{Value};
                 $Data{"MatchHeader$Counter"} = $Data{Match}->[$Index]->{Key};
-                $Data{"MatchNot$Counter"}    = $Data{Not}->[$Index]->{Value} ? ' checked="checked"' : '';
+                $Data{"MatchNot$Counter"}    = $Data{Not}->[$Index]->{Value} ? ' checked ' : '';
             }
         }
     }

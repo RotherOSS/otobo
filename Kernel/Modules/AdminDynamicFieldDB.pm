@@ -180,11 +180,11 @@ sub _AddAction {
 
     # Prepare the multiselect and case-sensitive parameters.
     if ( defined $GetParam{Multiselect} ) {
-        $GetParam{Multiselect} = 'checked=checked';
+        $GetParam{Multiselect} = 'checked ';
     }
 
     if ( defined $GetParam{CaseSensitive} ) {
-        $GetParam{CaseSensitive} = 'checked=checked';
+        $GetParam{CaseSensitive} = 'checked ';
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -425,11 +425,11 @@ sub _ChangeAction {
 
     # Prepare the multiselect and case-sensitive parameters.
     if ( defined $GetParam{Multiselect} ) {
-        $GetParam{Multiselect} = 'checked=checked';
+        $GetParam{Multiselect} = 'checked ';
     }
 
     if ( defined $GetParam{CaseSensitive} ) {
-        $GetParam{CaseSensitive} = 'checked=checked';
+        $GetParam{CaseSensitive} = 'checked ';
     }
 
     # Uncorrectable errors.
@@ -781,7 +781,7 @@ sub _ShowScreen {
                 my $SequentialNumber = $2;
 
                 if ( $OldKey =~ m/(?:Searchfield|Listfield)/ ) {
-                    $NormalizedPossibleValueNames{$NewKey} = 'checked=checked';
+                    $NormalizedPossibleValueNames{$NewKey} = 'checked ';
                 }
                 elsif ( $OldKey =~ m/FieldName/ ) {
                     $NormalizedPossibleValueNames{$NewKey} = $PreparedPossibleValues->{$Key}->{$OldKey};
