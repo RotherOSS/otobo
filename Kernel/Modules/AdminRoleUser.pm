@@ -277,7 +277,7 @@ sub _Change {
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
         # set output class
-        my $Selected = $Param{Selected}->{$ID} ? ' checked="checked"' : '';
+        my $Selected = $Param{Selected}->{$ID} ? ' checked ' : '';
 
         $LayoutObject->Block(
             Name => 'ChangeRow',

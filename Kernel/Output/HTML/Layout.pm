@@ -3878,10 +3878,7 @@ sub BuildDateSelection {
 
     # optional checkbox
     if ($Optional) {
-        my $Checked = '';
-        if ($Used) {
-            $Checked = ' checked="checked"';
-        }
+        my $Checked = $Used ? ' checked' : '';
         $Output .= "<input type=\"checkbox\" name=\""
             . $Prefix
             . "Used\" id=\"" . $Prefix . "Used\" value=\"1\""

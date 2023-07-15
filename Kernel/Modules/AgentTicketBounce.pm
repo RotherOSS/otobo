@@ -454,7 +454,7 @@ $Param{Signature}";
             }
 
             $Param{InformationFormat}   = $Param{Body};
-            $Param{InformSenderChecked} = $Param{InformSender} ? 'checked="checked"' : '';
+            $Param{InformSenderChecked} = $Param{InformSender} ? 'checked ' : '';
 
             my $Output = $LayoutObject->Header(
                 Type      => 'Small',

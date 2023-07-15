@@ -193,14 +193,14 @@ sub Run {
             # check the calendar if stored in preferences
             if ( scalar @{$CalendarSelection} ) {
                 if ( grep { $_ == $Calendar->{CalendarID} } @{$CalendarSelection} ) {
-                    $Calendar->{Checked} = 'checked="checked" ' if $CurrentCalendar <= $CalendarLimit;
+                    $Calendar->{Checked} = 'checked ' if $CurrentCalendar <= $CalendarLimit;
                     $CurrentCalendar++;
                 }
             }
 
             # check calendar by default if limit is not yet reached
             else {
-                $Calendar->{Checked} = 'checked="checked" ' if $CurrentCalendar <= $CalendarLimit;
+                $Calendar->{Checked} = 'checked ' if $CurrentCalendar <= $CalendarLimit;
                 $CurrentCalendar++;
             }
 

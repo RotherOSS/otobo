@@ -940,7 +940,7 @@ sub _Element {
     if ($Backends) {
         my $Checked = '';
         if ( $Backends->{$Name} || $Configs->{$Name}->{Mandatory} ) {
-            $Checked = 'checked="checked"';
+            $Checked = 'checked ';
         }
 
         # Check whether the widget is forcibly displayed.
