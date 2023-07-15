@@ -211,7 +211,7 @@
 [% RenderBlockStart("EventAdd") %]
                                 [% Data.EventStrg %]
 [% RenderBlockEnd("EventAdd") %]
-                                <input type="checkbox" id="Asynchronous" checked="checked" class="GenericInterfaceSpacing" name="Asynchronous"/><label for="Asynchronous">[% Translate("Asynchronous") | html %]</label>
+                                <input type="checkbox" id="Asynchronous" checked class="GenericInterfaceSpacing" name="Asynchronous"><label for="Asynchronous">[% Translate("Asynchronous") | html %]</label>
                                 <button type="button" id="AddEvent" class="Add GenericInterfaceSpacing HideOnChange" name="AddEvent" value="[% Translate("Add Event") | html %]">[% Translate("Add Event") | html %]</button>
                                 <p class="FieldExplanation">
                                     [% Translate("To add a new event select the event object and event name and click on the \"+\" button") | html %].

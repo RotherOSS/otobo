@@ -95,7 +95,7 @@
                                 [% Translate("Download current configuration settings of your system in a .yml file.") | html %]
                             </p>
 
-                            <input type="checkbox" id="SkipUserSettings" name="SkipUserSettings" value="1" checked="checked" />
+                            <input type="checkbox" id="SkipUserSettings" name="SkipUserSettings" value="1" checked>
                             <label for="SkipUserSettings">[% Translate("Include user settings") | html %]</label>
                             <div class="Clear"> </div>
 
