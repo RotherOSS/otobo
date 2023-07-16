@@ -73,7 +73,7 @@ $Selenium->RunTest(
                     CacheTTL       => '0',
                     DBName         => 'otobo',
                     SID            => '',
-                    Multiselect    => 'checked=checked',
+                    Multiselect    => 'checked',
                     Password       => 'otobo-docker-databasepw',
                     Link           => '',
                     Identifier     => '1',

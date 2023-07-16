@@ -22,7 +22,7 @@
 [% ELSE %]
 <input type="hidden" id="[% Data.FieldNameUsed %]" name="[% Data.FieldNameUsed %]" value="1" />
 [% END %]
-<input type="checkbox" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" [% Data.FieldChecked %] value="1" />
+<input type="checkbox" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" [% Data.FieldChecked %] value="1">
 [% IF Data.Mandatory %]
 <div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">
     <p>

@@ -266,7 +266,7 @@ sub EditFieldRender {
     }
 
     # set as checked if necessary
-    my $FieldChecked = ( defined $Value && $Value eq '1' ? 'checked="checked"' : '' );
+    my $FieldChecked = ( defined $Value && $Value eq '1' ? 'checked ' : '' );
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldCheckbox';
@@ -302,10 +302,10 @@ sub EditFieldRender {
         $FieldTemplateData{FieldUsedChecked0} = '';
         $FieldTemplateData{FieldUsedChecked1} = '';
         if ( $FieldValue->{UsedValue} ) {
-            $FieldTemplateData{FieldUsedChecked1} = 'checked="checked"';
+            $FieldTemplateData{FieldUsedChecked1} = 'checked ';
         }
         else {
-            $FieldTemplateData{FieldUsedChecked0} = 'checked="checked"';
+            $FieldTemplateData{FieldUsedChecked0} = 'checked ';
         }
 
         $FieldTemplateData{FieldNameUsed0} = $FieldNameUsed . '0';

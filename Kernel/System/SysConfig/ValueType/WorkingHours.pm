@@ -395,10 +395,10 @@ sub SettingRender {
                 . "id='$Param{Name}$IDSuffix$Day$Hour' data-day='$Day' class='WorkingHours' ";
 
             if ($Checked) {
-                $HTML .= "checked='checked' ";
+                $HTML .= 'checked';
             }
 
-            $HTML .= " />\n";
+            $HTML .= ">\n";
 
             $HTML .= "</div></div></div>\n";
         }
