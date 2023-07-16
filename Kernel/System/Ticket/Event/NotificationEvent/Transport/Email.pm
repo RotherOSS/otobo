@@ -467,7 +467,7 @@ sub TransportSettingsDisplayGet {
     }
 
     # set security settings enabled
-    $Param{EmailSecuritySettings} = ( $Param{Data}->{EmailSecuritySettings} ? 'checked="checked"' : '' );
+    $Param{EmailSecuritySettings} = ( $Param{Data}->{EmailSecuritySettings} ? 'checked ' : '' );
     $Param{SecurityDisabled}      = 0;
 
     if ( $Param{EmailSecuritySettings} eq '' ) {
