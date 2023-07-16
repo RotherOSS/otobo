@@ -668,7 +668,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -689,7 +689,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -712,7 +712,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -738,7 +738,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -764,7 +764,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -790,7 +790,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -816,7 +816,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -840,7 +840,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 <div id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Error" class="TooltipErrorMessage">
     <p>
         This field is required.
@@ -871,7 +871,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 <div id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}ServerError" class="TooltipErrorMessage">
     <p>
         This is an error.
@@ -903,7 +903,7 @@ EOF
 Ignore this field.
 <div class="clear"></div>
 <input type="radio" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used1" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1"  />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
