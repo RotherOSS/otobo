@@ -44,6 +44,56 @@ sub new {
         );
     }
 
+    # frontend specific config
+    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+    # get the dynamic fields for this screen
+    $Self->{DynamicField} = $DynamicFieldObject->DynamicFieldListGet(
+        Valid => 1,
+
+        # only screens that add notes can modify Article dynamic fields
+        ObjectType  => $Config->{Note} ? [ 'Ticket', 'Article' ] : ['Ticket'],
+        FieldFilter => $Config->{DynamicField} || {},
+    );
+
+    my $Definition = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
+        Mask => $Self->{Action},
+    ) || {};
+
+    $Self->{MaskDefinition} = $Definition->{Mask};
+
+    # align sysconfig and ticket mask data I
+    for my $DynamicField ( @{ $Self->{DynamicField} // [] } ) {
+        if ( exists $Definition->{DynamicFields}{ $DynamicField->{Name} } ) {
+            my $Parameters = delete $Definition->{DynamicFields}{ $DynamicField->{Name} } // {};
+
+            for my $Attribute ( keys $Parameters->%* ) {
+                $DynamicField->{$Attribute} = $Parameters->{$Attribute};
+            }
+        }
+        else {
+            push $Self->{MaskDefinition}->@*, {
+                DF        => $DynamicField->{Name},
+                Mandatory => $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ? 1 : 0,
+            };
+        }
+    }
+
+    # align sysconfig and ticket mask data II
+    for my $DynamicFieldName ( keys $Definition->{DynamicFields}->%* ) {
+        push $Self->{DynamicField}->@*, $DynamicFieldObject->DynamicFieldGet(
+            Name => $DynamicFieldName,
+        );
+
+        my $Parameters = $Definition->{DynamicFields}{$DynamicFieldName} // {};
+
+        for my $Attribute ( keys $Parameters->%* ) {
+            $Self->{DynamicField}[-1]{$Attribute} = $Parameters->{$Attribute};
+        }
+    }
+
     # get form id
     $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
 
@@ -195,30 +245,15 @@ sub Run {
     # get Dynamic fields form ParamObject
     my %DynamicFieldValues;
 
-    # define the dynamic fields to show based on the object type
-    my $ObjectType = ['Ticket'];
-
     # get config for frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
-
-    # only screens that add notes can modify Article dynamic fields
-    if ( $Config->{Note} ) {
-        $ObjectType = [ 'Ticket', 'Article' ];
-    }
-
-    # get the dynamic fields for this screen
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => $ObjectType,
-        FieldFilter => $Config->{DynamicField} || {},
-    );
 
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value from the web request
@@ -456,7 +491,7 @@ sub Run {
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicField} ) {
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
@@ -653,7 +688,7 @@ sub Run {
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         my $PossibleValuesFilter;
@@ -789,7 +824,7 @@ sub Run {
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicField} ) {
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             my $PossibleValuesFilter;
@@ -1213,7 +1248,7 @@ sub Run {
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicField} ) {
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
@@ -1454,69 +1489,16 @@ sub AgentMove {
         Data => {%Param},
     );
 
-    # define the dynamic fields to show based on the object type
-    my $ObjectType = ['Ticket'];
-
-    # only screens that add notes can modify Article dynamic fields
-    if ( $Config->{Note} ) {
-        $ObjectType = [ 'Ticket', 'Article' ];
-    }
-
     # render dynamic fields
     {
-        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-
-        # get the dynamic fields for this screen
-        my $DynamicField = $DynamicFieldObject->DynamicFieldListGet(
-            Valid       => 1,
-            ObjectType  => $ObjectType,
-            FieldFilter => $Config->{DynamicField} || {},
-        );
-
-        my $Definition = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
-            Mask => $Self->{Action},
-        ) || {};
-
-        my $Mask = $Definition->{Mask};
-
-        # align sysconfig and ticket mask data I
-        for my $DynamicFieldConfig ( @{ $DynamicField // [] } ) {
-            if ( exists $Definition->{DynamicFields}{ $DynamicFieldConfig->{Name} } ) {
-                my $Parameters = delete $Definition->{DynamicFields}{ $DynamicFieldConfig->{Name} } // {};
-
-                for my $Attribute ( keys $Parameters->%* ) {
-                    $DynamicFieldConfig->{$Attribute} = $Parameters->{$Attribute};
-                }
-            }
-            else {
-                push $Mask->@*, {
-                    DF        => $DynamicFieldConfig->{Name},
-                    Mandatory => $Config->{DynamicField}{ $DynamicFieldConfig->{Name} } == 2 ? 1 : 0,
-                };
-            }
-        }
-
-        # align sysconfig and ticket mask data II
-        for my $DynamicFieldName ( keys $Definition->{DynamicFields}->%* ) {
-            push $DynamicField->@*, $DynamicFieldObject->DynamicFieldGet(
-                Name => $DynamicFieldName,
-            );
-
-            my $Parameters = $Definition->{DynamicFields}{$DynamicFieldName} // {};
-
-            for my $Attribute ( keys $Parameters->%* ) {
-                $DynamicField->[-1]{$Attribute} = $Parameters->{$Attribute};
-            }
-        }
-
-        my %DynamicFieldConfigs = map { $_->{Name} => $_ } $DynamicField->@*;
+        my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{DynamicField}->@*;
 
         # grep dynamic field values from ticket data
         my %DynamicFieldValues
             = map { 'DynamicField_' . $_ => $Param{ 'DynamicField_' . $_ } } grep { $DynamicFieldConfigs{$_}->{ObjectType} eq 'Ticket' } keys %DynamicFieldConfigs;
 
         my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
-            Content              => $Mask,
+            Content              => $Self->{MaskDefinition},
             DynamicFields        => \%DynamicFieldConfigs,
             UpdatableFields      => $Self->_GetFieldsToUpdate(),
             LayoutObject         => $LayoutObject,
@@ -1526,7 +1508,7 @@ sub AgentMove {
             Errors               => $Param{DFErrors},
         );
 
-        if ($DynamicField) {
+        if ( $Self->{DynamicField} ) {
             $LayoutObject->Block(
                 Name => 'WidgetDynamicFields',
                 Data => {
@@ -1888,27 +1870,9 @@ sub _GetFieldsToUpdate {
         @UpdatableFields = qw( DestQueueID NewUserID NewStateID NewPriorityID );
     }
 
-    # define the dynamic fields to show based on the object type
-    my $ObjectType = ['Ticket'];
-
-    # get config for frontend module
-    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
-
-    # only screens that add notes can modify Article dynamic fields
-    if ( $Config->{Note} ) {
-        $ObjectType = [ 'Ticket', 'Article' ];
-    }
-
-    # get the dynamic fields for this screen
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => $ObjectType,
-        FieldFilter => $Config->{DynamicField} || {},
-    );
-
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         my $IsACLReducible = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
