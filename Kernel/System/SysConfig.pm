@@ -2471,6 +2471,7 @@ sub ConfigurationXML2DB {
     my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
     my $SysConfigDBObject  = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
+    # parsed XML files grouped by the attribute 'init'
     my %SettingsByInit = (
         Framework   => [],
         Application => [],
@@ -2505,18 +2506,18 @@ sub ConfigurationXML2DB {
             && ref $Cache->{Settings} eq 'ARRAY'
             )
         {
-            @{ $SettingsByInit{ $Cache->{Init} } } = ( @{ $SettingsByInit{ $Cache->{Init} } }, @{ $Cache->{Settings} } );
+            push $SettingsByInit{ $Cache->{Init} }->@*, $Cache->{Settings}->@*;
 
             next FILE;
         }
 
-        # Read XML file.
+        # Read XML file, getting a reference to a string
         my $ConfigFile = $MainObject->FileRead(
             Location => $File,
             Mode     => 'utf8',
             Result   => 'SCALAR',
         );
-        if ( !ref $ConfigFile || !${$ConfigFile} ) {
+        if ( !ref $ConfigFile || !$ConfigFile->$* ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't open file $File: $!",
@@ -2526,15 +2527,14 @@ sub ConfigurationXML2DB {
         }
 
         # Extract otobo_config Init attribute. E.g. 'Framework', 'Config'
-        my ($InitValue) = ${$ConfigFile} =~ m{<otobo_config.*?init="(.*?)"}gsmx;
+        my ($InitValue) = $ConfigFile->$* =~ m{<otobo_config.*?init="(.*?)"}gsmx;
         $InitValue //= '';
 
         # Check if InitValue is Valid.
         if ( !defined $SettingsByInit{$InitValue} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  =>
-                    "Invalid otobo_config Init value ($InitValue)! Allowed values: Framework, Application, Config, Changes.",
+                Message  => "Invalid otobo_config Init value ($InitValue)! Allowed values: Framework, Application, Config, Changes.",
             );
 
             next FILE;
@@ -2545,11 +2545,11 @@ sub ConfigurationXML2DB {
         $XMLFilename =~ s{\A/}{}gmsx;
 
         my @ParsedSettings = $SysConfigXMLObject->SettingListParse(
-            XMLInput    => ${$ConfigFile},
+            XMLInput    => $ConfigFile->$*,
             XMLFilename => $XMLFilename,
         );
 
-        push @{ $SettingsByInit{$InitValue} }, @ParsedSettings;
+        push $SettingsByInit{$InitValue}->@*, @ParsedSettings;
 
         # There might be an error parsing file. If we cache the result, error message will not be present.
         if (@ParsedSettings) {
@@ -2572,7 +2572,7 @@ sub ConfigurationXML2DB {
         for my $Setting ( @{ $SettingsByInit{$Init} } ) {
             my $Name = $Setting->{XMLContentParsed}->{Name};
 
-            next SETTING if !$Name;
+            next SETTING unless $Name;
 
             $Settings{$Name} = $Setting;
         }
@@ -2653,23 +2653,20 @@ sub ConfigurationXML2DB {
                     IsRequired               => $Settings{$SettingName}->{XMLContentParsed}->{Required}                    || 0,
                     IsValid                  => $Settings{$SettingName}->{XMLContentParsed}->{Valid}                       || 0,
                     HasConfigLevel           => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel}                 || 100,
-                    UserModificationPossible => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationPossible}
-                        || 0,
-                    UserModificationActive => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationActive}
-                        || 0,
-                    UserPreferencesGroup => $Settings{$SettingName}->{XMLContentParsed}->{UserPreferencesGroup},
-                    XMLContentRaw        => $Settings{$SettingName}->{XMLContentRaw},
-                    XMLContentParsed     => $Settings{$SettingName}->{XMLContentParsed},
-                    XMLFilename          => $Settings{$SettingName}->{XMLFilename},
-                    EffectiveValue       => $EffectiveValue,
-                    UserID               => $Param{UserID},
-                    ExclusiveLockGUID    => $ExclusiveLockGUID,
+                    UserModificationPossible => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationPossible}    || 0,
+                    UserModificationActive   => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationActive}      || 0,
+                    UserPreferencesGroup     => $Settings{$SettingName}->{XMLContentParsed}->{UserPreferencesGroup},
+                    XMLContentRaw            => $Settings{$SettingName}->{XMLContentRaw},
+                    XMLContentParsed         => $Settings{$SettingName}->{XMLContentParsed},
+                    XMLFilename              => $Settings{$SettingName}->{XMLFilename},
+                    EffectiveValue           => $EffectiveValue,
+                    UserID                   => $Param{UserID},
+                    ExclusiveLockGUID        => $ExclusiveLockGUID,
                 );
                 if ( !$Success ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
-                        Message  =>
-                            "DefaultSettingUpdate failed for Config Item: $SettingName!",
+                        Message  => "DefaultSettingUpdate failed for Config Item: $SettingName!",
                     );
                 }
 
