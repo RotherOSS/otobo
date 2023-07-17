@@ -216,16 +216,20 @@ sub _ShowOverview {
 
         # This is a workaround for Reference dynamic fields.
         # We want a entry for each of the possible referenced object types.
+        # E.g. Ticket, ITSMConfigItem, ITSMConfigItemVersion.
+        # The list of referenced object types may come from several XML-files,
+        # therefore we assemble the complete list from several smaller lists.
         # Sorting is handled by TreeView.
         # The Key must be unique as otherwise the JS handler becomes confused.
-        if ( $FieldTypes{Reference} ) {
-            for my $ReferencedObjectType ( $FieldTypeConfig->{Reference}->{ReferencedObjectTypes}->@* ) {
-                push @FieldList,
-                    {
-                        Key   => join( '::', 'Reference', $ReferencedObjectType ),
-                        Value => join( '::', 'Reference', $ReferencedObjectType ),
-                    },
-                    ;
+        if ( $FieldTypes{Reference} && $FieldTypeConfig->{Reference}->{ReferencedObjectTypes} ) {
+            for my $Types ( values $FieldTypeConfig->{Reference}->{ReferencedObjectTypes}->%* ) {
+                for my $Type ( $Types->@* ) {
+                    push @FieldList,
+                        {
+                            Key   => join( '::', 'Reference', $Type ),
+                            Value => join( '::', 'Reference', $Type ),
+                        };
+                }
             }
         }
 
@@ -242,9 +246,10 @@ sub _ShowOverview {
         );
 
         # This is a workaround for Reference dynamic fields.
-        # Inject additional date in the option.
-        $AddDynamicFieldStrg =~ s[(?=>\s*ITSMConfigItem</option>)][ data-referenced_object_type="ITSMConfigItem"];
-        $AddDynamicFieldStrg =~ s[(?=>\s*Ticket</option>)][ data-referenced_object_type="Ticket"];
+        # Inject additional data into the option tag.
+        # E.g. <option value="Reference::ITSMConfigItem" data-referenced_object_type="ITSMConfigItem">&nbsp;&nbsp;ITSMConfigItem</option>
+        # See https://www.w3schools.com/tags/att_data-.asp
+        $AddDynamicFieldStrg =~ s[ (value="Reference::(\w+)")>][ $1 data-referenced_object_type="$2">]g;
 
         my $ObjectTypeName = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::ObjectType')
             ->{$ObjectType}->{DisplayName} || $ObjectType;
