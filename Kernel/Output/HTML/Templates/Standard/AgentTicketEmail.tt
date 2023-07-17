@@ -342,7 +342,7 @@
                     <div class="Clear"></div>
 [% RenderBlockEnd("TicketSLA") %]
 
-[% INCLUDE "DynamicField/AgentEditField.tt" %]
+[% Data.DynamicFieldHTML %]
 
 [% RenderBlockStart("OwnerSelection") %]
                     <label for="NewUserID">[% Translate("Owner") | html %]:</label>
