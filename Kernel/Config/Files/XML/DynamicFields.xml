@@ -990,13 +990,16 @@
                 <Item Key="DisplayName" Translatable="1">Reference</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Reference</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
-                <Item Key="ReferencedObjectTypes">
-                    <Array>
-                        <Item>Ticket</Item>
-                        <Item>ITSMConfigItem</Item>
-                    </Array>
-                </Item>
             </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::Driver###Reference###ReferencedObjectTypes###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Referenced object types that are related to tickets and articles.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Array>
+                <Item>Ticket</Item>
+            </Array>
         </Value>
     </Setting>
     <Setting Name="Loader::Agent::CommonJS###200-DynamicFieldReference" Required="1" Valid="1">
