@@ -2150,6 +2150,8 @@ sub _Mask {
     # Only screens that add notes can modify Article dynamic fields.
     my $ObjectType = $Config->{Note} ? [ 'Ticket', 'Article' ] : ['Ticket'];
 
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
     # Get dynamic fields for this screen, based in the object type.
     my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid       => 1,
@@ -2160,8 +2162,6 @@ sub _Mask {
     # render ticket type dynamic fields
     my $TicketTypeDynamicFieldHTML;
     {
-        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-
         my $Definition = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
             Mask => $Self->{Action},
         ) || {};
