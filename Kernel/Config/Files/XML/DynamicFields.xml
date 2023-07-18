@@ -745,7 +745,7 @@
     <!-- End DynamicField Web Service -->
 
     <!-- DynamicField Agent -->
-    <Setting Name="Frontend::Module###AdminDynamicFieldAgent" Required="1" Valid="1">
+    <Setting Name="Frontend::Module###AdminDynamicFieldAgent" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
         <Value>
@@ -767,7 +767,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldAgent###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldAgent###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -786,7 +786,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="DynamicFields::Driver###Agent" Required="1" Valid="1">
+    <Setting Name="DynamicFields::Driver###Agent" Required="0" Valid="1">
         <Description Translatable="1">DynamicField backend registration.</Description>
         <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
         <Value>
@@ -800,7 +800,7 @@
     <!-- End DynamicField Agent -->
 
     <!-- DynamicField CustomerCompany -->
-    <Setting Name="Frontend::Module###AdminDynamicFieldCustomerCompany" Required="1" Valid="1">
+    <Setting Name="Frontend::Module###AdminDynamicFieldCustomerCompany" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
         <Value>
@@ -822,7 +822,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldCustomerCompany###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldCustomerCompany###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -841,7 +841,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="DynamicFields::Driver###CustomerCompany" Required="1" Valid="1">
+    <Setting Name="DynamicFields::Driver###CustomerCompany" Required="0" Valid="1">
         <Description Translatable="1">DynamicField backend registration.</Description>
         <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
         <Value>
@@ -855,7 +855,7 @@
     <!-- End DynamicField CustomerCompany -->
 
     <!-- DynamicField CustomerUser -->
-    <Setting Name="Frontend::Module###AdminDynamicFieldCustomerUser" Required="1" Valid="1">
+    <Setting Name="Frontend::Module###AdminDynamicFieldCustomerUser" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
         <Value>
@@ -877,7 +877,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldCustomerUser###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldCustomerUser###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -896,7 +896,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="DynamicFields::Driver###CustomerUser" Required="1" Valid="1">
+    <Setting Name="DynamicFields::Driver###CustomerUser" Required="0" Valid="1">
         <Description Translatable="1">DynamicField backend registration.</Description>
         <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
         <Value>
