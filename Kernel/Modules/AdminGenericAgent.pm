@@ -32,10 +32,13 @@ sub new {
     bless( $Self, $Type );
 
     # get the dynamic fields for ticket object
-    $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
         ObjectType => ['Ticket'],
     );
+
+    # TODO Adjust GenericAgent module to handle multivalue and set fields correctly
+    $Self->{DynamicField}->@* = grep { !$_->{Config}{MultiValue} && $_->{FieldType} ne 'Set' } $DynamicField->@*;
 
     return $Self;
 }
