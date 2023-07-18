@@ -78,6 +78,7 @@ sub new {
         'IsStatsCondition'             => 1,
         'IsCustomerInterfaceCapable'   => 1,
         'IsLikeOperatorCapable'        => 1,
+        'IsSetCapable'                 => 1,
     };
 
     # get the Dynamic Field Backend custom extensions
@@ -240,6 +241,16 @@ sub ValueValidate {
 sub FieldValueValidate {
     my ( $Self, %Param ) = @_;
 
+    # Check for valid possible values list.
+    my $PossibleValues = $Self->PossibleValuesGet(%Param);
+    if ( !IsHashRefWithData($PossibleValues) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Possible values are empty!",
+        );
+        return;
+    }
+
     # Check for defined value.
     if ( !defined $Param{Value} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -257,6 +268,10 @@ sub FieldValueValidate {
         }
         else {
             push @Values, $Param{Value};
+        }
+
+        for my $Value (@Values) {
+            return if !defined $PossibleValues->{$Value};
         }
     }
 
@@ -282,7 +297,7 @@ sub EditFieldRender {
         @Values = ( $Param{Value} );
     }
 
-    # Set new line separator.
+    # Set new line separator
     my $ItemSeparator = ', ';
 
     $Value = join $ItemSeparator, @Values;
@@ -348,12 +363,12 @@ sub EditFieldRender {
         }
     }
     else {
-        $Value->@* = grep {$_} $Value->@*;
+        my @SelectedIDs = grep {$_} $Value->@*;
         push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
             Data       => $PossibleValues || {},
             Disabled   => $Param{Readonly},
             Name       => $FieldName,
-            SelectedID => $Value,
+            SelectedID => \@SelectedIDs,
             Class      => $FieldClass,
             HTMLQuote  => 1,
             Multiple   => $FieldConfig->{Multiselect},
@@ -513,17 +528,22 @@ sub EditFieldValueValidate {
     );
 
     my $ServerError;
+    my $ErrorMessage;
 
     # ref comparison because EditFieldValuetet returns an arrayref except when using template value
     if ( !ref $Value eq 'ARRAY' ) {
         $Value = [$Value];
     }
 
+    # value constellation [undef] is caught by mandatory check in for loop below
     if ( $Param{Mandatory} && !$Value->@* ) {
         return {
             ServerError => 1,
         };
     }
+
+    # get possible values list
+    my $PossibleValues = $Self->PossibleValuesGet(%Param);
 
     for my $ValueItem ( @{$Value} ) {
 
@@ -533,11 +553,19 @@ sub EditFieldValueValidate {
                 ServerError => 1,
             };
         }
+        else {
+            # validate if value is in possible values list (but let pass empty values)
+            if ( $ValueItem && !$PossibleValues->{$ValueItem} ) {
+                $ServerError  = 1;
+                $ErrorMessage = 'The field content is invalid';
+            }
+        }
     }
 
     # return resulting structure
     return {
-        ServerError => $ServerError,
+        ServerError  => $ServerError,
+        ErrorMessage => $ErrorMessage,
     };
 }
 
