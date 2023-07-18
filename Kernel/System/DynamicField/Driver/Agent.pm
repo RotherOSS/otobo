@@ -170,7 +170,7 @@ sub ValueSet {
     }
     else {
         $Value = $Self->ValueStructureToDB(
-            Value      => $Param{Value},
+            Value      => \@Values,
             ValueKey   => 'ValueText',
             Set        => $Param{Set},
             MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
@@ -223,13 +223,9 @@ sub ValueValidate {
         @Values = ( $Param{Value} );
     }
 
-    # get dynamic field value object
-    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
-
     my $Success;
     for my $Value (@Values) {
-
-        $Success = $DynamicFieldValueObject->ValueValidate(
+        $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
             Value => {
                 ValueText => $Value,
             },
@@ -275,31 +271,36 @@ sub EditFieldRender {
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
-    my $Value;
+    my $Value = '';
 
-    # set the field value or default
-    if ( $Param{UseDefaultValue} ) {
-        $Value = $FieldConfig->{DefaultValue} // '';
+    # Prepare the value to be comma separated and set the field value.
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
     }
-    $Value = $Param{Value} // $Value;
-
-    # check if a value in a template (GenericAgent etc.)
-    # is configured for this dynamic field
-    if (
-        IsHashRefWithData( $Param{Template} )
-        && defined $Param{Template}->{$FieldName}
-        )
-    {
-        $Value = $Param{Template}->{$FieldName};
+    elsif ( IsStringWithData( $Param{Value} ) ) {
+        @Values = ( $Param{Value} );
     }
 
-    # extract the dynamic field value from the web request
+    # Set new line separator.
+    my $ItemSeparator = ', ';
+
+    $Value = join $ItemSeparator, @Values;
+
+    # Extract the dynamic field value from the web request and set it if present. Do this after
+    #   stored value is retrieved and processed, so it can be overridden if form has refreshed for
+    #   some reasons (i.e. attachment has been uploaded). See bug#12453 for more information.
     my $FieldValue = $Self->EditFieldValueGet(
         %Param,
     );
 
     # set values from ParamObject if present
-    if ( $FieldValue->@* ) {
+    if ( $FieldConfig->{MultiValue} ) {
+        if ( $FieldValue->@* ) {
+            $Value = $FieldValue;
+        }
+    }
+    elsif ( defined $FieldValue ) {
         $Value = $FieldValue;
     }
 
@@ -347,6 +348,7 @@ sub EditFieldRender {
         }
     }
     else {
+        $Value->@* = grep {$_} $Value->@*;
         push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
             Data       => $PossibleValues || {},
             Disabled   => $Param{Readonly},
@@ -370,19 +372,18 @@ sub EditFieldRender {
     );
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
-        my $FieldID = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
+        $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
         if ( !$ValueIndex ) {
             if ( $Error{ServerError} ) {
-                $Error{DivIDServerError} = $FieldID . 'ServerError';
+                $Error{DivIDServerError} = $FieldTemplateData{FieldID} . 'ServerError';
                 $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
             }
             if ( $Error{Mandatory} ) {
-                $Error{DivIDMandatory}       = $FieldID . 'Error';
+                $Error{DivIDMandatory}       = $FieldTemplateData{FieldID} . 'Error';
                 $Error{FieldRequiredMessage} = Translatable('This field is required.');
             }
         }
-
         push @ResultHTML, $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
             Data         => {
@@ -395,13 +396,13 @@ sub EditFieldRender {
 
     my $TemplateHTML;
     if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
-        my $FieldID = $FieldName . '_Template';
+        $FieldTemplateData{FieldID} = $FieldName . '_Template';
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
             Data        => $PossibleValues || {},
             Disabled    => $Param{ReadOnly},
             Name        => $FieldName,
-            ID          => $FieldID,
+            ID          => $FieldTemplateData{FieldID},
             Translation => $FieldConfig->{TranslatableValues} || 0,
             Class       => $FieldClass,
             HTMLQuote   => 1,
@@ -486,7 +487,6 @@ sub EditFieldValueGet {
             # delete the template value
             pop @Data;
         }
-
         $Value = \@Data;
     }
 
@@ -514,6 +514,7 @@ sub EditFieldValueValidate {
 
     my $ServerError;
 
+    # ref comparison because EditFieldValuetet returns an arrayref except when using template value
     if ( !ref $Value eq 'ARRAY' ) {
         $Value = [$Value];
     }
@@ -556,7 +557,6 @@ sub DisplayValueRender {
 
     my @ReadableValues;
     my @ReadableTitles;
-    VALUE_ITEM:
     for my $ValueItem (@Values) {
         $ValueItem //= '';
 
@@ -586,12 +586,8 @@ sub DisplayValueRender {
         push @ReadableValues, $ValueItem;
     }
 
-    # get specific field settings
-    my $FieldConfig = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver')->{Multiselect} || {};
-
-    # set new line separator
-    my $ValueSeparator = $FieldConfig->{ItemSeparator} || ', ';
-    my $Title          = join( ', ', @ReadableTitles );
+    my $ValueSeparator;
+    my $Title = join( ', ', @ReadableTitles );
 
     # HTMLOutput transformations
     if ($HTMLOutput) {
@@ -699,7 +695,9 @@ sub StatsFieldParameterBuild {
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
+    # set Value and Title variables
     my $Value = '';
+    my $Title = '';
 
     # check value
     my @Values;
@@ -712,14 +710,17 @@ sub ReadableValueRender {
 
     my @ReadableValues;
 
-    VALUEITEM:
     for my $Item (@Values) {
-        next VALUEITEM if !$Item;
+        $Item //= '';
 
         # replace agent login with full name
-        push @ReadableValues, $Kernel::OM->Get('Kernel::System::User')->UserName(
-            UserID => $Item,
-        );
+        if ($Item) {
+            $Item = $Kernel::OM->Get('Kernel::System::User')->UserName(
+                UserID => $Item,
+            );
+        }
+
+        push @ReadableValues, $Item || '';
     }
 
     # set new line separator
@@ -727,16 +728,16 @@ sub ReadableValueRender {
 
     # Output transformations
     $Value = join( $ItemSeparator, @ReadableValues );
-    my $Title = $Value;
+    $Title = $Value;
 
-    # cut strings if needed
-    if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
-        $Value = substr( $Value, 0, $Param{ValueMaxChars} ) . '...';
-    }
-    if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
+    # prepare title
+    $Title = $Value;
+
+    if ( $Param{TitleMaxChars} && length $Title > $Param{TitleMaxChars} ) {
         $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
     }
 
+    # return a data structure
     return {
         Value => $Value,
         Title => $Title,
@@ -856,20 +857,6 @@ sub PossibleValuesGet {
     # to store the possible values
     my %PossibleValues;
 
-    # set PossibleNone attribute
-    my $FieldPossibleNone;
-    if ( defined $Param{OverridePossibleNone} ) {
-        $FieldPossibleNone = $Param{OverridePossibleNone};
-    }
-    else {
-        $FieldPossibleNone = $Param{DynamicFieldConfig}{Config}{PossibleNone} || 0;
-    }
-
-    # set none value if defined on field config
-    if ($FieldPossibleNone) {
-        %PossibleValues = ( '' => '-' );
-    }
-
     my %AgentList;
     my $GroupFilter = $Param{DynamicFieldConfig}{Config}{GroupFilter};
     if ($GroupFilter) {
@@ -889,6 +876,25 @@ sub PossibleValuesGet {
         %PossibleValues,
         %AgentList,
     );
+
+    %PossibleValues = map { $_ => $UserObject->UserName( UserID => $_ ) } keys %PossibleValues;
+
+    # set PossibleNone attribute
+    my $FieldPossibleNone;
+    if ( defined $Param{OverridePossibleNone} ) {
+        $FieldPossibleNone = $Param{OverridePossibleNone};
+    }
+    else {
+        $FieldPossibleNone = $Param{DynamicFieldConfig}{Config}{PossibleNone} || 0;
+    }
+
+    # set none value if defined on field config
+    if ($FieldPossibleNone) {
+        %PossibleValues = (
+            %PossibleValues,
+            '' => '-',
+        );
+    }
 
     # return the possible values hash as a reference
     return \%PossibleValues;
