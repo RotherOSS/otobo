@@ -547,6 +547,17 @@ sub ValueSet {
         return 1;
     }
 
+    # set the dynamic field object handler
+    my $DynamicFieldObjectHandler = 'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
+
+    # If an ObjectType handler is registered and has a PreValueSet method, use it.
+    if ( ref $Self->{$DynamicFieldObjectHandler} && $Self->{$DynamicFieldObjectHandler}->can('PreValueSet')) {
+        return if !$Self->{$DynamicFieldObjectHandler}->PreValueSet(
+            OldValue => $OldValue,
+            Param    => \%Param,
+        );
+    }
+
     # call the specific backend
     my $Success = $Self->{$DynamicFieldBackend}->ValueSet(%Param);
 
@@ -559,9 +570,6 @@ sub ValueSet {
 
         return;
     }
-
-    # set the dynamic field object handler
-    my $DynamicFieldObjectHandler = 'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
 
     # If an ObjectType handler is registered, use it.
     if ( ref $Self->{$DynamicFieldObjectHandler} ) {
