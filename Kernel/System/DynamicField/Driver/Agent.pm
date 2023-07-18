@@ -286,21 +286,7 @@ sub EditFieldRender {
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
-    my $Value = '';
-
-    # Prepare the value to be comma separated and set the field value.
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    elsif ( IsStringWithData( $Param{Value} ) ) {
-        @Values = ( $Param{Value} );
-    }
-
-    # Set new line separator
-    my $ItemSeparator = ', ';
-
-    $Value = join $ItemSeparator, @Values;
+    my $Value = $Param{Value} // '';
 
     # Extract the dynamic field value from the web request and set it if present. Do this after
     #   stored value is retrieved and processed, so it can be overridden if form has refreshed for
@@ -310,12 +296,7 @@ sub EditFieldRender {
     );
 
     # set values from ParamObject if present
-    if ( $FieldConfig->{MultiValue} ) {
-        if ( $FieldValue->@* ) {
-            $Value = $FieldValue;
-        }
-    }
-    elsif ( defined $FieldValue ) {
+    if ( defined $FieldValue && $FieldValue && $FieldValue->@* ) {
         $Value = $FieldValue;
     }
 
