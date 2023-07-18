@@ -536,7 +536,6 @@ sub EditFieldValueGet {
             my @DataUsed   = $Param{ParamObject}->GetArray( Param => $FieldName . 'Used' );
 
             # Delete template values
-            pop @DataValues;
             pop @DataUsed;
 
             my @CheckedValues;

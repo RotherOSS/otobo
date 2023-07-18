@@ -190,7 +190,7 @@ sub FieldValueValidate {
     if ( !defined $Param{Value} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need Value in Dropdown DynamicField!",
+            Message  => "Need Value in Database DynamicField!",
         );
         return;
     }
