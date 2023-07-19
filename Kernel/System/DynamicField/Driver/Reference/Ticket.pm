@@ -40,17 +40,17 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Reference::Ticket - backend for the Reference dynamic field
+Kernel::System::DynamicField::Driver::Reference::Ticket - plugin module for the Reference dynamic field
 
 =head1 DESCRIPTION
 
-Ticket backend for the Reference dynamic field.
+Ticket plugin for the Reference dynamic field.
 
 =head1 PUBLIC INTERFACE
 
 =head2 GetFieldTypeSettings()
 
-Get field type settings that are specific to the specific referenced object type.
+Get field type settings that are specific to the referenced object type Ticket.
 
 =cut
 
@@ -166,18 +166,37 @@ sub ObjectDescriptionGet {
 
 This is used in auto completion when searching for possible object IDs.
 
+    my @ObjectIDs = $PluginObject->SearchObjects(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        Term               => $Term,
+        MaxResults         => $MaxResults,
+        UserID             => 1,
+    );
+
 =cut
 
 sub SearchObjects {
     my ( $Self, %Param ) = @_;
+
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
+    # Support restriction by ticket type when the Ticket::Type feature is activated.
+    my %SearchParams;
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    if ( $ConfigObject->Get('Ticket::Type') ) {
+        if ( $DynamicFieldConfig->{Config}->{TicketType} ) {
+            $SearchParams{TypeIDs} = [ $DynamicFieldConfig->{Config}->{TicketType} ];
+        }
+    }
 
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     return $TicketObject->TicketSearch(
         Limit  => $Param{MaxResults},
         Result => 'ARRAY',
-        Title  => "%$Param{Term}%",
         UserID => $Param{UserID},
+        %SearchParams,
+        Title => "%$Param{Term}%",
     );
 }
 

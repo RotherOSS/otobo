@@ -57,10 +57,7 @@ sub Run {
     if (
         !$Field
         ||
-        (
-            $Field !~ m{ \A Autocomplete_DynamicField_ (.*) \z }xms
-            && $Field !~ m{ \A Search_DynamicField_ (.*) \z }xms
-        )
+        $Field !~ m{ \A (?: Autocomplete | Search ) _DynamicField_ (.*) \z }xms
         )
     {
         return $LayoutObject->JSONReply(
@@ -71,16 +68,19 @@ sub Run {
         );
     }
     else {
-        $DFName = $1;    # remove either the prefix Autocomplete_DynamicField_ or the prefix Search_DynamicField_
+        $DFName = $1;    # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
     }
 
     # Get config for the dynamic field and check the sanity.
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+    my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         Name => $DFName,
     );
-
-    # check the dynamic field
-    if ( !IsHashRefWithData($DynamicField) || $DynamicField->{FieldType} ne 'Reference' ) {
+    if (
+        !IsHashRefWithData($DynamicFieldConfig)
+        ||
+        $DynamicFieldConfig->{FieldType} ne 'Reference'
+        )
+    {
         return $LayoutObject->JSONReply(
             Data => {
                 Success  => 0,
@@ -91,7 +91,7 @@ sub Run {
 
     # search referenced object
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-    my $ObjectType   = $DynamicField->{Config}->{ReferencedObjectType};
+    my $ObjectType   = $DynamicFieldConfig->{Config}->{ReferencedObjectType};
     my $PluginModule = join '::', 'Kernel::System::DynamicField::Driver::Reference', $ObjectType;
 
     if ( !$MainObject->Require($PluginModule) ) {
@@ -119,9 +119,10 @@ sub Run {
     my $Term       = $ParamObject->GetParam( Param => 'Term' ) || '';
 
     my @ObjectIDs = $PluginObject->SearchObjects(
-        Term       => $Term,
-        MaxResults => $MaxResults,
-        UserID     => 1,             # TODO: what about Permission check
+        DynamicFieldConfig => $DynamicFieldConfig,    # this might contain search restrictions
+        Term               => $Term,
+        MaxResults         => $MaxResults,
+        UserID             => 1,                      # TODO: what about Permission check
     );
 
     my @Results;
