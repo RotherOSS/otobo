@@ -237,7 +237,7 @@
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Database Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -695,7 +695,7 @@
                     </Item>
                     <Item Key="Description">Admin</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Web Service Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -762,7 +762,7 @@
                     </Item>
                     <Item Key="Description">Admin</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Agent Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -839,7 +839,7 @@
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Contact Data Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -1062,7 +1062,7 @@
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Reference Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -1117,7 +1117,7 @@
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Lens Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -1318,7 +1318,7 @@
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Text Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -1355,7 +1355,7 @@
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Text Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -1392,7 +1392,7 @@
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Checkbox Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -1429,7 +1429,7 @@
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Drop-down Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -1471,7 +1471,7 @@
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Date Time Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -1513,7 +1513,7 @@
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
                     <Item Key="Title" Translatable="1">Dynamic Fields Multiselect Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -1555,7 +1555,7 @@
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
                     <Item Key="Title" Translatable="1">Dynamic Field Set Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
@@ -1636,7 +1636,7 @@
                         </Item>
                         <Item Key="Description">DynamicField Import Export</Item>
                         <Item Key="Title">DynamicFieldImportExport</Item>
-                        <Item Key="NavBarName"></Item>
+                        <Item Key="NavBarName">Admin</Item>
                     </Hash>
                 </Item>
             </Value>
