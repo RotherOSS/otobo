@@ -16,8 +16,11 @@
 
 package Kernel::System::SysConfig::XML;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -43,6 +46,7 @@ Kernel::System::SysConfig::XML - Manage system configuration settings in XML fil
 Create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 
@@ -57,7 +61,7 @@ sub new {
 
 =head2 SettingListParse()
 
-Parses XML files into a list of perl structures and meta data.
+Parses a XML file into a list of Perl structures and meta data.
 
     my $PerlStructure = $SysConfigXMLObject->SettingListParse(
         XMLInput => '
@@ -82,7 +86,7 @@ Parses XML files into a list of perl structures and meta data.
         XMLFilename => 'Test.xml'
     );
 
-Returns:
+Returns the information for each B<Setting> tag in the XML content.
 
     [
         {
