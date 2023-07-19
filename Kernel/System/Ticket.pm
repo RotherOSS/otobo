@@ -1294,9 +1294,9 @@ sub TicketGet {
             $Ticket{ChangeBy} = $Row[25];
         }
 
-        # use cache only when a ticket number is found otherwise a non-existant ticket
-        # is cached. That can cause errors when the cache isn't expired and postmaster
-        # creates that ticket
+        # Cache the result only when a ticket ID was found as otherwise a non-existent ticket
+        # would be cached. That can cause errors when the cache isn't expired and postmaster
+        # creates that ticket.
         if ( $Ticket{TicketID} ) {
             $Kernel::OM->Get('Kernel::System::Cache')->Set(
                 Type => $Self->{CacheType},
@@ -1317,6 +1317,7 @@ sub TicketGet {
                 Message  => "No such TicketID ($Param{TicketID})!",
             );
         }
+
         return;
     }
 
