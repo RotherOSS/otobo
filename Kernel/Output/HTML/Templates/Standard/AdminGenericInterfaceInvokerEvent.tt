@@ -100,7 +100,7 @@
 
                         <label for="Asynchronous">[% Translate("Asynchronous") | html %]:</label>
                         <div class="Field">
-                            <input type="checkbox" name="Asynchronous" id="Asynchronous" value="1" [% IF Data.Asynchronous %]checked="checked"[% END %]>
+                            <input type="checkbox" name="Asynchronous" id="Asynchronous" value="1" [% IF Data.Asynchronous %]checked[% END %]>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>

@@ -807,7 +807,7 @@ sub _ShowEdit {
     $Param{PossibleActionsList} = \@PossibleActionsList;
 
     if ( defined $ACLData->{StopAfterMatch} && $ACLData->{StopAfterMatch} == 1 ) {
-        $Param{Checked} = 'checked="checked"';
+        $Param{Checked} = 'checked ';
     }
 
     my $Output = $LayoutObject->Header();

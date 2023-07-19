@@ -49,9 +49,21 @@ Core.AJAX = (function (Namespace) {
 
              },
              {
+                 HTML: '<input type="checkbox" value="test" checked>',
+                 Result: '',
+                 Name: 'Checkbox without name, checked attribute without value'
+
+             },
+             {
                  HTML: '<input type="checkbox" value="test" name="Element" checked="checked"/>',
                  Result: 'Element=test;',
                  Name: 'Checkbox with custom value, checked'
+
+             },
+             {
+                 HTML: '<input type="checkbox" value="test" name="Element" checked>',
+                 Result: 'Element=test;',
+                 Name: 'Checkbox with custom value, checked attribute without value'
 
              },
              {

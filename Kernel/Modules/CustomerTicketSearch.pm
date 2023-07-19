@@ -205,13 +205,13 @@ sub Run {
 
     # get time option
     if ( !$GetParam{TimeSearchType} ) {
-        $GetParam{'TimeSearchType::None'} = 'checked="checked"';
+        $GetParam{'TimeSearchType::None'} = 'checked ';
     }
     elsif ( $GetParam{TimeSearchType} eq 'TimePoint' ) {
-        $GetParam{'TimeSearchType::TimePoint'} = 'checked="checked"';
+        $GetParam{'TimeSearchType::TimePoint'} = 'checked ';
     }
     elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
-        $GetParam{'TimeSearchType::TimeSlot'} = 'checked="checked"';
+        $GetParam{'TimeSearchType::TimeSlot'} = 'checked ';
     }
 
     # set result form env

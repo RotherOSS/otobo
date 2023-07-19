@@ -389,10 +389,10 @@ sub EditFieldRender {
             $Confirmation{FieldUsedChecked0} = '';
             $Confirmation{FieldUsedChecked1} = '';
             if ( $Value->{UsedValue} ) {
-                $Confirmation{FieldUsedChecked1} = 'checked="checked"';
+                $Confirmation{FieldUsedChecked1} = 'checked ';
             }
             else {
-                $Confirmation{FieldUsedChecked0} = 'checked="checked"';
+                $Confirmation{FieldUsedChecked0} = 'checked ';
             }
 
             $Confirmation{FieldNameUsed0} = $FieldNameUsed . '0';
@@ -417,7 +417,7 @@ sub EditFieldRender {
 
         # set as checked if necessary
         my $FieldChecked = ( defined $Value->{UsedValue} ? $Value->{UsedValue} eq 1 : 1 ) && defined $Value->{FieldValue} && $Value->{FieldValue} eq 1;
-        $FieldTemplateData{FieldChecked} = $FieldChecked ? 'checked="checked"' : '';
+        $FieldTemplateData{FieldChecked} = $FieldChecked ? 'checked ' : '';
 
         push @ResultHTML, $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
@@ -440,7 +440,7 @@ sub EditFieldRender {
         if ( $Confirmation{ConfirmationNeeded} ) {
 
             # set checked property
-            $Confirmation{FieldUsedChecked0} = 'checked="checked"';
+            $Confirmation{FieldUsedChecked0} = 'checked ';
 
             $Confirmation{FieldNameUsed0} = $FieldNameUsed . '0';
             $Confirmation{FieldIDUsed0}   = $FieldNameUsed . '0_Template';

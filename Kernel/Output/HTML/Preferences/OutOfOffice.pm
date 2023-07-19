@@ -33,10 +33,10 @@ sub Param {
 
     my @Params;
     if ( $Param{UserData}->{OutOfOffice} ) {
-        $Param{OutOfOfficeOn} = 'checked="checked"';
+        $Param{OutOfOfficeOn} = 'checked ';
     }
     else {
-        $Param{OutOfOfficeOff} = 'checked="checked"';
+        $Param{OutOfOfficeOff} = 'checked ';
     }
     $Param{OptionStart} = $LayoutObject->BuildDateSelection(
         Format                 => 'DateInputFormat',

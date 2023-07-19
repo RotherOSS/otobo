@@ -577,7 +577,7 @@ sub _ShowEdit {
         && $SystemMaintenanceData->{ShowLoginMessage} == '1'
         )
     {
-        $Param{Checked} = 'checked="checked"';
+        $Param{Checked} = 'checked ';
     }
 
     my $Output = $LayoutObject->Header();

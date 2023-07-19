@@ -810,15 +810,15 @@ sub SearchFieldRender {
     my $FieldClass = 'DynamicFieldDateTime';
 
     # set as checked if necessary
-    my $FieldChecked = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked="checked"' : '' );
+    my $FieldChecked = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked' : '' );
 
     my $HTMLString = <<"EOF";
-    <input type="hidden" id="$FieldName" name="$FieldName" value="1"/>
+    <input type="hidden" id="$FieldName" name="$FieldName" value="1">
 EOF
 
     if ( $Param{ConfirmationCheckboxes} ) {
         $HTMLString = <<"EOF";
-    <input type="checkbox" id="$FieldName" name="$FieldName" value="1" $FieldChecked/>
+    <input type="checkbox" id="$FieldName" name="$FieldName" value="1" $FieldChecked>
 EOF
     }
 

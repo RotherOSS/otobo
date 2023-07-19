@@ -60,7 +60,7 @@
                                 [% Translate("Try typing part of the ticket number or title in order to search by it.") | html %]
                             </div>
                         [% IF Data.CustomerID %]
-                            <input type="checkbox" id="TicketSearchFilter" checked="checked" data-ticket-search-filter="CustomerIDRaw" value="[% Data.CustomerID | html %]" />
+                            <input type="checkbox" id="TicketSearchFilter" checked data-ticket-search-filter="CustomerIDRaw" value="[% Data.CustomerID | html %]" />
                             <label for="TicketSearchFilter">[% Translate("Limit the search to tickets with same Customer ID (%s).", Data.CustomerID) | html %]</label>
                         [% END %]
                         </div>

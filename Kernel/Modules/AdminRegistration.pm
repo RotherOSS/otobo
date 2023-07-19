@@ -421,7 +421,7 @@ sub Run {
         # check SupportDataSending if it is enable
         $Param{SupportDataSendingChecked} = '';
         if ( $RegistrationData{SupportDataSending} eq 'Yes' ) {
-            $Param{SupportDataSendingChecked} = 'checked="checked"';
+            $Param{SupportDataSendingChecked} = 'checked ';
         }
 
         $LayoutObject->Block(
