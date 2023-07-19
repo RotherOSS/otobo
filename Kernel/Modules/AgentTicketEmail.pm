@@ -164,7 +164,7 @@ sub Run {
         my $CustomerCounter = 1;
         for my $Count ( 1 ... $CustomersNumber ) {
             my $CustomerElement  = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
-            my $CustomerSelected = ( $Selected eq $Count ? 'checked="checked"' : '' );
+            my $CustomerSelected = ( $Selected eq $Count ? 'checked ' : '' );
             my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
                 || '';
 
@@ -596,7 +596,7 @@ sub Run {
             my $CustomerError    = '';
             my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
             my $CustomerDisabled = '';
-            my $CustomerSelected = $CountFrom eq '1' ? 'checked="checked"' : '';
+            my $CustomerSelected = $CountFrom eq '1' ? 'checked ' : '';
             my $EmailAddress     = $Email->address();
             if ( !$CheckItemObject->CheckEmail( Address => $EmailAddress ) )
             {

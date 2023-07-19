@@ -363,7 +363,7 @@
 [% RenderBlockStart("IsVisibleForCustomer") %]
                     <label for="IsVisibleForCustomer">[% Translate("Visible for customer") | html %]:</label>
                     <div class="Field">
-                        <input type="checkbox" id="IsVisibleForCustomer" name="IsVisibleForCustomer" value="1" [% IF Data.IsVisibleForCustomer %]checked="checked"[% END %]/>
+                        <input type="checkbox" id="IsVisibleForCustomer" name="IsVisibleForCustomer" value="1" [% IF Data.IsVisibleForCustomer %]checked[% END %]>
                     </div>
                     <div class="Clear"></div>
 [% RenderBlockEnd("IsVisibleForCustomer") %]

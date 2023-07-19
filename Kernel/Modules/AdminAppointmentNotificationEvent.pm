@@ -1004,10 +1004,10 @@ sub _Edit {
     }
 
     # set send on out of office checked value
-    $Param{SendOnOutOfOfficeChecked} = ( $Param{Data}->{SendOnOutOfOffice} ? 'checked="checked"' : '' );
+    $Param{SendOnOutOfOfficeChecked} = ( $Param{Data}->{SendOnOutOfOffice} ? 'checked ' : '' );
 
     # set once per day checked value
-    $Param{OncePerDayChecked} = ( $Param{Data}->{OncePerDay} ? 'checked="checked"' : '' );
+    $Param{OncePerDayChecked} = ( $Param{Data}->{OncePerDay} ? 'checked ' : '' );
 
     $Param{VisibleForAgentStrg} = $LayoutObject->BuildSelection(
         Data => [
@@ -1086,12 +1086,12 @@ sub _Edit {
 
                     my $TransportChecked = '';
                     if ( grep { $_ eq $Transport } @{ $Param{Data}->{Transports} } ) {
-                        $TransportChecked = 'checked="checked"';
+                        $TransportChecked = 'checked ';
                     }
 
                     # set Email transport selected on add screen
                     if ( $Transport eq 'Email' && !$Param{ID} ) {
-                        $TransportChecked = 'checked="checked"';
+                        $TransportChecked = 'checked ';
                     }
 
                     # get transport settings string from transport object
@@ -1109,7 +1109,7 @@ sub _Edit {
                     elsif ( !$Param{ID} && defined $RegisteredTransports{$Transport}->{AgentEnabledByDefault} ) {
                         $AgentEnabledByDefault = $RegisteredTransports{$Transport}->{AgentEnabledByDefault};
                     }
-                    my $AgentEnabledByDefaultChecked = ( $AgentEnabledByDefault ? 'checked="checked"' : '' );
+                    my $AgentEnabledByDefaultChecked = ( $AgentEnabledByDefault ? 'checked ' : '' );
 
                     # transport
                     $LayoutObject->Block(

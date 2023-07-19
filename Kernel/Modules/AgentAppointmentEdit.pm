@@ -404,7 +404,7 @@ sub Run {
             )
         {
             $Param{AllDayString}  = Translatable('Yes');
-            $Param{AllDayChecked} = 'checked="checked"';
+            $Param{AllDayChecked} = 'checked ';
 
             # start date
             $Param{StartDate} = sprintf(
@@ -946,13 +946,13 @@ sub Run {
         $Appointment{NotificationCustom} ||= '';
 
         if ( $Appointment{NotificationCustom} eq 'datetime' ) {
-            $Param{NotificationCustomDateTimeInputRadio} = 'checked="checked"';
+            $Param{NotificationCustomDateTimeInputRadio} = 'checked ';
         }
         elsif ( $Appointment{NotificationCustom} eq 'relative' ) {
-            $Param{NotificationCustomRelativeInputRadio} = 'checked="checked"';
+            $Param{NotificationCustomRelativeInputRadio} = 'checked ';
         }
         else {
-            $Param{NotificationCustomRelativeInputRadio} = 'checked="checked"';
+            $Param{NotificationCustomRelativeInputRadio} = 'checked ';
         }
 
         # notification custom string value

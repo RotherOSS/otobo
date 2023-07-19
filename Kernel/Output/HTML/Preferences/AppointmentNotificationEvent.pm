@@ -166,7 +166,7 @@ sub Param {
                 #   notification default if there is no user preference
                 my $Use = $UserNotificationTransport->{$Identifier} // $AgentEnabledByDefault;
 
-                my $Checked     = 'checked="checked"';
+                my $Checked     = 'checked ';
                 my $HiddenValue = 1;
                 if ( !$Use ) {
                     $Checked     = '';

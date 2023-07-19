@@ -88,7 +88,7 @@ my $DynamicFieldID    = $DynamicFieldObject->DynamicFieldAdd(
         DBType         => $DatabaseType,
         Driver         => '',
         Identifier     => 1,
-        Multiselect    => 'checked=checked',
+        Multiselect    => 'checked',
         Password       => $DatabaseUserPw,
         Port           => '',
         PossibleValues => {
