@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::Modules::AdminDynamicFieldAgent;
+package Kernel::Modules::AdminDynamicFieldCustomerUser;
 
 use strict;
 use warnings;
@@ -150,8 +150,7 @@ sub _AddAction {
 
     for my $ConfigParam (
         qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            ValidID Tooltip GroupFilter Multiselect MultiValue Namespace
+            ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip MultiValue Namespace
         )
         )
     {
@@ -189,12 +188,6 @@ sub _AddAction {
         }
     }
 
-    # Prepare the multiselect and multivalue parameters
-    if ( defined $GetParam{Multiselect} ) {
-        $GetParam{Multiselect} = 'checked=checked';
-        $GetParam{MultiValue}  = 0;
-    }
-
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # uncorrectable errors
@@ -216,11 +209,8 @@ sub _AddAction {
 
     # set specific config
     my $FieldConfig = {
-        PossibleNone => $GetParam{PossibleNone},
-        Tooltip      => $GetParam{Tooltip},
-        GroupFilter  => $GetParam{GroupFilter},
-        Multiselect  => $GetParam{Multiselect},
-        MultiValue   => $GetParam{MultiValue},
+        Tooltip    => $GetParam{Tooltip},
+        MultiValue => $GetParam{MultiValue},
     };
 
     # create a new field
@@ -296,10 +286,7 @@ sub _Change {
     if ( IsHashRefWithData( $DynamicFieldData->{Config} ) ) {
 
         %Config = (
-            PossibleNone => $DynamicFieldData->{Config}->{PossibleNone},
-            GroupFilter  => $DynamicFieldData->{Config}->{GroupFilter},
-            Multiselect  => $DynamicFieldData->{Config}->{Multiselect},
-            MultiValue   => $DynamicFieldData->{Config}->{MultiValue},
+            MultiValue => $DynamicFieldData->{Config}->{MultiValue},
         );
 
     }
@@ -369,8 +356,7 @@ sub _ChangeAction {
 
     for my $ConfigParam (
         qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            ValidID Tooltip GroupFilter Multiselect MultiValue Namespace
+            ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip MultiValue Namespace
         )
         )
     {
@@ -425,12 +411,6 @@ sub _ChangeAction {
         }
     }
 
-    # Prepare the multiselect and multivalue parameters
-    if ( defined $GetParam{Multiselect} ) {
-        $GetParam{Multiselect} = 'checked=checked';
-        $GetParam{MultiValue}  = 0;
-    }
-
     # uncorrectable errors
     if ( !$GetParam{ValidID} ) {
         return $LayoutObject->ErrorScreen(
@@ -479,11 +459,8 @@ sub _ChangeAction {
 
     # set specific config
     my $FieldConfig = {
-        PossibleNone => $GetParam{PossibleNone},
-        Tooltip      => $GetParam{Tooltip},
-        GroupFilter  => $GetParam{GroupFilter},
-        Multiselect  => $GetParam{Multiselect},
-        MultiValue   => $GetParam{MultiValue},
+        Tooltip    => $GetParam{Tooltip},
+        MultiValue => $GetParam{MultiValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -635,19 +612,6 @@ sub _ShowScreen {
         Class         => 'Modernize W75pc Validate_Number',
     );
 
-    my %GroupList = $Kernel::OM->Get('Kernel::System::Group')->GroupList(
-        Valid => 1,
-    );
-
-    # build group selection
-    my $GroupFilterStrg = $LayoutObject->BuildSelection(
-        Data         => \%GroupList,
-        Name         => 'GroupFilter',
-        SelectedID   => $Param{GroupFilter} || '0',
-        Class        => 'Modernize W50pc',
-        PossibleNone => 1,
-    );
-
     my $MultiValueStrg = $LayoutObject->BuildSelection(
         Data => {
             0 => Translatable('No'),
@@ -687,19 +651,6 @@ sub _ShowScreen {
         PossibleNone => 0,
         Translation  => 1,
         Class        => 'Modernize W50pc',
-    );
-
-    my $PossibleNone = $Param{PossibleNone} || '0';
-
-    # create translatable values option list
-    my $PossibleNoneStrg = $LayoutObject->BuildSelection(
-        Data => {
-            0 => Translatable('No'),
-            1 => Translatable('Yes'),
-        },
-        Name       => 'PossibleNone',
-        SelectedID => $PossibleNone,
-        Class      => 'Modernize W50pc',
     );
 
     # define tooltip
@@ -771,14 +722,12 @@ sub _ShowScreen {
 
     # generate output
     $Output .= $LayoutObject->Output(
-        TemplateFile => 'AdminDynamicFieldAgent',
+        TemplateFile => 'AdminDynamicFieldCustomerUser',
         Data         => {
             %Param,
             ValidityStrg          => $ValidityStrg,
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
-            GroupFilterStrg       => $GroupFilterStrg,
             MultiValueStrg        => $MultiValueStrg,
-            PossibleNoneStrg      => $PossibleNoneStrg,
             ReadonlyInternalField => $ReadonlyInternalField,
             Tooltip               => $Tooltip,
         }

@@ -59,7 +59,7 @@
 
     <div class="ContentColumn">
         <form id="EntityUpdate" action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
-            <input type="hidden" name="Action" value="AdminDynamicFieldAgent" />
+            <input type="hidden" name="Action" value="AdminDynamicFieldCustomerUser" />
             <input type="hidden" name="Subaction" value="[% Data.Mode | html %]Action" />
             <input type="hidden" name="ObjectType" value="[% Data.ObjectType | html %]" />
             <input type="hidden" name="FieldType" value="[% Data.FieldType | html %]" />
@@ -195,26 +195,6 @@
                 <div class="Content">
                     <fieldset class="TableLike">
                         <div class="SpacingTop"></div>
-                        <label for="PossibleNone">[% Translate("Add empty value") | html %]:</label>
-                        <div class="Field">
-                            [% Data.PossibleNoneStrg %]
-                            <p class="FieldExplanation">[% Translate("Activate this option to create an empty selectable value.") | html %]</p>
-                        </div>
-                        <div class="Clear"></div>
-
-                        <label for="GroupFilter">[% Translate("Filter agents by group") | html %]</label>
-                        <div class="Field">
-                            [% Data.GroupFilterStrg %]
-                            <p class="FieldExplanation">[% Translate("Set a group to filter the agents selectable in this field by.") | html %]</p>
-                        </div>
-                        <div class="Clear"></div>
-
-                        <label for="Multiselect">[% Translate("Multiselect") | html %]</label>
-                        <div class="Field">
-                            <input id="Multiselect" type="checkbox" name="Multiselect" [% Data.Multiselect | html %]/>
-                        </div>
-                        <div class="Clear"></div>
-
                         <label for="MultiValue">[% Translate("Multiple Values") | html %]</label>
                         <div class="Field">
                             [% Data.MultiValueStrg %]

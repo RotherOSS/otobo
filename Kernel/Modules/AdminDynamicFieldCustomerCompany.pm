@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::Modules::AdminDynamicFieldAgent;
+package Kernel::Modules::AdminDynamicFieldCustomerCompany;
 
 use strict;
 use warnings;
@@ -151,7 +151,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            ValidID Tooltip GroupFilter Multiselect MultiValue Namespace
+            ValidID Tooltip Multiselect MultiValue Namespace
         )
         )
     {
@@ -218,7 +218,6 @@ sub _AddAction {
     my $FieldConfig = {
         PossibleNone => $GetParam{PossibleNone},
         Tooltip      => $GetParam{Tooltip},
-        GroupFilter  => $GetParam{GroupFilter},
         Multiselect  => $GetParam{Multiselect},
         MultiValue   => $GetParam{MultiValue},
     };
@@ -297,7 +296,6 @@ sub _Change {
 
         %Config = (
             PossibleNone => $DynamicFieldData->{Config}->{PossibleNone},
-            GroupFilter  => $DynamicFieldData->{Config}->{GroupFilter},
             Multiselect  => $DynamicFieldData->{Config}->{Multiselect},
             MultiValue   => $DynamicFieldData->{Config}->{MultiValue},
         );
@@ -370,7 +368,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            ValidID Tooltip GroupFilter Multiselect MultiValue Namespace
+            ValidID Tooltip Multiselect MultiValue Namespace
         )
         )
     {
@@ -481,7 +479,6 @@ sub _ChangeAction {
     my $FieldConfig = {
         PossibleNone => $GetParam{PossibleNone},
         Tooltip      => $GetParam{Tooltip},
-        GroupFilter  => $GetParam{GroupFilter},
         Multiselect  => $GetParam{Multiselect},
         MultiValue   => $GetParam{MultiValue},
     };
@@ -635,19 +632,6 @@ sub _ShowScreen {
         Class         => 'Modernize W75pc Validate_Number',
     );
 
-    my %GroupList = $Kernel::OM->Get('Kernel::System::Group')->GroupList(
-        Valid => 1,
-    );
-
-    # build group selection
-    my $GroupFilterStrg = $LayoutObject->BuildSelection(
-        Data         => \%GroupList,
-        Name         => 'GroupFilter',
-        SelectedID   => $Param{GroupFilter} || '0',
-        Class        => 'Modernize W50pc',
-        PossibleNone => 1,
-    );
-
     my $MultiValueStrg = $LayoutObject->BuildSelection(
         Data => {
             0 => Translatable('No'),
@@ -771,12 +755,11 @@ sub _ShowScreen {
 
     # generate output
     $Output .= $LayoutObject->Output(
-        TemplateFile => 'AdminDynamicFieldAgent',
+        TemplateFile => 'AdminDynamicFieldCustomerCompany',
         Data         => {
             %Param,
             ValidityStrg          => $ValidityStrg,
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
-            GroupFilterStrg       => $GroupFilterStrg,
             MultiValueStrg        => $MultiValueStrg,
             PossibleNoneStrg      => $PossibleNoneStrg,
             ReadonlyInternalField => $ReadonlyInternalField,

@@ -24,7 +24,7 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
-use parent qw(Kernel::System::DynamicField::Driver::BaseSelect);
+use parent qw(Kernel::System::DynamicField::Driver::BaseEntity);
 
 # core modules
 
@@ -37,6 +37,7 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicFieldValue',
+    'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::User',
@@ -71,12 +72,13 @@ sub new {
     # set field behaviors
     $Self->{Behaviors} = {
         'IsACLReducible'               => 1,
-        'IsNotificationEventCondition' => 1,
+        'IsNotificationEventCondition' => 0,
         'IsSortable'                   => 0,
         'IsFiltrable'                  => 0,
-        'IsStatsCondition'             => 1,
+        'IsStatsCondition'             => 0,
         'IsCustomerInterfaceCapable'   => 1,
         'IsLikeOperatorCapable'        => 1,
+        'IsSetCapable'                 => 1,
     };
 
     # get the Dynamic Field Backend custom extensions
@@ -117,428 +119,6 @@ sub new {
     return $Self;
 }
 
-sub ValueGet {
-    my ( $Self, %Param ) = @_;
-
-    # get raw values of the dynamic field
-    my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
-        FieldID  => $Param{DynamicFieldConfig}{ID},
-        ObjectID => $Param{ObjectID},
-    );
-
-    if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
-
-        return if !$DFValue;
-        return if !IsArrayRefWithData($DFValue);
-        return if !IsHashRefWithData( $DFValue->[0] );
-
-        my @ReturnData;
-        for my $Value ( $DFValue->@* ) {
-            push @ReturnData, $Value->{ValueText};
-        }
-        return \@ReturnData;
-    }
-
-    return $Self->ValueStructureFromDB(
-        ValueDB    => $DFValue,
-        ValueKey   => 'ValueText',
-        Set        => $Param{Set},
-        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
-        BaseArray  => !$Param{DynamicFieldConfig}{Config}{MultiValue},
-    );
-}
-
-sub ValueSet {
-    my ( $Self, %Param ) = @_;
-
-    # check value
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-        @Values = split /,/, $Param{Value} // '';
-        if ( !IsArrayRefWithData( \@Values ) ) {
-            @Values = $Param{Value};
-        }
-    }
-
-    my $Value;
-    if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
-        $Value->@* = map { { 'ValueText' => $_ } } @Values;
-    }
-    else {
-        $Value = $Self->ValueStructureToDB(
-            Value      => $Param{Value},
-            ValueKey   => 'ValueText',
-            Set        => $Param{Set},
-            MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
-        );
-    }
-
-    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-        Value    => $Value,
-        UserID   => $Param{UserID},
-    );
-}
-
-sub ValueIsDifferent {
-    my ( $Self, %Param ) = @_;
-
-    # special cases where the values are different but they should be reported as equals
-    if (
-        !defined $Param{Value1}
-        && ref $Param{Value2} eq 'ARRAY'
-        && !IsArrayRefWithData( $Param{Value2} )
-        )
-    {
-        return;
-    }
-
-    if (
-        !defined $Param{Value2}
-        && ref $Param{Value1} eq 'ARRAY'
-        && !IsArrayRefWithData( $Param{Value1} )
-        )
-    {
-        return;
-    }
-
-    # compare the results
-    return $Self->SUPER::ValueIsDifferent(%Param);
-}
-
-sub ValueValidate {
-    my ( $Self, %Param ) = @_;
-
-    # check values
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-        @Values = ( $Param{Value} );
-    }
-
-    # get dynamic field value object
-    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
-
-    my $Success;
-    for my $Value (@Values) {
-
-        $Success = $DynamicFieldValueObject->ValueValidate(
-            Value => {
-                ValueText => $Value,
-            },
-            UserID => $Param{UserID},
-        );
-        return if !$Success;
-    }
-
-    return $Success;
-}
-
-sub FieldValueValidate {
-    my ( $Self, %Param ) = @_;
-
-    # Check for defined value.
-    if ( !defined $Param{Value} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need Value in Agent DynamicField!",
-        );
-        return;
-    }
-
-    # Check if value parameter exists in possible values config.
-    if ( length $Param{Value} ) {
-        my @Values;
-        if ( ref $Param{Value} eq 'ARRAY' ) {
-            @Values = @{ $Param{Value} };
-        }
-        else {
-            push @Values, $Param{Value};
-        }
-    }
-
-    return 1;
-}
-
-sub EditFieldRender {
-    my ( $Self, %Param ) = @_;
-
-    # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
-
-    my $Value;
-
-    # set the field value or default
-    if ( $Param{UseDefaultValue} ) {
-        $Value = $FieldConfig->{DefaultValue} // '';
-    }
-    $Value = $Param{Value} // $Value;
-
-    # check if a value in a template (GenericAgent etc.)
-    # is configured for this dynamic field
-    if (
-        IsHashRefWithData( $Param{Template} )
-        && defined $Param{Template}->{$FieldName}
-        )
-    {
-        $Value = $Param{Template}->{$FieldName};
-    }
-
-    # extract the dynamic field value from the web request
-    my $FieldValue = $Self->EditFieldValueGet(
-        %Param,
-    );
-
-    # set values from ParamObject if present
-    if ( $FieldValue->@* ) {
-        $Value = $FieldValue;
-    }
-
-    if ( !ref $Value ) {
-        $Value = [$Value];
-    }
-    elsif ( !$Value->@* ) {
-        $Value = [undef];
-    }
-
-    # check and set class if necessary
-    my $FieldClass = ( $FieldConfig->{Multiselect} ? 'DynamicFieldText' : 'DynamicFieldDropdown' ) . " Modernize";
-    if ( defined $Param{Class} && $Param{Class} ne '' ) {
-        $FieldClass .= ' ' . $Param{Class};
-    }
-
-    # set field as mandatory
-    if ( $Param{Mandatory} ) {
-        $FieldClass .= ' Validate_Required';
-    }
-
-    # set error css class
-    if ( $Param{ServerError} ) {
-        $FieldClass .= ' ServerError';
-    }
-
-    # set PossibleValues, use PossibleValuesFilter if defined
-    my $PossibleValues = $Param{PossibleValuesFilter} // $Self->PossibleValuesGet(%Param);
-
-    my %FieldTemplateData = ();
-
-    my @SelectionHTML;
-    if ( $FieldConfig->{MultiValue} ) {
-        for my $ValueIndex ( 0 .. $#{$Value} ) {
-            my $FieldID = $FieldName . '_' . $ValueIndex;
-            push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
-                Data       => $PossibleValues || {},
-                Disabled   => $Param{Readonly},
-                Name       => $FieldName,
-                ID         => $FieldID,
-                SelectedID => $Value->[$ValueIndex],
-                Class      => $FieldClass,
-                HTMLQuote  => 1,
-            );
-        }
-    }
-    else {
-        push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
-            Data       => $PossibleValues || {},
-            Disabled   => $Param{Readonly},
-            Name       => $FieldName,
-            SelectedID => $Value,
-            Class      => $FieldClass,
-            HTMLQuote  => 1,
-            Multiple   => $FieldConfig->{Multiselect},
-        );
-    }
-
-    my $FieldTemplateFile = $Param{CustomerInterface}
-        ?
-        'DynamicField/Customer/Multiselect'
-        :
-        'DynamicField/Agent/Multiselect';
-
-    my %Error = (
-        ServerError => $Param{ServerError},
-        Mandatory   => $Param{Mandatory},
-    );
-    my @ResultHTML;
-    for my $ValueIndex ( 0 .. $#{$Value} ) {
-        my $FieldID = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
-
-        if ( !$ValueIndex ) {
-            if ( $Error{ServerError} ) {
-                $Error{DivIDServerError} = $FieldID . 'ServerError';
-                $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-            }
-            if ( $Error{Mandatory} ) {
-                $Error{DivIDMandatory}       = $FieldID . 'Error';
-                $Error{FieldRequiredMessage} = Translatable('This field is required.');
-            }
-        }
-
-        push @ResultHTML, $Param{LayoutObject}->Output(
-            TemplateFile => $FieldTemplateFile,
-            Data         => {
-                %FieldTemplateData,
-                %Error,
-                SelectionHTML => $SelectionHTML[$ValueIndex],
-            },
-        );
-    }
-
-    my $TemplateHTML;
-    if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
-        my $FieldID = $FieldName . '_Template';
-
-        my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
-            Data        => $PossibleValues || {},
-            Disabled    => $Param{ReadOnly},
-            Name        => $FieldName,
-            ID          => $FieldID,
-            Translation => $FieldConfig->{TranslatableValues} || 0,
-            Class       => $FieldClass,
-            HTMLQuote   => 1,
-        );
-
-        $TemplateHTML = $Param{LayoutObject}->Output(
-            TemplateFile => $FieldTemplateFile,
-            Data         => {
-                %FieldTemplateData,
-                SelectionHTML => $SelectionHTML,
-            },
-        );
-    }
-
-    if ( $Param{AJAXUpdate} ) {
-
-        my $FieldSelector = '#' . $FieldName;
-
-        my $FieldsToUpdate = '';
-        if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
-
-            # Remove current field from updatable fields list
-            my @FieldsToUpdate = grep { $_ ne $FieldName } @{ $Param{UpdatableFields} };
-
-            # quote all fields, put commas in between them
-            $FieldsToUpdate = join( ', ', map {"'$_'"} @FieldsToUpdate );
-        }
-
-        # add js to call FormUpdate()
-        $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");
-\$('$FieldSelector').bind('change', function (Event) {
-    Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
-});
-EOF
-    }
-
-    # call EditLabelRender on the common Driver
-    my $LabelString = $Self->EditLabelRender(
-        %Param,
-        Mandatory => $Param{Mandatory} || '0',
-        FieldName => $FieldConfig->{MultiValue} ? $FieldName . '_0' : $FieldName,
-    );
-
-    my $Data = {
-        Label => $LabelString,
-    };
-
-    # decide which structure to return
-    if ( $FieldConfig->{MultiValue} ) {
-        $Data->{MultiValue}         = \@ResultHTML;
-        $Data->{MultiValueTemplate} = $TemplateHTML;
-    }
-    else {
-        $Data->{Field} = $ResultHTML[0];
-    }
-
-    return $Data;
-}
-
-sub EditFieldValueGet {
-    my ( $Self, %Param ) = @_;
-
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-
-    my $Value;
-
-    # check if there is a Template and retrieve the dynamic field value from there
-    if ( IsHashRefWithData( $Param{Template} ) && defined $Param{Template}->{$FieldName} ) {
-        $Value = $Param{Template}->{$FieldName};
-    }
-
-    # otherwise get dynamic field value from the web request
-    elsif (
-        defined $Param{ParamObject}
-        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
-        )
-    {
-        my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
-
-        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-
-            # delete the template value
-            pop @Data;
-        }
-
-        $Value = \@Data;
-    }
-
-    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq 1 ) {
-        return {
-            $FieldName => $Value,
-        };
-    }
-
-    # for this field the normal return an the ReturnValueStructure are the same
-    return $Value;
-}
-
-sub EditFieldValueValidate {
-    my ( $Self, %Param ) = @_;
-
-    # get the field value from the http request
-    my $Value = $Self->EditFieldValueGet(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        ParamObject        => $Param{ParamObject},
-
-        # not necessary for this Driver but place it for consistency reasons
-        ReturnValueStructure => 1,
-    );
-
-    my $ServerError;
-
-    if ( !ref $Value eq 'ARRAY' ) {
-        $Value = [$Value];
-    }
-
-    if ( $Param{Mandatory} && !$Value->@* ) {
-        return {
-            ServerError => 1,
-        };
-    }
-
-    for my $ValueItem ( @{$Value} ) {
-
-        # perform necessary validations
-        if ( $Param{Mandatory} && !$ValueItem ) {
-            return {
-                ServerError => 1,
-            };
-        }
-    }
-
-    # return resulting structure
-    return {
-        ServerError => $ServerError,
-    };
-}
-
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
@@ -555,7 +135,6 @@ sub DisplayValueRender {
 
     my @ReadableValues;
     my @ReadableTitles;
-    VALUE_ITEM:
     for my $ValueItem (@Values) {
         $ValueItem //= '';
 
@@ -585,12 +164,8 @@ sub DisplayValueRender {
         push @ReadableValues, $ValueItem;
     }
 
-    # get specific field settings
-    my $FieldConfig = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver')->{Multiselect} || {};
-
-    # set new line separator
-    my $ValueSeparator = $FieldConfig->{ItemSeparator} || ', ';
-    my $Title          = join( ', ', @ReadableTitles );
+    my $ValueSeparator;
+    my $Title = join( ', ', @ReadableTitles );
 
     # HTMLOutput transformations
     if ($HTMLOutput) {
@@ -618,85 +193,12 @@ sub DisplayValueRender {
     };
 }
 
-sub SearchFieldParameterBuild {
-    my ( $Self, %Param ) = @_;
-
-    # get field value
-    my $Value = $Self->SearchFieldValueGet(%Param);
-
-    my $DisplayValue;
-
-    if ( defined $Value && !$Value ) {
-        $DisplayValue = '';
-    }
-
-    if ($Value) {
-        if ( ref $Value eq 'ARRAY' ) {
-
-            my @DisplayItemList;
-            for my $Item ( @{$Value} ) {
-
-                # set the display value
-                my $DisplayItem = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Item}
-                    || $Item;
-
-                push @DisplayItemList, $DisplayItem;
-            }
-
-            # combine different values into one string
-            $DisplayValue = join ' + ', @DisplayItemList;
-        }
-        else {
-
-            # set the display value
-            $DisplayValue = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
-        }
-    }
-
-    # return search parameter structure
-    return {
-        Parameter => {
-            Equals => $Value,
-        },
-        Display => $DisplayValue,
-    };
-}
-
-sub StatsFieldParameterBuild {
-    my ( $Self, %Param ) = @_;
-
-    # Set PossibleValues from config is not possible as they could depend on request params.
-    my $Values = {};
-
-    # get historical values from database
-    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
-        FieldID   => $Param{DynamicFieldConfig}->{ID},
-        ValueType => 'Text,',
-    );
-
-    # add historic values to current values (if they don't exist anymore)
-    for my $Key ( sort keys %{$HistoricalValues} ) {
-        if ( !$Values->{$Key} ) {
-            $Values->{$Key} = $HistoricalValues->{$Key};
-        }
-    }
-
-    # use PossibleValuesFilter if defined
-    $Values = $Param{PossibleValuesFilter} // $Values;
-
-    return {
-        Values             => $Values,
-        Name               => $Param{DynamicFieldConfig}->{Label},
-        Element            => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
-        TranslatableValues => $Param{DynamicFieldConfig}->{Config}->{TranslatableValues},
-        Block              => 'MultiSelectField',
-    };
-}
-
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
+    # set Value and Title variables
     my $Value = '';
+    my $Title = '';
 
     # check value
     my @Values;
@@ -709,14 +211,17 @@ sub ReadableValueRender {
 
     my @ReadableValues;
 
-    VALUEITEM:
     for my $Item (@Values) {
-        next VALUEITEM if !$Item;
+        $Item //= '';
 
         # replace agent login with full name
-        push @ReadableValues, $Kernel::OM->Get('Kernel::System::User')->UserName(
-            UserID => $Item,
-        );
+        if ($Item) {
+            $Item = $Kernel::OM->Get('Kernel::System::User')->UserName(
+                UserID => $Item,
+            );
+        }
+
+        push @ReadableValues, $Item || '';
     }
 
     # set new line separator
@@ -724,57 +229,72 @@ sub ReadableValueRender {
 
     # Output transformations
     $Value = join( $ItemSeparator, @ReadableValues );
-    my $Title = $Value;
+    $Title = $Value;
 
-    # cut strings if needed
-    if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
-        $Value = substr( $Value, 0, $Param{ValueMaxChars} ) . '...';
-    }
-    if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
+    # prepare title
+    $Title = $Value;
+
+    if ( $Param{TitleMaxChars} && length $Title > $Param{TitleMaxChars} ) {
         $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
     }
 
+    # return a data structure
     return {
         Value => $Value,
         Title => $Title,
     };
 }
 
-sub ValueLookup {
+sub PossibleValuesGet {
     my ( $Self, %Param ) = @_;
 
-    my $Value = $Param{Key} // '';
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
 
-    my @Keys;
-    if ( ref $Param{Key} eq 'ARRAY' ) {
-        @Keys = @{ $Param{Key} };
+    # to store the possible values
+    my %PossibleValues;
+
+    my %AgentList;
+    my $GroupFilter = $Param{DynamicFieldConfig}{Config}{GroupFilter};
+    if ($GroupFilter) {
+        %AgentList = $GroupObject->PermissionGroupGet(
+            GroupID => $GroupFilter,
+            Type    => 'ro',
+        );
     }
     else {
-        @Keys = ( $Param{Key} );
+        %AgentList = $UserObject->UserSearch(
+            Search => '*',
+            Valid  => 1,
+        );
     }
 
-    # get real values
-    my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+    %PossibleValues = (
+        %PossibleValues,
+        %AgentList,
+    );
 
-    # to store final values
-    my @Values;
+    %PossibleValues = map { $_ => $UserObject->UserName( UserID => $_ ) } keys %PossibleValues;
 
-    KEYITEM:
-    for my $Item (@Keys) {
-        next KEYITEM if !$Item;
-
-        # set the value as the key by default
-        my $Value = $Item;
-
-        # try to convert key to real value
-        if ( $PossibleValues->{$Item} ) {
-            $Value = $PossibleValues->{$Item};
-
-        }
-        push @Values, $Value;
+    # set PossibleNone attribute
+    my $FieldPossibleNone;
+    if ( defined $Param{OverridePossibleNone} ) {
+        $FieldPossibleNone = $Param{OverridePossibleNone};
+    }
+    else {
+        $FieldPossibleNone = $Param{DynamicFieldConfig}{Config}{PossibleNone} || 0;
     }
 
-    return \@Values;
+    # set none value if defined on field config
+    if ($FieldPossibleNone) {
+        %PossibleValues = (
+            %PossibleValues,
+            '' => '-',
+        );
+    }
+
+    # return the possible values hash as a reference
+    return \%PossibleValues;
 }
 
 1;

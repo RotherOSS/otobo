@@ -384,6 +384,15 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 Event.preventDefault();
                 Event.stopPropagation();
 
+                // check CustomerUser dynamic fields on focusout
+                if ( $(Event.target).hasClass('DynamicFieldCustomerUser') ) {
+                    $(Event.target).off('focusout').on('focusout', function(Event) {
+                        if ( $(Event.target).val() != UI.item.value ) {
+                            $(Event.target).val('');
+                        }
+                    });
+                }
+
                 return false;
             }, 'CustomerSearch');
         }
