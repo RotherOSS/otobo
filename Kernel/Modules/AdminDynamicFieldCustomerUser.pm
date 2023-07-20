@@ -150,8 +150,7 @@ sub _AddAction {
 
     for my $ConfigParam (
         qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            ValidID Link LinkPreview Tooltip Multiselect MultiValue Namespace
+            ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip MultiValue Namespace
         )
         )
     {
@@ -189,12 +188,6 @@ sub _AddAction {
         }
     }
 
-    # Prepare the multiselect and multivalue parameters
-    if ( defined $GetParam{Multiselect} ) {
-        $GetParam{Multiselect} = 'checked=checked';
-        $GetParam{MultiValue}  = 0;
-    }
-
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # uncorrectable errors
@@ -204,54 +197,20 @@ sub _AddAction {
         );
     }
 
-    my $PossibleValues = $Self->_GetPossibleValues();
-
-    # set errors for possible values entries
-    KEY:
-    for my $Key ( sort keys %{$PossibleValues} ) {
-
-        # check for empty original values
-        if ( $Key =~ m{\A $Self->{EmptyString} (?: \d+)}smx ) {
-
-            # set a true entry in KeyEmptyError
-            $Errors{'PossibleValueErrors'}->{'KeyEmptyError'}->{$Key} = 1;
-        }
-
-        # otherwise check for duplicate original values
-        elsif ( $Key =~ m{\A (.+) - $Self->{DuplicateString} (?: \d+)}smx ) {
-
-            # set an entry in OrigValueDuplicateError with the duplicate key as value
-            $Errors{'PossibleValueErrors'}->{'KeyDuplicateError'}->{$Key} = $1;
-        }
-
-        # check for empty new values
-        if ( !defined $PossibleValues->{$Key} ) {
-
-            # set a true entry in NewValueEmptyError
-            $Errors{'PossibleValueErrors'}->{'ValueEmptyError'}->{$Key} = 1;
-        }
-    }
-
     # return to add screen if errors
     if (%Errors) {
         return $Self->_ShowScreen(
             %Param,
             %Errors,
             %GetParam,
-            PossibleValues => $PossibleValues,
-            Mode           => 'Add',
+            Mode => 'Add',
         );
     }
 
     # set specific config
     my $FieldConfig = {
-        PossibleValues => $PossibleValues,
-        PossibleNone   => $GetParam{PossibleNone},
-        Link           => $GetParam{Link},
-        LinkPreview    => $GetParam{LinkPreview},
-        Tooltip        => $GetParam{Tooltip},
-        Multiselect    => $GetParam{Multiselect},
-        MultiValue     => $GetParam{MultiValue},
+        Tooltip    => $GetParam{Tooltip},
+        MultiValue => $GetParam{MultiValue},
     };
 
     # create a new field
@@ -327,12 +286,7 @@ sub _Change {
     if ( IsHashRefWithData( $DynamicFieldData->{Config} ) ) {
 
         %Config = (
-            PossibleValues => IsHashRefWithData( $DynamicFieldData->{Config}->{PossibleValues} ) ? $DynamicFieldData->{Config}->{PossibleValues} : {},
-            PossibleNone   => $DynamicFieldData->{Config}->{PossibleNone},
-            Link           => $DynamicFieldData->{Config}->{Link},
-            LinkPreview    => $DynamicFieldData->{Config}->{LinkPreview},
-            Multiselect    => $DynamicFieldData->{Config}->{Multiselect},
-            MultiValue     => $DynamicFieldData->{Config}->{MultiValue},
+            MultiValue => $DynamicFieldData->{Config}->{MultiValue},
         );
 
     }
@@ -402,8 +356,7 @@ sub _ChangeAction {
 
     for my $ConfigParam (
         qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            ValidID Link LinkPreview Tooltip Multiselect MultiValue Namespace
+            ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip MultiValue Namespace
         )
         )
     {
@@ -458,20 +411,12 @@ sub _ChangeAction {
         }
     }
 
-    # Prepare the multiselect and multivalue parameters
-    if ( defined $GetParam{Multiselect} ) {
-        $GetParam{Multiselect} = 'checked=checked';
-        $GetParam{MultiValue}  = 0;
-    }
-
     # uncorrectable errors
     if ( !$GetParam{ValidID} ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Need ValidID'),
         );
     }
-
-    my $PossibleValues = $Self->_GetPossibleValues();
 
     # Check if dynamic field is present in SysConfig setting
     my $UpdateEntity        = $ParamObject->GetParam( Param => 'UpdateEntity' ) || '';
@@ -514,13 +459,8 @@ sub _ChangeAction {
 
     # set specific config
     my $FieldConfig = {
-        PossibleValues => $PossibleValues,
-        PossibleNone   => $GetParam{PossibleNone},
-        Link           => $GetParam{Link},
-        LinkPreview    => $GetParam{LinkPreview},
-        Tooltip        => $GetParam{Tooltip},
-        Multiselect    => $GetParam{Multiselect},
-        MultiValue     => $GetParam{MultiValue},
+        Tooltip    => $GetParam{Tooltip},
+        MultiValue => $GetParam{MultiValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -713,22 +653,6 @@ sub _ShowScreen {
         Class        => 'Modernize W50pc',
     );
 
-    my $PossibleNone = $Param{PossibleNone} || '0';
-
-    # create translatable values option list
-    my $PossibleNoneStrg = $LayoutObject->BuildSelection(
-        Data => {
-            0 => Translatable('No'),
-            1 => Translatable('Yes'),
-        },
-        Name       => 'PossibleNone',
-        SelectedID => $PossibleNone,
-        Class      => 'Modernize W50pc',
-    );
-
-    my $Link        = $Param{Link}        || '';
-    my $LinkPreview = $Param{LinkPreview} || '';
-
     # define tooltip
     my $Tooltip = ( defined $Param{Config}->{Tooltip} ? $Param{Config}->{Tooltip} : '' );
 
@@ -804,10 +728,7 @@ sub _ShowScreen {
             ValidityStrg          => $ValidityStrg,
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             MultiValueStrg        => $MultiValueStrg,
-            PossibleNoneStrg      => $PossibleNoneStrg,
             ReadonlyInternalField => $ReadonlyInternalField,
-            Link                  => $Link,
-            LinkPreview           => $LinkPreview,
             Tooltip               => $Tooltip,
         }
     );
@@ -815,17 +736,6 @@ sub _ShowScreen {
     $Output .= $LayoutObject->Footer();
 
     return $Output;
-}
-
-sub _GetPossibleValues {
-    my ( $Self, %Param ) = @_;
-
-    return {
-        $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerSearch(
-            Search => '*',
-            Valid  => 1
-        )
-    };
 }
 
 1;

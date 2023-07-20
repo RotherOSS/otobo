@@ -151,7 +151,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            ValidID Link LinkPreview Tooltip GroupFilter Multiselect MultiValue Namespace
+            ValidID Tooltip GroupFilter Multiselect MultiValue Namespace
         )
         )
     {
@@ -217,8 +217,6 @@ sub _AddAction {
     # set specific config
     my $FieldConfig = {
         PossibleNone => $GetParam{PossibleNone},
-        Link         => $GetParam{Link},
-        LinkPreview  => $GetParam{LinkPreview},
         Tooltip      => $GetParam{Tooltip},
         GroupFilter  => $GetParam{GroupFilter},
         Multiselect  => $GetParam{Multiselect},
@@ -299,8 +297,6 @@ sub _Change {
 
         %Config = (
             PossibleNone => $DynamicFieldData->{Config}->{PossibleNone},
-            Link         => $DynamicFieldData->{Config}->{Link},
-            LinkPreview  => $DynamicFieldData->{Config}->{LinkPreview},
             GroupFilter  => $DynamicFieldData->{Config}->{GroupFilter},
             Multiselect  => $DynamicFieldData->{Config}->{Multiselect},
             MultiValue   => $DynamicFieldData->{Config}->{MultiValue},
@@ -374,7 +370,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            ValidID Link LinkPreview Tooltip GroupFilter Multiselect MultiValue Namespace
+            ValidID Tooltip GroupFilter Multiselect MultiValue Namespace
         )
         )
     {
@@ -484,8 +480,6 @@ sub _ChangeAction {
     # set specific config
     my $FieldConfig = {
         PossibleNone => $GetParam{PossibleNone},
-        Link         => $GetParam{Link},
-        LinkPreview  => $GetParam{LinkPreview},
         Tooltip      => $GetParam{Tooltip},
         GroupFilter  => $GetParam{GroupFilter},
         Multiselect  => $GetParam{Multiselect},
@@ -708,9 +702,6 @@ sub _ShowScreen {
         Class      => 'Modernize W50pc',
     );
 
-    my $Link        = $Param{Link}        || '';
-    my $LinkPreview = $Param{LinkPreview} || '';
-
     # define tooltip
     my $Tooltip = ( defined $Param{Config}->{Tooltip} ? $Param{Config}->{Tooltip} : '' );
 
@@ -789,8 +780,6 @@ sub _ShowScreen {
             MultiValueStrg        => $MultiValueStrg,
             PossibleNoneStrg      => $PossibleNoneStrg,
             ReadonlyInternalField => $ReadonlyInternalField,
-            Link                  => $Link,
-            LinkPreview           => $LinkPreview,
             Tooltip               => $Tooltip,
         }
     );

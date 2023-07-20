@@ -202,28 +202,6 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Link">[% Translate("Show link") | html %]:</label>
-                        <div class="Field">
-                            <input id="Link" class="W50pc" type="text" maxlength="500" value="[% Data.Link | html %]" name="Link"/>
-                            <p class="FieldExplanation">
-                                [% Translate("Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.") | html %]
-                                <br/>
-                                [% Translate("If special characters (&, @, :, /, etc.) should not be encoded, use 'url' instead of 'uri' filter.") | html %]
-                                <br/>
-                                [% Translate("Example") | html %]: http://some.example.com/handle?query=<span>[</span>% Data.Field1 | uri %<span>]</span>
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
-
-                        <label for="LinkPreview">[% Translate("Link for preview") | html %]:</label>
-                        <div class="Field">
-                            <input id="LinkPreview" class="W50pc" type="text" maxlength="500" value="[% Data.LinkPreview | html %]" name="LinkPreview"/>
-                            <p class="FieldExplanation">
-                                [% Translate("If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.") | html %]
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
-
                         <label for="Multiselect">[% Translate("Multiselect") | html %]</label>
                         <div class="Field">
                             <input id="Multiselect" type="checkbox" name="Multiselect" [% Data.Multiselect | html %]/>
