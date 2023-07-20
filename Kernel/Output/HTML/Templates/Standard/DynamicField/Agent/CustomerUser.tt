@@ -14,17 +14,16 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-[% Data.SelectionHTML %]
-[% END %]
+<input type="text" class="[% Data.FieldClass | html %]" id="[% Data.FieldID | html %]" title="[% Data.FieldLabel | html %]" name="[% Data.FieldName | html %]" value="[% Data.Value | html %]"[% IF Data.ReadOnly %] readonly[% END %] data-customer-search-type="CustomerUser" />
 [% IF Data.Mandatory %]
-<div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">
+<div id="[% Data.DivIDMandatory | html %]" class="TooltipErrorMessage">
     <p>
         [% Translate(Data.FieldRequiredMessage) | html %]
     </p>
 </div>
 [% END %]
 [% IF Data.ServerError %]
-<div id="[% Data.DivIDServerError %]" class="TooltipErrorMessage">
+<div id="[% Data.DivIDServerError | html %]" class="TooltipErrorMessage">
     <p>
         [% Translate(Data.ErrorMessage) | html %]
     </p>

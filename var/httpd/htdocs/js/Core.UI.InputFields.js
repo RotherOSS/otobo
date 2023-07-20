@@ -219,6 +219,18 @@ Core.UI.InputFields = (function (TargetNS) {
             // Initialize select fields on all applicable fields
             TargetNS.InitSelect($('select.Modernize', $Context));
 
+            // Initialize customer user dynamic fields
+            $('.DynamicFieldCustomerUser').each(function () {
+                var Value = $(this).val();
+                $(this).off("focusout").on("focusout", function (Event) {
+                    if ( $(this).val() != Value ) {
+                        $(this).val('');
+                    }
+                });
+                Core.Agent.CustomerSearch.InitSimple($(this));
+            });
+
+
         }
     };
 
@@ -3017,6 +3029,18 @@ Core.UI.InputFields = (function (TargetNS) {
         if ( Config.CustomerInterface ) {
             TargetNS.InitCustomerField( $Cell );
         }
+
+        // CustomerUserField
+        $('.DynamicFieldCustomerUser', $Cell).each(function () {
+            var Value = $(this).val();
+            $(this).off("focusout").on("focusout", function (Event) {
+                if ( $(this).val() != Value ) {
+                    $(this).val('');
+                }
+            });
+            Core.Agent.CustomerSearch.InitSimple($(this));
+        });
+
 
         // other fields
         Core.UI.InputFields.Activate( $Cell );
