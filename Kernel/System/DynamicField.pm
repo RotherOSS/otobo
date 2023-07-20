@@ -358,6 +358,8 @@ returns 1 on success or undef on error
                                         # to individual articles, otherwise to tickets
         ValidID     => 1,
         Reorder     => 1,               # or 0, to trigger reorder function, default 1
+                                        # 0 is only used internally to prevent redundant execution on order change
+                                        # no update event will be triggered for 0
         UserID      => 123,
     );
 
@@ -475,16 +477,20 @@ sub DynamicFieldUpdate {
         ID => $Param{ID},
     );
 
-    # trigger event
-    # TODO: Maybe do not trigger on "Reorder => 0"
-    $Self->EventHandler(
-        Event => 'DynamicFieldUpdate',
-        Data  => {
-            NewData => $NewDynamicField,
-            OldData => $OldDynamicField,
-        },
-        UserID => $Param{UserID},
-    );
+    # trigger event only if potentially the content of the field changed
+    # this should not be the case if Reorder => 0 is set
+    # consider adding removing the condition and adding Reorder to the event data
+    # if we ever need an event to act on fields being only reordered
+    if ( $Reorder ) {
+        $Self->EventHandler(
+            Event => 'DynamicFieldUpdate',
+            Data  => {
+                NewData => $NewDynamicField,
+                OldData => $OldDynamicField,
+            },
+            UserID => $Param{UserID},
+        );
+    }
 
     # re-order field list if a change in the order was made
     if ( $Reorder && $ChangedOrder ) {

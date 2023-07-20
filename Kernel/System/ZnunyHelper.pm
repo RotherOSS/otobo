@@ -1473,7 +1473,6 @@ sub _DynamicFieldsDisable {
         $DynamicFieldObject->DynamicFieldUpdate(
             %{ $DynamicFieldLookup{$DynamicFieldName} },
             ValidID => $InvalidID,
-            Reorder => 0,
             UserID  => 1,
         );
     }
