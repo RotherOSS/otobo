@@ -91,24 +91,35 @@ sub ValueSet {
     my ( $Self, %Param ) = @_;
 
     # check value
-    my @Values;
+    my $Value;
     if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
+        if (
+            !$Param{DynamicFieldConfig}{Config}{MultiValue}
+            && !$Param{DynamicFieldConfig}{Config}{Multiselect}
+            )
+        {
+            $Value = $Param{Value}->[0];
+        }
+        else {
+            $Value = $Param{Value};
+        }
     }
     else {
-        @Values = split /,/, $Param{Value} // '';
-        if ( !IsArrayRefWithData( \@Values ) ) {
-            @Values = $Param{Value};
+        my @Values = split /,/, $Param{Value} // '';
+        if ( IsArrayRefWithData( \@Values ) ) {
+            $Value = \@Values;
+        }
+        else {
+            $Value = $Param{Value};
         }
     }
 
-    my $Value;
     if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
-        $Value->@* = map { { 'ValueText' => $_ } } @Values;
+        $Value->@* = map { { 'ValueText' => $_ } } $Value->@*;
     }
     else {
         $Value = $Self->ValueStructureToDB(
-            Value      => \@Values,
+            Value      => $Value,
             ValueKey   => 'ValueText',
             MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
         );
