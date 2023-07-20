@@ -3030,18 +3030,6 @@ Core.UI.InputFields = (function (TargetNS) {
             TargetNS.InitCustomerField( $Cell );
         }
 
-        // CustomerUserField
-        $('.DynamicFieldCustomerUser', $Cell).each(function () {
-            var Value = $(this).val();
-            $(this).off("focusout").on("focusout", function (Event) {
-                if ( $(this).val() != Value ) {
-                    $(this).val('');
-                }
-            });
-            Core.Agent.CustomerSearch.InitSimple($(this));
-        });
-
-
         // other fields
         Core.UI.InputFields.Activate( $Cell );
     }
