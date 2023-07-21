@@ -25,7 +25,6 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use Scalar::Util qw(weaken);
 
 # CPAN modules
 

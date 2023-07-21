@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 # core modules
-use Scalar::Util qw();
+use Scalar::Util qw(weaken);
 
 # CPAN modules
 use Template;
@@ -180,7 +180,7 @@ sub Output {
         # Store a weak reference to the LayoutObject in the context
         #   to avoid ring references. We need it for the plugins.
         $Context->{LayoutObject} = $Self;
-        Scalar::Util::weaken( $Context->{LayoutObject} );
+        weaken( $Context->{LayoutObject} );
 
         my $Success = $Self->{TemplateObject} = Template->new(
             {
