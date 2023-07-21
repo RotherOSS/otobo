@@ -24,7 +24,7 @@ use warnings;
 use parent qw(Template::Provider);
 
 # core modules
-use Scalar::Util qw();
+use Scalar::Util qw(weaken);
 
 # CPAN modules
 use Template::Constants;
@@ -66,11 +66,9 @@ sub OTOBOInit {
     #   name collisions).
     $Self->{LayoutObject} = $Param{LayoutObject} || die "Got no LayoutObject!";
 
-    #
     # Store a weak reference to the LayoutObject to avoid ring references.
     #   We need it for the filters.
-    #
-    Scalar::Util::weaken( $Self->{LayoutObject} );
+    weaken( $Self->{LayoutObject} );
 
     # define cache type
     $Self->{CacheType} = 'TemplateProvider';

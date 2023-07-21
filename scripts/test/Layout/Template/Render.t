@@ -20,7 +20,7 @@ use v5.24;
 use utf8;
 
 # core modules
-use Scalar::Util qw();
+use Scalar::Util qw(weaken);
 
 # CPAN modules
 use Test2::V0;
@@ -571,7 +571,7 @@ for my $Test (@Tests) {
 # are no ring references.
 my $TemplateObject = $LayoutObject->{TemplateObject};
 
-Scalar::Util::weaken($TemplateObject);
+weaken($TemplateObject);
 
 undef $LayoutObject;
 
