@@ -118,10 +118,14 @@ sub new {
         %Param,
     );
 
-    return $Self unless eval 'require IPC::SysV';    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+    # The code has hardcoded values for the flags passed to shmget(). Therefore
+    # there is no need to load IPC::SysV. Using the availablity of IPC::SysV as an indicator
+    # whether shmget() works is not a good idea. IPC::SysV is a core module.
+    # TODO: actually use the constants from IPC::SysV.
+    #return $Self unless eval 'require IPC::SysV';
 
     # Setup IPC for shared access to the last log entries.
-    my $IPCKey = '444423' . $SystemID;               # This name is used to identify the shared memory segment.
+    my $IPCKey = '444423' . $SystemID;    # This name is used to identify the shared memory segment.
     $Self->{IPCSize} = $ConfigObject->Get('LogSystemCacheSize') || 32 * 1024;
 
     # Create/access shared memory segment.
