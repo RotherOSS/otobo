@@ -134,6 +134,11 @@ sub new {
 
         # As the direct creation failed, let's try more gently. Allocate a small segment first and the reset/resize it.
         $Self->{IPCSHMSegment} = shmget( $IPCKey, 1, oct(1777) );
+
+        # But even the allocation of only a small segment might fail. In this case
+        # proceed without IPC.
+        return $Self unless $Self->{IPCSHMSegment};
+
         if ( !shmctl( $Self->{IPCSHMSegment}, 0, 0 ) ) {
 
             # $Self is not completely constructed, but already in an usable state.
