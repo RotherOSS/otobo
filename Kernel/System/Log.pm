@@ -16,8 +16,6 @@
 
 package Kernel::System::Log;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::PODSpelling)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
