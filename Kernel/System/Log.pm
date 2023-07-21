@@ -16,8 +16,6 @@
 
 package Kernel::System::Log;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::PODSpelling)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
@@ -63,6 +61,7 @@ All log functions.
 create a log object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
             LogPrefix => 'InstallScriptX',  # not required, but highly recommend
@@ -83,7 +82,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = bless {}, $Type;
+    my $Self = bless { IPC => 0 }, $Type;
 
     if ( !$Kernel::OM ) {
         Carp::confess('$Kernel::OM is not defined, please initialize your object manager');
@@ -119,18 +118,46 @@ sub new {
         %Param,
     );
 
-    return $Self unless eval 'require IPC::SysV';    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+    # The code has hardcoded values for the flags passed to shmget(). Therefore
+    # there is no need to load IPC::SysV. Using the availablity of IPC::SysV as an indicator
+    # whether shmget() works is not a good idea. IPC::SysV is a core module.
+    # TODO: actually use the constants from IPC::SysV.
+    #return $Self unless eval 'require IPC::SysV';
 
     # Setup IPC for shared access to the last log entries.
-    my $IPCKey = '444423' . $SystemID;               # This name is used to identify the shared memory segment.
+    my $IPCKey = '444423' . $SystemID;    # This name is used to identify the shared memory segment.
     $Self->{IPCSize} = $ConfigObject->Get('LogSystemCacheSize') || 32 * 1024;
 
     # Create/access shared memory segment.
-    if ( !eval { $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) ) } ) {
+    # In environments with strict security access to shmget() and shmctl() may be blocked. In those cases
+    # the functions would return undef.
+    #
+    # The flags are bit based and oct 1777 indicates that the first nine bits set.
+    # The bits 0-7, that is oct 777, indicate full access for everybody.
+    # Bit 8, that is oct 1000, aka IPC_CREAT, and it indicates that a new segment
+    # is allocated when there isn't one already.
+    # Bit 9, that is oct 2000, aka IPC_EXCL is not set. It would mandate exclusive use.
+    # Altogether this means that an existing segment is reused, even when the Kernel::System::Log
+    # object is recreated.
+    #
+    # Note that 0 is a valid shared memory segment ID. In Docker containers it happens regularly that
+    # the segment used here is the first allocated segment with the ID 0.
+    my $Flags = oct 1777;
+    $Self->{IPCSHMSegment} = shmget $IPCKey, $Self->{IPCSize}, $Flags;
 
-        # If direct creation fails, try more gently, allocate a small segment first and the reset/resize it.
-        $Self->{IPCSHMSegment} = shmget( $IPCKey, 1, oct(1777) );
-        if ( !shmctl( $Self->{IPCSHMSegment}, 0, 0 ) ) {
+    # Try somethin more gentle when the direct creation failesy. First allocate a small segment first and then reset/resize it.
+    if ( !defined $Self->{IPCSHMSegment} ) {
+
+        $Self->{IPCSHMSegment} = shmget $IPCKey, 1, $Flags;
+
+        # But even the allocation of only a small segment might fail. In this case
+        # let's proceed without IPC.
+        return $Self unless defined $Self->{IPCSHMSegment};
+
+        if ( !shmctl $Self->{IPCSHMSegment}, 0, 0 ) {
+
+            # $Self is not completely constructed, but already in an usable state.
+            # So we can already use it for logging.
             $Self->Log(
                 Priority => 'error',
                 Message  => "Can't remove shm for log: $!",
@@ -140,12 +167,12 @@ sub new {
             return $Self;
         }
 
-        # Re-initialize SHM segment.
-        $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) );
-    }
+        # Try again to allocate the shared memory segment.
+        $Self->{IPCSHMSegment} = shmget $IPCKey, $Self->{IPCSize}, $Flags;
 
-    # Continue without IPC.
-    return $Self unless $Self->{IPCSHMSegment};
+        # The gently approach failed so, so we give up and continue without IPC.
+        return $Self unless defined $Self->{IPCSHMSegment};
+    }
 
     # Only flag IPC as active if everything worked well.
     $Self->{IPC} = 1;
@@ -394,7 +421,7 @@ to clean up tmp log data from shared memory (ipc)
 sub CleanUp {
     my ( $Self, %Param ) = @_;
 
-    return 1 if !$Self->{IPC};
+    return 1 unless $Self->{IPC};
 
     shmwrite( $Self->{IPCSHMSegment}, '', 0, $Self->{IPCSize} ) || die $!;
 
