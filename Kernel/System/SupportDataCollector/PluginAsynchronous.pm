@@ -19,17 +19,19 @@ package Kernel::System::SupportDataCollector::PluginAsynchronous;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::SupportDataCollector::PluginBase);
+
+use Scalar::Util qw(blessed);
+
 our @ObjectDependencies = (
     'Kernel::System::JSON',
     'Kernel::System::SystemData',
 );
 
-use parent qw(Kernel::System::SupportDataCollector::PluginBase);
-
 sub _GetAsynchronousData {
     my ( $Self, %Param ) = @_;
 
-    my $Identifier = Scalar::Util::blessed($Self);
+    my $Identifier = blessed($Self);
 
     my $AsynchronousDataString = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
         Key => $Identifier,
@@ -50,7 +52,7 @@ sub _StoreAsynchronousData {
 
     return 1 if !$Param{Data};
 
-    my $Identifier = Scalar::Util::blessed($Self);
+    my $Identifier = blessed($Self);
 
     my $CurrentAsynchronousData = $Self->_GetAsynchronousData();
 

@@ -19,7 +19,7 @@ package Kernel::System::SupportDataCollector::PluginBase;
 use strict;
 use warnings;
 
-use Scalar::Util qw();
+use Scalar::Util qw(blessed);
 
 use Kernel::Language qw(Translatable);
 
@@ -106,10 +106,10 @@ sub _AddResult {
     $Result{Identifier} //= '';
     $Result{Identifier} =~ s{:+}{_};    # Replace all :: in the Identifier
     if ( $Result{Identifier} ) {
-        $Result{Identifier} = Scalar::Util::blessed($Self) . "::$Result{Identifier}";
+        $Result{Identifier} = blessed($Self) . "::$Result{Identifier}";
     }
     else {
-        $Result{Identifier} = Scalar::Util::blessed($Self);
+        $Result{Identifier} = blessed($Self);
     }
 
     $Result{ShortIdentifier} = $Result{Identifier};
