@@ -63,6 +63,7 @@ All log functions.
 create a log object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
             LogPrefix => 'InstallScriptX',  # not required, but highly recommend
@@ -126,11 +127,17 @@ sub new {
     $Self->{IPCSize} = $ConfigObject->Get('LogSystemCacheSize') || 32 * 1024;
 
     # Create/access shared memory segment.
+    # In environments with strict security access to shmget() and shmctl() may be blocked. In those cases
+    # the functions would return undef.
+    # The eval is just a precaution, shmget() is not throwing exceptions.
     if ( !eval { $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) ) } ) {
 
-        # If direct creation fails, try more gently, allocate a small segment first and the reset/resize it.
+        # As the direct creation failed, let's try more gently. Allocate a small segment first and the reset/resize it.
         $Self->{IPCSHMSegment} = shmget( $IPCKey, 1, oct(1777) );
         if ( !shmctl( $Self->{IPCSHMSegment}, 0, 0 ) ) {
+
+            # $Self is not completely constructed, but already in an usable state.
+            # So we can already use it for logging.
             $Self->Log(
                 Priority => 'error',
                 Message  => "Can't remove shm for log: $!",
@@ -140,7 +147,7 @@ sub new {
             return $Self;
         }
 
-        # Re-initialize SHM segment.
+        # Try again to allocate the shared memory segment.
         $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) );
     }
 
