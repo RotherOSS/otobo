@@ -19,8 +19,6 @@ package Kernel::System::DynamicField::ObjectType::Ticket;
 use strict;
 use warnings;
 
-use Scalar::Util;
-
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
