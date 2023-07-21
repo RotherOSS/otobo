@@ -21,7 +21,7 @@ use warnings;
 
 use parent qw(Template::Plugin);
 
-use Scalar::Util;
+use Scalar::Util qw(weaken);
 
 our $ObjectManagerDisabled = 1;
 
@@ -74,7 +74,7 @@ sub new {
     #
     # Don't use $Context in the filters as that creates a circular dependency.
     my $LayoutObject = $Context->{LayoutObject};
-    Scalar::Util::weaken($LayoutObject);
+    weaken($LayoutObject);
 
     my $ConfigFunction = sub {
         return $Kernel::OM->Get('Kernel::Config')->Get(@_);

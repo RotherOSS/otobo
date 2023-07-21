@@ -23,7 +23,7 @@ use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
 our $Self;
 
-use Scalar::Util qw/weaken/;
+use Scalar::Util qw(weaken);
 
 use Kernel::System::ObjectManager;
 
