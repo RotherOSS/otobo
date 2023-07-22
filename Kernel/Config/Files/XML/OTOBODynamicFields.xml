@@ -592,7 +592,7 @@
     </Setting>
     <!-- End DynamicField Web Service -->
     <!-- ContactWD -->
-    <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0210-OTOBOCommunity-ContactWD" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0210-DynamicField-ContactWD" Required="1" Valid="1">
         <Description Translatable="1">AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
