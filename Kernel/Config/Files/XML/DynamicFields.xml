@@ -242,7 +242,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldDB###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldDB###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -278,7 +278,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AgentDynamicFieldDBDetailedSearch###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AgentDynamicFieldDBDetailedSearch###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -313,7 +313,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AgentDynamicFieldDBDetails###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AgentDynamicFieldDBDetails###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -379,7 +379,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::CustomerDynamicFieldDBSearch###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::CustomerDynamicFieldDBSearch###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -418,7 +418,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::CustomerDynamicFieldDBDetailedSearch###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::CustomerDynamicFieldDBDetailedSearch###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -459,7 +459,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::CustomerDynamicFieldDBDetails###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::CustomerDynamicFieldDBDetails###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -700,7 +700,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldWebService###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldWebService###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -910,7 +910,7 @@
     <!-- End DynamicField CustomerUser -->
 
     <!-- dynamic field ContactWD -->
-    <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0210-OTOBOCommunity-ContactWD" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0210-DynamicField-ContactWD" Required="1" Valid="1">
         <Description Translatable="1">AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>

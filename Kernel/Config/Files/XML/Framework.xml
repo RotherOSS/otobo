@@ -9629,7 +9629,7 @@ via the Preferences button after logging in.
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminSystemConfigurationDeploymentHistory###004-OTOBOCommunity" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminSystemConfigurationDeploymentHistory###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -9649,7 +9649,7 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Navigation###AdminSystemConfigurationDeploymentHistory###004-OTOBOCommunity" Required="0" Valid="0">
+    <Setting Name="Frontend::Navigation###AdminSystemConfigurationDeploymentHistory###001-Framework" Required="0" Valid="0">
         <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
         <Value>
@@ -9685,7 +9685,7 @@ via the Preferences button after logging in.
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminSystemConfigurationSettingHistory###004-OTOBOCommunity" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminSystemConfigurationSettingHistory###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -9706,7 +9706,7 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Navigation###AdminSystemConfigurationSettingHistory###004-OTOBOCommunity" Required="0" Valid="0">
+    <Setting Name="Frontend::Navigation###AdminSystemConfigurationSettingHistory###001-Framework" Required="0" Valid="0">
         <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
         <Value>
@@ -9742,7 +9742,7 @@ via the Preferences button after logging in.
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminSystemConfigurationUser###001-OTOBOCommunity" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminSystemConfigurationUser###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>

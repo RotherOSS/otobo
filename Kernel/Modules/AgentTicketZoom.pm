@@ -222,7 +222,7 @@ sub new {
         )
     {
         $ConfigObject->Set(
-            Key   => 'Loader::Module::AgentTicketZoom###003-OTOBOCommunity',
+            Key   => 'Loader::Module::AgentTicketZoom###003-DynamicField',
             Value => {
                 JavaScript => [
                     'Core.Agent.TicketZoom.TimelineView.js',
