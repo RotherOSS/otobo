@@ -78,7 +78,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldDB###004-OTOBOCommunity" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldDB###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -114,7 +114,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AgentDynamicFieldDBDetailedSearch###004-OTOBOCommunity" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AgentDynamicFieldDBDetailedSearch###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -149,7 +149,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AgentDynamicFieldDBDetails###004-OTOBOCommunity" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AgentDynamicFieldDBDetails###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -215,7 +215,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::CustomerDynamicFieldDBSearch###004-OTOBOCommunity" Required="1" Valid="1">
+    <Setting Name="Loader::Module::CustomerDynamicFieldDBSearch###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -254,7 +254,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::CustomerDynamicFieldDBDetailedSearch###004-OTOBOCommunity" Required="1" Valid="1">
+    <Setting Name="Loader::Module::CustomerDynamicFieldDBDetailedSearch###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -295,7 +295,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::CustomerDynamicFieldDBDetails###004-OTOBOCommunity" Required="1" Valid="1">
+    <Setting Name="Loader::Module::CustomerDynamicFieldDBDetails###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -548,7 +548,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldWebService###004-OTOBOCommunity" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldWebService###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
