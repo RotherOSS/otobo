@@ -767,7 +767,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldAgent###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldAgent###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -822,7 +822,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldCustomerCompany###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldCustomerCompany###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -877,7 +877,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldCustomerUser###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldCustomerUser###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -954,7 +954,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldContactWD###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldContactWD###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1177,7 +1177,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldReference###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldReference###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1232,7 +1232,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldLens###002-Ticket" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldLens###002-DynamicField" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1275,7 +1275,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicField###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicField###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1433,7 +1433,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldTitle###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldTitle###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1470,7 +1470,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldText###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldText###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1507,7 +1507,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldCheckbox###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldCheckbox###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1544,7 +1544,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldDropdown###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldDropdown###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1586,7 +1586,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldDateTime###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldDateTime###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1628,7 +1628,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldMultiselect###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldMultiselect###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1670,7 +1670,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldSet###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldSet###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1711,7 +1711,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldScript###002-Ticket" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldScript###002-DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -1751,7 +1751,7 @@
                 </Item>
             </Value>
         </Setting>
-        <Setting Name="Loader::Module::AdminDynamicFieldImportExport###003-Znuny4OTOBOAdvancedDynamicFields" Required="0" Valid="1">
+        <Setting Name="Loader::Module::AdminDynamicFieldImportExport###002-DynamicField" Required="0" Valid="1">
             <Description Translatable="1">Loader module registration for the agent interface.</Description>
             <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
             <Value>
@@ -1815,7 +1815,7 @@
                 </Item>
             </Value>
         </Setting>
-        <Setting Name="Loader::Module::AdminDynamicFieldScreen###003-Znuny4OTOBOAdvancedDynamicFields" Required="0" Valid="1">
+        <Setting Name="Loader::Module::AdminDynamicFieldScreen###002-DynamicField" Required="0" Valid="1">
             <Description Translatable="1">Loader module registration for the agent interface.</Description>
             <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
             <Value>
