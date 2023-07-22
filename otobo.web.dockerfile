@@ -9,7 +9,7 @@
 # This Dockerfile accepts the default Debian version of the official Perl image. As of 2022-03-23 this
 # Debian 11 (Bullseye).
 # The Perl module installer 'cpanm' is already installed.
-FROM perl:5.36
+FROM perl:5.38
 
 # First there is some initial setup that needs to be done by root.
 USER root
@@ -61,6 +61,7 @@ ENV PATH "/opt/otobo_install/local/bin:${PATH}"
 RUN cpanm --local-lib local Carton \
  && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
 
+# TODO: Kerberos specific commands should move to a dedicted target
 # otobo.kerberos.web.dockerfile adds additional commands here
 
 # clean up apt and cpanm
