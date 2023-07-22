@@ -50,7 +50,7 @@ sub Run {
 
     return unless IsHashRefWithData($Config);
     return unless IsHashRefWithData($Navigation);
-    return unless IsArrayRefWithData( $Navigation->{'004-OTOBOCommunity'} );
+    return unless IsArrayRefWithData( $Navigation->{'002-Ticket'} );
 
     # Check if there is source field configured (otherwise return).
     # DynamicFieldListGet() returns only valid dynamic fields.
@@ -63,7 +63,7 @@ sub Run {
 
     # Frontend module is enabled but there is no ContactWD field configured, then remove the menu entry.
     my $NavBarName = $Config->{NavBarName};    # usually 'Ticket'
-    my $Priority   = sprintf '%07d', $Navigation->{'004-OTOBOCommunity'}->[0]->{Prio};
+    my $Priority   = sprintf '%07d', $Navigation->{'002-Ticket'}->[0]->{Prio};
     my %Return     = $Param{NavBar}->{Sub}->%*;
 
     # Remove AdminContactWD from the TicketMenu.

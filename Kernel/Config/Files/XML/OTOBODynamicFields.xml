@@ -636,7 +636,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldContactWD###004-OTOBOCommunity" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldContactWD###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -708,7 +708,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Navigation###AdminContactWD###004-OTOBOCommunity" Required="0" Valid="1">
+    <Setting Name="Frontend::Navigation###AdminContactWD###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
         <Value>
