@@ -19,6 +19,12 @@ package Kernel::Output::HTML::NavBar::AdminContactWD;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+use List::Util qw(any);
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -30,10 +36,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 sub Run {
@@ -45,32 +48,28 @@ sub Run {
     my $Config     = $ConfigObject->Get('Frontend::Module')->{AdminContactWD};
     my $Navigation = $ConfigObject->Get('Frontend::Navigation')->{AdminContactWD};
 
-    return if !IsHashRefWithData($Config);
-    return if !IsHashRefWithData($Navigation);
-    return if !IsArrayRefWithData( $Navigation->{'004-OTOBOCommunity'} );
+    return unless IsHashRefWithData($Config);
+    return unless IsHashRefWithData($Navigation);
+    return unless IsArrayRefWithData( $Navigation->{'002-Ticket'} );
 
     # Check if there is source field configured (otherwise return).
+    # DynamicFieldListGet() returns only valid dynamic fields.
     my $TicketDynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         ObjectType => 'Ticket',
     );
 
-    FIELD:
-    for my $Field ( @{$TicketDynamicFieldList} ) {
-        next FIELD if $Field->{FieldType} ne 'ContactWD';
-        next FIELD if $Field->{ValidID} ne 1;
-        return     if $Field;
-    }
+    # nothing to do when there is a valid dynamic field of type ContactWD
+    return if any { $_->{FieldType} eq 'ContactWD' } $TicketDynamicFieldList->@*;
 
-    # Frontend module is enabled but there is no source field configured, then remove the menu entry.
-    my $NavBarName = $Config->{NavBarName};
-    my $Priority   = sprintf( '%07d', $Navigation->{'004-OTOBOCommunity'}->[0]->{Prio} );
-
-    my %Return = %{ $Param{NavBar}->{Sub} };
+    # Frontend module is enabled but there is no ContactWD field configured, then remove the menu entry.
+    my $NavBarName = $Config->{NavBarName};    # usually 'Ticket'
+    my $Priority   = sprintf '%07d', $Navigation->{'002-Ticket'}->[0]->{Prio};
+    my %Return     = $Param{NavBar}->{Sub}->%*;
 
     # Remove AdminContactWD from the TicketMenu.
     delete $Return{$NavBarName}->{$Priority};
 
-    return ( Sub => \%Return );
+    return Sub => \%Return;
 }
 
 1;
