@@ -196,3 +196,5 @@ RUN apt-get update\
 WORKDIR /opt/otobo_install
 RUN cpanm --local-lib local Authen::Krb5::Simple\
  && rm -rf "$HOME/.cpanm"
+
+LABEL org.opencontainers.image.title='OTOBO Kerberos'
