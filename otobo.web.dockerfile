@@ -22,6 +22,18 @@ USER root
 # For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
 # Create /opt/otobo_install already here, in order to reduce the number of build layers.
 # hadolint ignore=DL3008
+#
+# create the otobo user
+#   --user-group            create group 'otobo' and add the user to the created group
+#   --home-dir /opt/otobo   set $HOME of the user
+#   --create-home           create /opt/otobo
+#   --shell /bin/bash       set the login shell, not used here because otobo is system user
+#   --comment 'OTOBO user'  complete name of the user
+#
+# Also create /opt/otobo_install
+ENV OTOBO_USER  otobo
+ENV OTOBO_GROUP otobo
+ENV OTOBO_HOME  /opt/otobo
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
  "ack"\
@@ -42,6 +54,7 @@ RUN apt-get update\
  "vim"\
  "chromium"\
  "chromium-sandbox"\
+ && useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER\
  && install -d /opt/otobo_install
 
 # We want an UTF-8 console
@@ -63,17 +76,6 @@ ENV PERL5LIB "/opt/otobo_install/local/lib/perl5"
 ENV PATH "/opt/otobo_install/local/bin:${PATH}"
 RUN cpanm --local-lib local Carton\
  && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
-
-# create the otobo user
-#   --user-group            create group 'otobo' and add the user to the created group
-#   --home-dir /opt/otobo   set $HOME of the user
-#   --create-home           create /opt/otobo
-#   --shell /bin/bash       set the login shell, not used here because otobo is system user
-#   --comment 'OTOBO user'  complete name of the user
-ENV OTOBO_USER  otobo
-ENV OTOBO_GROUP otobo
-ENV OTOBO_HOME  /opt/otobo
-RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
