@@ -4,12 +4,14 @@
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
+# TODO: is there a way to define a default target ?
+#
 # Use the latest maintainance release of the Perl 5.36.x series.
 # Perl 5.36.0 was released 2022-05-27.
 # This Dockerfile accepts the default Debian version of the official Perl image. As of 2022-03-23 this
 # Debian 11 (Bullseye).
 # The Perl module installer 'cpanm' is already installed.
-FROM perl:5.38
+FROM perl:5.38 AS otobo-web
 
 # First there is some initial setup that needs to be done by root.
 USER root
@@ -39,6 +41,7 @@ RUN apt-get update\
  "vim"\
  "chromium"\
  "chromium-sandbox"\
+ && rm -rf /var/lib/apt/lists/*\
  && install -d /opt/otobo_install
 
 # We want an UTF-8 console
@@ -58,15 +61,13 @@ WORKDIR /opt/otobo_install
 COPY cpanfile.docker cpanfile
 ENV PERL5LIB "/opt/otobo_install/local/lib/perl5"
 ENV PATH "/opt/otobo_install/local/bin:${PATH}"
-RUN cpanm --local-lib local Carton \
- && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
+RUN cpanm --local-lib local Carton\
+ && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install\
+ && rm -rf "$HOME/.cpanm"
 
 # TODO: Kerberos specific commands should move to a dedicted target
 # otobo.kerberos.web.dockerfile adds additional commands here
 
-# clean up apt and cpanm
-RUN rm -rf "$HOME/.cpanm"\
- && rm -rf /var/lib/apt/lists/*
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
@@ -173,3 +174,25 @@ LABEL org.opencontainers.image.revision=$GIT_COMMIT
 LABEL org.opencontainers.image.source=$GIT_REPO
 ARG DOCKER_TAG=unspecified
 LABEL org.opencontainers.image.version=$DOCKER_TAG
+
+# This Dockerfile also provides for building images with additional support for Kerberos.
+# This image will be built when --target=otobo-web-kerberos is specified in the 'docker build' command.
+FROM otobo-web AS otobo-web-kerberos
+
+# First there is some initial setup that needs to be done by root.
+USER root
+
+# install Kerberos related Debian packages
+RUN apt-get update\
+ && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
+ "krb5-user"\
+ "libpam-krb5"\
+ "libpam-ccreds"\
+ "krb5-multidev"\
+ "libkrb5-dev"\
+ && rm -rf /var/lib/apt/lists/*
+
+# append extra modules needed for Kerberos
+WORKDIR /opt/otobo_install
+RUN cpanm --local-lib local Authen::Krb5::Simple\
+ && rm -rf "$HOME/.cpanm"
