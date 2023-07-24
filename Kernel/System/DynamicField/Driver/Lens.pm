@@ -120,10 +120,15 @@ sub ValueSet {
         LensDynamicFieldConfig => $LensDFConfig,
     );
 
+    my $ReferenceDFConfig = $Self->_GetReferenceDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
         %Param,
         DynamicFieldConfig => $AttributeDFConfig,
         ObjectID           => $ReferencedObjectID,
+        ObjectType         => $ReferenceDFConfig->{Config}->{ReferencedObjectType},
     );
 }
 
@@ -502,28 +507,20 @@ sub ValueLookup {
 
 Methods that are used only internally.
 
-=head2 _GetReferencedObjectID()
+=head2 _GetReferenceDFConfig()
 
-The ID of the referenced object.
+A dynamic field configuration that can be used as a delegate.
 
 =cut
 
-sub _GetReferencedObjectID {
+sub _GetReferenceDFConfig {
     my ( $Self, %Param ) = @_;
 
-    my $LensDFConfig = $Param{LensDynamicFieldConfig};
-    my $ObjectID     = $Param{ObjectID};
-
-    # Get the dynamic field for the referenced object
+    my $LensDFConfig  = $Param{LensDynamicFieldConfig};
     my $ReferenceDFID = $LensDFConfig->{Config}->{ReferenceDF};
 
-    my $ReferenceDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+    return $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         ID => $ReferenceDFID,
-    );
-
-    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
-        DynamicFieldConfig => $ReferenceDFConfig,
-        ObjectID           => $ObjectID,
     );
 }
 
@@ -536,12 +533,35 @@ A dynamic field configuration that can be used as a delegate.
 sub _GetAttributeDFConfig {
     my ( $Self, %Param ) = @_;
 
-    my $LensDFConfig = $Param{LensDynamicFieldConfig};
-
+    my $LensDFConfig  = $Param{LensDynamicFieldConfig};
     my $AttributeDFID = $LensDFConfig->{Config}->{AttributeDF};
 
     return $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         ID => $AttributeDFID,
+    );
+}
+
+=head2 _GetReferencedObjectID()
+
+The ID of the referenced object.
+
+=cut
+
+sub _GetReferencedObjectID {
+    my ( $Self, %Param ) = @_;
+
+    # extract params
+    my $LensDFConfig = $Param{LensDynamicFieldConfig};
+    my $ObjectID     = $Param{ObjectID};
+
+    # Get the dynamic field config for the referenced object
+    my $ReferenceDFConfig = $Self->_GetReferenceDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
+        DynamicFieldConfig => $ReferenceDFConfig,
+        ObjectID           => $ObjectID,
     );
 }
 
