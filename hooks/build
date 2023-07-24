@@ -21,13 +21,16 @@
 # Note that the give Dockerfile does not have to exist, only the
 # actually used Dockerfile must exist.
 ACTUAL_DOCKERFILE_PATH=$(case $DOCKERFILE_PATH in
-    otobo.kerberos.web.dockerfile) echo "otobo.web.dockerfile" ;;
-    *)                             echo $DOCKERFILE_PATH ;;
+    "otobo.kerberos.web.dockerfile")         echo "otobo.web.dockerfile" ;;
+    "../../otobo.nginx-kerberos.dockerfile") echo "../../otobo.nginx.dockerfile" ;;
+    *)                                       echo $DOCKERFILE_PATH ;;
 esac)
 TARGET_OPTION=$(case $DOCKERFILE_PATH in
-    otobo.kerberos.web.dockerfile) echo "--target=otobo-web-kerberos" ;;
-    otobo.web.dockerfile)          echo "--target=otobo-web" ;;
-    *)                             echo "" ;;
+    "otobo.web.dockerfile")                  echo "--target=otobo-web" ;;
+    "otobo.kerberos.web.dockerfile")         echo "--target=otobo-web-kerberos" ;;
+    "../../otobo.nginx.dockerfile")          echo "--target=otobo-nginx" ;;
+    "../../otobo.nginx-kerberos.dockerfile") echo "--target=otobo-nginx-kerberos" ;;
+    *)                                       echo "" ;;
 esac)
 
 # build the Docker image
