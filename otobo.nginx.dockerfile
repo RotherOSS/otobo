@@ -1,16 +1,58 @@
 # This is the build file for the OTOBO nginx Docker image.
+# This Dockerfile provide the build targets otobo-nginx and otobo-nginx-kerberos.
 
 # See bin/docker/build_docker_images.sh for how to create local builds.
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
+# The stage builder-for-kerberos is only needed for otobo-nginx-kerberos
+#
+# I have found no better way than to first compile NGINX in a BUILDER container and then copy the
+# finished ngx_http_auth_spnego_module.so into the NGINX container.
+# If anyone knows a nicer way, please share.
+
+# builder-for-kerberos used to create a dynamic spnego auth module
+# https://gist.github.com/hermanbanken/96f0ff298c162a522ddbba44cad31081
+
+FROM nginx:mainline AS builder-for-kerberos
+
+ENV SPNEGO_AUTH_COMMIT_ID=v1.1.1
+ENV SPNEGO_AUTH_COMMIT_ID_FILE=1.1.1
+
+RUN apt-get update\
+ && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
+        gcc \
+        libc-dev \
+        make \
+        libpcre3-dev \
+        zlib1g-dev \
+        libkrb5-dev \
+        wget
+
+RUN set -x && \
+    cd /usr/src \
+    NGINX_VERSION="$( nginx -v 2>&1 | awk -F/ '{print $2}' )" && \
+    NGINX_CONFIG="$( nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p' )" && \
+    wget "http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" -O nginx.tar.gz && \
+    wget https://github.com/stnoonan/spnego-http-auth-nginx-module/archive/${SPNEGO_AUTH_COMMIT_ID}.tar.gz -O spnego-http-auth.tar.gz
+
+RUN cd /usr/src && \
+    NGINX_CONFIG="$( nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p' )" && \
+    tar -xzC /usr/src -f nginx.tar.gz && \
+    tar -xzvf spnego-http-auth.tar.gz && \
+    SPNEGO_AUTH_DIR="$( pwd )/spnego-http-auth-nginx-module-${SPNEGO_AUTH_COMMIT_ID_FILE}" && \
+    cd "/usr/src/nginx-${NGINX_VERSION}" && \
+    ./configure --with-compat "${NGINX_CONFIG}" --add-dynamic-module="${SPNEGO_AUTH_DIR}" && \
+    make modules && \
+    cp objs/ngx_*_module.so /usr/lib/nginx/modules/
+
 # Use the latest nginx.
 # This image is based on Debian 10 (Buster). The User is root.
-FROM nginx:mainline
+FROM nginx:mainline AS base
 
 # install some required and optional Debian packages
 # hadolint ignore=DL3008
 RUN apt-get update\
- && apt-get -y --no-install-recommends install\
+ && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
  "less"\
  "nano"\
  "screen"\
@@ -50,10 +92,7 @@ RUN mv conf.d/default.conf conf.d/default.conf.hidden
 
 # The new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh.
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx .
-# Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
-# Kerberos support. The not needed template is moved out of the way.
 COPY templates/ templates
-RUN mv templates/otobo_nginx-kerberos.conf.template templates/otobo_nginx-kerberos.conf.template.hidden
 COPY snippets/  snippets
 
 # docker-entrypoint.d is only needed for Kerberos
@@ -67,9 +106,58 @@ LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.description='OTOBO is the new open source ticket system with strong functionality AND a great look'
 LABEL org.opencontainers.image.documentation='https://otobo.org'
 LABEL org.opencontainers.image.licenses='GNU General Public License v3.0 or later'
-LABEL org.opencontainers.image.title='OTOBO nginx'
-LABEL org.opencontainers.image.url=https://github.com/RotherOSS/otobo
+LABEL org.opencontainers.image.url='https://github.com/RotherOSS/otobo'
 LABEL org.opencontainers.image.vendor='Rother OSS GmbH'
+
+FROM base AS otobo-nginx
+
+# Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
+# Kerberos support. The not needed template is moved out of the way.
+RUN mv templates/otobo_nginx.conf.template templates/otobo_nginx.conf.template.hidden
+
+LABEL org.opencontainers.image.title='OTOBO nginx'
+
+# These labels change with every build
+ARG BUILD_DATE=unspecified
+LABEL org.opencontainers.image.created=$BUILD_DATE
+ARG GIT_COMMIT=unspecified
+LABEL org.opencontainers.image.revision=$GIT_COMMIT
+ARG GIT_REPO=unspecified
+LABEL org.opencontainers.image.source=$GIT_REPO
+ARG DOCKER_TAG=unspecified
+LABEL org.opencontainers.image.version=$DOCKER_TAG
+
+# Build target with Kerboros support.
+FROM base AS otobo-nginx-kerberos
+
+# Copy the nginx module ngx_http_auth_spnego_module.so to the official nginx container
+COPY --from=builder-for-kerberos /usr/lib/nginx/modules/ngx_http_auth_spnego_module.so /usr/lib/nginx/modules
+
+# more Debian modules for Kerberos support
+RUN apt-get update\
+ && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
+ "krb5-user"\
+ "libpam-krb5"\
+ "libpam-ccreds"\
+ "krb5-multidev"\
+ "libkrb5-dev"\
+ && rm -rf /var/lib/apt/lists/*
+
+# Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
+# Kerberos support. The not needed template is moved out of the way.
+RUN mv templates/otobo_nginx.conf.template templates/otobo_nginx.conf.template.hidden
+
+# When Kerberos is active we also generate /etc/krb5.conf from the template in templates/kerberos
+COPY kerberos/templates/ kerberos/templates
+COPY docker-entrypoint.d/21-envsubst-on-krb5-conf.sh /docker-entrypoint.d/
+
+# Copy text to line 4 - load Kerberos module in nginx.conf
+RUN sed '4 i\load_module modules/ngx_http_auth_spnego_module.so;' -i /etc/nginx/nginx.conf
+
+# Titel is specific for the build target
+LABEL org.opencontainers.image.title='OTOBO nginx Kerberos SSO'
+
+# These labels change with every build
 ARG BUILD_DATE=unspecified
 LABEL org.opencontainers.image.created=$BUILD_DATE
 ARG GIT_COMMIT=unspecified
