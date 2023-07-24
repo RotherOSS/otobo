@@ -88,7 +88,7 @@ LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.description='OTOBO is the new open source ticket system with strong functionality AND a great look'
 LABEL org.opencontainers.image.documentation='https://otobo.org'
 LABEL org.opencontainers.image.licenses='GNU General Public License v3.0 or later'
-LABEL org.opencontainers.image.url=https://github.com/RotherOSS/otobo
+LABEL org.opencontainers.image.url='https://github.com/RotherOSS/otobo'
 LABEL org.opencontainers.image.vendor='Rother OSS GmbH'
 
 # Tell the web application and bin/otobo.SetPermissions.pl that it runs in a container.
@@ -98,7 +98,7 @@ ENV OTOBO_RUNS_UNDER_DOCKER 1
 # the entrypoint is not in the volume
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
 
-# The default target
+# The regular build target, without Kerberop
 FROM base AS otobo-web
 
 # First there is some initial setup that needs to be done by root.
