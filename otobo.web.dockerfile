@@ -1,15 +1,18 @@
 # This is the build file for the OTOBO web docker image.
 # The services OTOBO web and OTOBO daemon use the same image.
+# There is also an extra build target otobo-web-kerberos that add support for Kerberos.
 
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Use the latest maintainance release of the Perl 5.36.x series.
-# Perl 5.36.0 was released 2022-05-27.
-# This Dockerfile accepts the default Debian version of the official Perl image. As of 2022-03-23 this
-# Debian 11 (Bullseye).
+# Use the latest maintainance release of the Perl 5.38.x series as the base.
+# This Dockerfile accepts the default Debian version of the official Perl image. As of 2022-06-23 this
+# Debian 12 (Bookworm).
+#
 # The Perl module installer 'cpanm' is already installed.
-FROM perl:5.36
+#
+# The individual build targets my add additional Debian or CPAN packages.
+FROM perl:5.38 AS base
 
 # First there is some initial setup that needs to be done by root.
 USER root
@@ -19,6 +22,18 @@ USER root
 # For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
 # Create /opt/otobo_install already here, in order to reduce the number of build layers.
 # hadolint ignore=DL3008
+#
+# create the otobo user
+#   --user-group            create group 'otobo' and add the user to the created group
+#   --home-dir /opt/otobo   set $HOME of the user
+#   --create-home           create /opt/otobo
+#   --shell /bin/bash       set the login shell, not used here because otobo is system user
+#   --comment 'OTOBO user'  complete name of the user
+#
+# Also create /opt/otobo_install and /opt/otobo
+ENV OTOBO_USER  otobo
+ENV OTOBO_GROUP otobo
+ENV OTOBO_HOME  /opt/otobo
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
  "ack"\
@@ -39,7 +54,9 @@ RUN apt-get update\
  "vim"\
  "chromium"\
  "chromium-sandbox"\
- && install -d /opt/otobo_install
+ && useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER\
+ && install -d /opt/otobo_install\
+ && install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME
 
 # We want an UTF-8 console
 ENV LC_ALL C.UTF-8
@@ -58,25 +75,39 @@ WORKDIR /opt/otobo_install
 COPY cpanfile.docker cpanfile
 ENV PERL5LIB "/opt/otobo_install/local/lib/perl5"
 ENV PATH "/opt/otobo_install/local/bin:${PATH}"
-RUN cpanm --local-lib local Carton \
+RUN cpanm --local-lib local Carton\
  && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
 
-# otobo.kerberos.web.dockerfile adds additional commands here
+# Add some additional meta info to the image.
+# This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
+# The labels are compliant with https://github.com/opencontainers/image-spec/blob/master/annotations.md .
+# For the standard build args passed by hub.docker.com see https://docs.docker.com/docker-hub/builds/advanced/.
+# Titel is specific for the individual targets.
+LABEL maintainer='Team OTOBO <dev@otobo.org>'
+LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
+LABEL org.opencontainers.image.description='OTOBO is the new open source ticket system with strong functionality AND a great look'
+LABEL org.opencontainers.image.documentation='https://otobo.org'
+LABEL org.opencontainers.image.licenses='GNU General Public License v3.0 or later'
+LABEL org.opencontainers.image.url='https://github.com/RotherOSS/otobo'
+LABEL org.opencontainers.image.vendor='Rother OSS GmbH'
 
-# clean up apt and cpanm
-RUN rm -rf "$HOME/.cpanm"\
- && rm -rf /var/lib/apt/lists/*
+# Tell the web application and bin/otobo.SetPermissions.pl that it runs in a container.
+# Note that this setting is essential for a correct migration from OTRS 6.
+ENV OTOBO_RUNS_UNDER_DOCKER 1
 
-# create the otobo user
-#   --user-group            create group 'otobo' and add the user to the created group
-#   --home-dir /opt/otobo   set $HOME of the user
-#   --create-home           create /opt/otobo
-#   --shell /bin/bash       set the login shell, not used here because otobo is system user
-#   --comment 'OTOBO user'  complete name of the user
-ENV OTOBO_USER  otobo
-ENV OTOBO_GROUP otobo
-ENV OTOBO_HOME  /opt/otobo
-RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER
+# the entrypoint is not in the volume
+ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
+
+# The regular build target, without Kerberop
+FROM base AS otobo-web
+
+# First there is some initial setup that needs to be done by root.
+USER root
+
+# No further Debian or CPAN packages are needed,
+# so we only need to do the cleanup
+RUN rm -rf /var/lib/apt/lists/*\
+ && rm -rf "$HOME/.cpanm"
 
 # Copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir.
 # The files that are set up in .dockerignore. This means that a potentially existing Kernel/Config.pm
@@ -93,23 +124,13 @@ RUN perl -Mlocal::lib=local
 ENV PERL5LIB "/opt/otobo/local/lib/perl5:${PERL5LIB}"
 ENV PATH "/opt/otobo/local/bin:${PATH}"
 
-# uncomment these steps when strange behavior must be investigated
-#RUN echo "'$OTOBO_HOME'"
-#RUN whoami
-#RUN pwd
-#RUN uname -a
-#RUN ls -A
-#RUN tree Kernel
-#RUN false
-
 # Make sure that /opt/otobo exists and is writable by $OTOBO_USER.
 # set up entrypoint.sh and docker_firsttime
 # Finally set permissions. Explicitly pass --runs-under-docker as
 # $ENV{OTOBO_RUNS_UNDER_DOCKER} is not yet set.
-RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
-    && install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh /opt/otobo_install/entrypoint.sh \
-    && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null docker_firsttime \
-    && perl bin/otobo.SetPermissions.pl --runs-under-docker
+RUN install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh /opt/otobo_install/entrypoint.sh\
+ && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null docker_firsttime\
+ && perl bin/otobo.SetPermissions.pl --runs-under-docker
 
 # perform build steps that can be done as the user otobo.
 USER $OTOBO_USER
@@ -147,28 +168,62 @@ RUN install -d var/stats var/packages var/article var/tmp \
 # For all other commands entrypoint.sh switches to the user otobo.
 WORKDIR $OTOBO_HOME
 
-# Tell the web application and bin/otobo.SetPermissions.pl that it runs in a container.
-# Note that this setting is essential for a correct migration from OTRS 6.
-ENV OTOBO_RUNS_UNDER_DOCKER 1
-
-# the entrypoint is not in the volume
-ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
-
-# Add some additional meta info to the image.
-# This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
-# The labels are compliant with https://github.com/opencontainers/image-spec/blob/master/annotations.md .
-# For the standard build args passed by hub.docker.com see https://docs.docker.com/docker-hub/builds/advanced/.
-LABEL maintainer='Team OTOBO <dev@otobo.org>'
-LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
-LABEL org.opencontainers.image.description='OTOBO is the new open source ticket system with strong functionality AND a great look'
-LABEL org.opencontainers.image.documentation='https://otobo.org'
-LABEL org.opencontainers.image.licenses='GNU General Public License v3.0 or later'
+# Titel is specific for the build target
 LABEL org.opencontainers.image.title='OTOBO'
-LABEL org.opencontainers.image.url=https://github.com/RotherOSS/otobo
-LABEL org.opencontainers.image.vendor='Rother OSS GmbH'
+
+# These labels change with every build
 ARG BUILD_DATE=unspecified
 LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.revision=$GIT_COMMIT
 LABEL org.opencontainers.image.source=$GIT_REPO
 ARG DOCKER_TAG=unspecified
 LABEL org.opencontainers.image.version=$DOCKER_TAG
+
+# This Dockerfile also provides for building images with additional support for Kerberos.
+# This image will be built when --target=otobo-web-kerberos is specified in the 'docker build' command.
+FROM base AS otobo-web-kerberos
+
+# First there is some initial setup that needs to be done by root.
+USER root
+
+# install Kerberos related Debian packages
+RUN apt-get update\
+ && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
+ "krb5-user"\
+ "libpam-krb5"\
+ "libpam-ccreds"\
+ "krb5-multidev"\
+ "libkrb5-dev"\
+ && rm -rf /var/lib/apt/lists/*
+
+# append extra modules needed for Kerberos
+WORKDIR /opt/otobo_install
+RUN cpanm --local-lib local Authen::Krb5::Simple\
+ && rm -rf "$HOME/.cpanm"
+
+# perform build steps that can be done as the user otobo.
+USER $OTOBO_USER
+
+# skipping /opt/otobo_install/local
+COPY --from=otobo-web\
+ /opt/otobo_install/cpanfile\
+ /opt/otobo_install/cpanfile.snapshot\
+ /opt/otobo_install/entrypoint.sh\
+ /opt/otobo_install
+COPY --from=otobo-web --chown=$OTOBO_USER:$OTOBO_GROUP\
+ /opt/otobo_install/otobo_next\
+ /opt/otobo_install/otobo_next
+
+WORKDIR $OTOBO_HOME
+
+# Titel is specific for the build target
+LABEL org.opencontainers.image.title='OTOBO Kerberos'
+
+# These labels change with every build
+ARG BUILD_DATE=unspecified
+LABEL org.opencontainers.image.created=$BUILD_DATE
+LABEL org.opencontainers.image.revision=$GIT_COMMIT
+LABEL org.opencontainers.image.source=$GIT_REPO
+ARG DOCKER_TAG=unspecified
+LABEL org.opencontainers.image.version=$DOCKER_TAG
+

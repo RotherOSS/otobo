@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Override the build hook of the automated builds on Docker Hub.
 # The build hook is running in the root of the git sandbox. That is the directory contaning the file RELEASE.
@@ -17,6 +17,19 @@
 #docker -v
 #printenv
 
+# The relevant Dockerfile and the target depend on the given Dockerfile.
+# Note that the give Dockerfile does not have to exist, only the
+# actually used Dockerfile must exist.
+ACTUAL_DOCKERFILE_PATH=$(case $DOCKERFILE_PATH in
+    otobo.kerberos.web.dockerfile) echo "otobo.web.dockerfile" ;;
+    *)                             echo $DOCKERFILE_PATH ;;
+esac)
+TARGET_OPTION=$(case $DOCKERFILE_PATH in
+    otobo.kerberos.web.dockerfile) echo "--target=otobo-web-kerberos" ;;
+    otobo.web.dockerfile)          echo "--target=otobo-web" ;;
+    *)                             echo "" ;;
+esac)
+
 # build the Docker image
 docker build\
  --build-arg "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"\
@@ -24,6 +37,7 @@ docker build\
  --build-arg "GIT_COMMIT=$SOURCE_COMMIT"\
  --build-arg "GIT_BRANCH=$SOURCE_BRANCH"\
  --build-arg "GIT_REPO=$(git config --get remote.origin.url)"\
- -f ./$BUILD_PATH/$DOCKERFILE_PATH\
+ -f ./$BUILD_PATH/$ACTUAL_DOCKERFILE_PATH\
  -t $IMAGE_NAME\
+ $TARGET_OPTION\
  ./$BUILD_PATH
