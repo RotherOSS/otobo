@@ -11,6 +11,9 @@ requires 'Archive::Zip';
 # Neater interface for capturing STDOUT and STDERR.
 requires 'Capture::Tiny';
 
+# correct and fast JSON support, used by Mojo::JSON
+requires 'Cpanel::JSON::XS';
+
 requires 'Date::Format';
 
 requires 'DateTime', ">= 1.08";
@@ -283,9 +286,6 @@ feature 'optional', 'Support for feature optional' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
 
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
-
     # Recommended for faster CSV handling.
     requires 'Text::CSV_XS';
 
@@ -355,12 +355,6 @@ feature 'optional', 'Support for feature optional' => sub {
 feature 'performance:csv', 'Support for feature performance:csv' => sub {
     # Recommended for faster CSV handling.
     requires 'Text::CSV_XS';
-
-};
-
-feature 'performance:json', 'Support for feature performance:json' => sub {
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
 
 };
 
