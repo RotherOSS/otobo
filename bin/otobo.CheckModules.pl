@@ -153,20 +153,19 @@ my %DistToInstType = (
 
 # defines a set of features considered standard for non docker environments
 my %IsStandardFeature = (
-    'apache:mod_perl'  => 1,
-    'db:mysql'         => 1,
-    'div:bcrypt'       => 1,
-    'div:hanextra'     => 1,
-    'div:ldap'         => 1,
-    'div:xmlparser'    => 1,
-    'div:xslt'         => 1,
-    'mail'             => 1,
-    'mail:imap'        => 1,
-    'mail:ntlm'        => 1,
-    'mail:sasl'        => 1,
-    'mail:ssl'         => 1,
-    'performance:csv'  => 1,
-    'performance:json' => 1,
+    'apache:mod_perl' => 1,
+    'db:mysql'        => 1,
+    'div:bcrypt'      => 1,
+    'div:hanextra'    => 1,
+    'div:ldap'        => 1,
+    'div:xmlparser'   => 1,
+    'div:xslt'        => 1,
+    'mail'            => 1,
+    'mail:imap'       => 1,
+    'mail:ntlm'       => 1,
+    'mail:sasl'       => 1,
+    'mail:ssl'        => 1,
+    'performance:csv' => 1,
 );
 
 # defines a set of features considered standard for docker environments
@@ -186,7 +185,6 @@ my %IsDockerFeature = (
     'mail:ntlm'          => 1,
     'mail:sasl'          => 1,
     'performance:csv'    => 1,
-    'performance:json'   => 1,
     'performance:redis'  => 1,
     'storage:s3'         => 1,
     'auth:openidconnect' => 1,
@@ -313,6 +311,18 @@ my @NeededModules = (
             emerge => 'dev-perl/Capture-Tiny',
             zypper => 'perl-Capture-Tiny',
             ports  => 'devel/p5-Capture-Tiny',
+        },
+    },
+    {
+        Module    => 'Cpanel::JSON::XS',
+        Required  => 1,
+        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
+        InstTypes => {
+            aptget => 'libcpanel-json-xs-perl',
+            emerge => 'dev-perl/Cpanel-JSON-XS',
+            yum    => 'perl-Cpanel-JSON-XS',
+            zypper => 'perl-Cpanel-JSON-XS',
+            ports  => 'converters/p5-Cpanel-JSON-XS',
         },
     },
     {
@@ -448,16 +458,10 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'Net::DNS',
-        Required             => 1,
-        VersionsNotSupported => [
-            {
-                Version => '0.60',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
-        ],
-        InstTypes => {
+        Module          => 'Net::DNS',
+        Required        => 1,
+        VersionRequired => '1.05',
+        InstTypes       => {
             aptget => 'libnet-dns-perl',
             emerge => 'dev-perl/Net-DNS',
             zypper => 'perl-Net-DNS',
@@ -766,18 +770,6 @@ my @NeededModules = (
     },
 
     # Feature performance
-    {
-        Module    => 'Cpanel::JSON::XS',
-        Features  => ['performance:json'],
-        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
-        InstTypes => {
-            aptget => 'libcpanel-json-xs-perl',
-            emerge => 'dev-perl/Cpanel-JSON-XS',
-            yum    => 'perl-Cpanel-JSON-XS',
-            zypper => 'perl-Cpanel-JSON-XS',
-            ports  => 'converters/p5-Cpanel-JSON-XS',
-        },
-    },
     {
         Module    => 'Text::CSV_XS',
         Comment   => 'Recommended for faster CSV handling.',
@@ -1305,20 +1297,9 @@ sub Check {
             Version => $Version,
         );
 
-        my $ErrorMessage;
-
-        # Test if all module dependencies are installed by requiring the module.
-        #   Don't do this for Net::DNS as it seems to take very long (>20s) in a
-        #   mod_perl environment sometimes.
-        my %DontRequire = (
-            'Net::DNS'     => 1,
-            'Email::Valid' => 1,    # uses Net::DNS internally
-        );
-
-        if ( !$DontRequire{ $Module->{Module} } ) {
-            if ( !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
-                $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
-            }
+        my $ErrorMessage = '';
+        if ( !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+            $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
 
         if ( $Module->{VersionsNotSupported} ) {
@@ -1370,8 +1351,7 @@ sub Check {
             );
 
             if ( $CleanedVersion < $RequiredModuleVersion ) {
-                $ErrorMessage
-                    .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
+                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
             }
         }
 
