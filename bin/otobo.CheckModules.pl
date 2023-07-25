@@ -448,16 +448,10 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'Net::DNS',
-        Required             => 1,
-        VersionsNotSupported => [
-            {
-                Version => '0.60',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
-        ],
-        InstTypes => {
+        Module          => 'Net::DNS',
+        Required        => 1,
+        VersionRequired => '1.05',
+        InstTypes       => {
             aptget => 'libnet-dns-perl',
             emerge => 'dev-perl/Net-DNS',
             zypper => 'perl-Net-DNS',
@@ -1305,20 +1299,9 @@ sub Check {
             Version => $Version,
         );
 
-        my $ErrorMessage;
-
-        # Test if all module dependencies are installed by requiring the module.
-        #   Don't do this for Net::DNS as it seems to take very long (>20s) in a
-        #   mod_perl environment sometimes.
-        my %DontRequire = (
-            'Net::DNS'     => 1,
-            'Email::Valid' => 1,    # uses Net::DNS internally
-        );
-
-        if ( !$DontRequire{ $Module->{Module} } ) {
-            if ( !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
-                $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
-            }
+        my $ErrorMessage = '';
+        if ( !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+            $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
 
         if ( $Module->{VersionsNotSupported} ) {
@@ -1370,8 +1353,7 @@ sub Check {
             );
 
             if ( $CleanedVersion < $RequiredModuleVersion ) {
-                $ErrorMessage
-                    .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
+                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
             }
         }
 
