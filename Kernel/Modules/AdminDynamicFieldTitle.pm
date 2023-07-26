@@ -82,7 +82,7 @@ sub _Add {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my %GetParam;
-    for my $Needed (qw(ObjectType FieldType FieldOrder Namespace)) {
+    for my $Needed (qw(ObjectType FieldType FieldOrder)) {
         $GetParam{$Needed} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(

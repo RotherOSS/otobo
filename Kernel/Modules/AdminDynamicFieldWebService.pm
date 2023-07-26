@@ -144,7 +144,7 @@ sub _Add {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my %GetParam;
-    for my $Needed (qw(ObjectType FieldType FieldOrder Namespace)) {
+    for my $Needed (qw(ObjectType FieldType FieldOrder)) {
         $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
