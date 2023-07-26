@@ -9,10 +9,9 @@
 # I have found no better way than to first compile NGINX in a BUILDER container and then copy the
 # finished ngx_http_auth_spnego_module.so into the NGINX container.
 # If anyone knows a nicer way, please share.
-
+#
 # builder-for-kerberos used to create a dynamic spnego auth module
 # https://gist.github.com/hermanbanken/96f0ff298c162a522ddbba44cad31081
-
 FROM nginx:mainline AS builder-for-kerberos
 
 ENV SPNEGO_AUTH_COMMIT_ID=v1.1.1
@@ -113,7 +112,7 @@ FROM base AS otobo-nginx
 
 # Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
 # Kerberos support. The not needed template is moved out of the way.
-RUN mv templates/otobo_nginx.conf.template templates/otobo_nginx.conf.template.hidden
+RUN mv templates/otobo_nginx-kerberos.conf.template templates/otobo_nginx-kerberos.conf.template.hidden
 
 LABEL org.opencontainers.image.title='OTOBO nginx'
 
