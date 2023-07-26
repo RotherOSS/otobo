@@ -867,6 +867,9 @@ sub ReadableValueRender {
         @Values = ( $Param{Value} );
     }
 
+    # convert undef to empty string
+    @Values = map { $_ // '' } @Values;
+
     # set item separator
     my $ItemSeparator = ', ';
 
@@ -1167,9 +1170,12 @@ sub ColumnFilterValuesGet {
     # set PossibleValues
     my $SelectionData = $FieldConfig->{PossibleValues};
 
+    # article uses the same routine as ticket
+    my $ObjectType = $FieldConfig->{ObjectType} eq 'Article' ? 'Ticket' : $FieldConfig->{ObjectType};
+
     # get column filter values from database
-    my $ColumnFilterValues = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
-        TicketIDs => $Param{TicketIDs},
+    my $ColumnFilterValues = $Kernel::OM->Get("Kernel::System::${ObjectType}::ColumnFilter")->DynamicFieldFilterValuesGet(
+        %Param,
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
     );

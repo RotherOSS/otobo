@@ -551,7 +551,7 @@ sub ValueSet {
     my $DynamicFieldObjectHandler = 'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
 
     # If an ObjectType handler is registered and has a PreValueSet method, use it.
-    if ( ref $Self->{$DynamicFieldObjectHandler} && $Self->{$DynamicFieldObjectHandler}->can('PreValueSet')) {
+    if ( ref $Self->{$DynamicFieldObjectHandler} && $Self->{$DynamicFieldObjectHandler}->can('PreValueSet') ) {
         return if !$Self->{$DynamicFieldObjectHandler}->PreValueSet(
             OldValue => $OldValue,
             Param    => \%Param,
@@ -2821,7 +2821,7 @@ sub ColumnFilterValuesGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig LayoutObject TicketIDs)) {
+    for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -2830,6 +2830,18 @@ sub ColumnFilterValuesGet {
 
             return;
         }
+    }
+
+    my $ObjectType = $Param{DynamicFieldConfig}{ObjectType} eq 'Article' ? 'Ticket' : $Param{DynamicFieldConfig}{ObjectType};
+
+    # special check for object type ids
+    if ( !$Param{"${ObjectType}IDs"} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need ${ObjectType}IDs!"
+        );
+
+        return;
     }
 
     # check DynamicFieldConfig (general)
@@ -2994,6 +3006,5 @@ sub Evaluate {
     # call Evaluate of the specific backend
     return $Self->{$DynamicFieldBackend}->Evaluate(%Param);
 }
-
 
 1;

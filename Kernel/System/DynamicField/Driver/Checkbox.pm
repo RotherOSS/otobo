@@ -1062,9 +1062,12 @@ sub ColumnFilterValuesGet {
         1 => 'Checked',
     };
 
+    # article uses the same routine as ticket
+    my $ObjectType = $Param{DynamicFieldConfig}{ObjectType} eq 'Article' ? 'Ticket' : $Param{DynamicFieldConfig}{ObjectType};
+
     # get column filter values from database
-    my $ColumnFilterValues = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
-        TicketIDs => $Param{TicketIDs},
+    my $ColumnFilterValues = $Kernel::OM->Get("Kernel::System::${ObjectType}::ColumnFilter")->DynamicFieldFilterValuesGet(
+        %Param,
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Integer',
     );
