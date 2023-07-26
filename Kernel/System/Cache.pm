@@ -123,8 +123,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # 0=off; 1=set+get_cache; 2=+delete+get_request;
     $Self->{Debug} = $Param{Debug} || 0;
@@ -223,9 +222,9 @@ sub Set {
     if ( $Param{Type} !~ m{ \A [a-zA-Z0-9_]+ \z}smx ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  =>
-                "Cache Type '$Param{Type}' contains invalid characters, use [a-zA-Z0-9_] only!",
+            Message  => "Cache Type '$Param{Type}' contains invalid characters, use [a-zA-Z0-9_] only!",
         );
+
         return;
     }
 
@@ -314,6 +313,8 @@ sub Get {
     # set in-memory cache
     if ( defined $Value ) {
         if ( $Self->{CacheInMemory} && ( $Param{CacheInMemory} // 1 ) ) {
+
+            # this means that the next Get() will be served from the in-memory cache.
             $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} } = $Value;
         }
     }
