@@ -54,8 +54,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL} = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 3600;
@@ -481,7 +480,7 @@ sub DynamicFieldUpdate {
     # this should not be the case if Reorder => 0 is set
     # consider adding removing the condition and adding Reorder to the event data
     # if we ever need an event to act on fields being only reordered
-    if ( $Reorder ) {
+    if ($Reorder) {
         $Self->EventHandler(
             Event => 'DynamicFieldUpdate',
             Data  => {
@@ -585,7 +584,7 @@ get DynamicField list ordered by the the "Field Order" field in the DB
 
     my $List = $DynamicFieldObject->DynamicFieldList();
 
-    or
+or
 
     my $List = $DynamicFieldObject->DynamicFieldList(
         Valid => 0,             # optional, defaults to 1
@@ -605,7 +604,6 @@ get DynamicField list ordered by the the "Field Order" field in the DB
         },
 
         Namespace => 'Namespace', # optional, Namespace as string
-
     );
 
 Returns:
@@ -617,7 +615,7 @@ Returns:
         4 => 'ItemFour',
     };
 
-    or
+or
 
     $List = (
         1,
@@ -886,42 +884,42 @@ sub DynamicFieldList {
 
 =head2 DynamicFieldListGet()
 
-get DynamicField list with complete data ordered by the "Field Order" field in the DB
+get list of valid dynamic fields with complete data ordered by the "Field Order" field in the DB
 
-    my $List = $DynamicFieldObject->DynamicFieldListGet();
+    my $List = $DynamicFieldObject->DynamicFieldListGet;
 
-    or
+Additional restrictions can be applied:
 
     my $List = $DynamicFieldObject->DynamicFieldListGet(
         Valid        => 0,            # optional, defaults to 1
 
         # object  type (optional) as STRING or as ARRAYREF
+        # The special object type 'All' places no restriction on the object type.
         ObjectType => 'Ticket',
         ObjectType => ['Ticket', 'Article'],
 
-        FieldFilter => {        # optional, only active fields (non 0) will be returned
+        FieldFilter => {        # optional, filter by name of the dynamic field
             nameforfield => 1,
             fieldname    => 2,
             other        => 0,
             otherfield   => 0,
         },
-
     );
 
 Returns:
 
-    $List = (
+    $List = [
         {
-            ID          => 123,
+            ID            => 123,
             InternalField => 0,
-            Name        => 'nameforfield',
-            Label       => 'The label to show',
-            FieldType   => 'Text',
-            ObjectType  => 'Article',
-            Config      => $ConfigHashRef,
-            ValidID     => 1,
-            CreateTime  => '2011-02-08 15:08:00',
-            ChangeTime  => '2011-06-11 17:22:00',
+            Name          => 'nameforfield',
+            Label         => 'The label to show',
+            FieldType     => 'Text',
+            ObjectType    => 'Article',
+            Config        => $ConfigHashRef,
+            ValidID       => 1,
+            CreateTime    => '2011-02-08 15:08:00',
+            ChangeTime    => '2011-06-11 17:22:00',
         },
         {
             ID            => 321,
@@ -936,7 +934,7 @@ Returns:
             ChangeTime    => '2011-01-01 01:01:01',
         },
         ...
-    );
+    ];
 
 =cut
 
@@ -980,6 +978,7 @@ sub DynamicFieldListGet {
                 Priority => 'error',
                 Message  => 'FieldFilter must be a HASH reference!',
             );
+
             return;
         }
 
@@ -1001,7 +1000,6 @@ sub DynamicFieldListGet {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my @Data;
     my $SQL = 'SELECT id, name, field_order FROM dynamic_field';
 
     if ($Valid) {
@@ -1044,19 +1042,15 @@ sub DynamicFieldListGet {
 
     return if !$DBObject->Prepare( SQL => $SQL );
 
+    # Fetch first the list of IDs,
+    # as DynamicFieldGet() might use Kernell::System::DB as well
     my @DynamicFieldIDs;
-
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @DynamicFieldIDs, $Row[0];
+    while ( my ($ID) = $DBObject->FetchrowArray ) {
+        push @DynamicFieldIDs, $ID;
     }
 
-    for my $ItemID (@DynamicFieldIDs) {
-
-        my $DynamicField = $Self->DynamicFieldGet(
-            ID => $ItemID,
-        );
-        push @Data, $DynamicField;
-    }
+    # Fetch the list of hashrefs
+    my @Data = map { $Self->DynamicFieldGet( ID => $_ ) } @DynamicFieldIDs;
 
     # set cache
     $CacheObject->Set(
@@ -1067,12 +1061,10 @@ sub DynamicFieldListGet {
     );
 
     # check if FieldFilter is not set
-    if ( !defined $Param{FieldFilter} ) {
+    return \@Data unless defined $Param{FieldFilter};
 
-        # return raw data from DB
-        return \@Data;
-    }
-    elsif ( ref $Param{FieldFilter} ne 'HASH' ) {
+    # check sanity of the field name filter
+    if ( ref $Param{FieldFilter} ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'FieldFilter must be a HASH reference!',
@@ -1080,8 +1072,8 @@ sub DynamicFieldListGet {
         return;
     }
 
+    # Filter by dynamic field name
     my $FilteredData;
-
     DYNAMICFIELD:
     for my $DynamicFieldConfig (@Data) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1341,14 +1333,14 @@ sub ObjectMappingGet {
     return unless $DBObject->Prepare(
         SQL  => $SQL,
         Bind => [
-            \keys %LookupValues,
+            \keys %LookupValues,    # creates a list of references
             \$Param{ObjectType},
         ],
     );
 
     my %ObjectMapping;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
-        $ObjectMapping{ $Data[0] } = $Data[1];
+    while ( my ( $Key, $Value ) = $DBObject->FetchrowArray ) {
+        $ObjectMapping{$Key} = $Value;
     }
 
     # set cache
