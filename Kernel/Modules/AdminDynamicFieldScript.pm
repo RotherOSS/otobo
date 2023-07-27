@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -66,7 +66,7 @@ sub Run {
 
     my %ConditionHashes;
     if ( IsArrayRefWithData( $PossibleConditions->{PossibleArgs} ) ) {
-        $ConditionHashes{PossibleArgs}         = { map { $_ => $_ } $PossibleConditions->{PossibleArgs}->@* };
+        $ConditionHashes{PossibleArgs} = { map { $_ => $_ } $PossibleConditions->{PossibleArgs}->@* };
     }
     if ( IsArrayRefWithData( $PossibleConditions->{PossibleAJAXTriggers} ) ) {
         $ConditionHashes{PossibleAJAXTriggers} = { map { $_ => $_ } $PossibleConditions->{PossibleAJAXTriggers}->@* };
@@ -118,6 +118,7 @@ sub _Add {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my %GetParam;
     for my $Needed (qw(ObjectType FieldType FieldOrder)) {
@@ -129,11 +130,20 @@ sub _Add {
         }
     }
 
+    $GetParam{Namespace} = $ParamObject->GetParam( Param => 'Namespace' );
+
     # get the object type and field type display name
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
     my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName}
         || '';
     my $FieldTypeName = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName} || '';
+
+    # check namespace validity
+    my $Namespaces = $ConfigObject->Get('DynamicField::Namespaces');
+    my $Namespace  = '';
+    if ( IsArrayRefWithData($Namespaces) && $GetParam{Namespace} ) {
+        $Namespace = ( grep { $_ eq $GetParam{Namespace} } $Namespaces->@* ) ? $GetParam{Namespace} : '';
+    }
 
     return $Self->_ShowScreen(
         %Param,
@@ -142,6 +152,7 @@ sub _Add {
         BreadcrumbText => $LayoutObject->{LanguageObject}->Translate( 'Add %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
         ObjectTypeName => $ObjectTypeName,
         FieldTypeName  => $FieldTypeName,
+        Namespace      => $Namespace,
     );
 }
 
@@ -162,6 +173,24 @@ sub _AddAction {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
+    if ( $GetParam{FieldOrder} ) {
+
+        # check if field order is numeric and positive
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # add server error error class
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    for my $ConfigParam (
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip Link LinkPreview Expression MultiValue Namespace)
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
     if ( $GetParam{Name} ) {
 
         # check if name is alphanumeric
@@ -172,6 +201,8 @@ sub _AddAction {
             $Errors{NameServerErrorMessage} =
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
+
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # check if name is duplicated
         my %DynamicFieldsList = %{
@@ -191,24 +222,6 @@ sub _AddAction {
         }
     }
 
-    if ( $GetParam{FieldOrder} ) {
-
-        # check if field order is numeric and positive
-        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # add server error error class
-            $Errors{FieldOrderServerError}        = 'ServerError';
-            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip Link LinkPreview Expression MultiValue)
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
-    }
-
     for my $ConfigParam (
         qw(RequiredArgs AJAXTriggers UpdateEvents)
         )
@@ -225,21 +238,21 @@ sub _AddAction {
         );
     }
     for my $Arg ( $GetParam{RequiredArgs}->@* ) {
-        if ( !$Param{PossibleArgs}{ $Arg } ) {
+        if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in RequiredArgs.'),
             );
         }
     }
     for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
-        if ( !$Param{PossibleAJAXTriggers}{ $Trigger } ) {
+        if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in AJAXTriggers.'),
             );
         }
     }
     for my $Event ( $GetParam{UpdateEvents}->@* ) {
-        if ( !$Param{PossibleUpdateEvents}{ $Event } ) {
+        if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in UpdateEvents.'),
             );
@@ -252,7 +265,7 @@ sub _AddAction {
             %Param,
             %Errors,
             %GetParam,
-            Mode             => 'Add',
+            Mode => 'Add',
         );
     }
 
@@ -272,8 +285,8 @@ sub _AddAction {
             %FieldConfig,
             Readonly => 1,
         },
-        ValidID    => $GetParam{ValidID},
-        UserID     => $Self->{UserID},
+        ValidID => $GetParam{ValidID},
+        UserID  => $Self->{UserID},
     );
 
     if ( !$FieldID ) {
@@ -395,6 +408,24 @@ sub _ChangeAction {
         );
     }
 
+    if ( $GetParam{FieldOrder} ) {
+
+        # check if field order is numeric and positive
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # add server error error class
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    for my $ConfigParam (
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip Link LinkPreview Interpreter Expression MultiValue Namespace)
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
     if ( $GetParam{Name} ) {
 
         # check if name is lowercase
@@ -405,6 +436,8 @@ sub _ChangeAction {
             $Errors{NameServerErrorMessage} =
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
+
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # check if name is duplicated
         my %DynamicFieldsList = %{
@@ -441,24 +474,6 @@ sub _ChangeAction {
         }
     }
 
-    if ( $GetParam{FieldOrder} ) {
-
-        # check if field order is numeric and positive
-        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # add server error error class
-            $Errors{FieldOrderServerError}        = 'ServerError';
-            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip Link LinkPreview Interpreter Expression MultiValue)
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
-    }
-
     for my $ConfigParam (
         qw(RequiredArgs AJAXTriggers UpdateEvents)
         )
@@ -473,21 +488,21 @@ sub _ChangeAction {
         );
     }
     for my $Arg ( $GetParam{RequiredArgs}->@* ) {
-        if ( !$Param{PossibleArgs}{ $Arg } ) {
+        if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in RequiredArgs.'),
             );
         }
     }
     for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
-        if ( !$Param{PossibleAJAXTriggers}{ $Trigger } ) {
+        if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in AJAXTriggers.'),
             );
         }
     }
     for my $Event ( $GetParam{UpdateEvents}->@* ) {
-        if ( !$Param{PossibleUpdateEvents}{ $Event } ) {
+        if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in UpdateEvents.'),
             );
@@ -550,8 +565,8 @@ sub _ChangeAction {
             %FieldConfig,
             Readonly => 1,
         },
-        ValidID    => $GetParam{ValidID},
-        UserID     => $Self->{UserID},
+        ValidID => $GetParam{ValidID},
+        UserID  => $Self->{UserID},
     );
 
     if ( !$UpdateSuccess ) {
@@ -626,11 +641,21 @@ sub _ChangeAction {
 sub _ShowScreen {
     my ( $Self, %Param ) = @_;
 
+    my $Namespace = $Param{Namespace};
     $Param{DisplayFieldName} = 'New';
 
     if ( $Param{Mode} eq 'Change' ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
+
+        # check for namespace
+        if ( $Param{Name} =~ /(.*)-(.*)/ ) {
+            $Namespace = $1;
+            $Param{PlainFieldName} = $2;
+        }
+        else {
+            $Param{PlainFieldName} = $Param{Name};
+        }
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -700,6 +725,26 @@ sub _ShowScreen {
         Class      => 'Modernize W50pc',
     );
 
+    my $NamespaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
+    if ( IsArrayRefWithData($NamespaceList) ) {
+        my $NamespaceStrg = $LayoutObject->BuildSelection(
+            Data          => $NamespaceList,
+            Name          => 'Namespace',
+            SelectedValue => $Namespace || '',
+            PossibleNone  => 1,
+            Translation   => 0,
+            Sort          => 'AlphanumericValue',
+            Class         => 'Modernize W75pc',
+        );
+
+        $LayoutObject->Block(
+            Name => 'DynamicFieldNamespace',
+            Data => {
+                NamespaceStrg => $NamespaceStrg,
+            },
+        );
+    }
+
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
     # create the Validity select
@@ -737,6 +782,7 @@ sub _ShowScreen {
     );
 
     if ( $Param{PossibleArgs} ) {
+
         # create the Required select
         my $RequiredStrg = $LayoutObject->BuildSelection(
             Data         => $Param{PossibleArgs},
@@ -758,6 +804,7 @@ sub _ShowScreen {
     }
 
     if ( $Param{PossibleAJAXTriggers} ) {
+
         # create the Trigger select
         my $AJAXStrg = $LayoutObject->BuildSelection(
             Data         => $Param{PossibleAJAXTriggers},
@@ -779,6 +826,7 @@ sub _ShowScreen {
     }
 
     if ( $Param{PossibleUpdateEvents} ) {
+
         # create the Trigger select
         my $EventStrg = $LayoutObject->BuildSelection(
             Data         => $Param{PossibleUpdateEvents},
@@ -903,6 +951,5 @@ sub _ShowScreen {
 
     return $Output;
 }
-
 
 1;
