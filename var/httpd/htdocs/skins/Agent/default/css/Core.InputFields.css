@@ -103,9 +103,9 @@ div.InputField_InputContainer {
         max-width: 300px;
     }
 
-    fieldset.TableLike > .Row > .FieldCell > .Field > select.Modernize,
-    fieldset.TableLike > .Row > .FieldCell > .Field > input.W75pc,
-    fieldset.TableLike > .Row > .FieldCell > .Field > input.W50pc,
+    fieldset.TableLike .Row > .FieldCell > .Field > select.Modernize,
+    fieldset.TableLike .Row > .FieldCell > .Field > input.W75pc,
+    fieldset.TableLike .Row > .FieldCell > .Field > input.W50pc,
     fieldset.TableLike .FieldCell > .Field > div.InputField_Container > div.InputField_InputContainer > .InputField_Search,
     fieldset.TableLike .FieldCell > .Field > div.InputField_Container > div.InputField_InputContainer > .InputField_Autocomplete {
         min-width: 300px;
@@ -232,9 +232,13 @@ div.Row.Row_DynamicField div.MultiColumn > div.MultiValueItem > label {
 
 /* TODO: Add real style */
 fieldset.DynamicFieldSet {
-    border: 1px solid #777;
-    padding: 8px;
     width: 600px;
+    padding: 8px;
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #C9C9C9;
+    border-top-color: #C0C0C0;
+    box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
 }
 
 a.InputField_Action {
