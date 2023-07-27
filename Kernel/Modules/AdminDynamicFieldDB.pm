@@ -94,6 +94,8 @@ sub _Add {
         }
     }
 
+    $GetParam{Namespace} = $ParamObject->GetParam( Param => 'Namespace' );
+
     # Get the object type and field type display name.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -102,7 +104,10 @@ sub _Add {
 
     # check namespace validity
     my $Namespaces = $ConfigObject->Get('DynamicField::Namespaces');
-    my $Namespace  = ( grep { $_ eq $GetParam{Namespace} } $Namespaces->@* ) ? $GetParam{Namespace} : '';
+    my $Namespace  = '';
+    if ( IsArrayRefWithData($Namespaces) && $GetParam{Namespace} ) {
+        $Namespace = ( grep { $_ eq $GetParam{Namespace} } $Namespaces->@* ) ? $GetParam{Namespace} : '';
+    }
 
     return $Self->_ShowScreen(
         %Param,
@@ -656,7 +661,8 @@ sub _ShowScreen {
             Name          => 'Namespace',
             SelectedValue => $Namespace || '',
             PossibleNone  => 1,
-            Translation   => 1,
+            Translation   => 0,
+            Sort          => 'AlphanumericValue',
             Class         => 'Modernize W75pc',
         );
 

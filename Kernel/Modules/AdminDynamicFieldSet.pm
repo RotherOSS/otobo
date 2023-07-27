@@ -82,10 +82,11 @@ sub _Add {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my %GetParam;
     for my $Needed (qw(ObjectType FieldType FieldOrder)) {
-        $GetParam{$Needed} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Needed );
+        $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Needed ),
@@ -93,11 +94,20 @@ sub _Add {
         }
     }
 
+    $GetParam{Namespace} = $ParamObject->GetParam( Param => 'Namespace' );
+
     # get the object type and field type display name
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
     my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName}
         || '';
     my $FieldTypeName = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName} || '';
+
+    # check namespace validity
+    my $Namespaces = $ConfigObject->Get('DynamicField::Namespaces');
+    my $Namespace  = '';
+    if ( IsArrayRefWithData($Namespaces) && $GetParam{Namespace} ) {
+        $Namespace = ( grep { $_ eq $GetParam{Namespace} } $Namespaces->@* ) ? $GetParam{Namespace} : '';
+    }
 
     return $Self->_ShowScreen(
         %Param,
@@ -106,6 +116,7 @@ sub _Add {
         BreadcrumbText => $LayoutObject->{LanguageObject}->Translate( 'Add %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
         ObjectTypeName => $ObjectTypeName,
         FieldTypeName  => $FieldTypeName,
+        Namespace      => $Namespace,
     );
 }
 
@@ -706,7 +717,8 @@ sub _ShowScreen {
             Name          => 'Namespace',
             SelectedValue => $Namespace || '',
             PossibleNone  => 1,
-            Translation   => 1,
+            Translation   => 0,
+            Sort          => 'AlphanumericValue',
             Class         => 'Modernize W50pc',
         );
 

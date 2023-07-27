@@ -112,6 +112,7 @@ sub _Add {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my %GetParam;
     for my $Needed (qw(ObjectType FieldType FieldOrder)) {
@@ -123,8 +124,9 @@ sub _Add {
         }
     }
 
+    $GetParam{Namespace} = $ParamObject->GetParam( Param => 'Namespace' );
+
     # extract field type specific parameters, e.g. MultiValue
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
         my $Name = $Setting->{ConfigParamName};
         $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
@@ -134,6 +136,13 @@ sub _Add {
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
     my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
     my $FieldTypeName  = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName}      || '';
+
+    # check namespace validity
+    my $Namespaces = $ConfigObject->Get('DynamicField::Namespaces');
+    my $Namespace  = '';
+    if ( IsArrayRefWithData($Namespaces) && $GetParam{Namespace} ) {
+        $Namespace = ( grep { $_ eq $GetParam{Namespace} } $Namespaces->@* ) ? $GetParam{Namespace} : '';
+    }
 
     return $Self->_ShowScreen(
         %Param,
@@ -690,7 +699,8 @@ sub _ShowScreen {
             Name          => 'Namespace',
             SelectedValue => $Namespace || '',
             PossibleNone  => 1,
-            Translation   => 1,
+            Translation   => 0,
+            Sort          => 'AlphanumericValue',
             Class         => 'Modernize W50pc',
         );
 
