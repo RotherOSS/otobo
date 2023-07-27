@@ -38,6 +38,9 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
+    'Kernel::System::Cache',
+    'Kernel::System::DynamicField',
+    'Kernel::System::Event',
 );
 
 =head1 NAME
@@ -67,7 +70,7 @@ sub new {
         'IsStatsCondition'             => 1,
         'IsCustomerInterfaceCapable'   => 1,
         'IsLikeOperatorCapable'        => 1,
-        'IsScriptField' => 1,
+        'IsScriptField'                => 1,
     };
 
     return $Self;
@@ -129,7 +132,7 @@ sub ValueValidate {
     my $Success;
     for my $Item (@Values) {
         $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
-            Value => $Item,
+            Value  => $Item,
             UserID => $Param{UserID}
         );
         return if !$Success;
@@ -323,7 +326,7 @@ sub EditFieldValueGet {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
             my @Data;
 
-            for my $Item ( @DataAll ) {
+            for my $Item (@DataAll) {
 
                 push @Data, $Item;
             }
@@ -366,10 +369,11 @@ sub EditFieldValueValidate {
 
     # perform necessary validations
     if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        $Value = [ $Value ];
+        $Value = [$Value];
     }
 
-    for my $ValueItem ( @{ $Value } ) {
+    for my $ValueItem ( @{$Value} ) {
+
         # perform necessary validations
         if ( $Param{Mandatory} && $ValueItem eq '' ) {
             $ServerError = 1;
@@ -394,8 +398,8 @@ sub DisplayValueRender {
     }
 
     # get raw Title and Value strings from field value
-    my $Value = '';
-    my $Title = '';
+    my $Value         = '';
+    my $Title         = '';
     my $ValueMaxChars = $Param{ValueMaxChars} || '';
     my $TitleMaxChars = $Param{TitleMaxChars} || '';
 
@@ -772,7 +776,7 @@ sub ValueLookup {
 
 returns a hash consisting of the possible requirements and trigger events
 
-    my $List = $DynamicFieldBackendObject->GetExecutionConditions(
+    my $List = $DynamicFieldBackendObject->GetPossibleExecutionConditions(
         ObjectType => 'Ticket',
     );
 
@@ -801,7 +805,7 @@ sub GetPossibleExecutionConditions {
     my $ObjectType;
     my @Attributes;
     if ( $Param{ObjectType} eq 'Ticket' || $Param{ObjectType} eq 'Article' ) {
-        $ObjectType = [ qw(Ticket Article) ];
+        $ObjectType = [qw(Ticket Article)];
         @Attributes = (
             qw/Type Queue Service/,
         );
@@ -828,7 +832,7 @@ sub GetPossibleExecutionConditions {
     delete $List->{ $Param{FieldID} } if $Param{FieldID};
 
     return {
-        PossibleArgs         => [
+        PossibleArgs => [
             ( map { 'DynamicField_' . $_ } values $List->%* ),
             @Attributes,
         ],
@@ -837,7 +841,7 @@ sub GetPossibleExecutionConditions {
             @Attributes,
         ],
         PossibleUpdateEvents => \@PossibleUpdateEvents,
-    }
+    };
 }
 
 =head2 SetUpdateEvents()
@@ -879,8 +883,8 @@ sub SetUpdateEvents {
     return 1 if !$Param{Events};
 
     return if !$DBObject->Do(
-        SQL  => 'INSERT INTO dynamic_field_script_event( field_id, event ) VALUES ' . join( ', ', map { '( ?, ? )' } $Param{Events}->@* ),
-        Bind => [ map { \$Param{FieldID}, \$_ } $Param{Events}->@* ],
+        SQL  => 'INSERT INTO dynamic_field_script_event( field_id, event ) VALUES ' . join( ', ', map {'( ?, ? )'} $Param{Events}->@* ),
+        Bind => [ map { \$Param{FieldID} => \$_ } $Param{Events}->@* ],    # use '=>' in map action, because Perl::Critic was confused
     );
 
     return 1;
@@ -913,7 +917,7 @@ sub GetUpdateEvents {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     return if !$DBObject->Prepare(
-        SQL  => 'SELECT event, field_id from dynamic_field_script_event',
+        SQL => 'SELECT event, field_id from dynamic_field_script_event',
     );
 
     my %Events;
