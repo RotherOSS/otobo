@@ -100,12 +100,21 @@ sub ValueGet {
         ObjectID => $Param{ObjectID},
     );
 
-    return $Self->ValueStructureFromDB(
+    my $Value = $Self->ValueStructureFromDB(
         ValueDB    => $DFValue,
         ValueKey   => $Self->{ValueKey},
         Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
     );
+
+    return $Value unless $Param{ForLens};
+
+    # for usage in lenses we might have to interpret the values to be usable for their ValueGet()
+    my $PluginObject = $Self->_GetObjectTypePlugin(
+        ObjectType => $Param{DynamicFieldConfig}{Config}{ReferencedObjectType},
+    );
+
+    return $PluginObject->can('ValueForLens') ? $PluginObject->ValueForLens( Value => $Value ) : $Value;
 }
 
 sub ValueSet {
@@ -393,6 +402,31 @@ sub EditFieldRender {
 
     }
 
+    if ( $Param{AJAXUpdate} ) {
+
+        my $FieldSelector = '#' . $FieldName;
+
+        my $FieldsToUpdate = '';
+        if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
+
+            # Remove current field from updatable fields list
+            my @FieldsToUpdate = grep { $_ ne $FieldName } @{ $Param{UpdatableFields} };
+
+            # quote all fields, put commas in between them
+            $FieldsToUpdate = join( ', ', map {"'$_'"} @FieldsToUpdate );
+        }
+
+        # add js to call FormUpdate()
+        $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");
+\$('$FieldSelector').bind('change', function (Event) {
+    Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
+});
+Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
+    var FieldName = '$FieldName';
+});
+EOF
+    }
+
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
@@ -454,7 +488,14 @@ sub EditFieldValueGet {
     }
 
     # for this field the normal return an the ReturnValueStructure are the same
-    return $Value;
+    return $Value unless $Param{ForLens};
+
+    # for usage in lenses we might have to interpret the values to be usable for their ValueGet()
+    my $PluginObject = $Self->_GetObjectTypePlugin(
+        ObjectType => $Param{DynamicFieldConfig}{Config}{ReferencedObjectType},
+    );
+
+    return $PluginObject->can('ValueForLens') ? $PluginObject->ValueForLens( Value => $Value ) : $Value;
 }
 
 sub EditFieldValueValidate {

@@ -40,6 +40,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -94,7 +95,10 @@ sub ValueGet {
     my $ReferencedObjectID = $Self->_GetReferencedObjectID(
         ObjectID               => $Param{ObjectID},
         LensDynamicFieldConfig => $LensDFConfig,
+        EditFieldValue         => $Param{UseReferenceEditField},
     );
+
+    return if !$ReferencedObjectID;
 
     my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
@@ -111,10 +115,15 @@ sub ValueSet {
 
     my $LensDFConfig = $Param{DynamicFieldConfig};
 
+    # as we are already saving we trust, that the reference edit field has been validated
     my $ReferencedObjectID = $Self->_GetReferencedObjectID(
         ObjectID               => $Param{ObjectID},
         LensDynamicFieldConfig => $LensDFConfig,
+        EditFieldValue         => 1,
     );
+
+    # TODO: Do we want to log this?
+    return if !$ReferencedObjectID;
 
     my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
@@ -135,9 +144,14 @@ sub ValueSet {
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    # there is nothing to validate, as all is in the config
-    # TODO: delegate to the referenced field
-    return 1;
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $Param{DynamicFieldConfig},
+    );
+
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueValidate(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
 }
 
 sub SearchSQLGet {
@@ -180,22 +194,16 @@ sub EditFieldRender {
         LensDynamicFieldConfig => $LensDFConfig,
     );
 
-    # Call EditLabelRender on the common Driver.
     # The edit field should be rendered like the attribute of the referenced object,
-    # But the name should be that of the Lens dynamic field.
-    $AttributeDFConfig->{Name} = $LensDFConfig->{Name};
+    # But name and Label should be that of the Lens dynamic field.
+    $AttributeDFConfig->{Name}  = $LensDFConfig->{Name};
+    $AttributeDFConfig->{Label} = $LensDFConfig->{Label};
     my $AttributeFieldHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldRender(
         %Param,
         DynamicFieldConfig => $AttributeDFConfig,
     );
 
-    return unless $AttributeFieldHTML;
-
-    # But show the label of the Lens dynamic field
-    return {
-        Field => $AttributeFieldHTML->{Field},
-        Label => $LensDFConfig->{Label},
-    };
+    return $AttributeFieldHTML;
 }
 
 sub EditFieldValueGet {
@@ -500,7 +508,73 @@ sub HistoricalValuesGet {
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    return $Param{Key} // '';
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $Param{DynamicFieldConfig},
+    );
+
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueLookup(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
+}
+
+sub ValueIsDifferent {
+    my ( $Self, %Param ) = @_;
+
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $Param{DynamicFieldConfig},
+    );
+
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueIsDifferent(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
+}
+
+sub HasBehavior {
+    my ( $Self, %Param ) = @_;
+
+    # TODO: Think about additional behaviors we can just adopt from the attribute field
+    # for certain behaviors instead use the attribute field behaviors
+    if ( grep { $Param{Behavior} } qw/IsACLReducible/ ) {
+        my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+            LensDynamicFieldConfig => $Param{DynamicFieldConfig},
+        );
+
+        return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
+            %Param,
+            DynamicFieldConfig => $AttributeDFConfig,
+        );
+    }
+
+    # return success if the dynamic field has the expected behavior
+    return IsPositiveInteger( $Self->{Behaviors}->{ $Param{Behavior} } );
+}
+
+sub PossibleValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $Param{DynamicFieldConfig},
+    );
+
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->PossibleValuesGet(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
+}
+
+sub BuildSelectionDataGet {
+    my ( $Self, %Param ) = @_;
+
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $Param{DynamicFieldConfig},
+    );
+
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->BuildSelectionDataGet(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
 }
 
 =head1 internal methods
@@ -513,15 +587,15 @@ A dynamic field configuration that can be used as a delegate.
 
 =cut
 
+#TODO: in CI definitions store the definition id or df configs in the lens config and use this one instead of the current df configs
 sub _GetReferenceDFConfig {
     my ( $Self, %Param ) = @_;
 
-    my $LensDFConfig  = $Param{LensDynamicFieldConfig};
-    my $ReferenceDFID = $LensDFConfig->{Config}->{ReferenceDF};
-
-    return $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-        ID => $ReferenceDFID,
+    $Self->{ReferenceDFCache}{ $Param{LensDynamicFieldConfig}{ID} } //= $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+        ID => $Param{LensDynamicFieldConfig}{Config}{ReferenceDF},
     );
+
+    return $Self->{ReferenceDFCache}{ $Param{LensDynamicFieldConfig}{ID} };
 }
 
 =head2 _GetAttributeDFConfig()
@@ -533,12 +607,11 @@ A dynamic field configuration that can be used as a delegate.
 sub _GetAttributeDFConfig {
     my ( $Self, %Param ) = @_;
 
-    my $LensDFConfig  = $Param{LensDynamicFieldConfig};
-    my $AttributeDFID = $LensDFConfig->{Config}->{AttributeDF};
-
-    return $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-        ID => $AttributeDFID,
+    $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} } //= $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+        ID => $Param{LensDynamicFieldConfig}{Config}{AttributeDF},
     );
+
+    return $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} };
 }
 
 =head2 _GetReferencedObjectID()
@@ -552,16 +625,25 @@ sub _GetReferencedObjectID {
 
     # extract params
     my $LensDFConfig = $Param{LensDynamicFieldConfig};
-    my $ObjectID     = $Param{ObjectID};
 
     # Get the dynamic field config for the referenced object
     my $ReferenceDFConfig = $Self->_GetReferenceDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
     );
 
+    if ( $Param{EditFieldValue} ) {
+        return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
+            DynamicFieldConfig => $ReferenceDFConfig,
+            ParamObject        => $Kernel::OM->Get('Kernel::System::Web::Request'),
+            TransformDates     => 0,
+            ForLens            => 1,
+        );
+    }
+
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $ReferenceDFConfig,
-        ObjectID           => $ObjectID,
+        ObjectID           => $Param{ObjectID},
+        ForLens            => 1,
     );
 }
 

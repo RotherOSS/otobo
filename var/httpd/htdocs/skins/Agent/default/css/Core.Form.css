@@ -756,12 +756,12 @@ fieldset.TableLike > .Row > .FieldCell label {
     color: #929292;
 }
 
-fieldset.TableLike > .Row > .FieldCell > .Field > select,
-fieldset.TableLike > .Row > .FieldCell > .Field > input,
-fieldset.TableLike > .Field > select,
-fieldset.TableLike > .Row > .Field > select,
-fieldset.TableLike > .Field > input,
-fieldset.TableLike > .Row > .Field > input {
+fieldset.TableLike .Row > .FieldCell > .Field > select,
+fieldset.TableLike .Row > .FieldCell > .Field > input,
+fieldset.TableLike .Field > select,
+fieldset.TableLike .Row > .Field > select,
+fieldset.TableLike .Field > input,
+fieldset.TableLike .Row > .Field > input {
     max-width: 100%;
     border-radius: 4px;
 }

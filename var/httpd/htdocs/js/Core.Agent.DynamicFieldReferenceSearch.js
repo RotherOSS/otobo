@@ -213,8 +213,14 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
             return false;
         }
 
+        var OldValue = $('#' + ValueField).val();
+
         $('#' + ValueField).val(ContactKey);
         $('#' + Field).val(ContactValue);
+
+        if ( ContactKey != OldValue ) {
+            $('#' + ValueField).trigger('change');
+        }
 
         return true;
     };
