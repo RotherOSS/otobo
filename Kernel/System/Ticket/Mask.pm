@@ -30,6 +30,7 @@ use Kernel::Language qw(Translatable);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
+    'Kernel::System::DynamicField',
     'Kernel::System::Log',
     'Kernel::System::YAML',
 );
@@ -97,7 +98,7 @@ sub DefinitionSet {
     return {
         Success => 0,
         Error   => Translatable('Base structure is not valid. Please provide an array with data in YAML format.'),
-    } if !IsArrayRefWithData( $DefinitionRef );
+    } if !IsArrayRefWithData($DefinitionRef);
 
     # TODO: Introduce some checks on $DefinitionRef syntax
 
@@ -122,7 +123,7 @@ sub DefinitionSet {
     }
 
     $Self->DefinitionDelete(
-        Mask      => $Param{Mask},
+        Mask => $Param{Mask},
     );
 
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
@@ -266,17 +267,17 @@ sub _DefinitionDynamicFieldGet {
 
     for my $Key ( keys %ContentHash ) {
         if ( $Key eq 'DF' ) {
-            $DynamicFields{ $ContentHash{ $Key } } = \%ContentHash;
+            $DynamicFields{ $ContentHash{$Key} } = \%ContentHash;
         }
-        elsif ( ref $ContentHash{ $Key } ) {
+        elsif ( ref $ContentHash{$Key} ) {
             %DynamicFields = (
                 %DynamicFields,
-                $Self->_DefinitionDynamicFieldGet( DefinitionPerl => $ContentHash{ $Key } ),
+                $Self->_DefinitionDynamicFieldGet( DefinitionPerl => $ContentHash{$Key} ),
             );
         }
     }
 
-    for my $Entry ( @ContentArray ) {
+    for my $Entry (@ContentArray) {
         if ( ref $Entry ) {
             %DynamicFields = (
                 %DynamicFields,
@@ -296,20 +297,20 @@ sub _DefinitionDynamicFieldGet {
 
             return {
                 Success => 0,
-                Error   => sprintf( Translatable( 'No dynamic field "%s".' ), $Name ),
+                Error   => sprintf( Translatable('No dynamic field "%s".'), $Name ),
             } if !$DynamicField;
 
             return {
                 Success => 0,
-                Error   => sprintf( Translatable( 'Dynamic field "%s" not valid.' ), $Name ),
+                Error   => sprintf( Translatable('Dynamic field "%s" not valid.'), $Name ),
             } if !$DynamicField->{ValidID} eq '1';
 
             # Dynamic field has to be listed even without parameters
-            $ReturnDynamicFields{ $Name } = undef;
+            $ReturnDynamicFields{$Name} = undef;
 
-            for my $Attribute ( qw/Mandatory Label Readonly/ ) {
-                if ( defined $DynamicFields{ $Name }{ $Attribute } ) {
-                    $ReturnDynamicFields{ $Name }{ $Attribute } = $DynamicFields{ $Name }{ $Attribute };
+            for my $Attribute (qw/Mandatory Label Readonly/) {
+                if ( defined $DynamicFields{$Name}{$Attribute} ) {
+                    $ReturnDynamicFields{$Name}{$Attribute} = $DynamicFields{$Name}{$Attribute};
                 }
             }
         }
@@ -317,7 +318,7 @@ sub _DefinitionDynamicFieldGet {
         return {
             Success       => 1,
             DynamicFields => \%ReturnDynamicFields,
-        }
+        };
     }
 
     return %DynamicFields;

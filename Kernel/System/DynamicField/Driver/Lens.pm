@@ -40,6 +40,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME

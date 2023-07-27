@@ -110,7 +110,7 @@
                         </div>
 [% IF Data.Error %]
                         <div class="Field">
-                            <p class="Error">[% Translate(Data.Error) %]</p>
+                            <p class="Error">[% Translate(Data.Error) | html %]</p>
                         </div>
 [% END %]
                         <div class="Clear"></div>

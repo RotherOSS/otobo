@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -66,7 +66,7 @@ sub Run {
 
     my %ConditionHashes;
     if ( IsArrayRefWithData( $PossibleConditions->{PossibleArgs} ) ) {
-        $ConditionHashes{PossibleArgs}         = { map { $_ => $_ } $PossibleConditions->{PossibleArgs}->@* };
+        $ConditionHashes{PossibleArgs} = { map { $_ => $_ } $PossibleConditions->{PossibleArgs}->@* };
     }
     if ( IsArrayRefWithData( $PossibleConditions->{PossibleAJAXTriggers} ) ) {
         $ConditionHashes{PossibleAJAXTriggers} = { map { $_ => $_ } $PossibleConditions->{PossibleAJAXTriggers}->@* };
@@ -225,21 +225,21 @@ sub _AddAction {
         );
     }
     for my $Arg ( $GetParam{RequiredArgs}->@* ) {
-        if ( !$Param{PossibleArgs}{ $Arg } ) {
+        if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in RequiredArgs.'),
             );
         }
     }
     for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
-        if ( !$Param{PossibleAJAXTriggers}{ $Trigger } ) {
+        if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in AJAXTriggers.'),
             );
         }
     }
     for my $Event ( $GetParam{UpdateEvents}->@* ) {
-        if ( !$Param{PossibleUpdateEvents}{ $Event } ) {
+        if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in UpdateEvents.'),
             );
@@ -252,7 +252,7 @@ sub _AddAction {
             %Param,
             %Errors,
             %GetParam,
-            Mode             => 'Add',
+            Mode => 'Add',
         );
     }
 
@@ -272,8 +272,8 @@ sub _AddAction {
             %FieldConfig,
             Readonly => 1,
         },
-        ValidID    => $GetParam{ValidID},
-        UserID     => $Self->{UserID},
+        ValidID => $GetParam{ValidID},
+        UserID  => $Self->{UserID},
     );
 
     if ( !$FieldID ) {
@@ -473,21 +473,21 @@ sub _ChangeAction {
         );
     }
     for my $Arg ( $GetParam{RequiredArgs}->@* ) {
-        if ( !$Param{PossibleArgs}{ $Arg } ) {
+        if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in RequiredArgs.'),
             );
         }
     }
     for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
-        if ( !$Param{PossibleAJAXTriggers}{ $Trigger } ) {
+        if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in AJAXTriggers.'),
             );
         }
     }
     for my $Event ( $GetParam{UpdateEvents}->@* ) {
-        if ( !$Param{PossibleUpdateEvents}{ $Event } ) {
+        if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in UpdateEvents.'),
             );
@@ -550,8 +550,8 @@ sub _ChangeAction {
             %FieldConfig,
             Readonly => 1,
         },
-        ValidID    => $GetParam{ValidID},
-        UserID     => $Self->{UserID},
+        ValidID => $GetParam{ValidID},
+        UserID  => $Self->{UserID},
     );
 
     if ( !$UpdateSuccess ) {
@@ -737,6 +737,7 @@ sub _ShowScreen {
     );
 
     if ( $Param{PossibleArgs} ) {
+
         # create the Required select
         my $RequiredStrg = $LayoutObject->BuildSelection(
             Data         => $Param{PossibleArgs},
@@ -758,6 +759,7 @@ sub _ShowScreen {
     }
 
     if ( $Param{PossibleAJAXTriggers} ) {
+
         # create the Trigger select
         my $AJAXStrg = $LayoutObject->BuildSelection(
             Data         => $Param{PossibleAJAXTriggers},
@@ -779,6 +781,7 @@ sub _ShowScreen {
     }
 
     if ( $Param{PossibleUpdateEvents} ) {
+
         # create the Trigger select
         my $EventStrg = $LayoutObject->BuildSelection(
             Data         => $Param{PossibleUpdateEvents},
@@ -903,6 +906,5 @@ sub _ShowScreen {
 
     return $Output;
 }
-
 
 1;
