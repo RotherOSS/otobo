@@ -54,20 +54,13 @@ sub new {
                 ConfigParamName => 'ReferenceDF',
                 Label           => Translatable('The referenced DF'),
                 Explanation     => Translatable('Select the DF that references an object'),
-                InputType       => 'Integer',
+                InputType       => 'Text',
             },
             {
                 ConfigParamName => 'AttributeDF',
                 Label           => Translatable('The attribute DF of the referenced object'),
                 Explanation     => Translatable('Select the attribute DF that references an object'),
-                InputType       => 'Integer',
-            },
-            {
-                ConfigParamName => 'MultiValue',
-                Label           => Translatable('Multiple Values'),
-                Explanation     => Translatable('Activate this option to allow multiple values for this field.'),
-                InputType       => 'Selection',
-                SelectionData   => \%MultiValueSelectionData,
+                InputType       => 'Text',
             },
         ],
     };
@@ -239,16 +232,6 @@ sub _AddAction {
         );
     }
 
-    # return to add screen if errors
-    if (%Errors) {
-        return $Self->_ShowScreen(
-            %Param,
-            %Errors,
-            %GetParam,
-            Mode => 'Add',
-        );
-    }
-
     # set specific config
     my %FieldConfig = (
         Tooltip => $GetParam{Tooltip},
@@ -260,6 +243,34 @@ sub _AddAction {
             my $Name = $Setting->{ConfigParamName};
             $FieldConfig{$Name} = $GetParam{$Name};
         }
+    }
+
+    # store the name for easier ajax evaluation
+    $FieldConfig{ReferenceDFName} = 'DynamicField_' . $FieldConfig{ReferenceDF};
+
+    for my $ConfigDF ( qw/ReferenceDF AttributeDF/ ) {
+        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+            Name => $FieldConfig{$ConfigDF},
+        );
+
+        # TODO: Show error message
+        if ( !$DynamicField ) {
+            $Errors{ $ConfigDF . 'ServerError' }            = 'ServerError';
+            $Errors{ $ConfigDF . 'NameServerErrorMessage' } = Translatable('Not a valid dynamic field.');
+        }
+
+        # store the ID
+        $FieldConfig{$ConfigDF} = $DynamicField->{ID};
+    }
+
+    # return to add screen if errors
+    if (%Errors) {
+        return $Self->_ShowScreen(
+            %Param,
+            %Errors,
+            %GetParam,
+            Mode => 'Add',
+        );
     }
 
     # create a new field
@@ -288,8 +299,9 @@ sub _AddAction {
 sub _Change {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     my %GetParam;
     for my $Needed (qw(ObjectType FieldType)) {
@@ -314,7 +326,7 @@ sub _Change {
     }
 
     # get dynamic field data
-    my $DynamicFieldData = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+    my $DynamicFieldData = $DynamicFieldObject->DynamicFieldGet(
         ID => $FieldID,
     );
 
@@ -332,6 +344,17 @@ sub _Change {
     if ( IsHashRefWithData( $DynamicFieldData->{Config} ) ) {
         %Config = $DynamicFieldData->{Config}->%*;
     }
+
+    # show dynamic field names instead of IDs
+    for my $ConfigDF ( qw/ReferenceDF AttributeDF/ ) {
+        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+            ID => $Config{$ConfigDF},
+        );
+
+        # translate to name
+        $Config{$ConfigDF} = $DynamicField->{Name};
+    }
+
 
     return $Self->_ShowScreen(
         %Param,
@@ -494,17 +517,6 @@ sub _ChangeAction {
         }
     }
 
-    # return to change screen if errors
-    if (%Errors) {
-        return $Self->_ShowScreen(
-            %Param,
-            %Errors,
-            %GetParam,
-            ID   => $FieldID,
-            Mode => 'Change',
-        );
-    }
-
     # set specific config
     my %FieldConfig = (
         Tooltip => $GetParam{Tooltip},
@@ -516,6 +528,35 @@ sub _ChangeAction {
             my $Name = $Setting->{ConfigParamName};
             $FieldConfig{$Name} = $ParamObject->GetParam( Param => $Name );
         }
+    }
+
+    # store the name for easier ajax evaluation
+    $FieldConfig{ReferenceDFName} = 'DynamicField_' . $FieldConfig{ReferenceDF};
+
+    for my $ConfigDF ( qw/ReferenceDF AttributeDF/ ) {
+        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+            Name => $FieldConfig{$ConfigDF},
+        );
+
+        # TODO: Show error message
+        if ( !$DynamicField ) {
+            $Errors{ $ConfigDF . 'ServerError' }            = 'ServerError';
+            $Errors{ $ConfigDF . 'NameServerErrorMessage' } = Translatable('Not a valid dynamic field.');
+        }
+
+        # store the ID
+        $FieldConfig{$ConfigDF} = $DynamicField->{ID};
+    }
+
+    # return to change screen if errors
+    if (%Errors) {
+        return $Self->_ShowScreen(
+            %Param,
+            %Errors,
+            %GetParam,
+            ID   => $FieldID,
+            Mode => 'Change',
+        );
     }
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -675,7 +716,7 @@ sub _ShowScreen {
             my $Name = $Setting->{ConfigParamName};
 
             my $FieldStrg;
-            if ( $Setting->{InputType} eq 'Integer' ) {
+            if ( $Setting->{InputType} eq 'Text' ) {
 
                 # TODO: proper HTML builder
                 $FieldStrg = sprintf

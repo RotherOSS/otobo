@@ -355,6 +355,53 @@ sub GetFieldStates {
             next DYNAMICFIELD;
         }
 
+        # reset lenses with their current values when their reference changes or they reappear
+        if ( $DynamicFieldConfig->{FieldType} eq 'Lens' &&
+            ( $Param{ChangedElements}{ $DynamicFieldConfig->{Config}{ReferenceDFName} } ||
+            ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DynamicFieldConfig->{Name}"} == 0 ) )
+        ) {
+            my $AttributeFieldValue;
+            my $PossibleValues;
+
+            # get the current value of the referenced attribute field if an object is referenced
+            if ( $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } ) {
+                $AttributeFieldValue = $Param{DynamicFieldBackendObject}->ValueGet(
+                    DynamicFieldConfig    => $DynamicFieldConfig,
+                    # TODO: Instead we could just send $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } as ObjectID
+                    # but we would need to interpret it later (from ConfigItemID to LastVersionID, e.g.)
+                    # TODO: Validate the Reference ObjectID here, or earlier, to prevent data leaks!
+                    ObjectID              => 1, # will not be used;
+                    UseReferenceEditField => 1,
+                );
+            }
+
+            # set the new value if it differs
+            if (
+                $Param{DynamicFieldBackendObject}->ValueIsDifferent(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value1             => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    Value2             => $AttributeFieldValue,
+                )
+            ) {
+                $DFParam->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $AttributeFieldValue;
+                $NewValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $AttributeFieldValue;
+
+                # if this field is non ACL reducible, set the field values
+                if ( !$IsACLReducible ) {
+                    $Fields{$i} = {
+                        Name            => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                        PossibleValues  => undef,
+                        NotACLReducible => 1,
+                    };
+                }
+            }
+
+            next DYNAMICFIELD if !$IsACLReducible;
+
+            # if we are ACL reducible make sure to also get the possible values
+            $Param{ACLPreselection}{Rules}{Ticket}{ $DynamicFieldConfig->{Config}{ReferenceDFName} }{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = 1;
+        }
+
         # skip non ACL reducible fields...
         if ( !$IsACLReducible ) {
 
