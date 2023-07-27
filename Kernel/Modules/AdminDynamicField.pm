@@ -294,9 +294,10 @@ sub _ShowOverview {
         my $DynamicFieldNamespaceStrg = $LayoutObject->BuildSelection(
             Data         => $Namespaces,
             Name         => 'DynamicFieldNamespace',
-            PossibleNone => 1,
-            Sort         => 'AlphanumericValue',
             SelectedID   => $NamespaceFilter,
+            PossibleNone => 1,
+            Translation  => 0,
+            Sort         => 'AlphanumericValue',
             Class        => 'Modernize W95pc',
         );
 
@@ -336,8 +337,13 @@ sub _ShowOverview {
         $ObjectTypeFilterArrayRef = $ObjectTypeFilter ? [$ObjectTypeFilter] : undef;
     }
 
-    # get dynamic fields list
-    my $DynamicFieldsList = $DynamicFieldObject->DynamicFieldList(
+    # get complete dynamic fields list
+    my $DynamicFieldsListAll = $DynamicFieldObject->DynamicFieldList(
+        Valid => 0,
+    );
+
+    # get filtered dynamic fields list
+    my $DynamicFieldsListFiltered = $DynamicFieldObject->DynamicFieldList(
         ObjectType => $ObjectTypeFilterArrayRef,
         Namespace  => $NamespaceFilter,
         Valid      => 0,
@@ -345,8 +351,9 @@ sub _ShowOverview {
 
     # print the list of dynamic fields
     $Self->_DynamicFieldsListShow(
-        DynamicFields => $DynamicFieldsList,
-        Total         => scalar @{$DynamicFieldsList},
+        DynamicFields => $DynamicFieldsListFiltered,
+        Total         => scalar @{$DynamicFieldsListFiltered},
+        MaxFieldOrder => scalar @{$DynamicFieldsListAll},
     );
 
     $Output .= $LayoutObject->Output(
@@ -499,7 +506,7 @@ sub _DynamicFieldsListShow {
     $LayoutObject->Block(
         Name => 'MaxFieldOrder',
         Data => {
-            MaxFieldOrder => scalar @{ $Param{DynamicFields} },
+            MaxFieldOrder => $Param{MaxFieldOrder},
         },
     );
 
