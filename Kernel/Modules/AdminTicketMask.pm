@@ -170,7 +170,7 @@ sub Run {
             $LayoutObject->NavigationBar(),
             $LayoutObject->Output(
                 TemplateFile => 'AdminTicketMask',
-                Data => {
+                Data         => {
                     MaskOptionStrg => $MaskOptionStrg,
                 },
             ),
@@ -217,7 +217,7 @@ sub _MaskChange {
         $Param{LayoutObject}->NavigationBar(),
         $Param{LayoutObject}->Output(
             TemplateFile => 'AdminTicketMask',
-            Data => {
+            Data         => {
                 MaskOptionStrg => $MaskOptionStrg,
                 MaskSelected   => $Param{Mask},
                 Edit           => 1,

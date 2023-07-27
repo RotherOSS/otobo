@@ -402,7 +402,6 @@ sub EditFieldRender {
 
     }
 
-
     if ( $Param{AJAXUpdate} ) {
 
         my $FieldSelector = '#' . $FieldName;

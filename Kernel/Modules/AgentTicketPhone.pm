@@ -61,7 +61,7 @@ sub new {
             my $Parameters = delete $Definition->{DynamicFields}{ $DynamicField->{Name} } // {};
 
             for my $Attribute ( keys $Parameters->%* ) {
-                $DynamicField->{ $Attribute } = $Parameters->{ $Attribute };
+                $DynamicField->{$Attribute} = $Parameters->{$Attribute};
             }
         }
         else {
@@ -78,10 +78,10 @@ sub new {
             Name => $DynamicFieldName,
         );
 
-        my $Parameters = $Definition->{DynamicFields}{ $DynamicFieldName } // {};
+        my $Parameters = $Definition->{DynamicFields}{$DynamicFieldName} // {};
 
         for my $Attribute ( keys $Parameters->%* ) {
-            $Self->{DynamicField}[-1]{ $Attribute } = $Parameters->{ $Attribute };
+            $Self->{DynamicField}[-1]{$Attribute} = $Parameters->{$Attribute};
         }
     }
 
@@ -743,7 +743,8 @@ sub Run {
 
             # otherwise (on a new ticket). Check if the user has a user specific default value for
             # the dynamic field, otherwise will use Dynamic Field default value
-            elsif( !$DynamicFieldConfig->{Readonly} ) {
+            elsif ( !$DynamicFieldConfig->{Readonly} ) {
+
                 # get default value from dynamic field config (if any)
                 $Value = $DynamicFieldConfig->{Config}->{DefaultValue} || '';
 

@@ -248,7 +248,7 @@ sub _AddAction {
     # store the name for easier ajax evaluation
     $FieldConfig{ReferenceDFName} = 'DynamicField_' . $FieldConfig{ReferenceDF};
 
-    for my $ConfigDF ( qw/ReferenceDF AttributeDF/ ) {
+    for my $ConfigDF (qw/ReferenceDF AttributeDF/) {
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
             Name => $FieldConfig{$ConfigDF},
         );
@@ -346,7 +346,7 @@ sub _Change {
     }
 
     # show dynamic field names instead of IDs
-    for my $ConfigDF ( qw/ReferenceDF AttributeDF/ ) {
+    for my $ConfigDF (qw/ReferenceDF AttributeDF/) {
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
             ID => $Config{$ConfigDF},
         );
@@ -354,7 +354,6 @@ sub _Change {
         # translate to name
         $Config{$ConfigDF} = $DynamicField->{Name};
     }
-
 
     return $Self->_ShowScreen(
         %Param,
@@ -533,7 +532,7 @@ sub _ChangeAction {
     # store the name for easier ajax evaluation
     $FieldConfig{ReferenceDFName} = 'DynamicField_' . $FieldConfig{ReferenceDF};
 
-    for my $ConfigDF ( qw/ReferenceDF AttributeDF/ ) {
+    for my $ConfigDF (qw/ReferenceDF AttributeDF/) {
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
             Name => $FieldConfig{$ConfigDF},
         );

@@ -59,8 +59,9 @@ sub new {
     my $Self = bless {}, $Type;
 
     $Self->{CacheObject} = $Kernel::OM->Get('Kernel::System::Cache');
+
     # TODO: probably needs completion for all frontends
-    $Self->{Uniformity}  = {
+    $Self->{Uniformity} = {
         Dest => 'Queue',
     };
 
@@ -183,6 +184,7 @@ sub GetFieldStates {
         # check whether form-ACLs are affected by any of the changed elements
         ELEMENT:
         for my $Element ( sort keys %{ $Param{ChangedElements} } ) {
+
             # autovivification could be avoided
             if ( $Param{ACLPreselection}{Rules}{Form}{$Element} ) {
                 $VisCheck = 1;
@@ -249,10 +251,12 @@ sub GetFieldStates {
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Behavior           => 'IsScriptField',
             )
-        ) {
-            $Queue //= defined $Param{GetParam}{Queue} ? $Param{GetParam}{Queue}
+            )
+        {
+            $Queue //= defined $Param{GetParam}{Queue}
+                ? $Param{GetParam}{Queue}
                 : $Param{GetParam}{Dest} && $Param{GetParam}{Dest} =~ /\|\|(.+)$/ ? $1
-                : undef;
+                :                                                                   undef;
 
             my %GetParam = (
                 Queue => $Queue,
@@ -261,20 +265,20 @@ sub GetFieldStates {
 
             # the required args have to be present
             for my $Required ( @{ $DynamicFieldConfig->{Config}{RequiredArgs} // [] } ) {
-                my $Value = $GetParam{DynamicField}{ $Required } // $GetParam{ $Required };
+                my $Value = $GetParam{DynamicField}{$Required} // $GetParam{$Required};
 
-                next DYNAMICFIELD if !$Value || ( ref $Value && !IsArrayRefWithData( $Value ) );
+                next DYNAMICFIELD if !$Value || ( ref $Value && !IsArrayRefWithData($Value) );
             }
 
-            my %ChangedElements = map { $Self->{Uniformity}{ $_ } // $_ => 1 } keys $Param{ChangedElements}->%*;
-            delete $ChangedElements{ 'DynamicField_' . $DynamicFieldConfig->{Name}};
+            my %ChangedElements = map { $Self->{Uniformity}{$_} // $_ => 1 } keys $Param{ChangedElements}->%*;
+            delete $ChangedElements{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
 
             # skip if it's only a rerun due to self change
             next DYNAMICFIELD if !%ChangedElements && !$Param{InitialRun};
 
             # if specific AJAX triggers are defined only update on changes to them...
             if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{AJAXTriggers} ) ) {
-                next DYNAMICFIELD if !any { $ChangedElements{ $_ } } $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
+                next DYNAMICFIELD if !any { $ChangedElements{$_} } $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
             }
 
             # ...if not, only check in the first run
@@ -282,11 +286,10 @@ sub GetFieldStates {
                 next DYNAMICFIELD;
             }
 
-
             next DYNAMICFIELD if IsArrayRefWithData( $DynamicFieldConfig->{Config}{AJAXTriggers} )
                 && !$Param{InitialRun}
-                && !any { $ChangedElements{ $Self->{Uniformity}{ $_ } // $_ } }
-                    $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
+                && !any { $ChangedElements{ $Self->{Uniformity}{$_} // $_ } }
+            $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
 
             my $NewValue = $Param{DynamicFieldBackendObject}->Evaluate(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -356,21 +359,28 @@ sub GetFieldStates {
         }
 
         # reset lenses with their current values when their reference changes or they reappear
-        if ( $DynamicFieldConfig->{FieldType} eq 'Lens' &&
-            ( $Param{ChangedElements}{ $DynamicFieldConfig->{Config}{ReferenceDFName} } ||
-            ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DynamicFieldConfig->{Name}"} == 0 ) )
-        ) {
+        if (
+            $DynamicFieldConfig->{FieldType} eq 'Lens'
+            &&
+            (
+                $Param{ChangedElements}{ $DynamicFieldConfig->{Config}{ReferenceDFName} }
+                ||
+                ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DynamicFieldConfig->{Name}"} == 0 )
+            )
+            )
+        {
             my $AttributeFieldValue;
             my $PossibleValues;
 
             # get the current value of the referenced attribute field if an object is referenced
             if ( $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } ) {
                 $AttributeFieldValue = $Param{DynamicFieldBackendObject}->ValueGet(
-                    DynamicFieldConfig    => $DynamicFieldConfig,
+                    DynamicFieldConfig => $DynamicFieldConfig,
+
                     # TODO: Instead we could just send $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } as ObjectID
                     # but we would need to interpret it later (from ConfigItemID to LastVersionID, e.g.)
                     # TODO: Validate the Reference ObjectID here, or earlier, to prevent data leaks!
-                    ObjectID              => 1, # will not be used;
+                    ObjectID              => 1,    # will not be used;
                     UseReferenceEditField => 1,
                 );
             }
@@ -382,7 +392,8 @@ sub GetFieldStates {
                     Value1             => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"},
                     Value2             => $AttributeFieldValue,
                 )
-            ) {
+                )
+            {
                 $DFParam->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $AttributeFieldValue;
                 $NewValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $AttributeFieldValue;
 
