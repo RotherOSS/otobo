@@ -39,7 +39,10 @@ Kernel::System::JSON - JSON lib that wraps Cpanel::JSON::XS
 
 =head1 DESCRIPTION
 
-Functions for encoding perl data structures to JSON.
+Provide support for serializing Perl data structures to JSON
+and for deserializing JSON to Perl data structures.
+
+Also included are helper methods for dealing with boolean values.
 
 =head1 PUBLIC INTERFACE
 
