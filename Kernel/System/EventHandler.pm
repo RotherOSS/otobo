@@ -20,6 +20,11 @@ package Kernel::System::EventHandler;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our $ObjectManagerDisabled = 1;
@@ -173,7 +178,7 @@ sub EventHandler {
     my $Modules = $Kernel::OM->Get('Kernel::Config')->Get( $Self->{EventHandlerInit}->{Config} );
 
     # return if there is no one
-    return 1 if !$Modules;
+    return 1 unless $Modules;
 
     # remember events only on normal mode
     if ( !$Self->{EventHandlerTransaction} ) {
@@ -189,6 +194,7 @@ sub EventHandler {
 
         # If the module has an event configuration, determine if it should be executed for this event,
         #   and store the result in a small cache to avoid repetition on jobs involving many tickets.
+        #   Values in the cache are either the number 1 or the empty string q{}.
         if ( !defined $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } ) {
             if ( !$Modules->{$Module}->{Event} ) {
                 $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } = 1;
