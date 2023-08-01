@@ -109,8 +109,6 @@ sub EditSectionRender {
         }
     }
 
-    my $TemplateFile = $Param{CustomerInterface} ? 'DynamicField/CustomerEditField' : 'DynamicField/AgentEditField';
-
     if ( !IsArrayRefWithData( $Param{Content} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -119,6 +117,8 @@ sub EditSectionRender {
 
         return;
     }
+
+    my $TemplateFile = $Param{CustomerInterface} ? 'DynamicField/CustomerEditField' : 'DynamicField/AgentEditField';
 
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
@@ -276,10 +276,10 @@ sub EditSectionRender {
                 MultiValue  => $DynamicField->{Config}{MultiValue},
                 RowReadonly => $RowReadonly,
                 CellClasses => $CellClassString,
-                Label       => $DynamicFieldHTML->{Label},
             );
 
             # multi value
+            # The label is show only for the first value
             if ( $DynamicField->{Config}{MultiValue} ) {
                 for my $ValueRowIndex ( 0 .. $#{ $DynamicFieldHTML->{MultiValue} } ) {
                     push $ValueGrid[$ValueRowIndex]->@*, {
@@ -287,6 +287,7 @@ sub EditSectionRender {
                         Data => {
                             %CellBlockData,
                             Field       => $DynamicFieldHTML->{MultiValue}[$ValueRowIndex],
+                            Label       => ( $ValueRowIndex == 0 ? $DynamicFieldHTML->{Label} : q{} ),
                             Index       => $ValueRowIndex,
                             CellClasses => $CellClassString . ' MultiValue_' . $ValueRowIndex,
                         },
