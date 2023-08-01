@@ -173,7 +173,7 @@ sub Run {
             $Avatar = '//www.gravatar.com/avatar/' . md5_hex( lc $CustomerUser{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
         }
         else {
-            $UserInitials = substr( $CustomerUser{UserFirstName}, 0, 1 ) . substr( $CustomerUser{UserLastName}, 0, 1 );
+            $UserInitials = substr( $CustomerUser{UserFirstname}, 0, 1 ) . substr( $CustomerUser{UserLastname}, 0, 1 );
         }
 
         # gather categories to be shown
