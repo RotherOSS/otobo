@@ -221,7 +221,6 @@ sub EditFieldRender {
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value = $Param{Value} // '';
 
@@ -373,6 +372,7 @@ EOF
     }
 
     # call EditLabelRender on the common Driver
+    # only a single label is returned, even for MultiValue fields
     my $LabelString = $Self->EditLabelRender(
         %Param,
         Mandatory => $Param{Mandatory} || '0',
