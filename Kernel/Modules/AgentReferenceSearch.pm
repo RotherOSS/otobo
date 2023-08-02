@@ -50,14 +50,15 @@ sub Run {
         },
     ) if $Self->{Subaction};
 
-    # Get name of the DF from $ParamObject, bail out when not found
+    # Get name of the dynamic field from $ParamObject, bail out when not found.
+    # The multi value fields are marked by a trailing qr{_\d+}.
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $Field       = $ParamObject->GetParam( Param => 'Field' );
-    my $DFName;
+    my $FieldName;
     if (
         !$Field
         ||
-        $Field !~ m{ \A (?: Autocomplete | Search ) _DynamicField_ (.*) \z }xms
+        $Field !~ m{ \A (?: Autocomplete | Search ) _DynamicField_ (.*?) (?:_\d+)? \z }xms
         )
     {
         return $LayoutObject->JSONReply(
@@ -68,12 +69,12 @@ sub Run {
         );
     }
     else {
-        $DFName = $1;    # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
+        $FieldName = $1;    # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
     }
 
     # Get config for the dynamic field and check the sanity.
     my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-        Name => $DFName,
+        Name => $FieldName,
     );
     if (
         !IsHashRefWithData($DynamicFieldConfig)
@@ -84,7 +85,7 @@ sub Run {
         return $LayoutObject->JSONReply(
             Data => {
                 Success  => 0,
-                Messsage => 'Error reading dynamic field!',
+                Messsage => qq{Error reading the dynamic field '$FieldName'!},
             }
         );
     }
@@ -104,7 +105,6 @@ sub Run {
     }
 
     # create a plugin object
-    # TODO: maybe use a module like Kernel::System::DynamicFieldReference.pm
     my $PluginObject = $PluginModule->new;
     if ( !$PluginObject ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

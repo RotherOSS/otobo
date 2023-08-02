@@ -30,8 +30,8 @@ use parent qw(Kernel::System::DynamicField::Driver::Base);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsHashRefWithData IsStringWithData);
 use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -297,7 +297,9 @@ sub EditFieldRender {
     }
     $Value = $Param{Value} // $Value;
 
-    # extract the dynamic field value from the web request
+    # Extract the dynamic field value from the web request and set it if present. Do this after
+    #   stored value is retrieved and processed, so it can be overridden if form has refreshed for
+    #   some reasons (i.e. attachment has been uploaded). See bug#12453 for more information.
     my $FieldValue = $Self->EditFieldValueGet(
         %Param,
     );
@@ -320,7 +322,7 @@ sub EditFieldRender {
     }
 
     # check and set class if necessary
-    my $FieldClass = "$Self->{FieldCSSClass} W50pc";    # for field specific JS
+    my $FieldClass = "$Self->{FieldCSSClass} Modernize";    # for field specific JS
     if ( defined $Param{Class} && $Param{Class} ne '' ) {
         $FieldClass .= ' ' . $Param{Class};
     }
@@ -335,16 +337,10 @@ sub EditFieldRender {
         $FieldClass .= ' ServerError';
     }
 
-    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
-    );
-
     my %FieldTemplateData = (
-        FieldClass        => $FieldClass,
-        FieldName         => $FieldName,
-        FieldLabelEscaped => $FieldLabelEscaped,
-        MultiValue        => $FieldConfig->{MultiValue} || 0,
-        ReadOnly          => $Param{ReadOnly},
+        FieldClass => $FieldClass,
+        FieldName  => $FieldName,
+        Readonly   => $Param{DynamicFieldConfig}->{Readonly},
     );
 
     my $FieldTemplateFile = $Param{CustomerInterface}
@@ -360,46 +356,67 @@ sub EditFieldRender {
         Value => $AutoCompleteConfig->{AutoCompleteActive},
     );
 
+    my %Error = (
+        ServerError => $Param{ServerError},
+        Mandatory   => $Param{Mandatory},
+    );
+
     # for getting descriptive names for the values, e.g. TicketNumber for TicketID
     my $PluginObject = $Self->_GetObjectTypePlugin(
         ObjectType => $FieldConfig->{ReferencedObjectType},
     );
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
-        $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
+        my $FieldID = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
+
+        if ( !$ValueIndex ) {
+            if ( $Error{ServerError} ) {
+                $Error{DivIDServerError} = "${FieldID}ServerError";
+                $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+            }
+            if ( $Error{Mandatory} ) {
+                $Error{DivIDMandatory}       = "${FieldID}Error";
+                $Error{FieldRequiredMessage} = Translatable('This field is required.');
+            }
+        }
 
         # The actual value is the techical ID of the referenced object.
         # This might be empty e.g. in a ticket createion mask.
+        my $VisibleValue;
         my $ReferencedObjectID = $Value->[$ValueIndex];
         if ($ReferencedObjectID) {
-            $FieldTemplateData{ReferencedObjectID} = $ReferencedObjectID;
 
             # The visible value depends on the referenced object
             my %Description = $PluginObject->ObjectDescriptionGet(
                 ObjectID => $ReferencedObjectID,
                 UserID   => 1,                     # TODO: what about Permission check
             );
-            $FieldTemplateData{VisibleValue} = $Param{LayoutObject}->Ascii2Html(
+            $VisibleValue = $Param{LayoutObject}->Ascii2Html(
                 Text => $Description{Long},
             );
         }
 
         push @ResultHTML, $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
-            Data         => \%FieldTemplateData,
+            Data         => {
+                %FieldTemplateData,
+                FieldID => $FieldID,
+                %Error,
+                Value        => ( $Value->[$ValueIndex] // '' ),
+                VisibleValue => ( $VisibleValue         // '' ),
+            },
         );
     }
 
     my $TemplateHTML;
-    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
-
-        $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_Template';
-
+    if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
         $TemplateHTML = $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
-            Data         => \%FieldTemplateData,
+            Data         => {
+                %FieldTemplateData,
+                FieldID => "${FieldName}_Template",
+            },
         );
-
     }
 
     if ( $Param{AJAXUpdate} ) {
@@ -431,13 +448,14 @@ EOF
     my $LabelString = $Self->EditLabelRender(
         %Param,
         Mandatory => $Param{Mandatory} || '0',
-        FieldName => $FieldName,
+        FieldName => $FieldConfig->{MultiValue} ? "${FieldName}_0" : $FieldName,
     );
 
     my %Data = (
         Label => $LabelString,
     );
 
+    # decide which structure to return
     if ( $FieldConfig->{MultiValue} ) {
         $Data{MultiValue}         = \@ResultHTML;
         $Data{MultiValueTemplate} = $TemplateHTML;

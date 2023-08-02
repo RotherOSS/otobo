@@ -230,7 +230,23 @@ Core.UI.InputFields = (function (TargetNS) {
                 Core.Agent.CustomerSearch.InitSimple($(this));
             });
 
+            // Initialize reference dynamic fields
+            var AutoComplete = Core.Config.Get('Autocomplete'),
+                AutoCompleteActive = false;
+            if (
+                typeof AutoComplete !== 'undefined'
+                && typeof AutoComplete.DynamicFieldReference !== 'undefined'
+                && typeof AutoComplete.DynamicFieldReference.AutoCompleteActive !== 'undefined'
+                )
+            {
+                AutoCompleteActive = AutoComplete.DynamicFieldReference.AutoCompleteActive !== '0'
+                    ? true
+                    : false;
+            }
 
+            $('.DynamicFieldReference', $Context).each(function () {
+                Core.Agent.DynamicFieldReferenceSearch.InitElement($(this), AutoCompleteActive);
+            });
         }
     };
 
@@ -2810,6 +2826,8 @@ Core.UI.InputFields = (function (TargetNS) {
                 }
             });
 
+            // Some dynamic fields might not show the label for the added dynamic fields.
+            // TODO: it labels are included in the HTML, then that should refer to the appropriate field.
             // TODO: replace by a nice css-only version (MultiValue_0 vs MultiValue_X, respecting non multi value, possibly in multi value multicolumn grid)
             if ( ValueRowIndex === 0 ) {
                 $Cell.children('label').show();
@@ -2865,7 +2883,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
         // standard multivalue field
         if ( $Cell.children('.Field').children('.DynamicFieldSet').length === 0 ) {
-            $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_]', $Cell).each( function() {
+            $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_], [id^=Autocomplete_DynamicField_]', $Cell).each( function() {
                 ['id', 'field'].forEach( Attribute => {
                     var Attr = $(this).attr(Attribute);
                     if ( Attr && Attr.match( ReplaceRegEx ) ) {

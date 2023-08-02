@@ -23,7 +23,7 @@ Core.Agent = Core.Agent || {};
  * @namespace
  * @exports TargetNS as Core.Agent.DynamicFieldReferenceSearch
  * @description
- *      This namespace contains the special module functions for the contact data search.
+ *      This namespace contains the special module functions for the dynamic field Reference search.
  */
 Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
 
