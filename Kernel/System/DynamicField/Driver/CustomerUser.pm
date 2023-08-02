@@ -32,7 +32,7 @@ use parent qw(Kernel::System::DynamicField::Driver::BaseEntity);
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -44,7 +44,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::CustomerUser - the CustomerUser dynamic field
+Kernel::System::DynamicField::Driver::CustomerUser - driver for the CustomerUser dynamic field
 
 =head1 DESCRIPTION
 
@@ -52,13 +52,14 @@ DynamicFields CustomerUser Driver delegate.
 
 =head1 PUBLIC INTERFACE
 
-This module implements the public interface of L<Kernel::System::DynamicField::Backend>.
+This dynamic field driver module implements the public interface of L<Kernel::System::DynamicField::Backend>.
 Please look there for a detailed reference of the functions.
 
 =head2 new()
 
-usually, you want to create an instance of this
-by using Kernel::System::DynamicField::Backend->new();
+it is usually not necessary to explicitly create instances of dynamic field drivers.
+Instances of the drivers are created in the constructor of the
+dynamic field backend object C<Kernel::System::DynamicField::Backend>.
 
 =cut
 
@@ -212,36 +213,40 @@ sub EditFieldRender {
 
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
-        $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
+        my $FieldID = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
         if ( !$ValueIndex ) {
             if ( $Error{ServerError} ) {
-                $Error{DivIDServerError} = $FieldTemplateData{FieldID} . 'ServerError';
+                $Error{DivIDServerError} = "${FieldID}ServerError";
                 $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
             }
             if ( $Error{Mandatory} ) {
-                $Error{DivIDMandatory}       = $FieldTemplateData{FieldID} . 'Error';
+                $Error{DivIDMandatory}       = "${FieldID}Error";
                 $Error{FieldRequiredMessage} = Translatable('This field is required.');
             }
         }
+
+        # There is no distinction between visible value and actual value.
+        # Thus the template does not need a the data item 'VisibleValue'.
+
         push @ResultHTML, $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
+                FieldID => $FieldID,
                 %Error,
-                Value => $Value->[$ValueIndex] || '',
-            }
+                Value => ( $Value->[$ValueIndex] // '' ),
+            },
         );
     }
 
     my $TemplateHTML;
     if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
-        $FieldTemplateData{FieldID} = $FieldName . '_Template';
-
         $TemplateHTML = $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
+                FieldID => "${FieldName}_Template",
             },
         );
     }
@@ -272,23 +277,23 @@ EOF
     my $LabelString = $Self->EditLabelRender(
         %Param,
         Mandatory => $Param{Mandatory} || '0',
-        FieldName => $FieldConfig->{MultiValue} ? $FieldName . '_0' : $FieldName,
+        FieldName => $FieldConfig->{MultiValue} ? "${FieldName}_0" : $FieldName,
     );
 
-    my $Data = {
+    my %Data = (
         Label => $LabelString,
-    };
+    );
 
     # decide which structure to return
     if ( $FieldConfig->{MultiValue} ) {
-        $Data->{MultiValue}         = \@ResultHTML;
-        $Data->{MultiValueTemplate} = $TemplateHTML;
+        $Data{MultiValue}         = \@ResultHTML;
+        $Data{MultiValueTemplate} = $TemplateHTML;
     }
     else {
-        $Data->{Field} = $ResultHTML[0];
+        $Data{Field} = $ResultHTML[0];
     }
 
-    return $Data;
+    return \%Data;
 }
 
 sub EditFieldValueValidate {
