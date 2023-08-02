@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<input type="text" class="[% Data.FieldClass | html %]" id="[% Data.FieldID | html %]" title="[% Data.FieldLabel | html %]" name="[% Data.FieldName | html %]" value="[% Data.Value | html %]"[% IF Data.ReadOnly %] readonly[% END %] data-customer-search-type="CustomerUser" />
+<input type="text" class="[% Data.FieldClass | html %]" id="[% Data.FieldID | html %]" title="[% Data.FieldLabel | html %]" name="[% Data.FieldName | html %]" value="[% Data.Value | html %]"[% IF Data.ReadOnly %] readonly[% END %] data-customer-search-type="CustomerUser" >
 [% IF Data.Mandatory %]
 <div id="[% Data.DivIDMandatory | html %]" class="TooltipErrorMessage">
     <p>

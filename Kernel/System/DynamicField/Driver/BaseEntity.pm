@@ -262,7 +262,7 @@ sub EditFieldRender {
     # set PossibleValues, use PossibleValuesFilter if defined
     my $PossibleValues = $Param{PossibleValuesFilter} // $Self->PossibleValuesGet(%Param);
 
-    my %FieldTemplateData = ();
+    my %FieldTemplateData;
 
     my @SelectionHTML;
     if ( $FieldConfig->{MultiValue} ) {

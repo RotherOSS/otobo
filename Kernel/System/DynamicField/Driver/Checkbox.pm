@@ -907,21 +907,17 @@ sub StatsSearchFieldParameterBuild {
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
-    my $Value = '';
-
     # transform value data type
     my @Values;
     if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
+        @Values = $Param{Value}->@*;
     }
     else {
         @Values = ( $Param{Value} );
     }
 
-    # set item separator
-    my $ItemSeparator = ', ';
-
-    $Value = join( $ItemSeparator, @Values );
+    # Create a comma separated list
+    my $Value = join ', ', map { $_ // '' } @Values;
 
     # Title is always equal to Value
     my $Title = $Value;
