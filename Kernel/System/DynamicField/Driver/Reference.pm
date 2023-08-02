@@ -95,19 +95,10 @@ sub new {
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
-    # get raw values of the dynamic field
-    my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
-        FieldID  => $Param{DynamicFieldConfig}{ID},
-        ObjectID => $Param{ObjectID},
-    );
+    # get the value from the parent class
+    my $Value = $Self->SUPER::ValueGet(%Param);
 
-    my $Value = $Self->ValueStructureFromDB(
-        ValueDB    => $DFValue,
-        ValueKey   => $Self->{ValueKey},
-        Set        => $Param{Set},
-        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
-    );
-
+    # special handling only for Lens
     return $Value unless $Param{ForLens};
 
     # for usage in lenses we might have to interpret the values to be usable for their ValueGet()
@@ -115,7 +106,8 @@ sub ValueGet {
         ObjectType => $Param{DynamicFieldConfig}{Config}{ReferencedObjectType},
     );
 
-    return $PluginObject->can('ValueForLens') ? $PluginObject->ValueForLens( Value => $Value ) : $Value;
+    return $PluginObject->ValueForLens( Value => $Value ) if $PluginObject->can('ValueForLens');
+    return $Value;
 }
 
 sub ValueSet {

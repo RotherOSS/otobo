@@ -79,7 +79,7 @@ sub ValueGet {
 
     return $Self->ValueStructureFromDB(
         ValueDB    => $DFValue,
-        ValueKey   => 'ValueText',
+        ValueKey   => ( $Self->{ValueKey} // 'ValueText' ),
         Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
         BaseArray  => !$Param{DynamicFieldConfig}{Config}{MultiValue},
