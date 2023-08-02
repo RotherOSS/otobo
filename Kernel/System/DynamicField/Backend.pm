@@ -222,7 +222,7 @@ sub new {
 
 =head2 EditFieldRender()
 
-creates the field HTML to be used in edit masks.
+creates the field and label HTML to be used in edit masks.
 
     my $FieldHTML = $BackendObject->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
