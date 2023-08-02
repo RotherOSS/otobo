@@ -71,6 +71,7 @@ sub new {
 
     # Reference dynamic fields are stored in the database table attribute dynamic_field_value.value_int.
     # TODO: References to Customer and CustomerUser use a String as a key.
+    $Self->{ValueType}      = 'Integer';
     $Self->{ValueKey}       = 'ValueInt';
     $Self->{TableAttribute} = 'value_int';
 
@@ -896,16 +897,6 @@ sub ObjectMatch {
     # return false if not match
     return 1 if $Param{ObjectAttributes}->{$FieldName} eq $Param{Value};
     return 0;
-}
-
-sub HistoricalValuesGet {
-    my ( $Self, %Param ) = @_;
-
-    # return the historical values from database
-    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
-        FieldID   => $Param{DynamicFieldConfig}->{ID},
-        ValueType => 'Text',
-    );
 }
 
 sub ValueLookup {

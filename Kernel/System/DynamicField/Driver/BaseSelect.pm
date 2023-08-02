@@ -991,7 +991,7 @@ sub HistoricalValuesGet {
     # return historical values from database
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
-        ValueType => 'Text',
+        ValueType => ( $Self->{ValueType} // 'Text' ),
     );
 }
 
