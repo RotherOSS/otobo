@@ -1,7 +1,6 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -32,12 +31,12 @@ use parent qw(Kernel::System::DynamicField::Driver::BaseSelect);
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::DynamicFieldValue',
-    'Kernel::System::Log',
+our @ObjectDependencies = qw(
+    Kernel::Config
+    Kernel::System::DynamicFieldValue
+    Kernel::System::Log
 );
 
 =head1 NAME
@@ -46,7 +45,9 @@ Kernel::System::DynamicField::Driver::BaseEntity - base module for Entity dynami
 
 =head1 DESCRIPTION
 
-Entity common functions.
+Entity common functions. Entities are a loose group of dynamic fields where the content is
+not arbitrary. Like picking a customer from the customer list. The value can be either a
+copy of an item from a resource or a reference to an item.
 
 =head1 PUBLIC INTERFACE
 
@@ -66,15 +67,11 @@ sub ValueGet {
 
     if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
 
-        return if !$DFValue;
-        return if !IsArrayRefWithData($DFValue);
-        return if !IsHashRefWithData( $DFValue->[0] );
+        return unless $DFValue;
+        return unless IsArrayRefWithData($DFValue);
+        return unless IsHashRefWithData( $DFValue->[0] );
 
-        my @ReturnData;
-        for my $Value ( $DFValue->@* ) {
-            push @ReturnData, $Value->{ValueText};
-        }
-        return \@ReturnData;
+        return [ map { $_->{ValueText} } $DFValue->@* ];
     }
 
     return $Self->ValueStructureFromDB(
@@ -143,7 +140,8 @@ sub ValueValidate {
             },
             UserID => $Param{UserID},
         );
-        return if !$Success;
+
+        return unless $Success;
     }
 
     return $Success;
@@ -159,6 +157,7 @@ sub FieldValueValidate {
             Priority => 'error',
             Message  => "Possible values are empty!",
         );
+
         return;
     }
 
@@ -168,6 +167,7 @@ sub FieldValueValidate {
             Priority => 'error',
             Message  => "Need Value in $Param{DynamicFieldConfig}->{FieldType} DynamicField!",
         );
+
         return;
     }
 
@@ -182,7 +182,7 @@ sub FieldValueValidate {
         }
 
         for my $Value (@Values) {
-            return if !defined $PossibleValues->{$Value};
+            return unless defined $PossibleValues->{$Value};
         }
     }
 
