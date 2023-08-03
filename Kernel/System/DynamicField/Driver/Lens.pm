@@ -616,7 +616,8 @@ sub _GetAttributeDFConfig {
 
 =head2 _GetReferencedObjectID()
 
-The ID of the referenced object.
+The config of the lens contains the ID of another dynamic field. That field is a Reference dynamic field that
+references another object. The ID of the referenced object is the value of the Reference dynamic field.
 
 =cut
 
