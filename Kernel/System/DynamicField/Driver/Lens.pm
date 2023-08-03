@@ -99,14 +99,16 @@ sub ValueGet {
     );
 
     return if !$ReferencedObjectID;
+    return if ref $ReferencedObjectID eq 'ARRAY' && !$ReferencedObjectID->@*;
 
     my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
     );
 
+    # Lenses return at most one value, so we don't have to loop here.
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $AttributeDFConfig,
-        ObjectID           => $ReferencedObjectID,
+        ObjectID           => $ReferencedObjectID->[0],
     );
 }
 
