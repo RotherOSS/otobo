@@ -92,6 +92,16 @@ sub new {
     return $Self;
 }
 
+=head2 ValueGet()
+
+This method contains special support for the case of Lenses. A Lens operates directly on dynamic field of an specific object.
+The specific object is usually identified by the value of the Reference dynamic field. But there is at least one special case.
+When the reference it to an C<ITSMConfigItem> then the relevant ID is the ID of the last version. This case is handled
+when the parameter C<ForLens> is passed. Then there is check whether there is a plugin object that provides
+the method C<ValueForLens>.
+
+=cut
+
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
