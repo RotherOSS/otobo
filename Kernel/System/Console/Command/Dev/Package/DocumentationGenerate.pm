@@ -195,7 +195,7 @@ sub Skeleton {
     my $PackageRequired;
     if ( $Param{Structure}{PackageRequired} ) {
         for my $Package ( $Param{Structure}{PackageRequired}->@* ) {
-            $PackageRequired .= "$_{Content} $_{Version}\n";
+            $PackageRequired .= "$Package->{Content} $Package->{Version}\n";
         }
 
         chomp $PackageRequired;
