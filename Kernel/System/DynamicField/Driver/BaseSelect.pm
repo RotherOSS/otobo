@@ -85,7 +85,7 @@ sub ValueSet {
         return;
     }
 
-    my $Value = $Self->ValueStructureToDB(
+    my $DBValue = $Self->ValueStructureToDB(
         Value      => $Param{Value},
         ValueKey   => 'ValueText',
         Set        => $Param{Set},
@@ -95,7 +95,7 @@ sub ValueSet {
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
-        Value    => $Value,
+        Value    => $DBValue,
         UserID   => $Param{UserID},
     );
 }
