@@ -21,9 +21,11 @@ package Kernel::System::DB;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
-use List::Util ();
+use List::Util qw(shuffle);
 
 # CPAN modules
 use DBI;
@@ -32,15 +34,18 @@ use DBIx::Connector;
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::Encode',
-    'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::DateTime',
-    'Kernel::System::Storable',
+our @ObjectDependencies = qw(
+    Kernel::Config
+    Kernel::System::Encode
+    Kernel::System::Log
+    Kernel::System::Main
+    Kernel::System::DateTime
+    Kernel::System::Storable
 );
 
+# This package variable can temporarily be set to 1.
+# The effect is that the mirror DB is used, which can
+# shed some load for computing intensive tasks, like the generation of statistics.
 our $UseSlaveDB = 0;
 
 =head1 NAME
@@ -55,7 +60,7 @@ All database functions to connect/insert/update/delete/... to a database.
 
 =head2 new()
 
-create database object, with database connect..
+create a database object, with database connect..
 Usually you do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
@@ -99,7 +104,10 @@ sub new {
     $Self->{USER} = $Param{DatabaseUser} || $ConfigObject->Get('TestDatabaseUser') || $ConfigObject->Get('DatabaseUser');
     $Self->{PW}   = $Param{DatabasePw}   || $ConfigObject->Get('TestDatabasePw')   || $ConfigObject->Get('DatabasePw');
 
-    $Self->{IsSlaveDB}                  = $Param{IsSlaveDB};
+    # mirror DB related
+    $Self->{IsSlaveDB}    = $Param{IsSlaveDB};    # a guard that stops creation of a further mirror DB
+
+    # might be useful for database migrations
     $Self->{DeactivateForeignKeyChecks} = $Param{DeactivateForeignKeyChecks} // 0;
 
     # SlowLog can be activated globally
@@ -565,6 +573,7 @@ sub _InitSlaveDB {
     my ( $Self, %Param ) = @_;
 
     # Run only once!
+    # Report whether a mirror DB could be created in the initial call.
     return $Self->{SlaveDBObject} if $Self->{_InitSlaveDB}++;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -616,7 +625,8 @@ sub _InitSlaveDB {
         }
     }
 
-    # no connect was possible.
+    # no mirror DB was configured or connect wasn't possible,
+    # $Self->{SlaveDBObject} remains undefined
     return;
 }
 
@@ -687,8 +697,8 @@ sub Prepare {
     if (
         $UseSlaveDB
         && !$Self->{IsSlaveDB}
-        && $Self->_InitSlaveDB()    # this is very cheap after the first call (cached)
-        && $SQL =~ m{\A\s*SELECT}xms
+        && $Self->_InitSlaveDB          # this is very cheap after the first call (cached)
+        && $SQL =~ m{\A\s*SELECT}xms    # note that 'select' in lower case does not work
         )
     {
         $Self->{_PreparedOnSlaveDB} = 1;
@@ -819,7 +829,7 @@ sub FetchrowArray {
     # work with cursors if database don't support limit, e.g. Oracle prior to 12c
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
         if ( $Self->{Limit} <= $Self->{LimitCounter} ) {
-            $Self->{Cursor}->finish();
+            $Self->{Cursor}->finish;
 
             return;
         }
@@ -2022,7 +2032,7 @@ sub DESTROY {
 
     # cleanup open statement handle if there is any and then disconnect from DB
     if ( $Self->{Cursor} ) {
-        $Self->{Cursor}->finish();
+        $Self->{Cursor}->finish;
     }
 
     $Self->Disconnect();
