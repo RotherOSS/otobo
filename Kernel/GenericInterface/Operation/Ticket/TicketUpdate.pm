@@ -348,9 +348,7 @@ sub Run {
     }
 
     if ( $Param{Data}->{UserLogin} || $Param{Data}->{CustomerUserLogin} ) {
-
-        if ( !$Param{Data}->{Password} )
-        {
+        if ( !$Param{Data}->{Password} ) {
             return $Self->ReturnError(
                 ErrorCode    => 'TicketUpdate.MissingParameter',
                 ErrorMessage => "TicketUpdate: Password or SessionID is required!",
@@ -562,19 +560,18 @@ sub Run {
         }
     }
 
-    my $DynamicField;
     my @DynamicFieldList;
     if ( defined $Param{Data}->{DynamicField} ) {
 
         # isolate DynamicField parameter
-        $DynamicField = $Param{Data}->{DynamicField};
+        my $DynamicField = $Param{Data}->{DynamicField};
 
         # homogenate input to array
         if ( ref $DynamicField eq 'HASH' ) {
             push @DynamicFieldList, $DynamicField;
         }
         else {
-            @DynamicFieldList = @{$DynamicField};
+            @DynamicFieldList = $DynamicField->@*;
         }
 
         # check DynamicField internal structure
@@ -611,12 +608,11 @@ sub Run {
         }
     }
 
-    my $Attachment;
     my @AttachmentList;
     if ( defined $Param{Data}->{Attachment} ) {
 
         # isolate Attachment parameter
-        $Attachment = $Param{Data}->{Attachment};
+        my $Attachment = $Param{Data}->{Attachment};
 
         # homogenate input to array
         if ( ref $Attachment eq 'HASH' ) {
