@@ -754,7 +754,7 @@ sub Run {
 
         # search via DB if FulltextES is empty
         if ( !$GetParam{FulltextES} ) {
-            local $Kernel::System::DB::UseSlaveDB = 1;
+            local $Kernel::System::DB::UseMirrorDB = 1;
 
             # perform ticket search
             @ViewableTicketIDs = $TicketObject->TicketSearch(

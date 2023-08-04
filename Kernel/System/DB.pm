@@ -46,7 +46,8 @@ our @ObjectDependencies = qw(
 # This package variable can temporarily be set to 1.
 # The effect is that the mirror DB is used, which can
 # shed some load for computing intensive tasks, like the generation of statistics.
-our $UseSlaveDB = 0;
+our $UseMirrorDB = 0;
+our $UseSlaveDB  = 0;    # the legacy name
 
 =head1 NAME
 
@@ -105,8 +106,8 @@ sub new {
     $Self->{PW}   = $Param{DatabasePw}   || $ConfigObject->Get('TestDatabasePw')   || $ConfigObject->Get('DatabasePw');
 
     # mirror DB related
-    $Self->{IsSlaveDB}    = $Param{IsSlaveDB};    # a guard that stops creation of a further mirror DB
-    $Self->{_InitSlaveDB} = 0;                    # a guard that avoids reconnecting to a mirror DB
+    $Self->{IsMirrorDB}    = $Param{IsMirrorDB};    # a guard that stops creation of a further mirror DB
+    $Self->{_InitMirrorDB} = 0;                     # a guard that avoids reconnecting to a mirror DB
 
     # might be useful for database migrations
     $Self->{DeactivateForeignKeyChecks} = $Param{DeactivateForeignKeyChecks} // 0;
@@ -316,8 +317,8 @@ sub Connect {
         return;
     }
 
-    if ( $Self->{SlaveDBObject} ) {
-        $Self->{SlaveDBObject}->Connect();
+    if ( $Self->{MirrorDBObject} ) {
+        $Self->{MirrorDBObject}->Connect();
     }
 
     return $Self->{dbh};
@@ -349,8 +350,8 @@ sub Disconnect {
         delete $Self->{dbh};
     }
 
-    if ( $Self->{SlaveDBObject} ) {
-        $Self->{SlaveDBObject}->Disconnect();
+    if ( $Self->{MirrorDBObject} ) {
+        $Self->{MirrorDBObject}->Disconnect();
     }
 
     return 1;
@@ -570,23 +571,23 @@ sub Do {
     return 1;
 }
 
-sub _InitSlaveDB {
+sub _InitMirrorDB {
     my ( $Self, %Param ) = @_;
 
     # Run only once!
     # Report whether a mirror DB could be created in the initial call.
-    return ( $Self->{SlaveDBObject} ? 1 : 0 ) if $Self->{_InitSlaveDB}++;
+    return ( $Self->{MirrorDBObject} ? 1 : 0 ) if $Self->{_InitMirrorDB}++;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MasterDSN    = $ConfigObject->Get('DatabaseDSN');
 
-    # Don't create slave if we are already in a slave, or if we are not in the master,
+    # Don't create mirror if we are already in a mirror, or if we are not in the master,
     #   such as in an external customer user database handle.
-    if ( $Self->{IsSlaveDB} || $MasterDSN ne $Self->{DSN} ) {
-        return $Self->{SlaveDBObject};
+    if ( $Self->{IsMirrorDB} || $MasterDSN ne $Self->{DSN} ) {
+        return $Self->{MirrorDBObject};
     }
 
-    my %SlaveConfiguration = (
+    my %MirrorDBConfiguration = (
         %{ $ConfigObject->Get('Core::MirrorDB::AdditionalMirrors') // {} },
         0 => {
             DSN      => $ConfigObject->Get('Core::MirrorDB::DSN'),
@@ -595,27 +596,31 @@ sub _InitSlaveDB {
         }
     );
 
-    SLAVE_INDEX:
-    for my $SlaveIndex ( List::Util::shuffle( keys %SlaveConfiguration ) ) {
+    INDEX:
+    for my $Index ( shuffle keys %MirrorDBConfiguration ) {
 
-        my %CurrentSlave = %{ $SlaveConfiguration{$SlaveIndex} // {} };
+        my %MirrorDBConfig = %{ $MirrorDBConfiguration{$Index} // {} };
 
-        # If a slave is configured and it is not already used in the current object
-        #   and we are actually in the master connection object: then create a slave.
-        next SLAVE_INDEX unless %CurrentSlave;
-        next SLAVE_INDEX unless $CurrentSlave{DSN};
-        next SLAVE_INDEX unless $CurrentSlave{User};
-        next SLAVE_INDEX unless $CurrentSlave{Password};
-        my $SlaveDBObject = Kernel::System::DB->new(
-            DatabaseDSN  => $CurrentSlave{DSN},
-            DatabaseUser => $CurrentSlave{User},
-            DatabasePw   => $CurrentSlave{Password},
-            IsSlaveDB    => 1,
+        # If a mirror is configured and it is not already used in the current object
+        #   and we are actually in the master connection object: then create a mirror.
+        next INDEX unless %MirrorDBConfig;
+        next INDEX unless $MirrorDBConfig{DSN};
+        next INDEX unless $MirrorDBConfig{User};
+        next INDEX unless $MirrorDBConfig{Password};
+
+        # Create a new DB object for the mirror.
+        # Mark it as already being a mirror, so that no further mirror DB objects are created.
+        my $MirrorDBObject = Kernel::System::DB->new(
+            DatabaseDSN  => $MirrorDBConfig{DSN},
+            DatabaseUser => $MirrorDBConfig{User},
+            DatabasePw   => $MirrorDBConfig{Password},
+            IsMirrorDB   => 1,
         );
 
-        # work is done when the connect succeeds
-        if ( $SlaveDBObject->Connect ) {
-            $Self->{SlaveDBObject} = $SlaveDBObject;
+        # work is done when connecting to the mirror DB worked
+        # otherwise try the next mirror DB config
+        if ( $MirrorDBObject->Connect ) {
+            $Self->{MirrorDBObject} = $MirrorDBObject;
 
             return 1;
         }
@@ -624,7 +629,7 @@ sub _InitSlaveDB {
     }
 
     # no mirror DB was configured or connect wasn't possible,
-    # $Self->{SlaveDBObject} remains undefined
+    # $Self->{MirrorDBObject} remains undefined
     return 0;
 }
 
@@ -708,19 +713,19 @@ sub Prepare {
         );
     }
 
-    $Self->{_PreparedOnSlaveDB} = 0;
+    $Self->{_PreparedOnMirrorDB} = 0;
 
-    # Route SELECT statements to the DB slave if requested and a slave is configured.
+    # Route SELECT statements to the DB mirror if requested and a mirror is configured.
     if (
-        $UseSlaveDB
-        && !$Self->{IsSlaveDB}
-        && $Self->_InitSlaveDB          # this is very cheap after the first call (cached)
+        ( $UseMirrorDB || $UseSlaveDB )
+        && !$Self->{IsMirrorDB}
         && $SQL =~ m{\A\s*SELECT}xms    # note that 'select' in lower case does not work
+        && $Self->_InitMirrorDB         # this is very cheap after the first call (cached)
         )
     {
-        $Self->{_PreparedOnSlaveDB} = 1;
+        $Self->{_PreparedOnMirrorDB} = 1;
 
-        return $Self->{SlaveDBObject}->Prepare(%Param);
+        return $Self->{MirrorDBObject}->Prepare(%Param);
     }
 
     $Self->{Encode}       = $Param{Encode};
@@ -844,8 +849,8 @@ Note that while we are within a fetch loop, no other database interaction may ta
 sub FetchrowArray {
     my $Self = shift;
 
-    if ( $Self->{_PreparedOnSlaveDB} ) {
-        return $Self->{SlaveDBObject}->FetchrowArray();
+    if ( $Self->{_PreparedOnMirrorDB} ) {
+        return $Self->{MirrorDBObject}->FetchrowArray();
     }
 
     # work with cursors if database don't support limit, e.g. Oracle prior to 12c
