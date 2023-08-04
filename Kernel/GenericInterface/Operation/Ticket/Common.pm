@@ -73,17 +73,18 @@ sub Init {
     }
 
     # get the dynamic fields
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+    my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
         ObjectType => [ 'Ticket', 'Article' ],
     );
 
     # create a Dynamic Fields lookup table (by name)
     DYNAMICFIELD:
-    for my $DynamicField ( @{$DynamicField} ) {
-        next DYNAMICFIELD if !$DynamicField;
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicField);
-        next DYNAMICFIELD if !$DynamicField->{Name};
+    for my $DynamicField ( $DynamicFieldList->@* ) {
+        next DYNAMICFIELD unless $DynamicField;
+        next DYNAMICFIELD unless IsHashRefWithData($DynamicField);
+        next DYNAMICFIELD unless $DynamicField->{Name};
+
         $Self->{DynamicFieldLookup}->{ $DynamicField->{Name} } = $DynamicField;
     }
 
