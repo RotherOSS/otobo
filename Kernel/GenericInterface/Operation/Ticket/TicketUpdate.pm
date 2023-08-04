@@ -585,15 +585,13 @@ sub Run {
             }
 
             # remove leading and trailing spaces
+            ATTRIBUTE:
             for my $Attribute ( sort keys %{$DynamicFieldItem} ) {
-                if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+                next ATTRIBUTE if ref $DynamicFieldItem->{$Attribute};
 
-                    #remove leading spaces
-                    $DynamicFieldItem->{$Attribute} =~ s{\A\s+}{};
-
-                    #remove trailing spaces
-                    $DynamicFieldItem->{$Attribute} =~ s{\s+\z}{};
-                }
+                # TODO: this might be a case where input data is modified
+                $DynamicFieldItem->{$Attribute} =~ s{\A\s+}{};
+                $DynamicFieldItem->{$Attribute} =~ s{\s+\z}{};
             }
 
             # check DynamicField attribute values
