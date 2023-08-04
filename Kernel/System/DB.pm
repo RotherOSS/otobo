@@ -106,6 +106,7 @@ sub new {
 
     # mirror DB related
     $Self->{IsSlaveDB}    = $Param{IsSlaveDB};    # a guard that stops creation of a further mirror DB
+    $Self->{_InitSlaveDB} = 0;                    # a guard that avoids reconnecting to a mirror DB
 
     # might be useful for database migrations
     $Self->{DeactivateForeignKeyChecks} = $Param{DeactivateForeignKeyChecks} // 0;
@@ -574,7 +575,7 @@ sub _InitSlaveDB {
 
     # Run only once!
     # Report whether a mirror DB could be created in the initial call.
-    return $Self->{SlaveDBObject} if $Self->{_InitSlaveDB}++;
+    return ( $Self->{SlaveDBObject} ? 1 : 0 ) if $Self->{_InitSlaveDB}++;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MasterDSN    = $ConfigObject->Get('DatabaseDSN');
@@ -594,40 +595,37 @@ sub _InitSlaveDB {
         }
     );
 
-    return $Self->{SlaveDBObject} if !%SlaveConfiguration;
-
     SLAVE_INDEX:
     for my $SlaveIndex ( List::Util::shuffle( keys %SlaveConfiguration ) ) {
 
         my %CurrentSlave = %{ $SlaveConfiguration{$SlaveIndex} // {} };
-        next SLAVE_INDEX if !%CurrentSlave;
 
         # If a slave is configured and it is not already used in the current object
         #   and we are actually in the master connection object: then create a slave.
-        if (
-            $CurrentSlave{DSN}
-            && $CurrentSlave{User}
-            && $CurrentSlave{Password}
-            )
-        {
-            my $SlaveDBObject = Kernel::System::DB->new(
-                DatabaseDSN  => $CurrentSlave{DSN},
-                DatabaseUser => $CurrentSlave{User},
-                DatabasePw   => $CurrentSlave{Password},
-                IsSlaveDB    => 1,
-            );
+        next SLAVE_INDEX unless %CurrentSlave;
+        next SLAVE_INDEX unless $CurrentSlave{DSN};
+        next SLAVE_INDEX unless $CurrentSlave{User};
+        next SLAVE_INDEX unless $CurrentSlave{Password};
+        my $SlaveDBObject = Kernel::System::DB->new(
+            DatabaseDSN  => $CurrentSlave{DSN},
+            DatabaseUser => $CurrentSlave{User},
+            DatabasePw   => $CurrentSlave{Password},
+            IsSlaveDB    => 1,
+        );
 
-            if ( $SlaveDBObject->Connect() ) {
-                $Self->{SlaveDBObject} = $SlaveDBObject;
+        # work is done when the connect succeeds
+        if ( $SlaveDBObject->Connect ) {
+            $Self->{SlaveDBObject} = $SlaveDBObject;
 
-                return $Self->{SlaveDBObject};
-            }
+            return 1;
         }
+
+        # try the next mirror DB configuration if there is one
     }
 
     # no mirror DB was configured or connect wasn't possible,
     # $Self->{SlaveDBObject} remains undefined
-    return;
+    return 0;
 }
 
 =head2 Prepare()
