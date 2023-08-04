@@ -114,11 +114,13 @@ sub ValueSet {
         }
     }
 
+    # Make sure that the input is not modified in ValueSet()
+    my $DBValue;
     if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
-        $Value->@* = map { { 'ValueText' => $_ } } $Value->@*;
+        $DBValue = [ map { { 'ValueText' => $_ } } $Value->@* ];
     }
     else {
-        $Value = $Self->ValueStructureToDB(
+        $DBValue = $Self->ValueStructureToDB(
             Value      => $Value,
             ValueKey   => 'ValueText',
             MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
@@ -128,7 +130,7 @@ sub ValueSet {
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
-        Value    => $Value,
+        Value    => $DBValue,
         UserID   => $Param{UserID},
     );
 }
