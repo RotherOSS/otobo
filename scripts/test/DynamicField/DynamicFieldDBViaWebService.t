@@ -366,6 +366,16 @@ for my $Test (@Tests) {
                     %{ $Test->{RequestData} },
                 },
             );
+
+            # looks like local invocation has a redundant attribute,
+            # temporarily remove it for the comparison
+            delete local $LocalResult->{ErrorMessage};
+
+            is(
+                $LocalResult,
+                $Test->{RequesterResult},
+                "local result is correct.",
+            );
         }
 
         # Start requester with our web-service.
