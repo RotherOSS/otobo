@@ -18,16 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
 use Kernel::GenericInterface::Requester;
-
 use Kernel::System::VariableCheck qw(:all);
 
 # Skip SSL certificate verification.
@@ -116,10 +117,7 @@ my $DynamicFieldID    = $DynamicFieldObject->DynamicFieldAdd(
     ValidID       => 1,
     UserID        => 1,
 );
-$Self->True(
-    $DynamicFieldID,
-    "DynamicFieldID $DynamicFieldID is created",
-);
+ok( $DynamicFieldID, "DynamicFieldID $DynamicFieldID is created" );
 
 my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
     Name => $DynamicFieldName,
@@ -150,10 +148,7 @@ my $TicketID = $TicketObject->TicketCreate(
     OwnerID      => $Users[0]->{UserID},
     UserID       => $Users[0]->{UserID},
 );
-$Self->True(
-    $TicketID,
-    "TicketID $TicketID is created",
-);
+ok( $TicketID, "TicketID $TicketID is created" );
 
 my %Ticket = $TicketObject->TicketGet(
     TicketID => $TicketID,
@@ -178,10 +173,7 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
     ValidID => 1,
     UserID  => 1,
 );
-$Self->True(
-    $WebserviceID,
-    "WebserviceID $WebserviceID is created",
-);
+ok( $WebserviceID, "WebserviceID $WebserviceID is created" );
 
 # Get remote host with some precautions for certain unit test systems.
 my $Host = $Helper->GetTestHTTPHostname();
@@ -251,10 +243,7 @@ my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
     ValidID => 1,
     UserID  => $Users[0]->{UserID},
 );
-$Self->True(
-    $WebserviceUpdate,
-    "Updated Webservice $WebserviceID - $WebserviceName",
-);
+ok( $WebserviceUpdate, "Updated Webservice $WebserviceID - $WebserviceName" );
 
 my @Tests = (
     {
@@ -345,7 +334,6 @@ my @Tests = (
 
 # Debugger object instantiation.
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -353,93 +341,85 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => $WebserviceID,
     CommunicationType => 'Provider',
 );
-$Self->True(
-    ref $DebuggerObject eq 'Kernel::GenericInterface::Debugger',
+isa_ok(
+    $DebuggerObject,
+    ['Kernel::GenericInterface::Debugger'],
     'DebuggerObject instantiate correctly',
 );
 
 for my $Test (@Tests) {
+    subtest $Test->{Name} => sub {
 
-    # Create local object.
-    my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"->new(
-        %{$Self},
-        DebuggerObject => $DebuggerObject,
-        WebserviceID   => $WebserviceID,
-        ConfigObject   => $ConfigObject,
-    );
+        # Start requester with local invocation
+        {
+            my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"->new(
+                DebuggerObject => $DebuggerObject,
+                WebserviceID   => $WebserviceID,
+                ConfigObject   => $ConfigObject,
+            );
+            my $LocalResult = $LocalObject->Run(
+                WebserviceID => $WebserviceID,
+                Invoker      => $Test->{Operation},
+                Data         => {
+                    UserLogin => $Users[0]->{UserLogin},
+                    Password  => $Users[0]->{UserLogin},
+                    %{ $Test->{RequestData} },
+                },
+            );
+        }
 
-    # Start requester with our web-service.
-    my $LocalResult = $LocalObject->Run(
-        WebserviceID => $WebserviceID,
-        Invoker      => $Test->{Operation},
-        Data         => {
-            UserLogin => $Users[0]->{UserLogin},
-            Password  => $Users[0]->{UserLogin},
-            %{ $Test->{RequestData} },
-        },
-    );
+        # Start requester with our web-service.
+        {
+            my $RequesterObject = Kernel::GenericInterface::Requester->new(
+                ConfigObject => $ConfigObject,
+            );
+            my $RequesterResult = $RequesterObject->Run(
+                WebserviceID => $WebserviceID,
+                Invoker      => $Test->{Operation},
+                Data         => {
+                    UserLogin => $Users[0]->{UserLogin},
+                    Password  => $Users[0]->{UserLogin},
+                    %{ $Test->{RequestData} },
+                },
+            );
 
-    my $RequesterObject = Kernel::GenericInterface::Requester->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+            is(
+                $RequesterResult,
+                $Test->{RequesterResult},
+                "result from web-service is correct.",
+            );
+        }
 
-    # Start requester with our web-service.
-    my $RequesterResult = $RequesterObject->Run(
-        WebserviceID => $WebserviceID,
-        Invoker      => $Test->{Operation},
-        Data         => {
-            UserLogin => $Users[0]->{UserLogin},
-            Password  => $Users[0]->{UserLogin},
-            %{ $Test->{RequestData} },
-        },
-    );
-
-    # Verify request and webservice dynamic field validation.
-    $Self->IsDeeply(
-        $RequesterResult,
-        $Test->{RequesterResult},
-        "$Test->{Name} - request result is correct.",
-    );
-
-    my $Value = $BackendObject->ValueGet(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        ObjectID           => $TicketID,
-    );
-
-    $Self->IsDeeply(
-        $Value,
-        $Test->{ExpectedResult},
-        "$Test->{Name} - successfully.",
-    );
+        # verify that the value has changed
+        my $Value = $BackendObject->ValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $TicketID,
+        );
+        is(
+            $Value,
+            $Test->{ExpectedResult},
+            "ValueGet() had the expected result.",
+        );
+    };
 }
 
 # Cleanup.
-my $Success = $WebserviceObject->WebserviceDelete(
+my $WebServiceDeleteSuccess = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => $Users[0]->{UserID},
 );
-$Self->True(
-    $Success,
-    "WebServiceID $WebserviceID is deleted."
-);
+ok( $WebServiceDeleteSuccess, "WebServiceID $WebserviceID is deleted." );
 
-$Success = $TicketObject->TicketDelete(
+my $TicketDeleteSuccess = $TicketObject->TicketDelete(
     TicketID => $TicketID,
     UserID   => $Users[0]->{UserID},
 );
-$Self->True(
-    $Success,
-    "TicketID $TicketID is deleted."
-);
+ok( $TicketDeleteSuccess, "TicketID $TicketID is deleted." );
 
-$Success = $DynamicFieldObject->DynamicFieldDelete(
+my $DynamicFieldDeleteSuccess = $DynamicFieldObject->DynamicFieldDelete(
     ID     => $DynamicFieldID,
     UserID => $Users[0]->{UserID},
 );
-$Self->True(
-    $Success,
-    "DynamicFieldID $DynamicFieldID is deleted."
-);
+ok( $DynamicFieldDeleteSuccess, "DynamicFieldID $DynamicFieldID is deleted." );
 
-$Self->DoneTesting();
+done_testing;
