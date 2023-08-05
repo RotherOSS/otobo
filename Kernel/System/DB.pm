@@ -303,7 +303,7 @@ sub Connect {
         );
 
         # this method reuses an existing connection when it is still pinging
-        $Self->{dbh} = $Cache{$CacheKey}->dbh();
+        $Self->{dbh} = $Cache{$CacheKey}->dbh;
     }
 
     if ( !$Self->{dbh} ) {
@@ -345,7 +345,7 @@ sub Disconnect {
 
     # do disconnect
     if ( $Self->{dbh} ) {
-        $Self->{dbh}->disconnect();
+        $Self->{dbh}->disconnect;
         delete $Self->{dbh};
     }
 
@@ -375,7 +375,7 @@ sub Version {
 
     if ( $Self->{Backend}->{'DB::Version'} ) {
         $Self->Prepare( SQL => $Self->{Backend}->{'DB::Version'} );
-        while ( my @Row = $Self->FetchrowArray() ) {
+        while ( my @Row = $Self->FetchrowArray ) {
             $Version = $Row[0];
         }
     }
@@ -660,17 +660,36 @@ It is recommended to use bind variables:
     $DBObject->Prepare(
         SQL    => 'SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?',
         Encode => [ 1, 1, 0 ],
-        Bind   => [ \$Var1, \$Var2 ],
+        Bind   => [ \($Var1, $Var2) ],
     );
+
+This method is also internally for method that want to execute the prepared statement by themselves.
+This case is triggered by passing the parameter C<Execute> with a false value. The returned values
+will be a status and the array of bind variables. Internally,
+the attribute C<Cursor> will be set to the prepared statement handle.
+
+    my $Var1 = 'dog1';
+    my $Var2 = 'dog2';
+
+    my ($Success, @BindVariable) = $DBObject->Prepare(
+        SQL    => 'SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?',
+        Bind   => [ \($Var1, $Var2) ],
+    );
+
+will return
+
+    my ($Success, @BindVariables) = (1, 'dog1', 'dog2' );
 
 =cut
 
 sub Prepare {
     my ( $Self, %Param ) = @_;
 
-    my $SQL   = $Param{SQL};
-    my $Limit = $Param{Limit} || '';
-    my $Start = $Param{Start} || '';
+    # extract parameters and set defaults
+    my $SQL     = $Param{SQL};
+    my $Limit   = $Param{Limit} || '';
+    my $Start   = $Param{Start} || '';
+    my $Execute = $Param{Execute} // 1;
 
     # check needed stuff
     if ( !$Param{SQL} ) {
@@ -704,7 +723,7 @@ sub Prepare {
         return $Self->{SlaveDBObject}->Prepare(%Param);
     }
 
-    $Self->{Encode}       = $Param{Encode} // undef;
+    $Self->{Encode}       = $Param{Encode};
     $Self->{Limit}        = 0;
     $Self->{LimitStart}   = 0;
     $Self->{LimitCounter} = 0;
@@ -763,7 +782,7 @@ sub Prepare {
         }
     }
 
-    return unless $Self->Connect();
+    return unless $Self->Connect;
 
     # prepare a statement handle and store it in $Self->{Cursor}
     if ( !( $Self->{Cursor} = $Self->{dbh}->prepare($SQL) ) ) {
@@ -775,6 +794,9 @@ sub Prepare {
 
         return;
     }
+
+    # This is for internal use
+    return 1, @Array unless $Execute;
 
     # execute the statement handle
     if ( !$Self->{Cursor}->execute(@Array) ) {
@@ -811,7 +833,7 @@ to process the results of a SELECT statement.
         Limit => 10
     );
 
-    while (my ($ID, $Name) = $DBObject->FetchrowArray()) {
+    while (my ($ID, $Name) = $DBObject->FetchrowArray) {
         print "$ID:$Name\n";
     }
 
@@ -849,30 +871,11 @@ sub FetchrowArray {
         $Self->{LimitStart} = 0;
     }
 
-    # return
+    # fetch the data from the DB
     my @Row = $Self->{Cursor}->fetchrow_array();
 
-    if ( !$Self->{Backend}->{'DB::Encode'} ) {
-        return @Row;
-    }
-
-    # get encode object
-    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-
-    # e. g. set utf-8 flag
-    my $Counter = 0;
-    ELEMENT:
-    for my $Element (@Row) {
-
-        next ELEMENT if !defined $Element;
-
-        if ( !defined $Self->{Encode} || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
-            $EncodeObject->EncodeInput( \$Element );
-        }
-    }
-    continue {
-        $Counter++;
-    }
+    # The fetched row might be tweaked here
+    $Self->_EncodeInputList( \@Row );
 
     return @Row;
 }
@@ -912,7 +915,7 @@ sub ListTables {
     return unless $Success;
 
     my @Tables;
-    while ( my ($Table) = $Self->FetchrowArray() ) {
+    while ( my ($Table) = $Self->FetchrowArray ) {
         push @Tables, lc $Table;
     }
 
@@ -988,13 +991,13 @@ In essence, this calls C<Prepare()> and then C<FetchrowArray()> once to get the 
 In all cases C<finish()> is called on the statement handle. This means that no
 further rows can be retrieved with C<FetchrowArray>.
 
-    my ($ID, $Name) = $DBObject->SelectAll(
+    my ($ID, $Name) = $DBObject->SelectRowArray(
         SQL   => "SELECT id, name FROM table",
     );
 
 You can pass the same arguments as to the Prepare() method.
 
-Returns undef (if query failed), or an array ref (if query was successful):
+Returns undef if the query failed, or an array if the query was successful:
 
     my ($ID, $Name) = (1, 'first');
 
@@ -1013,6 +1016,51 @@ sub SelectRowArray {
     }
 
     return @Row;
+}
+
+=head2 SelectColArray()
+
+returns the first column a SELECT statement.
+In essence, this calls C<Prepare()> and then the DBI method C<selectcol_array()> to get the first column.
+
+    my $MinID = 100;
+    my @IDs = $DBObject->SelectColArray(
+        SQL   => "SELECT id, name FROM table WHERE id >= ? ORDER BY id",
+        Bind  => [ \$MinID ],
+        Limit => 3,
+    );
+
+You can pass the same arguments as to the Prepare() method.
+
+Returns undef if the query failed, or an array if the query was successful:
+
+    my @IDs = (100, 101, 102);
+
+=cut
+
+sub SelectColArray {
+    my ( $Self, %Param ) = @_;
+
+    my ( $PrepareSuccess, @BindVariables ) = $Self->Prepare(
+        %Param,
+        Execute => 0,
+    );
+
+    return unless $PrepareSuccess;
+
+    # the statement handle has been prepared in Prepare()
+    my $Column = $Self->{dbh}->selectcol_arrayref(
+        $Self->{Cursor},    # the prepared statement handle
+        {},                 # no attributes
+        @BindVariables,
+    );
+
+    return unless defined $Column;
+
+    # The fetched row might be tweaked here
+    $Self->_EncodeInputList($Column);
+
+    return $Column->@*;
 }
 
 =head2 GetDatabaseFunction()
@@ -1939,7 +1987,7 @@ sub Ping {
         return if !$Self->{dbh};
     }
 
-    return $Self->{dbh}->ping();
+    return $Self->{dbh}->ping;
 }
 
 =head2 BeginWork()
@@ -1954,7 +2002,7 @@ sub BeginWork {
     my ($Self) = @_;
 
     # exception when there is no database handle
-    return $Self->{dbh}->begin_work();
+    return $Self->{dbh}->begin_work;
 }
 
 =head2 Rollback()
@@ -2059,6 +2107,34 @@ sub _SpecialCharactersGet {
     );
 
     return \%SpecialCharacter;
+}
+
+sub _EncodeInputList {
+    my ( $Self, $List ) = @_;
+
+    return unless $Self->{Backend}->{'DB::Encode'};    # nothing to do
+
+    # get encode object
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
+    # The values of the row will be changed in this method.
+    # e. g. set utf-8 flag
+    my $Counter = 0;
+    ELEMENT:
+    for my $Element ( $List->@* ) {
+
+        next ELEMENT unless defined $Element;
+
+        # $Self->{Encode} might have been set in Prepare()
+        if ( !defined $Self->{Encode} || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
+            $EncodeObject->EncodeInput( \$Element );
+        }
+    }
+    continue {
+        $Counter++;
+    }
+
+    return;
 }
 
 sub DESTROY {

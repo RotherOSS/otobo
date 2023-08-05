@@ -33,6 +33,8 @@ The tested methods are:
 
 =item SelectRowArray
 
+=item SelectColArray
+
 =back
 
 =cut
@@ -119,14 +121,14 @@ subtest 'SelectRowArray' => sub {
 
     my @Tests = (
         {
-            Name  => 'all order by country_en, effectively the first',
+            Name  => 'all order by country_en, effectively the first row',
             Param => {
                 SQL => 'SELECT * FROM test_countries ORDER BY country_en',
             },
             Expected => $Countries[0],
         },
         {
-            Name  => 'the two last countries, effectively the last',
+            Name  => 'the two last countries, effectively the last row',
             Param => {
                 SQL   => 'SELECT * FROM test_countries ORDER BY country_en DESC',
                 Limit => 2,
@@ -146,6 +148,44 @@ subtest 'SelectRowArray' => sub {
         subtest $Test->{Name} => sub {
             my @Row = $DBObject->SelectRowArray( $Test->{Param}->%* );
             is( \@Row, $Test->{Expected}, 'got expected row' );
+
+            my @AnotherRow = $DBObject->FetchrowArray;
+            is( \@AnotherRow, [], "no furher row" );
+        }
+    }
+};
+
+subtest 'SelectColArray' => sub {
+
+    my @Tests = (
+        {
+            Name  => 'the first column of the all countries',
+            Param => {
+                SQL => 'SELECT * FROM test_countries ORDER BY country_en',
+            },
+            Expected => [ map { $_->[0] } @Countries ],
+        },
+        {
+            Name  => 'the first column from the last two countries',
+            Param => {
+                SQL   => 'SELECT * FROM test_countries ORDER BY country_en DESC',
+                Limit => 2,
+            },
+            Expected => [ map { $_->[0] } @Countries[ -1, -2 ] ],
+        },
+        {
+            Name  => 'only the Sinhala column',
+            Param => {
+                SQL => 'SELECT country_si FROM test_countries ORDER BY country_en',
+            },
+            Expected => [ map { $_->[2] } @Countries ],
+        },
+    );
+
+    for my $Test (@Tests) {
+        subtest $Test->{Name} => sub {
+            my @Col = $DBObject->SelectColArray( $Test->{Param}->%* );
+            is( \@Col, $Test->{Expected}, 'got expected column' );
 
             my @AnotherRow = $DBObject->FetchrowArray;
             is( \@AnotherRow, [], "no furher row" );
