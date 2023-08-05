@@ -21,9 +21,11 @@ package Kernel::System::DB;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
-use List::Util ();
+use List::Util qw(shuffle);
 
 # CPAN modules
 use DBI;
@@ -32,15 +34,18 @@ use DBIx::Connector;
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::Encode',
-    'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::DateTime',
-    'Kernel::System::Storable',
+our @ObjectDependencies = qw(
+    Kernel::Config
+    Kernel::System::Encode
+    Kernel::System::Log
+    Kernel::System::Main
+    Kernel::System::DateTime
+    Kernel::System::Storable
 );
 
+# This package variable can temporarily be set to 1.
+# The effect is that the mirror DB is used, which can
+# shed some load for computing intensive tasks, like the generation of statistics.
 our $UseSlaveDB = 0;
 
 =head1 NAME
@@ -55,7 +60,7 @@ All database functions to connect/insert/update/delete/... to a database.
 
 =head2 new()
 
-create database object, with database connect..
+create a database object, with database connect..
 Usually you do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
@@ -99,7 +104,11 @@ sub new {
     $Self->{USER} = $Param{DatabaseUser} || $ConfigObject->Get('TestDatabaseUser') || $ConfigObject->Get('DatabaseUser');
     $Self->{PW}   = $Param{DatabasePw}   || $ConfigObject->Get('TestDatabasePw')   || $ConfigObject->Get('DatabasePw');
 
-    $Self->{IsSlaveDB}                  = $Param{IsSlaveDB};
+    # mirror DB related
+    $Self->{IsSlaveDB}    = $Param{IsSlaveDB};    # a guard that stops creation of a further mirror DB
+    $Self->{_InitSlaveDB} = 0;                    # a guard that avoids reconnecting to a mirror DB
+
+    # might be useful for database migrations
     $Self->{DeactivateForeignKeyChecks} = $Param{DeactivateForeignKeyChecks} // 0;
 
     # SlowLog can be activated globally
@@ -565,7 +574,8 @@ sub _InitSlaveDB {
     my ( $Self, %Param ) = @_;
 
     # Run only once!
-    return $Self->{SlaveDBObject} if $Self->{_InitSlaveDB}++;
+    # Report whether a mirror DB could be created in the initial call.
+    return ( $Self->{SlaveDBObject} ? 1 : 0 ) if $Self->{_InitSlaveDB}++;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MasterDSN    = $ConfigObject->Get('DatabaseDSN');
@@ -585,39 +595,37 @@ sub _InitSlaveDB {
         }
     );
 
-    return $Self->{SlaveDBObject} if !%SlaveConfiguration;
-
     SLAVE_INDEX:
     for my $SlaveIndex ( List::Util::shuffle( keys %SlaveConfiguration ) ) {
 
         my %CurrentSlave = %{ $SlaveConfiguration{$SlaveIndex} // {} };
-        next SLAVE_INDEX if !%CurrentSlave;
 
         # If a slave is configured and it is not already used in the current object
         #   and we are actually in the master connection object: then create a slave.
-        if (
-            $CurrentSlave{DSN}
-            && $CurrentSlave{User}
-            && $CurrentSlave{Password}
-            )
-        {
-            my $SlaveDBObject = Kernel::System::DB->new(
-                DatabaseDSN  => $CurrentSlave{DSN},
-                DatabaseUser => $CurrentSlave{User},
-                DatabasePw   => $CurrentSlave{Password},
-                IsSlaveDB    => 1,
-            );
+        next SLAVE_INDEX unless %CurrentSlave;
+        next SLAVE_INDEX unless $CurrentSlave{DSN};
+        next SLAVE_INDEX unless $CurrentSlave{User};
+        next SLAVE_INDEX unless $CurrentSlave{Password};
+        my $SlaveDBObject = Kernel::System::DB->new(
+            DatabaseDSN  => $CurrentSlave{DSN},
+            DatabaseUser => $CurrentSlave{User},
+            DatabasePw   => $CurrentSlave{Password},
+            IsSlaveDB    => 1,
+        );
 
-            if ( $SlaveDBObject->Connect() ) {
-                $Self->{SlaveDBObject} = $SlaveDBObject;
+        # work is done when the connect succeeds
+        if ( $SlaveDBObject->Connect ) {
+            $Self->{SlaveDBObject} = $SlaveDBObject;
 
-                return $Self->{SlaveDBObject};
-            }
+            return 1;
         }
+
+        # try the next mirror DB configuration if there is one
     }
 
-    # no connect was possible.
-    return;
+    # no mirror DB was configured or connect wasn't possible,
+    # $Self->{SlaveDBObject} remains undefined
+    return 0;
 }
 
 =head2 Prepare()
@@ -687,8 +695,8 @@ sub Prepare {
     if (
         $UseSlaveDB
         && !$Self->{IsSlaveDB}
-        && $Self->_InitSlaveDB()    # this is very cheap after the first call (cached)
-        && $SQL =~ m{\A\s*SELECT}xms
+        && $Self->_InitSlaveDB          # this is very cheap after the first call (cached)
+        && $SQL =~ m{\A\s*SELECT}xms    # note that 'select' in lower case does not work
         )
     {
         $Self->{_PreparedOnSlaveDB} = 1;
@@ -796,16 +804,18 @@ sub Prepare {
 
 =head2 FetchrowArray()
 
-to process the results of a SELECT statement
+to process the results of a SELECT statement.
 
     $DBObject->Prepare(
         SQL   => "SELECT id, name FROM table",
         Limit => 10
     );
 
-    while (my @Row = $DBObject->FetchrowArray()) {
-        print "$Row[0]:$Row[1]\n";
+    while (my ($ID, $Name) = $DBObject->FetchrowArray()) {
+        print "$ID:$Name\n";
     }
+
+Note that while we are within a fetch loop, no other database interaction may take place.
 
 =cut
 
@@ -819,7 +829,7 @@ sub FetchrowArray {
     # work with cursors if database don't support limit, e.g. Oracle prior to 12c
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
         if ( $Self->{Limit} <= $Self->{LimitCounter} ) {
-            $Self->{Cursor}->finish();
+            $Self->{Cursor}->finish;
 
             return;
         }
@@ -938,7 +948,7 @@ sub GetColumnNames {
 =head2 SelectAll()
 
 returns all available records of a SELECT statement.
-In essence, this calls Prepare() and FetchrowArray() to get all records.
+In essence, this calls C<Prepare()> and then C<FetchrowArray()> in a loop to get all records.
 
     my $ResultAsArrayRef = $DBObject->SelectAll(
         SQL   => "SELECT id, name FROM table",
@@ -961,14 +971,48 @@ Returns undef (if query failed), or an array ref (if query was successful):
 sub SelectAll {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->Prepare(%Param);
+    return unless $Self->Prepare(%Param);
 
     my @Records;
-    while ( my @Row = $Self->FetchrowArray() ) {
+    while ( my @Row = $Self->FetchrowArray ) {
         push @Records, \@Row;
     }
 
     return \@Records;
+}
+
+=head2 SelectRowArray()
+
+returns the first available record of a SELECT statement.
+In essence, this calls C<Prepare()> and then C<FetchrowArray()> once to get the first record.
+In all cases C<finish()> is called on the statement handle. This means that no
+further rows can be retrieved with C<FetchrowArray>.
+
+    my ($ID, $Name) = $DBObject->SelectAll(
+        SQL   => "SELECT id, name FROM table",
+    );
+
+You can pass the same arguments as to the Prepare() method.
+
+Returns undef (if query failed), or an array ref (if query was successful):
+
+    my ($ID, $Name) = (1, 'first');
+
+=cut
+
+sub SelectRowArray {
+    my ( $Self, %Param ) = @_;
+
+    return unless $Self->Prepare(%Param);
+
+    my @Row = $Self->FetchrowArray;
+
+    # release resources from the current statement handle
+    if ( $Self->{Cursor} ) {
+        $Self->{Cursor}->finish;
+    }
+
+    return @Row;
 }
 
 =head2 GetDatabaseFunction()
@@ -2022,7 +2066,7 @@ sub DESTROY {
 
     # cleanup open statement handle if there is any and then disconnect from DB
     if ( $Self->{Cursor} ) {
-        $Self->{Cursor}->finish();
+        $Self->{Cursor}->finish;
     }
 
     $Self->Disconnect();
