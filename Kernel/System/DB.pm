@@ -815,6 +815,8 @@ to process the results of a SELECT statement
         print "$Row[0]:$Row[1]\n";
     }
 
+Note that while we are within a fetch loop, no other database interaction may take place.
+
 =cut
 
 sub FetchrowArray {
@@ -946,7 +948,7 @@ sub GetColumnNames {
 =head2 SelectAll()
 
 returns all available records of a SELECT statement.
-In essence, this calls Prepare() and FetchrowArray() to get all records.
+In essence, this calls C<Prepare()> and then C<FetchrowArray()> in a loop to get all records.
 
     my $ResultAsArrayRef = $DBObject->SelectAll(
         SQL   => "SELECT id, name FROM table",
