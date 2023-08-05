@@ -804,15 +804,15 @@ sub Prepare {
 
 =head2 FetchrowArray()
 
-to process the results of a SELECT statement
+to process the results of a SELECT statement.
 
     $DBObject->Prepare(
         SQL   => "SELECT id, name FROM table",
         Limit => 10
     );
 
-    while (my @Row = $DBObject->FetchrowArray()) {
-        print "$Row[0]:$Row[1]\n";
+    while (my ($ID, $Name) = $DBObject->FetchrowArray()) {
+        print "$ID:$Name\n";
     }
 
 Note that while we are within a fetch loop, no other database interaction may take place.
@@ -971,14 +971,48 @@ Returns undef (if query failed), or an array ref (if query was successful):
 sub SelectAll {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->Prepare(%Param);
+    return unless $Self->Prepare(%Param);
 
     my @Records;
-    while ( my @Row = $Self->FetchrowArray() ) {
+    while ( my @Row = $Self->FetchrowArray ) {
         push @Records, \@Row;
     }
 
     return \@Records;
+}
+
+=head2 SelectRowArray()
+
+returns the first available record of a SELECT statement.
+In essence, this calls C<Prepare()> and then C<FetchrowArray()> once to get the first record.
+In all cases C<finish()> is called on the statement handle. This means that no
+further rows can be retrieved with C<FetchrowArray>.
+
+    my ($ID, $Name) = $DBObject->SelectAll(
+        SQL   => "SELECT id, name FROM table",
+    );
+
+You can pass the same arguments as to the Prepare() method.
+
+Returns undef (if query failed), or an array ref (if query was successful):
+
+    my ($ID, $Name) = (1, 'first');
+
+=cut
+
+sub SelectRowArray {
+    my ( $Self, %Param ) = @_;
+
+    return unless $Self->Prepare(%Param);
+
+    my @Row = $Self->FetchrowArray;
+
+    # release resources from the current statement handle
+    if ( $Self->{Cursor} ) {
+        $Self->{Cursor}->finish;
+    }
+
+    return @Row;
 }
 
 =head2 GetDatabaseFunction()

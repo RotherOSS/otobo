@@ -31,6 +31,8 @@ The tested methods are:
 
 =item SelectAll
 
+=item SelectRowArray
+
 =back
 
 =cut
@@ -96,20 +98,58 @@ subtest 'SelectAll' => sub {
                 SQL   => 'SELECT * FROM test_countries ORDER BY country_en DESC',
                 Limit => 2,
             },
-            Expected => [ @Countries[ 2, 1 ] ],
+            Expected => [ @Countries[ -1, -2 ] ],
         },
         {
             Name  => 'only Sinhala',
             Param => {
                 SQL => 'SELECT country_si FROM test_countries ORDER BY country_en',
             },
-            Expected => [ map { [ $_->[2] ] } @Countries ],
+            Expected => [ map { [ $_->[-1] ] } @Countries ],
         },
     );
 
     for my $Test (@Tests) {
         my $Result = $DBObject->SelectAll( $Test->{Param}->%* );
         is( $Result, $Test->{Expected}, $Test->{Name} );
+    }
+};
+
+subtest 'SelectRowArray' => sub {
+
+    my @Tests = (
+        {
+            Name  => 'all order by country_en, effectively the first',
+            Param => {
+                SQL => 'SELECT * FROM test_countries ORDER BY country_en',
+            },
+            Expected => $Countries[0],
+        },
+        {
+            Name  => 'the two last countries, effectively the last',
+            Param => {
+                SQL   => 'SELECT * FROM test_countries ORDER BY country_en DESC',
+                Limit => 2,
+            },
+            Expected => $Countries[-1],
+        },
+        {
+            Name  => 'only Sinhala, effectively Sinhala of the first row',
+            Param => {
+                SQL => 'SELECT country_si FROM test_countries ORDER BY country_en',
+            },
+            Expected => [ $Countries[0]->[2] ],
+        },
+    );
+
+    for my $Test (@Tests) {
+        subtest $Test->{Name} => sub {
+            my @Row = $DBObject->SelectRowArray( $Test->{Param}->%* );
+            is( \@Row, $Test->{Expected}, 'got expected row' );
+
+            my @AnotherRow = $DBObject->FetchrowArray;
+            is( \@AnotherRow, [], "no furher row" );
+        }
     }
 };
 
