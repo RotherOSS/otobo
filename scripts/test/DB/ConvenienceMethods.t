@@ -112,8 +112,13 @@ subtest 'SelectAll' => sub {
     );
 
     for my $Test (@Tests) {
-        my $Result = $DBObject->SelectAll( $Test->{Param}->%* );
-        is( $Result, $Test->{Expected}, $Test->{Name} );
+        subtest $Test->{Name} => sub {
+            my $Matrix = $DBObject->SelectAll( $Test->{Param}->%* );
+            is( $Matrix, $Test->{Expected}, 'got expected matrix' );
+
+            my @AnotherRow = $DBObject->FetchrowArray;
+            is( \@AnotherRow, [], "no further row" );
+        };
     }
 };
 
@@ -150,8 +155,8 @@ subtest 'SelectRowArray' => sub {
             is( \@Row, $Test->{Expected}, 'got expected row' );
 
             my @AnotherRow = $DBObject->FetchrowArray;
-            is( \@AnotherRow, [], "no furher row" );
-        }
+            is( \@AnotherRow, [], "no further row" );
+        };
     }
 };
 
