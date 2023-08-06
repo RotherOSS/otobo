@@ -997,7 +997,7 @@ further rows can be retrieved with C<FetchrowArray>.
 
 You can pass the same arguments as to the Prepare() method.
 
-Returns undef if the query failed, or an array if the query was successful:
+Returns undef if the query failed, or a list if the query was successful:
 
     my ($ID, $Name) = (1, 'first');
 
@@ -1032,7 +1032,7 @@ In essence, this calls C<Prepare()> and then the DBI method C<selectcol_array()>
 
 You can pass the same arguments as to the Prepare() method.
 
-Returns undef if the query failed, or an array if the query was successful:
+Returns undef if the query failed, or a list if the query was successful:
 
     my @IDs = (100, 101, 102);
 
@@ -1061,6 +1061,61 @@ sub SelectColArray {
     $Self->_EncodeInputList($Column);
 
     return $Column->@*;
+}
+
+=head2 SelectMapping()
+
+returns a mapping with the first column as a key for the second column of the SELECT statement.
+In essence, this calls C<Prepare()> and then the DBI method C<selectcol_array()>
+to get the first two columns.
+
+    my $MinID    = 100;
+    my %IDToName = $DBObject->SelectMapping(
+        SQL   => "SELECT id, name FROM table WHERE id >= ? ORDER BY id",
+        Bind  => [ \$MinID ],
+        Limit => 3,
+    );
+
+You can pass the same arguments as to the Prepare() method.
+
+Returns undef if the query failed, or a list if the query was successful.
+The list can be used for initializing a hash.
+
+    my %IDToName = (
+        100 = 'one hundred',
+        101 = 'one hundred and one',
+        102 = 'one hundred and two',
+    );
+
+=cut
+
+sub SelectMapping {
+    my ( $Self, %Param ) = @_;
+
+    my ( $PrepareSuccess, @BindVariables ) = $Self->Prepare(
+        %Param,
+        Execute => 0,
+    );
+
+    return unless $PrepareSuccess;
+
+    # The statement handle has been prepared in Prepare().
+    # selectcol_arrayref() returns the first column zipped with the second column,
+    # that is exactly what we need here.
+    my $List = $Self->{dbh}->selectcol_arrayref(
+        $Self->{Cursor},    # the prepared statement handle
+        {
+            Columns => [ 1, 2 ],
+        },
+        @BindVariables,
+    );
+
+    return unless defined $List;
+
+    # The fetched row might be tweaked here
+    $Self->_EncodeInputList($List);
+
+    return $List->@*;
 }
 
 =head2 GetDatabaseFunction()

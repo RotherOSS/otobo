@@ -193,8 +193,45 @@ subtest 'SelectColArray' => sub {
             is( \@Col, $Test->{Expected}, 'got expected column' );
 
             my @AnotherRow = $DBObject->FetchrowArray;
-            is( \@AnotherRow, [], "no furher row" );
-        }
+            is( \@AnotherRow, [], "no further row" );
+        };
+    }
+};
+
+subtest 'SelectMapping' => sub {
+    my @Tests = (
+        {
+            Name  => 'English to German for all countries',
+            Param => {
+                SQL => 'SELECT * FROM test_countries ORDER BY country_en',
+            },
+            Expected => { map { $_->[0] => $_->[1] } @Countries },
+        },
+        {
+            Name  => 'English to German for last two countries',
+            Param => {
+                SQL   => 'SELECT * FROM test_countries ORDER BY country_en DESC',
+                Limit => 2,
+            },
+            Expected => { map { $_->[0] => $_->[1] } @Countries[ -1, -2 ] },
+        },
+        {
+            Name  => 'Sinhala to German for all countries',
+            Param => {
+                SQL => 'SELECT country_si, country_de FROM test_countries ORDER BY country_en',
+            },
+            Expected => { map { $_->[2] => $_->[1] } @Countries },
+        },
+    );
+
+    for my $Test (@Tests) {
+        subtest $Test->{Name} => sub {
+            my %Mapping = $DBObject->SelectMapping( $Test->{Param}->%* );
+            is( \%Mapping, $Test->{Expected}, 'got expected mapping' );
+
+            my @AnotherRow = $DBObject->FetchrowArray;
+            is( \@AnotherRow, [], "no further row" );
+        };
     }
 };
 
