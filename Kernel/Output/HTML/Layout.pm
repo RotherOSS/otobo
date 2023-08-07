@@ -3711,7 +3711,7 @@ sub BuildDateSelection {
     else {
         $Param{Year} = "<input type=\"text\" "
             . ( $Validate ? "class=\"Validate_DateYear $Class\" " : "class=\"$Class\" " )
-            . "name=\"${Prefix}Year$\" id=\"${Prefix}Year${Suffix}\" size=\"4\" maxlength=\"4\" "
+            . "name=\"${Prefix}Year\" id=\"${Prefix}Year${Suffix}\" size=\"4\" maxlength=\"4\" "
             . "title=\""
             . $Self->{LanguageObject}->Translate('Year')
             . "\" value=\""
