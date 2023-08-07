@@ -91,24 +91,24 @@ sub Run {
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    # get the dynamic fields
-    my $DynamicField = $DynamicFieldObject->DynamicFieldListGet(
-        Valid      => 1,
-        ObjectType => ['Ticket'],
-    );
+    # create a lookup table of the dynamic fields by name (since name is unique)
+    my %DynamicFieldLookup;
+    {
+        my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
+            Valid      => 1,
+            ObjectType => ['Ticket'],
+        );
+
+        DYNAMICFIELD:
+        for my $DynamicField ( $DynamicFieldList->@* ) {
+            next DYNAMICFIELD unless $DynamicField->{Name};
+
+            $DynamicFieldLookup{ $DynamicField->{Name} } = $DynamicField;
+        }
+    }
 
     # get settings from sysconfig
     my $ConfigSettings = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::TicketDynamicFieldDefault');
-
-    # create a lookup table by name (since name is unique)
-    my %DynamicFieldLookup;
-    DYNAMICFIELD:
-    for my $DynamicField ( @{$DynamicField} ) {
-
-        next DYNAMICFIELD if !$DynamicField->{Name};
-
-        $DynamicFieldLookup{ $DynamicField->{Name} } = $DynamicField;
-    }
 
     ELEMENT:
     for my $ElementName ( sort keys %{$ConfigSettings} ) {

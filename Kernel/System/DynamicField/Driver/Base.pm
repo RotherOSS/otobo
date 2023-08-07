@@ -370,7 +370,8 @@ sub ValueStructureToDB {
             for my $i ( 0 .. $#{ $Param{Value} } ) {
                 VALUE:
                 for my $j ( 0 .. $#{ $Param{Value}[$i] } ) {
-                    next VALUE if !defined $Param{Value}[$i][$j] || $Param{Value}[$i][$j] eq '';
+                    next VALUE unless defined $Param{Value}[$i][$j];
+                    next VALUE if $Param{Value}[$i][$j] eq '';
 
                     push @ReturnValue, {
                         $Param{ValueKey} => $Param{Value}[$i][$j],

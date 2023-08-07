@@ -3709,14 +3709,14 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Year} = "<input type=\"text\" "
-            . ( $Validate ? "class=\"Validate_DateYear $Class\" " : "class=\"$Class\" " )
-            . "name=\"${Prefix}Year$\" id=\"${Prefix}Year${Suffix}\" size=\"4\" maxlength=\"4\" "
-            . "title=\""
-            . $Self->{LanguageObject}->Translate('Year')
-            . "\" value=\""
-            . sprintf( "%02d", ( $Param{ $Prefix . 'Year' } || $Y ) ) . "\" "
-            . ( $Param{Disabled} ? 'readonly' : '' ) . "/>";
+        $Param{Year} =
+            '<input type="text" '
+            . ( $Validate ? qq{class="Validate_DateYear $Class" } : qq{class="$Class" } )
+            . qq{name="${Prefix}Year" id="${Prefix}Year${Suffix}" size="4" maxlength="4" }
+            . sprintf( 'title="%s" ',   $Self->{LanguageObject}->Translate('Year') )
+            . sprintf( 'value="%02d" ', ( $Param{ $Prefix . 'Year' } || $Y ) )
+            . ( $Param{Disabled} ? 'readonly' : '' )
+            . '/>';
     }
 
     # month
@@ -3734,14 +3734,14 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Month} = "<input type=\"text\" "
-            . ( $Validate ? "class=\"Validate_DateMonth $Class\" " : "class=\"$Class\" " )
-            . "name=\"${Prefix}Month\" id=\"${Prefix}Month${Suffix}\" size=\"2\" maxlength=\"2\" "
-            . "title=\""
-            . $Self->{LanguageObject}->Translate('Month')
-            . "\" value=\""
-            . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\" "
-            . ( $Param{Disabled} ? 'readonly' : '' ) . "/>";
+        $Param{Month} =
+            '<input type="text" '
+            . ( $Validate ? qq{class="Validate_DateMonth $Class" } : qq{class="$Class" } )
+            . qq{name="${Prefix}Month" id="${Prefix}Month${Suffix}" size="2" maxlength="2" }
+            . sprintf( 'title="%s" ',   $Self->{LanguageObject}->Translate('Month') )
+            . sprintf( 'value="%02d" ', ( $Param{ $Prefix . 'Month' } || $M ) )
+            . ( $Param{Disabled} ? 'readonly' : '' )
+            . '/>';
     }
 
     my $DateValidateClasses = '';
@@ -3791,16 +3791,17 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Day} = "<input type=\"text\" "
-            . "class=\"$DateValidateClasses $Class\" "
-            . "name=\"${Prefix}Day\" id=\"${Prefix}Day${Suffix}\" size=\"2\" maxlength=\"2\" "
-            . "title=\""
-            . $Self->{LanguageObject}->Translate('Day')
-            . "\" value=\""
-            . sprintf( "%02d", ( $Param{ $Prefix . 'Day' } || $D ) ) . "\" "
-            . ( $Param{Disabled} ? 'readonly' : '' ) . "/>";
+        $Param{Day} =
+            '<input type="text" '
+            . qq{class="$DateValidateClasses $Class" }
+            . qq{name="${Prefix}Day" id="${Prefix}Day${Suffix}" size="2" maxlength="2" }
+            . sprintf( 'title="%s" ',   $Self->{LanguageObject}->Translate('Month') )
+            . sprintf( 'value="%02d" ', ( $Param{ $Prefix . 'Day' } || $D ) )
+            . ( $Param{Disabled} ? 'readonly' : '' )
+            . '/>';
 
     }
+
     if ( $Format eq 'DateInputFormatLong' ) {
 
         # hour
@@ -3881,7 +3882,7 @@ sub BuildDateSelection {
         $WeekDayStart = 1;
     }
 
-    my $Output;
+    my $Output = '';
 
     # optional checkbox
     if ($Optional) {

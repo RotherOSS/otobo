@@ -97,7 +97,7 @@ sub ValueSet {
     my ( $Self, %Param ) = @_;
 
     # we only set the value from event triggers
-    return 1 if !$Param{Store};
+    return 1 unless $Param{Store};
 
     my $Value = $Self->ValueStructureToDB(
         Value      => $Param{Value},
@@ -106,14 +106,12 @@ sub ValueSet {
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
     );
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         Value    => $Value,
         UserID   => $Param{UserID},
     );
-
-    return $Success;
 }
 
 sub ValueValidate {
