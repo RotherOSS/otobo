@@ -3716,7 +3716,7 @@ sub BuildDateSelection {
             . sprintf( 'title="%s" ',   $Self->{LanguageObject}->Translate('Year') )
             . sprintf( 'value="%02d" ', ( $Param{ $Prefix . 'Year' } || $Y ) )
             . ( $Param{Disabled} ? 'readonly' : '' )
-            . '/>';
+            . '>';
     }
 
     # month
@@ -3741,7 +3741,7 @@ sub BuildDateSelection {
             . sprintf( 'title="%s" ',   $Self->{LanguageObject}->Translate('Month') )
             . sprintf( 'value="%02d" ', ( $Param{ $Prefix . 'Month' } || $M ) )
             . ( $Param{Disabled} ? 'readonly' : '' )
-            . '/>';
+            . '>';
     }
 
     my $DateValidateClasses = '';
@@ -3793,12 +3793,12 @@ sub BuildDateSelection {
     else {
         $Param{Day} =
             '<input type="text" '
-            . qq{class="$DateValidateClasses $Class" }
+            . qq{class="${DateValidateClasses}${Class}" }
             . qq{name="${Prefix}Day" id="${Prefix}Day${Suffix}" size="2" maxlength="2" }
-            . sprintf( 'title="%s" ',   $Self->{LanguageObject}->Translate('Month') )
+            . sprintf( 'title="%s" ',   $Self->{LanguageObject}->Translate('Day') )
             . sprintf( 'value="%02d" ', ( $Param{ $Prefix . 'Day' } || $D ) )
             . ( $Param{Disabled} ? 'readonly' : '' )
-            . '/>';
+            . '>';
 
     }
 
@@ -3821,18 +3821,14 @@ sub BuildDateSelection {
             );
         }
         else {
-            $Param{Hour} = "<input type=\"text\" "
-                . ( $Validate ? "class=\"Validate_DateHour $Class\" " : "class=\"$Class\" " )
-                . "name=\"${Prefix}Hour\" id=\"${Prefix}Hour${Suffix}\" size=\"2\" maxlength=\"2\" "
-                . "title=\""
-                . $Self->{LanguageObject}->Translate('Hours')
-                . "\" value=\""
-                . sprintf(
-                    "%02d",
-                    ( defined( $Param{ $Prefix . 'Hour' } ) ? int( $Param{ $Prefix . 'Hour' } ) : $h )
-                )
-                . "\" "
-                . ( $Param{Disabled} ? 'readonly' : '' ) . "/>";
+            $Param{Hour} =
+                '<input type="text" '
+                . ( $Validate ? qq{class="Validate_DateHour $Class" } : qq{class="$Class" } )
+                . qq{name="${Prefix}Hour" id="${Prefix}Hour${Suffix}" size="2" maxlength="2" }
+                . sprintf( 'title="%s" ',   $Self->{LanguageObject}->Translate('Hours') )
+                . sprintf( 'value="%02d" ', ( $Param{ $Prefix . 'Hour' } || $h ) )
+                . ( $Param{Disabled} ? 'readonly' : '' )
+                . '>';
 
         }
 
@@ -3853,21 +3849,14 @@ sub BuildDateSelection {
             );
         }
         else {
-            $Param{Minute} = "<input type=\"text\" "
-                . ( $Validate ? "class=\"Validate_DateMinute $Class\" " : "class=\"$Class\" " )
-                . "name=\"${Prefix}Minute\" id=\"${Prefix}Minute${Suffix}\" size=\"2\" maxlength=\"2\" "
-                . "title=\""
-                . $Self->{LanguageObject}->Translate('Minutes')
-                . "\" value=\""
-                . sprintf(
-                    "%02d",
-                    (
-                        defined( $Param{ $Prefix . 'Minute' } )
-                        ? int( $Param{ $Prefix . 'Minute' } )
-                        : $m
-                    )
-                ) . "\" "
-                . ( $Param{Disabled} ? 'readonly' : '' ) . "/>";
+            $Param{Minute} =
+                '<input type="text" '
+                . ( $Validate ? qq{class="Validate_DateMinute $Class" } : qq{class="$Class" } )
+                . qq{name="${Prefix}Minute" id="${Prefix}Minute${Suffix}" size="2" maxlength="2" }
+                . sprintf( 'title="%s" ',   $Self->{LanguageObject}->Translate('Minutes') )
+                . sprintf( 'value="%02d" ', ( $Param{ $Prefix . 'Minute' } || $m ) )
+                . ( $Param{Disabled} ? 'readonly' : '' )
+                . '>';
         }
     }
 
@@ -3887,16 +3876,13 @@ sub BuildDateSelection {
     # optional checkbox
     if ($Optional) {
         my $Checked = $Used ? ' checked' : '';
-        $Output .= "<input type=\"checkbox\" name=\""
-            . $Prefix
-            . "Used\" id=\"" . $Prefix . "Used" . $Suffix . "\" value=\"1\""
+        $Output .=
+            qq{<input type="checkbox" name="${Prefix}Used" id="${Prefix}Used${Suffix}" value="1"}
             . $Checked
-            . " class=\"$Class\""
-            . " title=\""
-            . $Self->{LanguageObject}->Translate('Check to activate this date')
-            . "\" "
+            . qq{ class="$Class"}
+            . sprintf( ' title="%s" ', $Self->{LanguageObject}->Translate('Check to activate this date') )
             . ( $Param{Disabled} ? 'disabled="disabled"' : '' )
-            . "/>&nbsp;";
+            . ">&nbsp;";
     }
 
     # remove 'Second' because it is never used and bug #9441
