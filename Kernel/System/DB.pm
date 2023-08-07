@@ -978,14 +978,29 @@ Returns undef (if query failed), or an array ref (if query was successful):
 sub SelectAll {
     my ( $Self, %Param ) = @_;
 
-    return unless $Self->Prepare(%Param);
+    my ( $PrepareSuccess, @BindVariables ) = $Self->Prepare(
+        %Param,
+        Execute => 0,
+    );
 
-    my @Records;
-    while ( my @Row = $Self->FetchrowArray ) {
-        push @Records, \@Row;
+    return unless $PrepareSuccess;
+
+    # the statement handle has been prepared in Prepare()
+    my $Matrix = $Self->{dbh}->selectall_arrayref(
+        $Self->{Cursor},    # the prepared statement handle
+        {},                 # no attributes
+        @BindVariables,
+    );
+
+    return unless defined $Matrix;
+    return unless ref $Matrix eq 'ARRAY';
+
+    # The fetched rows might be tweaked here
+    for my $Row ( $Matrix->@* ) {
+        $Self->_EncodeInputList($Row);
     }
 
-    return \@Records;
+    return $Matrix;
 }
 
 =head2 SelectRowArray()
@@ -1061,7 +1076,7 @@ sub SelectColArray {
 
     return unless defined $Column;
 
-    # The fetched row might be tweaked here
+    # The fetched column might be tweaked here
     $Self->_EncodeInputList($Column);
 
     return $Column->@*;
