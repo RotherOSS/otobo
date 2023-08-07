@@ -24,7 +24,7 @@ use warnings;
 use Encode;
 
 # CPAN modules
-use Encode::Locale;
+use Encode::Locale qw(decode_argv);
 use IO::Interactive qw(is_interactive);
 
 # OTOBO modules
@@ -73,8 +73,8 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = 0;
 
-    # use "locale" as an arg to encode/decode
-    @ARGV = map { decode( locale => $_, 1 ) } @ARGV;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
+    # decode the command line arguments to Perl's internal format.
+    decode_argv(Encode::FB_CROAK);
 
     # check if the encodeobject is used from the command line
     # if so, we need to decode @ARGV
