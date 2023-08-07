@@ -136,7 +136,7 @@ my @Tests = (
             TestOptional => 1,
         },
         ExpectedValue =>
-            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" />
+            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" >
 <select id="TestMonth" name="TestMonth" title="Month">
   <option value="10" selected="selected">10</option>
 </select>
@@ -157,7 +157,7 @@ my @Tests = (
             TestOptional => 1,
         },
         ExpectedValue =>
-            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" />
+            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" >
 <select id="TestMonth" name="TestMonth" title="Month">
   <option value="10" selected="selected">10</option>
 </select>
@@ -180,9 +180,9 @@ my @Tests = (
             Message => 'Set TimeInputFormat to Input',
         },
         ExpectedValue =>
-            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="10" />
-<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="02" />
-<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2016" />',
+            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="10" >
+<input type="text" class="" name="Day" id="Day" size="2" maxlength="2" title="Day" value="02" >
+<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2016" >',
     },
     {
         Name           => 'Long Format (Input)',
@@ -193,11 +193,11 @@ my @Tests = (
             Format => 'DateInputFormatLong',
         },
         ExpectedValue =>
-            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="10" />
-<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="01" />
-<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2016" />
-<input type="text" class="" name="Hour" id="Hour" size="2" maxlength="2" title="Hours" value="22" />
-<input type="text" class="" name="Minute" id="Minute" size="2" maxlength="2" title="Minutes" value="04" />',
+            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="10" >
+<input type="text" class="" name="Day" id="Day" size="2" maxlength="2" title="Day" value="01" >
+<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2016" >
+<input type="text" class="" name="Hour" id="Hour" size="2" maxlength="2" title="Hours" value="22" >
+<input type="text" class="" name="Minute" id="Minute" size="2" maxlength="2" title="Minutes" value="04" >',
     },
     {
         Name           => 'Optional (Input)',
@@ -209,10 +209,10 @@ my @Tests = (
             TestOptional => 1,
         },
         ExpectedValue =>
-            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" />
-<input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" />
-<input type="text" class=" " name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="09" />
-<input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2016" />',
+            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" >
+<input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" >
+<input type="text" class="" name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="09" >
+<input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2016" >',
     },
 
     # TODO: add more tests for the different parameters here!
@@ -275,7 +275,7 @@ my @Tests = (
             Disabled     => 1,
         },
         ExpectedValue =>
-            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled="disabled"/>
+            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled="disabled">
 <select disabled="disabled" id="TestMonth" name="TestMonth" title="Month">
   <option value="6" selected="selected">06</option>
 </select>
@@ -300,9 +300,9 @@ my @Tests = (
             Message => 'Set TimeInputFormat to Input',
         },
         ExpectedValue =>
-            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly/>
-<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="08" readonly/>
-<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly/>',
+            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly>
+<input type="text" class="" name="Day" id="Day" size="2" maxlength="2" title="Day" value="08" readonly>
+<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly>',
     },
     {
         Name           => 'Disabled (Input)',
@@ -318,9 +318,9 @@ my @Tests = (
             Message => 'Set TimeInputFormat to Input',
         },
         ExpectedValue =>
-            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly/>
-<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="09" readonly/>
-<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly/>',
+            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly>
+<input type="text" class="" name="Day" id="Day" size="2" maxlength="2" title="Day" value="09" readonly>
+<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly>',
     },
     {
         Name           => 'Disabled Long Format (Input)',
@@ -332,11 +332,11 @@ my @Tests = (
             Disabled => 1,
         },
         ExpectedValue =>
-            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly/>
-<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="08" readonly/>
-<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly/>
-<input type="text" class="" name="Hour" id="Hour" size="2" maxlength="2" title="Hours" value="23" readonly/>
-<input type="text" class="" name="Minute" id="Minute" size="2" maxlength="2" title="Minutes" value="24" readonly/>',
+            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly>
+<input type="text" class="" name="Day" id="Day" size="2" maxlength="2" title="Day" value="08" readonly>
+<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly>
+<input type="text" class="" name="Hour" id="Hour" size="2" maxlength="2" title="Hours" value="23" readonly>
+<input type="text" class="" name="Minute" id="Minute" size="2" maxlength="2" title="Minutes" value="24" readonly>',
     },
     {
         Name           => 'Disabled Long Format (Input)',
@@ -348,11 +348,11 @@ my @Tests = (
             Disabled => 1,
         },
         ExpectedValue =>
-            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly/>
-<input type="text" class=" " name="Day" id="Day" size="2" maxlength="2" title="Day" value="09" readonly/>
-<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly/>
-<input type="text" class="" name="Hour" id="Hour" size="2" maxlength="2" title="Hours" value="01" readonly/>
-<input type="text" class="" name="Minute" id="Minute" size="2" maxlength="2" title="Minutes" value="24" readonly/>',
+            '<input type="text" class="" name="Month" id="Month" size="2" maxlength="2" title="Month" value="06" readonly>
+<input type="text" class="" name="Day" id="Day" size="2" maxlength="2" title="Day" value="09" readonly>
+<input type="text" class="" name="Year" id="Year" size="4" maxlength="4" title="Year" value="2014" readonly>
+<input type="text" class="" name="Hour" id="Hour" size="2" maxlength="2" title="Hours" value="01" readonly>
+<input type="text" class="" name="Minute" id="Minute" size="2" maxlength="2" title="Minutes" value="24" readonly>',
     },
     {
         Name           => 'Disabled Optional (Input)',
@@ -365,10 +365,10 @@ my @Tests = (
             Disabled     => 1,
         },
         ExpectedValue =>
-            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled="disabled"/>
-<input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" readonly/>
-<input type="text" class=" " name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="08" readonly/>
-<input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2014" readonly/>',
+            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled="disabled">
+<input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" readonly>
+<input type="text" class="" name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="08" readonly>
+<input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2014" readonly>',
     },
     {
         Name           => 'Disabled Optional (Input)',
@@ -381,10 +381,10 @@ my @Tests = (
             Disabled     => 1,
         },
         ExpectedValue =>
-            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled="disabled"/>
-<input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" readonly/>
-<input type="text" class=" " name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="09" readonly/>
-<input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2014" readonly/>',
+            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled="disabled">
+<input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" readonly>
+<input type="text" class="" name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="09" readonly>
+<input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2014" readonly>',
     },
 );
 
@@ -444,10 +444,10 @@ for my $Test (@Tests) {
 
         # remove /, : and - and convert them into new lines
         $HTML =~ s{</select>(?: / | : | \s-\s)<select}{</select>\n<select}msxg;
-        $HTML =~ s{/>(?: / | : | \s-\s)<input}{/>\n<input}msxg;
+        $HTML =~ s{>(?: / | : | \s-\s)<input}{>\n<input}msxg;
 
         # remove checkbox space and convert it to new line
-        $HTML =~ s{/>&nbsp;<}{/>\n<}msxg;
+        $HTML =~ s{>&nbsp;<}{>\n<}msxg;
 
         $Self->Is(
             $HTML,
