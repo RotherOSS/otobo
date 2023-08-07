@@ -47,7 +47,6 @@ our @ObjectDependencies = qw(
 # The effect is that the mirror DB is used, which can
 # shed some load for computing intensive tasks, like the generation of statistics.
 our $UseMirrorDB = 0;
-our $UseSlaveDB  = 0;    # the legacy name
 
 =head1 NAME
 
@@ -717,7 +716,7 @@ sub Prepare {
 
     # Route SELECT statements to the DB mirror if requested and a mirror is configured.
     if (
-        ( $UseMirrorDB || $UseSlaveDB )
+        $UseMirrorDB
         && !$Self->{IsMirrorDB}
         && $SQL =~ m{\A\s*SELECT}xms    # note that 'select' in lower case does not work
         && $Self->_InitMirrorDB         # this is very cheap after the first call (cached)
