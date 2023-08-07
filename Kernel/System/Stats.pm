@@ -1602,8 +1602,8 @@ sub StatsRun {
     my %GetParam = %{ $Param{GetParam} };
     my @Result;
 
-    # Perform calculations on the slave DB, if configured.
-    local $Kernel::System::DB::UseSlaveDB = 1;
+    # Perform calculations on the mirror DB, if configured.
+    local $Kernel::System::DB::UseMirrorDB = 1;
 
     # get data if it is a static stats
     if ( $Stat->{StatType} eq 'static' ) {
