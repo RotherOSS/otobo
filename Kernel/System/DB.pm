@@ -570,6 +570,38 @@ sub Do {
     return 1;
 }
 
+=head2 DoArray()
+
+to insert, update or delete multiple values
+
+    my @Dogs   = qw(Ferdinand Wastl Bello);
+    my @Owners = qw(Madleine Ferdinand Jaques);
+
+    $DBObject->DoArray(
+        SQL  => "INSERT INTO dogs (name, owner) VALUES (?, ?)",
+        Bind => [ \@Dogs, \@Owners ],
+    );
+
+=cut
+
+sub DoArray {
+    my ( $Self, %Param ) = @_;
+
+    my ( $PrepareSuccess, @BindVariables ) = $Self->Prepare(
+        %Param,
+        DoArray => 1,
+        Execute => 0,
+    );
+
+    return unless $PrepareSuccess;
+
+    # the statement handle has been prepared in Prepare()
+    return $Self->{Cursor}->execute_array(
+        { ArrayTupleStatus => \my @TupleStatus },
+        @BindVariables
+    );
+}
+
 sub _InitMirrorDB {
     my ( $Self, %Param ) = @_;
 
@@ -684,6 +716,8 @@ will return
 
     my ($Success, @BindVariables) = (1, 'dog1', 'dog2' );
 
+Another internally used param is C<DoArray>. That parameter indicates that the array bind values are used.
+
 =cut
 
 sub Prepare {
@@ -694,6 +728,7 @@ sub Prepare {
     my $Limit   = $Param{Limit} || '';
     my $Start   = $Param{Start} || '';
     my $Execute = $Param{Execute} // 1;
+    my $DoArray = $Param{DoArray} // 0;
 
     # check needed stuff
     if ( !$Param{SQL} ) {
@@ -770,15 +805,16 @@ sub Prepare {
     # check bind params
     my @Array;
     if ( $Param{Bind} ) {
+        my $RefType = $DoArray ? 'ARRAY' : 'SCALAR';
         for my $Data ( $Param{Bind}->@* ) {
-            if ( ref $Data eq 'SCALAR' ) {
-                push @Array, $Data->$*;
+            if ( ref $Data eq $RefType ) {
+                push @Array, $DoArray ? $Data : $Data->$*;
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Caller   => 1,
                     Priority => 'Error',
-                    Message  => 'No SCALAR param in Bind!',
+                    Message  => qq{No $RefType parameter in Bind!},
                 );
 
                 return;
