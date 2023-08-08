@@ -90,11 +90,12 @@ $Selenium->RunTest(
             push @CreatedUserIDs, $UserID;
 
             # Add created test user to appropriate group.
-            my $Success = $GroupObject->PermissionGroupUserAdd(
+            my $HasRoPermission = $Count == 1 ? 1 : 0;
+            my $Success         = $GroupObject->PermissionGroupUserAdd(
                 GID        => $GroupID,
                 UID        => $UserID,
                 Permission => {
-                    ro        => $Count == 1 ? 1 : 0,
+                    ro        => $HasRoPermission,
                     move_into => 0,
                     create    => 0,
                     note      => 1,
@@ -104,7 +105,7 @@ $Selenium->RunTest(
                 },
                 UserID => 1,
             );
-            push @CreatedUserIDs, $UserID;
+            ok( $Success, "User $UserID with note=1, ro=$HasRoPermission on group $GroupID" );
         }
 
         # Enable 'InformAgent' for AgentTicketNote screen.
