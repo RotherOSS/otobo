@@ -18,7 +18,7 @@ package Kernel::System::Main;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
-use v5.24;
+# use v5.24; # ATTENTION, beware of https://metacpan.org/dist/perl/view/pod/perlunicode.pod#The-%22Unicode-Bug%22
 use strict;
 use warnings;
 use namespace::autoclean;    # hide md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN, irand, IsStringWithData
