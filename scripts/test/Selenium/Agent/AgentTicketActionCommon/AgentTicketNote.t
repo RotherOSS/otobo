@@ -14,22 +14,24 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
-
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -55,10 +57,7 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
-            $GroupID,
-            "Group ID $GroupID is created."
-        );
+        ok( $GroupID, "Group ID $GroupID is created." );
 
         # Create test queue.
         my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
@@ -73,10 +72,7 @@ $Selenium->RunTest(
             Comment         => 'Selenium Queue',
             UserID          => 1,
         );
-        $Self->True(
-            $QueueID,
-            "Queue ID $QueueID is created."
-        );
+        ok( $QueueID, "Queue ID $QueueID is created." );
 
         # Create two test user. One with 'ro' and 'note' permissions, other one with only 'note' permission.
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
@@ -90,10 +86,8 @@ $Selenium->RunTest(
                 ValidID       => 1,
                 ChangeUserID  => 1,
             );
-            $Self->True(
-                $UserID,
-                "User ID $UserID is created."
-            );
+            ok( $UserID, "User ID $UserID is created." );
+            push @CreatedUserIDs, $UserID;
 
             # Add created test user to appropriate group.
             my $Success = $GroupObject->PermissionGroupUserAdd(
@@ -152,10 +146,7 @@ $Selenium->RunTest(
             OwnerID      => $TestUserID,
             UserID       => $TestUserID,
         );
-        $Self->True(
-            $TicketID,
-            "Ticket $TicketID is created",
-        );
+        ok( $TicketID, "Ticket $TicketID is created" );
 
         # Update the ticket owner to have an involved user.
         $TicketObject->TicketOwnerSet(
@@ -244,31 +235,23 @@ $Selenium->RunTest(
 
         # Verify only agent with 'ro' permission is available for Inform Agents selection.
         # See bug#14488.
-        $Self->True(
-            $Selenium->execute_script(
-                "return \$('#InformUserID option[Value=$CreatedUserIDs[0]]').length"
-            ),
+        ok(
+            $Selenium->execute_script("return \$('#InformUserID option[Value=$CreatedUserIDs[0]]').length"),
             "UserID $CreatedUserIDs[0] with 'ro' and 'note' permission is available for selection in Inform Agents."
         );
-        $Self->False(
-            $Selenium->execute_script(
-                "return \$('#InformUserID option[Value=$CreatedUserIDs[1]]').length"
-            ),
-            "UserID $CreatedUserIDs[1] with 'note' permission is not available for selection in Inform Agents."
+        ok(
+            !$Selenium->execute_script("return \$('#InformUserID option[Value=$CreatedUserIDs[1]]').length"),
+            "UserID $CreatedUserIDs[1] with only 'note' permission is not available for selection in Inform Agents."
         );
 
         # Verify only agent with 'ro' permission is available for Inform Agents selection.
         # See bug#15031.
-        $Self->True(
-            $Selenium->execute_script(
-                "return \$('#InvolvedUserID option[Value=$CreatedUserIDs[0]]').length"
-            ),
+        ok(
+            $Selenium->execute_script("return \$('#InvolvedUserID option[Value=$CreatedUserIDs[0]]').length"),
             "UserID $CreatedUserIDs[0] with 'ro' and 'note' permission is available for selection in Involved Agents."
         );
-        $Self->False(
-            $Selenium->execute_script(
-                "return \$('#InvolvedUserID option[Value=$TestUserID2]').length"
-            ),
+        ok(
+            !$Selenium->execute_script("return \$('#InvolvedUserID option[Value=$TestUserID2]').length"),
             "UserID $TestUserID2 without 'ro' permission is not available for selection in Involved Agents."
         );
 
@@ -293,21 +276,23 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+            JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
         # Navigate to history of created test ticket.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID"
+        );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetSimple").length;' );
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
 
         # Confirm note action.
-        my $NoteMsg = "Added note (Note)";
-        $Self->True(
-            index( $Selenium->get_page_source(), $NoteMsg ) > -1,
-            "Ticket note action completed",
+        $Selenium->content_contains(
+            'Added note (Note)',
+            'Ticket note action completed',
         );
 
         # Navigate to zoom view of created test ticket.
@@ -327,14 +312,14 @@ $Selenium->RunTest(
         # Check for subject pre-loaded value.
         my $NoteSubjectRe = $ConfigObject->Get('Ticket::SubjectRe') || 'Re';
 
-        $Self->Is(
+        is(
             $Selenium->find_element( '#Subject', 'css' )->get_value(),
             $NoteSubjectRe . ': ' . $NoteSubject,
             "Reply-To note #Subject pre-loaded value",
         );
 
         # Close note pop-up window.
-        $Selenium->close();
+        $Selenium->close;
 
         # Switch window back to agent ticket zoom view of created test ticket.
         $Selenium->WaitFor( WindowCount => 1 );
@@ -381,10 +366,7 @@ $Selenium->RunTest(
             ],
             NoAgentNotify => 1,
         );
-        $Self->True(
-            $ArticleID,
-            "ArticleCreate ID $ArticleID is created.",
-        );
+        ok( $ArticleID, "ArticleCreate ID $ArticleID is created." );
 
         # Navigate to added note article.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleID");
@@ -398,12 +380,13 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function';" );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function';"
+        );
 
         # Wait for the CKE to load.
         $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1;"
+            JavaScript => "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1;"
         );
 
         # Submit note.
@@ -438,7 +421,7 @@ $Selenium->RunTest(
 
             # Image attachment.
             if ( $Attachment{ContentType} =~ /^image\/png/ ) {
-                $Self->Is(
+                is(
                     $Attachment{Disposition},
                     'inline',
                     'Inline image attachment found',
@@ -458,7 +441,7 @@ $Selenium->RunTest(
         }
 
         # Check if inline attachment is present in the note reply (see bug#12259).
-        $Self->True(
+        ok(
             index( $HTMLContent, $ContentID ) > -1,
             'Inline attachment found in note reply',
         );
@@ -474,11 +457,7 @@ $Selenium->RunTest(
             ValidID      => 1,
             UserID       => 1,
         );
-
-        $Self->True(
-            $TemplateID,
-            "Template ID $TemplateID is created.",
-        );
+        ok( $TemplateID, "Template ID $TemplateID is created." );
 
         # Assign the template to our queue.
         my $Success = $QueueObject->QueueStandardTemplateMemberAdd(
@@ -487,14 +466,13 @@ $Selenium->RunTest(
             Active             => 1,
             UserID             => 1,
         );
-        $Self->True(
-            $Success,
-            "Template got assigned to $QueueName",
-        );
+        ok( $Success, "Template got assigned to $QueueName" );
 
         # Now switch to mobile mode and reload the window.
         $Selenium->set_window_size( 600, 400 );
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID"
+        );
 
         $Selenium->execute_script(
             "\$('.Cluster ul.Actions').scrollLeft(\$('#nav-Note').offset().left - \$('#nav-Note').width());"
@@ -505,8 +483,7 @@ $Selenium->RunTest(
 
         # Wait for the iframe to show up.
         $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('form#Compose', \$('.PopupIframe').contents()).length == 1;"
+            JavaScript => "return typeof(\$) === 'function' && \$('form#Compose', \$('.PopupIframe').contents()).length == 1;"
         );
 
         $Selenium->SwitchToFrame(
@@ -517,7 +494,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return \$('#RichText').length;" );
 
         # Check if the richtext is empty.
-        $Self->Is(
+        is(
             $Selenium->find_element( '#RichText', 'css' )->get_value(),
             '',
             "RichText is empty",
@@ -532,13 +509,11 @@ $Selenium->RunTest(
         # Wait a short time and for the spinner to disappear.
         sleep 2;
         $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('.AJAXLoader:visible', \$('.PopupIframe').contents()).length == 0"
+            JavaScript => "return typeof(\$) === 'function' && \$('.AJAXLoader:visible', \$('.PopupIframe').contents()).length == 0"
         );
 
         $Selenium->WaitFor(
-            JavaScript =>
-                "return CKEDITOR.instances.RichText.getData() == '$TemplateText';"
+            JavaScript => "return CKEDITOR.instances.RichText.getData() == '$TemplateText';"
         );
 
         my $CKEditorValue = $Selenium->execute_script(
@@ -546,7 +521,7 @@ $Selenium->RunTest(
         );
         sleep 1;
 
-        $Self->Is(
+        is(
             $CKEditorValue,
             $TemplateText,
             "RichText contains the correct value from the selected template",
@@ -556,10 +531,7 @@ $Selenium->RunTest(
         $Success = $StandardTemplateObject->StandardTemplateDelete(
             ID => $TemplateID,
         );
-        $Self->True(
-            $Success,
-            "Template ID $TemplateID is deleted.",
-        );
+        ok( $Success, "Template ID $TemplateID is deleted." );
 
         # Delete created test tickets.
         $Success = $TicketObject->TicketDelete(
@@ -575,10 +547,7 @@ $Selenium->RunTest(
                 UserID   => $TestUserID,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket ID $TicketID is deleted.",
-        );
+        ok( $Success, "Ticket ID $TicketID is deleted." );
 
         # Delete test created queue.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -586,20 +555,14 @@ $Selenium->RunTest(
             SQL  => "DELETE FROM queue WHERE id = ?",
             Bind => [ \$QueueID ],
         );
-        $Self->True(
-            $Success,
-            "QueueID $QueueID is deleted.",
-        );
+        ok( $Success, "QueueID $QueueID is deleted." );
 
         # Delete group-user relations.
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM group_user WHERE group_id = ?",
             Bind => [ \$GroupID ],
         );
-        $Self->True(
-            $Success,
-            "Relation for group ID $GroupID is deleted.",
-        );
+        ok( $Success, "Relation for group ID $GroupID is deleted." );
 
         # Delete test created users.
         for my $UserID (@CreatedUserIDs) {
@@ -607,19 +570,13 @@ $Selenium->RunTest(
                 SQL  => "DELETE FROM user_preferences WHERE user_id = ?",
                 Bind => [ \$UserID ],
             );
-            $Self->True(
-                $Success,
-                "User preferences for $UserID is deleted.",
-            );
+            ok( $Success, "User preferences for $UserID is deleted." );
 
             $Success = $DBObject->Do(
                 SQL  => "DELETE FROM users WHERE id = ?",
                 Bind => [ \$UserID ],
             );
-            $Self->True(
-                $Success,
-                "UserID $UserID is deleted.",
-            );
+            ok( $Success, "UserID $UserID is deleted." );
         }
 
         # Delete test created groups.
@@ -627,10 +584,7 @@ $Selenium->RunTest(
             SQL  => "DELETE FROM groups_table WHERE id = ?",
             Bind => [ \$GroupID ],
         );
-        $Self->True(
-            $Success,
-            "GroupID $GroupID is deleted.",
-        );
+        ok( $Success, "GroupID $GroupID is deleted." );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -639,4 +593,4 @@ $Selenium->RunTest(
     },
 );
 
-$Self->DoneTesting();
+done_testing;
