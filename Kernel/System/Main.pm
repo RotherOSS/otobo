@@ -21,12 +21,12 @@ package Kernel::System::Main;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;    # hide md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN, irand, IsStringWithData
 
 # core modules
 use Digest::MD5 qw(md5_hex);
-use Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
+use Data::Dumper;            ## no critic qw(Modules::ProhibitEvilModules)
 use File::stat;
-use Unicode::Normalize;
 use List::Util qw(first);
 use Fcntl qw(:flock);
 use Encode;
@@ -36,11 +36,6 @@ use Math::Random::Secure qw(irand);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsStringWithData);
-
-# md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN, irand, IsStringWithData
-# should not be available as methods.
-# On the other hand, new should not be purged.
-use namespace::autoclean;
 
 our @ObjectDependencies = (
     'Kernel::System::Encode',
