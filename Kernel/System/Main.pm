@@ -18,6 +18,7 @@ package Kernel::System::Main;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -194,24 +195,55 @@ sub Die {
 
 =head2 FilenameCleanUp()
 
-to clean up filenames for various use cases.
+sanitizes file names for various use cases. The file name, which should be sanitized, is passed in the
+argument C<Filename>.
 
 The parameter C<NoFilenameClean> implements the no-op case and returns the unchanged parameter C<Filename>.
 
     # returns 'some_file_name & shutdown'
-    my $Filename        = $MainObject->FilenameCleanUp(
+    my $Filename = $MainObject->FilenameCleanUp(
         Filename        => 'some_file_name & shutdown'
         Type            => 'Local',
         NoFilenameClean => 1,
     );
 
-Possible types are 'Local', 'Attachment', 'MD5'. For unknown types 'Local' is assumed.
+The different types of clean up are passed as the parameter C<Type>. Possible types are
+'Local', 'Attachment', 'MD5', and 'S3'.  The case of the C<Type> parameter is not significant.
+'Local' is assumed when the type is something else.
 
     # return 32 chars in the range 0..9 and a..f
     my $Filename = $MainObject->FilenameCleanUp(
         Filename => 'some:file.xml',
         Type     => 'MD5',
     );
+
+=head3 MD5
+
+For the type 'MD5' the MD5 sum of the file name is returned.
+
+=head3 Attachment
+
+For the type 'Attachment' the file name is made HTML safe.
+
+=over 4
+
+=item white space is trimmed
+
+=item leading dots are eliminated
+
+=item characters not in C<[\w\-+.#_]> are replaced by an underscore
+
+=item enclosed alphanumerics are replaced by an underscore
+
+=item Umlauts are replaced following the German convention
+
+=item consecutive '-' are collapsed into a single '-'
+
+=item characters are chopped until total length of 220 characters is reached
+
+=back
+
+=head3 Local and S3
 
 When the type is 'Local' then the additional parameter C<NoReplace> is considered as well. When the
 parameter is either not passed or not set to a true value, then all characters
