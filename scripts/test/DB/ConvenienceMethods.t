@@ -76,13 +76,15 @@ my @Countries = (
     [ 'Germany',   'Deutschland', 'ජර්මනිය' ],
     [ 'Sri Lanka', 'Sri Lanka',   'ශ්රී ලංකාව' ],
 );
-for my $Country (@Countries) {
-    my $Do = $DBObject->Do(
-        SQL  => 'INSERT INTO test_countries (country_en, country_de, country_si) VALUES (?, ?, ?)',
-        Bind => [ \( $Country->@* ) ],
-    );
-    ok( $Do, "insert country $Country->[0]" );
-}
+my $DoArraySuccess = $DBObject->DoArray(
+    SQL  => 'INSERT INTO test_countries (country_en, country_de, country_si) VALUES (?, ?, ?)',
+    Bind => [
+        [ map { $_->[0] } @Countries ],
+        [ map { $_->[1] } @Countries ],
+        [ map { $_->[2] } @Countries ],
+    ],
+);
+ok( $DoArraySuccess, "insert countries" );
 
 subtest 'SelectAll' => sub {
 
