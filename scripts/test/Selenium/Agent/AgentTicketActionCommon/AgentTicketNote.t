@@ -237,22 +237,22 @@ $Selenium->RunTest(
         # Verify only agent with 'ro' permission is available for Inform Agents selection.
         # See bug#14488.
         ok(
-            $Selenium->execute_script("return \$('#InformUserID option[Value=$CreatedUserIDs[0]]').length"),
+            $Selenium->execute_script("return \$('#InformUserID option[value=$CreatedUserIDs[0]]').length"),
             "UserID $CreatedUserIDs[0] with 'ro' and 'note' permission is available for selection in Inform Agents."
         );
         ok(
-            !$Selenium->execute_script("return \$('#InformUserID option[Value=$CreatedUserIDs[1]]').length"),
+            !$Selenium->execute_script("return \$('#InformUserID option[value=$CreatedUserIDs[1]]').length"),
             "UserID $CreatedUserIDs[1] with only 'note' permission is not available for selection in Inform Agents."
         );
 
         # Verify only agent with 'ro' permission is available for Inform Agents selection.
         # See bug#15031.
         ok(
-            $Selenium->execute_script("return \$('#InvolvedUserID option[Value=$CreatedUserIDs[0]]').length"),
+            $Selenium->execute_script("return \$('#InvolvedUserID option[value=$CreatedUserIDs[0]]').length"),
             "UserID $CreatedUserIDs[0] with 'ro' and 'note' permission is available for selection in Involved Agents."
         );
         ok(
-            !$Selenium->execute_script("return \$('#InvolvedUserID option[Value=$TestUserID2]').length"),
+            !$Selenium->execute_script("return \$('#InvolvedUserID option[value=$TestUserID2]').length"),
             "UserID $TestUserID2 without 'ro' permission is not available for selection in Involved Agents."
         );
 
