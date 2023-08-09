@@ -2874,7 +2874,7 @@ sub _Mask {
             my @InformUserID    = $ParamObject->GetArray( Param => 'InformUserID' );
             my %InformAgentList = $GroupObject->PermissionGroupGet(
                 GroupID => $GID,
-                Type    => 'rw',
+                Type    => 'ro',
             );
             for my $UserID ( sort keys %InformAgentList ) {
                 $InformAgents{$UserID} = $AllGroupsMembers{$UserID};
