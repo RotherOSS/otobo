@@ -578,8 +578,8 @@ to insert, update or delete multiple values
     my @Owners = qw(Madleine Ferdinand Jaques);
 
     $DBObject->DoArray(
-        SQL  => "INSERT INTO dogs (name, owner) VALUES (?, ?)",
-        Bind => [ \@Dogs, \@Owners ],
+        SQL  => "INSERT INTO dogs (name, relation, owner) VALUES (?, ?, ?)",
+        Bind => [ \@Dogs, 'is owned by', \@Owners ],
     );
 
 =cut
@@ -596,8 +596,15 @@ sub DoArray {
     return unless $PrepareSuccess;
 
     # the statement handle has been prepared in Prepare()
+
+    # support the attribute ArrayTupleFetch
+    my %Attributes = ( ArrayTupleStatus => \my @TupleStatus );
+    if ( $Param{ArrayTupleFetch} ) {
+        $Attributes{ArrayTupleFetch} = $Param{ArrayTupleFetch};
+    }
+
     return $Self->{Cursor}->execute_array(
-        { ArrayTupleStatus => \my @TupleStatus },
+        \%Attributes,
         @BindVariables
     );
 }
@@ -805,16 +812,17 @@ sub Prepare {
     # check bind params
     my @Array;
     if ( $Param{Bind} ) {
-        my $RefType = $DoArray ? 'ARRAY' : 'SCALAR';
+        my %RefIsValid = map { $_ => 1 } $DoArray ? ( 'ARRAY', '' ) : ('SCALAR');
         for my $Data ( $Param{Bind}->@* ) {
-            if ( ref $Data eq $RefType ) {
+            my $RefType = ref $Data;
+            if ( $RefIsValid{$RefType} ) {
                 push @Array, $DoArray ? $Data : $Data->$*;
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Caller   => 1,
                     Priority => 'Error',
-                    Message  => qq{No $RefType parameter in Bind!},
+                    Message  => qq{Invalid reference type '$RefType' in Bind!},
                 );
 
                 return;

@@ -62,6 +62,7 @@ my $XML = <<'END_XML';
     <Column Name="country_en" Required="true" Size="60" Type="VARCHAR"/>
     <Column Name="country_de" Required="true" Size="60" Type="VARCHAR"/>
     <Column Name="country_si" Required="true" Size="60" Type="VARCHAR"/>
+    <Column Name="is_country" Required="true" Type="SMALLINT"/>
 </TableCreate>
 END_XML
 
@@ -72,16 +73,20 @@ ok( $DBObject->Do( SQL => $CreateTableSQL ), 'table created' );
 
 # country translations, sorted by the English name
 my @Countries = (
-    [ 'Colombia',  'Kolumbien',   'කොලොම්බියාව' ],
-    [ 'Germany',   'Deutschland', 'ජර්මනිය' ],
-    [ 'Sri Lanka', 'Sri Lanka',   'ශ්රී ලංකාව' ],
+    [ 'Colombia',  'Kolumbien',   'කොලොම්බියාව', 1 ],
+    [ 'Germany',   'Deutschland', 'ජර්මනිය',             1 ],
+    [ 'Sri Lanka', 'Sri Lanka',   'ශ්රී ලංකාව',      1 ],
 );
+
+# Insert the values.
+# is_country is inserted as a scalar, will be set for all rows
 my $DoArraySuccess = $DBObject->DoArray(
-    SQL  => 'INSERT INTO test_countries (country_en, country_de, country_si) VALUES (?, ?, ?)',
+    SQL  => 'INSERT INTO test_countries (country_en, country_de, country_si, is_country) VALUES (?, ?, ?, ?)',
     Bind => [
         [ map { $_->[0] } @Countries ],
         [ map { $_->[1] } @Countries ],
         [ map { $_->[2] } @Countries ],
+        1,
     ],
 );
 ok( $DoArraySuccess, "insert countries" );
@@ -109,7 +114,7 @@ subtest 'SelectAll' => sub {
             Param => {
                 SQL => 'SELECT country_si FROM test_countries ORDER BY country_en',
             },
-            Expected => [ map { [ $_->[-1] ] } @Countries ],
+            Expected => [ map { [ $_->[-2] ] } @Countries ],
         },
     );
 
@@ -147,7 +152,7 @@ subtest 'SelectRowArray' => sub {
             Param => {
                 SQL => 'SELECT country_si FROM test_countries ORDER BY country_en',
             },
-            Expected => [ $Countries[0]->[2] ],
+            Expected => [ $Countries[0]->[-2] ],
         },
     );
 
@@ -185,7 +190,14 @@ subtest 'SelectColArray' => sub {
             Param => {
                 SQL => 'SELECT country_si FROM test_countries ORDER BY country_en',
             },
-            Expected => [ map { $_->[2] } @Countries ],
+            Expected => [ map { $_->[-2] } @Countries ],
+        },
+        {
+            Name  => 'only the is_country column',
+            Param => {
+                SQL => 'SELECT is_country FROM test_countries ORDER BY country_en',
+            },
+            Expected => [ map { $_->[-1] } @Countries ],
         },
     );
 
