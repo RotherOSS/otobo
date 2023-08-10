@@ -186,6 +186,7 @@ sub Run {
             next SOPM_FILE unless IsArrayRefWithData( $Structure{Filelist} );
 
             # for some reason the trailing .t is checked seperately
+            # so remove it here, when the patterns are set up
             push @ExecuteTestPatterns,
                 map  {s/\.t$//r}
                 grep {m!^scripts/test/!}
@@ -247,7 +248,8 @@ sub Run {
         # check if only some tests are requested
         if (@ExecuteTestPatterns) {
             @Files = grep {
-                any {m/\/\Q$_\E\.t$/smx} @ExecuteTestPatterns
+                my $File = $_;
+                any { $File =~ m!/\Q$_\E\.t$!smx } @ExecuteTestPatterns
             } @Files;
         }
 
