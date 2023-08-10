@@ -600,7 +600,7 @@ sub DoArray {
     # support the attribute ArrayTupleFetch
     my %Attributes = ( ArrayTupleStatus => \my @TupleStatus );
     if ( $Param{ArrayTupleFetch} ) {
-        $Attributes{ArrayTupleStatus} = $Param{ArrayTupleStatus};
+        $Attributes{ArrayTupleFetch} = $Param{ArrayTupleFetch};
     }
 
     return $Self->{Cursor}->execute_array(
