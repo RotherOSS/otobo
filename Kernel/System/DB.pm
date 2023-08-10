@@ -34,13 +34,13 @@ use DBIx::Connector;
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
-our @ObjectDependencies = qw(
-    Kernel::Config
-    Kernel::System::Encode
-    Kernel::System::Log
-    Kernel::System::Main
-    Kernel::System::DateTime
-    Kernel::System::Storable
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::DateTime',
+    'Kernel::System::Storable',
 );
 
 # This package variable can temporarily be set to 1.

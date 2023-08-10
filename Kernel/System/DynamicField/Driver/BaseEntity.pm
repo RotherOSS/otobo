@@ -33,10 +33,10 @@ use parent qw(Kernel::System::DynamicField::Driver::BaseSelect);
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
-our @ObjectDependencies = qw(
-    Kernel::Config
-    Kernel::System::DynamicFieldValue
-    Kernel::System::Log
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DynamicFieldValue',
+    'Kernel::System::Log',
 );
 
 =head1 NAME
