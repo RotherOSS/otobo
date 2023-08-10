@@ -596,8 +596,15 @@ sub DoArray {
     return unless $PrepareSuccess;
 
     # the statement handle has been prepared in Prepare()
+
+    # support the attribute ArrayTupleFetch
+    my %Attributes = ( ArrayTupleStatus => \my @TupleStatus );
+    if ( $Param{ArrayTupleFetch} ) {
+        $Attributes{ArrayTupleStatus} = $Param{ArrayTupleStatus};
+    }
+
     return $Self->{Cursor}->execute_array(
-        { ArrayTupleStatus => \my @TupleStatus },
+        \%Attributes,
         @BindVariables
     );
 }
