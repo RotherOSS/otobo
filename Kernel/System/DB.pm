@@ -572,14 +572,35 @@ sub Do {
 
 =head2 DoArray()
 
-to insert, update or delete multiple values
+to insert, update or delete multiple values. There are two variants. You can bind the column arrays.
+For convenience, when a plain scalar is bound, then it is used for all rows.
 
     my @Dogs   = qw(Ferdinand Wastl Bello);
     my @Owners = qw(Madleine Ferdinand Jaques);
 
-    $DBObject->DoArray(
+    my $NumInserts = $DBObject->DoArray(
         SQL  => "INSERT INTO dogs (name, relation, owner) VALUES (?, ?, ?)",
         Bind => [ \@Dogs, 'is owned by', \@Owners ],
+    );
+
+A subroutine that generates the rows can be passed.
+
+    my $FetchTuple = sub {
+        state $Index = -1;
+        my @Dogs = (
+            [ 'Maxl', 'loves', 'Michaela' ],
+            [ 'Wussel', 'loves', 'Michaela' ],
+        );
+
+        $Index++;
+
+        return if $Index >= 2;
+        return $Dogs[$Index];
+    };
+
+    my $NumInserts = $DBObject->DoArray(
+        SQL             => "INSERT INTO dogs (name, relation, owner) VALUES (?, ?, ?)",
+        ArrayTupleFetch => $FetchTuple,
     );
 
 =cut
@@ -603,7 +624,8 @@ sub DoArray {
         $Attributes{ArrayTupleFetch} = $Param{ArrayTupleFetch};
     }
 
-    return $Self->{Cursor}->execute_array(
+    # return the number of handled tuples
+    return scalar $Self->{Cursor}->execute_array(
         \%Attributes,
         @BindVariables
     );

@@ -39,9 +39,9 @@ The tested methods are:
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use utf8;
 use utf8;
 
 # core modules
@@ -73,14 +73,14 @@ ok( $DBObject->Do( SQL => $CreateTableSQL ), 'table created' );
 
 # country translations, sorted by the English name
 my @Countries = (
-    [ 'Colombia',  'Kolumbien',   'කොලොම්බියාව', 1 ],
-    [ 'Germany',   'Deutschland', 'ජර්මනිය',             1 ],
-    [ 'Sri Lanka', 'Sri Lanka',   'ශ්රී ලංකාව',      1 ],
+    [ 'Austria',  'Österreich', 'ඔස්ට්රියාව',    1 ],
+    [ 'Colombia', 'Kolumbien',   'කොලොම්බියාව', 1 ],
+    [ 'Germany',  'Deutschland', 'ජර්මනිය',             1 ],
 );
 
 # Insert the values.
 # is_country is inserted as a scalar, will be set for all rows
-my $DoArraySuccess = $DBObject->DoArray(
+my $NumInserted = $DBObject->DoArray(
     SQL  => 'INSERT INTO test_countries (country_en, country_de, country_si, is_country) VALUES (?, ?, ?, ?)',
     Bind => [
         [ map { $_->[0] } @Countries ],
@@ -89,7 +89,30 @@ my $DoArraySuccess = $DBObject->DoArray(
         1,
     ],
 );
-ok( $DoArraySuccess, "insert countries" );
+is( $NumInserted, scalar(@Countries), 'insert countries with column bind' );
+
+# Add more countries with ArrayTupleFetch.
+my @MoreCountries = (
+    [ 'Malawi',    'Malawi',    'මලාවි',              1 ],
+    [ 'Sri Lanka', 'Sri Lanka', 'ශ්රී ලංකාව', 1 ],
+);
+push @Countries, @MoreCountries;
+
+my $FetchMoreCountries = sub {
+    state $Index = -1;
+
+    $Index++;
+
+    return if $Index >= scalar @MoreCountries;
+    return $MoreCountries[$Index];
+};
+
+my $NumMoreInserted = $DBObject->DoArray(
+    SQL             => 'INSERT INTO test_countries (country_en, country_de, country_si, is_country) VALUES (?, ?, ?, ?)',
+    ArrayTupleFetch => $FetchMoreCountries,
+);
+
+is( $NumMoreInserted, scalar(@MoreCountries), 'insert more countries with ArrayTupleFetch' );
 
 subtest 'SelectAll' => sub {
 
