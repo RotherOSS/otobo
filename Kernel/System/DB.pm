@@ -624,7 +624,8 @@ sub DoArray {
         $Attributes{ArrayTupleFetch} = $Param{ArrayTupleFetch};
     }
 
-    return $Self->{Cursor}->execute_array(
+    # return the number of handled tuples
+    return scalar $Self->{Cursor}->execute_array(
         \%Attributes,
         @BindVariables
     );
