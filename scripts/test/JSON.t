@@ -29,6 +29,7 @@ use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get needed objects
 my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+isa_ok( $JSONObject, ['Kernel::System::JSON'], 'got a JSON object' );
 
 # Tests for JSON encode method
 my @EncodeTests = (
@@ -308,17 +309,17 @@ my @DecodeTests = (
     {
         Result      => 'Some Text',
         InputDecode => '"Some Text"',
-        Name        => 'JSON - simple'
+        Name        => 'JSON - simple text'
     },
     {
         Result      => 42,
         InputDecode => '42',
-        Name        => 'JSON - simple'
+        Name        => 'JSON - simple number'
     },
     {
         Result      => [ 1, 2, "3", "Foo", 5 ],
         InputDecode => '[1,2,"3","Foo",5]',
-        Name        => 'JSON - simple'
+        Name        => 'JSON - array with strings and numbers" '
     },
     {
         Result => {
@@ -351,7 +352,7 @@ my @DecodeTests = (
         Result      => 1,
         InputDecode =>
             'true',
-        Name => 'JSON - booleans'
+        Name => 'JSON - boolean true'
     },
     {
         Result      => undef,
@@ -402,11 +403,11 @@ my @DecodeTests = (
 
 for my $Test (@DecodeTests) {
 
-    my $JSON = $JSONObject->Decode(
+    my $Thingy = $JSONObject->Decode(
         Data => $Test->{InputDecode},
     );
 
-    is( $JSON, $Test->{Result}, "decode: $Test->{Name}" );
+    is( $Thingy, $Test->{Result}, "decode: $Test->{Name}" );
 }
 
 done_testing;
