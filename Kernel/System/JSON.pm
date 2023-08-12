@@ -63,7 +63,7 @@ sub new {
 
 =head2 Encode()
 
-Serialise a perl data structure as a JSON string.
+Serialise a Perl data structure into a string that contains JSON.
 Supported data structures are hashrefs, arrayrefs and simple scalars like strings and numbers.
 An undefined value is fine too.
 The result will be Perl string that may have code points greater 255.
@@ -142,7 +142,7 @@ sub Encode {
 
 =head2 Decode()
 
-Decode a JSON string to a Perl data structure. Booleans are mapped to the values C<0> and C<1>.
+Deserialize a JSON string to a Perl data structure. Booleans are mapped to the values C<0> and C<1>.
 
     my $PerlStructureScalar = $JSONObject->Decode(
         Data => '{"Key1":"Value1","Key2":42,"Key3":"Another Value", "Key4":true, "Key5":false}'
