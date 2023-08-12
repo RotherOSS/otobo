@@ -25,6 +25,7 @@ use warnings;
 
 # core modules
 use Carp ();
+use Try::Tiny;
 
 # CPAN modules
 use DateTime 1.08;
@@ -107,11 +108,16 @@ sub new {
     my $MinLevel = lc( $ConfigObject->Get('MinimumLogLevel') || 'debug' );
     $Self->{MinimumLevelNum} = $LogLevel{$MinLevel};
 
-    # load log backend
+    # load log backend, rethrow exception when there is an error
     my $GenericModule = $ConfigObject->Get('LogModule') || 'Kernel::System::Log::SysLog';
-    if ( !eval "require $GenericModule" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
-        die "Can't load log backend module $GenericModule! $@";
+    try {
+        my $FileName = "$GenericModule.pm" =~ s{::}{/}smxgr;
+
+        require $FileName;
     }
+    catch {
+        die "Can't load log backend module $GenericModule! $_";
+    };
 
     # create backend handle
     $Self->{Backend} = $GenericModule->new(
@@ -271,17 +277,18 @@ sub Log {
         my $Format = '%a %b %{day} %H:%M:%S %Y';
 
         # Create object with current date/time and format it.
-        $LogTime = eval {
+        $LogTime = try {
             DateTime->now(
                 time_zone => $Self->{OTOBOTimeZone},
                 locale    => $Locale,
             )->strftime($Format);
-        };
-
-        # ignore errors when DateTime has problems and fall back to UTC
-        if ( $@ || !$LogTime ) {
-            $LogTime = gmtime;
         }
+        catch {
+
+            # Ignore errors when DateTime has problems and fall back to UTC.
+            # A string is given back as gmtime is evaluated in scalar context.
+            gmtime;
+        };
     }
 
     # if error, write it to STDERR
@@ -318,8 +325,11 @@ sub Log {
             $Subroutine2 ||= $0;
 
             # print line if upper caller module exists
-            my $VersionString = eval {
-                return $Package1->VERSION || '';
+            my $VersionString = try {
+                $Package1->VERSION || '';
+            }
+            catch {
+                '';    # ignore exception, set version string to the empty string
             };
 
             # version is present
