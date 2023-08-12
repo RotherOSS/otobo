@@ -26,6 +26,7 @@ use utf8;
 
 # CPAN modules
 use Cpanel::JSON::XS;
+use Try::Tiny;
 
 # OTOBO modules
 
@@ -168,27 +169,32 @@ sub Decode {
     # check for needed data
     return unless defined $Param{Data};
 
-    # create a JSON::XS compatible object
+    # create a JSON::XS compatible object that does the actual parsing
     my $JSONObject = Cpanel::JSON::XS->new;
 
     # grudgingly accept data that is neither a hash- nor an array reference
     $JSONObject->allow_nonref(1);
 
-    # decode JSON encoded to perl structure
-    my $Scalar;
-
-    # use eval here, as JSON::XS->decode() dies when providing a malformed JSON string
-    if ( !eval { $Scalar = $JSONObject->decode( $Param{Data} ) } ) {
+    # Deserialize JSON and get a Perl data structure.
+    # Use Try::Tiny as Cpanel::JSON::XS->decode() dies when providing a malformed JSON string.
+    # In that case we want to return an empty list.
+    my $Success = 1;
+    my $Scalar  = try {
+        $JSONObject->decode( $Param{Data} );
+    }
+    catch {
+        $Success = 0;
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Decoding the JSON string failed: ' . $@,
+            Message  => 'Decoding the JSON string failed: ' . $_,
         );
 
-        return;
-    }
+        undef;    # keep $Thingy undefined
+    };
 
-    return $Scalar;
+    return unless $Success;    # decode threw an exception
+    return $Scalar;            # return the data structure, which might also be 0, '', or undef.
 }
 
 =head2 True()

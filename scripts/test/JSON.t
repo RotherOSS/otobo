@@ -355,10 +355,22 @@ my @DecodeTests = (
         Name => 'JSON - boolean true'
     },
     {
-        Result      => undef,
+        Result      => 0,
         InputDecode =>
             'false',
-        Name => 'JSON - booleans2'
+        Name => 'JSON - boolean false'
+    },
+    {
+        Result      => undef,
+        InputDecode =>
+            'null',
+        Name => 'JSON - null'
+    },
+    {
+        Result      => [ undef, undef, undef ],
+        InputDecode =>
+            '[null, null, null]',
+        Name => 'JSON - array with three undefined values'
     },
     {
         Result => {
