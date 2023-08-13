@@ -34,6 +34,7 @@ use File::Basename qw(basename);
 use File::stat;
 
 # CPAN modules
+use Try::Tiny;
 
 # OTOBO modules
 use Kernel::System::ModuleRefresh; # based on Module::Refresh
@@ -2171,7 +2172,7 @@ sub new {
             $Package =~ s/\//::/g;
             $Package =~ s/\.pm$//g;
 
-            eval {
+            try {
 
                 # Load file if it isn't loaded yet. Implicitly put $RelativeFile into %INC.
                 if ( !require $RelativeFile ) {
@@ -2190,14 +2191,11 @@ sub new {
 
                 # Call package method but pass $Self as instance.
                 $Package->Load($Self);
-            };
+            }
+            catch {
 
-            # Ignoring all problems from loading a config cache file.
-            if ( $@ ) {
-                my $ErrorMessage = $@;
-                print STDERR $@;
-
-                next FILE;
+                # Ignoring all problems from loading a config cache file.
+                print STDERR $_;
             }
         }
     }
@@ -2378,8 +2376,9 @@ sub AutoloadPerlPackages {
             }
 
             # Don't use the MainObject here to load the file.
-            eval {
+            try {
                 my $FileName = $Package =~ s{::}{/}smxgr;
+
                 require $FileName . '.pm'; ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
             };
         }

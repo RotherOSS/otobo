@@ -29,6 +29,7 @@ use Carp ();
 use Scalar::Util qw(weaken);
 
 # CPAN modules
+use Try::Tiny;
 
 # use the "standard" modules directly, so that persistent environments
 # like mod_perl and FastCGI pre-load them at startup
@@ -269,19 +270,29 @@ sub Create {
 sub _ObjectBuild {
     my ( $Self, %Param ) = @_;
 
-    my $Package = $Param{Package};
-    eval {
+    my $Package     = $Param{Package};
+    my $LoadSuccess = try {
         my $FileName = $Param{Package} =~ s{::}{/}smxgr;
+
         require $FileName . '.pm';
-    };
-    if ($@) {
-        if ( $Param{Silent} ) {
-            return;    # don't throw
-        }
-        $Self->_DieWithError(
-            Error => "$Package could not be loaded: $@",
-        );
+
+        1;    # indicate success
     }
+    catch {
+        if ( $Param{Silent} ) {
+            0;    # don't rethrow in Silent mode, but indicate failure
+        }
+        else {
+
+            # rethrow in normal mode
+            $Self->_DieWithError(
+                Error => "$Package could not be loaded: $@",
+            );
+        }
+    };
+
+    # This only happens in silent mode
+    return unless $LoadSuccess;
 
     # Kernel::Config does not declare its dependencies (they would have to be in
     #   Kernel::Config::Defaults), so assume [] in this case.

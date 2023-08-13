@@ -115,8 +115,6 @@ subtest 'GetLogEntry() after ObjectsDiscard' => sub {
 {
     $Kernel::OM->ObjectsDiscard;    # start on a clean slate
 
-    my $ToDo = todo '$@ is still clobbered';
-
     my $ExpectedError = '⛄ ran away';
 
     # provoke an exception and log it
