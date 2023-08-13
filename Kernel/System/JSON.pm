@@ -190,7 +190,7 @@ sub Decode {
             Message  => 'Decoding the JSON string failed: ' . $_,
         );
 
-        undef;    # keep $Thingy undefined
+        undef;    # keep $Scalar undefined
     };
 
     return unless $Success;    # decode threw an exception
