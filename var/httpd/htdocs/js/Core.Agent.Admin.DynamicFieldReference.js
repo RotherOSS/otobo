@@ -76,8 +76,6 @@ Core.Agent.Admin.DynamicFieldReference = (function (TargetNS) {
             $(this).attr('id', ID + '_' + ReferenceFilterCounter);
             $(this).attr('name', ID + '_' + ReferenceFilterCounter);
 
-            $(this).addClass('Validate_Required');
-
             // set error controls
             $(this).parent().find('#' + ID + 'Error').attr('id', ID + '_' + ReferenceFilterCounter + 'Error');
             $(this).parent().find('#' + ID + 'Error').attr('name', ID + '_' + ReferenceFilterCounter + 'Error');
