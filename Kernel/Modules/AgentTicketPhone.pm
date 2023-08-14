@@ -2015,9 +2015,20 @@ sub Run {
             StdFields => 0,
             Fields    => 0,
         );
-        my %ChangedElements        = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
-        my %ChangedElementsDFStart = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
-        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElements = $ElementChanged ? ( $ElementChanged => 1 ) : ();
+        if ( $ChangedElements{ServiceID} ) {
+            $ChangedElements{CustomerUserID} = 1;
+            $ChangedElements{CustomerID}     = 1;
+
+            if ( $GetParam{From} ) {
+                my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
+                    User => $CustomerUser,
+                );
+                $GetParam{CustomerID} = $CustomerData{CustomerID};
+            }
+        }
+        my %ChangedElementsDFStart = %ChangedElements;
+        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? %ChangedElements : ();
 
         my $LoopProtection = 100;
         my %StdFieldValues;

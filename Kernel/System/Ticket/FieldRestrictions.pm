@@ -432,8 +432,8 @@ sub GetFieldStates {
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Object             => {
                     $Param{GetParam}->%*,
-                    CustomerUserID => $Param{CustomerUser},
-                    CustomerID     => $Param{CustomerID},
+                    CustomerUserID => $Param{GetParam}->{CustomerUser},
+                    CustomerID     => $Param{GetParam}->{CustomerID},
                 },
             );
 
