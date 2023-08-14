@@ -11167,6 +11167,7 @@
             <Hash>
                 <Item Key="JavaScript">
                     <Array>
+                        <Item>Core.Agent.DynamicFieldReferenceSearch.js</Item>
                         <Item>Core.Customer.TicketList.js</Item>
                         <Item>Core.Customer.Search.js</Item>
                     </Array>
@@ -11269,6 +11270,7 @@
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
+                        <Item>Core.Agent.DynamicFieldReferenceSearch.js</Item>
                         <Item>Core.Customer.TicketMessage.js</Item>
                     </Array>
                 </Item>
@@ -11343,6 +11345,7 @@
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
+                        <Item>Core.Agent.DynamicFieldReferenceSearch.js</Item>
                         <Item>Core.Customer.TicketZoom.js</Item>
                         <Item>Core.Customer.TicketProcess.js</Item>
                         <Item>Core.UI.Popup.js</Item>
