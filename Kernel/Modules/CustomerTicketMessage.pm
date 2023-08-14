@@ -1116,9 +1116,16 @@ sub Run {
             StdFields => 0,
             Fields    => 0,
         );
-        my %ChangedElements        = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
-        my %ChangedElementsDFStart = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
-        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElements = $ElementChanged ? ( $ElementChanged => 1 ) : ();
+        if ( $ChangedElements{ServiceID} ) {
+            $ChangedElements{CustomerUserID} = 1;
+            $ChangedElements{CustomerID}     = 1;
+
+            $GetParam{CustomerUserID} = $Self->{UserID};
+            $GetParam{CustomerID}     = $Self->{UserCustomerID};
+        }
+        my %ChangedElementsDFStart = %ChangedElements;
+        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? %ChangedElements : ();
 
         my $LoopProtection = 100;
         my %StdFieldValues;
@@ -1851,6 +1858,9 @@ sub _MaskNew {
             Errors               => $Param{DFErrors},
             Visibility           => $Param{Visibility},
             CustomerInterface    => 1,
+            Object               => {
+                %Param,
+            },
         );
     }
 

@@ -858,6 +858,8 @@ sub Run {
                 # get PossibleValues
                 my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
+
+                    # TODO also pass object here?
                 );
 
                 # check if field has PossibleValues property in its configuration
@@ -1392,9 +1394,9 @@ sub Run {
             StdFields => 0,
             Fields    => 0,
         );
-        my %ChangedElements        = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
-        my %ChangedElementsDFStart = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
-        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElements        = $ElementChanged ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElementsDFStart = %ChangedElements;
+        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? %ChangedElements : ();
 
         my $LoopProtection = 100;
         my %StdFieldValues;
@@ -2713,7 +2715,8 @@ sub _Mask {
 
         # render article type dynamic fields
         my $ArticleTypeDynamicFieldHTML;
-        {
+        if ( IsArrayRefWithData( $Self->{ArticleMaskDefinition} ) ) {
+
             # TODO Think about usable implementation of article type dynamic field definition
             my %DynamicFieldConfigs = map { $_->{Name} => $_ } grep { $_->{ObjectType} eq 'Article' } $Self->{DynamicField}->@*;
 
