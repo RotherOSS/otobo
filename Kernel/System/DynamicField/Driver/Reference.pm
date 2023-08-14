@@ -1062,6 +1062,7 @@ sub GetFieldTypeSettings {
                 InputType       => 'Selection',
                 SelectionData   => \%MultiValueSelectionData,
                 PossibleNone    => 0,
+                Mandatory       => 1,
             };
     }
 
