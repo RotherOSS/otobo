@@ -1046,6 +1046,23 @@ sub GetFieldTypeSettings {
             };
     }
 
+    # add possible none option
+    {
+        push @GenericSettings,
+            {
+                ConfigParamName => 'PossibleNone',
+                Label           => Translatable('Add empty value'),
+                Explanation     => Translatable('Activate this option to create an empty selectable value.'),
+                InputType       => 'Selection',
+                SelectionData   => {
+                    0 => Translatable('No'),
+                    1 => Translatable('Yes'),
+                },
+                PossibleNone => 0,
+                Mandatory    => 1,
+            };
+    }
+
     # set up the field type specific settings
     # This dynamic field support multiple values.
     {
