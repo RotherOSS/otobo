@@ -1506,6 +1506,9 @@ sub AgentMove {
             DynamicFieldValues   => \%DynamicFieldValues,
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
+            Object               => {
+                %Param,
+            },
         );
 
         if ( $Self->{DynamicField} ) {

@@ -3149,6 +3149,9 @@ sub _MaskPhoneNew {
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
             Visibility           => $Param{Visibility},
+            Object               => {
+                %Param,
+            },
         );
     }
 

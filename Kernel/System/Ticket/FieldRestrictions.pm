@@ -413,6 +413,44 @@ sub GetFieldStates {
             $Param{ACLPreselection}{Rules}{Ticket}{ $DynamicFieldConfig->{Config}{ReferenceDFName} }{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = 1;
         }
 
+        # restrict options of reference fields as configured
+        if ( $DynamicFieldConfig->{FieldType} eq 'Reference' ) {
+
+            # skip validation if no filter is defined for any of the changed elements
+            for my $ReferenceFilter ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
+
+                # TODO Take special cases like { 'Dest' => 'QueueID' } in AgentTicketPhone into account
+                my @ChangedElementNames = (
+                    keys $Param{ChangedElements}->%*,
+                    $Param{ChangedElements}->{Dest} ? qw(QueueID) : (),
+                );
+                next DYNAMICFIELD if !grep { $_ eq $ReferenceFilter->{EqualsObjectAttribute} } @ChangedElementNames;
+            }
+
+            # fetch possible values for dynamic field
+            my $PossibleValues = $Param{DynamicFieldBackendObject}->PossibleValuesGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Object             => {
+                    $Param{GetParam}->%*,
+                    CustomerUserID => $Param{CustomerUser},
+                    CustomerID     => $Param{CustomerID},
+                },
+            );
+
+            $Fields{$i} = {
+                Name           => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                PossibleValues => $PossibleValues,
+            };
+
+            if ( $DFParam->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } && !$PossibleValues->{ $DFParam->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } } ) {
+                $DFParam->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = undef;
+                $NewValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = undef;
+
+            }
+
+            next DYNAMICFIELD;
+        }
+
         # skip non ACL reducible fields...
         if ( !$IsACLReducible ) {
 

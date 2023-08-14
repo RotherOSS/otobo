@@ -1969,6 +1969,9 @@ sub _Mask {
             DynamicFieldValues   => $Param{DFValues},
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
+            Object               => {
+                %Param,
+            },
         );
     }
 

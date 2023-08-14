@@ -1818,6 +1818,9 @@ sub _OutputActivityDialog {
                 PossibleValuesFilter => \%DFPossibleValues,
                 Errors               => undef,
                 Visibility           => $DynFieldStates{Visibility},
+                Object               => {
+                    %Param,
+                },
             );
 
             $LayoutObject->AddJSData(

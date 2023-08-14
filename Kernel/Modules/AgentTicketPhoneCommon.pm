@@ -1421,6 +1421,9 @@ sub _MaskPhone {
             DynamicFieldValues   => $Param{DFValues},
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
+            Object               => {
+                %Param,
+            },
         );
     }
 

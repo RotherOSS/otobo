@@ -2212,6 +2212,9 @@ sub _Mask {
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
             Visibility           => $Param{Visibility},
+            Object               => {
+                %Param,
+            },
         );
     }
 
@@ -2724,6 +2727,9 @@ sub _Mask {
                 PossibleValuesFilter => $Param{DFPossibleValues},
                 Errors               => $Param{DFErrors},
                 Visibility           => $Param{Visibility},
+                Object               => {
+                    %Param,
+                },
             );
 
         }

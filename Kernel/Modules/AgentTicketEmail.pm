@@ -3516,6 +3516,9 @@ sub _MaskEmailNew {
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
             Visibility           => $Param{Visibility},
+            Object               => {
+                %Param,
+            },
         );
     }
 

@@ -153,6 +153,7 @@ sub ValueValidate {
     # get dynamic field value object
     my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
+    # TODO adapt for filter list?
     my $CheckRegex = 1;
     if (
         !IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
@@ -319,16 +320,59 @@ sub EditFieldRender {
 
     my $FieldTemplateFile = $Param{CustomerInterface}
         ?
-        'DynamicField/Customer/Reference'
+        'DynamicField/Customer/'
         :
-        'DynamicField/Agent/Reference';
+        'DynamicField/Agent/';
 
-    # Get default agent autocomplete config.
-    my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('AutoComplete::Agent')->{'Default'};
-    $Param{LayoutObject}->AddJSData(
-        Key   => 'AutoCompleteActive',
-        Value => $AutoCompleteConfig->{AutoCompleteActive},
-    );
+    my $PossibleValues;
+    my @SelectionHTML;
+    if ( $FieldConfig->{EditFieldMode} eq 'AutoComplete' ) {
+        $FieldTemplateFile .= 'Reference';
+
+        # Get default agent autocomplete config.
+        my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('AutoComplete::Agent')->{'Default'};
+
+        $Param{LayoutObject}->AddJSData(
+            Key   => 'AutoCompleteActive',
+            Value => $AutoCompleteConfig->{AutoCompleteActive},
+        );
+    }
+    else {
+        $FieldTemplateFile .= 'BaseSelect';
+
+        $PossibleValues = $Self->PossibleValuesGet(%Param);
+
+        if ( $FieldConfig->{MultiValue} ) {
+            for my $ValueIndex ( 0 .. $#{$Value} ) {
+                my $FieldID = $FieldName . '_' . $ValueIndex;
+                push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
+                    Data         => $PossibleValues || {},
+                    Disabled     => $Param{Readonly},
+                    Name         => $FieldName,
+                    ID           => $FieldID,
+                    SelectedID   => $Value->[$ValueIndex],
+                    Class        => $FieldClass,
+                    HTMLQuote    => 1,
+                    Translation  => $FieldConfig->{Translation},
+                    PossibleNone => $FieldConfig->{PossibleNone},
+                );
+            }
+        }
+        else {
+            my @SelectedIDs = grep {$_} $Value->@*;
+            push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
+                Data         => $PossibleValues || {},
+                Disabled     => $Param{Readonly},
+                Name         => $FieldName,
+                SelectedID   => \@SelectedIDs,
+                Class        => $FieldClass,
+                HTMLQuote    => 1,
+                Multiple     => $FieldConfig->{EditFieldMode} eq 'Multiselect' ? 1 : 0,
+                Translation  => $FieldConfig->{Translation},
+                PossibleNone => $FieldConfig->{PossibleNone},
+            );
+        }
+    }
 
     my %Error = (
         ServerError => $Param{ServerError},
@@ -340,7 +384,7 @@ sub EditFieldRender {
         ObjectType => $FieldConfig->{ReferencedObjectType},
     );
     my @ResultHTML;
-    for my $ValueIndex ( 0 .. $#{$Value} ) {
+    for my $ValueIndex ( 0 .. ( $FieldConfig->{EditFieldMode} eq 'Multiselect' ? 0 : $#{$Value} ) ) {
         my $FieldID = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
         if ( !$ValueIndex ) {
@@ -374,21 +418,34 @@ sub EditFieldRender {
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
-                FieldID => $FieldID,
                 %Error,
-                Value        => ( $Value->[$ValueIndex] // '' ),
-                VisibleValue => ( $VisibleValue         // '' ),
+                FieldID       => $FieldID,
+                Value         => ( $Value->[$ValueIndex] // '' ),
+                VisibleValue  => ( $VisibleValue         // '' ),
+                SelectionHTML => ( $FieldConfig->{EditFieldMode} ne 'AutoComplete' ? $SelectionHTML[$ValueIndex] : undef ),
             },
         );
     }
 
     my $TemplateHTML;
     if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
+        $FieldTemplateData{FieldID} = $FieldName . '_Template';
+
+        my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
+            Data        => $PossibleValues || {},
+            Disabled    => $Param{Readonly},
+            Name        => $FieldName,
+            ID          => $FieldTemplateData{FieldID},
+            Class       => $FieldClass,
+            HTMLQuote   => 1,
+            Multiple    => $FieldConfig->{EditFieldMode} eq 'Multiselect' ? 1 : 0,
+            Translation => $FieldConfig->{TranslatableValues} || 0,
+        );
         $TemplateHTML = $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
-                FieldID => "${FieldName}_Template",
+                SelectionHTML => ( $FieldConfig->{EditFieldMode} ne 'AutoComplete' ? $SelectionHTML : undef ),
             },
         );
     }
@@ -508,6 +565,8 @@ sub EditFieldValueValidate {
     if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
         $Value = [$Value];
     }
+
+    # TODO validate by re-executing SearchObject()?
 
     # create resulting structure
     return {
@@ -946,6 +1005,25 @@ sub GetFieldTypeSettings {
                 InputType       => 'Selection',
                 SelectionData   => { $ReferencedObjectType => $ReferencedObjectType },
                 PossibleNone    => 0,
+                Mandatory       => 1,
+            };
+    }
+
+    # set up the edit field mode selection
+    {
+        push @GenericSettings,
+            {
+                ConfigParamName => 'EditFieldMode',
+                Label           => Translatable('Input mode of edit field'),
+                Explanation     => Translatable('Select the input mode for the edit field.'),
+                InputType       => 'Selection',
+                SelectionData   => {
+                    'AutoComplete' => 'AutoComplete',
+                    'Dropdown'     => 'Dropdown',
+                    'Multiselect'  => 'Multiselect',
+                },
+                PossibleNone => 0,
+                Mandatory    => 1,
             };
     }
 
@@ -965,6 +1043,7 @@ sub GetFieldTypeSettings {
                 InputType       => 'Selection',
                 SelectionData   => \%MultiValueSelectionData,
                 PossibleNone    => 0,
+                Mandatory       => 1,
             };
     }
 
@@ -998,6 +1077,61 @@ sub GetFieldTypeSettings {
     }
 
     return @GenericSettings, @SpecificSettings;
+}
+
+=head2 PossibleValuesGet()
+
+A wrapper for SearchObjects method.
+
+    $DynamicFieldBackendObject->PossibleValuesGet(
+        DynamicFieldConfig => $DynamicFieldConfig,      # required
+        Object             => {                         # optional
+            %TicketData,
+        },
+    );
+
+=cut
+
+sub PossibleValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    my $PluginObject = $Self->_GetObjectTypePlugin(
+        ObjectType => $Param{DynamicFieldConfig}{Config}{ReferencedObjectType},
+    );
+
+    my %PossibleValues;
+
+    # set PossibleNone attribute
+    my $FieldPossibleNone;
+    if ( defined $Param{OverridePossibleNone} ) {
+        $FieldPossibleNone = $Param{OverridePossibleNone};
+    }
+    else {
+        $FieldPossibleNone = $Param{DynamicFieldConfig}->{Config}->{PossibleNone} || 0;
+    }
+
+    # set none value if defined on field config
+    if ($FieldPossibleNone) {
+        %PossibleValues = ( '' => '-' );
+    }
+
+    # passing $Param{Object} to SearchObjects()
+    my @SearchResult = $PluginObject->SearchObjects(
+        %Param,
+    );
+
+    for my $ResultItem (@SearchResult) {
+        my %ItemDescription = $PluginObject->ObjectDescriptionGet(
+            ObjectID => $ResultItem,
+            UserID   => 1,
+        );
+        %PossibleValues = (
+            %PossibleValues,
+            $ResultItem => $ItemDescription{Long},
+        );
+    }
+
+    return \%PossibleValues;
 }
 
 =begin Internal:
