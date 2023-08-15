@@ -177,6 +177,49 @@ for my $Test (@Tests) {
             . "    - o\n",
         Name => 'YAML - complex structure'
     },
+    {
+        InputLoad => <<'END_YAML',
+Description:
+- Content: Defines the default front-end language. All the possible values are determined
+    by the available language files on the system (see the next setting).
+  Translatable: '1'
+Name: DefaultLanguage
+Navigation:
+- Content: Frontend::Base
+Required: '1'
+Valid: '1'
+Value:
+- Item:
+  - Content: en
+    ValueRegex: ^(..|.._..)$
+    ValueType: String
+END_YAML
+        Result => {
+            Description => [
+                {
+                    Content =>
+                        "Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).",
+                    Translatable => 1,
+                },
+            ],
+            Name       => "DefaultLanguage",
+            Navigation => [ { Content => "Frontend::Base" } ],
+            Required   => 1,
+            Valid      => 1,
+            Value      => [
+                {
+                    Item => [
+                        {
+                            Content    => "en",
+                            ValueRegex => "^(..|.._..)\$",
+                            ValueType  => "String"
+                        },
+                    ],
+                },
+            ],
+        },
+        Name => 'sample from sysconfig_default.xml_content_parsed'
+    },
 );
 
 for my $Test (@Tests) {
