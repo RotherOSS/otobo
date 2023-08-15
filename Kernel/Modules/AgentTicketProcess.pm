@@ -472,6 +472,8 @@ sub Run {
         );
 
     }
+
+    # TODO restricting reference fields via ajaxupdate doesn't work because _RenderAjax() doesn#t use GetFieldStates()
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
 
         return $Self->_RenderAjax(
