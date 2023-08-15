@@ -24,6 +24,9 @@ use Encode qw();
 
 # CPAN modules
 use YAML::XS qw();
+use Try::Tiny;
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -103,27 +106,24 @@ sub Load {
     # check for needed data
     return unless defined $Param{Data};
 
+    # TODO: use utf::encode() because that is the actual intent
     if ( Encode::is_utf8( $Param{Data} ) ) {
         Encode::_utf8_off( $Param{Data} );
     }
 
-    # There is a currently a problem with YAML loader it cant load YAML representations of:
-    #   0, '0' or ''.
-    # This workaround looks for this special cases and returns the correct value without using the
-    #   loader
-    if ( $Param{Data} =~ m{\A---[ ](?: '0' | 0 )\n\z}msx ) {
-        return 0;
+    # The resulting data structure may contain strings
+    # that are internally encoded in latin1.
+    my $Result = try {
+        YAML::XS::Load( $Param{Data} );
     }
-    elsif ( $Param{Data} eq "--- ''\n" ) {
-        return '';
-    }
+    catch {
 
-    my $Result;
-    if ( !eval { $Result = YAML::XS::Load( $Param{Data} ) } ) {
+        # $@ is not clobbered in this simple case
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Loading the YAML string failed: ' . $@,
+            Message  => 'Loading the YAML string failed: ' . $_,
         );
+
         my $DumpString = $Param{Data};
         if ( length $DumpString > 1000 ) {
             $DumpString = substr( $DumpString, 0, 1000 ) . '[...]';
@@ -132,10 +132,10 @@ sub Load {
             Priority => 'error',
             Message  => qq{YAML data was: "$DumpString"},
         );
-    }
 
-    # The resulting data structure may contain strings
-    # that are internally encoded in latin1.
+        undef;    # that kind of indicates failure
+    };
+
     return $Result;
 }
 
