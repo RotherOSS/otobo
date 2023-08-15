@@ -23,6 +23,7 @@ use utf8;
 # CPAN modules
 use Test2::V0;
 use YAML::XS qw();
+use Try::Tiny;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
@@ -138,12 +139,24 @@ my @Tests = (
     },
 
     {
-        Name          => 'Simple String 0',
+        Name          => 'Simple String 0 - roundtrip',
         Data          => '0',
         SuccessDecode => 1,
     },
     {
+        Name          => 'Simple String 0',
+        YAMLString    => "---\n'0'\n",
+        Data          => '0',
+        SuccessDecode => 1,
+    },
+    {
+        Name          => 'Number 0 - roundtrip',
+        Data          => 0,
+        SuccessDecode => 1,
+    },
+    {
         Name          => 'Number 0',
+        YAMLString    => "---\n0\n",
         Data          => 0,
         SuccessDecode => 1,
     },
@@ -168,8 +181,31 @@ my @Tests = (
         SuccessDecode => 1,
     },
     {
-        Name          => 'Simple Empty String',
+        Name          => 'Empty String - roundtrip',
         Data          => '',
+        SuccessDecode => 1,
+    },
+    {
+        Name          => 'Empty String',
+        YAMLString    => "---\n''\n",
+        Data          => '',
+        SuccessDecode => 1,
+    },
+    {
+        Name          => 'undef - roundtrip',
+        Data          => undef,
+        SuccessDecode => 1,
+    },
+    {
+        Name          => 'null',
+        YAMLString    => "---\nnull\n",
+        Data          => undef,
+        SuccessDecode => 1,
+    },
+    {
+        Name          => 'tilde',
+        YAMLString    => "---\n~\n",
+        Data          => undef,
         SuccessDecode => 1,
     },
     {
