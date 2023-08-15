@@ -89,7 +89,8 @@ sub ValueGet {
 
     my @SetValue;
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
-        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        # historical Definitions will be provided by ITSMConfigItems
+        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
         );
 
@@ -129,7 +130,8 @@ sub ValueSet {
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
-        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        # historical Definitions will be provided by ITSMConfigItems
+        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
         );
 
@@ -174,7 +176,8 @@ sub ValueValidate {
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
-        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        # historical Definitions will be provided by ITSMConfigItems
+        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
         );
 
@@ -271,7 +274,8 @@ sub EditFieldRender {
 
     my @ResultHTML;
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
-        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        # historical Definitions will be provided by ITSMConfigItems
+        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
         );
 
@@ -384,7 +388,8 @@ sub EditFieldValueGet {
     my $IndexMax = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $DataAll[-2] // 0 : 0;
 
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
-        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        # historical Definitions will be provided by ITSMConfigItems
+        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
         );
 
@@ -436,7 +441,8 @@ sub EditFieldValueValidate {
 
     my $Result;
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
-        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        # historical Definitions will be provided by ITSMConfigItems
+        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
         );
 
@@ -488,7 +494,8 @@ sub DisplayValueRender {
     );
 
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
-        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        # historical Definitions will be provided by ITSMConfigItems
+        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
         );
 
@@ -572,7 +579,8 @@ sub ReadableValueRender {
     );
 
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
-        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        # historical Definitions will be provided by ITSMConfigItems
+        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
         );
 
@@ -628,7 +636,8 @@ sub RandomValueSet {
     my $SetCount = $Param{DynamicFieldConfig}{Config}{MultiValue} ? int( rand(3) ) + 1 : 1;
 
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
-        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        # historical Definitions will be provided by ITSMConfigItems
+        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
         );
 
@@ -679,7 +688,8 @@ sub ValueLookup {
     my @SetValue;
 
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
-        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        # historical Definitions will be provided by ITSMConfigItems
+        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
         );
 
