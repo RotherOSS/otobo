@@ -586,10 +586,11 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'YAML::XS',
-        Required  => 1,
-        Comment   => 'Required for fast YAML processing.',
-        InstTypes => {
+        Module          => 'YAML::XS',
+        Required        => 1,
+        VersionRequired => '0.62',
+        Comment         => 'Required for fast and correct YAML processing.',
+        InstTypes       => {
             aptget => 'libyaml-libyaml-perl',
             emerge => 'dev-perl/YAML-LibYAML',
             zypper => 'perl-YAML-LibYAML',
