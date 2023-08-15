@@ -353,6 +353,11 @@ sub _RenderAjax {
 
             my $PossibleValues = $BackendObject->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
+                Object             => {
+                    $Param{GetParam},
+                    CustomerUserID => $Self->{UserID},
+                    CustomerID     => $Self->{UserCustomerID},
+                },
             );
 
             # convert possible values key => value to key => key for ACLs using a Hash slice
