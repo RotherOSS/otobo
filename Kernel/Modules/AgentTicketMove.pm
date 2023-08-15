@@ -1507,7 +1507,10 @@ sub AgentMove {
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
             Object               => {
-                %Param,
+                CustomerID     => $Param{CustomerID},
+                CustomerUserID => $Param{CustomerIserID},
+                UserID         => $Self->{UserID},
+                %DynamicFieldValues,
             },
         );
 

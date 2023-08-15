@@ -1808,7 +1808,8 @@ sub _OutputActivityDialog {
         if ( $DefinedFieldsList{$CurrentField} ) {
 
             next DIALOGFIELD if $MultiColumnRendered;
-            my %DynamicFieldsHash = map { $_->{Name} => $_ } $DynamicField->@*;
+            my %DynamicFieldsHash  = map { $_->{Name} => $_ } $DynamicField->@*;
+            my %DynamicFieldValues = map { ( 'DynamicField_' . $_->{Name} => $Param{GetParam}->{ 'DynamicField_' . $_->{Name} } ) } $DynamicField->@*;
 
             my $EditSectionHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
                 Content              => $InputFieldDefinition,
@@ -1816,12 +1817,15 @@ sub _OutputActivityDialog {
                 UpdatableFields      => $AJAXUpdatableFields,
                 LayoutObject         => $LayoutObject,
                 ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
-                DynamicFieldValues   => $Param{GetParam}->{DynamicField},
+                DynamicFieldValues   => \%DynamicFieldValues,
                 PossibleValuesFilter => \%DFPossibleValues,
                 Errors               => undef,
                 Visibility           => $DynFieldStates{Visibility},
                 Object               => {
-                    %Param,
+                    CustomerID     => $Param{GetParam}->{CustomerID},
+                    CustomerUserID => $Param{GetParam}->{CustomerUserID},
+                    UserID         => $Self->{UserID},
+                    %DynamicFieldValues,
                 },
             );
 

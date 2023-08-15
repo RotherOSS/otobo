@@ -2239,7 +2239,10 @@ sub _Mask {
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
             Object               => {
-                %Param,
+                CustomerID     => $Param{CustomerID},
+                CustomerUserID => $Param{CustomerUserID},
+                UserID         => $Self->{UserID},
+                %DynamicFieldValues,
             },
         );
 

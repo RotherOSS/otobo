@@ -2215,7 +2215,10 @@ sub _Mask {
             Errors               => $Param{DFErrors},
             Visibility           => $Param{Visibility},
             Object               => {
-                %Param,
+                CustomerID     => $Param{CustomerID},
+                CustomerUserID => $Param{CustomerUserID},
+                UserID         => $Self->{UserID},
+                $Param{DynamicField}->%*,
             },
         );
     }
@@ -2731,7 +2734,10 @@ sub _Mask {
                 Errors               => $Param{DFErrors},
                 Visibility           => $Param{Visibility},
                 Object               => {
-                    %Param,
+                    CustomerID     => $Param{CustomerID},
+                    CustomerUserID => $Param{CustomerUserID},
+                    UserID         => $Self->{UserID},
+                    $Param{DynamicField}->%*,
                 },
             );
 

@@ -3161,7 +3161,10 @@ sub _MaskPhoneNew {
             Errors               => $Param{DFErrors},
             Visibility           => $Param{Visibility},
             Object               => {
-                %Param,
+                CustomerID     => $Param{CustomerID},
+                CustomerUserID => $Param{CustomerUser},
+                UserID         => $Self->{UserID},
+                $Param{DynamicField}->%*,
             },
         );
     }

@@ -1422,7 +1422,10 @@ sub _MaskPhone {
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
             Object               => {
-                %Param,
+                CustomerID     => $Param{CustomerData}->{CustomerID},
+                CustomerUserID => $Param{CustomerData}->{CustomerUserID},
+                UserID         => $Self->{UserID},
+                $Param{DFValues}->%*,
             },
         );
     }

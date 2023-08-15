@@ -2435,7 +2435,9 @@ sub _Mask {
                 SeparateDynamicFields => $SeparateDynamicFields,
                 CustomerInterface     => 1,
                 Object                => {
-                    %Param,
+                    CustomerID     => $Self->{CustomerID},
+                    CustomerUserID => $Self->{CustomerUserID},
+                    %DynamicFieldValues,
                 },
             );
 

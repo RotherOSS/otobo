@@ -1859,7 +1859,9 @@ sub _MaskNew {
             Visibility           => $Param{Visibility},
             CustomerInterface    => 1,
             Object               => {
-                %Param,
+                CustomerID     => $Self->{UserCustomerID},
+                CustomerUserID => $Self->{UserID},
+                $Param{DynamicField}->%*,
             },
         );
     }

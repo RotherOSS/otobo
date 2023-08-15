@@ -353,11 +353,6 @@ sub _RenderAjax {
 
             my $PossibleValues = $BackendObject->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
-                Object             => {
-                    $Param{GetParam},
-                    CustomerUserID => $Self->{UserID},
-                    CustomerID     => $Self->{UserCustomerID},
-                },
             );
 
             # convert possible values key => value to key => key for ACLs using a Hash slice
@@ -1262,7 +1257,9 @@ sub _OutputActivityDialog {
                 Visibility           => undef,
                 CustomerInterface    => 1,
                 Object               => {
-                    %Param,
+                    CustomerID     => $Self->{UserID},
+                    CustomerUserID => $Self->{UserCustomerID},
+                    %DynamicFieldValues,
                 },
             );
             next DIALOGFIELD;

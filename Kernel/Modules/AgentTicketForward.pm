@@ -691,12 +691,14 @@ sub Form {
     my %DFValues = map { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } } grep { $_->{ObjectType} eq 'Ticket' } $Self->{DynamicField}->@*;
 
     $Output .= $Self->_Mask(
-        TicketNumber => $Ticket{TicketNumber},
-        TicketID     => $Self->{TicketID},
-        Title        => $Ticket{Title},
-        QueueID      => $Ticket{QueueID},
-        SLAID        => $Ticket{SLAID},
-        NextStates   => $Self->_GetNextStates(
+        TicketNumber   => $Ticket{TicketNumber},
+        TicketID       => $Self->{TicketID},
+        CustomerID     => $Ticket{CustomerID},
+        CustomerUserID => $Ticket{CustomerUserID},
+        Title          => $Ticket{Title},
+        QueueID        => $Ticket{QueueID},
+        SLAID          => $Ticket{SLAID},
+        NextStates     => $Self->_GetNextStates(
             %GetParam,
             %ACLCompatGetParam,
         ),
@@ -1185,12 +1187,14 @@ sub SendEmail {
             BodyClass => 'Popup',
         );
         $Output .= $Self->_Mask(
-            TicketNumber => $Ticket{TicketNumber},
-            Title        => $Ticket{Title},
-            TicketID     => $Self->{TicketID},
-            QueueID      => $QueueID,
-            SLAID        => $Ticket{SLAID},
-            NextStates   => $Self->_GetNextStates(
+            TicketNumber   => $Ticket{TicketNumber},
+            CustomerID     => $Ticket{CustomerID},
+            CustomerUserID => $Ticket{CustomerUserID},
+            Title          => $Ticket{Title},
+            TicketID       => $Self->{TicketID},
+            QueueID        => $QueueID,
+            SLAID          => $Ticket{SLAID},
+            NextStates     => $Self->_GetNextStates(
                 %GetParam,
                 %ACLCompatGetParam,
             ),
@@ -1853,7 +1857,10 @@ sub _Mask {
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
             Object               => {
-                %Param,
+                CustomerID     => $Param{CustomerID},
+                CustomerUserID => $Param{CustomerUserID},
+                UserID         => $Self->{UserID},
+                $Param{DFValues}->%*,
             },
         );
     }
