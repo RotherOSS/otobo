@@ -78,8 +78,10 @@ sub Dump {
 
     my $String = YAML::XS::Dump( $Param{Data} ) || "--- ''\n";
 
-    # Make sure the resulting string has the UTF-8 flag.
-    Encode::_utf8_on($Result);
+    # Tell Perl that the dumped octetts are a UTF-8 encoded string and
+    # that we want the internal representation to be UTF-8.
+    utf8::decode($String);
+    utf8::upgrade($String);
 
     return $String;
 }
