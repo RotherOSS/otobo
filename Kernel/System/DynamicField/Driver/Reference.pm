@@ -85,7 +85,7 @@ sub new {
         'IsSortable'                   => 1,
         'IsFiltrable'                  => 0,
         'IsStatsCondition'             => 0,
-        'IsCustomerInterfaceCapable'   => 0,
+        'IsCustomerInterfaceCapable'   => 1,
         'IsHiddenInTicketInformation'  => 0,
     };
 
@@ -297,7 +297,7 @@ sub EditFieldRender {
     }
 
     # check and set class if necessary
-    my $FieldClass = "$Self->{FieldCSSClass} Modernize";    # for field specific JS
+    my $FieldClass = "$Self->{FieldCSSClass} DynamicFieldText Modernize";    # for field specific JS
     if ( defined $Param{Class} && $Param{Class} ne '' ) {
         $FieldClass .= ' ' . $Param{Class};
     }
@@ -330,7 +330,7 @@ sub EditFieldRender {
         $FieldTemplateFile .= 'Reference';
 
         # Get default agent autocomplete config.
-        my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('AutoComplete::Agent')->{'Default'};
+        my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get( 'AutoComplete::' . ( $Param{CustomerInterface} ? 'Customer' : 'Agent' ) )->{'Default'};
 
         $Param{LayoutObject}->AddJSData(
             Key   => 'AutoCompleteActive',
@@ -593,6 +593,8 @@ sub DisplayValueRender {
     else {
         @ObjectIDs = ( $Param{Value} );
     }
+
+    @ObjectIDs = grep { defined $_ } @ObjectIDs;
 
     # get descriptive names for the values, e.g. TicketNumber for TicketID
     my @LongObjectDescriptions;

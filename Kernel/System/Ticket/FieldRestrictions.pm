@@ -417,14 +417,22 @@ sub GetFieldStates {
         if ( $DynamicFieldConfig->{FieldType} eq 'Reference' ) {
 
             # skip validation if no filter is defined for any of the changed elements
-            for my $ReferenceFilter ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
+            next DYNAMICFIELD if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
 
-                # TODO Take special cases like { 'Dest' => 'QueueID' } in AgentTicketPhone into account
-                my @ChangedElementNames = (
-                    keys $Param{ChangedElements}->%*,
-                    $Param{ChangedElements}->{Dest} ? qw(QueueID) : (),
-                );
-                next DYNAMICFIELD if !grep { $_ eq $ReferenceFilter->{EqualsObjectAttribute} } @ChangedElementNames;
+            # TODO think of good way to handle this (maybe a mapping or so)
+            # $Param{ChangedElements}->{Queue} = $Param{ChangedElements}->{Dest} ? 1 : undef;
+            next DYNAMICFIELD if !any {
+
+                # check Attribute itself and AttributeID to match e.q. Queue to QueueID
+                # TODO use lc check to ignore capitalization?
+                $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } || $Param{ChangedElements}->{ ( $_->{EqualsObjectAttribute} // '' ) . 'ID' }
+            }
+            $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
+
+            if ( $DynamicFieldConfig->{Config}{EditFieldMode} eq 'AutoComplete' ) {
+
+                # TODO empty field if it doesn't validate
+                next DYNAMICFIELD;
             }
 
             # fetch possible values for dynamic field
