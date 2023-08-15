@@ -221,8 +221,29 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    my $YAMLString = $Test->{YAMLString} || YAML::XS::Dump( Data => $Test->{Data} );
-    my $YAMLData   = YAML::XS::Load( Data => $YAMLString );
+    # This block is basically replicating Kernel::System::YAML::Load.
+    # But the tests are still useful as they exemplify what Kernel::System::YAML does.
+
+    # When the test script contains the YAML string then the high
+    # code points are already in the string as 'use utf8' is in effecdt
+    my $YAMLString = $Test->{YAMLString};
+
+    # Alternatively we are testing the roundtrip. The result from Dump()
+    # is a string of octetts that encode in UTF8 the really wanted string.
+    if ( !$YAMLString ) {
+        $YAMLString = YAML::XS::Dump( Data => $Test->{Data} );
+        utf8::decode($YAMLString);
+    }
+
+    my $YAMLData = try {
+
+        # Load expects octetts that encodes UTF-8
+        utf8::encode($YAMLString);
+        YAML::XS::Load($YAMLString);
+    }
+    catch {
+        'YAML::XS::Load() threw an exception';
+    };
 
     if ( $Test->{SuccessDecode} ) {
         is(
@@ -232,8 +253,9 @@ for my $Test (@Tests) {
         );
     }
     else {
-        ok(
-            !$YAMLData,
+        is(
+            $YAMLData,
+            'YAML::XS::Load() threw an exception',
             "$Test->{Name} - failure reported",
         );
     }
