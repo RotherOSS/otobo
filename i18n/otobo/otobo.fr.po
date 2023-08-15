@@ -32,13 +32,14 @@
 # Yohann <yohann.duhamel@icloud.com>, 2021.
 # Gieanjalad <andy.fw88@gmail.com>, 2022.
 # Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2023.
+# Manuel Girardin <Manuel.Girardin@unil.ch>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-01-18 23:19+0000\n"
-"Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
+"PO-Revision-Date: 2023-08-16 10:35+0000\n"
+"Last-Translator: Manuel Girardin <Manuel.Girardin@unil.ch>\n"
 "Language-Team: French <https://translate.otobo.org/projects/otobo10/otobo/fr/"
 ">\n"
 "Language: fr\n"
@@ -10985,8 +10986,9 @@ msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr "Recevoir les messages d'information ' %s' par la méthode ' %s '."
 
 #. Template: ActivityDialogHeader
+#, fuzzy
 msgid "Process Information"
-msgstr "Traitement de l'nformation"
+msgstr "Traitement de l'information"
 
 #. Template: ActivityDialogHeader
 msgid "Dialog"
