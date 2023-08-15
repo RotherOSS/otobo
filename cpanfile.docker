@@ -71,8 +71,8 @@ requires 'URI';
 # Required for XML processing.
 requires 'XML::LibXML';
 
-# Required for fast YAML processing.
-requires 'YAML::XS';
+# Required for fast and correct YAML processing.
+requires 'YAML::XS', ">= 0.62";
 
 # For internationalised sorting
 requires 'Unicode::Collate';
