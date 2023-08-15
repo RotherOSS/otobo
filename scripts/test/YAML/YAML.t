@@ -18,13 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+use YAML::XS qw();
 
-# get YAML object
-my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 my @Tests = (
     {
@@ -79,7 +80,6 @@ my @Tests = (
     {
         Name          => 'Very long string',      # see https://bugzilla.redhat.com/show_bug.cgi?id=192400
         Data          => ' äø<>"\'' x 40_000,
-        SkipEngine    => 'YAML',                  # This test does not run with plain YAML, see the bug above
         SuccessDecode => 1,
     },
     {
@@ -183,34 +183,24 @@ my @Tests = (
     },
 );
 
-ENGINE:
-for my $Engine (qw(YAML::XS YAML)) {
+for my $Test (@Tests) {
 
-    # locally override the internal engine of YAML::Any to force testing
-    local @YAML::Any::_TEST_ORDER = ($Engine);
+    my $YAMLString = $Test->{YAMLString} || YAML::XS::Dump( Data => $Test->{Data} );
+    my $YAMLData   = YAML::XS::Load( Data => $YAMLString );
 
-    TEST:
-    for my $Test (@Tests) {
-
-        next TEST if defined $Test->{SkipEngine} && $Engine eq $Test->{SkipEngine};
-
-        my $YAMLString = $Test->{YAMLString} || $YAMLObject->Dump( Data => $Test->{Data} );
-        my $YAMLData   = $YAMLObject->Load( Data => $YAMLString );
-
-        if ( $Test->{SuccessDecode} ) {
-            $Self->IsDeeply(
-                $YAMLData,
-                $Test->{Data},
-                "Engine $Engine - $Test->{Name}",
-            );
-        }
-        else {
-            $Self->False(
-                $YAMLData,
-                "Engine $Engine - $Test->{Name}",
-            );
-        }
+    if ( $Test->{SuccessDecode} ) {
+        is(
+            $YAMLData,
+            $Test->{Data},
+            "$Test->{Name} - got expected result",
+        );
+    }
+    else {
+        ok(
+            !$YAMLData,
+            "$Test->{Name} - failure reported",
+        );
     }
 }
 
-$Self->DoneTesting();
+done_testing;
