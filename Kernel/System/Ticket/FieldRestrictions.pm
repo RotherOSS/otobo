@@ -413,6 +413,52 @@ sub GetFieldStates {
             $Param{ACLPreselection}{Rules}{Ticket}{ $DynamicFieldConfig->{Config}{ReferenceDFName} }{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = 1;
         }
 
+        # restrict options of reference fields as configured
+        if ( $DynamicFieldConfig->{FieldType} eq 'Reference' ) {
+
+            # skip validation if no filter is defined for any of the changed elements
+            next DYNAMICFIELD if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
+
+            # TODO think of good way to handle this (maybe a mapping or so)
+            # $Param{ChangedElements}->{Queue} = $Param{ChangedElements}->{Dest} ? 1 : undef;
+            next DYNAMICFIELD if !any {
+
+                # check Attribute itself and AttributeID to match e.q. Queue to QueueID
+                # TODO use lc check to ignore capitalization?
+                $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } || $Param{ChangedElements}->{ ( $_->{EqualsObjectAttribute} // '' ) . 'ID' }
+            }
+            $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
+
+            if ( $DynamicFieldConfig->{Config}{EditFieldMode} eq 'AutoComplete' ) {
+
+                # TODO empty field if it doesn't validate
+                next DYNAMICFIELD;
+            }
+
+            # fetch possible values for dynamic field
+            my $PossibleValues = $Param{DynamicFieldBackendObject}->PossibleValuesGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Object             => {
+                    $Param{GetParam}->%*,
+                    CustomerUserID => $Param{GetParam}->{CustomerUser},
+                    CustomerID     => $Param{GetParam}->{CustomerID},
+                },
+            );
+
+            $Fields{$i} = {
+                Name           => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                PossibleValues => $PossibleValues,
+            };
+
+            if ( $DFParam->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } && !$PossibleValues->{ $DFParam->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } } ) {
+                $DFParam->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = undef;
+                $NewValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = undef;
+
+            }
+
+            next DYNAMICFIELD;
+        }
+
         # skip non ACL reducible fields...
         if ( !$IsACLReducible ) {
 

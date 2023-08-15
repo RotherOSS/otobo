@@ -396,9 +396,16 @@ sub Run {
             StdFields => 0,
             Fields    => 0,
         );
-        my %ChangedElements        = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
-        my %ChangedElementsDFStart = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
-        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElements = $ElementChanged ? ( $ElementChanged => 1 ) : ();
+        if ( $ChangedElements{ServiceID} ) {
+            $ChangedElements{CustomerUserID} = 1;
+            $ChangedElements{CustomerID}     = 1;
+
+            $GetParam{CustomerUserID} = $Self->{UserID};
+            $GetParam{CustomerID}     = $Self->{UserCustomerID};
+        }
+        my %ChangedElementsDFStart = %ChangedElements;
+        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? %ChangedElements : ();
 
         my $LoopProtection = 100;
         my %StdFieldValues;
@@ -2414,6 +2421,7 @@ sub _Mask {
             # grep dynamic field values
             my %DynamicFieldValues = map { $_ => $Param{$_} } grep {/^DynamicField_/} keys %Param;
 
+            # TODO rendering throws error 'Need ID in DynamicFieldConfig!' in process case because ids in %DynamicFieldConfig are concatenated with activitydialogid
             $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
                 Content               => $Self->{MaskDefinition},
                 DynamicFields         => \%DynamicFieldConfigs,
@@ -2426,6 +2434,11 @@ sub _Mask {
                 Visibility            => $Param{Visibility},
                 SeparateDynamicFields => $SeparateDynamicFields,
                 CustomerInterface     => 1,
+                Object                => {
+                    CustomerID     => $Self->{CustomerID},
+                    CustomerUserID => $Self->{CustomerUserID},
+                    %DynamicFieldValues,
+                },
             );
 
         }

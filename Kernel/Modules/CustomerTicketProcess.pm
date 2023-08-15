@@ -1256,6 +1256,11 @@ sub _OutputActivityDialog {
                 Errors               => \%Error,
                 Visibility           => undef,
                 CustomerInterface    => 1,
+                Object               => {
+                    CustomerID     => $Self->{UserID},
+                    CustomerUserID => $Self->{UserCustomerID},
+                    %DynamicFieldValues,
+                },
             );
             next DIALOGFIELD;
         }

@@ -129,7 +129,21 @@ sub _Add {
     # extract field type specific parameters, e.g. MultiValue
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
         my $Name = $Setting->{ConfigParamName};
-        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
+        if ( $Setting->{Multiple} ) {
+            $GetParam{$Name}->@* = $ParamObject->GetArray( Param => $Name );
+        }
+        else {
+            $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
+        }
+
+        # validate input if necessary
+        if ( $Setting->{Mandatory} ) {
+            if ( !$GetParam{$Name} || ( $Setting->{Multiple} && !$GetParam{$Name}->@* ) ) {
+                return $LayoutObject->ErrorScreen(
+                    Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Name ),
+                );
+            }
+        }
     }
 
     # get the object type and field type display name
@@ -172,7 +186,20 @@ sub _AddAction {
     # extract field type specific parameters, e.g. MultiValue
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
         my $Name = $Setting->{ConfigParamName};
-        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
+        if ( $Setting->{Multiple} ) {
+            $GetParam{$Name}->@* = $ParamObject->GetArray( Param => $Name );
+        }
+        else {
+            $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
+        }
+
+        # validate input if necessary
+        if ( $Setting->{Mandatory} ) {
+            if ( !$GetParam{$Name} || ( $Setting->{Multiple} && !$GetParam{$Name}->@* ) ) {
+                $Errors{ $Name . 'ServerError' }        = 'ServerError';
+                $Errors{ $Name . 'ServerErrorMessage' } = Translatable('This field is required.');
+            }
+        }
     }
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -194,12 +221,6 @@ sub _AddAction {
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
-    }
-
-    # extract field type specific parameters, e.g. MultiValue
-    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
-        my $Name = $Setting->{ConfigParamName};
-        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
     }
 
     if ( $GetParam{Name} ) {
@@ -263,6 +284,15 @@ sub _AddAction {
         $FieldConfig{$Name} = $GetParam{$Name};
     }
 
+    $GetParam{ReferenceFilterCounter} = $ParamObject->GetParam( Param => 'ReferenceFilterCounter' ) || 0;
+
+    my @ReferenceFilterList = $Self->_GetParamReferenceFilterList(
+        GetParam => \%GetParam,
+        Errors   => \%Errors,
+    );
+
+    $FieldConfig{ReferenceFilterList} = \@ReferenceFilterList;
+
     # create a new field
     my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
         Name       => $GetParam{Name},
@@ -300,12 +330,6 @@ sub _Change {
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Needed ),
             );
         }
-    }
-
-    # extract field type specific parameters, e.g. MultiValue
-    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
-        my $Name = $Setting->{ConfigParamName};
-        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
     }
 
     # get the object type and field type display name
@@ -379,7 +403,20 @@ sub _ChangeAction {
     # extract field type specific parameters, e.g. MultiValue
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
         my $Name = $Setting->{ConfigParamName};
-        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
+        if ( $Setting->{Multiple} ) {
+            $GetParam{$Name}->@* = $ParamObject->GetArray( Param => $Name );
+        }
+        else {
+            $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
+        }
+
+        # validate input if necessary
+        if ( $Setting->{Mandatory} ) {
+            if ( !defined $GetParam{$Name} || ( $Setting->{Multiple} && !$GetParam{$Name}->@* ) ) {
+                $Errors{ $Name . 'ServerError' }        = 'ServerError';
+                $Errors{ $Name . 'ServerErrorMessage' } = Translatable('This field is required.');
+            }
+        }
     }
 
     # get dynamic field data
@@ -413,11 +450,6 @@ sub _ChangeAction {
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
-    }
-
-    for my $Setting ( $Param{FieldTypeSettings}->@* ) {
-        my $Name = $Setting->{ConfigParamName};
-        $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
     }
 
     if ( $GetParam{Name} ) {
@@ -521,8 +553,17 @@ sub _ChangeAction {
     # extract field type specific parameters, e.g. MultiValue
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
         my $Name = $Setting->{ConfigParamName};
-        $FieldConfig{$Name} = $ParamObject->GetParam( Param => $Name );
+        $FieldConfig{$Name} = $GetParam{$Name};
     }
+
+    $GetParam{ReferenceFilterCounter} = $ParamObject->GetParam( Param => 'ReferenceFilterCounter' ) || 0;
+
+    my @ReferenceFilterList = $Self->_GetParamReferenceFilterList(
+        GetParam => \%GetParam,
+        Errors   => \%Errors,
+    );
+
+    $FieldConfig{ReferenceFilterList} = \@ReferenceFilterList;
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
     my $UpdateSuccess = $DynamicFieldObject->DynamicFieldUpdate(
@@ -678,7 +719,8 @@ sub _ShowScreen {
                 PossibleNone => ( $Setting->{PossibleNone} // 0 ),
                 Disabled     => ( $Setting->{Disabled}     // 0 ),
                 SelectedID   => $Param{$Name} || '0',
-                Class        => 'Modernize W50pc',
+                Class        => 'Modernize W50pc' . ( $Setting->{Mandatory} ? ' Validate_Required' : '' ),
+                Multiple     => ( $Setting->{Multiple} // 0 ),
             );
             $LayoutObject->Block(
                 Name => 'ConfigParamRow',
@@ -721,7 +763,7 @@ sub _ShowScreen {
         SelectedID   => $Param{ValidID} || 1,
         PossibleNone => 0,
         Translation  => 1,
-        Class        => 'Modernize W50pc',
+        Class        => 'Modernize W50pc Validate_Required',
     );
 
     # define config field specific settings
@@ -750,8 +792,7 @@ sub _ShowScreen {
     }
 
     # get the dynamic field id
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $FieldID     = $ParamObject->GetParam( Param => 'ID' );
+    my $FieldID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ID' );
 
     # only if the dymamic field exists and should be edited,
     # not if the field is added for the first time
@@ -760,6 +801,50 @@ sub _ShowScreen {
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
             ID => $FieldID,
         );
+
+        my $FieldConfig = $DynamicField->{Config};
+
+        if ( !$Param{ReferenceFilterCounter} ) {
+
+            my $ReferenceFilterCounter = 0;
+            for my $ReferenceFilter ( @{ $FieldConfig->{ReferenceFilterList} } ) {
+
+                $ReferenceFilterCounter++;
+                for my $FilterItem (qw(ReferenceObjectAttribute EqualsObjectAttribute EqualsString)) {
+                    $Param{ 'ReferenceFilter_' . $FilterItem . '_' . $ReferenceFilterCounter } = $ReferenceFilter->{$FilterItem};
+
+                }
+            }
+
+            $Param{ReferenceFilterCounter} = $ReferenceFilterCounter;
+        }
+
+        if ( $Param{ReferenceFilterCounter} ) {
+
+            REFERENCEFILTERENTRY:
+            for my $CurrentReferenceFilterEntryID ( 1 .. $Param{ReferenceFilterCounter} ) {
+
+                # check existing filter
+                my %FilterRow;
+                my %Errors;
+                for my $FilterItem (qw(ReferenceObjectAttribute EqualsObjectAttribute EqualsString)) {
+                    $FilterRow{ 'ReferenceFilter_' . $FilterItem } = $Param{ 'ReferenceFilter_' . $FilterItem . '_' . $CurrentReferenceFilterEntryID };
+                }
+
+                # skip if values are undef
+                next REFERENCEFILTERENTRY if !grep { defined $_ } values %FilterRow;
+
+                $LayoutObject->Block(
+                    Name => 'ReferenceFilterRow',
+                    Data => {
+                        %FilterRow,
+                        %Errors,
+                        EntryCounter => $CurrentReferenceFilterEntryID,
+                    }
+                );
+            }
+        }
+
         my $DynamicFieldName = $DynamicField->{Name};
 
         # Add warning in case the DynamicField belongs a SysConfig setting.
@@ -821,6 +906,75 @@ sub _ShowScreen {
             },
         ),
         $LayoutObject->Footer;
+}
+
+sub _GetParamReferenceFilterList {
+    my ( $Self, %Param ) = @_;
+
+    my $GetParam = $Param{GetParam};
+    my $Errors   = $Param{Errors};
+    my @ReferenceFilterList;
+
+    # Check reference filter list
+    if ( $GetParam->{ReferenceFilterCounter} && $GetParam->{ReferenceFilterCounter} =~ m{\A\d+\z}xms ) {
+
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+        REFERENCEFILTERENTRY:
+        for my $CurrentReferenceFilterEntryID ( 1 .. $GetParam->{ReferenceFilterCounter} ) {
+
+            # check existing reference filter
+            my %FilterRow;
+            for my $FilterItem (qw(ReferenceObjectAttribute EqualsObjectAttribute EqualsString)) {
+                $GetParam->{ 'ReferenceFilter_' . $FilterItem . '_' . $CurrentReferenceFilterEntryID }
+                    = $ParamObject->GetParam( Param => 'ReferenceFilter_' . $FilterItem . '_' . $CurrentReferenceFilterEntryID );
+                $FilterRow{$FilterItem} = $GetParam->{ 'ReferenceFilter_' . $FilterItem . '_' . $CurrentReferenceFilterEntryID };
+            }
+
+            # skip if filter values are undef
+            next REFERENCEFILTERENTRY if !grep { defined $_ } values %FilterRow;
+
+            # is the reference filter valid?
+            # TODO Check selects also
+            # my $ReferenceFilterCheck = eval {
+            #     qr{$ReferenceFilter}xms;
+            # };
+
+            my $CurrentEntryErrors = 0;
+
+            # if ($@) {
+            #     $Errors->{ 'ReferenceFilter_' . $CurrentReferenceFilterEntryID . 'ServerError' } = 'ServerError';
+
+            #     # cut last part of regex error
+            #     # 'Invalid regular expression (Unmatched [ in regex; marked by
+            #     # <-- HERE in m/aaa[ <-- HERE / at
+            #     # /opt/otobo/bin/cgi-bin/../../Kernel/Modules/AdminDynamicFieldText.pm line 452..
+            #     my $ServerErrorMessage = $@;
+            #     $ServerErrorMessage =~ s{ (in \s regex); .*$ }{ $1 }xms;
+            #     $Errors->{ 'ReferenceFilter_' . $CurrentReferenceFilterEntryID . 'ServerErrorMessage' } = $ServerErrorMessage;
+
+            #     $CurrentEntryErrors = 1;
+            # }
+
+            # # check required error message for regex
+            # if ( !$CustomerReferenceFilterErrorMessage ) {
+            #     $Errors->{ 'CustomerReferenceFilterErrorMessage_' . $CurrentReferenceFilterEntryID . 'ServerError' } = 'ServerError';
+            #     $Errors->{
+            #         'CustomerReferenceFilterErrorMessage_'
+            #             . $CurrentReferenceFilterEntryID
+            #             . 'ServerErrorMessage'
+            #     } = Translatable('This field is required.');
+
+            #     $CurrentEntryErrors = 1;
+            # }
+
+            next REFERENCEFILTERENTRY if $CurrentEntryErrors;
+
+            push @ReferenceFilterList, \%FilterRow;
+        }
+    }
+
+    return @ReferenceFilterList;
 }
 
 1;

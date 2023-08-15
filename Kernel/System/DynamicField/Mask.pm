@@ -239,6 +239,7 @@ sub EditSectionRender {
                 Mandatory            => $Field->{Mandatory},
                 ReadOnly             => $Field->{Readonly},
                 CustomerInterface    => $Param{CustomerInterface},
+                Object               => $Param{Object},
                 %Error,
                 %InvisibleNoDefault,
             );

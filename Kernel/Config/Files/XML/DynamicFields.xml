@@ -1134,6 +1134,19 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="AutoComplete::Customer###DynamicFieldReference" Required="1" Valid="1">
+        <Description Translatable="1">Defines the config options for the autocompletion feature.</Description>
+        <Navigation>Frontend::Customer</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="AutoCompleteActive">1</Item>
+                <Item Key="MinQueryLength">2</Item>
+                <Item Key="QueryDelay">100</Item>
+                <Item Key="MaxResultsDisplayed">20</Item>
+                <Item Key="ButtonText" Translatable="1">Search</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Frontend::Module###AgentReferenceSearch" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
@@ -1150,6 +1163,27 @@
                     </Item>
                     <Item Key="Description" Translatable="1">Agent reference dynamic field with data search.</Item>
                     <Item Key="Title" Translatable="1">Agent Reference Dynamic Field With Data Search</Item>
+                    <Item Key="NavBarName">Ticket</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::Module###AgentReferenceSearch" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Customer reference dynamic field with data search.</Item>
+                    <Item Key="Title" Translatable="1">Customer Reference Dynamic Field With Data Search</Item>
                     <Item Key="NavBarName">Ticket</Item>
                 </Hash>
             </Item>

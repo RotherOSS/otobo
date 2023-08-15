@@ -204,6 +204,87 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("ConfigParamRow") %]
 
+                        <label for="ReferenceFilter">[% Translate("Check ReferenceFilter") | html %]:</label>
+                        <div class="Field ReferenceFilterInsert">
+                            <p class="FieldExplanation">
+# TODO Ask Sven for better text
+                                [% Translate("Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.") | html %]
+                                <br/>
+                                [% Translate("Example") | html %]: ^[0-9]$
+                            </p>
+                            <input type="hidden" name="ReferenceFilterCounter" value="[% Data.ReferenceFilterCounter | html %]" id="ReferenceFilterCounter" class="ReferenceFilterCounter">
+                            <div class="Spacing"></div>
+
+[% RenderBlockStart("ReferenceFilterRow") %]
+                            <fieldset id="ReferenceFilterRow_[% Data.EntryCounter | html %]" class="TableLike SpacingTop ReferenceFilterRow W50pc">
+                                <label for="ReferenceFilter_ReferenceObjectAttribute_[% Data.EntryCounter | html %]">[% Translate("Reference object attribute") | html %]:</label>
+                                <div class="Field">
+                                    <input id="ReferenceFilter_ReferenceObjectAttribute_[% Data.EntryCounter | html %]" class="W80pc [% Data.ReferenceFilter_ReferenceObjectAttributeServerError | html %]" type="text" maxlength="500" value="[% Data.ReferenceFilter_ReferenceObjectAttribute | html %]" name="ReferenceFilter_ReferenceObjectAttribute_[% Data.EntryCounter | html %]" />
+                                    <div id="ReferenceFilter_ReferenceObjectAttribute_[% Data.EntryCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                    <div id="ReferenceFilter_ReferenceObjectAttribute_[% Data.EntryCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("Invalid ReferenceFilter_ReferenceObjectAttribute") | html %]: [% Data.ReferenceFilter_ReferenceObjectAttributeServerErrorMessage | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="ReferenceFilter_EqualsObjectAttribute_[% Data.EntryCounter | html %]">[% Translate("Equals object attribute") | html %]:</label>
+                                <div class="Field">
+                                    <input id="ReferenceFilter_EqualsObjectAttribute_[% Data.EntryCounter | html %]" class="W80pc [% Data.ReferenceFilter_EqualsObjectAttributeServerError | html %]" type="text" maxlength="500" value="[% Data.ReferenceFilter_EqualsObjectAttribute | html %]" name="ReferenceFilter_EqualsObjectAttribute_[% Data.EntryCounter | html %]" />
+                                    <div id="ReferenceFilter_EqualsObjectAttribute_[% Data.EntryCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                    <div id="ReferenceFilter_EqualsObjectAttribute_[% Data.EntryCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.ReferenceFilter_EqualsObjectAttributeServerErrorMessage | Translate | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="ReferenceFilter_EqualsString_[% Data.EntryCounter | html %]">[% Translate("Equals string") | html %]:</label>
+                                <div class="Field">
+                                    <input id="ReferenceFilter_EqualsString_[% Data.EntryCounter | html %]" class="W80pc [% Data.ReferenceFilter_EqualsStringServerError | html %]" type="text" maxlength="500" value="[% Data.ReferenceFilter_EqualsString | html %]" name="ReferenceFilter_EqualsString_[% Data.EntryCounter | html %]" />
+                                    <div id="ReferenceFilter_EqualsString_[% Data.EntryCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                    <div id="ReferenceFilter_EqualsString_[% Data.EntryCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.ReferenceFilter_EqualsStringServerErrorMessage | Translate | html %]</p></div>
+                                    <a id="RemoveReferenceFilter_[% Data.EntryCounter | html %]" class="RemoveReferenceFilter RemoveButton" href="#">
+                                        <i class="fa fa-minus-square-o"></i>
+                                    </a>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+[% RenderBlockEnd("ReferenceFilterRow") %]
+                        </div>
+
+                        <fieldset class="ReferenceFilterTemplate Hidden TableLike SpacingTop">
+                            <label class="W50pc" for="ReferenceFilter_ReferenceObjectAttribute">[% Translate("Reference object attribute") | html %]:</label>
+                            <div class="Field">
+                                <input id="ReferenceFilter_ReferenceObjectAttribute" class="W80pc" type="text" maxlength="500" value="" name="ReferenceFilter_ReferenceObjectAttribute" />
+                                <div id="ReferenceFilter_ReferenceObjectAttribute_Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="ReferenceFilter_ReferenceObjectAttribute_ServerError" class="TooltipErrorMessage"><p>[% Data.ReferenceFilter_ReferenceObjectAttribute_ServerErrorMessage | Translate | html %]</p></div>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label class="W50pc" for="ReferenceFilter_EqualsObjectAttribute">[% Translate("Equals object attribute") | html %]:</label>
+                            <div class="Field">
+                                <input id="ReferenceFilter_EqualsObjectAttribute" class="W80pc" type="text" maxlength="500" value="" name="ReferenceFilter_EqualsObjectAttribute" />
+                                <div id="ReferenceFilter_EqualsObjectAttribute_Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="ReferenceFilter_EqualsObjectAttribute_ServerError" class="TooltipErrorMessage"><p>[% Data.ReferenceFilter_EqualsObjectAttribute_ServerErrorMessage | Translate | html %]</p></div>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label for="ReferenceFilter_EqualsString">[% Translate("Equals string") | html %]:</label>
+                            <div class="Field">
+                                <input id="ReferenceFilter_EqualsString" class="W80pc" type="text" maxlength="500" value="" name="ReferenceFilter_EqualsString" />
+                                <div id="ReferenceFilter_EqualsString_Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="ReferenceFilter_EqualsString_ServerError" class="TooltipErrorMessage"><p>[% Data.ReferenceFilter_EqualsString_ServerErrorMessage | Translate | html %]</p></div>
+                                <a id="RemoveReferenceFilter" class="RemoveReferenceFilter RemoveButton" href="#">
+                                    <i class="fa fa-minus-square-o"></i>
+                                </a>
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                        <div class="Clear"></div>
+
+                        <label for="AddReferenceFilter">[% Translate("Add ReferenceFilter") | html %]:</label>
+                        <div class="Field">
+                            <a id="AddReferenceFilter" href="#" class="AddButton">
+                                <i class="fa fa-plus-square-o"></i>
+                            </a>
+                        </div>
+                        <div class="Clear"></div>
+
                     </fieldset>
                 </div>
             </div>

@@ -808,11 +808,13 @@ sub Form {
     );
 
     $Output .= $Self->_Mask(
-        TicketNumber => $Ticket{TicketNumber},
-        TicketID     => $Self->{TicketID},
-        Title        => $Ticket{Title},
-        QueueID      => $Ticket{QueueID},
-        NextStates   => $Self->_GetNextStates(
+        TicketNumber   => $Ticket{TicketNumber},
+        TicketID       => $Self->{TicketID},
+        Title          => $Ticket{Title},
+        CustomerID     => $Ticket{CustomerID},
+        CustomerUserID => $Ticket{CustomerUserID},
+        QueueID        => $Ticket{QueueID},
+        NextStates     => $Self->_GetNextStates(
             %GetParam,
             %ACLCompatGetParam,
         ),
@@ -1303,11 +1305,13 @@ sub SendEmail {
         }
 
         $Output .= $Self->_Mask(
-            TicketNumber => $Ticket{TicketNumber},
-            Title        => $Ticket{Title},
-            TicketID     => $Self->{TicketID},
-            QueueID      => $QueueID,
-            NextStates   => $Self->_GetNextStates(
+            TicketNumber   => $Ticket{TicketNumber},
+            Title          => $Ticket{Title},
+            CustomerID     => $Ticket{CustomerID},
+            CustomerUserID => $Ticket{CustomerUserID},
+            TicketID       => $Self->{TicketID},
+            QueueID        => $QueueID,
+            NextStates     => $Self->_GetNextStates(
                 %GetParam,
                 %ACLCompatGetParam,
             ),
@@ -1969,6 +1973,12 @@ sub _Mask {
             DynamicFieldValues   => $Param{DFValues},
             PossibleValuesFilter => $Param{DFPossibleValues},
             Errors               => $Param{DFErrors},
+            Object               => {
+                CustomerID     => $Param{CustomerID},
+                CustomerUserID => $Param{CustomerUserID},
+                UserID         => $Self->{UserID},
+                $Param{DFValues}->%*,
+            },
         );
     }
 
