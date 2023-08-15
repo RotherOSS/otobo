@@ -189,6 +189,62 @@ sub SearchObjects {
         }
     }
 
+    # incorporate referencefilterlist into search params
+    if ( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) {
+        FILTERITEM:
+        for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
+
+            # check filter config
+            next FILTERITEM unless $FilterItem->{ReferenceObjectAttribute};
+            next FILTERITEM unless ( $FilterItem->{EqualsObjectAttribute} || $FilterItem->{EqualsString} );
+
+            if ( $FilterItem->{EqualsObjectAttribute} ) {
+
+                # don't perform search if object attribute to search for is empty
+                return unless $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} };
+                return if ( ref $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} } eq 'ARRAY' && !$Param{Object}->{ $FilterItem->{EqualsObjectAttribute} }->@* );
+                return if ( ref $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} } eq 'HASH'  && !$Param{Object}->{ $FilterItem->{EqualsObjectAttribute} }->%* );
+
+                # config item attribute
+                if ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Con}i ) {
+                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} };
+                }
+
+                # dynamic field attribute
+                elsif ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Dyn}i ) {
+                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = {
+                        Equals => $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} },
+                    };
+                }
+
+                # array attribute
+                else {
+                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = [ $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} } ];
+                }
+            }
+            elsif ( $FilterItem->{EqualsString} ) {
+
+                # config item attribute
+                # TODO check if this has to be adapted for ticket search
+                if ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Con}i ) {
+                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = $FilterItem->{EqualsString};
+                }
+
+                # dynamic field attribute
+                elsif ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Dyn}i ) {
+                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = {
+                        Equals => $FilterItem->{EqualsString},
+                    };
+                }
+
+                # array attribute
+                else {
+                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = [ $FilterItem->{EqualsString} ];
+                }
+            }
+        }
+    }
+
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     return $TicketObject->TicketSearch(
