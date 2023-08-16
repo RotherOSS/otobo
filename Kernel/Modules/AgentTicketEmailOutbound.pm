@@ -785,9 +785,11 @@ sub Form {
         $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $PossibleValuesFilter;
     }
 
-    # grep dynamic field values from ticket data
-    my %DFValues
-        = map { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } } grep { $_->{ObjectType} eq 'Ticket' } $Self->{DynamicField}->@*;
+    # extract dynamic field values from ticket data
+    my %TicketDFValues =
+        map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
+        grep { $_->{ObjectType} eq 'Ticket' }
+        $Self->{DynamicField}->@*;
 
     # build view ...
     # start with page ...
@@ -826,7 +828,7 @@ sub Form {
         %Data,
         %GetParam,
         DFPossibleValues => \%DynamicFieldPossibleValues,
-        DFValues         => \%DFValues,
+        DFValues         => \%TicketDFValues,
     );
     $Output .= $LayoutObject->Footer(
         Type => 'Small',
@@ -1289,6 +1291,13 @@ sub SendEmail {
     # An error is not necessarily bad, often it is just that a form draft has been loaded.
     if (%Error) {
         my $QueueID = $TicketObject->TicketQueueID( TicketID => $Self->{TicketID} );
+
+        # extract dynamic field values from ticket data
+        my %TicketDFValues =
+            map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
+            grep { $_->{ObjectType} eq 'Ticket' }
+            $Self->{DynamicField}->@*;
+
         my $Output = $LayoutObject->Header(
             Type      => 'Small',
             BodyClass => 'Popup',
@@ -1323,6 +1332,7 @@ sub SendEmail {
             %GetParam,
             DFPossibleValues => \%DynamicFieldPossibleValues,
             DFErrors         => \%DynamicFieldValidationResult,
+            DFValues         => \%TicketDFValues,
         );
         $Output .= $LayoutObject->Footer(
             Type => 'Small',

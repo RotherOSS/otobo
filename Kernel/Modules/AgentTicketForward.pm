@@ -680,6 +680,12 @@ sub Form {
         $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $PossibleValuesFilter;
     }
 
+    # extract dynamic field values from ticket data
+    my %TicketDFValues =
+        map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
+        grep { $_->{ObjectType} eq 'Ticket' }
+        $Self->{DynamicField}->@*;
+
     # build view ...
     # start with page ...
     my $Output = $LayoutObject->Header(
@@ -719,7 +725,7 @@ sub Form {
         InReplyTo        => $Data{MessageID},
         References       => $References,
         DFPossibleValues => \%DynamicFieldPossibleValues,
-        DFValues         => \%DFValues,
+        DFValues         => \%TicketDFValues,
     );
     $Output .= $LayoutObject->Footer(
         Type => 'Small',
@@ -1183,6 +1189,13 @@ sub SendEmail {
     # check if there is an error
     if (%Error) {
         my $QueueID = $TicketObject->TicketQueueID( TicketID => $Self->{TicketID} );
+
+        # extract dynamic field values from ticket data
+        my %TicketDFValues =
+            map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
+            grep { $_->{ObjectType} eq 'Ticket' }
+            $Self->{DynamicField}->@*;
+
         my $Output = $LayoutObject->Header(
             Type      => 'Small',
             BodyClass => 'Popup',
@@ -1210,10 +1223,12 @@ sub SendEmail {
             %GetParam,
             DFPossibleValues => \%DynamicFieldPossibleValues,
             DFErrors         => \%DynamicFieldValidationResult,
+            DFValues         => \%TicketDFValues,
         );
         $Output .= $LayoutObject->Footer(
             Type => 'Small',
         );
+
         return $Output;
     }
 

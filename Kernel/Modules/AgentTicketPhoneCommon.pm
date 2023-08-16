@@ -397,8 +397,11 @@ sub Run {
 
         }
 
-        # grep dynamic field values from ticket data
-        my %DFValues = map { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } } grep { $_->{ObjectType} eq 'Ticket' } $Self->{DynamicField}->@*;
+        # extracte dynamic field values from ticket data
+        my %TicketDFValues =
+            map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
+            grep { $_->{ObjectType} eq 'Ticket' }
+            $Self->{DynamicField}->@*;
 
         # get and format default subject and body
         my $Subject = $LayoutObject->Output(
@@ -431,7 +434,7 @@ sub Run {
             Subject           => $Subject,
             Body              => $Body,
             DFPossibleValues  => \%DynamicFieldPossibleValues,
-            DFValues          => \%DFValues,
+            DFValues          => \%TicketDFValues,
         );
         $Output .= $LayoutObject->Footer(
             Type => 'Small',
@@ -790,6 +793,12 @@ sub Run {
                 }
             }
 
+            # extracte dynamic field values from ticket data
+            my %TicketDFValues =
+                map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
+                grep { $_->{ObjectType} eq 'Ticket' }
+                $Self->{DynamicField}->@*;
+
             # header
             my $Output = $LayoutObject->Header(
                 Type      => 'Small',
@@ -812,6 +821,7 @@ sub Run {
                 DFPossibleValues => \%DynamicFieldPossibleValues,
                 DFErrors         => \%DynamicFieldValidationResult,
                 Errors           => \%Error,
+                DFValues         => \%TicketDFValues,
             );
             $Output .= $LayoutObject->Footer(
                 Type => 'Small',
