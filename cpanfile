@@ -171,6 +171,9 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
 
+    # support for formatting test results
+    requires 'Unicode::GCString';
+
 };
 
 feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
@@ -348,6 +351,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
+
+    # support for formatting test results
+    requires 'Unicode::GCString';
 
 };
 
