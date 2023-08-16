@@ -610,12 +610,10 @@ sub _GetAttributeDFConfig {
     my ( $Self, %Param ) = @_;
 
     if ( !defined $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} } ) {
-        my %DynamicFieldConfig = %{
-            $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-                ID => $Param{LensDynamicFieldConfig}{Config}{AttributeDF},
-            )
-        };
-        $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} } = \%DynamicFieldConfig;
+        my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+            ID => $Param{LensDynamicFieldConfig}{Config}{AttributeDF},
+        );
+        $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} } = IsHashRefWithData($DynamicFieldConfig) ? { $DynamicFieldConfig->%* } : {};
     }
 
     return $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} };
