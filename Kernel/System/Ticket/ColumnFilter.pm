@@ -58,7 +58,7 @@ sub new {
 
 =head2 StateFilterValuesGet()
 
-get a list of states within the given ticket is list
+get a list of states within the given ticket id list
 
     my $Values = $ColumnFilterObject->StateFilterValuesGet(
         TicketIDs => [23, 1, 56, 74],                    # array ref list of ticket IDs
@@ -123,7 +123,7 @@ sub StateFilterValuesGet {
 
 =head2 QueueFilterValuesGet()
 
-get a list of queues within the given ticket is list
+get a list of queues within the given ticket id list
 
     my $Values = $ColumnFilterObject->QueueFilterValuesGet(
         TicketIDs => [23, 1, 56, 74],                    # array ref list of ticket IDs
@@ -190,7 +190,7 @@ sub QueueFilterValuesGet {
 
 =head2 PriorityFilterValuesGet()
 
-get a list of priorities within the given ticket is list
+get a list of priorities within the given ticket id list
 
     my $Values = $ColumnFilterObject->PriorityFilterValuesGet(
         TicketIDs => [23, 1, 56, 74],                    # array ref list of ticket IDs
@@ -255,7 +255,7 @@ sub PriorityFilterValuesGet {
 
 =head2 TypeFilterValuesGet()
 
-get a list of ticket types within the given ticket is list
+get a list of ticket types within the given ticket id list
 
     my $Values = $ColumnFilterObject->TypeFilterValuesGet(
         TicketIDs => [23, 1, 56, 74],                    # array ref list of ticket IDs
@@ -320,7 +320,7 @@ sub TypeFilterValuesGet {
 
 =head2 LockFilterValuesGet()
 
-get a list of ticket lock values within the given ticket is list
+get a list of ticket lock values within the given ticket id list
 
     my $Values = $ColumnFilterObject->LockFilterValuesGet(
         TicketIDs => [23, 1, 56, 74],                    # array ref list of ticket IDs
@@ -386,7 +386,7 @@ sub LockFilterValuesGet {
 
 =head2 ServiceFilterValuesGet()
 
-get a list of services within the given ticket is list
+get a list of services within the given ticket id list
 
     my $Values = $ColumnFilterObject->ServiceFilterValuesGet(
         TicketIDs => [23, 1, 56, 74],                    # array ref list of ticket IDs
@@ -451,7 +451,7 @@ sub ServiceFilterValuesGet {
 
 =head2 SLAFilterValuesGet()
 
-get a list of service level agreements within the given ticket is list
+get a list of service level agreements within the given ticket id list
 
     my $Values = $ColumnFilterObject->SLAFilterValuesGet(
         TicketIDs => [23, 1, 56, 74],                    # array ref list of ticket IDs
@@ -516,7 +516,7 @@ sub SLAFilterValuesGet {
 
 =head2 CustomerFilterValuesGet()
 
-get a list of customer ids within the given ticket is list
+get a list of customer ids within the given ticket id list
 
     my $Values = $ColumnFilterObject->CustomerFilterValuesGet(
         TicketIDs => [23, 1, 56, 74],                    # array ref list of ticket IDs
@@ -585,7 +585,7 @@ sub CustomerFilterValuesGet {
 
 =head2 CustomerUserIDFilterValuesGet()
 
-get a list of customer users within the given ticket is list
+get a list of customer users within the given ticket id list
 
     my $Values = $ColumnFilterObject->CustomerUserIDFilterValuesGet(
         TicketIDs => [23, 1, 56, 74],                    # array ref list of ticket IDs
@@ -654,7 +654,7 @@ sub CustomerUserIDFilterValuesGet {
 
 =head2 OwnerFilterValuesGet()
 
-get a list of ticket owners within the given ticket is list
+get a list of ticket owners within the given ticket id list
 
     my $Values = $ColumnFilterObject->OwnerFilterValuesGet(
         TicketIDs => [23, 1, 56, 74],                    # array ref list of ticket IDs

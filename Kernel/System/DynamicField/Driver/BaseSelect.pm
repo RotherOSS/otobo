@@ -43,7 +43,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::BaseSelect - base module of DropDown and MultiSelects dynamic fields
+Kernel::System::DynamicField::Driver::BaseSelect - base module for DropDown and MultiSelects dynamic fields
 
 =head1 DESCRIPTION
 
@@ -1164,14 +1164,16 @@ sub PossibleValuesGet {
 sub ColumnFilterValuesGet {
     my ( $Self, %Param ) = @_;
 
-    # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+    # Extract the information about the dynamic field,
+    # so that sensible variable names can be used.
+    my $DynamicField = $Param{DynamicFieldConfig};
+    my $FieldConfig  = $DynamicField->{Config};
 
     # set PossibleValues
     my $SelectionData = $FieldConfig->{PossibleValues};
 
     # article uses the same routine as ticket
-    my $ObjectType = $FieldConfig->{ObjectType} eq 'Article' ? 'Ticket' : $FieldConfig->{ObjectType};
+    my $ObjectType = $DynamicField->{ObjectType} eq 'Article' ? 'Ticket' : $DynamicField->{ObjectType};
 
     # get column filter values from database
     my $ColumnFilterValues = $Kernel::OM->Get("Kernel::System::${ObjectType}::ColumnFilter")->DynamicFieldFilterValuesGet(
