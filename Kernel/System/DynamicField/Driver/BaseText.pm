@@ -782,6 +782,8 @@ sub ReadableValueRender {
         @Values = ( $Param{Value} );
     }
 
+    @Values = map { $_ // '' } @Values;
+
     # set item separator
     my $ItemSeparator = ', ';
 
