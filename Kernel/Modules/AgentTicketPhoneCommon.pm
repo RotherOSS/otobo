@@ -33,8 +33,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # Try to load draft if requested.
     if (
@@ -49,7 +48,7 @@ sub new {
         );
     }
 
-    # frontend specific config
+    # get config for frontend module
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -398,8 +397,11 @@ sub Run {
 
         }
 
-        # grep dynamic field values from ticket data
-        my %DFValues = map { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } } grep { $_->{ObjectType} eq 'Ticket' } $Self->{DynamicField}->@*;
+        # extracte dynamic field values from ticket data
+        my %TicketDFValues =
+            map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
+            grep { $_->{ObjectType} eq 'Ticket' }
+            $Self->{DynamicField}->@*;
 
         # get and format default subject and body
         my $Subject = $LayoutObject->Output(
@@ -414,7 +416,6 @@ sub Run {
             );
         }
 
-        # print form ...
         my $Output = $LayoutObject->Header(
             Type      => 'Small',
             BodyClass => 'Popup',
@@ -433,11 +434,12 @@ sub Run {
             Subject           => $Subject,
             Body              => $Body,
             DFPossibleValues  => \%DynamicFieldPossibleValues,
-            DFValues          => \%DFValues,
+            DFValues          => \%TicketDFValues,
         );
         $Output .= $LayoutObject->Footer(
             Type => 'Small',
         );
+
         return $Output;
     }
 
@@ -791,6 +793,12 @@ sub Run {
                 }
             }
 
+            # extracte dynamic field values from ticket data
+            my %TicketDFValues =
+                map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
+                grep { $_->{ObjectType} eq 'Ticket' }
+                $Self->{DynamicField}->@*;
+
             # header
             my $Output = $LayoutObject->Header(
                 Type      => 'Small',
@@ -813,6 +821,7 @@ sub Run {
                 DFPossibleValues => \%DynamicFieldPossibleValues,
                 DFErrors         => \%DynamicFieldValidationResult,
                 Errors           => \%Error,
+                DFValues         => \%TicketDFValues,
             );
             $Output .= $LayoutObject->Footer(
                 Type => 'Small',
@@ -1529,7 +1538,7 @@ sub _MaskPhone {
         );
     }
 
-    # get output back
+    # create & return output
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketPhoneCommon',
         Data         => {
@@ -1540,7 +1549,6 @@ sub _MaskPhone {
             FormDraftMeta  => $LoadedFormDraft,
         },
     );
-
 }
 
 sub _GetFieldsToUpdate {
