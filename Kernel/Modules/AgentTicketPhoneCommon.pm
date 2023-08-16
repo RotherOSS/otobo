@@ -33,8 +33,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # Try to load draft if requested.
     if (
@@ -49,7 +48,7 @@ sub new {
         );
     }
 
-    # frontend specific config
+    # get config for frontend module
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -414,7 +413,6 @@ sub Run {
             );
         }
 
-        # print form ...
         my $Output = $LayoutObject->Header(
             Type      => 'Small',
             BodyClass => 'Popup',
@@ -438,6 +436,7 @@ sub Run {
         $Output .= $LayoutObject->Footer(
             Type => 'Small',
         );
+
         return $Output;
     }
 
@@ -1529,7 +1528,7 @@ sub _MaskPhone {
         );
     }
 
-    # get output back
+    # create & return output
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketPhoneCommon',
         Data         => {
@@ -1540,7 +1539,6 @@ sub _MaskPhone {
             FormDraftMeta  => $LoadedFormDraft,
         },
     );
-
 }
 
 sub _GetFieldsToUpdate {

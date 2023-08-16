@@ -19,6 +19,11 @@ package Kernel::Modules::AgentTicketEmailOutbound;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 use Mail::Address;
@@ -29,8 +34,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # Try to load draft if requested.
     if (
@@ -103,7 +107,7 @@ sub Run {
 
     my $Output;
 
-    # get ticket object
+    # get needed objects
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get ACL restrictions
@@ -432,7 +436,6 @@ sub Form {
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
-
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Got no TicketID!'),
             Comment => Translatable('System Error!'),
@@ -464,7 +467,6 @@ sub Form {
 
     # error screen, don't show ticket
     if ( !$Access ) {
-
         return $LayoutObject->NoPermission( WithHeader => 'yes' );
     }
 
@@ -476,7 +478,6 @@ sub Form {
     my @MultipleCustomerBcc = @{ $GetParamExtended{MultipleCustomerBcc} };
 
     # get lock state
-    my $Output = '';
     if ( $Config->{RequiredLock} ) {
         if ( !$TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
 
@@ -517,19 +518,18 @@ sub Form {
                 OwnerID  => $Self->{UserID},
             );
             if ( !$AccessOk ) {
-                my $Output = $LayoutObject->Header(
-                    Type      => 'Small',
-                    BodyClass => 'Popup',
-                );
-                $Output .= $LayoutObject->Warning(
-                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => Translatable('Please change the owner first.'),
-                );
-                $Output .= $LayoutObject->Footer(
-                    Type => 'Small',
-                );
-
-                return $Output;
+                return join '',
+                    $LayoutObject->Header(
+                        Type      => 'Small',
+                        BodyClass => 'Popup',
+                    ),
+                    $LayoutObject->Warning(
+                        Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                        Comment => Translatable('Please change the owner first.'),
+                    ),
+                    $LayoutObject->Footer(
+                        Type => 'Small',
+                    );
             }
             else {
                 $LayoutObject->Block(
@@ -552,9 +552,8 @@ sub Form {
         );
     }
 
+    # Get selected or last customer article.
     my %Data;
-
-    # Get selected article.
     if ( $GetParam{ArticleID} ) {
         my $ArticleBackendObject = $ArticleObject->BackendForArticle(
             TicketID  => $Self->{TicketID},
@@ -574,11 +573,10 @@ sub Form {
             );
         }
     }
-
-    # Get the last customer article of the ticket.
     else {
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-        my @MetaArticles  = $ArticleObject->ArticleList(
+
+        # Get last customer article.
+        my @MetaArticles = $ArticleObject->ArticleList(
             TicketID   => $Self->{TicketID},
             SenderType => 'customer',
             OnlyLast   => 1,
@@ -699,7 +697,6 @@ sub Form {
 
             # load module
             if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $Jobs{$Job}->{Module} ) ) {
-
                 return $LayoutObject->FatalError();
             }
             my $Object = $Jobs{$Job}->{Module}->new(
@@ -710,7 +707,6 @@ sub Form {
             # get params
             PARAMETER:
             for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
-
                 if ( $Jobs{$Job}->{ParamType} && $Jobs{$Job}->{ParamType} ne 'Single' ) {
                     @{ $GetParam{$Parameter} } = $ParamObject->GetArray( Param => $Parameter );
                     next PARAMETER;
@@ -741,8 +737,8 @@ sub Form {
 
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+    for my $DynamicFieldConfig ( $Self->{DynamicField}->@* ) {
+        next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
 
         my $PossibleValuesFilter;
 
@@ -787,7 +783,6 @@ sub Form {
         }
 
         $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $PossibleValuesFilter;
-
     }
 
     # grep dynamic field values from ticket data
@@ -796,7 +791,7 @@ sub Form {
 
     # build view ...
     # start with page ...
-    $Output .= $LayoutObject->Header(
+    my $Output = $LayoutObject->Header(
         Value     => $Ticket{TicketNumber},
         Type      => 'Small',
         BodyClass => 'Popup',
@@ -1076,7 +1071,7 @@ sub SendEmail {
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    # prepare subject
+    # get information on the current ticket
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Self->{TicketID},
         DynamicFields => 1,
@@ -1152,7 +1147,6 @@ sub SendEmail {
         );
 
         if ( !IsHashRefWithData($ValidationResult) ) {
-
             return $LayoutObject->ErrorScreen(
                 Message =>
                     $LayoutObject->{LanguageObject}->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
@@ -1195,7 +1189,7 @@ sub SendEmail {
                 $Error{ $Line . 'Invalid' }   = 'ServerError';
             }
             my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
-                Address => $Email->address()
+                Address => $Email->address(),
             );
             if ($IsLocal) {
                 $Error{ $Line . 'IsLocalAddress' } = 'ServerError';
@@ -1217,7 +1211,6 @@ sub SendEmail {
 
     # run compose modules
     my %ArticleParam;
-
     if ( ref( $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') ) eq 'HASH' ) {
         my %Jobs = %{ $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') };
         for my $Job ( sort keys %Jobs ) {
@@ -1249,7 +1242,7 @@ sub SendEmail {
             $Object->Run(
                 %GetParam,
                 StoreNew => 1,
-                Config   => $Jobs{$Job}
+                Config   => $Jobs{$Job},
             );
 
             # get options that have been removed from the selection
@@ -1274,22 +1267,29 @@ sub SendEmail {
             # ticket params
             %ArticleParam = (
                 %ArticleParam,
-                $Object->ArticleOption( %GetParam, %ArticleParam, Config => $Jobs{$Job} ),
+                $Object->ArticleOption(
+                    %GetParam,
+                    %ArticleParam,
+                    Config => $Jobs{$Job},
+                ),
             );
 
             # get errors
             %Error = (
                 %Error,
-                $Object->Error( %GetParam, Config => $Jobs{$Job} ),
+                $Object->Error(
+                    %GetParam,
+                    Config => $Jobs{$Job},
+                ),
             );
         }
     }
 
-    # check if there is an error
+    # Check whether there is an error.
+    # An error is not necessarily bad, often it is just that a form draft has been loaded.
     if (%Error) {
-
         my $QueueID = $TicketObject->TicketQueueID( TicketID => $Self->{TicketID} );
-        my $Output  = $LayoutObject->Header(
+        my $Output = $LayoutObject->Header(
             Type      => 'Small',
             BodyClass => 'Popup',
         );
@@ -1327,6 +1327,7 @@ sub SendEmail {
         $Output .= $LayoutObject->Footer(
             Type => 'Small',
         );
+
         return $Output;
     }
 
@@ -1354,7 +1355,6 @@ sub SendEmail {
 
         # remove unused inline images
         my @NewAttachmentData;
-
         ATTACHMENT:
         for my $Attachment (@AttachmentData) {
             my $ContentID = $Attachment->{ContentID};
@@ -1384,7 +1384,6 @@ sub SendEmail {
 
     # send email
     my $To = '';
-
     KEY:
     for my $Key (qw(To Cc Bcc)) {
         next KEY if !$GetParam{$Key};
@@ -1428,7 +1427,6 @@ sub SendEmail {
 
     # error page
     if ( !$ArticleID ) {
-
         return $LayoutObject->ErrorScreen(
             Comment => Translatable('Please contact the administrator.'),
         );
@@ -1556,13 +1554,12 @@ sub AjaxUpdate {
 
     my @ExtendedData;
 
-    # get config object
+    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # run compose modules
     if ( ref $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
         my %Jobs = %{ $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') };
-
         JOB:
         for my $Job ( sort keys %Jobs ) {
 
@@ -1608,8 +1605,7 @@ sub AjaxUpdate {
 
             my $Key = $Object->Option( %GetParam, Config => $Jobs{$Job} );
             if ($Key) {
-                push(
-                    @ExtendedData,
+                push @ExtendedData,
                     {
                         Name         => $Key,
                         Data         => \%Data,
@@ -1618,8 +1614,7 @@ sub AjaxUpdate {
                         PossibleNone => 1,
                         Multiple     => $Multiple,
                         Max          => 100,
-                    }
-                );
+                    };
             }
         }
     }
@@ -1666,6 +1661,9 @@ sub AjaxUpdate {
     # update Dynamic Fields Possible Values via AJAX
     my @DynamicFieldAJAX;
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
@@ -1684,9 +1682,6 @@ sub AjaxUpdate {
         # convert possible values key => value to key => key for ACLs using a Hash slice
         my %AclData = %{$PossibleValues};
         @AclData{ keys %AclData } = keys %AclData;
-
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # set possible values filter from ACLs
         my $ACL = $TicketObject->TicketAcl(
@@ -1714,16 +1709,14 @@ sub AjaxUpdate {
         ) || $PossibleValues;
 
         # add dynamic field to the list of fields to update
-        push(
-            @DynamicFieldAJAX,
+        push @DynamicFieldAJAX,
             {
                 Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data        => $DataValues,
                 SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                 Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
                 Max         => 100,
-            }
-        );
+            };
     }
 
     my $JSON = $LayoutObject->BuildSelectionJSON(
@@ -1803,7 +1796,9 @@ sub _Mask {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $Error ( sort keys %{ $Param{Errors} } ) {
-            $Param{$Error} = $LayoutObject->Ascii2Html( Text => $Param{Errors}->{$Error} );
+            $Param{$Error} = $LayoutObject->Ascii2Html(
+                Text => $Param{Errors}->{$Error},
+            );
         }
     }
 
@@ -1957,8 +1952,6 @@ sub _Mask {
             Data => \%Param,
         );
     }
-
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     # render dynamic fields
     {
