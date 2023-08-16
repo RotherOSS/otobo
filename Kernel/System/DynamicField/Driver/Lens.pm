@@ -613,7 +613,7 @@ sub _GetAttributeDFConfig {
         my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
             ID => $Param{LensDynamicFieldConfig}{Config}{AttributeDF},
         );
-        $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} } = IsHashRefWithData($DynamicFieldConfig) ? { $DynamicFieldConfig->%* } : {};
+        $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} } = $DynamicFieldConfig ? { $DynamicFieldConfig->%* } : {};
     }
 
     return $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} };
