@@ -609,9 +609,12 @@ A dynamic field configuration that can be used as a delegate.
 sub _GetAttributeDFConfig {
     my ( $Self, %Param ) = @_;
 
-    $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} } //= $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-        ID => $Param{LensDynamicFieldConfig}{Config}{AttributeDF},
-    );
+    if ( !defined $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} } ) {
+        my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+            ID => $Param{LensDynamicFieldConfig}{Config}{AttributeDF},
+        );
+        $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} } = $DynamicFieldConfig ? { $DynamicFieldConfig->%* } : {};
+    }
 
     return $Self->{AttributeDFCache}{ $Param{LensDynamicFieldConfig}{ID} };
 }
