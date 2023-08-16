@@ -732,7 +732,7 @@ sub _ShowScreen {
                 $FieldStrg = sprintf
                     qq{<input id="%s" class="W50pc" type="text" maxlength="500" value="%s" name="%s"/>},
                     $Name,
-                    $Param{$Name} || '',
+                    $Param{$Name} // '',
                     $Name;
             }
             elsif ( $Setting->{InputType} eq 'Selection' ) {

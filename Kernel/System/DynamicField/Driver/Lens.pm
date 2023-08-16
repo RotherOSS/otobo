@@ -98,10 +98,8 @@ sub ValueGet {
         EditFieldValue         => $Param{UseReferenceEditField},
     );
 
-    return if !$ReferencedObjectID;
-    return if ref $ReferencedObjectID eq 'ARRAY' && !$ReferencedObjectID->@*;
-
-    $ReferencedObjectID = ref $ReferencedObjectID eq 'ARRAY' ? $ReferencedObjectID->[0] : $ReferencedObjectID;
+    return unless ref $ReferencedObjectID;
+    return unless $ReferencedObjectID->@*;
 
     my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
@@ -110,7 +108,7 @@ sub ValueGet {
     # Lenses return at most one value, so we don't have to loop here.
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $AttributeDFConfig,
-        ObjectID           => $ReferencedObjectID,
+        ObjectID           => $ReferencedObjectID->[0],
     );
 }
 
@@ -127,10 +125,8 @@ sub ValueSet {
     );
 
     # TODO: Do we want to log this?
-    return if !$ReferencedObjectID;
-    return if ref $ReferencedObjectID eq 'ARRAY' && !$ReferencedObjectID->@*;
-
-    $ReferencedObjectID = ref $ReferencedObjectID eq 'ARRAY' ? $ReferencedObjectID->[0] : $ReferencedObjectID;
+    return unless ref $ReferencedObjectID;
+    return unless $ReferencedObjectID->@*;
 
     my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
@@ -143,7 +139,7 @@ sub ValueSet {
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
         %Param,
         DynamicFieldConfig => $AttributeDFConfig,
-        ObjectID           => $ReferencedObjectID,
+        ObjectID           => $ReferencedObjectID->[0],
         ObjectType         => $ReferenceDFConfig->{Config}->{ReferencedObjectType},
     );
 }
@@ -234,27 +230,12 @@ sub EditFieldValueGet {
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
-    # get the field value from the http request
-    my $Value = $Self->EditFieldValueGet(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        ParamObject        => $Param{ParamObject},
-
-        # not necessary for this Driver but place it for consistency reasons
-        ReturnValueStructure => 1,
-        TransformDates       => 0,
-    );
-
-    my $ServerError;
-    my $ErrorMessage;
-
-    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        $Value = [$Value];
-    }
+    # TODO please implement
 
     # create resulting structure
     return {
-        ServerError  => $ServerError,
-        ErrorMessage => $ErrorMessage,
+        ServerError  => undef,
+        ErrorMessage => undef,
     };
 }
 
