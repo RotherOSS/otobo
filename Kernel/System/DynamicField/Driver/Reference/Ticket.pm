@@ -178,6 +178,8 @@ This is used in auto completion when searching for possible object IDs.
 sub SearchObjects {
     my ( $Self, %Param ) = @_;
 
+    $Param{Term} //= '';
+
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     # Support restriction by ticket type when the Ticket::Type feature is activated.
@@ -250,7 +252,7 @@ sub SearchObjects {
     return $TicketObject->TicketSearch(
         Limit  => $Param{MaxResults},
         Result => 'ARRAY',
-        UserID => $Param{UserID},
+        UserID => $Param{UserID} // 1,
         %SearchParams,
         Title => "%$Param{Term}%",
     );
