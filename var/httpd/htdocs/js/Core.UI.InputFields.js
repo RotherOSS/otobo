@@ -3032,14 +3032,15 @@ Core.UI.InputFields = (function (TargetNS) {
         });
 
         //DateTimeDynamicField
-        $('.DynamicFieldDate', $Cell).each(function () {
-            var Prefix = $('[name$="Year"]', $(this)).attr('name').replace('Year', '');
+        $('.Validate_DateYear', $Cell).each(function () {
+            var DateDiv = $(this).parent();
+            var Prefix = $('[name$="Year"]', $(DateDiv)).attr('name').replace('Year', '');
             Core.UI.Datepicker.Init({
-                Day: $('[name="' + Core.App.EscapeSelector(Prefix) + 'Day"]', $(this)),
-                Month: $('[name="' + Core.App.EscapeSelector(Prefix) + 'Month"]', $(this)),
-                Year: $('[name="' + Core.App.EscapeSelector(Prefix) + 'Year"]', $(this)),
-                Hour: $('[name="' + Core.App.EscapeSelector(Prefix) + 'Hour"]', $(this)),
-                Minute: $('[name="' + Core.App.EscapeSelector(Prefix) + 'Minute"]', $(this)),
+                Day: $('[name="' + Core.App.EscapeSelector(Prefix) + 'Day"]', $(DateDiv)),
+                Month: $('[name="' + Core.App.EscapeSelector(Prefix) + 'Month"]', $(DateDiv)),
+                Year: $('[name="' + Core.App.EscapeSelector(Prefix) + 'Year"]', $(DateDiv)),
+                Hour: $('[name="' + Core.App.EscapeSelector(Prefix) + 'Hour"]', $(DateDiv)),
+                Minute: $('[name="' + Core.App.EscapeSelector(Prefix) + 'Minute"]', $(DateDiv)),
                 WeekDayStart: Core.Config.Get('CalendarWeekDayStart')
             });
         });
