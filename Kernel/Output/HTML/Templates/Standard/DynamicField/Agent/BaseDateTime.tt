@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<div class="DynamicFieldDate">
 [% Data.DateSelectionHTML %]
 [% IF Data.Mandatory %]
 <div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">
@@ -30,4 +29,3 @@
     </p>
 </div>
 [% END %]
-</div>
