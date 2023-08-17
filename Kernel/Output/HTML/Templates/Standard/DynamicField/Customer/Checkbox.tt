@@ -14,14 +14,15 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<input type="hidden" id="[% Data.FieldNameUsed %]" name="[% Data.FieldNameUsed %]" value="1" />
 [% IF Data.ConfirmationNeeded AND NOT Data.NoIgnoreField %]
-    <input type="radio" id="[% Data.FieldNameUsed0 %]" name="[% Data.FieldNameUsed %]" value="" [% Data.FieldUsedChecked0 %] />
-    [% Translate(Data.Description) | html %]
-    <div class="clear"></div>
-    <input type="radio" id="[% Data.FieldNameUsed1 %]" name="[% Data.FieldNameUsed %]" value="1" [% Data.FieldUsedChecked1 %] />
+<input type="radio" id="[% Data.FieldIDUsed0 %]" name="[% Data.FieldNameUsed %]" value="" [% Data.FieldUsedChecked0 %] />
+[% Translate(Data.Description) | html %]
+<div class="clear"></div>
+<input type="radio" id="[% Data.FieldIDUsed1 %]" name="[% Data.FieldNameUsed %]" value="1" [% Data.FieldUsedChecked1 %] />
+[% ELSE %]
+<input type="hidden" id="[% Data.FieldIDUsed %]" name="[% Data.FieldNameUsed %]" value="1" />
 [% END %]
-<input type="checkbox" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" [% Data.FieldChecked %] value="1">
+<input type="checkbox" class="[% Data.FieldClass %]" id="[% Data.FieldID %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" [% Data.FieldChecked %] value="1">
 [% IF Data.Mandatory %]
 <div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">
     <p>
