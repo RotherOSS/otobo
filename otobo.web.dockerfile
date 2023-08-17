@@ -206,8 +206,6 @@ USER $OTOBO_USER
 
 # skipping /opt/otobo_install/local
 COPY --from=otobo-web\
- /opt/otobo_install/cpanfile\
- /opt/otobo_install/cpanfile.snapshot\
  /opt/otobo_install/entrypoint.sh\
  /opt/otobo_install
 COPY --from=otobo-web --chown=$OTOBO_USER:$OTOBO_GROUP\
