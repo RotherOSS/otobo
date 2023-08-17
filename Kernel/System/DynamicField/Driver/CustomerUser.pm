@@ -156,6 +156,15 @@ sub FieldValueValidate {
 sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
+    if ( $Param{CustomerInterface} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  =>
+                "Dynamic field $Param{DynamicFieldConfig}->{Name} has field type $Param{DynamicFieldConfig}->{FieldType} and is not usable in customer interface!",
+        );
+        return;
+    }
+
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
