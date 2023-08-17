@@ -59,6 +59,8 @@ Please look there for a detailed reference of the functions.
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
+    my $ValueKey = $Self->{ValueKey} // 'ValueText';
+
     # get raw values of the dynamic field
     my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
         FieldID  => $Param{DynamicFieldConfig}{ID},
@@ -71,12 +73,12 @@ sub ValueGet {
         return unless IsArrayRefWithData($DFValue);
         return unless IsHashRefWithData( $DFValue->[0] );
 
-        return [ map { $_->{ValueText} } $DFValue->@* ];
+        return [ map { $_->{$ValueKey} } $DFValue->@* ];
     }
 
     return $Self->ValueStructureFromDB(
         ValueDB    => $DFValue,
-        ValueKey   => ( $Self->{ValueKey} // 'ValueText' ),
+        ValueKey   => $ValueKey,
         Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
         BaseArray  => !$Param{DynamicFieldConfig}{Config}{MultiValue},
@@ -86,32 +88,40 @@ sub ValueGet {
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    # check value
-    my $Value;
-    if (
-        ref $Param{Value} eq 'ARRAY'
-        && !$Param{DynamicFieldConfig}{Config}{MultiValue}
-        && !$Param{DynamicFieldConfig}{Config}{Multiselect}
-        )
-    {
-        $Value = $Param{Value}->[0];
-    }
-    else {
-        $Value = $Param{Value};
-    }
+    # we strictly only accept array refs, but undef (and maybe '') cannot be excluded for empty fields
+    if ( !$Param{Value} || !$Param{Value}->@* ) {
 
-    my $DBValue;
-    if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
-        $DBValue = [ map { { 'ValueText' => $_ } } $Value->@* ];
-    }
-    else {
-        $DBValue = $Self->ValueStructureToDB(
-            Value      => $Value,
-            ValueKey   => 'ValueText',
-            Set        => $Param{Set},
-            MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+        return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueDelete(
+            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            ObjectID => $Param{ObjectID},
+            UserID   => $Param{UserID},
         );
     }
+
+    my $ValueKey = $Self->{ValueKey} // 'ValueText';
+
+    # for multiselect no set or multivalue structures 
+    if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
+        my $DBValue = [ map { { $ValueKey => $_ } } $Param{Value}->@* ];
+
+        return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
+            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            ObjectID => $Param{ObjectID},
+            Value    => $DBValue,
+            UserID   => $Param{UserID},
+        );
+    }
+
+    my $Value = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $Param{Value}
+        : $Param{Set} ? [ map { $_->[0] } $Param{Value}->@* ]
+        : $Param{Value}->[0];
+
+    my $DBValue = $Self->ValueStructureToDB(
+        Value      => $Value,
+        ValueKey   => $ValueKey,
+        Set        => $Param{Set},
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+    );
 
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
@@ -123,6 +133,8 @@ sub ValueSet {
 
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
+
+    my $ValueKey = $Self->{ValueKey} // 'ValueText';
 
     # check values
     my @Values;
@@ -137,7 +149,7 @@ sub ValueValidate {
     for my $Value (@Values) {
         $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
             Value => {
-                ValueText => $Value,
+                $ValueKey => $Value,
             },
             UserID => $Param{UserID},
         );
