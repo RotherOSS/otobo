@@ -100,9 +100,13 @@ sub ValueSet {
 
     my $ValueKey = $Self->{ValueKey} // 'ValueText';
 
-    # for multiselect no set or multivalue structures 
+    # for multiselect no set or multivalue structures
     if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
-        my $DBValue = [ map { { $ValueKey => $_ } } $Param{Value}->@* ];
+        my $DBValue = [
+            map {
+                { $ValueKey => $_ }
+            } $Param{Value}->@*
+        ];
 
         return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
             FieldID  => $Param{DynamicFieldConfig}->{ID},
@@ -112,9 +116,10 @@ sub ValueSet {
         );
     }
 
-    my $Value = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $Param{Value}
+    my $Value = $Param{DynamicFieldConfig}{Config}{MultiValue}
+        ? $Param{Value}
         : $Param{Set} ? [ map { $_->[0] } $Param{Value}->@* ]
-        : $Param{Value}->[0];
+        :               $Param{Value}->[0];
 
     my $DBValue = $Self->ValueStructureToDB(
         Value      => $Value,
