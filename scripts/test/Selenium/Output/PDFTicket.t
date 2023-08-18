@@ -18,13 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
+
+our $Self;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 if ( !$Selenium->{browser_name} || $Selenium->{browser_name} ne 'firefox' ) {
@@ -1111,4 +1114,4 @@ else {
 
 }
 
-$Self->DoneTesting();
+done_testing;
