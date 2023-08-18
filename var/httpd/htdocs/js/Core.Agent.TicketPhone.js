@@ -55,10 +55,24 @@ Core.Agent.TicketPhone = (function (TargetNS) {
             return false;
         });
 
-        // Bind event to customer remove button.
+        // add event listeners to remove or move customers
         $('.CustomerTicketRemove').on('click', function () {
             Core.Agent.CustomerSearch.RemoveCustomerTicket($(this));
             return false;
+        });
+        $('.MoveCustomerButton').on('click', function () {
+            var MoveCustomerKey = $('.CustomerKey', $(this).parent()).val(),
+                MoveCustomerVal = $('.CustomerTicketText', $(this).parent()).val(),
+                TargetField     =
+                    $(this).hasClass('ToMove')  ? 'ToCustomer'  :
+                    $(this).hasClass('CcMove')  ? 'CcCustomer'  :
+                    $(this).hasClass('BccMove') ? 'BccCustomer' : '';
+
+            // remove the current entry
+            $('.RemoveButton', $(this).parent()).click();
+
+            // add the customer to the target field
+            TargetNS.AddTicketCustomer(TargetField, MoveCustomerVal, MoveCustomerKey);
         });
 
         // Add ticket customer from external source.
