@@ -650,7 +650,7 @@ my $TestTicketDelete = sub {
     TICKETID:
     for my $TicketID (@TicketIDs) {
 
-        next TICKETID if !$TicketID;
+        next TICKETID unless $TicketID;
 
         my $TicketDelete = $TicketObject->TicketDelete(
             TicketID => $TicketID,
@@ -4990,7 +4990,8 @@ for my $QueueData (@Queues) {
 
 # delete group
 $Success = $DBObject->Do(
-    SQL => "DELETE FROM groups_table WHERE id = $GroupID",
+    SQL  => 'DELETE FROM groups_table WHERE id = ?',
+    Bind => [ \$GroupID ],
 );
 $Self->True(
     $Success,
