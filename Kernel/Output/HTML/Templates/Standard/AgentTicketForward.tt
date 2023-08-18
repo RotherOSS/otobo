@@ -105,6 +105,8 @@
                                 <i class="fa fa-minus-square-o"></i>
                                 <span class="InvisibleText">[% Translate("Remove Ticket Customer") | html %]</span>
                             </a>
+                            <a href="#" id="MoveCustomerTicketToCc_[% Data.Count | html %]"  class="MoveCustomerButton CcMove"  title="[% Translate("Move to Cc") | html %]"  name="MoveCustomerTicketToCc_[% Data.Count | html %]"><span>Cc</span></a>
+                            <a href="#" id="MoveCustomerTicketToBcc_[% Data.Count | html %]" class="MoveCustomerButton BccMove" title="[% Translate("Move to Bcc") | html %]" name="MoveCustomerTicketToBcc_[% Data.Count | html %]"><span>Bcc</span></a>
 
 [% RenderBlockStart("CustomerErrorExplantion") %]
                             <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
@@ -182,6 +184,8 @@
                                 <i class="fa fa-minus-square-o"></i>
                                 <span class="InvisibleText">[% Translate("Remove Cc") | html %]</span>
                             </a>
+                            <a href="#" id="MoveCustomerTicketCcTo_[% Data.Count | html %]"  class="MoveCustomerButton ToMove"  title="[% Translate("Move to To") | html %]"  name="MoveCustomerTicketCcTo_[% Data.Count | html %]"><span>To</span></a>
+                            <a href="#" id="MoveCustomerTicketCcBcc_[% Data.Count | html %]" class="MoveCustomerButton BccMove" title="[% Translate("Move to Bcc") | html %]" name="MoveCustomerTicketCcBcc_[% Data.Count | html %]"><span>Bcc</span></a>
 
 [% RenderBlockStart("CcCustomerErrorExplantion") %]
                             <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
@@ -260,6 +264,8 @@
                                 <i class="fa fa-minus-square-o"></i>
                                 <span class="InvisibleText">[% Translate("Remove Bcc") | html %]</span>
                             </a>
+                            <a href="#" id="MoveCustomerTicketBccTo_[% Data.Count | html %]" class="MoveCustomerButton ToMove" title="[% Translate("Move to To") | html %]" name="MoveCustomerTicketBccTo_[% Data.Count | html %]"><span>To</span></a>
+                            <a href="#" id="MoveCustomerTicketBccCc_[% Data.Count | html %]" class="MoveCustomerButton CcMove" title="[% Translate("Move to Cc") | html %]" name="MoveCustomerTicketBccCc_[% Data.Count | html %]"><span>Cc</span></a>
 
 [% RenderBlockStart("BccCustomerErrorExplantion") %]
                             <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
