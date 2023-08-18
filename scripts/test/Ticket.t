@@ -1004,7 +1004,7 @@ $Self->True(
 $Self->Is(
     $ChangeTime,
     $TicketData{Changed},
-    'Change_time updated in TicketEscalationIndexBuild()',
+    'Change_time is not updated in TicketEscalationIndexBuild()',
 );
 
 # save current change_time
