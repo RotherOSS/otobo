@@ -18,13 +18,18 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
+use Test2::V0;
+use Capture::Tiny qw(capture);
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
-
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 my $QueueObject          = $Kernel::OM->Get('Kernel::System::Queue');
 my $ServiceObject        = $Kernel::OM->Get('Kernel::System::Service');
@@ -366,17 +371,12 @@ $Self->True(
     'TicketSearch() (HASH:TicketID as ARRAYREF)',
 );
 
-my $ErrorOutput = '';
-
-{
-    local *STDERR;                       ## no critic qw(Variables::RequireInitializationForLocalVars)
-    open STDERR, '>>', \$ErrorOutput;    ## no critic qw(OTOBO::ProhibitOpen)
-
-    %TicketIDs = $TicketObject->TicketSearch(
+( undef, my $ErrorOutput, undef ) = capture {
+    my %TicketIDs = $TicketObject->TicketSearch(
         TicketID => [],
         UserID   => 1,
     );
-}
+};
 
 # Verify that search does not fail SQL syntax check when an empty array reference is passed for the TicketID param.
 #   Please see bug#14227 for more information.
@@ -2834,4 +2834,4 @@ $Self->True(
     "TicketCountByAttribute() for more then 1000 entries correct"
 );
 
-$Self->DoneTesting();
+done_testing;
