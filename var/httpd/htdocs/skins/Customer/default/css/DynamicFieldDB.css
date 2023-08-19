@@ -110,7 +110,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     left: calc( -100% + 2px );
 }
 
-.DynamicFieldDB[readonly="readonly"] ~ label {
+.DynamicFieldDB[readonly] ~ label {
     left: calc( -100% + 24px );
 }
 

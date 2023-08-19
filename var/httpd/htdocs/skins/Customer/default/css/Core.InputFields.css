@@ -234,9 +234,9 @@ textarea {
 }
 
 /* hover, selected and filled */
-input:not([readonly="readonly"]):hover,
+input:not([readonly]):hover,
 input.oooFull,
-textarea:not([readonly="readonly"]):hover,
+textarea:not([readonly]):hover,
 textarea.oooFull,
 .oooSelected input {
     border: solid 1px #7f809d;
@@ -244,15 +244,15 @@ textarea.oooFull,
     background-color: #fff;
 }
 
-.FieldCell > input:not([readonly="readonly"]):hover ~ label,
-.Row > input:not([readonly="readonly"]):hover ~ label,
+.FieldCell > input:not([readonly]):hover ~ label,
+.Row > input:not([readonly]):hover ~ label,
 .RichTextHolder > textarea:hover ~ label,
 textarea.oooFull ~ label,
 input.oooFull ~ label,
 .Field:hover ~ label,
 .Field.oooFull ~ label,
 .oooSelected ~ label,
-.DynamicFieldDB:not([readonly="readonly"]):hover ~ label,
+.DynamicFieldDB:not([readonly]):hover ~ label,
 .InputField_Container:hover ~ label {
     border-radius: 10px;
     top: -29px;
@@ -265,11 +265,11 @@ input.oooFull ~ label,
 }
 
 /* focus */
-input:not([readonly="readonly"]):focus,
+input:not([readonly]):focus,
 input[aria-expanded="true"],
 input.oooFull[aria-expanded="true"],
 input.oooFull:focus,
-textarea:not([readonly="readonly"]):focus,
+textarea:not([readonly]):focus,
 textarea.oooFull:focus,
 .oooSelected input:focus {
     border: solid 1px #001bff;
@@ -277,8 +277,8 @@ textarea.oooFull:focus,
     background-color: #fff;
 }
 
-.FieldCell > input:not([readonly="readonly"]):focus ~ label,
-.Row > input:not([readonly="readonly"]):focus ~ label,
+.FieldCell > input:not([readonly]):focus ~ label,
+.Row > input:not([readonly]):focus ~ label,
 label.oooFocus,
 .Field ~ label.oooFocus,
 .DynamicFieldDB:hover ~ label.oooFocus,
@@ -576,13 +576,13 @@ div.InputField_Selection > .Remove {
 }
 
 /* readonly */
-input[readonly=readonly] {
+input[readonly] {
     border: none !important;
     cursor: default !important;
 }
 
-.InputField_InputContainer > input[readonly=readonly],
-.Field > input[readonly=readonly] {
+.InputField_InputContainer > input[readonly],
+.Field > input[readonly] {
     box-shadow: inset 0px 0px 8px 2px #bfbfce;
     box-shadow: inset 0px 0px 8px 2px var(--colBGDark);
 }
@@ -679,7 +679,7 @@ input[readonly=readonly] {
     color: #aaa;
 }
 
-.InputField_Search[readonly=readonly]:focus {
+.InputField_Search[readonly]:focus {
     box-shadow: none;
 }
 
