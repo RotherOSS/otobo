@@ -812,7 +812,7 @@ sub _ShowScreen {
             Name => 'InternalField',
             Data => {%Param},
         );
-        $ReadonlyInternalField = 'readonly="readonly"';
+        $ReadonlyInternalField = 'readonly';
     }
 
     # get the field id

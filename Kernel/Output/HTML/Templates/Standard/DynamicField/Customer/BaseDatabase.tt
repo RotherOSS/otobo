@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldID || Data.FieldName %]" title="[% Data.FieldLabel %]" value="[% Data.Value %]" [% IF Data.ReadOnly %]readonly="readonly"[% END %] />
+<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldID || Data.FieldName %]" title="[% Data.FieldLabel %]" value="[% Data.Value %]" [% IF Data.ReadOnly %]readonly[% END %] />
 [% IF !Data.ReadOnly %]
 <a href="#" id="DynamicFieldDBDetailedSearch_[% Data.FieldID || Data.FieldName %]" class="[% Data.WithTooltip %]" field="[% Data.FieldID || Data.FieldName %]" alt="[% Data.DetailedSearchMsg %]" title="[% Data.DetailedSearchMsg %]"><i class="fa fa-search"></i></a>
 [% END %]
