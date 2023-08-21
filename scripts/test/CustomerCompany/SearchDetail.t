@@ -18,11 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
 
 # get helper object
@@ -142,8 +144,7 @@ for my $DynamicField (@DynamicFields) {
     my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
         %{$DynamicField},
     );
-
-    $Self->True(
+    ok(
         $DynamicFieldID,
         "Dynamic field $DynamicField->{Name} - ID $DynamicFieldID - created",
     );
@@ -202,7 +203,7 @@ my %LookupCustomerCompanySearchFields = map { $_->{Name} => $_ } @CustomerCompan
 
 for my $FieldName ( sort keys %ReferenceCustomerCompanySearchFields ) {
 
-    $Self->IsDeeply(
+    is(
         $LookupCustomerCompanySearchFields{$FieldName},
         $ReferenceCustomerCompanySearchFields{$FieldName},
         "Test CustomerCompanySearchFields() - $FieldName."
@@ -312,7 +313,7 @@ for my $CustomerCompany (@CustomerCompanyTests) {
 
     push @CustomerCompanies, $CustomerCompanyID;
 
-    $Self->True(
+    ok(
         $CustomerCompanyID,
         "CustomerCompanyAdd() - $CustomerCompanyID",
     );
@@ -717,98 +718,93 @@ for my $Test (@SearchTests) {
 
     # check SearchData attribute
     if ( !$Test->{SearchData} || ref( $Test->{SearchData} ) ne 'HASH' ) {
-        $Self->True(
-            0,
-            "Test $TestCount: SearchData found for this test.",
-        );
+        diag "Test $TestCount: no SearchData found for this test.";
 
         next SEARCHTEST;
     }
 
-    $Self->True(
-        1,
-        "Test $TestCount: CustomerCompanySearchDetail() with params: $Test->{Description}",
-    );
+    subtest "Test $TestCount: CustomerCompanySearchDetail(): $Test->{Description}" => sub {
 
-    # get a ref to an array of found ids
-    my $CustomerCompanyIDs = $CustomerCompanyObject->CustomerCompanySearchDetail(
-        %{ $Test->{SearchData} },
-        Result => 'ARRAY',
-        UserID => 1,
-    );
-
-    # get a count of found ids
-    my $CountCustomerCompanyIDs = $CustomerCompanyObject->CustomerCompanySearchDetail(
-        %{ $Test->{SearchData} },
-        Result => 'COUNT',
-        UserID => 1,
-    );
-
-    if ( $Test->{SearchFails} ) {
-
-        $Self->True(
-            !defined $CustomerCompanyIDs,
-            "Test $TestCount: CustomerCompanySearchDetail() is expected to fail (Result => 'ARRAY')",
+        # get a ref to an array of found ids
+        my $CustomerCompanyIDs = $CustomerCompanyObject->CustomerCompanySearchDetail(
+            %{ $Test->{SearchData} },
+            Result => 'ARRAY',
+            UserID => 1,
         );
-        $Self->True(
-            !defined $CountCustomerCompanyIDs,
-            "Test $TestCount: CustomerCompanySearchDetail() is expected to fail (Result => 'COUNT')",
+
+        # get a count of found ids
+        my $CountCustomerCompanyIDs = $CustomerCompanyObject->CustomerCompanySearchDetail(
+            %{ $Test->{SearchData} },
+            Result => 'COUNT',
+            UserID => 1,
         );
-    }
-    else {
 
-        $Self->True(
-            defined $CustomerCompanyIDs && ref $CustomerCompanyIDs eq 'ARRAY',
-            "Test $TestCount: |- array ref for CustomerCompanyIDs.",
-        );
-        $Self->True(
-            defined $CountCustomerCompanyIDs && ref $CountCustomerCompanyIDs eq '',
-            "Test $TestCount: |- scalar for CountCustomerCompanyIDs.",
-        );
-    }
+        if ( $Test->{SearchFails} ) {
 
-    $CountCustomerCompanyIDs ||= 0;
+            ok(
+                !defined $CustomerCompanyIDs,
+                "CustomerCompanySearchDetail() is expected to fail (Result => 'ARRAY')",
+            );
+            ok(
+                !defined $CountCustomerCompanyIDs,
+                "CustomerCompanySearchDetail() is expected to fail (Result => 'COUNT')",
+            );
+        }
+        else {
 
-    if ( $Test->{ResultData}->{TestCount} ) {
-
-        # get number of customer company ids CustomerCompanySearchDetail should return
-        my $ExpectedCount = scalar keys %{ $CustomerCompanyiesForSearchTest{$TestCount} };
-
-        # get defined expected result count (defined in search test case!)
-        if ( exists $Test->{ResultData}->{Count} ) {
-            $ExpectedCount = $Test->{ResultData}->{Count};
+            ok(
+                defined $CustomerCompanyIDs && ref $CustomerCompanyIDs eq 'ARRAY',
+                "array ref for CustomerCompanyIDs.",
+            );
+            ok(
+                defined $CountCustomerCompanyIDs && ref $CountCustomerCompanyIDs eq '',
+                "scalar for CountCustomerCompanyIDs.",
+            );
         }
 
-        # check the number of customer company in the returned arrayref
-        $Self->Is(
-            scalar @{$CustomerCompanyIDs},
-            $ExpectedCount,
-            "Test $TestCount: |- Number of found customer companies (Result => 'ARRAY').",
-        );
+        $CountCustomerCompanyIDs ||= 0;
 
-        # When a 'Limit' has been passed, then the returned count not necessarily matches
-        # the number of IDs in the returned array. In that case testing is futile.
-        if ( !$Test->{SearchData}->{Limit} ) {
-            $Self->Is(
-                $CountCustomerCompanyIDs,
+        if ( $Test->{ResultData}->{TestCount} ) {
+
+            # get number of customer company ids CustomerCompanySearchDetail should return
+            my $ExpectedCount = scalar keys %{ $CustomerCompanyiesForSearchTest{$TestCount} };
+
+            # get defined expected result count (defined in search test case!)
+            if ( exists $Test->{ResultData}->{Count} ) {
+                $ExpectedCount = $Test->{ResultData}->{Count};
+            }
+
+            # check the number of customer company in the returned arrayref
+            is(
+                scalar @{$CustomerCompanyIDs},
                 $ExpectedCount,
-                "Test $TestCount: |- Number of found customer companies (Result => 'COUNT').",
+                "Number of found customer companies (Result => 'ARRAY').",
             );
-        }
-    }
 
-    if ( $Test->{ResultData}->{TestExistence} ) {
-
-        # check if all ids that belongs to this searchtest are returned
-        my @ReferenceCustomerCompanyIDs = keys %{ $CustomerCompanyiesForSearchTest{$TestCount} };
-        my %ReturnedCustomerCompanyIDs  = map { $_ => 1 } @{$CustomerCompanyIDs};
-        for my $CustomerCompany (@ReferenceCustomerCompanyIDs) {
-            $Self->True(
-                $ReturnedCustomerCompanyIDs{$CustomerCompany},
-                "Test $TestCount: |- CustomerCompany $CustomerCompany found in returned list.",
-            );
+            # When a 'Limit' has been passed, then the returned count not necessarily matches
+            # the number of IDs in the returned array. In that case testing is futile.
+            if ( !$Test->{SearchData}->{Limit} ) {
+                is(
+                    $CountCustomerCompanyIDs,
+                    $ExpectedCount,
+                    "Number of found customer companies (Result => 'COUNT').",
+                );
+            }
         }
-    }
+
+        if ( $Test->{ResultData}->{TestExistence} ) {
+
+            # check if all ids that belongs to this searchtest are returned
+            my @ReferenceCustomerCompanyIDs = keys %{ $CustomerCompanyiesForSearchTest{$TestCount} };
+            my %ReturnedCustomerCompanyIDs  = map { $_ => 1 } @{$CustomerCompanyIDs};
+            for my $CustomerCompany (@ReferenceCustomerCompanyIDs) {
+                ok(
+                    $ReturnedCustomerCompanyIDs{$CustomerCompany},
+                    "CustomerCompany $CustomerCompany found in returned list.",
+                );
+            }
+        }
+    };
 }
 continue {
     $TestCount++;
@@ -848,7 +844,7 @@ for my $OrderByColumn (@OrderByColumns) {
         OrderByDirection => ['Up'],
     );
 
-    $Self->IsDeeply(
+    is(
         $CustomerIDs,
         \@ReferenceSortedIDs,
         "Test $TestCount: CustomerCompanySearchDetail() OrderBy $OrderByColumn (Up)."
@@ -863,7 +859,7 @@ for my $OrderByColumn (@OrderByColumns) {
         OrderBy    => [$OrderByColumn],
     );
 
-    $Self->IsDeeply(
+    is(
         $CustomerUserIDsDown,
         \@ReferenceSortedIDsDown,
         "Test $TestCount: CustomerCompanySearchDetail() OrderBy $OrderByColumn (Down)."
@@ -877,7 +873,7 @@ for my $OrderByColumn (@OrderByColumns) {
         UserID           => 1,
     );
 
-    $Self->Is(
+    is(
         $CustomerUserIDsSideways,
         undef,
         "Test $TestCount: CustomerCompanySearchDetail() OrderBy $OrderByColumn (Sideways)."
@@ -887,4 +883,4 @@ continue {
     $TestCount++;
 }
 
-$Self->DoneTesting();
+done_testing;
