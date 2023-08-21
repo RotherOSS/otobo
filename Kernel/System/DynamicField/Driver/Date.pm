@@ -120,54 +120,36 @@ sub new {
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    # transform value data type
-    my @Values;
-    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        @Values = @{ $Param{Value} };
+    # Transform value data type, as the internal representation of Date and DateTime is the same.
+    # The value is passed either as a string or a reference to an array of strings.
+    my $TweakedValue;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        $TweakedValue = [];
+        $TweakedValue->@* = map { _ConvertDate2DateTime($_) } $Param{Value}->@*;
     }
     else {
-        @Values = ( $Param{Value} );
+        $TweakedValue = _ConvertDate2DateTime( $Param{Value} );
     }
 
-    my @ValueDate;
-    for my $ValueItem (@Values) {
+    # check for no time in date fields
+    VALUE_ITEM:
+    for my $ValueItem ( ref $TweakedValue ? $TweakedValue->@* : $TweakedValue ) {
+        next VALUE_ITEM unless $ValueItem;
+        next VALUE_ITEM if $ValueItem =~ m{\A \d{4}-\d{2}-\d{2}\s00:00:00 \z}xms;
 
-        # Convert the ISO date string to a ISO date time string, if only the date is given to
-        #   have the correct format.
-        $ValueItem = $Self->_ConvertDate2DateTime($ValueItem);
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "The value for the field Date is invalid!\n"
+                . "The date must be valid and the time must be 00:00:00",
+        );
 
-        # check for no time in date fields
-        if ( $ValueItem && $ValueItem !~ m{\A \d{4}-\d{2}-\d{2}\s00:00:00 \z}xms ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "The value for the field Date is invalid!\n"
-                    . "The date must be valid and the time must be 00:00:00",
-            );
-            return;
-        }
-        push @ValueDate, $ValueItem;
+        return;
     }
 
-    my $Value;
-    if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
-        $Value = \@ValueDate;
-    }
-    else {
-        $Value = $ValueDate[0];
-    }
-
-    $Value = $Self->ValueStructureToDB(
-        Value      => $Value,
-        ValueKey   => 'ValueDateTime',
-        Set        => $Param{Set},
-        MultiValue => $Param{DynamicFieldConfig}->{Config}->{MultiValue},
-    );
-
-    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-        Value    => $Value,
-        UserID   => $Param{UserID},
+    # actually set the value
+    return $Self->SUPER::ValueSet(
+        %Param,
+        Value => $TweakedValue,
     );
 }
 
@@ -195,7 +177,7 @@ sub ValueValidate {
 
         # Convert the ISO date string to a ISO date time string, if only the date is given to
         #   have the correct format.
-        $Value = $Self->_ConvertDate2DateTime($Value);
+        $Value = _ConvertDate2DateTime($Value);
 
         # check for no time in date fields
         if (
@@ -302,7 +284,7 @@ sub SearchSQLGet {
 
     # Convert the ISO date string to a ISO date time string, if only the date is given to
     #   have the correct format.
-    $Param{SearchTerm} = $Self->_ConvertDate2DateTime( $Param{SearchTerm} );
+    $Param{SearchTerm} = _ConvertDate2DateTime( $Param{SearchTerm} );
 
     my $SQL = " $Param{TableAlias}.value_date $Operators{ $Param{Operator} } '";
     $SQL .= $Kernel::OM->Get('Kernel::System::DB')->Quote( $Param{SearchTerm} ) . "' ";
@@ -1553,24 +1535,22 @@ sub ValueLookup {
 
 Append hh:mm:ss if only the ISO date was supplied to get a full date-time string.
 
-    my $DateTime = $BackendObject->_ConvertDate2DateTime(
-        '2017-01-01',
+    my $DateTime = _ConvertDate2DateTime(
+        '2023-08-21',
     );
 
 Returns
 
-    $DataTime = '2017-01-01 00:00:00'
+    $DateTime = '2023-08-21 00:00:00'
 
 =cut
 
 sub _ConvertDate2DateTime {
-    my ( $Self, $Value ) = @_;
+    my ($Value) = @_;
 
-    if ( $Value && $Value =~ m{ \A \d{4}-\d{2}-\d{2} \z }xms ) {
-        $Value .= ' 00:00:00';
-    }
-
-    return $Value;
+    return $Value unless $Value;
+    return $Value unless $Value =~ m{ \A \d{4}-\d{2}-\d{2} \z }xms;
+    return $Value . ' 00:00:00';
 }
 
 =end Internal:
