@@ -132,7 +132,7 @@ sub ObjectDescriptionGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(ObjectID UserID)) {
+    for my $Argument (qw(ObjectID)) {
         if ( !$Param{$Argument} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -143,10 +143,13 @@ sub ObjectDescriptionGet {
         }
     }
 
+    # TODO: Discuss security considerations - not much is shown though
+    my $UserID = 1;
+
     # get ticket
     my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
         TicketID      => $Param{ObjectID},
-        UserID        => $Param{UserID},
+        UserID        => $UserID,
         DynamicFields => 0,
     );
 
@@ -155,10 +158,19 @@ sub ObjectDescriptionGet {
     my $ParamHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook')      || 'Ticket#';
     $ParamHook .= $Kernel::OM->Get('Kernel::Config')->Get('Ticket::HookDivider') || '';
 
+    my $Link;
+    if ( $Param{Link} && $Param{LayoutObject}{SessionSource} ) {
+        if ( $Param{LayoutObject}{SessionSource} eq 'AgentInterface' ) {
+            # TODO: only show the link if the user $Param{UserID} has permissions
+            $Link = $Param{LayoutObject}{Baselink} . "Action=AgentTicketZoom;TicketID=$Param{ObjectID}";
+        }
+    }
+
     # create description
     return (
         Normal => $ParamHook . "$Ticket{TicketNumber}",
         Long   => $ParamHook . "$Ticket{TicketNumber}: $Ticket{Title}",
+        Link   => $Link,
     );
 }
 
