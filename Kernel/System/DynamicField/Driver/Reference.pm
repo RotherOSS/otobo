@@ -260,15 +260,15 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $DFDetails  = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName  = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     my $Value = '';
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
-        $Value = $FieldConfig->{DefaultValue} // '';
+        $Value = $DFDetails->{DefaultValue} // '';
     }
     $Value = $Param{Value} // $Value;
 
@@ -280,7 +280,7 @@ sub EditFieldRender {
     );
 
     # set values from ParamObject if present
-    if ( $FieldConfig->{MultiValue} ) {
+    if ( $DFDetails->{MultiValue} ) {
         if ( $FieldValue->@* ) {
             $Value = $FieldValue;
         }
@@ -326,7 +326,7 @@ sub EditFieldRender {
 
     my $PossibleValues;
     my @SelectionHTML;
-    if ( $FieldConfig->{EditFieldMode} eq 'AutoComplete' ) {
+    if ( $DFDetails->{EditFieldMode} eq 'AutoComplete' ) {
         $FieldTemplateFile .= 'Reference';
 
         # Get default agent autocomplete config.
@@ -342,7 +342,7 @@ sub EditFieldRender {
 
         $PossibleValues = $Self->PossibleValuesGet(%Param);
 
-        if ( $FieldConfig->{MultiValue} ) {
+        if ( $DFDetails->{MultiValue} ) {
             for my $ValueIndex ( 0 .. $#{$Value} ) {
                 my $FieldID = $FieldName . '_' . $ValueIndex;
                 push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
@@ -353,8 +353,8 @@ sub EditFieldRender {
                     SelectedID   => $Value->[$ValueIndex],
                     Class        => $FieldClass,
                     HTMLQuote    => 1,
-                    Translation  => $FieldConfig->{Translation},
-                    PossibleNone => $FieldConfig->{PossibleNone},
+                    Translation  => $DFDetails->{Translation},
+                    PossibleNone => $DFDetails->{PossibleNone},
                 );
             }
         }
@@ -367,9 +367,9 @@ sub EditFieldRender {
                 SelectedID   => \@SelectedIDs,
                 Class        => $FieldClass,
                 HTMLQuote    => 1,
-                Multiple     => $FieldConfig->{EditFieldMode} eq 'Multiselect' ? 1 : 0,
-                Translation  => $FieldConfig->{Translation},
-                PossibleNone => $FieldConfig->{PossibleNone},
+                Multiple     => $DFDetails->{EditFieldMode} eq 'Multiselect' ? 1 : 0,
+                Translation  => $DFDetails->{Translation},
+                PossibleNone => $DFDetails->{PossibleNone},
             );
         }
     }
@@ -381,11 +381,11 @@ sub EditFieldRender {
 
     # for getting descriptive names for the values, e.g. TicketNumber for TicketID
     my $PluginObject = $Self->_GetObjectTypePlugin(
-        ObjectType => $FieldConfig->{ReferencedObjectType},
+        ObjectType => $DFDetails->{ReferencedObjectType},
     );
     my @ResultHTML;
-    for my $ValueIndex ( 0 .. ( $FieldConfig->{EditFieldMode} eq 'Multiselect' ? 0 : $#{$Value} ) ) {
-        my $FieldID = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
+    for my $ValueIndex ( 0 .. ( $DFDetails->{EditFieldMode} eq 'Multiselect' ? 0 : $#{$Value} ) ) {
+        my $FieldID = $DFDetails->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
         if ( !$ValueIndex ) {
             if ( $Error{ServerError} ) {
@@ -422,13 +422,13 @@ sub EditFieldRender {
                 FieldID       => $FieldID,
                 Value         => ( $Value->[$ValueIndex] // '' ),
                 VisibleValue  => ( $VisibleValue         // '' ),
-                SelectionHTML => ( $FieldConfig->{EditFieldMode} ne 'AutoComplete' ? $SelectionHTML[$ValueIndex] : undef ),
+                SelectionHTML => ( $DFDetails->{EditFieldMode} ne 'AutoComplete' ? $SelectionHTML[$ValueIndex] : undef ),
             },
         );
     }
 
     my $TemplateHTML;
-    if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
+    if ( $DFDetails->{MultiValue} && !$Param{Readonly} ) {
         $FieldTemplateData{FieldID} = $FieldName . '_Template';
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
@@ -438,14 +438,14 @@ sub EditFieldRender {
             ID          => $FieldTemplateData{FieldID},
             Class       => $FieldClass,
             HTMLQuote   => 1,
-            Multiple    => $FieldConfig->{EditFieldMode} eq 'Multiselect' ? 1 : 0,
-            Translation => $FieldConfig->{TranslatableValues} || 0,
+            Multiple    => $DFDetails->{EditFieldMode} eq 'Multiselect' ? 1 : 0,
+            Translation => $DFDetails->{TranslatableValues} || 0,
         );
         $TemplateHTML = $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
-                SelectionHTML => ( $FieldConfig->{EditFieldMode} ne 'AutoComplete' ? $SelectionHTML : undef ),
+                SelectionHTML => ( $DFDetails->{EditFieldMode} ne 'AutoComplete' ? $SelectionHTML : undef ),
             },
         );
     }
@@ -479,7 +479,7 @@ EOF
     my $LabelString = $Self->EditLabelRender(
         %Param,
         Mandatory => $Param{Mandatory} || '0',
-        FieldName => $FieldConfig->{MultiValue} ? "${FieldName}_0" : $FieldName,
+        FieldName => $DFDetails->{MultiValue} ? "${FieldName}_0" : $FieldName,
     );
 
     my %Data = (
@@ -487,7 +487,7 @@ EOF
     );
 
     # decide which structure to return
-    if ( $FieldConfig->{MultiValue} ) {
+    if ( $DFDetails->{MultiValue} ) {
         $Data{MultiValue}         = \@ResultHTML;
         $Data{MultiValueTemplate} = $TemplateHTML;
     }
@@ -600,9 +600,9 @@ sub DisplayValueRender {
     my @LongObjectDescriptions;
     my $Link;
     {
-        my $FieldConfig  = $Param{DynamicFieldConfig}->{Config};
+        my $DFDetails    = $Param{DynamicFieldConfig}->{Config};
         my $PluginObject = $Self->_GetObjectTypePlugin(
-            ObjectType => $FieldConfig->{ReferencedObjectType},
+            ObjectType => $DFDetails->{ReferencedObjectType},
         );
         if ($PluginObject) {
             for my $ObjectID (@ObjectIDs) {
@@ -702,9 +702,9 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $DFDetails  = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value
     my $Value = $Param{DefaultValue} // '';
