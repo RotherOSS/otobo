@@ -296,7 +296,7 @@ sub EditFieldRender {
         $DynamicFieldConfigs{ $DynamicField->{Name} } = { $DynamicField->%* };
 
         for my $SetIndex ( 0 .. $#SetValue ) {
-            $DynamicFieldValues[$SetIndex]{ 'DynamicField_' . $DynamicField->{Name} } = $SetValue[$SetIndex][$i];
+            $DynamicFieldValues[$SetIndex]{ 'DynamicField_' . $DynamicField->{Name} . '_' . $SetIndex } = $SetValue[$SetIndex][$i];
         }
     }
 
