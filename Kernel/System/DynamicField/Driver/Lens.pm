@@ -106,10 +106,17 @@ sub ValueGet {
     );
 
     # Lenses return at most one value, so we don't have to loop here.
-    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
-        DynamicFieldConfig => $AttributeDFConfig,
-        ObjectID           => $ReferencedObjectID->[0],
-    );
+    my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my @Values        = map {
+        $BackendObject->ValueGet(
+            DynamicFieldConfig => $AttributeDFConfig,
+            ObjectID           => $_,
+        );
+    } $ReferencedObjectID->@*;
+
+    # TODO: for now return a non-nested list, but that does not work for all values
+    #       This might fail for text fields.
+    return [ map { ref $_ ? $_->@* : $_ } @Values ];
 }
 
 sub ValueSet {
