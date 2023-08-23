@@ -9548,17 +9548,17 @@ via the Preferences button after logging in.
                 <Item Key="Attributes">
                     <Array>
                         <Item>UserLogin</Item>
-                        <Item>UserFullName</Item>
+                        <Item>UserFirstname</Item>
+                        <Item>UserLastname</Item>
                         <Item>UserEmail</Item>
-                        <Item>CustomerCompanyName</Item>
                     </Array>
                 </Item>
                 <Item Key="AttributeHeader">
                     <Hash>
                         <Item Key="UserLogin">Login</Item>
-                        <Item Key="UserFullName">Name</Item>
+                        <Item Key="UserFirstname">Name</Item>
+                        <Item Key="UserLastname">Name</Item>
                         <Item Key="UserEmail">Email</Item>
-                        <Item Key="CustomerCompanyName">Company</Item>
                     </Hash>
                 </Item>
             </Hash>
