@@ -1004,6 +1004,8 @@ sub Run {
             }
             if ( defined $GetParam{SLAID} ) {
                 $TicketObject->TicketSLASet(
+                    %GetParam,
+                    %ACLCompatGetParam,
                     Action   => $Self->{Action},
                     SLAID    => $GetParam{SLAID},
                     TicketID => $Self->{TicketID},
