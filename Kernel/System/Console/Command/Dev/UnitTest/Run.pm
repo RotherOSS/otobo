@@ -48,11 +48,12 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'test',
-        Description => "Filter file list, allow to run test scripts matching a pattern, e.g. 'Ticket' or 'Ticket/ArchiveFlags' (can be specified several times).",
-        Required    => 0,
-        HasValue    => 1,
-        Multiple    => 1,
-        ValueRegex  => qr/.*/smx,
+        Description =>
+            "Run individual test files. The trailing '.t' is optional. E.g. 'Ticket' or 'Ticket.t'. Add parent dirs for disambiguation, e.g. 'GenericAgent/Run.t'. The option may be specified several times.",
+        Required   => 0,
+        HasValue   => 1,
+        Multiple   => 1,
+        ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
         Name        => 'sopm',
@@ -72,7 +73,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'verbose',
-        Description => 'Show details for all tests, not just failing.',
+        Description => 'Show details for all tests, not just for the failing tests.',
         Required    => 0,
         HasValue    => 0,
     );
