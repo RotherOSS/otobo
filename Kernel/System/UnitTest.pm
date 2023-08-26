@@ -125,13 +125,20 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # handle parameters
-    my $Verbosity           = $Param{Verbose} // 0;    # print test results when set to 1
-    my $Merge               = $Param{Merge}   // 0;
-    my $DoShuffle           = $Param{Shuffle} // 0;
-    my $DirectoryParam      = $Param{Directory};       # either a scalar or an array ref
-    my @ExecuteTestPatterns = ( $Param{Tests}     // [] )->@*;
-    my @SOPMFiles           = ( $Param{SOPMFiles} // [] )->@*;
-    my @Packages            = ( $Param{Packages}  // [] )->@*;
+    my $Verbosity      = $Param{Verbose} // 0;    # print test results when set to 1
+    my $Merge          = $Param{Merge}   // 0;
+    my $DoShuffle      = $Param{Shuffle} // 0;
+    my $DirectoryParam = $Param{Directory};       # either a scalar or an array ref
+    my @SOPMFiles      = ( $Param{SOPMFiles} // [] )->@*;
+    my @Packages       = ( $Param{Packages}  // [] )->@*;
+
+    # The tests specified with the option --test indicate the file name
+    # or optionally one or more parent directories.
+    # The trailing .t is appended unless it was already passed.
+    my @ExecuteTestPatterns =
+        map {qr!/\Q$_\E$!smx}
+        map { m/\.t$/ ? $_ : "$_.t" }
+        ( $Param{Tests} // [] )->@*;
 
     # some config stuff
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -185,10 +192,9 @@ sub Run {
 
             next SOPM_FILE unless IsArrayRefWithData( $Structure{Filelist} );
 
-            # for some reason the trailing .t is checked seperately
-            # so remove it here, when the patterns are set up
+            # collect all test scripts below scripts/test
             push @ExecuteTestPatterns,
-                map  {s/\.t$//r}
+                map  {qr!/\Q$_\E$!smx}
                 grep {m!^scripts/test/!}
                 map  { $_->{Location} }
                 $Structure{Filelist}->@*;
@@ -214,9 +220,9 @@ sub Run {
 
             next PACKAGE unless IsArrayRefWithData( $Structure{Filelist} );
 
-            # for some reason the trailing .t is checked seperately
+            # collect all test scripts below scripts/test
             push @ExecuteTestPatterns,
-                map  {s/\.t$//r}
+                map  {qr!/\Q$_\E$!smx}
                 grep {m!^scripts/test/!}
                 map  { $_->{Location} }
                 $Structure{Filelist}->@*;
@@ -249,14 +255,13 @@ sub Run {
         if (@ExecuteTestPatterns) {
             @Files = grep {
                 my $File = $_;
-                any { $File =~ m!/\Q$_\E\.t$!smx } @ExecuteTestPatterns
+                any { $File =~ $_ } @ExecuteTestPatterns
             } @Files;
         }
 
         # Check if a file with the same path and name exists in the Custom folder.
         FILE:
         for my $File (@Files) {
-
             my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
             push @ActualTestScripts, -e $CustomFile ? $CustomFile : $File;
         }
