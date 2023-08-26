@@ -48,11 +48,12 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'test',
-        Description => "Filter file list, allow to run test scripts matching a pattern, e.g. 'Ticket' or 'Ticket/ArchiveFlags' (can be specified several times).",
-        Required    => 0,
-        HasValue    => 1,
-        Multiple    => 1,
-        ValueRegex  => qr/.*/smx,
+        Description =>
+            "Run individual test files. The trailing '.t' is optional. E.g. 'Ticket' or 'Ticket.t'. Add parent dirs for disambiguation, e.g. 'GenericAgent/Run.t'. The option may be specified several times.",
+        Required   => 0,
+        HasValue   => 1,
+        Multiple   => 1,
+        ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
         Name        => 'sopm',
@@ -72,7 +73,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'verbose',
-        Description => 'Show details for all tests, not just failing.',
+        Description => 'Show details for all tests, not just for the failing tests.',
         Required    => 0,
         HasValue    => 0,
     );
@@ -96,6 +97,12 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
         Multiple    => 1
     );
+    $Self->AddArgument(
+        Name        => 'test-script-path',
+        Description => "Path to a directory with test scripts or to a single test script. All other test selection options will be ignored.",
+        Required    => 0,
+        ValueRegex  => qr/.*/smx,
+    );
 
     return;
 }
@@ -117,6 +124,7 @@ sub Run {
 
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
         Tests           => $Self->GetOption('test'),
+        TestScriptPath  => $Self->GetArgument('test-script-path'),
         Directory       => $Self->GetOption('directory'),
         SOPMFiles       => $Self->GetOption('sopm'),
         Packages        => $Self->GetOption('package'),
