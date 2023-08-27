@@ -14,15 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -57,11 +61,8 @@ my $DefaultID1 = $SysConfigDBObject->DefaultSettingAdd(
     EffectiveValue => 'Test',
     UserID         => 1,
 );
-$Self->IsNot(
-    $DefaultID1,
-    undef,
-    "DefaultSettingAdd() for Test1$RandomID",
-);
+ok( $DefaultID1, "DefaultSettingAdd() for Test1$RandomID" );
+
 my $DefaultID2 = $SysConfigDBObject->DefaultSettingAdd(
     Name             => "Test2$RandomID",
     Description      => "Test.",
@@ -98,11 +99,8 @@ my $ModifiedID1 = $SysConfigDBObject->ModifiedSettingAdd(
 my $Success = $SysConfigDBObject->DefaultSettingUnlock(
     DefaultID => $DefaultID1,
 );
-$Self->IsNot(
-    $ModifiedID1,
-    undef,
-    "ModifiedSettingAdd() for Test1$RandomID",
-);
+ok( $ModifiedID1, "ModifiedSettingAdd() for Test1$RandomID" );
+
 $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
     DefaultID => $DefaultID2,
     Force     => 1,
@@ -123,6 +121,7 @@ $Self->IsNot(
     undef,
     "ModifiedSettingAdd() for Test2$RandomID",
 );
+ok( $ModifiedID3, "ModifiedSettingAdd() for Test3$RandomID" );
 
 # Get All Settings.
 my %DefaultSetting1 = $SysConfigDBObject->DefaultSettingGet(
@@ -296,19 +295,21 @@ my @Tests = (
 my $YAMLObject      = $Kernel::OM->Get('Kernel::System::YAML');
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
+my $Cnt = 0;
 for my $Test (@Tests) {
+    $Cnt++;
 
-    my $ConfigurationDumpYAML = $SysConfigObject->ConfigurationDump( %{ $Test->{Config} } );
+    my $ConfigurationDumpYAML = $SysConfigObject->ConfigurationDump( $Test->{Config}->%* );
 
     my $ConfigurationDumpPerl = $YAMLObject->Load(
         Data => $ConfigurationDumpYAML,
     );
 
-    $Self->IsDeeply(
+    is(
         $ConfigurationDumpPerl,
         $Test->{ExpectedValue},
         "$Test->{Name} ConfigurationDump() - Result",
     );
 }
 
-$Self->DoneTesting();
+done_testing;
