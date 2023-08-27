@@ -77,11 +77,41 @@ my $DefaultID2 = $SysConfigDBObject->DefaultSettingAdd(
     UserModificationActive   => 1,
     UserID                   => 1,
 );
-$Self->IsNot(
-    $DefaultID2,
-    undef,
-    "DefaultSettingAdd() for Test2$RandomID",
+ok( $DefaultID2, "DefaultSettingAdd() for Test2$RandomID" );
+
+my $DefaultID3 = $SysConfigDBObject->DefaultSettingAdd(
+    Name          => "Test3$RandomID",
+    Description   => "Test.",
+    Navigation    => "Test",
+    XMLContentRaw => <<'END_XML',
+    <Setting Name="Large::Colored::Circles" Required="0" Valid="0">
+        <Description Translatable="1">Define possible namespaces for dynamic fields.</Description>
+        <Navigation>Core::DynamicFields</Navigation>
+        <Value>
+            <Array>
+                <Item>🟠 - U+1F7E0 - LARGE ORANGE CIRCLE</Item>
+                <Item>🟡 - U+1F7E1 - LARGE YELLOW CIRCLE</Item>
+                <Item>🟢 - U+1F7E2 - LARGE GREEN CIRCLE</Item>
+                <Item>🟣 - U+1F7E3 - LARGE PURPLE CIRCLE</Item>
+                <Item>🟤 - U+1F7E4 - LARGE BROWN CIRCLE</Item>
+            </Array>
+        </Value>
+    </Setting>
+END_XML
+    XMLContentParsed => [
+        '🟠 - U+1F7E0 - LARGE ORANGE CIRCLE',
+        '🟡 - U+1F7E1 - LARGE YELLOW CIRCLE',
+        '🟢 - U+1F7E2 - LARGE GREEN CIRCLE',
+        '🟣 - U+1F7E3 - LARGE PURPLE CIRCLE',
+        '🟤 - U+1F7E4 - LARGE BROWN CIRCLE',
+    ],
+    XMLFilename              => 'UnitTest.xml',
+    EffectiveValue           => 'Test',
+    UserModificationPossible => 1,
+    UserModificationActive   => 1,
+    UserID                   => 1,
 );
+ok( $DefaultID2, "DefaultSettingAdd() for Test3$RandomID" );
 
 # Create new modified settings.
 my $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
@@ -116,10 +146,22 @@ my $ModifiedID2 = $SysConfigDBObject->ModifiedSettingAdd(
 $Success = $SysConfigDBObject->DefaultSettingUnlock(
     DefaultID => $DefaultID2,
 );
-$Self->IsNot(
-    $ModifiedID2,
-    undef,
-    "ModifiedSettingAdd() for Test2$RandomID",
+ok( $ModifiedID2, "ModifiedSettingAdd() for Test2$RandomID" );
+
+$ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
+    DefaultID => $DefaultID3,
+    Force     => 1,
+    UserID    => 1,
+);
+my $ModifiedID3 = $SysConfigDBObject->ModifiedSettingAdd(
+    DefaultID         => $DefaultID3,
+    Name              => "Test3$RandomID",
+    EffectiveValue    => 'TestUpdate',
+    ExclusiveLockGUID => $ExclusiveLockGUID,
+    UserID            => 1,
+);
+$Success = $SysConfigDBObject->DefaultSettingUnlock(
+    DefaultID => $DefaultID3,
 );
 ok( $ModifiedID3, "ModifiedSettingAdd() for Test3$RandomID" );
 
@@ -130,11 +172,17 @@ my %DefaultSetting1 = $SysConfigDBObject->DefaultSettingGet(
 my %DefaultSetting2 = $SysConfigDBObject->DefaultSettingGet(
     DefaultID => $DefaultID2,
 );
+my %DefaultSetting3 = $SysConfigDBObject->DefaultSettingGet(
+    DefaultID => $DefaultID3,
+);
 my %ModifiedSetting1 = $SysConfigDBObject->ModifiedSettingGet(
     ModifiedID => $ModifiedID1,
 );
 my %ModifiedSetting2 = $SysConfigDBObject->ModifiedSettingGet(
     ModifiedID => $ModifiedID2,
+);
+my %ModifiedSetting3 = $SysConfigDBObject->ModifiedSettingGet(
+    ModifiedID => $ModifiedID3,
 );
 
 my @Tests = (
@@ -145,10 +193,12 @@ my @Tests = (
             Default => {
                 "Test1$RandomID" => \%DefaultSetting1,
                 "Test2$RandomID" => \%DefaultSetting2,
+                "Test3$RandomID" => \%DefaultSetting3,
             },
             Modified => {
                 "Test1$RandomID" => \%ModifiedSetting1,
                 "Test2$RandomID" => \%ModifiedSetting2,
+                "Test3$RandomID" => \%ModifiedSetting3,
             },
         },
     },
@@ -161,6 +211,7 @@ my @Tests = (
             Modified => {
                 "Test1$RandomID" => \%ModifiedSetting1,
                 "Test2$RandomID" => \%ModifiedSetting2,
+                "Test3$RandomID" => \%ModifiedSetting3,
             },
         },
     },
@@ -173,6 +224,7 @@ my @Tests = (
             Default => {
                 "Test1$RandomID" => \%DefaultSetting1,
                 "Test2$RandomID" => \%DefaultSetting2,
+                "Test3$RandomID" => \%DefaultSetting3,
             },
         },
     },
@@ -183,10 +235,12 @@ my @Tests = (
             Default => {
                 "Test1$RandomID" => \%DefaultSetting1,
                 "Test2$RandomID" => \%DefaultSetting2,
+                "Test3$RandomID" => \%DefaultSetting3,
             },
             Modified => {
                 "Test1$RandomID" => \%ModifiedSetting1,
                 "Test2$RandomID" => \%ModifiedSetting2,
+                "Test3$RandomID" => \%ModifiedSetting3,
             },
         },
     },
@@ -207,6 +261,7 @@ my @Tests = (
             Default => {
                 "Test1$RandomID" => \%DefaultSetting1,
                 "Test2$RandomID" => \%DefaultSetting2,
+                "Test3$RandomID" => \%DefaultSetting3,
             },
         },
     },
@@ -219,6 +274,7 @@ my @Tests = (
             Modified => {
                 "Test1$RandomID" => \%ModifiedSetting1,
                 "Test2$RandomID" => \%ModifiedSetting2,
+                "Test3$RandomID" => \%ModifiedSetting3,
             },
         },
     },
@@ -232,10 +288,12 @@ my @Tests = (
             Default => {
                 "Test1$RandomID" => $DefaultSetting1{EffectiveValue},
                 "Test2$RandomID" => $DefaultSetting2{EffectiveValue},
+                "Test3$RandomID" => $DefaultSetting3{EffectiveValue},
             },
             Modified => {
                 "Test1$RandomID" => $ModifiedSetting1{EffectiveValue},
                 "Test2$RandomID" => $ModifiedSetting2{EffectiveValue},
+                "Test3$RandomID" => $ModifiedSetting3{EffectiveValue},
             },
         },
     },
@@ -249,6 +307,7 @@ my @Tests = (
             Modified => {
                 "Test1$RandomID" => $ModifiedSetting1{EffectiveValue},
                 "Test2$RandomID" => $ModifiedSetting2{EffectiveValue},
+                "Test3$RandomID" => $ModifiedSetting3{EffectiveValue},
             },
         },
     },
@@ -262,6 +321,7 @@ my @Tests = (
             Default => {
                 "Test1$RandomID" => $DefaultSetting1{EffectiveValue},
                 "Test2$RandomID" => $DefaultSetting2{EffectiveValue},
+                "Test3$RandomID" => $DefaultSetting3{EffectiveValue},
             },
         },
     },
@@ -274,10 +334,12 @@ my @Tests = (
             Default => {
                 "Test1$RandomID" => $DefaultSetting1{EffectiveValue},
                 "Test2$RandomID" => $DefaultSetting2{EffectiveValue},
+                "Test3$RandomID" => $DefaultSetting3{EffectiveValue},
             },
             Modified => {
                 "Test1$RandomID" => $ModifiedSetting1{EffectiveValue},
                 "Test2$RandomID" => $ModifiedSetting2{EffectiveValue},
+                "Test3$RandomID" => $ModifiedSetting3{EffectiveValue},
             },
         },
     },
