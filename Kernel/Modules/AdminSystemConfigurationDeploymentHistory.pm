@@ -16,21 +16,25 @@
 
 package Kernel::Modules::AdminSystemConfigurationDeploymentHistory;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
-
-use Kernel::Language qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -256,7 +260,9 @@ sub Run {
             return $LayoutObject->SecureMode();
         }
 
-        return $LayoutObject->Redirect( OP => "Action=AdminSystemConfiguration" );
+        return $LayoutObject->Redirect(
+            OP => "Action=AdminSystemConfiguration"
+        );
     }
 }
 
