@@ -260,8 +260,10 @@ sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
     if ( $Param{Operator} eq 'Like' ) {
+        my $TableAttribute = $Self->{TableAttribute} // 'value_text';
+
         return $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
-            Key   => "$Param{TableAlias}.$Self->{TableAttribute}",
+            Key   => "$Param{TableAlias}.$TableAttribute",
             Value => $Param{SearchTerm},
         );
     }
@@ -311,7 +313,9 @@ sub SearchSQLGet {
 sub SearchSQLOrderFieldGet {
     my ( $Self, %Param ) = @_;
 
-    return "$Param{TableAlias}.$Self->{TableAttribute}";
+    my $TableAttribute = $Self->{TableAttribute} // 'value_text';
+
+    return "$Param{TableAlias}.$TableAttribute";
 }
 
 sub EditFieldRender {

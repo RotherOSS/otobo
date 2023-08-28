@@ -160,9 +160,11 @@ sub ValueValidate {
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
+    my $TableAttribute = $Self->{TableAttribute} // 'value_text';
+
     if ( $Param{Operator} eq 'Like' ) {
         return $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
-            Key   => "$Param{TableAlias}.value_text",
+            Key   => "$Param{TableAlias}.$TableAttribute",
             Value => $Param{SearchTerm},
         );
     }
@@ -177,15 +179,15 @@ sub SearchSQLGet {
 
     if ( $Param{Operator} eq 'Empty' ) {
         if ( $Param{SearchTerm} ) {
-            return " $Param{TableAlias}.value_text IS NULL OR $Param{TableAlias}.value_text = '' ";
+            return " $Param{TableAlias}.$TableAttribute IS NULL OR $Param{TableAlias}.$TableAttribute = '' ";
         }
         else {
             my $DatabaseType = $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'};
             if ( $DatabaseType eq 'oracle' ) {
-                return " $Param{TableAlias}.value_text IS NOT NULL ";
+                return " $Param{TableAlias}.$TableAttribute IS NOT NULL ";
             }
             else {
-                return " $Param{TableAlias}.value_text <> '' ";
+                return " $Param{TableAlias}.$TableAttribute <> '' ";
             }
         }
     }
@@ -197,15 +199,26 @@ sub SearchSQLGet {
         return;
     }
 
-    my $SQL = " $Param{TableAlias}.value_text $Operators{ $Param{Operator} } '";
-    $SQL .= $Kernel::OM->Get('Kernel::System::DB')->Quote( $Param{SearchTerm} ) . "' ";
-    return $SQL;
+    # TODO: this should be changed to bind variables
+    if ( $TableAttribute eq 'value_int' ) {
+        my $SQL = " $Param{TableAlias}.$TableAttribute $Operators{ $Param{Operator} } $Param{SearchTerm}";
+
+        return $SQL;
+    }
+    else {
+        my $SQL = " $Param{TableAlias}.$TableAttribute $Operators{ $Param{Operator} } '";
+        $SQL .= $Kernel::OM->Get('Kernel::System::DB')->Quote( $Param{SearchTerm} ) . "' ";
+
+        return $SQL;
+    }
 }
 
 sub SearchSQLOrderFieldGet {
     my ( $Self, %Param ) = @_;
 
-    return "$Param{TableAlias}.value_text";
+    my $TableAttribute = $Self->{TableAttribute} // 'value_text';
+
+    return "$Param{TableAlias}.$TableAttribute";
 }
 
 sub EditFieldRender {
