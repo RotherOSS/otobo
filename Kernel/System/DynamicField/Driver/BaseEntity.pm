@@ -88,9 +88,17 @@ sub ValueGet {
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    # we strictly only accept array refs, but undef (and maybe '') cannot be excluded for empty fields
-    if ( !$Param{Value} || !$Param{Value}->@* ) {
-
+    if ( !$Param{Value} ) {
+        return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueDelete(
+            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            ObjectID => $Param{ObjectID},
+            UserID   => $Param{UserID},
+        );
+    }
+    elsif ( !ref $Param{Value} ) {
+        $Param{Value} = [ $Param{Value} ];
+    }
+    elsif ( !$Param{Value}->@* ) {
         return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueDelete(
             FieldID  => $Param{DynamicFieldConfig}->{ID},
             ObjectID => $Param{ObjectID},
