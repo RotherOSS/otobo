@@ -3,6 +3,7 @@
 # There is also an extra build target otobo-web-kerberos that add support for Kerberos.
 
 # See also bin/docker/build_docker_images.sh
+# See also https://docs.docker.com/docker-hub/builds/advanced/
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
 # Use the latest maintainance release of the Perl 5.38.x series as the base.
