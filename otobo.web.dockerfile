@@ -200,6 +200,7 @@ RUN apt-get update\
 # append extra modules needed for Kerberos
 WORKDIR /opt/otobo_install
 RUN cpanm --local-lib local Authen::Krb5::Simple\
+ && cpanm --local-lib local LWP::Authen::Negotiate\
  && rm -rf "$HOME/.cpanm"
 
 # perform build steps that can be done as the user otobo.
