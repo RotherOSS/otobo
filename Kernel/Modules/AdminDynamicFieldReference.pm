@@ -646,7 +646,9 @@ sub _ShowScreen {
     $Param{DisplayFieldName} = 'New';
 
     my $Namespace;
-    if ( $Param{Mode} eq 'Change' ) {
+
+    # set name for an existing dynamic field or if an error occured
+    if ( $Param{Mode} eq 'Change' || grep { $_ =~ /ServerError$/ && $Param{$_} } keys %Param ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
 
