@@ -390,10 +390,10 @@ label.oooFocus.LabelError {
 }*/
 
 /* Checkboxes & Date */
-.FieldCell > div.Field.oooDateContainer,
-.FieldCell > div.Field.oooCheckboxContainer,
-.Row > div.Field.oooDateContainer,
-.Row > div.Field.oooCheckboxContainer {
+.FieldCell > div.Field > div.oooDateContainer,
+.FieldCell > div.Field > div.oooCheckboxContainer,
+.Row > div.Field > div.oooDateContainer,
+.Row > div.Field > div.oooCheckboxContainer {
     height: 38px;
     padding-top: 16px;
     padding-left: 16px;
