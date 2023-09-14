@@ -245,7 +245,6 @@ sub Sync {
 
             # take down session
             $LDAP->unbind();
-            $LDAP->disconnect();
             return;
         }
 
@@ -267,7 +266,6 @@ sub Sync {
 
             # take down session
             $LDAP->unbind();
-            $LDAP->disconnect();
             return;
         }
     }
