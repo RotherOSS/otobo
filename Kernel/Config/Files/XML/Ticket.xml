@@ -12313,6 +12313,15 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Stats::DynamicObjectRegistration###ArticleList" Required="0" Valid="1">
+        <Description Translatable="1">Determines if the statistics module may generate article lists.</Description>
+        <Navigation>Core::Stats</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Stats::Dynamic::ArticleList</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Stats::DynamicObjectRegistration###TicketAccountedTime" Required="0" Valid="1">
         <Description Translatable="1">Module to generate accounted time ticket statistics.</Description>
         <Navigation>Core::Stats</Navigation>
