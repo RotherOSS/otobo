@@ -72,7 +72,7 @@ Core.Agent.TicketPhone = (function (TargetNS) {
             $('.RemoveButton', $(this).parent()).click();
 
             // add the customer to the target field
-            TargetNS.AddTicketCustomer(TargetField, MoveCustomerVal, MoveCustomerKey);
+            Core.Agent.CustomerSearch.AddTicketCustomer(TargetField, MoveCustomerVal, MoveCustomerKey);
         });
 
         // Add ticket customer from external source.
