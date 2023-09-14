@@ -254,7 +254,7 @@ sub Run {
                     my $CustomerID = $ParamObject->GetParam( Param => 'CustomerID' ) || '';
                     return $LayoutObject->Redirect(
                         OP =>
-                            "Action=$Self->{Action};Subaction=Change;CustomerID=$CustomerID;Nav=$Nav;Notification=Update"
+                            "Action=$Self->{Action};Subaction=Change;CustomerID=" . $LayoutObject->LinkEncode($CustomerID) . ";Nav=$Nav;Notification=Update"
                     );
                 }
                 else {
