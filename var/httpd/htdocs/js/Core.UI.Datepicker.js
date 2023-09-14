@@ -170,7 +170,7 @@ Core.UI.Datepicker = (function (TargetNS) {
                 Container.wrapInner("<div class='oooDate'></div>");
                 Container.addClass('oooDateContainer');
 
-                var Label = $('label', Container.parent());
+                var Label = $('label', Container.parent().parent());
                 var Checkbox = $('.oooDate > input[type=checkbox]', Container);
                 var Icon = $("<i class='oooAltCheck ooofo'></i>").on('click', function() {
                     Checkbox.click();
