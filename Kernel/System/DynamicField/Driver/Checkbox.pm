@@ -535,8 +535,13 @@ sub EditFieldValueGet {
             my @DataValues = $Param{ParamObject}->GetArray( Param => $FieldName );
             my @DataUsed   = $Param{ParamObject}->GetArray( Param => $FieldName . 'Used' );
 
-            # Delete template values
+            # delete template used value
             pop @DataUsed;
+
+            # NOTE deleting actual template value only necessary when default value is 1
+            if ( $Param{DynamicFieldConfig}->{Config}{DefaultValue} ) {
+                pop @DataValues;
+            }
 
             my @CheckedValues;
             for my $Index (@DataValues) {
