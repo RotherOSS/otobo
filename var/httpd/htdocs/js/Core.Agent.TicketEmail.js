@@ -105,7 +105,7 @@ Core.Agent.TicketEmail = (function (TargetNS) {
             $('.RemoveButton', $(this).parent()).click();
 
             // add the customer to the target field
-            TargetNS.AddTicketCustomer(TargetField, MoveCustomerVal, MoveCustomerKey);
+            Core.Agent.CustomerSearch.AddTicketCustomer(TargetField, MoveCustomerVal, MoveCustomerKey);
         });
 
         // add a new ticket customer user
