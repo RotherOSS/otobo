@@ -528,10 +528,16 @@ sub EditFieldValueGet {
             for my $Type (qw(Used Year Month Day)) {
                 my @ValueColumn = $Param{ParamObject}->GetArray( Param => $Prefix . $Type );
 
-                # pop not necessary because for loop limits to used data
+                # omit template data
+                if ( $Type ne 'Used' ) {
+                    pop @ValueColumn;
+                }
                 $Data{$Type} = \@ValueColumn;
             }
 
+            # NOTE used data in multivalue case come as value index (e.g. 0, 1, 2, ...)
+            #   this is for the purpose to identify unchecked values (e.g. 0, 2, 4, ...)
+            #   so, every index arriving here means that the corresponding value was checked and is therefor set to Used => 1
             my @Used;
             for my $Index ( $Data{Used}->@* ) {
                 $Used[$Index] = 1;
@@ -539,12 +545,10 @@ sub EditFieldValueGet {
             $Data{Used} = \@Used;
 
             # transform value arrays into rows
-            for my $Index ( 0 .. $#{ $Data{Used} } ) {
+            for my $Index ( 0 .. $#{ $Data{Year} } ) {
                 my %ValueRow = ();
-                if ( $Data{Used}->[$Index] ) {
-                    for my $Type (qw(Used Year Month Day)) {
-                        $ValueRow{ $Prefix . $Type } = $Data{$Type}[$Index];
-                    }
+                for my $Type (qw(Used Year Month Day)) {
+                    $ValueRow{ $Prefix . $Type } = $Data{$Type}[$Index] // 0;
                 }
                 push $Value->@*, \%ValueRow;
             }
@@ -815,7 +819,9 @@ sub ReadableValueRender {
 
     # only keep date part, loose time part of time-stamp
     for my $ValueItem (@Values) {
-        $ValueItem =~ s{ \A (\d{4} - \d{2} - \d{2}) .+?\z }{$1}xms;
+        if ($ValueItem) {
+            $ValueItem =~ s{ \A (\d{4} - \d{2} - \d{2}) .+?\z }{$1}xms;
+        }
     }
 
     my $ItemSeparator = ',';
