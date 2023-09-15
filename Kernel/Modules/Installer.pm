@@ -1267,6 +1267,12 @@ sub CheckDBRequirements {
         my $DBType          = $Param{DBType};
         if ( $ReportedVersion =~ m/MariaDB/ ) {
             $DBType = 'mariadb';
+
+            # In some environments the reported version is prefixed with the string '5.5.5-' so that we get
+            # something like "5.5.5-10.6.12-MariaDB-0ubuntu0.22.04.1".
+            # This prefix is meant for allowing replication between MariaDB and MySQL, see https://jira.mariadb.org/browse/MDEV-4088.
+            # Remove it for the sake of this sanity check.
+            $ReportedVersion =~ s/^\Q5.5.5-\E//;
         }
         my ($CleanedReportedVersion) = $ReportedVersion =~ m/([\d.]+)/;               # extract e.g. 10.5.20
         my $Have                     = version->parse($CleanedReportedVersion);
