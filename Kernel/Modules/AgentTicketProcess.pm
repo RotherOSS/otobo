@@ -2677,8 +2677,8 @@ sub _RenderDynamicField {
     );
 
     # Create one block for each multivalue item
-    if ( $DynamicFieldHTML->{HTML} ) {
-        for ( my $MultiValueIndex = 0; $MultiValueIndex < scalar keys $DynamicFieldHTML->{HTML}->%*; $MultiValueIndex++ ) {
+    if ( $DynamicFieldHTML->{MultiValue} ) {
+        for my $MultiValueIndex ( 0 .. $#{ $DynamicFieldHTML->{MultiValue} } ) {
 
             $Data{Content} = $DynamicFieldHTML->{HTML}{$MultiValueIndex};
             $LayoutObject->Block(
