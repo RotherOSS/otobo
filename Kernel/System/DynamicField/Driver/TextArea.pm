@@ -183,6 +183,7 @@ sub EditFieldRender {
         Mandatory   => $Param{Mandatory},
     );
     my @ResultHTML;
+    my @ResultLabels;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
         $FieldTemplateData{FieldID}      = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
         $FieldTemplateData{ValueEscaped} = $Param{LayoutObject}->Ascii2Html(
@@ -207,9 +208,17 @@ sub EditFieldRender {
                 %Error,
             },
         );
+
+        # call EditLabelRender on the common Driver
+        push @ResultLabels, $Self->EditLabelRender(
+            %Param,
+            Mandatory => $Param{Mandatory} || '0',
+            FieldName => $FieldTemplateData{FieldID},
+        );
     }
 
     my $TemplateHTML;
+    my $TemplateLabel;
     if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
 
         $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_Template';
@@ -220,26 +229,27 @@ sub EditFieldRender {
                 %FieldTemplateData,
             },
         );
+
+        # call EditLabelRender on the common Driver
+        $TemplateLabel = $Self->EditLabelRender(
+            %Param,
+            Mandatory => $Param{Mandatory} || '0',
+            FieldName => $FieldTemplateData{FieldID},
+        );
     }
 
-    # call EditLabelRender on the common Driver
-    my $LabelString = $Self->EditLabelRender(
-        %Param,
-        Mandatory => $Param{Mandatory} || '0',
-        FieldName => $FieldName,
-    );
-
-    my $Data = {
-        Label => $LabelString,
-    };
+    my $Data;
 
     # decide which structure to return
     if ( $FieldConfig->{MultiValue} ) {
         $Data->{MultiValue}         = \@ResultHTML;
+        $Data->{Label}              = \@ResultLabels;
         $Data->{MultiValueTemplate} = $TemplateHTML;
+        $Data->{LabelTemplate}      = $TemplateLabel;
     }
     else {
         $Data->{Field} = $ResultHTML[0];
+        $Data->{Label} = $ResultLabels[0];
     }
 
     return $Data;

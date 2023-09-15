@@ -309,6 +309,7 @@ sub EditFieldRender {
         Mandatory   => $Param{Mandatory},
     );
     my @ResultHTML;
+    my @ResultLabels;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
         $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
@@ -330,9 +331,17 @@ sub EditFieldRender {
                 SelectionHTML => $SelectionHTML[$ValueIndex],
             },
         );
+
+        # call EditLabelRender on the common Driver
+        push @ResultLabels, $Self->EditLabelRender(
+            %Param,
+            Mandatory => $Param{Mandatory} || '0',
+            FieldName => $FieldTemplateData{FieldID},
+        );
     }
 
     my $TemplateHTML;
+    my $TemplateLabel;
     if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
         $FieldTemplateData{FieldID} = $FieldName . '_Template';
 
@@ -352,6 +361,13 @@ sub EditFieldRender {
                 %FieldTemplateData,
                 SelectionHTML => $SelectionHTML,
             },
+        );
+
+        # call EditLabelRender on the common Driver
+        $TemplateLabel = $Self->EditLabelRender(
+            %Param,
+            Mandatory => $Param{Mandatory} || '0',
+            FieldName => $FieldTemplateData{FieldID},
         );
     }
 
@@ -377,25 +393,18 @@ sub EditFieldRender {
 EOF
     }
 
-    # call EditLabelRender on the common Driver
-    # only a single label is returned, even for MultiValue fields
-    my $LabelString = $Self->EditLabelRender(
-        %Param,
-        Mandatory => $Param{Mandatory} || '0',
-        FieldName => $FieldConfig->{MultiValue} ? $FieldName . '_0' : $FieldName,
-    );
-
-    my $Data = {
-        Label => $LabelString,
-    };
+    my $Data;
 
     # decide which structure to return
     if ( $FieldConfig->{MultiValue} ) {
         $Data->{MultiValue}         = \@ResultHTML;
+        $Data->{Label}              = \@ResultLabels;
         $Data->{MultiValueTemplate} = $TemplateHTML;
+        $Data->{LabelTemplate}      = $TemplateLabel;
     }
     else {
         $Data->{Field} = $ResultHTML[0];
+        $Data->{Label} = $ResultLabels[0];
     }
 
     return $Data;
