@@ -14,31 +14,34 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+use Data::Peek;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get DB object
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-# create database for tests
-my $XML = '
+# create database table for tests
+my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => <<'END_XML');
 <Table Name="test_utf8_range">
-    <Column Name="test_message" Required="true" Size="255" Type="VARCHAR"/>
+    <Column Name="test_message_varchar"  Required="true" Size="255" Type="VARCHAR"/>
+    <Column Name="test_message_longblob" Required="true" Type="LONGBLOB"/>
 </Table>
-';
-my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XML );
-my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+END_XML
+my @SQL = $DBObject->SQLProcessor( Database => \@XMLArray );
 for my $SQL (@SQL) {
-    $Self->True(
-        $DBObject->Do( SQL => $SQL ) || 0,
-        "CREATE TABLE ($SQL)",
-    );
+    diag "SQL: $SQL";
+    ok( $DBObject->Do( SQL => $SQL ) || 0, 'executed SQL' );
 }
 
 my @Tests = (
@@ -55,94 +58,94 @@ my @Tests = (
         Data => 'ऄ',           # DEVANAGARI LETTER SHORT A (e0 a4 84)
     },
     {
-        Name                => "UTF8 4 byte",
-        Data                => '💩',          # PILE OF POO (f0 9f 92 a9)
-        ExpectedDataOnMysql => '💩',
+        Name => "UTF8 4 byte",
+        Data => '💩',          # PILE OF POO (f0 9f 92 a9)
     },
 );
 
 for my $Test (@Tests) {
 
-    my $Success = $DBObject->Do(
-        SQL => 'INSERT INTO test_utf8_range ( test_message )'
-            . ' VALUES ( ? )',
-        Bind => [ \$Test->{Data} ],
-    );
+    subtest $Test->{Name} => sub {
 
-    $Self->True(
-        $Success,
-        "$Test->{Name} - INSERT",
-    );
+        # Because of 'use utf8;' the test data is initially considered as being UTF-8 encoded,
+        # which does not imply that the UTF-8 flag is on.
+        my $TestData = $Test->{Data};
+        diag "Testing: $TestData";
+        diag 'test data: ', scalar DDump $TestData;
 
-    my $ExpectedData = $Test->{Data};
-    if ( $Test->{ExpectedDataOnMysql} && $DBObject->{Backend}->{'DB::Type'} eq 'mysql' ) {
-        $ExpectedData = $Test->{ExpectedDataOnMysql};
-    }
+        my $EncodedTestData = $TestData;
+        utf8::encode($EncodedTestData);
+        diag 'encoded test data: ', scalar DDump $EncodedTestData;
 
-    # Fetch withouth WHERE
-    $DBObject->Prepare(
-        SQL   => 'SELECT test_message FROM test_utf8_range',
-        Limit => 1,
-    );
-
-    my $RowCount = 0;
-
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Self->Is(
-            $Row[0],
-            $ExpectedData,
-            "$Test->{Name} - SELECT all",
+        my $InsertSuccess = $DBObject->Do(
+            SQL  => 'INSERT INTO test_utf8_range ( test_message_varchar, test_message_longblob ) VALUES ( ?, ? )',
+            Bind => [
+                \$TestData,
+                \$EncodedTestData,
+            ],
         );
-        $RowCount++;
-    }
+        ok( $InsertSuccess, 'INSERT' );
 
-    $Self->Is(
-        $RowCount,
-        1,
-        "$Test->{Name} - SELECT all row count",
-    );
-
-    # Fetch 1 with WHERE
-    $DBObject->Prepare(
-        SQL => '
-            SELECT test_message
-            FROM test_utf8_range
-            WHERE test_message = ?',
-        Bind  => [ \$Test->{Data}, ],
-        Limit => 1,
-    );
-
-    $RowCount = 0;
-
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Self->Is(
-            $Row[0],
-            $ExpectedData,
-            "$Test->{Name} - SELECT all",
+        # Fetch without WHERE
+        $DBObject->Prepare(
+            SQL   => 'SELECT test_message_varchar, test_message_longblob FROM test_utf8_range',
+            Limit => 1,
         );
-        $RowCount++;
-    }
 
-    $Self->Is(
-        $RowCount,
-        1,
-        "$Test->{Name} - SELECT all row count",
-    );
+        my $RowCount = 0;
+        while ( my ( $MessageVarchar, $MessageLongblob ) = $DBObject->FetchrowArray ) {
+            diag 'MessageVarchar: ', scalar DDump $MessageVarchar;
+            is( $MessageVarchar, $TestData, "SELECT test_message_varchar" );
+            diag 'MessageLongblob: ', scalar DDump $MessageLongblob;
+            is( $MessageLongblob, $TestData, "SELECT test_message_longblob, TestData" );
+            if ( utf8::is_utf8($TestData) ) {
+                isnt( $MessageLongblob, $EncodedTestData, "SELECT test_message_longblob, EncodedTestData" );
+            }
+            else {
 
-    $Success = $DBObject->Do(
-        SQL => 'DELETE FROM test_utf8_range',
-    );
+                # When the test data has no high bytes then encoded and decoded strings are the same.
+                is( $MessageLongblob, $EncodedTestData, "SELECT test_message_longblob, EncodedTestData, ASCII" );
+            }
+            $RowCount++;
+        }
+        is( $RowCount, 1, 'only one row found' );
 
-    $Self->True(
-        $Success,
-        "$Test->{Name} - DELETE",
-    );
+        # Fetch 1 with WHERE
+        $DBObject->Prepare(
+            SQL   => 'SELECT test_message_varchar, test_message_longblob FROM test_utf8_range WHERE test_message_varchar = ?',
+            Bind  => [ \$TestData, ],
+            Limit => 1,
+        );
+
+        $RowCount = 0;
+        while ( my ( $MessageVarchar, $MessageLongblob ) = $DBObject->FetchrowArray ) {
+            is( $MessageVarchar,  $TestData, "SELECT test_message_varchar with WHERE" );
+            is( $MessageLongblob, $TestData, "SELECT test_message_longblob with WHERE, TestData" );
+
+            if ( utf8::is_utf8($TestData) ) {
+                isnt( $MessageLongblob, $EncodedTestData, "SELECT test_message_longblob with WHERE, EncodedTestData" );
+            }
+            else {
+
+                # When the test data has no high bytes then encoded and decoded strings are the same.
+                is( $MessageLongblob, $EncodedTestData, "SELECT test_message_longblob with WHERE, EncodedTestData, ASCII" );
+            }
+            $RowCount++;
+        }
+        is( $RowCount, 1, 'only one row found with WHERE' );
+
+        my $DeleteSuccess = $DBObject->Do(
+            SQL => 'DELETE FROM test_utf8_range',
+        );
+
+        ok( $DeleteSuccess, "test_utf8_range cleared" );
+    };
 }
 
 # cleanup
-$Self->True(
+ok(
     $DBObject->Do( SQL => 'DROP TABLE test_utf8_range' ) || 0,
-    "DROP TABLE",
+    'DROP TABLE',
 );
 
-$Self->DoneTesting();
+done_testing;

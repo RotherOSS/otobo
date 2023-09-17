@@ -475,19 +475,23 @@ sub Error {
 
 to insert, update or delete values
 
-    $DBObject->Do( SQL => "INSERT INTO table (name) VALUES ('dog')" );
+    my $InsertSuccess = $DBObject->Do( SQL => "INSERT INTO table (name) VALUES ('dog')" );
 
-    $DBObject->Do( SQL => "DELETE FROM table" );
+    my $DeleteSuccess = $DBObject->Do( SQL => "DELETE FROM table" );
 
 you also can use DBI bind values (used for large strings):
 
     my $Var1 = 'dog1';
     my $Var2 = 'dog2';
 
-    $DBObject->Do(
+    my $InsertSuccess = $DBObject->Do(
         SQL  => "INSERT INTO table (name1, name2) VALUES (?, ?)",
         Bind => [ \$Var1, \$Var2 ],
     );
+
+The special value B<current_timestamp> is replaced by the current date and time.
+
+Returns 1 in the case of success, an empty list in the case of failure.
 
 =cut
 
@@ -507,7 +511,7 @@ sub Do {
     # check bind params
     my @Array;
     if ( $Param{Bind} ) {
-        for my $Data ( @{ $Param{Bind} } ) {
+        for my $Data ( $Param{Bind}->@* ) {
             if ( ref $Data eq 'SCALAR' ) {
                 push @Array, $$Data;
             }
@@ -554,7 +558,7 @@ sub Do {
         );
     }
 
-    return if !$Self->Connect();
+    return unless $Self->Connect;
 
     # send sql to database
     if ( !$Self->{dbh}->do( $Param{SQL}, undef, @Array ) ) {
