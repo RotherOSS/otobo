@@ -14,30 +14,33 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get DB object
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-# create database for tests
-my $XML = '
+# create database table for tests
+my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => <<'END_XML');
 <Table Name="test_utf8_range">
     <Column Name="test_message" Required="true" Size="255" Type="VARCHAR"/>
 </Table>
-';
-my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XML );
-my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+END_XML
+my @SQL = $DBObject->SQLProcessor( Database => \@XMLArray );
 for my $SQL (@SQL) {
-    $Self->True(
+    ok(
         $DBObject->Do( SQL => $SQL ) || 0,
-        "CREATE TABLE ($SQL)",
+        "executing SQL: $SQL",
     );
 }
 
@@ -63,86 +66,58 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    my $Success = $DBObject->Do(
-        SQL => 'INSERT INTO test_utf8_range ( test_message )'
-            . ' VALUES ( ? )',
-        Bind => [ \$Test->{Data} ],
-    );
-
-    $Self->True(
-        $Success,
-        "$Test->{Name} - INSERT",
-    );
-
-    my $ExpectedData = $Test->{Data};
-    if ( $Test->{ExpectedDataOnMysql} && $DBObject->{Backend}->{'DB::Type'} eq 'mysql' ) {
-        $ExpectedData = $Test->{ExpectedDataOnMysql};
-    }
-
-    # Fetch withouth WHERE
-    $DBObject->Prepare(
-        SQL   => 'SELECT test_message FROM test_utf8_range',
-        Limit => 1,
-    );
-
-    my $RowCount = 0;
-
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Self->Is(
-            $Row[0],
-            $ExpectedData,
-            "$Test->{Name} - SELECT all",
+    subtest $Test->{Name} => sub {
+        my $InsertSuccess = $DBObject->Do(
+            SQL => 'INSERT INTO test_utf8_range ( test_message )'
+                . ' VALUES ( ? )',
+            Bind => [ \$Test->{Data} ],
         );
-        $RowCount++;
-    }
+        ok( $InsertSuccess, "INSERT" );
 
-    $Self->Is(
-        $RowCount,
-        1,
-        "$Test->{Name} - SELECT all row count",
-    );
+        my $ExpectedData = $Test->{Data};
+        if ( $Test->{ExpectedDataOnMysql} && $DBObject->{Backend}->{'DB::Type'} eq 'mysql' ) {
+            $ExpectedData = $Test->{ExpectedDataOnMysql};
+        }
 
-    # Fetch 1 with WHERE
-    $DBObject->Prepare(
-        SQL => '
-            SELECT test_message
-            FROM test_utf8_range
-            WHERE test_message = ?',
-        Bind  => [ \$Test->{Data}, ],
-        Limit => 1,
-    );
-
-    $RowCount = 0;
-
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Self->Is(
-            $Row[0],
-            $ExpectedData,
-            "$Test->{Name} - SELECT all",
+        # Fetch without WHERE
+        $DBObject->Prepare(
+            SQL   => 'SELECT test_message FROM test_utf8_range',
+            Limit => 1,
         );
-        $RowCount++;
-    }
 
-    $Self->Is(
-        $RowCount,
-        1,
-        "$Test->{Name} - SELECT all row count",
-    );
+        my $RowCount = 0;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            is( $Row[0], $ExpectedData, "SELECT row" );
+            $RowCount++;
+        }
+        is( $RowCount, 1, 'only one row found' );
 
-    $Success = $DBObject->Do(
-        SQL => 'DELETE FROM test_utf8_range',
-    );
+        # Fetch 1 with WHERE
+        $DBObject->Prepare(
+            SQL   => 'SELECT test_message FROM test_utf8_range WHERE test_message = ?',
+            Bind  => [ \$Test->{Data}, ],
+            Limit => 1,
+        );
 
-    $Self->True(
-        $Success,
-        "$Test->{Name} - DELETE",
-    );
+        $RowCount = 0;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            is( $Row[0], $ExpectedData, "SELECT all with where", );
+            $RowCount++;
+        }
+        is( $RowCount, 1, 'only one row found with WHERE' );
+
+        my $DeleteSuccess = $DBObject->Do(
+            SQL => 'DELETE FROM test_utf8_range',
+        );
+
+        ok( $DeleteSuccess, "test_utf8_range cleared" );
+    };
 }
 
 # cleanup
-$Self->True(
+ok(
     $DBObject->Do( SQL => 'DROP TABLE test_utf8_range' ) || 0,
-    "DROP TABLE",
+    'DROP TABLE',
 );
 
-$Self->DoneTesting();
+done_testing;
