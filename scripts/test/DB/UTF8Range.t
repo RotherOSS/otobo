@@ -58,9 +58,8 @@ my @Tests = (
         Data => 'ऄ',           # DEVANAGARI LETTER SHORT A (e0 a4 84)
     },
     {
-        Name                => "UTF8 4 byte",
-        Data                => '💩',          # PILE OF POO (f0 9f 92 a9)
-        ExpectedDataOnMysql => '💩',
+        Name => "UTF8 4 byte",
+        Data => '💩',          # PILE OF POO (f0 9f 92 a9)
     },
 );
 
@@ -75,9 +74,6 @@ for my $Test (@Tests) {
         ok( $InsertSuccess, "INSERT" );
 
         my $ExpectedData = $Test->{Data};
-        if ( $Test->{ExpectedDataOnMysql} && $DBObject->{Backend}->{'DB::Type'} eq 'mysql' ) {
-            $ExpectedData = $Test->{ExpectedDataOnMysql};
-        }
 
         # Fetch without WHERE
         $DBObject->Prepare(
