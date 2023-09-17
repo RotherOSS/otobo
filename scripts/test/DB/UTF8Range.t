@@ -23,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Data::Peek;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
@@ -33,15 +34,14 @@ my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 # create database table for tests
 my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => <<'END_XML');
 <Table Name="test_utf8_range">
-    <Column Name="test_message" Required="true" Size="255" Type="VARCHAR"/>
+    <Column Name="test_message_varchar"  Required="true" Size="255" Type="VARCHAR"/>
+    <Column Name="test_message_longblob" Required="true" Type="LONGBLOB"/>
 </Table>
 END_XML
 my @SQL = $DBObject->SQLProcessor( Database => \@XMLArray );
 for my $SQL (@SQL) {
-    ok(
-        $DBObject->Do( SQL => $SQL ) || 0,
-        "executing SQL: $SQL",
-    );
+    diag "SQL: $SQL";
+    ok( $DBObject->Do( SQL => $SQL ) || 0, 'executed SQL' );
 }
 
 my @Tests = (
@@ -66,38 +66,70 @@ my @Tests = (
 for my $Test (@Tests) {
 
     subtest $Test->{Name} => sub {
-        my $InsertSuccess = $DBObject->Do(
-            SQL => 'INSERT INTO test_utf8_range ( test_message )'
-                . ' VALUES ( ? )',
-            Bind => [ \$Test->{Data} ],
-        );
-        ok( $InsertSuccess, "INSERT" );
 
-        my $ExpectedData = $Test->{Data};
+        # Because of 'use utf8;' the test data is initially considered as being UTF-8 encoded,
+        # which does not imply that the UTF-8 flag is on.
+        my $TestData = $Test->{Data};
+        diag "Testing: $TestData";
+        diag 'test data: ', scalar DDump $TestData;
+
+        my $EncodedTestData = $TestData;
+        utf8::encode($EncodedTestData);
+        diag 'encoded test data: ', scalar DDump $EncodedTestData;
+
+        my $InsertSuccess = $DBObject->Do(
+            SQL  => 'INSERT INTO test_utf8_range ( test_message_varchar, test_message_longblob ) VALUES ( ?, ? )',
+            Bind => [
+                \$TestData,
+                \$EncodedTestData,
+            ],
+        );
+        ok( $InsertSuccess, 'INSERT' );
 
         # Fetch without WHERE
         $DBObject->Prepare(
-            SQL   => 'SELECT test_message FROM test_utf8_range',
+            SQL   => 'SELECT test_message_varchar, test_message_longblob FROM test_utf8_range',
             Limit => 1,
         );
 
         my $RowCount = 0;
-        while ( my @Row = $DBObject->FetchrowArray() ) {
-            is( $Row[0], $ExpectedData, "SELECT row" );
+        while ( my ( $MessageVarchar, $MessageLongblob ) = $DBObject->FetchrowArray ) {
+            diag 'MessageVarchar: ', scalar DDump $MessageVarchar;
+            is( $MessageVarchar, $TestData, "SELECT test_message_varchar" );
+            diag 'MessageLongblob: ', scalar DDump $MessageLongblob;
+            is( $MessageLongblob, $TestData, "SELECT test_message_longblob, TestData" );
+            if ( utf8::is_utf8($TestData) ) {
+                isnt( $MessageLongblob, $EncodedTestData, "SELECT test_message_longblob, EncodedTestData" );
+            }
+            else {
+
+                # When the test data has no high bytes then encoded and decoded strings are the same.
+                is( $MessageLongblob, $EncodedTestData, "SELECT test_message_longblob, EncodedTestData, ASCII" );
+            }
             $RowCount++;
         }
         is( $RowCount, 1, 'only one row found' );
 
         # Fetch 1 with WHERE
         $DBObject->Prepare(
-            SQL   => 'SELECT test_message FROM test_utf8_range WHERE test_message = ?',
-            Bind  => [ \$Test->{Data}, ],
+            SQL   => 'SELECT test_message_varchar, test_message_longblob FROM test_utf8_range WHERE test_message_varchar = ?',
+            Bind  => [ \$TestData, ],
             Limit => 1,
         );
 
         $RowCount = 0;
-        while ( my @Row = $DBObject->FetchrowArray() ) {
-            is( $Row[0], $ExpectedData, "SELECT all with where", );
+        while ( my ( $MessageVarchar, $MessageLongblob ) = $DBObject->FetchrowArray ) {
+            is( $MessageVarchar,  $TestData, "SELECT test_message_varchar with WHERE" );
+            is( $MessageLongblob, $TestData, "SELECT test_message_longblob with WHERE, TestData" );
+
+            if ( utf8::is_utf8($TestData) ) {
+                isnt( $MessageLongblob, $EncodedTestData, "SELECT test_message_longblob with WHERE, EncodedTestData" );
+            }
+            else {
+
+                # When the test data has no high bytes then encoded and decoded strings are the same.
+                is( $MessageLongblob, $EncodedTestData, "SELECT test_message_longblob with WHERE, EncodedTestData, ASCII" );
+            }
             $RowCount++;
         }
         is( $RowCount, 1, 'only one row found with WHERE' );
