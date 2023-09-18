@@ -692,7 +692,9 @@ sub EditFieldValueValidate {
     # get time object
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
     my $SystemTime     = $DateTimeObject->ToEpoch();
+    my $HasValue;
     for my $ValueItem ( $Value->@* ) {
+        $HasValue ||= $ValueItem->{ $Prefix . 'Used' };
         if ( $ValueItem->{ $Prefix . 'Used' } && $DateRestriction ) {
 
             my $Year   = $ValueItem->{ $Prefix . 'Year' }   || '0000';
@@ -742,6 +744,10 @@ sub EditFieldValueValidate {
                 $ErrorMessage = "Invalid date (need a future date)!";
             }
         }
+    }
+
+    if ( $Param{Mandatory} && !$HasValue ) {
+        $ServerError = 1;
     }
 
     # create resulting structure
