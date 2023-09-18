@@ -639,7 +639,7 @@ sub _ShowScreen {
     my $Namespace = $Param{Namespace};
     $Param{DisplayFieldName} = 'New';
 
-    if ( $Param{Mode} eq 'Change' ) {
+    if ( $Param{Mode} eq 'Change' || $Param{Name} ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
 
