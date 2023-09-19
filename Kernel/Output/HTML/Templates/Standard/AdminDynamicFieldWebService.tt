@@ -64,6 +64,8 @@
             <input type="hidden" name="Subaction" value="[% Data.Mode | html %]Action" />
             <input type="hidden" name="ObjectType" value="[% Data.ObjectType | html %]" />
             <input type="hidden" name="FieldType" value="[% Data.FieldType | html %]" />
+            <input type="hidden" name="ObjectTypeFilter" value="[% Data.ObjectTypeFilter | html %]" />
+            <input type="hidden" name="NamespaceFilter" value="[% Data.NamespaceFilter | html %]" />
             <input type="hidden" name="ID" value="[% Data.ID | html %]" />
             <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
 
