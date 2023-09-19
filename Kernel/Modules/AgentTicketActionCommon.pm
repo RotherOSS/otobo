@@ -2206,7 +2206,7 @@ sub _Mask {
     {
         my %DynamicFieldConfigs = map { $_->{Name} => $_ } grep { $_->{ObjectType} eq 'Ticket' } $Self->{DynamicField}->@*;
 
-        $TicketTypeDynamicFieldHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
+        $TicketTypeDynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
             Content              => $Self->{TicketMaskDefinition},
             DynamicFields        => \%DynamicFieldConfigs,
             UpdatableFields      => $Self->_GetFieldsToUpdate(),
@@ -2725,7 +2725,7 @@ sub _Mask {
             # TODO Think about usable implementation of article type dynamic field definition
             my %DynamicFieldConfigs = map { $_->{Name} => $_ } grep { $_->{ObjectType} eq 'Article' } $Self->{DynamicField}->@*;
 
-            $ArticleTypeDynamicFieldHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
+            $ArticleTypeDynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
                 Content              => $Self->{ArticleMaskDefinition},
                 DynamicFields        => \%DynamicFieldConfigs,
                 UpdatableFields      => $Self->_GetFieldsToUpdate(),

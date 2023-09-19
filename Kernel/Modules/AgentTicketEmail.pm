@@ -3517,7 +3517,7 @@ sub _MaskEmailNew {
     {
         my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{DynamicField}->@*;
 
-        $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
+        $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
             Content              => $Self->{MaskDefinition},
             DynamicFields        => \%DynamicFieldConfigs,
             UpdatableFields      => $Self->_GetFieldsToUpdate(),

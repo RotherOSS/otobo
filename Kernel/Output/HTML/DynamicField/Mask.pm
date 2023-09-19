@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::DynamicField::Mask;
+package Kernel::Output::HTML::DynamicField::Mask;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
@@ -39,7 +39,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Mask
+Kernel::Output::HTML::DynamicField::Mask
 
 =head1 DESCRIPTION
 
@@ -51,7 +51,7 @@ DynamicFields backend interface
 
 create a DynamicFieldMask backend object. Do not use it directly, instead use:
 
-    my $DynamicFieldMaskObject = $Kernel::OM->Get('Kernel::System::DynamicField::Mask');
+    my $DynamicFieldMaskObject = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask');
 
 =cut
 
