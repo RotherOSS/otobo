@@ -99,6 +99,10 @@ sub _Add {
         }
     }
 
+    for my $FilterParam (qw(ObjectType Namespace)) {
+        $GetParam{ $FilterParam . 'Filter' } = $ParamObject->GetParam( Param => $FilterParam . 'Filter' );
+    }
+
     $GetParam{Namespace} = $ParamObject->GetParam( Param => 'Namespace' );
 
     # get the object type and field type display name
@@ -111,8 +115,8 @@ sub _Add {
     # check namespace validity
     my $Namespaces = $ConfigObject->Get('DynamicField::Namespaces');
     my $Namespace  = '';
-    if ( IsArrayRefWithData($Namespaces) && $GetParam{Namespace} ) {
-        $Namespace = ( grep { $_ eq $GetParam{Namespace} } $Namespaces->@* ) ? $GetParam{Namespace} : '';
+    if ( IsArrayRefWithData($Namespaces) && $GetParam{NamespaceFilter} ) {
+        $Namespace = ( grep { $_ eq $GetParam{NamespaceFilter} } $Namespaces->@* ) ? $GetParam{NamespaceFilter} : '';
     }
 
     return $Self->_ShowScreen(
@@ -162,6 +166,10 @@ sub _AddAction {
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
+    for my $FilterParam (qw(ObjectType Namespace)) {
+        $GetParam{ $FilterParam . 'Filter' } = $ParamObject->GetParam( Param => $FilterParam . 'Filter' );
     }
 
     if ( $GetParam{Name} ) {
@@ -246,9 +254,26 @@ sub _AddAction {
         );
     }
 
-    return $LayoutObject->Redirect(
-        OP => "Action=AdminDynamicField",
-    );
+    my $RedirectString = "Action=AdminDynamicField";
+
+    if ( IsStringWithData( $GetParam{ObjectTypeFilter} ) ) {
+        $RedirectString .= ";ObjectTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{ObjectTypeFilter},
+            },
+        );
+    }
+    if ( IsStringWithData( $GetParam{NamespaceFilter} ) ) {
+        $RedirectString .= ";NamespaceFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{NamespaceFilter},
+            },
+        );
+    }
+
+    return $LayoutObject->Redirect( OP => $RedirectString );
 }
 
 sub _Change {
@@ -265,6 +290,10 @@ sub _Change {
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Needed ),
             );
         }
+    }
+
+    for my $FilterParam (qw(ObjectType Namespace)) {
+        $GetParam{ $FilterParam . 'Filter' } = $ParamObject->GetParam( Param => $FilterParam . 'Filter' );
     }
 
     # get the object type and field type display name
@@ -379,6 +408,10 @@ sub _ChangeAction {
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
+    for my $FilterParam (qw(ObjectType Namespace)) {
+        $GetParam{ $FilterParam . 'Filter' } = $ParamObject->GetParam( Param => $FilterParam . 'Filter' );
     }
 
     if ( $GetParam{Name} ) {
@@ -559,8 +592,27 @@ sub _ChangeAction {
     }
     else {
 
+        my $RedirectString = "Action=AdminDynamicField";
+
+        if ( IsStringWithData( $GetParam{ObjectTypeFilter} ) ) {
+            $RedirectString .= ";ObjectTypeFilter=" . $LayoutObject->Output(
+                Template => '[% Data.Filter | uri %]',
+                Data     => {
+                    Filter => $GetParam{ObjectTypeFilter},
+                },
+            );
+        }
+        if ( IsStringWithData( $GetParam{NamespaceFilter} ) ) {
+            $RedirectString .= ";NamespaceFilter=" . $LayoutObject->Output(
+                Template => '[% Data.Filter | uri %]',
+                Data     => {
+                    Filter => $GetParam{NamespaceFilter},
+                },
+            );
+        }
+
         # otherwise return to overview
-        return $LayoutObject->Redirect( OP => "Action=AdminDynamicField" );
+        return $LayoutObject->Redirect( OP => $RedirectString );
     }
 }
 
@@ -760,11 +812,30 @@ sub _ShowScreen {
         );
     }
 
+    my $FilterStrg = '';
+    if ( IsStringWithData( $Param{ObjectTypeFilter} ) ) {
+        $FilterStrg .= ";ObjectTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $Param{ObjectTypeFilter},
+            },
+        );
+    }
+    if ( IsStringWithData( $Param{NamespaceFilter} ) ) {
+        $FilterStrg .= ";NamespaceFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $Param{NamespaceFilter},
+            },
+        );
+    }
+
     # generate output
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminDynamicFieldCustomerCompany',
         Data         => {
             %Param,
+            FilterStrg            => $FilterStrg,
             ValidityStrg          => $ValidityStrg,
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             MultiValueStrg        => $MultiValueStrg,
