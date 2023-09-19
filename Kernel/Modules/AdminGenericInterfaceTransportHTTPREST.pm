@@ -157,6 +157,20 @@ sub Run {
                 $Error{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required');
             }
         }
+        elsif ( $GetParam->{AuthType} && $GetParam->{AuthType} eq 'Kerberos' ) {
+
+            # Get BasicAuth settings.
+            for my $ParamName (qw( AuthType KerberosUser KerberosKeytab )) {
+                $TransportConfig->{Authentication}->{$ParamName} = $GetParam->{$ParamName};
+            }
+            NEEDED:
+            for my $Needed (qw( KerberosUser KerberosKeytab )) {
+                next NEEDED if defined $GetParam->{$Needed} && length $GetParam->{$Needed};
+
+                $Error{ $Needed . 'ServerError' }        = 'ServerError';
+                $Error{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required');
+            }
+        }
 
         # Check proxy options.
         if ( $GetParam->{UseProxy} && $GetParam->{UseProxy} eq 'Yes' ) {
@@ -340,7 +354,7 @@ sub _ShowEdit {
     {
         $Param{$ParamName} = $TransportConfig->{$ParamName};
     }
-    for my $ParamName (qw( AuthType BasicAuthUser BasicAuthPassword )) {
+    for my $ParamName (qw( AuthType BasicAuthUser BasicAuthPassword KerberosUser KerberosKeytab )) {
         $Param{$ParamName} = $TransportConfig->{Authentication}->{$ParamName};
     }
     for my $ParamName (qw( UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir SSLVerifyHostname )) {
@@ -375,7 +389,7 @@ sub _ShowEdit {
 
         # Create Authentication types select.
         $Param{AuthenticationStrg} = $LayoutObject->BuildSelection(
-            Data          => ['BasicAuth'],
+            Data          => ['BasicAuth', 'Kerberos'],
             Name          => 'AuthType',
             SelectedValue => $Param{AuthType} || '-',
             PossibleNone  => 1,
@@ -385,10 +399,16 @@ sub _ShowEdit {
 
         # Hide and disable authentication methods if they are not selected.
         $Param{BasicAuthHidden} = 'Hidden';
+        $Param{KerberosHidden}  = 'Hidden';
         if ( $Param{AuthType} && $Param{AuthType} eq 'BasicAuth' ) {
             $Param{BasicAuthHidden}                   = '';
             $Param{BasicAuthUserServerError}          = 'Validate_Required';
             $Param{BasicAuthPasswordValidateRequired} = 'Validate_Required';
+        }
+        elsif ( $Param{AuthType} && $Param{AuthType} eq 'Kerberos' ) {
+            $Param{KerberosHidden}                 = '';
+            $Param{KerberosUserServerError}        = 'Validate_Required';
+            $Param{KerberosKeytabValidateRequired} = 'Validate_Required';
         }
 
         # Create use Proxy select.
@@ -594,7 +614,7 @@ sub _GetParams {
     for my $ParamName (
         qw(
             Host DefaultCommand MaxLength KeepAlive Timeout
-            AuthType BasicAuthUser BasicAuthPassword
+            AuthType BasicAuthUser BasicAuthPassword KerberosUser KerberosKeytab
             UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
             UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir SSLVerifyHostname
         )

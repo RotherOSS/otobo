@@ -226,6 +226,32 @@
                                     <div class="Clear"></div>
                                 </fieldset>
                             </div>
+                            <div class="KerberosField [% Data.KerberosHidden | html %]">
+                                <fieldset class="TableLike">
+
+                                    <label class="Mandatory" for="KerberosUser"><span class="Marker">*</span> [% Translate("Kerberos User") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="KerberosUser" class="W50pc [% Data.KerberosUserValidateRequired | html %] [% Data.KerberosUserServerError | html %]" type="text" maxlength="250" value="[% Data.KerberosUser | html %]" name="KerberosUser"/>
+                                        <div id="KerberosUserError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="KerberosUserServerError" class="TooltipErrorMessage"><p>[% Translate(Data.KerberosUserServerErrorMessage) | html %]</p></div>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The user name to be used to access the remote system.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label class="Mandatory" for="KerberosKeytab"><span class="Marker">*</span>[% Translate("Kerberos keytab file") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="KerberosKeytab" class="W50pc [% Data.KerberosKeytabValidateRequired | html %] [% Data.KerberosKeytabServerError | html %]" type="text" maxlength="250" value="[% Data.KerberosKeytab | html %]" name="KerberosKeytab"/>
+                                        <div id="KerberosKeytabError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="KerberosKeytabServerError" class="TooltipErrorMessage"><p>[% Translate(Data.KerberosKeytabServerErrorMessage) | html %]</p></div>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The kerberos keytab file for the privileged user.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+                                </fieldset>
+                            </div>
 
                             <label class="Mandatory" for="UseProxy"><span class="Marker">*</span>[% Translate("Use Proxy Options") | html %]:</label>
                             <div class="Field">

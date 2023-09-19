@@ -675,19 +675,63 @@ sub RequesterPerformRequest {
         }
     }
 
-    # Add authentication options if configured (hard wired to basic authentication at the moment).
-    if (
-        IsHashRefWithData( $Config->{Authentication} )
-        && IsStringWithData( $Config->{Authentication}->{AuthType} )
-        && $Config->{Authentication}->{AuthType} eq 'BasicAuth'
-        && IsStringWithData( $Config->{Authentication}->{BasicAuthUser} )
-        && IsStringWithData( $Config->{Authentication}->{BasicAuthPassword} )
-        )
-    {
-        $Headers{Authorization} = 'Basic ' . encode_base64(
-            $Config->{Authentication}->{BasicAuthUser} . ':' . $Config->{Authentication}->{BasicAuthPassword}
-        );
-    }
+    # Add authentication options if configured.
+    if ( IsHashRefWithData( $Config->{Authentication} ) && IsStringWithData( $Config->{Authentication}->{AuthType} ) ) {
+        # basic auth
+        if (
+            $Config->{Authentication}->{AuthType} eq 'BasicAuth'
+            && IsStringWithData( $Config->{Authentication}->{BasicAuthUser} )
+            && IsStringWithData( $Config->{Authentication}->{BasicAuthPassword} )
+            )
+        {
+            $Headers{Authorization} = 'Basic ' . encode_base64(
+                $Config->{Authentication}->{BasicAuthUser} . ':' . $Config->{Authentication}->{BasicAuthPassword}
+            );
+        }
+
+        # kerberos
+        elsif (
+            $Config->{Authentication}->{AuthType} eq 'Kerberos'
+            && IsStringWithData( $Config->{Authentication}->{KerberosUser} )
+            && IsStringWithData( $Config->{Authentication}->{KerberosKeytab} )
+            )
+        {
+            if ( !-e $Config->{Authentication}->{KerberosKeytab} ) {
+                $Self->{DebuggerObject}->Error(
+                    Summary => "'$Config->{Authentication}->{KerberosKeytab}' does not exist.",
+                );
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => "'$Config->{Authentication}->{KerberosKeytab}' does not exist.",
+                };
+            }
+            if ( $Config->{Authentication}->{KerberosUser} =~ /[^\w\d\-\._@]/ ) {
+                $Self->{DebuggerObject}->Error(
+                    Summary => "Invalid user format '$Config->{Authentication}->{KerberosUser}'.",
+                );
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => "Invalid user format '$Config->{Authentication}->{KerberosUser}'.",
+                };
+            }
+
+            my $KinitString = 'kinit -k -t ' . $Config->{Authentication}->{KerberosKeytab} . ' ' . $Config->{Authentication}->{KerberosUser};
+            my $LogMessage  = qx{$KinitString 2>&1}; 
+
+            if ( IsStringWithData($LogMessage) ) {
+                $Self->{DebuggerObject}->Error(
+                    Summary => 'kinit: ' . $LogMessage,
+                );
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => 'kinit: ' . $LogMessage,
+                };
+            }
+        }
+   }
 
     if ( $Param{CustomHeader} ) {
         %Headers = (

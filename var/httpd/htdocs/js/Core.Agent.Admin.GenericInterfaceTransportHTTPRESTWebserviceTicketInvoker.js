@@ -275,10 +275,28 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
                 $('.BasicAuthField').find('#BasicAuthUser').each(function(){
                     $(this).addClass('Validate_Required');
                 });
+                $('.KerberosField').addClass('Hidden');
+                $('.KerberosField').find('#KerberosUser').each(function(){
+                    $(this).removeClass('Validate_Required');
+                });
+            }
+           else if ($(this).val() === 'Kerberos') {
+                $('.KerberosField').removeClass('Hidden');
+                $('.KerberosField').find('#KerberosUser').each(function(){
+                    $(this).addClass('Validate_Required');
+                });
+                $('.BasicAuthField').addClass('Hidden');
+                $('.BasicAuthField').find('#BasicAuthUser').each(function(){
+                    $(this).removeClass('Validate_Required');
+                });
             }
             else {
                 $('.BasicAuthField').addClass('Hidden');
                 $('.BasicAuthField').find('#BasicAuthUser').each(function(){
+                    $(this).removeClass('Validate_Required');
+                });
+                $('.KerberosField').addClass('Hidden');
+                $('.KerberosField').find('#KerberosUser').each(function(){
                     $(this).removeClass('Validate_Required');
                 });
             }
