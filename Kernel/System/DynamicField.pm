@@ -603,7 +603,7 @@ or
             ItemFive  => 0,
         },
 
-        Namespace => 'Namespace', # optional, Namespace as string
+        Namespace => 'Namespace', # optional, Namespace as string ('<none>' for all fields without namespace)
     );
 
 Returns:
@@ -776,13 +776,18 @@ sub DynamicFieldList {
 
         }
 
-        if ( $Param{Namespace} ) {
+        if ( $Param{Namespace} && $Param{Namespace} ne 'All' ) {
+            # select all fields without a namespace
+            if ( $Param{Namespace} eq '<none>' ) {
+                push @WhereClauses, 'name NOT LIKE ?';
+                push @Bind,         \"%-%";
+            }
 
-            if ( IsStringWithData( $Param{Namespace} ) && $Param{Namespace} ne 'All' ) {
+            # select all fields of the given namespace
+            else {
                 push @WhereClauses, 'name LIKE ?';
                 push @Bind,         \"$Param{Namespace}-%";
             }
-
         }
 
         if (@WhereClauses) {

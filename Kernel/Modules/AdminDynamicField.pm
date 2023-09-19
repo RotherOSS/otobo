@@ -291,8 +291,13 @@ sub _ShowOverview {
     );
 
     if ( IsArrayRefWithData($Namespaces) ) {
+        my %NamespaceSelection = (
+            '<none>' => '<' . $LayoutObject->{LanguageObject}->Translate('none') . '>',
+            map { $_ => $_ } $Namespaces->@*,
+        );
+
         my $DynamicFieldNamespaceStrg = $LayoutObject->BuildSelection(
-            Data         => $Namespaces,
+            Data         => \%NamespaceSelection,
             Name         => 'DynamicFieldNamespace',
             SelectedID   => $NamespaceFilter,
             PossibleNone => 1,
