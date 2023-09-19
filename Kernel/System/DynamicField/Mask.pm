@@ -237,7 +237,7 @@ sub EditSectionRender {
                 AJAXUpdate           => 1,
                 UpdatableFields      => $Param{UpdatableFields},
                 Mandatory            => $Field->{Mandatory},
-                ReadOnly             => $Field->{Readonly},
+                Readonly             => $Field->{Readonly},
                 CustomerInterface    => $Param{CustomerInterface},
                 Object               => $Param{Object},
                 %Error,

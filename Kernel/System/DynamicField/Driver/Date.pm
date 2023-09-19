@@ -432,6 +432,7 @@ sub EditFieldRender {
             $FieldName . Required => $Param{Mandatory} || 0,
             $FieldName . Optional => 1,
             Validate              => 1,
+            Disabled              => $Param{Readonly},
             $FieldConfig->%*,
             %YearsPeriodRange,
             OverrideTimeZone => 1,
@@ -448,7 +449,7 @@ sub EditFieldRender {
     }
 
     my $TemplateHTML;
-    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+    if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
 
         $FieldTemplateData{DivID}            = $FieldName . '_Template';
         $FieldTemplateData{DivIDMandatory}   = $FieldName . 'UsedError_Template';

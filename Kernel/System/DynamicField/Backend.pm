@@ -257,6 +257,7 @@ creates the field and label HTML to be used in edit masks.
         ],
         MaxLength            => 100                       # Optional, defines the maximum number of characters on fields
                                                           #      where applies (like TextArea)
+        Readonly             => 1,                        # Optional
     );
 
 Returns:

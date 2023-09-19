@@ -332,7 +332,7 @@ sub EditFieldRender {
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
             Data        => $PossibleValues || {},
-            Disabled    => $Param{ReadOnly},
+            Disabled    => $Param{Readonly},
             Name        => $FieldName,
             ID          => $FieldTemplateData{FieldID},
             Translation => $FieldConfig->{TranslatableValues} || 0,

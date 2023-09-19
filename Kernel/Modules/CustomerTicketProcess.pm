@@ -1775,7 +1775,6 @@ sub _RenderDynamicField {
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
         CustomerInterface    => 1,
-        ReadOnly             => $Param{ReadOnly},
     );
 
     my %Data = (

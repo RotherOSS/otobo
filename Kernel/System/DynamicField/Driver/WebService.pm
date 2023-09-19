@@ -282,7 +282,7 @@ sub EditFieldRender {
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
             Data        => $DataValues || {},
-            Disabled    => $Param{ReadOnly},
+            Disabled    => $Param{Readonly},
             Name        => $FieldName,
             ID          => $FieldID,
             SelectedID  => $Value->[$ValueIndex],
@@ -303,7 +303,7 @@ sub EditFieldRender {
     }
 
     my $TemplateHTML;
-    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+    if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
         my $FieldID = $FieldName . '_Template';
 
         # TODO: is this necessary?
@@ -314,7 +314,6 @@ sub EditFieldRender {
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
             Data        => $DataValues || {},
-            Disabled    => $Param{ReadOnly},
             Name        => $FieldName,
             ID          => $FieldID,
             Translation => $FieldConfig->{TranslatableValues} || 0,

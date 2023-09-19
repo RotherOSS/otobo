@@ -361,7 +361,7 @@ sub EditFieldRender {
         RemoveValueMsg          => $RemoveValueMsg,
         DynamicFieldDBContainer => $DynamicFieldDBContainer,
         MultiValue              => $FieldConfig->{MultiValue} || 0,
-        ReadOnly                => $Param{ReadOnly},
+        Readonly                => $Param{Readonly},
     );
 
     if ( $FieldConfig->{Tooltip} ) {
@@ -407,7 +407,7 @@ sub EditFieldRender {
     }
 
     my $TemplateHTML;
-    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+    if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
         $FieldTemplateData{FieldID} = $FieldName . '_Template';
 
         $TemplateHTML = $Param{LayoutObject}->Output(

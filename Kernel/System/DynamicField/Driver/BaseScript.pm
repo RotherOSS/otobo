@@ -241,7 +241,7 @@ sub EditFieldRender {
         FieldName         => $FieldName,
         FieldLabelEscaped => $FieldLabelEscaped,
         MultiValue        => $FieldConfig->{MultiValue} || 0,
-        ReadOnly          => $Param{ReadOnly},
+        Readonly          => $Param{Readonly},
     );
 
     my $FieldTemplateFile = $Param{CustomerInterface}
@@ -266,7 +266,7 @@ sub EditFieldRender {
     }
 
     my $TemplateHTML;
-    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+    if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
 
         $FieldTemplateData{FieldID} = $FieldTemplateData{FieldName} . '_Template';
 

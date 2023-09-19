@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<textarea class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" rows="[% Data.RowsNumber %]" cols="[% Data.ColsNumber %]" data-maxlength="[% Data.MaxLength %]">[% Data.ValueEscaped %]</textarea>
+<textarea class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" rows="[% Data.RowsNumber %]" cols="[% Data.ColsNumber %]" data-maxlength="[% Data.MaxLength %]"[% IF Data.Readonly %] readonly[% END %]>[% Data.ValueEscaped %]</textarea>
 <div id="[% Data.DivID %]" class="TooltipErrorMessage">
     <p>
         [% IF Data.Mandatory %][% Data.ErrorMessage1 %] [% END %][% Data.ErrorMessage2 %] [% Data.ErrorMessage3 %]

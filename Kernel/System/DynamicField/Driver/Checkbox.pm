@@ -431,7 +431,7 @@ sub EditFieldRender {
 
     # build template html
     my $TemplateHTML;
-    if ( $FieldConfig->{MultiValue} && !$Param{ReadOnly} ) {
+    if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
 
         # adjust ids for template
         $FieldTemplateData{FieldID} = $FieldName . '_Template';

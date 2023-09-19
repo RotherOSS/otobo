@@ -14,8 +14,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldID %]" title="[% Data.FieldLabel %]" value="[% Data.Value %]"[% IF Data.ReadOnly %] readonly[% END %] />
-[% IF !Data.ReadOnly %]
+<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldID %]" title="[% Data.FieldLabel %]" value="[% Data.Value %]"[% IF Data.Readonly %] readonly[% END %] />
+[% IF !Data.Readonly %]
 <a href="#" id="DynamicFieldDBDetailedSearch_[% Data.FieldID %]" class="[% Data.WithTooltip %]" field="[% Data.FieldID || Data.FieldName %]" alt="[% Data.DetailedSearchMsg %]" title="[% Data.DetailedSearchMsg %]"><i class="fa fa-search"></i></a>
 [% END %]
 <input type="hidden" class="[% Data.FieldClass %]" width="100%" id="[% Data.FieldID %]Data" name="[% Data.FieldName %]" title="[%Data.FieldLabel%]" value="[% Data.Value %]" />
@@ -23,7 +23,7 @@
     <div class="ResultElementTemplate[% Data.FieldID %] Hidden">
         <input id="ResultElementText" class="ResultElementText Radio" type="text" readonly value="" name="ResultElementText" title="" />
         <a href="#" class="DynamicFieldDBDetails_[% Data.FieldName %] AddButton" field="[% Data.FieldID || Data.FieldName %]" alt="[% Data.DetailsMsg %]" title="[% Data.DetailsMsg %]"><i class="fa fa-list-alt"></i></a>
-        [% IF !Data.ReadOnly %]
+        [% IF !Data.Readonly %]
         <a id="RemoveDynamicFieldDBEntry" class="RemoveButton" title="[% Data.RemoveValueMsg %]" href="#"><i class="fa fa-minus-square-o"></i></a>
         [% END %]
     </div>

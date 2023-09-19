@@ -2668,7 +2668,6 @@ sub _RenderDynamicField {
         UpdatableFields      => $Param{AJAXUpdatableFields},
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
-        ReadOnly             => $Param{ReadOnly},
     );
 
     my %Data = (
