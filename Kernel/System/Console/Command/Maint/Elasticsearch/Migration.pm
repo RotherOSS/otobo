@@ -667,15 +667,16 @@ sub MigrateConfigItems {
     # if currently no active classes are defined, return
     return 1 if !@ActiveClasses;
 
-    my $ConfigItems = $ConfigItemObject->ConfigItemSearch(
+    my @ConfigItems = $ConfigItemObject->ConfigItemSearch(
         ClassIDs => [@ActiveClasses],
+        Result   => 'ARRAY',
     );
 
     my $Count   = 0;
-    my $CICount = scalar @{$ConfigItems};
+    my $CICount = scalar @ConfigItems;
 
     my $Errors = 0;
-    for my $ConfigItemID ( @{$ConfigItems} ) {
+    for my $ConfigItemID ( @ConfigItems ) {
 
         $Count++;
 
