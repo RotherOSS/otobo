@@ -1245,7 +1245,7 @@ sub _OutputActivityDialog {
 
             next DIALOGFIELD if $MultiColumnFinishedArea{ $DefinedFieldsList{$CurrentField} }++;
 
-            $Output .= $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
+            $Output .= $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
                 Content              => [ $DefinedFieldsList{$CurrentField} ],
                 DynamicFields        => \%DynamicFieldsSuffixCopy,
                 UpdatableFields      => $AJAXUpdatableFields,

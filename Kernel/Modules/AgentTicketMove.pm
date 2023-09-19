@@ -1497,7 +1497,7 @@ sub AgentMove {
         my %DynamicFieldValues
             = map { 'DynamicField_' . $_ => $Param{ 'DynamicField_' . $_ } } grep { $DynamicFieldConfigs{$_}->{ObjectType} eq 'Ticket' } keys %DynamicFieldConfigs;
 
-        my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
+        my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
             Content              => $Self->{MaskDefinition},
             DynamicFields        => \%DynamicFieldConfigs,
             UpdatableFields      => $Self->_GetFieldsToUpdate(),

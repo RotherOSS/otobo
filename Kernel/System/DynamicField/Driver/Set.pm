@@ -37,7 +37,7 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
-    'Kernel::System::DynamicField::Mask',
+    'Kernel::Output::HTML::DynamicField::Mask',
     'Kernel::System::Log',
 );
 
@@ -308,7 +308,7 @@ sub EditFieldRender {
             $DynamicFieldConfigs{$Name}{Name} = $Name . '_' . $SetIndex;
         }
 
-        my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
+        my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
             Content            => $Param{DynamicFieldConfig}{Config}{Include},
             DynamicFields      => \%DynamicFieldConfigs,
             UpdatableFields    => $Param{UpdatableFields},
@@ -340,7 +340,7 @@ sub EditFieldRender {
             $DynamicFieldConfigs{$Name}{Name} = $Name . '_Template';
         }
 
-        my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
+        my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
             Content            => $Param{DynamicFieldConfig}{Config}{Include},
             DynamicFields      => \%DynamicFieldConfigs,
             UpdatableFields    => $Param{UpdatableFields},

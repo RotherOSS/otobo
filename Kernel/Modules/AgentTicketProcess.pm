@@ -1811,7 +1811,7 @@ sub _OutputActivityDialog {
             my %DynamicFieldsHash  = map { $_->{Name} => $_ } $DynamicField->@*;
             my %DynamicFieldValues = map { ( 'DynamicField_' . $_->{Name} => $Param{GetParam}->{ 'DynamicField_' . $_->{Name} } ) } $DynamicField->@*;
 
-            my $EditSectionHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Mask')->EditSectionRender(
+            my $EditSectionHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
                 Content              => $InputFieldDefinition,
                 DynamicFields        => \%DynamicFieldsHash,
                 UpdatableFields      => $AJAXUpdatableFields,
