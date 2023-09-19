@@ -128,8 +128,8 @@ sub _ShowOverview {
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $FieldTypeConfig    = $ConfigObject->Get('DynamicFields::Driver');
-    my $ObjectTypeFilter   = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ObjectType' ) || '';
-    my $NamespaceFilter    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Namespace' )  || '';
+    my $ObjectTypeFilter   = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ObjectTypeFilter' ) || '';
+    my $NamespaceFilter    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'NamespaceFilter' )  || '';
 
     my $Output = join '',
         $LayoutObject->Header,
@@ -354,17 +354,37 @@ sub _ShowOverview {
         Valid      => 0,
     );
 
+    my $FilterStrg = '';
+    if ( IsStringWithData($ObjectTypeFilter) ) {
+        $FilterStrg .= ";ObjectTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $ObjectTypeFilter,
+            },
+        );
+    }
+    if ( IsStringWithData($NamespaceFilter) ) {
+        $FilterStrg .= ";NamespaceFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $NamespaceFilter,
+            },
+        );
+    }
+
     # print the list of dynamic fields
     $Self->_DynamicFieldsListShow(
         DynamicFields => $DynamicFieldsListFiltered,
         Total         => scalar @{$DynamicFieldsListFiltered},
         MaxFieldOrder => scalar @{$DynamicFieldsListAll},
+        FilterStrg    => $FilterStrg,
     );
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminDynamicField',
         Data         => {
             %Param,
+            FilterStrg => $FilterStrg,
         },
     );
 
@@ -480,6 +500,7 @@ sub _DynamicFieldsListShow {
                         ConfigDialog   => $ConfigDialog,
                         FieldTypeName  => $FieldTypeName,
                         ObjectTypeName => $ObjectTypeName,
+                        FilterStrg     => $Param{FilterStrg},
                     },
                 );
 
