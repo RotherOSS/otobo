@@ -181,7 +181,7 @@
 [% RenderBlockStart("DynamicFieldsRow") %]
                         <tr class="MasterAction[% IF Data.ValidID != 1%] Invalid[% END %]" id="DynamicFieldID_[% Data.ID | html %]">
                             <td>
-                                <a href="[% Env("Baselink") %]Action=[% Data.ConfigDialog | uri %];Subaction=Change;ObjectType=[% Data.ObjectType | uri %];FieldType=[% Data.FieldType | uri %];ID=[% Data.ID | uri %]" title="[% Data.Name | html %]" class="MasterActionLink">[% Data.Name %]</a>
+                                <a href="[% Env("Baselink") %]Action=[% Data.ConfigDialog | uri %];Subaction=Change;ObjectType=[% Data.ObjectType | uri %];FieldType=[% Data.FieldType | uri %];ID=[% Data.ID | uri %][% Data.FilterStrg %]" title="[% Data.Name | html %]" class="MasterActionLink">[% Data.Name %]</a>
                             </td>
                             <td>
                                 <div>[% Translate(Data.Label) | html %]</div>
@@ -200,7 +200,7 @@
                             </td>
                             <td class="Center">
 [% RenderBlockStart("DeleteLink") %]
-                                <a class="TrashCan DynamicFieldDelete" href="#" data-query-string="Action=AdminDynamicField;Subaction=DynamicFieldDelete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this field") | html %]">[% Translate("Delete this field") | html %]
+                                <a class="TrashCan DynamicFieldDelete" href="#" data-query-string="Action=AdminDynamicField;Subaction=DynamicFieldDelete;ID=[% Data.ID | uri %][% Data.FilterStrg %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this field") | html %]">[% Translate("Delete this field") | html %]
                                     <i class="fa fa-trash-o"></i>
                                 </a>
 [% RenderBlockEnd("DeleteLink") %]
