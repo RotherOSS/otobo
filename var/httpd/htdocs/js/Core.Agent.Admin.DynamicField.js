@@ -58,7 +58,7 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
      *      Redirect to URL based on DynamicField config.
      */
     TargetNS.Redirect = function(FieldType, ObjectType, OptionData) {
-        var DynamicFieldsConfig, Action, URL, FieldOrder, Namespace;
+        var DynamicFieldsConfig, Action, URL, FieldOrder, ObjectTypeFilter, NamespaceFilter;
 
         // get configuration
         DynamicFieldsConfig = Core.Config.Get('DynamicFields');
@@ -69,11 +69,14 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         // get field order
         FieldOrder = parseInt($('#MaxFieldOrder').val(), 10) + 1;
 
-        // get namespace
-        Namespace = $("#DynamicFieldNamespace").val();
+        // get object type filter
+        ObjectTypeFilter = $("#DynamicFieldObjectType").val();
+
+        // get namespace filter
+        NamespaceFilter = $("#DynamicFieldNamespace").val();
 
         // redirect to correct url
-        URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder + ';Namespace=' + Namespace;
+        URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder + ';ObjectTypeFilter=' + ObjectTypeFilter + ';NamespaceFilter=' + NamespaceFilter;
 
         // some options have additional associated data
         if( 'referenced_object_type' in OptionData ) {
@@ -224,14 +227,14 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         Core.UI.Table.InitTableFilter($('#FilterDynamicFields'), $('#DynamicFieldsTable'));
 
         $( "#DynamicFieldObjectType, #DynamicFieldNamespace" ).change(function() {
-            let ObjectType = $("#DynamicFieldObjectType").val();
-            let Namespace = $("#DynamicFieldNamespace").val();
+            let ObjectTypeFilter = $("#DynamicFieldObjectType").val();
+            let NamespaceFilter = $("#DynamicFieldNamespace").val();
             let URL = Core.Config.Get('Baselink') + 'Action=AdminDynamicField';
-            if ( ObjectType ) {
-                URL += ';ObjectType=' + encodeURIComponent(ObjectType);
+            if ( ObjectTypeFilter ) {
+                URL += ';ObjectTypeFilter=' + encodeURIComponent(ObjectTypeFilter);
             }
-            if ( Namespace ) {
-                URL += ';Namespace=' + encodeURIComponent(Namespace);
+            if ( NamespaceFilter ) {
+                URL += ';NamespaceFilter=' + encodeURIComponent(NamespaceFilter);
             }
             window.location = URL;
         });
