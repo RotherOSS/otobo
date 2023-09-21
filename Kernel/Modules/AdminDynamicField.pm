@@ -363,13 +363,16 @@ sub _ShowOverview {
             },
         );
     }
-    if ( IsStringWithData($NamespaceFilter) ) {
-        $FilterStrg .= ";NamespaceFilter=" . $LayoutObject->Output(
-            Template => '[% Data.Filter | uri %]',
-            Data     => {
-                Filter => $NamespaceFilter,
-            },
-        );
+
+    if ( IsArrayRefWithData($Namespaces) ) {
+        if ( IsStringWithData($NamespaceFilter) ) {
+            $FilterStrg .= ";NamespaceFilter=" . $LayoutObject->Output(
+                Template => '[% Data.Filter | uri %]',
+                Data     => {
+                    Filter => $NamespaceFilter,
+                },
+            );
+        }
     }
 
     # print the list of dynamic fields
