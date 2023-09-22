@@ -699,41 +699,44 @@ sub _InitMirrorDB {
 
 =head2 Prepare()
 
-to prepare and execute a SELECT statement
+prepares and executes a SELECT statement.
 
-    $DBObject->Prepare(
+    my $Success = $DBObject->Prepare(
         SQL   => 'SELECT id, name FROM table',
         Limit => 10,
     );
 
-or in case you want just to get row 10 until 30
+Or in case you want just to get row 10 until 30:
 
-    $DBObject->Prepare(
+    my $Success = $DBObject->Prepare(
         SQL   => 'SELECT id, name FROM table',
         Start => 10,
         Limit => 20,
     );
 
-in case you don't want utf-8 encoding for some columns, use this:
+In case you don't want utf-8 encoding for some columns, use this:
 
-    $DBObject->Prepare(
+    my $Success = $DBObject->Prepare(
         SQL    => 'SELECT id, name, content FROM table',
         Encode => [ 1, 1, 0 ],
     );
 
-It is recommended to use bind variables:
+Using bind variables is recommended:
 
     my $Var1 = 'dog1';
     my $Var2 = 'dog2';
 
-    $DBObject->Prepare(
+    my $Success = $DBObject->Prepare(
         SQL    => 'SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?',
         Encode => [ 1, 1, 0 ],
         Bind   => [ \($Var1, $Var2) ],
     );
 
-This method is also internally for method that want to execute the prepared statement by themselves.
-This case is triggered by passing the parameter C<Execute> with a false value. The returned values
+These are the regular use cases where C<1> is returned in the case of success. C<undef> is returned
+when there was an error. The result of the SELECT can be retrieved with C<FetchRowArray()>.
+
+This method is also used internally for methods that want to execute the prepared statement by themselves.
+This case is triggered by passing the parameter C<Execute> with a C<0>. The returned values
 will be a status and the array of bind variables. Internally,
 the attribute C<Cursor> will be set to the prepared statement handle.
 
@@ -749,7 +752,7 @@ will return
 
     my ($Success, @BindVariables) = (1, 'dog1', 'dog2' );
 
-Another internally used param is C<DoArray>. That parameter indicates that the array bind values are used.
+Another internally used parameter is C<DoArray>. That parameter indicates that the array bind values are used.
 
 =cut
 
@@ -869,7 +872,7 @@ sub Prepare {
         return;
     }
 
-    # This is for internal use
+    # This is only for internal use, like for SelectColArray(), SelectRowArray(), SelectMapping()
     return 1, @Array unless $Execute;
 
     # execute the statement handle
