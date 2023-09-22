@@ -15,7 +15,7 @@
 
 =head1 NAME
 
-ConvenienceMethods.t - the some select methods of Kernel::System::DB
+ConvenienceMethods.t - test some select methods of Kernel::System::DB
 
 =head1 SYNOPSIS
 
@@ -34,6 +34,8 @@ The tested methods are:
 =item SelectRowArray
 
 =item SelectColArray
+
+=item Prepare
 
 =back
 
@@ -139,6 +141,14 @@ subtest 'SelectAll' => sub {
             },
             Expected => [ map { [ $_->[-2] ] } @Countries ],
         },
+        {
+            Name  => 'SelectAll with binds',
+            Param => {
+                SQL  => 'SELECT country_en, is_country FROM test_countries WHERE country_si IN ( ?, ?, ?) ORDER BY country_en DESC',
+                Bind => [ \'මලාවි', \'⛄', \'ශ්රී ලංකාව' ],
+            },
+            Expected => [ [ 'Sri Lanka', 1 ], [ 'Malawi', 1 ] ],
+        },
     );
 
     for my $Test (@Tests) {
@@ -176,6 +186,14 @@ subtest 'SelectRowArray' => sub {
                 SQL => 'SELECT country_si FROM test_countries ORDER BY country_en',
             },
             Expected => [ $Countries[0]->[-2] ],
+        },
+        {
+            Name  => 'SelectRowArray with binds',
+            Param => {
+                SQL  => 'SELECT country_en, is_country FROM test_countries WHERE country_si IN ( ?, ?, ?) ORDER BY country_en DESC',
+                Bind => [ \'මලාවි', \'⛄', \'ශ්රී ලංකාව' ],
+            },
+            Expected => [ 'Sri Lanka', 1 ],
         },
     );
 
@@ -222,6 +240,14 @@ subtest 'SelectColArray' => sub {
             },
             Expected => [ map { $_->[-1] } @Countries ],
         },
+        {
+            Name  => 'SelectColArray with binds',
+            Param => {
+                SQL  => 'SELECT country_en FROM test_countries WHERE country_si IN ( ?, ?, ?) ORDER BY country_en DESC',
+                Bind => [ \'මලාවි', \'⛄', \'ශ්රී ලංකාව' ],
+            },
+            Expected => [ 'Sri Lanka', 'Malawi' ],
+        },
     );
 
     for my $Test (@Tests) {
@@ -258,6 +284,17 @@ subtest 'SelectMapping' => sub {
                 SQL => 'SELECT country_si, country_de FROM test_countries ORDER BY country_en',
             },
             Expected => { map { $_->[2] => $_->[1] } @Countries },
+        },
+        {
+            Name  => 'SelectMapping with binds',
+            Param => {
+                SQL  => 'SELECT country_en, is_country FROM test_countries WHERE country_si IN ( ?, ?, ?) ORDER BY country_en DESC',
+                Bind => [ \'මලාවි', \'⛄', \'ශ්රී ලංකාව' ],
+            },
+            Expected => {
+                'Sri Lanka' => 1,
+                'Malawi'    => 1
+            },
         },
     );
 
