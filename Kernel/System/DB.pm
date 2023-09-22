@@ -612,13 +612,13 @@ A subroutine that generates the rows can be passed.
 sub DoArray {
     my ( $Self, %Param ) = @_;
 
-    my ( $PrepareSuccess, @BindVariables ) = $Self->Prepare(
+    my $BindVariables = $Self->Prepare(
         %Param,
         DoArray => 1,
         Execute => 0,
     );
 
-    return unless $PrepareSuccess;
+    return unless $BindVariables;    # note that [] is also a true value
 
     # the statement handle has been prepared in Prepare()
 
@@ -631,7 +631,7 @@ sub DoArray {
     # return the number of handled tuples
     return scalar $Self->{Cursor}->execute_array(
         \%Attributes,
-        @BindVariables
+        $BindVariables->@*
     );
 }
 
@@ -736,21 +736,26 @@ These are the regular use cases where C<1> is returned in the case of success. C
 when there was an error. The result of the SELECT can be retrieved with C<FetchRowArray()>.
 
 This method is also used internally for methods that want to execute the prepared statement by themselves.
-This case is triggered by passing the parameter C<Execute> with a C<0>. The returned values
-will be a status and the array of bind variables. Internally,
-the attribute C<Cursor> will be set to the prepared statement handle.
+This case is triggered by passing the parameter C<Execute> with a C<0>. The returned value
+is C<undef> in case of error and an arrayref in case of success.
+The returned arrayref contains the bind variables.
+Internally, the attribute C<Cursor> will be set to the prepared statement handle.
 
     my $Var1 = 'dog1';
     my $Var2 = 'dog2';
 
-    my ($Success, @BindVariable) = $DBObject->Prepare(
+    my $BindVariables = $DBObject->Prepare(
         SQL    => 'SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?',
         Bind   => [ \($Var1, $Var2) ],
     );
 
 will return
 
-    my ($Success, @BindVariables) = (1, 'dog1', 'dog2' );
+    my $BindVariables = ['dog1', 'dog2'];
+
+In the case of an error:
+
+    my $BindVariables = undef;
 
 Another internally used parameter is C<DoArray>. That parameter indicates that the array bind values are used.
 
@@ -839,13 +844,13 @@ sub Prepare {
     }
 
     # check bind params
-    my @Array;
+    my @BindVariables;
     if ( $Param{Bind} ) {
         my %RefIsValid = map { $_ => 1 } $DoArray ? ( 'ARRAY', '' ) : ('SCALAR');
         for my $Data ( $Param{Bind}->@* ) {
             my $RefType = ref $Data;
             if ( $RefIsValid{$RefType} ) {
-                push @Array, $DoArray ? $Data : $Data->$*;
+                push @BindVariables, $DoArray ? $Data : $Data->$*;
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -873,10 +878,12 @@ sub Prepare {
     }
 
     # This is only for internal use, like for SelectColArray(), SelectRowArray(), SelectMapping()
-    return 1, @Array unless $Execute;
+    if ( !$Execute ) {
+        return \@BindVariables;
+    }
 
     # execute the statement handle
-    if ( !$Self->{Cursor}->execute(@Array) ) {
+    if ( !$Self->{Cursor}->execute(@BindVariables) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Caller   => 1,
             Priority => 'Error',
@@ -1051,18 +1058,18 @@ Returns undef (if query failed), or an array ref (if query was successful):
 sub SelectAll {
     my ( $Self, %Param ) = @_;
 
-    my ( $PrepareSuccess, @BindVariables ) = $Self->Prepare(
+    my $BindVariables = $Self->Prepare(
         %Param,
         Execute => 0,
     );
 
-    return unless $PrepareSuccess;
+    return unless $BindVariables;
 
     # the statement handle has been prepared in Prepare()
     my $Matrix = $Self->{dbh}->selectall_arrayref(
         $Self->{Cursor},    # the prepared statement handle
         {},                 # no attributes
-        @BindVariables,
+        $BindVariables->@*
     );
 
     return unless defined $Matrix;
@@ -1133,18 +1140,18 @@ Returns undef if the query failed, or a list if the query was successful:
 sub SelectColArray {
     my ( $Self, %Param ) = @_;
 
-    my ( $PrepareSuccess, @BindVariables ) = $Self->Prepare(
+    my $BindVariables = $Self->Prepare(
         %Param,
         Execute => 0,
     );
 
-    return unless $PrepareSuccess;
+    return unless $BindVariables;    # note that [] is also a true value
 
     # the statement handle has been prepared in Prepare()
     my $Column = $Self->{dbh}->selectcol_arrayref(
-        $Self->{Cursor},    # the prepared statement handle
-        {},                 # no attributes
-        @BindVariables,
+        $Self->{Cursor},             # the prepared statement handle
+        {},                          # no attributes
+        $BindVariables->@*
     );
 
     return unless defined $Column;
@@ -1184,12 +1191,12 @@ The list can be used for initializing a hash.
 sub SelectMapping {
     my ( $Self, %Param ) = @_;
 
-    my ( $PrepareSuccess, @BindVariables ) = $Self->Prepare(
+    my $BindVariables = $Self->Prepare(
         %Param,
         Execute => 0,
     );
 
-    return unless $PrepareSuccess;
+    return unless $BindVariables;    # note that [] is also a true value
 
     # The statement handle has been prepared in Prepare().
     # selectcol_arrayref() returns the first column zipped with the second column,
@@ -1199,7 +1206,7 @@ sub SelectMapping {
         {
             Columns => [ 1, 2 ],
         },
-        @BindVariables,
+        $BindVariables->@*
     );
 
     return unless defined $List;
@@ -1614,7 +1621,7 @@ sub QueryCondition {
     my $Close = 0;
 
     # for processing
-    my @Array     = split( //, $Param{Value} );
+    my @Array     = split //, $Param{Value};
     my $SQL       = '';
     my $Word      = '';
     my $Not       = 0;

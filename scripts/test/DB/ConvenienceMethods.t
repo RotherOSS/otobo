@@ -334,13 +334,20 @@ subtest 'Prepare' => sub {
             },
             Expected => [ '🙈', '🙉', '🙊' ],
         },
+        {
+            Name  => 'invalid parameter',
+            Param => {
+                noSQL => 'SELECT country_en, is_country FROM test_countries WHERE country_si IN (?, ?, ?) ORDER BY country_en DESC',
+                Bind  => [ \'🙈', \'🙉', \'🙊' ],
+            },
+            Expected => undef,
+        },
     );
 
     for my $Test (@Tests) {
         subtest $Test->{Name} => sub {
-            my ( $PrepareSuccess, @Binds ) = $DBObject->Prepare( $Test->{Param}->%*, Execute => 0 );
-            is( $PrepareSuccess, 1,                 'Prepare was successful' );
-            is( \@Binds,         $Test->{Expected}, 'got expected bind variables' );
+            my $BindVariables = $DBObject->Prepare( $Test->{Param}->%*, Execute => 0 );
+            is( $BindVariables, $Test->{Expected}, 'got expected bind variables' );
         };
     }
 };
