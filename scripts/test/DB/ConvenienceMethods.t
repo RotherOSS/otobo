@@ -309,6 +309,42 @@ subtest 'SelectMapping' => sub {
     }
 };
 
+subtest 'Prepare' => sub {
+    my @Tests = (
+        {
+            Name  => 'Prepare without bind variable',
+            Param => {
+                SQL => 'SELECT country_en, is_country FROM test_countries ORDER BY country_en DESC',
+            },
+            Expected => [],
+        },
+        {
+            Name  => 'Prepare with a single bind variable',
+            Param => {
+                SQL  => 'SELECT country_en, is_country FROM test_countries WHERE country_si = ? ORDER BY country_en DESC',
+                Bind => [ \'🙈' ]
+            },
+            Expected => ['🙈'],
+        },
+        {
+            Name  => 'Prepare with three bind variables',
+            Param => {
+                SQL  => 'SELECT country_en, is_country FROM test_countries WHERE country_si IN (?, ?, ?) ORDER BY country_en DESC',
+                Bind => [ \'🙈', \'🙉', \'🙊' ],
+            },
+            Expected => [ '🙈', '🙉', '🙊' ],
+        },
+    );
+
+    for my $Test (@Tests) {
+        subtest $Test->{Name} => sub {
+            my ( $PrepareSuccess, @Binds ) = $DBObject->Prepare( $Test->{Param}->%*, Execute => 0 );
+            is( $PrepareSuccess, 1,                 'Prepare was successful' );
+            is( \@Binds,         $Test->{Expected}, 'got expected bind variables' );
+        };
+    }
+};
+
 # cleanup
 my $CleanupSuccess = $DBObject->Do(
     SQL => 'DROP TABLE test_countries',
