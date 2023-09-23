@@ -618,7 +618,8 @@ sub DoArray {
         Execute => 0,
     );
 
-    return unless $BindVariables;    # note that [] is also a true value
+    return unless $BindVariables;                  # note that [] is also a true value
+    return unless ref $BindVariables eq 'ARRAY';
 
     # the statement handle has been prepared in Prepare()
 
@@ -736,9 +737,9 @@ These are the regular use cases where C<1> is returned in the case of success. C
 when there was an error. The result of the SELECT can be retrieved with C<FetchRowArray()>.
 
 This method is also used internally for methods that want to execute the prepared statement by themselves.
-This case is triggered by passing the parameter C<Execute> with a C<0>. The returned value
+This case is triggered by passing the parameter C<Execute> with the value C<0>. The returned value
 is C<undef> in case of error and an arrayref in case of success.
-The returned arrayref contains the bind variables.
+The returned arrayref contains the bind variables like they are used in C<DBI>.
 Internally, the attribute C<Cursor> will be set to the prepared statement handle.
 
     my $Var1 = 'dog1';
@@ -768,7 +769,7 @@ sub Prepare {
     my $SQL     = $Param{SQL};
     my $Limit   = $Param{Limit} || '';
     my $Start   = $Param{Start} || '';
-    my $Execute = $Param{Execute} // 1;
+    my $Execute = $Param{Execute} // 1;    # executing the passed SQL is the default
     my $DoArray = $Param{DoArray} // 0;
 
     # check needed stuff
@@ -879,7 +880,7 @@ sub Prepare {
 
     # This is only for internal use, like for SelectColArray(), SelectRowArray(), SelectMapping()
     if ( !$Execute ) {
-        return \@BindVariables;
+        return \@BindVariables;    # always a true value
     }
 
     # execute the statement handle
@@ -1063,7 +1064,8 @@ sub SelectAll {
         Execute => 0,
     );
 
-    return unless $BindVariables;
+    return unless $BindVariables;                  # note that [] is also a true value
+    return unless ref $BindVariables eq 'ARRAY';
 
     # the statement handle has been prepared in Prepare()
     my $Matrix = $Self->{dbh}->selectall_arrayref(
@@ -1145,12 +1147,13 @@ sub SelectColArray {
         Execute => 0,
     );
 
-    return unless $BindVariables;    # note that [] is also a true value
+    return unless $BindVariables;                  # note that [] is also a true value
+    return unless ref $BindVariables eq 'ARRAY';
 
     # the statement handle has been prepared in Prepare()
     my $Column = $Self->{dbh}->selectcol_arrayref(
-        $Self->{Cursor},             # the prepared statement handle
-        {},                          # no attributes
+        $Self->{Cursor},    # the prepared statement handle
+        {},                 # no attributes
         $BindVariables->@*
     );
 
@@ -1196,7 +1199,8 @@ sub SelectMapping {
         Execute => 0,
     );
 
-    return unless $BindVariables;    # note that [] is also a true value
+    return unless $BindVariables;                  # note that [] is also a true value
+    return unless ref $BindVariables eq 'ARRAY';
 
     # The statement handle has been prepared in Prepare().
     # selectcol_arrayref() returns the first column zipped with the second column,
