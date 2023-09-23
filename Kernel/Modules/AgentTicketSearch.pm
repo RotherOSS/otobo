@@ -1902,7 +1902,7 @@ sub Run {
             Type  => 'Long',
             Valid => 0,
         );
-        if ( !$ConfigObject->Get('Ticket::ChangeOwnerToEveryone') ) {
+        if ( !$ConfigObject->Get('Ticket::ChangeOwnerToEveryone') && !$ConfigObject->Get('Ticket::Search')->{IncludeInvalidAgents} ) {
             my %Involved = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserInvolvedGet(
                 UserID => $Self->{UserID},
                 Type   => 'ro',
