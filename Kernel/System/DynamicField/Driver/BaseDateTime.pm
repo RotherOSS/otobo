@@ -424,7 +424,7 @@ sub EditFieldValueGet {
         && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
         )
     {
-        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        if ( $Param{DynamicFieldConfig}->{Config}{MultiValue} ) {
             my %Data;
 
             # retrieve value parts as arrays

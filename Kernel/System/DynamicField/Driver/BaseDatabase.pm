@@ -468,7 +468,7 @@ sub EditFieldValueGet {
     {
         my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
 
-        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        if ( $Param{DynamicFieldConfig}->{Config}{MultiValue} && !$Param{DynamicFieldConfig}->{Readonly} ) {
 
             # delete the template value
             pop @Data;

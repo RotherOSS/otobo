@@ -382,7 +382,9 @@ sub EditFieldValueGet {
         )
     {
         $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
-        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+
+        # TODO check what happens with template data
+        if ( $Param{DynamicFieldConfig}->{Config}{MultiValue} ) {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
             my @Data;
 

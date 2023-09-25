@@ -562,7 +562,7 @@ sub EditFieldValueGet {
         && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
         )
     {
-        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        if ( $Param{DynamicFieldConfig}->{Config}{MultiValue} ) {
             my @DataValues = $Param{ParamObject}->GetArray( Param => $FieldName );
             my @DataUsed   = $Param{ParamObject}->GetArray( Param => $FieldName . 'Used' );
 
