@@ -2484,7 +2484,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // Expand disabled nodes on click
                     setTimeout( function() {
-                        $('.Disabled > a.jstree-anchor').on('click', function() {
+                        $('.Disabled[aria-expanded] > a.jstree-anchor').on('click', function() {
                             $(this).prev('.jstree-icon').trigger('click');
 
                             return false;
