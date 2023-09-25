@@ -403,7 +403,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
         // Handle form <select> elements that are disabled and elements that were
         //  disabled with Core.Form.DisableForm();
-        if ($SelectObj.attr('disabled') || $SearchObj.data('form-disabled')) {
+        if ($SelectObj.is(':disabled,[readonly]') || $SearchObj.data('form-disabled')) {
             $SearchObj.attr('disabled', 'disabled');
             // Make background grey and elements white.
             $SearchObj.attr('readonly', true);
