@@ -113,6 +113,10 @@ sub Auth {
             Message  => "OpenIDConnect is ill configured!",
         );
 
+        $Self->{AuthError} = $Kernel::OM->Get('Kernel::Language')->Translatable('Authentication error.')
+            . ' '
+            . $Kernel::OM->Get('Kernel::Language')->Translatable('Please contact the administrator.');
+
         return;
     }
 
@@ -125,13 +129,15 @@ sub Auth {
 
     if ( $GetParam{Error} ) {
         my $Message = $GetParam{Error};
-        $Message .= $ParamObject->GetParam( Param => 'error_description' ) ? "\n$ParamObject->GetParam( Param => 'error_description' )" : '';
-        $Message .= $ParamObject->GetParam( Param => 'error_uri' )         ? "\nsee $ParamObject->GetParam( Param => 'error_uri' )"     : '';
+        $Message .= $ParamObject->GetParam( Param => 'error_description' ) ? "\n" . $ParamObject->GetParam( Param => 'error_description' ) : '';
+        $Message .= $ParamObject->GetParam( Param => 'error_uri' )         ? "\nsee " . $ParamObject->GetParam( Param => 'error_uri' )     : '';
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $Message,
         );
+
+        $Self->{AuthError} = 'Authentication error.';
 
         return;
     }
