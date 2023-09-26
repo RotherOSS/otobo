@@ -221,6 +221,21 @@ sub _AddAction {
             # set a true entry in NewValueEmptyError
             $Errors{'PossibleValueErrors'}->{'ValueEmptyError'}->{$Key} = 1;
         }
+
+        # if tree view is enabled, check for parent elements
+        if ( $GetParam{TreeView} ) {
+            if ( $Key =~ m{^(?<Parent>.*)::[^:]+$}smx ) {
+                my $Parent = $+{Parent};
+                if ( !$Parent ) {
+                    $Errors{'PossibleValueErrors'}->{'TreeViewParentEmptyError'}->{$Key} = 1;
+                }
+                else {
+                    if ( !$PossibleValues->{$Parent} ) {
+                        $Errors{'PossibleValueErrors'}->{'TreeViewParentMissingError'}->{$Key} = 1;
+                    }
+                }
+            }
+        }
     }
 
     # return to add screen if errors
@@ -496,6 +511,21 @@ sub _ChangeAction {
             # set a true entry in NewValueEmptyError
             $Errors{'PossibleValueErrors'}->{'ValueEmptyError'}->{$Key} = 1;
         }
+
+        # if tree view is enabled, check for parent elements
+        if ( $GetParam{TreeView} ) {
+            if ( $Key =~ m{^(?<Parent>.*)::[^:]+$}smx ) {
+                my $Parent = $+{Parent};
+                if ( !$Parent ) {
+                    $Errors{'PossibleValueErrors'}->{'TreeViewParentEmptyError'}->{$Key} = 1;
+                }
+                else {
+                    if ( !$PossibleValues->{$Parent} ) {
+                        $Errors{'PossibleValueErrors'}->{'TreeViewParentMissingError'}->{$Key} = 1;
+                    }
+                }
+            }
+        }
     }
 
     # Check if dynamic field is present in SysConfig setting
@@ -754,6 +784,16 @@ sub _ShowScreen {
 
                 # set the error class
                 $ValueError = 'ServerError';
+            }
+
+            # check for error regarding tree view
+            if ( $Param{'PossibleValueErrors'}->{'TreeViewParentEmptyError'}->{$Key} ) {
+                $KeyError     = 'ServerError';
+                $KeyErrorStrg = Translatable('Syntax is incorrect. Please provide a parent element name in front of the double colon.');
+            }
+            if ( $Param{'PossibleValueErrors'}->{'TreeViewParentMissingError'}->{$Key} ) {
+                $KeyError     = 'ServerError';
+                $KeyErrorStrg = Translatable('An element is used as parent element, but not included itself. Please include it.');
             }
         }
 
