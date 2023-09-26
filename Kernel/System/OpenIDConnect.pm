@@ -367,7 +367,9 @@ sub ValidateIDToken {
     }
 
     my $CurrentTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
-    if ( $TokenData->{iat} > $CurrentTime ) {
+    my $Leeway      = int( $Param{Leeway} // 2 );
+
+    if ( $TokenData->{iat} - $Leeway > $CurrentTime ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "<iat> invalid. IDToken creation time is in the future. Token: $TokenData->{iat}; Current: $CurrentTime;",
@@ -376,7 +378,7 @@ sub ValidateIDToken {
         return $Return;
     }
 
-    if ( $TokenData->{exp} <= $CurrentTime ) {
+    if ( $TokenData->{exp} + $Leeway <= $CurrentTime ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "<exp> invalid. IDToken expired. Expiration Time: $TokenData->{exp}; Current: $CurrentTime;",

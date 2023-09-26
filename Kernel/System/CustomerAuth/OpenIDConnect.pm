@@ -126,6 +126,8 @@ sub Auth {
         Error   => $ParamObject->GetParam( Param => 'error' ),
     );
 
+    $Self->{AuthError} = Translatable('Authentication error.');
+
     if ( $GetParam{Error} ) {
         my $Message = $GetParam{Error};
         $Message .= $ParamObject->GetParam( Param => 'error_description' ) ? "\n" . $ParamObject->GetParam( Param => 'error_description' ) : '';
@@ -135,8 +137,6 @@ sub Auth {
             Priority => 'error',
             Message  => $Message,
         );
-
-        $Self->{AuthError} = Translatable('Authentication error.');
 
         return;
     }
@@ -203,12 +203,13 @@ sub Auth {
         ProviderSettings => $OpenIDConfig->{ProviderSettings},
         ClientSettings   => $OpenIDConfig->{ClientSettings},
         UseNonce         => ( $Misc->{UseNonce} || grep { $_ eq 'id_token' } @{ $RequestConfig->{ResponseType} // [] } ) || 0,
+        Leeway           => $Misc->{Leeway},
     );
 
     return if !$Return;
 
-    if ( $Return->{Error} ) {
-        $Self->{AuthError} = $Return->{Error} eq 'nonce' ? 'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' : '';
+    if ( $Return->{Error} && $Return->{Error} eq 'nonce') {
+        $Self->{AuthError} = 'Invalid response from the authentication server. Maybe the process took too long. Please retry once.';
     }
 
     return if !$Return->{Success};
