@@ -55,7 +55,7 @@ Core.Agent.TicketPhone = (function (TargetNS) {
             return false;
         });
 
-        // Bind event to customer remove Button.
+        // Bind event to customer remove button.
         $('.CustomerTicketRemove').on('click', function () {
             Core.Agent.CustomerSearch.RemoveCustomerTicket($(this));
             return false;
