@@ -2622,7 +2622,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         }
                     }
                     CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
-                    $SearchObj.width($SelectObj.outerWidth());
+                    $SearchObj.width(SelectWidth);
                     ShowSelectionBoxes($SelectObj, $InputContainerObj);
                 })
 
