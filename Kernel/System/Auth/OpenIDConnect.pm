@@ -113,9 +113,7 @@ sub Auth {
             Message  => "OpenIDConnect is ill configured!",
         );
 
-        $Self->{AuthError} = $Kernel::OM->Get('Kernel::Language')->Translatable('Authentication error.')
-            . ' '
-            . $Kernel::OM->Get('Kernel::Language')->Translatable('Please contact the administrator.');
+        $Self->{AuthError} = Translatable('Authentication error. Please contact the administrator.');
 
         return;
     }
@@ -137,7 +135,7 @@ sub Auth {
             Message  => $Message,
         );
 
-        $Self->{AuthError} = 'Authentication error.';
+        $Self->{AuthError} = Translatable('Authentication error.');
 
         return;
     }
@@ -174,8 +172,7 @@ sub Auth {
             Priority => 'info',
             Message  => 'OpenID Connect authentication error: ' . $ErrorMessage,
         );
-        $Self->{AuthError} = $Kernel::OM->Get('Kernel::Language')
-            ->Translatable('Invalid response from the authentication server. Maybe the process took too long. Please retry once.');
+        $Self->{AuthError} = Translatable('Invalid response from the authentication server. Maybe the process took too long. Please retry once.');
 
         return;
     }

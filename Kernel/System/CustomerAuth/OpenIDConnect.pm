@@ -114,6 +114,8 @@ sub Auth {
             Message  => "OpenIDConnect is ill configured!",
         );
 
+        $Self->{AuthError} = Translatable('Authentication error. Please contact the administrator.');
+
         return;
     }
 
@@ -126,13 +128,15 @@ sub Auth {
 
     if ( $GetParam{Error} ) {
         my $Message = $GetParam{Error};
-        $Message .= $ParamObject->GetParam( Param => 'error_description' ) ? "\n$ParamObject->GetParam( Param => 'error_description' )" : '';
-        $Message .= $ParamObject->GetParam( Param => 'error_uri' )         ? "\nsee $ParamObject->GetParam( Param => 'error_uri' )"     : '';
+        $Message .= $ParamObject->GetParam( Param => 'error_description' ) ? "\n" . $ParamObject->GetParam( Param => 'error_description' ) : '';
+        $Message .= $ParamObject->GetParam( Param => 'error_uri' )         ? "\nsee " . $ParamObject->GetParam( Param => 'error_uri' )     : '';
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $Message,
         );
+
+        $Self->{AuthError} = Translatable('Authentication error.');
 
         return;
     }
@@ -169,8 +173,7 @@ sub Auth {
             Priority => 'info',
             Message  => 'OpenID Connect authentication error: ' . $ErrorMessage,
         );
-        $Self->{AuthError} = $Kernel::OM->Get('Kernel::Language')
-            ->Translatable('Invalid response from the authentication server. Maybe the process took too long. Please retry once.');
+        $Self->{AuthError} = Translatable('Invalid response from the authentication server. Maybe the process took too long. Please retry once.');
 
         return;
     }
