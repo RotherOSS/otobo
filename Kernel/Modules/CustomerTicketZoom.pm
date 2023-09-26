@@ -2325,6 +2325,9 @@ sub _Mask {
             $Param{Subject} = "Re: " . ( $Param{Title} // '' );
         }
         $LayoutObject->Block(
+            Name => 'ReplyButton',
+        );
+        $LayoutObject->Block(
             Name => 'FollowUp',
             Data => \%Param,
         );
