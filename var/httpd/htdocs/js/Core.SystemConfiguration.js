@@ -426,6 +426,11 @@ var Core = Core || {};
                 // update key name
                 Key = $(this).parent().parent().find(".Key").val();
 
+                // if Key contains ###, trim to prevent overlapping with FullName
+                if ( Key.indexOf("###") != -1 ) {
+                    Key = Key.substr(Key.lastIndexOf("###") + 3);
+                }
+
                 FullName = FullName.substr(0, FullName.lastIndexOf("###"));
                 FullName += "###" + Key;
             }
