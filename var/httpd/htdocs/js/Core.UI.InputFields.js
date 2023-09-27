@@ -2622,7 +2622,12 @@ Core.UI.InputFields = (function (TargetNS) {
                         }
                     }
                     CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
-                    $SearchObj.width(SelectWidth);
+
+                    // before fetching the outer width, the select element has to be displayed
+                    // because outerWidth() does not work correctly on hidden elements
+                    var CurrentSelectWidth = $SelectObj.show().outerWidth();
+                    $SelectObj.hide();
+                    $SearchObj.width(CurrentSelectWidth);
                     ShowSelectionBoxes($SelectObj, $InputContainerObj);
                 })
 
