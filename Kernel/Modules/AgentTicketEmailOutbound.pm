@@ -111,24 +111,28 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get ACL restrictions
-    $TicketObject->TicketAcl(
+    # NOTE TicketAcl() checks whether any ACL matches and returns 1 or undef
+    my $ACL = $TicketObject->TicketAcl(
         Data          => '-',
         TicketID      => $Self->{TicketID},
         ReturnType    => 'Action',
         ReturnSubType => '-',
         UserID        => $Self->{UserID},
     );
+
+    # fetch the actual acl action data
     my %AclAction = $TicketObject->TicketAclActionData();
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # check if ACL restrictions exist
-    if ( IsHashRefWithData( \%AclAction ) ) {
+    if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+
+        my %AclActionLookup = reverse %AclAction;
 
         # show error screen if ACL prohibits this action
-        if ( defined $AclAction{ $Self->{Action} } && $AclAction{ $Self->{Action} } eq '0' ) {
-
+        if ( !$AclActionLookup{ $Self->{Action} } ) {
             return $LayoutObject->NoPermission( WithHeader => 'yes' );
         }
     }
