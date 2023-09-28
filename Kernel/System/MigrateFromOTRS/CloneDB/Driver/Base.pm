@@ -132,7 +132,8 @@ sub SanityChecks {
 
     # check whether the source database type is supported and whether the DBD module can be loaded
     my %DBDModule = (
-        mysql      => 'DBD::mysql',
+        mariadb    => 'DBD::MariaDB',
+        mysql      => 'DBD::MariaDB',
         postgresql => 'DBD::Pg',
         oracle     => 'DBD::Oracle',
     );

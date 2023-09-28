@@ -143,8 +143,9 @@ sub LoadDefaults {
     $Self->{DatabasePw} = 'some-pass';
 
     # DatabaseDSN
-    # The database DSN for MySQL ==> more: "perldoc DBD::mysql"
-    $Self->{DatabaseDSN} = "DBI:mysql:database=<OTOBO_CONFIG_Database>;host=<OTOBO_CONFIG_DatabaseHost>;";
+    # The database DSN for MySQL and MariaDB ==> more: "perldoc DBD::MariaDB"
+    # Note that internally a DSN starting with 'DBI:mysql' would be switched to 'DBI:MariaDB'
+    $Self->{DatabaseDSN} = "DBI:MariaDB:database=<OTOBO_CONFIG_Database>;host=<OTOBO_CONFIG_DatabaseHost>;";
 
     # The database DSN for PostgreSQL ==> more: "perldoc DBD::Pg"
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=<OTOBO_CONFIG_Database>;host=<OTOBO_CONFIG_DatabaseHost>;";
@@ -1471,7 +1472,7 @@ via the Preferences button after logging in.
     $Self->{'Customer::AuthModule::DB::CustomerKey'}      = 'login';
     $Self->{'Customer::AuthModule::DB::CustomerPassword'} = 'pw';
 
-#    $Self->{'Customer::AuthModule::DB::DSN'} = "DBI:mysql:database=customerdb;host=customerdbhost";
+#    $Self->{'Customer::AuthModule::DB::DSN'} = "DBI:MariaDB:database=customerdb;host=customerdbhost";
 #    $Self->{'Customer::AuthModule::DB::User'} = "some_user";
 #    $Self->{'Customer::AuthModule::DB::Password'} = "some_password";
 
@@ -1636,7 +1637,7 @@ via the Preferences button after logging in.
             # required settings
 #            DSN  => 'DBI:odbc:yourdsn',
 #            Type => 'mssql', # only for ODBC connections
-#            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
+#            DSN => 'DBI:MariaDB:database=customerdb;host=customerdbhost',
 #            User => '',
 #            Password => '',
             Table => 'customer_user',
@@ -1823,7 +1824,7 @@ via the Preferences button after logging in.
             # required settings
 #            DSN  => 'DBI:odbc:yourdsn',
 #            Type => 'mssql', # only for ODBC connections
-#            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
+#            DSN => 'DBI:MariaDB:database=customerdb;host=customerdbhost',
 #            User => '',
 #            Password => '',
             Table => 'customer_company',

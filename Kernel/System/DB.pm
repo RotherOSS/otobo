@@ -153,6 +153,7 @@ sub new {
 
         # otherwise auto detection from the DSN
         return 'mysql'      if $Self->{DSN} =~ m/:mysql/i;
+        return 'mysql'      if $Self->{DSN} =~ m/:MariaDB/i;
         return 'postgresql' if $Self->{DSN} =~ m/:pg/i;
         return 'oracle'     if $Self->{DSN} =~ m/:oracle/i;
         return 'db2'        if $Self->{DSN} =~ m/:db2/i;

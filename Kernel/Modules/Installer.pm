@@ -533,8 +533,8 @@ sub Run {
             }
 
             # Set DSN for Config.pm.
-            $DB{ConfigDSN} = 'DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost}';
-            $DB{DSN}       = "DBI:mysql:database=$DB{DBName};host=$DB{DBHost}";
+            $DB{ConfigDSN} = 'DBI:MariaDB:database=$Self->{Database};host=$Self->{DatabaseHost}';
+            $DB{DSN}       = "DBI:MariaDB:database=$DB{DBName};host=$DB{DBHost}";
         }
         elsif ( $DB{DBType} eq 'postgresql' ) {
 
@@ -1179,10 +1179,10 @@ sub ConnectToDB {
 
     # Create DSN string for backend.
     if ( $Param{DBType} eq 'mysql' && $Param{InstallType} eq 'CreateDB' ) {
-        $Param{DSN} = "DBI:mysql:database=;host=$Param{DBHost};";
+        $Param{DSN} = "DBI:MariaDB:database=;host=$Param{DBHost};";
     }
     elsif ( $Param{DBType} eq 'mysql' && $Param{InstallType} eq 'UseDB' ) {
-        $Param{DSN} = "DBI:mysql:database=;host=$Param{DBHost};database=$Param{DBName}";
+        $Param{DSN} = "DBI:MariaDB:database=;host=$Param{DBHost};database=$Param{DBName}";
     }
     elsif ( $Param{DBType} eq 'postgresql' && $Param{InstallType} eq 'CreateDB' ) {
         $Param{DSN} = "DBI:Pg:host=$Param{DBHost};";

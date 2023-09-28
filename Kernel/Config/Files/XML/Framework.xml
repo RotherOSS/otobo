@@ -3959,7 +3959,7 @@ via the Preferences button after logging in.
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the DSN for the connection to the customer table must be specified.</Description>
         <Navigation>Core::Auth::Customer</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">DBI:mysql:database=customerdb;host=customerdbhost</Item>
+            <Item ValueType="String" ValueRegex="">DBI:MariaDB:database=customerdb;host=customerdbhost</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::DB::User" Required="0" Valid="0" ConfigLevel="200">
@@ -8179,7 +8179,7 @@ via the Preferences button after logging in.
         <Description Translatable="1">OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.</Description>
         <Navigation>Core::DB::Mirror</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
+            <Item ValueType="String" ValueRegex="">DBI:MariaDB:database=mirrordb;host=mirrordbhost</Item>
         </Value>
     </Setting>
     <Setting Name="Core::MirrorDB::User" Required="0" Valid="0" ConfigLevel="200">
@@ -8201,7 +8201,7 @@ via the Preferences button after logging in.
         <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Hash>
-                <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
+                <Item Key="DSN">DBI:MariaDB:database=mirrordb;host=mirrordbhost</Item>
                 <Item Key="User">some_user</Item>
                 <Item Key="Password" ValueType="Password">some_password</Item>
             </Hash>
@@ -8212,7 +8212,7 @@ via the Preferences button after logging in.
         <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Hash>
-                <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
+                <Item Key="DSN">DBI:MariaDB:database=mirrordb;host=mirrordbhost</Item>
                 <Item Key="User">some_user</Item>
                 <Item Key="Password" ValueType="Password">some_password</Item>
             </Hash>
@@ -8223,7 +8223,7 @@ via the Preferences button after logging in.
         <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Hash>
-                <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
+                <Item Key="DSN">DBI:MariaDB:database=mirrordb;host=mirrordbhost</Item>
                 <Item Key="User">some_user</Item>
                 <Item Key="Password" ValueType="Password">some_password</Item>
             </Hash>
@@ -8234,7 +8234,7 @@ via the Preferences button after logging in.
         <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Hash>
-                <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
+                <Item Key="DSN">DBI:MariaDB:database=mirrordb;host=mirrordbhost</Item>
                 <Item Key="User">some_user</Item>
                 <Item Key="Password" ValueType="Password">some_password</Item>
             </Hash>
@@ -8245,7 +8245,7 @@ via the Preferences button after logging in.
         <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Hash>
-                <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
+                <Item Key="DSN">DBI:MariaDB:database=mirrordb;host=mirrordbhost</Item>
                 <Item Key="User">some_user</Item>
                 <Item Key="Password" ValueType="Password">some_password</Item>
             </Hash>

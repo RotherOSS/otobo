@@ -717,7 +717,7 @@ sub DisableAsyncCalls {
 Provide temporary database for the test. Please first define test database settings in C<Config.pm>, i.e:
 
     $Self->{TestDatabase} = {
-        DatabaseDSN  => 'DBI:mysql:database=otobo_test;host=127.0.0.1;',
+        DatabaseDSN  => 'DBI:MariaDB:database=otobo_test;host=127.0.0.1;',
         DatabaseUser => 'otobo_test',
         DatabasePw   => 'otobo_test',
     };
