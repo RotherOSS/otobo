@@ -30,15 +30,12 @@ use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 diag $Selenium->{browser_name};
-if ( $Selenium->{browser_name} ne 'firefox' ) {
-    skip_all("PDF tests are currently only supported on Firefox");
-}
 
 $Selenium->RunTest(
     sub {
 
         my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $RandomID = $Helper->GetRandomID();
+        my $RandomID = $Helper->GetRandomID;
 
         # Do not check email addresses.
         $Helper->ConfigSettingChange(
@@ -79,7 +76,7 @@ $Selenium->RunTest(
             Comment         => 'Selenium Queue',
             UserID          => 1,
         );
-        $Self->True(
+        ok(
             $QueueID,
             "Created QueueID $QueueID"
         );
@@ -92,7 +89,7 @@ $Selenium->RunTest(
             Comment => 'Selenium Service',
             UserID  => 1,
         );
-        $Self->True(
+        ok(
             $ServiceID,
             "Created ServiceID $ServiceID"
         );
@@ -109,7 +106,7 @@ $Selenium->RunTest(
             Comment           => 'Selenium SLA',
             UserID            => 1,
         );
-        $Self->True(
+        ok(
             $QueueID,
             "Created SLAID $QueueID"
         );
@@ -121,7 +118,7 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
+        ok(
             $TypeID,
             "Created TypeID $TypeID"
         );
@@ -160,7 +157,7 @@ $Selenium->RunTest(
             UserID  => 1,
             %CustomerCompany,
         );
-        $Self->True(
+        ok(
             $CustomerCompanyID,
             "Created CustomerCompanyID $CustomerCompanyID"
         );
@@ -180,7 +177,7 @@ $Selenium->RunTest(
             UserID  => 1,
             %CustomerUser,
         );
-        $Self->True(
+        ok(
             $CustomerUserID,
             "Created CustomerUserID $CustomerUserID"
         );
@@ -217,7 +214,7 @@ $Selenium->RunTest(
                 UserID => 1,
                 %Ticket,
             );
-            $Self->True(
+            ok(
                 $TicketID,
                 "Created TicketID $TicketID"
             );
@@ -286,7 +283,7 @@ $Selenium->RunTest(
                 UserID      => 1,
                 %{$Article},
             );
-            $Self->True(
+            ok(
                 $ArticleID,
                 "Created ArticleID $ArticleID"
             );
