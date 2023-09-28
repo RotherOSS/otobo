@@ -291,7 +291,7 @@ $Selenium->RunTest(
         }
 
         # Create Dynamic Fields.
-        my $RandomNumber  = substr $Helper->GetRandomNumber(), -7;
+        my $RandomNumber  = $Helper->GetRandomNumber;
         my %DynamicFields = (
             Dropdown => {
                 Name       => 'DFDropdown' . $RandomNumber,
