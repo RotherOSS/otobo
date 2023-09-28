@@ -251,7 +251,7 @@ sub Run {
         # Note that the original setup with variables won't be preserved. E.g.
         #     $Self->{'DatabaseDSN'} = "DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost}";
         # in the original OTOBO Kernel/Config.pm will end up as
-        #     $Self->{'DatabaseDSN'} = "DBI:mysql:database=otobo;host=127.0.0.1;"; # from original OTOBO config
+        #     $Self->{'DatabaseDSN'} = "DBI:MariaDB:database=otobo;host=127.0.0.1;"; # from original OTOBO config
         # after the migration.
         if ( $OTOBOPathFile =~ m/Config\.pm/ ) {
 

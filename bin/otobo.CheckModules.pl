@@ -853,20 +853,15 @@ my @NeededModules = (
 
     # Feature db
     {
-        Module          => 'DBD::mysql',
-        VersionRequired => '>= 4.00, != 4.042, < 5.001',
-        VersionComments => [
-            qq{>= 4.00: just to have some minimum version, please use a more recent version},
-            qq{!= 4.042: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41},
-            qq{< 5.001: This version can't be installed with the MariaDB client library},
-        ],
-        Features  => ['db:mysql'],
-        Comment   => 'Required to connect to a MariaDB or MySQL database.',
-        InstTypes => {
-            aptget => 'libdbd-mysql-perl',
-            emerge => 'dev-perl/DBD-mysql',
-            zypper => 'perl-DBD-mysql',
-            ports  => 'databases/p5-DBD-mysql',
+        Module          => 'DBD::MariaDB',
+        VersionRequired => '1.24',                                                  # current version as of 2026-01-10
+        Features        => ['db:mysql'],
+        Comment         => 'Required to connect to a MySQL or MariaDB database.',
+        InstTypes       => {
+            aptget => 'libdbd-mariadb-perl',
+            emerge => 'dev-perl/DBD-MariaDB',
+            zypper => 'perl-DBD-MariaDB',
+            ports  => 'databases/p5-DBD-MariaDB',
         },
     },
     {

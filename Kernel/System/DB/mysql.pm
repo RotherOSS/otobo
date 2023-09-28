@@ -81,7 +81,9 @@ sub LoadPreferences {
     # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = '';
 
-    # set encoding of selected data to utf8
+    # DBD::MariaDB provides sane Perl strings.
+    # But traditionally OTOBO expect that the utf8-flag is on.
+    # even for binary data
     $Self->{'DB::Encode'} = 1;
 
     # shell setting
@@ -91,9 +93,10 @@ sub LoadPreferences {
     #$Self->{'DB::ShellConnect'} = '';
 
     # init sql setting on db connect
-    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Database::ShellOutput') ) {
-        $Self->{'DB::Connect'} = 'SET NAMES utf8mb4';
-    }
+    # TODO: test whether this is needed for MySQL
+    #if ( !$Kernel::OM->Get('Kernel::Config')->Get('Database::ShellOutput') ) {
+    #    $Self->{'DB::Connect'} = 'SET NAMES utf8mb4';
+    #}
 
     return 1;
 }

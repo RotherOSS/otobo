@@ -489,7 +489,7 @@ sub DBConnectAsRoot {
     # verify that the connection to the DB is possible, password was passed on command line
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $DatabaseHost = $ConfigObject->Get('DatabaseHost');
-    my $DSN          = "DBI:mysql:database=mysql;host=$DatabaseHost;";
+    my $DSN          = "DBI:MariaDB:database=mysql;host=$DatabaseHost;";
 
     my $DBHandle = DBI->connect( $DSN, 'root', $Param{DBPassword} );
     if ( !$DBHandle ) {
@@ -572,7 +572,7 @@ sub DBCreateUserAndDatabase {
     # a case switch must be used here.
     my $CreateUserSQL;
     {
-        if ( $DBHandle->{mysql_serverinfo} =~ m/mariadb/i ) {
+        if ( $DBHandle->{mariadb_serverinfo} =~ m/mariadb/i ) {
             $CreateUserSQL .= "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'";
         }
         else {

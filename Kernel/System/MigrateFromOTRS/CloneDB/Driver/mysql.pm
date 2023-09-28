@@ -72,7 +72,7 @@ sub CreateOTRSDBConnection {
 
     # include DSN for target DB
     $Param{OTRSDatabaseDSN} =
-        "DBI:mysql:database=$Param{DBName};host=$Param{DBHost};";
+        "DBI:MariaDB:database=$Param{DBName};host=$Param{DBHost};";
 
     # create target DB object
     my $OTRSDBObject = Kernel::System::DB->new(
