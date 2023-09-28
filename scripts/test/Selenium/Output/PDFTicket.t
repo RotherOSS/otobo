@@ -24,13 +24,12 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
+diag $Selenium->{browser_name};
 if ( $Selenium->{browser_name} ne 'firefox' ) {
     skip_all("PDF tests are currently only supported on Firefox");
 }
@@ -373,7 +372,7 @@ $Selenium->RunTest(
                 %{ $DynamicFields{$DynamicFieldType} },
             );
 
-            $Self->True(
+            ok(
                 $DynamicFieldID,
                 "Created DynamicField $DynamicFields{$DynamicFieldType}->{Name} - ID $DynamicFieldID",
             );
@@ -448,7 +447,7 @@ $Selenium->RunTest(
             State        => 'Valid',
             UserID       => 1,
         );
-        $Self->True(
+        ok(
             $Success,
             "TickedID $Tickets[0]->{ID} and $Tickets[1]->{ID} linked as parent-child"
         );
@@ -463,7 +462,7 @@ $Selenium->RunTest(
             State        => 'Valid',
             UserID       => 1,
         );
-        $Self->True(
+        ok(
             $Success,
             "TickedID $Tickets[2]->{ID} and $Tickets[1]->{ID} linked as parent-child"
         );
@@ -974,7 +973,7 @@ $Selenium->RunTest(
         }
 
         # Close AgentTicketPrint PDF pop up window and switch window.
-        $Selenium->close();
+        $Selenium->close;
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->WaitFor( WindowCount => 1 );
 
@@ -1034,7 +1033,7 @@ $Selenium->RunTest(
                     UserID   => 1,
                 );
             }
-            $Self->True(
+            ok(
                 $Success,
                 "TicketID $Ticket->{ID} is deleted",
             );
@@ -1047,7 +1046,7 @@ $Selenium->RunTest(
                 ID     => $DynamicFieldID,
                 UserID => 1,
             );
-            $Self->True(
+            ok(
                 $Success,
                 "DynamicField ID $DynamicFieldID is deleted",
             );
@@ -1098,7 +1097,7 @@ $Selenium->RunTest(
                 SQL  => $Item->{SQL},
                 Bind => [ \$Item->{Bind} ],
             );
-            $Self->True(
+            ok(
                 $Success,
                 $Item->{Message},
             );
