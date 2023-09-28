@@ -480,7 +480,12 @@ $Selenium->RunTest(
         # Navigate to AgentTicketZoom screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$Tickets[0]->{ID}");
 
-        # Click to print ticket in Agent interface.
+        # Click to print ticket in Agent interface, making sure that the link is visible first
+        $Selenium->execute_script("\$('#nav-Miscellaneous-container').css('height', 'auto');");
+        $Selenium->execute_script("\$('#nav-Miscellaneous-container').css('opacity', '1');");
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#nav-Miscellaneous-container').css('height') !== '0px' && \$('#nav-Miscellaneous-container').css('opacity') == '1';"
+        );
         $Selenium->find_element("//a[contains(\@href, \'AgentTicketPrint;TicketID=$Tickets[0]->{ID}' )]")->click();
 
         # Switch to AgentTicketPrint pop up window.
@@ -987,7 +992,8 @@ $Selenium->RunTest(
         );
 
         # Click to print ticket in Customer interface.
-        $Selenium->find_element("//a[contains(\@href, \'CustomerTicketPrint;TicketID=$Tickets[0]->{ID}' )]")->click();
+        $Selenium->find_element( "#oooHeader .ooofo-more_v", 'css' )->click;
+        $Selenium->find_element("//a[contains(\@href, \'CustomerTicketPrint;TicketID=$Tickets[0]->{ID}' )]")->click;
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
