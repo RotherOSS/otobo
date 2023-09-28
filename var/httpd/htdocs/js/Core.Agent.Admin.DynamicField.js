@@ -76,7 +76,13 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         NamespaceFilter = $("#DynamicFieldNamespace").val();
 
         // redirect to correct url
-        URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder + ';ObjectTypeFilter=' + ObjectTypeFilter + ';NamespaceFilter=' + NamespaceFilter;
+        URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder;
+        if ( ObjectTypeFilter ) {
+            URL += ';ObjectTypeFilter=' + encodeURIComponent(ObjectTypeFilter);
+        }
+        if ( NamespaceFilter ) {
+            URL += ';NamespaceFilter=' + encodeURIComponent(NamespaceFilter);
+        }
 
         // some options have additional associated data
         if( 'referenced_object_type' in OptionData ) {
