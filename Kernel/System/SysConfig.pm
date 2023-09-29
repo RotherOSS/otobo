@@ -2278,8 +2278,8 @@ sub ConfigurationEntitiesGet {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheType = "SysConfigEntities";
-    my $CacheKey  = "UsedEntities";
+    my $CacheType = 'SysConfigEntities';
+    my $CacheKey  = 'UsedEntities';
 
     my $CacheData = $CacheObject->Get(
         Type => $CacheType,
@@ -2287,12 +2287,14 @@ sub ConfigurationEntitiesGet {
     );
 
     # Return cached data if available.
-    return %{$CacheData} if $CacheData;
+    return $CacheData->%* if $CacheData;
 
-    my %Result = ();
+    my %Result;
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
+    # Find settings that have an ValidEntityType set.
+    # TODO: this is based on a substring search in XML text, so unwanted settings might be returned too
     my @EntitySettings = $SysConfigDBObject->DefaultSettingSearch(
         Search => 'ValueEntityType',
     );
@@ -2365,6 +2367,7 @@ sub ConfigurationEntityCheck {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -2373,6 +2376,7 @@ sub ConfigurationEntityCheck {
             Priority => 'error',
             Message  => "EntityType is invalid!"
         );
+
         return;
     }
 
@@ -2390,33 +2394,22 @@ sub ConfigurationEntityCheck {
     );
 
     # Return cached data if available.
-    return @{$CacheData} if $CacheData;
+    return $CacheData->@* if $CacheData;
 
-    my %EntitySettings = $Self->ConfigurationEntitiesGet();
-
-    my @Result;
-
-    for my $EntityType ( sort keys %EntitySettings ) {
-
-        # Check conditions.
-        if (
-            $EntityType eq $Param{EntityType}
-            && $EntitySettings{$EntityType}{ $Param{EntityName} }
-            )
-        {
-            @Result = @{ $EntitySettings{$EntityType}->{ $Param{EntityName} } };
-        }
-    }
+    # look in the database when there is no cache
+    my %AllTypedEntities       = $Self->ConfigurationEntitiesGet;
+    my $EntitiesOfType         = $AllTypedEntities{ $Param{EntityType} } // {};
+    my $EntitiesOfTypeWithName = $EntitiesOfType->{ $Param{EntityName} } // [];
 
     # Cache the results.
     $CacheObject->Set(
         Type  => $CacheType,
         Key   => $CacheKey,
-        Value => \@Result,
+        Value => $EntitiesOfTypeWithName,
         TTL   => 30 * 24 * 60 * 60,
     );
 
-    return @Result;
+    return $EntitiesOfTypeWithName->@*;
 }
 
 =head2 ConfigurationXML2DB()
@@ -5486,6 +5479,8 @@ sub _ConfigurationEntitiesGet {
         }
     }
 
+    # TODO: Copying the top level of the hash is not really necessary
+    #       as the values are hashrefs are themselves
     my %Result          = %{ $Param{Result} || {} };
     my $ValueEntityType = $Param{ValueEntityType} || '';
 
@@ -5506,9 +5501,7 @@ sub _ConfigurationEntitiesGet {
         if ( $Param{Value}->{Content} ) {
 
             # If there is no hash item, create new.
-            if ( !defined $Result{$ValueEntityType} ) {
-                $Result{$ValueEntityType} = {};
-            }
+            $Result{$ValueEntityType} //= {};
 
             # Extract value (without white space).
             my $Value = $Param{Value}->{Content};
@@ -5522,7 +5515,7 @@ sub _ConfigurationEntitiesGet {
 
             # Check if current config is not in the array.
             if ( !grep { $_ eq $Param{Name} } @{ $Result{$ValueEntityType}->{$Value} } ) {
-                push @{ $Result{$ValueEntityType}->{$Value} }, $Param{Name};
+                push $Result{$ValueEntityType}->{$Value}->@*, $Param{Name};
             }
         }
         else {

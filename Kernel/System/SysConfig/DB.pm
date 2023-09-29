@@ -1161,8 +1161,8 @@ sub DefaultSettingSearch {
         my %QueryCondition = $DBObject->QueryCondition(
             Key          => $Column,
             Value        => $Param{Search},
-            SearchPrefix => "*",
-            SearchSuffix => "*",
+            SearchPrefix => '*',
+            SearchSuffix => '*',
             BindMode     => 1,
         );
 
@@ -1198,10 +1198,8 @@ sub DefaultSettingSearch {
     );
 
     my @Result;
-
-    ROW:
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @Result, $Row[0];
+    while ( my ($Name) = $DBObject->FetchrowArray ) {
+        push @Result, $Name;
     }
 
     return @Result;
