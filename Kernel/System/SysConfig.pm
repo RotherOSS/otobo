@@ -2396,31 +2396,20 @@ sub ConfigurationEntityCheck {
     # Return cached data if available.
     return $CacheData->@* if $CacheData;
 
-    my %EntitySettings = $Self->ConfigurationEntitiesGet();
-
-    my @Result;
-
-    for my $EntityType ( sort keys %EntitySettings ) {
-
-        # Check conditions.
-        if (
-            $EntityType eq $Param{EntityType}
-            && $EntitySettings{$EntityType}{ $Param{EntityName} }
-            )
-        {
-            @Result = @{ $EntitySettings{$EntityType}->{ $Param{EntityName} } };
-        }
-    }
+    # look in the database when there is no cache
+    my %AllTypedEntities       = $Self->ConfigurationEntitiesGet;
+    my $EntitiesOfType         = $AllTypedEntities{ $Param{EntityType} } // {};
+    my $EntitiesOfTypeWithName = $EntitiesOfType->{ $Param{EntityName} } // [];
 
     # Cache the results.
     $CacheObject->Set(
         Type  => $CacheType,
         Key   => $CacheKey,
-        Value => \@Result,
+        Value => $EntitiesOfTypeWithName,
         TTL   => 30 * 24 * 60 * 60,
     );
 
-    return @Result;
+    return $EntitiesOfTypeWithName->@*;
 }
 
 =head2 ConfigurationXML2DB()
