@@ -437,7 +437,6 @@
         <Navigation>Frontend::Agent::LinkObject</Navigation>
         <Value>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::LinkObject::Appointment.pm</Item>
                 <Item Key="DefaultColumns">
                     <Hash>
                         <Item Key="CalendarName">1</Item>

@@ -19,6 +19,11 @@ package Kernel::Output::HTML::Layout::LinkObject;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::LinkObject;
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
@@ -31,7 +36,8 @@ Kernel::Output::HTML::Layout::LinkObject - all LinkObject-related HTML functions
 
 =head1 DESCRIPTION
 
-All LinkObject-related HTML functions
+All LinkObject-related HTML functions. Object specific behavior is coded in backend modules
+that are located in the C<Kernel::Output::HTML::Layout::LinkObject> namespace.
 
 =head1 PUBLIC INTERFACE
 
@@ -61,7 +67,6 @@ sub LinkObjectTableCreate {
     }
 
     if ( $Param{ViewMode} =~ m{ \A Simple }xms ) {
-
         return $Self->LinkObjectTableCreateSimple(
             LinkListWithData               => $Param{LinkListWithData},
             ViewMode                       => $Param{ViewMode},
@@ -69,7 +74,6 @@ sub LinkObjectTableCreate {
         );
     }
     else {
-
         return $Self->LinkObjectTableCreateComplex(
             LinkListWithData               => $Param{LinkListWithData},
             ViewMode                       => $Param{ViewMode},
@@ -155,7 +159,7 @@ sub LinkObjectTableCreateComplex {
             Object => $Object,
         );
 
-        next OBJECT if !$BackendObject;
+        next OBJECT unless $BackendObject;
 
         # get block data
         my @BlockData = $BackendObject->TableCreateComplex(
@@ -164,7 +168,7 @@ sub LinkObjectTableCreateComplex {
             ObjectID               => $Param{ObjectID},
         );
 
-        next OBJECT if !@BlockData;
+        next OBJECT unless @BlockData;
 
         push @OutputData, @BlockData;
     }
@@ -385,7 +389,7 @@ sub LinkObjectTableCreateComplex {
     my $SettingsVisibility = $Kernel::OM->Get('Kernel::Config')->Get("LinkObject::ComplexTable::SettingsVisibility")
         || {};
 
-    my @SettingsVisible = ();
+    my @SettingsVisible;
 
     if ( IsHashRefWithData($SettingsVisibility) ) {
         for my $Key ( sort keys %{$SettingsVisibility} ) {
@@ -630,7 +634,7 @@ sub LinkObjectTableCreateSimple {
             Object => $Object,
         );
 
-        next OBJECT if !$BackendObject;
+        next OBJECT unless $BackendObject;
 
         # get link output data
         my %LinkOutputData = $BackendObject->TableCreateSimple(
@@ -742,7 +746,7 @@ sub LinkObjectSelectableObjectList {
         UserID => $Self->{UserID},
     );
 
-    return if !%PossibleObjectsList;
+    return unless %PossibleObjectsList;
 
     # get the select lists
     my @SelectableObjectList;
@@ -756,7 +760,8 @@ sub LinkObjectSelectableObjectList {
             Object => $PossibleObject,
         );
 
-        return if !$BackendObject;
+        # it is expected that all backend objects exist
+        return unless $BackendObject;
 
         # get object select list
         my @SelectableList = $BackendObject->SelectableObjectList(
@@ -773,8 +778,11 @@ sub LinkObjectSelectableObjectList {
         # check each keys if blank lines must be added
         ROW:
         for my $Row (@SelectableList) {
-            next ROW if !$Row->{Key} || $Row->{Key} !~ m{ :: }xms;
+            next ROW unless $Row->{Key};
+            next ROW unless $Row->{Key} =~ m{ :: }xms;
+
             $AddBlankLines = 1;
+
             last ROW;
         }
     }
@@ -846,7 +854,7 @@ sub LinkObjectSearchOptionList {
         Object => $Param{Object},
     );
 
-    return if !$BackendObject;
+    return unless $BackendObject;
 
     # get search option list
     my @SearchOptionList = $BackendObject->SearchOptionList(
@@ -1246,9 +1254,9 @@ sub _LinkObjectContentStringCreate {
 
 =head2 _LoadLinkObjectLayoutBackend()
 
-load a linkobject layout backend module
+load a object specific linkobject layout backend module
 
-    $BackendObject = $LayoutObject->_LoadLinkObjectLayoutBackend(
+    my $BackendObject = $LayoutObject->_LoadLinkObjectLayoutBackend(
         Object => 'Ticket',
     );
 
@@ -1266,6 +1274,7 @@ sub _LoadLinkObjectLayoutBackend {
             Priority => 'error',
             Message  => 'Need Object!',
         );
+
         return;
     }
 
@@ -1273,19 +1282,19 @@ sub _LoadLinkObjectLayoutBackend {
     return $Self->{Cache}->{LoadLinkObjectLayoutBackend}->{ $Param{Object} }
         if $Self->{Cache}->{LoadLinkObjectLayoutBackend}->{ $Param{Object} };
 
-    my $GenericModule = "Kernel::Output::HTML::LinkObject::$Param{Object}";
-
     # load the backend module
-    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
+    my $BackendModule = "Kernel::Output::HTML::LinkObject::$Param{Object}";
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($BackendModule) ) {
         $LogObject->Log(
             Priority => 'error',
             Message  => "Can't load backend module $Param{Object}!"
         );
+
         return;
     }
 
     # create new instance
-    my $BackendObject = $GenericModule->new(
+    my $BackendObject = $BackendModule->new(
         %{$Self},
         %Param,
     );
@@ -1295,6 +1304,7 @@ sub _LoadLinkObjectLayoutBackend {
             Priority => 'error',
             Message  => "Can't create a new instance of backend module $Param{Object}!",
         );
+
         return;
     }
 
