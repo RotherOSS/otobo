@@ -13587,7 +13587,6 @@ Thanks for your help!
         <Navigation>Frontend::Agent::LinkObject</Navigation>
         <Value>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::LinkObject::Ticket.pm</Item>
                 <Item Key="DefaultColumns">
                     <Hash>
                         <DefaultItem ValueType="Select">
