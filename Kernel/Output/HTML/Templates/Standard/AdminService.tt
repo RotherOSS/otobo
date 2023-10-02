@@ -209,6 +209,7 @@
                         <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]: </label>
                         <div class="Field">
                             <input type="password" class="W25pc" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="" />
+                            <i class="PasswordToggle fa fa-eye"></i>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Password") %]

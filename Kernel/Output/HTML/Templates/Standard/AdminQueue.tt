@@ -410,6 +410,7 @@
                         <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
                         <div class="Field">
                             <input type="password" name="[% Data.Name | html %]" id="[% Data.Name | html %]" class="W50pc" maxlength="30" value=""/>
+                            <i class="PasswordToggle fa fa-eye"></i>
                             <a href="">[% Data.Filename | html %]</a>
                         </div>
                         <div class="Clear"></div>

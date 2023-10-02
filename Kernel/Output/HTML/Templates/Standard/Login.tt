@@ -162,6 +162,7 @@
                                         <span class="Marker">*</span> [% Translate("Password") | html %]
                                     </label>
                                     <input type="password" autocomplete="[% Data.PasswordAutocomplete %]" placeholder="[% Translate("Password") | html %]" id="Password" name="Password" class="W75pc Validate_Required" />
+                                    <i class="PasswordToggle fa fa-eye"></i>
                                     <div id="PasswordError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                                 </div>
                                 <div class="Clear"></div>

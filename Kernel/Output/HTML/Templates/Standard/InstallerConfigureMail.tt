@@ -86,6 +86,7 @@
                     <label for="SMTPAuthPassword">[% Translate("SMTP auth password") | html %]:</label>
                     <div class="Field">
                         <input type="password" id="SMTPAuthPassword" name="SMTPAuthPassword" value="[% Data.SMTPAuthPassword | html %]" disabled="disabled" class="W33pc" autocomplete="off">
+                        <i class="PasswordToggle fa fa-eye"></i>
                         <p class="FieldExplanation">
                             [% Translate("Password for SMTP auth.") | html %]
                         </p>
@@ -129,6 +130,7 @@
                     <label for="InboundPassword">[% Translate("Inbound mail password") | html %]:</label>
                     <div class="Field">
                         <input type="password" id="InboundPassword" name="InboundPassword" value="[% Data.InboundPassword | html %]" class="W33pc" autocomplete="off">
+                        <i class="PasswordToggle fa fa-eye"></i>
                         <p class="FieldExplanation">
                             [% Translate("Password for inbound mail.") | html %]
                         </p>

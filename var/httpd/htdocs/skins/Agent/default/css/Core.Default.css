@@ -1861,3 +1861,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
         color: #00023c;
     }
 }
+
+.PasswordToggle {
+    cursor: pointer;
+}

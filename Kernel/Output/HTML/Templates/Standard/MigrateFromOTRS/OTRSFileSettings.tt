@@ -48,6 +48,7 @@
                     <label for="Password" class="oooRemote Hidden">[% Translate("Password") | html %]:</label>
                     <div class="Field oooRemote Hidden">
                         <input type="password" id="Password" name="Password" value="" class="W50pc" autocomplete="off" value="[% Data.Password %]" />
+                        <i class="PasswordToggle fa fa-eye"></i>
                     </div>
                     <div class="Clear" class="oooRemote Hidden"></div>
 

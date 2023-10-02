@@ -247,6 +247,19 @@ Core.UI.InputFields = (function (TargetNS) {
             $('.DynamicFieldReference', $Context).each(function () {
                 Core.Agent.DynamicFieldReferenceSearch.InitElement($(this), AutoCompleteActive);
             });
+
+            $('.PasswordToggle').on('click', function() {
+                var $PasswordInput = $(this).prev('input');
+                if ( $PasswordInput.attr('type') == 'text' ) {
+                    $PasswordInput.attr('type', 'password');
+                    $(this).removeClass('fa-eye-slash');
+                }
+                else if ( $PasswordInput.attr('type') == 'password' ) {
+                    $PasswordInput.attr('type', 'text');
+                    $(this).addClass('fa-eye-slash');
+                }
+
+            });
         }
     };
 

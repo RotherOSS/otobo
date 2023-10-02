@@ -186,6 +186,7 @@
                         <label class="Mandatory" for="PasswordAdd"><span class="Marker">*</span> [% Translate("Password") | html %]:</label>
                         <div class="Field">
                             <input type="password" class="W50pc Validate_Required [% Data.PasswordAddInvalid | html %]" name="Password" id="PasswordAdd" value="" maxlength="200" autocomplete="off" />
+                            <i class="PasswordToggle fa fa-eye"></i>
                             <div id="PasswordAddError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
@@ -306,6 +307,7 @@
                         <label class="Mandatory" for="PasswordEdit"><span class="Marker">*</span> [% Translate("Password") | html %]:</label>
                         <div class="Field">
                             <input type="password" class="W50pc Validate_Required [% Data.PasswordEditInvalid | html %]" name="Password" id="PasswordEdit" value="[% IF Data.Password %]otobo-dummy-password-placeholder[% END %]" maxlength="200" autocomplete="off" />
+                            <i class="PasswordToggle fa fa-eye"></i>
                             <div id="PasswordEditError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>

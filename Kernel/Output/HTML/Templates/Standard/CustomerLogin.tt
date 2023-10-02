@@ -92,6 +92,7 @@
                     </div>
                     <div class="Row">
                         <input title="[% Translate("Your password") | html %]" type="password" name="Password" id="Password" autocomplete="[% Data.PasswordAutocomplete %]" />
+                        <i class="PasswordToggle ooofo ooofo-eye"></i>
                         <label for="Password">[% Translate("Password") | html %]</label>
 [% RenderBlockStart("LostPasswordLink") %]
                         <div class="Option">

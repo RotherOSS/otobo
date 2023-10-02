@@ -166,6 +166,7 @@
                                     <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
                                     <div class="Field">
                                         <input name="[% Data.Name | html %]" id="[% Data.Name | html %]" type="password" [% IF Data.Autocomplete %]autocomplete="[% Data.Autocomplete | html %]"[% END %] />
+                                        <i class="PasswordToggle fa fa-eye"></i>
                                     </div>
                                     <div class="Clear"></div>
     [% RenderBlockEnd("Password") %]

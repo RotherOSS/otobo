@@ -356,6 +356,7 @@
                                     <label class="Mandatory" for="BasicAuthPassword"><span class="Marker">*</span>[% Translate("BasicAuth Password") | html %]:</label>
                                     <div class="Field">
                                         <input id="BasicAuthPassword" class="W50pc [% Data.BasicAuthPasswordValidateRequired | html %] [% Data.BasicAuthPasswordServerError | html %]" type="password" maxlength="250" value="[% Data.BasicAuthPassword | html %]" name="BasicAuthPassword"/>
+                                        <i class="PasswordToggle fa fa-eye"></i>
                                         <div id="BasicAuthPasswordError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                         <div id="BasicAuthPasswordServerError" class="TooltipErrorMessage"><p>[% Translate(Data.BasicAuthPasswordServerErrorMessage) | html %]</p></div>
                                         <p class="FieldExplanation">
@@ -399,6 +400,7 @@
                                     <label for="ProxyPassword">[% Translate("Proxy Password") | html %]:</label>
                                     <div class="Field">
                                         <input id="ProxyPassword" class="W50pc" type="password" maxlength="250" value="[% Data.ProxyPassword | html %]" name="ProxyPassword"/>
+                                        <i class="PasswordToggle fa fa-eye"></i>
                                         <p class="FieldExplanation">
                                             [% Translate("The password for the proxy user.") | html %]
                                         </p>
@@ -454,6 +456,7 @@
                                     <label for="SSLPassword">[% Translate("Client Certificate Key Password") | html %]:</label>
                                     <div class="Field">
                                         <input id="SSLPassword" class="W50pc" type="password" maxlength="250" value="[% Data.SSLPassword | html %]" name="SSLPassword"/>
+                                        <i class="PasswordToggle fa fa-eye"></i>
                                         <p class="FieldExplanation">
                                             [% Translate("The password to open the SSL certificate if the key is encrypted.") | html %]
                                         </p>
