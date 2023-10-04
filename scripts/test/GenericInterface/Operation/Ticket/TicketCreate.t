@@ -4725,16 +4725,10 @@ for my $Test (@Tests) {
         # TODO prevent failing test if enviroment on SaaS unit test system doesn't work.
         if (
             $Test->{SuccessCreate}
-<<<<<<< HEAD
-            && $RequesterResult->{ErrorMessage}
-            && $RequesterResult->{ErrorMessage} eq
-            'faultcode: Server, faultstring: Attachment could not be created, please contact the system administrator'
-=======
             &&
             $RequesterResult->{ErrorMessage}
             &&
             $RequesterResult->{ErrorMessage} eq 'faultcode: Server, faultstring: Attachment could not be created, please contact the system administrator'
->>>>>>> rel-10_1
             )
         {
 
@@ -4843,11 +4837,7 @@ for my $Test (@Tests) {
             else {
                 my $ExpectedCustomerUserID = $Test->{RequestData}->{Ticket}->{CustomerUser};
 
-<<<<<<< HEAD
-                if ( $Test->{Type} && $Test->{Type} eq 'EmailCustomerUser' ) {
-=======
                 if ( ( $Test->{Type} // '' ) eq 'EmailCustomerUser' ) {
->>>>>>> rel-10_1
                     $ExpectedCustomerUserID = $CustomerRand;
                 }
 
@@ -4943,14 +4933,9 @@ for my $Test (@Tests) {
             for my $DynamicField (@OriginalDynamicFields) {
 
                 if (
-<<<<<<< HEAD
-                    $DynamicField->{FieldType} && $DynamicField->{FieldType} eq 'Date'
-                    && $DynamicField->{Value}  && $DynamicField->{Value} =~ m{ \A \d{4}-\d{2}-\d{2} \z }xms
-=======
                     ( $DynamicField->{FieldType} // '' ) eq 'Date'
                     &&
                     ( $DynamicField->{Value} // '' ) =~ m{ \A \d{4}-\d{2}-\d{2} \z }xms
->>>>>>> rel-10_1
                     )
                 {
                     $DynamicField->{Value} .= ' 00:00:00';
@@ -5175,14 +5160,9 @@ for my $QueueData (@Queues) {
 }
 
 # delete group
-<<<<<<< HEAD
-$Success = $DBObject->Do(
+my $Success = $DBObject->Do(
     SQL  => 'DELETE FROM groups_table WHERE id = ?',
     Bind => [ \$GroupID ],
-=======
-my $Success = $DBObject->Do(
-    SQL => "DELETE FROM groups_table WHERE id = $GroupID",
->>>>>>> rel-10_1
 );
 ok( $Success, "Group with ID $GroupID is deleted!" );
 

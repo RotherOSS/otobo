@@ -988,69 +988,17 @@ for my $Test (@Tests) {
             );
         }
 
-        if ( $Test->{ExpectedReturnLocalData} ) {
-            $Test->{ExpectedReturnLocalData}->{Data} = {
-                %{ $Test->{ExpectedReturnLocalData}->{Data} },
-                ArticleID => $ArticleID,
-            };
-        }
-    }
-
-    # create requester object
-    my $RequesterObject = Kernel::GenericInterface::Requester->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
-    $Self->Is(
-        'Kernel::GenericInterface::Requester',
-        ref $RequesterObject,
-        "$Test->{Name} - Create requester object",
-    );
-
-    # start requester with our web-service
-    my $RequesterResult = $RequesterObject->Run(
-        WebserviceID => $WebserviceID,
-        Invoker      => $Test->{Operation},
-        Data         => {
-            %Auth,
-            %{ $Test->{RequestData} },
-        },
-    );
-
-    # TODO prevent failing test if enviroment on SaaS unit test system doesn't work.
-    if (
-        $RequesterResult->{ErrorMessage}
-        && $RequesterResult->{ErrorMessage} eq 'faultcode: Server, faultstring: Attachment could not be created, please contact the  system administrator'
-        )
-    {
-        next TEST;
-    }
-
-    # check result
-    $Self->Is(
-        'HASH',
-        ref $RequesterResult,
-        "$Test->{Name} - Requester result structure is valid",
-    );
-
-    $Self->Is(
-        $RequesterResult->{Success},
-        $Test->{SuccessRequest},
-        "$Test->{Name} - Requester successful result",
-    );
-
-    # remove ErrorMessage parameter from direct call
-    # result to be consistent with SOAP call result
-    if ( $LocalResult->{ErrorMessage} ) {
-        delete $LocalResult->{ErrorMessage};
-    }
-
-    if ( $Test->{IncludeTicketData} ) {
-        my %TicketGet = $TicketObject->TicketGet(
-            TicketID      => $TicketID1,
-            DynamicFields => 1,
-            Extended      => 1,
-            UserID        => 1,
+        # create local object
+        my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"->new(
+            %{$Self},
+            DebuggerObject => $DebuggerObject,
+            WebserviceID   => $WebserviceID,
+            ConfigObject   => $ConfigObject,
+        );
+        isa_ok(
+            $LocalObject,
+            ["Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"],
+            "Create local object"
         );
 
         my %Auth = (
