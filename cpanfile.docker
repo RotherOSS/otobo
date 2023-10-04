@@ -99,7 +99,7 @@ requires 'Const::Fast';
 
 # feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MySQL database.
-    requires 'DBD::mysql';
+    requires 'DBD::mysql', "== 4.050";
 
 # };
 
