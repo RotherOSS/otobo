@@ -29,7 +29,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     .Buttons {
-        margin: 4px 3px 2px;
+        margin: 8px 3px 2px;
     }
 
     .HeaderLeft,
@@ -91,6 +91,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .RTL .OverviewControl.Loading .ControlRow:after {
         left: 6px;
         right: auto;
+    }
+
+    .OverviewControl .fa  {
+        color: #FFF;
     }
 
 } /* end @media */

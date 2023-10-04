@@ -274,7 +274,12 @@ my $ExitCode = 0;    # success
 # The key 'Features' is only used for supporting features when creating a cpanfile.
 # Each module must either have exactly one of the attributes 'Required' or 'Features'.
 #
-# ATTENTION: when makeing changes here then make sure that you also regenerate the cpanfiles:
+# The allowed versions can be specified with the attributes 'VersionRequired' and 'VersionsNotSupported'.
+#
+# There are cases when a specific version is desired in a Docker build. This version can be
+# specified with the attribute 'DockerExactVersion'.
+#
+# ATTENTION: when making changes here then make sure that you also regenerate the cpanfiles:
 #            bin/otobo.CheckModules.pl --cpanfile        > cpanfile
 #            bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 my @NeededModules = (
@@ -646,10 +651,14 @@ my @NeededModules = (
                 Version => '4.042',
                 Comment => 'This version had encoding related issues. Version 4.043 was a rollback to 4.0.41',
             },
+            {
+                Version => '5.001',
+                Comment => q{This version can't be installed with the MariaDB client library.},
+            },
         ],
-        Features  => ['db:mysql'],
-        Comment   => 'Required to connect to a MySQL database.',
-        InstTypes => {
+        Features             => ['db:mysql'],
+        Comment              => 'Required to connect to a MariaDB or MySQL database.',
+        InstTypes            => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',
             zypper => 'perl-DBD-mysql',
@@ -1599,17 +1608,23 @@ sub PrintCpanfile {
             {
                 my @Conditions;
 
-                if ( $Module->{VersionRequired} ) {
-                    push @Conditions, ">= $Module->{VersionRequired}";
+                # exact version for Docker builds has higher priority
+                if ( $ForDocker && $Module->{DockerExactVersion} ) {
+                    push @Conditions, "== $Module->{DockerExactVersion}";
                 }
+                else {
+                    if ( $Module->{VersionRequired} ) {
+                        push @Conditions, ">= $Module->{VersionRequired}";
+                    }
 
-                if ( $Module->{VersionsNotSupported} ) {
+                    if ( $Module->{VersionsNotSupported} ) {
 
-                    my $VersionsNotSupported = 0;
-                    ITEM:
-                    for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
-                        say $Indent, "# Version $Item->{Version} not supported: $Item->{Comment}";
-                        push @Conditions, "!= $Item->{Version}";
+                        my $VersionsNotSupported = 0;
+                        ITEM:
+                        for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
+                            say $Indent, "# Version $Item->{Version} not supported: $Item->{Comment}";
+                            push @Conditions, "!= $Item->{Version}";
+                        }
                     }
                 }
 

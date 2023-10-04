@@ -2535,7 +2535,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // Expand disabled nodes on click
                     setTimeout( function() {
-                        $('.Disabled > a.jstree-anchor').on('click', function() {
+                        $('.Disabled.jstree-closed > a.jstree-anchor, .Disabled.jstree-open > a.jstree-anchor').on('click', function() {
                             $(this).prev('.jstree-icon').trigger('click');
 
                             return false;
@@ -2680,7 +2680,12 @@ Core.UI.InputFields = (function (TargetNS) {
                         }
                     }
                     CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
-                    $SearchObj.width($SelectObj.outerWidth());
+
+                    // before fetching the outer width, the select element has to be displayed
+                    // because outerWidth() does not work correctly on hidden elements
+                    SelectWidth = $SelectObj.show().outerWidth();
+                    $SelectObj.hide();
+                    $SearchObj.width(SelectWidth);
                     ShowSelectionBoxes($SelectObj, $InputContainerObj);
                 })
 

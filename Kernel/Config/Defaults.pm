@@ -528,6 +528,7 @@ sub LoadDefaults {
 #        UseNonce   => 1,      # add a nonce to request and token (this is primarily important for the implicit flow where it is enabled by default)
 #        RandLength => 22,     # length for state and nonce random strings - default: 22
 #        RandTTL    => 60 * 5, # valid time period for state and nonce (roughly the time a user can take to authenticate) - default: 300 s
+#        Leeway     => 2,      # leeway for small time differences between the OTOBO server and the OpenID provier - default: 2 s
 #    };
     # Optionally enable user authorization via the id token - hashes can be used for complex claims
 #    $Self->{'AuthModule::OpenIDConnect::RoleMap'} = {
@@ -1522,6 +1523,7 @@ via the Preferences button after logging in.
 #        UseNonce   => 1,      # add a nonce to request and token (this is primarily important for the implicit flow where it is enabled by default)
 #        RandLength => 22,     # length for state and nonce random strings - default: 22
 #        RandTTL    => 60 * 5, # valid time period for state and nonce (roughly the time a user can take to authenticate) - default: 300 s
+#        Leeway     => 2,      # leeway for small time differences between the OTOBO server and the OpenID provier - default: 2 s
 #    };
     # For debugging purposes you can dump all IDTokens received to the log
 #    $Self->{'Customer::AuthModule::OpenIDConnect::Debug'}->{'LogIDToken'} = 1;

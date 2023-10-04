@@ -40,10 +40,24 @@ Core.Agent.TicketEmailOutbound = (function (TargetNS) {
         var ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
             DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
 
-        // remove customers
+        // add event listeners to remove or move customers
         $('.CustomerTicketRemove').on('click', function () {
             Core.Agent.CustomerSearch.RemoveCustomerTicket($(this));
             return false;
+        });
+        $('.MoveCustomerButton').on('click', function () {
+            var MoveCustomerKey = $('.CustomerKey', $(this).parent()).val(),
+                MoveCustomerVal = $('.CustomerTicketText', $(this).parent()).val(),
+                TargetField     =
+                    $(this).hasClass('ToMove')  ? 'ToCustomer'  :
+                    $(this).hasClass('CcMove')  ? 'CcCustomer'  :
+                    $(this).hasClass('BccMove') ? 'BccCustomer' : '';
+
+            // remove the current entry
+            $('.RemoveButton', $(this).parent()).click();
+
+            // add the customer to the target field
+            Core.Agent.CustomerSearch.AddTicketCustomer(TargetField, MoveCustomerVal, MoveCustomerKey);
         });
 
         // set a template

@@ -160,7 +160,15 @@ sub Auth {
         $User = $Self->{"AuthBackend$Count"}->Auth(%Param);
 
         # next on no success
-        next COUNT if !$User;
+        if ( !$User ) {
+
+            # get error message of auth backend if present
+            if ( $Self->{"AuthBackend$Count"}->{AuthError} ) {
+                $Self->{LastErrorMessage} = $Self->{"AuthBackend$Count"}->{AuthError};
+            }
+
+            next COUNT;
+        }
 
         # Sync will happen before two factor authentication (if configured)
         # because user might not exist before being created in sync (see bug #11966).

@@ -426,8 +426,12 @@ var Core = Core || {};
                 // update key name
                 Key = $(this).parent().parent().find(".Key").val();
 
-                FullName = FullName.substr(0, FullName.lastIndexOf("###"));
-                FullName += "###" + Key;
+                // some value types, e.g. Day, need to be rewritten
+                // note that in those situations using '###' in the key breaks this
+                if ( Key.indexOf('###') === -1 ) {
+                    FullName = FullName.substr(0, FullName.lastIndexOf("###"));
+                    FullName += "###" + Key;
+                }
             }
 
             Data[SettingName] = ValueSet(Data[SettingName], FullName, Value);

@@ -143,7 +143,15 @@ sub Auth {
         $User = $Self->{"AuthBackend$Count"}->Auth(%Param);
 
         # next on no success
-        next COUNT if !$User;
+        if ( !$User ) {
+
+            # get error message of auth backend if present
+            if ( $Self->{"AuthBackend$Count"}->{AuthError} ) {
+                $Self->{LastErrorMessage} = $Self->{"AuthBackend$Count"}->{AuthError};
+            }
+
+            next COUNT;
+        }
 
         # check 2factor auth backends
         my $TwoFactorAuth;

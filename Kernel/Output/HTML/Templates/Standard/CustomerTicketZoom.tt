@@ -31,7 +31,11 @@
         <div class='oooInfoBlock'>
             <p class='oooInfo ooo12'><i class="ooofo ooofo-info"></i> <span>[% Translate('Information') | html %]</span></p>
         </div>
+        <div>
+[% RenderBlockStart("ReplyButton") %]
         <button id="ReplyButton" class="DontPrint oooM"><span>[% Translate("Reply") | html %] </span><i class="ooofo ooofo-arrow_r2"></i></button>
+[% RenderBlockEnd("ReplyButton") %]
+        </div>
         <i class="ooofo ooofo-more_v"></i>
         <div id='oooCategories'>
 [% RenderBlockStart("Categories") %]

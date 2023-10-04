@@ -18,18 +18,22 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+use MIME::Base64 qw(encode_base64);
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self::main
 use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+use Kernel::GenericInterface::Debugger;
+use Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
+use Kernel::GenericInterface::Operation::Session::SessionCreate;
+use Kernel::GenericInterface::Requester;
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 our $Self;
-
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Operation::Session::SessionCreate;
-use Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
-use Kernel::GenericInterface::Requester;
-
-use Kernel::System::VariableCheck qw(:all);
 
 # get helper object
 # skip SSL certificate verification
@@ -341,7 +345,7 @@ my $WebserviceConfig = {
     },
 };
 
-# update web-service with real config
+# update web service with real config
 # the update is needed because we are using
 # the WebserviceID for the Endpoint in config
 my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
@@ -455,8 +459,7 @@ my @Tests = (
             Data => {
                 Error => {
                     ErrorCode    => 'TicketUpdate.AccessDenied',
-                    ErrorMessage =>
-                        'TicketUpdate: User does not have access to the ticket!'
+                    ErrorMessage => 'TicketUpdate: User does not have access to the ticket!',
                 },
             },
             Success => 1
@@ -465,8 +468,7 @@ my @Tests = (
             Data => {
                 Error => {
                     ErrorCode    => 'TicketUpdate.AccessDenied',
-                    ErrorMessage =>
-                        'TicketUpdate: User does not have access to the ticket!'
+                    ErrorMessage => 'TicketUpdate: User does not have access to the ticket!',
                 },
             },
             Success => 1
@@ -817,6 +819,54 @@ my @Tests = (
         Operation => 'TicketUpdate',
     },
     {
+        Name           => 'Add email article with attachment where ContentType contains a carriage return',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID => $TicketID1,
+            Ticket   => {
+                Title => 'Updated',
+            },
+            Article => {
+                Subject              => 'Article subject',
+                Body                 => 'Article body',
+                AutoResponseType     => 'auto reply',
+                IsVisibleForCustomer => 1,
+                CommunicationChannel => 'Email',
+                SenderType           => 'agent',
+                Charset              => 'utf8',
+                MimeType             => 'text/plain',
+                HistoryType          => 'AddNote',
+                HistoryComment       => '%%',
+            },
+            Attachment => [
+                {
+                    Content     => 'Ymx1YiBibHViIGJsdWIg',
+                    ContentType => qq{text/html\rsome="thing"},
+                    Filename    => 'reject_content_type',
+                },
+            ],
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Error => {
+                    ErrorCode    => 'TicketUpdate.InvalidParameter',
+                    ErrorMessage => 'TicketUpdate: Attachment->ContentType is invalid!',
+                },
+            },
+            Success => 1
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Error => {
+                    ErrorCode    => 'TicketUpdate.InvalidParameter',
+                    ErrorMessage => 'TicketUpdate: Attachment->ContentType is invalid!',
+                },
+            },
+            Success => 1
+        },
+        Operation => 'TicketUpdate',
+    },
+    {
         Name           => 'Add article (with To, Cc and Bcc parameters)',
         SuccessRequest => '1',
         RequestData    => {
@@ -902,7 +952,6 @@ my @Tests = (
 
 # debugger object
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -910,88 +959,33 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => $WebserviceID,
     CommunicationType => 'Provider',
 );
-$Self->Is(
-    ref $DebuggerObject,
-    'Kernel::GenericInterface::Debugger',
-    'DebuggerObject instantiate correctly',
+isa_ok(
+    $DebuggerObject,
+    ['Kernel::GenericInterface::Debugger'],
+    'DebuggerObject instantiate correctly'
 );
 
 FixedTimeSet();
 
 my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-TEST:
 for my $Test (@Tests) {
+    subtest $Test->{Name} => sub {
 
-    # Update web service config to include ticket data in responses.
-    if ( $Test->{IncludeTicketData} ) {
-        $WebserviceConfig->{Provider}->{Operation}->{TicketUpdate}->{IncludeTicketData} = 1;
-        my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
-            ID      => $WebserviceID,
-            Name    => $WebserviceName,
-            Config  => $WebserviceConfig,
-            ValidID => 1,
-            UserID  => $Self->{UserID},
-        );
-        $Self->True(
-            $WebserviceUpdate,
-            'WebserviceUpdate - Turned on IncludeTicketData'
-        );
-    }
-
-    # create local object
-    my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"->new(
-        %{$Self},
-        DebuggerObject => $DebuggerObject,
-        WebserviceID   => $WebserviceID,
-        ConfigObject   => $ConfigObject,
-    );
-
-    $Self->Is(
-        "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}",
-        ref $LocalObject,
-        "$Test->{Name} - Create local object",
-    );
-
-    my %Auth = (
-        UserLogin => $UserLogin,
-        Password  => $Password,
-    );
-    if ( IsHashRefWithData( $Test->{Auth} ) ) {
-        %Auth = %{ $Test->{Auth} };
-    }
-
-    # start requester with our web-service
-    my $LocalResult = $LocalObject->Run(
-        WebserviceID => $WebserviceID,
-        Invoker      => $Test->{Operation},
-        Data         => {
-            %Auth,
-            %{ $Test->{RequestData} },
-        },
-    );
-
-    # check result
-    $Self->Is(
-        'HASH',
-        ref $LocalResult,
-        "$Test->{Name} - Local result structure is valid",
-    );
-
-    if ( $Test->{RequestData}->{Article} ) {
-
-        # Get latest article data.
-        my @ArticleList = $ArticleObject->ArticleList(
-            TicketID => $TicketID1,
-            OnlyLast => 1,
-        );
-
-        my $ArticleID;
-
-        ARTICLE:
-        for my $Article (@ArticleList) {
-            $ArticleID = $Article->{ArticleID};
-            last ARTICLE;
+        # Update web service config to include ticket data in responses.
+        if ( $Test->{IncludeTicketData} ) {
+            $WebserviceConfig->{Provider}->{Operation}->{TicketUpdate}->{IncludeTicketData} = 1;
+            my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
+                ID      => $WebserviceID,
+                Name    => $WebserviceName,
+                Config  => $WebserviceConfig,
+                ValidID => 1,
+                UserID  => $Self->{UserID},
+            );
+            $Self->True(
+                $WebserviceUpdate,
+                'WebserviceUpdate - Turned on IncludeTicketData'
+            );
         }
 
         if ( $Test->{ExpectedReturnLocalData} ) {
@@ -1059,221 +1053,322 @@ for my $Test (@Tests) {
             UserID        => 1,
         );
 
-        my %TicketData;
-        my @DynamicFields;
-
-        # Transform some ticket properties so they match expected data structure.
-        KEY:
-        for my $Key ( sort keys %TicketGet ) {
-
-            # Quote some properties as strings.
-            if ( $Key eq 'UntilTime' ) {
-                $TicketData{$Key} = "$TicketGet{$Key}";
-                next KEY;
-            }
-
-            # Push all dynamic field data in a separate array structure.
-            elsif ( $Key =~ m{^DynamicField_(?<DFName>\w+)$}xms ) {
-                push @DynamicFields, {
-                    Name  => $+{DFName},
-                    Value => $TicketGet{$Key} // '',
-                };
-                next KEY;
-            }
-
-            # Skip some fields since they might differ.
-            elsif (
-                $Key eq 'Age'
-                || $Key eq 'FirstResponse'
-                || $Key eq 'Changed'
-                || $Key eq 'UnlockTimeout'
-                )
-            {
-                next KEY;
-            }
-
-            # Include any other ticket property as-is. Undefined values should be represented as empty string.
-            $TicketData{$Key} = $TicketGet{$Key} // '';
-        }
-
-        if (@DynamicFields) {
-            $TicketData{DynamicField} = \@DynamicFields;
-        }
-
-        $Test->{ExpectedReturnRemoteData}->{Data} = {
-            %{ $Test->{ExpectedReturnRemoteData}->{Data} },
-            Ticket => \%TicketData,
-        };
-    }
-
-    if ( defined $Test->{RequestData}->{Ticket}->{CustomerUser} ) {
-        $Self->Is(
-            "\"$CustomerUserLogin $CustomerUserLogin\" <$CustomerUserLogin\@localunittest.com>",
-            $RequesterResult->{Data}->{Ticket}->{Article}->{To},
-            "Article parameter To is set well after TicketUpdate()",
+        my %Auth = (
+            UserLogin => $UserLogin,
+            Password  => $Password,
         );
-    }
-
-    if ( $Test->{RequestData}->{Article} ) {
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
-
-        # Check if parameters To, cc and Bcc set well
-        # See bug#14393 for more information.
-        if (
-            defined $Test->{RequestData}->{Article}->{To}
-            && defined $Test->{RequestData}->{Article}->{Cc}
-            && defined $Test->{RequestData}->{Article}->{Bcc}
-            )
-        {
-
-            for my $Item (qw(To Cc Bcc)) {
-                $Self->Is(
-                    $Test->{RequestData}->{Article}->{$Item},
-                    $RequesterResult->{Data}->{Ticket}->{Article}->{$Item},
-                    "Article parameter $Item is set well after TicketUpdate() - $Test->{RequestData}->{Article}->{$Item}",
-                );
-            }
+        if ( IsHashRefWithData( $Test->{Auth} ) ) {
+            %Auth = $Test->{Auth}->%*;
         }
 
-        # Get latest article data.
-        my @ArticleList = $ArticleObject->ArticleList(
-            TicketID => $TicketID1,
-            OnlyLast => 1,
+        # start requester with our web service
+        my $LocalResult = $LocalObject->Run(
+            WebserviceID => $WebserviceID,
+            Invoker      => $Test->{Operation},
+            Data         => {
+                %Auth,
+                $Test->{RequestData}->%*,
+            },
         );
 
-        my %Article;
+        # check result
+        ref_ok(
+            $LocalResult,
+            'HASH',
+            "Local result structure is valid"
+        );
 
-        ARTICLE:
-        for my $Article (@ArticleList) {
-            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
+        if ( $Test->{RequestData}->{Article} ) {
 
-            %Article = $ArticleBackendObject->ArticleGet(
-                %{$Article},
-                DynamicFields => 1,
+            # Get latest article data.
+            my @ArticleList = $ArticleObject->ArticleList(
+                TicketID => $TicketID1,
+                OnlyLast => 1,
             );
 
-            for my $Key ( sort keys %Article ) {
-                $Article{$Key} //= '';
+            my $ArticleID;
+
+            ARTICLE:
+            for my $Article (@ArticleList) {
+                $ArticleID = $Article->{ArticleID};
+                last ARTICLE;
             }
 
-            # Push all dynamic field data in a separate array structure.
-            my $DynamicFields;
+            if ( $Test->{IncludeTicketData} && $Test->{ExpectedReturnLocalData} ) {
+                $Test->{ExpectedReturnLocalData}->{Data}->{ArticleID} = $ArticleID;
+            }
+        }
+
+        # create requester object
+        my $RequesterObject = Kernel::GenericInterface::Requester->new(
+            %{$Self},
+            ConfigObject => $ConfigObject,
+        );
+        isa_ok(
+            $RequesterObject,
+            ['Kernel::GenericInterface::Requester'],
+            "Create requester object"
+        );
+
+        # start requester with our web-service
+        my $RequesterResult = $RequesterObject->Run(
+            WebserviceID => $WebserviceID,
+            Invoker      => $Test->{Operation},
+            Data         => {
+                %Auth,
+                $Test->{RequestData}->%*,
+            },
+        );
+
+        # TODO prevent failing test if enviroment on SaaS unit test system doesn't work.
+        if (
+            $RequesterResult->{ErrorMessage}
+            &&
+            $RequesterResult->{ErrorMessage} eq 'faultcode: Server, faultstring: Attachment could not be created, please contact the  system administrator'
+            )
+        {
+            return;
+        }
+
+        # check result
+        ref_ok(
+            $RequesterResult,
+            'HASH',
+            "Requester result structure is valid"
+        );
+
+        is(
+            $RequesterResult->{Success},
+            $Test->{SuccessRequest},
+            "Requester successful result"
+        );
+
+        # remove ErrorMessage parameter from direct call
+        # result to be consistent with SOAP call result
+        if ( $LocalResult->{ErrorMessage} ) {
+            delete $LocalResult->{ErrorMessage};
+        }
+
+        if ( $Test->{IncludeTicketData} ) {
+            my %TicketGet = $TicketObject->TicketGet(
+                TicketID      => $TicketID1,
+                DynamicFields => 1,
+                Extended      => 1,
+                UserID        => 1,
+            );
+
+            my %TicketData;
+            my @DynamicFields;
+
+            # Transform some ticket properties so they match expected data structure.
             KEY:
-            for my $Key ( sort keys %Article ) {
-                if ( $Key =~ m{^DynamicField_(?<DFName>\w+)$}xms ) {
-                    push @{$DynamicFields}, {
+            for my $Key ( sort keys %TicketGet ) {
+
+                # Quote some properties as strings.
+                if ( $Key eq 'UntilTime' ) {
+                    $TicketData{$Key} = "$TicketGet{$Key}";
+                    next KEY;
+                }
+
+                # Push all dynamic field data in a separate array structure.
+                elsif ( $Key =~ m{^DynamicField_(?<DFName>\w+)$}xms ) {
+                    push @DynamicFields, {
                         Name  => $+{DFName},
-                        Value => $Article{$Key} // '',
+                        Value => $TicketGet{$Key} // '',
                     };
                     next KEY;
                 }
-            }
-            for my $DynamicField ( @{$DynamicFields} ) {
-                delete $Article{"DynamicField_$DynamicField->{Name}"};
-            }
-            if ( scalar @{$DynamicFields} == 1 ) {
-                $DynamicFields = $DynamicFields->[0];
-            }
-            if ( IsArrayRefWithData($DynamicFields) || IsHashRefWithData($DynamicFields) ) {
-                $Article{DynamicField} = $DynamicFields;
+
+                # Skip some fields since they might differ.
+                elsif (
+                    $Key eq 'Age'
+                    || $Key eq 'FirstResponse'
+                    || $Key eq 'Changed'
+                    || $Key eq 'UnlockTimeout'
+                    )
+                {
+                    next KEY;
+                }
+
+                # Include any other ticket property as-is. Undefined values should be represented as empty string.
+                $TicketData{$Key} = $TicketGet{$Key} // '';
             }
 
-            my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
-                ArticleID => $Article{ArticleID},
+            if (@DynamicFields) {
+                $TicketData{DynamicField} = \@DynamicFields;
+            }
+
+            $Test->{ExpectedReturnRemoteData}->{Data} = {
+                %{ $Test->{ExpectedReturnRemoteData}->{Data} },
+                Ticket => \%TicketData,
+            };
+        }
+
+        if ( defined $Test->{RequestData}->{Ticket}->{CustomerUser} ) {
+            $Self->Is(
+                "\"$CustomerUserLogin $CustomerUserLogin\" <$CustomerUserLogin\@localunittest.com>",
+                $RequesterResult->{Data}->{Ticket}->{Article}->{To},
+                "Article parameter To is set well after TicketUpdate()",
+            );
+        }
+
+        if ( $Test->{RequestData}->{Article} ) {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
+            # Check if parameters To, cc and Bcc set well
+            # See bug#14393 for more information.
+            if (
+                defined $Test->{RequestData}->{Article}->{To}
+                && defined $Test->{RequestData}->{Article}->{Cc}
+                && defined $Test->{RequestData}->{Article}->{Bcc}
+                )
+            {
+
+                for my $Item (qw(To Cc Bcc)) {
+                    $Self->Is(
+                        $Test->{RequestData}->{Article}->{$Item},
+                        $RequesterResult->{Data}->{Ticket}->{Article}->{$Item},
+                        "Article parameter $Item is set well after TicketUpdate() - $Test->{RequestData}->{Article}->{$Item}",
+                    );
+                }
+            }
+
+            # Get latest article data.
+            my @ArticleList = $ArticleObject->ArticleList(
+                TicketID => $TicketID1,
+                OnlyLast => 1,
             );
 
-            my @Attachments;
-            $Kernel::OM->Get('Kernel::System::Main')->Require('MIME::Base64');
-            ATTACHMENT:
-            for my $FileID ( sort keys %AttachmentIndex ) {
-                next ATTACHMENT if !$FileID;
-                my %Attachment = $ArticleBackendObject->ArticleAttachment(
-                    ArticleID => $Article{ArticleID},
-                    FileID    => $FileID,
+            my %Article;
+
+            ARTICLE:
+            for my $Article (@ArticleList) {
+                my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
+
+                %Article = $ArticleBackendObject->ArticleGet(
+                    %{$Article},
+                    DynamicFields => 1,
                 );
 
-                next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+                for my $Key ( sort keys %Article ) {
+                    $Article{$Key} //= '';
+                }
 
-                # Convert content to base64.
-                $Attachment{Content} = MIME::Base64::encode_base64( $Attachment{Content}, '' );
-                push @Attachments, {%Attachment};
-            }
-
-            # Set attachment data.
-            if (@Attachments) {
-
-                # Flatten array if only one attachment was found.
-                if ( scalar @Attachments == 1 ) {
-                    for my $Attachment (@Attachments) {
-                        $Article{Attachment} = $Attachment;
+                # Push all dynamic field data in a separate array structure.
+                my $DynamicFields;
+                KEY:
+                for my $Key ( sort keys %Article ) {
+                    if ( $Key =~ m{^DynamicField_(?<DFName>\w+)$}xms ) {
+                        push @{$DynamicFields}, {
+                            Name  => $+{DFName},
+                            Value => $Article{$Key} // '',
+                        };
+                        next KEY;
                     }
                 }
-                else {
-                    $Article{Attachment} = \@Attachments;
+                for my $DynamicField ( @{$DynamicFields} ) {
+                    delete $Article{"DynamicField_$DynamicField->{Name}"};
                 }
+                if ( scalar @{$DynamicFields} == 1 ) {
+                    $DynamicFields = $DynamicFields->[0];
+                }
+                if ( IsArrayRefWithData($DynamicFields) || IsHashRefWithData($DynamicFields) ) {
+                    $Article{DynamicField} = $DynamicFields;
+                }
+
+                my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+                    ArticleID => $Article{ArticleID},
+                );
+
+                my @Attachments;
+                ATTACHMENT:
+                for my $FileID ( sort keys %AttachmentIndex ) {
+                    next ATTACHMENT if !$FileID;
+                    my %Attachment = $ArticleBackendObject->ArticleAttachment(
+                        ArticleID => $Article{ArticleID},
+                        FileID    => $FileID,
+                    );
+
+                    next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+
+                    # Convert content to base64.
+                    $Attachment{Content} = encode_base64( $Attachment{Content}, '' );
+                    push @Attachments, {%Attachment};
+                }
+
+                # Set attachment data.
+                if (@Attachments) {
+
+                    # Flatten array if only one attachment was found.
+                    if ( scalar @Attachments == 1 ) {
+                        for my $Attachment (@Attachments) {
+                            $Article{Attachment} = $Attachment;
+                        }
+                    }
+                    else {
+                        $Article{Attachment} = \@Attachments;
+                    }
+                }
+
+                last ARTICLE;
             }
 
-            last ARTICLE;
+            # Transform some article properties so they match expected data structure.
+            for my $Key (qw(ArticleNumber)) {
+                $Article{$Key} = "$Article{$Key}";
+            }
+
+            if ( $Test->{IncludeTicketData} ) {
+                $Test->{ExpectedReturnRemoteData}->{Data}->{Ticket} //= {};
+                $Test->{ExpectedReturnRemoteData}->{Data}->{Ticket}->{Article} = \%Article;
+                $Test->{ExpectedReturnRemoteData}->{Data}->{ArticleID} = $Article{ArticleID};
+            }
         }
 
-        # Transform some article properties so they match expected data structure.
-        for my $Key (qw(ArticleNumber)) {
-            $Article{$Key} = "$Article{$Key}";
+        # Remove some fields before comparison since they might differ.
+        if ( $Test->{IncludeTicketData} ) {
+            for my $Key (qw(Age Changed UnlockTimeout)) {
+                delete $RequesterResult->{Data}->{Ticket}->{$Key};
+            }
         }
 
-        $Test->{ExpectedReturnRemoteData}->{Data}->{Ticket} = {
-            %{ $Test->{ExpectedReturnRemoteData}->{Data}->{Ticket} },
-            Article => \%Article,
-        };
-        $Test->{ExpectedReturnRemoteData}->{Data} = {
-            %{ $Test->{ExpectedReturnRemoteData}->{Data} },
-            ArticleID => $Article{ArticleID},
-        };
-    }
-
-    # Remove some fields before comparison since they might differ.
-    if ( $Test->{IncludeTicketData} ) {
-        for my $Key (qw(Age Changed UnlockTimeout)) {
-            delete $RequesterResult->{Data}->{Ticket}->{$Key};
-        }
-    }
-
-    $Self->IsDeeply(
-        $RequesterResult,
-        $Test->{ExpectedReturnRemoteData},
-        "$Test->{Name} - Requester success status (needs configured and running webserver)",
-    );
-
-    if ( $Test->{ExpectedReturnLocalData} ) {
-        $Self->IsDeeply(
-            $LocalResult,
-            $Test->{ExpectedReturnLocalData},
-            "$Test->{Name} - Local result matched with expected local call result.",
-        );
-    }
-    else {
-        $Self->IsDeeply(
-            $LocalResult,
+        is(
+            $RequesterResult,
             $Test->{ExpectedReturnRemoteData},
-            "$Test->{Name} - Local result matched with remote result.",
+            "Requester success status (needs configured and running webserver)",
         );
-    }
 
-    # Update web service config to exclude ticket data in responses.
-    if ( $Test->{IncludeTicketData} ) {
-        $WebserviceConfig->{Provider}->{Operation}->{TicketUpdate}->{IncludeTicketData} = 0;
-        my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
-            ID      => $WebserviceID,
-            Name    => $WebserviceName,
-            Config  => $WebserviceConfig,
-            ValidID => 1,
-            UserID  => $Self->{UserID},
-        );
-        $Self->True(
-            $WebserviceUpdate,
-            'WebserviceUpdate - Turned off IncludeTicketData'
-        );
-    }
+        if ( $Test->{ExpectedReturnLocalData} ) {
+            is(
+                $LocalResult,
+                $Test->{ExpectedReturnLocalData},
+                "Local result matched with expected local call result.",
+            );
+        }
+        else {
+            is(
+                $LocalResult,
+                $Test->{ExpectedReturnRemoteData},
+                "Local result matched with remote result.",
+            );
+        }
+
+        # Update web service config to exclude ticket data in responses.
+        if ( $Test->{IncludeTicketData} ) {
+            $WebserviceConfig->{Provider}->{Operation}->{TicketUpdate}->{IncludeTicketData} = 0;
+            my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
+                ID      => $WebserviceID,
+                Name    => $WebserviceName,
+                Config  => $WebserviceConfig,
+                ValidID => 1,
+                UserID  => $Self->{UserID},
+            );
+            $Self->True(
+                $WebserviceUpdate,
+                'WebserviceUpdate - Turned off IncludeTicketData'
+            );
+        }
+    };
 }
 
 # UnlockOnAway tests
@@ -1344,7 +1439,8 @@ my $TicketIDOutOfOffice = $TicketObject->TicketCreate(
 );
 push @TicketIDs, $TicketIDOutOfOffice;
 
-@Tests = (
+# Another round of tests
+my @Tests2 = (
     {
         Name        => 'Add Article, Ticket NoOutOfOffice',
         RequestData => {
@@ -1403,47 +1499,51 @@ push @TicketIDs, $TicketIDOutOfOffice;
     },
 );
 
-for my $Test (@Tests) {
+for my $Test (@Tests2) {
 
-    # create local object
-    my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::TicketUpdate"->new(
-        %{$Self},
-        DebuggerObject => $DebuggerObject,
-        WebserviceID   => $WebserviceID,
-        ConfigObject   => $ConfigObject,
-    );
+    subtest $Test->{Name} => sub {
 
-    my %Auth = (
-        UserLogin => $UserLogin,
-        Password  => $Password,
-    );
+        # create local object
+        my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::TicketUpdate"->new(
+            %{$Self},
+            DebuggerObject => $DebuggerObject,
+            WebserviceID   => $WebserviceID,
+            ConfigObject   => $ConfigObject,
+        );
 
-    # start requester with our web-service
-    my $LocalResult = $LocalObject->Run(
-        WebserviceID => $WebserviceID,
-        Invoker      => 'TicketUpdate',
-        Data         => {
-            %Auth,
-            %{ $Test->{RequestData} },
-        },
-    );
+        my %Auth = (
+            UserLogin => $UserLogin,
+            Password  => $Password,
+        );
 
-    my %Ticket = $TicketObject->TicketGet(
-        TicketID => $Test->{RequestData}->{TicketID},
-        UserID   => 1,
-    );
+        # start requester with our web-service
+        my $LocalResult = $LocalObject->Run(
+            WebserviceID => $WebserviceID,
+            Invoker      => 'TicketUpdate',
+            Data         => {
+                %Auth,
+                %{ $Test->{RequestData} },
+            },
+        );
 
-    $Self->Is(
-        $Ticket{Lock},
-        $Test->{Lock},
-        "$Test->{Name} Lock attribute",
-    );
+        my %Ticket = $TicketObject->TicketGet(
+            TicketID => $Test->{RequestData}->{TicketID},
+            UserID   => 1,
+        );
 
-    my $Success = $TicketObject->TicketLockSet(
-        Lock     => 'lock',
-        TicketID => $Test->{RequestData}->{TicketID},
-        UserID   => 1,
-    );
+        is(
+            $Ticket{Lock},
+            $Test->{Lock},
+            "Lock attribute",
+        );
+
+        my $Success = $TicketObject->TicketLockSet(
+            Lock     => 'lock',
+            TicketID => $Test->{RequestData}->{TicketID},
+            UserID   => 1,
+        );
+        ok( $Success, 'TicketLockSet' );
+    };
 }
 
 # cleanup
@@ -1479,7 +1579,7 @@ my $DeleteFieldList = $DynamicFieldObject->DynamicFieldList(
 );
 
 DYNAMICFIELD:
-for my $DynamicFieldID ( sort keys %{$DeleteFieldList} ) {
+for my $DynamicFieldID ( sort keys $DeleteFieldList->%* ) {
 
     next DYNAMICFIELD if !$DynamicFieldID;
     next DYNAMICFIELD if !$DeleteFieldList->{$DynamicFieldID};
@@ -1494,13 +1594,15 @@ for my $DynamicFieldID ( sort keys %{$DeleteFieldList} ) {
         UserID             => $Self->{UserID},
     );
 
-    $DynamicFieldObject->DynamicFieldDelete(
+    my $Success = $DynamicFieldObject->DynamicFieldDelete(
         ID     => $DynamicFieldID,
         UserID => 1,
     );
+
+    ok( $Success, "DynamicFieldDelete() for $DeleteFieldList->{$DynamicFieldID} with true" );
 }
 
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-$Self->DoneTesting();
+done_testing();

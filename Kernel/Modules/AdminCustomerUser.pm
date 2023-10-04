@@ -371,7 +371,7 @@ sub Run {
                 );
             }
 
-            if ( $CurrentUserData{UserPassword} ne $GetParam{UserPassword} ) {
+            if ( $GetParam{UserPassword} && $CurrentUserData{UserPassword} ne $GetParam{UserPassword} ) {
 
                 $UpdateSuccess = $CustomerUserObject->DeleteOnePreference(
                     Key    => 'UserLastPwChangeTime',
@@ -1261,6 +1261,12 @@ sub _Edit {
             if ($UseAutoComplete) {
 
                 my $Value = $Param{ $Entry->[0] } || $Param{CustomerID};
+                $Value = $LayoutObject->Output(
+                    Template => "[% Data.Value | html %]",
+                    Data     => {
+                        Value => $Value,
+                    }
+                );
                 $Param{Option} = '<input type="text" id="UserCustomerID" name="UserCustomerID" value="' . $Value . '"
                     class="W50pc CustomerAutoCompleteSimple '
                     . $Param{RequiredClass} . ' '
