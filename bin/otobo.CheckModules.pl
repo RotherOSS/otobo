@@ -533,12 +533,17 @@ my @NeededModules = (
 
     # Feature db
     {
-        Module             => 'DBD::mysql',
-        Required           => 0,
-        Features           => ['db:mysql'],
-        Comment            => 'Required to connect to a MySQL database.',
-        DockerExactVersion => '4.050',
-        InstTypes          => {
+        Module               => 'DBD::mysql',
+        Required             => 0,
+        Features             => ['db:mysql'],
+        Comment              => 'Required to connect to a MariaDB or MySQL database.',
+        VersionsNotSupported => [
+            {
+                Version => '5.001',
+                Comment => q{This version can't be installed with the MariaDB client library.},
+            },
+        ],
+        InstTypes => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',
             zypper => 'perl-DBD-mysql',
