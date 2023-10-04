@@ -72,8 +72,9 @@ feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
 };
 
 feature 'db:mysql', 'Support for database MySQL' => sub {
-    # Required to connect to a MySQL database.
-    requires 'DBD::mysql';
+    # Required to connect to a MariaDB or MySQL database.
+    # Version 5.001 not supported: This version can't be installed with the MariaDB client library.
+    requires 'DBD::mysql', "!= 5.001";
 
 };
 
@@ -202,8 +203,9 @@ feature 'mail:ssl', 'Suppport for mail:ssl' => sub {
 };
 
 feature 'optional', 'Suppport for optional' => sub {
-    # Required to connect to a MySQL database.
-    requires 'DBD::mysql';
+    # Required to connect to a MariaDB or MySQL database.
+    # Version 5.001 not supported: This version can't be installed with the MariaDB client library.
+    requires 'DBD::mysql', "!= 5.001";
 
     # Required to connect to a MS-SQL database.
     # Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.
