@@ -270,7 +270,12 @@ my $ExitCode = 0;    # success
 # The key 'Features' is only used for supporting features when creating a cpanfile.
 # Each module must either have exactly one of the attributes 'Required' or 'Features'.
 #
-# ATTENTION: when makeing changes here then make sure that you also regenerate the cpanfiles:
+# The allowed versions can be specified with the attributes 'VersionRequired' and 'VersionsNotSupported'.
+#
+# There are cases when a specific version is desired in a Docker build. This version can be
+# specified with the attribute 'DockerExactVersion'.
+#
+# ATTENTION: when making changes here then make sure that you also regenerate the cpanfiles:
 #            bin/otobo.CheckModules.pl --cpanfile        > cpanfile
 #            bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 my @NeededModules = (
@@ -528,11 +533,12 @@ my @NeededModules = (
 
     # Feature db
     {
-        Module    => 'DBD::mysql',
-        Required  => 0,
-        Features  => ['db:mysql'],
-        Comment   => 'Required to connect to a MySQL database.',
-        InstTypes => {
+        Module             => 'DBD::mysql',
+        Required           => 0,
+        Features           => ['db:mysql'],
+        Comment            => 'Required to connect to a MySQL database.',
+        DockerExactVersion => '4.050',
+        InstTypes          => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',
             zypper => 'perl-DBD-mysql',
@@ -1464,7 +1470,7 @@ sub CleanVersion {
     # replace all special characters with an dot
     $Param{Version} =~ s{ [_-] }{.}xmsg;
 
-    my @VersionParts = split q{\.}, $Param{Version};
+    my @VersionParts = split /\./, $Param{Version};
 
     my $CleanedVersion = '';
     for my $Count ( 0 .. 4 ) {
@@ -1571,17 +1577,23 @@ sub PrintCpanfile {
             {
                 my @Conditions;
 
-                if ( $Module->{VersionRequired} ) {
-                    push @Conditions, ">= $Module->{VersionRequired}";
+                # exact version for Docker builds has higher priority
+                if ( $ForDocker && $Module->{DockerExactVersion} ) {
+                    push @Conditions, "== $Module->{DockerExactVersion}";
                 }
+                else {
+                    if ( $Module->{VersionRequired} ) {
+                        push @Conditions, ">= $Module->{VersionRequired}";
+                    }
 
-                if ( $Module->{VersionsNotSupported} ) {
+                    if ( $Module->{VersionsNotSupported} ) {
 
-                    my $VersionsNotSupported = 0;
-                    ITEM:
-                    for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
-                        say $Indent, "# Version $Item->{Version} not supported: $Item->{Comment}";
-                        push @Conditions, "!= $Item->{Version}";
+                        my $VersionsNotSupported = 0;
+                        ITEM:
+                        for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
+                            say $Indent, "# Version $Item->{Version} not supported: $Item->{Comment}";
+                            push @Conditions, "!= $Item->{Version}";
+                        }
                     }
                 }
 
@@ -1591,7 +1603,6 @@ sub PrintCpanfile {
                 }
             }
 
-            my @Filters;
             say $Indent, "requires '$Module->{Module}'$VersionRequirement;";
             say '';
 
