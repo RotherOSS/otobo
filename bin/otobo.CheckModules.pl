@@ -649,9 +649,15 @@ my @NeededModules = (
 
     # Feature db
     {
-        Module    => 'DBD::mysql',
-        Features  => ['db:mysql'],
-        Comment   => 'Required to connect to a MariaDB or MySQL database.',
+        Module               => 'DBD::mysql',
+        Features             => ['db:mysql'],
+        Comment              => 'Required to connect to a MariaDB or MySQL database.',
+        VersionsNotSupported => [
+            {
+                Version => '5.001',
+                Comment => q{This version can't be installed with the MariaDB client library.},
+            },
+        ],
         InstTypes => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',

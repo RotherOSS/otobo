@@ -98,8 +98,9 @@ requires 'Const::Fast';
 # };
 
 # feature 'db:mysql', 'Support for database MySQL' => sub {
-    # Required to connect to a MySQL database.
-    requires 'DBD::mysql', "== 4.050";
+    # Required to connect to a MariaDB or MySQL database.
+    # Version 5.001 not supported: This version can't be installed with the MariaDB client library.
+    requires 'DBD::mysql', "!= 5.001";
 
 # };
 

@@ -101,8 +101,9 @@ feature 'auth:openidconnect', 'Support for feature auth:openidconnect' => sub {
 };
 
 feature 'db:mysql', 'Support for database MySQL' => sub {
-    # Required to connect to a MySQL database.
-    requires 'DBD::mysql';
+    # Required to connect to a MariaDB or MySQL database.
+    # Version 5.001 not supported: This version can't be installed with the MariaDB client library.
+    requires 'DBD::mysql', "!= 5.001";
 
 };
 
@@ -249,8 +250,9 @@ feature 'optional', 'Support for feature optional' => sub {
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';
 
-    # Required to connect to a MySQL database.
-    requires 'DBD::mysql';
+    # Required to connect to a MariaDB or MySQL database.
+    # Version 5.001 not supported: This version can't be installed with the MariaDB client library.
+    requires 'DBD::mysql', "!= 5.001";
 
     # Required to connect to a MS-SQL database.
     # Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.

@@ -30,6 +30,7 @@ use Scalar::Util qw(blessed);
 use URI::Escape qw(uri_escape_utf8);
 use Plack::Response;
 use Plack::Util;
+use HTTP::Headers::Fast;    # is available as Plack requires it
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
