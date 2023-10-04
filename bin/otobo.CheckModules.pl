@@ -1470,7 +1470,7 @@ sub CleanVersion {
     # replace all special characters with an dot
     $Param{Version} =~ s{ [_-] }{.}xmsg;
 
-    my @VersionParts = split q{\.}, $Param{Version};
+    my @VersionParts = split /\./, $Param{Version};
 
     my $CleanedVersion = '';
     for my $Count ( 0 .. 4 ) {
@@ -1603,7 +1603,6 @@ sub PrintCpanfile {
                 }
             }
 
-            my @Filters;
             say $Indent, "requires '$Module->{Module}'$VersionRequirement;";
             say '';
 
