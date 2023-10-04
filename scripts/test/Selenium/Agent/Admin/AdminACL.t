@@ -18,16 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
-
-use Selenium::Remote::WDKeys;
-use Kernel::Language;
+# CPAN modules
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $main::Self
 use Kernel::System::UnitTest::Selenium;
+use Kernel::Language;
+
+our $Self;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -128,8 +129,7 @@ $Selenium->RunTest(
         }
 
         # Check breadcrumb on Create New screen.
-        my $Count = 1;
-        my $IsLinkedBreadcrumbText;
+        my $Count                = 1;
         my $SecondBreadcrumbText = $LanguageObject->Translate('ACL Management');
         my $ThirdBreadcrumbText  = $LanguageObject->Translate('Create New ACL');
         for my $BreadcrumbText ( $SecondBreadcrumbText, $ThirdBreadcrumbText ) {
@@ -370,7 +370,7 @@ JAVASCRIPT
             Value   => 2,
         );
 
-        my @AclID1     = split( 'ID=', $Selenium->get_current_url() );
+        my @AclID1     = split /ID=/, $Selenium->get_current_url;
         my $ACLfirstID = $AclID1[1];
 
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
@@ -393,7 +393,7 @@ JAVASCRIPT
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
-        my @AclID2      = split( 'ID=', $Selenium->get_current_url() );
+        my @AclID2      = split /ID=/, $Selenium->get_current_url;
         my $ACLSecondID = $AclID2[1];
 
         # Click 'Save and Finish'.
