@@ -30,7 +30,6 @@ use Scalar::Util qw(blessed);
 use URI::Escape qw(uri_escape_utf8);
 use Plack::Response;
 use Plack::Util;
-use HTTP::Headers::Fast;    # is available as Plack requires it
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -193,7 +192,7 @@ sub new {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => <<EOF,
+                Message  => <<"EOF",
 $FilterConfig->{Module} will be ignored because it wants to operate on all templates or does not specify a template list.
 EOF
             );
@@ -1420,13 +1419,13 @@ sub Header {
                     $Jobs{$Job}->{Group} =~ s{\s}{}xmsg;
 
                     # get group configurations
-                    my @Items = split( ';', $Jobs{$Job}->{Group} );
+                    my @Items = split /;/, $Jobs{$Job}->{Group};
 
                     ITEM:
                     for my $Item (@Items) {
 
                         # split values into permission and group
-                        my ( $Permission, $GroupName ) = split( ':', $Item );
+                        my ( $Permission, $GroupName ) = split /:/, $Item;
 
                         # log an error if not valid setting
                         if ( !$Permission || !$GroupName ) {
@@ -2064,7 +2063,7 @@ sub Ascii2Html {
 
     # max lines
     if ( $Param{VMax} ) {
-        my @TextList = split( "\n", ${$Text} );
+        my @TextList = split /\n/, ${$Text};
         ${$Text} = '';
         my $Counter = 1;
         for (@TextList) {
@@ -6013,7 +6012,7 @@ sub _BuildSelectionDataRefCreate {
 
             next ROW if !$Row->{Value};
 
-            my @Fragment = split '::', $Row->{Value};
+            my @Fragment = split /::/, $Row->{Value};
             $Row->{Value} = pop @Fragment;
 
             # translate the individual tree options
