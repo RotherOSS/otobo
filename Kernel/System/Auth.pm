@@ -161,6 +161,7 @@ sub Auth {
 
         # next on no success
         if ( !$User ) {
+
             # get error message of auth backend if present
             if ( $Self->{"AuthBackend$Count"}->{AuthError} ) {
                 $Self->{LastErrorMessage} = $Self->{"AuthBackend$Count"}->{AuthError};

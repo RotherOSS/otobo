@@ -207,7 +207,7 @@ sub Auth {
 
     return if !$Return;
 
-    if ( $Return->{Error} && $Return->{Error} eq 'nonce') {
+    if ( $Return->{Error} && $Return->{Error} eq 'nonce' ) {
         $Self->{AuthError} = 'Invalid response from the authentication server. Maybe the process took too long. Please retry once.';
     }
 
