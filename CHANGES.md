@@ -1,7 +1,69 @@
 
+# OTOBO 10.1.8 2023-10-05
+- 2023-10-05 13:21:17 +0200 Create new OTOBO language files.
+- 2023-08-25 00:51:52 +0000 Translated using Weblate (Japanese)
+- 2023-08-15 11:11:17 +0000 Translated using Weblate (French)
+- 2023-08-11 04:45:00 +0000 Translated using Weblate (Russian)
+- 2023-07-19 14:11:19 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2023-07-10 06:28:57 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2023-07-08 12:06:59 +0000 Translated using Weblate (Polish)
+- 2023-10-05 11:38:44 +0200 [Security] Fixed a XSS vulnerability in AdminCustomerUser. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2546)
+- 2023-10-04 17:40:33 +0200 AdminACL.t is not skipped and fails when Selenium testing is deactivated (https://github.com/RotherOSS/otobo/issues/2551)
+- 2023-10-04 17:20:59 +0200 Accecpt suggestions from CodePolicy
+- 2023-10-04 16:35:32 +0200 Satisfy the CodePolicy
+- 2023-10-04 16:28:14 +0200 Blacklist DBD::mysql 5.001 also in the Kerberos Dockerfile
+- 2023-10-04 15:41:36 +0200 Docker: OTOBO image can't be built with DBD::mysql 5.001 (https://github.com/RotherOSS/otobo/issues/2548)
+- 2023-04-14 17:16:14 +0200 [Security] Avoid HTTP header injection via attachment content type in Webservices. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2273)
+- 2023-04-12 13:19:17 +0200 Bring test script to the state of rel-11_0
+- 2023-09-14 11:22:03 +0200 Improve customer company id handling for consistency reasons.
+- 2023-10-02 11:19:47 +0200 Left- and right-icons in AgentAppointmentAgendaOverview are dark colored (https://github.com/RotherOSS/otobo/issues/2274)
+- 2023-09-28 16:47:50 +0200 [Bugfix]   Customer Portal: "Reply"-button shown but not working for closed tickets (https://github.com/RotherOSS/otobo/issues/2240)
+- 2023-09-28 10:57:02 +0200 [Bugfix]   DynamicField Config Screen: Default Value Input field enlarges (https://github.com/RotherOSS/otobo/issues/1641)
+- 2023-09-28 10:51:04 +0200 [Bugfix]   Bug In SysConfig - Keys with ### do not work in the frontend (used in DynamicFieldScreens) (https://github.com/RotherOSS/otobo/issues/991)
+- 2023-09-27 09:04:54 +0200 [Bugfix]   Do not force customer to change the password when an agent has changed customer data via AdminCustomerUser (https://github.com/RotherOSS/otobo/issues/779)
+- 2023-09-26 10:49:14 +0200 [Bugfix]   Handle erroneously configured TreeView DynamicFields. (https://github.com/RotherOSS/otobo/issues/1531)
+- 2023-09-26 14:54:25 +0200 [Bugfix]   To, CC, BCC buttons disappear in Draft (https://github.com/RotherOSS/otobo/issues/2388)
+- 2023-09-26 15:23:47 +0200 [Bugfix]   Implement some leeway when checking OpenIDConnect auth data (https://github.com/RotherOSS/otobo/issues/2266)
+- 2023-09-26 09:47:13 +0200 [Bugfix]   OpenIDConnect error messages. (https://github.com/RotherOSS/otobo/issues/2301)
+- 2023-09-25 15:36:30 +0200 [Bugfix]   jQuery eror with disabled selection elements (https://github.com/RotherOSS/otobo/issues/2155)
+- 2023-09-14 12:09:10 +0200 [Bugfix]   Option 'AuthSyncModule::LDAP::GroupDN' is not working (https://github.com/RotherOSS/otobo/issues/2500)
+- 2023-08-24 13:43:13 +0200 [Bugfix]   Provide all fields for TicketAcl in TicketSLASet() in AgentTicketActionCommon. (https://github.com/RotherOSS/otobo/issues/2491)
+- 2023-08-08 10:02:04 +0200 [Bugfix]   Typo in dynamic field customer template for field type WebService (https://github.com/RotherOSS/otobo/issues/2442)
+- 2023-08-07 08:30:31 +0200 [Bugfix]   Error message while loading customer list in CustomerDashboard without Gravatar (https://github.com/RotherOSS/otobo/issues/2425)
+- 2023-08-03 13:33:45 +0200 [Bugfix]   Console command Dev::Package::DocumentationGenerate handles PackageRequired statements erroneously (https://github.com/RotherOSS/otobo/issues/2427)
+- 2023-07-08 09:52:24 +0200 Add possibility to add a regular example user in quick_setup.pl (https://github.com/RotherOSS/otobo/issues/2385)
+- 2023-07-07 18:19:13 +0200 [Enhanced] Add possibility to add an admin user in quick_setup.pl (https://github.com/RotherOSS/otobo/issues/2383)
+- 2023-06-07 14:42:32 +0000 Translated using Weblate (Spanish)
+- 2023-06-22 22:39:15 +0200 [Tidied]   Fix permissions (https://github.com/RotherOSS/otobo/issues/2364)
+- 2023-06-14 16:36:56 +0200 obsolete dependency removed
+- 2023-06-15 08:23:27 +0200 Update POD of DynamicField/Backend.pm HasBehavior (https://github.com/RotherOSS/otobo/issues/2355)
+- 2023-06-13 14:34:38 +0200 [Tidied]   Remove Insertion of AgentCustomerSearch.tt in Kernel/Output/HTML/Templates/Standard/ProcessManagement/Customer.tt (https://github.com/RotherOSS/otobo/issues/2347)
+- 2023-06-13 01:29:14 +0200 Not able to use dynamic fields with ElasticSearch (https://github.com/RotherOSS/otobo/issues/2334)
+- 2023-05-27 19:05:01 +0200 Fix typo in pod.
+- 2023-05-10 13:33:12 +0000 Translated using Weblate (Dutch)
+- 2023-04-24 04:48:54 +0000 Translated using Weblate (German)
+- 2023-04-14 23:52:56 +0000 Translated using Weblate (Spanish (Mexico))
+- 2023-03-10 16:36:13 +0000 Update translation files
+- 2023-05-08 10:18:41 +0200 Accept suggestions from CodePolicy
+- 2023-05-08 10:15:45 +0200 Eliminate violations of InputOutput::ProhibitBarewordDirHandles
+- 2023-04-28 11:01:42 +0200 [Bugfix]   Fix CreateScreens.t in rel-10_1, and in rel-11_0 with S3 activated (https://github.com/RotherOSS/otobo/issues/1067)
+- 2023-04-24 22:05:45 +0200 Update test script to version for OTOBO 11.0.x.
+- 2023-04-19 15:14:47 +0200 [Bugfix]   Correctly check cookie capability also in case of login without login screen. (https://github.com/RotherOSS/otobo/issues/2283)
+- 2023-04-19 14:06:21 +0200 Correct and enhance some code comments.
+- 2023-04-17 10:54:38 +0200 Rewriting POD for ExecuteXMLArray sub. Combining declaration and initialization of arrays inside the sub.
+- 2023-04-17 08:05:49 +0200 Adjusting POD of SQLProcessor function: Receiving an array ref of hash refs.
+- 2022-09-10 18:50:58 +0200 [Enhanced] Add a test calendar in bin/docker/quick_setup.pl (https://github.com/RotherOSS/otobo/issues/1929)
+- 2023-03-23 19:22:46 +0100 [Enhanced] Limit Dev::UnitTest::Run to the tests of an installed package (https://github.com/RotherOSS/otobo/issues/2205)
+- 2023-03-20 17:25:25 +0100 Satisfy a Perl::Critic rule.
+- 2023-03-20 11:41:37 +0100 Adapt test to recently updated Arabic translation (https://github.com/RotherOSS/otobo/issues/2236)
+- 2023-03-15 09:15:16 +0100 Old OTRS Orange on pop up search close button (https://github.com/RotherOSS/otobo/issues/2150)
+- 2023-03-13 07:40:14 +0100 [Tidied]  Fix broken character in CHANGES.
+- 2023-03-10 17:29:59 +0100 Update CHANGES.
+
+
 # OTOBO 10.1.7 2023-03-10
 - 2023-03-10 17:35:45 +0100 Create new OTOBO language files.
-- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian BokmÃÂ¥l)
 - 2023-03-09 16:24:25 +0000 Translated using Weblate (Arabic (Saudi Arabia))
 - 2023-02-13 17:05:43 +0000 Translated using Weblate (Portuguese (Brazil))
 - 2023-03-10 09:56:23 +0100 [Bugfix]   Fix warning if no key is selected for S/MIME encryption. (https://github.com/RotherOSS/otobo/issues/2222)
@@ -1491,3 +1553,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
