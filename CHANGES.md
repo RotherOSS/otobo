@@ -1,4 +1,30 @@
 
+# OTOBO 10.0.19 2023-10-05
+- 2023-10-05 11:38:44 +0200 [Security] Fixed a XSS vulnerability in AdminCustomerUser. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2546)
+- 2023-10-04 17:40:33 +0200 AdminACL.t is not skipped and fails when Selenium testing is deactivated (https://github.com/RotherOSS/otobo/issues/2551)
+- 2023-10-04 15:41:36 +0200 Docker: OTOBO image can't be built with DBD::mysql 5.001 (https://github.com/RotherOSS/otobo/issues/2548)
+- 2023-04-14 17:16:14 +0200 [Security] Avoid HTTP header injection via attachment content type in Webservices. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2273)
+- 2023-04-12 13:19:17 +0200 Bring test script to the state of rel-11_0
+- 2023-09-14 11:22:03 +0200 Improve customer company id handling for consistency reasons.
+- 2023-10-02 11:19:47 +0200 Left- and right-icons in AgentAppointmentAgendaOverview are dark colored (https://github.com/RotherOSS/otobo/issues/2274)
+- 2023-09-27 09:04:54 +0200 [Bugfix]   Do not force customer to change the password when an agent has changed customer data via AdminCustomerUser (https://github.com/RotherOSS/otobo/issues/779)
+- 2023-09-26 10:49:14 +0200 [Bugfix]   Handle erroneously configured TreeView DynamicFields. (https://github.com/RotherOSS/otobo/issues/1531)
+- 2023-09-14 12:09:10 +0200 [Bugfix]   Option 'AuthSyncModule::LDAP::GroupDN' is not working (https://github.com/RotherOSS/otobo/issues/2500)
+- 2023-08-07 08:30:31 +0200 [Bugfix]   Error message while loading customer list in CustomerDashboard without Gravatar (https://github.com/RotherOSS/otobo/issues/2425)
+- 2023-07-08 09:52:24 +0200 Add possibility to add a regular example user in quick_setup.pl (https://github.com/RotherOSS/otobo/issues/2385)
+- 2023-07-07 18:19:13 +0200 [Enhanced] Add possibility to add an admin user in quick_setup.pl (https://github.com/RotherOSS/otobo/issues/2383)
+- 2023-06-14 16:36:56 +0200 obsolete dependency removed
+- 2023-06-15 08:23:27 +0200 Update POD of DynamicField/Backend.pm HasBehavior (https://github.com/RotherOSS/otobo/issues/2355)
+- 2023-06-13 14:34:38 +0200 [Tidied]   Remove Insertion of AgentCustomerSearch.tt in Kernel/Output/HTML/Templates/Standard/ProcessManagement/Customer.tt (https://github.com/RotherOSS/otobo/issues/2347)
+- 2023-06-13 01:20:50 +0200 Not able to use dynamic fields with ElasticSearch (https://github.com/RotherOSS/otobo/issues/2334)
+- 2023-05-27 19:05:01 +0200 Fix typo in pod.
+- 2023-05-08 10:18:41 +0200 Accept suggestions from CodePolicy
+- 2023-05-08 10:15:45 +0200 Eliminate violations of InputOutput::ProhibitBarewordDirHandles
+- 2023-04-17 08:05:49 +0200 Adjusting POD of SQLProcessor function: Receiving an array ref of hash refs.
+- 2022-09-10 18:50:58 +0200 [Enhanced] Add a test calendar in bin/docker/quick_setup.pl (https://github.com/RotherOSS/otobo/issues/1929)
+- 2023-03-23 19:22:46 +0100 [Enhanced] Limit Dev::UnitTest::Run to the tests of an installed package (https://github.com/RotherOSS/otobo/issues/2205)
+
+
 # OTOBO 10.0.18 2023-03-10
 - 2023-03-10 09:56:23 +0100 [Bugfix]   Fix warning if no key is selected for S/MIME encryption. (https://github.com/RotherOSS/otobo/issues/2222)
 - 2023-03-09 16:47:01 +0100 [Bugfix]   Layout glitch in calendar event popup when a notification is set (https://github.com/RotherOSS/otobo/issues/2219)
@@ -32,7 +58,7 @@
 - 2022-08-11 16:18:11 +0200 [Tidied]   Update JavaScript libraries (https://github.com/RotherOSS/otobo/issues/1722)
 - 2022-06-15 10:04:44 +0200 Create new certificates for the unit tests (https://github.com/RotherOSS/otobo/issues/1779)
 - 2022-06-10 17:10:53 +0200 [Bugfix]   Fix SMIME for newer openssl versions. (https://github.com/RotherOSS/otobo/issues/1739)
-- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim PÃÂ¼ttmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
+- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim PÃÂÃÂ¼ttmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
 - 2022-05-16 14:56:28 +0200 Issue #1777 fixed time and s3 (https://github.com/RotherOSS/otobo/issues/1778)
 - 2022-05-16 09:17:39 +0200 Followup to Issue #1297: Add used method.
 - 2022-04-30 18:06:23 +0200 Fix test Selenium/Output/Dashboard/CmdOutput.t (https://github.com/RotherOSS/otobo/issues/1747)
@@ -938,3 +964,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
