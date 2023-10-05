@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.596858638743455;
+    $Self->{Completeness}        = 0.596480101474552;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3881,6 +3881,12 @@ sub Data {
         'Prevent entry of dates in the future' => 'Impedisci l\'inserimento di date in futuro',
         'Prevent entry of dates in the past' => 'Impedisci l\'inserimento di date nel passato',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+        'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
+            '',
+        'An element is used as parent element, but not included itself. Please include it.' =>
+            '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => '',
         'System was not able to save the setting!' => '',
@@ -5168,6 +5174,8 @@ sub Data {
             'Al momento non è possibile accedere al sistema per attività di manutenzione in corso.',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+        'Authentication error. Please contact the administrator.' => '',
+        'Authentication error.' => '',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             '',
 

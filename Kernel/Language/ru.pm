@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.865778200856735;
+    $Self->{Completeness}        = 0.868400190264785;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1288,17 +1288,17 @@ sub Data {
         'Additional request headers (invoker specific)' => 'Дополнительные заголовки запроса (специфические для инвокера)',
         'Remove all headers for this invoker' => 'Удалить все заголовки для этого инвокера',
         'Headers for invoker' => 'Заголовки для инвокера',
-        'Additional response headers (all operations)' => '',
-        'Additional response headers (operation specific)' => '',
-        'Remove all headers for this operation' => '',
-        'Headers for operation' => '',
-        'Common headers' => '',
-        'Header Name' => '',
-        'Remove header' => '',
-        'Add header' => '',
+        'Additional response headers (all operations)' => 'Дополнительные заголовки ответов (все операции)',
+        'Additional response headers (operation specific)' => 'Дополнительные заголовки ответов (для конкретной операции)',
+        'Remove all headers for this operation' => 'Удалить все заголовки для этой операции',
+        'Headers for operation' => 'Заголовки для операций',
+        'Common headers' => 'Общие заголовки',
+        'Header Name' => 'Имя заголовка',
+        'Remove header' => 'Удалить заголовок',
+        'Add header' => 'Добавить заголовок',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otobo.de:8000/Webservice/Example' => '',
+        'e.g. https://local.otobo.de:8000/Webservice/Example' => 'Например https://local.otobo.de:8000/Webservice/Example',
         'Set SOAPAction' => 'Установить SOAPAction',
         'Set to "Yes" in order to send a filled SOAPAction header.' => 'Установить "Да" для отсылки заполненного SOAPAction заголовока.',
         'Set to "No" in order to send an empty SOAPAction header.' => 'Установить "Нет" для отсылки пустого SOAPAction заголовока.',
@@ -1319,7 +1319,7 @@ sub Data {
         'Namespace' => 'Пространство имен',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI, предоставляющий SOAP методам контекст для уменьшения двусмысленности.',
         'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
-            '',
+            'Например urn:otobo-com:soap:functions или http://www.otobo.de/GenericInterface/actions',
         'Request name scheme' => 'Схема именования запросов',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Выберите способ построения обертки функции SOAP запросов.',
@@ -1340,12 +1340,12 @@ sub Data {
             'Здесь вы можете задать макс. размер (в байтах) SOAP сообщений, которые OTOBO будет обрабатывать.',
         'Encoding' => 'Кодировка',
         'The character encoding for the SOAP message contents.' => 'Кодировка символов для содержимого SOAP сообщений.',
-        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'Например utf-8, latin1, iso-8859-1, cp1250, и т.д.',
         'Sort options' => 'Опции сортировки',
         'Add new first level element' => 'Добавить новый элемент первого уровня',
         'Element' => 'Элемент',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
-            '',
+            'Порядок исходящей сортировки для полей xml (структура, начинающаяся ниже оболочки имени функции) - смотрите документацию по SOAP-транспортировке.',
 
         # Template: AdminGenericInterfaceWebservice
         'Add Web Service' => 'Добавить Веб-сервис',
@@ -1366,7 +1366,7 @@ sub Data {
         'Do you really want to delete this web service?' => 'Действительно удалить этот веб-сервис?',
         'Ready2Adopt Web Services' => 'Ready2Adopt веб-сервисы',
         'Here you can activate Ready2Adopt web services showcasing our best practices.' =>
-            '',
+            'Здесь вы можете активировать веб-сервисы Ready2Adopt, демонстрирующие наши лучшие практики.',
         'Import Ready2Adopt web service' => 'Импорт Ready2Adopt веб-сервис',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'После сохранения конфигурации вы вернетесь обратно на экран редактирования',
@@ -1384,7 +1384,7 @@ sub Data {
         'Error Handling Modules' => 'Модули обработки ошибок',
         'Error handling modules are used to react in case of errors during the communication. Those modules are executed in a specific order, which can be changed by drag and drop.' =>
             'Модули обработки ошибок используются для реагирования в случае ошибок во время связи. Эти модули выполняются в определенном порядке, который можно изменить путем перетаскивания.',
-        'Backend' => '',
+        'Backend' => 'Внутренний',
         'Add error handling module' => 'Добавить модуль обработки ошибок ',
         'Operations are individual system functions which remote systems can request.' =>
             'Операции - это отдельные системные функции которые удаленные системы могут запрашивать.',
@@ -1463,7 +1463,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             'Можно добавить отдельные настройки в Избранные кликнув мышкой по "звездочке" справа в списке параметров.',
         'Links' => 'Ссылки',
-        'View the admin manual' => '',
+        'View the admin manual' => 'Просмотрите руководство администратора',
         'No Matches' => 'Совпадений не найдено',
         'Sorry, your search didn\'t match any items.' => 'К сожалению, поиск не дал результатов.',
         'Set as favorite' => 'Назначить избранным',
@@ -1507,7 +1507,7 @@ sub Data {
             'Отображаемые значения динамических полей заявки, полезно при использовании полей типа Dropdown и Multiselect',
 
         # Template: AdminNotificationEventTransportEmailSettings
-        'Use comma or semicolon to separate email addresses.' => '',
+        'Use comma or semicolon to separate email addresses.' => 'Используйте запятую или точку с запятой для разделения адресов электронной почты.',
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Вы можете использовать OTOBO-тэги типа <OTOBO_TICKET_DynamicField_...> для вставки значений из текущей заявки.',
 
@@ -1572,7 +1572,7 @@ sub Data {
         'Install' => 'Установить',
         'Update repository information' => 'Обновить информацию репозитория',
         'Cloud services are currently disabled.' => 'Облачные сервисы в настоящее время отключены.',
-        'OTOBO Verify can not continue!' => '',
+        'OTOBO Verify can not continue!' => 'OTOBO Верификация не может продолжаться!',
         'Enable cloud services' => 'Включить облачный сервис',
         'Update all installed packages' => 'Обновить все установленные пакеты',
         'Online Repository' => 'Онлайновый репозиторий',
@@ -1630,8 +1630,8 @@ sub Data {
         'PostMaster Filter Management' => 'Управление фильтрами PostMaster',
         'Add PostMaster Filter' => 'Добавить фильтр PostMaster-а',
         'Edit PostMaster Filter' => 'Редактировать фильтр PostMaster-а',
-        'Filter for PostMaster Filters' => '',
-        'Filter for PostMaster filters' => '',
+        'Filter for PostMaster Filters' => 'Фильтр для PostMaster Filters',
+        'Filter for PostMaster filters' => 'Фильтр для PostMaster filters',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Для распределения или фильтрации входящей электронной почты по заголовкам. Возможна также проверка и с использованием регулярных выражений.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1676,7 +1676,7 @@ sub Data {
             'Здесь вы можете загрузить файл конфигурации для импорта Процесса в вашу систему. Файл должен быть в формате .yml (файл экспорта из модуля управления Процессами.',
         'Upload process configuration' => 'Загрузить конфигурацию Процесса',
         'Import process configuration' => 'Импортировать конфигурацию Процесса',
-        'Ready2Adopt Processes' => '',
+        'Ready2Adopt Processes' => 'Процессы Ready2Adopt',
         'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
         'Import Ready2Adopt process' => '',
@@ -3884,6 +3884,12 @@ sub Data {
         'Prevent entry of dates in the future' => 'Запретить ввод дат в будущем',
         'Prevent entry of dates in the past' => 'Запретить ввод дат в прошлом',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+        'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
+            '',
+        'An element is used as parent element, but not included itself. Please include it.' =>
+            '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => '',
         'System was not able to save the setting!' => '',
@@ -5171,6 +5177,8 @@ sub Data {
             'Невозможно подключиться к системе, т.к. она находится на профилактике/системном обслуживании.',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+        'Authentication error. Please contact the administrator.' => '',
+        'Authentication error.' => '',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             '',
 

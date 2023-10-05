@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.617642392511502;
+    $Self->{Completeness}        = 0.61740922784208;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3166,7 +3166,7 @@ sub Data {
         'Reply' => 'Contestar',
         'Discard' => '',
         'Ticket Information' => 'Información del ticket',
-        'Categories' => '',
+        'Categories' => 'Categorías',
         'Further actions' => '',
 
         # Template: Chat
@@ -3877,6 +3877,12 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
         'Prevent entry of dates in the future' => 'Prevenir el ingreso de datos en futuro.',
         'Prevent entry of dates in the past' => 'Prevenir el ingreso de datos en pasado.',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+        'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
+            '',
+        'An element is used as parent element, but not included itself. Please include it.' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => '',
@@ -5166,6 +5172,8 @@ sub Data {
             'No es posible iniciar sesión debido a un mantenimiento del sistema programado',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+        'Authentication error. Please contact the administrator.' => '',
+        'Authentication error.' => '',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             '',
 

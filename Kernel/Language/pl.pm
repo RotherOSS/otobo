@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.696176423925115;
+    $Self->{Completeness}        = 0.718249563976534;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -108,14 +108,14 @@ sub Data {
         'About' => '',
         'Toggle this widget' => 'Przełącz ten widget',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Language' => '',
+            'Ten język jest nieobecny w Twoim systemie lub nie jest aktywny. Ten tekst może zostać usunięty jeżeli nie jest już potrzebny.',
+        'Remove Language' => 'Usuń język',
         'Text' => 'Treść',
         'Message body' => 'Treść wiadomości',
         'This field is required and must have less than 4000 characters.' =>
             'To pole jest wymagane i musi być krótsze niż 4000 znaków.',
         'Remove About Language' => '',
-        'Add new language' => '',
+        'Add new language' => 'Dodaj nowy język',
         'Save Changes' => 'Zapisz zmiany',
 
         # Template: AdminAppointmentCalendarManage
@@ -320,7 +320,7 @@ sub Data {
         'Update' => 'Zaktualizuj',
         'System Registration' => 'Rejestracja systemu',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            'Aby aktywować przesyłanie danych, zarejestruj swój system u ekipy OTOBO lub zaktualizuj informacje o rejestracji swojego systemu (upewnij się aby zaznaczyć opcje \'wysyłaj dane wsparcia\'.)',
         'Register this System' => 'Zarejestruj ten system',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'Rejestracja Systemu jest wyłączona. Sprawdź konfigurację.',
@@ -420,8 +420,8 @@ sub Data {
         'Valid' => 'Aktualne',
 
         # Template: AdminCustomerAccept
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
+        'Privacy Policy Management' => 'Zarządzanie polityką prywatności',
+        'Privacy Policy' => 'Polityka prywatności',
         'Remove PrivacyPolicy Language' => '',
 
         # Template: AdminCustomerCompany
@@ -537,7 +537,7 @@ sub Data {
         'Add new field for object' => 'Dodaj nowej pole do obiektu',
         'Filter for Dynamic Fields' => 'Filtr dla Pól Dynamicznych',
         'Filter for dynamic fields' => 'Filtr dla pól dynamicznych',
-        'New Dynamic Fields' => '',
+        'New Dynamic Fields' => 'Nowe Pola Dynamiczne',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             '',
         'Database' => 'Baza danych',
@@ -560,10 +560,10 @@ sub Data {
         # Template: AdminDynamicFieldAdvanced
         'Import / Export' => 'Import / Eksport',
         'Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module.' =>
-            '',
+            'Tutaj możesz wgrać plik konfiguracyjny aby zaimportować pola dynamiczne do systemu. Plik musi być w formacie .yml takim jak wyeksportowany z modułu pól dynamicznych.',
         'DynamicFields Import' => 'Import pól dynamicznych',
         'DynamicFields Export' => 'Wyeksportuj pola dynamiczne',
-        'Dynamic Fields Screens' => '',
+        'Dynamic Fields Screens' => 'Ekrany Pól Dynamicznych',
         'Here you can manage the dynamic fields in the respective screens.' =>
             'Tu możesz zarządzać polami dynamicznym na odpowiednich ekranach.',
 
@@ -583,9 +583,9 @@ sub Data {
         'This field is required and must be numeric.' => 'To pole jest wymagane i musi być numeryczne.',
         'This is the order in which this field will be shown on the screens where is active.' =>
             'To jest kolejność zgodnie z którą pole to będzie wyświetlane na ekranach, na których pole to będzie aktywne.',
-        'Tooltip message:' => '',
+        'Tooltip message:' => 'Podpowiedź:',
         'This is the tooltip message shown inside the customer interface.' =>
-            '',
+            'To jest treść podpowiedzi widoczna w interfejsie klienta.',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
             'Nie można unieważnić tego wpisu, wszystkie ustawienia konfiguracji muszą zostać wcześniej zmienione.',
         'Field type' => 'Typ pola',
@@ -606,7 +606,7 @@ sub Data {
             '',
         'Name Field' => 'Nazwa pola',
         'ValidID Field' => '',
-        'Other Fields' => '',
+        'Other Fields' => 'Inne pola',
         'Key' => 'Klucz',
         'Value' => 'Wartość',
         'Remove value' => 'Usuń wartość',
@@ -654,10 +654,10 @@ sub Data {
         'Identifier' => 'Identyfikator',
         'Must be unique column from the table entered in Table/View.' => 'Musi być unikatową kolumną z tabeli podanej w Tabela/Widok.',
         'Multiselect' => 'Multiwybór',
-        'CacheTTL' => '',
+        'CacheTTL' => 'Czas ważności pamięci podręcznej',
         'Searchprefix' => '',
         'Searchsuffix' => '',
-        'Result Limit' => '',
+        'Result Limit' => 'Ilość wyników',
         'Case Sensitive' => 'Wielkość liter ma znaczenie',
 
         # Template: AdminDynamicFieldDateTime
@@ -688,17 +688,17 @@ sub Data {
         '%s - %s' => '%s - %s',
         'Select the items you want to ' => 'Wybierz elementy, które chcesz ',
         'Select the desired elements and confirm the import with \'import\'.' =>
-            '',
+            'Wybierz pożądane elementy i potwierdź import przyciskiem \'importuj\'.',
         'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
             '',
         'The following dynamic fields can not be imported because of an invalid backend.' =>
             '',
         'Toggle all available elements' => '',
         'Fields' => 'Pola',
-        'Screens' => '',
+        'Screens' => 'Ekrany',
 
         # Template: AdminDynamicFieldScreen
-        'Management of Dynamic Fields <-> Screens' => '',
+        'Management of Dynamic Fields <-> Screens' => 'Zarządzanie powiązaniem Dynamiczne Pola <-> Ekrany',
         'Overview' => 'Przegląd',
         'Default Columns Screens' => '',
         'Add DynamicField' => 'Dodaj pole dynamiczne',
@@ -706,7 +706,7 @@ sub Data {
             '',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
             'Porządkowanie elementów na liście jest możliwe również za pomocą chwytania i upuszczania.',
-        'Filter available elements' => '',
+        'Filter available elements' => 'Filtruj dostępne elementy',
         'selected to available elements' => '',
         'Available Elements' => '',
         'Filter disabled elements' => '',
@@ -2703,55 +2703,55 @@ sub Data {
         'Delete statistic %s' => 'Usuń statystykę %s',
 
         # Template: AgentStatisticsReportsAdd
-        'Report Management' => '',
-        'Add Report' => '',
+        'Report Management' => 'Zarządzanie raportami',
+        'Add Report' => 'Dodaj raport',
 
         # Template: AgentStatisticsReportsEdit
-        'Edit Report' => '',
+        'Edit Report' => 'Edytuj raport',
         'Here you can combine several statistics to a report which you can generate as a PDF manually or automatically at configured times.' =>
-            '',
+            'Tutaj możesz połączyć kilka statystyk w raport który możesz wyeksportować jako PDF na żądanie (ręcznie) lub automatycznie (według harmonogramu).',
         'Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system.' =>
-            '',
-        'Configure PhantomJS' => '',
-        'Configure GoogleChrome' => '',
-        'General settings' => '',
-        'Automatic generation settings' => '',
-        'Automatic generation times (cron)' => '',
+            'Pamiętaj, iż możesz wybrać wykresy jako statystyki jedynie wtedy, gdy skonfigurowałeś któreś z narzędzi binarnych do ich renderowanie w swoim systemie.',
+        'Configure PhantomJS' => 'Skonfiguruj PhantomJS',
+        'Configure GoogleChrome' => 'Skonfiguruj GoogleChrome',
+        'General settings' => 'Ustawienia ogólne',
+        'Automatic generation settings' => 'Ustawienia automatycznego generowania',
+        'Automatic generation times (cron)' => 'Harmonogram generowania (cron)',
         'Specify when the report should be automatically generated in cron format, e. g. "10 1 * * *" for every day at 1:10 am.' =>
-            '',
-        'Times are in the system timezone.' => '',
-        'Last automatic generation time' => '',
-        'Next planned automatic generation time' => '',
-        'Automatic generation language' => '',
+            'Wskaż kiedy raport powinien zostać automatycznie wygenerowany w formacie cron, przykładowo "10 1 * * *" oznacza codziennie o 1:10 w nocy.',
+        'Times are in the system timezone.' => 'Czasy podawane są w strefie czasowej systemu.',
+        'Last automatic generation time' => 'Ostatnie automatyczne wygenerowanie raportu',
+        'Next planned automatic generation time' => 'Następne zaplanowane wygenerowanie',
+        'Automatic generation language' => 'Język dla automatycznego raportu',
         'The language to be used when the report is automatically generated.' =>
-            '',
-        'Email subject' => '',
-        'Specify the subject for the automatically generated email.' => '',
-        'Email body' => '',
-        'Specify the text for the automatically generated email.' => '',
-        'Email recipients' => '',
-        'Specify recipient email addresses (comma separated).' => '',
-        'Output settings' => '',
-        'Headline' => '',
-        'Caption for preamble' => '',
-        'Preamble' => '',
-        'Caption for epilogue' => '',
-        'Epilogue' => '',
-        'Add statistic to report' => '',
+            'Język, który ma zostać użyty, gdy raport jest generowany automatycznie.',
+        'Email subject' => 'Tytuł emaila',
+        'Specify the subject for the automatically generated email.' => 'Wprowadź tytuł dla wiadomości email z automatycznym raportem.',
+        'Email body' => 'Treść wiadomości email',
+        'Specify the text for the automatically generated email.' => 'Wprowadź treść dla wiadomości email z automatycznym raportem.',
+        'Email recipients' => 'Odbiorcy emaila',
+        'Specify recipient email addresses (comma separated).' => 'Wprowadź adresy email odbiorców (oddzielane przecinkiem).',
+        'Output settings' => 'Ustawienia wyjścia',
+        'Headline' => 'Nagłówek',
+        'Caption for preamble' => 'Opis wstępu',
+        'Preamble' => 'Wstęp',
+        'Caption for epilogue' => 'Opis zakończenia',
+        'Epilogue' => 'Zakończenie',
+        'Add statistic to report' => 'Dodaj statystyki do raportu',
 
         # Template: AgentStatisticsReportsOverview
-        'Statistics Reports' => '',
-        'Edit statistics report "%s".' => '',
-        'Delete statistics report "%s"' => '',
+        'Statistics Reports' => 'Raport statystyk',
+        'Edit statistics report "%s".' => 'Edytuj raport statystyk "%s".',
+        'Delete statistics report "%s"' => 'Usuń raport statystyk "%s"',
 
         # Template: AgentStatisticsReportsView
-        'View Report' => '',
+        'View Report' => 'Zobacz raport',
         'This statistics report contains configuration errors and can currently not be used.' =>
-            '',
+            'Ten raport statystyk zawiera błędy w konfiguracji i nie może zostać użyty.',
 
         # Template: AgentStatisticsView
         'Statistics Overview' => 'Przegląd statystyk',
-        'View Statistics' => '',
+        'View Statistics' => 'Zobacz statystyki',
         'Statistics Information' => '',
         'Created by' => 'Utworzone przez',
         'Changed by' => 'Zmienione przez',
@@ -2763,7 +2763,7 @@ sub Data {
             'Raport zawiera błędy konfiguracyjne i nie może być wygenerowany.',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s%s' => '',
+        'Change Free Text of %s%s%s' => 'Zmień tekst %s%s%s',
         'Change Owner of %s%s%s' => 'Zmień właściciela dla %s%s%s',
         'Close %s%s%s' => 'Zamknij %s%s%s',
         'Add Note to %s%s%s' => 'Dodaj notatkę do %s%s%s',
@@ -2773,17 +2773,17 @@ sub Data {
         'The ticket has been locked' => 'Zgłoszenie zostało zablokowane',
         'Undo & close' => 'Cofnij i zamknij',
         'Ticket Settings' => 'Ustawienia zgłoszenia',
-        'Queue invalid.' => 'Nie prawidłowa kolejka.',
+        'Queue invalid.' => 'Nieprawidłowa kolejka.',
         'Service invalid.' => 'Nieprawidłowa usługa.',
-        'SLA invalid.' => 'Nie prawidłowe SLA.',
+        'SLA invalid.' => 'Nieprawidłowe SLA.',
         'New Owner' => 'Nowy właściciel',
         'Please set a new owner!' => 'Prosimy ustaw nowego właściciela!',
-        'Owner invalid.' => 'Nie prawidłowy właściciel.',
+        'Owner invalid.' => 'Nieprawidłowy właściciel.',
         'New Responsible' => 'Nowy odpowiedzialny',
         'Please set a new responsible!' => 'Ustaw nowego odpowiedzialnego!',
-        'Responsible invalid.' => 'Nie prawidłowy odpowiedzialny.',
+        'Responsible invalid.' => 'Nieprawidłowy odpowiedzialny.',
         'Next state' => 'Następny stan',
-        'State invalid.' => 'Stan jest nie prawidłowy.',
+        'State invalid.' => 'Niepoprawny stan.',
         'For all pending* states.' => 'Dla wszystkich stanów "oczekujacych".',
         'Add Article' => 'Dodaj wiadomość',
         'Create an Article' => 'Utwórz wiadomość',
@@ -2827,13 +2827,13 @@ sub Data {
             'Wybierz przynajmniej jednego odbiorcę z książki adresowej użytkwoników klienta.',
         'Customer user address book' => 'Książka adresowa użytkwoników klienta',
         'Remove Ticket Customer' => 'Usuń klienta ze zgłoszenia',
-        'Move to Cc' => '',
-        'Move to Bcc' => '',
+        'Move to Cc' => 'Przenieś do DW (Cc)',
+        'Move to Bcc' => 'Przenieś do UDW (Bcc)',
         'Please remove this entry and enter a new one with the correct value.' =>
             'Usuń ten wpis i wprowadź nowy z poprawną wartością.',
         'This address already exists on the address list.' => 'Ten adres juz istnieje na liście adresów.',
         'Remove Cc' => 'Usuń DW',
-        'Move to To' => '',
+        'Move to To' => 'Przenieś do Do (To)',
         'Bcc' => 'UDW',
         'Remove Bcc' => 'Usuń UDW',
         'Date Invalid!' => 'Niepoprawna data!',
@@ -2909,7 +2909,7 @@ sub Data {
         'Tickets per page' => 'Zgłoszeń na stronę',
 
         # Template: AgentTicketOverviewPreview
-        'Missing channel' => '',
+        'Missing channel' => 'Brakujący kanał',
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => 'Resetuj wygląd',
@@ -2954,8 +2954,8 @@ sub Data {
         'Watcher' => 'Obserwujący',
         'Article Create Time (before/after)' => 'Czas utworzenia wiadomości (przed/po)',
         'Article Create Time (between)' => 'Czas utworzenia wiadomości (pomiędzy)',
-        'Please set this to value before end date.' => '',
-        'Please set this to value after start date.' => '',
+        'Please set this to value before end date.' => 'Ustaw na wartość przed datą zakończenia.',
+        'Please set this to value after start date.' => 'Ustaw na wartość po dacie rozpoczęcia.',
         'Ticket Create Time (before/after)' => 'Czas utworzenia zgłoszenia (przed/po)',
         'Ticket Create Time (between)' => 'Czas utworzenia zgłoszenia (pomiędzy)',
         'Ticket Change Time (before/after)' => 'Czas zmiany zgłoszenia (przed/po)',
@@ -3010,7 +3010,7 @@ sub Data {
 
         # Template: MIMEBase
         'This message is being processed. Already tried to send %s time(s). Next try will be %s.' =>
-            '',
+            'Ta wiadomość jest już przetwarzana. Próbowano ją wysłać %s raz(y). Następna próba %s.',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             'W celu otwarcia linków zawartych w wiadomości może być konieczne naciśnięcie klawisza Ctrl, Cmd lub Shift w połączeniu z kliknięciem klawisza myszy (w zależności od używanej przeglądarki internetowej).',
         'Close this message' => 'Zamknij wiadomość',
@@ -3042,8 +3042,8 @@ sub Data {
         'Load blocked content.' => 'Załaduj zablokowaną treść.',
 
         # Template: Breadcrumb
-        'Home' => '',
-        'Back to admin overview' => '',
+        'Home' => 'Strona główna',
+        'Back to admin overview' => 'Powrót do przeglądu administracyjnego',
 
         # Template: CloudServicesDisabled
         'This Feature Requires Cloud Services' => 'Ta funkcja wymaga usług w chmurze',
@@ -3051,7 +3051,7 @@ sub Data {
         'go back to the previous page' => 'powrócić do poprzedniej strony',
 
         # Template: CustomerAccept
-        'Click to accept' => '',
+        'Click to accept' => 'Kliknij aby zaakceptować',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -3133,15 +3133,15 @@ sub Data {
         # Template: CustomerTicketOverview
         'Your Tickets' => 'Twoje zgłoszenia',
         'Page' => 'Strona',
-        'Sort' => '',
+        'Sort' => 'Sortuj',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Profil',
         'e. g. 10*5155 or 105658*' => 'np. 10*5155 lub 105658*',
         'CustomerID' => 'Identyfikator klienta',
-        'Fulltext Search in Tickets (e. g. "John*n" or "Will*")' => '',
+        'Fulltext Search in Tickets (e. g. "John*n" or "Will*")' => 'Wyszukiwanie pełnotekstowe w Zgłoszeniach (np. "Grze*orz" lub "Jan*")',
         'Types' => 'Typy zgłoszeń',
-        'Time Restrictions' => '',
+        'Time Restrictions' => 'Ograniczenia czasowe',
         'No time settings' => 'Brak ustawień czasowych',
         'All' => 'Wszystkie',
         'Specific date' => 'Konkretna data',
@@ -3159,13 +3159,13 @@ sub Data {
         # Template: CustomerTicketSearchResultShort
         'of' => 'z',
         'Search Results for' => 'Wyniki wyszukiwania dla',
-        'Remove this Search Term.' => '',
+        'Remove this Search Term.' => 'Usuń to kryterium wyszukiwania.',
 
         # Template: CustomerTicketZoom
         'Reply' => 'Odpowiedź',
         'Discard' => 'Odrzuć',
         'Ticket Information' => 'Informacje o zgłoszeniu',
-        'Categories' => '',
+        'Categories' => 'Kategorie',
         'Further actions' => 'Więcej akcji',
 
         # Template: Chat
@@ -3188,7 +3188,7 @@ sub Data {
         'Expand' => 'Rozwiń',
 
         # Template: Footer
-        'Powered by %s' => '',
+        'Powered by %s' => 'Napędzane przez %s',
 
         # Template: AttachmentList
         'Click to delete this attachment.' => 'Kliknij aby usunąć ten załącznik.',
@@ -3218,7 +3218,7 @@ sub Data {
         'General Specifications and Mail Settings' => 'Ustawienia ogólne i poczty e-mail',
         'Finish' => 'Koniec',
         'Welcome to %s' => 'Witaj w %s',
-        'Germany' => '',
+        'Germany' => 'Niemcy',
         'Phone' => 'Tel.',
         'Web site' => 'Strona WWW',
 
@@ -3286,9 +3286,9 @@ sub Data {
         'SystemID' => 'SystemID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Identyfikator systemu. Każde zgłoszenie i każde ID sesji HTTP zawiera ten numer.',
-        'HTTP Type' => '',
+        'HTTP Type' => 'Typ HTTP',
         'Set the request scheme used for cookies and various links. For production purposes always use https.' =>
-            '',
+            'Ustaw schemat żądań dla ciasteczek i różnych odnośników. Na produkcji używaj zawsze https.',
         'System FQDN' => 'Pełna domena systemu (FQDN)',
         'Fully qualified domain name of your system.' => 'Pełna nazwa domenowa (FQDN) twojego systemu.',
         'AdminEmail' => 'E-mail administratora',
@@ -3347,36 +3347,36 @@ sub Data {
 
         # Template: Intro
         'This migration script will lead you step by step through the process of migrating your ticket system from OTRS or ((OTRS)) Community Edition version 6 to OTOBO 10.' =>
-            '',
+            'Ten skrypt migracyjny poprowadzi Cię krok po kroku przez proces migracji Twojego systemu obsługi zgłoszeń z OTRS lub ((OTRS)) Community Edition w wersji 6 do OTOBO 10.',
         'There is no danger whatsoever for your original system: nothing is changed there.' =>
-            '',
+            'Nie ma żadnego zagrożenia dla twojego pierwotnego systemu: nie są w nim wprowadzane żadne zmiany.',
         'Instructions and details on migration prerequisites can be found in the migration manual. We strongly recommend reading it before starting migration.' =>
-            '',
+            'Instrukcje oraz szczegółowe informacje na temat wymagań dla migracji możesz odnaleźć w podręczniku migracji. Silnie zalecamy zapoznanie się z nim przed rozpoczęciem migracji.',
         'In case you have to suspend migration, you can resume it anytime at the same point as long as the cache has not been deleted.' =>
-            '',
+            'W przypadku gdy wstrzymasz migrację, możesz ją wznowić w każdej chwili od tego samego miejsca tak długo jak pamięć podręczna nie została wyczyszczona.',
         'All entered passwords are cached until the migration is finished.' =>
             'Wszystkie wprowadzone hasła są przechowywane w pamięci podręcznej do czasu zakończenia migracji.',
         ' Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again.' =>
-            '',
+            ' Każdy z dostępem do tej strony, lub prawami do odczytu z katalogu domowego OTOBO będzie w stanie je odczytać. Jeżeli przerwiesz migrację, będziesz miał do wyboru opcję aby wyczyścić dane tymczasowe poprzez ponowne odwiedzenie tej strony.',
         'If you need support, just ask our experts – either at' => 'Jeśli potrzebujesz wsparcia zapytaj naszych ekspertów pod adresem"',
         'OTOBO forum' => 'Forum OTOBO',
-        'or directly via mail to' => '',
-        'Cached data found' => '',
+        'or directly via mail to' => 'lub bezpośrednio wiadomością email do',
+        'Cached data found' => 'Wykryto dane tymczasowe',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
-            '',
+            'Będziesz kontynuował migrację od miejsca gdzie została przerwana. Jeżeli nie chcesz tego, odrzuć dotychczasowy postęp.',
         'An error occured.' => 'Wystąpił błąd.',
         'Discard previous progress' => 'Odrzuć wcześniejszy postęp',
-        'Insecure HTTP connection' => '',
+        'Insecure HTTP connection' => 'Niezabezpieczone połączenie HTTP',
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
-            '',
+            'Korzystasz ze skryptu migracyjnego przez http. To wysoce niebezpieczne jako że podanie różnych haseł jest wymagane w trakcie trwania procesu i zostaną one przesłane bez szyfrowania. Każdy pomiędzy Tobą i serwerem OTOBO będzie w stanie przechwycić i odczytać je! Rozważ skonfigurowanie https.',
         'Continue anyways :(' => 'Kontynuuj mimo to :(',
         ' Continue anyways :(' => ' Kontynuuj mimo to :()',
 
         # Template: OTRSDBSettings
-        'DSN' => '',
+        'DSN' => 'DSN',
         'Skip DB migration' => 'Pomiń migrację bazy danych',
         'Expert option! Only works if the migration has already been done by hand.' =>
-            '',
+            'Opcja ekspercka! Działa jedynie gdy migracja została już przeprowadzona ręcznie.',
         'Skipped.' => 'Pominięte.',
 
         # Template: OTRSFileSettings
@@ -3393,7 +3393,7 @@ sub Data {
         # Template: MobileNotAvailableWidget
         'Feature not Available' => 'Funkcjonalność niedostępna',
         'Sorry, but this feature of OTOBO is currently not available for mobile devices. If you\'d like to use it, you can either switch to desktop mode or use your regular desktop device.' =>
-            '',
+            'Przepraszamy, ale ta funkcja OTOBO nie jest obecnie dostępna na urządzeniach przenośnych. Jeżeli chcesz z niej skorzystać, możesz przełączyć przeglądarkę w tryb stacjonarny lub użyć przeglądarki na komputerze.',
 
         # Template: Motd
         'Message of the Day' => 'Wiadomość dnia',
@@ -3404,7 +3404,7 @@ sub Data {
         'Back to the previous page' => 'Powrót do poprzedniej strony',
 
         # Template: Alert
-        'Alert' => '',
+        'Alert' => 'Ostrzeżenie',
         'Powered by' => 'Oparte na',
 
         # Template: Pagination
@@ -3420,9 +3420,9 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Plik nie jest obrazkiem, który może być pokazany w treści!',
 
         # Template: PreferencesNotificationEvent
-        'No user configurable notifications found.' => '',
+        'No user configurable notifications found.' => 'Nie znaleziono powiadomień konfigurowalnych przez użytkownika.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
-            '',
+            'Otrzymuj wiadomości dla powiadomienia \'%s\' przy użyciu \'%s\'.',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Informacje procesowe',
@@ -3448,10 +3448,10 @@ sub Data {
             '',
         'Create summation row' => 'Stwórz wiersz z podsumowaniem',
         'Generate an additional row containing sums for all data rows.' =>
-            '',
+            'Generuj dodatkowy wiersz z podsumami.',
         'Create summation column' => 'Stwórz kolumnę z podsumowaniem',
         'Generate an additional column containing sums for all data columns.' =>
-            '',
+            'Generuj dodatkową kolumnę z podsumami.',
         'Cache results' => 'Buforuj wyniki',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             '',
@@ -3467,7 +3467,7 @@ sub Data {
         'This statistic does not provide preview data.' => 'Ten raport nie dostarcza podglądu danych.',
         'Preview format' => 'Format podglądu',
         'Please note that the preview uses random data and does not consider data filters.' =>
-            '',
+            'Uwaga. Podgląd używa losowych danych i nie bierze pod uwagę filtrów.',
         'Configure X-Axis' => 'Skonfiguruj oś X',
         'X-axis' => 'Oś X',
         'Configure Y-Axis' => 'Skonfiguruj oś Y',
@@ -3483,7 +3483,7 @@ sub Data {
         'The past complete %s and the current+upcoming complete %s %s' =>
             'Zakończonych okresów %s oraz okres bieżący + przyszłe okresy %s%s',
         'Do not allow changes to this element when the statistic is generated.' =>
-            '',
+            'Nie zezwalaj na zmiany w tym elemencie gdy statystyki są generowane.',
 
         # Template: StatsParamsWidget
         'Format' => 'Format',
@@ -3509,10 +3509,10 @@ sub Data {
             '',
 
         # Template: StatsWidget
-        'Remove statistic' => '',
+        'Remove statistic' => 'Usuń statystykę',
         'If you don\'t specify a title here, the title of the statistic will be used.' =>
-            '',
-        'Preface' => '',
+            'Jeżeli nie podasz tutaj tytułu, użyty zostanie tytuł statystyki.',
+        'Preface' => 'Wstęp',
         'Postface' => '',
 
         # Template: SettingHistoryListCompare
@@ -3876,6 +3876,12 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
         'Prevent entry of dates in the future' => 'Nie pozwalaj na wprowadzanie dat w przyszłości',
         'Prevent entry of dates in the past' => 'Nie pozwalaj na wprowadzanie dat w przeszłości',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+        'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
+            '',
+        'An element is used as parent element, but not included itself. Please include it.' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => 'Ustawienia zapisane.',
@@ -4449,9 +4455,9 @@ sub Data {
         'Could not create report.' => '',
         'Need StatsReportID!' => '',
         'Edit Statistics Report' => '',
-        'Could not find report.' => '',
-        'Please provide a valid cron entry.' => '',
-        'Could not update report.' => '',
+        'Could not find report.' => 'Nie znaleziono raportu.',
+        'Please provide a valid cron entry.' => 'Wprowadź prawidłowy wpis harmonogramu cron.',
+        'Could not update report.' => 'Nie udało się uaktualnić raportu.',
         'View Statistics Report' => '',
         'Delete: Got no StatsReportID!' => '',
 
@@ -4489,7 +4495,7 @@ sub Data {
         'The following ticket was ignored because it is locked by another agent or you don\'t have write access to ticket: %s.' =>
             'Poniższe zgłoszenie została zignorowane ponieważ jest zablokowane przez innego agenta lub nie posiadasz uprawnień do zapisu w nim: %s.',
         'You need to select at least one ticket.' => 'Musisz zaznaczyć przynajmniej jedno zgłoszenie.',
-        'Bulk feature is not enabled!' => '',
+        'Bulk feature is not enabled!' => 'Funkcje wsadowe nie zostały aktywowane!',
         'No selectable TicketID is given!' => '',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             'Nie wybraleś żadnego zgłoszenia lub wszystkie wybrane są zablokowane przez innych agentów.',
@@ -4499,7 +4505,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Article subject will be empty if the subject contains only the ticket hook!' =>
-            '',
+            'Tytuł artykułu będzie pusty jeżeli temat zawiera jedynie identyfikator zgłoszenia!',
         'Address %s replaced with registered customer address.' => 'Adres %s zastąpiony zarejestrowanym adresem klienta.',
         'Customer user automatically added in Cc.' => 'Użytkownik automatycznie dodany jako DW (Cc).',
 
@@ -4943,7 +4949,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
         'Can\'t connect to OTOBO News server!' => '',
-        'Can\'t get OTOBO News from server!' => '',
+        'Can\'t get OTOBO News from server!' => 'Nie udało się pobrać nowości OTOBO z serwera!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
         'Can\'t connect to Product News server!' => '',
@@ -4981,11 +4987,11 @@ sub Data {
         'Hours' => 'Godziny',
         'Minutes' => 'Minut(-y)',
         'Check to activate this date' => 'Zaznacz aby aktywować tę datę',
-        '%s TB' => '',
-        '%s GB' => '',
-        '%s MB' => '',
-        '%s KB' => '',
-        '%s B' => '',
+        '%s TB' => '%s TB',
+        '%s GB' => '%s GB',
+        '%s MB' => '%s MB',
+        '%s KB' => '%s kB',
+        '%s B' => '%s B',
         'No Permission!' => 'Brak uprawnień!',
         'No Permission' => 'Brak uprawnień',
         'Show Tree Selection' => 'Pokaż wybór drzewa',
@@ -5024,7 +5030,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => 'Konserwacja systemu w toku!',
         'A system maintenance period will start at: %s and is expected to stop at: %s' =>
-            '',
+            'Okienko serwisowe systemu rozpocznie się o %s i planowo zakończy się o %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTOBO Daemon is not running.' => 'Demon OTOBO nie jest uruchomiony.',
@@ -5047,15 +5053,15 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/UIDCheck.pm
         'Don\'t use the Superuser account to work with %s! Create new Agents and work with these accounts instead.' =>
-            '',
+            'Nie używaj konta Superusera do pracy z %s! Utwórz nowego Agenta i zamiast tego pracuj takim kontem.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
         'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
-            '',
+            'Upewnij się, iż wybrałeś co najmniej jedną metodę przekazywania dla obowiązkowych powiadomień.',
         'Preferences updated successfully!' => 'Konfiguracja uaktualniona!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
-        '(in process)' => '',
+        '(in process)' => '(w trakcie)',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => 'Data końcowa musi być późniejsza niż początkowa.',
@@ -5067,7 +5073,7 @@ sub Data {
         'Can\'t update password, the new password and the repeated password do not match.' =>
             'Nie można zmienić hasłą - hasło i powtórzone hasło różnią się.',
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
-            '',
+            'To hasło jest niedozwolone przez obecną konfigurację systemu. Skontaktuj się z administratorem jeżeli masz dodatkowe pytania.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Nie można zmienić hasła, musi się ono składać z co najmniej %s znaków!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase letter characters!' =>
@@ -5088,23 +5094,23 @@ sub Data {
         'No past complete or the current+upcoming complete relative time value selected.' =>
             '',
         'The selected time period is larger than the allowed time period.' =>
-            '',
+            'Wybrany okres czasu jest dłuższy niż dozwolony.',
         'No time scale value available for the current selected time scale value on the X axis.' =>
             '',
         'The selected date is not valid.' => 'Wybrana data jest nieprawidłowa.',
         'The selected end time is before the start time.' => 'Wybrana data końcowa jest wcześniejsza niż początkowa.',
-        'There is something wrong with your time selection.' => '',
+        'There is something wrong with your time selection.' => 'Coś jest nie tak z wybranym przez Ciebie czasem.',
         'Please select only one element or allow modification at stat generation time.' =>
             '',
         'Please select at least one value of this field or allow modification at stat generation time.' =>
             '',
-        'Please select one element for the X-axis.' => '',
-        'You can only use one time element for the Y axis.' => '',
-        'You can only use one or two elements for the Y axis.' => '',
+        'Please select one element for the X-axis.' => 'Wybierz jeden element dla osi X.',
+        'You can only use one time element for the Y axis.' => 'Możesz wybrać tylko jeden element przedstawiający czas na osi Y.',
+        'You can only use one or two elements for the Y axis.' => 'Możesz użyć tylko jednego lub dwóch elementów na osi Y.',
         'Please select at least one value of this field.' => 'Proszęwybrać przynajmniej jedną wartość dla tego pola.',
         'Please provide a value or allow modification at stat generation time.' =>
             '',
-        'Please select a time scale.' => '',
+        'Please select a time scale.' => 'Wybierz skalę czasu.',
         'Your reporting time interval is too small, please use a larger time scale.' =>
             '',
         'second(s)' => 'sekund(a)',
@@ -5148,24 +5154,26 @@ sub Data {
         'Watched Tickets Total' => 'Obserwowane zgłoszenia razem',
 
         # Perl Module: Kernel/Output/PDF/StatisticsReports.pm
-        '%s Report' => '',
-        'Error: this graph could not be generated: %s.' => '',
-        'Table of Contents' => '',
+        '%s Report' => 'Raport %s',
+        'Error: this graph could not be generated: %s.' => 'Błąd: ten wykres nie mógł zostać wygenerowany: %s.',
+        'Table of Contents' => 'Spis treści',
 
         # Perl Module: Kernel/Output/PDF/Ticket.pm
         'Ticket Dynamic Fields' => 'Informacje dodatkowe',
 
         # Perl Module: Kernel/System/ACL/DB/ACL.pm
         'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
-            '',
+            'Nie udało się odczytać pliku konfiguracyjnego ACL. Upewnij się że plik jest prawidłowy.',
 
         # Perl Module: Kernel/System/Auth.pm
         'It is currently not possible to login due to a scheduled system maintenance.' =>
             'W tej chwili logowanie nie jest możliwe w związku z planowaną przerwą techniczną.',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+        'Authentication error. Please contact the administrator.' => '',
+        'Authentication error.' => '',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
-            '',
+            'Nieprawidłowa odpowiedź od serwera uwierzytelniającego. Możliwe, że czynność trwała za długo. Spróbuj ponownie.',
 
         # Perl Module: Kernel/System/AuthSession.pm
         'Please note that the session limit is almost reached.' => 'Proszę zauważyć, że został już prawie osiągnięty limit ilości sesji.',
@@ -5183,14 +5191,14 @@ sub Data {
         'SMIME encrypt only' => 'SMIME: tylko zaszyfruj',
         'PGP and SMIME not enabled.' => 'PGP i SMIME nie są włączone.',
         'Skip notification delivery' => '',
-        'Send unsigned notification' => '',
-        'Send unencrypted notification' => '',
+        'Send unsigned notification' => 'Wyślij niepodpisane powiadomienia',
+        'Send unencrypted notification' => 'Wyślij niezaszyfrowane powiadomienia',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
         'Configuration Options Reference' => 'Opcje konfiguracji',
         'This setting can not be changed.' => 'To ustawienie nie może być zmienione.',
         'This setting is not active by default.' => 'To ustawienie nie jest domyślnie aktywne.',
-        'This setting can not be deactivated.' => '',
+        'This setting can not be deactivated.' => 'To ustawienie nie może zostać wyłączone.',
         'This setting is not visible.' => 'To ustawienie jest niewidoczne.',
         'This setting can be overridden in the user preferences.' => 'To ustawienie może być nadpisane w preferencjach użytkownika.',
         'This setting can be overridden in the user preferences, but is not active by default.' =>
@@ -5211,7 +5219,7 @@ sub Data {
         'e.g. Text or Te*t' => 'np. Tekst albo Te*t',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
-        'Ignore this field.' => '',
+        'Ignore this field.' => 'Ignoruj to pole.',
 
         # Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
         'This field is required or' => 'To pole jes twymagane lub',
@@ -5219,24 +5227,24 @@ sub Data {
         'Maximum size is %s characters.' => 'Maksymalny rozmiar to %s znaków.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
-        'Sanity checks for database.' => '',
+        'Sanity checks for database.' => 'Sprawdzenie poprawności bazy danych.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
         'Deploy the ACL configuration.' => 'Wdróż zmiany ACL.',
         'Deployment completed, perfect!' => 'Wdrożenie zakończone!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
-        'Migrate database table auto_responses.' => '',
+        'Migrate database table auto_responses.' => 'Migruj tabelę bazodanową auto_responses.',
         'Migration failed.' => 'Migracja nie powiodła się.',
-        'Migrate database table auto_response.' => '',
+        'Migrate database table auto_response.' => 'Migruj tabelę bazodanową auto_response.',
         'Migration completed, perfect!' => 'Doskonale! Migracja zakończona.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
         'OTOBO Cache cleanup.' => 'Czyszczenie pamięci podręcznej OTOBO.',
-        'Completed.' => '',
+        'Completed.' => 'Ukończono.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-        'Need OTRSData->%s!' => '',
+        'Need OTRSData->%s!' => 'Wymagane OTRSData->%s!',
         'Can\'t access OTRS Home: %s!' => 'Brak dostępu do katalogu domowego OTRS: %s!',
         'All needed files copied and migrated, perfect!' => 'Doskonale! Wszystkie pliki skopiowane i zmigrowane.',
 
@@ -5258,21 +5266,21 @@ sub Data {
             'Próbujesz uruchomić ten skrypt na niewłaściwej wersji systemu %s!',
         'OTOBO Version is correct: %s.' => 'Poprawna wersja OTOBO: %s.',
         'Check if OTRS version is correct.' => 'Sprawdź czy wersja OTRS jest poprawna.',
-        'OTRS RELEASE file %s does not exist!' => '',
-        'Can\'t read OTRS RELEASE file: %s' => '',
+        'OTRS RELEASE file %s does not exist!' => 'Plik %s OTRS RELEASE nie istnieje!',
+        'Can\'t read OTRS RELEASE file: %s' => 'Nie można odczytać pliku OTRS RELEASE: %s',
         'No OTRS system found!' => 'Nie odnaleziono systemu OTRS!',
         'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
-            '',
+            'Nieznany PRODUKT znaleziony w pliku OTRS RELEASE: %s. Oczekiwane wartości to %s.',
         'OTRS Version is correct: %s.' => 'Poprawna wersja OTRS: %s.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
-        'Migrate ITSM database tables.' => '',
-        'Nothing to do, as the the table \'%s\' does not exist.' => '',
+        'Migrate ITSM database tables.' => 'Migruj tabele bazodanowe ITSM.',
+        'Nothing to do, as the the table \'%s\' does not exist.' => 'Nic do zrobienia, jako że tabela \'%s\' nie istnieje.',
         'UPDATE of the table \'%s\' failed.' => '',
-        'Migration completed.' => '',
+        'Migration completed.' => 'Migracja zakończona.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-        'Migrate configuration settings.' => '',
+        'Migrate configuration settings.' => 'Migruj ustawienia konfiguracyjne.',
         'An error occured during SysConfig data migration or no configuration exists.' =>
             '',
         'An error occured during SysConfig migration when writing XML to DB.' =>
@@ -6684,8 +6692,8 @@ Thanks for your help!
             '',
         'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Link can be used the same way.' =>
             '',
-        'Change Ticket' => '',
-        'Change Ticket information' => '',
+        'Change Ticket' => 'Modyfikuj Zgłoszenie',
+        'Change Ticket information' => 'Zmień informacje o Zgłoszeniu',
         'Change queue!' => 'Zmień kolejkę!',
         'Change the customer for this ticket' => 'Zmień klienta tego zgłoszenia',
         'Change the owner for this ticket' => 'Zmień właściciela tego zgłoszenia',
@@ -8351,7 +8359,7 @@ Thanks for your help!
         'Module used to detect if attachments are present.' => '',
         'My Queues' => 'Moje kolejki',
         'My Services' => 'Moje Usługi',
-        'My last changed tickets' => '',
+        'My last changed tickets' => 'Ostatnio zmodyfikowane przeze mnie',
         'MyLastChangedTickets dashboard widget.' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
