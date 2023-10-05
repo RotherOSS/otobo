@@ -371,7 +371,9 @@ sub Run {
                 );
             }
 
-            if ( $GetParam{UserPassword} && $CurrentUserData{UserPassword} ne $GetParam{UserPassword} ) {
+            # delete UserLastPwChangeTime preference only if a new password is actually present
+            if ( $GetParam{UserPassword} && ( !$CurrentUserData{UserPassword} || ( $CurrentUserData{UserPassword} ne $GetParam{UserPassword} ) ) )
+            {
 
                 $UpdateSuccess = $CustomerUserObject->DeleteOnePreference(
                     Key    => 'UserLastPwChangeTime',
