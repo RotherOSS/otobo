@@ -3,65 +3,58 @@ use strict;
 use warnings;
 use CPAN::Audit::Version;
 
+our $VERSION = "1.001";
+
 sub new {
-    my $class = shift;
-    my (%params) = @_;
+	my($class, %params) = @_;
+	$params{db} ||= {};
+	my $self = bless {}, $class;
+	$self->{db} = $params{db};
+	return $self;
+	}
 
-    my $self = {};
-    bless $self, $class;
+=item * advisories_for( DISTNAME, VERSION_RANGE )
 
-    $self->{db} = $params{db} || {};
 
-    return $self;
-}
+=cut
 
 sub advisories_for {
-    my $self = shift;
-    my ( $distname, $version_range ) = @_;
+	my( $self, $distname, $dist_version_range ) = @_;
 
-    my $dist = $self->{db}->{dists}->{$distname};
-    return unless $dist;
+	$dist_version_range = '>0' unless
+		defined $dist_version_range && 0 < length $dist_version_range;
 
-    my @advisories = @{ $dist->{advisories} };
-    my @versions   = @{ $dist->{versions} };
+	my $dist = $self->{db}->{dists}->{$distname};
+	return unless $dist;
 
-    if ( !$version_range ) {
-        return @advisories;
-    }
+	# select only the known distribution versions from the database,
+	# ignoring all others. For example, if $dist_version_range is
+	# ">5.1", we don't care about any versions less than or equal to 5.1.
+	# If $dist_version_range is "5.1", that really means ">=5.1"
+	my %advisories =
+		map { $_->{id}, $_ }
+		map	 {
+			my $dist_version = $_;
+			grep {
+				my $affected = _includes( $_->{affected_versions}, $dist_version );
+				my $f = $_->{fixed_versions};
+				if( exists $_->{fixed_versions} and defined $f and length $f ) {
+					my $fixed = _includes( $f, $dist_version );
+					$fixed ? 0 : $affected
+					}
+				else { $affected }
+				} @{ $dist->{advisories} };
+		}
+		grep { CPAN::Audit::Version->in_range( $_, $dist_version_range ) }
+		map	 { $_->{version}}
+		@{ $dist->{versions} };
 
-    my $version_checker = CPAN::Audit::Version->new;
-
-    my @all_versions = map { $_->{version} } @versions;
-    my @selected_versions;
-
-    foreach my $version (@all_versions) {
-        if ( $version_checker->in_range( $version, $version_range ) ) {
-            push @selected_versions, $version;
-        }
-    }
-
-    if ( !@selected_versions ) {
-        return;
-    }
-
-    my @matched_advisories;
-    foreach my $advisory (@advisories) {
-        my @affected_versions = $version_checker->affected_versions( \@all_versions, $advisory->{affected_versions} );
-        next unless @affected_versions;
-
-        foreach my $affected_version ( reverse @affected_versions ) {
-            if ( $version_checker->in_range( $affected_version, $version_range ) ) {
-                push @matched_advisories, $advisory;
-                last;
-            }
-        }
-    }
-
-    if ( !@matched_advisories ) {
-        return;
-    }
-
-    return @matched_advisories;
+	values %advisories;
 }
+
+sub _includes {
+	my( $range, $version ) = @_;
+	my $rc = CPAN::Audit::Version->in_range( $version, $range );
+	}
 
 1;

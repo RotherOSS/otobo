@@ -1,275 +1,291 @@
 package CPAN::Audit;
-use 5.008001;
+use v5.10.1;
 use strict;
 use warnings;
 use version;
+
+use Carp qw(carp);
+use Module::CoreList;
+
 use CPAN::Audit::Installed;
 use CPAN::Audit::Discover;
+use CPAN::Audit::Filter;
 use CPAN::Audit::Version;
 use CPAN::Audit::Query;
 use CPAN::Audit::DB;
-use Module::CoreList;
 
-our $VERSION = "0.15";
+our $VERSION = '20230826.001';
 
 sub new {
-    my $class = shift;
-    my (%params) = @_;
+	my( $class, %params ) = @_;
 
-    my $self = {};
-    bless $self, $class;
+	my @allowed_keys = qw(ascii db exclude exclude_file include_perl interactive no_corelist quiet verbose version);
 
-    $self->{ascii}       = $params{ascii};
-    $self->{verbose}     = $params{verbose};
-    $self->{quiet}       = $params{quiet};
-    $self->{no_color}    = $params{no_color};
-    $self->{no_corelist} = $params{no_corelist};
-    $self->{interactive} = $params{interactive};
+	my %args = map { $_, $params{$_} } @allowed_keys;
+	my $self = bless \%args, $class;
 
-    if ( !$self->{interactive} ) {
-        $self->{ascii}    = 1;
-        $self->{no_color} = 1;
-    }
+	$self->_handle_exclude_file if $self->{exclude_file};
 
-    $self->{db}       = CPAN::Audit::DB->db;
-    $self->{query}    = CPAN::Audit::Query->new( db => $self->{db} );
-    $self->{discover} = CPAN::Audit::Discover->new( db => $self->{db} );
+	$self->{db}     //= CPAN::Audit::DB->db;
 
-    return $self;
+	$self->{filter}   = CPAN::Audit::Filter->new( exclude => $args{exclude} );
+	$self->{query}    = CPAN::Audit::Query->new( db => $self->{db} );
+	$self->{discover} = CPAN::Audit::Discover->new( db => $self->{db} );
+
+	return $self;
+}
+
+sub _handle_exclude_file {
+	my( $self ) = @_;
+
+	foreach my $file (@{$self->{exclude_file}}) {
+		my $fh;
+		unless( open $fh, "<", $file ) {
+			carp "unable to open exclude_file [$file]: $!\n";
+			return;
+		}
+		my @excludes =
+			grep { !/^\s*$/ }               # no blank lines
+			map  { s{^\s+|\s+$}{}g; $_ }    # strip leading/trailing whitespace
+			map  { s{#.*}{}; $_ }           # strip comments
+			<$fh>;
+		push @{$self->{exclude}}, @excludes;
+		}
+}
+
+sub command_module {
+	my ( $self, $dists, $queried, $module, $version_range ) = @_;
+	return "Usage: module <module> [version-range]" unless $module;
+
+	my $distname = $self->{db}->{module2dist}->{$module};
+
+	if ( !$distname ) {
+		return "Module '$module' is not in database";
+	}
+
+	push @{ $queried->{$distname} }, $module;
+	$dists->{$distname} = $version_range // '';
+
+	return;
+}
+
+sub command_release {
+	my ( $self, $dists, $queried, $distname, $version_range ) = @_;
+	return "Usage: dist|release <module> [version-range]"
+		unless $distname;
+
+	if ( !$self->{db}->{dists}->{$distname} ) {
+		return "Distribution '$distname' is not in database";
+	}
+
+	$dists->{$distname} = $version_range // '';
+
+	return;
+}
+
+sub command_show {
+	my ( $self, $dists, $queried, $advisory_id ) = @_;
+	return "Usage: show <advisory-id>" unless $advisory_id;
+
+	my ($release) = $advisory_id =~ m/^CPANSA-(.*?)-(\d+)-(\d+)$/;
+	return "Invalid advisory id" unless $release;
+
+	my $dist = $self->{db}->{dists}->{$release};
+	return "Unknown advisory id" unless $dist;
+
+	my ($advisory) =
+	  grep { $_->{id} eq $advisory_id } @{ $dist->{advisories} };
+	return "Unknown advisory id" unless $advisory;
+
+	my $distname = $advisory->{distribution} // 'Unknown distribution name';
+	$dists->{$distname}{advisories} = [ $advisory ];
+	$dists->{$distname}{version} = 'Any';
+
+	return;
+}
+
+sub command_modules {
+	my ($self, $dists, $queried, @modules) = @_;
+	return "Usage: modules '<module>[;version-range]' '<module>[;version-range]'" unless @modules;
+
+	foreach my $module ( @modules ) {
+		my ($name, $version) = split /;/, $module;
+
+		my $failed = $self->command_module( $dists, $queried, $name, $version // '' );
+
+		if ( $failed ) {
+			$self->verbose( $failed );
+			next;
+		}
+	}
+
+	return;
+}
+
+sub command_deps {
+	my ($self, $dists, $queried, $dir) = @_;
+	$dir = '.' unless defined $dir;
+
+	return "Usage: deps <dir>" unless -d $dir;
+
+	my @deps = $self->{discover}->discover($dir);
+
+	$self->verbose( sprintf 'Discovered %d dependencies', scalar(@deps) );
+
+	foreach my $dep (@deps) {
+		my $dist = $dep->{dist}
+		  || $self->{db}->{module2dist}->{ $dep->{module} };
+		next unless $dist;
+
+		push @{ $queried->{$dist} }, $dep->{module} if !$dep->{dist};
+
+		$dists->{$dist} = $dep->{version};
+	}
+
+	return;
+}
+
+sub command_installed {
+	my ($self, $dists, $queried, @args) = @_;
+
+	$self->verbose('Collecting all installed modules. This can take a while...');
+
+	my $verbose_callback = sub {
+		my ($info) = @_;
+		$self->verbose( sprintf '%s: %s-%s', $info->{path}, $info->{distname}, $info->{version} );
+	};
+
+	my @deps = CPAN::Audit::Installed->new(
+		db           => $self->{db},
+		include_perl => $self->{include_perl},
+		( $self->{verbose} ? ( cb => $verbose_callback ) : () ),
+	)->find(@args);
+
+	foreach my $dep (@deps) {
+		my $dist = $dep->{dist}
+		  || $self->{db}->{module2dist}->{ $dep->{module} };
+		next unless $dist;
+
+		$dists->{ $dep->{dist} } = $dep->{version};
+	}
+
+	return;
 }
 
 sub command {
-    my $self = shift;
-    my ( $command, @args ) = @_;
+	state $command_table = {
+		dependencies => 'command_deps',
+		deps         => 'command_deps',
+		installed    => 'command_installed',
+		module       => 'command_module',
+		modules      => 'command_modules',
+		release      => 'command_release',
+		dist         => 'command_release',
+		show         => 'command_show',
+	};
 
-    my %dists;
+	my( $self, $command, @args ) = @_;
 
-    if (!$self->{no_corelist}
-        && (   $command eq 'dependencies'
-            || $command eq 'deps'
-            || $command eq 'installed' )
-        )
-    {
-        # Find core modules for this perl version first.
-        # This way explictly installed versions will overwrite.
-        if ( my $core = $Module::CoreList::version{$]} ) {
-            while ( my ( $mod, $ver ) = each %$core ) {
-                my $dist = $self->{db}{module2dist}{$mod} or next;
+	my %report = (
+		meta => {
+			command          => $command,
+			args             => [ @args ],
+			cpan_audit       => { version => $VERSION },
+			total_advisories => 0,
+		},
+		errors => [],
+		dists => {},
+	);
+	my $dists  = $report{dists};
+	my $queried = {};
 
-                $dists{$dist} = $ver if version->parse($ver) > $dists{$dist};
-            }
-        }
-    }
+	if (!$self->{no_corelist}
+		&& (   $command eq 'dependencies'
+			|| $command eq 'deps'
+			|| $command eq 'installed' )
+		)
+	{
+		# Find core modules for this perl version first.
+		# This way explictly installed versions will overwrite.
+		if ( my $core = $Module::CoreList::version{$]} ) {
+			while ( my ( $mod, $ver ) = each %$core ) {
+				my $dist = $self->{db}{module2dist}{$mod} or next;
+				$dists->{$dist} = $ver if( ! defined $dists->{$dist} or version->parse($ver) > $dists->{$dist} );
+			}
+		}
+	}
 
-    if ( $command eq 'module' ) {
-        my ( $module, $version_range ) = @args;
-        $self->fatal("Usage: module <module> [version-range]") unless $module;
+	if ( exists $command_table->{$command} ) {
+		my $method = $command_table->{$command};
+		push @{ $report{errors} }, $self->$method( $dists, $queried, @args );
+		return \%report if $command eq 'show';
+	}
+	else {
+		push @{ $report{errors} }, "unknown command: $command. See -h";
+	}
 
-        my $distname = $self->{db}->{module2dist}->{$module};
+	if (%$dists) {
+		my $query = $self->{query};
 
-        if ( !$distname ) {
-            $self->message("__GREEN__Module '$module' is not in database");
-            return 0;
-        }
+		foreach my $distname ( keys %$dists ) {
+			my $version_range = $dists->{$distname};
+			my @advisories =
+				grep { ! $self->{filter}->excludes($_) }
+				$query->advisories_for( $distname, $version_range );
 
-        $dists{$distname} = $version_range || '';
-    }
-    elsif ( $command eq 'release' || $command eq 'dist' ) {
-        my ( $distname, $version_range ) = @args;
-        $self->fatal("Usage: dist|release <module> [version-range]")
-          unless $distname;
+			$version_range = 'Any'
+			  if $version_range eq '' || $version_range eq '0';
 
-        if ( !$self->{db}->{dists}->{$distname} ) {
-            $self->message("__GREEN__Distribution '$distname' is not in database");
-            return 0;
-        }
+			$report{meta}{total_advisories} += @advisories;
 
-        $dists{$distname} = $version_range || '';
-    }
-    elsif ( $command eq 'show' ) {
-        my ($advisory_id) = @args;
-        $self->fatal("Usage: show <advisory-id>") unless $advisory_id;
+			if ( @advisories ) {
+				$dists->{$distname} = {
+					advisories      => \@advisories,
+					version         => $version_range,
+					queried_modules => $queried->{$distname} || [],
+				};
+			}
+			else {
+				delete $dists->{$distname}
+			}
+		}
+	}
 
-        my ($release) = $advisory_id =~ m/^CPANSA-(.*?)-(\d+)-(\d+)$/;
-        $self->fatal("Invalid advisory id") unless $release;
+	return \%report;
+	}
 
-        my $dist = $self->{db}->{dists}->{$release};
-        $self->fatal("Unknown advisory id") unless $dist;
+	sub verbose {
+	my ( $self, $message ) = @_;
+	return if $self->{quiet};
+	$self->_print( *STDERR, $message );
+	}
 
-        my ($advisory) =
-          grep { $_->{id} eq $advisory_id } @{ $dist->{advisories} };
-        $self->fatal("Unknown advisory id") unless $advisory;
 
-        $self->print_advisory($advisory);
+	sub _print {
+	my ( $self, $fh, $message ) = @_;
 
-        return 0;
-    }
-    elsif ( $command eq 'dependencies' || $command eq 'deps' ) {
-        my ($path) = @args;
-        $path = '.' unless defined $path;
+	if ( $self->{no_color} ) {
+		$message =~ s{__BOLD__}{}g;
+		$message =~ s{__GREEN__}{}g;
+		$message =~ s{__RED__}{}g;
+		$message =~ s{__RESET__}{}g;
+	}
+	else {
+		$message =~ s{__BOLD__}{\e[39;1m}g;
+		$message =~ s{__GREEN__}{\e[32m}g;
+		$message =~ s{__RED__}{\e[31m}g;
+		$message =~ s{__RESET__}{\e[0m}g;
 
-        $self->fatal("Usage: deps <path>") unless -d $path;
+		$message .= "\e[0m" if length $message;
+	}
 
-        my @deps = $self->{discover}->discover($path);
-
-        $self->message( 'Discovered %d dependencies', scalar(@deps) );
-
-        foreach my $dep (@deps) {
-            my $dist = $dep->{dist}
-              || $self->{db}->{module2dist}->{ $dep->{module} };
-            next unless $dist;
-
-            $dists{$dist} = $dep->{version};
-        }
-    }
-    elsif ( $command eq 'installed' ) {
-        $self->message_info('Collecting all installed modules. This can take a while...');
-
-        my @deps = CPAN::Audit::Installed->new(
-            db => $self->{db},
-            $self->{verbose}
-            ? (
-                cb => sub {
-                    my ($info) = @_;
-
-                    $self->message( '%s: %s-%s', $info->{path}, $info->{distname}, $info->{version} );
-                }
-              )
-            : ()
-        )->find(@ARGV);
-
-        foreach my $dep (@deps) {
-            my $dist = $dep->{dist}
-              || $self->{db}->{module2dist}->{ $dep->{module} };
-            next unless $dist;
-
-            $dists{ $dep->{dist} } = $dep->{version};
-        }
-    }
-    else {
-        $self->fatal("Error: unknown command: $command. See -h");
-    }
-
-    my $total_advisories = 0;
-
-    if (%dists) {
-        my $query = $self->{query};
-
-        foreach my $distname ( sort keys %dists ) {
-            my $version_range = $dists{$distname};
-
-            my @advisories = $query->advisories_for( $distname, $version_range );
-
-            $version_range = 'Any'
-              if $version_range eq '' || $version_range eq '0';
-
-            if (@advisories) {
-                $self->message( '__RED__%s (requires %s) has %d advisories__RESET__',
-                    $distname, $version_range, scalar(@advisories) );
-
-                foreach my $advisory (@advisories) {
-                    $self->print_advisory($advisory);
-                }
-            }
-
-            $total_advisories += @advisories;
-        }
-    }
-
-    if ($total_advisories) {
-        $self->message( '__RED__Total advisories found: %d__RESET__', $total_advisories );
-
-        return $total_advisories;
-    }
-    else {
-        $self->message_info('__GREEN__No advisories found__RESET__');
-
-        return 0;
-    }
-}
-
-sub message_info {
-    my $self = shift;
-
-    return if $self->{quiet};
-
-    $self->message(@_);
-}
-
-sub message {
-    my $self = shift;
-
-    $self->_print( *STDOUT, @_ );
-}
-
-sub fatal {
-    my $self = shift;
-    my ( $msg, @args ) = @_;
-
-    $self->_print( *STDERR, "Error: $msg", @args );
-    exit 255;
-}
-
-sub print_advisory {
-    my $self = shift;
-    my ($advisory) = @_;
-
-    $self->message("  __BOLD__* $advisory->{id}");
-
-    print "    $advisory->{description}\n";
-
-    if ( $advisory->{affected_versions} ) {
-        print "    Affected range: $advisory->{affected_versions}\n";
-    }
-
-    if ( $advisory->{fixed_versions} ) {
-        print "    Fixed range: $advisory->{fixed_versions}\n";
-    }
-
-    if ( $advisory->{cves} ) {
-        print "\n    CVEs: ";
-        print join ', ', @{ $advisory->{cves} };
-        print "\n";
-    }
-
-    if ( $advisory->{references} ) {
-        print "\n    References:\n";
-        foreach my $reference ( @{ $advisory->{references} || [] } ) {
-            print "    $reference\n";
-        }
-    }
-
-    print "\n";
-}
-
-sub _print {
-    my $self = shift;
-    my ( $fh, $format, @params ) = @_;
-
-    my $msg = @params ? ( sprintf( $format, @params ) ) : ($format);
-
-    if ( $self->{no_color} ) {
-        $msg =~ s{__BOLD__}{}g;
-        $msg =~ s{__GREEN__}{}g;
-        $msg =~ s{__RED__}{}g;
-        $msg =~ s{__RESET__}{}g;
-    }
-    else {
-        $msg =~ s{__BOLD__}{\e[39;1m}g;
-        $msg =~ s{__GREEN__}{\e[32m}g;
-        $msg =~ s{__RED__}{\e[31m}g;
-        $msg =~ s{__RESET__}{\e[0m}g;
-
-        $msg .= "\e[0m";
-    }
-
-    print $fh "$msg\n";
+	print $fh "$message\n";
 }
 
 1;
 __END__
 
-=encoding utf-8
+=encoding utf8
 
 =head1 NAME
 
@@ -277,12 +293,12 @@ CPAN::Audit - Audit CPAN distributions for known vulnerabilities
 
 =head1 SYNOPSIS
 
-    use CPAN::Audit;
+	use CPAN::Audit;
 
 =head1 DESCRIPTION
 
-CPAN::Audit is a module and a database at the same time. It is used by L<cpan-audit> command line application to query
-for vulnerabilities.
+CPAN::Audit is a module and a database at the same time. It is used by
+L<cpan-audit> command line application to query for vulnerabilities.
 
 =head1 LICENSE
 

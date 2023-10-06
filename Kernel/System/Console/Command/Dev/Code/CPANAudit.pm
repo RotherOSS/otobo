@@ -19,13 +19,16 @@ package Kernel::System::Console::Command::Dev::Code::CPANAudit;
 use strict;
 use warnings;
 
-use CPAN::Audit;
+use CPAN::Audit 20230826.001;
 use File::Basename;
 use FindBin qw($Bin);
+use List::Util qw(sum0);
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
-our @ObjectDependencies = ();
+our @ObjectDependencies = (
+    'Kernel::System::JSON',
+);
 
 sub Configure {
     my ( $Self, %Param ) = @_;
@@ -47,23 +50,32 @@ sub Run {
         interactive => 0,
     );
 
-    my @PathsToScan;
-
     # We need to pass an explicit list of paths to be scanned by CPAN::Audit, otherwise it will fallback to @INC which
     #   includes our complete tree, with article storage, cache, temp files, etc. It can result in a downgraded
     #   performance if this command is run often.
     #   Please see bug#14666 for more information.
+    my @PathsToScan;
     PATH:
     for my $Path (@INC) {
-        next PATH if $Path && $Path eq '.';                          # Current folder
+        next PATH if $Path && $Path eq '.';                          # Current folder, relevant for old Perls
         next PATH if $Path && $Path eq dirname($Bin);                # OTOBO home folder
         next PATH if $Path && $Path eq dirname($Bin) . '/Custom';    # Custom folder
         push @PathsToScan, $Path;
     }
 
-    # Workaround for CPAN::Audit::Installed. It does not use the passed param(s), but @ARGV instead.
-    local @ARGV = @PathsToScan;
-    return $Audit->command('installed') == 0 ? $Self->ExitCodeOk() : $Self->ExitCodeError();
+    my $Result = $Audit->command( 'installed', @PathsToScan );
+
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+    my $Dump       = $JSONObject->Encode(
+        Data     => $Result,
+        SortKeys => 1,
+        Pretty   => 1,
+    );
+    $Self->Print($Dump);
+
+    my $NumAdvisories = $Result->{meta}->{total_advisories} // -1;
+
+    return $NumAdvisories ? 1 : 0;
 }
 
 1;
