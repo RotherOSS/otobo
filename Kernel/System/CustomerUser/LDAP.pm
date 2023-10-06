@@ -1439,6 +1439,24 @@ sub CustomerUserDataGet {
             $Value =~ s/SMTP:(.*)/$1/;
         }
 
+        if ( IsStringWithData( $Self->{CustomerUserMap}->{TranslateManagerTo} ) ) {
+            if ( $Value && $Entry->[2] =~ /^manager$/i ) {
+
+               # We need to check if we need to translate hte manager flag
+               my $TranslateTo = $Self->{CustomerUserMap}->{TranslateManagerTo};
+               # perform search
+               my $ResultManager = $Self->{LDAP}->search(
+                   base   => $Value,
+                   scope  => 'base',
+                   filter => "(objectClass=*)",
+               );
+
+               # get first entry
+               my $ResultManager2 = $ResultManager->entry(0);
+               $Value = $Self->_ConvertFrom( $ResultManager2->get_value( $TranslateTo ) ) || '';
+            }
+        }
+
         $Data{ $Entry->[0] } = $Value;
     }
 

@@ -1732,11 +1732,13 @@ via the Preferences button after logging in.
 #        CustomerUserPostMasterSearchFields => ['mail'],
 #        CustomerUserNameFields => ['givenname', 'sn'],
 #        # Configures the character for joining customer user name parts. Join single space if it is not defined.
-#        CustomerUserNameFieldsJoin => '',
+#        CustomerUserNameFieldsJoin => ' ',
 #        # show customer user and customer tickets in customer interface
 #        CustomerUserExcludePrimaryCustomerID => 0,
 #        # add a ldap filter for valid users (expert setting)
 #        # CustomerUserValidFilter => '(!(description=gesperrt))',
+#        # Translate manager flag in mapping to mail, uid, SamAccountName etc...
+#        TranslateManagerTo => 'sAMAccountName',
 #        # admin can't change customer preferences
 #        AdminSetPreferences => 0,
 #        # cache time to live in sec. - cache any ldap queries
@@ -1751,6 +1753,7 @@ via the Preferences button after logging in.
 #            [ 'UserEmail',       Translatable('Email'),               'mail',                1, 1, 'var', '', 1, undef, undef ],
 #            [ 'UserCustomerID',  Translatable('CustomerID'),          'mail',                0, 1, 'var', '', 1, undef, undef ],
 #            # [ 'UserCustomerIDs', Translatable('CustomerIDs'),         'second_customer_ids', 1, 0, 'var', '', 1, undef, undef ],
+#            # [ 'UserManager',       Translatable('Manager'),               'manager',     1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserPhone',       Translatable('Phone'),               'telephonenumber',     1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserAddress',     Translatable('Address'),             'postaladdress',       1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserComment',     Translatable('Comment'),             'description',         1, 0, 'var', '', 1, undef, undef ],
