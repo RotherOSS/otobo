@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999206726955418;
+    $Self->{Completeness}        = 0.999365784049469;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -636,7 +636,7 @@ sub Data {
             'Hier können Sie einen optionalen HTTP-Link für den Feldwert in Übersichten und Ansichtsseiten angeben.',
         'Example' => 'Beispiel',
         'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
-            '',
+            'Sie können den Feldnamen verwenden, um auf ein Feld zu verweisen, oder auch auf andere Felder referenzieren – z. B. mit \'DynamicField_OtherFieldName\'.',
         'Link for preview' => 'Link für Vorschau',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Diese URL wird (falls vorhanden) für eine Vorschau verwendet, wenn sich die Maus über diesem Link in der Ticketansicht befindet. Hierfür muss das oben stehende URL-Feld ebenso ausgefüllt werden.',
@@ -1452,7 +1452,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             'Sie können Favoriten hinzufügen, indem Sie Ihren Mauszeiger über Einträge auf der rechten Seite bewegen und dann das Sternsymbol anklicken.',
         'Links' => 'Verknüpfungen',
-        'View the admin manual' => '',
+        'View the admin manual' => 'Admin-Handbuch ansehen',
         'No Matches' => 'Keine Treffer',
         'Sorry, your search didn\'t match any items.' => 'Es wurden leider keine passenden Einträge gefunden.',
         'Set as favorite' => 'Als Favorit markieren',
@@ -3873,6 +3873,12 @@ sub Data {
         'Prevent entry of dates in the future' => 'Eingabe von zukünftigen Datumswerten verhindern',
         'Prevent entry of dates in the past' => 'Eingabe von vergangenen Datumswerten verhindern',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+        'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
+            '',
+        'An element is used as parent element, but not included itself. Please include it.' =>
+            '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => 'Einstellungen wurden gespeichert.',
         'System was not able to save the setting!' => 'Das System konnte die Einstellung nicht speichern!',
@@ -5160,6 +5166,8 @@ sub Data {
             'Die Anmeldung ist derzeit aufgrund einer geplanten Systemwartung nicht verfügbar.',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+        'Authentication error. Please contact the administrator.' => '',
+        'Authentication error.' => '',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             'Ungültige Antwort vom Authentifizierungsserver. Möglicherweise kam es zum Timeout. Bitte versuchen Sie es noch einmal.',
 
@@ -6691,9 +6699,9 @@ Ihr Helpdesk-Team
             'Vollständiges Unterbinden der Eskalation, solange sich das Ticket in einem zum Aussetzen der Eskalation konfigurierten Status (EscalationSuspendStates) befindet. In all diesen Status wird die Ticketeskalation vollständig unterbrochen. Es werden keine Eskalationszeiten angezeigt und das Ticket wird nicht in der Übersicht eskalierter Tickets aufgeführt.',
         'Catalan' => 'Katalanisch',
         'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Link can be used the same way.' =>
-            '',
+            'Kategorien für die Ticketdarstellung. Ist hier keine Standardfarbe angegeben, wird der Artikel nicht angezeigt, sofern im Color Hash keine Auswahl getroffen wurde. Optional kann das Attribut Text ergänzt werden, um den Feldwert zu überschreiben. Außerdem können Vorlagenmethoden verwendet werden (z.B. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Analog kann das Attribut Link auf die gleiche Weise verwendet werden.',
         'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Link can be used the same way.' =>
-            '',
+            'In der Ticketdarstellung verwendete Kategorien. Die Reihenfolge hier bestimmt nur die Ausgangsposition vor der Größenanordnung. Ist keine Standardfarbe angegeben, wird das Element nicht angezeigt, sofern die Auswahl nicht im Farb-Hash definiert wurde. Optional kann das Attribut Text hinzugefügt werden, um den Feldwert zu überschreiben. Hierzu können Template-Methoden eingesetzt werden (z. B. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Das Attribut Link kann auf die gleiche Weise verwendet werden.',
         'Change Ticket' => 'Ticket kategorisieren',
         'Change Ticket information' => 'Ticketinformationen ändern',
         'Change queue!' => 'Queue ändern!',
@@ -9191,7 +9199,7 @@ Ihr Helpdesk-Team
         'Specify the username to authenticate for the first mirror database.' =>
             'Geben Sie den Benutzernamen für die Authentifikation mit der ersten Spiegeldatenbank an.',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
-            '',
+            'Standardmäßig verfügbare Berechtigungen für Agenten in der Anwendung. Sind weitere Berechtigungen erforderlich, können diese hier eingeben werden. Berechtigungen müssen definiert werden, um wirksam zu sein. Einige andere empfehlenswerte Berechtigungen werden bereits standardmäßig zur Verfügung gestellt: Notiz, Schließen, Warten auf...., Kunde, Freitext, Bewegen, Erstellen, Verantwortlich, Weiterleiten und Umleiten. Es ist zu beachten, dass "rw" immer die letzte registrierte Berechtigung ist, weil diese alle zusätzlichen Berechtigungen gewährt.',
         'Start number for statistics counting. Every new stat increments this number.' =>
             'Startzahl für das Zählen von Statistiken. Jede neue Statistik erhöht die hier eingestellte Zahl.',
         'Started response time escalation.' => 'Antwortzeit-Eskalation gestartet.',

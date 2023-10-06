@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.7812152943043;
+    $Self->{Completeness}        = 0.784683684794673;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -105,10 +105,10 @@ sub Data {
             'フォームを送信することにより、新規にACLを作成する事ができます。ACLを作成後、編集モードより構成アイテムを追加することができます。',
 
         # Template: AdminAbout
-        'About' => '',
+        'About' => '約',
         'Toggle this widget' => 'このウィジェットを切り替え',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
+            'この言語はシステムに存在しないか、有効になっていません。 このテキストは、不要になった場合は削除できます。',
         'Remove Language' => '言語を削除',
         'Text' => '本文',
         'Message body' => 'メッセージボディー',
@@ -250,7 +250,7 @@ sub Data {
         'You can use the following tags' => '次のタグを使用できます',
         'To get the first 20 character of the appointment title.' => 'アポイントの表題から最初の20文字を取得します。',
         'To get the appointment attribute' => '予定の属性を取得すること',
-        ' e. g.' => ' 例:',
+        ' e. g.' => ' 例.',
         'To get the calendar attribute' => 'カレンダーの属性を取得すること',
         'Attributes of the recipient user for the notification' => '通知する受信者ユーザーの属性',
         'Config options' => '設定オプション',
@@ -293,7 +293,7 @@ sub Data {
         'Reference' => '用例',
         'To get the first 20 character of the subject.' => '表題の最初の20文字を取得します。',
         'To get the first 5 lines of the email.' => 'メールの最初の5行を取得します。',
-        'To get the name of the ticket\'s customer user (if given).' => 'チケットの顧客ユーザー名を取得(可能な場合)',
+        'To get the name of the ticket\'s customer user (if given).' => 'チケットの顧客ユーザー名を取得すること(可能な場合)。',
         'To get the article attribute' => '記事の属性を取得',
         'Options of the current customer user data' => '現在の顧客ユーザーデータのオプション',
         'Ticket owner options' => 'チケット所有者オプション',
@@ -430,7 +430,7 @@ sub Data {
         'Edit Customer' => '顧客を編集',
         'List (only %s shown - more available)' => '一覧 ( %s 件のみ表示、他候補あり)',
         'total' => '合計',
-        'Please enter a search term to look for customers.' => '顧客を検索するための条件を入力してください',
+        'Please enter a search term to look for customers.' => '顧客を検索するための条件を入力して下さい。',
         'Customer ID' => '顧客ID',
         'Please note' => '注意',
         'This customer backend is read only!' => 'この顧客情報は読み取り専用です！',
@@ -438,18 +438,18 @@ sub Data {
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => '顧客-グループ関連性管理',
         'Notice' => '通知',
-        'This feature is disabled!' => 'この機能は無効にされています。',
+        'This feature is disabled!' => 'この機能は無効にされています!',
         'Just use this feature if you want to define group permissions for customers.' =>
             '顧客のグループ権限を設定する場合のみこの機能を使用できます。',
-        'Enable it here!' => '有効にする',
+        'Enable it here!' => 'ここで有効にして下さい！',
         'Edit Customer Default Groups' => '顧客の規定グループの編集',
         'These groups are automatically assigned to all customers.' => 'このグループは自動的にすべての顧客に割り当てられます。',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
-            '設定の"CustomerGroupCompanyAlwaysGroups"で設定することができます',
+            '設定の"CustomerGroupCompanyAlwaysGroups"で設定することができます。',
         'Filter for Groups' => 'グループでフィルタ',
         'Select the customer:group permissions.' => '顧客：グループ権限を選択',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
-            '何も選択しない場合、このグループは権限がありません (チケットは顧客が使用できません)',
+            '何も選択しない場合、このグループは権限がありません。 (チケットは顧客が使用できません。)',
         'Search Results' => '検索結果',
         'Customers' => '顧客',
         'Groups' => 'グループ',
@@ -483,10 +483,10 @@ sub Data {
             'ここは必須領域で、有効なメールアドレスである必要があります。',
         'This email address is not allowed due to the system configuration.' =>
             'このメールアドレスはシステム設定により許可されていません。',
-        'This email address failed MX check.' => 'このメールアドレスのMXレコード検査に失敗しました',
+        'This email address failed MX check.' => 'このメールアドレスのMXレコード検査に失敗しました。',
         'DNS problem, please check your configuration and the error log.' =>
             'DNS上の問題が発生しました。設定とエラーログを確認してください。',
-        'The syntax of this email address is incorrect.' => 'このメールアドレスは正しい形式ではありません',
+        'The syntax of this email address is incorrect.' => 'このメールアドレスは正しい形式ではありません。',
         'This CustomerID is invalid.' => '顧客IDが不正です。',
         'Effective Permissions for Customer User' => '顧客ユーザーに対する有効な権限',
         'Group Permissions' => 'グループの権限',
@@ -517,11 +517,11 @@ sub Data {
         'These groups are automatically assigned to all customer users.' =>
             'これらのグループは自動的に全顧客ユーザーに設定されます。',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
-            '設定の"CustomerGroupAlwaysGroups"で設定することができます',
+            '設定の"CustomerGroupAlwaysGroups"で設定することができます。',
         'Filter for groups' => 'グループでフィルタ',
         'Select the customer user - group permissions.' => '顧客ユーザーを選択 - グループ・パーミッション',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
-            '何も選択しない場合、このグループは権限がありません (チケットは 顧客ユーザー が使用できません)',
+            '何も選択しない場合、このグループは権限がありません。 (チケットは 顧客ユーザー が使用できません。)',
         'Customer User Default Groups:' => '顧客ユーザーのデフォルト・グループ:',
 
         # Template: AdminCustomerUserService
@@ -639,7 +639,7 @@ sub Data {
             '一覧・詳細画面でフィールドの値を使用してHTTPのリンクを指定できます。',
         'Example' => '例',
         'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
-            '',
+            '独自のフィールド名を使用してフィールドを参照できます。 他のフィールドを参照することもできます。 例）DynamicField_OtherFieldName',
         'Link for preview' => 'プレビュー用のリンク',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '設定したURLは詳細画面のプレビューで使用されます。「リンクを表示」も適切に設定してください。',
@@ -674,7 +674,7 @@ sub Data {
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
             'もし特殊文字(&,@,:,/,等)がエンコードされない場合には、\'uri\'ではなく\'url\'を指定してください。',
         'Restrict entering of dates' => '日付入力の制限',
-        'Here you can restrict the entering of dates of tickets.' => '本項目でチケットの日付入力の制限できます',
+        'Here you can restrict the entering of dates of tickets.' => '本項目でチケットの日付入力の制限できます。',
 
         # Template: AdminDynamicFieldDropdown
         'Add Value' => '値を追加',
@@ -830,16 +830,16 @@ sub Data {
         'Dynamic fields' => 'ダイナミック・フィールド',
         'Add dynamic field' => 'ダイナミック・フィールドの追加',
         'Create times' => '作成日時',
-        'No create time settings.' => '作成日時を指定しない',
+        'No create time settings.' => '作成日時を指定しない。',
         'Ticket created' => 'チケットを作成したのが',
         'Ticket created between' => 'チケットを作成したのがこの期間内',
         'and' => '-',
         'Last changed times' => '最終変更時間',
-        'No last changed time settings.' => '最終変更時間を指定しない',
+        'No last changed time settings.' => '最終変更時間を指定しない。',
         'Ticket last changed' => 'チケットが最終更新された',
         'Ticket last changed between' => 'チケットの最終更新がこの期間内',
         'Change times' => '変更時間',
-        'No change time settings.' => '変更時間設定を指定しない',
+        'No change time settings.' => '変更時間設定を指定しない。',
         'Ticket changed' => 'チケットを変更しました',
         'Ticket changed between' => 'チケットの変更がこの期間の間',
         'Last close times' => '最終クローズ時間',
@@ -847,15 +847,15 @@ sub Data {
         'Ticket last close' => '最後にチケットをクローズしたのが',
         'Ticket last close between' => '最後にチケットをクローズしたのがこの期間内',
         'Close times' => 'クローズ時間',
-        'No close time settings.' => 'クローズ時間を指定しない',
+        'No close time settings.' => 'クローズ時間を指定しない。',
         'Ticket closed' => 'チケットをクローズしたのが',
         'Ticket closed between' => 'チケットをクローズしたのがこの期間内',
         'Pending times' => '保留時間',
-        'No pending time settings.' => '保留時間を指定しない',
+        'No pending time settings.' => '保留時間を指定しない。',
         'Ticket pending time reached' => '保留期限切れが',
         'Ticket pending time reached between' => '保留期限切れがこの期間内',
         'Escalation times' => '対応期限',
-        'No escalation time settings.' => '対応期限を指定しない',
+        'No escalation time settings.' => '対応期限を指定しない。',
         'Ticket escalation time reached' => '対応期限の到達',
         'Ticket escalation time reached between' => '対応期限の期間内',
         'Escalation - first response time' => '対応期限 - 初回応答期限',
@@ -948,43 +948,43 @@ sub Data {
         'Operation filter' => '操作フィルター',
         'Only execute error handling module for selected operations.' => '選択したオペレーションに対してのみ、エラー処理モジュールを実行します。',
         'Note: Operation is undetermined for errors occuring while receiving incoming request data. Filters involving this error stage should not use operation filter.' =>
-            '',
+            '注: リクエストデータの受信中に発生したエラーについては動作が未定です。 このエラー ステージに関係するフィルターでは、操作フィルターを使用しないで下さい。',
         'Invoker filter' => 'API実行元をフィルター',
         'Only execute error handling module for selected invokers.' => '選択したInvokers(API実行元)に対してのみ、エラー処理モジュールを実行します。',
         'Error message content filter' => 'エラーメッセージコンテンツフィルター',
         'Enter a regular expression to restrict which error messages should cause error handling module execution.' =>
-            '',
+            '正規表現を入力して、エラー処理モジュールの実行を引き起こすエラー メッセージを制限します。',
         'Error message subject and data (as seen in the debugger error entry) will considered for a match.' =>
-            '',
+            'エラー メッセージの件名とデータ (デバッガのエラー エントリに表示される) が一致するとみなされます。',
         'Example: Enter \'^.*401 Unauthorized.*\$\' to handle only authentication related errors.' =>
             '例: \'^.*401 Unauthorized.*\$\' と入力すると、認証エラーのみを処理します。',
         'Error stage filter' => 'エラーステージフィルター',
         'Only execute error handling module on errors that occur during specific processing stages.' =>
-            '',
+            '特定の処理段階で発生したエラーに対してのみ、エラー処理モジュールを実行します。',
         'Example: Handle only errors where mapping for outgoing data could not be applied.' =>
-            '',
+            '例: 送信データのマッピングを適用できなかったエラーのみを処理します。',
         'Error code' => 'エラーコード',
-        'An error identifier for this error handling module.' => 'このエラー処理モジュールのエラー識別子',
+        'An error identifier for this error handling module.' => 'このエラー処理モジュールはエラー識別子です。',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
-            '',
+            'この識別子は XSLT マッピングで使用でき、デバッガー出力に表示されます。',
         'Error message' => 'エラーメッセージ',
         'An error explanation for this error handling module.' => 'このエラー処理モジュールのエラーの説明',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
             'このメッセージは、XSLT-Mapping画面およびデバッガ出力でのみ利用可能です。',
         'Define if processing should be stopped after module was executed, skipping all remaining modules or only those of the same backend.' =>
-            '',
-        'Default behavior is to resume, processing the next module.' => '',
+            'モジュールの実行後に処理を停止し、残りのモジュールを全てスキップするか、同じバックエンドのモジュールのみをスキップするかを定義します。',
+        'Default behavior is to resume, processing the next module.' => 'デフォルトの動作では、次のモジュールの処理が再開されます。',
 
         # Template: AdminGenericInterfaceErrorHandlingRequestRetry
         'This module allows to configure scheduled retries for failed requests.' =>
             'このモジュールでは、失敗した要求をスケジュールされた時刻に再試行し、構成できます。',
         'Default behavior of GenericInterface web services is to send each request exactly once and not to reschedule after errors.' =>
-            '',
+            'GenericInterface Web サービスのデフォルトの動作は、各リクエストを 1 回だけ送信し、エラー後に再スケジュールを行わないことです。',
         'If more than one module capable of scheduling a retry is executed for an individual request, the module executed last is authoritative and determines if a retry is scheduled.' =>
-            '',
+            '再試行をスケジュールできる複数のモジュールが個々のリクエストに対して実行される場合、最後に実行されたモジュールが権限を持ち、再試行がスケジュールされるかどうかを決定します。',
         'Request retry options' => 'リクエストを再試行するオプション',
         'Retry options are applied when requests cause error handling module execution (based on processing options).' =>
-            '',
+            '再試行オプションは、要求によってエラー処理モジュールの実行が発生した場合に適用されます。 (処理オプションに基づいて)',
         'Schedule retry' => 'スケジュール・リトライ',
         'Should requests causing an error be triggered again at a later time?' =>
             'エラーの原因となったリクエストを、後で再送信する必要がありますか？',
@@ -1025,7 +1025,7 @@ sub Data {
         # Template: AdminGenericInterfaceInvokerDefault
         'Add Invoker' => 'API実行元を追加',
         'Edit Invoker' => 'API実行元を修正',
-        'Do you really want to delete this invoker?' => 'このAPI実行元を本当に削除しますか。',
+        'Do you really want to delete this invoker?' => 'このAPI実行元を本当に削除しますか？',
         'Invoker Details' => 'API実行元の詳細',
         'The name is typically used to call up an operation of a remote web service.' =>
             'この名称は、一般的にリモートWebサービスの呼び出しに用いられます。',
@@ -1117,7 +1117,7 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => '本ルールはマッピングルールが指定されていないすべてのバリューに適用されます。',
         'New key map' => '新しいキー割り当て',
         'Add key mapping' => 'キー割り当ての追加',
-        'Mapping for Key ' => 'キーの割り当て',
+        'Mapping for Key ' => 'キーの割り当て ',
         'Remove key mapping' => 'キー割り当ての削除',
         'Key mapping' => 'キー割り当て',
         'Map key' => 'キーの割り当て',
@@ -1199,7 +1199,7 @@ sub Data {
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '',
         'Include Ticket Data' => 'チケットデータを含む',
-        'Include ticket data in response.' => '応答のテキスト内に、チケットのデータを含める',
+        'Include ticket data in response.' => '応答のテキスト内に、チケットのデータを含めます。',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'Network Transport' => 'ネットワーク・トランスポート',
@@ -1225,7 +1225,7 @@ sub Data {
         'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => 'タイムアウト',
-        'Timeout value for requests.' => '',
+        'Timeout value for requests.' => 'リクエストのタイムアウト値',
         'Authentication' => '認証',
         'An optional authentication mechanism to access the remote system.' =>
             '',
@@ -1411,8 +1411,8 @@ sub Data {
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             '管理グループは管理エリアで取得します。統計グループは統計エリアを取得します',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
-            '統計グループは統計エリアを取得します。異なるエージェントグループへのアクセス許可を操作するには、グループを新規作成してください。（例：購買部、サポート部、営業部等）',
-        'It\'s useful for ASP solutions. ' => 'ASPソリューションが便利です',
+            '統計グループは統計エリアを取得します。異なるエージェントグループへのアクセス許可を操作するには、グループを新規作成してください。（例：購買部、サポート部、営業部等） ',
+        'It\'s useful for ASP solutions. ' => 'ASPソリューションが便利です。 ',
 
         # Template: AdminLog
         'System Log' => 'システムログ',
@@ -1545,7 +1545,7 @@ sub Data {
             'このパッケージはOTOBOのバージョンが%sかそれより古い必要があります。',
         'This package can only be installed on OTOBO version %s or newer.' =>
             'このパッケージをインストールするにはOTOBOのバージョンが%sかそれより新しい必要があります。',
-        'Why should I keep OTOBO up to date?' => 'OTOBOのバージョンを最新に保つことが必要な理由',
+        'Why should I keep OTOBO up to date?' => 'OTOBOのバージョンを何故最新に保つのですか？',
         'You will receive updates about relevant security issues.' => '',
         'You will receive updates for all other relevant OTOBO issues.' =>
             '他全て関連するOTOBOの問題の更新を受け取ります。',
@@ -1600,12 +1600,12 @@ sub Data {
         'Performance Log' => 'パフォーマンスログ',
         'Range' => '範囲',
         'last' => '以内',
-        'This feature is enabled!' => 'この機能を有効にする。',
+        'This feature is enabled!' => 'この機能を有効にします。',
         'Just use this feature if you want to log each request.' => 'この機能は各要求をログに記録したい場合のみ利用してください。',
         'Activating this feature might affect your system performance!' =>
             'この機能を有効にするとシステムのパフォーマンスに影響が出る可能性があります。',
-        'Disable it here!' => '無効にする。',
-        'Logfile too large!' => 'ログファイルが大きすぎます',
+        'Disable it here!' => 'ここで無効にして下さい！',
+        'Logfile too large!' => 'ログファイルが大きすぎます!',
         'The logfile is too large, you need to reset it' => 'ログファイルが大きすぎます。初期化してください。',
         'Interface' => 'インターフェイス',
         'Requests' => '要求',
@@ -1887,7 +1887,7 @@ sub Data {
         'Last communication with registration server' => '登録管理サーバに対する最後のアクセス',
         'System Registration not Possible' => 'システム登録ができない',
         'Please note that you can\'t register your system if OTOBO Daemon is not running correctly!' =>
-            '注意：OTOBOデーモンが起動していないと、システムの登録が正常に行えません。',
+            'OTOBO デーモンが正しく実行されていない場合は、システムを登録できないことに注意して下さい。',
         'Instructions' => '指示',
         'System Deregistration not Possible' => 'システムの登録解除ができない',
         'OTOBO-ID Login' => 'OTOBO-ID',
@@ -1899,7 +1899,7 @@ sub Data {
         'Your OTOBO-ID is the email address you used to sign up on the OTOBO.com webpage.' =>
             'OTOBO-IDはOTOBO.comのウェブページでサインアップに用いたE-Mailアドレスです。',
         'Data Protection' => 'データ保護',
-        'What are the advantages of system registration?' => 'システムを登録することのメリット',
+        'What are the advantages of system registration?' => 'システム登録のメリットは何ですか?',
         'You will receive updates about relevant security releases.' => 'セキュリティ関連のリリース通知を受け取ることができます。',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
             'システム登録によりサービスの向上を図っていきます。',
@@ -2001,7 +2001,7 @@ sub Data {
         'Edit SLA' => 'SLAを編集',
         'Add SLA' => 'SLAを追加',
         'Filter for SLAs' => 'SLAでフィルター',
-        'Please write only numbers!' => '数値しか入力できません。',
+        'Please write only numbers!' => '数字だけを書いて下さい！',
 
         # Template: AdminSMIME
         'S/MIME Management' => 'S/MIME管理',
@@ -2053,7 +2053,7 @@ sub Data {
         'Example salutation' => '挨拶文の例',
 
         # Template: AdminSecureMode
-        'Secure Mode Needs to be Enabled!' => 'セキュアモードを有効にしてください。',
+        'Secure Mode Needs to be Enabled!' => 'セキュアモードを有効にする必要があります!',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             '初回インストール完了後、セキュアモード (通常) に設定されます',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
@@ -2293,7 +2293,7 @@ sub Data {
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance' => 'システムメンテナンスを修正',
         'Edit System Maintenance Information' => 'システムメンテナンス情報を修正',
-        'Date invalid!' => '日時が無効です。',
+        'Date invalid!' => '日時が無効です!',
         'Login message' => 'ログインメッセージ',
         'This field must have less then 250 characters.' => 'このフィールドは250文字未満にしてください。',
         'Show login message' => 'ログインメッセージを表示',
@@ -2349,7 +2349,7 @@ sub Data {
         'Edit Agent' => '担当者の編集',
         'Edit personal preferences for this agent' => 'この担当者の個人設定を編集',
         'Agents will be needed to handle tickets.' => '担当者はチケットを処理するために必要です。',
-        'Don\'t forget to add a new agent to groups and/or roles!' => '新規担当者をグループまたはロールに追加してください。',
+        'Don\'t forget to add a new agent to groups and/or roles!' => '新しい担当者をグループやロールに追加することを忘れないで下さい!',
         'Please enter a search term to look for agents.' => '担当者を検索するための条件を入力してください。',
         'Last login' => '最終ログイン',
         'Switch to agent' => '担当者を切り替え',
@@ -2387,7 +2387,7 @@ sub Data {
         # Template: AgentAppointmentEdit
         'Basic information' => '基本情報',
         'Date/Time' => '日にち/時間',
-        'Invalid date!' => '無効な日付です。',
+        'Invalid date!' => '無効な日付です!',
         'Please set this to value before End date.' => '終了日の設定の前にこの値を設定してください。',
         'Please set this to value after Start date.' => '開始日の設定後にこの値を設定してください。',
         'This an occurrence of a repeating appointment.' => 'これは繰り返しの予定です。',
@@ -2449,7 +2449,7 @@ sub Data {
         'Customer User' => '顧客ユーザー',
 
         # Template: AgentCustomerTableView
-        'Note: Customer is invalid!' => '注意: 顧客が無効です。',
+        'Note: Customer is invalid!' => '注意: 顧客が無効です!',
         'Start chat' => 'チャットを開始する。',
         'Video call' => 'ビデオ通話',
         'Audio call' => '音声通話',
@@ -2530,7 +2530,7 @@ sub Data {
         'Archived tickets' => 'アーカイブされたチケット',
 
         # Template: AgentDashboardCustomerUserInformation
-        'Note: Customer User is invalid!' => '注意: 顧客ユーザーが無効です。',
+        'Note: Customer User is invalid!' => '注意: 顧客ユーザーが無効です!',
 
         # Template: AgentDashboardCustomerUserList
         'Customer user information' => '顧客ユーザー情報',
@@ -2543,7 +2543,7 @@ sub Data {
         'No tickets found.' => '',
 
         # Template: AgentDashboardProductNotify
-        '%s %s is available!' => '%s %s が利用できます。',
+        '%s %s is available!' => '%s %s が利用できます!',
         'Please update now.' => '更新してください',
         'Release Note' => 'リリースノート',
         'Level' => 'レベル',
@@ -2776,7 +2776,7 @@ sub Data {
         'Service invalid.' => '無効なサービスです',
         'SLA invalid.' => 'SLAが無効です。',
         'New Owner' => '新しい所有者',
-        'Please set a new owner!' => '新規所有者を設定してください。',
+        'Please set a new owner!' => '新規所有者を設定して下さい!',
         'Owner invalid.' => '所有者が無効です。',
         'New Responsible' => '新しい責任者',
         'Please set a new responsible!' => '新しい責任者を設定して下さい！',
@@ -2793,7 +2793,7 @@ sub Data {
         'Text will also be received by' => 'このテキストは、次の方も閲覧可能です',
         'Text Template' => '本文テンプレート',
         'Setting a template will overwrite any text or attachment.' => 'テンプレートを設定すると作成中の本文または添付ファイルは上書きされます。',
-        'Invalid time!' => '無効な時間です。',
+        'Invalid time!' => '無効な時間です!',
 
         # Template: AgentTicketBounce
         'Bounce %s%s%s' => '%s%s%sをバウンス',
@@ -2803,14 +2803,14 @@ sub Data {
             '有効なメールアドレスを使用するか、ローカルなメールアドレスを使用しないでください。',
         'Next ticket state' => 'ステータス',
         'Inform sender' => '送信者に知らせる',
-        'Send mail' => 'メール送信！',
+        'Send mail' => 'メールを送信して下さい！',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'チケット一括処理',
         'Send Email' => 'Eメールの送信',
         'Merge' => '結合',
         'Merge to' => 'これと結合',
-        'Invalid ticket identifier!' => '無効なチケット識別子です。',
+        'Invalid ticket identifier!' => '無効なチケット識別子です!',
         'Merge to oldest' => '古いものへ結合',
         'Link together' => '一緒にリンク',
         'Link to parent' => '親へリンク',
@@ -2835,7 +2835,7 @@ sub Data {
         'Move to To' => '',
         'Bcc' => 'Bcc',
         'Remove Bcc' => 'Bccを削除',
-        'Date Invalid!' => '日時が無効です。',
+        'Date Invalid!' => '日時が無効です!',
 
         # Template: AgentTicketCustomer
         'Change Customer of %s%s%s' => '%s%s%sの顧客を変更',
@@ -2879,7 +2879,7 @@ sub Data {
         # Template: AgentTicketMerge
         'Merge %s%s%s' => '%s%s%sをマージ',
         'Merge Settings' => 'マージ設定',
-        'You need to use a ticket number!' => '使用するチケット番号が必要です。',
+        'You need to use a ticket number!' => '使用するチケット番号が必要です!',
         'A valid ticket number is required.' => '有効なチケット番号が必要です。',
         'Try typing part of the ticket number or title in order to search by it.' =>
             '検索のためチケット番号かタイトルを入力してください。',
@@ -2989,7 +2989,7 @@ sub Data {
         'Unread articles' => '未読記事',
         'Via' => '経由',
         'Important' => '重要',
-        'Unread Article!' => '未読記事があります。',
+        'Unread Article!' => '未読記事があります!',
         'Incoming message' => '受信メッセージ',
         'Outgoing message' => '送信メッセージ',
         'Internal message' => '内部メッセージ',
@@ -3046,7 +3046,7 @@ sub Data {
 
         # Template: CloudServicesDisabled
         'This Feature Requires Cloud Services' => 'この機能にはクラウドサービスが必要',
-        'You can' => '次のことができます: ',
+        'You can' => '次のことができます:',
         'go back to the previous page' => '直前のページに戻る',
 
         # Template: CustomerAccept
@@ -3153,11 +3153,11 @@ sub Data {
         'Save as Template' => 'テンプレートとして保存',
         'Template Name' => 'テンプレート名',
         'Pick a profile name' => 'テンプレート名',
-        'Output to' => '出力: ',
+        'Output to' => '出力:',
 
         # Template: CustomerTicketSearchResultShort
         'of' => '/',
-        'Search Results for' => '検索結果: ',
+        'Search Results for' => '検索結果:',
         'Remove this Search Term.' => 'この検索語を削除して下さい。',
 
         # Template: CustomerTicketZoom
@@ -3207,7 +3207,7 @@ sub Data {
         # Template: Header
         'Edit personal preferences' => '個人設定の編集',
         'Personal preferences' => '個人設定',
-        'You are logged in as' => 'ログイン中: ',
+        'You are logged in as' => 'ログイン中:',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScriptが利用できません。',
@@ -3251,7 +3251,7 @@ sub Data {
         # Template: InstallerDBResult
         'Done' => '完了',
         'Error' => 'エラー',
-        'Database setup successful!' => 'データベース　設定成功',
+        'Database setup successful!' => 'データベースの設定が成功しました!',
 
         # Template: InstallerDBStart
         'Install Type' => 'インストールタイプ',
@@ -3318,7 +3318,7 @@ sub Data {
         'Delete links' => 'リンクを削除',
 
         # Template: Login
-        'Lost your password?' => 'パスワードを忘れた方',
+        'Lost your password?' => 'パスワードを忘れましたか？',
         'Back to login' => 'ログイン画面に戻る',
 
         # Template: MetaFloater
@@ -3563,7 +3563,7 @@ sub Data {
 
         # Template: Actions
         'Edit search' => '検索を修正',
-        'Go back to admin: ' => '管理に戻る：',
+        'Go back to admin: ' => '管理に戻る： ',
         'Deployment' => 'デプロイ',
         'My favourite settings' => '私のお気に入りの設定',
         'Invalid settings' => '無効な設定',
@@ -3616,21 +3616,21 @@ sub Data {
         'Loading, please wait...' => '読み込み中です。お待ち下さい...',
 
         # JS Template: ToggleMoreLessCustomer
-        'Show all' => '',
-        'Show less' => '',
+        'Show all' => '全て表示する',
+        'Show less' => '表示を少なくする',
 
         # JS Template: UploadContainer
-        'Click to select a file for upload.' => '',
-        'Click to select or drop files here.' => '',
+        'Click to select a file for upload.' => 'クリックしてアップロードするファイルを選択します。',
+        'Click to select or drop files here.' => 'ここをクリックしてファイルを選択またはドロップします。',
         'Click to select files or just drop them here.' => 'クリックしてファイルを選択するか、ここにドロップして下さい。',
         'Click to select a file or just drop it here.' => 'クリックしてファイルを選択するか、ここにドロップします。',
         'Uploading...' => 'アップロード中...',
 
         # JS Template: MigrationState
-        'Time needed' => '',
+        'Time needed' => '所要時間',
 
         # JS Template: PackageResolve
-        'Package' => '',
+        'Package' => 'パッケージ',
         'Uninstall from OTOBO' => 'OTOBOからアンインストール',
         'Ignore' => '無視',
         'Migrate' => 'マイグレーション',
@@ -3734,7 +3734,7 @@ sub Data {
         '+1 hour' => '+1時間',
 
         # Perl Module: Kernel/Modules/AdminAppointmentImport.pm
-        'No permissions' => '権限がない!',
+        'No permissions' => '権限がありません',
         'System was unable to import file!' => '',
         'Please check the log for more information.' => '',
 
@@ -3762,7 +3762,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
-        'Attachment added!' => '添付ファイルを追加しました。',
+        'Attachment added!' => '添付ファイルを追加しました!',
 
         # Perl Module: Kernel/Modules/AdminAutoResponse.pm
         'Auto Response added!' => '自動応答が追加されました！',
@@ -3875,6 +3875,12 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
         'Prevent entry of dates in the future' => '',
         'Prevent entry of dates in the past' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+        'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
+            '',
+        'An element is used as parent element, but not included itself. Please include it.' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => '設定を保存しました。',
@@ -4372,9 +4378,9 @@ sub Data {
         'Monthly' => '毎月',
         'Yearly' => '毎年',
         'every' => '全て',
-        'for %s time(s)' => 'for %s time(s)',
+        'for %s time(s)' => '%s 回',
         'until ...' => '〜まで',
-        'for ... time(s)' => 'for ... time(s)',
+        'for ... time(s)' => '...回',
         'until %s' => '%s まで',
         'No notification' => '通知なし',
         '%s minute(s) before' => '%s 分前',
@@ -4468,8 +4474,8 @@ sub Data {
         'No subject' => '件名なし',
         'Could not delete draft!' => '下書きを削除できませんでした。',
         'Previous Owner' => '以前の所有者',
-        'wrote' => 'wrote',
-        'Message from' => 'Message from',
+        'wrote' => '書き込みしました。',
+        'Message from' => 'からのメッセージ',
         'End message' => 'End message',
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
@@ -4519,8 +4525,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketForward.pm
         'Article %s could not be found!' => '記事%sが見つかりませんでした！',
-        'Forwarded message from' => 'Forwarded message from',
-        'End forwarded message' => 'End forwarded message',
+        'Forwarded message from' => 'からの転送メッセージ',
+        'End forwarded message' => '転送されたメッセージを終了',
 
         # Perl Module: Kernel/Modules/AgentTicketHistory.pm
         'Can\'t show history, no TicketID is given!' => 'チケットIDが与えられていないため、履歴を表示できませんでした',
@@ -4634,7 +4640,7 @@ sub Data {
         'Untitled' => 'タイトルなし',
         'Ticket Number' => 'チケット番号',
         'Ticket' => 'チケット',
-        'printed by' => 'printed by',
+        'printed by' => 'によって印刷されました',
         'CustomerID (complex search)' => '顧客ID (複合検索)',
         'CustomerID (exact match)' => '顧客ID (完全一致)',
         'Invalid Users' => '無効なユーザー',
@@ -4714,7 +4720,7 @@ sub Data {
         'Forward' => '転送',
         'Fields with no group' => '',
         'Article could not be opened! Perhaps it is on another article page?' =>
-            '記事が開けませんでした!',
+            '記事を開けませんでした! おそらく別の記事ページにあるのではないでしょうか？',
         'Show one article' => '一つの記事を閲覧',
         'Show all articles' => '全ての記事を閲覧',
         'Show Ticket Timeline View' => 'チケットタイムライン・ビューを表示',
@@ -5163,6 +5169,8 @@ sub Data {
             '予定されていたメンテナンスのため、只今の時間はログインを行うことができません。',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+        'Authentication error. Please contact the administrator.' => '',
+        'Authentication error.' => '',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             '',
 
@@ -5506,7 +5514,7 @@ sub Data {
             'デフォルトのストレージエンジンと違うストレージエンジン設定の Table が見つかりました',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
-        'MySQL 5.x or higher is required.' => '動作要件は MySQL 5.x 以上になっています ',
+        'MySQL 5.x or higher is required.' => '動作要件は MySQL 5.x 以上になっています 。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG 設定',
@@ -5562,7 +5570,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
         'Perl Modules' => 'Perl モジュール',
-        'Not all required Perl modules are correctly installed.' => '必要な Perl モジュールが一部インストールされていません ',
+        'Not all required Perl modules are correctly installed.' => '必要な Perl モジュールが一部インストールされていません 。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
         'Perl Modules Audit' => '',
@@ -5680,7 +5688,7 @@ sub Data {
             '設定された標準のチケットタイプは不正か存在していません。Ticket::Type::Default設定を確認し、正しいチケットタイプを指定してください。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
-        'Ticket Index Module' => 'チケットインデクスモジュール',
+        'Ticket Index Module' => 'チケットインデックスモジュール',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             'システムにチケットが60,000以上あるため、バックエンドにはStaticDBを利用するべきです。詳細は管理者マニュアル(パフォーマンスチューニング)を参照してください。',
 
@@ -7248,7 +7256,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Defines the default state of new customer tickets in the customer interface.' =>
             '顧客インタフェースで、新規顧客チケットのデフォルトの状態を定義します。',
-        'Defines the default state of new tickets.' => '新規チケットのデフォルトの状態を定義します。',
+        'Defines the default state of new tickets.' => '新規チケットのデフォルトのステータスを定義します。',
         'Defines the default subject for phone tickets in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Defines the default subject for phone tickets in the ticket phone outbound screen of the agent interface.' =>
@@ -8371,8 +8379,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Module used to detect if attachments are present.' => '',
         'My Queues' => '担当キュー',
         'My Services' => '担当サービス',
-        'My last changed tickets' => '',
-        'MyLastChangedTickets dashboard widget.' => '',
+        'My last changed tickets' => '最後に変更したチケット',
+        'MyLastChangedTickets dashboard widget.' => '最後に変更したチケット　ダッシュボードウィジェット',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'カスタム・キューの名前です。カスタム・キューとは、利用者が特に優先するキューの一覧であり、プレファレンス設定から選択できます。',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -8450,7 +8458,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Overview of all appointments.' => '全ての予約の一覧',
         'Overview of all escalated tickets.' => 'すべてのエスカレーション済チケット一覧',
         'Overview of all open Tickets.' => 'すべての対応中チケット一覧',
-        'Overview of all open tickets.' => 'すべての対応中チケット一覧',
+        'Overview of all open tickets.' => '全ての対応中チケット一覧',
         'Overview of customer tickets.' => '顧客チケット一覧',
         'PGP Key' => 'PGP鍵',
         'PGP Key Management' => 'PGPキーの管理',
@@ -9167,7 +9175,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com). You can use the OTOBO_CONFIG_FQDN variable as set in your configuation, or choose another email address.' =>
             '',
         'Specifies the email addresses to get notification messages from scheduler tasks.' =>
-            '',
+            'スケジューラタスクから通知メッセージを取得するためのEメールアドレスを指定します。',
         'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
             '「SwitchToCustomer」機能にアクセスできるように、ユーザーがRW権限を必要とするグループを指定します。',
         'Specifies the group where the user needs rw permissions so that they can edit other users preferences.' =>
@@ -9433,7 +9441,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             '定期メンテナンスを実施中です。',
         'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS version 2-6 and OTOBO 10..' =>
-            '',
+            'OTOBO 10.1からデフォルトのチケットをロック解除する動作が変更されました。これにより、チケットのロックが解除されるだけでなく、システムユーザーに再度渡されます。 動作はより明確になりましたが、チケットを最後に編集したのは誰かを読み取ることができなくなっています。OTRSの時の動作に戻したい場合は、このオプションを無効にして下さい。。',
         'Web Service' => 'Webサービス',
         'Web Services' => 'Webサービス',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>

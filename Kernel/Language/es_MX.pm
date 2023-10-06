@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.972870061875297;
+    $Self->{Completeness}        = 0.972887268114793;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -111,7 +111,7 @@ sub Data {
         'Message body' => 'Cuerpo del mensaje',
         'This field is required and must have less than 4000 characters.' =>
             'Este campo es requerido y debe tener menos de 4000 caracteres.',
-        'Remove About Language' => '',
+        'Remove About Language' => 'Quitar Acerca del idioma',
         'Add new language' => 'Agregar nuevo lenguaje',
         'Save Changes' => 'Guardar Cambios',
 
@@ -581,7 +581,7 @@ sub Data {
             'Éste es el orden en que se mostrará este campo en las pantallas en las que esté activo.',
         'Tooltip message:' => 'Mensaje de ayuda:',
         'This is the tooltip message shown inside the customer interface.' =>
-            '',
+            'Este es el mensaje tooltip que se muestra dentro de la interfaz de cliente.',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
             'No es posible invalidar esta entrada, todos los ajustes de configuración tienen que ser cambiados de antemano.',
         'Field type' => 'Typo de campo',
@@ -636,7 +636,7 @@ sub Data {
             'Aquí puede indicar un enlace HTTP opcional para el valor del campo en las pantallas de Vista general y Ampliación.',
         'Example' => 'Ejemplo',
         'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
-            '',
+            'Puede hacer referencia al campo con su propio nombre de campo. También puede hacer referencia a otros campos, por ejemplo con \'DynamicField_OtherFieldName\'.',
         'Link for preview' => 'Enlace para muestra',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Si se rellena, esta URL se utilizará para una vista previa que se mostrará cuando se pase el ratón por este enlace en el zoom del ticket. Tenga en cuenta que para que esto funcione, el campo de la URL normal de arriba también debe rellenarse.',
@@ -1067,7 +1067,7 @@ sub Data {
         'Add New Condition' => 'Añadir Nueva Condición',
 
         # Template: AdminGenericInterfaceInvokerTicket
-        'General invoker data' => '',
+        'General invoker data' => 'Datos generales del invocador',
         'Settings for outgoing request data' => '',
         'Ticket fields' => 'Campos del ticket',
         'Only the selected ticket fields will be considered for the request data.' =>
@@ -3873,6 +3873,12 @@ sub Data {
         'Prevent entry of dates in the future' => 'Evitar la introducción de fechas en el futuro',
         'Prevent entry of dates in the past' => 'Evitar la introducción de fechas en el pasado',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+        'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
+            '',
+        'An element is used as parent element, but not included itself. Please include it.' =>
+            '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => 'Se han guardado los ajustes.',
         'System was not able to save the setting!' => '¡El sistema no ha podido guardar la configuración!',
@@ -5160,6 +5166,8 @@ sub Data {
             'Actualmente no es posible iniciar sesión debido a un mantenimiento programado del sistema.',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+        'Authentication error. Please contact the administrator.' => '',
+        'Authentication error.' => '',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             '',
 

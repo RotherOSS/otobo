@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.87831191496113;
+    $Self->{Completeness}        = 0.87775487553512;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3873,6 +3873,12 @@ sub Data {
         'Prevent entry of dates in the future' => '미래의 날짜 입력 금지',
         'Prevent entry of dates in the past' => '과거 날짜 입력 금지',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+        'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
+            '',
+        'An element is used as parent element, but not included itself. Please include it.' =>
+            '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => '',
         'System was not able to save the setting!' => '',
@@ -5160,6 +5166,8 @@ sub Data {
             '현재 예약된 시스템 유지보수로 인해 로그인 할 수 없습니다.',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+        'Authentication error. Please contact the administrator.' => '',
+        'Authentication error.' => '',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             '',
 

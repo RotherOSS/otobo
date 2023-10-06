@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.502300491829288;
+    $Self->{Completeness}        = 0.502457586808308;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -60,7 +60,7 @@ sub Data {
             'Hier kunt u een configuratiebestand met ACLs importeren in uw systeem. Het bestand moet in .yml formaat zijn, zoals geexporteerd door de ACL module.',
         'This field is required.' => 'Dit veld is verplicht.',
         'Overwrite existing ACLs?' => 'Overschrijf bestaande ACLs?',
-        'Upload ACL configuration' => 'ACL-configuratie uploaden?',
+        'Upload ACL configuration' => 'ACL-configuratie uploaden',
         'Import ACL configuration(s)' => 'Importeer ACL-configuratie',
         'Description' => 'Omschrijving',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
@@ -90,7 +90,7 @@ sub Data {
         'Change settings' => 'Verander instellingen',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Geef aan wat u wilt dat gebeurt als de activatie-criteria kloppen.',
-        'Check the official %sdocumentation%s.' => 'Bekijk de officiële %sdocumentatie%s',
+        'Check the official %sdocumentation%s.' => 'Bekijk de officiële %sdocumentatie%s.',
         'Show or hide the content' => 'Toon of verberg de inhoud',
         'Edit ACL Information' => 'Bewerk ACL-informatie',
         'Name' => 'Naam',
@@ -108,11 +108,11 @@ sub Data {
             'Maak een nieuwe ACL aan. Na het aanmaken kunt u de eigenschappen aanpassen door deze te bewerken.',
 
         # Template: AdminAbout
-        'About' => '',
+        'About' => 'Over',
         'Toggle this widget' => 'Klap in/uit',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
             '',
-        'Remove Language' => '',
+        'Remove Language' => 'Verwijder Taal',
         'Text' => 'Tekst',
         'Message body' => 'Berichttekst',
         'This field is required and must have less than 4000 characters.' =>
@@ -130,7 +130,7 @@ sub Data {
         'Import Appointments' => 'Afspraken importeren',
         'Calendar Import' => 'Kalender import',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            'Hier kunt u een configuratiebestand uploaden om een ​​kalender naar uw systeem te importeren. Het bestand moet in .yml-indeling zijn zoals geëxporteerd door de kalenderbeheermodule.',
+            'Hier kunt u een configuratiebestand uploaden om een kalender naar uw systeem te importeren. Het bestand moet in .yml-indeling zijn zoals geëxporteerd door de kalenderbeheermodule.',
         'Overwrite existing entities' => 'Overschrijf bestaande records',
         'Upload calendar configuration' => 'Upload kalender configuratie',
         'Import Calendar' => 'Importeer kalender',
@@ -143,8 +143,8 @@ sub Data {
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
             'Verplaats naar: Gebruikers kunnen afspraken in de agenda wijzigen, maar zonder de kalender te wijzigen.',
         'Create: users can create and delete appointments in the calendar.' =>
-            'Maken: gebruikers kunnen afspraken maken en verwijderen in de kalender',
-        'Read/write: users can manage the calendar itself.' => 'Lezen/Schrijven: gebruikers kunnen de kalender beheren',
+            'Maken: gebruikers kunnen afspraken maken en verwijderen in de kalender.',
+        'Read/write: users can manage the calendar itself.' => 'Lezen/Schrijven: gebruikers kunnen de kalender beheren.',
         'Group' => 'Groep',
         'Changed' => 'Gewijzigd',
         'Created' => 'Aangemaakt',
@@ -648,7 +648,7 @@ sub Data {
             '',
         'SID' => 'SID',
         'Driver' => '',
-        'Server' => '',
+        'Server' => 'Server',
         'Port' => 'Poort',
         'Table / View' => '',
         'User' => 'Gebruiker',
@@ -1927,7 +1927,7 @@ sub Data {
             'Uw systeem verstuurt op regelmatige basis updates.',
         'Typically this would be around once every three days.' => 'Normaal gesproken is dit ongeveer eens per drie dagen.',
         'If you deregister your system, you will lose these benefits:' =>
-            'Als je je systeem deregistreert, verlies je de volgende voordelen:',
+            'Als je jouw systeem deregistreert, verlies je de volgende voordelen:',
         'You need to log in with your OTOBO-ID to deregister your system.' =>
             'U moet inloggen met uw OTOBO-ID om uw systeem te deregistreren.',
         'OTOBO-ID' => 'OTOBO-ID',
@@ -2650,12 +2650,12 @@ sub Data {
         'Avatars have been disabled by the system administrator. You\'ll see your initials instead.' =>
             'Avatars zijn uitgeschakeld door de systeembeheerder. Uw initialen worden gebruikt.',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
-            'U kunt uw eigen avatar afbeeling registreren door uw e-mail adres   %s op %s te gebruiken. Let op: het kan enige tijd duren voordat uw avatar beschikbaar is vanwege buffering.',
+            'U kunt uw eigen avatar afbeeling registreren door uw e-mail adres %s op %s te gebruiken. Let op: het kan enige tijd duren voordat uw avatar beschikbaar is vanwege buffering.',
         'End' => 'Einde',
         'This setting can currently not be saved.' => 'Deze instelling kan op dit moment niet worden opgeslagen.',
         'This setting can currently not be saved' => 'Deze instelling kan op dit moment niet worden opgeslagen',
         'Save this setting' => 'Sla deze instelling op',
-        'Did you know? You can help translating OTOBO at %s.' => 'Wist je dat je kunt helpen om OTOBO te vertalen via %s?',
+        'Did you know? You can help translating OTOBO at %s.' => 'Wist je dit al? Je kunt helpen om OTOBO te vertalen via %s.',
 
         # Template: SettingsList
         'Reset to default' => '',
@@ -3460,7 +3460,7 @@ sub Data {
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Maak een dashboard-widget van dit rapport die behandelaars in hun dashboard kunnen activeren.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            'Inschakelen van de dashboard widget activeert caching voor dit rapport  in het dashboard.',
+            'Inschakelen van de dashboard widget activeert caching voor dit rapport in het dashboard.',
         'If set to invalid end users can not generate the stat.' => 'Als deze op ongeldig staat, kan het rapport niet gebruikt worden.',
 
         # Template: PreviewWidget
@@ -3879,6 +3879,12 @@ sub Data {
         'Prevent entry of dates in the future' => '',
         'Prevent entry of dates in the past' => '',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+        'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
+            '',
+        'An element is used as parent element, but not included itself. Please include it.' =>
+            '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => '',
         'System was not able to save the setting!' => '',
@@ -4290,7 +4296,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
         'Some imported settings are not present in the current state of the configuration or it was not possible to update them. Please check the OTOBO log for more information.' =>
-            'Sommige geïmporteerde instellingen zijn niet aanwezig in de huidige  configuratie of het was niet mogelijk om deze bij te werken. Raadpleeg het OTOBO-logboek voor meer informatie.',
+            'Sommige geïmporteerde instellingen zijn niet aanwezig in de huidige configuratie of het was niet mogelijk om deze bij te werken. Raadpleeg het OTOBO-logboek voor meer informatie.',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
         'This deployment does not contain changes in the setting values!' =>
@@ -5166,6 +5172,8 @@ sub Data {
             'Het is momenteel niet mogelijk om in te loggen omwille van een gepland systeemonderhoud.',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+        'Authentication error. Please contact the administrator.' => '',
+        'Authentication error.' => '',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             '',
 
@@ -6409,7 +6417,7 @@ Bedankt voor uw belangstelling.
 
 Het Helpdesk Team
 ',
-        ' (work units)' => '(werk eenheden)',
+        ' (work units)' => ' (werk eenheden)',
         ' 2 minutes' => ' 2 minuten',
         ' 5 minutes' => ' 5 minuten',
         ' 7 minutes' => ' 7 minuten',
