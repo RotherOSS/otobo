@@ -32,13 +32,14 @@
 # Fredy Aragón <fredmac48@hotmail.com>, 2021.
 # Pau Nadeu Rabat <PAU.NADEU@networkhero.tech>, 2021.
 # Miguel Sanchez Quintero <miguel@ayte.co>, 2023.
+# Alvaro Cordero Retana <alvaro@gridshield.net>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-06-08 05:52+0000\n"
-"Last-Translator: Miguel Sanchez Quintero <miguel@ayte.co>\n"
+"PO-Revision-Date: 2023-10-08 01:32+0000\n"
+"Last-Translator: Alvaro Cordero Retana <alvaro@gridshield.net>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
 "es/>\n"
 "Language: es\n"
@@ -376,29 +377,34 @@ msgid ""
 "Depending on the group field, the system will allow users the access to the "
 "calendar according to their permission level."
 msgstr ""
-"Dependiendo del campo de grupo, el sistema permite el acceso a usuarios al "
-"calendario de acuerdo a sus niveles de permisos."
+"Dependiendo del grupo, el sistema le permitirá a los usuarios acceder a los "
+"calendarios de acuerdo a su nivel de permisos."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read only: users can see and export all appointments in the calendar."
 msgstr ""
-"RO: usuarios que pueden ver y exportar todas las citas en el calendario."
+"Los usuarios con permisos de solo lectura: pueden ver y exportar todos los "
+"eventos en el calendario."
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
 "Move into: users can modify appointments in the calendar, but without "
 "changing the calendar selection."
 msgstr ""
-"Mover_A: usuarios que pueden modificar citas en el calendario, pero sin "
-"cambiar la selección de calendario."
+"Usuarios con privilegios Mover a: pueden modificar los eventos en el "
+"calendario, pero sin modificar la selección del calendario."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
-msgstr "Crear: usuarios que pueden crear y borrar citas en el calendario."
+msgstr ""
+"Usuarios con privilegios Crear: pueden crear y borrar los eventos en el "
+"calendario."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr "RW: usuario que pueden gestionar el calendario en sí."
+msgstr ""
+"Usuarios con permiso Lectura/escritura pueden administrar el calendario "
+"mismo."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -470,11 +476,11 @@ msgstr "Eliminar"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Start date"
-msgstr "Fecha inicio"
+msgstr "Fecha de Inicio"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
-msgstr "Fecha de término"
+msgstr "Fecha de Fin"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -546,7 +552,7 @@ msgstr "Cargar"
 
 #. Template: AdminAppointmentImport
 msgid "Update existing appointments?"
-msgstr "¿Actualizar las citas existentes?"
+msgstr "Actualizar citas existentes?"
 
 #. Template: AdminAppointmentImport
 msgid ""
@@ -8163,7 +8169,7 @@ msgstr "Resumen de la Agenda"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Manage Calendars"
-msgstr "Gestionar Calendarios"
+msgstr "Administrar Calendarios"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Add Appointment"
