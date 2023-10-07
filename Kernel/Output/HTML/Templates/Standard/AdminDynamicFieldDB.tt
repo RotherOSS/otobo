@@ -352,7 +352,9 @@
                         <label class="Mandatory" for="Password"><span class="Marker">*</span>[% Translate("Password") | html %]:</label>
                         <div class="Field">
                             <input id="Password" class="Validate_Required W50pc" type="password" maxlength="200" value="[% Data.Password | html %]" name="Password"/>
-                            <i class="PasswordToggle fa fa-eye"></i>
+                            <div class="PasswordToggleContainer">
+                                <i class="PasswordToggle fa fa-eye"></i>
+                            </div>
                             <div id="PasswordError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="PasswordServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         </div>

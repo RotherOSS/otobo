@@ -58,7 +58,9 @@
                     <label for="DBPassword">[% Translate("Password") | html %]:</label>
                     <div class="Field">
                         <input type="password" id="DBPassword" name="DBPassword" value="" class="W50pc" autocomplete="off" />
-                        <i class="PasswordToggle fa fa-eye"></i>
+                        <div class="PasswordToggleContainer">
+                            <i class="PasswordToggle fa fa-eye"></i>
+                        </div>
                     </div>
                     <div class="Clear"></div>
 

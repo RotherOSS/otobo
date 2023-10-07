@@ -249,14 +249,24 @@ Core.UI.InputFields = (function (TargetNS) {
             });
 
             $('.PasswordToggle').on('click', function() {
-                var $PasswordInput = $(this).prev('input');
+                var $PasswordInput = $(this).parent().prev('input');
                 if ( $PasswordInput.attr('type') == 'text' ) {
                     $PasswordInput.attr('type', 'password');
-                    $(this).removeClass('fa-eye-slash');
+                    if ( Config.CustomerInterface ) {
+                        $(this).removeClass('ooofo-eye-slash');
+                    }
+                    else {
+                        $(this).removeClass('fa-eye-slash');
+                    }
                 }
                 else if ( $PasswordInput.attr('type') == 'password' ) {
                     $PasswordInput.attr('type', 'text');
-                    $(this).addClass('fa-eye-slash');
+                    if ( Config.CustomerInterface ) {
+                        $(this).addClass('ooofo-eye-slash');
+                    }
+                    else {
+                        $(this).addClass('fa-eye-slash');
+                    }
                 }
 
             });

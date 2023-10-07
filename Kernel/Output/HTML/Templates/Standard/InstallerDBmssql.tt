@@ -42,7 +42,9 @@
                     <label for="DBPassword">[% Translate("Password") | html %]:</label>
                     <div class="Field">
                         <input type="password" id="DBPassword" name="DBPassword" value="" class="W50pc" autocomplete="off" />
-                        <i class="PasswordToggle fa fa-eye"></i>
+                        <div class="PasswordToggleContainer">
+                            <i class="PasswordToggle fa fa-eye"></i>
+                        </div>
                     </div>
                     <div class="Clear"></div>
 
@@ -104,7 +106,9 @@
                     <label for="OTOBODBPassword">[% Translate("Password") | html %]:</label>
                     <div class="Field">
                         <input type="password" id="OTOBODBPassword" name="OTOBODBPassword" value="[% Data.Password | html %]" class="W50pc" autocomplete="off" />
-                        <i class="PasswordToggle fa fa-eye"></i>
+                        <div class="PasswordToggleContainer">
+                            <i class="PasswordToggle fa fa-eye"></i>
+                        </div>
                         <p class="FieldExplanation">
                             [% Translate("Generated password") | html %]: <span class="Emphasis">[% Data.Password | html %]</span>
                         </p>
@@ -114,7 +118,9 @@
                     <label for="RepeatOTOBODBPassword">[% Translate("Repeat Password") | html %]:</label>
                     <div class="Field">
                         <input type="password" id="RepeatOTOBODBPassword" name="RepeatOTOBODBPassword" value="[% Data.Password | html %]"
-                        <i class="PasswordToggle fa fa-eye"></i>
+                        <div class="PasswordToggleContainer">
+                            <i class="PasswordToggle fa fa-eye"></i>
+                        </div>
                         class="W50pc Validate_Equal Validate_Equal_OTOBODBPassword" autocomplete="off" />
                     </div>
                     <div id="RepeatOTOBODBPasswordError" class="TooltipErrorMessage"><p>[% Translate("Passwords do not match") | html %]!</p></div>

@@ -78,7 +78,9 @@
 [% RenderBlockStart("Password") %]
                         <div class='Row'>
                             <input title="[% Translate(Data.Key) | html %]" type="password" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="" size="20" [% IF Data.Autocomplete %]autocomplete="[% Data.Autocomplete | html %]"[% END %] />
-                            <i class="PasswordToggle ooofo ooofo-eye"></i>
+                            <div class="PasswordToggleContainer">
+                                <i class="PasswordToggle ooofo ooofo-eye"></i>
+                            </div>
                             <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
                             <div class="ClearLeft"></div>
                         </div>

@@ -91,6 +91,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ooofo-delete:before {
   content: "\e910";
 }
+.ooofo-eye:before {
+    content: "\f06e";
+}
+.ooofo-eye-slash:before {
+    content: "\f070";
+}
 .ooofo-faq:before {
   content: "\e911";
 }
