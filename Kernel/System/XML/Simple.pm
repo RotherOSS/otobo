@@ -54,10 +54,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 XMLIn()
@@ -88,7 +85,7 @@ No default options are assumed.
         },
     );
 
-    Results in:
+Results in:
 
     my $PerlStructure = {
         Item => [
@@ -128,7 +125,7 @@ sub XMLIn {
 
     my $PerlStructure = eval {
 
-        my $XMLSimpleObject = XML::LibXML::Simple->new();
+        my $XMLSimpleObject = XML::LibXML::Simple->new;
 
         return $XMLSimpleObject->XMLin(
             $Param{XMLInput},
@@ -142,6 +139,7 @@ sub XMLIn {
             Priority => 'error',
             Message  => "Error parsing XML: $Error",
         );
+
         return;
     }
 

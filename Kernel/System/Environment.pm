@@ -264,7 +264,6 @@ sub PerlInfoGet {
             Excel::Writer::XLSX
             Exporter::Tiny
             File::Slurp
-            File::Slurp::Tiny
             Font::TTF
             HTTP::Message
             IO::Interactive
