@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-10-09 16:39+0000\n"
+"PO-Revision-Date: 2023-10-09 21:50+0000\n"
 "Last-Translator: Aychel Mora Alpízar <aychel@gridshield.net>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
 "es_CO/>\n"
@@ -772,7 +772,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Remove Notification Language"
-msgstr ""
+msgstr "Eliminar idioma de notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Subject"
@@ -780,11 +780,11 @@ msgstr "Asunto"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
-msgstr ""
+msgstr "Agregar nuevo idioma de notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
-msgstr ""
+msgstr "Etiqueta Referencia"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
@@ -804,7 +804,7 @@ msgstr "Para obtener el atributo de la cita"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
-msgstr "Por ejemplo:"
+msgstr " Por ejemplo:"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
@@ -812,7 +812,7 @@ msgstr "Para obtener el atributo del calendario"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "Atributos del usuario destinatario de la notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Config options"
@@ -824,46 +824,50 @@ msgstr "Ejemplo de notificación"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "Direcciones de correo electrónico de destinatarios adicionales"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Este campo debe tener menos de 200 caracteres."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Artículo visible para la cliente"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
 "An article will be created if the notification is sent to the customer or an "
 "additional email address."
 msgstr ""
+"Se creará un artículo si la notificación se envía al cliente o a una "
+"dirección de correo electrónico adicional."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "Plantilla de correo electrónico"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
 msgstr ""
+"Utilice esta plantilla para generar el correo electrónico completo (solo "
+"para correos electrónicos HTML)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Habilitar la seguridad del correo electrónico"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Nivel de seguridad del correo electrónico"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Si falta la clave/certificado de firma"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Si falta la clave/certificado de firma"
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -883,7 +887,7 @@ msgstr "Filtro para Archivos Adjuntos"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Filtrar por archivos adjuntos"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -899,7 +903,7 @@ msgstr "Eliminar este archivo adjunto"
 
 #. Template: AdminAttachment
 msgid "Do you really want to delete this attachment?"
-msgstr ""
+msgstr "¿Realmente deseas eliminar este archivo adjunto?"
 
 #. Template: AdminAttachment
 msgid "Attachment"
@@ -923,7 +927,7 @@ msgstr "Filtro para Auto Respuestas"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "Filtrar por respuestas automáticas"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -948,6 +952,7 @@ msgstr "Para obtener las primeras 5 líneas del correo."
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
 msgstr ""
+"Para obtener el nombre del usuario cliente del ticket (si se proporciona)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -975,13 +980,15 @@ msgstr "Opciones de los datos del ticket"
 
 #. Template: AdminAutoResponse
 msgid "Options of ticket dynamic fields internal key values"
-msgstr ""
+msgstr "Opciones de valores de clave interna de campos dinámicos de ticket"
 
 #. Template: AdminAutoResponse
 msgid ""
 "Options of ticket dynamic fields display values, useful for Dropdown and "
 "Multiselect fields"
 msgstr ""
+"Las opciones de los campos dinámicos del ticket muestran valores, útiles "
+"para campos desplegables y de selección múltiple"
 
 #. Template: AdminAutoResponse
 msgid "Example response"
@@ -989,15 +996,15 @@ msgstr "Respuesta de ejemplo"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr ""
+msgstr "Gestión de servicios en la nube"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "Recopilador de datos de soporte"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "Recolector de datos de soporte"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
@@ -1005,27 +1012,31 @@ msgstr "Pista"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Currently support data is only shown in this system."
-msgstr ""
+msgstr "Actualmente los datos de soporte solo se muestran en este sistema."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "It is sometimes recommended to send this data to the OTOBO team in order to "
 "get better support."
 msgstr ""
+"A veces se recomienda enviar estos datos al equipo de OTOBO para obtener un "
+"mejor soporte."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
-msgstr ""
+msgstr "Configuración"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
-msgstr ""
+msgstr "Enviar datos de soporte"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "This will allow the system to send additional support data information to "
 "the OTOBO team."
 msgstr ""
+"Esto permitirá que el sistema envíe información de datos de soporte "
+"adicional al equipo de OTOBO."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -1033,7 +1044,7 @@ msgstr "Actualizar"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
-msgstr ""
+msgstr "Registro del sistema"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -1041,6 +1052,9 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"Para habilitar el envío de datos, registre su sistema con el equipo de OTOBO "
+"o actualice la información de registro de su sistema (asegúrese de activar "
+"la opción 'enviar datos de soporte')."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
