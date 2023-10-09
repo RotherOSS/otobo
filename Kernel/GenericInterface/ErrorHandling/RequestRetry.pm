@@ -38,6 +38,7 @@ Kernel::GenericInterface::ErrorHandling::RequestRetry - Module do decide about r
 create an object. Do not create it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $ErrorObject = $Kernel::OM->Get('Kernel::GenericInterface::ErrorHandling');
 

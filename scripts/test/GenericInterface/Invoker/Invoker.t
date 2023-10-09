@@ -98,7 +98,7 @@ $Self->IsNot(
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
     DebuggerObject => $DebuggerObject,
     Invoker        => 'Test',
-    InvokerType    => 'Test::Test',
+    InvokerType    => 'Test::Test',      # maps to Kernel::GenericInterface::Invoker::Test::Test;
     WebserviceID   => 1,
 );
 $Self->Is(

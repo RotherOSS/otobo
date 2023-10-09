@@ -51,16 +51,13 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 HandleError()
 
 Receives the current web service and operation or invoker data, as well as the result
-of the HandleError method from the related invoker or operation.
+of the C<HandleError()> method from the related invoker or operation.
 The data will be printed via the debugger.
 For every registered error handler its configuration will be checked to determine if
 it should be called.
@@ -69,13 +66,15 @@ it should be called.
         WebserviceID      => 1,                     # ID of the configured remote web service to use
         WebserviceConfig  => $WebserviceConfig,
         CommunicationID   => '02a381c622d5f93df868a42151db1983', # communication ID of current debugger instance
-        CommunicationType => 'Requester',           # May be 'Requester' or 'Provider'
-        CommunicationName => 'CreateTicket',        # optional, name of Invoker or Operation
-        ErrorStage        => 'MappingIn',           # stage where error occurred
+        CommunicationType => 'Requester',                        # May be 'Requester' or 'Provider'
+        CommunicationName => 'CreateTicket',                     # optional, name of Invoker or Operation
+        ErrorStage        => 'MappingIn',                        # stage where error occurred
         Summary           => $ErrorSummary,
-        Data              => $ErrorData,
-        PastExecutionData => $PastExecutionDataStructure,   # optional
+        Data              => $ErrorData,                         # data provided from the origin of the error
+        PastExecutionData => $PastExecutionDataStructure,        # optional
     );
+
+returns
 
     $Result = {
         Success      => 0,

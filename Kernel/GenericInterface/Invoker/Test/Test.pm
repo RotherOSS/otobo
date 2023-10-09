@@ -110,6 +110,9 @@ sub PrepareRequest {
 =head2 HandleResponse()
 
 handle response data of the configured remote web service.
+This invoker is primarily meant for test scripts. It expects that the message
+from the remote service contains the attribute TicketNumber. The handler extracts the TicketNumber
+and returns it. There are no side effects.
 
     my $Result = $InvokerObject->HandleResponse(
         ResponseSuccess      => 1,              # success status of the remote web service
