@@ -863,6 +863,14 @@ sub AddAdminUser {
         return 0, "Could not give $Group privileges to the user '$Login'" unless $Success;
     }
 
+    # Looks like generic preferences can't be passed via AddUser(),
+    # so call SetPreferences() explicitly
+    $UserObject->SetPreferences(
+        UserID => $UserID,
+        Key    => 'AdminNavigationBarFavourites',
+        Value  => qq{["AdminSystemConfiguration","AdminPackageManager","AdminSupportDataCollector"]},
+    );
+
     # looks good
     return 1, "Admin user: http://localhost:$Param{HTTPPort}/otobo/index.pl user: $Login pw: $Login";
 }
