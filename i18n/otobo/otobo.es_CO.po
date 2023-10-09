@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-10-08 01:32+0000\n"
+"PO-Revision-Date: 2023-10-09 16:39+0000\n"
 "Last-Translator: Aychel Mora Alpízar <aychel@gridshield.net>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
 "es_CO/>\n"
@@ -467,11 +467,11 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Queues"
-msgstr "Filas"
+msgstr "Colas"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Please select a valid queue."
-msgstr "Poor favor seleccione una fila válida"
+msgstr "Por favor seleccione una cola válida"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
@@ -563,11 +563,11 @@ msgstr "Exportar Notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Filtro para las Notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Filtro para las notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -609,13 +609,15 @@ msgstr "Mostrar en preferencias del agente"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Agent preferences tooltip"
-msgstr ""
+msgstr "Información sobre herramientas de preferencias del agente."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
 msgstr ""
+"Este mensaje se mostrará en la pantalla de preferencias del agente como "
+"información sobre herramientas para esta notificación."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Events"
@@ -661,7 +663,7 @@ msgstr "Recurso"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Recipients"
-msgstr ""
+msgstr "Destinatarios"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to"
@@ -673,7 +675,7 @@ msgstr "Enviar a estos agentes"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Enviar a todos los miembros del grupo (solo agentes)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -681,11 +683,12 @@ msgstr "Enviar a todos los miembros del rol"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send on out of office"
-msgstr "Enviar un fuera de oficina"
+msgstr "Enviar a fuera de oficina"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
 msgstr ""
+"Envíe también si el usuario se encuentra actualmente fuera de la oficina."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
@@ -708,6 +711,9 @@ msgid ""
 "These are the possible methods that can be used to send this notification to "
 "each of the recipients. Please select at least one method below."
 msgstr ""
+"Estos son los posibles métodos que se pueden utilizar para enviar esta "
+"notificación a cada uno de los destinatarios. Seleccione al menos un método "
+"a continuación."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
@@ -715,11 +721,11 @@ msgstr "Habilitar éste método de notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Transport"
-msgstr ""
+msgstr "Transporte"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
-msgstr ""
+msgstr "Se necesita al menos un método por notificación."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
@@ -738,11 +744,11 @@ msgstr "Ésta característica no está disponible"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "Actualizar a %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr ""
+msgstr "Por favor active este transporte para poder utilizarlo."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
@@ -761,6 +767,8 @@ msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
 msgstr ""
+"Este idioma no está presente ni habilitado en el sistema. Este texto de "
+"notificación podría eliminarse si ya no es necesario."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Remove Notification Language"
