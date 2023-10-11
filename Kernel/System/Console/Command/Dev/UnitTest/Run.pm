@@ -72,7 +72,13 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'verbose',
-        Description => 'Show details for all tests, not just failing.',
+        Description => 'Show details for all tests, not just for the failing tests.',
+        Required    => 0,
+        HasValue    => 0,
+    );
+    $Self->AddOption(
+        Name        => 'merge',
+        Description => 'merge STDOUT and STDERR together',
         Required    => 0,
         HasValue    => 0,
     );
@@ -118,6 +124,7 @@ sub Run {
         SOPMFiles       => $Self->GetOption('sopm'),
         Packages        => $Self->GetOption('package'),
         Verbose         => $Self->GetOption('verbose'),
+        Merge           => $Self->GetOption('merge'),
         Shuffle         => $Self->GetOption('shuffle'),
         PostTestScripts => $Self->GetOption('post-test-script'),
     );

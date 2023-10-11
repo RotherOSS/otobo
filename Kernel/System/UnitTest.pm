@@ -43,7 +43,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::UnitTest - functions to run all or some OTOBO unit tests
+Kernel::System::UnitTest - functions to run all or some OTOBO unit test scripts
 
 =head1 DESCRIPTION
 
@@ -95,6 +95,7 @@ run all or some tests located in C<scripts/test/**/*.t> and print the result.
         SOPMFiles       => ['FAQ.sopm', 'Fred.sopm' ],    # optional, execute only the tests in the Filelist of the .sopm files
         Packages        => ['Survey', 'TimeAccounting' ], # optional, execute only the tests in the Filelist of the installed package
         Verbose         => 1,                             # optional (default 0), only show result details for all tests, not just failing
+        Merge           => 1,                             # optional (default 0), merge STDERR and STDOUT of test scripts
         PostTestScripts => ['...'],                       # Script(s) to execute after a test has been run.
                                                           #   You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
     );
@@ -129,6 +130,7 @@ sub Run {
 
     # handle parameters
     my $Verbosity           = $Param{Verbose} // 0;
+    my $Merge               = $Param{Merge}   // 0;
     my $DoShuffle           = $Param{Shuffle} // 0;
     my $DirectoryParam      = $Param{Directory};    # either a scalar or an array ref
     my @ExecuteTestPatterns = ( $Param{Tests}     // [] )->@*;
@@ -294,6 +296,7 @@ sub Run {
         {
             timer     => 1,
             verbosity => $Verbosity,
+            merge     => $Merge,
 
             # try to color the output when we are in an ANSI terminal
             color => $Self->{ANSI},
@@ -319,10 +322,10 @@ sub Run {
 
                 for my $PostTestScript (@PostTestScripts) {
 
-                    # command template as specified on the commant line
+                    # command template as specified on the command line
                     my $Cmd = $PostTestScript;
 
-                    # It's not obvious when $TestInfo contains.
+                    # It's not obvious what $TestInfo contains.
                     # The first array element seems to be the test script name.
                     my ($TestScript) = $TestInfo->@*;
                     $Cmd =~ s{%File%}{$TestScript}ismxg;
