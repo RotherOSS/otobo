@@ -83,7 +83,7 @@ sub new {
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        next SOURCE if !$ConfigObject->Get("CustomerUser$Count");
+        next SOURCE unless $ConfigObject->Get("CustomerUser$Count");
 
         my $GenericModule = $ConfigObject->Get("CustomerUser$Count")->{Module};
         if ( !$MainObject->Require($GenericModule) ) {
@@ -909,12 +909,12 @@ to add new customer users
 
     my $UserLogin = $CustomerUserObject->CustomerUserAdd(
         Source         => 'CustomerUser', # CustomerUser source config
-        UserFirstname  => 'Huber',
-        UserLastname   => 'Manfred',
+        UserFirstname  => 'Manfred',
+        UserLastname   => 'Huber',
         UserCustomerID => 'A124',
         UserLogin      => 'mhuber',
         UserPassword   => 'some-pass', # not required
-        UserEmail      => 'email@example.com',
+        UserEmail      => 'manfred.huber@example.com',
         ValidID        => 1,
         UserID         => 123,
     );

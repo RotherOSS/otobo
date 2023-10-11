@@ -56,8 +56,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -113,10 +112,8 @@ CustomerCompany mapping in your system configuration.
 sub CustomerCompanyAdd {
     my ( $Self, %Param ) = @_;
 
-    # check data source
-    if ( !$Param{Source} ) {
-        $Param{Source} = 'CustomerCompany';
-    }
+    # set defaults
+    $Param{Source} ||= 'CustomerCompany';
 
     # check needed stuff
     for (qw(CustomerID UserID)) {
@@ -130,8 +127,9 @@ sub CustomerCompanyAdd {
     }
 
     # store customer company data
-    my $Result = $Self->{ $Param{Source} }->CustomerCompanyAdd(%Param);
-    return if !$Result;
+    my $CustomerID = $Self->{ $Param{Source} }->CustomerCompanyAdd(%Param);
+
+    return unless $CustomerID;
 
     # trigger event
     $Self->EventHandler(
@@ -143,7 +141,7 @@ sub CustomerCompanyAdd {
         UserID => $Param{UserID},
     );
 
-    return $Result;
+    return $CustomerID;
 }
 
 =head2 CustomerCompanyGet()
@@ -184,6 +182,7 @@ sub CustomerCompanyGet {
             Priority => 'error',
             Message  => "Need CustomerID!"
         );
+
         return;
     }
 
@@ -193,26 +192,28 @@ sub CustomerCompanyGet {
         Valid      => 1,
     );
 
-    my %DynamicFieldLookup = map { $_->{Name} => $_ } @{$DynamicFieldConfigs};
+    my %DynamicFieldLookup = map { $_->{Name} => $_ } $DynamicFieldConfigs->@*;
 
     # get needed objects
     my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
+    # search for the company in the configured sources
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        next SOURCE if !$Self->{"CustomerCompany$Count"};
+        next SOURCE unless $Self->{"CustomerCompany$Count"};
 
         my %Company = $Self->{"CustomerCompany$Count"}->CustomerCompanyGet( %Param, );
-        next SOURCE if !%Company;
+
+        next SOURCE unless %Company;
 
         # fetch dynamic field values
         if ( IsArrayRefWithData( $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{Map} ) ) {
             CUSTOMERCOMPANYFIELD:
             for my $CustomerCompanyField ( @{ $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{Map} } ) {
-                next CUSTOMERCOMPANYFIELD if $CustomerCompanyField->[5] ne 'dynamic_field';
-                next CUSTOMERCOMPANYFIELD if !$DynamicFieldLookup{ $CustomerCompanyField->[2] };
+                next CUSTOMERCOMPANYFIELD unless $CustomerCompanyField->[5] eq 'dynamic_field';
+                next CUSTOMERCOMPANYFIELD unless $DynamicFieldLookup{ $CustomerCompanyField->[2] };
 
                 my $Value = $DynamicFieldBackendObject->ValueGet(
                     DynamicFieldConfig => $DynamicFieldLookup{ $CustomerCompanyField->[2] },
@@ -223,7 +224,7 @@ sub CustomerCompanyGet {
             }
         }
 
-        # return company data
+        # return data for the first found company
         return (
             %Company,
             Source => "CustomerCompany$Count",
@@ -231,6 +232,7 @@ sub CustomerCompanyGet {
         );
     }
 
+    # company was not found
     return;
 }
 
@@ -275,11 +277,13 @@ sub CustomerCompanyUpdate {
             Priority => 'error',
             Message  => "No such company '$Param{CustomerCompanyID}'!",
         );
+
         return;
     }
 
     my $Result = $Self->{ $Company{Source} }->CustomerCompanyUpdate(%Param);
-    return if !$Result;
+
+    return unless $Result;
 
     # trigger event
     $Self->EventHandler(
@@ -292,6 +296,7 @@ sub CustomerCompanyUpdate {
         },
         UserID => $Param{UserID},
     );
+
     return $Result;
 }
 

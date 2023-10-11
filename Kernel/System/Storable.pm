@@ -166,9 +166,8 @@ sub Clone {
         return;
     }
 
-    my $Result;
-    eval {
-        $Result = Storable::dclone( $Param{Data} );
+    my $Result = eval {
+        Storable::dclone( $Param{Data} );
     };
 
     # error handling
@@ -177,6 +176,7 @@ sub Clone {
             Priority => 'error',
             Message  => "Error cloning data: $@",
         );
+
         return;
     }
 

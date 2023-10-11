@@ -34,8 +34,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         ObjectType => 'CustomerCompany',
@@ -435,13 +434,14 @@ sub Run {
                     Search => $Search,
                     %GetParam,
                 );
-                my $Output = $LayoutObject->Header();
-                $Output .= $LayoutObject->NavigationBar(
-                    Type => $NavigationBarType,
-                );
-                $Output .= $LayoutObject->Notify(
-                    Info => Translatable('Customer company added!'),
-                );
+                my $Output = join '',
+                    $LayoutObject->Header,
+                    $LayoutObject->NavigationBar(
+                        Type => $NavigationBarType,
+                    ),
+                    $LayoutObject->Notify(
+                        Info => Translatable('Customer company added!'),
+                    );
 
                 # set dynamic field values
                 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
