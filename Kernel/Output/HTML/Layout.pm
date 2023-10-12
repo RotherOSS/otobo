@@ -1802,6 +1802,10 @@ sub Footer {
         )
         : ();
 
+    my %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
     # add JS data
     my %JSConfig = (
         Baselink                       => $Self->{Baselink},
@@ -1820,7 +1824,7 @@ sub Footer {
         RichTextSet                    => $ConfigObject->Get('Frontend::RichText'),
         CheckEmailAddresses            => $ConfigObject->Get('CheckEmailAddresses'),
         MenuDragDropEnabled            => $ConfigObject->Get('Frontend::MenuDragDropEnabled'),
-        OpenMainMenuOnHover            => $ConfigObject->Get('OpenMainMenuOnHover'),
+        OpenMainMenuOnHover            => $UserPreferences{UserOpenMainMenuOnHover} // $ConfigObject->Get('OpenMainMenuOnHover'),
         CustomerInfoSet                => $ConfigObject->Get('Ticket::Frontend::CustomerInfoCompose'),
         IncludeUnknownTicketCustomers  => $ConfigObject->Get('Ticket::IncludeUnknownTicketCustomers'),
         InputFieldsActivated           => $ConfigObject->Get('ModernizeFormFields'),

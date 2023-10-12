@@ -7428,6 +7428,30 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="PreferencesGroups###OpenMainMenuOnHover" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the OpenMainMenuOnHover object in the preference view of the agent interface. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
+                <Item Key="Label" Translatable="1">Behavior of menu dropdowns</Item>
+                <Item Key="Desc" Translatable="1">Configure which screen should be shown after a new ticket has been created.</Item>
+                <Item Key="Desc" Translatable="1">Configure if menu dropdowns should open on hover or on click.</Item>
+                <Item Key="Key" Translatable="1"></Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="0" Translatable="1">On click</Item>
+                        <Item Key="1" Translatable="1">On hover</Item>
+                    </Hash>
+                </Item>
+                <Item Key="DataSelected"></Item>
+                <Item Key="PrefKey">UserOpenMainMenuOnHover</Item>
+                <Item Key="Prio">3000</Item>
+                <Item Key="Active">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="QueuePreferences###Comment2" Required="0" Valid="0">
         <Description Translatable="1">Parameters of the example queue attribute Comment2.</Description>
         <Navigation>Core::Queue</Navigation>
