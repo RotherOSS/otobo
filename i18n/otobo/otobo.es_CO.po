@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-10-09 21:50+0000\n"
+"PO-Revision-Date: 2023-10-17 21:48+0000\n"
 "Last-Translator: Aychel Mora Alpízar <aychel@gridshield.net>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
 "es_CO/>\n"
@@ -495,7 +495,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
-msgstr "Añadir regla"
+msgstr "Agregar regla"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Submit"
@@ -518,8 +518,8 @@ msgid ""
 "If desired Calendar is not listed here, please make sure that you have at "
 "least 'create' permissions."
 msgstr ""
-"Si el Calendario deseado no aparece en la lista, por favor asegúrese de que "
-"tenga al menos el permiso de \"crear\""
+"Si el Calendario deseado no aparece aquí, asegúrese de tener al menos "
+"permisos de \"crear\"."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -534,8 +534,8 @@ msgid ""
 "All existing appointments in the calendar with same UniqueID will be "
 "overwritten."
 msgstr ""
-"Todas las citas existentes en el calendario con el mismo UniqueID se "
-"sobrescribirán"
+"Se sobrescribirán todas las citas existentes en el calendario con el mismo "
+"ID único."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
@@ -555,7 +555,7 @@ msgstr "Agregar Notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
-msgstr "Modificar Notificación"
+msgstr "Editar Notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -575,25 +575,25 @@ msgid ""
 "to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
 msgstr ""
-"Aquí es posible cargar un archivo de configuración para importar las "
-"notificaciones de las citas a su sistema. El archivo necesita estar en el "
-"formato .yml como los exportados por el módulo de notificaciones de citas."
+"Aquí puede cargar un archivo de configuración para importar notificaciones "
+"de citas a su sistema. El archivo debe estar en formato .yml exportado por "
+"el módulo de notificación de citas."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr "¿Sobrescribir notificaciones existentes?"
+msgstr "¿Sobrescribir las notificaciones existentes?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
-msgstr "Subir configuración de Notificaciones"
+msgstr "Subir configuración de las Notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Import Notification configuration"
-msgstr "Importar configuración de Notificaciones"
+msgstr "Importar la configuración de las Notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "List"
-msgstr "Listar"
+msgstr "Lista"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Delete"
@@ -633,9 +633,9 @@ msgid ""
 "additional appointment filter can be applied below to only send for "
 "appointments with certain criteria."
 msgstr ""
-"Aquí es posible elegir los eventos que iniciarán esta notificación. Un "
-"filtro adicional de la cita se puede aplicar a continuación para enviar sólo "
-"para citas con ciertos criterios."
+"Aquí puede elegir qué eventos activarán esta notificación. Se puede aplicar "
+"un filtro de citas adicional a continuación para enviar citas solo con "
+"ciertos criterios."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -683,7 +683,7 @@ msgstr "Enviar a todos los miembros del rol"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send on out of office"
-msgstr "Enviar a fuera de oficina"
+msgstr "Enviar fuera de la oficina"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
