@@ -559,7 +559,7 @@ sub _ChangeAction {
         );
     }
 
-    my $FilterString;
+    my $FilterString = '';
 
     if ( IsStringWithData( $GetParam{ObjectTypeFilter} ) ) {
         $FilterString .= ";ObjectTypeFilter=" . $LayoutObject->Output(
