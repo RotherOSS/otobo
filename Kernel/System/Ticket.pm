@@ -7997,6 +7997,11 @@ sub StateSet {
     return $Self->TicketStateSet(%Param);
 }
 
+sub GetFiltrableAttributes {
+
+    return qw(Queue CustomerUser);
+}
+
 =head1 PRIVATE FUNCTIONS
 
 =head2 _TicketCacheClear()

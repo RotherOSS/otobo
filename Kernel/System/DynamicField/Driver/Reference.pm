@@ -1059,7 +1059,6 @@ sub GetFieldTypeSettings {
                     1 => Translatable('Yes'),
                 },
                 PossibleNone => 0,
-                Mandatory    => 1,
             };
     }
 
@@ -1079,7 +1078,6 @@ sub GetFieldTypeSettings {
                 InputType       => 'Selection',
                 SelectionData   => \%MultiValueSelectionData,
                 PossibleNone    => 0,
-                Mandatory       => 1,
             };
     }
 

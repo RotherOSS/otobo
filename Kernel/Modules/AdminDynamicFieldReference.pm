@@ -869,6 +869,44 @@ sub _ShowScreen {
             $Param{ReferenceFilterCounter} = $ReferenceFilterCounter;
         }
 
+        # fetch object attributes for selection options
+        my $ObjectTypeObject = $Kernel::OM->Get( 'Kernel::System::' . $DynamicField->{ObjectType} );
+        return $LayoutObject->ErrorScreen("Object of type $DynamicField->{ObjectType} could not be created!") unless $ObjectTypeObject;
+        my @ObjectTypeSelectionData = ();
+        if ( $ObjectTypeObject->can('GetFiltrableAttributes') ) {
+            @ObjectTypeSelectionData = $ObjectTypeObject->GetFiltrableAttributes();
+        }
+
+        # fetch referenced object attributes for selection options
+        my $ReferencedObjectTypeObject = $Kernel::OM->Get( 'Kernel::System::' . $FieldConfig->{ReferencedObjectType} );
+        return $LayoutObject->ErrorScreen("Object of type $FieldConfig->{ReferencedObjectType} could not be created!") unless $ReferencedObjectTypeObject;
+        my @ReferencedObjectTypeSelectionData;
+        if ( $ReferencedObjectTypeObject->can('GetFiltrableAttributes') ) {
+            @ReferencedObjectTypeSelectionData = $ReferencedObjectTypeObject->GetFiltrableAttributes();
+        }
+
+        # build object attribute selection for template
+        $Param{EqualsObjectAttributeTemplateStrg} = $LayoutObject->BuildSelection(
+            Class => 'Modernize EqualsObjectAttributeTemplate',
+            Name  => 'ConfigItemFilter_EqualsObjectAttribute',
+
+            #                 ID => 'ConfigItemFilter_EqualsObjectAttribute',
+            Data         => \@ObjectTypeSelectionData,
+            PossibleNone => 1,
+            Translation  => 0,
+        );
+
+        # build referenced object attribute selection for template
+        $Param{ReferenceObjectAttributeTemplateStrg} = $LayoutObject->BuildSelection(
+            Class => 'Modernize ReferenceObjectAttributeTemplate',
+            Name  => 'ConfigItemFilter_ReferenceObjectAttribute',
+
+            #                 ID => 'ConfigItemFilter_ReferenceObjectAttribute',
+            Data         => \@ReferencedObjectTypeSelectionData,
+            PossibleNone => 1,
+            Translation  => 0,
+        );
+
         if ( $Param{ReferenceFilterCounter} ) {
 
             REFERENCEFILTERENTRY:
@@ -884,12 +922,36 @@ sub _ShowScreen {
                 # skip if values are undef
                 next REFERENCEFILTERENTRY if !grep { defined $_ } values %FilterRow;
 
+                # build object attribute selections
+                my $EqualsObjectAttributeStrg = $LayoutObject->BuildSelection(
+                    Class         => 'Modernize',
+                    Name          => 'EqualsObjectAttribute',
+                    ID            => 'ConfigItemFilter_EqualsObjectAttribute_' . $CurrentReferenceFilterEntryID,
+                    Data          => \@ObjectTypeSelectionData,
+                    SelectedValue => $FilterRow{'ConfigItemFilter_EqualsObjectAttribute'} || 0,
+                    PossibleNone  => 1,
+                    Translation   => 0,
+                );
+
+                # build referenced object attribute selections
+                my $ReferenceObjectAttributeStrg = $LayoutObject->BuildSelection(
+                    Class         => 'Modernize',
+                    Name          => 'ReferenceObjectAttribute',
+                    ID            => 'ConfigItemFilter_ReferenceObjectAttribute_' . $CurrentReferenceFilterEntryID,
+                    Data          => \@ReferencedObjectTypeSelectionData,
+                    SelectedValue => $FilterRow{'ConfigItemFilter_ReferenceObjectAttribute'} || 0,
+                    PossibleNone  => 1,
+                    Translation   => 0,
+                );
+
                 $LayoutObject->Block(
                     Name => 'ReferenceFilterRow',
                     Data => {
                         %FilterRow,
                         %Errors,
-                        EntryCounter => $CurrentReferenceFilterEntryID,
+                        EqualsObjectAttributeStrg    => $EqualsObjectAttributeStrg,
+                        ReferenceObjectAttributeStrg => $ReferenceObjectAttributeStrg,
+                        EntryCounter                 => $CurrentReferenceFilterEntryID,
                     }
                 );
             }

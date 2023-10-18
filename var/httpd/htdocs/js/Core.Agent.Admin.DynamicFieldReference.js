@@ -105,6 +105,9 @@ Core.Agent.Admin.DynamicFieldReference = (function (TargetNS) {
         // set new count of ReferenceFilters
         $('#ReferenceFilterCounter').val(ReferenceFilterCounter);
 
+        Core.UI.InputFields.InitSelect( $Clone.find('.EqualsObjectAttributeTemplate') );
+        Core.UI.InputFields.InitSelect( $Clone.find('.ReferenceObjectAttributeTemplate') );
+
         return false;
     };
 
