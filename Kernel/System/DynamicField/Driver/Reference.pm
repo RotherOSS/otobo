@@ -1010,6 +1010,7 @@ sub GetFieldTypeSettings {
                 SelectionData   => { $ReferencedObjectType => $ReferencedObjectType },
                 PossibleNone    => 0,
                 Mandatory       => 1,
+                Disabled        => 1,
             };
     }
 

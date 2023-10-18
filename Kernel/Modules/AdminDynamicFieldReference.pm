@@ -771,6 +771,7 @@ sub _ShowScreen {
                 SelectedID   => $Param{$Name} || '0',
                 Class        => 'Modernize W50pc' . ( $Setting->{Mandatory} ? ' Validate_Required' : '' ),
                 Multiple     => ( $Setting->{Multiple} // 0 ),
+                Disabled     => ( $Setting->{Disabled} // 0 ),
             );
             $LayoutObject->Block(
                 Name => 'ConfigParamRow',
