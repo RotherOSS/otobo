@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-10-18 17:58+0000\n"
+"PO-Revision-Date: 2023-10-18 22:06+0000\n"
 "Last-Translator: Aychel Mora Alpízar <aychel@gridshield.net>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
 "es_CO/>\n"
@@ -1738,7 +1738,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for groups"
-msgstr ""
+msgstr "Filtros por grupos"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
