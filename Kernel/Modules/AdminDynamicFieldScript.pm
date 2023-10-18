@@ -651,7 +651,7 @@ sub _ChangeAction {
         );
     }
 
-    my $FilterString = "Action=AdminDynamicField";
+    my $FilterString = '';
 
     if ( IsStringWithData( $GetParam{ObjectTypeFilter} ) ) {
         $FilterString .= ";ObjectTypeFilter=" . $LayoutObject->Output(
