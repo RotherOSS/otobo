@@ -1972,7 +1972,6 @@ Returns:
             'Ticket::Frontend::AgentTicketSearch###DefaultColumns'                     => '2',
             'Ticket::Frontend::AgentTicketStatusView###DefaultColumns'                 => '2',
             'Ticket::Frontend::AgentTicketZoom###DynamicField'                         => '0',
-            'Ticket::Frontend::CustomerTicketOverview###DynamicField'                  => '2',
             'Ticket::Frontend::OverviewPreview###DynamicField'                         => '2',
         },
         'DynField2' => {
@@ -2048,7 +2047,6 @@ imports all configured screens of one ore more dynamic fields
             'Ticket::Frontend::AgentTicketSearch###DefaultColumns'                     => '2',
             'Ticket::Frontend::AgentTicketStatusView###DefaultColumns'                 => '2',
             'Ticket::Frontend::AgentTicketZoom###DynamicField'                         => '0',
-            'Ticket::Frontend::CustomerTicketOverview###DynamicField'                  => '2',
             'Ticket::Frontend::OverviewPreview###DynamicField'                         => '2',
         },
         'DynField2' => {
