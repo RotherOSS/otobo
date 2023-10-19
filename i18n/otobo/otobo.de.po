@@ -52,7 +52,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-04-24 18:33+0000\n"
+"PO-Revision-Date: 2023-10-21 03:09+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -128,8 +128,8 @@ msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
 msgstr ""
-"Wenn Sie eine ACL erstellen möchten, können Sie sie von einem anderen System "
-"importieren oder eine ganz neue erstellen."
+"Wenn Sie eine ACL erstellen möchten, können Sie diese aus einem anderen "
+"System importieren oder eine ganz neue erstellen."
 
 #. Template: AdminACL
 msgid ""
@@ -282,8 +282,8 @@ msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
 msgstr ""
-"Neue ACL durch Eingabe der Daten erstellen. Nach Erstellung der ACL ist es "
-"möglich, Konfigurationsparameter im Bearbeitungsmodus einzufügen."
+"Neue ACL auf Basis der eingegebenen Daten erstellen. Nach Erstellen der ACL "
+"können Konfigurationsparameter im Bearbeitungsmodus eingefügt werden."
 
 #. Template: AdminAbout
 msgid "About"
@@ -12892,12 +12892,16 @@ msgid ""
 "Syntax is incorrect. Please provide a parent element name in front of the "
 "double colon."
 msgstr ""
+"Inkorrekte Syntax. Bitte geben Sie vor dem Doppelkolon den Namen eines "
+"Elternelements ein."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid ""
 "An element is used as parent element, but not included itself. Please "
 "include it."
 msgstr ""
+"Ein als Elternelement aufgeführtes Element ist selbst nicht enthalten. Bitte "
+"ergänzen."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were saved."
@@ -16601,11 +16605,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
 msgid "Authentication error. Please contact the administrator."
-msgstr ""
+msgstr "Authentifizierungsfehler. Bitte wenden Sie sich an Ihren Administrator."
 
 #. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
 msgid "Authentication error."
-msgstr ""
+msgstr "Authentifizierungsfehler."
 
 #. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
 msgid ""
