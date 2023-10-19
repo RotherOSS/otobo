@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-10-18 22:06+0000\n"
+"PO-Revision-Date: 2023-10-21 03:09+0000\n"
 "Last-Translator: Aychel Mora Alpízar <aychel@gridshield.net>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
 "es_CO/>\n"
@@ -1742,21 +1742,23 @@ msgstr "Filtros por grupos"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr ""
+msgstr "Seleccione los permisos del Usuario del Cliente - Grupo."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets "
 "will not be available for the customer user)."
 msgstr ""
+"Si no se selecciona nada, entonces no hay permisos en este grupo (los "
+"Tickets no estarán disponibles para el usuario del cliente)."
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
-msgstr ""
+msgstr "Grupos por defecto para el Usuario del Cliente:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "Gestión de Relación de Usuario del Cliente - Servicio"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1768,7 +1770,7 @@ msgstr "Filtro para Servicios"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for services"
-msgstr ""
+msgstr "Filtrar por servicios"
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -1776,29 +1778,31 @@ msgstr "Servicios"
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields Management"
-msgstr "Administración de campos dinámicos"
+msgstr "Gestión de Campos Dinámicos"
 
 #. Template: AdminDynamicField
 msgid "Add new field for object"
-msgstr "Agregar un nuevo campo"
+msgstr "Agregar nuevo campo para el objeto"
 
 #. Template: AdminDynamicField
 msgid "Filter for Dynamic Fields"
-msgstr ""
+msgstr "Filtrar por Campos dinámicos"
 
 #. Template: AdminDynamicField
 msgid "Filter for dynamic fields"
-msgstr ""
+msgstr "Filtrar por Campos dinámicos"
 
 #. Template: AdminDynamicField
 msgid "New Dynamic Fields"
-msgstr ""
+msgstr "Nuevos Campos Dinámicos"
 
 #. Template: AdminDynamicField
 msgid ""
 "Would you like to benefit from additional dynamic field types? You have full "
 "access to the following field types:"
 msgstr ""
+"¿Le gustaría beneficiarse de tipos de campos dinámicos adicionales? Tiene "
+"acceso completo a los siguientes tipos de campos:"
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1808,20 +1812,25 @@ msgstr "Base de Datos"
 msgid ""
 "Use external databases as configurable data sources for this dynamic field."
 msgstr ""
+"Usa las bases de datos externas cómo las fuentes configurables de datos para "
+"éste campo dinámico."
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "Servicio Web"
 
 #. Template: AdminDynamicField
 msgid ""
 "External web services can be configured as data sources for this dynamic "
 "field."
 msgstr ""
+"Servicios Web externos pueden ser configurados como las fuentes de datos "
+"para éste campo dinámico."
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
 msgstr ""
+"Este campo permite agregar (múltiples) contactos con datos a los Tickets."
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1829,6 +1838,9 @@ msgid ""
 "object defines the boundary of the field and it can't be changed after the "
 "field creation."
 msgstr ""
+"Para agregar un campo nuevo, seleccione el tipo de campo de la lista de "
+"objetos, el objeto define los limites del campo y no puede ser cambiado "
+"después de la creación del campo."
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
@@ -1856,7 +1868,7 @@ msgstr "Eliminar este campo"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
-msgstr ""
+msgstr "Import / Export"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid ""
@@ -1864,22 +1876,26 @@ msgid ""
 "system. The file needs to be in .yml format as exported by dynamic field "
 "management module."
 msgstr ""
+"Aquí puede cargar un archivo de configuración para importar campos dinámicos "
+"a su sistema. El archivo debe estar en formato .yml exportado por el módulo "
+"\"administración de campos dinámicos\"."
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
-msgstr ""
+msgstr "Importar Campos Dinámicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Export"
-msgstr ""
+msgstr "Exportar Campos Dinámicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr ""
+msgstr "Pantallas de los Campos Dinámicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
 msgstr ""
+"Aquí puede administrar los campos dinámicos en las respectivas pantallas."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -1898,12 +1914,12 @@ msgid ""
 "This field is required, and the value should be alphabetic and numeric "
 "characters only."
 msgstr ""
-"Este campo es requerido y el valor solo debe contener caracteres alfabéticos "
-"y numéricos."
+"Este campo es obligatorio y el valor debe contener únicamente caracteres "
+"alfabéticos y numéricos."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Must be unique and only accept alphabetic and numeric characters."
-msgstr "Debe ser único y solo se aceptan caracteres alfabéticos y numéricos"
+msgstr "Debe ser único y aceptar únicamente caracteres alfabéticos y numéricos."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Changing this value will require manual changes in the system."
@@ -1912,7 +1928,8 @@ msgstr "Cambiar este valor requerirá cambios manuales en el sistema."
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the name to be shown on the screens where the field is active."
 msgstr ""
-"Este es el nombre que se mostrará en pantalla cuando el campo este activo."
+"Este es el nombre que se mostrará en las pantallas cuando el campo esté "
+"activo."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field order"
@@ -1920,29 +1937,33 @@ msgstr "Orden de los cambios"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This field is required and must be numeric."
-msgstr "Este campo es requerido y debe ser numérico"
+msgstr "Este campo es requerido y debe ser numérico."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
 "This is the order in which this field will be shown on the screens where is "
 "active."
 msgstr ""
-"Este es el orden en el cual este campo será mostrado en pantalla cuando este "
-"activo."
+"Este es el orden en el que se mostrará este campo en las pantallas cuando "
+"esté activo."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Tooltip message:"
-msgstr ""
+msgstr "Mensaje de descripción emergente:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the tooltip message shown inside the customer interface."
 msgstr ""
+"Este es el mensaje de información que se muestra dentro de la interfaz del "
+"cliente."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
 "Is not possible to invalidate this entry, all config settings have to be "
 "changed beforehand."
 msgstr ""
+"No es posible invalidar esta entrada, todas las configuraciones deben "
+"cambiarse de antemano."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field type"
@@ -1954,15 +1975,15 @@ msgstr "Tipo de objeto"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Internal field"
-msgstr ""
+msgstr "Campo interno"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This field is protected and can't be deleted."
-msgstr ""
+msgstr "Este campo está protegido y no se puede eliminar."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This dynamic field is used in the following config settings:"
-msgstr ""
+msgstr "Este campo dinámico se utiliza en las siguientes configuraciones:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
@@ -1978,31 +1999,35 @@ msgstr "Este es el valor por defecto para este campo."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "Agregar o editar contactos"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "To add contacts to this field please fill out all the needed information and "
 "save it."
 msgstr ""
+"Para agregar contactos a este campo, complete toda la información necesaria "
+"y guárdela."
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Click on the field name from the overview to edit it and find the "
 "corresponding action in the sidebar or from the 'Tickets' menu."
 msgstr ""
+"Haga clic en el nombre del campo en la descripción general para editarlo y "
+"buscar la acción correspondiente en la barra lateral o en el menú 'Tickets'."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "Nombre del Campo"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
-msgstr ""
+msgstr "ID del Campo válido"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "Otros Campos"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
@@ -2018,45 +2043,53 @@ msgstr "Eliminar valor"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
-msgstr ""
+msgstr "Agregar Campo"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
-msgstr "Añadir valor"
+msgstr "Agregar valor"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "Estos son los posibles atributos de datos para los contactos."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
-msgstr ""
+msgstr "Campos obligatorios"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of mandatory keys (optional). Keys 'Name' and 'ValidID' "
 "are always mandatory and doesn't have to be listed here."
 msgstr ""
+"Lista separada por comas de clave obligatoria (opcionales). Las claves "
+"'Nombre' y 'ValidID' siempre son obligatorias y no es necesario que "
+"aparezcan aquí."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Sorted fields"
-msgstr ""
+msgstr "Campos ordenados"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of keys in sort order (optional). Keys listed here come "
 "first, all remaining fields afterwards and sorted alphabetically."
 msgstr ""
+"Lista de claves separadas por comas en orden de clasificación (opcional). "
+"Las claves enumeradas aquí aparecen primero, todos los campos restantes "
+"después y ordenados alfabéticamente."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
-msgstr ""
+msgstr "Búsqueda de campos"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of searchable keys (optional). Key 'Name' is always "
 "searchable and doesn't have to be listed here."
 msgstr ""
+"Lista separada por comas de claves de búsqueda (opcional). La clave 'Nombre' "
+"siempre se puede buscar y no es necesario que aparezca aquí."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Translatable values"
@@ -2068,7 +2101,7 @@ msgid ""
 "defined language."
 msgstr ""
 "Si usted activa esta opción los valores serán traducidos al idioma "
-"predefinido del usuario."
+"predefinido por el usuario."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Note"
@@ -2079,16 +2112,16 @@ msgid ""
 "You need to add the translations manually into the language translation "
 "files."
 msgstr ""
-"Usted necesita agregar manualmente las traducciones a los archivos de "
-"lenguaje."
+"Debe agregar las traducciones manualmente en los archivos de traducción de "
+"idiomas."
 
 #. Template: AdminDynamicFieldDB
 msgid "Possible values"
-msgstr "Valores posibles"
+msgstr "Posibles valores"
 
 #. Template: AdminDynamicFieldDB
 msgid "Datatype"
-msgstr ""
+msgstr "Tipo de dato"
 
 #. Template: AdminDynamicFieldDB
 msgid "Filter"
@@ -2096,11 +2129,11 @@ msgstr "Filtro"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchfield"
-msgstr ""
+msgstr "Campo de búsqueda"
 
 #. Template: AdminDynamicFieldDB
 msgid "Listfield"
-msgstr ""
+msgstr "Campo de lista"
 
 #. Template: AdminDynamicFieldDB
 msgid "Show link"
@@ -2112,7 +2145,7 @@ msgid ""
 "and Zoom screens."
 msgstr ""
 "Aquí usted puede especificar un enlace HTTP opcional para el valor del campo "
-"en las vistas \"Panel Principal\" y \"Ampliación\""
+"en las vistas \"Panel Principal\" y \"Ampliación\"."
 
 #. Template: AdminDynamicFieldDB
 msgid "Example"
@@ -2123,10 +2156,12 @@ msgid ""
 "You can reference the field with its own field name. You can also refer to "
 "other fields, e.g. with 'DynamicField_OtherFieldName'."
 msgstr ""
+"Puede hacer referencia al campo con mismo nombre de campo. También puede "
+"consultar otros campos, p. con 'DynamicField_OtherFieldName'."
 
 #. Template: AdminDynamicFieldDB
 msgid "Link for preview"
-msgstr ""
+msgstr "Enlace de vista previa"
 
 #. Template: AdminDynamicFieldDB
 msgid ""
@@ -2134,26 +2169,29 @@ msgid ""
 "link is hovered in ticket zoom. Please note that for this to work, the "
 "regular URL field above needs to be filled in, too."
 msgstr ""
+"Si se rellena, esta URL será usada para una vista preliminar si se pone el "
+"ratón encima de detalles del ticket. Por favor note que para que esto "
+"funcione, la URL usada arriba debe ser rellenada también."
 
 #. Template: AdminDynamicFieldDB
 msgid "SID"
-msgstr ""
+msgstr "SID"
 
 #. Template: AdminDynamicFieldDB
 msgid "Driver"
-msgstr ""
+msgstr "Conductor"
 
 #. Template: AdminDynamicFieldDB
 msgid "Server"
-msgstr ""
+msgstr "Servidor"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
-msgstr ""
+msgstr "Puerto"
 
 #. Template: AdminDynamicFieldDB
 msgid "Table / View"
-msgstr ""
+msgstr "Tabla / Vista"
 
 #. Template: AdminDynamicFieldDB
 msgid "User"
@@ -2169,31 +2207,31 @@ msgstr "Identificador"
 
 #. Template: AdminDynamicFieldDB
 msgid "Must be unique column from the table entered in Table/View."
-msgstr ""
+msgstr "Debe ser una columna única de la tabla ingresada en Tabla/Vista."
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiselect"
-msgstr ""
+msgstr "Selección múltiple"
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
-msgstr ""
+msgstr "Cache TTL"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchprefix"
-msgstr ""
+msgstr "Prefijo de búsqueda"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchsuffix"
-msgstr ""
+msgstr "Sufijo de búsqueda"
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr ""
+msgstr "Límite de resultados"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Sensible a mayúsculas"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Default date difference"
@@ -2201,15 +2239,15 @@ msgstr "Diferencia de fechas predeterminada"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "This field must be numeric."
-msgstr "Este campo debería ser numérico"
+msgstr "Este campo debe ser numérico."
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "The difference from NOW (in seconds) to calculate the field default value (e."
 "g. 3600 or -60)."
 msgstr ""
-"La diferencia desde AHORA (en segundos) para calcular el valor por defecto "
-"del campo (ej. 3600 o -60)."
+"La diferencia de AHORA (en segundos) para calcular el valor predeterminado "
+"del campo (vg 3600 o -60)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Define years period"
@@ -2220,8 +2258,8 @@ msgid ""
 "Activate this feature to define a fixed range of years (in the future and in "
 "the past) to be displayed on the year part of the field."
 msgstr ""
-"Active esta característica para definir un rango fijo en años (en el futuro "
-"y en el pasado) que se mostrará en la parte año del campo."
+"Active esta característica para definir un intervalo fijo de años (en el "
+"futuro y en el pasado) a mostrar en la parte año de este campo."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the past"
@@ -2229,7 +2267,7 @@ msgstr "Años en el pasado"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the past to display (default: 5 years)."
-msgstr "Años a mostrar en el pasado (por defecto: 5 años)."
+msgstr "Años en el pasado para mostrar (predeterminado: 5 años)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the future"
@@ -2237,25 +2275,27 @@ msgstr "Años en el futuro"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the future to display (default: 5 years)."
-msgstr "Años a mostrar en el futuro (por defecto: 5 años)."
+msgstr "Años en el futuro para mostrar (predeterminado: 5 años)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "If special characters (&, @, :, /, etc.) should not be encoded, use 'url' "
 "instead of 'uri' filter."
 msgstr ""
+"Si los caracteres especiales (&, @, :, /, etc.) no deben codificarse, "
+"utilice el filtro 'url' en lugar de 'uri'."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
-msgstr ""
+msgstr "Restringir el ingreso de fechas"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Here you can restrict the entering of dates of tickets."
-msgstr ""
+msgstr "Aquí puede restringir el ingreso de fechas de los tickets."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add Value"
-msgstr "Añadir valor"
+msgstr "Agregar valor"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add empty value"
@@ -2263,27 +2303,28 @@ msgstr "Agregar valor vacío"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to create an empty selectable value."
-msgstr "Active esta función para crear un valor vacío seleccionable."
+msgstr "Active esta opción para crear un valor seleccionable vacío."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Tree View"
-msgstr ""
+msgstr "Vista del Arbol"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to display values as a tree."
-msgstr ""
+msgstr "Active esta opción para mostrar valores como un árbol."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
-msgstr ""
+msgstr "Seleccione los elementos que desea "
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
 msgstr ""
+"Seleccione los elementos deseados y confirme la importación con 'importar'."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
@@ -2291,28 +2332,33 @@ msgid ""
 "screens to import these on another system. The configuration file is "
 "exported in yml format."
 msgstr ""
+"Aquí puede exportar un archivo de configuración de campos dinámicos y "
+"pantallas de campos dinámicos para importarlos en otro sistema. El archivo "
+"de configuración se exporta en formato yml."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
 "The following dynamic fields can not be imported because of an invalid "
 "backend."
 msgstr ""
+"Los siguientes campos dinámicos no se pueden importar debido a un backend no "
+"válido."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Toggle all available elements"
-msgstr ""
+msgstr "Alternar todos los elementos disponibles"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Fields"
-msgstr ""
+msgstr "Campos"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Screens"
-msgstr ""
+msgstr "Pantallas"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Management of Dynamic Fields <-> Screens"
-msgstr ""
+msgstr "Gestión de Campos Dinámicos <-> Pantallas"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Overview"
@@ -2320,82 +2366,86 @@ msgstr "Resumen"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Default Columns Screens"
-msgstr ""
+msgstr "Pantallas de Columnas por Defecto"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Add DynamicField"
-msgstr ""
+msgstr "Agregar Campo Dinámico"
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
 "You can assign elements to this Screen/Field by dragging the elements with "
 "the mouse from the left list to the right list."
 msgstr ""
+"Puede asignar elementos a esta pantalla/campo arrastrando los elementos con "
+"el mouse desde la lista de la izquierda a la lista de la derecha."
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
 "Ordering the elements within the list is also possible by drag 'n' drop."
 msgstr ""
+"También es posible ordenar los elementos dentro de la lista arrastrando y "
+"soltando."
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter available elements"
-msgstr ""
+msgstr "Filtrar elementos disponibles"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to available elements"
-msgstr ""
+msgstr "Seleccionado según los elementos disponibles"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Available Elements"
-msgstr ""
+msgstr "Elementos disponibles"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter disabled elements"
-msgstr ""
+msgstr "Filtrar elementos deshabilitados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to disabled elements"
-msgstr ""
+msgstr "seleccionado para elementos deshabilitados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all disabled elements"
-msgstr ""
+msgstr "Alternar todos los elementos deshabilitados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Disabled Elements"
-msgstr ""
+msgstr "Elementos deshabilitados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned elements"
-msgstr ""
+msgstr "Filtrar elementos asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned elements"
-msgstr ""
+msgstr "seleccionado para elementos asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned elements"
-msgstr ""
+msgstr "Alternar todos los elementos asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Elements"
-msgstr ""
+msgstr "Elementos asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned required elements"
-msgstr ""
+msgstr "Filtrar elementos requeridos asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned required elements"
-msgstr ""
+msgstr "seleccionado para asignar elementos requeridos"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned required elements"
-msgstr ""
+msgstr "Alternar todos los elementos requeridos asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Required Elements"
-msgstr ""
+msgstr "Elementos requeridos asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Reset"
@@ -2417,25 +2467,27 @@ msgstr "Número de columnas"
 #. Template: AdminDynamicFieldText
 msgid "Specify the width (in characters) for this field in the edit mode."
 msgstr ""
-"Especifieque el ancho (en caracteres) para este campo en el modo de edición."
+"Especifique el tamaño (en caracteres) para este campo en el modo de edición."
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
-msgstr ""
+msgstr "Comprobar expresión regular"
 
 #. Template: AdminDynamicFieldText
 msgid ""
 "Here you can specify a regular expression to check the value. The regex will "
 "be executed with the modifiers xms."
 msgstr ""
+"Aquí puede especificar una expresión regular para verificar el valor. La "
+"expresión regular se ejecutará con los modificadores xms."
 
 #. Template: AdminDynamicFieldText
 msgid "RegEx"
-msgstr ""
+msgstr "Expresión Regular"
 
 #. Template: AdminDynamicFieldText
 msgid "Invalid RegEx"
-msgstr ""
+msgstr "Invalidar Expresión Regular"
 
 #. Template: AdminDynamicFieldText
 msgid "Error Message"
@@ -2443,31 +2495,31 @@ msgstr "Mensaje de error"
 
 #. Template: AdminDynamicFieldText
 msgid "Add RegEx"
-msgstr ""
+msgstr "Agregar Expresión Regular"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Template"
-msgstr ""
+msgstr "Plantilla"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Style"
-msgstr ""
+msgstr "Estilo"
 
 #. Template: AdminDynamicFieldTitle
 msgid "bold"
-msgstr ""
+msgstr "negrita"
 
 #. Template: AdminDynamicFieldTitle
 msgid "italic"
-msgstr ""
+msgstr "italic"
 
 #. Template: AdminDynamicFieldTitle
 msgid "underline"
-msgstr ""
+msgstr "subrayar"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font style of the label."
-msgstr ""
+msgstr "Estilo de fuente de la etiqueta."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Size"
@@ -2475,59 +2527,66 @@ msgstr "Tamaño"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font size of the label."
-msgstr ""
+msgstr "Estilo de fuente de la etiqueta."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Color in hex."
-msgstr ""
+msgstr "Color en hexadecimal."
 
 #. Template: AdminDynamicFieldWebService
 msgid "This field is required"
-msgstr ""
+msgstr "Este campo es obligatorio"
 
 #. Template: AdminDynamicFieldWebService
 msgid "The web service to be executed for possible values."
-msgstr ""
+msgstr "El servicio web que se ejecutará para los posibles valores."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Invoker"
-msgstr ""
+msgstr "Invocador"
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
 "The invoker to be used to perform requests (invoker needs to be of type "
 "'Generic::PassThrough')."
 msgstr ""
+"El invocador que se utilizará para realizar solicitudes (el invocador debe "
+"ser del tipo 'Generic::PassThrough')."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Activate this option to allow multiselect on results."
-msgstr ""
+msgstr "Active esta opción para permitir la selección múltiple de resultados."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache TTL"
-msgstr ""
+msgstr "Cache TTL"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache time to live (in minutes), to save the retrieved possible values."
 msgstr ""
+"Tiempo de vida de la caché (en minutos) para guardar los posibles valores "
+"recuperados."
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens. Optional HTTP link works only for single-select fields."
 msgstr ""
+"Aquí puede especificar un enlace HTTP opcional para el valor del campo en "
+"las pantallas Descripción general y Zoom. El enlace HTTP opcional solo "
+"funciona para campos de selección única."
 
 #. Template: AdminEmail
 msgid "Admin Message"
-msgstr ""
+msgstr "Mensaje de Administrador"
 
 #. Template: AdminEmail
 msgid ""
 "With this module, administrators can send messages to agents, group or role "
 "members."
 msgstr ""
-"Con este módulo, los administradores pueden enviar mensajes a los Agentes y/"
-"o miembros de Grupos y Roles."
+"Con este módulo, los administradores pueden enviar mensajes a los agentes y "
+"miembros de grupos o roles."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
@@ -2535,7 +2594,7 @@ msgstr "Crear Mensaje Administrativo"
 
 #. Template: AdminEmail
 msgid "Your message was sent to"
-msgstr "Mensaje enviado a"
+msgstr "Mensaje fue enviado a"
 
 #. Template: AdminEmail
 msgid "From"
@@ -2571,27 +2630,27 @@ msgstr "Enviar"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent Job Management"
-msgstr ""
+msgstr "Gestión de Trabajos de Agentes Genéricos"
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
-msgstr ""
+msgstr "Editar Trabajo"
 
 #. Template: AdminGenericAgent
 msgid "Add Job"
-msgstr ""
+msgstr "Agregar Trabajo"
 
 #. Template: AdminGenericAgent
 msgid "Run Job"
-msgstr ""
+msgstr "Ejecución de Trabajo"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Jobs"
-msgstr ""
+msgstr "Filtrar por Trabajos"
 
 #. Template: AdminGenericAgent
 msgid "Filter for jobs"
-msgstr ""
+msgstr "Filtrar por trabajos"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -2599,7 +2658,7 @@ msgstr "Última ejecución"
 
 #. Template: AdminGenericAgent
 msgid "Run Now!"
-msgstr "Ejecutar ahora"
+msgstr "Ejecutar Ahora!"
 
 #. Template: AdminGenericAgent
 msgid "Delete this task"
@@ -2611,39 +2670,40 @@ msgstr "Ejecutar esta tarea"
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
-msgstr "Configuraciones de la Tarea"
+msgstr "Configuración de trabajo"
 
 #. Template: AdminGenericAgent
 msgid "Job name"
-msgstr "Nombre de la tarea"
+msgstr "Nombre del trabajo"
 
 #. Template: AdminGenericAgent
 msgid "The name you entered already exists."
-msgstr ""
+msgstr "El nombre que ingresaste ya existe."
 
 #. Template: AdminGenericAgent
 msgid "Automatic Execution (Multiple Tickets)"
-msgstr ""
+msgstr "Ejecución Automática (Múltiples Tickets)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
-msgstr ""
+msgstr "Planificar Ejecución"
 
 #. Template: AdminGenericAgent
 msgid "Schedule minutes"
-msgstr "Fijar minutos"
+msgstr "Minutos para la planificación"
 
 #. Template: AdminGenericAgent
 msgid "Schedule hours"
-msgstr "Fijar horas"
+msgstr "Horas para planificar"
 
 #. Template: AdminGenericAgent
 msgid "Schedule days"
-msgstr "Fijar días"
+msgstr "Días para la planificación"
 
 #. Template: AdminGenericAgent
 msgid "Automatic execution values are in the system timezone."
 msgstr ""
+"Los valores de ejecución automática están en la zona horaria del sistema."
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -2656,51 +2716,58 @@ msgid ""
 "and days!"
 msgstr ""
 "Para habilitar la ejecución automática, seleccione al menos un valor de "
-"minutos, horas y días."
+"minutos, horas y días!"
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
-msgstr ""
+msgstr "Ejecución Basada en Eventos(Ticket Simple)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
-msgstr ""
+msgstr "Disparadores del evento"
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
-msgstr ""
+msgstr "Lista de todos los eventos configurados"
 
 #. Template: AdminGenericAgent
 msgid "Delete this event"
-msgstr ""
+msgstr "Eliminar este evento"
 
 #. Template: AdminGenericAgent
 msgid ""
 "Additionally or alternatively to a periodic execution, you can define ticket "
 "events that will trigger this job."
 msgstr ""
+"Además o como alternativa a una ejecución periódica, puede definir eventos "
+"de ticket que activarán este trabajo."
 
 #. Template: AdminGenericAgent
 msgid ""
 "If a ticket event is fired, the ticket filter will be applied to check if "
 "the ticket matches. Only then the job is run on that ticket."
 msgstr ""
+"Si se activa un evento de ticket, se aplicará el filtro de ticket para "
+"verificar si el ticket coincide. Sólo entonces se ejecuta el trabajo en ese "
+"ticket."
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
-msgstr ""
+msgstr "¿Realmente deseas eliminar este disparador del evento?"
 
 #. Template: AdminGenericAgent
 msgid "Add Event Trigger"
-msgstr ""
+msgstr "Agregar el Disparador del Evento"
 
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name"
 msgstr ""
+"Para agregar un nuevo evento, seleccione el objeto del evento y el nombre "
+"del evento"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
-msgstr ""
+msgstr "Seleccionar Ticket"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 10*5155 or 105658*)"
@@ -2712,7 +2779,7 @@ msgstr "(ej: 234321)"
 
 #. Template: AdminGenericAgent
 msgid "Customer user ID"
-msgstr ""
+msgstr "ID del Cliente"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -2720,8 +2787,7 @@ msgstr "(ej: U5150)"
 
 #. Template: AdminGenericAgent
 msgid "Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\")."
-msgstr ""
-"Búsqueda en todo el texto del artículo (por ejemplo: \"Mar*in\" o \"Baue*\")."
+msgstr "Búsqueda de texto completo en un artículo (ej. «Mar*in» o «Baue*»)."
 
 #. Template: AdminGenericAgent
 msgid "To"
@@ -2729,7 +2795,7 @@ msgstr "Para"
 
 #. Template: AdminGenericAgent
 msgid "Cc"
-msgstr "Copia "
+msgstr "Copia"
 
 #. Template: AdminGenericAgent
 msgid "Service"
@@ -2741,7 +2807,7 @@ msgstr "Acuerdo de Nivel de Servicio"
 
 #. Template: AdminGenericAgent
 msgid "Queue"
-msgstr "Fila"
+msgstr "Cola"
 
 #. Template: AdminGenericAgent
 msgid "State"
@@ -2761,23 +2827,23 @@ msgstr "Responsable"
 
 #. Template: AdminGenericAgent
 msgid "Ticket lock"
-msgstr "Bloqueo de ticket"
+msgstr "Bloqueo de tickets"
 
 #. Template: AdminGenericAgent
 msgid "Dynamic fields"
-msgstr ""
+msgstr "Campos dinámicos"
 
 #. Template: AdminGenericAgent
 msgid "Add dynamic field"
-msgstr ""
+msgstr "Agregar campo dinámico"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
-msgstr "Tiempos de creación"
+msgstr "Fecha de Creación"
 
 #. Template: AdminGenericAgent
 msgid "No create time settings."
-msgstr "No existen configuraciones para tiempo de creación."
+msgstr "No hay fecha de creación."
 
 #. Template: AdminGenericAgent
 msgid "Ticket created"
@@ -2793,27 +2859,27 @@ msgstr "y"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr ""
+msgstr "Ultima fecha de cambio"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
-msgstr ""
+msgstr "Últimas fechas modificadas."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr ""
+msgstr "Ultima Fecha de cambio"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
-msgstr ""
+msgstr "Ultima fecha de cambio entre"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
-msgstr "Cambiar tiempos"
+msgstr "Fecha de cambio"
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
-msgstr "Sin cambio de marca de tiempo"
+msgstr "No hay fecha de modificación"
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed"
@@ -2825,27 +2891,27 @@ msgstr "Ticket modificado entre"
 
 #. Template: AdminGenericAgent
 msgid "Last close times"
-msgstr ""
+msgstr "Ultima fecha de cierre"
 
 #. Template: AdminGenericAgent
 msgid "No last close time settings."
-msgstr ""
+msgstr "No hay modificaciones en la ultima fecha de cierre."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close"
-msgstr ""
+msgstr "Ultimo cierre del Ticket"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close between"
-msgstr ""
+msgstr "Último cierre del ticket entre"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
-msgstr "Tiempos de cierre"
+msgstr "Fecha de Cierre"
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
-msgstr "No existen configuraciones para tiempo de cierre."
+msgstr "No hay configuraciones para la fecha de cierre."
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
@@ -2857,67 +2923,67 @@ msgstr "Ticket cerrado entre"
 
 #. Template: AdminGenericAgent
 msgid "Pending times"
-msgstr "Tiempos de espera"
+msgstr "Fecha Pendiente"
 
 #. Template: AdminGenericAgent
 msgid "No pending time settings."
-msgstr "No existen configuraciones para tiempo en espera"
+msgstr "No hay configuraciones para la fecha pendiente"
 
 #. Template: AdminGenericAgent
 msgid "Ticket pending time reached"
-msgstr "El tiempo en espera del Ticket ha sido alcanzado"
+msgstr "Alcanzada la fecha pendiente del ticket"
 
 #. Template: AdminGenericAgent
 msgid "Ticket pending time reached between"
-msgstr "El tiempo en espera del Ticket ha sido alcanzado entre"
+msgstr "Fecha pendiente del ticket a sido alcanzada"
 
 #. Template: AdminGenericAgent
 msgid "Escalation times"
-msgstr "Tiempos de escalada"
+msgstr "Fecha de escalamiento"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr "No existen configuraciones para tiempo de escalada"
+msgstr "No existen configuraciones para fecha de escalamiento"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
-msgstr "El tiempo de escalada del Ticket ha sido alcanzado"
+msgstr "Fecha de escalamiento del Ticket ha sido alcanzado"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached between"
-msgstr "El tiempo de escalada del Ticket ha sido alcanzado entre"
+msgstr "Fecha de escalamiento del Ticket ha sido alcanzado entre"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - first response time"
-msgstr "Escalada - tiempo para la primera respuesta"
+msgstr "Escalamiento - fecha para la primera respuesta"
 
 #. Template: AdminGenericAgent
 msgid "Ticket first response time reached"
-msgstr "El tiempo para la primer respuesta del Ticket ha sido alcanzado"
+msgstr "Fecha para la primer respuesta del Ticket ha sido alcanzado"
 
 #. Template: AdminGenericAgent
 msgid "Ticket first response time reached between"
-msgstr "El tiempo para la primer respuesta del Ticket ha sido alcanzado entre"
+msgstr "La fecha de la primer respuesta del Ticket ha sido alcanzado entre"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - update time"
-msgstr "Escalada - tiempo para la actualización"
+msgstr "Escalamiento - Fecha para la actualización"
 
 #. Template: AdminGenericAgent
 msgid "Ticket update time reached"
-msgstr "El tiempo para la actualización del Ticket ha sido alcanzado"
+msgstr "La fecha actualización del Ticket ha sido alcanzado"
 
 #. Template: AdminGenericAgent
 msgid "Ticket update time reached between"
-msgstr "El tiempo para la actualización del Ticket ha sido alcanzado entre"
+msgstr "La fecha de actualización del Ticket ha sido alcanzado entre"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - solution time"
-msgstr "Escalada - tiempo para la solución"
+msgstr "Escalamiento - fecha de solución"
 
 #. Template: AdminGenericAgent
 msgid "Ticket solution time reached"
-msgstr "El tiempo para la solución del Ticket ha sido alcanzado"
+msgstr "Fecha para la solución del Ticket ha sido alcanzado"
 
 #. Template: AdminGenericAgent
 msgid "Ticket solution time reached between"
