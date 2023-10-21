@@ -7,13 +7,14 @@
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
 # Use the latest maintainance release of the Perl 5.38.x series as the base.
-# This Dockerfile accepts the default Debian version of the official Perl image. As of 2022-06-23 this
-# Debian 12 (Bookworm).
 #
-# The Perl module installer 'cpanm' is already installed.
+# The Debian version is explicitly set to bookworm, that is Debian 12.
+# This avoids a surprising change of the version of Debian when the image
+# is rebuilt, especially when the image for a new release of OTOBO is built.
+# Note that the minor version of Debian may change between builds.
 #
-# The individual build targets my add additional Debian or CPAN packages.
-FROM perl:5.38 AS base
+# The individual build targets may add additional Debian or CPAN packages.
+FROM perl:5.38-bookworm AS base
 
 # First there is some initial setup that needs to be done by root.
 USER root
@@ -64,6 +65,7 @@ ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
 # Install CPAN distributions that are required by OTOBO into the local lib /opt/otobo_install/local.
+# The Perl module installer 'cpanm' is already available via the base image.
 #
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
