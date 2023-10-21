@@ -8,7 +8,7 @@
 # Perl 5.36.0 was released 2022-05-27.
 #
 # The Debian version is explicitly set to bookworm, that is Debian 12.
-# This avaids a surprising change of the version of Debian when the image
+# This avoids a surprising change of the version of Debian when the image
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
 FROM perl:5.36-bookworm
