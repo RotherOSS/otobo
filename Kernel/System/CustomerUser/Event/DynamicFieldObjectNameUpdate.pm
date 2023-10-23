@@ -27,7 +27,7 @@ our @ObjectDependencies = (
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # Allocate new hash for object.
+    # Allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
@@ -44,6 +44,7 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -53,11 +54,14 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Needed in Data!"
             );
+
             return;
         }
     }
 
-    # If the user login has been changed, update dynamic field object name for given name and type.
+    # The dynamic fields of a CustomerUser are linked via the the field UserLogin. But UserLogin
+    # is not necessarily the unique id for the customer user. This means that UserLogin may
+    # change. If the user login has been changed, update dynamic field object name for given name and type.
     if ( lc $Param{Data}->{OldData}->{UserLogin} ne lc $Param{Data}->{NewData}->{UserLogin} ) {
 
         my $Success = $Kernel::OM->Get('Kernel::System::DynamicField')->ObjectMappingNameChange(
@@ -72,6 +76,7 @@ sub Run {
                 Message  =>
                     "Unable to change dynamic field object mapping name from $Param{Data}->{OldData}->{UserLogin} to $Param{Data}->{NewData}->{UserLogin} for type CustomerUser!",
             );
+
             return;
         }
     }

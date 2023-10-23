@@ -44,20 +44,22 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
-
     for my $Needed (qw( CustomerID OldCustomerID )) {
         if ( !$Param{Data}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed in Data!"
             );
+
             return;
         }
     }
 
+    # The dynamic fields of a CustomerCompany are linked via the the field CustomerID.
     # Only update if CustomerID has really changed.
     return 1 if lc $Param{Data}->{CustomerID} eq lc $Param{Data}->{OldCustomerID};
 
@@ -74,6 +76,7 @@ sub Run {
             Message  =>
                 "Unable to change dynamic field object mapping name from $Param{Data}->{OldCustomerID} to $Param{Data}->{CustomerID} for type CustomerCompany!",
         );
+
         return;
     }
 
