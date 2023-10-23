@@ -358,15 +358,15 @@ The count of results is returned when the parameter C<Result = 'COUNT'> is passe
         # ignored if the result type is 'COUNT'
     );
 
-Returns:
+Returns a list of customer users when $Result => 'ARRAY' was passed:
 
-Result: 'ARRAY'
+    $CustomerUserIDs = [ 'adaldrida', 'adamanta', 'adalgrim ' ];
+    $CustomerUserIDs = []; # when no customer users had been found
 
-    @CustomerUserIDs = ( 1, 2, 3 );
+Returns a count of customer users when $Result => 'COUNT' was passed:
 
-Result: 'COUNT'
-
-    $CustomerUserIDs = 10;
+    $CustomerUserIDs = 3;
+    $CustomerUserIDs = 0; # when no customer users had been found
 
 =cut
 
