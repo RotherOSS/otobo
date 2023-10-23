@@ -287,7 +287,6 @@ sub PerlInfoGet {
             MIME::Tools
             Module::CPANfile
             Module::Find
-            Module::Load
             Module::Refresh
             Mozilla::CA
             Net::IMAP::Simple
