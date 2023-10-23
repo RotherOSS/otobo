@@ -50,6 +50,10 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     # This file is used in otobo.web.dockerfile.
     bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
+    # Print a cpanfile with the required modules for Kernel/cpan-lib
+    # This file is only used for sporadic updates
+    bin/otobo.CheckModules.pl --bundled-cpanfile > cpanfile.bundled
+
 =head1 DESCRIPTION
 
 This scripts can be used for checking whether required Perl modules are installed.
@@ -227,19 +231,21 @@ my $DoPrintPackageList;
 my $DoPrintFeatures;
 my $DoPrintCpanfile;
 my $DoPrintDockerCpanfile;
+my $DoPrintBundledCpanfile;
 my $DoPrintHelp;
 my @FeatureList;
 my @FeatureInstList;
 GetOptions(
-    'help|h'          => \$DoPrintHelp,
-    inst              => \$DoPrintInstCommand,
-    list              => \$DoPrintPackageList,
-    all               => \$DoPrintAllModules,
-    features          => \$DoPrintFeatures,
-    'finst=s{1,}'     => \@FeatureInstList,
-    'flist=s{1,}'     => \@FeatureList,
-    cpanfile          => \$DoPrintCpanfile,
-    'docker-cpanfile' => \$DoPrintDockerCpanfile,
+    'help|h'           => \$DoPrintHelp,
+    'inst'             => \$DoPrintInstCommand,
+    'list'             => \$DoPrintPackageList,
+    'all'              => \$DoPrintAllModules,
+    'features'         => \$DoPrintFeatures,
+    'finst=s{1,}'      => \@FeatureInstList,
+    'flist=s{1,}'      => \@FeatureList,
+    'cpanfile'         => \$DoPrintCpanfile,
+    'docker-cpanfile'  => \$DoPrintDockerCpanfile,
+    'bundled-cpanfile' => \$DoPrintBundledCpanfile,
 ) || pod2usage(2);
 
 if (@FeatureList) {
@@ -248,7 +254,16 @@ if (@FeatureList) {
 elsif (@FeatureInstList) {
     $DoPrintInstCommand = 1;
 }
-elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !$DoPrintFeatures && !$DoPrintCpanfile && !$DoPrintDockerCpanfile ) {
+elsif (
+    !$DoPrintAllModules
+    && !$DoPrintInstCommand
+    && !$DoPrintPackageList
+    && !$DoPrintFeatures
+    && !$DoPrintCpanfile
+    && !$DoPrintDockerCpanfile
+    && !$DoPrintBundledCpanfile
+    )
+{
     $DoPrintHelp = 1;
 }
 
@@ -262,7 +277,7 @@ if ($DoPrintHelp) {
 my $Options = shift || '';
 my $NoColors;
 
-if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
+if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $DoPrintBundledCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
     $NoColors = 1;
 }
 
@@ -1118,6 +1133,321 @@ my @NeededModules = (
     },
 );
 
+# This is the declaration of the modules installed into Kernel/cpan-lib.
+# TODO: The list should move to Kernel::System::Environment, to have a single source
+my @BundledModules = (
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Algorithm/Diff.pm',
+        'Module'       => 'Algorithm::Diff',
+        'Required'     => 1,
+        'VersionExact' => '1.1903',
+    },
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Class/Accessor.pm',
+        'Module'       => 'Class::Accessor',
+        'Required'     => 1,
+        'VersionExact' => '0.34',
+    },
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Class/Inspector.pm',
+        'Module'       => 'Class::Inspector',
+        'Required'     => 1,
+        'VersionExact' => '1.31'
+    },
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Class/ReturnValue.pm',
+        'Module'       => 'Class::ReturnValue',
+        'Required'     => 1,
+        'VersionExact' => '0.55',
+    },
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/CPAN/Audit.pm',
+        'Module'       => 'CPAN::Audit',
+        'Required'     => 1,
+        'VersionExact' => '0.15',
+    },
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/CPAN/DistnameInfo.pm',
+        'Module'       => 'CPAN::DistnameInfo',
+        'Required'     => 1,
+        'VersionExact' => '0.12',
+    },
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Data/ICal.pm',
+        'Module'       => 'Data::ICal',
+        'Required'     => 1,
+        'VersionExact' => '0.22',
+    },
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Date/ICal.pm',
+        'Module'       => 'Date::ICal',
+        'Required'     => 1,
+        'VersionExact' => '2.678',
+    },
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Crypt/PasswdMD5.pm',
+        'Module'       => 'Crypt::PasswdMD5',
+        'Required'     => 1,
+        'VersionExact' => '1.40',
+    },
+    {
+        'VersionExact' => '0.14',
+        'Required'     => 1,
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Crypt/Random/Source.pm',
+        'Module'       => 'Crypt::Random::Source'
+    },
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/CSS/Minifier.pm',
+        'Module'       => 'CSS::Minifier',
+        'Required'     => 1,
+        'VersionExact' => '0.01',
+    },
+    {
+        'VersionExact' => '2.02',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Devel/StackTrace.pm',
+        'Module'       => 'Devel::StackTrace',
+        'Required'     => 1,
+    },
+    {
+        'VersionExact' => '1.202',
+        'Required'     => 1,
+        'Module'       => 'Email::Valid',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Email/Valid.pm'
+    },
+    {
+        'VersionExact' => '1.05',
+        'Required'     => 1,
+        'Module'       => 'Encode::Locale',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Encode/Locale.pm'
+    },
+    {
+        'VersionExact' => '0.95',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Excel/Writer/XLSX.pm',
+        'Module'       => 'Excel::Writer::XLSX',
+        'Required'     => 1,
+    },
+    {
+        'Required'     => 1,
+        'Module'       => 'Exporter::Tiny',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Exporter/Tiny.pm',
+        'VersionExact' => '1.002001',
+    },
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/File/Slurp.pm',
+        'Module'       => 'File::Slurp',
+        'Required'     => 1,
+        'VersionExact' => '9999.19',
+    },
+    {
+        'VersionExact' => '1.06',
+        'Module'       => 'Font::TTF',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Font/TTF.pm',
+        'Required'     => 1,
+    },
+    {
+        'Required'     => 1,
+        'Module'       => 'HTTP::Date',
+        'VersionExact' => '6.02',
+    },
+    {
+        'Required'     => 1,
+        'Module'       => 'HTTP::Message',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/HTTP/Message.pm',
+        'VersionExact' => '6.13',
+    },
+    {
+        'Required'     => 1,
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/IO/Interactive.pm',
+        'Module'       => 'IO::Interactive',
+        'VersionExact' => '1.022',
+    },
+    {
+        'Module'       => 'IO::String',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/IO/String.pm',
+        'Required'     => 1,
+        'VersionExact' => '1.08',
+    },
+    {
+        'VersionExact' => '1.16',
+        'Required'     => 1,
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/JavaScript/Minifier.pm',
+        'Module'       => 'JavaScript::Minifier'
+    },
+    {
+        'VersionExact' => '2.94',
+        'Required'     => 1,
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/JSON.pm',
+        'Module'       => 'JSON'
+    },
+    {
+        'Required'     => 1,
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/JSON/PP.pm',
+        'Module'       => 'JSON::PP',
+        'VersionExact' => '2.27203',
+    },
+    {
+        'Required'     => 1,
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Lingua/Translit.pm',
+        'Module'       => 'Lingua::Translit',
+        'VersionExact' => '0.27',
+    },
+    {
+        'VersionExact' => '0.23',
+        'Module'       => 'Linux::Distribution',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Linux/Distribution.pm',
+        'Required'     => 1,
+    },
+    {
+        'VersionExact' => '3.69',
+        'Module'       => 'Locale::Codes',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Locale/Codes.pm',
+        'Required'     => 1,
+    },
+    {
+        'Required'     => 1,
+        'Module'       => 'Mail::Address',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Mail/Address.pm',
+        'VersionExact' => '2.18',
+    },
+    {
+        'VersionExact' => '2.18',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Mail/Internet.pm',
+        'Module'       => 'Mail::Internet',
+        'Required'     => 1,
+    },
+    {
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Math/Random/ISAAC.pm',
+        'Module'       => 'Math::Random::ISAAC',
+        'Required'     => 1,
+        'VersionExact' => '1.004',
+    },
+    {
+        'Module'       => 'Math::Random::Secure',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Math/Random/Secure.pm',
+        'Required'     => 1,
+        'VersionExact' => '0.080001',
+    },
+    {
+        'Module'       => 'MIME::Tools',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/MIME/Tools.pm',
+        'Required'     => 1,
+        'VersionExact' => '5.509',
+    },
+    {
+        'VersionExact' => '1.1004',
+        'Required'     => 1,
+        'Module'       => 'Module::CPANfile',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Module/CPANfile.pm'
+    },
+    {
+        'VersionExact' => '0.15',
+        'Module'       => 'Module::Find',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Module/Find.pm',
+        'Required'     => 1,
+    },
+    {
+        'VersionExact' => '0.17',
+        'Module'       => 'Module::Refresh',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Module/Refresh.pm',
+        'Required'     => 1,
+    },
+    {
+        'VersionExact' => '20200520',
+        'Required'     => 1,
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Mozilla/CA.pm',
+        'Module'       => 'Mozilla::CA'
+    },
+    {
+        'Required'     => 1,
+        'Module'       => 'Net::IMAP::Simple',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Net/IMAP/Simple.pm',
+        'VersionExact' => '1.2209',
+    },
+    {
+        'VersionExact' => '6.17',
+        'Required'     => 1,
+        'Module'       => 'Net::HTTP',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Net/HTTP.pm'
+    },
+    {
+        'Required'     => 1,
+        'Module'       => 'Net::SSLGlue',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Net/SSLGlue.pm',
+        'VersionExact' => '1.058',
+    },
+    {
+        'Module'       => 'PDF::API2',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/PDF/API2.pm',
+        'Required'     => 1,
+        'VersionExact' => '2.033',
+    },
+    {
+        'VersionExact' => '1.02',
+        'Module'       => 'Pod::Strip',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Pod/Strip.pm',
+        'Required'     => 1,
+    },
+    {
+        'VersionExact' => '273',
+        'Module'       => 'REST::Client',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/REST/Client.pm',
+        'Required'     => 1,
+    },
+    {
+        'Required'     => 1,
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Schedule/Cron/Events.pm',
+        'Module'       => 'Schedule::Cron::Events',
+        'VersionExact' => '1.95',
+    },
+    {
+        'Module'       => 'Sisimai',
+        'Required'     => 1,
+        'VersionExact' => 'v4.24.1',
+    },
+    {
+        'Module'       => 'SOAP::Lite',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/SOAP/Lite.pm',
+        'Required'     => 1,
+        'VersionExact' => '1.20',
+    },
+    {
+        'VersionExact' => '1.5',
+        'Required'     => 1,
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Sys/Hostname/Long.pm',
+        'Module'       => 'Sys::Hostname::Long'
+    },
+    {
+        'VersionExact' => '1.95',
+        'Required'     => 1,
+        'Module'       => 'Text::CSV',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Text/CSV.pm'
+    },
+    {
+        'Module'       => 'Text::Diff',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Text/Diff.pm',
+        'Required'     => 1,
+        'VersionExact' => '1.44',
+    },
+    {
+        'Required'     => 1,
+        'Module'       => 'Type::Tiny',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Type/Tiny.pm',
+        'VersionExact' => '1.010000',
+    },
+    {
+        'VersionExact' => '2.25',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/XML/Simple.pm',
+        'Module'       => 'XML::Simple',
+        'Required'     => 1,
+    },
+    {
+        'VersionExact' => '1.23',
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/YAML.pm',
+        'Module'       => 'YAML',
+        'Required'     => 1,
+    }
+);
+
 # Sanity check.
 for my $Module (@NeededModules) {
     die 'Module must be set!' unless defined $Module->{Module};
@@ -1163,6 +1493,15 @@ elsif ($DoPrintDockerCpanfile) {
 END_HEADER
 
     PrintCpanfile( \@NeededModules, 1, 1, 1 );
+}
+elsif ($DoPrintBundledCpanfile) {
+    say <<'END_HEADER';
+# Do not change this file manually.
+# Instead adapt bin/otobo.CheckModules.pl and call
+#    ./bin/otobo.CheckModules.pl --bundled-cpanfile > cpanfile.bundled
+END_HEADER
+
+    PrintCpanfile( \@BundledModules, 1, 0, 0 );
 }
 elsif ($DoPrintInstCommand) {
 
@@ -1627,6 +1966,11 @@ sub PrintCpanfile {
                 else {
                     if ( $Module->{VersionRequired} ) {
                         push @Conditions, ">= $Module->{VersionRequired}";
+                    }
+
+                    # currently only used for the bundled modules
+                    if ( $Module->{VersionExact} ) {
+                        push @Conditions, "== $Module->{VersionExact}";
                     }
 
                     if ( $Module->{VersionsNotSupported} ) {
