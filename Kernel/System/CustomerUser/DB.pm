@@ -563,7 +563,8 @@ sub CustomerSearchDetail {
         return;
     }
 
-    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    # Return only valid users per default
+    my $Valid = $Param{Valid} // 1;
 
     $Param{Limit} //= '';
 
