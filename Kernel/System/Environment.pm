@@ -19,9 +19,14 @@ package Kernel::System::Environment;
 use strict;
 use warnings;
 
+# core modules
 use POSIX;
 use ExtUtils::MakeMaker;
-use Sys::Hostname::Long;
+
+# CPAN modules
+use Sys::Hostname::Long;    # imports hostname_long()
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -51,10 +56,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 OSInfoGet()
