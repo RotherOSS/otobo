@@ -224,6 +224,9 @@
 [% RenderBlockStart("DefaultValueTextArea") %]
                             <textarea id="DefaultValue" class="W50pc" rows="10" cols="60" name="DefaultValue">[% Data.DefaultValue | html %]</textarea>
 [% RenderBlockEnd("DefaultValueTextArea") %]
+[% RenderBlockStart("DefaultValueRichText") %]
+                            <textarea id="DefaultValue" class="RichText W50pc" name="DefaultValue">[% Data.DefaultValue | html %]</textarea>
+[% RenderBlockEnd("DefaultValueRichText") %]
                             <p class="FieldExplanation">[% Translate("This is the default value for this field.") | html %]</p>
                         </div>
                         <div class="Clear"></div>

@@ -937,6 +937,7 @@ sub _ShowScreen {
             $Param{RegExCounter} = $RegExCounter;
         }
 
+        # NOTE check is necessary because previous block potentially alters $Param{RegExCounter}
         if ( $Param{RegExCounter} ) {
 
             REGEXENTRY:
@@ -1042,6 +1043,19 @@ sub _ShowScreen {
                 },
             );
         }
+    }
+
+    # set rich text params
+    if ( $LayoutObject->{BrowserRichText} && $Param{FieldType} eq 'RichText' ) {
+
+        # use height/width defined for this screen
+        $Param{RichTextHeight} = 320;
+        $Param{RichTextWidth}  = 600;
+
+        # set up rich text editor
+        $LayoutObject->SetRichTextParameters(
+            Data => \%Param,
+        );
     }
 
     # generate output
