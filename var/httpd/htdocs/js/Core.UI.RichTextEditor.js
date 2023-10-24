@@ -164,10 +164,14 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         if ( CustomerInterface ) {
             ToolbarConfig = $EditorArea.width() < 454 ? Core.Config.Get('RichText.ToolbarMini') :
                             $EditorArea.width() < 622 ? Core.Config.Get('RichText.ToolbarMidi') :
-                            CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
+                            ( CheckFormID($EditorArea).length && !$EditorArea.hasClass('DynamicFieldRichText') ) ?
+                                Core.Config.Get('RichText.Toolbar') :
+                                Core.Config.Get('RichText.ToolbarWithoutImage');
         }
         else {
-            ToolbarConfig = CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
+            ToolbarConfig = ( CheckFormID($EditorArea).length && !$EditorArea.hasClass('DynamicFieldRichText') ) ?
+                    Core.Config.Get('RichText.Toolbar') :
+                    Core.Config.Get('RichText.ToolbarWithoutImage');
         }
 
         // set default editor config, but allow custom config for other types for editors
