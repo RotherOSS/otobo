@@ -349,7 +349,7 @@ sub DisplayValueRender {
 
     $Value = $Param{CustomerInterface}
         ?
-        '<div class="Content">' . $Value . '</div>'
+        '<div class="Content" style="padding: 0 24px;">' . $Value . '</div>'
         :
         $Value;
 
