@@ -73,6 +73,17 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="DynamicFields::Driver###RichText" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Richtext</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::RichText</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="DynamicFields::Driver###Checkbox" Required="0" Valid="1">
         <Description Translatable="1">DynamicField backend registration.</Description>
         <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
@@ -1757,6 +1768,27 @@
                     </Array>
                 </Item>
             </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AgentDynamicFieldRichText" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Title"></Item>
+                    <Item Key="NavBarName"></Item>
+                    <Item Key="Description" Translatable="1">To show richtext dynamic fields.</Item>
+                </Hash>
+            </Item>
         </Value>
     </Setting>
     <!--End Admin Interface -->
