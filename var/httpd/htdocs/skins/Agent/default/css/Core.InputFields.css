@@ -241,14 +241,6 @@ fieldset.DynamicFieldSet {
     box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
 }
 
-/**
- * @subsection Dynamic Field RichText Iframe
- */
-.OverlayDynamicFieldRichTextiFrame {
-    height: 400px;
-    width: 800px;
-}
-
 a.InputField_Action {
     position: absolute;
     display: block;
