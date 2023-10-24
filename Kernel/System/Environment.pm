@@ -276,6 +276,7 @@ sub PerlInfoGet {
             Lingua::Translit
             Linux::Distribution
             Locale::Codes
+            LWP::Protocol::https
             Mail::Address
             Mail::Internet
             Math::Random::ISAAC
