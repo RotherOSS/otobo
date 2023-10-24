@@ -293,6 +293,7 @@ sub PerlInfoGet {
             Pod::Strip
             REST::Client
             Schedule::Cron::Events
+            Sisimai
             SOAP::Lite
             Sys::Hostname::Long
             Text::CSV

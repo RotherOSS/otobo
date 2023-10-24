@@ -52,7 +52,8 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 
     # Print a cpanfile with the required modules for Kernel/cpan-lib
     # This file is only used for sporadic updates
-    bin/otobo.CheckModules.pl --bundled-cpanfile > cpanfile.bundled
+    mkdir tmp
+    bin/otobo.CheckModules.pl --bundled-cpanfile > tmp/cpanfile
 
 =head1 DESCRIPTION
 
@@ -1403,6 +1404,11 @@ my @BundledModules = (
         'Module'       => 'Sisimai',
         'Required'     => 1,
         'VersionExact' => 'v4.24.1',
+    },
+    {
+        'Module'       => 'Sisimai',
+        'Required'     => 1,
+        'VersionExact' => 'v4.24.1'
     },
     {
         'Module'       => 'SOAP::Lite',
