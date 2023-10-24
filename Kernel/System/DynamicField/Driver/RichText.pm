@@ -347,12 +347,6 @@ sub DisplayValueRender {
         :
         'DynamicField/Agent/RichTextDisplayValue';
 
-    $Value = $Param{CustomerInterface}
-        ?
-        '<div class="Content" style="padding: 0 24px;">' . $Value . '</div>'
-        :
-        $Value;
-
     my $JSCode = <<"EOF";
 \$('a#ShowDynamicFieldRichText_$FieldName').off('click').on('click', function(Event) {
     Event.preventDefault();

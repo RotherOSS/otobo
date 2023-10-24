@@ -102,14 +102,6 @@ input.DynamicFieldText {
 /*    color: #7f809d; */
 }
 
-/**
- * @subsection Dynamic Field RichText Iframe
- */
-.OverlayDynamicFieldRichTextiFrame {
-    height: 500px;
-    width: 700px;
-}
-
 #Subject {
     height: 56px;
     padding: 0px;
