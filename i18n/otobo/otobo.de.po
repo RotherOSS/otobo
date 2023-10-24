@@ -44,7 +44,7 @@
 # Grit Rother <mr@otobo.de>, 2020, 2021, 2022, 2023.
 # svo <svo@otrs.ch>, 2021.
 # Andreas Erhard <erhard@wor.net>, 2021, 2022.
-# Stefan Abel <sta@rother-oss.com>, 2022.
+# Stefan Abel <sta@rother-oss.com>, 2022, 2023.
 # svo <svo@rother-oss.com>, 2022.
 # sr <sr@rother-oss.com>, 2022.
 msgid ""
@@ -52,8 +52,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-10-21 03:09+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"PO-Revision-Date: 2023-10-25 01:20+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -32930,14 +32930,14 @@ msgstr "Benutzer, Gruppen & Rollen"
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
 msgstr ""
-"Nutzt richtext zum betrachten und bearbeiten von Ticket-Benachrichtigungen."
+"Nutzt Rich-Text zum Betrachten und Bearbeiten von Ticket-Benachrichtigungen."
 
 #. SysConfig
 msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
 msgstr ""
-"Nutzt richtext zum betrachten und bearbeiten von: Artikeln, Begrüßungen, "
+"Nutzt Rich-Text zum Betrachten und Bearbeiten von: Artikeln, Begrüßungen, "
 "Signaturen, Standard Vorlagen, Automatische Antworten und Benachrichtigungen."
 
 #. SysConfig
