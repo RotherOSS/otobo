@@ -29,5 +29,5 @@
 # execute IFrame JS asynchronously. Otherwise it could happen before our API was loaded
 # Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
 # Set 'allow-popups' to allow IE10+ to open links. ref: http://www.w3.org/html/wg/wiki/ChangeProposals/sandbox_allow_popups
-<iframe sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox" class="OverlayDynamicFieldRichTextiFrame" width="100%" frameborder="0" id="Iframe[% Data.FieldName | html %]" srcdoc='[% Data.Value %]'></iframe>
+<iframe sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox" class="Customer OverlayDynamicFieldRichTextiFrame" frameborder="0" id="Iframe[% Data.FieldName | html %]" srcdoc='[% Data.Value %]'></iframe>
 </div>
