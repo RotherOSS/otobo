@@ -298,7 +298,6 @@ sub PerlInfoGet {
             Text::CSV
             Text::Diff
             Type::Tiny
-            URI
             XML::Simple
             YAML
             );
