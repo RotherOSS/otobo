@@ -165,6 +165,7 @@ sub ArticleMetaFields {
             Value              => $Value,
             ValueMaxChars      => 160,
             LayoutObject       => $LayoutObject,
+            CustomerInterface  => 1,
         );
 
         my $Label = $DynamicFieldConfig->{Label};

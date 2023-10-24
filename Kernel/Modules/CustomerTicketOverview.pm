@@ -812,6 +812,7 @@ sub ShowTicketStatus {
             Value              => $Value,
             ValueMaxChars      => 20,
             LayoutObject       => $LayoutObject,
+            CustomerInterface  => 1,
         );
 
         $LayoutObject->Block(

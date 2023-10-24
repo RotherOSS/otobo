@@ -240,6 +240,7 @@ sub Run {
                 Value              => $Value,
                 ValueMaxChars      => 20,
                 LayoutObject       => $LayoutObject,
+                CustomerInterface  => 1,
             );
             next DYNAMICFIELD if ( !defined $ValueStrg->{Value} || $ValueStrg->{Value} eq '' );
 
