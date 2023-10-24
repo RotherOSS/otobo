@@ -1977,7 +1977,6 @@ sub _Mask {
             Value              => $Value,
             ValueMaxChars      => 25,
             LayoutObject       => $LayoutObject,
-            CustomerInterface  => 1,
         );
 
         my $Label = $DynamicFieldConfig->{Label};

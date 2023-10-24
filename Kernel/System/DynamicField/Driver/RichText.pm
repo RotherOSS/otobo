@@ -341,12 +341,6 @@ sub DisplayValueRender {
 
     my $TranslatedDialogTitle = $Param{LayoutObject}->{LanguageObject}->Translate( "Full %s Text", $FieldLabel );
 
-    my $DisplayValueTemplate = $Param{CustomerInterface}
-        ?
-        'DynamicField/Customer/RichTextDisplayValue'
-        :
-        'DynamicField/Agent/RichTextDisplayValue';
-
     my $JSCode = <<"EOF";
 \$('a#ShowDynamicFieldRichText_$FieldName').off('click').on('click', function(Event) {
     Event.preventDefault();
@@ -362,7 +356,7 @@ EOF
     $Param{LayoutObject}->AddJSOnDocumentComplete( Code => $JSCode );
 
     my $RenderedTemplate = $Param{LayoutObject}->Output(
-        TemplateFile => $DisplayValueTemplate,
+        TemplateFile => 'DynamicField/Agent/RichTextDisplayValue',
         Data         => {
             FieldName => $FieldName,
             Value     => $Value,
