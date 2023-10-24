@@ -708,7 +708,6 @@ sub Run {
                                 Value              => $Info{$Header},
                                 HTMLOutput         => 0,
                                 LayoutObject       => $LayoutObject,
-                                CustomerInterface  => 1,
                             );
                             push @Data, $ValueStrg->{Value};
 
@@ -1278,7 +1277,6 @@ sub Run {
                             Value              => $Data{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
                             ValueMaxChars      => 20,
                             LayoutObject       => $LayoutObject,
-                            CustomerInterface  => 1,
                         );
 
                         $LayoutObject->Block(
