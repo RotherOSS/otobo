@@ -153,6 +153,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 /**
+ * @subsection Dynamic Field RichText Iframe
+ */
+.OverlayDynamicFieldRichTextiFrame {
+    height: 400px;
+    width: 800px;
+}
+
+/**
  * subsection   Settings
  */
 
