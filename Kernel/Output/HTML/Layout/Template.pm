@@ -352,6 +352,10 @@ sub AddJSOnDocumentComplete {
 dynamically add JavaScript data that should be handed over to
 JavaScript via Core.Config.
 
+The booleans values C<true> and C<false> are not supported in the passed data structure.
+They would be serialized to C<"true"> and C<"false">, which are both true values.
+As a workaround, use C<"1"> for true and C<''> for false.
+
     $LayoutObject->AddJSData(
         Key   => 'Key1',  # the key to store this data
         Value => { ... }  # simple or complex data
@@ -377,6 +381,9 @@ JavaScript via Core.Config.
 The truthiness of the passed value is evaluated according to Perl rules.
 Contrary to JavaScript, the string C<'0'> is considered to be false.
 
+Actually no boolean values C<true> and C<false> are passed to JavaScript. The values C<"1"> and C<""> are used
+to indicate truthiness instead.
+
     $LayoutObject->AddJSBoolean(
         Key   => 'KeyBool1',  # the key to store this data
         Value => 2 > 1        # a variable or expression that should be passed as boolean to JavaScript
@@ -387,10 +394,12 @@ Contrary to JavaScript, the string C<'0'> is considered to be false.
 sub AddJSBoolean {
     my ( $Self, %Param ) = @_;
 
-    return $Self->AddJSBoolean(
-        Key   => $Param{Key},
-        Value => $Kernel::OM->Get('Kernel::System::JSON')->ToBoolean( $Param{Value} ),
-    );
+    return unless $Param{Key};
+
+    $Self->{_JSData} //= {};
+    $Self->{_JSData}->{ $Param{Key} } = $Param{Value} ? q{1} : q{};
+
+    return;
 }
 
 1;

@@ -207,6 +207,22 @@ END_JSON
             TypeAllString => 1,
         },
     },
+    {
+        Input  => $JSONObject->True(),
+        Result => '"true"',
+        Name   => q{JSON - TypeAllString bool true, don't do this in production},
+        Params => {
+            TypeAllString => 1,
+        },
+    },
+    {
+        Input  => $JSONObject->False(),
+        Result => '"false"',
+        Name   => q{JSON - TypeAllString bool false, don't do this in production},
+        Params => {
+            TypeAllString => 1,
+        },
+    },
 
     # more about zero
     {
