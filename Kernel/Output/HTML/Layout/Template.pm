@@ -66,7 +66,7 @@ Using a template string:
 
 AJAX-specific adjustments, this causes [% WRAPPER JSOnDocumentComplete %] blocks NOT
 to be replaced. This is important to be able to generate snippets which can be cached.
-Also, JavaScript data added with AddJSData() calls is appended to the output here.
+Also, JavaScript data added with AddJSData() or AddJSBoolean() calls is appended to the output here.
 
     my $HTML = $LayoutObject->Output(
         TemplateFile   => 'AdminLog.tt',
@@ -304,9 +304,7 @@ sub Output {
         }
     }
 
-    #
     # AddJSData() handling
-    #
     if ( $Param{AJAX} ) {
         my %Data = %{ $Self->{_JSData} // {} };
         if (%Data) {
@@ -364,12 +362,35 @@ JavaScript via Core.Config.
 sub AddJSData {
     my ( $Self, %Param ) = @_;
 
-    return if !$Param{Key};
+    return unless $Param{Key};
 
     $Self->{_JSData} //= {};
     $Self->{_JSData}->{ $Param{Key} } = $Param{Value};
 
     return;
+}
+
+=head2 AddJSBoolean()
+
+dynamically add JavaScript data that should be handed over to
+JavaScript via Core.Config.
+The truthiness of the passed value is evaluated according to Perl rules.
+Contrary to JavaScript, the string C<'0'> is considered to be false.
+
+    $LayoutObject->AddJSBoolean(
+        Key   => 'KeyBool1',  # the key to store this data
+        Value => 2 > 1        # a variable or expression that should be passed as boolean to JavaScript
+    );
+
+=cut
+
+sub AddJSBoolean {
+    my ( $Self, %Param ) = @_;
+
+    return $Self->AddJSBoolean(
+        Key   => $Param{Key},
+        Value => $Kernel::OM->Get('Kernel::System::JSON')->ToBoolean( $Param{Value} ),
+    );
 }
 
 1;
