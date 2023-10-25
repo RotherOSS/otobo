@@ -66,7 +66,7 @@ Using a template string:
 
 AJAX-specific adjustments, this causes [% WRAPPER JSOnDocumentComplete %] blocks NOT
 to be replaced. This is important to be able to generate snippets which can be cached.
-Also, JavaScript data added with AddJSData() calls is appended to the output here.
+Also, JavaScript data added with AddJSData() or AddJSBoolean() calls is appended to the output here.
 
     my $HTML = $LayoutObject->Output(
         TemplateFile   => 'AdminLog.tt',
@@ -304,18 +304,22 @@ sub Output {
         }
     }
 
-    #
     # AddJSData() handling
-    #
     if ( $Param{AJAX} ) {
         my %Data = %{ $Self->{_JSData} // {} };
         if (%Data) {
             my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-                Data     => \%Data,
-                SortKeys => 1,
+                Data          => \%Data,
+                SortKeys      => 1,
+                TypeAllString => 1,
             );
-            $Output
-                .= "\n<script type=\"text/javascript\">//<![CDATA[\n\"use strict\";\nCore.Config.AddConfig($JSONString);\n//]]></script>";
+            $Output .= <<"END_HTML";
+
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.Config.AddConfig($JSONString);
+//]]></script>
+END_HTML
         }
         delete $Self->{_JSData};
     }
@@ -348,6 +352,10 @@ sub AddJSOnDocumentComplete {
 dynamically add JavaScript data that should be handed over to
 JavaScript via Core.Config.
 
+The booleans values C<true> and C<false> are not supported in the passed data structure.
+They would be serialized to C<"true"> and C<"false">, which are both true values.
+As a workaround, use C<"1"> for true and C<''> for false.
+
     $LayoutObject->AddJSData(
         Key   => 'Key1',  # the key to store this data
         Value => { ... }  # simple or complex data
@@ -358,10 +366,38 @@ JavaScript via Core.Config.
 sub AddJSData {
     my ( $Self, %Param ) = @_;
 
-    return if !$Param{Key};
+    return unless $Param{Key};
 
     $Self->{_JSData} //= {};
     $Self->{_JSData}->{ $Param{Key} } = $Param{Value};
+
+    return;
+}
+
+=head2 AddJSBoolean()
+
+dynamically add JavaScript data that should be handed over to
+JavaScript via Core.Config.
+The truthiness of the passed value is evaluated according to Perl rules.
+Contrary to JavaScript, the string C<'0'> is considered to be false.
+
+Actually no boolean values C<true> and C<false> are passed to JavaScript. The values C<"1"> and C<""> are used
+to indicate truthiness instead.
+
+    $LayoutObject->AddJSBoolean(
+        Key   => 'KeyBool1',  # the key to store this data
+        Value => 2 > 1        # a variable or expression that should be passed as boolean to JavaScript
+    );
+
+=cut
+
+sub AddJSBoolean {
+    my ( $Self, %Param ) = @_;
+
+    return unless $Param{Key};
+
+    $Self->{_JSData} //= {};
+    $Self->{_JSData}->{ $Param{Key} } = $Param{Value} ? q{1} : q{};
 
     return;
 }

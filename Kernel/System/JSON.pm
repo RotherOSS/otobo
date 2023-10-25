@@ -70,9 +70,10 @@ An undefined value is fine too.
 The result will be Perl string that may have code points greater 255.
 
     my $JSONString = $JSONObject->Encode(
-        Data     => $Data,
-        SortKeys => 1,          # (optional) (0|1) default 0, to sort the keys of the json data
-        Pretty => 1,            # (optional) (0|1) default 0, to pretty print
+        Data          => $Data,
+        SortKeys      => 1, # (optional) (0|1) default 0, to sort the keys of the json data
+        Pretty        => 1, # (optional) (0|1) default 0, to pretty print
+        TypeAllString => 1, # (optional) (0|1) default 0, to pass numbers in double quotes
     );
 
 =cut
@@ -104,6 +105,11 @@ sub Encode {
     # pretty print - can be useful for debugging purposes
     if ( $Param{Pretty} ) {
         $JSONObject->pretty(1);
+    }
+
+    # put numbers into double quotes so that the JS side can be sure about what it will receive
+    if ( $Param{TypeAllString} ) {
+        $JSONObject->type_all_string(1);
     }
 
     # Serialise the Perl data structure into the format JSON.
@@ -244,7 +250,7 @@ in a Perl context.
         Data => $Constant,
     );
 
-In this cast the returned JSON will be the string C<q{false}>.
+In this case the returned JSON will be C<q{false}>. For true expressions we get C<q{true}>.
 
 =cut
 

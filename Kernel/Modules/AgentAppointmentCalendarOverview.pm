@@ -323,9 +323,9 @@ sub Run {
 
     # Get text direction from language object.
     my $TextDirection = $LayoutObject->{LanguageObject}->{TextDirection} || '';
-    $LayoutObject->AddJSData(
+    $LayoutObject->AddJSBoolean(
         Key   => 'IsRTLLanguage',
-        Value => $Kernel::OM->Get('Kernel::System::JSON')->ToBoolean( $TextDirection eq 'rtl' ),
+        Value => $TextDirection eq 'rtl',
     );
 
     $LayoutObject->AddJSData(
