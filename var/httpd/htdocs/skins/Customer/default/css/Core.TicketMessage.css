@@ -50,6 +50,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         margin-left: calc( 25% - 76px );
     }
 
+    .FieldCell > .Field > .RichTextHolder > .cke {
+        width: 100% !important;
+        margin-left: 0;
+    }
+
     #Subject {
         width: calc( 50% + 118px ) !important;
         margin-left: calc( 25% - 76px );
@@ -106,6 +111,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     #RichText {
         width: 66% !important;
         margin-left: 17%;
+    }
+
+    .Field > .RichTextHolder > .cke {
+        width: 100% !important;
+        margin-left: 0;
     }
 
     #Subject {

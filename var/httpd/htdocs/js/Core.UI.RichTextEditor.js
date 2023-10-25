@@ -296,6 +296,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 }
             });
 
+            // setting css class for dynamic field richtext label
+            $('.DynamicFieldRichText').parent().parent().parent().find('label').addClass('DynamicFieldRichTextLabel');
+
             // needed for client-side validation
             CKEDITOR.instances[EditorID].on('focus', function () {
 
