@@ -32,6 +32,7 @@ my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 isa_ok( $JSONObject, ['Kernel::System::JSON'], 'got a JSON object' );
 
 # Tests for JSON encode method
+my $Twelve      = 12;
 my @EncodeTests = (
     {
         Input  => undef,
@@ -74,6 +75,11 @@ my @EncodeTests = (
         Name   => 'JSON - positive integer'
     },
     {
+        Input  => $Twelve,
+        Result => '12',
+        Name   => 'JSON - positive integer from the variable $Twelve'
+    },
+    {
         Input  => -1_000_001,
         Result => '-1000001',
         Name   => 'JSON - negative integer'
@@ -83,6 +89,45 @@ my @EncodeTests = (
         Result => '0',
         Name   => 'JSON - integer zero'
     },
+
+    # stringification and numification
+    {
+        Input  => 288 . "",
+        Result => '"288"',
+        Name   => 'JSON - stringified by concatenating an empty string'
+    },
+    {
+        Input  => "$Twelve",
+        Result => '"12"',
+        Name   => 'JSON - stringified by putting in double quotes'
+    },
+    {
+        Input  => "$Twelve" + 0,
+        Result => '12',
+        Name   => 'JSON - "$Twelve" numified by adding zero',
+    },
+    {
+        Input  => "$Twelve asdf" + 0,
+        Result => '12.0',                                            # TODO: why the .0 ?
+        Name   => 'JSON - "$Twelve asdf" numified by adding zero',
+    },
+    {
+        Input  => "asdf" + 6,
+        Result => '6.0',                                             # TODO: why the .0 ?
+        Name   => 'JSON - non-numeral string plus six',
+    },
+    {
+        Input  => "$Twelve" * 1,
+        Result => '12',
+        Name   => 'JSON - "$Twelve" numified by multiplying with one',
+    },
+    {
+        Input  => "$Twelve asdf" * 1,
+        Result => '12.0',                                                     # TODO: why the .0 ?
+        Name   => 'JSON - "$Twelve asdf" numified by multiplying with one',
+    },
+
+    # more about zero
     {
         Input  => -0,
         Result => '0',
@@ -118,6 +163,8 @@ my @EncodeTests = (
         Result => '"-0"',
         Name   => 'JSON - string negative zero'
     },
+
+    # more data structures
     {
         Input  => [ 1, 2, "3", "Foo", 5 ],
         Result => '[1,2,"3","Foo",5]',
@@ -132,6 +179,8 @@ my @EncodeTests = (
         Result => '{"Key1":"Value1","Key2":42,"Key3":"Another Value"}',
         Name   => 'JSON - simple'
     },
+
+    # Booleans
     {
         Input  => $JSONObject->True(),
         Result => 'true',
@@ -212,6 +261,8 @@ my @EncodeTests = (
         Result => 'true',
         Name   => 'ToBoolean() with string q{0 but true}',
     },
+
+    # still more data structures
     {
         Input => [
             [ 1, 2, "Foo", "Bar" ],
