@@ -835,6 +835,30 @@ div.InputField_ToolbarContainer ul li a:hover {
 } */
 
 /**
+ * @subsection  DynamicFieldRichText
+ */
+
+.FieldCell > .Field > .RichTextHolder {
+    margin-top: 0;
+}
+
+.FieldCell > .Field ~ .DynamicFieldRichTextLabel {
+    border-radius: 10px;
+    top: -30px;
+    font-size: 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    color: #7f809d;
+    color: var(--colTextLight);
+    background-color:#ffffff;
+}
+
+.Field > .RichTextHolder > .cke {
+    width: 100% !important;
+    margin-left: 0;
+}
+
+/**
  * @subsection  jsTree theme
  */
 .jstree-InputField .jstree-node,
