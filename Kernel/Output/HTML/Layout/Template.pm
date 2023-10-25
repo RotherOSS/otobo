@@ -314,8 +314,13 @@ sub Output {
                 Data     => \%Data,
                 SortKeys => 1,
             );
-            $Output
-                .= "\n<script type=\"text/javascript\">//<![CDATA[\n\"use strict\";\nCore.Config.AddConfig($JSONString);\n//]]></script>";
+            $Output .= <<"END_HTML";
+
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.Config.AddConfig($JSONString);
+//]]></script>
+END_HTML
         }
         delete $Self->{_JSData};
     }
