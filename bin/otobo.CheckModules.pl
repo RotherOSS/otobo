@@ -1192,10 +1192,10 @@ my @BundledModules = (
         'VersionExact' => '1.40',
     },
     {
-        'VersionExact' => '0.14',
-        'Required'     => 1,
         'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Crypt/Random/Source.pm',
-        'Module'       => 'Crypt::Random::Source'
+        'Module'       => 'Crypt::Random::Source',
+        'Required'     => 1,
+        'VersionExact' => '0.14',
     },
     {
         'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/CSS/Minifier.pm',
@@ -1204,22 +1204,22 @@ my @BundledModules = (
         'VersionExact' => '0.01',
     },
     {
-        'VersionExact' => '2.02',
         'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Devel/StackTrace.pm',
         'Module'       => 'Devel::StackTrace',
         'Required'     => 1,
+        'VersionExact' => '2.02',
     },
     {
-        'VersionExact' => '1.202',
-        'Required'     => 1,
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Email/Valid.pm',
         'Module'       => 'Email::Valid',
-        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Email/Valid.pm'
+        'Required'     => 1,
+        'VersionExact' => '1.202',
     },
     {
-        'VersionExact' => '1.05',
-        'Required'     => 1,
+        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Encode/Locale.pm',
         'Module'       => 'Encode::Locale',
-        'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Encode/Locale.pm'
+        'Required'     => 1,
+        'VersionExact' => '1.05',
     },
     {
         'VersionExact' => '0.95',
@@ -1440,16 +1440,41 @@ my @BundledModules = (
         'VersionExact' => '1.44',
     },
     {
+        'Module'       => 'Text::Diff::FormattedHTML',
+        'Required'     => 1,
+        'VersionExact' => '0.08',
+    },
+    {
+        'Module'       => 'Text::Diff::HTML',
+        'Required'     => 1,
+        'VersionExact' => '0.07',
+    },
+    {
         'Required'     => 1,
         'Module'       => 'Type::Tiny',
         'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Type/Tiny.pm',
         'VersionExact' => '1.010000',
     },
     {
-        'VersionExact' => '2.25',
+        'Module'       => 'XML::FeedPP',
+        'Required'     => 1,
+        'VersionExact' => '0.43',
+    },
+    {
+        'Module'       => 'XML::LibXML::Simple',
+        'Required'     => 1,
+        'VersionExact' => '1.01',
+    },
+    {
         'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/XML/Simple.pm',
         'Module'       => 'XML::Simple',
         'Required'     => 1,
+        'VersionExact' => '2.25',
+    },
+    {
+        'Module'       => 'XML::TreePP',
+        'Required'     => 1,
+        'VersionExact' => '0.43',
     },
     {
         'VersionExact' => '1.23',
