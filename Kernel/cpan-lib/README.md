@@ -42,7 +42,9 @@ But that is not trivial. So here is an exemplar workflow:
     cp -r ../Kernel/cpan-lib/Plack local/lib/perl5/Plack              # the Plack plugins are not on CPAN
     cp -r ../Kernel/cpan-lib/README.md local/lib/perl5                # this instructions
     diff -r ../Kernel/cpan-lib/ local/lib/perl5/ > diff.out           # inspect the diff
-    rm -rf ../Kernel/cpan-lib/                                        # start on a clean slate
-    cp -r local/lib/perl5 Kernel/cpan-lib                             # only the new files
-    cd ../Kernel/cpan-lib
-    git diff
+    cd ..                                                             # back into the otobo dir
+    cp Kernel/cpan-lib/README.md README-cpan-lib.md                   # safe this file
+    rm -rf Kernel/cpan-lib/                                           # start on a clean slate
+    cp -r tmp-cpan-lib/local/lib/perl5 Kernel/cpan-lib                # only the new files
+    git status                                                        # inspect
+    git diff                                                          # inspect in detail
