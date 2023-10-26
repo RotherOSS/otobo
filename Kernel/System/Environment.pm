@@ -16,8 +16,11 @@
 
 package Kernel::System::Environment;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 use POSIX;
@@ -205,7 +208,7 @@ sub ModuleVersionGet {
 
 =head2 PerlInfoGet()
 
-collect perl information:
+collect Perl information:
 
     my %PerlInfo = $EnvironmentObject->PerlInfoGet();
 
@@ -235,8 +238,7 @@ sub PerlInfoGet {
 
     # collect perl data
     my %EnvPerl = (
-        PerlVersion => sprintf '%vd',
-        $^V,
+        PerlVersion => sprintf( '%vd', $^V ),
     );
 
     if ( $Param{BundledModules} ) {
@@ -244,68 +246,338 @@ sub PerlInfoGet {
         # Add bundled modules and their version.
         # Only the modules that correspond to their distribution are listed here.
         # E.g. Error::TypeTiny and Types::TypeTiny are not listed, as they belong to the distro Type::Tiny.
-        # TODO: list MailTools instead of Mail::Address and Mail::Internet
         # Devel::REPL::Plugin::OTOBO is supplied by OTOBO
+        my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
         my %ModuleToVersion =
             map { $_ => $Self->ModuleVersionGet( Module => $_ ) }
-            qw(
-            Algorithm::Diff
-            Class::Accessor
-            Class::Inspector
-            Class::ReturnValue
-            CPAN::Audit
-            CPAN::DistnameInfo
-            Data::ICal
-            Date::ICal
-            Crypt::PasswdMD5
-            Crypt::Random::Source
-            CSS::Minifier
-            Devel::StackTrace
-            Email::Valid
-            Encode::Locale
-            Excel::Writer::XLSX
-            Exporter::Tiny
-            File::Slurp
-            Font::TTF
-            HTTP::Message
-            IO::Interactive
-            IO::String
-            JavaScript::Minifier
-            JSON
-            JSON::PP
-            Lingua::Translit
-            Linux::Distribution
-            Locale::Codes
-            LWP::Protocol::https
-            Mail::Address
-            Mail::Internet
-            Math::Random::ISAAC
-            Math::Random::Secure
-            MIME::Tools
-            Module::CPANfile
-            Module::Find
-            Module::Refresh
-            Mozilla::CA
-            Net::IMAP::Simple
-            Net::HTTP
-            Net::SSLGlue
-            PDF::API2
-            Pod::Strip
-            REST::Client
-            Schedule::Cron::Events
-            Sisimai
-            SOAP::Lite
-            Sys::Hostname::Long
-            Text::CSV
-            Text::Diff
-            Type::Tiny
-            XML::Simple
-            YAML
-            );
+            map { $_->{Module} }
+            @BundledModules;
         $EnvPerl{Modules} = \%ModuleToVersion;
     }
 
     return %EnvPerl;
+}
+
+=head2 BundleModulesDeclarationGet()
+
+This returns the declaration of the modules that should be installed in C<Kernel/cpan-lib>.
+This list can be used as a reference for reporting and for generating a CPAN file.
+
+    my @BundledModules = $EnvironmentObject->BundleModulesDeclarationGet();
+
+returns list of hashrefs:
+
+    my @BundledModules = (
+        {
+            'Module'       => 'Algorithm::Diff',
+            'Required'     => 1,
+            'VersionExact' => '1.1903',
+        },
+        ...
+    );
+
+=cut
+
+sub BundleModulesDeclarationGet {
+    my ($Self) = @_;
+
+    return (
+        {
+            'Module'       => 'Algorithm::Diff',
+            'Required'     => 1,
+            'VersionExact' => '1.1903',
+        },
+        {
+            'Module'       => 'Class::Accessor',
+            'Required'     => 1,
+            'VersionExact' => '0.34',
+        },
+        {
+            'Module'       => 'Class::Inspector',
+            'Required'     => 1,
+            'VersionExact' => '1.31'
+        },
+        {
+            'Module'       => 'Class::ReturnValue',
+            'Required'     => 1,
+            'VersionExact' => '0.55',
+        },
+        {
+            'Module'       => 'CPAN::Audit',
+            'Required'     => 1,
+            'VersionExact' => '0.15',
+        },
+        {
+            'Module'       => 'CPAN::DistnameInfo',
+            'Required'     => 1,
+            'VersionExact' => '0.12',
+        },
+        {
+            'Module'       => 'Data::ICal',
+            'Required'     => 1,
+            'VersionExact' => '0.22',
+        },
+        {
+            'Module'       => 'Date::ICal',
+            'Required'     => 1,
+            'VersionExact' => '2.678',
+        },
+        {
+            'Module'       => 'Crypt::PasswdMD5',
+            'Required'     => 1,
+            'VersionExact' => '1.40',
+        },
+        {
+            'Module'       => 'Crypt::Random::Source',
+            'Required'     => 1,
+            'VersionExact' => '0.14',
+        },
+        {
+            'Module'       => 'CSS::Minifier',
+            'Required'     => 1,
+            'VersionExact' => '0.01',
+        },
+        {
+            'Module'       => 'Devel::StackTrace',
+            'Required'     => 1,
+            'VersionExact' => '2.02',
+        },
+        {
+            'Module'       => 'Email::Valid',
+            'Required'     => 1,
+            'VersionExact' => '1.202',
+        },
+        {
+            'Module'       => 'Encode::Locale',
+            'Required'     => 1,
+            'VersionExact' => '1.05',
+        },
+        {
+            'VersionExact' => '0.95',
+            'Module'       => 'Excel::Writer::XLSX',
+            'Required'     => 1,
+        },
+        {
+            'Required'     => 1,
+            'Module'       => 'Exporter::Tiny',
+            'VersionExact' => '1.002001',
+        },
+        {
+            'Module'       => 'File::Slurp',
+            'Required'     => 1,
+            'VersionExact' => '9999.19',
+        },
+        {
+            'VersionExact' => '1.06',
+            'Module'       => 'Font::TTF',
+            'Required'     => 1,
+        },
+        {
+            'Required'     => 1,
+            'Module'       => 'HTTP::Date',
+            'VersionExact' => '6.02',
+        },
+        {
+            'Required'     => 1,
+            'Module'       => 'HTTP::Message',
+            'VersionExact' => '6.13',
+        },
+        {
+            'Required'     => 1,
+            'Module'       => 'IO::Interactive',
+            'VersionExact' => '1.022',
+        },
+        {
+            'Module'       => 'IO::String',
+            'Required'     => 1,
+            'VersionExact' => '1.08',
+        },
+        {
+            'VersionExact' => '1.16',
+            'Required'     => 1,
+            'Module'       => 'JavaScript::Minifier'
+        },
+        {
+            'VersionExact' => '2.94',
+            'Required'     => 1,
+            'Module'       => 'JSON'
+        },
+        {
+            'Required'     => 1,
+            'Module'       => 'JSON::PP',
+            'VersionExact' => '2.27203',
+        },
+        {
+            'Required'     => 1,
+            'Module'       => 'Lingua::Translit',
+            'VersionExact' => '0.27',
+        },
+        {
+            'VersionExact' => '0.23',
+            'Module'       => 'Linux::Distribution',
+            'Required'     => 1,
+        },
+        {
+            'VersionExact' => '3.69',
+            'Module'       => 'Locale::Codes',
+            'Required'     => 1,
+        },
+        {
+            'Module'       => 'LWP::Protocol::https',
+            'Required'     => 1,
+            'VersionExact' => '6.11',
+        },
+        {
+            'Required'     => 1,
+            'Module'       => 'Mail::Address',
+            'VersionExact' => '2.18',
+        },
+        {
+            'VersionExact' => '2.18',
+            'Module'       => 'Mail::Internet',
+            'Required'     => 1,
+        },
+        {
+            'Module'       => 'Math::Random::ISAAC',
+            'Required'     => 1,
+            'VersionExact' => '1.004',
+        },
+        {
+            'Module'       => 'Math::Random::Secure',
+            'Required'     => 1,
+            'VersionExact' => '0.080001',
+        },
+        {
+            'Module'       => 'MIME::Tools',
+            'Required'     => 1,
+            'VersionExact' => '5.509',
+        },
+        {
+            'VersionExact' => '1.1004',
+            'Required'     => 1,
+            'Module'       => 'Module::CPANfile',
+        },
+        {
+            'VersionExact' => '0.15',
+            'Module'       => 'Module::Find',
+            'Required'     => 1,
+        },
+        {
+            'VersionExact' => '0.17',
+            'Module'       => 'Module::Refresh',
+            'Required'     => 1,
+        },
+        {
+            'VersionExact' => '20200520',
+            'Required'     => 1,
+            'Module'       => 'Mozilla::CA'
+        },
+        {
+            'Required'     => 1,
+            'Module'       => 'Net::IMAP::Simple',
+            'VersionExact' => '1.2209',
+        },
+        {
+            'VersionExact' => '6.17',
+            'Required'     => 1,
+            'Module'       => 'Net::HTTP',
+        },
+        {
+            'Required'     => 1,
+            'Module'       => 'Net::SSLGlue',
+            'VersionExact' => '1.058',
+        },
+        {
+            'Module'       => 'PDF::API2',
+            'Required'     => 1,
+            'VersionExact' => '2.033',
+        },
+        {
+            'VersionExact' => '1.02',
+            'Module'       => 'Pod::Strip',
+            'Required'     => 1,
+        },
+        {
+            'VersionExact' => '273',
+            'Module'       => 'REST::Client',
+            'Required'     => 1,
+        },
+        {
+            'Required'     => 1,
+            'Module'       => 'Schedule::Cron::Events',
+            'VersionExact' => '1.95',
+        },
+        {
+            'Module'       => 'Sisimai',
+            'Required'     => 1,
+            'VersionExact' => 'v4.24.1',
+        },
+        {
+            'Module'       => 'Sisimai',
+            'Required'     => 1,
+            'VersionExact' => 'v4.24.1'
+        },
+        {
+            'Module'       => 'SOAP::Lite',
+            'Required'     => 1,
+            'VersionExact' => '1.20',
+        },
+        {
+            'VersionExact' => '1.5',
+            'Required'     => 1,
+            'Module'       => 'Sys::Hostname::Long'
+        },
+        {
+            'VersionExact' => '1.95',
+            'Required'     => 1,
+            'Module'       => 'Text::CSV',
+        },
+        {
+            'Module'       => 'Text::Diff',
+            'Required'     => 1,
+            'VersionExact' => '1.44',
+        },
+        {
+            'Module'       => 'Text::Diff::FormattedHTML',
+            'Required'     => 1,
+            'VersionExact' => '0.08',
+        },
+        {
+            'Module'       => 'Text::Diff::HTML',
+            'Required'     => 1,
+            'VersionExact' => '0.07',
+        },
+        {
+            'Required'     => 1,
+            'Module'       => 'Type::Tiny',
+            'VersionExact' => '1.010000',
+        },
+        {
+            'Module'       => 'XML::FeedPP',
+            'Required'     => 1,
+            'VersionExact' => '0.43',
+        },
+        {
+            'Module'       => 'XML::LibXML::Simple',
+            'Required'     => 1,
+            'VersionExact' => '1.01',
+        },
+        {
+            'Module'       => 'XML::Simple',
+            'Required'     => 1,
+            'VersionExact' => '2.25',
+        },
+        {
+            'Module'       => 'XML::TreePP',
+            'Required'     => 1,
+            'VersionExact' => '0.43',
+        },
+        {
+            'VersionExact' => '1.23',
+            'Module'       => 'YAML',
+            'Required'     => 1,
+        }
+    );
 }
 
 =head2 DBInfoGet()
