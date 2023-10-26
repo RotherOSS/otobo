@@ -125,7 +125,7 @@ sub ValueSet {
     my $LensDFConfig = $Param{DynamicFieldConfig};
 
     # as we are already saving we trust, that the reference edit field has been validated
-    my $ReferencedObjectID = $Self->_GetReferencedObjectID(
+    my $ReferencedObjectID->@* = $Self->_GetReferencedObjectID(
         ObjectID               => $Param{ObjectID},
         LensDynamicFieldConfig => $LensDFConfig,
         EditFieldValue         => 1,
