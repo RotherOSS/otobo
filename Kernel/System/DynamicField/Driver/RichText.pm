@@ -36,6 +36,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::HTMLUtils',
     'Kernel::System::User',
 );
 
@@ -351,6 +352,43 @@ sub DisplayValueRender {
     return false;
 });
 EOF
+
+    # get HTML utils object
+    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+
+    # remove active html content (scripts, applets, etc...)
+    my %SafeContent = $HTMLUtilsObject->Safety(
+        String       => $Value,
+        NoApplet     => 1,
+        NoObject     => 1,
+        NoEmbed      => 1,
+        NoIntSrcLoad => 0,
+        NoExtSrcLoad => 0,
+        NoJavaScript => 1,
+    );
+
+    # take the safe content if neccessary
+    if ( $SafeContent{Replace} ) {
+        $Value = $SafeContent{String};
+    }
+
+    # detect all plain text links and put them into an HTML <a> tag
+    $Value = $HTMLUtilsObject->LinkQuote(
+        String => $Value,
+    );
+
+    # set target="_blank" attribute to all HTML <a> tags
+    # the LinkQuote function needs to be called again
+    $Value = $HTMLUtilsObject->LinkQuote(
+        String    => $Value,
+        TargetAdd => 1,
+    );
+
+    # add needed HTML headers
+    $Value = $HTMLUtilsObject->DocumentComplete(
+        String  => $Value,
+        Charset => 'utf-8',
+    );
 
     # add js to call FormUpdate()
     $Param{LayoutObject}->AddJSOnDocumentComplete( Code => $JSCode );

@@ -14,8 +14,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<a href="#" id="ShowDynamicFieldRichText_[% Data.FieldName | html %]">[% Translate("Show Full Text") | html %]</a>
-<div id="DynamicFieldRichText_[% Data.FieldName | html %]" class="Hidden">
+<a href="#" id="ShowDynamicFieldRichText_[% Data.FieldName | html %]" class="DynamicFieldRichTextLink">[% Translate("Show Full Text") | html %]</a>
+<div id="DynamicFieldRichText_[% Data.FieldName | html %]" class="DynamicFieldRichTextContent Hidden">
 [% RenderBlockStart("BrowserLinkMessage") %]
     # Show info, that links within the iframe must be clicked with strg/cmd/shift (depending on the used browser and os)
     # to open the links in a new window without the security permissions given to the iframe
