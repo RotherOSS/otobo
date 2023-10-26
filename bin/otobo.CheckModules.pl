@@ -50,6 +50,11 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     # This file is used in otobo.web.dockerfile.
     bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
+    # Print a cpanfile with the required modules for Kernel/cpan-lib
+    # This file is only used for sporadic updates
+    mkdir tmp-cpan-lib
+    bin/otobo.CheckModules.pl --bundled-cpanfile > tmp-cpan-lib/cpanfile
+
 =head1 DESCRIPTION
 
 This scripts can be used for checking whether required Perl modules are installed.
@@ -79,7 +84,7 @@ use Pod::Usage;
 
 # OTOBO modules
 use Kernel::System::Environment;
-use Kernel::System::VariableCheck qw( :all );
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 my %InstTypeToCMD = (
 
@@ -227,19 +232,21 @@ my $DoPrintPackageList;
 my $DoPrintFeatures;
 my $DoPrintCpanfile;
 my $DoPrintDockerCpanfile;
+my $DoPrintBundledCpanfile;
 my $DoPrintHelp;
 my @FeatureList;
 my @FeatureInstList;
 GetOptions(
-    'help|h'          => \$DoPrintHelp,
-    inst              => \$DoPrintInstCommand,
-    list              => \$DoPrintPackageList,
-    all               => \$DoPrintAllModules,
-    features          => \$DoPrintFeatures,
-    'finst=s{1,}'     => \@FeatureInstList,
-    'flist=s{1,}'     => \@FeatureList,
-    cpanfile          => \$DoPrintCpanfile,
-    'docker-cpanfile' => \$DoPrintDockerCpanfile,
+    'help|h'           => \$DoPrintHelp,
+    'inst'             => \$DoPrintInstCommand,
+    'list'             => \$DoPrintPackageList,
+    'all'              => \$DoPrintAllModules,
+    'features'         => \$DoPrintFeatures,
+    'finst=s{1,}'      => \@FeatureInstList,
+    'flist=s{1,}'      => \@FeatureList,
+    'cpanfile'         => \$DoPrintCpanfile,
+    'docker-cpanfile'  => \$DoPrintDockerCpanfile,
+    'bundled-cpanfile' => \$DoPrintBundledCpanfile,
 ) || pod2usage(2);
 
 if (@FeatureList) {
@@ -248,7 +255,16 @@ if (@FeatureList) {
 elsif (@FeatureInstList) {
     $DoPrintInstCommand = 1;
 }
-elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !$DoPrintFeatures && !$DoPrintCpanfile && !$DoPrintDockerCpanfile ) {
+elsif (
+    !$DoPrintAllModules
+    && !$DoPrintInstCommand
+    && !$DoPrintPackageList
+    && !$DoPrintFeatures
+    && !$DoPrintCpanfile
+    && !$DoPrintDockerCpanfile
+    && !$DoPrintBundledCpanfile
+    )
+{
     $DoPrintHelp = 1;
 }
 
@@ -262,7 +278,7 @@ if ($DoPrintHelp) {
 my $Options = shift || '';
 my $NoColors;
 
-if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
+if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $DoPrintBundledCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
     $NoColors = 1;
 }
 
@@ -1164,6 +1180,21 @@ END_HEADER
 
     PrintCpanfile( \@NeededModules, 1, 1, 1 );
 }
+elsif ($DoPrintBundledCpanfile) {
+    say <<'END_HEADER';
+# This cpanfile can be used for updating Kernel/cpan-lib. See Kernel/cpan-lib/README.md for details.
+#
+# Do not change this file manually.
+# Instead adapt the module list in the method Kernel::System::Environment::BundleModulesDeclarationGet()
+# and call:
+#    mkdir tmp-cpan-lib
+#    ./bin/otobo.CheckModules.pl --bundled-cpanfile > tmp-cpan-lib/cpanfile
+#
+END_HEADER
+
+    my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
+    PrintCpanfile( \@BundledModules, 1, 0, 0 );
+}
 elsif ($DoPrintInstCommand) {
 
     my @SelectedModules;
@@ -1627,6 +1658,11 @@ sub PrintCpanfile {
                 else {
                     if ( $Module->{VersionRequired} ) {
                         push @Conditions, ">= $Module->{VersionRequired}";
+                    }
+
+                    # currently only used for the bundled modules
+                    if ( $Module->{VersionExact} ) {
+                        push @Conditions, "== $Module->{VersionExact}";
                     }
 
                     if ( $Module->{VersionsNotSupported} ) {
