@@ -18,13 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -47,7 +49,7 @@ $Selenium->RunTest(
             },
             {
                 Key           => 'Subaction',
-                ExpectedValue => '',            # default of Subaction as set up in Kernel/System/Web/InterfaceAgent.pm
+                ExpectedValue => undef,
                 Environment   => 1,
             },
             {
@@ -96,7 +98,7 @@ $Selenium->RunTest(
             },
         );
 
-        # set the expected values
+        # set the expected values for the settings that are taken from the SysConfig
         TEST:
         for my $Test (@Tests) {
 
@@ -132,7 +134,7 @@ $Selenium->RunTest(
             my $Key = $Test->{JSKey} // $Test->{Key};
 
             # check value
-            $Self->Is(
+            is(
                 $Selenium->execute_script(
                     "return Core.Config.Get('$Key');"
                 ),
@@ -143,4 +145,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;
