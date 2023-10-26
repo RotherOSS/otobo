@@ -49,7 +49,7 @@ sub Run {
     my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');
 
     # Check if ticket type is enabled.
-    my $TypeNotActive;
+    my $TypeNotActive = '';
     if ( !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type') ) {
         $TypeNotActive = $LayoutObject->Notify(
             Priority => 'Error',
