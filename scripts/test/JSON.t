@@ -108,12 +108,12 @@ my @EncodeTests = (
     },
     {
         Input  => "$Twelve asdf" + 0,
-        Result => '12.0',                                            # TODO: why the .0 ?
+        Result => '12',
         Name   => 'JSON - "$Twelve asdf" numified by adding zero',
     },
     {
         Input  => "asdf" + 6,
-        Result => '6.0',                                             # TODO: why the .0 ?
+        Result => '6',
         Name   => 'JSON - non-numeral string plus six',
     },
     {
@@ -123,106 +123,107 @@ my @EncodeTests = (
     },
     {
         Input  => "$Twelve asdf" * 1,
-        Result => '12.0',                                                     # TODO: why the .0 ?
+        Result => '12',
         Name   => 'JSON - "$Twelve asdf" numified by multiplying with one',
     },
 
     # TypeAllString
-    {
-        Input  => -12,
-        Result => '"-12"',
-        Name   => 'JSON - TypeAllString with -12',
-        Params => {
-            TypeAllString => 1,
-        },
-    },
-    {
-        Input  => 12,
-        Result => '"12"',
-        Name   => 'JSON - TypeAllString with 12',
-        Params => {
-            TypeAllString => 1,
-        },
-    },
-    {
-        Input  => +12,
-        Result => '"12"',
-        Name   => 'JSON - TypeAllString with +12',
-        Params => {
-            TypeAllString => 1,
-        },
-    },
-    {
-        Input  => 0,
-        Result => '"0"',
-        Name   => 'JSON - TypeAllString with number zero',
-        Params => {
-            TypeAllString => 1,
-        },
-    },
-    {
-        Input  => "0",
-        Result => '"0"',
-        Name   => 'JSON - TypeAllString with string containing the digit zero',
-        Params => {
-            TypeAllString => 1,
-        },
-    },
-    {
-        Input  => "Çe pa un niméro",
-        Result => '"Çe pa un niméro"',
-        Name   => 'JSON - TypeAllString with Kouri-Vini',
-        Params => {
-            TypeAllString => 1,
-        },
-    },
-    {
-        Input => {
-            AAA => "Çe pa un niméro",
-            BBB => 0,
-            CCC => "0",
-            DDD => -12,
-            EEE => "-12",
-            FFF => [ "Çe pa un niméro", 0, "0", -12, "-12" ],
-        },
-        Result => <<'END_JSON',
-{
-   "AAA" : "Çe pa un niméro",
-   "BBB" : "0",
-   "CCC" : "0",
-   "DDD" : "-12",
-   "EEE" : "-12",
-   "FFF" : [
-      "Çe pa un niméro",
-      "0",
-      "0",
-      "-12",
-      "-12"
-   ]
-}
-END_JSON
-        Name   => 'JSON - TypeAllString with nested data',
-        Params => {
-            Pretty        => 1,
-            TypeAllString => 1,
-        },
-    },
-    {
-        Input  => $JSONObject->True(),
-        Result => '"true"',
-        Name   => q{JSON - TypeAllString bool true, don't do this in production},
-        Params => {
-            TypeAllString => 1,
-        },
-    },
-    {
-        Input  => $JSONObject->False(),
-        Result => '"false"',
-        Name   => q{JSON - TypeAllString bool false, don't do this in production},
-        Params => {
-            TypeAllString => 1,
-        },
-    },
+    # These tests were meant for Cpanel::JSON::XS
+    #    {
+    #        Input  => -12,
+    #        Result => '"-12"',
+    #        Name   => 'JSON - TypeAllString with -12',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => 12,
+    #        Result => '"12"',
+    #        Name   => 'JSON - TypeAllString with 12',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => +12,
+    #        Result => '"12"',
+    #        Name   => 'JSON - TypeAllString with +12',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => 0,
+    #        Result => '"0"',
+    #        Name   => 'JSON - TypeAllString with number zero',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => "0",
+    #        Result => '"0"',
+    #        Name   => 'JSON - TypeAllString with string containing the digit zero',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => "Çe pa un niméro",
+    #        Result => '"Çe pa un niméro"',
+    #        Name   => 'JSON - TypeAllString with Kouri-Vini',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input => {
+    #            AAA => "Çe pa un niméro",
+    #            BBB => 0,
+    #            CCC => "0",
+    #            DDD => -12,
+    #            EEE => "-12",
+    #            FFF => [ "Çe pa un niméro", 0, "0", -12, "-12" ],
+    #        },
+    #        Result => <<'END_JSON',
+    #{
+    #   "AAA" : "Çe pa un niméro",
+    #   "BBB" : "0",
+    #   "CCC" : "0",
+    #   "DDD" : "-12",
+    #   "EEE" : "-12",
+    #   "FFF" : [
+    #      "Çe pa un niméro",
+    #      "0",
+    #      "0",
+    #      "-12",
+    #      "-12"
+    #   ]
+    #}
+    #END_JSON
+    #        Name   => 'JSON - TypeAllString with nested data',
+    #        Params => {
+    #            Pretty        => 1,
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => $JSONObject->True(),
+    #        Result => '"true"',
+    #        Name   => q{JSON - TypeAllString bool true, don't do this in production},
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => $JSONObject->False(),
+    #        Result => '"false"',
+    #        Name   => q{JSON - TypeAllString bool false, don't do this in production},
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
 
     # more about zero
     {
@@ -232,12 +233,12 @@ END_JSON
     },
     {
         Input  => 0.000,
-        Result => q{0.0},
+        Result => q{0},                 # not obvious why there is no fractional part
         Name   => 'JSON - float zero'
     },
     {
         Input  => -0.000,
-        Result => q{-0.0},
+        Result => q{-0},                         # not obvious why there is no fractional part
         Name   => 'JSON - negative float zero'
     },
     {

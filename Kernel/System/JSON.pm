@@ -25,7 +25,8 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Cpanel::JSON::XS;
+use JSON::XS;
+use Types::Serialiser;
 use Try::Tiny;
 
 # OTOBO modules
@@ -36,7 +37,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::JSON - JSON lib that wraps Cpanel::JSON::XS
+Kernel::System::JSON - JSON lib that wraps JSON::XS
 
 =head1 DESCRIPTION
 
@@ -73,7 +74,6 @@ The result will be Perl string that may have code points greater 255.
         Data          => $Data,
         SortKeys      => 1, # (optional) (0|1) default 0, to sort the keys of the json data
         Pretty        => 1, # (optional) (0|1) default 0, to pretty print
-        TypeAllString => 1, # (optional) (0|1) default 0, to pass numbers in double quotes
     );
 
 =cut
@@ -92,7 +92,7 @@ sub Encode {
     }
 
     # create a JSON::XS compatible object
-    my $JSONObject = Cpanel::JSON::XS->new;
+    my $JSONObject = JSON::XS->new;
 
     # grudgingly accept data that is neither a hash- nor an array reference
     $JSONObject->allow_nonref(1);
@@ -107,10 +107,13 @@ sub Encode {
         $JSONObject->pretty(1);
     }
 
-    # put numbers into double quotes so that the JS side can be sure about what it will receive
-    if ( $Param{TypeAllString} ) {
-        $JSONObject->type_all_string(1);
-    }
+    # Briefly the option TypeAllString was supported. The aim was
+    # to put numbers into double quotes so that the JS side can be sure about what it will receive.
+    # However the type_all_string attribute is only available in Cpanel::JSON::XS >= 4.18. So this
+    # feature can't be used in OTOBO and the option has been removed.
+    #if ( $Param{TypeAllString} ) {
+    #    $JSONObject->type_all_string(1);
+    #}
 
     # Serialise the Perl data structure into the format JSON.
     #
@@ -176,13 +179,13 @@ sub Decode {
     return unless defined $Param{Data};
 
     # create a JSON::XS compatible object that does the actual parsing
-    my $JSONObject = Cpanel::JSON::XS->new;
+    my $JSONObject = JSON::XS->new;
 
     # grudgingly accept data that is neither a hash- nor an array reference
     $JSONObject->allow_nonref(1);
 
     # Deserialize JSON and get a Perl data structure.
-    # Use Try::Tiny as Cpanel::JSON::XS->decode() dies when providing a malformed JSON string.
+    # Use Try::Tiny as JSON::XS->decode() dies when providing a malformed JSON string.
     # In that case we want to return an empty list.
     my $Success = 1;
     my $Scalar  = try {
@@ -220,7 +223,7 @@ as a JSON string instead.
 =cut
 
 sub True {
-    return Cpanel::JSON::XS::true;
+    return Types::Serialiser::true;
 }
 
 =head2 False()
@@ -237,7 +240,7 @@ This returns the String C<q{false}>.
 =cut
 
 sub False {
-    return Cpanel::JSON::XS::false;
+    return Types::Serialiser::false;
 }
 
 =head2 ToBoolean()

@@ -67,7 +67,7 @@ END_HTML
 
 <script type="text/javascript">//<![CDATA[
 "use strict";
-Core.Config.AddConfig({"Key1":""});
+Core.Config.AddConfig({"Key1":false});
 //]]></script>
 END_HTML
     },
@@ -81,7 +81,7 @@ END_HTML
 
 <script type="text/javascript">//<![CDATA[
 "use strict";
-Core.Config.AddConfig({"Key1":""});
+Core.Config.AddConfig({"Key1":false});
 //]]></script>
 END_HTML
     },
@@ -95,7 +95,7 @@ END_HTML
 
 <script type="text/javascript">//<![CDATA[
 "use strict";
-Core.Config.AddConfig({"Key1":""});
+Core.Config.AddConfig({"Key1":false});
 //]]></script>
 END_HTML
     },
@@ -109,7 +109,7 @@ END_HTML
 
 <script type="text/javascript">//<![CDATA[
 "use strict";
-Core.Config.AddConfig({"Key1":""});
+Core.Config.AddConfig({"Key1":false});
 //]]></script>
 END_HTML
     },
@@ -123,7 +123,7 @@ END_HTML
 
 <script type="text/javascript">//<![CDATA[
 "use strict";
-Core.Config.AddConfig({"Key1":"1"});
+Core.Config.AddConfig({"Key1":true});
 //]]></script>
 END_HTML
     },
@@ -137,7 +137,7 @@ END_HTML
 
 <script type="text/javascript">//<![CDATA[
 "use strict";
-Core.Config.AddConfig({"Key1":"1"});
+Core.Config.AddConfig({"Key1":true});
 //]]></script>
 END_HTML
     },
@@ -151,7 +151,7 @@ END_HTML
 
 <script type="text/javascript">//<![CDATA[
 "use strict";
-Core.Config.AddConfig({"Key1":"1"});
+Core.Config.AddConfig({"Key1":true});
 //]]></script>
 END_HTML
     },
@@ -165,7 +165,7 @@ END_HTML
 
 <script type="text/javascript">//<![CDATA[
 "use strict";
-Core.Config.AddConfig({"Key1":"1"});
+Core.Config.AddConfig({"Key1":true});
 //]]></script>
 END_HTML
     },
@@ -179,7 +179,7 @@ END_HTML
 
 <script type="text/javascript">//<![CDATA[
 "use strict";
-Core.Config.AddConfig({"Key1":"1"});
+Core.Config.AddConfig({"Key1":true});
 //]]></script>
 END_HTML
     },
