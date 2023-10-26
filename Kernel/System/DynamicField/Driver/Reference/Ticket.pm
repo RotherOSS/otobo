@@ -71,6 +71,7 @@ sub GetFieldTypeSettings {
                 InputType       => 'Selection',
                 SelectionData   => \%TypeID2Name,
                 PossibleNone    => 1,
+                Multiple        => 1,
             };
     }
 
@@ -81,7 +82,7 @@ sub GetFieldTypeSettings {
 
 checks read permission for a given object and UserID.
 
-    $Permission = $LinkObject->ObjectPermission(
+    $Permission = $PluginObject->ObjectPermission(
         Key     => 123,
         UserID  => 1,
     );
@@ -104,9 +105,9 @@ sub ObjectPermission {
     }
 
     return $Kernel::OM->Get('Kernel::System::Ticket')->TicketPermission(
-        Type     => 'ro',
         TicketID => $Param{Key},
         UserID   => $Param{UserID},
+        Type     => 'ro',
     );
 }
 
@@ -161,6 +162,7 @@ sub ObjectDescriptionGet {
     my $Link;
     if ( $Param{Link} && $Param{LayoutObject}{SessionSource} ) {
         if ( $Param{LayoutObject}{SessionSource} eq 'AgentInterface' ) {
+
             # TODO: only show the link if the user $Param{UserID} has permissions
             $Link = $Param{LayoutObject}{Baselink} . "Action=AgentTicketZoom;TicketID=$Param{ObjectID}";
         }
