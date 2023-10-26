@@ -319,15 +319,15 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Cpanel::JSON::XS',
+        Module    => 'JSON::XS',
         Required  => 1,
-        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
+        Comment   => 'JSON parsing and generation',
         InstTypes => {
-            aptget => 'libcpanel-json-xs-perl',
-            emerge => 'dev-perl/Cpanel-JSON-XS',
-            yum    => 'perl-Cpanel-JSON-XS',
-            zypper => 'perl-Cpanel-JSON-XS',
-            ports  => 'converters/p5-Cpanel-JSON-XS',
+            aptget => 'libjson-xs-perl',
+            emerge => 'dev-perl/JSON-XS',
+            yum    => 'perl-JSON-XS',
+            zypper => 'perl-JSON-XS',
+            ports  => 'converters/p5-JSON-XS',
         },
     },
     {
@@ -630,6 +630,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Cpanel::JSON::XS',
+        Features  => ['storage:s3'],
+        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            yum    => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Mojolicious::Plugin::AWS',
         Features  => ['storage:s3'],
         Comment   => 'support for S3 using Mojo::UserAgent',
@@ -656,9 +668,9 @@ my @NeededModules = (
                 Comment => q{This version can't be installed with the MariaDB client library.},
             },
         ],
-        Features             => ['db:mysql'],
-        Comment              => 'Required to connect to a MariaDB or MySQL database.',
-        InstTypes            => {
+        Features  => ['db:mysql'],
+        Comment   => 'Required to connect to a MariaDB or MySQL database.',
+        InstTypes => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',
             zypper => 'perl-DBD-mysql',

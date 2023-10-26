@@ -381,8 +381,7 @@ JavaScript via Core.Config.
 The truthiness of the passed value is evaluated according to Perl rules.
 Contrary to JavaScript, the string C<'0'> is considered to be false.
 
-Actually no boolean values C<true> and C<false> are passed to JavaScript. The values C<"1"> and C<""> are used
-to indicate truthiness instead.
+Using this method ensures that the boolean values C<true> and C<false> are passed to JavaScript.
 
     $LayoutObject->AddJSBoolean(
         Key   => 'KeyBool1',  # the key to store this data
@@ -394,12 +393,13 @@ to indicate truthiness instead.
 sub AddJSBoolean {
     my ( $Self, %Param ) = @_;
 
-    return unless $Param{Key};
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+    my $Value      = $Param{Value} ? $JSONObject->True : $JSONObject->False;
 
-    $Self->{_JSData} //= {};
-    $Self->{_JSData}->{ $Param{Key} } = $Param{Value} ? q{1} : q{};
-
-    return;
+    return $Self->AddJSData(
+        Key   => $Param{Key},
+        Value => $Value,
+    );
 }
 
 1;
