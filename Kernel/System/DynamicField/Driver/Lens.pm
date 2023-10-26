@@ -98,25 +98,16 @@ sub ValueGet {
         EditFieldValue         => $Param{UseReferenceEditField},
     );
 
-    return unless ref $ReferencedObjectID;
-    return unless $ReferencedObjectID->@*;
+    return unless $ReferencedObjectID;
 
     my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
     );
 
-    # Lenses return at most one value, so we don't have to loop here.
-    my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-    my @Values        = map {
-        $BackendObject->ValueGet(
-            DynamicFieldConfig => $AttributeDFConfig,
-            ObjectID           => $_,
-        );
-    } $ReferencedObjectID->@*;
-
-    # TODO: for now return a non-nested list, but that does not work for all values
-    #       This might fail for text fields.
-    return [ map { ref $_ ? $_->@* : $_ } @Values ];
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
+        DynamicFieldConfig => $AttributeDFConfig,
+        ObjectID           => $ReferencedObjectID,
+    );
 }
 
 sub ValueSet {
@@ -131,9 +122,7 @@ sub ValueSet {
         EditFieldValue         => 1,
     );
 
-    # TODO: Do we want to log this?
-    return unless ref $ReferencedObjectID;
-    return unless $ReferencedObjectID->@*;
+    return unless $ReferencedObjectID;
 
     my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
@@ -146,7 +135,7 @@ sub ValueSet {
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
         %Param,
         DynamicFieldConfig => $AttributeDFConfig,
-        ObjectID           => $ReferencedObjectID->[0],
+        ObjectID           => $ReferencedObjectID,
         ObjectType         => $ReferenceDFConfig->{Config}->{ReferencedObjectType},
     );
 }
@@ -632,19 +621,26 @@ sub _GetReferencedObjectID {
     );
 
     if ( $Param{EditFieldValue} ) {
-        return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
+
+        my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
             DynamicFieldConfig => $ReferenceDFConfig,
             ParamObject        => $Kernel::OM->Get('Kernel::System::Web::Request'),
             TransformDates     => 0,
             ForLens            => 1,
         );
+
+        return $ObjectID->[0] if ref $ObjectID;
+        return $ObjectID;
     }
 
-    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
+    my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $ReferenceDFConfig,
         ObjectID           => $Param{ObjectID},
         ForLens            => 1,
     );
+
+    return $ObjectID->[0] if ref $ObjectID;
+    return $ObjectID;
 }
 
 1;
