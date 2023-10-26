@@ -1305,6 +1305,11 @@ my @BundledModules = (
         'Required'     => 1,
     },
     {
+        'Module'       => 'LWP::Protocol::https',
+        'Required'     => 1,
+        'VersionExact' => '6.11',
+    },
+    {
         'Required'     => 1,
         'Module'       => 'Mail::Address',
         'File'         => '/home/bernhard/devel/OTOBO/otobo/Kernel/cpan-lib/Mail/Address.pm',
