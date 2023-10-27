@@ -6702,7 +6702,7 @@ Ihr Helpdesk-Team
             'Kategorien für die Ticketdarstellung. Ist hier keine Standardfarbe angegeben, wird der Artikel nicht angezeigt, sofern im Color Hash keine Auswahl getroffen wurde. Optional kann das Attribut Text ergänzt werden, um den Feldwert zu überschreiben. Außerdem können Vorlagenmethoden verwendet werden (z.B. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Analog kann das Attribut Link auf die gleiche Weise verwendet werden.',
         'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Link can be used the same way.' =>
             'In der Ticketdarstellung verwendete Kategorien. Die Reihenfolge hier bestimmt nur die Ausgangsposition vor der Größenanordnung. Ist keine Standardfarbe angegeben, wird das Element nicht angezeigt, sofern die Auswahl nicht im Farb-Hash definiert wurde. Optional kann das Attribut Text hinzugefügt werden, um den Feldwert zu überschreiben. Hierzu können Template-Methoden eingesetzt werden (z. B. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Das Attribut Link kann auf die gleiche Weise verwendet werden.',
-        'Change Ticket' => 'Ticket kategorisieren',
+        'Change Ticket' => 'Ticket ändern',
         'Change Ticket information' => 'Ticketinformationen ändern',
         'Change queue!' => 'Queue ändern!',
         'Change the customer for this ticket' => 'Ticket-Kunden ändern',
