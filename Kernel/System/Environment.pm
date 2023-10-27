@@ -543,11 +543,6 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '0.08',
         },
         {
-            'Module'       => 'Text::Diff::HTML',
-            'Required'     => 1,
-            'VersionExact' => '0.07',
-        },
-        {
             'Required'     => 1,
             'Module'       => 'Type::Tiny',
             'VersionExact' => '1.010000',

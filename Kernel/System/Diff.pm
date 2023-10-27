@@ -16,13 +16,19 @@
 
 package Kernel::System::Diff;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
-use Text::Diff::HTML;
+# core modules
+
+# CPAN modules
+use Text::Diff;
 use Text::Diff::FormattedHTML;
 
-# Prevent used once warning.
+# OTOBO modules
 use Kernel::System::ObjectManager;
 
 our @ObjectDependencies = (
@@ -44,6 +50,7 @@ Compare two strings and display difference.
 create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $DiffObject = $Kernel::OM->Get('Kernel::System::Diff');
 
@@ -53,13 +60,11 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 Compare()
+
 Compare two strings and return diff.
 
     $DiffObject->Compare(
@@ -70,11 +75,17 @@ Compare two strings and return diff.
     Result:
     my %Diff = (
         HTML  => '<table class="DataTable diff">
-<tr class=\'change\'><td><em>1</em></td><td><em>1</em></td><td>Test <del>1</del></td><td>Test <ins>2</ins></td></tr>
+<tr class=\'change\'><td><em>1</em></td><td><em>1</em></td><td>String <del>1</del></td><td>String <ins>2</ins></td></tr>
 </table>
 ',
         Plain => '<div class="file"><span class="fileheader"></span><div class="hunk"><span class="hunkheader">@@ -1 +1 @@
-</span><del>- Test 1</del><ins>+ Test 2</ins><span class="hunkfooter"></span></div><span class="filefooter"></span></div>'
+        Plain => <<'END_TXT',
+@@ -1 +1 @@
+-String 1
+\ No newline at end of file
++String 2
+\ No newline at end of file
+END_TXT
         },
     );
 
@@ -89,6 +100,7 @@ sub Compare {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -106,7 +118,7 @@ sub Compare {
     $Result{HTML} =~ s{<td>(.[^<]*)<\/td>}{<td><span>$1</span></td>}xmsg;
 
     # Get plain diff.
-    $Result{Plain} = Text::Diff::diff( \$Param{Source}, \$Param{Target}, { STYLE => "Text::Diff::HTML" } );
+    $Result{Plain} = Text::Diff::diff( \$Param{Source}, \$Param{Target} );
 
     return %Result;
 }

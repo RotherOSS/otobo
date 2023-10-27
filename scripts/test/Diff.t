@@ -14,35 +14,36 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
-# Prevent used once warning.
-use Kernel::System::ObjectManager;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 my @CompareTests = (
     {
-        Description => 'Test #1 - missing Source',
+        Description => 'Source is missing, empty list is returned',
         Config      => {
             Target => 'Test 2',
         },
-        ExpectedResult => undef,
+        ExpectedResult => {},
     },
     {
-        Description => 'Test #2 - missing Target',
+        Description => 'Target is missing, empty list is returned',
         Config      => {
             Source => 'Test 1',
         },
-        ExpectedResult => undef,
+        ExpectedResult => {},
     },
     {
-        Description => 'Test #3',
+        Description => 'two different lines',
         Config      => {
             Source => 'Test 1',
             Target => 'Test 2',
@@ -52,9 +53,13 @@ my @CompareTests = (
 <tr class=\'change\'><td><em>1</em></td><td><em>1</em></td><td>Test <del>1</del></td><td>Test <ins>2</ins></td></tr>
 </table>
 ',
-            Plain =>
-                '<div class="file"><span class="fileheader"></span><div class="hunk"><span class="hunkheader">@@ -1 +1 @@
-</span><del>- Test 1</del><ins>+ Test 2</ins><span class="hunkfooter"></span></div><span class="filefooter"></span></div>'
+            Plain => <<'END_TXT',
+@@ -1 +1 @@
+-Test 1
+\ No newline at end of file
++Test 2
+\ No newline at end of file
+END_TXT
         },
     },
 );
@@ -63,22 +68,9 @@ my $DiffObject = $Kernel::OM->Get('Kernel::System::Diff');
 
 for my $Test (@CompareTests) {
     my %Result = $DiffObject->Compare(
-        %{ $Test->{Config} },
+        $Test->{Config}->%*,
     );
-
-    if (%Result) {
-        $Self->IsDeeply(
-            \%Result,
-            $Test->{ExpectedResult},
-            $Test->{Description},
-        );
-    }
-    else {
-        $Self->False(
-            $Test->{ExpectedResult},
-            $Test->{Description},
-        );
-    }
+    is( \%Result, $Test->{ExpectedResult}, $Test->{Description} );
 }
 
-$Self->DoneTesting();
+done_testing;
