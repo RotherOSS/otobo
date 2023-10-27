@@ -4,29 +4,31 @@ use warnings;
 use CPAN::Audit::Discover::Cpanfile;
 use CPAN::Audit::Discover::CpanfileSnapshot;
 
+our $VERSION = "1.001";
+
 sub new {
-    my $class = shift;
+	my $class = shift;
 
-    my $self = {};
-    bless $self, $class;
+	my $self = {};
+	bless $self, $class;
 
-    return $self;
+	return $self;
 }
 
 sub discover {
-    my $self = shift;
-    my ($path) = @_;
+	my $self = shift;
+	my ($path) = @_;
 
-    if ( -f "$path/cpanfile.snapshot" ) {
-        return CPAN::Audit::Discover::CpanfileSnapshot->new->discover("$path/cpanfile.snapshot");
-    }
-    elsif ( -f "$path/cpanfile" ) {
-        return CPAN::Audit::Discover::Cpanfile->new->discover("$path/cpanfile");
-    }
-    else {
-    }
+	if ( -f "$path/cpanfile.snapshot" ) {
+		return CPAN::Audit::Discover::CpanfileSnapshot->new->discover("$path/cpanfile.snapshot");
+	}
+	elsif ( -f "$path/cpanfile" ) {
+		return CPAN::Audit::Discover::Cpanfile->new->discover("$path/cpanfile");
+	}
+	else {
+	}
 
-    return;
+	return;
 }
 
 1;

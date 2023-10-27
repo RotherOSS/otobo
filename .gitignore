@@ -19,6 +19,7 @@ build.log
 otobo.iml
 *.out
 git-*.txt
+tmp-cpan-lib
 
 # Editor swap files
 *.swn
