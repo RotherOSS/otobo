@@ -295,11 +295,13 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '0.34',
         },
         {
+            'Comment'      => 'needed by SOAP::Lite',
             'Module'       => 'Class::Inspector',
             'Required'     => 1,
             'VersionExact' => '1.31'
         },
         {
+            'Comment'      => 'needed by Data::ICal',
             'Module'       => 'Class::ReturnValue',
             'Required'     => 1,
             'VersionExact' => '0.55',
@@ -310,6 +312,7 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '20230826.001',
         },
         {
+            'Comment'      => 'needed by CPAN::Audit',
             'Module'       => 'CPAN::DistnameInfo',
             'Required'     => 1,
             'VersionExact' => '0.12',
@@ -330,6 +333,7 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '1.40',
         },
         {
+            'Comment'      => 'needed by Math::Random::Secure',
             'Module'       => 'Crypt::Random::Source',
             'Required'     => 1,
             'VersionExact' => '0.14',
@@ -340,28 +344,33 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '0.01',
         },
         {
+            'Comment'      => 'needed by Class::ReturnValue, Error::TypeTiny',
             'Module'       => 'Devel::StackTrace',
             'Required'     => 1,
             'VersionExact' => '2.02',
         },
         {
+            'Comment'      => 'needed by Kernel::System::CheckItem',
             'Module'       => 'Email::Valid',
             'Required'     => 1,
             'VersionExact' => '1.202',
         },
         {
+            'Comment'      => 'needed by Kernel::System::Console::BaseCommand for detecting whether STDOUT understands utf-8',
             'Module'       => 'Encode::Locale',
             'Required'     => 1,
             'VersionExact' => '1.05',
         },
         {
-            'VersionExact' => '0.95',
+            'Comment'      => 'needed by Kernel::System::CSV',
             'Module'       => 'Excel::Writer::XLSX',
             'Required'     => 1,
+            'VersionExact' => '0.95',
         },
         {
-            'Required'     => 1,
+            'Comment'      => 'needed by Type::Tiny',
             'Module'       => 'Exporter::Tiny',
+            'Required'     => 1,
             'VersionExact' => '1.002001',
         },
         {
