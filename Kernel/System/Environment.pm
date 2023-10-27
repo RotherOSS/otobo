@@ -283,11 +283,13 @@ sub BundleModulesDeclarationGet {
 
     return (
         {
+            'Comment'      => 'Needed by Text::Diff',
             'Module'       => 'Algorithm::Diff',
             'Required'     => 1,
             'VersionExact' => '1.1903',
         },
         {
+            'Comment'      => 'needed by e.g. Data::ICal, but not used by OTOBO itself',
             'Module'       => 'Class::Accessor',
             'Required'     => 1,
             'VersionExact' => '0.34',
@@ -365,7 +367,7 @@ sub BundleModulesDeclarationGet {
         {
             'Module'       => 'File::Slurp',
             'Required'     => 1,
-            'VersionExact' => '9999.19',
+            'VersionExact' => '9999.32',
         },
         {
             'VersionExact' => '1.06',
@@ -453,14 +455,20 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '5.509',
         },
         {
-            'VersionExact' => '1.1004',
-            'Required'     => 1,
             'Module'       => 'Module::CPANfile',
+            'Required'     => 1,
+            'VersionExact' => '1.1004',
         },
         {
-            'VersionExact' => '0.15',
+            'Comment'      => 'needed by CPAN::Audit, could be useful in OTOBO as well',
+            'Module'       => 'Module::Extract::VERSION',
+            'Required'     => 1,
+            'VersionExact' => '1.116',
+        },
+        {
             'Module'       => 'Module::Find',
             'Required'     => 1,
+            'VersionExact' => '0.15',
         },
         {
             'VersionExact' => '0.17',
@@ -568,7 +576,7 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '0.43',
         },
         {
-            'VersionExact' => '1.23',
+            'VersionExact' => '1.30',
             'Module'       => 'YAML',
             'Required'     => 1,
         }
