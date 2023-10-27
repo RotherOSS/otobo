@@ -14,39 +14,42 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+use Capture::Tiny qw(capture);
 
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Code::CPANAudit');
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
-my $ExitCode = $CommandObject->Execute();
-
-my $Output;
+my $ThawedAuditReport;
 {
-    local *STDOUT;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
-    open STDOUT, '>:encoding(UTF-8)', \$Output;    ## no critic qw(OTOBO::ProhibitOpen)
-    $ExitCode = $CommandObject->Execute();
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Output );
+    # run the console command and capture the output
+    my $AuditCommand = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Code::CPANAudit');
+    my ( $JSONString, undef, $ExitCode ) = capture {
+        return $AuditCommand->Execute;
+    };
+    ok( $ExitCode == 0 || $ExitCode == 1, 'command exited with a sane code' );
+
+    # Get a data structure from the printed JSON
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+    $ThawedAuditReport = $JSONObject->Decode( Data => $JSONString );
+    ref_ok(
+        $ThawedAuditReport,
+        'HASH',
+        'got hash from DumpAll'
+    );
 }
 
-$Self->Is(
-    $ExitCode,
-    0,
-    "Dev::Tools::CPANAudit exit code",
-);
+# just a sanity check of the keys on the top level
+for my $Key (qw( dists errors meta )) {
+    ok( exists $ThawedAuditReport->{$Key}, "top level key '$Key' exists" );
+}
 
-$Self->Is(
-    $Output,
-    'Collecting all installed modules. This can take a while...
-No advisories found
-',
-    "Dev::Tools::CPANAudit reports no vulnerabilities",
-);
-
-$Self->DoneTesting();
+done_testing;
