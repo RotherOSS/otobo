@@ -1,15 +1,15 @@
-This directory contains bundled pure-perl CPAN modules that are used by OTOBO.
+This directory contains pure-perl CPAN modules that are bundled by OTOBO.
 
 License information of the bundled modules can be found in the
 [COPYING-Third-Party](../../COPYING-Third-Party) file.
 
-A list of the bundled distributions is also kept in the module Kernel::System::Environment. Please keep it
-up to date when adding distributions. The list from Kernel::System::Environment is also used by
+A list of the bundled distributions is also kept in the module Kernel::System::Environment. Please keep that list
+up to date when upgrading or adding distributions. The list from Kernel::System::Environment is also used by
 bin/otobo.CheckModules.pl. That command can be used to generate a cpanfile for the bundled modules.
-The generated cpanfile can the be used for updating Kernel/cpan-lib.
-But that is not trivial. So here is an exemplar workflow:
+The generated cpanfile can then be used for updating Kernel/cpan-lib.
+But that task is not trivial. So here is an exemplar workflow:
 
-### a fresh install of the modules
+### A fresh install of the modules
 
     bin/otobo.CheckModules.pl --inst                                     # make sure that the deps are installed
     mkdir tmp-cpan-lib                                                   # initially empty
@@ -20,7 +20,7 @@ But that is not trivial. So here is an exemplar workflow:
     find local/lib/perl5/ -name '*.pl' -delete                           # just because of tradition
     find local/lib/perl5/ -name '*.pod' -delete                          # ditto
 
-### install missing modules
+### Install missing modules
 
 There seems to be no easy way of forcing that the modules mentioned in the cpanfile
 are installed when they are already available from a different location. So there is
@@ -38,34 +38,36 @@ current situation on the development machine.
     cpanm --notest --reinstall --local-lib local Module::Extract::VERSION@1.116
     cpanm --notest --reinstall --local-lib local XML::LibXML::Simple@1.01
 
-Remove files and directories that should not remain in Kernel/cpan-lib.
+### Remove files and directories that should not be bundled with OTOBO
+
+The reason why specific files are not included in the bundle is not always evident.
 
     rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi              # or a similar dir, depending on the devel machine
     rm -rf local/lib/perl5/Apache                                     # Apache::SOAP is not needed
-    rm local/lib/perl5/Net/IMAP/SimpleX.pm                            # not sure why this was removed in Kernel/cpan-lib
-    rm local/lib/perl5/Net/SSLGlue/FTP.pm                             # ditto
-    rm local/lib/perl5/Net/SSLGlue/LDAP.pm                            # ditto
-    rm local/lib/perl5/Net/SSLGlue/LWP.pm                             # ditto
-    rm local/lib/perl5/Net/SSLGlue/Socket.pm                          # ditto
-    rm local/lib/perl5/SOAP/Test.pm                                   # ditto
-    rm local/lib/perl5/SOAP/Transport/IO.pm                           # ditto
-    rm local/lib/perl5/SOAP/Transport/LOCAL.pm                        # ditto
-    rm local/lib/perl5/SOAP/Transport/LOOPBACK.pm                     # ditto
-    rm local/lib/perl5/SOAP/Transport/MAILTO.pm                       # ditto
-    rm local/lib/perl5/SOAP/Transport/POP3.pm                         # ditto
-    rm local/lib/perl5/SOAP/Transport/TCP.pm                          # ditto
-    rm local/lib/perl5/Test/LongString.pm                             # ditto
+    rm local/lib/perl5/Net/IMAP/SimpleX.pm
+    rm local/lib/perl5/Net/SSLGlue/FTP.pm
+    rm local/lib/perl5/Net/SSLGlue/LDAP.pm
+    rm local/lib/perl5/Net/SSLGlue/LWP.pm
+    rm local/lib/perl5/Net/SSLGlue/Socket.pm
+    rm local/lib/perl5/SOAP/Test.pm
+    rm local/lib/perl5/SOAP/Transport/IO.pm
+    rm local/lib/perl5/SOAP/Transport/LOCAL.pm
+    rm local/lib/perl5/SOAP/Transport/LOOPBACK.pm
+    rm local/lib/perl5/SOAP/Transport/MAILTO.pm
+    rm local/lib/perl5/SOAP/Transport/POP3.pm
+    rm local/lib/perl5/SOAP/Transport/TCP.pm
+    rm local/lib/perl5/Test/LongString.pm
     find local/lib/perl5/ -name '*.pl' -delete                        # just because of tradition
-    find local/lib/perl5/ -name '*.pod' -delete                       # ditto
+    find local/lib/perl5/ -name '*.pod' -delete
     find . -type d -empty -delete                                     # empty dirs are not needed, usually dirs with documentation only
 
-Add files that do no originate from CPAN.
+### Add files that do no originate from CPAN.
 
     cp -r ../Kernel/cpan-lib/Devel/REPL local/lib/perl5/Devel         # the plugins Devel::REPL::Plugin::OTOBO is not on CPAN
     cp -r ../Kernel/cpan-lib/Plack local/lib/perl5/Plack              # the Plack plugins are not on CPAN
     cp -r ../Kernel/cpan-lib/README.md local/lib/perl5                # these instructions
 
-Finalize.
+### Finalize.
 
     diff -r ../Kernel/cpan-lib/ local/lib/perl5/ > diff.out           # inspect the diff
     cd ..                                                             # back into the otobo dir
