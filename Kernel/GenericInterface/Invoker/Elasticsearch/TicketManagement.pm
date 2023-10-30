@@ -469,6 +469,7 @@ sub PrepareRequest {
         }
 
         # iterate over dynamic fields and replace value with DisplayValueRender result
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ($GetDynamicFields) {
             DYNAMICFIELD:
             for my $DFName ( grep { $DataToStore{$_} && $_ =~ /^DynamicField_/ } keys %DataToStore ) {
@@ -481,7 +482,7 @@ sub PrepareRequest {
                     DynamicFieldConfig => $DFConfig,
                     Value              => $Ticket{$DFName},
                     HTMLOutput         => 0,
-                    LayoutObject       => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                    LayoutObject       => $LayoutObject,
                 );
                 $Ticket{$DFName} = $DFValueStructure->{Value};
             }
@@ -537,6 +538,7 @@ sub PrepareRequest {
         );
 
         # iterate over dynamic fields and replace value with DisplayValueRender result
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ($GetDynamicFields) {
             DYNAMICFIELD:
             for my $DFName ( grep { $DataToStore{$_} && $_ =~ /^DynamicField_/ } keys %DataToStore ) {
@@ -549,7 +551,7 @@ sub PrepareRequest {
                     DynamicFieldConfig => $DFConfig,
                     Value              => $Article{$DFName},
                     HTMLOutput         => 0,
-                    LayoutObject       => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                    LayoutObject       => $LayoutObject,
                 );
                 $Article{$DFName} = $DFValueStructure->{Value};
             }
@@ -695,6 +697,7 @@ sub PrepareRequest {
         }
 
         # iterate over dynamic fields and replace value with DisplayValueRender result
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ($GetDynamicFields) {
             DYNAMICFIELD:
             for my $DFName ( grep { $DataToStore{$_} && $_ =~ /^DynamicField_/ } keys %DataToStore ) {
@@ -707,7 +710,7 @@ sub PrepareRequest {
                     DynamicFieldConfig => $DFConfig,
                     Value              => $Ticket{$DFName},
                     HTMLOutput         => 0,
-                    LayoutObject       => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                    LayoutObject       => $LayoutObject,
                 );
                 $Ticket{$DFName} = $DFValueStructure->{Value};
             }
