@@ -655,7 +655,7 @@ sub ConfigItemSearch {
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::ConfigItemSearchFields');
         my @SearchFields   = (
             @{ $FulltextFields->{Basic} },
-            @{ $FulltextFields->{XML} },
+            @{ $FulltextFields->{DynamicField} },
         );
 
         if ( $FulltextFields->{Attachments} ) {
