@@ -468,6 +468,25 @@ sub PrepareRequest {
             };
         }
 
+        # iterate over dynamic fields and replace value with DisplayValueRender result
+        if ($GetDynamicFields) {
+            DYNAMICFIELD:
+            for my $DFName ( grep { $DataToStore{$_} && $_ =~ /^DynamicField_/ } keys %DataToStore ) {
+                my $DFNameShort = substr $DFName, length('DynamicField_');
+                my $DFConfig    = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                    Name => $DFNameShort,
+                );
+                next DYNAMICFIELD unless IsHashRefWithData($DFConfig);
+                my $DFValueStructure = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
+                    DynamicFieldConfig => $DFConfig,
+                    Value              => $Ticket{$DFName},
+                    HTMLOutput         => 0,
+                    LayoutObject       => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                );
+                $Ticket{$DFName} = $DFValueStructure->{Value};
+            }
+        }
+
         # set content
         %Content = map { $_ => $Ticket{$_} } keys %DataToStore;
 
@@ -516,6 +535,25 @@ sub PrepareRequest {
             ArticleID     => $Param{Data}{ArticleID},
             DynamicFields => $GetDynamicFields,
         );
+
+        # iterate over dynamic fields and replace value with DisplayValueRender result
+        if ($GetDynamicFields) {
+            DYNAMICFIELD:
+            for my $DFName ( grep { $DataToStore{$_} && $_ =~ /^DynamicField_/ } keys %DataToStore ) {
+                my $DFNameShort = substr $DFName, length('DynamicField_');
+                my $DFConfig    = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                    Name => $DFNameShort,
+                );
+                next DYNAMICFIELD unless IsHashRefWithData($DFConfig);
+                my $DFValueStructure = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
+                    DynamicFieldConfig => $DFConfig,
+                    Value              => $Article{$DFName},
+                    HTMLOutput         => 0,
+                    LayoutObject       => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                );
+                $Article{$DFName} = $DFValueStructure->{Value};
+            }
+        }
 
         my %ArticleContent = map { $_ => $Article{$_} } keys %DataToStore;
         my $Destination    = $Article{IsVisibleForCustomer} ? 'External' : 'Internal';
@@ -654,6 +692,25 @@ sub PrepareRequest {
                 Success           => 1,
                 StopCommunication => 1,
             };
+        }
+
+        # iterate over dynamic fields and replace value with DisplayValueRender result
+        if ($GetDynamicFields) {
+            DYNAMICFIELD:
+            for my $DFName ( grep { $DataToStore{$_} && $_ =~ /^DynamicField_/ } keys %DataToStore ) {
+                my $DFNameShort = substr $DFName, length('DynamicField_');
+                my $DFConfig    = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                    Name => $DFNameShort,
+                );
+                next DYNAMICFIELD unless IsHashRefWithData($DFConfig);
+                my $DFValueStructure = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
+                    DynamicFieldConfig => $DFConfig,
+                    Value              => $Ticket{$DFName},
+                    HTMLOutput         => 0,
+                    LayoutObject       => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                );
+                $Ticket{$DFName} = $DFValueStructure->{Value};
+            }
         }
 
         # only submit potentially changed values
