@@ -1,6 +1,6 @@
 # This is the build file for the OTOBO web docker image.
 # The services OTOBO web and OTOBO daemon use the same image.
-# There is also an extra build target otobo-web-kerberos that add support for Kerberos.
+# There is also an extra build target otobo-web-kerberos that adds support for Kerberos.
 
 # See also bin/docker/build_docker_images.sh
 # See also https://docs.docker.com/docker-hub/builds/advanced/
@@ -20,8 +20,14 @@ FROM perl:5.38-bookworm AS base
 USER root
 
 # Install some required and optional Debian packages.
+#
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
 # For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
+#
+# The webserver needs to connect to MariaDB service using DBD::mysql. For that purpose
+# 'default-mysql-client' is installed. This allows the building
+# of the Perl module DBD::mysql. It also installs the command line program 'mysql'.
+#
 # Create /opt/otobo_install already here, in order to reduce the number of build layers.
 # hadolint ignore=DL3008
 #
@@ -50,9 +56,9 @@ RUN apt-get update\
  "redis-tools"\
  "sqlite3" "libsqliteodbc"\
  "rsync"\
+ "screen"\
  "telnet"\
  "tree"\
- "screen"\
  "vim"\
  "chromium"\
  "chromium-sandbox"\

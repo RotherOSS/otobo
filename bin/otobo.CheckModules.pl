@@ -682,6 +682,10 @@ my @NeededModules = (
                 Version => '5.001',
                 Comment => q{This version can't be installed with the MariaDB client library.},
             },
+            {
+                Version => '5.002',
+                Comment => q{This version can't be installed with the MariaDB client library.},
+            },
         ],
         Features  => ['db:mysql'],
         Comment   => 'Required to connect to a MariaDB or MySQL database.',
