@@ -469,8 +469,8 @@ sub PrepareRequest {
         }
 
         # iterate over dynamic fields and replace value with DisplayValueRender result
-        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ($GetDynamicFields) {
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             DYNAMICFIELD:
             for my $DFName ( grep { $DataToStore{$_} && $_ =~ /^DynamicField_/ } keys %DataToStore ) {
                 my $DFNameShort = substr $DFName, length('DynamicField_');
@@ -538,8 +538,8 @@ sub PrepareRequest {
         );
 
         # iterate over dynamic fields and replace value with DisplayValueRender result
-        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ($GetDynamicFields) {
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             DYNAMICFIELD:
             for my $DFName ( grep { $DataToStore{$_} && $_ =~ /^DynamicField_/ } keys %DataToStore ) {
                 my $DFNameShort = substr $DFName, length('DynamicField_');
@@ -697,8 +697,8 @@ sub PrepareRequest {
         }
 
         # iterate over dynamic fields and replace value with DisplayValueRender result
-        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ($GetDynamicFields) {
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             DYNAMICFIELD:
             for my $DFName ( grep { $DataToStore{$_} && $_ =~ /^DynamicField_/ } keys %DataToStore ) {
                 my $DFNameShort = substr $DFName, length('DynamicField_');
