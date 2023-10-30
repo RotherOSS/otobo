@@ -52,8 +52,7 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 
     # Print a cpanfile with the required modules for Kernel/cpan-lib
     # This file is only used for sporadic updates
-    mkdir tmp-cpan-lib
-    bin/otobo.CheckModules.pl --bundled-cpanfile > tmp-cpan-lib/cpanfile
+    bin/otobo.CheckModules.pl --bundled-cpanfile > Kernel/cpan-lib/cpanfile
 
 =head1 DESCRIPTION
 
@@ -873,8 +872,9 @@ my @NeededModules = (
         Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
         InstTypes => {
             aptget => 'libplack-perl',
-            emerge => undef,
-            zypper => undef,
+            emerge => 'dev-perl/Plack',
+            zypper => 'perl-Plack',
+            yum    => 'perl-Plack',
             ports  => undef,
         },
     },
