@@ -873,8 +873,9 @@ my @NeededModules = (
         Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
         InstTypes => {
             aptget => 'libplack-perl',
-            emerge => undef,
-            zypper => undef,
+            emerge => 'dev-perl/Plack',
+            zypper => 'perl-Plack',
+            yum    => 'perl-Plack',
             ports  => undef,
         },
     },
