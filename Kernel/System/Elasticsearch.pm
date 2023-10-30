@@ -365,7 +365,6 @@ sub TicketSearch {
                 my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
                     Name => $DynamicFieldName,
                 );
-                next DYNAMICFIELD if !$DynamicField;
                 next DYNAMICFIELD unless IsHashRefWithData($DynamicField);
 
                 # agent search
