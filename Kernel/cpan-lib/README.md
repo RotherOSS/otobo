@@ -77,3 +77,8 @@ Copy new or changed files into Kernel/cpan-lib. Remove no longer needed files. M
 the changes are submitted to git.
 
     diff -r . local/lib/perl5/ | grep -v cpanfile | grep -v README.md      # the goal is to see only 'local'
+
+Remove the temporary dir.
+
+    rm -rf local
+    git status
