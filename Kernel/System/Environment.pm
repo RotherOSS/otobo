@@ -344,22 +344,10 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '0.01',
         },
         {
-            'Comment'      => 'needed by Class::ReturnValue, Error::TypeTiny',
-            'Module'       => 'Devel::StackTrace',
-            'Required'     => 1,
-            'VersionExact' => '2.02',
-        },
-        {
             'Comment'      => 'needed by Kernel::System::CheckItem',
             'Module'       => 'Email::Valid',
             'Required'     => 1,
             'VersionExact' => '1.202',
-        },
-        {
-            'Comment'      => 'needed by Kernel::System::Console::BaseCommand for detecting whether STDOUT understands utf-8',
-            'Module'       => 'Encode::Locale',
-            'Required'     => 1,
-            'VersionExact' => '1.05',
         },
         {
             'Comment'      => 'needed by Kernel::System::CSV',
@@ -384,18 +372,6 @@ sub BundleModulesDeclarationGet {
             'Module'       => 'Font::TTF',
             'Required'     => 1,
             'VersionExact' => '1.06',
-        },
-        {
-            'Comment'      => 'needed by HTTP::Headers, implicitly by Plack',
-            'Module'       => 'HTTP::Date',
-            'Required'     => 1,
-            'VersionExact' => '6.02',
-        },
-        {
-            'Comment'      => 'required by Plack',
-            'Required'     => 1,
-            'Module'       => 'HTTP::Message',
-            'VersionExact' => '6.13',
         },
         {
             'Comment'      => 'needed by console commands',
