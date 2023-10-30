@@ -16,12 +16,20 @@
 
 package Kernel::System::Console::Command::Dev::Code::CPANUpdate;
 
+use v5.24;
 use strict;
 use warnings;
-
-use File::Path();
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use File::Path qw(remove_tree make_path);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -36,7 +44,7 @@ sub Configure {
     $Self->AddOption(
         Name        => 'mode',
         Description => "Update all dependencies (development), or only critical ones (stable).",
-        Required    => 1,
+        Required    => 0,
         HasValue    => 1,
         Multiple    => 0,
         ValueRegex  => qr/^stable$/smx,
@@ -47,6 +55,14 @@ sub Configure {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    $Self->Print("<yellow>The command Dev::Code::CPANUpdate is note implemented.</yellow>\n");
+    $Self->Print("<yellow>See Kernel/cpan-lib/README.md for instructions on how the update Kernel/cpan-lib.</yellow>\n");
+
+    # TODO: provide a sensible implementation based on cpanm
+    return $Self->ExitCodeOk();
+
+    ## no critic qw(ControlStructures::ProhibitUnreachableCode)
 
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     my $Mode = $Self->GetOption('mode');
@@ -71,9 +87,9 @@ sub Run {
 
         # Delete Kernel/cpan-lib.
         if ( -d $CPAN2Dir ) {
-            File::Path::remove_tree($CPAN2Dir) || die "Could not clean-up $CPAN2Dir: $!.";
+            remove_tree($CPAN2Dir) || die "Could not clean-up $CPAN2Dir: $!.";
         }
-        File::Path::make_path($CPAN2Dir) || die "Could not create $CPAN2Dir: $!.";
+        make_path($CPAN2Dir) || die "Could not create $CPAN2Dir: $!.";
 
         # Install modules.
         MODULE_CONFIG:
@@ -85,16 +101,16 @@ sub Run {
         }
 
         # Copy our own extension for Devel::REPL from previous cpan-lib folder.
-        File::Path::make_path("$CPAN2Dir/Devel/REPL/Plugin");
+        make_path("$CPAN2Dir/Devel/REPL/Plugin");
         system("cp -r $CPANDir/Devel/REPL/Plugin/OTOBO.pm $CPAN2Dir/Devel/REPL/Plugin/OTOBO.pm");
 
         # Replace cpan-lib folder.
-        File::Path::remove_tree($CPANDir) || die "Could not remove $CPANDir: $!.";
+        remove_tree($CPANDir) || die "Could not remove $CPANDir: $!.";
         rename $CPAN2Dir, $CPANDir || die "Could not replace $CPANDir: $!.";
     }
 
     # Clean-up unwanted files.
-    File::Path::remove_tree("$CPANDir/Test/Selenium");
+    remove_tree("$CPANDir/Test/Selenium");
     system("find $CPANDir -name '*.pod' -exec rm -f {} +");
     system("find $CPANDir -name '*.pl*' -exec rm -f {} +");
     system("find $CPANDir -name '*.so' -exec rm -f {} +");
@@ -133,9 +149,9 @@ sub InstallModule {
     my $TmpDir = "$Home/var/tmp/CPANUpdate";
 
     if ( -d $TmpDir ) {
-        File::Path::remove_tree($TmpDir) || die "Could not clean-up $TmpDir: $!.";
+        remove_tree($TmpDir) || die "Could not clean-up $TmpDir: $!.";
     }
-    File::Path::make_path($TmpDir) || die "Could not create $TmpDir: $!.";
+    make_path($TmpDir) || die "Could not create $TmpDir: $!.";
 
     my $DownloadURL = `wget -q -O - https://fastapi.metacpan.org/v1/download_url/$ModuleConfig->{Module} | grep download_url | cut -d '"' -f4`;
     die "Error: Could not get DownloadURL." if !$DownloadURL;
@@ -158,7 +174,7 @@ sub InstallModule {
     my $ModulePath      = join '/', @ModuleParts;
     if ( -f "$TmpDir/$LastModuleLevel.pm" ) {
         if ( !-d "$TargetPath/$ModulePath" ) {
-            File::Path::make_path("$TargetPath/$ModulePath") || die "Could not create $TargetPath/$ModulePath: $!.";
+            make_path("$TargetPath/$ModulePath") || die "Could not create $TargetPath/$ModulePath: $!.";
         }
         system("cp -r $TmpDir/$LastModuleLevel.pm $TargetPath/$ModulePath");
         return 1;
