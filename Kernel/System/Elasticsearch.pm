@@ -366,6 +366,7 @@ sub TicketSearch {
                     Name => $DynamicFieldName,
                 );
                 next DYNAMICFIELD if !$DynamicField;
+                next DYNAMICFIELD unless IsHashRefWithData($DynamicField);
 
                 # agent search
                 if ( $Param{UserID} ) {
@@ -654,8 +655,8 @@ sub ConfigItemSearch {
 
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::ConfigItemSearchFields');
         my @SearchFields   = (
-            @{ $FulltextFields->{Basic} },
-            @{ $FulltextFields->{DynamicField} },
+            @{ $FulltextFields->{Basic}        // [] },
+            @{ $FulltextFields->{DynamicField} // [] },
         );
 
         if ( $FulltextFields->{Attachments} ) {
