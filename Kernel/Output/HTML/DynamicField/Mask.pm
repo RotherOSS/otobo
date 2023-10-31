@@ -89,6 +89,7 @@ creates the field HTML to be used in edit masks for multiple dynamic fields.
         SeparateDynamicFields => {                  # optional TODO: deprecate
             Name3 => 1,
         },
+        AJAXUpdate            => (1|0),             # optional render dynamic fields with or without AJAXUpdate, defaults to 1
         CustomerInterface     => 1,                 # optional indicates which templates are needed, defaults to 0 (Agent interface)
     );
 
@@ -234,7 +235,7 @@ sub EditSectionRender {
                 Value                => $Param{DynamicFieldValues}{$DFName},
                 LayoutObject         => $Param{LayoutObject},
                 ParamObject          => $Param{ParamObject},
-                AJAXUpdate           => 1,
+                AJAXUpdate           => $Param{AJAXUpdate} // 1,
                 UpdatableFields      => $Param{UpdatableFields},
                 Mandatory            => $Field->{Mandatory},
                 Readonly             => $Field->{Readonly},
