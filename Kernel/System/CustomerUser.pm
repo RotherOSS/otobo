@@ -320,6 +320,10 @@ The count of results is returned when the parameter C<Result = 'COUNT'> is passe
         UserLogin     => 'example*',                                    # (optional)
         UserFirstname => 'Firstn*',                                     # (optional)
 
+        # search for valid users only per default,
+        # pass 0 in order to also search for invalid users
+        Valid     => 1,                                                 # (optional) default 1
+
         # special parameters
         CustomerCompanySearchCustomerIDs => [ 'example.com' ],          # (optional)
         ExcludeUserLogins                => [ 'example', 'doejohn' ],   # (optional)
