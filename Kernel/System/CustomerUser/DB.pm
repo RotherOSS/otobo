@@ -262,7 +262,7 @@ sub CustomerSearch {
     my ( $Self, %Param ) = @_;
 
     my %Users;
-    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    my $Valid = $Param{Valid} // 1;
 
     # check needed stuff
     if (

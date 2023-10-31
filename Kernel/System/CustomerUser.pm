@@ -21,6 +21,11 @@ use warnings;
 
 use parent qw(Kernel::System::EventHandler);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -59,8 +64,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{CacheType} = 'CustomerUser';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
@@ -316,12 +320,16 @@ The count of results is returned when the parameter C<Result = 'COUNT'> is passe
         UserLogin     => 'example*',                                    # (optional)
         UserFirstname => 'Firstn*',                                     # (optional)
 
+        # search for valid users only per default,
+        # pass 0 in order to also search for invalid users
+        Valid     => 1,                                                 # (optional) default 1
+
         # special parameters
         CustomerCompanySearchCustomerIDs => [ 'example.com' ],          # (optional)
         ExcludeUserLogins                => [ 'example', 'doejohn' ],   # (optional)
 
         # array parameters are used with logical OR operator (all values are possible which
-        are defined in the config selection hash for the field)
+        # are defined in the config selection hash for the field)
         UserCountry              => [ 'Austria', 'Germany', ],          # (optional)
 
         # DynamicFields
