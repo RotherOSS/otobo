@@ -732,4 +732,12 @@ sub ValueLookup {
     return join ' - ', @SetValue;
 }
 
+sub SearchFieldPreferences {
+    my ( $Self, %Param ) = @_;
+
+    # this field makes no use of SearchFieldPreferences
+    # nevertheless, function needs to be overwritten to make sure that the call doesn't reach SearchFieldPreferences in BaseSelect
+    return;
+}
+
 1;
