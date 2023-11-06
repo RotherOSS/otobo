@@ -83,6 +83,16 @@ sub Params {
             Value    => '1 (can overwrite the logged in user)',
             Optional => 1,
         },
+        {
+            Key      => 'PendingTime',
+            Value    => '2023-11-06 18:02:00',
+            Optional => 1,
+        },
+        {
+            Key      => 'PendingTimeDiff',
+            Value    => 'diff in minutes',
+            Optional => 1,
+        },
     );
 
     return @Params;
