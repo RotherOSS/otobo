@@ -128,15 +128,10 @@ sub ValueSet {
         LensDynamicFieldConfig => $LensDFConfig,
     );
 
-    my $ReferenceDFConfig = $Self->_GetReferenceDFConfig(
-        LensDynamicFieldConfig => $LensDFConfig,
-    );
-
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
         %Param,
         DynamicFieldConfig => $AttributeDFConfig,
         ObjectID           => $ReferencedObjectID,
-        ObjectType         => $ReferenceDFConfig->{Config}->{ReferencedObjectType},
     );
 }
 
@@ -566,9 +561,9 @@ sub BuildSelectionDataGet {
 
 Methods that are used only internally.
 
-=head2 _GetReferenceDFConfig()
+=head2 _GetReferencedObjectID()
 
-A dynamic field configuration that can be used as a delegate.
+The ID of the referenced object.
 
 =cut
 
