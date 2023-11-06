@@ -985,7 +985,7 @@ sub Run {
 
                     # check if header is a dynamic field and get the value from dynamic field
                     # backend
-                    if ( $Header =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+                    if ( $Header =~ m{\A DynamicField_ ( [a-zA-Z\d\-]+ ) \z}xms ) {
 
                         # loop over the dynamic fields configured for CSV output
                         DYNAMICFIELD:
