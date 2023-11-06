@@ -415,7 +415,7 @@ sub Run {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
-                    . "LinkAs $Param{LinkAs} is invalid!"
+                    . "LinkAs $Param{Config}->{LinkAs} is invalid!"
             );
             return;
         }
@@ -441,7 +441,7 @@ sub Run {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
-                    . "Couldn't Link Tickets $SourceObjectID with $TargetObjectID as $Param{LinkAs}!",
+                    . "Couldn't Link Tickets $SourceObjectID with $TargetObjectID as $Param{Config}->{LinkAs}!",
             );
             return;
         }
