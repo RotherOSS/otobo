@@ -544,13 +544,26 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Text::CSV',
-        Required  => 1,
-        InstTypes => {
+        Module          => 'Text::CSV',
+        Required        => 1,
+        VersionRequired => '1.95',        # released 2017-04-27
+        InstTypes       => {
             aptget => 'libtext-csv-perl',
             emerge => 'dev-perl/Text-CSV',
             zypper => 'perl-Text-CSV',
             ports  => 'textproc/p5-Text-CSV',
+        },
+    },
+    {
+        Module          => 'Text::CSV_XS',
+        Required        => 1,
+        VersionRequired => '1.34',                                       # released 2017-11-05
+        Comment         => 'A fast backend that is used by Text::CSV',
+        InstTypes       => {
+            aptget => 'libtext-csv-xs-perl',
+            emerge => 'dev-perl/Text-CSV_XS',
+            zypper => 'perl-Text-CSV_XS',
+            ports  => 'textproc/p5-Text-CSV_XS',
         },
     },
     {
@@ -811,17 +824,6 @@ my @NeededModules = (
     },
 
     # Feature performance
-    {
-        Module    => 'Text::CSV_XS',
-        Comment   => 'Recommended for faster CSV handling.',
-        Features  => ['performance:csv'],
-        InstTypes => {
-            aptget => 'libtext-csv-xs-perl',
-            emerge => 'dev-perl/Text-CSV_XS',
-            zypper => 'perl-Text-CSV_XS',
-            ports  => 'textproc/p5-Text-CSV_XS',
-        },
-    },
     {
         Module    => 'Redis',
         Comment   => 'For usage with Redis Cache Server.',

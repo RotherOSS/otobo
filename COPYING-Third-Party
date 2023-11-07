@@ -113,14 +113,6 @@ o Name:    CPAN Set::Crontab
            # and/or modify it under the same terms as Perl itself.
   Note:    # Copyright 2001 Abhijit Menon-Sen <ams@toroid.org>
 
-o Name:    CPAN Text::CSV
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-
-o Name:    CPAN Text::CSV_PP
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-
 o Name:    CPAN Text::Diff
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
