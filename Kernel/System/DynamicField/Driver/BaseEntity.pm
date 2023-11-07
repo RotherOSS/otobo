@@ -415,11 +415,17 @@ sub EditFieldValueGet {
     {
         my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
 
-        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        if ( $Param{DynamicFieldConfig}->{Config}{MultiValue} ) {
 
             # delete the template value
             pop @Data;
         }
+        else {
+
+            # delete empty values
+            @Data = grep {$_} @Data;
+        }
+
         $Value = \@Data;
     }
 

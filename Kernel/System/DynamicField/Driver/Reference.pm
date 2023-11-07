@@ -120,24 +120,6 @@ sub ValueGet {
     return $Value;
 }
 
-sub ValueSet {
-    my ( $Self, %Param ) = @_;
-
-    my $DBValue = $Self->ValueStructureToDB(
-        Value      => $Param{Value},
-        ValueKey   => $Self->{ValueKey},
-        Set        => $Param{Set},
-        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
-    );
-
-    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-        Value    => $DBValue,
-        UserID   => $Param{UserID},
-    );
-}
-
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
@@ -280,12 +262,7 @@ sub EditFieldRender {
     );
 
     # set values from ParamObject if present
-    if ( $DFDetails->{MultiValue} ) {
-        if ( $FieldValue->@* ) {
-            $Value = $FieldValue;
-        }
-    }
-    elsif ( defined $FieldValue ) {
+    if ( defined $FieldValue && $FieldValue && $FieldValue->@* ) {
         $Value = $FieldValue;
     }
 
@@ -501,40 +478,8 @@ EOF
 sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-
-    my $Value;
-
-    # check if there is a Template and retrieve the dynamic field value from there
-    if ( IsHashRefWithData( $Param{Template} ) && defined $Param{Template}->{$FieldName} ) {
-        $Value = $Param{Template}->{$FieldName};
-    }
-
-    # otherwise get dynamic field value from the web request
-    elsif (
-        defined $Param{ParamObject}
-        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
-        )
-    {
-        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-            my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
-
-            # delete the template value
-            pop @DataAll;
-
-            # delete empty values (can happen if the user has selected the "-" entry)
-            $Value = [ map { $_ // '' } @DataAll ];
-        }
-        else {
-            $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
-        }
-    }
-
-    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
-        return {
-            $FieldName => $Value,
-        };
-    }
+    # get the value from the parent class
+    my $Value = $Self->SUPER::EditFieldValueGet(%Param);
 
     # for this field the normal return an the ReturnValueStructure are the same
     return $Value unless $Param{ForLens};
