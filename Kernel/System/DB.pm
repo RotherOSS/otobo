@@ -1035,17 +1035,18 @@ sub GetColumnNames {
 
 =head2 SelectAll()
 
-returns all available records of a SELECT statement.
-In essence, this calls C<Prepare()> and then C<FetchrowArray()> in a loop to get all records.
+returns all available records returned by a SELECT statement.
+You can pass the same arguments as to the Prepare() method.
+
+The method uses the C<DBI> method C<selectall_arrayref>.
+This is equivalent this calling C<Prepare()> and then C<FetchrowArray()> in a loop to get all records.
 
     my $ResultAsArrayRef = $DBObject->SelectAll(
         SQL   => "SELECT id, name FROM table",
-        Limit => 10
+        Limit => 4,
     );
 
-You can pass the same arguments as to the Prepare() method.
-
-Returns undef (if query failed), or an array ref (if query was successful):
+Returns undef (if query failed), or a reference to an array of array references if the query was successful:
 
     my $ResultAsArrayRef = [
         [ 1, 'itemOne' ],
