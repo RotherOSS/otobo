@@ -223,6 +223,14 @@ END_YAML
         },
         Name => 'sample from sysconfig_default.xml_content_parsed'
     },
+    {
+        Result => {
+            foo => 1,
+            bar => 2
+        },
+        InputLoad => "--- Document 1 containing Text\n--- { foo: 1, bar: 2 }",
+        Name      => 'YAML - two documents, last document is returned'
+    },
 );
 
 for my $Test (@LoadTests) {
