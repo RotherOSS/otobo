@@ -548,12 +548,6 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '1.5',
         },
         {
-            'Comment'      => 'needed by Kernel::System::CSV',
-            'Module'       => 'Text::CSV',
-            'Required'     => 1,
-            'VersionExact' => '1.95',
-        },
-        {
             'Comment'      => 'needed by Kernel::System::Diff',
             'Module'       => 'Text::Diff',
             'Required'     => 1,

@@ -136,9 +136,6 @@ requires 'SOAP::Lite', "== 1.20";
 # needed by Kernel::System::Environment
 requires 'Sys::Hostname::Long', "== 1.5";
 
-# needed by Kernel::System::CSV
-requires 'Text::CSV', "== 1.95";
-
 # needed by Kernel::System::Diff
 requires 'Text::Diff', "== 1.44";
 
@@ -160,6 +157,6 @@ requires 'XML::Simple', "== 2.25";
 # needed by XML::FeedPP
 requires 'XML::TreePP', "== 0.43";
 
-# needed by Sisimai
+# needed by Sisimai, OTOBO itself uses YAML::XS
 requires 'YAML', "== 1.30";
 

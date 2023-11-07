@@ -1,10 +1,11 @@
-This directory contains pure-perl CPAN modules that are bundled by OTOBO.
+This directory contains Perl modules from CPAN that are bundled with OTOBO.
+All of these modules are implemented in pure Perl.
 
 License information of the bundled modules can be found in the
 [COPYING-Third-Party](../../COPYING-Third-Party) file.
 
-A list of the bundled distributions is also kept in the module Kernel::System::Environment. Please keep that list
-up to date when upgrading or adding distributions. The list from Kernel::System::Environment is also used by
+The original list of the bundled distributions is maintained in the module Kernel::System::Environment. Please keep
+that list up to date when upgrading or adding distributions. The list from Kernel::System::Environment is also used by
 bin/otobo.CheckModules.pl. That command can be used to generate a cpanfile for the bundled modules.
 The generated cpanfile can then be used for updating Kernel/cpan-lib.
 But that task is not trivial. So here is an exemplar workflow:
@@ -18,8 +19,6 @@ Starting in the OTOBO root dir.
     cd Kernel/cpan-lib
     cpanm --notest --installdeps . --local-lib local                        # install locally into local/lib/perl5
     cpanm --notest --installdeps . --local-lib local                        # again, to see that the install was complete
-
-find . ! -name 'README.md' ! -name cpanfile -delete
 
 ### Remove files and directories that should not be bundled with OTOBO
 

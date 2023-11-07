@@ -56,7 +56,10 @@ requires 'Template::Toolkit';
 # The fast data stash for Template::Toolkit.
 requires 'Template::Stash::XS';
 
-requires 'Text::CSV';
+requires 'Text::CSV', ">= 1.95";
+
+# A fast backend that is used by Text::CSV
+requires 'Text::CSV_XS', ">= 1.34";
 
 requires 'Text::Trim';
 
@@ -295,9 +298,6 @@ feature 'optional', 'Support for feature optional' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
 
-    # Recommended for faster CSV handling.
-    requires 'Text::CSV_XS';
-
     # For usage with Redis Cache Server.
     requires 'Redis';
 
@@ -361,12 +361,6 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # support for formatting test results
     requires 'Unicode::GCString';
-
-};
-
-feature 'performance:csv', 'Support for feature performance:csv' => sub {
-    # Recommended for faster CSV handling.
-    requires 'Text::CSV_XS';
 
 };
 
