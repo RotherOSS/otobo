@@ -354,7 +354,7 @@ sub EditFieldRender {
                     Class        => $FieldClass,
                     HTMLQuote    => 1,
                     Translation  => $DFDetails->{Translation},
-                    PossibleNone => $DFDetails->{PossibleNone},
+                    PossibleNone => 0,
                 );
             }
         }
@@ -367,9 +367,9 @@ sub EditFieldRender {
                 SelectedID   => \@SelectedIDs,
                 Class        => $FieldClass,
                 HTMLQuote    => 1,
-                Multiple     => $DFDetails->{EditFieldMode} eq 'Multiselect' ? 1 : 0,
+                Multiple     => $DFDetails->{Multiselect},
                 Translation  => $DFDetails->{Translation},
-                PossibleNone => $DFDetails->{PossibleNone},
+                PossibleNone => 0,
             );
         }
     }
@@ -384,7 +384,7 @@ sub EditFieldRender {
         ObjectType => $DFDetails->{ReferencedObjectType},
     );
     my @ResultHTML;
-    for my $ValueIndex ( 0 .. ( $DFDetails->{EditFieldMode} eq 'Multiselect' ? 0 : $#{$Value} ) ) {
+    for my $ValueIndex ( 0 .. ( $DFDetails->{Multiselect} ? 0 : $#{$Value} ) ) {
         my $FieldID = $DFDetails->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
         if ( !$ValueIndex ) {
@@ -438,7 +438,7 @@ sub EditFieldRender {
             ID          => $FieldTemplateData{FieldID},
             Class       => $FieldClass,
             HTMLQuote   => 1,
-            Multiple    => $DFDetails->{EditFieldMode} eq 'Multiselect' ? 1 : 0,
+            Multiple    => $DFDetails->{Multiselect},
             Translation => $DFDetails->{TranslatableValues} || 0,
         );
         $TemplateHTML = $Param{LayoutObject}->Output(
