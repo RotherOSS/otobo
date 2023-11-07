@@ -290,6 +290,16 @@ sub _AddAction {
         $FieldConfig{$Name} = $GetParam{$Name};
     }
 
+    # interdependencies of multiselect, multivalue and editfieldmode
+    # set multiselect key for consistency in backend
+    $FieldConfig{Multiselect} = $FieldConfig{EditFieldMode} eq 'Multiselect' ? 1 : 0;
+
+    # differentiate only between autocomplete and dropdown
+    $FieldConfig{EditFieldMode} = $FieldConfig{EditFieldMode} eq 'AutoComplete' ? 'AutoComplete' : 'Dropdown';
+
+    # multiselect excludes multivalue
+    $FieldConfig{MultiValue} = $FieldConfig{Multiselect} ? 0 : $FieldConfig{MultiValue};
+
     $GetParam{ReferenceFilterCounter} = $ParamObject->GetParam( Param => 'ReferenceFilterCounter' ) || 0;
 
     my @ReferenceFilterList = $Self->_GetParamReferenceFilterList(
@@ -587,6 +597,16 @@ sub _ChangeAction {
         $FieldConfig{$Name} = $GetParam{$Name};
     }
 
+    # interdependencies of multiselect, multivalue and editfieldmode
+    # set multiselect key for consistency in backend
+    $FieldConfig{Multiselect} = $FieldConfig{EditFieldMode} eq 'Multiselect' ? 1 : 0;
+
+    # differentiate only between autocomplete and dropdown
+    $FieldConfig{EditFieldMode} = $FieldConfig{EditFieldMode} eq 'AutoComplete' ? 'AutoComplete' : 'Dropdown';
+
+    # multiselect excludes multivalue
+    $FieldConfig{MultiValue} = $FieldConfig{Multiselect} ? 0 : $FieldConfig{MultiValue};
+
     $GetParam{ReferenceFilterCounter} = $ParamObject->GetParam( Param => 'ReferenceFilterCounter' ) || 0;
 
     my @ReferenceFilterList = $Self->_GetParamReferenceFilterList(
@@ -758,6 +778,9 @@ sub _ShowScreen {
         Sort          => 'NumericKey',
         Class         => 'Modernize W75pc Validate_Number',
     );
+
+    # compute value for editfieldmode to maintain frontend selection
+    $Param{EditFieldMode} = $Param{EditFieldMode} eq 'AutoComplete' ? 'AutoComplete' : ( $Param{Multiselect} ? 'Multiselect' : 'Dropdown' );
 
     # Selections may be set up in a declaritive way
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
