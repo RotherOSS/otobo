@@ -596,7 +596,7 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '0.43',
         },
         {
-            'Comment'      => 'needed by Sisimai',
+            'Comment'      => 'needed by Sisimai, OTOBO itself uses YAML::XS',
             'Module'       => 'YAML',
             'Required'     => 1,
             'VersionExact' => '1.30',
