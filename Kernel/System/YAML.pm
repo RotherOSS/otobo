@@ -16,8 +16,10 @@
 
 package Kernel::System::YAML;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 use Encode qw();
@@ -34,12 +36,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::YAML - YAML wrapper functions
+Kernel::System::YAML - wrapper functions for YAML::XS
 
 =head1 DESCRIPTION
 
 Functions for YAML serialization / deserialization.
-
 
 =head2 new()
 
@@ -58,7 +59,7 @@ sub new {
 
 =head2 Dump()
 
-Dump a perl data structure to a YAML string.
+Dump a Perl data structure to a YAML string.
 
     my $YAMLString = $YAMLObject->Dump(
         Data     => $Data,
@@ -91,12 +92,16 @@ sub Dump {
 
 =head2 Load()
 
-Load a YAML string to a perl data structure.
+Load a YAML string to a Perl data structure.
 This string must be a encoded in UTF8.
 
     my $PerlStructureScalar = $YAMLObject->Load(
         Data => $YAMLString,
     );
+
+In case of a failure C<undef> is returned.
+
+When multiple documents are contained in the input string, then only the last document is returned.
 
 =cut
 
@@ -113,6 +118,8 @@ sub Load {
 
     # The resulting data structure may contain strings
     # that are internally encoded in latin1.
+    # Load() is called in scalar context. This means that when multiple documents are contained in the input string,
+    # then the last document is returned.
     my $Result = try {
         YAML::XS::Load( $Param{Data} );
     }

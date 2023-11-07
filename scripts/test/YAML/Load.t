@@ -18,15 +18,18 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get YAML object
 my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
-my @Tests = (
+my @DumpTests = (
     {
         Input  => undef,
         Result => undef,
@@ -96,20 +99,20 @@ my @Tests = (
     },
 );
 
-for my $Test (@Tests) {
+for my $Test (@DumpTests) {
 
     my $YAML = $YAMLObject->Dump(
         Data => $Test->{Input},
     );
 
-    $Self->IsDeeply(
+    is(
         $YAML,
         $Test->{Result},
         $Test->{Name},
     );
 }
 
-@Tests = (
+my @LoadTests = (
     {
         Result    => undef,
         InputLoad => undef,
@@ -220,18 +223,26 @@ END_YAML
         },
         Name => 'sample from sysconfig_default.xml_content_parsed'
     },
+    {
+        Result => {
+            foo => 1,
+            bar => 2
+        },
+        InputLoad => "--- Document 1 containing Text\n--- { foo: 1, bar: 2 }",
+        Name      => 'YAML - two documents, last document is returned'
+    },
 );
 
-for my $Test (@Tests) {
+for my $Test (@LoadTests) {
     my $Perl = $YAMLObject->Load(
         Data => $Test->{InputLoad},
     );
 
-    $Self->IsDeeply(
-        scalar $Perl,
-        scalar $Test->{Result},
+    is(
+        $Perl,
+        $Test->{Result},
         $Test->{Name},
     );
 }
 
-$Self->DoneTesting();
+done_testing;
