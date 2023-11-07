@@ -16,11 +16,17 @@
 
 package Kernel::System::CSV;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Text::CSV;
 use Excel::Writer::XLSX;
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -48,15 +54,12 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 Array2CSV()
 
-Returns a csv formatted string based on a array with head data.
+Returns a CSV formatted string based on a array with head data.
 
     $CSV = $CSVObject->Array2CSV(
         WithHeader => [ 'RowA', 'RowB', ],   # optional
@@ -182,7 +185,7 @@ sub Array2CSV {
             $Param{Quote} = '"';
         }
 
-        # create new csv backend object
+        # create new CSV backend object, uses Text::CSV_XS by default
         my $CSV = Text::CSV->new(
             {
                 quote_char          => $Param{Quote},
@@ -232,7 +235,7 @@ sub Array2CSV {
 
 =head2 CSV2Array()
 
-Returns an array with parsed csv data.
+Returns an array with parsed CSV data.
 
     my $RefArray = $CSVObject->CSV2Array(
         String    => $CSVString,
@@ -245,10 +248,9 @@ Returns an array with parsed csv data.
 sub CSV2Array {
     my ( $Self, %Param ) = @_;
 
-    # create new csv backend object
+    # create new CSV backend object, uses Text::CSV_XS by default
     my $CSV = Text::CSV->new(
         {
-
             quote_char          => $Param{Quote} // '"',
             escape_char         => $Param{Quote}     || '"',
             sep_char            => $Param{Separator} || ";",
@@ -266,9 +268,8 @@ sub CSV2Array {
     # do some dos/unix file conversions
     $Param{String} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
 
-    my @Array;
-
     # parse all CSV data line by line (allows newlines in data fields)
+    my @Array;
     my $LineCounter = 1;
     open my $FileHandle, '<', \$Param{String};    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
     while ( my $ColRef = $CSV->getline($FileHandle) ) {
@@ -284,6 +285,7 @@ sub CSV2Array {
                 . ' (input: ' . $CSV->error_input()
                 . ', error: ' . $CSV->error_diag() . ')',
         );
+
         return;
     }
 
