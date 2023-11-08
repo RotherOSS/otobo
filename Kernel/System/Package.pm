@@ -1553,12 +1553,10 @@ sub PackageOnlineList {
 
     # return if there are packages, just not for this framework version
     if ( @Packages && !$PackageForRequestedFramework ) {
+        my $CurrentFramework = $Kernel::OM->Get('Kernel::Config')->Get('Version');
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  =>
-                Translatable(
-                    'No packages for your framework version found in this repository, it only contains packages for other framework versions.'
-                ),
+            Message  => "No packages for your framework version $CurrentFramework found in this repository, it only contains packages for other framework versions."
         );
     }
     @Packages = @NewPackages;
