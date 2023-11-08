@@ -16,13 +16,20 @@
 
 package Kernel::System::Console::Command::Admin::Package::UpgradeAll;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
-use Kernel::System::VariableCheck qw(:all);
-
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -62,6 +69,7 @@ sub Run {
     if ( $IsRunningResult{IsRunning} ) {
         $Self->Print("\nThere is another package upgrade process running\n");
         $Self->Print("\n<green>Done.</green>\n");
+
         return $Self->ExitCodeOk();
     }
 
@@ -71,6 +79,7 @@ sub Run {
     if ( !@List ) {
         $Self->Print("\nThere are no installed packages\n");
         $Self->Print("\n<green>Done.</green>\n");
+
         return $Self->ExitCodeOk();
     }
 
@@ -126,6 +135,7 @@ sub Run {
     if ( $IsRunningResult{IsRunning} ) {
         $Self->Print("\nThere is another package upgrade process running\n");
         $Self->Print("\n<green>Done.</green>\n");
+
         return $Self->ExitCodeOk();
     }
 
@@ -163,6 +173,7 @@ sub Run {
     {
         $Self->Print("  All installed packages are already at their latest versions.\n");
         $Self->Print("\n<green>Done.</green>\n");
+
         return $Self->ExitCodeOk();
     }
 
@@ -209,6 +220,7 @@ sub Run {
 
     if ( !$Result{Success} ) {
         $Self->Print("\n<red>Fail.</red>\n");
+
         return $Self->ExitCodeError();
     }
 
@@ -225,6 +237,7 @@ sub Run {
     );
 
     $Self->Print("\n<green>Done.</green>\n");
+
     return $Self->ExitCodeOk();
 }
 
