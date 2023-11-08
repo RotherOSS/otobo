@@ -687,7 +687,7 @@ my @Tests = (
         Success         => 1,
     },
     {
-        Name   => 'CustomerUser: Value array ref with one customer user login',
+        Name   => 'CustomerUser MultiValue: Value array ref with one customer user login',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{CustomerUserMV},
             Value              => [$FirstCustomerUserLogin],
@@ -698,7 +698,7 @@ my @Tests = (
         Success         => 1,
     },
     {
-        Name   => 'CustomerUser: Value array ref with two customer user logins',
+        Name   => 'CustomerUser MultiValue: Value array ref with two customer user logins',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{CustomerUserMV},
             Value              => [ $FirstCustomerUserLogin, $SecondCustomerUserLogin ],
@@ -709,7 +709,7 @@ my @Tests = (
         Success         => 1,
     },
     {
-        Name   => 'CustomerUser: Value array ref undef',
+        Name   => 'CustomerUser MultiValue: Value array ref undef',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{CustomerUserMV},
             Value              => [undef],
@@ -720,7 +720,7 @@ my @Tests = (
         Success         => 1,
     },
     {
-        Name   => 'CustomerUser: Value array ref with undef inbetween',
+        Name   => 'CustomerUser MultiValue: Value array ref with undef inbetween',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{CustomerUserMV},
             Value              => [ $FirstCustomerUserLogin, undef, $SecondCustomerUserLogin ],
