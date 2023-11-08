@@ -256,7 +256,7 @@ sub PossibleValuesGet {
 
     my %AgentList;
     my $GroupFilter = $Param{DynamicFieldConfig}{Config}{GroupFilter};
-    if ($GroupFilter) {
+    if ( IsArrayRefWithData($GroupFilter) ) {
         %AgentList = $GroupObject->PermissionGroupGet(
             GroupID => $GroupFilter,
             Type    => 'ro',

@@ -801,6 +801,9 @@ sub ReadableValueRender {
     # set new line separator
     my $ItemSeparator = ', ';
 
+    # convert undef to empty string
+    @Values = map { $_ // '' } @Values;
+
     # Output transformations
     $Value = join( $ItemSeparator, @Values );
     my $Title = $Value;
