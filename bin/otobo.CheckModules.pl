@@ -169,7 +169,6 @@ my %IsStandardFeature = (
     'mail:ntlm'       => 1,
     'mail:sasl'       => 1,
     'mail:ssl'        => 1,
-    'performance:csv' => 1,
 );
 
 # defines a set of features considered standard for docker environments
@@ -188,7 +187,6 @@ my %IsDockerFeature = (
     'mail:imap'          => 1,
     'mail:ntlm'          => 1,
     'mail:sasl'          => 1,
-    'performance:csv'    => 1,
     'performance:redis'  => 1,
     'storage:s3'         => 1,
     'auth:openidconnect' => 1,
