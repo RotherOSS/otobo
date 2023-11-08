@@ -16,9 +16,9 @@
 
 package Kernel::System::Package;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 use utf8;
 
