@@ -633,7 +633,7 @@ sub DisplayValueRender {
     }
 
     # set field link TODO: (Prio 5) think about multi value
-    $Link = scalar @ObjectIDs == 1 ? $Link : '';
+    $Link = scalar @ObjectIDs == 1 ? $Link : undef;
 
     # return a data structure
     return {
