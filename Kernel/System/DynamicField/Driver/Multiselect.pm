@@ -586,26 +586,6 @@ sub DisplayValueRender {
         # set title as value after update and before limit
         $TitleItem = $ValueItem;
 
-        # HTML Output transformation
-        if ($HTMLOutput) {
-            $ValueItem = $Param{LayoutObject}->Ascii2Html(
-                Text => $ValueItem,
-                Max  => $Param{ValueMaxChars},
-            );
-            $TitleItem = $Param{LayoutObject}->Ascii2Html(
-                Text => $TitleItem,
-                Max  => $Param{TitleMaxChars},
-            );
-        }
-        else {
-            if ( $Param{ValueMaxChars} && length($ValueItem) > $Param{ValueMaxChars} ) {
-                $ValueItem = substr( $ValueItem, 0, $Param{ValueMaxChars} ) . '...';
-            }
-            if ( $Param{TitleMaxChars} && length($TitleItem) > $Param{TitleMaxChars} ) {
-                $TitleItem = substr( $TitleItem, 0, $Param{TitleMaxChars} ) . '...';
-            }
-        }
-
         push @ReadableValues, $ValueItem;
         push @ReadableTitles, $TitleItem;
     }
@@ -615,13 +595,36 @@ sub DisplayValueRender {
 
     my $ItemSeparator = $FieldConfig->{ItemSeparator} || ', ';
 
+    my $ReadableValue = '' . join( $ItemSeparator, @ReadableValues );
+    my $ReadableTitle = '' . join( $ItemSeparator, @ReadableTitles );
+
+    # HTML Output transformation
+    if ($HTMLOutput) {
+        $ReadableValue = $Param{LayoutObject}->Ascii2Html(
+            Text => $ReadableValue,
+            Max  => $Param{ValueMaxChars},
+        );
+        $ReadableTitle = $Param{LayoutObject}->Ascii2Html(
+            Text => $ReadableTitle,
+            Max  => $Param{TitleMaxChars},
+        );
+    }
+    else {
+        if ( $Param{ValueMaxChars} && length($ReadableValue) > $Param{ValueMaxChars} ) {
+            $ReadableValue = substr( $ReadableValue, 0, $Param{ValueMaxChars} ) . '...';
+        }
+        if ( $Param{TitleMaxChars} && length($ReadableTitle) > $Param{TitleMaxChars} ) {
+            $ReadableTitle = substr( $ReadableTitle, 0, $Param{TitleMaxChars} ) . '...';
+        }
+    }
+
     # this field type does not support the Link Feature
     my $Link;
 
     # return a data structure
     return {
-        Value => '' . join( $ItemSeparator, @ReadableValues ),
-        Title => '' . join( $ItemSeparator, @ReadableTitles ),
+        Value => $ReadableValue,
+        Title => $ReadableTitle,
         Link  => $Link,
     };
 }
