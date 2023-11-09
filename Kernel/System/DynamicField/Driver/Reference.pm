@@ -539,8 +539,6 @@ sub DisplayValueRender {
         @ObjectIDs = ( $Param{Value} );
     }
 
-    @ObjectIDs = grep { defined $_ } @ObjectIDs;
-
     # get descriptive names for the values, e.g. TicketNumber for TicketID
     my @LongObjectDescriptions;
     my $Link;
@@ -551,13 +549,18 @@ sub DisplayValueRender {
         );
         if ($PluginObject) {
             for my $ObjectID (@ObjectIDs) {
-                my %Description = $PluginObject->ObjectDescriptionGet(
-                    ObjectID     => $ObjectID,
-                    Link         => $HTMLOutput,
-                    LayoutObject => $Param{LayoutObject},
-                );
-                push @LongObjectDescriptions, $Description{Long};
-                $Link = $Description{Link};
+                if ($ObjectID) {
+                    my %Description = $PluginObject->ObjectDescriptionGet(
+                        ObjectID     => $ObjectID,
+                        Link         => $HTMLOutput,
+                        LayoutObject => $Param{LayoutObject},
+                    );
+                    push @LongObjectDescriptions, $Description{Long};
+                    $Link = $Description{Link};
+                }
+                else {
+                    push @LongObjectDescriptions, '';
+                }
             }
         }
     }
@@ -613,16 +616,14 @@ sub DisplayValueRender {
         }
 
         push @ReadableValues, $ReadableValue;
-        if ( length $ReadableTitle ) {
-            push @ReadableTitles, $ReadableTitle;
-        }
+        push @ReadableTitles, $ReadableTitle;
     }
 
     # set new line separator
-    my $ItemSeparator = $HTMLOutput ? '<br>' : '\n';
+    my $ItemSeparator = $HTMLOutput ? '<br/>' : '\n';
 
     my $Value = join $ItemSeparator, @ReadableValues;
-    my $Title = join $ItemSeparator, @ReadableTitles;
+    my $Title = join ', ', @ReadableTitles;
 
     if ($ShowValueEllipsis) {
         $Value .= '...';
