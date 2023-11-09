@@ -58,7 +58,7 @@ sub Run {
     if (
         !$Field
         ||
-        $Field !~ m{ \A (?: Autocomplete | Search ) _DynamicField_ (.*?) (?:_\d+)? \z }xms
+        $Field !~ m{ \A (?: Autocomplete | Search ) _DynamicField_ (.*?) (?:_[0-9a-f]+)? \z }xms
         )
     {
         return $LayoutObject->JSONReply(
