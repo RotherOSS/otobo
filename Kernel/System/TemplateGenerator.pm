@@ -1424,11 +1424,6 @@ sub _Replace {
             }
         }
 
-        # If tag is 'OTOBO_TICKET_DynamicField_FieldName_Data' replace whole text with dynamic field value structure
-        if ( $Tag =~ m/OTOBO_(?<DynamicField>DynamicField_[A-Za-z0-9\-])_Data/ ) {
-            $Param{Text} = $H{ $+{DynamicField} };
-        }
-
         $Param{Text} =~ s/(?:$Tag)($Keys)$End/$H{ lc $1 }/ieg;
     };
 
@@ -1567,13 +1562,12 @@ sub _Replace {
     # different from the the values to display
     # <OTOBO_TICKET_DynamicField_NameX> returns the stored key
     # <OTOBO_TICKET_DynamicField_NameX_Value> returns the display value
-    # <OTOBO_TICKET_DynamicField_NameX_Data> replaces the complete string with the dynamic field value structure
 
     my %DynamicFields;
 
     # For systems with many Dynamic fields we do not want to load them all unless needed
     # Find what Dynamic Field Values are requested
-    while ( $Param{Text} =~ m/$Tag DynamicField_(\S+?)(_Value|_Data)? $End/gixms ) {
+    while ( $Param{Text} =~ m/$Tag DynamicField_(\S+?)(_Value)? $End/gixms ) {
         $DynamicFields{$1} = 1;
     }
 
@@ -1640,7 +1634,7 @@ sub _Replace {
             Value              => $DisplayValue,
         );
 
-        # fill the DynamicFieldDisplayValues
+        # fill the DynamicFielsDisplayValues
         if ($DisplayValueStrg) {
             $DynamicFieldDisplayValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} . '_Value' } = $DisplayValueStrg->{Value};
 
@@ -1656,8 +1650,6 @@ sub _Replace {
                     .= " ($RecipientTimeZone)";
             }
         }
-
-        $DynamicFieldDisplayValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} . '_Data' } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
 
         # get the readable value (key) for each dynamic field
         my $ValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
