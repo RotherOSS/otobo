@@ -677,6 +677,7 @@ sub RequesterPerformRequest {
 
     # Add authentication options if configured.
     if ( IsHashRefWithData( $Config->{Authentication} ) && IsStringWithData( $Config->{Authentication}->{AuthType} ) ) {
+
         # basic auth
         if (
             $Config->{Authentication}->{AuthType} eq 'BasicAuth'
@@ -718,7 +719,7 @@ sub RequesterPerformRequest {
             }
 
             my $KinitString = 'kinit -k -t ' . $Config->{Authentication}->{KerberosKeytab} . ' ' . $Config->{Authentication}->{KerberosUser};
-            my $LogMessage  = qx{$KinitString 2>&1}; 
+            my $LogMessage  = qx{$KinitString 2>&1};
 
             if ( IsStringWithData($LogMessage) ) {
                 $Self->{DebuggerObject}->Error(
@@ -731,7 +732,7 @@ sub RequesterPerformRequest {
                 };
             }
         }
-   }
+    }
 
     if ( $Param{CustomHeader} ) {
         %Headers = (

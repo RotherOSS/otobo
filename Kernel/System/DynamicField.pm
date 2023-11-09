@@ -777,6 +777,7 @@ sub DynamicFieldList {
         }
 
         if ( $Param{Namespace} && $Param{Namespace} ne 'All' ) {
+
             # select all fields without a namespace
             if ( $Param{Namespace} eq '<none>' ) {
                 push @WhereClauses, 'name NOT LIKE ?';

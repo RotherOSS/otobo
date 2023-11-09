@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -57,7 +57,7 @@ sub new {
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
-        ObjectType => ['Ticket', 'Article'],
+        ObjectType => [ 'Ticket', 'Article' ],
     );
 
     return $Self;
@@ -1317,41 +1317,42 @@ sub GetStatTable {
 
         # add the number of articles if needed
         if ( $TicketAttributes{NumberOfArticles} ) {
-             $Ticket{NumberOfArticles} = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
+            $Ticket{NumberOfArticles} = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
                 TicketID => $TicketID,
                 UserID   => 1
             );
         }
 
-       my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-       my @ArticleDynField;
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my @ArticleDynField;
 
-	ATTRIBUTE:
-        for my $ArticleDynField (keys %TicketAttributes) {
+        ATTRIBUTE:
+        for my $ArticleDynField ( keys %TicketAttributes ) {
             next ATTRIBUTE if $ArticleDynField !~ /DynamicField_/;
 
-	    $ArticleDynField =~ s/DynamicField_//;
+            $ArticleDynField =~ s/DynamicField_//;
 
             my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
                 Name => $ArticleDynField,
             );
 
-	    next ATTRIBUTE if $DynamicField->{ObjectType} ne "Article";
-	    push(@ArticleDynField, $ArticleDynField);
-        }    
+            next ATTRIBUTE if $DynamicField->{ObjectType} ne "Article";
 
-	if ( IsArrayRefWithData(\@ArticleDynField) ) {
+            push @ArticleDynField, $ArticleDynField;
+        }
+
+        if ( IsArrayRefWithData( \@ArticleDynField ) ) {
 
             my @ArticleList = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
                 TicketID => $TicketID,
                 UserID   => 1
             );
-        
+
             for my $MetaArticle (@ArticleList) {
                 my %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle( %{$MetaArticle} )->ArticleGet( %{$MetaArticle}, DynamicFields => 1 );
 
-		for my $ArticleA ( @ArticleDynField ) {
-		    $Ticket{"DynamicField_".$ArticleA} = $Article{"DynamicField_".$ArticleA} || '';
+                for my $ArticleA (@ArticleDynField) {
+                    $Ticket{ "DynamicField_" . $ArticleA } = $Article{ "DynamicField_" . $ArticleA } || '';
                 }
             }
         }
@@ -1384,7 +1385,7 @@ sub GetStatTable {
                 for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
                     next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
                     next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-		    next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne "Ticket";
+                    next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne "Ticket";
 
                     # skip all fields that does not match with current field name ($1)
                     # without the 'DynamicField_' prefix

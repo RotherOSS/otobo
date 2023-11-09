@@ -993,10 +993,10 @@ sub _TicketAppointments {
             Key   => 'Plus_60',
             Value => $LayoutObject->{LanguageObject}->Translate('+1 hour'),
         },
-        {    
+        {
             Key   => 'Plus_480',
             Value => $LayoutObject->{LanguageObject}->Translate('+1 day'),
-        }, 
+        },
     );
 
     my @EndDateTypes = ( @EndPlusTypes, @DynamicFieldTypes );

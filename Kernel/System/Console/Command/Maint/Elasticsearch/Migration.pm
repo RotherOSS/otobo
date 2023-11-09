@@ -676,7 +676,7 @@ sub MigrateConfigItems {
     my $CICount = scalar @ConfigItems;
 
     my $Errors = 0;
-    for my $ConfigItemID ( @ConfigItems ) {
+    for my $ConfigItemID (@ConfigItems) {
 
         $Count++;
 

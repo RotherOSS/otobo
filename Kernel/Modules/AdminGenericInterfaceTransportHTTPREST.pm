@@ -389,7 +389,7 @@ sub _ShowEdit {
 
         # Create Authentication types select.
         $Param{AuthenticationStrg} = $LayoutObject->BuildSelection(
-            Data          => ['BasicAuth', 'Kerberos'],
+            Data          => [ 'BasicAuth', 'Kerberos' ],
             Name          => 'AuthType',
             SelectedValue => $Param{AuthType} || '-',
             PossibleNone  => 1,
