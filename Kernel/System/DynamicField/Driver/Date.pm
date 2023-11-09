@@ -786,14 +786,10 @@ sub DisplayValueRender {
     if ($HTMLOutput) {
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
-            Max  => $Param{TitleMaxChars} || '',
         );
         $ValueSeparator = '<br/>';
     }
     else {
-        if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
-            $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
-        }
         $ValueSeparator = "\n";
     }
 
