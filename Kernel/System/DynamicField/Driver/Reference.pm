@@ -570,6 +570,7 @@ sub DisplayValueRender {
 
     VALUEITEM:
     for my $ReadableValue (@LongObjectDescriptions) {
+        $ReadableValue //= '';
         my $ReadableLength = length $ReadableValue;
 
         # set title equal value
@@ -799,11 +800,11 @@ sub ReadableValueRender {
         @Values = ( $Param{Value} );
     }
 
+    # prevent joining undefined values
+    @Values = map { $_ // '' } @Values;
+
     # set new line separator
     my $ItemSeparator = ', ';
-
-    # convert undef to empty string
-    @Values = map { $_ // '' } @Values;
 
     # Output transformations
     $Value = join( $ItemSeparator, @Values );
