@@ -820,6 +820,9 @@ sub ReadableValueRender {
         @Values = ( $Param{Value} );
     }
 
+    # prevent joining undefined values
+    @Values = map { $_ // '' } @Values;
+
     # only keep date part, loose time part of time-stamp
     for my $ValueItem (@Values) {
         if ($ValueItem) {

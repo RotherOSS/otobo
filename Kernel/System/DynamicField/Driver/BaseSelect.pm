@@ -879,7 +879,7 @@ sub ReadableValueRender {
         @Values = ( $Param{Value} );
     }
 
-    # convert undef to empty string
+    # prevent joining undefined values
     @Values = map { $_ // '' } @Values;
 
     # set item separator
