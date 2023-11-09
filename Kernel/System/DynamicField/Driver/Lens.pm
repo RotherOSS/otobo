@@ -401,6 +401,9 @@ sub ReadableValueRender {
         @Values = ( $Param{Value} );
     }
 
+    # prevent joining undefined values
+    @Values = map { $_ // '' } @Values;
+
     # set new line separator
     my $ItemSeparator = ', ';
 
