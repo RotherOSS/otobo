@@ -25,9 +25,9 @@ use utf8;
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
 # core modules
+use File::Spec qw();
 
 # CPAN modules
-use File::Spec qw();
 
 # OTOBO modules
 

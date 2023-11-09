@@ -25,6 +25,7 @@ use utf8;
 # core modules
 use POSIX;
 use ExtUtils::MakeMaker;
+use File::Spec qw();
 
 # CPAN modules
 use Sys::Hostname::Long;    # imports hostname_long()

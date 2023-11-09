@@ -21,12 +21,12 @@ use v5.24;
 
 # use ../ as lib location
 use File::Basename;
-use File::Spec qw(catfile);
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 # core modules
+use File::Spec qw();
 use Getopt::Std;
 
 # CPAN modules
