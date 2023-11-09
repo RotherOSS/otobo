@@ -10,7 +10,7 @@ use warnings;
 require 5.002;
 
 our($VERSION);
-$VERSION='3.69';
+$VERSION='3.76';
 
 $Locale::Codes::Retired{'langfam'}{'alpha'}{'code'} = {
 };

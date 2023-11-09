@@ -1,13 +1,13 @@
 package Locale::Codes::LangVar;
 # Copyright (C) 2001      Canon Research Centre Europe (CRE).
 # Copyright (C) 2002-2009 Neil Bowers
-# Copyright (c) 2010-2021 Sullivan Beck
+# Copyright (c) 2010-2023 Sullivan Beck
 # This program is free software; you can redistribute it and/or modify it
 # under the same terms as Perl itself.
 
 # This file was automatically generated.  Any changes to this file will
 # be lost the next time 'gen_mods' is run.
-#    Generated on: Wed Dec  1 13:43:56 EST 2021
+#    Generated on: Tue Aug 29 10:59:57 EDT 2023
 
 use strict;
 use warnings;
@@ -15,7 +15,7 @@ require 5.006;
 use Exporter qw(import);
 
 our($VERSION,@EXPORT);
-$VERSION   = '3.69';
+$VERSION='3.76';
 
 ################################################################################
 use if $] >= 5.027007, 'deprecate';

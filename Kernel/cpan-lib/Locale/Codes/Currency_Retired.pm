@@ -3,7 +3,7 @@ Locale::Codes::Currency_Retired;
 
 # This file was automatically generated.  Any changes to this file will
 # be lost the next time 'deprecate_codes' is run.
-#    Generated on: Wed Dec  1 13:45:47 EST 2021
+#    Generated on: Tue Aug 29 11:10:03 EDT 2023
 
 use strict;
 require 5.006;
@@ -11,7 +11,7 @@ use warnings;
 use utf8;
 
 our($VERSION);
-$VERSION='3.69';
+$VERSION='3.76';
 
 $Locale::Codes::Retired{'currency'}{'alpha'}{'code'} = {
    q(ADP) => q(Andorran Peseta),
@@ -34,6 +34,7 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'code'} = {
    q(GHC) => q(Cedi),
    q(GRD) => q(Drachma),
    q(GWP) => q(Guinea-Bissau Peso),
+   q(HRK) => q(Kuna),
    q(IEP) => q(Irish Pound),
    q(ITL) => q(Italian Lira),
    q(LTL) => q(Lithuanian Litas),
@@ -72,6 +73,7 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'code'} = {
 };
 
 $Locale::Codes::Retired{'currency'}{'num'}{'code'} = {
+   q(191) => q(Kuna),
    q(428) => q(Latvian Lats),
    q(440) => q(Lithuanian Litas),
    q(478) => q(Ouguiya),
@@ -179,6 +181,7 @@ $Locale::Codes::Retired{'currency'}{'num'}{'name'} = {
    q(croatian kuna) => [ q(191), q(Croatian Kuna) ],
    q(guinea franc) => [ q(324), q(Guinea Franc) ],
    q(kip) => [ q(418), q(Kip) ],
+   q(kuna) => [ q(191), q(Kuna) ],
    q(kwacha) => [ q(454), q(Kwacha) ],
    q(latvian lats) => [ q(428), q(Latvian Lats) ],
    q(leu) => [ q(946), q(Leu) ],

@@ -420,7 +420,7 @@ sub BundleModulesDeclarationGet {
             'Comment'      => 'needed by Kernel::System::ReferenceData, Locale::Country',
             'Module'       => 'Locale::Codes',
             'Required'     => 1,
-            'VersionExact' => '3.69',
+            'VersionExact' => '3.76',
         },
         {
             'Comment'      => 'needed by webservices',

@@ -3,7 +3,7 @@ Locale::Codes::LangVar_Retired;
 
 # This file was automatically generated.  Any changes to this file will
 # be lost the next time 'deprecate_codes' is run.
-#    Generated on: Wed Dec  1 13:45:47 EST 2021
+#    Generated on: Tue Aug 29 11:10:03 EDT 2023
 
 use strict;
 require 5.006;
@@ -11,7 +11,7 @@ use warnings;
 use utf8;
 
 our($VERSION);
-$VERSION='3.69';
+$VERSION='3.76';
 
 $Locale::Codes::Retired{'langvar'}{'alpha'}{'code'} = {
    q(arevela) => q(Eastern Armenian),
