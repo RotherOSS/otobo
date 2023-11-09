@@ -531,450 +531,104 @@ my %DynamicFieldConfigs = (
 
 # define tests
 my @Tests = (
-
-    #     {
-    #         Name    => 'No Params',
-    #         Config  => undef,
-    #         Success => 0,
-    #     },
-    #     {
-    #         Name    => 'Empty Config',
-    #         Config  => {},
-    #         Success => 0,
-    #     },
-    #     {
-    #         Name   => 'Missing DynamicFieldConfig',
-    #         Config => {
-    #             DynamicFieldConfig => undef,
-    #             LayoutObject => $LayoutObject,
-    #         },
-    #         Success => 0,
-    #     },
-    #     {
-    #         Name   => 'Missing Value Text',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Text},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => undef,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '',
-    #             Title => '',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Missing Value TextArea',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => undef,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '',
-    #             Title => '',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Missing Value Checkbox',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Checkbox},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => undef,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '',
-    #             Title => '',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Missing Value Dropdown',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => undef,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '',
-    #             Title => '',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Missing Value Multiselect',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => undef,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '',
-    #             Title => '',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Missing Value Date',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Date},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => undef,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '',
-    #             Title => '',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Missing Value DateTime',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => undef,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '',
-    #             Title => '',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'UTF8 Value Text',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Text},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => 'ÁäñƱƩ⨅ß',
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => 'ÁäñƱƩ⨅ß',
-    #             Title => 'ÁäñƱƩ⨅ß',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'UTF8 Value TextArea',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => 'Line1\nÁäñƱƩ⨅ß\nLine3',
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => 'Line1\nÁäñƱƩ⨅ß\nLine3',
-    #             Title => 'Line1\nÁäñƱƩ⨅ß\nLine3',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Value 1 Checkbox',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Checkbox},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => 1,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '1',
-    #             Title => '1',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Long Value Dropdown',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => 'Looooooooooooooooooooooooooooong',
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => 'Looooooooooooooooooooooooooooong',
-    #             Title => 'Looooooooooooooooooooooooooooong',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Single Value Multiselect',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => 'Value1',
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => 'Value1',
-    #             Title => 'Value1',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Multiple Values Multiselect',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => [ 'Value1', 'Value2' ],
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => 'Value1, Value2',
-    #             Title => 'Value1, Value2',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Correct Date Value Date',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Date},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => '1977-12-12 00:00:00',
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '1977-12-12',
-    #             Title => '1977-12-12',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Incorrect Date Value Date',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Date},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => '2013-02-31 00:00:00',
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '2013-02-31',
-    #             Title => '2013-02-31',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Correct DateTime Value DateTime',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => '1977-12-12 12::59:32',
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '1977-12-12 12::59:32',
-    #             Title => '1977-12-12 12::59:32',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Incorrect Date Value Date',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => '2013-02-31 56:00:28',
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '2013-02-31 56:00:28',
-    #             Title => '2013-02-31 56:00:28',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'UTF8 Value Text (reduced)',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Text},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => 'ÁäñƱƩ⨅ß',
-    #             ValueMaxChars      => 2,
-    #             TitleMaxChars      => 4,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => 'Áä...',
-    #             Title => 'ÁäñƱ...',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'UTF8 Value TextArea (reduced)',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => 'Line1\nÁäñƱƩ⨅ß\nLine3',
-    #             ValueMaxChars      => 2,
-    #             TitleMaxChars      => 4,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => 'Li...',
-    #             Title => 'Line...',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Value Other Checkbox (reduced)',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Checkbox},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => 'Other',
-    #             ValueMaxChars      => 2,
-    #             TitleMaxChars      => 4,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => 'Other',
-    #             Title => 'Other',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Long Value Dropdown (reduced)',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => 'Looooooooooooooooooooooooooooong',
-    #             ValueMaxChars      => 2,
-    #             TitleMaxChars      => 4,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => 'Lo...',
-    #             Title => 'Looo...',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Single Value Multiselect (reduced)',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => 'Value1',
-    #             ValueMaxChars      => 2,
-    #             TitleMaxChars      => 4,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => 'Va...',
-    #             Title => 'Valu...',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Multiple Values Multiselect (reduced)',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => [ 'Value1', 'Value2' ],
-    #             ValueMaxChars      => 2,
-    #             TitleMaxChars      => 4,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => 'Va...',
-    #             Title => 'Valu...',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Correct Date Value Date (reduced)',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Date},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => '1977-12-12 00:00:00',
-    #             ValueMaxChars      => 2,
-    #             TitleMaxChars      => 4,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '1977-12-12',
-    #             Title => '1977-12-12',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Incorrect Date Value Date (reduced)',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{Date},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => '2013-02-31 00:00:00',
-    #             ValueMaxChars      => 2,
-    #             TitleMaxChars      => 4,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '2013-02-31',
-    #             Title => '2013-02-31',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Correct DateTime Value DateTime (reduced)',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => '1977-12-12 12::59:32',
-    #             ValueMaxChars      => 2,
-    #             TitleMaxChars      => 4,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '1977-12-12 12::59:32',
-    #             Title => '1977-12-12 12::59:32',
-    #         },
-    #         Success => 1,
-    #     },
-    #     {
-    #         Name   => 'Incorrect Date Value Date (reduced)',
-    #         Config => {
-    #             DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
-    #             LayoutObject => $LayoutObject,
-    #             Value              => '2013-02-31 56:00:28',
-    #             ValueMaxChars      => 2,
-    #             TitleMaxChars      => 4,
-    #         },
-    #         ExpectedResults => {
-    #             Link => '',
-    #             LinkPreview => '',
-    #             Value => '2013-02-31 56:00:28',
-    #             Title => '2013-02-31 56:00:28',
-    #         },
-    #         Success => 1,
-    #     },
+    {
+        Name    => 'No Params',
+        Config  => undef,
+        Success => 0,
+    },
+    {
+        Name    => 'Empty Config',
+        Config  => {},
+        Success => 0,
+    },
+    {
+        Name   => 'Missing DynamicFieldConfig',
+        Config => {
+            DynamicFieldConfig => undef,
+            LayoutObject       => $LayoutObject,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'Missing Value Text',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Text},
+            LayoutObject       => $LayoutObject,
+            Value              => undef,
+        },
+        ExpectedResults => {
+            Link        => '',
+            LinkPreview => '',
+            Value       => '',
+            Title       => '',
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Missing Value Date',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Date},
+            LayoutObject       => $LayoutObject,
+            Value              => undef,
+        },
+        ExpectedResults => {
+            Link        => '',
+            LinkPreview => '',
+            Value       => '',
+            Title       => '',
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Date Value Date',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Date},
+            LayoutObject       => $LayoutObject,
+            Value              => '1977-12-12 00:00:00',
+        },
+        ExpectedResults => {
+            Link        => '',
+            LinkPreview => '',
+            Value       => '12/12/1977',
+            Title       => '12/12/1977',
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Multiple Values Multiselect (reduced)',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
+            LayoutObject       => $LayoutObject,
+            Value              => [ 'Value1', 'Value2' ],
+            HTMLOutput         => 0,
+            ValueMaxChars      => 2,
+            TitleMaxChars      => 4,
+        },
+        ExpectedResults => {
+            Link  => undef,
+            Value => 'Va...',
+            Title => 'Valu...',
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Date Value Date (reduced)',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Date},
+            LayoutObject       => $LayoutObject,
+            Value              => '1977-12-12 00:00:00',
+            HTMLOutput         => 0,
+            ValueMaxChars      => 2,
+            TitleMaxChars      => 4,
+        },
+        ExpectedResults => {
+            Link        => '',
+            LinkPreview => '',
+            Value       => '12/12/1977',
+            Title       => '12/12/1977',
+        },
+        Success => 1,
+    },
 
     # Dynamic Field Agent
     # Agent SingleSelect
@@ -1547,7 +1201,7 @@ my @Tests = (
             Value              => [ $FirstReferenceTicketID, $SecondReferenceTicketID ],
         },
         ExpectedResults => {
-            Link        => '',
+            Link        => undef,
             LinkPreview => '',
             Value       => "$FirstReferenceTicketDisplayValue<br/>$SecondReferenceTicketDisplayValue",
             Title       => "$FirstReferenceTicketDisplayValue, $SecondReferenceTicketDisplayValue",
@@ -1624,7 +1278,7 @@ my @Tests = (
             Value              => [ $FirstReferenceTicketID, $SecondReferenceTicketID ],
         },
         ExpectedResults => {
-            Link        => '',
+            Link        => undef,
             LinkPreview => '',
             Value       => "$FirstReferenceTicketDisplayValue<br/>$SecondReferenceTicketDisplayValue",
             Title       => "$FirstReferenceTicketDisplayValue, $SecondReferenceTicketDisplayValue",
@@ -1654,7 +1308,7 @@ my @Tests = (
             Value              => [ $FirstReferenceTicketID, undef, $SecondReferenceTicketID ],
         },
         ExpectedResults => {
-            Link        => '',
+            Link        => undef,
             LinkPreview => '',
             Value       => "$FirstReferenceTicketDisplayValue<br/><br/>$SecondReferenceTicketDisplayValue",
             Title       => "$FirstReferenceTicketDisplayValue, , $SecondReferenceTicketDisplayValue",
