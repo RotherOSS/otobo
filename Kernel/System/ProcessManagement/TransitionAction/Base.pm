@@ -161,7 +161,7 @@ sub _ReplaceTicketAttributes {
             }
 
             # if ticket value is scalar substitute all instances (as strings)
-            # this will allow replacements for "<OTOBO_TICKET_Title> <OTOBO_TICKET_Queue"
+            # this will allow replacements for "<OTOBO_TICKET_Title> <OTOBO_TICKET_Queue>"
             if ( !ref $Param{Ticket}->{$TicketAttribute} ) {
                 $Param{Config}->{$Attribute}
                     =~ s{<OTOBO_TICKET_$TicketAttribute>}{$Param{Ticket}->{$TicketAttribute} // ''}ige;
