@@ -193,9 +193,33 @@ my $DynamicFieldID3 = $DynamicFieldObject->DynamicFieldAdd(
     ValidID => 1,
     UserID  => 1,
 );
+my $DynamicFieldID4 = $DynamicFieldObject->DynamicFieldAdd(
+    InternalField => 0,
+    Name          => 'Field4' . $RandomID,
+    Label         => 'a description',
+    FieldOrder    => 10000,
+    FieldType     => 'Multiselect',
+    ObjectType    => 'Ticket',
+    Config        => {
+        Name            => 'AnyName',
+        Description     => 'Description for Dynamic Field.',
+        DefaultValue    => '',
+        MultiselectSort => 'TreeView',
+        PossibleNone    => 0,
+        PossibleValues  => {
+            1 => 'A',
+            2 => 'B',
+            3 => 'C',
+        },
+        TranslatableValues => 0,
+    },
+    Reorder => 1,
+    ValidID => 1,
+    UserID  => 1,
+);
 
 # sanity checks
-for my $DynamicFieldID ( $DynamicFieldID1, $DynamicFieldID2, $DynamicFieldID3 ) {
+for my $DynamicFieldID ( $DynamicFieldID1, $DynamicFieldID2, $DynamicFieldID3, $DynamicFieldID4 ) {
     $Self->True(
         $DynamicFieldID,
         "DynamicFieldADD() - $DynamicFieldID"
@@ -791,6 +815,26 @@ my @Tests = (
         Success => 1,
         Article => 0,
     },
+    {
+        Name   => 'Correct Ticket->DynamicField_Field3_Data No Article',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title         => 'ProcessManagement::TransitionAction::TicketCreate::5::' . $RandomID,
+                CustomerID    => '123465',
+                CustomerUser  => 'customer@example.com',
+                OwnerID       => '1',
+                TypeID        => 1,
+                ResponsibleID => 1,
+                PendingTime   => '2014-12-23 23:05:00',
+
+                "DynamicField_Field4$RandomID" => "<OTOBO_TICKET_DynamicField_Field3$RandomID" . '_Data>',
+            },
+        },
+        Success => 1,
+        Article => 0,
+    },
 
     {
         Name   => 'Correct Ticket->NotExistent',
@@ -1142,7 +1186,7 @@ for my $Test (@Tests) {
                 )
             {
                 $ExpectedValue = $Ticket{$1} // '';
-                if ( !ref $ExpectedValue && $OrigTest->{Config}->{Config}->{$Attribute} !~ m{_Value} ) {
+                if ( !ref $ExpectedValue && $OrigTest->{Config}->{Config}->{$Attribute} !~ m{(_Value|_Data)} ) {
                     $Self->IsNot(
                         $Test->{Config}->{Config}->{$Attribute},
                         $OrigTest->{Config}->{Config}->{$Attribute},
@@ -1180,6 +1224,29 @@ for my $Test (@Tests) {
                     $Self->Is(
                         $Test->{Config}->{Config}->{$Attribute},
                         $DisplayValueStrg->{Value},
+                        "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value:"
+                    );
+                }
+                elsif ( $OrigTest->{Config}->{Config}->{$Attribute} =~ m{OTOBO_TICKET_DynamicField_(\S+?)_Data} ) {
+                    $Self->IsNot(
+                        $Test->{Config}->{Config}->{$Attribute},
+                        $OrigTest->{Config}->{Config}->{$Attribute},
+                        "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value: $OrigTest->{Config}->{Config}->{$Attribute} should been replaced"
+                    );
+                    my $DynamicFieldName = $1;
+
+                    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                        Name => $DynamicFieldName,
+                    );
+
+                    my $DynamicFieldValue = $DynamicFieldBackendObject->ValueGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        ObjectID           => $Ticket{TicketID},
+                    );
+
+                    $Self->IsDeeply(
+                        $Test->{Config}->{Config}->{$Attribute},
+                        $DynamicFieldValue,
                         "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value:"
                     );
                 }
