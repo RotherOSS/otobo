@@ -135,6 +135,11 @@ sub _ReplaceTicketAttributes {
 
                 next REPLACEMENT;
             }
+            elsif ( $TicketAttribute =~ m{DynamicField_(\S+?)_Data} ) {
+                my $DynamicFieldName = $1;
+
+                $Param{Config}->{$Attribute} = $Param{Ticket}->{"DynamicField_$DynamicFieldName"};
+            }
             elsif ( $TicketAttribute =~ m{DynamicField_(\S+)} ) {
                 my $DynamicFieldName = $1;
 
