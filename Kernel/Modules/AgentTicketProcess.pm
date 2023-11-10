@@ -635,7 +635,7 @@ sub _RenderAjax {
                         Value              => [ $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] ],
                     ) || $PossibleValues;
 
-                    my $Name = $i ? "DynamicField_$DynamicFieldConfig->{Name}_$i" : "DynamicField_$DynamicFieldConfig->{Name}";
+                    my $Name = "DynamicField_$DynamicFieldConfig->{Name}_$i";
 
                     # add dynamic field to the list of fields to update
                     push @JSONCollector, {
