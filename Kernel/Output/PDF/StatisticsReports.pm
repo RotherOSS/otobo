@@ -378,7 +378,7 @@ sub GeneratePDF {
 
         }
 
-        # D3 charts; load in PhantomJS and generate PNG to embed in PDF.
+        # D3 charts; load in Chrome or PhantomJS and generate PNG to embed in PDF.
         else {
             my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
@@ -386,7 +386,7 @@ sub GeneratePDF {
             #   there is no Action initially.
             local $LayoutObject->{Action} = 'AgentStatisticsReports';
 
-            # Generate local file URLs for PhantomJS (ok, this is a hack).
+            # Generate local file URLs for Chrome or PhantomJS (ok, this is a hack).
             local $ConfigObject->{'Frontend::WebPath'}        = "file://$Home/var/httpd/htdocs/";
             local $ConfigObject->{'Frontend::JavaScriptPath'} = "file://$Home/var/httpd/htdocs/js/";
             my $Output = $LayoutObject->Header( Type => 'Small' );
