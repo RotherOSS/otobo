@@ -780,6 +780,7 @@ sub _ShowScreen {
     );
 
     # compute value for editfieldmode to maintain frontend selection
+    $Param{EditFieldMode} //= '';
     $Param{EditFieldMode} = $Param{EditFieldMode} eq 'AutoComplete' ? 'AutoComplete' : ( $Param{Multiselect} ? 'Multiselect' : 'Dropdown' );
 
     # Selections may be set up in a declaritive way
