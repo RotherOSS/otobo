@@ -120,6 +120,7 @@ sub ValueSet {
         ObjectID               => $Param{ObjectID},
         LensDynamicFieldConfig => $LensDFConfig,
         EditFieldValue         => 1,
+        ProcessSuffix          => $Param{ProcessSuffix},
     );
 
     return unless $ReferencedObjectID;
@@ -564,7 +565,7 @@ sub BuildSelectionDataGet {
 
 Methods that are used only internally.
 
-=head2 _GetReferencedObjectID()
+=head2 _GetReferenceDFConfig()
 
 The ID of the referenced object.
 
@@ -617,6 +618,10 @@ sub _GetReferencedObjectID {
     my $ReferenceDFConfig = $Self->_GetReferenceDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
     );
+
+    # in case we have a process suffix, append it to the name
+    $Param{ProcessSuffix} //= '';
+    $ReferenceDFConfig->{Name} .= $Param{ProcessSuffix};
 
     if ( $Param{EditFieldValue} ) {
 

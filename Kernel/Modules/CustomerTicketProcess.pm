@@ -155,7 +155,7 @@ sub Run {
         $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
     }
 
-    # if invalid process is detected on a ActivityDilog popup screen show an error message
+    # if invalid process is detected on a ActivityDialog popup screen show an error message
     if (
         $Self->{Subaction} eq 'DisplayActivityDialog'
         && !$FollowupProcessList->{$ProcessEntityID}
@@ -3243,6 +3243,7 @@ sub _StoreActivityDialog {
                 ObjectID           => $TicketID,
                 Value              => $TicketParam{$CurrentField},
                 UserID             => $ConfigObject->Get('CustomerPanelUserID'),
+                ProcessSuffix      => $Self->{IDSuffix},
             );
             if ( !$Success ) {
                 $LayoutObject->CustomerFatalError(
