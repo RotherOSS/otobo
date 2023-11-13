@@ -512,17 +512,20 @@ sub Run {
     $Data{TicketsShown} = $Count || 0;
 
     # Get ticket count for all services.
-    my @ServiceIDs           = sort { $AllServices{$a} cmp $AllServices{$b} } keys %AllServices;
-    my @AllServicesTicketIDs = $TicketObject->TicketSearch(
-        LockIDs    => \@ViewableLockIDs,
-        StateIDs   => \@ViewableStateIDs,
-        QueueIDs   => \@ViewableQueueIDs,
-        ServiceIDs => \@ServiceIDs,
-        Permission => $Permission,
-        UserID     => $Self->{UserID},
-        Limit      => 20_000,
-        Result     => 'ARRAY',
-    );
+    my @ServiceIDs = sort { $AllServices{$a} cmp $AllServices{$b} } keys %AllServices;
+    my @AllServicesTicketIDs;
+    if (@ServiceIDs) {
+        @AllServicesTicketIDs = $TicketObject->TicketSearch(
+            LockIDs    => \@ViewableLockIDs,
+            StateIDs   => \@ViewableStateIDs,
+            QueueIDs   => \@ViewableQueueIDs,
+            ServiceIDs => \@ServiceIDs,
+            Permission => $Permission,
+            UserID     => $Self->{UserID},
+            Limit      => 20_000,
+            Result     => 'ARRAY',
+        );
+    }
 
     my $TicketCountByServiceID = $TicketObject->TicketCountByAttribute(
         Attribute => 'ServiceID',
