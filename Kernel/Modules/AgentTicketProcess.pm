@@ -473,7 +473,6 @@ sub Run {
 
     }
 
-    # TODO restricting reference fields via ajaxupdate doesn't work because _RenderAjax() doesn#t use GetFieldStates()
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
 
         return $Self->_RenderAjax(
@@ -545,8 +544,11 @@ sub _RenderAjax {
     );
 
     # get needed object
+    my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject               = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
+    my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
@@ -573,6 +575,57 @@ sub _RenderAjax {
     }
     $Param{GetParam}->{DynamicField} = \%DynamicFieldCheckParam;
 
+    # retrieve field restrictions for dynamic fields
+    my $ACLPreselection;
+    if ( $ConfigObject->Get('TicketACL::ACLPreselection') ) {
+
+        # get cached preselection rules
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+        $ACLPreselection = $CacheObject->Get(
+            Type => 'TicketACL',
+            Key  => 'Preselection',
+        );
+        if ( !$ACLPreselection ) {
+            $ACLPreselection = $FieldRestrictionsObject->SetACLPreselectionCache();
+        }
+    }
+
+    my $Autoselect      = $ConfigObject->Get('TicketACL::Autoselect') || undef;
+    my $LoopProtection  = 100;
+    my %ChangedElements = $Param{GetParam}{ElementChanged} ? ( $Param{GetParam}{ElementChanged} => 1 ) : ();
+
+    # get values and visibility of dynamic fields
+    my %DynFieldStates = $FieldRestrictionsObject->GetFieldStates(
+        TicketObject              => $TicketObject,
+        DynamicFields             => $DynamicField,
+        DynamicFieldBackendObject => $Kernel::OM->Get('Kernel::System::DynamicField::Backend'),
+        Action                    => $Self->{Action},
+        ChangedElements           => \%ChangedElements,
+        UserID                    => $Self->{UserID},
+        TicketID                  => $Param{TicketID},
+        FormID                    => $Self->{FormID},
+        CustomerUser              => $Param{GetParam}{CustomerUserID} || '',
+        GetParam                  => $Param{GetParam},
+        Autoselect                => $Autoselect,
+        ACLPreselection           => $ACLPreselection // '',
+        LoopProtection            => \$LoopProtection,
+    );
+
+    # set new values
+    $Param{GetParam} = {
+        $Param{GetParam}->%*,
+        $DynFieldStates{NewValues}->%*,
+    };
+
+    if ( IsHashRefWithData( $DynFieldStates{Visibility} ) ) {
+        push @JSONCollector, {
+            Name => 'Restrictions_Visibility',
+            Data => $DynFieldStates{Visibility},
+        };
+    }
+
+    my %DFPossibleValues = map { $_->{Name} => $_->{PossibleValues} } values $DynFieldStates{Fields}->%*;
+
     # Get the activity dialog's Submit Param's or Config Params
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
@@ -593,47 +646,18 @@ sub _RenderAjax {
 
             next DIALOGFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Behavior           => 'IsACLReducible',
-            );
-            next DIALOGFIELD if !$IsACLReducible;
+            my ($PossibleValuesElement) = grep { $_->{Name} eq 'DynamicField_' . $DynamicFieldConfig->{Name} } values $DynFieldStates{Fields}->%*;
 
-            my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-            );
-
-            # convert possible values key => value to key => key for ACLs using a Hash slice
-            my %AclData = %{$PossibleValues};
-            @AclData{ keys %AclData } = keys %AclData;
-
-            # get ticket object
-            my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-            # set possible values filter from ACLs
-            my $ACL = $TicketObject->TicketAcl(
-                %{ $Param{GetParam} },
-                ReturnType    => 'Ticket',
-                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data          => \%AclData,
-                Action        => $Self->{Action},
-                UserID        => $Self->{UserID},
-            );
-
-            if ($ACL) {
-                my %Filter = $TicketObject->TicketAclData();
-
-                # convert Filer key => key back to key => value using map
-                %{$PossibleValues} = map { $_ => $PossibleValues->{$_} } keys %Filter;
-            }
+            next DIALOGFIELD unless IsHashRefWithData($PossibleValuesElement);
+            my %PossibleValues = $PossibleValuesElement->{PossibleValues}->%*;
 
             if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
                 for my $i ( 0 .. $#{ $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
                     my $DataValues = $DynamicFieldBackendObject->BuildSelectionDataGet(
                         DynamicFieldConfig => $DynamicFieldConfig,
-                        PossibleValues     => $PossibleValues,
+                        PossibleValues     => \%PossibleValues,
                         Value              => [ $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] ],
-                    ) || $PossibleValues;
+                    ) || \%PossibleValues;
 
                     my $Name = "DynamicField_$DynamicFieldConfig->{Name}_$i";
 
@@ -652,9 +676,9 @@ sub _RenderAjax {
 
             my $DataValues = $DynamicFieldBackendObject->BuildSelectionDataGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
-                PossibleValues     => $PossibleValues,
-                Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
-            ) || $PossibleValues;
+                PossibleValues     => \%PossibleValues,
+                Value              => $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"},
+            ) || \%PossibleValues;
 
             # add dynamic field to the JSONCollector
             push(
@@ -662,7 +686,7 @@ sub _RenderAjax {
                 {
                     Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     Data        => $DataValues,
-                    SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
+                    SelectedID  => $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"},
                     Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
                     Max         => 100,
                 }
@@ -1742,7 +1766,9 @@ sub _OutputActivityDialog {
         CustomerUser              => $Param{GetParam}{CustomerUserID} || '',
         GetParam                  => {
             $Param{GetParam}->%*,
-            OwnerID => $Param{GetParam}{OwnerID},
+            DynamicField => {
+                map { 'DynamicField_' . $_->{Name} => $Param{GetParam}{ 'DynamicField_' . $_->{Name} } } $DynamicField->@*
+            },
         },
         Autoselect      => $Autoselect,
         ACLPreselection => $ACLPreselection // '',
@@ -2670,9 +2696,25 @@ sub _RenderDynamicField {
         ErrorMessage         => $ErrorMessage,
     );
 
+    my %Hidden;
+
+    # hide field
+    if ( !$Param{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"} ) {
+        %Hidden = (
+            HiddenClass => ' oooACLHidden',
+            HiddenStyle => 'style=display:none;',
+        );
+
+        # ACL hidden fields cannot be mandatory
+        if ( $Param{ActivityDialogField}{Display} == 2 ) {
+            $DynamicFieldHTML->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/g;
+        }
+    }
+
     my %Data = (
         Name  => $DynamicFieldConfig->{Name},
         Label => $DynamicFieldHTML->{Label},
+        %Hidden,
     );
 
     # Create one block for each multivalue item
