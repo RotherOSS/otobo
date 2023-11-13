@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-10-21 03:09+0000\n"
+"PO-Revision-Date: 2023-11-14 21:32+0000\n"
 "Last-Translator: Aychel Mora Alpízar <aychel@gridshield.net>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
 "es_CO/>\n"
@@ -357,7 +357,6 @@ msgstr ""
 "calendario de acuerdo a sus niveles de permisos."
 
 #. Template: AdminAppointmentCalendarManage
-#, fuzzy
 msgid "Read only: users can see and export all appointments in the calendar."
 msgstr ""
 "Solo Lectura: usuarios que pueden ver y exportar todas las citas en el "
@@ -376,7 +375,6 @@ msgid "Create: users can create and delete appointments in the calendar."
 msgstr "Crear: usuarios que pueden crear y borrar citas en el calendario."
 
 #. Template: AdminAppointmentCalendarManage
-#, fuzzy
 msgid "Read/write: users can manage the calendar itself."
 msgstr "Lectura/Escritura: usuario que pueden gestionar el calendario en sí."
 
@@ -457,7 +455,6 @@ msgid "End date"
 msgstr "Fecha de Fin"
 
 #. Template: AdminAppointmentCalendarManage
-#, fuzzy
 msgid ""
 "Use options below to narrow down for which tickets appointments will be "
 "automatically created."
@@ -2995,7 +2992,7 @@ msgstr "Opción de búsqueda en el archivo"
 
 #. Template: AdminGenericAgent
 msgid "Update/Add Ticket Attributes"
-msgstr ""
+msgstr "Actualizar/Agregar atributos de ticket"
 
 #. Template: AdminGenericAgent
 msgid "Set new service"
@@ -3039,7 +3036,7 @@ msgstr "Establecer bloqueo de ticket nuevo"
 
 #. Template: AdminGenericAgent
 msgid "New customer user ID"
-msgstr ""
+msgstr "Nuevo ID de usuario del cliente"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -3063,7 +3060,7 @@ msgstr "Añadir Nota"
 
 #. Template: AdminGenericAgent
 msgid "Visible for customer"
-msgstr ""
+msgstr "Visible para el cliente"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
@@ -3071,7 +3068,7 @@ msgstr "Unidades de tiempo"
 
 #. Template: AdminGenericAgent
 msgid "Execute Ticket Commands"
-msgstr ""
+msgstr "Ejecutar comandos de tickets"
 
 #. Template: AdminGenericAgent
 msgid "Send agent/customer notifications on changes"
@@ -3132,6 +3129,8 @@ msgid ""
 "Warning: There are %s tickets affected but only %s may be modified during "
 "one job execution!"
 msgstr ""
+"Advertencia: ¡Hay %s tickets afectados pero solo %s pueden modificarse "
+"durante la ejecución de un trabajo!"
 
 #. Template: AdminGenericAgent
 msgid "Affected Tickets"
@@ -3147,7 +3146,7 @@ msgstr "Administración de servicios web"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Service Management"
-msgstr ""
+msgstr "Gestión de Servicios Web"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
@@ -3177,7 +3176,7 @@ msgstr "Tiempo"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Communication ID"
-msgstr ""
+msgstr "ID de comunicación"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Remote IP"
@@ -3217,64 +3216,73 @@ msgstr "Refrescar"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Add ErrorHandling"
-msgstr ""
+msgstr "Agregar manejo de errores"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Edit ErrorHandling"
-msgstr ""
+msgstr "Editar manejo de errores"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Do you really want to delete this error handling module?"
-msgstr ""
+msgstr "¿Realmente desea eliminar este módulo de manejo de errores?"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "All configuration data will be lost."
-msgstr ""
+msgstr "Se perderán todos los datos de configuración."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
-msgstr ""
+msgstr "Opciones generales"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "The name can be used to distinguish different error handling configurations."
 msgstr ""
+"El nombre se puede utilizar para distinguir diferentes configuraciones de "
+"manejo de errores."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Please provide a unique name for this web service."
-msgstr ""
+msgstr "Proporcione un nombre único para este servicio web."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error handling module backend"
-msgstr ""
+msgstr "Módulo de manejo de errores en el backend"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This OTOBO error handling backend module will be called internally to "
 "process the error handling mechanism."
 msgstr ""
+"Este módulo backend de manejo de errores de OTOBO se llamará internamente "
+"para procesar el mecanismo de manejo de errores."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
-msgstr ""
+msgstr "Opciones de procesamiento"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
 msgstr ""
+"Configure filtros para controlar la ejecución del módulo de manejo de "
+"errores."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Only requests matching all configured filters (if any) will trigger module "
 "execution."
 msgstr ""
+"Solo las solicitudes que coincidan con todos los filtros configurados (si "
+"los hay) activarán la ejecución del módulo."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Operation filter"
-msgstr ""
+msgstr "Filtro de operación"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected operations."
 msgstr ""
+"Ejecute solo el módulo de manejo de errores para operaciones seleccionadas."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -3282,60 +3290,75 @@ msgid ""
 "request data. Filters involving this error stage should not use operation "
 "filter."
 msgstr ""
+"Nota: La operación no está determinada por errores que ocurren al recibir "
+"datos de solicitud entrantes. Los filtros que involucran esta etapa de error "
+"no deben usar el filtro de operación."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Invoker filter"
-msgstr ""
+msgstr "Filtro de invocador"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected invokers."
 msgstr ""
+"Ejecute solo el módulo de manejo de errores para los invocadores "
+"seleccionados."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message content filter"
-msgstr ""
+msgstr "Filtro de contenido de mensajes de error"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Enter a regular expression to restrict which error messages should cause "
 "error handling module execution."
 msgstr ""
+"Ingrese una expresión regular para restringir qué mensajes de error deberían "
+"causar la ejecución del módulo de manejo de errores."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Error message subject and data (as seen in the debugger error entry) will "
 "considered for a match."
 msgstr ""
+"El asunto y los datos del mensaje de error (como se ven en la entrada de "
+"error del depurador) se considerarán para una coincidencia."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
 msgstr ""
+"Ejemplo: Ingrese '^.*401 No autorizado.*\\\\$' para manejar solo los errores "
+"relacionados con la autenticación."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
-msgstr ""
+msgstr "Filtro de etapa de error"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Only execute error handling module on errors that occur during specific "
 "processing stages."
 msgstr ""
+"Ejecute únicamente el módulo de manejo de errores en errores que ocurran "
+"durante etapas de procesamiento específicas."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Example: Handle only errors where mapping for outgoing data could not be "
 "applied."
 msgstr ""
+"Ejemplo: Manejar solo errores en los que no se pudo aplicar la asignación de "
+"datos salientes."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
-msgstr ""
+msgstr "Código de error"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
-msgstr ""
+msgstr "Un identificador de error para este módulo de manejo de errores."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
