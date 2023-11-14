@@ -1711,6 +1711,7 @@ sub _Mask {
     );
 
     # show process widget  and activity dialogs on process tickets
+    my @ProcessDynamicFieldNames;
     if ($IsProcessTicket) {
 
         # get the DF where the ProcessEntityID is stored
@@ -1888,6 +1889,9 @@ sub _Mask {
                     Key   => 'ProcessAJAXFieldList',
                     Value => \@AJAXUpdatableFieldList,
                 );
+                for my $DynamicFieldList (@AJAXUpdatableFieldList) {
+                    push @ProcessDynamicFieldNames, $DynamicFieldList->@*;
+                }
             }
         }
     }
@@ -2327,7 +2331,10 @@ sub _Mask {
         # send data to JS
         $LayoutObject->AddJSData(
             Key   => 'DynamicFieldNames',
-            Value => $DynamicFieldNames,
+            Value => [
+                $DynamicFieldNames->@*,
+                @ProcessDynamicFieldNames,
+            ],
         );
 
         if ( $Param{HideAutoselected} ) {
