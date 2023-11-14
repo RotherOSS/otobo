@@ -387,11 +387,9 @@ sub _RenderAjax {
                         Value              => [ $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] ],
                     ) || $PossibleValues;
 
-                    my $Name = $i ? "DynamicField_$DynamicFieldConfig->{Name}$Self->{IDSuffix}_$i" : "DynamicField_$DynamicFieldConfig->{Name}$Self->{IDSuffix}";
-
                     # add dynamic field to the list of fields to update
                     push @JSONCollector, {
-                        Name        => $Name,
+                        Name        => "DynamicField_$DynamicFieldConfig->{Name}$Self->{IDSuffix}_$i",
                         Data        => $DataValues,
                         SelectedID  => $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i],
                         Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,

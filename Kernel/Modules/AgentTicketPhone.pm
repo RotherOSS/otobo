@@ -2250,12 +2250,9 @@ sub Run {
                             || $DynFieldStates{Fields}{$Index}{PossibleValues}
                         );
 
-                    # TODO: Not necessary anymore
-                    my $Name = $i ? "DynamicField_$DynamicFieldConfig->{Name}_$i" : "DynamicField_$DynamicFieldConfig->{Name}";
-
                     # add dynamic field to the list of fields to update
                     push @DynamicFieldAJAX, {
-                        Name        => $Name,
+                        Name        => "DynamicField_$DynamicFieldConfig->{Name}_$i",
                         Data        => $DataValues,
                         SelectedID  => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i],
                         Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
