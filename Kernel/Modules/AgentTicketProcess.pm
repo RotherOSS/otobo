@@ -1732,7 +1732,10 @@ sub _OutputActivityDialog {
     );
 
     my $MultiColumnRendered = 0;
-    my $DynamicField        = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet();
+    my $DynamicField        = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => 'Ticket',
+    );
 
     # retrieve field restrictions for dynamic fields
     my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
@@ -4821,7 +4824,6 @@ sub _StoreActivityDialog {
                 }
             }
 
-            # TODO overthink this
             # if we have an invisible field, use config's default value
             if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 0 ) {
                 if (
@@ -4834,6 +4836,11 @@ sub _StoreActivityDialog {
                 else {
                     $TicketParam{$CurrentField} = '';
                 }
+            }
+
+            # skip fields which are hidden by ACLs
+            elsif ( !$Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ) {
+                next DIALOGFIELD;
             }
 
             # only validate visible fields
