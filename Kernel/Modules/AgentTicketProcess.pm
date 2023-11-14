@@ -1773,6 +1773,7 @@ sub _OutputActivityDialog {
         Autoselect      => $Autoselect,
         ACLPreselection => $ACLPreselection // '',
         LoopProtection  => \$LoopProtection,
+        InitialRun      => 1,
     );
 
     my %DFPossibleValues = map { $_->{Name} => $_->{PossibleValues} } values $DynFieldStates{Fields}->%*;
@@ -1845,7 +1846,7 @@ sub _OutputActivityDialog {
                 ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
                 DynamicFieldValues   => \%DynamicFieldValues,
                 PossibleValuesFilter => \%DFPossibleValues,
-                Errors               => undef,
+                Errors               => $Param{DFErrors},
                 Visibility           => $DynFieldStates{Visibility},
                 Object               => {
                     CustomerID     => $Param{GetParam}->{CustomerID},
@@ -4719,6 +4720,39 @@ sub _StoreActivityDialog {
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
+    # map dynamic field values into acl structure
+    $Param{GetParam}{DynamicField}->%* = map { 'DynamicField_' . $_->{Name} => $Param{GetParam}{ 'DynamicField_' . $_->{Name} } } $DynamicField->@*;
+
+    # skip validation of hidden fields
+    my %Visibility;
+
+    # transform dynamic field data into DFName => DFName pair
+    my %DynamicFieldAcl = map { $_->{Name} => $_->{Name} } @{$DynamicField};
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    # call ticket ACLs for DynamicFields to check field visibility
+    my $ACLResult = $TicketObject->TicketAcl(
+        $Param{GetParam}->%*,
+        Action        => $Self->{Action},
+        ReturnType    => 'Form',
+        ReturnSubType => '-',
+        Data          => \%DynamicFieldAcl,
+        UserID        => $Self->{UserID},
+    );
+    if ($ACLResult) {
+        %Visibility = map { 'DynamicField_' . $_->{Name} => 0 } @{ $Self->{DynamicField} };
+        my %AclData = $TicketObject->TicketAclData();
+        for my $Field ( sort keys %AclData ) {
+            $Visibility{ 'DynamicField_' . $Field } = 1;
+        }
+    }
+    else {
+        %Visibility = map { 'DynamicField_' . $_->{Name} => 1 } @{ $Self->{DynamicField} };
+    }
+
+    my %DynamicFieldValidationResult;
+
     # check each Field of an Activity Dialog and fill the error hash if something goes horribly wrong
     my %CheckedFields;
     DIALOGFIELD:
@@ -4746,6 +4780,48 @@ sub _StoreActivityDialog {
             # Will be extended later on for ACL Checking:
             my $PossibleValuesFilter;
 
+            my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsACLReducible',
+            );
+
+            if ($IsACLReducible) {
+
+                # get PossibleValues
+                my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                );
+
+                # check if field has PossibleValues property in its configuration
+                if ( IsHashRefWithData($PossibleValues) ) {
+
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
+                    my %AclData = %{$PossibleValues};
+                    @AclData{ keys %AclData } = keys %AclData;
+
+                    # set possible values filter from ACLs
+                    my $ACL = $TicketObject->TicketAcl(
+                        $Param{GetParam}->%*,
+                        Action        => $Self->{Action},
+                        ReturnType    => 'Ticket',
+                        ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                        Data          => \%AclData,
+                        UserID        => $Self->{UserID},
+                    );
+                    if ($ACL) {
+                        my %Filter = $TicketObject->TicketAclData();
+
+                        # convert Filer key => key back to key => value using map
+                        %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
+                            keys %Filter;
+                    }
+                    else {
+                        $PossibleValuesFilter = $PossibleValues;
+                    }
+                }
+            }
+
+            # TODO overthink this
             # if we have an invisible field, use config's default value
             if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 0 ) {
                 if (
@@ -4780,8 +4856,9 @@ sub _StoreActivityDialog {
                 }
 
                 if ( $ValidationResult->{ServerError} ) {
-                    $Error{ $DynamicFieldConfig->{Name} }         = 1;
-                    $ErrorMessages{ $DynamicFieldConfig->{Name} } = $ValidationResult->{ErrorMessage};
+                    $Error{ $DynamicFieldConfig->{Name} }                        = 1;
+                    $ErrorMessages{ $DynamicFieldConfig->{Name} }                = $ValidationResult->{ErrorMessage};
+                    $DynamicFieldValidationResult{ $DynamicFieldConfig->{Name} } = $ValidationResult;
                 }
 
                 $TicketParam{$CurrentField} =
@@ -4928,8 +5005,6 @@ sub _StoreActivityDialog {
         }
     );
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
-
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my @Notify;
 
@@ -5095,6 +5170,7 @@ sub _StoreActivityDialog {
                 grep {m{^DynamicField_(.*)}xms} @{ $ActivityDialog->{FieldOrder} }
                 )
             {
+                next DYNAMICFIELD if !$Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
 
                 # and now it's easy, just store the dynamic Field Values ;)
                 $DynamicFieldBackendObject->ValueSet(
@@ -5272,6 +5348,7 @@ sub _StoreActivityDialog {
             ActivityDialogEntityID => $ActivityDialogEntityID,
             Error                  => \%Error,
             ErrorMessages          => \%ErrorMessages,
+            DFErrors               => \%DynamicFieldValidationResult,
             GetParam               => $Param{GetParam},
             Notify                 => \@Notify,
         );
