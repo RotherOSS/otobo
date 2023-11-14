@@ -189,7 +189,7 @@ sub EditSectionRender {
             }
 
             my $DynamicField = $Param{DynamicFields}{ $Field->{DF} };
-            my $DFName       = "DynamicField_$DynamicField->{Name}";
+            my $DFName       = "DynamicField_$Field->{DF}";
 
             # don't set a default value for hidden fields
             my %InvisibleNoDefault;
@@ -208,8 +208,8 @@ sub EditSectionRender {
 
             # set errors if present
             my %Error;
-            if ( $Param{Errors}{ $DynamicField->{Name} } ) {
-                %Error = $Param{Errors}{ $DynamicField->{Name} }->%*;
+            if ( $Param{Errors}{ $Field->{DF} } ) {
+                %Error = $Param{Errors}{ $Field->{DF} }->%*;
             }
 
             # fill dynamic field values with empty strings until it matches the maximum value count
