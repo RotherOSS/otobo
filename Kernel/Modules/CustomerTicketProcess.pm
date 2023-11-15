@@ -293,6 +293,12 @@ sub _RenderAjax {
     }
     $DynamicField = \@CustomerDynamicFields;
 
+    # include process id suffix into dynamic field configs
+    # NOTE currently only needed for lens dynamic fields
+    for my $DynamicFieldConfig ( $DynamicField->@* ) {
+        $DynamicFieldConfig->{ProcessSuffix} = $Self->{IDSuffix};
+    }
+
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
@@ -354,7 +360,6 @@ sub _RenderAjax {
         Autoselect                => $Autoselect,
         ACLPreselection           => $ACLPreselection // '',
         LoopProtection            => \$LoopProtection,
-        ProcessSuffix             => $Self->{IDSuffix},
     );
 
     # set new values
@@ -761,6 +766,12 @@ sub _GetParam {
         push @CustomerDynamicFields, $DynamicFieldConfig;
     }
     $DynamicField = \@CustomerDynamicFields;
+
+    # include process id suffix into dynamic field configs
+    # NOTE currently only needed for lens dynamic fields
+    for my $DynamicFieldConfig ( $DynamicField->@* ) {
+        $DynamicFieldConfig->{ProcessSuffix} = $Self->{IDSuffix};
+    }
 
     # Get the activitydialogs's Submit Param's or Config Params
     DIALOGFIELD:
@@ -1228,6 +1239,12 @@ sub _OutputActivityDialog {
     }
     $DynamicField = \@CustomerDynamicFields;
 
+    # include process id suffix into dynamic field configs
+    # NOTE currently only needed for lens dynamic fields
+    for my $DynamicFieldConfig ( $DynamicField->@* ) {
+        $DynamicFieldConfig->{ProcessSuffix} = $Self->{IDSuffix};
+    }
+
     # retrieve field restrictions for dynamic fields
     my $ACLPreselection;
     if ( $ConfigObject->Get('TicketACL::ACLPreselection') ) {
@@ -1309,8 +1326,16 @@ sub _OutputActivityDialog {
         }
     } $DynamicField->@*;
 
+    # collect dynamic field values for the purpose of not having to pass $Param{GetParam} all around
+    my %DynamicFieldValues = map { 'DynamicField_' . $_->{Name} => $Param{GetParam}{ 'DynamicField_' . $_->{Name} } } $DynamicField->@*;
+
+    # include process id suffix into dynamic field configs
+    # NOTE currently only needed for lens dynamic fields
+    for my $DynamicFieldConfig ( $DynamicField->@* ) {
+        $DynamicFieldConfig->{ProcessSuffix} = $Self->{IDSuffix};
+    }
+
     # Loop through ActivityDialogFields and render their output
-    my %DynamicFieldValues = map { $_->{Name} . $Self->{IDSuffix} => $Param{GetParam}{ 'DynamicField_' . $_->{Name} } } $DynamicField->@*;
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
@@ -1352,7 +1377,7 @@ sub _OutputActivityDialog {
                 Content              => [ $DefinedFieldsList{$CurrentField} ],
                 DynamicFields        => \%DynamicFieldsSuffixCopy,
                 UpdatableFields      => $AJAXUpdatableFields,
-                LayoutObject         => $LayoutObject,
+                LayoutObject         => $LayoutObjectZoom,
                 ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
                 DynamicFieldValues   => \%DynamicFieldValues,
                 PossibleValuesFilter => \%DFPossibleValues,
@@ -1777,6 +1802,12 @@ sub _RenderDynamicField {
         push @CustomerDynamicFields, $DynamicFieldConfig;
     }
     $DynamicField = \@CustomerDynamicFields;
+
+    # include process id suffix into dynamic field configs
+    # NOTE currently only needed for lens dynamic fields
+    for my $DynamicFieldConfig ( $DynamicField->@* ) {
+        $DynamicFieldConfig->{ProcessSuffix} = $Self->{IDSuffix};
+    }
 
     my $DynamicFieldConfig = ( grep { $_->{Name} eq $Param{FieldName} } @{$DynamicField} )[0];
 
@@ -3038,6 +3069,12 @@ sub _StoreActivityDialog {
     }
     $DynamicField = \@CustomerDynamicFields;
 
+    # include process id suffix into dynamic field configs
+    # NOTE currently only needed for lens dynamic fields
+    for my $DynamicFieldConfig ( $DynamicField->@* ) {
+        $DynamicFieldConfig->{ProcessSuffix} = $Self->{IDSuffix};
+    }
+
     # map dynamic field values into acl structure
     $Param{GetParam}{DynamicField}->%* = map { 'DynamicField_' . $_->{Name} => $Param{GetParam}{ 'DynamicField_' . $_->{Name} } } $DynamicField->@*;
 
@@ -4150,6 +4187,12 @@ sub GetAJAXUpdatableFields {
         push @CustomerDynamicFields, $DynamicFieldConfig;
     }
     $DynamicField = \@CustomerDynamicFields;
+
+    # include process id suffix into dynamic field configs
+    # NOTE currently only needed for lens dynamic fields
+    for my $DynamicFieldConfig ( $DynamicField->@* ) {
+        $DynamicFieldConfig->{ProcessSuffix} = $Self->{IDSuffix};
+    }
 
     # create a DynamicFieldLookupTable
     my %DynamicFieldLookup = map { 'DynamicField_' . $_->{Name} => $_ } @{$DynamicField};
