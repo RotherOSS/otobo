@@ -55,7 +55,8 @@ my @CountryList = (
     # 'Kosovo', not yet in the list
     'North Macedonia',
     'Eswatini',
-    'Tonga'
+    'Tonga',
+    'Turkiye'
 );
 for my $Country (@CountryList) {
     ok( $CountryExists->{$Country}, "Testing existence of country ($Country)" );
