@@ -59,13 +59,13 @@
 
     <div class="ContentColumn">
         <form id="EntityUpdate" action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
-            <input type="hidden" name="Action" value="AdminDynamicFieldScript">
-            <input type="hidden" name="Subaction" value="[% Data.Mode | html %]Action">
-            <input type="hidden" name="ObjectType" value="[% Data.ObjectType | html %]">
-            <input type="hidden" name="FieldType" value="[% Data.FieldType | html %]">
+            <input type="hidden" name="Action" value="AdminDynamicFieldScript" />
+            <input type="hidden" name="Subaction" value="[% Data.Mode | html %]Action" />
+            <input type="hidden" name="ObjectType" value="[% Data.ObjectType | html %]" />
+            <input type="hidden" name="FieldType" value="[% Data.FieldType | html %]" />
             <input type="hidden" name="ObjectTypeFilter" value="[% Data.ObjectTypeFilter | html %]" />
             <input type="hidden" name="NamespaceFilter" value="[% Data.NamespaceFilter | html %]" />
-            <input type="hidden" name="ID" value="[% Data.ID | html %]">
+            <input type="hidden" name="ID" value="[% Data.ID | html %]" />
             <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
 
             <div class="WidgetSimple">
@@ -78,7 +78,7 @@
                             <fieldset class="TableLike">
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
                                 <div class="Field">
-                                    <input id="Name" class="W50pc [% Data.NameServerError | html %] [% Data.ShowWarning | html %]  Validate_Alphanumeric" type="text" maxlength="200" value="[% Data.Name | html %]" name="Name" [% Data.ReadonlyInternalField | html %]>
+                                    <input id="Name" class="W50pc [% Data.NameServerError | html %] [% Data.ShowWarning | html %]  Validate_Alphanumeric" type="text" maxlength="200" value="[% Data.PlainFieldName | html %]" name="Name" [% Data.ReadonlyInternalField | html %] />
                                     <div id="NameError" class="TooltipErrorMessage"><p>[% Translate("This field is required, and the value should be alphabetic and numeric characters only.") | html %]</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>[% Translate(Data.NameServerErrorMessage) | html %]</p></div>
                                     <p class="FieldExplanation">[% Translate("Must be unique and only accept alphabetic and numeric characters.") | html %]</p>
