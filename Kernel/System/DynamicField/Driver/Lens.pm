@@ -578,6 +578,13 @@ sub _GetReferenceDFConfig {
         ID => $Param{LensDynamicFieldConfig}{Config}{ReferenceDF},
     );
 
+    if ( $Param{LensDynamicFieldConfig}{ProcessSuffix} ) {
+        return {
+            $Self->{ReferenceDFCache}{ $Param{LensDynamicFieldConfig}{ID} }->%*,
+            Name => $Self->{ReferenceDFCache}{ $Param{LensDynamicFieldConfig}{ID} }->{Name} . $Param{LensDynamicFieldConfig}{ProcessSuffix},
+        };
+    }
+
     return $Self->{ReferenceDFCache}{ $Param{LensDynamicFieldConfig}{ID} };
 }
 
