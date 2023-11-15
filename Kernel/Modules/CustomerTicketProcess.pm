@@ -1400,7 +1400,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error        || {},
                 ErrorMessage        => \%ErrorMessage || {},
                 FormID              => $Self->{FormID},
-                GetParam            => $Param{GetParam},
                 Value               => $Param{GetParam}{ 'DynamicField_' . $DynamicFieldName },
                 PossibleValues      => $DFPossibleValues{ 'DynamicField_' . $DynamicFieldName },
                 Visibility          => $DynFieldStates{Visibility}{ 'DynamicField' . $DynamicFieldName } // 0,
