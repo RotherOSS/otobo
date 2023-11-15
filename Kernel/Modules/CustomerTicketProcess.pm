@@ -1329,12 +1329,6 @@ sub _OutputActivityDialog {
     # collect dynamic field values for the purpose of not having to pass $Param{GetParam} all around
     my %DynamicFieldValues = map { 'DynamicField_' . $_->{Name} => $Param{GetParam}{ 'DynamicField_' . $_->{Name} } } $DynamicField->@*;
 
-    # include process id suffix into dynamic field configs
-    # NOTE currently only needed for lens dynamic fields
-    for my $DynamicFieldConfig ( $DynamicField->@* ) {
-        $DynamicFieldConfig->{ProcessSuffix} = $Self->{IDSuffix};
-    }
-
     # Loop through ActivityDialogFields and render their output
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
