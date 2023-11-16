@@ -176,9 +176,9 @@ sub Run {
     DYNAMICFIELD:
     for my $DynamicField ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicField;
-        next DYNAMICFIELD if !$DynamicFieldValues{ $Self->{DynamicField} };
+        next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{ $Self->{DynamicField} };
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
