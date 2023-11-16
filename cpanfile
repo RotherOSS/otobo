@@ -29,6 +29,9 @@ requires 'Digest::SHA';
 
 requires 'File::chmod';
 
+# A JavaScript minifier written in XS
+requires 'JavaScript::Minifier::XS';
+
 requires 'List::AllUtils';
 
 requires 'LWP::UserAgent';

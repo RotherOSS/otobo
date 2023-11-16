@@ -56,9 +56,6 @@ requires 'IO::Interactive', "== 1.022";
 # needed by Font::TTF
 requires 'IO::String', "== 1.08";
 
-# needed by the loader
-requires 'JavaScript::Minifier', "== 1.16";
-
 # needed by Sisimai
 requires 'JSON', "== 2.94";
 
