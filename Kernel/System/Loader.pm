@@ -459,7 +459,7 @@ sub MinifyJavaScript {
         return;
     }
 
-    return JavaScript::Minifier::XS::minify( input => $Param{Code} );
+    return JavaScript::Minifier::XS::minify( $Param{Code} );
 }
 
 =head2 CacheGenerate()
