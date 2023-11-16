@@ -434,6 +434,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'JavaScript::Minifier::XS',
+        Required  => 1,
+        Comment   => 'A JavaScript minifier written in XS',
+        InstTypes => {
+            aptget => 'libjavascript-minifier-xs-perl',
+            emerge => 'dev-perl/JavaScript-Minifier-XS',
+            zypper => 'perl-JavaScript-Minifier-XS',
+            ports  => 'textproc/p5-JavaScript-Minifier-XS',
+        },
+    },
+    {
         Module    => 'List::AllUtils',
         Required  => 1,
         InstTypes => {

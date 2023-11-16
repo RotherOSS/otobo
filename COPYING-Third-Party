@@ -137,12 +137,6 @@ o Name:    CPAN CSS::Minifier
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    Copyright (C) 2007 by Peter Michaux
 
-o Name:    CPAN JavaScript::Minifier
-  Web:     https://github.com/zoffixznet/JavaScript-Minifier
-  License: # This library is free software; you can redistribute it
-           # and/or modify it under the same terms as Perl itself.
-  Note:    Copyright (C) 2021 by Peter Michaux
-
 o Name:    CPAN YAML
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html

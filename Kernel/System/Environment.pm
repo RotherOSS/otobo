@@ -387,12 +387,6 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '1.08',
         },
         {
-            'Comment'      => 'needed by the loader',
-            'VersionExact' => '1.16',
-            'Required'     => 1,
-            'Module'       => 'JavaScript::Minifier'
-        },
-        {
             'Comment'      => 'needed by Sisimai',
             'Module'       => 'JSON',
             'Required'     => 1,
