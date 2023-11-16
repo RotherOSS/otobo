@@ -103,8 +103,9 @@ my $Home = $ConfigObject->Get('Home');
     );
     $ExpectedJS = ${$ExpectedJS};
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
+    $ExpectedJS =~ s{\n$}{};          # newline after the last line
 
-    is( $MinifiedJS || '', $ExpectedJS, 'MinifyJavaScript()' );
+    is( $MinifiedJS, $ExpectedJS, 'MinifyJavaScript()' );
 }
 
 {
@@ -150,6 +151,7 @@ my $Home = $ConfigObject->Get('Home');
     );
     $Expected = ${$Expected};
     $Expected =~ s{\r\n}{\n}xmsg;
+    $Expected =~ s{\n$}{};          # newline after the last line
 
     is( $MinifiedJS, $Expected, 'MinifyFiles() result content' );
 
@@ -176,5 +178,4 @@ for my $Test (@JSTests) {
     is( $Result, $Test->{Result}, $Test->{Name} );
 }
 
-# cleanup cache is done by RestoreDatabase
-done_testing();
+done_testing;
