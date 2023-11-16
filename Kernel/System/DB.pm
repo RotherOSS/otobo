@@ -531,7 +531,7 @@ sub Do {
     # - This avoids time inconsistencies of app and db server
     # - This avoids timestamp problems in Postgresql servers where
     #   the timestamp is sometimes 1 second off the perl timestamp.
-
+    # - This might break server side caching of statements
     $Param{SQL} =~ s{
         (?<= \s | \( | , )  # lookbehind
         current_timestamp   # replace current_timestamp by 'yyyy-mm-dd hh:mm:ss'
