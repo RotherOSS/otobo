@@ -16,8 +16,11 @@
 
 package Kernel::System::Type;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -30,11 +33,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Type - type lib
+Kernel::System::Type - library for managing ticket types
 
 =head1 DESCRIPTION
 
-All type functions.
+All ticket type functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -50,8 +53,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{CacheType} = 'Type';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
@@ -81,6 +83,7 @@ sub TypeAdd {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -91,6 +94,7 @@ sub TypeAdd {
             Priority => 'error',
             Message  => "A type with the name '$Param{Name}' already exists.",
         );
+
         return;
     }
 
@@ -116,6 +120,7 @@ sub TypeAdd {
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
     return if !$ID;
 
     # reset cache
@@ -161,6 +166,7 @@ sub TypeGet {
             Priority => 'error',
             Message  => 'Need ID or Name!',
         );
+
         return;
     }
 
@@ -170,10 +176,11 @@ sub TypeGet {
             Priority => 'error',
             Message  => 'Need either ID OR Name - not both!',
         );
+
         return;
     }
 
-    # lookup the ID
+    # look up the ID
     if ( $Param{Name} ) {
         $Param{ID} = $Self->TypeLookup(
             Type => $Param{Name},
@@ -183,6 +190,7 @@ sub TypeGet {
                 Priority => 'error',
                 Message  => "TypeID for Type '$Param{Name}' not found!",
             );
+
             return;
         }
     }
@@ -193,6 +201,7 @@ sub TypeGet {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
+
     return %{$Cache} if $Cache;
 
     # get database object
@@ -225,6 +234,7 @@ sub TypeGet {
             Priority => 'error',
             Message  => $Error . " not found!",
         );
+
         return;
     }
 
@@ -241,7 +251,7 @@ sub TypeGet {
 
 =head2 TypeUpdate()
 
-update type attributes
+update ticket type attributes
 
     $TypeObject->TypeUpdate(
         ID      => 123,
@@ -262,6 +272,7 @@ sub TypeUpdate {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -278,6 +289,7 @@ sub TypeUpdate {
             Priority => 'error',
             Message  => "A type with the name '$Param{Name}' already exists.",
         );
+
         return;
     }
 
@@ -295,6 +307,7 @@ sub TypeUpdate {
             Priority => 'error',
             Message  => "The ticket type is set as a default ticket type, so it cannot be set to invalid!"
         );
+
         return;
     }
 
@@ -317,7 +330,7 @@ sub TypeUpdate {
 
 =head2 TypeList()
 
-get type list
+get ticket type list
 
     my %TypeID2Name = $TypeObject->TypeList();
 
@@ -352,6 +365,7 @@ sub TypeList {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
+
     return %{$Cache} if $Cache;
 
     # create the valid list
@@ -409,6 +423,7 @@ sub TypeLookup {
             Priority => 'error',
             Message  => 'Got no Type or TypeID!',
         );
+
         return;
     }
 
@@ -438,6 +453,7 @@ sub TypeLookup {
             Priority => 'error',
             Message  => "No $Key for $Value found!",
         );
+
         return;
     }
 
@@ -446,7 +462,7 @@ sub TypeLookup {
 
 =head2 NameExistsCheck()
 
-    return 1 if another type with this name already exits
+return 1 if another type with this name already exists
 
         $Exist = $TypeObject->NameExistsCheck(
             Name => 'Some::Template',
@@ -460,6 +476,7 @@ sub NameExistsCheck {
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     return if !$DBObject->Prepare(
         SQL  => 'SELECT id FROM ticket_type WHERE name = ?',
         Bind => [ \$Param{Name} ],
@@ -472,10 +489,8 @@ sub NameExistsCheck {
             $Flag = 1;
         }
     }
-    if ($Flag) {
-        return 1;
-    }
-    return 0;
+
+    return $Flag ? 1 : 0;
 }
 
 1;
