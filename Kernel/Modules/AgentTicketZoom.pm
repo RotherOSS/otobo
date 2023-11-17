@@ -1618,6 +1618,7 @@ sub MaskAgentZoom {
             my $ACL = $TicketObject->TicketAcl(
                 Data          => \%PermissionActivityDialogList,
                 TicketID      => $Ticket{TicketID},
+                Action        => $Self->{Action},
                 ReturnType    => 'ActivityDialog',
                 ReturnSubType => '-',
                 UserID        => $Self->{UserID},
