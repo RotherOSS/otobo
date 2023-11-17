@@ -132,11 +132,6 @@ o Name:    CPAN JSON::PP
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    Copyright 2007-2009 by Makamaka Hannyaharamitu
 
-o Name:    CPAN CSS::Minifier
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    Copyright (C) 2007 by Peter Michaux
-
 o Name:    CPAN YAML
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html

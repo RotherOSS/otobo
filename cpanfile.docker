@@ -18,6 +18,9 @@ requires 'Date::Format';
 
 requires 'DateTime', ">= 1.08";
 
+# A CSS minifier written in XS
+requires 'CSS::Minifier::XS', ">= 0.09";
+
 requires 'Convert::BinHex';
 
 requires 'DBI';

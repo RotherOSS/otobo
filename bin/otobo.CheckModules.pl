@@ -383,6 +383,18 @@ my @NeededModules = (
         ],
     },
     {
+        Module          => 'CSS::Minifier::XS',
+        Required        => 1,
+        VersionRequired => '0.09',                           # released in 2013
+        Comment         => 'A CSS minifier written in XS',
+        InstTypes       => {
+            aptget => 'libcss-minifier-xs-perl',
+            emerge => 'dev-perl/CSS-Minifier-XS',
+            zypper => 'perl-CSS-Minifier-XS',
+            ports  => 'textproc/p5-CSS-Minifier-XS',
+        },
+    },
+    {
         Module    => 'Convert::BinHex',
         Required  => 1,
         InstTypes => {
