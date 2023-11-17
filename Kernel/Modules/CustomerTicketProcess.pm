@@ -3392,7 +3392,6 @@ sub _StoreActivityDialog {
 
         # some fields should be skipped for the customer interface
         next DIALOGFIELD if ( grep { $_ eq $CurrentField } @{$SkipFields} );
-        my $FieldNameShort = substr( $CurrentField, length('DynamicField_') );
 
         if ( !IsHashRefWithData( $ActivityDialog->{Fields}->{$CurrentField} ) ) {
             $LayoutObject->CustomerFatalError(
