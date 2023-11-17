@@ -16,14 +16,19 @@
 
 package Kernel::System::Email;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Mail::Address;
 use MIME::Entity;
 use MIME::Parser;
 use MIME::Words;
 
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -59,8 +64,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # debug level
     $Self->{Debug} = $Param{Debug} || 0;
@@ -298,11 +302,6 @@ sub Send {
     # Check from
     if ( !$Param{From} ) {
         $Param{From} = $ConfigObject->Get('AdminEmail') || 'otobo@localhost';
-    }
-
-    # Replace all <br/> tags with <br /> tags (with a space) to show newlines in Lotus Notes.
-    if ( $Param{MimeType} && lc $Param{MimeType} eq 'text/html' ) {
-        $Param{Body} =~ s{\Q<br/>\E}{<br />}xmsgi;
     }
 
     # Map ReplyTo into Reply-To if present.
