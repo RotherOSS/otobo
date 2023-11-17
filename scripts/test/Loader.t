@@ -54,19 +54,17 @@ my $Home = $ConfigObject->Get('Home');
     my $CSS = $MainObject->FileRead(
         Location => "$Home/scripts/test/sample/Loader/OTOBO.Reset.css",
     );
-
     $CSS = $CSS->$*;
 
     my $ExpectedCSS = $MainObject->FileRead(
         Location => "$Home/scripts/test/sample/Loader/OTOBO.Reset.min.css",
     );
-
-    $ExpectedCSS = ${$ExpectedCSS};
+    $ExpectedCSS = $ExpectedCSS->$*;
     chomp $ExpectedCSS;
 
     my $MinifiedCSS = $LoaderObject->MinifyCSS( Code => $CSS );
 
-    is( $MinifiedCSS || '', $ExpectedCSS, 'MinifyCSS()' );
+    is( $MinifiedCSS, $ExpectedCSS, 'MinifyCSS()' );
 
     # empty cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -101,9 +99,9 @@ my $Home = $ConfigObject->Get('Home');
     my $ExpectedJS = $MainObject->FileRead(
         Location => "$Home/scripts/test/sample/Loader/OTOBO.Agent.App.Login.min.js",
     );
-    $ExpectedJS = ${$ExpectedJS};
+    $ExpectedJS = $ExpectedJS->$*;
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
-    $ExpectedJS =~ s{\n$}{};          # newline after the last line
+    chomp $ExpectedJS;    # newline after the last line
 
     is( $MinifiedJS, $ExpectedJS, 'MinifyJavaScript()' );
 }
@@ -142,14 +140,14 @@ my $Home = $ConfigObject->Get('Home');
     my $MinifiedJS = $MainObject->FileRead(
         Location => $Location
     );
-    $MinifiedJS = ${$MinifiedJS};
+    $MinifiedJS = $MinifiedJS->$*;
     $MinifiedJS =~ s{\r\n}{\n}xmsg;
     chomp $MinifiedJS;
 
     my $Expected = $MainObject->FileRead(
         Location => "$Home/scripts/test/sample/Loader/CombinedJavaScript.min.js",
     );
-    $Expected = ${$Expected};
+    $Expected = $Expected->$*;
     $Expected =~ s{\r\n}{\n}xmsg;
     $Expected =~ s{\n$}{};          # newline after the last line
 

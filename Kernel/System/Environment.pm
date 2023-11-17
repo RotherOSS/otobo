@@ -340,11 +340,6 @@ sub BundleModulesDeclarationGet {
             'VersionExact' => '0.14',
         },
         {
-            'Module'       => 'CSS::Minifier',
-            'Required'     => 1,
-            'VersionExact' => '0.01',
-        },
-        {
             'Comment'      => 'needed by Kernel::System::CheckItem',
             'Module'       => 'Email::Valid',
             'Required'     => 1,

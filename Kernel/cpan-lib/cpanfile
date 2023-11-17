@@ -33,8 +33,6 @@ requires 'Crypt::PasswdMD5', "== 1.40";
 # needed by Math::Random::Secure, needed in Kernel::System::Main
 requires 'Crypt::Random::Source', "== 0.14";
 
-requires 'CSS::Minifier', "== 0.01";
-
 # needed by Kernel::System::CheckItem
 requires 'Email::Valid', "== 1.202";
 

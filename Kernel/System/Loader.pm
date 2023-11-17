@@ -25,7 +25,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use CSS::Minifier qw();
+use CSS::Minifier::XS qw();
 use JavaScript::Minifier::XS qw();
 
 # OTOBO modules
@@ -409,20 +409,11 @@ sub MinifyCSS {
             Priority => 'error',
             Message  => 'Need Code Param!',
         );
+
         return;
     }
 
-    my $Result = CSS::Minifier::minify( input => $Param{Code} );
-
-    # a few optimizations can be made for the minified CSS that CSS::Minifier doesn't yet do
-
-    # remove remaining linebreaks
-    $Result =~ s/\r?\n\s*//smxg;
-
-    # remove superfluous whitespace after commas in chained selectors
-    $Result =~ s/,\s*/,/smxg;
-
-    return $Result;
+    return CSS::Minifier::XS::minify( $Param{Code} );
 }
 
 =head2 MinifyJavaScript()
