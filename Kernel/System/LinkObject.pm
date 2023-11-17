@@ -156,7 +156,8 @@ sub PossibleTypesList {
 
 =head2 PossibleObjectsList()
 
-return a hash of all possible objects
+return a hash where the keys are the names of the possible objects.
+The values are always the number one.
 
     my %PossibleObjectsList = $LinkObject->PossibleObjectsList(
         Object => 'Ticket',
@@ -618,8 +619,6 @@ sub LinkAdd {
 
 deletes old links from database
 
-return true
-
     $True = $LinkObject->LinkCleanup(
         State  => 'Temporary',
         Age    => ( 60 * 60 * 24 ),
@@ -677,8 +676,6 @@ sub LinkCleanup {
 =head2 LinkDelete()
 
 deletes a link
-
-return true
 
     $True = $LinkObject->LinkDelete(
         Object1 => 'Ticket',
@@ -1309,7 +1306,8 @@ sub LinkListWithData {
 
 =head2 LinkKeyList()
 
-return a hash with all existing links of a given object
+return a hash with links to and from a given object. The type of the linked object
+must be specified. The other restrictions are optional.
 
     my %LinkKeyList = $LinkObject->LinkKeyList(
         Object1   => 'Ticket',
@@ -1894,7 +1892,7 @@ return a 2 dimensional hash list of all valid link types
 
 Returns:
 
-    $TypeList{
+    %TypeList = (
         Normal => {
             SourceName => 'Normal',
             TargetName => 'Normal',
@@ -1903,7 +1901,7 @@ Returns:
             SourceName => 'Parent',
             TargetName => 'Child',
         },
-    }
+    );
 
 =cut
 
@@ -2090,7 +2088,7 @@ sub PossibleType {
 
 =head2 StateLookup()
 
-lookup a link state
+look up a link state
 
     $StateID = $LinkObject->StateLookup(
         Name => 'Valid',
@@ -2224,10 +2222,10 @@ return a hash list of all valid link states
 
 Returns:
 
-    $StateList{
+    %StateList = (
         4 => 'Valid',
         8 => 'Temporary',
-    }
+    );
 
 =cut
 
@@ -2270,7 +2268,7 @@ sub StateList {
 
 checks read permission for a given object and UserID.
 
-    $Permission = $LinkObject->ObjectPermission(
+    my $Permission = $LinkObject->ObjectPermission(
         Object  => 'Ticket',
         Key     => 123,
         UserID  => 1,
