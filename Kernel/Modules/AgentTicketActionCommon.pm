@@ -2203,8 +2203,8 @@ sub _Mask {
 
     # render ticket type dynamic fields
     my $TicketTypeDynamicFieldHTML;
-    {
-        my %DynamicFieldConfigs = map { $_->{Name} => $_ } grep { $_->{ObjectType} eq 'Ticket' } $Self->{DynamicField}->@*;
+    my %DynamicFieldConfigs = map { $_->{Name} => $_ } grep { $_->{ObjectType} eq 'Ticket' } $Self->{DynamicField}->@*;
+    if (%DynamicFieldConfigs) {
 
         $TicketTypeDynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
             Content              => $Self->{TicketMaskDefinition},
@@ -2719,11 +2719,10 @@ sub _Mask {
         }
 
         # render article type dynamic fields
+        # TODO Think about usable implementation of article type dynamic field definition
+        my %DynamicFieldConfigs = map { $_->{Name} => $_ } grep { $_->{ObjectType} eq 'Article' } $Self->{DynamicField}->@*;
         my $ArticleTypeDynamicFieldHTML;
-        if ( IsArrayRefWithData( $Self->{ArticleMaskDefinition} ) ) {
-
-            # TODO Think about usable implementation of article type dynamic field definition
-            my %DynamicFieldConfigs = map { $_->{Name} => $_ } grep { $_->{ObjectType} eq 'Article' } $Self->{DynamicField}->@*;
+        if ( IsArrayRefWithData( $Self->{ArticleMaskDefinition} ) && %DynamicFieldConfigs ) {
 
             $ArticleTypeDynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
                 Content              => $Self->{ArticleMaskDefinition},

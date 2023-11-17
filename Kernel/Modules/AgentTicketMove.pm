@@ -1490,8 +1490,8 @@ sub AgentMove {
     );
 
     # render dynamic fields
-    {
-        my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{DynamicField}->@*;
+    my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{DynamicField}->@*;
+    if (%DynamicFieldConfigs) {
 
         # grep dynamic field values from ticket data
         my %DynamicFieldValues
@@ -1514,14 +1514,12 @@ sub AgentMove {
             },
         );
 
-        if ( $Self->{DynamicField} ) {
-            $LayoutObject->Block(
-                Name => 'WidgetDynamicFields',
-                Data => {
-                    DynamicFieldHTML => $DynamicFieldHTML,
-                },
-            );
-        }
+        $LayoutObject->Block(
+            Name => 'WidgetDynamicFields',
+            Data => {
+                DynamicFieldHTML => $DynamicFieldHTML,
+            },
+        );
 
     }
 

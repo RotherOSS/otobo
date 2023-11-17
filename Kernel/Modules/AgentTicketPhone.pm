@@ -3147,8 +3147,8 @@ sub _MaskPhoneNew {
     }
 
     # render dynamic fields
-    {
-        my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{DynamicField}->@*;
+    my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{DynamicField}->@*;
+    if (%DynamicFieldConfigs) {
 
         $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
             Content              => $Self->{MaskDefinition},

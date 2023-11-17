@@ -2417,9 +2417,8 @@ sub _Mask {
         my $SeparateDynamicFields = $ConfigObject->Get('Ticket::CustomerFrontend::SeparateDynamicFields');
 
         # render dynamic fields
-        if ( $Self->{FollowUpDynamicField}->@* ) {
-
-            my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{FollowUpDynamicField}->@*;
+        my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{FollowUpDynamicField}->@*;
+        if (%DynamicFieldConfigs) {
 
             # grep dynamic field values
             my %DynamicFieldValues = map { $_ => $Param{$_} } grep {/^DynamicField_/} keys %Param;

@@ -2222,8 +2222,8 @@ sub _Mask {
     );
 
     # render dynamic fields
-    {
-        my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{DynamicField}->@*;
+    my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{DynamicField}->@*;
+    if (%DynamicFieldConfigs) {
 
         # grep dynamic field values from ticket data
         my %DynamicFieldValues
