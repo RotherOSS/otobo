@@ -3082,11 +3082,11 @@ sub _StoreActivityDialog {
     # call ticket ACLs for DynamicFields to check field visibility
     my $ACLResult = $TicketObject->TicketAcl(
         $Param{GetParam}->%*,
-        Action        => $Self->{Action},
-        ReturnType    => 'Form',
-        ReturnSubType => '-',
-        Data          => \%DynamicFieldAcl,
-        UserID        => $Self->{UserID},
+        Action         => $Self->{Action},
+        ReturnType     => 'Form',
+        ReturnSubType  => '-',
+        Data           => \%DynamicFieldAcl,
+        CustomerUserID => $Self->{UserID},
     );
     if ($ACLResult) {
         %Visibility = map { 'DynamicField_' . $_->{Name} => 0 } @{$DynamicField};
@@ -3154,11 +3154,11 @@ sub _StoreActivityDialog {
                     # set possible values filter from ACLs
                     my $ACL = $TicketObject->TicketAcl(
                         $Param{GetParam}->%*,
-                        Action        => $Self->{Action},
-                        ReturnType    => 'Ticket',
-                        ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                        Data          => \%AclData,
-                        UserID        => $Self->{UserID},
+                        Action         => $Self->{Action},
+                        ReturnType     => 'Ticket',
+                        ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                        Data           => \%AclData,
+                        CustomerUserID => $Self->{UserID},
                     );
                     if ($ACL) {
                         my %Filter = $TicketObject->TicketAclData();
