@@ -368,11 +368,11 @@ sub LinkAdd {
         return;
     }
 
-    # lookup the object ids
+    # look up the object ids
     OBJECT:
     for my $Object (qw(SourceObject TargetObject)) {
 
-        # lookup the object id
+        # look up the object id
         $Param{ $Object . 'ID' } = $Self->ObjectLookup(
             Name => $Param{$Object},
         );
@@ -403,12 +403,12 @@ sub LinkAdd {
         return;
     }
 
-    # lookup state id
+    # look up state id
     my $StateID = $Self->StateLookup(
         Name => $Param{State},
     );
 
-    # lookup type id
+    # look up type id
     my $TypeID = $Self->TypeLookup(
         Name   => $Param{Type},
         UserID => $Param{UserID},
@@ -640,7 +640,7 @@ sub LinkCleanup {
         }
     }
 
-    # lookup state id
+    # look up state id
     my $StateID = $Self->StateLookup(
         Name => $Param{State},
     );
@@ -702,11 +702,11 @@ sub LinkDelete {
         }
     }
 
-    # lookup the object ids
+    # look up the object ids
     OBJECT:
     for my $Object (qw(Object1 Object2)) {
 
-        # lookup the object id
+        # look up the object id
         $Param{ $Object . 'ID' } = $Self->ObjectLookup(
             Name => $Param{$Object},
         );
@@ -721,7 +721,7 @@ sub LinkDelete {
         return;
     }
 
-    # lookup type id
+    # look up type id
     my $TypeID = $Self->TypeLookup(
         Name   => $Param{Type},
         UserID => $Param{UserID},
@@ -766,11 +766,11 @@ sub LinkDelete {
 
     return 1 if !%Existing;
 
-    # lookup the object names
+    # look up the object names
     OBJECT:
     for my $Object (qw(SourceObject TargetObject)) {
 
-        # lookup the object name
+        # look up the object name
         $Existing{$Object} = $Self->ObjectLookup(
             ObjectID => $Existing{ $Object . 'ID' },
         );
@@ -785,7 +785,7 @@ sub LinkDelete {
         return;
     }
 
-    # lookup state
+    # look up state
     $Existing{State} = $Self->StateLookup(
         StateID => $Existing{StateID},
     );
@@ -1037,13 +1037,13 @@ sub LinkList {
         }
     }
 
-    # lookup object id
+    # look up object id
     my $ObjectID = $Self->ObjectLookup(
         Name => $Param{Object},
     );
     return if !$ObjectID;
 
-    # lookup state id
+    # look up state id
     my $StateID = $Self->StateLookup(
         Name => $Param{State},
     );
@@ -1052,7 +1052,7 @@ sub LinkList {
     my $TypeID;
     if ( $Param{Type} ) {
 
-        # lookup type id
+        # look up type id
         $TypeID = $Self->TypeLookup(
             Name   => $Param{Type},
             UserID => $Param{UserID},
@@ -1092,7 +1092,7 @@ sub LinkList {
             ObjectID => $ObjectID,
         );
 
-        # add to lookup unless restricted
+        # add to look-up unless restricted
         next OBJECTID if $Param{Object2} && $Param{Object2} ne $ObjectName;
         $ObjectNameLookup{$ObjectID} = $ObjectName;
     }
@@ -1455,7 +1455,7 @@ sub LinkKeyListWithData {
 
 =head2 ObjectLookup()
 
-lookup a link object
+look up a link object
 
     $ObjectID = $LinkObject->ObjectLookup(
         Name => 'Ticket',
@@ -1602,7 +1602,7 @@ sub ObjectLookup {
 
 =head2 TypeLookup()
 
-lookup a link type
+look up a link type
 
     $TypeID = $LinkObject->TypeLookup(
         Name   => 'Normal',
