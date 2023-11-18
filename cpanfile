@@ -202,6 +202,12 @@ feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
 
 };
 
+feature 'div:cldr', 'Support for feature div:cldr' => sub {
+    # localisation from the CLDR project
+    requires 'Locale::CLDR', ">= 0.34.3";
+
+};
+
 feature 'div:hanextra', 'Support for feature div:hanextra' => sub {
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', ">= 0.23";
@@ -349,6 +355,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # For strong password hashing.
     requires 'Crypt::Eksblowfish::Bcrypt';
+
+    # localisation from the CLDR project
+    requires 'Locale::CLDR', ">= 0.34.3";
 
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';

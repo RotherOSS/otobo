@@ -196,6 +196,12 @@ requires 'Const::Fast';
 
 # };
 
+# feature 'div:cldr', 'Support for feature div:cldr' => sub {
+    # localisation from the CLDR project
+    requires 'Locale::CLDR', ">= 0.34.3";
+
+# };
+
 # Feature 'div:hanextra' is not needed for Docker
 
 

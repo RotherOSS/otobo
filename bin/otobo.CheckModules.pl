@@ -182,6 +182,7 @@ my %IsDockerFeature = (
     'devel:test'         => 1,
     'devel:i18n'         => 1,
     'div:bcrypt'         => 1,
+    'div:cldr'           => 1,
     'div:ldap'           => 1,
     'div:xslt'           => 1,
     'gazelle'            => 1,
@@ -1035,6 +1036,18 @@ my @NeededModules = (
             emerge => 'dev-perl/Crypt-Eksblowfish',
             zypper => 'perl-Crypt-Eksblowfish',
             ports  => 'security/p5-Crypt-Eksblowfish',
+        },
+    },
+    {
+        Module          => 'Locale::CLDR',
+        Features        => ['div:cldr'],
+        VersionRequired => '0.34.3',
+        Comment         => 'localisation from the CLDR project',
+        InstTypes       => {
+            aptget => undef,    # not in any Debian package
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
         },
     },
     {
