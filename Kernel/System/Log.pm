@@ -233,8 +233,8 @@ sub Log {
     my $Caller  = $Param{Caller} || 0;
 
     # returns the context of the current subroutine and sub-subroutine!
-    my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + 0 );
-    my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller( $Caller + 1 );
+    my ( undef, undef, $Line1, undef ) = caller( $Caller + 0 );
+    my ( undef, undef, undef, $Subroutine2 ) = caller( $Caller + 1 );
 
     $Subroutine2 ||= $0;
 
@@ -315,11 +315,11 @@ sub Log {
         COUNT:
         for ( my $Count = 0; $Count < 30; $Count++ ) {
 
-            my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + $Count );
+            my ( $Package1, undef, $Line1, undef ) = caller( $Caller + $Count );
 
-            last COUNT if !$Line1;
+            last COUNT unless $Line1;
 
-            my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller( $Caller + 1 + $Count );
+            my ( undef, undef, $Line2, $Subroutine2 ) = caller( $Caller + 1 + $Count );
 
             # if there is no caller module use the file name
             $Subroutine2 ||= $0;
@@ -456,8 +456,8 @@ sub Dumper {
     require Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
 
     # returns the context of the current subroutine and sub-subroutine!
-    my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller(0);
-    my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller(1);
+    my ( undef, undef, $Line1, undef ) = caller(0);
+    my ( undef, undef, undef, $Subroutine2 ) = caller(1);
 
     $Subroutine2 ||= $0;
 
