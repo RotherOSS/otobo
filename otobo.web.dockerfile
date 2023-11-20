@@ -47,6 +47,7 @@ RUN apt-get update\
  "ack"\
  "cron"\
  "default-mysql-client"\
+ "graphviz"\
  "ldap-utils"\
  "less"\
  "nano"\

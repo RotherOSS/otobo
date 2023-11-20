@@ -227,6 +227,12 @@ feature 'gazelle', 'Required packages if you want to use Gazelle webserver' => s
 
 };
 
+feature 'graph:graphviz', 'Support for feature graph:graphviz' => sub {
+    # A wrapper for AT&T's Graphviz
+    requires 'GraphViz2', ">= 2.67";
+
+};
+
 feature 'mail', 'Features enabling communication with a mail-server' => sub {
     # Simple Mail Transfer Protocol Client.
     # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).
@@ -315,6 +321,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Used when plackup is run with the -R option. This option restarts the server when files have changed.
     requires 'Linux::Inotify2';
+
+    # A wrapper for AT&T's Graphviz
+    requires 'GraphViz2', ">= 2.67";
 
     # Required for authentication via OpenIDConnect.
     requires 'Crypt::JWT';
