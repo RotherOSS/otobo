@@ -437,8 +437,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     fieldset.TableLike > .Field input[type=file],
-    fieldset.TableLike > .Row > .Field input[type=file],
-    fieldset.TableLike > .Row > .FieldCell > .Field input[type=file] {
+    fieldset.TableLike > .Row > .Field input[type=file] {
         width: 95%;
     }
 
@@ -446,8 +445,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     fieldset.TableLike > .Row > .RichTextField,
     fieldset.TableLike > .Row > .FieldCell > .RichTextField,
     fieldset.TableLike > .FloatingField,
-    fieldset.TableLike > .Row > .FloatingField,
-    fieldset.TableLike > .Row > .FieldCell > .FloatingField {
+    fieldset.TableLike > .Row > .FloatingField {
         padding: 0px;
         float: none;
         margin: 0;
@@ -574,8 +572,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Row > .Field,
     .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Row > .FieldCell > .Field,
     .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Value,
-    .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Row > .Value,
-    .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Row > .FieldCell > .Value {
+    .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Row > .Value {
         float: none;
         display: inline;
         margin: 0px;
@@ -790,14 +787,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     fieldset.TableLike.FixedLabelSmall > .Row > .Field,
     fieldset.TableLike.FixedLabelSmall > .Row > .FieldCell > .Field,
     fieldset.TableLike.FixedLabelSmall > .Value,
-    fieldset.TableLike.FixedLabelSmall > .Row > .Value,
-    fieldset.TableLike.FixedLabelSmall > .Row > .FieldCell > .Value {
+    fieldset.TableLike.FixedLabelSmall > .Row > .Value {
         margin-left: 0px;
         font-size: 1.2em;
     }
 
     .RTL fieldset.TableLike.FixedLabelSmall > .Field,
     .RTL fieldset.TableLike.FixedLabelSmall > .Row > .Field,
+    .RTL fieldset.TableLike.FixedLabelSmall > .Row > .FieldCell > .Field,
     .RTL fieldset.TableLike.FixedLabelSmall > .Value,
     .RTL fieldset.TableLike.FixedLabelSmall > .Row > .Value {
         margin-right: 0px;
@@ -857,14 +854,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .TicketZoom fieldset.TableLike > label,
     .TicketZoom fieldset.TableLike > .Row > label,
     .TicketZoom fieldset.TableLike > .Row > .FieldCell > label,
-    .TicketZoom fieldset.TableLike > .Row .FixedValueSmall,
-    .TicketZoom fieldset.TableLike > .Row > .FieldCell .FixedValueSmall {
+    .TicketZoom fieldset.TableLike > .Row .FixedValueSmall {
         float: left;
     }
 
     .TicketZoom fieldset.TableLike.FixedLabelSmall > .FixedValueSmall,
-    .TicketZoom fieldset.TableLike.FixedLabelSmall > .Row > .FixedValueSmall,
-    .TicketZoom fieldset.TableLike.FixedLabelSmall > .Row > .FieldCell > .FixedValueSmall {
+    .TicketZoom fieldset.TableLike.FixedLabelSmall > .Row > .FixedValueSmall {
         width: auto;
     }
 
@@ -1179,8 +1174,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .LayoutPopup fieldset.TableLike.FixedLabel > .Row > .Field,
     .LayoutPopup fieldset.TableLike.FixedLabel > .Row > .FieldCell > .Field,
     .LayoutPopup fieldset.TableLike.FixedLabel > .Value,
-    .LayoutPopup fieldset.TableLike.FixedLabel > .Row > .Value,
-    .LayoutPopup fieldset.TableLike.FixedLabel > .Row > .FieldCell > .Value {
+    .LayoutPopup fieldset.TableLike.FixedLabel > .Row > .Value {
         margin-left: 0px;
         padding-left: 0px;
     }
@@ -1212,8 +1206,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     fieldset.TableLike > .Value,
-    fieldset.TableLike > .Row > .Value,
-    fieldset.TableLike > .Row > .FieldCell > .Value {
+    fieldset.TableLike > .Row > .Value {
         margin-left: 0px;
     }
 
