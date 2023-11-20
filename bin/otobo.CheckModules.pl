@@ -184,6 +184,7 @@ my %IsDockerFeature = (
     'div:ldap'           => 1,
     'div:xslt'           => 1,
     'gazelle'            => 1,
+    'graph:graphviz'     => 1,
     'mail:imap'          => 1,
     'mail:ntlm'          => 1,
     'mail:sasl'          => 1,
@@ -936,6 +937,20 @@ my @NeededModules = (
         Comment   => 'Twist some HTTP variables so that the reverse proxy is transparent',
         InstTypes => {
             aptget => 'libplack-middleware-reverseproxy-perl',
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+
+    # Feature graph
+    {
+        Module          => 'GraphViz2',
+        Features        => ['graph:graphviz'],
+        VersionRequired => '2.67',                             # released 2022-07-21
+        Comment         => q{A wrapper for AT&T's Graphviz},
+        InstTypes       => {
+            aptget => undef,                                   # available only in Debian testing
             emerge => undef,
             zypper => undef,
             ports  => undef,
