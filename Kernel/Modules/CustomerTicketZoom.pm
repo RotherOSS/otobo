@@ -2341,6 +2341,12 @@ sub _Mask {
             );
         }
 
+        # add information whether activated activity dialog button should be hidden
+        $LayoutObject->AddJSData(
+            Key   => 'HideActivatedActivityDialogButton',
+            Value => $Config->{'HideActivatedActivityDialogButton'} // 0,
+        );
+
         # check subject
         if ( !$Param{Subject} ) {
             $Param{Subject} = "Re: " . ( $Param{Title} // '' );
