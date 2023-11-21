@@ -220,6 +220,7 @@ sub Run {
             grep { substr( $_, 0, length 'Customer' ) eq 'Customer' }
             sort keys %Actions;
     }
+    $PossibleActions{ ++$Counter } = 'CustomerTicketZoomReply';
 
     my $ACL = $TicketObject->TicketAcl(
         Data           => \%PossibleActions,
@@ -894,6 +895,7 @@ sub Run {
                 Visibility       => \%Visibility,
                 DFPossibleValues => \%DynamicFieldPossibleValues,
                 DFErrors         => \%DynamicFieldValidationResult,
+                Reply            => $AclActionLookup{CustomerTicketZoomReply},
             );
             $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $LayoutObject->CustomerFooter();
@@ -1460,12 +1462,13 @@ sub Run {
         TicketStateID => $Ticket{StateID},
         %GetParam,
         StateID           => $GetParam{NextStateID},
-        TicketStateID     => $GetParam{NextStateID},         # TODO: check whether this right
+        TicketStateID     => $GetParam{NextStateID},                      # TODO: check whether this right
         AclAction         => \%AclAction,
         HideAutoselected  => $HideAutoselectedJSON,
         Visibility        => $DynFieldStates{Visibility},
         ActivityErrorHTML => \%ActivityErrorHTML,
         DFPossibleValues  => \%DynamicFieldPossibleValues,
+        Reply             => $AclActionLookup{CustomerTicketZoomReply},
     );
 
     # return if HTML email
@@ -2342,9 +2345,11 @@ sub _Mask {
         if ( !$Param{Subject} ) {
             $Param{Subject} = "Re: " . ( $Param{Title} // '' );
         }
-        $LayoutObject->Block(
-            Name => 'ReplyButton',
-        );
+        if ( $Param{Reply} ) {
+            $LayoutObject->Block(
+                Name => 'ReplyButton',
+            );
+        }
         $LayoutObject->Block(
             Name => 'FollowUp',
             Data => \%Param,
