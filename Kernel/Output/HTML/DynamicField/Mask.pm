@@ -98,6 +98,8 @@ creates the field HTML to be used in edit masks for multiple dynamic fields.
 sub EditSectionRender {
     my ( $Self, %Param ) = @_;
 
+    $Param{Content} //= [];
+
     # check needed params
     for my $Needed (qw(Content DynamicFields LayoutObject ParamObject)) {
         if ( !$Param{$Needed} ) {
@@ -110,7 +112,7 @@ sub EditSectionRender {
         }
     }
 
-    if ( !IsArrayRefWithData( $Param{Content} ) ) {
+    if ( ref $Param{Content} ne 'ARRAY' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Invalid content!",
