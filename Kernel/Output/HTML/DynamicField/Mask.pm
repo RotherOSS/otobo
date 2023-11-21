@@ -98,7 +98,13 @@ creates the field HTML to be used in edit masks for multiple dynamic fields.
 sub EditSectionRender {
     my ( $Self, %Param ) = @_;
 
-    $Param{Content} //= [];
+    my $TemplateFile = $Param{CustomerInterface} ? 'DynamicField/CustomerEditField' : 'DynamicField/AgentEditField';
+
+    if ( !$Param{Content} ) {
+        return $Param{LayoutObject}->Output(
+            TemplateFile => $TemplateFile,
+        );
+    }
 
     # check needed params
     for my $Needed (qw(Content DynamicFields LayoutObject ParamObject)) {
@@ -112,7 +118,7 @@ sub EditSectionRender {
         }
     }
 
-    if ( ref $Param{Content} ne 'ARRAY' ) {
+    if ( !IsArrayRefWithData( $Param{Content} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Invalid content!",
@@ -120,8 +126,6 @@ sub EditSectionRender {
 
         return;
     }
-
-    my $TemplateFile = $Param{CustomerInterface} ? 'DynamicField/CustomerEditField' : 'DynamicField/AgentEditField';
 
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
