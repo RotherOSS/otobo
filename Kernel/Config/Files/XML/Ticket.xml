@@ -7759,6 +7759,13 @@
             <Item ValueType="String" Translatable="1">Support Agent</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::CustomerTicketZoom###HideActivatedActivityDialogButton" Required="0" Valid="1">
+        <Description Translatable="1">If activated, a clicked activity button will be hidden in the customer ticket zoom frontend.</Description>
+        <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::CustomerTicketSearch::SearchLimit" Required="1" Valid="1">
         <Description Translatable="1">Maximum number of tickets to be displayed in the result of a search in the customer interface.</Description>
         <Navigation>Frontend::Customer::View::TicketSearch</Navigation>

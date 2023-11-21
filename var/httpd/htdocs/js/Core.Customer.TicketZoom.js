@@ -290,6 +290,14 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             $('html').css({scrollTop: $('#Body').height()});
             // set the position of the RTE label (Core.UI.RichTextEditor.js)
             $(window).trigger('resize');
+
+            if ( Core.Config.Get('HideActivatedActivityDialogButton') == '1' ) {
+                // show all process dialog buttons
+                $('.ActivityStartButton').show();
+
+                // hide button which was clicked
+                $(this).hide();
+            }
         });
 
         $('.CloseButton').on('click', function(Event){
@@ -300,6 +308,12 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             $('html').css({scrollTop: $('#Body').height()});
             if ( ParentWidget.attr('id') === 'FollowUp' ) {
                 $('#ReplyButton').show();
+            }
+
+            if ( Core.Config.Get('HideActivatedActivityDialogButton') == '1' ) {
+
+                // show all process dialog buttons
+                $('.ActivityStartButton').show();
             }
         });
 
