@@ -690,6 +690,10 @@ sub Run {
     # check follow up
     elsif ( $Self->{Subaction} eq 'Store' ) {
 
+        if ( !$AclActionLookup{CustomerTicketZoomReply} ) {
+            return $LayoutObject->CustomerNoPermission( WithHeader => 'yes' );
+        }
+
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck( Type => 'Customer' );
 
