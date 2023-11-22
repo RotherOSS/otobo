@@ -55,30 +55,7 @@ Store a reference to an object in an dynamic field. Object type specific feature
 This dynamic field driver module implements the public interface of L<Kernel::System::DynamicField::Backend>.
 Please look there for a detailed reference of the functions.
 
-=head2 ValueGet()
-
-This method contains special support for the case of Lenses. A Lens operates directly on dynamic field of an specific object.
-The specific object is usually identified by the value of the Reference dynamic field. But there is at least one special case.
-When the reference it to an C<ITSMConfigItem> then the relevant ID is the ID of the last version. This case is handled
-when the parameter C<ForLens> is passed. Then there is check whether there is a plugin object that provides
-the method C<ValueForLens>.
-
 =cut
-
-# TODO remove and overwrite in ITSMConfigItem(Version)Reference for lens stuff
-sub ValueGet {
-    my ( $Self, %Param ) = @_;
-
-    # get the value from the parent class
-    my $Value = $Self->SUPER::ValueGet(%Param);
-
-    # special handling only for Lens
-    return $Value unless $Param{ForLens};
-
-    # for usage in lenses we might have to interpret the values to be usable for their ValueGet()
-    return $Self->ValueForLens( Value => $Value ) if $Self->can('ValueForLens');
-    return $Value;
-}
 
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
@@ -106,17 +83,17 @@ sub ValueValidate {
     }
 
     my $Success;
-    for my $Item (@Values) {
+    for my $Value (@Values) {
         $Success = $DynamicFieldValueObject->ValueValidate(
             Value => {
-                $Self->{ValueKey} => $Param{Value},
+                $Self->{ValueKey} => $Value,
             },
-            UserID => $Param{UserID}
+            UserID => $Param{UserID},
         );
 
         return if !$Success;
 
-        if ( $CheckRegex && IsStringWithData($Item) ) {
+        if ( $CheckRegex && IsStringWithData($Value) ) {
 
             # check regular expressions
             my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
@@ -124,10 +101,10 @@ sub ValueValidate {
             REGEXENTRY:
             for my $RegEx (@RegExList) {
 
-                if ( $Item !~ $RegEx->{Value} ) {
+                if ( $Value !~ $RegEx->{Value} ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
-                        Message  => "The value '$Item' is not matching /"
+                        Message  => "The value '$Value' is not matching /"
                             . $RegEx->{Value} . "/ ("
                             . $RegEx->{ErrorMessage} . ")!",
                     );
@@ -315,8 +292,6 @@ sub EditFieldRender {
         ServerError => $Param{ServerError},
         Mandatory   => $Param{Mandatory},
     );
-
-    # for getting descriptive names for the values, e.g. TicketNumber for TicketID
     my @ResultHTML;
     for my $ValueIndex ( 0 .. ( $DFDetails->{Multiselect} ? 0 : $#{$Value} ) ) {
         my $FieldID = $DFDetails->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
@@ -430,19 +405,6 @@ EOF
     }
 
     return \%Data;
-}
-
-sub EditFieldValueGet {
-    my ( $Self, %Param ) = @_;
-
-    # get the value from the parent class
-    my $Value = $Self->SUPER::EditFieldValueGet(%Param);
-
-    # for this field the normal return an the ReturnValueStructure are the same
-    return $Value unless $Param{ForLens};
-
-    # for usage in lenses we might have to interpret the values to be usable for their ValueGet()
-    return $Self->can('ValueForLens') ? $Self->ValueForLens( Value => $Value ) : $Value;
 }
 
 sub EditFieldValueValidate {
