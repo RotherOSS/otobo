@@ -3008,4 +3008,85 @@ sub Evaluate {
     return $Self->{$DynamicFieldBackend}->Evaluate(%Param);
 }
 
+=head2 SearchObjects()
+
+This is used in auto completion when searching for possible object IDs.
+
+    my @ObjectIDs = $BackendObject->SearchObjects(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        Term               => $Term,
+        MaxResults         => $MaxResults,
+        UserID             => 1,
+    );
+
+=cut
+
+sub SearchObjects {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+
+            return;
+        }
+    }
+
+    # set the dynamic field specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( $Self->{$DynamicFieldBackend}->can('SearchObjects') ) {
+        return $Self->{$DynamicFieldBackend}->SearchObjects(%Param);
+    }
+
+    return;
+}
+
+=head2 ObjectDescriptionGet()
+
+return a hash of object descriptions.
+
+    my %Description = $BackendObject->ObjectDescriptionGet(
+        ObjectID => 123,
+        UserID   => 1,
+    );
+
+Return
+
+    %Description = (
+        Normal => "Ticket# 1234455",
+        Long   => "Ticket# 1234455: Need a sample ticket title",
+    );
+
+=cut
+
+sub ObjectDescriptionGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+
+            return;
+        }
+    }
+
+    # set the dynamic field specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( $Self->{$DynamicFieldBackend}->can('ObjectDescriptionGet') ) {
+        return $Self->{$DynamicFieldBackend}->ObjectDescriptionGet(%Param);
+    }
+
+    return;
+}
+
 1;
