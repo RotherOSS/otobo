@@ -79,7 +79,7 @@ sub Run {
     if (
         !IsHashRefWithData($DynamicFieldConfig)
         ||
-        $DynamicFieldConfig->{FieldType} ne 'Reference'
+        $DynamicFieldConfig->{FieldType} !~ /^\w+Reference$/
         )
     {
         return $LayoutObject->JSONReply(
@@ -91,34 +91,11 @@ sub Run {
     }
 
     # search referenced object
-    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-    my $ObjectType   = $DynamicFieldConfig->{Config}->{ReferencedObjectType};
-    my $PluginModule = join '::', 'Kernel::System::DynamicField::Driver::Reference', $ObjectType;
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $MaxResults                = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
+    my $Term                      = $ParamObject->GetParam( Param => 'Term' ) || '';
 
-    if ( !$MainObject->Require($PluginModule) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't load Reference dynamic field plugin module for object type $ObjectType!",
-        );
-
-        return;
-    }
-
-    # create a plugin object
-    my $PluginObject = $PluginModule->new;
-    if ( !$PluginObject ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Couldn't create a plugin object for object type $ObjectType!",
-        );
-
-        return;
-    }
-
-    my $MaxResults = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
-    my $Term       = $ParamObject->GetParam( Param => 'Term' ) || '';
-
-    my @ObjectIDs = $PluginObject->SearchObjects(
+    my @ObjectIDs = $DynamicFieldBackendObject->SearchObjects(
         DynamicFieldConfig => $DynamicFieldConfig,    # this might contain search restrictions
         Term               => $Term,
         MaxResults         => $MaxResults,
@@ -127,9 +104,10 @@ sub Run {
 
     my @Results;
     for my $ObjectID (@ObjectIDs) {
-        my %Description = $PluginObject->ObjectDescriptionGet(
-            ObjectID => $ObjectID,
-            UserID   => 1,           # TODO: what about Permission check
+        my %Description = $DynamicFieldBackendObject->ObjectDescriptionGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $ObjectID,
+            UserID             => 1,                     # TODO: what about Permission check
         );
 
         push @Results, {
