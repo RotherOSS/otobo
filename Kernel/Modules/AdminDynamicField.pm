@@ -200,36 +200,26 @@ sub _ShowOverview {
 
         my $SelectName = $ObjectType . 'DynamicField';
 
-        my @FieldList = map {
-            {
-                Key   => $_,
-                Value => $FieldTypes{$_}
+        my @FieldList;
+        FIELDTYPE:
+        for my $FieldTypeName ( sort { $FieldDialogs{$a} cmp $FieldDialogs{$b} } keys %FieldTypes ) {
+
+            # group reference field types to show in tree view
+            my $Value = $FieldTypes{$FieldTypeName};
+            if ( $FieldDialogs{$FieldTypeName} =~ /^AdminDynamicFieldReference$/ ) {
+                $Value = 'Reference::' . $Value;
             }
-        } sort grep { $_ ne 'Reference' } keys %FieldTypes;
+
+            push @FieldList, {
+                Key   => $FieldTypeName,
+                Value => $Value,
+            };
+        }
 
         for my $Field (@FieldList) {
 
             if ( !$ConfigObject->Get("Frontend::Module")->{ $FieldDialogs{ $Field->{Key} } } ) {
                 $Field->{Disabled} = 1;
-            }
-        }
-
-        # This is a workaround for Reference dynamic fields.
-        # We want a entry for each of the possible referenced object types.
-        # E.g. Ticket, ITSMConfigItem, ITSMConfigItemVersion.
-        # The list of referenced object types may come from several XML-files,
-        # therefore we assemble the complete list from several smaller lists.
-        # Sorting is handled by TreeView.
-        # The Key must be unique as otherwise the JS handler becomes confused.
-        if ( $FieldTypes{Reference} && $FieldTypeConfig->{Reference}->{ReferencedObjectTypes} ) {
-            for my $Types ( values $FieldTypeConfig->{Reference}->{ReferencedObjectTypes}->%* ) {
-                for my $Type ( $Types->@* ) {
-                    push @FieldList,
-                        {
-                            Key   => join( '::', 'Reference', $Type ),
-                            Value => join( '::', 'Reference', $Type ),
-                        };
-                }
             }
         }
 
@@ -249,7 +239,7 @@ sub _ShowOverview {
         # Inject additional data into the option tag.
         # E.g. <option value="Reference::ITSMConfigItem" data-referenced_object_type="ITSMConfigItem">&nbsp;&nbsp;ITSMConfigItem</option>
         # See https://www.w3schools.com/tags/att_data-.asp
-        $AddDynamicFieldStrg =~ s[ (value="Reference::(\w+)")>][ $1 data-referenced_object_type="$2">]g;
+        $AddDynamicFieldStrg =~ s[ (value="(\w+)Reference")>][ $1 data-referenced_object_type="$2">]g;
 
         my $ObjectTypeName = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::ObjectType')
             ->{$ObjectType}->{DisplayName} || $ObjectType;
