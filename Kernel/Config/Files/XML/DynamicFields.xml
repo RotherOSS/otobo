@@ -1102,27 +1102,7 @@
     </Setting>
     <!-- End dynamic field ContactWD -->
 
-    <!-- dynamic field Reference -->
-    <Setting Name="DynamicFields::Driver###Reference" Required="0" Valid="1">
-        <Description Translatable="1">DynamicField backend registration.</Description>
-        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="DisplayName" Translatable="1">Reference</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Driver::Reference</Item>
-                <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="DynamicFields::Driver###Reference###ReferencedObjectTypes###002-DynamicField" Required="0" Valid="1">
-        <Description Translatable="1">Referenced object types that are related to tickets and articles.</Description>
-        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
-        <Value>
-            <Array>
-                <Item>Ticket</Item>
-            </Array>
-        </Value>
-    </Setting>
+    <!-- dynamic field Reference common settings -->
     <Setting Name="Loader::Agent::CommonJS###200-DynamicFieldReference" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
         <Navigation>Frontend::Base::Loader</Navigation>
@@ -1242,6 +1222,20 @@
         </Value>
     </Setting>
     <!-- End dynamic field Reference -->
+
+    <!-- dynamic field Ticket Reference -->
+    <Setting Name="DynamicFields::Driver###TicketReference" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Ticket Reference</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::TicketReference</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <!-- End dynamic field Ticket Reference -->
 
     <!-- dynamic field Lens -->
     <Setting Name="DynamicFields::Driver###Lens" Required="0" Valid="1">
