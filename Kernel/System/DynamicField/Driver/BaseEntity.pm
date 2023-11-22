@@ -158,9 +158,11 @@ sub ValueValidate {
         @Values = ( $Param{Value} );
     }
 
+    # get dynamic field value object
+    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
     my $Success;
     for my $Value (@Values) {
-        $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
+        $Success = $DynamicFieldValueObject->ValueValidate(
             Value => {
                 $ValueKey => $Value,
             },
