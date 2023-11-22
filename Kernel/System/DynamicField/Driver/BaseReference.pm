@@ -13,7 +13,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::DynamicField::Driver::Reference;
+package Kernel::System::DynamicField::Driver::BaseReference;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
@@ -44,7 +44,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Reference - driver for the Reference dynamic field
+Kernel::System::DynamicField::Driver::BaseReference - driver for the Reference dynamic field
 
 =head1 DESCRIPTION
 
@@ -54,43 +54,6 @@ Store a reference to an object in an dynamic field. Object type specific feature
 
 This dynamic field driver module implements the public interface of L<Kernel::System::DynamicField::Backend>.
 Please look there for a detailed reference of the functions.
-
-=head2 new()
-
-it is usually not necessary to explicitly create instances of dynamic field drivers.
-Instances of the drivers are created in the constructor of the
-dynamic field backend object C<Kernel::System::DynamicField::Backend>.
-
-=cut
-
-sub new {
-    my ($Type) = @_;
-
-    # allocate new hash for object
-    my $Self = bless {}, $Type;
-
-    # Reference dynamic fields are stored in the database table attribute dynamic_field_value.value_int.
-    # TODO: References to Customer and CustomerUser use a String as a key.
-    $Self->{ValueType}      = 'Integer';
-    $Self->{ValueKey}       = 'ValueInt';
-    $Self->{TableAttribute} = 'value_int';
-
-    # Used for declaring CSS classes
-    $Self->{FieldCSSClass} = 'DynamicFieldReference';
-
-    # set field behaviors
-    $Self->{Behaviors} = {
-        'IsACLReducible'               => 0,
-        'IsNotificationEventCondition' => 0,
-        'IsSortable'                   => 1,
-        'IsFiltrable'                  => 0,
-        'IsStatsCondition'             => 0,
-        'IsCustomerInterfaceCapable'   => 1,
-        'IsHiddenInTicketInformation'  => 0,
-    };
-
-    return $Self;
-}
 
 =head2 ValueGet()
 
@@ -102,6 +65,7 @@ the method C<ValueForLens>.
 
 =cut
 
+# TODO remove and overwrite in ITSMConfigItem(Version)Reference for lens stuff
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
@@ -112,11 +76,7 @@ sub ValueGet {
     return $Value unless $Param{ForLens};
 
     # for usage in lenses we might have to interpret the values to be usable for their ValueGet()
-    my $PluginObject = $Self->_GetObjectTypePlugin(
-        ObjectType => $Param{DynamicFieldConfig}{Config}{ReferencedObjectType},
-    );
-
-    return $PluginObject->ValueForLens( Value => $Value ) if $PluginObject->can('ValueForLens');
+    return $Self->ValueForLens( Value => $Value ) if $Self->can('ValueForLens');
     return $Value;
 }
 
@@ -357,9 +317,6 @@ sub EditFieldRender {
     );
 
     # for getting descriptive names for the values, e.g. TicketNumber for TicketID
-    my $PluginObject = $Self->_GetObjectTypePlugin(
-        ObjectType => $DFDetails->{ReferencedObjectType},
-    );
     my @ResultHTML;
     for my $ValueIndex ( 0 .. ( $DFDetails->{Multiselect} ? 0 : $#{$Value} ) ) {
         my $FieldID = $DFDetails->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
@@ -382,7 +339,7 @@ sub EditFieldRender {
         if ($ReferencedObjectID) {
 
             # The visible value depends on the referenced object
-            my %Description = $PluginObject->ObjectDescriptionGet(
+            my %Description = $Self->ObjectDescriptionGet(
                 ObjectID => $ReferencedObjectID,
                 UserID   => 1,                     # TODO: what about Permission check
             );
@@ -485,11 +442,7 @@ sub EditFieldValueGet {
     return $Value unless $Param{ForLens};
 
     # for usage in lenses we might have to interpret the values to be usable for their ValueGet()
-    my $PluginObject = $Self->_GetObjectTypePlugin(
-        ObjectType => $Param{DynamicFieldConfig}{Config}{ReferencedObjectType},
-    );
-
-    return $PluginObject->can('ValueForLens') ? $PluginObject->ValueForLens( Value => $Value ) : $Value;
+    return $Self->can('ValueForLens') ? $Self->ValueForLens( Value => $Value ) : $Value;
 }
 
 sub EditFieldValueValidate {
@@ -543,24 +496,19 @@ sub DisplayValueRender {
     my @LongObjectDescriptions;
     my $Link;
     {
-        my $DFDetails    = $Param{DynamicFieldConfig}->{Config};
-        my $PluginObject = $Self->_GetObjectTypePlugin(
-            ObjectType => $DFDetails->{ReferencedObjectType},
-        );
-        if ($PluginObject) {
-            for my $ObjectID (@ObjectIDs) {
-                if ($ObjectID) {
-                    my %Description = $PluginObject->ObjectDescriptionGet(
-                        ObjectID     => $ObjectID,
-                        Link         => $HTMLOutput,
-                        LayoutObject => $Param{LayoutObject},
-                    );
-                    push @LongObjectDescriptions, $Description{Long};
-                    $Link = $Description{Link};
-                }
-                else {
-                    push @LongObjectDescriptions, '';
-                }
+        my $DFDetails = $Param{DynamicFieldConfig}->{Config};
+        for my $ObjectID (@ObjectIDs) {
+            if ($ObjectID) {
+                my %Description = $Self->ObjectDescriptionGet(
+                    ObjectID     => $ObjectID,
+                    Link         => $HTMLOutput,
+                    LayoutObject => $Param{LayoutObject},
+                );
+                push @LongObjectDescriptions, $Description{Long};
+                $Link = $Description{Link};
+            }
+            else {
+                push @LongObjectDescriptions, '';
             }
         }
     }
@@ -1015,36 +963,7 @@ sub GetFieldTypeSettings {
             };
     }
 
-    # Get settings that depend on the type of the referenced object
-    my @SpecificSettings;
-    {
-        # The referenced object type might have been passed in the URL
-        my $ReferencedObjectType = $ParamObject->GetParam( Param => 'ReferencedObjectType' );
-
-        # or it can be taken from the existing configuration
-        if ( !$ReferencedObjectType ) {
-            my $FieldID = $ParamObject->GetParam( Param => 'ID' );
-            if ($FieldID) {
-                my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-                my $DynamicField       = $DynamicFieldObject->DynamicFieldGet(
-                    ID => $FieldID,
-                );
-
-                if ( ref $DynamicField eq 'HASH' && ref $DynamicField->{Config} eq 'HASH' ) {
-                    $ReferencedObjectType = $DynamicField->{Config}->{ReferencedObjectType};
-                }
-            }
-        }
-
-        if ($ReferencedObjectType) {
-            my $PluginObject = $Self->_GetObjectTypePlugin(
-                ObjectType => $ReferencedObjectType,
-            );
-            @SpecificSettings = $PluginObject->GetFieldTypeSettings;
-        }
-    }
-
-    return @GenericSettings, @SpecificSettings;
+    return @GenericSettings;
 }
 
 =head2 PossibleValuesGet()
@@ -1063,10 +982,6 @@ A wrapper for SearchObjects method.
 sub PossibleValuesGet {
     my ( $Self, %Param ) = @_;
 
-    my $PluginObject = $Self->_GetObjectTypePlugin(
-        ObjectType => $Param{DynamicFieldConfig}{Config}{ReferencedObjectType},
-    );
-
     my %PossibleValues;
 
     # set PossibleNone attribute
@@ -1084,12 +999,12 @@ sub PossibleValuesGet {
     }
 
     # passing $Param{Object} to SearchObjects()
-    my @SearchResult = $PluginObject->SearchObjects(
+    my @SearchResult = $Self->SearchObjects(
         %Param,
     );
 
     for my $ResultItem (@SearchResult) {
-        my %ItemDescription = $PluginObject->ObjectDescriptionGet(
+        my %ItemDescription = $Self->ObjectDescriptionGet(
             ObjectID => $ResultItem,
             UserID   => 1,
         );
@@ -1101,71 +1016,5 @@ sub PossibleValuesGet {
 
     return \%PossibleValues;
 }
-
-=begin Internal:
-
-=head2 _GetObjectTypePlugin()
-
-Get an instance of the plugin for the object type.
-
-=cut
-
-sub _GetObjectTypePlugin {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    NEEDED:
-    for my $Needed (qw(ObjectType)) {
-        next NEEDED if $Param{$Needed};
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need $Needed!"
-        );
-
-        return;
-    }
-
-    my $ObjectType = $Param{ObjectType};
-
-    # load the plugin
-    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-    my $PluginModule = join '::', 'Kernel::System::DynamicField::Driver::Reference', $ObjectType;
-    if ( !$MainObject->Require($PluginModule) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't load Reference dynamic field plugin module for object type $ObjectType!",
-        );
-
-        return;
-    }
-
-    # create a plugin object
-    my $PluginObject = $PluginModule->new;
-    if ( !$PluginObject ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Couldn't create a plugin object for object type $ObjectType!",
-        );
-
-        return;
-    }
-
-    if ( ref $PluginObject ne $PluginModule ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Plugin object for object type $ObjectType was not created successfully!",
-        );
-
-        return;
-    }
-
-    # give back the plugin
-    return $PluginObject;
-}
-
-=end Internal:
-
-=cut
 
 1;
