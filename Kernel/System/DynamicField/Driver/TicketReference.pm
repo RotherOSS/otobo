@@ -40,7 +40,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::TicketReference - plugin module for the Reference dynamic field
+Kernel::System::DynamicField::Driver::TicketReference - backend for the Reference dynamic field
 
 =head1 DESCRIPTION
 
@@ -301,9 +301,8 @@ sub SearchObjects {
         }
     }
 
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-    return $TicketObject->TicketSearch(
+    # return a list of ticket IDs
+    return $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
         Limit  => $Param{MaxResults},
         Result => 'ARRAY',
         UserID => $Param{UserID} // 1,
