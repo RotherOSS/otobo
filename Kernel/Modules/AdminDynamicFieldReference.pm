@@ -54,6 +54,7 @@ sub Run {
     );
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # Get the field specific setting during the runtime as the
     # complete list depends on the previous selection of ReferencedObjectType.
@@ -61,10 +62,14 @@ sub Run {
     # TODO: add GetFieldTypeSettings() to the backend object
     my @FieldTypeSettings;
     {
-        my $DriverObject = $Kernel::OM->Get('Kernel::System::DynamicField::Driver::Reference');
-        @FieldTypeSettings = $DriverObject->GetFieldTypeSettings(
-            ParamObject => $Kernel::OM->Get('Kernel::System::Web::Request'),
-        );
+        my $FieldType = $ParamObject->GetParam( Param => 'FieldType' );
+
+        if ($FieldType) {
+            my $DriverObject = $Kernel::OM->Get( 'Kernel::System::DynamicField::Driver::' . $FieldType );
+            @FieldTypeSettings = $DriverObject->GetFieldTypeSettings(
+                ParamObject => $ParamObject,
+            );
+        }
     }
 
     if ( $Self->{Subaction} eq 'Add' ) {
