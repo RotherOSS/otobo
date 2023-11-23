@@ -376,6 +376,7 @@ sub EditFieldRender {
         Class       => $FieldClass,
         HTMLQuote   => 1,
         Multiple    => 1,
+        Disabled    => $Param{Readonly},
     );
 
     my %FieldTemplateData = (
