@@ -833,26 +833,6 @@ sub ValueLookup {
 sub GetFieldTypeSettings {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject = $Param{ParamObject};
-
-    # The referenced object type might have been passed in the URL
-    my $ReferencedObjectType = $ParamObject->GetParam( Param => 'ReferencedObjectType' );
-
-    # or it can be taken from the existing configuration
-    if ( !$ReferencedObjectType ) {
-        my $FieldID = $ParamObject->GetParam( Param => 'ID' );
-        if ($FieldID) {
-            my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-            my $DynamicField       = $DynamicFieldObject->DynamicFieldGet(
-                ID => $FieldID,
-            );
-
-            if ( ref $DynamicField eq 'HASH' && ref $DynamicField->{Config} eq 'HASH' ) {
-                $ReferencedObjectType = $DynamicField->{Config}->{ReferencedObjectType};
-            }
-        }
-    }
-
     # setting independent from the referenced object
     my @GenericSettings;
 
@@ -867,7 +847,7 @@ sub GetFieldTypeSettings {
                 Label           => Translatable('Referenced object type'),
                 Explanation     => Translatable('Select the type of the referenced object'),
                 InputType       => 'Selection',
-                SelectionData   => { $ReferencedObjectType => $ReferencedObjectType },
+                SelectionData   => { $Self->{ReferencedObjectType} => $Self->{ReferencedObjectType} },
                 PossibleNone    => 0,
                 Mandatory       => 1,
             };
