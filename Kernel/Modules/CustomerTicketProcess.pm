@@ -1402,7 +1402,7 @@ sub _OutputActivityDialog {
                 FormID              => $Self->{FormID},
                 Value               => $Param{GetParam}{ 'DynamicField_' . $DynamicFieldName },
                 PossibleValues      => $DFPossibleValues{ 'DynamicField_' . $DynamicFieldName },
-                Visibility          => $DynFieldStates{Visibility}{ 'DynamicField' . $DynamicFieldName } // 0,
+                Visibility          => $DynFieldStates{Visibility}{ 'DynamicField_' . $DynamicFieldName } // 0,
                 AJAXUpdatableFields => $AJAXUpdatableFields,
                 LayoutObject        => $LayoutObject,
             );
