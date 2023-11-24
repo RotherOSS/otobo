@@ -1229,7 +1229,7 @@
         <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
         <Value>
             <Hash>
-                <Item Key="DisplayName" Translatable="1">Ticket Reference</Item>
+                <Item Key="DisplayName" Translatable="1">Ticket</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::TicketReference</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
             </Hash>
