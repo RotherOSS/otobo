@@ -257,25 +257,25 @@ sub SearchObjects {
             if ( $FilterItem->{EqualsObjectAttribute} ) {
 
                 # don't perform search if object attribute to search for is empty
-                return unless $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} };
-                return if ( ref $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} } eq 'ARRAY' && !$Param{Object}->{ $FilterItem->{EqualsObjectAttribute} }->@* );
-                return if ( ref $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} } eq 'HASH'  && !$Param{Object}->{ $FilterItem->{EqualsObjectAttribute} }->%* );
+                my $EqualsObjectAttribute = $Param{Object}{DynamicField}{ $FilterItem->{EqualsObjectAttribute} } // $Param{Object}{ $FilterItem->{EqualsObjectAttribute} };
+                return unless $EqualsObjectAttribute;
+                return if ( ref $EqualsObjectAttribute eq 'ARRAY' && !$EqualsObjectAttribute->@* );
 
                 # config item attribute
                 if ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Con}i ) {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} };
+                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = $EqualsObjectAttribute;
                 }
 
                 # dynamic field attribute
                 elsif ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Dyn}i ) {
                     $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = {
-                        Equals => $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} },
+                        Equals => $EqualsObjectAttribute,
                     };
                 }
 
                 # array attribute
                 else {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = [ $Param{Object}->{ $FilterItem->{EqualsObjectAttribute} } ];
+                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = [$EqualsObjectAttribute];
                 }
             }
             elsif ( $FilterItem->{EqualsString} ) {
