@@ -77,11 +77,11 @@ sub new {
 
 add new Dynamic Field config
 
-returns id of new Dynamic field if successful or undef otherwise
+returns the ID of the new dynamic field if successful. Returns undef otherwise.
 
     my $ID = $DynamicFieldObject->DynamicFieldAdd(
         InternalField => 0,             # optional, 0 or 1, internal fields are protected
-        Name        => 'NameForField',  # mandatory
+        Name        => 'NameForField',  # mandatory, may only consist of ASCII alphanumerics and '-'
         Label       => 'a description', # mandatory, label to show
         FieldOrder  => 123,             # mandatory, display order
         FieldType   => 'Text',          # mandatory, selects the DF backend to use for this field
