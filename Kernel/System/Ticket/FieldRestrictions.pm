@@ -414,7 +414,7 @@ sub GetFieldStates {
         }
 
         # restrict options of reference fields as configured
-        if ( $DynamicFieldConfig->{FieldType} eq 'Reference' ) {
+        if ( $DynamicFieldConfig->{FieldType} =~ /Reference/ ) {
 
             # skip validation if no filter is defined for any of the changed elements
             next DYNAMICFIELD if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
