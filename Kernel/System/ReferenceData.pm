@@ -190,4 +190,35 @@ sub TranslatedCountryList {
     return \%Code2Name;
 }
 
+=head1 CountryCode2Name()
+
+Get a translated country name for a country code.
+
+    my $CountryName = $ReferenceDataObject->CountryCode2Name(
+        CountryCode => 'AF',
+        Language    => 'de',
+    );
+
+Returns:
+
+    $CountryName = 'Afghanistan';
+
+=cut
+
+sub CountryCode2Name {
+    my ( $Self, %Param ) = @_;
+
+    my $Code = $Param{CountryCode};
+
+    return $Code unless $Code =~ m/^[A-Z]{2}$/;
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    return $Code unless $MainObject->Require('Locale::CLDR');
+
+    my $Locale = Locale::CLDR->new( language_id => $Param{Language} );
+
+    return $Locale->region_name($Code);    # English per default
+}
+
 1;
