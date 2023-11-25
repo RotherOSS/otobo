@@ -719,7 +719,7 @@ sub _Edit {
                 $Param{RequiredClass}  = '';
             }
 
-            # show required flag
+            # show readonly flag
             if ( $Entry->[7] ) {
                 $Param{ReadOnlyType} = 'readonly';
             }
