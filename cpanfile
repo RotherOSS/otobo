@@ -389,12 +389,6 @@ feature 'optional', 'Support for feature optional' => sub {
     # localisation from the CLDR project
     requires 'Locale::CLDR', ">= 0.34.3";
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::De', ">= 0.34.3";
-
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Fr', ">= 0.34.3";
-
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
 
@@ -434,8 +428,6 @@ feature 'optional', 'Support for feature optional' => sub {
     # module for manipulating .po entries
     requires 'Locale::PO';
 
-<<<<<<< HEAD
-=======
     # localisation from the CLDR project
     requires 'Locale::CLDR::Locales::De', ">= 0.34.3";
 
@@ -466,7 +458,6 @@ feature 'optional', 'Support for feature optional' => sub {
     # localisation from the CLDR project
     requires 'Locale::CLDR::Locales::Ru', ">= 0.34.3";
 
->>>>>>> 714e86bcc9 (mmmmmmmmmm)
 };
 
 feature 'performance:redis', 'Support for feature performance:redis' => sub {

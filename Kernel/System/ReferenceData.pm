@@ -25,7 +25,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Locale::Country qw(all_country_names);
+use Locale::Country qw(all_country_names code2country country2code);
 
 # OTOBO modules
 
@@ -164,30 +164,52 @@ sub TranslatedCountryList {
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # Locale::CLDR is not required for OTOBO
-    return {} unless $MainObject->Require('Locale::CLDR');
+    if ( $MainObject->Require('Locale::CLDR') ) {
 
-    # TODO: Check whether $Param{Language} is supported
+        my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
+        my $Locale     = eval {
+            Locale::CLDR->new( language_id => $LanguageID );
+        };
 
-    # For getting the country flags.
-    # See https://en.wikipedia.org/wiki/Regional_indicator_symbol
-    # This indicators are in a sequence:  ord(🇩) = ord('🇦') - ord('A') + ord('D')
-    my $Base             = ord('🇦') - ord('A');
-    my %Letter2Indicator = map
-        { $_ => chr( $Base + ord($_) ) }
-        ( 'A' .. 'Z' );
+        # fall back to English
+        $Locale ||= eval {
+            Locale::CLDR->new( language_id => 'en' );
+        };
+        if ($Locale) {
 
-    my $Locale     = Locale::CLDR->new( language_id => $Param{Language} );
-    my $AllRegions = $Locale->all_regions();                                 # includes regions like '001' => World
-    my %Code2Name;
-    for my $Code ( grep { length $_ == 2 } keys $AllRegions->%* ) {
-        my $Flag =
-            join '',
-            map { $Letter2Indicator{$_} }
-            split //, $Code;
-        $Code2Name{$Code} = "$AllRegions->{$Code} $Flag";
+            # For getting the country flags.
+            # See https://en.wikipedia.org/wiki/Regional_indicator_symbol
+            # This indicators are in a sequence:  ord(🇩) = ord('🇦') - ord('A') + ord('D')
+            my $Base             = ord('🇦') - ord('A');
+            my %Letter2Indicator = map
+                { $_ => chr( $Base + ord($_) ) }
+                ( 'A' .. 'Z' );
+
+            my $AllRegions = $Locale->all_regions();    # includes regions like '001' => World
+            my %Code2Name;
+            for my $Code ( grep { length $_ == 2 } keys $AllRegions->%* ) {
+                my $Flag =
+                    join '',
+                    map { $Letter2Indicator{$_} }
+                    split //, $Code;
+                $Code2Name{$Code} = "$AllRegions->{$Code} $Flag";
+            }
+
+            return \%Code2Name;
+        }
     }
 
-    return \%Code2Name;
+    # Fall back to Locale::Country when Locale::CLDR is not available.
+    # The names will be in English.
+    my @CountryNames = all_country_names();
+
+    # return Code => Country pairs from ISO list
+    my %CountryName2Code;
+    for my $Country (@CountryNames) {
+        $CountryName2Code{$Country} = uc country2code($Country);
+    }
+
+    return \%CountryName2Code;
 }
 
 =head1 CountryCode2Name()
@@ -214,11 +236,28 @@ sub CountryCode2Name {
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    return $Code unless $MainObject->Require('Locale::CLDR');
+    if ( $MainObject->Require('Locale::CLDR') ) {
 
-    my $Locale = Locale::CLDR->new( language_id => $Param{Language} );
+        my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
+        my $Locale     = eval {
+            Locale::CLDR->new( language_id => $LanguageID );
+        };
 
-    return $Locale->region_name($Code);    # English per default
+        # fall back to English
+        $Locale ||= eval {
+            Locale::CLDR->new( language_id => 'en' );
+        }
+            ;
+        if ($Locale) {
+
+            # TODO: problem with BV
+            return $Locale->region_name($Code);    # English per default
+        }
+    }
+
+    # Fall back to Locale::Country when Locale::CLDR is not available.
+    # The names will be in English
+    return code2country($Code);
 }
 
 1;
