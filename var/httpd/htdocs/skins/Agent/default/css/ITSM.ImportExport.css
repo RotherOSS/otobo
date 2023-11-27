@@ -1,0 +1,83 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Import Export Screen
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection
+ */
+
+
+.MapHeaderRow label {
+    color: #929292;
+}
+
+.MapHeaderRow .Header,
+.MapHeaderRow .Field {
+    display: inline;
+    margin-right: 15px;
+    padding-left: 2px;
+}
+
+button.ArrowUp,
+button.ArrowDown {
+    height: 16px;
+    width: 16px;
+    padding: 1px;
+    margin-top: 0;
+    margin-bottom: 1px;
+    border-style: none;
+    text-indent: -9999px;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+button.ArrowUp:active,
+button.ArrowDown:active {
+    margin-top: 1px;
+    margin-bottom: 0;
+}
+
+button.ArrowUp[disabled="disabled"]:active,
+button.ArrowDown[disabled="disabled"]:active {
+    margin-top: 0px;
+    margin-bottom: 1px;
+}
+
+button.ArrowUp {
+    background: url(../img/icons/importexport_arrow_up.png);
+}
+
+button.ArrowUp[disabled="disabled"] {
+    background: url(../img/icons/importexport_arrow_up_disabled.png);
+    cursor: default;
+}
+
+button.ArrowDown {
+    background: url(../img/icons/importexport_arrow_down.png);
+}
+
+button.ArrowDown[disabled="disabled"]{
+    background: url(../img/icons/importexport_arrow_down_disabled.png);
+    cursor: default;
+}
+
+} /* end @media */

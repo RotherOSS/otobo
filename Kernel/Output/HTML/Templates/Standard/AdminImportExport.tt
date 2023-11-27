@@ -1,0 +1,567 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Import/Export Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+[% RenderBlockStart("ActionAdd") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=TemplateEdit1" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add template") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionAdd") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+
+[% RenderBlockStart("NoteCreateTemplate") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Note") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Create a template to import and export object information.") | html %]
+                </p>
+            </div>
+        </div>
+[% RenderBlockEnd("NoteCreateTemplate") %]
+
+[% RenderBlockStart("NoteObjectBackend") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Note") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.") | html %]
+                </p>
+            </div>
+        </div>
+[% RenderBlockEnd("NoteObjectBackend") %]
+
+
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+[% RenderBlockStart("OverviewList") %]
+            <div class="Header">
+                <h2>[% Translate(Data.ObjectName) | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Number") | html %]</th>
+                            <th>[% Translate("Name") | html %]</th>
+                            <th>[% Translate("Format") | html %]</th>
+                            <th>[% Translate("Validity") | html %]</th>
+                            <th class="Center">[% Translate("Delete") | html %]</th>
+                            <th>[% Translate("Start Import") | html %]</th>
+                            <th>[% Translate("Start Export") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <tr>
+                            <td colspan="7">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("OverviewListRow") %]
+                        <tr [% IF Data.ValidID != 1%]class="Invalid"[% END %]  id="TemplateID_[% Data.TemplateID %]">
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=TemplateEdit1;TemplateID=[% Data.TemplateID | uri %]">
+                                    [% Data.Number | html %]
+                                </a>
+                            </td>
+                            <td>[% Data.Name | html %]</td>
+                            <td>[% Translate(Data.FormatName) | html %]</td>
+                            <td>[% Translate(Data.Valid) | html %]</td>
+
+
+                            <td class="Center">
+                                <a id="DeleteTemplateID[% Data.TemplateID %]" class="TrashCan ImportExportDelete" href="#" data-id="[% Data.TemplateID %]" title="[% Translate("Delete this template") | html %]">
+                                    [% Translate("Delete this template") | html %]
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ImportInformation;TemplateID=[% Data.TemplateID | uri %]">
+                                    [% Translate("Import") | html %]
+                                </a>
+                            </td>
+                            <td>
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Export;TemplateID=[% Data.TemplateID | uri %]">
+                                    [% Translate("Export") | html %]
+                                </a>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("OverviewListRow") %]
+                    </tbody>
+                </table>
+            </div>
+[% RenderBlockEnd("OverviewList") %]
+
+[% RenderBlockStart("TemplateEdit1") %]
+            <div class="Header">
+                <h2>[% Translate("Step 1 of 5 - Edit common information") | html %]:</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]" />
+                    <input type="hidden" name="Subaction" value="TemplateEdit1" />
+                    <input type="hidden" name="TemplateID" value="[% Data.TemplateID %]" />
+                    <input type="hidden" name="SubmitNext" value="1" />
+
+                    <fieldset class="TableLike">
+
+                        <label class="Mandatory" for="Name" ><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
+                        <div class="Field">
+
+<!-- Validate_Required -->
+                            <input id="Name" class="[% Data.NameClass %]" type="text" name="Name" value="[% Data.Name | html %]" size="50" maxlength="200" />
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>[% Translate("Name is required!") | html %]</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("Name is required!") | html %]</p>
+                            </div>
+
+                        </div>
+                        <div class="Clear"></div>
+
+[% RenderBlockStart("NewObjectFormat") %]
+                        <label class="Mandatory" for="Object"><span class="Marker">*</span> [% Translate("Object") | html %]:</label>
+                        <div class="Field">
+
+                            [% Data.ObjectOption %]
+                            <div id="ObjectError" class="TooltipErrorMessage">
+                                <p>[% Translate("Object is required!") | html %]</p>
+                            </div>
+                            <div id="ObjectServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("Object is required!") | html %]</p>
+                            </div>
+
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="Format"><span class="Marker">*</span> [% Translate("Format") | html %]:</label>
+                        <div class="Field">
+
+                            [% Data.FormatOption %]
+                            <div id="FormatError" class="TooltipErrorMessage">
+                                <p>[% Translate("Format is required!") | html %]</p>
+                            </div>
+                            <div id="FormatServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("Format is required!") | html %]</p>
+                            </div>
+
+                        </div>
+[% RenderBlockEnd("NewObjectFormat") %]
+[% RenderBlockStart("EditObjectFormat") %]
+                        <label>[% Translate("Object") | html %]:</label>
+                        <div class="Field">
+                            <span>[% Data.ObjectName | html %]</span>
+                            <input type="hidden" name="Object" value="[% Data.Object | html %]" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Format") | html %]:</label>
+                        <div class="Field">
+                            <span>[% Data.FormatName | html %]</span>
+                            <input type="hidden" name="Format" value="[% Data.Format | html %]" />
+                        </div>
+[% RenderBlockEnd("EditObjectFormat") %]
+
+                        <div class="Clear"></div>
+
+                        <label for="ValidID">[% Translate("Valid") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ValidOptionStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Comment">[% Translate("Comment") | html %]:</label>
+                        <div class="Field">
+                            <input id="Comment" type="text" name="Comment" value="[% Data.Comment | html %]" size="50" maxlength="200" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" type="submit"><span>[% Translate("Next") | html %]</span></button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction='Overview'">[% Translate("Cancel") | html %] </a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("TemplateEdit1") %]
+
+[% RenderBlockStart("TemplateEdit2") %]
+            <div class="Header">
+                <h2>[% Translate("Step 2 of 5 - Edit object information") | html %]:</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]" />
+                    <input type="hidden" name="Subaction" value="TemplateEdit2" />
+                    <input type="hidden" name="TemplateID" value="[% Data.TemplateID | html %]" />
+                    <input type="hidden" name="SubmitNext" value="1" />
+
+                    <fieldset class="TableLike">
+
+                        <label>[% Translate("Name") | html %]:</label>
+                        <div class="Field">
+                            [% Data.Name | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Object") | html %]:</label>
+                        <div class="Field">
+                            [% Data.Object | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+[% RenderBlockStart("TemplateEdit2Element") %]
+
+                        <label [% IF Data.Mandatory %]class="Mandatory"[% END %] for="[% Data.ID %]">[% IF Data.Mandatory %]<span class="Marker">*</span> [% END %] [% Translate(Data.Name) | html %]: </label>
+                        <div class="Field">
+                            [% Data.InputStrg %]
+                            <div id="[% Data.ID %]Error" class="TooltipErrorMessage">
+                                <p>[% Translate(Data.ErrorMessage) | html %]</p>
+                            </div>
+                            <div id="[% Data.ID %]ServerError" class="TooltipErrorMessage">
+                                <p>[% Translate(Data.ErrorMessage) | html %]</p>
+                            </div>
+                        </div>
+[% RenderBlockEnd("TemplateEdit2Element") %]
+                        <div class="Field SpacingTop">
+                            <button class="Back CallForAction" type="button" name="Back" ><span>[% Translate("Back") | html %]</span></button>
+                            <button class="Primary CallForAction" type="submit"><span>[% Translate("Next") | html %]</span></button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("TemplateEdit2") %]
+
+[% RenderBlockStart("TemplateEdit3") %]
+            <div class="Header">
+                <h2>[% Translate("Step 3 of 5 - Edit format information") | html %]:</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]" />
+                    <input type="hidden" name="Subaction" value="TemplateEdit3" />
+                    <input type="hidden" name="TemplateID" value="[% Data.TemplateID | html %]" />
+                    <input type="hidden" name="SubmitNext" value="1" />
+
+                    <fieldset class="TableLike">
+
+                        <label>[% Translate("Name") | html %]:</label>
+                        <div class="Field">
+                            [% Data.Name | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Format") | html %]:</label>
+                        <div class="Field">
+                            [% Data.Format | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+[% RenderBlockStart("TemplateEdit3Element") %]
+                        <label [% IF Data.Mandatory %]class="Mandatory"[% END %] for="[% Data.ID %]">[% IF Data.Mandatory %]<span class="Marker">*</span> [% END %] [% Translate(Data.Name) | html %]: </label>
+                        <div class="Field">
+                            [% Data.InputStrg %]
+[% RenderBlockStart("TemplateEdit3ElementRequired") %]
+                            <div id="[% Data.ID %]Error" class="TooltipErrorMessage">
+                                <p>[% Translate(Data.Name) | html %] [% Translate("is required!") | html %]</p>
+                            </div>
+                            <div id="[% Data.ID %]ServerError" class="TooltipErrorMessage">
+                                <p>[% Translate(Data.Name) | html %] [% Translate("is required!") | html %]</p>
+                            </div>
+[% RenderBlockEnd("TemplateEdit3ElementRequired") %]
+                        </div>
+[% RenderBlockEnd("TemplateEdit3Element") %]
+                        <div class="Field SpacingTop">
+                            <button class="Back CallForAction" type="button" name="Back" ><span>[% Translate("Back") | html %]</span></button>
+                            <button class="Primary CallForAction" type="submit"><span>[% Translate("Next") | html %]</span></button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("TemplateEdit3") %]
+
+[% RenderBlockStart("TemplateEdit4") %]
+            <div class="Header">
+                <h2>[% Translate("Step 4 of 5 - Edit mapping information") | html %]:</h2>
+            </div>
+            <div class="Content">
+                <div class="MapHeaderRow SpacingTop">
+                    <div class="Header">
+                        <label>[% Translate("Name") | html %]:</label>
+                        <div class="Field">
+                            [% Data.Name | html %]
+                        </div>
+                    </div>
+
+                    <div class="Header">
+                        <label>[% Translate("Object") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ObjectName | html %]
+                        </div>
+                    </div>
+
+                    <div class="Header">
+                        <label>[% Translate("Format") | html %]:</label>
+                        <div class="Field">
+                            [% Data.FormatName | html %]
+                        </div>
+                    </div>
+                </div>
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]" />
+                    <input type="hidden" name="Subaction" value="TemplateSave4" />
+                    <input type="hidden" name="TemplateID" value="[% Data.TemplateID | html %]" />
+                    <input type="hidden" name="MappingAdd" value="" />
+                    <input type="hidden" name="SubmitNext" value="" />
+                    <table class="DataTable SpacingTop">
+                        <thead>
+                            <tr>
+[% RenderBlockStart("TemplateEdit4TableHeader") %]
+                                <th class="Center">[% Translate(Data.Header) | html %]</th>
+[% RenderBlockEnd("TemplateEdit4TableHeader") %]
+                            </tr>
+                        </thead>
+                        <tbody>
+[% RenderBlockStart("TemplateEdit4NoMapFound") %]
+                            <tr>
+                                <td colspan="[% Data.Columns %]">
+                                    [% Translate("No map elements found.") | html %]
+                                </td>
+                            </tr>
+[% RenderBlockEnd("TemplateEdit4NoMapFound") %]
+
+[% RenderBlockStart("TemplateEdit4Row") %]
+                            <tr>
+[% RenderBlockStart("TemplateEdit4Column") %]
+                                <td class="Center">
+                                    [% Data.InputStrg %]
+                                </td>
+[% RenderBlockEnd("TemplateEdit4Column") %]
+[% RenderBlockStart("TemplateEdit4MapNumberColumn") %]
+                                <td class="Center">
+                                    [% Data.Counter %]
+                                </td>
+[% RenderBlockEnd("TemplateEdit4MapNumberColumn") %]
+                                <td class="Center">
+[% RenderBlockStart("TemplateEdit4UpButton") %]
+                                    <button class="ArrowUp"type="submit" name="MappingUp::[% Data.MappingID | html %]" value="[% Translate("Up") | html %]"> [% Translate("Up") | html %] </button>
+[% RenderBlockEnd("TemplateEdit4UpButton") %]
+[% RenderBlockStart("TemplateEdit4NoUpButton") %]
+                                    <button class="ArrowUp" type="submit" disabled="disabled"> [% Translate("Up") | html %]</button>
+[% RenderBlockEnd("TemplateEdit4NoUpButton") %]
+                                </td>
+                                <td class="Center">
+[% RenderBlockStart("TemplateEdit4DownButton") %]
+                                    <button class="ArrowDown" type="submit" name="MappingDown::[% Data.MappingID | html %]" value="[% Translate("Down") | html %]"> [% Translate("Down") | html %]</button>
+[% RenderBlockEnd("TemplateEdit4DownButton") %]
+[% RenderBlockStart("TemplateEdit4NoDownButton") %]
+                                    <button class="ArrowDown" type="submit" disabled="disabled"> [% Translate("Down") | html %]</button>
+[% RenderBlockEnd("TemplateEdit4NoDownButton") %]
+                                </td>
+
+                                <td class="Center">
+                                    <a href="#" class="DeleteColumn" title="[% Translate("Delete") | html %]">
+                                        <i class="fa fa-trash-o">
+                                            <span class="InvisibleText">[% Translate("Delete") | html %]</span>
+                                        </i>
+                                    </a>
+                                    <input type="hidden" name="MappingDelete::[% Data.MappingID | html %]" value="" />
+                                </td>
+
+                            </tr>
+[% RenderBlockEnd("TemplateEdit4Row") %]
+                        </tbody>
+                    </table>
+                    <div class="W100pc SpacingTopSmall Left">
+                        <button class="CallForAction Plus" id="MappingAddButton" type="submit" name="MappingAddButton" value="[% Translate("Add") | html %]"><span><i class="fa fa-plus-square"></i>[% Translate("Add Mapping Element") | html %]</span> </button>
+                    </div>
+
+                    <div class="SpacingTop">
+                        <button class="Back CallForAction" type="submit" name="SubmitBack" value="SubmitBack"><span>[% Translate("Back") | html %]</span></button>
+                        <button class="Primary CallForAction" type="submit" name="SubmitNextButton" id="SubmitNextButton" value="1"><span>[% Translate("Next") | html %]</span></button>
+                    </div>
+                </form>
+            </div>
+
+[% RenderBlockEnd("TemplateEdit4") %]
+
+[% RenderBlockStart("TemplateEdit5") %]
+            <div class="Header">
+                <h2>[% Translate("Step 5 of 5 - Edit search information") | html %]:</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]" />
+                    <input type="hidden" name="Subaction" value="TemplateSave5" />
+                    <input type="hidden" name="TemplateID" value="[% Data.TemplateID | html %]" />
+                    <input type="hidden" name="SubmitNext" value="1" />
+                    <fieldset class="TableLike">
+                        <label>[% Translate("Template Name") | html %]:</label>
+                        <div class="Field">
+                            [% Data.Name | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RestrictExport">[% Translate("Restrict export per search") | html %]:</label>
+                        <div class="Field SpacingBottom">
+                            [% Data.RestrictExportStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+[% RenderBlockStart("TemplateEdit5Element") %]
+                        <label for="[% Data.ID %]">[% Translate(Data.Name) | html %]: </label>
+                        <div class="Field">
+                            [% Data.InputStrg %]
+                        </div>
+[% RenderBlockEnd("TemplateEdit5Element") %]
+
+                        <div class="Field SpacingTop">
+                            <button class="Back CallForAction" type="submit" name="SubmitBack" value="SubmitBack"><span>[% Translate("Back") | html %]</span></button>
+                            <button class="Primary CallForAction" type="submit"><span>[% Translate("Finish") | html %]</span></button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("TemplateEdit5") %]
+
+[% RenderBlockStart("ImportInformation") %]
+            <div class="Header">
+                <h2>[% Translate("Import information") | html %]:</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]" />
+                    <input type="hidden" name="Subaction" value="Import" />
+                    <input type="hidden" name="TemplateID" value="[% Data.TemplateID | html %]" />
+
+                    <fieldset class="TableLike">
+
+                        <label for="SourceFile">[% Translate("Name") | html %]:</label>
+                        <div class="Field">
+                            [% Data.Name | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="SourceFile">[% Translate("Source File") | html %]:</label>
+                        <div class="Field">
+                            <input type="file" name="SourceFile" size="40" class="fixed" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Start Import") | html %]"><span>[% Translate("Start Import") | html %]</span></button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("ImportInformation") %]
+        </div>
+    </div>
+
+</div>
+
+[% RenderBlockEnd("Overview") %]
+
+[% RenderBlockStart("ImportResult") %]
+<div class="MainBox AriaRoleMain">
+    <div class="W50pc SpacingTopLarge SpacingBottomLarge CenterBox">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Import summary for %s", Data.Object) | html %]</h2>
+            </div>
+            <div class="Content">
+
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="Overview"/>
+
+                    <fieldset class="TableLike">
+                        <label>[% Translate("Records") | html %]:</label>
+                        <div class="Value">[% Data.Counter | html %]</div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Success") | html %]:</label>
+                        <div class="Value">
+                            [% Data.Success | html %]
+[% RenderBlockStart("ImportResultReturnCode") %]
+                            ([% Translate(Data.ReturnCodeName) | html %]: [% Data.ReturnCodeCount | html %])
+[% RenderBlockEnd("ImportResultReturnCode") %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Failed") | html %]:</label>
+                        <div class="Value">[% Data.Failed | html %]</div>
+                        <div class="Clear"></div>
+
+[% RenderBlockStart("ImportResultDuplicateNames") %]
+                        <label>[% Translate("Duplicate names") | html %]:</label>
+                        <div class="Value">[% Data.DuplicateNames | html %]</div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ImportResultDuplicateNames") %]
+
+[% RenderBlockStart("ImportResultLastLineNumber") %]
+                        <label>[% Translate("Last processed line number of import file") | html %]:</label>
+                        <div class="Value">[% Data.LastLineNumber | html %]</div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ImportResultLastLineNumber") %]
+                    </fieldset>
+
+                    <p class="Center SpacingTopSmall">
+                        <button class="Primary CallForAction" type="submit" name="Ok" value="[% Translate("Ok") | html %]"><span>[% Translate("Ok") | html %]</span></button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+[% RenderBlockEnd("ImportResult") %]
+
+<div class="Hidden" id="DeleteImportExportDialogContainer">
+    <div id ="DeleteImportExportDialog" class="InnerContent">
+        <p class="Center Spacing">[% Translate("Do you really want to delete this template item?") | html %]</p>
+        <div class="SpacingTop"></div>
+    </div>
+</div>
