@@ -157,6 +157,12 @@ requires 'Const::Fast';
 
 # };
 
+# feature 'devel:i18n', 'Modules for dealing with translation and internationalisation' => sub {
+    # module for manipulating .po entries
+    requires 'Locale::PO';
+
+# };
+
 # feature 'devel:test', 'Modules for running the test suite' => sub {
     # used by Kernel::System::UnitTest::Selenium
     requires 'Selenium::Remote::Driver', ">= 1.49";
