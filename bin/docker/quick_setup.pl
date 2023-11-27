@@ -839,7 +839,7 @@ sub AddAdminUser {
     $UserObject->SetPreferences(
         UserID => $UserID,
         Key    => 'AdminNavigationBarFavourites',
-        Value  => qq{["AdminSystemConfiguration","AdminPackageManager","AdminSupportDataCollector"]},
+        Value  => qq{["AdminSystemConfiguration","AdminPackageManager","AdminLog","AdminSupportDataCollector"]},
     );
 
     # looks good
