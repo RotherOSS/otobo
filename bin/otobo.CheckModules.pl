@@ -180,6 +180,7 @@ my %IsDockerFeature = (
     'devel:debugging'    => 1,
     'devel:encoding'     => 1,
     'devel:test'         => 1,
+    'devel:i18n'         => 1,
     'div:bcrypt'         => 1,
     'div:ldap'           => 1,
     'div:xslt'           => 1,
@@ -206,6 +207,7 @@ my %FeatureDescription = (
     'devel:debugging' => 'Features which can be useful in development environments',
     'devel:encoding'  => 'Modules for debugging encoding issues',
     'devel:test'      => 'Modules for running the test suite',
+    'devel:i18n'      => 'Modules for dealing with translation and internationalisation',
     'div'             => 'Various features for additional functionality',
     'gazelle'         => 'Required packages if you want to use Gazelle webserver',
     'mail'            => 'Features enabling communication with a mail-server',
@@ -1167,6 +1169,17 @@ my @NeededModules = (
         Module    => 'Unicode::GCString',
         Features  => ['devel:test'],
         Comment   => 'support for formatting test results',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Locale::PO',
+        Features  => ['devel:i18n'],
+        Comment   => 'module for manipulating .po entries',
         InstTypes => {
             aptget => undef,
             emerge => undef,

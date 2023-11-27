@@ -163,6 +163,12 @@ feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
 
 };
 
+feature 'devel:i18n', 'Modules for dealing with translation and internationalisation' => sub {
+    # module for manipulating .po entries
+    requires 'Locale::PO';
+
+};
+
 feature 'devel:test', 'Modules for running the test suite' => sub {
     # used by Kernel::System::UnitTest::Selenium
     requires 'Selenium::Remote::Driver', ">= 1.49";
@@ -376,6 +382,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # support for formatting test results
     requires 'Unicode::GCString';
+
+    # module for manipulating .po entries
+    requires 'Locale::PO';
 
 };
 
