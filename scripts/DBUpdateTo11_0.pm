@@ -41,10 +41,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 sub Run {
@@ -78,13 +75,15 @@ sub Run {
 
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'scripts::DBUpdateTo11_0::' . $Task->{Module} ) ) {
             $SuccessfulMigration = 0;
+
             last TASK;
         }
 
-        my $Success = $Kernel::OM->Create( 'scripts::DBUpdateTo11_0::' . $Task->{Module} )->Run();
+        my $Success = $Kernel::OM->Create( 'scripts::DBUpdateTo11_0::' . $Task->{Module} )->Run;
 
         if ( !$Success ) {
             $SuccessfulMigration = 0;
+
             last TASK;
         }
     }
