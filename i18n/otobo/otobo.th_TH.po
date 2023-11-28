@@ -25258,6 +25258,254 @@ msgstr "ย้อนกลับ"
 msgid "stats"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+msgid "An element is used as parent element, but not included itself. Please include it."
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+msgid "Authentication error. Please contact the administrator."
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+msgid "Authentication error."
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Import/Export Management"
+msgstr "การจัดการ นำเข้า/ส่งออก"
+
+#. Template: AdminImportExport
+msgid "Add template"
+msgstr "เพิ่มแม่แบบ"
+
+#. Template: AdminImportExport
+msgid "Create a template to import and export object information."
+msgstr "สร้างแม่แบบเพื่อนำเข้าและส่งออกข้อมูลออบเจกต์"
+
+#. Template: AdminImportExport
+msgid "To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported."
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Start Import"
+msgstr "เริ่มนำเข้า"
+
+#. Template: AdminImportExport
+msgid "Start Export"
+msgstr "เริ่มส่งออก"
+
+#. Template: AdminImportExport
+msgid "Delete this template"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Step 1 of 5 - Edit common information"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Name is required!"
+msgstr "ต้องระบุชื่อ!"
+
+#. Template: AdminImportExport
+msgid "Object is required!"
+msgstr "ต้องระบุออบเจกต์!"
+
+#. Template: AdminImportExport
+msgid "Format is required!"
+msgstr "ต้องระบุรูปแบบ!"
+
+#. Template: AdminImportExport
+msgid "Step 2 of 5 - Edit object information"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Step 3 of 5 - Edit format information"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "is required!"
+msgstr "ต้องระบุ!"
+
+#. Template: AdminImportExport
+msgid "Step 4 of 5 - Edit mapping information"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "No map elements found."
+msgstr "ไม่พบองค์ประกอบแผนที่"
+
+#. Template: AdminImportExport
+msgid "Add Mapping Element"
+msgstr "เพิ่มองค์ประกอบของการทำแผนที่"
+
+#. Template: AdminImportExport
+msgid "Step 5 of 5 - Edit search information"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Restrict export per search"
+msgstr "การจำกัดการส่งออกตามการค้นหา"
+
+#. Template: AdminImportExport
+msgid "Import information"
+msgstr "ข้อมูลนำเข้า"
+
+#. Template: AdminImportExport
+msgid "Source File"
+msgstr "แหล่งไฟล์"
+
+#. Template: AdminImportExport
+msgid "Import summary for %s"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Records"
+msgstr "การบันทึก"
+
+#. Template: AdminImportExport
+msgid "Success"
+msgstr "ความสำเร็จ"
+
+#. Template: AdminImportExport
+msgid "Duplicate names"
+msgstr "ชื่อซ้ำ"
+
+#. Template: AdminImportExport
+msgid "Last processed line number of import file"
+msgstr "หมายเลขของการประมวลครั้งสุดท้ายของการนำไฟล์เข้า"
+
+#. Template: AdminImportExport
+msgid "Ok"
+msgstr "โอเค"
+
+#. Template: AdminImportExport
+msgid "Do you really want to delete this template item?"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "No object backend found!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "No format backend found!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Template not found!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Can't insert/update template!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Needed TemplateID!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Error occurred. Import impossible! See Syslog for details."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Error occurred. Export impossible! See Syslog for details."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Template List"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "number"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "number bigger than zero"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "integer"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "integer bigger than zero"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Element required, please insert data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Invalid data, please insert a valid %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Format not found!"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Column Separator"
+msgstr "ตัวคั่นคอลัมน์"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Tabulator (TAB)"
+msgstr "ตัวทำตาราง(แท็บ)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Semicolon (;)"
+msgstr "เครื่องหมายอัฒภาค(;)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Colon (:)"
+msgstr "เครื่องหมายทวิภาค (:)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Dot (.)"
+msgstr "จุด(.)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Comma (,)"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Charset"
+msgstr "เซตคาเรกเตอร์"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Include Column Headers"
+msgstr "รวมทั้งส่วนหัวของคอลัมน์"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Column"
+msgstr "คอลัมน์"
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "Deleting template..."
+msgstr ""
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "There was an error deleting the template. Please check the logs for more information."
+msgstr ""
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "Template was deleted successfully."
+msgstr ""
+
+#. SysConfig
+msgid "Format backend module registration for the import/export module."
+msgstr "รูปแบบการลงทะเบียนโมดูล backend สำหรับโมดูลการนำเข้า / ส่งออก"
+
+#. SysConfig
+msgid "Import and export object information."
+msgstr "การนำเข้าหรือส่งออกข้อมูลออบเจกต์"
+
+#. SysConfig
+msgid "Import/Export"
+msgstr "การนำเข้า/ส่งออก"
+
 #~ msgid "Off"
 #~ msgstr "ปิด"
 
@@ -25575,20 +25823,3 @@ msgstr ""
 
 #~ msgid "SMS (Short Message Service)"
 #~ msgstr "SMS (Short Message Service)"
-
-#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-msgid "An element is used as parent element, but not included itself. Please include it."
-msgstr ""
-
-#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-msgid "Authentication error. Please contact the administrator."
-msgstr ""
-
-#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-msgid "Authentication error."
-msgstr ""
-

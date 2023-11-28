@@ -25250,6 +25250,254 @@ msgstr "обърнато"
 msgid "stats"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+msgid "An element is used as parent element, but not included itself. Please include it."
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+msgid "Authentication error. Please contact the administrator."
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+msgid "Authentication error."
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Import/Export Management"
+msgstr "Управление на Импорт/Експорт"
+
+#. Template: AdminImportExport
+msgid "Add template"
+msgstr "Добавете шаблон"
+
+#. Template: AdminImportExport
+msgid "Create a template to import and export object information."
+msgstr "Създайте шаблон за импортиране и експортиране на информация за обект."
+
+#. Template: AdminImportExport
+msgid "To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported."
+msgstr "За да използвате този модул, трябва да инсталирате ITSMConfigurationManagement или всеки друг пакет, който предоставя бекенд за обекти, които да бъдат импортирани и експортирани."
+
+#. Template: AdminImportExport
+msgid "Start Import"
+msgstr "Стартирайте импортирането"
+
+#. Template: AdminImportExport
+msgid "Start Export"
+msgstr "Стартирайте експортиране"
+
+#. Template: AdminImportExport
+msgid "Delete this template"
+msgstr "Изтрийте този шаблон"
+
+#. Template: AdminImportExport
+msgid "Step 1 of 5 - Edit common information"
+msgstr "Стъпка 1 от 5 – Редактирайте обща информация"
+
+#. Template: AdminImportExport
+msgid "Name is required!"
+msgstr "Името е задължително!"
+
+#. Template: AdminImportExport
+msgid "Object is required!"
+msgstr "Обектът е задължителен!"
+
+#. Template: AdminImportExport
+msgid "Format is required!"
+msgstr "Изисква се формат!"
+
+#. Template: AdminImportExport
+msgid "Step 2 of 5 - Edit object information"
+msgstr "Стъпка 2 от 5 - Редактиране на информация за обекта"
+
+#. Template: AdminImportExport
+msgid "Step 3 of 5 - Edit format information"
+msgstr "Стъпка 3 от 5 - Редактиране на информация за формата"
+
+#. Template: AdminImportExport
+msgid "is required!"
+msgstr "изисква се!"
+
+#. Template: AdminImportExport
+msgid "Step 4 of 5 - Edit mapping information"
+msgstr "Стъпка 4 от 5 - Редактиране на информация за картографиране"
+
+#. Template: AdminImportExport
+msgid "No map elements found."
+msgstr "Няма намерени елементи на картата."
+
+#. Template: AdminImportExport
+msgid "Add Mapping Element"
+msgstr "Добавете елемент за картографиране"
+
+#. Template: AdminImportExport
+msgid "Step 5 of 5 - Edit search information"
+msgstr "Стъпка 5 от 5 – Редактиране на информацията за търсене"
+
+#. Template: AdminImportExport
+msgid "Restrict export per search"
+msgstr "Ограничете експорта за всяко търсене"
+
+#. Template: AdminImportExport
+msgid "Import information"
+msgstr "Импортиране на информация"
+
+#. Template: AdminImportExport
+msgid "Source File"
+msgstr "Изходен файл"
+
+#. Template: AdminImportExport
+msgid "Import summary for %s"
+msgstr "Резюме за импортиране за %s"
+
+#. Template: AdminImportExport
+msgid "Records"
+msgstr "Записи"
+
+#. Template: AdminImportExport
+msgid "Success"
+msgstr "Успех"
+
+#. Template: AdminImportExport
+msgid "Duplicate names"
+msgstr "Дублирани имена"
+
+#. Template: AdminImportExport
+msgid "Last processed line number of import file"
+msgstr "Номер на последния обработен ред на файла за импортиране"
+
+#. Template: AdminImportExport
+msgid "Ok"
+msgstr "Да"
+
+#. Template: AdminImportExport
+msgid "Do you really want to delete this template item?"
+msgstr "Наистина ли искате да изтриете този шаблонен елемент?"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "No object backend found!"
+msgstr "Не е намерен бекенд на обект!"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "No format backend found!"
+msgstr "Не е намерен бекенд на формат!"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Template not found!"
+msgstr "Шаблонът не е намерен!"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Can't insert/update template!"
+msgstr "Не може да се вмъкне/актуализира шаблон!"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Needed TemplateID!"
+msgstr "Необходим ID на шаблон!"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Error occurred. Import impossible! See Syslog for details."
+msgstr "Възникна грешка. Вносът е невъзможен! Вижте Syslog за подробности."
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Error occurred. Export impossible! See Syslog for details."
+msgstr "Възникна грешка. Невъзможен експорт! Вижте Syslog за подробности."
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Template List"
+msgstr "Списък с шаблони"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "number"
+msgstr "номер"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "number bigger than zero"
+msgstr "число по-голямо от нула"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "integer"
+msgstr "цяло число"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "integer bigger than zero"
+msgstr "цяло число, по-голямо от нула"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Element required, please insert data"
+msgstr "Необходим е елемент, моля, въведете данни"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Invalid data, please insert a valid %s"
+msgstr "Невалидни данни, моля, въведете валиден %s"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Format not found!"
+msgstr "Форматът не е намерен!"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Column Separator"
+msgstr "Разделител на колони"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Tabulator (TAB)"
+msgstr "Разделител (TAB)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Semicolon (;)"
+msgstr "Точка и запетая (;)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Colon (:)"
+msgstr "Двоеточие (:)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Dot (.)"
+msgstr "Точка (.)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Comma (,)"
+msgstr "Запетая (,)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Charset"
+msgstr "Кодировка"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Include Column Headers"
+msgstr "Включете заглавки на колони"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Column"
+msgstr "Колона"
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "Deleting template..."
+msgstr "Шаблонът се изтрива..."
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "There was an error deleting the template. Please check the logs for more information."
+msgstr "Възникна грешка при изтриването на шаблона. Моля, проверете регистрационните файлове за повече информация."
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "Template was deleted successfully."
+msgstr "Шаблонът бе изтрит успешно."
+
+#. SysConfig
+msgid "Format backend module registration for the import/export module."
+msgstr "Форматирайте регистрацията за backend модул на модула за импортиране/експортиране."
+
+#. SysConfig
+msgid "Import and export object information."
+msgstr "Импортиране и експортиране на информация за обекта."
+
+#. SysConfig
+msgid "Import/Export"
+msgstr "Импорт/Експорт"
+
 #~ msgid "Off"
 #~ msgstr "Изключено"
 
@@ -25330,20 +25578,3 @@ msgstr ""
 
 #~ msgid "Free Fields"
 #~ msgstr "Полета"
-
-#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-msgid "An element is used as parent element, but not included itself. Please include it."
-msgstr ""
-
-#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-msgid "Authentication error. Please contact the administrator."
-msgstr ""
-
-#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-msgid "Authentication error."
-msgstr ""
-

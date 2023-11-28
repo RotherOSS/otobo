@@ -25244,6 +25244,254 @@ msgstr "đảo ngược"
 msgid "stats"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+msgid "An element is used as parent element, but not included itself. Please include it."
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+msgid "Authentication error. Please contact the administrator."
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+msgid "Authentication error."
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Import/Export Management"
+msgstr "Quản lý Nhập/Xuất"
+
+#. Template: AdminImportExport
+msgid "Add template"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Create a template to import and export object information."
+msgstr "Tạo một mẫu để nhập và xuất thông tin đối tượng."
+
+#. Template: AdminImportExport
+msgid "To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported."
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Start Import"
+msgstr "Bắt đầu nhập vào"
+
+#. Template: AdminImportExport
+msgid "Start Export"
+msgstr "Bắt đầu xuất ra"
+
+#. Template: AdminImportExport
+msgid "Delete this template"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Step 1 of 5 - Edit common information"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Name is required!"
+msgstr "Yêu cầu phải có tên!"
+
+#. Template: AdminImportExport
+msgid "Object is required!"
+msgstr "Yêu cầu phải có đối tượng!"
+
+#. Template: AdminImportExport
+msgid "Format is required!"
+msgstr "Yêu cầu phải có định dạng!"
+
+#. Template: AdminImportExport
+msgid "Step 2 of 5 - Edit object information"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Step 3 of 5 - Edit format information"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "is required!"
+msgstr "là bắt buộc!"
+
+#. Template: AdminImportExport
+msgid "Step 4 of 5 - Edit mapping information"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "No map elements found."
+msgstr "Không tìm thấy đối tượng map."
+
+#. Template: AdminImportExport
+msgid "Add Mapping Element"
+msgstr "Thêm đối tượng mapping"
+
+#. Template: AdminImportExport
+msgid "Step 5 of 5 - Edit search information"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Restrict export per search"
+msgstr "Giới hạn dữ liệu xuất mỗi lần tìm kiếm"
+
+#. Template: AdminImportExport
+msgid "Import information"
+msgstr "Thông tin nhập vào"
+
+#. Template: AdminImportExport
+msgid "Source File"
+msgstr "Tệp nguồn"
+
+#. Template: AdminImportExport
+msgid "Import summary for %s"
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Records"
+msgstr "Bản ghi"
+
+#. Template: AdminImportExport
+msgid "Success"
+msgstr "Thành công"
+
+#. Template: AdminImportExport
+msgid "Duplicate names"
+msgstr "Trùng tên"
+
+#. Template: AdminImportExport
+msgid "Last processed line number of import file"
+msgstr "Dòng cuối cùng được xử lý trong tệp nhập vào"
+
+#. Template: AdminImportExport
+msgid "Ok"
+msgstr "Đồng ý"
+
+#. Template: AdminImportExport
+msgid "Do you really want to delete this template item?"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "No object backend found!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "No format backend found!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Template not found!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Can't insert/update template!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Needed TemplateID!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Error occurred. Import impossible! See Syslog for details."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Error occurred. Export impossible! See Syslog for details."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Template List"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "number"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "number bigger than zero"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "integer"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "integer bigger than zero"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Element required, please insert data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Invalid data, please insert a valid %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Format not found!"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Column Separator"
+msgstr "Phân cách cột"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Tabulator (TAB)"
+msgstr "Bộ lập bảng (TAB)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Semicolon (;)"
+msgstr "Dấu chấm phẩy (;)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Colon (:)"
+msgstr "Dấu hai chấm (:)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Dot (.)"
+msgstr "Dấu chấm (.)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Comma (,)"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Charset"
+msgstr "Bộ mã ký tự"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Include Column Headers"
+msgstr "Gồm tiêu đề cột"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Column"
+msgstr "Cột"
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "Deleting template..."
+msgstr ""
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "There was an error deleting the template. Please check the logs for more information."
+msgstr ""
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "Template was deleted successfully."
+msgstr ""
+
+#. SysConfig
+msgid "Format backend module registration for the import/export module."
+msgstr "Đăng ký mô-đun định dạng nền cho mô-đun nhập/xuất"
+
+#. SysConfig
+msgid "Import and export object information."
+msgstr "Thông tin nhập và xuất đối tượng."
+
+#. SysConfig
+msgid "Import/Export"
+msgstr "Nhập/Xuất"
+
 #~ msgid "Off"
 #~ msgstr "Tắt"
 
@@ -25300,20 +25548,3 @@ msgstr ""
 
 #~ msgid "Free Fields"
 #~ msgstr "Các trường tự do"
-
-#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-msgid "An element is used as parent element, but not included itself. Please include it."
-msgstr ""
-
-#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-msgid "Authentication error. Please contact the administrator."
-msgstr ""
-
-#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-msgid "Authentication error."
-msgstr ""
-
