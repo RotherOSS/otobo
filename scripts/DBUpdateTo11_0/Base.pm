@@ -16,6 +16,7 @@
 
 package scripts::DBUpdateTo11_0::Base;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -563,51 +564,6 @@ sub IndexExists {
     return if !$Result[0];
 
     return 1;
-}
-
-=head2 GetTaskConfig()
-
-Clean up the cache.
-
-    $DBUpdateObject->GetTaskConfig( Module => "TaskModuleName");
-
-=cut
-
-sub GetTaskConfig {
-    my ( $Self, %Param ) = @_;
-
-    # Check needed stuff.
-    if ( !$Param{Module} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Module!',
-        );
-        return;
-    }
-
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    my $File = $Home . '/scripts/DBUpdateTo6/TaskConfig/' . $Param{Module} . '.yml';
-
-    if ( !-e $File ) {
-        $File .= '.dist';
-
-        if ( !-e $File ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Couldn't find $File!",
-            );
-            return;
-        }
-    }
-
-    my $FileRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-        Location => $File,
-    );
-
-    # Convert configuration to Perl data structure for easier handling.
-    my $ConfigData = $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => ${$FileRef} );
-
-    return $ConfigData;
 }
 
 =head2 SettingUpdate()

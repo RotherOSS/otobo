@@ -15,8 +15,10 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
+use utf8;
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -24,9 +26,13 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use Kernel::System::ObjectManager;
+# core modules
+#use Getopt::Long;
 
-use Getopt::Long;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
@@ -49,6 +55,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 #    'verbose',                   \$Options{Verbose},
 #);
 
-$Kernel::OM->Create('scripts::DBUpdateTo11_0')->Run();
+$Kernel::OM->Create('scripts::DBUpdateTo11_0')->Run;
 
 exit 0;
