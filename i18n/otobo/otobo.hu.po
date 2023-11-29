@@ -25258,6 +25258,254 @@ msgstr "megfordítás"
 msgid "stats"
 msgstr "statisztikák"
 
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+msgid "An element is used as parent element, but not included itself. Please include it."
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+msgid "Authentication error. Please contact the administrator."
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+msgid "Authentication error."
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Import/Export Management"
+msgstr "Importálás/exportálás kezelés"
+
+#. Template: AdminImportExport
+msgid "Add template"
+msgstr "Sablon hozzáadása"
+
+#. Template: AdminImportExport
+msgid "Create a template to import and export object information."
+msgstr "Sablon létrehozása objektuminformációk importálásához és exportálásához."
+
+#. Template: AdminImportExport
+msgid "To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported."
+msgstr "A modul használatához telepítenie kell az ITSMConfigurationManagement csomagot vagy bármilyen egyéb csomagot, amely háttérprogramot biztosít az objektumok importálásához és exportálásához."
+
+#. Template: AdminImportExport
+msgid "Start Import"
+msgstr "Importálás indítása"
+
+#. Template: AdminImportExport
+msgid "Start Export"
+msgstr "Exportálás indítása"
+
+#. Template: AdminImportExport
+msgid "Delete this template"
+msgstr "Sablon törlése"
+
+#. Template: AdminImportExport
+msgid "Step 1 of 5 - Edit common information"
+msgstr "1. lépés az 5-ből - közös információk szerkesztése"
+
+#. Template: AdminImportExport
+msgid "Name is required!"
+msgstr "A név kötelező!"
+
+#. Template: AdminImportExport
+msgid "Object is required!"
+msgstr "Az objektum kötelező!"
+
+#. Template: AdminImportExport
+msgid "Format is required!"
+msgstr "A formátum kötelező!"
+
+#. Template: AdminImportExport
+msgid "Step 2 of 5 - Edit object information"
+msgstr "2. lépés az 5-ből - objektuminformációk szerkesztése"
+
+#. Template: AdminImportExport
+msgid "Step 3 of 5 - Edit format information"
+msgstr "3. lépés az 5-ből - formátuminformációk szerkesztése"
+
+#. Template: AdminImportExport
+msgid "is required!"
+msgstr "kötelező!"
+
+#. Template: AdminImportExport
+msgid "Step 4 of 5 - Edit mapping information"
+msgstr "4. lépés az 5-ből - leképezési információk szerkesztése"
+
+#. Template: AdminImportExport
+msgid "No map elements found."
+msgstr "Nem találhatók térképelemek."
+
+#. Template: AdminImportExport
+msgid "Add Mapping Element"
+msgstr "Leképezési elemek hozzáadása"
+
+#. Template: AdminImportExport
+msgid "Step 5 of 5 - Edit search information"
+msgstr "5. lépés az 5-ből - keresési információk szerkesztése"
+
+#. Template: AdminImportExport
+msgid "Restrict export per search"
+msgstr "Exportálás korlátozása keresésenként"
+
+#. Template: AdminImportExport
+msgid "Import information"
+msgstr "Importálási információk"
+
+#. Template: AdminImportExport
+msgid "Source File"
+msgstr "Forrásfájl"
+
+#. Template: AdminImportExport
+msgid "Import summary for %s"
+msgstr "%s importálási összegzése"
+
+#. Template: AdminImportExport
+msgid "Records"
+msgstr "Rekordok"
+
+#. Template: AdminImportExport
+msgid "Success"
+msgstr "Sikeres"
+
+#. Template: AdminImportExport
+msgid "Duplicate names"
+msgstr "Nevek kettőzése"
+
+#. Template: AdminImportExport
+msgid "Last processed line number of import file"
+msgstr "Az importfájl utolsó feldolgozott sorszáma"
+
+#. Template: AdminImportExport
+msgid "Ok"
+msgstr "OK"
+
+#. Template: AdminImportExport
+msgid "Do you really want to delete this template item?"
+msgstr "Valóban törölni szeretné ezt a sablonelemet?"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "No object backend found!"
+msgstr "Nem található objektum-háttérprogram!"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "No format backend found!"
+msgstr "Nem található formátum-háttérprogram!"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Template not found!"
+msgstr "Sablon nem található!"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Can't insert/update template!"
+msgstr "Nem lehet beszúrni vagy frissíteni a sablont!"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Needed TemplateID!"
+msgstr "Sablon-azonosító szükséges!"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Error occurred. Import impossible! See Syslog for details."
+msgstr "Hiba történt. Az importálás lehetetlen! Nézze meg a rendszernaplót a részletekért."
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Error occurred. Export impossible! See Syslog for details."
+msgstr "Hiba történt. Az exportálás lehetetlen! Nézze meg a rendszernaplót a részletekért."
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Template List"
+msgstr "Sablonlista"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "number"
+msgstr "szám"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "number bigger than zero"
+msgstr "nullánál nagyobb szám"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "integer"
+msgstr "egész"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "integer bigger than zero"
+msgstr "nullánál nagyobb egész"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Element required, please insert data"
+msgstr "Elem szükséges, szúrjon be adatokat"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Invalid data, please insert a valid %s"
+msgstr "Érvénytelen adatok, egy érvényes %s beszúrása szükséges"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Format not found!"
+msgstr "Formátum nem található!"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Column Separator"
+msgstr "Oszlopelválasztó"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Tabulator (TAB)"
+msgstr "Tabulátor (TAB)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Semicolon (;)"
+msgstr "Pontosvessző (;)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Colon (:)"
+msgstr "Kettőspont (:)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Dot (.)"
+msgstr "Pont (.)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Comma (,)"
+msgstr "Vessző (,)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Charset"
+msgstr "Karakterkészlet"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Include Column Headers"
+msgstr "Oszlopfejlécek felvétele"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Column"
+msgstr "Oszlop"
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "Deleting template..."
+msgstr "Sablon törlése…"
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "There was an error deleting the template. Please check the logs for more information."
+msgstr "Hiba történt a sablon törlésekor. További információkért nézze meg a naplókat."
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "Template was deleted successfully."
+msgstr "A sablon sikeresen törölve lett."
+
+#. SysConfig
+msgid "Format backend module registration for the import/export module."
+msgstr "Formátum háttérprogram modul regisztráció az importálás/exportálás modulhoz."
+
+#. SysConfig
+msgid "Import and export object information."
+msgstr "Objektuminformációk importálása és exportálása."
+
+#. SysConfig
+msgid "Import/Export"
+msgstr "Importálás/exportálás"
+
 #~ msgid "View the admin manual on Github"
 #~ msgstr "Az adminisztrátori kézikönyv megtekintése a GitHubon"
 
@@ -25860,20 +26108,3 @@ msgstr "statisztikák"
 
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "Vegye fel velünk a kapcsolatot a sales@otrs.com címen"
-
-#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-msgid "An element is used as parent element, but not included itself. Please include it."
-msgstr ""
-
-#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-msgid "Authentication error. Please contact the administrator."
-msgstr ""
-
-#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-msgid "Authentication error."
-msgstr ""
-

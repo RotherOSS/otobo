@@ -67,6 +67,10 @@ sub Run {
             Name   => 'Add script field event table.',
             Module => 'DBAddScriptFieldEventTable',
         },
+        {
+            Name   => 'Add tables for the ImportExport feature.',
+            Module => 'DBAddImportExportTables',
+        },
     );
 
     TASK:

@@ -156,9 +156,9 @@ sub CacheCleanup {
 
 =head2 ExecuteXMLDBArray()
 
-Parse and execute an XML array.
+Parse and execute an XML array. Tables are not created when they already exist.
 
-    $DBUpdateObject->ExecuteXMLDBArray(
+    my $Success = $DBUpdateObject->ExecuteXMLDBArray(
         XMLArray          => \@XMLArray,
         Old2NewTableNames => {                                        # optional
             'article'            => 'article_data_mime',
@@ -178,19 +178,21 @@ sub ExecuteXMLDBArray {
             Priority => 'error',
             Message  => "Need XMLArray!",
         );
+
         return;
     }
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     XMLSTRING:
-    for my $XMLString ( @{ $Param{XMLArray} } ) {
+    for my $XMLString ( $Param{XMLArray}->@* ) {
 
         # new table
         if ( $XMLString =~ m{ <(?:Table|TableCreate) \s+ Name="([^"]+)" }xms ) {
 
             my $TableName = $1;
-            return if !$TableName;
+
+            return unless $TableName;
 
             # check if table exists already
             my $TableExists = $Self->TableExists(
@@ -204,15 +206,16 @@ sub ExecuteXMLDBArray {
         elsif ( $XMLString =~ m{ <TableAlter \s+ Name="([^"]+)" }xms ) {
 
             my $TableName = $1;
-            return if !$TableName;
+
+            return unless $TableName;
 
             # check if table exists
             my $TableExists = $Self->TableExists(
                 Table => $TableName,
             );
 
-            # the table must still exist
-            next XMLSTRING if !$TableExists;
+            # the table must already exist
+            next XMLSTRING unless $TableExists;
 
             # check if there is a table mapping hash
             if ( IsHashRefWithData( $Param{Old2NewTableNames} ) ) {
@@ -235,7 +238,8 @@ sub ExecuteXMLDBArray {
             if ( $XMLString =~ m{ <ColumnAdd \s+ Name="([^"]+)" }xms ) {
 
                 my $ColumnName = $1;
-                return if !$ColumnName;
+
+                return unless $ColumnName;
 
                 my $ColumnExists = $Self->ColumnExists(
                     Table  => $TableName,
@@ -250,7 +254,8 @@ sub ExecuteXMLDBArray {
             if ( $XMLString =~ m{ <ColumnDrop \s+ Name="([^"]+)" }xms ) {
 
                 my $ColumnName = $1;
-                return if !$ColumnName;
+
+                return unless $ColumnName;
 
                 my $ColumnExists = $Self->ColumnExists(
                     Table  => $TableName,
@@ -265,7 +270,8 @@ sub ExecuteXMLDBArray {
             if ( $XMLString =~ m{<IndexCreate \s+ Name="([^"]+)" }xms ) {
 
                 my $IndexName = $1;
-                return if !$IndexName;
+
+                return unless $IndexName;
 
                 my $IndexExists = $Self->IndexExists(
                     Table => $TableName,
@@ -283,8 +289,8 @@ sub ExecuteXMLDBArray {
             my $OldTableName = $1;
             my $NewTableName = $2;
 
-            return if !$OldTableName;
-            return if !$NewTableName;
+            return unless $OldTableName;
+            return unless $NewTableName;
 
             # check if old table exists
             my $OldTableExists = $Self->TableExists(
@@ -292,7 +298,7 @@ sub ExecuteXMLDBArray {
             );
 
             # the old table must still exist
-            next XMLSTRING if !$OldTableExists;
+            next XMLSTRING unless $OldTableExists;
 
             # check if new table exists already
             my $NewTableExists = $Self->TableExists(
@@ -307,7 +313,8 @@ sub ExecuteXMLDBArray {
         elsif ( $XMLString =~ m{ <TableDrop \s+ Name="([^"]+)" }xms ) {
 
             my $TableName = $1;
-            return if !$TableName;
+
+            return unless $TableName;
 
             # check if table still exists
             my $TableExists = $Self->TableExists(
@@ -315,14 +322,17 @@ sub ExecuteXMLDBArray {
             );
 
             # skip if table has already been deleted
-            next XMLSTRING if !$TableExists;
+            next XMLSTRING unless $TableExists;
+
+            # TODO: actually drop the table
         }
 
         # insert data
         elsif ( $XMLString =~ m{ <Insert \s+ Table="([^"]+)" }xms ) {
 
             my $TableName = $1;
-            return if !$TableName;
+
+            return unless $TableName;
 
             # extract id column and value for auto increment fields
             if ( $XMLString =~ m{ <Data \s+ Key="([^"]+)" \s+ Type="AutoIncrement"> (\d+) }xms ) {
@@ -330,11 +340,11 @@ sub ExecuteXMLDBArray {
                 my $ColumnName  = $1;
                 my $ColumnValue = $2;
 
-                return if !$ColumnName;
-                return if !$ColumnValue;
+                return unless $ColumnName;
+                return unless $ColumnValue;
 
                 # check if value exists already
-                return if !$DBObject->Prepare(
+                return unless $DBObject->Prepare(
                     SQL   => "SELECT $ColumnName FROM $TableName WHERE $ColumnName = ?",
                     Bind  => [ \$ColumnValue ],
                     Limit => 1,
@@ -445,10 +455,9 @@ sub TableExists {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my %TableNames = map { lc $_ => 1 } $DBObject->ListTables();
+    my %TableNames = map { lc $_ => 1 } $DBObject->ListTables;
 
-    return if !$TableNames{ lc $Param{Table} };
-
+    return unless $TableNames{ lc $Param{Table} };
     return 1;
 }
 
@@ -488,8 +497,7 @@ sub ColumnExists {
 
     my %ColumnNames = map { lc $_ => 1 } $DBObject->GetColumnNames();
 
-    return if !$ColumnNames{ lc $Param{Column} };
-
+    return unless $ColumnNames{ lc $Param{Column} };
     return 1;
 }
 

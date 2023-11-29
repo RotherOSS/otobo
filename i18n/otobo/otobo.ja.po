@@ -25276,6 +25276,254 @@ msgstr "反転"
 msgid "stats"
 msgstr "統計"
 
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+msgid "An element is used as parent element, but not included itself. Please include it."
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+msgid "Authentication error. Please contact the administrator."
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+msgid "Authentication error."
+msgstr ""
+
+#. Template: AdminImportExport
+msgid "Import/Export Management"
+msgstr "インポート/エクスポートの管理"
+
+#. Template: AdminImportExport
+msgid "Add template"
+msgstr "テンプレートを追加"
+
+#. Template: AdminImportExport
+msgid "Create a template to import and export object information."
+msgstr "オブジェクトのインポート・エクスポート用のテンプレートを作成する。"
+
+#. Template: AdminImportExport
+msgid "To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported."
+msgstr "このモジュールを利用するには、 ITSMConfigurationManagement か、オブジェクトのインポートおよびエクスポートの機能を提供するパッケージをインストールする必要があります。"
+
+#. Template: AdminImportExport
+msgid "Start Import"
+msgstr "インポート開始"
+
+#. Template: AdminImportExport
+msgid "Start Export"
+msgstr "エクスポート開始"
+
+#. Template: AdminImportExport
+msgid "Delete this template"
+msgstr "このテンプレートを削除"
+
+#. Template: AdminImportExport
+msgid "Step 1 of 5 - Edit common information"
+msgstr "Step 1 of 5 - 基本情報の設定"
+
+#. Template: AdminImportExport
+msgid "Name is required!"
+msgstr "名称は必須です!"
+
+#. Template: AdminImportExport
+msgid "Object is required!"
+msgstr "オブジェクトは必須です!"
+
+#. Template: AdminImportExport
+msgid "Format is required!"
+msgstr "フォーマットは必須です!"
+
+#. Template: AdminImportExport
+msgid "Step 2 of 5 - Edit object information"
+msgstr "Step 2 of 5 - オブジェクト情報の設定"
+
+#. Template: AdminImportExport
+msgid "Step 3 of 5 - Edit format information"
+msgstr "Step 3 of 5 - フォーマット情報の設定"
+
+#. Template: AdminImportExport
+msgid "is required!"
+msgstr "必須とされています！"
+
+#. Template: AdminImportExport
+msgid "Step 4 of 5 - Edit mapping information"
+msgstr "Step 4 of 5 - マッピング情報の設定"
+
+#. Template: AdminImportExport
+msgid "No map elements found."
+msgstr "マッピング要素が見つかりませんでした。"
+
+#. Template: AdminImportExport
+msgid "Add Mapping Element"
+msgstr "マッピング要素の追加"
+
+#. Template: AdminImportExport
+msgid "Step 5 of 5 - Edit search information"
+msgstr "Step 5 of 5 - 検索情報の設定"
+
+#. Template: AdminImportExport
+msgid "Restrict export per search"
+msgstr "検索あたりの出力を制限"
+
+#. Template: AdminImportExport
+msgid "Import information"
+msgstr "情報をインポート"
+
+#. Template: AdminImportExport
+msgid "Source File"
+msgstr "ソースファイル"
+
+#. Template: AdminImportExport
+msgid "Import summary for %s"
+msgstr "%sのインポート・サマリー"
+
+#. Template: AdminImportExport
+msgid "Records"
+msgstr "レコード"
+
+#. Template: AdminImportExport
+msgid "Success"
+msgstr "成功"
+
+#. Template: AdminImportExport
+msgid "Duplicate names"
+msgstr "名前が重複しています"
+
+#. Template: AdminImportExport
+msgid "Last processed line number of import file"
+msgstr "読み込み済みファイルの最終実行行数"
+
+#. Template: AdminImportExport
+msgid "Ok"
+msgstr "Ok"
+
+#. Template: AdminImportExport
+msgid "Do you really want to delete this template item?"
+msgstr "本当にこのテンプレートを削除してよろしいですか？"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "No object backend found!"
+msgstr "指定されたオブジェクトのバックエンドが見つかりません！"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "No format backend found!"
+msgstr "指定されたフォーマットのバックエンドが見つかりません！"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Template not found!"
+msgstr "テンプレートが見つかりません！"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Can't insert/update template!"
+msgstr "テンプレートの挿入・更新ができません！"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Needed TemplateID!"
+msgstr "テンプレートIDの入力が必要です！"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Error occurred. Import impossible! See Syslog for details."
+msgstr "エラーが発生しました。 インポートできません！ 詳細については、シスログを参照して下さい。"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Error occurred. Export impossible! See Syslog for details."
+msgstr "エラーが発生しました。 エクスポートできません！ 詳細については、シスログを参照して下さい。"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Template List"
+msgstr "テンプレート・リスト"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "number"
+msgstr "数値"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "number bigger than zero"
+msgstr "0以上の数値"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "integer"
+msgstr "整数値"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "integer bigger than zero"
+msgstr "0以上の整数値"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Element required, please insert data"
+msgstr "要素が必要です。データを挿入してください"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Invalid data, please insert a valid %s"
+msgstr "無効なデータです。有効な％sを挿入して下さい。"
+
+#. Perl Module: Kernel/Modules/AdminImportExport.pm
+msgid "Format not found!"
+msgstr "指定されたフォーマットが見つかりません！"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Column Separator"
+msgstr "桁のセパレータ"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Tabulator (TAB)"
+msgstr "タブ (TAB)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Semicolon (;)"
+msgstr "セミコロン (;)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Colon (:)"
+msgstr "コロン (:)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Dot (.)"
+msgstr "ドット(.)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Comma (,)"
+msgstr "カンマ (,)"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Charset"
+msgstr "キャラクタセット"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Include Column Headers"
+msgstr "ヘッダ情報を含む"
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+msgid "Column"
+msgstr "桁"
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "Deleting template..."
+msgstr "テンプレートを削除中…"
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "There was an error deleting the template. Please check the logs for more information."
+msgstr "テンプレートの削除中にエラーが発生しました。詳細はログを確認してください。"
+
+#. JS File: ITSM.Admin.ImportExport
+msgid "Template was deleted successfully."
+msgstr "テンプレートが正常に削除されました。"
+
+#. SysConfig
+msgid "Format backend module registration for the import/export module."
+msgstr "インポート/エクスポートモジュールのバックエンドモジュール登録をフォーマットします。"
+
+#. SysConfig
+msgid "Import and export object information."
+msgstr "オブジェクト情報のインポートとエクスポートをします。"
+
+#. SysConfig
+msgid "Import/Export"
+msgstr "インポート/エクスポート"
+
 #~ msgid "View the admin manual on Github"
 #~ msgstr "Githubの管理マニュアルを表示"
 
@@ -25710,20 +25958,3 @@ msgstr "統計"
 
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "sales@otrs.comまでご連絡下さい。"
-
-#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-msgid "An element is used as parent element, but not included itself. Please include it."
-msgstr ""
-
-#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-msgid "Authentication error. Please contact the administrator."
-msgstr ""
-
-#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-msgid "Authentication error."
-msgstr ""
-
