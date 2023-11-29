@@ -462,7 +462,7 @@ sub Run {
         );
 
         # get as list of mapping IDs for this template
-        my $MappingIDs = $ImportExportObject->MappingIDs(
+        my $MappingIDs = $ImportExportObject->MappingList(
             TemplateID => $TemplateData->{TemplateID},
             UserID     => $Self->{UserID},
         );
@@ -638,7 +638,7 @@ sub Run {
         }
 
         # get mapping data list
-        my $MappingIDs = $ImportExportObject->MappingIDs(
+        my $MappingIDs = $ImportExportObject->MappingList(
             TemplateID => $TemplateID,
             UserID     => $Self->{UserID},
         );
