@@ -230,15 +230,17 @@ div.Row.Row_DynamicField div.MultiColumn > div.MultiValueItem > label {
     cursor: pointer;
 }
 
-/* TODO: Add real style */
 fieldset.DynamicFieldSet {
-    width: 600px;
-    padding: 8px;
-    border-radius: 4px;
-    background: #fff;
-    border: 1px solid #C9C9C9;
-    border-top-color: #C0C0C0;
-    box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
+    box-sizing: border-box;
+    /*margin-top: 28px; /* 1 line in normal view */
+    /*margin-bottom: 8px; /* just to visually mark the end of the set */
+    width: calc(100% - 36px); /* leave 36px room for multivalue buttons */
+}
+
+/* needed for multivalue sets due to current difference in outer structure compared to single value sets */
+.MultiValue > .FieldCell > .Field > .DynamicFieldSet {
+    max-width: calc(622px - 36px);
+    width: calc((100vw - 306px) * 0.7 - 57px);
 }
 
 a.InputField_Action {

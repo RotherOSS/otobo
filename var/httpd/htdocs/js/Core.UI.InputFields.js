@@ -247,6 +247,9 @@ Core.UI.InputFields = (function (TargetNS) {
             $('.DynamicFieldReference', $Context).each(function () {
                 Core.Agent.DynamicFieldReferenceSearch.InitElement($(this), AutoCompleteActive);
             });
+
+            //Add an extra class to Fields containing a Dynamic Field Set
+            $('.DynamicFieldSet', $Context).parent().addClass('DFSetOuterField')
         }
     };
 
