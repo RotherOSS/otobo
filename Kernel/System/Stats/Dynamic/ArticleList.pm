@@ -23,7 +23,6 @@ use List::Util qw( first );
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -57,7 +56,7 @@ sub new {
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
-        ObjectType => [ 'Ticket', 'Article' ],
+        ObjectType => ['Ticket', 'Article'],
     );
 
     return $Self;
@@ -372,6 +371,19 @@ sub GetObjectAttributes {
             },
         },
         {
+            Name             => Translatable('Article Create Time'),
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 0,
+            UseAsRestriction => 1,
+            Element          => 'ArticleCreateTime',
+            TimePeriodFormat => 'DateInputFormat',             # 'DateInputFormatLong',
+            Block            => 'Time',
+            Values           => {
+                TimeStart => 'ArticleCreateTimeNewerDate',
+                TimeStop  => 'ArticleCreateTimeOlderDate',
+            },
+        },
+        {
             Name             => Translatable('Last changed times'),
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
@@ -487,6 +499,14 @@ sub GetObjectAttributes {
                 TimeStart => 'TicketEscalationSolutionTimeNewerDate',
                 TimeStop  => 'TicketEscalationSolutionTimeOlderDate',
             },
+        },
+        {
+            Name             => 'ArticleID',
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 0,
+            UseAsRestriction => 1,
+            Element          => 'ArticleID',
+	    Block            => 'InputField',
         },
     );
 
@@ -1294,10 +1314,74 @@ sub GetStatTable {
 
     my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
+    # We become all article and need to look if the times are valid
+    # get articles created newer than xxxx-xx-xx xx:xx date
+    my $ArticleCreateTimeNewerDate;
+    if ( defined $Param{Restrictions}->{ArticleCreateTimeNewerDate} ) {
+
+        if ( $Param{Restrictions}->{ArticleCreateTimeNewerDate} =~ m/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/ ) {
+
+            # convert param date to system time
+            $ArticleCreateTimeNewerDate = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Year   => $1,
+                        Month  => $2,
+                        Day    => $3,
+                        Hour   => $4,
+                        Minute => $5,
+                        Second => $6,
+                    }
+            );
+
+            if ( !$ArticleCreateTimeNewerDate ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  =>
+                        "Search not executed due to invalid time '"
+                        . $Param{Restrictions}->{ArticleCreateTimeNewerDate} . "'!",
+                );
+                return;
+            }
+        }
+    }
+
+    # We become all article and need to look if the times are valid
+    # get articles created older than xxxx-xx-xx xx:xx date
+    my $ArticleCreateTimeOlderDate;
+    if ( defined $Param{Restrictions}->{ArticleCreateTimeOlderDate} ) {
+
+        if ( $Param{Restrictions}->{ArticleCreateTimeOlderDate} =~ m/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/ ) {
+
+            # convert param date to system time
+            $ArticleCreateTimeOlderDate = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Year   => $1,
+                        Month  => $2,
+                        Day    => $3,
+                        Hour   => $4,
+                        Minute => $5,
+                        Second => $6,
+                    }
+            );
+
+            if ( !$ArticleCreateTimeOlderDate ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  =>
+                        "Search not executed due to invalid time '"
+                        . $Param{Restrictions}->{ArticleCreateTimeOlderDate} . "'!",
+                );
+                return;
+            }
+        }
+    }
+
     # generate the ticket list
     my @StatArray;
+    TICKET:
     for my $TicketID (@TicketIDs) {
-        my @ResultRow;
         my %Ticket = $TicketObject->TicketGet(
             TicketID      => $TicketID,
             UserID        => 1,
@@ -1305,162 +1389,238 @@ sub GetStatTable {
             DynamicFields => $NeedDynamicFields,
         );
 
+        my @ArticleList = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
+            TicketID => $TicketID,
+            UserID   => 1
+        );
+
         # Format Ticket 'Age' param into human readable format.
-        $Ticket{Age} = $StatsObject->_HumanReadableAgeGet(
+        $Ticket{'Age'} = $StatsObject->_HumanReadableAgeGet(
             Age => $Ticket{Age},
         );
 
-        # add the accounted time if needed
-        if ( $TicketAttributes{AccountedTime} ) {
-            $Ticket{AccountedTime} = $TicketObject->TicketAccountedTimeGet( TicketID => $TicketID );
-        }
-
         # add the number of articles if needed
         if ( $TicketAttributes{NumberOfArticles} ) {
-            $Ticket{NumberOfArticles} = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
+             $Ticket{NumberOfArticles} = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
                 TicketID => $TicketID,
                 UserID   => 1
             );
         }
 
-        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-        my @ArticleDynField;
+        # get time object
+        # remember current time to prevent searches for future timestamps
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-        ATTRIBUTE:
-        for my $ArticleDynField ( keys %TicketAttributes ) {
-            next ATTRIBUTE if $ArticleDynField !~ /DynamicField_/;
+    	my $Count = 0;
 
-            $ArticleDynField =~ s/DynamicField_//;
+        METAARTICLE:
+    	for my $MetaArticle (@ArticleList) {
+	        my @ResultRow;
+	        $Count++;
 
-            my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
-                Name => $ArticleDynField,
+	        my %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle( %{$MetaArticle} )->ArticleGet( %{$MetaArticle}, DynamicFields => 1 );
+
+            # We become all article and need to look if the times are valid
+            # get articles created newer than xxxx-xx-xx xx:xx date
+            if ( defined $Param{Restrictions}->{ArticleCreateTimeNewerDate} ) {
+
+                $Article{CreateTime} =~ m/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/;
+
+                # convert param date to system time
+                my $ArticleTime = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Year   => $1,
+                        Month  => $2,
+                        Day    => $3,
+                        Hour   => $4,
+                        Minute => $5,
+                        Second => $6,
+                    }
+                );
+
+                # don't execute queries if newer date is after current date
+                next METAARTICLE if $ArticleCreateTimeNewerDate > $ArticleTime;
+            }
+
+            # We become all article and need to look if the times are valid
+            # get articles created newer than xxxx-xx-xx xx:xx date
+            if ( defined $Param{Restrictions}->{ArticleCreateTimeOlderDate} ) {
+
+                $Article{CreateTime} =~ m/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/;
+
+                # convert param date to system time
+                my $ArticleTime = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Year   => $1,
+                        Month  => $2,
+                        Day    => $3,
+                        Hour   => $4,
+                        Minute => $5,
+                        Second => $6,
+                    }
+                );
+
+                # don't execute queries if newer date is after current date
+                next METAARTICLE if $ArticleCreateTimeOlderDate < $ArticleTime;
+            }
+
+            $Article{ArticleAccountedTime} = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleAccountedTimeGet(
+                ArticleID => $Article{ArticleID},
             );
 
-            next ATTRIBUTE if $DynamicField->{ObjectType} ne "Article";
+    	    if ( $Article{ArticleAccountedTime} == 0 ) {
+                next METAARTICLE;
+            }
 
-            push @ArticleDynField, $ArticleDynField;
-        }
+	        KEY:
+            for my $ArticleKey ( keys %Article ) {
 
-        if ( IsArrayRefWithData( \@ArticleDynField ) ) {
+		        if ( $ArticleKey eq 'CreateTime' ) {
+                    $Ticket{ArticleCreateTime} = $Article{$ArticleKey};
+		            next KEY;
+		        }
+                $Ticket{$ArticleKey} = $Article{$ArticleKey};
+            }
 
-            my @ArticleList = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
-                TicketID => $TicketID,
-                UserID   => 1
-            );
+            # add the ticket accounted time if needed
+            if ( $TicketAttributes{AccountedTime} ) {
+		        if ( $Count == 1 ) { 
+                    $Ticket{AccountedTime} = $TicketObject->TicketAccountedTimeGet( TicketID => $TicketID );
+                }
+		        else {
+                    $Ticket{AccountedTime} = '';
+	            }
+	        }
 
-            for my $MetaArticle (@ArticleList) {
-                my %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle( %{$MetaArticle} )->ArticleGet( %{$MetaArticle}, DynamicFields => 1 );
+            my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+            my @ArticleDynField;
 
-                for my $ArticleA (@ArticleDynField) {
-                    $Ticket{ "DynamicField_" . $ArticleA } = $Article{ "DynamicField_" . $ArticleA } || '';
+	        ATTRIBUTE:
+            for my $ArticleDynField (keys %TicketAttributes) {
+                next ATTRIBUTE if $ArticleDynField !~ /DynamicField_/;
+
+                $ArticleDynField =~ s/DynamicField_//;
+
+                my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $ArticleDynField,
+                );
+
+  	        next ATTRIBUTE if $DynamicField->{ObjectType} ne "Article";
+	        push(@ArticleDynField, $ArticleDynField);
+            }
+
+  	    if ( IsArrayRefWithData(\@ArticleDynField) ) {
+
+                for my $ArticleA ( @ArticleDynField ) {
+		    $Ticket{"DynamicField_".$ArticleA} = $Article{"DynamicField_".$ArticleA} || '';
                 }
             }
-        }
 
-        $Ticket{Closed}                      ||= '';
-        $Ticket{SolutionTime}                ||= '';
-        $Ticket{SolutionDiffInMin}           ||= 0;
-        $Ticket{SolutionInMin}               ||= 0;
-        $Ticket{SolutionTimeEscalation}      ||= 0;
-        $Ticket{FirstResponse}               ||= '';
-        $Ticket{FirstResponseDiffInMin}      ||= 0;
-        $Ticket{FirstResponseInMin}          ||= 0;
-        $Ticket{FirstResponseTimeEscalation} ||= 0;
-        $Ticket{FirstLock}                   ||= '';
-        $Ticket{UpdateTimeDestinationDate}   ||= '';
-        $Ticket{UpdateTimeDestinationTime}   ||= 0;
-        $Ticket{UpdateTimeWorkingTime}       ||= 0;
-        $Ticket{UpdateTimeEscalation}        ||= 0;
-        $Ticket{SolutionTimeDestinationDate} ||= '';
-        $Ticket{EscalationDestinationIn}     ||= '';
-        $Ticket{EscalationDestinationDate}   ||= '';
-        $Ticket{EscalationTimeWorkingTime}   ||= 0;
-        $Ticket{NumberOfArticles}            ||= 0;
+            $Ticket{Closed}                      ||= '';
+            $Ticket{SolutionTime}                ||= '';
+            $Ticket{SolutionDiffInMin}           ||= 0;
+            $Ticket{SolutionInMin}               ||= 0;
+            $Ticket{SolutionTimeEscalation}      ||= 0;
+            $Ticket{FirstResponse}               ||= '';
+            $Ticket{FirstResponseDiffInMin}      ||= 0;
+            $Ticket{FirstResponseInMin}          ||= 0;
+            $Ticket{FirstResponseTimeEscalation} ||= 0;
+            $Ticket{FirstLock}                   ||= '';
+            $Ticket{UpdateTimeDestinationDate}   ||= '';
+            $Ticket{UpdateTimeDestinationTime}   ||= 0;
+            $Ticket{UpdateTimeWorkingTime}       ||= 0;
+            $Ticket{UpdateTimeEscalation}        ||= 0;
+            $Ticket{SolutionTimeDestinationDate} ||= '';
+            $Ticket{EscalationDestinationIn}     ||= '';
+            $Ticket{EscalationDestinationDate}   ||= '';
+            $Ticket{EscalationTimeWorkingTime}   ||= 0;
+            $Ticket{NumberOfArticles}            ||= 0;
 
-        for my $ParameterName ( sort keys %Ticket ) {
-            if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+            for my $ParameterName ( sort keys %Ticket ) {
+                if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+  
+                    # loop over the dynamic fields configured
+                    DYNAMICFIELD:
+                    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+                        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+    		        next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne "Ticket";
 
-                # loop over the dynamic fields configured
-                DYNAMICFIELD:
-                for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-                    next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-                    next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-                    next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne "Ticket";
+                        # skip all fields that does not match with current field name ($1)
+                        # without the 'DynamicField_' prefix
+                        next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
-                    # skip all fields that does not match with current field name ($1)
-                    # without the 'DynamicField_' prefix
-                    next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
-
-                    # prevent unitilization errors
-                    if ( !defined $Ticket{$ParameterName} ) {
-                        $Ticket{$ParameterName} = '';
-                        next DYNAMICFIELD;
-                    }
-
-                    # convert from stored keys to values for certain Dynamic Fields like
-                    # Dropdown, Checkbox and Multiselect
-                    my $ValueLookup = $DynamicFieldBackendObject->ValueLookup(
-                        DynamicFieldConfig => $DynamicFieldConfig,
-                        Key                => $Ticket{$ParameterName},
-                    );
-
-                    # get field value in plain text
-                    my $ValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
-                        DynamicFieldConfig => $DynamicFieldConfig,
-                        Value              => $ValueLookup,
-                    );
-
-                    if ( $ValueStrg->{Value} ) {
-
-                        # change raw value from ticket to a plain text value
-                        $Ticket{$ParameterName} = $ValueStrg->{Value};
-
-                        ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
-                        if ( $DynamicFieldConfig->{Name} =~ /ProcessManagementProcessID|ProcessManagementActivityID/ ) {
-                            my $DisplayValue = $DynamicFieldBackendObject->DisplayValueRender(
-                                DynamicFieldConfig => $DynamicFieldConfig,
-                                Value              => $ValueStrg->{Value},
-                                ValueMaxChars      => 20,
-                                LayoutObject       => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
-                                HTMLOutput         => 0,
-                            );
-                            $Ticket{$ParameterName} = $DisplayValue->{Value};
+                        # prevent unitilization errors
+                        if ( !defined $Ticket{$ParameterName} ) {
+                            $Ticket{$ParameterName} = '';
+                            next DYNAMICFIELD;
                         }
 
+                        # convert from stored keys to values for certain Dynamic Fields like
+                        # Dropdown, Checkbox and Multiselect
+                        my $ValueLookup = $DynamicFieldBackendObject->ValueLookup(
+                            DynamicFieldConfig => $DynamicFieldConfig,
+                            Key                => $Ticket{$ParameterName},
+                        );
+
+                        # get field value in plain text
+                        my $ValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
+                            DynamicFieldConfig => $DynamicFieldConfig,
+                            Value              => $ValueLookup,
+                        );
+
+                        if ( $ValueStrg->{Value} ) {
+
+                            # change raw value from ticket to a plain text value
+                            $Ticket{$ParameterName} = $ValueStrg->{Value};
+
+                            ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
+                            if ( $DynamicFieldConfig->{Name} =~ /ProcessManagementProcessID|ProcessManagementActivityID/ ) {
+                                my $DisplayValue = $DynamicFieldBackendObject->DisplayValueRender(
+                                    DynamicFieldConfig => $DynamicFieldConfig,
+                                    Value              => $ValueStrg->{Value},
+                                    ValueMaxChars      => 20,
+                                    LayoutObject       => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                                    HTMLOutput         => 0,
+                                );
+                                $Ticket{$ParameterName} = $DisplayValue->{Value};
+                            }
+                        }
                     }
                 }
             }
-        }
+            ATTRIBUTE:
+            for my $Attribute ( @{$SortedAttributesRef} ) {
+                next ATTRIBUTE if !$TicketAttributes{$Attribute};
+                # convert from OTOBO time zone to given time zone
+                if (
+                    $Param{TimeZone}
+                    && $Param{TimeZone} ne Kernel::System::DateTime->OTOBOTimeZoneGet()
+                    && $Ticket{$Attribute}
+                    && $Ticket{$Attribute} =~ /\A(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})\z/
+                   )
+                {
 
-        ATTRIBUTE:
-        for my $Attribute ( @{$SortedAttributesRef} ) {
-            next ATTRIBUTE if !$TicketAttributes{$Attribute};
+                    $Ticket{$Attribute} = $StatsObject->_FromOTOBOTimeZone(
+                        String   => $Ticket{$Attribute},
+                        TimeZone => $Param{TimeZone},
+                    );
+                    $Ticket{$Attribute} .= " ($Param{TimeZone})";
+                }
 
-            # convert from OTOBO time zone to given time zone
-            if (
-                $Param{TimeZone}
-                && $Param{TimeZone} ne Kernel::System::DateTime->OTOBOTimeZoneGet()
-                && $Ticket{$Attribute}
-                && $Ticket{$Attribute} =~ /\A(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})\z/
-                )
-            {
-
-                $Ticket{$Attribute} = $StatsObject->_FromOTOBOTimeZone(
-                    String   => $Ticket{$Attribute},
-                    TimeZone => $Param{TimeZone},
-                );
-                $Ticket{$Attribute} .= " ($Param{TimeZone})";
+                if ( $Attribute eq 'Owner' || $Attribute eq 'Responsible' ) {
+                    $Ticket{$Attribute} = $Kernel::OM->Get('Kernel::System::User')->UserName(
+                        User          => $Ticket{$Attribute},
+                        NoOutOfOffice => 1,
+                    );
+                }
+                push @ResultRow, $Ticket{$Attribute};
             }
 
-            if ( $Attribute eq 'Owner' || $Attribute eq 'Responsible' ) {
-                $Ticket{$Attribute} = $Kernel::OM->Get('Kernel::System::User')->UserName(
-                    User          => $Ticket{$Attribute},
-                    NoOutOfOffice => 1,
-                );
-            }
-            push @ResultRow, $Ticket{$Attribute};
-        }
         push @StatArray, \@ResultRow;
+        }
     }
 
     # use a individual sort if the sort mechanism of the TicketSearch is not usable
@@ -1748,7 +1908,32 @@ sub _TicketAttributes {
         SolutionTimeDestinationTime => 'SolutionTimeDestinationTime',
         SolutionTimeDestinationDate => 'SolutionTimeDestinationDate',
         SolutionTimeWorkingTime     => 'SolutionTimeWorkingTime',
+
+# Article Fields
+	ArticleID => 'Article ArticleID',
+        ReplyTo => 'Article ReplyTo',
+        ChangeBy => 'Article ChangeBy',
+        ContentType => 'Article ContentType',
+        IncomingTime => 'Article IncomingTime',
+        MimeType => 'Article MimeType',
+        CreateBy => 'Article CreateBy',
+        References => 'Article References',
+        Cc => 'Article Cc',
+        IsVisibleForCustomer => 'Article IsVisibleForCustomer',
+        InReplyTo => 'Article InReplyTo',
+        ArticleCreateTime => 'Article CreateTime',
+        SenderType => 'Article SenderType',
+        Subject => 'Article Subject',
+        ChangeTime => 'Article ChangeTime',
+        To => 'Article To',
+        Body => 'Article Body',
+        From => 'Article From',
+        Bcc => 'Article Bcc',
+        ArticleNumber => 'Article Bcc',
+        ArticleAccountedTime => 'Article Accounted Time',
     );
+
+
 
     if ( $ConfigObject->Get('Ticket::Service') ) {
         $TicketAttributes{Service} = 'Service';
@@ -1850,6 +2035,27 @@ sub _SortedAttributes {
         EscalationUpdateTime
         RealTillTimeNotUsed
         NumberOfArticles
+
+	ArticleID
+	ReplyTo
+	ChangeBy
+	ContentType
+	IncomingTime
+	MimeType
+	CreateBy
+	References
+	Cc
+	IsVisibleForCustomer
+	InReplyTo
+	ArticleCreateTime
+	SenderType
+	Subject
+	ChangeTime
+	To
+	Body
+	From
+	Bcc
+	ArticleNumber
     );
 
     # cycle trought the Dynamic Fields
@@ -1861,6 +2067,8 @@ sub _SortedAttributes {
         # add dynamic field attribute
         push @SortedAttributes, 'DynamicField_' . $DynamicFieldConfig->{Name};
     }
+
+    push @SortedAttributes, 'ArticleAccountedTime';
 
     return \@SortedAttributes;
 }
