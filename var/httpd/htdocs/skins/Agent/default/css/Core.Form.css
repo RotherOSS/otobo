@@ -706,17 +706,17 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
 
 /* Dynamic Field Set */
 
-.DFSetOuterField {
+fieldset.TableLike .DFSetOuterField {
     max-width: 622px; 
 }
 
-.DynamicFieldSet {
+fieldset.TableLike .DynamicFieldSet {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-.DynamicFieldSet .Row > .FieldCell {
+fieldset.TableLike .DynamicFieldSet .Row > .FieldCell {
     display: grid;
     columns: 3;
     grid-template-columns: 1fr 2fr 32px;
@@ -750,7 +750,7 @@ fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .Dyna
 }
 
 /* for dropdown selectionfields due to deeper nesting */
-.DynamicFieldSet .InputField_InputContainer {
+fieldset.TableLike .DynamicFieldSet .InputField_InputContainer {
     width: inherit;
     box-sizing: inherit;
 }
@@ -761,7 +761,7 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
     width: 100%;
 }
 
-.DynamicFieldSet .AddRemoveValueRow {
+fieldset.TableLike .DynamicFieldSet .AddRemoveValueRow {
     grid-column: 3;
 }
 

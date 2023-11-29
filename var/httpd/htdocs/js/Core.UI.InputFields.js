@@ -249,7 +249,7 @@ Core.UI.InputFields = (function (TargetNS) {
             });
 
             //Add an extra class to Fields containing a Dynamic Field Set
-            $('.DynamicFieldSet').parent().addClass('DFSetOuterField')
+            $('.DynamicFieldSet', $Context).parent().addClass('DFSetOuterField')
         }
     };
 
