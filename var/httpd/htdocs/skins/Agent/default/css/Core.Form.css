@@ -704,26 +704,67 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
     width: 100%;
 }
 
-/* TODO: Temporary, improve */
-fieldset.TableLike fieldset.DynamicFieldSet > .Field,
-fieldset.TableLike fieldset.DynamicFieldSet > .Row > .FieldCell > .Field {
-    line-height: 1.9em;
-    margin-left: 30%;
-    margin-right: 0;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    padding-left: 10px;
-    padding-right: 0px;
-    min-height: 20px;
+/* Dynamic Field Set */
+
+.DFSetOuterField {
+    max-width: 622px; 
 }
 
-fieldset.TableLike fieldset.DynamicFieldSet > .Row.MultiValue > .FieldCell > .Field {
-    display: inline-block;
+.DynamicFieldSet {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-fieldset.TableLike fieldset.DynamicFieldSet > .Row.MultiValue > .FieldCell.MultiValue_0 > .Field {
-    margin-left: 0;
+.DynamicFieldSet .Row > .FieldCell {
+    display: grid;
+    columns: 3;
+    grid-template-columns: 1fr 2fr 32px;
 }
+
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet label {
+    padding-top: 0px;
+    padding-right: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field {
+    box-sizing: border-box;
+    grid-column: 2;
+}
+
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row.MultiValue .Field {
+    grid-column-end: span 1;
+}
+
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > * {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* multivalue sets. necessary because of competing CSS specificities*/
+fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > * {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* for dropdown selectionfields due to deeper nesting */
+.DynamicFieldSet .InputField_InputContainer {
+    width: inherit;
+    box-sizing: inherit;
+}
+
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField input {
+    min-width: 150px; /*kind of random, not ideal*/
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.DynamicFieldSet .AddRemoveValueRow {
+    grid-column: 3;
+}
+
 /* EO TODO */
 
 .RTL fieldset.TableLike > .Row.MultiColumn {
