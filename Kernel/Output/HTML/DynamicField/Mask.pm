@@ -107,7 +107,7 @@ sub EditSectionRender {
     }
 
     # check needed params
-    for my $Needed (qw(Content DynamicFields LayoutObject ParamObject)) {
+    for my $Needed (qw(DynamicFields LayoutObject ParamObject)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
