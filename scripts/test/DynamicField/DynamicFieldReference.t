@@ -106,18 +106,21 @@ my @Tests = (
         Name   => 'Create Reference to CustomerCompany',
         Config => {
             ReferencedObjectType => 'CustomerCompany',
+            FieldType            => 'CustomerCompanyReference',
         },
     },
     {
         Name   => 'Create Reference to CustomerUser',
         Config => {
             ReferencedObjectType => 'CustomerUser',
+            FieldType            => 'CustomerUserReference',
         },
     },
     {
         Name   => 'Create Reference to Ticket',
         Config => {
             ReferencedObjectType => 'Ticket',
+            FieldType            => 'TicketReference',
         },
     },
 );
@@ -135,7 +138,7 @@ for my $Test (@Tests) {
             Name       => $DynamicFieldName,
             Label      => $DynamicFieldName,
             FieldOrder => 9991,
-            FieldType  => 'Reference',
+            FieldType  => $Test->{Config}{FieldType},
             ObjectType => 'Ticket',
             Config     => {
                 Tooltip    => "Tooltip for $DynamicFieldName",
