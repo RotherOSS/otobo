@@ -775,4 +775,45 @@ sub ValueLookup {
     return \@Values;
 }
 
+sub ColumnFilterValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # Extract the information about the dynamic field,
+    # so that sensible variable names can be used.
+    my $DynamicField = $Param{DynamicFieldConfig};
+    my $FieldConfig  = $DynamicField->{Config};
+
+    # set PossibleValues
+    my $SelectionData = $Self->PossibleValuesGet(%Param);
+
+    # article uses the same routine as ticket
+    my $ObjectType = $DynamicField->{ObjectType} eq 'Article' ? 'Ticket' : $DynamicField->{ObjectType};
+
+    # get column filter values from database
+    my $ColumnFilterValues = $Kernel::OM->Get("Kernel::System::${ObjectType}::ColumnFilter")->DynamicFieldFilterValuesGet(
+        %Param,
+        FieldID   => $Param{DynamicFieldConfig}->{ID},
+        ValueType => $Self->{ValueType},
+    );
+
+    # get the display value if still exist in dynamic field configuration
+    for my $Key ( sort keys %{$ColumnFilterValues} ) {
+        if ( $SelectionData->{$Key} ) {
+            $ColumnFilterValues->{$Key} = $SelectionData->{$Key};
+        }
+    }
+
+    if ( $FieldConfig->{TranslatableValues} ) {
+
+        # translate the value
+        for my $ValueKey ( sort keys %{$ColumnFilterValues} ) {
+
+            my $OriginalValueName = $ColumnFilterValues->{$ValueKey};
+            $ColumnFilterValues->{$ValueKey} = $Param{LayoutObject}->{LanguageObject}->Translate($OriginalValueName);
+        }
+    }
+
+    return $ColumnFilterValues;
+}
+
 1;
