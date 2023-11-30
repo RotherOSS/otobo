@@ -34,7 +34,7 @@ use lib dirname($RealBin) . '/Custom';
 # OTOBO modules
 use Kernel::System::ObjectManager;
 
-local $Kernel::OM = Kernel::System::ObjectManager->new(
+$Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTOBO-DBUpdate-to-11.0.pl',
     },
