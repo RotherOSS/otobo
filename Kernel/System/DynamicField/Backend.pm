@@ -1535,7 +1535,7 @@ extracts the value of a dynamic field from the param object or search profile.
     my $Value = $BackendObject->SearchFieldValueGet(
         DynamicFieldConfig     => $DynamicFieldConfig,    # complete config of the DynamicField
         ParamObject            => $ParamObject,           # the current request data
-        Profile                => $ProfileData,           # the serach profile
+        Profile                => $ProfileData,           # the search profile
         ReturnProfileStructure => 0,                      # 0 || 1, default 0
                                                           #   Returns the structured values as got from the http request
         Type                   => 'some type',            # search preference type
