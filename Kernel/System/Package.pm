@@ -4384,18 +4384,21 @@ sub _Encode {
 =head2 _PackageUninstallMerged()
 
 ONLY CALL THIS METHOD FROM A DATABASE UPGRADING SCRIPT DURING FRAMEWORK UPDATES
-OR FROM A CODE UPGRADE SECTION IN AN SOPM FILE OF A PACKAGE THAT INCLUDES A MERGED FEATURE ADD-ON.
+OR FROM A CodeUpgrade SECTION IN AN SOPM FILE OF A PACKAGE THAT INCLUDES A MERGED FEATURE ADD-ON.
 
-Uninstall an already framework (or module) merged package.
+Uninstall an already framework (or module) merged package. This means that the merged
+package will be removed from the repository list.
 
-Package files that are not in the framework ARCHIVE file will be deleted, DatabaseUninstall() and
-CodeUninstall are not called.
+Package files that are not in the framework ARCHIVE file will be deleted unless
+the parameter C<DeleteSaved> is set to 0.
+
+The sections I<DatabaseUninstall> and I<CodeUninstall> in the SOPM file are ignored.
 
     $Success = $PackageObject->_PackageUninstallMerged(
-        Name        => 'some package name',
-        Home        => 'OTOBO Home path',      # Optional
-        DeleteSaved => 1,                     # or 0, 1 Default, Optional: if set to 1 it also
-                                              # delete .save files
+        Name        => 'SomePackage',
+        Home        => 'OTOBO Home path',     # Optional
+        DeleteSaved => 1,                     # Either 1 or 0. Optional with the default being 1.
+                                              # If set to 1 it also deletes .save files
     );
 
 =cut
@@ -4409,6 +4412,7 @@ sub _PackageUninstallMerged {
             Priority => 'error',
             Message  => 'Need Name (Name of the package)!',
         );
+
         return;
     }
 
@@ -4420,38 +4424,37 @@ sub _PackageUninstallMerged {
             Priority => 'error',
             Message  => "No such home directory: $Home!",
         );
+
         return;
     }
 
-    if ( !defined $Param{DeleteSaved} ) {
-        $Param{DeleteSaved} = 1;
-    }
+    my $DeleteSaved = $Param{DeleteSaved} // 1;
 
     # check if the package is installed, otherwise return success (nothing to do)
     my $PackageInstalled = $Self->PackageIsInstalled(
         Name => $Param{Name},
     );
-    return 1 if !$PackageInstalled;
+
+    return 1 unless $PackageInstalled;
 
     # get the package details
-    my @PackageList       = $Self->RepositoryList();
+    my @PackageList       = $Self->RepositoryList;
     my %PackageListLookup = map { $_->{Name}->{Content} => $_ } @PackageList;
-    my %PackageDetails    = %{ $PackageListLookup{ $Param{Name} } };
+    my %PackageDetails    = $PackageListLookup{ $Param{Name} }->%*;
 
     # get the list of framework files
     my %FrameworkFiles = $Self->_ReadDistArchive( Home => $Home );
 
     # can not continue if there are no framework files
-    return if !%FrameworkFiles;
+    return unless %FrameworkFiles;
 
-    # remove unneeded files (if exists)
+    # remove unneeded files if they exist
     if ( IsArrayRefWithData( $PackageDetails{Filelist} ) ) {
 
-        # get main object
         my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-        FILE:
-        for my $FileHash ( @{ $PackageDetails{Filelist} } ) {
+        FILE_HASH:
+        for my $FileHash ( $PackageDetails{Filelist}->@* ) {
 
             my $File = $FileHash->{Location};
 
@@ -4459,13 +4462,15 @@ sub _PackageUninstallMerged {
             my $RealFile = $Home . '/' . $File;
             $RealFile =~ s/\/\//\//g;
 
-            # check if file exists
-            if ( -e $RealFile ) {
+            # nothing to do when the package file does not exist
+            next FILE_HASH unless -e $RealFile;
+
+            {
 
                 # check framework files (use $File instead of $RealFile)
                 if ( $FrameworkFiles{$File} ) {
 
-                    if ( $Param{DeleteSaved} ) {
+                    if ($DeleteSaved) {
 
                         # check if file was overridden by the package
                         my $SavedFile = $RealFile . '.save';
@@ -4477,6 +4482,7 @@ sub _PackageUninstallMerged {
                                     Priority => 'error',
                                     Message  => "Can't remove file $SavedFile: $!!",
                                 );
+
                                 return;
                             }
                             print STDERR "Notice: Removed old backup file: $SavedFile\n";
@@ -4484,16 +4490,18 @@ sub _PackageUninstallMerged {
                     }
 
                     # skip framework file
-                    print STDERR "Notice: Skiped framework file: $RealFile\n";
-                    next FILE;
+                    print STDERR "Notice: Skipped framework file: $RealFile\n";
+
+                    next FILE_HASH;
                 }
 
-                # remove old file
+                # remove package file that is not in OTOBO core
                 if ( !$MainObject->FileDelete( Location => $RealFile ) ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
                         Message  => "Can't remove file $RealFile: $!!",
                     );
+
                     return;
                 }
                 print STDERR "Notice: Removed file: $RealFile\n";
