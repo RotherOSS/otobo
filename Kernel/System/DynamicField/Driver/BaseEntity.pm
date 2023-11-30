@@ -783,9 +783,6 @@ sub ColumnFilterValuesGet {
     my $DynamicField = $Param{DynamicFieldConfig};
     my $FieldConfig  = $DynamicField->{Config};
 
-    # set PossibleValues
-    my $SelectionData = $Self->PossibleValuesGet(%Param);
-
     # article uses the same routine as ticket
     my $ObjectType = $DynamicField->{ObjectType} eq 'Article' ? 'Ticket' : $DynamicField->{ObjectType};
 
@@ -798,8 +795,14 @@ sub ColumnFilterValuesGet {
 
     # get the display value if still exist in dynamic field configuration
     for my $Key ( sort keys %{$ColumnFilterValues} ) {
-        if ( $SelectionData->{$Key} ) {
-            $ColumnFilterValues->{$Key} = $SelectionData->{$Key};
+
+        my $DisplayValue = $Self->DisplayValueRender(
+            LayoutObject => $Param{LayoutObject},
+            Value        => $Key,
+        );
+
+        if ( IsHashRefWithData($DisplayValue) ) {
+            $ColumnFilterValues->{$Key} = $DisplayValue->{Value};
         }
     }
 
