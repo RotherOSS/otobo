@@ -15,10 +15,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::DBUpdateTo11_0::DBAddFrontendMaskDefinition;
+package scripts::DBUpdateTo11_0::UninstallMergedPackages;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
@@ -36,23 +45,21 @@ use parent qw(scripts::DBUpdateTo11_0::Base);
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
-    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-
     # Purge relevant caches before uninstalling to avoid errors because of inconsistent states.
-    for my $Type ( qw(RepositoryList RepositoryGet XMLParse) ) {
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    for my $Type (qw(RepositoryList RepositoryGet XMLParse)) {
         $CacheObject->CleanUp(
             Type => $Type,
         );
-    );
+    }
 
-    # Note: Znuny and Znuny4OTRS in case one of the packages later will be built with the Znuny prefix
-    my @PackageNames = qw(
+    # Uninstall, without running DatabaseUninstall and CodeUninstall
+    my @MergedPackages = qw(
         ImportExport
     );
-
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
     PACKAGENAME:
-    for my $PackageName (@PackageNames) {
+    for my $PackageName (@MergedPackages) {
         my $Success = $PackageObject->_PackageUninstallMerged(
             Name => $PackageName,
         );
