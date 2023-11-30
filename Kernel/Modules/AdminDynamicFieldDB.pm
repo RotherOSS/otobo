@@ -997,15 +997,9 @@ sub _ShowScreen {
     my %Databases = (
         mysql      => "MySQL",
         postgresql => "PostgreSQL",
-        mssql      => "SQL Server (Microsoft)",
         ODBC       => "SQL Server (ODBC)",
         oracle     => "Oracle",
     );
-
-    # OTOBO can only use the native SQL Server driver if OTOBO runs on Windows as well.
-    if ( $^O ne 'MSWin32' ) {
-        delete $Databases{mssql};
-    }
 
     # Build the select field for the InstallerDBStart.tt.
     $Param{SelectDBType} = $LayoutObject->BuildSelection(

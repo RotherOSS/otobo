@@ -2417,16 +2417,8 @@ sub _Init {
     # get the cache TTL (in seconds)
     $Self->{CacheTTL} = int( $ConfigObject->Get('SMIME::CacheTTL') || 86400 );
 
-    if ( $^O =~ m{mswin}i ) {
-
-        # take care to deal properly with paths containing whitespace
-        $Self->{Cmd} = qq{"$Self->{Bin}"};
-    }
-    else {
-
-        # make sure that we are getting POSIX (i.e. english) messages from openssl
-        $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
-    }
+    # make sure that we are getting POSIX (i.e. english) messages from openssl
+    $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
 
     # ensure that there is a random state file that we can write to (otherwise openssl will bail)
     # Note that RANDFILE will keep the assigned value while the current process is running.
@@ -2584,10 +2576,7 @@ sub _FetchAttributesFromCert {
 sub _CleanOutput {
     my ( $Self, $Output ) = @_;
 
-    # remove spurious warnings that appear on Windows
-    if ( $^O =~ m{mswin}i ) {
-        $Output =~ s{Loading 'screen' into random state - done\r?\n}{}igms;
-    }
+    # nothing to do
 
     return $Output;
 }
