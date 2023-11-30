@@ -137,15 +137,15 @@ sub SearchSQLGet {
 
     if ( $Param{Operator} eq 'Empty' ) {
         if ( $Param{SearchTerm} ) {
-            return " $Param{TableAlias}.value_text IS NULL ";
+            return " $Param{TableAlias}.$Self->{TableAttribute} IS NULL ";
         }
         else {
             my $DatabaseType = $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'};
             if ( $DatabaseType eq 'oracle' ) {
-                return " $Param{TableAlias}.value_text IS NOT NULL ";
+                return " $Param{TableAlias}.$Self->{TableAttribute} IS NOT NULL ";
             }
             else {
-                return " $Param{TableAlias}.value_text <> '' ";
+                return " $Param{TableAlias}.$Self->{TableAttribute} <> '' ";
             }
         }
     }
@@ -163,7 +163,7 @@ sub SearchSQLGet {
         $Lower = 'LOWER';
     }
 
-    my $SQL = " $Lower($Param{TableAlias}.value_text) $Operators{ $Param{Operator} } ";
+    my $SQL = " $Lower($Param{TableAlias}.$Self->{TableAttribute}) $Operators{ $Param{Operator} } ";
     $SQL .= "$Lower('" . $DBObject->Quote( $Param{SearchTerm} ) . "') ";
 
     return $SQL;
