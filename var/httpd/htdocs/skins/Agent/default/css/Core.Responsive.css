@@ -483,6 +483,30 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: auto;
     }
 
+    /* DynamicFieldSet */
+
+    fieldset.TableLike .DFSetOuterField {
+        max-width: 100%;
+        width: calc(90% + 6px); /*accounting for padding of other inputs for uniform lengths*/
+    }
+
+    fieldset.TableLike .DynamicFieldSet {
+        width: 100%;
+    }
+
+    fieldset.TableLike .DynamicFieldSet .Row > .FieldCell {
+        grid-template-columns: 1fr 2fr 40px;
+    }
+
+    fieldset.TableLike .MultiValue > .FieldCell > .Field > .DynamicFieldSet {
+        max-width: none;
+        width: 100%;
+    }
+
+    fieldset.TableLike .MultiValue > .FieldCell > .AddRemoveValueRow {
+        padding-left: 3px;
+    } 
+
     form label.Mandatory span.Marker {
         display: inline-block;
         margin-right: 3px;
