@@ -34,7 +34,7 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # Check if used OS is a Linux system
+    # Check if used OS is a unixoid system
     return $Self->GetResults() unless $^O =~ m/linux|unix|netbsd|freebsd|darwin/i;
 
     # Find OTOBO partition. "df -P" returns something like:
