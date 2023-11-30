@@ -103,10 +103,10 @@ sub OSInfoGet {
         openbsd => 'OpenBSD',
     );
 
-    # If used OS is a linux system
+    # If used OS is a unixoid system
     my $OSName;
     my $Distribution;
-    if ( $^O =~ /(linux|unix|netbsd)/i ) {
+    if ( $^O =~ /linux|unix|netbsd/i ) {
 
         if ( $^O eq 'linux' ) {
 
@@ -123,7 +123,7 @@ sub OSInfoGet {
                 $OSName = $DistributionName . ' ' . $DistributionVersion;
             }
         }
-        elsif ( -e "/etc/issue" ) {
+        elsif ( -e '/etc/issue' ) {
 
             my $Content = $MainObject->FileRead(
                 Location => '/etc/issue',

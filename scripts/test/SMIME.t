@@ -295,13 +295,6 @@ egi0I+rwJjXCUZHw+qq0cRV/nEr4dD5aB84f0prW5ebzV9oQewkgsT0uI2EXa9GS
 ',
 );
 
-# remove \r that will have been inserted on Windows automatically
-if ( $^O =~ m{Win}i ) {
-    $Cert{1} =~ tr{\r}{}d;
-    $Cert{2} =~ tr{\r}{}d;
-    $Cert{3} =~ tr{\r}{}d;
-}
-
 my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 3 ) {

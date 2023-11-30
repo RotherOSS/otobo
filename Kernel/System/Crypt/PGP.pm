@@ -971,16 +971,8 @@ sub _Init {
     $Self->{GPGBin}  = $ConfigObject->Get('PGP::Bin')     || '/usr/bin/gpg';
     $Self->{Options} = $ConfigObject->Get('PGP::Options') || '--batch --no-tty --yes';
 
-    if ( $^O =~ m/Win/i ) {
-
-        # take care to deal properly with paths containing whitespace
-        $Self->{GPGBin} = "\"$Self->{GPGBin}\" $Self->{Options}";
-    }
-    else {
-
-        # make sure that we are getting POSIX (i.e. english) messages from gpg
-        $Self->{GPGBin} = "LC_MESSAGES=POSIX $Self->{GPGBin} $Self->{Options}";
-    }
+    # make sure that we are getting POSIX (i.e. english) messages from gpg
+    $Self->{GPGBin} = "LC_MESSAGES=POSIX $Self->{GPGBin} $Self->{Options}";
 
     # determine active GnuPG version
     my $VersionString = '';

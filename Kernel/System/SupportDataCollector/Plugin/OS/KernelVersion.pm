@@ -33,7 +33,7 @@ sub Run {
     my $Self = shift;
 
     # Check if used OS is a supported system. See https://perldoc.perl.org/perlport#PLATFORMS.
-    return $Self->GetResults() unless $^O =~ m/(linux|unix|netbsd|freebsd)/i;
+    return $Self->GetResults() unless $^O =~ m/linux|unix|netbsd|freebsd/i;
 
     my $KernelVersion = "";
     my $KernelInfo;

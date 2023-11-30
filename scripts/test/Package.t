@@ -459,7 +459,6 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <OS>darwin</OS>
   <OS>linux</OS>
   <OS>freebsd</OS>
-  <OS>MSWin32</OS>
   <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
@@ -1157,4 +1156,4 @@ if ( !$DeveloperSystem ) {
     chmod 0755, $Home . '/' . 'bin/otobo.CheckSum.pl';
 }
 
-done_testing();
+done_testing;
