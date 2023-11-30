@@ -71,6 +71,10 @@ sub Run {
             Name   => 'Add tables for the ImportExport feature.',
             Module => 'DBAddImportExportTables',
         },
+        {
+            Name   => 'Update the list of installed packages',
+            Module => 'UninstallMergedPackages',
+        },
     );
 
     TASK:
