@@ -31,15 +31,13 @@ use parent qw(Kernel::System::DynamicField::Driver::BaseEntity);
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsHashRefWithData IsStringWithData);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
-    'Kernel::System::DynamicField',
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
-    'Kernel::System::Main',
 );
 
 =head1 NAME

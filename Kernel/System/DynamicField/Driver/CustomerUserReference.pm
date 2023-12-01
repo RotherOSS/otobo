@@ -32,9 +32,7 @@ use parent qw(Kernel::System::DynamicField::Driver::BaseReference);
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
-    'Kernel::Config',
     'Kernel::System::CustomerUser',
-    'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
 );
 

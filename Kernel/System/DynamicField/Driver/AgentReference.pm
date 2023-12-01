@@ -30,14 +30,11 @@ use parent qw(Kernel::System::DynamicField::Driver::BaseReference);
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::DynamicFieldValue',
     'Kernel::System::Group',
     'Kernel::System::Log',
-    'Kernel::System::Main',
     'Kernel::System::User',
 );
 
