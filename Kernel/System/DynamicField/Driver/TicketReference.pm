@@ -62,7 +62,7 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    # Reference dynamic fields are stored in the database table attribute dynamic_field_value.value_int.
+    # Some reference dynamic fields are stored in the database table attribute dynamic_field_value.value_int.
     $Self->{ValueType}      = 'Integer';
     $Self->{ValueKey}       = 'ValueInt';
     $Self->{TableAttribute} = 'value_int';
