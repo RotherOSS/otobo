@@ -23,6 +23,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -131,7 +132,13 @@ sub _Add {
     }
 
     # extract field type specific parameters, e.g. MultiValue
+    SETTING:
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+
+        # skip custom inputs which are handled separately
+        # currently only used for reference filter list
+        next SETTING if $Setting->{InputType} eq 'Custom';
+
         my $Name = $Setting->{ConfigParamName};
         if ( $Setting->{Multiple} ) {
             $GetParam{$Name}->@* = $ParamObject->GetArray( Param => $Name );
@@ -188,7 +195,13 @@ sub _AddAction {
     }
 
     # extract field type specific parameters, e.g. MultiValue
+    SETTING:
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+
+        # skip custom inputs which are handled separately
+        # currently only used for reference filter list
+        next SETTING if $Setting->{InputType} eq 'Custom';
+
         my $Name = $Setting->{ConfigParamName};
         if ( $Setting->{Multiple} ) {
             $GetParam{$Name}->@* = $ParamObject->GetArray( Param => $Name );
@@ -287,7 +300,13 @@ sub _AddAction {
     );
 
     # extract field type specific parameters, e.g. MultiValue
+    SETTING:
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+
+        # skip custom inputs which are handled separately
+        # currently only used for reference filter list
+        next SETTING if $Setting->{InputType} eq 'Custom';
+
         my $Name = $Setting->{ConfigParamName};
         $FieldConfig{$Name} = $GetParam{$Name};
     }
@@ -302,14 +321,16 @@ sub _AddAction {
     # multiselect excludes multivalue
     $FieldConfig{MultiValue} = $FieldConfig{Multiselect} ? 0 : $FieldConfig{MultiValue};
 
-    $GetParam{ReferenceFilterCounter} = $ParamObject->GetParam( Param => 'ReferenceFilterCounter' ) || 0;
+    if ( any { $_->{ConfigParamName} eq 'ReferenceFilterList' } $Param{FieldTypeSettings}->@* ) {
+        $GetParam{ReferenceFilterCounter} = $ParamObject->GetParam( Param => 'ReferenceFilterCounter' ) || 0;
 
-    my @ReferenceFilterList = $Self->_GetParamReferenceFilterList(
-        GetParam => \%GetParam,
-        Errors   => \%Errors,
-    );
+        my @ReferenceFilterList = $Self->_GetParamReferenceFilterList(
+            GetParam => \%GetParam,
+            Errors   => \%Errors,
+        );
 
-    $FieldConfig{ReferenceFilterList} = \@ReferenceFilterList;
+        $FieldConfig{ReferenceFilterList} = \@ReferenceFilterList;
+    }
 
     # create a new field
     my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -440,7 +461,13 @@ sub _ChangeAction {
     }
 
     # extract field type specific parameters, e.g. MultiValue
+    SETTING:
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+
+        # skip custom inputs which are handled separately
+        # currently only used for reference filter list
+        next SETTING if $Setting->{InputType} eq 'Custom';
+
         my $Name = $Setting->{ConfigParamName};
         if ( $Setting->{Multiple} ) {
             $GetParam{$Name}->@* = $ParamObject->GetArray( Param => $Name );
@@ -594,7 +621,13 @@ sub _ChangeAction {
     );
 
     # extract field type specific parameters, e.g. MultiValue
+    SETTING:
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+
+        # skip custom inputs which are handled separately
+        # currently only used for reference filter list
+        next SETTING if $Setting->{InputType} eq 'Custom';
+
         my $Name = $Setting->{ConfigParamName};
         $FieldConfig{$Name} = $GetParam{$Name};
     }
@@ -609,14 +642,16 @@ sub _ChangeAction {
     # multiselect excludes multivalue
     $FieldConfig{MultiValue} = $FieldConfig{Multiselect} ? 0 : $FieldConfig{MultiValue};
 
-    $GetParam{ReferenceFilterCounter} = $ParamObject->GetParam( Param => 'ReferenceFilterCounter' ) || 0;
+    if ( any { $_->{ConfigParamName} eq 'ReferenceFilterList' } $Param{FieldTypeSettings}->@* ) {
+        $GetParam{ReferenceFilterCounter} = $ParamObject->GetParam( Param => 'ReferenceFilterCounter' ) || 0;
 
-    my @ReferenceFilterList = $Self->_GetParamReferenceFilterList(
-        GetParam => \%GetParam,
-        Errors   => \%Errors,
-    );
+        my @ReferenceFilterList = $Self->_GetParamReferenceFilterList(
+            GetParam => \%GetParam,
+            Errors   => \%Errors,
+        );
 
-    $FieldConfig{ReferenceFilterList} = \@ReferenceFilterList;
+        $FieldConfig{ReferenceFilterList} = \@ReferenceFilterList;
+    }
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
     my $UpdateSuccess = $DynamicFieldObject->DynamicFieldUpdate(
@@ -880,44 +915,55 @@ sub _ShowScreen {
 
         my $FieldConfig = $DynamicField->{Config};
 
-        if ( !$Param{ReferenceFilterCounter} ) {
+        # render reference filter list only if enabled
+        if ( any { $_->{ConfigParamName} eq 'ReferenceFilterList' } $Param{FieldTypeSettings}->@* ) {
 
-            my $ReferenceFilterCounter = 0;
-            for my $ReferenceFilter ( @{ $FieldConfig->{ReferenceFilterList} } ) {
+            $LayoutObject->Block(
+                Name => 'ReferenceFilterList',
+                Data => {
+                    %Param,
+                },
+            );
 
-                $ReferenceFilterCounter++;
-                for my $FilterItem (qw(ReferenceObjectAttribute EqualsObjectAttribute EqualsString)) {
-                    $Param{ 'ReferenceFilter_' . $FilterItem . '_' . $ReferenceFilterCounter } = $ReferenceFilter->{$FilterItem};
+            if ( !$Param{ReferenceFilterCounter} ) {
 
+                my $ReferenceFilterCounter = 0;
+                for my $ReferenceFilter ( @{ $FieldConfig->{ReferenceFilterList} } ) {
+
+                    $ReferenceFilterCounter++;
+                    for my $FilterItem (qw(ReferenceObjectAttribute EqualsObjectAttribute EqualsString)) {
+                        $Param{ 'ReferenceFilter_' . $FilterItem . '_' . $ReferenceFilterCounter } = $ReferenceFilter->{$FilterItem};
+
+                    }
                 }
+
+                $Param{ReferenceFilterCounter} = $ReferenceFilterCounter;
             }
 
-            $Param{ReferenceFilterCounter} = $ReferenceFilterCounter;
-        }
+            if ( $Param{ReferenceFilterCounter} ) {
 
-        if ( $Param{ReferenceFilterCounter} ) {
+                REFERENCEFILTERENTRY:
+                for my $CurrentReferenceFilterEntryID ( 1 .. $Param{ReferenceFilterCounter} ) {
 
-            REFERENCEFILTERENTRY:
-            for my $CurrentReferenceFilterEntryID ( 1 .. $Param{ReferenceFilterCounter} ) {
-
-                # check existing filter
-                my %FilterRow;
-                my %Errors;
-                for my $FilterItem (qw(ReferenceObjectAttribute EqualsObjectAttribute EqualsString)) {
-                    $FilterRow{ 'ReferenceFilter_' . $FilterItem } = $Param{ 'ReferenceFilter_' . $FilterItem . '_' . $CurrentReferenceFilterEntryID };
-                }
-
-                # skip if values are undef
-                next REFERENCEFILTERENTRY if !grep { defined $_ } values %FilterRow;
-
-                $LayoutObject->Block(
-                    Name => 'ReferenceFilterRow',
-                    Data => {
-                        %FilterRow,
-                        %Errors,
-                        EntryCounter => $CurrentReferenceFilterEntryID,
+                    # check existing filter
+                    my %FilterRow;
+                    my %Errors;
+                    for my $FilterItem (qw(ReferenceObjectAttribute EqualsObjectAttribute EqualsString)) {
+                        $FilterRow{ 'ReferenceFilter_' . $FilterItem } = $Param{ 'ReferenceFilter_' . $FilterItem . '_' . $CurrentReferenceFilterEntryID };
                     }
-                );
+
+                    # skip if values are undef
+                    next REFERENCEFILTERENTRY if !grep { defined $_ } values %FilterRow;
+
+                    $LayoutObject->Block(
+                        Name => 'ReferenceFilterRow',
+                        Data => {
+                            %FilterRow,
+                            %Errors,
+                            EntryCounter => $CurrentReferenceFilterEntryID,
+                        }
+                    );
+                }
             }
         }
 
