@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-07-20 06:35+0000\n"
+"PO-Revision-Date: 2023-12-01 15:09+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -27647,6 +27647,13 @@ msgid ""
 "time in minutes for the plugin. Note: Only Ticket attributes and Dynamic "
 "Fields (DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
+"المعلمات لواجهة الخلفية لتذكير البطاقة المعلقة في نظرة عامة على واجهة "
+"الوكيل. \"الحد\" هو عدد الإدخالات التي يتم عرضها افتراضيًا. يُستخدم "
+"\"المجموعة\" لتقييد الوصول إلى المكون الإضافي (على سبيل المثال: المجموعة: "
+"admin؛ group1؛ group2؛). \"الافتراضي\" يحدد ما إذا كان المكون الإضافي مُمكّنً"
+"ا افتراضيًا أم إذا كان يحتاج المستخدم إلى تمكينه يدويًا. \"CacheTTLLocal\" "
+"هو وقت التخزين المؤقت في الدقائق للمكون الإضافي. ملاحظة: يُسمح فقط بسمات "
+"البطاقة والحقول الديناميكية (DynamicField_NameX) ل DefaultColumns."
 
 #. SysConfig
 msgid ""
@@ -27658,6 +27665,13 @@ msgid ""
 "minutes for the plugin. \"Mandatory\" determines if the plugin is always "
 "shown and can not be removed by agents."
 msgstr ""
+"المعلمات لواجهة الخلفية لإحصائيات التذاكر في واجهة الوكيل. \"الحد\" هو عدد "
+"الإدخالات التي يتم عرضها افتراضيًا. يُستخدم \"المجموعة\" لتقييد الوصول إلى "
+"المكون الإضافي (على سبيل المثال: المجموعة: admin؛ group1؛ group2؛). "
+"\"الافتراضي\" يحدد ما إذا كان المكون الإضافي مُمكّنًا افتراضيًا أم إذا كان "
+"يحتاج المستخدم إلى تمكينه يدويًا. \"CacheTTLLocal\" هو وقت التخزين المؤقت في "
+"الدقائق للمكون الإضافي. \"الإلزامي\" يحدد ما إذا كان يجب على المكون الإضافي "
+"أن يظهر دائمًا ولا يمكن إزالته بواسطة الوكلاء."
 
 #. SysConfig
 msgid ""
@@ -27669,12 +27683,20 @@ msgid ""
 "minutes for the plugin. \"Mandatory\" determines if the plugin is always "
 "shown and can not be removed by agents."
 msgstr ""
+"المعلمات لواجهة الخلفية لويدجت الفعاليات القادمة في واجهة الوكيل. \"الحد\" "
+"هو عدد الإدخالات التي يتم عرضها افتراضيًا. يُستخدم \"المجموعة\" لتقييد "
+"الوصول إلى المكون الإضافي (على سبيل المثال: المجموعة: admin؛ group1؛ group2؛)"
+". \"الافتراضي\" يحدد ما إذا كان المكون الإضافي مُمكّنًا افتراضيًا أم إذا كان "
+"يحتاج المستخدم إلى تمكينه يدويًا. \"CacheTTLLocal\" هو وقت التخزين المؤقت في "
+"الدقائق للمكون الإضافي. \"الإلزامي\" يحدد ما إذا كان يجب على المكون الإضافي "
+"أن يظهر دائمًا ولا يمكن إزالته بواسطة الوكلاء."
 
 #. SysConfig
 msgid ""
 "Parameters for the pages (in which the communication log entries are shown) "
 "of the communication log overview."
 msgstr ""
+"المعلمات لصفحات نظرة عامة على سجل الاتصال (حيث يتم عرض إدخالات سجل الاتصال)."
 
 #. SysConfig
 msgid ""
@@ -27685,6 +27707,11 @@ msgid ""
 "another user's behalf. Use 'PreferenceGroup' to control in which area these "
 "settings should be shown in the user interface."
 msgstr ""
+"المعلمات لصفحات نظرة عامة على الحقول الديناميكية (حيث يتم عرض الحقول "
+"الديناميكية). يرجى ملاحظة: تعيين 'Active' إلى 0 سيمنع الوكلاء فقط من تحرير "
+"إعدادات هذه المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين ما زالت "
+"بتحرير إعدادات مستخدم آخر نيابة عنه. استخدم 'PreferenceGroup' للتحكم في "
+"المنطقة التي يجب عرض هذه الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid ""
@@ -27695,6 +27722,11 @@ msgid ""
 "Use 'PreferenceGroup' to control in which area these settings should be "
 "shown in the user interface."
 msgstr ""
+"المعلمات لصفحات نظرة عامة على التذاكر (حيث يتم عرض التذاكر) لنظرة عامة على "
+"التذاكر. يرجى ملاحظة: تعيين 'Active' إلى 0 سيمنع الوكلاء فقط من تحرير "
+"إعدادات هذه المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين بتحرير "
+"إعدادات مستخدم آخر نيابة عنه. استخدم 'PreferenceGroup' للتحكم في المنطقة "
+"التي يجب عرض هذه الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid ""
@@ -27705,6 +27737,11 @@ msgid ""
 "Use 'PreferenceGroup' to control in which area these settings should be "
 "shown in the user interface."
 msgstr ""
+"المعلمات لصفحات نظرة عامة على التذاكر (حيث يتم عرض التذاكر) لنظرة عامة صغيرة "
+"على التذاكر. يرجى ملاحظة: تعيين 'Active' إلى 0 سيمنع الوكلاء فقط من تحرير "
+"إعدادات هذه المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين بتحرير "
+"إعدادات مستخدم آخر نيابة عنه. استخدم 'PreferenceGroup' للتحكم في المنطقة "
+"التي يجب عرض هذه الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid ""
@@ -27715,70 +27752,79 @@ msgid ""
 "behalf. Use 'PreferenceGroup' to control in which area these settings should "
 "be shown in the user interface."
 msgstr ""
+"المعلمات لصفحات نظرة عامة على معاينة التذكرة (حيث يتم عرض التذاكر) لنظرة "
+"عامة على معاينة التذكرة. يرجى ملاحظة: تعيين 'Active' إلى 0 سيمنع الوكلاء فقط "
+"من تحرير إعدادات هذه المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين "
+"بتحرير إعدادات مستخدم آخر نيابة عنه. استخدم 'PreferenceGroup' للتحكم في "
+"المنطقة التي يجب عرض هذه الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid "Parameters of the example SLA attribute Comment2."
-msgstr ""
+msgstr "معلمات سمة مستوى الخدمة (SLA) لسمة Comment2."
 
 #. SysConfig
 msgid "Parameters of the example queue attribute Comment2."
-msgstr ""
+msgstr "معلمات سمة قائمة الانتظار (Queue) لسمة Comment2."
 
 #. SysConfig
 msgid "Parameters of the example service attribute Comment2."
-msgstr ""
+msgstr "معلمات سمة الخدمة (Service) لسمة Comment2."
 
 #. SysConfig
 msgid "Parent"
-msgstr "أساس"
+msgstr "أصل, أساس"
 
 #. SysConfig
 msgid "ParentChild"
-msgstr ""
+msgstr "الوالد والطفل"
 
 #. SysConfig
 msgid ""
 "Path for the log file (it only applies if \"FS\" was selected for "
 "LoopProtectionModule and it is mandatory)."
 msgstr ""
+"المسار لملف السجل (ينطبق فقط إذا تم اختيار \"FS\" ل LoopProtectionModule وهو "
+"إلزامي)."
 
 #. SysConfig
 msgid "Pending time"
-msgstr ""
+msgstr "وقت الانتظار"
 
 #. SysConfig
 msgid "People"
-msgstr ""
+msgstr "أشخاص"
 
 #. SysConfig
 msgid ""
 "Performs the configured action for each event (as an Invoker) for each "
 "configured web service."
 msgstr ""
+"تنفّذ الإجراء المكون لكل حدث (كمُستَدعٍ \"as an Invoker\") لكل خدمة وِب "
+"مُكوّنة."
 
 #. SysConfig
 msgid "Permitted width for compose email windows."
-msgstr ""
+msgstr "العرض المسموح به لنوافذ كتابة البريد الإلكتروني."
 
 #. SysConfig
 msgid "Permitted width for compose note windows."
-msgstr ""
+msgstr "العرض المسموح به لنوافذ كتابة الملاحظات."
 
 #. SysConfig
 msgid "Persian"
-msgstr ""
+msgstr "فارسي"
 
 #. SysConfig
 msgid "Phone Call Inbound"
-msgstr ""
+msgstr "مكالمة هاتفية واردة"
 
 #. SysConfig
 msgid "Phone Call Outbound"
-msgstr ""
+msgstr "مكالمة هاتفية صادرة"
 
 #. SysConfig
 msgid "Phone Call."
-msgstr ""
+msgstr "مكالمة هاتفية."
 
 #. SysConfig
 msgid "Phone call"
@@ -27786,23 +27832,23 @@ msgstr "مكالمة هاتفية"
 
 #. SysConfig
 msgid "Phone communication channel."
-msgstr ""
+msgstr "قناة الاتصال الهاتفي."
 
 #. SysConfig
 msgid "Phone-Ticket"
-msgstr "بطاقة-هاتف"
+msgstr "تذكرة الهاتف"
 
 #. SysConfig
 msgid "Picture Upload"
-msgstr ""
+msgstr "تحميل الصورة"
 
 #. SysConfig
 msgid "Picture upload module."
-msgstr ""
+msgstr "وحدة تحميل الصور."
 
 #. SysConfig
 msgid "Picture-Upload"
-msgstr ""
+msgstr "تحميل الصورة"
 
 #. SysConfig
 msgid "Please click the button below to create your first ticket."
