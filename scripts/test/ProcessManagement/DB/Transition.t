@@ -250,7 +250,7 @@ my @Tests = (
         Name   => 'TransitionAdd Test 12: Correct UTF8 2',
         Config => {
             EntityID => "$RandomID-2",
-            Name     => "Transition-$RandomID--!Â§$%&/()=?Ã*ÃÃL:L@,.-",
+            Name     => "Transition-$RandomID--!Â§\$%&/()=?Ã*ÃÃL:L@,.-",
             Config   => {
                 Condition => {
                     Type  => 'and',
@@ -634,7 +634,7 @@ for my $Test (@Tests) {
         Config => {
             ID       => $AddedTransitionsList[1],
             EntityID => $RandomID . '-2-U',
-            Name     => "Transition-$RandomID--!Â§$%&/()=?Ã*ÃÃL:L@,.-U",
+            Name     => "Transition-$RandomID--!Â§\$%&/()=?Ã*ÃÃL:L@,.-U",
             Config   => {
                 Condition => {
                     Type  => 'and',

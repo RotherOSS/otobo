@@ -872,7 +872,7 @@ for my $Test (@Tests) {
         Config => {
             ID            => $AddedProcessList[1],
             EntityID      => $RandomID . '-1-U',
-            Name          => "Process-$RandomID -!Â§$%&/()=?Ã*ÃÃL:L@,.--U",
+            Name          => "Process-$RandomID -!Â§\$%&/()=?Ã*ÃÃL:L@,.--U",
             StateEntityID => 'S1',
             Layout        => {},
             Config        => {
