@@ -84,6 +84,29 @@ sub new {
     return $Self;
 }
 
+=head2 GetFieldTypeSettings()
+
+Get field type settings that are specific to the referenced object type CustomerCompany.
+
+=cut
+
+sub GetFieldTypeSettings {
+    my ( $Self, %Param ) = @_;
+
+    my @FieldTypeSettings = $Self->SUPER::GetFieldTypeSettings(
+        %Param,
+    );
+
+    # Support reference filters
+    push @FieldTypeSettings,
+        {
+            ConfigParamName => 'ReferenceFilterList',
+            InputType       => 'Custom',
+        };
+
+    return @FieldTypeSettings;
+}
+
 =head2 ObjectPermission()
 
 checks read permission for a given object and UserID.
