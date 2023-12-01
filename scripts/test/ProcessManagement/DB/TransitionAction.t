@@ -236,7 +236,7 @@ my @Tests = (
         Name   => 'TransitionActionAdd Test 14: Correct UTF8 2',
         Config => {
             EntityID => "$RandomID-2",
-            Name     => "TransitionAction-$RandomID--!Â§$%&/()=?Ã*ÃÃL:L@,.",
+            Name     => "TransitionAction-$RandomID--!Â§\$%&/()=?Ã*ÃÃL:L@,.",
             Config   => {
                 Module => 'Kernel::System::Process::Transition::Action::QueueMove',
                 Config => {
@@ -573,7 +573,7 @@ for my $Test (@Tests) {
         Config => {
             ID       => $AddedTransitionActionsList[1],
             EntityID => $RandomID . '-2-U',
-            Name     => "TransitionAction-$RandomID--!Â§$%&/()=?Ã*ÃÃL:L@,.-U",
+            Name     => "TransitionAction-$RandomID--!Â§\$%&/()=?Ã*ÃÃL:L@,.-U",
             Config   => {
                 Module => 'Kernel::System::Process::Transition::Action::QueueMove-U',
                 Config => {

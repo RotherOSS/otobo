@@ -256,7 +256,7 @@ my @Tests = (
         Name   => 'ActivityDialogAdd Test 15: Correct UTF8',
         Config => {
             EntityID => "$RandomID-1",
-            Name     => "ActivityDialog-$RandomID-!Â§$%&/()=?Ã*ÃÃL:L@,.-",
+            Name     => "ActivityDialog-$RandomID-!Â§\$%&/()=?Ã*ÃÃL:L@,.-",
             Config   => {
                 DescriptionShort => 'a Description !Â§$%&/()=?Ã*ÃÃL:L@,.-',
                 Fields           => {
@@ -642,7 +642,7 @@ for my $Test (@Tests) {
         Config => {
             ID       => $AddedActivityDialogsList[1],
             EntityID => $RandomID . '-1-U',
-            Name     => "ActivityDialog-$RandomID -!Â§$%&/()=?Ã*ÃÃL:L@,.--U",
+            Name     => "ActivityDialog-$RandomID -!Â§\$%&/()=?Ã*ÃÃL:L@,.--U",
             Config   => {
                 DescriptionShort => 'a Description !Â§$%&/()=?Ã*ÃÃL:L@,.--U',
                 Fields           => {

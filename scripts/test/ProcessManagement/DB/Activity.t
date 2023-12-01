@@ -208,7 +208,7 @@ my @Tests = (
         Name   => 'ActivityAdd Test 8: Correct UTF8',
         Config => {
             EntityID => "$RandomID-1",
-            Name     => "Activity-$RandomID-!Â§$%&/()=?Ã*ÃÃL:L@,.-",
+            Name     => "Activity-$RandomID-!Â§\$%&/()=?Ã*ÃÃL:L@,.-",
             Config   => {
                 Description    => 'a Description !Â§$%&/()=?Ã*ÃÃL:L@,.-',
                 ActivityDialog => {
@@ -304,7 +304,7 @@ for my $Test (@Tests) {
     },
     {
         Name         => "ActivitySearch Test2 - Correct UTF8 1",
-        ActivityName => "Activity-$RandomID-!Â§$%&/()=?Ã*ÃÃL:L@,.-",
+        ActivityName => "Activity-$RandomID-!Â§\$%&/()=?Ã*ÃÃL:L@,.-",
         ,
         Result => ["$RandomID-1"],
         Count  => 1,
@@ -718,7 +718,7 @@ for my $Test (@Tests) {
         Config => {
             ID       => $AddedActivityList[1],
             EntityID => $RandomID . '-1-U',
-            Name     => "Activity-$RandomID -!Â§$%&/()=?Ã*ÃÃL:L@,.--U",
+            Name     => "Activity-$RandomID -!Â§\$%&/()=?Ã*ÃÃL:L@,.--U",
             Config   => {
                 Description => 'a Description !Â§$%&/()=?Ã*ÃÃL:L@,.--U',
             },
