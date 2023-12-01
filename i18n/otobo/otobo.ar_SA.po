@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-12-01 15:09+0000\n"
+"PO-Revision-Date: 2023-12-02 16:32+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -27852,81 +27852,83 @@ msgstr "تحميل الصورة"
 
 #. SysConfig
 msgid "Please click the button below to create your first ticket."
-msgstr ""
+msgstr "الرجاء النقر على الزر أدناه لإنشاء تذكرتك الأولى."
 
 #. SysConfig
 msgid "Plugin search"
-msgstr ""
+msgstr "بحث المكون الإضافي"
 
 #. SysConfig
 msgid "Plugin search module for autocomplete."
-msgstr ""
+msgstr "وحدة البحث عن المكونات الإضافية للإكمال التلقائي."
 
 #. SysConfig
 msgid "Polish"
-msgstr ""
+msgstr "بُولَنْدِيّ"
 
 #. SysConfig
 msgid "Portuguese"
-msgstr ""
+msgstr "برتغالي"
 
 #. SysConfig
 msgid "Portuguese (Brasil)"
-msgstr ""
+msgstr "البرتغالية (البرازيل)"
 
 #. SysConfig
 msgid "PostMaster Filters"
-msgstr ""
+msgstr "مرشح مدير البريد"
 
 #. SysConfig
 msgid "PostMaster Mail Accounts"
-msgstr ""
+msgstr "حسابات البريد الإلكتروني لمدير البريد"
 
 #. SysConfig
 msgid "Print this ticket"
-msgstr ""
+msgstr "اطبع هذه التذكرة"
 
 #. SysConfig
 msgid "Priorities"
-msgstr "أولوية"
+msgstr "أولويات"
 
 #. SysConfig
 msgid "Process Management Activity Dialog GUI"
-msgstr ""
+msgstr "واجهة المستخدم الرسومية لحوار نشاط إدارة العمليات"
 
 #. SysConfig
 msgid "Process Management Activity GUI"
-msgstr ""
+msgstr "واجهة المستخدم الرسومية لنشاط إدارة العمليات"
 
 #. SysConfig
 msgid "Process Management Path GUI"
-msgstr ""
+msgstr "واجهة المستخدم الرسومية لمسار إدارة العمليات"
 
 #. SysConfig
 msgid "Process Management Transition Action GUI"
-msgstr ""
+msgstr "واجهة المستخدم الرسومية لإجراء انتقال إدارة العمليات"
 
 #. SysConfig
 msgid "Process Management Transition GUI"
-msgstr ""
+msgstr "واجهة المستخدم الرسومية للانتقال في إدارة العمليات"
 
 #. SysConfig
 msgid "Process pending tickets."
-msgstr ""
+msgstr "معالجة التذاكر المعلقة في العمليات."
 
 #. SysConfig
 msgid "ProcessID"
-msgstr ""
+msgstr "معرف العملية"
 
 #. SysConfig
 msgid "Processes & Automation"
-msgstr ""
+msgstr "العمليات والأتمتة"
 
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info "
 "see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
+"حماية ضد استغلال CSRF (Cross Site Request Forgery) (للمزيد من المعلومات انظر "
+"https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 
 #. SysConfig
 msgid ""
@@ -27934,10 +27936,13 @@ msgid ""
 "are allowed before a ban. BanDuration: Duration of the ban. "
 "KeepCacheDuration: How long failed attempts are remembered."
 msgstr ""
+"الحماية من هجمات القوة الغاشمة. MaxAttempt: عدد محاولات تسجيل الدخول المسموح "
+"بها قبل الحظر. BanDuration: مدة الحظر. KeepCacheDuration: كم من الوقت يتم "
+"تخزين محاولات تسجيل الدخول الفاشلة."
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"
-msgstr ""
+msgstr "يوفر نظرة عامة مصفوفة على التذاكر لكل حالة في قوائم الانتظار"
 
 #. SysConfig
 msgid ""
@@ -27945,10 +27950,12 @@ msgid ""
 "assigned to a customer user of the same customer ID(s), based on permission "
 "groups."
 msgstr ""
+"يمنح مستخدمي العملاء إمكانية الوصول إلى التذاكر حتى إذا لم يتم تعيينهم "
+"لمستخدم عميل له نفس رقم العميل، بناءً على حقوق المجموعة."
 
 #. SysConfig
 msgid "Public Calendar"
-msgstr ""
+msgstr "التقويم العام"
 
 #. SysConfig
 msgid "Public Interface"
