@@ -48,6 +48,27 @@ $ConfigObject->Set(
     Value => 0,
 );
 
+# Create agents.
+my $AgentObject = $Kernel::OM->Get('Kernel::System::User');
+my @AgentIDs;
+my @AgentLogins;
+for my $Prefix (qw(ɑ β)) {
+    my $AgentFirstName = $Prefix . 'First' . $RandomID;
+    my $AgentLastName  = $Prefix . 'Last' . $RandomID;
+    my $AgentLogin     = 'agent' . $Prefix . $RandomID;
+    my $AgentID        = $AgentObject->UserAdd(
+        UserFirstname => $AgentFirstName,
+        UserLastname  => $AgentLastName,
+        UserLogin     => $AgentLogin,
+        UserEmail     => "agent$Prefix$RandomID" . '@example.test',
+        ValidID       => 1,
+        ChangeUserID  => 1,
+    );
+    ok( $AgentID, "$AgentLogin is created" );
+    push @AgentIDs,    $AgentID;
+    push @AgentLogins, $AgentLogin;
+}
+
 # Create customer companies.
 my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 my @CustomerCompanyIDs;
@@ -73,7 +94,7 @@ for my $CustomerCompanyName (@CustomerCompanyNames) {
         my $CustomerUserName  = join '_', $CustomerCompanyName, $Prefix;
         my $CustomerUserLogin = $CustomerUserObject->CustomerUserAdd(
             Source         => 'CustomerUser',
-            UserFirstname  => 'Testee',
+            UserFirstname  => 'Tester',
             UserLastname   => $CustomerUserName,
             UserCustomerID => $CustomerCompanyName,
             UserLogin      => $CustomerUserName,
@@ -102,6 +123,13 @@ my $TicketID     = $TicketObject->TicketCreate(
 ok( $TicketID, "TicketID $TicketID is created" );
 
 my @Tests = (
+    {
+        Name   => 'Create Reference to Agent',
+        Config => {
+            ReferencedObjectType => 'Agent',
+            FieldType            => 'AgentReference',
+        },
+    },
     {
         Name   => 'Create Reference to CustomerCompany',
         Config => {
