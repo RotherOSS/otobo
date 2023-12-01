@@ -755,61 +755,6 @@
     </Setting>
     <!-- End DynamicField Web Service -->
 
-    <!-- DynamicField CustomerUser -->
-    <Setting Name="Frontend::Module###AdminDynamicFieldCustomerUser" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
-        <Value>
-            <Item ValueType="FrontendRegistration">
-                <Hash>
-                    <Item Key="GroupRo">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="Group">
-                        <Array>
-                            <Item>admin</Item>
-                        </Array>
-                    </Item>
-                    <Item Key="Description">Admin</Item>
-                    <Item Key="Title" Translatable="1">Dynamic Fields Customer User Backend GUI</Item>
-                    <Item Key="NavBarName"></Item>
-                </Hash>
-            </Item>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldCustomerUser###002-DynamicField" Required="0" Valid="1">
-        <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="CSS">
-                    <Array>
-                        <Item>Core.Agent.Admin.DynamicField.css</Item>
-                    </Array>
-                </Item>
-                <Item Key="JavaScript">
-                    <Array>
-                        <Item>Core.Agent.Admin.DynamicField.js</Item>
-                        <Item>Core.Agent.Admin.SysConfig.Entity.js</Item>
-                    </Array>
-                </Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="DynamicFields::Driver###CustomerUser" Required="0" Valid="1">
-        <Description Translatable="1">DynamicField backend registration.</Description>
-        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="DisplayName" Translatable="1">Customer User</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Driver::CustomerUser</Item>
-                <Item Key="ConfigDialog">AdminDynamicFieldCustomerUser</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <!-- End DynamicField CustomerUser -->
-
     <!-- dynamic field ContactWD -->
     <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0210-DynamicField-ContactWD" Required="1" Valid="1">
         <Description Translatable="1">AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.</Description>
@@ -1154,6 +1099,20 @@
         </Value>
     </Setting>
     <!-- End dynamic field CustomerCompany Reference -->
+
+    <!-- dynamic field CustomerUser Reference -->
+    <Setting Name="DynamicFields::Driver###CustomerUserReference" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">CustomerUser</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::CustomerUserReference</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <!-- End dynamic field CustomerUser Reference -->
 
     <!-- dynamic field Lens -->
     <Setting Name="DynamicFields::Driver###Lens" Required="0" Valid="1">
