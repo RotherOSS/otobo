@@ -102,7 +102,10 @@ sub Run {
 
         # load cache initially with 100k 1kB items
         print "Preloading cache with 100k x 1kB items... ";
-        local $| = 1;
+
+        # immediately show the above partial line
+        select()->flush;
+
         my $Content1kB = '.' x 1024;
         for ( my $i = 0; $i < 100000; $i++ ) {
             $Result = $CacheObject->Set(
