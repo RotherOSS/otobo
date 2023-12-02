@@ -559,8 +559,8 @@ sub MigrateTickets {
             );
         }
         elsif ( $#TicketIDs > 50 && $Count % $Percent1 == 0 ) {
-            local $| = 1;
-            $Self->Print(". ");
+            $Self->Print('. ');
+            select()->flush();    # show the dot immediately
         }
 
         Time::HiRes::usleep( $Param{Sleep} ) if $Param{Sleep};
