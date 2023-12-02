@@ -47,9 +47,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # Enable auto-flushing of STDOUT.
-    $| = 1;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
-
     print "\n Migration started ... \n";
 
     my $SuccessfulMigration = 1;
