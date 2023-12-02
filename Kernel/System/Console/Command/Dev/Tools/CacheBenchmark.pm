@@ -16,12 +16,20 @@
 
 package Kernel::System::Console::Command::Dev::Tools::CacheBenchmark;
 
+use v5.24;
 use strict;
 use warnings;
-
-use Time::HiRes ();
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+use Time::HiRes ();
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -53,12 +61,12 @@ sub Run {
     MODULEFILE:
     for my $ModuleFile (@BackendModuleFiles) {
 
-        next MODULEFILE if !$ModuleFile;
+        next MODULEFILE unless $ModuleFile;
 
         # extract module name
         my ($Module) = $ModuleFile =~ m{ \/+ ([a-zA-Z0-9]+) \.pm $ }xms;
 
-        next MODULEFILE if !$Module;
+        next MODULEFILE unless $Module;
 
         $Kernel::OM->Get('Kernel::Config')->Set(
             Key   => 'Cache::Module',
@@ -94,7 +102,10 @@ sub Run {
 
         # load cache initially with 100k 1kB items
         print "Preloading cache with 100k x 1kB items... ";
-        local $| = 1;
+
+        # immediately show the above partial line
+        select()->flush;
+
         my $Content1kB = '.' x 1024;
         for ( my $i = 0; $i < 100000; $i++ ) {
             $Result = $CacheObject->Set(
@@ -181,6 +192,7 @@ sub Run {
 
 sub Log10 {
     my $n = shift;
+
     return log($n) / log(10);
 }
 
