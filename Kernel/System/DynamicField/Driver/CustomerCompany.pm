@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::DynamicField::Driver::CustomerCompanyReference;
+package Kernel::System::DynamicField::Driver::CustomerCompany;
 
 use v5.24;
 use strict;
@@ -38,7 +38,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::CustomerCompanyReference - backend for the Reference dynamic field
+Kernel::System::DynamicField::Driver::CustomerCompany - backend for the Reference dynamic field
 
 =head1 DESCRIPTION
 

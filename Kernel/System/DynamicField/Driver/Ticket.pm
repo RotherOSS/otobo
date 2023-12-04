@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::DynamicField::Driver::AgentReference;
+package Kernel::System::DynamicField::Driver::Ticket;
 
 use v5.24;
 use strict;
@@ -30,21 +30,21 @@ use parent qw(Kernel::System::DynamicField::Driver::BaseReference);
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
-    'Kernel::System::Group',
+    'Kernel::Config',
     'Kernel::System::Log',
-    'Kernel::System::User',
+    'Kernel::System::Ticket',
+    'Kernel::System::Type',
 );
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::AgentReference - backend for the Reference dynamic field
+Kernel::System::DynamicField::Driver::Ticket - backend for the Reference dynamic field
 
 =head1 DESCRIPTION
 
-Agent plugin for the Reference dynamic field.
+Ticket plugin for the Reference dynamic field.
 
 =head1 PUBLIC INTERFACE
 
@@ -81,14 +81,14 @@ sub new {
         'IsHiddenInTicketInformation'  => 0,
     };
 
-    $Self->{ReferencedObjectType} = 'Agent';
+    $Self->{ReferencedObjectType} = 'Ticket';
 
     return $Self;
 }
 
 =head2 GetFieldTypeSettings()
 
-Get field type settings that are specific to the referenced object type Agent.
+Get field type settings that are specific to the referenced object type Ticket.
 
 =cut
 
@@ -99,26 +99,27 @@ sub GetFieldTypeSettings {
         %Param,
     );
 
-    my %GroupList = $Kernel::OM->Get('Kernel::System::Group')->GroupList(
-        Valid => 1,
-    );
+    # Support restriction by ticket type when the Ticket::Type feature is activated.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    if ( $ConfigObject->Get('Ticket::Type') ) {
+        my %TypeID2Name = $Kernel::OM->Get('Kernel::System::Type')->TypeList;
+        push @FieldTypeSettings,
+            {
+                ConfigParamName => 'TicketType',
+                Label           => Translatable('Type of the ticket'),
+                Explanation     => Translatable('Select the type of the ticket'),
+                InputType       => 'Selection',
+                SelectionData   => \%TypeID2Name,
+                PossibleNone    => 1,
+                Multiple        => 1,
+            };
+    }
 
-    push @FieldTypeSettings,
-        {
-            ConfigParamName => 'Group',
-            Label           => Translatable('Group of the agents'),
-            Explanation     => Translatable('Select the group of the agents'),
-            InputType       => 'Selection',
-            SelectionData   => \%GroupList,
-            PossibleNone    => 1,
-            Multiple        => 1,
-        };
-
-    # Do not support reference filters
+    # Support reference filters
     push @FieldTypeSettings,
         {
             ConfigParamName => 'ReferenceFilterList',
-            InputType       => 'Empty',
+            InputType       => 'Custom',
         };
 
     return @FieldTypeSettings;
@@ -150,8 +151,11 @@ sub ObjectPermission {
         }
     }
 
-    # TODO how should agent permissions be checked?
-    return 1;
+    return $Kernel::OM->Get('Kernel::System::Ticket')->TicketPermission(
+        TicketID => $Param{Key},
+        UserID   => $Param{UserID},
+        Type     => 'ro',
+    );
 }
 
 =head2 ObjectDescriptionGet()
@@ -166,8 +170,8 @@ return a hash of object descriptions.
 Return
 
     %Description = (
-        Normal => "UserFirstName UserLastName",
-        Long   => "UserFirstName UserLastName",
+        Normal => "Ticket# 1234455",
+        Long   => "Ticket# 1234455: Need a sample ticket title",
     );
 
 =cut
@@ -187,27 +191,34 @@ sub ObjectDescriptionGet {
         }
     }
 
-    my $UserName = $Kernel::OM->Get('Kernel::System::User')->UserName(
-        UserID => $Param{ObjectID},
+    # TODO: Discuss security considerations - not much is shown though
+    my $UserID = 1;
+
+    # get ticket
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+        TicketID      => $Param{ObjectID},
+        UserID        => $UserID,
+        DynamicFields => 0,
     );
 
-    return unless $UserName;
+    return unless %Ticket;
+
+    my $ParamHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook')      || 'Ticket#';
+    $ParamHook .= $Kernel::OM->Get('Kernel::Config')->Get('Ticket::HookDivider') || '';
 
     my $Link;
+    if ( $Param{Link} && $Param{LayoutObject}{SessionSource} ) {
+        if ( $Param{LayoutObject}{SessionSource} eq 'AgentInterface' ) {
 
-    # TODO where to link to for agents?
-    # if ( $Param{Link} && $Param{LayoutObject}{SessionSource} ) {
-    #     if ( $Param{LayoutObject}{SessionSource} eq 'AgentInterface' ) {
-
-    #         # TODO: only show the link if the user $Param{UserID} has permissions
-    #         $Link = $Param{LayoutObject}{Baselink} . "Action=AgentTicketZoom;TicketID=$Param{ObjectID}";
-    #     }
-    # }
+            # TODO: only show the link if the user $Param{UserID} has permissions
+            $Link = $Param{LayoutObject}{Baselink} . "Action=AgentTicketZoom;TicketID=$Param{ObjectID}";
+        }
+    }
 
     # create description
     return (
-        Normal => $UserName,
-        Long   => $UserName,
+        Normal => $ParamHook . "$Ticket{TicketNumber}",
+        Long   => $ParamHook . "$Ticket{TicketNumber}: $Ticket{Title}",
         Link   => $Link,
     );
 }
@@ -228,12 +239,18 @@ This is used in auto completion when searching for possible object IDs.
 sub SearchObjects {
     my ( $Self, %Param ) = @_;
 
-    $Param{Term} //= '*';
+    $Param{Term} //= '';
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     # Support restriction by ticket type when the Ticket::Type feature is activated.
     my %SearchParams;
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    if ( $ConfigObject->Get('Ticket::Type') ) {
+        if ( $DynamicFieldConfig->{Config}->{TicketType} ) {
+            $SearchParams{TypeIDs} = $DynamicFieldConfig->{Config}->{TicketType};
+        }
+    }
 
     # incorporate referencefilterlist into search params
     if ( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) {
@@ -291,33 +308,14 @@ sub SearchObjects {
         }
     }
 
-    my @Result;
-
-    # search for agents without restrictions as UserSearch doesn't take search params
-    my %AgentSearchResult = $Kernel::OM->Get('Kernel::System::User')->UserSearch(
-        Search => "*$Param{Term}*",
-        Valid  => 1,
+    # return a list of ticket IDs
+    return $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+        Limit  => $Param{MaxResults},
+        Result => 'ARRAY',
+        UserID => $Param{UserID} // 1,
+        %SearchParams,
+        Title => "%$Param{Term}%",
     );
-
-    my $GroupFilter = $Param{DynamicFieldConfig}{Config}{GroupFilter};
-    if ( IsArrayRefWithData($GroupFilter) ) {
-        my %GroupAgents = $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupGet(
-            GroupID => $GroupFilter,
-            Type    => 'ro',
-        );
-
-        for my $UserID ( keys %AgentSearchResult ) {
-            if ( $GroupAgents{$UserID} ) {
-                push @Result, $UserID;
-            }
-        }
-    }
-    else {
-        @Result = keys %AgentSearchResult;
-    }
-
-    # return a list of user IDs
-    return @Result;
 }
 
 1;
