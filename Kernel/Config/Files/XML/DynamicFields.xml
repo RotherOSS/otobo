@@ -1059,13 +1059,13 @@
     <!-- End dynamic field Reference -->
 
     <!-- dynamic field Ticket Reference -->
-    <Setting Name="DynamicFields::Driver###TicketReference" Required="0" Valid="1">
+    <Setting Name="DynamicFields::Driver###Ticket" Required="0" Valid="1">
         <Description Translatable="1">DynamicField backend registration.</Description>
         <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
         <Value>
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Ticket</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Driver::TicketReference</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Ticket</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
             </Hash>
         </Value>
@@ -1073,13 +1073,13 @@
     <!-- End dynamic field Ticket Reference -->
 
     <!-- dynamic field Agent Reference -->
-    <Setting Name="DynamicFields::Driver###AgentReference" Required="0" Valid="1">
+    <Setting Name="DynamicFields::Driver###Agent" Required="0" Valid="1">
         <Description Translatable="1">DynamicField backend registration.</Description>
         <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
         <Value>
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Agent</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Driver::AgentReference</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Agent</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
             </Hash>
         </Value>
@@ -1087,13 +1087,13 @@
     <!-- End dynamic field Agent Reference -->
 
     <!-- dynamic field CustomerCompany Reference -->
-    <Setting Name="DynamicFields::Driver###CustomerCompanyReference" Required="0" Valid="1">
+    <Setting Name="DynamicFields::Driver###CustomerCompany" Required="0" Valid="1">
         <Description Translatable="1">DynamicField backend registration.</Description>
         <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
         <Value>
             <Hash>
                 <Item Key="DisplayName" Translatable="1">CustomerCompany</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Driver::CustomerCompanyReference</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::CustomerCompany</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
             </Hash>
         </Value>
@@ -1101,13 +1101,13 @@
     <!-- End dynamic field CustomerCompany Reference -->
 
     <!-- dynamic field CustomerUser Reference -->
-    <Setting Name="DynamicFields::Driver###CustomerUserReference" Required="0" Valid="1">
+    <Setting Name="DynamicFields::Driver###CustomerUser" Required="0" Valid="1">
         <Description Translatable="1">DynamicField backend registration.</Description>
         <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
         <Value>
             <Hash>
                 <Item Key="DisplayName" Translatable="1">CustomerUser</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Driver::CustomerUserReference</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::CustomerUser</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
             </Hash>
         </Value>
