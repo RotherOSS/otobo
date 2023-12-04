@@ -127,28 +127,28 @@ my @Tests = (
         Name   => 'Create Reference to Agent',
         Config => {
             ReferencedObjectType => 'Agent',
-            FieldType            => 'AgentReference',
+            FieldType            => 'Agent',
         },
     },
     {
         Name   => 'Create Reference to CustomerCompany',
         Config => {
             ReferencedObjectType => 'CustomerCompany',
-            FieldType            => 'CustomerCompanyReference',
+            FieldType            => 'CustomerCompany',
         },
     },
     {
         Name   => 'Create Reference to CustomerUser',
         Config => {
             ReferencedObjectType => 'CustomerUser',
-            FieldType            => 'CustomerUserReference',
+            FieldType            => 'CustomerUser',
         },
     },
     {
         Name   => 'Create Reference to Ticket',
         Config => {
             ReferencedObjectType => 'Ticket',
-            FieldType            => 'TicketReference',
+            FieldType            => 'Ticket',
         },
     },
 );
