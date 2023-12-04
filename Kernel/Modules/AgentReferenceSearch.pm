@@ -79,7 +79,7 @@ sub Run {
     if (
         !IsHashRefWithData($DynamicFieldConfig)
         ||
-        $DynamicFieldConfig->{FieldType} !~ /^\w+Reference$/
+        !$DynamicFieldConfig->{Config}{ReferencedObjectType}
         )
     {
         return $LayoutObject->JSONReply(

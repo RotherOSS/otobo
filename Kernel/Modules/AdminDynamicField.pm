@@ -201,6 +201,7 @@ sub _ShowOverview {
         my $SelectName = $ObjectType . 'DynamicField';
 
         my @FieldList;
+        my @ReferenceDynamicFields;
         FIELDTYPE:
         for my $FieldTypeName ( sort { $FieldDialogs{$a} cmp $FieldDialogs{$b} } keys %FieldTypes ) {
 
@@ -208,6 +209,7 @@ sub _ShowOverview {
             my $Value = $FieldTypes{$FieldTypeName};
             if ( $FieldDialogs{$FieldTypeName} =~ /^AdminDynamicFieldReference$/ ) {
                 $Value = 'Reference::' . $Value;
+                push @ReferenceDynamicFields, $FieldTypeName;
             }
 
             push @FieldList, {
@@ -239,7 +241,8 @@ sub _ShowOverview {
         # Inject additional data into the option tag.
         # E.g. <option value="Reference::ITSMConfigItem" data-referenced_object_type="ITSMConfigItem">&nbsp;&nbsp;ITSMConfigItem</option>
         # See https://www.w3schools.com/tags/att_data-.asp
-        $AddDynamicFieldStrg =~ s[ (value="(\w+)Reference")>][ $1 data-referenced_object_type="$2">]g;
+        my $ReferenceFieldsStrg = join( '|', @ReferenceDynamicFields );
+        $AddDynamicFieldStrg =~ s[ (value="($ReferenceFieldsStrg)")>][ $1 data-referenced_object_type="$2">]g;
 
         my $ObjectTypeName = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::ObjectType')
             ->{$ObjectType}->{DisplayName} || $ObjectType;
