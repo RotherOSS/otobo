@@ -724,7 +724,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - TaskUnlockExpired() with true",
     );
 
-    %TaskLookup = map { $_ => 1 } @{ $Test->{LockedTaskIDs} || {} };
+    %TaskLookup = map { $_ => 1 } @{ $Test->{LockedTaskIDs} || [] };
 
     for my $TaskItem (@List) {
         my $TaskID = $TaskItem->{TaskID};
