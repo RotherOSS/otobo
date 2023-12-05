@@ -449,6 +449,19 @@ my @NeededModules = (
         },
     },
     {
+        Module          => 'HTTP::Message',
+        Required        => 1,
+        VersionRequired => '6.18',
+        Comment         => 'HTTP style message',
+        InstTypes       => {
+            aptget => 'libhttp-message-perl',
+            emerge => 'dev-perl/HTTP-Message',
+            zypper => 'perl-HTTP-Message',
+            yum    => 'perl-HTTP-Message',
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'JavaScript::Minifier::XS',
         Required  => 1,
         Comment   => 'A JavaScript minifier written in XS',
@@ -532,6 +545,18 @@ my @NeededModules = (
             emerge => 'dev-perl/Path-Class',
             zypper => 'perl-Path-Class',
             ports  => 'devel/p5-Path-Class',
+        },
+    },
+    {
+        Module    => 'Plack',
+        Required  => 1,
+        Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
+        InstTypes => {
+            aptget => 'libplack-perl',
+            emerge => 'dev-perl/Plack',
+            zypper => 'perl-Plack',
+            yum    => 'perl-Plack',
+            ports  => undef,
         },
     },
     {
@@ -893,18 +918,6 @@ my @NeededModules = (
             aptget => 'liblinux-inotify2-perl',
             emerge => undef,
             zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Plack',
-        Required  => 1,
-        Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
-        InstTypes => {
-            aptget => 'libplack-perl',
-            emerge => 'dev-perl/Plack',
-            zypper => 'perl-Plack',
-            yum    => 'perl-Plack',
             ports  => undef,
         },
     },

@@ -32,6 +32,9 @@ requires 'Digest::SHA';
 
 requires 'File::chmod';
 
+# HTTP style message
+requires 'HTTP::Message', ">= 6.18";
+
 # A JavaScript minifier written in XS
 requires 'JavaScript::Minifier::XS';
 
@@ -52,6 +55,9 @@ requires 'Net::SMTP::SSL';
 
 # Neater path manipulation and some utils
 requires 'Path::Class';
+
+# Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
+requires 'Plack';
 
 # needed by Kernel/cpan-lib/Crypt/Random/Source.pm
 requires 'Sub::Exporter';
@@ -85,9 +91,6 @@ requires 'YAML::XS', ">= 0.62";
 
 # For internationalised sorting
 requires 'Unicode::Collate';
-
-# Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
-requires 'Plack';
 
 # Set HTTP headers
 requires 'Plack::Middleware::Header';
