@@ -68,7 +68,9 @@ Use Redis for caching.
 
 =item TestHTTPHostname
 
-Set to I<localhost:5000> for running the test scripts in the otobo_web_1 container.
+Set to I<web:5000> so that test scripts don't necessarily have to run in the same container
+as the web server. Especially important for the Selenium tests where HTTP requests are sent
+from the selenium-chrome container.
 
 =item S3 specific settings
 
