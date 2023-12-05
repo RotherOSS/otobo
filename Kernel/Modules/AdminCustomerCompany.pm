@@ -655,7 +655,8 @@ sub _Edit {
                     Name  => $Entry->[0],
                     Class => "$OptionRequired Modernize " .
                         ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
-                    Translation => 0,
+                    Translation => 1,
+                    Sort => 'AlphanumericKey',
                     SelectedID  => $Param{ $Entry->[0] },
                     Max         => 35,
                 );
