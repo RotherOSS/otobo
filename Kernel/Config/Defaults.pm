@@ -584,6 +584,13 @@ sub LoadDefaults {
     # check a otp (one-time password)                     #
     # after successful authentication                     #
     # as an extra security measure                        #
+    #                                                     #
+    # if agents should be able to change their own        #
+    # secret you need to enable it in the system          #
+    # configuration (go to                                #
+    # frontend->agent->view->preferences and set active   #
+    # to 1 in                                             #
+    # PreferencesGroups###GoogleAuthenticatorSecretKey)   #
     # --------------------------------------------------- #
     # This is the auth module using the google authenticator mechanism
 #    $Self->{'AuthTwoFactorModule'} = 'Kernel::System::Auth::TwoFactor::GoogleAuthenticator';
@@ -1558,6 +1565,14 @@ via the Preferences button after logging in.
     # check a otp (one-time password)                     #
     # after successful authentication                     #
     # as an extra security measure                        #
+    #                                                     #
+    # if customers should be able to change their own     #
+    # secret you need to enable it in the system          #
+    # configuration (go to                                #
+    # frontend->customer->view->preferences and set       #
+    # active to 1 in                                      #
+    # CustomerPreferencesGroups###GoogleAuthenticatorSecretKey) #
+    # --------------------------------------------------- #
     # --------------------------------------------------- #
     # This is the auth module using the google authenticator mechanism
 #    $Self->{'Customer::AuthTwoFactorModule'} = 'Kernel::System::CustomerAuth::TwoFactor::GoogleAuthenticator';
