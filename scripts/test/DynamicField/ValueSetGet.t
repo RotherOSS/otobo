@@ -51,6 +51,7 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID = $Helper->GetRandomID;
+diag "RandomID is $RandomID";
 
 # get needed objects
 my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
@@ -135,7 +136,7 @@ ok( $SecondCustomerUserLogin, 'Creation of second customer user' );
 
 # create a source ticket
 my $SourceTicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
+    Title        => 'SourceTicket',
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
@@ -149,7 +150,7 @@ ok( $SourceTicketID, 'Creation of source ticket' );
 
 # create tickets for referencing
 my $FirstReferenceTicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
+    Title        => 'FirstReferenceTicket',
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
@@ -162,7 +163,7 @@ my $FirstReferenceTicketID = $TicketObject->TicketCreate(
 ok( $FirstReferenceTicketID, 'Creation of first reference ticket' );
 
 my $SecondReferenceTicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
+    Title        => 'SecondReferenceTicket',
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
@@ -364,6 +365,8 @@ my @CreateDynamicFieldConfigs = (
 my %DynamicFieldConfigs;
 for my $CreateDFConfig (@CreateDynamicFieldConfigs) {
 
+    my $ShortName = $CreateDFConfig->{Name};
+    $CreateDFConfig->{Name} .= $RandomID;
     my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
         $CreateDFConfig->%*,
     );
@@ -380,7 +383,7 @@ for my $CreateDFConfig (@CreateDynamicFieldConfigs) {
         $CreateDFConfig->{Config},
         "config for $CreateDFConfig->{Name}"
     );
-    $DynamicFieldConfigs{ $DynamicFieldConfig->{Name} } = $DynamicFieldConfig;
+    $DynamicFieldConfigs{$ShortName} = $DynamicFieldConfig;
 }
 
 # define tests
@@ -570,6 +573,7 @@ my @Tests = (
     },
 
     # Dynamic Field CustomerCompany
+
     # CustomerCompany SingleSelect
     {
         Name   => 'CustomerCompany: Value one plain customer company id',
@@ -610,6 +614,7 @@ my @Tests = (
     },
 
     # Dynamic Field CustomerUser
+
     # CustomerUser SingleSelect
     {
         Name   => 'CustomerUser: Value undef',
@@ -736,6 +741,7 @@ my @Tests = (
     },
 
     # Dynamic Field TicketRef
+
     # TicketRef SingleSelect
     {
         Name   => 'TicketRef: Value undef',
