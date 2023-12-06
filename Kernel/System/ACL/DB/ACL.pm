@@ -137,7 +137,6 @@ sub ACLAdd {
         }
 
         $ConfigMatch = $YAMLObject->Dump( Data => $Param{ConfigMatch} );
-        utf8::upgrade($ConfigMatch);
     }
 
     if ( $Param{ConfigChange} ) {
@@ -151,7 +150,6 @@ sub ACLAdd {
         }
 
         $ConfigChange = $YAMLObject->Dump( Data => $Param{ConfigChange} );
-        utf8::upgrade($ConfigChange);
     }
 
     # get database object
@@ -486,12 +484,10 @@ sub ACLUpdate {
 
     if ( $Param{ConfigMatch} && IsHashRefWithData( $Param{ConfigMatch} ) ) {
         $ConfigMatch = $YAMLObject->Dump( Data => $Param{ConfigMatch} );
-        utf8::upgrade($ConfigMatch);
     }
 
     if ( $Param{ConfigChange} && IsHashRefWithData( $Param{ConfigChange} ) ) {
         $ConfigChange = $YAMLObject->Dump( Data => $Param{ConfigChange} );
-        utf8::upgrade($ConfigChange);
     }
 
     # get database object

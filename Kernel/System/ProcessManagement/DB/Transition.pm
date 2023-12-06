@@ -157,10 +157,6 @@ sub TransitionAdd {
     # dump layout and config as string
     my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Config} );
 
-    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
-    #   part of the data already had it.
-    utf8::upgrade($Config);
-
     # sql
     return if !$DBObject->Do(
         SQL => '
@@ -444,10 +440,6 @@ sub TransitionUpdate {
 
     # dump layout and config as string
     my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Config} );
-
-    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
-    #   part of the data already had it.
-    utf8::upgrade($Config);
 
     # check if need to update db
     return if !$DBObject->Prepare(

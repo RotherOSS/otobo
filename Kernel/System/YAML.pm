@@ -65,6 +65,8 @@ Dump a Perl data structure to a YAML string.
         Data     => $Data,
     );
 
+The generated string is upgraded to have utf8 as its internal representation.
+
 =cut
 
 sub Dump {

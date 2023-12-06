@@ -157,10 +157,6 @@ sub DynamicFieldAdd {
     # dump config as string
     my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Config} );
 
-    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
-    #   part of the data already had it.
-    utf8::upgrade($Config);
-
     my $InternalField = $Param{InternalField} ? 1 : 0;
 
     # sql
@@ -386,13 +382,7 @@ sub DynamicFieldUpdate {
     my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
     # dump config as string
-    my $Config = $YAMLObject->Dump(
-        Data => $Param{Config},
-    );
-
-    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
-    #    part of the data already had it.
-    utf8::upgrade($Config);
+    my $Config = $YAMLObject->Dump( Data => $Param{Config} );
 
     return if !$YAMLObject->Load( Data => $Config );
 
