@@ -261,6 +261,42 @@ my @Tests = (
             UserID     => $UserID,
         },
     },
+
+    # validity of dynamic field name
+    {
+        Name          => 'Snowman ⛄',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'Config Name',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'Label for Snowman ⛄',
+            FieldOrder => 10000,
+            FieldType  => 'Text',
+            ObjectType => 'Ticket',
+            ValidID    => 1,
+            UserID     => $UserID,
+        },
+    },
+    {
+        Name          => '९DEVANAGARIDIGITNINE',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'Config Name',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'Label for ९ DEVANAGARI DIGIT NINE',
+            FieldOrder => 10001,
+            FieldType  => 'Text',
+            ObjectType => 'Ticket',
+            ValidID    => 1,
+            UserID     => $UserID,
+        },
+    },
 );
 
 my $OriginalDynamicFields = $DynamicFieldObject->DynamicFieldListGet( Valid => 0 );
