@@ -123,7 +123,7 @@ sub DynamicFieldAdd {
     }
 
     # check needed structure for some fields
-    if ( $Param{Name} !~ m{ \A [a-zA-Z\d\-]+ \z }xms ) {
+    if ( $Param{Name} !~ m{ \A [a-zA-Z\d-]+ \z }xms ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Not valid letters on Name:$Param{Name}!"
