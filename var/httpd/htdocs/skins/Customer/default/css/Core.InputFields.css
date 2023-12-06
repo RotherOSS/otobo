@@ -253,7 +253,8 @@ input.oooFull ~ label,
 .Field.oooFull ~ label,
 .oooSelected ~ label,
 .DynamicFieldDB:not([readonly]):hover ~ label,
-.InputField_Container:hover ~ label {
+.InputField_Container:hover ~ label, 
+.Field.DFSetOuterField ~ label {
     border-radius: 10px;
     top: -29px;
     font-size: 10px;
@@ -401,7 +402,7 @@ label.oooFocus.LabelError {
     letter-spacing: 0.4px;
     color: #7f809d;
     color: var(--colTextLight);
-    whitespace: nowrap;
+    white-space: nowrap;
 }
 
 .oooDateContainer > label,
@@ -424,7 +425,7 @@ label.oooFocus.LabelError {
 
 .oooAltCheck {
     position: relative;
-    top 1px;
+    top: 1px;
     cursor: pointer;
     background-color: #fff;
 }
@@ -857,6 +858,41 @@ div.InputField_ToolbarContainer ul li a:hover {
     width: 100% !important;
     margin-left: 0;
 }
+
+/* Dynamic Field Sets */
+
+.FieldCell div.DFSetOuterField {
+    height: auto;
+}
+
+.FieldCell .DFSetOuterField + label {
+    top: calc(-100% + 44px);
+}
+
+.DynamicFieldSet {
+    border: solid 1px var(--colTextLight);
+    border-radius: 10px;
+    padding-left: 30px;
+    padding-bottom: 16px;
+}
+
+.DynamicFieldSet .Row_DynamicField {
+    width: 100%;
+    margin-left: 0px;
+}
+
+.DynamicFieldSet .Row_DynamicField .Field {
+    width: calc(100% - 65px) !important; /* space for multivaluebuttons width 33px + 2 * 16px margin */
+}
+
+.DynamicFieldSet .Row_DynamicField label {
+    left: calc(-100% + 89px); /* label positioning with space for multivaluebuttons */
+}
+
+.DynamicFieldSet .Row_DynamicField .AddRemoveValueRow {
+    left: calc(83% - 81px); /* multivaluebutton positioning 65px to the left */
+}
+
 
 /**
  * @subsection  jsTree theme

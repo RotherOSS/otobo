@@ -61,6 +61,22 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         left: calc( -50% - 126px );
     }
 
+    
+    /* Dynamic Field Sets */
+
+
+    .FieldCell .DFSetOuterField + label {
+        top: calc(-100% + 66px);
+    }
+
+    .DynamicFieldSet {
+        padding-top: 40px;
+    }
+
+    .DynamicFieldSet .Row_DynamicField .Field {
+        margin-left: 0px;
+    }
+    
 }
 
 @media only screen and (min-width: 768px) {
@@ -125,9 +141,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 @media only screen and (min-width: 1444px) {
+
+    .DynamicFieldSet .Row_DynamicField .AddRemoveValueRow {
+        left: calc(50% + 395px); /* multivaluebutton positioning 65px to the left */
+    }
+
     .AddRemoveValueRow {
         left: calc( 50% + 460px );
     }
+
 }
 
 .TicketCompose ~ #oooFooter {

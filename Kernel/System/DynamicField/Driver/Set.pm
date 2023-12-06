@@ -315,6 +315,7 @@ sub EditFieldRender {
             LayoutObject       => $Param{LayoutObject},
             ParamObject        => $Param{ParamObject},
             DynamicFieldValues => $DynamicFieldValues[$SetIndex],
+            CustomerInterface  => $Param{CustomerInterface},
 
             # TODO:
             #            PossibleValuesFilter => $Param{DFPossibleValues},
@@ -347,6 +348,7 @@ sub EditFieldRender {
             LayoutObject       => $Param{LayoutObject},
             ParamObject        => $Param{ParamObject},
             DynamicFieldValues => {},
+            CustomerInterface  => $Param{CustomerInterface},
 
             # TODO:
             #            PossibleValuesFilter => $Param{DFPossibleValues},
