@@ -264,7 +264,7 @@ my @Tests = (
 
     # validity of dynamic field name
     {
-        Name          => 'Snowman ⛄',
+        Name          => 'no white space',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
@@ -272,7 +272,24 @@ my @Tests = (
                 Name        => 'Config Name',
                 Description => 'Description for Dynamic Field.',
             },
-            Label      => 'Label for Snowman ⛄',
+            Label      => 'invalid because of white space',
+            FieldOrder => 10000,
+            FieldType  => 'Text',
+            ObjectType => 'Ticket',
+            ValidID    => 1,
+            UserID     => $UserID,
+        },
+    },
+    {
+        Name          => 'Snowman⛄',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'Config Name',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'Label for Snowman⛄',
             FieldOrder => 10000,
             FieldType  => 'Text',
             ObjectType => 'Ticket',
