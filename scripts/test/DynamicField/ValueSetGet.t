@@ -303,6 +303,55 @@ my @CreateDynamicFieldConfigs = (
         ValidID => 1,
         UserID  => $UserID,
     },
+
+    # Text
+    {
+        Name       => 'Text1',
+        Label      => 'Text1',
+        FieldOrder => 123,
+        FieldType  => 'Text',
+        ObjectType => 'Ticket',
+        Config     => {
+            MultiValue => 0,
+            Tooltip    => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+    {
+        Name       => 'Text2',
+        Label      => 'Text2',
+        FieldOrder => 123,
+        FieldType  => 'Text',
+        ObjectType => 'Ticket',
+        Config     => {
+            MultiValue => 0,
+            Tooltip    => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+
+    # Set, using the previously created Text1 and Text2 dynamic fields
+    {
+        Name       => 'SetOfTexts',
+        Label      => 'set of texts',
+        FieldOrder => 123,
+        FieldType  => 'Set',
+        ObjectType => 'Ticket',
+        Config     => {
+            MultiValue => 0,
+            Tooltip    => '',
+            Include    => [
+                { DF => 'Text1' . $RandomID },
+                { DF => 'Text2' . $RandomID },
+            ],
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+
+    # TicketReference
     {
         Name       => 'TicketRef',
         Label      => 'TicketRef',
@@ -321,8 +370,6 @@ my @CreateDynamicFieldConfigs = (
         ValidID => 1,
         UserID  => $UserID,
     },
-
-    # TicketReference
     {
         Name       => 'TicketRefMS',
         Label      => 'TicketRefMS',
@@ -738,6 +785,61 @@ my @Tests = (
         },
         ExpectedResults => [ $FirstCustomerUserLogin, undef, $SecondCustomerUserLogin ],
         Success         => 1,
+    },
+
+    # Dynamic Field Text
+    {
+        Name   => 'Text1',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Text1},
+            Value              => '⛄ - U+026C4 - SNOWMAN WITHOUT SNOW',
+            ObjectID           => $SourceTicketID,
+            UserID             => $UserID,
+        },
+        ExpectedResults => '⛄ - U+026C4 - SNOWMAN WITHOUT SNOW',
+        Success         => 1,
+    },
+    {
+        Name   => 'Text2',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Text1},
+            Value              => '🌨 - U+1F328 - CLOUD WITH SNOW',
+            ObjectID           => $SourceTicketID,
+            UserID             => $UserID,
+        },
+        ExpectedResults => '🌨 - U+1F328 - CLOUD WITH SNOW',
+        Success         => 1,
+    },
+
+    # Dynamic Field Set
+    {
+        Name   => 'SetOfTexts',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{SetOfTexts},
+            Value              =>
+
+                # a list of Set values
+                [
+
+                    # actually only on Set value in the list
+                    [
+                        # value for the first dynamic field in the set
+                        'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+
+                        # value for the second dynamic field in the set
+                        'Text2: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN'
+                    ],
+                ],
+            ObjectID => $SourceTicketID,
+            UserID   => $UserID,
+        },
+        ExpectedResults => [
+            [
+                'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                'Text2: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN'
+            ],
+        ],
+        Success => 1,
     },
 
     # Dynamic Field TicketRef
