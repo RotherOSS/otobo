@@ -19,7 +19,7 @@ ConvenienceMethods.t - test some select methods of Kernel::System::DB
 
 =head1 SYNOPSIS
 
-    prove -I . -I Kernel/cpan-lib/ --verbose --merge scripts/test/DB/ConvenienceMethods.t
+    bin/otobo.Console.pl Dev::UnitTest::Run --verbose --merge scripts/test/DB/ConvenienceMethods.t
 
 =head1 DESCRIPTION
 

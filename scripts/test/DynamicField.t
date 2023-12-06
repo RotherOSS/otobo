@@ -14,12 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.024;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $Self and $Kernel::OM
 
 our $Self;
 
@@ -255,6 +261,59 @@ my @Tests = (
             UserID     => $UserID,
         },
     },
+
+    # validity of dynamic field name
+    {
+        Name          => 'no white space',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'Config Name',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'invalid because of white space',
+            FieldOrder => 10000,
+            FieldType  => 'Text',
+            ObjectType => 'Ticket',
+            ValidID    => 1,
+            UserID     => $UserID,
+        },
+    },
+    {
+        Name          => 'Snowman⛄',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'Config Name',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'Label for Snowman⛄',
+            FieldOrder => 10000,
+            FieldType  => 'Text',
+            ObjectType => 'Ticket',
+            ValidID    => 1,
+            UserID     => $UserID,
+        },
+    },
+    {
+        Name          => '९DEVANAGARIDIGITNINE',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'Config Name',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'Label for ९ DEVANAGARI DIGIT NINE',
+            FieldOrder => 10001,
+            FieldType  => 'Text',
+            ObjectType => 'Ticket',
+            ValidID    => 1,
+            UserID     => $UserID,
+        },
+    },
 );
 
 my $OriginalDynamicFields = $DynamicFieldObject->DynamicFieldListGet( Valid => 0 );
@@ -287,23 +346,18 @@ for my $Test (@Tests) {
         );
     }
 
-    # add config
+    # add dynamic field
     my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
         Name => $FieldName,
         %{ $Test->{Add} },
     );
     if ( !$Test->{SuccessAdd} ) {
-        $Self->False(
-            $DynamicFieldID,
-            "$Test->{Name} - DynamicFieldAdd()",
-        );
+        ok( !$DynamicFieldID, "$Test->{Name} - DynamicFieldAdd() expected to fail" );
+
         next TEST;
     }
     else {
-        $Self->True(
-            $DynamicFieldID,
-            "$Test->{Name} - DynamicFieldAdd()",
-        );
+        ok( $DynamicFieldID, "$Test->{Name} - DynamicFieldAdd() was successful" );
     }
 
     # remember id to delete it later
@@ -759,7 +813,6 @@ for my $Test (@Tests) {
 
         $OrderLookup{ $Test->{Name} . $RandomID } = $Test->{Add}->{FieldOrder};
     }
-
 }
 
 # sanity checks
@@ -1707,6 +1760,4 @@ for my $DynamicFieldID (@AddedFieldIDs) {
     );
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

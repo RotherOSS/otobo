@@ -16,11 +16,19 @@
 
 package Kernel::System::DynamicField;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::EventHandler);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -34,11 +42,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField
+Kernel::System::DynamicField - general methods for dynamic fields
 
 =head1 DESCRIPTION
 
-DynamicFields backend
+DynamicFields backend.
 
 =head1 PUBLIC INTERFACE
 
@@ -115,7 +123,7 @@ sub DynamicFieldAdd {
     }
 
     # check needed structure for some fields
-    if ( $Param{Name} !~ m{ \A [a-zA-Z\d\-]+ \z }xms ) {
+    if ( $Param{Name} !~ m{ \A [a-zA-Z\d-]+ \z }axms ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Not valid letters on Name:$Param{Name}!"
