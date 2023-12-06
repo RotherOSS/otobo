@@ -125,16 +125,18 @@ sub ValueSet {
 
     my $Success = 1;
 
-    my @SetValue = defined $Param{Value} ? $Param{Value}->@* : ( [] );
+    my @SetValue = defined $Param{Value} ? $Param{Value}->@* : ( [] );    # TODO: why not simply ()  ???
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
+    # loop over the dynamic fields that are included in the Set
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
 
         # historical Definitions will be provided by ITSMConfigItems
-        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
+        my $Include      = $Param{DynamicFieldConfig}{Config}{Include}[$i];
+        my $DynamicField = $Include->{Definition} // $DynamicFieldObject->DynamicFieldGet(
+            Name => $Include->{DF},
         );
 
         if ( !$DynamicField ) {
@@ -146,10 +148,8 @@ sub ValueSet {
             return;
         }
 
-        my @FieldValue;
-        for my $SetIndex ( 0 .. $#SetValue ) {
-            $FieldValue[$SetIndex] = $SetValue[$SetIndex][$i];
-        }
+        # The values for an included dynamic field are the values from the respective column
+        my @FieldValue = map { $_->[$i] } @SetValue;
 
         if (
             !$BackendObject->ValueSet(
