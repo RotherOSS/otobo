@@ -391,8 +391,8 @@ sub Run {
     my $Ticket = $Param{Data}->{Ticket};
 
     # remove leading and trailing spaces
-    for my $Attribute ( sort keys %{$Ticket} ) {
-        if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+    for my $Attribute ( sort keys $Ticket->%* ) {
+        if ( !ref $Ticket->{$Attribute} ) {
 
             #remove leading spaces
             $Ticket->{$Attribute} =~ s{\A\s+}{};
@@ -401,9 +401,10 @@ sub Run {
             $Ticket->{$Attribute} =~ s{\s+\z}{};
         }
     }
+
     if ( IsHashRefWithData( $Ticket->{PendingTime} ) ) {
-        for my $Attribute ( sort keys %{ $Ticket->{PendingTime} } ) {
-            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+        for my $Attribute ( sort keys $Ticket->{PendingTime}->%* ) {
+            if ( !ref $Ticket->{PendingTime}->{$Attribute} ) {
 
                 #remove leading spaces
                 $Ticket->{PendingTime}->{$Attribute} =~ s{\A\s+}{};
@@ -440,8 +441,8 @@ sub Run {
     $Article->{UserType} = $UserType;
 
     # remove leading and trailing spaces
-    for my $Attribute ( sort keys %{$Article} ) {
-        if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+    for my $Attribute ( sort keys $Article->%* ) {
+        if ( !ref $Article->{$Attribute} ) {
 
             #remove leading spaces
             $Article->{$Attribute} =~ s{\A\s+}{};
@@ -451,8 +452,8 @@ sub Run {
         }
     }
     if ( IsHashRefWithData( $Article->{OrigHeader} ) ) {
-        for my $Attribute ( sort keys %{ $Article->{OrigHeader} } ) {
-            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+        for my $Attribute ( sort keys $Article->{OrigHeader}->%* ) {
+            if ( !ref $Article->{OrigHeader}->{$Attribute} ) {
 
                 #remove leading spaces
                 $Article->{OrigHeader}->{$Attribute} =~ s{\A\s+}{};
@@ -525,8 +526,8 @@ sub Run {
             }
 
             # remove leading and trailing spaces
-            for my $Attribute ( sort keys %{$DynamicFieldItem} ) {
-                if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+            for my $Attribute ( sort keys $DynamicFieldItem->%* ) {
+                if ( !ref $DynamicFieldItem->{$Attribute} ) {
 
                     #remove leading spaces
                     $DynamicFieldItem->{$Attribute} =~ s{\A\s+}{};
@@ -570,8 +571,8 @@ sub Run {
             }
 
             # remove leading and trailing spaces
-            for my $Attribute ( sort keys %{$AttachmentItem} ) {
-                if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+            for my $Attribute ( sort keys $AttachmentItem->%* ) {
+                if ( !ref $AttachmentItem->{$Attribute} ) {
 
                     #remove leading spaces
                     $AttachmentItem->{$Attribute} =~ s{\A\s+}{};
