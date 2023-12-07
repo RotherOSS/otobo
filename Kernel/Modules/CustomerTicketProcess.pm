@@ -1878,7 +1878,7 @@ sub _RenderDynamicField {
     if ( $DynamicFieldHTML->{MultiValue} ) {
         for my $MultiValueIndex ( 0 .. $#{ $DynamicFieldHTML->{MultiValue} } ) {
 
-            $Data{Content} = $DynamicFieldHTML->{HTML}{$MultiValueIndex};
+            $Data{Content} = $DynamicFieldHTML->{MultiValue}[$MultiValueIndex];
             $LayoutObject->Block(
                 Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:DynamicField',
                 Data => \%Data,
