@@ -2672,16 +2672,67 @@ sub _RenderDynamicField {
         %Hidden,
     );
 
-    # Create one block for each multivalue item
+    # handle multivalue field
     if ( $DynamicFieldHTML->{MultiValue} ) {
+
+        $LayoutObject->Block(
+            Name => 'Row_DynamicField',
+            Data => {
+                TemplateColumns => '1fr',
+                RowClasses      => ' MultiValue',
+            },
+        );
+
+        # Create one block for each multivalue item
         for my $MultiValueIndex ( 0 .. $#{ $DynamicFieldHTML->{MultiValue} } ) {
 
             $Data{Content} = $DynamicFieldHTML->{MultiValue}[$MultiValueIndex];
             $LayoutObject->Block(
                 Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:DynamicField',
-                Data => \%Data,
+                Data => {
+                    %Data,
+                    MultiValue => 1,
+
+                    # TODO ask about this
+                    # RowReadOnly   => $DynamicFieldConfig->{Readonly},
+                    ColumnClasses => ' MultiValue_' . $MultiValueIndex,
+                    ColumnStyle   => 'grid-column: 1 / span 1',
+                },
             );
+
+            # render short description once for first element
+            if ( !$MultiValueIndex ) {
+                if ( $Param{DescriptionLong} ) {
+                    $LayoutObject->Block(
+                        Name => 'rw:DynamicField:DescriptionLong',
+                        Data => {
+                            DescriptionLong => $Param{DescriptionLong},
+                        },
+                    );
+                }
+            }
+
+            # render long description once for last element
+            if ( $MultiValueIndex == $#{ $DynamicFieldHTML->{MultiValue} } ) {
+                if ( $Param{DescriptionShort} ) {
+                    $LayoutObject->Block(
+                        Name => $Param{ActivityDialogField}->{LayoutBlock}
+                            || 'rw:DynamicField:DescriptionShort',
+                        Data => {
+                            DescriptionShort => $Param{DescriptionShort},
+                        },
+                    );
+                }
+            }
         }
+
+        $LayoutObject->Block(
+            Name => 'DynamicFieldMultiValueTemplate',
+            Data => {
+                Content     => $DynamicFieldHTML->{MultiValueTemplate},
+                ColumnStyle => 'grid-column: 1 / span 1',
+            },
+        );
     }
     else {
         $Data{Content} = $DynamicFieldHTML->{Field};
@@ -2690,30 +2741,32 @@ sub _RenderDynamicField {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:DynamicField',
             Data => \%Data,
         );
+
+        if ( $Param{DescriptionShort} ) {
+            $LayoutObject->Block(
+                Name => $Param{ActivityDialogField}->{LayoutBlock}
+                    || 'rw:DynamicField:DescriptionShort',
+                Data => {
+                    DescriptionShort => $Param{DescriptionShort},
+                },
+            );
+        }
+
+        if ( $Param{DescriptionLong} ) {
+            $LayoutObject->Block(
+                Name => 'rw:DynamicField:DescriptionLong',
+                Data => {
+                    DescriptionLong => $Param{DescriptionLong},
+                },
+            );
+        }
     }
 
-    if ( $Param{DescriptionShort} ) {
-        $LayoutObject->Block(
-            Name => $Param{ActivityDialogField}->{LayoutBlock}
-                || 'rw:DynamicField:DescriptionShort',
-            Data => {
-                DescriptionShort => $Param{DescriptionShort},
-            },
-        );
-    }
-
-    if ( $Param{DescriptionLong} ) {
-        $LayoutObject->Block(
-            Name => 'rw:DynamicField:DescriptionLong',
-            Data => {
-                DescriptionLong => $Param{DescriptionLong},
-            },
-        );
-    }
+    my $TemplateFile = 'ProcessManagement/' . ( $DynamicFieldConfig->{Config}{MultiValue} ? 'RowDynamicField' : 'DynamicField' );
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/DynamicField' ),
+        HTML    => $LayoutObject->Output( TemplateFile => $TemplateFile ),
     };
 }
 

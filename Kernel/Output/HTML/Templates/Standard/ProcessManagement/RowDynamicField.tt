@@ -15,21 +15,21 @@
 # --
 
 [% RenderBlockStart("Row_DynamicField") %]
-<div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="display: grid; grid-template-columns: [% Data.TemplateColumns | html %]">
-[% RenderBlockStart("DynamicField") %]
+<div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="grid-template-columns: [% Data.TemplateColumns | html %]">
+[% RenderBlockStart("rw:DynamicField") %]
     <div class="FieldCell[% Data.ColumnClasses | html %]" style="[% Data.ColumnStyle | html %]">
-[% RenderBlockStart("DynamicField:DescriptionLong") %]
+[% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
         <span class="FieldHelpContainer">
             <i class="fa fa-question-circle FieldHelpTrigger"></i>
             <span>[% Translate(Data.DescriptionLong) | html %]</span>
         </span>
-[% RenderBlockEnd("DynamicField:DescriptionLong") %]
+[% RenderBlockEnd("rw:DynamicField:DescriptionLong") %]
         [% Data.Label %]
         <div class="Field">
-            [% Data.Field %]
-[% RenderBlockStart("DynamicField:DescriptionShort") %]
+            [% Data.Content %]
+[% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
             <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
-[% RenderBlockEnd("DynamicField:DescriptionShort") %]
+[% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
         </div>
         [% IF Data.MultiValue && !Data.RowReadOnly %]
         <div class="AddRemoveValueRow">
@@ -41,17 +41,17 @@
         [% END %]
         <div class="Clear"></div>
     </div>
-[% RenderBlockEnd("DynamicField") %]
+[% RenderBlockEnd("rw:DynamicField") %]
 [% RenderBlockStart("DynamicFieldMultiValueTemplate") %]
-                    <div class="MultiValue_Template" style="[% Data.ColumnStyle | html %]">
-                        <div class="Field">
-                            [% Data.Field %]
-                        </div>
-                        <div class="AddRemoveValueRow">
-                            <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
-                            <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
-                        </div>
-                    </div>
+    <div class="MultiValue_Template" style="[% Data.ColumnStyle | html %]">
+        <div class="Field">
+            [% Data.Content %]
+        </div>
+        <div class="AddRemoveValueRow">
+            <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+            <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+        </div>
+    </div>
 [% RenderBlockEnd("DynamicFieldMultiValueTemplate") %]
 </div>
 [% RenderBlockEnd("Row_DynamicField") %]
