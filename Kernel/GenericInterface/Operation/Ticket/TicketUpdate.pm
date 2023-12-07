@@ -19,12 +19,17 @@ package Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw( :all );
-
 use parent qw(
     Kernel::GenericInterface::Operation::Common
     Kernel::GenericInterface::Operation::Ticket::Common
 );
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsString IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -37,15 +42,14 @@ Kernel::GenericInterface::Operation::Ticket::TicketUpdate - GenericInterface Tic
 =head2 new()
 
 usually, you want to create an instance of this
-by using Kernel::GenericInterface::Operation->new();
+by using C<Kernel::GenericInterface::Operation->new();>.
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # check needed objects
     for my $Needed (qw( DebuggerObject WebserviceID )) {
@@ -118,7 +122,7 @@ if applicable the created ArticleID.
                 #     Diff => 10080, # Pending time in minutes
                 #},
             },
-            Article => {                                                          # optional
+            Article => {
                 CommunicationChannel            => 'Email',                    # CommunicationChannel or CommunicationChannelID must be provided.
                 CommunicationChannelID          => 1,
                 IsVisibleForCustomer            => 1,                          # optional
@@ -155,7 +159,7 @@ if applicable the created ArticleID.
             #    Value  => $Value,
             #},
 
-            Attachment [
+            Attachment => [
                 {
                     Content     => 'content'                                 # base64 encoded
                     ContentType => 'some content type'
@@ -164,7 +168,7 @@ if applicable the created ArticleID.
                 # ...
             ],
             #or
-            #Attachment {
+            #Attachment => {
             #    Content     => 'content'
             #    ContentType => 'some content type'
             #    Filename    => 'some fine name'
@@ -357,7 +361,9 @@ sub Run {
     }
 
     # authenticate user
-    my ( $UserID, $UserType ) = $Self->Auth(%Param);
+    my ( $UserID, $UserType ) = $Self->Auth(
+        %Param,
+    );
 
     if ( !$UserID ) {
         return $Self->ReturnError(
@@ -675,11 +681,13 @@ checks if the given ticket parameters are valid.
         Ticket => $Ticket,                          # all ticket parameters
     );
 
-    returns:
+returns:
 
     $TicketCheck = {
         Success => 1,                               # if everything is OK
     }
+
+or
 
     $TicketCheck = {
         ErrorCode    => 'Function.Error',           # if error
@@ -1233,7 +1241,7 @@ sub _CheckAttachment {
         }
     }
 
-    # check Article->ContentType
+    # check Attachment->ContentType
     if ( $Attachment->{ContentType} ) {
 
         # The MIME header field Content-Type is only in some parts case insensitive,
@@ -1267,11 +1275,13 @@ check if user has permissions to update ticket attributes.
         UserID       => 123,
     );
 
-    returns:
+returns:
 
     $Response = {
         Success => 1,                               # if everything is OK
     }
+
+or
 
     $Response = {
         Success      => 0,

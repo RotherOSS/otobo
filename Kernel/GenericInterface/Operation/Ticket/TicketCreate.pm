@@ -337,9 +337,7 @@ sub Run {
     }
 
     if ( $Param{Data}->{UserLogin} || $Param{Data}->{CustomerUserLogin} ) {
-
-        if ( !$Param{Data}->{Password} )
-        {
+        if ( !$Param{Data}->{Password} ) {
             return $Self->ReturnError(
                 ErrorCode    => 'TicketCreate.MissingParameter',
                 ErrorMessage => "TicketCreate: Password or SessionID is required!",
@@ -416,7 +414,7 @@ sub Run {
         }
     }
 
-    # check Ticket attribute values
+    # check attribute values
     my $TicketCheck = $Self->_CheckTicket( Ticket => $Ticket );
 
     if ( !$TicketCheck->{Success} ) {
@@ -547,13 +545,11 @@ sub Run {
         }
     }
 
-    my $Attachment;
     my @AttachmentList;
-
     if ( defined $Param{Data}->{Attachment} ) {
 
         # isolate Attachment parameter
-        $Attachment = $Param{Data}->{Attachment};
+        my $Attachment = $Param{Data}->{Attachment};
 
         # homogenate input to array
         if ( ref $Attachment eq 'HASH' ) {
@@ -613,11 +609,13 @@ checks if the given ticket parameters are valid.
         Ticket => $Ticket,                          # all ticket parameters
     );
 
-    returns:
+returns:
 
     $TicketCheck = {
         Success => 1,                               # if everything is OK
     }
+
+or
 
     $TicketCheck = {
         ErrorCode    => 'Function.Error',           # if error
@@ -800,7 +798,7 @@ checks if the given article parameter is valid.
     returns:
 
     $ArticleCheck = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $ArticleCheck = {
@@ -1056,7 +1054,7 @@ checks if the given dynamic field parameter is valid.
     returns:
 
     $DynamicFieldCheck = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $DynamicFieldCheck = {
@@ -1118,7 +1116,7 @@ checks if the given attachment parameter is valid.
     returns:
 
     $AttachmentCheck = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $AttachmentCheck = {
@@ -1176,16 +1174,18 @@ creates a ticket with its article and sets dynamic fields and attachments if spe
         UserID         => 123,
     );
 
-    returns:
+returns:
 
     $Response = {
-        Success => 1,                               # if everything was OK
+        Success => 1,                               # if everything is OK
         Data => {
             TicketID     => 123,
             TicketNumber => 'TN3422332',
             ArticleID    => 123,
         }
     }
+
+or
 
     $Response = {
         Success      => 0,                         # if unexpected error
@@ -1640,7 +1640,7 @@ sub _TicketCreate {
     # prepare Article DynamicFields
     my @ArticleDynamicFields;
 
-    # remove all dynamic fields form main ticket hash and set them into an array.
+    # remove all dynamic fields from main ticket hash and set them into an array.
     ARTICLEATTRIBUTE:
     for my $ArticleAttribute ( sort keys %ArticleData ) {
         if ( $ArticleAttribute =~ m{\A DynamicField_(.*) \z}msx ) {
@@ -1691,6 +1691,7 @@ sub _TicketCreate {
 
     $TicketData{Article} = \%ArticleData;
 
+    # return ticket data and article data
     return {
         Success => 1,
         Data    => {
