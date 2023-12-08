@@ -19,10 +19,14 @@ package Kernel::GenericInterface::Operation::Ticket::Common;
 use strict;
 use warnings;
 
+# core modules
 use MIME::Base64();
-use Mail::Address;
 use Encode;
 
+# CPAN modules
+use Mail::Address;
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -40,6 +44,8 @@ initialize the operation by checking the web service configuration and gather of
     my $Return = $CommonObject->Init(
         WebserviceID => 1,
     );
+
+returns:
 
     $Return = {
         Success => 1,                       # or 0 in case of failure,
@@ -102,12 +108,15 @@ checks if the given queue or queue ID is valid.
         QueueID => 123,
     );
 
+or
+
     my $Success = $CommonObject->ValidateQueue(
         Queue   => 'some queue',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -166,12 +175,15 @@ checks if the given lock or lock ID is valid.
         LockID => 123,
     );
 
+or
+
     my $Success = $CommonObject->ValidateLock(
         Lock   => 'some lock',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -216,12 +228,15 @@ checks if the given type or type ID is valid.
         TypeID => 123,
     );
 
+or
+
     my $Success = $CommonObject->ValidateType(
         Type   => 'some type',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -278,12 +293,15 @@ checks if the given customer user or customer ID is valid.
         CustomerID => 123,
     );
 
+or
+
     my $Success = $CommonObject->ValidateCustomer(
         CustomerUser   => 'some type',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -338,13 +356,16 @@ checks if the given service or service ID is valid.
         CustomerUser => 'Test',
     );
 
+or
+
     my $Success = $CommonObject->ValidateService(
         Service      => 'some service',
         CustomerUser => 'Test',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -418,13 +439,16 @@ checks if the given service or service ID is valid.
         ServiceID => 123,       # || Service => 'some service'
     );
 
+or
+
     my $Success = $CommonObject->ValidateService(
         SLA       => 'some SLA',
         ServiceID => 123,       # || Service => 'some service'
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -522,12 +546,15 @@ checks if the given state or state ID is valid.
         StateID => 123,
     );
 
+or
+
     my $Success = $CommonObject->ValidateState(
         State   => 'some state',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -585,12 +612,15 @@ checks if the given priority or priority ID is valid.
         PriorityID => 123,
     );
 
+or
+
     my $Success = $CommonObject->ValidatePriority(
         Priority   => 'some priority',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -655,12 +685,15 @@ checks if the given owner or owner ID is valid.
         OwnerID => 123,
     );
 
+or
+
     my $Success = $CommonObject->ValidateOwner(
         Owner   => 'some user',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -684,12 +717,15 @@ checks if the given responsible or responsible ID is valid.
         ResponsibleID => 123,
     );
 
+or
+
     my $Success = $CommonObject->ValidateResponsible(
         Responsible   => 'some user',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -719,14 +755,17 @@ checks if the given pending time is valid.
         },
     );
 
+or
+
     my $Success = $CommonObject->ValidatePendingTime(
         PendingTime => {
             Diff => 10080,
         },
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -776,8 +815,9 @@ checks if the given AutoResponseType is valid.
         AutoResponseType => 'Some AutoRespobse',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -806,8 +846,9 @@ checks if the given from is valid.
         From => 'user@domain.com',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -840,8 +881,9 @@ checks if provided Communication Channel is valid.
         CommunicationChannelID => 1,            # optional
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -874,12 +916,15 @@ checks if the given SenderType or SenderType ID is valid.
         SenderTypeID => 123,
     );
 
+or
+
     my $Success = $CommonObject->ValidateenderType(
         SenderType => 'some SenderType',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -936,8 +981,9 @@ checks if the given MimeType is valid.
         MimeTypeID => 'some MimeType',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -960,8 +1006,9 @@ checks if the given Charset is valid.
         Charset => 'some charset',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -1048,8 +1095,9 @@ checks if the given HistoryType is valid.
         HistoryType => 'some HostoryType',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -1085,8 +1133,9 @@ checks if the given TimeUnit is valid.
         TimeUnit => 1,
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -1110,8 +1159,9 @@ checks if the given user ID is valid.
         UserID => 123,
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -1134,8 +1184,9 @@ checks if the given dynamic field name is valid.
         Name => 'some name',
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -1161,15 +1212,30 @@ checks if the given dynamic field value is valid.
         Value => 'some value',          # String or Integer or DateTime format
     );
 
+or
+
     my $Success = $CommonObject->ValidateDynamicFieldValue(
+        Name  => 'some name',
         Value => [                      # Only for fields that can handle multiple values like
             'some value',               #   Multiselect
             'some other value',
         ],
     );
 
-    returns
-    $Success = 1                        # or 0
+or
+
+    my $Success = $CommonObject->ValidateDynamicFieldValue(
+        Name  => 'some name',
+        Value => [                      # two dimensional for Sets
+            [ 'va1_Slot1_1', 'val_Slot2_1, ... ],
+            [ 'va1_Slot1_2', 'val_Slot2_2, ... ],
+            [ 'va1_Slot1_3', 'val_Slot2_3, ... ],
+        ],
+    );
+
+returns
+
+    $Success = 1                        # or undef
 
 =cut
 
@@ -1206,8 +1272,9 @@ checks if the given dynamic field name is valid.
         Article => 1,               # if article exists
     );
 
-    returns
-    $Success = 1            # or 0
+returns
+
+    $Success = 1            # or undef
 
 =cut
 
@@ -1239,6 +1306,8 @@ sets the value of a dynamic field.
         UserID    => 123,
     );
 
+or
+
     my $Result = $CommonObject->SetDynamicFieldValue(
         Name   => 'some name',           # the name of the dynamic field
         Value => [
@@ -1248,10 +1317,13 @@ sets the value of a dynamic field.
         UserID => 123,
     );
 
-    returns
+returns
+
     $Result = {
         Success => 1,                        # if everything is ok
     }
+
+or
 
     $Result = {
         Success      => 0,
@@ -1324,10 +1396,13 @@ creates a new attachment for the given article.
         UserID     => 123,
     );
 
-    returns
+returns
+
     $Result = {
         Success => 1,                        # if everything is ok
     }
+
+or
 
     $Result = {
         Success      => 0,
@@ -1378,7 +1453,8 @@ Tests if the user have the permissions to create a ticket on a determined queue
     );
 
 returns:
-    $Success = 1                                # if everything is OK
+
+    $Result = 1                                # if everything is OK
 
 =cut
 
@@ -1434,6 +1510,7 @@ Tests if the user have access permissions over a ticket
     );
 
 returns:
+
     $Success = 1                                # if everything is OK
 
 =cut
@@ -1472,11 +1549,14 @@ checks if the given user or user ID is valid.
         UserID => 123,
     );
 
+or
+
     my $Success = $CommonObject->_ValidateUser(
         User   => 'some user',
     );
 
-    returns
+returns
+
     $Success = 1            # or 0
 
 =cut

@@ -16,9 +16,15 @@
 
 package Kernel::GenericInterface::Operation::Common;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -43,7 +49,7 @@ performs user or customer user authorization
         },
     );
 
-    returns
+returns
 
     (
         1,                                              # the UserID from login or session data
@@ -151,7 +157,7 @@ performs user authentication
         Password  => 'some password',           # plain text password
     );
 
-    returns
+returns
 
     $UserID = 1;                                # the UserID from login or session data
 
@@ -194,7 +200,7 @@ performs customer user authentication
         Password  => 'some password',           # plain text password
     );
 
-    returns
+returns
 
     $UserID = 1;                               # the UserID from login or session data
 
