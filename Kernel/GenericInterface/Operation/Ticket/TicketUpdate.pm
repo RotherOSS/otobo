@@ -16,6 +16,7 @@
 
 package Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -25,6 +26,7 @@ use parent qw(
 );
 
 # core modules
+use Scalar::Util qw(reftype);
 
 # CPAN modules
 
@@ -467,7 +469,7 @@ sub Run {
 
         # remove leading and trailing spaces
         for my $Attribute ( sort keys $Ticket->%* ) {
-            if ( !ref $Ticket->{$Attribute} ) {
+            if ( !reftype $Ticket->{$Attribute} ) {
 
                 #remove leading spaces
                 $Ticket->{$Attribute} =~ s{\A\s+}{};
@@ -478,7 +480,7 @@ sub Run {
         }
         if ( IsHashRefWithData( $Ticket->{PendingTime} ) ) {
             for my $Attribute ( sort keys $Ticket->{PendingTime}->%* ) {
-                if ( !ref $Ticket->{PendingTime}->{$Attribute} ) {
+                if ( !reftype $Ticket->{PendingTime}->{$Attribute} ) {
 
                     #remove leading spaces
                     $Ticket->{PendingTime}->{$Attribute} =~ s{\A\s+}{};
@@ -508,7 +510,7 @@ sub Run {
 
         # remove leading and trailing spaces
         for my $Attribute ( sort keys $Article->%* ) {
-            if ( !ref $Article->{$Attribute} ) {
+            if ( !reftype $Article->{$Attribute} ) {
 
                 #remove leading spaces
                 $Article->{$Attribute} =~ s{\A\s+}{};
@@ -519,7 +521,7 @@ sub Run {
         }
         if ( IsHashRefWithData( $Article->{OrigHeader} ) ) {
             for my $Attribute ( sort keys $Article->{OrigHeader}->%* ) {
-                if ( !ref $Article->{OrigHeader}->{$Attribute} ) {
+                if ( !reftype $Article->{OrigHeader}->{$Attribute} ) {
 
                     #remove leading spaces
                     $Article->{OrigHeader}->{$Attribute} =~ s{\A\s+}{};
@@ -593,7 +595,7 @@ sub Run {
             # remove leading and trailing spaces
             ATTRIBUTE:
             for my $Attribute ( sort keys %{$DynamicFieldItem} ) {
-                next ATTRIBUTE if ref $DynamicFieldItem->{$Attribute};
+                next ATTRIBUTE if reftype $DynamicFieldItem->{$Attribute};
 
                 # TODO: this might be a case where input data is modified
                 $DynamicFieldItem->{$Attribute} =~ s{\A\s+}{};
@@ -638,7 +640,7 @@ sub Run {
 
             # remove leading and trailing spaces
             for my $Attribute ( sort keys $AttachmentItem->%* ) {
-                if ( !ref $AttachmentItem->{$Attribute} ) {
+                if ( !reftype $AttachmentItem->{$Attribute} ) {
 
                     #remove leading spaces
                     $AttachmentItem->{$Attribute} =~ s{\A\s+}{};
