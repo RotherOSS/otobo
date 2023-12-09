@@ -204,37 +204,37 @@ feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
 
 feature 'div:cldr', 'Support for feature div:cldr' => sub {
     # localisation from the CLDR project
-    requires 'Locale::CLDR', ">= 0.34.3";
+    requires 'Locale::CLDR', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::De', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::De', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Nb', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Nb', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Es', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Es', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Zh', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Zh', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Pt', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Pt', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ar', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Ar', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Hu', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Hu', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Sr', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Sr', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ko', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Ko', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ru', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Ru', ">= 0.34.4";
 
 };
 
@@ -387,7 +387,7 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Crypt::Eksblowfish::Bcrypt';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR', ">= 0.34.3";
+    requires 'Locale::CLDR', ">= 0.34.4";
 
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
@@ -429,34 +429,34 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Locale::PO';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::De', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::De', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Nb', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Nb', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Es', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Es', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Zh', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Zh', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Pt', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Pt', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ar', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Ar', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Hu', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Hu', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Sr', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Sr', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ko', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Ko', ">= 0.34.4";
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ru', ">= 0.34.3";
+    requires 'Locale::CLDR::Locales::Ru', ">= 0.34.4";
 
 };
 

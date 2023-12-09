@@ -238,6 +238,10 @@ sub CountryCode2Name {
 
     if ( $MainObject->Require('Locale::CLDR') ) {
 
+        # TODO: check the version
+        # Locale::CLDR prior to 0.34.4 had a problem with recursion.
+        # See https://github.com/ThePilgrim/perlcldr/issues/41
+
         my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
         my $Locale     = eval {
             Locale::CLDR->new( language_id => $LanguageID );
@@ -246,13 +250,9 @@ sub CountryCode2Name {
         # fall back to English
         $Locale ||= eval {
             Locale::CLDR->new( language_id => 'en' );
-        }
-            ;
-        if ($Locale) {
+        };
 
-            # TODO: problem with BV
-            return $Locale->region_name($Code);    # English per default
-        }
+        return $Locale->region_name($Code) if $Locale;
     }
 
     # Fall back to Locale::Country when Locale::CLDR is not available.

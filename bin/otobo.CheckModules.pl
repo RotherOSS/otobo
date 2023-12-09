@@ -1041,7 +1041,7 @@ my @NeededModules = (
     {
         Module          => 'Locale::CLDR',
         Features        => ['div:cldr'],
-        VersionRequired => '0.34.3',
+        VersionRequired => '0.34.4',
         Comment         => 'localisation from the CLDR project',
         InstTypes       => {
             aptget => undef,    # not in any Debian package
@@ -1223,7 +1223,7 @@ for my $Code (qw(De Nb Es Zh Pt Ar Hu Sr Ko Ru)) {
         {
             Module          => "Locale::CLDR::Locales::$Code",
             Features        => ['div:cldr'],
-            VersionRequired => '0.34.3',
+            VersionRequired => '0.34.4',
             Comment         => 'localisation from the CLDR project',
             InstTypes       => {
                 aptget => undef,    # not in any Debian package
