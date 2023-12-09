@@ -16,8 +16,10 @@
 
 package Kernel::Modules::AdminCustomerCompany;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 use List::Util qw(any);
@@ -554,6 +556,7 @@ sub _Edit {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -570,9 +573,6 @@ sub _Edit {
         Name => 'OverviewUpdate',
         Data => \%Param,
     );
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # send parameter ReadOnly to JS object
     $LayoutObject->AddJSData(
@@ -662,16 +662,24 @@ sub _Edit {
                 );
 
             }
-            elsif ( $Entry->[0] =~ /^CustomerCompanyCountry/i ) {
-                my $OptionRequired = '';
-                if ( $Entry->[4] ) {
-                    $OptionRequired = 'Validate_Required';
-                }
+            elsif ( $Entry->[0] =~ m/^CustomerCompanyCountry/i ) {
 
-                # build Country string
-                my $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->CountryList();
-
+                # build Country selection with English names
                 $Block = 'Option';
+                my $OptionRequired = $Entry->[4] ? 'Validate_Required' : '';
+                my $CountryList;
+                if ( $ConfigObject->Get('ReferenceData::TranslatedCountryNames') ) {
+
+                    # Flag+Name => code
+                    $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->TranslatedCountryList(
+                        Language => $LayoutObject->{UserLanguage},
+                    );
+                }
+                else {
+
+                    # English name => English name
+                    $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->CountryList;
+                }
                 $Param{Option} = $LayoutObject->BuildSelection(
                     Data         => $CountryList,
                     PossibleNone => 1,
@@ -682,14 +690,11 @@ sub _Edit {
                     SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
                 );
             }
-            elsif ( $Entry->[0] =~ /^ValidID/i ) {
-                my $OptionRequired = '';
-                if ( $Entry->[4] ) {
-                    $OptionRequired = 'Validate_Required';
-                }
+            elsif ( $Entry->[0] =~ m/^ValidID/i ) {
 
                 # build ValidID string
                 $Block = 'Option';
+                my $OptionRequired = $Entry->[4] ? 'Validate_Required' : '';
                 $Param{Option} = $LayoutObject->BuildSelection(
                     Data  => { $ValidObject->ValidList(), },
                     Name  => $Entry->[0],
@@ -714,7 +719,7 @@ sub _Edit {
                 $Param{RequiredClass}  = '';
             }
 
-            # show required flag
+            # show readonly flag
             if ( $Entry->[7] ) {
                 $Param{ReadOnlyType} = 'readonly';
             }
@@ -755,6 +760,7 @@ sub _Edit {
             }
         }
     }
+
     return 1;
 }
 

@@ -182,6 +182,7 @@ my %IsDockerFeature = (
     'devel:test'         => 1,
     'devel:i18n'         => 1,
     'div:bcrypt'         => 1,
+    'div:cldr'           => 1,
     'div:ldap'           => 1,
     'div:xslt'           => 1,
     'gazelle'            => 1,
@@ -1038,6 +1039,18 @@ my @NeededModules = (
         },
     },
     {
+        Module          => 'Locale::CLDR',
+        Features        => ['div:cldr'],
+        VersionRequired => '0.34.4',
+        Comment         => 'localisation from the CLDR project',
+        InstTypes       => {
+            aptget => undef,    # not in any Debian package
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'XML::LibXSLT',
         Features  => ['div:xslt'],
         Comment   => 'Required for Generic Interface XSLT mapping module.',
@@ -1201,6 +1214,25 @@ my @NeededModules = (
         },
     },
 );
+
+# Add CLDR language packs. It is not decided yet whether all 50 languages are added.
+# So let's first go for the languages that have a translation quote of more than 80%.
+# See https://translate.otobo.org/projects/otobo10/otobo/.
+for my $Code (qw(De Nb Es Zh Pt Ar Hu Sr Ko Ru)) {
+    push @NeededModules,
+        {
+            Module          => "Locale::CLDR::Locales::$Code",
+            Features        => ['div:cldr'],
+            VersionRequired => '0.34.4',
+            Comment         => 'localisation from the CLDR project',
+            InstTypes       => {
+                aptget => undef,    # not in any Debian package
+                emerge => undef,
+                zypper => undef,
+                ports  => undef,
+            },
+        };
+}
 
 # Sanity check.
 for my $Module (@NeededModules) {

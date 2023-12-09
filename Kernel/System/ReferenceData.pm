@@ -19,18 +19,23 @@ package Kernel::System::ReferenceData;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
 # CPAN modules
-use Locale::Country qw(all_country_names);
+use Locale::Country qw(all_country_names code2country country2code);
 
 # OTOBO modules
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::Log',
+our @ObjectDependencies = qw(
+    Kernel::Config
+    Kernel::System::Log
+    Kernel::System::Main
 );
+
+=for stopwords da CLDR
 
 =head1 NAME
 
@@ -38,8 +43,30 @@ Kernel::System::ReferenceData - ReferenceData lib
 
 =head1 DESCRIPTION
 
-Contains reference data. For now, this is limited to just a list of ISO country
-codes.
+Contains reference data. For now, this is limited to:
+
+=over 4
+
+=item ISO 3166-1 country codes and English names
+
+Currently there are 249 officially assigned codes.
+Retired codes are not included.
+
+=item Translated country names from the Unicode CLDR
+
+The keys are two letter country codes. The codes are made up of:
+
+=over 4
+
+=item the 249 officially assigned ISO 3166-1 codes
+
+=item exceptional reservations: Ascension Island, Clipperton Island, Diego Garcia, Ceuta and Melilla, Canary Islands, and Tristan da Cunha
+
+=item user-assigned temporary country code: Kosovo
+
+=back
+
+=back
 
 =head1 PUBLIC INTERFACE
 
@@ -55,20 +82,21 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 CountryList()
 
 return a list of countries as a hash reference. The countries are based on ISO
-3166-2 and are provided by the Perl module Locale::Code::Country, or optionally
+3166-1 and are provided by the Perl module Locale::Code::Country, or optionally
 from the SysConfig setting ReferenceData::OwnCountryList.
 
-    my $CountryList = $ReferenceDataObject->CountryList(
-       Result => 'CODE', # optional: returns CODE => Country pairs conform ISO 3166-2.
+    my $CountryName2Name = $ReferenceDataObject->CountryList()
+
+or
+
+    my $CountryName2Code = $ReferenceDataObject->CountryList()
+       Result => 'CODE', # optional: returns CODE => Country pairs conform ISO 3166-1 alpha-2.
     );
 
 =cut
@@ -76,23 +104,19 @@ from the SysConfig setting ReferenceData::OwnCountryList.
 sub CountryList {
     my ( $Self, %Param ) = @_;
 
-    if ( !defined $Param{Result} || $Param{Result} ne 'CODE' ) {
-        $Param{Result} = undef;
-    }
+    # Determine whether the values of the result should be the codes
+    my $ReturnCodes = ( $Param{Result} // '' ) eq 'CODE';
 
-    my $Countries = $Kernel::OM->Get('Kernel::Config')->Get('ReferenceData::OwnCountryList');
-
-    if ( $Param{Result} && $Countries ) {
+    my $OwnCountries = $Kernel::OM->Get('Kernel::Config')->Get('ReferenceData::OwnCountryList');
+    if ($OwnCountries) {
 
         # return Code => Country pairs from SysConfig
-        return $Countries;
-    }
-    elsif ($Countries) {
+        return $OwnCountries if $ReturnCodes;
 
         # return Country => Country pairs from SysConfig
-        my %CountryJustNames = map { $_ => $_ } values %$Countries;
+        my %CountryName2Name = map { $_ => $_ } values $OwnCountries->%*;
 
-        return \%CountryJustNames;
+        return \%CountryName2Name;
     }
 
     # get the country list from Locale::Country
@@ -105,21 +129,135 @@ sub CountryList {
         );
     }
 
-    if ( $Param{Result} ) {
+    if ($ReturnCodes) {
 
         # return Code => Country pairs from ISO list
-        my %Countries;
+        my %CountryName2Code;
         for my $Country (@CountryNames) {
-            $Countries{$Country} = country2code( $Country, 1 );
+            $CountryName2Code{$Country} = country2code( $Country, 1 );
         }
 
-        return \%Countries;
+        return \%CountryName2Code;
     }
 
     # return Country => Country pairs from ISO list
-    my %CountryNames = map { $_ => $_ } @CountryNames;
+    my %CountryName2Name = map { $_ => $_ } @CountryNames;
 
-    return \%CountryNames;
+    return \%CountryName2Name;
+}
+
+=head2 TranslatedCountryList()
+
+returns a mapping of translated country names to two letter country codes.
+The translated country name are prepended by their flag.
+The data is provided by L<Locale::CLDR>.
+
+    my $CountryName2Code = $ReferenceDataObject->TranslatedCountryList(
+        Language => 'de',
+    );
+
+=cut
+
+sub TranslatedCountryList {
+    my ( $Self, %Param ) = @_;
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # Locale::CLDR is not required for OTOBO
+    if ( $MainObject->Require('Locale::CLDR') ) {
+
+        my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
+        my $Locale     = eval {
+            Locale::CLDR->new( language_id => $LanguageID );
+        };
+
+        # fall back to English
+        $Locale ||= eval {
+            Locale::CLDR->new( language_id => 'en' );
+        };
+        if ($Locale) {
+
+            # For getting the country flags.
+            # See https://en.wikipedia.org/wiki/Regional_indicator_symbol
+            # This indicators are in a sequence:  ord(🇩) = ord('🇦') - ord('A') + ord('D')
+            my $Base             = ord('🇦') - ord('A');
+            my %Letter2Indicator = map
+                { $_ => chr( $Base + ord($_) ) }
+                ( 'A' .. 'Z' );
+
+            my $AllRegions = $Locale->all_regions();    # includes regions like '001' => World
+            my %Code2Name;
+            for my $Code ( grep { length $_ == 2 } keys $AllRegions->%* ) {
+                my $Flag =
+                    join '',
+                    map { $Letter2Indicator{$_} }
+                    split //, $Code;
+                $Code2Name{$Code} = "$AllRegions->{$Code} $Flag";
+            }
+
+            return \%Code2Name;
+        }
+    }
+
+    # Fall back to Locale::Country when Locale::CLDR is not available.
+    # The names will be in English.
+    my @CountryNames = all_country_names();
+
+    # return Code => Country pairs from ISO list
+    my %CountryName2Code;
+    for my $Country (@CountryNames) {
+        $CountryName2Code{$Country} = uc country2code($Country);
+    }
+
+    return \%CountryName2Code;
+}
+
+=head1 CountryCode2Name()
+
+Get a translated country name for a country code.
+
+    my $CountryName = $ReferenceDataObject->CountryCode2Name(
+        CountryCode => 'AF',
+        Language    => 'de',
+    );
+
+Returns:
+
+    $CountryName = 'Afghanistan';
+
+=cut
+
+sub CountryCode2Name {
+    my ( $Self, %Param ) = @_;
+
+    my $Code = $Param{CountryCode};
+
+    return $Code unless $Code =~ m/^[A-Z]{2}$/;
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    if ( $MainObject->Require('Locale::CLDR') ) {
+
+        # TODO: check the version
+        # Locale::CLDR prior to 0.34.4 had a problem with recursion.
+        # See https://github.com/ThePilgrim/perlcldr/issues/41
+
+        my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
+        my $Locale     = eval {
+            Locale::CLDR->new( language_id => $LanguageID );
+        };
+
+        # fall back to English
+        $Locale ||= eval {
+            Locale::CLDR->new( language_id => 'en' );
+        };
+
+        return $Locale->region_name($Code) if $Locale;
+    }
+
+    # Fall back to Locale::Country when Locale::CLDR is not available.
+    # The names will be in English
+    return code2country($Code);
 }
 
 1;

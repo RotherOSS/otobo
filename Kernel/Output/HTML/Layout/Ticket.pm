@@ -139,12 +139,29 @@ sub AgentCustomerViewTable {
     # build table
     FIELD:
     for my $Field (@MapNew) {
-        if ( $Field->[3] && $Field->[3] >= $ShownType && $Param{Data}->{ $Field->[0] } ) {
+        next FIELD unless $Field->[3];
+        next FIELD unless $Field->[3] >= $ShownType;
+        next FIELD unless $Param{Data}->{ $Field->[0] };    # TODO: value '0' is not shown
+
+        {
             my %Record = (
                 %{ $Param{Data} },
                 Key   => $Field->[1],
                 Value => $Param{Data}->{ $Field->[0] },
             );
+
+            # handle special case of translatable customer countries
+            if (
+                $ConfigObject->Get('ReferenceData::TranslatedCountryNames')
+                &&
+                $Field->[0] =~ m/^CustomerCompanyCountry/i
+                )
+            {
+                $Record{Value} = $Kernel::OM->Get('Kernel::System::ReferenceData')->CountryCode2Name(
+                    CountryCode => $Record{Value},
+                    Language    => $Self->{UserLanguage},
+                );
+            }
 
             # render dynamic field values
             if ( $Field->[5] eq 'dynamic_field' ) {
@@ -154,7 +171,7 @@ sub AgentCustomerViewTable {
 
                 my $DynamicFieldConfig = $DynamicFieldLookup{ $Field->[2] };
 
-                next FIELD if !$DynamicFieldConfig;
+                next FIELD unless $DynamicFieldConfig;
 
                 my @RenderedValues;
                 VALUE:
@@ -211,6 +228,7 @@ sub AgentCustomerViewTable {
                 Data => \%Record,
             );
 
+            # Mark invalid companies
             if (
                 $Param{Data}->{Config}->{CustomerCompanySupport}
                 && $Field->[0] eq 'CustomerCompanyName'
