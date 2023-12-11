@@ -111,12 +111,11 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
                 source: function(Request, Response) {
 
                     var URL = Core.Config.Get('Baselink'),
-                        Data = {
-                            Action: 'AgentReferenceSearch',
-                            Term: Request.term,
-                            Field: $Element.attr('id'),
-                            MaxResults: AutoCompleteConfig.MaxResultsDisplayed
-                        };
+                        QueryString = "Action=AgentReferenceSearch;Term=" + Request.term
+                            + ";Field=" + $Element.attr('id')
+                            + ";MaxResults=" + AutoCompleteConfig.MaxResultsDisplayed + ";";
+
+                    QueryString += Core.AJAX.SerializeForm($Element.closest('form'), {'Action': 1, 'Subaction': 1, 'Term': 1, 'Field': 1, 'MaxResults': 1});
 
                     // If an old ajax request is already running, stop the old request and start the new one.
                     if($Element.data('AutoCompleteXHR')) {
@@ -126,7 +125,7 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
                         Response({});
                     }
 
-                    $Element.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function(Result) {
+                    $Element.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, QueryString, function(Result) {
                         var ValueData = [];
                         $Element.removeData('AutoCompleteXHR');
                         $.each(Result, function() {

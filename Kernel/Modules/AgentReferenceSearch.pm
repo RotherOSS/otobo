@@ -103,6 +103,7 @@ sub Run {
         Term               => $Term,
         MaxResults         => $MaxResults,
         UserID             => 1,                      # TODO: what about Permission check
+        ParamObject        => $ParamObject,
     );
 
     my @Results;

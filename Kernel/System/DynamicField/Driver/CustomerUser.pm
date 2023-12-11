@@ -16,6 +16,8 @@
 
 package Kernel::System::DynamicField::Driver::CustomerUser;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use v5.24;
 use strict;
 use warnings;
@@ -29,10 +31,13 @@ use parent qw(Kernel::System::DynamicField::Driver::BaseReference);
 # CPAN modules
 
 # OTOBO modules
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
 );
 
@@ -195,6 +200,10 @@ This is used in auto completion when searching for possible object IDs.
         Term               => $Term,
         MaxResults         => $MaxResults,
         UserID             => 1,
+        Object             => {
+            %Data,
+        },
+        ParamObject        => $ParamObject,
     );
 
 =cut
@@ -221,7 +230,26 @@ sub SearchObjects {
             if ( $FilterItem->{EqualsObjectAttribute} ) {
 
                 # don't perform search if object attribute to search for is empty
-                my $EqualsObjectAttribute = $Param{Object}{DynamicField}{ $FilterItem->{EqualsObjectAttribute} } // $Param{Object}{ $FilterItem->{EqualsObjectAttribute} };
+                my $EqualsObjectAttribute;
+                if ( IsHashRefWithData( $Param{Object} ) ) {
+                    $EqualsObjectAttribute = $Param{Object}{DynamicField}{ $FilterItem->{EqualsObjectAttribute} } // $Param{Object}{ $FilterItem->{EqualsObjectAttribute} };
+                }
+                elsif ( defined $Param{ParamObject} ) {
+                    if ( $FilterItem->{EqualsObjectAttribute} =~ /^DynamicField_(?<DFName>\S+)/ ) {
+                        my $FilterItemDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                            Name => $+{DFName},
+                        );
+                        next FILTERITEM unless IsHashRefWithData($FilterItemDFConfig);
+                        $EqualsObjectAttribute = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
+                            ParamObject        => $Param{ParamObject},
+                            DynamicFieldConfig => $FilterItemDFConfig,
+                            TransformDates     => 0,
+                        );
+                    }
+                    else {
+                        $EqualsObjectAttribute = $Param{ParamObject}->GetParam( Param => $FilterItem->{EqualsObjectAttribute} );
+                    }
+                }
                 return unless $EqualsObjectAttribute;
                 return if ( ref $EqualsObjectAttribute eq 'ARRAY' && !$EqualsObjectAttribute->@* );
 
