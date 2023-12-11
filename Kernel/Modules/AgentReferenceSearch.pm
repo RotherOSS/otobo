@@ -73,13 +73,17 @@ sub Run {
     }
 
     # Get config for the dynamic field and check the sanity.
-    my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $DynamicFieldConfig        = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         Name => $FieldName,
     );
     if (
         !IsHashRefWithData($DynamicFieldConfig)
         ||
-        !$DynamicFieldConfig->{Config}{ReferencedObjectType}
+        !$DynamicFieldBackendObject->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsReferenceField',
+        )
         )
     {
         return $LayoutObject->JSONReply(
@@ -91,9 +95,8 @@ sub Run {
     }
 
     # search referenced object
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-    my $MaxResults                = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
-    my $Term                      = $ParamObject->GetParam( Param => 'Term' ) || '';
+    my $MaxResults = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
+    my $Term       = $ParamObject->GetParam( Param => 'Term' ) || '';
 
     my @ObjectIDs = $DynamicFieldBackendObject->SearchObjects(
         DynamicFieldConfig => $DynamicFieldConfig,    # this might contain search restrictions

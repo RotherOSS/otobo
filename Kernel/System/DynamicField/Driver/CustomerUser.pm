@@ -77,6 +77,7 @@ sub new {
         'IsStatsCondition'             => 0,
         'IsCustomerInterfaceCapable'   => 1,
         'IsHiddenInTicketInformation'  => 0,
+        'IsReferenceField'             => 1,
     };
 
     $Self->{ReferencedObjectType} = 'CustomerUser';
