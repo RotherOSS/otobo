@@ -137,7 +137,7 @@ sub _Add {
 
         # skip custom inputs which are handled separately
         # currently only used for reference filter list
-        next SETTING if ( $Setting->{InputType} // 'Empty' ) eq 'Empty';
+        next SETTING if !$Setting->{InputType};
 
         my $Name = $Setting->{ConfigParamName};
         if ( $Setting->{Multiple} ) {
@@ -200,7 +200,7 @@ sub _AddAction {
 
         # skip custom inputs which are handled separately
         # currently only used for reference filter list
-        next SETTING if ( $Setting->{InputType} // 'Empty' ) eq 'Empty';
+        next SETTING if !$Setting->{InputType};
 
         my $Name = $Setting->{ConfigParamName};
         if ( $Setting->{Multiple} ) {
@@ -305,7 +305,7 @@ sub _AddAction {
 
         # skip custom inputs which are handled separately
         # currently only used for reference filter list
-        next SETTING if ( $Setting->{InputType} // 'Empty' ) eq 'Empty';
+        next SETTING if !$Setting->{InputType};
 
         my $Name = $Setting->{ConfigParamName};
         $FieldConfig{$Name} = $GetParam{$Name};
@@ -466,7 +466,7 @@ sub _ChangeAction {
 
         # skip custom inputs which are handled separately
         # currently only used for reference filter list
-        next SETTING if ( $Setting->{InputType} // 'Empty' ) eq 'Empty';
+        next SETTING if !$Setting->{InputType};
 
         my $Name = $Setting->{ConfigParamName};
         if ( $Setting->{Multiple} ) {
@@ -626,7 +626,7 @@ sub _ChangeAction {
 
         # skip custom inputs which are handled separately
         # currently only used for reference filter list
-        next SETTING if ( $Setting->{InputType} // 'Empty' ) eq 'Empty';
+        next SETTING if !$Setting->{InputType};
 
         my $Name = $Setting->{ConfigParamName};
         $FieldConfig{$Name} = $GetParam{$Name};
@@ -919,7 +919,6 @@ sub _ShowScreen {
         if (
             any {
                 $_->{ConfigParamName} eq 'ReferenceFilterList'
-                    && ( $_->{InputType} // 'Empty' ) ne 'Empty'
             }
             $Param{FieldTypeSettings}->@*
             )

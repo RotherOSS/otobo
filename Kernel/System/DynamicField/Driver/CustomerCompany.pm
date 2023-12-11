@@ -101,7 +101,6 @@ sub GetFieldTypeSettings {
     push @FieldTypeSettings,
         {
             ConfigParamName => 'ReferenceFilterList',
-            InputType       => 'Custom',
         };
 
     return @FieldTypeSettings;
