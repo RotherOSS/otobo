@@ -915,6 +915,7 @@ A wrapper for SearchObjects method.
         Object             => {                         # optional
             %TicketData,
         },
+        ParamObject        => $ParamObject,             # optional
     );
 
 =cut
@@ -938,7 +939,7 @@ sub PossibleValuesGet {
         %PossibleValues = ( '' => '-' );
     }
 
-    # passing $Param{Object} to SearchObjects()
+    # passing $Param{ParamObject} or $Param{Object} to SearchObjects()
     my @SearchResult = $Self->SearchObjects(
         %Param,
     );

@@ -3017,6 +3017,7 @@ This is used in auto completion when searching for possible object IDs.
         Term               => $Term,
         MaxResults         => $MaxResults,
         UserID             => 1,
+        ParamObject        => $ParamObject,
     );
 
 =cut
