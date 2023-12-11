@@ -114,13 +114,6 @@ sub GetFieldTypeSettings {
             Multiple        => 1,
         };
 
-    # Do not support reference filters
-    push @FieldTypeSettings,
-        {
-            ConfigParamName => 'ReferenceFilterList',
-            InputType       => 'Empty',
-        };
-
     return @FieldTypeSettings;
 }
 
