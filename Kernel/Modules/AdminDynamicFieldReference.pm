@@ -303,18 +303,11 @@ sub _AddAction {
     SETTING:
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
 
-        my $Name = $Setting->{ConfigParamName};
-
-        # handle settings with a constant value
-        if ( $Setting->{ConstantValue} ) {
-            $FieldConfig{$Name} = $Setting->{ConstantValue};
-            next SETTING;
-        }
-
         # skip custom inputs which are handled separately
         # currently only used for reference filter list
         next SETTING if !$Setting->{InputType};
 
+        my $Name = $Setting->{ConfigParamName};
         $FieldConfig{$Name} = $GetParam{$Name};
     }
 
@@ -631,18 +624,11 @@ sub _ChangeAction {
     SETTING:
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
 
-        my $Name = $Setting->{ConfigParamName};
-
-        # handle settings with a constant value
-        if ( $Setting->{ConstantValue} ) {
-            $FieldConfig{$Name} = $Setting->{ConstantValue};
-            next SETTING;
-        }
-
         # skip custom inputs which are handled separately
         # currently only used for reference filter list
         next SETTING if !$Setting->{InputType};
 
+        my $Name = $Setting->{ConfigParamName};
         $FieldConfig{$Name} = $GetParam{$Name};
     }
 
@@ -837,7 +823,9 @@ sub _ShowScreen {
     # Selections may be set up in a declaritive way
     SETTING:
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+
         next SETTING unless $Setting->{InputType};
+
         if ( $Setting->{InputType} eq 'Selection' ) {
             my $Name      = $Setting->{ConfigParamName};
             my $FieldStrg = $LayoutObject->BuildSelection(

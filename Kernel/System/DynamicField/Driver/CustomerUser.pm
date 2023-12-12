@@ -110,29 +110,57 @@ Get field type settings that are specific to the referenced object type Customer
 sub GetFieldTypeSettings {
     my ( $Self, %Param ) = @_;
 
-    my @GenericSettings = $Self->SUPER::GetFieldTypeSettings(
-        %Param,
-    );
+    # setting independent from the referenced object
     my @FieldTypeSettings;
 
-    SETTING:
-    for my $GenericSetting (@GenericSettings) {
+    # For reference dynamic fields we want to display the referenced object type,
+    # but the user should not be able to easily change that.
+    # The select field can't be simply disabled as this would prevent that the info
+    # is passed to the backend. Therefore we set up a list with a single element.
+    {
+        push @FieldTypeSettings,
+            {
+                ConfigParamName => 'ReferencedObjectType',
+                Label           => Translatable('Referenced object type'),
+                Explanation     => Translatable('Select the type of the referenced object'),
+                InputType       => 'Selection',
+                SelectionData   => { $Self->{ReferencedObjectType} => $Self->{ReferencedObjectType} },
+                PossibleNone    => 0,
+                Mandatory       => 1,
+            };
+    }
 
-        # exclude selection settings
-        next SETTING if $GenericSetting->{ConfigParamName} eq 'PossibleNone';
-        next SETTING if $GenericSetting->{ConfigParamName} eq 'Multiselect';
+    # set up the edit field mode selection
+    {
+        push @FieldTypeSettings,
+            {
+                ConfigParamName => 'EditFieldMode',
+                Label           => Translatable('Input mode of edit field'),
+                Explanation     => Translatable('Select the input mode for the edit field.'),
+                InputType       => 'Selection',
+                SelectionData   => {
+                    'AutoComplete' => 'AutoComplete',
+                },
+                PossibleNone => 0,
+            };
+    }
 
-        # always set editfieldmode to autocomplete
-        if ( $GenericSetting->{ConfigParamName} eq 'EditFieldMode' ) {
-            push @FieldTypeSettings,
-                {
-                    ConfigParamName => $GenericSetting->{ConfigParamName},
-                    ConstantValue   => 'AutoComplete',
-                };
-        }
-        else {
-            push @FieldTypeSettings, $GenericSetting;
-        }
+    # This dynamic field support multiple values.
+    {
+        my %MultiValueSelectionData = (
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
+        );
+
+        push @FieldTypeSettings,
+            {
+                ConfigParamName => 'MultiValue',
+                Label           => Translatable('Multiple Values'),
+                Explanation     => Translatable('Activate this option to allow multiple values for this field.'),
+                InputType       => 'Selection',
+                SelectionData   => \%MultiValueSelectionData,
+                PossibleNone    => 0,
+            };
     }
 
     # Support reference filters
