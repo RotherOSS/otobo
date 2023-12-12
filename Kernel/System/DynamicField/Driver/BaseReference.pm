@@ -851,9 +851,8 @@ sub GetFieldTypeSettings {
             };
     }
 
-    if ( $Self->{Behaviors}{IsDropdownCapable} ) {
-
-        # set up the edit field mode selection
+    # set up the edit field mode selection
+    {
         push @GenericSettings,
             {
                 ConfigParamName => 'EditFieldMode',
@@ -867,8 +866,10 @@ sub GetFieldTypeSettings {
                 },
                 PossibleNone => 0,
             };
+    }
 
-        # add possible none option
+    # add possible none option
+    {
         push @GenericSettings,
             {
                 ConfigParamName => 'PossibleNone',
