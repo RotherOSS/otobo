@@ -83,7 +83,6 @@ sub new {
         'IsCustomerInterfaceCapable'   => 1,
         'IsHiddenInTicketInformation'  => 0,
         'IsReferenceField'             => 1,
-        'IsDropdownCapable'            => 0,
     };
 
     $Self->{ReferencedObjectType} = 'CustomerUser';
@@ -100,16 +99,30 @@ Get field type settings that are specific to the referenced object type Customer
 sub GetFieldTypeSettings {
     my ( $Self, %Param ) = @_;
 
-    my @FieldTypeSettings = $Self->SUPER::GetFieldTypeSettings(
+    my @GenericSettings = $Self->SUPER::GetFieldTypeSettings(
         %Param,
     );
+    my @FieldTypeSettings;
 
-    # always set editfieldmode to autocomplete
-    push @FieldTypeSettings,
-        {
-            ConfigParamName => 'EditFieldMode',
-            ConstantValue   => 'AutoComplete',
-        };
+    SETTING:
+    for my $GenericSetting (@GenericSettings) {
+
+        # exclude selection settings
+        next SETTING if $GenericSetting->{ConfigParamName} eq 'PossibleNone';
+        next SETTING if $GenericSetting->{ConfigParamName} eq 'Multiselect';
+
+        # always set editfieldmode to autocomplete
+        if ( $GenericSetting->{ConfigParamName} eq 'EditFieldMode' ) {
+            push @FieldTypeSettings,
+                {
+                    ConfigParamName => $GenericSetting->{ConfigParamName},
+                    ConstantValue   => 'AutoComplete',
+                };
+        }
+        else {
+            push @FieldTypeSettings, $GenericSetting;
+        }
+    }
 
     # Support reference filters
     push @FieldTypeSettings,
