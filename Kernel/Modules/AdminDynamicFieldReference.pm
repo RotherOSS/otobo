@@ -823,7 +823,6 @@ sub _ShowScreen {
     # Selections may be set up in a declaritive way
     SETTING:
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
-
         next SETTING unless $Setting->{InputType};
 
         if ( $Setting->{InputType} eq 'Selection' ) {

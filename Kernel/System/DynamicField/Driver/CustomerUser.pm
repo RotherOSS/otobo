@@ -98,6 +98,7 @@ sub PossibleValuesGet {
         Prioritiy => 'error',
         Message   => 'Method PossibleValuesGet is per design not implemented for CustomerUser dynamic fields and should never be called.',
     );
+
     return;
 }
 
