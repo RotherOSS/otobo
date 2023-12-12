@@ -821,7 +821,9 @@ sub _ShowScreen {
     $Param{EditFieldMode} = $Param{EditFieldMode} eq 'AutoComplete' ? 'AutoComplete' : ( $Param{Multiselect} ? 'Multiselect' : 'Dropdown' );
 
     # Selections may be set up in a declaritive way
+    SETTING:
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
+        next SETTING unless $Setting->{InputType};
         if ( $Setting->{InputType} eq 'Selection' ) {
             my $Name      = $Setting->{ConfigParamName};
             my $FieldStrg = $LayoutObject->BuildSelection(
