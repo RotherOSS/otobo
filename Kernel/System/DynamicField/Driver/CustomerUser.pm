@@ -83,6 +83,7 @@ sub new {
         'IsCustomerInterfaceCapable'   => 1,
         'IsHiddenInTicketInformation'  => 0,
         'IsReferenceField'             => 1,
+        'IsDropdownCapable'            => 0,
     };
 
     $Self->{ReferencedObjectType} = 'CustomerUser';
@@ -102,6 +103,13 @@ sub GetFieldTypeSettings {
     my @FieldTypeSettings = $Self->SUPER::GetFieldTypeSettings(
         %Param,
     );
+
+    # always set editfieldmode to autocomplete
+    push @FieldTypeSettings,
+        {
+            ConfigParamName => 'EditFieldMode',
+            ConstantValue   => 'AutoComplete',
+        };
 
     # Support reference filters
     push @FieldTypeSettings,

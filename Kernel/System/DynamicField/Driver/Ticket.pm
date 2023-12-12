@@ -85,6 +85,7 @@ sub new {
         'IsCustomerInterfaceCapable'   => 1,
         'IsHiddenInTicketInformation'  => 0,
         'IsReferenceField'             => 1,
+        'IsDropdownCapable'            => 1,
     };
 
     $Self->{ReferencedObjectType} = 'Ticket';
