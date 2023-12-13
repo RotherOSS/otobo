@@ -24,7 +24,7 @@
     [% BreadcrumbPath = [
             {
                 Name => Translate('Dynamic Fields Management'),
-                Link => 'AdminDynamicField',
+                Link => 'AdminDynamicField' _ Data.FilterStrg,
             },
         ]
     %]
