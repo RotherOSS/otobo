@@ -23,6 +23,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -204,6 +205,10 @@ sub _ShowOverview {
         my @ReferenceDynamicFields;
         FIELDTYPE:
         for my $FieldTypeName ( sort { $FieldDialogs{$a} cmp $FieldDialogs{$b} } keys %FieldTypes ) {
+
+            if ( IsArrayRefWithData( $FieldTypeConfig->{$FieldTypeName}{ObjectTypes} ) ) {
+                next FIELDTYPE unless any { $ObjectType eq $_ } $FieldTypeConfig->{$FieldTypeName}{ObjectTypes}->@*;
+            }
 
             # group reference field types to show in tree view
             my $Value = $FieldTypes{$FieldTypeName};

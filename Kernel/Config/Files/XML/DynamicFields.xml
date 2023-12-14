@@ -59,6 +59,10 @@
                 <Item Key="DisplayName" Translatable="1">Text</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Text</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -70,6 +74,10 @@
                 <Item Key="DisplayName" Translatable="1">Textarea</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::TextArea</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -81,6 +89,10 @@
                 <Item Key="DisplayName" Translatable="1">Richtext</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::RichText</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -92,6 +104,10 @@
                 <Item Key="DisplayName" Translatable="1">Checkbox</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Checkbox</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldCheckbox</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -103,6 +119,10 @@
                 <Item Key="DisplayName" Translatable="1">Dropdown</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Dropdown</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDropdown</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -114,6 +134,10 @@
                 <Item Key="DisplayName" Translatable="1">Date / Time</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::DateTime</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDateTime</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -125,6 +149,10 @@
                 <Item Key="DisplayName" Translatable="1">Date</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Date</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDateTime</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -137,6 +165,10 @@
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Multiselect</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldMultiselect</Item>
                 <Item Key="ItemSeparator">, </Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -148,6 +180,10 @@
                 <Item Key="DisplayName" Translatable="1">Title</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Title</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldTitle</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -159,6 +195,10 @@
                 <Item Key="DisplayName" Translatable="1">Dynamic Field Set</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Set</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldSet</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -170,6 +210,10 @@
                 <Item Key="DisplayName" Translatable="1">Script (Template Toolkit)</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::ScriptTemplateToolkit</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldScript</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -345,6 +389,10 @@
                 <Item Key="DisplayName" Translatable="1">Database</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Database</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDB</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -739,6 +787,10 @@
                 <Item Key="DisplayName" Translatable="1">Web Service</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::WebService</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldWebService</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -775,6 +827,10 @@
                 <Item Key="DisplayName" Translatable="1">Contact with data</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::ContactWD</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldContactWD</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -1067,6 +1123,10 @@
                 <Item Key="DisplayName" Translatable="1">Ticket</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Ticket</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -1081,6 +1141,10 @@
                 <Item Key="DisplayName" Translatable="1">Agent</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Agent</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -1095,6 +1159,10 @@
                 <Item Key="DisplayName" Translatable="1">CustomerCompany</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::CustomerCompany</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -1109,6 +1177,10 @@
                 <Item Key="DisplayName" Translatable="1">CustomerUser</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::CustomerUser</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -1123,6 +1195,10 @@
                 <Item Key="DisplayName" Translatable="1">Lens</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::Lens</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldLens</Item>
+                <Item Key="ObjectTypes">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>
