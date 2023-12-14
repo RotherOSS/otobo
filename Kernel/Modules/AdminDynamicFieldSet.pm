@@ -248,6 +248,9 @@ sub _AddAction {
         }
     }
 
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     if ( $GetParam{FieldOrder} ) {
 
         # check if field order is numeric and positive
