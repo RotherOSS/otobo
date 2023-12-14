@@ -225,17 +225,14 @@ sub ValueSet {
             # The values for an included dynamic field are the values from the respective column
             my @FieldValue = map { $_->[$i] } @SetValue;
 
-        # The values for an included dynamic field are the values from the respective column
-        my @FieldValue = map { $_->[$i] } @SetValue;
-
-        if (
-            !$BackendObject->ValueSet(
-                %Param,
-                DynamicFieldConfig => $DynamicField,
-                Value              => \@FieldValue,
-                Set                => 1,
-                ObjectName         => undef,
-            )
+            if (
+                !$BackendObject->ValueSet(
+                    %Param,
+                    DynamicFieldConfig => $DynamicField,
+                    Value              => \@FieldValue,
+                    Set                => 1,
+                    ObjectName         => undef,
+                )
             )
             {
                 $Success = 0;
