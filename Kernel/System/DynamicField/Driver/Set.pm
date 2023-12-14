@@ -222,8 +222,12 @@ sub EditFieldRender {
     }
 
     # TODO: maybe set all mandatory? necessary?
-    #    # set field as mandatory
-    #    if ( $Param{Mandatory} ) {
+    #    # set classes according to mandatory and acl hidden params
+    #    if ( $Param{ACLHidden} && $Param{Mandatory} ) {
+    #        $FieldClass .= ' Validate_Required_IfVisible';
+    #    }
+    #    elsif ( $Param{Mandatory} ) {
+    #        $FieldClass .= ' Validate_Required';
     #    }
 
     # TODO:
