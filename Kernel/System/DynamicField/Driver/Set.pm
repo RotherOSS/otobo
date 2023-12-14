@@ -91,6 +91,79 @@ sub new {
     return $Self;
 }
 
+# Helper Function for getting the Dynamic Fields from an Include, i.e.
+# $DynamicFields = $GetIncludedDynamicFields->($Param{DynamicFieldConfig}{Config}{Include});
+# This subroutine takes two arguments:
+# $Include: a list of hash references containing information about the items to include
+# $DynamicFieldObject: an object used to retrieve dynamic field information
+# and returns either the DynamicFields or undef in case of an error.
+my $GetIncludedDynamicFields = sub {
+
+    my ($Include, $DynamicFieldObject, $DynamicFieldName) = @_;
+    my @DynamicFields;
+
+    # This subroutine takes a DFEntry and the DynamicFieldObject as arguments
+    # It retrieves the dynamic field definition for the given DFEntry
+    # If the definition is not available, it retrieves it from the DynamicFieldObject
+    # Returns the dynamic field definition
+    my $GetDynamicField = sub {
+
+        my ($DFEntry, $DynamicFieldObject) = @_;
+        
+        my $DynamicField = $DFEntry->{Definition} // $DynamicFieldObject->DynamicFieldGet(
+            Name => $DFEntry->{DF},
+        );
+
+        return $DynamicField;
+    };
+
+    my $error = undef;
+
+    ITEM:
+    for my $IncludeItem (@{ $Include }) {
+
+        if ($IncludeItem->{Grid}) {
+
+            for my $Row (@{ $IncludeItem->{Grid}{Rows} }) {
+
+                for my $DFEntry (@$Row) {
+
+                    my $DynamicField = $GetDynamicField->($DFEntry, $DynamicFieldObject);
+                    if ($DynamicField) {
+                        push @DynamicFields, $DynamicField;
+                    } else {
+                        $error = 1;
+                        last ITEM;
+                    }
+                }
+            }
+        } elsif ($IncludeItem->{DF}) {
+
+            my $DynamicField = $GetDynamicField->($IncludeItem, $DynamicFieldObject);
+            if ($DynamicField) {
+                push @DynamicFields, $DynamicField;
+            } else {
+                $error = 1;
+                last ITEM;
+            }
+        } else {
+            $error = 1;
+            last ITEM;
+        }
+    }
+
+    if ($error) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "$DynamicFieldName configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
+        );
+
+        return undef;
+    } else {
+        return \@DynamicFields;
+    }
+};
+
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
@@ -98,21 +171,18 @@ sub ValueGet {
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     my @SetValue;
-    for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
 
-        # historical Definitions will be provided by ITSMConfigItems
-        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
-        );
+    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
+    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-        if ( !$DynamicField ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "$Param{DynamicFieldConfig}{Name} configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
-            );
+    #DEBUG
+    #use Data::Dumper;
+    #print STDERR "DynamicFields".Dumper($DynamicFields)."\n";
 
-            return;
-        }
+    for my $i (0 .. $#$DynamicFields) {
+
+        my $DynamicField = $DynamicFields->[$i];
 
         my $FieldValue = $BackendObject->ValueGet(
             %Param,
@@ -141,38 +211,34 @@ sub ValueSet {
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    # loop over the dynamic fields that are included in the Set
-    for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
+    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
+    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-        # historical Definitions will be provided by ITSMConfigItems
-        my $Include      = $Param{DynamicFieldConfig}{Config}{Include}[$i];
-        my $DynamicField = $Include->{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $Include->{DF},
-        );
+    if (!$DynamicFields) {
+        
+        $Success = 0;
+    } else {
+        
+        for my $i (0 .. $#$DynamicFields) {
 
-        if ( !$DynamicField ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "$Param{DynamicFieldConfig}{Name} configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
-            );
+            my $DynamicField = $DynamicFields->[$i];
 
-            return;
-        }
+            # The values for an included dynamic field are the values from the respective column
+            my @FieldValue = map { $_->[$i] } @SetValue;
 
-        # The values for an included dynamic field are the values from the respective column
-        my @FieldValue = map { $_->[$i] } @SetValue;
-
-        if (
-            !$BackendObject->ValueSet(
-                %Param,
-                DynamicFieldConfig => $DynamicField,
-                Value              => \@FieldValue,
-                Set                => 1,
-                ObjectName         => undef,
+            if (
+                !$BackendObject->ValueSet(
+                    %Param,
+                    DynamicFieldConfig => $DynamicField,
+                    Value              => \@FieldValue,
+                    Set                => 1,
+                    ObjectName         => undef,
+                )
             )
-            )
-        {
-            $Success = 0;
+            {
+                $Success = 0;
+            }
         }
     }
 
@@ -189,30 +255,26 @@ sub ValueValidate {
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
+    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
+    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-        # historical Definitions will be provided by ITSMConfigItems
-        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
-        );
+    if ($DynamicFields) {
+        $Success = 0;
+    } else {
+        for my $i (0 .. $#{$DynamicFields}) {
 
-        if ( !$DynamicField ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "$Param{DynamicFieldConfig}{Name} configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
-            );
+            my $DynamicField = $DynamicFields->[$i];
 
-            return;
-        }
+            for my $SetIndex ( 0 .. $#SetValue ) {
+                $Success = $BackendObject->ValueValidate(
+                    %Param,
+                    DynamicFieldConfig => $DynamicField,
+                    Value              => $SetValue[$SetIndex][$i],
+                );
 
-        for my $SetIndex ( 0 .. $#SetValue ) {
-            $Success = $BackendObject->ValueValidate(
-                %Param,
-                DynamicFieldConfig => $DynamicField,
-                Value              => $SetValue[$SetIndex][$i],
-            );
-
-            return if !$Success;
+                return if !$Success;
+            }
         }
     }
 
@@ -292,30 +354,27 @@ sub EditFieldRender {
     };
 
     my @ResultHTML;
-    for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
 
-        # historical Definitions will be provided by ITSMConfigItems
-        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
-        );
+    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
+    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-        if ( !$DynamicField ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "$Param{DynamicFieldConfig}{Name} configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
-            );
+    if (!$DynamicFields)
+             {
+        return undef;
+    } else {
 
-            return;
-        }
+        for my $i (0 .. $#{$DynamicFields}) {
 
-        # prevent overwriting names in cached data
-        $DynamicFieldConfigs{ $DynamicField->{Name} } = { $DynamicField->%* };
+            my $DynamicField = $DynamicFields->[$i];
+		# prevent overwriting names in cached data
+            $DynamicFieldConfigs{ $DynamicField->{Name} } = { $DynamicField->%* };
 
         for my $SetIndex ( 0 .. $#SetValue ) {
             $DynamicFieldValues[$SetIndex]{ 'DynamicField_' . $DynamicField->{Name} } = $SetValue[$SetIndex][$i];
         }
     }
-
+    
     # TODO: Improve
     my $StoreBlockData = delete $Param{LayoutObject}{BlockData};
 
@@ -325,7 +384,7 @@ sub EditFieldRender {
         }
 
         my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
-            Content            => $Param{DynamicFieldConfig}{Config}{Include},
+            Content            => $Include,
             DynamicFields      => \%DynamicFieldConfigs,
             UpdatableFields    => $Param{UpdatableFields},
             LayoutObject       => $Param{LayoutObject},
@@ -409,33 +468,30 @@ sub EditFieldValueGet {
     # get the highest multivalue index (second to last; last is the empty template)
     my $IndexMax = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $DataAll[-2] // 0 : 0;
 
-    for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
+    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
+    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-        # historical Definitions will be provided by ITSMConfigItems
-        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
-        );
+    if (!$DynamicFields)
+             {
+        return;
+    } else {
+        for my $i (0 .. $#{$DynamicFields}) {
 
-        if ( !$DynamicField ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "$Param{DynamicFieldConfig}{Name} configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
-            );
+            my $DynamicField = $DynamicFields->[$i];
+            
+            # prevent overwriting names in cached data
+            $DynamicField = { $DynamicField->%* };
 
-            return;
-        }
+            my $Name = $DynamicField->{Name};
+            for my $SetIndex ( 0 .. $IndexMax ) {
+                $DynamicField->{Name} = $Name . '_' . $SetIndex;
 
-        # prevent overwriting names in cached data
-        $DynamicField = { $DynamicField->%* };
-
-        my $Name = $DynamicField->{Name};
-        for my $SetIndex ( 0 .. $IndexMax ) {
-            $DynamicField->{Name} = $Name . '_' . $SetIndex;
-
-            $SetData[$SetIndex][$i] = $BackendObject->EditFieldValueGet(
-                %Param,
-                DynamicFieldConfig => $DynamicField,
-            );
+                $SetData[$SetIndex][$i] = $BackendObject->EditFieldValueGet(
+                    %Param,
+                    DynamicFieldConfig => $DynamicField,
+                );
+            }
         }
     }
 
@@ -465,31 +521,31 @@ sub EditFieldValueValidate {
     my $Result;
     for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
 
-        # historical Definitions will be provided by ITSMConfigItems
-        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
-        );
+        my $Include = $Param{DynamicFieldConfig}{Config}{Include};
+        my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
+        my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-        if ( !$DynamicField ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "$Param{DynamicFieldConfig}{Name} configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
-            );
+        if (!$DynamicFields)
+             {
+            
+            $Result = undef;
+        } else {
+            for my $i (0 .. $#{$DynamicFields}) {
 
-            return;
-        }
+            my $DynamicField = $DynamicFields->[$i];
+                # prevent overwriting names in cached data
+                $DynamicField = { $DynamicField->%* };
 
-        # prevent overwriting names in cached data
-        $DynamicField = { $DynamicField->%* };
+                my $Name = $DynamicField->{Name};
+                for my $SetIndex ( 0 .. $IndexMax ) {
+                    $DynamicField->{Name} = $Name . '_' . $SetIndex;
 
-        my $Name = $DynamicField->{Name};
-        for my $SetIndex ( 0 .. $IndexMax ) {
-            $DynamicField->{Name} = $Name . '_' . $SetIndex;
-
-            $Result->{ $DynamicField->{Name} } = $BackendObject->EditFieldValueValidate(
-                %Param,
-                DynamicFieldConfig => $DynamicField,
-            );
+                    $Result->{ $DynamicField->{Name} } = $BackendObject->EditFieldValueValidate(
+                        %Param,
+                        DynamicFieldConfig => $DynamicField,
+                    );
+                }
+            }
         }
     }
 
@@ -517,53 +573,50 @@ sub DisplayValueRender {
         Title => [],
     );
 
-    for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
+    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
+    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-        # historical Definitions will be provided by ITSMConfigItems
-        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
-        );
+    if (!$DynamicFields)
+             {
+        return undef;
+    } else {
+        for my $i (0 .. $#{$DynamicFields}) {
 
-        if ( !$DynamicField ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "$Param{DynamicFieldConfig}{Name} configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
-            );
-
-            return;
-        }
-
-        my $Label;
-        if ($HTMLOutput) {
-            $Label = $Param{LayoutObject}->Output(
-                Template => '[% Translate( Data.Label ) | html %]',
-                Data     => {
-                    Label => $DynamicField->{Label},
-                },
-            );
-        }
-        else {
-            $Label = $Param{LayoutObject}->{LanguageObject}->Translate( $DynamicField->{Label} );
-        }
-
-        VALUE:
-        for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
-            next VALUE if !defined $Param{Value}[$SetIndex][$i];
-
-            my $Element = $BackendObject->DisplayValueRender(
-                %Param,
-                DynamicFieldConfig => $DynamicField,
-                Value              => $Param{Value}[$SetIndex][$i],
-            );
-
-            next VALUE if !defined $Element->{Value} || $Element->{Value} eq '';
+            my $DynamicField = $DynamicFields->[$i];
+            my $Label;
 
             if ($HTMLOutput) {
-                $SetValue{Value}[$SetIndex] .= "<label>$Label</label><p class='Value'><span title='$Element->{Title}'>$Element->{Value}</span></p>";
+                $Label = $Param{LayoutObject}->Output(
+                    Template => '[% Translate( Data.Label ) | html %]',
+                    Data     => {
+                        Label => $DynamicField->{Label},
+                    },
+                );
             }
             else {
-                $SetValue{Value}[$SetIndex] .= "$Label: $Element->{Value}\n";
-                $SetValue{Title}[$SetIndex] .= "$Label: $Element->{Title}\n";
+                $Label = $Param{LayoutObject}->{LanguageObject}->Translate( $DynamicField->{Label} );
+            }
+
+            VALUE:
+            for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
+                next VALUE if !defined $Param{Value}[$SetIndex][$i];
+
+                my $Element = $BackendObject->DisplayValueRender(
+                    %Param,
+                    DynamicFieldConfig => $DynamicField,
+                    Value              => $Param{Value}[$SetIndex][$i],
+                );
+
+                next VALUE if !defined $Element->{Value} || $Element->{Value} eq '';
+
+                if ($HTMLOutput) {
+                    $SetValue{Value}[$SetIndex] .= "<label>$Label</label><p class='Value'><span title='$Element->{Title}'>$Element->{Value}</span></p>";
+                }
+                else {
+                    $SetValue{Value}[$SetIndex] .= "$Label: $Element->{Value}\n";
+                    $SetValue{Title}[$SetIndex] .= "$Label: $Element->{Title}\n";
+                }
             }
         }
     }
@@ -603,34 +656,30 @@ sub ReadableValueRender {
         Title => [],
     );
 
-    for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
+    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
+    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-        # historical Definitions will be provided by ITSMConfigItems
-        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
-        );
+    if (!$DynamicFields)
+             {
+        return undef;
+    } else {
+        for my $i (0 .. $#{$DynamicFields}) {
 
-        if ( !$DynamicField ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "$Param{DynamicFieldConfig}{Name} configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
-            );
+            my $DynamicField = $DynamicFields->[$i];
+            VALUE:
+            for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
+                next VALUE if !defined $Param{Value}[$SetIndex][$i];
 
-            return;
-        }
+                my $Element = $BackendObject->ReadableValueRender(
+                    %Param,
+                    DynamicFieldConfig => $DynamicField,
+                    Value              => $Param{Value}[$SetIndex][$i],
+                );
 
-        VALUE:
-        for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
-            next VALUE if !defined $Param{Value}[$SetIndex][$i];
-
-            my $Element = $BackendObject->ReadableValueRender(
-                %Param,
-                DynamicFieldConfig => $DynamicField,
-                Value              => $Param{Value}[$SetIndex][$i],
-            );
-
-            $SetValue{Value}[$SetIndex] .= " $DynamicField->{Label}: $Element->{Value};";
-            $SetValue{Title}[$SetIndex] .= " $DynamicField->{Label}: $Element->{Title};";
+                $SetValue{Value}[$SetIndex] .= " $DynamicField->{Label}: $Element->{Value};";
+                $SetValue{Title}[$SetIndex] .= " $DynamicField->{Label}: $Element->{Title};";
+            }
         }
     }
 
@@ -661,33 +710,30 @@ sub RandomValueSet {
     # create 1 to 3 sets for MultiValue, else 1
     my $SetCount = $Param{DynamicFieldConfig}{Config}{MultiValue} ? int( rand(3) ) + 1 : 1;
 
-    for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
+    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
+    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-        # historical Definitions will be provided by ITSMConfigItems
-        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
-        );
+    if (!$DynamicFields)
+             {
+        
+        $Success = 0;
+    } else {
+        for my $i (0 .. $#{$DynamicFields}) {
 
-        if ( !$DynamicField ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "$Param{DynamicFieldConfig}{Name} configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
+            my $DynamicField = $DynamicFields->[$i];
+            my $Return = $BackendObject->RandomValueSet(
+                %Param,
+                DynamicFieldConfig => $DynamicField,
+                SetCount           => $SetCount,
             );
 
-            return;
+            if ( !$Return->{Success} ) {
+                $Success = 0;
+            }
+
+            push @Value, $Return->{Value};
         }
-
-        my $Return = $BackendObject->RandomValueSet(
-            %Param,
-            DynamicFieldConfig => $DynamicField,
-            SetCount           => $SetCount,
-        );
-
-        if ( !$Return->{Success} ) {
-            $Success = 0;
-        }
-
-        push @Value, $Return->{Value};
     }
 
     if ( !$Success ) {
@@ -714,36 +760,32 @@ sub ValueLookup {
 
     my @SetValue;
 
-    for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
+    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
+    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-        # historical Definitions will be provided by ITSMConfigItems
-        my $DynamicField = $Param{DynamicFieldConfig}{Config}{Include}[$i]{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $Param{DynamicFieldConfig}{Config}{Include}[$i]{DF},
-        );
+    if (!$DynamicFields)
+             {
+        return undef;
+    } else {
+        for my $i (0 .. $#{$DynamicFields}) {
 
-        if ( !$DynamicField ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "$Param{DynamicFieldConfig}{Name} configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
-            );
+            my $DynamicField = $DynamicFields->[$i];
+            # TODO: where does $Param{Value} come from ?
+            VALUE:
+            for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
+                next VALUE unless defined $Param{Value}[$SetIndex][$i];
 
-            return;
-        }
+                # TODO: what if $Element is an arrayref ?
+                my $Element = $BackendObject->ValueLookup(
+                    %Param,
+                    DynamicFieldConfig => $DynamicField,
+                    Value              => $Param{Value}[$SetIndex][$i],
+                );
 
-        # TODO: where does $Param{Value} come from ?
-        VALUE:
-        for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
-            next VALUE unless defined $Param{Value}[$SetIndex][$i];
-
-            # TODO: what if $Element is an arrayref ?
-            my $Element = $BackendObject->ValueLookup(
-                %Param,
-                DynamicFieldConfig => $DynamicField,
-                Value              => $Param{Value}[$SetIndex][$i],
-            );
-
-            # TODO: why concatenate to an undefined variable ?
-            $SetValue[$SetIndex] .= " $DynamicField->{Label}: $Element;";
+                # TODO: why concatenate to an undefined variable ?
+                $SetValue[$SetIndex] .= " $DynamicField->{Label}: $Element;";
+            }
         }
     }
 
