@@ -262,9 +262,6 @@ sub _AddAction {
         }
     }
 
-    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-    
     my @Include;
     if ( $GetParam{Include} ) {
         my $IncludeFrontend = $Kernel::OM->Get('Kernel::System::YAML')->Load(
