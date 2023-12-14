@@ -207,6 +207,7 @@ sub EditSectionRender {
                 )
             {
                 %InvisibleNoDefault = (
+                    ACLHidden            => 1,
                     UseDefaultValue      => 0,
                     OverridePossibleNone => 1,
                 );
@@ -256,11 +257,6 @@ sub EditSectionRender {
             # hide fields
             if ( $Param{Visibility} && !$Param{Visibility}{$DFName} ) {
                 $CellClassString .= ' oooACLHidden';
-
-                # ACL hidden fields cannot be mandatory
-                if ( $Field->{Mandatory} ) {
-                    $DynamicFieldHTML =~ s/(class=.+?Validate_Required)/$1_IfVisible/g;
-                }
             }
 
             # column placement

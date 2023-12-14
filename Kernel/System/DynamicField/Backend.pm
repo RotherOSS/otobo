@@ -240,6 +240,7 @@ creates the field and label HTML to be used in edit masks.
         },
         Value                => 'Any value',              # Optional
         Mandatory            => 1,                        # 0 or 1,
+        ACLHidden            => 1,                        # 0 or 1,
         Class                => 'AnyCSSClass OrOneMore',  # Optional
         ServerError          => 1,                        # 0 or 1,
         ErrorMessage         => $ErrorMessage,            # Optional or a default will be used in error case

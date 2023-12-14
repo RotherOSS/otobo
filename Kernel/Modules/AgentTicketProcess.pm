@@ -2650,6 +2650,7 @@ sub _RenderDynamicField {
         ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
         AJAXUpdate           => 1,
         Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
+        ACLHidden            => ( $Param{ActivityDialogField}->{Display} == 2 && !$Param{Visibility} ),
         UpdatableFields      => $Param{AJAXUpdatableFields},
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
@@ -2663,11 +2664,6 @@ sub _RenderDynamicField {
             HiddenClass => ' oooACLHidden',
             HiddenStyle => 'style=display:none;',
         );
-
-        # ACL hidden fields cannot be mandatory
-        if ( $Param{ActivityDialogField}{Display} == 2 ) {
-            $DynamicFieldHTML->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/g;
-        }
     }
 
     my %Data = (
