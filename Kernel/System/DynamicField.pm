@@ -122,6 +122,37 @@ sub DynamicFieldAdd {
         }
     }
 
+    # perform namespace validity check
+    if ( $Param{Name} =~ m{ \A (?<Namespace>[a-zA-Z\d]+)-(?<DFName>[a-zA-Z\d]+) \Z }axms ) {
+        my $Namespaces = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
+
+        if ( !defined $Namespaces ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  =>
+                    "Dynamic field name $Param{Name} includes namespace syntax, but the namespace feature is not activated. Please activate the system configuration setting DynamicField::Namespaces!",
+            );
+            return;
+        }
+
+        if ( !IsArrayRefWithData($Namespaces) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "No namespaces configured!",
+            );
+            return;
+
+        }
+
+        if ( !any { $+{Namespace} eq $_ } $Namespaces->@* ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Namespace $+{Namespace} does not exist yet. Please add it to the system configuration setting DynamicField::Namespaces!",
+            );
+            return;
+        }
+    }
+
     # check needed structure for some fields
     if ( $Param{Name} !~ m{ \A [a-zA-Z\d-]+ \z }axms ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -393,6 +424,37 @@ sub DynamicFieldUpdate {
     my $Config = $YAMLObject->Dump( Data => $Param{Config} );
 
     return if !$YAMLObject->Load( Data => $Config );
+
+    # perform namespace validity check
+    if ( $Param{Name} =~ m{ \A (?<Namespace>[a-zA-Z\d]+)-(?<DFName>[a-zA-Z\d]+) \Z }axms ) {
+        my $Namespaces = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
+
+        if ( !defined $Namespaces ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  =>
+                    "Dynamic field name $Param{Name} includes namespace syntax, but the namespace feature is not activated. Please activate the system configuration setting DynamicField::Namespaces!",
+            );
+            return;
+        }
+
+        if ( !IsArrayRefWithData($Namespaces) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "No namespaces configured!",
+            );
+            return;
+
+        }
+
+        if ( !any { $+{Namespace} eq $_ } $Namespaces->@* ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Namespace $+{Namespace} does not exist yet. Please add it to the system configuration setting DynamicField::Namespaces!",
+            );
+            return;
+        }
+    }
 
     # check needed structure for some fields
     if ( $Param{Name} !~ m{ \A [a-zA-Z\d\-]+ \z }xms ) {
