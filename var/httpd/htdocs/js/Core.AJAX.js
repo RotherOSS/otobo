@@ -512,6 +512,17 @@ Core.AJAX = (function (TargetNS) {
                         FieldData.addClass("Validate_Required_IfVisible");
                     }
                 }
+                else if ( Field.hasClass("Validate_DnDUpload") ) {
+                    Field.removeClass("Validate_DnDUpload");
+                    Field.addClass("Validate_DnDUpload_IfVisible");
+
+                    // handling of database dynamic fields
+                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    if( FieldData.length > 0 && FieldData.hasClass("Validate_DnDUpload") ) {
+                        FieldData.removeClass("Validate_DnDUpload");
+                        FieldData.addClass("Validate_DnDUpload_IfVisible");
+                    }
+                }
                 else if ( Field.hasClass("Validate_DependingRequiredAND") ) {
                     Field.removeClass("Validate_DependingRequiredAND");
                     Field.addClass("Validate_DependingRequired_IfVisibleAND");
@@ -541,6 +552,17 @@ Core.AJAX = (function (TargetNS) {
                     if( FieldData.length > 0 && FieldData.hasClass("Validate_Required_IfVisible") ) {
                         FieldData.removeClass("Validate_Required_IfVisible");
                         FieldData.addClass("Validate_Required");
+                    }
+                }
+                else if ( Field.hasClass("Validate_DnDUpload_IfVisible") ) {
+                    Field.removeClass("Validate_DnDUpload_IfVisible");
+                    Field.addClass("Validate_DnDUpload");
+
+                    // handling database dynamic fields
+                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    if( FieldData.length > 0 && FieldData.hasClass("Validate_DnDUpload_IfVisible") ) {
+                        FieldData.removeClass("Validate_DnDUpload_IfVisible");
+                        FieldData.addClass("Validate_DnDUpload");
                     }
                 }
                 else if ( Field.hasClass("Validate_DependingRequired_IfVisibleAND") ) {
