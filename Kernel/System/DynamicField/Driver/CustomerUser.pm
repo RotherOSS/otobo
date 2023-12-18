@@ -276,7 +276,6 @@ sub SearchObjects {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    # Support restriction by ticket type when the Ticket::Type feature is activated.
     my %SearchParams;
 
     # incorporate referencefilterlist into search params
