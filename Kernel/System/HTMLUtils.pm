@@ -16,12 +16,18 @@
 
 package Kernel::System::HTMLUtils;
 
+use v5.24;
 use strict;
 use warnings;
-
+use namespace::autoclean;
 use utf8;
 
+# core modules
 use MIME::Base64;
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -31,11 +37,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::HTMLUtils - creating and modifying html strings
+Kernel::System::HTMLUtils - creating and modifying HTML strings
 
 =head1 DESCRIPTION
 
-A module for creating and modifying html strings.
+A module for creating and modifying HTML strings.
 
 =head1 PUBLIC INTERFACE
 
@@ -51,8 +57,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get debug level from parent
     $Self->{Debug} = $Param{Debug} || 0;
@@ -72,12 +77,13 @@ sub ToAscii {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(String)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -606,11 +612,11 @@ sub ToHTML {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(String)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
@@ -644,11 +650,11 @@ sub DocumentComplete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String Charset)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(String Charset)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
@@ -698,11 +704,11 @@ sub DocumentStrip {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(String)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
@@ -740,11 +746,11 @@ sub DocumentCleanup {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(String)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
@@ -959,7 +965,7 @@ sub LinkQuote {
 =head2 Safety()
 
 To remove/strip active html tags/addons (javascript, C<applet>s, C<embed>s and C<object>s)
-from html strings.
+from HTML strings.
 
     my %Safe = $HTMLUtilsObject->Safety(
         String         => $HTMLString,
@@ -1001,11 +1007,11 @@ sub Safety {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(String)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
