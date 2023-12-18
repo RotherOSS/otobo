@@ -99,7 +99,7 @@ sub ToAscii {
     my @Links;
     my $Counter = 0;
     $Param{String} =~ s{
-        <a\s.*?href=("|')(.+?)\1.*?>
+        <a\s.*?href\s*=\s*("|')(.+?)\1.*?>
     }
     {
         my $Link = $2;

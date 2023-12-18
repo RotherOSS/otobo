@@ -57,6 +57,15 @@ my @Tests = (
         Name => 'ToAscii -JavaScript in href will be removed.'
     },
     {
+        Input  => qq{<b>Some Text</b><br/><a href \n\n    =  \n \n  "http://example.com<script>alert('JavaScript')</script>">Some URL</a>},
+        Result => 'Some Text
+[1]Some URL
+
+[1] http://example.com
+',
+        Name => 'ToAscii -JavaScript in href will be removed, even with surrounding white space'
+    },
+    {
         Input  => '<b>Some Text</b><br/>More Text',
         Result => 'Some Text
 More Text',
