@@ -183,11 +183,11 @@ sub EditFieldRender {
         'DynamicField/Agent/RichText';
 
     if ( $Param{ServerError} ) {
-        $FieldTemplateData{DivIDServerError} = $FieldTemplateData{FieldID} . 'ServerError';
+        $FieldTemplateData{DivIDServerError} = $FieldTemplateData{FieldName} . 'ServerError';
         $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
     }
     if ( $Param{Mandatory} ) {
-        $FieldTemplateData{DivIDMandatory}       = $FieldTemplateData{FieldID} . 'Error';
+        $FieldTemplateData{DivIDMandatory}       = $FieldTemplateData{FieldName} . 'Error';
         $FieldTemplateData{FieldRequiredMessage} = Translatable('This field is required.');
     }
 
