@@ -829,6 +829,7 @@
                 <Item Key="ConfigDialog">AdminDynamicFieldContactWD</Item>
                 <Item Key="ObjectTypes">
                     <Array>
+                        <Item>Ticket</Item>
                     </Array>
                 </Item>
             </Hash>
