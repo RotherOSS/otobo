@@ -96,15 +96,30 @@ sub ToAscii {
     my $LineLength = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::TextAreaNote') || 78;
 
     # find <a href=....> and replace it with [x]
-    my $LinkList = '';
-    my $Counter  = 0;
+    my @Links;
+    my $Counter = 0;
     $Param{String} =~ s{
         <a\s.*?href=("|')(.+?)\1.*?>
     }
     {
         my $Link = $2;
+
+        my %SafeLink = $Self->Safety(
+            String       => $Link,
+            NoApplet     => 1,
+            NoObject     => 1,
+            NoEmbed      => 1,
+            NoSVG        => 1,
+            NoImg        => 1,
+            NoIntSrcLoad => 1,
+            NoExtSrcLoad => 1,
+            NoJavaScript => 1,
+        );
+
+        $Link = $SafeLink{String} // '';
+
         $Counter++;
-        $LinkList .= "[$Counter] $Link\n";
+        push @Links, "[$Counter] $Link\n";
         "[$Counter]";
     }egxi;
 
@@ -585,8 +600,8 @@ sub ToAscii {
     }
 
     # add extracted links
-    if ($LinkList) {
-        $Param{String} .= "\n\n" . $LinkList;
+    if (@Links) {
+        $Param{String} .= "\n\n" . join '', @Links;
     }
 
     return $Param{String};
