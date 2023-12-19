@@ -137,6 +137,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     display: none;
 }
 
+[class*="Row_DynamicField"] .FieldExplanation {
+    margin-left: calc( 30% + 10px );
+}
+
 .FieldHelp {
     display: block;
 }
