@@ -1932,9 +1932,20 @@ sub _RenderDynamicField {
             Name => 'DynamicFieldMultiValueTemplate',
             Data => {
                 Content     => $DynamicFieldHTML->{MultiValueTemplate},
+                Label       => $DynamicFieldHTML->{Label},
                 ColumnStyle => 'grid-column: 1 / span 1',
             },
         );
+
+        # render short description once for first element
+        if ( $Param{DescriptionLong} ) {
+            $LayoutObject->Block(
+                Name => 'rw:DynamicField:DescriptionLongTemplate',
+                Data => {
+                    DescriptionLong => $Param{DescriptionLong},
+                },
+            );
+        }
     }
     else {
         $Data{Content} = $DynamicFieldHTML->{Field};
