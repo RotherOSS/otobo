@@ -146,14 +146,6 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                         Core.UI.InitAjaxDnDUpload();
 
                         // move help triggers into field rows for dynamic fields
-                        $('.Row > .FieldHelpContainer').each(function () {
-                            if (!$(this).next('label').find('.Marker').length) {
-                                $(this).prependTo($(this).next('label'));
-                            }
-                            else {
-                                $(this).insertAfter($(this).next('label').find('.Marker'));
-                            }
-                        });
                         $('.Row > .FieldCell > .FieldHelpContainer').each(function () {
                             if (!$(this).next('label').find('.Marker').length) {
                                 $(this).prependTo($(this).next('label'));
