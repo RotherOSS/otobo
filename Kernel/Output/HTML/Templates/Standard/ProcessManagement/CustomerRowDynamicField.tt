@@ -18,19 +18,18 @@
 <div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="grid-template-columns: [% Data.TemplateColumns | html %]">
 [% RenderBlockStart("rw:DynamicField") %]
     <div class="FieldCell[% Data.ColumnClasses | html %]" style="[% Data.ColumnStyle | html %]">
-[% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
-        <span class="FieldHelpContainer">
-            <i class="fa fa-question-circle FieldHelpTrigger"></i>
-            <span>[% Translate(Data.DescriptionLong) | html %]</span>
-        </span>
-[% RenderBlockEnd("rw:DynamicField:DescriptionLong") %]
+
         <div class="Field">
             [% Data.Content %]
-[% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
-            <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
-[% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
         </div>
-        [% Data.Label %]
+[% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
+        <div class="Tooltip oooTooltip">
+            <i class="ooofo ooofo-help"></i>
+            <div class="Content">
+                <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
+            </div>
+        </div>
+[% RenderBlockEnd("rw:DynamicField:DescriptionLong") %]
         [% IF Data.MultiValue && !Data.RowReadOnly %]
         <div class="AddRemoveValueRow">
             <a class="AddValueRow"><i class="ooofo ooofo-add"></i></a>
@@ -39,8 +38,11 @@
             [% END %]
         </div>
         [% END %]
-        <div class="Clear"></div>
+        [% Data.Label %]
     </div>
+[% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
+            <p class="FieldExplanation ooo12g">[% Translate(Data.DescriptionShort) | html %]</p>
+[% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
 [% RenderBlockEnd("rw:DynamicField") %]
 [% RenderBlockStart("DynamicFieldMultiValueTemplate") %]
     <div class="MultiValue_Template" style="[% Data.ColumnStyle | html %]">

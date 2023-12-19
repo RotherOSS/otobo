@@ -27,9 +27,6 @@
         [% Data.Label %]
         <div class="Field">
             [% Data.Content %]
-[% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
-            <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
-[% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
         </div>
         [% IF Data.MultiValue && !Data.RowReadOnly %]
         <div class="AddRemoveValueRow">
@@ -53,5 +50,8 @@
         </div>
     </div>
 [% RenderBlockEnd("DynamicFieldMultiValueTemplate") %]
+[% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
+            <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
+[% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
 </div>
 [% RenderBlockEnd("Row_DynamicField") %]
