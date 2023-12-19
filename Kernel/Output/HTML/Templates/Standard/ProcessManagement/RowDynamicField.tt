@@ -30,10 +30,8 @@
         </div>
         [% IF Data.MultiValue && !Data.RowReadOnly %]
         <div class="AddRemoveValueRow">
-            <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
-            [% IF Data.Index %]
             <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
-            [% END %]
+            <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
         </div>
         [% END %]
         <div class="Clear"></div>
@@ -41,6 +39,13 @@
 [% RenderBlockEnd("rw:DynamicField") %]
 [% RenderBlockStart("DynamicFieldMultiValueTemplate") %]
     <div class="MultiValue_Template" style="[% Data.ColumnStyle | html %]">
+[% RenderBlockStart("rw:DynamicField:DescriptionLongTemplate") %]
+        <span class="FieldHelpContainer">
+            <i class="fa fa-question-circle FieldHelpTrigger"></i>
+            <span>[% Translate(Data.DescriptionLong) | html %]</span>
+        </span>
+[% RenderBlockEnd("rw:DynamicField:DescriptionLongTemplate") %]
+        [% Data.Label %]
         <div class="Field">
             [% Data.Content %]
         </div>
