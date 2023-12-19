@@ -2823,6 +2823,16 @@ Core.UI.InputFields = (function (TargetNS) {
                 }
             });
 
+            // process field label initialization
+            $('.FieldHelpContainer', $Cell).each(function () {
+                if (!$(this).next('label').find('.Marker').length) {
+                    $(this).prependTo($(this).next('label'));
+                }
+                else {
+                    $(this).insertAfter($(this).next('label').find('.Marker'));
+                }
+            });
+
             // Some dynamic fields might not show the label for the added dynamic fields.
             // TODO: it labels are included in the HTML, then that should refer to the appropriate field.
             // TODO: replace by a nice css-only version (MultiValue_0 vs MultiValue_X, respecting non multi value, possibly in multi value multicolumn grid)
