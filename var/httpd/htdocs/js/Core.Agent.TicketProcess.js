@@ -154,6 +154,15 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                                 $(this).insertAfter($(this).next('label').find('.Marker'));
                             }
                         });
+                        $('.Row > .FieldCell > .FieldHelpContainer').each(function () {
+                            if (!$(this).next('label').find('.Marker').length) {
+                                $(this).prependTo($(this).next('label'));
+                            }
+                            else {
+                                $(this).insertAfter($(this).next('label').find('.Marker'));
+                            }
+                        });
+
 
                         // Initially display dynamic fields with TreeMode = 1 correctly
                         Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
