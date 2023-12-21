@@ -711,8 +711,25 @@ sub ReadableValueRender {
         @Values = ( $Param{Value} );
     }
 
+    # get descriptive names for the values, e.g. TicketNumber for TicketID
+    my @LongObjectDescriptions;
+    {
+        for my $ObjectID ( @Values ) {
+            if ($ObjectID) {
+                my %Description = $Self->ObjectDescriptionGet(
+                    ObjectID => $ObjectID,
+                );
+
+                push @LongObjectDescriptions, $Description{Long};
+            }
+            else {
+                push @LongObjectDescriptions, '';
+            }
+        }
+    }
+
     # prevent joining undefined values
-    @Values = map { $_ // '' } @Values;
+    @Values = map { $_ // '' } @LongObjectDescriptions;
 
     # set new line separator
     my $ItemSeparator = ', ';
