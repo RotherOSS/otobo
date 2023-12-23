@@ -18,10 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get HTMLUtils object
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
@@ -745,25 +748,25 @@ for my $Test (@Tests) {
         NoJavaScript => 1,
     );
     if ( $Test->{Result}->{Replace} ) {
-        $Self->True(
+        ok(
             $Result{Replace},
-            "$Test->{Name} replaced",
+            "$Test->{Name} - replaced",
         );
     }
     else {
-        $Self->False(
-            $Result{Replace},
-            "$Test->{Name} not replaced",
+        ok(
+            !$Result{Replace},
+            "$Test->{Name} - not replaced",
         );
     }
-    $Self->Is(
+    is(
         $Result{String},
         $Test->{Result}->{Output},
         $Test->{Name},
     );
 }
 
-@Tests = (
+my @TestsWithConfig = (
     {
         Name  => 'Safety - img tag',
         Input => <<'EOF',
@@ -993,28 +996,28 @@ You should be able to continue reading these lessons, however.
     },
 );
 
-for my $Test (@Tests) {
+for my $Test (@TestsWithConfig) {
     my %Result = $HTMLUtilsObject->Safety(
         String => $Test->{Input},
-        %{ $Test->{Config} },
+        $Test->{Config}->%*,
     );
     if ( $Test->{Result}->{Replace} ) {
-        $Self->True(
+        ok(
             $Result{Replace},
-            "$Test->{Name} replaced",
+            "$Test->{Name} - replaced",
         );
     }
     else {
-        $Self->False(
-            $Result{Replace},
-            "$Test->{Name} not replaced",
+        ok(
+            !$Result{Replace},
+            "$Test->{Name} - not replaced",
         );
     }
-    $Self->Is(
+    is(
         $Result{String},
         $Test->{Result}->{Output},
         $Test->{Name},
     );
 }
 
-$Self->DoneTesting();
+done_testing;
