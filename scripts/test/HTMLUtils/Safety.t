@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -37,7 +38,7 @@ my @Tests = (
             Output  => 'Some Text',
             Replace => 0,
         },
-        Name => 'Safety - simple'
+        Name => 'simple text'
     },
     {
         Input  => '<b>Some Text</b>',
@@ -45,7 +46,7 @@ my @Tests = (
             Output  => '<b>Some Text</b>',
             Replace => 0,
         },
-        Name => 'Safety - simple'
+        Name => 'bold text'
     },
     {
         Input  => '<a href="javascript:alert(1)">Some Text</a>',
@@ -53,7 +54,7 @@ my @Tests = (
             Output  => '<a href="">Some Text</a>',
             Replace => 1,
         },
-        Name => 'Safety - simple'
+        Name => 'href with javascript protocol'
     },
     {
         Input => '<a href = " javascript : alert(
@@ -63,7 +64,7 @@ my @Tests = (
             Output  => '<a href = "" >Some Text</a>',
             Replace => 1,
         },
-        Name => 'Safety - simple'
+        Name => 'href with javascript protocol, including white space'
     },
     {
         Input =>
@@ -73,7 +74,7 @@ my @Tests = (
                 '<a href="https://www.yoururl.tld/sub/online-assessment/index.php" target="_blank">https://www.yoururl.tld/sub/online-assessment/index.php</a>',
             Replace => 0,
         },
-        Name => 'Safety - simple'
+        Name => 'valid href'
     },
     {
         Input =>
@@ -83,7 +84,7 @@ my @Tests = (
                 "<a href='https://www.yoururl.tld/sub/online-assessment/index.php' target='_blank'>https://www.yoururl.tld/sub/online-assessment/index.php</a>",
             Replace => 0,
         },
-        Name => 'Safety - simple'
+        Name => 'valid href, with single quotes'
     },
     {
         Input  => '<a href="http://example.com/" onclock="alert(1)">Some Text</a>',
@@ -91,7 +92,7 @@ my @Tests = (
             Output  => '<a href="http://example.com/">Some Text</a>',
             Replace => 1,
         },
-        Name => 'Safety - simple'
+        Name => 'tag a with attibute onclock'
     },
     {
         Input =>
@@ -100,7 +101,7 @@ my @Tests = (
             Output  => '<a href="http://example.com/">Some Text </a>',
             Replace => 1,
         },
-        Name => 'Safety - simple'
+        Name => 'tag a with onclock, img with external source'
     },
     {
         Input => '<script type="text/javascript" id="topsy_global_settings">
@@ -114,7 +115,7 @@ var topsy_style = "big";
 ',
             Replace => 1,
         },
-        Name => 'Safety - script tag'
+        Name => 'script tag'
     },
     {
         Input => '<center>
@@ -129,7 +130,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - applet tag'
+        Name => 'applet tag'
     },
     {
         Input => '<center>
@@ -141,7 +142,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - object tag'
+        Name => 'object tag'
     },
     {
         Input => '<center>
@@ -153,7 +154,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 0,
         },
-        Name => 'Safety - simple'
+        Name => 'XSS tag'
     },
     {
         Input => '<center>
@@ -165,7 +166,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script/src tag'
+        Name => 'script/src tag'
     },
     {
         Input => '<center>
@@ -177,7 +178,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script/src tag'
+        Name => 'script/src tag'
     },
     {
         Input => '<center>
@@ -189,7 +190,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - img tag'
+        Name => 'img tag'
     },
     {
         Input => '<center>
@@ -202,7 +203,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - img tag'
+        Name => 'img tag'
     },
     {
         Input => '<center>
@@ -214,7 +215,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - img tag'
+        Name => 'img tag'
     },
     {
         Input => '<center>
@@ -226,7 +227,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - img tag'
+        Name => 'img tag'
     },
     {
         Input => '<center>
@@ -238,7 +239,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - img tag'
+        Name => 'img tag'
     },
     {
         Input => '<center>
@@ -250,7 +251,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script/img tag'
+        Name => 'script/img tag'
     },
     {
         Input => '<center>
@@ -262,7 +263,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script tag'
+        Name => 'script tag'
     },
     {
         Input => '<center>
@@ -274,7 +275,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script tag'
+        Name => 'script tag'
     },
     {
         Input => '<center>
@@ -286,7 +287,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script tag'
+        Name => 'script tag'
     },
     {
         Input => '<center>
@@ -297,7 +298,7 @@ You should be able to continue reading these lessons, however.
 /center>',
             Replace => 1,
         },
-        Name => 'Safety - script tag'
+        Name => 'script tag'
     },
     {
         Input => '<center>
@@ -308,7 +309,7 @@ You should be able to continue reading these lessons, however.
 /center>',
             Replace => 1,
         },
-        Name => 'Safety - script tag'
+        Name => 'script tag'
     },
     {
         Input => '<center>
@@ -320,7 +321,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - iframe'
+        Name => 'iframe'
     },
     {
         Input => '<center>
@@ -332,7 +333,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - onload'
+        Name => 'onload'
     },
     {
         Input => '<center>
@@ -344,7 +345,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - background'
+        Name => 'background'
     },
     {
         Input => '<center>
@@ -358,7 +359,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - background'
+        Name => 'background'
     },
     {
         Input => '<center>
@@ -370,7 +371,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script'
+        Name => 'script'
     },
     {
         Input => '<center>
@@ -382,7 +383,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script'
+        Name => 'script'
     },
     {
         Input => '<center>
@@ -395,7 +396,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script'
+        Name => 'script'
     },
     {
         Input => '<center>
@@ -409,7 +410,7 @@ PT
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script'
+        Name => 'script'
     },
     {
         Input => '<center>
@@ -423,7 +424,7 @@ PT
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script'
+        Name => 'script'
     },
     {
         Input => '<center>
@@ -437,7 +438,7 @@ PT
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script'
+        Name => 'script'
     },
     {
         Input => '<center>
@@ -449,7 +450,7 @@ PT
 </center>',
             Replace => 1,
         },
-        Name => 'Safety - script'
+        Name => 'script'
     },
     {
         Input =>
@@ -460,7 +461,7 @@ PT
             Replace => 0,
         },
         Name =>
-            'Safety - Test for bug#7972 - Some mails may not present HTML part when using rich viewing.'
+            'Test for bug#7972 - Some mails may not present HTML part when using rich viewing.'
     },
     {
         Input =>
@@ -471,10 +472,10 @@ PT
             Replace => 1,
         },
         Name =>
-            'Safety - Additional test for bug#7972 - Some mails may not present HTML part when using rich viewing.'
+            'Additional test for bug#7972 - Some mails may not present HTML part when using rich viewing.'
     },
     {
-        Name  => 'Safety - UTF7 tags',
+        Name  => 'UTF7 tags',
         Input => <<'EOF',
 script:+ADw-script+AD4-alert(1);+ADw-/script+AD4-
 applet:+ADw-applet+AD4-alert(1);+ADw-/applet+AD4-
@@ -503,7 +504,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - Filter out MS CSS expressions'
+        Name => 'Filter out MS CSS expressions'
     },
     {
         Input => <<'EOF',
@@ -515,7 +516,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - Microsoft CSS expression on invalid tag'
+        Name => 'Microsoft CSS expression on invalid tag'
     },
     {
         Input => <<'EOF',
@@ -527,7 +528,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - Filter out SVG'
+        Name => 'Filter out SVG'
     },
     {
         Input => <<'EOF',
@@ -539,7 +540,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - Closing tag with space'
+        Name => 'Closing tag with space'
     },
     {
         Input => <<'EOF',
@@ -575,7 +576,7 @@ div > span > div {
 EOF
             Replace => 1,
         },
-        Name => 'Safety - Style tags with CSS expressions are filtered out'
+        Name => 'Style tags with CSS expressions are filtered out'
     },
     {
         Input => <<'EOF',
@@ -589,7 +590,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - Nested script tags'
+        Name => 'Nested script tags'
     },
     {
         Input => <<'EOF',
@@ -605,7 +606,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - javascript source with space'
+        Name => 'javascript source with space'
     },
     {
         Input => <<'EOF',
@@ -623,7 +624,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - javascript source with space'
+        Name => 'javascript source with space'
     },
     {
         Input => <<'EOF',
@@ -639,7 +640,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - javascript source without delimiters'
+        Name => 'javascript source without delimiters'
     },
     {
         Input => <<'EOF',
@@ -655,7 +656,7 @@ EOF
 EOF
             Replace => 0,
         },
-        Name => 'Safety - javascript source in data tag, keep'
+        Name => 'javascript source in data tag, keep'
     },
     {
         Input => <<'EOF',
@@ -672,7 +673,7 @@ Content
 EOF
             Replace => 1,
         },
-        Name => 'Safety - meta refresh tag removed'
+        Name => 'meta refresh tag removed'
     },
     {
         Input => <<"EOF",
@@ -684,7 +685,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - / as attribute delimiter'
+        Name => '/ as attribute delimiter'
     },
     {
         Input => <<"EOF",
@@ -696,7 +697,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - entity encoding in javascript attribute'
+        Name => 'entity encoding in javascript attribute'
     },
     {
         Input => <<"EOF",
@@ -708,7 +709,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - entity encoding in javascript attribute with / separator'
+        Name => 'entity encoding in javascript attribute with / separator'
     },
     {
         Input => <<'EOF',
@@ -720,7 +721,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - external image'
+        Name => 'external image'
     },
     {
         Input => <<'EOF',
@@ -732,7 +733,7 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Safety - external image with / separator'
+        Name => 'external image with / separator'
     },
 );
 
@@ -768,7 +769,7 @@ for my $Test (@Tests) {
 
 my @TestsWithConfig = (
     {
-        Name  => 'Safety - img tag',
+        Name  => 'img tag',
         Input => <<'EOF',
 <img/src="http://example.com/image.png"/>
 EOF
@@ -783,7 +784,7 @@ EOF
         },
     },
     {
-        Name  => 'Safety - img tag replacement',
+        Name  => 'img tag replacement',
         Input => <<'EOF',
 <img/src="http://example.com/image.png"/>
 EOF
@@ -799,7 +800,7 @@ EOF
         },
     },
     {
-        Name  => 'Safety - Filter out SVG replacement',
+        Name  => 'Filter out SVG replacement',
         Input => <<'EOF',
 <div class="svg"><svg some-attribute evil="true"><someevilsvgcontent></svg></div>
 EOF
@@ -815,7 +816,7 @@ EOF
         },
     },
     {
-        Name  => 'Safety - object tag replacement',
+        Name  => 'object tag replacement',
         Input => '<center>
 <object width="384" height="236" align="right" vspace="5" hspace="5"><param name="movie" value="http://www.youtube.com/v/l1JdGPVMYNk&hl=en_US&fs=1&hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/l1JdGPVMYNk&hl=en_US&fs=1&hd=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="384" height="236"></embed></object>
 </center>',
@@ -831,7 +832,7 @@ EOF
         },
     },
     {
-        Name  => 'Safety - embed tag replacement',
+        Name  => 'embed tag replacement',
         Input => '<center>
 <object width="384" height="236" align="right" vspace="5" hspace="5"><param name="movie" value="http://www.youtube.com/v/l1JdGPVMYNk&hl=en_US&fs=1&hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/l1JdGPVMYNk&hl=en_US&fs=1&hd=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="384" height="236"></object>
 </center>',
@@ -847,7 +848,7 @@ EOF
         },
     },
     {
-        Name  => 'Safety - applet tag replacement',
+        Name  => 'applet tag replacement',
         Input => '<center>
 <applet code="AEHousman.class" width="300" height="150">
 Not all browsers can run applets.  If you see this, yours can not.
@@ -866,7 +867,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - bug 10530 - don\'t destroy URL which looks like an on* JS attribute',
+        Name   => 'bug 10530 - don\'t destroy URL which looks like an on* JS attribute',
         Input  => '<a href="http://localhost/online/foo/bar.html">www</a>',
         Config => {},
         Result => {
@@ -875,7 +876,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - bug 13561 - Handling empty strings',
+        Name   => 'bug 13561 - Handling empty strings',
         Input  => '',
         Config => {},
         Result => {
@@ -884,7 +885,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - remote poster attribute, forbidden',
+        Name   => 'remote poster attribute, forbidden',
         Input  => '<video controls poster="http://some.domain/vorschaubild.png"/>',
         Config => {
             NoExtSrcLoad => 1,
@@ -895,7 +896,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - remote poster attribute, allowed',
+        Name   => 'remote poster attribute, allowed',
         Input  => '<video controls poster="http://some.domain/vorschaubild.png"/>',
         Config => {
             NoExtSrcLoad => 0,
@@ -906,7 +907,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - malicious CSS content - remote background image, forbidden',
+        Name   => 'malicious CSS content - remote background image, forbidden',
         Input  => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
         Config => {
             NoExtSrcLoad => 1,
@@ -917,7 +918,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - malicious CSS content - remote background image, allowed',
+        Name   => 'malicious CSS content - remote background image, allowed',
         Input  => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
         Config => {
             NoExtSrcLoad => 0,
@@ -929,7 +930,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - malicious CSS content - local background image, forbidden',
+        Name   => 'malicious CSS content - local background image, forbidden',
         Input  => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
         Config => {
             NoIntSrcLoad => 1,
@@ -940,7 +941,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - malicious CSS content - local background image, allowed',
+        Name   => 'malicious CSS content - local background image, allowed',
         Input  => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
         Config => {
             NoIntSrcLoad => 0,
@@ -951,7 +952,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - malicious CSS content - remote css content, forbidden',
+        Name   => 'malicious CSS content - remote css content, forbidden',
         Input  => q|<p style="content:url('http://localhost:8000/css-content');"></p>|,
         Config => {
             NoExtSrcLoad => 1,
@@ -962,7 +963,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - malicious CSS content - remote css content, allowed',
+        Name   => 'malicious CSS content - remote css content, allowed',
         Input  => q|<p style="content:url('http://localhost:8000/css-content');"></p>|,
         Config => {
             NoExtSrcLoad => 0,
@@ -973,7 +974,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - malicious CSS content - local css content, forbidden',
+        Name   => 'malicious CSS content - local css content, forbidden',
         Input  => q|<p style="content:url('/local/css-content');"></p>|,
         Config => {
             NoIntSrcLoad => 1,
@@ -984,7 +985,7 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name   => 'Safety - malicious CSS content - local css content, allowed',
+        Name   => 'malicious CSS content - local css content, allowed',
         Input  => q|<p style="content:url('/local/css-content');"></p>|,
         Config => {
             NoIntSrcLoad => 0,
