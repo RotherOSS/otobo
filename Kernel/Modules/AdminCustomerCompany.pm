@@ -656,7 +656,7 @@ sub _Edit {
                     Class => "$OptionRequired Modernize " .
                         ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
                     Translation => 1,
-                    Sort => 'AlphanumericKey',
+                    Sort        => 'AlphanumericKey',
                     SelectedID  => $Param{ $Entry->[0] },
                     Max         => 35,
                 );
@@ -674,12 +674,19 @@ sub _Edit {
                     $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->TranslatedCountryList(
                         Language => $LayoutObject->{UserLanguage},
                     );
+
+                    # Make sure that the previous value exists in the selection list even if it isn't a country code.
+                    my $PreviousCountry = $Param{ $Entry->[0] };
+                    if ($PreviousCountry) {
+                        $CountryList->{$PreviousCountry} //= $PreviousCountry;
+                    }
                 }
                 else {
 
                     # English name => English name
                     $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->CountryList;
                 }
+
                 $Param{Option} = $LayoutObject->BuildSelection(
                     Data         => $CountryList,
                     PossibleNone => 1,
@@ -687,7 +694,7 @@ sub _Edit {
                     Name         => $Entry->[0],
                     Class        => "$OptionRequired Modernize " .
                         ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
-                    SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
+                    SelectedID => ( $Param{ $Entry->[0] } // 1 ),
                 );
             }
             elsif ( $Entry->[0] =~ m/^ValidID/i ) {
