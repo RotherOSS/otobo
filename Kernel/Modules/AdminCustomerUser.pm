@@ -16,12 +16,19 @@
 
 package Kernel::Modules::AdminCustomerUser;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language qw(Translatable);
 use Kernel::System::CheckItem;
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -1187,7 +1194,8 @@ sub _Edit {
             $Param{RequiredClass} .= ' Validate_Email';
         }
 
-        # build selections or input fields
+        # Build selections or input fields.
+        # An explicit selection has the highest priority.
         if ( $ConfigObject->Get( $Param{Source} )->{Selections}->{ $Entry->[0] } ) {
             $Block = 'Option';
 
@@ -1214,7 +1222,34 @@ sub _Edit {
                 Disabled    => $UpdateOnlyPreferences ? 1 : 0,
             );
         }
-        elsif ( $Entry->[0] =~ /^ValidID/i ) {
+        elsif (
+            $Entry->[0] =~ m/^UserCountry/i
+            &&
+            $ConfigObject->Get('ReferenceData::TranslatedCountryNames')
+            )
+        {
+            $Block = 'Option';
+
+            my $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->TranslatedCountryList(
+                Language => $LayoutObject->{UserLanguage},
+            );
+
+            # Make sure that the previous value exists in the selection list even if isn't a countr code.
+            my $PreviousCountry = $Param{ $Entry->[0] };
+            if ($PreviousCountry) {
+                $CountryList->{$PreviousCountry} //= $PreviousCountry;
+            }
+
+            $Param{Option} = $LayoutObject->BuildSelection(
+                Data         => $CountryList,
+                PossibleNone => 1,
+                Sort         => 'AlphanumericValue',
+                Name         => $Entry->[0],
+                Class        => "$Param{RequiredClass} Modernize " . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                SelectedID   => ( $Param{ $Entry->[0] } // 1 ),
+            );
+        }
+        elsif ( $Entry->[0] =~ m/^ValidID/i ) {
 
             # Change the validation class
             if ( $Param{RequiredClass} ) {
@@ -1232,7 +1267,7 @@ sub _Edit {
             );
         }
         elsif (
-            $Entry->[0] =~ /^UserCustomerID$/i
+            $Entry->[0] =~ m/^UserCustomerID$/i
             && $ConfigObject->Get( $Param{Source} )->{CustomerCompanySupport}
             )
         {
