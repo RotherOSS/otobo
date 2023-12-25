@@ -187,7 +187,13 @@ sub TranslatedCountryList {
 
             my $AllRegions = $Locale->all_regions();    # includes regions like '001' => World
             my %Code2Name;
+            CODE:
             for my $Code ( grep { length $_ == 2 } keys $AllRegions->%* ) {
+
+                # Skip the country codes that are only meant for testing and development.
+                next CODE if $Code eq 'XA';    # Pseudo-Accents
+                next CODE if $Code eq 'XB';    # Pseudo-Bidi
+
                 my $Flag =
                     join '',
                     map { $Letter2Indicator{$_} }
