@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-12-02 16:32+0000\n"
+"PO-Revision-Date: 2023-12-27 13:47+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -27959,27 +27959,27 @@ msgstr "التقويم العام"
 
 #. SysConfig
 msgid "Public Interface"
-msgstr ""
+msgstr "الواجهة العامة"
 
 #. SysConfig
 msgid "Public calendar."
-msgstr ""
+msgstr "التقويم العام."
 
 #. SysConfig
 msgid "Queue view"
-msgstr ""
+msgstr "عرض قائمة الانتظار"
 
 #. SysConfig
 msgid "Queues ↔ Auto Responses"
-msgstr ""
+msgstr "قوائم الانتظار ↔ الردود التلقائية"
 
 #. SysConfig
 msgid "Quick Close"
-msgstr ""
+msgstr "الإغلاق السريع"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
-msgstr ""
+msgstr "إعادة بناء فهرس التذاكر ل AgentTicketQueue."
 
 #. SysConfig
 msgid ""
@@ -27987,14 +27987,19 @@ msgid ""
 "are authenticated via LDAP. Highly inefficient however, as the whole index "
 "is rebuild every time."
 msgstr ""
+"يعيد بناء فهارس Elasticsearch. يمكن استخدامه على سبيل المثال، إذا تمت مصادقة "
+"مستخدمي العملاء عبر LDAP. ومع ذلك، فهو غير فعال إلى حد كبير، حيث تتم إعادة "
+"بناء الفهرس بأكمله في كل مرة."
 
 #. SysConfig
 msgid "Rebuilds the ACL preselection cache."
 msgstr ""
+"يقوم بإعادة بناء ذاكرة التخزين المؤقت لاختيار القائمة المُسبقة لوحدة التحكم "
+"في الوصول (ACL)."
 
 #. SysConfig
 msgid "Rebuilds the escalation index."
-msgstr ""
+msgstr "يعيد بناء مؤشر التصعيد."
 
 #. SysConfig
 msgid ""
@@ -28002,14 +28007,17 @@ msgid ""
 "ticket number. Note: the first capturing group from the 'NumberRegExp' "
 "expression will be used as the ticket number value."
 msgstr ""
+"تعرف على ما إذا كانت التذكرة عبارة عن متابعة لتذكرة موجودة باستخدام رقم "
+"تذكرة خارجي. استخدام المجموعة التي تم التقاطها الأولى من تعبير "
+"'NumberRegExp' كقيمة لرقم التذكرة."
 
 #. SysConfig
 msgid "Redis server address. Example: 127.0.0.1:6379."
-msgstr ""
+msgstr "عنوان خادم Redis. مثال: 127.0.0.1:6379."
 
 #. SysConfig
 msgid "Refresh interval"
-msgstr ""
+msgstr "فترة التحديث"
 
 #. SysConfig
 msgid ""
