@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-12-27 13:47+0000\n"
+"PO-Revision-Date: 2023-12-28 14:32+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -28024,32 +28024,35 @@ msgid ""
 "Registers a log module, that can be used to log communication related "
 "information."
 msgstr ""
+"يسجل وحدة السجل التي يمكن استخدامها لتسجيل المعلومات المتعلقة بالاتصالات."
 
 #. SysConfig
 msgid "Reminder Tickets"
-msgstr ""
+msgstr "تذاكر التذكير"
 
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
-msgstr "Removed subscription for user \"%s\"."
+msgstr "تمت إزالة الاشتراك للمستخدم \"%s\"."
 
 #. SysConfig
 msgid ""
 "Removes old generic interface debug log entries created before the specified "
 "amount of days."
 msgstr ""
+"يقوم بإزالة إدخالات سجل التصحيح القديمة لواجهة المستخدم العامة التي تم "
+"إنشاؤها قبل عدد معين من الأيام."
 
 #. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
-msgstr ""
+msgstr "يقوم بإزالة نشرات تكوين النظام القديمة (صباح أيام الأحد)."
 
 #. SysConfig
 msgid "Removes old ticket number counters (each 10 minutes)."
-msgstr ""
+msgstr "إزالة عدادات أرقام التذاكر القديمة (كل 10 دقائق)."
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."
-msgstr ""
+msgstr "إزالة معلومات مراقب التذاكر عند أرشفة التذكرة."
 
 #. SysConfig
 msgid ""
@@ -28057,136 +28060,147 @@ msgid ""
 "SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer "
 "backend needs to be configured to fetch UserSMIMECertificate attribute."
 msgstr ""
+"تجديد شهادات SMIME الحالية من خلال واجهة العميل. ملاحظة: يجب تمكين SMIME و "
+"SMIME::FetchFromCustomer في SysConfig، ويجب تكوين واجهة العميل لاسترجاع سمة "
+"UserSMIMECertificate."
 
 #. SysConfig
 msgid ""
 "Replaces the original sender with current customer's email address on "
 "compose answer in the ticket compose screen of the agent interface."
 msgstr ""
+"يستبدل المرسل الأصلي بعنوان البريد الإلكتروني الخاص بالعميل الحالي عند إنشاء "
+"الإجابة في شاشة إنشاء التذكرة بواجهة الوكيل."
 
 #. SysConfig
 msgid "Reports"
-msgstr ""
+msgstr "التقارير"
 
 #. SysConfig
 msgid ""
 "Reprocess mails from spool directory that could not be imported in the first "
 "place."
 msgstr ""
+"إعادة معالجة الرسائل من دليل الاحتفاظ بالبريد(التخزين المؤقت) التي لم يمكن "
+"استيرادها في المرة الأولى."
 
 #. SysConfig
 msgid ""
 "Required permissions to change the customer of a ticket in the agent "
 "interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لتغيير عميل التذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid "Required permissions to use quick close in the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام الإغلاق السريع في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the close ticket screen in the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة إغلاق التذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the email outbound screen in the agent interface."
 msgstr ""
+"الأذونات المطلوبة لاستخدام شاشة البريد الإلكتروني الصادرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the email resend screen in the agent interface."
 msgstr ""
+"الأذونات المطلوبة لاستخدام شاشة إعادة إرسال البريد الإلكتروني في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket bounce screen in the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة إرسال التذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket compose screen in the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة إنشاء التذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket forward screen in the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة إعادة توجيه التذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket free text screen in the agent "
 "interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة النص الحر في التذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket merge screen of a zoomed ticket in "
 "the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة دمج التذاكر للتذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket note screen in the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة ملاحظة التذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket owner screen of a zoomed ticket in "
 "the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة مالك التذكرة للتذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket pending screen of a zoomed ticket in "
 "the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة \"الانتظار\" للتذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket phone inbound screen in the agent "
 "interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة تذكرة الهاتف الواردة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket phone outbound screen in the agent "
 "interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة تذكرة الهاتف الصادرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket priority screen of a zoomed ticket in "
 "the agent interface."
-msgstr ""
+msgstr "الحقوق المطلوبة للوصول إلى مربع حوار \"الأولوية\" في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket responsible screen in the agent "
 "interface."
-msgstr ""
+msgstr "الحقوق المطلوبة لفتح مربع الحوار \"المسؤول\" في منطقة الوكيل."
 
 #. SysConfig
 msgid "Resend Ticket Email."
-msgstr ""
+msgstr "إعادة إرسال البريد الإلكتروني للتذكرة."
 
 #. SysConfig
 msgid "Resent email to \"%s\"."
-msgstr ""
+msgstr "إعادة إرسال البريد الإلكتروني إلى \"%s\"."
 
 #. SysConfig
 msgid ""
 "Resets and unlocks the owner of a ticket if it was moved to another queue."
 msgstr ""
+"يعيد تعيين مالك التذكرة ويقوم بإلغاء قفله إذا تم نقلها إلى قائمة انتظار أخرى."
 
 #. SysConfig
 msgid "Responsible Tickets"
-msgstr ""
+msgstr "التذاكر المسؤول عنها"
 
 #. SysConfig
 msgid "Responsible Tickets."
-msgstr ""
+msgstr "التذاكر المسؤول عنها."
 
 #. SysConfig
 msgid ""
