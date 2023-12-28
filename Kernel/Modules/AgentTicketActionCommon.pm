@@ -493,6 +493,16 @@ sub Run {
             ParamObject        => $ParamObject,
             LayoutObject       => $LayoutObject,
         );
+
+        if ( $DynamicFieldConfig->{ObjectType} eq 'Article' ) {
+            if ( ref $DynamicFieldValues{ $DynamicFieldConfig->{Name} } eq 'ARRAY' ) {
+                $DynamicFieldValues{ $DynamicFieldConfig->{Name} }
+                    = $DynamicFieldValues{ $DynamicFieldConfig->{Name} }->@* ? $DynamicFieldValues{ $DynamicFieldConfig->{Name} } : undef;
+            }
+            else {
+                $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $DynamicFieldValues{ $DynamicFieldConfig->{Name} } || undef;
+            }
+        }
     }
 
     # convert dynamic field values into a structure for ACLs
