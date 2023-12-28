@@ -125,6 +125,10 @@ my $SecondCustomerUserName = $CustomerUserObject->CustomerName(
     UserLogin => $SecondCustomerUserLogin,
 );
 
+# prepare information for building ticket description
+my $ParamHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook')      || 'Ticket#';
+$ParamHook .= $Kernel::OM->Get('Kernel::Config')->Get('Ticket::HookDivider') || '';
+
 # create a source ticket
 my $SourceTicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title',
@@ -153,6 +157,17 @@ my $FirstReferenceTicketID = $TicketObject->TicketCreate(
 );
 $Self->True( $FirstReferenceTicketID, 'Creation of first reference ticket' );
 
+# create ticket description
+my %FirstReferenceTicket = $TicketObject->TicketGet(
+    TicketID => $FirstReferenceTicketID,
+    UserID   => $UserID,
+);
+
+my %FirstReferenceTicketDescription = (
+    Normal => $ParamHook . "$FirstReferenceTicket{TicketNumber}",
+    Long   => $ParamHook . "$FirstReferenceTicket{TicketNumber}: $FirstReferenceTicket{Title}",
+);
+
 my $SecondReferenceTicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title',
     Queue        => 'Raw',
@@ -165,6 +180,17 @@ my $SecondReferenceTicketID = $TicketObject->TicketCreate(
     UserID       => $UserID,
 );
 $Self->True( $SecondReferenceTicketID, 'Creation of second reference ticket' );
+
+# create ticket description
+my %SecondReferenceTicket = $TicketObject->TicketGet(
+    TicketID => $SecondReferenceTicketID,
+    UserID   => $UserID,
+);
+
+my %SecondReferenceTicketDescription = (
+    Normal => $ParamHook . "$SecondReferenceTicket{TicketNumber}",
+    Long   => $ParamHook . "$SecondReferenceTicket{TicketNumber}: $SecondReferenceTicket{Title}",
+);
 
 # theres is not really needed to add the dynamic fields for this test, we can define a static
 # set of configurations
@@ -1282,8 +1308,8 @@ my @Tests = (
             Value              => $FirstReferenceTicketID,
         },
         ExpectedResults => {
-            Value => $FirstReferenceTicketID,
-            Title => $FirstReferenceTicketID,
+            Value => $FirstReferenceTicketDescription{Long},
+            Title => $FirstReferenceTicketDescription{Long},
         },
         Success => 1,
     },
@@ -1294,8 +1320,8 @@ my @Tests = (
             Value              => [$FirstReferenceTicketID],
         },
         ExpectedResults => {
-            Value => $FirstReferenceTicketID,
-            Title => $FirstReferenceTicketID,
+            Value => $FirstReferenceTicketDescription{Long},
+            Title => $FirstReferenceTicketDescription{Long},
         },
         Success => 1,
     },
@@ -1332,8 +1358,8 @@ my @Tests = (
             Value              => $FirstReferenceTicketID,
         },
         ExpectedResults => {
-            Value => $FirstReferenceTicketID,
-            Title => $FirstReferenceTicketID,
+            Value => $FirstReferenceTicketDescription{Long},
+            Title => $FirstReferenceTicketDescription{Long},
         },
         Success => 1,
     },
@@ -1344,8 +1370,8 @@ my @Tests = (
             Value              => [$FirstReferenceTicketID],
         },
         ExpectedResults => {
-            Value => $FirstReferenceTicketID,
-            Title => $FirstReferenceTicketID,
+            Value => $FirstReferenceTicketDescription{Long},
+            Title => $FirstReferenceTicketDescription{Long},
         },
         Success => 1,
     },
@@ -1356,8 +1382,8 @@ my @Tests = (
             Value              => [ $FirstReferenceTicketID, $SecondReferenceTicketID ],
         },
         ExpectedResults => {
-            Value => "$FirstReferenceTicketID, $SecondReferenceTicketID",
-            Title => "$FirstReferenceTicketID, $SecondReferenceTicketID",
+            Value => "$FirstReferenceTicketDescription{Long}, $SecondReferenceTicketDescription{Long}",
+            Title => "$FirstReferenceTicketDescription{Long}, $SecondReferenceTicketDescription{Long}",
         },
         Success => 1,
     },
@@ -1394,8 +1420,8 @@ my @Tests = (
             Value              => $FirstReferenceTicketID,
         },
         ExpectedResults => {
-            Value => $FirstReferenceTicketID,
-            Title => $FirstReferenceTicketID,
+            Value => $FirstReferenceTicketDescription{Long},
+            Title => $FirstReferenceTicketDescription{Long},
         },
         Success => 1,
     },
@@ -1406,8 +1432,8 @@ my @Tests = (
             Value              => [$FirstReferenceTicketID],
         },
         ExpectedResults => {
-            Value => $FirstReferenceTicketID,
-            Title => $FirstReferenceTicketID,
+            Value => $FirstReferenceTicketDescription{Long},
+            Title => $FirstReferenceTicketDescription{Long},
         },
         Success => 1,
     },
@@ -1418,8 +1444,8 @@ my @Tests = (
             Value              => [ $FirstReferenceTicketID, $SecondReferenceTicketID ],
         },
         ExpectedResults => {
-            Value => "$FirstReferenceTicketID, $SecondReferenceTicketID",
-            Title => "$FirstReferenceTicketID, $SecondReferenceTicketID",
+            Value => "$FirstReferenceTicketDescription{Long}, $SecondReferenceTicketDescription{Long}",
+            Title => "$FirstReferenceTicketDescription{Long}, $SecondReferenceTicketDescription{Long}",
         },
         Success => 1,
     },
@@ -1442,8 +1468,8 @@ my @Tests = (
             Value              => [ $FirstReferenceTicketID, undef, $SecondReferenceTicketID ],
         },
         ExpectedResults => {
-            Value => "$FirstReferenceTicketID, , $SecondReferenceTicketID",
-            Title => "$FirstReferenceTicketID, , $SecondReferenceTicketID",
+            Value => "$FirstReferenceTicketDescription{Long}, , $SecondReferenceTicketDescription{Long}",
+            Title => "$FirstReferenceTicketDescription{Long}, , $SecondReferenceTicketDescription{Long}",
         },
         Success => 1,
     },
