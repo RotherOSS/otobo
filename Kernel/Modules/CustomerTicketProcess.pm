@@ -406,6 +406,10 @@ sub _RenderAjax {
             my ($PossibleValuesElement) = grep { $_->{Name} eq 'DynamicField_' . $DynamicFieldConfig->{Name} } values $DynFieldStates{Fields}->%*;
 
             next DIALOGFIELD unless IsHashRefWithData($PossibleValuesElement);
+
+            # In case of ACL restrictions taking place, it can occur that we have a possible values element, but the PossibleValues key is undefined
+            next DIALOGFIELD unless IsHashRefWithData( $PossibleValuesElement->{PossibleValues} );
+
             my %PossibleValues = $PossibleValuesElement->{PossibleValues}->%*;
 
             if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
