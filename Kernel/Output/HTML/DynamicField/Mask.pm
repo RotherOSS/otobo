@@ -202,15 +202,20 @@ sub EditSectionRender {
             if (
                 $Param{Visibility}
                 && !$Param{Visibility}{$DFName}
-                && $DynamicField->{FieldType} ne 'Date'
-                && $DynamicField->{FieldType} ne 'DateTime'
                 )
             {
                 %InvisibleNoDefault = (
-                    ACLHidden            => 1,
-                    UseDefaultValue      => 0,
-                    OverridePossibleNone => 1,
+                    ACLHidden => 1,
                 );
+
+                if (
+                    $DynamicField->{FieldType} ne 'Date'
+                    && $DynamicField->{FieldType} ne 'DateTime'
+                    )
+                {
+                    $InvisibleNoDefault{UseDefaultValue}      = 0;
+                    $InvisibleNoDefault{OverridePossibleNone} = 1;
+                }
             }
 
             # set errors if present
