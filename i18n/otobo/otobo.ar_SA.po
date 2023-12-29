@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-12-28 14:32+0000\n"
+"PO-Revision-Date: 2023-12-30 01:56+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -28207,40 +28207,49 @@ msgid ""
 "Restores a ticket from the archive (only if the event is a state change to "
 "any open available state)."
 msgstr ""
+"استعادة تذكرة من الأرشيف (فقط إذا تم تغيير الحالة إلى إحدى الحالات المفتوحة "
+"المتاحة)."
 
 #. SysConfig
 msgid ""
 "Retains all services in listings even if they are children of invalid "
 "elements."
 msgstr ""
+"يحتفظ بجميع الخدمات الموجودة في القوائم حتى لو كانت عناصر فرعية لعناصر غير "
+"صالحة."
 
 #. SysConfig
 msgid "Right"
-msgstr ""
+msgstr "يمين"
 
 #. SysConfig
 msgid "Roles ↔ Groups"
-msgstr ""
+msgstr "الأدوار ↔ المجموعات"
 
 #. SysConfig
 msgid "Romanian"
-msgstr ""
+msgstr "روماني"
 
 #. SysConfig
 msgid ""
 "Run file based generic agent jobs (Note: module name needs to be specified "
 "in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
 msgstr ""
+"تشغيل وظائف الوكيل العام المستندة على الملفات (ملاحظة: يجب تحديد اسم الوحدة "
+"في معلمة -configuration-module، على سبيل المثال \"Kernel::System::"
+"GenericAgent\")."
 
 #. SysConfig
 msgid "Running Process Tickets"
-msgstr ""
+msgstr "تشغيل التذاكر في العملية"
 
 #. SysConfig
 msgid ""
 "Runs an initial wildcard search of the existing contacts with data when "
 "accessing the AdminContactWD module."
 msgstr ""
+"يُشغِّل بحثًا أوليًا باستخدام الرموز البارزة لجهات الاتصال الحالية عند "
+"الوصول إلى وحدة AdminContactWD."
 
 #. SysConfig
 msgid ""
