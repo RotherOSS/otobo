@@ -131,10 +131,10 @@ sub CountryList {
 
     if ($ReturnCodes) {
 
-        # return Code => Country pairs from ISO list
+        # return Country => Code pairs from ISO 3166-1. The codes are the alpha-2 codes.
         my %CountryName2Code;
         for my $Country (@CountryNames) {
-            $CountryName2Code{$Country} = country2code( $Country, 1 );
+            $CountryName2Code{$Country} = uc country2code($Country);
         }
 
         return \%CountryName2Code;
@@ -209,7 +209,7 @@ sub TranslatedCountryList {
     # The names will be in English.
     my @CountryNames = all_country_names();
 
-    # return Code => Country pairs from ISO list
+    # return Country => Code pairs from ISO 3166-1. The codes are the alpha-2 codes.
     my %CountryName2Code;
     for my $Country (@CountryNames) {
         $CountryName2Code{$Country} = uc country2code($Country);
