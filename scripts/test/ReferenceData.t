@@ -37,9 +37,11 @@ $ConfigObject->Set(
 );
 
 my $ReferenceDataObject = $Kernel::OM->Get('Kernel::System::ReferenceData');
+isa_ok( $ReferenceDataObject, 'Kernel::System::ReferenceData' );
 
-# tests the method to make sure there are at least 100 countries
-my $CountryList1 = $ReferenceDataObject->CountryList;
+# tests the method CountryList()
+my $CountryName2Name1 = $ReferenceDataObject->CountryList;
+ref_ok( $CountryName2Name1, 'HASH', 'Got hashref from CountryList()' );
 
 my %LocaleCodesCountryList = (
     "Afghanistan"                                          => "Afghanistan",
@@ -293,15 +295,21 @@ my %LocaleCodesCountryList = (
     "Zimbabwe"                                             => "Zimbabwe",
 );
 is(
-    scalar keys $CountryList1->%*,
+    scalar keys $CountryName2Name1->%*,
     249,
     'number of officially assigned country codes in ISO 3166-1 alpha-2'
 );
 is(
-    $CountryList1,
+    $CountryName2Name1,
     \%LocaleCodesCountryList,
     'countries without OwnCountryList sysconfig setting'
 );
+
+my $CountryName2Code1 = $ReferenceDataObject->CountryList(
+    Result => 'CODE',
+);
+ref_ok( $CountryName2Code1, 'HASH', q{got hashref from CountryList( Result => 'CODE' )} );
+is( $CountryName2Code1->{Afghanistan}, 'AF', 'mapping Afghanistan to AF' );
 
 # set configuration to small list
 my %OwnCode2Name = (
@@ -315,13 +323,22 @@ $ConfigObject->Set(
     Value => \%OwnCode2Name,
 );
 
-# the parameter Result => 'Code' not passed,
-# thus only the values are returned
-my $CountryList2 = $ReferenceDataObject->CountryList;
+# The parameter Result => 'Code' was not passed,
+# thus only the values are returned.
+my $CountryName2Name2 = $ReferenceDataObject->CountryList;
 is(
-    $CountryList2,
+    $CountryName2Name2,
     { map { $_ => $_ } values %OwnCode2Name },
     'countries with OwnCountryList system setting'
+);
+
+my $CountryName2Code2 = $ReferenceDataObject->CountryList(
+    Result => 'CODE',
+);
+is(
+    $CountryName2Code2,
+    \%OwnCode2Name,
+    'country name to code with OwnCountryList system setting'
 );
 
 done_testing;
