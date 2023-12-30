@@ -485,9 +485,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     /* DynamicFieldSet */
 
-    fieldset.TableLike .DFSetOuterField {
+    fieldset.TableLike .Row.Row_DynamicField .DFSetOuterField {
         max-width: 100%;
-        width: calc(90% + 6px); /*accounting for padding of other inputs for uniform lengths*/
+        width: calc(90% + 8px); /*accounting for padding of other inputs for uniform lengths*/
     }
 
     fieldset.TableLike .DynamicFieldSet {
@@ -495,7 +495,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     fieldset.TableLike .DynamicFieldSet .Row > .FieldCell {
-        grid-template-columns: 1fr 2fr 40px;
+        grid-template-columns: 1fr 40px;
     }
 
     fieldset.TableLike .MultiValue > .FieldCell > .Field > .DynamicFieldSet {
