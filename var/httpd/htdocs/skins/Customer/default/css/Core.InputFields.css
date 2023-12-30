@@ -866,14 +866,24 @@ div.InputField_ToolbarContainer ul li a:hover {
 }
 
 .FieldCell .DFSetOuterField + label {
-    top: calc(-100% + 44px);
+    z-index: 1;
+    display: block;
+    top: calc(-100% + 28px);
+    left: 20px;
+    width: fit-content;
+}
+
+.FieldCell .DFSetOuterField ~ .AddRemoveValueRow {
+    position: relative;
+    left: calc(100% + 8px);
+    top: calc(-100% + 40px);
 }
 
 .DynamicFieldSet {
     border: solid 1px var(--colTextLight);
     border-radius: 10px;
-    padding-left: 30px;
-    padding-bottom: 16px;
+    padding-left: 40px;
+    padding-bottom: 40px;
 }
 
 .DynamicFieldSet .Row_DynamicField {
@@ -891,6 +901,38 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .DynamicFieldSet .Row_DynamicField .AddRemoveValueRow {
     left: calc(83% - 81px); /* multivaluebutton positioning 65px to the left */
+}
+
+.DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell {
+    display: inline-grid;
+    grid-template-columns: 1fr 65px;
+}
+
+.DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell label {
+    grid-column: 1;
+    grid-row: 1;
+    position: relative;
+    left: 8px;
+    width: fit-content;
+    height: fit-content;
+    place-self: center start;
+}
+
+.DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell .Field {
+    grid-column: 1;
+    grid-row: 1;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 100% !important;
+}
+
+.DynamicFieldSet .Row_DynamicField.MultiColumn .AddRemoveValueRow {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    left: 12px;
+    top: 0px;
 }
 
 
@@ -1067,7 +1109,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .jstree-InputField-Tree .jstree-icon {
     font-family: 'otobo' !important;
-    speak: none;
+    /*speak: none; /*unknown property?!*/
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
