@@ -100,7 +100,8 @@ div.InputField_InputContainer {
 
     fieldset.TableLike > .Field > input.W50pc,
     fieldset.TableLike > .Row > .Field > input.W50pc {
-        max-width: 300px;
+        max-width: 50%;
+        box-sizing: border-box;
     }
 
     fieldset.TableLike .Row > .FieldCell > .Field > select.Modernize,
@@ -112,17 +113,20 @@ div.InputField_InputContainer {
     }
 
     fieldset.TableLike > .Row:not(.MultiColumn) > .FieldCell > .Field > input.W50pc {
-        max-width: 300px;
+        max-width: 50%;
+        box-sizing: border-box;
     }
 
     fieldset.TableLike > .Field > input.W75pc,
     fieldset.TableLike > .Row > .Field > input.W75pc {
-        max-width: 614px;
+        max-width: 75%;
+        box-sizing: border-box;
     }
 
     fieldset.TableLike > .Field > input#Subject {
-        width: calc( 75% - 4px );
-        max-width: 610px;
+        width: 75%;
+        max-width: 75%;
+        box-sizing: border-box;
     }
 
     fieldset.TableLike > .Field > div.CustomerContainer,
@@ -234,13 +238,17 @@ fieldset.DynamicFieldSet {
     box-sizing: border-box;
     /*margin-top: 28px; /* 1 line in normal view */
     /*margin-bottom: 8px; /* just to visually mark the end of the set */
-    width: calc(100% - 36px); /* leave 36px room for multivalue buttons */
+    width: 100%
 }
 
 /* needed for multivalue sets due to current difference in outer structure compared to single value sets */
 .MultiValue > .FieldCell > .Field > .DynamicFieldSet {
-    max-width: calc(622px - 36px);
-    width: calc((100vw - 306px) * 0.7 - 57px);
+    width: 100%;
+}
+
+.MultiValue .DFSetOuterField ~ .AddRemoveValueRow {
+    vertical-align: bottom;
+    padding-bottom: 16px;
 }
 
 a.InputField_Action {
@@ -345,8 +353,8 @@ div.InputField_ToolbarContainer ul li {
 div.InputField_ToolbarContainer ul li:after {
     color: #bbb;
     content: "|";
-    display: inline-block;
-    float: right;
+    /*display: inline-block;*/ /*inline block is ignored due to float*/
+    float: right; 
     cursor: default;
 }
 

@@ -707,31 +707,41 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
 /* Dynamic Field Set */
 
 fieldset.TableLike .DFSetOuterField {
-    max-width: 622px; 
+    max-width: 70%;
+    box-sizing: border-box;
+}
+
+fieldset.TableLike .MultiValue .DFSetOuterField {
+    max-width: calc( 70% - 36px );
+    width: calc( 70% - 36px );
 }
 
 fieldset.TableLike .DynamicFieldSet {
-    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
 fieldset.TableLike .DynamicFieldSet .Row > .FieldCell {
+    padding: 8px;
     display: grid;
-    columns: 3;
-    grid-template-columns: 1fr 2fr 32px;
+    columns: 2;
+    grid-template-columns: 1fr 32px;
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet label {
+    grid-column: 1;
     padding-top: 0px;
     padding-right: 10px;
     width: 100%;
     box-sizing: border-box;
+    text-align: left;
+    text-overflow: clip;
+    overflow: hidden;
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field {
     box-sizing: border-box;
-    grid-column: 2;
+    grid-column: 1;
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row.MultiValue .Field {
@@ -762,7 +772,7 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
 }
 
 fieldset.TableLike .DynamicFieldSet .AddRemoveValueRow {
-    grid-column: 3;
+    grid-column: 2;
 }
 
 /* EO TODO */
