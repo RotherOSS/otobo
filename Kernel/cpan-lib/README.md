@@ -20,6 +20,15 @@ Starting in the OTOBO root dir.
     cpanm --notest --installdeps . --local-lib local                        # install locally into local/lib/perl5
     cpanm --notest --installdeps . --local-lib local                        # again, to see that the install was complete
 
+### Shortcut when there are only version updates
+
+Only install modules where the version was updated in F<cpanfile>.
+
+    cd Kernel/cpan-lib
+    rm -rf local
+    PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # install into local/lib/perl5
+    PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # again, to see that the install was complete
+
 ### Remove files and directories that should not be bundled with OTOBO
 
 The reason why specific files are not included in the bundle is not always evident.
