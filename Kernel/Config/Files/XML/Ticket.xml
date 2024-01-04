@@ -11936,7 +11936,7 @@
         </Value>
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###3-NewTicketReject" Required="0" Valid="0">
-        <Description Translatable="1">Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.</Description>
+        <Description Translatable="1">Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up more fields, e.g. "To" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender</Description>
         <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
