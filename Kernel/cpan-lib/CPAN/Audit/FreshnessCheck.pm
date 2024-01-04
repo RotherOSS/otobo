@@ -34,7 +34,7 @@ This library is under the Artistic License 2.0.
 
 =head1 AUTHOR
 
-Copyright (C) 2022 brian d foy, I<< <bdfoy@cpan.org> >>
+Copyright (C) 2022-2024 brian d foy, I<< <briandfoy@pobox.com> >>
 
 =cut
 
