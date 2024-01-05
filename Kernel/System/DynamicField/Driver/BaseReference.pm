@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -634,6 +634,17 @@ sub SearchFieldValueGet {
     }
 
     if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq 1 ) {
+
+        # perform object search to transform search term into an array of ids
+        if ($Value) {
+
+            my @ObjectIDs = $Self->SearchObjects(
+                %Param,
+                Term => $Value,
+            );
+            $Value = \@ObjectIDs;
+        }
+
         return {
             'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
         };
@@ -714,7 +725,7 @@ sub ReadableValueRender {
     # get descriptive names for the values, e.g. TicketNumber for TicketID
     my @LongObjectDescriptions;
     {
-        for my $ObjectID ( @Values ) {
+        for my $ObjectID (@Values) {
             if ($ObjectID) {
                 my %Description = $Self->ObjectDescriptionGet(
                     ObjectID => $ObjectID,
