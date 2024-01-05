@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -575,7 +575,11 @@ Core.UI.Dialog = (function (TargetNS) {
             $(document).off('click.Dialog').on('click.Dialog', function (event) {
                 // If target element is removed before this event triggers, the enclosing div.Dialog can't be found anymore
                 // We check, if we can find a parent HTML element to be sure, that the element is not removed
-                if ($(event.target).parents('html').length && $(event.target).closest('div.Dialog').length === 0) {
+                if (
+                    $(event.target).parents('html').length
+                    && $(event.target).closest('div.Dialog').length === 0
+                    && !$(event.target).hasClass('ui-menu-item-wrapper')
+                ) {
                     HandleClosingAction();
                 }
             });
