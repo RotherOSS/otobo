@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -294,6 +294,7 @@ my %LocaleCodesCountryList = (
     "Zambia"                                               => "Zambia",
     "Zimbabwe"                                             => "Zimbabwe",
 );
+ref_ok( $CountryName2Name1, 'HASH' );
 is(
     scalar keys $CountryName2Name1->%*,
     249,
@@ -340,5 +341,34 @@ is(
     \%OwnCode2Name,
     'country name to code with OwnCountryList system setting'
 );
+
+SKIP:
+{
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    skip 'Locale::CLDR not available' unless $MainObject->Require('Locale::CLDR');
+
+    my $CLDRCountryCode2Name = $ReferenceDataObject->CLDRCountryList(
+        Language => 'de',
+    );
+
+    my %SampleCountryCode2Name = (
+        AT => 'Österreich 🇦🇹',              # mit Umlaut
+        BQ => 'Karibische Niederlande 🇧🇶',
+        BV => 'Bouvetinsel 🇧🇻',
+        CI => q{Côte d’Ivoire 🇨🇮},        # with U+02019 - RIGHT SINGLE QUOTATION MARK^
+        DE => 'Deutschland 🇩🇪',
+        MK => 'Nordmazedonien 🇲🇰',           # changed in CLDR 40
+        SZ => 'Eswatini 🇸🇿',                 # changed in CLDR 40
+    );
+
+    ref_ok( $CLDRCountryCode2Name, 'HASH' );
+    like(
+        $CLDRCountryCode2Name,
+        \%SampleCountryCode2Name,
+        'German CLDR country list',
+    );
+
+}
 
 done_testing;
