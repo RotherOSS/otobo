@@ -204,7 +204,7 @@ feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
 
 feature 'div:cldr', 'Support for feature div:cldr' => sub {
     # localisation from the CLDR project
-    requires 'Locale::CLDR', ">= 0.34.4";
+    requires 'Locale::CLDR', ">= 0.40.0";
 
     # localisation from the CLDR project
     requires 'Locale::CLDR::Locales::De', ">= 0.34.4";
@@ -387,7 +387,7 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Crypt::Eksblowfish::Bcrypt';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR', ">= 0.34.4";
+    requires 'Locale::CLDR', ">= 0.40.0";
 
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
