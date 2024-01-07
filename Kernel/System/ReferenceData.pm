@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -146,19 +146,19 @@ sub CountryList {
     return \%CountryName2Name;
 }
 
-=head2 TranslatedCountryList()
+=head2 CLDRCountryList()
 
 returns a mapping of translated country names to two letter country codes.
 The translated country name are prepended by their flag.
 The data is provided by L<Locale::CLDR>.
 
-    my $CountryName2Code = $ReferenceDataObject->TranslatedCountryList(
+    my $CountryName2Code = $ReferenceDataObject->CLDRCountryList(
         Language => 'de',
     );
 
 =cut
 
-sub TranslatedCountryList {
+sub CLDRCountryList {
     my ( $Self, %Param ) = @_;
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
