@@ -1230,7 +1230,7 @@ sub _Edit {
         {
             $Block = 'Option';
 
-            my $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->TranslatedCountryList(
+            my $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->CLDRCountryList(
                 Language => $LayoutObject->{UserLanguage},
             );
 

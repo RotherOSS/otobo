@@ -671,7 +671,7 @@ sub _Edit {
                 if ( $ConfigObject->Get('ReferenceData::TranslatedCountryNames') ) {
 
                     # Flag+Name => code
-                    $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->TranslatedCountryList(
+                    $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->CLDRCountryList(
                         Language => $LayoutObject->{UserLanguage},
                     );
 

@@ -146,19 +146,19 @@ sub CountryList {
     return \%CountryName2Name;
 }
 
-=head2 TranslatedCountryList()
+=head2 CLDRCountryList()
 
 returns a mapping of translated country names to two letter country codes.
 The translated country name are prepended by their flag.
 The data is provided by L<Locale::CLDR>.
 
-    my $CountryName2Code = $ReferenceDataObject->TranslatedCountryList(
+    my $CountryName2Code = $ReferenceDataObject->CLDRCountryList(
         Language => 'de',
     );
 
 =cut
 
-sub TranslatedCountryList {
+sub CLDRCountryList {
     my ( $Self, %Param ) = @_;
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
