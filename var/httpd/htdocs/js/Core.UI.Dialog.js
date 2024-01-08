@@ -578,6 +578,9 @@ Core.UI.Dialog = (function (TargetNS) {
                 if (
                     $(event.target).parents('html').length
                     && $(event.target).closest('div.Dialog').length === 0
+
+                    // Case autocomplete dropdown in modal dialogs
+                    // NOTE: currently only occurs when using dynamic field reference search fields in ticket search or config item search
                     && !$(event.target).hasClass('ui-menu-item-wrapper')
                 ) {
                     HandleClosingAction();
