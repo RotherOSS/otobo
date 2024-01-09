@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -431,6 +431,7 @@ sets a dynamic field value. The values are usually not validated.
                                                         # You have to give either ObjectID OR ObjectName
         Value              => $Value,                   # Value to store, depends on backend type
         UserID             => 123,
+        Set                => (1|0),                    # (optional) whether the value is included in a DynamicField Set
     );
 
 =cut
@@ -531,6 +532,7 @@ sub ValueSet {
     my $OldValue = $Self->ValueGet(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         ObjectID           => $Param{ObjectID},
+        Set                => $Param{Set},
     );
     my $NewValue = $Param{Value};
 
@@ -553,7 +555,7 @@ sub ValueSet {
     my $DynamicFieldObjectHandler = 'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
 
     # If an ObjectType handler is registered and has a PreValueSet method, use it.
-    if ( ref $Self->{$DynamicFieldObjectHandler} && $Self->{$DynamicFieldObjectHandler}->can('PreValueSet') ) {
+    if ( ref $Self->{$DynamicFieldObjectHandler} && $Self->{$DynamicFieldObjectHandler}->can('PreValueSet') && !$Param{Set} ) {
         return if !$Self->{$DynamicFieldObjectHandler}->PreValueSet(
             OldValue => $OldValue,
             Param    => \%Param,
@@ -574,7 +576,7 @@ sub ValueSet {
     }
 
     # If an ObjectType handler is registered, use it.
-    if ( ref $Self->{$DynamicFieldObjectHandler} ) {
+    if ( ref $Self->{$DynamicFieldObjectHandler} && !$Param{Set} ) {
         return $Self->{$DynamicFieldObjectHandler}->PostValueSet(
             OldValue => $OldValue,
             %Param,
@@ -967,6 +969,7 @@ the values of the dynamic fields for the requested ticket.
         ObjectName         => $ObjectName,              # Name of the current object that the field
                                                         # must be linked to, e. g. CustomerUserLogin
                                                         # You have to give either ObjectID OR ObjectName
+        Set                => (0|1),                    # (optional) whether the value is included in a DynamicField Set
     );
 
 The returned value depends on the backend type.
