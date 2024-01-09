@@ -863,19 +863,20 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .FieldCell div.DFSetOuterField {
     height: auto;
+    display: block;
 }
 
 .FieldCell .DFSetOuterField + label {
     z-index: 1;
     display: block;
     top: calc(-100% + 28px);
-    left: 20px;
+    left: 24px;
     width: fit-content;
 }
 
 .FieldCell .DFSetOuterField ~ .AddRemoveValueRow {
     position: relative;
-    left: calc(100% + 8px);
+    left: calc(100% + 12px);
     top: calc(-100% + 40px);
 }
 
@@ -908,11 +909,11 @@ div.InputField_ToolbarContainer ul li a:hover {
     grid-template-columns: 1fr 65px;
 }
 
-.DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell label {
+.DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell > label {
     grid-column: 1;
     grid-row: 1;
     position: relative;
-    left: 8px;
+    left: 24px;
     width: fit-content;
     height: fit-content;
     place-self: center start;
