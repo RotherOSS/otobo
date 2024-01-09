@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -332,7 +332,95 @@ my @CreateDynamicFieldConfigs = (
         UserID  => $UserID,
     },
 
-    # Set, using the previously created Text1 and Text2 dynamic fields
+    # Fields to include in SetOfTexts
+    {
+        Name       => 'Text3',
+        Label      => 'Text3',
+        FieldOrder => 123,
+        FieldType  => 'Text',
+        ObjectType => 'Ticket',
+        Config     => {
+            MultiValue => 0,
+            Tooltip    => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+    {
+        Name       => 'Text4',
+        Label      => 'Text4',
+        FieldOrder => 123,
+        FieldType  => 'Text',
+        ObjectType => 'Ticket',
+        Config     => {
+            MultiValue => 1,
+            Tooltip    => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+
+    # Fields to include in SetOfAgentsAndTexts
+    {
+        Name       => 'Text5',
+        Label      => 'Text5',
+        FieldOrder => 123,
+        FieldType  => 'Text',
+        ObjectType => 'Ticket',
+        Config     => {
+            MultiValue => 0,
+            Tooltip    => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+    {
+        Name       => 'Text6',
+        Label      => 'Text6',
+        FieldOrder => 123,
+        FieldType  => 'Text',
+        ObjectType => 'Ticket',
+        Config     => {
+            MultiValue => 1,
+            Tooltip    => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+    {
+        Name       => 'Agent1',
+        Label      => 'Agent1',
+        FieldOrder => 123,
+        FieldType  => 'Agent',
+        ObjectType => 'Ticket',
+        Config     => {
+            PossibleNone => 1,
+            Multiselect  => 0,
+            MultiValue   => 0,
+            GroupFilter  => [],
+            Tooltip      => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+    {
+        Name       => 'Agent2',
+        Label      => 'Agent2',
+        FieldOrder => 123,
+        FieldType  => 'Agent',
+        ObjectType => 'Ticket',
+        Config     => {
+            PossibleNone => 1,
+            Multiselect  => 0,
+            MultiValue   => 1,
+            GroupFilter  => [],
+            Tooltip      => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+
+    # Set, using the previously created Text3 and Text4 dynamic fields
     {
         Name       => 'SetOfTexts',
         Label      => 'set of texts',
@@ -343,8 +431,29 @@ my @CreateDynamicFieldConfigs = (
             MultiValue => 0,
             Tooltip    => '',
             Include    => [
-                { DF => 'Text1' . $RandomID },
-                { DF => 'Text2' . $RandomID },
+                { DF => 'Text3' . $RandomID },
+                { DF => 'Text4' . $RandomID },
+            ],
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+
+    # Set, using the previously created Text5 and Text6 and agent fields
+    {
+        Name       => 'SetOfAgentsAndTexts',
+        Label      => 'set of agents and texts',
+        FieldOrder => 123,
+        FieldType  => 'Set',
+        ObjectType => 'Ticket',
+        Config     => {
+            MultiValue => 0,
+            Tooltip    => '',
+            Include    => [
+                { DF => 'Text5' . $RandomID },
+                { DF => 'Text6' . $RandomID },
+                { DF => 'Agent1' . $RandomID },
+                { DF => 'Agent2' . $RandomID },
             ],
         },
         ValidID => 1,
@@ -827,7 +936,10 @@ my @Tests = (
                         'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
 
                         # value for the second dynamic field in the set
-                        'Text2: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN'
+                        [
+                            'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                            'Text2: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                        ],
                     ],
                 ],
             ObjectID => $SourceTicketID,
@@ -836,7 +948,60 @@ my @Tests = (
         ExpectedResults => [
             [
                 'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
-                'Text2: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN'
+                [
+                    'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                    'Text2: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                ],
+            ],
+        ],
+        Success => 1,
+    },
+    {
+        Name   => 'SetOfAgentsAndTexts',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{SetOfAgentsAndTexts},
+            Value              =>
+
+                # a list of Set values
+                [
+
+                    # actually only on Set value in the list
+                    [
+
+                        # value for the first dynamic field in the set
+                        'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+
+                        # value for the second dynamic field in the set
+                        [
+                            'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                            'Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                        ],
+
+                        # value for the third dynamic field in the set
+                        $FirstUserID,
+
+                        # value for the fourth dynamic field in the set
+                        [
+                            $FirstUserID,
+                            $SecondUserID,
+                        ],
+                    ],
+                ],
+            ObjectID => $SourceTicketID,
+            UserID   => $UserID,
+        },
+        ExpectedResults => [
+            [
+                'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                [
+                    'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                    'Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                ],
+                [$FirstUserID],
+                [
+                    $FirstUserID,
+                    $SecondUserID,
+                ],
             ],
         ],
         Success => 1,
