@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -124,10 +124,10 @@ sub ValueSet {
         );
     }
 
-    my $Value = $Param{DynamicFieldConfig}{Config}{MultiValue}
+    # in MultiValue and Set case, the value is needed as array ref for creating the value structure correctly
+    my $Value = ( $Param{DynamicFieldConfig}{Config}{MultiValue} || $Param{Set} )
         ? $Param{Value}
-        : $Param{Set} ? [ map { $_->[0] } $Param{Value}->@* ]
-        :               $Param{Value}->[0];
+        : $Param{Value}->[0];
 
     my $DBValue = $Self->ValueStructureToDB(
         Value      => $Value,
