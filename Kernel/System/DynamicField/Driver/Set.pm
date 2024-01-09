@@ -142,7 +142,7 @@ my $GetIncludedDynamicFields = sub {
         }
     }
 
-    if ($error) {
+    if ($Error) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "$DynamicFieldName configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
