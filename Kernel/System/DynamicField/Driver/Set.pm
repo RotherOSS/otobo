@@ -168,8 +168,7 @@ sub _GetIncludedDynamicFields {
         );
 
         return;
-    }
-    else {
+    } else {
         return \@DynamicFields;
     }
 }
@@ -368,8 +367,7 @@ sub EditFieldRender {
 
     if ( !$DynamicFields ) {
         return;
-    }
-    else {
+    } else {
 
         for my $i ( 0 .. $#{$DynamicFields} ) {
 
@@ -584,11 +582,10 @@ sub DisplayValueRender {
         DynamicFieldObject => $DynamicFieldObject
     );
 
-    if ( !$DynamicFields ) {
+    if (!$DynamicFields) {
         return;
-    }
-    else {
-        for my $i ( 0 .. $#{$DynamicFields} ) {
+    } else {
+        for my $i (0 .. $#{$DynamicFields}) {
 
             my $DynamicField = $DynamicFields->[$i];
             my $Label;
