@@ -171,7 +171,7 @@ sub _AddAction {
                     $Errors{IncludeServerError}        = 'ServerError';
                     $Errors{IncludeServerErrorMessage} = Translatable( 'No dynamic field "' . $DFElement . '".' );
 
-                    return undef;
+                    return;
                 }
 
                 # DF may be used in sets
@@ -184,7 +184,7 @@ sub _AddAction {
                     $Errors{IncludeServerErrorMessage}
                         = Translatable( 'The dynamic field type "' . $DynamicField->{FieldType} . '" of dynamic field "' . $DFElement . '" can not be used in sets.' );
 
-                    return undef;
+                    return;
                 }
 
                 return 1;
@@ -495,7 +495,7 @@ sub _ChangeAction {
                     $Errors{IncludeServerError}        = 'ServerError';
                     $Errors{IncludeServerErrorMessage} = Translatable( 'No dynamic field "' . $DFElement . '".' );
 
-                    return undef;
+                    return;
                 }
 
                 # DF may be used in sets
@@ -508,7 +508,7 @@ sub _ChangeAction {
                     $Errors{IncludeServerErrorMessage}
                         = Translatable( 'The dynamic field type "' . $DynamicField->{FieldType} . '" of dynamic field "' . $DFElement . '" can not be used in sets.' );
 
-                    return undef;
+                    return;
                 }
 
                 return 1;

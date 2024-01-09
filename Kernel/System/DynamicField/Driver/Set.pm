@@ -117,7 +117,7 @@ my $GetIncludedDynamicFields = sub {
         return $DynamicField;
     };
 
-    my $error = undef;
+    my $Error = undef;
 
     ITEM:
     for my $IncludeItem (@{ $Include }) {
@@ -132,7 +132,7 @@ my $GetIncludedDynamicFields = sub {
                     if ($DynamicField) {
                         push @DynamicFields, $DynamicField;
                     } else {
-                        $error = 1;
+                        $Error = 1;
                         last ITEM;
                     }
                 }
@@ -143,11 +143,11 @@ my $GetIncludedDynamicFields = sub {
             if ($DynamicField) {
                 push @DynamicFields, $DynamicField;
             } else {
-                $error = 1;
+                $Error = 1;
                 last ITEM;
             }
         } else {
-            $error = 1;
+            $Error = 1;
             last ITEM;
         }
     }
@@ -158,7 +158,7 @@ my $GetIncludedDynamicFields = sub {
             Message  => "$DynamicFieldName configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
         );
 
-        return undef;
+        return;
     } else {
         return \@DynamicFields;
     }
@@ -361,7 +361,7 @@ sub EditFieldRender {
 
     if (!$DynamicFields)
              {
-        return undef;
+        return;
     } else {
 
         for my $i (0 .. $#{$DynamicFields}) {
@@ -577,9 +577,8 @@ sub DisplayValueRender {
     my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
     my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-    if (!$DynamicFields)
-             {
-        return undef;
+    if (!$DynamicFields) {
+        return;
     } else {
         for my $i (0 .. $#{$DynamicFields}) {
 
@@ -660,9 +659,8 @@ sub ReadableValueRender {
     my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
     my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-    if (!$DynamicFields)
-             {
-        return undef;
+    if (!$DynamicFields) {
+        return;
     } else {
         for my $i (0 .. $#{$DynamicFields}) {
 
@@ -764,9 +762,8 @@ sub ValueLookup {
     my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
     my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
 
-    if (!$DynamicFields)
-             {
-        return undef;
+    if (!$DynamicFields) {
+        return;
     } else {
         for my $i (0 .. $#{$DynamicFields}) {
 
