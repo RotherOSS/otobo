@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,9 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $MainObject          = $Kernel::OM->Get('Kernel::System::Main');
@@ -77,7 +75,7 @@ my $TestCount = 1;
 my $FormatList1 = $ImportExportObject->FormatList();
 
 # check format list
-$Self->True(
+ok(
     $FormatList1 && ref $FormatList1 eq 'HASH' && $FormatList1->{CSV},
     "Test $TestCount: FormatList() - CSV exists",
 );
@@ -95,7 +93,7 @@ my $FormatAttributesGet1 = $ImportExportObject->FormatAttributesGet(
 );
 
 # check format attribute reference
-$Self->True(
+ok(
     $FormatAttributesGet1 && ref $FormatAttributesGet1 eq 'ARRAY',
     "Test $TestCount: FormatAttributesGet() - check array reference",
 );
@@ -147,7 +145,7 @@ my $FormatAttributesGet1Reference = [
     },
 ];
 
-$Self->IsDeeply(
+is(
     $FormatAttributesGet1,
     $FormatAttributesGet1Reference,
     "Test $TestCount: FormatAttributesGet() - attributes of the row are identical",
@@ -166,8 +164,8 @@ my $FormatAttributesGet2 = $ImportExportObject->FormatAttributesGet(
 );
 
 # check false return
-$Self->False(
-    $FormatAttributesGet2,
+ok(
+    !$FormatAttributesGet2,
     "Test $TestCount: FormatAttributesGet() - check false return",
 );
 
@@ -184,7 +182,7 @@ my $MappingFormatAttributesGet1 = $ImportExportObject->MappingFormatAttributesGe
 );
 
 # check mapping format attribute reference
-$Self->True(
+ok(
     $MappingFormatAttributesGet1 && ref $MappingFormatAttributesGet1 eq 'ARRAY',
     "Test $TestCount: MappingFormatAttributesGet() - check array reference",
 );
@@ -202,7 +200,7 @@ my $MappingFormatAttributesGet1Reference = [
     },
 ];
 
-$Self->IsDeeply(
+is(
     $MappingFormatAttributesGet1,
     $MappingFormatAttributesGet1Reference,
     "Test $TestCount: MappingFormatAttributesGet() - attributes of the row are identical",
@@ -221,8 +219,8 @@ my $MappingFormatAttributesGet2 = $ImportExportObject->MappingFormatAttributesGe
 );
 
 # check false return
-$Self->False(
-    $MappingFormatAttributesGet2,
+ok(
+    !$MappingFormatAttributesGet2,
     "Test $TestCount: MappingFormatAttributesGet() - check false return",
 );
 
@@ -1061,18 +1059,13 @@ for my $Test ( @{$ImportDataTests} ) {
     # check SourceImportData attribute
     if ( !$Test->{SourceImportData} || ref $Test->{SourceImportData} ne 'HASH' ) {
 
-        $Self->True(
-            0,
-            "Test $TestCount: No SourceImportData found for this test."
-        );
+        fail("Test $TestCount: SourceImportData found for this test.");
 
         next TEST;
     }
 
     # set default ImportDataGet
-    if ( !$Test->{SourceImportData}->{ImportDataGet} ) {
-        $Test->{SourceImportData}->{ImportDataGet} = {};
-    }
+    $Test->{SourceImportData}->{ImportDataGet} ||= {};
 
     # set source content
     if (
@@ -1117,8 +1110,8 @@ for my $Test ( @{$ImportDataTests} ) {
 
     if ( !$Test->{ReferenceImportData} ) {
 
-        $Self->False(
-            $ImportData,
+        ok(
+            !$ImportData,
             "Test $TestCount: ImportDataGet() - return false"
         );
 
@@ -1128,16 +1121,13 @@ for my $Test ( @{$ImportDataTests} ) {
     if ( ref $ImportData ne 'ARRAY' ) {
 
         # check array reference
-        $Self->True(
-            0,
-            "Test $TestCount: ImportDataGet() - return value is an array reference",
-        );
+        fail( "Test $TestCount: ImportDataGet() - return value is an array reference", );
 
         next TEST;
     }
 
     # check number of rows
-    $Self->Is(
+    is(
         scalar @{$ImportData},
         scalar @{ $Test->{ReferenceImportData} },
         "Test $TestCount: ImportDataGet() - same number of rows",
@@ -1154,22 +1144,16 @@ for my $Test ( @{$ImportDataTests} ) {
         if ( ref $ImportRow ne 'ARRAY' || ref $ReferenceRow ne 'ARRAY' ) {
 
             # check array reference
-            $Self->True(
-                0,
-                "Test $TestCount: ImportDataGet() - import row and reference row matched",
-            );
+            fail( "Test $TestCount: ImportDataGet() - import row and reference row are both array references", );
 
             next TEST;
         }
 
-        # # print the file name
-        # $Self->True(
-        #     1,
-        #     $Test->{SourceImportData}->{SourceFile},
-        # );
+        # print the file name
+        #diag $Test->{SourceImportData}->{SourceFile},
 
         # check number of columns
-        $Self->Is(
+        is(
             scalar @{$ImportRow},
             scalar @{$ReferenceRow},
             "Test $TestCount: ImportDataGet() - same number of columns",
@@ -1187,7 +1171,7 @@ for my $Test ( @{$ImportDataTests} ) {
             }
 
             # check cell data
-            $Self->Is(
+            is(
                 $Cell,
                 $ReferenceRow->[$CounterColumn],
                 "Test $TestCount: ImportDataGet() ",
@@ -1896,19 +1880,13 @@ for my $Test ( @{$ExportDataTests} ) {
 
     # check SourceExportData attribute
     if ( !$Test->{SourceExportData} || ref $Test->{SourceExportData} ne 'HASH' ) {
-
-        $Self->True(
-            0,
-            "Test $TestCount: No SourceExportData found for this test."
-        );
+        fail("Test $TestCount: SourceExportData found for this test.");
 
         next TEST;
     }
 
     # set default ExportDataSave
-    if ( !$Test->{SourceExportData}->{ExportDataSave} ) {
-        $Test->{SourceExportData}->{ExportDataSave} = {};
-    }
+    $Test->{SourceExportData}->{ExportDataSave} ||= {};
 
     # set the format data
     if (
@@ -1933,8 +1911,9 @@ for my $Test ( @{$ExportDataTests} ) {
 
     if ( !defined $Test->{ReferenceDestinationContent} ) {
 
-        $Self->True(
-            !defined $ExportString,
+        is(
+            $ExportString,
+            undef,
             "Test $TestCount: ExportDataSave() - return false"
         );
 
@@ -1943,8 +1922,9 @@ for my $Test ( @{$ExportDataTests} ) {
 
     if ( !defined $ExportString ) {
 
-        $Self->True(
-            !defined $Test->{ReferenceDestinationContent},
+        is(
+            $Test->{ReferenceDestinationContent},
+            undef,
             "Test $TestCount: ExportDataSave() - return false"
         );
 
@@ -1953,7 +1933,7 @@ for my $Test ( @{$ExportDataTests} ) {
 
     if ( !$Test->{SourceExportData}->{ExportDataSave}->{ExportDataRow} ) {
 
-        $Self->True(
+        ok(
             defined $ExportString,
             "Test $TestCount: ExportDataSave() - return false"
         );
@@ -1962,7 +1942,7 @@ for my $Test ( @{$ExportDataTests} ) {
     }
 
     # check the export string
-    $Self->Is(
+    is(
         $ExportString,
         $Test->{ReferenceDestinationContent},
         "Test $TestCount: ExportDataSave()",
