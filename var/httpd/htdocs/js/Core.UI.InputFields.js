@@ -356,8 +356,6 @@ Core.UI.InputFields = (function (TargetNS) {
             $(".Field", Element).addClass('oooFull');
         }
 
-        var Label = $(Element).children('label').first();   //unnecessary??
-
         TextInput.focus( function() {
             Label.addClass('oooFocus');
         });
@@ -3019,12 +3017,13 @@ Core.UI.InputFields = (function (TargetNS) {
             }
 
             DynamicFieldInit( $NewCell );
+            
+            // init multivalue fields in sets
+            TargetNS.InitMultiValueDynamicFields( $NewCell );
+
             $('.DynamicFieldSet .FieldCell', $NewCell).each ( function() {
                 DynamicFieldInit( $(this) );
             })
-
-            // init multivalue fields in sets
-            TargetNS.InitMultiValueDynamicFields( $NewCell );
         });
 
         InitValueRow( ValueRowCells, ValueRowIndex );
