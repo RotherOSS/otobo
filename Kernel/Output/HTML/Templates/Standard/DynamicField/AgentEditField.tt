@@ -35,7 +35,7 @@
                             <div class="MultiValue_Template" style="[% Data.CellStyle | html %]">
                                 [% Data.Label %]
                                 <div class="Field">
-[% Data.Field %]
+                                [% Data.Field %]
                                 </div>
                                 <div class="AddRemoveValueRow">
                                     <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
