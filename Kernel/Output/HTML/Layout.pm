@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -2384,7 +2384,7 @@ build a HTML option element based on given data
         SelectedValue  => ['test', 'test1'], # (optional) use string or arrayref (unable to use with ArrayHashRef)
 
         Sort           => 'NumericValue',    # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView|IndividualKey|IndividualValue) unable to use with ArrayHashRef
-        SortIndividual => ['sec', 'min']     # (optional) only sort is set to IndividualKey or IndividualValue
+        SortIndividual => ['sec', 'min']     # (optional) only if sort is set to IndividualKey or IndividualValue
         SortReverse    => 0,                 # (optional) reverse the list
 
         Translation    => 1,                 # (optional) default 1 (0|1) translate value
