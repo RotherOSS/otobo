@@ -13,13 +13,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
+
 [% RenderBlockStart("Row_DynamicField") %]
                         <div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="grid-template-columns: [% Data.TemplateColumns | html %]">
 [% RenderBlockStart("DynamicField") %]
                             <div class="FieldCell[% Data.CellClasses %]" style="[% Data.CellStyle | html %]">
                                 [% Data.Label %]
                                 <div class="Field">
-[% Data.Field %]
+                                [% Data.Field %]
                                 </div>
 [% IF Data.MultiValue && !Data.RowReadonly %]
                                 <div class="AddRemoveValueRow">

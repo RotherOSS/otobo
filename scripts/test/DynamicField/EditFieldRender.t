@@ -3689,6 +3689,9 @@ for my $Test (@Tests) {
         $FieldHTML->{Field} =~ s/\n+$//;
         $FieldHTML->{Field} =~ s/\n{2,}/\n/g;
 
+        # Remove lines which consist only of whitespace
+        $FieldHTML->{Field} =~ s/^\s+\n//gm;
+
         # Heredocs always have the newline, even if it is not expected
         if ( $FieldHTML->{Field} !~ m{\n$} ) {
 
