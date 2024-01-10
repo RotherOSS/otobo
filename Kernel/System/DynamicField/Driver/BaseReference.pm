@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -592,7 +592,8 @@ sub SearchFieldRender {
     );
 
     my $HTMLString = <<"EOF";
-<input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" value="$ValueEscaped" />
+<input type="hidden" id="$FieldName" name="$FieldName" value="$ValueEscaped" />
+<input type="text" class="$FieldClass" id="Autocomplete_$FieldName" name="Autocomplete_$FieldName" title="$FieldLabelEscaped" value="$ValueEscaped" />
 EOF
 
     my $AdditionalText;
@@ -714,7 +715,7 @@ sub ReadableValueRender {
     # get descriptive names for the values, e.g. TicketNumber for TicketID
     my @LongObjectDescriptions;
     {
-        for my $ObjectID ( @Values ) {
+        for my $ObjectID (@Values) {
             if ($ObjectID) {
                 my %Description = $Self->ObjectDescriptionGet(
                     ObjectID => $ObjectID,
