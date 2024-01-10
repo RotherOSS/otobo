@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -30,10 +30,69 @@ use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::Output::HTML::Layout;
 use Kernel::System::VariableCheck qw(:all);
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase  => 1,
+        UseTmpArticleDir => 1,
+    },
+);
+
 # get needed objects
-my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $DFBackendObject    = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $Helper             = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
+
+my $RandomID = $Helper->GetRandomID;
+diag "RandomID is $RandomID";
+
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+my $UserID = 1;    # root
+
+# create agents
+my $FirstUserID = $UserObject->UserAdd(
+    UserFirstname => 'Test',
+    UserLastname  => 'User',
+    UserLogin     => 'TestUser1' . $RandomID,
+    UserPw        => 'some-pass',
+    UserEmail     => 'test1' . $RandomID . 'email@example.com',
+    ValidID       => 1,
+    ChangeUserID  => 1,
+);
+ok( $FirstUserID, 'Creation of first agent' );
+
+my $SecondUserID = $UserObject->UserAdd(
+    UserFirstname => 'Test',
+    UserLastname  => 'User',
+    UserLogin     => 'TestUser2' . $RandomID,
+    UserPw        => 'some-pass',
+    UserEmail     => 'test2' . $RandomID . 'email@example.com',
+    ValidID       => 1,
+    ChangeUserID  => 1,
+);
+ok( $SecondUserID, 'Creation of second agent' );
+
+# collect user data and build string for html selection comparison
+my %UserList = $UserObject->UserSearch(
+    Search => '*',
+    Valid  => 1,
+);
+my $UserSelectionString         = '  <option value="">-</option>';
+my $UserSelectionSelectedString = '  <option value="" selected="selected">-</option>';
+for my $UserID ( sort keys %UserList ) {
+    my $UserName = $UserObject->UserName(
+        UserID => $UserID,
+    );
+    $UserSelectionString         = join( "\n", ( $UserSelectionString,         '  <option value="' . $UserID . '">' . $UserName . '</option>' ) );
+    $UserSelectionSelectedString = join( "\n", ( $UserSelectionSelectedString, '  <option value="' . $UserID . '">' . $UserName . '</option>' ) );
+}
 
 # use a fixed year to compare the time selection results
 FixedTimeSet(
@@ -50,7 +109,82 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
     UserTimeZone => 'UTC',
 );
 
-my $UserID = 1;
+# prepare dynamic fields to include in set
+my @IncludeDFConfigs = (
+
+    # Fields to include in SetOfAgentsAndTexts
+    {
+        Name         => 'Text5' . $RandomID,
+        Label        => 'Text5',
+        LabelEscaped => 'Text5',
+        FieldOrder   => 123,
+        FieldType    => 'Text',
+        ObjectType   => 'Ticket',
+        Config       => {
+            MultiValue => 0,
+            Tooltip    => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+    {
+        Name         => 'Text6' . $RandomID,
+        Label        => 'Text6',
+        LabelEscaped => 'Text6',
+        FieldOrder   => 123,
+        FieldType    => 'Text',
+        ObjectType   => 'Ticket',
+        Config       => {
+            MultiValue => 1,
+            Tooltip    => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+    {
+        Name         => 'Agent1' . $RandomID,
+        Label        => 'Agent1',
+        LabelEscaped => 'Agent1',
+        FieldOrder   => 123,
+        FieldType    => 'Agent',
+        ObjectType   => 'Ticket',
+        Config       => {
+            PossibleNone => 1,
+            Multiselect  => 0,
+            MultiValue   => 0,
+            GroupFilter  => [],
+            Tooltip      => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+    {
+        Name         => 'Agent2' . $RandomID,
+        Label        => 'Agent2',
+        LabelEscaped => 'Agent2',
+        FieldOrder   => 123,
+        FieldType    => 'Agent',
+        ObjectType   => 'Ticket',
+        Config       => {
+            PossibleNone => 1,
+            Multiselect  => 0,
+            MultiValue   => 1,
+            GroupFilter  => [],
+            Tooltip      => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+);
+
+for my $IncludeDFConfig (@IncludeDFConfigs) {
+
+    my $Success = $DynamicFieldObject->DynamicFieldAdd(
+        $IncludeDFConfig->%*,
+    );
+
+    ok( $Success, 'Creation of set-included dynamic field ' . $IncludeDFConfig->{Name} );
+}
 
 # theres is not really needed to add the dynamic fields for this test, we can define a static
 # set of configurations
@@ -190,6 +324,29 @@ my %DynamicFieldConfigs = (
         ValidID    => 1,
         CreateTime => '2011-02-08 15:08:00',
         ChangeTime => '2011-06-11 17:22:00',
+    },
+
+    # Set, using the previously created Text5 and Text6 and agent fields
+    Set => {
+        ID            => 123,
+        InternalField => 0,
+        Name          => 'SetOfAgentsAndTexts',
+        Label         => 'Set of agents and texts',
+        LabelEscaped  => 'Set of agents and texts',
+        FieldOrder    => 123,
+        FieldType     => 'Set',
+        ObjectType    => 'Ticket',
+        Config        => {
+            MultiValue => 0,
+            Tooltip    => '',
+            Include    => [
+                { DF => 'Text5' . $RandomID },
+                { DF => 'Text6' . $RandomID },
+                { DF => 'Agent1' . $RandomID },
+                { DF => 'Agent2' . $RandomID },
+            ],
+        },
+        ValidID => 1,
     },
 );
 
@@ -3366,6 +3523,138 @@ $DynamicFieldConfigs{Date}->{LabelEscaped}:
 </label>
 EOF
 
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Set: Correct Value',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Set},
+            LayoutObject       => $LayoutObject,
+            ParamObject        => $ParamObject,
+            Value              => [
+
+                # a list of Set values
+                [
+
+                    # actually only on Set value in the list
+                    [
+
+                        # value for the first dynamic field in the set
+                        'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+
+                        # value for the second dynamic field in the set
+                        [
+                            'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                            'Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                        ],
+
+                        # value for the third dynamic field in the set
+                        $FirstUserID,
+
+                        # value for the fourth dynamic field in the set
+                        [
+                            $FirstUserID,
+                            $SecondUserID,
+                        ],
+                    ],
+                ],
+            ],
+            Class => 'MyClass',
+        },
+        ExpectedResults => {
+            Field => <<"EOF",
+<input type="hidden" name="SetIndex_$DynamicFieldConfigs{Set}->{Name}" value="0"/>
+<fieldset class="DynamicFieldSet">
+                        <div class="Row Row_DynamicField" style="grid-template-columns: 1fr">
+                            <div class="FieldCell" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[0]->{Name}_0" for="DynamicField_$IncludeDFConfigs[0]->{Name}_0">
+$IncludeDFConfigs[0]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[0]->{Name}_0" name="DynamicField_$IncludeDFConfigs[0]->{Name}_0" title="$IncludeDFConfigs[0]->{LabelEscaped}" value="" />
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                        </div>
+                        <div class="Row Row_DynamicField MultiValue" style="grid-template-columns: 1fr">
+                            <div class="FieldCell MultiValue_0" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[1]->{Name}_0" for="DynamicField_$IncludeDFConfigs[1]->{Name}_0">
+$IncludeDFConfigs[1]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_0" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="" />
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                            <div class="MultiValue_Template" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[1]->{Name}_0" for="DynamicField_$IncludeDFConfigs[1]->{Name}_0">
+$IncludeDFConfigs[1]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_Template" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="" />
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Row Row_DynamicField" style="grid-template-columns: 1fr">
+                            <div class="FieldCell" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[2]->{Name}_0" for="DynamicField_$IncludeDFConfigs[2]->{Name}_0">
+$IncludeDFConfigs[2]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<select class="DynamicFieldReference DynamicFieldText Modernize" id="DynamicField_$IncludeDFConfigs[2]->{Name}_0" name="DynamicField_$IncludeDFConfigs[2]->{Name}_0">
+$UserSelectionString
+</select>
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                        </div>
+                        <div class="Row Row_DynamicField MultiValue" style="grid-template-columns: 1fr">
+                            <div class="FieldCell MultiValue_0" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[3]->{Name}_0_0" for="DynamicField_$IncludeDFConfigs[3]->{Name}_0_0">
+$IncludeDFConfigs[3]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<select class="DynamicFieldReference DynamicFieldText Modernize" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_0" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
+$UserSelectionSelectedString
+</select>
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                            <div class="MultiValue_Template" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[3]->{Name}_0_0" for="DynamicField_$IncludeDFConfigs[3]->{Name}_0_0">
+$IncludeDFConfigs[3]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<select class="DynamicFieldReference DynamicFieldText Modernize" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_Template" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
+$UserSelectionString
+</select>
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                            </div>
+                        </div>
+</fieldset>
+EOF
+            Label => <<"EOF",
+<label id="LabelDynamicField_$DynamicFieldConfigs{Set}->{Name}" for="DynamicField_$DynamicFieldConfigs{Set}->{Name}">
+$DynamicFieldConfigs{Set}->{LabelEscaped}:
+</label>
+EOF
         },
         Success => 1,
     },
