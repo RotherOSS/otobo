@@ -262,6 +262,7 @@ sub EditFieldRender {
                 my $FieldID = $FieldName . '_' . $ValueIndex;
                 push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
                     Data         => $PossibleValues || {},
+                    Sort         => 'AlphanumericKey',
                     Disabled     => $Param{Readonly},
                     Name         => $FieldName,
                     ID           => $FieldID,
@@ -277,6 +278,7 @@ sub EditFieldRender {
             my @SelectedIDs = grep {$_} $Value->@*;
             push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
                 Data         => $PossibleValues || {},
+                Sort         => 'AlphanumericKey',
                 Disabled     => $Param{Readonly},
                 Name         => $FieldName,
                 SelectedID   => \@SelectedIDs,
@@ -343,6 +345,7 @@ sub EditFieldRender {
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
             Data        => $PossibleValues || {},
+            Sort        => 'AlphanumericKey',
             Disabled    => $Param{Readonly},
             Name        => $FieldName,
             ID          => $FieldTemplateData{FieldID},
