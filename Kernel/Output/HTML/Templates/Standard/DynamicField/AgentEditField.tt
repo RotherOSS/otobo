@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -19,14 +19,14 @@
                             <div class="FieldCell[% Data.CellClasses %]" style="[% Data.CellStyle | html %]">
                                 [% Data.Label %]
                                 <div class="Field">
-                                [% Data.Field %]
+[% Data.Field %]
                                 </div>
-                                [% IF Data.MultiValue && !Data.RowReadonly %]
+[% IF Data.MultiValue && !Data.RowReadonly %]
                                 <div class="AddRemoveValueRow">
                                     <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
                                     <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
                                 </div>
-                                [% END %]
+[% END %]
                                 <div class="Clear"></div>
                             </div>
 [% RenderBlockEnd("DynamicField") %]
@@ -34,7 +34,7 @@
                             <div class="MultiValue_Template" style="[% Data.CellStyle | html %]">
                                 [% Data.Label %]
                                 <div class="Field">
-                                [% Data.Field %]
+[% Data.Field %]
                                 </div>
                                 <div class="AddRemoveValueRow">
                                     <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
