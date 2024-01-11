@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -57,8 +57,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -368,18 +367,22 @@ sub GetUserData {
 
 =head2 UserAdd()
 
-to add new users
+adds a new user. Additional parameters starting with 'User', like 'UserMobile', will be added
+to the User preferences.
 
     my $UserID = $UserObject->UserAdd(
         UserFirstname => 'Huber',
         UserLastname  => 'Manfred',
-        UserLogin     => 'mhuber',
-        UserPw        => 'some-pass', # not required
-        UserEmail     => 'email@example.com',
-        UserMobile    => '1234567890', # not required
+        UserTitle     => 'Prof.',                # optional
+        UserLogin     => 'mhuber',               # required, must be unique disregarding case
+        UserPw        => 'some-pass',            # optional
+        UserEmail     => 'email@example.com',    # required, will be checked, added as user preference
+        UserMobile    => '1234567890',           # optional, added as user preference
+        ChangeUserID  => 123,                    # ID of the user that creates the new user
         ValidID       => 1,
-        ChangeUserID  => 123,
     );
+
+Returns the id of the added user when the user could be added.
 
 =cut
 
@@ -397,7 +400,7 @@ sub UserAdd {
         }
     }
 
-    # check if a user with this login (username) already exits
+    # check if a user with this login (username) already exists
     if ( $Self->UserLoginExistsCheck( UserLogin => $Param{UserLogin} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -469,14 +472,14 @@ sub UserAdd {
             Priority => 'notice',
             Message  => "Unable to create User: '$Param{UserLogin}' ($Param{ChangeUserID})!",
         );
+
         return;
     }
 
     # log notice
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
-        Message  =>
-            "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
+        Message  => "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
     );
 
     # set password
@@ -494,7 +497,7 @@ sub UserAdd {
         next USERPREFERENCE if $UserPreference eq 'UserEmail' && !$Param{UserEmail};
 
         # Set user preferences.
-        # Native user data will not be overwriten (handeled by SetPreferences()).
+        # Native user data will not be overwriten. This is handled by a black list in SetPreferences().
         $Self->SetPreferences(
             UserID => $UserID,
             Key    => $UserPreference,
@@ -1577,9 +1580,8 @@ sub UserLoginExistsCheck {
             $Flag = 1;
         }
     }
-    if ($Flag) {
-        return 1;
-    }
+
+    return 1 if $Flag;
     return 0;
 }
 
