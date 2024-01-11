@@ -134,6 +134,7 @@ sub ValueSet {
         ValueKey   => $ValueKey,
         Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+        BaseArray  => ( !$Param{DynamicFieldConfig}{Config}{MultiValue} && $Param{Set} ) ? 1 : 0,
     );
 
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(

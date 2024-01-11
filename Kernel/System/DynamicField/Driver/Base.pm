@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -353,6 +353,7 @@ Sets IndexValue and IndexSet for complex structures, if necessary.
         ValueKey   => 'ValueText',
         Set        => 0|1,     # optional, default: 0
         MultiValue => 0|1,     # optional, default: 0
+        BaseArray  => 0|1,     # optional, default: 0
     );
 
 =cut
@@ -364,7 +365,7 @@ sub ValueStructureToDB {
 
     if ( $Param{Set} ) {
         my @ReturnValue;
-        if ( $Param{MultiValue} ) {
+        if ( $Param{MultiValue} || $Param{BaseArray} ) {
 
             # for a multi value field in a set, the structure is $Value[ $SetIndex ][ $MultiValueIndex ]
             for my $i ( 0 .. $#{ $Param{Value} } ) {
@@ -376,7 +377,7 @@ sub ValueStructureToDB {
                     push @ReturnValue, {
                         $Param{ValueKey} => $Param{Value}[$i][$j],
                         IndexSet         => $i,
-                        IndexValue       => $j,
+                        IndexValue       => $Param{MultiValue} ? $j : undef,
                     };
                 }
             }
@@ -397,7 +398,7 @@ sub ValueStructureToDB {
         return \@ReturnValue;
     }
 
-    if ( $Param{MultiValue} ) {
+    if ( $Param{MultiValue} || $Param{BaseArray} ) {
 
         # for a multi value field without set, the structure is $Value[ $MultiValueIndex ]
         my @ReturnValue;
@@ -407,7 +408,7 @@ sub ValueStructureToDB {
 
             push @ReturnValue, {
                 $Param{ValueKey} => $Param{Value}[$j],
-                IndexValue       => $j,
+                IndexValue       => $Param{MultiValue} ? $j : undef,
             };
         }
 
