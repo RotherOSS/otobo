@@ -353,7 +353,6 @@ Sets IndexValue and IndexSet for complex structures, if necessary.
         ValueKey   => 'ValueText',
         Set        => 0|1,     # optional, default: 0
         MultiValue => 0|1,     # optional, default: 0
-        BaseArray  => 0|1,     # optional, default: 0
     );
 
 =cut
@@ -365,7 +364,7 @@ sub ValueStructureToDB {
 
     if ( $Param{Set} ) {
         my @ReturnValue;
-        if ( $Param{MultiValue} || $Param{BaseArray} ) {
+        if ( $Param{MultiValue} ) {
 
             # for a multi value field in a set, the structure is $Value[ $SetIndex ][ $MultiValueIndex ]
             for my $i ( 0 .. $#{ $Param{Value} } ) {
@@ -377,7 +376,7 @@ sub ValueStructureToDB {
                     push @ReturnValue, {
                         $Param{ValueKey} => $Param{Value}[$i][$j],
                         IndexSet         => $i,
-                        IndexValue       => $Param{MultiValue} ? $j : undef,
+                        IndexValue       => $j,
                     };
                 }
             }
@@ -398,7 +397,7 @@ sub ValueStructureToDB {
         return \@ReturnValue;
     }
 
-    if ( $Param{MultiValue} || $Param{BaseArray} ) {
+    if ( $Param{MultiValue} ) {
 
         # for a multi value field without set, the structure is $Value[ $MultiValueIndex ]
         my @ReturnValue;
@@ -408,7 +407,7 @@ sub ValueStructureToDB {
 
             push @ReturnValue, {
                 $Param{ValueKey} => $Param{Value}[$j],
-                IndexValue       => $Param{MultiValue} ? $j : undef,
+                IndexValue       => $j,
             };
         }
 

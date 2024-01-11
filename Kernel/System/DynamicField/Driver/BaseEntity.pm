@@ -125,7 +125,7 @@ sub ValueSet {
     }
 
     # in MultiValue and Set case, the value is needed as array ref for creating the value structure correctly
-    my $Value = ( $Param{DynamicFieldConfig}{Config}{MultiValue} || $Param{Set} )
+    my $Value = $Param{DynamicFieldConfig}{Config}{MultiValue}
         ? $Param{Value}
         : $Param{Value}->[0];
 
@@ -134,7 +134,6 @@ sub ValueSet {
         ValueKey   => $ValueKey,
         Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
-        BaseArray  => ( !$Param{DynamicFieldConfig}{Config}{MultiValue} && $Param{Set} ) ? 1 : 0,
     );
 
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
