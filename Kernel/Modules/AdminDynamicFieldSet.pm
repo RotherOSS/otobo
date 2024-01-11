@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -442,7 +442,7 @@ sub _ChangeAction {
                 my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
                     Name => $Line->{DF},
                 );
-                if ( !$DynamicField ) {
+                if ( !IsHashRefWithData($DynamicField) ) {
                     $Errors{IncludeServerError}        = 'ServerError';
                     $Errors{IncludeServerErrorMessage} = Translatable( 'No dynamic field "' . $Line->{DF} . '".' );
 
@@ -832,7 +832,7 @@ sub _ShowScreen {
         if ( !$Param{Include} && $FieldConfig->{Include} ) {
             $Param{Include} = $FieldConfig->{Include};
         }
-        if ( $Param{Include} ) {
+        if ( IsArrayRefWithData( $Param{Include} ) ) {
             $Param{Include} = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
                 Data => $Param{Include},
             );
