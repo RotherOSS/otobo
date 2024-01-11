@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -352,8 +352,8 @@ sub Run {
             # to store dynamic field value from database (or undefined)
             my $Value;
 
-            # only get values for Ticket fields (all screens based on AgentTickeActionCommon
-            # generates a new article, then article fields will be always empty at the beginign)
+            # only get values for Ticket fields (all screens based on AgentTicketActionCommon
+            # generate a new article, then article fields will be always empty at the beginign)
             if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
 
                 # get value stored on the database from Ticket
