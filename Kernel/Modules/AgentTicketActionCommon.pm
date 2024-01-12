@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1891,19 +1891,24 @@ sub Run {
         $GetParam{NewUserID}        = $Ticket{OwnerID}       // '';
         my $CustomerUser = $Ticket{CustomerUserID} // '';
 
+        # Get values for Ticket fields and use default value for Article fields, if given (all screens based on
+        # AgentTicketActionCommon generate a new article, then article fields will be always default value or
+        # empty at the beginning).
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( $Self->{DynamicField}->@* ) {
             next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
 
-            # Only get values for Ticket fields (all screens based on AgentTickeActionCommon
-            # generates a new article, then article fields will be always empty at the beginning).
-            # Value is stored in the database from Ticket.
-            next DYNAMICFIELD unless $DynamicFieldConfig->{ObjectType} eq 'Ticket';
-
             # This overwrites the values that might have been taken from the web request.
             # Note that there shouldn't be any values from the web request,
             # because submits, successful and unsuccessful have been handled already above.
-            $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+            if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
+
+                # Value is stored in the database from Ticket.
+                $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+            }
+            elsif ( $DynamicFieldConfig->{ObjectType} eq 'Article' ) {
+                $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldConfig->{Config}->{DefaultValue} || '';
+            }
         }
 
         my $Autoselect = $ConfigObject->Get('TicketACL::Autoselect') || undef;
