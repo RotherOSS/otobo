@@ -544,7 +544,7 @@ my @NeededModules = (
     # Feature db
     {
         Module               => 'DBD::mysql',
-        Required             => 0,
+        VersionRequired      => '4.00',         # just to have some minimum version, please use a more recent version
         VersionsNotSupported => [
             {
                 Version => '5.001',
