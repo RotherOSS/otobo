@@ -59,7 +59,7 @@ requires 'YAML::XS';
 requires 'Unicode::Collate';
 
 
-feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
+feature 'apache:mod_perl', 'Support for feature apache:mod_perl' => sub {
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
 
@@ -73,8 +73,11 @@ feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
 
 feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MariaDB or MySQL database.
+    # Version 4.042 not supported: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
     # Version 5.001 not supported: This version can't be installed with the MariaDB client library.
-    requires 'DBD::mysql', "!= 5.001";
+    # Version 5.002 not supported: This version can't be installed with the MariaDB client library.
+    # Version 5.003 not supported: This version can't be installed with the MariaDB client library.
+    requires 'DBD::mysql', ">= 4.00, != 4.042, != 5.001, != 5.002, != 5.003";
 
 };
 
@@ -103,13 +106,13 @@ feature 'db:sqlite', 'Support for database SQLLite' => sub {
 
 };
 
-feature 'devel:encoding', 'Suppport for devel:encoding' => sub {
+feature 'devel:encoding', 'Support for feature devel:encoding' => sub {
     # for deeply inspecting strings
     requires 'String::Dump';
 
 };
 
-feature 'devel:test', 'Suppport for devel:test' => sub {
+feature 'devel:test', 'Support for feature devel:test' => sub {
     # used by Kernel::System::UnitTest::Selenium
     requires 'Selenium::Remote::Driver', ">= 1.40";
 
@@ -127,44 +130,44 @@ feature 'devel:test', 'Suppport for devel:test' => sub {
 
 };
 
-feature 'div:bcrypt', 'Suppport for div:bcrypt' => sub {
+feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
     # For strong password hashing.
     requires 'Crypt::Eksblowfish::Bcrypt';
 
 };
 
-feature 'div:hanextra', 'Suppport for div:hanextra' => sub {
+feature 'div:hanextra', 'Support for feature div:hanextra' => sub {
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', ">= 0.23";
 
 };
 
-feature 'div:ldap', 'Suppport for div:ldap' => sub {
+feature 'div:ldap', 'Support for feature div:ldap' => sub {
     # Required for directory authentication.
     requires 'Net::LDAP';
 
 };
 
-feature 'div:readonly', 'Suppport for div:readonly' => sub {
+feature 'div:readonly', 'Support for feature div:readonly' => sub {
     # Support for readonly Perl variables
     requires 'Const::Fast';
 
 };
 
-feature 'div:ssl', 'Suppport for div:ssl' => sub {
+feature 'div:ssl', 'Support for feature div:ssl' => sub {
     # Required for SSL connections to web and mail servers.
     # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
     requires 'IO::Socket::SSL';
 
 };
 
-feature 'div:xmlparser', 'Suppport for div:xmlparser' => sub {
+feature 'div:xmlparser', 'Support for feature div:xmlparser' => sub {
     # Recommended for XML processing.
     requires 'XML::Parser';
 
 };
 
-feature 'div:xslt', 'Suppport for div:xslt' => sub {
+feature 'div:xslt', 'Support for feature div:xslt' => sub {
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
 
@@ -177,35 +180,38 @@ feature 'mail', 'Features enabling communication with a mail-server' => sub {
 
 };
 
-feature 'mail:imap', 'Suppport for mail:imap' => sub {
+feature 'mail:imap', 'Support for feature mail:imap' => sub {
     # Required for IMAP TLS connections.
     requires 'Mail::IMAPClient', ">= 3.22";
 
 };
 
-feature 'mail:ntlm', 'Suppport for mail:ntlm' => sub {
+feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
 
 };
 
-feature 'mail:sasl', 'Suppport for mail:sasl' => sub {
+feature 'mail:sasl', 'Support for feature mail:sasl' => sub {
     # Required for MD5 authentication mechanisms in IMAP connections.
     requires 'Authen::SASL';
 
 };
 
-feature 'mail:ssl', 'Suppport for mail:ssl' => sub {
+feature 'mail:ssl', 'Support for feature mail:ssl' => sub {
     # Required for SSL connections to web and mail servers.
     # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
     requires 'IO::Socket::SSL';
 
 };
 
-feature 'optional', 'Suppport for optional' => sub {
+feature 'optional', 'Support for feature optional' => sub {
     # Required to connect to a MariaDB or MySQL database.
+    # Version 4.042 not supported: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
     # Version 5.001 not supported: This version can't be installed with the MariaDB client library.
-    requires 'DBD::mysql', "!= 5.001";
+    # Version 5.002 not supported: This version can't be installed with the MariaDB client library.
+    # Version 5.003 not supported: This version can't be installed with the MariaDB client library.
+    requires 'DBD::mysql', ">= 4.00, != 4.042, != 5.001, != 5.002, != 5.003";
 
     # Required to connect to a MS-SQL database.
     # Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.
@@ -335,19 +341,19 @@ feature 'optional', 'Suppport for optional' => sub {
 
 };
 
-feature 'performance:csv', 'Suppport for performance:csv' => sub {
+feature 'performance:csv', 'Support for feature performance:csv' => sub {
     # Recommended for faster CSV handling.
     requires 'Text::CSV_XS';
 
 };
 
-feature 'performance:json', 'Suppport for performance:json' => sub {
+feature 'performance:json', 'Support for feature performance:json' => sub {
     # Recommended for faster AJAX/JavaScript handling.
     requires 'JSON::XS';
 
 };
 
-feature 'performance:redis', 'Suppport for performance:redis' => sub {
+feature 'performance:redis', 'Support for feature performance:redis' => sub {
     # For usage with Redis Cache Server.
     requires 'Redis';
 

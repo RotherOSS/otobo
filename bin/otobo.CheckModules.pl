@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -22,6 +22,7 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 =head1 SYNOPSIS
 
     # print usage information
+    bin/otobo.CheckModules.pl
     bin/otobo.CheckModules.pl --help
     bin/otobo.CheckModules.pl -h
 
@@ -44,10 +45,11 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl --finst <features>
 
     # Print a cpanfile with the required modules regardless whether they are already available.
-    bin/otobo.CheckModules.pl --cpanfile
+    bin/otobo.CheckModules.pl --cpanfile > cpanfile
 
     # Print a cpanfile with the required modules for a Docker-based installation.
-    bin/otobo.CheckModules.pl --docker-cpanfile
+    # This file is used in otobo.web.dockerfile.
+    bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
 =head1 DESCRIPTION
 
@@ -56,13 +58,13 @@ Another usage is the generation of cpanfiles.
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
@@ -78,7 +80,7 @@ use Pod::Usage;
 
 # OTOBO modules
 use Kernel::System::Environment;
-use Kernel::System::VariableCheck qw( :all );
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 my %InstTypeToCMD = (
 
@@ -152,20 +154,20 @@ my %DistToInstType = (
 
 # defines a set of features considered standard for non docker environments
 my %IsStandardFeature = (
-    'db:mysql'         => 1,
     'apache:mod_perl'  => 1,
-    'mail'             => 1,
-    'mail:ssl'         => 1,
-    'mail:imap'        => 1,
-    'mail:sasl'        => 1,
-    'mail:ntlm'        => 1,
-    'performance:json' => 1,
-    'performance:csv'  => 1,
-    'div:ldap'         => 1,
+    'db:mysql'         => 1,
     'div:bcrypt'       => 1,
-    'div:xslt'         => 1,
-    'div:xmlparser'    => 1,
     'div:hanextra'     => 1,
+    'div:ldap'         => 1,
+    'div:xmlparser'    => 1,
+    'div:xslt'         => 1,
+    'mail'             => 1,
+    'mail:imap'        => 1,
+    'mail:ntlm'        => 1,
+    'mail:sasl'        => 1,
+    'mail:ssl'         => 1,
+    'performance:csv'  => 1,
+    'performance:json' => 1,
 );
 
 # defines a set of features considered standard for docker environments
@@ -192,19 +194,19 @@ my %IsDockerFeature = (
 # Used for the generation of a cpanfile.
 my %FeatureDescription = (
     'aaacore'       => 'Required packages',
-    'zzznone'       => 'Uncategorized',
+    'apache'        => 'Recommended features for setups using apache',
     'db'            => 'Database support (installing one is required)',
     'db:mysql'      => 'Support for database MySQL',
     'db:odbc'       => 'Support for database access via ODBC',
     'db:oracle'     => 'Support for database Oracle',
     'db:postgresql' => 'Support for database PostgreSQL',
     'db:sqlite'     => 'Support for database SQLLite',
-    'apache'        => 'Recommended features for setups using apache',
+    'devel'         => 'Features which can be useful in development environments',
+    'div'           => 'Various features for additional functionality',
     'mail'          => 'Features enabling communication with a mail-server',
     'performance'   => 'Optional features which can increase performance',
     'plack'         => 'Required packages if you want to use PSGI/Plack (experimental and advanced)',
-    'div'           => 'Various features for additional functionality',
-    'devel'         => 'Features which can be useful in development environments',
+    'zzznone'       => 'Uncategorized',
 );
 
 my $OSDist;
@@ -228,13 +230,13 @@ my @FeatureList;
 my @FeatureInstList;
 GetOptions(
     'help|h'          => \$DoPrintHelp,
-    inst              => \$DoPrintInstCommand,
-    list              => \$DoPrintPackageList,
-    all               => \$DoPrintAllModules,
-    features          => \$DoPrintFeatures,
+    'inst'            => \$DoPrintInstCommand,
+    'list'            => \$DoPrintPackageList,
+    'all'             => \$DoPrintAllModules,
+    'features'        => \$DoPrintFeatures,
     'finst=s{1,}'     => \@FeatureInstList,
     'flist=s{1,}'     => \@FeatureList,
-    cpanfile          => \$DoPrintCpanfile,
+    'cpanfile'        => \$DoPrintCpanfile,
     'docker-cpanfile' => \$DoPrintDockerCpanfile,
 ) || pod2usage(2);
 
@@ -244,7 +246,15 @@ if (@FeatureList) {
 elsif (@FeatureInstList) {
     $DoPrintInstCommand = 1;
 }
-elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !$DoPrintFeatures && !$DoPrintCpanfile && !$DoPrintDockerCpanfile ) {
+elsif (
+    !$DoPrintAllModules
+    && !$DoPrintInstCommand
+    && !$DoPrintPackageList
+    && !$DoPrintFeatures
+    && !$DoPrintCpanfile
+    && !$DoPrintDockerCpanfile
+    )
+{
     $DoPrintHelp = 1;
 }
 
@@ -534,15 +544,27 @@ my @NeededModules = (
     # Feature db
     {
         Module               => 'DBD::mysql',
-        Required             => 0,
-        Features             => ['db:mysql'],
-        Comment              => 'Required to connect to a MariaDB or MySQL database.',
+        VersionRequired      => '4.00',         # just to have some minimum version, please use a more recent version
         VersionsNotSupported => [
+            {
+                Version => '4.042',
+                Comment => 'This version had encoding related issues. Version 4.043 was a rollback to 4.0.41',
+            },
             {
                 Version => '5.001',
                 Comment => q{This version can't be installed with the MariaDB client library.},
             },
+            {
+                Version => '5.002',
+                Comment => q{This version can't be installed with the MariaDB client library.},
+            },
+            {
+                Version => '5.003',
+                Comment => q{This version can't be installed with the MariaDB client library.},
+            },
         ],
+        Features  => ['db:mysql'],
+        Comment   => 'Required to connect to a MariaDB or MySQL database.',
         InstTypes => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',
@@ -552,7 +574,6 @@ my @NeededModules = (
     },
     {
         Module               => 'DBD::ODBC',
-        Required             => 0,
         Features             => ['db:odbc'],
         VersionsNotSupported => [
             {
@@ -572,7 +593,6 @@ my @NeededModules = (
     },
     {
         Module    => 'DBD::Oracle',
-        Required  => 0,
         Features  => ['db:oracle'],
         Comment   => 'Required to connect to a Oracle database.',
         InstTypes => {
@@ -585,7 +605,6 @@ my @NeededModules = (
     },
     {
         Module    => 'DBD::Pg',
-        Required  => 0,
         Features  => ['db:postgresql'],
         Comment   => 'Required to connect to a PostgreSQL database.',
         InstTypes => {
@@ -597,7 +616,6 @@ my @NeededModules = (
     },
     {
         Module    => 'DBD::SQLite',
-        Required  => 0,
         Features  => ['db:sqlite'],
         Comment   => 'Required to connect to a SQLite database.',
         InstTypes => {
@@ -608,7 +626,6 @@ my @NeededModules = (
     # Feature apache
     {
         Module    => 'ModPerl::Util',
-        Required  => 0,
         Features  => ['apache:mod_perl'],
         Comment   => 'Improves Performance on Apache webservers dramatically.',
         InstTypes => {
@@ -620,7 +637,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Apache::DBI',
-        Required  => 0,
         Features  => ['apache:mod_perl'],
         Comment   => 'Improves Performance on Apache webservers with mod_perl enabled.',
         InstTypes => {
@@ -632,7 +648,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Apache2::Reload',
-        Required  => 0,
         Features  => ['apache:mod_perl'],
         Comment   => 'Avoids web server restarts on mod_perl.',
         InstTypes => {
@@ -646,7 +661,6 @@ my @NeededModules = (
     # Feature mail
     {
         Module              => 'Net::SMTP',
-        Required            => 0,
         Features            => ['mail'],
         Comment             => 'Simple Mail Transfer Protocol Client.',
         VersionsRecommended => [
@@ -665,7 +679,6 @@ my @NeededModules = (
     {
         Module          => 'Mail::IMAPClient',
         VersionRequired => '3.22',
-        Required        => 0,
         Features        => ['mail:imap'],
         Comment         => 'Required for IMAP TLS connections.',
         InstTypes       => {
@@ -677,7 +690,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Authen::SASL',
-        Required  => 0,
         Features  => ['mail:sasl'],
         Comment   => 'Required for MD5 authentication mechanisms in IMAP connections.',
         InstTypes => {
@@ -688,7 +700,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Authen::NTLM',
-        Required  => 0,
         Features  => ['mail:ntlm'],
         Comment   => 'Required for NTLM authentication mechanism in IMAP connections.',
         InstTypes => {
@@ -701,7 +712,6 @@ my @NeededModules = (
     # Feature performance
     {
         Module    => 'JSON::XS',
-        Required  => 0,
         Features  => ['performance:json'],
         Comment   => 'Recommended for faster AJAX/JavaScript handling.',
         InstTypes => {
@@ -713,7 +723,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Text::CSV_XS',
-        Required  => 0,
         Comment   => 'Recommended for faster CSV handling.',
         Features  => ['performance:csv'],
         InstTypes => {
@@ -725,7 +734,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Redis',
-        Required  => 0,
         Comment   => 'For usage with Redis Cache Server.',
         Features  => ['performance:redis'],
         InstTypes => {
@@ -738,7 +746,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Redis::Fast',
-        Required  => 0,
         Features  => ['performance:redis'],
         Comment   => 'Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)',
         InstTypes => {
@@ -753,7 +760,6 @@ my @NeededModules = (
     # Feature plack
     {
         Module    => 'CGI::Emulate::PSGI',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Support old fashioned CGI in a PSGI application',
         InstTypes => {
@@ -765,7 +771,6 @@ my @NeededModules = (
     },
     {
         Module    => 'CGI::PSGI',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Adapt CGI.pm to the PSGI protocol',
         InstTypes => {
@@ -777,7 +782,6 @@ my @NeededModules = (
     },
     {
         Module    => 'DBIx::Connector',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Sane persistent database connection',
         InstTypes => {
@@ -789,7 +793,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Gazelle',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'High-performance preforking PSGI/Plack web server',
         InstTypes => {
@@ -801,7 +804,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Linux::Inotify2',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Used when plackup is run with the -R option. This option restarts the server when files have changed.',
         InstTypes => {
@@ -813,7 +815,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Path::Class',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Neater path manipulation and some utils',
         InstTypes => {
@@ -825,7 +826,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
         InstTypes => {
@@ -837,7 +837,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::App::File',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Serve static files',
         InstTypes => {
@@ -849,7 +848,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::ForceEnv',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Set environment variables',
         InstTypes => {
@@ -861,7 +859,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::Header',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Set HTTP headers',
         InstTypes => {
@@ -873,7 +870,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::Refresh',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Watch for changed modules in %INC. Depends on Module::Refresh',
         InstTypes => {
@@ -885,7 +881,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::ReverseProxy',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Twist some HTTP variables so that the reverse proxy is transparent',
         InstTypes => {
@@ -898,7 +893,6 @@ my @NeededModules = (
     {
 
         Module    => 'SOAP::Transport::HTTP::Plack',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'PSGI SOAP adapter',
         InstTypes => {
@@ -913,7 +907,6 @@ my @NeededModules = (
     {
         Module          => 'Encode::HanExtra',
         VersionRequired => '0.23',
-        Required        => 0,
         Features        => ['div:hanextra'],
         Comment         => 'Required to handle mails with several Chinese character sets.',
         InstTypes       => {
@@ -925,7 +918,6 @@ my @NeededModules = (
     },
     {
         Module              => 'IO::Socket::SSL',
-        Required            => 0,
         Features            => [ 'div:ssl', 'mail:ssl' ],
         Comment             => 'Required for SSL connections to web and mail servers.',
         VersionsRecommended => [
@@ -943,7 +935,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Net::LDAP',
-        Required  => 0,
         Comment   => 'Required for directory authentication.',
         Features  => ['div:ldap'],
         InstTypes => {
@@ -955,7 +946,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Crypt::Eksblowfish::Bcrypt',
-        Required  => 0,
         Features  => ['div:bcrypt'],
         Comment   => 'For strong password hashing.',
         InstTypes => {
@@ -967,7 +957,6 @@ my @NeededModules = (
     },
     {
         Module    => 'XML::LibXSLT',
-        Required  => 0,
         Features  => ['div:xslt'],
         Comment   => 'Required for Generic Interface XSLT mapping module.',
         InstTypes => {
@@ -978,7 +967,6 @@ my @NeededModules = (
     },
     {
         Module    => 'XML::Parser',
-        Required  => 0,
         Features  => ['div:xmlparser'],
         Comment   => 'Recommended for XML processing.',
         InstTypes => {
@@ -990,7 +978,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Const::Fast',
-        Required  => 0,
         Features  => ['div:readonly'],
         Comment   => 'Support for readonly Perl variables',
         InstTypes => {
@@ -1004,7 +991,6 @@ my @NeededModules = (
     # Feature devel
     {
         Module          => 'Selenium::Remote::Driver',
-        Required        => 0,
         VersionRequired => '1.40',
         Features        => ['devel:test'],
         Comment         => 'used by Kernel::System::UnitTest::Selenium',
@@ -1017,7 +1003,6 @@ my @NeededModules = (
     },
     {
         Module    => 'String::Dump',
-        Required  => 0,
         Features  => ['devel:encoding'],
         Comment   => 'for deeply inspecting strings',
         InstTypes => {
@@ -1029,7 +1014,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Test::Compile',
-        Required  => 0,
         Features  => ['devel:test'],
         Comment   => 'a quick compile check',
         InstTypes => {
@@ -1041,7 +1025,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Test2::Suite',
-        Required  => 0,
         Features  => ['devel:test'],
         Comment   => 'basic test functions',
         InstTypes => {
@@ -1053,7 +1036,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Test::Simple',
-        Required  => 0,
         Features  => ['devel:test'],
         Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
         InstTypes => {
@@ -1065,7 +1047,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Test2::Tools::HTTP',
-        Required  => 0,
         Features  => ['devel:test'],
         Comment   => 'testing PSGI apps and URLs',
         InstTypes => {
@@ -1080,6 +1061,14 @@ my @NeededModules = (
 # Sanity check.
 for my $Module (@NeededModules) {
     die 'Module must be set!' unless defined $Module->{Module};
+
+    if ( defined $Module->{Required} && defined $Module->{Features} ) {
+        die "Only one of 'Required' and 'Features' may be set for $Module->{Module}!";
+    }
+
+    if ( !defined $Module->{Required} && !defined $Module->{Features} ) {
+        die "One of 'Required' and 'Features' may be set for $Module->{Module}!";
+    }
 }
 
 # This is a quick hack for looking up the Debian package names that contain the Perl modules.
@@ -1108,7 +1097,7 @@ END_HEADER
 }
 elsif ($DoPrintDockerCpanfile) {
     say <<'END_HEADER';
-# Do not change this file manually.
+# Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
 # Instead adapt bin/otobo.CheckModules.pl and call
 #    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 END_HEADER
@@ -1345,8 +1334,7 @@ sub Check {
             );
 
             if ( $CleanedVersion < $RequiredModuleVersion ) {
-                $ErrorMessage
-                    .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
+                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
             }
         }
 
@@ -1438,8 +1426,7 @@ sub CollectPackageInfo {
     MODULE:
     for my $Module ( @{$PackageList} ) {
 
-        my $Required = $Module->{Required};
-        my $Version  = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
+        my $Version = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
         if ( !$Version ) {
 
             my %InstallCommand = GetInstallCommand($Module);
@@ -1641,7 +1628,7 @@ sub PrintCpanfile {
 
         # Don't declare the features in the Docker case
         my $PoundOrEmpty = $ForDocker ? '# ' : '';
-        my $Desc         = $FeatureDescription{$Feature} // "Suppport for $Feature";
+        my $Desc         = $FeatureDescription{$Feature} // "Support for feature $Feature";
         say "${PoundOrEmpty}feature '$Feature', '$Desc' => sub {";
         PrintCpanfile( $ModulesForFeature{$Feature}, 0, 0, $ForDocker );
         say "${PoundOrEmpty}};";
