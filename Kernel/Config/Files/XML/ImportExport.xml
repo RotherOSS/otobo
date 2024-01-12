@@ -91,4 +91,15 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="ImportExport::FormatBackendRegistration###JSON" Required="0" Valid="0">
+        <Description Translatable="1">Registration of the JSON format backend module for the ImportExport feature.</Description>
+        <Navigation>Core::ImportExport</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::ImportExport::FormatBackend::JSON</Item>
+                <Item Key="Name">JSON</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
 </otobo_config>

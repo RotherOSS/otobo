@@ -25,6 +25,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Try::Tiny;
 
 # OTOBO modules
 
@@ -783,6 +784,68 @@ sub FormatList {
         keys $ModuleList->%*;
 
     return \%Key2Name;
+}
+
+=head2 FormatterCanHandleReferences()
+
+Inform the caller whether the formatter backend needs help with references.
+
+    my $FormatterCanHandleReferences = $ImportExportObject->FormatterCanHandleReferences(
+        TemplateID => 123,
+        UserID     => 1,
+    );
+
+=cut
+
+sub FormatterCanHandleReferences {
+    my ( $Self, %Param ) = @_;
+
+    # get log object
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
+    # check needed stuff
+    for my $Argument (qw(TemplateID UserID)) {
+        if ( !$Param{$Argument} ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+
+            return;
+        }
+    }
+
+    # get template data
+    my $TemplateData = $Self->TemplateGet(
+        TemplateID => $Param{TemplateID},
+        UserID     => $Param{UserID},
+    );
+
+    # check template data
+    if ( !$TemplateData || !$TemplateData->{Format} ) {
+        $LogObject->Log(
+            Priority => 'error',
+            Message  => "Template with ID $Param{TemplateID} is incomplete!",
+        );
+
+        return;
+    }
+
+    # load backend
+    my $FormatBackend = try {
+        $Kernel::OM->Get( 'Kernel::System::ImportExport::FormatBackend::' . $TemplateData->{Format} );
+    }
+    catch {
+        # ignore exception
+        undef;
+    };
+
+    return unless $FormatBackend;
+
+    # delegate to the formatter backend
+    return $FormatBackend->CanHandleReferences(
+        UserID => $Param{UserID},
+    );
 }
 
 =head2 FormatAttributesGet()
@@ -2158,7 +2221,9 @@ sub Export {
 
     return unless $FormatBackend;
 
-    # get export data
+    # get export data,
+    # passing the template ID gives the backend access to the mapping list
+    # and to the export format.
     my $ExportData = $ObjectBackend->ExportDataGet(
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},

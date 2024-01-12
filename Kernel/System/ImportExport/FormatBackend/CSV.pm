@@ -73,11 +73,18 @@ sub new {
     }, $Type;
 }
 
-    # allocate new hash for object
-    my $Self = bless {}, $Type;
+=head2 CanHandleReferences()
 
+Inform the caller whether data structures can be handled be the formatter.
 
-    return $Self;
+    my $DoSerializeReferences = $FormatBackend->CanHandleReferences();
+
+=cut
+
+sub CanHandleReferences {
+    my ($Self) = @_;
+
+    return $Self->{CanHandleReferences};
 }
 
 =head2 FormatAttributesGet()
