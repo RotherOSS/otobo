@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
+
     <Setting Name="Frontend::Module###AdminImportExport" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
@@ -22,6 +23,7 @@
             </Item>
         </Value>
     </Setting>
+
     <Setting Name="Loader::Module::AdminImportExport###001-ImportExport" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
@@ -40,6 +42,8 @@
             </Hash>
         </Value>
     </Setting>
+
+    <!-- Navigation -->
     <Setting Name="Frontend::Navigation###AdminImportExport###001-ImportExport" Required="0" Valid="0">
         <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
@@ -75,8 +79,10 @@
             </Hash>
         </Value>
     </Setting>
+
+    <!-- register format backends -->
     <Setting Name="ImportExport::FormatBackendRegistration###CSV" Required="0" Valid="1">
-        <Description Translatable="1">Format backend module registration for the import/export module.</Description>
+        <Description Translatable="1">Registration of the CSV format backend module for the ImportExport feature.</Description>
         <Navigation>Core::ImportExport</Navigation>
         <Value>
             <Hash>
@@ -85,4 +91,15 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="ImportExport::FormatBackendRegistration###JSON" Required="0" Valid="0">
+        <Description Translatable="1">Registration of the JSON format backend module for the ImportExport feature.</Description>
+        <Navigation>Core::ImportExport</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::ImportExport::FormatBackend::JSON</Item>
+                <Item Key="Name">JSON</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
 </otobo_config>

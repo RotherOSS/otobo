@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,6 +25,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Try::Tiny;
 
 # OTOBO modules
 
@@ -120,9 +121,15 @@ sub TemplateList {
 
 =head2 TemplateGet()
 
-Get a import export template
+Get a import export template as a hashref.
 
-Return
+    my $TemplateData = $ImportExportObject->TemplateGet(
+        TemplateID => 3,
+        UserID     => 1,
+    );
+
+Returns:
+
     $TemplateData{TemplateID}
     $TemplateData{Number}
     $TemplateData{Object}
@@ -134,11 +141,6 @@ Return
     $TemplateData{CreateBy}
     $TemplateData{ChangeTime}
     $TemplateData{ChangeBy}
-
-    my $TemplateDataRef = $ImportExportObject->TemplateGet(
-        TemplateID => 3,
-        UserID     => 1,
-    );
 
 =cut
 
@@ -184,7 +186,7 @@ sub TemplateGet {
     $TemplateData{ChangeTime} = $Row[8];
     $TemplateData{ChangeBy}   = $Row[9];
 
-    $TemplateData{Number} = sprintf "%06d", $TemplateData{TemplateID};
+    $TemplateData{Number} = sprintf '%06d', $TemplateData{TemplateID};
 
     # cache the result
     $Self->{Cache}->{TemplateGet}->{ $Param{TemplateID} } = \%TemplateData;
@@ -784,6 +786,68 @@ sub FormatList {
     return \%Key2Name;
 }
 
+=head2 FormatterCanHandleReferences()
+
+Inform the caller whether the formatter backend needs help with references.
+
+    my $FormatterCanHandleReferences = $ImportExportObject->FormatterCanHandleReferences(
+        TemplateID => 123,
+        UserID     => 1,
+    );
+
+=cut
+
+sub FormatterCanHandleReferences {
+    my ( $Self, %Param ) = @_;
+
+    # get log object
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
+    # check needed stuff
+    for my $Argument (qw(TemplateID UserID)) {
+        if ( !$Param{$Argument} ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+
+            return;
+        }
+    }
+
+    # get template data
+    my $TemplateData = $Self->TemplateGet(
+        TemplateID => $Param{TemplateID},
+        UserID     => $Param{UserID},
+    );
+
+    # check template data
+    if ( !$TemplateData || !$TemplateData->{Format} ) {
+        $LogObject->Log(
+            Priority => 'error',
+            Message  => "Template with ID $Param{TemplateID} is incomplete!",
+        );
+
+        return;
+    }
+
+    # load backend
+    my $FormatBackend = try {
+        $Kernel::OM->Get( 'Kernel::System::ImportExport::FormatBackend::' . $TemplateData->{Format} );
+    }
+    catch {
+        # ignore exception
+        undef;
+    };
+
+    return unless $FormatBackend;
+
+    # delegate to the formatter backend
+    return $FormatBackend->CanHandleReferences(
+        UserID => $Param{UserID},
+    );
+}
+
 =head2 FormatAttributesGet()
 
 Get the attributes of a format backend as array/hash reference
@@ -836,12 +900,10 @@ sub FormatAttributesGet {
 
     return unless $Backend;
 
-    # get an attribute list of the format
-    my $Attributes = $Backend->FormatAttributesGet(
+    # delegate to the formatter backend
+    return $Backend->FormatAttributesGet(
         UserID => $Param{UserID},
     );
-
-    return $Attributes;
 }
 
 =head2 FormatDataGet()
@@ -2159,7 +2221,9 @@ sub Export {
 
     return unless $FormatBackend;
 
-    # get export data
+    # get export data,
+    # passing the template ID gives the backend access to the mapping list
+    # and to the export format.
     my $ExportData = $ObjectBackend->ExportDataGet(
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},
@@ -2227,6 +2291,7 @@ sub Export {
 
         if ( !defined $DestinationContentRow ) {
             $Result{Failed}++;
+
             next EXPORTDATAROW;
         }
 
