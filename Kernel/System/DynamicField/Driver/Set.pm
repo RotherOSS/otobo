@@ -314,6 +314,12 @@ sub EditFieldRender {
             $DynamicFieldConfigs{$Name}{Name} = $Name . '_' . $SetIndex;
         }
 
+        # NOTE dynamic field name with vs. without set index suffix
+        #   In the passed dynamic field config, the field name is suffixed with the set index,
+        #   This is important because later on, EditFieldRender of the included fields is called which itself
+        #   calls EditFieldValueGet. This function only works with the field name used in the frontend.
+        #   All other data passed, namely DynamicFieldValues, PossibleValuesFilter, Errors and Visibility
+        #   use the plain dynamic field name for identification.
         my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
             Content            => $Param{DynamicFieldConfig}{Config}{Include},
             DynamicFields      => \%DynamicFieldConfigs,
