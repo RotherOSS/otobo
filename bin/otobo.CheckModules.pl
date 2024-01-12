@@ -22,6 +22,7 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 =head1 SYNOPSIS
 
     # print usage information
+    bin/otobo.CheckModules.pl
     bin/otobo.CheckModules.pl --help
     bin/otobo.CheckModules.pl -h
 
@@ -67,7 +68,7 @@ use warnings;
 use utf8;
 
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
@@ -747,6 +748,10 @@ my @NeededModules = (
             },
             {
                 Version => '5.002',
+                Comment => q{This version can't be installed with the MariaDB client library.},
+            },
+            {
+                Version => '5.003',
                 Comment => q{This version can't be installed with the MariaDB client library.},
             },
         ],
@@ -1607,8 +1612,7 @@ sub CollectPackageInfo {
     MODULE:
     for my $Module ( @{$PackageList} ) {
 
-        my $Required = $Module->{Required};
-        my $Version  = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
+        my $Version = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
         if ( !$Version ) {
 
             my %InstallCommand = GetInstallCommand($Module);
