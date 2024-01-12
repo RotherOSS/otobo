@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -28,13 +28,11 @@ use utf8;
 use Text::CSV;
 
 # OTOBO modules
-
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::System::ImportExport',
     'Kernel::System::Log',
-    'Kernel::System::Main',
 );
 
 =head1 NAME
@@ -43,34 +41,41 @@ Kernel::System::ImportExport::FormatBackend::CSV - import/export backend for CSV
 
 =head1 DESCRIPTION
 
-All functions to import and export a csv format
+All functions to import and export a CSV formatted file. CSV stands comma separated values.
 
 =cut
 
 =head2 new()
 
-Create an object
+Create an object.
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $ImportExportCSVBackendObject = $Kernel::OM->Get('Kernel::System::ImportExport::FormatBackend::CSV');
 
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
+
+    return bless {
+
+        # The formatter can't handle references by itself.
+        # References are expected to have been serialized to JSON.
+        CanHandleReferences => 0,
+
+        # define available separators
+        AvailableSeparators => {
+            Tabulator => "\t",
+            Semicolon => ';',
+            Colon     => ':',
+            Dot       => '.',
+            Comma     => ',',
+        },
+    }, $Type;
+}
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    # define available separators
-    $Self->{AvailableSeparators} = {
-        Tabulator => "\t",
-        Semicolon => ';',
-        Colon     => ':',
-        Dot       => '.',
-        Comma     => ',',
-    };
 
     return $Self;
 }
