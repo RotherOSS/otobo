@@ -562,7 +562,6 @@ my @NeededModules = (
     },
     {
         Module               => 'DBD::ODBC',
-        Required             => 0,
         Features             => ['db:odbc'],
         VersionsNotSupported => [
             {
@@ -582,7 +581,6 @@ my @NeededModules = (
     },
     {
         Module    => 'DBD::Oracle',
-        Required  => 0,
         Features  => ['db:oracle'],
         Comment   => 'Required to connect to a Oracle database.',
         InstTypes => {
@@ -595,7 +593,6 @@ my @NeededModules = (
     },
     {
         Module    => 'DBD::Pg',
-        Required  => 0,
         Features  => ['db:postgresql'],
         Comment   => 'Required to connect to a PostgreSQL database.',
         InstTypes => {
@@ -607,7 +604,6 @@ my @NeededModules = (
     },
     {
         Module    => 'DBD::SQLite',
-        Required  => 0,
         Features  => ['db:sqlite'],
         Comment   => 'Required to connect to a SQLite database.',
         InstTypes => {
@@ -618,7 +614,6 @@ my @NeededModules = (
     # Feature apache
     {
         Module    => 'ModPerl::Util',
-        Required  => 0,
         Features  => ['apache:mod_perl'],
         Comment   => 'Improves Performance on Apache webservers dramatically.',
         InstTypes => {
@@ -630,7 +625,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Apache::DBI',
-        Required  => 0,
         Features  => ['apache:mod_perl'],
         Comment   => 'Improves Performance on Apache webservers with mod_perl enabled.',
         InstTypes => {
@@ -642,7 +636,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Apache2::Reload',
-        Required  => 0,
         Features  => ['apache:mod_perl'],
         Comment   => 'Avoids web server restarts on mod_perl.',
         InstTypes => {
@@ -656,7 +649,6 @@ my @NeededModules = (
     # Feature mail
     {
         Module              => 'Net::SMTP',
-        Required            => 0,
         Features            => ['mail'],
         Comment             => 'Simple Mail Transfer Protocol Client.',
         VersionsRecommended => [
@@ -675,7 +667,6 @@ my @NeededModules = (
     {
         Module          => 'Mail::IMAPClient',
         VersionRequired => '3.22',
-        Required        => 0,
         Features        => ['mail:imap'],
         Comment         => 'Required for IMAP TLS connections.',
         InstTypes       => {
@@ -687,7 +678,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Authen::SASL',
-        Required  => 0,
         Features  => ['mail:sasl'],
         Comment   => 'Required for MD5 authentication mechanisms in IMAP connections.',
         InstTypes => {
@@ -698,7 +688,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Authen::NTLM',
-        Required  => 0,
         Features  => ['mail:ntlm'],
         Comment   => 'Required for NTLM authentication mechanism in IMAP connections.',
         InstTypes => {
@@ -711,7 +700,6 @@ my @NeededModules = (
     # Feature performance
     {
         Module    => 'JSON::XS',
-        Required  => 0,
         Features  => ['performance:json'],
         Comment   => 'Recommended for faster AJAX/JavaScript handling.',
         InstTypes => {
@@ -723,7 +711,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Text::CSV_XS',
-        Required  => 0,
         Comment   => 'Recommended for faster CSV handling.',
         Features  => ['performance:csv'],
         InstTypes => {
@@ -735,7 +722,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Redis',
-        Required  => 0,
         Comment   => 'For usage with Redis Cache Server.',
         Features  => ['performance:redis'],
         InstTypes => {
@@ -748,7 +734,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Redis::Fast',
-        Required  => 0,
         Features  => ['performance:redis'],
         Comment   => 'Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)',
         InstTypes => {
@@ -763,7 +748,6 @@ my @NeededModules = (
     # Feature plack
     {
         Module    => 'CGI::Emulate::PSGI',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Support old fashioned CGI in a PSGI application',
         InstTypes => {
@@ -775,7 +759,6 @@ my @NeededModules = (
     },
     {
         Module    => 'CGI::PSGI',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Adapt CGI.pm to the PSGI protocol',
         InstTypes => {
@@ -787,7 +770,6 @@ my @NeededModules = (
     },
     {
         Module    => 'DBIx::Connector',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Sane persistent database connection',
         InstTypes => {
@@ -799,7 +781,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Gazelle',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'High-performance preforking PSGI/Plack web server',
         InstTypes => {
@@ -811,7 +792,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Linux::Inotify2',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Used when plackup is run with the -R option. This option restarts the server when files have changed.',
         InstTypes => {
@@ -823,7 +803,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Path::Class',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Neater path manipulation and some utils',
         InstTypes => {
@@ -835,7 +814,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
         InstTypes => {
@@ -847,7 +825,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::App::File',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Serve static files',
         InstTypes => {
@@ -859,7 +836,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::ForceEnv',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Set environment variables',
         InstTypes => {
@@ -871,7 +847,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::Header',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Set HTTP headers',
         InstTypes => {
@@ -883,7 +858,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::Refresh',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Watch for changed modules in %INC. Depends on Module::Refresh',
         InstTypes => {
@@ -895,7 +869,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::ReverseProxy',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'Twist some HTTP variables so that the reverse proxy is transparent',
         InstTypes => {
@@ -908,7 +881,6 @@ my @NeededModules = (
     {
 
         Module    => 'SOAP::Transport::HTTP::Plack',
-        Required  => 0,
         Features  => ['plack'],
         Comment   => 'PSGI SOAP adapter',
         InstTypes => {
@@ -923,7 +895,6 @@ my @NeededModules = (
     {
         Module          => 'Encode::HanExtra',
         VersionRequired => '0.23',
-        Required        => 0,
         Features        => ['div:hanextra'],
         Comment         => 'Required to handle mails with several Chinese character sets.',
         InstTypes       => {
@@ -935,7 +906,6 @@ my @NeededModules = (
     },
     {
         Module              => 'IO::Socket::SSL',
-        Required            => 0,
         Features            => [ 'div:ssl', 'mail:ssl' ],
         Comment             => 'Required for SSL connections to web and mail servers.',
         VersionsRecommended => [
@@ -953,7 +923,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Net::LDAP',
-        Required  => 0,
         Comment   => 'Required for directory authentication.',
         Features  => ['div:ldap'],
         InstTypes => {
@@ -965,7 +934,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Crypt::Eksblowfish::Bcrypt',
-        Required  => 0,
         Features  => ['div:bcrypt'],
         Comment   => 'For strong password hashing.',
         InstTypes => {
@@ -977,7 +945,6 @@ my @NeededModules = (
     },
     {
         Module    => 'XML::LibXSLT',
-        Required  => 0,
         Features  => ['div:xslt'],
         Comment   => 'Required for Generic Interface XSLT mapping module.',
         InstTypes => {
@@ -988,7 +955,6 @@ my @NeededModules = (
     },
     {
         Module    => 'XML::Parser',
-        Required  => 0,
         Features  => ['div:xmlparser'],
         Comment   => 'Recommended for XML processing.',
         InstTypes => {
@@ -1000,7 +966,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Const::Fast',
-        Required  => 0,
         Features  => ['div:readonly'],
         Comment   => 'Support for readonly Perl variables',
         InstTypes => {
@@ -1014,7 +979,6 @@ my @NeededModules = (
     # Feature devel
     {
         Module          => 'Selenium::Remote::Driver',
-        Required        => 0,
         VersionRequired => '1.40',
         Features        => ['devel:test'],
         Comment         => 'used by Kernel::System::UnitTest::Selenium',
@@ -1027,7 +991,6 @@ my @NeededModules = (
     },
     {
         Module    => 'String::Dump',
-        Required  => 0,
         Features  => ['devel:encoding'],
         Comment   => 'for deeply inspecting strings',
         InstTypes => {
@@ -1039,7 +1002,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Test::Compile',
-        Required  => 0,
         Features  => ['devel:test'],
         Comment   => 'a quick compile check',
         InstTypes => {
@@ -1051,7 +1013,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Test2::Suite',
-        Required  => 0,
         Features  => ['devel:test'],
         Comment   => 'basic test functions',
         InstTypes => {
@@ -1063,7 +1024,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Test::Simple',
-        Required  => 0,
         Features  => ['devel:test'],
         Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
         InstTypes => {
@@ -1075,7 +1035,6 @@ my @NeededModules = (
     },
     {
         Module    => 'Test2::Tools::HTTP',
-        Required  => 0,
         Features  => ['devel:test'],
         Comment   => 'testing PSGI apps and URLs',
         InstTypes => {
@@ -1090,6 +1049,14 @@ my @NeededModules = (
 # Sanity check.
 for my $Module (@NeededModules) {
     die 'Module must be set!' unless defined $Module->{Module};
+
+    if ( defined $Module->{Required} && defined $Module->{Features} ) {
+        die "Only one of 'Required' and 'Features' may be set for $Module->{Module}!";
+    }
+
+    if ( !defined $Module->{Required} && !defined $Module->{Features} ) {
+        die "One of 'Required' and 'Features' may be set for $Module->{Module}!";
+    }
 }
 
 # This is a quick hack for looking up the Debian package names that contain the Perl modules.
