@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -22,6 +22,7 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 =head1 SYNOPSIS
 
     # print usage information
+    bin/otobo.CheckModules.pl
     bin/otobo.CheckModules.pl --help
     bin/otobo.CheckModules.pl -h
 
@@ -47,6 +48,7 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl --cpanfile > cpanfile
 
     # Print a cpanfile with the required modules for a Docker-based installation.
+    # This file is used in otobo.web.dockerfile.
     bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
 =head1 DESCRIPTION
@@ -56,13 +58,13 @@ Another usage is the generation of cpanfiles.
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
@@ -78,7 +80,7 @@ use Pod::Usage;
 
 # OTOBO modules
 use Kernel::System::Environment;
-use Kernel::System::VariableCheck qw( :all );
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 my %InstTypeToCMD = (
 
@@ -232,13 +234,13 @@ my @FeatureList;
 my @FeatureInstList;
 GetOptions(
     'help|h'          => \$DoPrintHelp,
-    inst              => \$DoPrintInstCommand,
-    list              => \$DoPrintPackageList,
-    all               => \$DoPrintAllModules,
-    features          => \$DoPrintFeatures,
+    'inst'            => \$DoPrintInstCommand,
+    'list'            => \$DoPrintPackageList,
+    'all'             => \$DoPrintAllModules,
+    'features'        => \$DoPrintFeatures,
     'finst=s{1,}'     => \@FeatureInstList,
     'flist=s{1,}'     => \@FeatureList,
-    cpanfile          => \$DoPrintCpanfile,
+    'cpanfile'        => \$DoPrintCpanfile,
     'docker-cpanfile' => \$DoPrintDockerCpanfile,
 ) || pod2usage(2);
 
@@ -248,7 +250,15 @@ if (@FeatureList) {
 elsif (@FeatureInstList) {
     $DoPrintInstCommand = 1;
 }
-elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !$DoPrintFeatures && !$DoPrintCpanfile && !$DoPrintDockerCpanfile ) {
+elsif (
+    !$DoPrintAllModules
+    && !$DoPrintInstCommand
+    && !$DoPrintPackageList
+    && !$DoPrintFeatures
+    && !$DoPrintCpanfile
+    && !$DoPrintDockerCpanfile
+    )
+{
     $DoPrintHelp = 1;
 }
 
@@ -650,14 +660,27 @@ my @NeededModules = (
     # Feature db
     {
         Module               => 'DBD::mysql',
-        Features             => ['db:mysql'],
-        Comment              => 'Required to connect to a MariaDB or MySQL database.',
+        VersionRequired      => '4.00',         # just to have some minimum version, please use a more recent version
         VersionsNotSupported => [
+            {
+                Version => '4.042',
+                Comment => 'This version had encoding related issues. Version 4.043 was a rollback to 4.0.41',
+            },
             {
                 Version => '5.001',
                 Comment => q{This version can't be installed with the MariaDB client library.},
             },
+            {
+                Version => '5.002',
+                Comment => q{This version can't be installed with the MariaDB client library.},
+            },
+            {
+                Version => '5.003',
+                Comment => q{This version can't be installed with the MariaDB client library.},
+            },
         ],
+        Features  => ['db:mysql'],
+        Comment   => 'Required to connect to a MariaDB or MySQL database.',
         InstTypes => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',
@@ -1375,8 +1398,7 @@ sub Check {
             );
 
             if ( $CleanedVersion < $RequiredModuleVersion ) {
-                $ErrorMessage
-                    .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
+                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
             }
         }
 
@@ -1468,8 +1490,7 @@ sub CollectPackageInfo {
     MODULE:
     for my $Module ( @{$PackageList} ) {
 
-        my $Required = $Module->{Required};
-        my $Version  = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
+        my $Version = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
         if ( !$Version ) {
 
             my %InstallCommand = GetInstallCommand($Module);
