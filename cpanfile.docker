@@ -1,4 +1,4 @@
-# Do not change this file manually.
+# Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
 # Instead adapt bin/otobo.CheckModules.pl and call
 #    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
@@ -91,13 +91,13 @@ requires 'Unicode::Collate';
 
 # };
 
-# feature 'devel:encoding', 'Suppport for devel:encoding' => sub {
+# feature 'devel:encoding', 'Support for feature devel:encoding' => sub {
     # for deeply inspecting strings
     requires 'String::Dump';
 
 # };
 
-# feature 'devel:test', 'Suppport for devel:test' => sub {
+# feature 'devel:test', 'Support for feature devel:test' => sub {
     # used by Kernel::System::UnitTest::Selenium
     requires 'Selenium::Remote::Driver', ">= 1.40";
 
@@ -115,7 +115,7 @@ requires 'Unicode::Collate';
 
 # };
 
-# feature 'div:bcrypt', 'Suppport for div:bcrypt' => sub {
+# feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
     # For strong password hashing.
     requires 'Crypt::Eksblowfish::Bcrypt';
 
@@ -124,13 +124,13 @@ requires 'Unicode::Collate';
 # Feature 'div:hanextra' is not needed for Docker
 
 
-# feature 'div:ldap', 'Suppport for div:ldap' => sub {
+# feature 'div:ldap', 'Support for feature div:ldap' => sub {
     # Required for directory authentication.
     requires 'Net::LDAP';
 
 # };
 
-# feature 'div:readonly', 'Suppport for div:readonly' => sub {
+# feature 'div:readonly', 'Support for feature div:readonly' => sub {
     # Support for readonly Perl variables
     requires 'Const::Fast';
 
@@ -142,7 +142,7 @@ requires 'Unicode::Collate';
 # Feature 'div:xmlparser' is not needed for Docker
 
 
-# feature 'div:xslt', 'Suppport for div:xslt' => sub {
+# feature 'div:xslt', 'Support for feature div:xslt' => sub {
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
 
@@ -151,19 +151,19 @@ requires 'Unicode::Collate';
 # Feature 'mail' is not needed for Docker
 
 
-# feature 'mail:imap', 'Suppport for mail:imap' => sub {
+# feature 'mail:imap', 'Support for feature mail:imap' => sub {
     # Required for IMAP TLS connections.
     requires 'Mail::IMAPClient', ">= 3.22";
 
 # };
 
-# feature 'mail:ntlm', 'Suppport for mail:ntlm' => sub {
+# feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
 
 # };
 
-# feature 'mail:sasl', 'Suppport for mail:sasl' => sub {
+# feature 'mail:sasl', 'Support for feature mail:sasl' => sub {
     # Required for MD5 authentication mechanisms in IMAP connections.
     requires 'Authen::SASL';
 
@@ -175,19 +175,19 @@ requires 'Unicode::Collate';
 # Feature 'optional' is not needed for Docker
 
 
-# feature 'performance:csv', 'Suppport for performance:csv' => sub {
+# feature 'performance:csv', 'Support for feature performance:csv' => sub {
     # Recommended for faster CSV handling.
     requires 'Text::CSV_XS';
 
 # };
 
-# feature 'performance:json', 'Suppport for performance:json' => sub {
+# feature 'performance:json', 'Support for feature performance:json' => sub {
     # Recommended for faster AJAX/JavaScript handling.
     requires 'JSON::XS';
 
 # };
 
-# feature 'performance:redis', 'Suppport for performance:redis' => sub {
+# feature 'performance:redis', 'Support for feature performance:redis' => sub {
     # For usage with Redis Cache Server.
     requires 'Redis';
 

@@ -45,10 +45,11 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl --finst <features>
 
     # Print a cpanfile with the required modules regardless whether they are already available.
-    bin/otobo.CheckModules.pl --cpanfile
+    bin/otobo.CheckModules.pl --cpanfile > cpanfile
 
     # Print a cpanfile with the required modules for a Docker-based installation.
-    bin/otobo.CheckModules.pl --docker-cpanfile
+    # This file is used in otobo.web.dockerfile.
+    bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
 =head1 DESCRIPTION
 
@@ -57,13 +58,13 @@ Another usage is the generation of cpanfiles.
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
@@ -79,7 +80,7 @@ use Pod::Usage;
 
 # OTOBO modules
 use Kernel::System::Environment;
-use Kernel::System::VariableCheck qw( :all );
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 my %InstTypeToCMD = (
 
@@ -153,20 +154,20 @@ my %DistToInstType = (
 
 # defines a set of features considered standard for non docker environments
 my %IsStandardFeature = (
-    'db:mysql'         => 1,
     'apache:mod_perl'  => 1,
-    'mail'             => 1,
-    'mail:ssl'         => 1,
-    'mail:imap'        => 1,
-    'mail:sasl'        => 1,
-    'mail:ntlm'        => 1,
-    'performance:json' => 1,
-    'performance:csv'  => 1,
-    'div:ldap'         => 1,
+    'db:mysql'         => 1,
     'div:bcrypt'       => 1,
-    'div:xslt'         => 1,
-    'div:xmlparser'    => 1,
     'div:hanextra'     => 1,
+    'div:ldap'         => 1,
+    'div:xmlparser'    => 1,
+    'div:xslt'         => 1,
+    'mail'             => 1,
+    'mail:imap'        => 1,
+    'mail:ntlm'        => 1,
+    'mail:sasl'        => 1,
+    'mail:ssl'         => 1,
+    'performance:csv'  => 1,
+    'performance:json' => 1,
 );
 
 # defines a set of features considered standard for docker environments
@@ -193,19 +194,19 @@ my %IsDockerFeature = (
 # Used for the generation of a cpanfile.
 my %FeatureDescription = (
     'aaacore'       => 'Required packages',
-    'zzznone'       => 'Uncategorized',
+    'apache'        => 'Recommended features for setups using apache',
     'db'            => 'Database support (installing one is required)',
     'db:mysql'      => 'Support for database MySQL',
     'db:odbc'       => 'Support for database access via ODBC',
     'db:oracle'     => 'Support for database Oracle',
     'db:postgresql' => 'Support for database PostgreSQL',
     'db:sqlite'     => 'Support for database SQLLite',
-    'apache'        => 'Recommended features for setups using apache',
+    'devel'         => 'Features which can be useful in development environments',
+    'div'           => 'Various features for additional functionality',
     'mail'          => 'Features enabling communication with a mail-server',
     'performance'   => 'Optional features which can increase performance',
     'plack'         => 'Required packages if you want to use PSGI/Plack (experimental and advanced)',
-    'div'           => 'Various features for additional functionality',
-    'devel'         => 'Features which can be useful in development environments',
+    'zzznone'       => 'Uncategorized',
 );
 
 my $OSDist;
@@ -229,13 +230,13 @@ my @FeatureList;
 my @FeatureInstList;
 GetOptions(
     'help|h'          => \$DoPrintHelp,
-    inst              => \$DoPrintInstCommand,
-    list              => \$DoPrintPackageList,
-    all               => \$DoPrintAllModules,
-    features          => \$DoPrintFeatures,
+    'inst'            => \$DoPrintInstCommand,
+    'list'            => \$DoPrintPackageList,
+    'all'             => \$DoPrintAllModules,
+    'features'        => \$DoPrintFeatures,
     'finst=s{1,}'     => \@FeatureInstList,
     'flist=s{1,}'     => \@FeatureList,
-    cpanfile          => \$DoPrintCpanfile,
+    'cpanfile'        => \$DoPrintCpanfile,
     'docker-cpanfile' => \$DoPrintDockerCpanfile,
 ) || pod2usage(2);
 
@@ -245,7 +246,15 @@ if (@FeatureList) {
 elsif (@FeatureInstList) {
     $DoPrintInstCommand = 1;
 }
-elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !$DoPrintFeatures && !$DoPrintCpanfile && !$DoPrintDockerCpanfile ) {
+elsif (
+    !$DoPrintAllModules
+    && !$DoPrintInstCommand
+    && !$DoPrintPackageList
+    && !$DoPrintFeatures
+    && !$DoPrintCpanfile
+    && !$DoPrintDockerCpanfile
+    )
+{
     $DoPrintHelp = 1;
 }
 
@@ -536,14 +545,14 @@ my @NeededModules = (
     {
         Module               => 'DBD::mysql',
         Required             => 0,
-        Features             => ['db:mysql'],
-        Comment              => 'Required to connect to a MariaDB or MySQL database.',
         VersionsNotSupported => [
             {
                 Version => '5.001',
                 Comment => q{This version can't be installed with the MariaDB client library.},
             },
         ],
+        Features  => ['db:mysql'],
+        Comment   => 'Required to connect to a MariaDB or MySQL database.',
         InstTypes => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',
@@ -1109,7 +1118,7 @@ END_HEADER
 }
 elsif ($DoPrintDockerCpanfile) {
     say <<'END_HEADER';
-# Do not change this file manually.
+# Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
 # Instead adapt bin/otobo.CheckModules.pl and call
 #    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 END_HEADER
@@ -1346,8 +1355,7 @@ sub Check {
             );
 
             if ( $CleanedVersion < $RequiredModuleVersion ) {
-                $ErrorMessage
-                    .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
+                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
             }
         }
 
@@ -1642,7 +1650,7 @@ sub PrintCpanfile {
 
         # Don't declare the features in the Docker case
         my $PoundOrEmpty = $ForDocker ? '# ' : '';
-        my $Desc         = $FeatureDescription{$Feature} // "Suppport for $Feature";
+        my $Desc         = $FeatureDescription{$Feature} // "Support for feature $Feature";
         say "${PoundOrEmpty}feature '$Feature', '$Desc' => sub {";
         PrintCpanfile( $ModulesForFeature{$Feature}, 0, 0, $ForDocker );
         say "${PoundOrEmpty}};";
