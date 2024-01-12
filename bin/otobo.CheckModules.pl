@@ -547,7 +547,19 @@ my @NeededModules = (
         VersionRequired      => '4.00',         # just to have some minimum version, please use a more recent version
         VersionsNotSupported => [
             {
+                Version => '4.042',
+                Comment => 'This version had encoding related issues. Version 4.043 was a rollback to 4.0.41',
+            },
+            {
                 Version => '5.001',
+                Comment => q{This version can't be installed with the MariaDB client library.},
+            },
+            {
+                Version => '5.002',
+                Comment => q{This version can't be installed with the MariaDB client library.},
+            },
+            {
+                Version => '5.003',
                 Comment => q{This version can't be installed with the MariaDB client library.},
             },
         ],
