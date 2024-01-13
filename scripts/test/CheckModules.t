@@ -32,7 +32,7 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $Home = $ConfigObject->Get('Home');
 
-if ( open my $CheckModulesFh, '-|', "$^X $Home/bin/otobo.CheckModules.pl --all NoColors" ) {  ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+if ( open my $CheckModulesFh, '-|', "$^X $Home/bin/otobo.CheckModules.pl --all NoColors" ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
     LINE:
     while ( my $Line = <$CheckModulesFh> ) {
         chomp $Line;

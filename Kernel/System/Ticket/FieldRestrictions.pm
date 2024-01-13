@@ -289,7 +289,7 @@ sub GetFieldStates {
             next DYNAMICFIELD if IsArrayRefWithData( $DynamicFieldConfig->{Config}{AJAXTriggers} )
                 && !$Param{InitialRun}
                 && !any { $ChangedElements{ $Self->{Uniformity}{$_} // $_ } }
-            $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
+                $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
 
             my $NewValue = $Param{DynamicFieldBackendObject}->Evaluate(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -432,8 +432,8 @@ sub GetFieldStates {
                 # check Attribute itself and AttributeID to match e.q. Queue to QueueID
                 # TODO use lc check to ignore capitalization?
                 $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } || $Param{ChangedElements}->{ ( $_->{EqualsObjectAttribute} // '' ) . 'ID' }
-            }
-            $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
+                }
+                $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
 
             if ( $DynamicFieldConfig->{Config}{EditFieldMode} eq 'AutoComplete' ) {
 

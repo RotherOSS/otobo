@@ -22,7 +22,7 @@ use warnings;
 use List::Util qw(first);
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -545,7 +545,7 @@ sub Run {
         if ( ref $ActivityData->{Config}->{ActivityDialog} eq 'HASH' ) {
 
             my $CheckActivityDialog = first { $_ eq $Param{ActivityDialog} }
-            values %{ $ActivityData->{Config}->{ActivityDialog} };
+                values %{ $ActivityData->{Config}->{ActivityDialog} };
 
             if ($CheckActivityDialog) {
                 %Result = (

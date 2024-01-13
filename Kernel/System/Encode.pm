@@ -24,7 +24,7 @@ use warnings;
 use Encode;
 
 # CPAN modules
-use Encode::Locale qw(decode_argv);
+use Encode::Locale  qw(decode_argv);
 use IO::Interactive qw(is_interactive);
 
 # OTOBO modules

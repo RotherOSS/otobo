@@ -26,7 +26,7 @@ use parent qw(Kernel::System::EventHandler);
 
 # core modules
 use MIME::Base64 qw(encode_base64 decode_base64);
-use File::Copy qw(copy move);
+use File::Copy   qw(copy move);
 
 # CPAN modules
 
@@ -34,7 +34,7 @@ use File::Copy qw(copy move);
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -1875,7 +1875,7 @@ sub PackageVerify {
         $PackageVerifyInfo = {
             Description =>
                 Translatable(
-                    "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
+                "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
                 ),
             Title =>
                 Translatable('Package not verified by the OTOBO community!'),
@@ -1887,7 +1887,7 @@ sub PackageVerify {
         $PackageVerifyInfo = {
             Description =>
                 Translatable(
-                    '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
+                '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
                 ),
             Title =>
                 Translatable('Package not verified by the OTOBO community!'),
@@ -1973,7 +1973,7 @@ sub PackageVerify {
             $Self->{PackageVerifyInfo} = {
                 Description =>
                     Translatable(
-                        "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
+                    "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
                     ),
                 Title =>
                     Translatable('Verification not possible (e.g. no internet connection)!'),
@@ -1985,7 +1985,7 @@ sub PackageVerify {
             $Self->{PackageVerifyInfo} = {
                 Description =>
                     Translatable(
-                        '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
+                    '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
                     ),
                 Title =>
                     Translatable('Verification not possible (e.g. no internet connection)!'),

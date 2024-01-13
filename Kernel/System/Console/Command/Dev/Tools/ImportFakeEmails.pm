@@ -21,7 +21,7 @@ use warnings;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
-use POSIX qw(ceil);
+use POSIX       qw(ceil);
 use Time::HiRes qw();
 use Kernel::System::PostMaster;
 use Kernel::System::MailAccount::IMAP;

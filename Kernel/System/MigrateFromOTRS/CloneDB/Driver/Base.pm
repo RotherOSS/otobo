@@ -25,7 +25,7 @@ use namespace::autoclean;
 use Encode;
 use MIME::Base64;
 use List::Util qw(any none);
-use Fcntl qw(:flock);
+use Fcntl      qw(:flock);
 
 # CPAN modules
 

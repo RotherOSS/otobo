@@ -25,7 +25,7 @@ use warnings;
 use feature qw(current_sub);    # support for __SUB__
 
 # core modules
-use Carp ();
+use Carp         ();
 use Scalar::Util qw(weaken);
 
 # CPAN modules

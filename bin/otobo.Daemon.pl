@@ -23,16 +23,16 @@ use utf8;
 use feature qw(say);
 
 use File::Basename qw(basename dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 # core modules
-use File::Path qw();
+use File::Path  qw();
 use Time::HiRes qw(sleep);
-use Fcntl qw(:flock);
-use File::Copy qw(move);
+use Fcntl       qw(:flock);
+use File::Copy  qw(move);
 
 # CPAN modules
 

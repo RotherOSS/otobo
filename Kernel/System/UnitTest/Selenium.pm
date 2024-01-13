@@ -23,10 +23,10 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use File::Path qw(remove_tree);
+use File::Path  qw(remove_tree);
 use Time::HiRes qw();
-use File::Spec qw();
-use File::Copy qw(copy);
+use File::Spec  qw();
+use File::Copy  qw(copy);
 
 # CPAN modules
 use Test2::V0;

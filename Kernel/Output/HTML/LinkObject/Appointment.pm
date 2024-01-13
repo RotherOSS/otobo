@@ -19,7 +19,7 @@ package Kernel::Output::HTML::LinkObject::Appointment;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Output::HTML::Layout;
 

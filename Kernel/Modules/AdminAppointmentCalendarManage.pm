@@ -19,7 +19,7 @@ package Kernel::Modules::AdminAppointmentCalendarManage;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::AsynchronousExecutor);

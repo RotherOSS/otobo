@@ -28,7 +28,7 @@ use Digest::MD5 qw(md5_hex);
 use Data::Dumper;            ## no critic qw(Modules::ProhibitEvilModules)
 use File::stat;
 use List::Util qw(first);
-use Fcntl qw(:flock);
+use Fcntl      qw(:flock);
 use Encode;
 
 # CPAN modules

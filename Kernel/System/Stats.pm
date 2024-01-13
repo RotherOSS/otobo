@@ -23,7 +23,7 @@ use MIME::Base64;
 
 use POSIX qw(ceil);
 
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Output::HTML::Statistics::View;
 

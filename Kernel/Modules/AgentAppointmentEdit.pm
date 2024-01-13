@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -1027,7 +1027,7 @@ sub Run {
                 $Param{PluginData}->{$PluginKey} = [];
                 for my $LinkID ( sort keys %{$LinkList} ) {
                     push @{ $Param{PluginData}->{$PluginKey} }, $LinkList->{$LinkID};
-                    push @LinkArray, $LinkList->{$LinkID}->{LinkID};
+                    push @LinkArray,                            $LinkList->{$LinkID}->{LinkID};
                 }
 
                 $Param{PluginList}->{$PluginKey}->{LinkList} = $LayoutObject->JSONEncode(

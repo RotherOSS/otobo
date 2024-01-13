@@ -26,7 +26,7 @@ use File::Basename qw(dirname);
 # CPAN modules
 use Plack::Builder;
 use Plack::Handler::CGI qw();
-use Plack::Util qw();
+use Plack::Util         qw();
 
 # OTOBO modules
 

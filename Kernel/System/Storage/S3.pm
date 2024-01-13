@@ -23,8 +23,8 @@ use utf8;
 
 # core modules
 use File::Basename qw(basename dirname);
-use File::Path qw(make_path);
-use Cwd qw(realpath);
+use File::Path     qw(make_path);
+use Cwd            qw(realpath);
 
 # CPAN modules
 use Mojo::UserAgent;

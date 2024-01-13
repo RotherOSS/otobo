@@ -21,7 +21,7 @@ use warnings;
 
 use CPAN::Audit 20230826.001;
 use File::Basename;
-use FindBin qw($Bin);
+use FindBin    qw($Bin);
 use List::Util qw(sum0);
 
 use parent qw(Kernel::System::Console::BaseCommand);

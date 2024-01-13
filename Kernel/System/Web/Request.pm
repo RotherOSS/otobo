@@ -27,9 +27,9 @@ use namespace::autoclean;
 use List::Util qw(uniq);
 
 # CPAN modules
-use HTTP::Message::PSGI qw(req_to_psgi);
+use HTTP::Message::PSGI   qw(req_to_psgi);
 use HTTP::Request::Common qw(GET);
-use Path::Class qw(file);
+use Path::Class           qw(file);
 use Plack::Request;
 use Try::Tiny;
 

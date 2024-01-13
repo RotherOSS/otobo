@@ -19,7 +19,7 @@ package Kernel::System::Auth::TwoFactor::GoogleAuthenticator;
 use strict;
 use warnings;
 
-use Digest::SHA qw(sha1);
+use Digest::SHA  qw(sha1);
 use Digest::HMAC qw(hmac_hex);
 
 our @ObjectDependencies = (

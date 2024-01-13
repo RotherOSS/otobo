@@ -24,7 +24,7 @@ use warnings;
 use HTTP::Request::Common;
 use LWP::UserAgent;
 use URI::Escape qw();
-use Crypt::JWT qw(decode_jwt);
+use Crypt::JWT  qw(decode_jwt);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);

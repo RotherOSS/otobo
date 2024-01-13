@@ -37,7 +37,7 @@ Exporter::export_ok_tags('all');
 
 # core modules
 use Scalar::Util qw(looks_like_number);
-use List::Util qw(none);
+use List::Util   qw(none);
 
 # CPAN modules
 use DateTime 1.08;    # need 1.08 because Kernel::System::DateTime overrides _core_time()

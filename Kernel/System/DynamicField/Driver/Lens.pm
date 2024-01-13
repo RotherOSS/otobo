@@ -31,7 +31,7 @@ use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',

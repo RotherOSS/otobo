@@ -21,7 +21,7 @@ use warnings;
 
 our $ObjectManagerDisabled = 1;
 
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 sub new {

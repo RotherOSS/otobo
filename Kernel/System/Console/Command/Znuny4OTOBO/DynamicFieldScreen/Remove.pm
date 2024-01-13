@@ -16,7 +16,7 @@ package Kernel::System::Console::Command::Znuny4OTOBO::DynamicFieldScreen::Remov
 use strict;
 use warnings;
 
-use parent qw(Kernel::System::Console::BaseCommand);
+use parent                        qw(Kernel::System::Console::BaseCommand);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (

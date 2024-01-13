@@ -23,7 +23,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use Digest::MD5 qw(md5_hex);
+use Digest::MD5  qw(md5_hex);
 use Scalar::Util qw(blessed);
 
 # CPAN modules

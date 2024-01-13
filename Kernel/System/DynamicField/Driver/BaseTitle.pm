@@ -32,7 +32,7 @@ use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::System::DB',

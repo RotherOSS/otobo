@@ -24,10 +24,10 @@ use utf8;
 
 # core modules
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
-use File::Find qw();
-use File::stat qw();
-use Getopt::Long qw(GetOptions);
+use FindBin        qw($RealBin);
+use File::Find     qw();
+use File::stat     qw();
+use Getopt::Long   qw(GetOptions);
 
 # CPAN modules
 

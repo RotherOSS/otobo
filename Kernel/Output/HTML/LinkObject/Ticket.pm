@@ -23,7 +23,7 @@ use List::Util qw(first);
 
 use Kernel::Output::HTML::Layout;
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',

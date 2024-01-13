@@ -27,7 +27,7 @@ use lib "$RealBin/../Kernel/cpan-lib";
 
 # core modules
 use Getopt::Long qw(GetOptions);
-use Cwd qw(getcwd abs_path);
+use Cwd          qw(getcwd abs_path);
 
 # CPAN modules
 
@@ -537,7 +537,7 @@ END_MESSAGE
     my $Cnt = 0;
     for my $Command (@Commands) {
         $Cnt++;
-        if ( !system($Command ) ) {
+        if ( !system($Command) ) {
             say "done command $Cnt";
         }
         else {

@@ -32,7 +32,7 @@ use parent qw(Kernel::System::DynamicField::Driver::BaseReference);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
