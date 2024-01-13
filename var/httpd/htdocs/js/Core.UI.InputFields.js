@@ -3017,7 +3017,7 @@ Core.UI.InputFields = (function (TargetNS) {
             }
 
             DynamicFieldInit( $NewCell );
-            
+
             // init multivalue fields in sets
             TargetNS.InitMultiValueDynamicFields( $NewCell );
 
