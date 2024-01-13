@@ -64,7 +64,7 @@ use warnings;
 use utf8;
 
 use File::Basename qw(dirname);
-use FindBin        qw($RealBin);
+use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';

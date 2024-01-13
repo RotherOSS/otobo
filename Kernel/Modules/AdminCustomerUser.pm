@@ -1258,7 +1258,7 @@ sub _Edit {
             if ($UseAutoComplete) {
 
                 my $Value = $Param{ $Entry->[0] } || $Param{CustomerID};
-                $Value    = $LayoutObject->Output(
+                $Value = $LayoutObject->Output(
                     Template => "[% Data.Value | html %]",
                     Data     => {
                         Value => $Value,
