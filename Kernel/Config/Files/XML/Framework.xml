@@ -120,7 +120,7 @@
         </Value>
     </Setting>
     <Setting Name="DefaultLanguage" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).</Description>
+        <Description Translatable="1">Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^(..|.._..)$">en</Item>
@@ -243,7 +243,7 @@
         </Value>
     </Setting>
     <Setting Name="DefaultTheme" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.</Description>
+        <Description Translatable="1">Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">Standard</Item>
