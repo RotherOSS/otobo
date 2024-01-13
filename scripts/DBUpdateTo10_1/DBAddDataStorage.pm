@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-_1::DBAddDataStorage - Adds new table data_storage.
+scripts::DBUpdateTo10_1::DBAddDataStorage - Adds new table data_storage.
 
 =cut
 
