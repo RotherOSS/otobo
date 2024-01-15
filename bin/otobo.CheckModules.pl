@@ -66,7 +66,7 @@ use warnings;
 use utf8;
 
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
@@ -78,6 +78,7 @@ use Getopt::Long;
 use Term::ANSIColor;
 use Pod::Usage;
 use Module::Metadata 1.000031;
+use CPAN::Meta::Prereqs 2.150005;
 
 # CPAN modules
 
@@ -1262,16 +1263,10 @@ sub Check {
     my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
     print '.' x $Length;
 
-    my $Version = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
-    if ($Version) {
+    # $Metadata is undefined when the module is not found in @INC
+    my $Metadata = Module::Metadata->new_from_module( $Module->{Module} );
 
-        # remove leading 'v'
-        $Version =~ s{^v}{}i;
-
-        # cleanup version number
-        my $CleanedVersion = CleanVersion(
-            Version => $Version,
-        );
+    if ( defined $Metadata ) {
 
         my $ErrorMessage;
 
@@ -1288,56 +1283,58 @@ sub Check {
             $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
 
-        if ( $Module->{VersionsNotSupported} ) {
-
-            my $VersionsNotSupported = 0;
-            ITEM:
-            for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
-
-                # cleanup item version number
-                my $ItemVersion = CleanVersion(
-                    Version => $Item->{Version},
-                );
-
-                if ( $CleanedVersion == $ItemVersion ) {
-                    $VersionsNotSupported = $Item->{Comment};
-                    last ITEM;
-                }
-            }
-
-            if ($VersionsNotSupported) {
-                $ErrorMessage .= "Version $Version not supported! $VersionsNotSupported ";
-            }
-        }
+        my $Version = $Metadata->version;
 
         my $AdditionalText = '';
 
         if ( $Module->{VersionsRecommended} ) {
 
-            my $VersionsRecommended = 0;
             ITEM:
             for my $Item ( @{ $Module->{VersionsRecommended} } ) {
 
-                my $ItemVersion = CleanVersion(
-                    Version => $Item->{Version},
+                # Check the required version range.
+                # The version range is given in META.json, or cpanfile, style.
+                # E.g. '4.0, != 4.043, < 5.000'
+                my $Prereqs = CPAN::Meta::Prereqs->new(
+                    {
+                        runtime => {
+                            requires => {
+                                $Module->{Module} => $Item->{Version},
+                            }
+                        }
+                    }
                 );
+                my $Requirements = $Prereqs->requirements_for( 'runtime', 'requires' );
+                my $IsAccepted   = $Requirements->accepts_module( $Module->{Module} => $Version );
 
-                if ( $CleanedVersion < $ItemVersion ) {
-                    $AdditionalText
-                        .= "    Please consider updating to version $Item->{Version} or higher: $Item->{Comment}\n";
+                if ( !$IsAccepted ) {
+                    $AdditionalText .= "    Please consider updating to version $Item->{Version} : $Item->{Comment}\n";
                 }
             }
         }
 
         if ( $Module->{VersionRequired} ) {
 
-            # cleanup item version number
-            my $RequiredModuleVersion = CleanVersion(
-                Version => $Module->{VersionRequired},
+            # Check the required version range.
+            # The version range is given in META.json, or cpanfile, style.
+            # E.g. '4.0, != 4.043, < 5.000'
+            my $Prereqs = CPAN::Meta::Prereqs->new(
+                {
+                    runtime => {
+                        requires => {
+                            $Module->{Module} => $Module->{VersionRequired},
+                        }
+                    }
+                }
             );
+            my $Requirements = $Prereqs->requirements_for( 'runtime', 'requires' );
+            my $IsAccepted   = $Requirements->accepts_module( $Module->{Module} => $Version );
 
-            if ( $CleanedVersion < $RequiredModuleVersion ) {
-                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
+            if ( !$IsAccepted ) {
+                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} is required! ";
+                if ( $Module->{VersionComments} ) {
+                    $ErrorMessage .= join "\n", '', $Module->{VersionComments}->@*;
+                }
             }
         }
 
@@ -1452,29 +1449,6 @@ sub CollectPackageInfo {
         Packages        => \@Packages,
         CPANOnlyModules => \@CPANOnlyModules,
     );
-}
-
-sub CleanVersion {
-    my (%Param) = @_;
-
-    return 0 if !$Param{Version};
-    return 0 if $Param{Version} eq 'undef';
-
-    # remove leading 'v'
-    $Param{Version} =~ s{^v}{}i;
-
-    # replace all special characters with an dot
-    $Param{Version} =~ s{ [_-] }{.}xmsg;
-
-    my @VersionParts = split /\./, $Param{Version};
-
-    my $CleanedVersion = '';
-    for my $Count ( 0 .. 4 ) {
-        $VersionParts[$Count] ||= 0;
-        $CleanedVersion .= sprintf "%04d", $VersionParts[$Count];
-    }
-
-    return int $CleanedVersion;
 }
 
 sub GetInstallCommand {
