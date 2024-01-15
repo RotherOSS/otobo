@@ -27,9 +27,11 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl -h
 
     # Print the console command to install all missing packages for the standard configuration via the system package manager.
+    # No version check is done.
     bin/otobo.CheckModules.pl --inst
 
     # Print a list of those required and most commonly used optional packages for OTOBO.
+    # The version of the found modules is also checked.
     bin/otobo.CheckModules.pl --list
 
     # Print all required, optional and bundled packages of OTOBO.
@@ -75,6 +77,8 @@ use File::Path;
 use Getopt::Long;
 use Term::ANSIColor;
 use Pod::Usage;
+use Module::Metadata 1.000031;
+use CPAN::Meta::Prereqs 2.150005;
 
 # CPAN modules
 
@@ -284,10 +288,11 @@ my $ExitCode = 0;    # success
 # The key 'Features' is only used for supporting features when creating a cpanfile.
 # Each module must either have exactly one of the attributes 'Required' or 'Features'.
 #
-# The allowed versions can be specified with the attributes 'VersionRequired' and 'VersionsNotSupported'.
+# The allowed versions can be specified with the attribute 'VersionRequired'.
+# That attributes accepts a version range like they are known from cpanfiles.
 #
-# There are cases when a specific version is desired in a Docker build. This version can be
-# specified with the attribute 'DockerExactVersion'.
+# There are cases when a different or more strict version is desired in a Docker build. This version can be
+# specified with the attribute 'DockerVersionRequired'.
 #
 # ATTENTION: when making changes here then make sure that you also regenerate the cpanfiles:
 #            bin/otobo.CheckModules.pl --cpanfile        > cpanfile
@@ -330,7 +335,7 @@ my @NeededModules = (
     {
         Module          => 'DateTime',
         Required        => 1,
-        VersionRequired => '1.08',
+        VersionRequired => '>= 1.08',
         InstTypes       => {
             aptget => 'libdatetime-perl',
             emerge => 'dev-perl/DateTime',
@@ -461,14 +466,11 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'Net::DNS',
-        Required             => 1,
-        VersionsNotSupported => [
-            {
-                Version => '0.60',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
+        Module          => 'Net::DNS',
+        Required        => 1,
+        VersionRequired => '!= 0.60',
+        VersionComments => [
+            qq{Version 0.60 not supported: This version is broken and not useable! Please upgrade to a higher version.},
         ],
         InstTypes => {
             aptget => 'libnet-dns-perl',
@@ -522,6 +524,8 @@ my @NeededModules = (
         },
     },
     {
+        # Actually Template::Stash::XS is part of the Perl distribution Template::Toolkit.
+        # Note that no version is declared for this module.
         Module    => 'Template::Stash::XS',
         Required  => 1,
         Comment   => 'The fast data stash for Template::Toolkit.',
@@ -621,7 +625,7 @@ my @NeededModules = (
     # Feature storage:s3
     {
         Module          => 'Mojolicious',
-        VersionRequired => '9.22',
+        VersionRequired => '>= 9.22',
         Features        => ['storage:s3'],
         Comment         => 'support for the REST requests to the S3 storage',
         InstTypes       => {
@@ -659,25 +663,12 @@ my @NeededModules = (
 
     # Feature db
     {
-        Module               => 'DBD::mysql',
-        VersionRequired      => '4.00',         # just to have some minimum version, please use a more recent version
-        VersionsNotSupported => [
-            {
-                Version => '4.042',
-                Comment => 'This version had encoding related issues. Version 4.043 was a rollback to 4.0.41',
-            },
-            {
-                Version => '5.001',
-                Comment => q{This version can't be installed with the MariaDB client library.},
-            },
-            {
-                Version => '5.002',
-                Comment => q{This version can't be installed with the MariaDB client library.},
-            },
-            {
-                Version => '5.003',
-                Comment => q{This version can't be installed with the MariaDB client library.},
-            },
+        Module          => 'DBD::mysql',
+        VersionRequired => '>= 4.00, != 4.042, < 5.001',
+        VersionComments => [
+            qq{>= 4.00: just to have some minimum version, please use a more recent version},
+            qq{!= 4.042: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41},
+            qq{< 5.001: This version can't be installed with the MariaDB client library},
         ],
         Features  => ['db:mysql'],
         Comment   => 'Required to connect to a MariaDB or MySQL database.',
@@ -689,16 +680,13 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'DBD::ODBC',
-        Features             => ['db:odbc'],
-        VersionsNotSupported => [
-            {
-                Version => '1.23',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
+        Module          => 'DBD::ODBC',
+        Features        => ['db:odbc'],
+        VersionRequired => '!= 1.23',
+        Comment         => 'Required to connect to a MS-SQL database.',
+        VersionComments => [
+            qq{Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.},
         ],
-        Comment   => 'Required to connect to a MS-SQL database.',
         InstTypes => {
             aptget => 'libdbd-odbc-perl',
             emerge => undef,
@@ -772,7 +760,7 @@ my @NeededModules = (
     },
     {
         Module          => 'Mail::IMAPClient',
-        VersionRequired => '3.22',
+        VersionRequired => '>= 3.22',
         Features        => ['mail:imap'],
         Comment         => 'Required for IMAP TLS connections.',
         InstTypes       => {
@@ -938,7 +926,7 @@ my @NeededModules = (
     # Feature div
     {
         Module          => 'Encode::HanExtra',
-        VersionRequired => '0.23',
+        VersionRequired => '>= 0.23',
         Features        => ['div:hanextra'],
         Comment         => 'Required to handle mails with several Chinese character sets.',
         InstTypes       => {
@@ -1048,7 +1036,7 @@ my @NeededModules = (
     # Feature devel:test
     {
         Module          => 'Selenium::Remote::Driver',
-        VersionRequired => '1.40',
+        VersionRequired => '>= 1.40',
         Features        => ['devel:test'],
         Comment         => 'used by Kernel::System::UnitTest::Selenium',
         InstTypes       => {
@@ -1316,16 +1304,10 @@ sub Check {
     my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
     print '.' x $Length;
 
-    my $Version = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
-    if ($Version) {
+    # $Metadata is undefined when the module is not found in @INC
+    my $Metadata = Module::Metadata->new_from_module( $Module->{Module} );
 
-        # remove leading 'v'
-        $Version =~ s{^v}{}i;
-
-        # cleanup version number
-        my $CleanedVersion = CleanVersion(
-            Version => $Version,
-        );
+    if ( defined $Metadata ) {
 
         my $ErrorMessage;
 
@@ -1349,56 +1331,58 @@ sub Check {
             }
         }
 
-        if ( $Module->{VersionsNotSupported} ) {
-
-            my $VersionsNotSupported = 0;
-            ITEM:
-            for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
-
-                # cleanup item version number
-                my $ItemVersion = CleanVersion(
-                    Version => $Item->{Version},
-                );
-
-                if ( $CleanedVersion == $ItemVersion ) {
-                    $VersionsNotSupported = $Item->{Comment};
-                    last ITEM;
-                }
-            }
-
-            if ($VersionsNotSupported) {
-                $ErrorMessage .= "Version $Version not supported! $VersionsNotSupported ";
-            }
-        }
+        my $Version = $Metadata->version;
 
         my $AdditionalText = '';
 
         if ( $Module->{VersionsRecommended} ) {
 
-            my $VersionsRecommended = 0;
             ITEM:
             for my $Item ( @{ $Module->{VersionsRecommended} } ) {
 
-                my $ItemVersion = CleanVersion(
-                    Version => $Item->{Version},
+                # Check the required version range.
+                # The version range is given in META.json, or cpanfile, style.
+                # E.g. '4.0, != 4.043, < 5.000'
+                my $Prereqs = CPAN::Meta::Prereqs->new(
+                    {
+                        runtime => {
+                            requires => {
+                                $Module->{Module} => $Item->{Version},
+                            }
+                        }
+                    }
                 );
+                my $Requirements = $Prereqs->requirements_for( 'runtime', 'requires' );
+                my $IsAccepted   = $Requirements->accepts_module( $Module->{Module} => $Version );
 
-                if ( $CleanedVersion < $ItemVersion ) {
-                    $AdditionalText
-                        .= "    Please consider updating to version $Item->{Version} or higher: $Item->{Comment}\n";
+                if ( !$IsAccepted ) {
+                    $AdditionalText .= "    Please consider updating to version $Item->{Version} : $Item->{Comment}\n";
                 }
             }
         }
 
         if ( $Module->{VersionRequired} ) {
 
-            # cleanup item version number
-            my $RequiredModuleVersion = CleanVersion(
-                Version => $Module->{VersionRequired},
+            # Check the required version range.
+            # The version range is given in META.json, or cpanfile, style.
+            # E.g. '4.0, != 4.043, < 5.000'
+            my $Prereqs = CPAN::Meta::Prereqs->new(
+                {
+                    runtime => {
+                        requires => {
+                            $Module->{Module} => $Module->{VersionRequired},
+                        }
+                    }
+                }
             );
+            my $Requirements = $Prereqs->requirements_for( 'runtime', 'requires' );
+            my $IsAccepted   = $Requirements->accepts_module( $Module->{Module} => $Version );
 
-            if ( $CleanedVersion < $RequiredModuleVersion ) {
-                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
+            if ( !$IsAccepted ) {
+                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} is required! ";
+                if ( $Module->{VersionComments} ) {
+                    $ErrorMessage .= join "\n", '', $Module->{VersionComments}->@*;
+                }
             }
         }
 
@@ -1412,8 +1396,9 @@ sub Check {
             $ExitCode = 1;    # error
         }
         else {
-            my $OutputVersion = $Version;
+            my $OutputVersion = $Version // '(not defined)';
 
+            # not sure why 'v' is prepended
             if ( $OutputVersion =~ m{ [0-9.] }xms ) {
                 $OutputVersion = 'v' . $OutputVersion;
             }
@@ -1490,19 +1475,20 @@ sub CollectPackageInfo {
     MODULE:
     for my $Module ( @{$PackageList} ) {
 
-        my $Version = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
-        if ( !$Version ) {
+        # $Metadata is undefined when the module is not found in @INC
+        my $ModulePath = Module::Metadata->find_module_by_name( $Module->{Module} );
 
-            my %InstallCommand = GetInstallCommand($Module);
+        next MODULE if defined $ModulePath;
 
-            if ( IsHashRefWithData( \%InstallCommand ) ) {
-                $CMD    = $InstallCommand{CMD};
-                $SubCMD = $InstallCommand{SubCMD};
-                push @Packages, $InstallCommand{Package};
-            }
-            else {
-                push @CPANOnlyModules, $Module;
-            }
+        my %InstallCommand = GetInstallCommand($Module);
+
+        if ( IsHashRefWithData( \%InstallCommand ) ) {
+            $CMD    = $InstallCommand{CMD};
+            $SubCMD = $InstallCommand{SubCMD};
+            push @Packages, $InstallCommand{Package};
+        }
+        else {
+            push @CPANOnlyModules, $Module;
         }
     }
 
@@ -1512,29 +1498,6 @@ sub CollectPackageInfo {
         Packages        => \@Packages,
         CPANOnlyModules => \@CPANOnlyModules,
     );
-}
-
-sub CleanVersion {
-    my (%Param) = @_;
-
-    return 0 if !$Param{Version};
-    return 0 if $Param{Version} eq 'undef';
-
-    # remove leading 'v'
-    $Param{Version} =~ s{^v}{}i;
-
-    # replace all special characters with an dot
-    $Param{Version} =~ s{ [_-] }{.}xmsg;
-
-    my @VersionParts = split /\./, $Param{Version};
-
-    my $CleanedVersion = '';
-    for my $Count ( 0 .. 4 ) {
-        $VersionParts[$Count] ||= 0;
-        $CleanedVersion .= sprintf "%04d", $VersionParts[$Count];
-    }
-
-    return int $CleanedVersion;
 }
 
 sub GetInstallCommand {
@@ -1616,8 +1579,13 @@ sub PrintCpanfile {
         if ( !$FilterRequired || $Module->{Required} ) {
             my $Comment = $Module->{Comment};
             if ($Comment) {
-                $Comment =~ s/\n/\n$Indent\#/g;
+                $Comment =~ s/\n/\n$Indent\# /g;
                 say $Indent, "# $Comment";
+            }
+
+            # The comments about versions are always added to the cpanfile.
+            for my $VersionComment ( ( $Module->{VersionComments} // [] )->@* ) {
+                say $Indent, '# ', $VersionComment;
             }
 
             if ( $Module->{VersionsRecommended} ) {
@@ -1629,34 +1597,13 @@ sub PrintCpanfile {
             }
 
             # there may be additional restrictions on the versions
+            # exact version for Docker builds has higher priority
             my $VersionRequirement = '';
-            {
-                my @Conditions;
-
-                # exact version for Docker builds has higher priority
-                if ( $ForDocker && $Module->{DockerExactVersion} ) {
-                    push @Conditions, "== $Module->{DockerExactVersion}";
-                }
-                else {
-                    if ( $Module->{VersionRequired} ) {
-                        push @Conditions, ">= $Module->{VersionRequired}";
-                    }
-
-                    if ( $Module->{VersionsNotSupported} ) {
-
-                        my $VersionsNotSupported = 0;
-                        ITEM:
-                        for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
-                            say $Indent, "# Version $Item->{Version} not supported: $Item->{Comment}";
-                            push @Conditions, "!= $Item->{Version}";
-                        }
-                    }
-                }
-
-                # assemble the argument for the 'requires' command
-                if (@Conditions) {
-                    $VersionRequirement = qq{, "@{[ join ', ', @Conditions ]}"};
-                }
+            if ( $ForDocker && $Module->{DockerVersionRequired} ) {
+                $VersionRequirement = qq{, '$Module->{DockerVersionRequired}'};
+            }
+            elsif ( $Module->{VersionRequired} ) {
+                $VersionRequirement = qq{, '$Module->{VersionRequired}'};
             }
 
             say $Indent, "requires '$Module->{Module}'$VersionRequirement;";

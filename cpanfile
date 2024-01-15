@@ -10,7 +10,7 @@ requires 'Archive::Zip';
 
 requires 'Date::Format';
 
-requires 'DateTime', ">= 1.08";
+requires 'DateTime', '>= 1.08';
 
 requires 'Convert::BinHex';
 
@@ -37,7 +37,7 @@ requires 'Moo';
 requires 'namespace::autoclean';
 
 # Version 0.60 not supported: This version is broken and not useable! Please upgrade to a higher version.
-requires 'Net::DNS', "!= 0.60";
+requires 'Net::DNS', '!= 0.60';
 
 # Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm
 requires 'Net::SMTP::SSL';
@@ -102,18 +102,17 @@ feature 'auth:openidconnect', 'Support for feature auth:openidconnect' => sub {
 
 feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MariaDB or MySQL database.
-    # Version 4.042 not supported: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
-    # Version 5.001 not supported: This version can't be installed with the MariaDB client library.
-    # Version 5.002 not supported: This version can't be installed with the MariaDB client library.
-    # Version 5.003 not supported: This version can't be installed with the MariaDB client library.
-    requires 'DBD::mysql', ">= 4.00, != 4.042, != 5.001, != 5.002, != 5.003";
+    # >= 4.00: just to have some minimum version, please use a more recent version
+    # != 4.042: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
+    # < 5.001: This version can't be installed with the MariaDB client library
+    requires 'DBD::mysql', '>= 4.00, != 4.042, < 5.001';
 
 };
 
 feature 'db:odbc', 'Support for database access via ODBC' => sub {
     # Required to connect to a MS-SQL database.
     # Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.
-    requires 'DBD::ODBC', "!= 1.23";
+    requires 'DBD::ODBC', '!= 1.23';
 
 };
 
@@ -146,7 +145,7 @@ feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
 
 feature 'devel:test', 'Modules for running the test suite' => sub {
     # used by Kernel::System::UnitTest::Selenium
-    requires 'Selenium::Remote::Driver', ">= 1.40";
+    requires 'Selenium::Remote::Driver', '>= 1.40';
 
     # a quick compile check
     requires 'Test::Compile';
@@ -173,7 +172,7 @@ feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
 
 feature 'div:hanextra', 'Support for feature div:hanextra' => sub {
     # Required to handle mails with several Chinese character sets.
-    requires 'Encode::HanExtra', ">= 0.23";
+    requires 'Encode::HanExtra', '>= 0.23';
 
 };
 
@@ -220,7 +219,7 @@ feature 'mail', 'Features enabling communication with a mail-server' => sub {
 
 feature 'mail:imap', 'Support for feature mail:imap' => sub {
     # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', ">= 3.22";
+    requires 'Mail::IMAPClient', '>= 3.22';
 
 };
 
@@ -245,7 +244,7 @@ feature 'mail:ssl', 'Support for feature mail:ssl' => sub {
 
 feature 'optional', 'Support for feature optional' => sub {
     # support for the REST requests to the S3 storage
-    requires 'Mojolicious', ">= 9.22";
+    requires 'Mojolicious', '>= 9.22';
 
     # correct and fast JSON support, used by Mojo::JSON
     requires 'Cpanel::JSON::XS';
@@ -254,15 +253,14 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Mojolicious::Plugin::AWS';
 
     # Required to connect to a MariaDB or MySQL database.
-    # Version 4.042 not supported: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
-    # Version 5.001 not supported: This version can't be installed with the MariaDB client library.
-    # Version 5.002 not supported: This version can't be installed with the MariaDB client library.
-    # Version 5.003 not supported: This version can't be installed with the MariaDB client library.
-    requires 'DBD::mysql', ">= 4.00, != 4.042, != 5.001, != 5.002, != 5.003";
+    # >= 4.00: just to have some minimum version, please use a more recent version
+    # != 4.042: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
+    # < 5.001: This version can't be installed with the MariaDB client library
+    requires 'DBD::mysql', '>= 4.00, != 4.042, < 5.001';
 
     # Required to connect to a MS-SQL database.
     # Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.
-    requires 'DBD::ODBC', "!= 1.23";
+    requires 'DBD::ODBC', '!= 1.23';
 
     # Required to connect to a Oracle database.
     requires 'DBD::Oracle';
@@ -281,7 +279,7 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Net::SMTP';
 
     # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', ">= 3.22";
+    requires 'Mail::IMAPClient', '>= 3.22';
 
     # Required for MD5 authentication mechanisms in IMAP connections.
     requires 'Authen::SASL';
@@ -311,7 +309,7 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Crypt::JWT';
 
     # Required to handle mails with several Chinese character sets.
-    requires 'Encode::HanExtra', ">= 0.23";
+    requires 'Encode::HanExtra', '>= 0.23';
 
     # Required for SSL connections to web and mail servers.
     # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
@@ -336,7 +334,7 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'String::Dump';
 
     # used by Kernel::System::UnitTest::Selenium
-    requires 'Selenium::Remote::Driver', ">= 1.40";
+    requires 'Selenium::Remote::Driver', '>= 1.40';
 
     # a quick compile check
     requires 'Test::Compile';
@@ -378,7 +376,7 @@ feature 'performance:redis', 'Support for feature performance:redis' => sub {
 
 feature 'storage:s3', 'AWS S3 compatible storage' => sub {
     # support for the REST requests to the S3 storage
-    requires 'Mojolicious', ">= 9.22";
+    requires 'Mojolicious', '>= 9.22';
 
     # correct and fast JSON support, used by Mojo::JSON
     requires 'Cpanel::JSON::XS';
