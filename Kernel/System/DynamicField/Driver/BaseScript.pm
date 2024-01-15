@@ -127,13 +127,46 @@ sub ValueValidate {
         @Values = ( { ValueText => $Param{Values} } );
     }
 
+    # get dynamic field value object
+    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+
+    my $CheckRegex = 1;
+    if (
+        !IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
+        || ( defined $Param{NoValidateRegex} && $Param{NoValidateRegex} )
+        )
+    {
+        $CheckRegex = 0;
+    }
+
     my $Success;
     for my $Item (@Values) {
-        $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
+        $Success = $DynamicFieldValueObject->ValueValidate(
             Value  => $Item,
             UserID => $Param{UserID}
         );
         return if !$Success;
+
+        if ( $CheckRegex && IsStringWithData( $Item->{ValueText} ) ) {
+
+            # check regular expressions
+            my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+
+            REGEXENTRY:
+            for my $RegEx (@RegExList) {
+
+                if ( $Item->{ValueText} !~ $RegEx->{Value} ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "The value '$Item->{ValueText}' is not matching /"
+                            . $RegEx->{Value} . "/ ("
+                            . $RegEx->{ErrorMessage} . ")!",
+                    );
+
+                    return;
+                }
+            }
+        }
     }
 
     return $Success;
@@ -251,9 +284,24 @@ sub EditFieldRender {
         ? 'DynamicField/Customer/BaseScript'
         : 'DynamicField/Agent/BaseScript';
 
+    my %Error = (
+        ServerError => $Param{ServerError},
+        Mandatory   => $Param{Mandatory},
+    );
     my @ResultHTML;
     for my $ValueIndex ( 0 .. $#{$Value} ) {
         $FieldTemplateData{FieldID} = $FieldConfig->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
+
+        if ( !$ValueIndex ) {
+            if ( $Error{ServerError} ) {
+                $Error{DivIDServerError} = $FieldTemplateData{FieldID} . 'ServerError';
+                $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+            }
+            if ( $Error{Mandatory} ) {
+                $Error{DivIDMandatory}       = $FieldTemplateData{FieldID} . 'Error';
+                $Error{FieldRequiredMessage} = Translatable('This field is required.');
+            }
+        }
 
         my $ValueItem    = $Value->[$ValueIndex];
         my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
@@ -264,7 +312,10 @@ sub EditFieldRender {
 
         push @ResultHTML, $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
-            Data         => \%FieldTemplateData,
+            Data         => {
+                %FieldTemplateData,
+                %Error,
+            },
         );
     }
 
@@ -378,6 +429,26 @@ sub EditFieldValueValidate {
         # perform necessary validations
         if ( $Param{Mandatory} && $ValueItem eq '' ) {
             $ServerError = 1;
+        }
+        elsif (
+            IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
+            && ( $Param{Mandatory} || ( !$Param{Mandatory} && $ValueItem ne '' ) )
+            )
+        {
+
+            # check regular expressions
+            my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+
+            REGEXENTRY:
+            for my $RegEx (@RegExList) {
+
+                if ( $ValueItem !~ $RegEx->{Value} ) {
+                    $ServerError  = 1;
+                    $ErrorMessage = $RegEx->{ErrorMessage};
+
+                    last REGEXENTRY;
+                }
+            }
         }
     }
 
