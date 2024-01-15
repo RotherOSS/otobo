@@ -16,10 +16,10 @@ requires 'JSON::XS';
 
 requires 'Date::Format';
 
-requires 'DateTime', ">= 1.08";
+requires 'DateTime', '>= 1.08';
 
 # A CSS minifier written in XS
-requires 'CSS::Minifier::XS', ">= 0.09";
+requires 'CSS::Minifier::XS', '>= 0.09';
 
 requires 'Convert::BinHex';
 
@@ -33,7 +33,7 @@ requires 'Digest::SHA';
 requires 'File::chmod';
 
 # HTTP style message
-requires 'HTTP::Message', ">= 6.18";
+requires 'HTTP::Message', '>= 6.18';
 
 # A JavaScript minifier written in XS
 requires 'JavaScript::Minifier::XS';
@@ -48,7 +48,7 @@ requires 'Moo';
 # clean up imported methodes
 requires 'namespace::autoclean';
 
-requires 'Net::DNS', ">= 1.05";
+requires 'Net::DNS', '>= 1.05';
 
 # Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm
 requires 'Net::SMTP::SSL';
@@ -68,10 +68,10 @@ requires 'Template::Toolkit';
 # The fast data stash for Template::Toolkit.
 requires 'Template::Stash::XS';
 
-requires 'Text::CSV', ">= 1.95";
+requires 'Text::CSV', '>= 1.95';
 
 # A fast backend that is used by Text::CSV
-requires 'Text::CSV_XS', ">= 1.34";
+requires 'Text::CSV_XS', '>= 1.34';
 
 requires 'Text::Trim';
 
@@ -87,7 +87,7 @@ requires 'URI';
 requires 'XML::LibXML';
 
 # Required for fast and correct YAML processing.
-requires 'YAML::XS', ">= 0.62";
+requires 'YAML::XS', '>= 0.62';
 
 # For internationalised sorting
 requires 'Unicode::Collate';
@@ -116,18 +116,17 @@ feature 'auth:openidconnect', 'Support for feature auth:openidconnect' => sub {
 
 feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MariaDB or MySQL database.
-    # Version 4.042 not supported: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
-    # Version 5.001 not supported: This version can't be installed with the MariaDB client library.
-    # Version 5.002 not supported: This version can't be installed with the MariaDB client library.
-    # Version 5.003 not supported: This version can't be installed with the MariaDB client library.
-    requires 'DBD::mysql', ">= 4.00, != 4.042, != 5.001, != 5.002, != 5.003";
+    # >= 4.00: just to have some minimum version, please use a more recent version
+    # != 4.042: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
+    # < 5.001: This version can't be installed with the MariaDB client library
+    requires 'DBD::mysql', '>= 4.00, != 4.042, < 5.001';
 
 };
 
 feature 'db:odbc', 'Support for database access via ODBC' => sub {
     # Required to connect to a MS-SQL database.
     # Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.
-    requires 'DBD::ODBC', "!= 1.23";
+    requires 'DBD::ODBC', '!= 1.23';
 
 };
 
@@ -151,10 +150,10 @@ feature 'db:sqlite', 'Support for database SQLLite' => sub {
 
 feature 'devel:debugging', 'Features which can be useful in development environments' => sub {
     # nicer formatting when dumping data structures
-    requires 'Data::Dump', ">= 1.25";
+    requires 'Data::Dump', '>= 1.25';
 
     # convenient and informative dumping data structures
-    requires 'Data::Dx', ">= 0.000010";
+    requires 'Data::Dx', '>= 0.000010';
 
 };
 
@@ -175,7 +174,7 @@ feature 'devel:i18n', 'Modules for dealing with translation and internationalisa
 
 feature 'devel:test', 'Modules for running the test suite' => sub {
     # used by Kernel::System::UnitTest::Selenium
-    requires 'Selenium::Remote::Driver', ">= 1.49";
+    requires 'Selenium::Remote::Driver', '>= 1.49';
 
     # a quick compile check
     requires 'Test::Compile';
@@ -205,43 +204,43 @@ feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
 
 feature 'div:cldr', 'Support for feature div:cldr' => sub {
     # localisation from the CLDR project
-    requires 'Locale::CLDR', ">= 0.40.0";
+    requires 'Locale::CLDR', '>= 0.40.0';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::De', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::De', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Nb', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Nb', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Es', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Es', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Zh', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Zh', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Pt', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Pt', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ar', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Ar', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Hu', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Hu', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Sr', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Sr', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ko', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Ko', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ru', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Ru', '>= 0.34.4';
 
 };
 
 feature 'div:hanextra', 'Support for feature div:hanextra' => sub {
     # Required to handle mails with several Chinese character sets.
-    requires 'Encode::HanExtra', ">= 0.23";
+    requires 'Encode::HanExtra', '>= 0.23';
 
 };
 
@@ -275,7 +274,7 @@ feature 'gazelle', 'Required packages if you want to use Gazelle webserver' => s
 
 feature 'graph:graphviz', 'Support for feature graph:graphviz' => sub {
     # A wrapper for AT&T's Graphviz
-    requires 'GraphViz2', ">= 2.67";
+    requires 'GraphViz2', '>= 2.67';
 
 };
 
@@ -288,7 +287,7 @@ feature 'mail', 'Features enabling communication with a mail-server' => sub {
 
 feature 'mail:imap', 'Support for feature mail:imap' => sub {
     # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', ">= 3.22";
+    requires 'Mail::IMAPClient', '>= 3.22';
 
 };
 
@@ -313,7 +312,7 @@ feature 'mail:ssl', 'Support for feature mail:ssl' => sub {
 
 feature 'optional', 'Support for feature optional' => sub {
     # support for the REST requests to the S3 storage
-    requires 'Mojolicious', ">= 9.22";
+    requires 'Mojolicious', '>= 9.22';
 
     # correct and fast JSON support, used by Mojo::JSON
     requires 'Cpanel::JSON::XS';
@@ -322,15 +321,14 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Mojolicious::Plugin::AWS';
 
     # Required to connect to a MariaDB or MySQL database.
-    # Version 4.042 not supported: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
-    # Version 5.001 not supported: This version can't be installed with the MariaDB client library.
-    # Version 5.002 not supported: This version can't be installed with the MariaDB client library.
-    # Version 5.003 not supported: This version can't be installed with the MariaDB client library.
-    requires 'DBD::mysql', ">= 4.00, != 4.042, != 5.001, != 5.002, != 5.003";
+    # >= 4.00: just to have some minimum version, please use a more recent version
+    # != 4.042: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
+    # < 5.001: This version can't be installed with the MariaDB client library
+    requires 'DBD::mysql', '>= 4.00, != 4.042, < 5.001';
 
     # Required to connect to a MS-SQL database.
     # Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.
-    requires 'DBD::ODBC', "!= 1.23";
+    requires 'DBD::ODBC', '!= 1.23';
 
     # Required to connect to a Oracle database.
     requires 'DBD::Oracle';
@@ -349,7 +347,7 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Net::SMTP';
 
     # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', ">= 3.22";
+    requires 'Mail::IMAPClient', '>= 3.22';
 
     # Required for MD5 authentication mechanisms in IMAP connections.
     requires 'Authen::SASL';
@@ -370,13 +368,13 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Linux::Inotify2';
 
     # A wrapper for AT&T's Graphviz
-    requires 'GraphViz2', ">= 2.67";
+    requires 'GraphViz2', '>= 2.67';
 
     # Required for authentication via OpenIDConnect.
     requires 'Crypt::JWT';
 
     # Required to handle mails with several Chinese character sets.
-    requires 'Encode::HanExtra', ">= 0.23";
+    requires 'Encode::HanExtra', '>= 0.23';
 
     # Required for SSL connections to web and mail servers.
     # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
@@ -389,16 +387,16 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Crypt::Eksblowfish::Bcrypt';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR', ">= 0.40.0";
+    requires 'Locale::CLDR', '>= 0.40.0';
 
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
 
     # nicer formatting when dumping data structures
-    requires 'Data::Dump', ">= 1.25";
+    requires 'Data::Dump', '>= 1.25';
 
     # convenient and informative dumping data structures
-    requires 'Data::Dx', ">= 0.000010";
+    requires 'Data::Dx', '>= 0.000010';
 
     # for deeply inspecting scalars, especially strings
     requires 'Data::Peek';
@@ -407,7 +405,7 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'String::Dump';
 
     # used by Kernel::System::UnitTest::Selenium
-    requires 'Selenium::Remote::Driver', ">= 1.49";
+    requires 'Selenium::Remote::Driver', '>= 1.49';
 
     # a quick compile check
     requires 'Test::Compile';
@@ -431,34 +429,34 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Locale::PO';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::De', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::De', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Nb', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Nb', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Es', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Es', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Zh', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Zh', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Pt', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Pt', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ar', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Ar', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Hu', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Hu', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Sr', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Sr', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ko', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Ko', '>= 0.34.4';
 
     # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ru', ">= 0.34.4";
+    requires 'Locale::CLDR::Locales::Ru', '>= 0.34.4';
 
 };
 
@@ -473,7 +471,7 @@ feature 'performance:redis', 'Support for feature performance:redis' => sub {
 
 feature 'storage:s3', 'AWS S3 compatible storage' => sub {
     # support for the REST requests to the S3 storage
-    requires 'Mojolicious', ">= 9.22";
+    requires 'Mojolicious', '>= 9.22';
 
     # correct and fast JSON support, used by Mojo::JSON
     requires 'Cpanel::JSON::XS';
