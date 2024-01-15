@@ -330,7 +330,7 @@ my @NeededModules = (
     {
         Module          => 'DateTime',
         Required        => 1,
-        VersionRequired => '1.08',
+        VersionRequired => '>= 1.08',
         InstTypes       => {
             aptget => 'libdatetime-perl',
             emerge => 'dev-perl/DateTime',
@@ -665,7 +665,7 @@ my @NeededModules = (
     },
     {
         Module          => 'Mail::IMAPClient',
-        VersionRequired => '3.22',
+        VersionRequired => '>= 3.22',
         Features        => ['mail:imap'],
         Comment         => 'Required for IMAP TLS connections.',
         InstTypes       => {
@@ -893,7 +893,7 @@ my @NeededModules = (
     # Feature div
     {
         Module          => 'Encode::HanExtra',
-        VersionRequired => '0.23',
+        VersionRequired => '>= 0.23',
         Features        => ['div:hanextra'],
         Comment         => 'Required to handle mails with several Chinese character sets.',
         InstTypes       => {
@@ -978,7 +978,7 @@ my @NeededModules = (
     # Feature devel
     {
         Module          => 'Selenium::Remote::Driver',
-        VersionRequired => '1.40',
+        VersionRequired => '>= 1.40',
         Features        => ['devel:test'],
         Comment         => 'used by Kernel::System::UnitTest::Selenium',
         InstTypes       => {
