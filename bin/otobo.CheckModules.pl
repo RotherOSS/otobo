@@ -284,7 +284,8 @@ my $ExitCode = 0;    # success
 # The key 'Features' is only used for supporting features when creating a cpanfile.
 # Each module must either have exactly one of the attributes 'Required' or 'Features'.
 #
-# The allowed versions can be specified with the attributes 'VersionRequired' and 'VersionsNotSupported'.
+# The allowed versions can be specified with the attribute 'VersionRequired'.
+# That attributes accepts a version range like they are known from cpanfiles.
 #
 # There are cases when a different or more strict version is desired in a Docker build. This version can be
 # specified with the attribute 'DockerVersionRequired'.
