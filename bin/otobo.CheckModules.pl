@@ -78,7 +78,7 @@ use Getopt::Long;
 use Term::ANSIColor;
 use Pod::Usage;
 use Module::Metadata 1.000031;
-use CPAN::Meta::Prereqs 2.150005;
+use CPAN::Meta::Requirements 2.140;
 
 # CPAN modules
 
@@ -1343,17 +1343,9 @@ sub Check {
                 # Check the required version range.
                 # The version range is given in META.json, or cpanfile, style.
                 # E.g. '4.0, != 4.043, < 5.000'
-                my $Prereqs = CPAN::Meta::Prereqs->new(
-                    {
-                        runtime => {
-                            requires => {
-                                $Module->{Module} => $Item->{Version},
-                            }
-                        }
-                    }
-                );
-                my $Requirements = $Prereqs->requirements_for( 'runtime', 'requires' );
-                my $IsAccepted   = $Requirements->accepts_module( $Module->{Module} => $Version );
+                my $Requirements = CPAN::Meta::Requirements->new;
+                $Requirements->add_string_requirement( $Module->{Module} => $Item->{Version} );
+                my $IsAccepted = $Requirements->accepts_module( $Module->{Module} => $Version );
 
                 if ( !$IsAccepted ) {
                     $AdditionalText .= "    Please consider updating to version $Item->{Version} : $Item->{Comment}\n";
@@ -1366,17 +1358,9 @@ sub Check {
             # Check the required version range.
             # The version range is given in META.json, or cpanfile, style.
             # E.g. '4.0, != 4.043, < 5.000'
-            my $Prereqs = CPAN::Meta::Prereqs->new(
-                {
-                    runtime => {
-                        requires => {
-                            $Module->{Module} => $Module->{VersionRequired},
-                        }
-                    }
-                }
-            );
-            my $Requirements = $Prereqs->requirements_for( 'runtime', 'requires' );
-            my $IsAccepted   = $Requirements->accepts_module( $Module->{Module} => $Version );
+            my $Requirements = CPAN::Meta::Requirements->new;
+            $Requirements->add_string_requirement( $Module->{Module} => $Module->{VersionRequired} );
+            my $IsAccepted = $Requirements->accepts_module( $Module->{Module} => $Version );
 
             if ( !$IsAccepted ) {
                 $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} is required! ";
