@@ -235,6 +235,13 @@ sub _AddAction {
         $GetParam{$ConfigParam} = [ $ParamObject->GetArray( Param => $ConfigParam ) ];
     }
 
+    $GetParam{RegExCounter} = $ParamObject->GetParam( Param => 'RegExCounter' ) || 0;
+
+    my @RegExList = $Self->GetParamRegexList(
+        GetParam => \%GetParam,
+        Errors   => \%Errors,
+    );
+
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # uncorrectable errors
@@ -279,6 +286,8 @@ sub _AddAction {
     my %FieldConfig = (
         map { $_ => $GetParam{$_} } qw(Tooltip Link LinkPreview Expression RequiredArgs AJAXTriggers UpdateEvents MultiValue),
     );
+
+    $FieldConfig{RegExList} = \@RegExList;
 
     # create a new field
     my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -453,6 +462,13 @@ sub _ChangeAction {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
+    $GetParam{RegExCounter} = $ParamObject->GetParam( Param => 'RegExCounter' ) || 0;
+
+    my @RegExList = $Self->GetParamRegexList(
+        GetParam => \%GetParam,
+        Errors   => \%Errors,
+    );
+
     for my $FilterParam (qw(ObjectType Namespace)) {
         $GetParam{ $FilterParam . 'Filter' } = $ParamObject->GetParam( Param => $FilterParam . 'Filter' );
     }
@@ -583,6 +599,8 @@ sub _ChangeAction {
     my %FieldConfig = (
         map { $_ => $GetParam{$_} } qw(Tooltip Link LinkPreview Interpreter Expression RequiredArgs AJAXTriggers UpdateEvents MultiValue),
     );
+
+    $FieldConfig{RegExList} = \@RegExList;
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
     my $UpdateSuccess = $DynamicFieldObject->DynamicFieldUpdate(
@@ -937,6 +955,59 @@ sub _ShowScreen {
 
         my $DynamicFieldName = $DynamicField->{Name};
 
+        if ( !$Param{RegExCounter} ) {
+
+            my $RegExCounter = 0;
+            for my $RegEx ( @{ $FieldConfig->{RegExList} } ) {
+
+                $RegExCounter++;
+                $Param{ 'RegEx_' . $RegExCounter }                     = $RegEx->{Value};
+                $Param{ 'CustomerRegExErrorMessage_' . $RegExCounter } = $RegEx->{ErrorMessage};
+            }
+
+            $Param{RegExCounter} = $RegExCounter;
+        }
+
+        # NOTE check is necessary because previous block potentially alters $Param{RegExCounter}
+        if ( $Param{RegExCounter} ) {
+
+            REGEXENTRY:
+            for my $CurrentRegExEntryID ( 1 .. $Param{RegExCounter} ) {
+
+                # check existing regex
+                next REGEXENTRY if !$Param{ 'RegEx_' . $CurrentRegExEntryID };
+
+                $LayoutObject->Block(
+                    Name => 'RegExRow',
+                    Data => {
+                        EntryCounter     => $CurrentRegExEntryID,
+                        RegEx            => $Param{ 'RegEx_' . $CurrentRegExEntryID },
+                        RegExServerError =>
+                            $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' }
+                            || '',
+                        RegExServerErrorMessage =>
+                            $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' } || '',
+                        CustomerRegExErrorMessage =>
+                            $Param{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID },
+                        CustomerRegExErrorMessageServerError =>
+                            $Param{
+                                'CustomerRegExErrorMessage_'
+                                . $CurrentRegExEntryID
+                                . 'ServerError'
+                            }
+                            || '',
+                        CustomerRegExErrorMessageServerErrorMessage =>
+                            $Param{
+                                'CustomerRegExErrorMessage_'
+                                . $CurrentRegExEntryID
+                                . 'ServerErrorMessage'
+                            }
+                            || '',
+                    }
+                );
+            }
+        }
+
         # Add warning in case the DynamicField belongs a SysConfig setting.
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
@@ -1022,6 +1093,75 @@ sub _ShowScreen {
     $Output .= $LayoutObject->Footer();
 
     return $Output;
+}
+
+sub GetParamRegexList {
+    my ( $Self, %Param ) = @_;
+
+    my $GetParam = $Param{GetParam};
+    my $Errors   = $Param{Errors};
+    my @RegExList;
+
+    # Check regex list
+    if ( $GetParam->{RegExCounter} && $GetParam->{RegExCounter} =~ m{\A\d+\z}xms ) {
+
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+        REGEXENTRY:
+        for my $CurrentRegExEntryID ( 1 .. $GetParam->{RegExCounter} ) {
+
+            # check existing regex
+            $GetParam->{ 'RegEx_' . $CurrentRegExEntryID } = $ParamObject->GetParam( Param => 'RegEx_' . $CurrentRegExEntryID );
+
+            next REGEXENTRY if !$GetParam->{ 'RegEx_' . $CurrentRegExEntryID };
+
+            $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID } = $ParamObject->GetParam( Param => 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID );
+
+            my $RegEx                     = $GetParam->{ 'RegEx_' . $CurrentRegExEntryID };
+            my $CustomerRegExErrorMessage = $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID };
+
+            # is the regex valid?
+            my $RegExCheck = eval {
+                qr{$RegEx}xms;
+            };
+
+            my $CurrentEntryErrors = 0;
+            if ($@) {
+                $Errors->{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' } = 'ServerError';
+
+                # cut last part of regex error
+                # 'Invalid regular expression (Unmatched [ in regex; marked by
+                # <-- HERE in m/aaa[ <-- HERE / at
+                # /opt/otobo/bin/cgi-bin/../../Kernel/Modules/AdminDynamicFieldText.pm line 452..
+                my $ServerErrorMessage = $@;
+                $ServerErrorMessage =~ s{ (in \s regex); .*$ }{ $1 }xms;
+                $Errors->{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' } = $ServerErrorMessage;
+
+                $CurrentEntryErrors = 1;
+            }
+
+            # check required error message for regex
+            if ( !$CustomerRegExErrorMessage ) {
+                $Errors->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID . 'ServerError' } = 'ServerError';
+                $Errors->{
+                    'CustomerRegExErrorMessage_'
+                        . $CurrentRegExEntryID
+                        . 'ServerErrorMessage'
+                } = Translatable('This field is required.');
+
+                $CurrentEntryErrors = 1;
+            }
+
+            next REGEXENTRY if $CurrentEntryErrors;
+
+            push @RegExList, {
+                'Value'        => $RegEx,
+                'ErrorMessage' => $CustomerRegExErrorMessage,
+            };
+        }
+    }
+
+    return @RegExList;
 }
 
 1;

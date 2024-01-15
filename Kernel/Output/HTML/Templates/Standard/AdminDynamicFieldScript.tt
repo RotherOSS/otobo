@@ -251,6 +251,67 @@
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Link") %]
+<label for="RegEx">[% Translate("Check RegEx") | html %]:</label>
+                        <div class="Field RegExInsert">
+                            <p class="FieldExplanation">
+                                [% Translate("Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.") | html %]
+                                <br/>
+                                [% Translate("Example") | html %]: ^[0-9]$
+                            </p>
+                            <input type="hidden" name="RegExCounter" value="[% Data.RegExCounter | html %]" id="RegExCounter" class="RegExCounter">
+                            <div class="Spacing"></div>
+
+[% RenderBlockStart("RegExRow") %]
+                            <fieldset id="RegExRow_[% Data.EntryCounter | html %]" class="TableLike SpacingTop RegExRow W50pc">
+                                <label class="Mandatory" for="RegEx_[% Data.EntryCounter | html %]"><span class="Marker">*</span>[% Translate("RegEx") | html %]:</label>
+                                <div class="Field">
+                                    <input id="RegEx_[% Data.EntryCounter | html %]" class="W80pc [% Data.RegExServerError | html %] Validate_Required" type="text" maxlength="500" value="[% Data.RegEx | html %]" name="RegEx_[% Data.EntryCounter | html %]" />
+                                    <div id="RegEx_[% Data.EntryCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                    <div id="RegEx_[% Data.EntryCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("Invalid RegEx") | html %]: [% Data.RegExServerErrorMessage | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+                                <label class="Mandatory" for="CustomerRegExErrorMessage_[% Data.EntryCounter | html %]"><span class="Marker">*</span>[% Translate("Error Message") | html %]:</label>
+                                <div class="Field">
+                                    <input id="CustomerRegExErrorMessage_[% Data.EntryCounter | html %]" class="W80pc [% Data.CustomerRegExErrorMessageServerError | html %] Validate_Required" type="text" maxlength="500" value="[% Data.CustomerRegExErrorMessage | html %]" name="CustomerRegExErrorMessage_[% Data.EntryCounter | html %]" />
+                                    <div id="CustomerRegExErrorMessage_[% Data.EntryCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                    <div id="CustomerRegExErrorMessage_[% Data.EntryCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.CustomerRegExErrorMessageServerErrorMessage | Translate | html %]</p></div>
+                                    <a id="RemoveRegEx_[% Data.EntryCounter | html %]" class="RemoveRegEx RemoveButton" href="#">
+                                        <i class="fa fa-minus-square-o"></i>
+                                    </a>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+[% RenderBlockEnd("RegExRow") %]
+                        </div>
+
+                        <fieldset class="RegExTemplate Hidden TableLike SpacingTop">
+                            <label class="Mandatory W50pc" for="RegEx"><span class="Marker">*</span>[% Translate("RegEx") | html %]:</label>
+                            <div class="Field">
+                                <input id="RegEx" class="W80pc" type="text" maxlength="500" value="" name="RegEx" />
+                                <div id="RegExError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="RegExServerError" class="TooltipErrorMessage"><p>[% Data.RegExServerErrorMessage | Translate | html %]</p></div>
+                            </div>
+                            <div class="Clear"></div>
+                            <label class="Mandatory" for="CustomerRegExErrorMessage"><span class="Marker">*</span>[% Translate("Error Message") | html %]:</label>
+                            <div class="Field">
+                                <input id="CustomerRegExErrorMessage" class="W80pc" type="text" maxlength="500" value="" name="CustomerRegExErrorMessage" />
+                                <div id="CustomerRegExErrorMessageError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="CustomerRegExErrorMessageServerError" class="TooltipErrorMessage"><p>[% Data.CustomerRegExErrorMessageServerErrorMessage | Translate | html %]</p></div>
+                                <a id="RemoveRegEx" class="RemoveRegEx RemoveButton" href="#">
+                                    <i class="fa fa-minus-square-o"></i>
+                                </a>
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                        <div class="Clear"></div>
+
+                        <label for="AddRegEx">[% Translate("Add RegEx") | html %]:</label>
+                        <div class="Field">
+                            <a id="AddRegEx" href="#" class="AddButton">
+                                <i class="fa fa-plus-square-o"></i>
+                            </a>
+                        </div>
+                        <div class="Clear"></div>
                         <label for="MultiValue">[% Translate("Multiple Values") | html %]</label>
                         <div class="Field">
                             [% Data.MultiValueStrg %]
