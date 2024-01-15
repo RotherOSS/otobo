@@ -27,9 +27,11 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl -h
 
     # Print the console command to install all missing packages for the standard configuration via the system package manager.
+    # No version check is done.
     bin/otobo.CheckModules.pl --inst
 
     # Print a list of those required and most commonly used optional packages for OTOBO.
+    # The version of the found modules is also checked.
     bin/otobo.CheckModules.pl --list
 
     # Print all required, optional and bundled packages of OTOBO.
@@ -75,6 +77,7 @@ use File::Path;
 use Getopt::Long;
 use Term::ANSIColor;
 use Pod::Usage;
+use Module::Metadata 1.000031;
 
 # CPAN modules
 
@@ -1426,19 +1429,20 @@ sub CollectPackageInfo {
     MODULE:
     for my $Module ( @{$PackageList} ) {
 
-        my $Version = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
-        if ( !$Version ) {
+        # $Metadata is undefined when the module is not found in @INC
+        my $ModulePath = Module::Metadata->find_module_by_name( $Module->{Module} );
 
-            my %InstallCommand = GetInstallCommand($Module);
+        next MODULE if defined $ModulePath;
 
-            if ( IsHashRefWithData( \%InstallCommand ) ) {
-                $CMD    = $InstallCommand{CMD};
-                $SubCMD = $InstallCommand{SubCMD};
-                push @Packages, $InstallCommand{Package};
-            }
-            else {
-                push @CPANOnlyModules, $Module;
-            }
+        my %InstallCommand = GetInstallCommand($Module);
+
+        if ( IsHashRefWithData( \%InstallCommand ) ) {
+            $CMD    = $InstallCommand{CMD};
+            $SubCMD = $InstallCommand{SubCMD};
+            push @Packages, $InstallCommand{Package};
+        }
+        else {
+            push @CPANOnlyModules, $Module;
         }
     }
 
