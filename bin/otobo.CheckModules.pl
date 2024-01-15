@@ -419,14 +419,11 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'Net::DNS',
-        Required             => 1,
-        VersionsNotSupported => [
-            {
-                Version => '0.60',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
+        Module          => 'Net::DNS',
+        Required        => 1,
+        VersionRequired => '!= 0.60',
+        VersionComments => [
+            qq{Version 0.60 not supported: This version is broken and not useable! Please upgrade to a higher version.},
         ],
         InstTypes => {
             aptget => 'libnet-dns-perl',
@@ -547,25 +544,12 @@ my @NeededModules = (
 
     # Feature db
     {
-        Module               => 'DBD::mysql',
-        VersionRequired      => '4.00',         # just to have some minimum version, please use a more recent version
-        VersionsNotSupported => [
-            {
-                Version => '4.042',
-                Comment => 'This version had encoding related issues. Version 4.043 was a rollback to 4.0.41',
-            },
-            {
-                Version => '5.001',
-                Comment => q{This version can't be installed with the MariaDB client library.},
-            },
-            {
-                Version => '5.002',
-                Comment => q{This version can't be installed with the MariaDB client library.},
-            },
-            {
-                Version => '5.003',
-                Comment => q{This version can't be installed with the MariaDB client library.},
-            },
+        Module          => 'DBD::mysql',
+        VersionRequired => '>= 4.00, != 4.042, < 5.001',
+        VersionComments => [
+            qq{>= 4.00: just to have some minimum version, please use a more recent version},
+            qq{!= 4.042: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41},
+            qq{< 5.001: This version can't be installed with the MariaDB client library},
         ],
         Features  => ['db:mysql'],
         Comment   => 'Required to connect to a MariaDB or MySQL database.',
@@ -577,16 +561,13 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'DBD::ODBC',
-        Features             => ['db:odbc'],
-        VersionsNotSupported => [
-            {
-                Version => '1.23',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
+        Module          => 'DBD::ODBC',
+        Features        => ['db:odbc'],
+        VersionRequired => '!= 1.23',
+        Comment         => 'Required to connect to a MS-SQL database.',
+        VersionComments => [
+            qq{Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.},
         ],
-        Comment   => 'Required to connect to a MS-SQL database.',
         InstTypes => {
             aptget => 'libdbd-odbc-perl',
             emerge => undef,
