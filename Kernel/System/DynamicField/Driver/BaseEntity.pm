@@ -125,8 +125,8 @@ sub ValueSet {
     }
 
     # in MultiValue and Set case, the value is needed as array ref for creating the value structure correctly
-    my $Value = ( $Param{DynamicFieldConfig}{Config}{MultiValue} || $Param{Set} )
-        ? $Param{Value}
+    my $Value = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $Param{Value}
+        : $Param{Set} ? [ map { $_->[0] } $Param{Value}->@* ]
         : $Param{Value}->[0];
 
     my $DBValue = $Self->ValueStructureToDB(
