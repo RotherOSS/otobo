@@ -286,8 +286,8 @@ my $ExitCode = 0;    # success
 #
 # The allowed versions can be specified with the attributes 'VersionRequired' and 'VersionsNotSupported'.
 #
-# There are cases when a specific version is desired in a Docker build. This version can be
-# specified with the attribute 'DockerExactVersion'.
+# There are cases when a different or more strict version is desired in a Docker build. This version can be
+# specified with the attribute 'DockerVersionRequired'.
 #
 # ATTENTION: when making changes here then make sure that you also regenerate the cpanfiles:
 #            bin/otobo.CheckModules.pl --cpanfile        > cpanfile
@@ -1530,8 +1530,13 @@ sub PrintCpanfile {
         if ( !$FilterRequired || $Module->{Required} ) {
             my $Comment = $Module->{Comment};
             if ($Comment) {
-                $Comment =~ s/\n/\n$Indent\#/g;
+                $Comment =~ s/\n/\n$Indent\# /g;
                 say $Indent, "# $Comment";
+            }
+
+            # The comments about versions are always added to the cpanfile.
+            for my $VersionComment ( ( $Module->{VersionComments} // [] )->@* ) {
+                say $Indent, '# ', $VersionComment;
             }
 
             if ( $Module->{VersionsRecommended} ) {
@@ -1543,34 +1548,13 @@ sub PrintCpanfile {
             }
 
             # there may be additional restrictions on the versions
+            # exact version for Docker builds has higher priority
             my $VersionRequirement = '';
-            {
-                my @Conditions;
-
-                # exact version for Docker builds has higher priority
-                if ( $ForDocker && $Module->{DockerExactVersion} ) {
-                    push @Conditions, "== $Module->{DockerExactVersion}";
-                }
-                else {
-                    if ( $Module->{VersionRequired} ) {
-                        push @Conditions, ">= $Module->{VersionRequired}";
-                    }
-
-                    if ( $Module->{VersionsNotSupported} ) {
-
-                        my $VersionsNotSupported = 0;
-                        ITEM:
-                        for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
-                            say $Indent, "# Version $Item->{Version} not supported: $Item->{Comment}";
-                            push @Conditions, "!= $Item->{Version}";
-                        }
-                    }
-                }
-
-                # assemble the argument for the 'requires' command
-                if (@Conditions) {
-                    $VersionRequirement = qq{, "@{[ join ', ', @Conditions ]}"};
-                }
+            if ( $ForDocker && $Module->{DockerVersionRequired} ) {
+                $VersionRequirement = qq{, '$Module->{DockerVersionRequired}'};
+            }
+            elsif ( $Module->{VersionRequired} ) {
+                $VersionRequirement = qq{, '$Module->{VersionRequired}'};
             }
 
             say $Indent, "requires '$Module->{Module}'$VersionRequirement;";
