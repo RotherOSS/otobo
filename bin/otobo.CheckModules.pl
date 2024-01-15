@@ -466,6 +466,8 @@ my @NeededModules = (
         },
     },
     {
+        # Actually Template::Stash::XS is part of the Perl distribution Template::Toolkit.
+        # Note that no version is declared for this module.
         Module    => 'Template::Stash::XS',
         Required  => 1,
         Comment   => 'The fast data stash for Template::Toolkit.',
@@ -1329,8 +1331,9 @@ sub Check {
             $ExitCode = 1;    # error
         }
         else {
-            my $OutputVersion = $Version;
+            my $OutputVersion = $Version // '(not defined)';
 
+            # not sure why 'v' is prepended
             if ( $OutputVersion =~ m{ [0-9.] }xms ) {
                 $OutputVersion = 'v' . $OutputVersion;
             }
