@@ -1712,6 +1712,7 @@
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Agent.Admin.DynamicField.js</Item>
+                        <Item>Core.Agent.Admin.DynamicFieldText.js</Item>
                         <Item>Core.Agent.Admin.SysConfig.Entity.js</Item>
                     </Array>
                 </Item>
