@@ -48,6 +48,14 @@ Kernel::System::DynamicField::Driver::Set - driver for the Set dynamic field
 =head1 DESCRIPTION
 
 DynamicFields Set Driver delegate
+In the perl backend sets handle their data as array of arrays, where the outer array runs over the set index (i.e. the multivalue index of the set, or 0),
+the inner arrays over the fields in order of their definition. A set containing the dynamic fields "Person" and "Pets" could thus have the content:
+[ ["Max",["Cat"]], ["Anna",["Dog","Parrot"]] ]
+In ValueSet() and ValueGet() this data would be given to the dynamic fields "Person" and "Pet" as ["Max", "Dog"] and [["Cat"], ["Dog","Parrot"]] respectively,
+with the parameter Set => 1.
+To be able to correctly render edit masks in the frontend and above all receive the data of the frontend correctly, for all EditField methods, this driver
+changes the DynamicFieldConfig of the inner fields and appends the set index as "_$SetIndex" to the name of the fields. Therefore all frontend methods for
+the inner fields must exclusively be called via this driver. (Note however, that this suffix is not used for all variables. Please always check the context.)
 
 =head1 PUBLIC INTERFACE
 
@@ -302,7 +310,7 @@ sub EditFieldRender {
         $DynamicFieldConfigs{ $DynamicField->{Name} } = { $DynamicField->%* };
 
         for my $SetIndex ( 0 .. $#SetValue ) {
-            $DynamicFieldValues[$SetIndex]{ 'DynamicField_' . $DynamicField->{Name} . '_' . $SetIndex } = $SetValue[$SetIndex][$i];
+            $DynamicFieldValues[$SetIndex]{ 'DynamicField_' . $DynamicField->{Name} } = $SetValue[$SetIndex][$i];
         }
     }
 
