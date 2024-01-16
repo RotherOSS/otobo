@@ -3056,8 +3056,9 @@ sub SearchObjects {
 return a hash of object descriptions.
 
     my %Description = $BackendObject->ObjectDescriptionGet(
-        ObjectID => 123,
-        UserID   => 1,
+        DynamicFieldConfig => $DynamicFieldConfig,
+        ObjectID           => 123,
+        UserID             => 1,
     );
 
 Return
