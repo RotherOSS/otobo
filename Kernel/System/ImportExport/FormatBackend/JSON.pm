@@ -1,7 +1,6 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -42,6 +41,7 @@ Kernel::System::ImportExport::FormatBackend::JSON - ImportExport format backend 
 =head1 DESCRIPTION
 
 All functions to import and export a JSON formatted file.
+Currently concatenated JSON is being exported.
 
 =cut
 
@@ -100,7 +100,21 @@ sub FormatAttributesGet {
         return;
     }
 
-    return [];
+    return [
+        {
+            Key   => 'Pretty',
+            Name  => Translatable('Pretty print the exported concatenated JSON'),
+            Input => {
+                Type => 'Selection',
+                Data => {
+                    1 => Translatable('Yes'),    # pretty print per default
+                    0 => Translatable('No'),
+                },
+                Translation  => 1,
+                PossibleNone => 0,
+            },
+        },
+    ];
 }
 
 =head2 MappingFormatAttributesGet()
@@ -206,7 +220,8 @@ sub ImportDataGet {
 
 =head2 ExportDataSave()
 
-Export one row of the export data
+exports one item of the export data. When the formatting option 'Pretty'
+is selected, then one item corresponds to multiple lines in the output.
 
     my $DestinationContent = $FormatBackend->ExportDataSave(
         TemplateID    => 123,
@@ -257,10 +272,14 @@ sub ExportDataSave {
         return;
     }
 
+    # pretty output unless otherwise requested
+    my $Pretty = $FormatData->{Pretty} // 1;
+
     my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
     return $JSONObject->Encode(
-        Data => $Param{ExportDataRow},
+        Data   => $Param{ExportDataRow},
+        Pretty => $Pretty,
     );
 
 }
