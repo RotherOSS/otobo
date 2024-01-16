@@ -1290,6 +1290,30 @@ sub SetPreferences {
     return $PreferencesObject->SetPreferences(%Param);
 }
 
+sub ObjectMappingGet {
+    my ( $Self, %Param ) = @_;
+
+    my %Data = (
+        ChangeTime             => 1,
+        CreateTime             => 1,
+        UserEmail              => 1,
+        UserFirstname          => 1,
+        UserFullname           => 1,
+        UserID                 => 1,
+        UserLastLogin          => 1,
+        UserLastLoginTimestamp => 1,
+        UserLastname           => 1,
+        UserLogin              => 1,
+        UserLoginFailed        => 1,
+        UserMobile             => 1,
+        UserTimeZone           => 1,
+        UserTitle              => 1,
+        ValidID                => 1,
+    );
+
+    return %Data;
+}
+
 sub _UserCacheClear {
     my ( $Self, %Param ) = @_;
 
