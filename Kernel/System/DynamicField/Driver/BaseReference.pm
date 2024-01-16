@@ -318,8 +318,9 @@ sub EditFieldRender {
 
             # The visible value depends on the referenced object
             my %Description = $Self->ObjectDescriptionGet(
-                ObjectID => $ReferencedObjectID,
-                UserID   => 1,                     # TODO: what about Permission check
+                DynamicFieldConfig => $DFDetails,
+                ObjectID           => $ReferencedObjectID,
+                UserID             => 1,                     # TODO: what about Permission check
             );
             $VisibleValue = $Param{LayoutObject}->Ascii2Html(
                 Text => $Description{Long},
@@ -466,9 +467,10 @@ sub DisplayValueRender {
         for my $ObjectID (@ObjectIDs) {
             if ($ObjectID) {
                 my %Description = $Self->ObjectDescriptionGet(
-                    ObjectID     => $ObjectID,
-                    Link         => $HTMLOutput,
-                    LayoutObject => $Param{LayoutObject},
+                    DynamicFieldConfig => $Param{DynamicFieldConfig},
+                    ObjectID           => $ObjectID,
+                    Link               => $HTMLOutput,
+                    LayoutObject       => $Param{LayoutObject},
                 );
                 push @LongObjectDescriptions, $Description{Long};
                 $Link = $Description{Link};
@@ -721,7 +723,8 @@ sub ReadableValueRender {
         for my $ObjectID (@Values) {
             if ($ObjectID) {
                 my %Description = $Self->ObjectDescriptionGet(
-                    ObjectID => $ObjectID,
+                    DynamicFieldConfig => $Param{DynamicFieldConfig},
+                    ObjectID           => $ObjectID,
                 );
 
                 push @LongObjectDescriptions, $Description{Long};
@@ -970,8 +973,9 @@ sub PossibleValuesGet {
 
     for my $ResultItem (@SearchResult) {
         my %ItemDescription = $Self->ObjectDescriptionGet(
-            ObjectID => $ResultItem,
-            UserID   => 1,
+            DynamicFieldConfig => $Param{DynamicFieldConfig},
+            ObjectID           => $ResultItem,
+            UserID             => 1,
         );
         %PossibleValues = (
             %PossibleValues,
