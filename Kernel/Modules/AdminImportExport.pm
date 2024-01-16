@@ -1182,12 +1182,20 @@ sub Run {
             return;
         }
 
+        # TODO: does application/x-ndjson need "\r\n" as separator?
         my $FileContent = join "\n", $Result->{DestinationContent}->@*;
 
+        # TODO: the formatters should tell their extension, and MIME type
+        # TODO: Could not find a MIME type for concatenated JSON
+        my $Extension = lc $TemplateData->{Format};
+        my %MimeType  = (
+            csv  => 'text/csv',
+            json => 'text/plain'    # or 'application/x-ndjson', 'application/json-seq'
+        );
         return $LayoutObject->Attachment(
             Type        => 'attachment',
-            Filename    => 'Export.csv',
-            ContentType => 'text/csv',
+            Filename    => "Export.$Extension",
+            ContentType => ( $MimeType{$Extension} // 'text/plain' ),
             Content     => $FileContent,
         );
     }

@@ -110,7 +110,7 @@ sub FormatAttributesGet {
         return;
     }
 
-    my $Attributes = [
+    return [
         {
             Key   => 'ColumnSeparator',
             Name  => Translatable('Column Separator'),
@@ -155,8 +155,6 @@ sub FormatAttributesGet {
             },
         },
     ];
-
-    return $Attributes;
 }
 
 =head2 MappingFormatAttributesGet()
@@ -348,7 +346,8 @@ sub ImportDataGet {
 
 =head2 ExportDataSave()
 
-Export one row of the export data
+exports one item of the export data. In the case of CSV one item
+corresponds to a line in the output.
 
     my $DestinationContent = $FormatBackend->ExportDataSave(
         TemplateID    => 123,
