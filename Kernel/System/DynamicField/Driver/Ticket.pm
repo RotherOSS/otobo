@@ -122,6 +122,22 @@ sub GetFieldTypeSettings {
             };
     }
 
+    # Support various display options
+    push @FieldTypeSettings,
+        {
+            ConfigParamName => 'DisplayType',
+            Label           => Translatable('Attribute which is displayed for values'),
+            Explanation     => Translatable('Select the type of display'),
+            InputType       => 'Selection',
+            SelectionData   => {
+                'TicketNumber'      => 'Ticket#<Ticket Number>',
+                'QueueTicketNumber' => '<Queue>: <Ticket Number>',
+                'TitleTicketNumber' => '<Ticket Title> (<Ticket Number>)',
+            },
+            PossibleNone => 1,
+            Multiple     => 0,
+        };
+
     # Support reference filters
     push @FieldTypeSettings,
         {
@@ -169,8 +185,9 @@ sub ObjectPermission {
 return a hash of object descriptions.
 
     my %Description = $BackendObject->ObjectDescriptionGet(
-        ObjectID => 123,
-        UserID   => 1,
+        DynamicFieldConfig => $DynamicFieldConfig,
+        ObjectID           => 123,
+        UserID             => 1,
     );
 
 Return
@@ -209,8 +226,33 @@ sub ObjectDescriptionGet {
 
     return unless %Ticket;
 
-    my $ParamHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook')      || 'Ticket#';
-    $ParamHook .= $Kernel::OM->Get('Kernel::Config')->Get('Ticket::HookDivider') || '';
+    my %Descriptions;
+    if ( $Param{DynamicFieldConfig} && $Param{DynamicFieldConfig}{Config}{DisplayType} ) {
+
+        # prepare string as configured
+        my $DisplayType = $Param{DynamicFieldConfig}{Config}{DisplayType};
+        if ( $DisplayType eq 'TicketNumber' ) {
+            $Descriptions{Normal} = "Ticket#$Ticket{TicketNumber}";
+            $Descriptions{Long}   = "Ticket#$Ticket{TicketNumber}";
+        }
+        elsif ( $DisplayType eq 'QueueTicketNumber' ) {
+            $Descriptions{Normal} = "$Ticket{Queue}: $Ticket{TicketNumber}";
+            $Descriptions{Long}   = "$Ticket{Queue}: $Ticket{TicketNumber}";
+        }
+        elsif ( $DisplayType eq 'TitleTicketNumber' ) {
+            $Descriptions{Normal} = "$Ticket{Title} ($Ticket{TicketNumber})";
+            $Descriptions{Long}   = "$Ticket{Title} ($Ticket{TicketNumber})";
+        }
+    }
+    else {
+
+        # use ticket hook as default fallback
+        my $ParamHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook')      || 'Ticket#';
+        $ParamHook .= $Kernel::OM->Get('Kernel::Config')->Get('Ticket::HookDivider') || '';
+
+        $Descriptions{Normal} = $ParamHook . "$Ticket{TicketNumber}";
+        $Descriptions{Long}   = $ParamHook . "$Ticket{TicketNumber}: $Ticket{Title}";
+    }
 
     my $Link;
     if ( $Param{Link} && $Param{LayoutObject}{SessionSource} ) {
@@ -223,9 +265,8 @@ sub ObjectDescriptionGet {
 
     # create description
     return (
-        Normal => $ParamHook . "$Ticket{TicketNumber}",
-        Long   => $ParamHook . "$Ticket{TicketNumber}: $Ticket{Title}",
-        Link   => $Link,
+        %Descriptions,
+        Link => $Link,
     );
 }
 
