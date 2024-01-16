@@ -7884,6 +7884,72 @@ sub TicketAcceleratorRebuild {
     return $Kernel::OM->Get($TicketIndexModule)->TicketAcceleratorRebuild(%Param);
 }
 
+=head2 ObjectMappingGet()
+
+returns the attributes a ticket can have on the system.
+
+    my $TicketID = $TicketObject->ObjectMappingGet(
+        DynamicFields => (0|1),         # (optional) if dynamic field names are included, default 0
+        Extended      => (0|1),         # (optional) if extended information is included, default 0
+    );
+
+=cut
+
+sub ObjectMappingGet {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # allow certain attributes only of corresponding sysconfig is activated
+    my %TicketMapping = (
+        TicketID               => 1,
+        QueueID                => 1,
+        StateID                => 1,
+        LockID                 => 1,
+        PriorityID             => 1,
+        Created                => 1,
+        TicketNumber           => 1,
+        CustomerID             => 1,
+        CustomerUserID         => 1,
+        OwnerID                => 1,
+        ResponsibleID          => $ConfigObject->Get('Ticket::Responsible'),
+        Changed                => 1,
+        Title                  => 1,
+        EscalationUpdateTime   => 1,
+        UnlockTimeout          => 1,
+        TypeID                 => $ConfigObject->Get('Ticket::Type'),
+        ServiceID              => $ConfigObject->Get('Ticket::Service'),
+        SLAID                  => $ConfigObject->Get('Ticket::Service'),
+        EscalationResponseTime => 1,
+        EscalationSolutionTime => 1,
+        EscalationTime         => 1,
+        CreateBy               => 1,
+        ChangeBy               => 1,
+    );
+
+    # add keys without id, e.g. QueueID -> Queue
+    for my $Attribute ( keys %TicketMapping ) {
+        if ( $Attribute =~ /(?<AttributePlain>\w+)ID$/ ) {
+            $TicketMapping{ $+{AttributePlain} } = $TicketMapping{$Attribute};
+        }
+    }
+
+    # check if dynamic fields need to be added
+    if ( $Param{DynamicFields} ) {
+        my $DynamicFields = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
+            Valid      => 1,
+            ObjectType => 'Ticket',
+            ResultType => 'HASH',
+        );
+
+        for my $FieldName ( values $DynamicFields->%* ) {
+            $TicketMapping{"DynamicField_$FieldName"} = 1;
+        }
+    }
+
+    return %TicketMapping;
+}
+
 sub DESTROY {
     my $Self = shift;
 
