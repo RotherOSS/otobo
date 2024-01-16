@@ -395,7 +395,7 @@ my @NeededModules = (
     {
         Module          => 'CSS::Minifier::XS',
         Required        => 1,
-        VersionRequired => '>= 0.09',                           # released in 2013
+        VersionRequired => '>= 0.09',                        # released in 2013
         Comment         => 'A CSS minifier written in XS',
         InstTypes       => {
             aptget => 'libcss-minifier-xs-perl',
@@ -604,7 +604,7 @@ my @NeededModules = (
     {
         Module          => 'Text::CSV',
         Required        => 1,
-        VersionRequired => '>= 1.95',        # released 2017-04-27
+        VersionRequired => '>= 1.95',     # released 2017-04-27
         InstTypes       => {
             aptget => 'libtext-csv-perl',
             emerge => 'dev-perl/Text-CSV',
@@ -615,7 +615,7 @@ my @NeededModules = (
     {
         Module          => 'Text::CSV_XS',
         Required        => 1,
-        VersionRequired => '>= 1.34',                                       # released 2017-11-05
+        VersionRequired => '>= 1.34',                                    # released 2017-11-05
         Comment         => 'A fast backend that is used by Text::CSV',
         InstTypes       => {
             aptget => 'libtext-csv-xs-perl',
@@ -961,7 +961,7 @@ my @NeededModules = (
     {
         Module          => 'GraphViz2',
         Features        => ['graph:graphviz'],
-        VersionRequired => '>= 2.67',                             # released 2022-07-21
+        VersionRequired => '>= 2.67',                          # released 2022-07-21
         Comment         => q{A wrapper for AT&T's Graphviz},
         InstTypes       => {
             aptget => undef,                                   # available only in Debian testing
@@ -1715,11 +1715,6 @@ sub PrintCpanfile {
             }
             elsif ( $Module->{VersionRequired} ) {
                 $VersionRequirement = qq{, '$Module->{VersionRequired}'};
-            }
-
-            # currently only used for the bundled modules
-            if ( $Module->{VersionExact} ) {
-                $VersionRequirement = qq{, '== $Module->{VersionExact}'};
             }
 
             say $Indent, "requires '$Module->{Module}'$VersionRequirement;";
