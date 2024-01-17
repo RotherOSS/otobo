@@ -7898,6 +7898,9 @@ returns the attributes a ticket can have on the system.
 sub ObjectAttributesGet {
     my ( $Self, %Param ) = @_;
 
+    # for consistency with TicketGet()
+    $Param{Extended} = $Param{Extended} ? 1 : 0;
+
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # allow certain attributes only of corresponding sysconfig is activated
@@ -7913,24 +7916,14 @@ sub ObjectAttributesGet {
         PriorityID             => 1,
         Created                => 1,
         TicketNumber           => 1,
-        Customer               => 1,
         CustomerID             => 1,
-        CustomerUser           => 1,
         CustomerUserID         => 1,
         Owner                  => 1,
         OwnerID                => 1,
-        Responsible            => $ConfigObject->Get('Ticket::Responsible'),
-        ResponsibleID          => $ConfigObject->Get('Ticket::Responsible'),
         Changed                => 1,
         Title                  => 1,
         EscalationUpdateTime   => 1,
         UnlockTimeout          => 1,
-        Type                   => $ConfigObject->Get('Ticket::Type'),
-        TypeID                 => $ConfigObject->Get('Ticket::Type'),
-        Service                => $ConfigObject->Get('Ticket::Service'),
-        ServiceID              => $ConfigObject->Get('Ticket::Service'),
-        SLA                    => $ConfigObject->Get('Ticket::Service'),
-        SLAID                  => $ConfigObject->Get('Ticket::Service'),
         EscalationResponseTime => 1,
         EscalationSolutionTime => 1,
         EscalationTime         => 1,
@@ -7938,6 +7931,21 @@ sub ObjectAttributesGet {
         ChangeBy               => 1,
     );
 
+    # check and set attributes which depend on sysconfig
+    for my $Entity (qw(Responsible Service Type)) {
+        if ( $ConfigObject->Get("Ticket::$Entity") ) {
+            $TicketMapping{$Entity} = 1;
+            $TicketMapping{"${Entity}ID"} = 1;
+
+            # SLA depends on service
+            if ( $Entity eq 'Service' ) {
+                $TicketMapping{SLA}   = 1;
+                $TicketMapping{SLAID} = 1;
+            }
+        }
+    }
+
+    # if requested, set extended attributes
     if ( $Param{Extended} ) {
         $TicketMapping{FirstResponse}   = 1;
         $TicketMapping{FirstLock}       = 1;
