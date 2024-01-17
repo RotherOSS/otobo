@@ -353,7 +353,6 @@ div.InputField_ToolbarContainer ul li {
 div.InputField_ToolbarContainer ul li:after {
     color: #bbb;
     content: "|";
-    /*display: inline-block;*/ /*inline block is ignored due to float*/
     float: right; 
     cursor: default;
 }
