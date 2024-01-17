@@ -168,7 +168,8 @@ sub _GetIncludedDynamicFields {
         );
 
         return;
-    } else {
+    }
+    else {
         return \@DynamicFields;
     }
 }
@@ -367,7 +368,8 @@ sub EditFieldRender {
 
     if ( !$DynamicFields ) {
         return;
-    } else {
+    }
+    else {
 
         for my $i ( 0 .. $#{$DynamicFields} ) {
 
@@ -381,7 +383,7 @@ sub EditFieldRender {
             }
         }
     }
-    
+
     # TODO: Improve
     my $StoreBlockData = delete $Param{LayoutObject}{BlockData};
 
@@ -543,12 +545,14 @@ sub EditFieldValueValidate {
         # prevent overwriting names in cached data
         my $DynamicField = { $DynamicFields->[$i]->%* };
 
-                    $Result->{ $DynamicField->{Name} } = $BackendObject->EditFieldValueValidate(
-                        %Param,
-                        DynamicFieldConfig => $DynamicField,
-                    );
-                }
-            }
+        my $Name = $DynamicField->{Name};
+        for my $SetIndex ( 0 .. $IndexMax ) {
+            $DynamicField->{Name} = $Name . '_' . $SetIndex;
+
+            $Result->{ $DynamicField->{Name} } = $BackendObject->EditFieldValueValidate(
+                %Param,
+                DynamicFieldConfig => $DynamicField,
+            );
         }
     }
 
@@ -582,10 +586,11 @@ sub DisplayValueRender {
         DynamicFieldObject => $DynamicFieldObject
     );
 
-    if (!$DynamicFields) {
+    if ( !$DynamicFields ) {
         return;
-    } else {
-        for my $i (0 .. $#{$DynamicFields}) {
+    }
+    else {
+        for my $i ( 0 .. $#{$DynamicFields} ) {
 
             my $DynamicField = $DynamicFields->[$i];
             my $Label;
@@ -778,9 +783,20 @@ sub ValueLookup {
 
         my $DynamicField = $DynamicFields->[$i];
 
-                # TODO: why concatenate to an undefined variable ?
-                $SetValue[$SetIndex] .= " $DynamicField->{Label}: $Element;";
-            }
+        # TODO: where does $Param{Value} come from ?
+        VALUE:
+        for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
+            next VALUE unless defined $Param{Value}[$SetIndex][$i];
+
+            # TODO: what if $Element is an arrayref ?
+            my $Element = $BackendObject->ValueLookup(
+                %Param,
+                DynamicFieldConfig => $DynamicField,
+                Value              => $Param{Value}[$SetIndex][$i],
+            );
+
+            # TODO: why concatenate to an undefined variable ?
+            $SetValue[$SetIndex] .= " $DynamicField->{Label}: $Element;";
         }
     }
 
