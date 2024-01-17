@@ -82,9 +82,6 @@ sub Run {
             }
         }
 
-        # get encode object
-        my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-
         # get user object
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
