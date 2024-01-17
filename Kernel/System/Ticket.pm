@@ -7884,18 +7884,18 @@ sub TicketAcceleratorRebuild {
     return $Kernel::OM->Get($TicketIndexModule)->TicketAcceleratorRebuild(%Param);
 }
 
-=head2 ObjectMappingGet()
+=head2 ObjectAttributesGet()
 
 returns the attributes a ticket can have on the system.
 
-    my $TicketID = $TicketObject->ObjectMappingGet(
+    my %Attributes = $TicketObject->ObjectAttributesGet(
         DynamicFields => (0|1),         # (optional) if dynamic field names are included, default 0
-        Extended      => (0|1),         # (optional) if extended information is included, default 0
+        Extended      => (0|1),         # (optional) if extended information is included, default 1
     );
 
 =cut
 
-sub ObjectMappingGet {
+sub ObjectAttributesGet {
     my ( $Self, %Param ) = @_;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
