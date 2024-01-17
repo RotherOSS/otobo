@@ -1301,7 +1301,7 @@ returns the attributes an agent can have on the system.
 sub ObjectAttributesGet {
     my ( $Self, %Param ) = @_;
 
-    my %Data = (
+    my %UserAttributes = (
         ChangeTime             => 1,
         CreateTime             => 1,
         UserEmail              => 1,
@@ -1319,7 +1319,7 @@ sub ObjectAttributesGet {
         ValidID                => 1,
     );
 
-    return %Data;
+    return %UserAttributes;
 }
 
 sub _UserCacheClear {

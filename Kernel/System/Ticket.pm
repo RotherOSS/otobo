@@ -7904,7 +7904,7 @@ sub ObjectAttributesGet {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # allow certain attributes only of corresponding sysconfig is activated
-    my %TicketMapping = (
+    my %TicketAttributes = (
         TicketID               => 1,
         Queue                  => 1,
         QueueID                => 1,
@@ -7934,22 +7934,22 @@ sub ObjectAttributesGet {
     # check and set attributes which depend on sysconfig
     for my $Entity (qw(Responsible Service Type)) {
         if ( $ConfigObject->Get("Ticket::$Entity") ) {
-            $TicketMapping{$Entity} = 1;
-            $TicketMapping{"${Entity}ID"} = 1;
+            $TicketAttributes{$Entity} = 1;
+            $TicketAttributes{"${Entity}ID"} = 1;
 
             # SLA depends on service
             if ( $Entity eq 'Service' ) {
-                $TicketMapping{SLA}   = 1;
-                $TicketMapping{SLAID} = 1;
+                $TicketAttributes{SLA}   = 1;
+                $TicketAttributes{SLAID} = 1;
             }
         }
     }
 
     # if requested, set extended attributes
     if ( $Param{Extended} ) {
-        $TicketMapping{FirstResponse}   = 1;
-        $TicketMapping{FirstLock}       = 1;
-        $TicketMapping{TicketGetClosed} = 1;
+        $TicketAttributes{FirstResponse}   = 1;
+        $TicketAttributes{FirstLock}       = 1;
+        $TicketAttributes{TicketGetClosed} = 1;
     }
 
     # check if dynamic fields need to be added
@@ -7961,11 +7961,11 @@ sub ObjectAttributesGet {
         );
 
         for my $FieldName ( values $DynamicFields->%* ) {
-            $TicketMapping{"DynamicField_$FieldName"} = 1;
+            $TicketAttributes{"DynamicField_$FieldName"} = 1;
         }
     }
 
-    return %TicketMapping;
+    return %TicketAttributes;
 }
 
 sub DESTROY {
