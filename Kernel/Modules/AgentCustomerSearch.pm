@@ -15,11 +15,15 @@
 # --
 
 package Kernel::Modules::AgentCustomerSearch;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
@@ -28,8 +32,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     return $Self;
 }
@@ -37,6 +40,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get needed objects
     my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $EncodeObject       = $Kernel::OM->Get('Kernel::System::Encode');
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -47,14 +51,13 @@ sub Run {
     # get config for frontend
     $Self->{Config} = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
+    my $JSON;
     my $AutoCompleteConfig = $ConfigObject->Get('AutoComplete::Agent')->{CustomerSearch};
     my $MaxResults         = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 0 )
         || $AutoCompleteConfig->{MaxResultsDisplayed}
         || 20;
     my $IncludeUnknownTicketCustomers = int( $ParamObject->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 0 );
     my $SearchTerm                    = $ParamObject->GetParam( Param => 'Term' ) || '';
-
-    my $JSON = '';
 
     if ( !$Self->{Subaction} || $Self->{Subaction} eq 'SearchCustomerUser' ) {
 

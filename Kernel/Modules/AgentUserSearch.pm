@@ -19,14 +19,19 @@ package Kernel::Modules::AgentUserSearch;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     return $Self;
 }
@@ -34,14 +39,15 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $JSON = '';
-
     # get needed objects
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get config for frontend
-    $Self->{Config} = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
+    $Self->{Config} = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+
+    my $JSON;
 
     # search users
     if ( !$Self->{Subaction} ) {
@@ -81,9 +87,6 @@ sub Run {
                 @GroupUsers{@UserIDs} = @UserIDs;
             }
         }
-
-        # get encode object
-        my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
         # get user object
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
@@ -137,7 +140,7 @@ sub Run {
 
     # send JSON response
     return $LayoutObject->Attachment(
-        ContentType => 'text/plain; charset=' . $LayoutObject->{Charset},
+        ContentType => 'application/json',
         Content     => $JSON || '',
         Type        => 'inline',
         NoCache     => 1,
