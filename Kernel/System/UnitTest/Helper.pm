@@ -209,13 +209,22 @@ sub GetSequentialTwoLetterString {
 
 =head2 TestUserCreate()
 
-creates a test user that can be used in tests. It will
-be set to invalid automatically during L</DESTROY()>. Returns
-the login name of the new user, the password is the same.
+creates a test user that can be used in tests. The created user will
+be set to invalid automatically during L</DESTROY()>.
+The password of the test user is the same as the login name.
+
+In scalar context the method returns the login name of the new user:
 
     my $TestUserLogin = $Helper->TestUserCreate(
         Groups => ['admin', 'users'],           # optional, list of groups to add this user to (rw rights)
         Language => 'de'                        # optional, defaults to 'en' if not set
+    );
+
+In list context the ID of the test user is created as well:
+
+    my ($TestUserLogin, $TestUserID) = $Helper->TestUserCreate(
+        Groups   => [users'],           # optional, list of groups to add this user to (rw rights)
+        Language => 'fr'                # optional, defaults to 'en' if not set
     );
 
 =cut
