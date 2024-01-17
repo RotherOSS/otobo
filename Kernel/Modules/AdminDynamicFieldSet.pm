@@ -122,6 +122,117 @@ sub _Add {
     );
 }
 
+sub _CheckInclude {
+    my ( $Self, %Param ) = @_;
+
+    my %Errors;
+    my @Include;
+
+    my $DynamicFieldObject        = $Param{DynamicFieldObject};
+    my $DynamicFieldBackendObject = $Param{DynamicFieldBackendObject};
+
+    # returns 1 if Dynamic Field entry is valid to be used in a set, undef otherwise
+    my $CheckDFElement = sub {
+        my ($DFElement) = @_;
+
+        if ( !$DFElement ) {
+
+            $Errors{IncludeServerError}        = 'ServerError';
+            $Errors{IncludeServerErrorMessage} = Translatable('Missing Dynamic Field.');
+
+            return;
+        }
+
+        # DF definition for this name exists in DB
+        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+            Name => $DFElement,
+        );
+        if ( !$DynamicField ) {
+            $Errors{IncludeServerError}        = 'ServerError';
+            $Errors{IncludeServerErrorMessage} = Translatable( 'No valid dynamic field "' . $DFElement . '".' );
+
+            return;
+        }
+
+        # DF may be used in sets
+        my $IsSetCapable = $DynamicFieldBackendObject->HasBehavior(
+            DynamicFieldConfig => $DynamicField,
+            Behavior           => 'IsSetCapable',
+        );
+        if ( !$IsSetCapable ) {
+            $Errors{IncludeServerError} = 'ServerError';
+            $Errors{IncludeServerErrorMessage}
+                = Translatable( 'The dynamic field type "' . $DynamicField->{FieldType} . '" of dynamic field "' . $DFElement . '" can not be used in sets.' );
+
+            return;
+        }
+
+        return 1;
+    };
+
+    LINE:
+    for my $Line ( $Param{IncludeFrontend}->@* ) {
+        if ( $Line->{Grid} ) {
+
+            if ( !IsArrayRefWithData( $Line->{Grid}{Rows} ) ) {
+                $Errors{IncludeServerError}        = 'ServerError';
+                $Errors{IncludeServerErrorMessage} = Translatable('Misconfigured Grid - need Rows as Array!');
+
+                last LINE;
+            }
+            if ( $Line->{Grid}{Columns} !~ /^0*[1-9]\d*$/ ) {
+                $Errors{IncludeServerError}        = 'ServerError';
+                $Errors{IncludeServerErrorMessage} = Translatable('Misconfigured Grid - need Columns as integer > 0!');
+
+                last LINE;
+            }
+
+            # make sure all DF Entries in the Grid are valid and usable
+            for my $Row ( @{ $Line->{Grid}{Rows} } ) {
+
+                if ( !IsArrayRefWithData($Row) ) {
+                    $Errors{IncludeServerError}        = 'ServerError';
+                    $Errors{IncludeServerErrorMessage} = Translatable('Misconfigured Grid - Rows can\'t be empty!');
+
+                    last LINE;
+                }
+
+                for my $DFEntry ( $Row->@* ) {
+
+                    if ( !$DFEntry->{DF} ) {
+                        $Errors{IncludeServerError}        = 'ServerError';
+                        $Errors{IncludeServerErrorMessage} = Translatable('Misconfigured Grid - Rows must contain DF entries!');
+                        last LINE;
+                    }
+
+                    if ( !$CheckDFElement->( $DFEntry->{DF} ) ) {
+                        last LINE;
+                    }
+                }
+
+            }
+
+            push @Include, { Grid => $Line->{Grid} };
+
+        }
+        elsif ( $Line->{DF} ) {
+
+            if ( !$CheckDFElement->( $Line->{DF} ) ) {
+                last LINE;
+            }
+
+            push @Include, { DF => $Line->{DF} };
+        }
+        else {
+            $Errors{IncludeServerError}        = 'ServerError';
+            $Errors{IncludeServerErrorMessage} = Translatable('Missing Dynamic Field or Grid.');
+            last LINE;
+        }
+    }
+
+    return ( @Include, %Errors );
+}
+
 sub _AddAction {
     my ( $Self, %Param ) = @_;
 
@@ -137,9 +248,6 @@ sub _AddAction {
         }
     }
 
-    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
     if ( $GetParam{FieldOrder} ) {
 
         # check if field order is numeric and positive
@@ -151,6 +259,9 @@ sub _AddAction {
         }
     }
 
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    
     my @Include;
     if ( $GetParam{Include} ) {
         my $IncludeFrontend = $Kernel::OM->Get('Kernel::System::YAML')->Load(
@@ -159,88 +270,16 @@ sub _AddAction {
 
         if ( IsArrayRefWithData($IncludeFrontend) ) {
 
-            # returns 1 if Dynamic Field entry is valid to be used in a set, undef otherwise
-            my $CheckDFElement = sub {
-                my ($DFElement) = @_;
+            my %YAMLErrors;
+            ( @Include, %YAMLErrors ) = $Self->_CheckInclude(
+                DynamicFieldObject        => $DynamicFieldObject,
+                DynamicFieldBackendObject => $DynamicFieldBackendObject,
+                IncludeFrontend           => $IncludeFrontend
+            );
 
-                # DF definition for this name exists in DB
-                my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
-                    Name => $DFElement,
-                );
-                if ( !$DynamicField ) {
-                    $Errors{IncludeServerError}        = 'ServerError';
-                    $Errors{IncludeServerErrorMessage} = Translatable( 'No dynamic field "' . $DFElement . '".' );
-
-                    return;
-                }
-
-                # DF may be used in sets
-                my $IsSetCapable = $DynamicFieldBackendObject->HasBehavior(
-                    DynamicFieldConfig => $DynamicField,
-                    Behavior           => 'IsSetCapable',
-                );
-                if ( !$IsSetCapable ) {
-                    $Errors{IncludeServerError} = 'ServerError';
-                    $Errors{IncludeServerErrorMessage}
-                        = Translatable( 'The dynamic field type "' . $DynamicField->{FieldType} . '" of dynamic field "' . $DFElement . '" can not be used in sets.' );
-
-                    return;
-                }
-
-                return 1;
-            };
-
-            LINE:
-            for my $Line ( $IncludeFrontend->@* ) {
-                if ($Line->{Grid}) {
-
-                    if ( !IsArrayRefWithData( $Line->{Grid}{Rows} ) ) {
-                        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                            Priority => 'error',
-                            Message  => "Misconfigured Grid - need Rows as Array!",
-                        );
-
-                        last LINE;
-                    }
-                    if ( $Line->{Grid}{Columns} !~ /^0*[1-9]\d*$/ ) {
-                        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                            Priority => 'error',
-                            Message  => "Misconfigured Grid - need Columns as integer > 0!",
-                        );
-
-                        last LINE;
-                    }
-
-                    # make sure all DF Entries in the Grid are valid and usable
-                    for my $Row (@{ $Line->{Grid}{Rows} }) {
-                        
-                        if ( !IsArrayRefWithData( $Row ) ) {
-                            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                                Priority => 'error',
-                                Message  => "Misconfigured Grid - Rows can't be empty!",
-                            );
-
-                            last LINE;
-                        }
-
-                        for my $DFEntry ( $Row->@* ) {
-
-                            if ( !$CheckDFElement->($DFEntry->{DF}) ) {
-                                last LINE;
-                            }
-                        }
-                        
-                    }
-
-                    push @Include, { Grid => $Line->{Grid} };
-
-                } elsif ( $Line->{DF} ) {
-
-                    if ( !$CheckDFElement->($Line->{DF}) ) {
-                        last LINE;
-                    }
-
-                    push @Include, { DF => $Line->{DF} };
+            if (%YAMLErrors) {
+                while ( my ( $Key, $Value ) = each(%YAMLErrors) ) {
+                    $Errors{$Key} = $Value;
                 }
             }
         }
@@ -483,90 +522,19 @@ sub _ChangeAction {
 
         if ( IsArrayRefWithData($IncludeFrontend) ) {
 
-            # returns 1 if Dynamic Field entry is valid to be used in a set, undef otherwise
-            my $CheckDFElement = sub {
-                my ($DFElement) = @_;
+            my %YAMLErrors;
+            ( @Include, %YAMLErrors ) = $Self->_CheckInclude(
+                DynamicFieldObject        => $DynamicFieldObject,
+                DynamicFieldBackendObject => $DynamicFieldBackendObject,
+                IncludeFrontend           => $IncludeFrontend
+            );
 
-                # DF definition for this name exists in DB
-                my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
-                    Name => $DFElement,
-                );
-                if ( !IsHashRefWithData($DynamicField) ) {
-                    $Errors{IncludeServerError}        = 'ServerError';
-                    $Errors{IncludeServerErrorMessage} = Translatable( 'No dynamic field "' . $DFElement . '".' );
-
-                    return;
-                }
-
-                # DF may be used in sets
-                my $IsSetCapable = $DynamicFieldBackendObject->HasBehavior(
-                    DynamicFieldConfig => $DynamicField,
-                    Behavior           => 'IsSetCapable',
-                );
-                if ( !$IsSetCapable ) {
-                    $Errors{IncludeServerError} = 'ServerError';
-                    $Errors{IncludeServerErrorMessage}
-                        = Translatable( 'The dynamic field type "' . $DynamicField->{FieldType} . '" of dynamic field "' . $DFElement . '" can not be used in sets.' );
-
-                    return;
-                }
-
-                return 1;
-            };
-
-            LINE:
-            for my $Line ( $IncludeFrontend->@* ) {
-                if ($Line->{Grid}) {
-
-                    if ( !IsArrayRefWithData( $Line->{Grid}{Rows} ) ) {
-                        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                            Priority => 'error',
-                            Message  => "Misconfigured Grid - need Rows as Array!",
-                        );
-
-                        last LINE;
-                    }
-                    if ( $Line->{Grid}{Columns} !~ /^0*[1-9]\d*$/ ) {
-                        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                            Priority => 'error',
-                            Message  => "Misconfigured Grid - need Columns as integer > 0!",
-                        );
-
-                        last LINE;
-                    }
-
-                    # make sure all DF Entries in the Grid are valid and usable
-                    for my $Row (@{ $Line->{Grid}{Rows} }) {
-                        
-                        if ( !IsArrayRefWithData( $Row ) ) {
-                            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                                Priority => 'error',
-                                Message  => "Misconfigured Grid - Rows can't be empty!",
-                            );
-
-                            last LINE;
-                        }
-
-                        for my $DFEntry ( $Row->@* ) {
-
-                            if ( !$CheckDFElement->($DFEntry->{DF}) ) {
-                                last LINE;
-                            }
-                        }
-                        
-                    }
-
-                    push @Include, { Grid => $Line->{Grid} };
-
-                } elsif ( $Line->{DF} ) {
-
-                    if ( !$CheckDFElement->($Line->{DF}) ) {
-                        last LINE;
-                    }
-
-                    push @Include, { DF => $Line->{DF} };
+            if (%YAMLErrors) {
+                while ( my ( $Key, $Value ) = each(%YAMLErrors) ) {
+                    $Errors{$Key} = $Value;
                 }
             }
+
         }
         else {
             $Errors{IncludeServerError}        = 'ServerError';

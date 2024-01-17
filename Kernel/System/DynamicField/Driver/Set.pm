@@ -89,15 +89,22 @@ sub new {
     return $Self;
 }
 
-# Helper Function for getting the Dynamic Fields from an Include, i.e.
-# $DynamicFields = $GetIncludedDynamicFields->($Param{DynamicFieldConfig}{Config}{Include});
-# This subroutine takes two arguments:
-# $Include: a list of hash references containing information about the items to include
-# $DynamicFieldObject: an object used to retrieve dynamic field information
-# and returns either the DynamicFields or undef in case of an error.
-my $GetIncludedDynamicFields = sub {
+=head1 PRIVATE FUNCTIONS
 
-    my ($Include, $DynamicFieldObject, $DynamicFieldName) = @_;
+=head2 _GetIncludedDynamicFields($Include, $DynamicFieldObject)
+
+Helper Function for getting the Dynamic Fields from an Include, i.e.
+$DynamicFields = $GetIncludedDynamicFields->($Param{DynamicFieldConfig}{Config}{Include});
+This subroutine takes three arguments:
+$Include: a list of hash references containing information about the items to include
+$DynamicFieldObject: an object used to retrieve dynamic field information
+and returns either the DynamicFields or undef in case of an error.
+
+=cut
+
+sub _GetIncludedDynamicFields {
+
+    my ( $Self, %Param ) = @_;
     my @DynamicFields;
 
     # This subroutine takes a DFEntry and the DynamicFieldObject as arguments
@@ -106,46 +113,50 @@ my $GetIncludedDynamicFields = sub {
     # Returns the dynamic field definition
     my $GetDynamicField = sub {
 
-        my ($DFEntry, $DynamicFieldObject) = @_;
-        
-        my $DynamicField = $DFEntry->{Definition} // $DynamicFieldObject->DynamicFieldGet(
+        my ($DFEntry) = @_;
+
+        my $DynamicField = $DFEntry->{Definition} // $Param{DynamicFieldObject}->DynamicFieldGet(
             Name => $DFEntry->{DF},
         );
 
         return $DynamicField;
     };
 
-    my $Error = undef;
+    my $Error;
 
     ITEM:
-    for my $IncludeItem (@{ $Include }) {
+    for my $IncludeItem ( @{ $Param{Include} } ) {
 
-        if ($IncludeItem->{Grid}) {
+        if ( $IncludeItem->{Grid} ) {
 
-            for my $Row (@{ $IncludeItem->{Grid}{Rows} }) {
+            for my $Row ( @{ $IncludeItem->{Grid}{Rows} } ) {
 
-                for my $DFEntry (@$Row) {
+                for my $DFEntry ( $Row->@* ) {
 
-                    my $DynamicField = $GetDynamicField->($DFEntry, $DynamicFieldObject);
+                    my $DynamicField = $GetDynamicField->($DFEntry);
                     if ($DynamicField) {
                         push @DynamicFields, $DynamicField;
-                    } else {
-                        $Error = 1;
+                    }
+                    else {
+                        $Error = "Error in Line: $DFEntry";
                         last ITEM;
                     }
                 }
             }
-        } elsif ($IncludeItem->{DF}) {
+        }
+        elsif ( $IncludeItem->{DF} ) {
 
-            my $DynamicField = $GetDynamicField->($IncludeItem, $DynamicFieldObject);
+            my $DynamicField = $GetDynamicField->($IncludeItem);
             if ($DynamicField) {
                 push @DynamicFields, $DynamicField;
-            } else {
-                $Error = 1;
+            }
+            else {
+                $Error = "No DynamicField '$IncludeItem->{DF}'.";
                 last ITEM;
             }
-        } else {
-            $Error = 1;
+        }
+        else {
+            $Error = "Need either Grid or DF in each Row.";
             last ITEM;
         }
     }
@@ -153,14 +164,15 @@ my $GetIncludedDynamicFields = sub {
     if ($Error) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "$DynamicFieldName configured erroneously. 'DF: DynamicFieldName' missing or wrong.",
+            Message  => "Configuration Error. $Error",
         );
 
         return;
-    } else {
+    }
+    else {
         return \@DynamicFields;
     }
-};
+}
 
 sub ValueGet {
     my ( $Self, %Param ) = @_;
@@ -170,15 +182,13 @@ sub ValueGet {
 
     my @SetValue;
 
-    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
-    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
-    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
+    my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFields = $Self->_GetIncludedDynamicFields(
+        Include            => $Include,
+        DynamicFieldObject => $DynamicFieldObject
+    );
 
-    #DEBUG
-    #use Data::Dumper;
-    #print STDERR "DynamicFields".Dumper($DynamicFields)."\n";
-
-    for my $i (0 .. $#$DynamicFields) {
+    for my $i ( 0 .. $#{$DynamicFields} ) {
 
         my $DynamicField = $DynamicFields->[$i];
 
@@ -202,81 +212,78 @@ sub ValueGet {
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    my $Success = 1;
-
     my @SetValue = defined $Param{Value} ? $Param{Value}->@* : ( [] );    # TODO: why not simply ()  ???
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
-    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
-    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
+    my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFields = $Self->_GetIncludedDynamicFields(
+        Include            => $Include,
+        DynamicFieldObject => $DynamicFieldObject
+    );
 
-    if (!$DynamicFields) {
-        
-        $Success = 0;
-    } else {
-        
-        for my $i (0 .. $#$DynamicFields) {
+    return if !$DynamicFields;
 
-            my $DynamicField = $DynamicFields->[$i];
+    for my $i ( 0 .. $#{$DynamicFields} ) {
 
-            # The values for an included dynamic field are the values from the respective column
-            my @FieldValue = map { $_->[$i] } @SetValue;
+        my $DynamicField = $DynamicFields->[$i];
 
-            if (
-                !$BackendObject->ValueSet(
-                    %Param,
-                    DynamicFieldConfig => $DynamicField,
-                    Value              => \@FieldValue,
-                    Set                => 1,
-                    ObjectName         => undef,
-                )
+        # The values for an included dynamic field are the values from the respective column
+        my @FieldValue = map { $_->[$i] } @SetValue;
+
+        if (
+            !$BackendObject->ValueSet(
+                %Param,
+                DynamicFieldConfig => $DynamicField,
+                Value              => \@FieldValue,
+                Set                => 1,
+                ObjectName         => undef,
             )
-            {
-                $Success = 0;
-            }
+            )
+        {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Error setting Value for DynamicField $DynamicField"
+            );
+
+            return;
         }
     }
 
-    return $Success;
+    return 1;
 }
 
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
-
-    my $Success = 1;
 
     my @SetValue = defined $Param{Value} ? $Param{Value}->@* : ( [] );
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
-    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
-    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
+    my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFields = $Self->_GetIncludedDynamicFields(
+        Include            => $Include,
+        DynamicFieldObject => $DynamicFieldObject
+    );
 
-    if ($DynamicFields) {
-        $Success = 0;
-    } else {
-        for my $i (0 .. $#{$DynamicFields}) {
+    return if !$DynamicFields;
 
-            my $DynamicField = $DynamicFields->[$i];
+    for my $i ( 0 .. $#{$DynamicFields} ) {
 
-            for my $SetIndex ( 0 .. $#SetValue ) {
-                $Success = $BackendObject->ValueValidate(
-                    %Param,
-                    DynamicFieldConfig => $DynamicField,
-                    Value              => $SetValue[$SetIndex][$i],
-                );
+        for my $SetIndex ( 0 .. $#SetValue ) {
 
-                return if !$Success;
-            }
+            return if !$BackendObject->ValueValidate(
+                %Param,
+                DynamicFieldConfig => $DynamicFields->[$i],
+                ,
+                Value => $SetValue[$SetIndex][$i],
+            );
         }
     }
 
-    return $Success;
+    return 1;
 }
 
 sub EditFieldRender {
@@ -353,16 +360,18 @@ sub EditFieldRender {
 
     my @ResultHTML;
 
-    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
-    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
-    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
+    my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFields = $Self->_GetIncludedDynamicFields(
+        Include            => $Include,
+        DynamicFieldObject => $DynamicFieldObject
+    );
 
-    if (!$DynamicFields)
-             {
+    if ( !$DynamicFields ) {
         return;
-    } else {
+    }
+    else {
 
-        for my $i (0 .. $#{$DynamicFields}) {
+        for my $i ( 0 .. $#{$DynamicFields} ) {
 
             my $DynamicField = $DynamicFields->[$i];
 		# prevent overwriting names in cached data
@@ -372,7 +381,7 @@ sub EditFieldRender {
             $DynamicFieldValues[$SetIndex]{ 'DynamicField_' . $DynamicField->{Name} } = $SetValue[$SetIndex][$i];
         }
     }
-    
+
     # TODO: Improve
     my $StoreBlockData = delete $Param{LayoutObject}{BlockData};
 
@@ -466,18 +475,20 @@ sub EditFieldValueGet {
     # get the highest multivalue index (second to last; last is the empty template)
     my $IndexMax = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $DataAll[-2] // 0 : 0;
 
-    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
-    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
-    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
+    my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFields = $Self->_GetIncludedDynamicFields(
+        Include            => $Include,
+        DynamicFieldObject => $DynamicFieldObject
+    );
 
-    if (!$DynamicFields)
-             {
+    if ( !$DynamicFields ) {
         return;
-    } else {
-        for my $i (0 .. $#{$DynamicFields}) {
+    }
+    else {
+        for my $i ( 0 .. $#{$DynamicFields} ) {
 
             my $DynamicField = $DynamicFields->[$i];
-            
+
             # prevent overwriting names in cached data
             $DynamicField = { $DynamicField->%* };
 
@@ -500,8 +511,6 @@ sub EditFieldValueGet {
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
-    my $Success = 1;
-
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
@@ -517,33 +526,31 @@ sub EditFieldValueValidate {
     }
 
     my $Result;
-    for my $i ( 0 .. $#{ $Param{DynamicFieldConfig}{Config}{Include} } ) {
+    my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFields = $Self->_GetIncludedDynamicFields(
+        Include            => $Include,
+        DynamicFieldObject => $DynamicFieldObject
+    );
 
-        my $Include = $Param{DynamicFieldConfig}{Config}{Include};
-        my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
-        my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
+    if ( !$DynamicFields ) {
 
-        if (!$DynamicFields)
-             {
-            
-            $Result = undef;
-        } else {
-            for my $i (0 .. $#{$DynamicFields}) {
+        # return error result
+        return;
+    }
 
-            my $DynamicField = $DynamicFields->[$i];
-                # prevent overwriting names in cached data
-                $DynamicField = { $DynamicField->%* };
+    for my $i ( 0 .. $#{$DynamicFields} ) {
 
-                my $Name = $DynamicField->{Name};
-                for my $SetIndex ( 0 .. $IndexMax ) {
-                    $DynamicField->{Name} = $Name . '_' . $SetIndex;
+        # prevent overwriting names in cached data
+        my $DynamicField = { $DynamicFields->[$i]->%* };
 
-                    $Result->{ $DynamicField->{Name} } = $BackendObject->EditFieldValueValidate(
-                        %Param,
-                        DynamicFieldConfig => $DynamicField,
-                    );
-                }
-            }
+        my $Name = $DynamicField->{Name};
+        for my $SetIndex ( 0 .. $IndexMax ) {
+            $DynamicField->{Name} = $Name . '_' . $SetIndex;
+
+            $Result->{ $DynamicField->{Name} } = $BackendObject->EditFieldValueValidate(
+                %Param,
+                DynamicFieldConfig => $DynamicField,
+            );
         }
     }
 
@@ -571,14 +578,17 @@ sub DisplayValueRender {
         Title => [],
     );
 
-    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
-    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
-    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
+    my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFields = $Self->_GetIncludedDynamicFields(
+        Include            => $Include,
+        DynamicFieldObject => $DynamicFieldObject
+    );
 
-    if (!$DynamicFields) {
+    if ( !$DynamicFields ) {
         return;
-    } else {
-        for my $i (0 .. $#{$DynamicFields}) {
+    }
+    else {
+        for my $i ( 0 .. $#{$DynamicFields} ) {
 
             my $DynamicField = $DynamicFields->[$i];
             my $Label;
@@ -653,29 +663,29 @@ sub ReadableValueRender {
         Title => [],
     );
 
-    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
-    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
-    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
+    my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFields = $Self->_GetIncludedDynamicFields(
+        Include            => $Include,
+        DynamicFieldObject => $DynamicFieldObject
+    );
 
-    if (!$DynamicFields) {
-        return;
-    } else {
-        for my $i (0 .. $#{$DynamicFields}) {
+    return if !$DynamicFields;
 
-            my $DynamicField = $DynamicFields->[$i];
-            VALUE:
-            for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
-                next VALUE if !defined $Param{Value}[$SetIndex][$i];
+    for my $i ( 0 .. $#{$DynamicFields} ) {
 
-                my $Element = $BackendObject->ReadableValueRender(
-                    %Param,
-                    DynamicFieldConfig => $DynamicField,
-                    Value              => $Param{Value}[$SetIndex][$i],
-                );
+        my $DynamicField = $DynamicFields->[$i];
+        VALUE:
+        for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
+            next VALUE if !defined $Param{Value}[$SetIndex][$i];
 
-                $SetValue{Value}[$SetIndex] .= " $DynamicField->{Label}: $Element->{Value};";
-                $SetValue{Title}[$SetIndex] .= " $DynamicField->{Label}: $Element->{Title};";
-            }
+            my $Element = $BackendObject->ReadableValueRender(
+                %Param,
+                DynamicFieldConfig => $DynamicField,
+                Value              => $Param{Value}[$SetIndex][$i],
+            );
+
+            $SetValue{Value}[$SetIndex] .= " $DynamicField->{Label}: $Element->{Value};";
+            $SetValue{Title}[$SetIndex] .= " $DynamicField->{Label}: $Element->{Title};";
         }
     }
 
@@ -706,19 +716,22 @@ sub RandomValueSet {
     # create 1 to 3 sets for MultiValue, else 1
     my $SetCount = $Param{DynamicFieldConfig}{Config}{MultiValue} ? int( rand(3) ) + 1 : 1;
 
-    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
-    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
-    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
+    my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFields = $Self->_GetIncludedDynamicFields(
+        Include            => $Include,
+        DynamicFieldObject => $DynamicFieldObject
+    );
 
-    if (!$DynamicFields)
-             {
-        
+    if ( !$DynamicFields )
+    {
+
         $Success = 0;
-    } else {
-        for my $i (0 .. $#{$DynamicFields}) {
+    }
+    else {
+        for my $i ( 0 .. $#{$DynamicFields} ) {
 
             my $DynamicField = $DynamicFields->[$i];
-            my $Return = $BackendObject->RandomValueSet(
+            my $Return       = $BackendObject->RandomValueSet(
                 %Param,
                 DynamicFieldConfig => $DynamicField,
                 SetCount           => $SetCount,
@@ -756,31 +769,32 @@ sub ValueLookup {
 
     my @SetValue;
 
-    my $Include = $Param{DynamicFieldConfig}{Config}{Include};
-    my $DynamicFieldName = $Param{DynamicFieldConfig}{Name};
-    my $DynamicFields = $GetIncludedDynamicFields->($Include, $DynamicFieldObject, $DynamicFieldName);
+    my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
+    my $DynamicFields = $Self->_GetIncludedDynamicFields (
+        Include            => $Include,
+        DynamicFieldObject => $DynamicFieldObject
+    );
 
-    if (!$DynamicFields) {
-        return;
-    } else {
-        for my $i (0 .. $#{$DynamicFields}) {
+    return if !$DynamicFields;
 
-            my $DynamicField = $DynamicFields->[$i];
-            # TODO: where does $Param{Value} come from ?
-            VALUE:
-            for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
-                next VALUE unless defined $Param{Value}[$SetIndex][$i];
+    for my $i ( 0 .. $#{$DynamicFields} ) {
 
-                # TODO: what if $Element is an arrayref ?
-                my $Element = $BackendObject->ValueLookup(
-                    %Param,
-                    DynamicFieldConfig => $DynamicField,
-                    Value              => $Param{Value}[$SetIndex][$i],
-                );
+        my $DynamicField = $DynamicFields->[$i];
 
-                # TODO: why concatenate to an undefined variable ?
-                $SetValue[$SetIndex] .= " $DynamicField->{Label}: $Element;";
-            }
+        # TODO: where does $Param{Value} come from ?
+        VALUE:
+        for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
+            next VALUE unless defined $Param{Value}[$SetIndex][$i];
+
+            # TODO: what if $Element is an arrayref ?
+            my $Element = $BackendObject->ValueLookup(
+                %Param,
+                DynamicFieldConfig => $DynamicField,
+                Value              => $Param{Value}[$SetIndex][$i],
+            );
+
+            # TODO: why concatenate to an undefined variable ?
+            $SetValue[$SetIndex] .= " $DynamicField->{Label}: $Element;";
         }
     }
 
