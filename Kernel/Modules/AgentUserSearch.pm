@@ -134,7 +134,7 @@ sub Run {
 
     # send JSON response
     return $LayoutObject->Attachment(
-        ContentType => 'text/plain; charset=' . $LayoutObject->{Charset},
+        ContentType => 'application/json',
         Content     => $JSON || '',
         Type        => 'inline',
         NoCache     => 1,
