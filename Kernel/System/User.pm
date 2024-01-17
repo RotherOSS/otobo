@@ -1290,7 +1290,15 @@ sub SetPreferences {
     return $PreferencesObject->SetPreferences(%Param);
 }
 
-sub ObjectMappingGet {
+=head2 ObjectAttributesGet()
+
+returns the attributes an agent can have on the system.
+
+    my %Attributes = $UserObject->ObjectAttributesGet();
+
+=cut
+
+sub ObjectAttributesGet {
     my ( $Self, %Param ) = @_;
 
     my %Data = (
