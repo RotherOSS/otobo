@@ -735,7 +735,7 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
     width: 100%;
     box-sizing: border-box;
     text-align: left;
-    text-overflow: clip;
+    text-overflow: ellipsis;
     overflow: hidden;
 }
 
