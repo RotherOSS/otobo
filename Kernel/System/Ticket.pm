@@ -7938,7 +7938,11 @@ sub ObjectMappingGet {
         ChangeBy               => 1,
     );
 
-    # TODO add extended stuff
+    if ( $Param{Extended} ) {
+        $TicketMapping{FirstResponse}   = 1;
+        $TicketMapping{FirstLock}       = 1;
+        $TicketMapping{TicketGetClosed} = 1;
+    }
 
     # check if dynamic fields need to be added
     if ( $Param{DynamicFields} ) {
