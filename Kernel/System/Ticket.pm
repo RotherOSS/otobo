@@ -7903,22 +7903,33 @@ sub ObjectMappingGet {
     # allow certain attributes only of corresponding sysconfig is activated
     my %TicketMapping = (
         TicketID               => 1,
+        Queue                  => 1,
         QueueID                => 1,
+        State                  => 1,
         StateID                => 1,
+        Lock                   => 1,
         LockID                 => 1,
+        Priority               => 1,
         PriorityID             => 1,
         Created                => 1,
         TicketNumber           => 1,
+        Customer               => 1,
         CustomerID             => 1,
+        CustomerUser           => 1,
         CustomerUserID         => 1,
+        Owner                  => 1,
         OwnerID                => 1,
+        Responsible            => $ConfigObject->Get('Ticket::Responsible'),
         ResponsibleID          => $ConfigObject->Get('Ticket::Responsible'),
         Changed                => 1,
         Title                  => 1,
         EscalationUpdateTime   => 1,
         UnlockTimeout          => 1,
+        Type                   => $ConfigObject->Get('Ticket::Type'),
         TypeID                 => $ConfigObject->Get('Ticket::Type'),
+        Service                => $ConfigObject->Get('Ticket::Service'),
         ServiceID              => $ConfigObject->Get('Ticket::Service'),
+        SLA                    => $ConfigObject->Get('Ticket::Service'),
         SLAID                  => $ConfigObject->Get('Ticket::Service'),
         EscalationResponseTime => 1,
         EscalationSolutionTime => 1,
@@ -7927,12 +7938,7 @@ sub ObjectMappingGet {
         ChangeBy               => 1,
     );
 
-    # add keys without id, e.g. QueueID -> Queue
-    for my $Attribute ( keys %TicketMapping ) {
-        if ( $Attribute =~ /(?<AttributePlain>\w+)ID$/ ) {
-            $TicketMapping{ $+{AttributePlain} } = $TicketMapping{$Attribute};
-        }
-    }
+    # TODO add extended stuff
 
     # check if dynamic fields need to be added
     if ( $Param{DynamicFields} ) {
