@@ -982,7 +982,7 @@ sub _ShowScreen {
                 $EqualsObjectAttributesMap{NewUserID}      = 'OwnerID';
                 $EqualsObjectAttributesMap{NextStateID}    = 'StateID';
                 $EqualsObjectAttributesMap{PriorityID}     = 'PriorityID';
-                $EqualsObjectAttributesMap{UserID}         = 'PriorityID';
+                $EqualsObjectAttributesMap{UserID}         = 'UserID';
 
                 # set sysconfig-depending attributes if present
                 # NOTE this relies upon the object attributes passed in $Param{EqualsObjectFilterableAttributes} to determine wether an attribute is present or not
