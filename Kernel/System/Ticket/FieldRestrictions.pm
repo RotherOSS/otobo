@@ -395,9 +395,7 @@ sub GetFieldStates {
                 elsif (
                     $Param{Autoselect}
                     && $Param{Autoselect}{DynamicField}{ $DynamicFieldConfig->{Name} }
-                    &&
-                    $Param{ChangedElements}{"DynamicField_$DynamicFieldConfig->{Name}"}
-                    && ( !%Visibility || $Visibility{"DynamicField_$DynamicFieldConfig->{Name}"} )
+                    && $Param{ChangedElements}{"DynamicField_$DynamicFieldConfig->{Name}"}
                     )
                 {
                     $CheckACLs = 1;
@@ -499,13 +497,8 @@ sub GetFieldStates {
             }
         }
 
-        # check if autoselection is activated and field changed in any way
-        my $DoAutoselect = ( !$Param{Autoselect} || !$Param{Autoselect}{DynamicField}{ $DynamicFieldConfig->{Name} } )
-            ? 0
-            :
-            ( %Visibility && $Visibility{"DynamicField_$DynamicFieldConfig->{Name}"} ) ? 1 : 0;
-
-        if ($DoAutoselect) {
+        # autoselect if applicable
+        if ( $Param{Autoselect} && $Param{Autoselect}{DynamicField}{ $DynamicFieldConfig->{Name} } ) {
 
             my $Selected = $NewValues{"DynamicField_$DynamicFieldConfig->{Name}"}
                 // $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} // '';
