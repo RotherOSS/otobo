@@ -61,8 +61,8 @@ sub Run {
     # TODO: this is specifc to the dynamic field type Reference
     # TODO: add GetFieldTypeSettings() to the backend object
     my @FieldTypeSettings;
-    my @EqualsObjectFilterableAttributes;
-    my @ReferenceObjectFilterableAttributes;
+    my %EqualsObjectFilterableAttributes;
+    my %ReferenceObjectFilterableAttributes;
     {
         my $FieldType = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FieldType' );
         if ($FieldType) {
@@ -82,10 +82,10 @@ sub Run {
                 my %FieldTypeAttributes = $FieldTypeObject->ObjectAttributesGet(
                     DynamicFields => 1,
                 );
-                @EqualsObjectFilterableAttributes = grep { $FieldTypeAttributes{$_} } keys %FieldTypeAttributes;
+                %EqualsObjectFilterableAttributes = map { $FieldTypeAttributes{$_} ? ( $_ => $_ ) : () } keys %FieldTypeAttributes;
             }
             else {
-                @EqualsObjectFilterableAttributes = _ObjectAttributesGet( ObjectName => $FieldTypeObjectName );
+                %EqualsObjectFilterableAttributes = _ObjectAttributesGet( ObjectName => $FieldTypeObjectName );
             }
         }
 
@@ -106,10 +106,10 @@ sub Run {
                 my %ObjectTypeAttributes = $ObjectTypeObject->ObjectAttributesGet(
                     DynamicFields => 1,
                 );
-                @ReferenceObjectFilterableAttributes = grep { $ObjectTypeAttributes{$_} } keys %ObjectTypeAttributes;
+                %ReferenceObjectFilterableAttributes = map { $ObjectTypeAttributes{$_} ? ( $_ => $_ ) : () } keys %ObjectTypeAttributes;
             }
             else {
-                @ReferenceObjectFilterableAttributes = _ObjectAttributesGet( ObjectName => $ObjectTypeObjectName );
+                %ReferenceObjectFilterableAttributes = _ObjectAttributesGet( ObjectName => $ObjectTypeObjectName );
             }
         }
     }
@@ -118,8 +118,8 @@ sub Run {
         return $Self->_Add(
             %Param,
             FieldTypeSettings                   => \@FieldTypeSettings,
-            EqualsObjectFilterableAttributes    => \@EqualsObjectFilterableAttributes,
-            ReferenceObjectFilterableAttributes => \@ReferenceObjectFilterableAttributes,
+            EqualsObjectFilterableAttributes    => \%EqualsObjectFilterableAttributes,
+            ReferenceObjectFilterableAttributes => \%ReferenceObjectFilterableAttributes,
         );
     }
 
@@ -131,8 +131,8 @@ sub Run {
         return $Self->_AddAction(
             %Param,
             FieldTypeSettings                   => \@FieldTypeSettings,
-            EqualsObjectFilterableAttributes    => \@EqualsObjectFilterableAttributes,
-            ReferenceObjectFilterableAttributes => \@ReferenceObjectFilterableAttributes,
+            EqualsObjectFilterableAttributes    => \%EqualsObjectFilterableAttributes,
+            ReferenceObjectFilterableAttributes => \%ReferenceObjectFilterableAttributes,
         );
     }
 
@@ -140,8 +140,8 @@ sub Run {
         return $Self->_Change(
             %Param,
             FieldTypeSettings                   => \@FieldTypeSettings,
-            EqualsObjectFilterableAttributes    => \@EqualsObjectFilterableAttributes,
-            ReferenceObjectFilterableAttributes => \@ReferenceObjectFilterableAttributes,
+            EqualsObjectFilterableAttributes    => \%EqualsObjectFilterableAttributes,
+            ReferenceObjectFilterableAttributes => \%ReferenceObjectFilterableAttributes,
         );
     }
 
@@ -153,8 +153,8 @@ sub Run {
         return $Self->_ChangeAction(
             %Param,
             FieldTypeSettings                   => \@FieldTypeSettings,
-            EqualsObjectFilterableAttributes    => \@EqualsObjectFilterableAttributes,
-            ReferenceObjectFilterableAttributes => \@ReferenceObjectFilterableAttributes,
+            EqualsObjectFilterableAttributes    => \%EqualsObjectFilterableAttributes,
+            ReferenceObjectFilterableAttributes => \%ReferenceObjectFilterableAttributes,
         );
     }
 
@@ -995,14 +995,14 @@ sub _ShowScreen {
                 # set sysconfig-depending attributes if present
                 # NOTE this relies upon the object attributes passed in $Param{EqualsObjectFilterableAttributes} to determine wether an attribute is present or not
                 for my $SysConfigAttribute (qw(ResponsibleID ServiceID SLAID TypeID)) {
-                    if ( any { $_ eq $SysConfigAttribute } $Param{EqualsObjectFilterableAttributes}->@* ) {
+                    if ( $Param{EqualsObjectFilterableAttributes}->{$SysConfigAttribute} ) {
                         my $SysConfigAttributeName = $SysConfigAttribute eq 'ResponsibleID' ? "New$SysConfigAttribute" : $SysConfigAttribute;
                         $EqualsObjectAttributesMap{$SysConfigAttributeName} = $SysConfigAttribute;
                     }
                 }
 
                 # set dynamic fields
-                for my $Attribute ( $Param{EqualsObjectFilterableAttributes}->@* ) {
+                for my $Attribute ( keys $Param{EqualsObjectFilterableAttributes}->%* ) {
                     if ( $Attribute =~ /^DynamicField_/ ) {
                         $EqualsObjectAttributesMap{$Attribute} = $Attribute;
                     }
@@ -1263,9 +1263,9 @@ sub _ObjectAttributesGet {
         @ObjectData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserSearchFields();
     }
 
-    my @MappedData = map { $_->{Name} } @ObjectData;
+    my %MappedData = map { $_->{Name} => $_->{Label} } @ObjectData;
 
-    return @MappedData;
+    return %MappedData;
 }
 
 1;
