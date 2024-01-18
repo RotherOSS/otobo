@@ -70,8 +70,12 @@ sub Run {
             @FieldTypeSettings = $DriverObject->GetFieldTypeSettings();
 
             # fetch field type filterable attributes
-            my $FieldTypeObjectName = $FieldType eq 'Agent' ? 'User' : $FieldType;
-            my $FieldTypeObject     = $Kernel::OM->Get( 'Kernel::System::' . $FieldTypeObjectName );
+            my $FieldTypeObjectName =
+                $FieldType eq 'Agent'
+                ? 'User'
+                : $FieldType =~ /ConfigItem/ ? 'ITSMConfigItem'
+                :                              $FieldType;
+            my $FieldTypeObject = $Kernel::OM->Get( 'Kernel::System::' . $FieldTypeObjectName );
 
             # try ObjectAttributesGet as Agent, ConfigItem and Ticket provide this method
             if ( $FieldTypeObject->can('ObjectAttributesGet') ) {
@@ -90,8 +94,12 @@ sub Run {
         if ($ObjectType) {
 
             # fetch object type filterable attributes
-            my $ObjectTypeObjectName = $ObjectType eq 'Agent' ? 'User' : $ObjectType;
-            my $ObjectTypeObject     = $Kernel::OM->Get( 'Kernel::System::' . $ObjectTypeObjectName );
+            my $ObjectTypeObjectName =
+                $ObjectType eq 'Agent'
+                ? 'User'
+                : $ObjectType =~ /ConfigItem/ ? 'ITSMConfigItem'
+                :                               $ObjectType;
+            my $ObjectTypeObject = $Kernel::OM->Get( 'Kernel::System::' . $ObjectTypeObjectName );
 
             # try ObjectAttributesGet as Agent, ConfigItem and Ticket provide this method
             if ( $ObjectTypeObject->can('ObjectAttributesGet') ) {
