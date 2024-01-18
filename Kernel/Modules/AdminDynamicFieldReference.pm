@@ -82,10 +82,10 @@ sub Run {
                 my %FieldTypeAttributes = $FieldTypeObject->ObjectAttributesGet(
                     DynamicFields => 1,
                 );
-                %EqualsObjectFilterableAttributes = map { $FieldTypeAttributes{$_} ? ( $_ => $_ ) : () } keys %FieldTypeAttributes;
+                %ReferenceObjectFilterableAttributes = map { $FieldTypeAttributes{$_} ? ( $_ => $_ ) : () } keys %FieldTypeAttributes;
             }
             else {
-                %EqualsObjectFilterableAttributes = _ObjectAttributesGet( ObjectName => $FieldTypeObjectName );
+                %ReferenceObjectFilterableAttributes = _ObjectAttributesGet( ObjectName => $FieldTypeObjectName );
             }
         }
 
@@ -106,11 +106,12 @@ sub Run {
                 my %ObjectTypeAttributes = $ObjectTypeObject->ObjectAttributesGet(
                     DynamicFields => 1,
                 );
-                %ReferenceObjectFilterableAttributes = map { $ObjectTypeAttributes{$_} ? ( $_ => $_ ) : () } keys %ObjectTypeAttributes;
+                %EqualsObjectFilterableAttributes = map { $ObjectTypeAttributes{$_} ? ( $_ => $_ ) : () } keys %ObjectTypeAttributes;
             }
             else {
-                %ReferenceObjectFilterableAttributes = _ObjectAttributesGet( ObjectName => $ObjectTypeObjectName );
+                %EqualsObjectFilterableAttributes = _ObjectAttributesGet( ObjectName => $ObjectTypeObjectName );
             }
+            $EqualsObjectFilterableAttributes{UserID} = 'UserID';
         }
     }
 
@@ -981,7 +982,7 @@ sub _ShowScreen {
 
             # attribute translation for ticket attributes
             my %EqualsObjectAttributesMap;
-            if ( $Param{FieldType} eq 'Ticket' ) {
+            if ( $Param{ObjectType} eq 'Ticket' ) {
 
                 # set standard attributes which are always present
                 $EqualsObjectAttributesMap{CustomerID}     = 'CustomerID';
