@@ -3097,4 +3097,49 @@ sub ObjectDescriptionGet {
     return;
 }
 
+=head2 GetFieldState()
+
+Get the new value and possible values for use in FieldRestrictions()
+
+    my %Return = $BackendObject->GetFieldState(
+        %Param,
+        Visibility         => \%Visibility,
+        CachedVisibility   => $CachedVisibility // {},
+        DynamicFieldConfig => $DynamicFieldConfig,
+    );
+
+Return
+
+    %Return = (
+        NewValue        => $Value,
+        PossibleValues  => {},
+    );
+
+=cut
+
+sub GetFieldState {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+
+            return;
+        }
+    }
+
+    # set the dynamic field specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( $Self->{$DynamicFieldBackend}->can('GetFieldState') ) {
+        return $Self->{$DynamicFieldBackend}->GetFieldState(%Param);
+    }
+
+    return;
+}
+
 1;

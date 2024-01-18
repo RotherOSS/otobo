@@ -85,6 +85,7 @@ sub new {
         'IsReferenceField'             => 1,
         'IsSetCapable'                 => 1,
         'IsBaseArray'                  => 1,
+        'SetsDynamicContent'           => 1,
     };
 
     $Self->{ReferencedObjectType} = 'CustomerCompany';

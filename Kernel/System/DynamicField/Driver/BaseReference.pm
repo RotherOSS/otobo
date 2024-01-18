@@ -26,6 +26,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::BaseEntity);
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -984,6 +985,38 @@ sub PossibleValuesGet {
     }
 
     return \%PossibleValues;
+}
+
+sub GetFieldState {
+    my ( $Self, %Param ) = @_;
+
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
+    return () if $DynamicFieldConfig->{Config}{EditFieldMode} eq 'AutoComplete';
+    return () if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
+    return () if !any { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
+
+    # fetch possible values for dynamic field
+    my $PossibleValues = $Self->PossibleValuesGet(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        Object             => {
+            # ticket specific
+            CustomerUserID => $Param{GetParam}->{CustomerUser},
+            # general
+            $Param{GetParam}->%*,
+        },
+    );
+
+    my %Return = (
+        PossibleValues => $PossibleValues,
+    );
+
+    my $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+    if ( $Value && !$PossibleValues->{ $Value } ) {
+        $Return{NewValue} = undef;
+    }
+
+    return %Return;
 }
 
 1;

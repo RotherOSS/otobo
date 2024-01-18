@@ -27,6 +27,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -71,6 +72,12 @@ sub new {
         'IsCustomerInterfaceCapable'   => 1,
         'IsLikeOperatorCapable'        => 1,
         'IsScriptField'                => 1,
+        'SetsDynamicContent'           => 1,
+    };
+
+    # TODO: probably needs completion for all frontends
+    $Self->{Uniformity} = {
+        Dest => 'Queue',
     };
 
     return $Self;
@@ -1017,6 +1024,69 @@ sub Evaluate {
     my ( $Self, %Param ) = @_;
 
     return "No evaluation implemented for this field type.";
+}
+
+sub GetFieldState {
+    my ( $Self, %Param ) = @_;
+
+    my %GetParam           = $Param{GetParam}->%*;
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
+    # for ticket dynamic fields we need the queue
+    $GetParam{Queue} = defined $Param{GetParam}{Queue} ? $Param{GetParam}{Queue}
+        : $Param{GetParam}{Dest} && $Param{GetParam}{Dest} =~ /\|\|(.+)$/ ? $1
+        : undef;
+
+    # the required args have to be present
+    for my $Required ( @{ $DynamicFieldConfig->{Config}{RequiredArgs} // [] } ) {
+        my $Value = $GetParam{DynamicField}{$Required} // $GetParam{$Required};
+
+        return () if !$Value || ( ref $Value && !IsArrayRefWithData($Value) );
+    }
+
+    my %ChangedElements = map { $Self->{Uniformity}{$_} // $_ => 1 } keys $Param{ChangedElements}->%*;
+    delete $ChangedElements{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+
+    # skip if it's only a rerun due to self change
+    return () if !%ChangedElements && !$Param{InitialRun};
+
+    # if specific AJAX triggers are defined only update on changes to them...
+    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{AJAXTriggers} ) ) {
+        return () if !any { $ChangedElements{$_} } $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
+    }
+
+    # ...if not, only check in the first run
+    elsif ( !$Param{InitialRun} ) {
+        return ();
+    }
+
+    return () if IsArrayRefWithData( $DynamicFieldConfig->{Config}{AJAXTriggers} )
+        && !$Param{InitialRun}
+        && !any { $ChangedElements{ $Self->{Uniformity}{$_} // $_ } } $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
+
+    my $NewValue = $Self->Evaluate(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        Object             => {
+            # ticket specifics
+            CustomerUserID => $Param{CustomerUser},
+            TicketID       => $Param{TicketID},
+            # ITSM config item specifics
+            ConfigItemID   => $Param{ConfigItemID},
+            # general
+            %GetParam,
+        },
+    );
+
+    # do nothing if nothing changed
+    return () if !$Self->ValueIsDifferent(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        Value1             => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+        Value2             => $NewValue,
+    );
+
+    return (
+        NewValue        => $NewValue,
+    );
 }
 
 1;
