@@ -7899,7 +7899,7 @@ sub ObjectAttributesGet {
     my ( $Self, %Param ) = @_;
 
     # for consistency with TicketGet()
-    $Param{Extended} = $Param{Extended} ? 1 : 0;
+    $Param{Extended} //= 1;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
