@@ -105,6 +105,9 @@ Core.Agent.Admin.DynamicFieldReference = (function (TargetNS) {
         // set new count of ReferenceFilters
         $('#ReferenceFilterCounter').val(ReferenceFilterCounter);
 
+        // activate row select fields
+        Core.UI.InputFields.Activate($Clone);
+
         return false;
     };
 
