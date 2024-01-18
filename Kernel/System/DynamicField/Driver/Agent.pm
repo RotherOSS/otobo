@@ -27,6 +27,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::BaseReference);
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -320,16 +321,18 @@ sub SearchObjects {
         Valid  => 1,
     );
 
-    my $GroupFilter = $Param{DynamicFieldConfig}{Config}{GroupFilter};
+    my $GroupFilter = $Param{DynamicFieldConfig}{Config}{Group};
     if ( IsArrayRefWithData($GroupFilter) ) {
-        my %GroupAgents = $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupGet(
-            GroupID => $GroupFilter,
-            Type    => 'ro',
-        );
+        for my $GroupID ( $GroupFilter->@* ) {
+            my %GroupAgents = $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupGet(
+                GroupID => $GroupID,
+                Type    => 'ro',
+            );
 
-        for my $UserID ( keys %AgentSearchResult ) {
-            if ( $GroupAgents{$UserID} ) {
-                push @Result, $UserID;
+            for my $UserID ( keys %AgentSearchResult ) {
+                if ( $GroupAgents{$UserID} && !( any { $_ eq $UserID } @Result ) ) {
+                    push @Result, $UserID;
+                }
             }
         }
     }
