@@ -58,10 +58,10 @@ sub Run {
 
     return if !$Param{Data}{TicketID};
 
-    my $Events = $Kernel::OM->Get('Kernel::System::DynamicField::Driver::BaseScript')->GetUpdateEvents();
+    my $Triggers = $Kernel::OM->Get('Kernel::System::DynamicField::Driver::BaseScript')->GetStorageTriggers();
 
-    return 1 if !IsHashRefWithData($Events);
-    return 1 if !$Events->{ $Param{Event} };
+    return 1 if !IsHashRefWithData($Triggers);
+    return 1 if !$Triggers->{ $Param{Event} };
 
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -72,7 +72,7 @@ sub Run {
         UserID        => 1,
     );
 
-    for my $FieldID ( $Events->{ $Param{Event} }->@* ) {
+    for my $FieldID ( $Triggers->{ $Param{Event} }->@* ) {
 
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
             ID => $FieldID,

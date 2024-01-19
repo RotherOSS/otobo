@@ -205,29 +205,29 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("Expression") %]
 [% RenderBlockStart("RequiredArgs") %]
-                        <label for="RequiredArgs">[% Translate("Preconditions") | html %]:</label>
+                        <label for="RequiredArgs">[% Translate("Requirements") | html %]:</label>
                         <div class="Field">
                             [% Data.RequiredStrg %]
                             <p class="FieldExplanation">[% Translate("If set, the function will only be evaluated if all chosen arguments have a true value.") | html %]</p>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("RequiredArgs") %]
-[% RenderBlockStart("AJAXTriggers") %]
-                        <label for="AJAXTriggers">[% Translate("AJAX Triggers") | html %]:</label>
+[% RenderBlockStart("PreviewTriggers") %]
+                        <label for="PreviewTriggers">[% Translate("Preview Triggers") | html %]:</label>
                         <div class="Field">
-                            [% Data.AJAXStrg %]
+                            [% Data.PreviewTriggersStrg %]
                             <p class="FieldExplanation">[% Translate("If set, the field will be recalculated upon AJAX updates in ticket masks.") | html %]</p>
                         </div>
                         <div class="Clear"></div>
-[% RenderBlockEnd("AJAXTriggers") %]
-[% RenderBlockStart("UpdateEvents") %]
-                        <label for="UpdateEvents">[% Translate("Update Events") | html %]:</label>
+[% RenderBlockEnd("PreviewTriggers") %]
+[% RenderBlockStart("StorageTriggers") %]
+                        <label for="StorageTriggers">[% Translate("Storage Triggers (Events)") | html %]:</label>
                         <div class="Field">
-                            [% Data.EventStrg %]
+                            [% Data.StorageTriggersStrg %]
                             <p class="FieldExplanation">[% Translate("If set, the field will be recalculated for the following events.") | html %]</p>
                         </div>
                         <div class="Clear"></div>
-[% RenderBlockEnd("UpdateEvents") %]
+[% RenderBlockEnd("StorageTriggers") %]
 [% RenderBlockStart("Link") %]
                         <label for="Link">[% Translate("Show link") | html %]:</label>
                         <div class="Field">

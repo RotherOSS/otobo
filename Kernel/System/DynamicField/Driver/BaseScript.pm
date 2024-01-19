@@ -904,9 +904,9 @@ sub GetPossibleExecutionConditions {
         ObjectTypes => $ObjectType,
     );
 
-    my @PossibleUpdateEvents;
+    my @PossibleStorageTriggers;
     for my $Set ( values %RegisteredEvents ) {
-        push @PossibleUpdateEvents, $Set->@*;
+        push @PossibleStorageTriggers, $Set->@*;
     }
 
     # get the dynamic fields for the object
@@ -921,26 +921,26 @@ sub GetPossibleExecutionConditions {
             ( map { 'DynamicField_' . $_ } values $List->%* ),
             @Attributes,
         ],
-        PossibleAJAXTriggers => [
+        PossiblePreviewTriggers => [
             ( map { 'DynamicField_' . $_ } values $List->%* ),
             @Attributes,
         ],
-        PossibleUpdateEvents => \@PossibleUpdateEvents,
+        PossibleStorageTriggers => \@PossibleStorageTriggers,
     };
 }
 
-=head2 SetUpdateEvents()
+=head2 SetStorageTriggers()
 
 Sets the update events for a specific dynamic field
 
-    my $Success = $DynamicFieldBackendObject->SetUpdateEvents(
-        FieldID => $ID,
-        Events  => \@Events,
+    my $Success = $DynamicFieldBackendObject->SetStorageTriggers(
+        FieldID   => $ID,
+        Triggers  => \@Triggers,
     );
 
 =cut
 
-sub SetUpdateEvents {
+sub SetStorageTriggers {
     my ( $Self, %Param ) = @_;
 
     # check needed
@@ -965,31 +965,31 @@ sub SetUpdateEvents {
         Bind => [ \$Param{FieldID} ],
     );
 
-    return 1 if !$Param{Events};
+    return 1 if !$Param{Triggers};
 
     return if !$DBObject->Do(
-        SQL  => 'INSERT INTO dynamic_field_script_event( field_id, event ) VALUES ' . join( ', ', map {'( ?, ? )'} $Param{Events}->@* ),
-        Bind => [ map { \$Param{FieldID} => \$_ } $Param{Events}->@* ],    # use '=>' in map action, because Perl::Critic was confused
+        SQL  => 'INSERT INTO dynamic_field_script_event( field_id, event ) VALUES ' . join( ', ', map {'( ?, ? )'} $Param{Triggers}->@* ),
+        Bind => [ map { \$Param{FieldID} => \$_ } $Param{Triggers}->@* ],    # use '=>' in map action, because Perl::Critic was confused
     );
 
     return 1;
 }
 
-=head2 GetUpdateEvents()
+=head2 GetStorageTriggers()
 
 Get the events which trigger script field updates and the respective fields
 
-    my $Events = $DynamicFieldBackendObject->GetUpdateEvents();
+    my $Triggers = $DynamicFieldBackendObject->GetStorageTriggers();
 
 Returns:
-    $Events = {
+    $Triggers = {
         NotificationNewTicket             => [ 4, 17, 21 ],
         TicketDynamicFieldUpdate_JustDoIt => [ 17, 18 ],
     };
 
 =cut
 
-sub GetUpdateEvents {
+sub GetStorageTriggers {
     my ( $Self, %Param ) = @_;
 
     my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
@@ -1005,19 +1005,19 @@ sub GetUpdateEvents {
         SQL => 'SELECT event, field_id from dynamic_field_script_event',
     );
 
-    my %Events;
+    my %Triggers;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        push $Events{ $Row[0] }->@*, $Row[1];
+        push $Triggers{ $Row[0] }->@*, $Row[1];
     }
 
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => 'DynamicField',
         Key   => 'ScriptEvents',
-        Value => \%Events,
+        Value => \%Triggers,
         TTL   => 60 * 60 * 24 * 90,
     );
 
-    return \%Events;
+    return \%Triggers;
 }
 
 sub Evaluate {

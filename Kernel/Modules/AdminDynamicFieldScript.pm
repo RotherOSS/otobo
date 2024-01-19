@@ -68,11 +68,11 @@ sub Run {
     if ( IsArrayRefWithData( $PossibleConditions->{PossibleArgs} ) ) {
         $ConditionHashes{PossibleArgs} = { map { $_ => $_ } $PossibleConditions->{PossibleArgs}->@* };
     }
-    if ( IsArrayRefWithData( $PossibleConditions->{PossibleAJAXTriggers} ) ) {
-        $ConditionHashes{PossibleAJAXTriggers} = { map { $_ => $_ } $PossibleConditions->{PossibleAJAXTriggers}->@* };
+    if ( IsArrayRefWithData( $PossibleConditions->{PossiblePreviewTriggers} ) ) {
+        $ConditionHashes{PossiblePreviewTriggers} = { map { $_ => $_ } $PossibleConditions->{PossiblePreviewTriggers}->@* };
     }
-    if ( IsArrayRefWithData( $PossibleConditions->{PossibleUpdateEvents} ) ) {
-        $ConditionHashes{PossibleUpdateEvents} = { map { $_ => $_ } $PossibleConditions->{PossibleUpdateEvents}->@* };
+    if ( IsArrayRefWithData( $PossibleConditions->{PossibleStorageTriggers} ) ) {
+        $ConditionHashes{PossibleStorageTriggers} = { map { $_ => $_ } $PossibleConditions->{PossibleStorageTriggers}->@* };
     }
 
     if ( $Self->{Subaction} eq 'Add' ) {
@@ -229,7 +229,7 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(RequiredArgs AJAXTriggers UpdateEvents)
+        qw(RequiredArgs PreviewTriggers StorageTriggers)
         )
     {
         $GetParam{$ConfigParam} = [ $ParamObject->GetArray( Param => $ConfigParam ) ];
@@ -257,17 +257,17 @@ sub _AddAction {
             );
         }
     }
-    for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
-        if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
+    for my $Trigger ( $GetParam{PreviewTriggers}->@* ) {
+        if ( !$Param{PossiblePreviewTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in AJAXTriggers.'),
+                Message => Translatable('Bad value in PreviewTriggers.'),
             );
         }
     }
-    for my $Event ( $GetParam{UpdateEvents}->@* ) {
-        if ( !$Param{PossibleUpdateEvents}{$Event} ) {
+    for my $Trigger ( $GetParam{StorageTriggers}->@* ) {
+        if ( !$Param{PossibleStorageTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in UpdateEvents.'),
+                Message => Translatable('Bad value in StorageTriggers.'),
             );
         }
     }
@@ -284,7 +284,7 @@ sub _AddAction {
 
     # set specific config
     my %FieldConfig = (
-        map { $_ => $GetParam{$_} } qw(Tooltip Link LinkPreview Expression RequiredArgs AJAXTriggers UpdateEvents MultiValue),
+        map { $_ => $GetParam{$_} } qw(Tooltip Link LinkPreview Expression RequiredArgs PreviewTriggers StorageTriggers MultiValue),
     );
 
     $FieldConfig{RegExList} = \@RegExList;
@@ -310,10 +310,10 @@ sub _AddAction {
         );
     }
 
-    if ( $GetParam{UpdateEvents}->@* ) {
-        $Param{DriverObject}->SetUpdateEvents(
-            FieldID => $FieldID,
-            Events  => $GetParam{UpdateEvents},
+    if ( $GetParam{StorageTriggers}->@* ) {
+        $Param{DriverObject}->SetStorageTriggers(
+            FieldID  => $FieldID,
+            Triggers => $GetParam{StorageTriggers},
         );
     }
 
@@ -522,7 +522,7 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(RequiredArgs AJAXTriggers UpdateEvents)
+        qw(RequiredArgs PreviewTriggers StorageTriggers)
         )
     {
         $GetParam{$ConfigParam} = [ $ParamObject->GetArray( Param => $ConfigParam ) ];
@@ -541,17 +541,17 @@ sub _ChangeAction {
             );
         }
     }
-    for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
-        if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
+    for my $Trigger ( $GetParam{PreviewTriggers}->@* ) {
+        if ( !$Param{PossiblePreviewTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in AJAXTriggers.'),
+                Message => Translatable('Bad value in PreviewTriggers.'),
             );
         }
     }
-    for my $Event ( $GetParam{UpdateEvents}->@* ) {
-        if ( !$Param{PossibleUpdateEvents}{$Event} ) {
+    for my $Trigger ( $GetParam{StorageTriggers}->@* ) {
+        if ( !$Param{PossibleStorageTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in UpdateEvents.'),
+                Message => Translatable('Bad value in StorageTriggers.'),
             );
         }
     }
@@ -597,7 +597,7 @@ sub _ChangeAction {
 
     # set specific config
     my %FieldConfig = (
-        map { $_ => $GetParam{$_} } qw(Tooltip Link LinkPreview Interpreter Expression RequiredArgs AJAXTriggers UpdateEvents MultiValue),
+        map { $_ => $GetParam{$_} } qw(Tooltip Link LinkPreview Interpreter Expression RequiredArgs PreviewTriggers StorageTriggers MultiValue),
     );
 
     $FieldConfig{RegExList} = \@RegExList;
@@ -624,10 +624,10 @@ sub _ChangeAction {
         );
     }
 
-    if ( $GetParam{UpdateEvents}->@* ) {
-        $Param{DriverObject}->SetUpdateEvents(
-            FieldID => $FieldID,
-            Events  => $GetParam{UpdateEvents},
+    if ( $GetParam{StorageTriggers}->@* ) {
+        $Param{DriverObject}->SetStorageTriggers(
+            FieldID  => $FieldID,
+            Triggers => $GetParam{StorageTriggers},
         );
     }
 
@@ -871,13 +871,13 @@ sub _ShowScreen {
         );
     }
 
-    if ( $Param{PossibleAJAXTriggers} ) {
+    if ( $Param{PossiblePreviewTriggers} ) {
 
         # create the Trigger select
-        my $AJAXStrg = $LayoutObject->BuildSelection(
-            Data         => $Param{PossibleAJAXTriggers},
-            Name         => 'AJAXTriggers',
-            SelectedID   => $Param{AJAXTriggers},
+        my $PreviewTriggersStrg = $LayoutObject->BuildSelection(
+            Data         => $Param{PossiblePreviewTriggers},
+            Name         => 'PreviewTriggers',
+            SelectedID   => $Param{PreviewTriggers},
             PossibleNone => 1,
             Translation  => 1,
             Class        => 'Modernize W50pc',
@@ -885,21 +885,21 @@ sub _ShowScreen {
         );
 
         $LayoutObject->Block(
-            Name => 'AJAXTriggers',
+            Name => 'PreviewTriggers',
             Data => {
                 %Param,
-                AJAXStrg => $AJAXStrg,
+                PreviewTriggersStrg => $PreviewTriggersStrg,
             },
         );
     }
 
-    if ( $Param{PossibleUpdateEvents} ) {
+    if ( $Param{PossibleStorageTriggers} ) {
 
         # create the Trigger select
-        my $EventStrg = $LayoutObject->BuildSelection(
-            Data         => $Param{PossibleUpdateEvents},
-            Name         => 'UpdateEvents',
-            SelectedID   => $Param{UpdateEvents},
+        my $StorageTriggersStrg = $LayoutObject->BuildSelection(
+            Data         => $Param{PossibleStorageTriggers},
+            Name         => 'StorageTriggers',
+            SelectedID   => $Param{StorageTriggers},
             PossibleNone => 1,
             Translation  => 1,
             Class        => 'Modernize W50pc',
@@ -907,10 +907,10 @@ sub _ShowScreen {
         );
 
         $LayoutObject->Block(
-            Name => 'UpdateEvents',
+            Name => 'StorageTriggers',
             Data => {
                 %Param,
-                EventStrg => $EventStrg,
+                StorageTriggersStrg => $StorageTriggersStrg,
             },
         );
     }
