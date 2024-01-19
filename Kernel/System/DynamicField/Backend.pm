@@ -2270,7 +2270,7 @@ sub ValueLookup {
 
 =head2 HasBehavior()
 
-checks if the dynamic field as an specified behavior
+checks whether the dynamic field has a specified behavior
 
     my $Success = $BackendObject->HasBehavior(
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
@@ -2296,7 +2296,7 @@ checks if the dynamic field as an specified behavior
                                                          #     within the ticket information widget
     );
 
-    Returns:
+returns:
 
     $Success = 1;                # or undefined (if the dynamic field does not have that behavior)
 

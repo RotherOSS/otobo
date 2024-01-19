@@ -84,6 +84,7 @@ sub new {
         'IsHiddenInTicketInformation'  => 0,
         'IsReferenceField'             => 1,
         'IsSetCapable'                 => 1,
+        'IsBaseArray'                  => 1,
     };
 
     $Self->{ReferencedObjectType} = 'CustomerUser';
