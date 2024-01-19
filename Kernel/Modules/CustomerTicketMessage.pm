@@ -22,7 +22,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -671,7 +671,11 @@ sub Run {
                     ParamObject          => $ParamObject,
                     Mandatory            =>
                         $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                    Getparam => \%GetParam,
+                    Getparam => {
+                        CustomerUserID => $Self->{UserID},
+                        TicketID       => $Self->{TicketID},
+                        %GetParam,
+                    },
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {

@@ -30,7 +30,7 @@ use List::Util qw(any);
 # OTOBO modules
 use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -903,7 +903,11 @@ sub Run {
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
                     Mandatory            => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                    GetParam             => \%GetParam,
+                    GetParam             => {
+                        CustomerUserID => $Ticket{CustomerUserID},
+                        TicketID       => $Self->{TicketID},
+                        %GetParam,
+                    },
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
