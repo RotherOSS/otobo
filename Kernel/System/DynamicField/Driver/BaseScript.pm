@@ -32,7 +32,7 @@ use List::Util qw(any);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::Language              qw(Translatable);
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -433,6 +433,14 @@ sub EditFieldValueValidate {
     }
 
     for my $ValueItem ( @{$Value} ) {
+
+        # evaluate script field expression before validating it
+        $ValueItem = $Self->Evaluate(
+            DynamicFieldConfig => $Param{DynamicFieldConfig},
+            Object             => {
+                $Param{GetParam}->%*,
+            },
+        );
 
         # perform necessary validations
         if ( $Param{Mandatory} && $ValueItem eq '' ) {
