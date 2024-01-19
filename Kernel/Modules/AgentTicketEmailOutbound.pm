@@ -25,7 +25,7 @@ use warnings;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language              qw(Translatable);
+use Kernel::Language qw(Translatable);
 use Mail::Address;
 
 our $ObjectManagerDisabled = 1;
@@ -1146,6 +1146,7 @@ sub SendEmail {
             ParamObject          => $ParamObject,
             Mandatory            =>
                 $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+            GetParam => \%GetParam,
         );
 
         if ( !IsHashRefWithData($ValidationResult) ) {

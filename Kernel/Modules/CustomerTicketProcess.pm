@@ -26,7 +26,7 @@ use warnings;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language              qw(Translatable);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -3259,6 +3259,7 @@ sub _StoreActivityDialog {
                     ParamObject          => $ParamObject,
                     Mandatory            => $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2,
                     ValueCount           => $Param{DynamicFieldValueCount}->{ $DynamicFieldConfig->{Name} },
+                    GetParam             => $Param{GetParam},
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {

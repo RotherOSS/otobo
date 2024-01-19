@@ -26,7 +26,7 @@ use Mail::Address;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language              qw(Translatable);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -4869,6 +4869,7 @@ sub _StoreActivityDialog {
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
                     Mandatory            => $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2,
+                    GetParam             => $Param{GetParam},
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {

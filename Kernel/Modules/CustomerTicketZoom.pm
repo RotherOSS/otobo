@@ -20,8 +20,8 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language              qw(Translatable);
-use Digest::MD5                   qw(md5_hex);
+use Kernel::Language qw(Translatable);
+use Digest::MD5 qw(md5_hex);
 
 our $ObjectManagerDisabled = 1;
 
@@ -856,6 +856,7 @@ sub Run {
                     Mandatory            =>
                         $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} }
                         == 2,
+                    GetParam => \%GetParam,
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {

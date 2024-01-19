@@ -27,7 +27,7 @@ use List::Util qw(any);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::Language              qw(Translatable);
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -139,6 +139,7 @@ sub Run {
                     DynamicFieldConfig => $DynamicFieldConfig,
                     ParamObject        => $ParamObject,
                     Mandatory          => $Entry->[4],
+                    GetParam           => \%GetParam,
                 );
 
                 if ( $ValidationResult->{ServerError} ) {
@@ -378,6 +379,7 @@ sub Run {
                     DynamicFieldConfig => $DynamicFieldConfig,
                     ParamObject        => $ParamObject,
                     Mandatory          => $Entry->[4],
+                    GetParam           => \%GetParam,
                 );
 
                 if ( $ValidationResult->{ServerError} ) {

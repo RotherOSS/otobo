@@ -1356,6 +1356,7 @@ validate the current value for the dynamic field
         },
         ParamObject          => $Self->{ParamObject}      # To get the values directly from the web request
         Mandatory            => 1,                        # 0 or 1,
+        GetParam             => \%GetParam,               # (optional) currently only needed for evaluating script fields
     );
 
     Returns
