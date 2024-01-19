@@ -48,7 +48,7 @@ Kernel::System::DynamicField::Driver::Set - driver for the Set dynamic field
 =head1 DESCRIPTION
 
 DynamicFields Set Driver delegate
-In the perl backend sets handle their data as array of arrays, where the outer array runs over the set index (i.e. the multivalue index of the set, or 0),
+In the perl backend sets handle their data as array of arrays, where the outer array runs over the set index (i.e. the multi value index of the set, or 0),
 the inner arrays over the fields in order of their definition. A set containing the dynamic fields "Person" and "Pets" could thus have the content:
 [ ["Max",["Cat"]], ["Anna",["Dog","Parrot"]] ]
 In ValueSet() and ValueGet() this data would be given to the dynamic fields "Person" and "Pet" as ["Max", "Dog"] and [["Cat"], ["Dog","Parrot"]] respectively,
@@ -369,13 +369,12 @@ sub EditFieldRender {
     if ( !$DynamicFields ) {
         return;
     }
-    else {
+    for my $i ( 0 .. $#{$DynamicFields} ) {
 
-        for my $i ( 0 .. $#{$DynamicFields} ) {
+        my $DynamicField = $DynamicFields->[$i];
 
-            my $DynamicField = $DynamicFields->[$i];
-		# prevent overwriting names in cached data
-            $DynamicFieldConfigs{ $DynamicField->{Name} } = { $DynamicField->%* };
+        # prevent overwriting names in cached data
+        $DynamicFieldConfigs{ $DynamicField->{Name} } = { $DynamicField->%* };
 
         for my $SetIndex ( 0 .. $#SetValue ) {
             $DynamicFieldValues[$SetIndex]{ 'DynamicField_' . $DynamicField->{Name} } = $SetValue[$SetIndex][$i];
@@ -472,7 +471,7 @@ sub EditFieldValueGet {
     # if we have nothing in the frontend just return
     return if !@DataAll;
 
-    # get the highest multivalue index (second to last; last is the empty template)
+    # get the highest multi value index (second to last; last is the empty template)
     my $IndexMax = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $DataAll[-2] // 0 : 0;
 
     my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
@@ -521,7 +520,7 @@ sub EditFieldValueValidate {
             Param => 'SetIndex_' . $Param{DynamicFieldConfig}->{Name},
         );
 
-        # get the highest multivalue index (second to last; last is the empty template)
+        # get the highest multi value index (second to last; last is the empty template)
         $IndexMax = $DataAll[-2] // 0;
     }
 
@@ -770,7 +769,7 @@ sub ValueLookup {
     my @SetValue;
 
     my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
-    my $DynamicFields = $Self->_GetIncludedDynamicFields (
+    my $DynamicFields = $Self->_GetIncludedDynamicFields(
         Include            => $Include,
         DynamicFieldObject => $DynamicFieldObject
     );
