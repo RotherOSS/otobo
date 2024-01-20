@@ -45,6 +45,8 @@ our @ObjectDependencies = (
 
 Kernel::System::DynamicField::Driver::Set - driver for the Set dynamic field
 
+=for stopwords multivalue
+
 =head1 DESCRIPTION
 
 DynamicFields Set Driver delegate
