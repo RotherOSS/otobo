@@ -22,7 +22,7 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
-use File::Basename qw();
+use File::Basename ();
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(

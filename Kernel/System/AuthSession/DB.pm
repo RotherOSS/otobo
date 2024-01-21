@@ -23,7 +23,7 @@ use warnings;
 use utf8;
 
 # core modules
-use MIME::Base64 qw();
+use MIME::Base64 ();
 
 # CPAN modules
 

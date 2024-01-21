@@ -19,7 +19,7 @@ package Kernel::System::GenericAgent;
 use strict;
 use warnings;
 
-use Time::HiRes qw();
+use Time::HiRes ();
 
 use Kernel::System::VariableCheck qw(:all);
 

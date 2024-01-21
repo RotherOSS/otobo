@@ -22,10 +22,10 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
-use Encode qw();
+use Encode ();
 
 # CPAN modules
-use YAML::XS qw();
+use YAML::XS ();
 use Try::Tiny;
 
 # OTOBO modules

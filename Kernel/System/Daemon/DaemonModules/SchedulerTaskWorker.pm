@@ -20,8 +20,8 @@ use strict;
 use warnings;
 use utf8;
 
-use File::Path  qw();
-use Time::HiRes qw();
+use File::Path  ();
+use Time::HiRes ();
 
 use parent qw(Kernel::System::Daemon::BaseDaemon);
 
