@@ -22,7 +22,7 @@ use namespace::clean;
 use utf8;
 
 # core modules
-use Encode qw();
+use Encode ();
 
 # CPAN modules
 use Plack::Response;

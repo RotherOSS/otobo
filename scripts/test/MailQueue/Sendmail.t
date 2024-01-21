@@ -23,7 +23,7 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
-use List::Util qw();
+use List::Util ();
 
 use Kernel::System::Email::Sendmail;
 

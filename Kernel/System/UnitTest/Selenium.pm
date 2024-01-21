@@ -24,8 +24,8 @@ use utf8;
 
 # core modules
 use File::Path  qw(remove_tree);
-use Time::HiRes qw();
-use File::Spec  qw();
+use Time::HiRes ();
+use File::Spec  ();
 use File::Copy  qw(copy);
 
 # CPAN modules

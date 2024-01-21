@@ -19,7 +19,7 @@ package Kernel::System::Storable;
 use strict;
 use warnings;
 
-use Storable qw();
+use Storable ();
 
 our @ObjectDependencies = (
     'Kernel::System::Log',

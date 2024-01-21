@@ -85,7 +85,7 @@ use File::Path     qw(make_path);
 
 # CPAN modules
 use DateTime 1.08;
-use Template qw();
+use Template ();
 use Plack::Builder;
 use Plack::Request;
 use Plack::Response;

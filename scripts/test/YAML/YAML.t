@@ -22,7 +22,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use YAML::XS qw();
+use YAML::XS ();
 use Try::Tiny;
 
 # OTOBO modules

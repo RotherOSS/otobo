@@ -26,7 +26,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 # core modules
-use File::Spec qw();
+use File::Spec ();
 use Getopt::Std;
 
 # CPAN modules

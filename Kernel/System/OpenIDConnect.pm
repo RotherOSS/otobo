@@ -23,7 +23,7 @@ use warnings;
 # CPAN modules
 use HTTP::Request::Common;
 use LWP::UserAgent;
-use URI::Escape qw();
+use URI::Escape ();
 use Crypt::JWT  qw(decode_jwt);
 
 # OTOBO modules

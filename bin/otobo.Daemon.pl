@@ -29,7 +29,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 # core modules
-use File::Path  qw();
+use File::Path  ();
 use Time::HiRes qw(sleep);
 use Fcntl       qw(:flock);
 use File::Copy  qw(move);

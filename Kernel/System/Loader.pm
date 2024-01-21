@@ -25,8 +25,8 @@ use utf8;
 # core modules
 
 # CPAN modules
-use CSS::Minifier::XS        qw();
-use JavaScript::Minifier::XS qw();
+use CSS::Minifier::XS        ();
+use JavaScript::Minifier::XS ();
 
 # OTOBO modules
 

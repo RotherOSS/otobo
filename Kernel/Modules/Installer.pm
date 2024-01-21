@@ -29,7 +29,7 @@ use Net::Domain qw(hostfqdn);
 
 # CPAN modules
 use DBI;
-use DBI::Const::GetInfoType qw();    # set up %DBI::Const::GetInfoType::GetInfoType
+use DBI::Const::GetInfoType ();    # set up %DBI::Const::GetInfoType::GetInfoType
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
