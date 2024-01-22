@@ -978,7 +978,7 @@ my @Tests = (
                         ],
 
                         # value for the third dynamic field in the set
-                        $FirstUserID,
+                        [$FirstUserID],
 
                         # value for the fourth dynamic field in the set
                         [
