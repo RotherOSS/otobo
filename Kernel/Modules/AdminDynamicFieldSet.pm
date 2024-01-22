@@ -147,7 +147,7 @@ sub _CheckInclude {
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
             Name => $DFElement,
         );
-        if ( !$DynamicField ) {
+        if ( !IsHashRefWithData($DynamicField) ) {
             $Errors{IncludeServerError}        = 'ServerError';
             $Errors{IncludeServerErrorMessage} = Translatable( 'No valid dynamic field "' . $DFElement . '".' );
 
@@ -230,7 +230,10 @@ sub _CheckInclude {
         }
     }
 
-    return ( @Include, %Errors );
+    return {
+        Include => \@Include,
+        Errors  => \%Errors,
+    };
 }
 
 sub _AddAction {
@@ -271,11 +274,16 @@ sub _AddAction {
         if ( IsArrayRefWithData($IncludeFrontend) ) {
 
             my %YAMLErrors;
-            ( @Include, %YAMLErrors ) = $Self->_CheckInclude(
+            my $CheckResult = $Self->_CheckInclude(
                 DynamicFieldObject        => $DynamicFieldObject,
                 DynamicFieldBackendObject => $DynamicFieldBackendObject,
                 IncludeFrontend           => $IncludeFrontend
             );
+
+            if ( IsHashRefWithData($CheckResult) ) {
+                %YAMLErrors = IsHashRefWithData( $CheckResult->{Errors} )   ? $CheckResult->{Errors}->%*  : ();
+                @Include    = IsArrayRefWithData( $CheckResult->{Include} ) ? $CheckResult->{Include}->@* : ();
+            }
 
             if (%YAMLErrors) {
                 while ( my ( $Key, $Value ) = each(%YAMLErrors) ) {
@@ -523,11 +531,16 @@ sub _ChangeAction {
         if ( IsArrayRefWithData($IncludeFrontend) ) {
 
             my %YAMLErrors;
-            ( @Include, %YAMLErrors ) = $Self->_CheckInclude(
+            my $CheckResult = $Self->_CheckInclude(
                 DynamicFieldObject        => $DynamicFieldObject,
                 DynamicFieldBackendObject => $DynamicFieldBackendObject,
                 IncludeFrontend           => $IncludeFrontend
             );
+
+            if ( IsHashRefWithData($CheckResult) ) {
+                %YAMLErrors = IsHashRefWithData( $CheckResult->{Errors} )   ? $CheckResult->{Errors}->%*  : ();
+                @Include    = IsArrayRefWithData( $CheckResult->{Include} ) ? $CheckResult->{Include}->@* : ();
+            }
 
             if (%YAMLErrors) {
                 while ( my ( $Key, $Value ) = each(%YAMLErrors) ) {
