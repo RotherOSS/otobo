@@ -531,7 +531,7 @@ sub HasBehavior {
     }
 
     # return success if the dynamic field has the expected behavior
-    return IsPositiveInteger( $Self->{Behaviors}->{ $Param{Behavior} } );
+    return SUPER::HasBehavior( Behavior => $Param{Behavior} );
 }
 
 sub PossibleValuesGet {

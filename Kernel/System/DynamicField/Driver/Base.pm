@@ -81,8 +81,11 @@ sub HasBehavior {
     # return fail if Behaviors hash does not exists
     return unless IsHashRefWithData( $Self->{Behaviors} );
 
+    # avoid hash lookup with an undefined value
+    return unless defined $Param{Behavior};
+
     # return success if the dynamic field has the expected behavior
-    return IsPositiveInteger( $Self->{Behaviors}->{ $Param{Behavior} } );
+    return $Self->{Behaviors}->{ $Param{Behavior} } ? 1 : undef;
 }
 
 sub SearchFieldPreferences {
