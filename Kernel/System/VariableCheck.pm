@@ -186,9 +186,9 @@ sub IsArrayRefWithData {
 
 =head2 IsHashRefWithData()
 
-test supplied data to determine if it is a hash reference and contains at least one key/value pair
+tests supplied data to determine if it is a hash reference and contains at least one key/value pair.
 
-returns 1 if data matches criteria or undef otherwise
+Returns 1 if data matches criteria or undef otherwise
 
     my $Result = IsHashRefWithData(
         { # data to be tested

@@ -2272,7 +2272,7 @@ sub ValueLookup {
 
 checks whether the dynamic field has a specified behavior
 
-    my $Success = $BackendObject->HasBehavior(
+    my $HasBehavior = $BackendObject->HasBehavior(
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
         Behavior           => 'Some Behavior',           # 'IsACLReducible' to be reduded by ACLs
                                                          #    and updatable via AJAX
@@ -2298,7 +2298,9 @@ checks whether the dynamic field has a specified behavior
 
 returns:
 
-    $Success = 1;                # or undefined (if the dynamic field does not have that behavior)
+    $HasBehavior = 1;                # if the dynamic field has that behavior
+    $HasBehavior = undef;            # if the dynamic field does not have that behavior
+    $HasBehavior = undef;            # if some kind of unexpected input or declaration is encountered
 
 =cut
 
