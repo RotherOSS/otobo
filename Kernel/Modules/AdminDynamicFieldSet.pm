@@ -281,8 +281,8 @@ sub _AddAction {
             );
 
             if ( IsHashRefWithData($CheckResult) ) {
-                %YAMLErrors = IsHashRefWithData( $CheckResult->{Errors} )   ? $CheckResult->{Errors}->%*  : ();
-                @Include    = IsArrayRefWithData( $CheckResult->{Include} ) ? $CheckResult->{Include}->@* : ();
+                %YAMLErrors = $CheckResult->{Errors}->%*;
+                @Include    = $CheckResult->{Include}->%*;
             }
 
             if (%YAMLErrors) {
@@ -538,8 +538,8 @@ sub _ChangeAction {
             );
 
             if ( IsHashRefWithData($CheckResult) ) {
-                %YAMLErrors = IsHashRefWithData( $CheckResult->{Errors} )   ? $CheckResult->{Errors}->%*  : ();
-                @Include    = IsArrayRefWithData( $CheckResult->{Include} ) ? $CheckResult->{Include}->@* : ();
+                %YAMLErrors = $CheckResult->{Errors}->%*;
+                @Include    = $CheckResult->{Include}->@*;
             }
 
             if (%YAMLErrors) {
