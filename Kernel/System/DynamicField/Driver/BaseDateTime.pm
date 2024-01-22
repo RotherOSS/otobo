@@ -379,6 +379,8 @@ sub EditFieldRender {
         );
     }
 
+    # We do not rewrite Validate_DateYear etc. to Validate_DateYear_IfVisible as one valid option is always selected
+
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
