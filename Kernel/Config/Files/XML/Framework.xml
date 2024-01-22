@@ -7322,7 +7322,6 @@ via the Preferences button after logging in.
                                 <Item Key="https://duckduckgo.com/">1</Item>
                                 <Item Key="https://www.wikipedia.org">2</Item>
                                 <Item Key="https://www.openstreetmap.org">3</Item>
-                                <Item Key="https://protonvpn.com/">4</Item>
                             </Hash>
                         </Item>
                         <Item Key="Images">
@@ -7330,7 +7329,6 @@ via the Preferences button after logging in.
                                 <Item Key="https://cdn3.iconfinder.com/data/icons/social-media-logos-flat-colorful-1/2048/5364_-_DuckDuckGo-512.png">1</Item>
                                 <Item Key="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGhlaWdodD0iNTEycHgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEycHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnIGlkPSJfeDMzXzc3LXdpa2lwZWRpYS13Ij48Zz48cGF0aCBkPSJNNDg1Ljk5OSwxMDguODUxbC0wLjIxNCw4Ljc2N2MtMjAuMTkzLDAuNTc2LTMyLjM0MSwxMS4zNTUtNDAuMTAxLDI4Ljk2MmMtMTcuOTY2LDQxLjUzOC03NC4yMzUsMTcyLjQ3Mi0xMTEuNjA0LDI1Ny43MDMgICAgaC05Ljc3M2wtNTguODU3LTEzOC43N2MtMjMuMzU1LDQ1LjcwNS00OS4wODIsOTMuNDI0LTcxLjI4NywxMzguNzdjLTAuMjE3LDAuMjE2LTEwLjc4LDAtMTAuNzgtMC4yMTYgICAgYy0zMy43MDQtNzguODM1LTY5LjA2MS0xNTcuMDk0LTEwMi44MzgtMjM2LjE0NWMtOC4xOTEtMTkuMTg3LTM1LjUtNTAuMzA0LTU0LjMyNy01MC4wODhjMC0yLjIyOC0wLjIxNi03LjE4Ni0wLjIxNi0xMC4yMDUgICAgaDExNi4zNDd2OS45ODljLTEzLjc5OCwwLjc5LTM3Ljk0Myw5LjU1OC0zMS4xMTcsMjQuNTc3YzE1LjczNywzNS43MTYsNzQuNDUxLDE3Mi42ODgsOTAuMjYsMjA3LjM5OSAgICBjMTAuNzgtMjEuMzQ0LDQxLjUzOC03OC40NzUsNTQuMTE0LTEwMi42MjJjLTkuOTg4LTIwLjMzNi00Mi4xMTItOTYuMjI1LTUyLjMxNy0xMTQuOTgxYy02Ljk3MS0xMi43OTItMjUuOTQxLTEzLjk0MS00MC4xLTE0LjE1NyAgICB2LTkuOTg5bDEwMi40MDYsMC4yMTZ2OS40MTRjLTEzLjk0MSwwLjQzMi0yNy4zNzksNS42MDUtMjEuMTI4LDE4Ljc1NmMxMy41ODEsMjguNzQ2LDIxLjk4OSw0OC45MzksMzQuNTY2LDc1LjI0MSAgICBjNC4wMjQtNy43NjIsMjQuOTM4LTQ5Ljg3MywzNC41NjYtNzIuNDM5YzYuMzk3LTE0LjgwMy0yLjgwNC0yMC41NTMtMjcuNzM5LTIxLjEyNmMwLjIxNS0yLjU4OCwwLTcuNDAyLDAuMjE1LTkuNzc1ICAgIGMzMS45MDgtMC4yMTUsNzkuODQyLTAuMjE1LDg4LjQ2NS0wLjQzMXY5Ljc3M2MtMTYuMTcsMC41NzUtMzIuOTEzLDkuMTk4LTQxLjc1MywyMi43ODFsLTQyLjU0Miw4OC4yNDkgICAgYzQuNTk4LDExLjU3MSw0NS40ODgsMTAyLjYyLDQ5LjcyNywxMTIuNjEybDg3Ljk2My0yMDMuMDg4Yy02LjE4LTE2LjYwMS0yNi4xNTgtMjAuMTk0LTMzLjkyLTIwLjMzOHYtOS45ODlsOTEuODQyLDAuNzkgICAgTDQ4NS45OTksMTA4Ljg1MXoiLz48L2c+PC9nPjxnIGlkPSJMYXllcl8xIi8+PC9zdmc+">2</Item>
                                 <Item Key="https://cdn4.iconfinder.com/data/icons/logos-brands-5/24/openstreetmap-512.png">3</Item>
-                                <Item Key="https://protonvpn.com/assets/img/media/protonvpn-sign-green.png">4</Item>
                             </Hash>
                         </Item>
                     </Hash>
