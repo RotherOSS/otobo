@@ -31,6 +31,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::SystemAddress',
+    'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
     'Kernel::System::User',
 );
@@ -126,17 +127,29 @@ sub ArticleMetaFields {
         }
     }
 
+    # check if ticket is normal or process ticket
+    my $IsProcessTicket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCheckForProcessType(
+        TicketID => $Param{TicketID}
+    );
+
+    # get zoom settings
+    my $DisplaySettings = $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom");
+
     # get dynamic field config for frontend module
     my $DynamicFieldFilter = {
-        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
-        %{
-            $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicFieldWidgetDynamicField}
+        %{ $DisplaySettings->{DynamicField} || {} },
+        IsHashRefWithData( $DisplaySettings->{DynamicFieldWidgetDisplay} )
+        ? %{
+            $DisplaySettings->{DynamicFieldWidgetDynamicField}
                 || {}
-        },
-        %{
-            $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{ProcessWidgetDynamicField}
+            }
+        : (),
+        $IsProcessTicket
+        ? %{
+            $DisplaySettings->{ProcessWidgetDynamicField}
                 || {}
-        },
+            }
+        : (),
     };
 
     # get the dynamic fields for article object
