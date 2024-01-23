@@ -868,8 +868,9 @@ returns a hash consisting of the possible requirements and trigger events
 Returns (BaseScript only returns dynamic fields):
 
     $List = {
-        RequiredArgs   => [ 'Queue', 'DynamicField_X' ],
-        UpdateTriggers => [ 'TicketQueueUpdate', 'TicketDynamicFieldUpdate_X' ],
+        PossibleArgs            => [ 'Queue', 'DynamicField_X' ],
+        PossiblePreviewTriggers => [ 'TicketQueueUpdate', 'TicketDynamicFieldUpdate_X' ],
+        PossibleStorageTriggers => [ 'TicketQueueUpdate', 'TicketDynamicFieldUpdate_X' ],
     };
 
 =cut
@@ -1033,9 +1034,10 @@ sub GetFieldState {
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     # for ticket dynamic fields we need the queue
-    $GetParam{Queue} = defined $Param{GetParam}{Queue} ? $Param{GetParam}{Queue}
+    $GetParam{Queue} = defined $Param{GetParam}{Queue}
+        ? $Param{GetParam}{Queue}
         : $Param{GetParam}{Dest} && $Param{GetParam}{Dest} =~ /\|\|(.+)$/ ? $1
-        : undef;
+        :                                                                   undef;
 
     # the required args have to be present
     for my $Required ( @{ $DynamicFieldConfig->{Config}{RequiredArgs} // [] } ) {
@@ -1051,8 +1053,8 @@ sub GetFieldState {
     return () if !%ChangedElements && !$Param{InitialRun};
 
     # if specific AJAX triggers are defined only update on changes to them...
-    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{AJAXTriggers} ) ) {
-        return () if !any { $ChangedElements{$_} } $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
+    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{PreviewTriggers} ) ) {
+        return () if !any { $ChangedElements{$_} } $DynamicFieldConfig->{Config}{PreviewTriggers}->@*;
     }
 
     # ...if not, only check in the first run
@@ -1060,18 +1062,21 @@ sub GetFieldState {
         return ();
     }
 
-    return () if IsArrayRefWithData( $DynamicFieldConfig->{Config}{AJAXTriggers} )
+    return () if IsArrayRefWithData( $DynamicFieldConfig->{Config}{PreviewTriggers} )
         && !$Param{InitialRun}
-        && !any { $ChangedElements{ $Self->{Uniformity}{$_} // $_ } } $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
+        && !any { $ChangedElements{ $Self->{Uniformity}{$_} // $_ } } $DynamicFieldConfig->{Config}{PreviewTriggers}->@*;
 
     my $NewValue = $Self->Evaluate(
         DynamicFieldConfig => $DynamicFieldConfig,
         Object             => {
+
             # ticket specifics
             CustomerUserID => $Param{CustomerUser},
             TicketID       => $Param{TicketID},
+
             # ITSM config item specifics
-            ConfigItemID   => $Param{ConfigItemID},
+            ConfigItemID => $Param{ConfigItemID},
+
             # general
             %GetParam,
         },
@@ -1085,7 +1090,7 @@ sub GetFieldState {
     );
 
     return (
-        NewValue        => $NewValue,
+        NewValue => $NewValue,
     );
 }
 
