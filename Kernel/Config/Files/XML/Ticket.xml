@@ -14269,4 +14269,34 @@ Thanks for your help!
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDisplay" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+        <Description Translatable="1">Display settings to override defaults for dynamic field widget for Tickets.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="NavBarName" Translatable="1">Dynamic Fields</Item>
+                <Item Key="WidgetTitle" Translatable="1">Dynamic Field Information</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDynamicFieldGroups" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic fields groups for dynamic field widget. The key is the name of the group, the value contains the fields to be shown. Example: 'Key =&gt; My Group', 'Content: Name_X, NameY'.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
+        <Value>
+            <Hash>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic fields shown in the dynamic field widget in ticket zoom screen of the agent interface.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="Select">
+                    <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
+                    <Item ValueType="Option" Value="1" Translatable="1">1 - Enabled</Item>
+                </DefaultItem>
+            </Hash>
+        </Value>
+    </Setting>
 </otobo_config>
