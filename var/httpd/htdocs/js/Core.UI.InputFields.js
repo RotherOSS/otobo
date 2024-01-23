@@ -2842,17 +2842,20 @@ Core.UI.InputFields = (function (TargetNS) {
             }
 
             // for date(time) dynamic fields: append ValueRowIndex to validation classes
-            var TimeStrings = ['Day', 'Month', 'Year', 'Hour', 'Minute'];
-            TimeStrings.forEach(TimeString => {
-                var $TimeElement = $Cell.find('.Validate_Date' + TimeString);
-                if ( $TimeElement.length > 0 ) {
-                    var DateTimeFieldName = $TimeElement.attr('name').substr(0, $TimeElement.attr('name').lastIndexOf(TimeString));
-                    TimeStrings.forEach(ClassTimeString => {
-                        var ClassString = 'Validate_Date' + ClassTimeString + '_' + DateTimeFieldName + ClassTimeString;
-                        $TimeElement.hasClass(ClassString) && $TimeElement.removeClass(ClassString) && $TimeElement.addClass(ClassString + '_' + ValueRowIndex);
-                    });
-                }
-            });
+            var $DateTime = $Cell.children('.Field').children('.DynamicFieldDate');
+            if ( $DateTime.length ) {
+                var TimeStrings = ['Day', 'Month', 'Year', 'Hour', 'Minute'];
+                TimeStrings.forEach(TimeString => {
+                        var $DateTimeElement = $DateTime.find('.Validate_Date' + TimeString);
+                        if ( $DateTimeElement.length ) {
+                            var DateTimeFieldName = $DateTimeElement.attr('name').substr(0, $DateTimeElement.attr('name').lastIndexOf(TimeString));
+                            TimeStrings.forEach(ClassTimeString => {
+                                var ClassString = 'Validate_Date' + ClassTimeString + '_' + DateTimeFieldName + ClassTimeString;
+                                $DateTimeElement.hasClass(ClassString) && $DateTimeElement.removeClass(ClassString) && $DateTimeElement.addClass(ClassString + '_' + ValueRowIndex);
+                            });
+                        }
+                });
+            }
 
             $('input[type="checkbox"]', $Cell).val(ValueRowIndex);
 
