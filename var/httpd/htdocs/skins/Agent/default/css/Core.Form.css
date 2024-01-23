@@ -765,10 +765,15 @@ fieldset.TableLike .DynamicFieldSet .InputField_InputContainer {
     box-sizing: inherit;
 }
 
+/* TODO check if it makes sense to do this only if input is direct child */
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField input {
     min-width: 150px; /*kind of random, not ideal*/
     box-sizing: border-box;
     width: 100%;
+}
+
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField .DynamicFieldDate > input {
+    width: unset;
 }
 
 fieldset.TableLike .DynamicFieldSet .AddRemoveValueRow {
