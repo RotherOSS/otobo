@@ -23,8 +23,9 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use Digest::MD5  qw(md5_hex);
-use Scalar::Util qw(blessed);
+use Digest::MD5    qw(md5_hex);
+use Scalar::Util   qw(blessed);
+use File::Basename qw(fileparse);
 
 # CPAN modules
 use URI::Escape qw(uri_escape_utf8);
@@ -431,21 +432,23 @@ EOF
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # load sub layout files
-    my $NewDir = $ConfigObject->Get('TemplateDir') . '/HTML/Layout';
-    if ( -e $NewDir ) {
-        my @NewFiles = $MainObject->DirectoryRead(
-            Directory => $NewDir,
+    my $LayoutDir = $ConfigObject->Get('TemplateDir') . '/HTML/Layout';
+    if ( -d $LayoutDir ) {
+        my @SubLayoutFiles = $MainObject->DirectoryRead(
+            Directory => $LayoutDir,
             Filter    => '*.pm',
         );
-        for my $NewFile (@NewFiles) {
-            if ( $NewFile !~ /Layout.pm$/ ) {
-                $NewFile =~ s{\A.*\/(.+?).pm\z}{$1}xms;
-                my $NewClassName = "Kernel::Output::HTML::Layout::$NewFile";
-                if ( !$MainObject->RequireBaseClass($NewClassName) ) {
-                    $Self->FatalDie(
-                        Message => "Could not load class Kernel::Output::HTML::Layout::$NewFile.",
-                    );
-                }
+
+        SUB_LAYOUT_FILE:
+        for my $SubLayoutFile (@SubLayoutFiles) {
+            next SUB_LAYOUT_FILE if $SubLayoutFile =~ m/Layout.pm$/;
+
+            my $ClassNameFinalPart = fileparse( $SubLayoutFile, '.pm' );
+            my $ClassName          = "Kernel::Output::HTML::Layout::$ClassNameFinalPart";
+            if ( !$MainObject->RequireBaseClass($ClassName) ) {
+                $Self->FatalDie(
+                    Message => "Could not load class $ClassName.",
+                );
             }
         }
     }
