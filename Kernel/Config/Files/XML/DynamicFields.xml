@@ -1921,6 +1921,7 @@
                     <Item Key="Ticket::Frontend::CustomerTicketPrint###DynamicField">CustomerTicketPrint</Item>
                     <Item Key="Ticket::Frontend::CustomerTicketSearch###DynamicField">CustomerTicketSearch</Item>
                     <Item Key="Ticket::Frontend::CustomerTicketZoom###DynamicField">CustomerTicketZoom</Item>
+                    <Item Key="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDynamicField">DynamicFieldWidgetDynamicField</Item>
                     <!-- OverViews -->
                     <Item Key="Ticket::Frontend::OverviewMedium###DynamicField">OverviewMedium</Item>
                     <Item Key="Ticket::Frontend::OverviewPreview###DynamicField">OverviewPreview</Item>
