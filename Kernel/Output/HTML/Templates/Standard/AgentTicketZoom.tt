@@ -210,7 +210,7 @@
                 </div>
             </div>
 
-[% RenderBlockStart("ProcessWidget") %]
+[% RenderBlockStart("OverviewWidget") %]
             <div class="WidgetSimple Expanded" id="DynamicFieldsWidget">
                 <div class="Header">
                     <div class="WidgetAction Toggle"><a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a></div>
@@ -235,42 +235,42 @@
                 <div class="Content ProcessInfo">
                     <div class="ProcessInformation">
                         <fieldset>
-[% RenderBlockStart("ProcessWidgetDynamicFieldGroups") %]
-[% RenderBlockStart("ProcessWidgetDynamicFieldGroupSeparator") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldGroups") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldGroupSeparator") %]
                             <h2 class="FieldSetSeparator">[% Translate(Data.Name) | html %]</h2>
-[% RenderBlockEnd("ProcessWidgetDynamicFieldGroupSeparator") %]
-[% RenderBlockStart("ProcessWidgetDynamicField") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldGroupSeparator") %]
+[% RenderBlockStart("OverviewWidgetDynamicField") %]
                             <div class="FieldContainer DynamicFieldAutoResize">
                                 <label title="[% Data.Label | html %]">
                                     [% Data.Label | html %]
-[% RenderBlockStart("ProcessWidgetDynamicFieldValueOverlayTrigger") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldValueOverlayTrigger") %]
                                     <a href="#" class="ShowFieldInfoOverlay">+</a>
-[% RenderBlockEnd("ProcessWidgetDynamicFieldValueOverlayTrigger") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldValueOverlayTrigger") %]
                                 </label>
                                 <p class="Value CutValue DynamicField_[% Data.Name %]">
 <!-- OutputFilterHook_WidgetDynamicFieldBegin -->
-[% RenderBlockStart("ProcessWidgetDynamicFieldLink") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldLink") %]
                                     <span title="[% Data.Title %]"><a href="[% Data.Link | Interpolate %]"[% IF Data.LinkPreview %] data-trigger="floater" data-floater-url="[% Data.LinkPreview | Interpolate %]"[% END %] target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></span>
-[% RenderBlockEnd("ProcessWidgetDynamicFieldLink") %]
-[% RenderBlockStart("ProcessWidgetDynamicFieldPlain") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldLink") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldPlain") %]
                                     [% Data.Value %]
-[% RenderBlockEnd("ProcessWidgetDynamicFieldPlain") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldPlain") %]
 <!-- OutputFilterHook_WidgetDynamicFieldEnd -->
                                 </p>
                                 <p class="ValueLong">
-[% RenderBlockStart("ProcessWidgetDynamicFieldValueLong") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldValueLong") %]
                                     [% Data.Value %]
-[% RenderBlockEnd("ProcessWidgetDynamicFieldValueLong") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldValueLong") %]
                                 </p>
                                 <div class="Clear"></div>
                             </div>
-[% RenderBlockEnd("ProcessWidgetDynamicField") %]
-[% RenderBlockEnd("ProcessWidgetDynamicFieldGroups") %]
+[% RenderBlockEnd("OverviewWidgetDynamicField") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldGroups") %]
                         </fieldset>
                     </div>
                 </div>
             </div>
-[% RenderBlockEnd("ProcessWidget") %]
+[% RenderBlockEnd("OverviewWidget") %]
 
             <div id="ArticleTree">
 [% Data.ArticleTree %]
