@@ -24,7 +24,6 @@ use utf8;
 use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
 # core modules
-use File::Basename qw(basename);
 
 # CPAN modules
 use Mojo::Date;

@@ -192,7 +192,7 @@ sub Run {
     my %NewConfigFilesMD5Sum;
     FILE:
     for my $File (@ConfigFiles) {
-        my $Basename = File::Basename::basename($File);
+        my $Basename = basename($File);
 
         # Skip deployment based files.
         next FILE if $Basename eq 'ZZZAAuto.pm';
