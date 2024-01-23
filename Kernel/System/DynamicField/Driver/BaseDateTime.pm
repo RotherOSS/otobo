@@ -67,7 +67,7 @@ sub ValueGet {
 
     return $Self->ValueStructureFromDB(
         ValueDB    => $DFValue,
-        ValueKey   => 'ValueDateTime',
+        ValueKey   => $Self->{ValueKey},
         Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}->{Config}->{MultiValue},
     );
@@ -78,7 +78,7 @@ sub ValueSet {
 
     my $DBValue = $Self->ValueStructureToDB(
         Value      => $Param{Value},
-        ValueKey   => 'ValueDateTime',
+        ValueKey   => $Self->{ValueKey},
         Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}->{Config}->{MultiValue},
     );
@@ -114,7 +114,7 @@ sub ValueValidate {
     for my $Value (@Values) {
         $Success = $DynamicFieldValueObject->ValueValidate(
             Value => {
-                ValueDateTime => $Value,
+                $Self->{ValueKey} => $Value,
             },
             UserID => $Param{UserID},
         );
@@ -461,7 +461,11 @@ sub EditFieldValueGet {
             for my $Type (qw(Used Year Month Day Hour Minute)) {
                 $ValueRow{ $Prefix . $Type } = $Param{ParamObject}->GetParam(
                     Param => $Prefix . $Type,
-                ) || 0;
+                );
+                if ( $Type eq 'Used' && defined $ValueRow{ $Prefix . $Type } ) {
+                    $ValueRow{ $Prefix . $Type } = 1;
+                }
+                $ValueRow{ $Prefix . $Type } ||= 0;
             }
             $Value = \%ValueRow;
         }
