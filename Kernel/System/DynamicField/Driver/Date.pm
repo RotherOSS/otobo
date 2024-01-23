@@ -77,7 +77,12 @@ sub new {
         'IsFiltrable'                  => 0,
         'IsStatsCondition'             => 1,
         'IsCustomerInterfaceCapable'   => 1,
+        'IsSetCapable'                 => 1,
     };
+
+    # Date dynamic fields are stored in the database table attribute dynamic_field_value.value_datetime
+    $Self->{ValueKey}       = 'ValueDateTime';
+    $Self->{TableAttribute} = 'value_datetime';
 
     # get the Dynamic Field Backend custom extensions
     my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Date');
@@ -564,7 +569,11 @@ sub EditFieldValueGet {
             for my $Type (qw(Used Year Month Day)) {
                 $ValueRow{ $Prefix . $Type } = $Param{ParamObject}->GetParam(
                     Param => $Prefix . $Type,
-                ) || 0;
+                );
+                if ( $Type eq 'Used' && defined $ValueRow{ $Prefix . $Type } ) {
+                    $ValueRow{ $Prefix . $Type } = 1;
+                }
+                $ValueRow{ $Prefix . $Type } ||= 0;
             }
             $Value = \%ValueRow;
         }
