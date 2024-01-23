@@ -1498,29 +1498,28 @@ sub MaskAgentZoom {
         'TicketID' => $Self->{TicketID}
     );
 
-    # check if dynamic field box is enabled
-    my $ShowDynamicFieldBox = $ConfigObject->Get('Ticket::ShowDynamicFieldBox');
+    # collect data for overview widget
+    my %WidgetData;
+    if ( $IsProcessTicket || $Self->{DisplaySettings}{DynamicFieldWidgetDisplay} ) {
+        %WidgetData = $IsProcessTicket
+            ? (
+                WidgetDisplay            => $Self->{DisplaySettings}{ProcessDisplay},
+                WidgetTitle              => $Self->{DisplaySettings}{ProcessDisplay}{WidgetTitle},
+                WidgetDynamicFieldGroups => $Self->{DisplaySettings}{ProcessWidgetDynamicFieldGroups},
+            )
+            : (
+                WidgetDisplay            => $Self->{DisplaySettings}{DynamicFieldWidgetDisplay},
+                WidgetTitle              => $Self->{DisplaySettings}{DynamicFieldWidgetDisplay}{WidgetTitle},
+                WidgetDynamicFieldGroups => $Self->{DisplaySettings}{DynamicFieldWidgetDynamicFieldGroups},
 
-    # show process widget  and activity dialogs on process tickets
-    if ($IsProcessTicket) {
+            );
 
-        $Param{WidgetTitle} = $Self->{DisplaySettings}->{ProcessDisplay}->{WidgetTitle};
+        $WidgetData{WidgetDynamicField} = $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
+            ->{ ( $IsProcessTicket ? 'ProcessWidgetDynamicField' : 'DynamicFieldWidgetDynamicField' ) } // {};
+    }
 
-        # get the DF where the ProcessEntityID is stored
-        my $ProcessEntityIDField = 'DynamicField_'
-            . $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
-
-        # get the DF where the AtivityEntityID is stored
-        my $ActivityEntityIDField = 'DynamicField_'
-            . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
-
-        my $ProcessData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessGet(
-            ProcessEntityID => $Ticket{$ProcessEntityIDField},
-        );
-        my $ActivityData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
-            Interface        => 'AgentInterface',
-            ActivityEntityID => $Ticket{$ActivityEntityIDField},
-        );
+    # show overview widget with either dynamic field data or with process and activity dialog data
+    if (%WidgetData) {
 
         # send data to JS
         $LayoutObject->AddJSData(
@@ -1528,142 +1527,142 @@ sub MaskAgentZoom {
             Value => 1,
         );
 
-        # output the process widget in the main screen
+        # output the overview widget in the main screen
         $LayoutObject->Block(
             Name => 'OverviewWidget',
             Data => {
-                WidgetTitle => $Param{WidgetTitle},
+                WidgetTitle => $WidgetData{WidgetTitle},
             },
         );
 
-        # get next activity dialogs
-        my $NextActivityDialogs;
-        if ( $Ticket{$ActivityEntityIDField} ) {
-            $NextActivityDialogs = ${ActivityData}->{ActivityDialog} || {};
-        }
-        my $ActivityName = $ActivityData->{Name};
+        # collect and render process data if necessary
+        if ($IsProcessTicket) {
 
-        if ($NextActivityDialogs) {
+            # get the DF where the ProcessEntityID is stored
+            my $ProcessEntityIDField = 'DynamicField_'
+                . $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
 
-            # get ActivityDialog object
-            my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
+            # get the DF where the AtivityEntityID is stored
+            my $ActivityEntityIDField = 'DynamicField_'
+                . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
 
-            # we have to check if the current user has the needed permissions to view the
-            # different activity dialogs, so we loop over every activity dialog and check if there
-            # is a permission configured. If there is a permission configured we check this
-            # and display/hide the activity dialog link
-            my %PermissionRights;
-            my %PermissionActivityDialogList;
-            ACTIVITYDIALOGPERMISSION:
-            for my $Index ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
-                my $CurrentActivityDialogEntityID = $NextActivityDialogs->{$Index};
-                my $CurrentActivityDialog         = $ActivityDialogObject->ActivityDialogGet(
-                    Interface              => 'AgentInterface',
-                    ActivityDialogEntityID => $CurrentActivityDialogEntityID
-                );
-
-                # create an interface lookup-list
-                my %InterfaceLookup = map { $_ => 1 } @{ $CurrentActivityDialog->{Interface} };
-
-                next ACTIVITYDIALOGPERMISSION if !$InterfaceLookup{AgentInterface};
-
-                if ( $CurrentActivityDialog->{Permission} ) {
-
-                    # performance-boost/cache
-                    if ( !defined $PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
-                        $PermissionRights{ $CurrentActivityDialog->{Permission} } = $TicketObject->TicketPermission(
-                            Type     => $CurrentActivityDialog->{Permission},
-                            TicketID => $Ticket{TicketID},
-                            UserID   => $Self->{UserID},
-                        );
-                    }
-
-                    if ( !$PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
-                        next ACTIVITYDIALOGPERMISSION;
-                    }
-                }
-
-                $PermissionActivityDialogList{$Index} = $CurrentActivityDialogEntityID;
-            }
-
-            # reduce next activity dialogs to the ones that have permissions
-            $NextActivityDialogs = \%PermissionActivityDialogList;
-
-            # get ACL restrictions
-            my $ACL = $TicketObject->TicketAcl(
-                Data          => \%PermissionActivityDialogList,
-                TicketID      => $Ticket{TicketID},
-                Action        => $Self->{Action},
-                ReturnType    => 'ActivityDialog',
-                ReturnSubType => '-',
-                UserID        => $Self->{UserID},
+            my $ProcessData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessGet(
+                ProcessEntityID => $Ticket{$ProcessEntityIDField},
+            );
+            my $ActivityData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
+                Interface        => 'AgentInterface',
+                ActivityEntityID => $Ticket{$ActivityEntityIDField},
             );
 
-            if ($ACL) {
-                %{$NextActivityDialogs} = $TicketObject->TicketAclData();
+            # get next activity dialogs
+            my $NextActivityDialogs;
+            if ( $Ticket{$ActivityEntityIDField} ) {
+                $NextActivityDialogs = ${ActivityData}->{ActivityDialog} || {};
             }
+            my $ActivityName = $ActivityData->{Name};
 
-            $LayoutObject->Block(
-                Name => 'NextActivityDialogs',
-                Data => {
-                    'ActivityName' => $ActivityName,
-                },
-            );
+            if ($NextActivityDialogs) {
 
-            if ( IsHashRefWithData($NextActivityDialogs) ) {
-                for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
-                    my $ActivityDialogData = $ActivityDialogObject->ActivityDialogGet(
+                # get ActivityDialog object
+                my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
+
+                # we have to check if the current user has the needed permissions to view the
+                # different activity dialogs, so we loop over every activity dialog and check if there
+                # is a permission configured. If there is a permission configured we check this
+                # and display/hide the activity dialog link
+                my %PermissionRights;
+                my %PermissionActivityDialogList;
+                ACTIVITYDIALOGPERMISSION:
+                for my $Index ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
+                    my $CurrentActivityDialogEntityID = $NextActivityDialogs->{$Index};
+                    my $CurrentActivityDialog         = $ActivityDialogObject->ActivityDialogGet(
                         Interface              => 'AgentInterface',
-                        ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
+                        ActivityDialogEntityID => $CurrentActivityDialogEntityID
                     );
+
+                    # create an interface lookup-list
+                    my %InterfaceLookup = map { $_ => 1 } @{ $CurrentActivityDialog->{Interface} };
+
+                    next ACTIVITYDIALOGPERMISSION if !$InterfaceLookup{AgentInterface};
+
+                    if ( $CurrentActivityDialog->{Permission} ) {
+
+                        # performance-boost/cache
+                        if ( !defined $PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
+                            $PermissionRights{ $CurrentActivityDialog->{Permission} } = $TicketObject->TicketPermission(
+                                Type     => $CurrentActivityDialog->{Permission},
+                                TicketID => $Ticket{TicketID},
+                                UserID   => $Self->{UserID},
+                            );
+                        }
+
+                        if ( !$PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
+                            next ACTIVITYDIALOGPERMISSION;
+                        }
+                    }
+
+                    $PermissionActivityDialogList{$Index} = $CurrentActivityDialogEntityID;
+                }
+
+                # reduce next activity dialogs to the ones that have permissions
+                $NextActivityDialogs = \%PermissionActivityDialogList;
+
+                # get ACL restrictions
+                my $ACL = $TicketObject->TicketAcl(
+                    Data          => \%PermissionActivityDialogList,
+                    TicketID      => $Ticket{TicketID},
+                    Action        => $Self->{Action},
+                    ReturnType    => 'ActivityDialog',
+                    ReturnSubType => '-',
+                    UserID        => $Self->{UserID},
+                );
+
+                if ($ACL) {
+                    %{$NextActivityDialogs} = $TicketObject->TicketAclData();
+                }
+
+                $LayoutObject->Block(
+                    Name => 'NextActivityDialogs',
+                    Data => {
+                        'ActivityName' => $ActivityName,
+                    },
+                );
+
+                if ( IsHashRefWithData($NextActivityDialogs) ) {
+                    for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
+                        my $ActivityDialogData = $ActivityDialogObject->ActivityDialogGet(
+                            Interface              => 'AgentInterface',
+                            ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
+                        );
+                        $LayoutObject->Block(
+                            Name => 'ActivityDialog',
+                            Data => {
+                                ActivityDialogEntityID
+                                    => $NextActivityDialogs->{$NextActivityDialogKey},
+                                Name            => $ActivityDialogData->{Name},
+                                ProcessEntityID => $Ticket{$ProcessEntityIDField},
+                                TicketID        => $Ticket{TicketID},
+                            },
+                        );
+                    }
+                }
+                else {
                     $LayoutObject->Block(
-                        Name => 'ActivityDialog',
-                        Data => {
-                            ActivityDialogEntityID
-                                => $NextActivityDialogs->{$NextActivityDialogKey},
-                            Name            => $ActivityDialogData->{Name},
-                            ProcessEntityID => $Ticket{$ProcessEntityIDField},
-                            TicketID        => $Ticket{TicketID},
-                        },
+                        Name => 'NoActivityDialogs',
+                        Data => {},
                     );
                 }
             }
-            else {
-                $LayoutObject->Block(
-                    Name => 'NoActivityDialogs',
-                    Data => {},
-                );
-            }
         }
     }
-    elsif ( $Self->{DisplaySettings}{DynamicFieldWidgetDisplay} ) {
 
-        $Param{WidgetTitle} = $Self->{DisplaySettings}->{DynamicFieldWidgetDisplay}->{WidgetTitle};
-
-        # send data to JS
-        $LayoutObject->AddJSData(
-            Key   => 'OverviewWidget',
-            Value => 1,
-        );
-
-        # output the dynamic field widget in the main screen
-        $LayoutObject->Block(
-            Name => 'OverviewWidget',
-            Data => {
-                WidgetTitle => $Param{WidgetTitle},
-            },
-        );
-    }
-
-    if ($IsProcessTicket) {
+    if (%WidgetData) {
 
         # get dynamic field config for frontend module
         my $DynamicFieldFilter = {
             %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
             %{
-                $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
-                    ->{ProcessWidgetDynamicField}
-                    || {}
+                $WidgetData{WidgetDynamicField} || {}
             },
         };
 
@@ -1675,7 +1674,7 @@ sub MaskAgentZoom {
         );
         my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-        # to store dynamic fields to be displayed in the process widget
+        # to store dynamic fields to be displayed in the overview widget
         my (@FieldsWidget);
 
         # cycle trough the activated Dynamic Fields for ticket object
@@ -1688,7 +1687,7 @@ sub MaskAgentZoom {
             # use translation here to be able to reduce the character length in the template
             my $Label = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} );
 
-            if ( $Self->{DisplaySettings}->{ProcessWidgetDynamicField}->{ $DynamicFieldConfig->{Name} } ) {
+            if ( $WidgetData{WidgetDynamicField}{ $DynamicFieldConfig->{Name} } ) {
                 my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
@@ -1714,10 +1713,10 @@ sub MaskAgentZoom {
             }
         }
 
-        # output dynamic fields registered for a group in the process widget
+        # output dynamic fields registered for a group in the overview widget
         my @FieldsInAGroup;
         for my $GroupName (
-            sort keys %{ $Self->{DisplaySettings}->{ProcessWidgetDynamicFieldGroups} }
+            sort keys %{ $WidgetData{WidgetDynamicFieldGroups} }
             )
         {
 
@@ -1725,7 +1724,7 @@ sub MaskAgentZoom {
                 Name => 'OverviewWidgetDynamicFieldGroups',
             );
 
-            my $GroupFieldsString = $Self->{DisplaySettings}->{ProcessWidgetDynamicFieldGroups}->{$GroupName};
+            my $GroupFieldsString = $WidgetData{WidgetDynamicFieldGroups}{$GroupName};
 
             $GroupFieldsString =~ s{\s}{}xmsg;
             my @GroupFields = split /,/, $GroupFieldsString;
@@ -1794,213 +1793,7 @@ sub MaskAgentZoom {
             }
         }
 
-        # output dynamic fields not registered in a group in the process widget
-        my @RemainingFieldsWidget;
-        for my $Field (@FieldsWidget) {
-
-            if ( !grep { $_ eq $Field->{Name} } @FieldsInAGroup ) {
-                push @RemainingFieldsWidget, $Field;
-            }
-        }
-
-        $LayoutObject->Block(
-            Name => 'OverviewWidgetDynamicFieldGroups',
-        );
-
-        if ( $#RemainingFieldsWidget + 1 ) {
-
-            $LayoutObject->Block(
-                Name => 'OverviewWidgetDynamicFieldGroupSeparator',
-                Data => {
-                    Name =>
-                        $LayoutObject->{LanguageObject}->Translate('Fields with no group'),
-                },
-            );
-        }
-        for my $Field (@RemainingFieldsWidget) {
-
-            $LayoutObject->Block(
-                Name => 'OverviewWidgetDynamicField',
-                Data => {
-                    Label => $Field->{Label},
-                    Name  => $Field->{Name},
-                },
-            );
-
-            $LayoutObject->Block(
-                Name => 'OverviewWidgetDynamicFieldValueOverlayTrigger',
-            );
-
-            if ( $Field->{Link} ) {
-                $LayoutObject->Block(
-                    Name => 'OverviewWidgetDynamicFieldLink',
-                    Data => {
-                        $Field->{Name} => $Field->{Title},
-                        %Ticket,
-
-                        # alias for ticket title, Title will be overwritten
-                        TicketTitle => $Ticket{Title},
-                        Value       => $Field->{Value},
-                        Title       => $Field->{Title},
-                        Link        => $Field->{Link},
-
-                        # Include unique parameter with dynamic field name in case of collision with others.
-                        #   Please see bug#13362 for more information.
-                        "DynamicField_$Field->{Name}" => $Field->{Title},
-                    },
-                );
-            }
-            else {
-                $LayoutObject->Block(
-                    Name => 'OverviewWidgetDynamicFieldPlain',
-                    Data => {
-                        Value => $Field->{Value},
-                        Title => $Field->{Title},
-                    },
-                );
-            }
-        }
-    }
-    elsif ( $Self->{DisplaySettings}{DynamicFieldWidgetDisplay} ) {
-
-        # get dynamic field config for frontend module
-        my $DynamicFieldFilter = {
-            %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
-            %{
-                $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
-                    ->{DynamicFieldWidgetDynamicField}
-                    || {}
-            },
-        };
-
-        # get the dynamic fields for ticket object
-        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-            Valid       => 1,
-            ObjectType  => ['Ticket'],
-            FieldFilter => $DynamicFieldFilter || {},
-        );
-        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-        # to store dynamic fields to be displayed in the dynamic field widget
-        my (@FieldsWidget);
-
-        # cycle trough the activated Dynamic Fields for ticket object
-        DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicField} ) {
-            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if !defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-            next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
-
-            # use translation here to be able to reduce the character length in the template
-            my $Label = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} );
-
-            if ( $Self->{DisplaySettings}->{DynamicFieldWidgetDynamicField}->{ $DynamicFieldConfig->{Name} } ) {
-                my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
-                    LayoutObject       => $LayoutObject,
-
-                    # no ValueMaxChars here, enough space available
-                );
-
-                push @FieldsWidget, {
-                    $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
-                    Name                        => $DynamicFieldConfig->{Name},
-                    Title                       => $ValueStrg->{Title},
-                    Value                       => $ValueStrg->{Value},
-                    ValueKey                    => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
-                    Label                       => $Label,
-                    Link                        => $ValueStrg->{Link},
-                    LinkPreview                 => $ValueStrg->{LinkPreview},
-
-                    # Include unique parameter with dynamic field name in case of collision with others.
-                    #   Please see bug#13362 for more information.
-                    "DynamicField_$DynamicFieldConfig->{Name}" => $ValueStrg->{Title},
-                };
-            }
-        }
-
-        # output dynamic fields registered for a group in the dynamic field widget
-        my @FieldsInAGroup;
-        for my $GroupName (
-            sort keys %{ $Self->{DisplaySettings}->{DynamicFieldWidgetDynamicFieldGroups} }
-            )
-        {
-
-            $LayoutObject->Block(
-                Name => 'OverviewWidgetDynamicFieldGroups',
-            );
-
-            my $GroupFieldsString = $Self->{DisplaySettings}->{DynamicFieldWidgetDynamicFieldGroups}->{$GroupName};
-
-            $GroupFieldsString =~ s{\s}{}xmsg;
-            my @GroupFields = split /,/, $GroupFieldsString;
-
-            if ( $#GroupFields + 1 ) {
-
-                my $ShowGroupTitle = 0;
-                for my $Field (@FieldsWidget) {
-
-                    if ( grep { $_ eq $Field->{Name} } @GroupFields ) {
-
-                        $ShowGroupTitle = 1;
-                        $LayoutObject->Block(
-                            Name => 'OverviewWidgetDynamicField',
-                            Data => {
-                                Label => $Field->{Label},
-                                Name  => $Field->{Name},
-                            },
-                        );
-
-                        $LayoutObject->Block(
-                            Name => 'OverviewWidgetDynamicFieldValueOverlayTrigger',
-                        );
-
-                        if ( $Field->{Link} ) {
-                            $LayoutObject->Block(
-                                Name => 'OverviewWidgetDynamicFieldLink',
-                                Data => {
-                                    $Field->{Name} => $Field->{Title},
-                                    %Ticket,
-
-                                    # alias for ticket title, Title will be overwritten
-                                    TicketTitle => $Ticket{Title},
-                                    Value       => $Field->{Value},
-                                    Title       => $Field->{Title},
-                                    Link        => $Field->{Link},
-                                    LinkPreview => $Field->{LinkPreview},
-
-                                    # Include unique parameter with dynamic field name in case of collision with others.
-                                    #   Please see bug#13362 for more information.
-                                    "DynamicField_$Field->{Name}" => $Field->{Title},
-                                },
-                            );
-                        }
-                        else {
-                            $LayoutObject->Block(
-                                Name => 'OverviewWidgetDynamicFieldPlain',
-                                Data => {
-                                    Value => $Field->{Value},
-                                    Title => $Field->{Title},
-                                },
-                            );
-                        }
-                        push @FieldsInAGroup, $Field->{Name};
-                    }
-                }
-
-                if ($ShowGroupTitle) {
-                    $LayoutObject->Block(
-                        Name => 'OverviewWidgetDynamicFieldGroupSeparator',
-                        Data => {
-                            Name => $GroupName,
-                        },
-                    );
-                }
-            }
-        }
-
-        # output dynamic fields not registered in a group in the dynamic field widget
+        # output dynamic fields not registered in a group in the overview widget
         my @RemainingFieldsWidget;
         for my $Field (@FieldsWidget) {
 
