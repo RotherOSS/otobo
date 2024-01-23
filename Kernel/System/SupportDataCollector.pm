@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 # core modules
-use File::Basename;
+use File::Basename qw(dirname);
 
 # CPAN modules
 

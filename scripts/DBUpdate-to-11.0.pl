@@ -20,14 +20,13 @@ use strict;
 use warnings;
 use utf8;
 
-use File::Basename;
-use FindBin qw($RealBin);
+use File::Basename qw(dirname);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 # core modules
-#use Getopt::Long;
 
 # CPAN modules
 

@@ -18,7 +18,6 @@
 use strict;
 use warnings;
 
-use File::Basename;
 use FindBin qw($RealBin);
 use lib "$RealBin/../..";
 use lib "$RealBin/../../Kernel/cpan-lib";

@@ -35,18 +35,19 @@ use Try::Tiny;
 # like mod_perl and FastCGI pre-load them at startup
 
 # OTOBO modules
-use Kernel::Output::HTML::Layout;
-use Kernel::System::Auth;
-use Kernel::System::AuthSession;
-use Kernel::System::Cache;
-use Kernel::System::DateTime;
-use Kernel::System::DB;
-use Kernel::System::Encode;
-use Kernel::System::Group;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::Web::Request;
-use Kernel::System::User;
+## no perlimports
+use Kernel::Output::HTML::Layout ();
+use Kernel::System::Auth         ();
+use Kernel::System::AuthSession  ();
+use Kernel::System::Cache        ();
+use Kernel::System::DateTime     ();
+use Kernel::System::DB           ();
+use Kernel::System::Encode       ();
+use Kernel::System::Group        ();
+use Kernel::System::Log          ();
+use Kernel::System::Main         ();
+use Kernel::System::Web::Request ();
+use Kernel::System::User         ();
 
 =head1 NAME
 

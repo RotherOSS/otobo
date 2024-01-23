@@ -22,8 +22,6 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
-use File::Basename ();
-
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {

@@ -21,11 +21,15 @@ use warnings;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
-use File::Basename;
+# core modules
+use File::Basename qw(basename);
 use File::Copy;
+
+# CPAN modules
 use Lingua::Translit;
 use Pod::Strip;
 
+# OTOBO modules
 use Kernel::Language;
 use Kernel::System::VariableCheck qw(DataIsDifferent);
 
