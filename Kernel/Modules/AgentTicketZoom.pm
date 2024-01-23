@@ -1498,6 +1498,9 @@ sub MaskAgentZoom {
         'TicketID' => $Self->{TicketID}
     );
 
+    # check if dynamic field box is enabled
+    my $ShowDynamicFieldBox = $ConfigObject->Get('Ticket::ShowDynamicFieldBox');
+
     # show process widget  and activity dialogs on process tickets
     if ($IsProcessTicket) {
 
@@ -1632,6 +1635,25 @@ sub MaskAgentZoom {
                 );
             }
         }
+    }
+    elsif ( $Self->{DisplaySettings}{DynamicFieldWidgetDisplay} ) {
+
+        $Param{WidgetTitle} = $Self->{DisplaySettings}->{DynamicFieldWidgetDisplay}->{WidgetTitle};
+
+        # send data to JS
+        # TODO think about renaming ProcessWidget to something more generic
+        $LayoutObject->AddJSData(
+            Key   => 'ProcessWidget',
+            Value => 1,
+        );
+
+        # output the dynamic field widget in the main screen
+        $LayoutObject->Block(
+            Name => 'ProcessWidget',
+            Data => {
+                WidgetTitle => $Param{WidgetTitle},
+            },
+        );
     }
 
     if ($IsProcessTicket) {
@@ -1774,6 +1796,212 @@ sub MaskAgentZoom {
         }
 
         # output dynamic fields not registered in a group in the process widget
+        my @RemainingFieldsWidget;
+        for my $Field (@FieldsWidget) {
+
+            if ( !grep { $_ eq $Field->{Name} } @FieldsInAGroup ) {
+                push @RemainingFieldsWidget, $Field;
+            }
+        }
+
+        $LayoutObject->Block(
+            Name => 'ProcessWidgetDynamicFieldGroups',
+        );
+
+        if ( $#RemainingFieldsWidget + 1 ) {
+
+            $LayoutObject->Block(
+                Name => 'ProcessWidgetDynamicFieldGroupSeparator',
+                Data => {
+                    Name =>
+                        $LayoutObject->{LanguageObject}->Translate('Fields with no group'),
+                },
+            );
+        }
+        for my $Field (@RemainingFieldsWidget) {
+
+            $LayoutObject->Block(
+                Name => 'ProcessWidgetDynamicField',
+                Data => {
+                    Label => $Field->{Label},
+                    Name  => $Field->{Name},
+                },
+            );
+
+            $LayoutObject->Block(
+                Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
+            );
+
+            if ( $Field->{Link} ) {
+                $LayoutObject->Block(
+                    Name => 'ProcessWidgetDynamicFieldLink',
+                    Data => {
+                        $Field->{Name} => $Field->{Title},
+                        %Ticket,
+
+                        # alias for ticket title, Title will be overwritten
+                        TicketTitle => $Ticket{Title},
+                        Value       => $Field->{Value},
+                        Title       => $Field->{Title},
+                        Link        => $Field->{Link},
+
+                        # Include unique parameter with dynamic field name in case of collision with others.
+                        #   Please see bug#13362 for more information.
+                        "DynamicField_$Field->{Name}" => $Field->{Title},
+                    },
+                );
+            }
+            else {
+                $LayoutObject->Block(
+                    Name => 'ProcessWidgetDynamicFieldPlain',
+                    Data => {
+                        Value => $Field->{Value},
+                        Title => $Field->{Title},
+                    },
+                );
+            }
+        }
+    }
+    elsif ( $Self->{DisplaySettings}{DynamicFieldWidgetDisplay} ) {
+
+        # get dynamic field config for frontend module
+        my $DynamicFieldFilter = {
+            %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
+            %{
+                $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
+                    ->{DynamicFieldWidgetDynamicField}
+                    || {}
+            },
+        };
+
+        # get the dynamic fields for ticket object
+        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+            Valid       => 1,
+            ObjectType  => ['Ticket'],
+            FieldFilter => $DynamicFieldFilter || {},
+        );
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+        # to store dynamic fields to be displayed in the dynamic field widget
+        my (@FieldsWidget);
+
+        # cycle trough the activated Dynamic Fields for ticket object
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$DynamicField} ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+            next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
+
+            # use translation here to be able to reduce the character length in the template
+            my $Label = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} );
+
+            if ( $Self->{DisplaySettings}->{DynamicFieldWidgetDynamicField}->{ $DynamicFieldConfig->{Name} } ) {
+                my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                    LayoutObject       => $LayoutObject,
+
+                    # no ValueMaxChars here, enough space available
+                );
+
+                push @FieldsWidget, {
+                    $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+                    Name                        => $DynamicFieldConfig->{Name},
+                    Title                       => $ValueStrg->{Title},
+                    Value                       => $ValueStrg->{Value},
+                    ValueKey                    => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                    Label                       => $Label,
+                    Link                        => $ValueStrg->{Link},
+                    LinkPreview                 => $ValueStrg->{LinkPreview},
+
+                    # Include unique parameter with dynamic field name in case of collision with others.
+                    #   Please see bug#13362 for more information.
+                    "DynamicField_$DynamicFieldConfig->{Name}" => $ValueStrg->{Title},
+                };
+            }
+        }
+
+        # output dynamic fields registered for a group in the dynamic field widget
+        my @FieldsInAGroup;
+        for my $GroupName (
+            sort keys %{ $Self->{DisplaySettings}->{DynamicFieldWidgetDynamicFieldGroups} }
+            )
+        {
+
+            $LayoutObject->Block(
+                Name => 'ProcessWidgetDynamicFieldGroups',
+            );
+
+            my $GroupFieldsString = $Self->{DisplaySettings}->{DynamicFieldWidgetDynamicFieldGroups}->{$GroupName};
+
+            $GroupFieldsString =~ s{\s}{}xmsg;
+            my @GroupFields = split /,/, $GroupFieldsString;
+
+            if ( $#GroupFields + 1 ) {
+
+                my $ShowGroupTitle = 0;
+                for my $Field (@FieldsWidget) {
+
+                    if ( grep { $_ eq $Field->{Name} } @GroupFields ) {
+
+                        $ShowGroupTitle = 1;
+                        $LayoutObject->Block(
+                            Name => 'ProcessWidgetDynamicField',
+                            Data => {
+                                Label => $Field->{Label},
+                                Name  => $Field->{Name},
+                            },
+                        );
+
+                        $LayoutObject->Block(
+                            Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
+                        );
+
+                        if ( $Field->{Link} ) {
+                            $LayoutObject->Block(
+                                Name => 'ProcessWidgetDynamicFieldLink',
+                                Data => {
+                                    $Field->{Name} => $Field->{Title},
+                                    %Ticket,
+
+                                    # alias for ticket title, Title will be overwritten
+                                    TicketTitle => $Ticket{Title},
+                                    Value       => $Field->{Value},
+                                    Title       => $Field->{Title},
+                                    Link        => $Field->{Link},
+                                    LinkPreview => $Field->{LinkPreview},
+
+                                    # Include unique parameter with dynamic field name in case of collision with others.
+                                    #   Please see bug#13362 for more information.
+                                    "DynamicField_$Field->{Name}" => $Field->{Title},
+                                },
+                            );
+                        }
+                        else {
+                            $LayoutObject->Block(
+                                Name => 'ProcessWidgetDynamicFieldPlain',
+                                Data => {
+                                    Value => $Field->{Value},
+                                    Title => $Field->{Title},
+                                },
+                            );
+                        }
+                        push @FieldsInAGroup, $Field->{Name};
+                    }
+                }
+
+                if ($ShowGroupTitle) {
+                    $LayoutObject->Block(
+                        Name => 'ProcessWidgetDynamicFieldGroupSeparator',
+                        Data => {
+                            Name => $GroupName,
+                        },
+                    );
+                }
+            }
+        }
+
+        # output dynamic fields not registered in a group in the dynamic field widget
         my @RemainingFieldsWidget;
         for my $Field (@FieldsWidget) {
 
