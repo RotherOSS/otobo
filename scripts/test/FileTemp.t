@@ -23,7 +23,7 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
-use File::Basename;
+use File::Basename qw(dirname);
 use File::Copy;
 
 # get config object

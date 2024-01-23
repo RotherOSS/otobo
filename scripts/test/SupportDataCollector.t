@@ -20,7 +20,6 @@ use warnings;
 use utf8;
 
 # core modules
-use File::Basename;
 use Time::HiRes ();
 
 # CPAN modules

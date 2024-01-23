@@ -20,10 +20,15 @@ package Kernel::System::Console::Command::Dev::Code::Generate::UnitTest::Backend
 use strict;
 use warnings;
 
-use File::Path     ();
-use File::Basename ();
-
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+use File::Path     ();
+use File::Basename qw(dirname);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -96,7 +101,7 @@ sub Run {
     );
 
     my $TargetLocation  = "$TargetHome/scripts/test/$TargetPath.t";
-    my $TargetDirectory = File::Basename::dirname($TargetLocation);
+    my $TargetDirectory = dirname($TargetLocation);
 
     if ( !-d $TargetDirectory ) {
         File::Path::make_path($TargetDirectory);
