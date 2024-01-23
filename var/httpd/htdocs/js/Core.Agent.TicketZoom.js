@@ -503,13 +503,13 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
     /**
      * @private
-     * @name InitProcessWidget
+     * @name InitOverviewWidget
      * @memberof Core.Agent.TicketZoom
      * @function
      * @description
      *      This function initializes events for process widget.
      */
-     function InitProcessWidget() {
+     function InitOverviewWidget() {
         var WidgetWidth, FieldsPerRow, FieldMargin, FieldWidth;
 
         if ($('.DynamicFieldAutoResize').length > 0) {
@@ -647,7 +647,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             ArticleFilterDialog = parseInt(Core.Config.Get('ArticleFilterDialog'), 10),
             AsyncWidgetActions = Core.Config.Get('AsyncWidgetActions') || {},
             TimelineView = Core.Config.Get('TimelineView'),
-            ProcessWidget = Core.Config.Get('ProcessWidget');
+            OverviewWidget = Core.Config.Get('OverviewWidget');
 
         // create open popup event for dropdown elements
         if (MenuItems.length > 0) {
@@ -828,8 +828,8 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         }
 
         // initialize events for process widget
-        if (typeof ProcessWidget !== 'undefined' && parseInt(ProcessWidget, 10) === 1) {
-            InitProcessWidget();
+        if (typeof OverviewWidget !== 'undefined' && parseInt(OverviewWidget, 10) === 1) {
+            InitOverviewWidget();
         }
 
         Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function() {

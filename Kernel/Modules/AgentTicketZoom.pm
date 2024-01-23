@@ -1524,13 +1524,13 @@ sub MaskAgentZoom {
 
         # send data to JS
         $LayoutObject->AddJSData(
-            Key   => 'ProcessWidget',
+            Key   => 'OverviewWidget',
             Value => 1,
         );
 
         # output the process widget in the main screen
         $LayoutObject->Block(
-            Name => 'ProcessWidget',
+            Name => 'OverviewWidget',
             Data => {
                 WidgetTitle => $Param{WidgetTitle},
             },
@@ -1641,15 +1641,14 @@ sub MaskAgentZoom {
         $Param{WidgetTitle} = $Self->{DisplaySettings}->{DynamicFieldWidgetDisplay}->{WidgetTitle};
 
         # send data to JS
-        # TODO think about renaming ProcessWidget to something more generic
         $LayoutObject->AddJSData(
-            Key   => 'ProcessWidget',
+            Key   => 'OverviewWidget',
             Value => 1,
         );
 
         # output the dynamic field widget in the main screen
         $LayoutObject->Block(
-            Name => 'ProcessWidget',
+            Name => 'OverviewWidget',
             Data => {
                 WidgetTitle => $Param{WidgetTitle},
             },
@@ -1723,7 +1722,7 @@ sub MaskAgentZoom {
         {
 
             $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicFieldGroups',
+                Name => 'OverviewWidgetDynamicFieldGroups',
             );
 
             my $GroupFieldsString = $Self->{DisplaySettings}->{ProcessWidgetDynamicFieldGroups}->{$GroupName};
@@ -1740,7 +1739,7 @@ sub MaskAgentZoom {
 
                         $ShowGroupTitle = 1;
                         $LayoutObject->Block(
-                            Name => 'ProcessWidgetDynamicField',
+                            Name => 'OverviewWidgetDynamicField',
                             Data => {
                                 Label => $Field->{Label},
                                 Name  => $Field->{Name},
@@ -1748,12 +1747,12 @@ sub MaskAgentZoom {
                         );
 
                         $LayoutObject->Block(
-                            Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
+                            Name => 'OverviewWidgetDynamicFieldValueOverlayTrigger',
                         );
 
                         if ( $Field->{Link} ) {
                             $LayoutObject->Block(
-                                Name => 'ProcessWidgetDynamicFieldLink',
+                                Name => 'OverviewWidgetDynamicFieldLink',
                                 Data => {
                                     $Field->{Name} => $Field->{Title},
                                     %Ticket,
@@ -1773,7 +1772,7 @@ sub MaskAgentZoom {
                         }
                         else {
                             $LayoutObject->Block(
-                                Name => 'ProcessWidgetDynamicFieldPlain',
+                                Name => 'OverviewWidgetDynamicFieldPlain',
                                 Data => {
                                     Value => $Field->{Value},
                                     Title => $Field->{Title},
@@ -1786,7 +1785,7 @@ sub MaskAgentZoom {
 
                 if ($ShowGroupTitle) {
                     $LayoutObject->Block(
-                        Name => 'ProcessWidgetDynamicFieldGroupSeparator',
+                        Name => 'OverviewWidgetDynamicFieldGroupSeparator',
                         Data => {
                             Name => $GroupName,
                         },
@@ -1805,13 +1804,13 @@ sub MaskAgentZoom {
         }
 
         $LayoutObject->Block(
-            Name => 'ProcessWidgetDynamicFieldGroups',
+            Name => 'OverviewWidgetDynamicFieldGroups',
         );
 
         if ( $#RemainingFieldsWidget + 1 ) {
 
             $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicFieldGroupSeparator',
+                Name => 'OverviewWidgetDynamicFieldGroupSeparator',
                 Data => {
                     Name =>
                         $LayoutObject->{LanguageObject}->Translate('Fields with no group'),
@@ -1821,7 +1820,7 @@ sub MaskAgentZoom {
         for my $Field (@RemainingFieldsWidget) {
 
             $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicField',
+                Name => 'OverviewWidgetDynamicField',
                 Data => {
                     Label => $Field->{Label},
                     Name  => $Field->{Name},
@@ -1829,12 +1828,12 @@ sub MaskAgentZoom {
             );
 
             $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
+                Name => 'OverviewWidgetDynamicFieldValueOverlayTrigger',
             );
 
             if ( $Field->{Link} ) {
                 $LayoutObject->Block(
-                    Name => 'ProcessWidgetDynamicFieldLink',
+                    Name => 'OverviewWidgetDynamicFieldLink',
                     Data => {
                         $Field->{Name} => $Field->{Title},
                         %Ticket,
@@ -1853,7 +1852,7 @@ sub MaskAgentZoom {
             }
             else {
                 $LayoutObject->Block(
-                    Name => 'ProcessWidgetDynamicFieldPlain',
+                    Name => 'OverviewWidgetDynamicFieldPlain',
                     Data => {
                         Value => $Field->{Value},
                         Title => $Field->{Title},
@@ -1929,7 +1928,7 @@ sub MaskAgentZoom {
         {
 
             $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicFieldGroups',
+                Name => 'OverviewWidgetDynamicFieldGroups',
             );
 
             my $GroupFieldsString = $Self->{DisplaySettings}->{DynamicFieldWidgetDynamicFieldGroups}->{$GroupName};
@@ -1946,7 +1945,7 @@ sub MaskAgentZoom {
 
                         $ShowGroupTitle = 1;
                         $LayoutObject->Block(
-                            Name => 'ProcessWidgetDynamicField',
+                            Name => 'OverviewWidgetDynamicField',
                             Data => {
                                 Label => $Field->{Label},
                                 Name  => $Field->{Name},
@@ -1954,12 +1953,12 @@ sub MaskAgentZoom {
                         );
 
                         $LayoutObject->Block(
-                            Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
+                            Name => 'OverviewWidgetDynamicFieldValueOverlayTrigger',
                         );
 
                         if ( $Field->{Link} ) {
                             $LayoutObject->Block(
-                                Name => 'ProcessWidgetDynamicFieldLink',
+                                Name => 'OverviewWidgetDynamicFieldLink',
                                 Data => {
                                     $Field->{Name} => $Field->{Title},
                                     %Ticket,
@@ -1979,7 +1978,7 @@ sub MaskAgentZoom {
                         }
                         else {
                             $LayoutObject->Block(
-                                Name => 'ProcessWidgetDynamicFieldPlain',
+                                Name => 'OverviewWidgetDynamicFieldPlain',
                                 Data => {
                                     Value => $Field->{Value},
                                     Title => $Field->{Title},
@@ -1992,7 +1991,7 @@ sub MaskAgentZoom {
 
                 if ($ShowGroupTitle) {
                     $LayoutObject->Block(
-                        Name => 'ProcessWidgetDynamicFieldGroupSeparator',
+                        Name => 'OverviewWidgetDynamicFieldGroupSeparator',
                         Data => {
                             Name => $GroupName,
                         },
@@ -2011,13 +2010,13 @@ sub MaskAgentZoom {
         }
 
         $LayoutObject->Block(
-            Name => 'ProcessWidgetDynamicFieldGroups',
+            Name => 'OverviewWidgetDynamicFieldGroups',
         );
 
         if ( $#RemainingFieldsWidget + 1 ) {
 
             $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicFieldGroupSeparator',
+                Name => 'OverviewWidgetDynamicFieldGroupSeparator',
                 Data => {
                     Name =>
                         $LayoutObject->{LanguageObject}->Translate('Fields with no group'),
@@ -2027,7 +2026,7 @@ sub MaskAgentZoom {
         for my $Field (@RemainingFieldsWidget) {
 
             $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicField',
+                Name => 'OverviewWidgetDynamicField',
                 Data => {
                     Label => $Field->{Label},
                     Name  => $Field->{Name},
@@ -2035,12 +2034,12 @@ sub MaskAgentZoom {
             );
 
             $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
+                Name => 'OverviewWidgetDynamicFieldValueOverlayTrigger',
             );
 
             if ( $Field->{Link} ) {
                 $LayoutObject->Block(
-                    Name => 'ProcessWidgetDynamicFieldLink',
+                    Name => 'OverviewWidgetDynamicFieldLink',
                     Data => {
                         $Field->{Name} => $Field->{Title},
                         %Ticket,
@@ -2059,7 +2058,7 @@ sub MaskAgentZoom {
             }
             else {
                 $LayoutObject->Block(
-                    Name => 'ProcessWidgetDynamicFieldPlain',
+                    Name => 'OverviewWidgetDynamicFieldPlain',
                     Data => {
                         Value => $Field->{Value},
                         Title => $Field->{Title},
