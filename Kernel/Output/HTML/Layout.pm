@@ -433,7 +433,7 @@ EOF
 
     # load sub layout files
     my $LayoutDir = $ConfigObject->Get('TemplateDir') . '/HTML/Layout';
-    if ( -e $LayoutDir ) {
+    if ( -d $LayoutDir ) {
         my @SubLayoutFiles = $MainObject->DirectoryRead(
             Directory => $LayoutDir,
             Filter    => '*.pm',
