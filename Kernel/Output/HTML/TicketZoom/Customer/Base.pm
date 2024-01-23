@@ -123,12 +123,6 @@ sub ArticleMetaFields {
     # get dynamic field config for frontend module
     my $DynamicFieldFilter = {
         %{ $ConfigObject->Get("Ticket::Frontend::CustomerTicketZoom")->{DynamicField} || {} },
-
-        # TODO: Check if there are process dynamic fields for customer interface
-        # %{
-        #     $ConfigObject->Get("Ticket::Frontend::CustomerTicketZoom")->{ProcessWidgetDynamicField}
-        #         || {}
-        # },
     };
 
     # get the dynamic fields for article object

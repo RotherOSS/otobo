@@ -59,8 +59,9 @@ sub Run {
 
     # Get df config for zoom.
     my $DynamicFieldFilter = {
-        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField}              || {} },
-        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{ProcessWidgetDynamicField} || {} },
+        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField}                   || {} },
+        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicFieldWidgetDynamicField} || {} },
+        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{ProcessWidgetDynamicField}      || {} },
     };
     my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid       => 1,
