@@ -130,6 +130,10 @@ sub ArticleMetaFields {
     my $DynamicFieldFilter = {
         %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
         %{
+            $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicFieldWidgetDynamicField}
+                || {}
+        },
+        %{
             $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{ProcessWidgetDynamicField}
                 || {}
         },

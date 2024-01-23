@@ -371,8 +371,14 @@ sub Run {
         );
     }
 
+    # TODO order of dynamic field configs here differs from similar places - check why
     # get dynamic field config for frontend module
     my $DynamicFieldFilter = {
+        %{
+            $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
+                ->{DynamicFieldWidgetDynamicField}
+                || {}
+        },
         %{
             $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
                 ->{ProcessWidgetDynamicField}
