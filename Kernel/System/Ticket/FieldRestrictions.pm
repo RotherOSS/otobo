@@ -19,8 +19,11 @@ package Kernel::System::Ticket::FieldRestrictions;
 use strict;
 use warnings;
 
-use List::Util qw(any);
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -316,8 +319,8 @@ sub GetFieldStates {
 
             if ( exists $Content{PossibleValues} ) {
                 $Fields{$i} = {
-                    Name            => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                    PossibleValues  => $Content{PossibleValues},
+                    Name           => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    PossibleValues => $Content{PossibleValues},
                 };
             }
             elsif ( exists $Content{NewValue} ) {
