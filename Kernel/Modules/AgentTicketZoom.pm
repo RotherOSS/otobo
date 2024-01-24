@@ -1536,10 +1536,13 @@ sub MaskAgentZoom {
         );
 
         # collect and render process data if necessary
+        my $ActivityName;
+        my $NextActivityDialogs;
+        my $ProcessEntityIDField;
         if ($IsProcessTicket) {
 
             # get the DF where the ProcessEntityID is stored
-            my $ProcessEntityIDField = 'DynamicField_'
+            $ProcessEntityIDField = 'DynamicField_'
                 . $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
 
             # get the DF where the AtivityEntityID is stored
@@ -1555,108 +1558,104 @@ sub MaskAgentZoom {
             );
 
             # get next activity dialogs
-            my $NextActivityDialogs;
             if ( $Ticket{$ActivityEntityIDField} ) {
                 $NextActivityDialogs = ${ActivityData}->{ActivityDialog} || {};
             }
-            my $ActivityName = $ActivityData->{Name};
+            $ActivityName = $ActivityData->{Name};
+        }
 
-            if ($NextActivityDialogs) {
+        if ($NextActivityDialogs) {
 
-                # get ActivityDialog object
-                my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
+            # get ActivityDialog object
+            my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
 
-                # we have to check if the current user has the needed permissions to view the
-                # different activity dialogs, so we loop over every activity dialog and check if there
-                # is a permission configured. If there is a permission configured we check this
-                # and display/hide the activity dialog link
-                my %PermissionRights;
-                my %PermissionActivityDialogList;
-                ACTIVITYDIALOGPERMISSION:
-                for my $Index ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
-                    my $CurrentActivityDialogEntityID = $NextActivityDialogs->{$Index};
-                    my $CurrentActivityDialog         = $ActivityDialogObject->ActivityDialogGet(
+            # we have to check if the current user has the needed permissions to view the
+            # different activity dialogs, so we loop over every activity dialog and check if there
+            # is a permission configured. If there is a permission configured we check this
+            # and display/hide the activity dialog link
+            my %PermissionRights;
+            my %PermissionActivityDialogList;
+            ACTIVITYDIALOGPERMISSION:
+            for my $Index ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
+                my $CurrentActivityDialogEntityID = $NextActivityDialogs->{$Index};
+                my $CurrentActivityDialog         = $ActivityDialogObject->ActivityDialogGet(
+                    Interface              => 'AgentInterface',
+                    ActivityDialogEntityID => $CurrentActivityDialogEntityID
+                );
+
+                # create an interface lookup-list
+                my %InterfaceLookup = map { $_ => 1 } @{ $CurrentActivityDialog->{Interface} };
+
+                next ACTIVITYDIALOGPERMISSION if !$InterfaceLookup{AgentInterface};
+
+                if ( $CurrentActivityDialog->{Permission} ) {
+
+                    # performance-boost/cache
+                    if ( !defined $PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
+                        $PermissionRights{ $CurrentActivityDialog->{Permission} } = $TicketObject->TicketPermission(
+                            Type     => $CurrentActivityDialog->{Permission},
+                            TicketID => $Ticket{TicketID},
+                            UserID   => $Self->{UserID},
+                        );
+                    }
+
+                    if ( !$PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
+                        next ACTIVITYDIALOGPERMISSION;
+                    }
+                }
+
+                $PermissionActivityDialogList{$Index} = $CurrentActivityDialogEntityID;
+            }
+
+            # reduce next activity dialogs to the ones that have permissions
+            $NextActivityDialogs = \%PermissionActivityDialogList;
+
+            # get ACL restrictions
+            my $ACL = $TicketObject->TicketAcl(
+                Data          => \%PermissionActivityDialogList,
+                TicketID      => $Ticket{TicketID},
+                Action        => $Self->{Action},
+                ReturnType    => 'ActivityDialog',
+                ReturnSubType => '-',
+                UserID        => $Self->{UserID},
+            );
+
+            if ($ACL) {
+                %{$NextActivityDialogs} = $TicketObject->TicketAclData();
+            }
+
+            $LayoutObject->Block(
+                Name => 'NextActivityDialogs',
+                Data => {
+                    'ActivityName' => $ActivityName,
+                },
+            );
+
+            if ( IsHashRefWithData($NextActivityDialogs) ) {
+                for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
+                    my $ActivityDialogData = $ActivityDialogObject->ActivityDialogGet(
                         Interface              => 'AgentInterface',
-                        ActivityDialogEntityID => $CurrentActivityDialogEntityID
+                        ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     );
-
-                    # create an interface lookup-list
-                    my %InterfaceLookup = map { $_ => 1 } @{ $CurrentActivityDialog->{Interface} };
-
-                    next ACTIVITYDIALOGPERMISSION if !$InterfaceLookup{AgentInterface};
-
-                    if ( $CurrentActivityDialog->{Permission} ) {
-
-                        # performance-boost/cache
-                        if ( !defined $PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
-                            $PermissionRights{ $CurrentActivityDialog->{Permission} } = $TicketObject->TicketPermission(
-                                Type     => $CurrentActivityDialog->{Permission},
-                                TicketID => $Ticket{TicketID},
-                                UserID   => $Self->{UserID},
-                            );
-                        }
-
-                        if ( !$PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
-                            next ACTIVITYDIALOGPERMISSION;
-                        }
-                    }
-
-                    $PermissionActivityDialogList{$Index} = $CurrentActivityDialogEntityID;
-                }
-
-                # reduce next activity dialogs to the ones that have permissions
-                $NextActivityDialogs = \%PermissionActivityDialogList;
-
-                # get ACL restrictions
-                my $ACL = $TicketObject->TicketAcl(
-                    Data          => \%PermissionActivityDialogList,
-                    TicketID      => $Ticket{TicketID},
-                    Action        => $Self->{Action},
-                    ReturnType    => 'ActivityDialog',
-                    ReturnSubType => '-',
-                    UserID        => $Self->{UserID},
-                );
-
-                if ($ACL) {
-                    %{$NextActivityDialogs} = $TicketObject->TicketAclData();
-                }
-
-                $LayoutObject->Block(
-                    Name => 'NextActivityDialogs',
-                    Data => {
-                        'ActivityName' => $ActivityName,
-                    },
-                );
-
-                if ( IsHashRefWithData($NextActivityDialogs) ) {
-                    for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
-                        my $ActivityDialogData = $ActivityDialogObject->ActivityDialogGet(
-                            Interface              => 'AgentInterface',
-                            ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
-                        );
-                        $LayoutObject->Block(
-                            Name => 'ActivityDialog',
-                            Data => {
-                                ActivityDialogEntityID
-                                    => $NextActivityDialogs->{$NextActivityDialogKey},
-                                Name            => $ActivityDialogData->{Name},
-                                ProcessEntityID => $Ticket{$ProcessEntityIDField},
-                                TicketID        => $Ticket{TicketID},
-                            },
-                        );
-                    }
-                }
-                else {
                     $LayoutObject->Block(
-                        Name => 'NoActivityDialogs',
-                        Data => {},
+                        Name => 'ActivityDialog',
+                        Data => {
+                            ActivityDialogEntityID
+                                => $NextActivityDialogs->{$NextActivityDialogKey},
+                            Name            => $ActivityDialogData->{Name},
+                            ProcessEntityID => $Ticket{$ProcessEntityIDField},
+                            TicketID        => $Ticket{TicketID},
+                        },
                     );
                 }
             }
+            else {
+                $LayoutObject->Block(
+                    Name => 'NoActivityDialogs',
+                    Data => {},
+                );
+            }
         }
-    }
-
-    if (%WidgetData) {
 
         # get dynamic field config for frontend module
         my $DynamicFieldFilter = {
