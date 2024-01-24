@@ -532,7 +532,7 @@ sub HasBehavior {
     }
 
     # return success if the dynamic field has the expected behavior
-    return SUPER::HasBehavior( Behavior => $Param{Behavior} );
+    return $Self->SUPER::HasBehavior( Behavior => $Param{Behavior} );
 }
 
 sub PossibleValuesGet {
@@ -573,7 +573,7 @@ sub GetFieldState {
     }
 
     # or if we have the field reappear
-    elsif ( $Param{CachedVisibility} && $Param{CachedVisibility}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } == 0 ) {
+    elsif ( $Param{CachedVisibility} && !$Param{CachedVisibility}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ) {
         $NeedsReset = 1;
     }
 

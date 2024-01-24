@@ -292,7 +292,7 @@ sub GetFieldStates {
             my %Content = $Param{DynamicFieldBackendObject}->GetFieldState(
                 %Param,
                 Visibility         => \%Visibility,
-                CachedVisibility   => $CachedVisibility // {},
+                CachedVisibility   => $CachedVisibility,
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
