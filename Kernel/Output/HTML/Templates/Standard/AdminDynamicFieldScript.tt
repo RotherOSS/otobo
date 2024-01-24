@@ -205,15 +205,15 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("Expression") %]
 [% RenderBlockStart("RequiredArgs") %]
-                        <label for="RequiredArgs">[% Translate("Preconditions") | html %]:</label>
+                        <label for="RequiredArgs">[% Translate("Requirements") | html %]:</label>
                         <div class="Field">
                             [% Data.RequiredStrg %]
-                            <p class="FieldExplanation">[% Translate("If set, the function will only be evaluated if all chosen arguments have a true value.") | html %]</p>
+                            <p class="FieldExplanation">[% Translate("If set, the function will only be evaluated if all chosen attributes are set.") | html %]</p>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("RequiredArgs") %]
 [% RenderBlockStart("AJAXTriggers") %]
-                        <label for="AJAXTriggers">[% Translate("AJAX Triggers") | html %]:</label>
+                        <label for="AJAXTriggers">[% Translate("Preview Triggers") | html %]:</label>
                         <div class="Field">
                             [% Data.AJAXStrg %]
                             <p class="FieldExplanation">[% Translate("If set, the field will be recalculated upon AJAX updates in ticket masks.") | html %]</p>
@@ -221,7 +221,7 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("AJAXTriggers") %]
 [% RenderBlockStart("UpdateEvents") %]
-                        <label for="UpdateEvents">[% Translate("Update Events") | html %]:</label>
+                        <label for="UpdateEvents">[% Translate("Storage Triggers (Events)") | html %]:</label>
                         <div class="Field">
                             [% Data.EventStrg %]
                             <p class="FieldExplanation">[% Translate("If set, the field will be recalculated for the following events.") | html %]</p>

@@ -260,14 +260,14 @@ sub _AddAction {
     for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
         if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in AJAXTriggers.'),
+                Message => Translatable('Bad value in PreviewTriggers.'),
             );
         }
     }
     for my $Event ( $GetParam{UpdateEvents}->@* ) {
         if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in UpdateEvents.'),
+                Message => Translatable('Bad value in StorageTriggers.'),
             );
         }
     }
@@ -544,14 +544,14 @@ sub _ChangeAction {
     for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
         if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in AJAXTriggers.'),
+                Message => Translatable('Bad value in PreviewTriggers.'),
             );
         }
     }
     for my $Event ( $GetParam{UpdateEvents}->@* ) {
         if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in UpdateEvents.'),
+                Message => Translatable('Bad value in StorageTriggers.'),
             );
         }
     }
