@@ -92,6 +92,7 @@ run all or some tests located in C<scripts/test/**/*.t> and print the result.
         Directory       => 'Selenium',                    # optional, execute only the tests in a subdirectory relative to scripts/test
         SOPMFiles       => ['FAQ.sopm', 'Fred.sopm' ],    # optional, execute only the tests in the Filelist of the .sopm files
         Packages        => ['Survey', 'TimeAccounting' ], # optional, execute only the tests in the Filelist of the installed package
+                                                          # 'core' indicates the core files listed in ARCHIVE
         Verbose         => 1,                             # optional (default 0), only show result details for all tests, not just failing
         PostTestScripts => ['...'],                       # Script(s) to execute after a test has been run.
                                                           #   You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
@@ -177,6 +178,32 @@ sub Run {
 
         PACKAGE:
         for my $Package (@Packages) {
+
+            # Special package name. Get test scripts in OTOBO core.
+            if ( $Package eq 'core' ) {
+                my $ChecksumFile = "$Home/ARCHIVE";
+                my $ChecksumFileArrayRef;
+                if ( -e $ChecksumFile ) {
+                    $ChecksumFileArrayRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                        Location        => $ChecksumFile,
+                        Mode            => 'utf8',
+                        Type            => 'Local',
+                        Result          => 'ARRAY',
+                        DisableWarnings => 1,
+                    );
+                }
+
+                if ( $ChecksumFileArrayRef && @{$ChecksumFileArrayRef} ) {
+
+                    # for some reason the trailing .t is checked seperately
+                    push @ExecuteTestPatterns,
+                        map  {s/\.t$//r}
+                        map  {s/\s+$//r}
+                        grep {m!^scripts/test/!}
+                        map  {s/.*:://r}           # remove the leading MD5sum
+                        $ChecksumFileArrayRef->@*;
+                }
+            }
 
             # Silently ignore not installed packages
             next PACKAGE unless $PackageListLookup{$Package};
