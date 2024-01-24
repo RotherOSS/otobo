@@ -24,7 +24,6 @@ use parent qw(Kernel::System::Console::BaseCommand);
 # core modules
 use File::Basename qw(dirname);
 use FindBin        qw($Bin);
-use List::Util     qw(sum0);
 
 # CPAN modules
 use CPAN::Audit 20230826.001;

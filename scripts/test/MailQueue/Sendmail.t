@@ -18,16 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $main::Self
+use Kernel::System::Email::Sendmail;
 
 our $Self;
 
-use List::Util ();
-
-use Kernel::System::Email::Sendmail;
-
-no strict 'refs';    ## no critic (TestingAndDebugging::ProhibitProlongedStrictureOverride TestingAndDebugging::ProhibitNoStrict)
+no strict 'refs';                                ## no critic (TestingAndDebugging::ProhibitProlongedStrictureOverride TestingAndDebugging::ProhibitNoStrict)
 
 my $Home           = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my %SendmailAction = (
