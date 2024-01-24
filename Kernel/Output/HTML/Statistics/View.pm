@@ -21,8 +21,11 @@ package Kernel::Output::HTML::Statistics::View;
 use strict;
 use warnings;
 
-use List::Util qw( first );
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DateTime;
 

@@ -25,7 +25,6 @@ use utf8;
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
 # core modules
-use List::Util qw(any);
 
 # CPAN modules
 

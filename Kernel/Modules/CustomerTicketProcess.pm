@@ -21,7 +21,6 @@ use strict;
 use warnings;
 
 # core modules
-use List::Util qw(any);
 
 # CPAN modules
 

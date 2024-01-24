@@ -21,7 +21,6 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
-use List::Util qw(first);
 
 # CPAN modules
 
