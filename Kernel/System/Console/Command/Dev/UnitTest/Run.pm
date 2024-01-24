@@ -64,11 +64,12 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'package',
-        Description => 'Filter file list, allow to run scripts mentioned in the Filelist of the installed package.',
-        Required    => 0,
-        HasValue    => 1,
-        Multiple    => 1,
-        ValueRegex  => qr/^\w/smx,
+        Description =>
+            q{Filter file list, allow to run scripts mentioned in the FileList of the installed package. The package 'core' indicates the core files listed in ARCHIVE. },
+        Required   => 0,
+        HasValue   => 1,
+        Multiple   => 1,
+        ValueRegex => qr/^\w/smx,
     );
     $Self->AddOption(
         Name        => 'verbose',
