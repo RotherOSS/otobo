@@ -2418,6 +2418,9 @@ build a HTML option element based on given data
 
         ValidateDateAfter  => '2016-01-01',  # (optional) validate that date is after supplied value
         ValidateDateBefore => '2016-01-01',  # (optional) validate that date is before supplied value
+        DataAttributes     => {              # (optional) are appended as 'data-some-key="some-value"' to selection html
+            'some-key' => 'some-value',
+        },
     );
 
     my $HashRef = {
@@ -2567,6 +2570,7 @@ sub BuildSelection {
         ExpandFilters      => $Param{ExpandFilters},
         ValidateDateAfter  => $Param{ValidateDateAfter},
         ValidateDateBefore => $Param{ValidateDateBefore},
+        DataAttributes     => $Param{DataAttributes},
     );
 }
 
@@ -6175,6 +6179,19 @@ sub _BuildSelectionOutput {
 
             if ( $Param{ExpandFilters} ) {
                 push @Attributes, 'data-expand-filters="' . int( $Param{ExpandFilters} ) . '"';
+            }
+        }
+
+        # add custom data attributes
+        if ( $Param{DataAttributes} && IsHashRefWithData( $Param{DataAttributes} ) ) {
+
+            DATAATTRIBUTE:
+            for my $DataAttribute ( keys $Param{DataAttributes}->%* ) {
+
+                # only use scalar values
+                next DATAATTRIBUTE if ref $Param{DataAttributes}{$DataAttribute};
+
+                push @Attributes, qq{data-$DataAttribute="$Param{DataAttributes}{$DataAttribute}"};
             }
         }
 
