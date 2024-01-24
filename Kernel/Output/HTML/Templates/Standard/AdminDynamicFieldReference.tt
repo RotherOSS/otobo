@@ -218,7 +218,7 @@
 
 [% RenderBlockStart("ReferenceFilterRow") %]
                             <fieldset id="ReferenceFilterRow_[% Data.EntryCounter | html %]" class="TableLike SpacingTop ReferenceFilterRow W50pc">
-                                <label for="ReferenceFilter_ReferenceObjectAttribute_[% Data.EntryCounter | html %]">[% Translate("Referenced object attribute") | html %]:</label>
+                                <label for="ReferenceFilter_ReferenceObjectAttribute_[% Data.EntryCounter | html %]">[% Translate("Object attribute") | html %]:</label>
                                 <div class="Field">
                                     [% Data.ReferenceFilter_ReferenceObjectAttributeStrg %]
                                     <p class="FieldExplanation">[% Translate("Select an attribute of the referenced object by which the selectable entries will be filtered.") | html %]</p>
@@ -227,7 +227,7 @@
                                 </div>
                                 <div class="Clear"></div>
 
-                                <label for="ReferenceFilter_EqualsObjectAttribute_[% Data.EntryCounter | html %]">[% Translate("matches object attribute") | html %]:</label>
+                                <label for="ReferenceFilter_EqualsObjectAttribute_[% Data.EntryCounter | html %]">[% Translate("matches mask attribute") | html %]:</label>
                                 <div class="Field">
                                     [% Data.ReferenceFilter_EqualsObjectAttributeStrg %]
                                     <p class="FieldExplanation">[% Translate("Select an attribute of the edit mask to compare the selected attribute of the referenced object against.") | html %]</p>
@@ -252,7 +252,7 @@
                         </div>
 
                         <fieldset class="ReferenceFilterTemplate Hidden TableLike SpacingTop">
-                            <label class="W50pc" for="ReferenceFilter_ReferenceObjectAttribute">[% Translate("Referenced object attribute") | html %]:</label>
+                            <label class="W50pc" for="ReferenceFilter_ReferenceObjectAttribute">[% Translate("Object attribute") | html %]:</label>
                             <div class="Field">
                                 [% Data.ReferenceFilter_ReferenceObjectAttributeStrg %]
                                 <p class="FieldExplanation">[% Translate("Select an attribute of the referenced object by which the selectable entries will be filtered.") | html %]</p>
@@ -261,7 +261,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label class="W50pc" for="ReferenceFilter_EqualsObjectAttribute">[% Translate("matches object attribute") | html %]:</label>
+                            <label class="W50pc" for="ReferenceFilter_EqualsObjectAttribute">[% Translate("matches mask attribute") | html %]:</label>
                             <div class="Field">
                                 [% Data.ReferenceFilter_EqualsObjectAttributeStrg %]
                                 <p class="FieldExplanation">[% Translate("Select an attribute of the edit mask to compare the selected attribute of the referenced object against.") | html %]</p>
