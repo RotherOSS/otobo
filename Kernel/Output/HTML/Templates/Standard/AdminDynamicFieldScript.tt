@@ -208,7 +208,7 @@
                         <label for="RequiredArgs">[% Translate("Requirements") | html %]:</label>
                         <div class="Field">
                             [% Data.RequiredStrg %]
-                            <p class="FieldExplanation">[% Translate("If set, the function will only be evaluated if all chosen arguments have a true (non-empty) value.") | html %]</p>
+                            <p class="FieldExplanation">[% Translate("If set, the function will only be evaluated if all chosen attributes are set.") | html %]</p>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("RequiredArgs") %]
