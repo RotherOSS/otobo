@@ -93,6 +93,7 @@ run all or some tests located in C<scripts/test/**/*.t> and print the result.
         Directory       => 'Selenium',                    # optional, execute only the tests in a subdirectory relative to scripts/test
         SOPMFiles       => ['FAQ.sopm', 'Fred.sopm' ],    # optional, execute only the tests in the Filelist of the .sopm files
         Packages        => ['Survey', 'TimeAccounting' ], # optional, execute only the tests in the Filelist of the installed package
+                                                          # 'core' indicates the core files listed in ARCHIVE
         Verbose         => 1,                             # optional (default 0), only show result details for all tests, not just failing
         Merge           => 1,                             # optional (default 0), merge STDERR and STDOUT of test scripts
         PostTestScripts => ['...'],                       # Script(s) to execute after a test has been run.
@@ -236,6 +237,32 @@ sub Run {
             PACKAGE:
             for my $Package (@Packages) {
 
+                # Special package name. Get test scripts in OTOBO core.
+                if ( $Package eq 'core' ) {
+                    my $ChecksumFile = "$Home/ARCHIVE";
+                    my $ChecksumFileArrayRef;
+                    if ( -e $ChecksumFile ) {
+                        $ChecksumFileArrayRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                            Location        => $ChecksumFile,
+                            Mode            => 'utf8',
+                            Type            => 'Local',
+                            Result          => 'ARRAY',
+                            DisableWarnings => 1,
+                        );
+                    }
+
+                    if ( $ChecksumFileArrayRef && @{$ChecksumFileArrayRef} ) {
+
+                        # for some reason the trailing .t is checked seperately
+                        push @ExecuteTestPatterns,
+                            map  {qr!/\Q$_\E$!smx}
+                            grep {m!^scripts/test/!}
+                            map  {s/\s+$//r}
+                            map  {s/.*:://r}           # remove the leading MD5sum
+                            $ChecksumFileArrayRef->@*;
+                    }
+                }
+
                 # Silently ignore not installed packages
                 next PACKAGE unless $PackageListLookup{$Package};
 
@@ -335,9 +362,6 @@ sub Run {
                     $Cmd =~ s{%TestOk%}{$TestOk}iesmxg;
                     my $TestNotOk = $Parser->actual_failed();
                     $Cmd =~ s{%TestNotOk%}{$TestNotOk}iesmxg;
-
-                    #use Data::Dumper;
-                    #warn Dumper( [ 'LLL', $Cmd, $TestScript, $TestInfo, $Parser ] );
 
                     # finally do the work
                     system $Cmd;
