@@ -216,7 +216,7 @@
                         <label for="AJAXTriggers">[% Translate("Preview Triggers") | html %]:</label>
                         <div class="Field">
                             [% Data.AJAXStrg %]
-                            <p class="FieldExplanation">[% Translate("If set, the field will be recalculated upon AJAX updates in ticket masks.") | html %]</p>
+                            <p class="FieldExplanation">[% Translate("If set, the field will be recalculated upon AJAX updates in edit masks.") | html %]</p>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("AJAXTriggers") %]
