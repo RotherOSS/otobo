@@ -19,15 +19,15 @@ package Kernel::System::UnitTest;
 use v5.24;
 use strict;
 use warnings;
-use utf8;
 use namespace::autoclean;
+use utf8;
 
 # core modules
 use File::stat;
-use Storable();
-use Term::ANSIColor();
+use Storable        ();
+use Term::ANSIColor ();
 use TAP::Harness;
-use List::Util qw(any);
+use List::Util    qw(any);
 use Sys::Hostname qw(hostname);
 
 # CPAN modules
@@ -196,7 +196,7 @@ sub Run {
     }
 
     # Determine which tests should be skipped because of UnitTest::Blacklist
-    my ( @SkippedTests, @ActualTests );
+    my ( @SkippedTests, @ActualTestScripts );
     {
         # Get patterns for blacklisted tests
         my @BlacklistPatterns;
@@ -241,7 +241,7 @@ sub Run {
 
             # Check if a file with the same path and name exists in the Custom folder.
             my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
-            push @ActualTests, -e $CustomFile ? $CustomFile : $File;
+            push @ActualTestScripts, -e $CustomFile ? $CustomFile : $File;
         }
     }
 
@@ -277,10 +277,10 @@ sub Run {
 
                 for my $PostTestScript (@PostTestScripts) {
 
-                    # command template as specified on the commant line
+                    # command template as specified on the command line
                     my $Cmd = $PostTestScript;
 
-                    # It's not obvious when $TestInfo contains.
+                    # It's not obvious what $TestInfo contains.
                     # The first array element seems to be the test script name.
                     my ($TestScript) = $TestInfo->@*;
                     $Cmd =~ s{%File%}{$TestScript}ismxg;
@@ -291,9 +291,6 @@ sub Run {
                     my $TestNotOk = $Parser->actual_failed();
                     $Cmd =~ s{%TestNotOk%}{$TestNotOk}iesmxg;
 
-                    #use Data::Dumper;
-                    #warn Dumper( [ 'LLL', $Cmd, $TestScript, $TestInfo, $Parser ] );
-
                     # finally do the work
                     system $Cmd;
                 }
@@ -301,7 +298,7 @@ sub Run {
         );
     }
 
-    my $Aggregate = $Harness->runtests(@ActualTests);
+    my $Aggregate = $Harness->runtests(@ActualTestScripts);
 
     if (@SkippedTests) {
         say "Following blacklisted tests were skipped:";

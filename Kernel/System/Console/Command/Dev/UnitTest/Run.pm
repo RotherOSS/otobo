@@ -16,7 +16,7 @@
 
 package Kernel::System::Console::Command::Dev::UnitTest::Run;
 
-use v5.24.0;
+use v5.24;
 use strict;
 use warnings;
 use utf8;
