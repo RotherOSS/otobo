@@ -14269,7 +14269,7 @@ Thanks for your help!
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDisplay" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDisplay" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
         <Description Translatable="1">Display settings to override defaults for dynamic field widget for Tickets.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
@@ -14279,7 +14279,7 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDynamicFieldGroups" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDynamicFieldGroups" Required="0" Valid="0">
         <Description Translatable="1">Dynamic fields groups for dynamic field widget. The key is the name of the group, the value contains the fields to be shown. Example: 'Key =&gt; My Group', 'Content: Name_X, NameY'.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
