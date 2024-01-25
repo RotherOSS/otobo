@@ -444,7 +444,7 @@ my $RedirectOtoboApp = sub {
     }
     else {
 
-        # hike up the approbriate number of levels, e.g. '',  '..',  or '../../../..'
+        # hike up the appropriate number of levels, e.g. '',  '..',  or '../../../..'
         my $OrigPath = Plack::Request->new($Env)->path;
         my $Levels   = $OrigPath =~ tr[/][];
         $Redirect = join '/', ( map {'..'} ( 1 .. ( $Levels - 1 ) ) ), $Interface;
