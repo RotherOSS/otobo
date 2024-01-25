@@ -19,7 +19,11 @@ package Kernel::Modules::AdminGroup;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
