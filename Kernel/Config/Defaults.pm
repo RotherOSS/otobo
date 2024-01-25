@@ -114,7 +114,7 @@ sub LoadDefaults {
 
     # ProductName
     # (Application name displayed in frontend.)
-    $Self->{ProductName} = 'OTOBO 10';
+    $Self->{ProductName} = 'OTOBO 11';
 
     # --------------------------------------------------- #
     # database settings                                   #
