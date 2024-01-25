@@ -18,13 +18,16 @@ use strict;
 use warnings;
 use v5.24;
 
+# core modules
+
+# CPAN modules
+
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::Valid ();
+use Kernel::System::ObjectManager;
 
 our $Self;
-
-use Kernel::System::Valid;
-use Kernel::System::ObjectManager;
 
 $Self->Is(
     $Kernel::OM->Get('Kernel::System::UnitTest::Driver'),

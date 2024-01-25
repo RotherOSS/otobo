@@ -19,9 +19,11 @@
 
 # First, we add a method to Kernel::System::Valid.
 
-use Kernel::System::Valid;    ## no critic (Modules::RequireExplicitPackage)
+## no critic (Modules::RequireExplicitPackage)
 
-package Kernel::System::Valid;    ## no critic (Modules::RequireFilenameMatchesPackage)
+use Kernel::System::Valid ();    ## no perlimport
+
+package Kernel::System::Valid;   ## no critic (Modules::RequireFilenameMatchesPackage)
 
 use strict;
 use warnings;
