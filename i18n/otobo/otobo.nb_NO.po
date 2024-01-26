@@ -10,15 +10,15 @@
 # Tor Houghton <th-transifex@bogus.net>, 2018
 # LarsMagnusHerland <lars.magnus@herland.priv.no>, 2019
 # Rune Bjørnerås <rune@bibsyst.no>, 2023.
-# Jorn Odberg <jorn.odberg@gmail.com>, 2023.
+# Jorn Odberg <jorn.odberg@gmail.com>, 2023, 2024.
 # Tore Morkemo <morkemo@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-07-10 13:55+0000\n"
-"Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
+"PO-Revision-Date: 2024-01-27 12:00+0000\n"
+"Last-Translator: Jorn Odberg <jorn.odberg@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
 "Language: nb_NO\n"
@@ -10600,7 +10600,7 @@ msgstr "Advarsel"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
-msgstr "Utsted%sen sak"
+msgstr "Opprett%sen sak"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
