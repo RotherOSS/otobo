@@ -707,13 +707,9 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
 /* Dynamic Field Set */
 
 fieldset.TableLike .DFSetOuterField {
-    max-width: 70%;
+    max-width: 630px; /*width 620px + left margin*/
+    width: calc( 70% - 46px );  /* width of AddRemoveValueRow + left margin*/
     box-sizing: border-box;
-}
-
-fieldset.TableLike .MultiValue .DFSetOuterField {
-    max-width: calc( 70% - 36px );
-    width: calc( 70% - 36px );
 }
 
 fieldset.TableLike .DynamicFieldSet {
@@ -722,6 +718,13 @@ fieldset.TableLike .DynamicFieldSet {
 }
 
 fieldset.TableLike .DynamicFieldSet .Row > .FieldCell {
+    padding: 8px;
+    display: grid;
+    columns: 3;
+    grid-template-columns: 20% 1fr 32px;
+}
+
+fieldset.TableLike .DynamicFieldSet .Row.MultiColumn > .FieldCell {
     padding: 8px;
     display: grid;
     columns: 2;
@@ -741,11 +744,11 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field {
     box-sizing: border-box;
-    grid-column: 1;
+    grid-column: 2;
 }
 
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row.MultiValue .Field {
-    grid-column-end: span 1;
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row.MultiColumn .Field {
+    grid-column: 1;
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > * {
@@ -777,6 +780,11 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
 }
 
 fieldset.TableLike .DynamicFieldSet .AddRemoveValueRow {
+    grid-column: 3;
+    box-sizing: border-box;
+}
+
+fieldset.TableLike .DynamicFieldSet .Row.MultiColumn .AddRemoveValueRow {
     grid-column: 2;
 }
 
