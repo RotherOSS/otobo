@@ -301,8 +301,13 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => "return \$.active == 0"
         );
-        $Selenium->find_element( "#ui-id-1 > li > a",     'css' )->click();
-        $Selenium->find_element( "#QueueID_Search",       'css' )->send_keys('raw');
+        $Selenium->find_element( "#ui-id-1 > li > a", 'css' )->click();
+        $Selenium->find_element( "#QueueID_Search",   'css' )->send_keys('raw');
+
+        # to prevent timing problem, we wait until raw is the only visible option in Autocomplete
+        $Selenium->WaitFor(
+            JavaScript => 'return $("#QueueID_Select > ul").children(":visible").length == 1'
+        );
         $Selenium->find_element( "#QueueID_Select",       'css' )->click();
         $Selenium->find_element( "button[type='submit']", 'css' )->click();
 
