@@ -19,7 +19,12 @@ package scripts::test::ObjectManager::ConstructorFailure;
 use strict;
 use warnings;
 
-use Kernel::System::ObjectManager;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::ObjectManager ();    ## no perlimports
 
 our @ObjectDependencies = ();
 

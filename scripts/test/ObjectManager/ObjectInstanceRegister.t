@@ -24,8 +24,8 @@ use v5.24;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::ObjectManager ();
 use Kernel::System::Valid         ();
-use Kernel::System::ObjectManager ();            # TODO: this looks redundant
 
 our $Self;
 
