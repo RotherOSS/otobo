@@ -149,11 +149,12 @@ my @IncludeDFConfigs = (
         FieldType    => 'Agent',
         ObjectType   => 'Ticket',
         Config       => {
-            PossibleNone => 1,
-            Multiselect  => 0,
-            MultiValue   => 0,
-            GroupFilter  => [],
-            Tooltip      => '',
+            EditFieldMode => 'Dropdown',
+            PossibleNone  => 1,
+            Multiselect   => 0,
+            MultiValue    => 0,
+            GroupFilter   => [],
+            Tooltip       => '',
         },
         ValidID => 1,
         UserID  => $UserID,
@@ -166,11 +167,12 @@ my @IncludeDFConfigs = (
         FieldType    => 'Agent',
         ObjectType   => 'Ticket',
         Config       => {
-            PossibleNone => 1,
-            Multiselect  => 0,
-            MultiValue   => 1,
-            GroupFilter  => [],
-            Tooltip      => '',
+            EditFieldMode => 'Dropdown',
+            PossibleNone  => 1,
+            Multiselect   => 0,
+            MultiValue    => 1,
+            GroupFilter   => [],
+            Tooltip       => '',
         },
         ValidID => 1,
         UserID  => $UserID,
@@ -3572,7 +3574,7 @@ EOF
 $IncludeDFConfigs[0]->{LabelEscaped}:
 </label>
                                 <div class="Field">
-<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[0]->{Name}_0" name="DynamicField_$IncludeDFConfigs[0]->{Name}_0" title="$IncludeDFConfigs[0]->{LabelEscaped}" value="" />
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[0]->{Name}_0" name="DynamicField_$IncludeDFConfigs[0]->{Name}_0" title="$IncludeDFConfigs[0]->{LabelEscaped}" value="Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN" />
                                 </div>
                                 <div class="Clear"></div>
                             </div>
