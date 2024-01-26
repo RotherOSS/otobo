@@ -37,7 +37,7 @@ use File::Copy  qw(move);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 # Disable warnings for redefined subroutines by setting our own WARN signal handler.
 #   Forcing package reloads in the object manager when discarding objects triggers warnings like these:

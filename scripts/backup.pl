@@ -32,7 +32,7 @@ use Cwd          qw(getcwd abs_path);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 # file scoped option variables
 my (

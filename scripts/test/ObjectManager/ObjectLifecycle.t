@@ -18,14 +18,16 @@ use strict;
 use warnings;
 use v5.24;
 
-# OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
-
-our $Self;
-
+# core modules
 use Scalar::Util qw(weaken);
 
-use Kernel::System::ObjectManager;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::ObjectManager ();
+
+our $Self;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new();
 

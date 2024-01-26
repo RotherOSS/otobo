@@ -23,8 +23,13 @@ use lib "$RealBin/../..";
 use lib "$RealBin/../../Kernel/cpan-lib";
 use lib "$RealBin/../../Custom";
 
+# core modules
+
+# CPAN modules
 use Net::LDAP;
-use Kernel::System::ObjectManager;
+
+# OTOBO modules
+use Kernel::System::ObjectManager ();
 
 # create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
