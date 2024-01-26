@@ -100,7 +100,7 @@ div.InputField_InputContainer {
 
     fieldset.TableLike > .Field > input.W50pc,
     fieldset.TableLike > .Row > .Field > input.W50pc {
-        max-width: 50%;
+        max-width: 310px;
         box-sizing: border-box;
     }
 
@@ -119,13 +119,13 @@ div.InputField_InputContainer {
 
     fieldset.TableLike > .Field > input.W75pc,
     fieldset.TableLike > .Row > .Field > input.W75pc {
-        max-width: 75%;
+        max-width: 620px;
         box-sizing: border-box;
     }
 
     fieldset.TableLike > .Field > input#Subject {
         width: 75%;
-        max-width: 75%;
+        max-width: 620px;
         box-sizing: border-box;
     }
 
@@ -135,6 +135,7 @@ div.InputField_InputContainer {
         width: calc( 75% - 7px );
         max-width: 607px;
     }
+
 }
 
 #Header div.InputField_Container {
@@ -236,8 +237,6 @@ div.Row.Row_DynamicField div.MultiColumn > div.MultiValueItem > label {
 
 fieldset.DynamicFieldSet {
     box-sizing: border-box;
-    /*margin-top: 28px; /* 1 line in normal view */
-    /*margin-bottom: 8px; /* just to visually mark the end of the set */
     width: 100%
 }
 
