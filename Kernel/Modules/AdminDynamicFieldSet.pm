@@ -282,7 +282,7 @@ sub _AddAction {
 
             if ( IsHashRefWithData($CheckResult) ) {
                 %YAMLErrors = $CheckResult->{Errors}->%*;
-                @Include    = $CheckResult->{Include}->%*;
+                @Include    = $CheckResult->{Include}->@*;
             }
 
             if (%YAMLErrors) {
