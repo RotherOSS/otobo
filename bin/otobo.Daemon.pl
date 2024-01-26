@@ -17,10 +17,10 @@
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
+use v5.24;    # activates the feature 'say', available since Perl 5.10
 use strict;
 use warnings;
 use utf8;
-use feature qw(say);
 
 use File::Basename qw(basename dirname);
 use FindBin        qw($RealBin);

@@ -20,9 +20,9 @@ package Kernel::System::ObjectManager;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
+use v5.24;    # activates the feature 'current_sub' for support of __SUB__, available since Perl 5.16
 use strict;
 use warnings;
-use feature qw(current_sub);    # support for __SUB__
 
 # core modules
 use Carp         ();
