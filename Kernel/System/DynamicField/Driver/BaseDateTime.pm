@@ -353,7 +353,7 @@ sub EditFieldRender {
         push @ResultLabels, $Self->EditLabelRender(
             %Param,
             Mandatory => $Param{Mandatory} || '0',
-            FieldName => ( $FieldConfig->{MultiValue} ? $FieldName . '_0' : $FieldName ) . 'Used',
+            FieldName => $FieldName . 'Used',
         );
     }
 

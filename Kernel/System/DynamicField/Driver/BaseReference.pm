@@ -297,8 +297,8 @@ sub EditFieldRender {
         Mandatory   => $Param{Mandatory},
     );
     my @ResultHTML;
-    for my $ValueIndex ( 0 .. ( $DFDetails->{Multiselect} ? 0 : $#{$Value} ) ) {
     my @ResultLabels;
+    for my $ValueIndex ( 0 .. ( $DFDetails->{Multiselect} ? 0 : $#{$Value} ) ) {
         my $FieldID = $DFDetails->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
         if ( !$ValueIndex ) {
