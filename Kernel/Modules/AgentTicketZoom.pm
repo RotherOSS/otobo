@@ -1563,7 +1563,7 @@ sub MaskAgentZoom {
 
         # get next activity dialogs
         my $NextActivityDialogs;
-        if ( $Ticket{$ActivityEntityIDField} ) {
+        if ( $Ticket{$ActivityEntityIDField} && IsHashRefWithData( $ActivityData ) && IsHashRefWithData( $ActivityData->{ActivityDialog} ) ) {
             $NextActivityDialogs = ${ActivityData}->{ActivityDialog} || {};
         }
         my $ActivityName = $ActivityData->{Name};
