@@ -45,7 +45,7 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 our $ObjectManagerDisabled = 1;
 

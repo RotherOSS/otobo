@@ -25,7 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {

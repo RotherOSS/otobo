@@ -27,7 +27,7 @@ use HTTP::Request;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 $Kernel::OM = Kernel::System::ObjectManager->new();

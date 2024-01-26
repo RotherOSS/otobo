@@ -111,7 +111,7 @@ use DBI;
 use Const::Fast qw(const);
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 sub Main {
     my $HelpFlag;                      # print help

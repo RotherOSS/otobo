@@ -32,7 +32,7 @@ use Getopt::Std;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 # get options
 my %Opts;

@@ -29,7 +29,7 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (

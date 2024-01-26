@@ -25,9 +25,13 @@ use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
-use Kernel::System::ObjectManager;
-
+# core modules
 use Getopt::Long;
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::ObjectManager ();
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {

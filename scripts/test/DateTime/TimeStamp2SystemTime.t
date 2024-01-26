@@ -24,7 +24,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 # TimeStamp2SystemTime tests
 # See the command: date -d"2005-10-20T10:00:00Z" +%s
