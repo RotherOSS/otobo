@@ -18,18 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-our $Self;
-
 # core modules
 
 # CPAN modules
-#use Test2::V0; # For development the output of is() is more useful
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;    # prevent used once warning
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+
+our $Self;
 
 my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 $Self->True(
@@ -583,4 +580,4 @@ for my $Test (@Tests) {
     );
 }
 
-$Self->DoneTesting();
+done_testing;

@@ -19,7 +19,11 @@ package scripts::test::sample::GenericAgent::TestSystemCallModule;
 use strict;
 use warnings;
 
-use Kernel::System::ObjectManager;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Console::Command::Maint::PostMaster::SpoolMailsReprocess',
@@ -44,6 +48,7 @@ system call to Maint::PostMaster::Read.
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
+
     my $GenericAgentModuleObject = $Kernel::OM-Get('scripts::test::sample::GenericAgent::TestSystemCallModule');
 
 =cut
@@ -68,6 +73,7 @@ Performs a call to Maint::PostMaster::SpoolMailsReproces.
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     $Kernel::OM->Get('Kernel::System::Console::Command::Maint::PostMaster::SpoolMailsReprocess')->Execute();
 
     return 1;

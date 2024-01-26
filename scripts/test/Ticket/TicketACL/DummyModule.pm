@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use Kernel::System::ObjectManager;    ## no critic (Modules::RequireExplicitPackage)
-
 package scripts::test::Ticket::TicketACL::DummyModule;
 
 use strict;
 use warnings;
 use v5.24;
 use utf8;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -41,6 +45,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     for (qw(Config Acl)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
