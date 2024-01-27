@@ -33,6 +33,11 @@ Load this module in test scripts when the test driver C<$main::Self> is not need
 When you need C<$main::Self> too, then you only need to load C<Kernel::System::UnitTest::RegisterDriver>
 which loads this module implicitly.
 
+Running a script, which loads this module, never emits the warning
+"Name "Kernel::OM" used only once: possible typo". Even if the script has C<$Kernel::OM> only once.
+This is because C<$Kernel::OM> is mentioned in this module. Also,  modules loaded by
+C<Kernel::System::ObjectManager> mention C<$Kernel::OM>.
+
 =cut
 
 use v5.24;

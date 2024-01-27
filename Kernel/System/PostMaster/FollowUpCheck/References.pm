@@ -19,7 +19,11 @@ package Kernel::System::PostMaster::FollowUpCheck::References;
 use strict;
 use warnings;
 
-use Kernel::System::ObjectManager;    # prevent used once warning
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -54,6 +58,7 @@ sub Run {
     my @References = $Self->{ParserObject}->GetReferences();
     return if !@References;
 
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
         ChannelName => 'Email',
     );

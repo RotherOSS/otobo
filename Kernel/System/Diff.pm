@@ -29,7 +29,6 @@ use Text::Diff;
 use Text::Diff::FormattedHTML;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -94,6 +93,7 @@ END_TXT
 sub Compare {
     my ( $Self, %Param ) = @_;
 
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     for my $Needed (qw(Source Target)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(

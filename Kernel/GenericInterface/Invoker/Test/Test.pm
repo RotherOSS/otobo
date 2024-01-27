@@ -19,10 +19,12 @@ package Kernel::GenericInterface::Invoker::Test::Test;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsString IsStringWithData);
+# core modules
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -97,6 +99,7 @@ sub PrepareRequest {
     }
 
     # check request for system time
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     if ( IsStringWithData( $Param{Data}->{GetSystemTime} ) && $Param{Data}->{GetSystemTime} ) {
         $ReturnData{SystemTime} = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
     }
