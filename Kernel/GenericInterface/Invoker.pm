@@ -19,10 +19,12 @@ package Kernel::GenericInterface::Invoker;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsStringWithData);
+# core modules
 
-# Prevent 'Used once' warning for Kernel::OM.
-use Kernel::System::ObjectManager;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -107,6 +109,7 @@ sub new {
 
     # Load backend module.
     my $GenericModule = 'Kernel::GenericInterface::Invoker::' . $Param{InvokerType};
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
 
         return $Self->{DebuggerObject}->Error( Summary => "Can't load invoker backend module!" );

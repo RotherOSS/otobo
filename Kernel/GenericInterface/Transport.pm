@@ -25,7 +25,6 @@ use v5.24;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;    # avoid warning: Name "Kernel::OM" used only once
 
 our $ObjectManagerDisabled = 1;
 

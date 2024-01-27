@@ -30,7 +30,6 @@ use LWP::Protocol;
 use Plack::Response;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;    # avoid warning about $Kernel::OM used only once
 use Kernel::System::Web::Exception;
 
 our $ObjectManagerDisabled = 1;
