@@ -615,7 +615,7 @@ sub GetFieldState {
     {
         # if this field is non ACL reducible, set the field values
         if ( !$IsACLReducible ) {
-            return ( 
+            return (
                 NewValue => $AttributeFieldValue,
             );
         }
@@ -657,7 +657,7 @@ sub GetFieldState {
             # convert Filter key => key back to key => value using map
             %{$PossibleValues} = map { $_ => $PossibleValues->{$_} } keys %Filter;
         }
-    }    
+    }
     elsif ( $Param{ConfigItemObject} ) {
         my $ACL = $Param{ConfigItemObject}->ConfigItemAcl(
             %{ $Param{GetParam} },
@@ -685,8 +685,11 @@ sub GetFieldState {
     }
 
     # check whether all selected entries are still valid
-    if ( defined $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} &&
-        ( $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} || $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} eq '0' ) )
+    if (
+        defined $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}
+        &&
+        ( $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} || $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} eq '0' )
+        )
     {
         # multiselect fields
         if ( ref( $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} ) ) {

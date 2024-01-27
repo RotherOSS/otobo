@@ -1000,8 +1000,10 @@ sub GetFieldState {
     my $PossibleValues = $Self->PossibleValuesGet(
         DynamicFieldConfig => $DynamicFieldConfig,
         Object             => {
+
             # ticket specific
             CustomerUserID => $Param{GetParam}->{CustomerUser},
+
             # general
             $Param{GetParam}->%*,
         },
@@ -1012,7 +1014,7 @@ sub GetFieldState {
     );
 
     my $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-    if ( $Value && !$PossibleValues->{ $Value } ) {
+    if ( $Value && !$PossibleValues->{$Value} ) {
         $Return{NewValue} = undef;
     }
 

@@ -1067,11 +1067,14 @@ sub GetFieldState {
     my $NewValue = $Self->Evaluate(
         DynamicFieldConfig => $DynamicFieldConfig,
         Object             => {
+
             # ticket specifics
             CustomerUserID => $Param{CustomerUser},
             TicketID       => $Param{TicketID},
+
             # ITSM config item specifics
-            ConfigItemID   => $Param{ConfigItemID},
+            ConfigItemID => $Param{ConfigItemID},
+
             # general
             %GetParam,
         },
@@ -1085,7 +1088,7 @@ sub GetFieldState {
     );
 
     return (
-        NewValue        => $NewValue,
+        NewValue => $NewValue,
     );
 }
 
