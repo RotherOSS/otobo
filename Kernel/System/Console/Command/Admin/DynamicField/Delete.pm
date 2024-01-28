@@ -155,7 +155,7 @@ sub Run {
             Name => $DynFieldName,
         );
 
-        if ( $Self->GetOption('all') ) {
+        if ( $Self->GetOption('all') && $DynamicField->{InternalField} != 1 ) {
             $DeleteHash{$DynFieldName} = $DynamicField->{ID};
             next DYNAMICFIELD;
         }
