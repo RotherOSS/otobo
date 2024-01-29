@@ -672,9 +672,9 @@ sub Run {
                     Mandatory            =>
                         $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                     Getparam => {
+                        %GetParam,
                         CustomerUserID => $Self->{UserID},
                         TicketID       => $Self->{TicketID},
-                        %GetParam,
                     },
                 );
 

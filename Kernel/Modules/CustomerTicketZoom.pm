@@ -857,9 +857,9 @@ sub Run {
                         $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} }
                         == 2,
                     GetParam => {
+                        %GetParam,
                         CustomerUserID => $Self->{UserID},
                         TicketID       => $Ticket{TicketID},
-                        %GetParam,
                     },
                 );
 
