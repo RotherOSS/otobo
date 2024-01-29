@@ -19,7 +19,12 @@ package Kernel::System::CheckItem;
 use strict;
 use warnings;
 
-use Email::Valid;
+# core modules
+
+# CPAN modules
+use Email::Valid ();
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -48,10 +53,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 CheckError()
