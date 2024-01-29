@@ -24,14 +24,14 @@ requires 'CPAN::Audit', '== 20240103.002';
 # needed by CPAN::Audit
 requires 'CPAN::DistnameInfo', '== 0.12';
 
-requires 'Data::ICal', '== 0.22';
-
-requires 'Date::ICal', '== 2.678';
-
 requires 'Crypt::PasswdMD5', '== 1.40';
 
 # needed by Math::Random::Secure, needed in Kernel::System::Main
 requires 'Crypt::Random::Source', '== 0.14';
+
+requires 'Data::ICal', '== 0.22';
+
+requires 'Date::ICal', '== 2.678';
 
 # needed by Kernel::System::CheckItem
 requires 'Email::Valid', '== 1.202';
@@ -102,11 +102,11 @@ requires 'Module::Refresh', '== 0.17';
 # needed by LWP::Protocol::https
 requires 'Mozilla::CA', '== 20200520';
 
-# needed by Kernel::System::MailAccount::IMAP
-requires 'Net::IMAP::Simple', '== 1.2209';
-
 # needed by LWP::Protocol::https
 requires 'Net::HTTP', '== 6.17';
+
+# needed by Kernel::System::MailAccount::IMAP
+requires 'Net::IMAP::Simple', '== 1.2209';
 
 # needed by OTOBO email modules
 requires 'Net::SSLGlue', '== 1.058';

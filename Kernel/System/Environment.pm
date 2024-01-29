@@ -320,16 +320,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.12',
         },
         {
-            'Module'          => 'Data::ICal',
-            'Required'        => 1,
-            'VersionRequired' => '== 0.22',
-        },
-        {
-            'Module'          => 'Date::ICal',
-            'Required'        => 1,
-            'VersionRequired' => '== 2.678',
-        },
-        {
             'Module'          => 'Crypt::PasswdMD5',
             'Required'        => 1,
             'VersionRequired' => '== 1.40',
@@ -339,6 +329,16 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'Crypt::Random::Source',
             'Required'        => 1,
             'VersionRequired' => '== 0.14',
+        },
+        {
+            'Module'          => 'Data::ICal',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.22',
+        },
+        {
+            'Module'          => 'Date::ICal',
+            'Required'        => 1,
+            'VersionRequired' => '== 2.678',
         },
         {
             'Comment'         => 'needed by Kernel::System::CheckItem',
@@ -479,16 +479,16 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 20200520',
         },
         {
-            'Comment'         => 'needed by Kernel::System::MailAccount::IMAP',
-            'Module'          => 'Net::IMAP::Simple',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.2209',
-        },
-        {
             'Comment'         => 'needed by LWP::Protocol::https',
             'Module'          => 'Net::HTTP',
             'Required'        => 1,
             'VersionRequired' => '== 6.17',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::MailAccount::IMAP',
+            'Module'          => 'Net::IMAP::Simple',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.2209',
         },
         {
             'Comment'         => 'needed by OTOBO email modules',
