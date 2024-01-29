@@ -1441,6 +1441,11 @@ sub Run {
                     ParamObject          => $ParamObject,
                     Mandatory            =>
                         $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                    GetParam => {
+                        %GetParam,
+                        CustomerUserID => $CustomerUser,
+                        TicketID       => $Self->{TicketID},
+                    },
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {

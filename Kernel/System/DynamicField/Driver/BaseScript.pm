@@ -415,8 +415,10 @@ sub EditFieldValueGet {
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
+    return {} if !$Param{Mandatory} && !IsArrayRefWithData( $Param{DynamicFieldConfig}{Config}{RegExList} );
+
     # get the field value from the http request
-    my $Value = $Self->EditFieldValueGet(
+    my $EditFieldValue = $Self->EditFieldValueGet(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         ParamObject        => $Param{ParamObject},
 
@@ -424,40 +426,58 @@ sub EditFieldValueValidate {
         ReturnValueStructure => 1,
     );
 
+    # evaluate script field expression before validating it
+    my $EvaluatedValue = $Self->Evaluate(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        Object             => {
+            $Param{GetParam}->%*,
+        },
+    );
+
     my $ServerError;
     my $ErrorMessage;
 
-    # perform necessary validations
-    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        $Value = [$Value];
+    # transform scalar values to array ref for iteration
+    if ( !$Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+        $EditFieldValue = [$EditFieldValue];
+        $EvaluatedValue = [$EvaluatedValue];
     }
 
-    for my $ValueItem ( @{$Value} ) {
+    # perform necessary validations
+    for my $Index ( 0 .. $#{$EvaluatedValue} ) {
 
-        # perform necessary validations
-        if ( $Param{Mandatory} && $ValueItem eq '' ) {
-            $ServerError = 1;
+        my $CurrentValue = $EvaluatedValue->[$Index];
+
+        if ( $Param{Mandatory} && $CurrentValue eq '' ) {
+            $ServerError  = 1;
+            $ErrorMessage = "This field is required.";
         }
 
         # TODO Decide on further details of script regex evaluation
         elsif (
-            IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
-            && ( $Param{Mandatory} || ( !$Param{Mandatory} && $ValueItem ne '' ) )
+            IsArrayRefWithData( $Param{DynamicFieldConfig}{Config}{RegExList} )
+            && ( $Param{Mandatory} || ( !$Param{Mandatory} && $CurrentValue ne '' ) )
             )
         {
 
             # check regular expressions
-            my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+            my @RegExList = $Param{DynamicFieldConfig}{Config}{RegExList}->@*;
 
             REGEXENTRY:
             for my $RegEx (@RegExList) {
 
-                if ( $ValueItem !~ $RegEx->{Value} ) {
+                if ( $CurrentValue !~ $RegEx->{Value} ) {
                     $ServerError  = 1;
                     $ErrorMessage = $RegEx->{ErrorMessage};
 
                     last REGEXENTRY;
                 }
+            }
+        }
+
+        if ($ServerError) {
+            if ( $CurrentValue ne $EditFieldValue->[$Index] ) {
+                $ErrorMessage .= ' Edit field was not up to date.';
             }
         }
     }
@@ -1033,9 +1053,10 @@ sub GetFieldState {
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     # for ticket dynamic fields we need the queue
-    $GetParam{Queue} = defined $Param{GetParam}{Queue} ? $Param{GetParam}{Queue}
+    $GetParam{Queue} = defined $Param{GetParam}{Queue}
+        ? $Param{GetParam}{Queue}
         : $Param{GetParam}{Dest} && $Param{GetParam}{Dest} =~ /\|\|(.+)$/ ? $1
-        : undef;
+        :                                                                   undef;
 
     # the required args have to be present
     for my $Required ( @{ $DynamicFieldConfig->{Config}{RequiredArgs} // [] } ) {

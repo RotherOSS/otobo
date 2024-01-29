@@ -4869,6 +4869,7 @@ sub _StoreActivityDialog {
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
                     Mandatory            => $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2,
+                    GetParam             => $Param{GetParam},
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
