@@ -124,6 +124,21 @@ sub GetFieldTypeSettings {
             };
     }
 
+    # Support configurable search key
+    push @FieldTypeSettings,
+        {
+            ConfigParamName => 'SearchAttribute',
+            Label           => Translatable('Attribute which will be searched on autocomplete'),
+            Explanation     => Translatable('Select the attribute which tickets will be searched by'),
+            InputType       => 'Selection',
+            SelectionData   => {
+                'Number' => 'Number',
+                'Title'  => 'Title',
+            },
+            PossibleNone => 1,
+            Multiple     => 0,
+        };
+
     # Support various display options
     push @FieldTypeSettings,
         {
@@ -305,6 +320,11 @@ sub SearchObjects {
         }
     }
 
+    # include configured search param if present
+    my $SearchAttribute = $DynamicFieldConfig->{Config}{SearchAttribute} // 'Title';
+
+    $SearchParams{$SearchAttribute} = "*$Param{Term}*";
+
     # incorporate referencefilterlist into search params
     if ( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) {
         FILTERITEM:
@@ -386,7 +406,6 @@ sub SearchObjects {
         Result => 'ARRAY',
         UserID => $Param{UserID} // 1,
         %SearchParams,
-        Title => "%$Param{Term}%",
     );
 }
 
