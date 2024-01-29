@@ -1645,6 +1645,16 @@ sub Data {
         'The field needs to be a literal word.' => 'Dieses Feld sollte ein Wort enthalten.',
         'Header' => 'Überschrift',
 
+        # overview screen
+        'Filter for PostMaster Filters'          => 'Postmaster-Filter filtern',
+        'Search all filter attributes'           => 'In allen Filter-Attributen suchen',
+        'Limit search to selected header fields' => 'Suche auf ausgewählte Filterbedingungen einschränken',
+        'Limit search to selected set fields'    => 'Suche auf ausgewählte Kopfzeilen einschränken',
+
+        # edit mask
+        'Execute filter with PreCreate module' => 'Filter mit PreCreate-Modul ausführen',
+        "When checked, the filter is applied just before the ticket creation. The 'AddressPool' attribute from the package DiscreteSystemAddresses is only available there." => "Wenn ausgewählt, wird der Filter unmittelbar vor der Ticket-Erstellung ausgeführt. Das 'AddressPool'-Attribut aus dem Paket DiscreteSystemAddresses ist nur hier zugänglich.",
+
         # Template: AdminPriority
         'Priority Management' => 'Prioritäten-Verwaltung',
         'Add Priority' => 'Priorität hinzufügen',

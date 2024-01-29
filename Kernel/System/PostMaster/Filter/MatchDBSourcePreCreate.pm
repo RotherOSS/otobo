@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::PostMaster::Filter::MatchDBSource;
+package Kernel::System::PostMaster::Filter::MatchDBSourcePreCreate;
 
 use strict;
 use warnings;
@@ -49,7 +49,7 @@ sub Run {
             $Self->{CommunicationLogObject}->ObjectLog(
                 ObjectLogType => 'Message',
                 Priority      => 'Error',
-                Key           => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                Key           => 'Kernel::System::PostMaster::Filter::MatchDBSourcePreCreate',
                 Value         => "Need $_!",
             );
             return;
@@ -59,9 +59,9 @@ sub Run {
     # get postmaster filter object
     my $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
 
-    # get all db filters
+    # get precreate db filters
     my %JobList = $PostMasterFilter->FilterList(
-        PreCreate => 0,
+        PreCreate => 1,
     );
 
     for ( sort keys %JobList ) {
@@ -80,6 +80,7 @@ sub Run {
             @Set = @{ $Config{Set} };
         }
         my $StopAfterMatch = $Config{StopAfterMatch} || 0;
+        my $PreCreate      = $Config{PreCreate}      || 0;
         my $Prefix         = '';
         if ( $Config{Name} ) {
             $Prefix = "Filter: '$Config{Name}' ";
@@ -119,7 +120,7 @@ sub Run {
                         $Self->{CommunicationLogObject}->ObjectLog(
                             ObjectLogType => 'Message',
                             Priority      => 'Debug',
-                            Key           => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                            Key           => 'Kernel::System::PostMaster::Filter::MatchDBSourcePreCreate',
                             Value         => "$Prefix'$Param{GetParam}->{$Key}' =~ /$Value/i matched!",
                         );
 
@@ -170,7 +171,7 @@ sub Run {
                 $Self->{CommunicationLogObject}->ObjectLog(
                     ObjectLogType => 'Message',
                     Priority      => 'Debug',
-                    Key           => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                    Key           => 'Kernel::System::PostMaster::Filter::MatchDBSourcePreCreate',
                     Value         => "successful $Prefix'$Param{GetParam}->{$Key}' $Op~ /$Value/i !",
                 );
             }
@@ -181,7 +182,7 @@ sub Run {
                 $Self->{CommunicationLogObject}->ObjectLog(
                     ObjectLogType => 'Message',
                     Priority      => 'Debug',
-                    Key           => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                    Key           => 'Kernel::System::PostMaster::Filter::MatchDBSourcePreCreate',
                     Value         => "$Prefix'$Param{GetParam}->{$Key}' =~ /$Value/i matched NOT!",
                 );
 
@@ -202,7 +203,7 @@ sub Run {
                 $Self->{CommunicationLogObject}->ObjectLog(
                     ObjectLogType => 'Message',
                     Priority      => 'Notice',
-                    Key           => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                    Key           => 'Kernel::System::PostMaster::Filter::MatchDBSourcePreCreate',
                     Value         => $Prefix
                         . "Set param '$Key' to '$Value' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
                 );
@@ -213,7 +214,7 @@ sub Run {
                 $Self->{CommunicationLogObject}->ObjectLog(
                     ObjectLogType => 'Message',
                     Priority      => 'Notice',
-                    Key           => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                    Key           => 'Kernel::System::PostMaster::Filter::MatchDBSourcePreCreate',
                     Value         => $Prefix
                         . "Stopped filter processing because of used 'StopAfterMatch' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
                 );

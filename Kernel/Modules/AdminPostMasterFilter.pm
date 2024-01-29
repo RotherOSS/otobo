@@ -39,7 +39,16 @@ sub Run {
     my $Name           = $ParamObject->GetParam( Param => 'Name' );
     my $OldName        = $ParamObject->GetParam( Param => 'OldName' );
     my $StopAfterMatch = $ParamObject->GetParam( Param => 'StopAfterMatch' ) || 0;
-    my %GetParam       = ();
+    my $PreCreate      = $ParamObject->GetParam( Param => 'PreCreate' )      || 0;
+
+    # fetch and pass on filters
+    my %SearchItems;
+    for my $SearchItem (qw(SearchFilter SearchValue)) {
+        $SearchItems{$SearchItem}->@* = split( /,/, $ParamObject->GetParam( Param => $SearchItem ) || '' );
+    }
+
+    $SearchItems{SearchTerm} = $ParamObject->GetParam( Param => 'SearchTerm' ) || undef;
+    my %GetParam = ();
 
     for my $Number ( 1 .. $ConfigObject->Get('PostmasterHeaderFieldCount') ) {
         $GetParam{"MatchHeader$Number"} = $ParamObject->GetParam( Param => "MatchHeader$Number" );
@@ -95,7 +104,10 @@ sub Run {
         }
         return $Self->_MaskUpdate(
             Name => $Name,
-            Data => \%Data,
+            Data => {
+                %Data,
+                PreCreate => $Data{PreCreate} ? 'checked' : '',
+            },
         );
     }
 
@@ -186,6 +198,7 @@ sub Run {
                     Match          => \@Match,
                     StopAfterMatch => $StopAfterMatch,
                     Not            => \@Not,
+                    PreCreate      => $PreCreate ? 'checked' : '',
                 },
             );
         }
@@ -196,6 +209,7 @@ sub Run {
             Set            => \@Set,
             StopAfterMatch => $StopAfterMatch,
             Not            => \@Not,
+            PreCreate      => $PreCreate,
         );
 
         # if the user would like to continue editing the postmaster filter, just redirect to the update screen
@@ -219,7 +233,7 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
-        my %List = $PostMasterFilter->FilterList();
+        my %List = $PostMasterFilter->FilterList(%SearchItems);
 
         $LayoutObject->Block(
             Name => 'Overview',
@@ -228,6 +242,66 @@ sub Run {
         $LayoutObject->Block( Name => 'ActionList' );
         $LayoutObject->Block( Name => 'ActionAdd' );
         $LayoutObject->Block( Name => 'Filter' );
+
+        # all headers
+        my @Headers = @{ $ConfigObject->Get('PostmasterX-Header') };
+
+        # add Dynamic Field headers
+        my $DynamicFields = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
+            Valid      => 1,
+            ObjectType => [ 'Ticket', 'Article' ],
+            ResultType => 'HASH',
+        );
+        for my $DynamicField ( values %$DynamicFields ) {
+            push @Headers, 'X-OTOBO-DynamicField-' . $DynamicField;
+            push @Headers, 'X-OTOBO-FollowUp-DynamicField-' . $DynamicField;
+        }
+
+        my %Header = map { $_ => $_ } @Headers;
+        $Header{''}   = '-';
+        $Header{Body} = 'Body';
+
+        # set headers
+        my %SetHeader = ();
+        for my $HeaderKey ( sort keys %Header ) {
+            if ( $HeaderKey =~ /^x-otobo/i ) {
+                $SetHeader{$HeaderKey} = $HeaderKey;
+            }
+        }
+        $SetHeader{''} = '-';
+
+        # render filter block
+        my $SearchFilterStrg = $LayoutObject->BuildSelection(
+            Data         => \%Header,
+            Name         => 'SearchFilter',
+            Class        => 'Modernize W50pc FilterBox',
+            SelectedID   => $SearchItems{SearchFilter},
+            Translation  => 0,
+            HTMLQuote    => 1,
+            Multiple     => 1,
+            PossibleNone => 1,
+        );
+
+        # render filter block
+        my $SearchValueStrg = $LayoutObject->BuildSelection(
+            Data         => \%SetHeader,
+            Name         => 'SearchValue',
+            Class        => 'Modernize W50pc FilterBox',
+            SelectedID   => $SearchItems{SearchValue},
+            Translation  => 0,
+            HTMLQuote    => 1,
+            Multiple     => 1,
+            PossibleNone => 1,
+        );
+
+        $LayoutObject->Block(
+            Name => 'Search',
+            Data => {
+                SearchFilterStrg => $SearchFilterStrg,
+                SearchTerm       => $SearchItems{SearchTerm} || '',
+                SearchValueStrg  => $SearchValueStrg,
+            },
+        );
 
         $LayoutObject->Block(
             Name => 'OverviewResult',

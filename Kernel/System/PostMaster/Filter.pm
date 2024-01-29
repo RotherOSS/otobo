@@ -19,7 +19,10 @@ package Kernel::System::PostMaster::Filter;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsStringWithData);
+
 our @ObjectDependencies = (
+    'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::Log',
 );
@@ -49,6 +52,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
+    $Self->{CacheType} = 'PostMasterFilter';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
+
     return $Self;
 }
 
@@ -56,7 +62,12 @@ sub new {
 
 get all filter
 
-    my %FilterList = $PMFilterObject->FilterList();
+    my %FilterList = $PMFilterObject->FilterList(
+        PreCreate    => 0|1,                            # optional - True or false, filter for PreCreate filters (undef returns both)
+        SearchTerm   => $SearchTerm,                    # optional - String, term to search by
+        SearchFilter => \@SearchFilter|$SearchFilter,   # optional - Array or string, restrict search to certain match headers
+        SearchValue  => \@SearchValue|$SearchValue,     # optional - Array or string, restrict search to certain set headers
+    );
 
 =cut
 
@@ -66,8 +77,58 @@ sub FilterList {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # check search items
+    if ( $Param{SearchTerm} && !IsStringWithData( $Param{SearchTerm} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Value for SearchTerm is not a scalar value!",
+        );
+        return;
+    }
+
+    # More specifically: Should empty array refs be allowed?
+    for my $SearchArrayItem (qw(SearchFilter SearchValue)) {
+
+        # if scalar given, convert to array - check with !ref to prevent [ HASH(0x...) ]
+        if ( $Param{$SearchArrayItem} && !ref $Param{$SearchArrayItem} && ref \$Param{$SearchArrayItem} eq 'SCALAR' ) {
+            $Param{$SearchArrayItem} = [ $Param{$SearchArrayItem} ];
+        }
+
+        if ( $Param{$SearchArrayItem} && ref $Param{$SearchArrayItem} ne 'ARRAY' ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Value for $SearchArrayItem is not an array!",
+            );
+            return;
+        }
+    }
+
+    # check cache
+    my @CacheParts = qw(PostMasterFilterList);
+    for my $Key ( sort keys %Param ) {
+
+        # TODO Think about good practice for maintaining order when one or more keys are empty
+        push @CacheParts, ( $Param{$Key} || '-' );
+    }
+
+    my $CacheKey = join '::', @CacheParts;
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
+    return %{$Cache} if $Cache;
+
+    # check PreCreate filtering
+    my $WhereSQL = '';
+    my @Bind;
+    if ( defined $Param{PreCreate} ) {
+        $WhereSQL .= ' WHERE f_precreate = ?';
+        push @Bind, \$Param{PreCreate};
+    }
+
     return if !$DBObject->Prepare(
-        SQL => 'SELECT f_name FROM postmaster_filter',
+        SQL  => 'SELECT f_name FROM postmaster_filter' . $WhereSQL,
+        Bind => \@Bind,
     );
 
     my %Data;
@@ -75,7 +136,78 @@ sub FilterList {
         $Data{ $Row[0] } = $Row[0];
     }
 
-    return %Data;
+    # apply search restrictions
+    my %Result;
+    if ( $Param{SearchTerm} ) {
+
+        # iterate over filters given from sql select
+        FILTER:
+        for my $FilterName ( keys %Data ) {
+
+            # fetch every single filter
+            my %Filter = $Self->FilterGet( Name => $FilterName );
+            next FILTER unless %Filter;
+
+            # filter for match and set attributes
+            my %SearchRelevantData = map { $_ eq 'Match' || $_ eq 'Set' ? ( $_ => $Filter{$_} ) : () } keys %Filter;
+
+            # iterate over filter attributes
+            FILTERATTRIBUTE:
+            for my $FilterAttribute ( keys %SearchRelevantData ) {
+                next FILTERATTRIBUTE unless $Filter{$FilterAttribute};
+
+                # iterate over filter attribute contents
+                for my $FilterDataIndex ( 0 .. $#{ $Filter{$FilterAttribute} } ) {
+
+                    # fetch filter data and corresponding 'Not' entry
+                    my %FilterData = $Filter{$FilterAttribute}->[$FilterDataIndex]->%*;
+
+                    # caution: 'Not' only applies to 'Match', not to 'Set'
+                    my %FilterNot = $FilterAttribute eq 'Match' ? $Filter{Not}->[$FilterDataIndex]->%* : ();
+
+                    # skip if search filter or search value does not match
+                    for my $SearchRestriction (qw(SearchFilter SearchValue)) {
+                        if ( $Param{$SearchRestriction}->@* ) {
+                            if ( !grep { $_ eq $FilterData{Key} } $Param{$SearchRestriction}->@* ) {
+                                next FILTERATTRIBUTE;
+                            }
+                        }
+                    }
+
+                    if ( $FilterAttribute eq 'Match' ) {
+
+                        # check if search term matches
+                        if (
+                            ( !$FilterNot{Value} && $Param{SearchTerm} =~ m{$FilterData{Value}}i )
+                            || ( $FilterNot{Value} && $Param{SearchTerm} !~ m{$FilterData{Value}}i )
+                            )
+                        {
+                            $Result{$FilterName} = $FilterName;
+                        }
+                    }
+                    elsif ( $FilterAttribute eq 'Set' ) {
+                        if ( $FilterData{Value} =~ m{$Param{SearchTerm}}i ) {
+                            $Result{$FilterName} = $FilterName;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    else {
+        %Result = %Data;
+    }
+
+    # set cache
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \%Result,
+    );
+
+    return %Result;
 }
 
 =head2 FilterAdd()
@@ -85,6 +217,7 @@ add a filter
     $PMFilterObject->FilterAdd(
         Name           => 'some name',
         StopAfterMatch => 0,
+        PreCreate      => 0,
         Match = [
             {
                 Key   => 'Subject',
@@ -137,15 +270,19 @@ sub FilterAdd {
 
             return if !$DBObject->Do(
                 SQL =>
-                    'INSERT INTO postmaster_filter (f_name, f_stop, f_type, f_key, f_value, f_not)'
-                    . ' VALUES (?, ?, ?, ?, ?, ?)',
+                    'INSERT INTO postmaster_filter (f_name, f_stop, f_precreate, f_type, f_key, f_value, f_not)'
+                    . ' VALUES (?, ?, ?, ?, ?, ?, ?)',
                 Bind => [
-                    \$Param{Name},         \$Param{StopAfterMatch}, \$Type,
+                    \$Param{Name},         \$Param{StopAfterMatch}, \$Param{PreCreate}, \$Type,
                     \$Data[$Index]->{Key}, \$Data[$Index]->{Value}, \$Not[$Index]->{Value},
                 ],
             );
         }
     }
+
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
 
     return 1;
 }
@@ -180,6 +317,10 @@ sub FilterDelete {
     return if !$DBObject->Do(
         SQL  => 'DELETE FROM postmaster_filter WHERE f_name = ?',
         Bind => [ \$Param{Name} ],
+    );
+
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
     );
 
     return 1;
@@ -241,7 +382,7 @@ sub FilterGet {
 
     return if !$DBObject->Prepare(
         SQL =>
-            'SELECT f_type, f_key, f_value, f_name, f_stop, f_not'
+            'SELECT f_type, f_key, f_value, f_name, f_stop, f_precreate, f_not'
             . ' FROM postmaster_filter'
             . ' WHERE f_name = ?'
             . ' ORDER BY f_key, f_value',
@@ -256,11 +397,12 @@ sub FilterGet {
         };
         $Data{Name}           = $Row[3];
         $Data{StopAfterMatch} = $Row[4];
+        $Data{PreCreate}      = $Row[5];
 
         if ( $Row[0] eq 'Match' ) {
             push @{ $Data{Not} }, {
                 Key   => $Row[1],
-                Value => $Row[5],
+                Value => $Row[6],
             };
         }
     }

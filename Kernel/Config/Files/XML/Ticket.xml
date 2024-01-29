@@ -12058,6 +12058,15 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="PostMaster::PreCreateFilterModule###001-MatchDBSourcePreCreate" Required="0" Valid="1">
+        <Description Translatable="1">Module to use database filter storage before ticket creation.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::MatchDBSourcePreCreate</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="PostMaster::PreCreateFilterModule###000-FollowUpArticleVisibilityCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to check if arrived emails should be marked as internal (because of original forwarded internal email). IsVisibleForCustomer and SenderType define the values for the arrived email/article.</Description>
         <Navigation>Core::Email::PostMaster</Navigation>
