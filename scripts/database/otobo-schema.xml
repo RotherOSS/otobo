@@ -1602,8 +1602,9 @@
     <Column Name="f_name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="f_stop" Required="false" Type="SMALLINT"/>
     <Column Name="f_type" Required="true" Size="20" Type="VARCHAR"/>
+    <Column Name="f_precreate" Required="false" Default="0" Type="SMALLINT" />
     <Column Name="f_key" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="f_value" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="f_value" Required="true" Size="1000" Type="VARCHAR"/>
     <Column Name="f_not" Required="false" Type="SMALLINT"/>
     <Index Name="postmaster_filter_f_name">
         <IndexColumn Name="f_name"/>
