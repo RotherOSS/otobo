@@ -26,6 +26,7 @@ use utf8;
 use MIME::Base64 qw(decode_base64);    ## no perlimports
 
 # CPAN modules
+use HTML::Scrubber 0.20;
 
 # OTOBO modules
 
@@ -1025,9 +1026,9 @@ sub Safety {
         $String       = \$StringNonref;
     }
 
-    my %Safety;
-
-    my $Replaced;
+    my %Safety = (
+        Replace => 0,
+    );
 
     # In UTF-7, < and > can be encoded to mask them from security filters like this one.
     my $TagStart = '(?:<|[+]ADw-)';
@@ -1061,23 +1062,79 @@ sub Safety {
         (?: n | &\#110[;]? | &\#x6e[;]? )
     ';
 
+    # The scrubber can be used to remove tags and attributes. Using the module
+    # avoids using error prone regexes. However there are some downsides. HTML::Scrubber
+    # can't drop a tag based on the existence of an attribute.
+    # Also note that the scrupper normalizes the HTML, e.g. consistently double quotes,
+    # lower case tags and attr names.
+
+    # Drop the attributes 'src' and 'poster' depending on NoIntSrcLoad and NoExtSrcLoad.
+    my $ScrubberReplaced  = 0;
+    my $PreemptiveHandler = sub {
+        my ( $Event, $Tag, $Attr, $AttrSeq, $Text ) = @_;
+
+        return unless $Event eq 'start';
+
+        if ( $Param{NoIntSrcLoad} || $Param{NoExtSrcLoad} ) {
+            BLACK_LISTED:
+            for my $Blacklisted (qw(src poster)) {
+
+                next BLACK_LISTED unless $Attr->{$Blacklisted};
+
+                if ( $Param{NoIntSrcLoad} ) {
+
+                    # drop the start tag;
+                    $ScrubberReplaced++;
+
+                    return '';
+                }
+
+                # the NoExtSrcLoad case
+                if (
+                    $Attr->{$Blacklisted} =~ m/(?:http|ftp|https):\//i    # external URL
+                    ||
+                    $Attr->{$Blacklisted} =~ m!^\s*//!                    # protocol relative external URL
+                    )
+                {
+                    # drop the start tag;
+                    $ScrubberReplaced++;
+
+                    return '';
+                }
+            }
+        }
+
+        return;    # process with the rule based scrubbing
+    };
+
+    my $Scrubber = HTML::Scrubber->new(
+        preempt => $PreemptiveHandler,
+        default => [
+            1,     # allow all tags per default
+            {
+                '*' => 1,    # allow all attributes per default
+            },
+        ],
+    );
+
     # Replace as many times as it is needed to avoid nesting tag attacks.
+    my $RegexReplaced;
     do {
-        $Replaced = undef;
+        $RegexReplaced = 0;
 
         # remove script tags
         if ( $Param{NoJavaScript} ) {
-            $Replaced += ${$String} =~ s{
+            $RegexReplaced += ${$String} =~ s{
                 $TagStart script.*? $TagEnd .*?  $TagStart /script \s* $TagEnd
             }
             {}sgxim;
-            $Replaced += ${$String} =~ s{
+            $RegexReplaced += ${$String} =~ s{
                 $TagStart script.*? $TagEnd .+? ($TagStart|$TagEnd)
             }
             {}sgxim;
 
             # remove style/javascript parts
-            $Replaced += ${$String} =~ s{
+            $RegexReplaced += ${$String} =~ s{
                 $TagStart style[^>]+? $JavaScriptPrefixRegex (.+?|) $TagEnd (.*?) $TagStart /style \s* $TagEnd
             }
             {}sgxim;
@@ -1088,7 +1145,7 @@ sub Safety {
             }
             {
                 if ( index($1, 'expression(' ) > -1 ) {
-                    $Replaced = 1;
+                    $RegexReplaced += 1;
                     '';
                 }
                 else {
@@ -1098,7 +1155,7 @@ sub Safety {
         }
 
         # remove HTTP redirects
-        $Replaced += ${$String} =~ s{
+        $RegexReplaced += ${$String} =~ s{
             $TagStart meta [^>]+? http-equiv=('|"|)refresh [^>]+? $TagEnd
         }
         {}sgxim;
@@ -1107,7 +1164,7 @@ sub Safety {
 
         # remove <applet> tags
         if ( $Param{NoApplet} ) {
-            $Replaced += ${$String} =~ s{
+            $RegexReplaced += ${$String} =~ s{
                 $TagStart applet.*? $TagEnd (.*?) $TagStart /applet \s* $TagEnd
             }
             {$ReplacementStr}sgxim;
@@ -1115,7 +1172,7 @@ sub Safety {
 
         # remove <Object> tags
         if ( $Param{NoObject} ) {
-            $Replaced += ${$String} =~ s{
+            $RegexReplaced += ${$String} =~ s{
                 $TagStart object.*? $TagEnd (.*?) $TagStart /object \s* $TagEnd
             }
             {$ReplacementStr}sgxim;
@@ -1123,7 +1180,7 @@ sub Safety {
 
         # remove <svg> tags
         if ( $Param{NoSVG} ) {
-            $Replaced += ${$String} =~ s{
+            $RegexReplaced += ${$String} =~ s{
                 $TagStart svg.*? $TagEnd (.*?) $TagStart /svg \s* $TagEnd
             }
             {$ReplacementStr}sgxim;
@@ -1131,7 +1188,7 @@ sub Safety {
 
         # remove <img> tags
         if ( $Param{NoImg} ) {
-            $Replaced += ${$String} =~ s{
+            $RegexReplaced += ${$String} =~ s{
                 $TagStart img.*? (.*?) \s* $TagEnd
             }
             {$ReplacementStr}sgxim;
@@ -1139,7 +1196,7 @@ sub Safety {
 
         # remove <embed> tags
         if ( $Param{NoEmbed} ) {
-            $Replaced += ${$String} =~ s{
+            $RegexReplaced += ${$String} =~ s{
                 $TagStart embed.*? $TagEnd
             }
             {$ReplacementStr}sgxim;
@@ -1154,13 +1211,13 @@ sub Safety {
             if ($Param{NoJavaScript}) {
 
                 # remove on action attributes
-                $Replaced += $Tag =~ s{
+                $RegexReplaced += $Tag =~ s{
                     (?:\s|/) on[a-z]+\s*=("[^"]+"|'[^']+'|.+?)($TagEnd|\s)
                 }
                 {$2}sgxim;
 
                 # remove javascript in a href links or src links
-                $Replaced += $Tag =~ s{
+                $RegexReplaced += $Tag =~ s{
                     ((?:\s|;|/)(?:background|url|src|href)\s*=\s*)
                     ('|"|)                                  # delimiter, can be empty
                     (?:\s* $JavaScriptPrefixRegex .*?)      # javascript, followed by anything but the delimiter
@@ -1172,13 +1229,13 @@ sub Safety {
                 }sgxime;
 
                 # remove link javascript tags
-                $Replaced += $Tag =~ s{
+                $RegexReplaced += $Tag =~ s{
                     ($TagStart link .+? $JavaScriptPrefixRegex (.+?|) $TagEnd)
                 }
                 {}sgxim;
 
                 # remove MS CSS expressions (JavaScript embedded in CSS)
-                $Replaced += $Tag =~ s{
+                $RegexReplaced += $Tag =~ s{
                     \sstyle=("|')[^\1]*? $ExpressionPrefixRegex [(].*?\1($TagEnd|\s)
                 }
                 {
@@ -1196,7 +1253,7 @@ sub Safety {
                 if (
                     ($Param{NoIntSrcLoad} && $Content =~ m{url\(})
                     || ($Param{NoExtSrcLoad} && $Content =~ m/(http|ftp|https):\//i)) {
-                    $Replaced = 1;
+                    $RegexReplaced += 1;
                     '';
                 }
                 else {
@@ -1204,30 +1261,16 @@ sub Safety {
                 }
             }egsxim;
 
-            # remove load tags
-            if ($Param{NoIntSrcLoad} || $Param{NoExtSrcLoad}) {
-                $Tag =~ s{
-                    ($TagStart (.+?) (?: \s | /) (?:src|poster)=(.+?) (\s.+?|) $TagEnd)
-                }
-                {
-                    my $URL = $3;
-                    if ($Param{NoIntSrcLoad} || ($Param{NoExtSrcLoad} && $URL =~ /(http|ftp|https):\//i)) {
-                        $Replaced = 1;
-                        '';
-                    }
-                    else {
-                        $1;
-                    }
-                }segxim;
-            }
-
             # replace original tag with clean tag
             $Tag;
         }segxim;
 
-        $Safety{Replace} += $Replaced;
+        $Safety{Replace} += $RegexReplaced;    # total count
 
-    } while ($Replaced);
+    } while ($RegexReplaced);
+
+    $String->$* = $Scrubber->scrub( $String->$* );
+    $Safety{Replace} += $ScrubberReplaced;     # total count
 
     # check ref && return result like called
     $Safety{String} = defined $StringNonref ? $String->$* : $String;
