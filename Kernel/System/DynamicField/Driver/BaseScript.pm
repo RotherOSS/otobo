@@ -477,7 +477,7 @@ sub EditFieldValueValidate {
 
         if ($ServerError) {
             if ( $CurrentValue ne $EditFieldValue->[$Index] ) {
-                $ServerError .= ' Edit field was not up to date.';
+                $ErrorMessage .= ' Edit field was not up to date.';
             }
         }
     }
