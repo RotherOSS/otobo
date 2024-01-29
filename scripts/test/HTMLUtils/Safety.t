@@ -112,6 +112,23 @@ my @Tests = (
         Line => __LINE__,
     },
     {
+        Input =>
+            '<a href="http://example.com/" onclock="alert(1)">Some Text <img src="//example.com/logo.png"/></a>',
+        Result => {
+            Output  => '<a href="http://example.com/">Some Text </a>',
+            Replace => 1,
+        },
+        Name => 'tag a with onclock, img with protocol relative external source'
+    },
+    {
+        Input  => '<a href="http://example.com/" onclock="alert(1)">Some Text <img src ="http://example.com/logo.png"/></a>',
+        Result => {
+            Output  => '<a href="http://example.com/">Some Text </a>',
+            Replace => 1,
+        },
+        Name => q{link with onclock and img, space before '='}
+    },
+    {
         Input => '<script type="text/javascript" id="topsy_global_settings">
 var topsy_style = "big";
 </script><script type="text/javascript" id="topsy-js-elem" src="http://example.com/topsy.js?init=topsyWidgetCreator"></script>
@@ -725,6 +742,23 @@ EOF
         Line => __LINE__,
     },
     {
+        Input => <<'EOF',
+Some
+<META id=">" HTTP-EQUIV="Refresh" CONTENT="2;
+URL=http://www.rbrasileventos.com.br/9asdasd/">
+Content
+EOF
+        Result => {
+            Output => <<'EOF',
+Some
+
+Content
+EOF
+            Replace => 1,
+        },
+        Name => 'meta with id and refresh tag'
+    },
+    {
         Input => <<"EOF",
 <img/onerror="alert(\'XSS1\')"src=a>
 EOF
@@ -950,6 +984,28 @@ You should be able to continue reading these lessons, however.
             Replace => 1,
         },
         Line => __LINE__,
+    },
+    {
+        Name   => q{remote poster attribute, forbidden, with space before '='},
+        Input  => '<video controls poster ="http://some.domain/vorschaubild.png"/>',
+        Config => {
+            NoExtSrcLoad => 1,
+        },
+        Result => {
+            Output  => '',
+            Replace => 1,
+        },
+    },
+    {
+        Name   => q{remote poster attribute, forbidden, with an early '>'},
+        Input  => '<video controls id=">" poster="http://some.domain/vorschaubild.png"/>',
+        Config => {
+            NoExtSrcLoad => 1,
+        },
+        Result => {
+            Output  => '',
+            Replace => 1,
+        },
     },
     {
         Name   => 'remote poster attribute, allowed',
