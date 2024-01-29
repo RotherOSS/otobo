@@ -65,7 +65,7 @@ use List::Util 1.33 qw(any);
 
 our ( @_scrub, @_scrub_fh );
 
-our $VERSION = '0.19-OTOBO';
+our $VERSION = '0.20';
 # AUTHORITY
 
 # my my my my, these here to prevent foolishness like
@@ -94,6 +94,8 @@ following directives:-
 
 =item * comment
 
+=item * preempt
+
 =back
 
 
@@ -101,6 +103,7 @@ following directives:-
 
 sub new {
     my $package = shift;
+
     my $p       = HTML::Parser->new(
         api_version             => 3,
         default_h               => \@_scrub,
@@ -113,14 +116,16 @@ sub new {
     );
 
     my $self = {
-        _p        => $p,
-        _rules    => { '*' => 0, },
-        _comment  => 0,
-        _process  => 0,
-        _r        => "",
-        _optimize => 1,
-        _script   => 0,
-        _style    => 0,
+        _p                 => $p,
+        _rules             => { '*' => 0, },
+        _comment           => 0,
+        _process           => 0,
+        _r                 => "",
+        _optimize          => 1,
+        _script            => 0,
+        _style             => 0,
+        _preempt           => 0,
+        _ignore_empty_end  => 0,
     };
 
     $p->{"\0_s"} = bless $self, $package;
@@ -130,9 +135,13 @@ sub new {
 
     my (%args) = @_;
 
-    for my $f (qw[ default allow deny rules process comment ]) {
+    for my $f (qw[ default allow deny rules process comment preempt ]) {
         next unless exists $args{$f};
-        if ( ref $args{$f} ) {
+
+        if ( $f eq 'preempt' && ref $args{$f} eq 'CODE' ) {
+            $self->$f( $args{$f} );
+        }
+        elsif ( ref $args{$f} ) {
             $self->$f( @{ $args{$f} } );
         }
         else {
@@ -154,6 +163,19 @@ sub comment {
     return $_[0]->{_comment}
         if @_ == 1;
     $_[0]->{_comment} = $_[1];
+    return;
+}
+
+=head2 preempt
+
+    $p->preempt(0);  # off by default
+
+=cut
+
+sub preempt {
+    return $_[0]->{_preempt}
+        if @_ == 1;
+    $_[0]->{_preempt} = $_[1];
     return;
 }
 
@@ -385,12 +407,15 @@ sub _out {
 
 =for comment _validate
 Uses $self->{_rules} to do attribute validation.
-Takes tag, rule('_' || $tag), attrref.
+Takes tag, rule('_' || $tag), attrref, attrseq.
+
+The rule indicator C<'_'> indicates that the default attribute rules should be used.
 
 =cut
 
 sub _validate {
     my ( $s, $t, $r, $a, $as ) = @_;
+
     return "<$t>" unless %$a;
 
     $r = $s->{_rules}->{$r};
@@ -401,13 +426,21 @@ sub _validate {
 
         if ( ref $check eq 'CODE' ) {
             my @v = $check->( $s, $t, $k, $a->{$k}, $a, \%f );
+
+            # empty list indicates that the attribute should be skipped.
             next unless @v;
+
+            # use the value from the callback
             $f{$k} = shift @v;
         }
         elsif ( ref $check || length($check) > 1 ) {
+
+            # keep the original value
             $f{$k} = $a->{$k} if $a->{$k} =~ m{$check};
         }
         elsif ($check) {
+
+            # keep the original value
             $f{$k} = $a->{$k};
         }
     }
@@ -436,7 +469,29 @@ maintenance.
 sub _scrub_str {
     my ( $p, $e, $t, $a, $as, $text ) = @_;
 
-    my $s      = $p->{"\0_s"};
+    my $s = $p->{"\0_s"};
+
+    # premptive handling of an event might turn off the rule based handling
+    if ( $s->{_preempt} && ref $s->{_preempt} eq 'CODE' ) {
+        if ( $e eq 'end' && $text eq '' && $s->{_ignore_empty_end} ) {
+            $s->{_ignore_empty_end} = 0;
+
+            return '';
+        }
+
+        $s->{_ignore_empty_end} = 0;
+
+        my @v = $s->{_preempt}->( $e, $t, $a, $as, $text);
+
+        if (@v) {
+            if ( $e eq 'start' ) {
+                $s->{_ignore_empty_end} = 1;
+            }
+
+            return $v[0];
+        }
+    }
+
     my $outstr = '';
 
     if ( $e eq 'start' ) {
@@ -475,6 +530,8 @@ sub _scrub_str {
                 $outstr .= "</$t>";
             }
             else {
+
+                # work because the previous start event set $s->{_r}
                 substr $s->{_r}, -1, 0, ' /';
             }
         }
