@@ -1104,13 +1104,23 @@ sub Safety {
             }
         }
 
-        return;    # process with the rule based scrubbing
+        if ( $Param{NoJavaScript} ) {
+
+            # remove HTTP redirects in meta tags
+            if ( $Tag eq 'meta' && $Attr->{'http-equiv'} && $Attr->{'http-equiv'} =~ m/refresh/i ) {
+                $ScrubberReplaced++;
+
+                return '';
+            }
+        }
+
+        return;    # continue processing with the rule based scrubbing
     };
 
     my $Scrubber = HTML::Scrubber->new(
         preempt => $PreemptiveHandler,
         default => [
-            1,     # allow all tags per default
+            1,    # allow all tags per default
             {
                 '*' => 1,    # allow all attributes per default
             },
@@ -1153,12 +1163,6 @@ sub Safety {
                 }
             }egsxim;
         }
-
-        # remove HTTP redirects
-        $RegexReplaced += ${$String} =~ s{
-            $TagStart meta [^>]+? http-equiv=('|"|)refresh [^>]+? $TagEnd
-        }
-        {}sgxim;
 
         my $ReplacementStr = $Param{ReplacementStr} // '';
 
