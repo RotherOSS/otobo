@@ -1119,6 +1119,7 @@ sub Safety {
 
     my $Scrubber = HTML::Scrubber->new(
         preempt => $PreemptiveHandler,
+        style   => 1,
         default => [
             1,    # allow all tags per default
             {
