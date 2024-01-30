@@ -1645,6 +1645,12 @@ sub Data {
         'The field needs to be a literal word.' => 'Dieses Feld sollte ein Wort enthalten.',
         'Header' => 'Überschrift',
 
+        # overview screen
+        'Filter for PostMaster Filters'          => 'Postmaster-Filter filtern',
+        'Search all filter attributes'           => 'In allen Filter-Attributen suchen',
+        'Limit search to selected header fields' => 'Suche auf ausgewählte Filterbedingungen einschränken',
+        'Limit search to selected set fields'    => 'Suche auf ausgewählte Kopfzeilen einschränken',
+
         # Template: AdminPriority
         'Priority Management' => 'Prioritäten-Verwaltung',
         'Add Priority' => 'Priorität hinzufügen',
