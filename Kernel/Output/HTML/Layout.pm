@@ -5169,16 +5169,19 @@ sub RichTextDocumentServe {
     if ( !$Param{LoadInlineContent} ) {
 
         # Strip out active content first, keeping external images.
-        my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
-            String       => $Param{Data}->{Content},
+        my %CommonSafetyParams = (
             NoApplet     => 1,
             NoObject     => 1,
             NoEmbed      => 1,
             NoSVG        => 1,
             NoIntSrcLoad => 0,
-            NoExtSrcLoad => 0,
             NoJavaScript => 1,
             Debug        => $Self->{Debug},
+        );
+        my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
+            String => $Param{Data}->{Content},
+            %CommonSafetyParams,
+            NoExtSrcLoad => 0,
         );
 
         $Param{Data}->{Content} = $SafetyCheckResult{String};
@@ -5187,20 +5190,16 @@ sub RichTextDocumentServe {
 
             # Strip out external content.
             my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
-                String       => $Param{Data}->{Content},
-                NoApplet     => 1,
-                NoObject     => 1,
-                NoEmbed      => 1,
-                NoSVG        => 1,
-                NoIntSrcLoad => 0,
+                String => $Param{Data}->{Content},
+                %CommonSafetyParams,
                 NoExtSrcLoad => 1,
-                NoJavaScript => 1,
-                Debug        => $Self->{Debug},
             );
 
             $Param{Data}->{Content} = $SafetyCheckResult{String};
 
             # Show confirmation button to load external content explicitly only if BlockLoadingRemoteContent is disabled.
+            # $SafetyCheckResult{Replace} does not show all replacements, but at least those that are
+            # triggered by NoExtSrcLoad.
             if (
                 $SafetyCheckResult{Replace}
                 && !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::BlockLoadingRemoteContent')
