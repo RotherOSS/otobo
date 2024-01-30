@@ -139,7 +139,7 @@ var topsy_style = "big";
             Output => '
 
 ',
-            Replace => 1,
+            Replace => 0,    # changes from HTML::Parser are not reported
         },
         Name => 'script tag',
         Line => __LINE__,
@@ -194,7 +194,7 @@ You should be able to continue reading these lessons, however.
             Output => '<center>
 
 </center>',
-            Replace => 1,
+            Replace => 0,    # changes from HTML::Parser are not reported
         },
         Name => 'script/src tag',
         Line => __LINE__,
@@ -207,7 +207,7 @@ You should be able to continue reading these lessons, however.
             Output => '<center>
 
 </center>',
-            Replace => 1,
+            Replace => 0,    # changes from HTML::Parser are not reported
         },
         Name => 'script/src tag',
         Line => __LINE__,
@@ -286,7 +286,7 @@ You should be able to continue reading these lessons, however.
             Output => '<center>
 <img """>"&gt;
 </center>',
-            Replace => 1,
+            Replace => 0,    # changes from HTML::Parser are not reported
         },
         Name => 'script/img tag',
         Line => __LINE__,
@@ -314,7 +314,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'script tag',
+        Name => 'script/src tag',
         Line => __LINE__,
     },
     {
@@ -325,7 +325,7 @@ You should be able to continue reading these lessons, however.
             Output => '<center>
 &lt;
 </center>',
-            Replace => 1,
+            Replace => 0,    # changes from HTML::Parser are not reported
         },
         Name => 'script tag with end of line comment',
         Line => __LINE__,
@@ -338,7 +338,7 @@ You should be able to continue reading these lessons, however.
             Output => '<center>
 
 </center>',
-            Replace => 1,
+            Replace => 0,    # changes from HTML::Parser are not reported
         },
         Name => 'script tag <B> in src',
         Line => __LINE__,
@@ -351,7 +351,7 @@ You should be able to continue reading these lessons, however.
             Output => '<center>
 
 </center>',
-            Replace => 1,
+            Replace => 0,    # changes from HTML::Parser are not reported
         },
         Name => 'script tag with .j in src',
         Line => __LINE__,
@@ -418,7 +418,7 @@ You should be able to continue reading these lessons, however.
             Output => '<center>
 
 </center>',
-            Replace => 1,
+            Replace => 0,    # changes from HTML::Parser are not reported
         },
         Name => 'script',
         Line => __LINE__,
@@ -431,7 +431,7 @@ You should be able to continue reading these lessons, however.
             Output => '<center>
 
 </center>',
-            Replace => 1,
+            Replace => 0,    # changes from HTML::Parser are not reported
         },
         Name => 'script',
         Line => __LINE__,
@@ -445,7 +445,7 @@ You should be able to continue reading these lessons, however.
             Output => '<center>
 
 </center>',
-            Replace => 1,
+            Replace => 0,    # changes from HTML::Parser are not reported
         },
         Name => 'script',
         Line => __LINE__,
@@ -460,7 +460,7 @@ You should be able to continue reading these lessons, however.
 PT
  SRC="http://ha.ckers.org/xss.js"&gt;
 </center>',
-            Replace => 1,
+            Replace => 0,    # changes from HTML::Parser are not reported
         },
         Name => 'script with PT',
         Line => __LINE__,
@@ -507,6 +507,7 @@ PT
         Line => __LINE__,
     },
     {
+        Name  => 'Test for bug#7972 - Some mails may not present HTML part when using rich viewing.',
         Input =>
             '<html><head><style type="text/css"> #some_css {color: #FF0000} </style><body>Important Text about "javascript"!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
         Result => {
@@ -514,10 +515,10 @@ PT
                 '<html><head><style type="text/css"> #some_css {color: #FF0000} </style><body>Important Text about "javascript"!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
             Replace => 0,
         },
-        Name => 'Test for bug#7972 - Some mails may not present HTML part when using rich viewing.',
         Line => __LINE__,
     },
     {
+        Name  => 'Additional test for bug#7972 - Some mails may not present HTML part when using rich viewing.',
         Input =>
             '<html><head><style type="text/javascript"> alert("some evil stuff!);</style><body>Important Text about "javascript"!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
         Result => {
@@ -525,8 +526,6 @@ PT
                 '<html><head><body>Important Text about "javascript"!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
             Replace => 1,
         },
-        Name =>
-            'Additional test for bug#7972 - Some mails may not present HTML part when using rich viewing.',
         Line => __LINE__,
     },
     {
