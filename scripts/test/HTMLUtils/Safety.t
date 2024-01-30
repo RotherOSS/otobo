@@ -64,7 +64,7 @@ my @Tests = (
             \'Hi!\'
         )" >Some Text</a>',
         Result => {
-            Output  => '<a href = "" >Some Text</a>',
+            Output  => '<a href="">Some Text</a>',
             Replace => 1,
         },
         Name => 'href with javascript protocol, including white space',
@@ -86,7 +86,7 @@ my @Tests = (
             "<a href='https://www.yoururl.tld/sub/online-assessment/index.php' target='_blank'>https://www.yoururl.tld/sub/online-assessment/index.php</a>",
         Result => {
             Output =>
-                "<a href='https://www.yoururl.tld/sub/online-assessment/index.php' target='_blank'>https://www.yoururl.tld/sub/online-assessment/index.php</a>",
+                '<a href="https://www.yoururl.tld/sub/online-assessment/index.php" target="_blank">https://www.yoururl.tld/sub/online-assessment/index.php</a>',
             Replace => 0,
         },
         Name => 'valid href, with single quotes',
@@ -102,8 +102,7 @@ my @Tests = (
         Line => __LINE__,
     },
     {
-        Input =>
-            '<a href="http://example.com/" onclock="alert(1)">Some Text <img src="http://example.com/logo.png"/></a>',
+        Input  => '<a href="http://example.com/" onclock="alert(1)">Some Text <img src="http://example.com/logo.png"/></a>',
         Result => {
             Output  => '<a href="http://example.com/">Some Text </a>',
             Replace => 1,
@@ -180,7 +179,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-\'\';!--"<XSS>=&{()}
+\'\';!--"<xss>=&{()}
 </center>',
             Replace => 0,
         },
@@ -219,7 +218,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-<IMG SRC="">
+<img src="">
 </center>',
             Replace => 1,
         },
@@ -233,7 +232,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-<IMG SRC="" >
+<img src="">
 </center>',
             Replace => 1,
         },
@@ -246,7 +245,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-<IMG SRC="">
+<img src="">
 </center>',
             Replace => 1,
         },
@@ -259,7 +258,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-<IMG SRC="">
+<img src="">
 </center>',
             Replace => 1,
         },
@@ -272,7 +271,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-<IMG SRC="">
+<img src="">
 </center>',
             Replace => 1,
         },
@@ -285,7 +284,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-<IMG """>">
+<img """>">
 </center>',
             Replace => 1,
         },
@@ -374,7 +373,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-<BODY>
+<body>
 </center>',
             Replace => 1,
         },
@@ -387,7 +386,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-<TABLE BACKGROUND="">
+<table background="">
 </center>',
             Replace => 1,
         },
@@ -402,7 +401,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-<TABLE BACKGROUND="" >
+<table background="">
 </center>',
             Replace => 1,
         },
@@ -471,8 +470,7 @@ PT
 </center>',
         Result => {
             Output => '<center>
-<A
- HREF="">XSS</A>
+<a href="">XSS</a>
 </center>',
             Replace => 1,
         },
@@ -486,8 +484,7 @@ PT
 </center>',
         Result => {
             Output => '<center>
-<A
- HREF="">XSS</A>
+<a href="">XSS</a>
 </center>',
             Replace => 1,
         },
@@ -500,7 +497,7 @@ PT
 </center>',
         Result => {
             Output => '<center>
-  <body style="background: #fff; color: #000;" ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.src = (\'https:\' == document.location.protocol ? \'https://\' : \'http://\') + \'ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\'; document.body.appendChild(ga); setTimeout(function() { jQuery(\'body\').append(jQuery(\'<div />\').attr(\'id\', \'hack-me\').css(\'display\', \'none\')); jQuery(\'#hack-me\').load(\'/otobo/index.pl?Action=AgentPreferences\', null, function() { jQuery.ajax({url: \'/otobo/index.pl\', type: \'POST\', data: ({Action: \'AgentPreferences\', ChallengeToken: jQuery(\'input[name=ChallengeToken]:first\', \'#hack-me\').val(), Group: \'Language\', \'Subaction\': \'Update\', UserLanguage: \'zh_CN\'})}); }); }, 500);">
+  <body style="background: #fff; color: #000;" ga=document.createElement(\'script\'); ga.type=\'text/javascript\'; ga.src=(\'https:\' == document.location.protocol ? \'https://\' : \'http://\') + \'ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\'; document.body.appendChild(ga); setTimeout(function() { jQuery(\'body\').append(jQuery(\'<div />\').attr(\'id\', \'hack-me\').css(\'display\', \'none\')); jQuery(\'#hack-me\').load(\'/otobo/index.pl?Action=AgentPreferences\', null, function() { jQuery.ajax({url: \'/otobo/index.pl\', type: \'POST\', data: ({Action: \'AgentPreferences\', ChallengeToken: jQuery(\'input[name=ChallengeToken]:first\', \'#hack-me\').val(), Group: \'Language\', \'Subaction\': \'Update\', UserLanguage: \'zh_CN\'})}); }); }, 500);">
 </center>',
             Replace => 1,
         },
@@ -596,7 +593,7 @@ EOF
 EOF
         Result => {
             Output => <<'EOF',
-<div></div >
+<div></div>
 EOF
             Replace => 1,
         },
@@ -663,9 +660,9 @@ EOF
 EOF
         Result => {
             Output => <<'EOF',
-<img src="/img1.png"/>
+<img src="/img1.png" />
 <iframe src=""></iframe>
-<img src="/img2.png"/>
+<img src="/img2.png" />
 EOF
             Replace => 1,
         },
@@ -682,9 +679,9 @@ EOF
 EOF
         Result => {
             Output => <<'EOF',
-<img src="/img1.png"/>
+<img src="/img1.png" />
 <iframe src=""></iframe>
-<img src="/img2.png"/>
+<img src="/img2.png" />
 EOF
             Replace => 1,
         },
@@ -699,9 +696,9 @@ EOF
 EOF
         Result => {
             Output => <<'EOF',
-<img src="/img1.png"/>
+<img src="/img1.png" />
 <iframe src=""></iframe>
-<img src="/img2.png"/>
+<img src="/img2.png" />
 EOF
             Replace => 1,
         },
@@ -716,9 +713,9 @@ EOF
 EOF
         Result => {
             Output => <<'EOF',
-<img src="/img1.png"/>
+<img src="/img1.png" />
 <iframe src="" data-src="javascript:alert('XSS Exploit');"></iframe>
-<img src="/img2.png"/>
+<img src="/img2.png" />
 EOF
             Replace => 0,
         },
@@ -780,7 +777,7 @@ EOF
 EOF
         Result => {
             Output => <<'EOF',
-<iframe src="" >
+<iframe src="">
 EOF
             Replace => 1,
         },
@@ -793,7 +790,7 @@ EOF
 EOF
         Result => {
             Output => <<'EOF',
-<iframe/src="" >
+<iframe/src="">
 EOF
             Replace => 1,
         },
@@ -1019,7 +1016,7 @@ You should be able to continue reading these lessons, however.
             NoExtSrcLoad => 0,
         },
         Result => {
-            Output  => '<video controls poster="http://some.domain/vorschaubild.png"/>',
+            Output  => '<video controls poster="http://some.domain/vorschaubild.png" />',
             Replace => 0,
         },
         Line => __LINE__,
