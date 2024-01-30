@@ -504,7 +504,7 @@ sub EditFieldValueValidate {
     my $ServerError;
 
     # ref comparison because EditFieldValuetet returns an arrayref except when using template value
-    if ( !ref $Value eq 'ARRAY' ) {
+    if ( ref $Value ne 'ARRAY' ) {
         $Value = [$Value];
     }
 
