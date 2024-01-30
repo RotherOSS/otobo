@@ -22,7 +22,7 @@ use warnings;
 use utf8;
 
 # core modules
-use Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
+use Data::Dumper qw(Dumper);    ## no critic qw(Modules::ProhibitEvilModules)
 
 # CPAN modules
 

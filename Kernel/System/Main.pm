@@ -24,8 +24,8 @@ use warnings;
 use namespace::autoclean;    # hide md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN, irand, IsStringWithData
 
 # core modules
-use Digest::MD5 qw(md5_hex);
-use Data::Dumper;            ## no critic qw(Modules::ProhibitEvilModules)
+use Digest::MD5  qw(md5_hex);
+use Data::Dumper qw(Dumper);    ## no critic qw(Modules::ProhibitEvilModules)
 use File::stat;
 use List::Util qw(first);
 use Fcntl      qw(:flock);
@@ -1022,7 +1022,7 @@ sub Dump {
         $Self->_Dump($DataNew);
 
         # Dump it as binary strings.
-        my $String = Data::Dumper::Dumper( ${$DataNew} );
+        my $String = Dumper( ${$DataNew} );
 
         # Enable utf8 flag.
         Encode::_utf8_on($String);
@@ -1031,7 +1031,7 @@ sub Dump {
     }
 
     # fallback if Storable can not be loaded
-    return Data::Dumper::Dumper($Data);
+    return Dumper($Data);
 }
 
 =head2 DirectoryRead()

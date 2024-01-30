@@ -24,8 +24,8 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use List::Util qw(first);
-use Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
+use List::Util     qw(first);
+use Data::Dumper   qw(Dumper);                       ## no critic qw(Modules::ProhibitEvilModules)
 use File::Basename qw(basename dirname fileparse);
 use File::Copy     qw(move);
 use File::Path     qw(make_path);
