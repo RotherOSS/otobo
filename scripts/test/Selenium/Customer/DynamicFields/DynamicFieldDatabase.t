@@ -308,7 +308,11 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => 'return $("#QueueID_Select > ul").children(":visible").length == 1'
         );
-        $Selenium->find_element( "#QueueID_Select",       'css' )->click();
+
+        # two clicks are needed here: one to mark the option, the second for selecting it
+        $Selenium->find_element( "#QueueID_Select", 'css' )->click();
+        $Selenium->find_element( "#QueueID_Select", 'css' )->click();
+
         $Selenium->find_element( "button[type='submit']", 'css' )->click();
 
         $Selenium->WaitFor(
