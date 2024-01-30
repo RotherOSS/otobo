@@ -372,7 +372,7 @@ Sets IndexValue and IndexSet for complex structures, if necessary.
 sub ValueStructureToDB {
     my ( $Self, %Param ) = @_;
 
-    return unless defined $Param{Value};
+    return [ { $Param{ValueKey} => undef } ] unless defined $Param{Value};
 
     if ( $Param{Set} ) {
         my @ReturnValue;
