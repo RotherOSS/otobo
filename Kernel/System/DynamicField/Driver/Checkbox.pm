@@ -184,12 +184,22 @@ sub ValueSet {
         }
     }
 
-    my $DBValue = $Self->ValueStructureToDB(
-        Value      => $Param{Value},
-        ValueKey   => $Self->{ValueKey},
-        Set        => $Param{Set},
-        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
-    );
+    my $DBValue;
+    if ( !defined $Param{Value} ) {
+        $DBValue = [
+            {
+                $Self->{ValueKey} => $Param{Value}
+            },
+        ];
+    }
+    else {
+        $DBValue = $Self->ValueStructureToDB(
+            Value      => $Param{Value},
+            ValueKey   => $Self->{ValueKey},
+            Set        => $Param{Set},
+            MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+        );
+    }
 
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
