@@ -284,7 +284,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-<img """>">
+<img """>"&gt;
 </center>',
             Replace => 1,
         },
@@ -323,7 +323,7 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-<
+&lt;
 </center>',
             Replace => 1,
         },
@@ -336,7 +336,8 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-/center>',
+
+</center>',
             Replace => 1,
         },
         Name => 'script tag <B> in src',
@@ -348,7 +349,8 @@ You should be able to continue reading these lessons, however.
 </center>',
         Result => {
             Output => '<center>
-/center>',
+
+</center>',
             Replace => 1,
         },
         Name => 'script tag with .j in src',
@@ -361,7 +363,7 @@ You should be able to continue reading these lessons, however.
         Result => {
             Output => '<center>
 
-</center>',
+&lt;/center&gt;',
             Replace => 1,
         },
         Name => 'iframe with external src',
@@ -456,7 +458,7 @@ You should be able to continue reading these lessons, however.
         Result => {
             Output => '<center>
 PT
- SRC="http://ha.ckers.org/xss.js"></SCRIPT>
+ SRC="http://ha.ckers.org/xss.js"&gt;
 </center>',
             Replace => 1,
         },
@@ -714,7 +716,7 @@ EOF
         Result => {
             Output => <<'EOF',
 <img src="/img1.png" />
-<iframe src="" data-src="javascript:alert('XSS Exploit');"></iframe>
+<iframe src="" data-src="javascript:alert(&#39;XSS Exploit&#39;);"></iframe>
 <img src="/img2.png" />
 EOF
             Replace => 0,
@@ -927,7 +929,7 @@ EOF
         },
         Result => {
             Output => '<center>
-<object width="384" height="236" align="right" vspace="5" hspace="5"><param name="movie" value="http://www.youtube.com/v/l1JdGPVMYNk&hl=en_US&fs=1&hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param>...</object>
+<object width="384" height="236" align="right" vspace="5" hspace="5"><param name="movie" value="http://www.youtube.com/v/l1JdGPVMYNk&amp;hl=en_US&amp;fs=2&amp;hd=1"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always">...</object>
 </center>',
             Replace => 1,
         },
@@ -1089,7 +1091,7 @@ You should be able to continue reading these lessons, however.
             NoExtSrcLoad => 0,
         },
         Result => {
-            Output  => q|<p style="content:url('http://localhost:8000/css-content');"></p>|,
+            Output  => q|<p style="content:url(&#39;http://localhost:8000/css-content&#39;);"></p>|,
             Replace => 0,
         },
         Line => __LINE__,
@@ -1113,7 +1115,7 @@ You should be able to continue reading these lessons, however.
             NoIntSrcLoad => 0,
         },
         Result => {
-            Output  => q|<p style="content:url('/local/css-content');"></p>|,
+            Output  => q|<p style="content:url(&#39;/local/css-content&#39;);"></p>|,
             Replace => 0,
         },
         Line => __LINE__,
