@@ -19,7 +19,10 @@ package Kernel::System::PostMaster::Filter;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsStringWithData);
+
 our @ObjectDependencies = (
+    'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::Log',
 );
@@ -49,6 +52,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
+    $Self->{CacheType} = 'PostMasterFilter';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
+
     return $Self;
 }
 
@@ -56,7 +62,11 @@ sub new {
 
 get all filter
 
-    my %FilterList = $PMFilterObject->FilterList();
+    my %FilterList = $PMFilterObject->FilterList(
+        SearchTerm   => $SearchTerm,                    # optional - String, term to search by
+        SearchFilter => \@SearchFilter|$SearchFilter,   # optional - Array or string, restrict search to certain match headers
+        SearchValue  => \@SearchValue|$SearchValue,     # optional - Array or string, restrict search to certain set headers
+    );
 
 =cut
 
@@ -65,6 +75,47 @@ sub FilterList {
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # check search items
+    if ( $Param{SearchTerm} && !IsStringWithData( $Param{SearchTerm} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Value for SearchTerm is not a scalar value!",
+        );
+        return;
+    }
+
+    # More specifically: Should empty array refs be allowed?
+    for my $SearchArrayItem (qw(SearchFilter SearchValue)) {
+
+        # if scalar given, convert to array - check with !ref to prevent [ HASH(0x...) ]
+        if ( $Param{$SearchArrayItem} && !ref $Param{$SearchArrayItem} && ref \$Param{$SearchArrayItem} eq 'SCALAR' ) {
+            $Param{$SearchArrayItem} = [ $Param{$SearchArrayItem} ];
+        }
+
+        if ( $Param{$SearchArrayItem} && ref $Param{$SearchArrayItem} ne 'ARRAY' ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Value for $SearchArrayItem is not an array!",
+            );
+            return;
+        }
+    }
+
+    # check cache
+    my @CacheParts = qw(PostMasterFilterList);
+    for my $Key ( sort keys %Param ) {
+
+        # TODO Think about good practice for maintaining order when one or more keys are empty
+        push @CacheParts, ( $Param{$Key} || '-' );
+    }
+
+    my $CacheKey = join '::', @CacheParts;
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
+    return %{$Cache} if $Cache;
 
     return if !$DBObject->Prepare(
         SQL => 'SELECT f_name FROM postmaster_filter',
@@ -75,7 +126,78 @@ sub FilterList {
         $Data{ $Row[0] } = $Row[0];
     }
 
-    return %Data;
+    # apply search restrictions
+    my %Result;
+    if ( $Param{SearchTerm} ) {
+
+        # iterate over filters given from sql select
+        FILTER:
+        for my $FilterName ( keys %Data ) {
+
+            # fetch every single filter
+            my %Filter = $Self->FilterGet( Name => $FilterName );
+            next FILTER unless %Filter;
+
+            # filter for match and set attributes
+            my %SearchRelevantData = map { $_ eq 'Match' || $_ eq 'Set' ? ( $_ => $Filter{$_} ) : () } keys %Filter;
+
+            # iterate over filter attributes
+            FILTERATTRIBUTE:
+            for my $FilterAttribute ( keys %SearchRelevantData ) {
+                next FILTERATTRIBUTE unless $Filter{$FilterAttribute};
+
+                # iterate over filter attribute contents
+                for my $FilterDataIndex ( 0 .. $#{ $Filter{$FilterAttribute} } ) {
+
+                    # fetch filter data and corresponding 'Not' entry
+                    my %FilterData = $Filter{$FilterAttribute}->[$FilterDataIndex]->%*;
+
+                    # caution: 'Not' only applies to 'Match', not to 'Set'
+                    my %FilterNot = $FilterAttribute eq 'Match' ? $Filter{Not}->[$FilterDataIndex]->%* : ();
+
+                    # skip if search filter or search value does not match
+                    for my $SearchRestriction (qw(SearchFilter SearchValue)) {
+                        if ( $Param{$SearchRestriction}->@* ) {
+                            if ( !grep { $_ eq $FilterData{Key} } $Param{$SearchRestriction}->@* ) {
+                                next FILTERATTRIBUTE;
+                            }
+                        }
+                    }
+
+                    if ( $FilterAttribute eq 'Match' ) {
+
+                        # check if search term matches
+                        if (
+                            ( !$FilterNot{Value} && $Param{SearchTerm} =~ m{$FilterData{Value}}i )
+                            || ( $FilterNot{Value} && $Param{SearchTerm} !~ m{$FilterData{Value}}i )
+                            )
+                        {
+                            $Result{$FilterName} = $FilterName;
+                        }
+                    }
+                    elsif ( $FilterAttribute eq 'Set' ) {
+                        if ( $FilterData{Value} =~ m{$Param{SearchTerm}}i ) {
+                            $Result{$FilterName} = $FilterName;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    else {
+        %Result = %Data;
+    }
+
+    # set cache
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \%Result,
+    );
+
+    return %Result;
 }
 
 =head2 FilterAdd()
@@ -147,6 +269,10 @@ sub FilterAdd {
         }
     }
 
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
+
     return 1;
 }
 
@@ -180,6 +306,10 @@ sub FilterDelete {
     return if !$DBObject->Do(
         SQL  => 'DELETE FROM postmaster_filter WHERE f_name = ?',
         Bind => [ \$Param{Name} ],
+    );
+
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
     );
 
     return 1;
