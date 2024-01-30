@@ -1097,6 +1097,7 @@ sub Safety {
                     )
                 {
                     # drop the start tag;
+                    # The replace count is used for confirmation of external source load
                     $ScrubberReplaced++;
 
                     return '';
@@ -1112,6 +1113,22 @@ sub Safety {
 
                 return '';
             }
+
+            # <SCRIPT/SRC="http://ha.ckers.org/xss.js"></SCRIPT>
+            # is parsed by HTML::Parser as the tag "script/src=\"http://ha.ckers.org/xss.js\""
+            # but browser might interpret it as a script tag
+            if ( $Tag =~ m/script/i ) {
+                $ScrubberReplaced++;
+
+                return '';
+            }
+
+            # remove style with javascript parts
+            if ( $Tag =~ m/style/i && $Text =~ m/$JavaScriptPrefixRegex/xi ) {
+                $ScrubberReplaced++;
+
+                return '';
+            }
         }
 
         return;    # continue processing with the rule based scrubbing
@@ -1119,14 +1136,17 @@ sub Safety {
 
     my $Scrubber = HTML::Scrubber->new(
         preempt => $PreemptiveHandler,
-        style   => 1,
         default => [
-            1,    # allow all tags per default
+            1,     # allow all tags per default
             {
                 '*' => 1,    # allow all attributes per default
             },
         ],
     );
+
+    # for some reason stype and script are not handled by new()
+    $Scrubber->style(1);                                  # style tags should not be filtered by HTML::Parser
+    $Scrubber->script( $Param{NoJavaScript} ? 0 : 1 );    # let HTML::Parser filter script tags
 
     # Replace as many times as it is needed to avoid nesting tag attacks.
     my $RegexReplaced;
@@ -1135,16 +1155,10 @@ sub Safety {
 
         # remove script tags
         if ( $Param{NoJavaScript} ) {
-            $RegexReplaced += ${$String} =~ s{
-                $TagStart script.*? $TagEnd .*?  $TagStart /script \s* $TagEnd
-            }
-            {}sgxim;
-            $RegexReplaced += ${$String} =~ s{
-                $TagStart script.*? $TagEnd .+? ($TagStart|$TagEnd)
-            }
-            {}sgxim;
 
             # remove style/javascript parts
+            # This check can't be done by HTML-Scrubber as more than one event
+            # is relevant for this.
             $RegexReplaced += ${$String} =~ s{
                 $TagStart style[^>]+? $JavaScriptPrefixRegex (.+?|) $TagEnd (.*?) $TagStart /style \s* $TagEnd
             }
