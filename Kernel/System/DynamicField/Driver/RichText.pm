@@ -370,10 +370,8 @@ EOF
         NoJavaScript => 1,
     );
 
-    # take the safe content if neccessary
-    if ( $SafeContent{Replace} ) {
-        $Value = $SafeContent{String};
-    }
+    # take the safe content
+    $Value = $SafeContent{String};
 
     # detect all plain text links and put them into an HTML <a> tag
     $Value = $HTMLUtilsObject->LinkQuote(
