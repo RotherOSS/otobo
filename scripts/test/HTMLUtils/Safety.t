@@ -118,7 +118,8 @@ my @Tests = (
             Output  => '<a href="http://example.com/">Some Text </a>',
             Replace => 1,
         },
-        Name => 'tag a with onclock, img with protocol relative external source'
+        Name => 'tag a with onclock, img with protocol relative external source',
+        Line => __LINE__,
     },
     {
         Input  => '<a href="http://example.com/" onclock="alert(1)">Some Text <img src ="http://example.com/logo.png"/></a>',
@@ -126,7 +127,8 @@ my @Tests = (
             Output  => '<a href="http://example.com/">Some Text </a>',
             Replace => 1,
         },
-        Name => q{link with onclock and img, space before '='}
+        Name => q{link with onclock and img, space before '=', a closed twice},
+        Line => __LINE__,
     },
     {
         Input => '<script type="text/javascript" id="topsy_global_settings">
@@ -756,7 +758,8 @@ Content
 EOF
             Replace => 1,
         },
-        Name => 'meta with id and refresh tag'
+        Name => 'meta with id and refresh tag',
+        Line => __LINE__,
     },
     {
         Input => <<"EOF",
@@ -995,6 +998,7 @@ You should be able to continue reading these lessons, however.
             Output  => '',
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name   => q{remote poster attribute, forbidden, with an early '>'},
@@ -1006,6 +1010,7 @@ You should be able to continue reading these lessons, however.
             Output  => '',
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'remote poster attribute, allowed',
