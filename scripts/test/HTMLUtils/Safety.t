@@ -38,7 +38,8 @@ my @Tests = (
             Output  => 'Some Text',
             Replace => 0,
         },
-        Name => 'simple text'
+        Name => 'simple text',
+        Line => __LINE__,
     },
     {
         Input  => '<b>Some Text</b>',
@@ -46,7 +47,8 @@ my @Tests = (
             Output  => '<b>Some Text</b>',
             Replace => 0,
         },
-        Name => 'bold text'
+        Name => 'bold text',
+        Line => __LINE__,
     },
     {
         Input  => '<a href="javascript:alert(1)">Some Text</a>',
@@ -54,7 +56,8 @@ my @Tests = (
             Output  => '<a href="">Some Text</a>',
             Replace => 1,
         },
-        Name => 'href with javascript protocol'
+        Name => 'href with javascript protocol',
+        Line => __LINE__,
     },
     {
         Input => '<a href = " javascript : alert(
@@ -64,7 +67,8 @@ my @Tests = (
             Output  => '<a href = "" >Some Text</a>',
             Replace => 1,
         },
-        Name => 'href with javascript protocol, including white space'
+        Name => 'href with javascript protocol, including white space',
+        Line => __LINE__,
     },
     {
         Input =>
@@ -74,7 +78,8 @@ my @Tests = (
                 '<a href="https://www.yoururl.tld/sub/online-assessment/index.php" target="_blank">https://www.yoururl.tld/sub/online-assessment/index.php</a>',
             Replace => 0,
         },
-        Name => 'valid href'
+        Name => 'valid href',
+        Line => __LINE__,
     },
     {
         Input =>
@@ -84,7 +89,8 @@ my @Tests = (
                 "<a href='https://www.yoururl.tld/sub/online-assessment/index.php' target='_blank'>https://www.yoururl.tld/sub/online-assessment/index.php</a>",
             Replace => 0,
         },
-        Name => 'valid href, with single quotes'
+        Name => 'valid href, with single quotes',
+        Line => __LINE__,
     },
     {
         Input  => '<a href="http://example.com/" onclock="alert(1)">Some Text</a>',
@@ -92,7 +98,8 @@ my @Tests = (
             Output  => '<a href="http://example.com/">Some Text</a>',
             Replace => 1,
         },
-        Name => 'tag a with attibute onclock'
+        Name => 'tag a with attibute onclock',
+        Line => __LINE__,
     },
     {
         Input =>
@@ -101,7 +108,8 @@ my @Tests = (
             Output  => '<a href="http://example.com/">Some Text </a>',
             Replace => 1,
         },
-        Name => 'tag a with onclock, img with external source'
+        Name => 'tag a with onclock, img with external source',
+        Line => __LINE__,
     },
     {
         Input => '<script type="text/javascript" id="topsy_global_settings">
@@ -115,7 +123,8 @@ var topsy_style = "big";
 ',
             Replace => 1,
         },
-        Name => 'script tag'
+        Name => 'script tag',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -130,7 +139,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'applet tag'
+        Name => 'applet tag',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -142,7 +152,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'object tag'
+        Name => 'object tag',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -154,7 +165,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 0,
         },
-        Name => 'XSS tag'
+        Name => 'XSS tag',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -166,7 +178,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'script/src tag'
+        Name => 'script/src tag',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -178,7 +191,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'script/src tag'
+        Name => 'script/src tag',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -190,7 +204,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'img tag'
+        Name => 'img tag with javascript:alert',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -203,7 +218,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'img tag'
+        Name => 'img tag with javascript:alert and whitespace',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -215,7 +231,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'img tag'
+        Name => 'img tag in center',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -227,7 +244,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'img tag'
+        Name => 'img tag with JaVaScRiPt',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -239,7 +257,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'img tag'
+        Name => 'img tag alert and quote entities',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -251,7 +270,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'script/img tag'
+        Name => 'script/img tag',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -263,7 +283,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'script tag'
+        Name => 'script tag',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -275,7 +296,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'script tag'
+        Name => 'script tag',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -287,7 +309,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'script tag'
+        Name => 'script tag with end of line comment',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -298,7 +321,8 @@ You should be able to continue reading these lessons, however.
 /center>',
             Replace => 1,
         },
-        Name => 'script tag'
+        Name => 'script tag <B> in src',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -309,7 +333,8 @@ You should be able to continue reading these lessons, however.
 /center>',
             Replace => 1,
         },
-        Name => 'script tag'
+        Name => 'script tag with .j in src',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -321,7 +346,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'iframe'
+        Name => 'iframe with external src',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -333,7 +359,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'onload'
+        Name => 'onload',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -345,7 +372,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'background'
+        Name => 'background',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -359,7 +387,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'background'
+        Name => 'background',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -371,7 +400,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'script'
+        Name => 'script',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -383,7 +413,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'script'
+        Name => 'script',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -396,7 +427,8 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
-        Name => 'script'
+        Name => 'script',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -410,7 +442,8 @@ PT
 </center>',
             Replace => 1,
         },
-        Name => 'script'
+        Name => 'script with PT',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -424,7 +457,8 @@ PT
 </center>',
             Replace => 1,
         },
-        Name => 'script'
+        Name => 'script with XSS',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -438,7 +472,8 @@ PT
 </center>',
             Replace => 1,
         },
-        Name => 'script'
+        Name => 'script with XSS again',
+        Line => __LINE__,
     },
     {
         Input => '<center>
@@ -450,7 +485,8 @@ PT
 </center>',
             Replace => 1,
         },
-        Name => 'script'
+        Name => 'onmouseover',
+        Line => __LINE__,
     },
     {
         Input =>
@@ -460,8 +496,8 @@ PT
                 '<html><head><style type="text/css"> #some_css {color: #FF0000} </style><body>Important Text about "javascript"!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
             Replace => 0,
         },
-        Name =>
-            'Test for bug#7972 - Some mails may not present HTML part when using rich viewing.'
+        Name => 'Test for bug#7972 - Some mails may not present HTML part when using rich viewing.',
+        Line => __LINE__,
     },
     {
         Input =>
@@ -472,7 +508,8 @@ PT
             Replace => 1,
         },
         Name =>
-            'Additional test for bug#7972 - Some mails may not present HTML part when using rich viewing.'
+            'Additional test for bug#7972 - Some mails may not present HTML part when using rich viewing.',
+        Line => __LINE__,
     },
     {
         Name  => 'UTF7 tags',
@@ -491,6 +528,7 @@ object:
 EOF
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -500,11 +538,12 @@ EOF
         Result => {
             Output => <<'EOF',
 <div style="width: 400px">
-<div style='width: 400px'>
+<div style="width: 400px">
 EOF
             Replace => 1,
         },
-        Name => 'Filter out MS CSS expressions'
+        Name => 'Filter out MS CSS expressions',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -512,11 +551,12 @@ EOF
 EOF
         Result => {
             Output => <<'EOF',
-<div><XSS></div>
+<div><xss></div>
 EOF
             Replace => 1,
         },
-        Name => 'Microsoft CSS expression on invalid tag'
+        Name => 'Microsoft CSS expression on invalid tag',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -528,7 +568,8 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Filter out SVG'
+        Name => 'Filter out SVG',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -540,7 +581,8 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Closing tag with space'
+        Name => 'Closing tag with space',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -576,7 +618,8 @@ div > span > div {
 EOF
             Replace => 1,
         },
-        Name => 'Style tags with CSS expressions are filtered out'
+        Name => 'Style tags with CSS expressions are filtered out',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -590,7 +633,8 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'Nested script tags'
+        Name => 'Nested script tags',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -606,7 +650,8 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'javascript source with space'
+        Name => 'iframe src with space',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -624,7 +669,8 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'javascript source with space'
+        Name => 'iframe src with space and single quotes',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -640,7 +686,8 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'javascript source without delimiters'
+        Name => 'javascript source without delimiters',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -656,7 +703,8 @@ EOF
 EOF
             Replace => 0,
         },
-        Name => 'javascript source in data tag, keep'
+        Name => 'javascript source in data tag, keep',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -673,7 +721,8 @@ Content
 EOF
             Replace => 1,
         },
-        Name => 'meta refresh tag removed'
+        Name => 'meta refresh tag removed',
+        Line => __LINE__,
     },
     {
         Input => <<"EOF",
@@ -685,7 +734,8 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => '/ as attribute delimiter'
+        Name => '/ as attribute delimiter',
+        Line => __LINE__,
     },
     {
         Input => <<"EOF",
@@ -697,7 +747,8 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'entity encoding in javascript attribute'
+        Name => 'entity encoding in javascript attribute',
+        Line => __LINE__,
     },
     {
         Input => <<"EOF",
@@ -709,7 +760,8 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'entity encoding in javascript attribute with / separator'
+        Name => 'entity encoding in javascript attribute with / separator',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -721,7 +773,8 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'external image'
+        Name => 'external image',
+        Line => __LINE__,
     },
     {
         Input => <<'EOF',
@@ -733,7 +786,8 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'external image with / separator'
+        Name => 'external image with / separator',
+        Line => __LINE__,
     },
 );
 
@@ -749,7 +803,7 @@ for my $Test (@Tests) {
         NoJavaScript => 1,
     );
 
-    subtest "$Test->{Name}" => sub {
+    subtest "$Test->{Name} (line @{[ $Test->{Line} // '???' ]})" => sub {
         if ( $Test->{Result}->{Replace} ) {
             ok( $Result{Replace}, 'replaced' );
         }
@@ -762,7 +816,7 @@ for my $Test (@Tests) {
 
 my @TestsWithConfig = (
     {
-        Name  => 'img tag',
+        Name  => 'img tag with img/src',
         Input => <<'EOF',
 <img/src="http://example.com/image.png"/>
 EOF
@@ -775,6 +829,7 @@ EOF
 EOF
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name  => 'img tag replacement',
@@ -791,6 +846,7 @@ EOF
 EOF
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name  => 'Filter out SVG replacement',
@@ -807,6 +863,7 @@ EOF
 EOF
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name  => 'object tag replacement',
@@ -823,6 +880,7 @@ EOF
 </center>',
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name  => 'embed tag replacement',
@@ -839,6 +897,7 @@ EOF
 </center>',
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name  => 'applet tag replacement',
@@ -858,6 +917,7 @@ You should be able to continue reading these lessons, however.
 </center>',
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'bug 10530 - don\'t destroy URL which looks like an on* JS attribute',
@@ -867,6 +927,7 @@ You should be able to continue reading these lessons, however.
             Output  => '<a href="http://localhost/online/foo/bar.html">www</a>',
             Replace => 0,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'bug 13561 - Handling empty strings',
@@ -876,6 +937,7 @@ You should be able to continue reading these lessons, however.
             Output  => '',
             Replace => 0,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'remote poster attribute, forbidden',
@@ -887,6 +949,7 @@ You should be able to continue reading these lessons, however.
             Output  => '',
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'remote poster attribute, allowed',
@@ -898,6 +961,7 @@ You should be able to continue reading these lessons, however.
             Output  => '<video controls poster="http://some.domain/vorschaubild.png"/>',
             Replace => 0,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'malicious CSS content - remote background image, forbidden',
@@ -909,6 +973,7 @@ You should be able to continue reading these lessons, however.
             Output  => '<a href="localhost">localhost</a>',
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'malicious CSS content - remote background image, allowed',
@@ -921,6 +986,7 @@ You should be able to continue reading these lessons, however.
                 '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
             Replace => 0,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'malicious CSS content - local background image, forbidden',
@@ -932,6 +998,7 @@ You should be able to continue reading these lessons, however.
             Output  => '<a href="localhost">localhost</a>',
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'malicious CSS content - local background image, allowed',
@@ -943,6 +1010,7 @@ You should be able to continue reading these lessons, however.
             Output  => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
             Replace => 0,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'malicious CSS content - remote css content, forbidden',
@@ -954,6 +1022,7 @@ You should be able to continue reading these lessons, however.
             Output  => '<p></p>',
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'malicious CSS content - remote css content, allowed',
@@ -965,6 +1034,7 @@ You should be able to continue reading these lessons, however.
             Output  => q|<p style="content:url('http://localhost:8000/css-content');"></p>|,
             Replace => 0,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'malicious CSS content - local css content, forbidden',
@@ -976,6 +1046,7 @@ You should be able to continue reading these lessons, however.
             Output  => '<p></p>',
             Replace => 1,
         },
+        Line => __LINE__,
     },
     {
         Name   => 'malicious CSS content - local css content, allowed',
@@ -987,6 +1058,7 @@ You should be able to continue reading these lessons, however.
             Output  => q|<p style="content:url('/local/css-content');"></p>|,
             Replace => 0,
         },
+        Line => __LINE__,
     },
 );
 
@@ -996,7 +1068,7 @@ for my $Test (@TestsWithConfig) {
         $Test->{Config}->%*,
     );
 
-    subtest "$Test->{Name}" => sub {
+    subtest "$Test->{Name} (line @{[ $Test->{Line} // '???' ]})" => sub {
         if ( $Test->{Result}->{Replace} ) {
             ok( $Result{Replace}, 'replaced' );
         }
