@@ -748,23 +748,16 @@ for my $Test (@Tests) {
         NoExtSrcLoad => 1,
         NoJavaScript => 1,
     );
-    if ( $Test->{Result}->{Replace} ) {
-        ok(
-            $Result{Replace},
-            "$Test->{Name} - replaced",
-        );
-    }
-    else {
-        ok(
-            !$Result{Replace},
-            "$Test->{Name} - not replaced",
-        );
-    }
-    is(
-        $Result{String},
-        $Test->{Result}->{Output},
-        $Test->{Name},
-    );
+
+    subtest "$Test->{Name}" => sub {
+        if ( $Test->{Result}->{Replace} ) {
+            ok( $Result{Replace}, 'replaced' );
+        }
+        else {
+            ok( !$Result{Replace}, 'not replaced', );
+        }
+        is( $Result{String}, $Test->{Result}->{Output}, 'output' );
+    };
 }
 
 my @TestsWithConfig = (
@@ -1002,23 +995,16 @@ for my $Test (@TestsWithConfig) {
         String => $Test->{Input},
         $Test->{Config}->%*,
     );
-    if ( $Test->{Result}->{Replace} ) {
-        ok(
-            $Result{Replace},
-            "$Test->{Name} - replaced",
-        );
-    }
-    else {
-        ok(
-            !$Result{Replace},
-            "$Test->{Name} - not replaced",
-        );
-    }
-    is(
-        $Result{String},
-        $Test->{Result}->{Output},
-        $Test->{Name},
-    );
+
+    subtest "$Test->{Name}" => sub {
+        if ( $Test->{Result}->{Replace} ) {
+            ok( $Result{Replace}, 'replaced' );
+        }
+        else {
+            ok( !$Result{Replace}, 'not replaced', );
+        }
+        is( $Result{String}, $Test->{Result}->{Output}, 'output' );
+    };
 }
 
 done_testing;
