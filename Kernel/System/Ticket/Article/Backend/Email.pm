@@ -19,15 +19,15 @@ package Kernel::System::Ticket::Article::Backend::Email;
 use strict;
 use warnings;
 
+use parent 'Kernel::System::Ticket::Article::Backend::MIMEBase';
+
 # core modules
 
 # CPAN modules
-use Mail::Address;
+use Mail::Address ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-
-use parent 'Kernel::System::Ticket::Article::Backend::MIMEBase';
 
 our @ObjectDependencies = (
     'Kernel::Config',

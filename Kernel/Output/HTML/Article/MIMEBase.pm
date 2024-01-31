@@ -21,8 +21,12 @@ use warnings;
 
 use parent 'Kernel::Output::HTML::Article::Base';
 
-use Mail::Address;
+# core modules
 
+# CPAN modules
+use Mail::Address ();
+
+# OTOBO modules
 use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 

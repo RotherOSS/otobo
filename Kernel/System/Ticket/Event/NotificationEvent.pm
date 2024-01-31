@@ -20,9 +20,13 @@ use v5.24;
 use strict;
 use warnings;
 
+# core modules
 use List::Util qw(first);
-use Mail::Address;
 
+# CPAN modules
+use Mail::Address ();
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (

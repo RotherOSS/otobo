@@ -20,12 +20,17 @@ use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Mail::Internet;
 use MIME::Parser;
 use MIME::QuotedPrint;
 use MIME::Base64;
-use MIME::Words qw(:all);
-use Mail::Address;
+use MIME::Words   qw(:all);
+use Mail::Address ();
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 

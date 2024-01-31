@@ -19,7 +19,7 @@ package Kernel::Modules::AgentTicketEmail;
 use strict;
 use warnings;
 
-use Mail::Address;
+use Mail::Address ();
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);

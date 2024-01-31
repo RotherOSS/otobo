@@ -26,7 +26,7 @@ use warnings;
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
-use Mail::Address;
+use Mail::Address                 ();
 
 our $ObjectManagerDisabled = 1;
 

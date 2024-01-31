@@ -22,7 +22,7 @@ use warnings;
 # core modules
 
 # CPAN modules
-use Mail::Address;
+use Mail::Address ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
