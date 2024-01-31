@@ -541,12 +541,12 @@ object:+ADw-object+AD4-alert(1);+ADw-/object+AD4-
 EOF
         Result => {
             Output => <<'EOF',
-script:
-applet:
-embed:
-object:
+script:+ADw-script+AD4-alert(1);+ADw-/script+AD4-
+applet:+ADw-applet+AD4-alert(1);+ADw-/applet+AD4-
+embed:+ADw-embed src=test+AD4-
+object:+ADw-object+AD4-alert(1);+ADw-/object+AD4-
 EOF
-            Replace => 1,
+            Replace => 0,
         },
         Line => __LINE__,
     },
