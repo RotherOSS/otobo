@@ -1148,6 +1148,31 @@ sub Safety {
     $Scrubber->style(1);                                  # style tags should not be filtered by HTML::Parser
     $Scrubber->script( $Param{NoJavaScript} ? 0 : 1 );    # let HTML::Parser filter script tags
 
+    # remove <applet> tags
+    if ( $Param{NoApplet} ) {
+        $Scrubber->deny('applet');
+    }
+
+    # remove <Object> tags
+    if ( $Param{NoObject} ) {
+        $Scrubber->deny( 'object', 'param' );
+    }
+
+    # remove <svg> tags
+    if ( $Param{NoSVG} ) {
+        $Scrubber->deny('svg');
+    }
+
+    # remove <img> tags
+    if ( $Param{NoImg} ) {
+        $Scrubber->deny('img');
+    }
+
+    # remove <embed> tags
+    if ( $Param{NoEmbed} ) {
+        $Scrubber->deny('embed');
+    }
+
     # Replace as many times as it is needed to avoid nesting tag attacks.
     my $RegexReplaced;
     do {
@@ -1180,46 +1205,6 @@ sub Safety {
         }
 
         my $ReplacementStr = $Param{ReplacementStr} // '';
-
-        # remove <applet> tags
-        if ( $Param{NoApplet} ) {
-            $RegexReplaced += ${$String} =~ s{
-                $TagStart applet.*? $TagEnd (.*?) $TagStart /applet \s* $TagEnd
-            }
-            {$ReplacementStr}sgxim;
-        }
-
-        # remove <Object> tags
-        if ( $Param{NoObject} ) {
-            $RegexReplaced += ${$String} =~ s{
-                $TagStart object.*? $TagEnd (.*?) $TagStart /object \s* $TagEnd
-            }
-            {$ReplacementStr}sgxim;
-        }
-
-        # remove <svg> tags
-        if ( $Param{NoSVG} ) {
-            $RegexReplaced += ${$String} =~ s{
-                $TagStart svg.*? $TagEnd (.*?) $TagStart /svg \s* $TagEnd
-            }
-            {$ReplacementStr}sgxim;
-        }
-
-        # remove <img> tags
-        if ( $Param{NoImg} ) {
-            $RegexReplaced += ${$String} =~ s{
-                $TagStart img.*? (.*?) \s* $TagEnd
-            }
-            {$ReplacementStr}sgxim;
-        }
-
-        # remove <embed> tags
-        if ( $Param{NoEmbed} ) {
-            $RegexReplaced += ${$String} =~ s{
-                $TagStart embed.*? $TagEnd
-            }
-            {$ReplacementStr}sgxim;
-        }
 
         # check each html tag
         ${$String} =~ s{
