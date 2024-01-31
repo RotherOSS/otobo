@@ -628,6 +628,7 @@ sub ToHTML {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -666,6 +667,7 @@ sub DocumentComplete {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -720,6 +722,7 @@ sub DocumentStrip {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -762,6 +765,7 @@ sub DocumentCleanup {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -825,16 +829,15 @@ also string ref is possible
 sub LinkQuote {
     my ( $Self, %Param ) = @_;
 
+    # $String is confusingly a reference to a string
     my $String = $Param{String} || '';
-
-    # check ref
-    my $StringScalar;
+    my $StringNonref;
     if ( !ref $String ) {
-        $StringScalar = $String;
-        $String       = \$StringScalar;
+        $StringNonref = $String;
+        $String       = \$StringNonref;
 
         # return if string is not a ref and it is empty
-        return $StringScalar if !$StringScalar;
+        return $StringNonref unless $StringNonref;
     }
 
     # add target to already existing url of html string
@@ -966,10 +969,7 @@ sub LinkQuote {
     ${$String} =~ s{${Marker}TagHash-(\d+)${Marker}}{$TagHash{$1}}egsxim;
 
     # check ref && return result like called
-    if ( defined $StringScalar ) {
-        return ${$String};
-    }
-    return $String;
+    return defined $StringNonref ? $String->$* : $String;
 }
 
 =head2 Safety()
@@ -1023,17 +1023,18 @@ sub Safety {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
 
-    my $String = $Param{String} // '';
-
     # check ref
-    my $StringScalar;
+    # $String is confusingly a reference to a string
+    my $String = $Param{String} // '';
+    my $StringNonref;
     if ( !ref $String ) {
-        $StringScalar = $String;
-        $String       = \$StringScalar;
+        $StringNonref = $String;
+        $String       = \$StringNonref;
     }
 
     my %Safety;
@@ -1241,12 +1242,8 @@ sub Safety {
     } while ($Replaced);
 
     # check ref && return result like called
-    if ( defined $StringScalar ) {
-        $Safety{String} = ${$String};
-    }
-    else {
-        $Safety{String} = $String;
-    }
+    $Safety{String} = defined $StringNonref ? $String->$* : $String;
+
     return %Safety;
 }
 
@@ -1273,6 +1270,7 @@ sub EmbeddedImagesExtract {
             Priority => 'error',
             Message  => "Need DocumentRef!"
         );
+
         return;
     }
     if ( ref $Param{AttachmentsRef} ne 'ARRAY' ) {
@@ -1280,6 +1278,7 @@ sub EmbeddedImagesExtract {
             Priority => 'error',
             Message  => "Need AttachmentsRef!"
         );
+
         return;
     }
 
