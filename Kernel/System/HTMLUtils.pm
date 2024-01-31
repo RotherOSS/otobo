@@ -1025,13 +1025,15 @@ sub Safety {
         $String       = \$StringNonref;
     }
 
+    # Detection of UTF-7 encoded '<' and '>' is no longer needed,
+    # as only ancient versions of IE were vulnerable.
+    # See https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html#utf-7-encoding
+    # my $TagStart = '(?:<|[+]ADw-)';
+    # my $TagEnd   = '(?:>|[+]AD4-)';
+
     my %Safety = (
         Replace => 0,
     );
-
-    # In UTF-7, < and > can be encoded to mask them from security filters like this one.
-    my $TagStart = '(?:<|[+]ADw-)';
-    my $TagEnd   = '(?:>|[+]AD4-)';
 
     # This can also be entity-encoded to hide it from the parser.
     #   Browsers seem to tolerate an omitted ";".
@@ -1192,13 +1194,13 @@ sub Safety {
             # This check can't be done by HTML-Scrubber as more than one event
             # is relevant for this.
             $RegexReplaced += ${$String} =~ s{
-                $TagStart style[^>]+? $JavaScriptPrefixRegex (.+?|) $TagEnd (.*?) $TagStart /style \s* $TagEnd
+                < style[^>]+? $JavaScriptPrefixRegex (.+?|) > (.*?) < /style \s* >
             }
             {}sgxim;
 
             # remove MS CSS expressions (JavaScript embedded in CSS)
             ${$String} =~ s{
-                ($TagStart style[^>]+? $TagEnd .*? $TagStart /style \s* $TagEnd)
+                (< style[^>]+? > .*? < /style \s* >)
             }
             {
                 if ( index($1, 'expression(' ) > -1 ) {
@@ -1213,7 +1215,7 @@ sub Safety {
 
         # check each html tag
         ${$String} =~ s{
-            ($TagStart.+?$TagEnd)
+            (<.+?>)
         }
         {
             my $Tag = $1;
@@ -1221,7 +1223,7 @@ sub Safety {
 
                 # remove on action attributes
                 $RegexReplaced += $Tag =~ s{
-                    (?:\s|/) on[a-z]+\s*=("[^"]+"|'[^']+'|.+?)($TagEnd|\s)
+                    (?:\s|/) on[a-z]+\s*=("[^"]+"|'[^']+'|.+?)(>|\s)
                 }
                 {$2}sgxim;
 
@@ -1231,7 +1233,7 @@ sub Safety {
                     ('|"|)                                  # delimiter, can be empty
                     (?:\s* $JavaScriptPrefixRegex .*?)      # javascript, followed by anything but the delimiter
                     \2                                      # delimiter again
-                    (\s|$TagEnd)
+                    (\s|>)
                 }
                 {
                     "$1\"\"$3";
@@ -1239,13 +1241,13 @@ sub Safety {
 
                 # remove link javascript tags
                 $RegexReplaced += $Tag =~ s{
-                    ($TagStart link .+? $JavaScriptPrefixRegex (.+?|) $TagEnd)
+                    (< link .+? $JavaScriptPrefixRegex (.+?|) >)
                 }
                 {}sgxim;
 
                 # remove MS CSS expressions (JavaScript embedded in CSS)
                 $RegexReplaced += $Tag =~ s{
-                    \sstyle=("|')[^\1]*? $ExpressionPrefixRegex [(].*?\1($TagEnd|\s)
+                    \sstyle=("|')[^\1]*? $ExpressionPrefixRegex [(].*?\1(>|\s)
                 }
                 {
                     $2;
