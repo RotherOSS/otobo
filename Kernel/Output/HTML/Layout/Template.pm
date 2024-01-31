@@ -239,7 +239,7 @@ sub Output {
 
         # rewrite a hrefs
         $Output =~ s{
-            (<a.+?href=")(.+?)(\#.+?|)(".+?>)
+            (<a.+?href=") \s* (.+?) (\#.+?|) (".+?>)
         }
         {
             my $AHref   = $1;
@@ -247,11 +247,16 @@ sub Output {
             my $End     = $3;
             my $RealEnd = $4;
             if (
-                lc($Target) =~ m/^(http:|https:|#|ftp:)/
+                lc($Target) =~ m/^(?:http:|https:|#|ftp:)/        # external link or anchor in same page
                 ||
-                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/
+                !$Self->{SessionID}                               # don't add a session ID when there isn't one
                 ||
-                $Target =~ /(\?|&|;)\Q$Self->{SessionName}\E=/)
+                lc($Target) =~ m!^//!                             # protocol relative links
+                ||
+                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/    # only dynamic HTML
+                ||
+                $Target =~ /\Q$Self->{SessionName}\E/             # session ID not already included
+            )
             {
                 $AHref.$Target.$End.$RealEnd;
             }
@@ -262,7 +267,7 @@ sub Output {
 
         # rewrite img and iframe src
         $Output =~ s{
-            (<(?:img|iframe).+?src=")(.+?)(".+?>)
+            (<(?:img|iframe).+?src=") \s* (.+?)(".+?>)
         }
         {
             my $AHref  = $1;
@@ -275,7 +280,7 @@ sub Output {
                 ||
                 $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/    # only dynamic HTML
                 ||
-                $Target =~ /\Q$Self->{SessionName}\E=/             # session ID not already included
+                $Target =~ /\Q$Self->{SessionName}\E/             # session ID not already included
             )
             {
                 $AHref.$Target.$End;
