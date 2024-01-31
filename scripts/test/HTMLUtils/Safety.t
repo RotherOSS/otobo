@@ -903,12 +903,11 @@ EOF
 <img/src="http://example.com/image.png"/>
 EOF
         Config => {
-            NoImg          => 1,
-            ReplacementStr => '...'
+            NoImg => 1,
         },
         Result => {
             Output => <<'EOF',
-...
+
 EOF
             Replace => 1,
         },
@@ -920,14 +919,13 @@ EOF
 <div class="svg"><svg some-attribute evil="true"><someevilsvgcontent></svg></div>
 EOF
         Config => {
-            NoSVG          => 1,
-            ReplacementStr => '...'
+            NoSVG => 1,
         },
         Result => {
             Output => <<'EOF',
-<div class="svg">...</div>
+<div class="svg"><someevilsvgcontent></div>
 EOF
-            Replace => 1,
+            Replace => 0,
         },
         Line => __LINE__,
     },
