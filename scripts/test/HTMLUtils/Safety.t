@@ -789,16 +789,31 @@ EOF
         Line => __LINE__,
     },
     {
+        Name  => 'entity encoding in javascript attribute with / separator',
         Input => <<"EOF",
-<iframe/src=javasc&#x72ipt:alert(\'XSS2\') >
+non-alpha, non-digit tag:<iframe/src=javasc&#x72ipt:alert(\'XSS2\') >
 EOF
         Result => {
             Output => <<'EOF',
-<iframe/src="">
+non-alpha, non-digit tag:
 EOF
             Replace => 1,
         },
-        Name => 'entity encoding in javascript attribute with / separator',
+        Line => __LINE__,
+    },
+    {
+
+        # HTML::Parser accepts 'with+plus' as a tag name
+        Name  => 'tag with a plus:',
+        Input => <<"EOF",
+tag with a plus:<with+plus>
+EOF
+        Result => {
+            Output => <<'EOF',
+tag with a plus:
+EOF
+            Replace => 1,
+        },
         Line => __LINE__,
     },
     {
