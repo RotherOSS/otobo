@@ -976,7 +976,6 @@ from HTML strings. All options are turned off by default
         NoIntSrcLoad   => 0,
         NoExtSrcLoad   => 1,
         NoJavaScript   => 1,
-        ReplacementStr => 'string',          # optional, string to show instead of applet, object, embed, svg and img tags
     );
 
 also string ref is possible
@@ -1211,8 +1210,6 @@ sub Safety {
                 }
             }egsxim;
         }
-
-        my $ReplacementStr = $Param{ReplacementStr} // '';
 
         # check each html tag
         ${$String} =~ s{
