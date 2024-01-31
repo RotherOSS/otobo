@@ -1050,19 +1050,6 @@ sub Safety {
         (?: t | &\#116[;]? | &\#x74[;]? )
     ';
 
-    my $ExpressionPrefixRegex = '
-        (?: e | &\#101[;]? | &\#x65[;]? )
-        (?: x | &\#120[;]? | &\#x78[;]? )
-        (?: p | &\#112[;]? | &\#x70[;]? )
-        (?: r | &\#114[;]? | &\#x72[;]? )
-        (?: e | &\#101[;]? | &\#x65[;]? )
-        (?: s | &\#115[;]? | &\#x73[;]? )
-        (?: s | &\#115[;]? | &\#x73[;]? )
-        (?: i | &\#105[;]? | &\#x69[;]? )
-        (?: o | &\#111[;]? | &\#x6f[;]? )
-        (?: n | &\#110[;]? | &\#x6e[;]? )
-    ';
-
     # The scrubber can be used to remove tags and attributes. Using the module
     # avoids using error prone regexes. However there are some downsides. HTML::Scrubber
     # can't drop a tag based on the existence of an attribute.
@@ -1197,20 +1184,6 @@ sub Safety {
                 < style[^>]+? $JavaScriptPrefixRegex (.+?|) > (.*?) < /style \s* >
             }
             {}sgxim;
-
-            # remove MS CSS expressions (JavaScript embedded in CSS)
-            ${$String} =~ s{
-                (< style[^>]+? > .*? < /style \s* >)
-            }
-            {
-                if ( index($1, 'expression(' ) > -1 ) {
-                    $RegexReplaced += 1;
-                    '';
-                }
-                else {
-                    $1;
-                }
-            }egsxim;
         }
 
         # check each html tag
@@ -1244,14 +1217,6 @@ sub Safety {
                     (< link .+? $JavaScriptPrefixRegex (.+?|) >)
                 }
                 {}sgxim;
-
-                # remove MS CSS expressions (JavaScript embedded in CSS)
-                $RegexReplaced += $Tag =~ s{
-                    \sstyle=("|')[^\1]*? $ExpressionPrefixRegex [(].*?\1(>|\s)
-                }
-                {
-                    $2;
-                }egsxim;
             }
 
             # Remove malicious CSS content

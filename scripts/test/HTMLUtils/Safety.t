@@ -551,31 +551,31 @@ EOF
         Line => __LINE__,
     },
     {
+        Name  => 'expression() in CSS is no longer a vulnerability',
         Input => <<'EOF',
 <div style="width: expression(alert(\'XSS\');); height: 200px;" style="width: 400px">
 <div style='width: expression(alert("XSS");); height: 200px;' style='width: 400px'>
 EOF
         Result => {
             Output => <<'EOF',
-<div style="width: 400px">
-<div style='width: 400px'>
+<div style="width: expression(alert(\&#39;XSS\&#39;);); height: 200px;">
+<div style="width: expression(alert(&quot;XSS&quot;);); height: 200px;">
 EOF
-            Replace => 1,
+            Replace => 0,
         },
-        Name => 'Filter out MS CSS expressions',
         Line => __LINE__,
     },
     {
+        Name  => 'expression() in CSS is no longer a vulnerability, even on invalid tags',
         Input => <<'EOF',
 <div><XSS STYLE="xss:expression(alert('XSS'))"></div>
 EOF
         Result => {
             Output => <<'EOF',
-<div><XSS></div>
+<div><xss style="xss:expression(alert(&#39;XSS&#39;))"></div>
 EOF
-            Replace => 1,
+            Replace => 0,
         },
-        Name => 'Microsoft CSS expression on invalid tag',
         Line => __LINE__,
     },
     {
@@ -605,15 +605,16 @@ EOF
         Line => __LINE__,
     },
     {
-        Input => <<'EOF',
-<style type="text/css">
+        Name  => 'Style tags with CSS expressions are no longer filtered out',
+        Input => <<'END_INPUT',
+<sTYle type =  "    text/css">
 div > span {
     width: 200px;
 }
-</style>
-<style type="text/css">
+</stylE>
+<style type=" text/CSS ">
 div > span {
-    width: expression(evilJS());
+    width: expression( FormerlyEvilJS() );
 }
 </style>
 <style type="text/css">
@@ -621,24 +622,27 @@ div > span > div {
     width: 200px;
 }
 </style>
-EOF
+END_INPUT
         Result => {
-            Output => <<'EOF',
-<style type="text/css">
-div > span {
+            Output => <<'END_OUTPUT',
+<style type="    text/css">
+div &gt; span {
     width: 200px;
 }
 </style>
-
+<style type=" text/CSS ">
+div &gt; span {
+    width: expression( FormerlyEvilJS() );
+}
+</style>
 <style type="text/css">
-div > span > div {
+div &gt; span &gt; div {
     width: 200px;
 }
 </style>
-EOF
-            Replace => 1,
+END_OUTPUT
+            Replace => 0,
         },
-        Name => 'Style tags with CSS expressions are filtered out',
         Line => __LINE__,
     },
     {
