@@ -18,15 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::PM and the test driver $Self
+use Kernel::Language ();
+use Kernel::System::UnitTest::Selenium;
 
 our $Self;
 
-use Kernel::Language;
-
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 # TODO: This test does not cancel potential other AJAX calls that might happen in the background,

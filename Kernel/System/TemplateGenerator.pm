@@ -20,7 +20,12 @@ package Kernel::System::TemplateGenerator;
 use strict;
 use warnings;
 
-use Kernel::Language;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language ();
 
 use Kernel::System::VariableCheck qw(:all);
 
