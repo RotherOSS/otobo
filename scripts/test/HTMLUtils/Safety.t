@@ -827,6 +827,19 @@ EOF
         Name => 'external image with / separator',
         Line => __LINE__,
     },
+    {
+        Name  => 'external image with protocol-relative URL',
+        Input => <<'END_INPUT',
+protocol relative img: '<img src="//example.com/image.png"/>'
+END_INPUT
+        Result => {
+            Output => <<'END_OUTPUT',
+protocol relative img: ''
+END_OUTPUT
+            Replace => 1,
+        },
+        Line => __LINE__,
+    },
 );
 
 for my $Test (@Tests) {
@@ -1038,14 +1051,25 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
+        Name   => 'malicious CSS content - remote background image with protocol-relative URL, forbidden',
+        Input  => '<a href="localhost" style="background-image:url(//localhost:8000/css-background)">localhost</a>',
+        Config => {
+            NoExtSrcLoad => 1,
+        },
+        Result => {
+            Output  => '<a href="localhost">localhost</a>',
+            Replace => 1,
+        },
+        Line => __LINE__,
+    },
+    {
         Name   => 'malicious CSS content - remote background image, allowed',
         Input  => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
         Config => {
             NoExtSrcLoad => 0,
         },
         Result => {
-            Output =>
-                '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
+            Output  => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
             Replace => 0,
         },
         Line => __LINE__,
