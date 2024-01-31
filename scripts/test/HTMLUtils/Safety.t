@@ -146,16 +146,19 @@ var topsy_style = "big";
     },
     {
         Input => '<center>
-<applet code="AEHousman.class" width="300" height="150">
+<aPPlet   code="AEHousman.class" width="300" height="150">
 Not all browsers can run applets.  If you see this, yours can not.
 You should be able to continue reading these lessons, however.
-</applet>
+</appLET>
 </center>',
         Result => {
             Output => '<center>
 
+Not all browsers can run applets.  If you see this, yours can not.
+You should be able to continue reading these lessons, however.
+
 </center>',
-            Replace => 1,
+            Replace => 0,
         },
         Name => 'applet tag',
         Line => __LINE__,
@@ -168,7 +171,7 @@ You should be able to continue reading these lessons, however.
             Output => '<center>
 
 </center>',
-            Replace => 1,
+            Replace => 0,
         },
         Name => 'object tag',
         Line => __LINE__,
@@ -581,9 +584,9 @@ EOF
 EOF
         Result => {
             Output => <<'EOF',
-<div class="svg"></div>
+<div class="svg"><someevilsvgcontent></div>
 EOF
-            Replace => 1,
+            Replace => 0,
         },
         Name => 'Filter out SVG',
         Line => __LINE__,
@@ -596,7 +599,7 @@ EOF
             Output => <<'EOF',
 <div></div>
 EOF
-            Replace => 1,
+            Replace => 0,
         },
         Name => 'Closing tag with space',
         Line => __LINE__,
@@ -906,14 +909,13 @@ EOF
 <object width="384" height="236" align="right" vspace="5" hspace="5"><param name="movie" value="http://www.youtube.com/v/l1JdGPVMYNk&hl=en_US&fs=1&hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/l1JdGPVMYNk&hl=en_US&fs=1&hd=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="384" height="236"></embed></object>
 </center>',
         Config => {
-            NoObject       => 1,
-            ReplacementStr => '...'
+            NoObject => 1,
         },
         Result => {
             Output => '<center>
-...
+<embed src="http://www.youtube.com/v/l1JdGPVMYNk&amp;hl=en_US&amp;fs=1&amp;hd=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="384" height="236">
 </center>',
-            Replace => 1,
+            Replace => 0,
         },
         Line => __LINE__,
     },
@@ -923,34 +925,35 @@ EOF
 <object width="384" height="236" align="right" vspace="5" hspace="5"><param name="movie" value="http://www.youtube.com/v/l1JdGPVMYNk&hl=en_US&fs=1&hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/l1JdGPVMYNk&hl=en_US&fs=1&hd=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="384" height="236"></object>
 </center>',
         Config => {
-            NoEmbed        => 1,
-            ReplacementStr => '...'
+            NoEmbed => 1,
         },
         Result => {
             Output => '<center>
-<object width="384" height="236" align="right" vspace="5" hspace="5"><param name="movie" value="http://www.youtube.com/v/l1JdGPVMYNk&amp;hl=en_US&amp;fs=2&amp;hd=1"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always">...</object>
+<object width="384" height="236" align="right" vspace="5" hspace="5"><param name="movie" value="http://www.youtube.com/v/l1JdGPVMYNk&amp;hl=en_US&amp;fs=1&amp;hd=1"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"></object>
 </center>',
-            Replace => 1,
+            Replace => 0,
         },
         Line => __LINE__,
     },
     {
         Name  => 'applet tag replacement',
         Input => '<center>
-<applet code="AEHousman.class" width="300" height="150">
+<APPLET code="AEHousman.class" width="300" height="150">
 Not all browsers can run applets.  If you see this, yours can not.
 You should be able to continue reading these lessons, however.
-</applet>
+</appLet   >
 </center>',
         Config => {
-            NoApplet       => 1,
-            ReplacementStr => '...'
+            NoApplet => 1,
         },
         Result => {
             Output => '<center>
-...
+
+Not all browsers can run applets.  If you see this, yours can not.
+You should be able to continue reading these lessons, however.
+
 </center>',
-            Replace => 1,
+            Replace => 0,
         },
         Line => __LINE__,
     },
