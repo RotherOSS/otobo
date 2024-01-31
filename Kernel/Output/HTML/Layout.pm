@@ -616,6 +616,9 @@ sub Redirect {
 
         # external redirect
         $Param{Redirect} = $Param{ExtURL};
+        $Param{Redirect}  =~ s/^\s+//;
+        $Param{Redirect}  =~ s/\s+$//;
+
         return $Cookies
             . $Self->Output(
                 TemplateFile => 'Redirect',
@@ -653,6 +656,8 @@ sub Redirect {
         # internal redirect
         $Param{OP} =~ s/^.*\?(.+?)$/$1/;
         $Param{Redirect} .= $Param{OP};
+        $Param{Redirect}  =~ s/^\s+//;
+        $Param{Redirect}  =~ s/\s+$//;
     }
 
     my $Output = $Cookies
@@ -662,7 +667,13 @@ sub Redirect {
         );
 
     # add session id to redirect if no cookie is enabled
-    if ( !$Self->{SessionIDCookie} && !( $Self->{BrowserHasCookie} && $Param{Login} ) ) {
+    if (
+        !$Self->{SessionIDCookie}                             # there in no session cookie yet
+        && !( $Self->{BrowserHasCookie} && $Param{Login} )    # not when cookie does not exits because we in Login
+        && $RedirectURL !~ m/http/i                           # just double checking that no external URL gets the session id
+        && $RedirectURL !~ m!^//!                             # just double checking that no protocol relative URL gets the session id
+    )
+    {
 
         # rewrite location header
         $Output =~ s{

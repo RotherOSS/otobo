@@ -1091,9 +1091,9 @@ sub Safety {
 
                 # the NoExtSrcLoad case
                 if (
-                    $Attr->{$Blacklisted} =~ m/(?:http|ftp|https):\//i    # external URL
+                    $Attr->{$Blacklisted} =~ m/(?:http|ftp|https):/i    # external URL
                     ||
-                    $Attr->{$Blacklisted} =~ m!^\s*//!                    # protocol relative external URL
+                    $Attr->{$Blacklisted} =~ m!//!                      # protocol relative external URL
                     )
                 {
                     # drop the start tag;
@@ -1256,7 +1256,12 @@ sub Safety {
 
                 if (
                     ($Param{NoIntSrcLoad} && $Content =~ m{url\(})
-                    || ($Param{NoExtSrcLoad} && $Content =~ m/(http|ftp|https):\//i)) {
+                    ||
+                    ($Param{NoExtSrcLoad} && $Content =~ m/(http|ftp|https):/i) # external URLs
+                    ||
+                    ($Param{NoExtSrcLoad} && $Content =~ m!//!i) # protocol relative URLs
+                )
+                {
                     $RegexReplaced += 1;
                     '';
                 }
