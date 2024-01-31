@@ -31,7 +31,6 @@ use parent qw(Kernel::System::DynamicField::Driver::BaseReference);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (

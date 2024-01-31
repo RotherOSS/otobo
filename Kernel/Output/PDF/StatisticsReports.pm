@@ -19,10 +19,13 @@ package Kernel::Output::PDF::StatisticsReports;
 use strict;
 use warnings;
 
+# core modules
 #use File::Stat;
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
