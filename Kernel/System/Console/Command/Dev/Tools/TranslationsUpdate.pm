@@ -30,7 +30,7 @@ use Lingua::Translit;
 use Pod::Strip;
 
 # OTOBO modules
-use Kernel::Language;
+use Kernel::Language              ();
 use Kernel::System::VariableCheck qw(DataIsDifferent);
 
 our @ObjectDependencies = (

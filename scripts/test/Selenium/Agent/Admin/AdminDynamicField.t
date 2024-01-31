@@ -26,7 +26,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-use Kernel::Language;
+use Kernel::Language ();
 use Kernel::System::UnitTest::Selenium;
 
 our $Self;

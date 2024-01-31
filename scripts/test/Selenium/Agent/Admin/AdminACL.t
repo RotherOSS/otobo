@@ -25,7 +25,7 @@ use utf8;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $main::Self
 use Kernel::System::UnitTest::Selenium;
-use Kernel::Language;
+use Kernel::Language ();
 
 our $Self;
 
