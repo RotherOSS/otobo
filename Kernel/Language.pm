@@ -19,13 +19,17 @@ package Kernel::Language;
 use strict;
 use warnings;
 
+# core modules
 use Exporter qw(import);
-our @EXPORT_OK = qw(Translatable);    ## no critic qw(OTOBO::RequireCamelCase)
-
 use File::stat;
 use Digest::MD5;
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::DateTime;
+
+our @EXPORT_OK = qw(Translatable);    ## no critic qw(OTOBO::RequireCamelCase)
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -61,8 +65,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
     $Self->{Debug} = 0;
