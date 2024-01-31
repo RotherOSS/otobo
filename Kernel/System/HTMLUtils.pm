@@ -1107,6 +1107,14 @@ sub Safety {
 
         if ( $Param{NoJavaScript} ) {
 
+            # consider non-alpha, non-digit chars in the tag as suspicious
+            # e.g. <SCRIPT/XSS SRC="http://xss.rocks/xss.js"></SCRIPT>
+            if ( $Tag =~ m/[^a-zA-Z0-9]/ ) {
+                $ScrubberReplaced++;
+
+                return '';
+            }
+
             # remove HTTP redirects in meta tags
             if ( $Tag eq 'meta' && $Attr->{'http-equiv'} && $Attr->{'http-equiv'} =~ m/refresh/i ) {
                 $ScrubberReplaced++;
