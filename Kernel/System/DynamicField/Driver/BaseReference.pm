@@ -987,14 +987,41 @@ sub PossibleValuesGet {
     return \%PossibleValues;
 }
 
+# TODO include multivalue usage
 sub GetFieldState {
     my ( $Self, %Param ) = @_;
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    return () if $DynamicFieldConfig->{Config}{EditFieldMode} eq 'AutoComplete';
     return () if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
     return () if !any { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
+
+    my $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+
+    # currently, all reference fields have behavior BaseArray and thus $Value is an array ref, but just to be safe, include value transformation
+    if ( !ref $Value ) {
+        $Value = [$Value];
+    }
+
+    if ( $DynamicFieldConfig->{Config}{EditFieldMode} eq 'AutoComplete' ) {
+        return if !$Value->@*;
+
+        # check if $Value is still valid
+        my @ObjectIDs = $Self->SearchObjects(
+            %Param,
+        );
+
+        ITEM:
+        for my $ValueItem ( $Value->@* ) {
+
+            #   if not, then return hashref with NewValue => undef
+            if ( !any { $_ eq $ValueItem } @ObjectIDs ) {
+                return (
+                    NewValue => '',
+                );
+            }
+        }
+    }
 
     # fetch possible values for dynamic field
     my $PossibleValues = $Self->PossibleValuesGet(
@@ -1013,9 +1040,8 @@ sub GetFieldState {
         PossibleValues => $PossibleValues,
     );
 
-    my $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
     if ( $Value && !$PossibleValues->{$Value} ) {
-        $Return{NewValue} = undef;
+        $Return{NewValue} = '';
     }
 
     return %Return;
