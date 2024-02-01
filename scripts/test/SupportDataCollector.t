@@ -27,7 +27,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::System::SupportDataCollector::PluginBase;
+use Kernel::System::SupportDataCollector::PluginBase ();
 
 # get needed objects
 my $CacheObject                = $Kernel::OM->Get('Kernel::System::Cache');

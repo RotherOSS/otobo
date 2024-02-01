@@ -19,8 +19,12 @@ package Kernel::System::SupportDataCollector::PluginBase;
 use strict;
 use warnings;
 
+# core modules
 use Scalar::Util qw(blessed);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our $StatusUnknown = 0;

@@ -16,13 +16,17 @@
 
 package Kernel::Modules::AdminSupportDataCollector;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
-use Kernel::System::SupportDataCollector::PluginBase;
+# core modules
 
-use Kernel::System::VariableCheck qw(:all);
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::SupportDataCollector::PluginBase ();
+use Kernel::System::VariableCheck                    qw(:all);
 
 our $ObjectManagerDisabled = 1;
 
