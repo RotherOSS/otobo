@@ -1004,18 +1004,24 @@ sub GetFieldState {
     }
 
     if ( $DynamicFieldConfig->{Config}{EditFieldMode} eq 'AutoComplete' ) {
-        return if !$Value->@*;
+        return if !$Value->[0];
 
-        # check if $Value is still valid
-        my @ObjectIDs = $Self->SearchObjects(
-            %Param,
-        );
-
+        # value holds object id(s) at this point
         ITEM:
         for my $ValueItem ( $Value->@* ) {
 
+            # check if $ValueItem is still valid
+            my @ObjectIDs = $Self->SearchObjects(
+                %Param,
+                Object => {
+                    $Param{GetParam}->%*,
+                    $Param{GetParam}{DynamicField}->%*,
+                },
+                ObjectID => $ValueItem,
+            );
+
             #   if not, then return hashref with NewValue => undef
-            if ( !any { $_ eq $ValueItem } @ObjectIDs ) {
+            if ( !@ObjectIDs ) {
                 return (
                     NewValue => '',
                 );
