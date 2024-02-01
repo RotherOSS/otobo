@@ -27,6 +27,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::BaseReference);
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -91,18 +92,6 @@ sub new {
     $Self->{ReferencedObjectType} = 'CustomerUser';
 
     return $Self;
-}
-
-sub PossibleValuesGet {
-
-    # this field makes no use of PossibleValuesGet for performance purpose - instead, values are checked via CustomerUserDataGet
-    # nevertheless, function needs to be overwritten to make sure that the call doesn't reach PossibleValuesGet in BaseSelect
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Prioritiy => 'error',
-        Message   => 'Method PossibleValuesGet is per design not implemented for CustomerUser dynamic fields and should never be called.',
-    );
-
-    return;
 }
 
 =head2 GetFieldTypeSettings()
@@ -261,7 +250,8 @@ This is used in auto completion when searching for possible object IDs.
 
     my @ObjectIDs = $BackendObject->SearchObjects(
         DynamicFieldConfig => $DynamicFieldConfig,
-        Term               => $Term,
+        ObjectID           => $ObjectID,                # (optional) if given, takes precedence over Term
+        Term               => $Term,                    # (optional) defaults to wildcard search with empty string
         MaxResults         => $MaxResults,
         UserID             => 1,
         Object             => {
@@ -356,12 +346,55 @@ sub SearchObjects {
         }
     }
 
+    if ( $Param{ObjectID} ) {
+
+        # use customer user data to check against restrictions
+        my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+            User => $Param{ObjectID},
+        );
+
+        # check if customer user matches search params
+        for my $ParamName ( keys %SearchParams ) {
+
+            # value is either scalar, array ref or hash ref with Equals => 'Value'
+            my $ParamValue;
+            if ( ref $SearchParams{$ParamName} eq 'HASH' ) {
+                $ParamValue = $SearchParams{$ParamName}{Equals};
+            }
+            else {
+                $ParamValue = $SearchParams{$ParamName};
+            }
+
+            if ( ref $ParamValue eq 'ARRAY' ) {
+                for my $Element ( $ParamValue->@* ) {
+                    if ( ref $CustomerUserData{$ParamName} eq 'ARRAY' ) {
+                        return () unless any { $_ eq $Element } $CustomerUserData{$ParamName}->@*;
+                    }
+                    else {
+                        return () unless $CustomerUserData{$ParamName} eq $Element;
+                    }
+                }
+            }
+            else {
+                if ( ref $CustomerUserData{$ParamName} eq 'ARRAY' ) {
+                    return () unless any { $_ eq $ParamValue } $CustomerUserData{$ParamName}->@*;
+                }
+                else {
+                    return () unless $CustomerUserData{$ParamName} eq $ParamValue;
+                }
+            }
+        }
+        return ( $CustomerUserData{UserLogin} );
+    }
+    else {
+        $SearchParams{UserLogin} = "*$Param{Term}*";
+    }
+
     # return a list of customeruser IDs
     my $Result = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerSearchDetail(
-        UserLogin => "*$Param{Term}*",
-        Limit     => $Param{MaxResults},
-        Result    => 'ARRAY',
-        Valid     => 1,
+        Limit  => $Param{MaxResults},
+        Result => 'ARRAY',
+        Valid  => 1,
         %SearchParams,
     );
 

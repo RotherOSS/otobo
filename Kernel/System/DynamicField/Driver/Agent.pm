@@ -220,7 +220,8 @@ This is used in auto completion when searching for possible object IDs.
 
     my @ObjectIDs = $BackendObject->SearchObjects(
         DynamicFieldConfig => $DynamicFieldConfig,
-        Term               => $Term,
+        ObjectID           => $ObjectID,                # (optional) if given, takes precedence over Term
+        Term               => $Term,                    # (optional) defaults to wildcard search with empty string
         MaxResults         => $MaxResults,
         UserID             => 1,
         Object             => {
@@ -231,6 +232,7 @@ This is used in auto completion when searching for possible object IDs.
 
 =cut
 
+# TODO reference filter restrictions currently do not work with this field type
 sub SearchObjects {
     my ( $Self, %Param ) = @_;
 
@@ -239,6 +241,16 @@ sub SearchObjects {
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     my %SearchParams;
+
+    if ( $Param{ObjectID} ) {
+        my $UserLogin = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            UserID => $Param{ObjectID},
+        );
+        $SearchParams{UserLogin} = $UserLogin;
+    }
+    else {
+        $SearchParams{Search} = "*$Param{Term}*";
+    }
 
     # incorporate referencefilterlist into search params
     if ( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) {
@@ -317,10 +329,10 @@ sub SearchObjects {
 
     my @Result;
 
-    # search for agents without restrictions as UserSearch doesn't take search params
+    # NOTE: UserSearch() ignores every parameter besides UserLogin, Search, PostMasterSearch, Limit and Valid
     my %AgentSearchResult = $Kernel::OM->Get('Kernel::System::User')->UserSearch(
-        Search => "*$Param{Term}*",
-        Valid  => 1,
+        %SearchParams,
+        Valid => 1,
     );
 
     my $GroupFilter = $Param{DynamicFieldConfig}{Config}{Group};
