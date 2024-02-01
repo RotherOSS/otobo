@@ -94,6 +94,18 @@ sub new {
     return $Self;
 }
 
+sub PossibleValuesGet {
+
+    # this field makes no use of PossibleValuesGet for performance purpose - instead, values are checked via CustomerUserDataGet
+    # nevertheless, function needs to be overwritten to make sure that the call doesn't reach PossibleValuesGet in BaseSelect
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Prioritiy => 'error',
+        Message   => 'Method PossibleValuesGet is per design not implemented for CustomerUser dynamic fields and should never be called.',
+    );
+
+    return;
+}
+
 =head2 GetFieldTypeSettings()
 
 Get field type settings that are specific to the referenced object type CustomerUser.
