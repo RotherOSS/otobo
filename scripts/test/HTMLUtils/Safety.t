@@ -1056,7 +1056,7 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
-        Name   => 'malicious CSS content - remote background image, forbidden',
+        Name   => 'style with remote background image http, NoExtSrcLoad',
         Input  => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
         Config => {
             NoExtSrcLoad => 1,
@@ -1068,7 +1068,31 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
-        Name   => 'malicious CSS content - remote background image with protocol-relative URL, forbidden',
+        Name   => 'style with remote background image hTTp, NoExtSrcLoad',
+        Input  => '<a href="localhost" style="background-image:url(hTTp://localhost:8000/css-background)">localhost</a>',
+        Config => {
+            NoExtSrcLoad => 1,
+        },
+        Result => {
+            Output  => '<a href="localhost">localhost</a>',
+            Replace => 1,
+        },
+        Line => __LINE__,
+    },
+    {
+        Name   => 'style with remote background image fTp, NoExtSrcLoad',
+        Input  => '<a href="localhost" style="background-image:url(fTp://localhost:8000/css-background)">localhost</a>',
+        Config => {
+            NoExtSrcLoad => 1,
+        },
+        Result => {
+            Output  => '<a href="localhost">localhost</a>',
+            Replace => 1,
+        },
+        Line => __LINE__,
+    },
+    {
+        Name   => 'stype with remote background image protocol-relative URL, NoExtSrcLoad',
         Input  => '<a href="localhost" style="background-image:url(//localhost:8000/css-background)">localhost</a>',
         Config => {
             NoExtSrcLoad => 1,
@@ -1080,10 +1104,9 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
-        Name   => 'malicious CSS content - remote background image, allowed',
+        Name   => 'style with remote background image, allowed',
         Input  => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
         Config => {
-            NoExtSrcLoad => 0,
         },
         Result => {
             Output  => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
@@ -1092,7 +1115,7 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
-        Name   => 'malicious CSS content - local background image, forbidden',
+        Name   => 'style with local background image, NoIntSrcLoad',
         Input  => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
         Config => {
             NoIntSrcLoad => 1,
@@ -1104,10 +1127,9 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
-        Name   => 'malicious CSS content - local background image, allowed',
+        Name   => 'style with local background image, allowed',
         Input  => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
         Config => {
-            NoIntSrcLoad => 0,
         },
         Result => {
             Output  => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
@@ -1116,7 +1138,7 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
-        Name   => 'malicious CSS content - remote css content, forbidden',
+        Name   => 'style with remote css content, NoExtSrcLoad',
         Input  => q|<p style="content:url('http://localhost:8000/css-content');"></p>|,
         Config => {
             NoExtSrcLoad => 1,
@@ -1128,10 +1150,9 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
-        Name   => 'malicious CSS content - remote css content, allowed',
+        Name   => 'style remote css content, allowed',
         Input  => q|<p style="content:url('http://localhost:8000/css-content');"></p>|,
         Config => {
-            NoExtSrcLoad => 0,
         },
         Result => {
             Output  => q|<p style="content:url(&#39;http://localhost:8000/css-content&#39;);"></p>|,
@@ -1140,7 +1161,7 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
-        Name   => 'malicious CSS content - local css content, forbidden',
+        Name   => 'style with local css content, NoIntSrcLoad',
         Input  => q|<p style="content:url('/local/css-content');"></p>|,
         Config => {
             NoIntSrcLoad => 1,
@@ -1152,14 +1173,37 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
-        Name   => 'malicious CSS content - local css content, allowed',
+        Name   => 'style with local css content, allowed',
         Input  => q|<p style="content:url('/local/css-content');"></p>|,
         Config => {
-            NoIntSrcLoad => 0,
         },
         Result => {
             Output  => q|<p style="content:url(&#39;/local/css-content&#39;);"></p>|,
             Replace => 0,
+        },
+        Line => __LINE__,
+    },
+    {
+        Name   => 'style with local css content, uppercase URL, allowed',
+        Input  => q|<p style="content:URL('/local/css-content');"></p>|,
+        Config => {
+        },
+        Result => {
+            Output  => q|<p style="content:URL(&#39;/local/css-content&#39;);"></p>|,
+            Replace => 0,
+        },
+        Line => __LINE__,
+    },
+    {
+        # with tag mismatch div,h6
+        Name   => 'style with local css content, uppercase URL, NoIntSrcLoad ',
+        Input  => q|<div style="content:URL('/local/css-content');"></h6>|,
+        Config => {
+            NoIntSrcLoad => 1,
+        },
+        Result => {
+            Output  => '<div></h6>',
+            Replace => 1,
         },
         Line => __LINE__,
     },
