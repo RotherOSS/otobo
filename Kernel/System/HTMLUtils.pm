@@ -1123,13 +1123,42 @@ sub Safety {
         return;    # continue processing with the rule based scrubbing
     };
 
+    my $StyleHandler = sub {
+        my ( undef, undef, undef, $AttrValue ) = @_;
+
+        if (
+            ( $Param{NoIntSrcLoad} && $AttrValue =~ m{url\(}i )
+            ||
+            ( $Param{NoExtSrcLoad} && $AttrValue =~ m/(http|ftp|https):/i )    # external URLs
+            ||
+            ( $Param{NoExtSrcLoad} && $AttrValue =~ m!//!i )                   # protocol relative URLs
+            )
+        {
+            $ScrubberReplaced += 1;
+
+            return ();                                                         # empty list drops the attribute
+        }
+        else {
+            return $AttrValue;                                                 # keep the unchanged value
+        }
+    };
+
+    # TODO: OnEventHandler
+    # TODO: ExternalHandler
+
     my $Scrubber = HTML::Scrubber->new(
         preempt => $PreemptiveHandler,
         default => [
-            1,     # allow all tags per default
+
+            # allow all tags per default
+            1,
+
+            # special handling for the 'style' attribute, otherwise keep all attributes
+            #
             {
-                '*' => 1,    # allow all attributes per default
-            },
+                '*'     => 1,               # allow all attributes per default
+                'style' => $StyleHandler,
+            }
         ],
     );
 
@@ -1199,29 +1228,6 @@ sub Safety {
                 }
                 {}sgxim;
             }
-
-            # Remove malicious CSS content
-            $Tag =~ s{
-                (\s)style=("|') (.*?) \2
-            }
-            {
-                my ($Space, $Delimiter, $Content) = ($1, $2, $3);
-
-                if (
-                    ($Param{NoIntSrcLoad} && $Content =~ m{url\(})
-                    ||
-                    ($Param{NoExtSrcLoad} && $Content =~ m/(http|ftp|https):/i) # external URLs
-                    ||
-                    ($Param{NoExtSrcLoad} && $Content =~ m!//!i) # protocol relative URLs
-                )
-                {
-                    $RegexReplaced += 1;
-                    '';
-                }
-                else {
-                    "${Space}style=${Delimiter}${Content}${Delimiter}";
-                }
-            }egsxim;
 
             # replace original tag with clean tag
             $Tag;
