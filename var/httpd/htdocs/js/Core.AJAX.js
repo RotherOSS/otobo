@@ -415,10 +415,12 @@ Core.AJAX = (function (TargetNS) {
             }
 
             // reference fields
-            // do not return because both hidden and visible input element need to be emptied
+            // both hidden and visible input element need to be set
             var $ReferenceElement = $Element.parent().find('.DynamicFieldReference');
             if ( $ReferenceElement.length ) {
-                $ReferenceElement.val( DataValue );
+                $Element.val( typeof DataValue == 'object' ? DataValue[0][0] : '');
+                $ReferenceElement.val( typeof DataValue == 'object' ? DataValue[0][1] : '' );
+                return;
             }
 
             // Other form elements
