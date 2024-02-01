@@ -215,6 +215,26 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
     };
 
     /**
+     * @name DynamicFieldClone
+     * @memberof Core.Agent.Admin.DynamicField
+     * @function
+     * @description
+     *      Bind event on dynamic field clone button.
+     */
+    TargetNS.DynamicFieldClone = function() {
+        $('.DynamicFieldClone').on('click', function (Event) {
+
+            // don't interfere with MasterAction
+            Event.stopPropagation();
+            Event.preventDefault();
+
+            window.location = $(this).attr('href');
+
+            return false;
+        });
+    };
+
+    /**
      * @name Init
      * @memberof Core.Agent.Admin.DynamicField
      * @function
@@ -228,6 +248,7 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         TargetNS.DynamicFieldAddAction();
         TargetNS.ShowContextSettingsDialog();
         TargetNS.DynamicFieldDelete();
+        TargetNS.DynamicFieldClone();
 
         // Initialize dynamic field filter
         Core.UI.Table.InitTableFilter($('#FilterDynamicFields'), $('#DynamicFieldsTable'));
