@@ -16,8 +16,11 @@
 
 package Kernel::Modules::ExternalURLJump;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -30,10 +33,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -49,14 +49,16 @@ sub Run {
     my $NavAgent    = $ConfigObject->Get('Frontend::Navigation');
     my $NavCustomer = $ConfigObject->Get('CustomerFrontend::Navigation');
 
-    my @URLSets = ( $NavAgent && $NavAgent->{ExternalURLJump} ) ? ( values %{ $NavAgent->{ExternalURLJump} } ) : ();
+    my @URLSets;
+    push @URLSets, ( $NavAgent    && $NavAgent->{ExternalURLJump} )    ? ( values %{ $NavAgent->{ExternalURLJump} } )    : ();
     push @URLSets, ( $NavCustomer && $NavCustomer->{ExternalURLJump} ) ? ( values %{ $NavCustomer->{ExternalURLJump} } ) : ();
 
     for my $Set (@URLSets) {
         LINK:
-        for my $Links ( @{$Set} ) {
-            next LINK if $Links->{Link} !~ /$ExtURL/;
+        for my $Links ( $Set->@* ) {
+            next LINK if $Links->{Link} !~ m/$ExtURL/;
 
+            # redirecting because the requested link was found
             return $LayoutObject->Redirect( ExtURL => $ExtURL );
         }
     }
@@ -66,7 +68,8 @@ sub Run {
         Message  => "Prevented ExternalURLJump to '$ExtURL' because the link is not configured.",
     );
 
-    return $LayoutObject->Redirect( OP => ' ' );
+    # redirect to the base link
+    return $LayoutObject->Redirect;
 }
 
 1;
