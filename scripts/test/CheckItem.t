@@ -26,7 +26,7 @@ use Encode();
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
