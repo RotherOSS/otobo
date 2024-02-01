@@ -3489,7 +3489,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="CustomerPanelLoginURL" Required="0" Valid="0">
-        <Description Translatable="1">Defines an alternate login URL for the customer panel..</Description>
+        <Description Translatable="1">Defines an alternate login URL for the customer panel.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">http://host.example.com/cgi-bin/login.pl</Item>
