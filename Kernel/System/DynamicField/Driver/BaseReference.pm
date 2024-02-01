@@ -987,7 +987,6 @@ sub PossibleValuesGet {
     return \%PossibleValues;
 }
 
-# TODO include multivalue usage
 sub GetFieldState {
     my ( $Self, %Param ) = @_;
 
@@ -1007,6 +1006,7 @@ sub GetFieldState {
         return if !$Value->[0];
 
         # value holds object id(s) at this point
+        # TODO finish multivalue changes
         ITEM:
         for my $ValueItem ( $Value->@* ) {
 
@@ -1027,6 +1027,7 @@ sub GetFieldState {
                 );
             }
         }
+        return ();
     }
 
     # fetch possible values for dynamic field
