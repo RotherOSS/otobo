@@ -293,7 +293,8 @@ This is used in auto completion when searching for possible object IDs.
 
     my @ObjectIDs = $BackendObject->SearchObjects(
         DynamicFieldConfig => $DynamicFieldConfig,
-        Term               => $Term,
+        ObjectID           => $ObjectID,                # (optional) if given, takes precedence over Term
+        Term               => $Term,                    # (optional) defaults to wildcard search with empty string
         MaxResults         => $MaxResults,
         UserID             => 1,
         Object             => {
@@ -320,10 +321,16 @@ sub SearchObjects {
         }
     }
 
-    # include configured search param if present
-    my $SearchAttribute = $DynamicFieldConfig->{Config}{SearchAttribute} // 'Title';
+    if ( $Param{ObjectID} ) {
+        $SearchParams{TicketID} = $Param{ObjectID};
+    }
+    else {
 
-    $SearchParams{$SearchAttribute} = "*$Param{Term}*";
+        # include configured search param if present
+        my $SearchAttribute = $DynamicFieldConfig->{Config}{SearchAttribute} || 'Title';
+
+        $SearchParams{$SearchAttribute} = "*$Param{Term}*";
+    }
 
     # incorporate referencefilterlist into search params
     if ( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) {
