@@ -167,6 +167,7 @@
                             <th>[% Translate("Type") | html %]</th>
                             <th>[% Translate("Object") | html %]</th>
                             <th>[% Translate("Validity") | html %]</th>
+                            <th>[% Translate("Clone") | html %]</th>
                             <th>[% Translate("Delete") | html %]</th>
                         </tr>
                     </thead>
@@ -197,6 +198,13 @@
                             </td>
                             <td>
                                 <div>[% Translate(Data.Valid) | html %]</div>
+                            </td>
+                            <td class="Center">
+[% RenderBlockStart("CloneLink") %]
+                                <a class="DynamicFieldClone" href="[% Env("Baselink") %]Action=[% Data.ConfigDialog %];Subaction=Add;ID=[% Data.ID | uri %][% Data.FilterStrg %]" title="[% Translate("Clone from this field") | html %]">
+                                    <i class="fa fa-copy"></i>
+                                </a>
+[% RenderBlockEnd("CloneLink") %]
                             </td>
                             <td class="Center">
 [% RenderBlockStart("DeleteLink") %]

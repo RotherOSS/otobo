@@ -516,6 +516,16 @@ sub _DynamicFieldsListShow {
                             ObjectTypeName => $ObjectTypeName,
                         },
                     );
+                    $LayoutObject->Block(
+                        Name => 'CloneLink',
+                        Data => {
+                            %{$DynamicFieldData},
+                            Valid          => $Valid,
+                            ConfigDialog   => $ConfigDialog,
+                            FieldTypeName  => $FieldTypeName,
+                            ObjectTypeName => $ObjectTypeName,
+                        },
+                    );
                 }
             }
         }
