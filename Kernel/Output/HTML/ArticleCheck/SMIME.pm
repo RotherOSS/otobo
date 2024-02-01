@@ -25,8 +25,8 @@ use warnings;
 use MIME::Parser;
 
 # OTOBO modules
-use Kernel::System::EmailParser;
-use Kernel::Language qw(Translatable);
+use Kernel::System::EmailParser ();
+use Kernel::Language            qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',

@@ -19,7 +19,12 @@ package Kernel::System::PostMaster;
 use strict;
 use warnings;
 
-use Kernel::System::EmailParser;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::EmailParser ();
 use Kernel::System::PostMaster::DestQueue;
 use Kernel::System::PostMaster::NewTicket;
 use Kernel::System::PostMaster::FollowUp;

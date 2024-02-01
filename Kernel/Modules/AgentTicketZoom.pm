@@ -22,8 +22,12 @@ use utf8;
 
 our $ObjectManagerDisabled = 1;
 
+# core modules
 use POSIX qw/ceil/;
-use Kernel::System::EmailParser;
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 

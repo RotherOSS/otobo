@@ -21,7 +21,12 @@ use warnings;
 
 use parent 'Kernel::System::Ticket::Article::Backend::Base';
 
-use Kernel::System::EmailParser;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::EmailParser   ();
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (

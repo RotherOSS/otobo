@@ -19,8 +19,13 @@ package Kernel::Output::HTML::ArticleCheck::PGP;
 use strict;
 use warnings;
 
+# core modules
 use MIME::Parser;
-use Kernel::System::EmailParser;
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::EmailParser   ();
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 

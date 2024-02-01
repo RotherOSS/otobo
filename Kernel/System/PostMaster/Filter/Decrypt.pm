@@ -19,8 +19,13 @@ package Kernel::System::PostMaster::Filter::Decrypt;
 use strict;
 use warnings;
 
-use Kernel::System::EmailParser;
-use Kernel::Language qw(Translatable);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::EmailParser ();
+use Kernel::Language            qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',

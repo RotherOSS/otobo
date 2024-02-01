@@ -24,9 +24,12 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
+# core modules
 use File::Path qw(mkpath rmtree);
 
-use Kernel::System::EmailParser;
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Output::HTML::ArticleCheck::PGP;
 
 # get needed objects
