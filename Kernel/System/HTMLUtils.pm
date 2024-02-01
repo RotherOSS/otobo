@@ -1118,13 +1118,6 @@ sub Safety {
 
                 return '';
             }
-
-            # remove style with javascript parts
-            if ( $Tag =~ m/style/i && $Text =~ m/$JavaScriptPrefixRegex/xi ) {
-                $ScrubberReplaced++;
-
-                return '';
-            }
         }
 
         return;    # continue processing with the rule based scrubbing
@@ -1173,18 +1166,6 @@ sub Safety {
     my $RegexReplaced;
     do {
         $RegexReplaced = 0;
-
-        # remove script tags
-        if ( $Param{NoJavaScript} ) {
-
-            # remove style/javascript parts
-            # This check can't be done by HTML-Scrubber as more than one event
-            # is relevant for this.
-            $RegexReplaced += ${$String} =~ s{
-                < style[^>]+? $JavaScriptPrefixRegex (.+?|) > (.*?) < /style \s* >
-            }
-            {}sgxim;
-        }
 
         # check each html tag
         ${$String} =~ s{
