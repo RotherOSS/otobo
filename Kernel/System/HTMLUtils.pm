@@ -1123,6 +1123,28 @@ sub Safety {
         return;    # continue processing with the rule based scrubbing
     };
 
+    # HTML::Scrubber works with callback subs. The callbacks for attributes
+    # receive the following arguments: the current object, tag name, attribute name, and attribute value.
+
+    my $DefaultAttributeHandler = sub {
+        my ( undef, undef, $AttrName, $AttrValue ) = @_;
+
+        # TODO: disregard strange attribute names like '-st\0range'
+
+        if ( $Param{NoJavaScript} ) {
+
+            # remove on event attributes, even when preceeded by nonsense
+            if ( $AttrName =~ m/^ [^a-zA-Z0-9]* on/ix ) {
+                $ScrubberReplaced += 1;
+
+                return ();    # empty list drops the attribute
+            }
+        }
+
+        # otherwise keep the unchanged value
+        return $AttrValue;
+    };
+
     my $StyleHandler = sub {
         my ( undef, undef, undef, $AttrValue ) = @_;
 
@@ -1156,7 +1178,7 @@ sub Safety {
             # special handling for the 'style' attribute, otherwise keep all attributes
             #
             {
-                '*'     => 1,               # allow all attributes per default
+                '*'     => $DefaultAttributeHandler,    # filter out the onEVENT handlers
                 'style' => $StyleHandler,
             }
         ],
@@ -1203,12 +1225,6 @@ sub Safety {
         {
             my $Tag = $1;
             if ($Param{NoJavaScript}) {
-
-                # remove on action attributes
-                $RegexReplaced += $Tag =~ s{
-                    (?:\s|/) on[a-z]+\s*=("[^"]+"|'[^']+'|.+?)(>|\s)
-                }
-                {$2}sgxim;
 
                 # remove javascript in a href links or src links
                 $RegexReplaced += $Tag =~ s{
