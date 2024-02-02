@@ -752,6 +752,7 @@ EOF
         Line => __LINE__,
     },
     {
+        Name  => 'javascript source in data-src tag, keep as data-src is just for passing data',
         Input => <<'EOF',
 <img src="/img1.png"/>
 <iframe src="" data-src="javascript:alert('XSS Exploit');"></iframe>
@@ -765,7 +766,6 @@ EOF
 EOF
             Replace => 0,
         },
-        Name => 'javascript source in data tag, keep',
         Line => __LINE__,
     },
     {

@@ -1037,7 +1037,7 @@ sub Safety {
 
     # This can also be entity-encoded to hide it from the parser.
     #   Browsers seem to tolerate an omitted ";".
-    my $JavaScriptPrefixRegex = '
+    my $JavaScriptPrefixRegex = qr/
         (?: j | &\#106[;]? | &\#x6a[;]? )
         (?: a | &\#97[;]?  | &\#x61[;]? )
         (?: v | &\#118[;]? | &\#x76[;]? )
@@ -1048,7 +1048,7 @@ sub Safety {
         (?: i | &\#105[;]? | &\#x69[;]? )
         (?: p | &\#112[;]? | &\#x70[;]? )
         (?: t | &\#116[;]? | &\#x74[;]? )
-    ';
+    /ix;
 
     # The scrubber can be used to remove tags and attributes. Using the module
     # avoids using error prone regexes. However there are some downsides. HTML::Scrubber
@@ -1135,7 +1135,7 @@ sub Safety {
 
             # remove on event attributes, even when preceeded by nonsense
             if ( $AttrName =~ m/^ [^a-zA-Z0-9]* on/ix ) {
-                $ScrubberReplaced += 1;
+                $ScrubberReplaced++;
 
                 return ();    # empty list drops the attribute
             }
@@ -1156,17 +1156,31 @@ sub Safety {
             ( $Param{NoExtSrcLoad} && $AttrValue =~ m!//!i )                   # protocol relative URLs
             )
         {
-            $ScrubberReplaced += 1;
+            $ScrubberReplaced++;
 
             return ();                                                         # empty list drops the attribute
         }
-        else {
-            return $AttrValue;                                                 # keep the unchanged value
-        }
+
+        # keep the unchanged value
+        return $AttrValue;
     };
 
-    # TODO: OnEventHandler
-    # TODO: ExternalHandler
+    my $CheckJavaScriptHander = sub {
+        my ( undef, undef, undef, $AttrValue ) = @_;
+
+        if ( $Param{NoJavaScript} ) {
+
+            # javascript at beginning of attribute value
+            if ( $AttrValue =~ m/^\s* $JavaScriptPrefixRegex/ix ) {
+                $ScrubberReplaced++;
+
+                return '';    # return empty string as this reproduces the legacy behavior
+            }
+        }
+
+        # keep the unchanged value
+        return $AttrValue;
+    };
 
     my $Scrubber = HTML::Scrubber->new(
         preempt => $PreemptiveHandler,
@@ -1178,8 +1192,12 @@ sub Safety {
             # special handling for the 'style' attribute, otherwise keep all attributes
             #
             {
-                '*'     => $DefaultAttributeHandler,    # filter out the onEVENT handlers
-                'style' => $StyleHandler,
+                '*'        => $DefaultAttributeHandler,    # filter out the onEVENT handlers
+                style      => $StyleHandler,
+                background => $CheckJavaScriptHander,
+                url        => $CheckJavaScriptHander,
+                src        => $CheckJavaScriptHander,
+                href       => $CheckJavaScriptHander,
             }
         ],
     );
@@ -1225,18 +1243,6 @@ sub Safety {
         {
             my $Tag = $1;
             if ($Param{NoJavaScript}) {
-
-                # remove javascript in a href links or src links
-                $RegexReplaced += $Tag =~ s{
-                    ((?:\s|;|/)(?:background|url|src|href)\s*=\s*)
-                    ('|"|)                                  # delimiter, can be empty
-                    (?:\s* $JavaScriptPrefixRegex .*?)      # javascript, followed by anything but the delimiter
-                    \2                                      # delimiter again
-                    (\s|>)
-                }
-                {
-                    "$1\"\"$3";
-                }sgxime;
 
                 # remove link javascript tags
                 $RegexReplaced += $Tag =~ s{
