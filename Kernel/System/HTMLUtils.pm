@@ -1057,10 +1057,11 @@ sub Safety {
     # lower case tags and attr names.
 
     # Drop the attributes 'src' and 'poster' depending on NoIntSrcLoad and NoExtSrcLoad.
-    my $ScrubberReplaced  = 0;
-    my $PreemptiveHandler = sub {
+    my $ScrubberReplaced = 0;
+    my $TagHandler       = sub {
         my ( $Event, $Tag, $Attr, $AttrSeq, $Text ) = @_;
 
+        # only inspect start tags
         return unless $Event eq 'start';
 
         if ( $Param{NoIntSrcLoad} || $Param{NoExtSrcLoad} ) {
@@ -1074,7 +1075,7 @@ sub Safety {
                     # drop the start tag;
                     $ScrubberReplaced++;
 
-                    return '';
+                    return '';    # discard the tag
                 }
 
                 # the NoExtSrcLoad case
@@ -1088,7 +1089,7 @@ sub Safety {
                     # The replace count is used for confirmation of external source load
                     $ScrubberReplaced++;
 
-                    return '';
+                    return '';    # discard the tag
                 }
             }
         }
@@ -1100,14 +1101,14 @@ sub Safety {
             if ( $Tag =~ m/[^a-zA-Z0-9]/ ) {
                 $ScrubberReplaced++;
 
-                return '';
+                return '';    # discard the tag
             }
 
             # remove HTTP redirects in meta tags
             if ( $Tag eq 'meta' && $Attr->{'http-equiv'} && $Attr->{'http-equiv'} =~ m/refresh/i ) {
                 $ScrubberReplaced++;
 
-                return '';
+                return '';    # discard the tag
             }
 
             # <SCRIPT/SRC="http://ha.ckers.org/xss.js"></SCRIPT>
@@ -1116,11 +1117,17 @@ sub Safety {
             if ( $Tag =~ m/script/i ) {
                 $ScrubberReplaced++;
 
-                return '';
+                return '';    # discard the tag
+            }
+
+            if ( $Tag =~ m/link/i && $Text =~ $JavaScriptPrefixRegex ) {
+                $ScrubberReplaced++;
+
+                return '';    # discard the tag
             }
         }
 
-        return;    # continue processing with the rule based scrubbing
+        return;               # continue processing with the rule based scrubbing
     };
 
     # HTML::Scrubber works with callback subs. The callbacks for attributes
@@ -1183,7 +1190,7 @@ sub Safety {
     };
 
     my $Scrubber = HTML::Scrubber->new(
-        preempt => $PreemptiveHandler,
+        preempt => $TagHandler,
         default => [
 
             # allow all tags per default
@@ -1231,36 +1238,8 @@ sub Safety {
         $Scrubber->deny('embed');
     }
 
-    # Replace as many times as it is needed to avoid nesting tag attacks.
-    my $RegexReplaced;
-    do {
-        $RegexReplaced = 0;
-
-        # check each html tag
-        ${$String} =~ s{
-            (<.+?>)
-        }
-        {
-            my $Tag = $1;
-            if ($Param{NoJavaScript}) {
-
-                # remove link javascript tags
-                $RegexReplaced += $Tag =~ s{
-                    (< link .+? $JavaScriptPrefixRegex (.+?|) >)
-                }
-                {}sgxim;
-            }
-
-            # replace original tag with clean tag
-            $Tag;
-        }segxim;
-
-        $Safety{Replace} += $RegexReplaced;    # total count
-
-    } while ($RegexReplaced);
-
     $String->$* = $Scrubber->scrub( $String->$* );
-    $Safety{Replace} += $ScrubberReplaced;     # total count
+    $Safety{Replace} += $ScrubberReplaced;    # total count
 
     # check ref && return result like called
     $Safety{String} = defined $StringNonref ? $String->$* : $String;
