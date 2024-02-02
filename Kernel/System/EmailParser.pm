@@ -26,7 +26,7 @@ use warnings;
 use Mail::Internet;
 use MIME::Parser;
 use MIME::QuotedPrint;
-use MIME::Base64;
+use MIME::Base64  qw(decode_base64);
 use MIME::Words   qw(:all);
 use Mail::Address ();
 

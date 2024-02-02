@@ -16,12 +16,17 @@
 
 package Kernel::GenericInterface::Invoker::Ticket::Common;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
-use MIME::Base64;
+# core modules
+use MIME::Base64 qw(encode_base64);
 use Storable;
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;

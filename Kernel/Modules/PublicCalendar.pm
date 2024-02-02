@@ -19,7 +19,11 @@ package Kernel::Modules::PublicCalendar;
 use strict;
 use warnings;
 
-use MIME::Base64     ();
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;

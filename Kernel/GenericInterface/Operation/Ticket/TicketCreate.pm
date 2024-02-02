@@ -27,6 +27,7 @@ use parent qw(
 
 # core modules
 use Scalar::Util qw(reftype);
+use MIME::Base64 qw(encode_base64);
 
 # CPAN modules
 
@@ -1670,7 +1671,6 @@ sub _TicketCreate {
         );
 
         my @Attachments;
-        $Kernel::OM->Get('Kernel::System::Main')->Require('MIME::Base64');
         ATTACHMENT:
         for my $FileID ( sort keys %AttachmentIndex ) {
             next ATTACHMENT if !$FileID;
@@ -1682,7 +1682,7 @@ sub _TicketCreate {
             next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
             # convert content to base64, but prevent 76 chars brake, see bug#14500.
-            $Attachment{Content} = MIME::Base64::encode_base64( $Attachment{Content}, '' );
+            $Attachment{Content} = encode_base64( $Attachment{Content}, '' );
             push @Attachments, {%Attachment};
         }
 

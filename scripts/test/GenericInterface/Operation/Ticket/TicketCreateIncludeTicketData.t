@@ -19,23 +19,19 @@ use warnings;
 use utf8;
 
 # core modules
+use Socket;
 
 # CPAN modules
 use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
-
-our $Self;
-
-use Socket;
-use MIME::Base64;
-
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Ticket::TicketCreate;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
-
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+
+our $Self;
 
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');

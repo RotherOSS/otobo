@@ -21,8 +21,12 @@ use warnings;
 
 use parent qw(Kernel::System::EventHandler);
 
-use MIME::Base64;
+# core modules
+use MIME::Base64 qw(decode_base64 encode_base64);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (

@@ -22,7 +22,6 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
-use MIME::Base64;
 use PerlIO;
 
 # CPAN modules
