@@ -466,7 +466,7 @@ thead .headerSortDown a {
 }
 
 .TableSmall td a.DynamicFieldLink {
-    color: #FF7722;
+    color: revert;
 }
 
 .TableSmall tr:hover td a.DynamicFieldLink,
