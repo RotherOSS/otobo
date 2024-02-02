@@ -34,7 +34,7 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my $Version = sprintf "%vd", $^V;
+    my $Version = sprintf '%vd', $^V;
     my $OS      = $^O;
 
     $Self->AddResultInformation(
