@@ -157,12 +157,12 @@ my @Tests = (
         Line => __LINE__,
     },
     {
+        Name   => q{link with onclock and img, space before '=', a closed twice},
         Input  => '<a href="http://example.com/" onclock="alert(1)">Some Text <img src ="http://example.com/logo.png"/></a>',
         Result => {
             Output  => '<a href="http://example.com/">Some Text </a>',
             Replace => 1,
         },
-        Name => q{link with onclock and img, space before '=', a closed twice},
         Line => __LINE__,
     },
     {
@@ -787,6 +787,7 @@ EOF
         Line => __LINE__,
     },
     {
+        Name  => 'meta with id and refresh tag',
         Input => <<'EOF',
 Some
 <META id=">" HTTP-EQUIV="Refresh" CONTENT="2;
@@ -801,7 +802,19 @@ Content
 EOF
             Replace => 1,
         },
-        Name => 'meta with id and refresh tag',
+        Line => __LINE__,
+    },
+    {
+        Name  => 'link tag with javascript somewhere',
+        Input => <<'EOF',
+Link:<LinK id='SOMEjAVaScRiPtsomewhere'>
+EOF
+        Result => {
+            Output => <<'EOF',
+Link:
+EOF
+            Replace => 1,
+        },
         Line => __LINE__,
     },
     {
