@@ -26,7 +26,7 @@ use utf8;
 use MIME::Base64 qw(decode_base64);    ## no perlimports
 
 # CPAN modules
-use HTML::Scrubber 0.20;
+use HTML::Scrubber 0.20 ();
 
 # OTOBO modules
 
