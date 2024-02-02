@@ -276,7 +276,7 @@ sub Run {
             Data => {
                 FQDN         => $ConfigObject->Get('FQDN'),
                 OTOBOVersion => $ConfigObject->Get('Version'),
-                PerlVersion  => sprintf( "%vd", $^V ),
+                PerlVersion  => sprintf( '%vd', $^V ),
                 %Param,
                 %GetParam,
                 %OSInfo,
@@ -429,7 +429,7 @@ sub Run {
             Data => {
                 FQDN         => $ConfigObject->Get('FQDN'),
                 OTOBOVersion => $ConfigObject->Get('Version'),
-                PerlVersion  => sprintf( "%vd", $^V ),
+                PerlVersion  => sprintf( '%vd', $^V ),
                 %Param,
             },
         );
@@ -606,7 +606,7 @@ sub _SentDataOverview {
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         my %OSInfo       = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
         my %System       = (
-            PerlVersion        => sprintf( "%vd", $^V ),
+            PerlVersion        => sprintf( '%vd', $^V ),
             OSType             => $OSInfo{OS},
             OSVersion          => $OSInfo{OSName},
             OTOBOVersion       => $ConfigObject->Get('Version'),

@@ -271,7 +271,7 @@ sub Register {
     # load operating system info from environment object
     my %OSInfo = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
     my %System = (
-        PerlVersion        => sprintf( "%vd", $^V ),
+        PerlVersion        => sprintf( '%vd', $^V ),
         OSType             => $OSInfo{OS},
         OSVersion          => $OSInfo{OSName},
         OTOBOVersion       => $ConfigObject->Get('Version'),
@@ -546,7 +546,7 @@ sub RegistrationDataGet {
         # read data from environment object
         my %OSInfo = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
         $RegistrationData{System} = {
-            PerlVersion     => sprintf( "%vd", $^V ),
+            PerlVersion     => sprintf( '%vd', $^V ),
             OSType          => $OSInfo{OS},
             OSVersion       => $OSInfo{OSName},
             OTOBOVersion    => $ConfigObject->Get('Version'),
@@ -609,7 +609,7 @@ sub RegistrationUpdateSend {
     # read data from environment object
     my %OSInfo = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
     my %System = (
-        PerlVersion     => sprintf( "%vd", $^V ),
+        PerlVersion     => sprintf( '%vd', $^V ),
         OSType          => $OSInfo{OS},
         OSVersion       => $OSInfo{OSName},
         OTOBOVersion    => $ConfigObject->Get('Version'),
