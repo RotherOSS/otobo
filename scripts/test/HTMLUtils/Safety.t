@@ -682,18 +682,20 @@ END_OUTPUT
         Line => __LINE__,
     },
     {
+        Name  => 'Nested script tags',
         Input => <<'EOF',
-<s<script>...</script><script>...<cript type="text/javascript">
+<s<script>...</script><script>:::<cript type="text/javascript">
 document.write("Hello World!");
 </s<script>//<cript>
 EOF
         Result => {
             Output => <<'EOF',
-
+...:::<cript type="text/javascript">
+document.write("Hello World!");
+</s<script>//<cript>
 EOF
             Replace => 1,
         },
-        Name => 'Nested script tags',
         Line => __LINE__,
     },
     {
@@ -922,18 +924,20 @@ for my $Test (@Tests) {
 
 my @TestsWithConfig = (
     {
-        Name  => 'img tag with img/src',
+        Name  => 'img tag with img/src, passes as NoJavaScript is not passed',
         Input => <<'EOF',
-<img/src="http://example.com/image.png"/>
+img/src:<img/src="http://example.com/image.png"/>
 EOF
         Config => {
             NoImg => 1,
         },
         Result => {
-            Output => <<'EOF',
 
+            # note the inserted space befor '/>'
+            Output => <<'EOF',
+img/src:<img/src="http://example.com/image.png" />
 EOF
-            Replace => 1,
+            Replace => 0,
         },
         Line => __LINE__,
     },
