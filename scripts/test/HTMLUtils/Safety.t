@@ -93,21 +93,57 @@ my @Tests = (
         Line => __LINE__,
     },
     {
+        Name   => 'tag a with attribute onclock',
         Input  => '<a href="http://example.com/" onclock="alert(1)">Some Text</a>',
         Result => {
             Output  => '<a href="http://example.com/">Some Text</a>',
             Replace => 1,
         },
-        Name => 'tag a with attibute onclock',
         Line => __LINE__,
     },
     {
-        Input  => '<a href="http://example.com/" onclock="alert(1)">Some Text <img src="http://example.com/logo.png"/></a>',
+        Name   => 'tag a with a made up onEvent handler',
+        Input  => '<a href="http://example.com/" onMadeUp="alert(1)">Some Text</a>',
+        Result => {
+            Output  => '<a href="http://example.com/">Some Text</a>',
+            Replace => 1,
+        },
+        Line => __LINE__,
+    },
+    {
+        Name   => 'tag a with onCLocK, img with external source',
+        Input  => '<a href="http://example.com/" onCLocK="alert(1)">Some Text <img src="http://example.com/logo.png"/></a>',
         Result => {
             Output  => '<a href="http://example.com/">Some Text </a>',
             Replace => 1,
         },
-        Name => 'tag a with onclock, img with external source',
+        Line => __LINE__,
+    },
+    {
+        Name   => 'tag a with onCLocK, img with external source',
+        Input  => '<a href="http://example.com/" onCLocK="alert(1)">Some Text <img src="http://example.com/logo.png"/></a>',
+        Result => {
+            Output  => '<a href="http://example.com/">Some Text </a>',
+            Replace => 1,
+        },
+        Line => __LINE__,
+    },
+    {
+        Name   => 'tag a with NotonCLocK, img with external source',
+        Input  => '<a href="http://example.com/" NotonCLocK="alert(1)">Some Text <img src="http://example.com/logo.png"/></a>',
+        Result => {
+            Output  => '<a href="http://example.com/" notonclock="alert(1)">Some Text </a>',
+            Replace => 1,
+        },
+        Line => __LINE__,
+    },
+    {
+        Name   => 'tag a with onCLocK and a +, img with external source',
+        Input  => '<a href="http://example.com/" +onCLocK="alert(1)">Some Text <img src="http://example.com/logo.png"/></a>',
+        Result => {
+            Output  => '<a href="http://example.com/">Some Text </a>',
+            Replace => 1,
+        },
         Line => __LINE__,
     },
     {
@@ -497,16 +533,16 @@ PT
         Line => __LINE__,
     },
     {
-        Input => '<center>
-  <body style="background: #fff; color: #000;" onmouseover     ="var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.src = (\'https:\' == document.location.protocol ? \'https://\' : \'http://\') + \'ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\'; document.body.appendChild(ga); setTimeout(function() { jQuery(\'body\').append(jQuery(\'<div />\').attr(\'id\', \'hack-me\').css(\'display\', \'none\')); jQuery(\'#hack-me\').load(\'/otobo/index.pl?Action=AgentPreferences\', null, function() { jQuery.ajax({url: \'/otobo/index.pl\', type: \'POST\', data: ({Action: \'AgentPreferences\', ChallengeToken: jQuery(\'input[name=ChallengeToken]:first\', \'#hack-me\').val(), Group: \'Language\', \'Subaction\': \'Update\', UserLanguage: \'zh_CN\'})}); }); }, 500);">
-</center>',
+        Name  => 'single quotes in style, onmouseover with spaces befor =',
+        Input => q{<center>
+  <body style="background: #fff; color: #000; dummy: '';" onmouseover     ="var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.src = (\'https:\' == document.location.protocol ? \'https://\' : \'http://\') + \'ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\'; document.body.appendChild(ga); setTimeout(function() { jQuery(\'body\').append(jQuery(\'<div />\').attr(\'id\', \'hack-me\').css(\'display\', \'none\')); jQuery(\'#hack-me\').load(\'/otobo/index.pl?Action=AgentPreferences\', null, function() { jQuery.ajax({url: \'/otobo/index.pl\', type: \'POST\', data: ({Action: \'AgentPreferences\', ChallengeToken: jQuery(\'input[name=ChallengeToken]:first\', \'#hack-me\').val(), Group: \'Language\', \'Subaction\': \'Update\', UserLanguage: \'zh_CN\'})}); }); }, 500);">
+</center>},
         Result => {
-            Output => '<center>
-  <body style="background: #fff; color: #000;" ga=document.createElement(\'script\'); ga.type=\'text/javascript\'; ga.src=(\'https:\' == document.location.protocol ? \'https://\' : \'http://\') + \'ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\'; document.body.appendChild(ga); setTimeout(function() { jQuery(\'body\').append(jQuery(\'<div />\').attr(\'id\', \'hack-me\').css(\'display\', \'none\')); jQuery(\'#hack-me\').load(\'/otobo/index.pl?Action=AgentPreferences\', null, function() { jQuery.ajax({url: \'/otobo/index.pl\', type: \'POST\', data: ({Action: \'AgentPreferences\', ChallengeToken: jQuery(\'input[name=ChallengeToken]:first\', \'#hack-me\').val(), Group: \'Language\', \'Subaction\': \'Update\', UserLanguage: \'zh_CN\'})}); }); }, 500);">
-</center>',
+            Output => q{<center>
+  <body style="background: #fff; color: #000; dummy: &#39;&#39;;">
+</center>},
             Replace => 1,
         },
-        Name => 'onmouseover',
         Line => __LINE__,
     },
     {
@@ -767,16 +803,16 @@ EOF
         Line => __LINE__,
     },
     {
+        Name  => '/ as attribute delimiter should be filtered out',
         Input => <<"EOF",
-<img/onerror="alert(\'XSS1\')"src=a>
+img/onerror:<img/onerror="alert(\'XSS1\')"src=a>
 EOF
         Result => {
             Output => <<'EOF',
-<img>
+img/onerror:
 EOF
             Replace => 1,
         },
-        Name => '/ as attribute delimiter',
         Line => __LINE__,
     },
     {
