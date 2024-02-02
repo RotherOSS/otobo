@@ -1062,7 +1062,16 @@ sub GetFieldState {
     for my $Required ( @{ $DynamicFieldConfig->{Config}{RequiredArgs} // [] } ) {
         my $Value = $GetParam{DynamicField}{$Required} // $GetParam{$Required};
 
-        return () if !$Value || ( ref $Value && !IsArrayRefWithData($Value) );
+        if ( !$Value || ( ref $Value && !IsArrayRefWithData($Value) ) ) {
+
+            # if script field value is present, a required argument has been emptied and the script field needs to be emptied
+            if ( $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ) {
+                return ( NewValue => '' );
+            }
+            else {
+                return ();
+            }
+        }
     }
 
     my %ChangedElements = map { $Self->{Uniformity}{$_} // $_ => 1 } keys $Param{ChangedElements}->%*;
