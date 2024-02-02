@@ -888,14 +888,13 @@ sub Run {
                     my $Customer   = $Recipients[0];
 
                     # get template generator object
-                    my $CustomerUserObject      = $Kernel::OM->Get('Kernel::System::CustomerUser');
-                    my $TemplateGeneratorObject = $Kernel::OM->ObjectParamAdd(
+                    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+                    $Kernel::OM->ObjectParamAdd(
                         'Kernel::System::TemplateGenerator' => {
                             CustomerUserObject => $CustomerUserObject,
                         },
                     );
-
-                    $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
+                    my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
 
                     # generate sender name
                     my $From = $TemplateGeneratorObject->Sender(

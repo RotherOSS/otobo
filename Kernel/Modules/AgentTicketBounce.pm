@@ -222,10 +222,10 @@ sub Run {
         }
 
         # get template generator object
-        my $TemplateGenerator = $Kernel::OM->ObjectParamAdd(
+        $Kernel::OM->ObjectParamAdd(
             'Kernel::System::TemplateGenerator' => { %{$Self} }
         );
-        $TemplateGenerator = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
+        my $TemplateGenerator = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
 
         # prepare salutation
         $Param{Salutation} = $TemplateGenerator->Salutation(

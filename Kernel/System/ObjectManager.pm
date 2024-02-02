@@ -393,10 +393,10 @@ sub ObjectInstanceRegister {
 
 =head2 ObjectParamAdd()
 
-Adds arguments that will be passed to constructors of classes
-when they are created, in the same format as the C<L<new()>> method
-receives them. Existing constructor arguments are overwritten. Already
-existing constructor arguments are kept.
+Merge the arguments that will be passed to constructors of classes
+when they are created. The format in the same as for the C<L<new()>> method
+of the objects. Existing constructor arguments are overwritten. Already
+existing constructor arguments, that are not in the new list,  are kept.
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Ticket' => {
@@ -406,6 +406,8 @@ existing constructor arguments are kept.
             KeyZ => [ 1 .. 10 ],
         },
     );
+
+Always returns an empty list.
 
 =cut
 
