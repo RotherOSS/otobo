@@ -5619,7 +5619,7 @@ sub _BuildSelectionAttributeRefCreate {
         }
     }
 
-    # add a fallback for the id attibute
+    # add a fallback for the id attribute
     $Attributes{id} ||= $Attributes{name};
 
     # check params with key and value that need to be HTML-Quoted
