@@ -19,10 +19,12 @@ package Kernel::System::Stats;
 use strict;
 use warnings;
 
-use MIME::Base64;
-
+# core modules
 use POSIX qw(ceil);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Output::HTML::Statistics::View;

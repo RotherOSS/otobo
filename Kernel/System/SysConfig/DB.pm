@@ -18,11 +18,14 @@ package Kernel::System::SysConfig::DB;
 
 use strict;
 use warnings;
-
-use MIME::Base64;
-use Time::HiRes();
 use utf8;
 
+# core modules
+use Time::HiRes ();
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw( :all );
 
 our @ObjectDependencies = (

@@ -18,7 +18,12 @@
 use strict;
 use warnings;
 
-use MIME::Base64;
+# core modules
+use MIME::Base64 qw(decode_base64 encode_base64);
+
+# CPAN modules
+
+# OTOBO modules
 
 # get type
 my $Type = shift;

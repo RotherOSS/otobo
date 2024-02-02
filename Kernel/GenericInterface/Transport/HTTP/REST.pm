@@ -22,7 +22,7 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
-use MIME::Base64;
+use MIME::Base64 qw(encode_base64);
 
 # CPAN modules
 use HTTP::Status;

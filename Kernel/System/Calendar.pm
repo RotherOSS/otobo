@@ -23,7 +23,7 @@ use parent qw(Kernel::System::EventHandler);
 
 # core modules
 use Digest::MD5;
-use MIME::Base64 ();
+use MIME::Base64 qw(decode_base64 encode_base64);
 
 # CPAN modules
 
@@ -177,7 +177,7 @@ sub CalendarCreate {
             Data => $Param{TicketAppointments},
         );
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput($TicketAppointments);
-        $TicketAppointments = MIME::Base64::encode_base64($TicketAppointments);
+        $TicketAppointments = encode_base64($TicketAppointments);
     }
 
     my $SQL = '
@@ -337,7 +337,7 @@ sub CalendarGet {
             # decode and deserialize ticket appointment data
             my $TicketAppointments;
             if ( $Row[4] ) {
-                my $DecodedData = MIME::Base64::decode_base64( $Row[4] );
+                my $DecodedData = decode_base64( $Row[4] );
                 $TicketAppointments = $Kernel::OM->Get('Kernel::System::Storable')->Deserialize(
                     Data => $DecodedData,
                 );
@@ -587,7 +587,7 @@ sub CalendarUpdate {
             Data => $Param{TicketAppointments},
         );
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput($TicketAppointments);
-        $TicketAppointments = MIME::Base64::encode_base64($TicketAppointments);
+        $TicketAppointments = encode_base64($TicketAppointments);
     }
 
     my $SQL = '

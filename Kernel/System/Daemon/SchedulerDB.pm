@@ -19,8 +19,13 @@ package Kernel::System::Daemon::SchedulerDB;
 use strict;
 use warnings;
 
-use MIME::Base64;
+# core modules
+use MIME::Base64 qw(decode_base64 encode_base64);
 use Time::HiRes;
+
+# CPAN modules
+
+# OTOBO modules
 
 use Kernel::System::VariableCheck qw(:all);
 

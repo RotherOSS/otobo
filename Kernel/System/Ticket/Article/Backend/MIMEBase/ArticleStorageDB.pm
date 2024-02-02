@@ -23,7 +23,7 @@ use v5.24;
 use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
 # core modules
-use MIME::Base64 qw(encode_base64 decode_base64);
+use MIME::Base64 qw(decode_base64 encode_base64);
 
 # CPAN modules
 

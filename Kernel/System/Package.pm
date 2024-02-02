@@ -25,7 +25,7 @@ use utf8;
 use parent qw(Kernel::System::EventHandler);
 
 # core modules
-use MIME::Base64 qw(encode_base64 decode_base64);
+use MIME::Base64 qw(decode_base64 encode_base64);
 use File::Copy   qw(copy move);
 
 # CPAN modules

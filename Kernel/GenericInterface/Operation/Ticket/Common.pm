@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 # core modules
-use MIME::Base64();
+use MIME::Base64 qw(decode_base64);
 use Encode;
 
 # CPAN modules
@@ -1432,7 +1432,7 @@ sub CreateAttachment {
     # write attachment
     my $Success = $ArticleBackendObject->ArticleWriteAttachment(
         %{ $Param{Attachment} },
-        Content   => MIME::Base64::decode_base64( $Param{Attachment}->{Content} ),
+        Content   => decode_base64( $Param{Attachment}->{Content} ),
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );

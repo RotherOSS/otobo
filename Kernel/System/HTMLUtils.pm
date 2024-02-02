@@ -23,7 +23,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use MIME::Base64;
+use MIME::Base64 qw(decode_base64);    ## no perlimorts
 
 # CPAN modules
 
