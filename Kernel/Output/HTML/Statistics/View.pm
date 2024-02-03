@@ -27,7 +27,7 @@ use warnings;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::DateTime;
+use Kernel::System::DateTime      ();
 
 our @ObjectDependencies = (
     'Kernel::Config',

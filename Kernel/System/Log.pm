@@ -28,8 +28,8 @@ use Carp ();
 use Try::Tiny;
 
 # CPAN modules
-use DateTime 1.08;
-use DateTime::Locale;
+use DateTime 1.08 ();
+use DateTime::Locale ();
 
 # OTOBO modules
 

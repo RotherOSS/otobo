@@ -30,7 +30,7 @@ use Time::HiRes ();
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 use Kernel::Language              qw(Translatable);
-use Kernel::System::DateTime;
+use Kernel::System::DateTime      ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
