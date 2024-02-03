@@ -19,7 +19,11 @@ package Kernel::Modules::AgentTicketPrint;
 use strict;
 use warnings;
 
-use Kernel::System::DateTime;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 use Kernel::Language              qw(Translatable);
 

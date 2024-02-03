@@ -23,12 +23,12 @@ use utf8;
 # core modules
 
 # CPAN modules
-use DateTime;
+use DateTime ();
 use Test2::V0;
 
 # OTOBO modueles
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::System::DateTime;
+use Kernel::System::DateTime ();
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 

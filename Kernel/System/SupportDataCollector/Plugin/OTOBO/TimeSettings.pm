@@ -19,12 +19,15 @@ package Kernel::System::SupportDataCollector::Plugin::OTOBO::TimeSettings;
 use strict;
 use warnings;
 
-use POSIX;
-
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+use POSIX;
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
-use Kernel::System::DateTime;
 
 our @ObjectDependencies = (
     'Kernel::Config',

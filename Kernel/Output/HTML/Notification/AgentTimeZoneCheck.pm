@@ -21,8 +21,13 @@ use parent 'Kernel::Output::HTML::Base';
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
-use Kernel::System::DateTime;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language         qw(Translatable);
+use Kernel::System::DateTime ();
 
 our @ObjectDependencies = (
     'Kernel::Config',

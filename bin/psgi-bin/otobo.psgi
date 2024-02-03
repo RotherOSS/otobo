@@ -84,7 +84,7 @@ use File::Basename qw(dirname);
 use File::Path     qw(make_path);
 
 # CPAN modules
-use DateTime 1.08;
+use DateTime 1.08 ();               ## no perlimports
 use Template ();
 use Plack::Builder;
 use Plack::Request;

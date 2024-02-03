@@ -28,8 +28,8 @@ use Time::HiRes ();
 # CPAN modules
 
 # OTOBO modules
-use Kernel::Language qw(Translatable);
-use Kernel::System::DateTime;
+use Kernel::Language         qw(Translatable);
+use Kernel::System::DateTime ();
 
 our @ObjectDependencies = (
     'Kernel::Config',

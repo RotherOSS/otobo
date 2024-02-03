@@ -15,8 +15,8 @@
 # --
 
 package Kernel::System::DateTime;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Translatable)
 
 use v5.24;
 use strict;
@@ -40,9 +40,9 @@ use Scalar::Util qw(looks_like_number);
 use List::Util   qw(none);
 
 # CPAN modules
-use DateTime 1.08;    # need 1.08 because Kernel::System::DateTime overrides _core_time()
-use DateTime::TimeZone;
-use DateTime::Locale;
+use DateTime 1.08      ();    # need 1.08 because Kernel::System::DateTime overrides _core_time()
+use DateTime::TimeZone ();
+use DateTime::Locale   ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );

@@ -19,7 +19,12 @@ package Kernel::Output::HTML::Dashboard::TicketStatsGeneric;
 use strict;
 use warnings;
 
-use Kernel::System::DateTime qw(:all);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::DateTime qw(OTOBOTimeZoneGet);
 
 our $ObjectManagerDisabled = 1;
 
