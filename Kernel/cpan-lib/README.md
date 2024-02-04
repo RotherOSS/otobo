@@ -28,6 +28,7 @@ Only install modules where the version was updated in F<cpanfile>.
     rm -rf local
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # install into local/lib/perl5
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # again, to see that the install was complete
+    cp -r local/lib/perl5/* .                                               # copy to actual destination
 
 ### Remove files and directories that should not be bundled with OTOBO
 
