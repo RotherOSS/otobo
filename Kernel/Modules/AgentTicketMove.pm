@@ -1448,6 +1448,8 @@ sub AgentMove {
                 SLAID   => $Param{SLAID},
             );
 
+            my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
+
             $Param{DateString} = $LayoutObject->BuildDateSelection(
                 Format           => 'DateInputFormatLong',
                 YearPeriodPast   => 0,
@@ -1459,7 +1461,9 @@ sub AgentMove {
                 Validate             => 1,
                 ValidateDateInFuture => 1,
                 Calendar             => $Calendar,
+                QuickDateButtons     => $QuickDateButtons,
             );
+
             $LayoutObject->Block(
                 Name => 'StatePending',
                 Data => \%Param,

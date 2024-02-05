@@ -3112,6 +3112,8 @@ sub _MaskPhoneNew {
         Translation   => 1,
     );
 
+    my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
+
     # pending data string
     $Param{PendingDateString} = $LayoutObject->BuildDateSelection(
         %Param,
@@ -3122,6 +3124,7 @@ sub _MaskPhoneNew {
         Class                => $Param{Errors}->{DateInvalid},
         Validate             => 1,
         ValidateDateInFuture => 1,
+        QuickDateButtons     => $QuickDateButtons,
     );
 
     # show owner selection

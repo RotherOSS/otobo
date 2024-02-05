@@ -3587,6 +3587,7 @@ Depending on the SysConfig settings the controls to set the date could be multip
         Disabled => 1,                            # optional (1 or 0), when active select and checkbox controls gets the
                                                   #   disabled attribute and input fields gets the read only attribute
         Suffix => 'some suffix',                  # optional, is attached at the end of Names, IDs etc.
+        QuickDateButtons => \@QuickDateButtons,   # optional, config of quick date buttons to use
     );
 
 =cut
@@ -3929,6 +3930,31 @@ sub BuildDateSelection {
     }
 
     $Self->{HasDatepicker} = 1;    # Call some Datepicker init code.
+
+    if ( IsArrayRefWithData( $Param{QuickDateButtons} ) ) {
+
+        BUTTON:
+        for my $Button ( $Param{QuickDateButtons}->@* ) {
+            my $Name = ( keys %{$Button} )[0];
+
+            next BUTTON if !$Name;
+
+            my $Val = $Button->{$Name};
+
+            next BUTTON if !$Val;
+
+            my $Method = $Val =~ s/^\s*\+// ? 'AddDays' :
+                $Val =~ s/^\s*-// ? 'SubtractDays' : 'SetDate';
+
+            $Output .= $Self->Output(
+                Template => "<a class='CallForAction oooQuickDate $Method' data-days='[% Data.Val | html %]'><span>[% Data.Name | html %]</span></a>\n",
+                Data     => {
+                    Val  => $Val,
+                    Name => $Name,
+                },
+            );
+        }
+    }
 
     return $Output;
 }

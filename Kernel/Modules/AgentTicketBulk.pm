@@ -1365,6 +1365,8 @@ sub _Mask {
 
         my $StateObject = $Kernel::OM->Get('Kernel::System::State');
 
+        my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
+
         STATE_ID:
         for my $StateID ( sort keys %StateList ) {
             next STATE_ID if !$StateID;
@@ -1377,7 +1379,9 @@ sub _Mask {
                 Class                => $Param{Errors}->{DateInvalid}                           || '',
                 Validate             => 1,
                 ValidateDateInFuture => 1,
+                QuickDateButtons     => $QuickDateButtons,
             );
+
             $LayoutObject->Block(
                 Name => 'StatePending',
                 Data => \%Param,
