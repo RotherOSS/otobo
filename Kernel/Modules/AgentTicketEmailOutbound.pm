@@ -1817,6 +1817,8 @@ sub _Mask {
         }
     }
 
+    my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
+
     # pending data string
     $Param{PendingDateString} = $LayoutObject->BuildDateSelection(
         %Param,
@@ -1827,6 +1829,7 @@ sub _Mask {
         Class                => $Param{Errors}->{DateInvalid}                           || ' ',
         Validate             => 1,
         ValidateDateInFuture => 1,
+        QuickDateButtons     => $QuickDateButtons,
     );
 
     # Multiple-Autocomplete

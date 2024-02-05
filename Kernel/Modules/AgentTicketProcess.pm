@@ -2537,6 +2537,8 @@ sub _RenderPendingTime {
         );
     }
 
+    my $QuickDateButtons = $Self->{Config}->{QuickDateButtons} // $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::DefaultQuickDateButtons');
+
     $Data{Content} = $LayoutObject->BuildDateSelection(
         Prefix              => 'PendingTime',
         PendingTimeRequired =>
@@ -2553,6 +2555,7 @@ sub _RenderPendingTime {
         Validate             => 1,
         ValidateDateInFuture => 1,
         Calendar             => $Calendar,
+        QuickDateButtons     => $QuickDateButtons,
     );
 
     $LayoutObject->Block(

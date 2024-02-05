@@ -2008,6 +2008,8 @@ sub _Mask {
         SLAID   => $Param{SLAID},
     );
 
+    my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
+
     # pending data string
     $Param{PendingDateString} = $LayoutObject->BuildDateSelection(
         %Param,
@@ -2019,6 +2021,7 @@ sub _Mask {
         Validate             => 1,
         ValidateDateInFuture => 1,
         Calendar             => $Calendar,
+        QuickDateButtons     => $QuickDateButtons,
     );
 
     # Multiple-Autocomplete

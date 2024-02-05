@@ -2618,6 +2618,8 @@ sub _Mask {
                     %Ticket,
                 );
 
+                my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
+
                 $Param{DateString} = $LayoutObject->BuildDateSelection(
                     %Param,
                     Format           => 'DateInputFormatLong',
@@ -2629,6 +2631,7 @@ sub _Mask {
                     Validate             => 1,
                     ValidateDateInFuture => 1,
                     Calendar             => $Calendar,
+                    QuickDateButtons     => $QuickDateButtons,
                 );
 
                 $LayoutObject->Block(
