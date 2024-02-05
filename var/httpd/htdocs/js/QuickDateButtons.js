@@ -39,39 +39,39 @@ QuickDateButtons = (function (TargetNS) {
 
             CurrDate.setDate( CurrDate.getDate() + Days );
 
-            $( 'select[name="Year"]',  $(this).parent() ).first().val( CurrDate.getFullYear() );
-            $( 'select[name="Month"]', $(this).parent() ).first().val( CurrDate.getMonth() + 1);
-            $( 'select[name="Day"]',   $(this).parent() ).first().val( CurrDate.getDate() );
+            $( 'select[name$="Year"]',  $(this).parent() ).first().val( CurrDate.getFullYear() );
+            $( 'select[name$="Month"]', $(this).parent() ).first().val( CurrDate.getMonth() + 1);
+            $( 'select[name$="Day"]',   $(this).parent() ).first().val( CurrDate.getDate() );
         });
 
         $('.oooQuickDate.AddDays').on('click', function () {
             var Days     = parseInt($(this).attr('data-days'));
             var CurrDate = new Date(
-                $( 'select[name="Year"]',  $(this).parent() ).first().val(),
-                $( 'select[name="Month"]', $(this).parent() ).first().val() - 1,
-                $( 'select[name="Day"]',   $(this).parent() ).first().val(),
+                $( 'select[name$="Year"]',  $(this).parent() ).first().val(),
+                $( 'select[name$="Month"]', $(this).parent() ).first().val() - 1,
+                $( 'select[name$="Day"]',   $(this).parent() ).first().val(),
             );
 
             CurrDate.setDate( CurrDate.getDate() + Days );
 
-            $( 'select[name="Year"]',  $(this).parent() ).first().val( CurrDate.getFullYear() );
-            $( 'select[name="Month"]', $(this).parent() ).first().val( CurrDate.getMonth() + 1);
-            $( 'select[name="Day"]',   $(this).parent() ).first().val( CurrDate.getDate() );
+            $( 'select[name$="Year"]',  $(this).parent() ).first().val( CurrDate.getFullYear() );
+            $( 'select[name$="Month"]', $(this).parent() ).first().val( CurrDate.getMonth() + 1);
+            $( 'select[name$="Day"]',   $(this).parent() ).first().val( CurrDate.getDate() );
         });
 
         $('.oooQuickDate.SubtractDays').on('click', function () {
             var Days     = parseInt($(this).attr('data-days'));
             var CurrDate = new Date(
-                $( 'select[name="Year"]',  $(this).parent() ).first().val(),
-                $( 'select[name="Month"]', $(this).parent() ).first().val() - 1,
-                $( 'select[name="Day"]',   $(this).parent() ).first().val(),
+                $( 'select[name$="Year"]',  $(this).parent() ).first().val(),
+                $( 'select[name$="Month"]', $(this).parent() ).first().val() - 1,
+                $( 'select[name$="Day"]',   $(this).parent() ).first().val(),
             );
 
             CurrDate.setDate( CurrDate.getDate() - Days );
 
-            $( 'select[name="Year"]',  $(this).parent() ).first().val( CurrDate.getFullYear() );
-            $( 'select[name="Month"]', $(this).parent() ).first().val( CurrDate.getMonth() + 1);
-            $( 'select[name="Day"]',   $(this).parent() ).first().val( CurrDate.getDate() );
+            $( 'select[name$="Year"]',  $(this).parent() ).first().val( CurrDate.getFullYear() );
+            $( 'select[name$="Month"]', $(this).parent() ).first().val( CurrDate.getMonth() + 1);
+            $( 'select[name$="Day"]',   $(this).parent() ).first().val( CurrDate.getDate() );
         });
     };
 
