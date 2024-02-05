@@ -785,7 +785,7 @@ sub _RenderAjax {
     }
 
     DYNAMICFIELD:
-    for my $Name ( keys $Self->{DynamicField}->%* ) {
+    for my $Name ( keys $DynFieldStates{Fields}->%* ) {
         my $DynamicFieldConfig = $Self->{DynamicField}{$Name};
 
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -4845,6 +4845,7 @@ sub _StoreActivityDialog {
 
     DYNAMICFIELD:
     for my $DynamicFieldName ( keys $Self->{DynamicField}->%* ) {
+
         # Get the Config of the current DynamicField (the first element of the grep result array)
         my $DynamicFieldConfig = $Self->{DynamicField}{$DynamicFieldName};
 
@@ -6588,6 +6589,7 @@ sub _GetAJAXUpdatableFields {
 
     DYNAMICFIELD:
     for my $Name ( keys $Self->{DynamicField}->%* ) {
+
         # skip hidden fields
         next DYNAMICFIELD if $Param{ActivityDialogFields}{ 'DynamicField_' . $Name }
             && !$Param{ActivityDialogFields}{ 'DynamicField_' . $Name }{Display};
