@@ -2244,7 +2244,7 @@ sub _Mask {
     # render ticket type dynamic fields
     my $TicketTypeDynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
         Content              => $Self->{TicketMaskDefinition},
-        DynamicFields        => \%DynamicFieldConfigs,
+        DynamicFields        => $Self->{DynamicField},
         UpdatableFields      => $Self->_GetFieldsToUpdate(),
         LayoutObject         => $LayoutObject,
         ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
