@@ -15,8 +15,8 @@
 # --
 
 [% RenderBlockStart("rw:DynamicField") %]
-<div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
-    <div class="FieldCell">
+<div class="Row Row_DynamicField_[% Data.Name | html %]">
+    <div class="FieldCell[% Data.HiddenClass | html %]">
 [% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
         <span class="FieldHelpContainer">
             <i class="fa fa-question-circle FieldHelpTrigger"></i>

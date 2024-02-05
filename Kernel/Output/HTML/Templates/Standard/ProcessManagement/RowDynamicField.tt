@@ -17,7 +17,7 @@
 [% RenderBlockStart("Row_DynamicField") %]
 <div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="grid-template-columns: [% Data.TemplateColumns | html %]">
 [% RenderBlockStart("rw:DynamicField") %]
-    <div class="FieldCell[% Data.ColumnClasses | html %]" style="[% Data.ColumnStyle | html %]">
+    <div class="FieldCell[% Data.ColumnClasses | html %][% Data.HiddenClass | html %]" style="[% Data.ColumnStyle | html %]">
 [% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
         <span class="FieldHelpContainer">
             <i class="fa fa-question-circle FieldHelpTrigger"></i>
