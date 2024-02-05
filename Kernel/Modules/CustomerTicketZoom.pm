@@ -36,6 +36,7 @@ sub new {
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # get the dynamic fields for this screen
     my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
@@ -54,7 +55,7 @@ sub new {
     # align sysconfig and ticket mask data I
     DYNAMICFIELD:
     for my $DynamicField ( @{ $DynamicFieldList // [] } ) {
-        next DYNAMICFIELD if !IsHashRefWithData( $Self->{DynamicField}{$Name} );
+        next DYNAMICFIELD if !IsHashRefWithData( $Self->{DynamicField}{$DynamicField} );
 
         my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
             DynamicFieldConfig => $DynamicField,
@@ -1474,10 +1475,10 @@ sub Run {
 
     # remember dynamic field validation result if erroneous
     my %DynamicFieldPossibleValues = map {
-            'DynamicField_' . $_ => defined $DynFieldStates{Fields}{$_}
-                ? $DynFieldStates{Fields}{$_}{PossibleValues}
-                : undef
-        } ( keys $Self->{FollowUpDynamicField}->%* );
+        'DynamicField_' . $_ => defined $DynFieldStates{Fields}{$_}
+            ? $DynFieldStates{Fields}{$_}{PossibleValues}
+            : undef
+    } ( keys $Self->{FollowUpDynamicField}->%* );
 
     # generate output
     my $Output = $LayoutObject->CustomerHeader( Value => $Ticket{TicketNumber} );
@@ -1908,7 +1909,7 @@ sub _Mask {
                     },
                 );
 
-                push @AJAXUpdatableFieldList, $ProcessModule->GetAJAXUpdatableFields(
+                push @AJAXUpdatableFieldList, $ProcessModule->_GetAJAXUpdatableFields(
                     ActivityDialogFields   => $ActivityDialogData->{Fields},
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                 );
