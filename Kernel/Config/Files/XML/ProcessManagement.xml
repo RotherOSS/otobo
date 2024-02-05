@@ -327,6 +327,7 @@
                 <Item Key="CSS">
                     <Array>
                         <Item>Core.Agent.TicketProcess.css</Item>
+                        <Item>QuickDateButtons.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
@@ -336,6 +337,7 @@
                         <Item>Core.Agent.TicketAction.js</Item>
                         <Item>Core.Agent.TicketProcess.js</Item>
                         <Item>Core.TicketProcess.js</Item>
+                        <Item>QuickDateButtons.js</Item>
                     </Array>
                 </Item>
             </Hash>
