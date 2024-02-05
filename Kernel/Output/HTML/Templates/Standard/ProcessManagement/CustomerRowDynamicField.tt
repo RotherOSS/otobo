@@ -17,7 +17,7 @@
 [% RenderBlockStart("Row_DynamicField") %]
 <div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="grid-template-columns: [% Data.TemplateColumns | html %]">
 [% RenderBlockStart("rw:DynamicField") %]
-    <div class="FieldCell[% Data.ColumnClasses | html %]" style="[% Data.ColumnStyle | html %]">
+    <div class="FieldCell[% Data.ColumnClasses | html %][% Data.HiddenClass | html %]" style="[% Data.ColumnStyle | html %]">
         <div class="Field">
             [% Data.Content %]
         </div>

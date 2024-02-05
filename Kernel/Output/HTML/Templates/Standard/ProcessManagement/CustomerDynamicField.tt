@@ -15,8 +15,8 @@
 # --
 
 [% RenderBlockStart("rw:DynamicField") %]
-<div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
-    <div class="FieldCell">
+<div class="Row Row_DynamicField_[% Data.Name | html %]">
+    <div class="FieldCell[% Data.HiddenClass | html %]">
         <div class="Field">
             [% Data.Content %]
         </div>
