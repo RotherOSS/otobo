@@ -245,7 +245,14 @@ button.oooM.ActivityStartButton {
         grid-template-columns: minmax(0px, 32.6fr) minmax(0px, 67.4fr);
         grid-column-gap: 24px;
         grid-template-rows: auto auto;
-        grid-row-gap: 0px;
+        grid-row-gap: 24px;
+    }
+
+    #oooArticleListExpanded.oooTicketInfoPermanent {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 5;
     }
 
     #ProcessActivities {
@@ -264,6 +271,15 @@ button.oooM.ActivityStartButton {
         overflow-y: auto;
         overflow-x: hidden;
         -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+
+    #oooTicketInfo.oooTicketInfoPermanent {
+        display: block;
+        position: sticky;
+        width: unset;
+        max-width: unset;
+        min-width: unset;
+        box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
     }
     
     #oooArticleList > li {
