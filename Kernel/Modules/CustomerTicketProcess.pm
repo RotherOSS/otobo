@@ -451,10 +451,13 @@ sub _RenderAjax {
     my $LoopProtection  = 100;
     my %ChangedElements = $Param{GetParam}{ElementChanged} ? ( $Param{GetParam}{ElementChanged} => 1 ) : ();
 
+    # build hash of field configs without suffix attached to name
+    my %FieldConfigsPlain = map { $_ => { $Self->{DynamicField}{$_}->%*, Name => $_ } } keys $Self->{DynamicField}->%*;
+
     # get values and visibility of dynamic fields
     my %DynFieldStates = $FieldRestrictionsObject->GetFieldStates(
         TicketObject              => $TicketObject,
-        DynamicFields             => $Self->{DynamicField},
+        DynamicFields             => \%FieldConfigsPlain,
         DynamicFieldBackendObject => $Kernel::OM->Get('Kernel::System::DynamicField::Backend'),
         Action                    => $Self->{Action},
         ChangedElements           => \%ChangedElements,
@@ -473,38 +476,41 @@ sub _RenderAjax {
         $DynFieldStates{NewValues}->%*,
     };
 
+    # attach process suffix to dynamic field names in visibility hash
+    my %VisibilitySuffixed = map { $_ . $Self->{IDSuffix} => $DynFieldStates{Visibility}{$_} } keys $DynFieldStates{Visibility}->%*;
+
     if ( IsHashRefWithData( $DynFieldStates{Visibility} ) ) {
         push @JSONCollector, {
             Name => 'Restrictions_Visibility',
-            Data => $DynFieldStates{Visibility},
+            Data => \%VisibilitySuffixed,
         };
     }
 
     DYNAMICFIELD:
-    for my $Name ( keys $Self->{DynamicField}->%* ) {
+    for my $Name ( keys $DynFieldStates{Fields}->%* ) {
         my $DynamicFieldConfig = $Self->{DynamicField}{$Name};
 
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
-            for my $i ( 0 .. $#{ $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
+        if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $DFParam->{"DynamicField_$Name"} eq 'ARRAY' ) {
+            for my $i ( 0 .. $#{ $DFParam->{"DynamicField_$Name"} } ) {
                 my $DataValues = $DynFieldStates{Fields}{$Name}{NotACLReducible}
-                    ? $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}[$i]
+                    ? $DFParam->{"DynamicField_$Name"}[$i]
                     :
                     (
                         $DynamicFieldBackendObject->BuildSelectionDataGet(
                             DynamicFieldConfig => $DynamicFieldConfig,
                             PossibleValues     => $DynFieldStates{Fields}{$Name}{PossibleValues},
-                            Value              => [ $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] ],
+                            Value              => [ $DFParam->{"DynamicField_$Name"}[$i] ],
                         )
                         || $DynFieldStates{Fields}{$Name}{PossibleValues}
                     );
 
                 # add dynamic field to the list of fields to update
                 push @JSONCollector, {
-                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name} . "_$i", # contains the id suffix
+                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name} . "_$i",      # contains the id suffix
                     Data        => $DataValues,
-                    SelectedID  => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}[$i],
+                    SelectedID  => $DFParam->{"DynamicField_$Name"}[$i],
                     Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
                     Max         => 100,
                 };
@@ -514,22 +520,22 @@ sub _RenderAjax {
         }
 
         my $DataValues = $DynFieldStates{Fields}{$Name}{NotACLReducible}
-            ? $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}
+            ? $DFParam->{"DynamicField_$Name"}
             :
             (
                 $DynamicFieldBackendObject->BuildSelectionDataGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     PossibleValues     => $DynFieldStates{Fields}{$Name}{PossibleValues},
-                    Value              => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    Value              => $DFParam->{"DynamicField_$Name"},
                 )
                 || $DynFieldStates{Fields}{$Name}{PossibleValues}
             );
 
         # add dynamic field to the list of fields to update
         push @JSONCollector, {
-            Name        => 'DynamicField_' . $DynamicFieldConfig->{Name}, # contains the id suffix
+            Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},              # contains the id suffix
             Data        => $DataValues,
-            SelectedID  => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"},
+            SelectedID  => $DFParam->{"DynamicField_$Name"},
             Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
             Max         => 100,
         };
@@ -862,7 +868,7 @@ sub _GetParam {
         }
 
         # include process id suffix into dynamic field configs
-        $DynamicFieldConfig->{Name}         .= $Self->{IDSuffix};
+        $DynamicFieldConfig->{Name} .= $Self->{IDSuffix};
         $DynamicFieldConfig->{ProcessSuffix} = $Self->{IDSuffix};
 
         # Get DynamicField Values
@@ -923,8 +929,8 @@ sub _OutputActivityDialog {
     # get needed objects
     my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
     my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
-    my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
-    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $ProcessObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
+    my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
 
     if ( !$TicketID ) {
         $ActivityActivityDialog = $ProcessObject->ProcessStartpointGet(
@@ -1123,8 +1129,8 @@ sub _OutputActivityDialog {
     );
 
     my $InputDefinitionRendered = 0;
-    my %DFPossibleValues = %{ $Param{DFPossibleValues} // {} };
-    my %Visibility       = %{ $Param{Visibility} // {} };
+    my %DFPossibleValues        = %{ $Param{DFPossibleValues} // {} };
+    my %Visibility              = %{ $Param{Visibility}       // {} };
 
     # if we are rendering a new mask and are not rerendering with errors get ticket and default dynamic field values
     if ( $Self->{Subaction} ne 'StoreActivityDialog' ) {
@@ -1133,7 +1139,7 @@ sub _OutputActivityDialog {
         my $NewTicket;
 
         # we are updating an existing ticket
-        if ( %Ticket ) {
+        if (%Ticket) {
 
             DYNAMICFIELD:
             for my $Name ( keys $Self->{DynamicField}->%* ) {
@@ -1151,10 +1157,10 @@ sub _OutputActivityDialog {
             if ( !defined $Param{GetParam}{ 'DynamicField_' . $Name } ) {
                 my $DialogDefaultValue = $ActivityDialog->{Fields}{ 'DynamicField_' . $Name }{DefaultValue};
 
-                if ( $DialogDefaultValue ) {
+                if ($DialogDefaultValue) {
                     $Param{GetParam}{ 'DynamicField_' . $Name } = $DialogDefaultValue;
                 }
-                elsif ( $NewTicket ) {
+                elsif ($NewTicket) {
                     $Param{GetParam}{ 'DynamicField_' . $Name } = $Self->{DynamicField}{$Name}{Config}{DefaultValue};
                 }
             }
@@ -1181,10 +1187,13 @@ sub _OutputActivityDialog {
         my $Autoselect     = $ConfigObject->Get('TicketACL::Autoselect') || undef;
         my $LoopProtection = 100;
 
+        # build hash of field configs without suffix attached to name
+        my %FieldConfigsPlain = map { $_ => { $Self->{DynamicField}{$_}->%*, Name => $_ } } keys $Self->{DynamicField}->%*;
+
         # get values and visibility of dynamic fields
         my %DynFieldStates = $FieldRestrictionsObject->GetFieldStates(
             TicketObject              => $TicketObject,
-            DynamicFields             => $Self->{DynamicField},
+            DynamicFields             => \%FieldConfigsPlain,
             DynamicFieldBackendObject => $DynamicFieldBackendObject,
             Action                    => $Self->{Action},
             ChangedElements           => {},
@@ -3068,6 +3077,7 @@ sub _StoreActivityDialog {
 
     DYNAMICFIELD:
     for my $DynamicFieldName ( keys $Self->{DynamicField}->%* ) {
+
         # Get the Config of the current DynamicField (the first element of the grep result array)
         my $DynamicFieldConfig = $Self->{DynamicField}{$DynamicFieldName};
 
@@ -3597,6 +3607,7 @@ sub _StoreActivityDialog {
         Type => 'HiddenFields',
         Key  => $Self->{FormID},
     );
+
     # Transitions will be handled by ticket event module (TicketProcessTransitions.pm).
 
     my $NextScreen = $Self->{NextScreen} || $ConfigObject->Get('Ticket::Frontend::CustomerTicketProcess')->{'NextScreenAfterFollowUp'};
@@ -4099,6 +4110,7 @@ sub _GetAJAXUpdatableFields {
 
     DYNAMICFIELD:
     for my $Name ( keys $Self->{DynamicField}->%* ) {
+
         # skip hidden fields
         next DYNAMICFIELD if $Param{ActivityDialogFields}{ 'DynamicField_' . $Name }
             && !$Param{ActivityDialogFields}{ 'DynamicField_' . $Name }{Display};
@@ -4116,9 +4128,8 @@ sub _GetAJAXUpdatableFields {
         );
         next DYNAMICFIELD if !$IsACLReducible;
 
-        push @UpdatableFields, ( 'DynamicField_' . $Name . $Self->{IDSuffix});
+        push @UpdatableFields, ( 'DynamicField_' . $Name . $Self->{IDSuffix} );
     }
-
 
     return \@UpdatableFields;
 }
