@@ -22,7 +22,7 @@ use warnings;
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
 # core modules
-use POSIX;
+use POSIX qw(tzname);
 
 # CPAN modules
 
@@ -41,7 +41,7 @@ sub Run {
     my $Self = shift;
 
     # Server time zone
-    my $ServerTimeZone = POSIX::tzname();
+    my $ServerTimeZone = tzname();
 
     $Self->AddResultOk(
         Identifier => 'ServerTimeZone',
