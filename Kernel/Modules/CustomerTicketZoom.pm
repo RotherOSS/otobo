@@ -2512,11 +2512,12 @@ sub _Mask {
         Data         => {
             %Article,
             %Param,
-            Articles      => $ArticleHTML,
-            Avatar        => $Avatar,
-            UserInitials  => $UserInitials,
-            UserFirstname => $CustomerUser{UserFirstname},
-            UserLastname  => $CustomerUser{UserLastname},
+            TicketInfoDisplayType => $Config->{TicketInfoDisplayType} || 'Header',
+            Articles              => $ArticleHTML,
+            Avatar                => $Avatar,
+            UserInitials          => $UserInitials,
+            UserFirstname         => $CustomerUser{UserFirstname},
+            UserLastname          => $CustomerUser{UserLastname},
         },
     );
 }
