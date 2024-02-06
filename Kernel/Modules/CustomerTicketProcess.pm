@@ -1873,7 +1873,6 @@ sub _RenderDynamicField {
 
     my %Data = (
         Name  => $DynamicFieldConfig->{Name},
-        Label => $DynamicFieldHTML->{Label},
         %Hidden,
     );
 
@@ -1892,6 +1891,7 @@ sub _RenderDynamicField {
         for my $MultiValueIndex ( 0 .. $#{ $DynamicFieldHTML->{MultiValue} } ) {
 
             $Data{Content} = $DynamicFieldHTML->{MultiValue}[$MultiValueIndex];
+            $Data{Label}   = $DynamicFieldHTML->{Label}[$MultiValueIndex];
             $LayoutObject->Block(
                 Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:DynamicField',
                 Data => {
@@ -1952,6 +1952,7 @@ sub _RenderDynamicField {
     }
     else {
         $Data{Content} = $DynamicFieldHTML->{Field};
+        $Data{Label}   = $DynamicFieldHTML->{Label};
 
         $LayoutObject->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:DynamicField',

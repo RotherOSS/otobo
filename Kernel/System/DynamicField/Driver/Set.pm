@@ -348,18 +348,10 @@ sub EditFieldRender {
     my %DynamicFieldConfigs;
     my @DynamicFieldValues;
 
-    # call EditLabelRender on the common backend
-    my $LabelString = $Self->EditLabelRender(
-        %Param,
-        Mandatory => $Param{Mandatory} || '0',
-        FieldName => $FieldName,
-    );
-
-    my $Data = {
-        Label => $LabelString,
-    };
+    my $Data;
 
     my @ResultHTML;
+    my @ResultLabels;
 
     my $Include       = $Param{DynamicFieldConfig}{Config}{Include};
     my $DynamicFields = $Self->_GetIncludedDynamicFields(
@@ -414,6 +406,13 @@ sub EditFieldRender {
             },
         );
 
+        # call EditLabelRender on the common backend
+        $ResultLabels[$SetIndex] = $Self->EditLabelRender(
+            %Param,
+            Mandatory => $Param{Mandatory} || '0',
+            FieldName => $Param{DynamicFieldConfig}->{Name} . '_' . $SetIndex,
+        );
+
         delete $Param{LayoutObject}{BlockData};
     }
 
@@ -444,11 +443,23 @@ sub EditFieldRender {
             },
         );
 
+        # call EditLabelRender on the common backend
+        my $TemplateLabel = $Self->EditLabelRender(
+            %Param,
+            Mandatory => $Param{Mandatory} || '0',
+
+            # TODO find out how template is added
+            FieldName => $Param{DynamicFieldConfig}->{Name},
+        );
+
         $Data->{MultiValue}         = \@ResultHTML;
+        $Data->{Label}              = \@ResultLabels;
         $Data->{MultiValueTemplate} = $TemplateHTML;
+        $Data->{LabelTemplate}      = $TemplateLabel;
     }
     else {
         $Data->{Field} = $ResultHTML[0];
+        $Data->{Label} = $ResultLabels[0];
     }
 
     # restore Layout BlockData

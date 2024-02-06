@@ -297,6 +297,7 @@ sub EditFieldRender {
         Mandatory   => $Param{Mandatory},
     );
     my @ResultHTML;
+    my @ResultLabels;
     for my $ValueIndex ( 0 .. ( $DFDetails->{Multiselect} ? 0 : $#{$Value} ) ) {
         my $FieldID = $DFDetails->{MultiValue} ? $FieldName . '_' . $ValueIndex : $FieldName;
 
@@ -339,9 +340,17 @@ sub EditFieldRender {
                 SelectionHTML => ( $DFDetails->{EditFieldMode} ne 'AutoComplete' ? $SelectionHTML[$ValueIndex] : undef ),
             },
         );
+
+        # call EditLabelRender on the common Driver
+        push @ResultLabels, $Self->EditLabelRender(
+            %Param,
+            Mandatory => $Param{Mandatory} || '0',
+            FieldName => $FieldID,
+        );
     }
 
     my $TemplateHTML;
+    my $TemplateLabel;
     if ( $DFDetails->{MultiValue} && !$Param{Readonly} ) {
         $FieldTemplateData{FieldID} = $FieldName . '_Template';
 
@@ -362,6 +371,13 @@ sub EditFieldRender {
                 %FieldTemplateData,
                 SelectionHTML => ( $DFDetails->{EditFieldMode} ne 'AutoComplete' ? $SelectionHTML : undef ),
             },
+        );
+
+        # call EditLabelRender on the common Driver
+        $TemplateLabel = $Self->EditLabelRender(
+            %Param,
+            Mandatory => $Param{Mandatory} || '0',
+            FieldName => $FieldTemplateData{FieldID},
         );
     }
 
@@ -390,24 +406,18 @@ Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
 EOF
     }
 
-    # call EditLabelRender on the common Driver
-    my $LabelString = $Self->EditLabelRender(
-        %Param,
-        Mandatory => $Param{Mandatory} || '0',
-        FieldName => $DFDetails->{MultiValue} ? "${FieldName}_0" : $FieldName,
-    );
-
-    my %Data = (
-        Label => $LabelString,
-    );
+    my %Data;
 
     # decide which structure to return
     if ( $DFDetails->{MultiValue} ) {
         $Data{MultiValue}         = \@ResultHTML;
+        $Data{Label}              = \@ResultLabels;
         $Data{MultiValueTemplate} = $TemplateHTML;
+        $Data{LabelTemplate}      = $TemplateLabel;
     }
     else {
         $Data{Field} = $ResultHTML[0];
+        $Data{Label} = $ResultLabels[0];
     }
 
     return \%Data;
