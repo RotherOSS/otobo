@@ -158,8 +158,8 @@ sub Run {
             Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID
             CustomerID CustomerUserID IsVisibleForCustomer ArticleAttachmentInclude
             ArticleSenderTypeID ArticleIsVisibleForCustomer ArticleCommunicationChannelID
-            Transports OncePerDay SendOnOutOfOffice VisibleForAgent VisibleForAgentTooltip
-            LanguageID AgentEnabledByDefault)
+            Transports OncePerDay SendOnOutOfOffice CalendarFilter VisibleForAgent
+            VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
             )
         {
             my @Data = $ParamObject->GetArray( Param => $Parameter );
@@ -415,8 +415,8 @@ sub Run {
             PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID
             IsVisibleForCustomer ArticleAttachmentInclude
             ArticleSenderTypeID ArticleIsVisibleForCustomer ArticleCommunicationChannelID
-            Transports OncePerDay SendOnOutOfOffice VisibleForAgent VisibleForAgentTooltip
-            LanguageID AgentEnabledByDefault)
+            Transports OncePerDay SendOnOutOfOffice CalendarFilter VisibleForAgent
+            VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
             )
         {
             my @Data = $ParamObject->GetArray( Param => $Parameter );
@@ -1202,6 +1202,18 @@ sub _Edit {
             Data => \%Param,
         );
     }
+
+    $Param{CalendarFilterStrg} = $LayoutObject->BuildSelection(
+        Data => {
+            SendWithinHours  => Translatable('Only send within working hours'),
+            SendOutsideHours => Translatable('Only send outside working hours'),
+        },
+        Name         => 'CalendarFilter',
+        SelectedID   => $Param{Data}->{CalendarFilter},
+        Class        => 'Modernize W75pc',
+        Translation  => 1,
+        PossibleNone => 1,
+    );
 
     # create dynamic field HTML for set with historical data options
     my $PrintDynamicFieldsSearchHeader = 1;

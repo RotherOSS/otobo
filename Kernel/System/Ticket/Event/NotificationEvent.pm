@@ -474,6 +474,39 @@ sub _NotificationFilter {
 
                 last VALUE if $Match;
             }
+            elsif ( $Key eq 'CalendarFilter' ) {
+
+                # Get the applying calendar for the ticket.
+                my $Calendar = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCalendarGet(
+                    QueueID => $Param{Ticket}->{QueueID},
+                    SLAID   => $Param{Ticket}->{SLAID},
+                );
+
+                my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+                my $Margin         = 5;
+
+                # Add a margin to the current date. If the delta is within the margin, we are within working hours.
+                my $Success = $DateTimeObject->Add(
+                    Seconds       => $Margin,
+                    AsWorkingTime => 1,
+                    Calendar      => $Calendar,
+                );
+
+                my $Delta = $Kernel::OM->Create('Kernel::System::DateTime')->Delta(
+                    DateTimeObject => $DateTimeObject
+                );
+
+                if ( $Delta->{AbsoluteSeconds} <= $Margin ) {
+                    if ( $Value eq 'SendWithinHours' ) {
+                        $Match = 1;
+                    }
+                }
+                else {
+                    if ( $Value eq 'SendOutsideHours' ) {
+                        $Match = 1;
+                    }
+                }
+            }
             else {
 
                 if (

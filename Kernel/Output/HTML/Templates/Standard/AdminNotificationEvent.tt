@@ -459,6 +459,12 @@
                         </div>
                         <div class="Clear"></div>
 
+                        <label for="CalendarFilter">[% Translate("Calendar") | html %]: </label>
+                        <div class="Field">
+                            [% Data.CalendarFilterStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
                         <label for="OncePerDay">[% Translate("Once per day") | html %]: </label>
                         <div class="Field">
                             <input type="checkbox" name="OncePerDay" id="OncePerDay" value="1" [% Data.OncePerDayChecked %] />
