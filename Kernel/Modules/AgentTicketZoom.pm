@@ -23,7 +23,7 @@ use utf8;
 our $ObjectManagerDisabled = 1;
 
 # core modules
-use POSIX qw/ceil/;
+use POSIX qw(ceil);
 
 # CPAN modules
 

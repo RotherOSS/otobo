@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 # core modules
-use POSIX;
+use POSIX       ();
 use Digest::MD5 ();
 use File::Path  ();
 use File::Find  ();

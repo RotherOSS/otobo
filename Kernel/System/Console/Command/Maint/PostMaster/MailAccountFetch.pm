@@ -23,8 +23,13 @@ use warnings;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
-use POSIX ":sys_wait_h";
+# core modules
+use POSIX ":sys_wait_h";    ## no perlimports
 use Time::HiRes qw(sleep);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',

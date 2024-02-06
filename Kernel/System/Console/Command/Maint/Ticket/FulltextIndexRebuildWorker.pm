@@ -23,8 +23,13 @@ use warnings;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
-use POSIX ":sys_wait_h";
-use Time::HiRes                   ();
+# core modules
+use POSIX ":sys_wait_h";    ## no perlimports
+use Time::HiRes ();
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (

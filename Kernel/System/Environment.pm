@@ -23,7 +23,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use POSIX;
+use POSIX qw(uname);
 use ExtUtils::MakeMaker;
 use File::Spec ();
 
@@ -92,7 +92,7 @@ returns:
 sub OSInfoGet {
     my ( $Self, %Param ) = @_;
 
-    my @Data = POSIX::uname();
+    my @Data = uname();
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
