@@ -7766,6 +7766,16 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::CustomerTicketZoom###TicketInfoDisplayType" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the ticket info widget is displayed permanently on the left below the article list or is available via click on the 'Information' button.</Description>
+        <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="Header">
+                <Item ValueType="Option" Value="Header" Translatable="1">Displayable via click</Item>
+                <Item ValueType="Option" Value="Permanent" Translatable="1">Permanent</Item>
+            </Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::CustomerTicketSearch::SearchLimit" Required="1" Valid="1">
         <Description Translatable="1">Maximum number of tickets to be displayed in the result of a search in the customer interface.</Description>
         <Navigation>Frontend::Customer::View::TicketSearch</Navigation>

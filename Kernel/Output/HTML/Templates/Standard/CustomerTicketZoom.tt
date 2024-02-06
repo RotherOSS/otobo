@@ -15,7 +15,7 @@
 # --
 
 <div id='oooContent' class="TicketZoom ARIARoleMain">
-    <div id='oooHeader'[% IF Data.TicketInfoPermanent %] class="oooTicketInfoPermanent"[% END %]>
+    <div id='oooHeader'[% IF Data.TicketInfoDisplayType == 'Permanent' %] class="oooTicketInfoPermanent"[% END %]>
         <div class='oooWithSub'>
             <h2 title="[% Data.Title | html %]">[% Data.Title | html %]</h2>
             <p class="ooo12g" title="[% Config('Ticket::Hook') %][% Config('Ticket::HookDivider') %][% Data.TicketNumber | html %]">[% Data.Hook %][% Config('Ticket::HookDivider') %][% Data.TicketNumber | html %]</p>
@@ -28,7 +28,7 @@
             [% END %]
         </div>
         <p class='ooo12'>[% Data.UserFirstname | html %] [% Data.UserLastname | html %]</p>
-[% IF Data.TicketInfoHeader %]
+[% IF Data.TicketInfoDisplayType == 'Header' %]
         <div class='oooInfoBlock'>
             <p class='oooInfo ooo12'><i class="ooofo ooofo-info"></i> <span>[% Translate('Information') | html %]</span></p>
             [% INCLUDE "CustomerTicketZoom/TicketInfo.tt" %]
@@ -70,7 +70,7 @@
         </div>
         <ul id='oooArticleList'>
         </ul>
-        <ul id='oooArticleListExpanded'[% IF Data.TicketInfoPermanent %] class="oooTicketInfoPermanent"[% END %]>
+        <ul id='oooArticleListExpanded'[% IF Data.TicketInfoDisplayType == 'Permanent' %] class="oooTicketInfoPermanent"[% END %]>
 [% RenderBlockStart("ProcessActivity") %]
             <li id="Process_[% Data.ActivityDialogEntityID | uri %]" class="Activity">
                 [% Data.ActivityHTML %]
@@ -183,7 +183,7 @@
             [% Data.Articles %]
 [% END %]
         </ul>
-[% IF Data.TicketInfoPermanent %]
+[% IF Data.TicketInfoDisplayType == 'Permanent' %]
             [% INCLUDE "CustomerTicketZoom/TicketInfo.tt" %]
 [% END %]
     </div>

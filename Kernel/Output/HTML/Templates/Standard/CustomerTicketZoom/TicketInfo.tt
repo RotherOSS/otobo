@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-            <div id='oooTicketInfo' class='oooWidget[% IF Data.TicketInfoPermanent %] oooTicketInfoPermanent[% END %]'>
+            <div id='oooTicketInfo' class="oooWidget[% IF Data.TicketInfoDisplayType == 'Permanent' %] oooTicketInfoPermanent[% END %]">
                 <div class='oooWHead'>
                     <h2>[% Translate('Information') | html %]</h2>
                     <i class='ooofo ooofo-close oooClose'></i>

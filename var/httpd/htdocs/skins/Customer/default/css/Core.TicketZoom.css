@@ -146,6 +146,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         transition: height 0.1s ease, padding-top 0.1s ease;
     }
 
+    #oooHeader.oooTicketInfoPermanent {
+        grid-template-columns: 5fr 32px 159px 162px 32px;
+    }
+
     #oooCategories {
         grid-column-start: 1;
         grid-column-end: 7;
