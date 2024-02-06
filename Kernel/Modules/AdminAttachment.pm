@@ -30,6 +30,10 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    if ( !$Param{AccessRw} && $Param{AccessRo} ) {
+        $Self->{LightAdmin} = 1;
+    }
+
     return $Self;
 }
 
@@ -51,6 +55,25 @@ sub Run {
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+
+        # check permission for all linked templates.
+        if ( $Self->{LightAdmin} ) {
+            $Data{Permission} = $StdAttachmentObject->StdAttachmentStandardTemplatePermission(
+                ID      => $ID,
+                UserID  => $Self->{UserID},
+                Default => 'ro',
+            );
+            if ( !$Data{Permission} ) {
+                %Data = ();
+            }
+            elsif ( $Data{Permission} eq 'ro' ) {
+                $Output .= $LayoutObject->Notify(
+                    Priority => 'Notice',
+                    Data     => $LayoutObject->{LanguageObject}->Translate('No permission to edit this attachment.'),
+                );
+            }
+        }
+
         $Self->_Edit(
             Action => 'Change',
             %Data,
@@ -86,6 +109,18 @@ sub Run {
         for my $Needed (qw(Name ValidID)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        if ( $Self->{LightAdmin} ) {
+            my $Permission = $StdAttachmentObject->StdAttachmentStandardTemplatePermission(
+                ID     => $GetParam{ID},
+                UserID => $Self->{UserID},
+            );
+
+            # No permission to change the attachment.
+            if ( $Permission ne 'rw' ) {
+                $Errors{NoPermission} = 1;
             }
         }
 
@@ -231,7 +266,25 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $ID     = $ParamObject->GetParam( Param => 'ID' );
+        my $ID = $ParamObject->GetParam( Param => 'ID' );
+
+        if ( $Self->{LightAdmin} ) {
+            my $Permission = $StdAttachmentObject->StdAttachmentStandardTemplatePermission(
+                ID     => $ID,
+                UserID => $Self->{UserID},
+            );
+
+            # No permission to delete the attachment.
+            if ( $Permission ne 'rw' ) {
+                return $LayoutObject->Attachment(
+                    ContentType => 'text/html',
+                    Content     => 0,
+                    Type        => 'inline',
+                    NoCache     => 1,
+                );
+            }
+        }
+
         my $Delete = $StdAttachmentObject->StdAttachmentDelete(
             ID => $ID,
         );
@@ -257,6 +310,20 @@ sub Run {
         my %Data = $StdAttachmentObject->StdAttachmentGet(
             ID => $ID,
         );
+
+        if ( $Self->{LightAdmin} ) {
+            my $Permission = $StdAttachmentObject->StdAttachmentStandardTemplatePermission(
+                ID      => $ID,
+                UserID  => $Self->{UserID},
+                Default => 'ro',
+            );
+
+            # No permission to download the attachment.
+            if ( !$Permission ) {
+                %Data = ();
+            }
+        }
+
         if ( !%Data ) {
             return $LayoutObject->ErrorScreen();
         }
@@ -361,10 +428,20 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+        ID:
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
             my %Data = $StdAttachmentObject->StdAttachmentGet(
                 ID => $ID,
             );
+
+            # check permission for all linked templates.
+            if ( $Self->{LightAdmin} ) {
+                $Data{Permission} = $StdAttachmentObject->StdAttachmentStandardTemplatePermission(
+                    ID     => $ID,
+                    UserID => $Self->{UserID},
+                );
+                next ID if !$Data{Permission};
+            }
 
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',

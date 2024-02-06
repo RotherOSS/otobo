@@ -19,7 +19,8 @@ package Kernel::System::Queue;
 use strict;
 use warnings;
 
-use parent qw(Kernel::System::EventHandler);
+use parent                        qw(Kernel::System::EventHandler);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -1416,6 +1417,78 @@ sub NameExistsCheck {
     }
 
     return 0;
+}
+
+=for stopwords ro rw !qux
+
+=head2 QueueListPermission()
+
+Get the permission for a list of queues.
+Returns nothing if the user has no 'ro' on any queue, 'ro' if the user has no 'rw' on at least one queue
+and 'rw' if the user has full permission on all queues.
+
+    my $Permission = $QueueObject->QueueListPermission(
+        QueueIDs => \@QueueIDs,      # optional
+        UserID   => $Param{UserID},
+        Default  => 'rw',            # (optional) default 'ro' (ro|rw) fallback permission if no queues given
+    );
+
+=cut
+
+sub QueueListPermission {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    if ( !$Param{UserID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!',
+        );
+        return;
+    }
+
+    my %RoQueues = $Self->GetAllQueues( UserID => $Param{UserID} );
+    my %RwQueues = $Self->GetAllQueues(
+        UserID => $Param{UserID},
+        Type   => 'rw',
+    );
+
+    # 'ro' is the default permission if no queue is given and parameter 'Default' is not set.
+    my $DefaultPermission = $Param{Default} || 'ro';
+
+    return $DefaultPermission if !IsArrayRefWithData( $Param{QueueIDs} );
+
+    # final permission is rw or '' if all are of that kind, else ro
+    my $Permission;
+    QUEUE:
+    for my $QueueID ( @{ $Param{QueueIDs} } ) {
+        if ( !defined $Permission ) {
+            if ( $RwQueues{$QueueID} ) {
+                $Permission = 'rw';
+            }
+            elsif ( $RoQueues{$QueueID} ) {
+                $Permission = 'ro';
+                last QUEUE;
+            }
+            else {
+                $Permission = '';
+            }
+        }
+
+        elsif ( $Permission eq '' ) {
+            if ( $RwQueues{$QueueID} || $RwQueues{$QueueID} ) {
+                $Permission = 'ro';
+                last QUEUE;
+            }
+        }
+
+        elsif ( !$RwQueues{$QueueID} ) {
+            $Permission = 'ro';
+            last QUEUE;
+        }
+    }
+
+    return $Permission;
 }
 
 1;

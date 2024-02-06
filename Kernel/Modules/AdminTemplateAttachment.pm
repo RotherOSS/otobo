@@ -30,6 +30,10 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    if ( !$Param{AccessRw} && $Param{AccessRo} ) {
+        $Self->{LightAdmin} = 1;
+    }
+
     return $Self;
 }
 
@@ -40,6 +44,7 @@ sub Run {
     my $LayoutObject           = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
     my $StdAttachmentObject    = $Kernel::OM->Get('Kernel::System::StdAttachment');
+    my $QueueObject            = $Kernel::OM->Get('Kernel::System::Queue');
 
     # ------------------------------------------------------------ #
     # template <-> attachment 1:n
@@ -58,6 +63,34 @@ sub Run {
         my %Member = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
             StandardTemplateID => $ID,
         );
+
+        if ( $Self->{LightAdmin} ) {
+
+            # Filter out attachments without permission.
+            if (%StdAttachmentData) {
+                for my $StdAttachmentID ( sort keys %StdAttachmentData ) {
+                    my $Permission = $StdAttachmentObject->StdAttachmentStandardTemplatePermission(
+                        ID     => $StdAttachmentID,
+                        UserID => $Self->{UserID},
+                    );
+                    if ( $Permission ne 'rw' ) {
+                        delete $StdAttachmentData{$StdAttachmentID};
+                    }
+                }
+            }
+
+            my %Queues     = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $ID );
+            my $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+
+            if ( $Permission ne 'rw' ) {
+                undef %StandardTemplateData;
+                undef %Member;
+            }
+        }
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -100,6 +133,32 @@ sub Run {
         my %Member = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
             AttachmentID => $ID,
         );
+
+        if ( $Self->{LightAdmin} ) {
+
+            # Filter out templates without permission.
+            for my $StandardTemplateID ( keys %StandardTemplateData ) {
+                my %Queues     = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $StandardTemplateID );
+                my $Permission = $QueueObject->QueueListPermission(
+                    QueueIDs => [ keys %Queues ],
+                    UserID   => $Self->{UserID},
+                    Default  => 'rw',
+                );
+                if ( $Permission ne 'rw' ) {
+                    delete $StandardTemplateData{$StandardTemplateID};
+                }
+            }
+
+            # Check the permission.
+            my $Permission = $StdAttachmentObject->StdAttachmentStandardTemplatePermission(
+                ID     => $ID,
+                UserID => $Self->{UserID},
+            );
+            if ( $Permission ne 'rw' ) {
+                undef %StdAttachmentData;
+                undef %Member;
+            }
+        }
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -304,6 +363,7 @@ sub _Overview {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -322,6 +382,19 @@ sub _Overview {
     my %StandardTemplateData = $StandardTemplateObject->StandardTemplateList(
         Valid => 1,
     );
+    if ( $Self->{LightAdmin} && %StandardTemplateData ) {
+        for my $StandardTemplateID ( sort keys %StandardTemplateData ) {
+            my %Queues     = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $StandardTemplateID );
+            my $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+            if ( $Permission ne 'rw' ) {
+                delete $StandardTemplateData{$StandardTemplateID};
+            }
+        }
+    }
 
     # if there are any templates, they are shown
     if (%StandardTemplateData) {
@@ -360,6 +433,17 @@ sub _Overview {
 
     # get queue data
     my %StdAttachmentData = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentList( Valid => 1 );
+    if ( $Self->{LightAdmin} && %StdAttachmentData ) {
+        for my $StdAttachmentID ( sort keys %StdAttachmentData ) {
+            my $Permission = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentStandardTemplatePermission(
+                ID     => $StdAttachmentID,
+                UserID => $Self->{UserID},
+            );
+            if ( $Permission ne 'rw' ) {
+                delete $StdAttachmentData{$StdAttachmentID};
+            }
+        }
+    }
 
     # if there are any attachments, they are shown
     if (%StdAttachmentData) {
