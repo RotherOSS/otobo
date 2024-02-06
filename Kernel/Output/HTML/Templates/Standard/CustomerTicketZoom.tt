@@ -15,7 +15,7 @@
 # --
 
 <div id='oooContent' class="TicketZoom ARIARoleMain">
-    <div id='oooHeader'>
+    <div id='oooHeader'[% IF Data.TicketInfoPermanent %] class="oooTicketInfoPermanent"[% END %]>
         <div class='oooWithSub'>
             <h2 title="[% Data.Title | html %]">[% Data.Title | html %]</h2>
             <p class="ooo12g" title="[% Config('Ticket::Hook') %][% Config('Ticket::HookDivider') %][% Data.TicketNumber | html %]">[% Data.Hook %][% Config('Ticket::HookDivider') %][% Data.TicketNumber | html %]</p>
@@ -28,9 +28,12 @@
             [% END %]
         </div>
         <p class='ooo12'>[% Data.UserFirstname | html %] [% Data.UserLastname | html %]</p>
+[% IF Data.TicketInfoHeader %]
         <div class='oooInfoBlock'>
             <p class='oooInfo ooo12'><i class="ooofo ooofo-info"></i> <span>[% Translate('Information') | html %]</span></p>
+            [% INCLUDE "CustomerTicketZoom/TicketInfo.tt" %]
         </div>
+[% END %]
         <div>
 [% RenderBlockStart("ReplyButton") %]
         <button id="ReplyButton" class="DontPrint oooM"><span>[% Translate("Reply") | html %] </span><i class="ooofo ooofo-arrow_r2"></i></button>
@@ -67,7 +70,7 @@
         </div>
         <ul id='oooArticleList'>
         </ul>
-        <ul id='oooArticleListExpanded'>
+        <ul id='oooArticleListExpanded'[% IF Data.TicketInfoPermanent %] class="oooTicketInfoPermanent"[% END %]>
 [% RenderBlockStart("ProcessActivity") %]
             <li id="Process_[% Data.ActivityDialogEntityID | uri %]" class="Activity">
                 [% Data.ActivityHTML %]
@@ -180,89 +183,8 @@
             [% Data.Articles %]
 [% END %]
         </ul>
-        <div id='oooTicketInfo' class='oooWidget'>
-            <div class='oooWHead'>
-                <h2>[% Translate('Information') | html %]</h2>
-                <i class='ooofo ooofo-close oooClose'></i>
-            </div>
-            <div class="oooSection">
-                <h3>[% Translate('Ticket Information') | html %]</h3>
-[% RenderBlockStart("Type") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate('Type') | html %]:</span> [% Data.Type | html %]</p>
-[% RenderBlockEnd("Type") %]
-[% RenderBlockStart("Service") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate('Service') | html %]:</span> [% Translate(Data.Service) | html %]</p>
-[% RenderBlockEnd("Service") %]
-[% RenderBlockStart("SLA") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate('SLA') | html %]:</span> [% Translate(Data.SLA) | html %]</p>
-[% RenderBlockEnd("SLA") %]
-[% RenderBlockStart("State") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate('State') | html %]:</span> [% Translate(Data.State) | html %]</p>
-[% RenderBlockEnd("State") %]
-[% RenderBlockStart("Priority") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate('Priority') | html %]:</span> [% Translate(Data.Priority) | html %]</p>
-[% RenderBlockEnd("Priority") %]
-[% RenderBlockStart("Queue") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate('Queue') | html %]:</span> [% Data.Queue | html %]</p>
-[% RenderBlockEnd("Queue") %]
-[% RenderBlockStart("TicketTimeUnits") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate('Accounted time') | html %]:</span> [% Data.TicketTimeUnits | html %]</p>
-[% RenderBlockEnd("TicketTimeUnits") %]
-[% RenderBlockStart("Owner") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate('Owner') | html %]:</span> [% Data.OwnerName | html %]</p>
-[% RenderBlockEnd("Owner") %]
-[% RenderBlockStart("Responsible") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate('Responsible') | html %]:</span> [% Data.ResponsibleName | html %]</p>
-[% RenderBlockEnd("Responsible") %]
-[% RenderBlockStart("ProcessData") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate('Process') | html %]:</span> [% Data.Process | html %]</p>
-                <p class='ooo12'><span class='ooo12g'>[% Translate('Activity') | html %]:</span> [% Data.Activity | html %]</p>
-[% RenderBlockEnd("ProcessData") %]
-[% RenderBlockStart("TicketDynamicField") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate(Data.Label) | html %]:</span>
-[% RenderBlockStart("TicketDynamicFieldLink") %]
-                    <a href="[% Data.Link | Interpolate %]" class="DynamicFieldLink" [% IF Data.LinkPreview %] data-trigger="floater" data-floater-url="[% Data.LinkPreview | Interpolate %]"[% END %] target="_blank">[% Data.Value %]</a>
-[% RenderBlockEnd("TicketDynamicFieldLink") %]
-[% RenderBlockStart("TicketDynamicFieldPlain") %]
-                    [% Data.Value %]
-[% RenderBlockEnd("TicketDynamicFieldPlain") %]
-                </p>
-[% RenderBlockEnd("TicketDynamicField") %]
-            </div>
-[% RenderBlockStart("InfoCategories") %]
-            <div class="oooSection">
-                <h3>[% Translate('Categories') | html %]</h3>
-                <br/>
-[% RenderBlockStart("CategoriesI") %]
-            [% IF Data.Config.Link %]
-                [% IF Data.Config.Translate %]
-                    <a class="oooCategory ooo10" style="background-color:[% Data.Color | html %]" href="[% Data.Config.Link | Interpolate | html %]" target="_blank">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | Translate | html %]</a>
-                [% ELSE %]
-                    <a class="oooCategory ooo10" style="background-color:[% Data.Color | html %]" href="[% Data.Config.Link | Interpolate | html %]" target="_blank">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | html %]</a>
-                [% END %]
-            [% ELSE %]
-                [% IF Data.Config.Translate %]
-                    <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | Translate | html %]</p>
-                [% ELSE %]
-                    <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | html %]</p>
-                [% END %]
-            [% END %]
-[% RenderBlockEnd("CategoriesI") %]
-            </div>
-[% RenderBlockEnd("InfoCategories") %]
-        </div>
-        <div id='oooMore' class='oooWidget'>
-            <div class='oooWHead'>
-                <h2>[% Translate('Further actions') | html %]</h2>
-                <i class='ooofo ooofo-close oooClose'></i>
-            </div>
-            <div class="oooSection">
-[% RenderBlockStart("Print") %]
-                <a href="[% Env("Baselink") %]Action=CustomerTicketPrint;TicketID=[% Data.TicketID | uri %]" class="Print AsPopup" title="[% Translate("Print") | html %]">
-                    <i class="ooofo ooofo-print"></i><span>[% Translate("Print") | html %]</span>
-                </a>
-[% RenderBlockEnd("Print") %]
-            </div>
-        </div>
+[% IF Data.TicketInfoPermanent %]
+            [% INCLUDE "CustomerTicketZoom/TicketInfo.tt" %]
+[% END %]
     </div>
 </div>
