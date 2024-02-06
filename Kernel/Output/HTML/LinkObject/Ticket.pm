@@ -590,6 +590,7 @@ sub TableCreateComplex {
                     my $ValueStrg = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         Value              => $Value,
+                        HTMLOutput         => 0,
                         ValueMaxChars      => 20,
                         LayoutObject       => $Self->{LayoutObject},
                     );
