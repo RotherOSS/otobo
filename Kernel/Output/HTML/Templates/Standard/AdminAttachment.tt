@@ -116,10 +116,12 @@
                             <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
                             <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
                             <td class="Center">
+                            [% IF Data.Permission != 'ro' %]
                                 <a class="TrashCan AttachmentDelete" href="#" data-id="[% Data.ID %]" title="[% Translate("Delete this attachment") | html %]">
                                     [% Translate("Delete this attachment") | html %]
                                     <i class="fa fa-trash-o"></i>
                                 </a>
+                            [% END %]
                             </td>
                         </tr>
 [% RenderBlockEnd("OverviewResultRow") %]
@@ -201,7 +203,7 @@
                             <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc" maxlength="250"/>
                         </div>
                         <div class="Clear"></div>
-
+                        [% IF Data.Permission != 'ro' %]
                         <div class="Content">
                             <fieldset class="TableLike">
                                 <div class="Field SpacingTop SaveButtons">
@@ -219,6 +221,7 @@
                             </fieldset>
                         </div>
                         <div class="Clear"></div>
+                        [% END %]
                     </fieldset>
                 </form>
             </div>

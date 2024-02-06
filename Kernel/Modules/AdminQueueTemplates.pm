@@ -28,6 +28,10 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    if ( !$Param{AccessRw} && $Param{AccessRo} ) {
+        $Self->{LightAdmin} = 1;
+    }
+
     return $Self;
 }
 
@@ -59,6 +63,33 @@ sub Run {
         my $StandardTemplateType = $LayoutObject->{LanguageObject}->Translate(
             $StandardTemplateData{TemplateType},
         );
+
+        if ( $Self->{LightAdmin} ) {
+
+            # Filter out queues without permission.
+            my %RwQueues = $QueueObject->GetAllQueues(
+                UserID => $Self->{UserID},
+                Type   => 'rw',
+            );
+
+            for my $QueueID ( keys %QueueData ) {
+                delete $QueueData{$QueueID} if !$RwQueues{$QueueID};
+            }
+
+            # Check the permission.
+            my %Queues     = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $ID );
+            my $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+
+            if ( $Permission ne 'rw' ) {
+                undef %StandardTemplateData;
+                undef %Member;
+                $StandardTemplateType = '';
+            }
+        }
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -103,6 +134,33 @@ sub Run {
             QueueID => $ID,
         );
 
+        if ( $Self->{LightAdmin} ) {
+
+            # Filter out templates without permission.
+            for my $StandardTemplateID ( keys %StandardTemplateData ) {
+                my %Queues     = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $StandardTemplateID );
+                my $Permission = $QueueObject->QueueListPermission(
+                    QueueIDs => [ keys %Queues ],
+                    UserID   => $Self->{UserID},
+                    Default  => 'rw',
+                );
+                if ( $Permission ne 'rw' ) {
+                    delete $StandardTemplateData{$StandardTemplateID};
+                }
+            }
+
+            # Check the permission.
+            my %RwQueues = $QueueObject->GetAllQueues(
+                UserID => $Self->{UserID},
+                Type   => 'rw',
+            );
+
+            if ( !$RwQueues{$ID} ) {
+                undef %QueueData;
+                undef %Member;
+            }
+        }
+
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $Self->_Change(
@@ -132,6 +190,25 @@ sub Run {
 
         # create hash with selected templates
         my %TemplatesSelected = map { $_ => 1 } @TemplatesSelected;
+
+        if ( $Self->{LightAdmin} ) {
+            ID:
+            for my $StandardTemplateID ( keys %TemplatesSelected ) {
+                next ID if !$StandardTemplateID;    # Can contain empty string.
+
+                my %Queues     = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $StandardTemplateID );
+                my $Permission = $QueueObject->QueueListPermission(
+                    QueueIDs => [ keys %Queues ],
+                    UserID   => $Self->{UserID},
+                    Default  => 'rw',
+                );
+                if ( $Permission ne 'rw' ) {
+                    return $LayoutObject->Redirect(
+                        OP => "Action=$Self->{Action}"
+                    );
+                }
+            }
+        }
 
         # check all used templates
         for my $TemplateID (@TemplatesAll) {
@@ -180,6 +257,23 @@ sub Run {
 
         # create hash with selected queues
         my %QueuesSelected = map { $_ => 1 } @QueuesSelected;
+
+        # backend check to prevent saving without permission.
+        if ( $Self->{LightAdmin} ) {
+            my %RwQueues = $QueueObject->GetAllQueues(
+                UserID => $Self->{UserID},
+                Type   => 'rw',
+            );
+            ID:
+            for my $QueueID ( keys %QueuesSelected ) {
+                next ID if !$QueueID;    # Can contain empty string.
+                if ( !$RwQueues{$QueueID} ) {
+                    return $LayoutObject->Redirect(
+                        OP => "Action=$Self->{Action}"
+                    );
+                }
+            }
+        }
 
         # check all used queues
         for my $QueueID (@QueuesAll) {
@@ -327,6 +421,7 @@ sub _Overview {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -356,11 +451,23 @@ sub _Overview {
                 . ' - '
                 . $Data{Name};
         }
+        ID:
         for my $StandardTemplateID (
             sort { uc( $StandardTemplateData{$a} ) cmp uc( $StandardTemplateData{$b} ) }
             keys %StandardTemplateData
             )
         {
+            if ( $Self->{LightAdmin} ) {
+                my %Queues     = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $StandardTemplateID );
+                my $Permission = $QueueObject->QueueListPermission(
+                    QueueIDs => [ keys %Queues ],
+                    UserID   => $Self->{UserID},
+                    Default  => 'rw',
+                );
+                if ( $Permission ne 'rw' ) {
+                    next ID;
+                }
+            }
 
             # set output class
             $LayoutObject->Block(
@@ -384,6 +491,19 @@ sub _Overview {
 
     # get queue data
     my %QueueData = $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 1 );
+
+    if ( $Self->{LightAdmin} ) {
+
+        # Filter out queues without permission.
+        my %RwQueues = $QueueObject->GetAllQueues(
+            UserID => $Self->{UserID},
+            Type   => 'rw',
+        );
+
+        for my $QueueID ( keys %QueueData ) {
+            delete $QueueData{$QueueID} if !$RwQueues{$QueueID};
+        }
+    }
 
     # if there are results to show
     if (%QueueData) {

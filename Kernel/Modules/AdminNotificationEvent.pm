@@ -31,6 +31,10 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    if ( !$Param{AccessRw} && $Param{AccessRo} ) {
+        $Self->{LightAdmin} = 1;
+    }
+
     return $Self;
 }
 
@@ -38,6 +42,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
     my $RichText     = $ConfigObject->Get('Frontend::RichText');
     my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
@@ -68,6 +73,9 @@ sub Run {
     # get registered transport layers
     my %RegisteredTransports = %{ $Kernel::OM->Get('Kernel::Config')->Get('Notification::Transport') || {} };
 
+    # Get permission level.
+    my $Permission = $Self->{LightAdmin} ? '' : 'rw';
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
@@ -83,6 +91,25 @@ sub Run {
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+
+        if ( $Self->{LightAdmin} ) {
+            $Data{Permission} = $QueueObject->QueueListPermission(
+                QueueIDs => $Data{Data}{QueueID},
+                UserID   => $Self->{UserID},
+            );
+
+            # No permission for the notification.
+            if ( !$Data{Permission} ) {
+                %Data = ();
+            }
+            elsif ( $Data{Permission} eq 'ro' ) {
+                $Output .= $LayoutObject->Notify(
+                    Priority => 'Notice',
+                    Data     => $LayoutObject->{LanguageObject}->Translate('No permission to edit this ticket notification.'),
+                );
+            }
+        }
+
         $Output .= $LayoutObject->Notify( Info => Translatable('Notification updated!') )
             if ( $Notification && $Notification eq 'Update' );
         $Self->_Edit(
@@ -166,6 +193,19 @@ sub Run {
             }
             if ( !$Body || !$Check ) {
                 $GetParam{ $LanguageID . '_BodyServerError' } = "ServerError";
+                $Error = 1;
+            }
+        }
+
+        if ( $Self->{LightAdmin} ) {
+            $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => $GetParam{Data}->{QueueID},
+                UserID   => $Self->{UserID},
+            );
+
+            # Queue is mandatory and can only contain queues with 'rw' permission.
+            if ( !$GetParam{Data}->{QueueID} || $Permission ne 'rw' ) {
+                $GetParam{QueueIDServerError} = "ServerError";
                 $Error = 1;
             }
         }
@@ -414,6 +454,19 @@ sub Run {
             }
         }
 
+        if ( $Self->{LightAdmin} ) {
+            $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => $GetParam{Data}->{QueueID},
+                UserID   => $Self->{UserID},
+            );
+
+            # Queue is mandatory and can only contain queues with 'rw' permission.
+            if ( !$GetParam{Data}->{QueueID} || $Permission ne 'rw' ) {
+                $GetParam{QueueIDServerError} = "ServerError";
+                $Error = 1;
+            }
+        }
+
         # to store dynamic fields profile data
         my %DynamicFieldValues;
 
@@ -584,6 +637,23 @@ sub Run {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
+        if ( $Self->{LightAdmin} ) {
+            my %Notification = $NotificationEventObject->NotificationGet(
+                ID     => $GetParam{ID},
+                UserID => $Self->{UserID},
+            );
+
+            $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => $Notification{Data}{QueueID},
+                UserID   => $Self->{UserID},
+            );
+        }
+
+        # No permission to delete the notification.
+        if ( $Permission ne 'rw' ) {
+            return $LayoutObject->ErrorScreen();
+        }
+
         my $Delete = $NotificationEventObject->NotificationDelete(
             ID     => $GetParam{ID},
             UserID => $Self->{UserID},
@@ -612,7 +682,14 @@ sub Run {
                 UserID => $Self->{UserID},
             );
 
-            if ( !IsHashRefWithData( \%NotificationSingleData ) ) {
+            if ( $Self->{LightAdmin} ) {
+                $Permission = $QueueObject->QueueListPermission(
+                    QueueIDs => $NotificationSingleData{Data}{QueueID},
+                    UserID   => $Self->{UserID},
+                );
+            }
+
+            if ( !IsHashRefWithData( \%NotificationSingleData ) || $Permission ne 'rw' ) {
                 return $LayoutObject->ErrorScreen(
                     Message => $LayoutObject->{LanguageObject}->Translate( 'There was an error getting data for Notification with ID:%s!', $NotificationID ),
                 );
@@ -633,7 +710,18 @@ sub Run {
 
             my @Data;
             for my $ItemID ( sort keys %Notificationdetails ) {
-                push @Data, $Notificationdetails{$ItemID};
+
+                # filter out notifications without rw permission on all queues.
+                $Permission = $Self->{LightAdmin} ? '' : 'rw';
+                if ( $Self->{LightAdmin} ) {
+                    $Permission = $QueueObject->QueueListPermission(
+                        QueueIDs => $Notificationdetails{$ItemID}{Data}{QueueID},
+                        UserID   => $Self->{UserID},
+                    );
+                }
+                if ( $Permission eq 'rw' ) {
+                    push @Data, $Notificationdetails{$ItemID};
+                }
             }
             $NotificationData = \@Data;
         }
@@ -666,7 +754,14 @@ sub Run {
             ID     => $NotificationID,
             UserID => $Self->{UserID},
         );
-        if ( !IsHashRefWithData( \%NotificationData ) ) {
+
+        if ( $Self->{LightAdmin} ) {
+            $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => $NotificationData{Data}{QueueID},
+                UserID   => $Self->{UserID},
+            );
+        }
+        if ( !IsHashRefWithData( \%NotificationData ) || $Permission ne 'rw' ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Notification %s!', $NotificationID ),
             );
@@ -706,6 +801,30 @@ sub Run {
             Param  => 'FileUpload',
             Source => 'string',
         );
+
+        # import only works if user has 'rw' permission on all queues.
+        if ( $Self->{LightAdmin} ) {
+            my $Notifications = $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => $UploadStuff{Content} );
+
+            my $NoPermission;
+            NOTIFICATION:
+            for my $Notification ( @{$Notifications} ) {
+                $Permission = $QueueObject->QueueListPermission(
+                    QueueIDs => $Notification->{Data}->{QueueID},
+                    UserID   => $Self->{UserID},
+                );
+                if ( $Permission ne 'rw' ) {
+                    $NoPermission = 1;
+                    last NOTIFICATION;
+                }
+            }
+            if ($NoPermission) {
+                my $Message = $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', 'rw' );
+                return $LayoutObject->ErrorScreen(
+                    Message => $Message,
+                );
+            }
+        }
 
         my $OverwriteExistingNotifications = $ParamObject->GetParam( Param => 'OverwriteExistingNotifications' ) || '';
 
@@ -798,6 +917,7 @@ sub _Edit {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -931,6 +1051,53 @@ sub _Edit {
         OnChangeSubmit     => 0,
         Class              => 'Modernize W75pc',
     );
+
+    if ( $Self->{LightAdmin} ) {
+
+        # Make the queue field mandatory.
+        $Param{LightAdmin} = 1;
+
+        my %RoQueues = $QueueObject->GetAllQueues( UserID => $Self->{UserID} );
+        my %RwQueues = $QueueObject->GetAllQueues(
+            UserID => $Self->{UserID},
+            Type   => 'rw',
+        );
+
+        # Add disabled queues
+        my @DisabledQueues;
+        my @VisibleSelected;
+        if ( IsArrayRefWithData( $Param{Data}->{QueueID} ) ) {
+            for my $QueueID ( @{ $Param{Data}->{QueueID} } ) {
+                if ( $RwQueues{$QueueID} ) {
+                    push @VisibleSelected, $QueueID;
+                }
+
+                elsif ( $RoQueues{$QueueID} ) {
+
+                    # show the queue but disable it
+                    $RwQueues{$QueueID} = $RoQueues{$QueueID};
+
+                    # this can have the sideeffect that if the agent has rw on queue X::Y, but queue X gets added here,
+                    # X::Y will be disabled as part of the branch, too, but the agent cannot alter this notification anyways
+                    push @DisabledQueues,  $QueueID;
+                    push @VisibleSelected, $QueueID;
+                }
+
+                # else -> don't show queues you have no ro access
+            }
+        }
+
+        $Param{QueuesStrg} = $LayoutObject->BuildSelection(
+            Data           => \%RwQueues,
+            Size           => 5,
+            Multiple       => 1,
+            Name           => 'QueueID',
+            TreeView       => $TreeView,
+            SelectedID     => \@VisibleSelected,
+            DisabledBranch => \@DisabledQueues,
+            Class          => 'Modernize W75pc Validate_Required',
+        );
+    }
 
     $Param{PrioritiesStrg} = $LayoutObject->BuildSelection(
         Data => {
@@ -1489,11 +1656,22 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+        ID:
         for my $NotificationID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
             my %Data = $NotificationEventObject->NotificationGet(
                 ID => $NotificationID,
             );
+
+            if ( $Self->{LightAdmin} ) {
+                $Data{Permission} = $Kernel::OM->Get('Kernel::System::Queue')->QueueListPermission(
+                    QueueIDs => $Data{Data}{QueueID},
+                    UserID   => $Self->{UserID},
+                );
+
+                next ID if !$Data{Permission};
+            }
+
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {
