@@ -131,6 +131,7 @@ sub ValueSet {
 
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
         %Param,
+        ConfigItemHandled  => 0,
         DynamicFieldConfig => $AttributeDFConfig,
         ObjectID           => $ReferencedObjectID,
     );
