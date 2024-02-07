@@ -30,7 +30,7 @@ from an instance of L<HTTP::Request>.
 
 # CPAN modules
 use HTTP::Request::Common qw(POST);
-use HTTP::Request;
+use HTTP::Request         ();
 use Test2::V0;
 
 # OTOBO modules

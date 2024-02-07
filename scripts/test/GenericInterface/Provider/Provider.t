@@ -23,7 +23,7 @@ use utf8;
 
 # CPAN modules
 use LWP::UserAgent;
-use HTTP::Request;
+use HTTP::Request ();
 use Test2::V0;
 
 # OTOBO modules

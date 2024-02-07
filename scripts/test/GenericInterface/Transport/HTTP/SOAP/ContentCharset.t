@@ -23,7 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use HTTP::Request;
+use HTTP::Request ();
 
 # OTOBO modules
 use Kernel::System::ObjectManager ();

@@ -25,7 +25,7 @@ use namespace::autoclean;
 use MIME::Base64 qw(encode_base64);
 
 # CPAN modules
-use HTTP::Status;
+use HTTP::Status qw(status_message);
 use REST::Client;
 use URI::Escape;
 use Plack::Response;
@@ -260,8 +260,8 @@ sub ProviderProcessRequest {
     # Request bigger than allowed.
     if ( IsInteger( $Config->{MaxLength} ) && $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
-            Summary   => HTTP::Status::status_message(413),
-            HTTPError => 413,                                 # HTTP_PAYLOAD_TOO_LARGE
+            Summary   => status_message(413),
+            HTTPError => 413,                   # HTTP_PAYLOAD_TOO_LARGE
         );
     }
 

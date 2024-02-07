@@ -23,7 +23,7 @@ use utf8;
 # CPAN modules
 use Test2::V0;
 use Test2::Tools::HTTP;
-use HTTP::Request::Common;
+use HTTP::Request::Common qw(GET);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM

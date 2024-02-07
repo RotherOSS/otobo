@@ -21,7 +21,7 @@ use warnings;
 # core modules
 
 # CPAN modules
-use HTTP::Request::Common;
+use HTTP::Request::Common qw(POST);
 use LWP::UserAgent;
 use URI::Escape ();
 use Crypt::JWT  qw(decode_jwt);

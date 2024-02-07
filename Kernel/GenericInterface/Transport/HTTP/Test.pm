@@ -22,7 +22,7 @@ use v5.24;
 use namespace::autoclean;
 
 # core modules
-use HTTP::Request::Common;
+use HTTP::Request::Common qw(POST);
 use LWP::UserAgent;
 use LWP::Protocol;
 
@@ -175,7 +175,7 @@ sub ProviderGenerateResponse {
     else {
 
         # generate a request string from the data
-        my $Request = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
+        my $Request = POST( 'http://testhost.local/', Content => $Param{Data} );
 
         # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
         # there are no multi-byte characters in the delivered content. This is because the middleware
