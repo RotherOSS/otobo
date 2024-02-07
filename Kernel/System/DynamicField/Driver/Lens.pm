@@ -120,7 +120,7 @@ sub ValueSet {
     my $ReferencedObjectID = $Self->_GetReferencedObjectID(
         ObjectID               => $Param{ObjectID},
         LensDynamicFieldConfig => $LensDFConfig,
-        EditFieldValue         => 1,
+        EditFieldValue         => $LensDFConfig->{FieldType} eq 'Lens' ? 0 : 1,
     );
 
     return unless $ReferencedObjectID;
