@@ -2629,6 +2629,7 @@ sub _RenderDynamicField {
             Data => {
                 TemplateColumns => '1fr',
                 RowClasses      => ' MultiValue',
+                HiddenClass     => !$Param{Visibility} ? ' oooACLHidden' : '',
             },
         );
 
