@@ -107,7 +107,7 @@ use Sub::Util  qw(subname);
 
 # CPAN modules
 use Path::Class qw(file dir);
-use DBI;
+use DBI         qw();
 use Const::Fast qw(const);
 
 # OTOBO modules

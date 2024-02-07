@@ -28,7 +28,7 @@ use utf8;
 use Net::Domain qw(hostfqdn);
 
 # CPAN modules
-use DBI;
+use DBI                     ();
 use DBI::Const::GetInfoType ();    # set up %DBI::Const::GetInfoType::GetInfoType
 
 # OTOBO modules

@@ -28,7 +28,7 @@ use utf8;
 use List::Util qw(shuffle);
 
 # CPAN modules
-use DBI;
+use DBI ();
 use DBIx::Connector;
 
 # OTOBO modules
