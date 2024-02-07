@@ -249,7 +249,7 @@ button.oooM.ActivityStartButton {
         grid-template-columns: minmax(0px, 32.6fr) minmax(0px, 67.4fr);
         grid-column-gap: 24px;
         grid-template-rows: auto auto;
-        grid-row-gap: 24px;
+        grid-row-gap: 0px;
     }
 
     #oooArticleListExpanded.oooTicketInfoPermanent {
@@ -280,6 +280,7 @@ button.oooM.ActivityStartButton {
     #oooTicketInfo.oooTicketInfoPermanent {
         display: block;
         position: sticky;
+        margin-top: 24px;
         width: unset;
         max-width: unset;
         min-width: unset;
