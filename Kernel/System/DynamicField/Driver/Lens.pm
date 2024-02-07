@@ -120,7 +120,7 @@ sub ValueSet {
     my $ReferencedObjectID = $Self->_GetReferencedObjectID(
         ObjectID               => $Param{ObjectID},
         LensDynamicFieldConfig => $LensDFConfig,
-        EditFieldValue         => 1,
+        EditFieldValue         => $Param{EditFieldValue} // 1,
     );
 
     return unless $ReferencedObjectID;
@@ -132,6 +132,7 @@ sub ValueSet {
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
         %Param,
         ConfigItemHandled  => 0,
+        EditFieldValue     => 0,
         DynamicFieldConfig => $AttributeDFConfig,
         ObjectID           => $ReferencedObjectID,
     );
