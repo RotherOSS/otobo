@@ -107,6 +107,7 @@ sub _Add {
                 $GetParam{$ConfigKey} = $DFDetails->{$ConfigKey};
             }
         }
+        $GetParam{CloneFieldID} = $CloneFieldID;
     }
 
     for my $Needed (qw(ObjectType FieldType FieldOrder)) {
@@ -604,7 +605,7 @@ sub _ShowScreen {
     my $Namespace = $Param{Namespace};
     $Param{DisplayFieldName} = 'New';
 
-    if ( $Param{Mode} eq 'Change' || $Param{Name} ) {
+    if ( $Param{Mode} eq 'Change' || ( $Param{Name} && !$Param{CloneFieldID} ) ) {
         $Param{ShowWarning}      = 'ShowWarning';
         $Param{DisplayFieldName} = $Param{Name};
 
