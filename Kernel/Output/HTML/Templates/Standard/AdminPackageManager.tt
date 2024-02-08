@@ -342,7 +342,7 @@
                                 <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                                 <input type="hidden" name="Subaction" value="InstallUpload"/>
                                 <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
-                                <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required [% Data.FileUploadInvalid | html %]"/>
+                                <input name="FileUpload" id="FileUpload" type="file" accept=".opm" size="18" class="Fixed W100pc Validate_Required [% Data.FileUploadInvalid | html %]"/>
                                 <div id="FileUploadError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                 <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 [% RenderBlockStart("DatabasePackageSizeWarning") %]
