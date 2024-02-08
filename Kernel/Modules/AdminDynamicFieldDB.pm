@@ -259,7 +259,8 @@ sub _AddAction {
             %Param,
             %Errors,
             %GetParam,
-            Mode => 'Add',
+            PossibleValues => $PossibleValues,
+            Mode           => 'Add',
         );
     }
 
