@@ -575,8 +575,11 @@ sub EditFieldValueGet {
             }
 
             my @CheckedValues;
+            INDEX:
             for my $Index (@DataValues) {
-                $CheckedValues[$Index] = 1;
+                next INDEX unless $Index;
+
+                $CheckedValues[ $Index - 1 ] = 1;
             }
 
             for my $ValueIndex ( 0 .. $#DataUsed ) {

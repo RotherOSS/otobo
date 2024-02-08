@@ -2857,7 +2857,8 @@ Core.UI.InputFields = (function (TargetNS) {
                 });
             }
 
-            $('input[type="checkbox"]', $Cell).val(ValueRowIndex);
+            // increase index by 1 to avoid running into 0 vs. '' vs. undef problems in backend
+            $('input[type="checkbox"]', $Cell).val(ValueRowIndex + 1);
 
             // TODO Iterate only over fields in ValueRowCells
             // add ajax update handler to fields
