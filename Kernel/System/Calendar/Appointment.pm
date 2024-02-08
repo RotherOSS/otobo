@@ -22,7 +22,7 @@ use warnings;
 use parent qw(Kernel::System::EventHandler);
 
 # core modules
-use Digest::MD5;
+use Digest::MD5 ();
 
 # CPAN modules
 

@@ -18,8 +18,13 @@
 use strict;
 use warnings;
 
-use Digest::MD5;
+# core modules
+use Digest::MD5 ();
 use Pod::Usage;
+
+# CPAN modules
+
+# OTOBO modules
 
 if ( !$ARGV[0] ) {
     pod2usage();

@@ -28,7 +28,7 @@ use lib dirname($RealBin) . '/Custom';
 
 # core modules
 use Getopt::Std;
-use Digest::MD5 qw(md5_hex);
+use Digest::MD5 ();
 
 # CPAN modules
 

@@ -19,8 +19,11 @@ package Kernel::Output::HTML::TicketZoom::Customer::Base;
 use strict;
 use warnings;
 
-use Digest::MD5 qw(md5_hex);
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (

@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 # core modules
-use Digest::MD5;
+use Digest::MD5 ();
 
 # CPAN modules
 use XML::LibXML;

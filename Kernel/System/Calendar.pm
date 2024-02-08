@@ -22,7 +22,7 @@ use warnings;
 use parent qw(Kernel::System::EventHandler);
 
 # core modules
-use Digest::MD5;
+use Digest::MD5  ();
 use MIME::Base64 qw(decode_base64 encode_base64);
 
 # CPAN modules

@@ -22,7 +22,7 @@ use warnings;
 # core modules
 use Exporter qw(import);
 use File::stat;
-use Digest::MD5;
+use Digest::MD5 qw(md5_hex);
 
 # CPAN modules
 
@@ -570,7 +570,7 @@ sub LanguageChecksum {
         $LanguageString .= $File . $Stat->mtime;
     }
 
-    return Digest::MD5::md5_hex($LanguageString);
+    return md5_hex($LanguageString);
 }
 
 1;

@@ -24,7 +24,7 @@ use utf8;
 
 # core modules
 use File::stat;
-use Digest::MD5;
+use Digest::MD5 qw(md5_hex);
 
 # CPAN modules
 
@@ -437,7 +437,7 @@ sub LoaderCreateJavaScriptTemplateData {
     my $ChecksumInput = join
         '',
         map { $ChecksumData{$_} } sort keys %ChecksumData;
-    my $TemplateChecksum = Digest::MD5::md5_hex($ChecksumInput);
+    my $TemplateChecksum = md5_hex($ChecksumInput);
 
     # remember the checksum, so that in the next iteration in doesn't have to be recomputed
     $CacheObject->Set(

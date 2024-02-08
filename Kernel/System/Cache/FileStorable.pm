@@ -21,7 +21,7 @@ use warnings;
 
 # core modules
 use POSIX       ();
-use Digest::MD5 ();
+use Digest::MD5 qw(md5_hex);
 use File::Path  ();
 use File::Find  ();
 
@@ -285,7 +285,7 @@ sub _GetFilenameAndCacheDirectory {
 
     my $Filename = $Param{Key};
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Filename );
-    $Filename = Digest::MD5::md5_hex($Filename);
+    $Filename = md5_hex($Filename);
 
     my $CacheDirectory = $Self->{CacheDirectory} . '/' . $Param{Type};
 

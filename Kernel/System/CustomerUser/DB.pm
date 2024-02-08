@@ -19,10 +19,14 @@ package Kernel::System::CustomerUser::DB;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-
-use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
+# core modules
 use Digest::SHA;
+
+# CPAN modules
+use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt );
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 use Kernel::System::VariableCheck qw(:all);
 
