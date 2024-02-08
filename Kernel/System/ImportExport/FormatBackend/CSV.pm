@@ -25,7 +25,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Text::CSV;
+use Text::CSV ();
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);

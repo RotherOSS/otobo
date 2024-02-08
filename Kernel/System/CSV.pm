@@ -23,7 +23,7 @@ use warnings;
 # core modules
 
 # CPAN modules
-use Text::CSV;
+use Text::CSV ();
 use Excel::Writer::XLSX;
 
 # OTOBO modules
