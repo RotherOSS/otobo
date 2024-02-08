@@ -20,9 +20,13 @@ use strict;
 use warnings;
 use utf8;
 
-use Kernel::Language;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::ModuleRefresh;
+use Kernel::System::ModuleRefresh ();
 
 our @ObjectDependencies = (
     'Kernel::Config',

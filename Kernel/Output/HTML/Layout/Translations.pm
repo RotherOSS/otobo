@@ -19,8 +19,11 @@ package Kernel::Output::HTML::Layout::Translations;
 use strict;
 use warnings;
 
-use Kernel::Language              qw(Translatable);
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
