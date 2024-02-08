@@ -466,12 +466,12 @@ thead .headerSortDown a {
 }
 
 .TableSmall td a.DynamicFieldLink {
-    color: #FF7722;
+    color: revert;
 }
 
 .TableSmall tr:hover td a.DynamicFieldLink,
 .TableSmall tr.Active td a.DynamicFieldLink {
-    color: #FFFFFF;
+    color: #00023c;
 }
 
 .TableSmall tr:nth-child(even) td {
