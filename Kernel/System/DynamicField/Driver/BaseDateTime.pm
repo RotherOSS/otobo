@@ -438,10 +438,10 @@ sub EditFieldValueGet {
                 $Data{$Type} = \@ValueColumn;
             }
 
-            # NOTE used data in multivalue case come as value index (e.g. 1, 2, 3, ...)
-            #   this is for the purpose to identify unchecked values (e.g. 0, 2, 4, ...)
-            #   the shift by 1 was introduced to avoid problems with Used => 0 vs. '' vs. undef
+            # NOTE used data in multivalue case come as value index (e.g. 1, 3, 5, ...)
+            #   this is for the purpose to identify unchecked values (e.g. 2, 4, ...)
             #   so, every index arriving here means that the corresponding value was checked and is therefor set to Used => 1
+            #   note that the index in the following loop is shifted by one
             my @Used;
             INDEX:
             for my $Index ( $Data{Used}->@* ) {
