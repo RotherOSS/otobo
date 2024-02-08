@@ -1,0 +1,327 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Translation Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Translation Management'),
+                Link => Env("Action") _ ";UserLanguage=" _ Data.UserLanguage,
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Action %]
+        [% CASE 'Add' %]
+            [% BreadcrumbPath.push({ Name => Translate('Add Translations'),}) %]
+        [% CASE 'Change' %]
+            [% USE EditTitle = String(Translate("Edit Translations")) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( Data.Which ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
+    <div class="SidebarColumn">
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];UserLanguage=[% Data.UserLanguage | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+
+[% RenderBlockStart("ActionLanguage") %]
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" id="LangSelection">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="Overview"/>
+                            <div>
+                                <label for="UserLanguages">[% Translate("Language") | html %]:</label>
+                            </div>
+                            <div class="ActionLanguage">
+                                [% Data.UserLanguagesStrg %]
+                            </div>
+                        </form>
+                    </li>
+[% RenderBlockEnd("ActionLanguage") %]
+
+[% RenderBlockStart("ActionAdd") %]
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="Add"/>
+                            <input type="hidden" name="UserLanguage" value="[% Data.UserLanguage | html %]"/>
+                            <input type="hidden" name="UserLanguageLabel" value="[% Data.UserLanguageLabel | html %]"/>
+
+                            <button class="CallForAction Fullsize Center" type="submit"><span><i class="fa fa-plus-square"></i> [% Translate("Add Translations") | html %]</span></button>
+                        </form>
+                    </li>
+[% RenderBlockEnd("ActionAdd") %]
+[% RenderBlockStart("ActionEdit") %]
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="Change"/>
+                            <input type="hidden" name="UserLanguage" value="[% Data.UserLanguage | html %]"/>
+                            <input type="hidden" name="UserLanguageLabel" value="[% Data.UserLanguageLabel | html %]"/>
+
+                            <button class="CallForAction Fullsize Center" type="submit"><span><i class="fa fa-cog"></i> [% Translate("Edit Translations") | html %]</span></button>
+                        </form>
+                    </li>
+[% RenderBlockEnd("ActionEdit") %]
+[% RenderBlockStart("ActionDeploy") %]
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="Deploy"/>
+                            <input type="hidden" name="UserLanguage" value="[% Data.UserLanguage | html %]"/>
+
+                            <button class="CallForAction Fullsize Center" type="submit" onclick="Core.Agent.Admin.Translations.Deploy(); return false;"><span><i class="fa fa-rocket"></i> [% Translate("Deploy Translations") | html %]</span></button>
+                        </form>
+                    </li>
+[% RenderBlockEnd("ActionDeploy") %]
+                </ul>
+
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+
+[% RenderBlockStart("ActionLegend") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Translation States") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>
+                    <i class="fa fa-star ItemNew"></i> [% Translate("New Translation") | html %]<br>
+                    <i class="fa fa-pencil"></i> [% Translate("Editing Translation") | html %]<br>
+                    <i class="fa fa-eraser"></i> [% Translate("Translation Marked for Deletion") | html %]<br>
+                    <i class="fa fa-check ItemDeployed"></i> [% Translate("Deployed Translation") | html %]
+                </p>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>
+                [% Translate("Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.") | html %]
+                </p>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionLegend") %]
+
+[% RenderBlockStart("ActionHints") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>
+                [% IF Data.Action == 'Add' %]
+                    [% Translate("Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.") | html %]
+                [% ELSE %]
+                    [% Translate("Edit active translations using provided text fields!") | html %]
+                [% END %]
+                </p>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionHints") %]
+
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+
+[% RenderBlockStart("OverviewHeader") %]
+            <div class="Header">
+                <div class="SpacingTop HeaderLangSpacing">
+                    <i class="fa fa-language TitleLangIcon" title="[% Translate("List custom translations for") | html %]: [% Data.UserLanguageLabel | html %]"/></i> <span class="LabelLangTitle">[% Data.UserLanguageLabel | html %]</span>
+                </div>
+            </div>
+[% RenderBlockEnd("OverviewHeader") %]
+
+[% RenderBlockStart("FormOverviewData") %]
+                <form action="[% Env("CGIHandle") %]" method="post" id="FormOverviewData">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" id="Subaction" value=""/>
+                    <input type="hidden" name="LanguageID" value="[% Data.UserLanguage %]"/>
+                    <input type="hidden" name="DeleteID" id="DeleteID" value=""/>
+                    <input type="hidden" name="Content" id="Content" value=""/>
+                    <input type="hidden" name="Translation" id="Translation" value=""/>
+                    <input type="hidden" name="Mark" id="Mark" value="1"/>
+                    <input type="hidden" name="DeployHeader" id="DeployHeader" value="[% Translate(Data.DeployHeader) | html %]">
+                </form>
+[% RenderBlockEnd("FormOverviewData") %]
+
+[% RenderBlockStart("OverviewResult") %]
+            <form action="[% Env("CGIHandle") %]" method="post" id="FormChangeData">
+                <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                <input type="hidden" name="Subaction" id="Subaction" value="Change"/>
+                <input type="hidden" name="LanguageID" value="[% Data.UserLanguage %]"/>
+                <input type="hidden" name="EditContent" id="EditContent" value=""/>
+                <input type="hidden" name="EditTranslation" id="EditTranslation" value=""/>
+                <input type="hidden" name="ID" id="ID" value=""/>
+            </form>
+            <div class="Content">
+
+            <div class="Header HeaderLangSpacing">
+                [% IF Data.Form == "UndoForm" %]
+                    <span class="HeaderLangTitle">[% Translate("Draft Translations") | html %] ([% Data.Total | html %])</span> |  <span class="FilterLang">[% Translate("Filter") | html %]:</span>
+                    <input type="text" id="FilterDraftTranslations" class="OverFilterBox FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterDraftTranslations" value="" title="[% Translate("Filter for Draft Translations") | html %]">
+                [% ELSE %]
+                    <span class="HeaderLangTitle">[% Translate("Active Translations") | html %] ([% Data.Total | html %])</span> | <span class="FilterLang">[% Translate("Filter") | html %]:</span>
+                    <input type="text" id="FilterTranslations" class="OverFilterBox FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterTranslations" value="" title="[% Translate("Filter for Active Translations") | html %]">
+                [% END %]
+            </div>
+
+                <table class="DataTable" id="[% Data.Table | html %]">
+                    <thead>
+                        <tr>
+                            <th class="Center StatusCell">[% Translate("State") | html %]</th>
+                            <th class="Center">[% Translate("Content") | html %]</th>
+                            <th class="Center">[% Translate("Translation") | html %]</th>
+                            <th class="Center">[% Translate("Delete") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <tr>
+                            <td colspan="[% Data.ColSpan | html %]">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+
+[% RenderBlockStart("OverviewResultRow") %]
+                        <tr>
+                            [% IF Data.Flag == "d" %]
+                                <td class="Center FlagDelete"><i title="[% Translate("Marked for Deletion") | html %]" class="fa fa-eraser"></i></td>
+                            [% ELSIF Data.Flag == "n" %]
+                                <td class="Center"><i title="[% Translate("New Translation") | html %]" class="fa fa-star ItemNew"></i></td>
+                            [% ELSIF Data.Flag == "e" %]
+                                <td class="Center"><i title="[% Translate("Editing Translation") | html %]" class="fa fa-pencil"></i></td>
+                            [% ELSE %]
+                                <td class="Center"><i title="[% Translate("Deployed Translation") | html %]" class="fa fa-check ItemDeployed"></i></td>
+                            [% END %]
+
+                            <td [% IF Data.Flag == "d" %] class="FlagDelete" [%END%]>
+                                [% IF Data.ID != "" && Data.Flag != "d" %]
+                                    <a class="AsBlock iCursor" onclick="Core.Agent.Admin.Translations.EditSingleTranslation('[% Data.ID | html %]', '[% Data.ContentQuoted | html %]', '[% Data.TranslationQuoted | html %]');" title="[% Translate('Edit Translation') | html %]">[% Data.Content | html %]</a>
+                                [% ELSE %]
+                                    [% Data.Content | html %]
+                                [% END %]
+
+                                [% IF Data.Overwrite == "1" %]
+                                    <span id="Overwrite">[% Translate('Overwrites OTOBO translation') | html %]</span>
+                                [% END %]
+                            </td>
+                            <td [% IF Data.Flag == "d" %] class="FlagDelete" [%END%]>[% Data.Translation | html %]</td>
+                            <td class="Center [% IF Data.Flag == "d" %] FlagDelete [%END%]">
+                               [% IF Data.Flag == "d" %]
+                                    <a class="AsBlock iCursor" onclick="Core.Agent.Admin.Translations.UndoDelete('[% Data.ContentQuoted | html %]');"  title="[% Translate("Undo Delete Translation") | html %]"><i class="fa fa-undo"></i></a>
+                               [% ELSE %]
+                                    [% IF Data.ID != "Edit" && Data.ID != "" %]
+                                        <a class="AsBlock iCursor" onclick="Core.Agent.Admin.Translations.Delete('[% Data.ID | html %]','[% Data.ContentQuoted | html %]', '[% Data.TranslationQuoted | html %]');" title="[% Translate("Delete Translation") | html %]"><i class="fa fa-trash"></i></a>
+                                    [% ELSE %]
+                                        [% IF Data.Flag == "" %]
+                                            <a class="AsBlock iCursor" onclick="Core.Agent.Admin.Translations.Delete('','[% Data.ContentQuoted | html %]', '[% Data.TranslationQuoted | html %]');" title="[% Translate("Delete Translation") | html %]"><i class="fa fa-trash"></i></a>
+                                        [% ELSE %]
+                                            <span class="Center">-</span>
+                                        [% END %]
+                                    [% END %]
+                               [% END %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("OverviewResultRow") %]
+
+                    </tbody>
+                </table>
+            </div>
+[% RenderBlockEnd("OverviewResult") %]
+
+[% RenderBlockStart("OverviewUpdate") %]
+            <div class="Header">
+                [% IF Data.Action == 'Add' %]
+                    <h2>[% Translate("Add Translations") | html %]</h2>
+                [% ELSE %]
+                    <h2>[% Translate("Edit Translations") | html %]</h2>
+                [% END %]
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" name="compose" id="Compose"  class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" id="Subaction" value="[% Data.Action | html %]Action"/>
+                    <input type="hidden" name="LanguageID" value="[% Data.UserLanguage %]"/>
+                    <input type="hidden" name="UserLanguageLabel" value="[% Data.UserLanguageLabel | html %]"/>
+
+                    [% IF Data.Action == 'Change' %]
+                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    [% END %]
+                    <fieldset class="TableLike">
+                        <label for="Name">[% Translate("Language") | html %]:</label>
+                        <div class="Field">
+                            <b>[% Data.UserLanguageLabel | html %]</b>
+                        </div>
+                        <div class="Clear"></div>
+
+                        [% IF Data.Action == 'Add' %]
+                            <label class="Mandatory" for="Object"><span class="Marker">*</span> [% Translate("Object") | html %]:</label>
+                            <div class="Field">
+                                [% Data.ObjectStrg %]
+                                <div id="ObjectError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="ObjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            </div>
+                            <div class="Clear"></div>
+                        [% END %]
+
+                        <div class="Row [% Data.CCSFieldContainer | html %]" id="FieldContainer">[% Data.ErrorFieldContainer %]</div>
+                        <div class="Row [% Data.CCSFieldContainerSingle | html %]" id="FieldContainerSingle">[% Data.FieldContainerSingleData %]</div>
+
+                        <div id="TranslationTableContainer" class="Row [% Data.CCSTranslationTableContainer | html %]">
+                            <label class="Mandatory" for="Translations"><span class="Marker">*</span> [% Translate("Translations") | html %]:</label>
+                            <div class="Field" id="DataContainer">[% Data.TableContainerData %]</div>
+                            <div class="Clear"></div>
+                        </div>
+
+                        <div class="Field SpacingTop">
+                            <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];UserLanguage=[% Data.UserLanguage | uri %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                    <input type="hidden" name="ErrorHeader" id="ErrorHeader" value="[% Translate(Data.ErrorHeader) | html %]">
+                    <input type="hidden" name="ErrorText" id="ErrorText" value="[% Translate(Data.ErrorText) | html %]">
+                    <input type="hidden" name="ErrorTextEditTable" id="ErrorTextEditTable" value="[% Translate(Data.ErrorTextEditTable) | html %]">
+                </form>
+            </div>
+[% RenderBlockEnd("OverviewUpdate") %]
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

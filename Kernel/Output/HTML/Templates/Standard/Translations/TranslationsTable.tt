@@ -1,0 +1,56 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+    [% IF Data.Object  == "Edit" %]
+    <div class="FilterEdit">
+        <span class="FilterLangEdit">[% Translate("Filter Content") | html %]:</span>
+        <input type="text" id="FilterEditTranslations" class="OverFilterBox FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterEditTranslations" value="" title="[% Translate("Filter for Translations") | html %]">
+    </div>
+    [% END %]
+
+    <table class="DataTable" id="DraftTranslations">
+    <thead>
+        <tr>
+            <th class="Center">[% Translate("Content") | html %]</th>
+            <th class="Center">[% Translate("Translation") | html %]</th>
+        </tr>
+    </thead>
+    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+        <tr>
+            <td colspan="2">
+                [% Translate("No content available to translate.") | html %]
+            </td>
+        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("TableDataContent") %]
+        <tr>
+            <td>
+                [% Data.Content | html %]
+                <input type="hidden" name="TranslateInput_Content_[% Data.ID %]" id="TranslateInput_Content_[% Data.ID %]" value="[% Data.Content | html %]">
+            </td>
+            <td class="Center W50pc" NOWRAP>
+                <input type="text" class="TranslateInput" name="TranslateInput_[% Data.ID %]" id="TranslateInput_[% Data.ID %]" value="[% Data.Value | html %]">
+                <input type="hidden" name="TranslateInput_Old_[% Data.ID %]" id="TranslateInput_Old_[% Data.ID %]" value="[% Data.Value | html %]">
+            </td>
+        </tr>
+[% RenderBlockEnd("TableDataContent") %]
+    </tbody>
+</table>
+    <input type="hidden" name="ItemCount" id="ItemCount" value="[% Data.ItemCount | html %]">
+    <input type="hidden" name="WorkObject" id="WorkObject" value="[% Data.Object | html %]">
+    <input type="hidden" name="CountNew" id="CountNew" value="[% Data.CountNew | html %]">
+    <input type="hidden" name="ExistingIDs" id="ExistingIDs" value="[% Data.ExistingIDs | html %]">

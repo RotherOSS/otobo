@@ -9995,4 +9995,134 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <!-- End Statistic Reports -->
+
+    <!-- Custom Translations -->
+    <Setting Name="Frontend::AdminModuleGroups###002-Translations" Required="1" Valid="1">
+        <Description Translatable="1">Defines available groups for the admin overview screen.</Description>
+        <Navigation>Frontend::Base::NavBarModule</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Translations">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Languages</Item>
+                        <Item Key="Order">4500</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###AdminTranslations" Required="1" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Translations</Item>
+                <Item Key="Block">Translations</Item>
+                <Item Key="Description" Translatable="1">Create and manage custom translations.</Item>
+                <Item Key="IconBig">fa-language</Item>
+                <Item Key="IconSmall"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminTranslations" Required="1" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Translations</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminTranslations###002-Translations" Required="1" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Translations.Admin.Default.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.Translations.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::TranslationsDebug" Required="1" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Enables or disables the debug mode for translations module.</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+
+    <Setting Name="Translations::ObjectList" Required="1" Valid="1">
+        <Description Translatable="1">Defines the data objects avaliable to be translated.</Description>
+        <Navigation>Core::Translations</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DynamicFieldLabel" Translatable="1">Dynamic Field Labels</Item>
+                <Item Key="DynamicFieldContent" Translatable="1">Dynamic Field Contents</Item>
+                <Item Key="GeneralLabel" Translatable="1">General Label</Item>
+                <Item Key="Priority" Translatable="1">Priorities</Item>
+                <Item Key="Queue" Translatable="1">Queues</Item>
+                <Item Key="Service" Translatable="1">Services</Item>
+                <Item Key="SLA" Translatable="1">SLAs</Item>
+                <Item Key="Template" Translatable="1">Templates</Item>
+                <Item Key="State" Translatable="1">Ticket States</Item>
+                <Item Key="Type" Translatable="1">Ticket Types</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Translations::AllowModifyAll" Required="1" Valid="1">
+        <Description Translatable="1">Defines if user can modify all possible values/labels of dynamic fields in one data table.</Description>
+        <Navigation>Core::Translations</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::ObjectBackendRegistration###Translations" Required="1" Valid="1">
+        <Description Translatable="1">Object backend module registration for the import/export module.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::ImportExport::ObjectBackend::Translations</Item>
+                <Item Key="Name">Translations</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::TranslationsImportExport::ForceCSVMappingRecreation" Required="1" Valid="1">
+        <Description Translatable="1">Defines if CSV-mappings are re-created on next package reinstallation or upgrade if already existent.</Description>
+        <Navigation>Core::ImportExport::TranslationsImportExport</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+
 </otobo_config>
