@@ -2116,8 +2116,8 @@
     <Column Name="mask" Required="true" PrimaryKey="true" Type="VARCHAR" Size="80" />
     <Column Name="definition" Required="true" Type="LONGBLOB" />
     <Column Name="dynamic_field" Required="true" Type="LONGBLOB" />
-    <Column Name="create_time" Required="false" Type="DATE" />
-    <Column Name="create_by" Required="false" Type="INTEGER" />
+    <Column Name="create_time" Required="true" Type="DATE" />
+    <Column Name="create_by" Required="true" Type="INTEGER" />
 </Table>
 
 <Table Name="pm_process">
@@ -2838,6 +2838,27 @@
     <Column Name="data_value" Required="true" Size="200" Type="VARCHAR" />
     <Index Name="imexport_search_template_id">
         <IndexColumn Name="template_id" />
+    </Index>
+</Table>
+
+<!-- Translations -->
+<Table Name="translation_item">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+    <Column Name="language" Required="true" Size="50" Type="VARCHAR" />
+    <Column Name="content" Required="true" Size="600" Type="VARCHAR" />
+    <Column Name="translation" Required="true" Size="600" Type="VARCHAR" />
+    <Column Name="flag" Required="true" Size="1" Type="VARCHAR" />
+    <Column Name="create_by" Required="true" Type="INTEGER" />
+    <Column Name="create_time" Required="true" Type="DATE" />
+    <Column Name="change_by" Required="true" Type="INTEGER" />
+    <Column Name="change_time" Required="true" Type="DATE" />
+    <Column Name="deployed" Required="false" Type="SMALLINT" />
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id" />
+        <Reference Local="change_by" Foreign="id" />
+    </ForeignKey>
+    <Index Name="translation_item_language">
+        <IndexColumn Name="language" />
     </Index>
 </Table>
 

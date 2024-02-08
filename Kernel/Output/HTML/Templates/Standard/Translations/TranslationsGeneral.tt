@@ -1,0 +1,36 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+[% RenderBlockStart("General") %]
+        <label class="Mandatory" for="Content"><span class="Marker">*</span> [% Translate("Content") | html %]:</label>
+        <div class="Field">
+            <input type="text" name="Content" id="Content" [% Data.Readonly | html %] value="[% Data.Content | html %]" class="W50pc [% Data.ContentInvalid | html %] Validate_Required" maxlength="200"/>
+            <div id="ContentError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+            <div id="ContentServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+        </div>
+        <div class="Clear"></div>
+
+        <label class="Mandatory" for="Translation"><span class="Marker">*</span> [% Translate("Translation") | html %]:</label>
+        <div class="Field">
+            <input type="text" name="Translation" id="Translation" value="[% Data.Value | html %]" class="W50pc [% Data.TranslationInvalid | html %] Validate_Required" maxlength="200"/>
+            <div id="TranslationError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+            <div id="TranslationServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+        </div>
+        <div class="Clear"></div>
+        <input type="hidden" name="WorkObject" id="WorkObject" value="[% Data.Object | html %]">
+        <input type="hidden" name="ID" id="ID" value="[% Data.ID | html %]">
+        <input type="hidden" name="OldTranslation" id="OldTranslation" value="[% Data.Value | html %]">
+[% RenderBlockEnd("General") %]

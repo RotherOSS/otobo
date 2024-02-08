@@ -1,0 +1,125 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ */
+
+/**
+ * @section     Translations Module
+ */
+
+.ActionLanguage {
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.StatusCell {
+  width: 5%;
+}
+
+.FlagDelete {
+  background-color: #fcdedc !important;
+  text-decoration: line-through;
+  color: #ff0000;
+}
+
+.ItemDeployed {
+  color: #10a703;
+}
+
+.ItemNew {
+  color: #F2BD0E;
+}
+
+.iCursor {
+  cursor: pointer;
+}
+
+.HeaderLangTitle {
+  width: 222px;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 14px;
+  color: #00023c;
+}
+
+.FilterLang {
+  font-weight: bold;
+  margin-left: 12px;
+}
+
+.HeaderLangSpacing {
+  margin-bottom: 10px;
+}
+
+.OverFilterBox {
+  width: 20% !important;
+  border-radius: 4px;
+  height: 25px !important;
+  left: 2px;
+  margin-left: 3px;
+}
+
+.LabelLangTitle {
+  position: relative;
+  top: -4px;
+  left: 8px;
+  font-size: 16px;
+  color: #00023c;
+  font-weight: bold;
+}
+
+.TitleLangIcon {
+  font-size: 20px !important;
+  position: relative;
+  left: 5px;
+  top: -1px;
+}
+
+#DraftTranslationsTable {
+  margin-bottom: 10px;
+}
+
+#DraftTranslations {
+  position: relative;
+  width: 75% !important;
+  top: -20px;
+}
+
+.TranslateInput {
+  margin: 3px;
+  width: 90% !important;
+}
+
+.FilterEdit {
+  position: relative;
+  margin-bottom: 30px;
+  line-height: 12px;
+}
+
+.FilterLangEdit {
+  font-weight: bold;
+}
+
+#Overwrite {
+  font-size: 11px;
+  width: 80px;
+  color: #ffffff;
+  background-color: #a3a3a3;
+  border-radius: 4px;
+  padding: 3px;
+}
