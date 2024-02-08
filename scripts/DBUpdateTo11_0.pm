@@ -72,6 +72,10 @@ sub Run {
             Name   => 'Update the list of installed packages',
             Module => 'UninstallMergedPackages',
         },
+        {
+            Name   => 'Add translation_item table.',
+            Module => 'DBAddTranslationItem',
+        },
     );
 
     TASK:
