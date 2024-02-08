@@ -438,12 +438,16 @@ sub EditFieldValueGet {
                 $Data{$Type} = \@ValueColumn;
             }
 
-            # NOTE used data in multivalue case come as value index (e.g. 0, 1, 2, ...)
+            # NOTE used data in multivalue case come as value index (e.g. 1, 2, 3, ...)
             #   this is for the purpose to identify unchecked values (e.g. 0, 2, 4, ...)
+            #   the shift by 1 was introduced to avoid problems with Used => 0 vs. '' vs. undef
             #   so, every index arriving here means that the corresponding value was checked and is therefor set to Used => 1
             my @Used;
+            INDEX:
             for my $Index ( $Data{Used}->@* ) {
-                $Used[$Index] = 1;
+                next INDEX unless $Index;
+
+                $Used[ $Index - 1 ] = 1;
             }
             $Data{Used} = \@Used;
 
@@ -451,7 +455,7 @@ sub EditFieldValueGet {
             for my $Index ( 0 .. $#{ $Data{Year} } ) {
                 my %ValueRow = ();
                 for my $Type (qw(Used Year Month Day Hour Minute)) {
-                    $ValueRow{ $Prefix . $Type } = $Data{$Type}[$Index];
+                    $ValueRow{ $Prefix . $Type } = $Data{$Type}[$Index] || 0;
                 }
                 push $Value->@*, \%ValueRow;
             }
@@ -462,7 +466,7 @@ sub EditFieldValueGet {
                 $ValueRow{ $Prefix . $Type } = $Param{ParamObject}->GetParam(
                     Param => $Prefix . $Type,
                 );
-                if ( $Type eq 'Used' && defined $ValueRow{ $Prefix . $Type } ) {
+                if ( $Type eq 'Used' && $ValueRow{ $Prefix . $Type } ) {
                     $ValueRow{ $Prefix . $Type } = 1;
                 }
                 $ValueRow{ $Prefix . $Type } ||= 0;
