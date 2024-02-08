@@ -76,7 +76,7 @@ add translation items
         Translation  => 'Rojo',
         UserID       => 1,
         Edit         => 0,
-        Deployed     => (1|0),      # (optional) whether translation has been deployed to file, defaults to 1
+        ImportParam  => (1|0),
     );
 
 Returns:
@@ -99,16 +99,14 @@ sub DraftTranslationsAdd {
         }
     }
 
-    $Param{Edit} ||= '';
-    $Param{Deployed} //= 1;
-    $Param{Deployed} = $Param{Deployed} ? 1 : 0;
-
+    $Param{Edit}        ||= '';
+    $Param{ImportParam} ||= 0;
     my $Flag = $Param{Edit} ? 'e' : 'n';
 
     my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL =>
-            "INSERT INTO translation_item (language, content, translation, flag, create_by, create_time, change_by, change_time, deployed) VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
-        Bind => [ \$Param{Language}, \$Param{Content}, \$Param{Translation}, \$Flag, \$Param{UserID}, \$Param{UserID}, \$Param{Deployed} ]
+            "INSERT INTO translation_item (language, content, translation, flag, create_by, create_time, change_by, change_time, import_param) VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+        Bind => [ \$Param{Language}, \$Param{Content}, \$Param{Translation}, \$Flag, \$Param{UserID}, \$Param{UserID}, \$Param{ImportParam} ]
     );
 
     return $Success;
@@ -161,7 +159,7 @@ get all draft translation items
     my $DraftTranslations = $TranslationsObject->DraftTranslationsGet(
         Language => 'en',
         Active   => 1, #1: Active, #0: Draft
-        Deployed => (0|1),
+        ImportParam => (0|1),
     );
 
 Returns:
@@ -177,7 +175,7 @@ Returns:
             CreateTime       => '2023-01-01 07:00:00',
             ChangeBy         => 1,
             ChangeTime       => '2023-01-01 07:00:00',
-            Deployed         => 0,
+            ImportParam      => 1,
         },
         ...
     ]
@@ -199,16 +197,14 @@ sub DraftTranslationsGet {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     my @DraftItems;
 
-    # map Deployed to either 1 or zero
-    $Param{Deployed} //= 1;
-    $Param{Deployed} = $Param{Deployed} ? 1 : 0;
+    $Param{ImportParam} ||= 0;
     my $Flag = $Param{Active} ? "'a'" : "'n','e','d'";
 
     return \@DraftItems
         if !$DBObject->Prepare(
             SQL =>
-            "SELECT id, language, content, translation, flag, create_by, create_time, change_by, change_time FROM translation_item WHERE language = ? and deployed = ? and flag in($Flag) ORDER BY flag, content ASC",
-            Bind => [ \$Param{Language}, \$Param{Deployed} ]
+            "SELECT id, language, content, translation, flag, create_by, create_time, change_by, change_time FROM translation_item WHERE language = ? and import_param = ? and flag in($Flag) ORDER BY flag, content ASC",
+            Bind => [ \$Param{Language}, \$Param{ImportParam} ]
         );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -286,7 +282,7 @@ sub DraftTranslationsExport {
 
     return \@DraftItems
         if !$DBObject->Prepare(
-            SQL => "SELECT distinct(content) FROM translation_item WHERE language in ($SQLIn) and deployed = 1 and flag = 'a' ORDER BY 1 ASC",
+            SQL => "SELECT distinct(content) FROM translation_item WHERE language in ($SQLIn) and import_param = 0 and flag = 'a' ORDER BY 1 ASC",
         );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -299,7 +295,7 @@ sub DraftTranslationsExport {
 
         for my $DestLang ( @{ $Param{Language} } ) {
             $DBObject->Prepare(
-                SQL  => "SELECT translation FROM translation_item WHERE language = ? and content = ? and deployed = 1 and flag = 'a' ORDER BY content ASC",
+                SQL  => "SELECT translation FROM translation_item WHERE language = ? and content = ? and import_param = 0 and flag = 'a' ORDER BY content ASC",
                 Bind => [ \$DestLang, \$Content ]
             );
 
@@ -410,7 +406,7 @@ sub DraftTranslationDelete {
 
         $Success = $DBObject->Do(
             SQL =>
-                "INSERT INTO translation_item (content, translation, language, flag, create_by, create_time, change_by, change_time, deployed) VALUES (?, ?, ?, 'd', ?, current_timestamp, ?, current_timestamp, 0)",
+                "INSERT INTO translation_item (content, translation, language, flag, create_by, create_time, change_by, change_time, import_param) VALUES (?, ?, ?, 'd', ?, current_timestamp, ?, current_timestamp, 0)",
             Bind =>
                 [ \$Param{Content}, \$Param{Translation}, \$Param{Language}, \$Param{UserID}, \$Param{UserID} ]
         );
@@ -595,7 +591,7 @@ write translation file
     my $Success = $TranslationsObject->WriteTranslationFile(
         UserLanguage => 'en',
         Data         => { .. } #Hash of Content/Translation values,
-        Deployed     => (0|1),
+        ImportParam  => (0|1),
     );
 
 Returns:
@@ -620,15 +616,14 @@ sub WriteTranslationFile {
     my $Data                = '';
     my $BreakLineAfterChars = 60;
     my $Home                = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    $Param{Deployed} //= 1;
-    $Param{Deployed} = $Param{Deployed} ? 1 : 0;
+    $Param{ImportParam} ||= 0;
 
     #Check if there are draft translations to write
     my @DraftTranslations = @{
         $Self->DraftTranslationsGet(
-            Language => $Param{UserLanguage},
-            Deployed => $Param{Deployed},
-            Active   => 0
+            Language    => $Param{UserLanguage},
+            ImportParam => $Param{ImportParam},
+            Active      => 0
         )
     };
 
@@ -648,9 +643,9 @@ sub WriteTranslationFile {
 
     my @LanguageData = @{
         $Self->DraftTranslationsGet(
-            Language => $Param{UserLanguage},
-            Deployed => 1,
-            Active   => 1
+            Language    => $Param{UserLanguage},
+            ImportParam => 1,
+            Active      => 1
         )
     };
 
@@ -688,14 +683,15 @@ sub WriteTranslationFile {
                 );
 
                 $Kernel::OM->Get('Kernel::System::DB')->Do(
-                    SQL => "UPDATE translation_item SET content = ?, translation = ?, deployed = 1, change_time = current_timestamp, create_by = ?, create_time = ?, flag = 'a'
+                    SQL =>
+                        "UPDATE translation_item SET content = ?, translation = ?, import_param = 0, change_time = current_timestamp, create_by = ?, create_time = ?, flag = 'a'
                             WHERE language = ? and content = ? and flag in('e','n')",
                     Bind => [ \$Item{Content}, \$Item{Translation}, \$CreateBy, \$CreateTime, \$Param{UserLanguage}, \$Source ]
                 );
             }
             else {
                 $Kernel::OM->Get('Kernel::System::DB')->Do(
-                    SQL  => "UPDATE translation_item SET content = ?, translation = ?, deployed = 1, flag = 'a' WHERE language = ? and content = ? and flag in('e','n')",
+                    SQL  => "UPDATE translation_item SET content = ?, translation = ?, import_param = 0, flag = 'a' WHERE language = ? and content = ? and flag in('e','n')",
                     Bind => [ \$Item{Content}, \$Item{Translation}, \$Param{UserLanguage}, \$Source ]
                 );
             }
