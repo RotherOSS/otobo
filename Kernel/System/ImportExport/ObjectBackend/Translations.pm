@@ -604,7 +604,7 @@ sub ImportDataSave {
         }
 
         # skip if nothing changed
-        next LANGUAGE if $Self->{ActiveTranslations}{$Language}{$SourceString} eq $NewTranslation{$Language};
+        next LANGUAGE if ( $Self->{ActiveTranslations}{$Language}{$SourceString} // '' ) eq $NewTranslation{$Language};
 
         if ( $Self->{DraftTranslations}{$Language}{$SourceString} ) {
             $LogObject->Log(
