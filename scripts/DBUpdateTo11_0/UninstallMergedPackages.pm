@@ -55,7 +55,11 @@ sub Run {
 
     # Uninstall, without running DatabaseUninstall and CodeUninstall
     my @MergedPackages = qw(
+        Ayte-CustomTranslations
         ImportExport
+        LightAdmin
+        QuickDateButtons
+        RotherOSS-LightAdmin
     );
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
     PACKAGENAME:
