@@ -25,8 +25,8 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Text::Diff;
-use Text::Diff::FormattedHTML;
+use Text::Diff                qw(diff);
+use Text::Diff::FormattedHTML qw(diff_strings);
 
 # OTOBO modules
 
@@ -64,7 +64,7 @@ sub new {
 
 =head2 Compare()
 
-Compare two strings and return diff.
+Compare two strings and return the difference.
 
     $DiffObject->Compare(
         Source => 'String 1',       # (required) String
@@ -118,7 +118,7 @@ sub Compare {
     $Result{HTML} =~ s{<td>(.[^<]*)<\/td>}{<td><span>$1</span></td>}xmsg;
 
     # Get plain diff.
-    $Result{Plain} = Text::Diff::diff( \$Param{Source}, \$Param{Target} );
+    $Result{Plain} = diff( \$Param{Source}, \$Param{Target} );
 
     return %Result;
 }

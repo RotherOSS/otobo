@@ -23,12 +23,12 @@ use warnings;
 # core modules
 
 # CPAN modules
-use Mail::Internet;
-use MIME::Parser;
-use MIME::QuotedPrint;
-use MIME::Base64  qw(decode_base64);
-use MIME::Words   qw(:all);
-use Mail::Address ();
+use Mail::Internet    ();
+use MIME::Parser      ();
+use MIME::QuotedPrint ();
+use MIME::Base64      qw(decode_base64);
+use MIME::Words       qw(decode_mimewords);
+use Mail::Address     ();
 
 # OTOBO modules
 
@@ -1062,7 +1062,6 @@ sub _DecodeString {
 
     $BufferedString = '';
 
-    # call MIME::Words::decode_mimewords()
     for my $Entry ( decode_mimewords( $Param{String} ) ) {
         if (
             $BufferedString ne ''

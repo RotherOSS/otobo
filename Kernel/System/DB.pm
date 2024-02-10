@@ -28,8 +28,8 @@ use utf8;
 use List::Util qw(shuffle);
 
 # CPAN modules
-use DBI ();
-use DBIx::Connector;
+use DBI             ();
+use DBIx::Connector ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);

@@ -28,7 +28,7 @@ use ExtUtils::MakeMaker;
 use File::Spec ();
 
 # CPAN modules
-use Sys::Hostname::Long;    # imports hostname_long()
+use Sys::Hostname::Long qw(hostname_long);
 
 # OTOBO modules
 

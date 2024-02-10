@@ -19,8 +19,12 @@ package Kernel::System::CronEvent;
 use strict;
 use warnings;
 
-use Schedule::Cron::Events;
+# core modules
 
+# CPAN modules
+use Schedule::Cron::Events ();
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (

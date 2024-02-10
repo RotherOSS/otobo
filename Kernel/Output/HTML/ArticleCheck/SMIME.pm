@@ -22,7 +22,7 @@ use warnings;
 # core modules
 
 # CPAN modules
-use MIME::Parser;
+use MIME::Parser ();
 
 # OTOBO modules
 use Kernel::System::EmailParser ();

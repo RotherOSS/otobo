@@ -21,6 +21,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use MIME::Parser ();
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
@@ -944,7 +945,6 @@ while (<$IN>) {
 }
 close($IN);
 
-use MIME::Parser;
 my $Parser = MIME::Parser->new();
 
 # prevents writing to filesystem

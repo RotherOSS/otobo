@@ -20,9 +20,9 @@ use strict;
 use warnings;
 
 # core modules
-use MIME::Parser;
 
 # CPAN modules
+use MIME::Parser ();
 
 # OTOBO modules
 use Kernel::System::EmailParser   ();

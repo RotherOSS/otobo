@@ -25,7 +25,7 @@ use namespace::autoclean;
 # core modules
 
 # CPAN modules
-use Text::Diff;
+use Text::Diff qw(diff);
 use Test2::API qw(context);
 
 # OTOBO modules
@@ -255,7 +255,7 @@ sub IsDeeply {
         my $TestDump     = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
         my $ShouldBeDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($ShouldBe);
         local $ENV{DIFF_OUTPUT_UNICODE} = 1;
-        my $Diff = Text::Diff::diff(
+        my $Diff = diff(
             \$TestDump,
             \$ShouldBeDump,
             {

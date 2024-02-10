@@ -24,9 +24,9 @@ use warnings;
 
 # CPAN modules
 use Mail::Address ();
-use MIME::Entity;
-use MIME::Parser;
-use MIME::Words;
+use MIME::Entity  ();
+use MIME::Parser  ();
+use MIME::Words   qw(encode_mimewords);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -990,7 +990,7 @@ sub _EncodeMIMEWords {
     # return if no content is given
     return '' if !defined $Param{Line};
 
-    return MIME::Words::encode_mimewords(
+    return encode_mimewords(
         Encode::encode(
             $Param{Charset},
             $Param{Line},
