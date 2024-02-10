@@ -24,7 +24,7 @@ use utf8;
 
 # core modules
 use POSIX qw(uname);
-use ExtUtils::MakeMaker;
+use ExtUtils::MakeMaker;    # makes MM->parse_version available ## no perlimports
 use File::Spec ();
 
 # CPAN modules
