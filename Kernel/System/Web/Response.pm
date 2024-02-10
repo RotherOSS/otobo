@@ -18,7 +18,7 @@ package Kernel::System::Web::Response;
 use strict;
 use warnings;
 use v5.24;
-use namespace::clean;
+use namespace::autoclean;
 use utf8;
 
 # core modules
