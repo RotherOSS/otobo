@@ -17,7 +17,12 @@ package Kernel::System::Cache::Redis;
 use strict;
 use warnings;
 
-use Encode;
+# core modules
+use Encode qw(encode);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
