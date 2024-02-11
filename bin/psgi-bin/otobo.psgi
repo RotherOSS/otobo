@@ -79,7 +79,7 @@ use lib "$Bin/../../Custom";
 # core modules
 use Cwd            qw(abs_path);
 use Data::Dumper   ();              ## no critic qw(Modules::ProhibitEvilModules)
-use Encode         qw(:all);
+use Encode         ();              ## no perlimports
 use File::Basename qw(dirname);
 use File::Path     qw(make_path);
 

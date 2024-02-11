@@ -21,7 +21,7 @@ use warnings;
 
 # core modules
 use MIME::Base64 qw(decode_base64);
-use Encode;
+use Encode       qw(resolve_alias);
 
 # CPAN modules
 use Mail::Address ();
@@ -1019,7 +1019,7 @@ sub ValidateCharset {
     return unless $Param{Charset};
 
     # check validity of the charset
-    return unless Encode::resolve_alias( $Param{Charset} );
+    return unless resolve_alias( $Param{Charset} );
 
     # charset is valid
     return 1;

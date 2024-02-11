@@ -29,7 +29,7 @@ use Data::Dumper qw(Dumper);    ## no critic qw(Modules::ProhibitEvilModules)
 use File::stat;
 use List::Util qw(first);
 use Fcntl      qw(:flock);
-use Encode;
+use Encode     qw(encode);
 
 # CPAN modules
 use Math::Random::Secure qw(irand);

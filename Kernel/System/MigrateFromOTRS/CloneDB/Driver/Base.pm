@@ -22,7 +22,6 @@ use v5.24;
 use namespace::autoclean;
 
 # core modules
-use Encode;
 use MIME::Base64 qw(decode_base64 encode_base64);
 use List::Util   qw(any none);
 use Fcntl        qw(:flock);
