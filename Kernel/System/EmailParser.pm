@@ -21,14 +21,14 @@ use strict;
 use warnings;
 
 # core modules
+use MIME::Base64      qw(decode_base64);
+use MIME::QuotedPrint ();
 
 # CPAN modules
-use Mail::Internet    ();
-use MIME::Parser      ();
-use MIME::QuotedPrint ();
-use MIME::Base64      qw(decode_base64);
-use MIME::Words       qw(decode_mimewords);
-use Mail::Address     ();
+use Mail::Internet ();
+use MIME::Parser   ();
+use MIME::Words    qw(decode_mimewords);
+use Mail::Address  ();
 
 # OTOBO modules
 
