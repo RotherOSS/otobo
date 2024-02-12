@@ -79,6 +79,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     text-align: center;
 }
 
+.WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField {
+    margin-left: 12.5%;
+}
+
+.WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField div .FieldContainer:first-child {
+    margin-left: calc( 12.5% + 20px );
+}
+
 .FieldSetSeparator {
     float: none;
     clear: both;
