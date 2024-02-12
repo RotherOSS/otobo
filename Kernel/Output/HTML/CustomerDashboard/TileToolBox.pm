@@ -40,6 +40,7 @@ sub Run {
 
     my %Links  = reverse %{ $Param{Config}{Links} };
     my %Images = reverse %{ $Param{Config}{Images} };
+    my %Titles = reverse %{ $Param{Config}{Titles} };
 
     for my $Key ( sort { $a <=> $b } keys %Links ) {
         $LayoutObject->Block(
@@ -47,6 +48,7 @@ sub Run {
             Data => {
                 Link  => $Links{$Key},
                 Image => $Images{$Key},
+                Title => $Titles{$Key},
             },
         );
     }
