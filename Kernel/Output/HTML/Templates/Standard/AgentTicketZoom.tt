@@ -222,7 +222,7 @@
                         <li><strong>[% Translate(Data.ActivityName) | html %]:</strong></li>
 [% RenderBlockStart("ActivityDialog") %]
                         <li>
-                            <a title="[% Translate(Data.Name) | html %]" class="AsPopup PopupType_TicketAction" href="[% Env("Baselink") %]Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=[% Data.TicketID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];ActivityDialogEntityID=[% Data.ActivityDialogEntityID | uri %]">[% Translate(Data.Name) | html %]</a>
+                            <a title="[% Translate(Data.Name) | html %]" class="AsPopup PopupType_TicketAction NextActivityDialog" href="[% Env("Baselink") %]Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=[% Data.TicketID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];ActivityDialogEntityID=[% Data.ActivityDialogEntityID | uri %]">[% Translate(Data.Name) | html %]</a>
                         </li>
 [% RenderBlockEnd("ActivityDialog") %]
                     </ul>
@@ -240,6 +240,7 @@
                             <h2 class="FieldSetSeparator">[% Translate(Data.Name) | html %]</h2>
 [% RenderBlockEnd("OverviewWidgetDynamicFieldGroupSeparator") %]
 [% RenderBlockStart("OverviewWidgetDynamicField") %]
+[% RenderBlockStart("StandardField") %]
                             <div class="FieldContainer DynamicFieldAutoResize">
                                 <label title="[% Data.Label | html %]">
                                     [% Data.Label | html %]
@@ -264,6 +265,42 @@
                                 </p>
                                 <div class="Clear"></div>
                             </div>
+[% RenderBlockEnd("StandardField") %]
+[% RenderBlockStart("SetField") %]
+                            <div class="SetDynamicField">
+[% RenderBlockStart("DynamicFieldSetSeparator") %]
+                                <h2 class="FieldSetSeparator">[% Translate(Data.Name) | html %]</h2>
+[% RenderBlockEnd("DynamicFieldSetSeparator") %]
+                                <div>
+[% RenderBlockStart("SetDynamicField") %]
+                                    <div class="FieldContainer DynamicFieldAutoResize">
+                                        <label title="[% Data.Label | html %]">
+                                            [% Data.Label | html %]
+[% RenderBlockStart("SetDynamicFieldValueOverlayTrigger") %]
+                                            <a href="#" class="ShowFieldInfoOverlay">+</a>
+[% RenderBlockEnd("SetDynamicFieldValueOverlayTrigger") %]
+                                        </label>
+                                        <p class="Value CutValue DynamicField_[% Data.Name %]">
+<!-- OutputFilterHook_SetDynamicFieldBegin -->
+[% RenderBlockStart("SetDynamicFieldLink") %]
+                                            <span title="[% Data.Title %]"><a href="[% Data.Link | Interpolate %]"[% IF Data.LinkPreview %] data-trigger="floater" data-floater-url="[% Data.LinkPreview | Interpolate %]"[% END %] target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></span>
+[% RenderBlockEnd("SetDynamicFieldLink") %]
+[% RenderBlockStart("SetDynamicFieldPlain") %]
+                                            [% Data.Value %]
+[% RenderBlockEnd("SetDynamicFieldPlain") %]
+<!-- OutputFilterHook_SetDynamicFieldEnd -->
+                                        </p>
+                                        <p class="ValueLong">
+[% RenderBlockStart("SetDynamicFieldValueLong") %]
+                                            [% Data.Value %]
+[% RenderBlockEnd("SetDynamicFieldValueLong") %]
+                                        </p>
+                                        <div class="Clear"></div>
+                                    </div>
+[% RenderBlockEnd("SetDynamicField") %]
+                                </div>
+                            </div>
+[% RenderBlockEnd("SetField") %]
 [% RenderBlockEnd("OverviewWidgetDynamicField") %]
 [% RenderBlockEnd("OverviewWidgetDynamicFieldGroups") %]
                         </fieldset>
