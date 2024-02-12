@@ -452,6 +452,12 @@ sub Run {
     }
     if ( $Self->{Subaction} eq 'DisplayActivityDialogAJAX' && $ProcessEntityID ) {
 
+        # delete visibility cache
+        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+            Type => 'HiddenFields',
+            Key  => $Self->{FormID},
+        );
+
         my $ActivityDialogHTML = $Self->_OutputActivityDialog(
             %Param,
             ProcessEntityID => $ProcessEntityID,
@@ -770,6 +776,8 @@ sub _RenderAjax {
         ACLPreselection           => $ACLPreselection // '',
         LoopProtection            => \$LoopProtection,
     );
+
+    $Param{GetParam}{DynamicField} //= {};
 
     # set new values
     my $DFParam = {
@@ -1765,7 +1773,7 @@ sub _OutputActivityDialog {
             InitialRun                => 1,
         );
 
-        %DFPossibleValues = map { $_ => $DynFieldStates{Fields}{PossibleValues} } keys $Self->{DynamicField}->%*;
+        %DFPossibleValues = map { $_ => $DynFieldStates{Fields}{$_}{PossibleValues} } keys $Self->{DynamicField}->%*;
         %Visibility       = $DynFieldStates{Visibility}->%*;
     }
 
@@ -1863,7 +1871,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error         || {},
                 ErrorMessages       => \%ErrorMessages || {},
                 FormID              => $Self->{FormID},
-                PossibleValues      => $DFPossibleValues{ 'DynamicField_' . $DynamicFieldName },
+                PossibleValues      => $DFPossibleValues{$DynamicFieldName},
                 Visibility          => $Visibility{ 'DynamicField_' . $DynamicFieldName } // 0,
                 AJAXUpdatableFields => $AJAXUpdatableFields,
             );
