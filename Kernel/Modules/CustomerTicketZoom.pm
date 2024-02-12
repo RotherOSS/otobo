@@ -55,7 +55,7 @@ sub new {
     # align sysconfig and ticket mask data I
     DYNAMICFIELD:
     for my $DynamicField ( @{ $DynamicFieldList // [] } ) {
-        next DYNAMICFIELD if IsHashRefWithData( $Self->{DynamicField}{$DynamicField} );
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicField);
 
         my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
             DynamicFieldConfig => $DynamicField,
