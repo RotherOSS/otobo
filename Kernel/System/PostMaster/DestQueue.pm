@@ -30,8 +30,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";

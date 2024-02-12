@@ -21,9 +21,14 @@ use warnings;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
+# core modules
 use POSIX       qw(ceil);
 use Time::HiRes ();
-use Kernel::System::PostMaster;
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::PostMaster ();    ## no perlimports, Kernel::System::PostMaster::Run will be overridden
 use Kernel::System::MailAccount::IMAP;
 
 our @ObjectDependencies = (

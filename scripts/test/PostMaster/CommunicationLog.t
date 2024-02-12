@@ -30,7 +30,7 @@ use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::MailAccount::POP3;
 use Kernel::System::MailAccount::IMAP;
-use Kernel::System::PostMaster;
+use Kernel::System::PostMaster ();               ## no perlimports, as Kernel::System::PostMaster::Run will be overridden
 
 ## no critic qw(OTOBO::RequireCamelCase Subroutines::ProhibitBuiltinHomonyms)
 

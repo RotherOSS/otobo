@@ -26,7 +26,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $main::Self
-use Kernel::System::PostMaster;
+use Kernel::System::PostMaster ();
 
 our $Self;
 

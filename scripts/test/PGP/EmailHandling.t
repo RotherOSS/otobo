@@ -27,7 +27,7 @@ use Test2::V0;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::Output::HTML::ArticleCheck::PGP;
-use Kernel::System::PostMaster;
+use Kernel::System::PostMaster    ();
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects

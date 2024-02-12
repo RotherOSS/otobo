@@ -24,13 +24,12 @@ use warnings;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::EmailParser ();
-use Kernel::System::PostMaster::DestQueue;
-use Kernel::System::PostMaster::NewTicket;
-use Kernel::System::PostMaster::FollowUp;
-use Kernel::System::PostMaster::Reject;
-
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::System::EmailParser           ();
+use Kernel::System::PostMaster::DestQueue ();
+use Kernel::System::PostMaster::NewTicket ();
+use Kernel::System::PostMaster::FollowUp  ();
+use Kernel::System::PostMaster::Reject    ();
+use Kernel::System::VariableCheck         qw(IsHashRefWithData);
 
 our %ObjectManagerFlags = (
     NonSingleton => 1,

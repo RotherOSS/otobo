@@ -26,7 +26,7 @@ use v5.24;
 use Mail::IMAPClient;
 
 # OTOBO modules
-use Kernel::System::PostMaster;
+use Kernel::System::PostMaster ();
 
 our @ObjectDependencies = (
     'Kernel::Config',

@@ -18,13 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::PostMaster ();
 
 our $Self;
-
-use Kernel::System::PostMaster;
 
 # get needed objects
 my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
