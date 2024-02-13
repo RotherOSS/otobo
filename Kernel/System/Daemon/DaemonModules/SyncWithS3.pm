@@ -23,7 +23,7 @@ use utf8;
 use parent qw(Kernel::System::Daemon::BaseDaemon Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
 
 # core modules
-use File::stat;
+use File::stat qw(stat);
 
 # CPAN modules
 

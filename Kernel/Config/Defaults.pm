@@ -31,7 +31,7 @@ use Digest::MD5 qw(md5_hex);
 use Exporter qw(import);
 use Fcntl qw(:flock);
 use File::Basename qw(basename);
-use File::stat;
+use File::stat qw(stat);
 
 # CPAN modules
 use Try::Tiny;

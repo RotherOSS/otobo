@@ -26,10 +26,10 @@ use namespace::autoclean;    # hide md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN,
 # core modules
 use Digest::MD5  qw(md5_hex);
 use Data::Dumper qw(Dumper);    ## no critic qw(Modules::ProhibitEvilModules)
-use File::stat;
-use List::Util qw(first);
-use Fcntl      qw(:flock);
-use Encode     qw(encode);
+use File::stat   qw(stat);
+use List::Util   qw(first);
+use Fcntl        qw(:flock);
+use Encode       qw(encode);
 
 # CPAN modules
 use Math::Random::Secure qw(irand);

@@ -25,8 +25,8 @@ use utf8;
 # core modules
 
 # CPAN modules
-use JSON::XS;
-use Types::Serialiser;
+use JSON::XS          ();
+use Types::Serialiser ();
 use Try::Tiny;
 
 # OTOBO modules

@@ -20,8 +20,8 @@ use strict;
 use warnings;
 
 # core modules
-use IPC::Open3;
-use Symbol;
+use IPC::Open3 qw(open3);
+use Symbol     qw(gensym);
 
 # CPAN modules
 

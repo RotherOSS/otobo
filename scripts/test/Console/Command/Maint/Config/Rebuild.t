@@ -19,7 +19,7 @@ use warnings;
 use utf8;
 
 # core modules
-use File::stat;
+use File::stat qw(stat);
 
 # CPAN modules
 use Test2::V0;

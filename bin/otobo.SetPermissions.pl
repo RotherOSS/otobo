@@ -25,8 +25,8 @@ use utf8;
 # core modules
 use File::Basename qw(dirname);
 use FindBin        qw($RealBin);
-use File::Find     ();
-use File::stat     ();
+use File::Find     qw(find);
+use File::stat     qw(stat);
 use Getopt::Long   qw(GetOptions);
 
 # CPAN modules
@@ -190,7 +190,7 @@ sub Run {
 
     my $OtoboDirectory = dirname($RealBin);
     say "Setting permissions on $OtoboDirectory";
-    File::Find::find(
+    find(
         {
             wanted => sub {
                 SetPermissions( $OtoboDirectory, $OtoboUserID, $GroupID, $AdminGroupID );
@@ -281,7 +281,7 @@ sub SetFilePermissions {
     }
 
     # There seem to be cases when stat does not work on a dangling link, skip in this case.
-    my $Stat = File::stat::stat($File) || return;
+    my $Stat = stat($File) || return;
     if ( ( $Stat->mode() & 07777 ) != $TargetPermission ) {
         if ($DryRun) {
             print sprintf(

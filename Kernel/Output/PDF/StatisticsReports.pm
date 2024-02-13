@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 # core modules
-#use File::Stat;
+use File::stat qw(stat);
 
 # CPAN modules
 
@@ -448,7 +448,7 @@ sub GeneratePDF {
             }
             chomp $CommandOutput;
 
-            my $Stat = File::stat::stat($TempPNGFilename);
+            my $Stat = stat $TempPNGFilename;
             if ( $Stat && $Stat->size() ) {
                 $PDFObject->Image(
                     File   => $TempPNGFilename,

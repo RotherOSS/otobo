@@ -21,7 +21,7 @@ use utf8;
 
 # core modules
 use IO::File;
-use File::stat;
+use File::stat qw(stat);
 
 # CPAN modules
 use Test2::V0;

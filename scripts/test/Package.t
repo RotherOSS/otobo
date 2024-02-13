@@ -20,7 +20,7 @@ use utf8;
 
 # core modules
 use File::Copy qw(copy move);
-use File::stat;
+use File::stat qw(stat);
 
 # CPAN modules
 use Test2::V0;

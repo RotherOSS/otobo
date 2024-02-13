@@ -23,7 +23,7 @@ use utf8;
 use File::Path;
 
 # CPAN modules
-use JSON::PP;
+use JSON::PP ();
 use Test2::V0;
 
 # OTOBO modules

@@ -20,8 +20,8 @@ use strict;
 use warnings;
 
 # core modules
-use Exporter qw(import);
-use File::stat;
+use Exporter    qw(import);
+use File::stat  qw(stat);
 use Digest::MD5 qw(md5_hex);
 
 # CPAN modules
