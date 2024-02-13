@@ -128,6 +128,10 @@
             <div class="Content">
                 <input type="text" id="FilterCalendars" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterCalendars" value="" title="[% Translate("Filter for calendars") | html %]">
             </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" class="" name="IncludeInvalid" value="1" title="[% Translate("Include invalid calendaers") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include Invalid calendars") | html %]</label>
+            </div>
         </div>
 [% RenderBlockEnd("CalendarFilter") %]
         <div class="WidgetSimple">
