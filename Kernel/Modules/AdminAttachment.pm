@@ -428,7 +428,7 @@ sub _Overview {
     );
     my %List = $StdAttachmentObject->StdAttachmentList(
         UserID => 1,
-        Valid  => $Param{IncludeInvalid} ? 0 : 1,
+        Valid  => 0,
     );
 
     # if there are any results, they are shown
@@ -441,6 +441,7 @@ sub _Overview {
             my %Data = $StdAttachmentObject->StdAttachmentGet(
                 ID => $ID,
             );
+            next ID unless $Param{IncludeInvalid} || grep { $ValidList{ $Data{ValidID} } eq $_ } qw(valid invalid-temporarily);
 
             # check permission for all linked templates.
             if ( $Self->{LightAdmin} ) {
