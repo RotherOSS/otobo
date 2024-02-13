@@ -220,6 +220,18 @@
                 <div class="LightRow Bottom">
                     <ul class="Actions">
                         <li><strong>[% Translate(Data.ActivityName) | html %]:</strong></li>
+[% RenderBlockStart("ActivityDialogDirectSubmit") %]
+                        <li>
+                            <form title="[% Translate(Data.Name) | html %]" action="[% Env("CGIHandle") | html %]" method="post">
+                                <input type="hidden" name="Action" value="AgentTicketProcess"/>
+                                <input type="hidden" name="Subaction" value="StoreActivityDialog"/>
+                                <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+                                <input type="hidden" name="ProcessEntityID" value="[% Data.ProcessEntityID | html %]"/>
+                                <input type="hidden" name="ActivityDialogEntityID" value="[% Data.ActivityDialogEntityID | html %]"/>
+                                <button id="DirectSubmit_[% Data.ActivityDialogEntityID %]" class="CallForAction Fullsize Center" type="submit">[% Translate(Data.Name) | html %]</button>
+                            </form>
+                        </li>
+[% RenderBlockEnd("ActivityDialogDirectSubmit") %]
 [% RenderBlockStart("ActivityDialog") %]
                         <li>
                             <a title="[% Translate(Data.Name) | html %]" class="AsPopup PopupType_TicketAction NextActivityDialog" href="[% Env("Baselink") %]Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=[% Data.TicketID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];ActivityDialogEntityID=[% Data.ActivityDialogEntityID | uri %]">[% Translate(Data.Name) | html %]</a>
