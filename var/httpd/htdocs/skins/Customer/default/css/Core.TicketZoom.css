@@ -232,16 +232,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding: 24px;
 }
 
-button.oooM.ActivityStartButton {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: auto;
-    min-width: 162px;
-    max-width: 240px;
-    padding: 1px 16px;
-}
-
+button.oooM.ActivityStartButton,
 button.oooM.ActivitySubmitButton {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -250,7 +241,6 @@ button.oooM.ActivitySubmitButton {
     min-width: 162px;
     max-width: 240px;
     padding: 1px 16px;
-    float: right;
 }
 
 @media only screen and (min-width: 1024px) {
@@ -499,6 +489,10 @@ button.oooM.ActivitySubmitButton {
 #NextActivities {
     padding-bottom: 24px;
     text-align: right;
+}
+
+#NextActivities > form {
+    display: inline;
 }
 
 #NextActivities > button,
