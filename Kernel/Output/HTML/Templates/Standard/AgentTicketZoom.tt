@@ -228,7 +228,7 @@
                                 <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
                                 <input type="hidden" name="ProcessEntityID" value="[% Data.ProcessEntityID | html %]"/>
                                 <input type="hidden" name="ActivityDialogEntityID" value="[% Data.ActivityDialogEntityID | html %]"/>
-                                <button id="DirectSubmit_[% Data.ActivityDialogEntityID %]" class="CallForAction Fullsize Center" type="submit">[% Translate(Data.Name) | html %]</button>
+                                <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Translate(Data.Name) | html %]" class="CallForAction Fullsize Center" type="submit">[% Translate(Data.Name) | html %]</button>
                             </form>
                         </li>
 [% RenderBlockEnd("ActivityDialogDirectSubmit") %]
@@ -311,6 +311,7 @@
                                     </div>
 [% RenderBlockEnd("SetDynamicField") %]
                                 </div>
+                                <div class="Clear"></div>
                             </div>
 [% RenderBlockEnd("SetField") %]
 [% RenderBlockEnd("OverviewWidgetDynamicField") %]
