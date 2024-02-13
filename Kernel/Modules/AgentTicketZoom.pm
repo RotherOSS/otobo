@@ -23,7 +23,8 @@ use utf8;
 our $ObjectManagerDisabled = 1;
 
 # core modules
-use POSIX qw(ceil);
+use List::Util qw(any);
+use POSIX      qw(ceil);
 
 # CPAN modules
 
@@ -1641,16 +1642,37 @@ sub MaskAgentZoom {
                         Interface              => 'AgentInterface',
                         ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     );
-                    $LayoutObject->Block(
-                        Name => 'ActivityDialog',
-                        Data => {
-                            ActivityDialogEntityID
-                                => $NextActivityDialogs->{$NextActivityDialogKey},
-                            Name            => $ActivityDialogData->{Name},
-                            ProcessEntityID => $Ticket{$ProcessEntityIDField},
-                            TicketID        => $Ticket{TicketID},
-                        },
-                    );
+
+                    # decide whether to output direct submit or link to new window
+                    my $DirectSubmit = $ActivityDialogData->{DirectSubmit};
+                    if ( any { $ActivityDialogData->{Fields}{$_}{Display} } keys $ActivityDialogData->{Fields}->%* ) {
+                        $DirectSubmit = 0;
+                    }
+
+                    if ($DirectSubmit) {
+                        $LayoutObject->Block(
+                            Name => 'ActivityDialogDirectSubmit',
+                            Data => {
+                                ActivityDialogEntityID
+                                    => $NextActivityDialogs->{$NextActivityDialogKey},
+                                Name            => $ActivityDialogData->{SubmitButtonText} || $ActivityDialogData->{Name},
+                                ProcessEntityID => $Ticket{$ProcessEntityIDField},
+                                TicketID        => $Ticket{TicketID},
+                            },
+                        );
+                    }
+                    else {
+                        $LayoutObject->Block(
+                            Name => 'ActivityDialog',
+                            Data => {
+                                ActivityDialogEntityID
+                                    => $NextActivityDialogs->{$NextActivityDialogKey},
+                                Name            => $ActivityDialogData->{Name},
+                                ProcessEntityID => $Ticket{$ProcessEntityIDField},
+                                TicketID        => $Ticket{TicketID},
+                            },
+                        );
+                    }
                 }
             }
             else {
