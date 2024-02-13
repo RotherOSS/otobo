@@ -643,7 +643,7 @@ sub WriteTranslationFile {
     # Get existing translations
     my %Collected;
     my $Indent            = ' ' x 4;
-    my $JavascriptStrings = $Indent . "\$Self->{JavaScriptStrings} = [\n";
+    my $JavascriptStrings = $Indent . "push \@{ \$Self->{JavaScriptStrings} // [] }, (\n";
 
     my @LanguageData = @{
         $Self->DraftTranslationsGet(
@@ -737,7 +737,7 @@ sub WriteTranslationFile {
         $JavascriptStrings .= $Indent x 2 . "'$Key',\n";
     }
 
-    $JavascriptStrings .= $Indent . "];\n";
+    $JavascriptStrings .= $Indent . ");\n";
 
     # needed for cvs check-in filter
     my $Separator = "# --";
