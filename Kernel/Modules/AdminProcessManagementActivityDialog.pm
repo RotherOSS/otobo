@@ -141,6 +141,7 @@ sub Run {
         $ActivityDialogData->{Config}->{SubmitAdviceText}     = $GetParam->{SubmitAdviceText};
         $ActivityDialogData->{Config}->{SubmitButtonText}     = $GetParam->{SubmitButtonText};
         $ActivityDialogData->{Config}->{InputFieldDefinition} = $GetParam->{InputFieldDefinition};
+        $ActivityDialogData->{Config}->{DirectSubmit}         = $GetParam->{DirectSubmit} || 0;
         $ActivityDialogData->{Config}->{Fields}               = {};
         $ActivityDialogData->{Config}->{FieldOrder}           = [];
 
@@ -397,6 +398,7 @@ sub Run {
         $ActivityDialogData->{Config}->{SubmitAdviceText}     = $GetParam->{SubmitAdviceText};
         $ActivityDialogData->{Config}->{SubmitButtonText}     = $GetParam->{SubmitButtonText};
         $ActivityDialogData->{Config}->{InputFieldDefinition} = $GetParam->{InputFieldDefinition};
+        $ActivityDialogData->{Config}->{DirectSubmit}         = $GetParam->{DirectSubmit} || 0;
         $ActivityDialogData->{Config}->{Fields}               = {};
         $ActivityDialogData->{Config}->{FieldOrder}           = [];
 
@@ -939,6 +941,7 @@ sub _ShowEdit {
     $Param{SubmitAdviceText}     = $Param{ActivityDialogData}->{Config}->{SubmitAdviceText};
     $Param{SubmitButtonText}     = $Param{ActivityDialogData}->{Config}->{SubmitButtonText};
     $Param{InputFieldDefinition} = $Param{ActivityDialogData}->{Config}->{InputFieldDefinition};
+    $Param{DirectSubmit}         = $Param{ActivityDialogData}->{Config}->{DirectSubmit} ? ' checked' : '';
 
     my $Output = $LayoutObject->Header(
         Value => $Param{Title},
@@ -966,7 +969,7 @@ sub _GetParams {
     # get parameters from web browser
     for my $ParamName (
         qw( Name EntityID Interface DescriptionShort DescriptionLong Permission RequiredLock SubmitAdviceText
-        SubmitButtonText InputFieldDefinition )
+        SubmitButtonText InputFieldDefinition DirectSubmit )
         )
     {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';

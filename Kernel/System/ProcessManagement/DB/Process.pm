@@ -1322,6 +1322,7 @@ sub ProcessDump {
             SubmitAdviceText     => $ActivityDialogData->{Config}->{SubmitAdviceText}     || '',
             SubmitButtonText     => $ActivityDialogData->{Config}->{SubmitButtonText}     || '',
             InputFieldDefinition => $ActivityDialogData->{Config}->{InputFieldDefinition} || '',
+            DirectSubmit         => $ActivityDialogData->{Config}->{DirectSubmit}         || 0,
         };
     }
 
