@@ -110,6 +110,10 @@ sub Run {
         $GetParam{$Key} = $SafeGetParam{String};
     }
 
+    # transfer param IncludeInvalid
+    $Param{IncludeInvalid}        = $GetParam{IncludeInvalid} || 0;
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+
     my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
 
@@ -703,16 +707,45 @@ sub _Overview {
 
     my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
 
-    # get all calendars user has RW access to
-    my @Calendars = $CalendarObject->CalendarList(
-        UserID     => $Self->{UserID},
-        Permission => 'rw',
-    );
+    # get all calendars user has RW access to and apply valid state filter
+    my @Calendars;
+    if ( $Param{IncludeInvalid} ) {
+        push @Calendars, $CalendarObject->CalendarList(
+            UserID     => $Self->{UserID},
+            Permission => 'rw',
+
+            # from CalendarList POD: 0 - All states
+            ValidID => 0,
+        );
+    }
+    else {
+
+        # fetch valid
+        push @Calendars, $CalendarObject->CalendarList(
+            UserID     => $Self->{UserID},
+            Permission => 'rw',
+
+            # from CalendarList POD: 1 - All valid
+            ValidID => 1,
+        );
+
+        # fetch invalid-temporarily
+        push @Calendars, $CalendarObject->CalendarList(
+            UserID     => $Self->{UserID},
+            Permission => 'rw',
+
+            # from CalendarList POD: 3 - All temporarily invalid
+            ValidID => 3,
+        );
+    }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     $LayoutObject->Block(
         Name => 'CalendarFilter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalidChecked},
+        }
     );
 
     $LayoutObject->Block(
