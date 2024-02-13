@@ -3582,7 +3582,7 @@ sub _StoreActivityDialog {
             next DYNAMICFIELD;
         }
 
-        next DYNAMICFIELD if !$Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+        next DYNAMICFIELD if !$Visibility{ 'DynamicField_' . $DynamicFieldName };
 
         my $Success = $DynamicFieldBackendObject->ValueSet(
             DynamicFieldConfig => $DynamicFieldConfig,
