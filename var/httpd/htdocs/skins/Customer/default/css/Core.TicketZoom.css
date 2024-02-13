@@ -242,6 +242,17 @@ button.oooM.ActivityStartButton {
     padding: 1px 16px;
 }
 
+button.oooM.ActivitySubmitButton {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: auto;
+    min-width: 162px;
+    max-width: 240px;
+    padding: 1px 16px;
+    float: right;
+}
+
 @media only screen and (min-width: 1024px) {
 
     #oooMainBox {
@@ -490,7 +501,8 @@ button.oooM.ActivityStartButton {
     text-align: right;
 }
 
-#NextActivities > button {
+#NextActivities > button,
+#NextActivities > form > button {
     margin-left: 16px;
 }
 

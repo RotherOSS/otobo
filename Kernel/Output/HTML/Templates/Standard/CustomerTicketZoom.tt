@@ -62,6 +62,16 @@
         <div id="ProcessActivities">
 [% RenderBlockStart("NextActivities") %]
             <div id="NextActivities">
+[% RenderBlockStart("ActivityDialogDirectSubmit") %]
+                <form title="[% Translate(Data.Name) | html %]" action="[% Env("CGIHandle") | html %]" method="post">
+                    <input type="hidden" name="Action" value="CustomerTicketZoom"/>
+                    <input type="hidden" name="Subaction" value="StoreActivityDialog"/>
+                    <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+                    <input type="hidden" name="ProcessEntityID" value="[% Data.ProcessEntityID | html %]"/>
+                    <input type="hidden" name="ActivityDialogEntityID" value="[% Data.ActivityDialogEntityID | html %]"/>
+                    <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Translate(Data.Name) | html %]" class="oooM ActivitySubmitButton" type="submit">[% Translate(Data.Name) | html %]</button>
+                </form>
+[% RenderBlockEnd("ActivityDialogDirectSubmit") %]
 [% RenderBlockStart("ActivityDialog") %]
                 <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Data.Name | html %]" class="oooM ActivityStartButton">[% Data.Name | html %]</button>
 [% RenderBlockEnd("ActivityDialog") %]
