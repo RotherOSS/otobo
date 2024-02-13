@@ -648,7 +648,7 @@ sub WriteTranslationFile {
     my @LanguageData = @{
         $Self->DraftTranslationsGet(
             Language    => $Param{UserLanguage},
-            ImportParam => 1,
+            ImportParam => 0,
             Active      => 1
         )
     };
