@@ -62,7 +62,8 @@ sub Run {
     my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
     my %GetParam;
-    $GetParam{Source} = $ParamObject->GetParam( Param => 'Source' ) || 'CustomerCompany';
+    $GetParam{Source}         = $ParamObject->GetParam( Param => 'Source' )         || 'CustomerCompany';
+    $GetParam{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -783,6 +784,8 @@ sub _Overview {
         Data => \%Param,
     );
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block(
         Name => 'ActionSearch',
@@ -883,9 +886,12 @@ sub _Overview {
 
         # if there are results to show
         if (%List) {
+            RESULT:
             for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
                 my %Data = $CustomerCompanyObject->CustomerCompanyGet( CustomerID => $ListKey );
+                next RESULT unless $Param{IncludeInvalid} || ( grep { $ValidList{ $Data{ValidID} } eq $_ } qw(valid invalid-temporarily) );
+
                 $LayoutObject->Block(
                     Name => 'OverviewResultRow',
                     Data => {
