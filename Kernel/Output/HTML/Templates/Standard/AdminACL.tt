@@ -54,7 +54,7 @@
             </div>
             <div class="Content">
                 <input type="checkbox" id="IncludeInvalid" class="" name="IncludeInvalid" value="1" title="[% Translate("Include invalid ACLs") | html %]" [% Data.IncludeInvalidChecked | html %]/>
-                <label for="IncludeInvalid">[% Translate("Include Invalid ACLs") | html %]</label>
+                <label for="IncludeInvalid">[% Translate("Include invalid ACLs") | html %]</label>
             </div>
         </div>
 
