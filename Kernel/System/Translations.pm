@@ -653,6 +653,24 @@ sub WriteTranslationFile {
         )
     };
 
+    my %BaseTranslations;
+
+    # Get base translations from core installation
+    my %BaseData = %{
+        $Self->ReadExistingTranslationFile(
+            UserLanguage => $Param{UserLanguage},
+        )
+    };
+
+    # if there are any custom translations, they are collected
+    if ( %BaseData && defined $BaseData{Translation} ) {
+        my %Strings = %{ $BaseData{Translation} };
+
+        for my $Custom ( sort keys %Strings ) {
+            $BaseTranslations{$Custom} = $Strings{$Custom};
+        }
+    }
+
     for my $Existing (@LanguageData) {
         my %Item = %{$Existing};
         $Collected{ $Item{Content} } = $Item{Translation};
@@ -711,6 +729,7 @@ sub WriteTranslationFile {
     }
 
     # Generate translation data in required structure
+    KEY:
     for my $Key ( keys %Collected ) {
         $Collected{$Key} =~ s{\\}{\\\\}xmsg;
         $Collected{$Key} =~ s{\'}{\\'}xmsg;
@@ -733,6 +752,9 @@ sub WriteTranslationFile {
             $Data .= $Indent . "\$Self->{Translation}->{'$Key'} =\n";
             $Data .= $Indent . '    ' . "'$Collected{$SourceKey}';\n";
         }
+
+        # skip adding to javascript strings if item exists in core translations
+        next KEY if $BaseTranslations{$Key};
 
         $JavascriptStrings .= $Indent x 2 . "'$Key',\n";
     }
