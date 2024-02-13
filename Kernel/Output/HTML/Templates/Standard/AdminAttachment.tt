@@ -70,6 +70,10 @@
             <div class="Content">
                 <input type="text" id="FilterAttachments" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterAttachments" value="" title="[% Translate("Filter for attachments") | html %]">
             </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" class="" name="IncludeInvalid" value="1" title="[% Translate("Include invalid attachments") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include invalid attachments") | html %]</label>
+            </div>
         </div>
 [% RenderBlockEnd("Filter") %]
     </div>

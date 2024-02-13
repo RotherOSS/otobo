@@ -43,6 +43,7 @@ sub Run {
     my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject         = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $StdAttachmentObject = $Kernel::OM->Get('Kernel::System::StdAttachment');
+    my $IncludeInvalid      = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -228,7 +229,9 @@ sub Run {
                 UserID => $Self->{UserID},
             );
             if ($StdAttachmentID) {
-                $Self->_Overview();
+                $Self->_Overview(
+                    IncludeInvalid => $IncludeInvalid,
+                );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $LayoutObject->Notify( Info => Translatable('Attachment added!') );
@@ -338,7 +341,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Output(
@@ -413,6 +418,9 @@ sub _Overview {
     );
     $LayoutObject->Block(
         Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        },
     );
     $LayoutObject->Block(
         Name => 'OverviewResult',
@@ -420,7 +428,7 @@ sub _Overview {
     );
     my %List = $StdAttachmentObject->StdAttachmentList(
         UserID => 1,
-        Valid  => 0,
+        Valid  => $Param{IncludeInvalid} ? 0 : 1,
     );
 
     # if there are any results, they are shown
