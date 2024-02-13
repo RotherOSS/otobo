@@ -55,6 +55,7 @@ sub Run {
     my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
     my $MainObject              = $Kernel::OM->Get('Kernel::System::Main');
     my $Notification            = $ParamObject->GetParam( Param => 'Notification' );
+    my $IncludeInvalid          = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # get registered transport layers
     my %RegisteredTransports = %{ $Kernel::OM->Get('Kernel::Config')->Get('AppointmentNotification::Transport') || {} };
@@ -383,7 +384,9 @@ sub Run {
         }
 
         if ($ID) {
-            $Self->_Overview();
+            $Self->_Overview(
+                IncludeInvalid => $IncludeInvalid,
+            );
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
             $Output .= $LayoutObject->Notify( Info => Translatable('Notification added!') );
@@ -611,7 +614,9 @@ sub Run {
             };
         }
 
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
 
@@ -637,7 +642,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Notify( Info => Translatable('Notification updated!') )
@@ -1164,7 +1171,12 @@ sub _Overview {
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
     $LayoutObject->Block( Name => 'ActionImport' );
-    $LayoutObject->Block( Name => 'Filter' );
+    $LayoutObject->Block(
+        Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        },
+    );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',
@@ -1180,11 +1192,14 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+        NOTIFICATION:
         for my $NotificationID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
             my %Data = $NotificationEventObject->NotificationGet(
                 ID => $NotificationID,
             );
+            next NOTIFICATION unless $Param{IncludeInvalid} || grep { $ValidList{ $Data{ValidID} } eq $_ } qw(valid invalid-temporarily);
+
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {
