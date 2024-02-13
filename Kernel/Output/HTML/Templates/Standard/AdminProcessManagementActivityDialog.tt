@@ -137,6 +137,12 @@
                                 <textarea name="InputFieldDefinition" id="InputFieldDefinition" class="W50pc" rows="10" cols="20">[% Data.InputFieldDefinition | html %]</textarea>
                             </div>
                             <div class="Clear"></div>
+
+                            <label for="DirectSubmit">[% Translate("Direct submit") | html %]:</label>
+                            <div class="Field">
+                                <input type="checkbox" name="DirectSubmit" id="DirectSubmit" value="1" [% Data.DirectSubmit | html %] />
+                            </div>
+                            <div class="Clear"></div>
                         </fieldset>
                     </div>
                 </div>
