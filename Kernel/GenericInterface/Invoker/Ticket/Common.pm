@@ -22,7 +22,7 @@ use warnings;
 
 # core modules
 use MIME::Base64 qw(encode_base64);
-use Storable;
+use Storable     qw(dclone);
 
 # CPAN modules
 
@@ -451,7 +451,7 @@ sub PrepareRequest {
                 delete $Attachment{$Attribute};
             }
 
-            push @Attachments,    Storable::dclone( \%Attachment );
+            push @Attachments,    dclone( \%Attachment );
             push @AttachmentData, \%Attachment;
         }
 
@@ -640,16 +640,16 @@ sub PrepareRequest {
 
     # add dynamic fields with old and new structure
     if ( IsArrayRefWithData( \@DynamicFieldTicketData ) ) {
-        $ReturnData{Ticket}->{DynamicField} = Storable::dclone( \@DynamicFieldTicketData );
+        $ReturnData{Ticket}->{DynamicField} = dclone( \@DynamicFieldTicketData );
         if ( $CountLastArticle > 1 ) {
-            $ReturnData{DynamicField} = Storable::dclone( \@DynamicFieldTicketData );
+            $ReturnData{DynamicField} = dclone( \@DynamicFieldTicketData );
         }
     }
     if ( $CountLastArticle == 1 ) {
         my @DynamicFieldDataCombined = ( @DynamicFieldTicketData, @ArticleDynamicFieldsOneArticle );
 
         if ( IsArrayRefWithData( \@DynamicFieldDataCombined ) ) {
-            $ReturnData{DynamicField} = Storable::dclone( \@DynamicFieldDataCombined );
+            $ReturnData{DynamicField} = dclone( \@DynamicFieldDataCombined );
         }
     }
 
@@ -659,7 +659,7 @@ sub PrepareRequest {
 
         ARTICLE:
         for my $Article (@ArticleBox) {
-            my $ClonedArticle = Storable::dclone($Article);
+            my $ClonedArticle = dclone($Article);
             delete $ClonedArticle->{Attachment};
 
             if ( $CountLastArticle == 1 ) {
@@ -885,10 +885,10 @@ sub _GenerateDynamicFieldData {
         )
     {
         if ( IsHashRefWithData($Structure) ) {
-            push @StructureArray, Storable::dclone($Structure);
+            push @StructureArray, dclone($Structure);
         }
         elsif ( IsArrayRefWithData($Structure) ) {
-            push @StructureArray, @{ Storable::dclone($Structure) };
+            push @StructureArray, @{ dclone($Structure) };
         }
     }
 

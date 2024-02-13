@@ -19,8 +19,13 @@ package Kernel::GenericInterface::Mapping::XSLT;
 use strict;
 use warnings;
 
+# core modules
+use Storable qw(dclone);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Storable;
 
 our $ObjectManagerDisabled = 1;
 
@@ -198,13 +203,13 @@ sub Map {
         && IsArrayRefWithData( $Config->{DataInclude} )
         )
     {
-        my $MergedData = Storable::dclone( $Param{Data} );
+        my $MergedData = dclone( $Param{Data} );
         DATAINCLUDEMODULE:
         for my $DataIncludeModule ( @{ $Config->{DataInclude} } ) {
             next DATAINCLUDEMODULE if !$Param{DataInclude}->{$DataIncludeModule};
 
             # Clone the data include hash to prevent circular data structure references
-            $MergedData->{DataInclude}->{$DataIncludeModule} = Storable::dclone( $Param{DataInclude}->{$DataIncludeModule} );
+            $MergedData->{DataInclude}->{$DataIncludeModule} = dclone( $Param{DataInclude}->{$DataIncludeModule} );
         }
 
         $Self->{DebuggerObject}->Debug(

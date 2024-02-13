@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 # core modules
-use Storable;
+use Storable qw(dclone);
 
 # CPAN modules
 
@@ -211,7 +211,7 @@ sub Run {
                 my $Result = $RequesterObject->Run(
                     WebserviceID => $WebserviceID,
                     Invoker      => $Invoker,
-                    Data         => Storable::dclone( $Param{Data} ),
+                    Data         => dclone( $Param{Data} ),
                 );
 
                 next INVOKEREVENT if $Result->{Success};

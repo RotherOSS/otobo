@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # core modules
+use Storable qw(dclone);
 
 # CPAN modules
 use Test2::V0;
@@ -391,7 +392,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     # make a deep copy to avoid changing the definition
-    my $OrigTest = Storable::dclone($Test);
+    my $OrigTest = dclone($Test);
 
     my $Success = $ModuleObject->Run(
         %{ $Test->{Config} },

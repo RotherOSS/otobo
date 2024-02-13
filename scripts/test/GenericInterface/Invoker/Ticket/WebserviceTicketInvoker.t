@@ -20,7 +20,7 @@ use warnings;
 use utf8;
 
 # core modules
-use Storable;
+use Storable qw(dclone);
 
 # CPAN modules
 use Test2::V0;
@@ -1153,7 +1153,7 @@ for my $Test (@Tests) {
 
             # check content of invoker result
             is(
-                Storable::dclone( $InvokerResult->{Data} ),
+                dclone( $InvokerResult->{Data} ),
                 $Test->{$InvokerType}->{ExpectedInvokerPrepareRequestResult},
                 "Invoker $InvokerType - Invoker PrepareRequest() return data matches expected result",
             );

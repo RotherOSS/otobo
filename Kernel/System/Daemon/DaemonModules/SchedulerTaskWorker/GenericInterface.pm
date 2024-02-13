@@ -21,9 +21,13 @@ use warnings;
 
 use parent qw(Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+use Storable qw(dclone);
 
-use Storable;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -103,7 +107,7 @@ sub Run {
         WebserviceID      => $Param{Data}->{WebserviceID},
         Invoker           => $Param{Data}->{Invoker},
         Asynchronous      => 1,
-        Data              => Storable::dclone( $Param{Data}->{Data} ),
+        Data              => dclone( $Param{Data}->{Data} ),
         PastExecutionData => $Param{Data}->{PastExecutionData},
     );
 

@@ -18,12 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use Storable qw(dclone);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::VariableCheck qw(:all);
 
 our $Self;
-
-use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -268,7 +272,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     # make a deep copy to avoid changing the definition
-    my $OrigTest = Storable::dclone($Test);
+    my $OrigTest = dclone($Test);
 
     my $Success = $ModuleObject->Run(
         %{ $Test->{Config} },

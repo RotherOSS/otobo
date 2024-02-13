@@ -21,7 +21,7 @@ use warnings;
 
 # core modules
 use MIME::Base64 qw(decode_base64 encode_base64);
-use Storable;
+use Storable     qw(dclone);
 
 # CPAN modules
 
@@ -229,7 +229,7 @@ sub FormDraftGet {
     my %FormDraftNoContent;
     if ( $Param{GetContent} ) {
         $CacheKeyNoContent  = 'FormDraftGet::GetContent0::ID' . $Param{FormDraftID};
-        %FormDraftNoContent = %{ Storable::dclone( \%FormDraft ) };
+        %FormDraftNoContent = %{ dclone( \%FormDraft ) };
         delete $FormDraftNoContent{FileData};
         delete $FormDraftNoContent{FormData};
     }

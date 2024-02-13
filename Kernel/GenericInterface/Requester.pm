@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 # core modules
-use Storable;
+use Storable qw(dclone);
 
 # CPAN modules
 
@@ -556,7 +556,7 @@ sub _HandleError {
         $HandleErrorData = $Param{Data} // '';
     }
     else {
-        $HandleErrorData = Storable::dclone( $Param{Data} );
+        $HandleErrorData = dclone( $Param{Data} );
     }
     $Param{DebuggerObject}->Debug(
         Summary => 'Error data before mapping',

@@ -19,7 +19,12 @@ package Kernel::System::Storable;
 use strict;
 use warnings;
 
+# core modules
 use Storable ();
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
