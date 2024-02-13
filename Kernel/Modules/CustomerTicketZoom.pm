@@ -19,9 +19,15 @@ package Kernel::Modules::CustomerTicketZoom;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+use Digest::MD5 qw(md5_hex);
+use List::Util  qw(any);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language              qw(Translatable);
-use Digest::MD5                   qw(md5_hex);
+use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
 
@@ -1887,15 +1893,37 @@ sub _Mask {
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     Interface              => 'CustomerInterface',
                 );
-                $LayoutObject->Block(
-                    Name => 'ActivityDialog',
-                    Data => {
-                        ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
-                        Name                   => $ActivityDialogData->{Name},
-                        ProcessEntityID        => $Param{$ProcessEntityIDField},
-                        TicketID               => $Param{TicketID},
-                    },
-                );
+
+                # decide whether to output direct submit or link to new window
+                my $DirectSubmit = $ActivityDialogData->{DirectSubmit};
+                if ( any { $ActivityDialogData->{Fields}{$_}{Display} } keys $ActivityDialogData->{Fields}->%* ) {
+                    $DirectSubmit = 0;
+                }
+
+                if ($DirectSubmit) {
+                    $LayoutObject->Block(
+                        Name => 'ActivityDialogDirectSubmit',
+                        Data => {
+                            ActivityDialogEntityID
+                                => $NextActivityDialogs->{$NextActivityDialogKey},
+                            Name            => $ActivityDialogData->{SubmitButtonText} || $ActivityDialogData->{Name},
+                            ProcessEntityID => $Param{$ProcessEntityIDField},
+                            TicketID        => $Param{TicketID},
+                        },
+                    );
+                }
+                else {
+                    $LayoutObject->Block(
+                        Name => 'ActivityDialog',
+                        Data => {
+                            ActivityDialogEntityID
+                                => $NextActivityDialogs->{$NextActivityDialogKey},
+                            Name            => $ActivityDialogData->{Name},
+                            ProcessEntityID => $Param{$ProcessEntityIDField},
+                            TicketID        => $Param{TicketID},
+                        },
+                    );
+                }
 
                 my $ActivityHTML = $Param{ActivityErrorHTML}{ $NextActivityDialogs->{$NextActivityDialogKey} } // $ProcessModule->Run(
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
