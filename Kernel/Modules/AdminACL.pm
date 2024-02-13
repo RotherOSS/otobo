@@ -39,7 +39,8 @@ sub Run {
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
+    $Self->{Subaction}     = $ParamObject->GetParam( Param => 'Subaction' )      || '';
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     my $ACLID = $ParamObject->GetParam( Param => 'ID' ) || '';
 
@@ -603,8 +604,24 @@ sub _ShowOverview {
         }
     }
 
+    # restrict valid state if needed
+    my $ValidIDs;
+    if ( !$Param{IncludeInvalid} ) {
+        $ValidIDs = [
+            $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( Valid => 'valid' ),
+            $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( Valid => 'invalid-temporarily' ),
+        ];
+    }
+    else {
+        $Param{IncludeInvalidChecked} = 'checked';
+        $ValidIDs = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+    }
+
     # get ACL list
-    my $ACLList = $ACLObject->ACLList( UserID => $Self->{UserID} );
+    my $ACLList = $ACLObject->ACLList(
+        UserID   => $Self->{UserID},
+        ValidIDs => $ValidIDs,
+    );
 
     if ( IsHashRefWithData($ACLList) ) {
 
