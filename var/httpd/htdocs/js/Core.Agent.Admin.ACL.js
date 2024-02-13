@@ -57,6 +57,12 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         if (Core.Config.Get('Subaction') === 'ACLEdit') {
             TargetNS.InitACLEdit();
         }
+
+        // init checkbox to include invalid elements
+        $('input#IncludeInvalid').off('change').on('change', function () {
+            var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action") + ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
+            window.location.href = URL;
+        });
     };
 
     /**

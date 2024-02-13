@@ -52,6 +52,10 @@
             <div class="Content">
                 <input type="text" id="FilterACLs" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterACLs" value="" title="[% Translate("Filter for ACLs") | html %]">
             </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" class="" name="IncludeInvalid" value="1" title="[% Translate("Include invalid ACLs") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include Invalid ACLs") | html %]</label>
+            </div>
         </div>
 
         <div class="WidgetSimple">
