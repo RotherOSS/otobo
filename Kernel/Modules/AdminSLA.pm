@@ -34,11 +34,12 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $SLAObject    = $Kernel::OM->Get('Kernel::System::SLA');
-    my %Error        = ();
+    my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+    my $SLAObject      = $Kernel::OM->Get('Kernel::System::SLA');
+    my %Error          = ();
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # sla edit
@@ -236,7 +237,12 @@ sub Run {
 
         $LayoutObject->Block( Name => 'ActionList' );
         $LayoutObject->Block( Name => 'ActionAdd' );
-        $LayoutObject->Block( Name => 'Filter' );
+        $LayoutObject->Block(
+            Name => 'Filter',
+            Data => {
+                IncludeInvalidChecked => $IncludeInvalid ? 'checked' : '',
+            },
+        );
 
         # output overview result
         $LayoutObject->Block(
@@ -257,7 +263,7 @@ sub Run {
 
         # get sla list
         my %SLAList = $SLAObject->SLAList(
-            Valid  => 0,
+            Valid  => $IncludeInvalid ? 0 : 1,
             UserID => $Self->{UserID},
         );
 
