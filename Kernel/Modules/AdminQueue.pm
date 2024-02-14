@@ -45,8 +45,9 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $QueueID     = $ParamObject->GetParam( Param => 'QueueID' ) || '';
+    my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $QueueID        = $ParamObject->GetParam( Param => 'QueueID' )        || '';
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     my @Params = (
         qw(
@@ -325,7 +326,9 @@ sub Run {
                 # if $Note has some notify, create output with $Note
                 # otherwise redirect depending on what button ('Save' or 'Save and Finish') is clicked
                 if ( $Note ne '' ) {
-                    $Self->_Overview();
+                    $Self->_Overview(
+                        IncludeInvalid => $IncludeInvalid,
+                    );
                     my $Output = $LayoutObject->Header();
                     $Output .= $LayoutObject->NavigationBar();
                     $Output .= $Note;
@@ -560,7 +563,9 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
 
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -961,7 +966,12 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
-    $LayoutObject->Block( Name => 'Filter' );
+    $LayoutObject->Block(
+        Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        },
+    );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',
@@ -971,7 +981,9 @@ sub _Overview {
     my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
 
     # get queue list
-    my %List = $QueueObject->QueueList( Valid => 0 );
+    my %List = $QueueObject->QueueList(
+        Valid => $Param{IncludeInvalid} ? 0 : 1,
+    );
 
     # error handling
     if ( !%List ) {
