@@ -42,7 +42,7 @@ sub Run {
 
     my %GetParam = ();
     my @Params   = (
-        qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID IMAPFolder Trusted DispatchingBy)
+        qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID IMAPFolder Trusted DispatchingBy IncludeInvalid)
     );
     for my $Parameter (@Params) {
         $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter );
@@ -166,7 +166,9 @@ sub Run {
                 UserID => $Self->{UserID},
             );
             if ($ID) {
-                $Self->_Overview();
+                $Self->_Overview(
+                    IncludeInvalid => $GetParam{IncludeInvalid},
+                );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $LayoutObject->Notify( Info => Translatable('Mail account added!') );
@@ -295,7 +297,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $GetParam{IncludeInvalid},
+        );
 
         my $Ok     = $ParamObject->GetParam( Param => 'Ok' );
         my $Locked = $ParamObject->GetParam( Param => 'Locked' );
@@ -336,14 +340,21 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
-    $LayoutObject->Block( Name => 'Filter' );
+    $LayoutObject->Block(
+        Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        },
+    );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',
         Data => \%Param,
     );
 
-    my %List = $MailAccount->MailAccountList( Valid => 0 );
+    my %List = $MailAccount->MailAccountList(
+        Valid => $Param{IncludeInvalid} ? 0 : 1,
+    );
 
     # if there are any mail accounts, they are shown
     if (%List) {
