@@ -41,6 +41,12 @@ Core.Agent.Admin = Core.Agent.Admin || {};
         var Customer = Core.Config.Get('Customer');
         var Nav      = Core.Config.Get('Nav');
 
+        // init checkbox to include invalid elements
+        $('input#IncludeInvalid').off('change').on('change', function () {
+            var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action") + ';Nav=' + $(this).attr('data-nav') + ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
+            window.location.href = URL;
+        });
+
         $('.CustomerAutoCompleteSimple').each(function() {
             Core.Agent.CustomerSearch.InitSimple($(this));
         });

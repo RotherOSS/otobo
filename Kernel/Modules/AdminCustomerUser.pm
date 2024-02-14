@@ -53,9 +53,10 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Nav    = $ParamObject->GetParam( Param => 'Nav' )    || '';
-    my $Source = $ParamObject->GetParam( Param => 'Source' ) || 'CustomerUser';
-    my $Search = $ParamObject->GetParam( Param => 'Search' );
+    my $Nav            = $ParamObject->GetParam( Param => 'Nav' )    || '';
+    my $Source         = $ParamObject->GetParam( Param => 'Source' ) || 'CustomerUser';
+    my $Search         = $ParamObject->GetParam( Param => 'Search' );
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' );
     $Search
         ||= $ConfigObject->Get('AdminCustomerUser::RunInitialWildcardSearch') ? '*' : '';
 
@@ -185,8 +186,9 @@ sub Run {
     # search user list
     if ( $Self->{Subaction} eq 'Search' ) {
         $Self->_Overview(
-            Nav    => $Nav,
-            Search => $Search,
+            Nav            => $Nav,
+            Search         => $Search,
+            IncludeInvalid => $IncludeInvalid,
         );
         my $Output = $NavBar;
         $Output .= $LayoutObject->Output(
@@ -747,8 +749,9 @@ sub Run {
                     }
 
                     $Self->_Overview(
-                        Nav    => $Nav,
-                        Search => $Search,
+                        Nav            => $Nav,
+                        Search         => $Search,
+                        IncludeInvalid => $IncludeInvalid,
                     );
 
                     my $Output        = $NavBar . $Note;
@@ -836,8 +839,9 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         $Self->_Overview(
-            Nav    => $Nav,
-            Search => $Search,
+            Nav            => $Nav,
+            Search         => $Search,
+            IncludeInvalid => $IncludeInvalid,
         );
 
         my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
@@ -870,6 +874,8 @@ sub _Overview {
         Name => 'Overview',
         Data => \%Param,
     );
+
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block(
@@ -942,7 +948,7 @@ sub _Overview {
 
         my %List = $CustomerUserObject->CustomerSearch(
             Search => $Param{Search},
-            Valid  => 0,
+            Valid  => $Param{IncludeInvalid} ? 0 : 1,
         );
 
         if ( keys %ListAllItems > $Limit ) {
