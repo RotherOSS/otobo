@@ -662,6 +662,7 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell label {
 }
 
 fieldset.TableLike > .Field,
+fieldset.TableLike > .Row > .Field,
 fieldset.TableLike > .Row > .FieldCell > .Field {
     line-height: 1.9em;
     margin-left: 30%;
@@ -800,6 +801,7 @@ fieldset.TableLike .DynamicFieldSet .Row.MultiColumn .AddRemoveValueRow {
 }
 
 .RTL fieldset.TableLike > .Field,
+.RTL fieldset.TableLike > .Row > .Field,
 .RTL fieldset.TableLike > .Row > .FieldCell > .Field {
     margin-left: 0;
     margin-right: 30%;
@@ -816,6 +818,7 @@ fieldset.TableLike select {
  *          for example for complex input elements.
  */
 fieldset.TableLike > .Field label,
+fieldset.TableLike > .Row > .Field label,
 fieldset.TableLike > .Row > .FieldCell label {
     color: #929292;
 }
