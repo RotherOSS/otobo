@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Custom';
 # core modules
 use File::Path  ();
 use Time::HiRes qw(sleep);
-use Fcntl       qw(:flock);
+use Fcntl       qw(:flock);    ## no perlimports
 use File::Copy  qw(move);
 
 # CPAN modules

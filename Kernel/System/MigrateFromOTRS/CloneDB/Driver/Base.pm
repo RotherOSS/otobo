@@ -24,7 +24,7 @@ use namespace::autoclean;
 # core modules
 use MIME::Base64 qw(decode_base64 encode_base64);
 use List::Util   qw(any none);
-use Fcntl        qw(:flock);
+use Fcntl        qw(:flock);                        ## no perlimports
 
 # CPAN modules
 
