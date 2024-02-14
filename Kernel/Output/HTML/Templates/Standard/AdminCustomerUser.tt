@@ -59,6 +59,7 @@
                             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                             <input type="hidden" name="Subaction" value="Search"/>
                             <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
+                            <input type="hidden" name="IncludeInvalid" value="[% Data.IncludeInvalid | html %]"/>
                             <input type="text" name="Search" value="[% Data.Search | html %]" id="Search" title="[% Translate("Search") | html %]"/>
                             <button type="submit" value="[% Translate("Search") | html %]" title="[% Translate("Search") | html %]"><i class="fa fa-search"></i></button>
                         </form>
@@ -66,7 +67,7 @@
                             [% Translate("Wildcards like '*' are allowed.") | html %]
                         </p>
                         <br/>
-                        <input type="checkbox" id="IncludeInvalid" class="" name="IncludeInvalid" value="1" title="[% Translate("Include invalid customer users") | html %]" data-nav="[% Data.Nav | uri %]" [% Data.IncludeInvalidChecked | html %]/>
+                        <input type="checkbox" id="IncludeInvalid" class="" name="IncludeInvalid" value="1" title="[% Translate("Include invalid customer users") | html %]" data-subaction="[% Data.Subaction | uri %]" [% Data.IncludeInvalidChecked | html %]/>
                         <label for="IncludeInvalid">[% Translate("Include invalid customer users") | html %]</label>
                     </li>
 [% RenderBlockEnd("ActionSearch") %]
