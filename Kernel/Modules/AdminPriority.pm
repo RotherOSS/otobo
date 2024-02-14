@@ -48,6 +48,8 @@ sub Run {
     my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
 
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
@@ -264,7 +266,9 @@ sub Run {
             );
 
             if ($NewPriority) {
-                $Self->_Overview();
+                $Self->_Overview(
+                    IncludeInvalid => $IncludeInvalid,
+                );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $LayoutObject->Notify( Info => Translatable('Priority added!') );
@@ -298,7 +302,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Output(
@@ -418,7 +424,12 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
-    $LayoutObject->Block( Name => 'Filter' );
+    $LayoutObject->Block(
+        Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        },
+    );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',
@@ -429,7 +440,7 @@ sub _Overview {
 
     # get priority list
     my %PriorityList = $PriorityObject->PriorityList(
-        Valid  => 0,
+        Valid  => $Param{IncludeInvalid} ? 0 : 1,
         UserID => $Self->{UserID},
     );
 
