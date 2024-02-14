@@ -39,6 +39,7 @@ sub Run {
     my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject         = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
+    my $IncludeInvalid      = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     #create local object
     my $CheckItemObject = Kernel::System::CheckItem->new( %{$Self} );
@@ -230,7 +231,9 @@ sub Run {
             );
 
             if ($AddressID) {
-                $Self->_Overview();
+                $Self->_Overview(
+                    IncludeInvalid => $IncludeInvalid,
+                );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $LayoutObject->Notify(
@@ -266,7 +269,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -362,7 +367,12 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
-    $LayoutObject->Block( Name => 'Filter' );
+    $LayoutObject->Block(
+        Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        },
+    );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',
@@ -371,7 +381,7 @@ sub _Overview {
 
     my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
     my %List                = $SystemAddressObject->SystemAddressList(
-        Valid => 0,
+        Valid => $Param{IncludeInvalid} ? 0 : 1,
     );
 
     # get valid list
