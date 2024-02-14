@@ -528,8 +528,9 @@ sub Run {
 
             # create human age
             $Article{Age} = $LayoutObject->CustomerAge(
-                Age   => $Article{Age},
-                Space => ' ',
+                Age       => $Article{Age},
+                Space     => ' ',
+                CreatedAt => $Article{Created},
             );
 
             # get ACL restrictions
