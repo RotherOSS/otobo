@@ -320,7 +320,7 @@ sub _Overview {
     $LayoutObject->Block( Name => 'Filter' );
 
     my %List = $GroupObject->GroupList(
-        ValidID => 0,
+        Valid => 0,
     );
     my $ListSize = keys %List;
     $Param{AllItemsCount} = $ListSize;
