@@ -23,8 +23,8 @@ use warnings;
 use List::Util qw(first);
 
 # CPAN modules
-use HTTP::Headers ();
-use LWP::UserAgent;
+use HTTP::Headers  ();
+use LWP::UserAgent ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);

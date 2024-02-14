@@ -23,7 +23,7 @@ use namespace::autoclean;
 
 # core modules
 use HTTP::Request::Common qw(POST);
-use LWP::UserAgent;
+use LWP::UserAgent        ();
 use LWP::Protocol;
 
 # CPAN modules

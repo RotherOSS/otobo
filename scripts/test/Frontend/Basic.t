@@ -29,7 +29,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use LWP::UserAgent;
+use LWP::UserAgent ();
 use Test2::V0;
 
 # OTOBO modules

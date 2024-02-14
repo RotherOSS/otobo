@@ -22,9 +22,9 @@ use warnings;
 
 # CPAN modules
 use HTTP::Request::Common qw(POST);
-use LWP::UserAgent;
-use URI::Escape ();
-use Crypt::JWT  qw(decode_jwt);
+use LWP::UserAgent        ();
+use URI::Escape           ();
+use Crypt::JWT            qw(decode_jwt);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
