@@ -47,8 +47,9 @@ sub Run {
     my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-    my $Search       = $ParamObject->GetParam( Param => 'Search' )       || '';
-    my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+    my $Search         = $ParamObject->GetParam( Param => 'Search' )         || '';
+    my $Notification   = $ParamObject->GetParam( Param => 'Notification' )   || '';
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # Get list of valid IDs.
     my @ValidIDList = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
@@ -239,7 +240,9 @@ sub Run {
                     );
                 }
                 else {
-                    return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Notification=Update" );
+                    return $LayoutObject->Redirect(
+                        OP => "Action=$Self->{Action};Notification=Update" . ( $IncludeInvalid ? ';IncludeInvalid=1' : '' )
+                    );
                 }
             }
             else {
@@ -366,7 +369,8 @@ sub Run {
                 }
                 else {
                     return $LayoutObject->Redirect(
-                        OP => 'Action=AdminUser',
+                        OP => 'Action=AdminUser' . ( $IncludeInvalid ? ';IncludeInvalid=1' : '' )
+                        ,
                     );
                 }
             }
@@ -404,7 +408,10 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
-        $Self->_Overview( Search => $Search );
+        $Self->_Overview(
+            Search         => $Search,
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Notify( Info => Translatable('Agent updated!') )
@@ -530,6 +537,8 @@ sub _Overview {
         Data => \%Param,
     );
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block(
         Name => 'ActionSearch',
@@ -546,7 +555,7 @@ sub _Overview {
     my %List = $UserObject->UserSearch(
         Search => $Param{Search} . '*',
         Limit  => $Limit,
-        Valid  => 0,
+        Valid  => $Param{IncludeInvalid} ? 0 : 1,
     );
 
     my %ListAllItems = $UserObject->UserSearch(
