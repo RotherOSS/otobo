@@ -39,6 +39,7 @@ sub Run {
     my $ParamObject      = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LayoutObject     = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SalutationObject = $Kernel::OM->Get('Kernel::System::Salutation');
+    my $IncludeInvalid   = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -200,7 +201,9 @@ sub Run {
             );
 
             if ($AddressID) {
-                $Self->_Overview();
+                $Self->_Overview(
+                    IncludeInvalid => $IncludeInvalid,
+                );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $LayoutObject->Notify( Info => Translatable('Salutation added!') );
@@ -234,7 +237,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Output(
@@ -332,6 +337,9 @@ sub _Overview {
 
     $LayoutObject->Block(
         Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        },
     );
 
     $LayoutObject->Block(
@@ -342,7 +350,7 @@ sub _Overview {
     my $SalutationObject = $Kernel::OM->Get('Kernel::System::Salutation');
 
     my %List = $SalutationObject->SalutationList(
-        Valid => 0,
+        Valid => $Param{IncludeInvalid} ? 0 : 1,
     );
 
     # if there are any results, they are shown
