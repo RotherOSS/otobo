@@ -40,6 +40,12 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 
         Core.UI.Table.InitTableFilter($("#FilterQueues"), $("#Queues"));
 
+        // init checkbox to include invalid elements
+        $('input#IncludeInvalid').off('change').on('change', function () {
+            var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action") + ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
+            window.location.href = URL;
+        });
+
         Core.Config.Set('EntityType', 'Queue');
     };
 
