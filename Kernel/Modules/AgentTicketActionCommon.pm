@@ -2695,17 +2695,45 @@ sub _Mask {
                     %Ticket,
                 );
 
+                # fetch and check potentially set pending time
+                my %PendingTimeSettings = ();
+
+                # try restoring pending time only if pending time exists and responsible config option is set
+                if ( $Ticket{RealTillTimeNotUsed} && $ConfigObject->Get('Ticket::Frontend::RestorePendingTime') ) {
+
+                    my $PendingTimeObj = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            Epoch => $Ticket{RealTillTimeNotUsed},
+                        },
+                    );
+
+                    my $CurrentTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+
+                    # set pending time only if it is later than now
+                    if ( $CurrentTimeObj->Compare( DateTimeObject =>  $PendingTimeObj ) < 0 ) {
+                        %PendingTimeSettings = %{ $PendingTimeObj->Get() };
+                    }
+
+                }
+
+                # set DiffTime only if no pending time is present
+                my $DiffTime = 0;
+                if ( !%PendingTimeSettings ) {
+                    $DiffTime = $ConfigObject->Get('Ticket::Frontend::PendingDiffTime') || 0;
+                }
+
                 $Param{DateString} = $LayoutObject->BuildDateSelection(
                     %Param,
-                    Format           => 'DateInputFormatLong',
-                    YearPeriodPast   => 0,
-                    YearPeriodFuture => 5,
-                    DiffTime         => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime')
-                        || 0,
+                    Format               => 'DateInputFormatLong',
+                    YearPeriodPast       => 0,
+                    YearPeriodFuture     => 5,
+                    DiffTime             => $DiffTime,
                     Class                => $Param{DateInvalid} || ' ',
                     Validate             => 1,
                     ValidateDateInFuture => 1,
                     Calendar             => $Calendar,
+                    %PendingTimeSettings,
                 );
 
                 $LayoutObject->Block(

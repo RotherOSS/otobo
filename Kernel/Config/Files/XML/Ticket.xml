@@ -4256,6 +4256,13 @@
             <Item ValueType="String" ValueRegex="">%%Pending</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::RestorePendingTime" Required="0" Valid="1">
+        <Description Translatable="1">Restore last pending time in input masks based on AgentTicketActionCommon, if pending state is set.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPriority###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
