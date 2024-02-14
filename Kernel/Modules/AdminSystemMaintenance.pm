@@ -44,6 +44,7 @@ sub Run {
 
     my $SystemMaintenanceID = $ParamObject->GetParam( Param => 'SystemMaintenanceID' ) || '';
     my $WantSessionID       = $ParamObject->GetParam( Param => 'WantSessionID' )       || '';
+    my $IncludeInvalid      = $ParamObject->GetParam( Param => 'IncludeInvalid' )      || 0;
 
     my $SessionVisibility = 'Collapsed';
 
@@ -444,8 +445,16 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
 
+        my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+        my %ValidLookup = reverse %ValidList;
+        my @ValidIDs    = $ValidLookup{'valid'};
+        if ($IncludeInvalid) {
+            push @ValidIDs, ( $ValidLookup{'invalid'}, $ValidLookup{'invalid-temporarily'} );
+        }
+
         my $SystemMaintenanceList = $SystemMaintenanceObject->SystemMaintenanceListGet(
-            UserID => $Self->{UserID},
+            UserID   => $Self->{UserID},
+            ValidIDs => \@ValidIDs,
         );
 
         if ( !scalar @{$SystemMaintenanceList} ) {
@@ -503,6 +512,9 @@ sub Run {
 
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemMaintenance',
+            Data         => {
+                IncludeInvalidChecked => $IncludeInvalid ? 'checked' : '',
+            },
         );
         $Output .= $LayoutObject->Footer();
         return $Output;
