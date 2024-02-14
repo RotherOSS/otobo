@@ -40,7 +40,8 @@ sub Run {
     my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
 
-    my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+    my $Notification   = $ParamObject->GetParam( Param => 'Notification' )   || '';
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -205,7 +206,9 @@ sub Run {
             );
 
             if ($NewSignature) {
-                $Self->_Overview();
+                $Self->_Overview(
+                    IncludeInvalid => $IncludeInvalid,
+                );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $LayoutObject->Notify( Info => Translatable('Signature added!') );
@@ -239,7 +242,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Notify( Info => Translatable('Signature updated!') )
@@ -352,12 +357,15 @@ sub _Overview {
     );
 
     $LayoutObject->Block(
-        Name => 'Filter'
+        Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        },
     );
 
     my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
     my %List            = $SignatureObject->SignatureList(
-        Valid => 0,
+        Valid => $Param{IncludeInvalid} ? 0 : 1,
     );
 
     # if there are any results, they are shown
