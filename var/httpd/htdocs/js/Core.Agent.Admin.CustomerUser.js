@@ -43,7 +43,23 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 
         // init checkbox to include invalid elements
         $('input#IncludeInvalid').off('change').on('change', function () {
-            var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action") + ';Nav=' + $(this).attr('data-nav') + ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
+            var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action");
+
+            // preserve necessary url params
+            var Subaction = $(this).attr('data-subaction');
+            if (Subaction) {
+                URL += ';Subaction=' + $(this).attr('data-subaction');
+                if ( Subaction == 'Search' ) {
+                    URL += ';Search=' + $('#Search').val();
+                }
+            }
+            if ( Nav ) {
+                URL += ';Nav=' + Nav;
+            }
+            if ( $(this).is(':checked') ) {
+                URL += ';IncludeInvalid=1';
+            }
+
             window.location.href = URL;
         });
 

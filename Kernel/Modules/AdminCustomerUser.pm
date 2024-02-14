@@ -875,7 +875,9 @@ sub _Overview {
         Data => \%Param,
     );
 
+    # set params needed for IncludeInvalid checkbox
     $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Param{Subaction}             = $Self->{Subaction};
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block(
