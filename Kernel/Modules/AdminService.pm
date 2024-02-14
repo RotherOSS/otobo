@@ -36,7 +36,10 @@ sub Run {
 
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # service edit
@@ -63,8 +66,6 @@ sub Run {
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
-
-        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
         # get params
         my %GetParam;
@@ -238,7 +239,12 @@ sub Run {
 
         $LayoutObject->Block( Name => 'ActionList' );
         $LayoutObject->Block( Name => 'ActionAdd' );
-        $LayoutObject->Block( Name => 'Filter' );
+        $LayoutObject->Block(
+            Name => 'Filter',
+            Data => {
+                IncludeInvalidChecked => $IncludeInvalid ? 'checked' : '',
+            },
+        );
 
         # output overview result
         $LayoutObject->Block(
@@ -248,7 +254,7 @@ sub Run {
 
         # get service list
         my $ServiceList = $ServiceObject->ServiceListGet(
-            Valid  => 0,
+            Valid  => $IncludeInvalid ? 0 : 1,
             UserID => $Self->{UserID},
         );
 
