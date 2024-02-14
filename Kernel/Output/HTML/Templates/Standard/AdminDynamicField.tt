@@ -54,6 +54,10 @@
                 </div>
             </div>
 [% RenderBlockEnd("DynamicFieldNamespace") %]
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" class="" name="IncludeInvalid" value="1" title="[% Translate("Include invalid dynamic fields") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include invalid dynamic fields") | html %]</label>
+            </div>
         </div>
 
         <div class="WidgetSimple">

@@ -186,8 +186,8 @@ sub _Add {
         }
     }
 
-    for my $FilterParam (qw(ObjectType Namespace)) {
-        $GetParam{ $FilterParam . 'Filter' } = $ParamObject->GetParam( Param => $FilterParam . 'Filter' );
+    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter IncludeInvalid)) {
+        $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
     # Get the object type and field type display name.
@@ -256,8 +256,8 @@ sub _AddAction {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
-    for my $FilterParam (qw(ObjectType Namespace)) {
-        $GetParam{ $FilterParam . 'Filter' } = $ParamObject->GetParam( Param => $FilterParam . 'Filter' );
+    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter IncludeInvalid)) {
+        $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
     if ( $GetParam{Name} ) {
@@ -363,6 +363,14 @@ sub _AddAction {
             },
         );
     }
+    if ( defined $GetParam{IncludeInvalid} ) {
+        $RedirectString .= ";IncludeInvalid=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{IncludeInvalid} ? 1 : 0,
+            },
+        );
+    }
 
     return $LayoutObject->Redirect( OP => $RedirectString );
 }
@@ -383,8 +391,8 @@ sub _Change {
         }
     }
 
-    for my $FilterParam (qw(ObjectType Namespace)) {
-        $GetParam{ $FilterParam . 'Filter' } = $ParamObject->GetParam( Param => $FilterParam . 'Filter' );
+    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter IncludeInvalid)) {
+        $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
     # Get the object type and field type display name.
@@ -516,8 +524,8 @@ sub _ChangeAction {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
-    for my $FilterParam (qw(ObjectType Namespace)) {
-        $GetParam{ $FilterParam . 'Filter' } = $ParamObject->GetParam( Param => $FilterParam . 'Filter' );
+    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter IncludeInvalid)) {
+        $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
     if ( $GetParam{Name} ) {
@@ -705,6 +713,14 @@ sub _ChangeAction {
             Template => '[% Data.Filter | uri %]',
             Data     => {
                 Filter => $GetParam{NamespaceFilter},
+            },
+        );
+    }
+    if ( defined $GetParam{IncludeInvalid} ) {
+        $FilterString .= ";IncludeInvalid=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{IncludeInvalid} ? 1 : 0,
             },
         );
     }
@@ -1050,6 +1066,15 @@ sub _ShowScreen {
             Template => '[% Data.Filter | uri %]',
             Data     => {
                 Filter => $Param{ObjectTypeFilter},
+            },
+        );
+    }
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $FilterStrg .= ";IncludeInvalid=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $Param{IncludeInvalid} ? 1 : 0,
             },
         );
     }
