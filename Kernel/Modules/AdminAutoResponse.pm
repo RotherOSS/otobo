@@ -351,7 +351,7 @@ sub _Overview {
         Data => \%Param,
     );
     my %List = $AutoResponseObject->AutoResponseList(
-        Valid => 0,
+        Valid => $Param{IncludeInvalid} ? 0 : 1,
     );
 
     # if there are any results, they are shown
@@ -364,7 +364,6 @@ sub _Overview {
             my %Data = $AutoResponseObject->AutoResponseGet(
                 ID => $ID,
             );
-            next ID unless $Param{IncludeInvalid} || grep { $ValidList{ $Data{ValidID} } eq $_ } qw(valid invalid-temporarily);
 
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',

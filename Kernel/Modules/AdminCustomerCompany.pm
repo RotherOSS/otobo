@@ -855,7 +855,7 @@ sub _Overview {
 
         my %List = $CustomerCompanyObject->CustomerCompanyList(
             Search => $Param{Search},
-            Valid  => 0,
+            Valid  => $Param{IncludeInvalid} ? 0 : 1,
         );
 
         if ( keys %ListAllItems > $Limit ) {
@@ -890,7 +890,6 @@ sub _Overview {
             for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
                 my %Data = $CustomerCompanyObject->CustomerCompanyGet( CustomerID => $ListKey );
-                next RESULT unless $Param{IncludeInvalid} || ( grep { $ValidList{ $Data{ValidID} } eq $_ } qw(valid invalid-temporarily) );
 
                 $LayoutObject->Block(
                     Name => 'OverviewResultRow',
