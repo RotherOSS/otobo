@@ -41,12 +41,13 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
-    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+    my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $GroupObject    = $Kernel::OM->Get('Kernel::System::Group');
+    my $LogObject      = $Kernel::OM->Get('Kernel::System::Log');
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+    my $Notification   = $ParamObject->GetParam( Param => 'Notification' )   || '';
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -258,7 +259,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Notify( Info => Translatable('Group updated!') )
@@ -314,6 +317,8 @@ sub _Overview {
     my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
     my $ValidObject  = $Kernel::OM->Get('Kernel::System::Valid');
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -324,7 +329,7 @@ sub _Overview {
     $LayoutObject->Block( Name => 'Filter' );
 
     my %List = $GroupObject->GroupList(
-        Valid => 0,
+        Valid => $Param{IncludeInvalid} ? 0 : 1,
     );
     my $ListSize = keys %List;
     $Param{AllItemsCount} = $ListSize;
