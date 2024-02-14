@@ -300,7 +300,7 @@ sub _Overview {
     $LayoutObject->Block( Name => 'Filter' );
 
     my %List = $GroupObject->RoleList(
-        ValidID => 0,
+        Valid => 0,
     );
     my $ListSize = keys %List;
 
