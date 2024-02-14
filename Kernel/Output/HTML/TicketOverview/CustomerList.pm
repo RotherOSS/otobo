@@ -128,17 +128,11 @@ sub Run {
         my $SmallViewColumnHeader = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{ColumnHeader};
 
         # Check if the last customer subject or ticket title should be shown.
-        # If ticket title should be shown, check if there are articles, because ticket title
-        # could be related with a subject of an article which does not visible for customer (see bug#13614).
-        # If there is no subject, set to 'Untitled'.
         if ( $SmallViewColumnHeader eq 'LastCustomerSubject' ) {
             $Subject = $Article{Subject} || '';
         }
-        elsif ( $SmallViewColumnHeader eq 'TicketTitle' && $ArticleList[0] ) {
-            $Subject = $Ticket{Title};
-        }
         else {
-            $Subject = Translatable('Untitled!');
+            $Subject = $Ticket{Title};
         }
 
         # Condense down the subject.
