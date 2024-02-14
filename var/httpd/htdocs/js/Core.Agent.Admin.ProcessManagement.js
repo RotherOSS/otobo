@@ -50,6 +50,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Initialize table filter
         Core.UI.Table.InitTableFilter($('#Filter'), $('#Processes'), 0);
 
+        // init checkbox to include invalid elements
+        $('input#IncludeInvalid').off('change').on('change', function () {
+            var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action") + ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
+            window.location.href = URL;
+        });
+
         // Depending on Subaction initialize specific functions
         if (Subaction === 'ActivityNew' ||
             Subaction === 'ActivityNewAction' ||

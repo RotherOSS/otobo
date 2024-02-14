@@ -73,6 +73,8 @@ sub Run {
         ];
     }
 
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+
     # get needed objects
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
@@ -1644,8 +1646,21 @@ sub _ShowOverview {
 
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 
+    # fetch state list to filter processes by states
+    my $StateList   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process::State')->StateList( UserID => $Self->{UserID} );
+    my %StateLookup = reverse %{$StateList};
+
+    # apply restrictions from checkbox
+    my @ProcessStates = ( $StateLookup{'Active'} );
+    if ( $Param{IncludeInvalid} ) {
+        push @ProcessStates, ( $StateLookup{'FadeAway'}, $StateLookup{'Inactive'} );
+    }
+
     # get a process list
-    my $ProcessList = $ProcessObject->ProcessList( UserID => $Self->{UserID} );
+    my $ProcessList = $ProcessObject->ProcessList(
+        UserID         => $Self->{UserID},
+        StateEntityIDs => \@ProcessStates,
+    );
 
     if ( IsHashRefWithData($ProcessList) ) {
 
@@ -1677,6 +1692,8 @@ sub _ShowOverview {
             Data => {},
         );
     }
+
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminProcessManagement',
