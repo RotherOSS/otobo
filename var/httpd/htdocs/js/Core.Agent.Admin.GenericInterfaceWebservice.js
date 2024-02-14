@@ -59,6 +59,12 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
             TargetNS.HideElements();
         }
 
+        // init checkbox to include invalid elements
+        $('input#IncludeInvalid').off('change').on('change', function () {
+            var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action") + ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
+            window.location.href = URL;
+        });
+
         $('#DeleteButton').on('click', TargetNS.ShowDeleteDialog);
         $('#CloneButton').on('click', TargetNS.ShowCloneDialog);
         $('#ImportButton').on('click', TargetNS.ShowImportDialog);
