@@ -48,6 +48,8 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $StateObject  = $Kernel::OM->Get('Kernel::System::State');
 
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
@@ -281,7 +283,9 @@ sub Run {
                 UserID => $Self->{UserID},
             );
             if ($StateID) {
-                $Self->_Overview();
+                $Self->_Overview(
+                    IncludeInvalid => $IncludeInvalid,
+                );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $LayoutObject->Notify( Info => Translatable('State added!') );
@@ -315,7 +319,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Output(
@@ -440,7 +446,12 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
-    $LayoutObject->Block( Name => 'Filter' );
+    $LayoutObject->Block(
+        Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        },
+    );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',
@@ -450,7 +461,7 @@ sub _Overview {
     my $StateObject = $Kernel::OM->Get('Kernel::System::State');
     my %List        = $StateObject->StateList(
         UserID => 1,
-        Valid  => 0,
+        Valid  => $Param{IncludeInvalid} ? 0 : 1,
     );
 
     # if there are any states, they are shown
