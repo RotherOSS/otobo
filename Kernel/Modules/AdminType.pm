@@ -48,6 +48,8 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');
 
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+
     # Check if ticket type is enabled.
     my $TypeNotActive = '';
     if ( !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type') ) {
@@ -296,7 +298,9 @@ sub Run {
                 UserID => $Self->{UserID}
             );
             if ($NewType) {
-                $Self->_Overview();
+                $Self->_Overview(
+                    IncludeInvalid => $IncludeInvalid,
+                );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $TypeNotActive;
@@ -337,7 +341,9 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $TypeNotActive;
 
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
 
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminType',
@@ -461,7 +467,12 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
-    $LayoutObject->Block( Name => 'Filter' );
+    $LayoutObject->Block(
+        Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        },
+    );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',
@@ -469,7 +480,9 @@ sub _Overview {
     );
 
     my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
-    my %List       = $TypeObject->TypeList( Valid => 0 );
+    my %List       = $TypeObject->TypeList(
+        Valid => $Param{IncludeInvalid} ? 0 : 1,
+    );
 
     # if there are any types, they are shown
     if (%List) {
