@@ -46,7 +46,8 @@ sub Run {
     my $StdAttachmentObject    = $Kernel::OM->Get('Kernel::System::StdAttachment');
     my $QueueObject            = $Kernel::OM->Get('Kernel::System::Queue');
 
-    my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+    my $Notification   = $ParamObject->GetParam( Param => 'Notification' )   || '';
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -343,7 +344,9 @@ sub Run {
                     );
                 }
 
-                $Self->_Overview();
+                $Self->_Overview(
+                    IncludeInvalid => $IncludeInvalid,
+                );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $LayoutObject->Notify(
@@ -419,7 +422,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Notify( Info => Translatable('Template updated!') )
@@ -554,7 +559,12 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
-    $LayoutObject->Block( Name => 'Filter' );
+    $LayoutObject->Block(
+        Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        }
+    );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',
@@ -564,7 +574,7 @@ sub _Overview {
     my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
     my %List                   = $StandardTemplateObject->StandardTemplateList(
         UserID => 1,
-        Valid  => 0,
+        Valid  => $Param{IncludeInvalid} ? 0 : 1,
     );
 
     # if there are any results, they are shown
