@@ -68,6 +68,10 @@
             <div class="Content">
                 <input type="text" id="FilterMailAccounts" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterMailAccounts" value="" title="[% Translate("Filter for mail accounts") | html %]">
             </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" class="" name="IncludeInvalid" value="1" title="[% Translate("Include invalid Mail Accounts") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include invalid Mail Accounts") | html %]</label>
+            </div>
         </div>
 [% RenderBlockEnd("Filter") %]
         <div class="WidgetSimple">
