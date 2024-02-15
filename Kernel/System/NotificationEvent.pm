@@ -65,9 +65,10 @@ sub new {
 returns a hash of all notifications
 
     my %List = $NotificationEventObject->NotificationList(
-        Type    => 'Ticket', # type of notifications; default: 'Ticket'
-        Details => 1,        # include notification detailed data. possible (0|1) # ; default: 0
-        All     => 1,        # optional: if given all notification types will be returned, even if type is given (possible: 0|1)
+        Type    => 'Ticket',    # type of notifications; default: 'Ticket'
+        Details => 1,           # include notification detailed data. possible (0|1) # ; default: 0
+        All     => 1,           # optional: if given all notification types will be returned, even if type is given (possible: 0|1)
+        ValidIDs => ['1', '2'], # optional: filter by given valid ids
     );
 
 =cut
@@ -79,9 +80,17 @@ sub NotificationList {
     $Param{Details} = $Param{Details} ? 1 : 0;
     $Param{All}     = $Param{All}     ? 1 : 0;
 
+    my $ValidIDsStrg;
+    if ( !IsArrayRefWithData( $Param{ValidIDs} ) ) {
+        $ValidIDsStrg = 'ALL';
+    }
+    else {
+        $ValidIDsStrg = join ',', @{ $Param{ValidIDs} };
+    }
+
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheKey    = $Self->{CacheType} . '::' . $Param{Type} . '::' . $Param{Details} . '::' . $Param{All};
+    my $CacheKey    = $Self->{CacheType} . '::' . $Param{Type} . '::' . $Param{Details} . '::' . $Param{All} . '::' . $ValidIDsStrg;
     my $CacheResult = $CacheObject->Get(
         Type => $Self->{CacheType},
         Key  => $CacheKey,
@@ -94,7 +103,17 @@ sub NotificationList {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    $DBObject->Prepare( SQL => 'SELECT id FROM notification_event' );
+    my $SQL = 'SELECT id FROM notification_event';
+
+    if ( $ValidIDsStrg ne 'ALL' ) {
+
+        my $ValidIDsStrgDB = join ',', map { $DBObject->Quote( $_, 'Integer' ) }
+            @{ $Param{ValidIDs} };
+
+        $SQL .= " WHERE valid_id IN ($ValidIDsStrgDB)";
+    }
+
+    $DBObject->Prepare( SQL => $SQL );
 
     my @NotificationList;
     while ( my @Row = $DBObject->FetchrowArray() ) {
