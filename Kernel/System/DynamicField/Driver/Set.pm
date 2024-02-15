@@ -460,7 +460,7 @@ sub EditFieldValueValidate {
         for my $SetIndex ( 0 .. $IndexMax ) {
             $DynamicFieldConfig->{Name} = $Name . '_' . $SetIndex;
 
-            $Result->{ $DynamicField->{Name} } = $BackendObject->EditFieldValueValidate(
+            $Result->{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldValueValidate(
                 %Param,
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
@@ -570,6 +570,8 @@ sub ReadableValueRender {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    $Param{Value} ||= [];
 
     my %SetValue = (
         Value => [],
