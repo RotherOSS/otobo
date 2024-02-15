@@ -847,6 +847,63 @@ sub _RenderAjax {
         };
     }
 
+    for my $SetField ( values $DynFieldStates{Sets}->%* ) {
+        my $DynamicFieldConfig = $SetField->{DynamicFieldConfig};
+
+        # the frontend name is the name of the inner field including its index or the '_Template' suffix
+        DYNAMICFIELD:
+        for my $FrontendName ( keys $SetField->{FieldStates}->%* ) {
+
+            if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $SetField->{Values}{$FrontendName} eq 'ARRAY' ) {
+                for my $i ( 0 .. $#{ $SetField->{Values}{$FrontendName} } ) {
+                    my $DataValues = $SetField->{FieldStates}{$FrontendName}{NotACLReducible}
+                        ? $SetField->{Values}{$FrontendName}[$i]
+                        :
+                        (
+                            $DynamicFieldBackendObject->BuildSelectionDataGet(
+                                DynamicFieldConfig => $DynamicFieldConfig,
+                                PossibleValues     => $SetField->{FieldStates}{$FrontendName}{PossibleValues},
+                                Value              => [ $SetField->{Values}{$FrontendName}[$i] ],
+                            )
+                            || $SetField->{FieldStates}{$FrontendName}{PossibleValues}
+                        );
+
+                    # add dynamic field to the list of fields to update
+                    push @JSONCollector, {
+                        Name        => 'DynamicField_' . $FrontendName . "_$i",
+                        Data        => $DataValues,
+                        SelectedID  => $SetField->{Values}{$FrontendName}[$i],
+                        Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                        Max         => 100,
+                    };
+                }
+
+                next DYNAMICFIELD;
+            }
+
+            my $DataValues = $SetField->{FieldStates}{$FrontendName}{NotACLReducible}
+                ? $SetField->{Values}{$FrontendName}
+                :
+                (
+                    $DynamicFieldBackendObject->BuildSelectionDataGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        PossibleValues     => $SetField->{FieldStates}{$FrontendName}{PossibleValues},
+                        Value              => $SetField->{Values}{$FrontendName},
+                    )
+                    || $SetField->{FieldStates}{$FrontendName}{PossibleValues}
+                );
+
+            # add dynamic field to the list of fields to update
+            push @JSONCollector, {
+                Name        => 'DynamicField_' . $FrontendName,
+                Data        => $DataValues,
+                SelectedID  => $SetField->{Values}{$FrontendName},
+                Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                Max         => 100,
+            };
+        }
+    }
+
     my $JSON = $LayoutObject->BuildSelectionJSON( [@JSONCollector] );
 
     return $LayoutObject->Attachment(
