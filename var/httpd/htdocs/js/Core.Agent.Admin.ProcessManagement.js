@@ -1264,6 +1264,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
                              $Element.closest('li').data('config', Core.JSON.Stringify(FieldConfigElement));
 
+                             DirectSubmitCheck();
+
                              Core.UI.Dialog.CloseDialog($('.Dialog'));
                          }
                      },
