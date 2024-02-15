@@ -284,7 +284,7 @@ ul.ContextFunctions li:last-child:hover > a {
     background: none;
 }
 
-.Actions li a:not(.CallForAction),
+.Actions li a,
 .Actions li span {
     padding: 5px 2px 0;
     color: #00023c;
@@ -292,26 +292,32 @@ ul.ContextFunctions li:last-child:hover > a {
     border-bottom: 1px solid transparent;
 }
 
-.Actions li a.CallForAction {
+.Actions li a.NextActivityDialog {
     margin: 4px 4px 4px 0;
     padding: 5px 7px 4px;
     height: 14px;
     display: inline-block;
+    color: revert;
+    border-bottom: 0;
 }
 
-.Actions li a.CallForAction > span {
+.Actions li a.NextActivityDialog:hover {
+    border-color: #0000fc;
+}
+
+.Actions li a.NextActivityDialog > span {
     color: #ffffff;
     padding: 0;
     border: 0;
 }
 
-.Actions li a:not(.CallForAction):hover,
+.Actions li a:hover,
 .Actions li span:hover,
 .OverviewZoom a:hover {
     border-color: #bfbfce;
 }
 
-.Actions li.NoHover:hover a:not(.CallForAction) {
+.Actions li.NoHover:hover a {
     background: none;
 }
 
@@ -323,17 +329,17 @@ ul.ContextFunctions li:last-child:hover > a {
     margin: 0 3px 0 1px;
 }
 
-.RTL .Actions li:first-child a:not(.CallForAction) {
+.RTL .Actions li:first-child a {
     background-image: none;
 }
 
-.Actions li.Inactive a:not(.CallForAction) {
+.Actions li.Inactive a {
     color: #999;
     text-shadow: 1px 1px #FFF;
     cursor: default;
 }
 
-.Actions li.Inactive:hover a:not(.CallForAction) {
+.Actions li.Inactive:hover a {
     background: none;
     border-color: transparent;
     -webkit-box-shadow: 0 0 0;
@@ -369,20 +375,20 @@ ul.ContextFunctions li:last-child:hover > a {
     color: #bbb;
 }
 
-.Tab.Actions li:first-child a:not(.CallForAction) {
+.Tab.Actions li:first-child a {
     padding-left: 3px;
 }
 
-.RTL .Tab.Actions li:first-child a:not(.CallForAction) {
+.RTL .Tab.Actions li:first-child a {
     padding: 3px 3px 4px 8px;
 }
 
-.Tab.Actions li a:not(.CallForAction) {
+.Tab.Actions li a {
     padding: 5px 5px 8px 2px;
     color: #999;
 }
 
-.Tab.Actions li a:not(.CallForAction):hover {
+.Tab.Actions li a:hover {
     color: #777;
     background: none;
     text-decoration: underline;
@@ -393,7 +399,7 @@ ul.ContextFunctions li:last-child:hover > a {
     background: none;
 }
 
-.Tab.Actions li.Selected a:not(.CallForAction) {
+.Tab.Actions li.Selected a {
     color: #474747;
     font-weight: bold;
 }
