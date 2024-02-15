@@ -1142,6 +1142,24 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     .data('config', Core.JSON.Stringify(DefaultFieldConfig))
                     .find('.FieldDetailsOverlay').trigger('click');
             }
+            DirectSubmitCheck();
+        }
+
+        function DirectSubmitCheck() {
+            var ShownFields = [];
+            $('#AssignedFields').children('li').each(function () {
+                var Config = Core.JSON.Parse($(this).data('config'));
+                if (Config.Display != 0) {
+                    ShownFields.push($(this));
+                }
+            });
+
+            if ( $('#DirectSubmit').is(':checked') && ShownFields.length ) {
+                $('#DirectSubmit ~ p.Warning').show();
+            }
+            else {
+                $('#DirectSubmit ~ p.Warning').hide();
+            }
         }
 
         // Initialize Allocation List
@@ -1149,6 +1167,14 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
         // Initialize list filter
         Core.UI.Table.InitTableFilter($('#FilterAvailableFields'), $('#AvailableFields'));
+
+        // Initialize direct submit tooltip
+        $('#DirectSubmit').off('change').on('change', function() {
+            DirectSubmitCheck();
+        });
+
+        // Execute check to get correct starting value
+        DirectSubmitCheck();
 
         $('#Submit').on('click', function() {
             $('#ActivityDialogForm').submit();

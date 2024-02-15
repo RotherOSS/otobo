@@ -141,6 +141,7 @@
                             <label for="DirectSubmit">[% Translate("Direct submit") | html %]:</label>
                             <div class="Field">
                                 <input type="checkbox" name="DirectSubmit" id="DirectSubmit" value="1" [% Data.DirectSubmit | html %] />
+                                <p class="Warning Hidden">[% Translate("This property won't take effect because there are fields configured as visible.") | html %]</p>
                             </div>
                             <div class="Clear"></div>
                         </fieldset>
