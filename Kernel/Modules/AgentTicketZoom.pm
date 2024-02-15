@@ -1643,7 +1643,7 @@ sub MaskAgentZoom {
                         ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     );
 
-                    # decide whether to output direct submit or link to new window
+                    # check if direct submit is active for this activity dialog
                     my $DirectSubmit = $ActivityDialogData->{DirectSubmit};
                     if ( any { $ActivityDialogData->{Fields}{$_}{Display} } keys $ActivityDialogData->{Fields}->%* ) {
                         $DirectSubmit = 0;

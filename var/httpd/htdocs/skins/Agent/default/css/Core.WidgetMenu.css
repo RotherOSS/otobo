@@ -284,7 +284,7 @@ ul.ContextFunctions li:last-child:hover > a {
     background: none;
 }
 
-.Actions li a,
+.Actions li a:not(.CallForAction),
 .Actions li span {
     padding: 5px 2px 0;
     color: #00023c;
@@ -292,13 +292,26 @@ ul.ContextFunctions li:last-child:hover > a {
     border-bottom: 1px solid transparent;
 }
 
-.Actions li a:hover,
+.Actions li a.CallForAction {
+    margin: 4px 4px 4px 0;
+    padding: 5px 7px 4px;
+    height: 14px;
+    display: inline-block;
+}
+
+.Actions li a.CallForAction > span {
+    color: #ffffff;
+    padding: 0;
+    border: 0;
+}
+
+.Actions li a:not(.CallForAction):hover,
 .Actions li span:hover,
 .OverviewZoom a:hover {
     border-color: #bfbfce;
 }
 
-.Actions li.NoHover:hover a {
+.Actions li.NoHover:hover a:not(.CallForAction) {
     background: none;
 }
 
@@ -310,17 +323,17 @@ ul.ContextFunctions li:last-child:hover > a {
     margin: 0 3px 0 1px;
 }
 
-.RTL .Actions li:first-child a {
+.RTL .Actions li:first-child a:not(.CallForAction) {
     background-image: none;
 }
 
-.Actions li.Inactive a {
+.Actions li.Inactive a:not(.CallForAction) {
     color: #999;
     text-shadow: 1px 1px #FFF;
     cursor: default;
 }
 
-.Actions li.Inactive:hover a {
+.Actions li.Inactive:hover a:not(.CallForAction) {
     background: none;
     border-color: transparent;
     -webkit-box-shadow: 0 0 0;
@@ -356,20 +369,20 @@ ul.ContextFunctions li:last-child:hover > a {
     color: #bbb;
 }
 
-.Tab.Actions li:first-child a {
+.Tab.Actions li:first-child a:not(.CallForAction) {
     padding-left: 3px;
 }
 
-.RTL .Tab.Actions li:first-child a {
+.RTL .Tab.Actions li:first-child a:not(.CallForAction) {
     padding: 3px 3px 4px 8px;
 }
 
-.Tab.Actions li a {
+.Tab.Actions li a:not(.CallForAction) {
     padding: 5px 5px 8px 2px;
     color: #999;
 }
 
-.Tab.Actions li a:hover {
+.Tab.Actions li a:not(.CallForAction):hover {
     color: #777;
     background: none;
     text-decoration: underline;
@@ -380,7 +393,7 @@ ul.ContextFunctions li:last-child:hover > a {
     background: none;
 }
 
-.Tab.Actions li.Selected a {
+.Tab.Actions li.Selected a:not(.CallForAction) {
     color: #474747;
     font-weight: bold;
 }
