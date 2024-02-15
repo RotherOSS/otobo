@@ -1675,9 +1675,9 @@ sub _Overview {
 
     my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidLookup = reverse %ValidList;
-    my @ValidIDs    = $ValidLookup{'valid'};
+    my @ValidIDs    = ( $ValidLookup{'valid'}, $ValidLookup{'invalid-temporarily'} );
     if ( $Param{IncludeInvalid} ) {
-        push @ValidIDs, ( $ValidLookup{'invalid'}, $ValidLookup{'invalid-temporarily'} );
+        push @ValidIDs, $ValidLookup{'invalid'};
     }
 
     my %List = $NotificationEventObject->NotificationList(
