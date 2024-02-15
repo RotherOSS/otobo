@@ -73,8 +73,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # check needed objects
     $Self->{Email}                  = $Param{Email}                  || die "Got no Email!";
@@ -99,8 +98,8 @@ sub new {
             || die "Found no '$Option' option in configuration!";
     }
 
-    # should I use x-otobo headers?
-    $Self->{Trusted} = defined $Param{Trusted} ? $Param{Trusted} : 1;
+    # should I use X-OTOBO headers?
+    $Self->{Trusted} = $Param{Trusted} // 1;
 
     if ( $Self->{Trusted} ) {
 
@@ -169,7 +168,9 @@ sub Run {
     # get config objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # run all PreFilterModules (modify email params)
+    # Run the PreFilterModules.
+    # These filter modules may modify the email parameters in %GetParam, including
+    # the body and the attachments.
     if ( ref $ConfigObject->Get('PostMaster::PreFilterModule') eq 'HASH' ) {
 
         my %Jobs = %{ $ConfigObject->Get('PostMaster::PreFilterModule') };
