@@ -234,7 +234,7 @@
 [% RenderBlockEnd("ActivityDialogDirectSubmit") %]
 [% RenderBlockStart("ActivityDialog") %]
                         <li>
-                            <a title="[% Translate(Data.Name) | html %]" class="AsPopup PopupType_TicketAction NextActivityDialog" href="[% Env("Baselink") %]Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=[% Data.TicketID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];ActivityDialogEntityID=[% Data.ActivityDialogEntityID | uri %]">[% Translate(Data.Name) | html %]</a>
+                            <a title="[% Translate(Data.Name) | html %]" class="CallForAction AsPopup PopupType_TicketAction NextActivityDialog" href="[% Env("Baselink") %]Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=[% Data.TicketID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];ActivityDialogEntityID=[% Data.ActivityDialogEntityID | uri %]"><span>[% Translate(Data.Name) | html %]</span></a>
                         </li>
 [% RenderBlockEnd("ActivityDialog") %]
                     </ul>
