@@ -65,6 +65,7 @@ sub Run {
     my $BackendObject           = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $MainObject              = $Kernel::OM->Get('Kernel::System::Main');
     my $Notification            = $ParamObject->GetParam( Param => 'Notification' );
+    my $IncludeInvalid          = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # get the search article fields to retrieve values for
     my %ArticleSearchableFields     = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
@@ -573,7 +574,9 @@ sub Run {
         }
 
         if ($ID) {
-            $Self->_Overview();
+            $Self->_Overview(
+                IncludeInvalid => $IncludeInvalid,
+            );
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
             $Output .= $LayoutObject->Notify( Info => Translatable('Notification added!') );
@@ -870,7 +873,9 @@ sub Run {
             };
         }
 
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
 
@@ -896,7 +901,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            IncludeInvalid => $IncludeInvalid,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Notify( Info => Translatable('Notification updated!') )
@@ -1652,7 +1659,12 @@ sub _Overview {
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
     $LayoutObject->Block( Name => 'ActionImport' );
-    $LayoutObject->Block( Name => 'Filter' );
+    $LayoutObject->Block(
+        Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
+        },
+    );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',
@@ -1661,7 +1673,16 @@ sub _Overview {
 
     my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
 
-    my %List = $NotificationEventObject->NotificationList();
+    my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+    my %ValidLookup = reverse %ValidList;
+    my @ValidIDs    = $ValidLookup{'valid'};
+    if ( $Param{IncludeInvalid} ) {
+        push @ValidIDs, ( $ValidLookup{'invalid'}, $ValidLookup{'invalid-temporarily'} );
+    }
+
+    my %List = $NotificationEventObject->NotificationList(
+        ValidIDs => \@ValidIDs,
+    );
 
     # if there are any notifications, they are shown
     if (%List) {
