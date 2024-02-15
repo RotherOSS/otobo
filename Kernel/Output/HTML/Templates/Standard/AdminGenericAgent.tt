@@ -71,7 +71,7 @@
                 <input type="text" id="FilterGenericAgentJobs" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGenericAgentJobs" value="" title="[% Translate("Filter for jobs") | html %]">
             </div>
             <div class="Content">
-                <input type="checkbox" id="IncludeInvalid" class="" name="IncludeInvalid" value="1" title="[% Translate("Include invalid jobs") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid jobs") | html %]" [% Data.IncludeInvalidChecked | html %]/>
                 <label for="IncludeInvalid">[% Translate("Include invalid jobs") | html %]</label>
             </div>
         </div>

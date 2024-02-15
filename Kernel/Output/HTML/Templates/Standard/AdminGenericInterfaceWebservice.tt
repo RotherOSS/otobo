@@ -171,7 +171,7 @@
 [% RenderBlockEnd("ActionDebugger") %]
                     <li>
                         <br/>
-                        <input type="checkbox" id="IncludeInvalid" class="" name="IncludeInvalid" value="1" title="[% Translate("Include invalid webservices") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                        <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid webservices") | html %]" [% Data.IncludeInvalidChecked | html %]/>
                         <label for="IncludeInvalid">[% Translate("Include invalid webservices") | html %]</label>
                     </li>
                 </ul>
