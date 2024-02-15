@@ -92,7 +92,8 @@ Returns possible values, selected values, and visibility of fields
         LoopProtection            => \$LoopProtection,              # restricts number of recursive calls; passing a reference to 'undef' will lead to a warning
         Autoselect                => {},                            # optional; default: undef; {Field => 0,1,2, ...}
         ACLPreselection           => 0|1,                           # optional
-        InitialRun                => 1,                             # optional; evaluate script fields without AJAX Trigger once
+        InitialRun                => 1,                             # optional; evaluate e.g. script fields without AJAX Trigger once
+        PossibleValuesOnly        => 1,                             # optional; assume all fields are visible e.g. for sets
     );
 
 Returns:
@@ -177,8 +178,19 @@ sub GetFieldStates {
     my %Visibility;
     my $VisCheck = 1;
 
-    # whether to use ACLPreselection
-    if ( !$CompleteRun ) {
+    # in the special case of assuming visible fields we still want to know whether we do a $CompleteRun
+    # but we discard all visibility checks
+    if ( $Param{PossibleValuesOnly} ) {
+        $VisCheck         = 0;
+
+        # treat all fields as always visible
+        $CachedVisibility = {
+            map { 'DynamicField_' . $_ => 1 } keys $Param{DynamicFields}->%*
+        };
+    }
+
+    # in the standard case and if we use ACL-Preselection only vis check if necessary
+    elsif ( !$CompleteRun ) {
         $VisCheck = 0;
 
         # check whether form-ACLs are affected by any of the changed elements
@@ -237,7 +249,7 @@ sub GetFieldStates {
         %Visibility = %{$CachedVisibility};
     }
 
-    my ( %Fields, %NewValues );
+    my ( %Fields, %NewValues, %Sets );
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( values $Param{DynamicFields}->%* ) {
         next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
@@ -292,9 +304,9 @@ sub GetFieldStates {
         {
             my %Content = $Param{DynamicFieldBackendObject}->GetFieldState(
                 %Param,
-                Visibility         => \%Visibility,
-                CachedVisibility   => $CachedVisibility,
-                DynamicFieldConfig => $DynamicFieldConfig,
+                CachedVisibility        => $CachedVisibility,
+                DynamicFieldConfig      => $DynamicFieldConfig,
+                FieldRestrictionsObject => $Self,
             );
 
             # check if autoselection is activated and field changed in any way
@@ -322,6 +334,12 @@ sub GetFieldStates {
                 $Fields{$DFName} = {
                     PossibleValues => $Content{PossibleValues},
                 };
+            }
+            elsif ( exists $Content{Set} ) {
+                %Sets = (
+                    %Sets,
+                    $Content{Set}->%*,
+                );
             }
             elsif ( exists $Content{NewValue} ) {
                 $Fields{$DFName} = {
@@ -569,12 +587,21 @@ sub GetFieldStates {
                 %{ $Recu{NewValues} },
             );
         }
+
+        # finally take care of set information
+        if ( IsHashRefWithData( $Recu{Sets} ) ) {
+            %Sets = (
+                %Sets,
+                %{ $Recu{Sets} },
+            );
+        }
     }
 
     return (
         Fields     => \%Fields,
         Visibility => \%Visibility,
         NewValues  => \%NewValues,
+        Sets       => \%Sets,
     );
 }
 
