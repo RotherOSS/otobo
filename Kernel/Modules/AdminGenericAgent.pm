@@ -61,6 +61,7 @@ sub Run {
     $Self->{Profile}    = $ParamObject->GetParam( Param => 'Profile' )    || '';
     $Self->{OldProfile} = $ParamObject->GetParam( Param => 'OldProfile' ) || '';
     $Self->{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # get needed objects
     my $CheckItemObject    = $Kernel::OM->Get('Kernel::System::CheckItem');
@@ -504,6 +505,9 @@ sub Run {
     );
     $LayoutObject->Block(
         Name => 'Filter',
+        Data => {
+            IncludeInvalidChecked => $IncludeInvalid ? 'checked' : '',
+        }
     );
     $LayoutObject->Block(
         Name => 'Overview',
@@ -514,8 +518,11 @@ sub Run {
     # if there are any data, it is shown
     if (%Jobs) {
         my $Counter = 1;
+        JOB:
         for my $JobKey ( sort keys %Jobs ) {
             my %JobData = $GenericAgentObject->JobGet( Name => $JobKey );
+
+            next JOB unless $IncludeInvalid || $JobData{Valid};
 
             # css setting and text for valid or invalid jobs
             $JobData{ShownValid} = $JobData{Valid} ? 'valid' : 'invalid';
