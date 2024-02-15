@@ -359,12 +359,10 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
-        ID:
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
             my %Data = $AutoResponseObject->AutoResponseGet(
                 ID => $ID,
             );
-
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {

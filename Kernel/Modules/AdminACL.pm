@@ -605,22 +605,17 @@ sub _ShowOverview {
     }
 
     # restrict valid state if needed
-    my $ValidIDs;
-    if ( !$Param{IncludeInvalid} ) {
-        $ValidIDs = [
-            $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( Valid => 'valid' ),
-            $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( Valid => 'invalid-temporarily' ),
-        ];
-    }
-    else {
-        $Param{IncludeInvalidChecked} = 'checked';
-        $ValidIDs = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+    my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+    my %ValidLookup = reverse %ValidList;
+    my @ValidIDs    = ( $ValidLookup{'valid'}, $ValidLookup{'invalid-temporarily'} );
+    if ( $Param{IncludeInvalid} ) {
+        push @ValidIDs, $ValidLookup{'invalid'};
     }
 
     # get ACL list
     my $ACLList = $ACLObject->ACLList(
         UserID   => $Self->{UserID},
-        ValidIDs => $ValidIDs,
+        ValidIDs => \@ValidIDs,
     );
 
     if ( IsHashRefWithData($ACLList) ) {
@@ -656,6 +651,8 @@ sub _ShowOverview {
             Data => {},
         );
     }
+
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminACL',

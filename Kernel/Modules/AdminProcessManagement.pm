@@ -1651,9 +1651,9 @@ sub _ShowOverview {
     my %StateLookup = reverse %{$StateList};
 
     # apply restrictions from checkbox
-    my @ProcessStates = ( $StateLookup{'Active'} );
+    my @ProcessStates = ( $StateLookup{'Active'}, $StateLookup{'FadeAway'} );
     if ( $Param{IncludeInvalid} ) {
-        push @ProcessStates, ( $StateLookup{'FadeAway'}, $StateLookup{'Inactive'} );
+        push @ProcessStates, $StateLookup{'Inactive'};
     }
 
     # get a process list

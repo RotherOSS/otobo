@@ -56,7 +56,7 @@ sub Run {
     my $Nav            = $ParamObject->GetParam( Param => 'Nav' )    || '';
     my $Source         = $ParamObject->GetParam( Param => 'Source' ) || 'CustomerUser';
     my $Search         = $ParamObject->GetParam( Param => 'Search' );
-    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
     $Search
         ||= $ConfigObject->Get('AdminCustomerUser::RunInitialWildcardSearch') ? '*' : '';
 
