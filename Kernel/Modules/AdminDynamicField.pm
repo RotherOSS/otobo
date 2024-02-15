@@ -130,7 +130,7 @@ sub _ShowOverview {
     my $FieldTypeConfig    = $ConfigObject->Get('DynamicFields::Driver');
     my $ObjectTypeFilter   = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ObjectTypeFilter' ) || '';
     my $NamespaceFilter    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'NamespaceFilter' )  || '';
-    my $IncludeInvalid     = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'IncludeInvalid' );
+    my $IncludeInvalid     = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'IncludeInvalid' )   || 0;
 
     my $Output = join '',
         $LayoutObject->Header,

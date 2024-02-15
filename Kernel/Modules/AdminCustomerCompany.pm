@@ -886,11 +886,9 @@ sub _Overview {
 
         # if there are results to show
         if (%List) {
-            RESULT:
             for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
                 my %Data = $CustomerCompanyObject->CustomerCompanyGet( CustomerID => $ListKey );
-
                 $LayoutObject->Block(
                     Name => 'OverviewResultRow',
                     Data => {
