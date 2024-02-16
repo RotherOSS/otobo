@@ -738,7 +738,7 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
     padding-right: 10px;
     width: 100%;
     box-sizing: border-box;
-    text-align: left;
+    text-align: right;
     text-overflow: ellipsis;
     overflow: hidden;
 }
@@ -773,7 +773,7 @@ fieldset.TableLike .DynamicFieldSet .InputField_InputContainer {
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField input {
     min-width: 150px; /*kind of random, not ideal*/
     box-sizing: border-box;
-    width: 100%;
+    width: 100% !important;
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField .DynamicFieldDate > input {
