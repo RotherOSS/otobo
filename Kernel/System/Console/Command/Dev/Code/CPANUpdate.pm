@@ -29,7 +29,7 @@ use parent qw(Kernel::System::Console::BaseCommand);
 # CPAN modules
 
 # OTOBO modules
-use File::Path qw(remove_tree make_path);
+use File::Path qw(make_path remove_tree);
 
 our @ObjectDependencies = (
     'Kernel::Config',

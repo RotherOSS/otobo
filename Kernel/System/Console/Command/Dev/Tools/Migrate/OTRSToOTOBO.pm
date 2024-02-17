@@ -25,8 +25,6 @@ use utf8;
 use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
-use File::Copy;
-use File::Path qw(make_path);
 
 # CPAN modules
 

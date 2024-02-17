@@ -19,8 +19,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::SysConfig::DB ();            ## no perlimports, as some methods are overridden
 
 our $Self;
 
@@ -70,8 +75,6 @@ my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
     $Kernel::OM->ObjectsDiscard(
         Objects => ['Kernel::System::SysConfig::DB'],
     );
-
-    use Kernel::System::SysConfig::DB;
 
     # Provoke a failure for 2nd setting, this provokes that 1st setting is restored.
     no warnings qw(once redefine);    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)

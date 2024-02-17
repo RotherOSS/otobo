@@ -26,7 +26,7 @@ use File::Basename qw(dirname);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::WebUserAgent;
+use Kernel::System::WebUserAgent ();
 
 our @ObjectDependencies = (
     'Kernel::Config',

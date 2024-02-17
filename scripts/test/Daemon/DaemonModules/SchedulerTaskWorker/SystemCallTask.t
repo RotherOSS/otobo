@@ -18,14 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
+# core modules
+use File::Copy qw(copy);
+
+# CPAN modules
 use Test2::V0;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
 our $Self;
-
-use File::Copy;
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 

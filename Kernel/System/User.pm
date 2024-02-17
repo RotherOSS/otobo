@@ -19,8 +19,13 @@ package Kernel::System::User;
 use strict;
 use warnings;
 
-use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
-use Digest::SHA;
+# core modules
+use Digest::SHA ();
+
+# CPAN modules
+
+# OTOBO modules
+use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt );
 
 our @ObjectDependencies = (
     'Kernel::Config',

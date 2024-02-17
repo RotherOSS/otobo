@@ -27,7 +27,6 @@ use POSIX qw(ceil);
 # OTOBO modules
 use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Output::HTML::Statistics::View;
 
 our @ObjectDependencies = (
     'Kernel::Config',

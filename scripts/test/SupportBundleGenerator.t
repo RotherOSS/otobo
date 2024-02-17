@@ -20,10 +20,10 @@ use warnings;
 use utf8;
 
 # core modules
+use Archive::Tar ();
 
 # CPAN modules
 use Test2::V0;
-use Archive::Tar;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self

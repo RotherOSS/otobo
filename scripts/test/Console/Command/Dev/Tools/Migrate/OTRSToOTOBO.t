@@ -20,14 +20,13 @@ use v5.24;
 use utf8;
 
 # core modules
-use File::Copy;
 
 # CPAN modules
 use Test2::V0;
-use Path::Class qw(dir file);
+use Path::Class qw(dir);
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 plan( tests => 4 );
 

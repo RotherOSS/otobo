@@ -31,7 +31,6 @@ use Test2::API qw/context run_subtest/;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::SysConfig;
 
 our @ObjectDependencies = (
     'Kernel::Config',

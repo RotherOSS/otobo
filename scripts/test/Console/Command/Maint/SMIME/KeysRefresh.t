@@ -18,15 +18,18 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+use File::Copy qw(copy move);
+use File::Path();
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::Crypt::SMIME;
 
 our $Self;
-
-use Kernel::System::Crypt::SMIME;
-use File::Copy;
-use File::Path();
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(

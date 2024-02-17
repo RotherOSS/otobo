@@ -106,8 +106,8 @@ use Pod::Usage qw(pod2usage);
 use Sub::Util  qw(subname);
 
 # CPAN modules
-use Path::Class qw(file dir);
-use DBI         qw();
+use Path::Class qw(dir);
+use DBI         ();
 use Const::Fast qw(const);
 
 # OTOBO modules

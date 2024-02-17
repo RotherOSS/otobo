@@ -31,8 +31,8 @@ use File::Copy   qw(copy move);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::SysConfig;
-use Kernel::System::WebUserAgent;
+use Kernel::System::SysConfig     ();
+use Kernel::System::WebUserAgent  ();
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 

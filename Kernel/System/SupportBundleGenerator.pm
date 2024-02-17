@@ -19,8 +19,13 @@ package Kernel::System::SupportBundleGenerator;
 use strict;
 use warnings;
 
-use Archive::Tar;
-use Cwd qw(abs_path);
+# core modules
+use Cwd          qw(abs_path);
+use Archive::Tar ();
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',

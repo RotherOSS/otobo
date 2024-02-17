@@ -22,7 +22,7 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
-use parent qw(Kernel::System::AsynchronousExecutor);
+use parent qw(Kernel::System::AsynchronousExecutor);    # for AsyncCall()
 
 # core modules
 use File::Path qw(make_path);

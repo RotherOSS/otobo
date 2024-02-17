@@ -23,7 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use File::Path qw(rmtree make_path);
+use File::Path qw(make_path rmtree);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self

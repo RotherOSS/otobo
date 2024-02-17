@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 # core modules
-use Digest::SHA;
+use Digest::SHA ();
 
 # CPAN modules
 use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt );

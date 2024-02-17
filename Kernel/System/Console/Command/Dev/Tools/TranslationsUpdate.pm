@@ -23,7 +23,7 @@ use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
 use File::Basename qw(basename);
-use File::Copy;
+use File::Copy     qw(copy);
 
 # CPAN modules
 use Lingua::Translit;
@@ -754,7 +754,7 @@ sub WritePOFile {
     $Kernel::OM->Get('Kernel::System::Main')->Require('Locale::PO') || die "Could not load Locale::PO";
 
     if ( !-e $Param{TargetPOFile} ) {
-        File::Copy::copy( $Param{TargetPOTFile}, $Param{TargetPOFile} )
+        copy( $Param{TargetPOTFile}, $Param{TargetPOFile} )
             || die "Could not copy $Param{TargetPOTFile} to $Param{TargetPOFile}: $!";
     }
 

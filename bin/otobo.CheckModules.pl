@@ -76,7 +76,6 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 # core modules
-use File::Path;
 use Getopt::Long;
 use Term::ANSIColor;
 use Pod::Usage;

@@ -28,7 +28,6 @@ use parent qw(
 );
 
 # core modules
-use File::Path;
 use Encode ();
 
 # CPAN modules

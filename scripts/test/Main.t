@@ -20,7 +20,7 @@ use warnings;
 use utf8;
 
 # core modules
-use File::Path;
+use File::Path qw(rmtree);
 
 # CPAN modules
 use JSON::PP ();
@@ -741,7 +741,7 @@ for my $Test (@DirectoryReadTests) {
 
 # delete needed test directories
 for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
-    if ( !File::Path::rmtree( [$Directory] ) ) {
+    if ( !rmtree( [$Directory] ) ) {
         $Self->True(
             0,
             "DirectoryRead() - delete '$Directory'",

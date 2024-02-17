@@ -19,7 +19,12 @@ package Kernel::System::PDF;
 use strict;
 use warnings;
 
-use PDF::API2;
+# core modules
+
+# CPAN modules
+use PDF::API2 ();
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
