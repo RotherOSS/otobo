@@ -19,9 +19,15 @@ package Kernel::Modules::AdminSystemConfiguration;
 use strict;
 use warnings;
 
-our $ObjectManagerDisabled = 1;
+# core modules
 
+# CPAN modules
+use URI::Escape qw(uri_unescape);
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -380,7 +386,7 @@ sub Run {
         if ($SettingName) {
 
             # URL-decode setting name, just in case. Please see bug#13271 for more information.
-            $SettingName = URI::Escape::uri_unescape($SettingName);
+            $SettingName = uri_unescape($SettingName);
 
             my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
             my %Setting         = $SysConfigObject->SettingGet(

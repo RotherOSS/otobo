@@ -24,7 +24,7 @@ use warnings;
 use List::Util qw(none);
 
 # CPAN modules
-use URI::Escape;
+use URI::Escape qw(uri_unescape);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);

@@ -27,7 +27,7 @@ use MIME::Base64 qw(encode_base64);
 # CPAN modules
 use HTTP::Status qw(status_message);
 use REST::Client;
-use URI::Escape;
+use URI::Escape qw(uri_escape_utf8 uri_unescape);
 use Plack::Response;
 
 # OTOBO modules
@@ -152,8 +152,8 @@ sub ProviderProcessRequest {
             $Value =~ s{\+}{%20}g;
 
             # Unescape URI strings in query parameters.
-            $Key   = URI::Escape::uri_unescape($Key);
-            $Value = URI::Escape::uri_unescape($Value);
+            $Key   = uri_unescape($Key);
+            $Value = uri_unescape($Value);
 
             # Encode variables.
             $EncodeObject->EncodeInput( \$Key );
@@ -210,7 +210,7 @@ sub ProviderProcessRequest {
             my $URIValue = $+{$URIKey};
 
             # Unescape value
-            $URIValue = URI::Escape::uri_unescape($URIValue);
+            $URIValue = uri_unescape($URIValue);
 
             # Encode value.
             $EncodeObject->EncodeInput( \$URIValue );
@@ -810,7 +810,7 @@ sub RequesterPerformRequest {
     for my $ParamName ( sort keys %{ $Param{Data} } ) {
         if ( $Controller =~ m{:$ParamName(?=/|\?|$)}msx ) {
             my $ParamValue = $Param{Data}->{$ParamName};
-            $ParamValue = URI::Escape::uri_escape_utf8($ParamValue);
+            $ParamValue = uri_escape_utf8($ParamValue);
             $Controller =~ s{:$ParamName(?=/|\?|$)}{$ParamValue}msxg;
             push @ParamsToDelete, $ParamName;
         }
@@ -831,7 +831,7 @@ sub RequesterPerformRequest {
         for my $ParamName ( sort keys %{ $Param{Data} } ) {
             if ( $QueryParamsStr =~ m{:$ParamName(?=&|$)}msx ) {
                 my $ParamValue = $Param{Data}->{$ParamName};
-                $ParamValue = URI::Escape::uri_escape_utf8($ParamValue);
+                $ParamValue = uri_escape_utf8($ParamValue);
                 $QueryParamsStr =~ s{:$ParamName(?=&|$)}{$ParamValue}msxg;
                 push @ParamsToDelete, $ParamName;
                 $ReplaceFlag = 1;

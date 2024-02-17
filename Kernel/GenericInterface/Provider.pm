@@ -25,7 +25,7 @@ use namespace::autoclean;
 use Storable qw(dclone);
 
 # CPAN modules
-use URI::Escape;
+use URI::Escape qw(uri_unescape);
 use Plack::Response;
 
 # OTOBO modules
@@ -107,7 +107,7 @@ sub Content {
     {
         %WebserviceGetData = (
             ID   => $+{ID},
-            Name => $+{Name} ? URI::Escape::uri_unescape( $+{Name} ) : undef,
+            Name => $+{Name} ? uri_unescape( $+{Name} ) : undef,
         );
     }
 

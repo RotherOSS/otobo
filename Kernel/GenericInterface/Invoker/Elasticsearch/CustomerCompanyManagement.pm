@@ -19,6 +19,13 @@ package Kernel::GenericInterface::Invoker::Elasticsearch::CustomerCompanyManagem
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+use URI::Escape qw(uri_unescape);
+
+# OTOBO modules
+
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
@@ -291,7 +298,7 @@ sub HandleResponse {
 
         # unscape URI strings in query parameters
         for my $Param ( sort keys %QueryParams ) {
-            $QueryParams{$Param} = URI::Escape::uri_unescape( $QueryParams{$Param} );
+            $QueryParams{$Param} = uri_unescape( $QueryParams{$Param} );
         }
 
         # fix ExecutrionTime param

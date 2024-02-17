@@ -24,6 +24,7 @@ use warnings;
 use MIME::Base64 qw(encode_base64);
 
 # CPAN modules
+use URI::Escape qw(uri_unescape);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -857,7 +858,7 @@ sub HandleResponse {
 
         # unescape URI strings in query parameters
         for my $Param ( sort keys %QueryParams ) {
-            $QueryParams{$Param} = URI::Escape::uri_unescape( $QueryParams{$Param} );
+            $QueryParams{$Param} = uri_unescape( $QueryParams{$Param} );
         }
 
         # fix ExecutionTime param

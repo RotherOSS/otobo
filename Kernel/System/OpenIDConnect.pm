@@ -23,7 +23,7 @@ use warnings;
 # CPAN modules
 use HTTP::Request::Common qw(POST);
 use LWP::UserAgent        ();
-use URI::Escape           ();
+use URI::Escape           qw(uri_escape_utf8);
 use Crypt::JWT            qw(decode_jwt);
 
 # OTOBO modules
@@ -140,7 +140,7 @@ sub BuildRedirectURL {
     $RedirectURL .= '&scope=' . join( '%20', ( 'openid', @{ $Param{AuthRequest}{AdditionalScope} // [] } ) );
     $RedirectURL .= '&client_id=' . $Param{ClientSettings}{ClientID};
     $RedirectURL .= '&state=' . $Param{AuthRequest}{State};
-    $RedirectURL .= '&redirect_uri=' . URI::Escape::uri_escape_utf8( $Param{ClientSettings}{RedirectURI} );
+    $RedirectURL .= '&redirect_uri=' . uri_escape_utf8( $Param{ClientSettings}{RedirectURI} );
 
     if ( $Param{AuthRequest}{Nonce} ) {
         $RedirectURL .= '&nonce=' . $Param{AuthRequest}{Nonce};

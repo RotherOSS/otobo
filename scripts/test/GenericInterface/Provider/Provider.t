@@ -24,6 +24,7 @@ use utf8;
 # CPAN modules
 use LWP::UserAgent ();
 use HTTP::Request  ();
+use URI::Escape    qw(uri_escape_utf8);
 use Test2::V0;
 
 # OTOBO modules
@@ -236,12 +237,12 @@ sub CreateQueryString {
         if ($QueryString) {
             $QueryString .= ';';
         }
-        $QueryString .= $Param{Encode} ? URI::Escape::uri_escape_utf8($Key) : $Key;
+        $QueryString .= $Param{Encode} ? uri_escape_utf8($Key) : $Key;
 
         next KEY if !$Param{Data}->{$Key};
 
         $QueryString
-            .= '=' . ( $Param{Encode} ? URI::Escape::uri_escape_utf8( $Param{Data}->{$Key} ) : $Param{Data}->{$Key} );
+            .= '=' . ( $Param{Encode} ? uri_escape_utf8( $Param{Data}->{$Key} ) : $Param{Data}->{$Key} );
     }
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$QueryString );
@@ -285,7 +286,7 @@ for my $Test (@Tests) {
 
         ok( $WebserviceID, 'WebserviceAdd()' );
 
-        my $WebserviceNameEncoded = URI::Escape::uri_escape_utf8("$Test->{Name} $RandomID");
+        my $WebserviceNameEncoded = uri_escape_utf8("$Test->{Name} $RandomID");
 
         my %WebserviceAccess2PathInfo = (
             ID   => "WebserviceID/$WebserviceID",
@@ -362,10 +363,10 @@ for my $Test (@Tests) {
                     my $Body = join '', $PSGIResponse->[2]->@*;
                     $Test->{ResponseData} //= {};
                     for my $Key ( sort keys $Test->{ResponseData}->%* ) {
-                        my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
+                        my $QueryStringPart = uri_escape_utf8($Key);
                         if ( $Test->{ResponseData}->{$Key} ) {
                             $QueryStringPart
-                                .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                                .= '=' . uri_escape_utf8( $Test->{ResponseData}->{$Key} );
                         }
 
                         ok(
@@ -438,11 +439,11 @@ for my $Test (@Tests) {
 
                     if ( $Test->{ResponseSuccess} ) {
                         for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
-                            my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
+                            my $QueryStringPart = uri_escape_utf8($Key);
                             if ( $Test->{ResponseData}->{$Key} ) {
                                 $QueryStringPart
                                     .= '='
-                                    . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                                    . uri_escape_utf8( $Test->{ResponseData}->{$Key} );
                             }
 
                             ok(

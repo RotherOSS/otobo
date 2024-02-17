@@ -18,8 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+use URI::Escape qw(uri_escape_utf8);
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
 our $Self;
 
@@ -212,10 +217,10 @@ for my $Test (@Tests) {
         }
 
         for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
-            my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
+            my $QueryStringPart = uri_escape_utf8($Key);
             if ( $Test->{ResponseData}->{$Key} ) {
                 $QueryStringPart
-                    .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                    .= '=' . uri_escape_utf8( $Test->{ResponseData}->{$Key} );
             }
 
             $Self->True(

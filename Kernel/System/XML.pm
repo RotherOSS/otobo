@@ -842,7 +842,6 @@ sub XMLParse {
         $Param{String} = ${ $Param{String} };
     }
 
-    # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     # create checksum
@@ -1499,7 +1498,6 @@ sub _XMLStructure2XMLHash {
 sub _Decode {
     my ( $Self, $A ) = @_;
 
-    # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     for ( sort keys %{$A} ) {

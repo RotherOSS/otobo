@@ -19,7 +19,6 @@ use warnings;
 use utf8;
 
 # core modules
-use URI::Escape;
 
 # CPAN modules
 use HTTP::Request::Common qw(GET);

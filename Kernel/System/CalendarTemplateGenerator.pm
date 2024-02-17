@@ -22,6 +22,7 @@ use warnings;
 # core modules
 
 # CPAN modules
+use URI::Escape qw(uri_escape_utf8 uri_unescape);    ## no perlimports, methods are used in a substution
 
 # OTOBO modules
 use Kernel::Language              ();
@@ -238,7 +239,7 @@ sub _Replace {
             my $SubjectOrBodyContent = $2;
             my $SubjectOrBodySuffix  = $3;
 
-            my $SubjectOrBodyContentUnescaped = URI::Escape::uri_unescape $SubjectOrBodyContent;
+            my $SubjectOrBodyContentUnescaped = uri_unescape $SubjectOrBodyContent;
 
             my $SubjectOrBodyContentReplaced = $Self->_Replace(
                 %Param,
@@ -246,7 +247,7 @@ sub _Replace {
                 RichText => 0,
             );
 
-            my $SubjectOrBodyContentEscaped = URI::Escape::uri_escape_utf8 $SubjectOrBodyContentReplaced;
+            my $SubjectOrBodyContentEscaped = uri_escape_utf8 $SubjectOrBodyContentReplaced;
 
             $SubjectOrBodyPrefix . $SubjectOrBodyContentEscaped . $SubjectOrBodySuffix;
         }egx;
