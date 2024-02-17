@@ -22,7 +22,7 @@ use warnings;
 # core modules
 
 # CPAN modules
-use XML::LibXML::Simple;
+use XML::LibXML::Simple ();
 
 # OTOBO modules
 

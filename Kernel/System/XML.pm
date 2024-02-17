@@ -24,8 +24,8 @@ use warnings;
 use Digest::MD5 ();
 
 # CPAN modules
-use XML::LibXML;
-use XML::LibXML::SAX::Parser;
+use XML::LibXML              ();
+use XML::LibXML::SAX::Parser ();
 
 # OTOBO modules
 

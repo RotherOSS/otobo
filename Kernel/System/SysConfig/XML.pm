@@ -25,10 +25,10 @@ use utf8;
 # core modules
 
 # CPAN modules
-use XML::LibXML;
+use XML::LibXML ();
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw( :all );
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
