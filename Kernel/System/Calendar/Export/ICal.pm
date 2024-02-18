@@ -19,9 +19,14 @@ package Kernel::System::Calendar::Export::ICal;
 use strict;
 use warnings;
 
-use Data::ICal;
-use Data::ICal::Entry::Event;
-use Date::ICal;
+# core modules
+
+# CPAN modules
+use Data::ICal               ();
+use Data::ICal::Entry::Event ();
+use Date::ICal               ();
+
+# OTOBO modules
 
 use Kernel::System::VariableCheck qw(:all);
 

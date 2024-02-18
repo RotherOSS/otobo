@@ -28,9 +28,9 @@ use Scalar::Util   qw(blessed);
 use File::Basename qw(fileparse);
 
 # CPAN modules
-use URI::Escape qw(uri_escape_utf8);
-use Plack::Response;
-use Plack::Util ();
+use URI::Escape     qw(uri_escape_utf8);
+use Plack::Response ();
+use Plack::Util     ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);

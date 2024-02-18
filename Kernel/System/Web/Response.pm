@@ -15,9 +15,9 @@
 
 package Kernel::System::Web::Response;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 use utf8;
 
@@ -25,13 +25,12 @@ use utf8;
 use Encode ();
 
 # CPAN modules
-use Plack::Response;
+use Plack::Response ();
 
 # OTOCO modules
 use Kernel::System::VariableCheck qw(:all);
 
-our @ObjectDependencies = (
-);
+our @ObjectDependencies = ();
 
 =head1 NAME
 

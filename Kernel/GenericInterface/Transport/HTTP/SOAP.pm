@@ -25,8 +25,8 @@ use namespace::autoclean;
 use PerlIO;
 
 # CPAN modules
-use HTTP::Status qw(status_message);
-use Plack::Response;
+use HTTP::Status    qw(status_message);
+use Plack::Response ();
 use SOAP::Lite;    # for enabling debugging import +trace => 'all'
 
 # OTOBO modules

@@ -16,9 +16,9 @@
 
 package Kernel::System::Package::Event::SyncWithS3;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 use utf8;
 
@@ -28,7 +28,7 @@ use utf8;
 use Mojo::JSON qw(encode_json);
 
 # OTOBO modules
-use Kernel::System::Storage::S3;
+use Kernel::System::Storage::S3 ();
 
 our @ObjectDependencies = (
     'Kernel::System::Log',

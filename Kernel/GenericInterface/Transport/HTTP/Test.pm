@@ -16,9 +16,9 @@
 
 package Kernel::GenericInterface::Transport::HTTP::Test;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 
 # core modules
@@ -27,7 +27,7 @@ use LWP::UserAgent        ();
 use LWP::Protocol;
 
 # CPAN modules
-use Plack::Response;
+use Plack::Response ();
 
 # OTOBO modules
 use Kernel::System::Web::Exception;

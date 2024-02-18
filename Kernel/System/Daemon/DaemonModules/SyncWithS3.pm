@@ -15,9 +15,9 @@
 
 package Kernel::System::Daemon::DaemonModules::SyncWithS3;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 use parent qw(Kernel::System::Daemon::BaseDaemon Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
@@ -28,7 +28,7 @@ use File::stat qw(stat);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::Storage::S3;
+use Kernel::System::Storage::S3 ();
 
 our @ObjectDependencies = (
     'Kernel::Config',

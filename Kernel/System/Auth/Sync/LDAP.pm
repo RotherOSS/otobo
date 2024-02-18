@@ -27,7 +27,7 @@ use warnings;
 # CPAN modules
 use Net::LDAP;
 use Net::LDAP::Util qw(escape_filter_value);
-use URI;
+use URI             ();
 
 # OTOBO modules
 

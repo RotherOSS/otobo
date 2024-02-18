@@ -23,8 +23,9 @@ use warnings;
 # core modules
 
 # CPAN modules
-use Data::ICal;
-use Data::ICal::Entry::Event;
+use Data::ICal               ();
+use Data::ICal::Entry::Alarm ();
+use Data::ICal::Entry::Event ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);

@@ -25,8 +25,8 @@ use namespace::autoclean;
 use Storable qw(dclone);
 
 # CPAN modules
-use URI::Escape qw(uri_unescape);
-use Plack::Response;
+use URI::Escape     qw(uri_unescape);
+use Plack::Response ();
 
 # OTOBO modules
 use Kernel::GenericInterface::Debugger;
