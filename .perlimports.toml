@@ -34,6 +34,7 @@
 cache                           = false # setting this to true is currently discouraged
 ignore_modules                  = [
     "Test2::V0",
+    "Test2::API",
     "Try::Tiny",
     "Kernel::System::VariableCheck",
     "Kernel::System::UnitTest::RegisterOM",

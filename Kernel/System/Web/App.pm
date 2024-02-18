@@ -35,9 +35,9 @@ The argument I<Debug> is optional and defaults to 0.
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 use parent qw(Plack::Component);
@@ -45,7 +45,7 @@ use parent qw(Plack::Component);
 # core modules
 
 # CPAN modules
-use Plack::Util;
+use Plack::Util ();
 
 # OTOBO modules
 

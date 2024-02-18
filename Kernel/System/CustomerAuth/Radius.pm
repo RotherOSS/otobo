@@ -21,7 +21,12 @@ package Kernel::System::CustomerAuth::Radius;
 use strict;
 use warnings;
 
-use Authen::Radius;
+# core modules
+
+# CPAN modules
+use Authen::Radius ();
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',

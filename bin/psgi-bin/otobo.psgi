@@ -87,7 +87,7 @@ use File::Path     qw(make_path);
 use DateTime 1.08 ();               ## no perlimports
 use Template ();
 use Plack::Builder;
-use Plack::Request;
+use Plack::Request ();
 use Plack::Response;
 use Plack::App::File;
 
@@ -97,7 +97,7 @@ use Plack::App::File;
 use Kernel::Config;                   # assure that Kernel/Config.pm exists, though the file might be modified later
 use Kernel::System::ModuleRefresh;    # based on Module::Refresh
 use Kernel::System::ObjectManager ();
-use Kernel::System::Web::App;
+use Kernel::System::Web::App      ();
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.

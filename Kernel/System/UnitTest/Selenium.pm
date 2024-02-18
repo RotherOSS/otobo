@@ -30,14 +30,13 @@ use File::Copy  qw(copy);
 
 # CPAN modules
 use Test2::V0;
-use Test2::API qw(context run_subtest);
-use Net::DNS::Resolver;
+use Test2::API         qw(context run_subtest);
+use Net::DNS::Resolver ();
 use Moo;
 use Try::Tiny;
-use URI;
+use URI ();
 
 # OTOBO modules
-use Kernel::System::User;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our $ObjectManagerDisabled = 1;

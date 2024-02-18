@@ -29,10 +29,10 @@ use Cwd            qw(realpath);
 # CPAN modules
 use Mojo::UserAgent;
 use Mojo::Date;
-use Mojo::DOM;
+use Mojo::DOM ();
 use Mojo::URL;
 use Mojo::AWS::S3;
-use Plack::Util;
+use Plack::Util ();
 
 # OTOBO modules
 

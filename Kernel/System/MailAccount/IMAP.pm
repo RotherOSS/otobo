@@ -23,7 +23,7 @@ use v5.24;
 # core modules
 
 # CPAN modules
-use Net::IMAP::Simple;
+use Net::IMAP::Simple ();
 
 # OTOBO modules
 

@@ -27,7 +27,7 @@ use lib "$RealBin/../Kernel/cpan-lib";
 
 # core modules
 use Getopt::Long qw(GetOptions);
-use Cwd          qw(getcwd abs_path);
+use Cwd          qw(abs_path getcwd);
 
 # CPAN modules
 

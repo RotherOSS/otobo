@@ -29,7 +29,7 @@ use Unicode::Normalize ();
 use Cwd                qw(realpath);
 
 # CPAN modules
-use Plack::Util;
+use Plack::Util ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsStringWithData);

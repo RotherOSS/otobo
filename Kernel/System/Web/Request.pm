@@ -30,7 +30,7 @@ use List::Util qw(uniq);
 use HTTP::Message::PSGI   qw(req_to_psgi);
 use HTTP::Request::Common qw(GET);
 use Path::Class           qw(file);
-use Plack::Request;
+use Plack::Request        ();
 use Try::Tiny;
 
 # OTOBO modules

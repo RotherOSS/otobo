@@ -22,7 +22,6 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use XML::TreePP ();
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self

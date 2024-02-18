@@ -40,7 +40,7 @@ use utf8;
 use Moo;
 
 # OTOBO modules
-use Test2::API qw/context run_subtest/;
+use Test2::API qw(context run_subtest);
 
 extends 'Test::Selenium::Remote::WebElement';
 

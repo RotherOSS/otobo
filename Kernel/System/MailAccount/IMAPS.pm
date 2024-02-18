@@ -19,11 +19,14 @@ package Kernel::System::MailAccount::IMAPS;
 use strict;
 use warnings;
 
-# There are currently errors on Perl 5.20 on Travis, disable this check for now.
-## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
-use IO::Socket::SSL;
-
 use parent qw(Kernel::System::MailAccount::IMAP);
+
+# core modules
+
+# CPAN modules
+use IO::Socket::SSL ();
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',

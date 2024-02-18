@@ -16,14 +16,14 @@
 
 package Kernel::System::MailAccount::IMAPTLS;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 # core modules
 
 # CPAN modules
-use Mail::IMAPClient;
+use Mail::IMAPClient ();
 
 # OTOBO modules
 use Kernel::System::PostMaster ();
