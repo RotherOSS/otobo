@@ -57,8 +57,7 @@ my $SOAPObject = Kernel::GenericInterface::Transport::HTTP::SOAP->new(
     },
 );
 
-# create XML object
-my $XMLObject = XML::TreePP->new();
+my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
 
 my $SOAPHeader = '<?xml version="1.0" encoding="UTF-8"?>'
     . '<soap:Envelope '
@@ -361,28 +360,14 @@ for my $Test (@SoapTests) {
             . $SOAPFooter;
     }
 
-    # convert soap XML back to Perl structure for easy handling
-    $XMLObject->set( attr_prefix => '' );
+    # Convert soap XML back to Perl structure for easy handling.
+    # The root elemente 'soap::Envelope' is not part of the returned data structure.
     if ( $Test->{IsEmpty} ) {
 
         # clean XML ('null' tag is interpreted by XML parser)
         $Content =~ s{ [ ] xsi:nil="true" [ ] }{}xms;
     }
-    my $XMLContent = $XMLObject->parse($Content);
-
-    # check soap message
-    $Self->Is(
-        ref $XMLContent,
-        'HASH',
-        "Test $Test->{Name}: SOAP Message structure",
-    );
-
-    $Self->True(
-        IsHashRefWithData($XMLContent),
-        "Test $Test->{Name}: SOAP Message structure have content",
-    );
-
-    my $SoapEnvelope = $XMLContent->{'soap:Envelope'};
+    my $SoapEnvelope = $XMLSimpleObject->XMLIn( XMLInput => $Content );
 
     # check soap envelope
     ref_ok(
@@ -410,13 +395,10 @@ for my $Test (@SoapTests) {
 
     # check soap:Body Response
     if ( $Test->{IsEmpty} ) {
-        $Self->True(
-            exists $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-            "Test $Test->{Name}: SOAP Response structure (exists)",
-        );
-        $Self->False(
-            defined $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-            "Test $Test->{Name}: SOAP Response structure (defined)",
+        is(
+            $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+            {},
+            "Test $Test->{Name}: SOAP Response structure is empty hashref",
         );
     }
     else {
@@ -485,13 +467,10 @@ for my $Test (@SoapTests) {
         );
 
         if ( $Test->{IsEmpty} ) {
-            $Self->True(
-                exists $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-                "Test $Test->{Name}: SOAP Response data parsed as normal XML True (exists)",
-            );
-            $Self->False(
-                defined $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-                "Test $Test->{Name}: SOAP Response data parsed as normal XML True (defined)",
+            is(
+                $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+                {},
+                "Test $Test->{Name}: SOAP Response data parsed as empty hashref",
             );
         }
         elsif ( !$Test->{Sort} ) {
