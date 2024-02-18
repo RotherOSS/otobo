@@ -45,6 +45,7 @@ Turn XML into a Perl data structure.
 create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
 

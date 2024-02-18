@@ -21,11 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 use XML::TreePP ();
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
 use Kernel::System::VariableCheck qw(:all);
@@ -385,25 +385,25 @@ for my $Test (@SoapTests) {
     my $SoapEnvelope = $XMLContent->{'soap:Envelope'};
 
     # check soap envelope
-    $Self->Is(
-        ref $SoapEnvelope,
+    ref_ok(
+        $SoapEnvelope,
         'HASH',
         "Test $Test->{Name}: SOAP Envelope structure",
     );
 
-    $Self->True(
+    ok(
         IsHashRefWithData($SoapEnvelope),
         "Test $Test->{Name}: SOAP Envelope structure have content",
     );
 
     # check soap:Body
-    $Self->Is(
-        ref $SoapEnvelope->{'soap:Body'},
+    ref_ok(
+        $SoapEnvelope->{'soap:Body'},
         'HASH',
         "Test $Test->{Name}: SOAP Body structure",
     );
 
-    $Self->True(
+    ok(
         IsHashRefWithData( $SoapEnvelope->{'soap:Body'} ),
         "Test $Test->{Name}: SOAP Body structure have content",
     );
@@ -420,13 +420,13 @@ for my $Test (@SoapTests) {
         );
     }
     else {
-        $Self->Is(
-            ref $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+        ref_ok(
+            $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
             'HASH',
             "Test $Test->{Name}: SOAP Response structure",
         );
 
-        $Self->True(
+        ok(
             IsHashRefWithData( $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' } ),
             "Test $Test->{Name}: SOAP Response structure have content",
         );
@@ -464,10 +464,12 @@ for my $Test (@SoapTests) {
     );
 
     # deserialize with SOAP::Lite
-    my $SOAPObject = eval { SOAP::Deserializer->deserialize($Content); };
-    my $SOAPError  = $@;
+    my $SOAPObject = eval {
+        SOAP::Deserializer->deserialize($Content);
+    };
+    my $SOAPError = $@;
 
-    $Self->Is(
+    is(
         $SOAPError,
         '',
         "Test $Test->{Name}: SOAP::Lite Deserialize with no errors",
@@ -533,12 +535,12 @@ for my $Test (@SoapTests) {
 
         my $SOAPBody = $SOAPObject->body();
         if ( !defined $Test->{Data} ) {
-            $Self->True(
+            ok(
                 exists $SOAPBody->{ $Test->{Operation} . 'Response' },
                 "Test $Test->{Name}: SOAP Response data parsed as SOAP message True (exists)",
             );
-            $Self->False(
-                defined $SOAPBody->{ $Test->{Operation} . 'Response' },
+            ok(
+                !defined $SOAPBody->{ $Test->{Operation} . 'Response' },
                 "Test $Test->{Name}: SOAP Response data parsed as SOAP message False (defined)",
             );
         }
@@ -552,4 +554,4 @@ for my $Test (@SoapTests) {
     }
 }
 
-$Self->DoneTesting();
+done_testing;
