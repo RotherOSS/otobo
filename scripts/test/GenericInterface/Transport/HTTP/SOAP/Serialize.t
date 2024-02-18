@@ -475,6 +475,8 @@ for my $Test (@SoapTests) {
         "Test $Test->{Name}: SOAP::Lite Deserialize with no errors",
     );
 
+    # TODO: why is SoapEnvelope tested here again, and not SOAPObject ?
+
     if ( $Test->{Success} ) {
         $Self->Is(
             $Content,
