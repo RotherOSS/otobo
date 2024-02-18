@@ -27,7 +27,6 @@ use Data::ICal::Entry::Event ();
 use Date::ICal               ();
 
 # OTOBO modules
-
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
