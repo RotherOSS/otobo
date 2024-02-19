@@ -83,6 +83,7 @@ sub ValueGet {
         ValueDB    => $DFValue,
         ValueKey   => 'ValueText',
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+        BaseArray  => !$Param{DynamicFieldConfig}{Config}{MultiValue},
     );
 }
 

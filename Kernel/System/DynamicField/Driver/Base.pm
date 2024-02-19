@@ -294,12 +294,8 @@ Generates the ValueGet return structure.
         ValueKey   => 'ValueText',
         Set        => 0|1,     # optional, default: 0
         MultiValue => 0|1,     # optional, default: 0
+        BaseArray  => 0|1,     # optional, default: 0 - return array instead of scalar on dynamic field level
     );
-
-Single value fields can be returned either as a single non-reference scalar
-or as a reference to an array with a single element. The decision whether
-to return an arrayref is determined either from the parameters C<MultiValue> and C<Set>
-or from the behavior C<IsBaseArray>.
 
 =cut
 
@@ -320,9 +316,7 @@ sub ValueStructureFromDB {
             return \@ReturnValue;
         }
 
-        my $IsBaseArray = $Self->HasBehavior( Behavior => 'IsBaseArray' );
-
-        if ($IsBaseArray) {
+        if ( $Param{BaseArray} ) {
             my @ReturnValue;
             for my $Value ( $Param{ValueDB}->@* ) {
                 $ReturnValue[ $Value->{IndexSet} ] = [ $Value->{ $Param{ValueKey} } ];
@@ -348,11 +342,8 @@ sub ValueStructureFromDB {
         return \@ReturnValue;
     }
 
-    # Single value fields are retrieved from the database as array references
-    # Pack the first, and only, value into an array for specific dynamic field types.
-    my $IsBaseArray = $Self->HasBehavior( Behavior => 'IsBaseArray' );
+    return [ $Param{ValueDB}[0]{ $Param{ValueKey} } ] if $Param{BaseArray};
 
-    return [ $Param{ValueDB}[0]{ $Param{ValueKey} } ] if $IsBaseArray;
     return $Param{ValueDB}[0]{ $Param{ValueKey} };
 }
 
