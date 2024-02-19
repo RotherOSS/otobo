@@ -112,11 +112,15 @@ sub ValueGet {
     if ( $Param{Set} ) {
         my @Values;
         for my $RefID ( $ReferencedObjectID->@* ) {
-            push @Values, $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
-                DynamicFieldConfig => $AttributeDFConfig,
-                ObjectID           => $RefID,
-                Set                => 1,
-            );
+            if ( !$RefID ) {
+                push @Values, undef;
+            }
+            else {
+                push @Values, $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
+                    DynamicFieldConfig => $AttributeDFConfig,
+                    ObjectID           => $RefID,
+                );
+            }
         }
         return \@Values;
     }
@@ -138,6 +142,7 @@ sub ValueSet {
 
     # in set case, we iterate over the values and set them one by one
     if ( $Param{Set} ) {
+        INDEX:
         for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
 
             # with param SetIndex, a single obect id is returned
@@ -149,7 +154,7 @@ sub ValueSet {
                 SetIndex               => $SetIndex,
             );
 
-            return unless $ReferencedObjectID;
+            next INDEX unless $ReferencedObjectID;
 
             my $Success = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
                 %Param,
@@ -858,6 +863,7 @@ sub _GetReferencedObjectID {
             Set                => $Param{Set},
         );
 
+        return $ObjectID->[0] if ref $ObjectID;
         return $ObjectID;
     }
 
