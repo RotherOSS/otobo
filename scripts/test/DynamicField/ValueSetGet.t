@@ -931,28 +931,28 @@ my @Tests = (
                 [
 
                     # actually only on Set value in the list
-                    [
+                    {
                         # value for the first dynamic field in the set
-                        'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                        "Text3$RandomID" => 'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
 
                         # value for the second dynamic field in the set
-                        [
+                        "Text4$RandomID" => [
                             'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
                             'Text2: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
                         ],
-                    ],
+                    },
                 ],
             ObjectID => $SourceTicketID,
             UserID   => $UserID,
         },
         ExpectedResults => [
-            [
-                'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
-                [
+            {
+                "Text3$RandomID" => 'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                "Text4$RandomID" => [
                     'Text1: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
                     'Text2: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
                 ],
-            ],
+            },
         ],
         Success => 1,
     },
@@ -966,43 +966,43 @@ my @Tests = (
                 [
 
                     # actually only on Set value in the list
-                    [
+                    {
 
                         # value for the first dynamic field in the set
-                        'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                        "Text5$RandomID" => 'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
 
                         # value for the second dynamic field in the set
-                        [
+                        "Text6$RandomID" => [
                             'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
                             'Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
                         ],
 
                         # value for the third dynamic field in the set
-                        [$FirstUserID],
+                        "Agent1$RandomID" => [$FirstUserID],
 
                         # value for the fourth dynamic field in the set
-                        [
+                        "Agent2$RandomID" => [
                             $FirstUserID,
                             $SecondUserID,
                         ],
-                    ],
+                    },
                 ],
             ObjectID => $SourceTicketID,
             UserID   => $UserID,
         },
         ExpectedResults => [
-            [
-                'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
-                [
+            {
+                "Text5$RandomID" => 'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                "Text6$RandomID" => [
                     'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
                     'Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
                 ],
-                [$FirstUserID],
-                [
+                "Agent1$RandomID" => [$FirstUserID],
+                "Agent2$RandomID" => [
                     $FirstUserID,
                     $SecondUserID,
                 ],
-            ],
+            },
         ],
         Success => 1,
     },
