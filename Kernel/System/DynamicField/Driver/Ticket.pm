@@ -408,9 +408,11 @@ sub SearchObjects {
 
     # return a list of ticket IDs
     return $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
-        Limit  => $Param{MaxResults},
-        Result => 'ARRAY',
-        UserID => $Param{UserID} // 1,
+        Limit   => $Param{MaxResults},
+        Result  => 'ARRAY',
+        UserID  => $Param{UserID} // 1,
+        SortBy  => 'TicketNumber',
+        OrderBy => 'Down',
         %SearchParams,
     );
 }
