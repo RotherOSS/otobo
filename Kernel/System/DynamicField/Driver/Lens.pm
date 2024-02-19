@@ -83,6 +83,7 @@ sub new {
         'IsCustomerInterfaceCapable'   => 0,
         'IsHiddenInTicketInformation'  => 0,
         'SetsDynamicContent'           => 1,
+        'IsSetCapable'                 => 1,
     };
 
     return $Self;
@@ -93,10 +94,12 @@ sub ValueGet {
 
     my $LensDFConfig = $Param{DynamicFieldConfig};
 
+    # in set case, an arrayref of object ids is returned
     my $ReferencedObjectID = $Self->_GetReferencedObjectID(
         ObjectID               => $Param{ObjectID},
         LensDynamicFieldConfig => $LensDFConfig,
         EditFieldValue         => $Param{UseReferenceEditField},
+        Set                    => $Param{Set},
     );
 
     return unless $ReferencedObjectID;
@@ -104,6 +107,19 @@ sub ValueGet {
     my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
     );
+
+    # in set case, values need to be collected one by one
+    if ( $Param{Set} ) {
+        my @Values;
+        for my $RefID ( $ReferencedObjectID->@* ) {
+            push @Values, $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
+                DynamicFieldConfig => $AttributeDFConfig,
+                ObjectID           => $RefID,
+                Set                => 1,
+            );
+        }
+        return \@Values;
+    }
 
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $AttributeDFConfig,
@@ -116,6 +132,39 @@ sub ValueSet {
 
     my $LensDFConfig = $Param{DynamicFieldConfig};
 
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
+    # in set case, we iterate over the values and set them one by one
+    if ( $Param{Set} ) {
+        for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
+
+            # with param SetIndex, a single obect id is returned
+            # as we are already saving we trust, that the reference edit field has been validated
+            my $ReferencedObjectID = $Self->_GetReferencedObjectID(
+                ObjectID               => $Param{ObjectID},
+                LensDynamicFieldConfig => $LensDFConfig,
+                EditFieldValue         => $Param{EditFieldValue} // 1,
+                SetIndex               => $SetIndex,
+            );
+
+            return unless $ReferencedObjectID;
+
+            my $Success = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
+                %Param,
+                Value              => $Param{Value}[$SetIndex],
+                ConfigItemHandled  => 0,
+                EditFieldValue     => 0,
+                Set                => 0,
+                DynamicFieldConfig => $AttributeDFConfig,
+                ObjectID           => $ReferencedObjectID,
+            );
+            return unless $Success;
+        }
+        return 1;
+    }
+
     # as we are already saving we trust, that the reference edit field has been validated
     my $ReferencedObjectID = $Self->_GetReferencedObjectID(
         ObjectID               => $Param{ObjectID},
@@ -124,10 +173,6 @@ sub ValueSet {
     );
 
     return unless $ReferencedObjectID;
-
-    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
-        LensDynamicFieldConfig => $LensDFConfig,
-    );
 
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
         %Param,
@@ -788,14 +833,31 @@ sub _GetReferencedObjectID {
 
     if ( $Param{EditFieldValue} ) {
 
+        # fetching a single object id for a specified set index
+        if ( exists $Param{SetIndex} ) {
+            my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
+                DynamicFieldConfig => {
+                    $ReferenceDFConfig->%*,
+                    Name => $ReferenceDFConfig->{Name} . '_' . $Param{SetIndex},
+                },
+                ParamObject    => $Kernel::OM->Get('Kernel::System::Web::Request'),
+                TransformDates => 0,
+                ForLens        => 1,
+                Set            => 0,
+            );
+
+            return $ObjectID->[0] if ref $ObjectID;
+            return $ObjectID;
+        }
+
         my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
             DynamicFieldConfig => $ReferenceDFConfig,
             ParamObject        => $Kernel::OM->Get('Kernel::System::Web::Request'),
             TransformDates     => 0,
             ForLens            => 1,
+            Set                => $Param{Set},
         );
 
-        return $ObjectID->[0] if ref $ObjectID;
         return $ObjectID;
     }
 
@@ -803,7 +865,14 @@ sub _GetReferencedObjectID {
         DynamicFieldConfig => $ReferenceDFConfig,
         ObjectID           => $Param{ObjectID},
         ForLens            => 1,
+        Set                => $Param{Set},
     );
+
+    # in set case, we need to map the returned array of arrays into an array of first values as multivalue lenses are not supported at the moment
+    if ( $Param{Set} ) {
+        my @ObjectIDs = map { $_->[0] } $ObjectID->@*;
+        return \@ObjectIDs;
+    }
 
     return $ObjectID->[0] if ref $ObjectID;
     return $ObjectID;
