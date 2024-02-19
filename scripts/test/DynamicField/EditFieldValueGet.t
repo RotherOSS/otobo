@@ -3899,26 +3899,26 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => [
-            [
-                {
+            {
+                "Text5$RandomID" => {
                     'DynamicField_Text5' . $RandomID . '_0' => 'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN'
                 },
-                {
+                "Text6$RandomID" => {
                     'DynamicField_Text6' . $RandomID . '_0' => [
                         'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
                         'Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
                     ],
                 },
-                {
+                "Agent1$RandomID" => {
                     'DynamicField_Agent1' . $RandomID . '_0' => [$FirstUserID],
                 },
-                {
+                "Agent2$RandomID" => {
                     'DynamicField_Agent2' . $RandomID . '_0' => [
                         $FirstUserID,
                         $SecondUserID,
                     ],
                 },
-            ],
+            },
         ],
         Success => 1,
     },
