@@ -52,14 +52,14 @@ sub new {
         Lens => [
             {
                 ConfigParamName => 'ReferenceDF',
-                Label           => Translatable('The referenced DF'),
-                Explanation     => Translatable('Select the DF that references an object'),
+                Label           => Translatable('The referenced dynamic field'),
+                Explanation     => Translatable('Select the dynamic field that references an object'),
                 InputType       => 'Text',
             },
             {
                 ConfigParamName => 'AttributeDF',
-                Label           => Translatable('The attribute DF of the referenced object'),
-                Explanation     => Translatable('Select the attribute DF that references an object'),
+                Label           => Translatable('The attribute of the referenced object'),
+                Explanation     => Translatable('Select the attribute dynamic field that references an object'),
                 InputType       => 'Text',
             },
         ],

@@ -234,7 +234,7 @@ sub _CheckInclude {
 
                     if ( !$DFEntry->{DF} ) {
                         $Errors{IncludeServerError}        = 'ServerError';
-                        $Errors{IncludeServerErrorMessage} = Translatable('Misconfigured Grid - Rows must contain DF entries!');
+                        $Errors{IncludeServerErrorMessage} = Translatable('Misconfigured Grid - Rows must contain entries with key \'DF\'!');
                         last LINE;
                     }
 
