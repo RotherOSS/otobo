@@ -769,11 +769,11 @@ sub GetFieldState {
             }
 
             # store the reduced possible values in this object for a possible subsequent EditFieldRender
-            $Self->{PossibleValuesFilter}{ $SetConfig->{Name} }[$SetIndex]{$Name} = $SetFieldStates{Fields}{$Name};
+            $Self->{PossibleValuesFilter}{ $SetConfig->{Name} }[$SetIndex]{ 'DynamicField_' . $Name } = $SetFieldStates{Fields}{$Name}{PossibleValues};
         }
     }
 
-    if ( $SetConfig->{MultiValue} ) {
+    if ( $SetConfig->{Config}{MultiValue} ) {
         for my $Name ( $DynamicField->%* ) {
             $DFParam{ "DynamicField_$Name" } = undef;
         }
@@ -799,7 +799,7 @@ sub GetFieldState {
                 $SetFieldStates{NewValues}{$Name} : $DFParam{ "DynamicField_$Name" };
 
             # store the reduced possible values in this object for a possible subsequent EditFieldRender
-            $Self->{PossibleValuesFilter}{ $SetConfig->{Name} }[ $#SetValue + 1 ]{$Name} = $SetFieldStates{Fields}{$Name};
+            $Self->{PossibleValuesFilter}{ $SetConfig->{Name} }[ $#SetValue + 1 ]{ 'DynamicField_' . $Name } = $SetFieldStates{Fields}{$Name}{PossibleValues};
             $Self->{TemplateValues}{ $SetConfig->{Name} }{$Name}                         = exists $SetFieldStates{NewValues}{$Name} ?
                 $SetFieldStates{NewValues}{$Name} : $DFParam{ "DynamicField_$Name" };
         }
