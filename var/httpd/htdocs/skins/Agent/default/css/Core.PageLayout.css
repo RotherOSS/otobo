@@ -44,7 +44,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .LayoutFixedSidebar.SidebarLast > .SidebarColumn {
-    width: 270px;
+    width: 340px;
     float: right;
     margin-left: 16px;
     margin-right: 0;
@@ -57,7 +57,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .LayoutFixedSidebar.SidebarFirst > .SidebarColumn {
-    width: 270px;
+    width: 340px;
     float: left;
     margin-left: 0;
     margin-right: 10px;
