@@ -34,7 +34,7 @@ use warnings;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::ModuleRefresh;
+use Kernel::System::ModuleRefresh ();
 
 our @ObjectDependencies = (
     'Kernel::System::Log',

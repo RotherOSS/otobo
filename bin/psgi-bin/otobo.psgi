@@ -91,11 +91,9 @@ use Plack::Request  ();
 use Plack::Response ();
 use Plack::App::File;
 
-#use Data::Peek; # for development
-
 # OTOBO modules
-use Kernel::Config;                   # assure that Kernel/Config.pm exists, though the file might be modified later
-use Kernel::System::ModuleRefresh;    # based on Module::Refresh
+use Kernel::Config;                      # assure that Kernel/Config.pm exists, though the file might be modified later
+use Kernel::System::ModuleRefresh ();    # based on Module::Refresh
 use Kernel::System::ObjectManager ();
 use Kernel::System::Web::App      ();
 

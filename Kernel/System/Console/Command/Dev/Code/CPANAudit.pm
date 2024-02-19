@@ -26,7 +26,7 @@ use File::Basename qw(dirname);
 use FindBin        qw($Bin);
 
 # CPAN modules
-use CPAN::Audit 20230826.001;
+use CPAN::Audit 20230826.001 ();
 
 # OTOBO modules
 

@@ -19,6 +19,13 @@ package Kernel::System::DynamicFieldDB;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
@@ -26,8 +33,6 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Ticket',
 );
-
-use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
 

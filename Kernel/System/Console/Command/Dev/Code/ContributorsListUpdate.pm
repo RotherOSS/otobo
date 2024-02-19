@@ -19,9 +19,14 @@ package Kernel::System::Console::Command::Dev::Code::ContributorsListUpdate;
 use strict;
 use warnings;
 
-use IO::File;
-
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+use IO::File ();
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',

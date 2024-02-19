@@ -37,7 +37,7 @@ use File::stat qw(stat);
 use Try::Tiny;
 
 # OTOBO modules
-use Kernel::System::ModuleRefresh; # based on Module::Refresh
+use Kernel::System::ModuleRefresh (); # based on Module::Refresh
 
 our @EXPORT = qw(Translatable); ## no critic qw(Modules::ProhibitAutomaticExportation)
 

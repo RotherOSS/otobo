@@ -26,8 +26,8 @@ use File::Basename qw(basename);
 use File::Copy     qw(copy);
 
 # CPAN modules
-use Lingua::Translit;
-use Pod::Strip;
+use Lingua::Translit ();
+use Pod::Strip       ();
 
 # OTOBO modules
 use Kernel::Language              ();

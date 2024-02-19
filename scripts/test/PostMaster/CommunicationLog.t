@@ -20,7 +20,7 @@ use v5.24;
 use utf8;
 
 # core modules
-use IO::File;
+use IO::File   ();
 use File::stat qw(stat);
 
 # CPAN modules
