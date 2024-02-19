@@ -79,6 +79,14 @@ Handles date and time calculations.
 
 =head1 PUBLIC INTERFACE
 
+For convenience, this module also supports some comparison operators. This allows comparisons like:
+
+    if ( $ActualTaskEnd < $PlannedTaskEnd ) {
+        say 'finished in time';
+    }
+
+The overloaded operators are: '>', '<', '>=', '<=', '==', and '!='.
+
 =head2 new()
 
 Creates a DateTime object. Do not use new() directly, instead use the object manager:
@@ -1651,8 +1659,9 @@ Returns the time zone set for OTOBO.
 
     my $OTOBOTimeZone = $DateTimeObject->OTOBOTimeZoneGet();
 
-    # You can also call this method without an object:
-    #my $OTOBOTimeZone = Kernel::System::DateTime->OTOBOTimeZoneGet();
+You can also call this method without an object:
+
+    my $OTOBOTimeZone = Kernel::System::DateTime->OTOBOTimeZoneGet();
 
 Returns:
 
