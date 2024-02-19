@@ -127,7 +127,7 @@ sub ValueGet {
 
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $AttributeDFConfig,
-        ObjectID           => $ReferencedObjectID,
+        ObjectID           => $ReferencedObjectID->[0],
     );
 }
 
@@ -164,7 +164,7 @@ sub ValueSet {
                 EditFieldValue     => 0,
                 Set                => 0,
                 DynamicFieldConfig => $AttributeDFConfig,
-                ObjectID           => $ReferencedObjectID,
+                ObjectID           => $ReferencedObjectID->[0],
             );
             return unless $Success;
         }
@@ -841,7 +841,7 @@ sub _GetReferencedObjectID {
 
         # fetching a single object id for a specified set index
         if ( exists $Param{SetIndex} ) {
-            my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
+            return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
                 DynamicFieldConfig => {
                     $ReferenceDFConfig->%*,
                     Name => $ReferenceDFConfig->{Name} . '_' . $Param{SetIndex},
@@ -851,20 +851,14 @@ sub _GetReferencedObjectID {
                 ForLens        => 1,
                 Set            => 0,
             );
-
-            return $ObjectID->[0] if ref $ObjectID;
-            return $ObjectID;
         }
 
-        my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
+        return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
             DynamicFieldConfig => $ReferenceDFConfig,
             ParamObject        => $Kernel::OM->Get('Kernel::System::Web::Request'),
             TransformDates     => 0,
             ForLens            => 1,
         );
-
-        return $ObjectID->[0] if ref $ObjectID;
-        return $ObjectID;
     }
 
     my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
@@ -880,7 +874,6 @@ sub _GetReferencedObjectID {
         return \@ObjectIDs;
     }
 
-    return $ObjectID->[0] if ref $ObjectID;
     return $ObjectID;
 }
 
