@@ -25,7 +25,7 @@ use Test2::V0;
 use Capture::Tiny qw(capture);
 
 # OTOBO modules
-use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds FixedTimeSet);
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 

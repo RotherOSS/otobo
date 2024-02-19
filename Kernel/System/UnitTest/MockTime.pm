@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::UnitTest::MockTime;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
 use v5.24;
@@ -69,7 +70,7 @@ To be used in test scripts for mocking time.
 # This time, seconds since 1970, will be used by 'time' when set.
 my $FixedTime;
 
-# override the core functions
+# override the core functions during the lifetime of the current process
 BEGIN {
 
     *CORE::GLOBAL::time = sub {

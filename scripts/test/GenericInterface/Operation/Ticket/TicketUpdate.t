@@ -26,7 +26,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self::main
-use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;

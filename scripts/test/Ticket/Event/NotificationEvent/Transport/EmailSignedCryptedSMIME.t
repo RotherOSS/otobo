@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -26,7 +26,7 @@ use File::Path qw(mkpath rmtree);
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
 use Kernel::System::UnitTest::RegisterDriver;    # set up the $Self and $Kernel::OM
 use Kernel::Output::HTML::ArticleCheck::SMIME;
 
