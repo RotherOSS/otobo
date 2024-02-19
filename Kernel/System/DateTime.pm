@@ -1620,10 +1620,15 @@ sub TimeZoneByOffsetList {
 
 Checks if the given time zone is valid.
 
-    my $Valid = $DateTimeObject->IsTimeZoneValid( TimeZone => 'Europe/Berlin' );
+    my $IsValid = $DateTimeObject->IsTimeZoneValid( TimeZone => 'Europe/Berlin' );
+
+You can also call this method without an object:
+
+    my $IsValid = Kernel::System::DateTime->IsTimeZoneValid( TimeZone => 'ACWST' );
 
 Returns:
-    $ValidID = 1;    # if given time zone is valid, 0 otherwise.
+
+    $IsValid = 1;    # if given time zone is valid, 0 otherwise.
 
 =cut
 
