@@ -151,6 +151,7 @@ sub ValueSet {
                 ObjectID               => $Param{ObjectID},
                 LensDynamicFieldConfig => $LensDFConfig,
                 EditFieldValue         => $Param{EditFieldValue} // 1,
+                Set                    => 1,
                 SetIndex               => $SetIndex,
             );
 
@@ -860,7 +861,6 @@ sub _GetReferencedObjectID {
             ParamObject        => $Kernel::OM->Get('Kernel::System::Web::Request'),
             TransformDates     => 0,
             ForLens            => 1,
-            Set                => $Param{Set},
         );
 
         return $ObjectID->[0] if ref $ObjectID;
