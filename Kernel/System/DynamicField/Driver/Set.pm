@@ -285,7 +285,9 @@ sub EditFieldRender {
     my $StoreBlockData = delete $Param{LayoutObject}{BlockData};
 
     for my $SetIndex ( 0 .. $#SetValue ) {
+        my %Value;
         for my $Name ( keys $DynamicField->%* ) {
+            $Value{"DynamicField_$Name"} = $SetValue[$SetIndex]{$Name};
             $DynamicField->{$Name}{Name} = $Name . '_' . $SetIndex;
         }
 
@@ -295,7 +297,7 @@ sub EditFieldRender {
             UpdatableFields      => $Param{UpdatableFields},
             LayoutObject         => $Param{LayoutObject},
             ParamObject          => $Param{ParamObject},
-            DynamicFieldValues   => $SetValue[$SetIndex],
+            DynamicFieldValues   => \%Value,
             CustomerInterface    => $Param{CustomerInterface},
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[$SetIndex] // {},
