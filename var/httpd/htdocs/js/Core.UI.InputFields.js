@@ -1586,14 +1586,26 @@ Core.UI.InputFields = (function (TargetNS) {
                         // calculate available height to top of page
                         AvailableHeightTop = parseInt($InputContainerObj.offset().top - $(window).scrollTop() - Config.SafeMargin, 10);
 
-                        // set left position
-                        $ListContainerObj
-                            .css({
-                                left: $InputContainerObj.offset().left
-                            });
-                        if ( Config.CustomerInterface === true ) {
+                        if ($SelectObj.hasClass('AlignDropdownRight')) {
+                            // set right position
                             $ListContainerObj
-                                .css('margin-left', '16px');
+                                .css({
+                                    right: window.innerWidth-($InputContainerObj.offset().left + $InputContainerObj.outerWidth())
+                                });
+                            if ( Config.CustomerInterface === true ) {
+                                $ListContainerObj
+                                    .css('margin-right', '16px');
+                            }
+                        } else {
+                            // set left position
+                            $ListContainerObj
+                                .css({
+                                    left: $InputContainerObj.offset().left
+                                });
+                            if ( Config.CustomerInterface === true ) {
+                                $ListContainerObj
+                                    .css('margin-left', '16px');
+                            }
                         }
 
                         // decide whether list should be positioned on top or at the bottom of the input field
