@@ -2732,156 +2732,180 @@ Core.UI.InputFields = (function (TargetNS) {
     /**
      * @name InitMultiValueDynamicFields
      * @memberof Core.UI.InputFields
-     * @param {jQueryObject} [$Context] - jQuery object for context (optional)
      * @description
      *      Initiates all multivalue dynamic fields Add/Remove ValueRow functionality
      */
-    TargetNS.InitMultiValueDynamicFields = function ( $Context ) {
-        $('.Row.MultiValue', $Context).each( function() {
-            var $Row = $(this);
-
-            InitMultiValueFieldRow( $Row );
-
-            if ( $Row.hasClass('MultiColumn') ) {
-                TargetNS.HideMultiAddRemoveButtons( $Row );
-            }
+    TargetNS.InitMultiValueDynamicFields = function () {
+        $('.Row.MultiValue > .FieldCell', $('body')).each( function() {
+            var $Cell = $(this);
+            $Cell.attr('class').split(' ').forEach( CellClassName => {
+                if ( CellClassName.startsWith('MultiValue_') ) {
+                    InitMultiValueCell( $Cell );
+                }
+            });
         });
     };
 
     /**
-     * @private
-     * @name InitMultiValueFieldRow
-     * @memberof Core.UI.InputFields
-     * @param {jQueryObject} $Row - the dynamic field row to initiate
-     * @param {Integer} Start     - optional: the first index to (re)initiate (default: 0)
-     * @param {Integer} Shift     - optional: shift values in case of added or removed value rows (default: 0)
-     * @description
-     *      Assigns each FieldCell to a ValueRow, optionally shifts the index of those ValueRows
-     *      and triggers setting indices used in the fields to the correct values
+     * Initialize a multi-value cell.
+     *
+     * @param {JQuery} $Cell - the jQuery element representing the cell
+     * @return {void} 
      */
-    function InitMultiValueFieldRow( $Row, Start = 0, Shift = 0 ) {
-        var ValueRowIndex = 0,
-            ValueRowCells = [];
+    function InitMultiValueCell( $Cell ) {
+        
+        var DynamicFields = Core.Config.Get('DynamicFieldNames');
 
-        $Row.children('.FieldCell').each( function() {
-            var $Cell = $(this);
+        var CellGridPosition = GetGridPosition($Cell);
 
-            // gather value rows and initiate them
-            if ( $Cell.hasClass( 'MultiValue_' + ValueRowIndex ) ) {
-                if ( ValueRowIndex < Start ) {
-                    return;
-                }
-                if ( Shift !== 0 ) {
-                    ReplaceCellIndex( $Cell, ValueRowIndex, ValueRowIndex + Shift );
-                }
-                ValueRowCells.push( $Cell );
+        $( '.AddValueRow', $Cell.children('.AddRemoveValueRow') ).off('click').on('click', function() {
+            AddCell($Cell)
+        });
+        $( '.RemoveValueRow', $Cell.children('.AddRemoveValueRow') ).off('click').on('click', function() {
+            RemoveCell($Cell)
+        });
+
+        // process field label initialization
+        $('.FieldHelpContainer', $Cell).each(function () {
+            if (!$(this).next('label').find('.Marker').length) {
+                $(this).prependTo($(this).next('label'));
             }
-            else if ( $Cell.hasClass( 'MultiValue_' + (ValueRowIndex + 1) ) ) {
-                if ( ValueRowIndex + 1 < Start ) {
-                    ValueRowIndex++;
-                    return;
-                }
-
-                InitValueRow( ValueRowCells, ValueRowIndex + Shift );
-
-                ValueRowIndex++;
-                if ( Shift !== 0 ) {
-                    ReplaceCellIndex( $Cell, ValueRowIndex, ValueRowIndex + Shift );
-                }
-                ValueRowCells = [ $Cell ];
+            else {
+                $(this).insertAfter($(this).next('label').find('.Marker'));
             }
         });
 
-        InitValueRow( ValueRowCells, ValueRowIndex + Shift );
+        // Some dynamic fields might not show the label for the added dynamic fields.
+        // TODO: it labels are included in the HTML, then that should refer to the appropriate field.
+        // TODO: replace by a nice css-only version (MultiValue_0 vs MultiValue_X, respecting non multi value, possibly in multi value multicolumn grid)
+        if ( CellGridPosition.Row === 0 ) {
+            $Cell.children('label').show();
+        }
+        else {
+            $Cell.children('label').hide();
+        }
+
+        // for date(time) dynamic fields: append ValueRowIndex to validation classes
+        var $DateTime = $Cell.children('.Field').children('.DynamicFieldDate');
+        if ( $DateTime.length ) {
+            var TimeStrings = ['Day', 'Month', 'Year', 'Hour', 'Minute'];
+            TimeStrings.forEach(TimeString => {
+                    var $DateTimeElement = $DateTime.find('.Validate_Date' + TimeString);
+                    if ( $DateTimeElement.length ) {
+                        var DateTimeFieldName = $DateTimeElement.attr('name').substr(0, $DateTimeElement.attr('name').lastIndexOf(TimeString));
+                        TimeStrings.forEach(ClassTimeString => {
+                            var ClassString = 'Validate_Date' + ClassTimeString + '_' + DateTimeFieldName + ClassTimeString;
+                            $DateTimeElement.hasClass(ClassString) && $DateTimeElement.removeClass(ClassString) && $DateTimeElement.addClass(ClassString + '_' + ValueRowIndex);
+                        });
+                    }
+            });
+        }
+
+        // increase index by 1 to avoid running into 0 vs. '' vs. undef problems in backend
+        $('input[type="checkbox"]', $Cell).val(CellGridPosition.Row + 1);
+
+        // TODO Iterate only over fields in ValueRowCells
+        // add ajax update handler to fields
+        $.each( DynamicFields, function( Index, DynamicFieldName ) {
+            $( '#'  + DynamicFieldName + '_' + CellGridPosition.Row ).on( 'change', function () {
+                var FieldsToUpdate = Core.Data.CopyObject(DynamicFields);
+                FieldsToUpdate.splice(Index, 1);
+                Core.AJAX.FormUpdate( $Cell.closest('form'), 'AJAXUpdate', $(this).attr('name'), FieldsToUpdate );
+            });
+        });
     }
 
     /**
-     * @private
-     * @name InitValueRow
-     * @memberof Core.UI.InputFields
-     * @param {Array} ValueRowCells   - the field cells in this value row
-     * @param {Integer} ValueRowIndex - the index of the value row
-     * @description
-     *      Sets the add and remove events for the -/+ buttons of this value row
+     * AddCell function to add a new cell after the given cell and shift neighbouring cells appropriately.
+     *
+     * @param {JQuery} $Cell - The cell after which a new cell should be inserted
      */
-    function InitValueRow( ValueRowCells, ValueRowIndex ) {
-        var DynamicFields = Core.Config.Get('DynamicFieldNames');
-
-        ValueRowCells.forEach( function( $Cell ) {
-            $( '.AddValueRow', $Cell.children('.AddRemoveValueRow') ).off('click').on('click', function() {
-                var $Row = $Cell.closest('.Row');
-
-                // shift all higher values forward to make space
-                InitMultiValueFieldRow( $Row, ValueRowIndex + 1, 1 );
-                // insert a new ValueRow
-                InsertRow( $Row, ValueRowIndex + 1 );
-            });
-            $( '.RemoveValueRow', $Cell.children('.AddRemoveValueRow') ).off('click').on('click', function() {
-                var $Row         = $Cell.closest('.Row'),
-                    LastValueRow = ValueRowIndex === 0 && $Row.children('.MultiValue_1').length === 0;
-
-                // delete current row
-                ValueRowCells.forEach( function( $ToRemove ) { $ToRemove.remove() } );
-
-                if ( LastValueRow ) {
-                    // insert an empty Value row again
-                    InsertRow( $Row, 0 );
-                }
-                else {
-                    // shift all higher values back to close the gap
-                    InitMultiValueFieldRow( $Row, ValueRowIndex + 1, -1 );
-                }
-            });
-
-            // process field label initialization
-            $('.FieldHelpContainer', $Cell).each(function () {
-                if (!$(this).next('label').find('.Marker').length) {
-                    $(this).prependTo($(this).next('label'));
-                }
-                else {
-                    $(this).insertAfter($(this).next('label').find('.Marker'));
-                }
-            });
-
-            // Some dynamic fields might not show the label for the added dynamic fields.
-            // TODO: it labels are included in the HTML, then that should refer to the appropriate field.
-            // TODO: replace by a nice css-only version (MultiValue_0 vs MultiValue_X, respecting non multi value, possibly in multi value multicolumn grid)
-            if ( ValueRowIndex === 0 ) {
-                $Cell.children('label').show();
-            }
-            else {
-                $Cell.children('label').hide();
-            }
-
-            // for date(time) dynamic fields: append ValueRowIndex to validation classes
-            var $DateTime = $Cell.children('.Field').children('.DynamicFieldDate');
-            if ( $DateTime.length ) {
-                var TimeStrings = ['Day', 'Month', 'Year', 'Hour', 'Minute'];
-                TimeStrings.forEach(TimeString => {
-                        var $DateTimeElement = $DateTime.find('.Validate_Date' + TimeString);
-                        if ( $DateTimeElement.length ) {
-                            var DateTimeFieldName = $DateTimeElement.attr('name').substr(0, $DateTimeElement.attr('name').lastIndexOf(TimeString));
-                            TimeStrings.forEach(ClassTimeString => {
-                                var ClassString = 'Validate_Date' + ClassTimeString + '_' + DateTimeFieldName + ClassTimeString;
-                                $DateTimeElement.hasClass(ClassString) && $DateTimeElement.removeClass(ClassString) && $DateTimeElement.addClass(ClassString + '_' + ValueRowIndex);
-                            });
-                        }
-                });
-            }
-
-            // increase index by 1 to avoid running into 0 vs. '' vs. undef problems in backend
-            $('input[type="checkbox"]', $Cell).val(ValueRowIndex + 1);
-
-            // TODO Iterate only over fields in ValueRowCells
-            // add ajax update handler to fields
-            $.each( DynamicFields, function( Index, DynamicFieldName ) {
-                $( '#'  + DynamicFieldName + '_' + ValueRowIndex ).on( 'change', function () {
-                    var FieldsToUpdate = Core.Data.CopyObject(DynamicFields);
-                    FieldsToUpdate.splice(Index, 1);
-                    Core.AJAX.FormUpdate( $Cell.closest('form'), 'AJAXUpdate', $(this).attr('name'), FieldsToUpdate );
-                });
-            });
+    function AddCell( $Cell ) {
+        var $Row = $Cell.closest('.Row');
+        var CellGridPosition = GetGridPosition($Cell);
+        var $TemplateCell = $();
+        $Row.find('> .MultiValue_Template').each( function () {
+            if (Number($(this).css('grid-column').split(' ')[0]) == CellGridPosition.Column) {
+                $TemplateCell = $(this);
+            };
         });
+                                
+        var $NewCell = $TemplateCell.clone().addClass('FieldCell');
+
+        // standard multivalue field
+        if ( $NewCell.children('.Field').children('.DynamicFieldSet').length === 0 ) {
+            $('[name^=DynamicField_]', $NewCell).each( function() {
+                if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
+                    $(this).addClass('Validate_Required');
+                }
+            });
+        }
+        // multivalue set
+        else {
+            // TODO: We need a solution for sets here
+            /*$('[name^=DynamicField_]', $NewCell).each( function() {
+                if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
+                    $(this).addClass('Validate_Required');
+                }
+            });*/
+        }
+        
+        //shift ValueRowIndex of all following cells in this column
+        $Row.find('> .FieldCell').each( function () {
+            let $FollowingCell = $(this);
+            let GridPosition = GetGridPosition( $FollowingCell );
+            if ( GridPosition &&GridPosition.Column == CellGridPosition.Column 
+                && GridPosition.Row > CellGridPosition.Row ) 
+            {
+                ReplaceCellIndex( $FollowingCell, GridPosition.Row, GridPosition.Row+1 );
+            }
+        })
+
+        ReplaceCellIndex( $NewCell, 'Template', CellGridPosition.Row+1 );
+        $Cell.after($NewCell);
+        DynamicFieldInit( $NewCell );
+        InitMultiValueCell( $NewCell );
+
+        $('.DynamicFieldSet .FieldCell', $NewCell).each( function() {
+            let $SubCell = $(this);
+            DynamicFieldInit( $SubCell );
+            if ($SubCell[0] .className.split(' ').find( ClassName => 
+                            ClassName.startsWith('MultiValue_'))) 
+            {
+                InitMultiValueCell( $SubCell );
+            }
+        })
+    }
+
+    /**
+     * Remove the given cell and shift and shift neighbouring cells appropriately.
+     *
+     * @param {JQuery} $Cell - The cell to be removed.
+     * @return {void}
+     */
+    function RemoveCell( $Cell ) {
+        var CellGridPosition = GetGridPosition($Cell);
+        var IsLastCell = true;
+        $Cell.siblings('.FieldCell').each(function () {
+            let $SiblingCell = $(this);
+            let GridPosition = GetGridPosition( $SiblingCell );
+            if (GridPosition && GridPosition.Column == CellGridPosition.Column) {
+                IsLastCell = false;
+                if (GridPosition.Row > CellGridPosition.Row) {
+                    ReplaceCellIndex( $SiblingCell, GridPosition.Row, GridPosition.Row-1 );
+                    if (GridPosition.Row == 1) {
+                        $SiblingCell.children('label').show();
+                    }
+                }
+            }
+        });
+
+        //never remove the last remaining cell
+        if ( IsLastCell ) {
+            return;
+        }
+
+        $Cell.remove();
     }
 
     /**
@@ -2975,80 +2999,30 @@ Core.UI.InputFields = (function (TargetNS) {
     }
 
     /**
-     * @private
-     * @name InsertRow
-     * @memberof Core.UI.InputFields
-     * @param {jQueryObject} $Row     - the dynamic field row
-     * @param {Integer} ValueRowIndex - the index at which to insert
-     * @description
-     *      Inserts a new value row at a given index
+     * Get the grid position of the given cell.
+     *
+     * @param {JQuery} $Cell - the cell to get the grid position of
+     * @return {{ Row: Number, Column: Number} | false} the grid position of the cell
      */
-    function InsertRow( $Row, ValueRowIndex ) {
-        var ValueRowCells = [],
-            $NextCell     = $Row.children('.MultiValue_' + ( ValueRowIndex + 1 )).first(),
-            $LastCell     = $Row.children('.FieldCell').last();
+    function GetGridPosition( $Cell ) {
+        
+        let MultiValueClass = $Cell[0].className.split(' ').find((ClassName) => ClassName.startsWith('MultiValue_'))
+        
+        if (!MultiValueClass)
+            return false;
 
-        $Row.children('.MultiValue_Template').each( function() {
-            var $NewCell = $(this).clone().addClass('FieldCell');
-
-            // standard multivalue field
-            if ( $NewCell.children('.Field').children('.DynamicFieldSet').length === 0 ) {
-                $('[name^=DynamicField_]', $NewCell).each( function() {
-                    if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
-                        $(this).addClass('Validate_Required');
-                    }
-                });
-            }
-
-            // multivalue set
-            else {
-                // TODO: We need a solution for sets here
-                /*$('[name^=DynamicField_]', $NewCell).each( function() {
-                    if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
-                        $(this).addClass('Validate_Required');
-                    }
-                });*/
-            }
-
-            ReplaceCellIndex( $NewCell, 'Template', ValueRowIndex );
-
-            if ( $NextCell.length ) {
-                ValueRowCells.push( $NewCell );
-            }
-            else {
-                ValueRowCells.unshift( $NewCell );
-            }
-        });
-
-        ValueRowCells.forEach( function( $NewCell ) {
-            if ( $NextCell.length ) {
-                $NextCell.before( $NewCell );
-            }
-            else if( $LastCell.length ) {
-                $LastCell.after( $NewCell );
-            }
-            else {
-                // TODO: this is too simple for multivalue-multicolumn with multivalue fields trailing non multivalue fields
-                $Row.prepend( $NewCell );
-            }
-
-            DynamicFieldInit( $NewCell );
-
-            // init multivalue fields in sets
-            TargetNS.InitMultiValueDynamicFields( $NewCell );
-
-            $('.DynamicFieldSet .FieldCell', $NewCell).each ( function() {
-                DynamicFieldInit( $(this) );
-            })
-        });
-
-        InitValueRow( ValueRowCells, ValueRowIndex );
-
-        if ( $Row.hasClass('MultiColumn') ) {
-            TargetNS.HideMultiAddRemoveButtons( $Row, ValueRowIndex );
-        }
+        let ValueRowIndex = MultiValueClass.split('_')[1];
+        var ValueColumnIndex = $Cell.css('grid-column').split(' ')[0];
+        return { Row: Number(ValueRowIndex), Column: Number(ValueColumnIndex) };                        
     }
+    
 
+    /**
+     * DynamicFieldInit function initializes dynamic fields in the given cell.
+     *
+     * @param {JQuery} $Cell - the cell to initialize dynamic fields in
+     * @return {void} 
+     */
     function DynamicFieldInit( $Cell ) {
         // DatabaseDynamicField
         $('.DynamicFieldDB[name]', $Cell).each(function () {
@@ -3076,28 +3050,6 @@ Core.UI.InputFields = (function (TargetNS) {
 
         // other fields
         Core.UI.InputFields.Activate( $Cell );
-    }
-
-    TargetNS.HideMultiAddRemoveButtons = function ( $Row, InitialIndex ) {
-        var Index = InitialIndex || 0,
-            ValueRow = $Row.children( '.MultiValue_' + Index + ':visible').toArray();
-
-        while ( ValueRow.length ) {
-            var $LastCell;
-
-            ValueRow.forEach( function( $Cell ) {
-                $LastCell = $Cell;
-                $( '.AddRemoveValueRow', $Cell ).hide();
-            });
-            $( '.AddRemoveValueRow', $LastCell ).show();
-
-            if ( InitialIndex ) {
-                return;
-            }
-
-            Index++;
-            ValueRow = $( '.MultiValue_' + Index + ':visible', $Row ).toArray();
-        }
     }
 
     /**
