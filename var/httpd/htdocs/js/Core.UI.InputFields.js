@@ -2935,7 +2935,7 @@ Core.UI.InputFields = (function (TargetNS) {
             // change the hidden SetIndex
             $Cell.children('.Field').children('input[name^=SetIndex]').first().val(To);
 
-            $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_]', $Cell).each( function() {
+            $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_], [id^=Autocomplete_DynamicField_]', $Cell).each( function() {
                 ['name'].forEach( Attribute => {
                     var Attr = $(this).attr(Attribute);
                     if ( Attr && Attr.match( ReplaceRegEx ) ) {
@@ -2947,7 +2947,7 @@ Core.UI.InputFields = (function (TargetNS) {
             // for attributes which can also contain multivalue data, we have to target the second to last index if two are present
             ReplaceRegEx = new RegExp( '(DynamicField_[\\w\\d_-]+?_)' + From + '((_\d+)?(Data|Container)?)', 'g' );
 
-            $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_]', $Cell).each( function() {
+            $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_], [id^=Autocomplete_DynamicField_]', $Cell).each( function() {
                 ['id', 'field'].forEach( Attribute => {
                     var Attr = $(this).attr(Attribute);
                     if ( Attr && Attr.match( ReplaceRegEx ) ) {
