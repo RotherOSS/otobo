@@ -73,6 +73,9 @@ sub new {
     # Used for declaring CSS classes
     $Self->{FieldCSSClass} = 'DynamicFieldReference';
 
+    # configure sorting for dropdown fields for this field type
+    $Self->{Sort} = 'AlphanumericValue';
+
     # set field behaviors
     $Self->{Behaviors} = {
         'IsACLReducible'               => 0,
