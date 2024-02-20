@@ -124,6 +124,11 @@ sub Run {
         };
     }
 
+    # for agent fields, sorting needs to be done here
+    if ( $DynamicFieldConfig->{FieldType} eq 'Agent' ) {
+        @Results = sort { $a->{Value} cmp $b->{Value} } @Results;
+    }
+
     return $LayoutObject->JSONReply(
         Data => \@Results,
     );

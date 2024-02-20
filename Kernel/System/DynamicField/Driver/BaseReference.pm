@@ -263,7 +263,7 @@ sub EditFieldRender {
                 my $FieldID = $FieldName . '_' . $ValueIndex;
                 push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
                     Data         => $PossibleValues || {},
-                    Sort         => 'AlphanumericKey',
+                    Sort         => $Param{DynamicFieldConfig}{FieldType} eq 'Agent' ? 'AlphanumericValue' : 'AlphanumericKey',
                     Disabled     => $Param{Readonly},
                     Name         => $FieldName,
                     ID           => $FieldID,
@@ -279,7 +279,7 @@ sub EditFieldRender {
             my @SelectedIDs = grep {$_} $Value->@*;
             push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
                 Data         => $PossibleValues || {},
-                Sort         => 'AlphanumericKey',
+                Sort         => $Param{DynamicFieldConfig}{FieldType} eq 'Agent' ? 'AlphanumericValue' : 'AlphanumericKey',
                 Disabled     => $Param{Readonly},
                 Name         => $FieldName,
                 SelectedID   => \@SelectedIDs,
@@ -312,7 +312,7 @@ sub EditFieldRender {
         }
 
         # The actual value is the techical ID of the referenced object.
-        # This might be empty e.g. in a ticket createion mask.
+        # This might be empty e.g. in a ticket creation mask.
         my $VisibleValue;
         my $ReferencedObjectID = $Value->[$ValueIndex];
         if ($ReferencedObjectID) {
@@ -347,7 +347,7 @@ sub EditFieldRender {
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
             Data        => $PossibleValues || {},
-            Sort        => 'AlphanumericKey',
+            Sort        => $Param{DynamicFieldConfig}{FieldType} eq 'Agent' ? 'AlphanumericValue' : 'AlphanumericKey',
             Disabled    => $Param{Readonly},
             Name        => $FieldName,
             ID          => $FieldTemplateData{FieldID},
