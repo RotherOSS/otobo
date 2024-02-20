@@ -486,7 +486,7 @@ sub Run {
     # set a field filter (all valid dynamic fields have to have set to 1 like NameX => 1)
     my %FieldFilter;
     for my $Attribute ( sort keys %{ $Param{Config} } ) {
-        if ( $Attribute =~ m{\A DynamicField_ ( [a-zA-Z0-9]+ ) \z}msx ) {
+        if ( $Attribute =~ m{\A DynamicField_ ( [a-zA-Z0-9\-]+ ) \z}msx ) {
             $FieldFilter{$1} = 1;
         }
     }

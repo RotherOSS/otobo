@@ -105,7 +105,7 @@ sub _ReplaceTicketAttributes {
         REPLACEMENT:
         while (
             $Param{Config}->{$Attribute}
-            && $Param{Config}->{$Attribute} =~ m{<OTOBO_TICKET_([A-Za-z0-9_]+)>}msxi
+            && $Param{Config}->{$Attribute} =~ m{<OTOBO_TICKET_([A-Za-z0-9_\-]+)>}msxi
             && $Count++ < 1000
             )
         {
