@@ -220,7 +220,7 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip Link LinkPreview Expression MultiValue Namespace)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip Link LinkPreview Expression Namespace)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -317,7 +317,7 @@ sub _AddAction {
 
     # set specific config
     my %FieldConfig = (
-        map { $_ => $GetParam{$_} } qw(Tooltip Link LinkPreview Expression RequiredArgs AJAXTriggers UpdateEvents MultiValue),
+        map { $_ => $GetParam{$_} } qw(Tooltip Link LinkPreview Expression RequiredArgs AJAXTriggers UpdateEvents),
     );
 
     $FieldConfig{RegExList} = \@RegExList;
@@ -497,7 +497,7 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip Link LinkPreview Interpreter Expression MultiValue Namespace)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip Link LinkPreview Interpreter Expression Namespace)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -638,7 +638,7 @@ sub _ChangeAction {
 
     # set specific config
     my %FieldConfig = (
-        map { $_ => $GetParam{$_} } qw(Tooltip Link LinkPreview Interpreter Expression RequiredArgs AJAXTriggers UpdateEvents MultiValue),
+        map { $_ => $GetParam{$_} } qw(Tooltip Link LinkPreview Interpreter Expression RequiredArgs AJAXTriggers UpdateEvents),
     );
 
     $FieldConfig{RegExList} = \@RegExList;
@@ -827,19 +827,6 @@ sub _ShowScreen {
         Translation   => 0,
         Sort          => 'NumericKey',
         Class         => 'Modernize W75pc Validate_Number',
-    );
-
-    my $MultiValue = $Param{MultiValue} || '0';
-
-    # create translatable values option list
-    my $MultiValueStrg = $LayoutObject->BuildSelection(
-        Data => {
-            0 => Translatable('No'),
-            1 => Translatable('Yes'),
-        },
-        Name       => 'MultiValue',
-        SelectedID => $MultiValue,
-        Class      => 'Modernize W50pc',
     );
 
     my $NamespaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
@@ -1140,7 +1127,6 @@ sub _ShowScreen {
             FilterStrg            => $FilterStrg,
             ValidityStrg          => $ValidityStrg,
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
-            MultiValueStrg        => $MultiValueStrg,
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
             LinkPreview           => $LinkPreview,
