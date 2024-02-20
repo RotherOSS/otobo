@@ -22,7 +22,19 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use Test2::Tools::HTTP;
+use Test2::Tools::HTTP qw(
+    http_code
+    http_content
+    http_header
+    http_is_error
+    http_is_redirect
+    http_is_success
+    http_isnt_redirect
+    http_isnt_success
+    http_request
+    http_response
+    psgi_app_add
+);
 use HTTP::Request::Common qw(GET);
 use Plack::Util           ();
 

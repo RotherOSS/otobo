@@ -16,12 +16,17 @@
 
 package Kernel::GenericInterface::Invoker::Ticket::TicketUpdate;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
-use Kernel::GenericInterface::Invoker::Ticket::Common;
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::GenericInterface::Invoker::Ticket::Common ();
+use Kernel::System::VariableCheck                     qw(:all);
 
 our $ObjectManagerDisabled = 1;
 

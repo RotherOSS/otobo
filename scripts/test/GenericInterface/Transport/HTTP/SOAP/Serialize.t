@@ -25,9 +25,9 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-use Kernel::GenericInterface::Debugger ();
-use Kernel::GenericInterface::Transport::HTTP::SOAP;
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::GenericInterface::Debugger              ();
+use Kernel::GenericInterface::Transport::HTTP::SOAP ();
+use Kernel::System::VariableCheck                   qw(:all);
 
 our $Self;
 

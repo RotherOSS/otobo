@@ -25,8 +25,8 @@ use warnings;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::GenericInterface::Invoker::Ticket::Common;
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::GenericInterface::Invoker::Ticket::Common ();
+use Kernel::System::VariableCheck                     qw(:all);
 
 our $ObjectManagerDisabled = 1;
 

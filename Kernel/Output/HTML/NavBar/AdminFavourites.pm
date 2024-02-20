@@ -21,8 +21,13 @@ use parent 'Kernel::Output::HTML::Base';
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+use Unicode::Collate::Locale ();
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Unicode::Collate::Locale;
 
 our @ObjectDependencies = (
     'Kernel::Config',

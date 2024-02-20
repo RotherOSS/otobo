@@ -26,7 +26,6 @@ use LWP::UserAgent ();
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-use Kernel::System::UnitTest::Helper;
 
 our $Self;
 

@@ -16,11 +16,17 @@
 
 package Kernel::Output::HTML::NavBar::ModuleAdmin;
 
-use parent 'Kernel::Output::HTML::Base';
-
 use strict;
 use warnings;
-use Unicode::Collate::Locale;
+
+use parent 'Kernel::Output::HTML::Base';
+
+# core modules
+
+# CPAN modules
+use Unicode::Collate::Locale ();
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',

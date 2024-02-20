@@ -23,7 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use Data::Peek;
+use Data::Peek qw(DDump);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM

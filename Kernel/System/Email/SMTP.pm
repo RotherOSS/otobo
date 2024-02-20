@@ -19,7 +19,12 @@ package Kernel::System::Email::SMTP;
 use strict;
 use warnings;
 
+# core modules
 use Net::SMTP;
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',

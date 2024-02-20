@@ -24,7 +24,7 @@ use utf8;
 use File::Basename qw(dirname);
 
 # CPAN modules
-use Plack::Builder;
+use Plack::Builder      qw(builder);
 use Plack::Handler::CGI ();
 use Plack::Util         ();
 

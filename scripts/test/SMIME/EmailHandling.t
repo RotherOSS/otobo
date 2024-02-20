@@ -28,7 +28,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::Output::HTML::ArticleCheck::SMIME;
+use Kernel::Output::HTML::ArticleCheck::SMIME ();
 
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');

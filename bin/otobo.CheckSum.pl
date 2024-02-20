@@ -27,7 +27,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 # core modules
-use Getopt::Std;
+use Getopt::Std qw(getopt);
 use Digest::MD5 ();
 
 # CPAN modules

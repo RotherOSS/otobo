@@ -23,11 +23,11 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-use Kernel::GenericInterface::Debugger ();
-use Kernel::GenericInterface::Operation::Session::SessionCreate;
-use Kernel::GenericInterface::Operation::Ticket::TicketHistoryGet;
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::UnitTest::RegisterDriver;                                 # Set up $Kernel::OM and the test driver $Self
+use Kernel::GenericInterface::Debugger                            ();
+use Kernel::GenericInterface::Operation::Session::SessionCreate   ();         ## no perlimports, new() from string
+use Kernel::GenericInterface::Operation::Ticket::TicketHistoryGet ();         ## no perlimports, new() from string
+use Kernel::System::VariableCheck                                 qw(:all);
 
 our $Self;
 

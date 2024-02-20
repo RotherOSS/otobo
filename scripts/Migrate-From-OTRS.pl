@@ -26,7 +26,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 # core modules
-use Getopt::Long;
+use Getopt::Long qw(GetOptions);
 
 # CPAN modules
 
@@ -47,7 +47,7 @@ my %Options = (
     Verbose        => 0,
     OTRS6path      => '/opt/otrs/',
 );
-Getopt::Long::GetOptions(
+GetOptions(
     'help',            \$Options{Help},
     'non-interactive', \$Options{NonInteractive},
     'OTRS-6-path',     \$Options{OTRS6path},

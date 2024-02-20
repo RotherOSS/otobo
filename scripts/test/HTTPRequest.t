@@ -35,7 +35,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::System::Web::Request;
+use Kernel::System::Web::Request ();
 
 subtest 'GET without script name' => sub {
     my $HTTPRequest = HTTP::Request->new( GET => 'http://www.example.com?a=4;b=5' );

@@ -22,7 +22,7 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
-use PerlIO;
+use PerlIO;    ## no perlimports, not sure whether this is needed
 
 # CPAN modules
 use HTTP::Status    qw(status_message);

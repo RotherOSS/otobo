@@ -69,8 +69,7 @@ Create a MailQueue object. Do not use it directly, instead use:
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{CheckEmailAddresses} = $Param{CheckEmailAddresses} // 1;
 

@@ -24,7 +24,7 @@ use utf8;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $main::Self
-use Kernel::System::Email::Sendmail;
+use Kernel::System::Email::Sendmail;             ## no perlimports, the Check method is overridden
 
 our $Self;
 

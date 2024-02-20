@@ -29,8 +29,8 @@ use v5.24;
 # core modules
 
 # CPAN modules
-use Apache2::ServerUtil ();
-use Plack::Handler::Apache2;
+use Apache2::ServerUtil     ();
+use Plack::Handler::Apache2 ();
 
 # OTOBO modules
 

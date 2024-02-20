@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -28,9 +28,9 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
-use Kernel::System::MailAccount::POP3;
-use Kernel::System::MailAccount::IMAP;
-use Kernel::System::PostMaster ();               ## no perlimports, as Kernel::System::PostMaster::Run will be overridden
+use Kernel::System::MailAccount::POP3 ();        ## no perlimports, module is mocked
+use Kernel::System::MailAccount::IMAP ();        ## no perlimports, module is mocked
+use Kernel::System::PostMaster        ();        ## no perlimports, as Kernel::System::PostMaster::Run will be overridden
 
 ## no critic qw(OTOBO::RequireCamelCase Subroutines::ProhibitBuiltinHomonyms)
 

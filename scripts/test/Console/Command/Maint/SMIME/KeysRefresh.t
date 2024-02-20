@@ -20,14 +20,14 @@ use utf8;
 
 # core modules
 use File::Copy qw(copy move);
-use File::Path();
+use File::Path qw(mkpath rmtree);
 
 # CPAN modules
 use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-use Kernel::System::Crypt::SMIME;
+use Kernel::System::Crypt::SMIME ();
 
 our $Self;
 
@@ -49,7 +49,7 @@ my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
 my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
 $CertPath    =~ s{/{2,}}{/}smxg;
 $PrivatePath =~ s{/{2,}}{/}smxg;
-File::Path::rmtree($CertPath);
+rmtree($CertPath);
 File::Path::rmtree($PrivatePath);
 File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
@@ -101,7 +101,7 @@ my $CreateDir = sub {
     my $Directory = $_[0];
 
     if ( !-d $Directory ) {
-        File::Path::mkpath( $Directory, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+        mkpath( $Directory, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         if ( !-d $Directory ) {
             $Self->True(
@@ -453,14 +453,14 @@ for my $Test (@Tests) {
 }
 
 # remove temporary directory
-$Success = File::Path::rmtree( $Home . '/var/tmp/SMIMETest' );
+$Success = rmtree( $Home . '/var/tmp/SMIMETest' );
 $Self->True(
     $Success,
     'Removed temporary Certificates and Private Keys root directory with true',
 );
 
-File::Path::rmtree($CertPath);
-File::Path::rmtree($PrivatePath);
+rmtree($CertPath);
+rmtree($PrivatePath);
 
 # cleanup cache is done by RestoreDatabase
 

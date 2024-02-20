@@ -24,7 +24,7 @@ use warnings;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::LinkObject;
+use Kernel::System::LinkObject;    ## no perlimports
 use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 

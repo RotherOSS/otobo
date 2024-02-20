@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -27,11 +27,11 @@ use Test2::API qw(intercept);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::System::UnitTest::Driver;
+use Kernel::System::UnitTest::Driver ();
 
 # Testing Kernel::System::UnitTest::Driver.
 # See https://metacpan.org/pod/Test2::Manual::Tooling::Testing.
-my $UnitTestObject = Kernel::System::UnitTest::Driver->new();
+my $UnitTestObject = Kernel::System::UnitTest::Driver->new;
 
 note('Testing True() and False()');
 

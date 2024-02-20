@@ -19,10 +19,14 @@ package Kernel::Output::HTML::Dashboard::Stats;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
 
-use Kernel::System::Stats;
-use Kernel::Output::HTML::Statistics::View;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Stats;                     ## no perlimports
+use Kernel::Output::HTML::Statistics::View;    ## no perlimports
 
 our $ObjectManagerDisabled = 1;
 

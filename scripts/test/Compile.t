@@ -22,7 +22,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use Test::Compile::Internal;
+use Test::Compile::Internal ();
 
 # OTBOO modules
 use Kernel::Config;
@@ -71,7 +71,7 @@ my %FailureIsAccepted = (
 }
 
 # object for doing the actual check
-my $Internal = Test::Compile::Internal->new();
+my $Internal = Test::Compile::Internal->new;
 
 note('check syntax of the Perl modules');
 {

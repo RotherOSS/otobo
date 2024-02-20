@@ -22,7 +22,14 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use Test2::Tools::HTTP;
+use Test2::Tools::HTTP qw(
+    http_header
+    http_is_redirect
+    http_is_success
+    http_isnt_success
+    http_request
+    http_response
+);
 use HTTP::Request::Common qw(GET);
 
 # OTOBO modules

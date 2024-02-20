@@ -18,13 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use List::Util qw(first);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::Email::SMTP ();              ## no perlimports, the Check method is overridden
 
 our $Self;
-
-use List::Util ();
-use Kernel::System::Email::SMTP;
 
 # The tests presented here try to ensure that the communication-log entries
 #   keep the correct status after some predefined situations.
@@ -234,17 +237,17 @@ my $CheckForCommunicationLog = sub {
         }
     ];
 
-    my $CommunicationLogConnection = List::Util::first { $_->{ObjectLogType} eq 'Connection' } @{$CommunicationLogObjects};
+    my $CommunicationLogConnection = first { $_->{ObjectLogType} eq 'Connection' } @{$CommunicationLogObjects};
     $Self->True(
         $CommunicationLogConnection->{ObjectLogStatus} eq $CommunicationLogStatus->{Connection},
         $TestBaseMessage
             . sprintf( ", communication log connection with status '%s'", $CommunicationLogStatus->{Connection} ),
     );
 
-    my $CommunicationLogMessage = List::Util::first {
+    my $CommunicationLogMessage = first {
         $_->{ObjectLogID} == $ComLogLookupInfo->{ObjectLogID}
     }
-    @{$CommunicationLogObjects};
+        @{$CommunicationLogObjects};
 
     $Self->True(
         $CommunicationLogMessage->{ObjectLogStatus} eq $CommunicationLogStatus->{Message},

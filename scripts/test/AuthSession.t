@@ -29,10 +29,9 @@ use Kernel::System::UnitTest::MockTime qw(
     FixedTimeUnset
 );
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::AuthSession ();
 
 our $Self;
-
-use Kernel::System::AuthSession;
 
 # get needed objects
 my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');

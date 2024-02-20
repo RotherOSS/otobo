@@ -25,7 +25,6 @@ use utf8;
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-use Kernel::System::MailQueue;
 
 our $Self;
 

@@ -27,10 +27,10 @@ use parent qw(Template::Provider);
 use Scalar::Util qw(weaken);
 
 # CPAN modules
-use Template::Constants;
+use Template::Constants ();
 
 # OTOBO modules
-use Kernel::Output::Template::Document;
+use Kernel::Output::Template::Document;    ## no perlimports, make sure that this module is available
 
 our @ObjectDependencies = (
     'Kernel::Config',

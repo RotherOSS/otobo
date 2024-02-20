@@ -26,9 +26,9 @@ use Test2::V0;
 use HTTP::Request ();
 
 # OTOBO modules
-use Kernel::System::ObjectManager      ();
-use Kernel::GenericInterface::Debugger ();
-use Kernel::GenericInterface::Transport::HTTP::SOAP;
+use Kernel::System::ObjectManager                   ();
+use Kernel::GenericInterface::Debugger              ();
+use Kernel::GenericInterface::Transport::HTTP::SOAP ();
 
 $Kernel::OM = Kernel::System::ObjectManager->new();
 

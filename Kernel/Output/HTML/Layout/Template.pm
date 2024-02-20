@@ -24,13 +24,13 @@ use warnings;
 use Scalar::Util qw(weaken);
 
 # CPAN modules
-use Template;
-use Template::Stash::XS;
-use Template::Context;
-use Template::Plugins;
+use Template            ();
+use Template::Stash::XS ();
+use Template::Context   ();
+use Template::Plugins   ();
 
 # OTOBO modules
-use Kernel::Output::Template::Provider;
+use Kernel::Output::Template::Provider ();
 
 our $ObjectManagerDisabled = 1;
 

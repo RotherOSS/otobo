@@ -26,7 +26,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::System::Web::Request;
+use Kernel::System::Web::Request  ();
 use Kernel::System::VariableCheck qw(:all);
 
 # get helper object

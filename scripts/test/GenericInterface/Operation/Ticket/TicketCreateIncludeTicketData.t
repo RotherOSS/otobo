@@ -19,17 +19,16 @@ use warnings;
 use utf8;
 
 # core modules
-use Socket;
 
 # CPAN modules
 use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
-use Kernel::GenericInterface::Debugger ();
-use Kernel::GenericInterface::Operation::Ticket::TicketCreate;
-use Kernel::GenericInterface::Operation::Session::SessionCreate;
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+use Kernel::GenericInterface::Debugger                          ();
+use Kernel::GenericInterface::Operation::Ticket::TicketCreate   ();                                                         ## no perlimports, new() from string
+use Kernel::GenericInterface::Operation::Session::SessionCreate ();                                                         ## no perlimports, new() from string
+use Kernel::System::VariableCheck                               qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 our $Self;
 

@@ -21,7 +21,7 @@ use v5.24;
 use utf8;
 
 # use ../ and ../Kernel/cpan-lib as lib location
-use FindBin qw($RealBin);
+use FindBin qw($RealBin);    ## no perlimports, not sure why perlimports wants $Dir
 use lib "$RealBin/..";
 use lib "$RealBin/../Kernel/cpan-lib";
 

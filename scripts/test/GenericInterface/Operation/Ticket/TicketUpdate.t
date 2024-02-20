@@ -26,12 +26,12 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self::main
-use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
-use Kernel::GenericInterface::Debugger ();
-use Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
-use Kernel::GenericInterface::Operation::Session::SessionCreate;
-use Kernel::GenericInterface::Requester;
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+use Kernel::System::UnitTest::MockTime                          qw(FixedTimeSet);
+use Kernel::GenericInterface::Debugger                          ();
+use Kernel::GenericInterface::Operation::Ticket::TicketUpdate   ();                                                         ## no perlimports, new() from string
+use Kernel::GenericInterface::Operation::Session::SessionCreate ();                                                         ## no perlimports, new() from string
+use Kernel::GenericInterface::Requester                         ();
+use Kernel::System::VariableCheck                               qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 our $Self;
 

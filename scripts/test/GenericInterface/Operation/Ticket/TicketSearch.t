@@ -25,11 +25,11 @@ use MIME::Base64 qw(encode_base64);
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
-use Kernel::GenericInterface::Debugger ();
-use Kernel::GenericInterface::Operation::Ticket::TicketSearch;
-use Kernel::GenericInterface::Operation::Session::SessionCreate;
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::UnitTest::RegisterDriver;                               # Set up $Kernel::OM and $main::Self
+use Kernel::GenericInterface::Debugger                          ();
+use Kernel::GenericInterface::Operation::Ticket::TicketSearch   ();         ## no perlimports, new() from string
+use Kernel::GenericInterface::Operation::Session::SessionCreate ();         ## no perlimports, new() from string
+use Kernel::System::VariableCheck                               qw(:all);
 
 our $Self;
 

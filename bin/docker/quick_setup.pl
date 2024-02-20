@@ -101,9 +101,9 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
 # core modules
-use Getopt::Long;
-use Pod::Usage qw(pod2usage);
-use Sub::Util  qw(subname);
+use Getopt::Long qw(GetOptions);
+use Pod::Usage   qw(pod2usage);
+use Sub::Util    qw(subname);
 
 # CPAN modules
 use Path::Class qw(dir);
@@ -124,7 +124,7 @@ sub Main {
     my $AddCalendar           = 0;     # must be explicitly enabled
     my $ActivateSyncWithS3    = 0;     # activate S3 in the SysConfig, still experimental
 
-    Getopt::Long::GetOptions(
+    GetOptions(
         'help'                   => \$HelpFlag,
         'db-password=s'          => \$DBPassword,
         'http-port=i'            => \$HTTPPort,

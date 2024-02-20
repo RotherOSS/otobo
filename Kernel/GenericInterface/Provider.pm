@@ -33,9 +33,8 @@ use Kernel::GenericInterface::Debugger  ();
 use Kernel::GenericInterface::Transport ();
 use Kernel::GenericInterface::Mapping   ();
 use Kernel::GenericInterface::Operation ();
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::VariableCheck  qw(IsHashRefWithData);
-use Kernel::System::Web::Exception ();
+use Kernel::System::VariableCheck       qw(IsHashRefWithData);
+use Kernel::System::Web::Exception      ();
 
 our @ObjectDependencies = (
     'Kernel::GenericInterface::ErrorHandling',

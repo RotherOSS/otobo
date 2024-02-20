@@ -57,8 +57,7 @@ create an object
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # check needed objects
     for my $Needed (qw( DebuggerObject Invoker WebserviceID )) {
