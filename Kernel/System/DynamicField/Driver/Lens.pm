@@ -163,7 +163,7 @@ sub ValueSet {
                 EditFieldValue     => 0,
                 Set                => 0,
                 DynamicFieldConfig => $AttributeDFConfig,
-                ObjectID           => $ReferencedObjectID->[0],
+                ObjectID           => $ReferencedObjectID,
             );
             return unless $Success;
         }
@@ -838,24 +838,16 @@ sub _GetReferencedObjectID {
 
     if ( $Param{EditFieldValue} ) {
 
-        # fetching a single object id for a specified set index
-        if ( exists $Param{SetIndex} ) {
-            return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
-                DynamicFieldConfig => {
-                    $ReferenceDFConfig->%*,
-                    Name => $ReferenceDFConfig->{Name} . '_' . $Param{SetIndex},
-                },
-                ParamObject    => $Kernel::OM->Get('Kernel::System::Web::Request'),
-                TransformDates => 0,
-                ForLens        => 1,
-            );
-        }
-
         my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
-            DynamicFieldConfig => $ReferenceDFConfig,
-            ParamObject        => $Kernel::OM->Get('Kernel::System::Web::Request'),
-            TransformDates     => 0,
-            ForLens            => 1,
+            DynamicFieldConfig => {
+                $ReferenceDFConfig->%*,
+
+                # fetching a single object id for a specified set index
+                Name => $ReferenceDFConfig->{Name} . ( exists $Param{SetIndex} ? '_' . $Param{SetIndex} : '' ),
+            },
+            ParamObject    => $Kernel::OM->Get('Kernel::System::Web::Request'),
+            TransformDates => 0,
+            ForLens        => 1,
         );
 
         return $ObjectID->[0];
