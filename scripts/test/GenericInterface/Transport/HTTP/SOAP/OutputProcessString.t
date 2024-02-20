@@ -17,13 +17,16 @@
 use strict;
 use warnings;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::GenericInterface::Debugger ();
+use Kernel::GenericInterface::Transport::HTTP::SOAP;
 
 our $Self;
-
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Transport::HTTP::SOAP;
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {

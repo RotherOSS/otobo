@@ -29,7 +29,6 @@ use Time::HiRes ();
 
 # OTOBO modules
 use Kernel::System::PostMaster ();    ## no perlimports, Kernel::System::PostMaster::Run will be overridden
-use Kernel::System::MailAccount::IMAP;
 
 our @ObjectDependencies = (
     'Kernel::Config',

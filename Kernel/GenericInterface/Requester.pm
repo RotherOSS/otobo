@@ -26,7 +26,7 @@ use Storable qw(dclone);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::GenericInterface::Debugger;
+use Kernel::GenericInterface::Debugger ();
 use Kernel::GenericInterface::Invoker;
 use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Transport;

@@ -19,8 +19,13 @@ package Kernel::GenericInterface::ErrorHandling;
 use strict;
 use warnings;
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::GenericInterface::Debugger ();
+use Kernel::System::VariableCheck      qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',

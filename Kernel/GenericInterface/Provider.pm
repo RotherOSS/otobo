@@ -16,9 +16,9 @@
 
 package Kernel::GenericInterface::Provider;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 
 # core modules
@@ -29,7 +29,7 @@ use URI::Escape     qw(uri_unescape);
 use Plack::Response ();
 
 # OTOBO modules
-use Kernel::GenericInterface::Debugger;
+use Kernel::GenericInterface::Debugger ();
 use Kernel::GenericInterface::Transport;
 use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Operation;

@@ -16,22 +16,22 @@
 
 package Kernel::System::ProcessManagement::DB::Process;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 # core modules
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ProcessManagement::DB::Entity;
-use Kernel::System::ProcessManagement::DB::Activity;
-use Kernel::System::ProcessManagement::DB::ActivityDialog;
-use Kernel::System::ProcessManagement::DB::Process::State;
-use Kernel::System::ProcessManagement::DB::Transition;
-use Kernel::System::ProcessManagement::DB::TransitionAction;
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::ProcessManagement::DB::Entity           ();
+use Kernel::System::ProcessManagement::DB::Activity         ();
+use Kernel::System::ProcessManagement::DB::ActivityDialog   ();
+use Kernel::System::ProcessManagement::DB::Process::State   ();
+use Kernel::System::ProcessManagement::DB::Transition       ();
+use Kernel::System::ProcessManagement::DB::TransitionAction ();
+use Kernel::System::VariableCheck                           qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
