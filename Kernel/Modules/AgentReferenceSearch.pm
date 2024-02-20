@@ -124,10 +124,8 @@ sub Run {
         };
     }
 
-    # for some fields, sorting needs to be done here
-    if ( $DynamicFieldConfig->{FieldType} ne 'Ticket' ) {
-        @Results = sort { $a->{Value} cmp $b->{Value} } @Results;
-    }
+    # sort results by value
+    @Results = sort { $a->{Value} cmp $b->{Value} } @Results;
 
     return $LayoutObject->JSONReply(
         Data => \@Results,
