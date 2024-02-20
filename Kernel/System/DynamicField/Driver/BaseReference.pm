@@ -240,6 +240,8 @@ sub EditFieldRender {
         :
         'DynamicField/Agent/';
 
+    my $Sort = $Self->{Sort} || 'AlphanumericKey';
+
     my $PossibleValues;
     my @SelectionHTML;
     if ( $DFDetails->{EditFieldMode} eq 'AutoComplete' ) {
@@ -263,7 +265,7 @@ sub EditFieldRender {
                 my $FieldID = $FieldName . '_' . $ValueIndex;
                 push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
                     Data         => $PossibleValues || {},
-                    Sort         => $Param{DynamicFieldConfig}{FieldType} eq 'Agent' ? 'AlphanumericValue' : 'AlphanumericKey',
+                    Sort         => $Sort,
                     Disabled     => $Param{Readonly},
                     Name         => $FieldName,
                     ID           => $FieldID,
@@ -279,7 +281,7 @@ sub EditFieldRender {
             my @SelectedIDs = grep {$_} $Value->@*;
             push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
                 Data         => $PossibleValues || {},
-                Sort         => $Param{DynamicFieldConfig}{FieldType} eq 'Agent' ? 'AlphanumericValue' : 'AlphanumericKey',
+                Sort         => $Sort,
                 Disabled     => $Param{Readonly},
                 Name         => $FieldName,
                 SelectedID   => \@SelectedIDs,
@@ -347,7 +349,7 @@ sub EditFieldRender {
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
             Data        => $PossibleValues || {},
-            Sort        => $Param{DynamicFieldConfig}{FieldType} eq 'Agent' ? 'AlphanumericValue' : 'AlphanumericKey',
+            Sort        => $Sort,
             Disabled    => $Param{Readonly},
             Name        => $FieldName,
             ID          => $FieldTemplateData{FieldID},
