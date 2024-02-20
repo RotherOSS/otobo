@@ -26,7 +26,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::BaseEntity);
 
 # core modules
-use List::Util qw(any);
+use List::Util qw(none);
 
 # CPAN modules
 
@@ -995,7 +995,7 @@ sub GetFieldState {
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     return () if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
-    return () if !any { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
+    return () if none { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
 
     my $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
 
