@@ -137,7 +137,6 @@ sub ValueValidate {
     # get dynamic field value object
     my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
-    # TODO Decide on further details of script regex evaluation
     my $CheckRegex = 1;
     if (
         !IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
@@ -457,7 +456,6 @@ sub EditFieldValueValidate {
             $ErrorMessage = "This field is required.";
         }
 
-        # TODO Decide on further details of script regex evaluation
         elsif (
             IsArrayRefWithData( $Param{DynamicFieldConfig}{Config}{RegExList} )
             && ( $Param{Mandatory} || ( !$Param{Mandatory} && $CurrentValue ne '' ) )
