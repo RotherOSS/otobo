@@ -127,7 +127,7 @@ sub ValueGet {
 
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $AttributeDFConfig,
-        ObjectID           => $ReferencedObjectID->[0],
+        ObjectID           => $ReferencedObjectID,
     );
 }
 
@@ -837,6 +837,7 @@ sub _GetReferencedObjectID {
         LensDynamicFieldConfig => $LensDFConfig,
     );
 
+    my $ObjectID;
     if ( $Param{EditFieldValue} ) {
 
         # fetching a single object id for a specified set index
@@ -853,20 +854,21 @@ sub _GetReferencedObjectID {
             );
         }
 
-        return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
+        $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
             DynamicFieldConfig => $ReferenceDFConfig,
             ParamObject        => $Kernel::OM->Get('Kernel::System::Web::Request'),
             TransformDates     => 0,
             ForLens            => 1,
         );
     }
-
-    my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
-        DynamicFieldConfig => $ReferenceDFConfig,
-        ObjectID           => $Param{ObjectID},
-        ForLens            => 1,
-        Set                => $Param{Set},
-    );
+    else {
+        $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
+            DynamicFieldConfig => $ReferenceDFConfig,
+            ObjectID           => $Param{ObjectID},
+            ForLens            => 1,
+            Set                => $Param{Set},
+        );
+    }
 
     # in set case, we need to map the returned array of arrays into an array of first values as multivalue lenses are not supported at the moment
     if ( $Param{Set} ) {
@@ -874,6 +876,7 @@ sub _GetReferencedObjectID {
         return \@ObjectIDs;
     }
 
+    return $ObjectID->[0] if ref $ObjectID;
     return $ObjectID;
 }
 
