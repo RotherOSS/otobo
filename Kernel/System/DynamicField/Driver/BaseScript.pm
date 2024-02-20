@@ -415,7 +415,11 @@ sub EditFieldValueGet {
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
-    return {} if !$Param{Mandatory} && !IsArrayRefWithData( $Param{DynamicFieldConfig}{Config}{RegExList} );
+    return {
+        ServerError  => undef,
+        ErrorMessage => undef
+    } if !$Param{Mandatory}
+        && !IsArrayRefWithData( $Param{DynamicFieldConfig}{Config}{RegExList} );
 
     # get the field value from the http request
     my $EditFieldValue = $Self->EditFieldValueGet(
