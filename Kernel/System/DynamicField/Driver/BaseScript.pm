@@ -27,7 +27,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 # core modules
-use List::Util qw(any);
+use List::Util qw(none);
 
 # CPAN modules
 
@@ -1077,7 +1077,7 @@ sub GetFieldState {
 
     # if specific AJAX triggers are defined only update on changes to them...
     if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{AJAXTriggers} ) ) {
-        return () if !any { $ChangedElements{$_} } $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
+        return () if none { $ChangedElements{$_} } $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
     }
 
     # ...if not, only check in the first run
@@ -1087,7 +1087,7 @@ sub GetFieldState {
 
     return () if IsArrayRefWithData( $DynamicFieldConfig->{Config}{AJAXTriggers} )
         && !$Param{InitialRun}
-        && !any { $ChangedElements{ $Self->{Uniformity}{$_} // $_ } } $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
+        && none { $ChangedElements{ $Self->{Uniformity}{$_} // $_ } } $DynamicFieldConfig->{Config}{AJAXTriggers}->@*;
 
     my $NewValue = $Self->Evaluate(
         DynamicFieldConfig => $DynamicFieldConfig,
