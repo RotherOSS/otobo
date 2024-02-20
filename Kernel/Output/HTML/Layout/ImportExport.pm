@@ -16,7 +16,7 @@
 
 package Kernel::Output::HTML::Layout::ImportExport;
 
-use v5.25;
+use v5.24;
 use strict;
 use warnings;
 use namespace::autoclean;
