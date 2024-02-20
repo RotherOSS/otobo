@@ -16,10 +16,15 @@
 
 package Kernel::GenericInterface::Invoker::Ticket::TicketCreate;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::GenericInterface::Invoker::Ticket::Common;
 use Kernel::System::VariableCheck qw(:all);
 

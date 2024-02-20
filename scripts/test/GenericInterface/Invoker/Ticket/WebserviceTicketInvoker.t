@@ -29,7 +29,7 @@ use Test2::V0;
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::GenericInterface::Debugger ();
-use Kernel::GenericInterface::Invoker;
+use Kernel::GenericInterface::Invoker  ();
 use Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
 use Kernel::GenericInterface::Operation::Ticket::TicketCreate;
 use Kernel::System::VariableCheck qw(:all);

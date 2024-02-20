@@ -31,8 +31,8 @@ use URI::Escape     qw(uri_escape_utf8 uri_unescape);
 use Plack::Response ();
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::Web::Exception;
+use Kernel::System::VariableCheck  qw(:all);
+use Kernel::System::Web::Exception ();
 
 our $ObjectManagerDisabled = 1;
 

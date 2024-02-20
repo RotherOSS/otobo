@@ -71,8 +71,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # check needed params
     for my $Needed (qw(DebuggerObject MappingConfig)) {

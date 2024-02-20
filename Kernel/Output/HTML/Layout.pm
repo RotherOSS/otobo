@@ -33,9 +33,9 @@ use Plack::Response ();
 use Plack::Util     ();
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::Web::Exception;
-use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck  qw(:all);
+use Kernel::System::Web::Exception ();
+use Kernel::Language               qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -76,6 +76,7 @@ All generic HTML functions. E. g. to get options fields, template processing, ..
 create a new object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::Output::HTML::Layout' => {
             Lang    => 'de',

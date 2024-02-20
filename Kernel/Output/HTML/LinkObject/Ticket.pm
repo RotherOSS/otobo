@@ -19,9 +19,13 @@ package Kernel::Output::HTML::LinkObject::Ticket;
 use strict;
 use warnings;
 
+# core modules
 use List::Util qw(first);
 
-use Kernel::Output::HTML::Layout;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Output::HTML::Layout  ();
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 

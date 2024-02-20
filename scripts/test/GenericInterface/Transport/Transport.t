@@ -27,8 +27,8 @@ use HTTP::Request ();
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::GenericInterface::Debugger ();
-use Kernel::GenericInterface::Transport;
+use Kernel::GenericInterface::Debugger  ();
+use Kernel::GenericInterface::Transport ();
 
 # get encode object
 my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');

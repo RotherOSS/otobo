@@ -27,7 +27,6 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::Output::HTML::Layout;
 use Kernel::System::Web::Request;
 
 # get helper object

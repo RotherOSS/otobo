@@ -25,7 +25,7 @@ use utf8;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::GenericInterface::Debugger ();
-use Kernel::GenericInterface::Mapping;
+use Kernel::GenericInterface::Mapping  ();
 
 our $Self;
 

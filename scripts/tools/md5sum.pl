@@ -20,7 +20,7 @@ use warnings;
 
 # core modules
 use Digest::MD5 ();
-use Pod::Usage;
+use Pod::Usage  qw(pod2usage);
 
 # CPAN modules
 

@@ -22,15 +22,15 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
-use HTTP::Request::Common qw(POST);
-use LWP::UserAgent        ();
-use LWP::Protocol;
 
 # CPAN modules
-use Plack::Response ();
+use HTTP::Request::Common qw(POST);
+use LWP::UserAgent        ();
+use LWP::Protocol         ();
+use Plack::Response       ();
 
 # OTOBO modules
-use Kernel::System::Web::Exception;
+use Kernel::System::Web::Exception ();
 
 our $ObjectManagerDisabled = 1;
 

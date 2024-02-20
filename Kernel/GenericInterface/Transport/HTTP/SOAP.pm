@@ -30,8 +30,8 @@ use Plack::Response ();
 use SOAP::Lite;    # for enabling debugging import +trace => 'all'
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::Web::Exception;
+use Kernel::System::VariableCheck  qw(:all);
+use Kernel::System::Web::Exception ();
 
 our $ObjectManagerDisabled = 1;
 

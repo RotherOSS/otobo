@@ -16,9 +16,9 @@
 
 package Kernel::GenericInterface::Transport;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 # core modules
 
@@ -193,6 +193,8 @@ The actual work is done by the backend objects.
             ...
         },
     );
+
+Returns:
 
     $Result = {
         Success         => 1,                   # 0 or 1

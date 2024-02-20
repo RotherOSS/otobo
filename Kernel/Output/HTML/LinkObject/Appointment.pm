@@ -19,9 +19,14 @@ package Kernel::Output::HTML::LinkObject::Appointment;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Output::HTML::Layout;
+use Kernel::Output::HTML::Layout  ();
 
 our @ObjectDependencies = (
     'Kernel::Config',

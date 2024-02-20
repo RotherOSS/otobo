@@ -39,9 +39,9 @@ The thrown instance provides the method C<as_psgi()> which can be handled by C<P
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 use utf8;
 

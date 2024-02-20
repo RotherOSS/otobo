@@ -26,11 +26,11 @@ use Storable qw(dclone);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::GenericInterface::Debugger ();
-use Kernel::GenericInterface::Invoker;
-use Kernel::GenericInterface::Mapping;
-use Kernel::GenericInterface::Transport;
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::GenericInterface::Debugger  ();
+use Kernel::GenericInterface::Invoker   ();
+use Kernel::GenericInterface::Mapping   ();
+use Kernel::GenericInterface::Transport ();
+use Kernel::System::VariableCheck       qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::GenericInterface::Webservice',

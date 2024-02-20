@@ -84,8 +84,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # Check needed params.
     for my $Needed (qw( DebuggerObject Invoker InvokerType WebserviceID )) {
