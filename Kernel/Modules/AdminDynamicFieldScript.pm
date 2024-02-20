@@ -91,8 +91,7 @@ sub Run {
             %ConditionHashes,
         );
     }
-
-    if ( $Self->{Subaction} eq 'AddAction' ) {
+    elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
@@ -103,14 +102,13 @@ sub Run {
             DriverObject => $DriverObject,
         );
     }
-    if ( $Self->{Subaction} eq 'Change' ) {
+    elsif ( $Self->{Subaction} eq 'Change' ) {
         return $Self->_Change(
             %Param,
             %ConditionHashes,
         );
     }
-
-    if ( $Self->{Subaction} eq 'ChangeAction' ) {
+    elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
