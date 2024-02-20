@@ -76,6 +76,7 @@ sub new {
         'IsStatsCondition'             => 1,
         'IsCustomerInterfaceCapable'   => 1,
         'IsLikeOperatorCapable'        => 1,
+        'IsSetCapable'                 => 1,
     };
 
     # get the Dynamic Field Backend custom extensions
@@ -132,7 +133,13 @@ sub ValueGet {
     # extract real values
     my @ReturnData;
     for my $Item ( @{$DFValue} ) {
-        push @ReturnData, $Item->{ValueText};
+        if ( $Param{Set} ) {
+            $ReturnData[ $Item->{IndexSet} ] //= [];
+            push $ReturnData[ $Item->{IndexSet} ]->@*, $Item->{ValueText};
+        }
+        else {
+            push @ReturnData, $Item->{ValueText};
+        }
     }
 
     return \@ReturnData;
@@ -163,32 +170,42 @@ sub ValueSet {
     my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
     my $Success;
-    if ( IsArrayRefWithData( \@Values ) ) {
-
-        # if there is at least one value to set, this means one or more values are selected,
-        #    set those values!
+    if ( $Param{Set} ) {
         my @ValueText;
-        for my $Item (@Values) {
-            push @ValueText, { ValueText => $Item };
-        }
+        for my $ValueIndex ( 0 .. $#Values ) {
+            my @ValueItems = $Values[$ValueIndex]->@*;
 
+            # if there is at least one value to set, this means one or more values are selected,
+            #    set those values!
+            for my $Item (@ValueItems) {
+                push @ValueText, {
+                    ValueText => $Item,
+                    IndexSet  => $ValueIndex,
+                };
+            }
+        }
         $Success = $DynamicFieldValueObject->ValueSet(
             FieldID  => $Param{DynamicFieldConfig}->{ID},
             ObjectID => $Param{ObjectID},
             Value    => \@ValueText,
             UserID   => $Param{UserID},
         );
+        return $Success;
     }
-    else {
 
-        # otherwise no value was selected, then in fact this means that any value there should be
-        # deleted
-        $Success = $DynamicFieldValueObject->ValueDelete(
-            FieldID  => $Param{DynamicFieldConfig}->{ID},
-            ObjectID => $Param{ObjectID},
-            UserID   => $Param{UserID},
-        );
+    # if there is at least one value to set, this means one or more values are selected,
+    #    set those values!
+    my @ValueText;
+    for my $Item (@Values) {
+        push @ValueText, { ValueText => $Item };
     }
+
+    $Success = $DynamicFieldValueObject->ValueSet(
+        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        ObjectID => $Param{ObjectID},
+        Value    => \@ValueText,
+        UserID   => $Param{UserID},
+    );
 
     return $Success;
 }
