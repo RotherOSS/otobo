@@ -124,8 +124,8 @@ sub Run {
         };
     }
 
-    # for agent fields, sorting needs to be done here
-    if ( $DynamicFieldConfig->{FieldType} eq 'Agent' ) {
+    # for some fields, sorting needs to be done here
+    if ( $DynamicFieldConfig->{FieldType} ne 'Ticket' ) {
         @Results = sort { $a->{Value} cmp $b->{Value} } @Results;
     }
 
