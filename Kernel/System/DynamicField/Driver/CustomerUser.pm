@@ -398,18 +398,18 @@ sub SearchObjects {
         return ( $CustomerUserData{UserLogin} );
     }
     else {
-        $SearchParams{UserLogin} = "*$Param{Term}*";
+        $SearchParams{Search} = "*$Param{Term}*";
     }
 
     # return a list of customeruser IDs
-    my $Result = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerSearchDetail(
+    my %Result = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerSearch(
         Limit  => $Param{MaxResults},
         Result => 'ARRAY',
         Valid  => 1,
         %SearchParams,
     );
 
-    return $Result->@*;
+    return keys %Result;
 }
 
 1;
