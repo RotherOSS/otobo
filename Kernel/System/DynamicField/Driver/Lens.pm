@@ -156,7 +156,7 @@ sub ValueSet {
 
             next INDEX unless $ReferencedObjectID;
 
-            my $Success = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
+            $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
                 %Param,
                 Value              => $Param{Value}[$SetIndex],
                 ConfigItemHandled  => 0,
@@ -165,7 +165,6 @@ sub ValueSet {
                 DynamicFieldConfig => $AttributeDFConfig,
                 ObjectID           => $ReferencedObjectID,
             );
-            return unless $Success;
         }
         return 1;
     }
