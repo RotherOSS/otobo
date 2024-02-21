@@ -2753,10 +2753,13 @@ Core.UI.InputFields = (function (TargetNS) {
      * @return {void} 
      */
     function InitMultiValueCell( $Cell ) {
-        
+
         var DynamicFields = Core.Config.Get('DynamicFieldNames');
 
         var CellGridPosition = GetGridPosition($Cell);
+
+        // set correct grid row
+        $Cell.css('grid-row-start', CellGridPosition.Row+1);
 
         $( '.AddValueRow', $Cell.children('.AddRemoveValueRow') ).off('click').on('click', function() {
             AddCell($Cell)
@@ -2854,8 +2857,8 @@ Core.UI.InputFields = (function (TargetNS) {
         $Row.find('> .FieldCell').each( function () {
             let $FollowingCell = $(this);
             let GridPosition = GetGridPosition( $FollowingCell );
-            if ( GridPosition &&GridPosition.Column == CellGridPosition.Column 
-                && GridPosition.Row > CellGridPosition.Row ) 
+            if ( GridPosition &&GridPosition.Column == CellGridPosition.Column
+                && GridPosition.Row > CellGridPosition.Row )
             {
                 ReplaceCellIndex( $FollowingCell, GridPosition.Row, GridPosition.Row+1 );
             }
@@ -2869,8 +2872,8 @@ Core.UI.InputFields = (function (TargetNS) {
         $('.DynamicFieldSet .FieldCell', $NewCell).each( function() {
             let $SubCell = $(this);
             DynamicFieldInit( $SubCell );
-            if ($SubCell[0] .className.split(' ').find( ClassName => 
-                            ClassName.startsWith('MultiValue_'))) 
+            if ($SubCell[0] .className.split(' ').find( ClassName =>
+                            ClassName.startsWith('MultiValue_')))
             {
                 InitMultiValueCell( $SubCell );
             }
@@ -2912,9 +2915,9 @@ Core.UI.InputFields = (function (TargetNS) {
      * @private
      * @name ReplaceCellIndex
      * @memberof Core.UI.InputFields
-     * @param {jQueryObject} $Cell - the field cell
-     * @param {Integer} From       - current index
-     * @param {Integer} To         - new index
+     * @param {JQuery} $Cell - the field cell
+     * @param {Number} From - current index
+     * @param {Number | String} To - new index or 'Template'
      * @description
      *      Replaces multivalue and set indices after adding or deleting rows
      */
@@ -2922,6 +2925,9 @@ Core.UI.InputFields = (function (TargetNS) {
         // replace fix stuff
         $Cell.removeClass( 'MultiValue_' + From );
         $Cell.addClass( 'MultiValue_' + To );
+
+        // set correct grid row
+        $Cell.css('grid-row-start', To+1);
 
         // replace DynamicField specifics
         var ReplaceRegEx = new RegExp( '(DynamicField_[\\w\\d_-]+_)'  + From + '((Data|Container)?)', 'g' );
@@ -3005,9 +3011,9 @@ Core.UI.InputFields = (function (TargetNS) {
      * @return {{ Row: Number, Column: Number} | false} the grid position of the cell
      */
     function GetGridPosition( $Cell ) {
-        
+
         let MultiValueClass = $Cell[0].className.split(' ').find((ClassName) => ClassName.startsWith('MultiValue_'))
-        
+
         if (!MultiValueClass)
             return false;
 
@@ -3015,7 +3021,7 @@ Core.UI.InputFields = (function (TargetNS) {
         var ValueColumnIndex = $Cell.css('grid-column').split(' ')[0];
         return { Row: Number(ValueRowIndex), Column: Number(ValueColumnIndex) };                        
     }
-    
+
 
     /**
      * DynamicFieldInit function initializes dynamic fields in the given cell.
