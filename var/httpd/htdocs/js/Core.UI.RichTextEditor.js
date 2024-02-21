@@ -2,6 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+// Copyright (C) 2021-2024 Znuny GmbH, https://znuny.org/
 // Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
@@ -138,12 +139,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         cm.replaceSelection(spaces);
                     }
                 });
-
             }
 
             Core.App.Publish('Event.UI.RichTextEditor.InstanceReady', [Editor]);
         });
-//oldreturn;
 
         // The format for the language is different between OTOBO and CKEditor (see bug#8024)
         // To correct this, we replace "_" with "-" in the language (e.g. zh_CN becomes zh-cn)
@@ -174,27 +173,26 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         // set default editor config, but allow custom config for other types for editors
         /*eslint-disable camelcase */
         EditorConfig = {
-            customConfig: '', // avoid loading external config files
             disableNativeSpellChecker: false,
-            defaultLanguage: UserLanguage,
-            language: UserLanguage,
-            width: Core.Config.Get('RichText.Width', 620),
-            resize_minWidth: Core.Config.Get('RichText.Width', 620),
-            height: Core.Config.Get('RichText.Height', 320),
-            removePlugins: CheckFormID($EditorArea).length ? 'elementspath,exportpdf' : 'elementspath,exportpdf,image2,uploadimage',
-            forcePasteAsPlainText: false,
-            format_tags: 'p;h1;h2;h3;h4;h5;h6;pre',
-            fontSize_sizes: '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
-            extraAllowedContent: 'div[type]{*}; img[*]; col[width]; style[*]{*}; *[id](*)',
-            enterMode: CKEDITOR.ENTER_BR,
-            shiftEnterMode: CKEDITOR.ENTER_BR,
-            contentsLangDirection: Core.Config.Get('RichText.TextDir', 'ltr'),
-            toolbar: ToolbarConfig,
-            filebrowserBrowseUrl: '',
-            filebrowserUploadUrl: UploadURL,
-            extraPlugins: 'splitquote,contextmenu_linkopen',
-            entities: false,
-            skin: 'moono-lisa'
+            defaultLanguage:           UserLanguage,
+            language:                  UserLanguage,
+            width:                     Core.Config.Get('RichText.Width', 620),
+            resize_minWidth:           Core.Config.Get('RichText.Width', 620),
+            height:                    Core.Config.Get('RichText.Height', 320),
+            removePlugins:             CheckFormID($EditorArea).length ? 'elementspath,exportpdf' : 'elementspath,exportpdf,image2,uploadimage',
+            forcePasteAsPlainText:     false,
+            format_tags:               'p;h1;h2;h3;h4;h5;h6;pre',
+            fontSize_sizes:            '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
+            extraAllowedContent:       'div[type]{*}; img[*]; col[width]; style[*]{*}; *[id](*)',
+            enterMode:                 CKEDITOR.ENTER_BR,
+            shiftEnterMode:            CKEDITOR.ENTER_BR,
+            contentsLangDirection:     Core.Config.Get('RichText.TextDir', 'ltr'),
+            toolbar:                   ToolbarConfig,
+            filebrowserBrowseUrl:      '',
+            filebrowserUploadUrl:      UploadURL,
+            extraPlugins:              'splitquote,contextmenu_linkopen',
+            entities:                  false,
+            skin:                      'moono-lisa'
         };
         /*eslint-enable camelcase */
 
@@ -203,26 +201,26 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             $.extend(EditorConfig, {
 
                 /*eslint-disable camelcase */
-                startupMode: 'source',
+                startupMode:    'source',
                 allowedContent: true,
-                extraPlugins: 'codemirror',
-                codemirror: {
-                    theme: 'default',
-                    lineNumbers: true,
-                    lineWrapping: true,
-                    matchBrackets: true,
-                    autoCloseTags: true,
-                    autoCloseBrackets: true,
-                    enableSearchTools: true,
-                    enableCodeFolding: true,
-                    enableCodeFormatting: true,
-                    autoFormatOnStart: false,
+                extraPlugins:   'codemirror',
+                codemirror:     {
+                    theme:                  'default',
+                    lineNumbers:            true,
+                    lineWrapping:           true,
+                    matchBrackets:          true,
+                    autoCloseTags:          true,
+                    autoCloseBrackets:      true,
+                    enableSearchTools:      true,
+                    enableCodeFolding:      true,
+                    enableCodeFormatting:   true,
+                    autoFormatOnStart:      false,
                     autoFormatOnModeChange: false,
-                    autoFormatOnUncomment: false,
-                    mode: 'htmlmixed',
-                    showTrailingSpace: true,
-                    highlightMatches: true,
-                    styleActiveLine: true
+                    autoFormatOnUncomment:  false,
+                    mode:                   'htmlmixed',
+                    showTrailingSpace:      true,
+                    highlightMatches:       true,
+                    styleActiveLine:        true
                 }
                 /*eslint-disable camelcase */
 
@@ -230,7 +228,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         Editor = CKEDITOR.replace(EditorID, EditorConfig);
-//oldreturn;
 
         // check if creating CKEditor was successful
         // might be a problem on mobile devices e.g.
@@ -264,7 +261,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }
                 }
             };
-//oldreturn;
 
             // Redefine 'writeCssText' function because of unnecessary sorting of CSS properties (bug#12848).
             /* eslint-disable no-unused-vars */
