@@ -292,13 +292,14 @@ sub EditFieldRender {
         }
 
         my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
-            Content              => $Include,
-            DynamicFields        => $DynamicField,
-            UpdatableFields      => $Param{UpdatableFields},
-            LayoutObject         => $Param{LayoutObject},
-            ParamObject          => $Param{ParamObject},
-            DynamicFieldValues   => \%Value,
-            CustomerInterface    => $Param{CustomerInterface},
+            Content            => $Include,
+            DynamicFields      => $DynamicField,
+            UpdatableFields    => $Param{UpdatableFields},
+            LayoutObject       => $Param{LayoutObject},
+            ParamObject        => $Param{ParamObject},
+            DynamicFieldValues => \%Value,
+            CustomerInterface  => $Param{CustomerInterface},
+
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[$SetIndex] // {},
 
@@ -338,6 +339,7 @@ sub EditFieldRender {
             ParamObject        => $Param{ParamObject},
             DynamicFieldValues => \%TemplateValues,
             CustomerInterface  => $Param{CustomerInterface},
+
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[ $#SetValue + 1 ] // {},
         );
@@ -505,7 +507,7 @@ sub DisplayValueRender {
         Include => $Include,
     );
 
-    for my $Name ( @FieldOrdered ) {
+    for my $Name (@FieldOrdered) {
         my $DynamicFieldConfig = $DynamicField->{$Name};
         my $Label;
 
@@ -567,6 +569,23 @@ sub DisplayValueRender {
     return \%Value;
 }
 
+sub SearchFieldRender {
+    my ( $Self, %Param ) = @_;
+
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'error',
+        Message  => 'Dynamic field type Set is currently not searchable!',
+    );
+
+    return;
+}
+
+sub SearchFieldValueGet {
+    my ( $Self, %Param ) = @_;
+
+    return;
+}
+
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
@@ -592,7 +611,7 @@ sub ReadableValueRender {
         Include => $Include,
     );
 
-    for my $Name ( @FieldOrdered ) {
+    for my $Name (@FieldOrdered) {
         my $DynamicFieldConfig = $DynamicField->{$Name};
 
         VALUE:
@@ -690,7 +709,7 @@ sub ValueLookup {
         Include => $Include,
     );
 
-    for my $Name ( @FieldOrdered ) {
+    for my $Name (@FieldOrdered) {
         my $DynamicFieldConfig = $DynamicField->{$Name};
 
         VALUE:
@@ -742,14 +761,14 @@ sub GetFieldState {
 
     for my $SetIndex ( 0 .. $#SetValue ) {
         for my $Name ( $DynamicField->%* ) {
-            $DFParam{ "DynamicField_$Name" } = $SetValue[ $SetIndex ]{ $Name };
+            $DFParam{"DynamicField_$Name"} = $SetValue[$SetIndex]{$Name};
         }
 
         my $LoopProtection = 100;
         my %SetFieldStates = $Param{FieldRestrictionsObject}->GetFieldStates(
             %Param,
-            DynamicFields  => $DynamicField,
-            GetParam       => {
+            DynamicFields => $DynamicField,
+            GetParam      => {
                 %GetParam,
                 %DFParam,
                 DynamicField => \%DFParam,
@@ -759,11 +778,14 @@ sub GetFieldState {
         );
 
         for my $Name ( sort keys $SetFieldStates{Fields}->%* ) {
+
             # prepare the return used by the frontend modules for AJAX updates
             $Return{Set}{$Name}{DynamicFieldConfig}                     = $DynamicField->{$Name};
             $Return{Set}{$Name}{FieldStates}{ $Name . '_' . $SetIndex } = $SetFieldStates{Fields}{$Name};
-            $Return{Set}{$Name}{Values}{ $Name . '_' . $SetIndex }      = exists $SetFieldStates{NewValues}{$Name} ?
-                $SetFieldStates{NewValues}{$Name} : $DFParam{ "DynamicField_$Name" };
+            $Return{Set}{$Name}{Values}{ $Name . '_' . $SetIndex }      = exists $SetFieldStates{NewValues}{$Name}
+                ?
+                $SetFieldStates{NewValues}{$Name}
+                : $DFParam{"DynamicField_$Name"};
 
             # set the new value of the set itself copied to GetParam in the frontend modules
             if ( $SetFieldStates{NewValues}{ 'DynamicField_' . $Name } ) {
@@ -777,14 +799,14 @@ sub GetFieldState {
 
     if ( $SetConfig->{Config}{MultiValue} ) {
         for my $Name ( $DynamicField->%* ) {
-            $DFParam{ "DynamicField_$Name" } = undef;
+            $DFParam{"DynamicField_$Name"} = undef;
         }
 
         my $LoopProtection = 100;
         my %SetFieldStates = $Param{FieldRestrictionsObject}->GetFieldStates(
             %Param,
-            DynamicFields  => $DynamicField,
-            GetParam       => {
+            DynamicFields => $DynamicField,
+            GetParam      => {
                 %GetParam,
                 %DFParam,
                 DynamicField => \%DFParam,
@@ -794,16 +816,21 @@ sub GetFieldState {
         );
 
         for my $Name ( sort keys $SetFieldStates{Fields}->%* ) {
+
             # prepare the return used by the frontend modules for AJAX updates
             $Return{Set}{$Name}{DynamicFieldConfig}                 = $DynamicField->{$Name};
             $Return{Set}{$Name}{FieldStates}{ $Name . '_Template' } = $SetFieldStates{Fields}{$Name};
-            $Return{Set}{$Name}{Values}{ $Name . '_Template' }      = exists $SetFieldStates{NewValues}{$Name} ?
-                $SetFieldStates{NewValues}{$Name} : $DFParam{ "DynamicField_$Name" };
+            $Return{Set}{$Name}{Values}{ $Name . '_Template' }      = exists $SetFieldStates{NewValues}{$Name}
+                ?
+                $SetFieldStates{NewValues}{$Name}
+                : $DFParam{"DynamicField_$Name"};
 
             # store the reduced possible values in this object for a possible subsequent EditFieldRender
             $Self->{PossibleValuesFilter}{ $SetConfig->{Name} }[ $#SetValue + 1 ]{ 'DynamicField_' . $Name } = $SetFieldStates{Fields}{$Name}{PossibleValues};
-            $Self->{TemplateValues}{ $SetConfig->{Name} }{$Name}                         = exists $SetFieldStates{NewValues}{$Name} ?
-                $SetFieldStates{NewValues}{$Name} : $DFParam{ "DynamicField_$Name" };
+            $Self->{TemplateValues}{ $SetConfig->{Name} }{$Name} = exists $SetFieldStates{NewValues}{$Name}
+                ?
+                $SetFieldStates{NewValues}{$Name}
+                : $DFParam{"DynamicField_$Name"};
         }
     }
 
@@ -921,6 +948,5 @@ sub _GetIncludedFieldOrdered {
 
     return @Return;
 }
-
 
 1;
