@@ -690,7 +690,7 @@ sub _ShowEdit {
     $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
-        SelectedID => $ACLData->{ValidID} || $ValidLookup{valid},
+        SelectedID => $ACLData->{ValidID} || $ValidLookup{'invalid-temporarily'},
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
