@@ -38,7 +38,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];IncludeInvalid=[% Data.IncludeInvalid | uri %]" class="CallForAction Center Fullsize Back"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Center Fullsize Back"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockStart("ACLDeleteAction") %]
                     <li>
@@ -80,7 +80,6 @@
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="ACLEditAction"/>
                     <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
-                    <input type="hidden" name="IncludeInvalid" id="IncludeInvalid" value="[% Data.IncludeInvalid | html %]"/>
                     <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
                     <input type="hidden" name="ConfigMatch" value="[% Data.ConfigMatch | html %]"/>
                     <input type="hidden" name="ConfigChange" value="[% Data.ConfigChange | html %]"/>
@@ -254,7 +253,7 @@
                             [% Translate("or") | html %]
                             <button class="Primary CallForAction" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                             [% Translate("or") | html %]
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];IncludeInvalid=[% Data.IncludeInvalid | uri %]"><span>[% Translate("Cancel") | html %]</span></a>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
