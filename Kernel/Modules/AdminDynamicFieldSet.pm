@@ -21,6 +21,8 @@ use warnings;
 
 our $ObjectManagerDisabled = 1;
 
+use List::Util qw(any);
+
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 
@@ -391,6 +393,34 @@ sub _AddAction {
         );
     }
 
+    # collect list of included fields
+    my @FieldList;
+    for my $IncludedElement (@Include) {
+        if ( $IncludedElement->{DF} ) {
+            push @FieldList, $IncludedElement->{DF};
+        }
+        elsif ( $IncludedElement->{Grid} ) {
+            for my $Row ( $IncludedElement->{Grid}{Rows}->@* ) {
+                push @FieldList, $Row->{DF};
+            }
+        }
+    }
+
+    # update configs of included fields
+    for my $IncludedField (@FieldList) {
+        my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+            Name => $IncludedField,
+        );
+        $DynamicFieldObject->DynamicFieldUpdate(
+            $DynamicFieldConfig->%*,
+            Config => {
+                $DynamicFieldConfig->{Config}->%*,
+                PartOfSet => 1,
+            },
+            UserID => $Self->{UserID},
+        );
+    }
+
     # set specific config
     my $FieldConfig = {
         Tooltip    => $GetParam{Tooltip},
@@ -690,6 +720,54 @@ sub _ChangeAction {
             %GetParam,
             ID   => $FieldID,
             Mode => 'Change',
+        );
+    }
+
+    # collect list of currently included fields
+    my @NewFieldList;
+    for my $IncludedElement (@Include) {
+        if ( $IncludedElement->{DF} ) {
+            push @NewFieldList, $IncludedElement->{DF};
+        }
+        elsif ( $IncludedElement->{Grid} ) {
+            for my $Row ( $IncludedElement->{Grid}{Rows}->@* ) {
+                push @NewFieldList, $Row->{DF};
+            }
+        }
+    }
+
+    # collect list of previous included fields
+    my @OldFieldList;
+    for my $IncludedElement ( $DynamicFieldData->{Config}{Include}->@* ) {
+        if ( $IncludedElement->{DF} ) {
+            push @OldFieldList, $IncludedElement->{DF};
+        }
+        elsif ( $IncludedElement->{Grid} ) {
+            for my $Row ( $IncludedElement->{Grid}{Rows}->@* ) {
+                push @OldFieldList, $Row->{DF};
+            }
+        }
+    }
+
+    # update configs of included fields
+    FIELD:
+    for my $IncludedField ( @NewFieldList, @OldFieldList ) {
+
+        my $PartOfSet = ( any { $_ eq $IncludedField } @NewFieldList ) || 0;
+
+        # skip field if nothing changed
+        next FIELD if $PartOfSet && grep { $_ eq $IncludedField } @OldFieldList;
+
+        my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+            Name => $IncludedField,
+        );
+        $DynamicFieldObject->DynamicFieldUpdate(
+            $DynamicFieldConfig->%*,
+            Config => {
+                $DynamicFieldConfig->{Config}->%*,
+                PartOfSet => $PartOfSet,
+            },
+            UserID => $Self->{UserID},
         );
     }
 
