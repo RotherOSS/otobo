@@ -390,6 +390,7 @@ sub EditFieldRender {
 
     my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
         Data        => $DataValues || {},
+        Sort        => 'AlphanumericKey',
         Name        => $FieldName,
         SelectedID  => $SelectedValuesArrayRef,
         Translation => $FieldConfig->{TranslatableValues} || 0,
