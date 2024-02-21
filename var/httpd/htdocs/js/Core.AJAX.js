@@ -584,7 +584,7 @@ Core.AJAX = (function (TargetNS) {
                 }
 
                 // init modernization on select fields hidden initially
-                Core.UI.InputFields.InitSelect( $('select#'+ FieldInfo[0]) );
+                Core.UI.InputFields.Activate( $FieldCell );
 
                 // trigger custom redraw event for InputFields, as it is not executed for hidden fields, when they are emptied
                 if ( Field.hasClass('Modernize')) {
