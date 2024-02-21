@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-<input type="hidden" name="SetIndex_[% Data.Name | html %]" value="[% Data.Index | html %]"/>
+<input type="hidden" id="DynamicField_[% Data.Name | html %]" name="SetIndex_[% Data.Name | html %]" value="[% Data.Index | html %]"/>
 <fieldset class="DynamicFieldSet">
 [% Data.DynamicFieldHTML %]
 </fieldset>
