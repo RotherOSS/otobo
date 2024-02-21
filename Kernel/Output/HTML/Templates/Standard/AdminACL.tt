@@ -127,7 +127,7 @@
                             <td>[% Data.Comment | html %]</td>
                             <td>[% Translate(Data.ValidID) | html %]</td>
                             <td class="Center"><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLExport;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-download"></i><span class="InvisibleText">[% Translate("Export") | html %]</span></a></td>
-                            <td class="Center"><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-copy"></i><span class="InvisibleText">[% Translate("Copy") | html %]</span></a></td>
+                            <td class="Center"><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLCopy;IncludeInvalid=[% Data.IncludeInvalid | uri %];ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-copy"></i><span class="InvisibleText">[% Translate("Copy") | html %]</span></a></td>
                         </tr>
 [% RenderBlockEnd("ACLRow") %]
 [% RenderBlockStart("ACLNoDataRow") %]
