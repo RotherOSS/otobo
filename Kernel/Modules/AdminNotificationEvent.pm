@@ -65,7 +65,8 @@ sub Run {
     my $BackendObject           = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $MainObject              = $Kernel::OM->Get('Kernel::System::Main');
     my $Notification            = $ParamObject->GetParam( Param => 'Notification' );
-    my $IncludeInvalid          = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # get the search article fields to retrieve values for
     my %ArticleSearchableFields     = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
@@ -575,7 +576,7 @@ sub Run {
 
         if ($ID) {
             $Self->_Overview(
-                IncludeInvalid => $IncludeInvalid,
+                IncludeInvalid => $Param{IncludeInvalid},
             );
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
@@ -874,7 +875,7 @@ sub Run {
         }
 
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -902,7 +903,7 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -1651,6 +1652,7 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -1659,12 +1661,7 @@ sub _Overview {
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
     $LayoutObject->Block( Name => 'ActionImport' );
-    $LayoutObject->Block(
-        Name => 'Filter',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        },
-    );
+    $LayoutObject->Block( Name => 'Filter' );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',

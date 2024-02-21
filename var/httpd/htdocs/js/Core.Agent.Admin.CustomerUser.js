@@ -46,12 +46,9 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action");
 
             // preserve necessary url params
-            var Subaction = $(this).attr('data-subaction');
-            if (Subaction) {
-                URL += ';Subaction=' + $(this).attr('data-subaction');
-                if ( Subaction == 'Search' ) {
-                    URL += ';Search=' + $('#Search').val();
-                }
+            var Search = $('#Search').val();
+            if (Search) {
+                URL += ';Subaction=Search;Search=' + Search;
             }
             if ( Nav ) {
                 URL += ';Nav=' + Nav;

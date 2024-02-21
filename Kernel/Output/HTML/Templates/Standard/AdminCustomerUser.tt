@@ -38,6 +38,15 @@
 
     <div class="Clear"></div>
     <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Filter by valid state") | html %]</h2>
+            </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid customer users") | html %]"[% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include invalid customer users") | html %]</label>
+            </div>
+        </div>
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header">
@@ -66,9 +75,6 @@
                         <p class="FieldExplanation">
                             [% Translate("Wildcards like '*' are allowed.") | html %]
                         </p>
-                        <br/>
-                        <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid customer users") | html %]" data-subaction="[% Data.Subaction | uri %]" [% Data.IncludeInvalidChecked | html %]/>
-                        <label for="IncludeInvalid">[% Translate("Include invalid customer users") | html %]</label>
                     </li>
 [% RenderBlockEnd("ActionSearch") %]
 [% RenderBlockStart("ActionAdd") %]

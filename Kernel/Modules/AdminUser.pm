@@ -47,9 +47,10 @@ sub Run {
     my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-    my $Search         = $ParamObject->GetParam( Param => 'Search' )         || '';
-    my $Notification   = $ParamObject->GetParam( Param => 'Notification' )   || '';
-    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+    my $Search       = $ParamObject->GetParam( Param => 'Search' )       || '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # Get list of valid IDs.
     my @ValidIDList = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
@@ -241,7 +242,7 @@ sub Run {
                 }
                 else {
                     return $LayoutObject->Redirect(
-                        OP => "Action=$Self->{Action};Notification=Update" . ( $IncludeInvalid ? ';IncludeInvalid=1' : '' )
+                        OP => "Action=$Self->{Action};Notification=Update"
                     );
                 }
             }
@@ -369,7 +370,7 @@ sub Run {
                 }
                 else {
                     return $LayoutObject->Redirect(
-                        OP => 'Action=AdminUser' . ( $IncludeInvalid ? ';IncludeInvalid=1' : '' )
+                        OP => 'Action=AdminUser' . ( $Param{IncludeInvalid} ? ';IncludeInvalid=1' : '' )
                         ,
                     );
                 }
@@ -410,7 +411,7 @@ sub Run {
     else {
         $Self->_Overview(
             Search         => $Search,
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -532,12 +533,11 @@ sub _Overview {
     # when there is no data to show, a message is displayed on the table with this colspan
     my $ColSpan = 7;
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
-
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block(

@@ -41,13 +41,14 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $GroupObject    = $Kernel::OM->Get('Kernel::System::Group');
-    my $LogObject      = $Kernel::OM->Get('Kernel::System::Log');
-    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
-    my $Notification   = $ParamObject->GetParam( Param => 'Notification' )   || '';
-    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
+    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -260,7 +261,7 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -318,7 +319,6 @@ sub _Overview {
     my $ValidObject  = $Kernel::OM->Get('Kernel::System::Valid');
 
     $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
-
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,

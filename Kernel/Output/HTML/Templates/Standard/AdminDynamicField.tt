@@ -33,6 +33,15 @@
 
         <div class="WidgetSimple">
             <div class="Header">
+                <h2>[% Translate("Filter by valid state") | html %]</h2>
+            </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid dynamic fields") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include invalid dynamic fields") | html %]</label>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
                 <h2><label for="FilterDynamicFields">[% Translate("Filter for Dynamic Fields") | html %]</label></h2>
             </div>
             <div class="Content">
@@ -54,10 +63,6 @@
                 </div>
             </div>
 [% RenderBlockEnd("DynamicFieldNamespace") %]
-            <div class="Content">
-                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid dynamic fields") | html %]" [% Data.IncludeInvalidChecked | html %]/>
-                <label for="IncludeInvalid">[% Translate("Include invalid dynamic fields") | html %]</label>
-            </div>
         </div>
 
         <div class="WidgetSimple">

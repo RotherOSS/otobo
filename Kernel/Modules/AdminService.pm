@@ -39,7 +39,8 @@ sub Run {
     my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 
-    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalid}        = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     # ------------------------------------------------------------ #
     # service edit
@@ -239,12 +240,7 @@ sub Run {
 
         $LayoutObject->Block( Name => 'ActionList' );
         $LayoutObject->Block( Name => 'ActionAdd' );
-        $LayoutObject->Block(
-            Name => 'Filter',
-            Data => {
-                IncludeInvalidChecked => $IncludeInvalid ? 'checked' : '',
-            },
-        );
+        $LayoutObject->Block( Name => 'Filter' );
 
         # output overview result
         $LayoutObject->Block(
@@ -254,7 +250,7 @@ sub Run {
 
         # get service list
         my $ServiceList = $ServiceObject->ServiceListGet(
-            Valid  => $IncludeInvalid ? 0 : 1,
+            Valid  => $Param{IncludeInvalid} ? 0 : 1,
             UserID => $Self->{UserID},
         );
 

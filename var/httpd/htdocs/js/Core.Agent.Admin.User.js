@@ -41,6 +41,11 @@ Core.Agent.Admin.User = (function (TargetNS) {
         // init checkbox to include invalid elements
         $('input#IncludeInvalid').off('change').on('change', function () {
             var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action") + ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
+
+            var Search = $('#Search').val();
+            if ( Search ) {
+                URL += ';Search=' + Search;
+            }
             window.location.href = URL;
         });
     };

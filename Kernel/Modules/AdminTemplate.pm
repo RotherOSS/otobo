@@ -46,8 +46,9 @@ sub Run {
     my $StdAttachmentObject    = $Kernel::OM->Get('Kernel::System::StdAttachment');
     my $QueueObject            = $Kernel::OM->Get('Kernel::System::Queue');
 
-    my $Notification   = $ParamObject->GetParam( Param => 'Notification' )   || '';
-    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -345,7 +346,7 @@ sub Run {
                 }
 
                 $Self->_Overview(
-                    IncludeInvalid => $IncludeInvalid,
+                    IncludeInvalid => $Param{IncludeInvalid},
                 );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
@@ -423,7 +424,7 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -552,6 +553,7 @@ sub _Overview {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -559,12 +561,7 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
-    $LayoutObject->Block(
-        Name => 'Filter',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        }
-    );
+    $LayoutObject->Block( Name => 'Filter' );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',

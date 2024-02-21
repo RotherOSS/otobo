@@ -870,14 +870,12 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    # set param needed for IncludeInvalid checkbox
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
-
-    # set params needed for IncludeInvalid checkbox
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
-    $Param{Subaction}             = $Self->{Subaction};
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block(

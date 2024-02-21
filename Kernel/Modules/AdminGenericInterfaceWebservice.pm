@@ -44,7 +44,8 @@ sub Run {
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
     my $YAMLObject       = $Kernel::OM->Get('Kernel::System::YAML');
 
-    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalid}        = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     # ------------------------------------------------------------ #
     # sub-action Change: load web service and show edit screen
@@ -757,12 +758,7 @@ sub _ShowOverview {
         Data => \%Param,
     );
 
-    $LayoutObject->Block(
-        Name => 'ActionList',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        },
-    );
+    $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
     $LayoutObject->Block( Name => 'OverviewHeader' );
     $LayoutObject->Block( Name => 'OverviewResult' );
@@ -926,12 +922,7 @@ sub _ShowEdit {
         );
     }
 
-    $LayoutObject->Block(
-        Name => 'ActionList',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        },
-    );
+    $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionOverview' );
 
     if ( $Param{Action} eq 'Change' ) {

@@ -55,7 +55,8 @@ sub Run {
     my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
     my $MainObject              = $Kernel::OM->Get('Kernel::System::Main');
     my $Notification            = $ParamObject->GetParam( Param => 'Notification' );
-    my $IncludeInvalid          = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # get registered transport layers
     my %RegisteredTransports = %{ $Kernel::OM->Get('Kernel::Config')->Get('AppointmentNotification::Transport') || {} };
@@ -385,7 +386,7 @@ sub Run {
 
         if ($ID) {
             $Self->_Overview(
-                IncludeInvalid => $IncludeInvalid,
+                IncludeInvalid => $Param{IncludeInvalid},
             );
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
@@ -615,7 +616,7 @@ sub Run {
         }
 
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -643,7 +644,7 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -1163,6 +1164,7 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -1171,12 +1173,7 @@ sub _Overview {
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
     $LayoutObject->Block( Name => 'ActionImport' );
-    $LayoutObject->Block(
-        Name => 'Filter',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        },
-    );
+    $LayoutObject->Block( Name => 'Filter' );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',

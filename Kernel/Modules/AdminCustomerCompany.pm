@@ -779,12 +779,11 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
-
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block(
