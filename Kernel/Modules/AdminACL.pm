@@ -217,8 +217,12 @@ sub Run {
             );
         }
 
+        # keep IncludeInvalid if newly added ACL is invalid
+        my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+        $Param{IncludeInvalid} = $ValidList{ $ACLData->{ValidID} } eq 'invalid' ? 1 : 0;
+
         # redirect to edit screen
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=ACLEdit;ID=$ACLID" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=ACLEdit;IncludeInvalid=$Param{IncludeInvalid};ID=$ACLID" );
     }
 
     # ------------------------------------------------------------ #
@@ -346,13 +350,13 @@ sub Run {
             # if the user would like to continue editing the ACL, just redirect to the edit screen
             return $LayoutObject->Redirect(
                 OP =>
-                    "Action=AdminACL;Subaction=ACLEdit;ID=$ACLID"
+                    "Action=AdminACL;Subaction=ACLEdit;IncludeInvalid=$Param{IncludeInvalid};ID=$ACLID"
             );
         }
         else {
 
             # otherwise return to overview
-            return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action};IncludeInvalid=$Param{IncludeInvalid}" );
         }
     }
 
@@ -564,7 +568,7 @@ sub Run {
         }
 
         # return to overview
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};IncludeInvalid=$Param{IncludeInvalid}" );
     }
 
     # ------------------------------------------------------------ #
@@ -639,6 +643,7 @@ sub _ShowOverview {
                 Name => 'ACLRow',
                 Data => {
                     %{$ACLData},
+                    IncludeInvalid => $Param{IncludeInvalid},
                 },
             );
         }
