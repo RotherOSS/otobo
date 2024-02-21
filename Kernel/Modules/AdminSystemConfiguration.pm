@@ -470,6 +470,7 @@ sub Run {
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemConfigurationView',
             Data         => {
+                %OutputData,
                 Type               => 'CustomList',
                 SettingList        => \@SettingList,
                 SettingListInvalid => \@SettingListInvalid,
