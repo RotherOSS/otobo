@@ -669,12 +669,13 @@ sub _ShowEdit {
     }
 
     # get valid list
-    my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+    my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+    my %ValidLookup = reverse %ValidList;
 
     $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
-        SelectedID => $ACLData->{ValidID} || $ValidList{valid},
+        SelectedID => $ACLData->{ValidID} || $ValidLookup{valid},
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
