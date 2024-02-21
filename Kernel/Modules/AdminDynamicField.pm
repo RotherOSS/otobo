@@ -145,7 +145,9 @@ sub _ShowOverview {
     my $FieldTypeConfig    = $ConfigObject->Get('DynamicFields::Driver');
     my $ObjectTypeFilter   = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ObjectTypeFilter' ) || '';
     my $NamespaceFilter    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'NamespaceFilter' )  || '';
-    my $IncludeInvalid     = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'IncludeInvalid' )   || 0;
+
+    $Param{IncludeInvalid}        = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     my $Output = join '',
         $LayoutObject->Header,
@@ -164,7 +166,6 @@ sub _ShowOverview {
         Name => 'Main',
         Data => {
             %Param,
-            IncludeInvalidChecked => $IncludeInvalid ? 'checked' : '',
         }
     );
 
@@ -365,7 +366,7 @@ sub _ShowOverview {
     my $DynamicFieldsListFiltered = $DynamicFieldObject->DynamicFieldList(
         ObjectType => $ObjectTypeFilterArrayRef,
         Namespace  => $NamespaceFilter,
-        Valid      => $IncludeInvalid ? 0 : 1,
+        Valid      => $Param{IncludeInvalid} ? 0 : 1,
     );
 
     my $FilterStrg = '';
@@ -387,15 +388,6 @@ sub _ShowOverview {
                 },
             );
         }
-    }
-
-    if ( defined $IncludeInvalid ) {
-        $FilterStrg .= ";IncludeInvalid=" . $LayoutObject->Output(
-            Template => '[% Data.Filter | uri %]',
-            Data     => {
-                Filter => $IncludeInvalid ? 1 : 0,
-            },
-        );
     }
 
     # print the list of dynamic fields

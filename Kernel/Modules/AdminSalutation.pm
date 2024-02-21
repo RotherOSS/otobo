@@ -39,7 +39,8 @@ sub Run {
     my $ParamObject      = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LayoutObject     = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SalutationObject = $Kernel::OM->Get('Kernel::System::Salutation');
-    my $IncludeInvalid   = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -202,7 +203,7 @@ sub Run {
 
             if ($AddressID) {
                 $Self->_Overview(
-                    IncludeInvalid => $IncludeInvalid,
+                    IncludeInvalid => $Param{IncludeInvalid},
                 );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
@@ -238,7 +239,7 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -322,6 +323,7 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -337,9 +339,6 @@ sub _Overview {
 
     $LayoutObject->Block(
         Name => 'Filter',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        },
     );
 
     $LayoutObject->Block(

@@ -39,7 +39,8 @@ sub Run {
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
-    my $IncludeInvalid     = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -195,7 +196,7 @@ sub Run {
             );
             if ($AutoResponseID) {
                 $Self->_Overview(
-                    IncludeInvalid => $IncludeInvalid,
+                    IncludeInvalid => $Param{IncludeInvalid},
                 );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
@@ -231,7 +232,7 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -332,6 +333,7 @@ sub _Overview {
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -339,12 +341,7 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
-    $LayoutObject->Block(
-        Name => 'Filter',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        },
-    );
+    $LayoutObject->Block( Name => 'Filter' );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',

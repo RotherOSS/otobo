@@ -40,8 +40,9 @@ sub Run {
     my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
 
-    my $Notification   = $ParamObject->GetParam( Param => 'Notification' )   || '';
-    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -207,7 +208,7 @@ sub Run {
 
             if ($NewSignature) {
                 $Self->_Overview(
-                    IncludeInvalid => $IncludeInvalid,
+                    IncludeInvalid => $Param{IncludeInvalid},
                 );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
@@ -243,7 +244,7 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -338,6 +339,7 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -358,9 +360,6 @@ sub _Overview {
 
     $LayoutObject->Block(
         Name => 'Filter',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        },
     );
 
     my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');

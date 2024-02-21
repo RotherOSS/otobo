@@ -58,10 +58,11 @@ sub Run {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get config data
-    $Self->{Profile}    = $ParamObject->GetParam( Param => 'Profile' )    || '';
-    $Self->{OldProfile} = $ParamObject->GetParam( Param => 'OldProfile' ) || '';
-    $Self->{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
-    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Self->{Profile}              = $ParamObject->GetParam( Param => 'Profile' )        || '';
+    $Self->{OldProfile}           = $ParamObject->GetParam( Param => 'OldProfile' )     || '';
+    $Self->{Subaction}            = $ParamObject->GetParam( Param => 'Subaction' )      || '';
+    $Param{IncludeInvalid}        = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     # get needed objects
     my $CheckItemObject    = $Kernel::OM->Get('Kernel::System::CheckItem');
@@ -505,9 +506,6 @@ sub Run {
     );
     $LayoutObject->Block(
         Name => 'Filter',
-        Data => {
-            IncludeInvalidChecked => $IncludeInvalid ? 'checked' : '',
-        }
     );
     $LayoutObject->Block(
         Name => 'Overview',
@@ -522,7 +520,7 @@ sub Run {
         for my $JobKey ( sort keys %Jobs ) {
             my %JobData = $GenericAgentObject->JobGet( Name => $JobKey );
 
-            next JOB unless $IncludeInvalid || $JobData{Valid};
+            next JOB unless $Param{IncludeInvalid} || $JobData{Valid};
 
             # css setting and text for valid or invalid jobs
             $JobData{ShownValid} = $JobData{Valid} ? 'valid' : 'invalid';

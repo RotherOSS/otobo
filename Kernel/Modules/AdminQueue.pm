@@ -45,9 +45,10 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
-    my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $QueueID        = $ParamObject->GetParam( Param => 'QueueID' )        || '';
-    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $QueueID     = $ParamObject->GetParam( Param => 'QueueID' ) || '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     my @Params = (
         qw(
@@ -327,7 +328,7 @@ sub Run {
                 # otherwise redirect depending on what button ('Save' or 'Save and Finish') is clicked
                 if ( $Note ne '' ) {
                     $Self->_Overview(
-                        IncludeInvalid => $IncludeInvalid,
+                        IncludeInvalid => $Param{IncludeInvalid},
                     );
                     my $Output = $LayoutObject->Header();
                     $Output .= $LayoutObject->NavigationBar();
@@ -564,7 +565,7 @@ sub Run {
     else {
 
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
 
         my $Output = $LayoutObject->Header();
@@ -959,6 +960,7 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -966,12 +968,7 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
-    $LayoutObject->Block(
-        Name => 'Filter',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        },
-    );
+    $LayoutObject->Block( Name => 'Filter' );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',

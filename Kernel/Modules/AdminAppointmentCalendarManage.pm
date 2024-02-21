@@ -111,7 +111,8 @@ sub Run {
     }
 
     # transfer param IncludeInvalid
-    $Param{IncludeInvalid} = $GetParam{IncludeInvalid} || 0;
+    $Param{IncludeInvalid}        = $GetParam{IncludeInvalid} || 0;
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
@@ -742,9 +743,6 @@ sub _Overview {
 
     $LayoutObject->Block(
         Name => 'CalendarFilter',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        }
     );
 
     $LayoutObject->Block(

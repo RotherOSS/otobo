@@ -37,6 +37,15 @@
     [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
 
     <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Filter by valid state") | html %]</h2>
+            </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid templates") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include invalid templates") | html %]</label>
+            </div>
+        </div>
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header"><h2>[% Translate("Actions") | html %]</h2></div>
@@ -62,10 +71,6 @@
             </div>
             <div class="Content">
                 <input type="text" id="Filter" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="Filter" value="" title="[% Translate("Filter for templates") | html %]" />
-            </div>
-            <div class="Content">
-                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid templates") | html %]" [% Data.IncludeInvalidChecked | html %]/>
-                <label for="IncludeInvalid">[% Translate("Include invalid templates") | html %]</label>
             </div>
         </div>
 [% RenderBlockEnd("Filter") %]

@@ -43,7 +43,8 @@ sub Run {
     my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject         = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $StdAttachmentObject = $Kernel::OM->Get('Kernel::System::StdAttachment');
-    my $IncludeInvalid      = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -230,7 +231,7 @@ sub Run {
             );
             if ($StdAttachmentID) {
                 $Self->_Overview(
-                    IncludeInvalid => $IncludeInvalid,
+                    IncludeInvalid => $Param{IncludeInvalid},
                 );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
@@ -342,7 +343,7 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -406,6 +407,7 @@ sub _Overview {
     my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $StdAttachmentObject = $Kernel::OM->Get('Kernel::System::StdAttachment');
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -418,9 +420,6 @@ sub _Overview {
     );
     $LayoutObject->Block(
         Name => 'Filter',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        },
     );
     $LayoutObject->Block(
         Name => 'OverviewResult',

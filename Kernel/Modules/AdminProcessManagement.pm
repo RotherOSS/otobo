@@ -73,7 +73,8 @@ sub Run {
         ];
     }
 
-    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalid}        = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     # get needed objects
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -1692,8 +1693,6 @@ sub _ShowOverview {
             Data => {},
         );
     }
-
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminProcessManagement',

@@ -29,6 +29,15 @@
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
+                <h2>[% Translate("Filter by valid state") | html %]</h2>
+            </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid ACLs") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include invalid ACLs") | html %]</label>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
                 <h2>[% Translate("Actions") | html %]</h2>
             </div>
             <div class="Content">
@@ -51,10 +60,6 @@
             </div>
             <div class="Content">
                 <input type="text" id="FilterACLs" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterACLs" value="" title="[% Translate("Filter for ACLs") | html %]">
-            </div>
-            <div class="Content">
-                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid ACLs") | html %]" [% Data.IncludeInvalidChecked | html %]/>
-                <label for="IncludeInvalid">[% Translate("Include invalid ACLs") | html %]</label>
             </div>
         </div>
 

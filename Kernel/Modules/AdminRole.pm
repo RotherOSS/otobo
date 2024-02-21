@@ -36,12 +36,12 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LogObject      = $Kernel::OM->Get('Kernel::System::Log');
-    my $GroupObject    = $Kernel::OM->Get('Kernel::System::Group');
-    my $Notification   = $ParamObject->GetParam( Param => 'Notification' )   || '';
-    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
+    my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
+    my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
 
     # ------------------------------------------------------------ #
     # change
@@ -194,7 +194,7 @@ sub Run {
 
             if ($RoleID) {
                 $Self->_Overview(
-                    IncludeInvalid => $IncludeInvalid,
+                    IncludeInvalid => $Param{IncludeInvalid},
                 );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
@@ -239,7 +239,7 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview(
-            IncludeInvalid => $IncludeInvalid,
+            IncludeInvalid => $Param{IncludeInvalid},
         );
 
         my $Output = $LayoutObject->Header();
@@ -295,6 +295,7 @@ sub _Overview {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
 
+    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -302,12 +303,7 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
-    $LayoutObject->Block(
-        Name => 'Filter',
-        Data => {
-            IncludeInvalidChecked => $Param{IncludeInvalid} ? 'checked' : '',
-        },
-    );
+    $LayoutObject->Block( Name => 'Filter' );
 
     my %List = $GroupObject->RoleList(
         Valid => $Param{IncludeInvalid} ? 0 : 1,
