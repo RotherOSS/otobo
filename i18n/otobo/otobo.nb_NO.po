@@ -17,9 +17,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-07-10 13:55+0000\n"
+"PO-Revision-Date: 2024-02-21 17:48+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
-"Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/otobo10/otobo/nb_NO/>\n"
+"Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
+"otobo-11/otobo/nb_NO/>\n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -925,7 +926,10 @@ msgstr "Registrering av systemet"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the 'send support data' option.)"
-msgstr "For å aktivere datasending, vennligst registrer systemet ditt hos OTOBO-teamet eller oppdater systemregistreringsinformasjonen din (sørg for å aktivere alternativet 'send støttedata')."
+msgstr ""
+"For å aktivere datasending, vennligst registrer systemet ditt hos OTOBO-"
+"teamet eller oppdater systemregistreringsinformasjonen din (sørg for å "
+"aktivere alternativet 'send støttedata'.)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -15945,7 +15949,7 @@ msgstr "Alle innstillinger"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Default"
-msgstr "Values;Ugyldige"
+msgstr "Standard"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Value is not correct! Please, consider updating this field."
@@ -17355,7 +17359,9 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"            Vis valgfrie parametere i parameterlisten også. Hvis deaktivert, vises kun de valgfrie parameterne i en ekstra tabell\n"
+"            Vis valgfrie parametere i parameterlisten også. Hvis deaktivert,"
+"\n"
+"            vises kun de valgfrie parameterne i en ekstra tabell\n"
 "        "
 
 #. SysConfig
@@ -25294,7 +25300,7 @@ msgstr "Legg til mal"
 
 #. Template: AdminImportExport
 msgid "Create a template to import and export object information."
-msgstr "Opprett en mal for å eksportere og importere informasjon"
+msgstr "Opprett en mal for å eksportere og importere informasjon."
 
 #. Template: AdminImportExport
 msgid "To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported."
@@ -25506,11 +25512,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Format backend module registration for the import/export module."
-msgstr "Baksidemodul-registrering for formatet til import/eksport-modulen"
+msgstr "Baksidemodul-registrering for formatet til import/eksport-modulen."
 
 #. SysConfig
 msgid "Import and export object information."
-msgstr "Informasjon for import- og eksport-objekt"
+msgstr "Informasjon for import- og eksport-objekt."
 
 #. SysConfig
 msgid "Import/Export"
