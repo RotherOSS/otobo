@@ -80,6 +80,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             UserLanguage,
             UploadURL = '',
             EditorConfig,
+            RemovedCKEditorPlugins = '',
             CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') );
 
 
@@ -172,6 +173,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         // set default editor config, but allow custom config for other types for editors
         /*eslint-disable camelcase */
+        RemovedCKEditorPlugins = 'devtools,image,mathjax,embed,embedsemantic,exportpdf,sourcedialog,bbcode,divarea,elementspath,stylesheetparser,autogrow';
+        if (!CheckFormID($EditorArea).length) {
+            RemovedCKEditorPlugins += 'image2,uploadimage';
+        }
         EditorConfig = {
             disableNativeSpellChecker: false,
             defaultLanguage:           UserLanguage,
@@ -179,7 +184,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             width:                     Core.Config.Get('RichText.Width', 620),
             resize_minWidth:           Core.Config.Get('RichText.Width', 620),
             height:                    Core.Config.Get('RichText.Height', 320),
-            removePlugins:             CheckFormID($EditorArea).length ? 'elementspath,exportpdf' : 'elementspath,exportpdf,image2,uploadimage',
+            removePlugins:             RemovedCKEditorPlugins,
             forcePasteAsPlainText:     false,
             format_tags:               'p;h1;h2;h3;h4;h5;h6;pre',
             fontSize_sizes:            '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
