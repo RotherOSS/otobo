@@ -2824,10 +2824,9 @@ Core.UI.InputFields = (function (TargetNS) {
      * @param {JQuery} $Cell - The cell after which a new cell should be inserted
      */
     function AddCell( $Cell ) {
-        var $Row = $Cell.closest('.Row');
         var CellGridPosition = GetGridPosition($Cell);
         var $TemplateCell = $();
-        $Row.find('> .MultiValue_Template').each( function () {
+        $Cell.siblings('.MultiValue_Template').each( function () {
             if (Number($(this).css('grid-column').split(' ')[0]) == CellGridPosition.Column) {
                 $TemplateCell = $(this);
             };
@@ -2854,7 +2853,7 @@ Core.UI.InputFields = (function (TargetNS) {
         }
         
         //shift ValueRowIndex of all following cells in this column
-        $Row.find('> .FieldCell').each( function () {
+        $Cell.siblings('.FieldCell').each( function () {
             let $FollowingCell = $(this);
             let GridPosition = GetGridPosition( $FollowingCell );
             if ( GridPosition &&GridPosition.Column == CellGridPosition.Column
@@ -2903,9 +2902,50 @@ Core.UI.InputFields = (function (TargetNS) {
             }
         });
 
-        //never remove the last remaining cell
+        //instead of simply removing the last remaining cell, 'reset' it to the template
         if ( IsLastCell ) {
-            return;
+            var $TemplateCell = $();
+            $Cell.siblings('.MultiValue_Template').each( function () {
+                if (Number($(this).css('grid-column').split(' ')[0]) == CellGridPosition.Column) {
+                    $TemplateCell = $(this);
+                };
+            });
+
+            var $ResetCell = $TemplateCell.clone().addClass('FieldCell');
+
+            // standard multivalue field
+            if ( $ResetCell.children('.Field').children('.DynamicFieldSet').length === 0 ) {
+                $('[name^=DynamicField_]', $ResetCell).each( function() {
+                    if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
+                        $(this).addClass('Validate_Required');
+                    }
+                });
+            }
+            // multivalue set
+            else {
+                // TODO: We need a solution for sets here
+                /*$('[name^=DynamicField_]', $NewCell).each( function() {
+                    if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
+                        $(this).addClass('Validate_Required');
+                    }
+                });*/
+            }
+
+            ReplaceCellIndex( $ResetCell, 'Template', CellGridPosition.Row );
+            $Cell.after($ResetCell);
+
+            DynamicFieldInit( $ResetCell );
+            InitMultiValueCell( $ResetCell );
+
+            $('.DynamicFieldSet .FieldCell', $ResetCell).each( function() {
+                let $SubCell = $(this);
+                DynamicFieldInit( $SubCell );
+                if ($SubCell[0] .className.split(' ').find( ClassName =>
+                                ClassName.startsWith('MultiValue_')))
+                {
+                    InitMultiValueCell( $SubCell );
+                }
+            })
         }
 
         $Cell.remove();
