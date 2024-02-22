@@ -2820,7 +2820,7 @@ sub _Mask {
 
         # render article type dynamic fields
         my $ArticleTypeDynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
-            Content              => $Self->{ArticleMaskDefinition},
+            Content              => $Self->{ArticleMaskDefinition}->@* ? $Self->{ArticleMaskDefinition} : undef,
             DynamicFields        => $Self->{DynamicField},
             UpdatableFields      => $Self->_GetFieldsToUpdate(),
             LayoutObject         => $LayoutObject,
