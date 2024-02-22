@@ -401,7 +401,6 @@ sub Run {
                     DynamicFieldBackendObject => $BackendObject,
                     ChangedElements           => \%ChangedElements,    # optional to reduce ACL evaluation
                     Action                    => $Self->{Action},
-                    TicketID                  => $Self->{TicketID},
                     FormID                    => $Self->{FormID},
                     CustomerUser              => $Self->{UserID},
                     GetParam                  => {
@@ -1277,7 +1276,6 @@ sub Run {
                     DynamicFieldBackendObject => $BackendObject,
                     ChangedElements           => \%ChangedElements,    # optional to reduce ACL evaluation
                     Action                    => $Self->{Action},
-                    TicketID                  => $Self->{TicketID},
                     FormID                    => $Self->{FormID},
                     CustomerUser              => $Self->{UserID},
                     GetParam                  => {
