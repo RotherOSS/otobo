@@ -58,7 +58,43 @@ sub Run {
 
     my $FieldType  = $Param{FieldType}  || $ParamObject->GetParam( Param => 'FieldType' );
     my $ObjectType = $Param{ObjectType} || $ParamObject->GetParam( Param => 'ObjectType' );
-    my $Config     = $FieldType ? $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver')->{$FieldType} : {};
+
+    # check if we clone from an existing field
+    my $CloneFieldID = $ParamObject->GetParam( Param => "ID" );
+    if ($CloneFieldID) {
+        my $FieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+            ID => $CloneFieldID,
+        );
+
+        # if we found a field config, copy its content for usage in _ShowScreen
+        if ( IsHashRefWithData($FieldConfig) ) {
+
+            # copy standard stuff
+            for my $Key (qw(ObjectType FieldType FieldOrder Label Name ValidID)) {
+                $Param{$Key} = $FieldConfig->{$Key};
+            }
+
+            # iterate over special stuff and copy in-depth content as flat list
+            for my $ConfigKey ( keys $FieldConfig->{Config}->%* ) {
+                my $DFDetails = $FieldConfig->{Config};
+                if ( IsHashRefWithData( $DFDetails->{$ConfigKey} ) ) {
+                    my $ConfigContent = $DFDetails->{$ConfigKey};
+                    for my $ContentKey ( $ConfigContent->%* ) {
+                        $Param{$ContentKey} = $ConfigContent->{$ContentKey};
+                    }
+                }
+                else {
+                    $Param{$ConfigKey} = $DFDetails->{$ConfigKey};
+                }
+            }
+
+            # when cloning, FieldType and ObjectType are expected to be empty, so overwrite them
+            $FieldType  //= $Param{FieldType};
+            $ObjectType //= $Param{ObjectType};
+        }
+        $Param{CloneFieldID} = $CloneFieldID;
+    }
+    my $Config = $FieldType ? $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver')->{$FieldType} : {};
 
     # Check module validity
     if ( !$Config->{Module} || !$Kernel::OM->Get('Kernel::System::Main')->Require( $Config->{Module} ) ) {
@@ -133,40 +169,12 @@ sub _Add {
 
     my %GetParam;
 
-    # check if we clone from an existing field
-    my $CloneFieldID = $ParamObject->GetParam( Param => "ID" );
-    if ($CloneFieldID) {
-        my $FieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-            ID => $CloneFieldID,
-        );
-
-        # if we found a field config, copy its content for usage in _ShowScreen
-        if ( IsHashRefWithData($FieldConfig) ) {
-
-            # copy standard stuff
-            for my $Key (qw(ObjectType FieldType FieldOrder Label Name ValidID)) {
-                $GetParam{$Key} = $FieldConfig->{$Key};
-            }
-
-            # iterate over special stuff and copy in-depth content as flat list
-            for my $ConfigKey ( keys $FieldConfig->{Config}->%* ) {
-                my $DFDetails = $FieldConfig->{Config};
-                if ( IsHashRefWithData( $DFDetails->{$ConfigKey} ) ) {
-                    my $ConfigContent = $DFDetails->{$ConfigKey};
-                    for my $ContentKey ( $ConfigContent->%* ) {
-                        $GetParam{$ContentKey} = $ConfigContent->{$ContentKey};
-                    }
-                }
-                else {
-                    $GetParam{$ConfigKey} = $DFDetails->{$ConfigKey};
-                }
-            }
-        }
-        $GetParam{CloneFieldID} = $CloneFieldID;
-    }
-
     for my $Needed (qw(ObjectType FieldType FieldOrder)) {
         $GetParam{$Needed} //= $ParamObject->GetParam( Param => $Needed );
+
+        # in clone case, params are received via %Param
+        $GetParam{$Needed} //= $Param{$Needed};
+
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Needed ),
