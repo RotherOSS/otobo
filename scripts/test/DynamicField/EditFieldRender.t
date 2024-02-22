@@ -59,7 +59,7 @@ my $UserID = 1;    # root
 # create agents
 my $FirstUserID = $UserObject->UserAdd(
     UserFirstname => 'Test',
-    UserLastname  => 'User',
+    UserLastname  => 'User1',
     UserLogin     => 'TestUser1' . $RandomID,
     UserPw        => 'some-pass',
     UserEmail     => 'test1' . $RandomID . 'email@example.com',
@@ -70,7 +70,7 @@ ok( $FirstUserID, 'Creation of first agent' );
 
 my $SecondUserID = $UserObject->UserAdd(
     UserFirstname => 'Test',
-    UserLastname  => 'User',
+    UserLastname  => 'User2',
     UserLogin     => 'TestUser2' . $RandomID,
     UserPw        => 'some-pass',
     UserEmail     => 'test2' . $RandomID . 'email@example.com',
@@ -84,14 +84,35 @@ my %UserList = $UserObject->UserSearch(
     Search => '*',
     Valid  => 1,
 );
-my $UserSelectionString         = '  <option value="">-</option>';
-my $UserSelectionSelectedString = '  <option value="" selected="selected">-</option>';
-for my $UserID ( sort keys %UserList ) {
-    my $UserName = $UserObject->UserName(
-        UserID => $UserID,
-    );
-    $UserSelectionString         = join( "\n", ( $UserSelectionString,         '  <option value="' . $UserID . '">' . $UserName . '</option>' ) );
-    $UserSelectionSelectedString = join( "\n", ( $UserSelectionSelectedString, '  <option value="' . $UserID . '">' . $UserName . '</option>' ) );
+my %UserLookup = map {
+    $_ => $UserObject->UserName(
+        UserID => $_,
+    )
+} keys %UserList;
+
+my $UserSelectionString               = '  <option value="">-</option>';
+my $UserSelectionSelectedString       = '  <option value="" selected="selected">-</option>';
+my $UserSelectionSelectedAgent1String = '  <option value="">-</option>';
+my $UserSelectionSelectedAgent2String = '  <option value="">-</option>';
+for my $UserID ( sort { $UserLookup{$a} cmp $UserLookup{$b} } keys %UserLookup ) {
+    $UserSelectionString         = join( "\n", ( $UserSelectionString,         '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
+    $UserSelectionSelectedString = join( "\n", ( $UserSelectionSelectedString, '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
+    if ( $UserID eq $FirstUserID ) {
+        $UserSelectionSelectedAgent1String
+            = join( "\n", ( $UserSelectionSelectedAgent1String, '  <option value="' . $UserID . '" selected="selected">' . $UserLookup{$UserID} . '</option>' ) );
+    }
+    else {
+        $UserSelectionSelectedAgent1String
+            = join( "\n", ( $UserSelectionSelectedAgent1String, '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
+    }
+    if ( $UserID eq $SecondUserID ) {
+        $UserSelectionSelectedAgent2String
+            = join( "\n", ( $UserSelectionSelectedAgent2String, '  <option value="' . $UserID . '" selected="selected">' . $UserLookup{$UserID} . '</option>' ) );
+    }
+    else {
+        $UserSelectionSelectedAgent2String
+            = join( "\n", ( $UserSelectionSelectedAgent2String, '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
+    }
 }
 
 # use a fixed year to compare the time selection results
@@ -3534,39 +3555,37 @@ EOF
             DynamicFieldConfig => $DynamicFieldConfigs{Set},
             LayoutObject       => $LayoutObject,
             ParamObject        => $ParamObject,
-            Value              => [
 
-                # a list of Set values
-                [
+            # a list of Set values
+            Value => [
 
-                    # actually only on Set value in the list
-                    [
+                # actually only on Set value in the list
+                {
 
-                        # value for the first dynamic field in the set
+                    # value for the first dynamic field in the set
+                    "Text5$RandomID" => 'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+
+                    # value for the second dynamic field in the set
+                    "Text6$RandomID" => [
                         'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
-
-                        # value for the second dynamic field in the set
-                        [
-                            'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
-                            'Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
-                        ],
-
-                        # value for the third dynamic field in the set
-                        $FirstUserID,
-
-                        # value for the fourth dynamic field in the set
-                        [
-                            $FirstUserID,
-                            $SecondUserID,
-                        ],
+                        'Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
                     ],
-                ],
+
+                    # value for the third dynamic field in the set
+                    "Agent1$RandomID" => $FirstUserID,
+
+                    # value for the fourth dynamic field in the set
+                    "Agent2$RandomID" => [
+                        $FirstUserID,
+                        $SecondUserID,
+                    ],
+                },
             ],
             Class => 'MyClass',
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="hidden" name="SetIndex_$DynamicFieldConfigs{Set}->{Name}" value="0"/>
+<input type="hidden" id="DynamicField_$DynamicFieldConfigs{Set}->{Name}_0" name="SetIndex_$DynamicFieldConfigs{Set}->{Name}" value="0"/>
 <fieldset class="DynamicFieldSet">
                         <div class="Row Row_DynamicField" style="grid-template-columns: 1fr">
                             <div class="FieldCell" style="grid-column: 1 / span 1">
@@ -3585,7 +3604,20 @@ $IncludeDFConfigs[0]->{LabelEscaped}:
 $IncludeDFConfigs[1]->{LabelEscaped}:
 </label>
                                 <div class="Field">
-<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_0" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="" />
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_0" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN" />
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                            <div class="FieldCell MultiValue_1" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[1]->{Name}_0" for="DynamicField_$IncludeDFConfigs[1]->{Name}_0">
+$IncludeDFConfigs[1]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_1" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN" />
                                 </div>
                                 <div class="AddRemoveValueRow">
                                     <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
@@ -3598,7 +3630,7 @@ $IncludeDFConfigs[1]->{LabelEscaped}:
 $IncludeDFConfigs[1]->{LabelEscaped}:
 </label>
                                 <div class="Field">
-<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_Template" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="" />
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_Template" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN" />
                                 </div>
                                 <div class="AddRemoveValueRow">
                                     <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
@@ -3613,7 +3645,7 @@ $IncludeDFConfigs[2]->{LabelEscaped}:
 </label>
                                 <div class="Field">
 <select class="DynamicFieldReference DynamicFieldText Modernize" id="DynamicField_$IncludeDFConfigs[2]->{Name}_0" name="DynamicField_$IncludeDFConfigs[2]->{Name}_0">
-$UserSelectionString
+$UserSelectionSelectedAgent1String
 </select>
                                 </div>
                                 <div class="Clear"></div>
@@ -3626,7 +3658,22 @@ $IncludeDFConfigs[3]->{LabelEscaped}:
 </label>
                                 <div class="Field">
 <select class="DynamicFieldReference DynamicFieldText Modernize" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_0" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
-$UserSelectionSelectedString
+$UserSelectionSelectedAgent1String
+</select>
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                            <div class="FieldCell MultiValue_1" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[3]->{Name}_0_0" for="DynamicField_$IncludeDFConfigs[3]->{Name}_0_0">
+$IncludeDFConfigs[3]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<select class="DynamicFieldReference DynamicFieldText Modernize" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_1" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
+$UserSelectionSelectedAgent2String
 </select>
                                 </div>
                                 <div class="AddRemoveValueRow">
