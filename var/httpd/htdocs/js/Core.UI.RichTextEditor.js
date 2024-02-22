@@ -174,7 +174,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         /*eslint-disable camelcase */
         RemovedCKEditorPlugins = 'devtools,image,mathjax,embed,embedsemantic,exportpdf,sourcedialog,bbcode,divarea,elementspath,stylesheetparser,autogrow';
         if (!CheckFormID($EditorArea).length) {
-            RemovedCKEditorPlugins += 'image2,uploadimage';
+            RemovedCKEditorPlugins += ',image2,uploadimage';
         }
         EditorConfig = {
             versionCheck:              false,
