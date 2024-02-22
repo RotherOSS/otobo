@@ -100,10 +100,15 @@ sub EditSectionRender {
 
     my $TemplateFile = $Param{CustomerInterface} ? 'DynamicField/CustomerEditField' : 'DynamicField/AgentEditField';
 
-    if ( !$Param{Content} ) {
-        return $Param{LayoutObject}->Output(
-            TemplateFile => $TemplateFile,
+    $Param{Content} ||= [];
+
+    if ( ref $Param{Content} ne 'ARRAY' ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Invalid content!",
         );
+
+        return;
     }
 
     # check needed params
@@ -116,15 +121,6 @@ sub EditSectionRender {
 
             return;
         }
-    }
-
-    if ( !IsArrayRefWithData( $Param{Content} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Invalid content!",
-        );
-
-        return;
     }
 
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
