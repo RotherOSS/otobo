@@ -138,6 +138,10 @@ sub new {
                     DF        => $DynamicField->{Name},
                     Mandatory => $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ? 1 : 0,
                 };
+
+                if ( $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ) {
+                    $DynamicField->{Mandatory} = 1;
+                }
             }
         }
         else {
@@ -145,6 +149,10 @@ sub new {
                 DF        => $DynamicField->{Name},
                 Mandatory => $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ? 1 : 0,
             };
+
+            if ( $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ) {
+                $DynamicField->{Mandatory} = 1;
+            }
         }
 
         $Self->{DynamicField}{ $DynamicField->{Name} } = $DynamicField;
@@ -905,7 +913,7 @@ sub Run {
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
-                    Mandatory            => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                    Mandatory            => $Self->{DynamicField}{ $DynamicFieldConfig->{Name} }{Mandatory},
                     GetParam             => {
                         %GetParam,
                         CustomerUserID => $Ticket{CustomerUserID},
