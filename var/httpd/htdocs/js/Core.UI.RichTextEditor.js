@@ -2,6 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+// Copyright (C) 2021-2024 Znuny GmbH, https://znuny.org/
 // Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
@@ -79,8 +80,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             UserLanguage,
             UploadURL = '',
             EditorConfig,
+            RemovedCKEditorPlugins = '',
             CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') );
-
 
         if (typeof CKEDITOR === 'undefined') {
             return false;
@@ -138,7 +139,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         cm.replaceSelection(spaces);
                     }
                 });
-
             }
 
             Core.App.Publish('Event.UI.RichTextEditor.InstanceReady', [Editor]);
@@ -172,28 +172,32 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         // set default editor config, but allow custom config for other types for editors
         /*eslint-disable camelcase */
+        RemovedCKEditorPlugins = 'devtools,image,mathjax,embed,embedsemantic,exportpdf,sourcedialog,bbcode,divarea,elementspath,stylesheetparser,autogrow';
+        if (!CheckFormID($EditorArea).length) {
+            RemovedCKEditorPlugins += 'image2,uploadimage';
+        }
         EditorConfig = {
-            customConfig: '', // avoid loading external config files
+            versionCheck:              false,
             disableNativeSpellChecker: false,
-            defaultLanguage: UserLanguage,
-            language: UserLanguage,
-            width: Core.Config.Get('RichText.Width', 620),
-            resize_minWidth: Core.Config.Get('RichText.Width', 620),
-            height: Core.Config.Get('RichText.Height', 320),
-            removePlugins: CheckFormID($EditorArea).length ? 'elementspath,exportpdf' : 'elementspath,exportpdf,image2,uploadimage',
-            forcePasteAsPlainText: false,
-            format_tags: 'p;h1;h2;h3;h4;h5;h6;pre',
-            fontSize_sizes: '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
-            extraAllowedContent: 'div[type]{*}; img[*]{*}; col[width]; style[*]{*}; *[id](*)',
-            enterMode: CKEDITOR.ENTER_BR,
-            shiftEnterMode: CKEDITOR.ENTER_BR,
-            contentsLangDirection: Core.Config.Get('RichText.TextDir', 'ltr'),
-            toolbar: ToolbarConfig,
-            filebrowserBrowseUrl: '',
-            filebrowserUploadUrl: UploadURL,
-            extraPlugins: 'splitquote,contextmenu_linkopen',
-            entities: false,
-            skin: 'moono-lisa'
+            defaultLanguage:           UserLanguage,
+            language:                  UserLanguage,
+            width:                     Core.Config.Get('RichText.Width', 620),
+            resize_minWidth:           Core.Config.Get('RichText.Width', 620),
+            height:                    Core.Config.Get('RichText.Height', 320),
+            removePlugins:             RemovedCKEditorPlugins,
+            forcePasteAsPlainText:     false,
+            format_tags:               'p;h1;h2;h3;h4;h5;h6;pre',
+            fontSize_sizes:            '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
+            extraAllowedContent:       'div[type]{*}; img[*]{*}; col[width]; style[*]{*}; *[id](*)',
+            enterMode:                 CKEDITOR.ENTER_BR,
+            shiftEnterMode:            CKEDITOR.ENTER_BR,
+            contentsLangDirection:     Core.Config.Get('RichText.TextDir', 'ltr'),
+            toolbar:                   ToolbarConfig,
+            filebrowserBrowseUrl:      '',
+            filebrowserUploadUrl:      UploadURL,
+            extraPlugins:              'splitquote,contextmenu_linkopen',
+            entities:                  false,
+            skin:                      'moono-lisa'
         };
         /*eslint-enable camelcase */
 
@@ -202,26 +206,26 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             $.extend(EditorConfig, {
 
                 /*eslint-disable camelcase */
-                startupMode: 'source',
+                startupMode:    'source',
                 allowedContent: true,
-                extraPlugins: 'codemirror',
-                codemirror: {
-                    theme: 'default',
-                    lineNumbers: true,
-                    lineWrapping: true,
-                    matchBrackets: true,
-                    autoCloseTags: true,
-                    autoCloseBrackets: true,
-                    enableSearchTools: true,
-                    enableCodeFolding: true,
-                    enableCodeFormatting: true,
-                    autoFormatOnStart: false,
+                extraPlugins:   'codemirror',
+                codemirror:     {
+                    theme:                  'default',
+                    lineNumbers:            true,
+                    lineWrapping:           true,
+                    matchBrackets:          true,
+                    autoCloseTags:          true,
+                    autoCloseBrackets:      true,
+                    enableSearchTools:      true,
+                    enableCodeFolding:      true,
+                    enableCodeFormatting:   true,
+                    autoFormatOnStart:      false,
                     autoFormatOnModeChange: false,
-                    autoFormatOnUncomment: false,
-                    mode: 'htmlmixed',
-                    showTrailingSpace: true,
-                    highlightMatches: true,
-                    styleActiveLine: true
+                    autoFormatOnUncomment:  false,
+                    mode:                   'htmlmixed',
+                    showTrailingSpace:      true,
+                    highlightMatches:       true,
+                    styleActiveLine:        true
                 }
                 /*eslint-disable camelcase */
 
