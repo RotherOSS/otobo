@@ -112,7 +112,7 @@ sub Run {
         my $CronLastRun = $StatsReport{Config}->{CronLastRun} || 0;
         next STATSREPORTID if $CronPreviousEvent <= $CronLastRun;
 
-        my $StatTitle = $StatsReport{Config}->{Title} || 'OTOBO Community™ Report';
+        my $StatTitle = $StatsReport{Config}->{Title} || 'OTOBO Report';
 
         $Self->Print("  <yellow>$StatTitle...</yellow>\n");
         my $GenerationTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
