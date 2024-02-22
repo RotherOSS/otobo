@@ -181,7 +181,7 @@ sub GetFieldStates {
     # in the special case of assuming visible fields we still want to know whether we do a $CompleteRun
     # but we discard all visibility checks
     if ( $Param{PossibleValuesOnly} ) {
-        $VisCheck         = 0;
+        $VisCheck = 0;
 
         # treat all fields as always visible
         $CachedVisibility = {
@@ -310,7 +310,7 @@ sub GetFieldStates {
             );
 
             # check if autoselection is activated and field changed in any way
-            if ( $Content{PossibleValues} && $Param{Autoselect} && $Param{Autoselect}{DynamicField}{ $DFName } ) {
+            if ( $Content{PossibleValues} && $Param{Autoselect} && $Param{Autoselect}{DynamicField}{$DFName} ) {
 
                 my $Selected = exists $Content{NewValue} ? $Content{NewValue} : $DFParam->{"DynamicField_$DFName"};
 
@@ -412,7 +412,7 @@ sub GetFieldStates {
                 # ...autoselect is turned on for the changed field (refill a field emptied by hand)
                 elsif (
                     $Param{Autoselect}
-                    && $Param{Autoselect}{DynamicField}{ $DFName }
+                    && $Param{Autoselect}{DynamicField}{$DFName}
                     && $Param{ChangedElements}{"DynamicField_$DFName"}
                     )
                 {
@@ -496,6 +496,7 @@ sub GetFieldStates {
             if ( ref( $DFParam->{"DynamicField_$DFName"} ) ) {
                 SELECTED:
                 for my $Selected ( @{ $DFParam->{"DynamicField_$DFName"} } ) {
+
                     # skip empty values (possible only for multivalue)
                     next SELECTED if !defined $Selected;
 
@@ -526,7 +527,7 @@ sub GetFieldStates {
         }
 
         # autoselect if applicable
-        if ( $Param{Autoselect} && $Param{Autoselect}{DynamicField}{ $DFName } ) {
+        if ( $Param{Autoselect} && $Param{Autoselect}{DynamicField}{$DFName} ) {
 
             my $Selected = $NewValues{"DynamicField_$DFName"}
                 // $DFParam->{"DynamicField_$DFName"} // '';

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -44,10 +44,12 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description("Delete DynamicFields. \n" . 
-	"Deletes dynamic fields and all associated values from the OTOBO system. \n" . 
-	"To execute the deletion automatically, please use --force. \n" . 
-	"Otherwise, the fields for deletion are displayed first and only deleted after confirmation.");
+    $Self->Description(
+        "Delete DynamicFields. \n" .
+            "Deletes dynamic fields and all associated values from the OTOBO system. \n" .
+            "To execute the deletion automatically, please use --force. \n" .
+            "Otherwise, the fields for deletion are displayed first and only deleted after confirmation."
+    );
 
     $Self->AddOption(
         Name        => 'name',
@@ -112,13 +114,14 @@ sub Configure {
         HasValue    => 0,
         ValueRegex  => qr/.*/smx,
     );
-#    $Self->AddOption(
-#        Name        => 'all-unused',
-#        Description => 'Delete all unused Dynamicfiels.',
-#        Required    => 0,
-#        HasValue    => 1,
-#        ValueRegex  => qr/\d/smx,
-#    );
+
+    #    $Self->AddOption(
+    #        Name        => 'all-unused',
+    #        Description => 'Delete all unused Dynamicfiels.',
+    #        Required    => 0,
+    #        HasValue    => 1,
+    #        ValueRegex  => qr/\d/smx,
+    #    );
     $Self->AddOption(
         Name        => 'force',
         Description => 'Delete all DynamicField values and fields.',
@@ -135,8 +138,8 @@ sub Run {
 
     $Self->Print("<yellow>Find fields that should be deleted...</yellow>\n");
 
-    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $DynamicFieldValueObject   = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+    my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
     my %DeleteHash;
 
@@ -162,15 +165,15 @@ sub Run {
 
         if ( $Self->GetOption('name') && $Self->GetOption('name') eq $DynFieldName ) {
             $DeleteHash{$DynFieldName} = $DynamicField->{ID};
-	    next DYNAMICFIELD;
-	}
+            next DYNAMICFIELD;
+        }
 
-	if ( $Self->GetOption('name-regex') ) {
-	    my $Regex = $Self->GetOption('name-regex');
-	    if ($DynFieldName =~ m/$Regex/) {
+        if ( $Self->GetOption('name-regex') ) {
+            my $Regex = $Self->GetOption('name-regex');
+            if ( $DynFieldName =~ m/$Regex/ ) {
                 $DeleteHash{$DynFieldName} = $DynamicField->{ID};
                 next DYNAMICFIELD;
-	    }
+            }
         }
 
         if ( $Self->GetOption('id') && $Self->GetOption('id') == $DynamicField->{ID} ) {
@@ -178,7 +181,7 @@ sub Run {
             next DYNAMICFIELD;
         }
 
-	if ( $Self->GetOption('objecttype') && $Self->GetOption('objecttype') eq $DynamicField->{ObjectType} ) {
+        if ( $Self->GetOption('objecttype') && $Self->GetOption('objecttype') eq $DynamicField->{ObjectType} ) {
             $DeleteHash{$DynFieldName} = $DynamicField->{ID};
             next DYNAMICFIELD;
         }
@@ -189,9 +192,9 @@ sub Run {
         }
 
         if ( $Self->GetOption('namespace') ) {
-	    my $Namespace = $Self->GetOption('namespace');
+            my $Namespace = $Self->GetOption('namespace');
 
-	    if ( $DynFieldName =~ /^$Namespace-.*$/ ) {
+            if ( $DynFieldName =~ /^$Namespace-.*$/ ) {
                 $DeleteHash{$DynFieldName} = $DynamicField->{ID};
                 next DYNAMICFIELD;
             }
@@ -209,12 +212,13 @@ sub Run {
     }
 
     # Now we show all for delete marked fields:
-    if ( IsHashRefWithData(\%DeleteHash) ) {
+    if ( IsHashRefWithData( \%DeleteHash ) ) {
         $Self->Print("<green>These fields are marked for deletion:</green>\n");
-        for my $FieldName (sort keys %DeleteHash ) {
+        for my $FieldName ( sort keys %DeleteHash ) {
             $Self->Print("<green>Name: $FieldName - ID: $DeleteHash{$FieldName}</green>\n");
         }
-    } else {
+    }
+    else {
         $Self->Print("<yellow>There are no fields to delete!</yellow>\n");
     }
 
@@ -224,30 +228,31 @@ sub Run {
     }
 
     # Delete DynamicField values
-    for my $FieldName (sort keys %DeleteHash ) {
+    for my $FieldName ( sort keys %DeleteHash ) {
         my $SuccessDelValue = $DynamicFieldValueObject->AllValuesDelete(
-            FieldID            => $DeleteHash{$FieldName},
+            FieldID => $DeleteHash{$FieldName},
             UserID  => 1,
         );
 
-        if ( $SuccessDelValue ) {
+        if ($SuccessDelValue) {
             $Self->Print("\n<green>Delete DynamicField $FieldName values if they exist.</green>\n\t");
-        } else {
-             $Self->Print("Can't delete field values for field: $FieldName.");
+        }
+        else {
+            $Self->Print("Can't delete field values for field: $FieldName.");
         }
 
         my $Success = $DynamicFieldObject->DynamicFieldDelete(
-            ID      => $DeleteHash{$FieldName},
-            UserID  => 1,
+            ID     => $DeleteHash{$FieldName},
+            UserID => 1,
         );
 
-        if ( $Success ) {
+        if ($Success) {
             $Self->Print("\n<green>Delete DynamicField $FieldName.</green>\n\t");
-        } else {
+        }
+        else {
             $Self->Print("Can't delete field $FieldName.");
         }
     }
-
 
     $Self->Print("<green>Done.</green>\n");
 
