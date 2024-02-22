@@ -83,7 +83,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             RemovedCKEditorPlugins = '',
             CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') );
 
-
         if (typeof CKEDITOR === 'undefined') {
             return false;
         }
@@ -178,6 +177,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             RemovedCKEditorPlugins += 'image2,uploadimage';
         }
         EditorConfig = {
+            versionCheck:              false,
             disableNativeSpellChecker: false,
             defaultLanguage:           UserLanguage,
             language:                  UserLanguage,
