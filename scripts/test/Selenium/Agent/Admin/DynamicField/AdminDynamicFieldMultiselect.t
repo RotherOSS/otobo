@@ -213,6 +213,8 @@ $Selenium->RunTest(
 
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
+
             # Check new and edited DynamicFieldMultiselect values.
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 

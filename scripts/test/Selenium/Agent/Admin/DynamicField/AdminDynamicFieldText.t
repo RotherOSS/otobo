@@ -160,6 +160,8 @@ $Selenium->RunTest(
             );
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
+
             $Selenium->WaitFor(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('#DynamicFieldsTable tr:contains($RandomID)').length;"
