@@ -13,9 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
+
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -59,26 +60,39 @@ $Selenium->RunTest(
         #
         #        <div class="OverviewControl" id="OverviewControl">
 
+        # LogExecuteCommandActive is on. This means that extra test events
+        # will be emitted by the the test library.
         note('a couple of test cases that are succeeding, logging activated');
-        $Selenium->content_contains(q{<h1>Status View: Open tickets</h1>});
-        $Selenium->content_lacks(q{<h1>Status View: Closed tickets</h1>});
-        $Selenium->find_element_ok(q{//div[@id='OverviewControl']});
-        $Selenium->find_element_by_xpath_ok(q{//div[@id='OverviewControl']});
-        $Selenium->find_no_element_ok(q{//div[@id='OverviewOutOfControl']});
-        $Selenium->find_no_element_by_xpath_ok(q{//div[@id='OverviewOutOfControl']});
+        {
+            $Selenium->content_contains(q{<h1>Status View: Open tickets</h1>});
+            $Selenium->content_lacks(q{<h1>Status View: Closed tickets</h1>});
+            $Selenium->find_element_ok(q{//div[@id='OverviewControl']});
+            $Selenium->find_element_by_xpath_ok(q{//div[@id='OverviewControl']});
+            $Selenium->find_no_element_ok(q{//div[@id='OverviewOutOfControl']});
+            $Selenium->find_no_element_by_xpath_ok(q{//div[@id='OverviewOutOfControl']});
+        }
 
         note('a couple of test cases that are succeeding, logging deactivated');
-        $Selenium->LogExecuteCommandActive(0);
-        $Selenium->content_contains(q{<h1>Status View: Open tickets</h1>});
-        $Selenium->content_lacks(q{<h1>Status View: Closed tickets</h1>});
-        $Selenium->find_element_ok(q{//div[@id='OverviewControl']});
-        $Selenium->find_element_by_xpath_ok(q{//div[@id='OverviewControl']});
-        $Selenium->find_no_element_ok(q{//div[@id='OverviewOutOfControl']});
-        $Selenium->find_no_element_by_xpath_ok(q{//div[@id='OverviewOutOfControl']});
-        $Selenium->LogExecuteCommandActive(1);
+        {
+            $Selenium->LogExecuteCommandActive(0);
+            $Selenium->content_contains(q{<h1>Status View: Open tickets</h1>});
+            $Selenium->content_lacks(q{<h1>Status View: Closed tickets</h1>});
+            $Selenium->find_element_ok(q{//div[@id='OverviewControl']});
+            $Selenium->find_element_by_xpath_ok(q{//div[@id='OverviewControl']});
+            $Selenium->find_no_element_ok(q{//div[@id='OverviewOutOfControl']});
+            $Selenium->find_no_element_by_xpath_ok(q{//div[@id='OverviewOutOfControl']});
+            $Selenium->LogExecuteCommandActive(1);
+        }
 
         # Now the same test cases but with the strings switched around.
-        # These cases should fail but not throw an exception.
+        # Some of these cases should fail but not throw an exception.
+        # Other cases are expected to throw an exeption.
+        #
+        # The expected failures are marked as TODO as they do not indicate an error.
+        # LogExecuteCommandActive is on. This means that extra test events
+        # will be emitted by the the test library. These extra events,
+        # like the event for getPageSource(), are usually successful. The consequence
+        # is that these extra events are reported as 'TODO passed'. This is fine.
         note('LogExecuteCommandActive activated, four failing TODO tests expected');
         {
             try_ok {
@@ -102,6 +116,7 @@ $Selenium->RunTest(
             };
             ok( $ExceptionFindElement, 'exception for failing find_element_ok()' );
 
+            # This emits a 'TODO passed' event as first a successful findElements() is executed.
             my $ExceptionFindNoElement = dies {
                 my $ToDO = todo('find_no_element_ok() expected to fail');
 
