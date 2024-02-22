@@ -177,6 +177,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             RemovedCKEditorPlugins += ',image2,uploadimage';
         }
         EditorConfig = {
+            customConfig: '', // avoid loading external config files like config.js
             versionCheck:              false,
             disableNativeSpellChecker: false,
             defaultLanguage:           UserLanguage,
