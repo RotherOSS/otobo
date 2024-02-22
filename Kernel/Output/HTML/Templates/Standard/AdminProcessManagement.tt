@@ -168,7 +168,7 @@
                                 </a>
                             </td>
                             <td class="Center">
-                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Copy Process") | html %]">
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessCopy;IncludeInvalid=[% Data.IncludeInvalid | uri %];ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Copy Process") | html %]">
                                     <i class="fa fa-copy"></i> <span class="InvisibleText">[% Translate("Copy") | html %]</span>
                                 </a>
                             </td>

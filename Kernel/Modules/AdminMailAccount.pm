@@ -367,7 +367,10 @@ sub _Overview {
 
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',
-                Data => \%Data,
+                Data => {
+                    %Data,
+                    IncludeInvalid => $Param{IncludeInvalid},
+                },
             );
         }
     }

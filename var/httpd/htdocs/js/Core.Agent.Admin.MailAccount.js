@@ -59,7 +59,8 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                                 MailAccountDelete.data('query-string'),
                                 function() {
                                    Core.App.InternalRedirect({
-                                       Action: 'AdminMailAccount'
+                                       Action: 'AdminMailAccount',
+                                       IncludeInvalid: MailAccountDelete.data('include-invalid'),
                                    });
                                 }
                             );

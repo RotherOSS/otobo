@@ -806,7 +806,7 @@ sub Run {
         }
 
         # return to overview
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};IncludeInvalid=$Param{IncludeInvalid}" );
     }
 
     # ------------------------------------------------------------ #
@@ -1680,7 +1680,8 @@ sub _ShowOverview {
                 Name => 'ProcessRow',
                 Data => {
                     %{$ProcessData},
-                    Description => $ProcessData->{Config}->{Description},
+                    Description    => $ProcessData->{Config}->{Description},
+                    IncludeInvalid => $Param{IncludeInvalid},
                 }
             );
         }
