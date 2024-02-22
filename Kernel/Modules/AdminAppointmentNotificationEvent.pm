@@ -454,7 +454,7 @@ sub Run {
             return $LayoutObject->ErrorScreen();
         }
 
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};IncludeInvalid=$Param{IncludeInvalid}" );
     }
 
     # ------------------------------------------------------------ #
@@ -553,7 +553,7 @@ sub Run {
         }
 
         # return to overview
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};IncludeInvalid=$Param{IncludeInvalid}" );
     }
 
     # ------------------------------------------------------------ #
@@ -1207,7 +1207,8 @@ sub _Overview {
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {
-                    Valid => $ValidList{ $Data{ValidID} },
+                    Valid          => $ValidList{ $Data{ValidID} },
+                    IncludeInvalid => $Param{IncludeInvalid},
                     %Data,
                 },
             );

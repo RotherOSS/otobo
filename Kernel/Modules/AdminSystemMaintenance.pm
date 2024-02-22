@@ -437,7 +437,7 @@ sub Run {
                 ),
             );
         }
-        return $LayoutObject->Redirect( OP => 'Action=AdminSystemMaintenance' );
+        return $LayoutObject->Redirect( OP => "Action=AdminSystemMaintenance;IncludeInvalid=$Param{IncludeInvalid}" );
 
     }
 
@@ -491,6 +491,7 @@ sub Run {
                     Name => 'ViewRow',
                     Data => {
                         %{$SystemMaintenance},
+                        IncludeInvalid => $Param{IncludeInvalid},
                     },
                 );
             }

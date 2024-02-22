@@ -528,7 +528,10 @@ sub Run {
             # separate each search result line by using several css
             $LayoutObject->Block(
                 Name => 'Row',
-                Data => {%JobData},
+                Data => {
+                    %JobData,
+                    IncludeInvalid => $Param{IncludeInvalid},
+                },
             );
         }
     }
