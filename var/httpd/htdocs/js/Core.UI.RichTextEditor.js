@@ -177,7 +177,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             RemovedCKEditorPlugins += ',image2,uploadimage';
         }
         EditorConfig = {
-            versionCheck:              false,
+            customConfig:              '',        // avoid loading external config files like config.js
+            versionCheck:              false,     // don't bother users with annoying messages
             disableNativeSpellChecker: false,
             defaultLanguage:           UserLanguage,
             language:                  UserLanguage,
@@ -195,7 +196,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             toolbar:                   ToolbarConfig,
             filebrowserBrowseUrl:      '',
             filebrowserUploadUrl:      UploadURL,
-            extraPlugins:              'splitquote,contextmenu_linkopen',
+            clipboard_handleImages:    false,                             // avoid message about automatic deactivation
+            extraPlugins:              'splitquote,contextmenu_linkopen', // OTOBO specific plugins
             entities:                  false,
             skin:                      'moono-lisa'
         };
