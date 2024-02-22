@@ -50,7 +50,7 @@ sub new {
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     # get the dynamic fields for this screen
-    $Self->{DynamicField} = $DynamicFieldObject->DynamicFieldListGet(
+    my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
         Valid => 1,
 
         # only screens that add notes can modify Article dynamic fields
@@ -62,10 +62,11 @@ sub new {
         Mask => $Self->{Action},
     ) || {};
 
+    $Self->{DynamicField}   = [];
     $Self->{MaskDefinition} = $Definition->{Mask};
 
     # align sysconfig and ticket mask data I
-    for my $DynamicField ( @{ $Self->{DynamicField} // [] } ) {
+    for my $DynamicField ( @{ $DynamicFieldList // [] } ) {
         if ( exists $Definition->{DynamicFields}{ $DynamicField->{Name} } ) {
             my $Parameters = delete $Definition->{DynamicFields}{ $DynamicField->{Name} } // {};
 
@@ -78,7 +79,14 @@ sub new {
                 DF        => $DynamicField->{Name},
                 Mandatory => $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ? 1 : 0,
             };
+
+            # TODO check if this persists
+            if ( $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ) {
+                $DynamicField->{Mandatory} = 1;
+            }
         }
+
+        push $Self->{DynamicField}->@*, $DynamicField;
     }
 
     # align sysconfig and ticket mask data II
@@ -875,9 +883,8 @@ sub Run {
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 ParamObject          => $ParamObject,
-                Mandatory            =>
-                    $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                GetParam => {
+                Mandatory            => $DynamicFieldConfig->{Mandatory},
+                GetParam             => {
                     %GetParam,
                     CustomerUserID => $Ticket{CustomerUserID},
                     TicketID       => $Self->{TicketID},
