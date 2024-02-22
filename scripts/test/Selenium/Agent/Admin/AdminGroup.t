@@ -49,7 +49,7 @@ $Selenium->RunTest(
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Group' );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup;IncludeInvalid=1");
 
         # Check overview AdminGroup.
         $Selenium->find_element( "table",             'css' );
@@ -173,7 +173,7 @@ $Selenium->RunTest(
         );
 
         # Go back to overview.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup;IncludeInvalid=1");
 
         # Try to change the name of the admin group and see if validation kicks in.
         $Selenium->find_element( 'admin',      'link_text' )->VerifiedClick();
@@ -197,7 +197,7 @@ $Selenium->RunTest(
             JavaScript => 'return typeof($) === "function" && !$(".Dialog:visible").length'
         );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup;IncludeInvalid=1");
 
         # Check link to AdminGroup from AdminUserGroup.
         $Selenium->find_element( $GroupName, 'link_text' )->VerifiedClick();
@@ -251,6 +251,8 @@ $Selenium->RunTest(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
         );
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup;IncludeInvalid=1");
 
         # Check class of invalid Group in the overview table.
         $Self->True(

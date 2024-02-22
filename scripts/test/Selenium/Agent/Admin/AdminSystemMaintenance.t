@@ -102,7 +102,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminSystemMaintenance screen
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance;IncludeInvalid=1");
 
         # check overview screen
         $Selenium->find_element( "table",             'css' );
@@ -388,6 +388,8 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         );
 
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance;IncludeInvalid=1");
+
         # check class of invalid SystemMaintenance in the overview table
         $Self->True(
             $Selenium->execute_script(
@@ -416,11 +418,11 @@ $Selenium->RunTest(
             "#ValidID updated value",
         );
 
-        # click 'Go to overview'
-        $Selenium->find_element("//a[contains(\@href, 'AdminSystemMaintenance')]")->VerifiedClick();
+        # go to overview
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance;IncludeInvalid=1");
 
         # click to delete test SystemMaintenance
-        $Selenium->find_element("//a[contains(\@href, 'Subaction=Delete;SystemMaintenanceID=$SysMainID')]")->click();
+        $Selenium->find_element("//a[contains(\@href, 'Subaction=Delete;IncludeInvalid=1;SystemMaintenanceID=$SysMainID')]")->click();
 
         $Selenium->WaitFor( AlertPresent => 1 );
 
@@ -537,7 +539,7 @@ $Selenium->RunTest(
         }
 
         # navigate to AdminSystemMaintenance screen
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance;IncludeInvalid=1");
 
         # filter by test unique ID
         $Selenium->find_element( "#FilterSystemMaintenances", 'css' )->send_keys( $SysMainComment . ' maintenance' );

@@ -90,7 +90,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminDynamiField screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
 
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $Language,
@@ -206,6 +206,8 @@ $Selenium->RunTest(
                 );
                 $Selenium->find_element( '#Submit', 'css' )->VerifiedClick();
 
+                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
+
                 $Selenium->WaitFor(
                     JavaScript =>
                         "return typeof(\$) === 'function' && \$('tr.Invalid td a:contains($RandomID)').length;"
@@ -244,7 +246,7 @@ $Selenium->RunTest(
                 );
 
                 # Navigate to AdminDynamicField screen.
-                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
+                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
 
                 # Delete dynamic field.
                 my $DynamicFieldID = $DynamicFieldObject->DynamicFieldGet(

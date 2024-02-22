@@ -53,7 +53,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # Navigate to AdminType screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminType");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminType;IncludeInvalid=1");
 
         # Check overview screen.
         $Selenium->find_element( "table",             'css' );
@@ -229,6 +229,8 @@ $Selenium->RunTest(
             Value   => 2,
         );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminType;IncludeInvalid=1");
 
         # Check class of invalid Type in the overview table.
         $Self->True(

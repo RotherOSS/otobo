@@ -46,7 +46,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminService screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminService");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminService;IncludeInvalid=1");
 
         # Check overview AdminService screen.
         $Selenium->find_element( "table",             'css' );
@@ -76,7 +76,7 @@ $Selenium->RunTest(
         );
 
         # Navigate to AdminService screen again.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminService");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminService;IncludeInvalid=1");
 
         # Click 'Add new service'.
         $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
@@ -185,6 +185,8 @@ $Selenium->RunTest(
             Value   => 2,
         );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminService;IncludeInvalid=1");
 
         # Check class of invalid Service in the overview table.
         $Self->True(

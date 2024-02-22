@@ -47,7 +47,7 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSLA");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSLA;IncludeInvalid=1");
 
         # Check overview screen.
         $Selenium->find_element( "table",             'css' );
@@ -153,6 +153,8 @@ $Selenium->RunTest(
             Value   => 2,
         );
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSLA;IncludeInvalid=1");
 
         # Check class of invalid SLA in the overview table.
         $Self->True(

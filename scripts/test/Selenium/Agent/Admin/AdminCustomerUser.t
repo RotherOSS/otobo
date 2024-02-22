@@ -93,7 +93,7 @@ $Selenium->RunTest(
         my $ScriptAlias  = $ConfigObject->Get('ScriptAlias');
 
         # Navigate to AdminCustomerUser screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUser");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUser;IncludeInvalid=1");
 
         # Check overview AdminCustomerCompany.
         $Selenium->find_element( "table",             'css' );
@@ -308,6 +308,8 @@ $Selenium->RunTest(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
         );
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUser;IncludeInvalid=1");
 
         # Test search filter.
         $Selenium->find_element( "#Search",           'css' )->clear();
