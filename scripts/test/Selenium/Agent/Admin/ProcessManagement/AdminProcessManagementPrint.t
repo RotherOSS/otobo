@@ -57,7 +57,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminProcessManagement screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement;IncludeInvalid=1");
 
         # Create new test Process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->VerifiedClick();
@@ -69,6 +69,8 @@ $Selenium->RunTest(
         my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;
 
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement;IncludeInvalid=1");
 
         $Selenium->find_element(
             "//a[contains(\@href,\'AdminProcessManagement;Subaction=ProcessPrint;ID=$ProcessID;\')]"
