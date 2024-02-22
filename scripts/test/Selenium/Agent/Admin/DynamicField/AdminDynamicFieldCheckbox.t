@@ -102,6 +102,8 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Label",  'css' )->send_keys($RandomID);
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
+
             # Check for test DynamicFieldCheckbox on AdminDynamicField screen.
             $Self->True(
                 index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -132,6 +134,8 @@ $Selenium->RunTest(
             );
 
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
 
             # Check new and edited DynamicFieldCheckbox values.
             $Selenium->find_element( $EditName, 'link_text' )->VerifiedClick();
