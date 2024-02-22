@@ -76,6 +76,10 @@ sub new {
                 DF        => $DynamicField->{Name},
                 Mandatory => $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ? 1 : 0,
             };
+
+            if ( $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ) {
+                $DynamicField->{Mandatory} = 1;
+            }
         }
 
         $Self->{DynamicField}{ $DynamicField->{Name} } = $DynamicField;
@@ -668,7 +672,7 @@ sub Run {
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
                     Mandatory            =>
-                        $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                        $Self->{DynamicField}{ $DynamicFieldConfig->{Name} }{Mandatory},
                     Getparam => {
                         %GetParam,
                         CustomerUserID => $Self->{UserID},
