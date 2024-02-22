@@ -104,7 +104,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminACL screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;IncludeInvalid=1");
 
         # Check breadcrumb on Overview screen.
         $Self->True(
@@ -399,6 +399,9 @@ JAVASCRIPT
         # Click 'Save and Finish'.
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
+        # Refresh screen to display invalid ACLs
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;IncludeInvalid=1");
+
         # Check if both ACL exist in the table.
         $Self->IsNot(
             $Selenium->execute_script(
@@ -438,7 +441,7 @@ JAVASCRIPT
         );
 
         # Refresh screen.
-        $Selenium->VerifiedRefresh();
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;IncludeInvalid=1");
 
         # Create copy of the first ACL.
         my $ACLID = $ACLObject->ACLGet(
@@ -448,18 +451,18 @@ JAVASCRIPT
 
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('a[href*=\"Action=AdminACL;Subaction=ACLCopy;ID=$ACLID\"]').length;"
+                "return typeof(\$) === 'function' && \$('a[href*=\"Action=AdminACL;Subaction=ACLCopy;IncludeInvalid=1;ID=$ACLID\"]').length;"
         );
 
-        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;IncludeInvalid=1;ID=$ACLID;' )]")->VerifiedClick();
 
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('a[href*=\"Action=AdminACL;Subaction=ACLCopy;ID=$ACLID\"]').length;"
+                "return typeof(\$) === 'function' && \$('a[href*=\"Action=AdminACL;Subaction=ACLCopy;IncludeInvalid=1;ID=$ACLID\"]').length;"
         );
 
         # Create another copy of the same ACL, see bug#13204 (https://bugs.otrs.org/show_bug.cgi?id=13204).
-        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;IncludeInvalid=1;ID=$ACLID;' )]")->VerifiedClick();
 
         # Verify there are both copied ACL's.
         push @TestACLNames,
@@ -647,7 +650,7 @@ JAVASCRIPT
             "TicketID $TicketID is created",
         );
 
-        $Selenium->VerifiedRefresh();
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;IncludeInvalid=1");
 
         # Deploy ACL.
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy' )]")->VerifiedClick();
