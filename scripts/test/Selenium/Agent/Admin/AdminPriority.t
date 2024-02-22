@@ -46,7 +46,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminPriority screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPriority");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPriority;IncludeInvalid=1");
 
         # Check overview AdminPriority.
         $Self->True(
@@ -157,6 +157,8 @@ $Selenium->RunTest(
             Value   => 2,
         );
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPriority;IncludeInvalid=1");
 
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('tr.Invalid td a:contains($RandomID)').length"

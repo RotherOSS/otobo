@@ -54,7 +54,7 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation;IncludeInvalid=1");
 
         # Check overview screen.
         $Selenium->find_element( "table",             'css' );
@@ -173,6 +173,8 @@ $Selenium->RunTest(
         );
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation;IncludeInvalid=1");
+
         # Check edited Salutation.
         $Selenium->find_element( $SalutationRandomID, 'link_text' )->VerifiedClick();
 
@@ -193,7 +195,7 @@ $Selenium->RunTest(
         );
 
         # Go back to AdminSalutation overview screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation;IncludeInvalid=1");
 
         # Check class of invalid Salutation in the overview table.
         $Self->True(

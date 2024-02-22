@@ -47,7 +47,7 @@ $Selenium->RunTest(
         my $ScriptAlias  = $ConfigObject->Get('ScriptAlias');
 
         # Navigate to AdminState screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminState");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminState;IncludeInvalid=1");
 
         $Self->True(
             index( $Selenium->get_page_source(), 'closed successful' ) > -1,
@@ -214,6 +214,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" &&  $(".DataTable").length;' );
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminState;IncludeInvalid=1");
 
         # Check class of invalid state in the overview table.
         $Self->True(

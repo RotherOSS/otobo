@@ -72,7 +72,7 @@ $Selenium->RunTest(
         );
 
         # Navigate to AdminGenericInterfaceWebservice screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericInterfaceWebservice");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericInterfaceWebservice;IncludeInvalid=1");
 
         # Check breadcrumb on Overview screen.
         $Self->True(
@@ -161,6 +161,7 @@ $Selenium->RunTest(
 
             # Save edited value.
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericInterfaceWebservice;IncludeInvalid=1");
             $Selenium->WaitFor(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('tr.Invalid td:contains(\"$Name\")').length"

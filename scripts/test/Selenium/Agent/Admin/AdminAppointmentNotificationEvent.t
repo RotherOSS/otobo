@@ -68,7 +68,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminNotificationEvent screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentNotificationEvent");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentNotificationEvent;IncludeInvalid=1");
 
         # Check overview screen
         $Selenium->find_element( "table",             'css' );
@@ -172,6 +172,8 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         ) || die;
 
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentNotificationEvent;IncludeInvalid=1");
+
         # Check test NotificationEvent values.
         $Selenium->find_element( $NotifEventRandomID, 'link_text' )->VerifiedClick();
 
@@ -238,6 +240,8 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         );
 
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentNotificationEvent;IncludeInvalid=1");
+
         # Check edited NotifcationEvent values
         $Selenium->find_element( $NotifEventRandomID, 'link_text' )->VerifiedClick();
 
@@ -297,7 +301,7 @@ $Selenium->RunTest(
         }
 
         # Go back to AdminNotificationEvent overview screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentNotificationEvent");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentNotificationEvent;IncludeInvalid=1");
 
         # Check class of invalid NotificationEvent in the overview table
         $Self->True(
@@ -315,7 +319,7 @@ $Selenium->RunTest(
         );
 
         # Create copy of test Notification.
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=NotificationCopy;ID=$NotifEventID{ID}' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=NotificationCopy;IncludeInvalid=1;ID=$NotifEventID{ID}' )]")->VerifiedClick();
         my $TranslatedNotificationCopy = $LanguageObject->Translate( '%s (copy)', $NotifEventRandomID );
         $Self->True(
             $Selenium->find_element("//a[contains(.,'$TranslatedNotificationCopy')]"),
@@ -339,7 +343,7 @@ JAVASCRIPT
             );
 
             # Delete test Notification with delete button.
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;IncludeInvalid=1;ID=$NotifEventID{ID}' )]")->VerifiedClick();
 
             # Check if test NotificationEvent is deleted
             $Self->False(

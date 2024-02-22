@@ -70,7 +70,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminGenericAgent screen
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent;IncludeInvalid=1");
 
         # Check if needed frontend module is registered in sysconfig.
         if ( !$ConfigObject->Get('Frontend::Module')->{AdminGenericAgent} ) {
@@ -451,7 +451,7 @@ $Selenium->RunTest(
         );
 
         # navigate to AgentGenericAgent screen again
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent;IncludeInvalid=1");
 
         # run test job
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$GenericAgentJob' )]")->VerifiedClick();
@@ -516,6 +516,7 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent;IncludeInvalid=1");
         $Selenium->WaitFor( ElementExists => "//a[contains(.,\'$GenericAgentJob\')]" );
 
         # check class of invalid generic job in the overview table
@@ -527,7 +528,7 @@ $Selenium->RunTest(
         );
 
         # Delete test job confirmation dialog. See bug#14197.
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$GenericAgentJob\' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;IncludeInvalid=1;Profile=$GenericAgentJob\' )]")->click();
         $Selenium->WaitFor( AlertPresent => 1 );
         $Selenium->accept_alert();
 

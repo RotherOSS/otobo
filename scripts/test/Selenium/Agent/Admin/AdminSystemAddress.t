@@ -94,7 +94,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminSystemAddress screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemAddress");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemAddress;IncludeInvalid=1");
 
         # Check overview AdminSystemAddress screen.
         $Selenium->find_element( "table",             'css' );
@@ -301,6 +301,8 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemAddress;IncludeInvalid=1");
 
         # Check class of invalid SystemAddress in the overview table.
         $Self->True(

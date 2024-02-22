@@ -46,7 +46,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminQueue screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueue");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueue;IncludeInvalid=1");
 
         # Check overview AdminQueue.
         $Selenium->find_element( "table",             'css' );
@@ -102,7 +102,7 @@ $Selenium->RunTest(
         );
 
         # Navigate to AdminQueue screen again.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueue");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueue;IncludeInvalid=1");
 
         # Create test queue.
         $Selenium->find_element( "a.Create", 'css' )->VerifiedClick();
@@ -139,7 +139,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         # Navigate to AdminQueue screen again.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueue");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueue;IncludeInvalid=1");
 
         # Check Queue - Responses page.
         $Self->True(
@@ -236,7 +236,7 @@ $Selenium->RunTest(
         );
 
         # Navigate to AdminQueue screen again.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueue");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueue;IncludeInvalid=1");
 
         # Check overview page.
         $Self->True(

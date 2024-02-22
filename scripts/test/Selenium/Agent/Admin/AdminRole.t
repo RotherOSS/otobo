@@ -56,7 +56,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminRole screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminRole");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminRole;IncludeInvalid=1");
 
         # Check breadcrumb on Overview screen.
         $Self->True(
@@ -198,17 +198,19 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-        # Check overview page.
-        $Self->True(
-            index( $Selenium->get_page_source(), $RandomID ) > -1,
-            "$RandomID found on page",
-        );
-
         # Check is there notification 'Role updated!' after role is updated.
         $Notification = $LanguageObject->Translate('Role updated!');
         $Self->True(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
+        );
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminRole;IncludeInvalid=1");
+
+        # Check overview page.
+        $Self->True(
+            index( $Selenium->get_page_source(), $RandomID ) > -1,
+            "$RandomID found on page",
         );
 
         # Check class of invalid Role in the overview table.

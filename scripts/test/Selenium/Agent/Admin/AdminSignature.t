@@ -53,7 +53,7 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSignature");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSignature;IncludeInvalid=1");
 
         # Check overview screen.
         $Selenium->find_element( "table",             'css' );
@@ -185,6 +185,8 @@ $Selenium->RunTest(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
         );
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSignature;IncludeInvalid=1");
 
         # Check class of invalid Signature in the overview table.
         $Self->True(
