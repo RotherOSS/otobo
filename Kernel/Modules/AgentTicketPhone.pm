@@ -918,7 +918,6 @@ sub Run {
                     ChangedElements           => \%ChangedElements,                        # optional to reduce ACL evaluation
                     Action                    => $Self->{Action},
                     UserID                    => $Self->{UserID},
-                    TicketID                  => $Self->{TicketID},
                     FormID                    => $Self->{FormID},
                     CustomerUser              => $SplitTicketData{CustomerUserID} || '',
                     GetParam                  => {
@@ -2173,7 +2172,6 @@ sub Run {
                     ChangedElements           => \%ChangedElements,            # optional to reduce ACL evaluation
                     Action                    => $Self->{Action},
                     UserID                    => $Self->{UserID},
-                    TicketID                  => $Self->{TicketID},
                     FormID                    => $Self->{FormID},
                     CustomerUser              => $CustomerUser || '',
                     GetParam                  => {
