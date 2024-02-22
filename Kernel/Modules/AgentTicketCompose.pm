@@ -899,8 +899,10 @@ sub Run {
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 ParamObject          => $ParamObject,
-                Mandatory            => $DynamicFieldConfig->{Mandatory},
-                GetParam             => {
+
+                # Mandatory is added to the configs by $Self->new
+                Mandatory => $DynamicFieldConfig->{Mandatory},
+                GetParam  => {
                     %GetParam,
                     CustomerUserID => $Ticket{CustomerUserID},
                     TicketID       => $Self->{TicketID},
