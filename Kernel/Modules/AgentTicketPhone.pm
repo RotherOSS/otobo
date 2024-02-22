@@ -915,13 +915,16 @@ sub Run {
                     TicketObject              => $TicketObject,
                     DynamicFields             => $Self->{DynamicField},
                     DynamicFieldBackendObject => $DynamicFieldBackendObject,
-                    ChangedElements           => \%ChangedElements,                        # optional to reduce ACL evaluation
+                    ChangedElements           => \%ChangedElements,            # optional to reduce ACL evaluation
                     Action                    => $Self->{Action},
                     UserID                    => $Self->{UserID},
-                    TicketID                  => $Self->{TicketID},
-                    FormID                    => $Self->{FormID},
-                    CustomerUser              => $SplitTicketData{CustomerUserID} || '',
-                    GetParam                  => {
+
+                    # in split ticket case, article id is present
+                    #   else, we do not want to falsely use data from created ticket
+                    TicketID     => $Article{ArticleID} ? $Self->{TicketID} : '',
+                    FormID       => $Self->{FormID},
+                    CustomerUser => $SplitTicketData{CustomerUserID} || '',
+                    GetParam     => {
                         %GetParam,
                         OwnerID => $GetParam{NewUserID},
                     },
