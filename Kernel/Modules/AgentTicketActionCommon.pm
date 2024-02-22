@@ -913,7 +913,7 @@ sub Run {
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
-                    Mandatory            => $Self->{DynamicField}{ $DynamicFieldConfig->{Name} }{Mandatory},
+                    Mandatory            => $DynamicFieldConfig->{Mandatory},
                     GetParam             => {
                         %GetParam,
                         CustomerUserID => $Ticket{CustomerUserID},
