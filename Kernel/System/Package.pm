@@ -2418,7 +2418,7 @@ sub PackageBuild {
     TAG:
     for my $Item (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
 
-        next TAG unless $Param{$Item} eq 'HASH';
+        next TAG unless ref $Param{$Item} eq 'HASH';
 
         for my $Type ( sort keys %{ $Param{$Item} } ) {
 
