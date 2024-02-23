@@ -1876,24 +1876,19 @@ sub StringAndTimestamp2Filename {
         $DateTimeObject->ToTimeZone( TimeZone => $Param{TimeZone} );
     }
 
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-    $Param{String} = $MainObject->FilenameCleanUp(
-        Filename => $Param{String},
-        Type     => 'Attachment',
+    my @FilenameParts = (
+        $Param{String},
+        $DateTimeObject->Format( Format => '%Y-%m-%d_%H:%M' )
     );
-
-    my $Filename = $Param{String} . '_';
-    $Filename .= $DateTimeObject->Format( Format => '%Y-%m-%d_%H:%M' );
-
     if ( defined $Param{TimeZone} ) {
-        my $TimeZone = $MainObject->FilenameCleanUp(
-            Filename => $Param{TimeZone},
-            Type     => 'Attachment',
-        );
-        $Filename .= '_TimeZone_' . $TimeZone;
+        push @FilenameParts, 'TimeZone' => $Param{TimeZone};
     }
 
-    return $Filename;
+    # this also replaces the ':' in the timestamp
+    return $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+        Filename => join( '_', @FilenameParts ),
+        Type     => 'Attachment',
+    );
 }
 
 =head2 StatNumber2StatID()
