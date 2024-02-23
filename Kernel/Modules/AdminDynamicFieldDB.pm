@@ -109,7 +109,7 @@ sub _Add {
                 }
                 elsif ( IsHashRefWithData( $DFDetails->{$ConfigKey} ) ) {
                     my $ConfigContent = $DFDetails->{$ConfigKey};
-                    for my $ContentKey ( $ConfigContent->%* ) {
+                    for my $ContentKey ( keys $ConfigContent->%* ) {
                         $GetParam{$ContentKey} = $ConfigContent->{$ContentKey};
                     }
                 }
