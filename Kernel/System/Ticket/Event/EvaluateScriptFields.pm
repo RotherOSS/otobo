@@ -25,6 +25,7 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::Log',
     'Kernel::System::DynamicField',
+    'Kernel::System::DynamicFieldValue',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::DynamicField::Driver::BaseScript',
     'Kernel::System::Ticket',
@@ -65,6 +66,7 @@ sub Run {
 
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $DynamicFieldValueObject   = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
     my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
         TicketID      => $Param{Data}{TicketID},
@@ -72,15 +74,43 @@ sub Run {
         UserID        => 1,
     );
 
+    FIELD:
     for my $FieldID ( $Events->{ $Param{Event} }->@* ) {
 
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
             ID => $FieldID,
         );
+
+        # if we store set values, get set index to determine how many values we need to store
+        my $SetIndex;
+        if ( $DynamicField->{Config}{PartOfSet} ) {
+            my $SetConfig = $DynamicFieldObject->DynamicFieldGet(
+                ID => $DynamicField->{Config}{PartOfSet},
+            );
+
+            if ( $SetConfig->{Config}{MultiValue} ) {
+                my $SetIndexValue = $DynamicFieldValueObject->ValueGet(
+                    FieldID  => $SetConfig->{ID},
+                    ObjectID => $Param{Data}{TicketID},
+                );
+
+                next FIELD unless $SetIndexValue->@*;
+
+                $SetIndex = $SetIndexValue->[0]{IndexSet};
+            }
+            else {
+                $SetIndex = 0;
+            }
+        }
+
         my $Result = $DynamicFieldBackendObject->Evaluate(
             DynamicFieldConfig => $DynamicField,
             Object             => \%Ticket,
         );
+
+        if ( defined $SetIndex ) {
+            $Result = [ map {$Result} ( 0 .. $SetIndex - 1 ) ];
+        }
 
         $DynamicFieldBackendObject->ValueSet(
             DynamicFieldConfig => $DynamicField,

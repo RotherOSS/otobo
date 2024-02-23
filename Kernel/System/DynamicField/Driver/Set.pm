@@ -35,6 +35,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::DynamicField',
+    'Kernel::System::DynamicFieldValue',
     'Kernel::System::DynamicField::Backend',
     'Kernel::Output::HTML::DynamicField::Mask',
     'Kernel::System::Log',
@@ -166,6 +167,19 @@ sub ValueSet {
             return;
         }
     }
+
+    # set index_set to check how many set values we have
+    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
+        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        ObjectID => $Param{ObjectID},
+        Value    => [
+            {
+                ValueText => 'set_index',
+                IndexSet  => scalar @SetValue,
+            },
+        ],
+        UserID => $Param{UserID},
+    );
 
     return 1;
 }
