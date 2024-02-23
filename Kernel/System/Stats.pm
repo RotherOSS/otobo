@@ -46,11 +46,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Stats - stats lib
+Kernel::System::Stats - statistics lib
 
 =head1 DESCRIPTION
 
-All stats functions.
+All statistics functions.
 
 =head2 Explanation for the time zone parameter
 
@@ -85,8 +85,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # temporary directory
     $Self->{StatsTempDir} = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/stats/';
@@ -218,6 +217,7 @@ sub StatsGet {
         # Don't store complex structure in memory as it will be modified later.
         CacheInMemory => 0,
     );
+
     return $Cache if ref $Cache eq 'HASH';
 
     # get hash from storage
@@ -669,13 +669,14 @@ fetches all statistics that the current user may see
         UserID   => $UserID,
     );
 
-    Returns
+Returns a hashref with the statistic ID as the key:
 
     {
         6 => {
             Title => "Title of stat",
             ...
-        }
+        },
+        ...
     }
 
 =cut
@@ -1047,7 +1048,7 @@ sub GetStaticFiles {
 
 =head2 GetDynamicFiles()
 
-Get all static objects
+Get all dynamic files
 
     my $FileHash = $StatsObject->GetDynamicFiles();
 
@@ -1117,7 +1118,7 @@ get behaviours that a statistic supports
         ObjectModule => 'Kernel::System::Stats::Dynamic::TicketList',
     );
 
-    returns
+Returns:
 
     {
         ProvidesDashboardWidget => 1,
@@ -1128,6 +1129,7 @@ get behaviours that a statistic supports
 
 sub GetObjectBehaviours {
     my ( $Self, %Param ) = @_;
+
     my $Module = $Param{ObjectModule};
 
     # check if it is cached
@@ -1534,7 +1536,7 @@ sub Import {
 
 =head2 GetParams()
 
-    get all edit params from stats for view
+get all edit params from stats for view
 
     my $Params = $StatsObject->GetParams( StatID => '123' );
 
@@ -2168,7 +2170,7 @@ sub StatsCleanUp {
 
 =head2 _GenerateStaticStats()
 
-    take the stat configuration and get the stat table
+take the stat configuration and get the stat table
 
     my @StatArray = $StatsObject->_GenerateStaticStats(
         ObjectModule => $Stat->{ObjectModule},
@@ -2251,7 +2253,7 @@ sub _GenerateStaticStats {
 
 =head2 _GenerateDynamicStats()
 
-    take the stat configuration and get the stat table
+take the stat configuration and get the stat table
 
     my @StatArray = $StatsObject->_GenerateDynamicStats(
         ObjectModule     => 'Kernel::System::Stats::Dynamic::Ticket',
@@ -3933,7 +3935,7 @@ sub _AutomaticSampleImport {
 
 Converts the given date/time string from OTOBO time zone to the given time zone.
 
-    my $String = $StatsObject->_FromOTOBOTimeZone(
+    my $TimeStamp = $StatsObject->_FromOTOBOTimeZone(
         String   => '2016-02-20 20:00:00',
         TimeZone => 'Europe/Berlin',
     );
@@ -3982,7 +3984,7 @@ sub _FromOTOBOTimeZone {
 
 Converts the given date/time string from the given time zone to OTOBO time zone.
 
-    my $String = $StatsObject->_ToOTOBOTimeZone(
+    my $TimeStamp = $StatsObject->_ToOTOBOTimeZone(
         String    => '2016-02-20 18:00:00',
         TimeZone  => 'Europe/Berlin',
     );
@@ -4471,6 +4473,7 @@ sub _TimeStamp2DateTime {
     my ( $Self, %Param, ) = @_;
 
     my $TimeStamp = $Param{TimeStamp};
+
     return $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
