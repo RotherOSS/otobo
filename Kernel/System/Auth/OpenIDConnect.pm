@@ -445,9 +445,9 @@ sub _ExtractMap {
     my %Return = ();
 
     KEY:
-    for my $Key ( %{ $Param{Map} } ) {
+    for my $Key ( keys %{ $Param{Map} } ) {
         if ( IsHashRefWithData( $Param{Map}{$Key} ) ) {
-            next KEY if !defined $Param{Data}{$Key};
+            next KEY unless defined $Param{Data}{$Key};
 
             %Return = (
                 %Return,
