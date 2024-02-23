@@ -393,34 +393,6 @@ sub _AddAction {
         );
     }
 
-    # collect list of included fields
-    my @FieldList;
-    for my $IncludedElement (@Include) {
-        if ( $IncludedElement->{DF} ) {
-            push @FieldList, $IncludedElement->{DF};
-        }
-        elsif ( $IncludedElement->{Grid} ) {
-            for my $Row ( $IncludedElement->{Grid}{Rows}->@* ) {
-                push @FieldList, $Row->{DF};
-            }
-        }
-    }
-
-    # update configs of included fields
-    for my $IncludedField (@FieldList) {
-        my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
-            Name => $IncludedField,
-        );
-        $DynamicFieldObject->DynamicFieldUpdate(
-            $DynamicFieldConfig->%*,
-            Config => {
-                $DynamicFieldConfig->{Config}->%*,
-                PartOfSet => 1,
-            },
-            UserID => $Self->{UserID},
-        );
-    }
-
     # set specific config
     my $FieldConfig = {
         Tooltip    => $GetParam{Tooltip},
@@ -443,6 +415,34 @@ sub _AddAction {
     if ( !$FieldID ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Could not create the new field'),
+        );
+    }
+
+    # collect list of included fields
+    my @FieldList;
+    for my $IncludedElement (@Include) {
+        if ( $IncludedElement->{DF} ) {
+            push @FieldList, $IncludedElement->{DF};
+        }
+        elsif ( $IncludedElement->{Grid} ) {
+            for my $Row ( $IncludedElement->{Grid}{Rows}->@* ) {
+                push @FieldList, $Row->{DF};
+            }
+        }
+    }
+
+    # update configs of included fields
+    for my $IncludedField (@FieldList) {
+        my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+            Name => $IncludedField,
+        );
+        $DynamicFieldObject->DynamicFieldUpdate(
+            $DynamicFieldConfig->%*,
+            Config => {
+                $DynamicFieldConfig->{Config}->%*,
+                PartOfSet => $FieldID,
+            },
+            UserID => $Self->{UserID},
         );
     }
 
@@ -723,6 +723,32 @@ sub _ChangeAction {
         );
     }
 
+    # set specific config
+    my $FieldConfig = {
+        Tooltip    => $GetParam{Tooltip},
+        MultiValue => $GetParam{MultiValue},
+        Include    => \@Include,
+    };
+
+    # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
+    my $UpdateSuccess = $DynamicFieldObject->DynamicFieldUpdate(
+        ID         => $FieldID,
+        Name       => $GetParam{Name},
+        Label      => $GetParam{Label},
+        FieldOrder => $GetParam{FieldOrder},
+        FieldType  => $DynamicFieldData->{FieldType},
+        ObjectType => $DynamicFieldData->{ObjectType},
+        Config     => $FieldConfig,
+        ValidID    => $GetParam{ValidID},
+        UserID     => $Self->{UserID},
+    );
+
+    if ( !$UpdateSuccess ) {
+        return $LayoutObject->ErrorScreen(
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not update the field %s', $GetParam{Name} ),
+        );
+    }
+
     # collect list of currently included fields
     my @NewFieldList;
     for my $IncludedElement (@Include) {
@@ -753,7 +779,7 @@ sub _ChangeAction {
     FIELD:
     for my $IncludedField ( @NewFieldList, @OldFieldList ) {
 
-        my $PartOfSet = ( any { $_ eq $IncludedField } @NewFieldList ) || 0;
+        my $PartOfSet = ( any { $_ eq $IncludedField } @NewFieldList ) ? $FieldID : 0;
 
         # skip field if nothing changed
         next FIELD if $PartOfSet && grep { $_ eq $IncludedField } @OldFieldList;
@@ -768,32 +794,6 @@ sub _ChangeAction {
                 PartOfSet => $PartOfSet,
             },
             UserID => $Self->{UserID},
-        );
-    }
-
-    # set specific config
-    my $FieldConfig = {
-        Tooltip    => $GetParam{Tooltip},
-        MultiValue => $GetParam{MultiValue},
-        Include    => \@Include,
-    };
-
-    # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
-    my $UpdateSuccess = $DynamicFieldObject->DynamicFieldUpdate(
-        ID         => $FieldID,
-        Name       => $GetParam{Name},
-        Label      => $GetParam{Label},
-        FieldOrder => $GetParam{FieldOrder},
-        FieldType  => $DynamicFieldData->{FieldType},
-        ObjectType => $DynamicFieldData->{ObjectType},
-        Config     => $FieldConfig,
-        ValidID    => $GetParam{ValidID},
-        UserID     => $Self->{UserID},
-    );
-
-    if ( !$UpdateSuccess ) {
-        return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not update the field %s', $GetParam{Name} ),
         );
     }
 
