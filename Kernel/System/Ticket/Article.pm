@@ -21,7 +21,12 @@ use warnings;
 
 use parent qw(Kernel::System::EventHandler);
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -69,8 +74,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
@@ -628,10 +632,11 @@ sub ArticleAccountedTimeGet {
         Bind => [ \$Param{ArticleID} ],
     );
 
+    # Sum the result rows, even if usually there is only one row.
     my $AccountedTime = 0;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Row[0] =~ s/,/./g;
-        $AccountedTime = $AccountedTime + $Row[0];
+    while ( my ($TimeUnit) = $DBObject->FetchrowArray ) {
+        $TimeUnit =~ s/,/./g;
+        $AccountedTime += $TimeUnit;
     }
 
     return $AccountedTime;
