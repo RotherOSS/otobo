@@ -230,11 +230,14 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
     TargetNS.DynamicFieldClone = function() {
         $('.DynamicFieldClone').on('click', function (Event) {
 
+            // get field order
+            var FieldOrder = parseInt($('#MaxFieldOrder').val(), 10) + 1;
+
             // don't interfere with MasterAction
             Event.stopPropagation();
             Event.preventDefault();
 
-            window.location = $(this).attr('href');
+            window.location = $(this).attr('href') + ';FieldOrder=' + FieldOrder;
 
             return false;
         });

@@ -70,7 +70,7 @@ sub Run {
         if ( IsHashRefWithData($FieldConfig) ) {
 
             # copy standard stuff
-            for my $Key (qw(ObjectType FieldType FieldOrder Label Name ValidID)) {
+            for my $Key (qw(ObjectType FieldType Label Name ValidID)) {
                 $Param{$Key} = $FieldConfig->{$Key};
             }
 
