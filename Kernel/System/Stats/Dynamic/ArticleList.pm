@@ -1430,7 +1430,8 @@ sub GetStatTable {
             # get articles created newer than xxxx-xx-xx xx:xx date
             if ( defined $Param{Restrictions}->{ArticleCreateTimeNewerDate} ) {
 
-                $Article{CreateTime} =~ m/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/;
+                # only consider articles where the create time can be checked
+                next METAARTICLE unless $Article{CreateTime} =~ m/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/;
 
                 # convert param date to system time
                 my $ArticleTime = $Kernel::OM->Create(
@@ -1453,7 +1454,8 @@ sub GetStatTable {
             # get articles created newer than xxxx-xx-xx xx:xx date
             if ( defined $Param{Restrictions}->{ArticleCreateTimeOlderDate} ) {
 
-                $Article{CreateTime} =~ m/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/;
+                # only consider articles where the create time can be checked
+                next METAARTICLE unless $Article{CreateTime} =~ m/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/;
 
                 # convert param date to system time
                 my $ArticleTime = $Kernel::OM->Create(
