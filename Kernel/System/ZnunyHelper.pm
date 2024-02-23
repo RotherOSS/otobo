@@ -685,9 +685,7 @@ sub _DefaultColumnsEnable {
     }
 
     VIEW:
-    for my $View (%ScreenConfig) {
-
-        next VIEW if !IsHashRefWithData( $ScreenConfig{$View} );
+    for my $View ( sort keys %ScreenConfig ) {
 
         my $FrontendPath = $View;
 
@@ -826,9 +824,7 @@ sub _DefaultColumnsDisable {
     my %ScreenConfig = %Param;
 
     VIEW:
-    for my $View (%ScreenConfig) {
-
-        next VIEW if !IsHashRefWithData( $ScreenConfig{$View} );
+    for my $View ( sort keys %ScreenConfig ) {
 
         my $FrontendPath = $View;
 

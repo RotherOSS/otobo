@@ -194,7 +194,7 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    for my $Setting ( %{ $Test->{Settings} } ) {
+    for my $Setting ( keys %{ $Test->{Settings} } ) {
         $Kernel::OM->Get('Kernel::Config')->Set(
             Key   => $Setting,
             Value => $Test->{Settings}->{$Setting},

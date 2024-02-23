@@ -279,8 +279,7 @@ sub Run {
     if ( IsHashRefWithData($PreviewArticleSenderTypes) ) {
 
         KEY:
-        for my $Key ( %{$PreviewArticleSenderTypes} ) {
-            next KEY if !$PreviewArticleSenderTypes->{$Key};
+        for my $Key ( keys %{$PreviewArticleSenderTypes} ) {
 
             my $ID = $ArticleObject->ArticleSenderTypeLookup( SenderType => $Key );
             if ($ID) {
