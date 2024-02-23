@@ -2418,81 +2418,76 @@ sub PackageBuild {
     TAG:
     for my $Item (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
 
-        if ( ref $Param{$Item} ne 'HASH' ) {
-            next TAG;
-        }
+        next TAG unless $Param{$Item} eq 'HASH';
 
         for my $Type ( sort keys %{ $Param{$Item} } ) {
 
-            if ( $Param{$Item}->{$Type} ) {
+            my $Counter = 1;
+            for my $Tag ( @{ $Param{$Item}->{$Type} } ) {
 
-                my $Counter = 1;
-                for my $Tag ( @{ $Param{$Item}->{$Type} } ) {
+                if ( $Tag->{TagType} eq 'Start' ) {
 
-                    if ( $Tag->{TagType} eq 'Start' ) {
+                    my $Space = '';
+                    for ( 1 .. $Counter ) {
+                        $Space .= '    ';
+                    }
+
+                    $Counter++;
+                    $XML .= $Space . "<$Tag->{Tag}";
+
+                    if ( $Tag->{TagLevel} == 3 ) {
+                        $XML .= " Type=\"$Type\"";
+                    }
+
+                    KEY:
+                    for my $Key ( sort keys %{$Tag} ) {
+
+                        next KEY if $Key eq 'Tag';
+                        next KEY if $Key eq 'Content';
+                        next KEY if $Key eq 'TagType';
+                        next KEY if $Key eq 'TagLevel';
+                        next KEY if $Key eq 'TagCount';
+                        next KEY if $Key eq 'TagKey';
+                        next KEY if $Key eq 'TagLastLevel';
+
+                        next KEY if !defined $Tag->{$Key};
+
+                        next KEY if $Tag->{TagLevel} == 3 && lc $Key eq 'type';
+
+                        $XML .= ' '
+                            . $Self->_Encode($Key) . '="'
+                            . $Self->_Encode( $Tag->{$Key} ) . '"';
+                    }
+
+                    $XML .= ">";
+
+                    if ( $Tag->{TagLevel} <= 3 || $Tag->{Tag} =~ /(Foreign|Reference|Index)/ ) {
+                        $XML .= "\n";
+                    }
+                }
+                if (
+                    defined( $Tag->{Content} )
+                    && $Tag->{TagLevel} >= 4
+                    && $Tag->{Tag} !~ /(Foreign|Reference|Index)/
+                    )
+                {
+                    $XML .= $Self->_Encode( $Tag->{Content} );
+                }
+                if ( $Tag->{TagType} eq 'End' ) {
+
+                    $Counter = $Counter - 1;
+                    if ( $Tag->{TagLevel} > 3 && $Tag->{Tag} !~ /(Foreign|Reference|Index)/ ) {
+                        $XML .= "</$Tag->{Tag}>\n";
+                    }
+                    else {
 
                         my $Space = '';
+
                         for ( 1 .. $Counter ) {
                             $Space .= '    ';
                         }
 
-                        $Counter++;
-                        $XML .= $Space . "<$Tag->{Tag}";
-
-                        if ( $Tag->{TagLevel} == 3 ) {
-                            $XML .= " Type=\"$Type\"";
-                        }
-
-                        KEY:
-                        for my $Key ( sort keys %{$Tag} ) {
-
-                            next KEY if $Key eq 'Tag';
-                            next KEY if $Key eq 'Content';
-                            next KEY if $Key eq 'TagType';
-                            next KEY if $Key eq 'TagLevel';
-                            next KEY if $Key eq 'TagCount';
-                            next KEY if $Key eq 'TagKey';
-                            next KEY if $Key eq 'TagLastLevel';
-
-                            next KEY if !defined $Tag->{$Key};
-
-                            next KEY if $Tag->{TagLevel} == 3 && lc $Key eq 'type';
-
-                            $XML .= ' '
-                                . $Self->_Encode($Key) . '="'
-                                . $Self->_Encode( $Tag->{$Key} ) . '"';
-                        }
-
-                        $XML .= ">";
-
-                        if ( $Tag->{TagLevel} <= 3 || $Tag->{Tag} =~ /(Foreign|Reference|Index)/ ) {
-                            $XML .= "\n";
-                        }
-                    }
-                    if (
-                        defined( $Tag->{Content} )
-                        && $Tag->{TagLevel} >= 4
-                        && $Tag->{Tag} !~ /(Foreign|Reference|Index)/
-                        )
-                    {
-                        $XML .= $Self->_Encode( $Tag->{Content} );
-                    }
-                    if ( $Tag->{TagType} eq 'End' ) {
-
-                        $Counter = $Counter - 1;
-                        if ( $Tag->{TagLevel} > 3 && $Tag->{Tag} !~ /(Foreign|Reference|Index)/ ) {
-                            $XML .= "</$Tag->{Tag}>\n";
-                        }
-                        else {
-
-                            my $Space = '';
-
-                            for ( 1 .. $Counter ) {
-                                $Space .= '    ';
-                            }
-
-                            $XML .= $Space . "</$Tag->{Tag}>\n";
-                        }
+                        $XML .= $Space . "</$Tag->{Tag}>\n";
                     }
                 }
             }
