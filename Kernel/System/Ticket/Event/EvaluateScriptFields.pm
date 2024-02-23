@@ -86,6 +86,7 @@ sub Run {
             DynamicFieldConfig => $DynamicField,
             ObjectID           => $Param{Data}{TicketID},
             Value              => $Result,
+            Set                => $DynamicField->{Config}{PartOfSet},
             UserID             => 1,
             Store              => 1,
         );

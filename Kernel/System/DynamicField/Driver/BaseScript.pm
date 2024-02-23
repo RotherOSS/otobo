@@ -73,6 +73,7 @@ sub new {
         'IsLikeOperatorCapable'        => 1,
         'IsScriptField'                => 1,
         'SetsDynamicContent'           => 1,
+        'IsSetCapable'                 => 1,
     };
 
     # TODO: probably needs completion for all frontends
@@ -428,28 +429,24 @@ sub EditFieldValueValidate {
         # not necessary for this Driver but place it for consistency reasons
         ReturnValueStructure => 1,
     );
+    $EditFieldValue = ref $EditFieldValue ? $EditFieldValue : [$EditFieldValue];
 
     # evaluate script field expression before validating it
-    my $EvaluatedValue = $Self->Evaluate(
+    my $EvaluatedValues = $Self->Evaluate(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Object             => {
             $Param{GetParam}->%*,
         },
     );
+    $EvaluatedValues = ref $EvaluatedValues ? $EvaluatedValues : [$EvaluatedValues];
 
     my $ServerError;
     my $ErrorMessage;
 
-    # transform scalar values to array ref for iteration
-    if ( !$Param{DynamicFieldConfig}{Config}{MultiValue} ) {
-        $EditFieldValue = [$EditFieldValue];
-        $EvaluatedValue = [$EvaluatedValue];
-    }
-
     # perform necessary validations
-    for my $Index ( 0 .. $#{$EvaluatedValue} ) {
+    for my $Index ( 0 .. $#{$EvaluatedValues} ) {
 
-        my $CurrentValue = $EvaluatedValue->[$Index];
+        my $CurrentValue = $EvaluatedValues->[$Index];
 
         if ( $Param{Mandatory} && $CurrentValue eq '' ) {
             $ServerError  = 1;
@@ -1103,6 +1100,7 @@ sub GetFieldState {
         },
     );
 
+    # TODO check if we need to walk over indices
     # do nothing if nothing changed
     return () if !$Self->ValueIsDifferent(
         DynamicFieldConfig => $DynamicFieldConfig,
@@ -1111,7 +1109,7 @@ sub GetFieldState {
     );
 
     return (
-        NewValue => $NewValue,
+        NewValue => $NewValue->[0],
     );
 }
 
