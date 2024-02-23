@@ -66,16 +66,13 @@ sub Evaluate {
 
     my %DynamicFields = ref $Param{Object}{DynamicField} eq 'HASH' ? $Param{Object}{DynamicField}->%* : ();
 
-    my $Value = $Kernel::OM->Create('Kernel::Output::HTML::Layout')->Output(
+    return $Kernel::OM->Create('Kernel::Output::HTML::Layout')->Output(
         Template => $Param{DynamicFieldConfig}{Config}{Expression},
         Data     => {
             $Param{Object}->%*,
             %DynamicFields,
         },
     );
-
-    $Value = $Param{DynamicFieldConfig}{Config}{PartOfSet} ? [$Value] : $Value;
-    return $Value;
 }
 
 1;

@@ -381,7 +381,6 @@ sub EditFieldValueGet {
         && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
         )
     {
-        $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
             my @Data;
@@ -432,21 +431,21 @@ sub EditFieldValueValidate {
     $EditFieldValue = ref $EditFieldValue ? $EditFieldValue : [$EditFieldValue];
 
     # evaluate script field expression before validating it
-    my $EvaluatedValues = $Self->Evaluate(
+    my $EvaluatedValue = $Self->Evaluate(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Object             => {
             $Param{GetParam}->%*,
         },
     );
-    $EvaluatedValues = ref $EvaluatedValues ? $EvaluatedValues : [$EvaluatedValues];
+    $EvaluatedValue = ref $EvaluatedValue ? $EvaluatedValue : [$EvaluatedValue];
 
     my $ServerError;
     my $ErrorMessage;
 
     # perform necessary validations
-    for my $Index ( 0 .. $#{$EvaluatedValues} ) {
+    for my $Index ( 0 .. $#{$EvaluatedValue} ) {
 
-        my $CurrentValue = $EvaluatedValues->[$Index];
+        my $CurrentValue = $EvaluatedValue->[$Index];
 
         if ( $Param{Mandatory} && $CurrentValue eq '' ) {
             $ServerError  = 1;
@@ -1109,7 +1108,7 @@ sub GetFieldState {
     );
 
     return (
-        NewValue => $NewValue->[0],
+        NewValue => $NewValue,
     );
 }
 
