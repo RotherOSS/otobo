@@ -2422,7 +2422,7 @@ sub PackageBuild {
             next TAG;
         }
 
-        for my $Type ( sort %{ $Param{$Item} } ) {
+        for my $Type ( sort keys %{ $Param{$Item} } ) {
 
             if ( $Param{$Item}->{$Type} ) {
 
