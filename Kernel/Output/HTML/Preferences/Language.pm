@@ -57,12 +57,14 @@ sub Param {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get names of languages in English
-    my %DefaultUsedLanguages = %{ $ConfigObject->Get('DefaultUsedLanguages') || {} };
+    my %DefaultUsedLanguages = ( $ConfigObject->Get('DefaultUsedLanguages') || {} )->%*;
 
     # get native names of languages
     my %DefaultUsedLanguagesNative = %{ $ConfigObject->Get('DefaultUsedLanguagesNative') || {} };
 
     my %Languages;
+    my $UserLanguage        = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage};
+    my $ReferenceDataObject = $Kernel::OM->Get('Kernel::System::ReferenceData');
     LANGUAGEID:
     for my $LanguageID ( sort keys %DefaultUsedLanguages ) {
 
@@ -76,8 +78,18 @@ sub Param {
         my $TextEnglish = $DefaultUsedLanguages{$LanguageID}       || '';
 
         # translate to current user's language
-        my $TextTranslated =
-            $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate($TextEnglish);
+        my $TextTranslated;
+        if ( $ConfigObject->Get('ReferenceData::TranslatedLanguageNames') ) {
+            $TextTranslated = $Kernel::OM->Get('Kernel::System::ReferenceData')->LanguageCode2Name(
+                LanguageCode => $LanguageID,
+                Language     => $UserLanguage,
+            );
+        }
+
+        # fall back to the default translation
+        $TextTranslated //= $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate(
+            $TextEnglish
+        );
 
         if ( $TextTranslated && $TextTranslated ne $Text ) {
             $Text .= ' - ' . $TextTranslated;
@@ -110,9 +122,9 @@ sub Param {
             Data       => \%Languages,
             HTMLQuote  => 0,
             SelectedID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UserLanguage' )
-                || $Param{UserData}->{UserLanguage}
-                || $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage}
-                || $ConfigObject->Get('DefaultLanguage'),
+            || $Param{UserData}->{UserLanguage}
+            || $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage}
+            || $ConfigObject->Get('DefaultLanguage'),
             Block => 'Option',
             Class => 'W70pc',
             Max   => 200,

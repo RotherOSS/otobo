@@ -3105,6 +3105,13 @@ You can log in via the following URL:
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
+    <Setting Name="ReferenceData::TranslatedLanguageNames" Required="0" Valid="0">
+        <Description Translatable="1">Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.</Description>
+        <Navigation>Core::ReferenceData</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
     <Setting Name="PerformanceLog" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.</Description>
         <Navigation>Core::PerformanceLog</Navigation>

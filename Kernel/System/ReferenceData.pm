@@ -23,7 +23,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use Try::Tiny  qw(try);
+use Try::Tiny qw(try);
 
 # CPAN modules
 use Locale::Country qw(all_country_names code2country country2code);
@@ -260,6 +260,50 @@ sub CountryCode2Name {
     # Fall back to Locale::Country when Locale::CLDR is not available.
     # The names will be in English
     return code2country($Code);
+}
+
+=head1 LanguageCode2Name()
+
+Get a translated language name for a language code.
+
+    my $LanguageName = $ReferenceDataObject->LanguageCode2Name(
+        LanguageCode => 'hu',
+        Language     => 'de',
+    );
+
+Returns:
+
+    $LanuguageName = 'ungarisch';
+
+=cut
+
+sub LanguageCode2Name {
+    my ( $Self, %Param ) = @_;
+
+    my ($Code) = $Param{LanguageCode} =~ m/^([a-z]{2})/;
+
+    return unless defined $Code;
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # No fallback when Locale::CLDR is not available
+    return unless $MainObject->Require('Locale::CLDR');
+
+    # The target language
+    my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
+
+    # No fallback when the language pack is not available
+
+    return unless $MainObject->Require( 'Locale::CLDR::Locales::' . ucfirst($LanguageID) );
+
+    my $Locale = try {
+        Locale::CLDR->new( language_id => $LanguageID );
+    };
+
+    # no fall back to English
+    return unless $Locale;
+
+    return $Locale->language_name($Code);
 }
 
 1;

@@ -369,6 +369,77 @@ SKIP:
         'German CLDR country list',
     );
 
+    subtest 'default language names in hungarian' => sub {
+        my %DefaultUsedLanguages = ( $ConfigObject->Get('DefaultUsedLanguages') || {} )->%*;
+        my $NumLanguages         = keys %DefaultUsedLanguages;
+        ok( $NumLanguages >= 50, 'got language list from SysConfig' );
+
+        # Testing with Hungarian, region is ignored
+        my %LanguageNameInHungarian = (
+            ar_SA   => "arab",
+            bg      => "bolg\xE1r",
+            ca      => "katal\xE1n",
+            cs      => "cseh",
+            da      => "d\xE1n",
+            de      => "n\xE9met",
+            el      => "g\xF6r\xF6g",
+            en      => "angol",
+            en_CA   => "angol",
+            en_GB   => "angol",
+            es      => "spanyol",
+            es_CO   => "spanyol",
+            es_MX   => "spanyol",
+            et      => "\xE9szt",
+            fa      => "perzsa",
+            fi      => "finn",
+            fr      => "francia",
+            fr_CA   => "francia",
+            gl      => "gallego",
+            he      => "h\xE9ber",
+            hi      => "hindi",
+            hr      => "horv\xE1t",
+            hu      => "magyar",
+            id      => "indon\xE9z",
+            it      => "olasz",
+            ja      => "jap\xE1n",
+            ko      => "koreai",
+            lt      => "litv\xE1n",
+            lv      => "lett",
+            mk      => "maced\xF3n",
+            ms      => "mal\xE1j",
+            nb_NO   => "norv\xE9g (bokm\xE5l)",
+            nl      => "holland",
+            pl      => "lengyel",
+            pt      => "portug\xE1l",
+            pt_BR   => "portug\xE1l",
+            ro      => "rom\xE1n",
+            ru      => "orosz",
+            sk_SK   => "szlov\xE1k",
+            sl      => "szlov\xE9n",
+            sr_Cyrl => "szerb",
+            sr_Latn => "szerb",
+            sv      => "sv\xE9d",
+            sw      => "szuah\xE9li",
+            th_TH   => "thai",
+            tr      => "t\xF6r\xF6k",
+            uk      => "ukr\xE1n",
+            vi_VN   => "vietn\xE1mi",
+            zh_CN   => "k\xEDnai",
+            zh_TW   => "k\xEDnai",
+        );
+
+        for my $LanguageCode ( sort keys %DefaultUsedLanguages ) {
+            my $LanguageName = $ReferenceDataObject->LanguageCode2Name(
+                LanguageCode => $LanguageCode,
+                Language     => 'hu',
+            );
+            is(
+                $LanguageName,
+                $LanguageNameInHungarian{$LanguageCode},
+                "$LanguageCode in hungarian"
+            );
+        }
+    }
 }
 
 done_testing;
