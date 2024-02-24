@@ -23,6 +23,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
+use Try::Tiny  qw(try);
 
 # CPAN modules
 use Locale::Country qw(all_country_names code2country country2code);
@@ -167,12 +168,12 @@ sub CLDRCountryList {
     if ( $MainObject->Require('Locale::CLDR') ) {
 
         my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
-        my $Locale     = eval {
+        my $Locale     = try {
             Locale::CLDR->new( language_id => $LanguageID );
         };
 
         # fall back to English
-        $Locale ||= eval {
+        $Locale ||= try {
             Locale::CLDR->new( language_id => 'en' );
         };
         if ($Locale) {
@@ -244,12 +245,12 @@ sub CountryCode2Name {
 
     if ( $MainObject->Require('Locale::CLDR') ) {
         my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
-        my $Locale     = eval {
+        my $Locale     = try {
             Locale::CLDR->new( language_id => $LanguageID );
         };
 
         # fall back to English
-        $Locale ||= eval {
+        $Locale ||= try {
             Locale::CLDR->new( language_id => 'en' );
         };
 
