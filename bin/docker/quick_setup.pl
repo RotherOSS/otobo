@@ -76,7 +76,8 @@ Also set up the the Elasticsearch webservice.
 
 =item add-admin-user
 
-Add the admin I<admin> with the name I<Andy Admin>.
+Add the admin I<admin> with the name I<Andy Admin>. This user will be a member
+of the groups I<admin>, I<stats>, and I<users>.
 
 =item add-customer-user
 
@@ -101,17 +102,17 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
 # core modules
-use Getopt::Long;
-use Pod::Usage qw(pod2usage);
-use Sub::Util qw(subname);
+use Getopt::Long qw(GetOptions);
+use Pod::Usage   qw(pod2usage);
+use Sub::Util    qw(subname);
 
 # CPAN modules
-use Path::Class qw(file dir);
-use DBI;
+use Path::Class qw(dir);
+use DBI         ();
 use Const::Fast qw(const);
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 sub Main {
     my $HelpFlag;                      # print help
@@ -124,7 +125,7 @@ sub Main {
     my $AddCalendar           = 0;     # must be explicitly enabled
     my $ActivateSyncWithS3    = 0;     # activate S3 in the SysConfig, still experimental
 
-    Getopt::Long::GetOptions(
+    GetOptions(
         'help'                   => \$HelpFlag,
         'db-password=s'          => \$DBPassword,
         'http-port=i'            => \$HTTPPort,
@@ -838,7 +839,7 @@ sub AddAdminUser {
 
     # do we have an admin group ?
     my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-    for my $Group (qw(admin users)) {
+    for my $Group (qw(admin stats users)) {
         my $GroupID = $GroupObject->GroupLookup(
             Group => $Group,
         );
