@@ -206,35 +206,38 @@ feature 'div:cldr', 'Support for feature div:cldr' => sub {
     # localisation from the CLDR project
     requires 'Locale::CLDR', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::De', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Ar', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Nb', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::De', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Es', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Es', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Zh', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Fr', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Pt', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Hu', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ar', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Ko', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Hu', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Nb', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Sr', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Pt', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ko', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Ru', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ru', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Sr', '>= 0.40.0';
+
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Zh', '>= 0.40.0';
 
 };
 
@@ -428,35 +431,38 @@ feature 'optional', 'Support for feature optional' => sub {
     # module for manipulating .po entries
     requires 'Locale::PO';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::De', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Ar', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Nb', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::De', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Es', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Es', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Zh', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Fr', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Pt', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Hu', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ar', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Ko', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Hu', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Nb', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Sr', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Pt', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ko', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Ru', '>= 0.40.0';
 
-    # localisation from the CLDR project
-    requires 'Locale::CLDR::Locales::Ru', '>= 0.34.4';
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Sr', '>= 0.40.0';
+
+    # language packs from the CLDR project
+    requires 'Locale::CLDR::Locales::Zh', '>= 0.40.0';
 
 };
 
