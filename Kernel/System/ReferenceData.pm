@@ -243,11 +243,6 @@ sub CountryCode2Name {
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     if ( $MainObject->Require('Locale::CLDR') ) {
-
-        # TODO: check the version
-        # Locale::CLDR prior to 0.34.4 had a problem with recursion.
-        # See https://github.com/ThePilgrim/perlcldr/issues/41
-
         my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
         my $Locale     = eval {
             Locale::CLDR->new( language_id => $LanguageID );

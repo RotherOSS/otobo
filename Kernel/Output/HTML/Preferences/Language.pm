@@ -16,9 +16,17 @@
 
 package Kernel::Output::HTML::Preferences::Language;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -26,14 +34,14 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::AuthSession',
+    'Kernel::System::ReferenceData',
 );
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     for my $Needed (qw(UserID UserObject ConfigItem)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
@@ -75,27 +83,27 @@ sub Param {
             $Text .= ' - ' . $TextTranslated;
         }
 
-        # next language if there is not set English nor native name of language.
-        next LANGUAGEID if !$Text;
+        # next language if there is neither English nor native name of language set.
+        next LANGUAGEID unless $Text;
 
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $LanguageID,
         );
-        next LANGUAGEID if !$LanguageObject;
+
+        next LANGUAGEID unless $LanguageObject;
 
         my $Completeness = $LanguageObject->{Completeness};
 
         # mark all languages with < 25% coverage as "in process" (not for en_ variants).
         if ( defined $Completeness && $Completeness < 0.25 && $LanguageID !~ m{^en_}smx ) {
-            $Text
-                .= ' ' . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate('(in process)');
+            $Text .= ' ' . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate('(in process)');
         }
+
+        # This will be used in the selection
         $Languages{$LanguageID} = $Text;
     }
 
-    my @Params;
-    push(
-        @Params,
+    return
         {
             %Param,
             Name       => $Self->{ConfigItem}->{PrefKey},
@@ -108,9 +116,7 @@ sub Param {
             Block => 'Option',
             Class => 'W70pc',
             Max   => 200,
-        },
-    );
-    return @Params;
+        };
 }
 
 sub Run {
@@ -140,6 +146,7 @@ sub Run {
         }
     }
     $Self->{Message} = Translatable('Preferences updated successfully!');
+
     return 1;
 }
 
