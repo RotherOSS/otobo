@@ -687,6 +687,8 @@ sub _DefaultColumnsEnable {
     VIEW:
     for my $View ( sort keys %ScreenConfig ) {
 
+        next VIEW unless IsHashRefWithData( $ScreenConfig{$View} );
+
         my $FrontendPath = $View;
 
         if (
@@ -825,6 +827,8 @@ sub _DefaultColumnsDisable {
 
     VIEW:
     for my $View ( sort keys %ScreenConfig ) {
+
+        next VIEW unless IsHashRefWithData( $ScreenConfig{$View} );
 
         my $FrontendPath = $View;
 
