@@ -76,7 +76,8 @@ Also set up the the Elasticsearch webservice.
 
 =item add-admin-user
 
-Add the admin I<admin> with the name I<Andy Admin>.
+Add the admin I<admin> with the name I<Andy Admin>. This user will be a member
+of the groups I<admin>, I<stats>, and I<users>.
 
 =item add-customer-user
 
@@ -838,7 +839,7 @@ sub AddAdminUser {
 
     # do we have an admin group ?
     my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-    for my $Group (qw(admin users)) {
+    for my $Group (qw(admin stats users)) {
         my $GroupID = $GroupObject->GroupLookup(
             Group => $Group,
         );
