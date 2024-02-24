@@ -1214,13 +1214,13 @@ my @NeededModules = (
 # Add CLDR language packs. It is not decided yet whether all 50 languages are added.
 # So let's first go for the languages that have a translation quote of more than 80%.
 # See https://translate.otobo.org/projects/otobo10/otobo/.
-for my $Code (qw(De Nb Es Zh Pt Ar Hu Sr Ko Ru)) {
+for my $Code (qw(Ar De Es Fr Hu Ko Nb Pt Ru Sr Zh)) {
     push @NeededModules,
         {
             Module          => "Locale::CLDR::Locales::$Code",
             Features        => ['div:cldr'],
-            VersionRequired => '>= 0.34.4',
-            Comment         => 'localisation from the CLDR project',
+            VersionRequired => '>= 0.40.0',
+            Comment         => 'language packs from the CLDR project',
             InstTypes       => {
                 aptget => undef,    # not in any Debian package
                 emerge => undef,
