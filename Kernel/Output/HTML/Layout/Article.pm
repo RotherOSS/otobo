@@ -18,6 +18,13 @@ package Kernel::Output::HTML::Layout::Article;
 
 use strict;
 use warnings;
+use namespace::autoclean;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
