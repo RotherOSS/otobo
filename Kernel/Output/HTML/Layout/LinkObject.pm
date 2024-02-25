@@ -109,10 +109,6 @@ sub LinkObjectTableCreateComplex {
     # get log object
     my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
-    # create new instance of the layout object
-    my $LayoutObject  = Kernel::Output::HTML::Layout->new( %{$Self} );
-    my $LayoutObject2 = Kernel::Output::HTML::Layout->new( %{$Self} );
-
     # check needed stuff
     for my $Argument (qw(LinkListWithData ViewMode)) {
         if ( !$Param{$Argument} ) {
@@ -378,12 +374,12 @@ sub LinkObjectTableCreateComplex {
         }
     }
 
-    # # create new instance of the layout object
-    # my $LayoutObject  = Kernel::Output::HTML::Layout->new( %{$Self} );
-    # my $LayoutObject2 = Kernel::Output::HTML::Layout->new( %{$Self} );
+    # create new instances of the layout object
+    my $LayoutObject1 = Kernel::Output::HTML::Layout->new( %{$Self} );
+    my $LayoutObject2 = Kernel::Output::HTML::Layout->new( %{$Self} );
 
     # output the table complex block
-    $LayoutObject->Block(
+    $LayoutObject1->Block(
         Name => 'TableComplex',
     );
 
@@ -424,7 +420,7 @@ sub LinkObjectTableCreateComplex {
         next BLOCK if !@{ $Block->{ItemList} };
 
         # output the block
-        $LayoutObject->Block(
+        $LayoutObject1->Block(
             Name => 'TableComplexBlock',
             Data => {
                 BlockDescription => $BlockDescription,
@@ -449,7 +445,7 @@ sub LinkObjectTableCreateComplex {
                 $SourceObjectData = "<input type='hidden' name='$Block->{ObjectName}' value='$Block->{ObjectID}' />";
             }
 
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'ContentLargePreferences',
                 Data => {
                     Name => $Block->{Blockname},
@@ -463,16 +459,16 @@ sub LinkObjectTableCreateComplex {
 
             # Add translations for the allocation lists for regular columns.
             for my $Column ( @{ $Block->{AllColumns} } ) {
-                $LayoutObject->AddJSData(
+                $LayoutObject1->AddJSData(
                     Key   => 'Column' . $Column->{ColumnName},
-                    Value => $LayoutObject->{LanguageObject}->Translate( $Column->{ColumnTranslate} ),
+                    Value => $LayoutObject1->{LanguageObject}->Translate( $Column->{ColumnTranslate} ),
                 );
             }
 
             # Prepare LinkObjectTables for JS config.
             push @LinkObjectTables, $Block->{Blockname};
 
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'ContentLargePreferencesForm',
                 Data => {
                     Name     => $Block->{Blockname},
@@ -480,7 +476,7 @@ sub LinkObjectTableCreateComplex {
                 },
             );
 
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => $Preferences{Name} . 'PreferencesItem' . $Preferences{Block},
                 Data => {
                     %Preferences,
@@ -500,7 +496,7 @@ sub LinkObjectTableCreateComplex {
         for my $HeadlineColumn ( @{ $Block->{Headline} } ) {
 
             # output a headline column block
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'TableComplexBlockColumn',
                 Data => $HeadlineColumn,
             );
@@ -510,7 +506,7 @@ sub LinkObjectTableCreateComplex {
         for my $Row ( @{ $Block->{ItemList} } ) {
 
             # output a table row block
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'TableComplexBlockRow',
             );
 
@@ -524,7 +520,7 @@ sub LinkObjectTableCreateComplex {
                 );
 
                 # output a table column block
-                $LayoutObject->Block(
+                $LayoutObject1->Block(
                     Name => 'TableComplexBlockRowColumn',
                     Data => {
                         %{$Column},
@@ -537,11 +533,11 @@ sub LinkObjectTableCreateComplex {
         if ( $Param{ViewMode} eq 'ComplexAdd' ) {
 
             # output the action row block
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'TableComplexBlockActionRow',
             );
 
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'TableComplexBlockActionRowBulk',
                 Data => {
                     Name        => Translatable('Bulk'),
@@ -550,7 +546,7 @@ sub LinkObjectTableCreateComplex {
             );
 
             # output the footer block
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'TableComplexBlockFooterAdd',
                 Data => {
                     LinkTypeStrg => $Param{LinkTypeStrg} || '',
@@ -561,11 +557,11 @@ sub LinkObjectTableCreateComplex {
         elsif ( $Param{ViewMode} eq 'ComplexDelete' ) {
 
             # output the action row block
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'TableComplexBlockActionRow',
             );
 
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'TableComplexBlockActionRowBulk',
                 Data => {
                     Name        => Translatable('Bulk'),
@@ -574,14 +570,14 @@ sub LinkObjectTableCreateComplex {
             );
 
             # output the footer block
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'TableComplexBlockFooterDelete',
             );
         }
         else {
 
             # output the footer block
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'TableComplexBlockFooterNormal',
             );
         }
@@ -591,12 +587,12 @@ sub LinkObjectTableCreateComplex {
     }
 
     # Send LinkObjectTables to JS.
-    $LayoutObject->AddJSData(
+    $LayoutObject1->AddJSData(
         Key   => 'LinkObjectTables',
         Value => \@LinkObjectTables,
     );
 
-    return $LayoutObject->Output(
+    return $LayoutObject1->Output(
         TemplateFile => 'LinkObject',
         AJAX         => $Param{AJAX},
     );
@@ -659,7 +655,7 @@ sub LinkObjectTableCreateSimple {
     return %OutputData if $Param{ViewMode} && $Param{ViewMode} eq 'SimpleRaw';
 
     # create new instance of the layout object
-    my $LayoutObject  = Kernel::Output::HTML::Layout->new( %{$Self} );
+    my $LayoutObject1 = Kernel::Output::HTML::Layout->new( %{$Self} );
     my $LayoutObject2 = Kernel::Output::HTML::Layout->new( %{$Self} );
 
     my $Count = 0;
@@ -668,7 +664,7 @@ sub LinkObjectTableCreateSimple {
 
         # output the table simple block
         if ( $Count == 1 ) {
-            $LayoutObject->Block(
+            $LayoutObject1->Block(
                 Name => 'TableSimple',
             );
         }
@@ -678,7 +674,7 @@ sub LinkObjectTableCreateSimple {
         my $LinkTypeName = $TypeList{ $LinkData[0] }->{ $LinkData[1] . 'Name' };
 
         # output the type block
-        $LayoutObject->Block(
+        $LayoutObject1->Block(
             Name => 'TableSimpleType',
             Data => {
                 LinkTypeName => $LinkTypeName,
@@ -700,7 +696,7 @@ sub LinkObjectTableCreateSimple {
                 );
 
                 # output the type block
-                $LayoutObject->Block(
+                $LayoutObject1->Block(
                     Name => 'TableSimpleTypeRow',
                     Data => {
                         %{$Item},
@@ -713,13 +709,13 @@ sub LinkObjectTableCreateSimple {
 
     # show no linked object available
     if ( !$Count ) {
-        $LayoutObject->Block(
+        $LayoutObject1->Block(
             Name => 'TableSimpleNone',
             Data => {},
         );
     }
 
-    return $LayoutObject->Output(
+    return $LayoutObject1->Output(
         TemplateFile => 'LinkObject',
     );
 }
