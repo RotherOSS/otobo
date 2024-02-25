@@ -15,6 +15,13 @@ package Kernel::Output::HTML::Layout::Znuny4OTOBORepo;
 
 use strict;
 use warnings;
+use namespace::autoclean;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -26,8 +33,6 @@ Kernel::Output::HTML::Layout::Znuny4OTOBORepo - Znuny4OTOBORepo lib
 
     # No instances of this class should be created directly.
     # Instead the module is loaded implicitly by Kernel::Output::HTML::Layout
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 =head1 PUBLIC INTERFACE

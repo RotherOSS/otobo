@@ -18,7 +18,13 @@ package Kernel::Output::HTML::Layout::AJAX;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::JSON ();
 
 our $ObjectManagerDisabled = 1;

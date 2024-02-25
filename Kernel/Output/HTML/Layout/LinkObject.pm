@@ -18,6 +18,7 @@ package Kernel::Output::HTML::Layout::LinkObject;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 

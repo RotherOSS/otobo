@@ -22,6 +22,12 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
