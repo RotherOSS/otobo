@@ -27,6 +27,12 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::Output::HTML::Layout::AJAX - all AJAX-related HTML functions
 
+=head1 SYNOPSIS
+
+    # No instances of this class should be created directly.
+    # Instead the module is loaded implicitly by Kernel::Output::HTML::Layout
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
 =head1 DESCRIPTION
 
 All AJAX-related HTML functions
