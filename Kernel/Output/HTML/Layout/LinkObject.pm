@@ -815,18 +815,13 @@ sub LinkObjectSelectableObjectList {
         unshift @SelectableObjectList, \%BlankLine;
     }
 
-    # create new instance of the layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
     # create target object string
-    my $TargetObjectStrg = $LayoutObject->BuildSelection(
+    return $Self->BuildSelection(
         Data     => \@SelectableObjectList,
         Name     => 'TargetIdentifier',
         Class    => 'Modernize',
         TreeView => 1,
     );
-
-    return $TargetObjectStrg;
 }
 
 =head2 LinkObjectSearchOptionList()

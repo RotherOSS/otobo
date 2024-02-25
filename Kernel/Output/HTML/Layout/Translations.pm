@@ -16,8 +16,11 @@
 
 package Kernel::Output::HTML::Layout::Translations;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -56,8 +59,6 @@ create a simple output table
 sub TranslationsTableCreate {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
     # check needed stuff
     if ( !$Param{Data} || ref $Param{Data} ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -73,14 +74,14 @@ sub TranslationsTableCreate {
 
     # show no data found table
     if ( !int( @{ $Param{Data}->{Values} } ) ) {
-        $LayoutObject->Block(
+        $Self->Block(
             Name => 'NoDataFoundMsg',
             Data => {},
         );
     }
     else {
         for my $Item ( sort { lc( $$a{Content} ) cmp lc( $$b{Content} ) } @{ $Param{Data}->{Values} } ) {
-            $LayoutObject->Block(
+            $Self->Block(
                 Name => 'TableDataContent',
                 Data => {
                     ID      => $Item->{ID},
@@ -91,7 +92,7 @@ sub TranslationsTableCreate {
         }
     }
 
-    return $LayoutObject->Output(
+    return $Self->Output(
         TemplateFile => 'Translations/TranslationsTable',
         Data         => {
             ItemCount   => int( @{ $Param{Data}->{Values} } ),
@@ -115,8 +116,6 @@ create fields for translations
 sub TranslationsDynamicField {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
     # check needed stuff
     if ( !$Param{Data} || ref $Param{Data} ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -126,7 +125,7 @@ sub TranslationsDynamicField {
         return;
     }
 
-    my $DynamicFieldStrg = $LayoutObject->BuildSelection(
+    my $DynamicFieldStrg = $Self->BuildSelection(
         Data         => $Param{Data}->{PossibleValues},
         Name         => $Param{Data}->{Name},
         SelectedID   => 0,
@@ -137,7 +136,7 @@ sub TranslationsDynamicField {
     );
 
     # show data
-    $LayoutObject->Block(
+    $Self->Block(
         Name => 'DynamicField',
         Data => {
             Name             => $Param{Data}->{Name},
@@ -145,7 +144,7 @@ sub TranslationsDynamicField {
         }
     );
 
-    return $LayoutObject->Output(
+    return $Self->Output(
         TemplateFile => 'Translations/TranslationsDynamicField',
         Data         => {
             Object => $Param{Data}->{Object}
@@ -166,8 +165,6 @@ create fields for translations
 sub TranslationsGeneral {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
     # check needed stuff
     if ( !$Param{Data} || ref $Param{Data} ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -184,7 +181,7 @@ sub TranslationsGeneral {
     }
 
     # show data
-    $LayoutObject->Block(
+    $Self->Block(
         Name => 'General',
         Data => {
             ID       => $Param{Data}->{ID} || '',
@@ -195,7 +192,7 @@ sub TranslationsGeneral {
         }
     );
 
-    return $LayoutObject->Output(
+    return $Self->Output(
         TemplateFile => 'Translations/TranslationsGeneral',
         Data         => {}
     );

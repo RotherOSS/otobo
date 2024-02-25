@@ -431,14 +431,14 @@ sub AgentQueueListOption {
                 Priority => 'error',
                 Message  => 'Need Depend Param Ajax option!',
             );
-            $Self->FatalError();
+            $Self->FatalError;
         }
         if ( !$Param{Ajax}->{Update} ) {
             $LogObject->Log(
                 Priority => 'error',
                 Message  => 'Need Update Param Ajax option()!',
             );
-            $Self->FatalError();
+            $Self->FatalError;
         }
         $Param{OnChange} = "Core.AJAX.FormUpdate(\$('#"
             . $Param{Name} . "'), '"
@@ -750,17 +750,14 @@ sub TicketListShow {
         }
     }
 
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    $LayoutObject->AddJSData(
+    $Self->AddJSData(
         Key   => 'View',
         Value => $View,
     );
 
     # load overview backend module
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $Backends->{$View}->{Module} ) ) {
-        return $Env->{LayoutObject}->FatalError();
+        return $Self->FatalError;
     }
     my $Object = $Backends->{$View}->{Module}->new( %{$Env} );
     return if !$Object;
@@ -844,7 +841,7 @@ sub TicketListShow {
             Name => 'OverviewNavBarPageBack',
             Data => \%Param,
         );
-        $LayoutObject->AddJSData(
+        $Self->AddJSData(
             Key   => 'Profile',
             Value => $Param{Profile},
         );
