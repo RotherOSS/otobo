@@ -25,6 +25,12 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::Output::HTML::Layout::Popup - CSS/JavaScript
 
+=head1 SYNOPSIS
+
+    # No instances of this class should be created directly.
+    # Instead the module is loaded implicitly by Kernel::Output::HTML::Layout
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
 =head1 DESCRIPTION
 
 All valid functions.
