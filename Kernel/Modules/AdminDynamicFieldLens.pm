@@ -141,7 +141,10 @@ sub _Add {
             }
 
             # iterate over special stuff and copy in-depth content as flat list
+            CONFIGKEY:
             for my $ConfigKey ( keys $FieldConfig->{Config}->%* ) {
+                next CONFIGKEY if $ConfigKey eq 'PartOfSet';
+
                 my $DFDetails = $FieldConfig->{Config};
                 if ( $ConfigKey eq 'ReferenceDF' || $ConfigKey eq 'AttributeDF' ) {
                     my $FieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
