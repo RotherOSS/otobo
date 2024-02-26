@@ -158,8 +158,6 @@ $Selenium->RunTest(
         );
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPriority;IncludeInvalid=1");
-
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('tr.Invalid td a:contains($RandomID)').length"
         );

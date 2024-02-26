@@ -191,8 +191,6 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminTemplate;IncludeInvalid=1");
-
         # Test search filter.
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys($TemplateRandomID);
@@ -226,7 +224,7 @@ $Selenium->RunTest(
         );
 
         # Go back to AdminTemplate overview screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminTemplate;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminTemplate");
 
         # Test template delete button.
         my $TemplateID = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateLookup(

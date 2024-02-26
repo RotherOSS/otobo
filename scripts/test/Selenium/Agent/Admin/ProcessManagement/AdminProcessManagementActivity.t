@@ -152,7 +152,7 @@ $Selenium->RunTest(
         my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;
 
         # Navigate to AdminProcessManagement screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
         # Set process to inactive.
         $Selenium->find_element( $ProcessRandom, 'link_text' )->VerifiedClick();
@@ -161,8 +161,6 @@ $Selenium->RunTest(
             Value   => 'S2',
         );
         $Selenium->execute_script("\$('#Submit').click()");
-
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement;IncludeInvalid=1");
 
         # Test search filter.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Filter").length' );

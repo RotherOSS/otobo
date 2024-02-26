@@ -150,8 +150,6 @@ $Selenium->RunTest(
             );
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAutoResponse;IncludeInvalid=1");
-
             # Check if test auto response show on AdminAutoResponse screen.
             is(
                 $Selenium->execute_script(
@@ -200,8 +198,6 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAutoResponse;IncludeInvalid=1");
-
         # Check if edited auto response show on AdminAutoResponse.
         is(
             $Selenium->execute_script(
@@ -221,7 +217,7 @@ $Selenium->RunTest(
         );
 
         # Navigate to AdminAutoResponse screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAutoResponse;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAutoResponse");
 
         # Filter auto responses.
         $Selenium->find_element( "#FilterAutoResponses", 'css' )->clear();

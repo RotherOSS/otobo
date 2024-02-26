@@ -173,8 +173,6 @@ $Selenium->RunTest(
         );
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation;IncludeInvalid=1");
-
         # Check edited Salutation.
         $Selenium->find_element( $SalutationRandomID, 'link_text' )->VerifiedClick();
 
@@ -195,7 +193,7 @@ $Selenium->RunTest(
         );
 
         # Go back to AdminSalutation overview screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation");
 
         # Check class of invalid Salutation in the overview table.
         $Self->True(

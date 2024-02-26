@@ -302,8 +302,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemAddress;IncludeInvalid=1");
-
         # Check class of invalid SystemAddress in the overview table.
         $Self->True(
             $Selenium->execute_script(

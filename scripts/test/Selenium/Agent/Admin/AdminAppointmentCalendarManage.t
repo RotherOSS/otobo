@@ -100,9 +100,6 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
 
-        # Refresh screen to display invalid calendars
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentCalendarManage;IncludeInvalid=1");
-
         # Verify download and copy-to-clipboard links.
         for my $Class (qw(DownloadLink CopyToClipboard)) {
 
@@ -184,9 +181,6 @@ $Selenium->RunTest(
         $Selenium->find_element( '#SearchParam_1_Title',            'css' )->send_keys('Test*');
         $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
 
-        # Refresh screen to display invalid calendars
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentCalendarManage;IncludeInvalid=1");
-
         # Filter added calendars.
         $Selenium->find_element( 'input#FilterCalendars', 'css' )->send_keys($RandomID);
         $Selenium->WaitFor(
@@ -258,9 +252,6 @@ $Selenium->RunTest(
         $Selenium->find_element( '.RemoveButton', 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && !\$('#QueueID_1').length" );
         $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
-
-        # Refresh screen to display invalid calendars
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentCalendarManage;IncludeInvalid=1");
 
         # Verify the calendar is invalid temporarily.
         $Selenium->find_element( 'input#FilterCalendars', 'css' )->clear();

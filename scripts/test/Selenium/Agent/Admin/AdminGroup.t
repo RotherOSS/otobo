@@ -173,7 +173,7 @@ $Selenium->RunTest(
         );
 
         # Go back to overview.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup");
 
         # Try to change the name of the admin group and see if validation kicks in.
         $Selenium->find_element( 'admin',      'link_text' )->VerifiedClick();
@@ -197,7 +197,7 @@ $Selenium->RunTest(
             JavaScript => 'return typeof($) === "function" && !$(".Dialog:visible").length'
         );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup");
 
         # Check link to AdminGroup from AdminUserGroup.
         $Selenium->find_element( $GroupName, 'link_text' )->VerifiedClick();
@@ -252,7 +252,7 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup");
 
         # Check class of invalid Group in the overview table.
         $Self->True(

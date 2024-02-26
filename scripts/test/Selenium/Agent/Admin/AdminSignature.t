@@ -186,8 +186,6 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSignature;IncludeInvalid=1");
-
         # Check class of invalid Signature in the overview table.
         $Self->True(
             $Selenium->execute_script(

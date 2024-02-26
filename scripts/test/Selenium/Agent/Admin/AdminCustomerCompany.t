@@ -216,8 +216,6 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerCompany;IncludeInvalid=1");
-
         # Test search filter.
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);

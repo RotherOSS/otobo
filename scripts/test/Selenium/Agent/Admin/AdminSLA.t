@@ -154,8 +154,6 @@ $Selenium->RunTest(
         );
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSLA;IncludeInvalid=1");
-
         # Check class of invalid SLA in the overview table.
         $Self->True(
             $Selenium->execute_script(

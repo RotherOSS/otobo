@@ -309,7 +309,7 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUser;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUser");
 
         # Test search filter.
         $Selenium->find_element( "#Search",           'css' )->clear();

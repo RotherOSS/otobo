@@ -60,7 +60,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminDynamicField screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
 
         # Create and edit Ticket and Article DynamicFieldDropdown.
         for my $Type (qw(Ticket Article)) {
@@ -164,8 +164,6 @@ $Selenium->RunTest(
             # Submit form.
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
-
             # Check for test DynamicFieldDropdown on AdminDynamicField screen.
             $Self->True(
                 index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -192,8 +190,6 @@ $Selenium->RunTest(
                 Value   => 2,
             );
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
-
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
 
             # Check new and edited DynamicFieldDropdown values.
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();

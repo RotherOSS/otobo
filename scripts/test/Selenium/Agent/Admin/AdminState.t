@@ -215,8 +215,6 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" &&  $(".DataTable").length;' );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminState;IncludeInvalid=1");
-
         # Check class of invalid state in the overview table.
         $Self->True(
             $Selenium->execute_script(
