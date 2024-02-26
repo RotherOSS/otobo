@@ -110,7 +110,7 @@ sub new {
 
     for (
         qw(To Cc Bcc Subject Body InReplyTo References ComposeStateID IsVisibleForCustomerPresent
-        IsVisibleForCustomer ArticleID TimeUnits Year Month Day Hour Minute FormID FormDraftID Title)
+        IsVisibleForCustomer ArticleID TimeUnits Year Month Day Hour Minute FormDraftID Title)
         )
     {
         my $Value = $ParamObject->GetParam( Param => $_ );
@@ -124,10 +124,11 @@ sub new {
     # ACL compatibility translation
     $Self->{ACLCompatGetParam}->{NextStateID} = $Self->{GetParam}->{ComposeStateID};
 
-    # create form id
-    if ( !$Self->{GetParam}->{FormID} ) {
-        $Self->{GetParam}->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
+    # Get form ID.
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+        ParamObject  => $ParamObject,
+        LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+    );
 
     return $Self;
 }
@@ -1415,8 +1416,8 @@ sub SendEmail {
         }
     }
 
-    # remove pre-submitted attachments
-    $UploadCacheObject->FormIDRemove( FormID => $GetParam{FormID} );
+    # remove all form data
+    $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{FormID} );
 
     # If form was called based on a draft,
     #   delete draft since its content has now been used.

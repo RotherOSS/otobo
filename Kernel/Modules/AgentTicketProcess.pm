@@ -353,12 +353,10 @@ sub Run {
     }
 
     # get form id
-    $Self->{FormID} = $ParamObject->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+        ParamObject  => $ParamObject,
+        LayoutObject => $LayoutObject,
+    );
 
     # if we have no subaction display the process list to start a new one
     if ( !$Self->{Subaction} ) {
@@ -5526,8 +5524,8 @@ sub _StoreActivityDialog {
                     );
                 }
 
-                # Remove pre submitted attachments.
-                $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
+                # remove all form data
+                $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{FormID} );
 
                 # time accounting
                 if ( $Param{GetParam}->{TimeUnits} ) {
