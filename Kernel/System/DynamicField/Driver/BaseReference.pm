@@ -972,6 +972,17 @@ sub PossibleValuesGet {
         %Param,
     );
 
+    # if we are in an edit mask, FormID and SessionID will be provided by the LayoutObject
+    # in this case we store the possible values for later verification
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    if ( $LayoutObject->{FormID} && $LayoutObject->{SessionID} ) {
+        $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+            LayoutObject => $LayoutObject,
+            Key          => 'PossibleValues_DynamicField_' . $Param{DynamicFieldConfig}{Name},
+            Value        => \@SearchResult,
+        );
+    }
+
     for my $ResultItem (@SearchResult) {
         my %ItemDescription = $Self->ObjectDescriptionGet(
             DynamicFieldConfig => $Param{DynamicFieldConfig},

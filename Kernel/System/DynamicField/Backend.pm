@@ -3025,6 +3025,7 @@ This is used in auto completion when searching for possible object IDs.
         MaxResults         => $MaxResults,
         UserID             => 1,
         ParamObject        => $ParamObject,
+        LayoutObject       => $LayoutObject,
     );
 
 =cut
@@ -3033,7 +3034,7 @@ sub SearchObjects {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig)) {
+    for my $Needed (qw(DynamicFieldConfig ParamObject LayoutObject)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -3048,7 +3049,17 @@ sub SearchObjects {
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( $Self->{$DynamicFieldBackend}->can('SearchObjects') ) {
-        return $Self->{$DynamicFieldBackend}->SearchObjects(%Param);
+        my @ObjectIDs = $Self->{$DynamicFieldBackend}->SearchObjects(%Param);
+
+        # store all possible values for this field and form id for later verification
+        $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+            LayoutObject => $Param{LayoutObject},
+            FormID       => $Param{ParamObject}->GetParam( Param => 'FormID' ),
+            Key          => 'PossibleValues_DynamicField_' . $Param{DynamicFieldConfig}{Name},
+            Value        => \@ObjectIDs,
+        );
+
+        return @ObjectIDs;
     }
 
     return;

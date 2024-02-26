@@ -664,21 +664,37 @@ sub GetFieldState {
         )
         )
     {
-        # if this field is non ACL reducible, set the field values
-        if ( !$IsACLReducible ) {
-            return (
-                NewValue => $AttributeFieldValue,
-            );
+        my $ReferenceDFName = $DynamicFieldConfig->{Config}{ReferenceDFName};
+
+        # if the value would change, we need to verify that the user is really allowed 
+        # to access the provided referenced object via this form
+        # this is the case if either the referenced object was shown via a search (1)
+        # or is currently stored for the edited ticket/ci/... (2)
+        my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+            LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+            Key          => 'PossibleValues_DynamicField_' . $ReferenceDFName,
+        );
+
+        my $Allowed = 0;
+        if ( $LastSearchResults ) {
+            # if a search has already been performed for this form id
+            $Allowed = grep { $_ eq $DFParam->{ $ReferenceDFName } } $LastSearchResults->@* ? 1 : 0;
+        }
+        else {
+            # if no search has been performed yet, the database value for the referenced object is also valid
+            # TODO
         }
 
-        $Return{NewValue} = $AttributeFieldValue;
+        if ( $Allowed ) {
+            $Return{NewValue} = $AttributeFieldValue;
 
-        # already write the new value to DFParam, for possible values check further down
-        $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $AttributeFieldValue;
+            # already write the new value to DFParam, for possible values check further down
+            $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $AttributeFieldValue;
+        }
     }
-    else {
-        return () if !$IsACLReducible;
-    }
+
+    # if this field is non ACL reducible, set the field values
+    return %Return if !$IsACLReducible;
 
     # get possible values if ACLReducible
     # this is what the FieldRestrictions object would do for other fields

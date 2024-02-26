@@ -1477,7 +1477,7 @@
     <Column Name="session_id" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="data_key" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="data_value" Required="false" Size="10000" Type="VARCHAR"/>
-    <Column Name="serialized" Required="true" Type="SMALLINT"/>
+    <Column Name="serialized" Required="false" Type="SMALLINT"/>
     <Index Name="sessions_session_id_data_key">
         <IndexColumn Name="session_id"/>
         <IndexColumn Name="data_key"/>
@@ -1642,6 +1642,20 @@
     <Column Name="process_host" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="process_create" Required="true" Type="INTEGER"/>
     <Column Name="process_change" Required="true" Type="INTEGER"/>
+</Table>
+
+<!-- form_cache -->
+<Table Name="form_cache">
+    <Column Name="session_id" Required="true" Size="191" Type="VARCHAR"/>
+    <Column Name="form_id" Required="true" Size="191" Type="VARCHAR"/>
+    <Column Name="cache_key" Required="true" Size="382" Type="VARCHAR"/>
+    <Column Name="cache_value" Required="false" Type="LONGBLOB"/>
+    <Column Name="serialized" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Index Name="session_id_form_id">
+        <IndexColumn Name="session_id" Size="32"/>
+        <IndexColumn Name="form_id" Size="32"/>
+    </Index>
 </Table>
 
 <!-- web_upload_cache -->
