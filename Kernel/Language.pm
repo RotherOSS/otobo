@@ -52,6 +52,7 @@ All language functions.
 create a language object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::Language' => {
             UserLanguage => 'de',
@@ -253,6 +254,8 @@ sub new {
 =head2 Translatable()
 
 this is a no-op to mark a text as translatable in the Perl code.
+
+Returns the first parameter.
 
 =cut
 
