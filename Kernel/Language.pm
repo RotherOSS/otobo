@@ -27,7 +27,7 @@ use Digest::MD5 qw(md5_hex);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::DateTime;
+use Kernel::System::DateTime qw(OTOBOTimeZoneGet);
 
 our @EXPORT_OK = qw(Translatable);    ## no critic qw(OTOBO::RequireCamelCase)
 
@@ -86,7 +86,7 @@ sub new {
     }
 
     # take time zone
-    $Self->{TimeZone} = $Param{UserTimeZone} || $Param{TimeZone} || Kernel::System::DateTime->OTOBOTimeZoneGet();
+    $Self->{TimeZone} = $Param{UserTimeZone} || $Param{TimeZone} || OTOBOTimeZoneGet();
 
     # Debug
     if ( $Self->{Debug} > 0 ) {
@@ -368,7 +368,7 @@ sub FormatTimeString {
         if (
             $Config ne 'DateFormatShort'
             && $Self->{TimeZone}
-            && $Self->{TimeZone} ne Kernel::System::DateTime->OTOBOTimeZoneGet()
+            && $Self->{TimeZone} ne OTOBOTimeZoneGet()
             )
         {
             return $ReturnString . " ($Self->{TimeZone})";
