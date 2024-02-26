@@ -133,11 +133,7 @@ sub EditSectionRender {
         my %Row = @_;
 
         # prepare row block
-        my $RowReadonly;
         {
-            # set complete row read only, if one element is
-            $RowReadonly = ( first { $_->{Readonly} } $Row{Fields}->@* ) ? 1 : 0;
-
             # special treatment for separate dynamic fields based on first field TODO: maybe discard?
             my $RowBlockName = $Param{SeparateDynamicFields} && $Param{SeparateDynamicFields}->{ $Row{Fields}[0]{DF} }
                 ? 'Row_DynamicField_' . $Row{Fields}[0]{DF} : 'Row_DynamicField';
@@ -159,20 +155,6 @@ sub EditSectionRender {
                     RowClasses      => $RowClassString,
                 },
             );
-        }
-
-        # in case of multirow and multivalue, get the largest multi value size
-        my $MultiValueMaxCount = 0;
-        if ( $Row{Columns} > 1 && first { $Param{DynamicFields}{ $_->{DF} }{Config}{MultiValue} } $Row{Fields}->@* ) {
-            for my $Field ( $Row{Fields}->@* ) {
-                my $DFName = "DynamicField_$Field->{DF}";
-                if ( !ref $Param{DynamicFieldValues}{$DFName} ) {
-                    $MultiValueMaxCount ||= $Param{DynamicFieldValues}{$DFName} ? 1 : 0;
-                }
-                elsif ( scalar $Param{DynamicFieldValues}{$DFName}->@* > $MultiValueMaxCount ) {
-                    $MultiValueMaxCount = scalar $Param{DynamicFieldValues}{$DFName}->@*;
-                }
-            }
         }
 
         # prepare dynamic field HTML and positioning
@@ -220,22 +202,6 @@ sub EditSectionRender {
                 %Error = $Param{Errors}{ $Field->{DF} }->%*;
             }
 
-            # fill dynamic field values with empty strings until it matches the maximum value count
-            if ( $MultiValueMaxCount && $DynamicField->{Config}{MultiValue} ) {
-                if ( !defined $Param{DynamicFieldValues}{$DFName} ) {
-                    $Param{DynamicFieldValues}{$DFName} = [];
-                }
-                elsif ( !ref $Param{DynamicFieldValues}{$DFName} ) {
-                    $Param{DynamicFieldValues}{$DFName} = [ $Param{DynamicFieldValues}{$DFName} ];
-                }
-
-                if ( scalar $Param{DynamicFieldValues}{$DFName}->@* < $MultiValueMaxCount ) {
-
-                    # TODO: Respect default values here and in the template
-                    push $Param{DynamicFieldValues}{$DFName}->@*, ('') x ( $MultiValueMaxCount - scalar $Param{DynamicFieldValues}{$DFName}->@* );
-                }
-            }
-
             # get field html
             my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
                 DynamicFieldConfig   => $DynamicField,
@@ -279,8 +245,8 @@ sub EditSectionRender {
                 CellStyle   => $CellStyle,
                 Tooltip     => $DynamicField->{Config}{Tooltip},
                 MultiValue  => $DynamicField->{Config}{MultiValue},
-                RowReadonly => $RowReadonly,
                 CellClasses => $CellClassString,
+                Readonly    => $Field->{Readonly},
             );
 
             # multi value

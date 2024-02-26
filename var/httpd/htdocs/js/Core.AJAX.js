@@ -598,9 +598,6 @@ Core.AJAX = (function (TargetNS) {
                             $('[name=' + FieldInfo[0] + ']').trigger('redraw.InputField');
                         }
                     });
-                    if ( $FieldRow.hasClass('MultiColumn') ) {
-                        Core.UI.InputFields.HideMultiAddRemoveButtons( $FieldRow );
-                    }
                 }
             }
         }
