@@ -2750,7 +2750,7 @@ Core.UI.InputFields = (function (TargetNS) {
      * Initialize a multi-value cell.
      *
      * @param {JQuery} $Cell - the jQuery element representing the cell
-     * @return {void} 
+     * @return {void}
      */
     function InitMultiValueCell( $Cell ) {
 
@@ -2831,7 +2831,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 $TemplateCell = $(this);
             };
         });
-                                
+
         var $NewCell = $TemplateCell.clone().addClass('FieldCell');
 
         // standard multivalue field
@@ -2851,7 +2851,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 }
             });*/
         }
-        
+
         //shift ValueRowIndex of all following cells in this column
         $Cell.siblings('.FieldCell').each( function () {
             let $FollowingCell = $(this);
@@ -3059,7 +3059,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
         let ValueRowIndex = MultiValueClass.split('_')[1];
         var ValueColumnIndex = $Cell.css('grid-column').split(' ')[0];
-        return { Row: Number(ValueRowIndex), Column: Number(ValueColumnIndex) };                        
+        return { Row: Number(ValueRowIndex), Column: Number(ValueColumnIndex) };
     }
 
 
@@ -3067,7 +3067,7 @@ Core.UI.InputFields = (function (TargetNS) {
      * DynamicFieldInit function initializes dynamic fields in the given cell.
      *
      * @param {JQuery} $Cell - the cell to initialize dynamic fields in
-     * @return {void} 
+     * @return {void}
      */
     function DynamicFieldInit( $Cell ) {
         // DatabaseDynamicField
