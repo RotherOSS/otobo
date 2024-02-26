@@ -21,8 +21,6 @@ use warnings;
 
 our $ObjectManagerDisabled = 1;
 
-use List::Util qw(any);
-
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 
