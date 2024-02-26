@@ -58,7 +58,7 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
      *      Redirect to URL based on DynamicField config.
      */
     TargetNS.Redirect = function(FieldType, ObjectType, OptionData) {
-        var DynamicFieldsConfig, Action, URL, FieldOrder, ObjectTypeFilter, NamespaceFilter, IncludeInvalid;
+        var DynamicFieldsConfig, Action, URL, FieldOrder, ObjectTypeFilter, NamespaceFilter;
 
         // get configuration
         DynamicFieldsConfig = Core.Config.Get('DynamicFields');
@@ -75,9 +75,6 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         // get namespace filter
         NamespaceFilter = $("#DynamicFieldNamespace").val();
 
-        // get include invalid
-        IncludeInvalid = $("#IncludeInvalid").is(':checked') ? 1 : 0;
-
         // redirect to correct url
         URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder;
         if ( ObjectTypeFilter ) {
@@ -85,9 +82,6 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         }
         if ( NamespaceFilter ) {
             URL += ';NamespaceFilter=' + encodeURIComponent(NamespaceFilter);
-        }
-        if ( IncludeInvalid ) {
-            URL += ';IncludeInvalid=' + encodeURIComponent(IncludeInvalid);
         }
 
         // some options have additional associated data
