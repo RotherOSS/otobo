@@ -1660,13 +1660,19 @@ sub IsTimeZoneValid {
 
 =head2 OTOBOTimeZoneGet()
 
-Returns the time zone set for OTOBO.
+Returns the time zone set for OTOBO in the SysConfig. The default is C<'UTC'>.
 
-    my $OTOBOTimeZone = $DateTimeObject->OTOBOTimeZoneGet();
+    my $OTOBOTimeZone = $DateTimeObject->OTOBOTimeZoneGet;
 
-You can also call this method without an object:
+You can also call this subroutine without an object:
 
-    my $OTOBOTimeZone = Kernel::System::DateTime->OTOBOTimeZoneGet();
+    my $OTOBOTimeZone = Kernel::System::DateTime->OTOBOTimeZoneGet;
+
+Importing this subroutine is also supported:
+
+   use Kernel::System::DateTime qw(OTOBOTimeZone);
+
+    my $OTOBOTimeZone = OTOBOTimeZoneGet();
 
 Returns:
 
