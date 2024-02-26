@@ -30,6 +30,11 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Storable',
+    'Kernel::System::Web::UploadCache',
 );
 
 =head1 NAME
@@ -38,7 +43,7 @@ Kernel::System::Web::FormCache - a cache which stores relevant form data
 
 =head1 DESCRIPTION
 
-All form data which has to be stored server side, except the upload cache. 
+All form data which has to be stored server side, except the upload cache.
 
 =head1 PUBLIC INTERFACE
 
@@ -75,8 +80,8 @@ sub PrepareFormID {
     my ( $Self, %Param ) = @_;
 
     # check required params
-    for my $Needed ( qw/LayoutObject ParamObject/ ){
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/LayoutObject ParamObject/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
@@ -110,8 +115,8 @@ sub GetFormData {
     my ( $Self, %Param ) = @_;
 
     # check required params
-    for my $Needed ( qw/LayoutObject/ ){
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/LayoutObject/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
@@ -152,9 +157,10 @@ sub GetFormData {
 
     ROW:
     while ( my @Row = $DBObject->FetchrowArray() ) {
+
         # unserialized values can be handled directly
         if ( !$Row[2] ) {
-            $FormData{$Row[0]} = $Row[1];
+            $FormData{ $Row[0] } = $Row[1];
 
             next ROW;
         }
@@ -166,7 +172,7 @@ sub GetFormData {
 
         $EncodeObject->EncodeOutput( \$Value );
 
-        $FormData{$Row[0]} = $Value;
+        $FormData{ $Row[0] } = $Value;
     }
 
     $Self->{Cache}{$SessionID}{$FormID} = \%FormData;
@@ -192,8 +198,8 @@ sub SetFormData {
     my ( $Self, %Param ) = @_;
 
     # check required params
-    for my $Needed ( qw/LayoutObject Key/ ){
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/LayoutObject Key/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
@@ -230,6 +236,7 @@ create a new Form ID - usually this will be called by PrepareFormID() rather tha
 =cut
 
 sub FormIDCreate {
+
     # return a new form id - this is also used by Web::UploadCache
     return time() . '.' . rand(12341241);
 }
@@ -268,14 +275,13 @@ sub FormIDRemove {
 
     if ( $Param{SessionID} ) {
         push @SQLWhere, 'session_id = ?';
-        push @Bind, \$Param{SessionID};
+        push @Bind,     \$Param{SessionID};
     }
 
     if ( $Param{FormID} ) {
         push @SQLWhere, 'form_id = ?';
-        push @Bind, \$Param{FormID};
+        push @Bind,     \$Param{FormID};
     }
-
 
     my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => 'DELETE FROM form_cache WHERE' . join( ' AND ', @SQLWhere ),
@@ -330,10 +336,10 @@ sub DESTROY {
                 push @KeysToDelete, $Key;
 
                 # undefined values will just be deleted
-                next KEY if !defined $Data->{ $Key };
+                next KEY if !defined $Data->{$Key};
 
                 my $Serialized = 0;
-                my $Value      = $Data->{ $Key };
+                my $Value      = $Data->{$Key};
                 if ( ref $Value ) {
                     $Value = encode_base64(
                         $StorableObject->Serialize( Data => $Value )
