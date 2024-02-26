@@ -31,6 +31,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -39,8 +48,18 @@ sub Run {
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    $Self->{Subaction}     = $ParamObject->GetParam( Param => 'Subaction' )      || '';
-    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     my $ACLID = $ParamObject->GetParam( Param => 'ID' ) || '';
 
@@ -564,7 +583,7 @@ sub Run {
         }
 
         # return to overview
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};IncludeInvalid=$Param{IncludeInvalid}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -608,7 +627,7 @@ sub _ShowOverview {
     my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidLookup = reverse %ValidList;
     my @ValidIDs    = ( $ValidLookup{'valid'}, $ValidLookup{'invalid-temporarily'} );
-    if ( $Param{IncludeInvalid} ) {
+    if ( $Self->{IncludeInvalid} ) {
         push @ValidIDs, $ValidLookup{'invalid'};
     }
 
@@ -639,7 +658,6 @@ sub _ShowOverview {
                 Name => 'ACLRow',
                 Data => {
                     %{$ACLData},
-                    IncludeInvalid => $Param{IncludeInvalid},
                 },
             );
         }
@@ -653,7 +671,7 @@ sub _ShowOverview {
         );
     }
 
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminACL',

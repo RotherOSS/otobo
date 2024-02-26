@@ -30,6 +30,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -40,7 +49,17 @@ sub Run {
     my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
 
-    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     # ------------------------------------------------------------ #
     # change
@@ -195,9 +214,7 @@ sub Run {
                 UserID => $Self->{UserID}
             );
             if ($AutoResponseID) {
-                $Self->_Overview(
-                    IncludeInvalid => $Param{IncludeInvalid},
-                );
+                $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $LayoutObject->Notify( Info => Translatable('Auto Response added!') );
@@ -231,9 +248,7 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview(
-            IncludeInvalid => $Param{IncludeInvalid},
-        );
+        $Self->_Overview();
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Output(
@@ -333,7 +348,7 @@ sub _Overview {
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
 
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -348,7 +363,7 @@ sub _Overview {
         Data => \%Param,
     );
     my %List = $AutoResponseObject->AutoResponseList(
-        Valid => $Param{IncludeInvalid} ? 0 : 1,
+        Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
 
     # if there are any results, they are shown

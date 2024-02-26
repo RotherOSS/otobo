@@ -32,6 +32,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -50,7 +59,17 @@ sub Run {
     my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
     my $Search       = $ParamObject->GetParam( Param => 'Search' )       || '';
 
-    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     # Get list of valid IDs.
     my @ValidIDList = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
@@ -369,10 +388,7 @@ sub Run {
                     );
                 }
                 else {
-                    return $LayoutObject->Redirect(
-                        OP => 'Action=AdminUser' . ( $Param{IncludeInvalid} ? ';IncludeInvalid=1' : '' )
-                        ,
-                    );
+                    return $LayoutObject->Redirect( OP => 'Action=AdminUser' );
                 }
             }
             else {
@@ -410,8 +426,7 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         $Self->_Overview(
-            Search         => $Search,
-            IncludeInvalid => $Param{IncludeInvalid},
+            Search => $Search,
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -533,7 +548,7 @@ sub _Overview {
     # when there is no data to show, a message is displayed on the table with this colspan
     my $ColSpan = 7;
 
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -555,7 +570,7 @@ sub _Overview {
     my %List = $UserObject->UserSearch(
         Search => $Param{Search} . '*',
         Limit  => $Limit,
-        Valid  => $Param{IncludeInvalid} ? 0 : 1,
+        Valid  => $Self->{IncludeInvalid} ? 0 : 1,
     );
 
     my %ListAllItems = $UserObject->UserSearch(

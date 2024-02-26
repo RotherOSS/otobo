@@ -30,6 +30,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -44,8 +53,18 @@ sub Run {
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
     my $YAMLObject       = $Kernel::OM->Get('Kernel::System::YAML');
 
-    $Param{IncludeInvalid}        = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     # ------------------------------------------------------------ #
     # sub-action Change: load web service and show edit screen
@@ -767,7 +786,7 @@ sub _ShowOverview {
 
     # Get web services list.
     my $WebserviceList = $WebserviceObject->WebserviceList(
-        Valid => $Param{IncludeInvalid} ? 0 : 1,
+        Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
 
     # Check if no web services are registered.

@@ -43,6 +43,15 @@ sub new {
         'MIMEBase_AttachmentName',
     ];
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -111,8 +120,16 @@ sub Run {
     }
 
     # transfer param IncludeInvalid
-    $Param{IncludeInvalid}        = $GetParam{IncludeInvalid} || 0;
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    if ( defined $GetParam{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $GetParam{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $GetParam{IncludeInvalid};
+    }
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
@@ -709,7 +726,7 @@ sub _Overview {
 
     # get all calendars user has RW access to and apply valid state filter
     my @Calendars;
-    if ( $Param{IncludeInvalid} ) {
+    if ( $Self->{IncludeInvalid} ) {
         push @Calendars, $CalendarObject->CalendarList(
             UserID     => $Self->{UserID},
             Permission => 'rw',

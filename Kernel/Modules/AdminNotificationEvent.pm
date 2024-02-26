@@ -35,6 +35,15 @@ sub new {
         $Self->{LightAdmin} = 1;
     }
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -66,7 +75,17 @@ sub Run {
     my $MainObject              = $Kernel::OM->Get('Kernel::System::Main');
     my $Notification            = $ParamObject->GetParam( Param => 'Notification' );
 
-    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     # get the search article fields to retrieve values for
     my %ArticleSearchableFields     = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
@@ -575,9 +594,7 @@ sub Run {
         }
 
         if ($ID) {
-            $Self->_Overview(
-                IncludeInvalid => $Param{IncludeInvalid},
-            );
+            $Self->_Overview();
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
             $Output .= $LayoutObject->Notify( Info => Translatable('Notification added!') );
@@ -666,7 +683,7 @@ sub Run {
             return $LayoutObject->ErrorScreen();
         }
 
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};IncludeInvalid=$Param{IncludeInvalid}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -789,7 +806,7 @@ sub Run {
         }
 
         # return to overview
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};IncludeInvalid=$Param{IncludeInvalid}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -874,9 +891,7 @@ sub Run {
             };
         }
 
-        $Self->_Overview(
-            IncludeInvalid => $Param{IncludeInvalid},
-        );
+        $Self->_Overview();
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
 
@@ -902,9 +917,7 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview(
-            IncludeInvalid => $Param{IncludeInvalid},
-        );
+        $Self->_Overview();
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Notify( Info => Translatable('Notification updated!') )
@@ -1652,7 +1665,7 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -1673,7 +1686,7 @@ sub _Overview {
     my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidLookup = reverse %ValidList;
     my @ValidIDs    = ( $ValidLookup{'valid'}, $ValidLookup{'invalid-temporarily'} );
-    if ( $Param{IncludeInvalid} ) {
+    if ( $Self->{IncludeInvalid} ) {
         push @ValidIDs, $ValidLookup{'invalid'};
     }
 
@@ -1705,8 +1718,7 @@ sub _Overview {
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {
-                    Valid          => $ValidList{ $Data{ValidID} },
-                    IncludeInvalid => $Param{IncludeInvalid},
+                    Valid => $ValidList{ $Data{ValidID} },
                     %Data,
                 },
             );

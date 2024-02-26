@@ -42,6 +42,15 @@ sub new {
         ObjectType => 'CustomerCompany',
     );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     $Self->{DynamicFieldLookup} = { map { $_->{Name} => $_ } @{$DynamicFieldConfigs} };
 
     return $Self;
@@ -62,8 +71,18 @@ sub Run {
     my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
     my %GetParam;
-    $GetParam{Source}         = $ParamObject->GetParam( Param => 'Source' )         || 'CustomerCompany';
-    $GetParam{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $GetParam{Source}         = $ParamObject->GetParam( Param => 'Source' ) || 'CustomerCompany';
+    $GetParam{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $GetParam{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $GetParam{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $GetParam{IncludeInvalid};
+    }
 
     # ------------------------------------------------------------ #
     # change
@@ -779,7 +798,7 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -854,7 +873,7 @@ sub _Overview {
 
         my %List = $CustomerCompanyObject->CustomerCompanyList(
             Search => $Param{Search},
-            Valid  => $Param{IncludeInvalid} ? 0 : 1,
+            Valid  => $Self->{IncludeInvalid} ? 0 : 1,
         );
 
         if ( keys %ListAllItems > $Limit ) {

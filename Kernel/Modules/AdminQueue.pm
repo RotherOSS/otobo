@@ -32,6 +32,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -48,7 +57,17 @@ sub Run {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $QueueID     = $ParamObject->GetParam( Param => 'QueueID' ) || '';
 
-    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     my @Params = (
         qw(
@@ -327,9 +346,7 @@ sub Run {
                 # if $Note has some notify, create output with $Note
                 # otherwise redirect depending on what button ('Save' or 'Save and Finish') is clicked
                 if ( $Note ne '' ) {
-                    $Self->_Overview(
-                        IncludeInvalid => $Param{IncludeInvalid},
-                    );
+                    $Self->_Overview();
                     my $Output = $LayoutObject->Header();
                     $Output .= $LayoutObject->NavigationBar();
                     $Output .= $Note;
@@ -564,9 +581,7 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
 
-        $Self->_Overview(
-            IncludeInvalid => $Param{IncludeInvalid},
-        );
+        $Self->_Overview();
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -960,7 +975,7 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -979,7 +994,7 @@ sub _Overview {
 
     # get queue list
     my %List = $QueueObject->QueueList(
-        Valid => $Param{IncludeInvalid} ? 0 : 1,
+        Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
 
     # error handling
