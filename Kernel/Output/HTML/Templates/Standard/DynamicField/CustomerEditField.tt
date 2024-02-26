@@ -29,7 +29,7 @@
                             </div>
                         [% END %]
                         [% Data.Label %]
-                        [% IF Data.MultiValue && !Data.RowReadonly %]
+                        [% IF Data.MultiValue && !Data.Readonly %]
                         <div class="AddRemoveValueRow">
                             <a class="RemoveValueRow"><i class="ooofo ooofo-remove"></i></a>
                             <a class="AddValueRow"><i class="ooofo ooofo-add"></i></a>
