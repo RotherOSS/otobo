@@ -75,7 +75,10 @@ sub Run {
             }
 
             # iterate over special stuff and copy in-depth content as flat list
+            CONFIGKEY:
             for my $ConfigKey ( keys $FieldConfig->{Config}->%* ) {
+                next CONFIGKEY if $ConfigKey eq 'PartOfSet';
+
                 my $DFDetails = $FieldConfig->{Config};
                 if ( IsHashRefWithData( $DFDetails->{$ConfigKey} ) ) {
                     my $ConfigContent = $DFDetails->{$ConfigKey};
