@@ -313,11 +313,11 @@ sub DESTROY {
 
     SESSIONID:
     for my $SessionID ( keys $Self->{CacheUpdate}->%* ) {
-        next SESSIONID if !IsHashRefWithContent( $Self->{CacheUpdate}{$SessionID} );
+        next SESSIONID if !IsHashRefWithData( $Self->{CacheUpdate}{$SessionID} );
 
         FORMID:
         for my $FormID ( keys $Self->{CacheUpdate}{$SessionID}->%* ) {
-            next FORMID if !IsHashRefWithContent( $Self->{CacheUpdate}{$SessionID}{$FormID} );
+            next FORMID if !IsHashRefWithData( $Self->{CacheUpdate}{$SessionID}{$FormID} );
 
             # extract session data to update
             my $Data = $Self->{Cache}{$SessionID}{$FormID};
@@ -355,7 +355,7 @@ sub DESTROY {
             # store all new data
             $DBObject->DoArray(
                 SQL  => 'INSERT INTO form_cache (session_id, form_id, cache_key, cache_value, serialized, create_time) VALUES (?, ?, ?, ?, ?, current_timestamp)',
-                Bind => [ $SessionID, $FormID, $DataToStore{Keys}, $DataToStore{Values} ],
+                Bind => [ $SessionID, $FormID, $DataToStore{Keys}, $DataToStore{Values}, $DataToStore{Serialized} ],
             );
         }
     }

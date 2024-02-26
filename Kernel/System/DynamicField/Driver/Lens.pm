@@ -640,8 +640,10 @@ sub GetFieldState {
         Behavior           => 'IsACLReducible',
     );
 
+    my $ReferenceID = $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } ? $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} }[0] : undef;
+
     # get the current value of the referenced attribute field if an object is referenced
-    if ( $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } ) {
+    if ( $ReferenceID ) {
         $AttributeFieldValue = $Self->ValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
 
@@ -672,13 +674,13 @@ sub GetFieldState {
         # or is currently stored for the edited ticket/ci/... (2)
         my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
             LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
-            Key          => 'PossibleValues_DynamicField_' . $ReferenceDFName,
+            Key          => 'PossibleValues_' . $ReferenceDFName,
         );
 
         my $Allowed = 0;
         if ( $LastSearchResults ) {
             # if a search has already been performed for this form id
-            $Allowed = grep { $_ eq $DFParam->{ $ReferenceDFName } } $LastSearchResults->@* ? 1 : 0;
+            $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;
         }
         else {
             # if no search has been performed yet, the database value for the referenced object is also valid
