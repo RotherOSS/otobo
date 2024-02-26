@@ -428,7 +428,6 @@ sub EditFieldValueValidate {
         # not necessary for this Driver but place it for consistency reasons
         ReturnValueStructure => 1,
     );
-    $EditFieldValue = ref $EditFieldValue ? $EditFieldValue : [$EditFieldValue];
 
     # evaluate script field expression before validating it
     my $EvaluatedValue = $Self->Evaluate(
@@ -437,10 +436,15 @@ sub EditFieldValueValidate {
             $Param{GetParam}->%*,
         },
     );
-    $EvaluatedValue = ref $EvaluatedValue ? $EvaluatedValue : [$EvaluatedValue];
 
     my $ServerError;
     my $ErrorMessage;
+
+    # transform scalar values to array ref for iteration
+    if ( !$Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+        $EditFieldValue = [$EditFieldValue];
+        $EvaluatedValue = [$EvaluatedValue];
+    }
 
     # perform necessary validations
     for my $Index ( 0 .. $#{$EvaluatedValue} ) {
@@ -1099,7 +1103,6 @@ sub GetFieldState {
         },
     );
 
-    # TODO check if we need to walk over indices
     # do nothing if nothing changed
     return () if !$Self->ValueIsDifferent(
         DynamicFieldConfig => $DynamicFieldConfig,
