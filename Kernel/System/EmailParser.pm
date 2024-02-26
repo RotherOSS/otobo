@@ -454,18 +454,15 @@ sub GetReturnContentType {
 
 =head2 GetReturnCharset()
 
-Returns the charset of the new message body "Charset"
-(maybe the message is converted to utf-8).
+Returns the charset of the new message body "Charset".
 
     my $Charset = $ParserObject->GetReturnCharset();
 
-(e. g. 'text/plain; charset="utf-8"')
+Always returns the string C<'utf-8'>.
 
 =cut
 
 sub GetReturnCharset {
-    my $Self = shift;
-
     return 'utf-8';
 }
 
