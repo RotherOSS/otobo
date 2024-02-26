@@ -21,6 +21,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Web::FormCache',
 );
 
 =head1 NAME

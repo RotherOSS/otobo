@@ -38,6 +38,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Web::FormCache',
 );
 
 =head1 NAME

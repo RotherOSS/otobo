@@ -36,9 +36,11 @@ use Kernel::System::VariableCheck qw(IsArrayRefWithData IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::DB',
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
+    'Kernel::System::Web::FormCache',
 );
 
 =head1 NAME

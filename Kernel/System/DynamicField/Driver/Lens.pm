@@ -35,11 +35,13 @@ use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
+    'Kernel::System::Web::FormCache',
     'Kernel::System::Web::Request',
 );
 
@@ -643,7 +645,7 @@ sub GetFieldState {
     my $ReferenceID = $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } ? $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} }[0] : undef;
 
     # get the current value of the referenced attribute field if an object is referenced
-    if ( $ReferenceID ) {
+    if ($ReferenceID) {
         $AttributeFieldValue = $Self->ValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
 
@@ -668,7 +670,7 @@ sub GetFieldState {
     {
         my $ReferenceDFName = $DynamicFieldConfig->{Config}{ReferenceDFName};
 
-        # if the value would change, we need to verify that the user is really allowed 
+        # if the value would change, we need to verify that the user is really allowed
         # to access the provided referenced object via this form
         # this is the case if either the referenced object was shown via a search (1)
         # or is currently stored for the edited ticket/ci/... (2)
@@ -678,7 +680,8 @@ sub GetFieldState {
         );
 
         my $Allowed = 0;
-        if ( $LastSearchResults ) {
+        if ($LastSearchResults) {
+
             # if a search has already been performed for this form id
             $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;
         }
@@ -687,7 +690,7 @@ sub GetFieldState {
             # TODO
         }
 
-        if ( $Allowed ) {
+        if ($Allowed) {
             $Return{NewValue} = $AttributeFieldValue;
 
             # already write the new value to DFParam, for possible values check further down
