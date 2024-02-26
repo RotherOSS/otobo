@@ -262,6 +262,7 @@ sub Run {
 
         KEY:
         for my $Key ( keys %{$PreviewArticleSenderTypes} ) {
+            next KEY unless $PreviewArticleSenderTypes->{$Key};
 
             my $ID = $ArticleObject->ArticleSenderTypeLookup( SenderType => $Key );
             if ($ID) {
