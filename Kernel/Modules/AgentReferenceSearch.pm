@@ -108,6 +108,7 @@ sub Run {
         MaxResults         => $MaxResults,
         UserID             => 1,                      # TODO: what about Permission check
         ParamObject        => $ParamObject,
+        LayoutObject       => $LayoutObject,
     );
 
     my @Results;

@@ -41,13 +41,6 @@ sub new {
     return $Self;
 }
 
-sub FormIDCreate {
-    my ( $Self, %Param ) = @_;
-
-    # return requested form id
-    return time() . '.' . rand(12341241);
-}
-
 sub FormIDRemove {
     my ( $Self, %Param ) = @_;
 

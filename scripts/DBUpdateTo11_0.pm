@@ -76,6 +76,10 @@ sub Run {
             Name   => 'Add translation_item table.',
             Module => 'DBAddTranslationItem',
         },
+        {
+            Name   => 'Add form_cache table.',
+            Module => 'DBAddFormCacheTable',
+        },
     );
 
     TASK:

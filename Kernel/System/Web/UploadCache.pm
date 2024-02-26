@@ -60,7 +60,7 @@ sub new {
 
 =head2 FormIDCreate()
 
-create a new Form ID
+create a new Form ID - this method was moved to Web::FormCache
 
     my $FormID = $UploadCacheObject->FormIDCreate();
 
@@ -69,7 +69,7 @@ create a new Form ID
 sub FormIDCreate {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Backend}->FormIDCreate(%Param);
+    return $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDCreate(%Param);
 }
 
 =head2 FormIDRemove()
