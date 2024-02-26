@@ -2071,4 +2071,15 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="DynamicField::EventModulePost###300-DynamicFieldDelete" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic field event module that deletes script field events if a dynamic field of type script gets deleted.</Description>
+        <Navigation>Core::Event::Ticket</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::DynamicField::Event::DeleteScriptFieldEvents</Item>
+                <Item Key="Event">DynamicFieldDelete</Item>
+                <Item Key="Transaction">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
 </otobo_config>

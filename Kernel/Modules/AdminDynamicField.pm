@@ -103,24 +103,9 @@ sub _DynamicFieldDelete {
         UserID             => $Self->{UserID},
     );
 
-    # when deleting a script field, corresponding events need to be deleted also
-    my $EventsDeleteSuccess = 1;
-    my $IsScriptField       = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        Behavior           => 'IsScriptField',
-    );
-    if ($IsScriptField) {
-        my $DriverObject = $Kernel::OM->Get("Kernel::System::DynamicField::Driver::$DynamicFieldConfig->{FieldType}");
-
-        # calling SetUpdateEvents without param Events will delete existing events
-        $EventsDeleteSuccess = $DriverObject->SetUpdateEvents(
-            FieldID => $ID,
-        );
-    }
-
     my $Success;
 
-    if ( $ValuesDeleteSuccess && $EventsDeleteSuccess ) {
+    if ($ValuesDeleteSuccess) {
         $Success = $DynamicFieldObject->DynamicFieldDelete(
             ID     => $ID,
             UserID => $Self->{UserID},
