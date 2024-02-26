@@ -103,12 +103,10 @@ sub new {
     }
 
     # get form id
-    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+        ParamObject  => $Kernel::OM->Get('Kernel::System::Web::Request'),
+        LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+    );
 
     return $Self;
 }
@@ -1155,8 +1153,8 @@ sub Run {
             CreateUserID => $Self->{UserID},
         );
 
-        # remove pre submited attachments
-        $UploadCacheObject->FormIDRemove( FormID => $GetParam{FormID} );
+        # remove all form data
+        $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{FormID} );
 
         # If form was called based on a draft,
         #   delete draft since its content has now been used.

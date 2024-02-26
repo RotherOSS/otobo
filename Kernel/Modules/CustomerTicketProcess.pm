@@ -147,12 +147,10 @@ sub Run {
     }
 
     # get form id
-    $Self->{FormID} = $ParamObject->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+        ParamObject  => $ParamObject,
+        LayoutObject => $LayoutObject,
+    );
 
     # if invalid process is detected on a ActivityDilog popup screen show an error message
     if (
@@ -3474,8 +3472,8 @@ sub _StoreActivityDialog {
                     );
                 }
 
-                # remove pre submitted attachments
-                $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
+                # remove all form data
+                $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{FormID} );
             }
         }
 

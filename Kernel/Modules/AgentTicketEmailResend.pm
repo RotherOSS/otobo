@@ -34,12 +34,10 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # Get form ID.
-    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
-
-    # Create new form ID.
-    if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+        ParamObject  => $Kernel::OM->Get('Kernel::System::Web::Request'),
+        LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+    );
 
     return $Self;
 }
@@ -679,8 +677,8 @@ sub Run {
             );
         }
 
-        # Remove pre-submitted attachments.
-        $UploadCacheObject->FormIDRemove( FormID => $GetParam{FormID} );
+        # remove all form data
+        $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{FormID} );
 
         # Load new URL in parent window and close popup.
         return $LayoutObject->PopupClose(

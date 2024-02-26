@@ -172,12 +172,10 @@ sub new {
     }
 
     # get form id
-    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+        ParamObject  => $Kernel::OM->Get('Kernel::System::Web::Request'),
+        LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+    );
 
     # methods which are used to determine the possible values of the standard fields
     $Self->{FieldMethods} = [
@@ -1302,8 +1300,8 @@ sub Run {
                 );
             }
 
-            # remove pre submitted attachments
-            $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
+            # remove all form data
+            $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{FormID} );
 
             # delete hidden fields cache
             $Kernel::OM->Get('Kernel::System::Cache')->Delete(

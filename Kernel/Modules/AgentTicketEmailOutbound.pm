@@ -171,12 +171,18 @@ sub Run {
                 NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
                 Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
                 TypeID ServiceID SLAID Expand ReplyToArticle StandardTemplateID CreateArticle
-                FormID ElementChanged
+                ElementChanged
             )
             )
         {
             $GetParam{$Key} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Key );
         }
+
+        # get form id
+        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+            ParamObject  => $Kernel::OM->Get('Kernel::System::Web::Request'),
+            LayoutObject => $LayoutObject,
+        );
 
         my %Ticket       = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
         my $CustomerUser = $Ticket{CustomerUserID};
@@ -1516,8 +1522,8 @@ sub SendEmail {
         }
     }
 
-    # remove pre-submitted attachments
-    $UploadCacheObject->FormIDRemove( FormID => $GetParam{FormID} );
+    # remove all form data
+    $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{FormID} );
 
     # If form was called based on a draft,
     #   delete draft since its content has now been used.
