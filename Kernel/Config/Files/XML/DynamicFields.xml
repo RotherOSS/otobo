@@ -2082,35 +2082,13 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="DynamicField::EventModulePost###400-UpdateSetFieldIncludedFieldsOnAdd" Required="0" Valid="1">
-        <Description Translatable="1">Dynamic field event module that updates PartOfSet attributes of included fields if a set dynamic field gets added.</Description>
+    <Setting Name="DynamicField::EventModulePost###400-UpdateSetFieldInclusions" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic field event module that updates PartOfSet attributes of fields which are included in a set.</Description>
         <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::DynamicField::Event::UpdateSetFieldIncludedFields</Item>
-                <Item Key="Event">DynamicFieldAdd</Item>
-                <Item Key="Transaction">1</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="DynamicField::EventModulePost###500-UpdateSetFieldIncludedFieldsOnDelete" Required="0" Valid="1">
-        <Description Translatable="1">Dynamic field event module that updates PartOfSet attributes of included fields if a set dynamic field gets deleted.</Description>
-        <Navigation>Core::Event::Ticket</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="Module">Kernel::System::DynamicField::Event::UpdateSetFieldIncludedFields</Item>
-                <Item Key="Event">DynamicFieldDelete</Item>
-                <Item Key="Transaction">1</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="DynamicField::EventModulePost###600-UpdateSetFieldIncludedFieldsOnUpdate" Required="0" Valid="1">
-        <Description Translatable="1">Dynamic field event module that updates PartOfSet attributes of included fields if a set dynamic field gets updated.</Description>
-        <Navigation>Core::Event::Ticket</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="Module">Kernel::System::DynamicField::Event::UpdateSetFieldIncludedFields</Item>
-                <Item Key="Event">DynamicFieldUpdate</Item>
+                <Item Key="Event">DynamicFieldAdd|DynamicFieldDelete|DynamicFieldUpdate</Item>
                 <Item Key="Transaction">1</Item>
             </Hash>
         </Value>
