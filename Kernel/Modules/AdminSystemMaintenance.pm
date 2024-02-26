@@ -31,6 +31,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -44,8 +53,19 @@ sub Run {
 
     my $SystemMaintenanceID = $ParamObject->GetParam( Param => 'SystemMaintenanceID' ) || '';
     my $WantSessionID       = $ParamObject->GetParam( Param => 'WantSessionID' )       || '';
-    $Param{IncludeInvalid}        = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     my $SessionVisibility = 'Collapsed';
 
@@ -437,7 +457,7 @@ sub Run {
                 ),
             );
         }
-        return $LayoutObject->Redirect( OP => "Action=AdminSystemMaintenance;IncludeInvalid=$Param{IncludeInvalid}" );
+        return $LayoutObject->Redirect( OP => "Action=AdminSystemMaintenance" );
 
     }
 
@@ -449,7 +469,7 @@ sub Run {
         my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
         my %ValidLookup = reverse %ValidList;
         my @ValidIDs    = $ValidLookup{'valid'};
-        if ( $Param{IncludeInvalid} ) {
+        if ( $Self->{IncludeInvalid} ) {
             push @ValidIDs, ( $ValidLookup{'invalid'}, $ValidLookup{'invalid-temporarily'} );
         }
 
@@ -491,7 +511,6 @@ sub Run {
                     Name => 'ViewRow',
                     Data => {
                         %{$SystemMaintenance},
-                        IncludeInvalid => $Param{IncludeInvalid},
                     },
                 );
             }

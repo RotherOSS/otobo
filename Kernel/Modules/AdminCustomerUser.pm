@@ -38,6 +38,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         ObjectType => 'CustomerUser',
     );
@@ -56,7 +65,17 @@ sub Run {
     my $Nav            = $ParamObject->GetParam( Param => 'Nav' )    || '';
     my $Source         = $ParamObject->GetParam( Param => 'Source' ) || 'CustomerUser';
     my $Search         = $ParamObject->GetParam( Param => 'Search' );
-    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $IncludeInvalid ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $IncludeInvalid,
+        );
+
+        $Self->{IncludeInvalid} = $IncludeInvalid;
+    }
     $Search
         ||= $ConfigObject->Get('AdminCustomerUser::RunInitialWildcardSearch') ? '*' : '';
 
@@ -186,9 +205,8 @@ sub Run {
     # search user list
     if ( $Self->{Subaction} eq 'Search' ) {
         $Self->_Overview(
-            Nav            => $Nav,
-            Search         => $Search,
-            IncludeInvalid => $IncludeInvalid,
+            Nav    => $Nav,
+            Search => $Search,
         );
         my $Output = $NavBar;
         $Output .= $LayoutObject->Output(
@@ -749,9 +767,8 @@ sub Run {
                     }
 
                     $Self->_Overview(
-                        Nav            => $Nav,
-                        Search         => $Search,
-                        IncludeInvalid => $IncludeInvalid,
+                        Nav    => $Nav,
+                        Search => $Search,
                     );
 
                     my $Output        = $NavBar . $Note;
@@ -839,9 +856,8 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         $Self->_Overview(
-            Nav            => $Nav,
-            Search         => $Search,
-            IncludeInvalid => $IncludeInvalid,
+            Nav    => $Nav,
+            Search => $Search,
         );
 
         my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
@@ -871,7 +887,7 @@ sub _Overview {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # set param needed for IncludeInvalid checkbox
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -948,7 +964,7 @@ sub _Overview {
 
         my %List = $CustomerUserObject->CustomerSearch(
             Search => $Param{Search},
-            Valid  => $Param{IncludeInvalid} ? 0 : 1,
+            Valid  => $Self->{IncludeInvalid} ? 0 : 1,
         );
 
         if ( keys %ListAllItems > $Limit ) {

@@ -30,6 +30,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -46,6 +55,16 @@ sub Run {
     );
     for my $Parameter (@Params) {
         $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter );
+    }
+
+    if ( defined $GetParam{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $GetParam{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $GetParam{IncludeInvalid};
     }
 
     # ------------------------------------------------------------ #
@@ -166,9 +185,7 @@ sub Run {
                 UserID => $Self->{UserID},
             );
             if ($ID) {
-                $Self->_Overview(
-                    IncludeInvalid => $GetParam{IncludeInvalid},
-                );
+                $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $LayoutObject->Notify( Info => Translatable('Mail account added!') );
@@ -297,9 +314,7 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
-        $Self->_Overview(
-            IncludeInvalid => $GetParam{IncludeInvalid},
-        );
+        $Self->_Overview();
 
         my $Ok     = $ParamObject->GetParam( Param => 'Ok' );
         my $Locked = $ParamObject->GetParam( Param => 'Locked' );
@@ -333,7 +348,7 @@ sub _Overview {
 
     my %Backend = $MailAccount->MailAccountBackendList();
 
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -349,7 +364,7 @@ sub _Overview {
     );
 
     my %List = $MailAccount->MailAccountList(
-        Valid => $Param{IncludeInvalid} ? 0 : 1,
+        Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
 
     # if there are any mail accounts, they are shown
@@ -369,7 +384,6 @@ sub _Overview {
                 Name => 'OverviewResultRow',
                 Data => {
                     %Data,
-                    IncludeInvalid => $Param{IncludeInvalid},
                 },
             );
         }

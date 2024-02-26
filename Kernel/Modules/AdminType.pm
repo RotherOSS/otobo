@@ -31,6 +31,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -48,7 +57,17 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');
 
-    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     # Check if ticket type is enabled.
     my $TypeNotActive = '';
@@ -298,9 +317,7 @@ sub Run {
                 UserID => $Self->{UserID}
             );
             if ($NewType) {
-                $Self->_Overview(
-                    IncludeInvalid => $Param{IncludeInvalid},
-                );
+                $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
                 $Output .= $TypeNotActive;
@@ -341,9 +358,7 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $TypeNotActive;
 
-        $Self->_Overview(
-            IncludeInvalid => $Param{IncludeInvalid},
-        );
+        $Self->_Overview();
 
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminType',
@@ -460,7 +475,7 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -477,7 +492,7 @@ sub _Overview {
 
     my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
     my %List       = $TypeObject->TypeList(
-        Valid => $Param{IncludeInvalid} ? 0 : 1,
+        Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
 
     # if there are any types, they are shown

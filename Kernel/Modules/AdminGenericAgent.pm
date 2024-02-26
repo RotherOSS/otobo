@@ -31,6 +31,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     # get the dynamic fields for ticket object
     my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
@@ -58,11 +67,22 @@ sub Run {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get config data
-    $Self->{Profile}              = $ParamObject->GetParam( Param => 'Profile' )        || '';
-    $Self->{OldProfile}           = $ParamObject->GetParam( Param => 'OldProfile' )     || '';
-    $Self->{Subaction}            = $ParamObject->GetParam( Param => 'Subaction' )      || '';
-    $Param{IncludeInvalid}        = $ParamObject->GetParam( Param => 'IncludeInvalid' ) || 0;
-    $Param{IncludeInvalidChecked} = $Param{IncludeInvalid} ? 'checked' : '';
+    $Self->{Profile}    = $ParamObject->GetParam( Param => 'Profile' )    || '';
+    $Self->{OldProfile} = $ParamObject->GetParam( Param => 'OldProfile' ) || '';
+    $Self->{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     # get needed objects
     my $CheckItemObject    = $Kernel::OM->Get('Kernel::System::CheckItem');
@@ -520,7 +540,7 @@ sub Run {
         for my $JobKey ( sort keys %Jobs ) {
             my %JobData = $GenericAgentObject->JobGet( Name => $JobKey );
 
-            next JOB unless $Param{IncludeInvalid} || $JobData{Valid};
+            next JOB unless $Self->{IncludeInvalid} || $JobData{Valid};
 
             # css setting and text for valid or invalid jobs
             $JobData{ShownValid} = $JobData{Valid} ? 'valid' : 'invalid';
@@ -530,7 +550,6 @@ sub Run {
                 Name => 'Row',
                 Data => {
                     %JobData,
-                    IncludeInvalid => $Param{IncludeInvalid},
                 },
             );
         }
