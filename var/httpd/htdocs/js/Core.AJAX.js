@@ -741,6 +741,12 @@ Core.AJAX = (function (TargetNS) {
         $EventElement.find('input[name="AJAXAction"]').each(function () {
             Data.Action = $(this).val();
         });
+
+        if ( $('[name=' + ChangedElement + ']', '.DFSetOuterField').length ) {
+            var DFRegex = RegExp('^DynamicField_[^_]+');
+            ChangedElement = DFRegex.exec(ChangedElement)[0];
+        }
+
         Data.Subaction = Subaction;
         Data.ElementChanged = ChangedElement;
         QueryString = TargetNS.SerializeForm($EventElement, Data) + SerializeData(Data);
