@@ -237,11 +237,6 @@ sub new {
         }
     }
 
-    # if no return charset is given, use recommended return charset
-    if ( !$Self->{ReturnCharset} ) {
-        $Self->{ReturnCharset} = $Self->GetRecommendedCharset();
-    }
-
     # get source file charset
     # what charset should I use (take it from translation file)!
     if ( $Self->{Charset} && ref $Self->{Charset} eq 'ARRAY' ) {
