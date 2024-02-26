@@ -138,7 +138,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
 
         # Test search filter by agent $UserRandomID.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser;IncludeInvalid=1");
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($UserRandomID);
         $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
@@ -207,8 +206,6 @@ $Selenium->RunTest(
             Value   => 2,
         );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
-
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser;IncludeInvalid=1");
 
         # Test search filter by agent $UserRandomID.
         $Selenium->find_element( "#Search", 'css' )->clear();
@@ -310,7 +307,7 @@ $Selenium->RunTest(
         );
 
         # Navigate to AdminUser screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($TestUserLogin);
         $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
@@ -352,7 +349,7 @@ $Selenium->RunTest(
         for my $Test (qw(ChangeUserLogin SetToInvalid)) {
 
             # Navigate to AdminUser screen.
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser;IncludeInvalid=1");
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
 
             # Remove scheduled asynchronous tasks from DB, as they may interfere with tests run later.
             my @AllTasks = $SchedulerDBObject->TaskList(

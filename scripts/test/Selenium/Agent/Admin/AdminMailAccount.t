@@ -205,7 +205,7 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount");
 
         # check class of invalid EmailAccount in the overview table
         $Self->True(
@@ -298,7 +298,7 @@ $Selenium->RunTest(
         }
 
         # navigate to AdminMailAccount
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount");
 
         # test mail account delete button
         $Selenium->find_element("//a[contains(\@data-query-string, \'Subaction=Delete;ID=$MailAccountID' )]")->click();

@@ -205,8 +205,6 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminRole;IncludeInvalid=1");
-
         # Check overview page.
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,

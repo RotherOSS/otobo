@@ -70,8 +70,6 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement;IncludeInvalid=1");
-
         $Selenium->find_element(
             "//a[contains(\@href,\'AdminProcessManagement;Subaction=ProcessPrint;ID=$ProcessID;\')]"
         )->click();

@@ -321,7 +321,7 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent");
 
         # Check edited NotifcationEvent values.
         $Selenium->find_element( $NotifEventRandomID, 'link_text' )->VerifiedClick();
@@ -465,7 +465,7 @@ $Selenium->RunTest(
         };
 
         # Go back to AdminNotificationEvent overview screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent;IncludeInvalid=1");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent");
 
         # Check class of invalid NotificationEvent in the overview table.
         $Self->True(
@@ -481,7 +481,7 @@ $Selenium->RunTest(
         );
 
         # Delete test notification with delete button.
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;IncludeInvalid=1;ID=$NotifEventID{ID}' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")->click();
         $Selenium->WaitFor( AlertPresent => 1 );
         $Selenium->accept_alert();
 

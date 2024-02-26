@@ -103,8 +103,6 @@ $Selenium->RunTest(
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->find_element( "#Submit",     'css' )->VerifiedClick();
 
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAttachment;IncludeInvalid=1");
-
             # check if standard attachment show on AdminAttachment screen
             $Self->True(
                 index( $Selenium->get_page_source(), $AttachmentName ) > -1,
@@ -144,8 +142,6 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test attachment');
             $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAttachment;IncludeInvalid=1");
-
             # check overview page
             $Self->Is(
                 $Selenium->execute_script("return \$('table tbody tr td:contains($AttachmentName)').length"),
@@ -167,7 +163,7 @@ $Selenium->RunTest(
             );
 
             # go back to AdminAttachment overview screen
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAttachment;IncludeInvalid=1");
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAttachment");
 
             # check class of invalid Attachment in the overview table
             $Self->True(

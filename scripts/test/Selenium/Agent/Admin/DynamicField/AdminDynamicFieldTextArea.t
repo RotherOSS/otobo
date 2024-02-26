@@ -60,7 +60,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminDynamicField screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
 
         # Create and edit Ticket and Article DynamicFieldTextArea.
         for my $Type (qw(Ticket Article)) {
@@ -129,8 +129,6 @@ $Selenium->RunTest(
                 Value   => 2,
             );
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
-
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
 
             # Check new and edited DynamicFieldTextArea values.
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();

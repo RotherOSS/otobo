@@ -161,7 +161,6 @@ $Selenium->RunTest(
 
             # Save edited value.
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericInterfaceWebservice;IncludeInvalid=1");
             $Selenium->WaitFor(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('tr.Invalid td:contains(\"$Name\")').length"
