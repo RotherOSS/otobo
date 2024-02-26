@@ -2771,21 +2771,17 @@ sub Attachment {
 
     if ( $Param{Sandbox} && !$Kernel::OM->Get('Kernel::Config')->Get('DisableContentSecurityPolicy') ) {
 
-        # Disallow external and inline scripts, active content, frames, but keep allowing inline styles
+        # Do not allow external and inline scripts, active content, frames, but keep allowing inline styles
         #   as this is a common use case in emails.
-        # Also disallow referrer headers to prevent referrer leaks via old-style policy directive. Please note this has
-        #   been deprecated and will be removed in future OTOBO versions in favor of a separate header (see below).
         # img-src:    allow external and inline (data:) images
         # script-src: block all scripts
         # object-src: allow 'self' so that the browser can load plugins for PDF display
         # frame-src:  block all frames
         # style-src:  allow inline styles for nice email display
-        # referrer:   don't send referrers to prevent referrer-leak attacks
-        $Headers{'Content-Security-Policy'}
-            = q{default-src *; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;};
+        $Headers{'Content-Security-Policy'} = q{default-src *; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline';};
 
         # Use Referrer-Policy header to suppress referrer information in modern browsers
-        #   (to prevent referrer-leak attacks).
+        # in order to prevent referrer-leak attacks.
         $Headers{'Referrer-Policy'} = 'no-referrer';
     }
 
