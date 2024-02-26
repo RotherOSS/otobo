@@ -387,23 +387,6 @@ sub FormatTimeString {
 
 }
 
-=head2 GetRecommendedCharset()
-
-DEPRECATED. Don't use this function any more, 'utf-8' is always the internal charset.
-
-Returns the recommended charset for frontend (based on translation
-file or utf-8).
-
-    my $Charset = $LanguageObject->GetRecommendedCharset().
-
-=cut
-
-sub GetRecommendedCharset {
-    my $Self = shift;
-
-    return 'utf-8';
-}
-
 =head2 GetPossibleCharsets()
 
 Returns an array of possible charsets (based on translation file).
