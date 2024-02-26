@@ -973,7 +973,7 @@ fieldset.TableLike.FixedLabel > .Row.MultiColumn > .Value {
 .RTL fieldset.TableLike.FixedLabel > .Row.MultiColumn > .FieldCell > .Field,
 .RTL fieldset.TableLike.FixedLabel > .Row.MultiColumn > .Value {
     margin-right: 0px;
-    padding-left: 0px;
+    padding-right: 0px;
 }
 
 /**
