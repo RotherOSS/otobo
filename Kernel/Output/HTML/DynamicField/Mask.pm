@@ -72,7 +72,6 @@ creates the field HTML to be used in edit masks for multiple dynamic fields.
     my $Success = $DynamicFieldMaskObject->EditSectionRender(
         Content               => \@Content,
         DynamicFields         => \%DynamicFieldConfigs,
-        UpdatableFields       => $Self->_GetFieldsToUpdate(),
         LayoutObject          => $LayoutObject,
         ParamObject           => $ParamObject,
         DynamicFieldValues    => {                  # optional - else taken from ParamObject
@@ -210,7 +209,6 @@ sub EditSectionRender {
                 LayoutObject         => $Param{LayoutObject},
                 ParamObject          => $Param{ParamObject},
                 AJAXUpdate           => $Param{AJAXUpdate} // 1,
-                UpdatableFields      => $Param{UpdatableFields},
                 Mandatory            => $Field->{Mandatory},
                 Readonly             => $Field->{Readonly},
                 CustomerInterface    => $Param{CustomerInterface},

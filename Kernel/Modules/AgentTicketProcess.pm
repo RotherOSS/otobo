@@ -1730,12 +1730,6 @@ sub _OutputActivityDialog {
 
     my %RenderedFields = ();
 
-    # get the list of fields where the AJAX loader icon should appear on AJAX updates triggered
-    # by ActivityDialog fields
-    my $AJAXUpdatableFields = $Self->_GetAJAXUpdatableFields(
-        ActivityDialogFields => $ActivityDialog->{Fields},
-    );
-
     my $InputDefinitionRendered = 0;
     my %DFPossibleValues        = %{ $Param{DFPossibleValues} // {} };
     my %Visibility              = %{ $Param{Visibility}       // {} };
@@ -1888,7 +1882,6 @@ sub _OutputActivityDialog {
             $Output .= $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
                 Content              => $InputFieldDefinition,
                 DynamicFields        => $Self->{DynamicField},
-                UpdatableFields      => $AJAXUpdatableFields,
                 LayoutObject         => $LayoutObject,
                 ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
                 DynamicFieldValues   => \%DynamicFieldValues,
@@ -1901,11 +1894,6 @@ sub _OutputActivityDialog {
                     UserID         => $Self->{UserID},
                     %DynamicFieldValues,
                 },
-            );
-
-            $LayoutObject->AddJSData(
-                Key   => 'DynamicFieldNames',
-                Value => $AJAXUpdatableFields,
             );
 
             $InputDefinitionRendered = 1;
@@ -1928,7 +1916,6 @@ sub _OutputActivityDialog {
                 FormID              => $Self->{FormID},
                 PossibleValues      => $DFPossibleValues{$DynamicFieldName},
                 Visibility          => $Visibility{ 'DynamicField_' . $DynamicFieldName } // 0,
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1948,12 +1935,6 @@ sub _OutputActivityDialog {
             $Output .= $Response->{HTML};
 
             $RenderedFields{$CurrentField} = 1;
-
-            $LayoutObject->AddJSData(
-                Key   => 'DynamicFieldNames',
-                Value => $AJAXUpdatableFields,
-            );
-
         }
 
         # render State
@@ -1973,7 +1954,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2009,7 +1989,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2045,7 +2024,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2080,7 +2058,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2115,7 +2092,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2150,7 +2126,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2185,7 +2160,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2220,7 +2194,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2255,7 +2228,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2415,7 +2387,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2677,7 +2648,6 @@ sub _RenderDynamicField {
         AJAXUpdate           => 1,
         Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
         ACLHidden            => ( $Param{ActivityDialogField}->{Display} == 2 && !$Param{Visibility} ),
-        UpdatableFields      => $Param{AJAXUpdatableFields},
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
     );
@@ -3249,12 +3219,6 @@ sub _RenderCustomer {
         $Data{CustomerID}     = $Param{Ticket}{CustomerID}     || '';
     }
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'CustomerFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields},
-    );
-
     if ( $Param{DescriptionShort} ) {
         $Data{DescriptionShort} = $Param{DescriptionShort};
     }
@@ -3410,14 +3374,8 @@ sub _RenderResponsible {
         Name         => 'ResponsibleID',
         Translation  => 1,
         SelectedID   => $SelectedID,
-        Class        => "Modernize $ServerError",
+        Class        => "Modernize FormUpdate $ServerError",
         PossibleNone => 1,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'ResponsibleFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -3584,14 +3542,8 @@ sub _RenderOwner {
         Name         => 'OwnerID',
         Translation  => 1,
         SelectedID   => $SelectedID || '',
-        Class        => "Modernize $ServerError",
+        Class        => "Modernize FormUpdate $ServerError",
         PossibleNone => 1,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'OwnerFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -3763,14 +3715,8 @@ sub _RenderSLA {
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
         Translation   => 0,
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
         Max           => 200,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'SLAFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -3935,19 +3881,13 @@ sub _RenderService {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Services,
         Name          => 'ServiceID',
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         TreeView      => $TreeView,
         Sort          => 'TreeView',
         Translation   => 0,
         Max           => 200,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'ServiceFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -4081,13 +4021,7 @@ sub _RenderLock {
         Name          => 'LockID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => "Modernize $ServerError",
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'LockFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
+        Class         => "Modernize FormUpdate $ServerError",
     );
 
     $LayoutObject->Block(
@@ -4221,13 +4155,7 @@ sub _RenderPriority {
         Name          => 'PriorityID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => "Modernize $ServerError",
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'PriorityFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
+        Class         => "Modernize FormUpdate $ServerError",
     );
 
     $LayoutObject->Block(
@@ -4367,16 +4295,10 @@ sub _RenderQueue {
         Name          => 'QueueID',
         Translation   => 0,
         SelectedValue => $SelectedValue,
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
         TreeView      => $TreeView,
         Sort          => 'TreeView',
         PossibleNone  => 1,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'QueueFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -4501,13 +4423,7 @@ sub _RenderState {
         Name          => 'StateID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => "Modernize $ServerError",
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'StateFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
+        Class         => "Modernize FormUpdate $ServerError",
     );
 
     $LayoutObject->Block(
@@ -4651,18 +4567,12 @@ sub _RenderType {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Types,
         Name          => 'TypeID',
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
         Translation   => 0,
         Max           => 200,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'TypeFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -6611,95 +6521,6 @@ sub _GetTypes {
         );
     }
     return \%Type;
-}
-
-sub _GetAJAXUpdatableFields {
-    my ( $Self, %Param ) = @_;
-
-    my %DefaultUpdatableFields = (
-        PriorityID    => 1,
-        QueueID       => 1,
-        ResponsibleID => 1,
-        ServiceID     => 1,
-        SLAID         => 1,
-        StateID       => 1,
-        OwnerID       => 1,
-        LockID        => 1,
-        TypeID        => 1,
-    );
-
-    my @UpdatableFields;
-    FIELD:
-    for my $Field ( sort keys %{ $Param{ActivityDialogFields} } ) {
-
-        my $FieldData = $Param{ActivityDialogFields}->{$Field};
-
-        # skip hidden fields
-        next FIELD if !$FieldData->{Display};
-
-        # handle dynamic fields separately
-        next FIELD if $Field =~ m{^DynamicField_(.*)}xms;
-
-        # standarize the field name (e.g. use StateID for State field)
-        my $FieldName = $Self->{NameToID}->{$Field};
-
-        # skip if field name could not be converted (this means that field is unknown)
-        next FIELD if !$FieldName;
-
-        # skip if the field is not updatable via ajax
-        next FIELD if !$DefaultUpdatableFields{$FieldName};
-
-        push @UpdatableFields, $FieldName;
-    }
-
-    # get backend object
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-    DYNAMICFIELD:
-    for my $Name ( keys $Self->{DynamicField}->%* ) {
-
-        # skip hidden fields
-        next DYNAMICFIELD if $Param{ActivityDialogFields}{ 'DynamicField_' . $Name }
-            && !$Param{ActivityDialogFields}{ 'DynamicField_' . $Name }{Display};
-
-        my $DynamicFieldConfig = $Self->{DynamicField}{$Name};
-
-        # skip any field with wrong config
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        # skip field if is not IsACLReducible (updatable)
-
-        my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsACLReducible',
-        );
-        next DYNAMICFIELD if !$IsACLReducible;
-
-        push @UpdatableFields, ( 'DynamicField_' . $Name );
-    }
-
-    return \@UpdatableFields;
-}
-
-sub _GetFieldsToUpdateStrg {
-    my ( $Self, %Param ) = @_;
-
-    my $FieldsToUpdate = '';
-    if ( IsArrayRefWithData( $Param{AJAXUpdatableFields} ) ) {
-        my $FirstItem = 1;
-        FIELD:
-        for my $Field ( @{ $Param{AJAXUpdatableFields} } ) {
-            next FIELD if $Field eq $Param{TriggerField};
-            if ($FirstItem) {
-                $FirstItem = 0;
-            }
-            else {
-                $FieldsToUpdate .= ', ';
-            }
-            $FieldsToUpdate .= "'" . $Field . "'";
-        }
-    }
-    return $FieldsToUpdate;
 }
 
 sub _ShowDialogError {
