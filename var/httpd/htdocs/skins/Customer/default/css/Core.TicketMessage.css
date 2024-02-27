@@ -38,6 +38,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         border-radius: 0px;
     }
 
+    .FieldCell {
+        position: relative;
+    }
+
     .FieldCell > div.Field,
     .FieldCell > div.InputField_Container,
     .FieldCell > select,
@@ -61,7 +65,36 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         left: calc( -50% - 126px );
     }
 
+    .AddRemoveValueRow {
+        position: absolute;
+        right: calc(25% - 115px );
+        top: 21px;
+    }
     
+    /* Grids */
+
+    .Row.MultiColumn div.Field {
+        width: 100% !important;
+        margin-left: 0px;
+    }
+
+    .Row.MultiColumn {
+        column-gap: 12px;
+        padding-left: calc( 25% - 76px );
+        padding-right: calc( 25% - 76px );
+    }
+
+    .Row.MultiColumn .FieldCell > label,
+    .Row.MultiColumn > label {
+        left: calc(-100% + 4px);
+    }
+    
+    .Row.MultiColumn .AddRemoveValueRow {
+        position: absolute;
+        right: -40px;
+        top: 21px;
+    }
+
     /* Dynamic Field Sets */
 
 
@@ -96,8 +129,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .Row_DynamicField {
         width: 66%;
         margin-left: 17%;
-        grid-row-gap: 16px;
-        grid-column-gap: 40px;
+        row-gap: 16px;
+        column-gap: 12px;
     }
 
     .FieldCell > div.Field,
@@ -106,6 +139,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: 100% !important;
         margin-left: 0;
     }
+
+    .Row.MultiColumn .AddRemoveValueRow,
+    .Row.MultiValue .AddRemoveValueRow {
+    position: absolute;
+    left: unset;
+    right: -40px;
+    top: 20px;
+    margin-top: 0px;
+}
 
     .AddRemoveValueRow {
         position: absolute;
@@ -146,9 +188,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         left: calc(50% + 395px); /* multivaluebutton positioning 65px to the left */
     }
 
-    .AddRemoveValueRow {
-        left: calc( 50% + 460px );
-    }
+}
+
+.Row.MultiColumn .FieldCell {
+    position: relative;
+    width: calc(100% - 40px);
+}
+
+.Row.MultiValue .FieldCell {
+    position: relative;
 
 }
 
