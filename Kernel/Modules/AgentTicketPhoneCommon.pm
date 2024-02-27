@@ -1324,22 +1324,12 @@ sub _MaskPhone {
 
     $Param{FormID} = $Self->{FormID};
 
-    my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
-        OnlyDynamicFields => 1
-    );
-
     # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get config of frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'DynamicFieldNames',
-        Value => $DynamicFieldNames,
-    );
 
     # build next states string
     my %Selected;
@@ -1352,7 +1342,7 @@ sub _MaskPhone {
     $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
         Data         => $Param{NextStates},
         Name         => 'NextStateID',
-        Class        => 'Modernize',
+        Class        => 'Modernize FormUpdate',
         Translation  => 1,
         PossibleNone => 1,
         %Selected,
@@ -1438,7 +1428,6 @@ sub _MaskPhone {
         $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
             Content              => $Self->{MaskDefinition},
             DynamicFields        => \%DynamicFieldConfigs,
-            UpdatableFields      => $Self->_GetFieldsToUpdate(),
             LayoutObject         => $LayoutObject,
             ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
             DynamicFieldValues   => $Param{DFValues},
@@ -1563,33 +1552,6 @@ sub _MaskPhone {
             FormDraftMeta  => $LoadedFormDraft,
         },
     );
-}
-
-sub _GetFieldsToUpdate {
-    my ( $Self, %Param ) = @_;
-
-    my @UpdatableFields;
-
-    # set the fields that can be updateable via AJAXUpdate
-    if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields = qw( NextStateID StandardTemplateID );
-    }
-
-    # cycle through the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        my $IsACLReducible = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsACLReducible',
-        );
-        next DYNAMICFIELD if !$IsACLReducible;
-
-        push @UpdatableFields, 'DynamicField_' . $DynamicFieldConfig->{Name};
-    }
-
-    return \@UpdatableFields;
 }
 
 1;

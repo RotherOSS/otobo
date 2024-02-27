@@ -1177,12 +1177,6 @@ sub _OutputActivityDialog {
 
     my %RenderedFields = ();
 
-    # get the list of fields where the AJAX loader icon should appear on AJAX updates triggered
-    # by ActivityDialog fields
-    my $AJAXUpdatableFields = $Self->_GetAJAXUpdatableFields(
-        ActivityDialogFields => $ActivityDialog->{Fields},
-    );
-
     my $InputDefinitionRendered = 0;
     my %DFPossibleValues        = %{ $Param{DFPossibleValues} // {} };
     my %Visibility              = %{ $Param{Visibility}       // {} };
@@ -1331,7 +1325,6 @@ sub _OutputActivityDialog {
             $Output .= $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
                 Content              => $InputFieldDefinition,
                 DynamicFields        => $Self->{DynamicField},
-                UpdatableFields      => $AJAXUpdatableFields,
                 LayoutObject         => $LayoutObjectZoom,
                 ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
                 DynamicFieldValues   => \%DynamicFieldValues,
@@ -1365,7 +1358,6 @@ sub _OutputActivityDialog {
                 FormID              => $Self->{FormID},
                 PossibleValues      => $DFPossibleValues{ 'DynamicField_' . $DynamicFieldName },
                 Visibility          => $Visibility{ 'DynamicField_' . $DynamicFieldName } // 0,
-                AJAXUpdatableFields => $AJAXUpdatableFields,
                 LayoutObject        => $LayoutObject,
             );
 
@@ -1782,7 +1774,6 @@ sub _RenderDynamicField {
         AJAXUpdate           => 1,
         Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
         ACLHidden            => ( $Param{ActivityDialogField}->{Display} == 2 && !$Param{Visibility} ),
-        UpdatableFields      => $Param{AJAXUpdatableFields},
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
         CustomerInterface    => 1,
@@ -2221,7 +2212,7 @@ sub _RenderSLA {
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
         Translation   => 0,
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
         Max           => 200,
     );
 
@@ -2372,7 +2363,7 @@ sub _RenderService {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Services,
         Name          => 'ServiceID',
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         TreeView      => $TreeView,
@@ -2513,7 +2504,7 @@ sub _RenderPriority {
         Name          => 'PriorityID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
     );
 
     # extend IDs to enable simultaneous activities
@@ -2653,7 +2644,7 @@ sub _RenderQueue {
         Name          => 'QueueID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
         TreeView      => $TreeView,
         Sort          => 'TreeView',
         PossibleNone  => 1,
@@ -2785,7 +2776,7 @@ sub _RenderState {
         Name          => 'StateID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
     );
 
     # extend IDs to enable simultaneous activities
@@ -2929,7 +2920,7 @@ sub _RenderType {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Types,
         Name          => 'TypeID',
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
@@ -4121,73 +4112,6 @@ sub _GetTypes {
         );
     }
     return \%Type;
-}
-
-sub _GetAJAXUpdatableFields {
-    my ( $Self, %Param ) = @_;
-
-    $Self->{IDSuffix} //= $Param{ActivityDialogEntityID} ? $Param{ActivityDialogEntityID} =~ s/^ActivityDialog-/_/r : '';
-
-    my %DefaultUpdatableFields = (
-        PriorityID => 1,
-        QueueID    => 1,
-        ServiceID  => 1,
-        SLAID      => 1,
-        StateID    => 1,
-        TypeID     => 1,
-    );
-
-    my @UpdatableFields;
-    FIELD:
-    for my $Field ( sort keys %{ $Param{ActivityDialogFields} } ) {
-
-        my $FieldData = $Param{ActivityDialogFields}->{$Field};
-
-        # skip hidden fields
-        next FIELD if !$FieldData->{Display};
-
-        # handle dynamic fields separately
-        next FIELD if $Field =~ m{^DynamicField_(.*)}xms;
-
-        # standarize the field name (e.g. use StateID for State field)
-        my $FieldName = $Self->{NameToID}->{$Field};
-
-        # skip if field name could not be converted (this means that field is unknown)
-        next FIELD if !$FieldName;
-
-        # skip if the field is not updatable via ajax
-        next FIELD if !$DefaultUpdatableFields{$FieldName};
-
-        push @UpdatableFields, $FieldName . $Self->{IDSuffix};
-    }
-
-    # get backend object
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-    DYNAMICFIELD:
-    for my $Name ( keys $Self->{DynamicField}->%* ) {
-
-        # skip hidden fields
-        next DYNAMICFIELD if $Param{ActivityDialogFields}{ 'DynamicField_' . $Name }
-            && !$Param{ActivityDialogFields}{ 'DynamicField_' . $Name }{Display};
-
-        my $DynamicFieldConfig = $Self->{DynamicField}{$Name};
-
-        # skip any field with wrong config
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        # skip field if is not IsACLReducible (updatable)
-
-        my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsACLReducible',
-        );
-        next DYNAMICFIELD if !$IsACLReducible;
-
-        push @UpdatableFields, ( 'DynamicField_' . $Name . $Self->{IDSuffix} );
-    }
-
-    return \@UpdatableFields;
 }
 
 sub _ShowDialogError {

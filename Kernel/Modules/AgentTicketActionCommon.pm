@@ -2315,7 +2315,6 @@ sub _Mask {
     my $TicketTypeDynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
         Content              => $Self->{TicketMaskDefinition},
         DynamicFields        => $Self->{DynamicField},
-        UpdatableFields      => $Self->_GetFieldsToUpdate(),
         LayoutObject         => $LayoutObject,
         ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
         DynamicFieldValues   => $Param{DynamicField},
@@ -2359,16 +2358,6 @@ sub _Mask {
         );
     }
 
-    my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
-        OnlyDynamicFields => 1,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'DynamicFieldNames',
-        Value => $DynamicFieldNames,
-    );
-
     if ( $Param{HideAutoselected} ) {
 
         # add Autoselect JS
@@ -2385,7 +2374,7 @@ sub _Mask {
             UserID => $Self->{UserID},
         );
         $Param{TypeStrg} = $LayoutObject->BuildSelection(
-            Class        => 'Validate_Required Modernize ' . ( $Param{Errors}->{TypeIDInvalid} || '' ),
+            Class        => 'Validate_Required Modernize FormUpdate ' . ( $Param{Errors}->{TypeIDInvalid} || '' ),
             Data         => \%Type,
             Name         => 'TypeID',
             SelectedID   => $Param{TypeID},
@@ -2417,7 +2406,7 @@ sub _Mask {
             Data       => $Services,
             Name       => 'ServiceID',
             SelectedID => $Param{ServiceID},
-            Class      => "Modernize "
+            Class      => "Modernize FormUpdate "
                 . ( $Config->{ServiceMandatory} ? 'Validate_Required ' : '' )
                 . ( $Param{ServiceInvalid} || '' ),
             PossibleNone => 1,
@@ -2445,7 +2434,7 @@ sub _Mask {
             Data       => \%SLA,
             Name       => 'SLAID',
             SelectedID => $Param{SLAID},
-            Class      => "Modernize "
+            Class      => "Modernize FormUpdate "
                 . ( $Config->{SLAMandatory} ? 'Validate_Required ' : '' )
                 . ( $Param{ServiceInvalid} || '' ),
             PossibleNone => 1,
@@ -2587,7 +2576,7 @@ sub _Mask {
             Data       => \%ShownUsers,
             SelectedID => $Param{NewOwnerID},
             Name       => 'NewOwnerID',
-            Class      => 'Modernize '
+            Class      => 'Modernize FormUpdate '
                 . ( $Config->{OwnerMandatory} ? 'Validate_Required ' : '' )
                 . ( $Param{NewOwnerInvalid} || '' ),
             Size         => 1,
@@ -2649,7 +2638,7 @@ sub _Mask {
             Data       => \%ShownUsers,
             SelectedID => $Param{NewResponsibleID},
             Name       => 'NewResponsibleID',
-            Class      => 'Modernize '
+            Class      => 'Modernize FormUpdate '
                 . ( $Config->{ResponsibleMandatory} ? 'Validate_Required ' : '' )
                 . ( $Param{NewResponsibleInvalid} || '' ),
             PossibleNone => 1,
@@ -2686,7 +2675,7 @@ sub _Mask {
         $Param{StateStrg} = $LayoutObject->BuildSelection(
             Data  => \%StateList,
             Name  => 'NewStateID',
-            Class => 'Modernize '
+            Class => 'Modernize FormUpdate '
                 . ( $Config->{StateMandatory} ? 'Validate_Required ' : '' )
                 . ( $Param{NewStateInvalid} || '' ),
             PossibleNone => $Config->{StateDefault} ? 0 : 1,
@@ -2763,7 +2752,7 @@ sub _Mask {
         $Param{PriorityStrg} = $LayoutObject->BuildSelection(
             Data  => \%PriorityList,
             Name  => 'NewPriorityID',
-            Class => 'Modernize',
+            Class => 'Modernize FormUpdate',
             %Priority,
         );
         $LayoutObject->Block(
@@ -2830,7 +2819,6 @@ sub _Mask {
         my $ArticleTypeDynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
             Content              => $Self->{ArticleMaskDefinition},
             DynamicFields        => $Self->{DynamicField},
-            UpdatableFields      => $Self->_GetFieldsToUpdate(),
             LayoutObject         => $LayoutObject,
             ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
             DynamicFieldValues   => $Param{DynamicField},
@@ -3385,36 +3373,6 @@ sub _GetPriorities {
     }
 
     return \%Priorities;
-}
-
-sub _GetFieldsToUpdate {
-    my ( $Self, %Param ) = @_;
-
-    my @UpdatableFields;
-
-    # set the fields that can be updateable via AJAXUpdate
-    if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields = qw(
-            TypeID ServiceID SLAID NewOwnerID NewResponsibleID NewStateID
-            NewPriorityID
-        );
-    }
-
-    # cycle through the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( values $Self->{DynamicField}->%* ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        my $IsACLReducible = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsACLReducible',
-        );
-        next DYNAMICFIELD if !$IsACLReducible;
-
-        push @UpdatableFields, 'DynamicField_' . $DynamicFieldConfig->{Name};
-    }
-
-    return \@UpdatableFields;
 }
 
 sub _GetQuotedReplyBody {

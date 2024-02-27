@@ -1889,8 +1889,6 @@ sub _Mask {
                 ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{'CustomerTicketProcess'},
             );
 
-            my @AJAXUpdatableFieldList;
-
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
             # is a permission configured. If there is a permission configured we check this
@@ -2000,24 +1998,12 @@ sub _Mask {
                         ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     },
                 );
-
-                push @AJAXUpdatableFieldList, $ProcessModule->_GetAJAXUpdatableFields(
-                    ActivityDialogFields   => $ActivityDialogData->{Fields},
-                    ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
-                );
             }
 
             if ( !IsHashRefWithData($NextActivityDialogs) ) {
                 $LayoutObject->Block(
                     Name => 'NoActivityDialog',
                     Data => {},
-                );
-            }
-
-            if (@AJAXUpdatableFieldList) {
-                $LayoutObject->AddJSData(
-                    Key   => 'ProcessAJAXFieldList',
-                    Value => \@AJAXUpdatableFieldList,
                 );
             }
         }
@@ -2435,16 +2421,6 @@ sub _Mask {
         )
     {
 
-        my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
-            OnlyDynamicFields => 1,
-        );
-
-        # send data to JS
-        $LayoutObject->AddJSData(
-            Key   => 'DynamicFieldNames',
-            Value => $DynamicFieldNames,
-        );
-
         if ( $Param{HideAutoselected} ) {
 
             # add Autoselect JS
@@ -2503,7 +2479,7 @@ sub _Mask {
                 Data => $NextStates,
                 Name => 'StateID',
                 %StateSelected,
-                Class => 'Modernize',
+                Class => 'Modernize FormUpdate',
             );
             $LayoutObject->Block(
                 Name => 'FollowUpState',
@@ -2527,7 +2503,7 @@ sub _Mask {
             }
             $Param{PriorityStrg} = $LayoutObject->BuildSelection(
                 Data => $Priorities,
-                Name => 'PriorityID',
+                Name => 'PriorityID FormUpdate',
                 %PrioritySelected,
                 Class => 'Modernize',
             );
@@ -2549,7 +2525,6 @@ sub _Mask {
             $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
                 Content               => $Self->{MaskDefinition},
                 DynamicFields         => $Self->{FollowUpDynamicField},
-                UpdatableFields       => $Self->_GetFieldsToUpdate(),
                 LayoutObject          => $LayoutObject,
                 ParamObject           => $Kernel::OM->Get('Kernel::System::Web::Request'),
                 DynamicFieldValues    => \%DynamicFieldValues,
@@ -2616,33 +2591,6 @@ sub _Mask {
             UserLastname          => $CustomerUser{UserLastname},
         },
     );
-}
-
-sub _GetFieldsToUpdate {
-    my ( $Self, %Param ) = @_;
-
-    my @UpdatableFields;
-
-    # set the fields that can be updatable via AJAXUpdate
-    if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields = qw( ServiceID SLAID PriorityID StateID );
-    }
-
-    # cycle trough the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( values $Self->{FollowUpDynamicField}->%* ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        my $IsACLReducible = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsACLReducible',
-        );
-        next DYNAMICFIELD if !$IsACLReducible;
-
-        push @UpdatableFields, 'DynamicField_' . $DynamicFieldConfig->{Name};
-    }
-
-    return \@UpdatableFields;
 }
 
 1;
