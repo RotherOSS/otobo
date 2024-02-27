@@ -18,10 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM;
 
 # create language object which contains all translations
 $Kernel::OM->ObjectParamAdd(
@@ -107,11 +110,11 @@ for my $Test (@Tests) {
     }
 
     # compare with expected translation
-    $Self->Is(
+    is(
         $TranslatedString // '',
         $Test->{TranslationResult},
         'Translation of ' . $Test->{OriginalString},
     );
 }
 
-$Self->DoneTesting();
+done_testing;

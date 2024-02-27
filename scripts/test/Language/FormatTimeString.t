@@ -18,10 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 my @Tests = (
     {
@@ -131,11 +134,7 @@ for my $Test (@Tests) {
         $Test->{Short}
     );
 
-    $Self->Is(
-        $Result,
-        $Test->{Result},
-        "$Test->{Name} - return",
-    );
+    is( $Result, $Test->{Result}, "$Test->{Name} - return" );
 }
 
-$Self->DoneTesting();
+done_testing;
