@@ -34,7 +34,6 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::AuthSession',
-    'Kernel::System::ReferenceData',
 );
 
 sub new {
@@ -53,67 +52,17 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
-    # get config object
+    # collect the parameters
+    my %Languages    = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->LanguageList;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # get names of languages in English
-    my %DefaultUsedLanguages = ( $ConfigObject->Get('DefaultUsedLanguages') || {} )->%*;
-
-    # get native names of languages
-    my %DefaultUsedLanguagesNative = %{ $ConfigObject->Get('DefaultUsedLanguagesNative') || {} };
-
-    my %Languages;
-    my $UserLanguage        = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage};
-    my $ReferenceDataObject = $Kernel::OM->Get('Kernel::System::ReferenceData');
-    LANGUAGEID:
-    for my $LanguageID ( sort keys %DefaultUsedLanguages ) {
-
-        # next language if there is not set any name for current language
-        if ( !$DefaultUsedLanguages{$LanguageID} && !$DefaultUsedLanguagesNative{$LanguageID} ) {
-            next LANGUAGEID;
-        }
-
-        # get texts in native and default language
-        my $Text        = $DefaultUsedLanguagesNative{$LanguageID} || '';
-        my $TextEnglish = $DefaultUsedLanguages{$LanguageID}       || '';
-
-        # translate to current user's language
-        my $TextTranslated;
-        if ( $ConfigObject->Get('ReferenceData::TranslatedLanguageNames') ) {
-            $TextTranslated = $Kernel::OM->Get('Kernel::System::ReferenceData')->LanguageCode2Name(
-                LanguageCode => $LanguageID,
-                Language     => $UserLanguage,
-            );
-        }
-
-        # fall back to the default translation
-        $TextTranslated //= $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate(
-            $TextEnglish
-        );
-
-        if ( $TextTranslated && $TextTranslated ne $Text ) {
-            $Text .= ' - ' . $TextTranslated;
-        }
-
-        # next language if there is neither English nor native name of language set.
-        next LANGUAGEID unless $Text;
-
-        my $LanguageObject = Kernel::Language->new(
-            UserLanguage => $LanguageID,
-        );
-
-        next LANGUAGEID unless $LanguageObject;
-
-        my $Completeness = $LanguageObject->{Completeness};
-
-        # mark all languages with < 25% coverage as "in process" (not for en_ variants).
-        if ( defined $Completeness && $Completeness < 0.25 && $LanguageID !~ m{^en_}smx ) {
-            $Text .= ' ' . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate('(in process)');
-        }
-
-        # This will be used in the selection
-        $Languages{$LanguageID} = $Text;
-    }
+    my $SelectedLanguageID =
+        $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UserLanguage' )
+        ||
+        $Param{UserData}->{UserLanguage}
+        ||
+        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage}
+        ||
+        $ConfigObject->Get('DefaultLanguage');
 
     return
         {
@@ -121,13 +70,10 @@ sub Param {
             Name       => $Self->{ConfigItem}->{PrefKey},
             Data       => \%Languages,
             HTMLQuote  => 0,
-            SelectedID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UserLanguage' )
-            || $Param{UserData}->{UserLanguage}
-            || $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage}
-            || $ConfigObject->Get('DefaultLanguage'),
-            Block => 'Option',
-            Class => 'W70pc',
-            Max   => 200,
+            SelectedID => $SelectedLanguageID,
+            Block      => 'Option',
+            Class      => 'W70pc',
+            Max        => 200,
         };
 }
 
