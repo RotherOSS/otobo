@@ -486,11 +486,25 @@ sub SetCookie {
 
     $Param{Path} ||= '';
 
+    # Get the configured samesite.
+    # Declare whethers browser should send the cookie to another domain.
+    # Other protocol counts as another domain.
+    # The default is 'lax'. There is no override via the parameter array.
+    my $SameSite;
+    {
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        $SameSite = lc $ConfigObject->Get('SessionSameSite') // '';
+        if ( $SameSite ne 'none' && $SameSite ne 'strict' ) {
+            $SameSite = 'lax';
+        }
+    }
+
     return {
         name     => $Param{Key},
         value    => $Param{Value},
         expires  => $Param{Expires},
-        secure   => $Param{Secure}   || '',
+        secure   => $Param{Secure} || '',
+        samesite => $SameSite,
         httponly => $Param{HTTPOnly} || '',
         path     => '/' . ( $Param{Path} // '' ),
     };

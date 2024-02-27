@@ -971,6 +971,17 @@
             <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">57600</Item>
         </Value>
     </Setting>
+    <Setting Name="SessionSameSite" Required="1" Valid="1">
+        <Description Translatable="1">Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.</Description>
+        <Navigation>Core::Session</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="Lax">
+                <Item ValueType="Option" Value="Strict" Translatable="1">Strict</Item>
+                <Item ValueType="Option" Value="Lax"    Translatable="1">Lax</Item>
+                <Item ValueType="Option" Value="None"   Translatable="1">None</Item>
+            </Item>
+        </Value>
+    </Setting>
     <Setting Name="SessionMaxIdleTime" Required="1" Valid="1">
         <Description Translatable="1">Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.</Description>
         <Navigation>Core::Session</Navigation>
