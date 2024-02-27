@@ -856,9 +856,7 @@ sub _GetReferencedObjectID {
 
     # Get the dynamic field config for the referenced object
     my $ReferenceDFConfig = $Self->_GetReferenceDFConfig(
-        LensDynamicFieldConfig => {
-            $LensDFConfig->%*,
-        },
+        LensDynamicFieldConfig => $LensDFConfig,
     );
 
     if ( $Param{EditFieldValue} ) {
