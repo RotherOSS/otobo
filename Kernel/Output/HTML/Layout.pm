@@ -694,10 +694,10 @@ sub Redirect {
         && $ConfigObject->Get('SessionUseCookie')
         )
     {
-        for ( sort keys $Self->{SetCookies}->%* ) {
+        for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
             # make a copy because we might need $Self->{SetCookies} later on
-            my %Ingredients = $Self->{SetCookies}->{$_}->%*;
+            my %Ingredients = $Self->{SetCookies}->{$Key}->%*;
             my $Name        = delete $Ingredients{name};
 
             # the method 'cookies' is in lower case because we use Plack::Response directly
@@ -1707,10 +1707,10 @@ sub _AddHeadersToResponseObject {
         && $ConfigObject->Get('SessionUseCookie')
         )
     {
-        for ( sort keys $Self->{SetCookies}->%* ) {
+        for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
             # make a copy because we might need $Self->{SetCookies} later on
-            my %Ingredients = $Self->{SetCookies}->{$_}->%*;
+            my %Ingredients = $Self->{SetCookies}->{$Key}->%*;
             my $Name        = delete $Ingredients{name};
             $ResponseObject->Cookies->{$Name} = \%Ingredients;
         }
@@ -4089,10 +4089,10 @@ sub CustomerLogin {
         && $ConfigObject->Get('SessionUseCookie')
         )
     {
-        for ( sort keys $Self->{SetCookies}->%* ) {
+        for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
             # make a copy because we might need $Self->{SetCookies} later on
-            my %Ingredients = $Self->{SetCookies}->{$_}->%*;
+            my %Ingredients = $Self->{SetCookies}->{$Key}->%*;
             my $Name        = delete $Ingredients{name};
             $ResponseObject->Cookies->{$Name} = \%Ingredients;
         }
@@ -6684,11 +6684,25 @@ sub SetCookie {
         }
     }
 
+    # Get the configured samesite.
+    # Declare whethers browser should send the cookie to another domain.
+    # Other protocol counts as another domain.
+    # The default is 'lax'. There is no override via the parameter array.
+    my $SameSite;
+    {
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        $SameSite = lc $ConfigObject->Get('SessionSameSite') // '';
+        if ( $SameSite ne 'none' && $SameSite ne 'strict' ) {
+            $SameSite = 'lax';
+        }
+    }
+
     $Self->{SetCookies}->{ $Param{Key} } = {
         name     => $Param{Key},
         value    => $Param{Value},
         expires  => $Param{Expires},
-        secure   => $Param{Secure}   || '',
+        secure   => $Param{Secure} || '',
+        samesite => $SameSite,
         httponly => $Param{HTTPOnly} || '',
         path     => '/' . ( $Param{Path} // '' ),
     };

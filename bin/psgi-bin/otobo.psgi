@@ -453,7 +453,7 @@ my $RedirectOtoboApp = sub {
     $Res->redirect($Redirect);
 
     # send the PSGI response arrayref
-    return $Res->finalize();
+    return $Res->finalize;
 };
 
 # Check whether PublicFrontend::Active is on. If so serve the public interface.
