@@ -757,7 +757,7 @@ Core.AJAX = (function (TargetNS) {
             });
         }
         else {
-            $('.FormUpdate').each(function(Index, Element) {
+            $('.FormUpdate:not([name="' + ChangedElement + '"])').each(function(Index, Element) {
                 ToggleAJAXLoader($(Element).attr('id'), true);
             });
         }
@@ -793,7 +793,7 @@ Core.AJAX = (function (TargetNS) {
                     });
                 }
                 else {
-                    $('.FormUpdate').each(function(Index, Element) {
+                    $('.FormUpdate:not([name=' + ChangedElement + '])').each(function(Index, Element) {
                         ToggleAJAXLoader($(Element).attr('id'), false);
                     });
                 }
