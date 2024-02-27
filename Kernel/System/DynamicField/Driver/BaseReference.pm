@@ -225,6 +225,11 @@ sub EditFieldRender {
         $FieldClass .= ' Validate_Required';
     }
 
+    # set ajaxupdate class
+    if ( $Param{AJAXUpdate} ) {
+        $FieldClass .= ' FormUpdate';
+    }
+
     # set error css class
     if ( $Param{ServerError} ) {
         $FieldClass .= ' ServerError';
@@ -365,31 +370,6 @@ sub EditFieldRender {
                 SelectionHTML => ( $DFDetails->{EditFieldMode} ne 'AutoComplete' ? $SelectionHTML : undef ),
             },
         );
-    }
-
-    if ( $Param{AJAXUpdate} ) {
-
-        my $FieldSelector = '#' . $FieldName;
-
-        my $FieldsToUpdate = '';
-        if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
-
-            # Remove current field from updatable fields list
-            my @FieldsToUpdate = grep { $_ ne $FieldName } @{ $Param{UpdatableFields} };
-
-            # quote all fields, put commas in between them
-            $FieldsToUpdate = join( ', ', map {"'$_'"} @FieldsToUpdate );
-        }
-
-        # add js to call FormUpdate()
-        $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");
-\$('$FieldSelector').bind('change', function (Event) {
-    Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
-});
-Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
-    var FieldName = '$FieldName';
-});
-EOF
     }
 
     # call EditLabelRender on the common Driver

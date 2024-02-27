@@ -220,6 +220,11 @@ sub EditFieldRender {
         $FieldClass .= ' Validate_Required';
     }
 
+    # set ajaxupdate class
+    if ( $Param{AJAXUpdate} ) {
+        $FieldClass .= ' FormUpdate';
+    }
+
     # set error css class
     if ( $Param{ServerError} ) {
         $FieldClass .= ' ServerError';
@@ -337,24 +342,8 @@ sub EditFieldRender {
 
     if ( $Param{AJAXUpdate} ) {
 
-        my $FieldSelector = '#' . $FieldName;
-
-        my $FieldsToUpdate = '[ ]';
-        if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
-
-            # Remove current field from updatable fields list
-            my @FieldsToUpdate = grep { $_ ne $FieldName } @{ $Param{UpdatableFields} };
-
-            $FieldsToUpdate = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-                Data => \@FieldsToUpdate,
-            );
-        }
-
         # add js to call FormUpdate()
         $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");
-\$('$FieldSelector').bind('change', function (Event) {
-    Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', $FieldsToUpdate );
-});
 Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
     var FieldName = '$FieldName';
     if (Data[FieldName] && \$('#' + FieldName).hasClass('DynamicFieldWithTreeView')) {
