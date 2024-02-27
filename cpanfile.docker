@@ -198,40 +198,40 @@ requires 'Const::Fast';
 
 # feature 'div:cldr', 'Support for feature div:cldr' => sub {
     # localisation from the CLDR project
-    requires 'Locale::CLDR', '>= 0.40.0';
+    requires 'Locale::CLDR', '== 0.40.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Ar', '>= 0.40.0';
+    requires 'Locale::CLDR::Locales::Ar', '== 0.40.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::De', '>= 0.40.0';
+    requires 'Locale::CLDR::Locales::De', '== 0.40.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Es', '>= 0.40.0';
+    requires 'Locale::CLDR::Locales::Es', '== 0.40.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Fr', '>= 0.40.0';
+    requires 'Locale::CLDR::Locales::Fr', '== 0.40.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Hu', '>= 0.40.0';
+    requires 'Locale::CLDR::Locales::Hu', '== 0.40.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Ko', '>= 0.40.0';
+    requires 'Locale::CLDR::Locales::Ko', '== 0.40.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Nb', '>= 0.40.0';
+    requires 'Locale::CLDR::Locales::Nb', '== 0.40.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Pt', '>= 0.40.0';
+    requires 'Locale::CLDR::Locales::Pt', '== 0.40.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Ru', '>= 0.40.0';
+    requires 'Locale::CLDR::Locales::Ru', '== 0.40.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Sr', '>= 0.40.0';
+    requires 'Locale::CLDR::Locales::Sr', '== 0.40.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Zh', '>= 0.40.0';
+    requires 'Locale::CLDR::Locales::Zh', '== 0.40.1';
 
 # };
 
