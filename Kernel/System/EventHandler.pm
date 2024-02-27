@@ -276,6 +276,9 @@ sub EventHandlerTransaction {
     # remember, we are in destroy mode, do not execute new events
     $Self->{EventHandlerTransaction} = 1;
 
+    # set up a clean object manager here to enable correct handling of nested transactions
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+
     # execute events on end of transaction
     if ( $Self->{EventHandlerPipe} ) {
 
