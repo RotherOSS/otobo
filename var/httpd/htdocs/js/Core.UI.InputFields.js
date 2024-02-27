@@ -310,9 +310,9 @@ Core.UI.InputFields = (function (TargetNS) {
         }
 
         // initialize FormUpdate fields
-        $('.IsFormUpdate').each(function(Index, Element) {
+        $('.FormUpdate').each(function(Index, Element) {
             $(this).off('change').on('change', function () {
-                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', undefined, $(this).attr('name'));
+                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', $(this).attr('name'), undefined);
             });
         });
     };
