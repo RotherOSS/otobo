@@ -147,15 +147,14 @@ sub ValueSet {
         INDEX:
         for my $SetIndex ( 0 .. $#{ $Param{Value} } ) {
 
+            $LensDFConfig->{SetIndex} = $SetIndex;
+
             # with param SetIndex, a single obect id is returned
             # as we are already saving we trust, that the reference edit field has been validated
             my $ReferencedObjectID = $Self->_GetReferencedObjectID(
                 ObjectID               => $Param{ObjectID},
-                LensDynamicFieldConfig => {
-                    $LensDFConfig->%*,
-                    Name => "$LensDFConfig->{Name}_$SetIndex",
-                },
-                EditFieldValue => $Param{EditFieldValue} // 1,
+                LensDynamicFieldConfig => $LensDFConfig,
+                EditFieldValue         => $Param{EditFieldValue} // 1,
             );
 
             next INDEX unless $ReferencedObjectID;
