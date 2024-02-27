@@ -21,12 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet FixedTimeUnset);
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
@@ -109,25 +108,15 @@ for my $Test (@Tests) {
         Mode   => 'NotNumeric',
         Action => 'return',
     );
-
-    $Self->Is(
-        $Result,
-        $Test->{ResultReturn},
-        "$Test->{Name} - return",
-    );
+    is( $Result, $Test->{ResultReturn}, "$Test->{Name} - return" );
 
     $Result = $LanguageObject->Time(
         %{ $Test->{Data} },
         Action => 'get',
     );
-
-    $Self->Is(
-        $Result,
-        $Test->{ResultGet},
-        "$Test->{Name} - get",
-    );
+    is( $Result, $Test->{ResultGet}, "$Test->{Name} - get" );
 
     FixedTimeUnset();
 }
 
-$Self->DoneTesting();
+done_testing;
