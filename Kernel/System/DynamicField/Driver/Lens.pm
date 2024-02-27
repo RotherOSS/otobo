@@ -654,7 +654,7 @@ sub GetFieldState {
             # TODO: Instead we could just send $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } as ObjectID
             # but we would need to interpret it later (from ConfigItemID to LastVersionID, e.g.)
             # TODO: Validate the Reference ObjectID here, or earlier, to prevent data leaks!
-            ObjectID              => 1,    # will not be used;
+            ObjectID              => 1,                  # will not be used;
             UseReferenceEditField => 1,
             SetIndex              => $Param{SetIndex},
         );

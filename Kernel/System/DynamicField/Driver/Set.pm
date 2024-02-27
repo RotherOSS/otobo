@@ -775,7 +775,7 @@ sub GetFieldState {
             },
             LoopProtection     => \$LoopProtection,
             PossibleValuesOnly => 1,
-            SetIndex => $SetIndex,
+            SetIndex           => $SetIndex,
         );
 
         for my $Name ( sort keys $SetFieldStates{Fields}->%* ) {
