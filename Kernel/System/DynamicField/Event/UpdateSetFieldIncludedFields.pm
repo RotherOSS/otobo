@@ -72,7 +72,7 @@ sub Run {
     if ( $Param{Event} eq 'DynamicFieldAdd' ) {
 
         # update configs of included fields
-        for my $IncludedField ( $IncludedFields->%* ) {
+        for my $IncludedField ( keys $IncludedFields->%* ) {
             my $IncludedFieldConfig = $IncludedFields->{$IncludedField};
             $DynamicFieldObject->DynamicFieldUpdate(
                 $IncludedFieldConfig->%*,
@@ -114,7 +114,7 @@ sub Run {
     elsif ( $Param{Event} eq 'DynamicFieldDelete' ) {
 
         # update configs of included fields
-        for my $IncludedField ( $IncludedFields->@* ) {
+        for my $IncludedField ( keys $IncludedFields->%* ) {
             my $IncludedFieldConfig = $IncludedFields->{$IncludedField};
             $DynamicFieldObject->DynamicFieldUpdate(
                 $IncludedFieldConfig->%*,
