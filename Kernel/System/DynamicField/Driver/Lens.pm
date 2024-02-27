@@ -102,7 +102,6 @@ sub ValueGet {
         LensDynamicFieldConfig => $LensDFConfig,
         EditFieldValue         => $Param{UseReferenceEditField},
         Set                    => $Param{Set},
-        SetIndex               => $Param{SetIndex},
     );
 
     return unless $ReferencedObjectID;
@@ -152,9 +151,11 @@ sub ValueSet {
             # as we are already saving we trust, that the reference edit field has been validated
             my $ReferencedObjectID = $Self->_GetReferencedObjectID(
                 ObjectID               => $Param{ObjectID},
-                LensDynamicFieldConfig => $LensDFConfig,
-                EditFieldValue         => $Param{EditFieldValue} // 1,
-                SetIndex               => $SetIndex,
+                LensDynamicFieldConfig => {
+                    $LensDFConfig->%*,
+                    Name => "$LensDFConfig->{Name}_$SetIndex",
+                },
+                EditFieldValue => $Param{EditFieldValue} // 1,
             );
 
             next INDEX unless $ReferencedObjectID;
@@ -648,15 +649,18 @@ sub GetFieldState {
     # get the current value of the referenced attribute field if an object is referenced
     if ($ReferenceID) {
 
+        if ( defined $Param{SetIndex} ) {
+            $DynamicFieldConfig->{SetIndex} = $Param{SetIndex};
+        }
+
         $AttributeFieldValue = $Self->ValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
 
             # TODO: Instead we could just send $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } as ObjectID
             # but we would need to interpret it later (from ConfigItemID to LastVersionID, e.g.)
             # TODO: Validate the Reference ObjectID here, or earlier, to prevent data leaks!
-            ObjectID              => 1,                  # will not be used;
+            ObjectID              => 1,    # will not be used;
             UseReferenceEditField => 1,
-            SetIndex              => $Param{SetIndex},
         );
     }
 
@@ -812,24 +816,11 @@ The ID of the referenced object.
 sub _GetReferenceDFConfig {
     my ( $Self, %Param ) = @_;
 
-    my $ReferenceDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+    $Self->{ReferenceDFCache}{ $Param{LensDynamicFieldConfig}{ID} } //= $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         ID => $Param{LensDynamicFieldConfig}{Config}{ReferenceDF},
     );
 
-    # set cache without name adaptions
-    $Self->{ReferenceDFCache}{ $Param{LensDynamicFieldConfig}{ID} } //= $ReferenceDFConfig;
-
-    # suffix name with process id and set index, if present
-    if ( $Param{LensDynamicFieldConfig}{ProcessSuffix} ) {
-        $ReferenceDFConfig->{Name} .= $Param{LensDynamicFieldConfig}{ProcessSuffix};
-    }
-
-    if ( defined $Param{LensDynamicFieldConfig}{SetIndex} ) {
-        $ReferenceDFConfig->{Name} .= "_$Param{LensDynamicFieldConfig}{SetIndex}";
-    }
-
-    # return config with suffixed name
-    return $ReferenceDFConfig;
+    return $Self->{ReferenceDFCache}{ $Param{LensDynamicFieldConfig}{ID} };
 }
 
 =head2 _GetAttributeDFConfig()
@@ -868,11 +859,19 @@ sub _GetReferencedObjectID {
     my $ReferenceDFConfig = $Self->_GetReferenceDFConfig(
         LensDynamicFieldConfig => {
             $LensDFConfig->%*,
-            SetIndex => $Param{SetIndex},
         },
     );
 
     if ( $Param{EditFieldValue} ) {
+
+        # suffix name with process id and set index, if present
+        if ( $LensDFConfig->{ProcessSuffix} ) {
+            $ReferenceDFConfig->{Name} .= $LensDFConfig->{ProcessSuffix};
+        }
+
+        if ( defined $LensDFConfig->{SetIndex} ) {
+            $ReferenceDFConfig->{Name} .= "_$LensDFConfig->{SetIndex}";
+        }
 
         my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
             DynamicFieldConfig => $ReferenceDFConfig,
