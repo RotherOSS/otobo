@@ -862,19 +862,23 @@ sub _GetReferencedObjectID {
     if ( $Param{EditFieldValue} ) {
 
         # suffix name with process id and set index, if present
+        my $ReferenceDFName = $ReferenceDFConfig->{Name};
         if ( $LensDFConfig->{ProcessSuffix} ) {
-            $ReferenceDFConfig->{Name} .= $LensDFConfig->{ProcessSuffix};
+            $ReferenceDFName .= $LensDFConfig->{ProcessSuffix};
         }
 
         if ( defined $LensDFConfig->{SetIndex} ) {
-            $ReferenceDFConfig->{Name} .= "_$LensDFConfig->{SetIndex}";
+            $ReferenceDFName .= "_$LensDFConfig->{SetIndex}";
         }
 
         my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
-            DynamicFieldConfig => $ReferenceDFConfig,
-            ParamObject        => $Kernel::OM->Get('Kernel::System::Web::Request'),
-            TransformDates     => 0,
-            ForLens            => 1,
+            DynamicFieldConfig => {
+                $ReferenceDFConfig->%*,
+                Name => $ReferenceDFName,
+            },
+            ParamObject    => $Kernel::OM->Get('Kernel::System::Web::Request'),
+            TransformDates => 0,
+            ForLens        => 1,
         );
 
         return $ObjectID->[0];
