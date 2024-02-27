@@ -130,7 +130,6 @@ Core.Agent.TicketEmail = (function (TargetNS) {
     function FieldUpdate (Value) {
         var SignatureURL, FieldValue, CustomerUser;
         $('#' + Value).on('change', function () {
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', Value);
 
             if (Value === 'Dest') {
                 FieldValue = $(this).val() || '';
