@@ -16,8 +16,12 @@
 
 package Kernel::Language;
 
+use v5.24;
 use strict;
 use warnings;
+
+# use namespace::autoclean; no yet activated as there might be unwanted side effects
+use utf8;
 
 # core modules
 use Exporter    qw(import);
@@ -31,10 +35,11 @@ use Kernel::System::DateTime qw(OTOBOTimeZoneGet);
 
 our @EXPORT_OK = qw(Translatable);    ## no critic qw(OTOBO::RequireCamelCase)
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::Log',
-    'Kernel::System::Main',
+our @ObjectDependencies = qw(
+    Kernel::Config
+    Kernel::System::Log
+    Kernel::System::Main
+    Kernel::System::ReferenceData
 );
 
 =head1 NAME
@@ -552,6 +557,79 @@ sub LanguageChecksum {
     }
 
     return md5_hex($LanguageString);
+}
+
+=head2 LanguageList()
+
+This function returns a hash mapping language codes to a label. The label contains the native language name
+and the translation into the user language. This hash is intended for language selection.
+
+=cut
+
+sub LanguageList {
+    my ($Self) = @_;
+
+    my %Languages;
+    my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
+    my $ReferenceDataObject = $Kernel::OM->Get('Kernel::System::ReferenceData');
+
+    # get names of languages in English
+    my %DefaultUsedLanguages = ( $ConfigObject->Get('DefaultUsedLanguages') || {} )->%*;
+
+    # get native names of languages
+    my %DefaultUsedLanguagesNative = ( $ConfigObject->Get('DefaultUsedLanguagesNative') || {} )->%*;
+
+    my $InProcessText = $Self->Translate('(in process)');
+
+    LANGUAGEID:
+    for my $LanguageID ( sort keys %DefaultUsedLanguages ) {
+
+        # next language if there is not set any name for current language
+        if ( !$DefaultUsedLanguages{$LanguageID} && !$DefaultUsedLanguagesNative{$LanguageID} ) {
+            next LANGUAGEID;
+        }
+
+        # get texts in native and default language
+        my $Text        = $DefaultUsedLanguagesNative{$LanguageID} || '';
+        my $TextEnglish = $DefaultUsedLanguages{$LanguageID}       || '';
+
+        # translate to current user's language
+        my $TextTranslated;
+        if ( $ConfigObject->Get('ReferenceData::TranslatedLanguageNames') ) {
+            $TextTranslated = $ReferenceDataObject->LanguageCode2Name(
+                LanguageCode => $LanguageID,
+                Language     => $Self->{UserLanguage},
+            );
+        }
+
+        # fall back to the default translation
+        $TextTranslated //= $Self->Translate($TextEnglish);
+
+        if ( $TextTranslated && $TextTranslated ne $Text ) {
+            $Text .= ' - ' . $TextTranslated;
+        }
+
+        # next language if there is neither English nor native name of language set.
+        next LANGUAGEID unless $Text;
+
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $LanguageID,
+        );
+
+        next LANGUAGEID unless $LanguageObject;
+
+        my $Completeness = $LanguageObject->{Completeness};
+
+        # mark all languages with < 25% coverage as "in process" (not for en_ variants).
+        if ( defined $Completeness && $Completeness < 0.25 && $LanguageID !~ m{^en_}smx ) {
+            $Text .= ' ' . $InProcessText;
+        }
+
+        # This will be used in the selection
+        $Languages{$LanguageID} = $Text;
+    }
+
+    return %Languages;
 }
 
 1;
