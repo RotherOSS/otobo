@@ -284,7 +284,7 @@ sub FormIDRemove {
     }
 
     my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL  => 'DELETE FROM form_cache WHERE' . join( ' AND ', @SQLWhere ),
+        SQL  => 'DELETE FROM form_cache WHERE ' . join( ' AND ', @SQLWhere ),
         Bind => \@Bind,
     );
 
