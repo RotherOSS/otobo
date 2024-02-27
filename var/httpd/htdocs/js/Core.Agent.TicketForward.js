@@ -38,7 +38,6 @@ Core.Agent.TicketForward = (function (TargetNS) {
     TargetNS.Init = function () {
 
         var ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
-            DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
 
         // add event listeners to remove or move customers
         $('.CustomerTicketRemove').on('click', function () {
@@ -58,11 +57,6 @@ Core.Agent.TicketForward = (function (TargetNS) {
 
             // add the customer to the target field
             Core.Agent.CustomerSearch.AddTicketCustomer(TargetField, MoveCustomerVal, MoveCustomerKey);
-        });
-
-        // update dynamic fields in form
-        $('#ComposeStateID').on('change', function () {
-            Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ComposeStateID', DynamicFieldNames);
         });
 
         // change article compose options

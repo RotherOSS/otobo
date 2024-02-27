@@ -751,9 +751,14 @@ Core.AJAX = (function (TargetNS) {
         Data.ElementChanged = ChangedElement;
         QueryString = TargetNS.SerializeForm($EventElement, Data) + SerializeData(Data);
 
-        if (FieldsToUpdate) {
-            $.each(FieldsToUpdate, function (Index, Value) {
-                ToggleAJAXLoader(Value, true);
+        if ( Array.isArray(FieldsToUpdate) ) {
+            $(FieldsToUpdate).each(function(Index, FieldID) {
+                ToggleAJAXLoader(FieldID, true);
+            });
+        }
+        else {
+            $('.FormUpdate').each(function(Index, Element) {
+                ToggleAJAXLoader($(Element).attr('id'), true);
             });
         }
 
@@ -782,9 +787,14 @@ Core.AJAX = (function (TargetNS) {
                 }
             },
             complete: function () {
-                if (FieldsToUpdate) {
-                    $.each(FieldsToUpdate, function (Index, Value) {
-                        ToggleAJAXLoader(Value, false);
+                if ( Array.isArray(FieldsToUpdate) ) {
+                    $(FieldsToUpdate).each(function(Index, FieldID) {
+                        ToggleAJAXLoader(FieldID, false);
+                    });
+                }
+                else {
+                    $('.FormUpdate').each(function(Index, Element) {
+                        ToggleAJAXLoader($(Element).attr('id'), false);
                     });
                 }
             },

@@ -100,6 +100,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 CustomerUserID: CustomerUserID
             },
             SignatureURL;
+
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function (Response) {
 
             $('#CustomerID').val(Response.CustomerID);
@@ -129,12 +130,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     $('#Signature').attr('src', SignatureURL);
                 }
             }
-            if (Core.Config.Get('Action') === 'AgentTicketProcess' &&
-                typeof Core.Config.Get('CustomerFieldsToUpdate') !== 'undefined'){
+            if (Core.Config.Get('Action') === 'AgentTicketProcess') {
                 // reset service
                 $('#ServiceID').attr('selectedIndex', 0);
                 // update services (trigger ServiceID change event)
-                Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('CustomerFieldsToUpdate'));
+                Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID');
             }
         });
     }
@@ -615,9 +615,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                             $('#CustomerID').val('');
                         }
 
-                        if (Core.Config.Get('Action') === 'AgentTicketProcess' && typeof Core.Config.Get('CustomerFieldsToUpdate') !== 'undefined') {
+                        if (Core.Config.Get('Action') === 'AgentTicketProcess') {
                             // update services (trigger ServiceID change event)
-                            Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('CustomerFieldsToUpdate'));
+                            Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID');
                         }
                     }
                 });

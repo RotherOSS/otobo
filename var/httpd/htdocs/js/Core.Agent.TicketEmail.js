@@ -38,18 +38,13 @@ Core.Agent.TicketEmail = (function (TargetNS) {
     TargetNS.Init = function () {
         var CustomerKey,
             ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
-            DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
             DataEmail = Core.Config.Get('DataEmail'),
             DataCustomer = Core.Config.Get('DataCustomer'),
-            Fields = ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID'],
-            ModifiedFields;
+            Fields = ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID'];
 
         // Bind events to specific fields
         $.each(Fields, function(Index, Value) {
-            ModifiedFields = Core.Data.CopyObject(Fields).concat(DynamicFieldNames);
-            ModifiedFields.splice(Index, 1);
-
-            FieldUpdate(Value, ModifiedFields);
+            FieldUpdate(Value);
         });
 
         // get all owners
@@ -129,14 +124,13 @@ Core.Agent.TicketEmail = (function (TargetNS) {
      * @memberof Core.Agent.TicketEmail
      * @function
      * @param {String} Value - FieldID
-     * @param {Array} ModifiedFields - Fields
      * @description
      *      Create on change event handler
      */
-    function FieldUpdate (Value, ModifiedFields) {
+    function FieldUpdate (Value) {
         var SignatureURL, FieldValue, CustomerUser;
         $('#' + Value).on('change', function () {
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', Value, ModifiedFields);
+            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', Value);
 
             if (Value === 'Dest') {
                 FieldValue = $(this).val() || '';

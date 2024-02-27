@@ -37,10 +37,6 @@ Core.Agent.TicketMove = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
-            Fields = ['NewUserID', 'DestQueueID', 'NewStateID', 'NewPriorityID'],
-            ModifiedFields;
-
         // Bind event to Owner get all button
         $('#OwnerSelectionGetAll').on('click', function () {
             $('#OwnerAll').val('1');
@@ -48,18 +44,6 @@ Core.Agent.TicketMove = (function (TargetNS) {
                 $('#NewUserID').focus();
             });
             return false;
-        });
-
-        // Bind events to specific fields
-        $.each(Fields, function(Index, Value) {
-            ModifiedFields = Core.Data.CopyObject(Fields).concat(DynamicFieldNames);
-            ModifiedFields.splice(Index, 1);
-
-            if (Value !== 'DestQueueID') {
-                ModifiedFields.push('StandardTemplateID');
-            }
-
-            FieldUpdate(Value, ModifiedFields);
         });
 
         // Bind event to StandardTemplate field
@@ -70,22 +54,6 @@ Core.Agent.TicketMove = (function (TargetNS) {
             return false;
         });
     };
-
-    /**
-     * @private
-     * @name FieldUpdate
-     * @memberof Core.Agent.TicketMove
-     * @function
-     * @param {String} Value - FieldID
-     * @param {Array} ModifiedFields - Fields
-     * @description
-     *      Create on change event handler
-     */
-    function FieldUpdate (Value, ModifiedFields) {
-        $('#' + Value).on('change', function () {
-            Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', Value, ModifiedFields);
-        });
-    }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 

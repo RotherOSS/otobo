@@ -308,6 +308,13 @@ Core.UI.InputFields = (function (TargetNS) {
                 TargetNS.InitCustomerField( this );
             });
         }
+
+        // initialize FormUpdate fields
+        $('.IsFormUpdate').each(function(Index, Element) {
+            $(this).off('change').on('change', function () {
+                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', undefined, $(this).attr('name'));
+            });
+        });
     };
 
     TargetNS.InitCustomerField = function ( Element ) {
@@ -2754,8 +2761,6 @@ Core.UI.InputFields = (function (TargetNS) {
      */
     function InitMultiValueCell( $Cell ) {
 
-        var DynamicFields = Core.Config.Get('DynamicFieldNames');
-
         var CellGridPosition = GetGridPosition($Cell);
 
         // set correct grid row
@@ -2806,16 +2811,6 @@ Core.UI.InputFields = (function (TargetNS) {
 
         // increase index by 1 to avoid running into 0 vs. '' vs. undef problems in backend
         $('input[type="checkbox"]', $Cell).val(CellGridPosition.Row + 1);
-
-        // TODO Iterate only over fields in ValueRowCells
-        // add ajax update handler to fields
-        $.each( DynamicFields, function( Index, DynamicFieldName ) {
-            $( '#'  + DynamicFieldName + '_' + CellGridPosition.Row ).on( 'change', function () {
-                var FieldsToUpdate = Core.Data.CopyObject(DynamicFields);
-                FieldsToUpdate.splice(Index, 1);
-                Core.AJAX.FormUpdate( $Cell.closest('form'), 'AJAXUpdate', $(this).attr('name'), FieldsToUpdate );
-            });
-        });
     }
 
     /**

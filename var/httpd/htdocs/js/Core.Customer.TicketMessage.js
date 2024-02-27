@@ -38,18 +38,7 @@ Core.Customer.TicketMessage = (function (TargetNS) {
     TargetNS.Init = function(){
 
         var $Form,
-            FieldID,
-            DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
-            Fields = ['TypeID', 'Dest', 'PriorityID', 'ServiceID', 'SLAID'],
-            ModifiedFields;
-
-        // Bind events to specific fields
-        $.each(Fields, function(Index, Value) {
-            ModifiedFields = Core.Data.CopyObject(Fields).concat(DynamicFieldNames);
-            ModifiedFields.splice(Index, 1);
-
-            FieldUpdate(Value, ModifiedFields);
-        });
+            FieldID;
 
         // delete attachment
         $('button[id*=AttachmentDeleteButton]').on('click', function() {
@@ -61,22 +50,6 @@ Core.Customer.TicketMessage = (function (TargetNS) {
         });
 
     };
-
-   /**
-     * @private
-     * @name FieldUpdate
-     * @memberof Core.Customer.TicketMessage.Init
-     * @function
-     * @param {String} Value - FieldID
-     * @param {Array} ModifiedFields - Fields
-     * @description
-     *      Create on change event handler
-     */
-    function FieldUpdate (Value, ModifiedFields) {
-        $('#' + Value).on('change', function () {
-            Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', Value, ModifiedFields);
-        });
-    }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 

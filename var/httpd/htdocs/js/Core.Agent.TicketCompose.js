@@ -61,11 +61,6 @@ Core.Agent.TicketCompose = (function (TargetNS) {
             Core.Agent.CustomerSearch.AddTicketCustomer(TargetField, MoveCustomerVal, MoveCustomerKey);
         });
 
-        // change next ticket state
-        $('#StateID').on('change', function () {
-            Core.AJAX.FormUpdate($('#ComposeTicket'), 'AJAXUpdate', 'StateID', Core.Config.Get('DynamicFieldNames'));
-        });
-
         // add 'To' customer users
         if (typeof EmailAddressesTo !== 'undefined') {
             EmailAddressesTo.forEach(function(ToCustomer) {

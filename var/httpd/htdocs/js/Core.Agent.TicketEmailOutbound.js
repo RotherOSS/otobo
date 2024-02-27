@@ -38,7 +38,6 @@ Core.Agent.TicketEmailOutbound = (function (TargetNS) {
     TargetNS.Init = function () {
 
         var ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
-            DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
 
         // add event listeners to remove or move customers
         $('.CustomerTicketRemove').on('click', function () {
@@ -66,11 +65,6 @@ Core.Agent.TicketEmailOutbound = (function (TargetNS) {
                 Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdateTemplate', 'StandardTemplateID', ['RichTextField']);
             });
             return false;
-        });
-
-        // update dynamic fields in form
-        $('#ComposeStateID').on('change', function () {
-            Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ComposeStateID', DynamicFieldNames);
         });
 
         // change article compose options
