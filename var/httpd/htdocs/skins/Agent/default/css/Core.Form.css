@@ -684,12 +684,6 @@ fieldset.TableLike > .Row.MultiColumn {
     grid-column-gap: 16px;
 }
 
-/*.Row.MultiColumn .AddRemoveValueRow {
-    position: absolute;
-    left: calc( 100% - 352px );
-    margin-top: 8px;
-}*/
-
 fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field {
     display: inline-block;
 }
@@ -702,7 +696,7 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
     display: inline-block;
     margin-left: 0;
     padding-left: 0;
-    width: calc(100% - 36px);
+    width: calc(100% - 40px);
 }
 
 /* Dynamic Field Set */
@@ -951,9 +945,13 @@ fieldset.TableLike.FixedLabel > .Row > .Value {
     padding-right: 0;
 }
 
-fieldset.TableLike.FixedLabel > .Row.MultiColumn > .Field,
-fieldset.TableLike.FixedLabel > .Row.MultiColumn > .FieldCell > .Field,
-fieldset.TableLike.FixedLabel > .Row.MultiColumn > .Value {
+fieldset.TableLike.FixedLabel .Row.MultiColumn {
+    margin-left: 100px;
+}
+
+fieldset.TableLike.FixedLabel .Row.MultiColumn > .Field,
+fieldset.TableLike.FixedLabel .Row.MultiColumn > .FieldCell > .Field,
+fieldset.TableLike.FixedLabel .Row.MultiColumn > .Value {
     margin-left: 0px;
     padding-left: 0px;
 }
@@ -967,6 +965,10 @@ fieldset.TableLike.FixedLabel > .Row.MultiColumn > .Value {
     margin-right: 170px;
     padding-left: 0;
     padding-right: 17px;
+}
+
+.RTL fieldset.TableLike.FixedLabel .Row.MultiColumn {
+    margin-right: 100px;
 }
 
 .RTL fieldset.TableLike.FixedLabel > .Row.MultiColumn > .Field,

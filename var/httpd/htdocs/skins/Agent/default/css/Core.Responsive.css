@@ -483,6 +483,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: auto;
     }
 
+    fieldset.TableLike .Row.MultiColumn {
+        margin-left: 0px;
+        width: calc(90% + 8px); /*accounting for padding of other inputs for uniform lengths*/
+    }
+
     /* DynamicFieldSet */
 
     fieldset.TableLike .Row.Row_DynamicField .DFSetOuterField {
