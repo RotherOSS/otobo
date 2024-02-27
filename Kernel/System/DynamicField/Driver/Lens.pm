@@ -96,12 +96,20 @@ sub ValueGet {
 
     my $LensDFConfig = $Param{DynamicFieldConfig};
 
+    # needed because check for SetIndex uses exists
+    #   so, we must not set the key if there is no SetIndex
+    my %SetIndex = ();
+    if ( exists $Param{SetIndex} ) {
+        $SetIndex{SetIndex} = $Param{SetIndex};
+    }
+
     # in set case, an arrayref of object ids is returned
     my $ReferencedObjectID = $Self->_GetReferencedObjectID(
         ObjectID               => $Param{ObjectID},
         LensDynamicFieldConfig => $LensDFConfig,
         EditFieldValue         => $Param{UseReferenceEditField},
         Set                    => $Param{Set},
+        %SetIndex,
     );
 
     return unless $ReferencedObjectID;
@@ -111,7 +119,7 @@ sub ValueGet {
     );
 
     # in set case, values need to be collected one by one
-    if ( $Param{Set} ) {
+    if ( $Param{Set} && !exists $Param{SetIndex} ) {
         my @Values;
         for my $RefID ( $ReferencedObjectID->@* ) {
             if ( !$RefID ) {
@@ -646,6 +654,13 @@ sub GetFieldState {
 
     # get the current value of the referenced attribute field if an object is referenced
     if ($ReferenceID) {
+
+        # needed because check for SetIndex uses exists
+        #   so, we must not set the key if there is no SetIndex
+        my %SetIndex = ();
+        if ( exists $Param{SetIndex} ) {
+            $SetIndex{SetIndex} = $Param{SetIndex};
+        }
         $AttributeFieldValue = $Self->ValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
 
@@ -654,6 +669,8 @@ sub GetFieldState {
             # TODO: Validate the Reference ObjectID here, or earlier, to prevent data leaks!
             ObjectID              => 1,    # will not be used;
             UseReferenceEditField => 1,
+            Set                   => $DynamicFieldConfig->{Config}{PartOfSet},
+            %SetIndex,
         );
     }
 
@@ -676,7 +693,7 @@ sub GetFieldState {
         # or is currently stored for the edited ticket/ci/... (2)
         my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
             LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
-            Key          => 'PossibleValues_' . $ReferenceDFName,
+            Key          => 'PossibleValues_' . $ReferenceDFName . ( exists $Param{SetIndex} ? "_$Param{SetIndex}" : '' ),
         );
 
         my $Allowed = 0;
