@@ -535,35 +535,28 @@ button.oooM.ActivitySubmitButton {
 }
 
 .Row_DynamicField {
-    grid-row-gap: 16px;
-    grid-column-gap: 40px;
+    row-gap: 16px;
+    column-gap: 12px;
 }
 
-@media only screen and (min-width: 1024px) {
-
-    .AddRemoveValueRow {
-        position: absolute;
-        display: inline;
-        margin-top: 20px;
-        left: calc( 100% - 44px );
-        width: 33px;
-    }
-
-}
-@media only screen and (min-width: 1444px) {
-
-    .AddRemoveValueRow {
-        left: calc( 50% + 380px );
-    }
-
+.AddRemoveValueRow {
+    position: absolute;
+    left: unset;
+    right: -40px;
+    top: 20px;
 }
 
-.Row > .FieldCell,
+.Row > .FieldCell {
+    position: relative;
+    width: calc(100% - 40px);
+}
+
 .Row > .FieldCell > div.Field,
 .Row > div.Field,
 .Row > div.InputField_Container,
 .Row > select {
     width: 100%;
+    box-sizing: border-box;
 }
 
 .RichTextHolder .cke {
