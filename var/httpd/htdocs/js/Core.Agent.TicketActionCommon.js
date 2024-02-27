@@ -37,23 +37,6 @@ Core.Agent.TicketActionCommon = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
-            Fields = ['TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID'],
-            ModifiedFields;
-
-        // Bind events to specific fields
-        $.each(Fields, function(Index, Value) {
-            ModifiedFields = Core.Data.CopyObject(Fields).concat(DynamicFieldNames);
-            ModifiedFields.splice(Index, 1);
-
-            FieldUpdate(Value, ModifiedFields);
-        });
-
-        // Bind event to Queue field.
-        $('#NewQueueID').on('change', function () {
-            Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewQueueID', ['TypeID', 'ServiceID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', 'StandardTemplateID'].concat(DynamicFieldNames));
-        });
-
         // Bind event to StandardTemplate field.
         $('#StandardTemplateID').on('change', function () {
             Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
@@ -87,22 +70,6 @@ Core.Agent.TicketActionCommon = (function (TargetNS) {
             });
         });
     };
-
-    /**
-     * @private
-     * @name FieldUpdate
-     * @memberof Core.Agent.TicketActionCommon
-     * @function
-     * @param {String} Value - FieldID
-     * @param {Array} ModifiedFields - Fields
-     * @description
-     *      Create on change event handler
-     */
-    function FieldUpdate (Value, ModifiedFields) {
-        $('#' + Value).on('change', function () {
-            Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', Value, ModifiedFields);
-        });
-    }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 

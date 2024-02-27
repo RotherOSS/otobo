@@ -37,8 +37,6 @@ Core.Agent.TicketPhoneCommon = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var UpdateFields = Core.Config.Get('DynamicFieldNames');
-
         // Bind event to StandardTemplate field.
         $('#StandardTemplateID').on('change', function () {
             var $TemplateSelect = $(this);
@@ -48,11 +46,6 @@ Core.Agent.TicketPhoneCommon = (function (TargetNS) {
             return false;
         });
 
-        // Bind event to State field.
-        $('#NextStateID').on('change', function () {
-            UpdateFields.push('StandardTemplateID');
-            Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'NextStateID', UpdateFields);
-        });
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

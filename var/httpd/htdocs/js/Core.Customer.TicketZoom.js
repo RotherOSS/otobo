@@ -252,7 +252,6 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             ZoomExpand = $('#ZoomExpand').val(),
             $Form,
             FieldID,
-            DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
             ActivityCount = $('#oooArticleListExpanded > .Activity').length;
 
 
@@ -448,16 +447,6 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             $DialogWidget.addClass('Visible');
             Core.UI.InputFields.Activate();
         }
-
-        // Bind event to State field.
-        $('#StateID').on('change', function () {
-            Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', ['PriorityID', 'TicketID'].concat(DynamicFieldNames));
-        });
-
-        // Bind event to Priority field.
-        $('#PriorityID').on('change', function () {
-            Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', ['StateID', 'TicketID'].concat(DynamicFieldNames));
-        });
 
         $('a.AsPopup').on('click', function () {
             Core.UI.Popup.OpenPopup($(this).attr('href'), 'TicketAction');

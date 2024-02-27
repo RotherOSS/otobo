@@ -37,11 +37,8 @@ Core.Agent.TicketPhone = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
-            FromExternalCustomerName = Core.Config.Get('FromExternalCustomerName'),
-            FromExternalCustomerEmail = Core.Config.Get('FromExternalCustomerEmail'),
-            Fields = ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID'],
-            ModifiedFields;
+        var FromExternalCustomerName = Core.Config.Get('FromExternalCustomerName'),
+            FromExternalCustomerEmail = Core.Config.Get('FromExternalCustomerEmail');
 
         // Bind event to customer radio button.
         $('.CustomerTicketRadio').on('change', function () {
@@ -66,14 +63,6 @@ Core.Agent.TicketPhone = (function (TargetNS) {
             typeof FromExternalCustomerName !== 'undefined') {
                 Core.Agent.CustomerSearch.AddTicketCustomer('FromCustomer', FromExternalCustomerEmail, FromExternalCustomerName, true);
         }
-
-        // Bind events to specific fields
-        $.each(Fields, function(Index, Value) {
-            ModifiedFields = Core.Data.CopyObject(Fields).concat(DynamicFieldNames);
-            ModifiedFields.splice(Index, 1);
-
-            FieldUpdate(Value, ModifiedFields);
-        });
 
         // Bind event to OwnerSelection get all button.
         $('#OwnerSelectionGetAll').on('click', function () {
@@ -101,22 +90,6 @@ Core.Agent.TicketPhone = (function (TargetNS) {
             return false;
         });
     };
-
-    /**
-     * @private
-     * @name FieldUpdate
-     * @memberof Core.Agent.TicketPhone.Init
-     * @function
-     * @param {String} Value - FieldID
-     * @param {Array} ModifiedFields - Fields
-     * @description
-     *      Create on change event handler
-     */
-    function FieldUpdate (Value, ModifiedFields) {
-        $('#' + Value).on('change', function () {
-            Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', Value, ModifiedFields);
-        });
-    }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
