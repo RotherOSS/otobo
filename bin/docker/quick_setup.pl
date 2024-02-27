@@ -27,7 +27,11 @@ quick_setup.pl - a quick OTOBO setup script for development
     # do it
     bin/docker/quick_setup.pl --db-password 'some-pass'
 
+    # set HttpType to http, the default is https
+    bin/docker/quick_setup.pl --db-password 'some-pass' --http-type http
+
     # do it when OTOBO runs on a special HTTP Port
+    # note that this only affect the message printed by this script
     bin/docker/quick_setup.pl --db-password 'some-pass' --http-port 81
 
     # also activate Elasticsearch
@@ -44,7 +48,7 @@ quick_setup.pl - a quick OTOBO setup script for development
 
 It might be convenient the call this script via an alias.
 
-    alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch --add-user --add-admin-user --add-customer-user --add-calendar"'
+    alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch --add-user --add-admin-user --add-customer-user --add-calendar --http-type http"'
 
 =head1 DESCRIPTION
 
@@ -52,6 +56,7 @@ Quickly create a running system that is useful for development and for continous
 But please note that this script is not meant as an replacement for the OTOBO installer.
 
 Allow to automatically create a sample customer user, admin user, and calendar.
+Allow to set HttpType to http, which is the proven setting for the test suite.
 
 =head1 OPTIONS
 
@@ -64,6 +69,10 @@ Optional. Print out the usage.
 =item db-password
 
 The admin password of the database.
+
+=item http-type
+
+Set the SysConfig setting 'HttpType'. The value is either 'http' or 'https'. The default is 'https'.
 
 =item http-port
 
@@ -115,33 +124,29 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager ();
 
 sub Main {
-    my $HelpFlag;                      # print help
-    my $DBPassword;                    # required
-    my $HTTPPort              = 80;    # only used for success message
-    my $ActivateElasticsearch = 0;     # must be explicitly enabled
-    my $AddUser               = 0;     # must be explicitly enabled
-    my $AddAdminUser          = 0;     # must be explicitly enabled
-    my $AddCustomerUser       = 0;     # must be explicitly enabled
-    my $AddCalendar           = 0;     # must be explicitly enabled
-    my $ActivateSyncWithS3    = 0;     # activate S3 in the SysConfig, still experimental
+    my $HelpFlag;                           # print help
+    my $DBPassword;                         # required
+    my $HTTPPort              = 80;         # only used for success message
+    my $ActivateElasticsearch = 0;          # must be explicitly enabled
+    my $AddUser               = 0;          # must be explicitly enabled
+    my $AddAdminUser          = 0;          # must be explicitly enabled
+    my $AddCustomerUser       = 0;          # must be explicitly enabled
+    my $AddCalendar           = 0;          # must be explicitly enabled
+    my $HttpType              = 'https';    # the SysConfig setting HttpType
+    my $ActivateSyncWithS3    = 0;          # activate S3 in the SysConfig, still experimental
 
     GetOptions(
         'help'                   => \$HelpFlag,
         'db-password=s'          => \$DBPassword,
         'http-port=i'            => \$HTTPPort,
+        'http-type=s'            => \$HttpType,
         'activate-elasticsearch' => \$ActivateElasticsearch,
         'add-user'               => \$AddUser,
         'add-admin-user'         => \$AddAdminUser,
         'add-customer-user'      => \$AddCustomerUser,
         'add-calendar'           => \$AddCalendar,
         'activate-sync-with-S3'  => \$ActivateSyncWithS3,
-        )
-        || pod2usage(
-            {
-                -exitval => 1,
-                -verbose => 1
-            }
-        );
+    ) || pod2usage( { -exitval => 1, -verbose => 1 } );
 
     if ($HelpFlag) {
         pod2usage(
@@ -235,15 +240,16 @@ sub Main {
 
     # create SysConfig and adapt some settings in the SysConfig
     {
-        # These setting are required for running the test suite
+        # These setting are recommended for running the test suite.
+        # HttpType should be set to 'http'.
         my @Settings = (
             [ DefaultLanguage        => 'en' ],
-            [ HttpType               => 'http' ],
+            [ HttpType               => $HttpType ],
             [ SecureMode             => 1 ],
             [ CheckEmailValidAddress => '^(?:root@localhost|admin@localhost|tina@example.com)$' ],
         );
 
-        # these settings are useful for testing and development
+        # These settings are useful for testing and development
         push @Settings, (
             [ MinimumLogLevel => 'info' ],    # more verbose log output
         );
