@@ -335,7 +335,7 @@ Core.AJAX = (function (Namespace) {
                 ChangeErrorHandlingForTest();
                 Core.Config.Set('Baselink', Test.URL);
                 try {
-                    Core.AJAX.FormUpdate($('#FormUpdateErrorHandlingForm'), 'Subaction', 'Test1', ['Test2'], function () {
+                    Core.AJAX.FormUpdate($('#FormUpdateErrorHandlingForm'), 'Subaction', 'Test1', function () {
                         Assert.equal(true, false, 'Error handling was not called');
                         RestoreOrignal();
                         Done();

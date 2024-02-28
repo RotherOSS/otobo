@@ -2502,9 +2502,7 @@ sub BuildSelection {
         my $Selector = $Param{ID} || $Param{Name};
         $Param{OnChange} = "Core.AJAX.FormUpdate(\$('#"
             . $Selector . "'), '" . $Param{Ajax}->{Subaction} . "',"
-            . " '$Param{Name}',"
-            . " ['"
-            . join( "', '", @{ $Param{Ajax}->{Update} } ) . "']);";
+            . " '$Param{Name}');";
     }
 
     # create OptionRef

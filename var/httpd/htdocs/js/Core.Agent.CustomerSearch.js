@@ -119,7 +119,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 // reset service
                 $('#ServiceID').attr('selectedIndex', 0);
                 // update services (trigger ServiceID change event)
-                Core.AJAX.FormUpdate($Form, 'AJAXUpdate', 'ServiceID', ['Dest', 'SelectedCustomerUser', 'Signature', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'CryptKeyID', 'OwnerAll', 'ResponsibleAll', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
+                Core.AJAX.FormUpdate($Form, 'AJAXUpdate', 'ServiceID');
 
                 // Update signature if needed.
                 if ($('#Dest').val() !== '') {
@@ -843,7 +843,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             && $('#CryptKeyID').length
             )
         {
-            Core.AJAX.FormUpdate($('#' + Field).closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
+            Core.AJAX.FormUpdate($('#' + Field).closest('form'), 'AJAXUpdate');
         }
 
         // now that we know that at least one customer has been added,
@@ -901,7 +901,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             && $('#CryptKeyID').length
             )
         {
-            Core.AJAX.FormUpdate($Form, 'AJAXUpdate', '', ['CryptKeyID']);
+            Core.AJAX.FormUpdate($Form, 'AJAXUpdate');
         }
 
         if(!$('.CustomerContainer input[type="radio"]').is(':checked')){

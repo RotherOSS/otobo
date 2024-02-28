@@ -40,7 +40,7 @@ Core.Agent.TicketMove = (function (TargetNS) {
         // Bind event to Owner get all button
         $('#OwnerSelectionGetAll').on('click', function () {
             $('#OwnerAll').val('1');
-            Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'OwnerAll', ['NewUserID'], function() {
+            Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'OwnerAll', function() {
                 $('#NewUserID').focus();
             });
             return false;
@@ -49,7 +49,7 @@ Core.Agent.TicketMove = (function (TargetNS) {
         // Bind event to StandardTemplate field
         $('#StandardTemplateID').on('change', function () {
             Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
-                Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+                Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'StandardTemplateID');
             });
             return false;
         });

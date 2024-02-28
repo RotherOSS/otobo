@@ -406,7 +406,7 @@ sub EditFieldRender {
 
     if ( $Param{AJAXUpdate} ) {
 
-        # add js to call FormUpdate()
+        # add js to bind TreeSelection event
         $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");
 Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
     var FieldName = '$FieldName';

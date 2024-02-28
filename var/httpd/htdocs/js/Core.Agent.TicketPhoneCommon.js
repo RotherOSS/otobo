@@ -41,7 +41,7 @@ Core.Agent.TicketPhoneCommon = (function (TargetNS) {
         $('#StandardTemplateID').on('change', function () {
             var $TemplateSelect = $(this);
             Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $TemplateSelect, function () {
-                Core.AJAX.FormUpdate($TemplateSelect.closest('form'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+                Core.AJAX.FormUpdate($TemplateSelect.closest('form'), 'AJAXUpdate', 'StandardTemplateID');
             });
             return false;
         });

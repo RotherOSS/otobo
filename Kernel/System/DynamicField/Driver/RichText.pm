@@ -393,7 +393,7 @@ EOF
         Charset => 'utf-8',
     );
 
-    # add js to call FormUpdate()
+    # add js to call ShowContentDialog()
     $Param{LayoutObject}->AddJSOnDocumentComplete( Code => $JSCode );
 
     my $RenderedTemplate = $Param{LayoutObject}->Output(

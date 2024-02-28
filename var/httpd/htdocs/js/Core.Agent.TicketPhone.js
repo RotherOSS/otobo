@@ -67,7 +67,7 @@ Core.Agent.TicketPhone = (function (TargetNS) {
         // Bind event to OwnerSelection get all button.
         $('#OwnerSelectionGetAll').on('click', function () {
             $('#OwnerAll').val('1');
-            Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'OwnerAll', ['NewUserID'], function() {
+            Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'OwnerAll', function() {
                 $('#NewUserID').focus();
             });
             return false;
@@ -76,7 +76,7 @@ Core.Agent.TicketPhone = (function (TargetNS) {
         // Bind event to ResponsibleSelection get all button.
         $('#ResponsibleSelectionGetAll').on('click', function () {
             $('#ResponsibleAll').val('1');
-            Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'ResponsibleAll', ['NewResponsibleID'], function() {
+            Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'ResponsibleAll', function() {
                 $('#NewResponsibleID').focus();
             });
             return false;
@@ -85,7 +85,7 @@ Core.Agent.TicketPhone = (function (TargetNS) {
         // Bind event to StandardTemplate field.
         $('#StandardTemplateID').on('change', function () {
             Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
-                Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+                Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'StandardTemplateID');
             });
             return false;
         });

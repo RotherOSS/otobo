@@ -733,16 +733,11 @@ Core.AJAX = (function (TargetNS) {
      * @param {jQueryObject} $EventElement - The jQuery object of the element(s) which are included in the form that should be submitted.
      * @param {String} Subaction - The subaction parameter for the perl module.
      * @param {String} ChangedElement - The name of the element which was changed by the user.
-     * @param {Object} FieldsToUpdate - DEPRECATED.
-     *                      This used to be the names of the fields that should be updated with the server answer,
-     *                      but is not needed any more and will be removed in a future version of OTOBO.
-     *                      Currently this is kept mainly for backwards compatibility to be able to toggle AJAX loaders
-     *                      for a precise list of fields
      * @param {Function} [SuccessCallback] - Callback function to be executed on AJAX success (optional).
      * @description
      *      Submits a special form via ajax and updates the form with the data returned from the server
      */
-    TargetNS.FormUpdate = function ($EventElement, Subaction, ChangedElement, FieldsToUpdate, SuccessCallback) {
+    TargetNS.FormUpdate = function ($EventElement, Subaction, ChangedElement, SuccessCallback) {
         var URL = Core.Config.Get('Baselink'),
             Data = GetAdditionalDefaultData(),
             QueryString;
@@ -751,6 +746,7 @@ Core.AJAX = (function (TargetNS) {
             Data.Action = $(this).val();
         });
 
+        var ChangedElementWithIndex = ChangedElement;
         if ( $('[name=' + ChangedElement + ']', '.DFSetOuterField').length ) {
             var DFRegex = RegExp('^DynamicField_[^_]+');
             ChangedElement = DFRegex.exec(ChangedElement)[0];
@@ -760,16 +756,9 @@ Core.AJAX = (function (TargetNS) {
         Data.ElementChanged = ChangedElement;
         QueryString = TargetNS.SerializeForm($EventElement, Data) + SerializeData(Data);
 
-        if ( Array.isArray(FieldsToUpdate) ) {
-            $(FieldsToUpdate).each(function(Index, FieldID) {
-                ToggleAJAXLoader(FieldID, true);
-            });
-        }
-        else {
-            var $ChangedElement = $('[name="' + ChangedElement + '"]');
-            if ( $ChangedElement.hasClass('FormUpdate') ) {
-                ToggleAJAXLoader($ChangedElement.attr('id'), true);
-            }
+        var $ChangedElement = $('[name="' + ChangedElementWithIndex + '"]');
+        if ( $ChangedElement.hasClass('FormUpdate') ) {
+            ToggleAJAXLoader($ChangedElement.attr('id'), true);
         }
 
         return $.ajax({
@@ -789,7 +778,7 @@ Core.AJAX = (function (TargetNS) {
                     Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Invalid JSON from: " + URL, 'CommunicationError'));
                 }
                 else {
-                    UpdateFormElements(Response, FieldsToUpdate);
+                    UpdateFormElements(Response);
                     if (typeof SuccessCallback === 'function') {
                         SuccessCallback();
                     }
@@ -797,16 +786,9 @@ Core.AJAX = (function (TargetNS) {
                 }
             },
             complete: function () {
-                if ( Array.isArray(FieldsToUpdate) ) {
-                    $(FieldsToUpdate).each(function(Index, FieldID) {
-                        ToggleAJAXLoader(FieldID, false);
-                    });
-                }
-                else {
-                    var $ChangedElement = $('[name="' + ChangedElement + '"]');
-                    if ( $ChangedElement.hasClass('FormUpdate') ) {
-                        ToggleAJAXLoader($ChangedElement.attr('id'), false);
-                    }
+                var $ChangedElement = $('[name="' + ChangedElementWithIndex + '"]');
+                if ( $ChangedElement.hasClass('FormUpdate') ) {
+                    ToggleAJAXLoader($ChangedElement.attr('id'), false);
                 }
             },
             error: function(XHRObject, Status, Error) {

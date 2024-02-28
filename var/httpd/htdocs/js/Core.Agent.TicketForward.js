@@ -63,7 +63,7 @@ Core.Agent.TicketForward = (function (TargetNS) {
         if (typeof ArticleComposeOptions !== 'undefined') {
             $.each(ArticleComposeOptions, function (Key, Value) {
                 $('#'+Value.Name).on('change', function () {
-                    Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', Value.Name, Value.Fields);
+                    Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', Value.Name);
                 });
             });
         }

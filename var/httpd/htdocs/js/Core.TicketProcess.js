@@ -39,14 +39,14 @@ Core.TicketProcess = (function (TargetNS) {
         // Bind event on Owner get all button
         $('#OwnerSelectionGetAll').on('click', function () {
             $('#OwnerAll').val('1');
-            Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'OwnerID', ['OwnerID']);
+            Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'OwnerID');
             return false;
         });
 
         // Bind event on Responsible Get all button
         $('#ResponsibleSelectionGetAll').on('click', function () {
             $('#ResponsibleAll').val('1');
-            Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'ResponsibleID' , ['ResponsibleID']);
+            Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'ResponsibleID');
             return false;
         });
 

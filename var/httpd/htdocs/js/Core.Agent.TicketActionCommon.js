@@ -40,7 +40,7 @@ Core.Agent.TicketActionCommon = (function (TargetNS) {
         // Bind event to StandardTemplate field.
         $('#StandardTemplateID').on('change', function () {
             Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
-                Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+                Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'StandardTemplateID');
             });
             return false;
         });
