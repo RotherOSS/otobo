@@ -184,7 +184,8 @@ sub EventHandler {
 
     # remember events only on normal mode
     if ( !$Self->{EventHandlerTransaction} ) {
-        push @{ $Self->{EventHandlerPipe} }, \%Param;
+        $Self->{EventHandlerPipe} //= [];
+        push $Self->{EventHandlerPipe}->@*, \%Param;
     }
 
     # get main object
