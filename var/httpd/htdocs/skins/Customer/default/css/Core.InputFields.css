@@ -430,17 +430,20 @@ label.oooFocus.LabelError {
     background-color: #fff;
 }
 
-input[type='checkbox']:checked + .oooAltCheck:before {
+input[type='checkbox']:checked + .oooAltCheck:before,
+input[type='checkbox']:checked + .AJAXLoader + .oooAltCheck:before {
     content: "\e908";
     font-size: 16px;
 }
 
-input[type='checkbox']:not(:checked) + .oooAltCheck:before {
+input[type='checkbox']:not(:checked) + .oooAltCheck:before,
+input[type='checkbox']:not(:checked) + .AJAXLoader + .oooAltCheck:before {
     content: "\e90b";
     font-size: 16px;
 }
 
-input[type='checkbox']:focus + .oooAltCheck:before {
+input[type='checkbox']:focus + .oooAltCheck:before,
+input[type='checkbox']:focus + .AJAXLoader + .oooAltCheck:before {
     color: #001bff;
     color: var(--colMainLight);
 }
