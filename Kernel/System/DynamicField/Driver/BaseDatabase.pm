@@ -104,7 +104,7 @@ sub ValueSet {
             $Value = $Param{Value};
         }
     }
-    else {
+    elsif ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
         my @Values = split /,/, $Param{Value} // '';
         if ( IsArrayRefWithData( \@Values ) ) {
             $Value = \@Values;
@@ -112,6 +112,9 @@ sub ValueSet {
         else {
             $Value = $Param{Value};
         }
+    }
+    else {
+        $Value = $Param{Value};
     }
 
     # Make sure that the input is not modified in ValueSet()
@@ -123,7 +126,7 @@ sub ValueSet {
         $DBValue = $Self->ValueStructureToDB(
             Value      => $Value,
             ValueKey   => 'ValueText',
-            MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+            MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue} || $Param{DynamicFieldConfig}{Config}{Multiselect},
         );
     }
 
