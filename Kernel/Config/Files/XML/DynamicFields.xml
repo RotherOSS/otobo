@@ -2051,7 +2051,7 @@
 
     <!-- Namespaces -->
     <Setting Name="DynamicField::Namespaces" Required="0" Valid="0">
-        <Description Translatable="1">Define possible namespaces for dynamic fields.</Description>
+        <Description Translatable="1">Define possible namespaces for dynamic fields. Must only accept alphabetic and numeric characters,no empty spaces.</Description>
         <Navigation>Core::DynamicFields</Navigation>
         <Value>
             <Array>
