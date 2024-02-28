@@ -108,7 +108,8 @@ Core.AJAX = (function (TargetNS) {
     function ToggleAJAXLoader(FieldID, Show) {
         var $Element = $('#' + FieldID),
             $Loader = $('#' + AJAXLoaderPrefix + FieldID),
-            LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>';
+            LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>',
+            $MultivalueButtons = $Element.parent().siblings('.AddRemoveValueRow');
 
         // Ignore hidden fields
         if ($Element.is('[type=hidden]')) {
@@ -146,9 +147,15 @@ Core.AJAX = (function (TargetNS) {
             else {
                 $Loader.show();
             }
+            if ($MultivalueButtons.length) {
+                $MultivalueButtons.hide();
+            }
         }
         else {
             $Loader.hide();
+            if ($MultivalueButtons.length) {
+                $MultivalueButtons.show();
+            }
         }
     }
 
