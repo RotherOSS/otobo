@@ -574,7 +574,7 @@ sub HasBehavior {
 
     # TODO: Think about additional behaviors we can just adopt from the attribute field
     # for certain behaviors instead use the attribute field behaviors
-    if ( grep { $Param{Behavior} eq $_ } qw/IsACLReducible/ ) {
+    if ( grep { $Param{Behavior} eq $_ } qw/IsACLReducible IsCustomerInterfaceCapable/ ) {
         my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
             LensDynamicFieldConfig => $Param{DynamicFieldConfig},
         );
