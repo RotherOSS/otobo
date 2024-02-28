@@ -729,6 +729,8 @@ Core.AJAX = (function (TargetNS) {
      * @param {Object} FieldsToUpdate - DEPRECATED.
      *                      This used to be the names of the fields that should be updated with the server answer,
      *                      but is not needed any more and will be removed in a future version of OTOBO.
+     *                      Currently this is kept mainly for backwards compatibility to be able to toggle AJAX loaders
+     *                      for a precise list of fields
      * @param {Function} [SuccessCallback] - Callback function to be executed on AJAX success (optional).
      * @description
      *      Submits a special form via ajax and updates the form with the data returned from the server
@@ -757,9 +759,10 @@ Core.AJAX = (function (TargetNS) {
             });
         }
         else {
-            $('.FormUpdate:not([name="' + ChangedElement + '"])').each(function(Index, Element) {
-                ToggleAJAXLoader($(Element).attr('id'), true);
-            });
+            var $ChangedElement = $('[name="' + ChangedElement + '"]');
+            if ( $ChangedElement.hasClass('FormUpdate') ) {
+                ToggleAJAXLoader($ChangedElement.attr('id'), true);
+            }
         }
 
         return $.ajax({
@@ -793,9 +796,10 @@ Core.AJAX = (function (TargetNS) {
                     });
                 }
                 else {
-                    $('.FormUpdate:not([name=' + ChangedElement + '])').each(function(Index, Element) {
-                        ToggleAJAXLoader($(Element).attr('id'), false);
-                    });
+                    var $ChangedElement = $('[name="' + ChangedElement + '"]');
+                    if ( $ChangedElement.hasClass('FormUpdate') ) {
+                        ToggleAJAXLoader($ChangedElement.attr('id'), false);
+                    }
                 }
             },
             error: function(XHRObject, Status, Error) {
