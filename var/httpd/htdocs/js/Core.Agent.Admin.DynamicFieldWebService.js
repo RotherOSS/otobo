@@ -42,7 +42,7 @@ Core.Agent.Admin.DynamicFieldWebService = (function (TargetNS) {
         });
 
         $('#WebserviceID').on('change', function () {
-            Core.AJAX.FormUpdate($('#EntityUpdate'), 'AJAXUpdate', 'WebserviceID', ['Invoker']);
+            Core.AJAX.FormUpdate($('#EntityUpdate'), 'AJAXUpdate', 'WebserviceID');
         });
 
         // Appropriately hide or show Link and Link Preview fields based on Multiselect value.

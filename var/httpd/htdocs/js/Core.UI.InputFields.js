@@ -243,7 +243,7 @@ Core.UI.InputFields = (function (TargetNS) {
             // initialize FormUpdate fields
             $('.FormUpdate', $Context).each(function(Index, Element) {
                 $(this).off('change').on('change', function () {
-                    Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', $(this).attr('name'), undefined);
+                    Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', $(this).attr('name'));
                 });
             });
 
@@ -2720,7 +2720,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 // initialize FormUpdate
                 if ( $SelectObj.hasClass('FormUpdate') ) {
                     $SelectObj.off('change').on('change', function () {
-                        Core.AJAX.FormUpdate($SelectObj.parents('form'), 'AJAXUpdate', $SelectObj.attr('name'), undefined);
+                        Core.AJAX.FormUpdate($SelectObj.parents('form'), 'AJAXUpdate', $SelectObj.attr('name'));
                     });
                 }
 
@@ -2869,8 +2869,8 @@ Core.UI.InputFields = (function (TargetNS) {
 
         ReplaceCellIndex( $NewCell, 'Template', CellGridPosition.Row+1 );
         $Cell.after($NewCell);
-        DynamicFieldInit( $NewCell );
         InitMultiValueCell( $NewCell );
+        DynamicFieldInit( $NewCell );
 
         $('.DynamicFieldSet .FieldCell', $NewCell).each( function() {
             let $SubCell = $(this);
@@ -2937,9 +2937,8 @@ Core.UI.InputFields = (function (TargetNS) {
 
             ReplaceCellIndex( $ResetCell, 'Template', CellGridPosition.Row );
             $Cell.after($ResetCell);
-
-            DynamicFieldInit( $ResetCell );
             InitMultiValueCell( $ResetCell );
+            DynamicFieldInit( $ResetCell );
 
             $('.DynamicFieldSet .FieldCell', $ResetCell).each( function() {
                 let $SubCell = $(this);

@@ -443,9 +443,7 @@ sub AgentQueueListOption {
         $Param{OnChange} = "Core.AJAX.FormUpdate(\$('#"
             . $Param{Name} . "'), '"
             . $Param{Ajax}->{Subaction} . "',"
-            . " '$Param{Name}',"
-            . " ['"
-            . join( "', '", @{ $Param{Ajax}->{Update} } ) . "']);";
+            . " '$Param{Name}');";
     }
 
     if ( $Param{OnChange} ) {

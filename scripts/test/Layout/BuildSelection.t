@@ -207,7 +207,7 @@ my @Tests = (
             OptionTitle    => 0,
         },
         Response =>
-            q{<select id="Select1ID" name="Select1" onchange="Core.AJAX.FormUpdate($('#Select1ID'), 'test', 'Select1', ['1', '2']);" data-tree="true">
+            q{<select id="Select1ID" name="Select1" onchange="Core.AJAX.FormUpdate($('#Select1ID'), 'test', 'Select1');" data-tree="true">
   <option value="1">Object1</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>},
         Success      => 1,

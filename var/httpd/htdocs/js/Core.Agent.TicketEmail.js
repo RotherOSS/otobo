@@ -50,7 +50,7 @@ Core.Agent.TicketEmail = (function (TargetNS) {
         // get all owners
         $('#OwnerSelectionGetAll').on('click', function () {
             $('#OwnerAll').val('1');
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'OwnerAll', ['NewUserID'], function() {
+            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'OwnerAll', function() {
                 $('#NewUserID').focus();
             });
             return false;
@@ -59,7 +59,7 @@ Core.Agent.TicketEmail = (function (TargetNS) {
         // get all responsibles
         $('#ResponsibleSelectionGetAll').on('click', function () {
             $('#ResponsibleAll').val('1');
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'ResponsibleAll', ['NewResponsibleID'], function() {
+            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'ResponsibleAll', function() {
                 $('#NewResponsibleID').focus();
             });
             return false;
@@ -68,7 +68,7 @@ Core.Agent.TicketEmail = (function (TargetNS) {
         // change standard template
         $('#StandardTemplateID').on('change', function () {
             Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
-                Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+                Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'StandardTemplateID');
             });
             return false;
         });
@@ -112,7 +112,7 @@ Core.Agent.TicketEmail = (function (TargetNS) {
         if (typeof ArticleComposeOptions !== 'undefined') {
             $.each(ArticleComposeOptions, function (Key, Value) {
                 $('#'+Value.Name).on('change', function () {
-                    Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', Value.Name, Value.Fields);
+                    Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', Value.Name);
                 });
             });
         }

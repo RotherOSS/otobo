@@ -37,25 +37,6 @@ Core.Customer.TicketProcess = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var ProcessAJAXFieldList = Core.Config.Get('ProcessAJAXFieldList');
-        var DynamicFieldRegEx    = /^DynamicField_/;
-
-        if (typeof ProcessAJAXFieldList !== 'undefined') {
-            for (let n = 0; n < ProcessAJAXFieldList.length; n++) {
-                let FieldSet = ProcessAJAXFieldList[n];
-
-                for (let i = 0; i < FieldSet.length; i++) {
-                    if ( DynamicFieldRegEx.test( FieldSet[i] ) ) { continue }
-
-                    $( '#' + FieldSet[i] ).on('change', function () {
-                        Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', $(this).attr('name'), FieldSet);
-                    });
-                }
-            }
-        }
-
-    };
-
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
