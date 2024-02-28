@@ -36,12 +36,15 @@ use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::DynamicFieldValue',
-    'Kernel::System::Log',
-    'Kernel::System::Cache',
     'Kernel::System::DynamicField',
     'Kernel::System::Event',
+    'Kernel::System::Log',
+    'Kernel::System::Web::FormCache',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -414,15 +417,17 @@ sub EditFieldValueGet {
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
     return {
         ServerError  => undef,
         ErrorMessage => undef
     } if !$Param{Mandatory}
-        && !IsArrayRefWithData( $Param{DynamicFieldConfig}{Config}{RegExList} );
+        && !IsArrayRefWithData( $DynamicFieldConfig->{Config}{RegExList} );
 
     # get the field value from the http request
     my $EditFieldValue = $Self->EditFieldValueGet(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        DynamicFieldConfig => $DynamicFieldConfig,
         ParamObject        => $Param{ParamObject},
 
         # not necessary for this Driver but place it for consistency reasons
@@ -431,17 +436,53 @@ sub EditFieldValueValidate {
 
     # evaluate script field expression before validating it
     my $EvaluatedValue = $Self->Evaluate(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        DynamicFieldConfig => $DynamicFieldConfig,
         Object             => {
             $Param{GetParam}->%*,
         },
     );
 
+    if ($EvaluatedValue) {
+
+        my $DFName = $DynamicFieldConfig->{Name};
+
+        if ( defined $Param{SetIndex} ) {
+            $DFName .= "_$Param{SetIndex}";
+        }
+
+        # if the value would change, we need to verify that the user is really allowed
+        # to access the provided referenced data via this form
+        # this is the case if either the referenced data was shown via a search (1)
+        # or is currently stored for the edited ticket/ci/... (2)
+        my $LastEvaluationResult = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+            LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+            Key          => 'PossibleValues_DynamicField_' . $DFName,
+        );
+
+        my $Allowed = 0;
+        if ($LastEvaluationResult) {
+
+            # if a search has already been performed for this form id
+            $Allowed = ( $LastEvaluationResult eq $EvaluatedValue ) ? 1 : 0;
+        }
+        else {
+            # if no search has been performed yet, the database value for the referenced data is also valid
+            # TODO
+        }
+
+        if ( !$Allowed ) {
+            return {
+                ServerError  => 1,
+                ErrorMessage => 'Edit field was not up to date.',
+            };
+        }
+    }
+
     my $ServerError;
     my $ErrorMessage;
 
     # transform scalar values to array ref for iteration
-    if ( !$Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+    if ( !$DynamicFieldConfig->{Config}{MultiValue} ) {
         $EditFieldValue = [$EditFieldValue];
         $EvaluatedValue = [$EvaluatedValue];
     }
@@ -457,13 +498,13 @@ sub EditFieldValueValidate {
         }
 
         elsif (
-            IsArrayRefWithData( $Param{DynamicFieldConfig}{Config}{RegExList} )
+            IsArrayRefWithData( $DynamicFieldConfig->{Config}{RegExList} )
             && ( $Param{Mandatory} || ( !$Param{Mandatory} && $CurrentValue ne '' ) )
             )
         {
 
             # check regular expressions
-            my @RegExList = $Param{DynamicFieldConfig}{Config}{RegExList}->@*;
+            my @RegExList = $DynamicFieldConfig->{Config}{RegExList}->@*;
 
             REGEXENTRY:
             for my $RegEx (@RegExList) {
@@ -595,8 +636,8 @@ sub DisplayValueRender {
     }
 
     # set field link form config
-    my $Link        = $Param{DynamicFieldConfig}->{Config}->{Link}        || '';
-    my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';
+    my $Link        = $Param{DynamicFieldConfig}{Config}{Link}        || '';
+    my $LinkPreview = $Param{DynamicFieldConfig}{Config}{LinkPreview} || '';
 
     # create return structure
     my $Data = {
@@ -1102,12 +1143,17 @@ sub GetFieldState {
             %GetParam,
         },
     );
+    my $DFName = $DynamicFieldConfig->{Name};
+    if ( defined $Param{SetIndex} ) {
+        $DFName .= "_$Param{SetIndex}";
+    }
 
-    # do nothing if nothing changed
-    return () if !$Self->ValueIsDifferent(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        Value1             => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
-        Value2             => $NewValue,
+    # store all possible values for this field and form id for later verification
+    $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+        LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+        FormID       => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' ),
+        Key          => 'PossibleValues_DynamicField_' . $DFName,
+        Value        => $NewValue,
     );
 
     return (
