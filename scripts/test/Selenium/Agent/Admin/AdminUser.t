@@ -138,6 +138,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
 
         # Test search filter by agent $UserRandomID.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($UserRandomID);
         $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
