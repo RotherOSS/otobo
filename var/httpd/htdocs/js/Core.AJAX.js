@@ -757,9 +757,7 @@ Core.AJAX = (function (TargetNS) {
         QueryString = TargetNS.SerializeForm($EventElement, Data) + SerializeData(Data);
 
         var $ChangedElement = $('[name="' + ChangedElementWithIndex + '"]');
-        if ( $ChangedElement.hasClass('FormUpdate') || $ChangedElement.hasClass('DynamicFieldDB') ) {
-            ToggleAJAXLoader($ChangedElement.attr('id'), true);
-        }
+        ToggleAJAXLoader($ChangedElement.attr('id'), true);
 
         return $.ajax({
             type: 'POST',
@@ -787,9 +785,7 @@ Core.AJAX = (function (TargetNS) {
             },
             complete: function () {
                 var $ChangedElement = $('[name="' + ChangedElementWithIndex + '"]');
-                if ( $ChangedElement.hasClass('FormUpdate') ) {
-                    ToggleAJAXLoader($ChangedElement.attr('id'), false);
-                }
+                ToggleAJAXLoader($ChangedElement.attr('id'), false);
             },
             error: function(XHRObject, Status, Error) {
                 HandleAJAXError(XHRObject, Status, Error)
