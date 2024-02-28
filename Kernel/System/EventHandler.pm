@@ -15,8 +15,10 @@
 # --
 
 package Kernel::System::EventHandler;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Pod::FunctionPod)
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -174,10 +176,10 @@ sub EventHandler {
         }
     }
 
-    # get configured modules
+    # get configured event handling modules from SysConfig
     my $Modules = $Kernel::OM->Get('Kernel::Config')->Get( $Self->{EventHandlerInit}->{Config} );
 
-    # return if there is no one
+    # nothing to do when there are no event handling modules
     return 1 unless $Modules;
 
     # remember events only on normal mode
@@ -276,6 +278,7 @@ sub EventHandlerTransaction {
     # remember, we are in destroy mode, do not execute new events
     $Self->{EventHandlerTransaction} = 1;
 
+    ## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectManagerCreation)
     # set up a clean object manager here to enable correct handling of nested transactions
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
@@ -291,7 +294,7 @@ sub EventHandlerTransaction {
         }
 
         # delete event pipe
-        $Self->{EventHandlerPipe} = undef;
+        undef $Self->{EventHandlerPipe};
     }
 
     # reset transaction mode
@@ -302,8 +305,8 @@ sub EventHandlerTransaction {
 
 =head2 EventHandlerHasQueuedTransactions()
 
-Return a true value if there are queued transactions, which
-C<EventHandlerTransaction> handles, when called.
+Return a true value if there are queued transactions. The queued transactions
+are handled in C<EventHandlerTransaction()>.
 
 =cut
 
