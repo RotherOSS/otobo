@@ -64,7 +64,6 @@ sub Run {
 
         $Self->{IncludeInvalid} = $Param{IncludeInvalid};
     }
-    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     # ------------------------------------------------------------ #
     # sub-action Change: load web service and show edit screen
@@ -777,6 +776,13 @@ sub _ShowOverview {
         Data => \%Param,
     );
 
+    $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+        },
+    );
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
     $LayoutObject->Block( Name => 'OverviewHeader' );
