@@ -125,7 +125,7 @@ sub new {
     $Self->{ACLCompatGetParam}->{NextStateID} = $Self->{GetParam}->{ComposeStateID};
 
     # Get form ID.
-    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+    $Self->{GetParam}->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
         ParamObject  => $ParamObject,
         LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
     );
@@ -558,7 +558,7 @@ sub Form {
         for ( sort keys %AllStdAttachments ) {
             my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
             $UploadCacheObject->FormIDAddFile(
-                FormID      => $GetParam{FormID},
+                FormID      => $Self->{GetParam}->{FormID},
                 Disposition => 'attachment',
                 %AttachmentsData,
             );
@@ -567,7 +567,7 @@ sub Form {
 
     # get all attachments meta data
     my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-        FormID => $GetParam{FormID},
+        FormID => $Self->{GetParam}->{FormID},
     );
 
     # check some values
@@ -1197,7 +1197,7 @@ sub SendEmail {
 
     # get all attachments meta data
     my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-        FormID => $GetParam{FormID},
+        FormID => $Self->{GetParam}->{FormID},
     );
 
     # check if there is an error
@@ -1253,7 +1253,7 @@ sub SendEmail {
 
     # get pre loaded attachments
     my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
-        FormID => $GetParam{FormID},
+        FormID => $Self->{GetParam}->{FormID},
     );
 
     # get submit attachment
@@ -1417,7 +1417,7 @@ sub SendEmail {
     }
 
     # remove all form data
-    $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{FormID} );
+    $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{GetParam}->{FormID} );
 
     # If form was called based on a draft,
     #   delete draft since its content has now been used.
