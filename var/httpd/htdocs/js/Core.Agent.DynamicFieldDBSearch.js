@@ -587,6 +587,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             $('#' + Field).val('');
         }
 
+        if ( DoFormUpdate ) {
+            Core.AJAX.FormUpdate( $('#' + Field).closest('form'), 'AJAXUpdate', FieldName, Core.Config.Get('DynamicFieldNames') );
+        }
+
         return false;
     };
 

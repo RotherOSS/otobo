@@ -112,7 +112,7 @@ Core.AJAX = (function (TargetNS) {
             $MultivalueButtons = $Element.parent().siblings('.AddRemoveValueRow');
 
         // Ignore hidden fields
-        if ($Element.is('[type=hidden]')) {
+        if ($Element.is('[type=hidden]') && !$Element.hasClass('DynamicFieldDB')) {
             return;
         }
         // Element not present, reset counter and ignore
@@ -757,7 +757,7 @@ Core.AJAX = (function (TargetNS) {
         QueryString = TargetNS.SerializeForm($EventElement, Data) + SerializeData(Data);
 
         var $ChangedElement = $('[name="' + ChangedElementWithIndex + '"]');
-        if ( $ChangedElement.hasClass('FormUpdate') ) {
+        if ( $ChangedElement.hasClass('FormUpdate') || $ChangedElement.hasClass('DynamicFieldDB') ) {
             ToggleAJAXLoader($ChangedElement.attr('id'), true);
         }
 
