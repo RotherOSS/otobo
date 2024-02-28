@@ -458,14 +458,25 @@ sub EditFieldValueValidate {
         $DynamicField->{$Name} = { $DynamicField->{$Name}->%* };
     }
 
-    for my $Name ( sort keys $DynamicField->%* ) {
-        my $DynamicFieldConfig = $DynamicField->{$Name};
+    for my $SetIndex ( 0 .. $IndexMax ) {
 
-        for my $SetIndex ( 0 .. $IndexMax ) {
+        my %DFParam = map {
+            ( "DynamicField_$_" => $Param{GetParam}{DynamicField}{"DynamicField_$Param{DynamicFieldConfig}{Name}"}[$SetIndex]{$_} )
+        } keys $Param{GetParam}{DynamicField}{"DynamicField_$Param{DynamicFieldConfig}{Name}"}[$SetIndex]->%*;
+
+        for my $Name ( sort keys $DynamicField->%* ) {
+            my $DynamicFieldConfig = $DynamicField->{$Name};
             $DynamicFieldConfig->{Name} = $Name . '_' . $SetIndex;
 
             $Result->{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldValueValidate(
                 %Param,
+                GetParam => {
+                    $Param{GetParam}->%*,
+                    DynamicField => {
+                        $Param{GetParam}{DynamicField}->%*,
+                        %DFParam,
+                    },
+                },
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
         }
