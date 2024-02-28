@@ -238,7 +238,15 @@ Core.UI.InputFields = (function (TargetNS) {
             });
 
             //Add an extra class to Fields containing a Dynamic Field Set
-            $('.DynamicFieldSet', $Context).parent().addClass('DFSetOuterField')
+            $('.DynamicFieldSet', $Context).parent().addClass('DFSetOuterField');
+
+            // initialize FormUpdate fields
+            $('.FormUpdate', $Context).each(function(Index, Element) {
+                $(this).off('change').on('change', function () {
+                    Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', $(this).attr('name'), undefined);
+                });
+            });
+
         }
     };
 
@@ -308,14 +316,8 @@ Core.UI.InputFields = (function (TargetNS) {
                 TargetNS.InitCustomerField( this );
             });
         }
-
-        // initialize FormUpdate fields
-        $('.FormUpdate').each(function(Index, Element) {
-            $(this).off('change').on('change', function () {
-                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', $(this).attr('name'), undefined);
-            });
-        });
     };
+
 
     TargetNS.InitCustomerField = function ( Element ) {
         var Label = $(Element).children('label').first(),
@@ -2714,6 +2716,13 @@ Core.UI.InputFields = (function (TargetNS) {
                         $SearchObj.removeClass(Config.ServerErrorClass);
                     }
                 });
+
+                // initialize FormUpdate
+                if ( $SelectObj.hasClass('FormUpdate') ) {
+                    $SelectObj.off('change').on('change', function () {
+                        Core.AJAX.FormUpdate($SelectObj.parents('form'), 'AJAXUpdate', $SelectObj.attr('name'), undefined);
+                    });
+                }
 
             }
         });
