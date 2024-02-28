@@ -82,7 +82,6 @@ sub Run {
 
         $Self->{IncludeInvalid} = $Param{IncludeInvalid};
     }
-    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     # get needed objects
     my $CheckItemObject    = $Kernel::OM->Get('Kernel::System::CheckItem');
@@ -523,6 +522,13 @@ sub Run {
     );
     $LayoutObject->Block(
         Name => 'ActionAdd',
+    );
+    $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+        },
     );
     $LayoutObject->Block(
         Name => 'Filter',

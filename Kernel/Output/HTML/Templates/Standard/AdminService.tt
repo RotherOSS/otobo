@@ -37,6 +37,7 @@
 
     <div class="Clear"></div>
     <div class="SidebarColumn">
+[% RenderBlockStart("IncludeInvalid") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>[% Translate("Filter by valid state") | html %]</h2>
@@ -46,6 +47,7 @@
                 <label for="IncludeInvalid">[% Translate("Include invalid services") | html %]</label>
             </div>
         </div>
+[% RenderBlockEnd("IncludeInvalid") %]
         <div class="WidgetSimple">
 [% RenderBlockStart("ActionList") %]
             <div class="Header">

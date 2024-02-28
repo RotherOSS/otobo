@@ -60,7 +60,6 @@ sub Run {
 
         $Self->{IncludeInvalid} = $Param{IncludeInvalid};
     }
-    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     # ------------------------------------------------------------ #
     # sla edit
@@ -258,6 +257,13 @@ sub Run {
 
         $LayoutObject->Block( Name => 'ActionList' );
         $LayoutObject->Block( Name => 'ActionAdd' );
+        $LayoutObject->Block(
+            Name => 'IncludeInvalid',
+            Data => {
+                IncludeInvalid        => $Self->{IncludeInvalid},
+                IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+            },
+        );
         $LayoutObject->Block( Name => 'Filter' );
 
         # output overview result

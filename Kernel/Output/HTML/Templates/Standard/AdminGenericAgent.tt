@@ -41,6 +41,7 @@
     [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
 
     <div class="SidebarColumn">
+[% RenderBlockStart("IncludeInvalid") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>[% Translate("Filter by valid state") | html %]</h2>
@@ -50,6 +51,7 @@
                 <label for="IncludeInvalid">[% Translate("Include invalid jobs") | html %]</label>
             </div>
         </div>
+[% RenderBlockEnd("IncludeInvalid") %]
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header">

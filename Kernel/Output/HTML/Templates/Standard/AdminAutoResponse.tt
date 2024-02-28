@@ -36,6 +36,7 @@
 
     [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
 
+[% RenderBlockStart("IncludeInvalid") %]
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
@@ -46,6 +47,7 @@
                 <label for="IncludeInvalid">[% Translate("Include invalid auto responses") | html %]</label>
             </div>
         </div>
+[% RenderBlockEnd("IncludeInvalid") %]
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header">

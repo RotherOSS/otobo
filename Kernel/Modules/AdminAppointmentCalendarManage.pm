@@ -129,7 +129,6 @@ sub Run {
 
         $Self->{IncludeInvalid} = $GetParam{IncludeInvalid};
     }
-    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
@@ -757,6 +756,14 @@ sub _Overview {
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalidChecked} ? 'checked' : '',
+        },
+    );
 
     $LayoutObject->Block(
         Name => 'CalendarFilter',
