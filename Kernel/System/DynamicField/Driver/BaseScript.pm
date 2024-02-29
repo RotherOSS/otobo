@@ -434,15 +434,7 @@ sub EditFieldValueValidate {
         ReturnValueStructure => 1,
     );
 
-    # evaluate script field expression before validating it
-    my $EvaluatedValue = $Self->Evaluate(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        Object             => {
-            $Param{GetParam}->%*,
-        },
-    );
-
-    if ($EvaluatedValue) {
+    if ($EditFieldValue) {
 
         my $DFName = $DynamicFieldConfig->{Name};
 
@@ -456,24 +448,16 @@ sub EditFieldValueValidate {
         # or is currently stored for the edited ticket/ci/... (2)
         my $LastEvaluationResult = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
             LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
-            Key          => 'PossibleValues_DynamicField_' . $DFName,
+            Key          => 'LastValue_DynamicField_' . $DFName,
         );
 
-        my $Allowed = 0;
-        if ($LastEvaluationResult) {
-
-            # if a search has already been performed for this form id
-            $Allowed = ( $LastEvaluationResult eq $EvaluatedValue ) ? 1 : 0;
-        }
-        else {
-            # if no search has been performed yet, the database value for the referenced data is also valid
-            # TODO
-        }
+        # check if EditFieldValue matches last evaluation result
+        my $Allowed = ( $LastEvaluationResult eq $EditFieldValue ) ? 1 : 0;
 
         if ( !$Allowed ) {
             return {
                 ServerError  => 1,
-                ErrorMessage => 'Edit field was not up to date.',
+                ErrorMessage => 'Edit field value did not match last evaluation.',
             };
         }
     }
@@ -484,13 +468,12 @@ sub EditFieldValueValidate {
     # transform scalar values to array ref for iteration
     if ( !$DynamicFieldConfig->{Config}{MultiValue} ) {
         $EditFieldValue = [$EditFieldValue];
-        $EvaluatedValue = [$EvaluatedValue];
     }
 
     # perform necessary validations
-    for my $Index ( 0 .. $#{$EvaluatedValue} ) {
+    for my $Index ( 0 .. $#{$EditFieldValue} ) {
 
-        my $CurrentValue = $EvaluatedValue->[$Index];
+        my $CurrentValue = $EditFieldValue->[$Index];
 
         if ( $Param{Mandatory} && $CurrentValue eq '' ) {
             $ServerError  = 1;
@@ -515,12 +498,6 @@ sub EditFieldValueValidate {
 
                     last REGEXENTRY;
                 }
-            }
-        }
-
-        if ($ServerError) {
-            if ( $CurrentValue ne $EditFieldValue->[$Index] ) {
-                $ErrorMessage .= ' Edit field was not up to date.';
             }
         }
     }
@@ -1152,7 +1129,7 @@ sub GetFieldState {
     $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
         LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
         FormID       => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' ),
-        Key          => 'PossibleValues_DynamicField_' . $DFName,
+        Key          => 'LastValue_DynamicField_' . $DFName,
         Value        => $NewValue,
     );
 
