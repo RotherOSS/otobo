@@ -372,12 +372,12 @@ sub EditFieldRender {
         );
     }
 
-    # write ObjectID to FormCache for later usage in EditFieldValueValidate
-    if ( ref $Param{Object} && $Param{Object}{ObjectID} ) {
+    # write rendered value to FormCache for later usage in EditFieldValueValidate
+    if ( $Value && !$Param{ServerError} ) {
         $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
             LayoutObject => $Param{LayoutObject},
-            Key          => 'ObjectID',
-            Value        => $Param{Object}{ObjectID},
+            Key          => 'RenderedValue_DynamicField_' . $Param{DynamicFieldConfig}{Name},
+            Value        => $Value,
         );
     }
 
@@ -438,21 +438,30 @@ sub EditFieldValueValidate {
             Key          => 'PossibleValues_DynamicField_' . $DFName,
         );
 
-        # if no LastSearchResult is present, attempt to use database value
-        if ( !defined $LastSearchResults ) {
+        # if no LastSearchResult is present, use rendered value
+        $LastSearchResults //= $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+            LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+            Key          => 'RenderedValue_DynamicField_' . $DFName,
+        );
 
-            # check if object id is attached to form data
-            my $ObjectID = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+        # in set case, we fetch the template values and either concat them to the search results
+        #   or, if no search results are present, use the template values entirely
+        if ( defined $Param{SetIndex} ) {
+            my $TemplateName          = $DFName =~ s/_$Param{SetIndex}$/_Template/r;
+            my $TemplateSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
                 LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
-                Key          => 'ObjectID',
+                Key          => 'PossibleValues_' . $TemplateName,
             );
 
-            # if so, fetch database value
-            if ($ObjectID) {
-                $LastSearchResults //= $Self->ValueGet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    ObjectID           => $ObjectID,
-                );
+            if ( ref $LastSearchResults && ref $TemplateSearchResults ) {
+                for my $ResultItem ( $TemplateSearchResults->@* ) {
+                    if ( none { $_ eq $ResultItem } $LastSearchResults->@* ) {
+                        push $LastSearchResults->@*, $ResultItem;
+                    }
+                }
+            }
+            elsif ( ref $TemplateSearchResults ) {
+                $LastSearchResults = $TemplateSearchResults;
             }
         }
 
