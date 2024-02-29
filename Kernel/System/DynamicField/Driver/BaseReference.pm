@@ -398,9 +398,13 @@ sub EditFieldRender {
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
+    return unless $Param{Mandatory};
+
     # get the field value from the http request
     my $Value = $Self->EditFieldValueGet(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        DynamicFieldConfig => $DynamicFieldConfig,
         ParamObject        => $Param{ParamObject},
 
         # not necessary for this Driver but place it for consistency reasons
@@ -410,11 +414,36 @@ sub EditFieldValueValidate {
     my $ServerError;
     my $ErrorMessage;
 
-    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        $Value = [$Value];
-    }
+    if ( $Value->@* ) {
 
-    # TODO validate by re-executing SearchObject()?
+        my $DFName = $DynamicFieldConfig->{Name};
+
+        if ( defined $Param{SetIndex} ) {
+            $DFName .= "_$Param{SetIndex}";
+        }
+
+        # if the value would change, we need to verify that the user is really allowed
+        # to access the provided referenced data via this form
+        # this is the case if either the referenced data was shown via a search (1)
+        # or is currently stored for the edited ticket/ci/... (2)
+        my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+            LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+            Key          => 'PossibleValues_DynamicField_' . $DFName,
+        );
+
+        # check if EditFieldValue is present in last search results
+        my $Allowed = 1;
+        for my $ValueItem ( $Value->@* ) {
+            $Allowed = ( grep { $_ eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
+        }
+
+        if ( !$Allowed ) {
+            return {
+                ServerError  => 1,
+                ErrorMessage => 'Edit field value does not match last search result.',
+            };
+        }
+    }
 
     # create resulting structure
     return {
