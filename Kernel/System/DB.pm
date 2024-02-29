@@ -734,7 +734,7 @@ Using bind variables is recommended:
     );
 
 These are the regular use cases where C<1> is returned in the case of success. C<undef> is returned
-when there was an error. The result of the SELECT can be retrieved with C<FetchRowArray()>.
+when there was an error. The result of the SELECT can be retrieved with C<FetchrowArray()>.
 
 This method is also used internally for methods that want to execute the prepared statement by themselves.
 This case is triggered by passing the parameter C<Execute> with the value C<0>. The returned value
