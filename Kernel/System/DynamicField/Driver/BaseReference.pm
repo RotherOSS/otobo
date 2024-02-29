@@ -439,10 +439,13 @@ sub EditFieldValueValidate {
         my $Allowed;
         VALUE:
         for my $ValueItem ( $Value->@* ) {
-            next VALUE unless $ValueItem;
+            if ( $Param{Mandatory} && !$ValueItem ) {
+                $ServerError  = 1;
+                $ErrorMessage = 'This field is required.';
+                next VALUE;
+            }
 
             $Allowed = ( grep { $_ eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
-            last VALUE unless $Allowed;
         }
 
         if ( !$Allowed ) {
