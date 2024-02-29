@@ -159,7 +159,6 @@ sub Run {
                     DynamicFieldConfig => $DynamicFieldConfig,
                     ParamObject        => $ParamObject,
                     Mandatory          => $Entry->[4],
-                    GetParam           => \%GetParam,
                 );
 
                 if ( $ValidationResult->{ServerError} ) {
@@ -399,7 +398,6 @@ sub Run {
                     DynamicFieldConfig => $DynamicFieldConfig,
                     ParamObject        => $ParamObject,
                     Mandatory          => $Entry->[4],
-                    GetParam           => \%GetParam,
                 );
 
                 if ( $ValidationResult->{ServerError} ) {

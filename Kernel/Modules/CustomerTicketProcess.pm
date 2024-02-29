@@ -1283,6 +1283,8 @@ sub _OutputActivityDialog {
     # some fields should be skipped for the customer interface
     my $SkipFields = [ 'Owner', 'Responsible', 'Lock', 'PendingTime', 'CustomerID' ];
 
+    my %DynamicFieldValues = map { ( 'DynamicField_' . $_ => $Param{GetParam}->{ 'DynamicField_' . $_ } ) } keys $Self->{DynamicField}->%*;
+
     # Loop through ActivityDialogFields and render their output
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
@@ -1320,7 +1322,6 @@ sub _OutputActivityDialog {
             $RenderedFields{$CurrentField} = 1;
 
             next DIALOGFIELD if $InputDefinitionRendered;
-            my %DynamicFieldValues = map { ( 'DynamicField_' . $_ => $Param{GetParam}->{ 'DynamicField_' . $_ } ) } keys $Self->{DynamicField}->%*;
 
             $Output .= $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
                 Content              => $InputFieldDefinition,
@@ -1335,6 +1336,7 @@ sub _OutputActivityDialog {
                 Object               => {
                     CustomerID     => $Self->{UserCustomerID},
                     CustomerUserID => $Self->{UserID},
+                    ObjectID       => $Param{TicketID},
                     %DynamicFieldValues,
                 },
             );
@@ -1359,6 +1361,12 @@ sub _OutputActivityDialog {
                 PossibleValues      => $DFPossibleValues{ 'DynamicField_' . $DynamicFieldName },
                 Visibility          => $Visibility{ 'DynamicField_' . $DynamicFieldName } // 0,
                 LayoutObject        => $LayoutObject,
+                Object              => {
+                    CustomerID     => $Self->{UserCustomerID},
+                    CustomerUserID => $Self->{UserID},
+                    ObjectID       => $Param{TicketID},
+                    %DynamicFieldValues,
+                },
             );
 
             if ( !$Response->{Success} ) {
@@ -1777,6 +1785,7 @@ sub _RenderDynamicField {
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
         CustomerInterface    => 1,
+        Object               => $Param{Object},
     );
 
     my %Data = (
@@ -3220,7 +3229,6 @@ sub _StoreActivityDialog {
                 PossibleValuesFilter => $PossibleValuesFilter,
                 ParamObject          => $ParamObject,
                 Mandatory            => $Mandatory,
-                GetParam             => $Param{GetParam},
             );
 
             if ( !IsHashRefWithData($ValidationResult) ) {

@@ -883,11 +883,6 @@ sub Run {
 
                 # Mandatory is added to the configs by $Self->new
                 Mandatory => $DynamicFieldConfig->{Mandatory},
-                GetParam  => {
-                    %GetParam,
-                    CustomerUserID => $Ticket{CustomerUserID},
-                    TicketID       => $Self->{TicketID},
-                },
             );
 
             if ( !IsHashRefWithData($ValidationResult) ) {
@@ -1514,6 +1509,7 @@ sub AgentMove {
                 CustomerID     => $Param{CustomerID},
                 CustomerUserID => $Param{CustomerIserID},
                 UserID         => $Self->{UserID},
+                ObjectID       => $Self->{TicketID},
                 %DynamicFieldValues,
             },
         );

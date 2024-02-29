@@ -1846,6 +1846,8 @@ sub _OutputActivityDialog {
         }
     }
 
+    my %DynamicFieldValues = map { ( 'DynamicField_' . $_ => $Param{GetParam}->{ 'DynamicField_' . $_ } ) } keys $Self->{DynamicField}->%*;
+
     # Loop through ActivityDialogFields and render their output
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
@@ -1877,7 +1879,6 @@ sub _OutputActivityDialog {
         if ( $DefinedFieldsList{$CurrentField} ) {
 
             next DIALOGFIELD if $InputDefinitionRendered;
-            my %DynamicFieldValues = map { ( 'DynamicField_' . $_ => $Param{GetParam}->{ 'DynamicField_' . $_ } ) } keys $Self->{DynamicField}->%*;
 
             $Output .= $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
                 Content              => $InputFieldDefinition,
@@ -1892,6 +1893,7 @@ sub _OutputActivityDialog {
                     CustomerID     => $Param{GetParam}->{CustomerID},
                     CustomerUserID => $Param{GetParam}->{CustomerUserID},
                     UserID         => $Self->{UserID},
+                    ObjectID       => $Param{TicketID},
                     %DynamicFieldValues,
                 },
             );
@@ -1916,6 +1918,13 @@ sub _OutputActivityDialog {
                 FormID              => $Self->{FormID},
                 PossibleValues      => $DFPossibleValues{$DynamicFieldName},
                 Visibility          => $Visibility{ 'DynamicField_' . $DynamicFieldName } // 0,
+                Object              => {
+                    CustomerID     => $Param{GetParam}->{CustomerID},
+                    CustomerUserID => $Param{GetParam}->{CustomerUserID},
+                    UserID         => $Self->{UserID},
+                    ObjectID       => $Param{TicketID},
+                    %DynamicFieldValues,
+                },
             );
 
             if ( !$Response->{Success} ) {
@@ -2650,6 +2659,7 @@ sub _RenderDynamicField {
         ACLHidden            => ( $Param{ActivityDialogField}->{Display} == 2 && !$Param{Visibility} ),
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
+        Object               => $Param{Object},
     );
 
     my %Data = (
@@ -4919,7 +4929,6 @@ sub _StoreActivityDialog {
                 PossibleValuesFilter => $PossibleValuesFilter,
                 ParamObject          => $ParamObject,
                 Mandatory            => $Mandatory,
-                GetParam             => $Param{GetParam},
             );
 
             if ( !IsHashRefWithData($ValidationResult) ) {

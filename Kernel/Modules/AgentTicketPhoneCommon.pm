@@ -741,11 +741,6 @@ sub Run {
 
                 # Mandatory is added to the configs by $Self->new
                 Mandatory => $DynamicFieldConfig->{Mandatory},
-                GetParam  => {
-                    %GetParam,
-                    CustomerUserID => $Ticket{CustomerUserID},
-                    TicketID       => $Self->{TicketID},
-                },
             );
 
             if ( !IsHashRefWithData($ValidationResult) ) {
@@ -1437,6 +1432,7 @@ sub _MaskPhone {
                 CustomerID     => $Param{CustomerData}->{CustomerID},
                 CustomerUserID => $Param{CustomerData}->{CustomerUserID},
                 UserID         => $Self->{UserID},
+                ObjectID       => $Self->{TicketID},
                 $Param{DFValues}->%*,
             },
         );
