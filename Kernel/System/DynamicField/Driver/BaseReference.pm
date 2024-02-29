@@ -372,6 +372,15 @@ sub EditFieldRender {
         );
     }
 
+    # write ObjectID to FormCache for later usage in EditFieldValueValidate
+    if ( ref $Param{Object} && $Param{Object}{ObjectID} ) {
+        $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+            LayoutObject => $Param{LayoutObject},
+            Key          => 'ObjectID',
+            Value        => $Param{Object}{ObjectID},
+        );
+    }
+
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
@@ -429,11 +438,23 @@ sub EditFieldValueValidate {
             Key          => 'PossibleValues_DynamicField_' . $DFName,
         );
 
-        # if no LastSearchResult is present, use database value
-        $LastSearchResults //= $Self->ValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Param{GetParam}{TicketID},
-        );
+        # if no LastSearchResult is present, attempt to use database value
+        if ( !defined $LastSearchResults ) {
+
+            # check if object id is attached to form data
+            my $ObjectID = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+                LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                Key          => 'ObjectID',
+            );
+
+            # if so, fetch database value
+            if ($ObjectID) {
+                $LastSearchResults //= $Self->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $ObjectID,
+                );
+            }
+        }
 
         # check if EditFieldValue is present in last search results
         my $Allowed;

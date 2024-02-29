@@ -252,6 +252,15 @@ sub EditFieldRender {
         DynamicFieldConfig => $AttributeDFConfig,
     );
 
+    # write ObjectID to FormCache for later usage in EditFieldValueValidate
+    if ( ref $Param{Object} && $Param{Object}{ObjectID} ) {
+        $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+            LayoutObject => $Param{LayoutObject},
+            Key          => 'ObjectID',
+            Value        => $Param{Object}{ObjectID},
+        );
+    }
+
     return $AttributeFieldHTML;
 }
 
@@ -689,11 +698,23 @@ sub GetFieldState {
             Key          => 'PossibleValues_' . $ReferenceDFName,
         );
 
-        # if no LastSearchResult is present, use database value
-        $LastSearchResults //= $Self->ValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Param{GetParam}{TicketID},
-        );
+        # if no LastSearchResults is present, attempt to use database value
+        if ( !defined $LastSearchResults ) {
+
+            # check if object id is attached to form data
+            my $ObjectID = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+                LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                Key          => 'ObjectID',
+            );
+
+            # if so, fetch database value
+            if ($ObjectID) {
+                $LastSearchResults //= $Self->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $ObjectID,
+                );
+            }
+        }
 
         # if a search has already been performed for this form id
         my $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;

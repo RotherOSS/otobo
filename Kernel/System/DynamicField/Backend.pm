@@ -260,6 +260,8 @@ creates the field and label HTML to be used in edit masks.
         MaxLength            => 100                       # Optional, defines the maximum number of characters on fields
                                                           #      where applies (like TextArea)
         Readonly             => 1,                        # Optional
+        Object               => \%Object,                 # Optional, data for evaluating script fields and fetching possible
+                                                          #      values of reference fields
     );
 
 Returns:
@@ -1357,7 +1359,6 @@ validate the current value for the dynamic field
         },
         ParamObject          => $Self->{ParamObject}      # To get the values directly from the web request
         Mandatory            => 1,                        # 0 or 1,
-        GetParam             => \%GetParam,               # (optional) currently only needed for evaluating script fields
     );
 
     Returns

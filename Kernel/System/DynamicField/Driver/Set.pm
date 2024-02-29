@@ -306,6 +306,7 @@ sub EditFieldRender {
             # TODO:
             #            Errors               => $Param{DFErrors},
             #            Visibility           => $Param{Visibility},
+            Object => $Param{Object},
         );
 
         $ResultHTML[$SetIndex] = $Param{LayoutObject}->Output(
@@ -342,6 +343,7 @@ sub EditFieldRender {
 
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[ $#SetValue + 1 ] // {},
+            Object               => $Param{Object},
         );
 
         my $TemplateHTML = $Param{LayoutObject}->Output(
@@ -460,23 +462,12 @@ sub EditFieldValueValidate {
 
     for my $SetIndex ( 0 .. $IndexMax ) {
 
-        my %DFParam = map {
-            ( "DynamicField_$_" => $Param{GetParam}{DynamicField}{"DynamicField_$Param{DynamicFieldConfig}{Name}"}[$SetIndex]{$_} )
-        } keys $Param{GetParam}{DynamicField}{"DynamicField_$Param{DynamicFieldConfig}{Name}"}[$SetIndex]->%*;
-
         for my $Name ( sort keys $DynamicField->%* ) {
             my $DynamicFieldConfig = $DynamicField->{$Name};
             $DynamicFieldConfig->{Name} = $Name . '_' . $SetIndex;
 
             $Result->{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldValueValidate(
                 %Param,
-                GetParam => {
-                    $Param{GetParam}->%*,
-                    DynamicField => {
-                        $Param{GetParam}{DynamicField}->%*,
-                        %DFParam,
-                    },
-                },
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
         }

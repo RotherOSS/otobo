@@ -343,6 +343,15 @@ sub EditFieldRender {
         );
     }
 
+    # write ObjectID to FormCache for later usage in EditFieldValueValidate
+    if ( ref $Param{Object} && $Param{Object}{ObjectID} ) {
+        $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+            LayoutObject => $Param{LayoutObject},
+            Key          => 'ObjectID',
+            Value        => $Param{Object}{ObjectID},
+        );
+    }
+
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
@@ -451,11 +460,23 @@ sub EditFieldValueValidate {
             Key          => 'LastValue_DynamicField_' . $DFName,
         );
 
-        # if no LastEvaluationResult is present, use database value
-        $LastEvaluationResult //= $Self->ValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Param{GetParam}{TicketID},
-        );
+        # if no LastEvaluationResult is present, attempt to use database value
+        if ( !defined $LastEvaluationResult ) {
+
+            # check if object id is attached to form data
+            my $ObjectID = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+                LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                Key          => 'ObjectID',
+            );
+
+            # if so, fetch database value
+            if ($ObjectID) {
+                $LastEvaluationResult //= $Self->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $ObjectID,
+                );
+            }
+        }
 
         # check if EditFieldValue matches last evaluation result
         my $Allowed = ( $LastEvaluationResult eq $EditFieldValue ) ? 1 : 0;
