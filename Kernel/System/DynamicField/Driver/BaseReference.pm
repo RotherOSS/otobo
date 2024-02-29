@@ -400,8 +400,6 @@ sub EditFieldValueValidate {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    return unless $Param{Mandatory};
-
     # get the field value from the http request
     my $Value = $Self->EditFieldValueGet(
         DynamicFieldConfig => $DynamicFieldConfig,
@@ -432,9 +430,13 @@ sub EditFieldValueValidate {
         );
 
         # check if EditFieldValue is present in last search results
-        my $Allowed = 1;
+        my $Allowed;
+        VALUE:
         for my $ValueItem ( $Value->@* ) {
+            next VALUE unless $ValueItem;
+
             $Allowed = ( grep { $_ eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
+            last VALUE unless $Allowed;
         }
 
         if ( !$Allowed ) {
