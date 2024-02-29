@@ -90,6 +90,7 @@ creates the field HTML to be used in edit masks for multiple dynamic fields.
         },
         AJAXUpdate            => (1|0),             # optional render dynamic fields with or without AJAXUpdate, defaults to 1
         CustomerInterface     => 1,                 # optional indicates which templates are needed, defaults to 0 (Agent interface)
+        Object                => \%Object,          # optional data needed for evaluating script fields and fetching reference field possible values
     );
 
 =cut

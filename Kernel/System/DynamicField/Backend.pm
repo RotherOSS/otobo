@@ -3036,7 +3036,7 @@ sub SearchObjects {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ParamObject LayoutObject)) {
+    for my $Needed (qw(DynamicFieldConfig ParamObject)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
