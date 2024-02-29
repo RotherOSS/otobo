@@ -108,7 +108,33 @@ sub Run {
         MaxResults         => $MaxResults,
         UserID             => 1,                      # TODO: what about Permission check
         ParamObject        => $ParamObject,
-        LayoutObject       => $LayoutObject,
+    );
+
+    # differentiate depending on whether field is multivalue
+    my @FormDataObjectIDs = @ObjectIDs;
+    if ( $DynamicFieldConfig->{Config}{MultiValue} ) {
+
+        # if so, do GetFormData() and store value combined with ObjectIDs
+        my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+            LayoutObject => $LayoutObject,
+            Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
+        );
+
+        if ($LastSearchResults) {
+            for my $ResultItem ( $LastSearchResults->@* ) {
+                if ( none { $_ eq $ResultItem } @FormDataObjectIDs ) {
+                    push @FormDataObjectIDs, $ResultItem;
+                }
+            }
+        }
+    }
+
+    # store all possible values for this field and form id for later verification
+    $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+        LayoutObject => $LayoutObject,
+        FormID       => $ParamObject->GetParam( Param => 'FormID' ),
+        Key          => 'PossibleValues_DynamicField_' . $Param{DynamicFieldConfig}{Name},
+        Value        => \@FormDataObjectIDs,
     );
 
     my @Results;
