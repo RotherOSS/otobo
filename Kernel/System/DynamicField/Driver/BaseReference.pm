@@ -225,20 +225,16 @@ sub EditFieldRender {
         $FieldClass .= ' Validate_Required';
     }
 
-    # set ajaxupdate class
-    if ( $Param{AJAXUpdate} ) {
-        $FieldClass .= ' FormUpdate';
-    }
-
     # set error css class
     if ( $Param{ServerError} ) {
         $FieldClass .= ' ServerError';
     }
 
     my %FieldTemplateData = (
-        FieldClass => $FieldClass,
-        FieldName  => $FieldName,
-        Readonly   => $Param{DynamicFieldConfig}->{Readonly},
+        FieldClass      => $FieldClass,
+        FormUpdateClass => $Param{AJAXUpdate} ? 'FormUpdate' : '',
+        FieldName       => $FieldName,
+        Readonly        => $Param{DynamicFieldConfig}->{Readonly},
     );
 
     my $FieldTemplateFile = $Param{CustomerInterface}
@@ -447,18 +443,14 @@ sub EditFieldValueValidate {
         # in set case, we fetch the template values and either concat them to the search results
         #   or, if no search results are present, use the template values entirely
         if ( defined $Param{SetIndex} ) {
-            my $TemplateName          = $DFName =~ s/_$Param{SetIndex}$/_Template/r;
+            my $TemplateName          = $DynamicFieldConfig->{Name} . '_Template';
             my $TemplateSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
                 LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
                 Key          => 'PossibleValues_' . $TemplateName,
             );
 
             if ( ref $LastSearchResults && ref $TemplateSearchResults ) {
-                for my $ResultItem ( $TemplateSearchResults->@* ) {
-                    if ( none { $_ eq $ResultItem } $LastSearchResults->@* ) {
-                        push $LastSearchResults->@*, $ResultItem;
-                    }
-                }
+                push $LastSearchResults->@*, $TemplateSearchResults->@*;
             }
             elsif ( ref $TemplateSearchResults ) {
                 $LastSearchResults = $TemplateSearchResults;
@@ -467,23 +459,29 @@ sub EditFieldValueValidate {
 
         # check if EditFieldValue is present in last search results
         my $Allowed;
-        VALUE:
         for my $ValueItem ( $Value->@* ) {
             if ( $Param{Mandatory} && !$ValueItem ) {
-                $ServerError  = 1;
-                $ErrorMessage = 'This field is required.';
-                next VALUE;
+                return {
+                    ServerError  => 1,
+                    ErrorMessage => 'This field is required.',
+                };
             }
 
             $Allowed = ( grep { $_ eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
-        }
 
-        if ( !$Allowed ) {
-            return {
-                ServerError  => 1,
-                ErrorMessage => 'Edit field value does not match last search result.',
-            };
+            if ( !$Allowed ) {
+                return {
+                    ServerError  => 1,
+                    ErrorMessage => 'Value invalid!',
+                };
+            }
         }
+    }
+    elsif ( $Param{Mandatory} ) {
+        return {
+            ServerError  => 1,
+            ErrorMessage => 'This field is required.',
+        };
     }
 
     # create resulting structure

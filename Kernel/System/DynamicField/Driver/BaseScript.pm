@@ -428,11 +428,12 @@ sub EditFieldValueValidate {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    return {
-        ServerError  => undef,
-        ErrorMessage => undef
-    } if !$Param{Mandatory}
-        && !IsArrayRefWithData( $DynamicFieldConfig->{Config}{RegExList} );
+    if ( !$Param{Mandatory} && !IsArrayRefWithData( $DynamicFieldConfig->{Config}{RegExList} ) ) {
+        return {
+            ServerError  => undef,
+            ErrorMessage => undef
+        };
+    }
 
     # get the field value from the http request
     my $EditFieldValue = $Self->EditFieldValueGet(
@@ -443,6 +444,7 @@ sub EditFieldValueValidate {
         ReturnValueStructure => 1,
     );
 
+    # NOTE following block does not work with multivalue script fields
     if ($EditFieldValue) {
 
         my $DFName = $DynamicFieldConfig->{Name};
@@ -472,7 +474,7 @@ sub EditFieldValueValidate {
         if ( !$Allowed ) {
             return {
                 ServerError  => 1,
-                ErrorMessage => 'Edit field value did not match last evaluation.',
+                ErrorMessage => 'Value invalid.',
             };
         }
     }
@@ -1135,6 +1137,14 @@ sub GetFieldState {
             %GetParam,
         },
     );
+
+    # do nothing if nothing changed
+    return () if !$Self->ValueIsDifferent(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        Value1             => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+        Value2             => $NewValue,
+    );
+
     my $DFName = $DynamicFieldConfig->{Name};
     if ( defined $Param{SetIndex} ) {
         $DFName .= "_$Param{SetIndex}";

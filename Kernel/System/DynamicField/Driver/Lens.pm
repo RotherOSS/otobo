@@ -26,7 +26,6 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 # core modules
-use List::Util qw(none);
 
 # CPAN modules
 
@@ -252,15 +251,6 @@ sub EditFieldRender {
         %Param,
         DynamicFieldConfig => $AttributeDFConfig,
     );
-
-    # write rendered value to FormCache for later usage in EditFieldValueValidate
-    if ( $Param{Value} && !$Param{ServerError} ) {
-        $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
-            LayoutObject => $Param{LayoutObject},
-            Key          => 'RenderedValue_DynamicField_' . $LensDFConfig->{Name},
-            Value        => $Param{Value},
-        );
-    }
 
     return $AttributeFieldHTML;
 }
@@ -635,9 +625,6 @@ sub GetFieldState {
     if ( $Param{ChangedElements}{ $DynamicFieldConfig->{Config}{ReferenceDFName} } ) {
         $NeedsReset = 1;
     }
-    elsif ( $Param{ChangedElements}{ 'Autocomplete_' . $DynamicFieldConfig->{Config}{ReferenceDFName} } ) {
-        $NeedsReset = 1;
-    }
 
     # or if we have the field reappear
     elsif ( $Param{CachedVisibility} && !$Param{CachedVisibility}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ) {
@@ -702,27 +689,17 @@ sub GetFieldState {
             Key          => 'PossibleValues_' . $ReferenceDFName,
         );
 
-        # if no LastSearchResults is present, use rendered value
-        $LastSearchResults //= $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
-            LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
-            Key          => 'RenderedValue_DynamicField_' . $ReferenceDFName,
-        );
-
         # in set case, we fetch the template values and either concat them to the search results
         #   or, if no search results are present, use the template values entirely
         if ( defined $Param{SetIndex} ) {
-            my $TemplateName          = $ReferenceDFName =~ s/_$Param{SetIndex}$/_Template/r;
+            my $TemplateName          = $DynamicFieldConfig->{Config}{ReferenceDFName} . '_Template';
             my $TemplateSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
                 LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
                 Key          => 'PossibleValues_' . $TemplateName,
             );
 
             if ( ref $LastSearchResults && ref $TemplateSearchResults ) {
-                for my $ResultItem ( $TemplateSearchResults->@* ) {
-                    if ( none { $_ eq $ResultItem } $LastSearchResults->@* ) {
-                        push $LastSearchResults->@*, $ResultItem;
-                    }
-                }
+                push $LastSearchResults->@*, $TemplateSearchResults->@*;
             }
             elsif ( ref $TemplateSearchResults ) {
                 $LastSearchResults = $TemplateSearchResults;
