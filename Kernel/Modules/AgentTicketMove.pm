@@ -1509,7 +1509,6 @@ sub AgentMove {
                 CustomerID     => $Param{CustomerID},
                 CustomerUserID => $Param{CustomerIserID},
                 UserID         => $Self->{UserID},
-                ObjectID       => $Self->{TicketID},
                 %DynamicFieldValues,
             },
         );

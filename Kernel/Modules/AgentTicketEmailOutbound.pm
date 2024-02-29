@@ -1996,7 +1996,6 @@ sub _Mask {
                 CustomerID     => $Param{CustomerID},
                 CustomerUserID => $Param{CustomerUserID},
                 UserID         => $Self->{UserID},
-                ObjectID       => $Self->{TicketID},
                 $Param{DFValues}->%*,
             },
         );

@@ -22,6 +22,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
+use List::Util qw(none);
 
 # CPAN modules
 
@@ -75,6 +76,12 @@ sub Run {
     else {
         $FieldName = $1;    # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
     }
+
+    # get form id
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+        ParamObject  => $ParamObject,
+        LayoutObject => $LayoutObject,
+    );
 
     # Get config for the dynamic field and check the sanity.
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -133,7 +140,7 @@ sub Run {
     $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
         LayoutObject => $LayoutObject,
         FormID       => $ParamObject->GetParam( Param => 'FormID' ),
-        Key          => 'PossibleValues_DynamicField_' . $Param{DynamicFieldConfig}{Name},
+        Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
         Value        => \@FormDataObjectIDs,
     );
 

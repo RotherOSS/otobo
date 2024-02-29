@@ -2531,7 +2531,6 @@ sub _Mask {
                 Object                => {
                     CustomerID     => $Self->{CustomerID},
                     CustomerUserID => $Self->{CustomerUserID},
-                    ObjectID       => $Self->{TicketID},
                     %DynamicFieldValues,
                 },
             );

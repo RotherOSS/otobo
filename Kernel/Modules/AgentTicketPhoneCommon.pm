@@ -1432,7 +1432,6 @@ sub _MaskPhone {
                 CustomerID     => $Param{CustomerData}->{CustomerID},
                 CustomerUserID => $Param{CustomerData}->{CustomerUserID},
                 UserID         => $Self->{UserID},
-                ObjectID       => $Self->{TicketID},
                 $Param{DFValues}->%*,
             },
         );

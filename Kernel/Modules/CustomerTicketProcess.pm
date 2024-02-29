@@ -1336,7 +1336,6 @@ sub _OutputActivityDialog {
                 Object               => {
                     CustomerID     => $Self->{UserCustomerID},
                     CustomerUserID => $Self->{UserID},
-                    ObjectID       => $Param{TicketID},
                     %DynamicFieldValues,
                 },
             );
@@ -1364,7 +1363,6 @@ sub _OutputActivityDialog {
                 Object              => {
                     CustomerID     => $Self->{UserCustomerID},
                     CustomerUserID => $Self->{UserID},
-                    ObjectID       => $Param{TicketID},
                     %DynamicFieldValues,
                 },
             );

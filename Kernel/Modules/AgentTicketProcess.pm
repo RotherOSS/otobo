@@ -1204,7 +1204,14 @@ sub _GetParam {
 
             # if we have an ID field make sure the value without ID won't be in the
             # %GetParam Hash any more
-            if ( $Self->{NameToID}{$CurrentField} =~ m{(.*)ID$}xms ) {
+            # exclude queue from this as we need it for script field evaluation
+            if ( $CurrentField eq 'Queue' ) {
+                my $Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( QueueID => $Value );
+                if ($Queue) {
+                    $GetParam{$CurrentField} = $Queue;
+                }
+            }
+            elsif ( $Self->{NameToID}{$CurrentField} =~ m{(.*)ID$}xms ) {
                 $GetParam{$1} = undef;
             }
             $GetParam{ $Self->{NameToID}{$CurrentField} }     = $Value;
@@ -1893,7 +1900,6 @@ sub _OutputActivityDialog {
                     CustomerID     => $Param{GetParam}->{CustomerID},
                     CustomerUserID => $Param{GetParam}->{CustomerUserID},
                     UserID         => $Self->{UserID},
-                    ObjectID       => $Param{TicketID},
                     %DynamicFieldValues,
                 },
             );
@@ -1922,7 +1928,6 @@ sub _OutputActivityDialog {
                     CustomerID     => $Param{GetParam}->{CustomerID},
                     CustomerUserID => $Param{GetParam}->{CustomerUserID},
                     UserID         => $Self->{UserID},
-                    ObjectID       => $Param{TicketID},
                     %DynamicFieldValues,
                 },
             );
