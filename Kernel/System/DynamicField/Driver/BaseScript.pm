@@ -451,6 +451,12 @@ sub EditFieldValueValidate {
             Key          => 'LastValue_DynamicField_' . $DFName,
         );
 
+        # if no LastEvaluationResult is present, use database value
+        $LastEvaluationResult //= $Self->ValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{GetParam}{TicketID},
+        );
+
         # check if EditFieldValue matches last evaluation result
         my $Allowed = ( $LastEvaluationResult eq $EditFieldValue ) ? 1 : 0;
 

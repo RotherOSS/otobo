@@ -429,6 +429,12 @@ sub EditFieldValueValidate {
             Key          => 'PossibleValues_DynamicField_' . $DFName,
         );
 
+        # if no LastSearchResult is present, use database value
+        $LastSearchResults //= $Self->ValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{GetParam}{TicketID},
+        );
+
         # check if EditFieldValue is present in last search results
         my $Allowed;
         VALUE:

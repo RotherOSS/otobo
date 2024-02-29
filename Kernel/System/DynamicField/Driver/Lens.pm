@@ -689,16 +689,14 @@ sub GetFieldState {
             Key          => 'PossibleValues_' . $ReferenceDFName,
         );
 
-        my $Allowed = 0;
-        if ($LastSearchResults) {
+        # if no LastSearchResult is present, use database value
+        $LastSearchResults //= $Self->ValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{GetParam}{TicketID},
+        );
 
-            # if a search has already been performed for this form id
-            $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;
-        }
-        else {
-            # if no search has been performed yet, the database value for the referenced object is also valid
-            # TODO
-        }
+        # if a search has already been performed for this form id
+        my $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;
 
         if ($Allowed) {
             $Return{NewValue} = $AttributeFieldValue;
