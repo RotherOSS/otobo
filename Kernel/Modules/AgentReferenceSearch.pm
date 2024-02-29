@@ -77,12 +77,6 @@ sub Run {
         $FieldName = $1;    # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
     }
 
-    # get form id
-    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
-        ParamObject  => $ParamObject,
-        LayoutObject => $LayoutObject,
-    );
-
     # Get config for the dynamic field and check the sanity.
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $DynamicFieldConfig        = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
@@ -117,6 +111,8 @@ sub Run {
         ParamObject        => $ParamObject,
     );
 
+    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
+
     # differentiate depending on whether field is multivalue
     my @FormDataObjectIDs = @ObjectIDs;
     if ( $DynamicFieldConfig->{Config}{MultiValue} ) {
@@ -124,6 +120,7 @@ sub Run {
         # if so, do GetFormData() and store value combined with ObjectIDs
         my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
             LayoutObject => $LayoutObject,
+            FormID       => $FormID,
             Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
         );
 
@@ -139,7 +136,7 @@ sub Run {
     # store all possible values for this field and form id for later verification
     $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
         LayoutObject => $LayoutObject,
-        FormID       => $ParamObject->GetParam( Param => 'FormID' ),
+        FormID       => $FormID,
         Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
         Value        => \@FormDataObjectIDs,
     );

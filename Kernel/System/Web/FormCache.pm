@@ -105,7 +105,8 @@ sub PrepareFormID {
 get data for a specific Form ID provided by the LayoutObject
 
     $FormCacheObject->GetFormData(
-        LayoutObject => $LayoutObject,                          # must include SessionID and FormID
+        LayoutObject => $LayoutObject,                          # must include SessionID
+        FormID       => 123321,                                 # optional, if not provided, directly, has to be included in the LayoutObject
         Key          => 'PossibleValues_DynamicField_Name',     # optional - return data of a specific key
     );
 
@@ -126,7 +127,10 @@ sub GetFormData {
         }
     }
 
-    if ( !$Param{LayoutObject}{FormID} || !$Param{LayoutObject}{SessionID} ) {
+    my $SessionID = $Param{LayoutObject}{SessionID};
+    my $FormID    = $Param{FormID} || $Param{LayoutObject}{FormID};
+
+    if ( !$FormID || !$SessionID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need FormID and SessionID in the LayoutObject!",
@@ -134,9 +138,6 @@ sub GetFormData {
 
         return;
     }
-
-    my $SessionID = $Param{LayoutObject}{SessionID};
-    my $FormID    = $Param{LayoutObject}{FormID};
 
     if ( $Self->{Cache}{$SessionID}{$FormID} ) {
 
