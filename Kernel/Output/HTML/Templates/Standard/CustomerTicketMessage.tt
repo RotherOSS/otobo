@@ -163,7 +163,7 @@
                     <div class="Clear"></div>
                 </div>
 
-                <div class="RichTextHolder [% Data.BodyHiddenClass | html %]">
+                <div class="RichTextHolder RichTextField">
                     <textarea id="RichText" class="RichText [% Data.BodyValidate | html %] [% Data.BodyInvalid | html %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
                     <label for="RichText" class="Mandatory">
                         [% Translate("Text") | html %] <span class="Marker">*</span>

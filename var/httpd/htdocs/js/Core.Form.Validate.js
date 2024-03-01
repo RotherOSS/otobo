@@ -92,14 +92,24 @@ Core.Form.Validate = (function (TargetNS) {
             ErrorType = 'Error';
         }
 
-        // TODO: find a nicer way to ensure focus only happens on submit
+        var CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') )
+        
+        // If the element, which has an validation error, is a richtext element, trigger the focus event
         window.setTimeout(function () {
-            // If the element, which has an validation error, is a richtext element, trigger the focus event
             if (Core.UI.RichTextEditor.IsEnabled($Element)) {
+
                 if ($Element.closest('form').hasClass('oooSubmitted')) {
-                    Core.UI.RichTextEditor.Focus($Element);
+                    Core.UI.RichTextEditor.Focus($Element); 
+                    $('.ck-placeholder').addClass('error');
                     Core.UI.ScrollTo($Element.closest('.RichTextHolder'));
-                    //$Element.focus();
+                } else if ( !CustomerInterface ) {
+                    Core.UI.ScrollTo($Element.closest('.RichTexField'));
+                    
+                    if ($Element.hasClass(Options.ErrorClass)) {
+                        return false;
+                    }
+
+                    Core.UI.RichTextEditor.Focus($Element); 
                 }
             }
 
@@ -145,11 +155,11 @@ Core.Form.Validate = (function (TargetNS) {
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
             // If error field is a RTE, it is a little bit more difficult.
-            if ($('#cke_' + Core.App.EscapeSelector(Element.id)).length) {
+            if ( $Element.hasClass('RichText') && typeof ClassicEditor != 'undefined') {
                 Core.Form.ErrorTooltips.InitRTETooltip($Element, InputErrorMessageHTML);
             }
             // If server error field is RTE, action must be subscribed and loaded when event is finished because RTE is not loaded yet.
-            else if ($Element.hasClass('RichText') && parseInt(Core.Config.Get('RichTextSet'), 10) === 1)
+            else if ($Element.hasClass('RichText') && parseInt(Core.Config.Get('RichTextSet'), 10) === 1 )
             {
                 Core.App.Subscribe('Event.UI.RichTextEditor.InstanceReady', function () {
                     Core.Form.ErrorTooltips.InitRTETooltip($Element, InputErrorMessageHTML);
@@ -211,10 +221,10 @@ Core.Form.Validate = (function (TargetNS) {
             $Element.attr('aria-invalid', false);
 
             // if error field is a RTE, it is a little bit more difficult
-            if ($('#cke_' + Core.App.EscapeSelector(Element.id)).length) {
+            if ( $Element.hasClass('RichText') ) {
                 Core.Form.ErrorTooltips.RemoveRTETooltip($Element);
             } else {
-                Core.Form.ErrorTooltips.RemoveTooltip($Element);
+               Core.Form.ErrorTooltips.RemoveTooltip($Element);
             }
         }
     };
@@ -284,8 +294,7 @@ Core.Form.Validate = (function (TargetNS) {
         // keep tags if images are embedded because of inline-images
         // keep tags if codemirror plugin is used (for XSLT editor)
         if (Core.UI.RichTextEditor.IsEnabled($Element)) {
-            Value = CKEDITOR.instances[Element.id].getData();
-            if (typeof CKEDITOR.instances[Element.id].config.codemirror === 'undefined' && !Value.match(/<img/)) {
+            if ( !Value.match(/<img/) ) {                
                 Value = Value.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
             }
         }

@@ -261,7 +261,7 @@ Core.AJAX = (function (TargetNS) {
             Range,
             StartRange = 0,
             NewPosition = 0,
-            CKEditorObj = parent.CKEDITOR;
+            CKEditorObj = window.editor;
 
         if ($Element.length) {
             $ParentBody = $Element;
@@ -272,20 +272,19 @@ Core.AJAX = (function (TargetNS) {
             // parent.CKEDITOR to be the CKEDITOR object of the parent window which contains the iframe. This is why we want to use only
             // CKEDITOR in this case (see bug#12680).
             if (Core.App.Responsive.IsSmallerOrEqual(Core.App.Responsive.GetScreenSize(), 'ScreenL') && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
-                CKEditorObj = CKEDITOR;
+                CKEditorObj = window.editor;
             }
 
             // add the text to the RichText editor
             if (CKEditorObj && CKEditorObj.instances.RichText) {
-                CKEditorObj.instances.RichText.focus();
+                CKEditorObj.editing.view.focus();
                 window.setTimeout(function () {
 
                     // In some circumstances, this command throws an error (although inserting the HTML works)
                     // Because the intended functionality also works, we just wrap it in a try-catch-statement
                     try {
-
                         // set new text
-                        CKEditorObj.instances.RichText.setData(Value);
+                        CKEditorObj.setData(Value);
                     }
                     catch (Error) {
                         $.noop();

@@ -71,25 +71,25 @@
                             <em>
                                 <span>Ctrl</span><span>K</span>
                             </em>
-                            <em>[% Translate("Comment code") | html %]</em>
+                            <em>[% Translate("Comment/Uncomment code") | html %]</em>
                         </li>
                         <li>
                             <em>
-                                <span>Ctrl</span><span>Shift</span><span>K</span>
+                                <span>Ctrl</span><span>Alt</span><span>I</span>
                             </em>
-                            <em>[% Translate("Uncomment code") | html %]</em>
+                            <em>[% Translate("Auto indent code") | html %]</em>
                         </li>
                         <li>
                             <em>
-                                <span>Ctrl</span><span>Alt</span><span>K</span>
+                                <span>Ctrl</span><span>Alt</span><span>J</span>
                             </em>
-                            <em>[% Translate("Auto format code") | html %]</em>
+                            <em>[% Translate("Jump to line") | html %]</em>
                         </li>
                         <li>
                             <em>
-                                <span>Ctrl</span><span>Q</span>
+                                <span>Ctrl</span><span>Space</span>
                             </em>
-                            <em>[% Translate("Expand/Collapse code block") | html %]</em>
+                            <em>[% Translate("Autocomplete") | html %]</em>
                         </li>
                         <li>
                             <em>
@@ -117,10 +117,16 @@
                         </li>
                         <li>
                             <em>
-                                <span>Ctrl</span><span>Shift</span><span>R</span>
+                                <span>F11</span>
                             </em>
-                            <em>[% Translate("Find and replace all") | html %]</em>
+                            <em>[% Translate("Full Screen") | html %]</em>
                         </li>
+                        <li>
+                            <em>
+                                <span>Esc</span>
+                            </em>
+                            <em>[% Translate("Exit full screen") | html %]</em>
+                        </li> 
                     </ul>
                 </div>
                 <div data-id="MacOS">
@@ -129,19 +135,25 @@
                             <em>
                                 <span>Cmd</span><span>K</span>
                             </em>
-                            <em>[% Translate("Comment code") | html %]</em>
+                            <em>[% Translate("Comment/Uncomment code") | html %]</em>
                         </li>
                         <li>
                             <em>
-                                <span>Cmd</span><span>Shift</span><span>K</span>
+                                <span>Cmd</span><span>Alt</span><span>I</span>
                             </em>
-                            <em>[% Translate("Uncomment code") | html %]</em>
+                            <em>[% Translate("Auto indent code") | html %]</em>
                         </li>
                         <li>
                             <em>
-                                <span>Cmd</span><span>Alt</span><span>K</span>
+                                <span>Cmd</span><span>Alt</span><span>J</span>
                             </em>
-                            <em>[% Translate("Auto format code") | html %]</em>
+                            <em>[% Translate("Jump to line") | html %]</em>
+                        </li>         
+                        <li>
+                            <em>
+                                <span>Cmd</span><span>Space</span>           
+                            </em>
+                            <em>[% Translate("Autocomplete") | html %]</em>
                         </li>
                         <li>
                             <em>
@@ -168,12 +180,18 @@
                             <em>[% Translate("Find and replace") | html %]</em>
                         </li>
                         <li>
-                            <em>
-                                <span>Cmd</span><span>Shift</span><span>R</span>
+                            <em>                            
+                                <span>F11</span>
                             </em>
-                            <em>[% Translate("Find and replace all") | html %]</em>
+                            <em>[% Translate("Full Screen") | html %]</em>
                         </li>
-                    </ul>
+                        <li>
+                            <em>
+                                <span>Esc</span>            
+                            </em>
+                            <em>[% Translate("Exit full screen") | html %]</em>
+                        </li>                        
+                   </ul>
                 </div>
             </div>
         </div>
@@ -204,7 +222,18 @@
                     <fieldset class="TableLike FixedLabel">
                         <label class="Mandatory" for="Template"><span class="Marker">*</span>[% Translate("XSLT stylesheet") | html %]:</label>
                         <div class="Field">
-                            <textarea id="Template" name="Template" rows="20" cols="80" class="RichText Validate_Required [% Data.TemplateError | html %]">[% Data.Template | html %]</textarea>
+                            <div id="CMToolbarContainer" class="CMToolbarContainer Hidden">
+                                <div id="CMToolbarIcons" class="CMToolbarIcons">
+                                    <div title="[% Translate("Auto Indent Code") | html %]" class="CMIndent" onclick="Core.UI.CodeMirrorEditor.IndentCode();"></div>
+                                    <div title="[% Translate("Comment/Uncomment Code") | html %]" class="CMComment" onclick="Core.UI.CodeMirrorEditor.ToogleComment();"></div>
+                                    <div title="[% Translate("Search") | html %]" class="CMSearch" onclick="Core.UI.CodeMirrorEditor.Search();"></div> 
+                                    <div title="[% Translate("Search & Replace") | html %]" class="CMSearchReplace" onclick="Core.UI.CodeMirrorEditor.SearchReplace();"></div> 
+                                    <div title="[% Translate("Select All") | html %]" class="CMSelectAll" onclick="Core.UI.CodeMirrorEditor.SelectAll();"></div>                                       
+                                    <div title="[% Translate("Full Screen") | html %]" class="CMMaximize" onclick="Core.UI.CodeMirrorEditor.ToogleFullScreen('Maximize');"></div> 
+                                </div>
+                            </div>
+
+                            <textarea id="Template" name="Template" rows="20" cols="80" class="Validate_Required [% Data.TemplateError | html %]">[% Data.Template | html %]</textarea>
                             <div id="TemplateServerError" class="TooltipErrorMessage">
                                 <p>[% Translate("The entered data is not a valid XSLT style sheet.") | html %]</p>
                             </div>

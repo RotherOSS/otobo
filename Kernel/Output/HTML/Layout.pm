@@ -1779,6 +1779,14 @@ sub Footer {
         )
         : ();
 
+    #Check if CKEditor translation exists
+    my $BaseEditorPath = $ConfigObject->Get('Frontend::RichTextPath');
+    my $Path           = $ConfigObject->Get('Frontend::WebPath');
+
+    $BaseEditorPath =~ s/$Path//;
+
+    $Param{LoadRichTextTranslation}
+        = -e $ConfigObject->Get('Home') . '/var/httpd/htdocs/' . $BaseEditorPath . 'translations/' . $Self->{UserLanguage} . '.js' ? 1 : 0;
     # add JS data
     my %JSConfig = (
         Baselink                       => $Self->{Baselink},
@@ -1822,6 +1830,7 @@ sub Footer {
         );
     }
 
+    $Param{RichTextSet} = $ConfigObject->Get('Frontend::RichText') || '';
     # create & return output
     return $Self->Output(
         TemplateFile => "Footer$Type",
@@ -4431,6 +4440,14 @@ sub CustomerFooter {
             = $Self->{LanguageObject}->Translate( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
     }
 
+    #Check if CKEditor translation exists
+    my $BaseEditorPath = $ConfigObject->Get('Frontend::RichTextPath');
+    my $Path           = $ConfigObject->Get('Frontend::WebPath');
+
+    $BaseEditorPath =~ s/$Path//;
+
+    $Param{LoadRichTextTranslation}
+        = -e $ConfigObject->Get('Home') . '/var/httpd/htdocs/' . $BaseEditorPath . 'translations/' . $Self->{UserLanguage} . '.js' ? 1 : 0;
     # add JS data
     my %JSConfig = (
         Baselink                 => $Self->{Baselink},
@@ -4486,6 +4503,7 @@ sub CustomerFooter {
         $Param{FooterLinks} = \@FooterLinks;
     }
 
+    $Param{RichTextSet} = $ConfigObject->Get('Frontend::RichText') || '';
     # create & return output
     return $Self->Output(
         TemplateFile => "CustomerFooter$Type",
@@ -6302,87 +6320,25 @@ sub SetRichTextParameters {
     my $RichTextType         = $Param{Data}->{RichTextType}                || '';
     my $PictureUploadAction  = $Param{Data}->{RichTextPictureUploadAction} || '';
     my $TextDir              = $Self->{TextDirection}                      || '';
-    my $EditingAreaCSS       = 'body.cke_editable { ' . $ConfigObject->Get("Frontend::RichText::DefaultCSS") . ' }';
 
-    # decide if we need to use the enhanced mode (with tables)
-    my @Toolbar;
-    my @ToolbarWithoutImage;
+    my @EnhancedModeItems = ['codeBlock'];
 
-    if ( $RichTextType eq 'CodeMirror' ) {
-        @Toolbar = @ToolbarWithoutImage = [
-            [ 'autoFormat', 'CommentSelectedRange', 'UncommentSelectedRange', 'AutoComplete' ],
-            [ 'Find',       'Replace',              '-',                      'SelectAll' ],
-            ['Maximize'],
-        ];
-    }
-    elsif ( $ConfigObject->Get("Frontend::RichText::EnhancedMode") == '1' ) {
-        @Toolbar = [
-            [
-                'Bold',   'Italic',       'Underline',    'Strike',        'Subscript',    'Superscript',
-                '-',      'NumberedList', 'BulletedList', 'Table',         '-',            'Outdent',
-                'Indent', '-',            'JustifyLeft',  'JustifyCenter', 'JustifyRight', 'JustifyBlock',
-                '-',      'Link',         'Unlink',       'Undo',          'Redo',         'SelectAll'
-            ],
-            '/',
-            [
-                'Image',   'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote',
-                '-',       '-',            'Find', 'Replace',    'TextColor',
-                'BGColor', 'RemoveFormat', '-',    'ShowBlocks', 'Source', 'SpecialChar',
-                '-',       'Maximize'
-            ],
-            [ 'Format', 'Font', 'FontSize' ]
-        ];
-        @ToolbarWithoutImage = [
-            [
-                'Bold',   'Italic',       'Underline',    'Strike',        'Subscript',    'Superscript',
-                '-',      'NumberedList', 'BulletedList', 'Table',         '-',            'Outdent',
-                'Indent', '-',            'JustifyLeft',  'JustifyCenter', 'JustifyRight', 'JustifyBlock',
-                '-',      'Link',         'Unlink',       'Undo',          'Redo',         'SelectAll'
-            ],
-            '/',
-            [
-                'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote', '-',
-                '-',            'Find', 'Replace',    'TextColor', 'BGColor',
-                'RemoveFormat', '-',    'ShowBlocks', 'Source',    'SpecialChar', '-',
-                'Maximize'
-            ],
-            [ 'Format', 'Font', 'FontSize' ]
-        ];
-    }
-    else {
-        @Toolbar = [
-            [
-                'Bold',          'Italic',       'Underline',      'Strike', '-',    'NumberedList',
-                'BulletedList',  '-',            'Outdent',        'Indent', '-',    'JustifyLeft',
-                'JustifyCenter', 'JustifyRight', 'JustifyBlock',   '-',      'Link', 'Unlink',
-                '-',             'Image',        'HorizontalRule', '-',      'Undo', 'Redo',
-                '-',             'Find'
-            ],
-            '/',
-            [
-                'Format',       'Font', 'FontSize', '-',           'TextColor',  'BGColor',
-                'RemoveFormat', '-',    'Source',   'SpecialChar', 'SplitQuote', 'RemoveQuote',
-                '-',            'Maximize'
-            ]
-        ];
-        @ToolbarWithoutImage = [
-            [
-                'Bold',          'Italic',       'Underline',    'Strike',
-                '-',             'NumberedList', 'BulletedList', '-',
-                'Outdent',       'Indent',       '-',            'JustifyLeft',
-                'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',
-                'Link',          'Unlink',       '-',            'HorizontalRule',
-                '-',             'Undo',         'Redo',         '-',
-                'Find'
-            ],
-            '/',
-            [
-                'Format',       'Font', 'FontSize', '-',           'TextColor',  'BGColor',
-                'RemoveFormat', '-',    'Source',   'SpecialChar', 'SplitQuote', 'RemoveQuote',
-                '-',            'Maximize'
-            ]
-        ];
-    }
+    my @Toolbar = [
+        'Alignment',    'Autoformat', 'BlockQuote', 'Bold', 'CodeBlock', 'DataFilter', 'DataSchema', 'FindAndReplace', 'FontColor',
+        'FontFamily',   'FontSize',   'FontBackgroundColor', 'GeneralHtmlSupport', 'Heading', 'HorizontalLine', 'Image', 'ImageResize', 'ImageStyle', 'ImageUpload',
+        'ImageToolbar', 'ImageInsert',
+        'Indent',       'Italic', 'Link', 'List', 'Paragraph', 'RemoveFormat', 'SelectAll', 'SimpleUploadAdapter', 'SourceEditing', 'SpecialCharacters',
+        'SpecialCharactersEssentials',
+        'Strikethrough', 'Table', 'TableCellProperties', 'TableColumnResize', 'TableProperties', 'TableToolbar', 'Underline', 'Undo', 'PasteFromOffice'
+    ];
+
+    my @ToolbarWithoutImage = [
+        'Alignment',  'Autoformat', 'BlockQuote',          'Bold',               'CodeBlock', 'DataFilter',     'DataSchema', 'FindAndReplace', 'FontColor',
+        'FontFamily', 'FontSize',   'FontBackgroundColor', 'GeneralHtmlSupport', 'Heading',   'HorizontalLine', 'Image',      'ImageInsert',
+        'Indent',     'Italic',     'Link', 'List', 'Paragraph', 'RemoveFormat', 'SelectAll', 'SimpleUploadAdapter', 'SourceEditing', 'SpecialCharacters',
+        'SpecialCharactersEssentials',
+        'Strikethrough', 'Table', 'TableCellProperties', 'TableColumnResize', 'TableProperties', 'TableToolbar', 'Underline', 'Undo', 'PasteFromOffice'
+    ];
 
     # set data with AddJSData()
     $Self->AddJSData(
@@ -6391,13 +6347,14 @@ sub SetRichTextParameters {
             Height         => $ScreenRichTextHeight,
             Width          => $ScreenRichTextWidth,
             TextDir        => $TextDir,
-            EditingAreaCSS => $EditingAreaCSS,
             Lang           => {
                 SplitQuote  => $LanguageObject->Translate('Split Quote'),
                 RemoveQuote => $LanguageObject->Translate('Remove Quote'),
             },
-            Toolbar             => $Toolbar[0],
-            ToolbarWithoutImage => $ToolbarWithoutImage[0],
+            Toolbar             => @Toolbar,
+            ToolbarWithoutImage => @ToolbarWithoutImage,
+            EnhancedModeAgent   => $ConfigObject->Get('Frontend::RichText::EnhancedMode'),
+            EnhancedModeItems   => @EnhancedModeItems,
             PictureUploadAction => $PictureUploadAction,
             Type                => $RichTextType,
         },
@@ -6438,104 +6395,25 @@ sub CustomerSetRichTextParameters {
     my $ScreenRichTextWidth  = $ConfigObject->Get("Frontend::RichTextWidth");
     my $TextDir              = $Self->{TextDirection}                      || '';
     my $PictureUploadAction  = $Param{Data}->{RichTextPictureUploadAction} || '';
-    my $EditingAreaCSS       = 'body { ' . $ConfigObject->Get("Frontend::RichText::DefaultCSS") . ' }';
 
-    # decide if we need to use the enhanced mode (with tables)
-    my @Toolbar;
-    my @ToolbarWithoutImage;
-    my @ToolbarMidi;
-    my @ToolbarMini;
+    my @EnhancedModeItems = ['codeBlock'];
 
-    if ( $ConfigObject->Get("Frontend::RichText::EnhancedMode::Customer") == '1' ) {
-        @Toolbar = [
-            [
-                'Bold',   'Italic',       'Underline',    'Strike',        'Subscript',    'Superscript',
-                '-',      'NumberedList', 'BulletedList', 'Table',         '-',            'Outdent',
-                'Indent', '-',            'JustifyLeft',  'JustifyCenter', 'JustifyRight', 'JustifyBlock',
-                '-',      'Link',         'Unlink',       'Undo',          'Redo',         'SelectAll'
-            ],
-            '/',
-            [
-                'Image',   'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote',
-                '-',       '-',            'Find', 'Replace',    'TextColor',
-                'BGColor', 'RemoveFormat', '-',    'ShowBlocks', 'Source', 'SpecialChar',
-                '-',       'Maximize'
-            ],
-            [ 'Format', 'Font', 'FontSize' ]
-        ];
-        @ToolbarWithoutImage = [
-            [
-                'Bold',   'Italic',       'Underline',    'Strike',        'Subscript',    'Superscript',
-                '-',      'NumberedList', 'BulletedList', 'Table',         '-',            'Outdent',
-                'Indent', '-',            'JustifyLeft',  'JustifyCenter', 'JustifyRight', 'JustifyBlock',
-                '-',      'Link',         'Unlink',       'Undo',          'Redo',         'SelectAll'
-            ],
-            '/',
-            [
-                'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote', '-',
-                '-',            'Find', 'Replace',    'TextColor', 'BGColor',
-                'RemoveFormat', '-',    'ShowBlocks', 'Source',    'SpecialChar', '-',
-                'Maximize'
-            ],
-            [ 'Format', 'Font', 'FontSize' ]
-        ];
-    }
-    else {
-        @Toolbar = [
-            [
-                'Bold',          'Italic',       'Underline',      'Strike', '-',    'NumberedList',
-                'BulletedList',  '-',            'Outdent',        'Indent', '-',    'JustifyLeft',
-                'JustifyCenter', 'JustifyRight', 'JustifyBlock',   '-',      'Link', 'Unlink',
-                '-',             'Image',        'HorizontalRule', '-',      'Undo', 'Redo',
-                '-',             'Find'
-            ],
-            '/',
-            [
-                'Format',       'Font', 'FontSize', '-',           'TextColor',  'BGColor',
-                'RemoveFormat', '-',    'Source',   'SpecialChar', 'SplitQuote', 'RemoveQuote',
-                '-',            'Maximize'
-            ]
-        ];
-        @ToolbarWithoutImage = [
-            [
-                'Bold',          'Italic',       'Underline',    'Strike',
-                '-',             'NumberedList', 'BulletedList', '-',
-                'Outdent',       'Indent',       '-',            'JustifyLeft',
-                'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',
-                'Link',          'Unlink',       '-',            'HorizontalRule',
-                '-',             'Undo',         'Redo',         '-',
-                'Find'
-            ],
-            '/',
-            [
-                'Format',       'Font', 'FontSize', '-',           'TextColor',  'BGColor',
-                'RemoveFormat', '-',    'Source',   'SpecialChar', 'SplitQuote', 'RemoveQuote',
-                '-',            'Maximize'
-            ]
-        ];
-        @ToolbarMidi = [
-            [
-                'Bold',         'Italic', 'Underline', 'Strike', '-', 'NumberedList',
-                'BulletedList', '-',      'Link',      'Unlink', '-', 'HorizontalRule',
-                '-',            'Undo',   'Redo',      '-',      'Maximize'
-            ],
-            '/',
-            [
-                'FontSize', '-',           'TextColor',  'BGColor', 'RemoveFormat',
-                '-',        'SpecialChar', 'SplitQuote', 'RemoveQuote',
-            ]
-        ];
-        @ToolbarMini = [
-            [
-                'Bold', 'Italic', 'Underline', 'Strike', '-',    'BulletedList',
-                '-',    'Link',   'Unlink',    '-',      'Undo', 'Redo',
-            ],
-            '/',
-            [
-                'FontSize', '-', 'TextColor', 'RemoveFormat', '-', 'SplitQuote', 'RemoveQuote',
-            ]
-        ];
-    }
+    my @Toolbar = [
+        'Alignment',    'Autoformat', 'BlockQuote', 'Bold', 'CodeBlock', 'DataFilter', 'DataSchema', 'FindAndReplace', 'FontColor',
+        'FontFamily',   'FontSize',   'FontBackgroundColor', 'GeneralHtmlSupport', 'Heading', 'HorizontalLine', 'Image', 'ImageResize', 'ImageStyle', 'ImageUpload',
+        'ImageToolbar', 'ImageInsert',
+        'Indent',       'Italic', 'Link', 'List', 'Paragraph', 'RemoveFormat', 'SelectAll', 'SimpleUploadAdapter', 'SourceEditing', 'SpecialCharacters',
+        'SpecialCharactersEssentials',
+        'Strikethrough', 'Table', 'TableCellProperties', 'TableColumnResize', 'TableProperties', 'TableToolbar', 'Underline', 'Undo', 'PasteFromOffice'
+    ];
+
+    my @ToolbarWithoutImage = [
+        'Alignment',  'Autoformat', 'BlockQuote',          'Bold',               'CodeBlock', 'DataFilter',     'DataSchema', 'FindAndReplace', 'FontColor',
+        'FontFamily', 'FontSize',   'FontBackgroundColor', 'GeneralHtmlSupport', 'Heading',   'HorizontalLine', 'Image',      'ImageInsert',
+        'Indent',     'Italic',     'Link', 'List', 'Paragraph', 'RemoveFormat', 'SelectAll', 'SimpleUploadAdapter', 'SourceEditing', 'SpecialCharacters',
+        'SpecialCharactersEssentials',
+        'Strikethrough', 'Table', 'TableCellProperties', 'TableColumnResize', 'TableProperties', 'TableToolbar', 'Underline', 'Undo', 'PasteFromOffice'
+    ];
 
     # set data with AddJSData()
     $Self->AddJSData(
@@ -6544,14 +6422,13 @@ sub CustomerSetRichTextParameters {
             Height         => $ScreenRichTextHeight,
             Width          => $ScreenRichTextWidth,
             TextDir        => $TextDir,
-            EditingAreaCSS => $EditingAreaCSS,
             Lang           => {
                 SplitQuote => $LanguageObject->Translate('Split Quote'),
             },
-            Toolbar             => $Toolbar[0],
-            ToolbarWithoutImage => $ToolbarWithoutImage[0],
-            ToolbarMidi         => $ToolbarMidi[0],
-            ToolbarMini         => $ToolbarMini[0],
+            Toolbar              => @Toolbar,
+            ToolbarWithoutImage  => @ToolbarWithoutImage,
+            EnhancedModeCustomer => $ConfigObject->Get('Frontend::RichText::EnhancedMode::Customer'),
+            EnhancedModeItems    => @EnhancedModeItems,
             PictureUploadAction => $PictureUploadAction,
         },
     );

@@ -20,6 +20,14 @@
 
     var CKEDITOR_BASEPATH = [% Config("Frontend::RichTextPath") | JSON %];
 //]]></script>
+[% IF Data.RichTextSet == "1" %]
+<script src="[% Config("Frontend::RichTextPath") _ "ckeditor.js" | html %]"></script>
+
+[% IF Data.LoadRichTextTranslation == "1" %]
+    <script src="[% Config("Frontend::RichTextPath") _ "translations/" | html %][% Env("UserLanguage") | html %].js"></script>
+[% END %]
+
+[% END %]
 [% RenderBlockStart("CommonJS") %]
 <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
 [% RenderBlockEnd("CommonJS") %]

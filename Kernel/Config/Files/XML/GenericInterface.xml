@@ -610,11 +610,45 @@
                 <Item Key="CSS">
                     <Array>
                         <Item>Core.Agent.Admin.GenericInterface.css</Item>
+                        <Item>thirdparty/codemirror-5.65.16/lib/codemirror.css</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/hint/show-hint.css</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldgutter.css</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/dialog/dialog.css</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.css</Item>                        
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Agent.Admin.GenericInterfaceMappingXSLT.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/lib/codemirror.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/hint/xml-hint.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/mode/htmlmixed/htmlmixed.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/hint/show-hint.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/xml-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/edit/matchtags.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/edit/matchbrackets.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/edit/closetag.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/edit/closebrackets.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/search/searchcursor.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/search/search.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldcode.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/edit/trailingspace.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/selection/selection-pointer.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/mode/javascript/javascript.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/mode/css/css.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/mode/xml/xml.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldgutter.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/brace-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/xml-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/indent-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/comment-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/comment/comment.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/comment/continuecomment.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/dialog/dialog.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/search/jump-to-line.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/hint/html-hint.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.js</Item>                        
+                        <Item>Core.UI.CodeMirrorEditor.js</Item>                        
                     </Array>
                 </Item>
             </Hash>

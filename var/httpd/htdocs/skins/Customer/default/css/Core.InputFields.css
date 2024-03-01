@@ -51,7 +51,6 @@ fieldset.Columns .Column .InputField_ListContainer div {
 .Row,
 .RichTextHolder {
     margin-top: 40px;
-    white-space: nowrap;
 }
 
 .Row > div.Field,
@@ -61,10 +60,6 @@ fieldset.Columns .Column .InputField_ListContainer div {
     height: 56px;
 }
 
-.RichTextHolder .cke {
-    display: inline-block;
-    height: auto;
-}
 
 #Subject,
 input.DynamicFieldText {
@@ -329,31 +324,6 @@ label.oooFocus.LabelError {
 .RichTextHolder > label.LabelError {
     background-color: transparent;
 }
-
-.RichTextHolder .cke {
-    border: none;
-}
-.RichTextHolder .cke > .cke_inner {
-    border-radius: 10px;
-    background-color: #f7f7f9;
-    background-color: var(--colBGLight);
-}
-.RichTextHolder .cke_contents {
-    border: solid 1px #e5e5eb;
-}
-.RichTextHolder .cke_bottom,
-.RichTextHolder .cke_top {
-    background: none;
-    border: none;
-}
-
-/*#RichText.Error + #cke_RichText {
-    border-radius: 10px;
-    border: solid 1px #ea2400;
-    position: relative;
-    left: -1px;
-    top: -1px;
-}*/
 
 /* Checkboxes & Date */
 .Row > div.Field.oooDateContainer,

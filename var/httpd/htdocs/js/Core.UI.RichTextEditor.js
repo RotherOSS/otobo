@@ -19,6 +19,7 @@
 
 var Core = Core || {};
 Core.UI = Core.UI || {};
+var CKEditorInstances = [];
 
 /**
  * @namespace Core.UI.RichTextEditor
@@ -38,14 +39,14 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      */
     var $FormID,
 
-    /**
-     * @private
-     * @name TimeOutRTEOnChange
-     * @memberof Core.UI.RichTextEditor
-     * @member {Object}
-     * @description
-     *      Object to handle timeout.
-     */
+        /**
+         * @private
+         * @name TimeOutRTEOnChange
+         * @memberof Core.UI.RichTextEditor
+         * @member {Object}
+         * @description
+         *      Object to handle timeout.
+         */
         TimeOutRTEOnChange;
 
     /**
@@ -76,17 +77,19 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      */
     TargetNS.InitEditor = function ($EditorArea) {
         var EditorID = '',
-            Editor,
             UserLanguage,
-            UploadURL = '',
-            EditorConfig,
-            RemovedCKEditorPlugins = '',
-            CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') );
+            EnabledPlugins = CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
+            CustomerInterface = (Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'));
 
-        if (typeof CKEDITOR === 'undefined') {
+        // The format for the language is different between OTOBO and CKEditor (see bug#8024)
+        // To correct this, we replace "_" with "-" in the language (e.g. zh_CN becomes zh-cn)
+        UserLanguage = Core.Config.Get('UserLanguage').replace(/_/, "-");
+
+        if (typeof ClassicEditor === 'undefined') {
             return false;
         }
 
+        // Check if instance is already loaded
         if (isJQueryObject($EditorArea) && $EditorArea.hasClass('HasCKEInstance')) {
             return false;
         }
@@ -99,238 +102,183 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Core.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
         }
 
-        // mark the editor textarea as linked with an RTE instance to avoid multiple instances
-        $EditorArea.addClass('HasCKEInstance');
+        // Common editor label
+        const RichTextLabel = $('label[for="RichText"]');
 
-        CKEDITOR.on('instanceCreated', function (Editor) {
-            CKEDITOR.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
+        //Change to new CKEditor format <br*> tags to Paragraphs
+        $($EditorArea).val($($EditorArea).val().replace(/<br[^>]*>/gi,'<p>&nbsp;</p>'));
 
-            // Remove the validation error tooltip if content is added to the editor
-            Editor.editor.on('change', function() {
-                window.clearTimeout(TimeOutRTEOnChange);
-                TimeOutRTEOnChange = window.setTimeout(function () {
-                    Core.Form.Validate.ValidateElement($(Editor.editor.element.$));
-                    Core.App.Publish('Event.UI.RichTextEditor.ChangeValidationComplete', [Editor]);
-                }, 250);
+        //Arrange toolbar items (Plugins load are managed in Layout.pm)
+        var Integrations;
+        var ToolbarItems = [ 'bold', 'italic', 'underline', 'strikethrough', '|', 'bulletedList', 'numberedList', '|',
+                             'insertTable', '|', 'indent', 'outdent',  'alignment', '|',
+                             'link', 'undo', 'redo', 'selectAll', '-',
+                             'insertImage', 'horizontalLine', 'blockQuote', '|', 'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+                             'sourceEditing', 'specialCharacters', '-',
+                             'heading', 'fontFamily', 'fontSize'];
+
+        if ( CheckFormID($EditorArea).length ) {
+            Integrations = [ 'upload', 'url' ];
+        } else {
+            Integrations = [ 'url' ];
+        }
+
+        //Load enhanced mode toolbar buttons
+        if ( Core.Config.Get('RichText.EnhancedModeAgent') > 0 && !CustomerInterface ||
+                Core.Config.Get('RichText.EnhancedModeCustomer') > 0 && CustomerInterface ) {
+
+            var EnhancedModeItems = Core.Config.Get('RichText.EnhancedModeItems');
+            ToolbarItems.push('|');
+
+            $.each(EnhancedModeItems, function( index, value ) {
+                ToolbarItems.push(value);
             });
+        }
 
-            Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [Editor]);
-        });
-
-        CKEDITOR.on('instanceReady', function (Editor) {
-
-            // specific config for CodeMirror instances (e.g. XSLT editor)
-            if (Core.Config.Get('RichText.Type') == 'CodeMirror') {
-
-                // The width of a tab character. Defaults to 4.
-                window[ 'codemirror_' + Editor.editor.id ].setOption("tabSize", 4);
-
-                // How many spaces a block (whatever that means in the edited language) should be indented. The default is 2.
-                window[ 'codemirror_' + Editor.editor.id ].setOption("indentUnit", 4);
-
-                // Whether to use the context-sensitive indentation that the mode provides (or just indent the same as the line before). Defaults to true.
-                window[ 'codemirror_' + Editor.editor.id ].setOption("tabMode", 'spaces');
-                window[ 'codemirror_' + Editor.editor.id ].setOption("smartIndent", true);
-
-                // convert tabs to spaces
-                window[ 'codemirror_' + Editor.editor.id ].setOption("extraKeys", {
-                    Tab: function(cm) {
-                        var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
-                        cm.replaceSelection(spaces);
+        ClassicEditor.create($($EditorArea).get(0), {
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                    { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                    { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
+                ]
+            },
+            fontSize: {
+                options: [
+                    'default', 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30
+                ],
+                supportAllValues: true
+            },
+            fontFamily: {
+                supportAllValues: true
+            },
+            toolbar: {
+                shouldNotGroupWhenFull: true,
+                items: ToolbarItems
+            },
+            plugins: EnabledPlugins,
+            language: {
+                ui: UserLanguage,
+                content: UserLanguage
+            },
+            image: {
+                resizeUnit: 'px',
+                insert: {
+                    type: 'inline'
+                },
+                toolbar: ['imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight'],
+                insert: {
+                    // Expose only needed dropdown options
+                    integrations: Integrations
+                }
+            },
+            table: {
+                tableCellProperties: {
+                    defaultProperties: {
+                        horizontalAlignment: 'left',
+                        verticalAlignment: 'top',
                     }
-                });
-            }
-
-            Core.App.Publish('Event.UI.RichTextEditor.InstanceReady', [Editor]);
-        });
-
-        // The format for the language is different between OTOBO and CKEditor (see bug#8024)
-        // To correct this, we replace "_" with "-" in the language (e.g. zh_CN becomes zh-cn)
-        UserLanguage = Core.Config.Get('UserLanguage').replace(/_/, "-");
-
-        // build URL for image upload
-        if (CheckFormID($EditorArea).length) {
-
-            UploadURL = Core.Config.Get('Baselink')
+                }
+            },
+            simpleUpload: {
+                // build URL for image upload
+                uploadUrl: Core.Config.Get('Baselink')
                     + 'Action='
                     + Core.Config.Get('RichText.PictureUploadAction', 'PictureUpload')
                     + '&FormID='
                     + CheckFormID($EditorArea).val()
                     + '&' + Core.Config.Get('SessionName')
-                    + '=' + Core.Config.Get('SessionID');
-        }
+                    + '=' + Core.Config.Get('SessionID'),
 
-        var ToolbarConfig;
-        if ( CustomerInterface ) {
-            ToolbarConfig = $EditorArea.width() < 454 ? Core.Config.Get('RichText.ToolbarMini') :
-                            $EditorArea.width() < 622 ? Core.Config.Get('RichText.ToolbarMidi') :
-                            CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
-        }
-        else {
-            ToolbarConfig = CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
-        }
+                // Enable the XMLHttpRequest.withCredentials property.
+                withCredentials: false,
 
-        // set default editor config, but allow custom config for other types for editors
-        /*eslint-disable camelcase */
-        RemovedCKEditorPlugins = 'devtools,image,mathjax,embed,embedsemantic,exportpdf,sourcedialog,bbcode,divarea,elementspath,stylesheetparser,autogrow';
-        if (!CheckFormID($EditorArea).length) {
-            RemovedCKEditorPlugins += ',image2,uploadimage';
-        }
-        EditorConfig = {
-            customConfig:              '',        // avoid loading external config files like config.js
-            versionCheck:              false,     // don't bother users with annoying messages
-            disableNativeSpellChecker: false,
-            defaultLanguage:           UserLanguage,
-            language:                  UserLanguage,
-            width:                     Core.Config.Get('RichText.Width', 620),
-            resize_minWidth:           Core.Config.Get('RichText.Width', 620),
-            height:                    Core.Config.Get('RichText.Height', 320),
-            removePlugins:             RemovedCKEditorPlugins,
-            forcePasteAsPlainText:     false,
-            format_tags:               'p;h1;h2;h3;h4;h5;h6;pre',
-            fontSize_sizes:            '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
-            extraAllowedContent:       'div[type]{*}; img[*]{*}; col[width]; style[*]{*}; *[id](*)',
-            enterMode:                 CKEDITOR.ENTER_BR,
-            shiftEnterMode:            CKEDITOR.ENTER_BR,
-            contentsLangDirection:     Core.Config.Get('RichText.TextDir', 'ltr'),
-            toolbar:                   ToolbarConfig,
-            filebrowserBrowseUrl:      '',
-            filebrowserUploadUrl:      UploadURL,
-            clipboard_handleImages:    false,                             // avoid message about automatic deactivation
-            extraPlugins:              'splitquote,contextmenu_linkopen', // OTOBO specific plugins
-            entities:                  false,
-            skin:                      'moono-lisa'
-        };
-        /*eslint-enable camelcase */
+                // Headers sent along with the XMLHttpRequest to the upload server.
+                headers: {}
+            }          
+        })
+            .then(editor => {
+                /* Generate ID for current Editor */
+                editor.ElementId = EditorID;
+                CKEditorInstances[$EditorArea.attr('id')] = editor;
 
-        // specific config for CodeMirror instances (e.g. XSLT editor)
-        if (Core.Config.Get('RichText.Type') == 'CodeMirror') {
-            $.extend(EditorConfig, {
+                window.editor = editor;
 
-                /*eslint-disable camelcase */
-                startupMode:    'source',
-                allowedContent: true,
-                extraPlugins:   'codemirror',
-                codemirror:     {
-                    theme:                  'default',
-                    lineNumbers:            true,
-                    lineWrapping:           true,
-                    matchBrackets:          true,
-                    autoCloseTags:          true,
-                    autoCloseBrackets:      true,
-                    enableSearchTools:      true,
-                    enableCodeFolding:      true,
-                    enableCodeFormatting:   true,
-                    autoFormatOnStart:      false,
-                    autoFormatOnModeChange: false,
-                    autoFormatOnUncomment:  false,
-                    mode:                   'htmlmixed',
-                    showTrailingSpace:      true,
-                    highlightMatches:       true,
-                    styleActiveLine:        true
+                /* Set Container size */
+                var domEditableElement = $($EditorArea).closest(".RichTextField");
+
+                //Try use RichTextHolder for Customer Interface
+                if (!domEditableElement) {
+                    domEditableElement = document.querySelector('.RichTextHolder');
                 }
-                /*eslint-disable camelcase */
 
-            });
-        }
+                $(domEditableElement).css('max-width', Core.Config.Get('RichText.Width', 620) + 'px');
+                $(domEditableElement).css('min-height', Core.Config.Get('RichText.Height', 320) + 'px');
 
-        Editor = CKEDITOR.replace(EditorID, EditorConfig);
-
-        // check if creating CKEditor was successful
-        // might be a problem on mobile devices e.g.
-        if (typeof Editor !== 'undefined') {
-
-            // Hack for updating the textarea with the RTE content (bug#5857)
-            // Rename the original function to another name, than overwrite the original one
-            CKEDITOR.instances[EditorID].updateElementOriginal = CKEDITOR.instances[EditorID].updateElement;
-            CKEDITOR.instances[EditorID].updateElement = function() {
-                var Data;
-
-                // First call the original function
-                CKEDITOR.instances[EditorID].updateElementOriginal();
-
-                // Now check if there is actually any non-whitespace content in the
-                //  textarea field. If not, set it to an empty value to make sure
-                //  the server side validation works correctly and there is no trash
-                //  like '<br/>' stored in the DB.
-                Data = this.element.getValue(); // get textarea content
-
-                // only if codemirror plugin is not used (for XSLT editor)
-                // or
-                // if data contains no image tag,
-                // this is important for inline images, we don't want to remove them!
-                if (typeof CKEDITOR.instances[EditorID].config.codemirror === 'undefined' && !Data.match(/<img/)) {
-
-                    // remove tags and whitespace for checking
-                    Data = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
-                    if (!Data.length) {
-                        this.element.setValue(''); // reset textarea
-                    }
-                }
-            };
-
-            // Redefine 'writeCssText' function because of unnecessary sorting of CSS properties (bug#12848).
-            /* eslint-disable no-unused-vars */
-            CKEDITOR.tools.writeCssText = function (styles, sort) {
-                var name,
-                stylesArr = [];
-
-                for (name in styles)
-                    stylesArr.push(name + ':' + styles[name]);
-
-                // This block sorts CSS properties which can make a wrong CSS style sent to CKEditor.
-                // if ( sort )
-                //     stylesArr.sort();
-
-                return stylesArr.join('; ');
-            };
-            /* eslint-enable no-unused-vars */
-
-            var $RTHolder = $EditorArea.closest('.RichTextHolder');
-            var $RTELabel = $RTHolder.children('label').first();
-
-            // Needed for clientside validation of RTE
-            CKEDITOR.instances[EditorID].on('blur', function () {
-                CKEDITOR.instances[EditorID].updateElement();
-                Core.Form.Validate.ValidateElement($EditorArea);
-                if ( CustomerInterface && $RTELabel.hasClass('LabelError') ) {
-                    $RTELabel.show();
-                }
-            });
-
-            // needed for client-side validation
-            CKEDITOR.instances[EditorID].on('focus', function () {
-
-                if ( CustomerInterface ) {
-                    $RTELabel.hide();
-                }
-                Core.App.Publish('Event.UI.RichTextEditor.Focus', [Editor]);
-
-                if ($EditorArea.attr('class').match(/Error/)) {
-                    window.setTimeout(function () {
-                        CKEDITOR.instances[EditorID].updateElement();
-                        Core.Form.Validate.ValidateElement($EditorArea);
-                        Core.App.Publish('Event.UI.RichTextEditor.FocusValidationComplete', [Editor]);
-                    }, 0);
-                }
-            });
-
-            // move the label if needed
-            if ( CustomerInterface ) {
-                var ToolBarHeight = $('.cke_top', $RTHolder).outerHeight(true) + 32;
-                $RTELabel.css( 'top', ToolBarHeight + 'px' );
-
-                $(window).on('resize', function () {
-                    ToolBarHeight = $('.cke_top', $RTHolder).outerHeight(true) + 32;
-                    $RTELabel.css( 'top', ToolBarHeight + 'px' );
+                /* Set editing area size */
+                editor.editing.view.change(writer => {
+                    writer.setStyle('max-width', Core.Config.Get('RichText.Width', 620) + 'px', editor.editing.view.document.getRoot());
+                    writer.setStyle('max-height', Core.Config.Get('RichText.Height', 320) + 'px', editor.editing.view.document.getRoot());
+                    writer.setStyle('min-height', Core.Config.Get('RichText.Height', 320) + 'px', editor.editing.view.document.getRoot());
                 });
-            }
 
-            $EditorArea.focus(function () {
-                TargetNS.Focus($EditorArea);
-                Core.UI.ScrollTo( $RTHolder );
+                if (CustomerInterface) {
+                    $(domEditableElement).css('max-width', '66%');
+                    $(domEditableElement).css('margin', '0 auto');
+
+                    editor.editing.view.document.getRoot('main').placeholder = RichTextLabel[0].innerText;
+                    RichTextLabel.hide();
+
+                    /* Set editing area width for Customer */
+                    editor.editing.view.change(writer => {
+                        writer.setStyle('max-width', '100%', editor.editing.view.document.getRoot());
+                    });
+                }
+
+                Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);
+
+                //Update validation error tooltip while content is added to the editor
+                editor.model.document.on('change:data', () => {
+                    if (editor.getData() != "") {
+                        $("#" + editor.ElementId).val(editor.getData());
+                    }
+
+                    window.clearTimeout(TimeOutRTEOnChange);
+                    TimeOutRTEOnChange = window.setTimeout(function () {
+                        Core.Form.Validate.ValidateElement($EditorArea);
+                        Core.App.Publish('Event.UI.RichTextEditor.ChangeValidationComplete', [editor]);
+                    }, 250);
+                });
+
+                editor.ui.focusTracker.on('change:isFocused', (evt, name, isFocused) => {
+                    if (!isFocused) {
+                        $("#" + $EditorArea.attr('id')).val(editor.getData());
+
+                        Core.Form.Validate.ValidateElement($EditorArea);
+                        Core.Form.ErrorTooltips.RemoveRTETooltip($EditorArea);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error(error);
             });
-        }
+
+        // mark the editor textarea as linked with an RTE instance to avoid multiple instances
+        $EditorArea.addClass('HasCKEInstance');
+
+        //Remove validation for undefined elements on CKEditor (JQuery validate plugin exception)
+        $(document).ready(function () {
+            $('form').each(function () {
+                if ($(this).data('validator')) {
+                    $(this).data('validator').settings.ignore = ".ck, .ck-editor__editable, .ck-content";
+                    return false;
+                }
+            });
+        });
     };
 
     /**
@@ -341,7 +289,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      *      This function initializes as a rich text editor every textarea element that containing the RichText class.
      */
     TargetNS.InitAllEditors = function () {
-        if (typeof CKEDITOR === 'undefined') {
+
+        if (typeof ClassicEditor === 'undefined') {
             return;
         }
 
@@ -358,7 +307,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      *      This function initializes JS functionality.
      */
     TargetNS.Init = function () {
-        if (typeof CKEDITOR === 'undefined') {
+
+        if (typeof ClassicEditor === 'undefined' || Core.Config.Get('Action') == 'AdminGenericInterfaceMappingXSLT') {
             return;
         }
 
@@ -378,7 +328,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         var $RTE;
 
         if (isJQueryObject($EditorArea)) {
-            $RTE = $('#cke_' + $EditorArea.attr('id'));
+            $RTE = $($EditorArea.attr('id'));
             return ($RTE.length ? $RTE : undefined);
         }
     };
@@ -404,7 +354,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Core.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
         }
 
-        Data = CKEDITOR.instances[EditorID].getData();
+        Data = window.editor.getData();
         StrippedContent = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
 
         if (StrippedContent.length === 0 && !Data.match(/<img/)) {
@@ -425,12 +375,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      *      This function check if a rich text editor is enable in this moment.
      */
     TargetNS.IsEnabled = function ($EditorArea) {
-        if (typeof CKEDITOR === 'undefined') {
+        if (typeof window.editor === 'undefined') {
             return false;
         }
 
-        if (isJQueryObject($EditorArea) && $EditorArea.length) {
-            return (CKEDITOR.instances[$EditorArea[0].id] ? true : false);
+        if (isJQueryObject($EditorArea) && $EditorArea.length && $EditorArea.hasClass('RichText')) {
+            return (window.editor ? true : false);
         }
         return false;
     };
@@ -454,11 +404,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Core.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
         }
 
-        if (typeof CKEDITOR === 'object') {
-            CKEDITOR.instances[EditorID].focus();
-        }
-        else {
-            $EditorArea.focus();
+        if (typeof ClassicEditor != 'undefined') {
+            CKEditorInstances[$EditorArea.attr('id')].focus();
         }
     };
 

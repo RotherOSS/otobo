@@ -384,7 +384,7 @@
         <Description Translatable="1">Defines the URL rich text editor path.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.22.1/</Item>
+            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor5-build-classic/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -402,19 +402,33 @@
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::DefaultCSS" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default CSS used in rich text editors.</Description>
+        <Description Translatable="1">Defines the default CSS used for displaying articles.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;</Item>
         </Value>
     </Setting>
+    <Setting Name="Frontend::RichTextArticleStyles" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines the default CSS for creating CKEditor articles.</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">thirdparty/ckeditor5-build-classic/CKEditor.min.css</Item>
+        </Value>
+    </Setting>    
     <Setting Name="CustomerFrontend::RichText::DefaultCSS" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default CSS used in rich text editors.</Description>
+        <Description Translatable="1">Defines the default CSS used for displaying articles.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">font-family:'Quicksand', sans-serif; font-size: 14px; line-height: 1.5; color: #00023c;</Item>
         </Value>
     </Setting>
+    <Setting Name="CustomerFrontend::RichTextArticleStyles" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines the default CSS for creating CKEditor articles.</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">thirdparty/ckeditor5-build-classic/CKEditor.min.css</Item>
+        </Value>
+    </Setting>       
     <Setting Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">
         <Description Translatable="1">Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).</Description>
         <Navigation>Frontend::Base</Navigation>
@@ -8390,15 +8404,6 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Loader::Agent::CommonJS###100-CKEditor" Required="1" Valid="1">
-        <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
-        <Navigation>Frontend::Base::Loader</Navigation>
-        <Value>
-            <Array>
-                <Item>thirdparty/ckeditor-4.22.1/ckeditor.js</Item>
-            </Array>
-        </Value>
-    </Setting>
     <Setting Name="Loader::Customer::CommonCSS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of CSS files to always be loaded for the customer interface.</Description>
         <Navigation>Frontend::Base::Loader</Navigation>
@@ -8471,15 +8476,6 @@ via the Preferences button after logging in.
                 <Item>Core.Customer.Responsive.js</Item>
                 <Item>Core.UI.NavigationBar.js</Item>
                 <Item>Core.UI.Elasticsearch.js</Item>
-            </Array>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Customer::CommonJS###100-CKEditor" Required="1" Valid="1">
-        <Description Translatable="1">List of JS files to always be loaded for the customer interface.</Description>
-        <Navigation>Frontend::Base::Loader</Navigation>
-        <Value>
-            <Array>
-                <Item>thirdparty/ckeditor-4.22.1/ckeditor.js</Item>
             </Array>
         </Value>
     </Setting>
