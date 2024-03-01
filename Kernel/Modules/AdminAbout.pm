@@ -28,8 +28,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     return $Self;
 }
@@ -146,35 +145,7 @@ sub Run {
         push @LanguageIDs, ( sort keys %DefaultUsedLanguages )[0];
     }
 
-    # get native names of languages
-    my %DefaultUsedLanguagesNative = %{ $ConfigObject->Get('DefaultUsedLanguagesNative') || {} };
-
-    my %Languages;
-    LANGUAGEID:
-    for my $LanguageID ( sort keys %DefaultUsedLanguages ) {
-
-        # next language if there is not set any name for current language
-        if ( !$DefaultUsedLanguages{$LanguageID} && !$DefaultUsedLanguagesNative{$LanguageID} ) {
-            next LANGUAGEID;
-        }
-
-        # get texts in native and default language
-        my $Text        = $DefaultUsedLanguagesNative{$LanguageID} || '';
-        my $TextEnglish = $DefaultUsedLanguages{$LanguageID}       || '';
-
-        # translate to current user's language
-        my $TextTranslated =
-            $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate($TextEnglish);
-
-        if ( $TextTranslated && $TextTranslated ne $Text ) {
-            $Text .= ' - ' . $TextTranslated;
-        }
-
-        # next language if there is not set English nor native name of language.
-        next LANGUAGEID if !$Text;
-
-        $Languages{$LanguageID} = $Text;
-    }
+    my %Languages = $LayoutObject->{LanguageObject}->LanguageList;
 
     # copy original list of languages which will be used for rebuilding language selection
     my %OriginalDefaultUsedLanguages = %Languages;

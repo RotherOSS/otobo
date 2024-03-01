@@ -564,10 +564,14 @@ sub LanguageChecksum {
 This function returns a hash mapping language codes to a label. The label contains the native language name
 and the translation into the user language. This hash is intended for language selection.
 
+    my %Languages = $LanguageObject->LanguageList(
+        WithInProcessIndicator => 1, # 0|1, optional, default is 0, whether (in process) is displayed for sparsely translated languages
+    );
+
 =cut
 
 sub LanguageList {
-    my ($Self) = @_;
+    my ( $Self, %Param ) = @_;
 
     my %Languages;
     my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
@@ -612,17 +616,20 @@ sub LanguageList {
         # next language if there is neither English nor native name of language set.
         next LANGUAGEID unless $Text;
 
-        my $LanguageObject = Kernel::Language->new(
-            UserLanguage => $LanguageID,
-        );
+        # add the (in process) message if requested
+        if ( $Param{WithInProcessIndicator} ) {
+            my $LanguageObject = Kernel::Language->new(
+                UserLanguage => $LanguageID,
+            );
 
-        next LANGUAGEID unless $LanguageObject;
+            next LANGUAGEID unless $LanguageObject;
 
-        my $Completeness = $LanguageObject->{Completeness};
+            my $Completeness = $LanguageObject->{Completeness};
 
-        # mark all languages with < 25% coverage as "in process" (not for en_ variants).
-        if ( defined $Completeness && $Completeness < 0.25 && $LanguageID !~ m{^en_}smx ) {
-            $Text .= ' ' . $InProcessText;
+            # mark all languages with < 25% coverage as "in process" (not for en_ variants).
+            if ( defined $Completeness && $Completeness < 0.25 && $LanguageID !~ m{^en_}smx ) {
+                $Text .= ' ' . $InProcessText;
+            }
         }
 
         # This will be used in the selection
