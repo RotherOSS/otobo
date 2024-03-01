@@ -14,8 +14,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<input type="hidden" id="[% Data.FieldID %]" name="[% Data.FieldName %]" value="[% Data.Value %]" />
-<input type="text" class="[% Data.FieldClass | html %]" id="Autocomplete_[% Data.FieldID %]" title="[% Data.FieldLabel | html %]" name="Autocomplete_[% Data.FieldName %]" value="[% Data.VisibleValue | html %]" [% IF Data.Readonly %]readonly[% END %] />
+<input type="hidden" class="[% Data.FormUpdateClass | html %]" id="[% Data.FieldID | html %]" name="[% Data.FieldName | html %]" value="[% Data.Value | html %]" />
+<input type="text" class="[% Data.FieldClass | html %]" id="Autocomplete_[% Data.FieldID | html %]" title="[% Data.FieldLabel | html %]" name="Autocomplete_[% Data.FieldName | html %]" value="[% Data.VisibleValue | html %]" [% IF Data.Readonly %]readonly[% END %] />
 [% IF Data.Mandatory %]
 <div id="[% Data.DivIDMandatory | html %]" class="TooltipErrorMessage">
     <p>

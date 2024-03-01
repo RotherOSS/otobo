@@ -111,8 +111,12 @@ Core.AJAX = (function (TargetNS) {
             LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>',
             $MultivalueButtons = $Element.parent().siblings('.AddRemoveValueRow');
 
-        // Ignore hidden fields
-        if ($Element.is('[type=hidden]') && !$Element.hasClass('DynamicFieldDB')) {
+        // Ignore hidden fields, except for database and autocomplete
+        if (
+            $Element.is('[type=hidden]')
+            && !$Element.hasClass('DynamicFieldDB')
+            && !$Element.parent().find('.ui-autocomplete-input').length
+        ) {
             return;
         }
         // Element not present, reset counter and ignore

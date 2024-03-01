@@ -225,20 +225,16 @@ sub EditFieldRender {
         $FieldClass .= ' Validate_Required';
     }
 
-    # set ajaxupdate class
-    if ( $Param{AJAXUpdate} ) {
-        $FieldClass .= ' FormUpdate';
-    }
-
     # set error css class
     if ( $Param{ServerError} ) {
         $FieldClass .= ' ServerError';
     }
 
     my %FieldTemplateData = (
-        FieldClass => $FieldClass,
-        FieldName  => $FieldName,
-        Readonly   => $Param{DynamicFieldConfig}->{Readonly},
+        FieldClass      => $FieldClass,
+        FormUpdateClass => $Param{AJAXUpdate} ? 'FormUpdate' : '',
+        FieldName       => $FieldName,
+        Readonly        => $Param{DynamicFieldConfig}->{Readonly},
     );
 
     my $FieldTemplateFile = $Param{CustomerInterface}
@@ -275,7 +271,7 @@ sub EditFieldRender {
                     Name         => $FieldName,
                     ID           => $FieldID,
                     SelectedID   => $Value->[$ValueIndex],
-                    Class        => $FieldClass,
+                    Class        => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
                     HTMLQuote    => 1,
                     Translation  => $DFDetails->{Translation},
                     PossibleNone => 0,
@@ -290,7 +286,7 @@ sub EditFieldRender {
                 Disabled     => $Param{Readonly},
                 Name         => $FieldName,
                 SelectedID   => \@SelectedIDs,
-                Class        => $FieldClass,
+                Class        => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
                 HTMLQuote    => 1,
                 Multiple     => $DFDetails->{Multiselect},
                 Translation  => $DFDetails->{Translation},
@@ -358,7 +354,7 @@ sub EditFieldRender {
             Disabled    => $Param{Readonly},
             Name        => $FieldName,
             ID          => $FieldTemplateData{FieldID},
-            Class       => $FieldClass,
+            Class       => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
             HTMLQuote   => 1,
             Multiple    => $DFDetails->{Multiselect},
             Translation => $DFDetails->{TranslatableValues} || 0,
@@ -369,6 +365,15 @@ sub EditFieldRender {
                 %FieldTemplateData,
                 SelectionHTML => ( $DFDetails->{EditFieldMode} ne 'AutoComplete' ? $SelectionHTML : undef ),
             },
+        );
+    }
+
+    # write rendered value to FormCache for later usage in EditFieldValueValidate
+    if ( $Value && !$Param{ServerError} ) {
+        $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+            LayoutObject => $Param{LayoutObject},
+            Key          => 'RenderedValue_DynamicField_' . $Param{DynamicFieldConfig}{Name},
+            Value        => $Value,
         );
     }
 
@@ -398,9 +403,11 @@ sub EditFieldRender {
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
     # get the field value from the http request
     my $Value = $Self->EditFieldValueGet(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        DynamicFieldConfig => $DynamicFieldConfig,
         ParamObject        => $Param{ParamObject},
 
         # not necessary for this Driver but place it for consistency reasons
@@ -410,11 +417,72 @@ sub EditFieldValueValidate {
     my $ServerError;
     my $ErrorMessage;
 
-    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-        $Value = [$Value];
-    }
+    if ( $Value->@* ) {
 
-    # TODO validate by re-executing SearchObject()?
+        my $DFName = $DynamicFieldConfig->{Name};
+
+        if ( defined $Param{SetIndex} ) {
+            $DFName .= "_$Param{SetIndex}";
+        }
+
+        # if the value would change, we need to verify that the user is really allowed
+        # to access the provided referenced data via this form
+        # this is the case if either the referenced data was shown via a search (1)
+        # or is currently stored for the edited ticket/ci/... (2)
+        my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+            LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+            Key          => 'PossibleValues_DynamicField_' . $DFName,
+        );
+
+        # if no LastSearchResult is present, use rendered value
+        $LastSearchResults //= $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+            LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+            Key          => 'RenderedValue_DynamicField_' . $DFName,
+        );
+
+        # in set case, we fetch the template values and either concat them to the search results
+        #   or, if no search results are present, use the template values entirely
+        if ( defined $Param{SetIndex} ) {
+            my $TemplateName          = $DynamicFieldConfig->{Name} . '_Template';
+            my $TemplateSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+                LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                Key          => 'PossibleValues_' . $TemplateName,
+            );
+
+            if ( ref $LastSearchResults && ref $TemplateSearchResults ) {
+                push $LastSearchResults->@*, $TemplateSearchResults->@*;
+            }
+            elsif ( ref $TemplateSearchResults ) {
+                $LastSearchResults = $TemplateSearchResults;
+            }
+        }
+
+        # check if EditFieldValue is present in last search results
+        my $Allowed;
+        for my $ValueItem ( $Value->@* ) {
+            if ( $Param{Mandatory} && !$ValueItem ) {
+                return {
+                    ServerError  => 1,
+                    ErrorMessage => 'This field is required.',
+                };
+            }
+
+            $Allowed = ( grep { $_ eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
+
+            if ( !$Allowed ) {
+                return {
+                    ServerError  => 1,
+                    ErrorMessage => 'Value invalid!',
+                };
+            }
+        }
+    }
+    elsif ( $Param{Mandatory} ) {
+        return {
+            ServerError  => 1,
+            ErrorMessage => 'This field is required.',
+        };
+    }
 
     # create resulting structure
     return {

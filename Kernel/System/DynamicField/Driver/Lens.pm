@@ -249,6 +249,7 @@ sub EditFieldRender {
     $AttributeDFConfig->{Label} = $LensDFConfig->{Label};
     my $AttributeFieldHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldRender(
         %Param,
+        UseDefaultValue    => 0,
         DynamicFieldConfig => $AttributeDFConfig,
     );
 
@@ -689,16 +690,25 @@ sub GetFieldState {
             Key          => 'PossibleValues_' . $ReferenceDFName,
         );
 
-        my $Allowed = 0;
-        if ($LastSearchResults) {
+        # in set case, we fetch the template values and either concat them to the search results
+        #   or, if no search results are present, use the template values entirely
+        if ( defined $Param{SetIndex} ) {
+            my $TemplateName          = $DynamicFieldConfig->{Config}{ReferenceDFName} . '_Template';
+            my $TemplateSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+                LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                Key          => 'PossibleValues_' . $TemplateName,
+            );
 
-            # if a search has already been performed for this form id
-            $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;
+            if ( ref $LastSearchResults && ref $TemplateSearchResults ) {
+                push $LastSearchResults->@*, $TemplateSearchResults->@*;
+            }
+            elsif ( ref $TemplateSearchResults ) {
+                $LastSearchResults = $TemplateSearchResults;
+            }
         }
-        else {
-            # if no search has been performed yet, the database value for the referenced object is also valid
-            # TODO
-        }
+
+        # if a search has already been performed for this form id
+        my $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;
 
         if ($Allowed) {
             $Return{NewValue} = $AttributeFieldValue;

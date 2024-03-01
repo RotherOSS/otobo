@@ -1263,11 +1263,6 @@ sub Run {
 
                     # Mandatory is added to the configs by $Self->new
                     Mandatory => $DynamicFieldConfig->{Mandatory},
-                    GetParam  => {
-                        %GetParam,
-                        CustomerUserID => $CustomerUser,
-                        TicketID       => $Self->{TicketID},
-                    },
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {

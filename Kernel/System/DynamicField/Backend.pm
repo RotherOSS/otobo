@@ -260,6 +260,8 @@ creates the field and label HTML to be used in edit masks.
         MaxLength            => 100                       # Optional, defines the maximum number of characters on fields
                                                           #      where applies (like TextArea)
         Readonly             => 1,                        # Optional
+        Object               => \%Object,                 # Optional, data for evaluating script fields and fetching possible
+                                                          #      values of reference fields
     );
 
 Returns:
@@ -1357,7 +1359,6 @@ validate the current value for the dynamic field
         },
         ParamObject          => $Self->{ParamObject}      # To get the values directly from the web request
         Mandatory            => 1,                        # 0 or 1,
-        GetParam             => \%GetParam,               # (optional) currently only needed for evaluating script fields
     );
 
     Returns
@@ -3035,7 +3036,7 @@ sub SearchObjects {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ParamObject LayoutObject)) {
+    for my $Needed (qw(DynamicFieldConfig ParamObject)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -3050,17 +3051,7 @@ sub SearchObjects {
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( $Self->{$DynamicFieldBackend}->can('SearchObjects') ) {
-        my @ObjectIDs = $Self->{$DynamicFieldBackend}->SearchObjects(%Param);
-
-        # store all possible values for this field and form id for later verification
-        $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
-            LayoutObject => $Param{LayoutObject},
-            FormID       => $Param{ParamObject}->GetParam( Param => 'FormID' ),
-            Key          => 'PossibleValues_DynamicField_' . $Param{DynamicFieldConfig}{Name},
-            Value        => \@ObjectIDs,
-        );
-
-        return @ObjectIDs;
+        return $Self->{$DynamicFieldBackend}->SearchObjects(%Param);
     }
 
     return;

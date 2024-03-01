@@ -306,6 +306,7 @@ sub EditFieldRender {
             # TODO:
             #            Errors               => $Param{DFErrors},
             #            Visibility           => $Param{Visibility},
+            Object => $Param{Object},
         );
 
         $ResultHTML[$SetIndex] = $Param{LayoutObject}->Output(
@@ -342,6 +343,7 @@ sub EditFieldRender {
 
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[ $#SetValue + 1 ] // {},
+            Object               => $Param{Object},
         );
 
         my $TemplateHTML = $Param{LayoutObject}->Output(
@@ -428,9 +430,11 @@ sub EditFieldValueValidate {
 
     my $IndexMax = 0;
 
-    if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+    my $SetDFConfig = $Param{DynamicField};
+
+    if ( $SetDFConfig->{Config}{MultiValue} ) {
         my @DataAll = $Param{ParamObject}->GetArray(
-            Param => 'SetIndex_' . $Param{DynamicFieldConfig}->{Name},
+            Param => 'SetIndex_' . $SetDFConfig->{Name},
         );
 
         # get the highest multi value index (second to last; last is the empty template)
@@ -438,7 +442,7 @@ sub EditFieldValueValidate {
     }
 
     my $Result;
-    my $Include      = $Param{DynamicFieldConfig}{Config}{Include};
+    my $Include      = $SetDFConfig->{Config}{Include};
     my $DynamicField = $Self->_GetIncludedDynamicFields(
         InputFieldDefinition => $Include,
         DynamicFieldObject   => $DynamicFieldObject,
@@ -458,14 +462,28 @@ sub EditFieldValueValidate {
         $DynamicField->{$Name} = { $DynamicField->{$Name}->%* };
     }
 
-    for my $Name ( sort keys $DynamicField->%* ) {
-        my $DynamicFieldConfig = $DynamicField->{$Name};
+    for my $SetIndex ( 0 .. $IndexMax ) {
 
-        for my $SetIndex ( 0 .. $IndexMax ) {
+        # map inner set values to GetParam
+        my %SetDFValues = map {
+            (
+                "DynamicField_$_" => $Param{GetParam}{DynamicField}{"DynamicField_$SetDFConfig->{Name}"}[$SetIndex]{$_}
+            )
+        } keys $Param{GetParam}{DynamicField}{"DynamicField_$SetDFConfig->{Name}"}[$SetIndex]->%*;
+
+        for my $Name ( sort keys $DynamicField->%* ) {
+            my $DynamicFieldConfig = $DynamicField->{$Name};
             $DynamicFieldConfig->{Name} = $Name . '_' . $SetIndex;
 
             $Result->{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldValueValidate(
                 %Param,
+                GetParam => {
+                    $Param{GetParam}->%*,
+                    DynamicField => {
+                        $Param{GetParam}{DynamicField}->%*,
+                        %SetDFValues,
+                    },
+                },
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
         }

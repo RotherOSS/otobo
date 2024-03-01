@@ -114,8 +114,12 @@ sub Run {
     elsif ( $Param{Event} eq 'DynamicFieldDelete' ) {
 
         # update configs of included fields
+        INCLUDEDFIELD:
         for my $IncludedField ( keys $IncludedFields->%* ) {
             my $IncludedFieldConfig = $IncludedFields->{$IncludedField};
+            next INCLUDEDFIELD unless IsHashRefWithData($IncludedFieldConfig);
+            next INCLUDEDFIELD unless $IncludedFieldConfig->{Name};
+
             $DynamicFieldObject->DynamicFieldUpdate(
                 $IncludedFieldConfig->%*,
                 Config => {

@@ -1046,11 +1046,6 @@ sub SendEmail {
 
             # Mandatory is added to the configs by $Self->new
             Mandatory => $DynamicFieldConfig->{Mandatory},
-            GetParam  => {
-                %GetParam,
-                CustomerUserID => $Ticket{CustomerUserID},
-                TicketID       => $Self->{TicketID},
-            },
         );
 
         if ( !IsHashRefWithData($ValidationResult) ) {

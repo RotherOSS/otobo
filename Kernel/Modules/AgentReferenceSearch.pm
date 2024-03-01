@@ -22,6 +22,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
+use List::Util qw(none);
 
 # CPAN modules
 
@@ -108,7 +109,36 @@ sub Run {
         MaxResults         => $MaxResults,
         UserID             => 1,                      # TODO: what about Permission check
         ParamObject        => $ParamObject,
-        LayoutObject       => $LayoutObject,
+    );
+
+    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
+
+    # differentiate depending on whether field is multivalue
+    my @FormDataObjectIDs = @ObjectIDs;
+    if ( $DynamicFieldConfig->{Config}{MultiValue} ) {
+
+        # if so, do GetFormData() and store value combined with ObjectIDs
+        my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
+            LayoutObject => $LayoutObject,
+            FormID       => $FormID,
+            Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
+        );
+
+        if ($LastSearchResults) {
+            for my $ResultItem ( $LastSearchResults->@* ) {
+                if ( none { $_ eq $ResultItem } @FormDataObjectIDs ) {
+                    push @FormDataObjectIDs, $ResultItem;
+                }
+            }
+        }
+    }
+
+    # store all possible values for this field and form id for later verification
+    $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+        LayoutObject => $LayoutObject,
+        FormID       => $FormID,
+        Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
+        Value        => \@FormDataObjectIDs,
     );
 
     my @Results;

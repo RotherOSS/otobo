@@ -1204,7 +1204,14 @@ sub _GetParam {
 
             # if we have an ID field make sure the value without ID won't be in the
             # %GetParam Hash any more
-            if ( $Self->{NameToID}{$CurrentField} =~ m{(.*)ID$}xms ) {
+            # exclude queue from this as we need it for script field evaluation
+            if ( $CurrentField eq 'Queue' ) {
+                my $Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( QueueID => $Value );
+                if ($Queue) {
+                    $GetParam{$CurrentField} = $Queue;
+                }
+            }
+            elsif ( $Self->{NameToID}{$CurrentField} =~ m{(.*)ID$}xms ) {
                 $GetParam{$1} = undef;
             }
             $GetParam{ $Self->{NameToID}{$CurrentField} }     = $Value;
@@ -1846,6 +1853,8 @@ sub _OutputActivityDialog {
         }
     }
 
+    my %DynamicFieldValues = map { ( 'DynamicField_' . $_ => $Param{GetParam}->{ 'DynamicField_' . $_ } ) } keys $Self->{DynamicField}->%*;
+
     # Loop through ActivityDialogFields and render their output
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
@@ -1877,7 +1886,6 @@ sub _OutputActivityDialog {
         if ( $DefinedFieldsList{$CurrentField} ) {
 
             next DIALOGFIELD if $InputDefinitionRendered;
-            my %DynamicFieldValues = map { ( 'DynamicField_' . $_ => $Param{GetParam}->{ 'DynamicField_' . $_ } ) } keys $Self->{DynamicField}->%*;
 
             $Output .= $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
                 Content              => $InputFieldDefinition,
@@ -1916,6 +1924,12 @@ sub _OutputActivityDialog {
                 FormID              => $Self->{FormID},
                 PossibleValues      => $DFPossibleValues{$DynamicFieldName},
                 Visibility          => $Visibility{ 'DynamicField_' . $DynamicFieldName } // 0,
+                Object              => {
+                    CustomerID     => $Param{GetParam}->{CustomerID},
+                    CustomerUserID => $Param{GetParam}->{CustomerUserID},
+                    UserID         => $Self->{UserID},
+                    %DynamicFieldValues,
+                },
             );
 
             if ( !$Response->{Success} ) {
@@ -2650,6 +2664,7 @@ sub _RenderDynamicField {
         ACLHidden            => ( $Param{ActivityDialogField}->{Display} == 2 && !$Param{Visibility} ),
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
+        Object               => $Param{Object},
     );
 
     my %Data = (
@@ -4919,7 +4934,6 @@ sub _StoreActivityDialog {
                 PossibleValuesFilter => $PossibleValuesFilter,
                 ParamObject          => $ParamObject,
                 Mandatory            => $Mandatory,
-                GetParam             => $Param{GetParam},
             );
 
             if ( !IsHashRefWithData($ValidationResult) ) {
