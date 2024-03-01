@@ -53,9 +53,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             if ( Nav ) {
                 URL += ';Nav=' + Nav;
             }
-            if ( $(this).is(':checked') ) {
-                URL += ';IncludeInvalid=1';
-            }
+            URL += ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
 
             window.location.href = URL;
         });
