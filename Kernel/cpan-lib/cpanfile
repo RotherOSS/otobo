@@ -85,7 +85,7 @@ requires 'Math::Random::ISAAC', '== 1.004';
 requires 'Math::Random::Secure', '== 0.080001';
 
 # needed by Kernel::System::Mail
-requires 'MIME::Tools', '== 5.509';
+requires 'MIME::Tools', '== 5.514';
 
 # needed by CPAN::Audit
 requires 'Module::CPANfile', '== 1.1004';
