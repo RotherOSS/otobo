@@ -446,7 +446,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by Kernel::System::Mail',
             'Module'          => 'MIME::Tools',
             'Required'        => 1,
-            'VersionRequired' => '== 5.509',
+            'VersionRequired' => '== 5.514',
         },
         {
             'Comment'         => 'needed by CPAN::Audit',
