@@ -1,0 +1,252 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Default Settings
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection Survey Graph
+ */
+
+fieldset.SurveyGraphs {
+    display: block;
+    margin-bottom: 20px;
+}
+
+fieldset.SurveyGraphs .Question {
+    display: block;
+    line-height: 1.5em;
+    text-align: right;
+    width: 25%;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+fieldset.SurveyGraphs .Answer {
+    float: left;
+    line-height: 1.3em;
+    text-align: right;
+    text-shadow: 0 1px 0 #000;
+    width: 25%;
+    margin-bottom: 5px;
+    clear: left;
+}
+
+div.SurveyGraph {
+    float: left;
+    width: 50%;
+    height: 22px;
+    padding-left: 5px;
+    padding-bottom: 3px;
+}
+
+div.SurveyGraphContainer {
+    width: 95%;
+    height: 22px;
+}
+
+div.SurveyGraphBar {
+    height: 22px;
+    background-color: #3ab5e4;
+}
+
+p.SurveyGraphLeyend {
+    float: left;
+    line-height: 1.3em;
+    text-align: left;
+    text-shadow: 0 1px 0 #000;
+    width: 10%;
+    margin-bottom: 5px;
+    height: 22px;
+}
+
+.SubLabel {
+    width: 35%;
+    text-align: right;
+    float: left;
+    display: block;
+}
+
+.SubField {
+    margin-left: 35%;
+    display: block;
+}
+
+a.ArrowUp,
+a.ArrowUpDisabled,
+a.ArrowDown,
+a.ArrowDownDisabled {
+    height: 16px;
+    padding: 1px;
+    margin-top: 0;
+    margin-bottom: 1px;
+    border-style: none;
+    vertical-align: middle;
+    text-align: center;
+}
+
+a.ArrowUp,
+a.ArrowDown {
+    cursor: pointer;
+}
+
+a.ArrowUpDisabled,
+a.ArrowDownDisabled {
+    cursor: default;
+}
+
+a.ArrowUp:active,
+a.ArrowDown:active {
+    margin-top: 1px;
+    margin-bottom: 0;
+}
+
+a.ArrowUpDisabled:active,
+a.ArrowDownDisabled:active {
+    margin-top: 0px;
+    margin-bottom: 1px;
+}
+
+a.ArrowUp i,
+a.ArrowDown i {
+    color: #3399FF;
+}
+
+a.ArrowUp:hover i,
+a.ArrowDown:hover i {
+    color: #339900 !important;
+}
+
+a.ArrowUpDisabled,
+a.ArrowDownDisabled {
+    display: inline !Important;
+}
+
+a.ArrowUpDisabled i,
+a.ArrowDownDisabled i {
+    color: #909090;
+    cursor: default;
+}
+
+a.SeeDetails {
+    height: 15px;
+    padding: 1px;
+    margin-top: -6px;
+    border-style: none;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+a.SeeDetails span {
+    background: none;
+    display: none;
+}
+
+a.SeeDetails i {
+    color: #FF9922;
+}
+
+label.Textarea,
+div.Textarea {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.Field ul li{
+    margin-left: 30px;
+    list-style: disc;
+}
+
+.Field ol li{
+    margin-left: 30px;
+    list-style: decimal;
+}
+
+.Field ul.CustomerUserConditionsList li {
+    list-style: none;
+    margin-bottom: 2px;
+}
+
+#SurveyEmptyMessageSmall {
+    border-color: #ddd;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    padding: 7px;
+    background-color: white;
+}
+
+
+.TableSmall tbody tr.Invalid {
+    color: #CCC;
+}
+
+<<<<<<< HEAD
+.Navigation {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    padding-top: 3px;
+    padding-right: 10px;
+}
+
+.SurveyArrow {
+    transition: transform 0.15s ease;
+    color: #FF9922;
+}
+
+.SurveyArrowLeft {
+    float: left;
+}
+
+.SurveyArrowRight {
+    float: right;
+}
+
+.SurveyArrow i{
+    font-size: 20px;
+    margin: 0 5px;
+}
+
+.SurveyArrow:hover{
+    color: #FF8600;
+}
+
+.Disabled {
+    display: none;
+}
+.WidgetSpacingRight {
+    margin-right: 13px;
+}
+
+}
+=======
+.RemoveButtonCustomerField,
+.AddButtonCustomerCondition,
+.RemoveButtonCustomerCondition {
+    cursor: pointer;
+}
+
+.RemoveButtonCustomerCondition {
+    margin-right: 2px;
+}
+
+}
+>>>>>>> origin/feature-surveyimprovements-merged-fli-master

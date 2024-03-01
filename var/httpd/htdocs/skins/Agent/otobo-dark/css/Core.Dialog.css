@@ -1,0 +1,298 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Dialogs
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Overlay
+ */
+#Overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+    filter: alpha(opacity = 50);
+    z-index: 3500;
+}
+
+/**
+ * @subsection  Dialog
+ */
+.Dialog {
+    position: absolute;
+    z-index: 6000;
+    min-width: 150px;
+    background: #1f1f1f;
+    border-radius: 10px;
+    border: 10px solid #1f1f1f;
+}
+
+.Dialog.Modal.Alert {
+    z-index: 6500;
+}
+
+.Dialog.Fullsize {
+    width: 100%;
+    height: 100%;
+    left: 0px !important;
+}
+
+.Dialog > .Header {
+    cursor: move;
+    display: block;
+    position: relative;
+    height: 25px;
+}
+
+.Dialog > .Header .Close {
+    display: block;
+    position: absolute;
+    height: 12px;
+    width: 12px;
+    right: 8px;
+    top: 7px;
+    color: #c8c6c4;
+}
+
+.RTL .Dialog > .Header .Close {
+    right: auto;
+    left: 8px;
+}
+
+.Dialog > .Header .Close:hover i {
+    color: #E57633;
+}
+
+.Dialog > .Header h1 {
+    padding: 5px 10px;
+    font-weight: normal;
+    font-size: 14px;
+    padding-top: 5px;
+}
+
+.Dialog > .Content {
+    position: relative;
+    overflow-x: hidden;
+}
+
+.Dialog > .Content > .InnerContent {
+    padding: 10px 25px 10px 10px;
+    background: #1f1f1f;
+    overflow-y: auto;
+    overflow-x: auto;
+    max-height: 200px;
+    position: relative;
+}
+
+#AgentSplitSelection {
+    min-width: 330px;
+}
+
+#TimeLineOverflow {
+    overflow-y: hidden;
+    max-height: 1173px;
+    padding: 10px;
+}
+
+.RTL .Dialog > .Content > .InnerContent {
+    padding: 10px 10px 10px 25px;
+}
+
+.Dialog > .Content > .ContentFooter {
+    padding: 6px 0 5px;
+    min-height: 20px;
+}
+
+.Dialog > .Footer {
+    padding: 6px 0 5px;
+    display: block;
+    position: relative;
+}
+
+.Dialog > .Footer.ContentFooter {
+    display: none;
+}
+
+/**
+ * subsection       Alert
+ */
+
+.Dialog.Alert .InnerContent .fa {
+    display: block;
+    font-size: 25px;
+    text-align: center;
+    color: #ff505e;
+    margin-bottom: 10px;
+}
+
+.Dialog.Alert h2,
+.Dialog.Alert p {
+    text-align: center;
+}
+
+.Dialog.Alert {
+    width: 450px;
+    top: 100px;
+    left: 300px;
+}
+
+/**
+ * subsection   Settings
+ */
+
+.Dialog fieldset {
+    margin-bottom: 15px;
+}
+
+.Dialog .WidgetSettingsForm fieldset,
+.Dialog fieldset.NoMargin {
+    margin-bottom: 0px;
+}
+
+.Dialog .Field.LayoutGrid {
+    padding-top: 7px;
+}
+
+.Dialog .Field.LayoutGrid .Tablelike {
+    width: 98%;
+}
+
+.Dialog .Field .FocusField {
+    position: absolute;
+    left: -9999px;
+    z-index: -1;
+}
+
+.Dialog .Buttons {
+    background: #ddd;
+    border-top: 1px solid #ccc;
+    margin: 15px -8px -8px;
+    padding: 10px 10px 9px 10px;
+    text-align: center;
+}
+
+.Dialog .Field.LayoutGrid .AllocationList {
+    max-height: 192px;
+    overflow: auto;
+}
+
+.Field.LayoutGrid .AllocationList.AvailableFields {
+    max-height: 155px;
+}
+
+.Dialog .Field.LayoutGrid .AllocationList.OrderNumbers {
+    list-style: decimal inside;
+}
+
+.FilterInputContainer {
+    width: 98%;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+    background-color: #333;
+}
+
+.FilterInputContainer input {
+    width: 95%;
+    display: block;
+    margin: 7px auto;
+}
+
+#ContextSettingsDialogOverviewSmall {
+    width: 950px;
+    max-height: 600px;
+}
+
+/* Pure continuous text dialogs */
+
+.TextDialog {
+    padding: 10px;
+    line-height: 150%;
+    width: 550px;
+    font-size: 13px;
+    max-height: 450px;
+    overflow: auto;
+}
+
+.TextDialog p,
+.TextDialog li,
+.TextDialog a {
+    font-size: 12px;
+}
+
+.TextDialog ul {
+    list-style-type: square;
+    margin: 0px 0px 7px 20px;
+}
+
+.TextDialog ul li {
+    margin-bottom: 5px;
+    line-height: 130%;
+}
+
+.TextDialog h1 {
+    margin-bottom: 4px;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+.TextDialog > p {
+    margin-bottom: 12px;
+    margin-left: 8px;
+}
+
+/* Elasticsearch QuickResults */
+
+#ElasticsearchQuickResult td {
+    max-width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#ElasticsearchQuickResult h3 {
+    padding: 8px 0px 4px 20px;
+    margin: 0px;
+}
+
+/* Error screens in overlays */
+
+.Dialog.Modal #AppWrapper > #Header,
+.Dialog.Modal .ErrorScreen ~ #Footer {
+    display: none;
+}
+
+.Dialog.Modal .ErrorScreen {
+    margin-top: 0px !important;
+}
+
+.Dialog.Modal .ErrorScreen .CenterBox {
+    width: auto !important;
+}
+
+.Dialog.Modal .ErrorScreen .WidgetSimple .Content {
+    max-height: 200px;
+    overflow: auto;
+}
+
+
+} /* end @media */

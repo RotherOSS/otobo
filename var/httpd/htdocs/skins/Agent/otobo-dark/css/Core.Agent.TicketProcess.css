@@ -1,0 +1,198 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Process ticket
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Extensions for ticket zoom
+ */
+
+.WidgetSimple > .Content.ProcessInfo {
+    padding: 10px 10px 5px 10px;
+    min-height: 0px;
+    overflow: hidden;
+}
+
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer {
+    float: left;
+    width: 255px;
+    margin: 0px 10px 10px 0px;
+    background-color: #efefef;
+    border: 1px solid #ddd;
+    line-height: 150%;
+}
+
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer label {
+    color: #686868;
+    border-bottom: 1px solid #ccc;
+    text-shadow: 0px 1px 0px #FAFAFA;
+    padding: 2px 7px;
+    position: relative;
+    display: block;
+    font-size: 11px;
+}
+
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p {
+    background-color: #fff;
+    padding: 4px 7px 2px 7px;
+    font-size: 11px;
+}
+
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p.CutValue {
+    text-overflow: ellipsis;
+    height: 17px;
+    overflow: hidden;
+    display: block;
+    white-space: nowrap;
+}
+
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p.ValueLong {
+    display: none;
+}
+
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer label .ShowFieldInfoOverlay {
+    display: block;
+    position: absolute;
+    right: 0px;
+    top: 2px;
+    color: #c8c6c4;
+    font-size: 12px;
+    width: 19px;
+    height: 18px;
+    text-align: center;
+}
+
+.FieldSetSeparator {
+    float: none;
+    clear: both;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 7px;
+    font-size: 12px;
+}
+
+.FieldContainer + .FieldSetSeparator {
+    padding-top: 10px;
+}
+
+.FieldSeparator {
+    border-top: 1px dotted #ccc;
+    margin: 5px 0px;
+}
+
+.FieldOverlay {
+    width:550px;
+    line-height: 150%;
+    padding:5px;
+}
+
+#DynamicFieldsWidget .Actions strong {
+    display: inline-block;
+    padding: 5px 0px 5px 3px;
+}
+
+#DynamicFieldsWidget .Actions li:first-child {
+    background: none;
+}
+
+#DynamicFieldsWidget .Actions li:first-child:after {
+    content: "";
+}
+
+/**
+ * @subsection  Extensions for creation dialog
+ */
+
+#ActivityContent {
+    border-top: 1px solid #ccc;
+    padding-top: 5px;
+    margin-top: 20px;
+    display: none;
+}
+
+.SubmitInfo {
+    padding: 5px;
+    background: #eee;
+    border: 1px solid #ddd;
+    margin: 5px 10px 10px 10px;
+}
+
+.FieldExplanationLong {
+    display: none;
+}
+
+.FieldHelp {
+    display: block;
+}
+
+.Centered {
+    text-align: center;
+}
+
+textarea {
+    font-family: Quicksand, "Helvetica Neue",Helvetica,Arial,sans-serif;
+    padding: 5px;
+}
+
+.FieldHelpContainer {
+    position: relative;
+}
+
+.FieldHelpContainer:hover > span {
+    display: block;
+}
+
+.FieldHelpContainer .FieldHelpTrigger {
+    cursor: default;
+    z-index: 1;
+    color: #bbb;
+}
+
+.FieldHelpContainer > span {
+    white-space: pre-line;
+    background: #444444;
+    color: #fff;
+    font-size: 12px;
+    left: 15px;
+    line-height: 110%;
+    padding: 10px;
+    position: absolute;
+    z-index: 2;
+    text-align: left;
+    text-shadow: 1px 1px 1px #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    top: 5px;
+    width: 200px;
+    display: none;
+    -webkit-opacity: 0.8;
+    -moz-opacity: 0.8;
+    -ms-opacity: 0.8;
+    -o-opacity: 0.8;
+    opacity: 0.8;
+}
+
+.DescriptionLong {
+    white-space: pre-line;
+}
+
+} /* end @media */
