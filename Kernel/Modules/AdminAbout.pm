@@ -28,9 +28,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = bless {%Param}, $Type;
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
