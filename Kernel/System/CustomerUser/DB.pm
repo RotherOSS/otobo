@@ -110,6 +110,7 @@ sub new {
             DatabaseUser => $Self->{CustomerUserMap}->{Params}->{User},
             DatabasePw   => $Self->{CustomerUserMap}->{Params}->{Password},
             %{ $Self->{CustomerUserMap}->{Params} },
+            DisconnectOnDestruction => 1,
         ) || die('Can\'t connect to database!');
 
         # remember that we have the DBObject not from parent call
