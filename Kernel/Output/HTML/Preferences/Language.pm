@@ -53,7 +53,10 @@ sub Param {
     my ( $Self, %Param ) = @_;
 
     # collect the parameters
-    my %Languages    = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->LanguageList;
+    my %Languages = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->LanguageList(
+        WithInProcessIndicator => 1,
+    );
+
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $SelectedLanguageID =
         $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UserLanguage' )
