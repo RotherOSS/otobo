@@ -249,6 +249,7 @@ sub EditFieldRender {
     $AttributeDFConfig->{Label} = $LensDFConfig->{Label};
     my $AttributeFieldHTML = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldRender(
         %Param,
+        UseDefaultValue    => 0,
         DynamicFieldConfig => $AttributeDFConfig,
     );
 
