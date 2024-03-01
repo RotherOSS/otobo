@@ -109,10 +109,11 @@ sub new {
 
     # get the specific database object
     $Self->{DBObject} = Kernel::System::DB->new(
-        DatabaseDSN  => $DatabaseDSN,
-        DatabaseUser => $Self->{DynamicFieldConfig}->{Config}->{User},
-        DatabasePw   => $Self->{DynamicFieldConfig}->{Config}->{Password},
-        Type         => $DatabaseType,
+        DatabaseDSN             => $DatabaseDSN,
+        DatabaseUser            => $Self->{DynamicFieldConfig}->{Config}->{User},
+        DatabasePw              => $Self->{DynamicFieldConfig}->{Config}->{Password},
+        Type                    => $DatabaseType,
+        DisconnectOnDestruction => 1,
     );
 
     $Self->{LikeEscapeString} = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');

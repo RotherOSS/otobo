@@ -68,17 +68,12 @@ sub new {
 
     if ( $ConfigObject->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} ) ) {
         $Self->{DBObject} = Kernel::System::DB->new(
-            DatabaseDSN =>
-                $ConfigObject->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} ),
-            DatabaseUser =>
-                $ConfigObject->Get( 'Customer::AuthModule::DB::User' . $Param{Count} ),
-            DatabasePw =>
-                $ConfigObject->Get( 'Customer::AuthModule::DB::Password' . $Param{Count} ),
-            Type => $ConfigObject->Get( 'Customer::AuthModule::DB::Type' . $Param{Count} )
-                || '',
-            )
-            || die "Can't connect to "
-            . $ConfigObject->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} );
+            DatabaseDSN             => $ConfigObject->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} ),
+            DatabaseUser            => $ConfigObject->Get( 'Customer::AuthModule::DB::User' . $Param{Count} ),
+            DatabasePw              => $ConfigObject->Get( 'Customer::AuthModule::DB::Password' . $Param{Count} ),
+            Type                    => $ConfigObject->Get( 'Customer::AuthModule::DB::Type' . $Param{Count} ) || '',
+            DisconnectOnDestruction => 1,
+        ) || die "Can't connect to " . $ConfigObject->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} );
 
         # remember that we have the DBObject not from parent call
         $Self->{NotParentDBObject} = 1;

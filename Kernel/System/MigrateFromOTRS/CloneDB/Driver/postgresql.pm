@@ -76,10 +76,11 @@ sub CreateOTRSDBConnection {
 
     # create target DB object
     my $OTRSDBObject = Kernel::System::DB->new(
-        DatabaseDSN  => $Param{OTRSDatabaseDSN},
-        DatabaseUser => $Param{DBUser},
-        DatabasePw   => $Param{DBPassword},
-        Type         => $Param{DBType},
+        DatabaseDSN             => $Param{OTRSDatabaseDSN},
+        DatabaseUser            => $Param{DBUser},
+        DatabasePw              => $Param{DBPassword},
+        Type                    => $Param{DBType},
+        DisconnectOnDestruction => 1,
     );
 
     if ( !$OTRSDBObject ) {

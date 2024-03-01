@@ -70,10 +70,11 @@ sub new {
     # create new db connect if DSN is given
     if ( $Self->{CustomerCompanyMap}->{Params}->{DSN} ) {
         $Self->{DBObject} = Kernel::System::DB->new(
-            DatabaseDSN  => $Self->{CustomerCompanyMap}->{Params}->{DSN},
-            DatabaseUser => $Self->{CustomerCompanyMap}->{Params}->{User},
-            DatabasePw   => $Self->{CustomerCompanyMap}->{Params}->{Password},
-            Type         => $Self->{CustomerCompanyMap}->{Params}->{Type} || '',
+            DatabaseDSN             => $Self->{CustomerCompanyMap}->{Params}->{DSN},
+            DatabaseUser            => $Self->{CustomerCompanyMap}->{Params}->{User},
+            DatabasePw              => $Self->{CustomerCompanyMap}->{Params}->{Password},
+            Type                    => $Self->{CustomerCompanyMap}->{Params}->{Type} || '',
+            DisconnectOnDestruction => 1,
         ) || die('Can\'t connect to database!');
 
         # remember that we have the DBObject not from parent call

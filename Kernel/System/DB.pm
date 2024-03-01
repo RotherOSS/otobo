@@ -60,7 +60,7 @@ All database functions to connect/insert/update/delete/... to a database.
 
 =head2 new()
 
-create a database object, with database connect..
+create a database object the allows to connect to a database.
 Usually you do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
@@ -82,6 +82,25 @@ Usually you do not use it directly, instead use:
     );
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+There are cases when a second connection to a database is needed. In these cases
+the constructor can also be called directly. In most of these cases it makes
+sense to pass the argument C<DisconnectOnDestruction> too. In other cases
+C<Finish()> can be called in order to clean up lingering database connections.
+
+    {
+        my $CustomerDBObject = Kernel::System::DB->new(
+            DatabaseDSN             => $Self->{CustomerCompanyMap}->{Params}->{DSN},
+            DatabaseUser            => $Self->{CustomerCompanyMap}->{Params}->{User},
+            DatabasePw              => $Self->{CustomerCompanyMap}->{Params}->{Password},
+            Type                    => $Self->{CustomerCompanyMap}->{Params}->{Type} || '',
+            DisconnectOnDestruction => 1,
+        ) || die('Can\'t connect to customer database!');
+
+        # do something with the customer database
+
+        # database is disconnected on destruction because DisconnectOnDestruction is set
+    }
 
 =cut
 
@@ -113,6 +132,9 @@ sub new {
 
     # SlowLog can be activated globally
     $Self->{SlowLog} = $Param{'Database::SlowLog'} || $ConfigObject->Get('Database::SlowLog');
+
+    # turn off persistent database connection, per default database connection is persistent
+    $Self->{DisconnectOnDestruction} = $Param{DisconnectOnDestruction};
 
     # decrypt pw (if needed)
     if ( $Self->{PW} =~ /^\{(.*)\}$/ ) {
@@ -2299,12 +2321,15 @@ sub _EncodeInputList {
 sub DESTROY {
     my $Self = shift;
 
-    # cleanup open statement handle if there is any and then disconnect from DB
+    # cleanup open statement handle if there is one
     if ( $Self->{Cursor} ) {
         $Self->{Cursor}->finish;
     }
 
-    $Self->Disconnect();
+    # persistent connection per default
+    if ( $Self->{DisconnectOnDestruction} ) {
+        $Self->Disconnect;
+    }
 
     return 1;
 }
