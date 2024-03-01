@@ -143,6 +143,7 @@ sub Run {
         push @LanguageIDs, ( sort keys %DefaultUsedLanguages )[0];
     }
 
+    # for the language selection
     my %Languages = $LayoutObject->{LanguageObject}->LanguageList;
 
     # copy original list of languages which will be used for rebuilding language selection
