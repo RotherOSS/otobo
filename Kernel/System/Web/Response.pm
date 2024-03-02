@@ -98,9 +98,9 @@ a wrapper around Plack::Response::cookies().
 =cut
 
 sub Cookies {
-    my ( $Self, @Args ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{Response}->cookies(@Args);
+    return $Self->{Response}->cookies;
 }
 
 =head2 Code()
