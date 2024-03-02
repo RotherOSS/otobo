@@ -1048,7 +1048,7 @@ sub Content {
                         Expires  => $Expires,
                         Path     => $ConfigObject->Get('ScriptAlias'),
                         Secure   => $CookieSecureAttribute,
-                        HttpOnly => 1,
+                        HTTPOnly => 1,
                     );
                 }
 

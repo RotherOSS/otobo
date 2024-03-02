@@ -643,7 +643,7 @@ sub Redirect {
         # add session id to the redirect URL when appropriate
         if (
             !$Self->{SessionIDCookie}                             # there in no session cookie yet
-            && !( $Self->{BrowserHasCookie} && $Param{Login} )    # not when cookie does not exits because we in Login
+            && !( $Self->{BrowserHasCookie} && $Param{Login} )    # not when cookie does not exist because we in Login
             && $RedirectURL !~ m/http/i                           # ???
             && $Self->{SessionID}                                 # when we actually have a session
             )
@@ -742,7 +742,7 @@ sub Login {
             Expires  => $Expires,
             Path     => $ConfigObject->Get('ScriptAlias'),
             Secure   => $CookieSecureAttribute,
-            HttpOnly => 1,
+            HTTPOnly => 1,
         );
     }
 
@@ -4075,7 +4075,7 @@ sub CustomerLogin {
             Expires  => $Expires,
             Path     => $ConfigObject->Get('ScriptAlias'),
             Secure   => $CookieSecureAttribute,
-            HttpOnly => 1,
+            HTTPOnly => 1,
         );
     }
 
@@ -6665,7 +6665,7 @@ Set a cookie using the syntax of Kernel/System/Request.pm
         Expires  => '+3660s',    # expires
         Path     => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
         Secure   => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
-        HTTPOnly => 1,           # httponly optional, sets HttpOnly attribute of cookie to prevent access via JavaScript, default is off
+        HTTPOnly => 1,           # httponly optional, sets httponly attribute of cookie to prevent access via JavaScript, default is off
     );
 
 =cut

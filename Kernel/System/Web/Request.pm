@@ -474,7 +474,7 @@ An exception is the key I<name> which must be passed as the first parameter.
         Expires  => '+3660s',    # expires
         Path     => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
         Secure   => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
-        HTTPOnly => 1,           # httponly optional, sets HttpOnly attribute of cookie to prevent access via JavaScript, default is off
+        HTTPOnly => 1,           # httponly optional, sets httponly attribute of cookie to prevent access via JavaScript, default is off
     );
 
 Note that this method does not modify the object.
