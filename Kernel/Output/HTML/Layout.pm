@@ -65,6 +65,8 @@ our @ObjectDependencies = (
 
 Kernel::Output::HTML::Layout - all generic HTML functions
 
+=for stopwords samesite
+
 =head1 DESCRIPTION
 
 All generic HTML functions. E. g. to get options fields, template processing, ...
@@ -582,7 +584,8 @@ sub JSONEncode {
 
 =head2 Redirect()
 
-throw a L<Kernel::System::Web::Exception> that triggers a redirect to the redirect URL
+throw a L<Kernel::System::Web::Exception> that triggers a redirect. The target for the redirect
+can be given either with the parameter C<OP> or C<ExtURL>.
 
     # internal redirects
     $LayoutObject->Redirect(
@@ -4069,7 +4072,7 @@ sub CustomerLogin {
         }
 
         # set a cookie tentatively for checking cookie support
-        $Self->{SetCookies}->{OTOBOBrowserHasCookie} = $Kernel::OM->Get('Kernel::System::Web::Request')->SetCookie(
+        $Self->SetCookie(
             Key      => 'OTOBOBrowserHasCookie',
             Value    => 1,
             Expires  => $Expires,
@@ -6657,7 +6660,7 @@ sub UserInitialsGet {
 
 =head2 SetCookie()
 
-Set a cookie using the syntax of Kernel/System/Request.pm
+Declare a cookie that should be sent out via the Set-Cookie HTTP header.
 
     $ResponseObject->SetCookie(
         Key      => 'ID',        # name
@@ -6667,6 +6670,8 @@ Set a cookie using the syntax of Kernel/System/Request.pm
         Secure   => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
         HTTPOnly => 1,           # httponly optional, sets httponly attribute of cookie to prevent access via JavaScript, default is off
     );
+
+The attribute 'samesite' is set based on the SysConfig setting B<SessionSameSite>. The default is 'lax'.
 
 =cut
 
