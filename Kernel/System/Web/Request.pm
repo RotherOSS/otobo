@@ -462,54 +462,6 @@ sub GetUploadAll {
     );
 }
 
-=head2 SetCookie()
-
-return a hashref based on the input params. The keys of the returned hashref
-are the keys that are accepted by the value for the cookie jar returned by C<Plack::Response::cookies()>.
-An exception is the key I<name> which must be passed as the first parameter.
-
-    $ParamObject->SetCookie(
-        Key      =>  'ID',       # name
-        Value    => 123456,      # value
-        Expires  => '+3660s',    # expires
-        Path     => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
-        Secure   => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
-        HTTPOnly => 1,           # httponly optional, sets httponly attribute of cookie to prevent access via JavaScript, default is off
-    );
-
-Note that this method does not modify the object.
-
-=cut
-
-sub SetCookie {
-    my ( $Self, %Param ) = @_;
-
-    $Param{Path} ||= '';
-
-    # Get the configured samesite.
-    # Declare whethers browser should send the cookie to another domain.
-    # Other protocol counts as another domain.
-    # The default is 'lax'. There is no override via the parameter array.
-    my $SameSite;
-    {
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-        $SameSite = lc $ConfigObject->Get('SessionSameSite') // '';
-        if ( $SameSite ne 'none' && $SameSite ne 'strict' ) {
-            $SameSite = 'lax';
-        }
-    }
-
-    return {
-        name     => $Param{Key},
-        value    => $Param{Value},
-        expires  => $Param{Expires},
-        secure   => $Param{Secure} || '',
-        samesite => $SameSite,
-        httponly => $Param{HTTPOnly} || '',
-        path     => '/' . ( $Param{Path} // '' ),
-    };
-}
-
 =head2 GetCookie()
 
 get a cookie
