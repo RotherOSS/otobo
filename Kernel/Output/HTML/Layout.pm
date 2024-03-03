@@ -6671,6 +6671,7 @@ Declare a cookie that should be sent out via the Set-Cookie HTTP header.
         Path         => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
         Secure       => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
         HTTPOnly     => 1,           # 1|'', optional, the default is 1, sets httponly attribute of cookie to prevent access via JavaScript
+        SameSite     => 'lax',       # none|lax|strict, optional, the default is taken from SysConfig or 'lax' as fallback, sets samesite attribute of cookie
     );
 
 The attribute 'samesite' is set based on the SysConfig setting B<SessionSameSite>. The default is 'lax'.
@@ -6696,14 +6697,19 @@ sub SetCookie {
     # Get the configured samesite.
     # Declare whethers browser should send the cookie to another domain.
     # Other protocol counts as another domain.
-    # The default is 'lax'. There is no override via the parameter array.
-    my $SameSite;
-    {
+    # The default is 'lax'. The value from the argument list has precedence
+    # otherwise the value from SysConfig is used.
+    # Use 'lax' as default.
+    my $SameSite = lc $Param{SameSite};
+
+    if ( !defined $SameSite ) {
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-        $SameSite = lc $ConfigObject->Get('SessionSameSite') // '';
-        if ( $SameSite ne 'none' && $SameSite ne 'strict' ) {
-            $SameSite = 'lax';
-        }
+        $SameSite = $ConfigObject->Get('SessionSameSite') // '';
+    }
+
+    # we really want to pass a valid value
+    if ( $SameSite ne 'none' && $SameSite ne 'strict' ) {
+        $SameSite = 'lax';
     }
 
     my %Ingredients = (
