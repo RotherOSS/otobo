@@ -740,12 +740,12 @@ sub Login {
 
         # set a cookie tentatively for checking cookie support
         $Self->SetCookie(
-            Key      => 'OTOBOBrowserHasCookie',
-            Value    => 1,
-            Expires  => $Expires,
-            Path     => $ConfigObject->Get('ScriptAlias'),
-            Secure   => $CookieSecureAttribute,
-            HTTPOnly => 1,
+            Key     => 'OTOBOBrowserHasCookie',
+            Name    => 'OTOBOBrowserHasCookie',
+            Value   => 1,
+            Expires => $Expires,
+            Path    => $ConfigObject->Get('ScriptAlias'),
+            Secure  => $CookieSecureAttribute,
         );
     }
 
@@ -4073,13 +4073,12 @@ sub CustomerLogin {
 
         # set a cookie tentatively for checking cookie support
         $Self->SetCookie(
-            Key      => 'OTOBOBrowserHasCookie',
-            Name     => 'OTOBOBrowserHasCookie',
-            Value    => 1,
-            Expires  => $Expires,
-            Path     => $ConfigObject->Get('ScriptAlias'),
-            Secure   => $CookieSecureAttribute,
-            HTTPOnly => 1,
+            Key     => 'OTOBOBrowserHasCookie',
+            Name    => 'OTOBOBrowserHasCookie',
+            Value   => 1,
+            Expires => $Expires,
+            Path    => $ConfigObject->Get('ScriptAlias'),
+            Secure  => $CookieSecureAttribute,
         );
     }
 
@@ -6664,14 +6663,14 @@ sub UserInitialsGet {
 Declare a cookie that should be sent out via the Set-Cookie HTTP header.
 
     $ResponseObject->SetCookie(
+        RegisterInOM => 1,           # 0|1, optional, default 0, whether $Kernel::OM->ObjectParamAdd() should be called
         Key          => 'ID',        # name, determines order in which cookies are set when they have the same name
         Name         => 'Name',      # optional, name of the cookie, the default is the value of 'Key'
         Value        => 123456,      # value
         Expires      => '+3660s',    # expires
         Path         => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
         Secure       => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
-        HTTPOnly     => 1,           # httponly optional, sets httponly attribute of cookie to prevent access via JavaScript, default is off
-        RegisterInOM => 1,           # 0|1, optional, default 0, whether $Kernel::OM->ObjectParamAdd() should be called
+        HTTPOnly     => 1,           # 1|'', optional, the default is 1, sets httponly attribute of cookie to prevent access via JavaScript
     );
 
 The attribute 'samesite' is set based on the SysConfig setting B<SessionSameSite>. The default is 'lax'.
@@ -6713,7 +6712,7 @@ sub SetCookie {
         expires  => $Param{Expires},
         secure   => $Param{Secure} || '',
         samesite => $SameSite,
-        httponly => $Param{HTTPOnly} || '',
+        httponly => $Param{HTTPOnly} // 1,
         path     => '/' . ( $Param{Path} // '' ),
     );
 

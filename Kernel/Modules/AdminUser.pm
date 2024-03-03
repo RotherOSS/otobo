@@ -131,7 +131,6 @@ sub Run {
             Expires      => $Expires,
             Path         => $ConfigObject->Get('ScriptAlias'),
             Secure       => $CookieSecureAttribute,
-            HTTPOnly     => 1,
         );
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );

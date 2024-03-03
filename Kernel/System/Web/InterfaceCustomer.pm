@@ -320,12 +320,12 @@ sub Content {
             # tentatively set an useless cookie, for checking cookie support
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             $LayoutObject->SetCookie(
-                Key      => 'OTOBOBrowserHasCookie',
-                Value    => 1,
-                Expires  => $Expires,
-                Path     => $ConfigObject->Get('ScriptAlias'),
-                Secure   => $CookieSecureAttribute,
-                HTTPOnly => 1,
+                Key     => 'OTOBOBrowserHasCookie',
+                Name    => 'OTOBOBrowserHasCookie',
+                Value   => 1,
+                Expires => $Expires,
+                Path    => $ConfigObject->Get('ScriptAlias'),
+                Secure  => $CookieSecureAttribute,
             );
 
             # redirect to alternate login
@@ -518,7 +518,6 @@ sub Content {
             Expires      => $Expires,
             Path         => $ConfigObject->Get('ScriptAlias'),
             Secure       => $CookieSecureAttribute,
-            HTTPOnly     => 1,
         );
 
         # delete the OTOBOBrowserHasCookie cookie
@@ -530,7 +529,6 @@ sub Content {
             Expires      => '-1y',
             Path         => $ConfigObject->Get('ScriptAlias'),
             Secure       => $CookieSecureAttribute,
-            HTTPOnly     => 1,
         );
 
         # redirect with new session id and old params
@@ -600,7 +598,6 @@ sub Content {
             Expires      => '-1y',
             Path         => $ConfigObject->Get('ScriptAlias'),
             Secure       => $CookieSecureAttribute,
-            HTTPOnly     => 1,
         );
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
@@ -1048,12 +1045,12 @@ sub Content {
 
                     # set a cookie tentatively for checking cookie support
                     $LayoutObject->SetCookie(
-                        Key      => 'OTOBOBrowserHasCookie',
-                        Value    => 1,
-                        Expires  => $Expires,
-                        Path     => $ConfigObject->Get('ScriptAlias'),
-                        Secure   => $CookieSecureAttribute,
-                        HTTPOnly => 1,
+                        Key     => 'OTOBOBrowserHasCookie',
+                        Name    => 'OTOBOBrowserHasCookie',
+                        Value   => 1,
+                        Expires => $Expires,
+                        Path    => $ConfigObject->Get('ScriptAlias'),
+                        Secure  => $CookieSecureAttribute,
                     );
                 }
 
@@ -1107,7 +1104,6 @@ sub Content {
                 Expires      => '-1y',
                 Path         => $ConfigObject->Get('ScriptAlias'),
                 Secure       => $CookieSecureAttribute,
-                HTTPOnly     => 1,
             );
 
             # if the wrong scheme is used, delete also the "other" cookie - issue #251
@@ -1129,7 +1125,6 @@ sub Content {
                     Expires      => '-1y',
                     Path         => $ConfigObject->Get('ScriptAlias'),
                     Secure       => '',
-                    HTTPOnly     => 1,
                 );
 
                 # delete the OTOBO session cookie
@@ -1141,7 +1136,6 @@ sub Content {
                     Expires      => '-1y',
                     Path         => $ConfigObject->Get('ScriptAlias'),
                     Secure       => 1,
-                    HTTPOnly     => 1,
                 );
             }
 

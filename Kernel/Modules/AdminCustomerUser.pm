@@ -168,13 +168,12 @@ sub Run {
             SessionName => $ConfigObject->Get('SessionName'),
         );
         $LayoutObject->SetCookie(
-            Key      => 'SessionIDCookie',
-            Name     => $SessionName,
-            Value    => $NewSessionID,
-            Expires  => $Expires,
-            Path     => $ConfigObject->Get('ScriptAlias'),
-            Secure   => $CookieSecureAttribute,
-            HTTPOnly => 1,
+            Key     => 'SessionIDCookie',
+            Name    => $SessionName,
+            Value   => $NewSessionID,
+            Expires => $Expires,
+            Path    => $ConfigObject->Get('ScriptAlias'),
+            Secure  => $CookieSecureAttribute,
         );
 
         # log event
