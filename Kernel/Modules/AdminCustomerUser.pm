@@ -164,18 +164,17 @@ sub Run {
 
         my $LayoutObject = Kernel::Output::HTML::Layout->new(
             %{$Self},
-            SetCookies => {
-                SessionIDCookie => $ParamObject->SetCookie(
-                    Key      => $SessionName,
-                    Value    => $NewSessionID,
-                    Expires  => $Expires,
-                    Path     => $ConfigObject->Get('ScriptAlias'),
-                    Secure   => $CookieSecureAttribute,
-                    HTTPOnly => 1,
-                ),
-            },
             SessionID   => $NewSessionID,
             SessionName => $ConfigObject->Get('SessionName'),
+        );
+        $LayoutObject->SetCookie(
+            Key      => 'SessionIDCookie',
+            Name     => $SessionName,
+            Value    => $NewSessionID,
+            Expires  => $Expires,
+            Path     => $ConfigObject->Get('ScriptAlias'),
+            Secure   => $CookieSecureAttribute,
+            HTTPOnly => 1,
         );
 
         # log event
