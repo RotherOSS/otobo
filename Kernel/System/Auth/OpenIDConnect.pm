@@ -377,6 +377,7 @@ sub PreAuth {
     # store the RandomString as a CSRF cookie
     $LayoutObject->SetCookie(
         Key      => 'OIDCCSRF',
+        Name     => 'OIDCCSRF',
         Value    => $RandomString,
         Path     => $ConfigObject->Get('ScriptAlias'),
         Secure   => $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef,
