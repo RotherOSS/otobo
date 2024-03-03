@@ -6719,15 +6719,14 @@ sub SetCookie {
 
     # Either store the ingredient in the instance or register it with the ObjectManager
     if ( $Param{RegisterInOM} ) {
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::Output::HTML::Layout' => {
-                SetCookies => {
-                    $Param{Key} => \%Ingredients
-                },
-            }
-        );
+
+        # Store the ingredients directly in the Param data structure as ObjectParamAdd()
+        # would replace the complete SetCookies entry
+        $Kernel::OM->{Param}->{'Kernel::Output::HTML::Layout'}->{SetCookies}->{ $Param{Key} } = \%Ingredients;
     }
     else {
+
+        # the more straight forward way
         $Self->{SetCookies}->{ $Param{Key} } = \%Ingredients;
     }
 
