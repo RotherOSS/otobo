@@ -16,12 +16,19 @@
 
 package Kernel::Modules::AdminUser;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
-
 use parent qw(Kernel::System::AsynchronousExecutor);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language             qw(Translatable);
+use Kernel::Output::HTML::Layout ();
 
 our $ObjectManagerDisabled = 1;
 
@@ -29,8 +36,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # set pref for columns key
     $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
@@ -112,19 +118,20 @@ sub Run {
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Output::HTML::Layout' => {
                 %UserData,
-                SetCookies => {
-                    SessionIDCookie => $ParamObject->SetCookie(
-                        Key      => $ConfigObject->Get('SessionName'),
-                        Value    => $NewSessionID,
-                        Expires  => $Expires,
-                        Path     => $ConfigObject->Get('ScriptAlias'),
-                        Secure   => $CookieSecureAttribute,
-                        HTTPOnly => 1,
-                    ),
-                },
+                SetCookies  => {},
                 SessionID   => $NewSessionID,
                 SessionName => $ConfigObject->Get('SessionName'),
             }
+        );
+        Kernel::Output::HTML::Layout->SetCookie(
+            RegisterInOM => 1,
+            Key          => 'SessionIDCookie',
+            Name         => $ConfigObject->Get('SessionName'),
+            Value        => $NewSessionID,
+            Expires      => $Expires,
+            Path         => $ConfigObject->Get('ScriptAlias'),
+            Secure       => $CookieSecureAttribute,
+            HTTPOnly     => 1,
         );
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
