@@ -97,7 +97,7 @@ sub new {
 
     # set defaults
     $Self->{Debug} = 0;
-    $Self->{SetCookies} //= {};
+    $Self->{SetCookies} //= {};    # is also set in SetCookie()
 
     # reset block data
     delete $Self->{BlockData};
@@ -4074,6 +4074,7 @@ sub CustomerLogin {
         # set a cookie tentatively for checking cookie support
         $Self->SetCookie(
             Key      => 'OTOBOBrowserHasCookie',
+            Name     => 'OTOBOBrowserHasCookie',
             Value    => 1,
             Expires  => $Expires,
             Path     => $ConfigObject->Get('ScriptAlias'),
@@ -6663,15 +6664,19 @@ sub UserInitialsGet {
 Declare a cookie that should be sent out via the Set-Cookie HTTP header.
 
     $ResponseObject->SetCookie(
-        Key      => 'ID',        # name
-        Value    => 123456,      # value
-        Expires  => '+3660s',    # expires
-        Path     => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
-        Secure   => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
-        HTTPOnly => 1,           # httponly optional, sets httponly attribute of cookie to prevent access via JavaScript, default is off
+        Key          => 'ID',        # name, determines order in which cookies are set when they have the same name
+        Name         => 'Name',      # optional, name of the cookie, the default is the value of 'Key'
+        Value        => 123456,      # value
+        Expires      => '+3660s',    # expires
+        Path         => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
+        Secure       => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
+        HTTPOnly     => 1,           # httponly optional, sets httponly attribute of cookie to prevent access via JavaScript, default is off
+        RegisterInOM => 1,           # 0|1, optional, default 0, whether $Kernel::OM->ObjectParamAdd() should be called
     );
 
 The attribute 'samesite' is set based on the SysConfig setting B<SessionSameSite>. The default is 'lax'.
+
+May be called via the package name when C<RegisterInOM> is active.
 
 =cut
 
@@ -6702,15 +6707,29 @@ sub SetCookie {
         }
     }
 
-    $Self->{SetCookies}->{ $Param{Key} } = {
-        name     => $Param{Key},
+    my %Ingredients = (
+        name     => $Param{Name} // $Param{Key},
         value    => $Param{Value},
         expires  => $Param{Expires},
         secure   => $Param{Secure} || '',
         samesite => $SameSite,
         httponly => $Param{HTTPOnly} || '',
         path     => '/' . ( $Param{Path} // '' ),
-    };
+    );
+
+    # Either store the ingredient in the instance or register it with the ObjectManager
+    if ( $Param{RegisterInOM} ) {
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::Output::HTML::Layout' => {
+                SetCookies => {
+                    $Param{Key} => \%Ingredients
+                },
+            }
+        );
+    }
+    else {
+        $Self->{SetCookies}->{ $Param{Key} } = \%Ingredients;
+    }
 
     return 1;
 }
