@@ -293,18 +293,27 @@ sub FormIDRemove {
     return $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDRemove(%Param) && $Success;
 }
 
-=head2 FormIDCleanUp()
+=head2 CleanUpExpired()
+Removed no longer needed temporary files.
 
-Remove all expired form cache data, _not_ including Web::UploadCache
+Each file older than 1 day will be removed.
 
-    $FormCacheObject->FormIDCleanUp();
+    $FormCacheObject->CleanUpExpired();
 
 =cut
 
-sub FormIDCleanUp {
+sub CleanUpExpired {
     my ( $Self, %Param ) = @_;
 
-    # TODO: delete from where create_time < ..., use sysconfig setting for storage time
+    my $CurrentTime = $Kernel::OM->Create('Kernel::System::DateTime');
+    $CurrentTime->Subtract( Days => 1 );
+
+    my $Yesterday = $CurrentTime->ToString();
+
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL  => 'DELETE FROM form_cache WHERE create_time < ?',
+        Bind => [\$Yesterday],
+    );
 
     return 1;
 }
