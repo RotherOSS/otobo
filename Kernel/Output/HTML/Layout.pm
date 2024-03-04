@@ -6671,10 +6671,12 @@ Declare a cookie that should be sent out via the Set-Cookie HTTP header.
         Path         => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
         Secure       => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
         HTTPOnly     => 1,           # 1|'', optional, the default is 1, sets httponly attribute of cookie to prevent access via JavaScript
-        SameSite     => 'lax',       # none|lax|strict, optional, the default is taken from SysConfig or 'lax' as fallback, sets samesite attribute of cookie
+        SameSite     => 'lax',       # none|lax|strict, optional, sets samesite attribute of cookie
     );
 
-The attribute 'samesite' is set based on the SysConfig setting B<SessionSameSite>. The default is 'lax'.
+The attribute 'samesite' is usually set from the SysConfig setting B<SessionSameSite>. In special cases it can
+be overridden by the parameter C<SameSite>. The fallback is 'lax'. This fallback is also used when samesite would be
+anything but 'none', 'lax', or 'strict'.
 
 May be called via the package name when C<RegisterInOM> is active.
 
@@ -6694,22 +6696,27 @@ sub SetCookie {
         }
     }
 
-    # Get the configured samesite.
     # Declare whethers browser should send the cookie to another domain.
-    # Other protocol counts as another domain.
-    # The default is 'lax'. The value from the argument list has precedence
-    # otherwise the value from SysConfig is used.
-    # Use 'lax' as default.
-    my $SameSite = lc $Param{SameSite};
+    # Another protocol counts as another domain.
+    # The value from the argument list has precedence
+    # over the value from SysConfig is used. But usually no explicit value is passed.
+    # Use 'lax' as fallback.
+    my $SameSite = $Param{SameSite};
+    {
 
-    if ( !defined $SameSite ) {
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-        $SameSite = $ConfigObject->Get('SessionSameSite') // '';
-    }
+        # the configured value is the regular case
+        $SameSite //= $Kernel::OM->Get('Kernel::Config')->Get('SessionSameSite');
 
-    # we really want to pass a valid value
-    if ( $SameSite ne 'none' && $SameSite ne 'strict' ) {
-        $SameSite = 'lax';
+        # fallback when neiter configured or passed from command line
+        $SameSite //= 'lax';
+
+        # lower case
+        $SameSite = lc $SameSite;
+
+        # we really want to pass a valid value: 'none', 'lax', or 'strict'
+        if ( $SameSite ne 'none' && $SameSite ne 'strict' ) {
+            $SameSite = 'lax';
+        }
     }
 
     my %Ingredients = (
