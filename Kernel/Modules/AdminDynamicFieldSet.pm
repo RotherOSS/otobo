@@ -257,7 +257,7 @@ sub _CheckInclude {
                 last LINE;
             }
 
-            push @Include, { DF => $Line->{DF} };
+            push @Include, { $Line->%* };
         }
         else {
             $Errors{IncludeServerError}        = 'ServerError';
