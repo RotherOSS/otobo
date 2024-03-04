@@ -16,7 +16,17 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
+
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;        # Set up $Kernel::OM
 
 our $Self;
 
@@ -185,4 +195,4 @@ for my $ID (@AddedTemplateIDs) {
     );
 }
 
-1;
+done_testing();
