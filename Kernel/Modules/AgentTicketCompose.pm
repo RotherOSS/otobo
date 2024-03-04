@@ -1968,7 +1968,13 @@ sub _Mask {
         $State{SelectedID} = $Param{GetParam}->{StateID};
     }
     else {
-        $State{SelectedValue} = $Config->{StateDefault};
+        if ( $Param{GetParam}->{ResponseID} ) {
+            my %Response = $Kernel::OM->Get('Kernel::System::ResponseTemplatesStatePreselection')->StandardTemplateGet(
+                ID => $Param{GetParam}->{ResponseID},
+            );
+            $State{SelectedID} = $Response{PreSelectedTicketStateID};
+        }
+        $State{SelectedValue} //= $Config->{StateDefault};
     }
     $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
         Data         => $Param{NextStates},
