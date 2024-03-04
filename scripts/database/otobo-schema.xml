@@ -1206,6 +1206,7 @@
     <Column Name="template_type" Required="true" Size="100" Type="VARCHAR" Default="Answer"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="preselected_ticket_state_id" Required="false" Type="INTEGER"></Column>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
