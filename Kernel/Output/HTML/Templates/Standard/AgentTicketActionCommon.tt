@@ -20,12 +20,6 @@
     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
     <input type="hidden" name="Subaction" value="Store"/>
     <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
-    <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
-
-    [% IF Data.ArticleID != "" %]
-        <input type="hidden" name="IsEdited" value="1"/>
-    [% END %]
-
     <input type="hidden" name="ReplyToArticle" value="[% Data.ReplyToArticle | html %]"/>
     <input type="hidden" name="Expand" id="Expand" value=""/>
     <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
@@ -59,9 +53,6 @@
 [% RenderBlockStart("HeaderAgentTicketResponsible") %]
 [% Translate("Change Responsible of %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %]
 [% RenderBlockEnd("HeaderAgentTicketResponsible") %]
-[% RenderBlockStart("HeaderAgentTicketArticleEdit") %]
-[% Translate("Edit Article \"%s\" of %s%s%s", Data.ArticleTitle, Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %]
-[% RenderBlockEnd("HeaderAgentTicketArticleEdit") %]
                  &mdash; [% Data.Title | html %]
             </h1>
                 </li>
@@ -419,7 +410,7 @@
                             <label for="IsVisibleForCustomer">[% Translate("Is visible for customer") | html %]:</label>
                             <div class="Field">
                                 <input type="checkbox" name="IsVisibleForCustomer" id="IsVisibleForCustomer"
-                                    [% IF Data.IsVisibleForCustomer %]checked="checked" [% END %]  [% IF Data.ArticleID != "" %] disabled [% END %]/>
+                                    [% IF Data.IsVisibleForCustomer %]checked="checked" [% END %]/>
                             </div>
                             <div class="Clear"></div>
 

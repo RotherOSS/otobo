@@ -165,7 +165,6 @@ sub ValueSet {
         }
 
         $Success = $DynamicFieldValueObject->ValueSet(
-            %Param,
             FieldID  => $Param{DynamicFieldConfig}->{ID},
             ObjectID => $Param{ObjectID},
             Value    => \@ValueText,
