@@ -17,6 +17,7 @@ package Kernel::System::CustomerAuth::OpenIDConnect;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -291,7 +292,6 @@ sub PreAuth {
         Name    => 'OIDCCSRF',
         Value   => $RandomString,
         Path    => $ConfigObject->Get('ScriptAlias'),
-        Secure  => $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef,
         Expires => '+' . $TTL . 's',
     );
 

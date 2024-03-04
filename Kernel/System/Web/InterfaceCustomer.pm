@@ -195,9 +195,6 @@ sub Content {
         },
     );
 
-    # Restrict Cookie to HTTPS if it is used.
-    my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
-
     my $DBCanConnect = $Kernel::OM->Get('Kernel::System::DB')->Connect();
 
     if ( !$DBCanConnect || $ParamObject->Error() ) {
@@ -325,7 +322,6 @@ sub Content {
                 Value   => 1,
                 Expires => $Expires,
                 Path    => $ConfigObject->Get('ScriptAlias'),
-                Secure  => $CookieSecureAttribute,
             );
 
             # redirect to alternate login
@@ -517,7 +513,6 @@ sub Content {
             Value        => $NewSessionID,
             Expires      => $Expires,
             Path         => $ConfigObject->Get('ScriptAlias'),
-            Secure       => $CookieSecureAttribute,
         );
 
         # delete the OTOBOBrowserHasCookie cookie
@@ -528,7 +523,6 @@ sub Content {
             Value        => '',
             Expires      => '-1y',
             Path         => $ConfigObject->Get('ScriptAlias'),
-            Secure       => $CookieSecureAttribute,
         );
 
         # redirect with new session id and old params
@@ -597,7 +591,6 @@ sub Content {
             Value        => '',
             Expires      => '-1y',
             Path         => $ConfigObject->Get('ScriptAlias'),
-            Secure       => $CookieSecureAttribute,
         );
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
@@ -1050,7 +1043,6 @@ sub Content {
                         Value   => 1,
                         Expires => $Expires,
                         Path    => $ConfigObject->Get('ScriptAlias'),
-                        Secure  => $CookieSecureAttribute,
                     );
                 }
 
@@ -1103,7 +1095,6 @@ sub Content {
                 Value        => '',
                 Expires      => '-1y',
                 Path         => $ConfigObject->Get('ScriptAlias'),
-                Secure       => $CookieSecureAttribute,
             );
 
             # if the wrong scheme is used, delete also the "other" cookie - issue #251

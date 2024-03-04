@@ -112,9 +112,6 @@ sub Run {
             $Expires = '';
         }
 
-        # Restrict Cookie to HTTPS if it is used.
-        my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
-
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Output::HTML::Layout' => {
                 %UserData,
@@ -130,7 +127,6 @@ sub Run {
             Value        => $NewSessionID,
             Expires      => $Expires,
             Path         => $ConfigObject->Get('ScriptAlias'),
-            Secure       => $CookieSecureAttribute,
         );
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
