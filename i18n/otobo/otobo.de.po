@@ -47,21 +47,22 @@
 # Stefan Abel <sta@rother-oss.com>, 2022, 2023.
 # svo <svo@rother-oss.com>, 2022.
 # sr <sr@rother-oss.com>, 2022.
+# Emin Yazi <yazi@efflux.de>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2023-10-30 21:55+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
-"Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
-">\n"
+"PO-Revision-Date: 2024-03-05 11:45+0000\n"
+"Last-Translator: Emin Yazi <yazi@efflux.de>\n"
+"Language-Team: German <https://translate.otobo.org/projects/otobo/otobo-10/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -19714,7 +19715,7 @@ msgstr "Aktuelle Auswahl anzeigen"
 
 #. JS File: Core.UI.InputFields
 msgid "Current selection"
-msgstr "Aktuelle Auwahl"
+msgstr "Aktuelle Auswahl"
 
 #. JS File: Core.UI.InputFields
 msgid "Clear all"
