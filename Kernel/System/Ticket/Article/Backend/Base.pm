@@ -506,6 +506,8 @@ Get article meta data.
     my %Article = $Self->_MetaArticleGet(
         ArticleID => 42,
         TicketID  => 23,
+        ShowDeletedArticles => 1, # (optional) To get deleted articles.
+        VersionView   => 1,       # (optional) To get edited version info.        
     );
 
 Returns:
@@ -541,8 +543,10 @@ sub _MetaArticleGet {
 
     # Use ArticleList() internally to benefit from its ticket-level cache.
     my ($FirstMetaArticle) = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
-        TicketID  => $Param{TicketID},
-        ArticleID => $Param{ArticleID},
+        TicketID            => $Param{TicketID},
+        ArticleID           => $Param{ArticleID},
+        ShowDeletedArticles => $Param{ShowDeletedArticles} || 0,
+        VersionView         => $Param{VersionView}
     );
 
     return %{ $FirstMetaArticle // {} };
