@@ -1,0 +1,56 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+[% RenderBlockStart("Properties") %]
+
+<form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="compose" id="Compose" class="Validate PreventMultipleSubmits">
+    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+    <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+    <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
+    <input type="hidden" name="SourceArticleID" value="[% Data.SourceArticleID | html %]"/>
+
+    <div class="LayoutPopup ARIARoleMain">
+        <div class="Header">
+            <ul class="HeaderPopup">
+
+                <li class="HeaderPopupleft">
+                    <h1>
+                        [% Translate("Viewing Article Version#%s of current Article: #%s %s", Data.VersionID, Data.SourceArticleNumber, Data.SourceArticleSubject) | html %]
+                    </h1>
+                </li>
+
+[% RenderBlockStart("TicketBack") %]
+                <li class="HeaderPopupright">
+                <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
+                </li>
+[% RenderBlockEnd("TicketBack") %]
+            </ul>
+        </div>
+
+        <div class="Content">
+            <div id="ArticleItems">
+                <div class="Content">
+                    [% Data.ArticleHTML %]
+                </div>
+            </div>           
+
+        </div>
+</form>    
+</div>
+
+    <iframe src="about:blank" width="0" height="0" name="AttachmentWindow" id="AttachmentWindow"></iframe>
+
+[% RenderBlockEnd("Properties") %]

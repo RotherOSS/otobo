@@ -42,6 +42,15 @@
                     [% Item.StandardResponsesStrg %]
                 </form>
             </li>
+        [% ELSIF Item.DropdownType == 'Version' %]
+            <li>
+                <form title="[% Translate(Item.Name) | html %]" action="[% Env("CGIHandle") %]" method="get" id="[% Item.FormID | html %]">
+                    <input type="hidden" name="Action" value="[% Item.Action | html %]"/>
+                    <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+                    <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
+                    [% Item.ArticleVersionStrg %]
+                </form>
+            </li>          
         [% END %]
 
     [% ELSIF Item.ItemType == 'Link' %]

@@ -100,17 +100,19 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 ArticleID: ArticleID
             };
 
-            // Mark old row as readed
-            $('#ArticleTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
-            $('.TimelineView li#ArticleID_' + ArticleID).find('.UnreadArticles').fadeOut(function() {
-                $(this).closest('li').addClass('Seen');
-            });
-
             // Mark article as seen in backend
             Core.AJAX.FunctionCall(
                 Core.Config.Get('CGIHandle'),
                 Data,
-                function () {}
+                function (Response) {
+                    if ( Response == 1 ) {
+                        // Mark old row as readed
+                        $('#ArticleTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
+                        $('.TimelineView li#ArticleID_' + ArticleID).find('.UnreadArticles').fadeOut(function() {
+                            $(this).closest('li').addClass('Seen');
+                        });
+                    }
+                }
             );
         }, parseInt(Timeout, 10));
     };
@@ -736,7 +738,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 $(this).closest('table').find('tr').removeClass('Active').end().end().addClass('Active');
 
                 // Mark old row as readed
-                $(this).closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
+                //$(this).closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
 
                 // Load content of new article
                 LoadArticle($(this).find('input.ArticleInfo').val(), $(this).find('input.ArticleID').val());
@@ -842,6 +844,46 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         $('a.SplitSelection').unbind('click.SplitSelection').bind('click.SplitSelection', function() {
             Core.Agent.TicketSplit.OpenSplitSelection($(this).attr('href'));
             return false;
+        });
+
+        Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function() {
+            $('a.ArticleDelete').unbind('click.ArticleDelete').bind('click.ArticleDelete', function() {
+                Core.Agent.ArticleFeatures.OpenDeleteConfirmDialog($(this).attr('href'));
+                return false;
+            });
+        });
+
+        $('a.ArticleDelete').unbind('click.ArticleDelete').bind('click.ArticleDelete', function() {
+            Core.Agent.ArticleFeatures.OpenDeleteConfirmDialog($(this).attr('href'));
+            return false;
+        });
+
+        Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function() {
+            $('a.ArticleRestore').unbind('click.ArticleRestore').bind('click.ArticleRestore', function() {
+                Core.Agent.ArticleFeatures.OpenUndoDeleteConfirmDialog($(this).attr('href'));
+                return false;
+            });
+        });
+
+        $('a.ArticleRestore').unbind('click.ArticleRestore').bind('click.ArticleRestore', function() {
+            Core.Agent.ArticleFeatures.OpenUndoDeleteConfirmDialog($(this).attr('href'));
+            return false;
+        }); 
+        
+        Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function() {
+            $('#ArticleVersion').on('change', function () {
+                var PopupType = 'TicketAction';
+                var VersionID = $("#ArticleVersion").prop('selectedIndex');
+
+                if ( $('#ArticleVersion').val() != "" ) {
+                    var URL = Core.Config.Get('CGIHandle') + '?Action=AgentTicketArticleVersionView;TicketID='+$("input[name='TicketID']").val() + ';VersionID=' + VersionID + 
+                                ';ArticleID='+$('#ArticleVersion').val()+';SourceArticleID='+$("input[name='ArticleID']").val()+';VersionView=1;OTOBOAgentInterface='+$("input[name='OTOBOAgentInterface']").val();
+                    
+                    Core.UI.Popup.OpenPopup(URL, PopupType);
+                    $('#ArticleVersion').val('');
+                }
+                return false;           
+            });        
         });
     };
 

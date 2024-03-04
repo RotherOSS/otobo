@@ -27,6 +27,7 @@ our @ObjectDependencies = (
     'Kernel::System::DateTime',
     'Kernel::System::DB',
     'Kernel::System::Log',
+    'Kernel::System::Ticket'
 );
 
 =head1 NAME
@@ -152,15 +153,28 @@ sub ValueSet {
         $Counter++;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');        
+    my $OldValue;
+    my $NewValue;
+
+    if ( $Param{ArticleEdit} ) {
+        $DBObject->Prepare( 
+            SQL    => 'SELECT value_text, value_date, value_int FROM dynamic_field_value WHERE object_id = ? AND field_id = ?',
+            Bind   => [ \$Param{ObjectID}, \$Param{FieldID} ]
+        );
+
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $OldValue = $Row[0] || $Row[1] || $Row[2];
+        }
+    }
+
     # delete existing value
     $Self->ValueDelete(
         FieldID  => $Param{FieldID},
         ObjectID => $Param{ObjectID},
         UserID   => $Param{UserID},
     );
-
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     for my $Value (@Values) {
 
@@ -174,6 +188,22 @@ sub ValueSet {
                 \$Value->{ValueText}, \$Value->{ValueDateTime}, \$Value->{ValueInt},
             ],
         );
+
+        $NewValue = $Value->{ValueText} || $Value->{ValueDateTime} || $Value->{ValueInt};
+    }
+
+    if ( $Param{ArticleEdit} && $OldValue ) {
+        # Add history entry.
+        $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
+            TicketID    => $Param{TicketID},
+            ArticleID   => $Param{ObjectID},
+            HistoryType => 'ArticleDynamicFieldUpdate',
+            Name =>
+                "\%\%$Param{DynamicFieldConfig}->{Name}"
+                . "\%\%$OldValue"
+                . "\%\%$NewValue",
+            CreateUserID => $Param{UserID},
+        );        
     }
 
     # delete cache
