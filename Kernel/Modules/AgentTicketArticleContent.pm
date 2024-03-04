@@ -38,12 +38,15 @@ sub Run {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get IDs
-    my $TicketID  = $ParamObject->GetParam( Param => 'TicketID' );
-    my $ArticleID = $ParamObject->GetParam( Param => 'ArticleID' );
+    my $TicketID        = $ParamObject->GetParam( Param => 'TicketID' );
+    my $ArticleID       = $ParamObject->GetParam( Param => 'ArticleID' );
+    my $VersionView     = $ParamObject->GetParam( Param => 'VersionView' ) || '';
+    my $SourceArticleID = $ParamObject->GetParam( Param => 'SourceArticleID' ) || '';
 
     # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # check params
     if ( !$ArticleID || !$TicketID ) {
@@ -59,16 +62,27 @@ sub Run {
         TicketID => $TicketID,
     );
 
+    my $ArticleShowStatus = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ShowDeletedArticles(
+        TicketID  => $TicketID, 
+        UserID    => $Self->{UserID},
+        GetStatus => 1
+    );
+
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
-        TicketID  => $TicketID,
-        ArticleID => $ArticleID,
+        TicketID            => $TicketID,
+        ArticleID           => $ArticleID,
+        ShowDeletedArticles => $ArticleShowStatus ? 1 : 0,
+        VersionView         => $VersionView
     );
 
     # Check permissions.
     my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID      => $TicketID,
-        ArticleID     => $ArticleID,
-        DynamicFields => 0,
+        TicketID        => $TicketID,
+        ArticleID       => $ArticleID,
+        DynamicFields   => 0,
+        UserID          => $Self->{UserID},
+        VersionView     => $VersionView,
+        SourceArticleID => $SourceArticleID
     );
 
     my $Access = $Kernel::OM->Get('Kernel::System::Ticket')->TicketPermission(
@@ -80,10 +94,19 @@ sub Run {
         return $LayoutObject->NoPermission( WithHeader => 'yes' );
     }
 
+    $Param{DeletedVersionID} = $ArticleShowStatus ? $Article{DeletedVersionID} : 0;
+
+    my $ArticleStorage = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage');
+
     # Render article content.
     my $ArticleContent = $LayoutObject->ArticlePreview(
-        TicketID  => $TicketID,
-        ArticleID => $ArticleID,
+        TicketID            => $TicketID,
+        ArticleID           => $ArticleID,
+        ShowDeletedArticles => $ArticleShowStatus ? 1 : 0,
+        VersionView         => $VersionView,
+        DeletedVersionID    => $Param{DeletedVersionID},
+        ArticleStorage      => $ArticleStorage,
+        SourceArticleID     => $SourceArticleID
     );
 
     if ( !$ArticleContent ) {
@@ -110,9 +133,6 @@ sub Run {
         Disposition        => 'inline',
     );
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # set download type to inline
     $ConfigObject->Set(
         Key   => 'AttachmentDownloadType',
@@ -123,13 +143,36 @@ sub Run {
     $Data{Filename} = "Ticket-$TicketNumber-ArticleID-$Article{ArticleID}.html";
 
     # generate base url
-    my $URL = 'Action=AgentTicketAttachment;Subaction=HTMLView'
-        . ";TicketID=$TicketID;ArticleID=$ArticleID;FileID=";
+    my $URL; 
+
+    if ( !$VersionView &&  !$Param{DeletedVersionID} ) {
+        $URL = 'Action=AgentTicketAttachment;Subaction=HTMLView'
+            . ";TicketID=$TicketID;ArticleID=$ArticleID;FileID=";        
+    } elsif ( $VersionView && !$Param{DeletedVersionID} ) {
+        $URL = 'Action=AgentTicketAttachment;Subaction=HTMLView'
+            . ";TicketID=$TicketID;ArticleID=$ArticleID;VersionView=1;SourceArticleID=$SourceArticleID;FileID=";                
+    } else {
+        $URL = 'Action=AgentTicketAttachment;Subaction=HTMLView'
+            . ";TicketID=$TicketID;ArticleID=$ArticleID;VersionView=0;SourceArticleID=$Param{DeletedVersionID};ArticleDeleted=$Param{DeletedVersionID};FileID=";          
+    }
 
     # replace links to inline images in html content
-    my %AtmBox = $ArticleBackendObject->ArticleAttachmentIndex(
-        ArticleID => $ArticleID,
-    );
+    my %AtmBox;
+
+    if ( !$Param{DeletedVersionID} ) {
+        %AtmBox = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID       => $ArticleID,
+            SourceArticleID => $SourceArticleID,
+            VersionView     => $VersionView || ''
+        );
+    } else {
+        %AtmBox = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID       => $ArticleID,
+            SourceArticleID => $Param{DeletedVersionID},
+            ArticleDeleted  => 1,
+            VersionView     => 1
+        );    
+    }
 
     # Do not load external images if 'BlockLoadingRemoteContent' is enabled.
     my $LoadExternalImages;
