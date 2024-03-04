@@ -174,6 +174,17 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     };
 
     /**
+     * @name HideRTETooltip
+     * @memberof Core.Form.ErrorTooltips
+     * @function
+     * @description
+     *      This function hides the tooltip for CKEditor.
+     */
+    TargetNS.HideRTETooltip = function(Element) {
+        $('#' + Element).hide().empty();
+    };    
+
+    /**
      * @name HideTooltip
      * @memberof Core.Form.ErrorTooltips
      * @function
@@ -227,7 +238,10 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      *      This function shows the tooltip for a rich text editor.
      */
     function ShowRTETooltip(Event) {
-        TargetNS.ShowTooltip($('#cke_' + Event.listenerData.ElementID + ' .cke_contents'), Event.listenerData.Message);
+        if ( typeof window.editor != 'undefined' ) {
+            document.querySelector('.ck-editor__editable').id = 'EditorBox';
+            TargetNS.ShowTooltip($('#EditorBox'), Event.Message);        
+        }
     }
 
     /**
@@ -239,7 +253,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      *      This function remove the tooltip from a rich text editor.
      */
     function RemoveRTETooltip() {
-        TargetNS.HideTooltip();
+        TargetNS.HideRTETooltip();
     }
 
     /**
@@ -254,8 +268,16 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     TargetNS.InitRTETooltip = function ($Element, Message) {
 
         var ElementID = $Element.attr('id');
-        CKEDITOR.instances[ElementID].on('focus', ShowRTETooltip, null, {ElementID: ElementID, Message: Message});
-        CKEDITOR.instances[ElementID].on('blur', RemoveRTETooltip, null, ElementID);
+        
+        if ( typeof window.editor === 'undefined' ) {
+            return false;
+        }        
+
+        window.editor.ui.focusTracker.on( 'change:isFocused', ( evt, name, isFocused ) => {
+            if ( isFocused && $Element.val() == "" ) {
+                ShowRTETooltip({ElementID: ElementID, Message: Message});
+            }
+        } );
     };
 
     /**
@@ -267,9 +289,6 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      *      This function removes the tooltip in a rich text editor.
      */
     TargetNS.RemoveRTETooltip = function ($Element) {
-        var ElementID = $Element.attr('id');
-        CKEDITOR.instances[ElementID].removeListener('focus', ShowRTETooltip);
-        CKEDITOR.instances[ElementID].removeListener('blur', RemoveRTETooltip);
         TargetNS.HideTooltip();
     };
 
