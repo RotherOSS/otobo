@@ -1377,7 +1377,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<select class="DynamicFieldText Modernize MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
+<select class="DynamicFieldText Modernize MyClass FormUpdate" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
@@ -1729,7 +1729,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<select class="DynamicFieldText Modernize MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
+<select class="DynamicFieldText Modernize MyClass FormUpdate" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
@@ -3644,7 +3644,7 @@ $IncludeDFConfigs[1]->{LabelEscaped}:
 $IncludeDFConfigs[2]->{LabelEscaped}:
 </label>
                                 <div class="Field">
-<select class="DynamicFieldReference DynamicFieldText Modernize" id="DynamicField_$IncludeDFConfigs[2]->{Name}_0" name="DynamicField_$IncludeDFConfigs[2]->{Name}_0">
+<select class="DynamicFieldReference DynamicFieldText Modernize FormUpdate" id="DynamicField_$IncludeDFConfigs[2]->{Name}_0" name="DynamicField_$IncludeDFConfigs[2]->{Name}_0">
 $UserSelectionSelectedAgent1String
 </select>
                                 </div>
@@ -3657,7 +3657,7 @@ $UserSelectionSelectedAgent1String
 $IncludeDFConfigs[3]->{LabelEscaped}:
 </label>
                                 <div class="Field">
-<select class="DynamicFieldReference DynamicFieldText Modernize" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_0" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
+<select class="DynamicFieldReference DynamicFieldText Modernize FormUpdate" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_0" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
 $UserSelectionSelectedAgent1String
 </select>
                                 </div>
@@ -3672,7 +3672,7 @@ $UserSelectionSelectedAgent1String
 $IncludeDFConfigs[3]->{LabelEscaped}:
 </label>
                                 <div class="Field">
-<select class="DynamicFieldReference DynamicFieldText Modernize" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_1" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
+<select class="DynamicFieldReference DynamicFieldText Modernize FormUpdate" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_1" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
 $UserSelectionSelectedAgent2String
 </select>
                                 </div>
@@ -3687,7 +3687,7 @@ $UserSelectionSelectedAgent2String
 $IncludeDFConfigs[3]->{LabelEscaped}:
 </label>
                                 <div class="Field">
-<select class="DynamicFieldReference DynamicFieldText Modernize" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_Template" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
+<select class="DynamicFieldReference DynamicFieldText Modernize FormUpdate" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_Template" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
 $UserSelectionString
 </select>
                                 </div>
