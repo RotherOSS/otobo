@@ -233,15 +233,6 @@ sub new {
         );
     }
 
-    my $ArticleShowStatus = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ShowDeletedArticles(
-        TicketID  => $Self->{TicketID}, 
-        UserID    => $Self->{UserID},
-        GetStatus => 1
-    );    
-
-    $Self->{ShowDeletedArticles} = $ArticleShowStatus ? 1 : 0;
-    $Self->{ArticleStorage}      = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage');
-
     return $Self;
 }
 
@@ -497,20 +488,12 @@ sub Run {
     if ( $Self->{Subaction} eq 'MarkAsSeen' ) {
         my $Success = 1;
 
-        my $IsArticleDeleted = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->IsArticleDeleted(
-            ArticleID => $Self->{ArticleID},
-        );
-
-        if ( $IsArticleDeleted ) {
-            $Success = 2;
-        } else {
-            # always show archived tickets as seen
-            if ( $Ticket{ArchiveFlag} ne 'y' ) {
-                $Success = $Self->_ArticleItemSeen(
-                    TicketID       => $Self->{TicketID},
-                    ArticleID      => $Self->{ArticleID}
-                );
-            }
+        # always show archived tickets as seen
+        if ( $Ticket{ArchiveFlag} ne 'y' ) {
+            $Success = $Self->_ArticleItemSeen(
+                TicketID  => $Self->{TicketID},
+                ArticleID => $Self->{ArticleID},
+            );
         }
 
         return $LayoutObject->Attachment(
@@ -526,9 +509,8 @@ sub Run {
         my $Count = $ParamObject->GetParam( Param => 'Count' );
 
         my $ArticleBackendObject = $ArticleObject->BackendForArticle(
-            TicketID            => $Self->{TicketID},
-            ArticleID           => $Self->{ArticleID},
-            ShowDeletedArticles => $Self->{ShowDeletedArticles}
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Self->{ArticleID},
         );
 
         my %Article = $ArticleBackendObject->ArticleGet(
@@ -536,7 +518,6 @@ sub Run {
             ArticleID     => $Self->{ArticleID},
             RealNames     => 1,
             DynamicFields => 0,
-            UserID        => $Self->{UserID}
         );
         $Article{Count} = $Count;
 
@@ -820,7 +801,6 @@ sub Run {
             TicketID      => $Self->{TicketID},
             ArticleID     => $Self->{ArticleID},
             DynamicFields => 0,
-            UserID        => $Self->{UserID}
         );
 
         # check if article data exists
@@ -904,7 +884,6 @@ sub MaskAgentZoom {
     my @ArticleBoxAll = $ArticleObject->ArticleList(
         TicketID             => $Self->{TicketID},
         IsVisibleForCustomer => $IsVisibleForCustomer,
-        ShowDeletedArticles  => $Self->{ShowDeletedArticles}
     );
 
     if ( IsArrayRefWithData( $Self->{ArticleFilter}->{CommunicationChannelID} ) ) {
@@ -1756,7 +1735,7 @@ sub MaskAgentZoom {
             my $GroupFieldsString = $Self->{DisplaySettings}->{ProcessWidgetDynamicFieldGroups}->{$GroupName};
 
             $GroupFieldsString =~ s{\s}{}xmsg;
-            my @GroupFields = split( /,/, $GroupFieldsString );
+            my @GroupFields = split( ',', $GroupFieldsString );
 
             if ( $#GroupFields + 1 ) {
 
@@ -2245,14 +2224,13 @@ sub _ArticleTree {
                 Subject      => $Article{Subject} || '',
             );
 
-            my %ArticleFields = $LayoutObject->ArticleFields(%Article, ShowDeletedArticles => $Self->{ShowDeletedArticles} );
+            my %ArticleFields = $LayoutObject->ArticleFields(%Article);
 
             # Get transmission status information for email articles.
             my $TransmissionStatus;
             if ( $Article{ChannelName} && $Article{ChannelName} eq 'Email' ) {
                 $TransmissionStatus = $ArticleObject->BackendForArticle(%Article)->ArticleTransmissionStatus(
-                    ArticleID           => $Article{ArticleID},
-                    ShowDeletedArticles => $Self->{ShowDeletedArticles}
+                    ArticleID => $Article{ArticleID},
                 );
             }
 
@@ -2319,23 +2297,10 @@ sub _ArticleTree {
             }
 
             # Get attachment index (excluding body attachments).
-            my %AtmIndex;
-            
-            if ( !$Article{ArticleDeleted} || $Self->{ArticleStorage} =~ m/ArticleStorageFS/ ) { 
-                %AtmIndex = $ArticleObject->BackendForArticle(%Article)->ArticleAttachmentIndex(
-                    ArticleID            => $Article{ArticleID},
-                    ShowDeletedArticles  => $Self->{ShowDeletedArticles},
-                    %{ $Self->{ExcludeAttachments} },                    
-                );
-            } else {
-                %AtmIndex = $ArticleObject->BackendForArticle(%Article)->ArticleAttachmentIndex(
-                    ArticleID            => $Article{DeletedVersionID},
-                    SourceArticleID      => $Article{ArticleID},
-                    ShowDeletedArticles  => $Self->{ShowDeletedArticles},
-                    VersionView          => 1,
-                    %{ $Self->{ExcludeAttachments} }
-                );
-            }
+            my %AtmIndex = $ArticleObject->BackendForArticle(%Article)->ArticleAttachmentIndex(
+                ArticleID => $Article{ArticleID},
+                %{ $Self->{ExcludeAttachments} },
+            );
             $Article{Atms} = \%AtmIndex;
 
             # show attachment info
@@ -2379,20 +2344,17 @@ sub _ArticleTree {
 
         # get articles for later use
         my @TimelineArticleBox = $ArticleObject->ArticleList(
-            TicketID            => $Self->{TicketID},
-            ShowDeletedArticles => $Self->{ShowDeletedArticles}
+            TicketID => $Self->{TicketID},
         );
 
         for my $ArticleItem (@TimelineArticleBox) {
-            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$ArticleItem}, ShowDeletedArticles  => $Self->{ShowDeletedArticles} 
-            );
+            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$ArticleItem} );
 
             my %Article = $ArticleBackendObject->ArticleGet(
                 TicketID      => $Self->{TicketID},
                 ArticleID     => $ArticleItem->{ArticleID},
                 DynamicFields => 1,
                 RealNames     => 1,
-                UserID        => $Self->{UserID}
             );
 
             # Append article meta data.
@@ -2404,8 +2366,7 @@ sub _ArticleTree {
 
         my $ArticlesByArticleID = {};
         for my $Article ( sort @TimelineArticleBox ) {
-            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article},  ShowDeletedArticles  => $Self->{ShowDeletedArticles}
-            );
+            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
 
             # Get attachment index (excluding body attachments).
             my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
@@ -2689,9 +2650,8 @@ sub _ArticleTree {
                 $Item->{ArticleData} = $ArticlesByArticleID->{ $Item->{ArticleID} };
 
                 my %ArticleFields = $LayoutObject->ArticleFields(
-                    TicketID            => $Item->{ArticleData}->{TicketID},
-                    ArticleID           => $Item->{ArticleData}->{ArticleID},
-                    ShowDeletedArticles => $Self->{ShowDeletedArticles}
+                    TicketID  => $Item->{ArticleData}->{TicketID},
+                    ArticleID => $Item->{ArticleData}->{ArticleID},
                 );
                 $Item->{ArticleData}->{ArticleFields} = \%ArticleFields;
 
@@ -2707,10 +2667,9 @@ sub _ArticleTree {
                 $Item->{ArticleData}->{ArticleMetaFields} = \%ArticleMetaFields;
 
                 my @ArticleActions = $LayoutObject->ArticleActions(
-                    TicketID            => $Item->{ArticleData}->{TicketID},
-                    ArticleID           => $Item->{ArticleData}->{ArticleID},
-                    Type                => 'OnLoad',
-                    ShowDeletedArticles => $Self->{ShowDeletedArticles}
+                    TicketID  => $Item->{ArticleData}->{TicketID},
+                    ArticleID => $Item->{ArticleData}->{ArticleID},
+                    Type      => 'OnLoad',
                 );
 
                 $Item->{ArticleData}->{ArticlePlain} = $LayoutObject->ArticlePreview(
@@ -2920,8 +2879,7 @@ sub _TicketItemSeen {
     my ( $Self, %Param ) = @_;
 
     my @Articles = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
-        TicketID             => $Param{TicketID},
-        ShowDeletedArticles  => $Self->{ShowDeletedArticles}
+        TicketID => $Param{TicketID},
     );
 
     for my $Article (@Articles) {
@@ -2937,18 +2895,13 @@ sub _TicketItemSeen {
 sub _ArticleItemSeen {
     my ( $Self, %Param ) = @_;
 
-    my $IsArticleDeleted = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->IsArticleDeleted(
-        ArticleID => $Param{ArticleID}
-    );
-
     # mark shown article as seen
     $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagSet(
-        TicketID       => $Param{TicketID},
-        ArticleID      => $Param{ArticleID},
-        Key            => 'Seen',
-        Value          => 1,
-        UserID         => $Self->{UserID},
-        ArticleDeleted => $IsArticleDeleted
+        TicketID  => $Param{TicketID},
+        ArticleID => $Param{ArticleID},
+        Key       => 'Seen',
+        Value     => 1,
+        UserID    => $Self->{UserID},
     );
 
     return 1;
@@ -2965,13 +2918,15 @@ sub _ArticleItem {
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    # Get article data.
+    # my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param);
+
     # show article actions
     my @MenuItems = $LayoutObject->ArticleActions(
         %Param,
-        TicketID            => $Param{Ticket}->{TicketID},
-        ArticleID           => $Param{Article}->{ArticleID},
-        Type                => $Param{Type},
-        ShowDeletedArticles => $Self->{ShowDeletedArticles}
+        TicketID  => $Param{Ticket}->{TicketID},
+        ArticleID => $Param{Article}->{ArticleID},
+        Type      => $Param{Type},
     );
 
     push @{ $Self->{MenuItems} }, \@MenuItems;
@@ -2984,7 +2939,6 @@ sub _ArticleItem {
         ShowBrowserLinkMessage => $Self->{DoNotShowBrowserLinkMessage} ? 0 : 1,
         Type                   => $Param{Type},
         MenuItems              => \@MenuItems,
-        ShowDeletedArticles    => $Self->{ShowDeletedArticles}
     );
 }
 
@@ -3060,9 +3014,8 @@ sub _ArticleBoxGet {
     my @ArticleBox;
     for my $Index (@ArticleIndexes) {
         my $ArticleBackendObject = $ArticleObject->BackendForArticle(
-            TicketID             => $Self->{TicketID},
-            ArticleID            => $Param{ArticleBoxAll}->[$Index]->{ArticleID},
-            ShowDeletedArticles  => $Self->{ShowDeletedArticles}
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Param{ArticleBoxAll}->[$Index]->{ArticleID},
         );
 
         my %Article = $ArticleBackendObject->ArticleGet(
@@ -3070,7 +3023,6 @@ sub _ArticleBoxGet {
             ArticleID     => $Param{ArticleBoxAll}->[$Index]->{ArticleID},
             DynamicFields => 1,
             RealNames     => 1,
-            UserID        => $Self->{UserID}
         );
 
         # Include some information about communication channel.

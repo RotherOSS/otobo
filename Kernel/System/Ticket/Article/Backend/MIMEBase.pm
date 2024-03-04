@@ -20,7 +20,6 @@ use strict;
 use warnings;
 
 use parent 'Kernel::System::Ticket::Article::Backend::Base';
-use File::Copy;
 
 use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
@@ -37,8 +36,6 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::Article',
     'Kernel::System::Ticket::Article::Backend::Email',
     'Kernel::System::User',
-    'Kernel::System::Encode',
-    'Kernel::System::Ticket::ArticleFeatures'
 );
 
 =head1 NAME
@@ -85,465 +82,6 @@ sub new {
         || 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB';
 
     return $Self;
-}
-
-=head2 ArticleEdit()
-
-Edit a MIME article.
-
-    my $ArticleID = $ArticleBackendObject->ArticleEdit(
-        ArticleID            => 100,                              # (required) 
-        TicketID             => 123,                              # (required)
-        SenderTypeID         => 1,                                # (required)
-                                                                  # or
-        SenderType           => 'agent',                          # (required) agent|system|customer
-        IsVisibleForCustomer => 1,                                # (required) Is article visible for customer?
-        UserID               => 123,                              # (required)
-
-        From           => 'Some Agent <email@example.com>',       # not required but useful
-        To             => 'Some Customer A <customer-a@example.com>', # not required but useful
-        Cc             => 'Some Customer B <customer-b@example.com>', # not required but useful
-        Bcc            => 'Some Customer C <customer-c@example.com>', # not required but useful
-        ReplyTo        => 'Some Customer B <customer-b@example.com>', # not required
-        Subject        => 'some short description',               # not required but useful
-        Body           => 'the message text',                     # not required but useful
-        MessageID      => '<asdasdasd.123@example.com>',          # not required but useful
-        InReplyTo      => '<asdasdasd.12@example.com>',           # not required but useful
-        References     => '<asdasdasd.1@example.com> <asdasdasd.12@example.com>', # not required but useful
-        ContentType    => 'text/plain; charset=ISO-8859-15',      # or optional Charset & MimeType
-        HistoryType    => 'OwnerUpdate',                          # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
-        HistoryComment => 'Some free text!',
-        Attachment => [
-            {
-                Content     => $Content,
-                ContentType => $ContentType,
-                Filename    => 'lala.txt',
-            },
-            {
-                Content     => $Content,
-                ContentType => $ContentType,
-                Filename    => 'lala1.txt',
-            },
-        ],
-        NoAgentNotify    => 0,                                      # if you don't want to send agent notifications
-        AutoResponseType => 'auto reply'                            # auto reject|auto follow up|auto reply/new ticket|auto remove
-
-        ForceNotificationToUserID   => [ 1, 43, 56 ],               # if you want to force somebody
-        ExcludeNotificationToUserID => [ 43,56 ],                   # if you want full exclude somebody from notfications,
-                                                                    # will also be removed in To: line of article,
-                                                                    # higher prio as ForceNotificationToUserID
-        ExcludeMuteNotificationToUserID => [ 43,56 ],               # the same as ExcludeNotificationToUserID but only the
-                                                                    # sending gets muted, agent will still shown in To:
-                                                                    # line of article
-    );
-
-Example with "Charset & MimeType" and no "ContentType".
-
-    my $ArticleID = $ArticleBackendObject->ArticleCreate(
-        ArticleID            => 100,                                 # (required)
-        TicketID             => 123,                                 # (required)
-        SenderType           => 'agent',                             # (required) agent|system|customer
-        IsVisibleForCustomer => 1,                                   # (required) Is article visible for customer?
-
-        From             => 'Some Agent <email@example.com>',       # not required but useful
-        To               => 'Some Customer A <customer-a@example.com>', # not required but useful
-        Subject          => 'some short description',               # required
-        Body             => 'the message text',                     # required
-        Charset          => 'ISO-8859-15',
-        MimeType         => 'text/plain',
-        HistoryType      => 'OwnerUpdate',                          # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
-        HistoryComment   => 'Some free text!',
-        UserID           => 123,
-        UnlockOnAway     => 1,                                      # Unlock ticket if owner is away
-    );
-
-Events:
-    ArticleEdit
-
-=cut
-
-sub ArticleEdit {
-    my ( $Self, %Param ) = @_;
-
-    my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $IncomingTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
-
-    my $ArticleContentPath;
-
-    $DBObject->Prepare( 
-        SQL    => 'SELECT content_path FROM article_data_mime WHERE article_id = ?',
-        Bind   => [ \$Param{ArticleID} ],
-        Limit  => 1
-    );
-
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $ArticleContentPath = $Row[0];
-    }
-
-    # create ArticleContentPath
-    if ( !$ArticleContentPath ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need ArticleContentPath!'
-        );
-        return;
-    }
-
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-
-    # Lookup if no ID is passed.
-    if ( $Param{SenderType} && !$Param{SenderTypeID} ) {
-        $Param{SenderTypeID} = $ArticleObject->ArticleSenderTypeLookup( SenderType => $Param{SenderType} );
-    }
-
-    # check needed stuff
-    for my $Needed (qw(TicketID UserID SenderTypeID HistoryType HistoryComment)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!"
-            );
-            return;
-        }
-    }
-
-    if ( !defined $Param{IsVisibleForCustomer} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need IsVisibleForCustomer!"
-        );
-        return;
-    }
-
-    # check ContentType vs. Charset & MimeType
-    if ( !$Param{ContentType} ) {
-        for my $Item (qw(Charset MimeType)) {
-            if ( !$Param{$Item} ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Need $Item!"
-                );
-                return;
-            }
-        }
-        $Param{ContentType} = "$Param{MimeType}; charset=$Param{Charset}";
-    }
-    else {
-        for my $Item (qw(ContentType)) {
-            if ( !$Param{$Item} ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Need $Item!"
-                );
-                return;
-            }
-        }
-        $Param{Charset} = '';
-        if ( $Param{ContentType} =~ /charset=/i ) {
-            $Param{Charset} = $Param{ContentType};
-            $Param{Charset} =~ s/.+?charset=("|'|)(\w+)/$2/gi;
-            $Param{Charset} =~ s/"|'//g;
-            $Param{Charset} =~ s/(.+?);.*/$1/g;
-
-        }
-        $Param{MimeType} = '';
-        if ( $Param{ContentType} =~ /^(\w+\/\w+)/i ) {
-            $Param{MimeType} = $1;
-            $Param{MimeType} =~ s/"|'//g;
-        }
-    }
-
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-    # for the event handler, before any actions have taken place
-    my %OldTicketData = $TicketObject->TicketGet(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 1,
-    );
-
-    # get html utils object
-    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
-
-    # add 'no body' if there is no body there!
-    my @AttachmentConvert;
-    if ( !defined $Param{Body} ) {    # allow '0' as body
-        $Param{Body} = '';
-    }
-
-    # process html article
-    elsif ( $Param{MimeType} =~ /text\/html/i ) {
-
-        # add html article as attachment
-        my $Attach = {
-            Content     => $Param{Body},
-            ContentType => "text/html; charset=\"$Param{Charset}\"",
-            Filename    => 'file-2',
-        };
-        push @AttachmentConvert, $Attach;
-
-        # get ASCII body
-        $Param{MimeType} = 'text/plain';
-        $Param{ContentType} =~ s/html/plain/i;
-        $Param{Body} = $HTMLUtilsObject->ToAscii(
-            String => $Param{Body},
-        );
-    }
-    elsif ( $Param{MimeType} && $Param{MimeType} eq "application/json" ) {
-
-        # Keep JSON body unchanged
-    }
-
-    # if body isn't text, attach body as attachment (mostly done by OE) :-/
-    elsif ( $Param{MimeType} && $Param{MimeType} !~ /\btext\b/i ) {
-
-        # Add non-text as an attachment. Try to deduce the filename from ContentType or ContentDisposition headers.
-        #   Please see bug#13644 for more information.
-        my $FileName = 'unknown';
-        if (
-            $Param{ContentType} =~ /name="(.+?)"/i
-            || (
-                defined $Param{ContentDisposition}
-                && $Param{ContentDisposition} =~ /name="(.+?)"/i
-            )
-            )
-        {
-            $FileName = $1;
-        }
-        my $Attach = {
-            Content     => $Param{Body},
-            ContentType => $Param{ContentType},
-            Filename    => $FileName,
-        };
-        push @{ $Param{Attachment} }, $Attach;
-
-        # set ASCII body
-        $Param{MimeType}           = 'text/plain';
-        $Param{ContentType}        = 'text/plain';
-        $Param{Body}               = '- no text message => see attachment -';
-        $Param{OrigHeader}->{Body} = $Param{Body};
-    }
-
-    # fix some bad stuff from some browsers (Opera)!
-    else {
-        $Param{Body} =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
-    }
-
-    # strip not wanted stuff
-    for my $Attribute (qw(From To Cc Bcc Subject MessageID InReplyTo References ReplyTo)) {
-        if ( defined $Param{$Attribute} ) {
-            $Param{$Attribute} =~ s/\n|\r//g;
-        }
-        else {
-            $Param{$Attribute} = '';
-        }
-    }
-    ATTRIBUTE:
-    for my $Attribute (qw(MessageID)) {
-        next ATTRIBUTE if !$Param{$Attribute};
-        $Param{$Attribute} = substr( $Param{$Attribute}, 0, 3800 );
-    }
-
-    # Check if this is the first article (for notifications).
-    my @Articles     = $ArticleObject->ArticleList( TicketID => $Param{TicketID} );
-    my $FirstArticle = scalar @Articles ? 0 : 1;
-
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    # calculate MD5 of Message ID
-    if ( $Param{MessageID} ) {
-        $Param{MD5} = $MainObject->MD5sum( String => $Param{MessageID} );
-    }
-
-    # Generate unique fingerprint for searching created article in database to prevent race conditions
-    #   (see https://bugs.otrs.org/show_bug.cgi?id=12438).
-    my $RandomString = $MainObject->GenerateRandomString(
-        Length => 32,
-    );
-    my $ArticleInsertFingerprint = $$ . '-' . $RandomString . '-' . ( $Param{MessageID} // '' );
-
-    my $ArticleID = $Param{ArticleID};
-
-    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-
-    # Check if there are additional To's from InvolvedAgent and InformAgent.
-    #   See bug#13422 (https://bugs.otrs.org/show_bug.cgi?id=13422).
-    if ( $Param{ForceNotificationToUserID} && ref $Param{ForceNotificationToUserID} eq 'ARRAY' ) {
-        my $NewTo = '';
-        USER:
-        for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
-
-            next USER if $UserID == 1;
-            next USER if grep { $UserID eq $_ } @{ $Param{ExcludeNotificationToUserID} };
-
-            my %UserData = $UserObject->GetUserData(
-                UserID => $UserID,
-                Valid  => 1,
-            );
-
-            next USER if !%UserData;
-
-            if ( $Param{To} || $NewTo ) {
-                $NewTo .= ', ';
-            }
-            $NewTo .= "\"$UserData{UserFirstname} $UserData{UserLastname}\" <$UserData{UserEmail}>";
-        }
-        $Param{To} .= $NewTo;
-    }
-
-    #Backup actual data to generate new version
-    my $NewArticleVersion = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ArticleVersion(
-        ArticleID  => $ArticleID, 
-        UserID     => $Param{UserID},
-    );
-
-    return if !$NewArticleVersion;
-
-    my $Success = $DBObject->Do(
-        SQL => '
-            UPDATE article_data_mime SET 
-                a_from = ?, a_reply_to = ?, a_to = ?, a_cc = ?, a_bcc = ?, a_subject = ?,
-                a_in_reply_to = ?, a_references = ?, a_content_type = ?, a_body = ?,
-                change_time = current_timestamp, change_by  = ? WHERE article_id = ?
-        ',
-        Bind => [
-            \$Param{From}, \$Param{ReplyTo}, \$Param{To}, \$Param{Cc}, \$Param{Bcc}, \$Param{Subject},
-            \$Param{InReplyTo}, \$Param{References},  \$Param{ContentType},
-            \$Param{Body}, \$Param{UserID}, \$ArticleID
-        ],
-    );
-
-    # check for base64 encoded images in html body and upload them
-    for my $Attachment (@AttachmentConvert) {
-
-        if (
-            $Attachment->{ContentType} eq "text/html; charset=\"$Param{Charset}\""
-            && $Attachment->{Filename} eq 'file-2'
-            )
-        {
-            $HTMLUtilsObject->EmbeddedImagesExtract(
-                DocumentRef    => \$Attachment->{Content},
-                AttachmentsRef => \@AttachmentConvert,
-            );
-        }
-    }
-
-    # Read original article Content Path
-    my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir') . '/' . $ArticleContentPath . '/' . $Param{ArticleID} ;
-
-    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-
-    if ( $Self->{ArticleStorageModule} ne 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB' ) {
-        #Search files for moving
-        my @ArticleFiles = $MainObject->DirectoryRead(
-            Directory => $Location,
-            Filter    => "*",
-            Silent    => 1,
-        );
-
-        #Clean path from file list
-        my @TempFiles; 
-        foreach my $File ( @ArticleFiles ) {
-            $File =~ s{^.*/}{};
-            push @TempFiles, $File;
-        }
-
-        @ArticleFiles = @TempFiles;
-
-        if ( @ArticleFiles ) {
-            mkdir("$Location/$NewArticleVersion");
-
-            MOVE_FILES:
-            foreach my $File ( @ArticleFiles ) {
-                #Skip directories
-                next MOVE_FILES if ( -d "$Location/$File" );
-
-                $File = $EncodeObject->Convert2CharsetInternal(
-                    Text  => $File,
-                    From  => 'utf-8',
-                    Check => 1,
-                );    
-
-                move("$Location/$File", "$Location/$NewArticleVersion/$File");
-
-                $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
-                    Location  => "$Location/$File",
-                    Type      => 'Attachment',
-                    NoReplace => 1,
-                    DisableWarnings => 1
-                );             
-            }
-        }
-    } else {
-        $DBObject->Do(
-            SQL => 'DELETE FROM article_data_mime_attachment WHERE article_id = ?',
-            Bind => [ \$ArticleID ],
-        );        
-    }
-
-    # add converted attachments
-    for my $Attachment (@AttachmentConvert) {
-        $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleWriteAttachment(
-            %{$Attachment},
-            ArticleID => $ArticleID,
-            UserID    => $Param{UserID},
-        );
-    }
-
-    # add attachments
-    if ( $Param{Attachment} ) {
-
-        ATTACHMENT:
-        for my $Attachment ( @{ $Param{Attachment} } ) {
-            next ATTACHMENT if $Attachment->{Filename} eq 'file-2';
-
-            $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleWriteAttachment(
-                %{$Attachment},
-                ArticleID => $ArticleID,
-                UserID    => $Param{UserID},
-            );
-        }
-    }
-
-    $ArticleObject->ArticleFlagDelete(
-        TicketID  => $Param{TicketID},
-        ArticleID => $ArticleID,
-        Key       => 'Seen',
-        AllUsers  => 1
-    );       
-
-    $ArticleObject->_ArticleCacheClear(
-        TicketID => $Param{TicketID},
-    );
-
-    # add history row
-    $TicketObject->HistoryAdd(
-        ArticleID    => $ArticleID,
-        TicketID     => $Param{TicketID},
-        CreateUserID => $Param{UserID},
-        HistoryType  => 'ArticleEdit',
-        Name         => "\%\%$ArticleID\%\%$Param{UserLogin}\%\%$Param{UserID}",
-    );
-
-    $ArticleObject->ArticleSearchIndexBuild(
-        TicketID  => $Param{TicketID},
-        ArticleID => $ArticleID,
-        UserID    => 1,
-    );
-
-    # event
-    $Self->EventHandler(
-        Event => 'ArticleEdit',
-        Data  => {
-            ArticleID     => $ArticleID,
-            TicketID      => $Param{TicketID},
-            OldTicketData => \%OldTicketData,
-        },
-        UserID => $Param{UserID},
-    ); 
-
-    # return ArticleID
-    return $ArticleID;
 }
 
 =head2 ArticleCreate()
@@ -1173,13 +711,10 @@ sub ArticleCreate {
 Returns single article data.
 
     my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID      => 123,     # (required)
-        ArticleID     => 123,     # (required)
-        DynamicFields => 1,       # (optional) To include the dynamic field values for this article on the return structure.
-        RealNames     => 1,       # (optional) To include the From/To/Cc/Bcc fields with real names.
-        ShowDeletedArticles => 1, # (optional) To get deleted articles.
-        VersionView    => 1,      # (optional) To get edited version info.
-        ArticleDeleted => 1,      # (optional) To evaluate if article is deleted.
+        TicketID      => 123,   # (required)
+        ArticleID     => 123,   # (required)
+        DynamicFields => 1,     # (optional) To include the dynamic field values for this article on the return structure.
+        RealNames     => 1,     # (optional) To include the From/To/Cc/Bcc fields with real names.
     );
 
 Returns:
@@ -1215,8 +750,6 @@ Returns:
         ToRealname   => 'Some Customer A',
         CcRealname   => 'Some Customer B',
         BccRealname  => 'Some Customer C',
-
-        IsEdited     => 1, #If article has at least one version
     );
 
 =cut
@@ -1232,25 +765,12 @@ sub ArticleGet {
             );
             return;
         }
-    }   
-
-    my $ArticleShowStatus = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ShowDeletedArticles(
-        TicketID  => $Param{TicketID}, 
-        UserID    => $Param{UserID} || 1,
-        GetStatus => 1
-    ) || 0;
-
-    my $ArticleEdited = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->IsArticleEdited(
-        TicketID  => $Param{TicketID}, 
-        ArticleID => $Param{ArticleID}
-    );
+    }
 
     # Get meta article.
     my %Article = $Self->_MetaArticleGet(
-        ArticleID           => $Param{ArticleID},
-        TicketID            => $Param{TicketID},
-        ShowDeletedArticles => $ArticleShowStatus || 1,
-        VersionView         => $Param{VersionView}
+        ArticleID => $Param{ArticleID},
+        TicketID  => $Param{TicketID},
     );
     return if !%Article;
 
@@ -1275,27 +795,6 @@ sub ArticleGet {
     ';
     my @Bind = ( \$Param{ArticleID} );
 
-    if ( $ArticleShowStatus && $Article{ArticleDeleted} ) {
-        $SQL = '
-            SELECT sadm.a_from, sadm.a_reply_to, sadm.a_to, sadm.a_cc, sadm.a_bcc, sadm.a_subject,
-                sadm.a_message_id, sadm.a_in_reply_to, sadm.a_references, sadm.a_content_type,
-                sadm.a_body, sadm.incoming_time, sadm.article_id
-            FROM article_data_mime_version sadm
-            WHERE sadm.article_id in (SELECT av.id FROM article_version av WHERE av.source_article_id = ? AND av.article_delete = 1)
-        ';
-    }
-
-    if ( $Param{VersionView} ) {
-        $SQL = '
-            SELECT sadm.a_from, sadm.a_reply_to, sadm.a_to, sadm.a_cc, sadm.a_bcc, sadm.a_subject,
-                sadm.a_message_id, sadm.a_in_reply_to, sadm.a_references, sadm.a_content_type,
-                sadm.a_body, sadm.incoming_time, av.version_create_time
-            FROM article_data_mime_version sadm
-            INNER JOIN article_version av ON sadm.article_id = av.id
-            WHERE sadm.article_id = ?
-        ';
-    }         
-
     return if !$DBObject->Prepare(
         SQL   => $SQL,
         Bind  => \@Bind,
@@ -1319,17 +818,7 @@ sub ArticleGet {
             Body         => $Row[10],
             IncomingTime => $Row[11],
             SenderType   => $ArticleSenderTypeList{ $Article{SenderTypeID} },
-            IsEdited     => $ArticleEdited,
-            IsDeleted    => $Article{ArticleDeleted} || 0
         );
-
-        if ( $ArticleShowStatus && $Article{ArticleDeleted} ) {
-            $Data{DeletedVersionID} = $Row[12];
-        }
-
-        if ( $Param{VersionView} ) {
-            $Data{CreateTime} = $Row[12];
-        }
 
         # Determine charset.
         if ( $Data{ContentType} && $Data{ContentType} =~ /charset=/i ) {

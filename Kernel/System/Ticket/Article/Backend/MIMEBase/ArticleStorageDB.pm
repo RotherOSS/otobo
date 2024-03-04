@@ -73,16 +73,14 @@ sub ArticleDelete {
 
     # delete attachments
     $Self->ArticleDeleteAttachment(
-        ArticleID        => $Param{ArticleID},
-        UserID           => $Param{UserID},
-        DeletedVersionID => $Param{DeletedVersionID} || 0
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
     );
 
     # delete plain message
     $Self->ArticleDeletePlain(
-        ArticleID        => $Param{ArticleID},
-        UserID           => $Param{UserID},
-        DeletedVersionID => $Param{DeletedVersionID} || 0
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
     );
 
     # Delete storage directory in case there are leftovers in the FS.
@@ -110,18 +108,10 @@ sub ArticleDeletePlain {
     }
 
     # delete attachments
-    if ( !$Param{DeletedVersionID} ) { 
-        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL  => 'DELETE FROM article_data_mime_plain WHERE article_id = ?',
-            Bind => [ \$Param{ArticleID} ],
-        );
-    }
-    else {
-        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL  => 'DELETE FROM article_data_mime_plain_version WHERE article_id = ?',
-            Bind => [ \$Param{DeletedVersionID} ],
-        );
-    }
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL  => 'DELETE FROM article_data_mime_plain WHERE article_id = ?',
+        Bind => [ \$Param{ArticleID} ],
+    );
 
     # return if we only need to check one backend
     return 1 if !$Self->{CheckAllBackends};
@@ -151,18 +141,10 @@ sub ArticleDeleteAttachment {
     }
 
     # delete attachments
-    if ( !$Param{DeletedVersionID} ) {
-        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL  => 'DELETE FROM article_data_mime_attachment WHERE article_id = ?',
-            Bind => [ \$Param{ArticleID} ],
-        );
-    }
-    else {
-        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL  => 'DELETE FROM article_data_mime_attachment_version WHERE article_id = ?',
-            Bind => [ \$Param{DeletedVersionID} ],
-        );
-    }
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL  => 'DELETE FROM article_data_mime_attachment WHERE article_id = ?',
+        Bind => [ \$Param{ArticleID} ],
+    );
 
     # return if we only need to check one backend
     return 1 if !$Self->{CheckAllBackends};
@@ -203,22 +185,12 @@ sub ArticleWritePlain {
     }
 
     # write article to db 1:1
-    if ( !$Param{DeletedVersionID} ) {
-        return if !$DBObject->Do(
-            SQL => 'INSERT INTO article_data_mime_plain '
-                . ' (article_id, body, create_time, create_by, change_time, change_by) '
-                . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
-            Bind => [ \$Param{ArticleID}, \$Param{Email}, \$Param{UserID}, \$Param{UserID} ],
-        );
-    }
-    else {
-        return if !$DBObject->Do(
-            SQL => 'INSERT INTO article_data_mime_plain_version '
-                . ' (article_id, body, create_time, create_by, change_time, change_by) '
-                . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
-            Bind => [ \$Param{DeletedVersionID}, \$Param{Email}, \$Param{UserID}, \$Param{UserID} ],
-        );
-    }
+    return if !$DBObject->Do(
+        SQL => 'INSERT INTO article_data_mime_plain '
+            . ' (article_id, body, create_time, create_by, change_time, change_by) '
+            . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [ \$Param{ArticleID}, \$Param{Email}, \$Param{UserID}, \$Param{UserID} ],
+    );
 
     return 1;
 }
@@ -294,40 +266,23 @@ sub ArticleWriteAttachment {
     # Remove the file name from the disposition
     my $Disposition;
     if ( $Param{Disposition} ) {
-        ($Disposition) = split /;/, $Param{Disposition}, 2;
+        ($Disposition) = split ';', $Param{Disposition}, 2;
     }
     $Disposition //= '';
 
     # write attachment to db
-    if ( !$Param{DeletedVersionID} ) {
-        return if !$DBObject->Do(
-            SQL => '
-                INSERT INTO article_data_mime_attachment (article_id, filename, content_type, content_size,
-                    content, content_id, content_alternative, disposition, create_time, create_by,
-                    change_time, change_by)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
-            Bind => [
-                \$Param{ArticleID}, \$UniqueFilename,   \$Param{ContentType}, \$Param{Filesize},
-                \$Param{Content},   \$Param{ContentID}, \$Param{ContentAlternative},
-                \$Disposition,      \$Param{UserID},    \$Param{UserID},
-            ],
-        );
-    }
-    else {
-        return if !$DBObject->Do(
-            SQL => '
-                INSERT INTO article_data_mime_attachment_version (article_id, filename, content_type, content_size,
-                    content, content_id, content_alternative, disposition, create_time, create_by,
-                    change_time, change_by)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
-            Bind => [
-                \$Param{DeletedVersionID}, \$UniqueFilename,   \$Param{ContentType}, \$Param{Filesize},
-                \$Param{Content},   \$Param{ContentID}, \$Param{ContentAlternative},
-                \$Disposition,      \$Param{UserID},    \$Param{UserID},
-            ],
-        );
-    }
-
+    return if !$DBObject->Do(
+        SQL => '
+            INSERT INTO article_data_mime_attachment (article_id, filename, content_type, content_size,
+                content, content_id, content_alternative, disposition, create_time, create_by,
+                change_time, change_by)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{ArticleID}, \$UniqueFilename,   \$Param{ContentType}, \$Param{Filesize},
+            \$Param{Content},   \$Param{ContentID}, \$Param{ContentAlternative},
+            \$Disposition,      \$Param{UserID},    \$Param{UserID},
+        ],
+    );
     return 1;
 }
 
@@ -356,7 +311,7 @@ sub ArticlePlain {
         SQL    => 'SELECT body FROM article_data_mime_plain WHERE article_id = ?',
         Bind   => [ \$Param{ArticleID} ],
         Encode => [0],
-    ); 
+    );
 
     my $Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -403,27 +358,15 @@ sub ArticleAttachmentIndexRaw {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # try database
-    if ( !$Param{VersionView}) {
-        return if !$DBObject->Prepare(
-            SQL => '
-                SELECT filename, content_type, content_size, content_id, content_alternative,
-                    disposition
-                FROM article_data_mime_attachment
-                WHERE article_id = ?
-                ORDER BY filename, id',
-            Bind => [ \$Param{ArticleID} ],
-        );
-    } else {
-        return if !$DBObject->Prepare(
-            SQL => '
-                    SELECT att.filename, att.content_type, att.content_size, att.content_id, att.content_alternative, att.disposition
-                    FROM article_data_mime_attachment_version att
-                    INNER JOIN article_version av ON att.article_id = av.id
-                    WHERE av.source_article_id = ? AND att.article_id = ?
-                    ORDER BY att.filename, att.id',
-            Bind => [ \$Param{SourceArticleID}, \$Param{ArticleID} ],
-        );
-    }
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT filename, content_type, content_size, content_id, content_alternative,
+                disposition
+            FROM article_data_mime_attachment
+            WHERE article_id = ?
+            ORDER BY filename, id',
+        Bind => [ \$Param{ArticleID} ],
+    );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
@@ -495,10 +438,7 @@ sub ArticleAttachment {
 
     # get attachment index
     my %Index = $Self->ArticleAttachmentIndex(
-        ArticleID       => $Param{ArticleID},
-        VersionView     => $Param{VersionView},
-        SourceArticleID => $Param{SourceArticleID},       
-        ArticleDeleted  => $Param{ArticleDeleted} || ''
+        ArticleID => $Param{ArticleID},
     );
 
     return if !$Index{ $Param{FileID} };
@@ -508,60 +448,29 @@ sub ArticleAttachment {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # try database
-    if ( !$Param{VersionView} ) {
-        return if !$DBObject->Prepare(
-            SQL => '
-                SELECT id
-                FROM article_data_mime_attachment
-                WHERE article_id = ?
-                ORDER BY filename, id',
-            Bind  => [ \$Param{ArticleID} ],
-            Limit => $Param{FileID},
-        );
-    } else {
-
-        if ( $Param{ArticleDeleted} ) {
-            my $Temp = $Param{SourceArticleID};
-            $Param{SourceArticleID} = $Param{ArticleID};
-            $Param{ArticleID} = $Temp;
-        }
-
-        return if !$DBObject->Prepare(
-            SQL => '
-                SELECT att.id
-                FROM article_data_mime_attachment_version att
-                INNER JOIN article_version av ON att.article_id = av.id
-                WHERE av.id = ? AND av.source_article_id = ?
-                ORDER BY att.filename, att.id',
-            Bind  => [ \$Param{ArticleID}, \$Param{SourceArticleID} ],
-            Limit => $Param{FileID},
-        );
-    }
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT id
+            FROM article_data_mime_attachment
+            WHERE article_id = ?
+            ORDER BY filename, id',
+        Bind  => [ \$Param{ArticleID} ],
+        Limit => $Param{FileID},
+    );
 
     my $AttachmentID;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $AttachmentID = $Row[0];
     }
 
-    if ( !$Param{VersionView} ) {
-        return if !$DBObject->Prepare(
-            SQL => '
-                SELECT content_type, content, content_id, content_alternative, disposition, filename
-                FROM article_data_mime_attachment
-                WHERE id = ?',
-            Bind   => [ \$AttachmentID ],
-            Encode => [ 1, 0, 0, 0, 1, 1 ],
-        );
-    } else {
-        return if !$DBObject->Prepare(
-            SQL => '
-                SELECT att.content_type, att.content, att.content_id, att.content_alternative, att.disposition, att.filename
-                FROM article_data_mime_attachment_version att
-                WHERE att.id = ?',
-            Bind   => [ \$AttachmentID ],
-            Encode => [ 1, 0, 0, 0, 1, 1 ],
-        );
-    }
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT content_type, content, content_id, content_alternative, disposition, filename
+            FROM article_data_mime_attachment
+            WHERE id = ?',
+        Bind   => [ \$AttachmentID ],
+        Encode => [ 1, 0, 0, 0, 1, 1 ],
+    );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
 

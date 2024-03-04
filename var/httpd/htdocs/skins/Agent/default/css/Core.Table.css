@@ -585,23 +585,6 @@ thead .headerSortDown a {
     width: 20px;
 }
 
-/* Subsection improvements for Article Features Package */
-.TicketList .ArticleEdit {
-    width: 20px;
-}
-
-.TicketList .ArticleDeleted {
-    text-decoration: line-through;
-    color: red !important;
-}
-
-.TicketList .EditIcon {
-    font-size: 11px;
-    cursor: pointer;
-}
-
-/* End Article Features */
-
 #ArticleTable thead {
     background: #f0f0f0;
     background: -moz-linear-gradient(top,  #f0f0f0 0%, #eaeaea 100%);

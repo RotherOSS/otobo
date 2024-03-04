@@ -121,23 +121,20 @@ sub ArticleDelete {
 
     # delete attachments
     $Self->ArticleDeleteAttachment(
-        ArticleID        => $Param{ArticleID},
-        UserID           => $Param{UserID},
-        DeletedVersionID => $Param{DeletedVersionID} || 0
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
     );
 
     # delete plain message
     $Self->ArticleDeletePlain(
-        ArticleID        => $Param{ArticleID},
-        UserID           => $Param{UserID},
-        DeletedVersionID => $Param{DeletedVersionID} || 0
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
     );
 
     # delete storage directory
     $Self->_ArticleDeleteDirectory(
-        ArticleID        => $Param{ArticleID},
-        UserID           => $Param{UserID},
-        DeletedVersionID => $Param{DeletedVersionID} || 0
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
     );
 
     # Delete special article storage cache.
@@ -218,10 +215,6 @@ sub ArticleDeleteAttachment {
     );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
 
-    if ( $Param{DeletedVersionID} ) {
-        $Path .= "/$Param{DeletedVersionID}";
-    }
-
     if ( -e $Path ) {
 
         my @List = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
@@ -231,7 +224,7 @@ sub ArticleDeleteAttachment {
 
         for my $File (@List) {
 
-            if ( $File !~ /(\/|\\)plain.txt$/ && !( -d $File ) ) {
+            if ( $File !~ /(\/|\\)plain.txt$/ ) {
 
                 if ( !unlink "$File" ) {
 
@@ -242,26 +235,6 @@ sub ArticleDeleteAttachment {
                 }
             }
         }
-        
-        #Check if version directory is empty to remove it
-        if ( $Param{DeletedVersionID} ) {
-            my @ListVersion = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-                Directory => $Path,
-                Filter    => "*",
-            );
-
-            if ( !@ListVersion ) {
-                my $Success = rmdir($Path);
-
-                if ( !$Success ) {
-
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'error',
-                        Message  => "Can't remove version directory: $Path!!",
-                    );
-                }
-            }
-        }        
     }
 
     # Delete special article storage cache.
@@ -362,11 +335,7 @@ sub ArticleWriteAttachment {
     );
 
     # define path
-    if ( !$Param{VersionID} ) {
-        $Param{Path} = join '/', $Self->{ArticleDataDir}, $ContentPath, $Param{ArticleID};
-    } else {
-        $Param{Path} = join '/', $Self->{ArticleDataDir}, $ContentPath, $Param{SourceArticleID}, $Param{ArticleID};
-    }
+    $Param{Path} = join '/', $Self->{ArticleDataDir}, $ContentPath, $Param{ArticleID};
 
     # Perform FilenameCleanUp here already to check for
     #   conflicting existing attachment files correctly
@@ -462,7 +431,7 @@ sub ArticleWriteAttachment {
     # Write attachment disposition to the file system.
     if ( $Param{Disposition} ) {
 
-        my ($Disposition) = split /;/, $Param{Disposition}, 2;
+        my ($Disposition) = split ';', $Param{Disposition}, 2;
 
         $MainObject->FileWrite(
             Directory       => $Param{Path},
@@ -614,36 +583,20 @@ sub ArticleAttachmentIndexRaw {
     }
 
     my $ContentPath = $Self->_ArticleContentPathGet(
-        ArticleID       => $Param{ArticleID},
-        VersionView     => $Param{VersionView} || '',
-        SourceArticleID => $Param{SourceArticleID} || ''
+        ArticleID => $Param{ArticleID},
     );
     my %Index;
     my $Counter = 0;
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-    my @List;
 
     # try fs
-    if ( $Param{SourceArticleID} && !$Param{ArticleDeleted} ) {
-        @List = $MainObject->DirectoryRead(
-            Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{SourceArticleID}/$Param{ArticleID}",
-            Filter    => "*",
-            Silent    => 1,
-        );
-    } else {  
-
-        if ( $Param{ArticleDeleted} ) {
-            $Param{ArticleID} = $Param{SourceArticleID};
-        }
-
-        @List = $MainObject->DirectoryRead(
-            Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
-            Filter    => "*",
-            Silent    => 1,
-        );
-    }
+    my @List = $MainObject->DirectoryRead(
+        Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
+        Filter    => "*",
+        Silent    => 1,
+    );
 
     FILENAME:
     for my $Filename ( sort @List ) {
@@ -818,38 +771,24 @@ sub ArticleAttachment {
 
     # get some data from the attachment index
     my %Index = $Self->ArticleAttachmentIndex(
-        ArticleID       => $Param{ArticleID},
-        VersionView     => $Param{VersionView},
-        SourceArticleID => $Param{SourceArticleID},
-        ArticleDeleted  => $Param{ArticleDeleted}
+        ArticleID => $Param{ArticleID},
     );
     my %Data = %{ $Index{ $Param{FileID} } // {} };
 
     # get content path
     my $ContentPath = $Self->_ArticleContentPathGet(
-        ArticleID   => $Param{ArticleID},
-        VersionView => $Param{VersionView}
+        ArticleID => $Param{ArticleID},
     );
     my $Counter = 0;
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    my @List;
-
-    if ( $Param{SourceArticleID} && $Param{VersionView} ) {
-        @List = $MainObject->DirectoryRead(
-            Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{SourceArticleID}/$Param{ArticleID}",
-            Filter    => "*",
-            Silent    => 1,
-        );
-    } else {
-        @List = $MainObject->DirectoryRead(
-            Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
-            Filter    => "*",
-            Silent    => 1,
-        );
-    }
+    my @List = $MainObject->DirectoryRead(
+        Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
+        Filter    => "*",
+        Silent    => 1,
+    );
 
     if (@List) {
 

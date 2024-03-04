@@ -296,25 +296,11 @@ sub ArticlePreview {
 
         if ($HTMLBodyAttachmentID) {
 
-            my %Data;
-            
             # Preview doesn't include inline images...
-            if ( $Article{ArticleDeleted} && $Param{ArticleStorage} ne 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {
-                %Data = $ArticleBackendObject->ArticleAttachment(
-                    ArticleID       => $Param{DeletedVersionID} ,
-                    FileID          => $HTMLBodyAttachmentID,
-                    VersionView     => 1,
-                    SourceArticleID => $Param{ArticleID}
-                );
-            }
-            else {
-                %Data = $ArticleBackendObject->ArticleAttachment(
-                    ArticleID       => $Param{ArticleID} ,
-                    FileID          => $HTMLBodyAttachmentID,
-                    VersionView     => $Param{VersionView},
-                    SourceArticleID => $Param{SourceArticleID}
-                );
-            }
+            my %Data = $ArticleBackendObject->ArticleAttachment(
+                ArticleID => $Param{ArticleID},
+                FileID    => $HTMLBodyAttachmentID,
+            );
 
             # Get the charset directly from the attachment hash and convert content to the internal charset (utf-8).
             #   Please see bug#13367 for more information.
@@ -370,19 +356,10 @@ sub HTMLBodyAttachmentIDGet {
 
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param);
 
-    if ( $Param{DeletedVersionID} && $Param{ArticleStorage} ne 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {
-        $Param{VersionView}     = 1;
-        $Param{SourceArticleID} = $Param{ArticleID};
-        $Param{ArticleID}       = $Param{DeletedVersionID};
-    }
-
     # Get a HTML attachment.
     my %AttachmentIndexHTMLBody = $ArticleBackendObject->ArticleAttachmentIndex(
-        ArticleID           => $Param{ArticleID},
-        SourceArticleID     => $Param{SourceArticleID},
-        OnlyHTMLBody        => 1,
-        VersionView         => $Param{VersionView},
-        ShowDeletedArticles => 1
+        ArticleID    => $Param{ArticleID},
+        OnlyHTMLBody => 1,
     );
 
     my ($HTMLBodyAttachmentID) = sort keys %AttachmentIndexHTMLBody;
