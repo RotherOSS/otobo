@@ -5433,7 +5433,14 @@ sub RichTextDocumentServe {
         ATTACHMENT_ID:
         for my $AttachmentID (  sort keys %{ $Param{Attachments} }) {
             next ATTACHMENT_ID if lc $Param{Attachments}->{$AttachmentID}->{ContentID} ne lc "<$ContentID>";
-            $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
+            
+            if ( !$Param{ContentIDs} ){
+                $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
+            } 
+            #ArticleEdit inline attachments rendering
+            else {
+                $ContentID = $AttachmentLink . $Param{ContentIDs}->{$Param{Attachments}->{$AttachmentID}->{Filename}} . $SessionID;
+            }
             last ATTACHMENT_ID;
         }
 
