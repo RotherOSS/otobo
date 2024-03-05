@@ -6743,8 +6743,8 @@ sub SetCookie {
         # fallback when neiter configured or passed from command line
         $Path //= '';
 
-        # leading slash
-        if ( $Path =~ m!^/! ) {
+        # leading slash unless there already is a leading slash
+        if ( $Path !~ m!^/! ) {
             $Path = '/' . $Path;
         }
     }
