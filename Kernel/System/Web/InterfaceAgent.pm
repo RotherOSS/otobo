@@ -330,7 +330,6 @@ sub Content {
                 Name    => 'OTOBOBrowserHasCookie',
                 Value   => 1,
                 Expires => $Expires,
-                Path    => $ConfigObject->Get('ScriptAlias'),
             );
 
             # redirect to alternate login
@@ -518,7 +517,6 @@ sub Content {
             Name         => $Param{SessionName},
             Value        => $NewSessionID,
             Expires      => $Expires,
-            Path         => $ConfigObject->Get('ScriptAlias'),
         );
         Kernel::Output::HTML::Layout->SetCookie(
             RegisterInOM => 1,
@@ -526,7 +524,6 @@ sub Content {
             Name         => 'OTOBOBrowserHasCookie',
             Value        => '',
             Expires      => '-1y',
-            Path         => $ConfigObject->Get('ScriptAlias'),
         );
 
         # Check if Chat is active
@@ -633,7 +630,6 @@ sub Content {
             Name         => $Param{SessionName},
             Value        => '',
             Expires      => '-1y',
-            Path         => $ConfigObject->Get('ScriptAlias'),
         );
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
@@ -886,7 +882,6 @@ sub Content {
                         Name    => 'OTOBOBrowserHasCookie',
                         Value   => 1,
                         Expires => $Expires,
-                        Path    => $ConfigObject->Get('ScriptAlias'),
                     );
                 }
 
@@ -938,7 +933,6 @@ sub Content {
                 Name         => $Param{SessionName},
                 Value        => '',
                 Expires      => '-1y',
-                Path         => $ConfigObject->Get('ScriptAlias'),
             );
 
             # if the wrong scheme is used, delete also the "other" cookie - issue #251
@@ -952,13 +946,13 @@ sub Content {
                 );
 
                 # delete the OTOBO session cookie
+                # TOOD: Name is used twice
                 Kernel::Output::HTML::Layout->SetCookie(
                     RegisterInOM => 1,
                     Key          => 'SessionIDCookiehttp',
                     Name         => $Param{SessionName},
                     Value        => '',
                     Expires      => '-1y',
-                    Path         => $ConfigObject->Get('ScriptAlias'),
                     Secure       => '',
                 );
                 Kernel::Output::HTML::Layout->SetCookie(
@@ -967,7 +961,6 @@ sub Content {
                     Name         => $Param{SessionName},
                     Value        => '',
                     Expires      => '-1y',
-                    Path         => $ConfigObject->Get('ScriptAlias'),
                     Secure       => 1,
                 );
             }

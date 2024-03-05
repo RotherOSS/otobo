@@ -169,7 +169,6 @@ sub Run {
             Name    => $SessionName,
             Value   => $NewSessionID,
             Expires => $Expires,
-            Path    => $ConfigObject->Get('ScriptAlias'),
         );
 
         # log event

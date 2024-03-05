@@ -126,7 +126,6 @@ sub Run {
             Name         => $ConfigObject->Get('SessionName'),
             Value        => $NewSessionID,
             Expires      => $Expires,
-            Path         => $ConfigObject->Get('ScriptAlias'),
         );
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
