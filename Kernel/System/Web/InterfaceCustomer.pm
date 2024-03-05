@@ -321,7 +321,6 @@ sub Content {
                 Name    => 'OTOBOBrowserHasCookie',
                 Value   => 1,
                 Expires => $Expires,
-                Path    => $ConfigObject->Get('ScriptAlias'),
             );
 
             # redirect to alternate login
@@ -512,7 +511,6 @@ sub Content {
             Name         => $Param{SessionName},
             Value        => $NewSessionID,
             Expires      => $Expires,
-            Path         => $ConfigObject->Get('ScriptAlias'),
         );
 
         # delete the OTOBOBrowserHasCookie cookie
@@ -522,7 +520,6 @@ sub Content {
             Name         => 'OTOBOBrowserHasCookie',
             Value        => '',
             Expires      => '-1y',
-            Path         => $ConfigObject->Get('ScriptAlias'),
         );
 
         # redirect with new session id and old params
@@ -590,7 +587,6 @@ sub Content {
             Name         => $Param{SessionName},
             Value        => '',
             Expires      => '-1y',
-            Path         => $ConfigObject->Get('ScriptAlias'),
         );
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
@@ -1042,7 +1038,6 @@ sub Content {
                         Name    => 'OTOBOBrowserHasCookie',
                         Value   => 1,
                         Expires => $Expires,
-                        Path    => $ConfigObject->Get('ScriptAlias'),
                     );
                 }
 
@@ -1094,7 +1089,6 @@ sub Content {
                 Name         => $Param{SessionName},
                 Value        => '',
                 Expires      => '-1y',
-                Path         => $ConfigObject->Get('ScriptAlias'),
             );
 
             # if the wrong scheme is used, delete also the "other" cookie - issue #251
@@ -1108,24 +1102,21 @@ sub Content {
                 );
 
                 # delete the OTOBO session cookie
+                # TODO: the Name is used twice
                 Kernel::Output::HTML::Layout->SetCookie(
                     RegisterInOM => 1,
                     Key          => 'SessionIDCookiehttp',
                     Name         => $Param{SessionName},
                     Value        => '',
                     Expires      => '-1y',
-                    Path         => $ConfigObject->Get('ScriptAlias'),
                     Secure       => '',
                 );
-
-                # delete the OTOBO session cookie
                 Kernel::Output::HTML::Layout->SetCookie(
                     RegisterInOM => 1,
                     Key          => 'SessionIDCookiehttps',
                     Name         => $Param{SessionName},
                     Value        => '',
                     Expires      => '-1y',
-                    Path         => $ConfigObject->Get('ScriptAlias'),
                     Secure       => 1,
                 );
             }
