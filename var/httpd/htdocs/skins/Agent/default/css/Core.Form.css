@@ -724,6 +724,7 @@ fieldset.TableLike .DynamicFieldSet .Row.MultiColumn > .FieldCell {
     display: grid;
     columns: 2;
     grid-template-columns: 1fr 32px;
+    grid-auto-rows: min-content minmax(min-content, 1fr);
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet label {
@@ -737,6 +738,10 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
     overflow: hidden;
 }
 
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row.MultiColumn label {
+    text-align: left;
+}
+
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field {
     box-sizing: border-box;
     grid-column: 2;
@@ -746,13 +751,18 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
     grid-column: 1;
 }
 
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader) {
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, input[type='checkbox']) {
     width: 100%;
     box-sizing: border-box;
+    max-width: 100% !important;
+}
+
+fieldset.TableLike >.Row .Field.DFSetOuterField [class*='cke_editor'] {
+    width: 100% !important;
 }
 
 /* multivalue sets. necessary because of competing CSS specificities*/
-fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader) {
+fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, input[type='checkbox']) {
     width: 100%;
     box-sizing: border-box;
 }
@@ -764,7 +774,7 @@ fieldset.TableLike .DynamicFieldSet .InputField_InputContainer {
 }
 
 /* TODO check if it makes sense to do this only if input is direct child */
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField input {
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField input:not([type='checkbox']) {
     min-width: 150px; /*kind of random, not ideal*/
     box-sizing: border-box;
     width: 100% !important;
@@ -825,6 +835,10 @@ fieldset.TableLike .Field > input,
 fieldset.TableLike .Row > .Field > input {
     max-width: 100%;
     border-radius: 4px;
+}
+
+fieldset.TableLike .Row.Row.MultiColumn > .FieldCell > .Field > input[type='checkbox'] {
+    width: fit-content !important;
 }
 
 /*fieldset.TableLike > .Field > select#ConfigFile,

@@ -503,6 +503,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         grid-column: 1;
     }
 
+    fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet label {
+        text-align: left;
+    }
+
     fieldset.TableLike .DynamicFieldSet .Row > .FieldCell {
         columns: 2;
         grid-template-columns: 1fr 40px;
