@@ -22,22 +22,18 @@ use v5.24;
 use strict;
 use warnings;
 
-use Exporter qw(import);
-
-our %EXPORT_TAGS = (    ## no critic qw(OTOBO::RequireCamelCase)
-    all => [
-        'OTOBOTimeZoneGet',
-        'SystemTimeZoneGet',
-        'TimeZoneList',
-        'UserDefaultTimeZoneGet',
-    ],
-);
-
-Exporter::export_ok_tags('all');
-
 # core modules
 use Scalar::Util qw(looks_like_number);
 use List::Util   qw(none);
+use Exporter     qw(import);
+use overload
+    '>'        => \&_OpIsNewerThan,
+    '<'        => \&_OpIsOlderThan,
+    '>='       => \&_OpIsNewerThanOrEquals,
+    '<='       => \&_OpIsOlderThanOrEquals,
+    '=='       => \&_OpEquals,
+    '!='       => \&_OpNotEquals,
+    'fallback' => 1;
 
 # CPAN modules
 use DateTime 1.08      ();    # need 1.08 because Kernel::System::DateTime overrides _core_time()
@@ -45,7 +41,7 @@ use DateTime::TimeZone ();
 use DateTime::Locale   ();
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our %ObjectManagerFlags = (
     NonSingleton            => 1,
@@ -60,14 +56,16 @@ our @ObjectDependencies = (
 
 our $Locale = DateTime::Locale->load('en_US');
 
-use overload
-    '>'        => \&_OpIsNewerThan,
-    '<'        => \&_OpIsOlderThan,
-    '>='       => \&_OpIsNewerThanOrEquals,
-    '<='       => \&_OpIsOlderThanOrEquals,
-    '=='       => \&_OpEquals,
-    '!='       => \&_OpNotEquals,
-    'fallback' => 1;
+our %EXPORT_TAGS = (    ## no critic qw(OTOBO::RequireCamelCase)
+    all => [
+        'OTOBOTimeZoneGet',
+        'SystemTimeZoneGet',
+        'TimeZoneList',
+        'UserDefaultTimeZoneGet',
+    ],
+);
+
+Exporter::export_ok_tags('all');
 
 =head1 NAME
 
