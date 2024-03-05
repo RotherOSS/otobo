@@ -730,9 +730,6 @@ sub Login {
         # the password, we know already if the browser supports cookies.
         # ( the session cookie isn't available at that time ).
 
-        # Restrict Cookie to HTTPS if it is used.
-        my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
-
         my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
         if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
             $Expires = '';
@@ -745,7 +742,6 @@ sub Login {
             Value   => 1,
             Expires => $Expires,
             Path    => $ConfigObject->Get('ScriptAlias'),
-            Secure  => $CookieSecureAttribute,
         );
     }
 
@@ -4072,9 +4068,6 @@ sub CustomerLogin {
         # the password, we know already if the browser supports cookies.
         # ( the session cookie isn't available at that time ).
 
-        # Restrict Cookie to HTTPS if it is used.
-        my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
-
         my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
         if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
             $Expires = '';
@@ -4087,7 +4080,6 @@ sub CustomerLogin {
             Value   => 1,
             Expires => $Expires,
             Path    => $ConfigObject->Get('ScriptAlias'),
-            Secure  => $CookieSecureAttribute,
         );
     }
 
@@ -6546,16 +6538,28 @@ Declare a cookie that should be sent out via the Set-Cookie HTTP header.
         Value        => 123456,      # value
         Expires      => '+3660s',    # expires
         Path         => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
-        Secure       => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
-        HTTPOnly     => 1,           # 1|'', optional, the default is 1, sets httponly attribute of cookie to prevent access via JavaScript
+        Secure       => 1,           # 0|1, optional, set secure attribute to disable cookie on HTTP (HTTPS only)
         SameSite     => 'lax',       # none|lax|strict, optional, sets samesite attribute of cookie
+        HTTPOnly     => 1,           # 1|'', optional, the default is 1, sets httponly attribute of cookie to prevent access via JavaScript
     );
 
 The attribute 'samesite' is usually set from the SysConfig setting B<SessionSameSite>. In special cases it can
 be overridden by the parameter C<SameSite>. The fallback is 'lax'. This fallback is also used when samesite would be
 anything but 'none', 'lax', or 'strict'.
 
-May be called via the package name when C<RegisterInOM> is active.
+The attribute 'secure' is usually determined from the SysConfig setting B<HttpType>. In special cases it can
+be overridden by the parameter C<Secure>. The default is 0 which indicates that the secure flag is not set.
+
+This method may be called via the package name when C<RegisterInOM> is active.
+
+   Kernel::Output::HTML::Layout->SetCookie(
+       RegisterInOM => 1,
+       Key          => 'SessionIDCookie',
+       Name         => $Param{SessionName},
+       Value        => $NewSessionID,
+       Expires      => $Expires,
+       Path         => $ConfigObject->Get('ScriptAlias'),
+   );
 
 =cut
 
@@ -6573,6 +6577,8 @@ sub SetCookie {
         }
     }
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # Declare whethers browser should send the cookie to another domain.
     # Another protocol counts as another domain.
     # The value from the argument list has precedence
@@ -6582,7 +6588,7 @@ sub SetCookie {
     {
 
         # the configured value is the regular case
-        $SameSite //= $Kernel::OM->Get('Kernel::Config')->Get('SessionSameSite');
+        $SameSite //= $ConfigObject->Get('SessionSameSite');
 
         # fallback when neiter configured or passed from command line
         $SameSite //= 'lax';
@@ -6596,11 +6602,22 @@ sub SetCookie {
         }
     }
 
+    my $Secure = $Param{Secure};
+    {
+        # the configured value is the regular case
+        if ( !defined $Secure ) {
+            $Secure = $ConfigObject->Get('HttpType') eq 'https' ? 1 : 0;
+        }
+
+        # off per default
+        $Secure //= 0;
+    }
+
     my %Ingredients = (
         name     => $Param{Name} // $Param{Key},
         value    => $Param{Value},
         expires  => $Param{Expires},
-        secure   => $Param{Secure} || '',
+        secure   => $Secure,
         samesite => $SameSite,
         httponly => $Param{HTTPOnly} // 1,
         path     => '/' . ( $Param{Path} // '' ),

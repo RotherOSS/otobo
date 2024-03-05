@@ -276,13 +276,13 @@ sub ObjectLogStop {
 Adds a log entry for a certain log object.
 
     my $Success = $CommunicationLogObject->ObjectLog(
-        ObjectLogType => '...' # (required) To be defined by the related LogObject
-        ObjectLogID   => 123, # (required) The ObjectID of the started object type
+        ObjectLogType => 'Message', # (required) To be defined by the related LogObject
+        Priority      => 'Error',   # optional, the default is 'Info'
+        Key           => 'Kernel::System::MailQueue',
+        Value         => 'Need Message',
     );
 
-Returns:
-
-    1 in case of success, 0 in case of errors
+Returns 1 in case of success, 0 or undef in case of errors.
 
 =cut
 
