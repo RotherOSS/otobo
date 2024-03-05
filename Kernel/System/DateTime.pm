@@ -73,7 +73,7 @@ Kernel::System::DateTime - Handles date and time calculations.
 
 =head1 DESCRIPTION
 
-Handles date and time calculations.
+Methods for date and time handling based on the L<DateTime> module.
 
 =head1 PUBLIC INTERFACE
 
@@ -84,6 +84,21 @@ For convenience, this module also supports some comparison operators. This allow
     }
 
 The overloaded operators are: '>', '<', '>=', '<=', '==', and '!='.
+
+Some of the public methods ignore the invoker and can be imported as subroutines into
+the current namespace. The subroutines are:
+
+=over 4
+
+=item OTOBOTimeZoneGet()
+
+=item SystemTimeZoneGet()
+
+=item TimeZoneList()
+
+=item UserDefaultTimeZoneGet()
+
+=back
 
 =head2 new()
 
@@ -1543,9 +1558,15 @@ You can also call this method without an object:
 
     my $TimeZones = Kernel::System::DateTime->TimeZoneList();
 
+Importing this subroutine is also supported:
+
+    use Kernel::System::DateTime qw(TimeZoneList);
+
+    my $TimeZones = TimeZoneList();
+
 Returns:
 
-    my $TimeZoneList = [
+    my $TimeZones = [
         # ...
         'Europe/Amsterdam',
         'Europe/Andorra',
@@ -1668,7 +1689,7 @@ You can also call this subroutine without an object:
 
 Importing this subroutine is also supported:
 
-   use Kernel::System::DateTime qw(OTOBOTimeZone);
+    use Kernel::System::DateTime qw(OTOBOTimeZone);
 
     my $OTOBOTimeZone = OTOBOTimeZoneGet();
 
@@ -1687,11 +1708,17 @@ sub OTOBOTimeZoneGet {
 Returns the time zone set as default in SysConfig UserDefaultTimeZone for newly created users or existing users without
 time zone setting.
 
-    my $UserDefaultTimeZoneGet = $DateTimeObject->UserDefaultTimeZoneGet();
+    my $UserDefaultTimeZone = $DateTimeObject->UserDefaultTimeZoneGet();
 
 You can also call this method without an object:
 
-    my $UserDefaultTimeZoneGet = Kernel::System::DateTime->UserDefaultTimeZoneGet();
+    my $UserDefaultTimeZone = Kernel::System::DateTime->UserDefaultTimeZoneGet();
+
+Importing this subroutine is also supported:
+
+    use Kernel::System::DateTime qw(UserDefaultTimeZoneGet);
+
+    my $UserDefaultTimeZone = UserDefaultTimeZoneGet();
 
 Returns:
 
@@ -1713,14 +1740,20 @@ You can also call this method without an object:
 
     my $SystemTimeZone = Kernel::System::DateTime->SystemTimeZoneGet();
 
+Importing this subroutine is also supported:
+
+    use Kernel::System::DateTime qw(SystemTimeZoneGet);
+
+    my $SystemTimeZone = SystemTimeZoneGet();
+
 Returns:
 
-    my $SystemTimeZone = 'Europe/Berlin';
+    my $SystemTimeZone = 'Antarctica/Rothera';
 
 =cut
 
 sub SystemTimeZoneGet {
-    return DateTime::TimeZone->new( name => 'local' )->name();
+    return DateTime::TimeZone->new( name => 'local' )->name;
 }
 
 =head2 TimeStamp2SystemTime()
