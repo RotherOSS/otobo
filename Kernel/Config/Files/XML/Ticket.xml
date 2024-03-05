@@ -11462,7 +11462,6 @@
                     <Array>
                         <Item>Core.Agent.DynamicFieldReferenceSearch.js</Item>
                         <Item>Core.Customer.TicketZoom.js</Item>
-                        <Item>Core.Customer.TicketProcess.js</Item>
                         <Item>Core.UI.Popup.js</Item>
                         <Item>Core.UI.oooWidget.js</Item>
                     </Array>
