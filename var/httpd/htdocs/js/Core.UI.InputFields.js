@@ -2802,7 +2802,7 @@ Core.UI.InputFields = (function (TargetNS) {
             $Cell.children('label').hide();
         }
 
-        // for date(time) dynamic fields: append ValueRowIndex to validation classes
+        // for date(time) dynamic fields: append row index to validation classes
         var $DateTime = $Cell.children('.Field').children('.DynamicFieldDate');
         if ( $DateTime.length ) {
             var TimeStrings = ['Day', 'Month', 'Year', 'Hour', 'Minute'];
@@ -2812,7 +2812,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         var DateTimeFieldName = $DateTimeElement.attr('name').substr(0, $DateTimeElement.attr('name').lastIndexOf(TimeString));
                         TimeStrings.forEach(ClassTimeString => {
                             var ClassString = 'Validate_Date' + ClassTimeString + '_' + DateTimeFieldName + ClassTimeString;
-                            $DateTimeElement.hasClass(ClassString) && $DateTimeElement.removeClass(ClassString) && $DateTimeElement.addClass(ClassString + '_' + ValueRowIndex);
+                            $DateTimeElement.hasClass(ClassString) && $DateTimeElement.removeClass(ClassString) && $DateTimeElement.addClass(ClassString + '_' + CellGridPosition.Row);
                         });
                     }
             });
