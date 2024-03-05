@@ -37,6 +37,8 @@ Core.Customer.TicketProcess = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
+    };
+
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
