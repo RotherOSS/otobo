@@ -914,16 +914,17 @@ sub _ShowScreen {
                 PossibleNone => ( $Setting->{PossibleNone} // 0 ),
                 Disabled     => ( $Setting->{Disabled}     // 0 ),
                 SelectedID   => $Param{$Name} || '0',
-                Class        => 'Modernize W50pc' . ( $Setting->{Mandatory} ? ' Validate_Required' : '' ),
+                Class        => 'Modernize W50pc' . ( $Setting->{Mandatory} ? ' Validate_Required' : '' ) . ( $Param{ $Name . 'ServerError' } ? ' ServerError' : '' ),
                 Multiple     => ( $Setting->{Multiple} // 0 ),
             );
             $LayoutObject->Block(
                 Name => 'ConfigParamRow',
                 Data => {
-                    ConfigParamName => $Name,
-                    Label           => $Setting->{Label},
-                    FieldStrg       => $FieldStrg,
-                    Explanation     => $Setting->{Explanation},
+                    ConfigParamName    => $Name,
+                    Label              => $Setting->{Label},
+                    FieldStrg          => $FieldStrg,
+                    Explanation        => $Setting->{Explanation},
+                    ServerErrorMessage => $Param{ $Name . 'ServerErrorMessage' },
                 },
             );
         }
