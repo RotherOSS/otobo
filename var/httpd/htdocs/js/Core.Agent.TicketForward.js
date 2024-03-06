@@ -37,7 +37,7 @@ Core.Agent.TicketForward = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
+        var ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions');
 
         // add event listeners to remove or move customers
         $('.CustomerTicketRemove').on('click', function () {
