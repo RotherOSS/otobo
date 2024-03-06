@@ -83,23 +83,15 @@ sub new {
         );
         return;
     }
-    $Self->{SearchUserDN} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::SearchUserDN' . $Param{Count} )
-        || '';
-    $Self->{SearchUserPw} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::SearchUserPw' . $Param{Count} )
-        || '';
-    $Self->{GroupDN}    = $ConfigObject->Get( 'Customer::AuthModule::LDAP::GroupDN' . $Param{Count} ) || '';
-    $Self->{AccessAttr} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::AccessAttr' . $Param{Count} )
-        || '';
-    $Self->{UserAttr} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::UserAttr' . $Param{Count} )
-        || 'DN';
-    $Self->{UserSuffix} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::UserSuffix' . $Param{Count} )
-        || '';
-    $Self->{DestCharset} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::Charset' . $Param{Count} )
-        || 'utf-8';
+    $Self->{SearchUserDN} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::SearchUserDN' . $Param{Count} ) || '';
+    $Self->{SearchUserPw} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::SearchUserPw' . $Param{Count} ) || '';
+    $Self->{GroupDN}      = $ConfigObject->Get( 'Customer::AuthModule::LDAP::GroupDN' . $Param{Count} )      || '';
+    $Self->{AccessAttr}   = $ConfigObject->Get( 'Customer::AuthModule::LDAP::AccessAttr' . $Param{Count} )   || '';
+    $Self->{UserAttr}     = $ConfigObject->Get( 'Customer::AuthModule::LDAP::UserAttr' . $Param{Count} )     || 'DN';
+    $Self->{UserSuffix}   = $ConfigObject->Get( 'Customer::AuthModule::LDAP::UserSuffix' . $Param{Count} )   || '';
 
     # ldap filter always used
-    $Self->{AlwaysFilter} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::AlwaysFilter' . $Param{Count} )
-        || '';
+    $Self->{AlwaysFilter} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::AlwaysFilter' . $Param{Count} ) || '';
 
     # Net::LDAP new params
     if ( $ConfigObject->Get( 'Customer::AuthModule::LDAP::Params' . $Param{Count} ) ) {
@@ -372,16 +364,17 @@ sub _ConvertTo {
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    if ( !$Charset || !$Self->{DestCharset} ) {
+    if ( !$Charset ) {
         $EncodeObject->EncodeInput( \$Text );
+
         return $Text;
     }
 
-    # convert from input charset ($Charset) to directory charset ($Self->{DestCharset})
+    # convert from input charset ($Charset) to directory charset (utf-8)
     return $EncodeObject->Convert(
         Text => $Text,
         From => $Charset,
-        To   => $Self->{DestCharset},
+        To   => 'utf-8',
     );
 }
 

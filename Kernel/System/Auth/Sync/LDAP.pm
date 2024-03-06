@@ -90,7 +90,6 @@ sub new {
     $Self->{GroupDN}           = $ConfigObject->Get( 'AuthSyncModule::LDAP::GroupDN' . $Param{Count} )           || '';
     $Self->{AccessAttr}        = $ConfigObject->Get( 'AuthSyncModule::LDAP::AccessAttr' . $Param{Count} )        || 'memberUid';
     $Self->{UserAttr}          = $ConfigObject->Get( 'AuthSyncModule::LDAP::UserAttr' . $Param{Count} )          || 'DN';
-    $Self->{DestCharset}       = $ConfigObject->Get( 'AuthSyncModule::LDAP::Charset' . $Param{Count} )           || 'utf-8';
     $Self->{NestedGroupSearch} = $ConfigObject->Get( 'AuthSyncModule::LDAP::NestedGroupSearch' . $Param{Count} ) || '';
 
     # ldap filter always used
@@ -896,17 +895,17 @@ sub _ConvertTo {
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    if ( !$Charset || !$Self->{DestCharset} ) {
+    if ( !$Charset ) {
         $EncodeObject->EncodeInput( \$Text );
 
         return $Text;
     }
 
-    # convert from input charset ($Charset) to directory charset ($Self->{DestCharset})
+    # convert from input charset ($Charset) to directory charset (utf-8)
     return $EncodeObject->Convert(
         Text => $Text,
         From => $Charset,
-        To   => $Self->{DestCharset},
+        To   => 'utf-8',
     );
 }
 
@@ -918,16 +917,16 @@ sub _ConvertFrom {
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    if ( !$Charset || !$Self->{DestCharset} ) {
+    if ( !$Charset ) {
         $EncodeObject->EncodeInput( \$Text );
 
         return $Text;
     }
 
-    # convert from directory charset ($Self->{DestCharset}) to input charset ($Charset)
+    # convert from directory charset (utf-8) to input charset ($Charset)
     return $EncodeObject->Convert(
         Text => $Text,
-        From => $Self->{DestCharset},
+        From => 'utf-8',
         To   => $Charset,
     );
 }

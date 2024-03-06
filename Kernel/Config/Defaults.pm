@@ -471,10 +471,6 @@ sub LoadDefaults {
     # is not in use.
 #    $Self->{'AuthModule::LDAP::UserLowerCase'} = 0;
 
-    # In case you need to use OTOBO in iso-charset, you can define this
-    # by using this option (converts utf-8 data from LDAP to iso).
-#    $Self->{'AuthModule::LDAP::Charset'} = 'iso-8859-1';
-
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
 #    $Self->{'AuthModule::LDAP::Params'} = {
 #        port    => 389,
@@ -637,10 +633,6 @@ sub LoadDefaults {
 #        UserLastname  => 'sn',
 #        UserEmail     => 'mail',
 #    };
-
-    # In case you need to use OTOBO in iso-charset, you can define this
-    # by using this option (converts utf-8 data from LDAP to iso).
-#    $Self->{'AuthSyncModule::LDAP::Charset'} = 'iso-8859-1';
 
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
 #    $Self->{'AuthSyncModule::LDAP::Params'} = {

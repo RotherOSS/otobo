@@ -79,18 +79,13 @@ sub new {
         );
         return;
     }
-    $Self->{SearchUserDN} = $ConfigObject->Get( 'AuthModule::LDAP::SearchUserDN' . $Param{Count} ) || '';
-    $Self->{SearchUserPw} = $ConfigObject->Get( 'AuthModule::LDAP::SearchUserPw' . $Param{Count} ) || '';
-    $Self->{GroupDN}      = $ConfigObject->Get( 'AuthModule::LDAP::GroupDN' . $Param{Count} )
-        || '';
-    $Self->{AccessAttr} = $ConfigObject->Get( 'AuthModule::LDAP::AccessAttr' . $Param{Count} )
-        || 'memberUid';
-    $Self->{UserAttr} = $ConfigObject->Get( 'AuthModule::LDAP::UserAttr' . $Param{Count} )
-        || 'DN';
+    $Self->{SearchUserDN}  = $ConfigObject->Get( 'AuthModule::LDAP::SearchUserDN' . $Param{Count} )  || '';
+    $Self->{SearchUserPw}  = $ConfigObject->Get( 'AuthModule::LDAP::SearchUserPw' . $Param{Count} )  || '';
+    $Self->{GroupDN}       = $ConfigObject->Get( 'AuthModule::LDAP::GroupDN' . $Param{Count} )       || '';
+    $Self->{AccessAttr}    = $ConfigObject->Get( 'AuthModule::LDAP::AccessAttr' . $Param{Count} )    || 'memberUid';
+    $Self->{UserAttr}      = $ConfigObject->Get( 'AuthModule::LDAP::UserAttr' . $Param{Count} )      || 'DN';
     $Self->{UserSuffix}    = $ConfigObject->Get( 'AuthModule::LDAP::UserSuffix' . $Param{Count} )    || '';
     $Self->{UserLowerCase} = $ConfigObject->Get( 'AuthModule::LDAP::UserLowerCase' . $Param{Count} ) || 0;
-    $Self->{DestCharset}   = $ConfigObject->Get( 'AuthModule::LDAP::Charset' . $Param{Count} )
-        || 'utf-8';
 
     # ldap filter always used
     $Self->{AlwaysFilter} = $ConfigObject->Get( 'AuthModule::LDAP::AlwaysFilter' . $Param{Count} ) || '';
@@ -387,16 +382,17 @@ sub _ConvertTo {
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    if ( !$Charset || !$Self->{DestCharset} ) {
+    if ( !$Charset ) {
         $EncodeObject->EncodeInput( \$Text );
+
         return $Text;
     }
 
-    # convert from input charset ($Charset) to directory charset ($Self->{DestCharset})
+    # convert from input charset ($Charset) to directory charset (utf-8)
     return $EncodeObject->Convert(
         Text => $Text,
         From => $Charset,
-        To   => $Self->{DestCharset},
+        To   => 'utf-8',
     );
 }
 
@@ -408,15 +404,16 @@ sub _ConvertFrom {
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    if ( !$Charset || !$Self->{DestCharset} ) {
+    if ( !$Charset ) {
         $EncodeObject->EncodeInput( \$Text );
+
         return $Text;
     }
 
-    # convert from directory charset ($Self->{DestCharset}) to input charset ($Charset)
+    # convert from directory charset (utf-8) to input charset ($Charset)
     return $EncodeObject->Convert(
         Text => $Text,
-        From => $Self->{DestCharset},
+        From => 'utf-8',
         To   => $Charset,
     );
 }
