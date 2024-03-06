@@ -221,11 +221,11 @@ sub _Add {
         next SETTING if !$Setting->{InputType};
 
         my $Name = $Setting->{ConfigParamName};
-        if ( $Setting->{Multiple} ) {
+        if ( $Setting->{Multiple} && !defined $GetParam{$Name} ) {
             $GetParam{$Name}->@* = $ParamObject->GetArray( Param => $Name );
         }
         else {
-            $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
+            $GetParam{$Name} //= $ParamObject->GetParam( Param => $Name );
         }
 
         # validate input if necessary
