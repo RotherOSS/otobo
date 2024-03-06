@@ -187,11 +187,11 @@ $Selenium->RunTest(
             State => 'open',
         );
 
-        # check update form with JS for dynamic field
+        # check update form with JS for state id
         $Self->Is(
-            $Selenium->execute_script("return \$('#AJAXLoaderDynamicField_$DFName').length"),
+            $Selenium->execute_script("return \$('#AJAXLoaderComposeStateID').length"),
             0,
-            "AJAX Loader for '$DFName' does not exist",
+            "AJAX Loader for 'ComposeStateID' does not exist",
         );
         $Selenium->InputFieldValueSet(
             Element => '#ComposeStateID',
@@ -200,12 +200,12 @@ $Selenium->RunTest(
 
         # wait for appearance of ajax update field
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('#AJAXLoaderDynamicField_$DFName').length"
+            JavaScript => "return typeof(\$) === 'function' && \$('#AJAXLoaderComposeStateID').length"
         );
         $Self->Is(
-            $Selenium->execute_script("return \$('#AJAXLoaderDynamicField_$DFName').length"),
+            $Selenium->execute_script("return \$('#AJAXLoaderComposeStateID').length"),
             1,
-            "AJAX Loader for '$DFName' exists - JS function was run",
+            "AJAX Loader for 'ComposeStateID' exists - JS function was run",
         );
 
         # fill in customer
