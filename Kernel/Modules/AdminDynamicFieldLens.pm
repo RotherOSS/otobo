@@ -306,10 +306,10 @@ sub _AddAction {
             Name => $FieldConfig{$ConfigDF},
         );
 
-        # TODO: Show error message
-        if ( !$DynamicField ) {
-            $Errors{ $ConfigDF . 'ServerError' }            = 'ServerError';
-            $Errors{ $ConfigDF . 'NameServerErrorMessage' } = Translatable('Not a valid dynamic field.');
+        # show error message
+        if ( !IsHashRefWithData($DynamicField) ) {
+            $Errors{ $ConfigDF . 'ServerError' }        = 'ServerError';
+            $Errors{ $ConfigDF . 'ServerErrorMessage' } = Translatable('Not a valid dynamic field.');
         }
 
         # store the ID
@@ -615,10 +615,10 @@ sub _ChangeAction {
             Name => $FieldConfig{$ConfigDF},
         );
 
-        # TODO: Show error message
-        if ( !$DynamicField ) {
-            $Errors{ $ConfigDF . 'ServerError' }            = 'ServerError';
-            $Errors{ $ConfigDF . 'NameServerErrorMessage' } = Translatable('Not a valid dynamic field.');
+        # show error message
+        if ( !IsHashRefWithData($DynamicField) ) {
+            $Errors{ $ConfigDF . 'ServerError' }        = 'ServerError';
+            $Errors{ $ConfigDF . 'ServerErrorMessage' } = Translatable('Not a valid dynamic field.');
         }
 
         # store the ID
@@ -814,9 +814,11 @@ sub _ShowScreen {
             my $FieldStrg;
             if ( $Setting->{InputType} eq 'Text' ) {
 
+                my $ClassString = 'W50pc' . ( $Param{ $Name . 'ServerError' } ? ' ServerError' : '' );
+
                 # TODO: proper HTML builder
                 $FieldStrg = sprintf
-                    qq{<input id="%s" class="W50pc" type="text" maxlength="500" value="%s" name="%s"/>},
+                    qq{<input id="%s" class="$ClassString" type="text" maxlength="500" value="%s" name="%s"/>},
                     $Name,
                     $Param{$Name} // '',
                     $Name;
@@ -826,7 +828,7 @@ sub _ShowScreen {
                     Name       => $Name,
                     Data       => $Setting->{SelectionData},
                     SelectedID => $Param{$Name} || '0',
-                    Class      => 'Modernize W50pc',
+                    Class      => 'Modernize W50pc' . ( $Param{ $Name . 'ServerError' } ? ' ServerError' : '' ),
                 );
             }
 
@@ -834,10 +836,11 @@ sub _ShowScreen {
                 $LayoutObject->Block(
                     Name => 'ConfigParamRow',
                     Data => {
-                        ConfigParamName => $Name,
-                        Label           => $Setting->{Label},
-                        FieldStrg       => $FieldStrg,
-                        Explanation     => $Setting->{Explanation},
+                        ConfigParamName    => $Name,
+                        Label              => $Setting->{Label},
+                        FieldStrg          => $FieldStrg,
+                        Explanation        => $Setting->{Explanation},
+                        ServerErrorMessage => $Param{ $Name . 'ServerErrorMessage' },
                     },
                 );
             }

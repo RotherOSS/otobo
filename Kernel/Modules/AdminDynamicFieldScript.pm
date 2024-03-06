@@ -876,15 +876,16 @@ sub _ShowScreen {
                     Name       => $Name,
                     Data       => $Setting->{SelectionData},
                     SelectedID => $Param{$Name} || '0',
-                    Class      => 'Modernize W50pc',
+                    Class      => 'Modernize W50pc' . ( $Param{ $Name . 'ServerError' } ? ' ServerError' : '' ),
                 );
                 $LayoutObject->Block(
                     Name => 'ConfigParamRow',
                     Data => {
-                        ConfigParamName => $Name,
-                        Label           => $Setting->{Label},
-                        FieldStrg       => $FieldStrg,
-                        Explanation     => $Setting->{Explanation},
+                        ConfigParamName    => $Name,
+                        Label              => $Setting->{Label},
+                        FieldStrg          => $FieldStrg,
+                        Explanation        => $Setting->{Explanation},
+                        ServerErrorMessage => $Param{ $Name . 'ServerErrorMessage' },
                     },
                 );
             }

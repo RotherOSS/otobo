@@ -201,6 +201,8 @@
                         <label for="[% Data.ConfigParamName | html %]">[% Translate(Data.Label) | html %]</label>
                         <div class="Field">
                             [% Data.FieldStrg %]
+                            <div id="[% Data.ConfigParamName | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required, and the value should be alphabetic and numeric characters only.") | html %]</p></div>
+                            <div id="[% Data.ConfigParamName | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate(Data.ServerErrorMessage) | html %]</p></div>
                             <p class="FieldExplanation">[% Translate(Data.Explanation) | html %]</p>
                         </div>
                         <div class="Clear"></div>
