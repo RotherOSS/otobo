@@ -78,7 +78,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     TargetNS.InitEditor = function ($EditorArea) {
         var EditorID = '',
             UserLanguage,
-            EnabledPlugins = CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
+            EnabledPlugins = Core.Config.Get('RichText.Plugins'),
             CustomerInterface = (Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'));
 
         // The format for the language is different between OTOBO and CKEditor (see bug#8024)
@@ -108,31 +108,24 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         //Change to new CKEditor format <br*> tags to Paragraphs
         $($EditorArea).val($($EditorArea).val().replace(/<br[^>]*>/gi,'<p>&nbsp;</p>'));
 
-        //Arrange toolbar items (Plugins load are managed in Layout.pm)
-        var Integrations;
-        var ToolbarItems = [ 'bold', 'italic', 'underline', 'strikethrough', '|', 'bulletedList', 'numberedList', '|',
-                             'insertTable', '|', 'indent', 'outdent',  'alignment', '|',
-                             'link', 'undo', 'redo', 'selectAll', '-',
-                             'insertImage', 'horizontalLine', 'blockQuote', '|', 'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
-                             'sourceEditing', 'specialCharacters', '-',
-                             'heading', 'fontFamily', 'fontSize'];
+        var ToolbarConfig;
+        if ( CustomerInterface ) {
+            ToolbarConfig = $EditorArea.width() < 454 ? Core.Config.Get('RichText.ToolbarMini') :
+                            $EditorArea.width() < 622 ? Core.Config.Get('RichText.ToolbarMidi') :
+                            CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
+        }
+        else {
+            ToolbarConfig = CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
+        }
 
+        var Integrations;
+
+        //Enable picture upload when FormID is present
+        //If not, load only the url to image function
         if ( CheckFormID($EditorArea).length ) {
             Integrations = [ 'upload', 'url' ];
         } else {
             Integrations = [ 'url' ];
-        }
-
-        //Load enhanced mode toolbar buttons
-        if ( Core.Config.Get('RichText.EnhancedModeAgent') > 0 && !CustomerInterface ||
-                Core.Config.Get('RichText.EnhancedModeCustomer') > 0 && CustomerInterface ) {
-
-            var EnhancedModeItems = Core.Config.Get('RichText.EnhancedModeItems');
-            ToolbarItems.push('|');
-
-            $.each(EnhancedModeItems, function( index, value ) {
-                ToolbarItems.push(value);
-            });
         }
 
         ClassicEditor.create($($EditorArea).get(0), {
@@ -158,7 +151,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             },
             toolbar: {
                 shouldNotGroupWhenFull: true,
-                items: ToolbarItems
+                items: ToolbarConfig
             },
             plugins: EnabledPlugins,
             language: {
