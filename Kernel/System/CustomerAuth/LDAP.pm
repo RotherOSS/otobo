@@ -356,6 +356,7 @@ sub Auth {
     return $Param{User};
 }
 
+# TOOD: this could be simplified because $Charset is always utf-8
 sub _ConvertTo {
     my ( $Self, $Text, $Charset ) = @_;
 

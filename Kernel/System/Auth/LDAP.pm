@@ -374,6 +374,7 @@ sub Auth {
     return $User;
 }
 
+# TOOD: this could be simplified because $Charset is always utf-8
 sub _ConvertTo {
     my ( $Self, $Text, $Charset ) = @_;
 
@@ -396,6 +397,7 @@ sub _ConvertTo {
     );
 }
 
+# TODO: this method seems to be unused
 sub _ConvertFrom {
     my ( $Self, $Text, $Charset ) = @_;
 
