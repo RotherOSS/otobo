@@ -198,6 +198,11 @@ $Selenium->RunTest(
             Value   => $StateID,
         );
 
+        $Selenium->InputFieldValueSet(
+            Element => "#DynamicField_$DFName",
+            Value   => 'Key1',
+        );
+
         # wait for appearance of ajax update field
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('#AJAXLoaderDynamicField_$DFName').length"
