@@ -277,13 +277,16 @@ sub EditFieldValueGet {
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
-    # TODO please implement
+    # fetch attribute df config
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $Param{DynamicFieldConfig},
+    );
 
-    # create resulting structure
-    return {
-        ServerError  => undef,
-        ErrorMessage => undef,
-    };
+    # call attribute df config validation
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueValidate(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
 }
 
 sub DisplayValueRender {
