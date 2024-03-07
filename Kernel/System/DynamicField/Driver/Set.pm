@@ -425,6 +425,17 @@ sub EditFieldValueGet {
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
+    if (
+        ( !defined $Param{GetParam}{DynamicField} || !defined $Param{GetParam}{DynamicField}{"DynamicField_$Param{DynamicField}{Name}"} )
+        && !$Param{Mandatory}
+        )
+    {
+        return {
+            ServerError  => undef,
+            ErrorMessage => undef,
+        };
+    }
+
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
