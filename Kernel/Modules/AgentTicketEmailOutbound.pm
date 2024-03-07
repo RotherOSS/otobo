@@ -104,6 +104,12 @@ sub new {
         }
     }
 
+    # get form id
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+        ParamObject  => $Kernel::OM->Get('Kernel::System::Web::Request'),
+        LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+    );
+
     $Self->{Debug} = $Param{Debug} || 0;
 
     return $Self;
@@ -177,12 +183,6 @@ sub Run {
         {
             $GetParam{$Key} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Key );
         }
-
-        # get form id
-        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
-            ParamObject  => $Kernel::OM->Get('Kernel::System::Web::Request'),
-            LayoutObject => $LayoutObject,
-        );
 
         my %Ticket       = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
         my $CustomerUser = $Ticket{CustomerUserID};
@@ -298,7 +298,7 @@ sub Run {
 
             # remove all attachments from the Upload cache
             my $RemoveSuccess = $UploadCacheObject->FormIDRemove(
-                FormID => $GetParam{FormID},
+                FormID => $Self->{FormID},
             );
             if ( !$RemoveSuccess ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -329,7 +329,7 @@ sub Run {
                 for my $ID ( sort keys %AllStdAttachments ) {
                     my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $ID );
                     $UploadCacheObject->FormIDAddFile(
-                        FormID      => $GetParam{FormID},
+                        FormID      => $Self->{FormID},
                         Disposition => 'attachment',
                         %AttachmentsData,
                     );
@@ -338,7 +338,7 @@ sub Run {
                 # send a list of attachments in the upload cache back to the client side JavaScript
                 # which renders then the list of currently uploaded attachments
                 @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-                    FormID => $GetParam{FormID},
+                    FormID => $Self->{FormID},
                 );
 
                 for my $Attachment (@TicketAttachments) {
@@ -674,7 +674,7 @@ sub Form {
         for my $ID ( sort keys %AllStdAttachments ) {
             my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $ID );
             $UploadCacheObject->FormIDAddFile(
-                FormID => $GetParam{FormID},
+                FormID => $Self->{FormID},
                 %AttachmentsData,
             );
         }
@@ -682,7 +682,7 @@ sub Form {
 
     # get all attachments meta data
     my @Attachments = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDGetAllFilesMeta(
-        FormID => $GetParam{FormID},
+        FormID => $Self->{FormID},
     );
 
     # check some values
@@ -1101,7 +1101,7 @@ sub SendEmail {
 
     # get all attachments meta data
     my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-        FormID => $GetParam{FormID},
+        FormID => $Self->{FormID},
     );
 
     # remember dynamic field validation results if erroneous
@@ -1366,7 +1366,7 @@ sub SendEmail {
 
     # get pre loaded attachments
     my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
-        FormID => $GetParam{FormID},
+        FormID => $Self->{FormID},
     );
 
     # get submit attachment
@@ -2141,6 +2141,7 @@ sub _Mask {
         TemplateFile => 'AgentTicketEmailOutbound',
         Data         => {
             %Param,
+            FormID         => $Self->{FormID},
             FormDraft      => $Config->{FormDraft},
             FormDraftID    => $Self->{LoadedFormDraftID},
             FormDraftTitle => $LoadedFormDraft ? $LoadedFormDraft->{Title} : '',
@@ -2159,7 +2160,7 @@ sub _GetExtendedParams {
     my %GetParam;
     for my $Key (
         qw(To Cc Bcc Subject Body ComposeStateID IsVisibleForCustomer IsVisibleForCustomerPresent
-        ArticleID TimeUnits Year Month Day Hour Minute FormID FormDraftID Title)
+        ArticleID TimeUnits Year Month Day Hour Minute FormDraftID Title)
         )
     {
         my $Value = $ParamObject->GetParam( Param => $Key );
@@ -2169,11 +2170,6 @@ sub _GetExtendedParams {
     }
 
     $GetParam{EmailTemplateID} = $ParamObject->GetParam( Param => 'EmailTemplateID' ) || '';
-
-    # create form id
-    if ( !$GetParam{FormID} ) {
-        $GetParam{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
 
     # hash for check duplicated entries
     my %AddressesList;
