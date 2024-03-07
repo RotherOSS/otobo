@@ -16,18 +16,26 @@
 
 package Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
-use Kernel::System::VariableCheck qw(:all);
-
 use parent qw(Kernel::System::ProcessManagement::TransitionAction::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
+    'Kernel::System::Ticket',
 );
 
 =head1 NAME
@@ -157,7 +165,7 @@ sub Run {
 
     my $TicketID = delete $Param{Config}->{TicketID};
 
-    if ( $TicketID ) {
+    if ($TicketID) {
         if ( !$Kernel::OM->Get('Kernel::System::Ticket')->TicketGet( TicketID => $TicketID ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',

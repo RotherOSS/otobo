@@ -312,7 +312,7 @@ sub CleanUpExpired {
 
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => 'DELETE FROM form_cache WHERE create_time < ?',
-        Bind => [\$Yesterday],
+        Bind => [ \$Yesterday ],
     );
 
     return 1;
