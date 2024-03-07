@@ -196,6 +196,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             toolbar:                   ToolbarConfig,
             filebrowserBrowseUrl:      '',
             filebrowserUploadUrl:      UploadURL,
+            uploadUrl:                 UploadURL,
             clipboard_handleImages:    false,                             // avoid message about automatic deactivation
             extraPlugins:              'splitquote,contextmenu_linkopen', // OTOBO specific plugins
             entities:                  false,
