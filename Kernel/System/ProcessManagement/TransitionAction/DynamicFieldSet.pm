@@ -82,6 +82,11 @@ sub Params {
             Value    => '1 (can overwrite the logged in user)',
             Optional => 1,
         },
+        {
+            Key      => 'TicketID',
+            Value    => '12345 (set dynamic field value of other than the process ticket itself)',
+            Optional => 1,
+        },
     );
 
     return @Params;
@@ -150,6 +155,23 @@ sub Run {
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
+    my $TicketID = delete $Param{Config}->{TicketID};
+
+    if ( $TicketID ) {
+        if ( !$Kernel::OM->Get('Kernel::System::Ticket')->TicketGet( TicketID => $TicketID ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $CommonMessage
+                    . "'$TicketID' is not a valid TicketID.",
+            );
+
+            return;
+        }
+    }
+    else {
+        $TicketID = $Param{Ticket}->{TicketID};
+    }
+
     for my $CurrentDynamicField ( sort keys %{ $Param{Config} } ) {
 
         # get required DynamicField config
@@ -181,7 +203,7 @@ sub Run {
         # try to set the configured value
         my $Success = $DynamicFieldBackendObject->ValueSet(
             DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Param{Ticket}->{TicketID},
+            ObjectID           => $TicketID,
             Value              => $Param{Config}->{$CurrentDynamicField},
             UserID             => $Param{UserID},
         );
@@ -194,7 +216,7 @@ sub Run {
                     . "Can't set value '"
                     . $Param{Config}->{$CurrentDynamicField}
                     . "' for DynamicField '$CurrentDynamicField',"
-                    . "TicketID '" . $Param{Ticket}->{TicketID} . "'!",
+                    . "TicketID '" . $TicketID . "'!",
             );
             return;
         }

@@ -216,6 +216,11 @@ sub Params {
             Value    => '1 (can overwrite the logged in user)',
             Optional => 1,
         },
+        {
+            Key      => 'StoreTicketIDDynamicField',
+            Value    => 'ChildID (name of DynamicField holding the id of the created ticket in the original ticket)',
+            Optional => 1,
+        },
     );
 
     return @Params;
@@ -532,6 +537,42 @@ sub Run {
                     . " $ObjectID from Ticket: "
                     . $Param{Ticket}->{TicketID} . '!',
             );
+            return;
+        }
+    }
+
+    # store created ticket id
+    if ( $Param{Config}->{StoreTicketIDDynamicField} ) {
+        my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+            Name => $Param{Config}->{StoreTicketIDDynamicField},
+        );
+
+        if ( !$DynamicFieldConfig || !IsHashRefWithData($DynamicFieldConfig) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $CommonMessage
+                    . "Couldn't get DynamicField $Param{Config}->{StoreTicketIDDynamicField} for Ticket $Param{Ticket}->{TicketID}."
+            );
+
+            return;
+        }
+
+        # set the value
+        my $Success = $DynamicFieldBackendObject->ValueSet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{Ticket}->{TicketID},
+            Value              => $TicketID,
+            UserID             => $Param{UserID},
+        );
+
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $CommonMessage
+                    . "Couldn't set DynamicField Value on $DynamicFieldConfig->{ObjectType}:"
+                    . " for Ticket: $Param{Ticket}->{TicketID}!",
+            );
+
             return;
         }
     }

@@ -83,6 +83,16 @@ sub Params {
             Value    => '1 (can overwrite the logged in user)',
             Optional => 1,
         },
+        {
+            Key      => 'PendingTime',
+            Value    => '<OTOBO_TICKET_DynamicField_Name1> (set a pending time other than now)',
+            Optional => 1,
+        },
+        {
+            Key      => 'PendingTimeDiff',
+            Value    => '-30 (seconds)',
+            Optional => 1,
+        },
     );
 
     return @Params;
@@ -104,6 +114,7 @@ sub Params {
             # or
             StateID => 3,
 
+            PendingTime     => '<OTOBO_TICKET_DynamicField_Name1>', # optional, used for pending states
             PendingTimeDiff => 123,             # optional, used for pending states, difference in seconds from
                                                 #   current time to desired pending time (e.g. a value of 3600 means
                                                 #   that the pending time will be 1 hr after the Transition Action is
@@ -228,12 +239,30 @@ sub Run {
     if (
         IsHashRefWithData( \%StateData )
         && $StateData{TypeName} =~ m{\A pending}msxi
-        && IsNumber( $Param{Config}->{PendingTimeDiff} )
+        && ( IsNumber( $Param{Config}->{PendingTimeDiff} ) || $Param{Config}->{PendingTime} )
         )
     {
 
         # get datetime object
-        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        my $DateTimeObject;
+        if ( $Param{Config}->{PendingTime} ) {
+            $DateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Param{Config}->{PendingTime},
+                },
+            );
+
+            if ( !$DateTimeObject ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $CommonMessage
+                        . 'Could not use "' . $Param{Config}->{PendingTime} . '" as PendingTime.',
+                );
+            }
+        }
+
+        $DateTimeObject //= $Kernel::OM->Create('Kernel::System::DateTime');
         $DateTimeObject->Add( Seconds => $Param{Config}->{PendingTimeDiff} );
 
         # set pending time
