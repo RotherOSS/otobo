@@ -119,6 +119,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         var Integrations;
+        var removedPlugins = [];
+        var BlockPasteImg = false;
 
         //Enable picture upload when FormID is present
         //If not, load only the url to image function
@@ -126,6 +128,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Integrations = [ 'upload', 'url' ];
         } else {
             Integrations = [ 'url' ];
+            BlockPasteImg = true;
+            removedPlugins = [ 'SimpleUploadAdapter' ];
         }
 
         ClassicEditor.create($($EditorArea).get(0), {
@@ -154,6 +158,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 items: ToolbarConfig
             },
             plugins: EnabledPlugins,
+            removePlugins: removedPlugins,
             language: {
                 ui: UserLanguage,
                 content: UserLanguage
@@ -231,6 +236,20 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         writer.setStyle('max-width', '100%', editor.editing.view.document.getRoot());
                     });
                 }
+
+                //Block pasting images for ToolbarWithoutImage
+                editor.editing.view.document.on( 'clipboardInput', ( evt, data ) => {
+                    const dataTransfer = data.dataTransfer;
+
+                    if ( dataTransfer._files.length > 0 ) {
+                        const imageName = dataTransfer._files[0].name;
+
+                        if ( /\.(jpe?g|png|gif|bmp)$/i.test(imageName) && BlockPasteImg ) {
+                            evt.stop();
+                            return;
+                        }
+                    }
+                });
 
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);
 
