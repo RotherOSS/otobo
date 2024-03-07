@@ -1356,7 +1356,7 @@ sub _Mask {
             Data => \%StateList,
             Name => 'StateID',
             %State,
-            Class => 'Modernize',
+            Class => 'Modernize FormUpdate',
         );
         $LayoutObject->Block(
             Name => 'State',
@@ -1404,7 +1404,7 @@ sub _Mask {
             SelectedID   => $Param{TypeID},
             Sort         => 'AlphanumericValue',
             Translation  => 0,
-            Class        => 'Modernize',
+            Class        => 'Modernize FormUpdate',
         );
         $LayoutObject->Block(
             Name => 'Type',
@@ -1425,7 +1425,7 @@ sub _Mask {
             Translation  => 0,
             SelectedID   => $Param{OwnerID},
             PossibleNone => 1,
-            Class        => 'Modernize',
+            Class        => 'Modernize FormUpdate',
         );
         $LayoutObject->Block(
             Name => 'Owner',
@@ -1446,7 +1446,7 @@ sub _Mask {
             Name         => 'ResponsibleID',
             Translation  => 0,
             SelectedID   => $Param{ResponsibleID},
-            Class        => 'Modernize',
+            Class        => 'Modernize FormUpdate',
         );
         $LayoutObject->Block(
             Name => 'Responsible',
@@ -1467,7 +1467,7 @@ sub _Mask {
         Size           => 0,
         Name           => 'QueueID',
         OnChangeSubmit => 0,
-        Class          => 'Modernize',
+        Class          => 'Modernize FormUpdate',
     );
 
     # get priority
@@ -1493,7 +1493,7 @@ sub _Mask {
             Data => \%PriorityList,
             Name => 'PriorityID',
             %Priority,
-            Class => 'Modernize',
+            Class => 'Modernize FormUpdate',
 
         );
         $LayoutObject->Block(

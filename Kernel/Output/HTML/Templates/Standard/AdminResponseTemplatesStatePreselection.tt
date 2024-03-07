@@ -1,0 +1,139 @@
+# --
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Manage ticket state pre-selections for response templates") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Manage ticket state pre-selections for response templates'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% IF Data.Action == 'Change' %]
+        [% USE EditTitle = String(Translate("Edit Response")) %]
+        [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ), }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header"><h2>[% Translate("Actions") | html %]</h2></div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i> [% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+[% RenderBlockStart("Filter") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="Filter">[% Translate("Filter for Templates") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="Filter" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="Filter" value="" title="[% Translate("Filter for Templates") | html %]" />
+            </div>
+        </div>
+[% RenderBlockEnd("Filter") %]
+
+    </div>
+    <div class="ContentColumn">
+
+[% RenderBlockStart("OverviewResult") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable" id="Responses">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Template Name") | html %]</th>
+                            <th>[% Translate("Pre-selected ticket state") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="7">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <tr>
+                            <td colspan="7">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("OverviewResultRow") %]
+                        <tr>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a>
+                            </td>
+                            <td>[% Translate(Data.PreSelectedTicketState) | html %]</td>
+                        </tr>
+[% RenderBlockEnd("OverviewResultRow") %]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+[% RenderBlockEnd("OverviewResult") %]
+[% RenderBlockStart("OverviewUpdate") %]
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Edit Response") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Data.Action | uri %]Action"/>
+                    <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    <fieldset class="TableLike">
+                        <label for="PreSelectedTicketStateID">[% Translate("Pre-selected ticket state") | html %]:</label>
+                        <div class="Field">
+                            [% Data.States %]
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                    <fieldset class="TableLike">
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% Translate("or") | html %]
+                            <button class="Primary CallForAction" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=AdminResponseTemplatesStatePreselection">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+[% RenderBlockEnd("OverviewUpdate") %]
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

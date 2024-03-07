@@ -80,6 +80,10 @@ sub Run {
             Name   => 'Add form_cache table.',
             Module => 'DBAddFormCacheTable',
         },
+        {
+            Name   => 'Add preselected_state_id to standard_template.',
+            Module => 'DBUpdateStandardTemplate',
+        },
     );
 
     TASK:

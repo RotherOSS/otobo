@@ -110,9 +110,22 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
                 delay: AutoCompleteConfig.QueryDelay,
                 source: function(Request, Response) {
 
+                    // check for surrounding set and if so, send setindex as request param
+                    var SetIndexStrg = '';
+                    var SetOuterFieldList = $Element.parents('.DFSetOuterField');
+                    if ( SetOuterFieldList.length ) {
+                        var MultiValueClass = Array.from(SetOuterFieldList[0].parentElement.classList).find(c => c.startsWith('MultiValue'));
+                        if (MultiValueClass !== undefined && MultiValueClass != '') {
+                            var SetIndexRegExp = new RegExp(/^MultiValue_(\d+)$/);
+                            var MatchResults = SetIndexRegExp.exec(MultiValueClass);
+                            SetIndexStrg = ';SetIndex=' + MatchResults[1];
+                        }
+                    }
+
                     var URL = Core.Config.Get('Baselink'),
                         QueryString = "Action=AgentReferenceSearch;Term=" + Request.term
                             + ";Field=" + $Element.attr('id')
+                            + SetIndexStrg
                             + ";MaxResults=" + AutoCompleteConfig.MaxResultsDisplayed + ";";
 
                     QueryString += Core.AJAX.SerializeForm($Element.closest('form'), {'Action': 1, 'Subaction': 1, 'Term': 1, 'Field': 1, 'MaxResults': 1});

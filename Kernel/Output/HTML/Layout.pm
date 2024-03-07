@@ -741,7 +741,6 @@ sub Login {
             Name    => 'OTOBOBrowserHasCookie',
             Value   => 1,
             Expires => $Expires,
-            Path    => $ConfigObject->Get('ScriptAlias'),
         );
     }
 
@@ -4079,7 +4078,6 @@ sub CustomerLogin {
             Name    => 'OTOBOBrowserHasCookie',
             Value   => 1,
             Expires => $Expires,
-            Path    => $ConfigObject->Get('ScriptAlias'),
         );
     }
 
@@ -6537,7 +6535,7 @@ Declare a cookie that should be sent out via the Set-Cookie HTTP header.
         Name         => 'Name',      # optional, name of the cookie, the default is the value of 'Key'
         Value        => 123456,      # value
         Expires      => '+3660s',    # expires
-        Path         => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
+        Path         => '/otobo/',   # path optional, only allow cookie for given path
         Secure       => 1,           # 0|1, optional, set secure attribute to disable cookie on HTTP (HTTPS only)
         SameSite     => 'lax',       # none|lax|strict, optional, sets samesite attribute of cookie
         HTTPOnly     => 1,           # 1|'', optional, the default is 1, sets httponly attribute of cookie to prevent access via JavaScript
@@ -6550,6 +6548,10 @@ anything but 'none', 'lax', or 'strict'.
 The attribute 'secure' is usually determined from the SysConfig setting B<HttpType>. In special cases it can
 be overridden by the parameter C<Secure>. The default is 0 which indicates that the secure flag is not set.
 
+The attribute 'http' is usually determined from the SysConfig setting B<ScriptAlias>. In special cases it can
+be overridden by the parameter C<Path>. In any case a leading slash is prepended unless there already is
+a leading slash.
+
 This method may be called via the package name when C<RegisterInOM> is active.
 
    Kernel::Output::HTML::Layout->SetCookie(
@@ -6558,7 +6560,6 @@ This method may be called via the package name when C<RegisterInOM> is active.
        Name         => $Param{SessionName},
        Value        => $NewSessionID,
        Expires      => $Expires,
-       Path         => $ConfigObject->Get('ScriptAlias'),
    );
 
 =cut
@@ -6605,12 +6606,24 @@ sub SetCookie {
     my $Secure = $Param{Secure};
     {
         # the configured value is the regular case
-        if ( !defined $Secure ) {
-            $Secure = $ConfigObject->Get('HttpType') eq 'https' ? 1 : 0;
-        }
+        $Secure //= $ConfigObject->Get('HttpType') eq 'https' ? 1 : 0;
 
         # off per default
         $Secure //= 0;
+    }
+
+    my $Path = $Param{Path};
+    {
+        # the configured value is the regular case
+        $Path //= $ConfigObject->Get('ScriptAlias');
+
+        # fallback when neiter configured or passed from command line
+        $Path //= '';
+
+        # leading slash unless there already is a leading slash
+        if ( $Path !~ m!^/! ) {
+            $Path = '/' . $Path;
+        }
     }
 
     my %Ingredients = (
@@ -6620,7 +6633,7 @@ sub SetCookie {
         secure   => $Secure,
         samesite => $SameSite,
         httponly => $Param{HTTPOnly} // 1,
-        path     => '/' . ( $Param{Path} // '' ),
+        path     => $Path,
     );
 
     # Either store the ingredient in the instance or register it with the ObjectManager

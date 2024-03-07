@@ -291,7 +291,6 @@ sub PreAuth {
         Key     => 'OIDCCSRF',
         Name    => 'OIDCCSRF',
         Value   => $RandomString,
-        Path    => $ConfigObject->Get('ScriptAlias'),
         Expires => '+' . $TTL . 's',
     );
 
