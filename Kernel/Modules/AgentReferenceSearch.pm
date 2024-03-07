@@ -60,10 +60,17 @@ sub Run {
         !$Field
         ||
 
-        # possible constellations:
+        # possible prefix constellations:
         #   Autocomplete_DynamicField_Fieldname
         #   Autocomplete_Search_DynamicField_Fieldname
-        $Field !~ m{ \A (?: Autocomplete (?: _Search )? ) _DynamicField_ (.*?) (?:_[0-9a-f]+)? \z }xms
+        # possible suffix constellations:
+        #   [...]_FieldName
+        #   [...]_FieldName_0          (set or multivalue)
+        #   [...]_FieldName_0_0        (set and multivalue)
+        #   [...]_FieldName_0a1b2c     (process suffix)
+        #   [...]_FieldName_0a1b2c_0   (process suffix with set or multivalue)
+        #   [...]_FieldName_0a1b2c_0_0 (process suffix with set and multivalue)
+        $Field !~ m{ \A (?: Autocomplete (?: _Search )? ) _DynamicField_ (.*?) (?:_[0-9a-f]+){0,3} \z }xms
         )
     {
         return $LayoutObject->JSONReply(
@@ -102,12 +109,13 @@ sub Run {
     # search referenced object
     my $MaxResults = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
     my $Term       = $ParamObject->GetParam( Param => 'Term' ) || '';
+    my $SetIndex   = $ParamObject->GetParam( Param => 'SetIndex' );
 
     my @ObjectIDs = $DynamicFieldBackendObject->SearchObjects(
         DynamicFieldConfig => $DynamicFieldConfig,    # this might contain search restrictions
         Term               => $Term,
         MaxResults         => $MaxResults,
-        UserID             => 1,                      # TODO: what about Permission check
+        UserID             => 1,
         ParamObject        => $ParamObject,
     );
 
@@ -137,7 +145,7 @@ sub Run {
     $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
         LayoutObject => $LayoutObject,
         FormID       => $FormID,
-        Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
+        Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name} . ( defined $SetIndex ? "_$SetIndex" : '' ),
         Value        => \@FormDataObjectIDs,
     );
 
@@ -146,7 +154,7 @@ sub Run {
         my %Description = $DynamicFieldBackendObject->ObjectDescriptionGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $ObjectID,
-            UserID             => 1,                     # TODO: what about Permission check
+            UserID             => 1,
         );
 
         push @Results, {
