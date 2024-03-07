@@ -58,7 +58,9 @@ sub Run {
         Ayte-CustomTranslations
         ImportExport
         LightAdmin
+        MarkTicketSeenUnseen
         QuickDateButtons
+        ResponseTemplatesStatePreselection
         RotherOSS-LightAdmin
     );
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
