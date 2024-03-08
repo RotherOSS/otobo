@@ -5,7 +5,7 @@ use base 'PDF::API2::Basic::PDF::Dict';
 use strict;
 use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 use PDF::API2::Util qw(pdfkey);
 use PDF::API2::Basic::PDF::Utils; # PDFName
@@ -65,14 +65,6 @@ sub name {
         $self->{'Name'} = PDFName($_[0]);
     }
     return $self->{'Name'}->val();
-}
-
-sub outobjdeep {
-    my ($self, $fh, $pdf, %options) = @_;
-
-    delete $self->{' api'};
-    delete $self->{' apipdf'};
-    $self->SUPER::outobjdeep($fh, $pdf, %options);
 }
 
 =back

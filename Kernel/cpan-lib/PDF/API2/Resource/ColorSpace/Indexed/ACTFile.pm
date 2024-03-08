@@ -3,9 +3,9 @@ package PDF::API2::Resource::ColorSpace::Indexed::ACTFile;
 use base 'PDF::API2::Resource::ColorSpace::Indexed';
 
 use strict;
-no warnings qw[ deprecated recursion uninitialized ];
+use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 use PDF::API2::Basic::PDF::Utils;
 use PDF::API2::Util;
@@ -31,34 +31,30 @@ for details.
 =cut
 
 sub new {
-    my ($class,$pdf,$file)=@_;
-    die "could not find act-file '$file'." unless(-f $file);
-    $class = ref $class if ref $class;
-    my $self=$class->SUPER::new($pdf,pdfkey());
-    $pdf->new_obj($self) unless($self->is_obj($pdf));
-    $self->{' apipdf'}=$pdf;
+    my ($class, $pdf, $file) = @_;
+    die "could not find act-file '$file'." unless -f $file;
+    $class = ref($class) if ref($class);
+    my $self = $class->SUPER::new($pdf, pdfkey());
+    $pdf->new_obj($self) unless $self->is_obj($pdf);
+    $self->{' apipdf'} = $pdf;
     weaken $self->{' apipdf'};
-    my $csd=PDFDict();
+    my $csd = PDFDict();
     $pdf->new_obj($csd);
-    $csd->{Filter}=PDFArray(PDFName('FlateDecode'));
-
-    $csd->{WhitePoint}=PDFArray(map {PDFNum($_)} (0.95049, 1, 1.08897));
-    $csd->{BlackPoint}=PDFArray(map {PDFNum($_)} (0, 0, 0));
-    $csd->{Gamma}=PDFArray(map {PDFNum($_)} (2.22218, 2.22218, 2.22218));
+    $csd->{'Filter'} = PDFArray(PDFName('FlateDecode'));
 
     my $fh;
     open($fh, "<", $file) or die "$!: $file";
-    binmode($fh,':raw');
-    read($fh,$csd->{' stream'},768);
+    binmode($fh, ':raw');
+    read($fh, $csd->{' stream'}, 768);
     close($fh);
 
-    $csd->{' stream'}.="\x00" x 768;
-    $csd->{' stream'}=substr($csd->{' stream'},0,768);
+    $csd->{' stream'} .= "\x00" x 768;
+    $csd->{' stream'} = substr($csd->{' stream'}, 0, 768);
 
-    $self->add_elements(PDFName('DeviceRGB'),PDFNum(255),$csd);
-    $self->{' csd'}=$csd;
+    $self->add_elements(PDFName('DeviceRGB'), PDFNum(255), $csd);
+    $self->{' csd'} = $csd;
 
-    return($self);
+    return $self;
 }
 
 =back

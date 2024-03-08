@@ -1,15 +1,11 @@
-#=======================================================================
+# Code in the PDF::API2::Basic::PDF namespace was originally copied from the
+# Text::PDF distribution.
 #
-#   THIS IS A REUSED PERL MODULE, FOR PROPER LICENCING TERMS SEE BELOW:
+# Copyright Martin Hosken <Martin_Hosken@sil.org>
 #
-#   Copyright Martin Hosken <Martin_Hosken@sil.org>
-#
-#   No warranty or expression of effectiveness, least of all regarding
-#   anyone's safety, is implied in this software or documentation.
-#
-#   This specific module is licensed under the Perl Artistic License.
-#
-#=======================================================================
+# Martin Hosken's code may be used under the terms of the MIT license.
+# Subsequent versions of the code have the same license as PDF::API2.
+
 package PDF::API2::Basic::PDF::Dict;
 
 use base 'PDF::API2::Basic::PDF::Objind';
@@ -17,7 +13,7 @@ use base 'PDF::API2::Basic::PDF::Objind';
 use strict;
 no warnings qw[ deprecated recursion uninitialized ];
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 our $mincache = 16 * 1024 * 1024;
 
@@ -28,7 +24,7 @@ use PDF::API2::Basic::PDF::Name;
 
 =head1 NAME
 
-PDF::API2::Basic::PDF::Dict - PDF Dictionaries and Streams. Inherits from L<PDF::Objind>
+PDF::API2::Basic::PDF::Dict - Low-level dictionary and stream objects
 
 =head1 INSTANCE VARIABLES
 
@@ -58,7 +54,7 @@ source PDF the stream starts.
 =cut
 
 sub new {
-    my ($class) = @_;
+    my $class = shift();
     $class = ref($class) if ref($class);
 
     my $self = $class->SUPER::new(@_);
@@ -119,7 +115,7 @@ stream's dictionary.
 =cut
 
 sub outobjdeep {
-    my ($self, $fh, $pdf, %opts) = @_;
+    my ($self, $fh, $pdf) = @_;
 
     if (defined $self->{' stream'} or defined $self->{' streamfile'} or defined $self->{' streamloc'}) {
         if ($self->{'Filter'} and $self->{' nofilt'}) {
@@ -131,8 +127,6 @@ sub outobjdeep {
         }
         else {
             $self->{'Length'} = PDF::API2::Basic::PDF::Number->new(length($self->{' stream'}));
-            ## $self->{'Length'} = PDF::API2::Basic::PDF::Number->new(length($self->{' stream'}) + 1);
-            ## this old code seams to burp acro6, lets see what breaks next -- fredo
         }
     }
 
@@ -144,7 +138,7 @@ sub outobjdeep {
         next if $key =~ m/^[\s\-]/o;
         next unless $self->{$key};
         $fh->print('/' . PDF::API2::Basic::PDF::Name::string_to_name($key, $pdf) . ' ');
-        $self->{$key}->outobj($fh, $pdf, %opts);
+        $self->{$key}->outobj($fh, $pdf);
         $fh->print(' ');
     }
     $fh->print('>>');
@@ -253,7 +247,7 @@ sub read_stream {
     my @filters;
     if (defined $self->{'Filter'}) {
         my $i = 0;
-        foreach my $filter ($self->{'Filter'}->elementsof()) {
+        foreach my $filter ($self->{'Filter'}->elements()) {
             my $filter_class = "PDF::API2::Basic::PDF::Filter::" . $filter->val();
             unless ($self->{'DecodeParms'}) {
                 push(@filters, $filter_class->new());

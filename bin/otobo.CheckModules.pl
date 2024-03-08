@@ -1065,7 +1065,13 @@ my @NeededModules = (
             emerge => 'dev-perl/Const-Fast',
             zypper => 'perl-Const-Fast',
             ports  => 'devel/p5-Const-Fast',
-
+        },
+    },
+    {
+        Module    => 'Text::QRCode',
+        Comment   => 'Support for qr code in pdfs',
+        InstTypes => {
+            aptget => 'libtext-qrcode-perl',
         },
     },
 

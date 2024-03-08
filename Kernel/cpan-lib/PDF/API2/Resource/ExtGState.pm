@@ -5,7 +5,7 @@ use base 'PDF::API2::Resource';
 use strict;
 no warnings qw[ deprecated recursion uninitialized ];
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 use PDF::API2::Basic::PDF::Utils;
 use PDF::API2::Util;
@@ -346,15 +346,6 @@ sub opacity {
     $self->strokealpha($var);
     $self->fillalpha($var);
     return($self);
-}
-
-sub outobjdeep {
-    my ($self, @opts) = @_;
-    foreach my $k (qw/ api apipdf /) {
-        $self->{" $k"}=undef;
-        delete($self->{" $k"});
-    }
-    $self->SUPER::outobjdeep(@opts);
 }
 
 =back

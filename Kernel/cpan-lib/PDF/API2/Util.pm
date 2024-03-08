@@ -3,7 +3,7 @@ package PDF::API2::Util;
 use strict;
 no warnings qw[ recursion uninitialized ];
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 BEGIN {
     use Encode qw(:all);
@@ -573,7 +573,7 @@ sub unfilter {
         my ($hasflate) = -1;
         my ($temp, $i, $temp1);
 
-        @filts = map { ("PDF::API2::Basic::PDF::Filter::" . $_->val())->new() } $filter->elementsof();
+        @filts = map { ("PDF::API2::Basic::PDF::Filter::" . $_->val())->new() } $filter->elements();
 
         foreach my $f (@filts) {
             $stream = $f->infilt($stream, 1);
@@ -596,7 +596,7 @@ sub dofilter {
         my $hasflate = -1;
         my ($temp, $i, $temp1);
 
-        @filts = map { ("PDF::API2::Basic::PDF::Filter::" . $_->val())->new() } $filter->elementsof();
+        @filts = map { ("PDF::API2::Basic::PDF::Filter::" . $_->val())->new() } $filter->elements();
 
         foreach my $f (@filts) {
             $stream = $f->outfilt($stream, 1);
@@ -676,37 +676,3 @@ sub getPaperSizes {
 }
 
 1;
-
-__END__
-
-=head1 NAME
-
-PDF::API2::Util - utility package for often use methods across the package.
-
-=head1 PREDEFINED PAPERSIZES
-
-=over 4
-
-=item %sizes = getPaperSizes();
-
-Returns a hash containing the available paper size aliases as keys and
-their dimensions as a two-element array reference.
-
-=back
-
-=head1 PREDEFINED COLORS
-
-See the source of L<PDF::API2::Resource::Colors> for a complete list.
-
-B<Please Note:> This is an amalgamation of the X11, SGML and (X)HTML
-specification sets.
-
-=head1 PREDEFINED GLYPH-NAMES
-
-See the file C<uniglyph.txt> for a complete list.
-
-B<Please Note:> You may notice that apart from the 'AGL/WGL4', names
-from the XML, (X)HTML and SGML specification sets have been included
-to enable interoperability towards PDF.
-
-=cut

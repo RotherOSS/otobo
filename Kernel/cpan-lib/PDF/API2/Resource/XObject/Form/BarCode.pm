@@ -5,7 +5,7 @@ use base 'PDF::API2::Resource::XObject::Form::Hybrid';
 use strict;
 use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 use PDF::API2::Util;
 use PDF::API2::Basic::PDF::Utils;
@@ -104,12 +104,15 @@ sub drawbar {
                 $y0 = $self->{' quzn'} + $self->{' lmzn'};
                 $y1 = $self->{' quzn'} + $self->{' lmzn'} + $self->{' zone'} + $self->{' umzn'};
                 $y_label   = $self->{' quzn'};
+                if ($self->{' fnsz'} and $self->{' lmzn'} < $self->{' fnsz'}) {
+                    $y_label -= $self->{' fnsz'} * 0.8 - $self->{' lmzn'};
+                }
                 $font_size = $self->{' fnsz'} || $self->{' lmzn'};
             }
             elsif ($bar =~ /[a-z]/) {
                 $y0 = $self->{' quzn'};
                 $y1 = $self->{' quzn'} + $self->{' lmzn'} + $self->{' zone'} + $self->{' umzn'};
-                $y_label   = $self->{' quzn'} + $self->{' lmzn'} + $self->{' zone'} + $self->{' umzn'};
+                $y_label   = $self->{' quzn'} + $self->{' lmzn'} + $self->{' zone'} + $self->{' umzn'} + 2;
                 $font_size = $self->{' fnsz'} || $self->{' umzn'};
             }
             elsif ($bar =~ /[A-Z]/) {

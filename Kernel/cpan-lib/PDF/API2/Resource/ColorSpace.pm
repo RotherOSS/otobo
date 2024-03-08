@@ -3,9 +3,9 @@ package PDF::API2::Resource::ColorSpace;
 use base 'PDF::API2::Basic::PDF::Array';
 
 use strict;
-no warnings qw[ deprecated recursion uninitialized ];
+use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 use PDF::API2::Basic::PDF::Utils;
 use PDF::API2::Util;
@@ -26,16 +26,16 @@ Returns a new colorspace object. base class for all colorspaces.
 =cut
 
 sub new {
-    my ($class,$pdf,$key,%opts)=@_;
+    my ($class, $pdf, $key) = @_;
 
-    $class = ref $class if ref $class;
-    my $self=$class->SUPER::new();
-    $pdf->new_obj($self) unless($self->is_obj($pdf));
+    $class = ref($class) if ref($class);
+    my $self = $class->SUPER::new();
+    $pdf->new_obj($self) unless $self->is_obj($pdf);
     $self->name($key || pdfkey());
-    $self->{' apipdf'}=$pdf;
+    $self->{' apipdf'} = $pdf;
     weaken $self->{' apipdf'};
 
-    return($self);
+    return $self;
 }
 
 =item $name = $res->name $name
@@ -45,18 +45,19 @@ Returns or sets the Name of the resource.
 =cut
 
 sub name {
-    my $self=shift @_;
-    if(scalar @_ >0 && defined($_[0])) {
-        $self->{' name'}=$_[0];
+    my $self = shift();
+    if (@_ and defined $_[0]) {
+        $self->{' name'} = $_[0];
     }
-    return($self->{' name'});
+    return $self->{' name'};
 }
+
 sub type {
-    my $self=shift @_;
-    if(scalar @_ >0 && defined($_[0])) {
-        $self->{' type'}=$_[0];
+    my $self = shift();
+    if (@_ and defined $_[0]) {
+        $self->{' type'} = $_[0];
     }
-    return($self->{' type'});
+    return $self->{' type'};
 }
 
 =item @param = $cs->param @param
@@ -66,17 +67,8 @@ Returns properly formatted color-parameters based on the colorspace.
 =cut
 
 sub param {
-    my $self=shift @_;
-    return(@_);
-}
-
-sub outobjdeep {
-    my ($self, @opts) = @_;
-    foreach my $k (qw/ api apipdf /) {
-        $self->{" $k"}=undef;
-        delete($self->{" $k"});
-    }
-    $self->SUPER::outobjdeep(@opts);
+    my $self = shift();
+    return @_;
 }
 
 =back

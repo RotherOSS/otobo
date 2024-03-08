@@ -3,7 +3,7 @@ package PDF::API2::Resource::Font::CoreFont::helvetica;
 use strict;
 use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 sub data { return {
     'fontname' => 'Helvetica',

@@ -1,30 +1,27 @@
-#=======================================================================
+# Code in the PDF::API2::Basic::PDF namespace was originally copied from the
+# Text::PDF distribution.
 #
-#   THIS IS A REUSED PERL MODULE, FOR PROPER LICENCING TERMS SEE BELOW:
+# Copyright Martin Hosken <Martin_Hosken@sil.org>
 #
-#   Copyright Martin Hosken <Martin_Hosken@sil.org>
-#
-#   No warranty or expression of effectiveness, least of all regarding
-#   anyone's safety, is implied in this software or documentation.
-#
-#   This specific module is licensed under the Perl Artistic License.
-#
-#=======================================================================
+# Martin Hosken's code may be used under the terms of the MIT license.
+# Subsequent versions of the code have the same license as PDF::API2.
+
 package PDF::API2::Basic::PDF::Array;
 
 use base 'PDF::API2::Basic::PDF::Objind';
 
 use strict;
+use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 =head1 NAME
 
-PDF::API2::Basic::PDF::Array - Corresponds to a PDF array. Inherits from L<PDF::Objind>
+PDF::API2::Basic::PDF::Array - Low-level PDF array object
 
 =head1 METHODS
 
-=head2 PDF::Array->new($parent, @vals)
+=head2 PDF::Array->new($parent, @values)
 
 Creates an array with the given storage parent and an optional list of values to
 initialise the array with.
@@ -32,11 +29,12 @@ initialise the array with.
 =cut
 
 sub new {
-    my ($class, @vals) = @_;
+    my ($class, @values) = @_;
     my $self = {};
 
-    $self->{' val'} = [@vals];
+    $self->{' val'} = [@values];
     $self->{' realised'} = 1;
+
     bless $self, $class;
     return $self;
 }
@@ -48,7 +46,7 @@ Outputs an array as a PDF array to the given filehandle.
 =cut
 
 sub outobjdeep {
-    my ($self, $fh, $pdf, %opts) = @_;
+    my ($self, $fh, $pdf) = @_;
 
     $fh->print('[ ');
     foreach my $obj (@{$self->{' val'}}) {
@@ -58,37 +56,20 @@ sub outobjdeep {
     $fh->print(']');
 }
 
-=head2 $a->removeobj($elem)
+=head2 $a->elements()
 
-Removes all occurrences of an element from an array.
-
-=cut
-
-sub removeobj {
-    my ($self, $elem) = @_;
-
-    $self->{' val'} = [grep($_ ne $elem, @{$self->{' val'}})];
-}
-
-=head2 $a->elementsof
-
-Returns a list of all the elements in the array. Notice that this is
-not the array itself but the elements in the array.
-
-Also available as C<elements>.
+Returns the contents of the array.
 
 =cut
 
-sub elementsof {
-    return wantarray ? @{$_[0]->{' val'}} : scalar @{$_[0]->{' val'}};
-}
+sub elementsof { return elements(@_) }
 
 sub elements {
     my $self = shift();
     return @{$self->{' val'}};
 }
 
-=head2 $a->add_elements
+=head2 $a->add_elements(@elements)
 
 Appends the given elements to the array. An element is only added if it
 is defined.
@@ -98,16 +79,31 @@ is defined.
 sub add_elements {
     my $self = shift();
 
-    foreach my $e (@_) {
-        push @{$self->{' val'}}, $e if defined $e;
+    foreach my $element (@_) {
+        next unless defined $element;
+        push @{$self->{' val'}}, $element;
     }
+
     return $self;
 }
 
-=head2 $a->val
+=head2 $a->remove_element($element)
 
-Returns the value of the array, this is a reference to the actual array
-containing the elements.
+Removes all occurrences of an element from an array.
+
+=cut
+
+sub removeobj { return remove_element(@_) }
+
+sub remove_element {
+    my ($self, $element) = @_;
+
+    $self->{' val'} = [ grep { $_ ne $element } @{$self->{' val'}} ];
+}
+
+=head2 $a->val()
+
+Returns a reference to the contents of the array.
 
 =cut
 

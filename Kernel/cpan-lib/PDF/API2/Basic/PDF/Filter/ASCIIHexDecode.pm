@@ -5,7 +5,7 @@ use base 'PDF::API2::Basic::PDF::Filter';
 use strict;
 use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 # Maintainer's Note: ASCIIHexDecode is described in the PDF 1.7 spec
 # in section 7.4.2.
@@ -15,7 +15,10 @@ sub outfilt {
 
     # Each byte of the input string gets encoded as two hexadecimal
     # characters.
-    $string =~ s/(.)/sprintf('%02x', ord($1))/oge;
+    $string =~ s/(.)/sprintf('%02x', ord($1))/ges;
+
+    # Wrap after 72 characters
+    $string =~ s/(.{72})/$1\n/g;
 
     # The EOD (end-of-document) marker is a greater-than sign
     $string .= '>' if $include_eod;

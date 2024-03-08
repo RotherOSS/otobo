@@ -3,393 +3,365 @@ package PDF::API2::Annotation;
 use base 'PDF::API2::Basic::PDF::Dict';
 
 use strict;
-no warnings qw[ deprecated recursion uninitialized ];
+use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
-use Encode qw(:all);
-
+use Carp;
 use PDF::API2::Basic::PDF::Utils;
-use PDF::API2::Util;
 
 =head1 NAME
 
 PDF::API2::Annotation - Add annotations to a PDF
 
+=head1 SYNOPSIS
+
+    my $pdf = PDF::API2->new();
+    my $font = $pdf->font('Helvetica');
+    my $page1 = $pdf->page();
+    my $page2 = $pdf->page();
+
+    my $content = $page1->text();
+    my $message = 'Go to Page 2';
+    my $size = 18;
+    $content->distance(1 * 72, 9 * 72);
+    $content->font($font, $size);
+    $content->text($message);
+
+    my $annotation = $page1->annotation();
+    my $width = $content->text_width($message);
+    $annotation->rect(1 * 72, 9 * 72, 1 * 72 + $width, 9 * 72 + $size);
+    $annotation->link($page2);
+
+    $pdf->save('sample.pdf');
+
 =head1 METHODS
 
-=over
+=cut
 
-=item $ant = PDF::API2::Annotation->new
+sub new {
+    my $class = shift();
+    my $self = $class->SUPER::new();
+    $self->{'Type'}   = PDFName('Annot');
+    $self->{'Border'} = PDFArray(PDFNum(0), PDFNum(0), PDFNum(0));
+    return $self;
+}
 
-Returns an annotation object (called from $page->annotation).
+=head2 Annotation Types
+
+=head3 link
+
+    $annotation = $annotation->link($destination, $location, @args);
+
+Link the annotation to another page in this PDF.  C<$location> and C<@args> are
+optional and set which part of the page should be displayed, as defined in
+L<PDF::API2::NamedDestination/"destination">.
+
+C<$destination> can be either a L<PDF::API2::Page> object or the name of a named
+destination defined elsewhere.
 
 =cut
 
-sub new
-{
-    my ($class,%opts)=@_;
-    my $self=$class->SUPER::new;
-    $self->{Type}=PDFName('Annot');
-    $self->{Border}=PDFArray(PDFNum(0),PDFNum(0),PDFNum(0));
-    return($self);
-}
+sub link {
+    my $self = shift();
+    my $destination = shift();
 
-sub outobjdeep
-{
-    my ($self, @opts) = @_;
-    foreach my $k (qw[ api apipdf apipage ])
-    {
-        $self->{" $k"}=undef;
-        delete($self->{" $k"});
+    my $location;
+    my @args;
+
+    # Deprecated options
+    my %options;
+    if ($_[0] and $_[0] =~ /^-/) {
+        %options = @_;
     }
-    $self->SUPER::outobjdeep(@opts);
-}
-
-=item $ant->link $page, %opts
-
-Defines the annotation as launch-page with page $page and
-options %opts (-rect, -border or 'dest-options').
-
-=cut
-
-sub link
-{
-    my ($self,$page,%opts)=@_;
-    $self->{Subtype}=PDFName('Link');
-    if(ref $page)
-    {
-        $self->{A}=PDFDict();
-        $self->{A}->{S}=PDFName('GoTo');
+    else {
+        $location = shift();
+        @args = @_;
     }
-    $self->dest($page,%opts);
-    $self->rect(@{$opts{-rect}}) if(defined $opts{-rect});
-    $self->border(@{$opts{-border}}) if(defined $opts{-border});
-    return($self);
-}
 
-=item $ant->url $url, %opts
-
-Defines the annotation as launch-url with url $url and
-options %opts (-rect and/or -border).
-
-=cut
-
-sub url
-{
-    my ($self,$url,%opts)=@_;
-    $self->{Subtype}=PDFName('Link');
-    $self->{A}=PDFDict();
-    $self->{A}->{S}=PDFName('URI');
-    if(is_utf8($url))
-    {
-        # URI must be 7-bit ascii
-        utf8::downgrade($url);
+    $self->{'Subtype'} = PDFName('Link');
+    unless (ref($destination)) {
+        $self->{'Dest'} = PDFStr($destination);
+        return $self;
     }
-    $self->{A}->{URI}=PDFStr($url);
-    # this will come again -- since the utf8 urls are coming !
-    # -- fredo
-    #if(is_utf8($url) || utf8::valid($url)) {
-    #    $self->{A}->{URI}=PDFUtf($url);
-    #} else {
-    #    $self->{A}->{URI}=PDFStr($url);
-    #}
-    $self->rect(@{$opts{-rect}}) if(defined $opts{-rect});
-    $self->border(@{$opts{-border}}) if(defined $opts{-border});
-    return($self);
-}
 
-=item $ant->file $file, %opts
+    $self->{'A'} = PDFDict();
+    $self->{'A'}->{'S'} = PDFName('GoTo');
 
-Defines the annotation as launch-file with filepath $file and
-options %opts (-rect and/or -border).
-
-=cut
-
-sub file
-{
-    my ($self,$url,%opts)=@_;
-    $self->{Subtype}=PDFName('Link');
-    $self->{A}=PDFDict();
-    $self->{A}->{S}=PDFName('Launch');
-    if(is_utf8($url))
-    {
-        # URI must be 7-bit ascii
-        utf8::downgrade($url);
+    unless (%options) {
+        $self->{'A'}->{'D'} = _destination($destination, $location, @args);
     }
-    $self->{A}->{F}=PDFStr($url);
-    # this will come again -- since the utf8 urls are coming !
-    # -- fredo
-    #if(is_utf8($url) || utf8::valid($url)) {
-    #    $self->{A}->{F}=PDFUtf($url);
-    #} else {
-    #    $self->{A}->{F}=PDFStr($url);
-    #}
-    $self->rect(@{$opts{-rect}}) if(defined $opts{-rect});
-    $self->border(@{$opts{-border}}) if(defined $opts{-border});
-    return($self);
-}
-
-=item $ant->pdfile $pdfile, $pagenum, %opts
-
-Defines the annotation as pdf-file with filepath $pdfile, $pagenum
-and options %opts (same as dest).
-
-=cut
-
-sub pdfile
-{
-    my ($self,$url,$pnum,%opts)=@_;
-    $self->{Subtype}=PDFName('Link');
-    $self->{A}=PDFDict();
-    $self->{A}->{S}=PDFName('GoToR');
-    if(is_utf8($url))
-    {
-        # URI must be 7-bit ascii
-        utf8::downgrade($url);
+    else {
+        # Deprecated
+        $self->dest($destination, %options);
+        $self->rect(@{$options{'-rect'}})     if defined $options{'-rect'};
+        $self->border(@{$options{'-border'}}) if defined $options{'-border'};
     }
-    $self->{A}->{F}=PDFStr($url);
-    # this will come again -- since the utf8 urls are coming !
-    # -- fredo
-    #if(is_utf8($url) || utf8::valid($url)) {
-    #    $self->{A}->{F}=PDFUtf($url);
-    #} else {
-    #    $self->{A}->{F}=PDFStr($url);
-    #}
 
-    $self->dest(PDFNum($pnum),%opts);
-
-    $self->rect(@{$opts{-rect}}) if(defined $opts{-rect});
-    $self->border(@{$opts{-border}}) if(defined $opts{-border});
-
-    return($self);
+    return $self;
 }
 
-=item $ant->text $text, %opts
+sub _destination {
+    require PDF::API2::NamedDestination;
+    return PDF::API2::NamedDestination::_destination(@_);
+}
 
-Defines the annotation as textnote with content $text and
-options %opts (-rect and/or -open).
+=head3 url
+
+    $annotation = $annotation->uri($uri);
+
+Launch C<$uri> -- typically a web page -- when the annotation is selected.
 
 =cut
 
-sub text
-{
-    my ($self,$text,%opts)=@_;
-    $self->{Subtype}=PDFName('Text');
+# Deprecated (renamed)
+sub url { return uri(@_) }
+
+sub uri {
+    my ($self, $uri, %options) = @_;
+
+    $self->{'Subtype'}  = PDFName('Link');
+    $self->{'A'}        = PDFDict();
+    $self->{'A'}->{'S'} = PDFName('URI');
+    $self->{'A'}->{'URI'} = PDFStr($uri);
+
+    # Deprecated
+    $self->rect(@{$options{'-rect'}})     if defined $options{'-rect'};
+    $self->border(@{$options{'-border'}}) if defined $options{'-border'};
+
+    return $self;
+}
+
+=head3 file
+
+    $annotation = $annotation->launch($file);
+
+Open C<$file> when the annotation is selected.
+
+=cut
+
+sub file { return launch(@_) }
+
+sub launch {
+    my ($self, $file, %options) = @_;
+    $self->{'Subtype'}  = PDFName('Link');
+    $self->{'A'}        = PDFDict();
+    $self->{'A'}->{'S'} = PDFName('Launch');
+    $self->{'A'}->{'F'} = PDFStr($file);
+
+    # Deprecated
+    $self->rect(@{$options{'-rect'}})     if defined $options{'-rect'};
+    $self->border(@{$options{'-border'}}) if defined $options{'-border'};
+
+    return $self;
+}
+
+=head3 pdf
+
+    $annotation = $annotation->pdf($file, $page_number, $location, @args);
+
+Open the PDF file located at C<$file> to the specified page number.
+C<$location> and C<@args> are optional and set which part of the page should be
+displayed, as defined in L<PDF::API2::NamedDestination/"destination">.
+
+=cut
+
+# Deprecated
+sub pdfile   { return pdf_file(@_) }
+sub pdf_file { return pdf(@_) }
+
+sub pdf {
+    my $self = shift();
+    my $file = shift();
+    my $page_number = shift();
+    my $location;
+    my @args;
+
+    # Deprecated options
+    my %options;
+    if ($_[0] and $_[0] =~ /^-/) {
+        %options = @_;
+    }
+    else {
+        $location = shift();
+        @args = @_;
+    }
+
+    $self->{'Subtype'}  = PDFName('Link');
+    $self->{'A'}        = PDFDict();
+    $self->{'A'}->{'S'} = PDFName('GoToR');
+    $self->{'A'}->{'F'} = PDFStr($file);
+
+    unless (%options) {
+        my $destination = PDFNum($page_number);
+        $self->{'A'}->{'D'} = _destination($destination, $location, @args);
+    }
+    else {
+        # Deprecated
+        $self->dest(PDFNum($page_number), %options);
+        $self->rect(@{$options{'-rect'}})     if defined $options{'-rect'};
+        $self->border(@{$options{'-border'}}) if defined $options{'-border'};
+    }
+
+    return $self;
+}
+
+=head3 text
+
+    $annotation = $annotation->text($text);
+
+Define the annotation as a text note with the specified content.
+
+=cut
+
+sub text {
+    my ($self, $text, %options) = @_;
+    $self->{'Subtype'} = PDFName('Text');
     $self->content($text);
-    $self->rect(@{$opts{-rect}}) if(defined $opts{-rect});
-    $self->open($opts{-open}) if(defined $opts{-open});
-    return($self);
+
+    # Deprecated
+    $self->rect(@{$options{'-rect'}}) if defined $options{'-rect'};
+    $self->open($options{'-open'})    if defined $options{'-open'};
+
+    return $self;
 }
 
-=item $ant->movie $file, $contentype, %opts
+=head3 movie
 
-Defines the annotation as a movie from $file with $contentype and
-options %opts (-rect).
+    $annotation = $annotation->movie($filename, $content_type);
+
+Embed and link to the movie located at $filename with the specified MIME type.
 
 =cut
 
-sub movie
-{
-    my ($self,$file,$contentype,%opts)=@_;
-    $self->{Subtype}=PDFName('Movie');
-    $self->{A}=PDFBool(1);
-    $self->{Movie}=PDFDict();
-    $self->{Movie}->{F}=PDFDict();
-    $self->{' apipdf'}->new_obj($self->{Movie}->{F});
-    my $f=$self->{Movie}->{F};
-    $f->{Type}=PDFName('EmbeddedFile');
-    $f->{Subtype}=PDFName($contentype);
-    $f->{' streamfile'}=$file;
-    $self->rect(@{$opts{-rect}}) if(defined $opts{-rect});
-    return($self);
+sub movie {
+    my ($self, $file, $content_type, %options) = @_;
+    $self->{'Subtype'}      = PDFName('Movie');
+    $self->{'A'}            = PDFBool(1);
+    $self->{'Movie'}        = PDFDict();
+    $self->{'Movie'}->{'F'} = PDFDict();
+
+    $self->{' apipdf'}->new_obj($self->{'Movie'}->{'F'});
+    my $f = $self->{'Movie'}->{'F'};
+    $f->{'Type'}          = PDFName('EmbeddedFile');
+    $f->{'Subtype'}       = PDFName($content_type);
+    $f->{' streamfile'} = $file;
+
+    # Deprecated
+    $self->rect(@{$options{'-rect'}}) if defined $options{'-rect'};
+
+    return $self;
 }
 
-=item $ant->rect $llx, $lly, $urx, $ury
+=head2 Common Annotation Attributes
 
-Sets the rectangle of the annotation.
+=head3 rect
+
+    $annotation = $annotation->rect($llx, $lly, $urx, $ury);
+
+Define the rectangle around the annotation.
 
 =cut
 
-sub rect
-{
-    my ($self,@r)=@_;
-    die "insufficient parameters to annotation->rect( ) " unless(scalar @r == 4);
-    $self->{Rect}=PDFArray( map { PDFNum($_) } $r[0],$r[1],$r[2],$r[3], );
-    return($self);
-}
-
-=item $ant->border @b
-
-Sets the border-styles of the annotation, if applicable.
-
-=cut
-
-sub border
-{
-    my ($self,@r)=@_;
-    die "insufficient parameters to annotation->border( ) " unless(scalar @r == 3);
-    $self->{Border}=PDFArray( map { PDFNum($_) } $r[0],$r[1],$r[2] );
-    return($self);
-}
-
-=item $ant->content @lines
-
-Sets the text-content of the annotation, if applicable.
-
-=cut
-
-sub content
-{
-    my ($self,@t)=@_;
-    my $t=join("\n",@t);
-    if(is_utf8($t) || utf8::valid($t))
-    {
-        $self->{Contents}=PDFUtf($t);
+sub rect {
+    my ($self, @coordinates) = @_;
+    unless (scalar @coordinates == 4) {
+        die "Incorrect number of parameters (expected four) for rectangle";
     }
-    else
-    {
-        $self->{Contents}=PDFStr($t);
-    }
-    return($self);
+    $self->{'Rect'} = PDFArray(map { PDFNum($_) } @coordinates);
+    return $self;
 }
 
-sub name
-{
-    my ($self,$n)=@_;
-    $self->{Name}=PDFName($n);
-    return($self);
-}
+=head3 border
 
-=item $ant->open $bool
+    $annotation = $annotation->border($h_radius, $v_radius, $width);
 
-Display the annotation either open or closed, if applicable.
+Define the border style.  Defaults to 0, 0, 0 (no border).
 
 =cut
 
-sub open
-{
-    my ($self,$n)=@_;
-    $self->{Open}=PDFBool( $n ? 1 : 0 );
-    return($self);
+sub border {
+    my ($self, @attributes) = @_;
+    unless (scalar @attributes == 3) {
+        croak "Incorrect number of parameters (expected three) for border";
+    }
+    $self->{'Border'} = PDFArray(map { PDFNum($_) } @attributes);
+    return $self;
 }
 
-=item $ant->dest( $page, -fit => 1 )
+=head3 content
 
-Display the page designated by page, with its contents magnified just enough to
-fit the entire page within the window both horizontally and vertically. If the
-required horizontal and vertical magnification factors are different, use the
-smaller of the two, centering the page within the window in the other dimension.
+    $annotation = $annotation->content(@lines);
 
-=item $ant->dest( $page, -fith => $top )
-
-Display the page designated by page, with the vertical coordinate top positioned
-at the top edge of the window and the contents of the page magnified just enough
-to fit the entire width of the page within the window.
-
-=item $ant->dest( $page, -fitv => $left )
-
-Display the page designated by page, with the horizontal coordinate left positioned
-at the left edge of the window and the contents of the page magnified just enough
-to fit the entire height of the page within the window.
-
-=item $ant->dest( $page, -fitr => [ $left, $bottom, $right, $top ] )
-
-Display the page designated by page, with its contents magnified just enough to
-fit the rectangle specified by the coordinates left, bottom, right, and top
-entirely within the window both horizontally and vertically. If the required
-horizontal and vertical magnification factors are different, use the smaller of
-the two, centering the rectangle within the window in the other dimension.
-
-=item $ant->dest( $page, -fitb => 1 )
-
-(PDF 1.1) Display the page designated by page, with its contents magnified just
-enough to fit its bounding box entirely within the window both horizontally and
-vertically. If the required horizontal and vertical magnification factors are
-different, use the smaller of the two, centering the bounding box within the
-window in the other dimension.
-
-=item $ant->dest( $page, -fitbh => $top )
-
-(PDF 1.1) Display the page designated by page, with the vertical coordinate top
-positioned at the top edge of the window and the contents of the page magnified
-just enough to fit the entire width of its bounding box within the window.
-
-=item $ant->dest( $page, -fitbv => $left )
-
-(PDF 1.1) Display the page designated by page, with the horizontal coordinate
-left positioned at the left edge of the window and the contents of the page
-magnified just enough to fit the entire height of its bounding box within the
-window.
-
-=item $ant->dest( $page, -xyz => [ $left, $top, $zoom ] )
-
-Display the page designated by page, with the coordinates (left, top) positioned
-at the top-left corner of the window and the contents of the page magnified by
-the factor zoom. A zero (0) value for any of the parameters left, top, or zoom
-specifies that the current value of that parameter is to be retained unchanged.
-
-=item $ant->dest( $name )
-
-(PDF 1.2) Connect the Annotation to a "Named Destination" defined elsewhere.
+Define the text content of the annotation, if applicable.
 
 =cut
 
-sub dest
-{
-    my ($self,$page,%opts)=@_;
+sub content {
+    my ($self, @lines) = @_;
+    my $text = join("\n", @lines);
+    $self->{'Contents'} = PDFStr($text);
+    return $self;
+}
 
-    if(ref $page)
-    {
-        $opts{-xyz}=[undef,undef,undef] if(scalar(keys %opts)<1);
+sub name {
+    my ($self, $name) = @_;
+    $self->{'Name'} = PDFName($name);
+    return $self;
+}
 
-        $self->{A}||=PDFDict();
+=head3 open
 
-        if(defined $opts{-fit})
-        {
-            $self->{A}->{D}=PDFArray($page,PDFName('Fit'));
-        }
-        elsif(defined $opts{-fith})
-        {
-            $self->{A}->{D}=PDFArray($page,PDFName('FitH'),PDFNum($opts{-fith}));
-        }
-        elsif(defined $opts{-fitb})
-        {
-            $self->{A}->{D}=PDFArray($page,PDFName('FitB'));
-        }
-        elsif(defined $opts{-fitbh})
-        {
-            $self->{A}->{D}=PDFArray($page,PDFName('FitBH'),PDFNum($opts{-fitbh}));
-        }
-        elsif(defined $opts{-fitv})
-        {
-            $self->{A}->{D}=PDFArray($page,PDFName('FitV'),PDFNum($opts{-fitv}));
-        }
-        elsif(defined $opts{-fitbv})
-        {
-            $self->{A}->{D}=PDFArray($page,PDFName('FitBV'),PDFNum($opts{-fitbv}));
-        }
-        elsif(defined $opts{-fitr})
-        {
-            die "insufficient parameters to ->dest( page, -fitr => [] ) " unless(scalar @{$opts{-fitr}} == 4);
-            $self->{A}->{D}=PDFArray($page,PDFName('FitR'),map {PDFNum($_)} @{$opts{-fitr}});
-        }
-        elsif(defined $opts{-xyz})
-        {
-            die "insufficient parameters to ->dest( page, -xyz => [] ) " unless(scalar @{$opts{-xyz}} == 3);
-            $self->{A}->{D}=PDFArray($page,PDFName('XYZ'),map {defined $_ ? PDFNum($_) : PDFNull()} @{$opts{-xyz}});
-        }
-    }
-    else
-    {
-        $self->{Dest}=PDFStr($page);
+    $annotation = $annotation->open($boolean);
+
+Set the annotation to initially be either open or closed.  Only relevant for
+text annotations.
+
+=cut
+
+sub open {
+    my ($self, $value) = @_;
+    $self->{'Open'} = PDFBool($value ? 1 : 0);
+    return $self;
+}
+
+sub dest {
+    my ($self, $page, %options) = @_;
+
+    unless (ref($page)) {
+        $self->{'Dest'} = PDFStr($page);
+        return $self;
     }
 
-    return($self);
+    $self->{'A'} //= PDFDict();
+    $options{'-xyz'} = [undef, undef, undef] unless keys %options;
+
+    if (defined $options{'-fit'}) {
+        $self->{'A'}->{'D'} = _destination($page, 'fit');
+    }
+    elsif (defined $options{'-fith'}) {
+        $self->{'A'}->{'D'} = _destination($page, 'fith', $options{'-fith'});
+    }
+    elsif (defined $options{'-fitb'}) {
+        $self->{'A'}->{'D'} = _destination($page, 'fitb');
+    }
+    elsif (defined $options{'-fitbh'}) {
+        $self->{'A'}->{'D'} = _destination($page, 'fitbh', $options{'-fitbh'});
+    }
+    elsif (defined $options{'-fitv'}) {
+        $self->{'A'}->{'D'} = _destination($page, 'fitv', $options{'-fitv'});
+    }
+    elsif (defined $options{'-fitbv'}) {
+        $self->{'A'}->{'D'} = _destination($page, 'fitbv', $options{'-fitbv'});
+    }
+    elsif (defined $options{'-fitr'}) {
+        $self->{'A'}->{'D'} = _destination($page, 'fitr', @{$options{'-fitr'}});
+    }
+    elsif (defined $options{'-xyz'}) {
+        $self->{'A'}->{'D'} = _destination($page, 'xyz', @{$options{'-xyz'}});
+    }
+
+    return $self;
 }
-
-=back
-
-=cut
 
 1;
