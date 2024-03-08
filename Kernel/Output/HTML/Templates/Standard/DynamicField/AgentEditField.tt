@@ -17,9 +17,9 @@
 [% RenderBlockStart("Row_DynamicField") %]
                         <div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="grid-template-columns: [% Data.TemplateColumns | html %]">
 [% RenderBlockStart("DynamicField") %]
-                            <div class="FieldCell[% Data.CellClasses %]" style="[% Data.CellStyle | html %]">
+                            <div class="FieldCell[% Data.CellClasses | html %]" style="[% Data.CellStyle | html %]">
                                 [% Data.Label %]
-                                <div class="Field">
+                                <div class="[% Data.FieldClasses | html %]">
                                 [% Data.Field %]
                                 </div>
 [% IF Data.MultiValue && !Data.Readonly %]
@@ -34,7 +34,7 @@
 [% RenderBlockStart("TemplateDynamicField") %]
                             <div class="MultiValue_Template" style="[% Data.CellStyle | html %]">
                                 [% Data.Label %]
-                                <div class="Field">
+                                <div class="[% Data.FieldClasses | html %]">
                                 [% Data.Field %]
                                 </div>
                                 <div class="AddRemoveValueRow">
@@ -53,7 +53,7 @@
 #[% RenderBlockStart("DynamicField_Field1") %]
 #                    <div class="Row Row_DynamicField_[% Data.Name | html %]">
 #                        [% Data.Label %]
-#                        <div class="Field">
+#                        <div class="[% Data.FieldClasses | html %]">
 #                            [% Data.Field %]
 #                        </div>
 #                        <div class="Clear"></div>
@@ -62,7 +62,7 @@
 #[% RenderBlockStart("DynamicField_Field2") %]
 #                    <div class="Row Row_DynamicField_[% Data.Name | html %]">
 #                        [% Data.Label %]
-#                        <div class="Field">
+#                        <div class="[% Data.FieldClasses | html %]">
 #                            [% Data.Field %]
 #                        </div>
 #                        <div class="Clear"></div>
