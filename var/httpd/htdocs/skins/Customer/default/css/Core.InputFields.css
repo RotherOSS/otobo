@@ -367,8 +367,8 @@ label.oooFocus.LabelError {
 }
 
 /* Checkboxes & Date */
-.FieldCell > div.Field > div.oooDateContainer,
-.FieldCell > div.Field > div.oooCheckboxContainer,
+.FieldCell div.oooDateContainer,
+.FieldCell div.oooCheckboxContainer,
 .Row > div.Field > div.oooDateContainer,
 .Row > div.Field > div.oooCheckboxContainer {
     height: 38px;
