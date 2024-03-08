@@ -2462,7 +2462,7 @@ sub _Mask {
             Data     => { %MoveQueues, '' => '-' },
             Multiple => 0,
             Size     => 0,
-            Class    => 'NewQueueID Modernize '
+            Class    => 'NewQueueID Modernize FormUpdate '
                 . ( $Config->{QueueMandatory} ? 'Validate_Required ' : '' )
                 . ( $Param{NewQueueInvalid} || '' ),
             Name           => 'NewQueueID',
