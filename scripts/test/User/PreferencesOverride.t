@@ -59,6 +59,8 @@ for my $Key ( sort keys %UserData ) {
     next KEY if $Key =~ m/PageShown$/smx;
     next KEY if $Key =~ m/NextMask$/smx;
     next KEY if $Key =~ m/RefreshTime$/smx;
+    next KEY if $Key =~ m/MarkTicketSeenRedirectURL$/smx;
+    next KEY if $Key =~ m/MarkTicketUnseenRedirectURL$/smx;
 
     # These are actually user preferences.
     next KEY if $Key =~ m/UserEmail$/smx;
