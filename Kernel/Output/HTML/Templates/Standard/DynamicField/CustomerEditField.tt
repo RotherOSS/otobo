@@ -16,8 +16,8 @@
 [% RenderBlockStart("Row_DynamicField") %]
                 <div class="Row Row_DynamicField[% Data.RowClasses | html %]" style="grid-template-columns: [% Data.TemplateColumns | html %]">
 [% RenderBlockStart("DynamicField") %]
-                            <div class="FieldCell[% Data.CellClasses %]" style="[% Data.CellStyle | html %]">
-                        <div class="Field">
+                            <div class="FieldCell[% Data.CellClasses | html %]" style="[% Data.CellStyle | html %]">
+                        <div class="[% Data.FieldClasses | html %]">
                             [% Data.Field %]
                         </div>
                         [% IF Data.Tooltip %]
@@ -39,7 +39,7 @@
 [% RenderBlockEnd("DynamicField") %]
 [% RenderBlockStart("TemplateDynamicField") %]
                             <div class="MultiValue_Template" style="[% Data.CellStyle | html %]">
-                        <div class="Field">
+                        <div class="[% Data.FieldClasses | html %]">
                             [% Data.Field %]
                         </div>
                         [% IF Data.Tooltip %]
@@ -66,7 +66,7 @@
 # field names
 #[% RenderBlockStart("DynamicField_Field1") %]
 #                <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
-#                    <div class="Field">
+#                    <div class="[% Data.FieldClasses | html %]">
 #                        [% Data.Field %]
 #                    </div>
 #                    [% IF Data.Tooltip %]
@@ -83,7 +83,7 @@
 #[% RenderBlockEnd("DynamicField_Field1") %]
 #[% RenderBlockStart("DynamicField_Field2") %]
 #                <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
-#                    <div class="Field">
+#                    <div class="[% Data.FieldClasses | html %]">
 #                        [% Data.Field %]
 #                    </div>
 #                    [% IF Data.Tooltip %]
