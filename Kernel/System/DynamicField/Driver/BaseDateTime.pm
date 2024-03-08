@@ -66,7 +66,6 @@ sub ValueSet {
     my ( $Self, %Param ) = @_;
 
     my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
-        %Param,
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         Value    => [

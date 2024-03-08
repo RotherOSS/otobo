@@ -6155,19 +6155,12 @@ sub HistoryGet {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     return if !$DBObject->Prepare(
-        SQL => 'SELECT * FROM (
-                    SELECT sh.name AS name_sh, sh.article_id, sh.create_time, sh.create_by, ht.name, 
-                    sh.queue_id, sh.owner_id, sh.priority_id, sh.state_id, sh.history_type_id, sh.type_id, sh.id
-                    FROM ticket_history sh, ticket_history_type ht WHERE 
-                    sh.ticket_id = ? AND ht.id = sh.history_type_id
-                    UNION
-                    SELECT sh.name, av.source_article_id, sh.create_time, sh.create_by, ht.name, 
-                    sh.queue_id, sh.owner_id, sh.priority_id, sh.state_id, sh.history_type_id, sh.type_id, sh.history_id AS id 
-                    FROM ticket_history_version sh, ticket_history_type ht, article_version av WHERE 
-                    sh.ticket_id = ? AND ht.id = sh.history_type_id AND sh.article_id = av.id AND av.article_delete = 1
-                ) th
-                ORDER BY th.create_time, th.id',
-         Bind => [ \$Param{TicketID}, \$Param{TicketID} ],
+        SQL => 'SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ht.name, '
+            . ' sh.queue_id, sh.owner_id, sh.priority_id, sh.state_id, sh.history_type_id, sh.type_id '
+            . ' FROM ticket_history sh, ticket_history_type ht WHERE '
+            . ' sh.ticket_id = ? AND ht.id = sh.history_type_id'
+            . ' ORDER BY sh.create_time, sh.id',
+        Bind => [ \$Param{TicketID} ],
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {

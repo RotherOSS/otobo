@@ -56,6 +56,26 @@ See also L<Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS>
 
 =cut
 
+sub ArticleMoveFiles {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{ArticleID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need ArticleID!",
+        );
+
+        return;
+    }    
+
+    $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => 'DELETE FROM article_data_mime_attachment WHERE article_id = ?',
+        Bind => [ \$Param{ArticleID} ],
+    );  
+
+    return;
+}
+
 sub ArticleDelete {
     my ( $Self, %Param ) = @_;
 

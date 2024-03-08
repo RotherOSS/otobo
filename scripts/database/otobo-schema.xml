@@ -1371,29 +1371,6 @@
     </ForeignKey>                                       
 </Table>
 
-<!-- article delete flags -->
-<Table Name="article_delete_flag">
-    <Column Name="id" Required="true" AutoIncrement="true" PrimaryKey="true" Size="11" Type="BIGINT"></Column>
-    <Column Name="ticket_id" Required="true" Size="20" Type="BIGINT"></Column>
-    <Column Name="user_id" Required="true" Size="11" Type="INTEGER"></Column>
-    <Index Name="article_delete_flag_ticket_id">
-        <IndexColumn Name="ticket_id">
-        </IndexColumn>
-    </Index>
-    <Index Name="article_delete_flag_user_id">
-        <IndexColumn Name="user_id">
-        </IndexColumn>               
-    </Index>        
-    <ForeignKey ForeignTable="ticket">
-        <Reference Foreign="id" Local="ticket_id">
-        </Reference>
-    </ForeignKey>
-    <ForeignKey ForeignTable="users">
-        <Reference Foreign="id" Local="user_id">
-        </Reference>
-    </ForeignKey>                                       
-</Table>
-
 <!-- article version data for MIME based backends (Email, Phone etc.) -->
 <Table Name="article_data_mime_version">
     <Column Name="id" Required="true" AutoIncrement="true" PrimaryKey="true" Size="20" Type="BIGINT"></Column>
@@ -1485,6 +1462,25 @@
         <Reference Foreign="id" Local="create_by">
         </Reference>
     </ForeignKey>                
+</Table>
+
+<!-- article - history relation -->
+<Table Name="article_version_history">
+    <Column Name="id" Required="true" AutoIncrement="true" PrimaryKey="true" Size="20" Type="BIGINT"></Column>
+    <Column Name="history_id" Required="true" Size="20" Type="BIGINT"></Column>
+    <Column Name="article_id" Required="true" Size="20" Type="BIGINT"></Column>
+    <Index Name="article_version_history_article_id">
+        <IndexColumn Name="article_id">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_version_history_history_id">
+        <IndexColumn Name="history_id">
+        </IndexColumn>
+    </Index>
+    <ForeignKey ForeignTable="ticket_history">
+        <Reference Foreign="id" Local="history_id">
+        </Reference>
+    </ForeignKey>
 </Table>
 
 <!-- time_accounting - accounted time for tickets -->

@@ -297,15 +297,18 @@ sub ArticlePreview {
         if ($HTMLBodyAttachmentID) {
 
             my %Data;
-            
+            $Param{ArticleStorage} ||= '';
+
             # Preview doesn't include inline images...
             if ( $Article{ArticleDeleted} && $Param{ArticleStorage} ne 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {
-                %Data = $ArticleBackendObject->ArticleAttachment(
-                    ArticleID       => $Param{DeletedVersionID} ,
-                    FileID          => $HTMLBodyAttachmentID,
-                    VersionView     => 1,
-                    SourceArticleID => $Param{ArticleID}
-                );
+                if ( $Param{DeletedVersionID} ) {
+                    %Data = $ArticleBackendObject->ArticleAttachment(
+                        ArticleID       => $Param{DeletedVersionID},
+                        FileID          => $HTMLBodyAttachmentID,
+                        VersionView     => 1,
+                        SourceArticleID => $Param{ArticleID}
+                    );
+                }
             }
             else {
                 %Data = $ArticleBackendObject->ArticleAttachment(
@@ -319,6 +322,8 @@ sub ArticlePreview {
             # Get the charset directly from the attachment hash and convert content to the internal charset (utf-8).
             #   Please see bug#13367 for more information.
             my $Charset;
+            $Data{ContentType} ||= '';
+
             if ( $Data{ContentType} =~ m/.+?charset=("|'|)(?<Charset>.+)/ig ) {
                 $Charset = $+{Charset};
                 $Charset =~ s/"|'//g;
@@ -369,6 +374,7 @@ sub HTMLBodyAttachmentIDGet {
     }
 
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param);
+    $Param{ArticleStorage} ||= '';
 
     if ( $Param{DeletedVersionID} && $Param{ArticleStorage} ne 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {
         $Param{VersionView}     = 1;

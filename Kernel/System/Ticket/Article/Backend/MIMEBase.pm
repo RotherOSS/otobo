@@ -431,55 +431,11 @@ sub ArticleEdit {
     # Read original article Content Path
     my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir') . '/' . $ArticleContentPath . '/' . $Param{ArticleID} ;
 
-    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-
-    if ( $Self->{ArticleStorageModule} ne 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB' ) {
-        #Search files for moving
-        my @ArticleFiles = $MainObject->DirectoryRead(
-            Directory => $Location,
-            Filter    => "*",
-            Silent    => 1,
-        );
-
-        #Clean path from file list
-        my @TempFiles; 
-        foreach my $File ( @ArticleFiles ) {
-            $File =~ s{^.*/}{};
-            push @TempFiles, $File;
-        }
-
-        @ArticleFiles = @TempFiles;
-
-        if ( @ArticleFiles ) {
-            mkdir("$Location/$NewArticleVersion");
-
-            MOVE_FILES:
-            foreach my $File ( @ArticleFiles ) {
-                #Skip directories
-                next MOVE_FILES if ( -d "$Location/$File" );
-
-                $File = $EncodeObject->Convert2CharsetInternal(
-                    Text  => $File,
-                    From  => 'utf-8',
-                    Check => 1,
-                );    
-
-                move("$Location/$File", "$Location/$NewArticleVersion/$File");
-
-                $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
-                    Location  => "$Location/$File",
-                    Type      => 'Attachment',
-                    NoReplace => 1,
-                    DisableWarnings => 1
-                );             
-            }
-        }
-    } else {
-        $DBObject->Do(
-            SQL => 'DELETE FROM article_data_mime_attachment WHERE article_id = ?',
-            Bind => [ \$ArticleID ],
-        );        
-    }
+    $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleMoveFiles(
+        ArticleID         => $ArticleID,
+        NewArticleVersion => $NewArticleVersion,
+        Location          => $Location
+    );    
 
     # add converted attachments
     for my $Attachment (@AttachmentConvert) {
@@ -1234,25 +1190,19 @@ sub ArticleGet {
         }
     }   
 
-    my $ArticleShowStatus = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ShowDeletedArticles(
-        TicketID  => $Param{TicketID}, 
-        UserID    => $Param{UserID} || 1,
-        GetStatus => 1
-    ) || 0;
+    # Get meta article.
+    my %Article = $Self->_MetaArticleGet(
+        ArticleID           => $Param{ArticleID},
+        TicketID            => $Param{TicketID},
+        ShowDeletedArticles => 1,
+        VersionView         => $Param{VersionView}
+    );
+    return if !%Article;
 
     my $ArticleEdited = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->IsArticleEdited(
         TicketID  => $Param{TicketID}, 
         ArticleID => $Param{ArticleID}
     );
-
-    # Get meta article.
-    my %Article = $Self->_MetaArticleGet(
-        ArticleID           => $Param{ArticleID},
-        TicketID            => $Param{TicketID},
-        ShowDeletedArticles => $ArticleShowStatus || 1,
-        VersionView         => $Param{VersionView}
-    );
-    return if !%Article;
 
     my %ArticleSenderTypeList = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSenderTypeList();
 
@@ -1275,7 +1225,7 @@ sub ArticleGet {
     ';
     my @Bind = ( \$Param{ArticleID} );
 
-    if ( $ArticleShowStatus && $Article{ArticleDeleted} ) {
+    if ( $Article{ArticleDeleted} ) {
         $SQL = '
             SELECT sadm.a_from, sadm.a_reply_to, sadm.a_to, sadm.a_cc, sadm.a_bcc, sadm.a_subject,
                 sadm.a_message_id, sadm.a_in_reply_to, sadm.a_references, sadm.a_content_type,
@@ -1323,7 +1273,7 @@ sub ArticleGet {
             IsDeleted    => $Article{ArticleDeleted} || 0
         );
 
-        if ( $ArticleShowStatus && $Article{ArticleDeleted} ) {
+        if ( $Article{ArticleDeleted} ) {
             $Data{DeletedVersionID} = $Row[12];
         }
 

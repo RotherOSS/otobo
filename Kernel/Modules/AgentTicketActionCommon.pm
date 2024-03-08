@@ -2067,15 +2067,13 @@ sub Run {
         # AgentTicketActionCommon generate a new article, then article fields will be always default value or
         # empty at the beginning).
         DYNAMICFIELD:
+
         for my $DynamicFieldConfig ( @{$DynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
 
                 # Value is stored in the database from Ticket.
                 $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-            }
-            elsif ( $DynamicFieldConfig->{ObjectType} eq 'Article' ) {
-                $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldConfig->{Config}->{DefaultValue} || '';
             }
         }
 
