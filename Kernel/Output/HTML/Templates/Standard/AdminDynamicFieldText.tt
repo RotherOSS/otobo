@@ -217,18 +217,24 @@
 
 
                         <label for="DefaultValue">[% Translate("Default value") | html %]:</label>
-                        <div class="Field">
 [% RenderBlockStart("DefaultValueText") %]
+                        <div class="Field">
                             <input id="DefaultValue" class="W50pc" type="text" maxlength="200" value="[% Data.DefaultValue | html %]" name="DefaultValue"/>
-[% RenderBlockEnd("DefaultValueText") %]
-[% RenderBlockStart("DefaultValueTextArea") %]
-                            <textarea id="DefaultValue" class="W50pc" rows="10" cols="60" name="DefaultValue">[% Data.DefaultValue | html %]</textarea>
-[% RenderBlockEnd("DefaultValueTextArea") %]
-[% RenderBlockStart("DefaultValueRichText") %]
-                            <textarea id="DefaultValue" class="RichText W50pc" name="DefaultValue">[% Data.DefaultValue | html %]</textarea>
-[% RenderBlockEnd("DefaultValueRichText") %]
                             <p class="FieldExplanation">[% Translate("This is the default value for this field.") | html %]</p>
                         </div>
+[% RenderBlockEnd("DefaultValueText") %]
+[% RenderBlockStart("DefaultValueTextArea") %]
+                        <div class="Field">
+                            <textarea id="DefaultValue" class="W50pc" rows="10" cols="60" name="DefaultValue">[% Data.DefaultValue | html %]</textarea>
+                            <p class="FieldExplanation">[% Translate("This is the default value for this field.") | html %]</p>
+                        </div>
+[% RenderBlockEnd("DefaultValueTextArea") %]
+[% RenderBlockStart("DefaultValueRichText") %]
+                        <div class="RichTextField">
+                            <textarea id="DefaultValue" class="RichText W50pc" name="DefaultValue">[% Data.DefaultValue | html %]</textarea>
+                            <p class="FieldExplanation">[% Translate("This is the default value for this field.") | html %]</p>
+                        </div>
+[% RenderBlockEnd("DefaultValueRichText") %]
                         <div class="Clear"></div>
 [% RenderBlockStart("Link") %]
                         <label for="Link">[% Translate("Show link") | html %]:</label>

@@ -174,6 +174,7 @@ sub EditSectionRender {
 
             my $DynamicField = $Param{DynamicFields}{ $Field->{DF} };
             my $DFName       = "DynamicField_$Field->{DF}";
+            my $FieldClasses = 'Field' . ( $DynamicField->{FieldType} eq 'RichText' ? ' RichTextField' : '' );
 
             # don't set a default value for hidden fields
             my %InvisibleNoDefault;
@@ -256,10 +257,11 @@ sub EditSectionRender {
                         Name => $ColBlockName,
                         Data => {
                             %CellBlockData,
-                            Label       => $DynamicFieldHTML->{Label},                           # TODO: fix the numbering of 'id' and 'for'
-                            Field       => $DynamicFieldHTML->{MultiValue}[$ValueRowIndex],
-                            Index       => $ValueRowIndex,
-                            CellClasses => $CellClassString . ' MultiValue_' . $ValueRowIndex,
+                            Label        => $DynamicFieldHTML->{Label},                           # TODO: fix the numbering of 'id' and 'for'
+                            Field        => $DynamicFieldHTML->{MultiValue}[$ValueRowIndex],
+                            FieldClasses => $FieldClasses,
+                            Index        => $ValueRowIndex,
+                            CellClasses  => $CellClassString . ' MultiValue_' . $ValueRowIndex,
                         },
                     };
                 }
@@ -268,8 +270,9 @@ sub EditSectionRender {
                     Name => 'Template' . $ColBlockName,
                     Data => {
                         %CellBlockData,
-                        Label => $DynamicFieldHTML->{Label},                # TODO: fix the numbering of 'id' and 'for'
-                        Field => $DynamicFieldHTML->{MultiValueTemplate},
+                        Label        => $DynamicFieldHTML->{Label},                # TODO: fix the numbering of 'id' and 'for'
+                        Field        => $DynamicFieldHTML->{MultiValueTemplate},
+                        FieldClasses => $FieldClasses,
                     }
                 };
             }
@@ -280,9 +283,10 @@ sub EditSectionRender {
                     Name => $ColBlockName,
                     Data => {
                         %CellBlockData,
-                        Field => $DynamicFieldHTML->{Field},
-                        Label => $DynamicFieldHTML->{Label},
-                        Index => 0,
+                        Field        => $DynamicFieldHTML->{Field},
+                        FieldClasses => $FieldClasses,
+                        Label        => $DynamicFieldHTML->{Label},
+                        Index        => 0,
                     },
                 };
             }

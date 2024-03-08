@@ -621,9 +621,9 @@ div.TooltipErrorMessage {
  * @description Provides a table-like, aligned label-value structure
  */
 
-fieldset.TableLike > label,
-fieldset.TableLike > .Row > label,
-fieldset.TableLike > .Row > .FieldCell label {
+fieldset.TableLike > label:not(.ck-label),
+fieldset.TableLike > .Row > label:not(.ck-label),
+fieldset.TableLike > .Row > .FieldCell label:not(.ck-label) {
     display: block;
     float: left;
     line-height: 1.9em;
