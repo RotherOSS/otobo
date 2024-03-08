@@ -482,10 +482,11 @@ sub _Edit {
     my $TemplateTypeList = $Kernel::OM->Get('Kernel::Config')->Get('StandardTemplate::Types');
 
     $Param{TemplateTypeString} = $LayoutObject->BuildSelection(
-        Data       => $TemplateTypeList,
-        Name       => 'TemplateType',
-        SelectedID => $Param{TemplateType},
-        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TemplateTypeInvalid'} || '' ),
+        Data        => $TemplateTypeList,
+        Name        => 'TemplateType',
+        SelectedID  => $Param{TemplateType},
+        Class       => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TemplateTypeInvalid'} || '' ),
+        Translation => 1,
     );
 
     my $StdAttachmentObject = $Kernel::OM->Get('Kernel::System::StdAttachment');

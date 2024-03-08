@@ -1356,7 +1356,8 @@ sub _Mask {
             Data => \%StateList,
             Name => 'StateID',
             %State,
-            Class => 'Modernize FormUpdate',
+            Class       => 'Modernize FormUpdate',
+            Translation => 1,
         );
         $LayoutObject->Block(
             Name => 'State',
@@ -1403,7 +1404,7 @@ sub _Mask {
             Name         => 'TypeID',
             SelectedID   => $Param{TypeID},
             Sort         => 'AlphanumericValue',
-            Translation  => 0,
+            Translation  => 1,
             Class        => 'Modernize FormUpdate',
         );
         $LayoutObject->Block(

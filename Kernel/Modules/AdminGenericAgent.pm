@@ -992,7 +992,7 @@ sub _MaskUpdate {
             Sort        => 'AlphanumericValue',
             Size        => 3,
             Multiple    => 1,
-            Translation => 0,
+            Translation => 1,
             Class       => 'Modernize',
         );
         $LayoutObject->Block(
@@ -1006,7 +1006,7 @@ sub _MaskUpdate {
             Sort        => 'AlphanumericValue',
             Size        => 3,
             Multiple    => 0,
-            Translation => 0,
+            Translation => 1,
             Class       => 'Modernize',
         );
         $LayoutObject->Block(
@@ -1032,7 +1032,7 @@ sub _MaskUpdate {
             Size        => 5,
             Multiple    => 1,
             TreeView    => $TreeView,
-            Translation => 0,
+            Translation => 1,
             Max         => 200,
             Class       => 'Modernize',
         );
@@ -1043,7 +1043,7 @@ sub _MaskUpdate {
             Size        => 5,
             Multiple    => 0,
             TreeView    => $TreeView,
-            Translation => 0,
+            Translation => 1,
             Max         => 200,
             Class       => 'Modernize',
         );
@@ -1057,7 +1057,7 @@ sub _MaskUpdate {
             Sort        => 'AlphanumericValue',
             Size        => 5,
             Multiple    => 1,
-            Translation => 0,
+            Translation => 1,
             Max         => 200,
             Class       => 'Modernize',
         );
@@ -1068,7 +1068,7 @@ sub _MaskUpdate {
             Sort        => 'AlphanumericValue',
             Size        => 5,
             Multiple    => 0,
-            Translation => 0,
+            Translation => 1,
             Max         => 200,
             Class       => 'Modernize',
         );

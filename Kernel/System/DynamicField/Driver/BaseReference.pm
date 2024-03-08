@@ -273,7 +273,7 @@ sub EditFieldRender {
                     SelectedID   => $Value->[$ValueIndex],
                     Class        => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
                     HTMLQuote    => 1,
-                    Translation  => $DFDetails->{Translation},
+                    Translation  => $DFDetails->{TranslatableValues},
                     PossibleNone => 0,
                 );
             }
@@ -289,7 +289,7 @@ sub EditFieldRender {
                 Class        => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
                 HTMLQuote    => 1,
                 Multiple     => $DFDetails->{Multiselect},
-                Translation  => $DFDetails->{Translation},
+                Translation  => $DFDetails->{TranslatableValues},
                 PossibleNone => 0,
             );
         }

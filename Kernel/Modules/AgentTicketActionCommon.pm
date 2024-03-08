@@ -2373,7 +2373,7 @@ sub _Mask {
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
-            Translation  => 0,
+            Translation  => 1,
         );
         $LayoutObject->Block(
             Name => 'Type',
@@ -2405,7 +2405,7 @@ sub _Mask {
             PossibleNone => 1,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
-            Translation  => 0,
+            Translation  => 1,
             Max          => 200,
         );
 
@@ -2432,7 +2432,7 @@ sub _Mask {
                 . ( $Param{ServiceInvalid} || '' ),
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
-            Translation  => 0,
+            Translation  => 1,
             Max          => 200,
         );
 

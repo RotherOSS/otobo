@@ -280,26 +280,28 @@ sub EditFieldRender {
         for my $ValueIndex ( 0 .. $#{$Value} ) {
             my $FieldID = $FieldName . '_' . $ValueIndex;
             push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
-                Data       => $PossibleValues || {},
-                Disabled   => $Param{Readonly},
-                Name       => $FieldName,
-                ID         => $FieldID,
-                SelectedID => $Value->[$ValueIndex],
-                Class      => $FieldClass,
-                HTMLQuote  => 1,
+                Data        => $PossibleValues || {},
+                Disabled    => $Param{Readonly},
+                Name        => $FieldName,
+                ID          => $FieldID,
+                SelectedID  => $Value->[$ValueIndex],
+                Class       => $FieldClass,
+                HTMLQuote   => 1,
+                Translation => $FieldConfig->{TranslatableValues},
             );
         }
     }
     else {
         my @SelectedIDs = grep {$_} $Value->@*;
         push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
-            Data       => $PossibleValues || {},
-            Disabled   => $Param{Readonly},
-            Name       => $FieldName,
-            SelectedID => \@SelectedIDs,
-            Class      => $FieldClass,
-            HTMLQuote  => 1,
-            Multiple   => $FieldConfig->{Multiselect},
+            Data        => $PossibleValues || {},
+            Disabled    => $Param{Readonly},
+            Name        => $FieldName,
+            SelectedID  => \@SelectedIDs,
+            Class       => $FieldClass,
+            HTMLQuote   => 1,
+            Multiple    => $FieldConfig->{Multiselect},
+            Translation => $FieldConfig->{TranslatableValues},
         );
     }
 
@@ -349,6 +351,7 @@ sub EditFieldRender {
             Translation => $FieldConfig->{TranslatableValues} || 0,
             Class       => $FieldClass,
             HTMLQuote   => 1,
+            Translation => $FieldConfig->{TranslatableValues},
         );
 
         $TemplateHTML = $Param{LayoutObject}->Output(

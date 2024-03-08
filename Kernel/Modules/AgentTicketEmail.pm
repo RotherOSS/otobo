@@ -3262,11 +3262,12 @@ sub _MaskEmailNew {
     }
     else {
         $Param{FromStrg} = $LayoutObject->BuildSelection(
-            Data       => \%NewTo,
-            Class      => 'Validate_Required Modernize FormUpdate ' . ( $Param{Errors}->{DestinationInvalid} || ' ' ),
-            Name       => 'Dest',
-            TreeView   => $TreeView,
-            SelectedID => $Param{FromSelected},
+            Data        => \%NewTo,
+            Class       => 'Validate_Required Modernize FormUpdate ' . ( $Param{Errors}->{DestinationInvalid} || ' ' ),
+            Name        => 'Dest',
+            Translation => 1,
+            TreeView    => $TreeView,
+            SelectedID  => $Param{FromSelected},
         );
     }
 
@@ -3467,7 +3468,7 @@ sub _MaskEmailNew {
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
-            Translation  => 0,
+            Translation  => 1,
         );
         $LayoutObject->Block(
             Name => 'TicketType',
@@ -3488,7 +3489,7 @@ sub _MaskEmailNew {
             PossibleNone => 1,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
-            Translation  => 0,
+            Translation  => 1,
             Max          => 200,
         );
         $LayoutObject->Block(
@@ -3508,7 +3509,7 @@ sub _MaskEmailNew {
                 . ( $Param{Errors}->{SLAInvalid} || '' ),
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
-            Translation  => 0,
+            Translation  => 1,
             Max          => 200,
         );
         $LayoutObject->Block(

@@ -1982,7 +1982,8 @@ sub _Mask {
         PossibleNone => 1,
         %State,
         %Param,
-        Class => 'Modernize FormUpdate',
+        Class       => 'Modernize FormUpdate',
+        Translation => 1,
     );
 
     my $IsVisibleForCustomer = $Config->{IsVisibleForCustomerDefault};

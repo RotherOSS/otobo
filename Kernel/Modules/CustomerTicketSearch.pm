@@ -1732,13 +1732,14 @@ sub MaskForm {
     }
 
     $Param{ServicesStrg} = $LayoutObject->BuildSelection(
-        Data       => \%ServiceList,
-        Name       => 'ServiceIDs',
-        Multiple   => 1,
-        Size       => 5,
-        SelectedID => $Param{ServiceIDs},
-        TreeView   => $TreeView,
-        Class      => 'Modernize',
+        Data        => \%ServiceList,
+        Name        => 'ServiceIDs',
+        Multiple    => 1,
+        Size        => 5,
+        SelectedID  => $Param{ServiceIDs},
+        TreeView    => $TreeView,
+        Class       => 'Modernize',
+        Translation => 1,
     );
     $Param{TypesStrg} = $LayoutObject->BuildSelection(
         Data => {
@@ -1746,12 +1747,13 @@ sub MaskForm {
                 UserID => $Self->{UserID},
             ),
         },
-        Name       => 'TypeIDs',
-        SelectedID => $Param{TypeIDs},
-        Multiple   => 1,
-        Size       => 5,
-        SelectedID => $Param{TypeIDs},
-        Class      => 'Modernize',
+        Name        => 'TypeIDs',
+        SelectedID  => $Param{TypeIDs},
+        Multiple    => 1,
+        Size        => 5,
+        SelectedID  => $Param{TypeIDs},
+        Class       => 'Modernize',
+        Translation => 1,
     );
     $Param{StatesStrg} = $LayoutObject->BuildSelection(
         Data => {

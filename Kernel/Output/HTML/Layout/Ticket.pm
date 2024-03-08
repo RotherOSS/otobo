@@ -483,7 +483,7 @@ sub AgentQueueListOption {
             HTMLQuote     => 0,
             SelectedID    => $Param{SelectedID} || $Param{SelectedIDRefArray} || '',
             SelectedValue => $Param{Selected},
-            Translation   => 0,
+            Translation   => 1,
         );
         return $Param{MoveQueuesStrg};
     }

@@ -3729,7 +3729,7 @@ sub _RenderSLA {
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
-        Translation   => 0,
+        Translation   => 1,
         Class         => "Modernize FormUpdate $ServerError",
         Max           => 200,
     );
@@ -3901,7 +3901,7 @@ sub _RenderService {
         PossibleNone  => 1,
         TreeView      => $TreeView,
         Sort          => 'TreeView',
-        Translation   => 0,
+        Translation   => 1,
         Max           => 200,
     );
 
@@ -4308,7 +4308,7 @@ sub _RenderQueue {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Queues,
         Name          => 'QueueID',
-        Translation   => 0,
+        Translation   => 1,
         SelectedValue => $SelectedValue,
         Class         => "Modernize FormUpdate $ServerError",
         TreeView      => $TreeView,
@@ -4586,7 +4586,7 @@ sub _RenderType {
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
-        Translation   => 0,
+        Translation   => 1,
         Max           => 200,
     );
 
@@ -5788,7 +5788,7 @@ sub _DisplayProcessList {
         SelectedID   => $Param{ProcessEntityID},
         PossibleNone => 1,
         Sort         => 'AlphanumericValue',
-        Translation  => 0,
+        Translation  => 1,
         AutoComplete => 'off',
     );
 

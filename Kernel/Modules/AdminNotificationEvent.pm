@@ -1117,6 +1117,7 @@ sub _Edit {
             SelectedID     => \@VisibleSelected,
             DisabledBranch => \@DisabledQueues,
             Class          => 'Modernize W75pc Validate_Required',
+            Translation    => 1,
         );
     }
 
@@ -1175,7 +1176,7 @@ sub _Edit {
             Sort        => 'AlphanumericValue',
             Size        => 3,
             Multiple    => 1,
-            Translation => 0,
+            Translation => 1,
             Class       => 'Modernize W75pc',
         );
         $LayoutObject->Block(
@@ -1199,7 +1200,7 @@ sub _Edit {
             SelectedID  => $Param{Data}->{ServiceID},
             Size        => 5,
             Multiple    => 1,
-            Translation => 0,
+            Translation => 1,
             Max         => 200,
             TreeView    => $TreeView,
             Class       => 'Modernize W75pc',
@@ -1214,7 +1215,7 @@ sub _Edit {
             Sort        => 'AlphanumericValue',
             Size        => 5,
             Multiple    => 1,
-            Translation => 0,
+            Translation => 1,
             Max         => 200,
             Class       => 'Modernize W75pc',
         );

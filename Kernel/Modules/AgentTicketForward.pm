@@ -1687,6 +1687,7 @@ sub _Mask {
         Data         => $Param{NextStates},
         Name         => 'ComposeStateID',
         PossibleNone => 1,
+        Translation  => 1,
         Class        => 'Modernize FormUpdate',
         %State,
     );

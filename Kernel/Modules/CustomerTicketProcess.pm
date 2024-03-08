@@ -2218,7 +2218,7 @@ sub _RenderSLA {
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
-        Translation   => 0,
+        Translation   => 1,
         Class         => "Modernize FormUpdate $ServerError",
         Max           => 200,
     );
@@ -2375,7 +2375,7 @@ sub _RenderService {
         PossibleNone  => 1,
         TreeView      => $TreeView,
         Sort          => 'TreeView',
-        Translation   => 0,
+        Translation   => 1,
         Max           => 200,
     );
 
@@ -2931,7 +2931,7 @@ sub _RenderType {
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
-        Translation   => 0,
+        Translation   => 1,
         Max           => 200,
     );
 

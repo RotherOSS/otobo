@@ -2974,7 +2974,7 @@ sub _MaskPhoneNew {
             Name        => 'Dest',
             TreeView    => $TreeView,
             SelectedID  => $Param{ToSelected},
-            Translation => 0,
+            Translation => 1,
         );
     }
 
@@ -3070,7 +3070,7 @@ sub _MaskPhoneNew {
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
-            Translation  => 0,
+            Translation  => 1,
         );
         $LayoutObject->Block(
             Name => 'TicketType',
@@ -3091,7 +3091,7 @@ sub _MaskPhoneNew {
             PossibleNone => 1,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
-            Translation  => 0,
+            Translation  => 1,
             Max          => 200,
         );
         $LayoutObject->Block(
@@ -3111,7 +3111,7 @@ sub _MaskPhoneNew {
                 . ( $Param{Errors}->{SLAInvalid} || '' ),
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
-            Translation  => 0,
+            Translation  => 1,
             Max          => 200,
         );
         $LayoutObject->Block(
