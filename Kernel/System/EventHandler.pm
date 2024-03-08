@@ -281,7 +281,23 @@ sub EventHandlerTransaction {
 
     ## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectManagerCreation)
     # set up a clean object manager here to enable correct handling of nested transactions
+    my $OuterOM       = $Kernel::OM;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+    # keep some objects for performance and compatibility reasons
+    # the aim of instantiating a new $Kernel::OM is to have new
+    # objects of all EventHandler-objects to set up fresh pipes
+    my @KeepObjects = (
+        'Kernel::System::Cache',
+        'Kernel::System::DB',
+        'Kernel::Config',
+        'Kernel::System::Log',
+    );
+
+    for my $Object ( @KeepObjects ) {
+        $Kernel::OM->{Objects}{$Object}            = $OuterOM->{Objects}{$Object};
+        $Kernel::OM->{ObjectDependencies}{$Object} = $OuterOM->{ObjectDependencies}{$Object};
+    }
 
     # execute events on end of transaction
     if ( $Self->{EventHandlerPipe} ) {
