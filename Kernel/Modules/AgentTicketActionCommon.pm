@@ -2169,9 +2169,6 @@ sub Run {
                 # Value is stored in the database from Ticket.
                 $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
             }
-            elsif ( $DynamicFieldConfig->{ObjectType} eq 'Article' ) {
-                $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldConfig->{Config}->{DefaultValue} || '';
-            }
         }
 
         my $Autoselect = $ConfigObject->Get('TicketACL::Autoselect') || undef;

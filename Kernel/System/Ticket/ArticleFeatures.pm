@@ -194,11 +194,6 @@ sub ArticleDelete {
     );  
 
     $DBObject->Do(
-        SQL  => 'DELETE FROM ticket_history WHERE ticket_id = ? AND article_id = ?',
-        Bind => [ \$Param{TicketID}, \$Param{ArticleID} ]
-    );      
-
-    $DBObject->Do(
         SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ]
     ); 
@@ -277,16 +272,13 @@ sub ArticleVersion {
     return if !$NewArticleVersion;
 
     if ( $Param{Delete} ) {
-
         my $Success = $DBObject->Do(
-            SQL  => "INSERT INTO ticket_history_version (history_id, article_id, name, history_type_id, ticket_id, source_article_id, type_id, 
-                    queue_id, owner_id, priority_id, state_id, create_time, create_by, change_time, change_by)
-                    SELECT id,    $NewArticleVersion,    name, history_type_id, ticket_id, article_id, type_id, 
-                    queue_id, owner_id, priority_id, state_id, create_time, create_by, change_time, change_by FROM ticket_history WHERE ticket_id = ? AND article_id = ?",
+            SQL  => "INSERT INTO article_version_history (history_id, article_id)
+                     SELECT id, article_id FROM ticket_history WHERE ticket_id = ? AND article_id = ?",
             Bind => [ \$Param{TicketID}, \$Param{ArticleID} ]
-        );
+        );        
 
-        #Rollback if error ocurrs when backing up article history
+        #Rollback if error ocurrs when backing up history_id <> article_id relation
         if ( !$Success ) {
             $DBObject->Do(
                 SQL  => "DELETE FROM article_version WHERE id = ?",
@@ -306,8 +298,13 @@ sub ArticleVersion {
             );
 
             return;
-        }        
-    }    
+        } else {
+            $DBObject->Do(
+                SQL  => "UPDATE ticket_history SET article_id = NULL WHERE ticket_id = ? and article_id = ?",
+                Bind => [ \$Param{TicketID}, \$Param{ArticleID} ]
+            );            
+        }    
+    }
 
     $DBObject->Do(
         SQL =>  "INSERT INTO article_data_mime_version (article_id, a_from, a_reply_to, a_to, a_cc, a_bcc, a_subject, a_message_id, a_message_id_md5, a_in_reply_to, a_references,
@@ -434,18 +431,15 @@ sub ArticleRestore {
     );    
 
     my $Success = $DBObject->Do(
-        SQL  => "INSERT INTO ticket_history (id, article_id, name, history_type_id, ticket_id, type_id, 
-                queue_id, owner_id, priority_id, state_id, create_time, create_by, change_time, change_by)
-                SELECT history_id,    $ArticleID,    name, history_type_id, ticket_id, type_id, 
-                queue_id, owner_id, priority_id, state_id, create_time, create_by, change_time, change_by FROM ticket_history_version WHERE ticket_id = ? AND article_id = ?",
-        Bind => [ \$Param{TicketID}, \$ArticleVersionID ]
+        SQL  => "UPDATE ticket_history SET article_id = ? WHERE id IN (SELECT history_id FROM article_version_history WHERE article_id = ?) AND ticket_id = ?",
+        Bind => [ \$ArticleID, \$ArticleID, \$Param{TicketID} ]
     );    
 
     if ( $Success ) {
 
         $DBObject->Do(
-            SQL  => "DELETE FROM ticket_history_version WHERE article_id = ?",
-            Bind => [ \$ArticleVersionID ]
+            SQL  => "DELETE FROM article_version_history WHERE article_id = ?",
+            Bind => [ \$ArticleID ]
         ); 
 
         $DBObject->Do(
@@ -513,38 +507,34 @@ sub ShowDeletedArticles {
         }
     }
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    my $IsMarked = 0;
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     my $Success;
     $Param{GetStatus} ||= '';
 
-    #Check if article is already mark as deleted
-    return if !$DBObject->Prepare(
-        SQL => '
-            SELECT id
-            FROM article_delete_flag
-            WHERE ticket_id = ? AND user_id = ?
-        ',
-        Bind  => [ \$Param{TicketID}, \$Param{UserID} ],
-        Limit => 1,
+    # get flags
+    my %Flag = $TicketObject->TicketFlagGet(
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
     );
-  
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $IsMarked = $Row[0];
-    }
+
+    #Check user selection flag
+    my $IsMarked = defined $Flag{ 'ShowDeleted' } && $Flag{ 'ShowDeleted' } eq '1' ? 1 : 0;
 
     return $IsMarked if $Param{GetStatus};
 
     if ( $IsMarked ) {
-        $Success = $DBObject->Do(
-            SQL  => 'DELETE FROM article_delete_flag WHERE ticket_id = ? AND user_id = ?' ,
-            Bind => [ \$Param{TicketID}, \$Param{UserID} ]
+        $TicketObject->TicketFlagDelete(
+            TicketID => $Param{TicketID},
+            Key      => 'ShowDeleted',
+            UserID   => $Param{UserID},
         );
     } else {
-        $Success = $DBObject->Do(
-            SQL  => 'INSERT INTO article_delete_flag (ticket_id, user_id) VALUES (?, ?)',
-            Bind => [ \$Param{TicketID}, \$Param{UserID} ]
-        );
+        $TicketObject->TicketFlagSet(
+            TicketID => $Param{TicketID},
+            Key      => 'ShowDeleted',
+            Value    => 1,
+            UserID   => $Param{UserID},
+        );        
     }
   
     return $Success;

@@ -104,6 +104,68 @@ sub new {
     return $Self;
 }
 
+sub ArticleMoveFiles {
+    my ( $Self, %Param ) = @_;
+    
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
+    # check needed stuff
+    for my $Item (qw(Location NewArticleVersion)) {
+        if ( !$Param{$Item} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Item!",
+            );
+
+            return;
+        }
+    }    
+
+    #Search files for moving
+    my @ArticleFiles = $MainObject->DirectoryRead(
+        Directory => $Param{Location},
+        Filter    => "*",
+        Silent    => 1,
+    );
+
+    #Clean path from file list
+    my @TempFiles; 
+    foreach my $File ( @ArticleFiles ) {
+        $File =~ s{^.*/}{};
+        push @TempFiles, $File;
+    }
+
+    @ArticleFiles = @TempFiles;
+
+    if ( @ArticleFiles ) {
+        mkdir("$Param{Location}/$Param{NewArticleVersion}");
+
+        MOVE_FILES:
+        foreach my $File ( @ArticleFiles ) {
+            #Skip directories
+            next MOVE_FILES if ( -d "$Param{Location}/$File" );
+
+            $File = $EncodeObject->Convert2CharsetInternal(
+                Text  => $File,
+                From  => 'utf-8',
+                Check => 1,
+            );    
+
+            move("$Param{Location}/$File", "$Param{Location}/$Param{NewArticleVersion}/$File");
+
+            $MainObject->FileDelete(
+                Location  => "$Param{Location}/$File",
+                Type      => 'Attachment',
+                NoReplace => 1,
+                DisableWarnings => 1
+            );             
+        }
+    }
+
+    return;
+}
+
 sub ArticleDelete {
     my ( $Self, %Param ) = @_;
 
@@ -973,6 +1035,8 @@ sub ArticleAttachment {
                     $Counter++;
                 }
             }
+
+            $Data{ContentType} ||= '';
 
             if (
                 $Data{ContentType} =~ /plain\/text/i

@@ -104,7 +104,6 @@ sub ValueSet {
     my $ValueText =
         $Param{DynamicFieldConfig}->{Config}->{ContactsWithData}->{ $Param{Value} }->{Name};
     my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
-        %Param,
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         Value    => [
