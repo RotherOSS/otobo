@@ -329,6 +329,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Const::Fast',
+        Required  => 1,
+        Comment   => 'Support for readonly Perl variables',
+        InstTypes => {
+            aptget => 'libconst-fast-perl',
+            emerge => 'dev-perl/Const-Fast',
+            zypper => 'perl-Const-Fast',
+            ports  => 'devel/p5-Const-Fast',
+        },
+    },
+    {
         Module    => 'Capture::Tiny',
         Required  => 1,
         Comment   => 'Neater interface for capturing STDOUT and STDERR.',
@@ -1054,17 +1065,6 @@ my @NeededModules = (
             aptget => 'libxml-libxslt-perl',
             zypper => 'perl-XML-LibXSLT',
             ports  => 'textproc/p5-XML-LibXSLT',
-        },
-    },
-    {
-        Module    => 'Const::Fast',
-        Required  => 1,
-        Comment   => 'Support for readonly Perl variables',
-        InstTypes => {
-            aptget => 'libconst-fast-perl',
-            emerge => 'dev-perl/Const-Fast',
-            zypper => 'perl-Const-Fast',
-            ports  => 'devel/p5-Const-Fast',
         },
     },
     {

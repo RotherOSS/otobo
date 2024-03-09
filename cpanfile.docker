@@ -8,6 +8,9 @@ requires 'Archive::Tar';
 # Required for compressed file generation.
 requires 'Archive::Zip';
 
+# Support for readonly Perl variables
+requires 'Const::Fast';
+
 # Neater interface for capturing STDOUT and STDERR.
 requires 'Capture::Tiny';
 
@@ -97,9 +100,6 @@ requires 'Plack::Middleware::Header';
 
 # Twist some HTTP variables so that the reverse proxy is transparent
 requires 'Plack::Middleware::ReverseProxy';
-
-# Support for readonly Perl variables
-requires 'Const::Fast';
 
 
 # Feature 'apache:mod_perl' is not needed for Docker
