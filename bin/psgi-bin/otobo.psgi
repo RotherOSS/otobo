@@ -646,7 +646,7 @@ builder {
     mount '/otobo-web' => $StaticApp;
 
     # Alternative mounts are also possible.
-    # Note that Fronend::WebPath needs to be adapted when the path is changed.
+    # Note that Frontend::WebPath needs to be adapted when the path is changed.
     #mount '/otobo/assets' => $StaticApp;
 
     # the most basic App
