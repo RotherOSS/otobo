@@ -1069,7 +1069,8 @@ my @NeededModules = (
     },
     {
         Module    => 'Text::QRCode',
-        Comment   => 'Support for qr code in pdfs',
+        Features  => ['div:qrcode'],
+        Comment   => 'Support for QR code in PDF files',
         InstTypes => {
             aptget => 'libtext-qrcode-perl',
         },

@@ -253,6 +253,12 @@ feature 'div:ldap', 'Support for feature div:ldap' => sub {
 
 };
 
+feature 'div:qrcode', 'Support for feature div:qrcode' => sub {
+    # Support for QR code in PDF files
+    requires 'Text::QRCode';
+
+};
+
 feature 'div:ssl', 'Support for feature div:ssl' => sub {
     # Required for SSL connections to web and mail servers.
     # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
@@ -394,6 +400,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
+
+    # Support for QR code in PDF files
+    requires 'Text::QRCode';
 
     # nicer formatting when dumping data structures
     requires 'Data::Dump', '>= 1.25';
