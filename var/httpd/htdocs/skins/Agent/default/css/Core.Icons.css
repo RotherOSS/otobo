@@ -15,11 +15,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 @font-face {
   font-family: 'otobo';
-  src:  url('/otobo-web/common/fonts/otobo.eot?8f3wlj');
-  src:  url('/otobo-web/common/fonts/otobo.eot?8f3wlj#iefix') format('embedded-opentype'),
-    url('/otobo-web/common/fonts/otobo.ttf?8f3wlj') format('truetype'),
-    url('/otobo-web/common/fonts/otobo.woff?8f3wlj') format('woff'),
-    url('/otobo-web/common/fonts/otobo.svg?8f3wlj#otobo') format('svg');
+  src:  url('../../../../common/fonts/otobo.eot?8f3wlj');
+  src:  url('../../../../common/fonts/otobo.eot?8f3wlj#iefix') format('embedded-opentype'),
+    url('../../../../common/fonts/otobo.ttf?8f3wlj') format('truetype'),
+    url('../../../../common/fonts/otobo.woff?8f3wlj') format('woff'),
+    url('../../../../common/fonts/otobo.svg?8f3wlj#otobo') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
