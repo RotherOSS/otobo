@@ -467,8 +467,7 @@ my $RedirectOtoboApp = sub {
     return $Res->finalize();
 };
 
-# Server the static files in var/httpd/httpd.
-# Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
+# Serve the static assets in var/httpd/htdocs.
 # Access is granted for all.
 # Set the Cache-Control headers as in apache2-httpd.include.conf
 my $StaticApp = builder {
@@ -643,7 +642,7 @@ builder {
     # fixing PATH_INFO
     enable_if { ( $_[0]->{FCGI_ROLE} // '' ) eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
-    # Server the static files in var/httpd/httpd.
+    # Server the static assets in var/httpd/htdocs.
     mount '/otobo-web' => $StaticApp;
 
     # the most basic App
