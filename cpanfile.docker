@@ -244,6 +244,9 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
+# Feature 'div:qrcode' is not needed for Docker
+
+
 # Feature 'div:ssl' is not needed for Docker
 
 
