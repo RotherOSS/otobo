@@ -1245,7 +1245,7 @@ for my $Module (@NeededModules) {
     }
 
     if ( !defined $Module->{Required} && !defined $Module->{Features} ) {
-        die "One of 'Required' and 'Features' may be set for $Module->{Module}!";
+        die "One of 'Required' or 'Features' must be set for $Module->{Module}!";
     }
 }
 
