@@ -112,7 +112,7 @@ requires 'Net::IMAP::Simple', '== 1.2209';
 requires 'Net::SSLGlue', '== 1.058';
 
 # needed by Kernel::System::PDF
-requires 'PDF::API2', '== 2.033';
+requires 'PDF::API2', '== 2.045';
 
 # needed by console command Dev::Tools::TranslationsUpdate
 requires 'Pod::Strip', '== 1.02';
