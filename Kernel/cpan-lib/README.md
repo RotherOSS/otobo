@@ -10,27 +10,32 @@ bin/otobo.CheckModules.pl. That command can be used to generate a cpanfile for t
 The generated cpanfile can then be used for updating Kernel/cpan-lib.
 But that task is not trivial. So here is an exemplar workflow:
 
-### A fresh install of the bundled modules
+### Preparation for both quick update and complete regeneration
 
 Starting in the OTOBO root dir.
 
     bin/otobo.CheckModules.pl --inst                                        # make sure that the deps are installed
-    bin/otobo.CheckModules.pl --bundled-cpanfile > Kernel/cpan-lib/cpanfile # in case the list has changed
+    gvim Kernel/System/Environment.pm                                       # update BundleModulesDeclarationGet() if there are changes
+    bin/otobo.CheckModules.pl --bundled-cpanfile > Kernel/cpan-lib/cpanfile # in case BundleModulesDeclarationGet() list has changed
     cd Kernel/cpan-lib
     cpanm --notest --installdeps . --local-lib local                        # install locally into local/lib/perl5
     cpanm --notest --installdeps . --local-lib local                        # again, to see that the install was complete
 
 ### Shortcut when there are only version updates
 
-Only install modules where the version was updated in F<cpanfile>.
+Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>.
 
     cd Kernel/cpan-lib
     rm -rf local
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # install into local/lib/perl5
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # again, to see that the install was complete
     find local/ -name '*.pod' -delete                                       # POD files are kept out of Kernel/cpan-lib
-    cp -r local/lib/perl5/* .                                               # copy to actual destination
     rm -rf x86_64-linux-gnu-thread-multi/                                   # contains only perllocal.pod
+    cp -r local/lib/perl5/* .                                               # copy to actual destination
+
+Then examine the diffs and check in the verified changes.
+
+### A fresh install of the bundled modules
 
 ### Remove files and directories that should not be bundled with OTOBO
 
