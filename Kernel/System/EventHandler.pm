@@ -281,7 +281,7 @@ sub EventHandlerTransaction {
 
     ## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectManagerCreation)
     # set up a clean object manager here to enable correct handling of nested transactions
-    my $OuterOM       = $Kernel::OM;
+    my $OuterOM = $Kernel::OM;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
     # keep some objects for performance and compatibility reasons
@@ -294,7 +294,7 @@ sub EventHandlerTransaction {
         'Kernel::System::Log',
     );
 
-    for my $Object ( @KeepObjects ) {
+    for my $Object (@KeepObjects) {
         $Kernel::OM->{Objects}{$Object}            = $OuterOM->{Objects}{$Object};
         $Kernel::OM->{ObjectDependencies}{$Object} = $OuterOM->{ObjectDependencies}{$Object};
     }

@@ -126,7 +126,7 @@
                                 <span>Esc</span>
                             </em>
                             <em>[% Translate("Exit full screen") | html %]</em>
-                        </li> 
+                        </li>
                     </ul>
                 </div>
                 <div data-id="MacOS">
@@ -148,10 +148,10 @@
                                 <span>Cmd</span><span>Alt</span><span>J</span>
                             </em>
                             <em>[% Translate("Jump to line") | html %]</em>
-                        </li>         
+                        </li>
                         <li>
                             <em>
-                                <span>Cmd</span><span>Space</span>           
+                                <span>Cmd</span><span>Space</span>
                             </em>
                             <em>[% Translate("Autocomplete") | html %]</em>
                         </li>
@@ -180,17 +180,17 @@
                             <em>[% Translate("Find and replace") | html %]</em>
                         </li>
                         <li>
-                            <em>                            
+                            <em>
                                 <span>F11</span>
                             </em>
                             <em>[% Translate("Full Screen") | html %]</em>
                         </li>
                         <li>
                             <em>
-                                <span>Esc</span>            
+                                <span>Esc</span>
                             </em>
                             <em>[% Translate("Exit full screen") | html %]</em>
-                        </li>                        
+                        </li>
                    </ul>
                 </div>
             </div>
@@ -226,10 +226,10 @@
                                 <div id="CMToolbarIcons" class="CMToolbarIcons">
                                     <div title="[% Translate("Auto Indent Code") | html %]" class="CMIndent" onclick="Core.UI.CodeMirrorEditor.IndentCode();"></div>
                                     <div title="[% Translate("Comment/Uncomment Code") | html %]" class="CMComment" onclick="Core.UI.CodeMirrorEditor.ToogleComment();"></div>
-                                    <div title="[% Translate("Search") | html %]" class="CMSearch" onclick="Core.UI.CodeMirrorEditor.Search();"></div> 
-                                    <div title="[% Translate("Search & Replace") | html %]" class="CMSearchReplace" onclick="Core.UI.CodeMirrorEditor.SearchReplace();"></div> 
-                                    <div title="[% Translate("Select All") | html %]" class="CMSelectAll" onclick="Core.UI.CodeMirrorEditor.SelectAll();"></div>                                       
-                                    <div title="[% Translate("Full Screen") | html %]" class="CMMaximize" onclick="Core.UI.CodeMirrorEditor.ToogleFullScreen('Maximize');"></div> 
+                                    <div title="[% Translate("Search") | html %]" class="CMSearch" onclick="Core.UI.CodeMirrorEditor.Search();"></div>
+                                    <div title="[% Translate("Search & Replace") | html %]" class="CMSearchReplace" onclick="Core.UI.CodeMirrorEditor.SearchReplace();"></div>
+                                    <div title="[% Translate("Select All") | html %]" class="CMSelectAll" onclick="Core.UI.CodeMirrorEditor.SelectAll();"></div>
+                                    <div title="[% Translate("Full Screen") | html %]" class="CMMaximize" onclick="Core.UI.CodeMirrorEditor.ToogleFullScreen('Maximize');"></div>
                                 </div>
                             </div>
 

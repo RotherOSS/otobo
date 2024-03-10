@@ -93,23 +93,23 @@ Core.Form.Validate = (function (TargetNS) {
         }
 
         var CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') )
-        
+
         // If the element, which has an validation error, is a richtext element, trigger the focus event
         window.setTimeout(function () {
             if (Core.UI.RichTextEditor.IsEnabled($Element)) {
 
                 if ($Element.closest('form').hasClass('oooSubmitted')) {
-                    Core.UI.RichTextEditor.Focus($Element); 
+                    Core.UI.RichTextEditor.Focus($Element);
                     $('.ck-placeholder').addClass('error');
                     Core.UI.ScrollTo($Element.closest('.RichTextHolder'));
                 } else if ( !CustomerInterface ) {
                     Core.UI.ScrollTo($Element.closest('.RichTexField'));
-                    
+
                     if ($Element.hasClass(Options.ErrorClass)) {
                         return false;
                     }
 
-                    Core.UI.RichTextEditor.Focus($Element); 
+                    Core.UI.RichTextEditor.Focus($Element);
                 }
             }
 
@@ -294,7 +294,7 @@ Core.Form.Validate = (function (TargetNS) {
         // keep tags if images are embedded because of inline-images
         // keep tags if codemirror plugin is used (for XSLT editor)
         if (Core.UI.RichTextEditor.IsEnabled($Element)) {
-            if ( !Value.match(/<img/) ) {                
+            if ( !Value.match(/<img/) ) {
                 Value = Value.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
             }
         }

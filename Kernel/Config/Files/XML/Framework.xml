@@ -414,7 +414,7 @@
         <Value>
             <Item ValueType="String" ValueRegex="">thirdparty/ckeditor5-build-classic/CKEditor.min.css</Item>
         </Value>
-    </Setting>    
+    </Setting>
     <Setting Name="CustomerFrontend::RichText::DefaultCSS" Required="1" Valid="1">
         <Description Translatable="1">Defines the default CSS used for displaying articles.</Description>
         <Navigation>Frontend::Base</Navigation>
@@ -428,7 +428,7 @@
         <Value>
             <Item ValueType="String" ValueRegex="">thirdparty/ckeditor5-build-classic/CKEditor.min.css</Item>
         </Value>
-    </Setting>       
+    </Setting>
     <Setting Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">
         <Description Translatable="1">Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).</Description>
         <Navigation>Frontend::Base</Navigation>

@@ -614,7 +614,7 @@
                         <Item>thirdparty/codemirror-5.65.16/addon/hint/show-hint.css</Item>
                         <Item>thirdparty/codemirror-5.65.16/addon/fold/foldgutter.css</Item>
                         <Item>thirdparty/codemirror-5.65.16/addon/dialog/dialog.css</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.css</Item>                        
+                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
@@ -647,8 +647,8 @@
                         <Item>thirdparty/codemirror-5.65.16/addon/dialog/dialog.js</Item>
                         <Item>thirdparty/codemirror-5.65.16/addon/search/jump-to-line.js</Item>
                         <Item>thirdparty/codemirror-5.65.16/addon/hint/html-hint.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.js</Item>                        
-                        <Item>Core.UI.CodeMirrorEditor.js</Item>                        
+                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.js</Item>
+                        <Item>Core.UI.CodeMirrorEditor.js</Item>
                     </Array>
                 </Item>
             </Hash>

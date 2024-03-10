@@ -699,17 +699,18 @@ sub DocumentComplete {
         $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'common/css/quicksand.css">';
         $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'skins/Customer/default/css/Core.Default.css">';
     }
-    
-    my $CKEditorStyles = $Param{CustomerInterface} ? $ConfigObject->Get('CustomerFrontend::RichTextArticleStyles') : $ConfigObject->Get('Frontend::RichTextArticleStyles');
-    my $Interface      = $Param{CustomerInterface} ? 'Customer' : 'Agent';
+
+    my $CKEditorStyles
+        = $Param{CustomerInterface} ? $ConfigObject->Get('CustomerFrontend::RichTextArticleStyles') : $ConfigObject->Get('Frontend::RichTextArticleStyles');
+    my $Interface = $Param{CustomerInterface} ? 'Customer' : 'Agent';
 
     my $CKEditorCSS = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location        => $ConfigObject->Get('Home') . "/var/httpd/htdocs/skins/$Interface/default/css/$CKEditorStyles",
         Type            => 'Local',
         DisableWarnings => 1,
     );
-    
-    if ( $CKEditorCSS ) {
+
+    if ($CKEditorCSS) {
         ${$CKEditorCSS} = $Self->ToHTML( String => ${$CKEditorCSS} );
         $Body .= "<style>" . ${$CKEditorCSS} . "</style>";
     }

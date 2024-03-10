@@ -182,7 +182,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      */
     TargetNS.HideRTETooltip = function(Element) {
         $('#' + Element).hide().empty();
-    };    
+    };
 
     /**
      * @name HideTooltip
@@ -240,7 +240,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     function ShowRTETooltip(Event) {
         if ( typeof window.editor != 'undefined' ) {
             document.querySelector('.ck-editor__editable').id = 'EditorBox';
-            TargetNS.ShowTooltip($('#EditorBox'), Event.Message);        
+            TargetNS.ShowTooltip($('#EditorBox'), Event.Message);
         }
     }
 
@@ -268,10 +268,10 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     TargetNS.InitRTETooltip = function ($Element, Message) {
 
         var ElementID = $Element.attr('id');
-        
+
         if ( typeof window.editor === 'undefined' ) {
             return false;
-        }        
+        }
 
         window.editor.ui.focusTracker.on( 'change:isFocused', ( evt, name, isFocused ) => {
             if ( isFocused && $Element.val() == "" ) {
