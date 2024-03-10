@@ -311,7 +311,7 @@ sub BundleModulesDeclarationGet {
         {
             'Module'          => 'CPAN::Audit',
             'Required'        => 1,
-            'VersionRequired' => '== 20240209.001',
+            'VersionRequired' => '== 20240307.001',
         },
         {
             'Comment'         => 'needed by CPAN::Audit',
@@ -458,7 +458,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by CPAN::Audit, could be useful in OTOBO as well',
             'Module'          => 'Module::Extract::VERSION',
             'Required'        => 1,
-            'VersionRequired' => '== 1.116',
+            'VersionRequired' => '== 1.117',
         },
         {
             'Comment'         => 'needed by Crypt::Random::Source',

@@ -8,7 +8,7 @@ no warnings;
 
 use Carp qw(carp);
 
-our $VERSION = '1.116';
+our $VERSION = '1.117';
 
 =encoding utf8
 
@@ -150,7 +150,7 @@ This code is in Github:
 
 =head1 AUTHOR
 
-brian d foy, C<< <bdfoy@cpan.org> >>
+brian d foy, C<< <briandfoy@pobox.com> >>
 
 I stole the some of this code from C<mldistwatch> in the PAUSE
 code by Andreas König, but I've moved most of it around.
@@ -160,7 +160,7 @@ C<package> syntax.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2008-2022, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
+Copyright © 2008-2024, brian d foy C<< <briandfoy@pobox.com> >>. All rights reserved.
 
 You may redistribute this under the Artistic License 2.0.
 
