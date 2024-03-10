@@ -22,9 +22,9 @@
 
 package Kernel::Config::Defaults;
 
+use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
 use strict;
 use warnings;
-use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
 use utf8;
 
 # core modules
@@ -2097,11 +2097,11 @@ sub new {
     # do not use ZZZ files
     if ( !$Param{Level} ) {
 
-        # replace config variables in config variables
+        # replace config variables in variables that contain the '<OTOBO_CONFIG_SettingName> pattern
         KEY:
         for my $Key ( sort keys %{$Self} ) {
 
-            next KEY if !defined $Key;
+            next KEY unless defined $Key;
 
             if ( defined $Self->{$Key} ) {
                 $Self->{$Key} =~ s/\<OTOBO_CONFIG_(.+?)\>/$Self->{$1}/g;
