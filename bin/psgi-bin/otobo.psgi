@@ -490,7 +490,7 @@ my $CheckCustomerInterfaceApp = sub {
     return $RedirectOtoboApp->($Env);
 };
 
-# Server the files in var/httpd/httpd.
+# Serve the static assets in var/httpd/htdocs.
 # When S3 is supported there is a check whether missing files can be fetched from S3.
 # Access is granted for all.
 my $HtdocsApp = builder {
@@ -637,8 +637,12 @@ builder {
     # fixing PATH_INFO
     enable_if { ( $_[0]->{FCGI_ROLE} // '' ) eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
-    # Server the files in var/httpd/htdocs
+    # Server the static assets in var/httpd/htdocs.
     mount '/otobo-web' => $HtdocsApp;
+
+    # Alternative mounts are also possible.
+    # Note that Frontend::WebPath needs to be adapted when the path is changed.
+    #mount '/otobo/assets' => $HtdocsApp;
 
     # uncomment for trouble shooting
     #mount '/hello'          => $HelloApp;
