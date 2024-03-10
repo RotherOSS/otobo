@@ -2260,11 +2260,11 @@ sub new {
     # do not use ZZZ files
     if ( !$Param{Level} ) {
 
-        # replace config variables in config variables
+        # replace config variables in variables that contain the '<OTOBO_CONFIG_SettingName> pattern
         KEY:
         for my $Key ( sort keys %{$Self} ) {
 
-            next KEY if !defined $Key;
+            next KEY unless defined $Key;
 
             if ( defined $Self->{$Key} ) {
                 $Self->{$Key} =~ s/\<OTOBO_CONFIG_(.+?)\>/$Self->{$1}/g;
