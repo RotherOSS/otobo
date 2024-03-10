@@ -52,9 +52,8 @@ sub Run {
 
     my $Output = $LayoutObject->CustomerHeader();
 
-    my $TileHTML = '';
-
     # generate the HTML of the individual tiles
+    my $TileHTML = '';
     my %OrderUsed;
     for my $Tile ( sort { $UsedTiles->{$a}->{Order} <=> $UsedTiles->{$b}->{Order} } keys $UsedTiles->%* ) {
 
@@ -111,11 +110,22 @@ sub Run {
             return $LayoutObject->ErrorScreen( Message => $Message );
         }
 
+        # replace the OTOBO_CONFIG macro in the config, for settings like:
+        #   <Item Key="BackgroundImage">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/Dashboard/dashboard_bgfl.png</Item>
+        my $Config = $UsedTiles->{$Tile}->{Config} || {};
+        KEY:
+        for my $Key ( keys $Config->%* ) {
+            next KEY unless defined $Config->{$Key};
+            next KEY unless ref $Config->{$Key} eq '';
+
+            $Config->{$Key} =~ s{<OTOBO_CONFIG_(.+?)>}{$ConfigObject->Get($1)}egx;
+        }
+
         # get the HTML
         $TileHTML .= $BackendObject->Run(
             TileID   => $TileID,
             Template => $UsedTiles->{$Tile}{Template} || '',
-            Config   => $UsedTiles->{$Tile}{Config}   || {},
+            Config   => $Config,
             UserID   => $Self->{UserID},
         );
     }
