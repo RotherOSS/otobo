@@ -7161,7 +7161,7 @@ via the Preferences button after logging in.
         <Value>
             <Hash>
                 <Item Key="LoginText">Your Tickets. Your OTOBO.</Item>
-                <Item Key="Background">/otobo-web/common/img/LoginBG.jpg</Item>
+                <Item Key="Background">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/LoginBG.jpg</Item>
             </Hash>
         </Value>
     </Setting>
@@ -7277,6 +7277,8 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
+
+    <!-- setup of the tiles, <OTOBO_CONFIG_SettingName> is replaced in the Config entry -->
     <Setting Name="CustomerDashboard::Tiles###NewTicket" Required="0" Valid="1">
         <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
@@ -7302,7 +7304,7 @@ via the Preferences button after logging in.
                 <Item Key="Config">
                     <Hash>
                         <Item Key="TextColor">#ffffff</Item>
-                        <Item Key="BackgroundImage">/otobo-web/common/img/Dashboard/dashboard_bgfl.png</Item>
+                        <Item Key="BackgroundImage">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/Dashboard/dashboard_bgfl.png</Item>
                         <Item Key="HeaderText">That's new in OTOBO 11.0</Item>
                         <Item Key="MainText">Highlights: Processes in the service portal, S3, modern authentication with OpenID Connect, enhanced S/MIME functionality</Item>
                         <Item Key="FooterText">Explore &gt;</Item>
@@ -7392,7 +7394,7 @@ via the Preferences button after logging in.
                     <Hash>
                         <Item Key="Text">Overview</Item>
                         <Item Key="TextColor">#00023c</Item>
-                        <Item Key="Image">/otobo-web/common/img/Dashboard/Example.png</Item>
+                        <Item Key="Image">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/Dashboard/Example.png</Item>
                     </Hash>
                 </Item>
             </Hash>

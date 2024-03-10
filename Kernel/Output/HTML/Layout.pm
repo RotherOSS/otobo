@@ -4253,8 +4253,9 @@ sub CustomerLogin {
     );
 
     my $BGConfig = $ConfigObject->Get('CustomerLogin::Settings');
-    $Param{LoginText}  = $BGConfig->{LoginText} // "Your Tickets. Your OTOBO.";
+    $Param{LoginText}  = $BGConfig->{LoginText} // 'Your Tickets. Your OTOBO.';
     $Param{Background} = $BGConfig->{Background} || '';
+    $Param{Background} =~ s{<OTOBO_CONFIG_(.+?)>}{$ConfigObject->Get($1)}egx;
 
     # define color scheme
     my $ColorDefinitions = $ConfigObject->Get('CustomerColorDefinitions');
