@@ -61,7 +61,7 @@ sub new {
 
 Dump a Perl data structure to an storable string.
 
-    my $StoableString = $StorableObject->Serialize(
+    my $StorableString = $StorableObject->Serialize(
         Data => $Data,          # must be a reference,
         Sort => 1,              # optional 1 or 0, default 0
     );
