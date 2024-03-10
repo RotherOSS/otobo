@@ -2256,6 +2256,10 @@ sub new {
             next KEY unless defined $Key;
 
             if ( defined $Self->{$Key} ) {
+
+                # do the replacements only on top level string values
+                next KEY unless ref $Self->{$Key} eq '';
+
                 $Self->{$Key} =~ s/\<OTOBO_CONFIG_(.+?)\>/$Self->{$1}/g;
             }
             else {
