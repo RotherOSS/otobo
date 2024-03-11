@@ -16,6 +16,7 @@
 
 package Kernel::Modules::CustomerTicketZoom;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -35,8 +36,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # frontend specific config
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
@@ -1545,44 +1545,27 @@ sub Run {
             : undef
     } ( keys $Self->{FollowUpDynamicField}->%* );
 
-    # generate output
-    my $Output = $LayoutObject->CustomerHeader( Value => $Ticket{TicketNumber} );
-
-    # show ticket
-    if ( $Self->{Subaction} eq 'ShowHTMLeMail' ) {
-
-        # if it is a html email, drop normal header
-        $Ticket{ShowHTMLeMail} = 1;
-        $Output = '';
-    }
-    $Output .= $Self->_Mask(
-        TicketID   => $Self->{TicketID},
-        ArticleBox => \@ArticleBox,
-        %Ticket,
-        TicketState   => $Ticket{State},
-        TicketStateID => $Ticket{StateID},
-        %GetParam,
-        StateID           => $GetParam{NextStateID},
-        TicketStateID     => $GetParam{NextStateID},                      # TODO: check whether this right
-        AclAction         => \%AclAction,
-        HideAutoselected  => $HideAutoselectedJSON,
-        Visibility        => $DynFieldStates{Visibility},
-        ActivityErrorHTML => \%ActivityErrorHTML,
-        DFPossibleValues  => \%DynamicFieldPossibleValues,
-        Reply             => $AclActionLookup{CustomerTicketZoomReply},
-    );
-
-    # return if HTML email
-    if ( $Self->{Subaction} eq 'ShowHTMLeMail' ) {
-        return $Output;
-    }
-
-    # add footer and NavBar
-    $Output .= $LayoutObject->CustomerNavigationBar();
-    $Output .= $LayoutObject->CustomerFooter();
-
     # return output
-    return $Output;
+    return join '',
+        $LayoutObject->CustomerHeader( Value => $Ticket{TicketNumber} ),
+        $Self->_Mask(
+            TicketID   => $Self->{TicketID},
+            ArticleBox => \@ArticleBox,
+            %Ticket,
+            TicketState   => $Ticket{State},
+            TicketStateID => $Ticket{StateID},
+            %GetParam,
+            StateID           => $GetParam{NextStateID},
+            TicketStateID     => $GetParam{NextStateID},                      # TODO: check whether this right
+            AclAction         => \%AclAction,
+            HideAutoselected  => $HideAutoselectedJSON,
+            Visibility        => $DynFieldStates{Visibility},
+            ActivityErrorHTML => \%ActivityErrorHTML,
+            DFPossibleValues  => \%DynamicFieldPossibleValues,
+            Reply             => $AclActionLookup{CustomerTicketZoomReply},
+        ),
+        $LayoutObject->CustomerNavigationBar,
+        $LayoutObject->CustomerFooter;
 }
 
 sub _GetNextStates {
@@ -2372,19 +2355,6 @@ sub _Mask {
             if ( $ArticleID eq $ArticleTmp1{ArticleID} ) {
                 %Article = %ArticleTmp1;
             }
-        }
-
-        # just body if html email
-        if ( $Param{ShowHTMLeMail} ) {
-
-            # generate output
-            return $LayoutObject->Attachment(
-                Filename => $ConfigObject->Get('Ticket::Hook')
-                    . "-$Ticket{TicketNumber}-$Self->{TicketID}-$Article{ArticleID}",
-                Type        => 'inline',
-                ContentType => "$Article{MimeType}; charset=$Article{Charset}",
-                Content     => $Article{Body},
-            );
         }
     }
 
