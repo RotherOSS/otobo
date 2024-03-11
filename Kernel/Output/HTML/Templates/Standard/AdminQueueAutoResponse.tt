@@ -104,7 +104,7 @@
                         <li>[% Translate("No data found.") | html %]</li>
 [% RenderBlockEnd("NoQueuesFoundMsg") %]
 [% RenderBlockStart("Item") %]
-                        <li><a href="[% Env("Baselink") %]Action=AdminQueueAutoResponse;Subaction=Change;ID=[% Data.QueueID | uri %]" class="AsBlock">[% Data.Queue | html %]</a></li>
+                        <li><a href="[% Env("Baselink") %]Action=AdminQueueAutoResponse;Subaction=Change;ID=[% Data.QueueID | uri %]" class="AsBlock">[% Translate(Data.Queue) | html %]</a></li>
 [% RenderBlockEnd("Item") %]
                     </ul>
                 </div>
@@ -129,7 +129,7 @@
             <div class="Header">
                 <h2>
                     [% Translate("Change Auto Response Relations for Queue") | html %]
-                    <a href="[% Env("Baselink") %]Action=[% Data.ActionHome | uri %];Subaction=Change;QueueID=[% Data.ID | uri %]">[% Data.Name | html %]</a>
+                    <a href="[% Env("Baselink") %]Action=[% Data.ActionHome | uri %];Subaction=Change;QueueID=[% Data.ID | uri %]">[% Translate(Data.Name) | html %]</a>
                 </h2>
             </div>
             <div class="Content ">
