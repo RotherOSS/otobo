@@ -84,6 +84,10 @@ sub Run {
             Name   => 'Add preselected_state_id to standard_template.',
             Module => 'DBUpdateStandardTemplate',
         },
+        {
+            Name   => 'Add article version tables and add article edit ticket history types.',
+            Module => 'DBHandleArticleEditTables',
+        },
     );
 
     TASK:

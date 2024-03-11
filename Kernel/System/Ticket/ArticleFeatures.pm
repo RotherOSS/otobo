@@ -317,7 +317,7 @@ sub ArticleVersion {
     );    
 
     $DBObject->Do(
-        SQL =>  "INSERT INTO article_data_mime_attachment_version (article_id, filename, content_size, content_type, content_id, content_alternative, disposition, content,
+        SQL =>  "INSERT INTO article_data_mime_att_version (article_id, filename, content_size, content_type, content_id, content_alternative, disposition, content,
                 create_time, create_by, change_time, change_by)
                 SELECT $NewArticleVersion, filename, content_size, content_type, content_id, content_alternative, disposition, content, create_time, create_by, change_time, change_by
                 FROM article_data_mime_attachment
@@ -417,7 +417,7 @@ sub ArticleRestore {
         SQL =>  "INSERT INTO article_data_mime_attachment (article_id, filename, content_size, content_type, content_id, content_alternative, disposition, content,
                 create_time, create_by, change_time, change_by)
                 SELECT $ArticleID, filename, content_size, content_type, content_id, content_alternative, disposition, content, create_time, create_by, change_time, change_by
-                FROM article_data_mime_attachment_version
+                FROM article_data_mime_att_version
                 WHERE article_id = ?",
         Bind => [ \$ArticleVersionID ]
     );    
@@ -443,7 +443,7 @@ sub ArticleRestore {
         ); 
 
         $DBObject->Do(
-            SQL  => "DELETE FROM article_data_mime_attachment_version WHERE article_id = ?",
+            SQL  => "DELETE FROM article_data_mime_att_version WHERE article_id = ?",
             Bind => [ \$ArticleVersionID ]
         );
 

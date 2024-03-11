@@ -1424,7 +1424,7 @@
 </Table>
 
 <!-- article attachment version data for MIME based backends (Email, Phone etc.) -->
-<Table Name="article_data_mime_attachment_version">
+<Table Name="article_data_mime_att_version">
     <Column Name="id" Required="true" AutoIncrement="true" PrimaryKey="true" Size="20" Type="BIGINT"></Column>
     <Column Name="article_id" Required="true" Size="20" Type="BIGINT"></Column>
     <Column Name="filename" Required="false" Size="250" Type="VARCHAR"></Column>
@@ -1438,15 +1438,15 @@
     <Column Name="create_by" Required="true" Size="11" Type="INTEGER"></Column>
     <Column Name="change_time" Required="true" Type="DATE"></Column>
     <Column Name="change_by" Required="true" Size="11" Type="INTEGER"></Column>
-    <Index Name="article_data_mime_attachment_version_article_id">
+    <Index Name="article_data_mime_att_version_article_id">
         <IndexColumn Name="article_id">
         </IndexColumn>
     </Index>
-    <Index Name="article_data_mime_attachment_version_create_by_id">
+    <Index Name="article_data_mime_att_version_create_by_id">
         <IndexColumn Name="create_by">
         </IndexColumn>
     </Index>                   
-    <Index Name="article_data_mime_attachment_version_change_by_id">
+    <Index Name="article_data_mime_att_version_change_by_id">
         <IndexColumn Name="change_by">
         </IndexColumn>
     </Index> 

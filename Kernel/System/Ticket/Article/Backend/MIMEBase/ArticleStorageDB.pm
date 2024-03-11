@@ -179,7 +179,7 @@ sub ArticleDeleteAttachment {
     }
     else {
         return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL  => 'DELETE FROM article_data_mime_attachment_version WHERE article_id = ?',
+            SQL  => 'DELETE FROM article_data_mime_att_version WHERE article_id = ?',
             Bind => [ \$Param{DeletedVersionID} ],
         );
     }
@@ -336,7 +336,7 @@ sub ArticleWriteAttachment {
     else {
         return if !$DBObject->Do(
             SQL => '
-                INSERT INTO article_data_mime_attachment_version (article_id, filename, content_type, content_size,
+                INSERT INTO article_data_mime_att_version (article_id, filename, content_type, content_size,
                     content, content_id, content_alternative, disposition, create_time, create_by,
                     change_time, change_by)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -437,7 +437,7 @@ sub ArticleAttachmentIndexRaw {
         return if !$DBObject->Prepare(
             SQL => '
                     SELECT att.filename, att.content_type, att.content_size, att.content_id, att.content_alternative, att.disposition
-                    FROM article_data_mime_attachment_version att
+                    FROM article_data_mime_att_version att
                     INNER JOIN article_version av ON att.article_id = av.id
                     WHERE av.source_article_id = ? AND att.article_id = ?
                     ORDER BY att.filename, att.id',
@@ -549,7 +549,7 @@ sub ArticleAttachment {
         return if !$DBObject->Prepare(
             SQL => '
                 SELECT att.id
-                FROM article_data_mime_attachment_version att
+                FROM article_data_mime_att_version att
                 INNER JOIN article_version av ON att.article_id = av.id
                 WHERE av.id = ? AND av.source_article_id = ?
                 ORDER BY att.filename, att.id',
@@ -576,7 +576,7 @@ sub ArticleAttachment {
         return if !$DBObject->Prepare(
             SQL => '
                 SELECT att.content_type, att.content, att.content_id, att.content_alternative, att.disposition, att.filename
-                FROM article_data_mime_attachment_version att
+                FROM article_data_mime_att_version att
                 WHERE att.id = ?',
             Bind   => [ \$AttachmentID ],
             Encode => [ 1, 0, 0, 0, 1, 1 ],
