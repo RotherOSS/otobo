@@ -539,7 +539,6 @@ sub Run {
             ArticleID     => $Self->{ArticleID},
             RealNames     => 1,
             DynamicFields => 0,
-            UserID        => $Self->{UserID}
         );
         $Article{Count} = $Count;
 
@@ -808,37 +807,6 @@ sub Run {
             my @IDs = split /,/, $1;
             $Self->{EventTypeFilter}->{EventTypeID} = \@IDs;
         }
-    }
-
-    # return if HTML email
-    if ( $Self->{Subaction} eq 'ShowHTMLeMail' ) {
-
-        # check needed ArticleID
-        if ( !$Self->{ArticleID} ) {
-            return $LayoutObject->ErrorScreen( Message => Translatable('Need ArticleID!') );
-        }
-
-        # get article data
-        my %Article = $ArticleObject->ArticleGet(
-            TicketID      => $Self->{TicketID},
-            ArticleID     => $Self->{ArticleID},
-            DynamicFields => 0,
-            UserID        => $Self->{UserID}
-        );
-
-        # check if article data exists
-        if ( !%Article ) {
-            return $LayoutObject->ErrorScreen( Message => Translatable('Invalid ArticleID!') );
-        }
-
-        # if it is a HTML email, return here
-        return $LayoutObject->Attachment(
-            Filename => $ConfigObject->Get('Ticket::Hook')
-                . "-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
-            Type        => 'inline',
-            ContentType => "$Article{MimeType}; charset=$Article{Charset}",
-            Content     => $Article{Body},
-        );
     }
 
     # generate output
@@ -2648,7 +2616,6 @@ sub _ArticleTree {
                 ArticleID     => $ArticleItem->{ArticleID},
                 DynamicFields => 1,
                 RealNames     => 1,
-                UserID        => $Self->{UserID}
             );
 
             # Append article meta data.
@@ -3328,7 +3295,6 @@ sub _ArticleBoxGet {
             ArticleID     => $Param{ArticleBoxAll}->[$Index]->{ArticleID},
             DynamicFields => 1,
             RealNames     => 1,
-            UserID        => $Self->{UserID}
         );
 
         # Include some information about communication channel.

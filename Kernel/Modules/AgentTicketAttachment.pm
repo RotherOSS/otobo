@@ -84,7 +84,6 @@ sub Run {
         DynamicFields    => 0,
         VersionView      => $VersionView,
         SourceArticleID  => $SourceArticleID,
-        UserID           => $Self->{UserID}
     );
 
     my $ArticleBackendObjectDB;

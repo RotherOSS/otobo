@@ -145,8 +145,8 @@ sub PostValueSet {
         Bind => [ \$Param{UserID}, \$TicketID ],
     );
 
-    my $HistoryValue    = defined $Param{Value}    ? $Param{Value}    : '';
-    my $HistoryOldValue = defined $Param{OldValue} ? $Param{OldValue} : '';
+    my $HistoryValue    = $Param{Value}    // '';
+    my $HistoryOldValue = $Param{OldValue} // '';
 
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -227,33 +227,28 @@ sub PostValueSet {
         }
     }
 
-    $HistoryValue    //= '';
-    $HistoryOldValue //= '';
-
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-    my %Ticket = $TicketObject->TicketGet(
-        TicketID      => $TicketID,
-        DynamicFields => 0,
-    );    
-
     # Add history entry.
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     $TicketObject->HistoryAdd(
         TicketID    => $TicketID,
         ArticleID   => $Param{ObjectID},
-        QueueID     => $Ticket{QueueID},
         HistoryType => 'ArticleDynamicFieldUpdate',
 
         # This insert is not optimal at all (not human readable), but will be kept due to backwards compatibility. The
         #   value will be converted for use in a more speaking form directly in AgentTicketHistory.pm before display.
-        Name =>
-            "\%\%$FieldName\%\%$HistoryOldValue\%\%$HistoryValue",
+        Name => '%%' . join(
+            '%%',
+            FieldName => $FieldName,
+            Value     => ( $HistoryValue    // '' ),
+            OldValue  => ( $HistoryOldValue // '' ),
+        ),
         CreateUserID => $Param{UserID},
     );
 
+    # clear ticket cache
     $TicketObject->_TicketCacheClear( TicketID => $TicketID );
 
+    # Trigger event.
     $TicketObject->EventHandler(
         Event => 'ArticleDynamicFieldUpdate',
         Data  => {

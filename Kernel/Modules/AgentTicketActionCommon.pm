@@ -1404,42 +1404,40 @@ sub Run {
                     %GetParam,
                 );
             }
-            else {
-                if ( $GetParam{ArticleID} ) {
-                    $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleEdit(
-                        TicketID                        => $Self->{TicketID},
-                        ArticleID                       => $GetParam{ArticleID}, #Include the original article id for article versioning
-                        SenderType                      => 'agent',
-                        From                            => $From,
-                        MimeType                        => $MimeType,
-                        Charset                         => $LayoutObject->{UserCharset},
-                        UserID                          => $Self->{UserID},
-                        HistoryType                     => $Config->{HistoryType},
-                        HistoryComment                  => $Config->{HistoryComment},
-                        ForceNotificationToUserID       => \@NotifyUserIDs,
-                        ExcludeMuteNotificationToUserID => \@NotifyDone,
-                        UnlockOnAway                    => $UnlockOnAway,
-                        Attachment                      => \@Attachments,
-                        UserLogin                       => $Self->{UserLogin},
-                        %GetParam,
-                    );
-                } else {
-                    $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleCreate(
-                        TicketID                        => $Self->{TicketID},
-                        SenderType                      => 'agent',
-                        From                            => $From,
-                        MimeType                        => $MimeType,
-                        Charset                         => $LayoutObject->{UserCharset},
-                        UserID                          => $Self->{UserID},
-                        HistoryType                     => $Config->{HistoryType},
-                        HistoryComment                  => $Config->{HistoryComment},
-                        ForceNotificationToUserID       => \@NotifyUserIDs,
-                        ExcludeMuteNotificationToUserID => \@NotifyDone,
-                        UnlockOnAway                    => $UnlockOnAway,
-                        Attachment                      => \@Attachments,
-                        %GetParam,
-                    );
-                }
+            elsif ( $GetParam{ArticleID} ) {
+                $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleEdit(
+                    TicketID                        => $Self->{TicketID},
+                    ArticleID                       => $GetParam{ArticleID}, #Include the original article id for article versioning
+                    SenderType                      => 'agent',
+                    From                            => $From,
+                    MimeType                        => $MimeType,
+                    Charset                         => $LayoutObject->{UserCharset},
+                    UserID                          => $Self->{UserID},
+                    HistoryType                     => $Config->{HistoryType},
+                    HistoryComment                  => $Config->{HistoryComment},
+                    ForceNotificationToUserID       => \@NotifyUserIDs,
+                    ExcludeMuteNotificationToUserID => \@NotifyDone,
+                    UnlockOnAway                    => $UnlockOnAway,
+                    Attachment                      => \@Attachments,
+                    UserLogin                       => $Self->{UserLogin},
+                    %GetParam,
+                );
+            } else {
+                $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleCreate(
+                    TicketID                        => $Self->{TicketID},
+                    SenderType                      => 'agent',
+                    From                            => $From,
+                    MimeType                        => $MimeType,
+                    Charset                         => $LayoutObject->{UserCharset},
+                    UserID                          => $Self->{UserID},
+                    HistoryType                     => $Config->{HistoryType},
+                    HistoryComment                  => $Config->{HistoryComment},
+                    ForceNotificationToUserID       => \@NotifyUserIDs,
+                    ExcludeMuteNotificationToUserID => \@NotifyDone,
+                    UnlockOnAway                    => $UnlockOnAway,
+                    Attachment                      => \@Attachments,
+                    %GetParam,
+                );
             }
 
             if ( !$ArticleID ) {
@@ -1476,17 +1474,17 @@ sub Run {
             next DYNAMICFIELD if $DynamicFieldConfig->{Readonly};
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
-            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article'
+                ? $GetParam{ArticleID} || $ArticleID
+                : $Self->{TicketID};
 
             # set the value which was taken from web request
             # TODO: for Reference and Lens, the order is relevant
             my $Success = $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $GetParam{ArticleID} || $ObjectID, #Overwrite ObjectID if Article is being edited
+                ObjectID           => $ObjectID,
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                 UserID             => $Self->{UserID},
-                ArticleEdit        => $GetParam{ArticleID} || '',
-                TicketID           => $Self->{TicketID}
             );
         }
 
