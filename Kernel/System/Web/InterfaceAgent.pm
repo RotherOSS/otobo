@@ -946,7 +946,7 @@ sub Content {
                 );
 
                 # delete the OTOBO session cookie
-                # TOOD: Name is used twice
+                # TODO: Name is used twice
                 Kernel::Output::HTML::Layout->SetCookie(
                     RegisterInOM => 1,
                     Key          => 'SessionIDCookiehttp',
