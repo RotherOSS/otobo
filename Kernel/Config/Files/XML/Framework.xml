@@ -7335,7 +7335,7 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="CustomerDashboard::Tiles###PlainText-01" Required="0" Valid="1">
+    <Setting Name="CustomerDashboard::Tiles###PlainText-01" Required="0" Valid="0">
         <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
         <Value>
@@ -7383,7 +7383,7 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="CustomerDashboard::Tiles###PlainPicture-01" Required="0" Valid="1">
+    <Setting Name="CustomerDashboard::Tiles###PlainPicture-01" Required="0" Valid="0">
         <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
         <Value>
@@ -7397,6 +7397,141 @@ via the Preferences button after logging in.
                         <Item Key="Image">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/Dashboard/Example.png</Item>
                     </Hash>
                 </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerDashboard::Tiles###InfoTile-01" Required="0" Valid="1">
+        <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.</Description>
+        <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Order">7</Item>
+                <Item Key="Module">Kernel::Output::HTML::CustomerDashboard::InfoTile</Item>
+                <Item Key="Template">Dashboard/TileInfoEntries</Item>
+                <Item Key="Config">
+                    <Hash>
+                        <Item Key="TextColor">#00023c</Item>
+                        <Item Key="BackgroundColor">#fff</Item>
+                        <Item Key="Order">
+                            <Hash>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::Module###CustomerDashboardContent" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                   <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Create tickets.</Item>
+                    <Item Key="NavBarName">Ticket</Item>
+                    <Item Key="Title" Translatable="1">New Ticket</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminCustomerDashboardInfoTile" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module for dashboard info tile in customer interface.</Description>
+        <Navigation>Frontend::Admin::CustomerDashboardInfoTile</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Admin</Item>
+                    <Item Key="Title" Translatable="1">Customer Dashboard Info Tile</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminCustomerDashboardInfoTile###002-ExtendedCDBInfoTile" Required="0" Valid="1">
+        <Description Translatable="1">Loader module for dashboard info tile in customer interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.CustomerDashboardInfoTile.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###AdminCustomerDashboardInfoTile###002-ExtendedCDBInfoTile" Required="0" Valid="0">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Admin</Item>
+                    <Item Key="Title" Translatable="1">CustomerDashboard Info Tile</Item>
+                    <Item Key="NavBarName">Test</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###AdminCustomerDashboardInfoTile" Required="0" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Customer Dashboard Info Tile</Item>
+                <Item Key="Block">Administration</Item>
+                <Item Key="Description" Translatable="1">Manage Customer Dashboard Info Tile Entries</Item>
+                <Item Key="IconBig">fa-wrench</Item>
+                <Item Key="IconSmall"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <Setting Name="CustomerFrontend::NotifyModule###8-CustomerAnnouncement-Check" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info.</Description>
+        <Navigation>Frontend::Customer::FrontendNotification</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Notification::CustomerAnnouncementCheck</Item>
+                <Item Key="Segregation">###</Item>
+                <Item Key="UseMarquee">1</Item>
+                <Item Key="NotifyPriority">Error</Item>
             </Hash>
         </Value>
     </Setting>
@@ -8437,6 +8572,7 @@ via the Preferences button after logging in.
                 <Item>Core.Icons.css</Item>
                 <Item>Core.Footer.css</Item>
                 <Item>Core.Items.css</Item>
+                <Item>ExtendedCDBInfo.Tile.css</Item>
             </Array>
         </Value>
     </Setting>
@@ -8490,6 +8626,7 @@ via the Preferences button after logging in.
                 <Item>Core.Customer.Responsive.js</Item>
                 <Item>Core.UI.NavigationBar.js</Item>
                 <Item>Core.UI.Elasticsearch.js</Item>
+                <Item>ExtendedCDBInfo.Tile.js</Item>
             </Array>
         </Value>
     </Setting>
