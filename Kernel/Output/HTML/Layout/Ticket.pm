@@ -607,7 +607,7 @@ sub AgentQueueListOption {
                             . $OptionTitleHTMLValue
                             . '>'
                             . $DSpace
-                            . $Queue[$Index]
+                            . $Self->{LanguageObject}->Translate( $Queue[$Index] )
                             . "</option>\n";
                         $UsedData{$FullQueueName} = 1;
                     }
@@ -638,7 +638,7 @@ sub AgentQueueListOption {
                     .= '<option selected="selected" value="'
                     . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
-                    . $String
+                    . $Self->{LanguageObject}->Translate($String)
                     . "</option>\n";
             }
             elsif ( $CurrentQueueID eq $_ )
@@ -646,7 +646,7 @@ sub AgentQueueListOption {
                 $Param{MoveQueuesStrg}
                     .= '<option value="-" disabled="disabled"'
                     . $OptionTitleHTMLValue . '>'
-                    . $String
+                    . $Self->{LanguageObject}->Translate($String)
                     . "</option>\n";
             }
             else {
@@ -654,7 +654,7 @@ sub AgentQueueListOption {
                     .= '<option value="'
                     . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
-                    . $String
+                    . $Self->{LanguageObject}->Translate($String)
                     . "</option>\n";
             }
         }
