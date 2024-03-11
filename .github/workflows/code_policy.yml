@@ -87,7 +87,7 @@ jobs:
               uses: actions/checkout@v2
               with:
                 repository: RotherOSS/codepolicy
-                ref: rel-10_0_4
+                ref: rel-11_0
                 path: codepolicy
 
             - name: 'run CodePolicy'
