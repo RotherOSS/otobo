@@ -302,6 +302,9 @@ sub LoadDefaults {
     # (URL base path of icons, CSS and Java Script.)
     $Self->{'Frontend::WebPath'} = '/otobo-web/';
 
+    # the rich text editor has his specific path
+    $Self->{'Frontend::RichTextPath'} = '<OTOBO_CONFIG_Frontend::WebPath>js/thirdparty/ckeditor5-build-classic/';
+
     # Frontend::JavaScriptPath
     # (URL JavaScript path.)
     $Self->{'Frontend::JavaScriptPath'} = '<OTOBO_CONFIG_Frontend::WebPath>js/';

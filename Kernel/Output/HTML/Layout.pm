@@ -26,6 +26,7 @@ use utf8;
 use Digest::MD5    qw(md5_hex);
 use Scalar::Util   qw(blessed);
 use File::Basename qw(fileparse);
+use File::Spec     ();
 
 # CPAN modules
 use URI::Escape     qw(uri_escape_utf8);
@@ -1804,20 +1805,31 @@ sub Footer {
         )
         : ();
 
-    #Check if CKEditor translation exists
-    my $BaseEditorPath = $ConfigObject->Get('Frontend::RichTextPath');
-    my $Path           = $ConfigObject->Get('Frontend::WebPath');
+    # Check if CKEditor translation exists
+    my $WebPath = $ConfigObject->Get('Frontend::WebPath');
+    {
+        # assemble the path to the translation file based on the relevant URLs
+        my $RichTextPath = $ConfigObject->Get('Frontend::RichTextPath');
+        $RichTextPath =~ s/$WebPath//s;
+        my $Home            = $ConfigObject->Get('Home');
+        my $TranslationFile = File::Spec->catfile(
+            $Home,
+            'var/httpd/htdocs',
+            $RichTextPath,
+            'translations',
+            "$Self->{UserLanguage}.js"
+        );
 
-    $BaseEditorPath =~ s/$Path//;
-
-    $Param{LoadRichTextTranslation}
-        = -e $ConfigObject->Get('Home') . '/var/httpd/htdocs/' . $BaseEditorPath . 'translations/' . $Self->{UserLanguage} . '.js' ? 1 : 0;
+        # set the template variables
+        $Param{LoadRichTextTranslation} = -e $TranslationFile ? 1 : 0;
+        $Param{RichTextSet}             = $ConfigObject->Get('Frontend::RichText') || '';
+    }
 
     # add JS data
     my %JSConfig = (
         Baselink                       => $Self->{Baselink},
         CGIHandle                      => $Self->{CGIHandle},
-        WebPath                        => $ConfigObject->Get('Frontend::WebPath'),
+        WebPath                        => $WebPath,
         Action                         => $Self->{Action},
         Subaction                      => $Self->{Subaction},
         SessionIDCookie                => $Self->{SessionIDCookie},
@@ -1855,8 +1867,6 @@ sub Footer {
             Value => $JSConfig{$Config},
         );
     }
-
-    $Param{RichTextSet} = $ConfigObject->Get('Frontend::RichText') || '';
 
     # create & return output
     return $Self->Output(
@@ -4479,20 +4489,31 @@ sub CustomerFooter {
             = $Self->{LanguageObject}->Translate( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
     }
 
-    #Check if CKEditor translation exists
-    my $BaseEditorPath = $ConfigObject->Get('Frontend::RichTextPath');
-    my $Path           = $ConfigObject->Get('Frontend::WebPath');
+    # Check if CKEditor translation exists
+    my $WebPath = $ConfigObject->Get('Frontend::WebPath');
+    {
+        # assemble the path to the translation file based on the relevant URLs
+        my $RichTextPath = $ConfigObject->Get('Frontend::RichTextPath');
+        $RichTextPath =~ s/$WebPath//s;
+        my $Home            = $ConfigObject->Get('Home');
+        my $TranslationFile = File::Spec->catfile(
+            $Home,
+            'var/httpd/htdocs',
+            $RichTextPath,
+            'translations',
+            "$Self->{UserLanguage}.js"
+        );
 
-    $BaseEditorPath =~ s/$Path//;
-
-    $Param{LoadRichTextTranslation}
-        = -e $ConfigObject->Get('Home') . '/var/httpd/htdocs/' . $BaseEditorPath . 'translations/' . $Self->{UserLanguage} . '.js' ? 1 : 0;
+        # set the template variables
+        $Param{LoadRichTextTranslation} = -e $TranslationFile ? 1 : 0;
+        $Param{RichTextSet}             = $ConfigObject->Get('Frontend::RichText') || '';
+    }
 
     # add JS data
     my %JSConfig = (
         Baselink                 => $Self->{Baselink},
         CGIHandle                => $Self->{CGIHandle},
-        WebPath                  => $ConfigObject->Get('Frontend::WebPath'),
+        WebPath                  => $WebPath,
         Action                   => $Self->{Action},
         Subaction                => $Self->{Subaction},
         SessionIDCookie          => $Self->{SessionIDCookie},
@@ -4542,8 +4563,6 @@ sub CustomerFooter {
 
         $Param{FooterLinks} = \@FooterLinks;
     }
-
-    $Param{RichTextSet} = $ConfigObject->Get('Frontend::RichText') || '';
 
     # create & return output
     return $Self->Output(
