@@ -56,6 +56,7 @@ sub Run {
     # Uninstall, without running DatabaseUninstall and CodeUninstall
     my @MergedPackages = qw(
         Ayte-CustomTranslations
+        ExtendedCDBInfoTile
         ImportExport
         LightAdmin
         MarkTicketSeenUnseen
