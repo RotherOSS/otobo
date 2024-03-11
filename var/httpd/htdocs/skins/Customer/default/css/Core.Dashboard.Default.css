@@ -33,19 +33,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         display: none;
     }
 
-    /* MotD */              
-    #oooTile04 {            
-        grid-area: 1 / 1 / 2 / 2;
-    }                       
-                            
     /* External Links */
     #oooTile05 {            
         grid-area: 4 / 1 / 5 / 2;
     }                       
                             
-    /* Status */            
-    #oooTile06 {            
-        grid-area: 5 / 1 / 6 / 2;
+    /* InfoTile */
+    #oooTile07 {            
+        grid-area: 1 / 1 / 2 / 2;
     }
 
     /* 89/55 = (Tilewidth) / (Tileheight)
@@ -79,19 +74,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         grid-area: 6 / 1 / 9 / 2;
     }                                           
 
-    /* MotD */              
-    #oooTile04 {            
-        grid-area: 1 / 1 / 2 / 2;
-    }                       
-                            
     /* External Links */
     #oooTile05 {            
         grid-area: 4 / 1 / 5 / 2;
     }                       
                             
-    /* Status */            
-    #oooTile06 {            
-        grid-area: 5 / 1 / 6 / 2;
+    /* InfoTile */
+    #oooTile07 {            
+        grid-area: 6 / 1 / 7 / 2;
     }
 
     #oooContent > #oooMainBox {
@@ -125,12 +115,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     /* Ticket List */
     #oooTile03 {            
-        grid-area: 7 / 1 / 10 / 2;
-    }                       
-                            
-    /* MotD */              
-    #oooTile04 {            
-        grid-area: 2 / 1 / 3 / 2;
+        grid-area: 6 / 1 / 10 / 2;
     }                       
                             
     /* External Links */
@@ -138,9 +123,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         grid-area: 5 / 1 / 6 / 2;
     }                       
                             
-    /* Status */            
-    #oooTile06 {            
-        grid-area: 6 / 1 / 7 / 2;
+    /* InfoTile */
+    #oooTile07 {            
+        grid-area: 2 / 1 / 3 / 2;
     }
 
     #oooContent > #oooMainBox {
@@ -184,19 +169,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         grid-area: 10 / 1 / 19 / 7;
     }
 
-    /* MotD */
-    #oooTile04 {
-        grid-area: 7 / 1 / 10 / 4;
-    }
-
     /* External Links*/
     #oooTile05 {
         grid-area: 4 / 4 / 7 / 7;
     }
 
-    /* Status */
-    #oooTile06 {
-        grid-area: 7 / 4 / 10 / 7;
+    /* InfoTile */
+    #oooTile07 {
+        grid-area: 7 / 1 / 10 / 7;
     }
 
     /* 89/55 = (3*Tilewidth+48px) / (3*Tileheight+48px)
@@ -237,7 +217,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     /* Featured Link */
     #oooTile02 {
-        grid-area: 1 / 1 / 9 / 5;
+        grid-area: 5 / 1 / 14 / 5;
     }
 
     /* Ticket List */
@@ -245,19 +225,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         grid-area: 5 / 5 / 17 / 13;
     }
 
-    /* MotD */
-    #oooTile04 {
-        grid-area: 1 / 5 / 5 / 9;
-    }
-
     /* External Links*/
     #oooTile05 {
-        grid-area: 9 / 1 / 13 / 5;
+        grid-area: 14 / 1 / 18 / 5;
     }
 
-    /* Status */
-    #oooTile06 {
-        grid-area: 13 / 1 / 17 / 5;
+    /* InfoTile */
+    #oooTile07 {
+        grid-area: 1 / 1 / 5 / 9;
     }
 
     @media only screen and (max-width: 1443px) {
@@ -344,133 +319,4 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     display: inline-block;
     vertical-align: middle;
     padding-bottom: 3px;
-}
-
-/* IE */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-   
-    #oooHeader {
-        display: -ms-grid;
-        /* text / ticket search / new ticket button */
-        -ms-grid-columns: 1fr auto auto;
-        -ms-grid-rows: 100%;
-    }
-
-    #oooSearchBox {
-        -ms-grid-column: 2;
-    }
-
-    #oooHeader > div {
-        -ms-grid-row-align: center;
-    }
-
-    #oooMainBox {
-        display: -ms-grid;
-
-        -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-        -ms-grid-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    }
-
-    .oooTile {
-        margin: 8px;
-    }
-
-    /* New Ticket */
-    #oooTile01 {
-        -ms-grid-row: 1;
-        -ms-grid-row-span: 4;
-        -ms-grid-column: 9;
-        -ms-grid-column-span: 4;
-    }
-
-    /* Featured Link */
-    #oooTile02 {
-        -ms-grid-row: 1;
-        -ms-grid-row-span: 8;
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 4;
-    }
-
-    /* Ticket List */
-    #oooTile03 {
-        -ms-grid-row: 5;
-        -ms-grid-row-span: 12;
-        -ms-grid-column: 5;
-        -ms-grid-column-span: 8;
-    }
-
-    /* MotD */
-    #oooTile04 {
-        -ms-grid-row: 1;
-        -ms-grid-row-span: 4;
-        -ms-grid-column: 5;
-        -ms-grid-column-span: 4;
-    }
-
-    /* External Links*/
-    #oooTile05 {
-        -ms-grid-row: 9;
-        -ms-grid-row-span: 4;
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 4;
-    }
-
-    /* Status */
-    #oooTile06 {
-        -ms-grid-row: 13;
-        -ms-grid-row-span: 4;
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 4;
-    }
-
-    @media only screen and (max-width: 1443px) {
-        #oooContent > #oooMainBox {
-            height: calc( 82.406vw - 99.405px );
-        }
-    }
-
-    @media only screen and (min-width: 1444px) {
-        #oooContent > #oooMainBox {
-            height: 1090.54px;
-        }
-    }
-
-    @supports (display: grid) {
-        #oooHeader {
-            display: grid;
-        }
-        #oooMainBox {
-            display: grid;
-
-        }
-        .oooTile {
-            margin: 0px;
-        }
-        @media only screen and (max-width: 435px) {
-            #oooContent > #oooMainBox {
-                height: calc( 308.99vw + 46.56px );
-            }
-        }
-        @media only screen and (min-width: 436px) and (max-width: 767px) {
-            #oooContent > #oooMainBox {
-                height: 2245.3px;
-            }
-        }
-        @media only screen and (min-width: 768px) and (max-width: 879px) {
-            #oooContent > #oooMainBox {
-                height: 2528.96px;
-            }
-        }
-        @media only screen and (min-width: 880px) and (max-width: 1023px) {
-            #oooContent > #oooMainBox {
-                height: calc( 185.4141vw - 221.16px );
-            }
-        }
-        @media only screen and (min-width: 1024px) and (max-width: 1279px) {
-            #oooContent > #oooMainBox {
-                height: 1677.3px;
-            }
-        }
-    }
-
 }
