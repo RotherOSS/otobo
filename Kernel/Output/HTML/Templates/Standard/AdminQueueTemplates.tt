@@ -103,7 +103,7 @@
                         <li>[% Translate("No data found.") | html %]</li>
 [% RenderBlockEnd("NoTemplatesFoundMsg") %]
 [% RenderBlockStart("List1n") %]
-                        <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
+                        <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %]" class="AsBlock">[% Translate(Data.Name) | html %]</a></li>
 [% RenderBlockEnd("List1n") %]
                     </ul>
                 </div>
@@ -158,7 +158,7 @@
 [% RenderBlockEnd("NoDataFoundMsgList") %]
 [% RenderBlockStart("ChangeRow") %]
                             <tr>
-                                <td><a href="[% Env("Baselink") %]Action=Admin[% Data.NeType | uri %];Subaction=Change;[% Data.Queue | uri %]ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
+                                <td><a href="[% Env("Baselink") %]Action=Admin[% Data.NeType | uri %];Subaction=Change;[% Data.Queue | uri %]ID=[% Data.ID | uri %]">[% Translate(Data.Name) | html %]</a></td>
                                 <td class="[% Data.Mark | html %]">
                                     <input type="checkbox" name="ItemsSelected" title="[% Translate("Toggle active state for %s", Data.Name) | html %]" value="[% Data.ID | html %]" [% Data.Selected %]/>
                                     <input type="hidden" name="ItemsAll" value="[% Data.ID | html %]"/>

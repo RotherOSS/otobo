@@ -1175,7 +1175,7 @@ sub _Edit {
             Sort        => 'AlphanumericValue',
             Size        => 3,
             Multiple    => 1,
-            Translation => 0,
+            Translation => 1,
             Class       => 'Modernize W75pc',
         );
         $LayoutObject->Block(
@@ -1214,7 +1214,7 @@ sub _Edit {
             Sort        => 'AlphanumericValue',
             Size        => 5,
             Multiple    => 1,
-            Translation => 0,
+            Translation => 1,
             Max         => 200,
             Class       => 'Modernize W75pc',
         );
