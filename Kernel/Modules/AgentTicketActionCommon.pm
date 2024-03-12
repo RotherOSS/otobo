@@ -1889,24 +1889,15 @@ sub Run {
         }
 
         # use ticket values
-        if ( $Config->{Queue} ) {
-            $GetParam{QueueID} = $Ticket{QueueID} // '';
-            $GetParam{Dest}    = $Ticket{QueueID} // '';
-        }
-        if ( $Config->{Service} ) {
-            $GetParam{SLAID}     = $Ticket{SLAID}     // '';
-            $GetParam{ServiceID} = $Ticket{ServiceID} // '';
-        }
-        if ( $Config->{TicketType} ) {
-            $GetParam{TypeID} = $Ticket{TypeID} // '';
-        }
-        if ( $Config->{State} ) {
-            $GetParam{NextStateID} = $Ticket{StateID} // '';
-        }
-        if ( $Config->{Priority} || $Self->{Action} eq 'AgentTicketPriority' ) {
-            $GetParam{PriorityID} = $Ticket{PriorityID} // '';
-        }
-
+        $GetParam{QueueID}          = $Ticket{QueueID}       // '';
+        $GetParam{Dest}             = $Ticket{QueueID}       // '';
+        $GetParam{NewResponsibleID} = $Ticket{ResponsibleID} // '';
+        $GetParam{SLAID}            = $Ticket{SLAID}         // '';
+        $GetParam{ServiceID}        = $Ticket{ServiceID}     // '';
+        $GetParam{TypeID}           = $Ticket{TypeID}        // '';
+        $GetParam{NextStateID}      = $Ticket{StateID}       // '';
+        $GetParam{PriorityID}       = $Ticket{PriorityID}    // '';
+        $GetParam{NewUserID}        = $Ticket{OwnerID}       // '';
         my $CustomerUser = $Ticket{CustomerUserID} // '';
 
         # Get values for Ticket fields and use default value for Article fields, if given (all screens based on
