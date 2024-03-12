@@ -1903,7 +1903,7 @@ sub Run {
         if ( $Config->{State} ) {
             $GetParam{NextStateID} = $Ticket{StateID} // '';
         }
-        if ( $Config->{Priority} ) {
+        if ( $Config->{Priority} || $Self->{Action} eq 'AgentTicketPriority' ) {
             $GetParam{PriorityID} = $Ticket{PriorityID} // '';
         }
 
