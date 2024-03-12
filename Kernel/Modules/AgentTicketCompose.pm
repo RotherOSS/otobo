@@ -1491,15 +1491,13 @@ sub Run {
                     HTMLResultMode => 1,
                 );
                 if ($Quote) {
-
-                    # quote text
-                    $Data{Body} = "<blockquote type=\"cite\">$Data{Body}</blockquote>\n";
-
                     # cleanup not compat. tags
                     $Data{Body} = $LayoutObject->RichTextDocumentCleanup(
                         String => $Data{Body},
                     );
 
+                    # quote text
+                    $Data{Body} = "<blockquote type=\"cite\">$Data{Body}</blockquote>\n";                    
                 }
                 else {
                     $Data{Body} = "<br/>" . $Data{Body};

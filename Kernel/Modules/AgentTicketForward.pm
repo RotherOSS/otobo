@@ -418,14 +418,13 @@ sub Form {
             String => $ConfigObject->Get('Ticket::Frontend::Quote') || '',
         );
         if ($Quote) {
-
-            # quote text
-            $Data{Body} = "<blockquote type=\"cite\">$Data{Body}</blockquote>\n";
-
             # cleanup not compat. tags
             $Data{Body} = $LayoutObject->RichTextDocumentCleanup(
                 String => $Data{Body},
             );
+            
+            # quote text
+            $Data{Body} = "<blockquote type=\"cite\">$Data{Body}</blockquote>\n";            
         }
         else {
             $Data{Body} = "<br/>" . $Data{Body};

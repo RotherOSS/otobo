@@ -1316,10 +1316,6 @@ sub Run {
                 Param => 'FileUpload',
             );
 
-            if ( $GetParam{ArticleID} ) {
-                $GetParam{Body} =~ s/(OTOBOAgentInterface=)/OldSession=/g;
-            }
-
             if (%UploadStuff) {
                 push @Attachments, \%UploadStuff;
             }
@@ -1475,12 +1471,12 @@ sub Run {
             next DYNAMICFIELD if !$Visibility{"DynamicField_$DynamicFieldConfig->{Name}"};
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
-            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? ( $GetParam{ArticleID} || $ArticleID ) : $Self->{TicketID};
 
             # set the value
             my $Success = $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $GetParam{ArticleID} || $ObjectID, #Overwrite ObjectID if Article is being edited
+                ObjectID           => $ObjectID,
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                 UserID             => $Self->{UserID},
                 ArticleEdit        => $GetParam{ArticleID} || '',
@@ -2074,6 +2070,9 @@ sub Run {
 
                 # Value is stored in the database from Ticket.
                 $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+            }
+            elsif ( $DynamicFieldConfig->{ObjectType} eq 'Article' && ( !$GetParam{ArticleID} && !$GetParam{'DynamicField_' . $DynamicFieldConfig->{Name}} ) ) {
+                $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldConfig->{Config}->{DefaultValue} || '';
             }
         }
 
@@ -3629,14 +3628,13 @@ sub _GetQuotedReplyBody {
                 HTMLResultMode => 1,
             );
             if ($Quote) {
-
-                # quote text
-                $Param{Body} = "<blockquote type=\"cite\">$Param{Body}</blockquote>\n";
-
                 # cleanup not compat. tags
                 $Param{Body} = $LayoutObject->RichTextDocumentCleanup(
                     String => $Param{Body},
                 );
+
+                # quote text
+                $Param{Body} = "<blockquote type=\"cite\">$Param{Body}</blockquote>\n";                
 
                 my $ResponseFormat = $LayoutObject->{LanguageObject}->FormatTimeString( $Param{CreateTime}, 'DateFormat', 'NoSeconds' );
                 $ResponseFormat .= ' - ' . $Param{From} . ' ';
