@@ -190,7 +190,7 @@
                         <div class="Clear"></div>
                         <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="[% Data.Name | html %]" class="W50pc Validate_Required [% Data.NameInvalid | html %]" maxlength="200"/>
+                            <input type="text" name="Name" id="Name" value="[% Translate(Data.Name) | html %]" class="W50pc Validate_Required [% Data.NameInvalid | html %]" maxlength="200"/>
                             <div id="NameError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>

@@ -94,7 +94,7 @@ sub Param {
                 Size        => 10,
                 SelectedID  => \@CustomServiceIDs,
                 Sort        => 'AlphanumericValue',
-                Translation => 1,
+                Translation => 0,
                 TreeView    => 1,
 
             ),
