@@ -376,6 +376,7 @@ sub Run {
     $GetParam{ArticleID} = $ParamObject->GetParam( Param => 'ArticleID' ) || '';
     $GetParam{IsEdited}  = $ParamObject->GetParam( Param => 'IsEdited' ) || '';
 
+    my %ArticleData;
     if ( $GetParam{ArticleID} && !$GetParam{IsEdited} ) {
 
         my %Ticket = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
@@ -386,7 +387,7 @@ sub Run {
             ShowDeletedArticles => 1
         );        
 
-        my %ArticleData = $ArticleBackendObject->ArticleGet(
+        %ArticleData = $ArticleBackendObject->ArticleGet(
             TicketID      => $Self->{TicketID},
             ArticleID     => $GetParam{ArticleID},
             DynamicFields => 1, 
@@ -1316,10 +1317,6 @@ sub Run {
                 Param => 'FileUpload',
             );
 
-            if ( $GetParam{ArticleID} ) {
-                $GetParam{Body} =~ s/(OTOBOAgentInterface=)/OldSession=/g;
-            }
-
             if (%UploadStuff) {
                 push @Attachments, \%UploadStuff;
             }
@@ -2141,16 +2138,16 @@ sub Run {
         }
 
         # use ticket values
-        $GetParam{QueueID}          = $Ticket{QueueID}       // '';
-        $GetParam{Dest}             = $Ticket{QueueID}       // '';
-        $GetParam{NewResponsibleID} = $Ticket{ResponsibleID} // '';
-        $GetParam{SLAID}            = $Ticket{SLAID}         // '';
-        $GetParam{ServiceID}        = $Ticket{ServiceID}     // '';
-        $GetParam{TypeID}           = $Ticket{TypeID}        // '';
-        $GetParam{NextStateID}      = $Ticket{StateID}       // '';
-        $GetParam{PriorityID}       = $Ticket{PriorityID}    // '';
-        $GetParam{NewUserID}        = $Ticket{OwnerID}       // '';
-        my $CustomerUser = $Ticket{CustomerUserID} // '';
+        $GetParam{QueueID}          = $Ticket{QueueID}        // '';
+        $GetParam{Dest}             = $Ticket{QueueID}        // '';
+        $GetParam{NewResponsibleID} = $Ticket{ResponsibleID}  // '';
+        $GetParam{SLAID}            = $Ticket{SLAID}          // '';
+        $GetParam{ServiceID}        = $Ticket{ServiceID}      // '';
+        $GetParam{TypeID}           = $Ticket{TypeID}         // '';
+        $GetParam{NextStateID}      = $Ticket{StateID}        // '';
+        $GetParam{PriorityID}       = $Ticket{PriorityID}     // '';
+        $GetParam{NewUserID}        = $Ticket{OwnerID}        // '';
+        my $CustomerUser            = $Ticket{CustomerUserID} // '';
 
         # Get values for Ticket fields and use default value for Article fields, if given (all screens based on
         # AgentTicketActionCommon generate a new article, then article fields will be always default value or
@@ -2166,6 +2163,16 @@ sub Run {
 
                 # Value is stored in the database from Ticket.
                 $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+            }
+            elsif ( $DynamicFieldConfig->{ObjectType} eq 'Article' ) {
+                if ( $GetParam{ArticleID} ) {
+
+                    # if we are in edit mode take the db data of the article
+                    $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $ArticleData{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+                }
+                else {
+                    $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldConfig->{Config}->{DefaultValue} || '';
+                }
             }
         }
 
