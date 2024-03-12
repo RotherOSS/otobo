@@ -374,11 +374,10 @@ sub _Edit {
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Param{StateTypeOption} = $LayoutObject->BuildSelection(
-        Data        => { $StateObject->StateTypeList( UserID => 1 ), },
-        Name        => 'TypeID',
-        SelectedID  => $Param{TypeID},
-        Class       => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
-        Translation => 1,
+        Data       => { $StateObject->StateTypeList( UserID => 1 ), },
+        Name       => 'TypeID',
+        SelectedID => $Param{TypeID},
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
     );
     $LayoutObject->Block(
         Name => 'OverviewUpdate',

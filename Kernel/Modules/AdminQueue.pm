@@ -701,7 +701,7 @@ sub _Edit {
             SelectedValue => $ParentQueue,
             PossibleNone  => 1,
             HTMLQuote     => 0,
-            Translation   => 1,
+            Translation   => 0,
             Class         => 'Modernize',
         );
     }

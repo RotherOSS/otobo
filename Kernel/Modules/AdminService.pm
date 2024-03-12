@@ -373,7 +373,6 @@ sub _MaskNew {
         DisabledBranch => $ServiceData{Name},
         Translation    => 0,
         Class          => 'Modernize',
-        Translation    => 1,
     );
 
     # get valid list

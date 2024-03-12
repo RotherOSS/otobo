@@ -399,7 +399,7 @@ sub _MaskNew {
         SelectedID  => $SLAData{ServiceIDs} || [],
         Multiple    => 1,
         Size        => 5,
-        Translation => 1,
+        Translation => 0,
         TreeView    => ( $ListType eq 'tree' ) ? 1 : 0,
         Max         => 200,
         Class       => 'Modernize',
