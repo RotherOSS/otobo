@@ -1260,7 +1260,12 @@ sub _MetaArticleList {
         $Result{ChangeBy}               = $Row[7];
         $Result{ChangeTime}             = $Row[8];
         $Result{ArticleNumber}          = ++$Count;
-        $Result{ArticleDeleted}         = $Row[9] ? 1 : 0;
+
+        # key shall only exist if value is 1
+        if ( $Row[9] ) {
+            $Result{ArticleDeleted} = 1;
+        }
+
         push @Index, \%Result;
     }
 
