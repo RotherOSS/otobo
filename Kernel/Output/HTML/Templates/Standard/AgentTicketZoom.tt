@@ -416,6 +416,11 @@
                                 <th class="Channel Sortable"><a href="#">[% Translate("Via") | html %]</a></th>
                                 <th class="Subject Sortable"><a href="#">[% Translate("Subject") | html %]</a></th>
                                 <th class="Created Sortable"><a href="#">[% Translate("Created") | html %]</a></th>
+                                <th class="ArticleEdit Sortable Center">
+                                    <a href="#" title="[% Translate("Article Edited") | html %]">
+                                        <i class="fa fa-edit"></i>
+                                    </a>                                
+                                </th>
                                 <th class="Attachments Last Center">
                                     <a href="#" title="[% Translate("Attachments") | html %]">
                                         <i class="fa fa-paperclip"></i>
@@ -425,7 +430,7 @@
                         </thead>
                         <tbody>
 [% RenderBlockStart("TreeItem") %]
-                            <tr class="[% Data.SenderType | html %] [% IF Data.SenderType == 'customer' %]Incoming[% ELSE %]Outgoing[% END %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %] [% Data.ClassRow | html %]" id="Row[% Data.ArticleNumber | uri %]">
+                            <tr class="[% Data.SenderType | html %] [% IF Data.SenderType == 'customer' %]Incoming[% ELSE %]Outgoing[% END %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %] [% IF Data.ArticleDeleted == "1" %] ArticleDeleted [% END %] [% Data.ClassRow | html %]" id="Row[% Data.ArticleNumber | uri %]">
                                 <td class="No">
                                     [% Data.ArticleNumber | html %]
                                     <input type="hidden" class="ArticleInfo" name="Link[% Data.ArticleNumber | uri %]" value="[% Env("Baselink") %]Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=[% Data.ArticleNumber | uri %];TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];"/>
@@ -496,6 +501,15 @@
 # Other date formats cannot be sorted reliably.
                                     <input type="hidden" class="SortData" value="[% Data.CreateTime | html %]" />
                                 </td>
+                                <td class="Center">
+                                    <div title="[% Translate("The article was edited") | html %]">
+                                        [% IF Data.IsEdited == "1" %]
+                                            <p class="EditIcon"><i class="fa fa-clone"></i></p>
+                                        [% END %]
+                                    </div>
+                                    <input type="hidden" class="SortData" value="[% Data.IsEdited | html %]" />
+                                </td>
+
                                 <td class="Attachments Center Attachment Fixed NonTextContent">
 [% RenderBlockStart("TreeItemAttachment") %]
 [% PROCESS ArticleAttachments.tt %]

@@ -44,11 +44,16 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get IDs
     my $TicketID  = $ParamObject->GetParam( Param => 'TicketID' );
     my $ArticleID = $ParamObject->GetParam( Param => 'ArticleID' );
     my $FileID    = $ParamObject->GetParam( Param => 'FileID' );
+
+    my $VersionView     = $ParamObject->GetParam( Param => 'VersionView' ) || '';
+    my $SourceArticleID = $ParamObject->GetParam( Param => 'SourceArticleID' ) || '';
+    my $ArticleDeleted  = $ParamObject->GetParam( Param => 'ArticleDeleted' ) || '';
 
     # check params
     if ( !$FileID || !$ArticleID || !$TicketID ) {
@@ -66,16 +71,28 @@ sub Run {
 
     # get needed objects
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
-        TicketID  => $TicketID,
-        ArticleID => $ArticleID,
+        TicketID            => $TicketID,
+        ArticleID           => $ArticleID,
+        ShowDeletedArticles => 1,
+        VersionView         => $VersionView
     );
 
     # check permissions
     my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID      => $TicketID,
-        ArticleID     => $ArticleID,
-        DynamicFields => 0,
+        TicketID         => $TicketID,
+        ArticleID        => $ArticleID,
+        DynamicFields    => 0,
+        VersionView      => $VersionView,
+        SourceArticleID  => $SourceArticleID,
     );
+
+    my $ArticleBackendObjectDB;
+
+    if ( $Article{ArticleDeleted} ) {    
+        $ArticleBackendObjectDB = Kernel::System::Ticket::Article::Backend::MIMEBase->new(
+            ArticleStorageModule => "Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB",
+        );
+    }
 
     # check permissions
     my $Access = $Kernel::OM->Get('Kernel::System::Ticket')->TicketPermission(
@@ -95,12 +112,33 @@ sub Run {
     # TODO: check for output filter on AgentTicketAttachment or on ALL
     my $ContentMayBeFilehandle = $ViewerActive ? 0 : 1;
 
+    my %Data;
+    my $ArticleStorage = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage');
+    
     # get an attachment
-    my %Data = $ArticleBackendObject->ArticleAttachment(
-        ArticleID              => $ArticleID,
-        FileID                 => $FileID,
-        ContentMayBeFilehandle => $ContentMayBeFilehandle,
-    );
+    if ( !$Article{ArticleDeleted} || $ArticleStorage eq 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {  
+        %Data = $ArticleBackendObject->ArticleAttachment(
+            ArticleID              => $ArticleID,
+            VersionView            => $VersionView,
+            SourceArticleID        => $SourceArticleID,
+            FileID                 => $FileID,
+            ContentMayBeFilehandle => $ContentMayBeFilehandle,
+            ShowDeletedArticles    => 1,
+            ArticleDeleted         => $Article{ArticleDeleted}
+        );
+    } else {
+        # get an attachment
+        %Data = $ArticleBackendObjectDB->ArticleAttachment(
+            ArticleID              => $ArticleID,
+            VersionView            => 1,
+            SourceArticleID        => $SourceArticleID,
+            FileID                 => $FileID,
+            ContentMayBeFilehandle => $ContentMayBeFilehandle,
+            ShowDeletedArticles    => 1,
+            ArticleDeleted         => 1
+        );       
+    }
+
     if ( !%Data ) {
         $LogObject->Log(
             Message  => "No such attachment ($FileID).",

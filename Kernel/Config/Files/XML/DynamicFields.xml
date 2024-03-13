@@ -1899,6 +1899,7 @@
             <Value>
                 <Hash>
                     <!-- Views -->
+                    <Item Key="Ticket::Frontend::AgentTicketArticleEdit###DynamicField">AgentTicketArticleEdit</Item>
                     <Item Key="Ticket::Frontend::AgentTicketClose###DynamicField">AgentTicketClose</Item>
                     <Item Key="Ticket::Frontend::AgentTicketCompose###DynamicField">AgentTicketCompose</Item>
                     <Item Key="Ticket::Frontend::AgentTicketEmail###DynamicField">AgentTicketEmail</Item>

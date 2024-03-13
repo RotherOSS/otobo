@@ -81,6 +81,8 @@ sub ArticleFields {
         }
     }
 
+    $Param{UserID} = $Self->{UserID};
+
     my $BackendObject = $Self->_BackendGet(%Param);
 
     # Return backend response.
@@ -119,6 +121,8 @@ sub ArticlePreview {
             return;
         }
     }
+
+    $Param{UserID} = $Self->{UserID};
 
     my $BackendObject = $Self->_BackendGet(%Param);
 
@@ -567,7 +571,9 @@ sub _BackendGet {
         }
     }
 
-    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param);
+    my $VersionView = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'VersionView' ) || $Param{VersionView} || '';
+
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param, VersionView => $VersionView  );
 
     # Determine channel name for this article.
     my $ChannelName = $ArticleBackendObject->ChannelNameGet();
