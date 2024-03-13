@@ -366,7 +366,7 @@ sub _RenderAjax {
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'ServiceID' ) || '',
                     PossibleNone => 1,
-                    Translation  => 0,
+                    Translation  => $TreeView,
                     TreeView     => $TreeView,
                     Max          => 100,
                 },
@@ -398,7 +398,7 @@ sub _RenderAjax {
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'SLAID' ) || '',
                     PossibleNone => 1,
-                    Translation  => 0,
+                    Translation  => 1,
                     Max          => 100,
                 },
             );
@@ -419,7 +419,7 @@ sub _RenderAjax {
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'TypeID' ) || '',
                     PossibleNone => 1,
-                    Translation  => 0,
+                    Translation  => 1,
                     Max          => 100,
                 },
             );

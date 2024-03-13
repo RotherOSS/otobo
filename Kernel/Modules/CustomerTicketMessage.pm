@@ -1481,7 +1481,7 @@ sub Run {
         my @StdFieldAJAX;
         my %Attributes = (
             Dest => {
-                Translation  => 0,
+                Translation  => $TreeView,
                 PossibleNone => 1,
                 TreeView     => $TreeView,
                 Max          => 100,
@@ -1492,18 +1492,18 @@ sub Run {
             },
             ServiceID => {
                 PossibleNone => 1,
-                Translation  => 0,
+                Translation  => $TreeView,
                 TreeView     => $TreeView,
                 Max          => 100,
             },
             SLAID => {
                 PossibleNone => 1,
-                Translation  => 0,
+                Translation  => 1,
                 Max          => 100,
             },
             TypeID => {
                 PossibleNone => 1,
-                Translation  => 0,
+                Translation  => 1,
                 Max          => 100,
             }
         );

@@ -607,7 +607,7 @@ sub AgentQueueListOption {
                             . $OptionTitleHTMLValue
                             . '>'
                             . $DSpace
-                            . $TreeView ? $Self->{LanguageObject}->Translate( $Queue[$Index] ) : $Queue[$Index]
+                            . ( $TreeView ? $Self->{LanguageObject}->Translate( $Queue[$Index] ) : $Queue[$Index] )
                             . "</option>\n";
                         $UsedData{$FullQueueName} = 1;
                     }
@@ -638,7 +638,7 @@ sub AgentQueueListOption {
                     .= '<option selected="selected" value="'
                     . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
-                    . $TreeView ? $Self->{LanguageObject}->Translate($String) : $String
+                    . ( $TreeView ? $Self->{LanguageObject}->Translate($String) : $String )
                     . "</option>\n";
             }
             elsif ( $CurrentQueueID eq $_ )
@@ -646,7 +646,7 @@ sub AgentQueueListOption {
                 $Param{MoveQueuesStrg}
                     .= '<option value="-" disabled="disabled"'
                     . $OptionTitleHTMLValue . '>'
-                    . $TreeView ? $Self->{LanguageObject}->Translate($String) : $String
+                    . ( $TreeView ? $Self->{LanguageObject}->Translate($String) : $String )
                     . "</option>\n";
             }
             else {
@@ -654,7 +654,7 @@ sub AgentQueueListOption {
                     .= '<option value="'
                     . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
-                    . $TreeView ? $Self->{LanguageObject}->Translate($String) : $String
+                    . ( $TreeView ? $Self->{LanguageObject}->Translate($String) : $String )
                     . "</option>\n";
             }
         }
