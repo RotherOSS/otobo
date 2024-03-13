@@ -63,8 +63,6 @@ sub Run {
         ResponseTemplatesStatePreselection
         RotherOSS-LightAdmin
         RotherOSS-InternalTransitionActions
-        MarkTicketSeenUnseen
-        ITSM
     );
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
     PACKAGENAME:
