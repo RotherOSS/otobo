@@ -63,6 +63,7 @@ RUN apt-get update\
  "vim"\
  "chromium"\
  "chromium-sandbox"\
+ "libqrencode-dev"\
  && useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER\
  && install -d /opt/otobo_install\
  && install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME
