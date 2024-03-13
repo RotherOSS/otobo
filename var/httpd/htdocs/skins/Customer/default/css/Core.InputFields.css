@@ -55,6 +55,7 @@ fieldset.Columns .Column .InputField_ListContainer div {
 .Row,
 .RichTextHolder {
     margin-top: 40px;
+    white-space: nowrap;
 }
 
 .AddValueRow,
