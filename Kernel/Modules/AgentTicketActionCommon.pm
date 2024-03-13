@@ -40,22 +40,24 @@ sub new {
     # allocate new hash for object
     my $Self = bless {%Param}, $Type;
 
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
     # Try to load draft if requested.
     if (
         $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}")->{FormDraft}
-        && $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'LoadFormDraft' )
-        && $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormDraftID' )
+        && $ParamObject->GetParam( Param => 'LoadFormDraft' )
+        && $ParamObject->GetParam( Param => 'FormDraftID' )
         )
     {
-        $Self->{LoadedFormDraftID} = $Kernel::OM->Get('Kernel::System::Web::Request')->LoadFormDraft(
-            FormDraftID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormDraftID' ),
+        $Self->{LoadedFormDraftID} = $ParamObject->LoadFormDraft(
+            FormDraftID => $ParamObject->GetParam( Param => 'FormDraftID' ),
             UserID      => $Self->{UserID},
         );
     }
 
     # get article for whom this should be a reply, if available
-    my $ReplyToArticle = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ReplyToArticle' ) || '';
-    my $TicketID       = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'TicketID' )       || '';
+    my $ReplyToArticle = $ParamObject->GetParam( Param => 'ReplyToArticle' ) || '';
+    my $TicketID       = $ParamObject->GetParam( Param => 'TicketID' )       || '';
 
     # check if ReplyToArticle really belongs to the ticket
     my %ReplyToArticleContent;
@@ -174,7 +176,7 @@ sub new {
 
     # get form id
     $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
-        ParamObject  => $Kernel::OM->Get('Kernel::System::Web::Request'),
+        ParamObject  => $ParamObject,
         LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
     );
 
@@ -369,44 +371,39 @@ sub Run {
         );
     }
 
-   # get params
     my %GetParam;
     my @ArticleAttachments;
-
-    $GetParam{ArticleID} = $ParamObject->GetParam( Param => 'ArticleID' ) || '';
-    $GetParam{IsEdited}  = $ParamObject->GetParam( Param => 'IsEdited' ) || '';
-
     my %ArticleData;
-    if ( $GetParam{ArticleID} && !$GetParam{IsEdited} ) {
+
+    # if we are editing an article
+    if ( $Self->{ArticleID} && !$Self->{IsEdited} ) {
 
         my %Ticket = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
 
         my $ArticleBackendObject = $ArticleObject->BackendForArticle(
             TicketID            => $Self->{TicketID},
-            ArticleID           => $GetParam{ArticleID},
+            ArticleID           => $Self->{ArticleID},
             ShowDeletedArticles => 1
         );        
 
         %ArticleData = $ArticleBackendObject->ArticleGet(
             TicketID      => $Self->{TicketID},
-            ArticleID     => $GetParam{ArticleID},
+            ArticleID     => $Self->{ArticleID},
             DynamicFields => 1, 
             RealNames     => 1,
             UserID        => $Self->{UserID}
         );
 
         if ( keys %ArticleData ) {
-            @ArticleAttachments = @{ $Self->_CopyArticleAttachmentsToUploadCache(
-                ArticleID => $GetParam{ArticleID}
-            ) };
+            @ArticleAttachments = $Self->_CopyArticleAttachmentsToUploadCache(
+                ArticleID => $Self->{ArticleID}
+            );
 
-            %ArticleData = %{ $Self->_LoadArticleEdit(
-                ArticleData  => \%ArticleData,
-                Ticket       => \%Ticket,
+            %GetParam = $Self->_LoadArticleEdit(
+                ArticleData          => \%ArticleData,
+                Ticket               => \%Ticket,
                 ArticleBackendObject => $ArticleBackendObject
-            ) };
-
-            %GetParam = ( %GetParam, %ArticleData);
+            );
         }
     }
 
@@ -419,7 +416,7 @@ sub Run {
             FormDraftMeta  => $LoadedFormDraft,
             FormID         => $Self->{FormID},
             ReplyToArticle => $Self->{ReplyToArticle},
-            ArticleID      => $ParamObject->GetParam( Param => 'ArticleID' ) || '',
+            ArticleID      => $Self->{ArticleID} || '',
             %Ticket,
             %Param,
         },
@@ -511,6 +508,7 @@ sub Run {
         );
     }
 
+    # get params
     PARAMETER:
     for my $Key (
         qw(
@@ -520,13 +518,14 @@ sub Run {
         )
         )
     {
-        next PARAMETER if $GetParam{ArticleID} && !$GetParam{IsEdited} && ( $Key eq 'Body' || $Key eq 'Subject' );
+
+        next PARAMETER if $Self->{ArticleID} && !$Self->{IsEdited} && ( $Key eq 'Body' || $Key eq 'Subject' );
 
         $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
     }
 
-    if ( $GetParam{ArticleID} && !$GetParam{IsEdited} ) {
-        $GetParam{IsEdited} = 1;
+    if ( $Self->{ArticleID} && !$Self->{IsEdited} ) {
+        $Self->{IsEdited} = 1;
     }
 
     # ACL compatibility translation
@@ -537,93 +536,6 @@ sub Run {
         OwnerID       => $GetParam{NewOwnerID},
         ResponsibleID => $GetParam{NewResponsibleID},
     );
-
-    if ( $Self->{Subaction} eq 'ArticleDelete' ) {
-        $LayoutObject->ChallengeTokenCheck();
-
-        return if !$GetParam{ArticleID};
-
-        # add history entry
-        $TicketObject->HistoryAdd(
-            TicketID     => $Self->{TicketID},
-            ArticleID    => $GetParam{ArticleID},
-            HistoryType  => 'ArticleDelete',
-            Name         => "\%\%$GetParam{ArticleID}\%\%$Self->{UserLogin}\%\%$Self->{UserID}",
-            CreateUserID => $Self->{UserID},
-        );        
-
-        my $Success = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ArticleDelete(
-            ArticleID => $GetParam{ArticleID},   
-            TicketID  => $Self->{TicketID},   
-            UserID    => $Self->{UserID}     
-        );
-
-        if ( !$Success ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( 
-                Priority 	=> 'error',
-                Message 	=> 'Error trying to delete article id: ' . $GetParam{ArticleID}
-            );
-
-            $TicketObject->_TicketCacheClear( TicketID => $Self->{TicketID} );
-        }
-
-        # build JSON output
-        my $JSON = $LayoutObject->JSONEncode(
-            Data => {
-                Success => $Success
-            },
-        );
-
-        # send JSON response
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
-        );
-    }   
-
-    if ( $Self->{Subaction} eq 'ArticleRestore' ) {
-        $LayoutObject->ChallengeTokenCheck();
-
-        return if !$GetParam{ArticleID};
-
-        my $Success = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ArticleRestore(
-            ArticleID => $GetParam{ArticleID},   
-            TicketID  => $Self->{TicketID}
-        );
-
-        if ( $Success ) {
-            # add history entry
-            $TicketObject->HistoryAdd(
-                TicketID     => $Self->{TicketID},
-                ArticleID    => $GetParam{ArticleID},
-                HistoryType  => 'ArticleRestore',
-                Name         => "\%\%$GetParam{ArticleID}\%\%$Self->{UserLogin}\%\%$Self->{UserID}",
-                CreateUserID => $Self->{UserID},
-            );
-        } else {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( 
-                Priority 	=> 'error',
-                Message 	=> 'Error trying to restore article id: ' . $GetParam{ArticleID}
-            );
-        }        
-
-        # build JSON output
-        my $JSON = $LayoutObject->JSONEncode(
-            Data => {
-                Success => $Success
-            },
-        );
-
-        # send JSON response
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
-        );
-    }       
 
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -1316,7 +1228,6 @@ sub Run {
             my %UploadStuff = $ParamObject->GetUploadAll(
                 Param => 'FileUpload',
             );
-
             if (%UploadStuff) {
                 push @Attachments, \%UploadStuff;
             }
@@ -1401,10 +1312,10 @@ sub Run {
                     %GetParam,
                 );
             }
-            elsif ( $GetParam{ArticleID} ) {
+            elsif ( $Self->{ArticleID} ) {
                 $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleEdit(
                     TicketID                        => $Self->{TicketID},
-                    ArticleID                       => $GetParam{ArticleID}, #Include the original article id for article versioning
+                    ArticleID                       => $Self->{ArticleID}, #Include the original article id for article versioning
                     SenderType                      => 'agent',
                     From                            => $From,
                     MimeType                        => $MimeType,
@@ -1472,7 +1383,7 @@ sub Run {
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
             my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article'
-                ? $GetParam{ArticleID} || $ArticleID
+                ? $Self->{ArticleID} || $ArticleID
                 : $Self->{TicketID};
 
             # set the value which was taken from web request
@@ -2086,7 +1997,7 @@ sub Run {
         if ( $GetParam{Body} ) {
 
             # make sure body is rich text
-            if ( $LayoutObject->{BrowserRichText} && !$GetParam{ArticleID} ) {
+            if ( $LayoutObject->{BrowserRichText} && !$Self->{ArticleID} ) {
                 $GetParam{Body} = $LayoutObject->Ascii2RichText(
                     String => $GetParam{Body},
                 );
@@ -2165,7 +2076,7 @@ sub Run {
                 $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
             }
             elsif ( $DynamicFieldConfig->{ObjectType} eq 'Article' ) {
-                if ( $GetParam{ArticleID} ) {
+                if ( $Self->{ArticleID} ) {
 
                     # if we are in edit mode take the db data of the article
                     $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $ArticleData{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
@@ -3734,7 +3645,7 @@ sub _LoadArticleEdit {
         );
     } 
     else {
-        return \%ArticleData; 
+        return %ArticleData; 
     }
 
     my $Content = $LayoutObject->Output(
@@ -3843,7 +3754,7 @@ sub _LoadArticleEdit {
     $ArticleData{Body} = $Data{Content};
     delete $ArticleData{IsEdited};
 
-    return \%ArticleData;
+    return %ArticleData;
 }
 
 sub _CopyArticleAttachmentsToUploadCache {
@@ -3916,7 +3827,7 @@ sub _CopyArticleAttachmentsToUploadCache {
         push @Attachments, \%UploadStuff;
     }    
 
-    return \@Attachments;
+    return @Attachments;
 }
 
 1;
