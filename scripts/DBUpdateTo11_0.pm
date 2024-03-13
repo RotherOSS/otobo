@@ -29,24 +29,13 @@ scripts::DBUpdateTo11_0 - Perform system upgrade from OTOBO 10.1 to 11.0
 
 =head1 PUBLIC INTERFACE
 
-=head2 new()
+=head1 Run
 
-Don't use the constructor directly, use the ObjectManager instead:
-
-    my $DBUpdateObject = $Kernel::OM->Get('scripts::DBUpdateTo11_0');
+This method is run without parameters.
 
 =cut
 
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    return bless {}, $Type;
-}
-
 sub Run {
-    my ( $Self, %Param ) = @_;
-
     print "\n Migration started ... \n";
 
     my $SuccessfulMigration = 1;

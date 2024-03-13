@@ -32,6 +32,7 @@ use lib dirname($RealBin) . '/Custom';
 
 # OTOBO modules
 use Kernel::System::ObjectManager ();
+use scripts::DBUpdateTo11_0       ();
 
 $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
@@ -39,21 +40,6 @@ $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
-## get options
-#my %Options = (
-#    Help           => 0,
-#    NonInteractive => 0,
-#    Timing         => 0,
-#    Verbose        => 0,
-#);
-#Getopt::Long::GetOptions(
-#    'help',                      \$Options{Help},
-#    'non-interactive',           \$Options{NonInteractive},
-#    'cleanup-orphaned-articles', \$Options{CleanupOrphanedArticles},
-#    'timing',                    \$Options{Timing},
-#    'verbose',                   \$Options{Verbose},
-#);
-
-$Kernel::OM->Create('scripts::DBUpdateTo11_0')->Run;
+scripts::DBUpdateTo11_0::Run();
 
 exit 0;
