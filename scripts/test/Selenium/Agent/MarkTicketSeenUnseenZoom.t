@@ -115,8 +115,6 @@ my $SeleniumTest = sub {
 
     $SeleniumObject->find_element( 'li#nav-Mark-as-\(un\)seen', 'css' )->click();
 
-    $DB::single = 1;
-
     # check for elements
     $Self->True(
         $SeleniumObject->find_element( 'li#nav-Mark-as-seen a', 'css' )->is_displayed(),
