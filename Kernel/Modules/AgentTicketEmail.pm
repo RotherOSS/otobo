@@ -3265,7 +3265,7 @@ sub _MaskEmailNew {
             Data        => \%NewTo,
             Class       => 'Validate_Required Modernize FormUpdate ' . ( $Param{Errors}->{DestinationInvalid} || ' ' ),
             Name        => 'Dest',
-            Translation => 1,
+            Translation => $TreeView,
             TreeView    => $TreeView,
             SelectedID  => $Param{FromSelected},
         );
@@ -3489,7 +3489,7 @@ sub _MaskEmailNew {
             PossibleNone => 1,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
-            Translation  => 1,
+            Translation  => $TreeView,
             Max          => 200,
         );
         $LayoutObject->Block(

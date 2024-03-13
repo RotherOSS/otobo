@@ -1826,7 +1826,7 @@ sub _MaskNew {
             PossibleNone => 1,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
-            Translation  => 1,
+            Translation  => $TreeView,
             Max          => 200,
         );
         $LayoutObject->Block(

@@ -850,7 +850,6 @@ sub Run {
             Multiple     => 0,
             Class        => 'Modernize',
             PossibleNone => 0,
-            Translation  => 1,
         );
 
         # notification custom units

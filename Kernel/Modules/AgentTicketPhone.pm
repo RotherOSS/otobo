@@ -2974,7 +2974,7 @@ sub _MaskPhoneNew {
             Name        => 'Dest',
             TreeView    => $TreeView,
             SelectedID  => $Param{ToSelected},
-            Translation => 1,
+            Translation => $TreeView,
         );
     }
 
@@ -3091,7 +3091,7 @@ sub _MaskPhoneNew {
             PossibleNone => 1,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
-            Translation  => 1,
+            Translation  => $TreeView,
             Max          => 200,
         );
         $LayoutObject->Block(

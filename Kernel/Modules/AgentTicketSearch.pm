@@ -2014,7 +2014,7 @@ sub Run {
                 Sort        => 'TreeView',
                 Size        => 5,
                 Multiple    => 1,
-                Translation => 1,
+                Translation => $TreeView,
                 Max         => 200,
                 Class       => 'Modernize',
             );

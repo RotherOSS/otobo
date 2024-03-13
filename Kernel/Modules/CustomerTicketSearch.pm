@@ -1739,7 +1739,7 @@ sub MaskForm {
         SelectedID  => $Param{ServiceIDs},
         TreeView    => $TreeView,
         Class       => 'Modernize',
-        Translation => 1,
+        Translation => $TreeView,
     );
     $Param{TypesStrg} = $LayoutObject->BuildSelection(
         Data => {

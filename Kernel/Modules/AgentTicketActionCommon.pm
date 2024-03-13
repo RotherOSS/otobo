@@ -949,7 +949,7 @@ sub Run {
                     BodyClass => 'Popup',
                 ),
                 $Self->_Mask(
-                    Attachments       => \@Attachments,
+                    Attachments => \@Attachments,
                     %Ticket,
                     %GetParam,
                     %Error,
@@ -2405,7 +2405,7 @@ sub _Mask {
             PossibleNone => 1,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
-            Translation  => 1,
+            Translation  => $TreeView,
             Max          => 200,
         );
 

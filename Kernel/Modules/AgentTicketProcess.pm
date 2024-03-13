@@ -3901,7 +3901,7 @@ sub _RenderService {
         PossibleNone  => 1,
         TreeView      => $TreeView,
         Sort          => 'TreeView',
-        Translation   => 1,
+        Translation   => $TreeView,
         Max           => 200,
     );
 
@@ -4308,7 +4308,7 @@ sub _RenderQueue {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Queues,
         Name          => 'QueueID',
-        Translation   => 1,
+        Translation   => $TreeView,
         SelectedValue => $SelectedValue,
         Class         => "Modernize FormUpdate $ServerError",
         TreeView      => $TreeView,
