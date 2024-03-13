@@ -370,56 +370,82 @@ sub EditFieldRender {
 sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
-    my @SetData;
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}{Name};
 
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $Value;
 
-    my @DataAll = $Param{ParamObject}->GetArray(
-        Param => 'SetIndex_' . $Param{DynamicFieldConfig}->{Name},
-    );
-
-    # if we have nothing in the frontend just return
-    return if !@DataAll;
-
-    # get the highest multi value index (second to last; last is the empty template)
-    my $IndexMax = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $DataAll[-2] // 0 : 0;
-
-    my $Include      = $Param{DynamicFieldConfig}{Config}{Include};
-    my $DynamicField = $Self->_GetIncludedDynamicFields(
-        InputFieldDefinition => $Include,
-        DynamicFieldObject   => $DynamicFieldObject,
-    );
-
-    return if !$DynamicField;
-
-    DYNAMICFIELD:
-    for my $Name ( sort keys $DynamicField->%* ) {
-        if ( !IsHashRefWithData( $DynamicField->{$Name} ) ) {
-            delete $DynamicField->{$Name};
-
-            next DYNAMICFIELD;
-        }
-
-        # prevent overwriting names in cached data later
-        $DynamicField->{$Name} = { $DynamicField->{$Name}->%* };
+    # check if there is a Template and retrieve the dynamic field value from there
+    if ( IsHashRefWithData( $Param{Template} ) && defined $Param{Template}->{$FieldName} ) {
+        $Value = $Param{Template}->{$FieldName};
     }
 
-    for my $Name ( sort keys $DynamicField->%* ) {
-        my $DynamicFieldConfig = $DynamicField->{$Name};
+    # otherwise get dynamic field value from the web request
+    elsif (
+        defined $Param{ParamObject}
+        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
+        )
+    {
+        my @SetData;
 
-        for my $SetIndex ( 0 .. $IndexMax ) {
-            $DynamicFieldConfig->{Name} = $Name . '_' . $SetIndex;
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-            $SetData[$SetIndex]{$Name} = $BackendObject->EditFieldValueGet(
-                %Param,
-                DynamicFieldConfig => $DynamicFieldConfig,
-            );
+        my @DataAll = $Param{ParamObject}->GetArray(
+            Param => 'SetIndex_' . $Param{DynamicFieldConfig}->{Name},
+        );
+
+        # if we have nothing in the frontend just return
+        return if !@DataAll;
+
+        # get the highest multi value index (second to last; last is the empty template)
+        my $IndexMax = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $DataAll[-2] // 0 : 0;
+
+        my $Include      = $Param{DynamicFieldConfig}{Config}{Include};
+        my $DynamicField = $Self->_GetIncludedDynamicFields(
+            InputFieldDefinition => $Include,
+            DynamicFieldObject   => $DynamicFieldObject,
+        );
+
+        return if !$DynamicField;
+
+        DYNAMICFIELD:
+        for my $Name ( sort keys $DynamicField->%* ) {
+            if ( !IsHashRefWithData( $DynamicField->{$Name} ) ) {
+                delete $DynamicField->{$Name};
+
+                next DYNAMICFIELD;
+            }
+
+            # prevent overwriting names in cached data later
+            $DynamicField->{$Name} = { $DynamicField->{$Name}->%* };
         }
+
+        for my $Name ( sort keys $DynamicField->%* ) {
+            my $DynamicFieldConfig = $DynamicField->{$Name};
+
+            for my $SetIndex ( 0 .. $IndexMax ) {
+                $DynamicFieldConfig->{Name} = $Name . '_' . $SetIndex;
+
+                $SetData[$SetIndex]{$Name} = $BackendObject->EditFieldValueGet(
+                    %Param,
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                );
+            }
+        }
+
+        return if !@SetData;
+        $Value = \@SetData;
     }
 
-    return if !@SetData;
-    return \@SetData;
+    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
+        return {
+            $FieldName => $Value,
+        };
+    }
+
+    # TODO check if below comment is true
+    # for this field the normal return an the ReturnValueStructure are the same
+    return $Value;
 }
 
 sub EditFieldValueValidate {
