@@ -265,7 +265,6 @@ sub Run {
             Name          => 'Type',
             SelectedValue => $Param{SystemType},
             Class         => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
-            Translation   => 1,
         );
 
         my $EnvironmentObject = $Kernel::OM->Get('Kernel::System::Environment');
@@ -412,7 +411,6 @@ sub Run {
             Name          => 'Type',
             SelectedValue => $Param{Type} // $RegistrationData{Type},
             Class         => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
-            Translation   => 1,
         );
 
         # fall-back for support data sending switch

@@ -287,11 +287,10 @@ sub _Edit {
     );
 
     $Param{TypeOption} = $LayoutObject->BuildSelection(
-        Data        => { $AutoResponseObject->AutoResponseTypeList(), },
-        Name        => 'TypeID',
-        SelectedID  => $Param{TypeID},
-        Class       => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
-        Translation => 1,
+        Data       => { $AutoResponseObject->AutoResponseTypeList(), },
+        Name       => 'TypeID',
+        SelectedID => $Param{TypeID},
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
     );
 
     $Param{SystemAddressOption} = $LayoutObject->BuildSelection(

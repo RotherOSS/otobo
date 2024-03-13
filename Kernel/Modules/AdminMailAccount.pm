@@ -423,11 +423,10 @@ sub _MaskUpdateMailAccount {
     );
 
     $Param{TypeOption} = $LayoutObject->BuildSelection(
-        Data        => { $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountBackendList() },
-        Name        => 'Type',
-        SelectedID  => $Param{Type} || $Param{TypeAdd} || '',
-        Class       => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeInvalid'} || '' ),
-        Translation => 1,
+        Data       => { $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountBackendList() },
+        Name       => 'Type',
+        SelectedID => $Param{Type} || $Param{TypeAdd} || '',
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeInvalid'} || '' ),
     );
 
     $Param{TrustedOption} = $LayoutObject->BuildSelection(
@@ -493,11 +492,10 @@ sub _MaskAddMailAccount {
     );
 
     $Param{TypeOptionAdd} = $LayoutObject->BuildSelection(
-        Data        => { $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountBackendList() },
-        Name        => 'TypeAdd',
-        SelectedID  => $Param{Type} || $Param{TypeAdd} || '',
-        Class       => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeAddInvalid'} || '' ),
-        Translation => 1,
+        Data       => { $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountBackendList() },
+        Name       => 'TypeAdd',
+        SelectedID => $Param{Type} || $Param{TypeAdd} || '',
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeAddInvalid'} || '' ),
     );
 
     $Param{TrustedOption} = $LayoutObject->BuildSelection(

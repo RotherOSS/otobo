@@ -916,7 +916,6 @@ sub _ShowScreen {
                 SelectedID   => $Param{$Name} || '0',
                 Class        => 'Modernize W50pc' . ( $Setting->{Mandatory} ? ' Validate_Required' : '' ) . ( $Param{ $Name . 'ServerError' } ? ' ServerError' : '' ),
                 Multiple     => ( $Setting->{Multiple} // 0 ),
-                Translation  => $Name eq 'TicketType',
             );
             $LayoutObject->Block(
                 Name => 'ConfigParamRow',
