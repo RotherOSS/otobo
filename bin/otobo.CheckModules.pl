@@ -186,6 +186,7 @@ my %IsDockerFeature = (
     'devel:i18n'         => 1,
     'div:bcrypt'         => 1,
     'div:cldr'           => 1,
+    'div:qrcode'         => 1,
     'div:ldap'           => 1,
     'div:xslt'           => 1,
     'gazelle'            => 1,

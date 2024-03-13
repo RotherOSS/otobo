@@ -244,8 +244,11 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# Feature 'div:qrcode' is not needed for Docker
+# feature 'div:qrcode', 'Support for feature div:qrcode' => sub {
+    # Support for QR code in PDF files
+    requires 'Text::QRCode';
 
+# };
 
 # Feature 'div:ssl' is not needed for Docker
 
