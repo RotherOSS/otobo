@@ -44,17 +44,20 @@ use parent qw(scripts::DBUpdateTo11_0::Base);
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # one statement per column, so that an already existing column does not abort the update
     my @XMLStrings = (
         '<TableAlter Name="dynamic_field_value">
-            <ColumnAdd Name="index_value" Required="false" Type="SMALLINT" />
-            <ColumnAdd Name="index_set" Required="false" Type="SMALLINT" />
+            <ColumnAdd    Name="index_value" Required="false" Type="SMALLINT" />
         </TableAlter>',
-
-        # TODO: Update DB backends to be able to change a column respecting Required and AutoIncrement, include change to bigint:
-        #<ColumnChange NameOld="id" NameNew="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+        '<TableAlter Name="dynamic_field_value">
+            <ColumnAdd    Name="index_set" Required="false" Type="SMALLINT" />
+        </TableAlter>',
+        '<TableAlter Name="dynamic_field_value">
+            <ColumnChange NameOld="id" NameNew="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+        </TableAlter>',
     );
 
-    return if !$Self->ExecuteXMLDBArray(
+    return unless $Self->ExecuteXMLDBArray(
         XMLArray => \@XMLStrings,
     );
 
