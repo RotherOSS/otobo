@@ -101,9 +101,11 @@ sub GetConfig {
         );
 
         #Transform date to current user timezone
-        $DateTimeObject->ToTimeZone(
-            TimeZone => $User{UserTimeZone}
-        );
+        if ( $User{UserTimeZone} ) {
+            $DateTimeObject->ToTimeZone(
+                TimeZone => $User{UserTimeZone}
+            );
+        }
 
         $ArticleVersions{$Entry} = $LayoutObject->{LanguageObject}->Translate('Version') . " $Count (". $DateTimeObject->ToString() . " $VersionData{FullName})";
         $Count++;
