@@ -2052,6 +2052,8 @@ sub _InitialColumnFilter {
         $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
+        || $Param{ColumnName} eq 'SLA'
+        || $Param{ColumnName} eq 'Type'
         )
     {
         $TranslationOption = 1;
@@ -2206,6 +2208,8 @@ sub _ColumnFilterJSON {
         $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
+        || $Param{ColumnName} eq 'SLA'
+        || $Param{ColumnName} eq 'Type'
         )
     {
         $TranslationOption = 1;

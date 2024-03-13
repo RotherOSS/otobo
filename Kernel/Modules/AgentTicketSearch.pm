@@ -2014,7 +2014,7 @@ sub Run {
                 Sort        => 'TreeView',
                 Size        => 5,
                 Multiple    => 1,
-                Translation => 0,
+                Translation => $TreeView,
                 Max         => 200,
                 Class       => 'Modernize',
             );
@@ -2028,7 +2028,7 @@ sub Run {
                 Sort        => 'AlphanumericValue',
                 Size        => 5,
                 Multiple    => 1,
-                Translation => 0,
+                Translation => 1,
                 Max         => 200,
                 Class       => 'Modernize',
             );
@@ -2086,11 +2086,12 @@ sub Run {
                     Action => $Self->{Action},
                 ),
             },
-            Name       => 'StateIDs',
-            Multiple   => 1,
-            Size       => 5,
-            SelectedID => $GetParam{StateIDs},
-            Class      => 'Modernize',
+            Name        => 'StateIDs',
+            Multiple    => 1,
+            Size        => 5,
+            SelectedID  => $GetParam{StateIDs},
+            Class       => 'Modernize',
+            Translation => 1,
         );
         my %AllQueues = $Kernel::OM->Get('Kernel::System::Queue')->GetAllQueues(
             UserID => $Self->{UserID},
@@ -2458,7 +2459,7 @@ sub Run {
                 Sort        => 'AlphanumericValue',
                 Size        => 3,
                 Multiple    => 1,
-                Translation => 0,
+                Translation => 1,
                 Class       => 'Modernize',
             );
         }

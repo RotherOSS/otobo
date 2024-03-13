@@ -2362,7 +2362,7 @@ sub Run {
         my @StdFieldAJAX;
         my %Attributes = (
             Dest => {
-                Translation  => 0,
+                Translation  => $TreeView,
                 PossibleNone => 1,
                 TreeView     => $TreeView,
                 Max          => 100,
@@ -2387,13 +2387,13 @@ sub Run {
             },
             ServiceID => {
                 PossibleNone => 1,
-                Translation  => 0,
+                Translation  => $TreeView,
                 TreeView     => $TreeView,
                 Max          => 100,
             },
             SLAID => {
                 PossibleNone => 1,
-                Translation  => 0,
+                Translation  => 1,
                 Max          => 100,
             },
             StandardTemplateID => {
@@ -2403,7 +2403,7 @@ sub Run {
             },
             TypeID => {
                 PossibleNone => 1,
-                Translation  => 0,
+                Translation  => 1,
                 Max          => 100,
             }
         );
@@ -2974,7 +2974,7 @@ sub _MaskPhoneNew {
             Name        => 'Dest',
             TreeView    => $TreeView,
             SelectedID  => $Param{ToSelected},
-            Translation => 0,
+            Translation => $TreeView,
         );
     }
 
@@ -3070,7 +3070,7 @@ sub _MaskPhoneNew {
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
-            Translation  => 0,
+            Translation  => 1,
         );
         $LayoutObject->Block(
             Name => 'TicketType',
@@ -3091,7 +3091,7 @@ sub _MaskPhoneNew {
             PossibleNone => 1,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
-            Translation  => 0,
+            Translation  => $TreeView,
             Max          => 200,
         );
         $LayoutObject->Block(
@@ -3111,7 +3111,7 @@ sub _MaskPhoneNew {
                 . ( $Param{Errors}->{SLAInvalid} || '' ),
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
-            Translation  => 0,
+            Translation  => 1,
             Max          => 200,
         );
         $LayoutObject->Block(

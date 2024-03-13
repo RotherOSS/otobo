@@ -130,7 +130,7 @@ sub TranslationsDynamicField {
         Name         => $Param{Data}->{Name},
         SelectedID   => 0,
         PossibleNone => 1,
-        Translatable => 1,
+        Translation  => 1,
         Sort         => 'AlphanumericValue',
         Class        => 'Modernize Validate_Required' . ( $Param{Errors}->{"$Param{Data}->{Name}Invalid"} || '' )
     );

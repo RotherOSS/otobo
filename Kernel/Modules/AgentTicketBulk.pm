@@ -125,7 +125,7 @@ sub Run {
                 Data         => \%QueueList,
                 SelectedID   => $GetParam{QueueID},
                 TreeView     => $TreeView,
-                Translation  => 0,
+                Translation  => $TreeView,
                 PossibleNone => 1,
             },
         );
@@ -143,9 +143,10 @@ sub Run {
             }
 
             push @JSONData, {
-                Name       => 'StateID',
-                Data       => \%StateList,
-                SelectedID => $GetParam{StateID},
+                Name        => 'StateID',
+                Data        => \%StateList,
+                SelectedID  => $GetParam{StateID},
+                Translation => 1,
             };
         }
 
@@ -162,7 +163,7 @@ sub Run {
                 Data         => \%TypeList,
                 SelectedID   => $GetParam{TypeID},
                 PossibleNone => 1,
-                Translation  => 0,
+                Translation  => 1,
             };
         }
 
@@ -207,9 +208,10 @@ sub Run {
             }
 
             push @JSONData, {
-                Name       => 'PriorityID',
-                Data       => \%PriorityList,
-                SelectedID => $GetParam{PriorityID},
+                Name        => 'PriorityID',
+                Data        => \%PriorityList,
+                SelectedID  => $GetParam{PriorityID},
+                Translation => 1,
             };
         }
 
@@ -1356,7 +1358,8 @@ sub _Mask {
             Data => \%StateList,
             Name => 'StateID',
             %State,
-            Class => 'Modernize FormUpdate',
+            Class       => 'Modernize FormUpdate',
+            Translation => 1,
         );
         $LayoutObject->Block(
             Name => 'State',
@@ -1403,7 +1406,7 @@ sub _Mask {
             Name         => 'TypeID',
             SelectedID   => $Param{TypeID},
             Sort         => 'AlphanumericValue',
-            Translation  => 0,
+            Translation  => 1,
             Class        => 'Modernize FormUpdate',
         );
         $LayoutObject->Block(

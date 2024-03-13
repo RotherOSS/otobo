@@ -139,6 +139,7 @@ sub GetConfig {
         Class        => 'Modernize Small',
         Data         => \@StandardResponseArray,
         PossibleNone => 1,
+        Translation  => 1,
     );
 
     my @MenuItems;
@@ -191,6 +192,7 @@ sub GetConfig {
             Class        => 'Modernize Small',
             Data         => \@StandardResponseArrayReplyAll,
             PossibleNone => 1,
+            Translation  => 1,
         );
 
         push @MenuItems, {
