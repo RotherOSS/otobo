@@ -396,7 +396,7 @@ EOF
     # add js to call ShowContentDialog()
     $Param{LayoutObject}->AddJSOnDocumentComplete( Code => $JSCode );
 
-    # escape single quotes 
+    # escape single quotes
     $Value =~ s/'/&#39;/g;
 
     my $RenderedTemplate = $Param{LayoutObject}->Output(
