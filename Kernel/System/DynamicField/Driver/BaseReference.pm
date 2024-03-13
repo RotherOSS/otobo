@@ -273,7 +273,6 @@ sub EditFieldRender {
                     SelectedID   => $Value->[$ValueIndex],
                     Class        => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
                     HTMLQuote    => 1,
-                    Translation  => $DFDetails->{TranslatableValues},
                     PossibleNone => 0,
                 );
             }
@@ -289,7 +288,6 @@ sub EditFieldRender {
                 Class        => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
                 HTMLQuote    => 1,
                 Multiple     => $DFDetails->{Multiselect},
-                Translation  => $DFDetails->{TranslatableValues},
                 PossibleNone => 0,
             );
         }
@@ -349,15 +347,14 @@ sub EditFieldRender {
         $FieldTemplateData{FieldID} = $FieldName . '_Template';
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
-            Data        => $PossibleValues || {},
-            Sort        => 'AlphanumericValue',
-            Disabled    => $Param{Readonly},
-            Name        => $FieldName,
-            ID          => $FieldTemplateData{FieldID},
-            Class       => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
-            HTMLQuote   => 1,
-            Multiple    => $DFDetails->{Multiselect},
-            Translation => $DFDetails->{TranslatableValues} || 0,
+            Data      => $PossibleValues || {},
+            Sort      => 'AlphanumericValue',
+            Disabled  => $Param{Readonly},
+            Name      => $FieldName,
+            ID        => $FieldTemplateData{FieldID},
+            Class     => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
+            HTMLQuote => 1,
+            Multiple  => $DFDetails->{Multiselect},
         );
         $TemplateHTML = $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
