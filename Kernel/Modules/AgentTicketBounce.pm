@@ -296,6 +296,7 @@ $Param{Signature}";
             Name          => 'BounceStateID',
             SelectedValue => $Config->{StateDefault},
             Class         => 'Modernize',
+            Translation   => 1,
         );
 
         # add rich text editor
@@ -426,10 +427,11 @@ $Param{Signature}";
                 $NextStates{''} = '-';
             }
             $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
-                Data       => \%NextStates,
-                Name       => 'BounceStateID',
-                SelectedID => $Param{BounceStateID},
-                Class      => 'Modernize',
+                Data        => \%NextStates,
+                Name        => 'BounceStateID',
+                SelectedID  => $Param{BounceStateID},
+                Class       => 'Modernize',
+                Translation => 1,
             );
 
             # add rich text editor

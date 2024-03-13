@@ -215,7 +215,7 @@ sub Run {
                 ID          => 'ProcessEntityID',
                 Class       => 'Modernize',
                 Sort        => 'AlphanumericValue',
-                Translation => 0,
+                Translation => 1,
             );
         }
     }

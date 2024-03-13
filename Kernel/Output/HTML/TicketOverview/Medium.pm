@@ -427,8 +427,9 @@ sub _Show {
     );
 
     $Param{StandardResponsesStrg} = $LayoutObject->BuildSelection(
-        Name => 'ResponseID',
-        Data => $StandardTemplates{Answer} || {},
+        Name        => 'ResponseID',
+        Data        => $StandardTemplates{Answer} || {},
+        Translation => 1,
     );
 
     # customer info

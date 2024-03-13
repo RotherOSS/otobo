@@ -2444,7 +2444,8 @@ sub _Mask {
                 Data => $NextStates,
                 Name => 'StateID',
                 %StateSelected,
-                Class => 'Modernize FormUpdate',
+                Class       => 'Modernize FormUpdate',
+                Translation => 1,
             );
             $LayoutObject->Block(
                 Name => 'FollowUpState',

@@ -465,9 +465,10 @@ sub _Show {
     );
 
     $Param{StandardResponsesStrg} = $LayoutObject->BuildSelection(
-        Name  => 'ResponseID',
-        Class => 'Modernize',
-        Data  => $StandardTemplates{Answer} || {},
+        Name        => 'ResponseID',
+        Class       => 'Modernize',
+        Data        => $StandardTemplates{Answer} || {},
+        Translation => 1,
     );
 
     # customer info

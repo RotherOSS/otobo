@@ -366,7 +366,7 @@ sub _RenderAjax {
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'ServiceID' ) || '',
                     PossibleNone => 1,
-                    Translation  => 0,
+                    Translation  => $TreeView,
                     TreeView     => $TreeView,
                     Max          => 100,
                 },
@@ -398,7 +398,7 @@ sub _RenderAjax {
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'SLAID' ) || '',
                     PossibleNone => 1,
-                    Translation  => 0,
+                    Translation  => 1,
                     Max          => 100,
                 },
             );
@@ -419,7 +419,7 @@ sub _RenderAjax {
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'TypeID' ) || '',
                     PossibleNone => 1,
-                    Translation  => 0,
+                    Translation  => 1,
                     Max          => 100,
                 },
             );
@@ -2218,7 +2218,7 @@ sub _RenderSLA {
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
-        Translation   => 0,
+        Translation   => 1,
         Class         => "Modernize FormUpdate $ServerError",
         Max           => 200,
     );
@@ -2375,7 +2375,7 @@ sub _RenderService {
         PossibleNone  => 1,
         TreeView      => $TreeView,
         Sort          => 'TreeView',
-        Translation   => 0,
+        Translation   => $TreeView,
         Max           => 200,
     );
 
@@ -2649,7 +2649,7 @@ sub _RenderQueue {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Queues,
         Name          => 'QueueID',
-        Translation   => 1,
+        Translation   => $TreeView,
         SelectedValue => $SelectedValue,
         Class         => "Modernize FormUpdate $ServerError",
         TreeView      => $TreeView,
@@ -2931,7 +2931,7 @@ sub _RenderType {
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
-        Translation   => 0,
+        Translation   => 1,
         Max           => 200,
     );
 
