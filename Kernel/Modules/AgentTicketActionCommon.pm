@@ -812,7 +812,7 @@ sub Run {
         #   (accounted time can only be stored if and article is generated)
         if (
             $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
-            && $Config->{Note}
+            && $GetParam{CreateArticle}
             && $GetParam{TimeUnits} eq ''
             )
         {
@@ -950,11 +950,6 @@ sub Run {
                 ),
                 $Self->_Mask(
                     Attachments       => \@Attachments,
-                    TimeUnitsRequired => (
-                        $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
-                        ? 'Validate_Required'
-                        : ''
-                    ),
                     %Ticket,
                     %GetParam,
                     %Error,
@@ -2268,11 +2263,6 @@ sub Run {
                 BodyClass => 'Popup',
             ),
             $Self->_Mask(
-                TimeUnitsRequired => (
-                    $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
-                    ? 'Validate_Required'
-                    : ''
-                ),
                 %GetParam,
                 %Ticket,
                 NewQueueID       => $GetParam{QueueID},
@@ -2773,7 +2763,6 @@ sub _Mask {
 
         if (
             $Config->{NoteMandatory}
-            || $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
             || $Self->{ReplyToArticle}
             || $Param{CreateArticle}
             )
@@ -2781,11 +2770,7 @@ sub _Mask {
             $Param{WidgetStatus} = 'Expanded';
         }
 
-        if (
-            $Config->{NoteMandatory}
-            || $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
-            )
-        {
+        if ( $Config->{NoteMandatory} ) {
             $Param{SubjectRequired} = 'Validate_Required';
             $Param{BodyRequired}    = 'Validate_Required';
         }
@@ -3063,11 +3048,7 @@ sub _Mask {
             }
         }
 
-        if (
-            $Config->{NoteMandatory}
-            || $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
-            )
-        {
+        if ( $Config->{NoteMandatory} ) {
             $LayoutObject->Block(
                 Name => 'SubjectLabelMandatory',
             );
@@ -3120,17 +3101,23 @@ sub _Mask {
 
         # show time accounting box
         if ( $ConfigObject->Get('Ticket::Frontend::AccountTime') ) {
-            if ( $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime') ) {
+            if ( $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime') && $Config->{NoteMandatory} ) {
                 $LayoutObject->Block(
                     Name => 'TimeUnitsLabelMandatory',
                     Data => \%Param,
                 );
+
+                $Param{TimeUnitsRequired} = 'Validate_Required';
             }
             else {
                 $LayoutObject->Block(
                     Name => 'TimeUnitsLabel',
                     Data => \%Param,
                 );
+
+                $Param{TimeUnitsRequired} = $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
+                    ? 'Validate_DependingRequiredAND Validate_Depending_CreateArticle'
+                    : '';
             }
             $LayoutObject->Block(
                 Name => 'TimeUnits',

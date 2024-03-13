@@ -2391,7 +2391,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::NeedAccountedTime" Required="1" Valid="1">
-        <Description Translatable="1">Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).</Description>
+        <Description Translatable="1">Defines if time accounting is mandatory in the agent interface, if a note is entered.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
