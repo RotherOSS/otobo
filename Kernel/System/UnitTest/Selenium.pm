@@ -111,11 +111,13 @@ has LogExecuteCommandActive => (
 
 Kernel::System::UnitTest::Selenium - run front end tests
 
+=head1 DESCRIPTION
+
 This class extends Selenium::Remote::Driver when Selenium testing is activated.
 You can use the full API of the base object. See L<https://metacpan.org/pod/Selenium::Remote::Driver>.
 
 Activating Selenium is done by adding a hash element in F<Kernel/Config.pm>.
-You need a running C<selenium> or C<phantomjs> server in order to do this successfully.
+You need a running C<selenium> server in order to do this successfully.
 Here are some examples:
 
     # For testing with Firefox until v. 47 (testing with recent FF and marionette is currently not supported):
@@ -235,6 +237,8 @@ sub BUILD {
 
     return;
 }
+
+=head2 PUBLIC INTERFACE
 
 =head2 RunTest()
 
