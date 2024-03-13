@@ -115,7 +115,7 @@ sub IsArticleDeleted {
         $IsDeleted = $Param{ReturnID} ? $Row[0] : 1;
         last ARTICLE;
     }
-    
+
     return $IsDeleted;
 }
 
@@ -157,7 +157,7 @@ sub ArticleDelete {
         SQL   => 'SELECT id FROM article WHERE id = ?',
         Bind  => [ \$Param{ArticleID} ]
     );
-    
+
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $ArticleExists = $Row[0];
     }
@@ -198,6 +198,24 @@ sub ArticleDelete {
         Bind => [ \$Param{ArticleID} ]
     ); 
 
+    # also delete email stuff to prevent possible errors
+    # even though this functionality is not intended for email tickets
+    $DBObject->Do(
+        SQL  => 'DELETE FROM article_data_mime_send_error WHERE article_id = ?',
+        Bind => [ \$Param{ArticleID} ]
+    ); 
+
+    $DBObject->Do(
+        SQL  => 'DELETE FROM article_data_mime_send_error WHERE article_id = ?',
+        Bind => [ \$Param{ArticleID} ]
+    ); 
+
+    # TODO: store the time accounting values in the versioned articles
+    $DBObject->Do(
+        SQL  => 'DELETE FROM time_accounting WHERE article_id = ?',
+        Bind => [ \$Param{ArticleID} ]
+    ); 
+
     my $Success = $DBObject->Do(
         SQL  => 'DELETE FROM article WHERE id = ?',
         Bind => [ \$Param{ArticleID} ]
@@ -211,7 +229,7 @@ sub ArticleDelete {
             Key  => $CacheKey,
         );        
     }
-    
+
     return $Success;
 }
 
@@ -283,7 +301,7 @@ sub ArticleVersion {
             $DBObject->Do(
                 SQL  => "DELETE FROM article_version WHERE id = ?",
                 Bind => [ \$NewArticleVersion ]
-            ); 
+            );
 
            $DBObject->Do(
                 SQL  => "DELETE FROM ticket_history WHERE id IN (SELECT MAX(th.id) FROM ticket_history th
@@ -302,7 +320,7 @@ sub ArticleVersion {
             $DBObject->Do(
                 SQL  => "UPDATE ticket_history SET article_id = NULL WHERE ticket_id = ? and article_id = ?",
                 Bind => [ \$Param{TicketID}, \$Param{ArticleID} ]
-            );            
+            );
         }    
     }
 
@@ -314,7 +332,7 @@ sub ArticleVersion {
                 FROM article_data_mime
                 WHERE article_id = ?",
         Bind => [ \$Param{ArticleID} ]
-    );    
+    );
 
     $DBObject->Do(
         SQL =>  "INSERT INTO article_data_mime_att_version (article_id, filename, content_size, content_type, content_id, content_alternative, disposition, content,
@@ -323,7 +341,7 @@ sub ArticleVersion {
                 FROM article_data_mime_attachment
                 WHERE article_id = ? ORDER BY id ASC",
         Bind => [ \$Param{ArticleID} ]
-    );    
+    );
 
     $DBObject->Do(
         SQL =>  "INSERT INTO article_flag_version (article_id, article_key, article_value, create_time, create_by)
@@ -331,8 +349,8 @@ sub ArticleVersion {
                 FROM article_flag
                 WHERE article_id = ?",
         Bind => [ \$Param{ArticleID} ]
-    ); 
-    
+    );
+
     return $NewArticleVersion;
 }
 
@@ -379,7 +397,7 @@ sub ArticleRestore {
     while ( my @Row = $DBObject->FetchrowArray() ) {
       $ArticleVersionID = $Row[0];
     }    
-    
+
     return if !$ArticleVersionID;
 
     return if !$DBObject->Do(
@@ -471,7 +489,7 @@ sub ArticleRestore {
 
         $Kernel::OM->Get('Kernel::System::Ticket')->_TicketCacheClear( TicketID => $Param{TicketID} );
     }    
-    
+
     return $Success;
 }
 
@@ -488,7 +506,7 @@ Mark ticket for viewing deleted articles.
 Returns db success:
 
     $Success = 1; 1: If successful, 0: Error
-    
+
     or 
     $Success = 100; Flag ID: If for status Get
 
@@ -536,7 +554,7 @@ sub ShowDeletedArticles {
             UserID   => $Param{UserID},
         );        
     }
-  
+
     return $Success;
 }
 
@@ -592,7 +610,7 @@ sub VersionHistoryGet {
             CreateBy   => $Row[4],
         };
     }
-    
+
     return \%Entries;
 }
 
@@ -638,7 +656,7 @@ sub IsArticleEdited {
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $IsEdited = 1;
     }
-    
+
     return $IsEdited;
 }
 
