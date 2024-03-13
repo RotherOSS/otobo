@@ -13380,7 +13380,7 @@ Thanks for your help!
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">State pre-selection for Templates</Item>
-                <Item Key="Block">Miscellaneous</Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Manage ticket state pre-selections for response templates.</Item>
                 <Item Key="IconBig">fa-th-list</Item>
                 <Item Key="IconSmall"></Item>

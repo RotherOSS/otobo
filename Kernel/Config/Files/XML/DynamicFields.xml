@@ -2040,7 +2040,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Ticket Masks</Item>
-                <Item Key="Block">Ticket</Item>
+                <Item Key="Block">Automation</Item>
                 <Item Key="Description" Translatable="1">Create and manage advanced definitions for ticket masks.</Item>
                 <Item Key="IconBig">fa-laptop</Item>
                 <Item Key="IconSmall"></Item>
