@@ -19,7 +19,7 @@
 
     [% BreadcrumbPath = [
             {
-                Name => Translate("Customer Dashboard Info Tile Management"),
+                Name => Translate("Customer Info Management"),
                 Link => Env("Action"),
             },
             {

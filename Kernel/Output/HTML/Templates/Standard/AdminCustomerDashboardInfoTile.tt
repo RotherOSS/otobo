@@ -16,11 +16,11 @@
 
 <!-- start -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1 class="InvisibleText">[% Translate("Customer Dashboard Info Tile") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Customer Info") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
-                Name => Translate("Customer Dashboard Info Tile Management"),
+                Name => Translate("Customer Info Management"),
                 Link => Env("Action"),
             },
         ]
