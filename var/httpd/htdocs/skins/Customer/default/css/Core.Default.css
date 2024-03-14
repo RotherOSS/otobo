@@ -76,9 +76,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     border: none !important;
 }
 
-.Row, .RichTextHolder {
-    margin-top: 40px !important;
-}
 
 .ck-content {
     border: solid 1px #e5e5eb !important;

@@ -211,7 +211,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 //Try use RichTextHolder for Customer Interface
                 if (!domEditableElement) {
-                    domEditableElement = document.querySelector('.RichTextHolder');
+                    domEditableElement = $($EditorArea).closest(".RichTextHolder");
                 }
 
                 $(domEditableElement).css('max-width', Core.Config.Get('RichText.Width', 620) + 'px');
@@ -225,8 +225,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 });
 
                 if (CustomerInterface) {
-                    $(domEditableElement).css('max-width', '66%');
-                    $(domEditableElement).css('margin', '0 auto');
+                    if ($(domEditableElement).siblings('label[id*="DynamicField"]').length > 0) {
+                        $(domEditableElement).css('max-width', '100%');
+                    } else {
+                        $(domEditableElement).css('max-width', '66%');
+                    }
+                    //$(domEditableElement).css('margin', '0 auto');
 
                     editor.editing.view.document.getRoot('main').placeholder = RichTextLabel[0].innerText;
                     RichTextLabel.hide();
