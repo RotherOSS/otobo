@@ -20,7 +20,6 @@ use strict;
 use warnings;
 
 use parent 'Kernel::System::Ticket::Article::Backend::Base';
-use File::Copy;
 
 # core modules
 

@@ -24,6 +24,7 @@ use namespace::autoclean;
 use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
 # core modules
+use File::Copy         qw(move);
 use File::Path         qw(mkpath);
 use Unicode::Normalize ();
 use Cwd                qw(realpath);
