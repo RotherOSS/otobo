@@ -316,7 +316,7 @@ sub ArticlePreview {
             }
             else {
                 %Data = $ArticleBackendObject->ArticleAttachment(
-                    ArticleID       => $Param{ArticleID} ,
+                    ArticleID       => $Param{ArticleID},
                     FileID          => $HTMLBodyAttachmentID,
                     VersionView     => $Param{VersionView},
                     SourceArticleID => $Param{SourceArticleID}

@@ -50,7 +50,7 @@ sub Run {
                 <IndexColumn Name="form_id" Size="32"/>
             </Index>
         </Table>',
-        
+
         # align form_id size in web_upload_cache
         '<TableAlter Name="web_upload_cache">
             <ColumnChange NameOld="form_id" NameNew="form_id" Required="false" Type="VARCHAR" Size="100" />

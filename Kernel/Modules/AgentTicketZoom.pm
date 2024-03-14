@@ -237,10 +237,10 @@ sub new {
     }
 
     my $ArticleShowStatus = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ShowDeletedArticles(
-        TicketID  => $Self->{TicketID}, 
+        TicketID  => $Self->{TicketID},
         UserID    => $Self->{UserID},
         GetStatus => 1
-    );    
+    );
 
     $Self->{ShowDeletedArticles} = $ArticleShowStatus ? 1 : 0;
     $Self->{ArticleStorage}      = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage');
@@ -504,14 +504,15 @@ sub Run {
             ArticleID => $Self->{ArticleID},
         );
 
-        if ( $IsArticleDeleted ) {
+        if ($IsArticleDeleted) {
             $Success = 2;
-        } else {
+        }
+        else {
             # always show archived tickets as seen
             if ( $Ticket{ArchiveFlag} ne 'y' ) {
                 $Success = $Self->_ArticleItemSeen(
-                    TicketID       => $Self->{TicketID},
-                    ArticleID      => $Self->{ArticleID}
+                    TicketID  => $Self->{TicketID},
+                    ArticleID => $Self->{ArticleID}
                 );
             }
         }
@@ -2542,19 +2543,20 @@ sub _ArticleTree {
 
             # Get attachment index (excluding body attachments).
             my %AtmIndex;
-            
-            if ( !$Article{ArticleDeleted} || $Self->{ArticleStorage} =~ m/ArticleStorageFS/ ) { 
+
+            if ( !$Article{ArticleDeleted} || $Self->{ArticleStorage} =~ m/ArticleStorageFS/ ) {
                 %AtmIndex = $ArticleObject->BackendForArticle(%Article)->ArticleAttachmentIndex(
-                    ArticleID            => $Article{ArticleID},
-                    ShowDeletedArticles  => $Self->{ShowDeletedArticles},
-                    %{ $Self->{ExcludeAttachments} },                    
+                    ArticleID           => $Article{ArticleID},
+                    ShowDeletedArticles => $Self->{ShowDeletedArticles},
+                    %{ $Self->{ExcludeAttachments} },
                 );
-            } else {
+            }
+            else {
                 %AtmIndex = $ArticleObject->BackendForArticle(%Article)->ArticleAttachmentIndex(
-                    ArticleID            => $Article{DeletedVersionID},
-                    SourceArticleID      => $Article{ArticleID},
-                    ShowDeletedArticles  => $Self->{ShowDeletedArticles},
-                    VersionView          => 1,
+                    ArticleID           => $Article{DeletedVersionID},
+                    SourceArticleID     => $Article{ArticleID},
+                    ShowDeletedArticles => $Self->{ShowDeletedArticles},
+                    VersionView         => 1,
                     %{ $Self->{ExcludeAttachments} }
                 );
             }
@@ -3145,8 +3147,8 @@ sub _TicketItemSeen {
     my ( $Self, %Param ) = @_;
 
     my @Articles = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
-        TicketID             => $Param{TicketID},
-        ShowDeletedArticles  => $Self->{ShowDeletedArticles}
+        TicketID            => $Param{TicketID},
+        ShowDeletedArticles => $Self->{ShowDeletedArticles}
     );
 
     for my $Article (@Articles) {
@@ -3285,9 +3287,9 @@ sub _ArticleBoxGet {
     my @ArticleBox;
     for my $Index (@ArticleIndexes) {
         my $ArticleBackendObject = $ArticleObject->BackendForArticle(
-            TicketID             => $Self->{TicketID},
-            ArticleID            => $Param{ArticleBoxAll}->[$Index]->{ArticleID},
-            ShowDeletedArticles  => $Self->{ShowDeletedArticles}
+            TicketID            => $Self->{TicketID},
+            ArticleID           => $Param{ArticleBoxAll}->[$Index]->{ArticleID},
+            ShowDeletedArticles => $Self->{ShowDeletedArticles}
         );
 
         my %Article = $ArticleBackendObject->ArticleGet(

@@ -107,7 +107,7 @@ sub new {
 
 sub ArticleMoveFiles {
     my ( $Self, %Param ) = @_;
-    
+
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
@@ -121,7 +121,7 @@ sub ArticleMoveFiles {
 
             return;
         }
-    }    
+    }
 
     #Search files for moving
     my @ArticleFiles = $MainObject->DirectoryRead(
@@ -131,19 +131,20 @@ sub ArticleMoveFiles {
     );
 
     #Clean path from file list
-    my @TempFiles; 
-    foreach my $File ( @ArticleFiles ) {
+    my @TempFiles;
+    for my $File (@ArticleFiles) {
         $File =~ s{^.*/}{};
         push @TempFiles, $File;
     }
 
     @ArticleFiles = @TempFiles;
 
-    if ( @ArticleFiles ) {
+    if (@ArticleFiles) {
         mkdir("$Param{Location}/$Param{NewArticleVersion}");
 
         MOVE_FILES:
-        foreach my $File ( @ArticleFiles ) {
+        for my $File (@ArticleFiles) {
+
             #Skip directories
             next MOVE_FILES if ( -d "$Param{Location}/$File" );
 
@@ -151,16 +152,16 @@ sub ArticleMoveFiles {
                 Text  => $File,
                 From  => 'utf-8',
                 Check => 1,
-            );    
+            );
 
-            move("$Param{Location}/$File", "$Param{Location}/$Param{NewArticleVersion}/$File");
+            move( "$Param{Location}/$File", "$Param{Location}/$Param{NewArticleVersion}/$File" );
 
             $MainObject->FileDelete(
-                Location  => "$Param{Location}/$File",
-                Type      => 'Attachment',
-                NoReplace => 1,
+                Location        => "$Param{Location}/$File",
+                Type            => 'Attachment',
+                NoReplace       => 1,
                 DisableWarnings => 1
-            );             
+            );
         }
     }
 
@@ -305,7 +306,7 @@ sub ArticleDeleteAttachment {
                 }
             }
         }
-        
+
         #Check if version directory is empty to remove it
         if ( $Param{DeletedVersionID} ) {
             my @ListVersion = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
@@ -324,7 +325,7 @@ sub ArticleDeleteAttachment {
                     );
                 }
             }
-        }        
+        }
     }
 
     # Delete special article storage cache.
@@ -427,7 +428,8 @@ sub ArticleWriteAttachment {
     # define path
     if ( !$Param{VersionID} ) {
         $Param{Path} = join '/', $Self->{ArticleDataDir}, $ContentPath, $Param{ArticleID};
-    } else {
+    }
+    else {
         $Param{Path} = join '/', $Self->{ArticleDataDir}, $ContentPath, $Param{SourceArticleID}, $Param{ArticleID};
     }
 
@@ -678,7 +680,7 @@ sub ArticleAttachmentIndexRaw {
 
     my $ContentPath = $Self->_ArticleContentPathGet(
         ArticleID       => $Param{ArticleID},
-        VersionView     => $Param{VersionView} || '',
+        VersionView     => $Param{VersionView}     || '',
         SourceArticleID => $Param{SourceArticleID} || ''
     );
     my %Index;
@@ -695,7 +697,8 @@ sub ArticleAttachmentIndexRaw {
             Filter    => "*",
             Silent    => 1,
         );
-    } else {  
+    }
+    else {
 
         if ( $Param{ArticleDeleted} ) {
             $Param{ArticleID} = $Param{SourceArticleID};
@@ -906,7 +909,8 @@ sub ArticleAttachment {
             Filter    => "*",
             Silent    => 1,
         );
-    } else {
+    }
+    else {
         @List = $MainObject->DirectoryRead(
             Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
             Filter    => "*",

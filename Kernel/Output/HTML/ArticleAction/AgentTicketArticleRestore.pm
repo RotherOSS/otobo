@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -52,7 +52,7 @@ sub CheckAccess {
     }
 
     return if $Param{ChannelName} ne 'Internal';
-    return if $Param{Article}->{IsVisibleForCustomer};   
+    return if $Param{Article}->{IsVisibleForCustomer};
     return if $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage') =~ m/ArticleStorageS3/;
 
     return 1;
@@ -71,15 +71,15 @@ sub GetConfig {
         }
     }
 
-    return if !$Param{Article}->{DeletedVersionID};    
+    return if !$Param{Article}->{DeletedVersionID};
 
     my %MenuItem = (
         ItemType    => 'Link',
         Description => Translatable('Restore this article'),
         Name        => Translatable('Restore'),
         Class       => 'ArticleRestore',
-        Link        => 
-        "Action=AgentTicketZoom;TicketID=$Param{Ticket}->{TicketID};ArticleID=$Param{Article}->{ArticleID}",
+        Link        =>
+            "Action=AgentTicketZoom;TicketID=$Param{Ticket}->{TicketID};ArticleID=$Param{Article}->{ArticleID}",
     );
 
     return ( \%MenuItem );

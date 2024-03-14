@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -45,11 +45,11 @@ sub Run {
 
     my %GetParam;
 
-    foreach my $Needed (qw(TicketID ArticleID SourceArticleID VersionID)) {
+    for my $Needed (qw(TicketID ArticleID SourceArticleID VersionID)) {
         $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed ) || '';
 
         # Check needed stuff.
-        if ( !$GetParam{$Needed} )  {
+        if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable("Need $Needed!"),
             );
@@ -90,32 +90,32 @@ sub Run {
         if ( !$AclActionLookup{ $Self->{Action} } ) {
             return $LayoutObject->NoPermission( WithHeader => 'yes' );
         }
-    }  
+    }
 
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $GetParam{TicketID},
         DynamicFields => 1,
         UserID        => $Self->{UserID}
-    );    
+    );
 
     # generate output
     my $Output = $LayoutObject->Header(
         Value    => $Ticket{TicketNumber},
         TicketID => $Ticket{TicketID},
-        Type => 'Small'
+        Type     => 'Small'
     );
-    
+
     # show right header
     $LayoutObject->Block(
         Name => 'Header' . $Self->{Action},
         Data => {
             %Ticket,
         },
-    );    
+    );
 
     my %UserPreferences = $UserObject->GetPreferences(
         UserID => $Self->{UserID},
-    );    
+    );
 
     if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
         if ( $UserPreferences{UserAgentDoNotShowBrowserLinkMessage} ) {
@@ -127,19 +127,19 @@ sub Run {
     }
 
     my $ArticleBackendObject = $ArticleObject->BackendForArticle(
-        TicketID  => $GetParam{TicketID},
-        ArticleID => $GetParam{SourceArticleID},
+        TicketID            => $GetParam{TicketID},
+        ArticleID           => $GetParam{SourceArticleID},
         ShowDeletedArticles => 1
     );
 
     my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID      => $GetParam{TicketID},
-        ArticleID     => $GetParam{ArticleID},
-        RealNames     => 1,
-        DynamicFields => 0,
-        UserID        => $Self->{UserID},
+        TicketID            => $GetParam{TicketID},
+        ArticleID           => $GetParam{ArticleID},
+        RealNames           => 1,
+        DynamicFields       => 0,
+        UserID              => $Self->{UserID},
         ShowDeletedArticles => 1,
-        VersionView   => 1
+        VersionView         => 1
     );
 
     my %SourceArticle = $ArticleBackendObject->ArticleGet(
@@ -148,7 +148,7 @@ sub Run {
         RealNames     => 1,
         DynamicFields => 0,
         UserID        => $Self->{UserID}
-    );    
+    );
 
     # show article actions
     my @MenuItems;
@@ -167,8 +167,8 @@ sub Run {
     );
 
     $LayoutObject->Block(
-        Name    => 'Properties',
-        Data    => {
+        Name => 'Properties',
+        Data => {
             ArticleID            => $GetParam{ArticleID},
             ArticleSubject       => $Article{Subject},
             VersionID            => $GetParam{VersionID},
@@ -179,10 +179,10 @@ sub Run {
     );
 
     $LayoutObject->Block(
-        Name    => 'TicketBack',
-        Data    => {
+        Name => 'TicketBack',
+        Data => {
             %Param,
-            %Ticket,            
+            %Ticket,
         }
     );
 
@@ -194,7 +194,7 @@ sub Run {
 
     $Output .= $LayoutObject->Footer(
         Type => 'Small',
-    );        
+    );
 
     return $Output;
 

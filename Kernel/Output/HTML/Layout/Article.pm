@@ -573,7 +573,7 @@ sub _BackendGet {
 
     my $VersionView = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'VersionView' ) || $Param{VersionView} || '';
 
-    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param, VersionView => $VersionView  );
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle( %Param, VersionView => $VersionView );
 
     # Determine channel name for this article.
     my $ChannelName = $ArticleBackendObject->ChannelNameGet();

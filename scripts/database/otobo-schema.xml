@@ -1196,23 +1196,23 @@
     <Index Name="article_version_communication_channel_id">
         <IndexColumn Name="communication_channel_id">
         </IndexColumn>
-    </Index>        
+    </Index>
     <Index Name="article_version_search_index_needs_rebuild">
         <IndexColumn Name="search_index_needs_rebuild">
         </IndexColumn>
-    </Index> 
+    </Index>
     <Index Name="article_version_ticket_id">
         <IndexColumn Name="ticket_id">
         </IndexColumn>
-    </Index>   
+    </Index>
     <Index Name="article_version_create_by_id">
         <IndexColumn Name="create_by">
         </IndexColumn>
-    </Index> 
+    </Index>
     <Index Name="article_version_change_by_id">
         <IndexColumn Name="change_by">
         </IndexColumn>
-    </Index>  
+    </Index>
     <Index Name="article_version_version_create_by_id">
         <IndexColumn Name="version_create_by">
         </IndexColumn>
@@ -1224,23 +1224,23 @@
     <ForeignKey ForeignTable="users">
         <Reference Foreign="id" Local="change_by">
         </Reference>
-    </ForeignKey>    
+    </ForeignKey>
     <ForeignKey ForeignTable="communication_channel">
         <Reference Foreign="id" Local="communication_channel_id">
         </Reference>
-    </ForeignKey>                    
+    </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Foreign="id" Local="create_by">
         </Reference>
-    </ForeignKey>  
+    </ForeignKey>
     <ForeignKey ForeignTable="ticket">
         <Reference Foreign="id" Local="ticket_id">
         </Reference>
-    </ForeignKey> 
+    </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Foreign="id" Local="version_create_by">
         </Reference>
-    </ForeignKey>                                      
+    </ForeignKey>
 </Table>
 
 <!-- article_flag version -->
@@ -1258,12 +1258,12 @@
         <IndexColumn Name="article_id">
         </IndexColumn>
         <IndexColumn Name="create_by">
-        </IndexColumn>                
-    </Index>        
+        </IndexColumn>
+    </Index>
     <Index Name="article_flag_version_create_by_id">
         <IndexColumn Name="create_by">
         </IndexColumn>
-    </Index> 
+    </Index>
     <ForeignKey ForeignTable="article_version">
         <Reference Foreign="id" Local="article_id">
         </Reference>
@@ -1271,7 +1271,7 @@
     <ForeignKey ForeignTable="users">
         <Reference Foreign="id" Local="create_by">
         </Reference>
-    </ForeignKey>                                       
+    </ForeignKey>
 </Table>
 
 <!-- article version data for MIME based backends (Email, Phone etc.) -->
@@ -1303,27 +1303,27 @@
     <Index Name="article_data_mime_version_message_id_md5">
         <IndexColumn Name="a_message_id_md5">
         </IndexColumn>
-    </Index> 
+    </Index>
     <Index Name="article_data_mime_version_create_by_id">
         <IndexColumn Name="create_by">
         </IndexColumn>
-    </Index>                   
+    </Index>
     <Index Name="article_data_mime_version_change_by_id">
         <IndexColumn Name="change_by">
         </IndexColumn>
-    </Index>   
+    </Index>
     <ForeignKey ForeignTable="article_version">
         <Reference Foreign="id" Local="article_id">
         </Reference>
-    </ForeignKey> 
+    </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Foreign="id" Local="change_by">
         </Reference>
-    </ForeignKey> 
+    </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Foreign="id" Local="create_by">
         </Reference>
-    </ForeignKey>                
+    </ForeignKey>
 </Table>
 
 <!-- article attachment version data for MIME based backends (Email, Phone etc.) -->
@@ -1348,23 +1348,23 @@
     <Index Name="article_data_mime_att_version_create_by_id">
         <IndexColumn Name="create_by">
         </IndexColumn>
-    </Index>                   
+    </Index>
     <Index Name="article_data_mime_att_version_change_by_id">
         <IndexColumn Name="change_by">
         </IndexColumn>
-    </Index> 
+    </Index>
     <ForeignKey ForeignTable="article_version">
         <Reference Foreign="id" Local="article_id">
         </Reference>
-    </ForeignKey> 
+    </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Foreign="id" Local="change_by">
         </Reference>
-    </ForeignKey> 
+    </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Foreign="id" Local="create_by">
         </Reference>
-    </ForeignKey>                
+    </ForeignKey>
 </Table>
 
 <!-- article - history relation -->

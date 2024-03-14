@@ -66,12 +66,12 @@ sub ArticleMoveFiles {
         );
 
         return;
-    }    
+    }
 
     $Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => 'DELETE FROM article_data_mime_attachment WHERE article_id = ?',
+        SQL  => 'DELETE FROM article_data_mime_attachment WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
-    );  
+    );
 
     return;
 }
@@ -130,7 +130,7 @@ sub ArticleDeletePlain {
     }
 
     # delete attachments
-    if ( !$Param{DeletedVersionID} ) { 
+    if ( !$Param{DeletedVersionID} ) {
         return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL  => 'DELETE FROM article_data_mime_plain WHERE article_id = ?',
             Bind => [ \$Param{ArticleID} ],
@@ -342,8 +342,8 @@ sub ArticleWriteAttachment {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
             Bind => [
                 \$Param{DeletedVersionID}, \$UniqueFilename,   \$Param{ContentType}, \$Param{Filesize},
-                \$Param{Content},   \$Param{ContentID}, \$Param{ContentAlternative},
-                \$Disposition,      \$Param{UserID},    \$Param{UserID},
+                \$Param{Content},          \$Param{ContentID}, \$Param{ContentAlternative},
+                \$Disposition,             \$Param{UserID},    \$Param{UserID},
             ],
         );
     }
@@ -376,7 +376,7 @@ sub ArticlePlain {
         SQL    => 'SELECT body FROM article_data_mime_plain WHERE article_id = ?',
         Bind   => [ \$Param{ArticleID} ],
         Encode => [0],
-    ); 
+    );
 
     my $Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -423,7 +423,7 @@ sub ArticleAttachmentIndexRaw {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # try database
-    if ( !$Param{VersionView}) {
+    if ( !$Param{VersionView} ) {
         return if !$DBObject->Prepare(
             SQL => '
                 SELECT filename, content_type, content_size, content_id, content_alternative,
@@ -433,7 +433,8 @@ sub ArticleAttachmentIndexRaw {
                 ORDER BY filename, id',
             Bind => [ \$Param{ArticleID} ],
         );
-    } else {
+    }
+    else {
         return if !$DBObject->Prepare(
             SQL => '
                     SELECT att.filename, att.content_type, att.content_size, att.content_id, att.content_alternative, att.disposition
@@ -517,7 +518,7 @@ sub ArticleAttachment {
     my %Index = $Self->ArticleAttachmentIndex(
         ArticleID       => $Param{ArticleID},
         VersionView     => $Param{VersionView},
-        SourceArticleID => $Param{SourceArticleID},       
+        SourceArticleID => $Param{SourceArticleID},
         ArticleDeleted  => $Param{ArticleDeleted} || ''
     );
 
@@ -538,12 +539,13 @@ sub ArticleAttachment {
             Bind  => [ \$Param{ArticleID} ],
             Limit => $Param{FileID},
         );
-    } else {
+    }
+    else {
 
         if ( $Param{ArticleDeleted} ) {
             my $Temp = $Param{SourceArticleID};
             $Param{SourceArticleID} = $Param{ArticleID};
-            $Param{ArticleID} = $Temp;
+            $Param{ArticleID}       = $Temp;
         }
 
         return if !$DBObject->Prepare(
@@ -572,7 +574,8 @@ sub ArticleAttachment {
             Bind   => [ \$AttachmentID ],
             Encode => [ 1, 0, 0, 0, 1, 1 ],
         );
-    } else {
+    }
+    else {
         return if !$DBObject->Prepare(
             SQL => '
                 SELECT att.content_type, att.content, att.content_id, att.content_alternative, att.disposition, att.filename

@@ -419,7 +419,7 @@
                                 <th class="ArticleEdit Sortable Center">
                                     <a href="#" title="[% Translate("Article Edited") | html %]">
                                         <i class="fa fa-edit"></i>
-                                    </a>                                
+                                    </a>
                                 </th>
                                 <th class="Attachments Last Center">
                                     <a href="#" title="[% Translate("Attachments") | html %]">

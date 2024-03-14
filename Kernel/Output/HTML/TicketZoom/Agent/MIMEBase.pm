@@ -84,7 +84,7 @@ sub ArticleRender {
 
     # Get channel specific fields
     my %ArticleFields = $LayoutObject->ArticleFields(%Param);
-    
+
     # Get dynamic fields and accounted time
     my %ArticleMetaFields;
 
@@ -105,7 +105,7 @@ sub ArticleRender {
         || 0;
 
     # Show HTML if RichText is enabled and HTML attachment isn't missing.
-    my $ShowHTML         = $RichTextEnabled;
+    my $ShowHTML = $RichTextEnabled;
 
     my $ArticleStorage = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage');
 
@@ -132,6 +132,7 @@ sub ArticleRender {
     my %AtmIndex;
 
     if ( !$Article{ArticleDeleted} || $ArticleStorage eq 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {
+
         # Get attachment index (excluding body attachments).
         %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID        => $Param{ArticleID},
@@ -141,12 +142,12 @@ sub ArticleRender {
             VersionView      => $Param{VersionView},
             SourceArticleID  => $Param{SourceArticleID},
         );
-    } 
-    
+    }
+
     else {
         my $ArticleBackendObjectDB = Kernel::System::Ticket::Article::Backend::MIMEBase->new(
             ArticleStorageModule => "Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB",
-        );       
+        );
 
         # Get attachment index (excluding body attachments).
         %AtmIndex = $ArticleBackendObjectDB->ArticleAttachmentIndex(
@@ -157,7 +158,7 @@ sub ArticleRender {
             VersionView      => 1,
             SourceArticleID  => $Param{ArticleID}
         );
-    }  
+    }
 
     my @ArticleAttachments;
 
@@ -199,8 +200,8 @@ sub ArticleRender {
                         %File,
                         FileID => $FileID,
                     },
-                    TicketID => $Param{TicketID},
-                    Article  => \%Article,
+                    TicketID        => $Param{TicketID},
+                    Article         => \%Article,
                     VersionView     => $Param{VersionView},
                     SourceArticleID => $SourceArticleID,
                     ArticleDeleted  => $Article{ArticleDeleted} || ''
@@ -302,10 +303,10 @@ sub ArticleRender {
             SenderInitials => $LayoutObject->UserInitialsGet(
                 Fullname => $Article{FromRealname},
             ),
-            Crypt => \%Flags,
-            VersionView      => $Param{VersionView},
-            SourceArticleID  => $Param{SourceArticleID},
-            VersionID        => $Param{VersionID}
+            Crypt           => \%Flags,
+            VersionView     => $Param{VersionView},
+            SourceArticleID => $Param{SourceArticleID},
+            VersionID       => $Param{VersionID}
         },
     );
 

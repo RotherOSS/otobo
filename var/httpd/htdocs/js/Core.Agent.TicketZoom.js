@@ -868,22 +868,22 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         $('a.ArticleRestore').unbind('click.ArticleRestore').bind('click.ArticleRestore', function() {
             Core.Agent.ArticleFeatures.OpenUndoDeleteConfirmDialog($(this).attr('href'));
             return false;
-        }); 
-        
+        });
+
         Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function() {
             $('#ArticleVersion').on('change', function () {
                 var PopupType = 'TicketAction';
                 var VersionID = $("#ArticleVersion").prop('selectedIndex');
 
                 if ( $('#ArticleVersion').val() != "" ) {
-                    var URL = Core.Config.Get('CGIHandle') + '?Action=AgentTicketArticleVersionView;TicketID='+$("input[name='TicketID']").val() + ';VersionID=' + VersionID + 
+                    var URL = Core.Config.Get('CGIHandle') + '?Action=AgentTicketArticleVersionView;TicketID='+$("input[name='TicketID']").val() + ';VersionID=' + VersionID +
                                 ';ArticleID='+$('#ArticleVersion').val()+';SourceArticleID='+$("input[name='ArticleID']").val()+';VersionView=1;OTOBOAgentInterface='+$("input[name='OTOBOAgentInterface']").val();
-                    
+
                     Core.UI.Popup.OpenPopup(URL, PopupType);
                     $('#ArticleVersion').val('');
                 }
-                return false;           
-            });        
+                return false;
+            });
         });
     };
 

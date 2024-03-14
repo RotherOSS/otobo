@@ -512,7 +512,7 @@ Get article meta data.
         ArticleID => 42,
         TicketID  => 23,
         ShowDeletedArticles => 1, # (optional) To get deleted articles.
-        VersionView   => 1,       # (optional) To get edited version info.        
+        VersionView   => 1,       # (optional) To get edited version info.
     );
 
 Returns:

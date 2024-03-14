@@ -50,7 +50,7 @@
                     <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
                     [% Item.ArticleVersionStrg %]
                 </form>
-            </li>          
+            </li>
         [% END %]
 
     [% ELSIF Item.ItemType == 'Link' %]

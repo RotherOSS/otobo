@@ -40,7 +40,7 @@ sub Run {
     # get IDs
     my $TicketID        = $ParamObject->GetParam( Param => 'TicketID' );
     my $ArticleID       = $ParamObject->GetParam( Param => 'ArticleID' );
-    my $VersionView     = $ParamObject->GetParam( Param => 'VersionView' ) || '';
+    my $VersionView     = $ParamObject->GetParam( Param => 'VersionView' )     || '';
     my $SourceArticleID = $ParamObject->GetParam( Param => 'SourceArticleID' ) || '';
 
     # get needed objects
@@ -63,7 +63,7 @@ sub Run {
     );
 
     my $ArticleShowStatus = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ShowDeletedArticles(
-        TicketID  => $TicketID, 
+        TicketID  => $TicketID,
         UserID    => $Self->{UserID},
         GetStatus => 1
     );
@@ -143,17 +143,19 @@ sub Run {
     $Data{Filename} = "Ticket-$TicketNumber-ArticleID-$Article{ArticleID}.html";
 
     # generate base url
-    my $URL; 
+    my $URL;
 
-    if ( !$VersionView &&  !$Param{DeletedVersionID} ) {
+    if ( !$VersionView && !$Param{DeletedVersionID} ) {
         $URL = 'Action=AgentTicketAttachment;Subaction=HTMLView'
-            . ";TicketID=$TicketID;ArticleID=$ArticleID;FileID=";        
-    } elsif ( $VersionView && !$Param{DeletedVersionID} ) {
+            . ";TicketID=$TicketID;ArticleID=$ArticleID;FileID=";
+    }
+    elsif ( $VersionView && !$Param{DeletedVersionID} ) {
         $URL = 'Action=AgentTicketAttachment;Subaction=HTMLView'
-            . ";TicketID=$TicketID;ArticleID=$ArticleID;VersionView=1;SourceArticleID=$SourceArticleID;FileID=";                
-    } else {
+            . ";TicketID=$TicketID;ArticleID=$ArticleID;VersionView=1;SourceArticleID=$SourceArticleID;FileID=";
+    }
+    else {
         $URL = 'Action=AgentTicketAttachment;Subaction=HTMLView'
-            . ";TicketID=$TicketID;ArticleID=$ArticleID;VersionView=0;SourceArticleID=$Param{DeletedVersionID};ArticleDeleted=$Param{DeletedVersionID};FileID=";          
+            . ";TicketID=$TicketID;ArticleID=$ArticleID;VersionView=0;SourceArticleID=$Param{DeletedVersionID};ArticleDeleted=$Param{DeletedVersionID};FileID=";
     }
 
     # replace links to inline images in html content
@@ -165,13 +167,14 @@ sub Run {
             SourceArticleID => $SourceArticleID,
             VersionView     => $VersionView || ''
         );
-    } else {
+    }
+    else {
         %AtmBox = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID       => $ArticleID,
             SourceArticleID => $Param{DeletedVersionID},
             ArticleDeleted  => 1,
             VersionView     => 1
-        );    
+        );
     }
 
     # Do not load external images if 'BlockLoadingRemoteContent' is enabled.

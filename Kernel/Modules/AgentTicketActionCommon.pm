@@ -384,12 +384,12 @@ sub Run {
             TicketID            => $Self->{TicketID},
             ArticleID           => $Self->{ArticleID},
             ShowDeletedArticles => 1
-        );        
+        );
 
         %ArticleData = $ArticleBackendObject->ArticleGet(
             TicketID      => $Self->{TicketID},
             ArticleID     => $Self->{ArticleID},
-            DynamicFields => 1, 
+            DynamicFields => 1,
             RealNames     => 1,
             UserID        => $Self->{UserID}
         );
@@ -1310,7 +1310,7 @@ sub Run {
             elsif ( $Self->{ArticleID} ) {
                 $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleEdit(
                     TicketID                        => $Self->{TicketID},
-                    ArticleID                       => $Self->{ArticleID}, #Include the original article id for article versioning
+                    ArticleID                       => $Self->{ArticleID},             #Include the original article id for article versioning
                     SenderType                      => 'agent',
                     From                            => $From,
                     MimeType                        => $MimeType,
@@ -1325,7 +1325,8 @@ sub Run {
                     UserLogin                       => $Self->{UserLogin},
                     %GetParam,
                 );
-            } else {
+            }
+            else {
                 $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleCreate(
                     TicketID                        => $Self->{TicketID},
                     SenderType                      => 'agent',
@@ -3618,8 +3619,8 @@ sub _LoadArticleEdit {
     my $ParamObject       = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
-    my %Ticket               = %{$Param{Ticket}};
-    my %ArticleData          = %{$Param{ArticleData}};
+    my %Ticket               = %{ $Param{Ticket} };
+    my %ArticleData          = %{ $Param{ArticleData} };
     my $ArticleBackendObject = $Param{ArticleBackendObject};
 
     # Check if there is HTML body attachment.
@@ -3630,7 +3631,7 @@ sub _LoadArticleEdit {
     ( $ArticleData{HTMLBodyAttachmentID} ) = sort keys %AttachmentIndexHTMLBody;
 
     if ( $ArticleData{HTMLBodyAttachmentID} ) {
-        $ArticleData{MimeType}    = 'text/html';
+        $ArticleData{MimeType} = 'text/html';
 
         # Render article content.
         $ArticleData{Body} = $LayoutObject->ArticlePreview(
@@ -3638,9 +3639,9 @@ sub _LoadArticleEdit {
             ArticleID           => $ArticleData{ArticleID},
             ShowDeletedArticles => 1
         );
-    } 
+    }
     else {
-        return %ArticleData; 
+        return %ArticleData;
     }
 
     my $Content = $LayoutObject->Output(
@@ -3666,7 +3667,7 @@ sub _LoadArticleEdit {
     );
 
     # generate base url
-    my $URL = "Action=PictureUpload;FormID=$Self->{FormID};ContentID=";    
+    my $URL = "Action=PictureUpload;FormID=$Self->{FormID};ContentID=";
 
     # set filename for inline viewing
     $Data{Filename} = "Ticket-$Ticket{TicketNumber}-ArticleID-$ArticleData{ArticleID}.html";
@@ -3676,8 +3677,7 @@ sub _LoadArticleEdit {
         ArticleID => $ArticleData{ArticleID},
     );
 
-
-    foreach my $FileID (keys %AtmBox) {
+    for my $FileID ( keys %AtmBox ) {
         my %FileData = $ArticleBackendObject->ArticleAttachment(
             ArticleID              => $ArticleData{ArticleID},
             FileID                 => $FileID,
@@ -3685,6 +3685,7 @@ sub _LoadArticleEdit {
         );
 
         if ( $FileData{Disposition} eq 'inline' && $FileData{Filename} ne 'file-2' ) {
+
             # add uploaded file to upload cache
             $UploadCacheObject->FormIDAddFile(
                 FormID      => $Self->{FormID},
@@ -3692,7 +3693,7 @@ sub _LoadArticleEdit {
                 Content     => $FileData{Content},
                 ContentType => $FileData{ContentType} . '; name="' . $FileData{Filename} . '"',
                 Disposition => $FileData{Disposition},
-            );        
+            );
         }
     }
 
@@ -3704,7 +3705,7 @@ sub _LoadArticleEdit {
     );
 
     for my $Attachment (@AttachmentMeta) {
-        $ContentIDs{$Attachment->{Filename}} = $Attachment->{ContentID};
+        $ContentIDs{ $Attachment->{Filename} } = $Attachment->{ContentID};
     }
 
     # Do not load external images if 'BlockLoadingRemoteContent' is enabled.
@@ -3766,7 +3767,7 @@ sub _CopyArticleAttachmentsToUploadCache {
     my $ArticleBackendObject = $ArticleObject->BackendForArticle(
         TicketID  => $Self->{TicketID},
         ArticleID => $Param{ArticleID},
-    );    
+    );
 
     # define if rich text should be used
     $Self->{RichText} = $ConfigObject->Get('Ticket::Frontend::ZoomRichTextForce')
@@ -3778,13 +3779,13 @@ sub _CopyArticleAttachmentsToUploadCache {
         ExcludePlainText => 1,
         ExcludeHTMLBody  => $Self->{RichText},
         ExcludeInline    => $Self->{RichText},
-    };    
+    };
 
     # Get attachment index (excluding body attachments).
     my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID => $Param{ArticleID},
         %{ $Self->{ExcludeAttachments} },
-    ); 
+    );
 
     FILE:
     for my $FileID ( sort keys %AtmIndex ) {
@@ -3796,7 +3797,7 @@ sub _CopyArticleAttachmentsToUploadCache {
             ContentMayBeFilehandle => 0,
         );
 
-        next FILE if !$AttachmentData{Content};	
+        next FILE if !$AttachmentData{Content};
 
         # add attachment to the upload cache
         my $Success = $UploadCacheObject->FormIDAddFile(
@@ -3820,7 +3821,7 @@ sub _CopyArticleAttachmentsToUploadCache {
 
     if (%UploadStuff) {
         push @Attachments, \%UploadStuff;
-    }    
+    }
 
     return @Attachments;
 }

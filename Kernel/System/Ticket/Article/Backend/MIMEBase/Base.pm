@@ -146,7 +146,7 @@ sub ArticleAttachmentIndex {
     if ( $Param{ArticleDeleted} ) {
         my $Temp = $Param{SourceArticleID};
         $Param{SourceArticleID} = $Param{ArticleID};
-        $Param{ArticleID} = $Temp;
+        $Param{ArticleID}       = $Temp;
     }
 
     # Get complete attachment index from backend.
@@ -355,26 +355,29 @@ sub _ArticleContentPathGet {
 
     my $IsArticleDeleted = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->IsArticleDeleted(
         ArticleID => $Param{ArticleID}
-    );    
+    );
 
     if ( !$IsArticleDeleted && !$Param{VersionView} ) {
+
         # sql query for normal articles
         return if !$DBObject->Prepare(
             SQL  => 'SELECT content_path FROM article_data_mime WHERE article_id = ?',
             Bind => [ \$Param{ArticleID} ],
         );
-    } 
+    }
     elsif ( $Param{VersionView} && !$IsArticleDeleted ) {
+
         # sql query for Version View
         return if !$DBObject->Prepare(
             SQL  => 'SELECT content_path FROM article_data_mime_version WHERE article_id IN (SELECT id FROM article_version WHERE article_id = ?)',
             Bind => [ \$Param{ArticleID} ],
         );
     }
-    else {    
+    else {
         # sql query for Deleted Articles
         return if !$DBObject->Prepare(
-            SQL  => 'SELECT content_path FROM article_data_mime_version WHERE article_id IN (SELECT id FROM article_version WHERE source_article_id = ? AND article_delete = 1)',
+            SQL =>
+                'SELECT content_path FROM article_data_mime_version WHERE article_id IN (SELECT id FROM article_version WHERE source_article_id = ? AND article_delete = 1)',
             Bind => [ \$Param{ArticleID} ],
         );
     }

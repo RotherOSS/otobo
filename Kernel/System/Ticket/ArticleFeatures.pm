@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -81,7 +81,7 @@ Returns db success:
 
     $Success = 1; 1: If is deleted, 0: If is not
 
-    or 
+    or
 
     $Success = 100; Deleted Version ID if param ReturnID is provided
 
@@ -90,7 +90,7 @@ Returns db success:
 sub IsArticleDeleted {
     my ( $Self, %Param ) = @_;
 
-    foreach my $Needed ( qw(ArticleID) ) {
+    for my $Needed (qw(ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -104,10 +104,10 @@ sub IsArticleDeleted {
     my $IsDeleted;
     $Param{ReturnID} ||= '';
 
-    $DBObject->Prepare( 
-        SQL    => 'SELECT id FROM article_version WHERE source_article_id = ? AND article_delete = 1',
-        Bind   => [ \$Param{ArticleID} ],
-        Limit  => 1
+    $DBObject->Prepare(
+        SQL   => 'SELECT id FROM article_version WHERE source_article_id = ? AND article_delete = 1',
+        Bind  => [ \$Param{ArticleID} ],
+        Limit => 1
     );
 
     ARTICLE:
@@ -138,8 +138,7 @@ Returns db success:
 sub ArticleDelete {
     my ( $Self, %Param ) = @_;
 
-
-    foreach my $Needed ( qw(ArticleID TicketID UserID) ) {
+    for my $Needed (qw(ArticleID TicketID UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -154,8 +153,8 @@ sub ArticleDelete {
 
     #Check if article is already mark as deleted
     return if !$DBObject->Prepare(
-        SQL   => 'SELECT id FROM article WHERE id = ?',
-        Bind  => [ \$Param{ArticleID} ]
+        SQL  => 'SELECT id FROM article WHERE id = ?',
+        Bind => [ \$Param{ArticleID} ]
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -176,63 +175,62 @@ sub ArticleDelete {
     $DBObject->Do(
         SQL  => 'DELETE FROM article_data_mime_attachment WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ]
-    );    
+    );
 
     $DBObject->Do(
         SQL  => 'DELETE FROM article_data_mime WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ]
-    ); 
+    );
 
     $DBObject->Do(
         SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ]
-    );     
+    );
 
     $DBObject->Do(
         SQL  => 'DELETE FROM article_search_index WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ]
-    );  
+    );
 
     $DBObject->Do(
         SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ]
-    ); 
+    );
 
     # also delete email stuff to prevent possible errors
     # even though this functionality is not intended for email tickets
     $DBObject->Do(
         SQL  => 'DELETE FROM article_data_mime_send_error WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ]
-    ); 
+    );
 
     $DBObject->Do(
         SQL  => 'DELETE FROM article_data_mime_send_error WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ]
-    ); 
+    );
 
     # TODO: store the time accounting values in the versioned articles
     $DBObject->Do(
         SQL  => 'DELETE FROM time_accounting WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ]
-    ); 
+    );
 
     my $Success = $DBObject->Do(
         SQL  => 'DELETE FROM article WHERE id = ?',
         Bind => [ \$Param{ArticleID} ]
-    ); 
+    );
 
-    if ( $Success ) {
+    if ($Success) {
         my $CacheKey = '_MetaArticleList::' . $Param{TicketID};
 
         $Kernel::OM->Get('Kernel::System::Cache')->Delete(
             Type => 'Article',
             Key  => $CacheKey,
-        );        
+        );
     }
 
     return $Success;
 }
-
 
 =head2 ArticleVersion()
 
@@ -253,7 +251,7 @@ Returns db success:
 sub ArticleVersion {
     my ( $Self, %Param ) = @_;
 
-    foreach my $Needed ( qw(ArticleID UserID) ) {
+    for my $Needed (qw(ArticleID UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -284,17 +282,17 @@ sub ArticleVersion {
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
-      $NewArticleVersion = $Row[0];
+        $NewArticleVersion = $Row[0];
     }
 
     return if !$NewArticleVersion;
 
     if ( $Param{Delete} ) {
         my $Success = $DBObject->Do(
-            SQL  => "INSERT INTO article_version_history (history_id, article_id)
+            SQL => "INSERT INTO article_version_history (history_id, article_id)
                      SELECT id, article_id FROM ticket_history WHERE ticket_id = ? AND article_id = ?",
             Bind => [ \$Param{TicketID}, \$Param{ArticleID} ]
-        );        
+        );
 
         #Rollback if error ocurrs when backing up history_id <> article_id relation
         if ( !$Success ) {
@@ -303,39 +301,41 @@ sub ArticleVersion {
                 Bind => [ \$NewArticleVersion ]
             );
 
-           $DBObject->Do(
-                SQL  => "DELETE FROM ticket_history WHERE id IN (SELECT MAX(th.id) FROM ticket_history th
+            $DBObject->Do(
+                SQL => "DELETE FROM ticket_history WHERE id IN (SELECT MAX(th.id) FROM ticket_history th
                         INNER JOIN ticket_history_type tht ON tht.id = th.history_type_id AND tht.name = 'ArticleDelete'
                         WHERE th.ticket_id = ? AND article_id = ?)",
                 Bind => [ \$Param{TicketID}, $Param{ArticleID} ]
-           );
+            );
 
-            $Kernel::OM->Get('Kernel::System::Log')->Log( 
-                Priority     => 'error',
-                Message     => 'There was an error trying to create article ticket history version!'
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'There was an error trying to create article ticket history version!'
             );
 
             return;
-        } else {
+        }
+        else {
             $DBObject->Do(
                 SQL  => "UPDATE ticket_history SET article_id = NULL WHERE ticket_id = ? and article_id = ?",
                 Bind => [ \$Param{TicketID}, \$Param{ArticleID} ]
             );
-        }    
+        }
     }
 
     $DBObject->Do(
-        SQL =>  "INSERT INTO article_data_mime_version (article_id, a_from, a_reply_to, a_to, a_cc, a_bcc, a_subject, a_message_id, a_message_id_md5, a_in_reply_to, a_references,
+        SQL =>
+            "INSERT INTO article_data_mime_version (article_id, a_from, a_reply_to, a_to, a_cc, a_bcc, a_subject, a_message_id, a_message_id_md5, a_in_reply_to, a_references,
                 a_content_type, a_body, incoming_time, content_path, create_time, create_by, change_time, change_by)
                 SELECT $NewArticleVersion, a_from, a_reply_to, a_to, a_cc, a_bcc, a_subject, a_message_id, a_message_id_md5, a_in_reply_to, a_references,
-                a_content_type, a_body, incoming_time, content_path, create_time, create_by, change_time, change_by 
+                a_content_type, a_body, incoming_time, content_path, create_time, create_by, change_time, change_by
                 FROM article_data_mime
                 WHERE article_id = ?",
         Bind => [ \$Param{ArticleID} ]
     );
 
     $DBObject->Do(
-        SQL =>  "INSERT INTO article_data_mime_att_version (article_id, filename, content_size, content_type, content_id, content_alternative, disposition, content,
+        SQL => "INSERT INTO article_data_mime_att_version (article_id, filename, content_size, content_type, content_id, content_alternative, disposition, content,
                 create_time, create_by, change_time, change_by)
                 SELECT $NewArticleVersion, filename, content_size, content_type, content_id, content_alternative, disposition, content, create_time, create_by, change_time, change_by
                 FROM article_data_mime_attachment
@@ -344,7 +344,7 @@ sub ArticleVersion {
     );
 
     $DBObject->Do(
-        SQL =>  "INSERT INTO article_flag_version (article_id, article_key, article_value, create_time, create_by)
+        SQL => "INSERT INTO article_flag_version (article_id, article_key, article_value, create_time, create_by)
                 SELECT $NewArticleVersion, article_key, article_value, create_time, create_by
                 FROM article_flag
                 WHERE article_id = ?",
@@ -372,8 +372,7 @@ Returns db success:
 sub ArticleRestore {
     my ( $Self, %Param ) = @_;
 
-
-    foreach my $Needed ( qw(ArticleID TicketID) ) {
+    for my $Needed (qw(ArticleID TicketID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -395,8 +394,8 @@ sub ArticleRestore {
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
-      $ArticleVersionID = $Row[0];
-    }    
+        $ArticleVersionID = $Row[0];
+    }
 
     return if !$ArticleVersionID;
 
@@ -416,49 +415,50 @@ sub ArticleRestore {
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
-      $ArticleID = $Row[0];
-    }    
+        $ArticleID = $Row[0];
+    }
 
     return if !$ArticleID;
 
     $DBObject->Do(
-        SQL =>  "INSERT INTO article_data_mime (article_id, a_from, a_reply_to, a_to, a_cc, a_bcc, a_subject, a_message_id, a_message_id_md5, a_in_reply_to, a_references,
+        SQL =>
+            "INSERT INTO article_data_mime (article_id, a_from, a_reply_to, a_to, a_cc, a_bcc, a_subject, a_message_id, a_message_id_md5, a_in_reply_to, a_references,
                 a_content_type, a_body, incoming_time, content_path, create_time, create_by, change_time, change_by)
                 SELECT $ArticleID, a_from, a_reply_to, a_to, a_cc, a_bcc, a_subject, a_message_id, a_message_id_md5, a_in_reply_to, a_references,
-                a_content_type, a_body, incoming_time, content_path, create_time, create_by, change_time, change_by 
+                a_content_type, a_body, incoming_time, content_path, create_time, create_by, change_time, change_by
                 FROM article_data_mime_version
                 WHERE article_id = ?",
         Bind => [ \$ArticleVersionID ]
-    );    
+    );
 
     $DBObject->Do(
-        SQL =>  "INSERT INTO article_data_mime_attachment (article_id, filename, content_size, content_type, content_id, content_alternative, disposition, content,
+        SQL => "INSERT INTO article_data_mime_attachment (article_id, filename, content_size, content_type, content_id, content_alternative, disposition, content,
                 create_time, create_by, change_time, change_by)
                 SELECT $ArticleID, filename, content_size, content_type, content_id, content_alternative, disposition, content, create_time, create_by, change_time, change_by
                 FROM article_data_mime_att_version
                 WHERE article_id = ?",
         Bind => [ \$ArticleVersionID ]
-    );    
+    );
 
     $DBObject->Do(
-        SQL =>  "INSERT INTO article_flag (article_id, article_key, article_value, create_time, create_by)
+        SQL => "INSERT INTO article_flag (article_id, article_key, article_value, create_time, create_by)
                 SELECT $ArticleID, article_key, article_value, create_time, create_by
                 FROM article_flag_version
                 WHERE article_id = ?",
         Bind => [ \$ArticleVersionID ]
-    );    
+    );
 
     my $Success = $DBObject->Do(
         SQL  => "UPDATE ticket_history SET article_id = ? WHERE id IN (SELECT history_id FROM article_version_history WHERE article_id = ?) AND ticket_id = ?",
         Bind => [ \$ArticleID, \$ArticleID, \$Param{TicketID} ]
-    );    
+    );
 
-    if ( $Success ) {
+    if ($Success) {
 
         $DBObject->Do(
             SQL  => "DELETE FROM article_version_history WHERE article_id = ?",
             Bind => [ \$ArticleID ]
-        ); 
+        );
 
         $DBObject->Do(
             SQL  => "DELETE FROM article_data_mime_att_version WHERE article_id = ?",
@@ -468,7 +468,7 @@ sub ArticleRestore {
         $DBObject->Do(
             SQL  => "DELETE FROM article_data_mime_version WHERE article_id = ?",
             Bind => [ \$ArticleVersionID ]
-        ); 
+        );
 
         $DBObject->Do(
             SQL  => "DELETE FROM article_flag_version WHERE article_id = ?",
@@ -478,17 +478,17 @@ sub ArticleRestore {
         $DBObject->Do(
             SQL  => "DELETE FROM article_version WHERE id = ?",
             Bind => [ \$ArticleVersionID ]
-        );                
+        );
 
         my $CacheKey = '_MetaArticleList::' . $Param{TicketID};
 
         $Kernel::OM->Get('Kernel::System::Cache')->Delete(
             Type => 'Article',
             Key  => $CacheKey,
-        );  
+        );
 
         $Kernel::OM->Get('Kernel::System::Ticket')->_TicketCacheClear( TicketID => $Param{TicketID} );
-    }    
+    }
 
     return $Success;
 }
@@ -507,7 +507,7 @@ Returns db success:
 
     $Success = 1; 1: If successful, 0: Error
 
-    or 
+    or
     $Success = 100; Flag ID: If for status Get
 
 =cut
@@ -515,7 +515,7 @@ Returns db success:
 sub ShowDeletedArticles {
     my ( $Self, %Param ) = @_;
 
-    foreach my $Needed ( qw(TicketID UserID) ) {
+    for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -536,23 +536,24 @@ sub ShowDeletedArticles {
     );
 
     #Check user selection flag
-    my $IsMarked = defined $Flag{ 'ShowDeleted' } && $Flag{ 'ShowDeleted' } eq '1' ? 1 : 0;
+    my $IsMarked = defined $Flag{'ShowDeleted'} && $Flag{'ShowDeleted'} eq '1' ? 1 : 0;
 
     return $IsMarked if $Param{GetStatus};
 
-    if ( $IsMarked ) {
+    if ($IsMarked) {
         $TicketObject->TicketFlagDelete(
             TicketID => $Param{TicketID},
             Key      => 'ShowDeleted',
             UserID   => $Param{UserID},
         );
-    } else {
+    }
+    else {
         $TicketObject->TicketFlagSet(
             TicketID => $Param{TicketID},
             Key      => 'ShowDeleted',
             Value    => 1,
             UserID   => $Param{UserID},
-        );        
+        );
     }
 
     return $Success;
@@ -582,7 +583,7 @@ Returns:
 sub VersionHistoryGet {
     my ( $Self, %Param ) = @_;
 
-    foreach my $Needed ( qw(TicketID ArticleID) ) {
+    for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -597,14 +598,14 @@ sub VersionHistoryGet {
 
     $DBObject->Prepare(
         SQL => "SELECT sh.id, sh.version_create_time, usr.first_name, usr.last_name, sh.version_create_by
-                FROM article_version sh, users usr WHERE 
+                FROM article_version sh, users usr WHERE
                 sh.ticket_id = ? AND sh.source_article_id = ? AND sh.create_by = usr.id AND sh.article_delete <> 1
                 ORDER BY sh.id asc",
         Bind => [ \$Param{TicketID}, \$Param{ArticleID} ],
-    );    
+    );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Entries{$Row[0]} = {
+        $Entries{ $Row[0] } = {
             CreateTime => $Row[1],
             FullName   => "$Row[2] $Row[3]",
             CreateBy   => $Row[4],
@@ -632,7 +633,7 @@ Returns db success:
 sub IsArticleEdited {
     my ( $Self, %Param ) = @_;
 
-    foreach my $Needed ( qw(TicketID ArticleID) ) {
+    for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -646,12 +647,12 @@ sub IsArticleEdited {
     my $IsEdited = 0;
 
     $DBObject->Prepare(
-        SQL  => "SELECT av.id
-                 FROM article_version av WHERE 
+        SQL => "SELECT av.id
+                 FROM article_version av WHERE
                  av.ticket_id = ? AND av.source_article_id = ? and av.article_delete <> 1",
         Bind  => [ \$Param{TicketID}, \$Param{ArticleID} ],
         Limit => 1
-    );    
+    );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $IsEdited = 1;

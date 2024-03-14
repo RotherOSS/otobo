@@ -59,12 +59,13 @@ sub Run {
     }
 
     my $Link = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{Baselink} .
-            "Action=AgentTicketAttachment;TicketID=$Param{TicketID};ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID}";
+        "Action=AgentTicketAttachment;TicketID=$Param{TicketID};ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID}";
 
     if ( $Param{VersionView} && !$Param{ArticleDeleted} ) {
         $Link = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{Baselink} .
             "Action=AgentTicketAttachment;TicketID=$Param{TicketID};ArticleID=$Param{Article}->{ArticleID};SourceArticleID=$Param{SourceArticleID};VersionView=$Param{VersionView};FileID=$Param{File}->{FileID}";
-    } elsif ( $Param{ArticleDeleted} ) {
+    }
+    elsif ( $Param{ArticleDeleted} ) {
         $Link = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{Baselink} .
             "Action=AgentTicketAttachment;TicketID=$Param{TicketID};ArticleID=$Param{Article}->{ArticleID};SourceArticleID=$Param{SourceArticleID};VersionView=0;FileID=$Param{File}->{FileID}";
     }

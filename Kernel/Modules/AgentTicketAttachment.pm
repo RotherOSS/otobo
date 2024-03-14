@@ -51,9 +51,9 @@ sub Run {
     my $ArticleID = $ParamObject->GetParam( Param => 'ArticleID' );
     my $FileID    = $ParamObject->GetParam( Param => 'FileID' );
 
-    my $VersionView     = $ParamObject->GetParam( Param => 'VersionView' ) || '';
+    my $VersionView     = $ParamObject->GetParam( Param => 'VersionView' )     || '';
     my $SourceArticleID = $ParamObject->GetParam( Param => 'SourceArticleID' ) || '';
-    my $ArticleDeleted  = $ParamObject->GetParam( Param => 'ArticleDeleted' ) || '';
+    my $ArticleDeleted  = $ParamObject->GetParam( Param => 'ArticleDeleted' )  || '';
 
     # check params
     if ( !$FileID || !$ArticleID || !$TicketID ) {
@@ -79,16 +79,16 @@ sub Run {
 
     # check permissions
     my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID         => $TicketID,
-        ArticleID        => $ArticleID,
-        DynamicFields    => 0,
-        VersionView      => $VersionView,
-        SourceArticleID  => $SourceArticleID,
+        TicketID        => $TicketID,
+        ArticleID       => $ArticleID,
+        DynamicFields   => 0,
+        VersionView     => $VersionView,
+        SourceArticleID => $SourceArticleID,
     );
 
     my $ArticleBackendObjectDB;
 
-    if ( $Article{ArticleDeleted} ) {    
+    if ( $Article{ArticleDeleted} ) {
         $ArticleBackendObjectDB = Kernel::System::Ticket::Article::Backend::MIMEBase->new(
             ArticleStorageModule => "Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB",
         );
@@ -114,9 +114,9 @@ sub Run {
 
     my %Data;
     my $ArticleStorage = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage');
-    
+
     # get an attachment
-    if ( !$Article{ArticleDeleted} || $ArticleStorage eq 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {  
+    if ( !$Article{ArticleDeleted} || $ArticleStorage eq 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {
         %Data = $ArticleBackendObject->ArticleAttachment(
             ArticleID              => $ArticleID,
             VersionView            => $VersionView,
@@ -126,7 +126,8 @@ sub Run {
             ShowDeletedArticles    => 1,
             ArticleDeleted         => $Article{ArticleDeleted}
         );
-    } else {
+    }
+    else {
         # get an attachment
         %Data = $ArticleBackendObjectDB->ArticleAttachment(
             ArticleID              => $ArticleID,
@@ -136,7 +137,7 @@ sub Run {
             ContentMayBeFilehandle => $ContentMayBeFilehandle,
             ShowDeletedArticles    => 1,
             ArticleDeleted         => 1
-        );       
+        );
     }
 
     if ( !%Data ) {

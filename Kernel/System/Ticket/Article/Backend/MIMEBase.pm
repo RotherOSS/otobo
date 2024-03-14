@@ -96,7 +96,7 @@ sub new {
 Edit a MIME article.
 
     my $ArticleID = $ArticleBackendObject->ArticleEdit(
-        ArticleID            => 100,                              # (required) 
+        ArticleID            => 100,                              # (required)
         TicketID             => 123,                              # (required)
         SenderTypeID         => 1,                                # (required)
                                                                   # or
@@ -175,10 +175,10 @@ sub ArticleEdit {
 
     my $ArticleContentPath;
 
-    $DBObject->Prepare( 
-        SQL    => 'SELECT content_path FROM article_data_mime WHERE article_id = ?',
-        Bind   => [ \$Param{ArticleID} ],
-        Limit  => 1
+    $DBObject->Prepare(
+        SQL   => 'SELECT content_path FROM article_data_mime WHERE article_id = ?',
+        Bind  => [ \$Param{ArticleID} ],
+        Limit => 1
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -397,23 +397,23 @@ sub ArticleEdit {
 
     #Backup actual data to generate new version
     my $NewArticleVersion = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ArticleVersion(
-        ArticleID  => $ArticleID, 
-        UserID     => $Param{UserID},
+        ArticleID => $ArticleID,
+        UserID    => $Param{UserID},
     );
 
     return if !$NewArticleVersion;
 
     my $Success = $DBObject->Do(
         SQL => '
-            UPDATE article_data_mime SET 
+            UPDATE article_data_mime SET
                 a_from = ?, a_reply_to = ?, a_to = ?, a_cc = ?, a_bcc = ?, a_subject = ?,
                 a_in_reply_to = ?, a_references = ?, a_content_type = ?, a_body = ?,
                 change_time = current_timestamp, change_by  = ? WHERE article_id = ?
         ',
         Bind => [
-            \$Param{From}, \$Param{ReplyTo}, \$Param{To}, \$Param{Cc}, \$Param{Bcc}, \$Param{Subject},
-            \$Param{InReplyTo}, \$Param{References},  \$Param{ContentType},
-            \$Param{Body}, \$Param{UserID}, \$ArticleID
+            \$Param{From},      \$Param{ReplyTo},    \$Param{To}, \$Param{Cc}, \$Param{Bcc}, \$Param{Subject},
+            \$Param{InReplyTo}, \$Param{References}, \$Param{ContentType},
+            \$Param{Body},      \$Param{UserID},     \$ArticleID
         ],
     );
 
@@ -433,13 +433,14 @@ sub ArticleEdit {
     }
 
     # Read original article Content Path
-    my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir') . '/' . $ArticleContentPath . '/' . $Param{ArticleID} ;
+    my $Location
+        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir') . '/' . $ArticleContentPath . '/' . $Param{ArticleID};
 
     $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleMoveFiles(
         ArticleID         => $ArticleID,
         NewArticleVersion => $NewArticleVersion,
         Location          => $Location
-    );    
+    );
 
     # add converted attachments
     for my $Attachment (@AttachmentConvert) {
@@ -470,7 +471,7 @@ sub ArticleEdit {
         ArticleID => $ArticleID,
         Key       => 'Seen',
         AllUsers  => 1
-    );       
+    );
 
     $ArticleObject->_ArticleCacheClear(
         TicketID => $Param{TicketID},
@@ -500,7 +501,7 @@ sub ArticleEdit {
             OldTicketData => \%OldTicketData,
         },
         UserID => $Param{UserID},
-    ); 
+    );
 
     # return ArticleID
     return $ArticleID;
@@ -1192,7 +1193,7 @@ sub ArticleGet {
             );
             return;
         }
-    }   
+    }
 
     # Get meta article.
     my %Article = $Self->_MetaArticleGet(
@@ -1204,7 +1205,7 @@ sub ArticleGet {
     return if !%Article;
 
     my $ArticleEdited = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->IsArticleEdited(
-        TicketID  => $Param{TicketID}, 
+        TicketID  => $Param{TicketID},
         ArticleID => $Param{ArticleID}
     );
 
@@ -1248,7 +1249,7 @@ sub ArticleGet {
             INNER JOIN article_version av ON sadm.article_id = av.id
             WHERE sadm.article_id = ?
         ';
-    }         
+    }
 
     return if !$DBObject->Prepare(
         SQL   => $SQL,

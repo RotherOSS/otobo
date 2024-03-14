@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -55,7 +55,7 @@ sub Run {
     return if $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage') =~ m/ArticleStorageS3/;
 
     # get ticket object
-    my $TicketObject 	  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # check lock permission
     my $AccessOk = $TicketObject->TicketPermission(
@@ -109,7 +109,7 @@ sub Run {
     return if ( !$ACLLookup{ $Param{Config}->{Action} } );
 
     my $Success = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ShowDeletedArticles(
-        TicketID  => $Param{Ticket}->{TicketID}, 
+        TicketID  => $Param{Ticket}->{TicketID},
         UserID    => $Self->{UserID},
         GetStatus => 1
     );
@@ -117,17 +117,17 @@ sub Run {
     my $Link = 'Action=AgentTicketArticleStatus;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]';
 
     # if ticket is marked to watch deleted articles
-    if ( $Success ) {
+    if ($Success) {
 
         # show hide action
         return {
             %{ $Param{Config} },
             %{ $Param{Ticket} },
             %Param,
-			Name        => Translatable('Hide deleted articles'),
-			Description => Translatable('Click to hide deleted articles'),
+            Name        => Translatable('Hide deleted articles'),
+            Description => Translatable('Click to hide deleted articles'),
             Link        => $Link
-                
+
         };
     }
 
@@ -136,9 +136,9 @@ sub Run {
         %{ $Param{Config} },
         %{ $Param{Ticket} },
         %Param,
-			Name        => Translatable('Show deleted articles'),
-			Description => Translatable('Click to show deleted articles'),
-            Link        => $Link
+        Name        => Translatable('Show deleted articles'),
+        Description => Translatable('Click to show deleted articles'),
+        Link        => $Link
     };
 }
 

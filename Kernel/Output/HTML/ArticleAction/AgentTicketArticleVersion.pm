@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -28,7 +28,7 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
     'Kernel::System::Ticket::ArticleFeatures',
-    'Kernel::System::User'    
+    'Kernel::System::User'
 );
 
 sub new {
@@ -85,7 +85,7 @@ sub GetConfig {
         )
     };
 
-    foreach my $Entry ( sort keys %ArticleVersionHistory ) {
+    for my $Entry ( sort keys %ArticleVersionHistory ) {
         my %VersionData = %{ $ArticleVersionHistory{$Entry} };
 
         my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
@@ -107,7 +107,7 @@ sub GetConfig {
             );
         }
 
-        $ArticleVersions{$Entry} = $LayoutObject->{LanguageObject}->Translate('Version') . " $Count (". $DateTimeObject->ToString() . " $VersionData{FullName})";
+        $ArticleVersions{$Entry} = $LayoutObject->{LanguageObject}->Translate('Version') . " $Count (" . $DateTimeObject->ToString() . " $VersionData{FullName})";
         $Count++;
     }
 
@@ -120,12 +120,12 @@ sub GetConfig {
     );
 
     push @MenuItems, {
-        ItemType              => 'Dropdown',
-        DropdownType          => 'Version',
-        ArticleVersionStrg    => $ArticleVersionStrg,
-        FormID                => 'Version' . $Param{Article}->{ArticleID},
-        Class                 => 'AsPopup PopupType_TicketAction',
-        Action                => 'AgentTicketArticleEdit',
+        ItemType           => 'Dropdown',
+        DropdownType       => 'Version',
+        ArticleVersionStrg => $ArticleVersionStrg,
+        FormID             => 'Version' . $Param{Article}->{ArticleID},
+        Class              => 'AsPopup PopupType_TicketAction',
+        Action             => 'AgentTicketArticleEdit',
     };
 
     return @MenuItems;

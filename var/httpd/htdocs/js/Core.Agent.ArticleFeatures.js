@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -37,7 +37,7 @@ Core.Agent.ArticleFeatures = (function (TargetNS) {
      */
 
     TargetNS.OpenDeleteConfirmDialog = function (DataHref) {
-        
+
         // extract the parameters from the DataHref string
         var DataHrefArray = DataHref.split(';'),
             TicketIDArray = DataHrefArray[1].split('='),
@@ -84,7 +84,7 @@ Core.Agent.ArticleFeatures = (function (TargetNS) {
                                         WindowObject.Core.UI.Popup.FirePopupEvent('URL', {
                                             URL: DataHref + ';ArticleStatus=1'
                                         });
-                                    });                                    
+                                    });
                                 }, 3000);
                             } else {
                                 Core.UI.Popup.ClosePopup();
@@ -92,7 +92,7 @@ Core.Agent.ArticleFeatures = (function (TargetNS) {
                                 Core.UI.Dialog.ShowAlert(
                                     Core.Language.Translate('Error'),
                                     Core.Language.Translate('Article already marked as deleted.')
-                                );                                
+                                );
                                 return false;
                             }
                         });
@@ -120,7 +120,7 @@ Core.Agent.ArticleFeatures = (function (TargetNS) {
      */
 
     TargetNS.OpenUndoDeleteConfirmDialog = function (DataHref) {
-        
+
         // extract the parameters from the DataHref string
         var DataHrefArray = DataHref.split(';'),
             TicketIDArray = DataHrefArray[1].split('='),
@@ -167,7 +167,7 @@ Core.Agent.ArticleFeatures = (function (TargetNS) {
                                         WindowObject.Core.UI.Popup.FirePopupEvent('URL', {
                                             URL: DataHref + ';ArticleStatus=1'
                                         });
-                                    });                                    
+                                    });
                                 }, 3000);
                             } else {
                                 Core.UI.Popup.ClosePopup();
@@ -175,7 +175,7 @@ Core.Agent.ArticleFeatures = (function (TargetNS) {
                                 Core.UI.Dialog.ShowAlert(
                                     Core.Language.Translate('Error'),
                                     Core.Language.Translate('Article not available for restoring.')
-                                );                                
+                                );
                                 return false;
                             }
                         });
@@ -192,7 +192,7 @@ Core.Agent.ArticleFeatures = (function (TargetNS) {
             ]
         });
 
-    };    
+    };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 

@@ -128,10 +128,10 @@ sub BackendForArticle {
 
     if ( !$Param{CommunicationChannelID} ) {
         my @BaseArticles = $Self->ArticleList(
-            TicketID             => $Param{TicketID},
-            ArticleID            => $Param{ArticleID},
-            ShowDeletedArticles  => $Param{ShowDeletedArticles} || '',
-            VersionView          => $Param{VersionView}
+            TicketID            => $Param{TicketID},
+            ArticleID           => $Param{ArticleID},
+            ShowDeletedArticles => $Param{ShowDeletedArticles} || '',
+            VersionView         => $Param{VersionView}
         );
         if (@BaseArticles) {
             $Param{CommunicationChannelID} = $BaseArticles[0]->{CommunicationChannelID};
@@ -385,6 +385,7 @@ sub ArticleFlagSet {
     return 1 if defined $Flag{ $Param{Key} } && $Flag{ $Param{Key} } eq $Param{Value};
 
     return 1 if $Param{ArticleDeleted};
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -1197,7 +1198,7 @@ sub _MetaArticleList {
     }
 
     my $CacheKey = '_MetaArticleList::' . $Param{TicketID};
-    
+
     if ( !$Param{ShowDeletedArticles} && !$Param{VersionView} ) {
         my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
             Type => $Self->{CacheType},
@@ -1220,7 +1221,7 @@ sub _MetaArticleList {
                 FROM article a WHERE a.ticket_id = ? ORDER BY a.id ASC",
             Bind => [ \$Param{TicketID} ],
         );
-    } 
+    }
     elsif ( $Param{VersionView} ) {
         return if !$DBObject->Prepare(
             SQL => "
@@ -1229,7 +1230,7 @@ sub _MetaArticleList {
                     FROM article_version av WHERE av.ticket_id = ? AND av.article_delete <> 1 ",
             Bind => [ \$Param{TicketID} ],
         );
-    }  
+    }
     else {
         return if !$DBObject->Prepare(
             SQL => "SELECT * FROM (
