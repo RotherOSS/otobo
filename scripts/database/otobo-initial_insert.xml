@@ -1214,7 +1214,7 @@ Your OTOBO Team
         <Data Key="create_by">1</Data>
         <Data Key="change_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
-    </Insert>        
+    </Insert>
     <Insert Table="ticket_history_type">
     <Data Key="id" Type="AutoIncrement">53</Data>
         <Data Key="name" Type="Quote">ArticleEdit</Data>
@@ -1241,7 +1241,7 @@ Your OTOBO Team
         <Data Key="create_by">1</Data>
         <Data Key="change_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
-    </Insert>      
+    </Insert>
 
     <Insert Table="article_sender_type">
         <Data Key="id" Type="AutoIncrement">1</Data>
@@ -4284,4 +4284,79 @@ DefaultValue: ''
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
 
+    <!-- default infotile -->
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'TagKey'}</Data>
+        <Data Key="xml_content_value" Type="Quote">[0]</Data>
+    </Insert>
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'otobo_infotile'}[1]{'TagKey'}</Data>
+        <Data Key="xml_content_value" Type="Quote">[0]{'otobo_infotile'}[1]</Data>
+    </Insert>
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'otobo_infotile'}[1]{'Changed'}[1]{'Content'}</Data>
+        <Data Key="xml_content_value">current_timestamp</Data>
+    </Insert>
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'otobo_infotile'}[1]{'Changed'}[1]{'TagKey'}</Data>
+        <Data Key="xml_content_value" Type="Quote">[0]{'otobo_infotile'}[1]{'Changed'}[1]</Data>
+    </Insert>
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'otobo_infotile'}[1]{'ChangedBy'}[1]{'Content'}</Data>
+        <Data Key="xml_content_value">1</Data>
+    </Insert>
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'otobo_infotile'}[1]{'ChangedBy'}[1]{'TagKey'}</Data>
+        <Data Key="xml_content_value" Type="Quote">[0]{'otobo_infotile'}[1]{'ChangedBy'}[1]</Data>
+    </Insert>
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'otobo_infotile'}[1]{'Content'}[1]{'Content'}</Data>
+        <Data Key="xml_content_value" Type="Quote">&lt;h1&gt;Richtext Infokachel&lt;/h1&gt;&lt;p&gt;Diese Infokachel unterstützt Richtext und wird direkt über die Admin-Oberfläche konfiguriert.
+            &lt;br&gt;Unterschiedliche Bereiche können eigene Abschnitte innerhalb der Kachel pflegen.
+            &lt;br&gt;Außerdem gibt es ein zusätzliches Laufband für aktuelle Meldungen, das im gesamten Kundenbereich angezeigt wird.&lt;/p&gt;</Data>
+    </Insert>
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'otobo_infotile'}[1]{'Content'}[1]{'TagKey'}</Data>
+        <Data Key="xml_content_value" Type="Quote">[0]{'otobo_infotile'}[1]{'Content'}[1]</Data>
+    </Insert>
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'otobo_infotile'}[1]{'Name'}[1]{'Content'}</Data>
+        <Data Key="xml_content_value" Type="Quote">DefaultTile</Data>
+    </Insert>
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'otobo_infotile'}[1]{'Name'}[1]{'TagKey'}</Data>
+        <Data Key="xml_content_value" Type="Quote">[0]{'otobo_infotile'}[1]{'Name'}[1]</Data>
+    </Insert>
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'otobo_infotile'}[1]{'ValidID'}[1]{'Content'}</Data>
+        <Data Key="xml_content_value">1</Data>
+    </Insert>
+    <Insert Table="xml_storage">
+        <Data Key="xml_type" Type="Quote">InfoTiles</Data>
+        <Data Key="xml_key">1</Data>
+        <Data Key="xml_content_key" Type="Quote">[0]{'otobo_infotile'}[1]{'ValidID'}[1]{'TagKey'}</Data>
+        <Data Key="xml_content_value" Type="Quote">[0]{'otobo_infotile'}[1]{'ValidID'}[1]</Data>
+    </Insert>
 </database>
