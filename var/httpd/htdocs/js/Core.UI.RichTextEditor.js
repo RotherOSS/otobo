@@ -83,7 +83,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         // The format for the language is different between OTOBO and CKEditor (see bug#8024)
         // To correct this, we replace "_" with "-" in the language (e.g. zh_CN becomes zh-cn)
-        UserLanguage = Core.Config.Get('UserLanguage').replace(/_/, "-");
+        UserLanguage = Core.Config.Get('UserLanguage').replace(/_/, '-').toLowerCase();
 
         if (typeof ClassicEditor === 'undefined') {
             return false;

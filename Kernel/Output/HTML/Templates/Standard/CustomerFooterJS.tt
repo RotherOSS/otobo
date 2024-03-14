@@ -15,10 +15,10 @@
 # --
 ## nofilter(TidyAll::Plugin::OTOBO::TT::ScriptUsage)
 
-[%IF Data.RichTextSet == "1" %]
+[% IF Data.RichTextSet == "1" %]
 <script src="[% Config("Frontend::RichTextPath") _ "ckeditor.js" | html %]"></script>
-[% IF Data.LoadRichTextTranslation == "1" %]
-    <script src="[% Config("Frontend::RichTextPath") _ "translations/" | html %][% Env("UserLanguage") | html %].js"></script>
+[% IF Data.LoadRichTextTranslationFile == "1" %]
+<script type="text/javascript" src="[% Config("Frontend::RichTextPath") _ "translations/" | html %][% Data.RichTextTranslationFile | html %]"></script>
 [% END %]
 [% END %]
 
