@@ -1861,8 +1861,8 @@
 
 <!-- form_cache -->
 <Table Name="form_cache">
-    <Column Name="session_id" Required="true" Size="191" Type="VARCHAR"/>
-    <Column Name="form_id" Required="true" Size="191" Type="VARCHAR"/>
+    <Column Name="session_id" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="form_id" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="cache_key" Required="true" Size="382" Type="VARCHAR"/>
     <Column Name="cache_value" Required="false" Type="LONGBLOB"/>
     <Column Name="serialized" Required="true" Type="SMALLINT"/>
@@ -1875,7 +1875,7 @@
 
 <!-- web_upload_cache -->
 <Table Name="web_upload_cache">
-    <Column Name="form_id" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="form_id" Required="false" Size="100" Type="VARCHAR"/>
     <Column Name="filename" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="content_id" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="content_size" Required="false" Size="30" Type="VARCHAR"/>
