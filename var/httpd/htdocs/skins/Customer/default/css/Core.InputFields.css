@@ -58,6 +58,12 @@ fieldset.Columns .Column .InputField_ListContainer div {
     white-space: nowrap;
 }
 
+.RichTextHolder {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--colBGLight);
+}
+
 .AddValueRow,
 .RemoveValueRow {
     cursor: pointer;
@@ -242,10 +248,9 @@ textarea.oooFull,
 
 .FieldCell > input:not([readonly]):hover ~ label,
 .Row > input:not([readonly]):hover ~ label,
-.RichTextHolder > textarea:hover ~ label,
 textarea.oooFull ~ label,
 input.oooFull ~ label,
-.Field:hover ~ label,
+.Field:hover:not([class*='RichTextField']) ~ label,
 .Field.oooFull ~ label,
 .oooSelected ~ label,
 .DynamicFieldDB:not([readonly]):hover ~ label,
@@ -814,7 +819,14 @@ div.InputField_ToolbarContainer ul li a:hover {
  */
 
 .FieldCell > .Field > .RichTextHolder {
-    margin-top: 0;
+    margin-top: 0px;
+    padding-top: 48px;
+    border-radius: 10px;
+}
+
+.FieldCell > .Field.RichTextField ~ label {
+    margin-top: 16px !important;
+    margin-bottom: auto;
 }
 
 .FieldCell > .Field ~ .DynamicFieldRichTextLabel {
