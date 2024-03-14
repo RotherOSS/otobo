@@ -7494,7 +7494,7 @@ via the Preferences button after logging in.
                     </Item>
                     <Item Key="Description">Admin</Item>
                     <Item Key="Title" Translatable="1">CustomerDashboard Info Tile</Item>
-                    <Item Key="NavBarName">Test</Item>
+                    <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
