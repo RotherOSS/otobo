@@ -135,6 +135,7 @@ sub new {
                     # If Browser requests 'vi', also offer 'vi_VI' even though we don't have 'vi'
                     if ( $Language =~ m/^$BrowserLang/smxi ) {
                         $Self->{UserLanguage} = $Language;
+
                         last LANGUAGE;
                     }
                 }
@@ -1806,25 +1807,28 @@ sub Footer {
 
     # Check if CKEditor translation exists
     my $WebPath = $ConfigObject->Get('Frontend::WebPath');
-    $Param{RichTextSet}             = $ConfigObject->Get('Frontend::RichText') || '';
-    $Param{LoadRichTextTranslation} = 0;
+    $Param{RichTextSet}                 = $ConfigObject->Get('Frontend::RichText') || '';
+    $Param{LoadRichTextTranslationFile} = 0;
     if ( $Param{RichTextSet} ) {
 
         # assemble the path to the translation file based on the relevant URLs
         my $RichTextPath = $ConfigObject->Get('Frontend::RichTextPath');
         if ( $RichTextPath && $WebPath ) {
+            my $Home = $ConfigObject->Get('Home');
             $RichTextPath =~ s/$WebPath//s;
-            my $Home            = $ConfigObject->Get('Home');
+            my $RichTextTranslationFile = lc "$Self->{UserLanguage}.js";
+            $RichTextTranslationFile =~ s/_/-/g;
             my $TranslationFile = File::Spec->catfile(
                 $Home,
                 'var/httpd/htdocs',
                 $RichTextPath,
                 'translations',
-                "$Self->{UserLanguage}.js"
+                $RichTextTranslationFile
             );
 
             # set the template variables
-            $Param{LoadRichTextTranslation} = -e $TranslationFile ? 1 : 0;
+            $Param{RichTextTranslationFile}     = $RichTextTranslationFile;
+            $Param{LoadRichTextTranslationFile} = -f $TranslationFile ? 1 : 0;
         }
     }
 
@@ -4494,25 +4498,29 @@ sub CustomerFooter {
 
     # Check if CKEditor translation exists
     my $WebPath = $ConfigObject->Get('Frontend::WebPath');
-    $Param{RichTextSet}             = $ConfigObject->Get('Frontend::RichText') || '';
-    $Param{LoadRichTextTranslation} = 0;
+    $Param{RichTextSet}                 = $ConfigObject->Get('Frontend::RichText') || '';
+    $Param{LoadRichTextTranslationFile} = 0;
     if ( $Param{RichTextSet} ) {
 
         # assemble the path to the translation file based on the relevant URLs
         my $RichTextPath = $ConfigObject->Get('Frontend::RichTextPath');
         if ( $RichTextPath && $WebPath ) {
+            my $Home = $ConfigObject->Get('Home');
             $RichTextPath =~ s/$WebPath//s;
-            my $Home            = $ConfigObject->Get('Home');
+            my $RichTextTranslationFile = lc "$Self->{UserLanguage}.js";
+            $RichTextTranslationFile =~ s/_/-/g;
+            $RichTextPath            =~ s/$WebPath//s;
             my $TranslationFile = File::Spec->catfile(
                 $Home,
                 'var/httpd/htdocs',
                 $RichTextPath,
                 'translations',
-                "$Self->{UserLanguage}.js"
+                $RichTextTranslationFile
             );
 
             # set the template variables
-            $Param{LoadRichTextTranslation} = -e $TranslationFile ? 1 : 0;
+            $Param{RichTextTranslationFile}     = $RichTextTranslationFile;
+            $Param{LoadRichTextTranslationFile} = -f $TranslationFile ? 1 : 0;
         }
     }
 
@@ -5459,10 +5467,10 @@ sub RichTextDocumentServe {
         ATTACHMENT_ID:
         for my $AttachmentID (  sort keys %{ $Param{Attachments} }) {
             next ATTACHMENT_ID if lc $Param{Attachments}->{$AttachmentID}->{ContentID} ne lc "<$ContentID>";
-            
+
             if ( !$Param{ContentIDs} ){
                 $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
-            } 
+            }
             #ArticleEdit inline attachments rendering
             else {
                 $ContentID = $AttachmentLink . $Param{ContentIDs}->{$Param{Attachments}->{$AttachmentID}->{Filename}} . $SessionID;
