@@ -7352,6 +7352,14 @@ via the Preferences button after logging in.
                                 <Item Key="https://protonvpn.com/assets/img/media/protonvpn-sign-green.png">4</Item>
                             </Hash>
                         </Item>
+                        <Item Key="Titles">
+                            <Hash>
+                                <Item Key="DuckDuckGo">1</Item>
+                                <Item Key="Wikipedia">2</Item>
+                                <Item Key="OpenStreetMaps">3</Item>
+                                <Item Key="Protonvpn">4</Item>
+                            </Hash>
+                        </Item>
                     </Hash>
                 </Item>
             </Hash>
