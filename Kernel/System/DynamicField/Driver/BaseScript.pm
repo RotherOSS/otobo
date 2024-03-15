@@ -1150,6 +1150,9 @@ sub GetFieldState {
         $DFName .= "_$Param{SetIndex}";
     }
 
+    # remove newlines and carriage returns to enable matching with edit field value
+    $NewValue =~ s/(\n|\r)//g;
+
     # store all possible values for this field and form id for later verification
     $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
         LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
