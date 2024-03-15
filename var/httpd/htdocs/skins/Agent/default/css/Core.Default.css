@@ -1398,38 +1398,44 @@ iframe.TextOption.CustomerUserAddressBook {
  * @subsection global CKEditor 5 fixes/improvements
  */
 
- .ck.ck-content h1 {
+.ck.ck-content h1 {
     font-size: 2em;
  } 
 
- .ck.ck-content h2 {
+.ck.ck-content h2 {
     font-size: 1.5em;
  }
 
- .ck.ck-content h3 {
+.ck.ck-content h3 {
     font-size: 1.17em;
  }
 
- .ck.ck-content h5 {
+.ck.ck-content h5 {
     font-size: 0.83em;
  } 
 
- .ck.ck-content h6 {
+.ck.ck-content h6 {
     font-size: 0.67em;
  } 
 
- .ck.ck-editor__editable_inline {
+.ck.ck-content blockquote {
+    font-style: normal !important;
+    border-left: solid blue 1.5pt !important; 
+    padding: 0cm 0cm 0cm 4pt !important;    
+}
+
+.ck.ck-editor__editable_inline {
     padding: 15px !important;
     line-height: 1.6;
  }
 
- .ck.ck-editor__editable_inline ul,
- .ck.ck-editor__editable_inline ol  
+.ck.ck-editor__editable_inline ul,
+.ck.ck-editor__editable_inline ol  
  {
     padding: 0 50px !important;
  }
  
- .ck-source-editing-area {
+.ck-source-editing-area {
     width: 100% !important;
     height: 320px !important;
 }

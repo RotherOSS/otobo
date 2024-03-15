@@ -76,6 +76,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     border: none !important;
 }
 
+.ck.ck-content blockquote {
+    font-style: normal !important;
+    border-left: solid blue 1.5pt !important; 
+    padding: 0cm 0cm 0cm 4pt !important;    
+}
 
 .ck-content {
     border: solid 1px #e5e5eb !important;
