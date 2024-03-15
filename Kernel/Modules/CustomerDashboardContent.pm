@@ -19,8 +19,6 @@ package Kernel::Modules::CustomerDashboardContent;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
-
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our $ObjectManagerDisabled = 1;
