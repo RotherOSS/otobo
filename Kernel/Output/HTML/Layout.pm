@@ -5760,23 +5760,49 @@ sub _BuildSelectionDataRefCreate {
     # if HashRef was given
     if ( ref $DataLocal eq 'HASH' ) {
 
+        # sort hash (before the translation)
+        my @SortKeys;
+        if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
+            my %List = reverse %{$DataLocal};
+            for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
+                if ( $List{$Key} ) {
+                    push @SortKeys, $List{$Key};
+                    delete $List{$Key};
+                }
+            }
+            push @SortKeys, sort { lc $a cmp lc $b } ( values %List );
+        }
+
         # get missing parents and mark them for disable later
         if ( $OptionRef->{Sort} eq 'TreeView' ) {
 
-            # Delete entries in hash with value = undef,
-            #   because otherwise the reverse statement will cause warnings.
             # Reverse hash, skipping undefined values.
-            my %List = map { $DataLocal->{$_} => $_ } grep { defined $DataLocal->{$_} } keys %{$DataLocal};
+            #   translate on element base prior to sorting
+            my %List;
+            if ( $OptionRef->{Translation} ) {
+                KEY:
+                for my $Key ( keys %{$DataLocal} ) {
+                    next KEY if !defined $DataLocal->{$Key};
+
+                    my @Translated     = map { $Self->{LanguageObject}->Translate( $_ ) } ( split /::/, $DataLocal->{$Key} );
+                    $DataLocal->{$Key} = join '::', @Translated;
+
+                    $List{ $DataLocal->{$Key} } = \@Translated;
+                }
+            }
+
+            else {
+                %List = map {
+                    $DataLocal->{$_} => [ split /::/, $DataLocal->{$_} ]
+                } grep { defined $DataLocal->{$_} } keys %{$DataLocal};
+            }
 
             # get each data value
             for my $Key ( sort keys %List ) {
                 my $Parents = '';
 
-                # try to split its parents (e.g. Queue or Service) GrandParent::Parent::Son
-                my @Elements = split /::/, $Key;
-
                 # get each element in the hierarchy
-                for my $Element (@Elements) {
+                for my $Element ( $List{$Key}->@* ) {
 
                     # add its own parents for the complete name
                     my $ElementLongName = $Parents . $Element;
@@ -5795,21 +5821,8 @@ sub _BuildSelectionDataRefCreate {
             }
         }
 
-        # sort hash (before the translation)
-        my @SortKeys;
-        if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
-            my %List = reverse %{$DataLocal};
-            for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
-                if ( $List{$Key} ) {
-                    push @SortKeys, $List{$Key};
-                    delete $List{$Key};
-                }
-            }
-            push @SortKeys, sort { lc $a cmp lc $b } ( values %List );
-        }
-
-        # translate value
-        if ( $OptionRef->{Translation} ) {
+        # translate value for non tree cases
+        elsif ( $OptionRef->{Translation} ) {
             for my $Row ( sort keys %{$DataLocal} ) {
                 $DataLocal->{$Row} = $Self->{LanguageObject}->Translate( $DataLocal->{$Row} );
             }
