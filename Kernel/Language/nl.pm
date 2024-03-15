@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.502457586808308;
+    $Self->{Completeness}        = 0.478653036680698;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -49,6 +49,8 @@ sub Data {
 
         # Template: AdminACL
         'ACL Management' => 'ACL beheer',
+        'Filter by valid state' => '',
+        'Include invalid ACLs' => '',
         'Actions' => 'Acties',
         'Create New ACL' => 'Nieuwe ACL aanmaken',
         'Deploy ACLs' => 'ACLs activeren',
@@ -125,6 +127,7 @@ sub Data {
         'Calendar Management' => 'Kalender beheer',
         'Add Calendar' => 'Kalender toevoegen',
         'Edit Calendar' => 'Kalender bewerken',
+        'Include invalid calendars' => '',
         'Calendar Overview' => 'Kalender overzicht',
         'Add new Calendar' => 'Nieuwe kalender toevoegen',
         'Import Appointments' => 'Afspraken importeren',
@@ -193,6 +196,8 @@ sub Data {
         'Appointment Notification Management' => 'Meldingen voor afspraken beheren',
         'Add Notification' => 'Melding toevoegen',
         'Edit Notification' => 'Bewerk melding',
+        'Include invalid appointment notifications' => '',
+        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Meldingen exporteren',
         'Filter for Notifications' => 'Filter voor notificaties',
         'Filter for notifications' => 'Filter voor notificaties',
@@ -277,6 +282,7 @@ sub Data {
         'Attachment Management' => 'Beheer bijlagen',
         'Add Attachment' => 'Nieuwe bijlage',
         'Edit Attachment' => 'Bijlage bewerken',
+        'Include invalid attachments' => '',
         'Filter for Attachments' => 'Filter op bijlagen',
         'Filter for attachments' => 'Filter op bijlagen',
         'Filename' => 'Bestandsnaam',
@@ -289,6 +295,7 @@ sub Data {
         'Auto Response Management' => 'Beheer automatische antwoorden',
         'Add Auto Response' => 'Nieuw automatisch antwoord',
         'Edit Auto Response' => 'Bewerk automatisch antwoord',
+        'Include invalid auto responses' => '',
         'Filter for Auto Responses' => 'Filter op automatische antwoorden',
         'Filter for auto responses' => 'Filter op automatische antwoorden',
         'Response' => 'Antwoord',
@@ -431,12 +438,34 @@ sub Data {
         'Customer Management' => 'Beheer bedrijven',
         'Add Customer' => 'Klant toevoegen',
         'Edit Customer' => 'Klant bewerken',
+        'Include invalid customer companies' => '',
         'List (only %s shown - more available)' => 'Lijst (slechts %s getoond - meer beschikbaar)',
         'total' => 'totaal',
         'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten.',
         'Customer ID' => 'Klantcode',
         'Please note' => 'Let op',
         'This customer backend is read only!' => 'Deze klanten backend is niet te wijzigen!',
+
+        # Template: AdminCustomerDashboardInfoTile
+        'Customer Info' => '',
+        'Customer Info Management' => '',
+        'Create new info tile entry' => '',
+        'Filter for info tile entries' => '',
+        'Create a new entry to be displayed on the info tile on the customer dashboard.' =>
+            '',
+        'Stop date' => 'Einddatum',
+        'Delete info tile entry' => '',
+
+        # Template: AdminCustomerDashboardInfoTileEdit
+        'Edit customer dashboard info tile entry' => '',
+        'Date invalid!' => 'Ongeldige datum.',
+        'Tile content' => '',
+        'Content Body' => '',
+        'Marquee content' => '',
+        'Group Selection' => '',
+
+        # Template: AdminCustomerDashboardInfoTileNew
+        'Create new customer dashboard info tile entry' => '',
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => 'Beheer Bedrijf - Groep koppelingen',
@@ -472,6 +501,7 @@ sub Data {
         'Customer User Management' => 'Beheer klanten',
         'Add Customer User' => 'Nieuwe klant',
         'Edit Customer User' => 'Klant bewerken',
+        'Include invalid customer users' => '',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'Klanten zijn nodig om een historie te kunnen inzien en om in te loggen via het klantenscherm.',
         'List (%s total)' => 'Lijst (%s in totaal)',
@@ -536,9 +566,14 @@ sub Data {
 
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Beheer van dynamische velden',
-        'Add new field for object' => 'Nieuw veld voor object',
+        'Include invalid dynamic fields' => '',
         'Filter for Dynamic Fields' => 'Filter op Dynamische Velden',
         'Filter for dynamic fields' => 'Filter op dynamische velden',
+        'Filter field by object type' => '',
+        'Filter field by namespace' => '',
+        'Add new field for object' => 'Nieuw veld voor object',
+        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            'Om een nieuw veld toe te voegen selecteert u het veldtype uit de objectlijst, het object definieert de grens van het veld en deze kan na het aanmaken niet worden gewijzigd.',
         'New Dynamic Fields' => '',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             '',
@@ -550,13 +585,13 @@ sub Data {
             'Externe webservices kunnen als databronnen geconfigureerd worden voor dynamische velden',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             'Met deze functie kunt u (meerdere) contacten met gegevens toevoegen aan tickets.',
-        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            'Om een nieuw veld toe te voegen selecteert u het veldtype uit de objectlijst, het object definieert de grens van het veld en deze kan na het aanmaken niet worden gewijzigd.',
         'Dynamic Fields List' => 'Lijst met dynamische velden',
         'Dynamic fields per page' => 'Dynamische velden per pagina',
         'Label' => 'Label',
         'Order' => 'Volgorde',
         'Object' => 'Object',
+        'Clone' => 'Kloon',
+        'Clone from this field' => '',
         'Delete this field' => 'Verwijder dit veld',
 
         # Template: AdminDynamicFieldAdvanced
@@ -585,6 +620,9 @@ sub Data {
         'This field is required and must be numeric.' => 'Dit veld is verplicht en moet numeriek zijn.',
         'This is the order in which this field will be shown on the screens where is active.' =>
             'Dit is de volgorde waarin de velden worden weergegeven op de schermen waar ze geactiveerd zijn.',
+        'Namespace' => 'Namespace',
+        'This is the namespace in which this field will be used as prefix with the name.' =>
+            '',
         'Tooltip message:' => '',
         'This is the tooltip message shown inside the customer interface.' =>
             '',
@@ -599,6 +637,9 @@ sub Data {
         'Field Settings' => 'Veld-instellingen',
         'Default value' => 'Standaard waarde',
         'This is the default value for this field.' => 'Dit is de standaard-waarde voor dit veld.',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -699,6 +740,22 @@ sub Data {
         'Fields' => 'Velden',
         'Screens' => '',
 
+        # Template: AdminDynamicFieldReference
+        'Check ReferenceFilter' => '',
+        'Below you can configure filters to restrict the list of referenced objects. The filters compare an attribute of the referenced object either to an attribute of the mask you are currently editing or to a fixed string.' =>
+            '',
+        'Object attribute' => '',
+        'Select an attribute of the referenced object by which the selectable entries will be filtered.' =>
+            '',
+        'Invalid ReferenceFilter_ReferenceObjectAttribute' => '',
+        'matches mask attribute' => '',
+        'Select an attribute of the edit mask to compare the selected attribute of the referenced object against.' =>
+            '',
+        'matches string' => '',
+        'Type a string to compare the selected attribute of the referenced object against.' =>
+            '',
+        'Add ReferenceFilter' => '',
+
         # Template: AdminDynamicFieldScreen
         'Management of Dynamic Fields <-> Screens' => '',
         'Overview' => 'Overzicht',
@@ -725,13 +782,18 @@ sub Data {
         'Assigned Required Elements' => '',
         'Reset' => 'Opnieuw',
 
-        # Template: AdminDynamicFieldText
-        'Number of rows' => 'Aantal regels',
-        'Specify the height (in lines) for this field in the edit mode.' =>
-            'Geef de hoogte van het invoervak voor dit veld (in regels)',
-        'Number of cols' => 'Aantal kolommen',
-        'Specify the width (in characters) for this field in the edit mode.' =>
-            'Geef de breedte van het invoervak voor dit veld (in kolommen)',
+        # Template: AdminDynamicFieldScript
+        'Expression' => '',
+        'The function which will be evaluated.' => '',
+        'Requirements' => '',
+        'If set, the function will only be evaluated if all chosen attributes are set.' =>
+            '',
+        'Preview Triggers' => '',
+        'If set, the field will be recalculated upon AJAX updates in edit masks.' =>
+            '',
+        'Storage Triggers (Events)' => '',
+        'If set, the field will be recalculated for the following events.' =>
+            '',
         'Check RegEx' => 'Controleer RegEx',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
             'Hier kunt u een reguliere expressie opgeven om de waarde te controleren. De regex zal met de xms modifier worden uitgevoerd.',
@@ -739,6 +801,18 @@ sub Data {
         'Invalid RegEx' => 'Ongeldig RegEx',
         'Error Message' => 'Foutmelding',
         'Add RegEx' => 'Regex toevoegen',
+
+        # Template: AdminDynamicFieldSet
+        'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
+            '',
+
+        # Template: AdminDynamicFieldText
+        'Number of rows' => 'Aantal regels',
+        'Specify the height (in lines) for this field in the edit mode.' =>
+            'Geef de hoogte van het invoervak voor dit veld (in regels)',
+        'Number of cols' => 'Aantal kolommen',
+        'Specify the width (in characters) for this field in the edit mode.' =>
+            'Geef de breedte van het invoervak voor dit veld (in kolommen)',
 
         # Template: AdminDynamicFieldTitle
         'Template' => 'Sjabloon',
@@ -784,6 +858,7 @@ sub Data {
         'Edit Job' => 'Bewerk taak',
         'Add Job' => 'Taak toevoegen',
         'Run Job' => 'Voer taak uit',
+        'Include invalid jobs' => '',
         'Filter for Jobs' => '',
         'Filter for jobs' => '',
         'Last run' => 'Laatst uitgevoerd',
@@ -1137,17 +1212,22 @@ sub Data {
         # Template: AdminGenericInterfaceMappingXSLT
         'General Shortcuts' => '',
         'MacOS Shortcuts' => 'MacOS Sneltoetsen',
-        'Comment code' => '',
-        'Uncomment code' => '',
-        'Auto format code' => '',
-        'Expand/Collapse code block' => '',
+        'Comment/Uncomment code' => '',
+        'Auto indent code' => '',
+        'Jump to line' => '',
+        'Autocomplete' => '',
         'Find' => 'Zoek',
         'Find next' => 'Zoek volgende',
         'Find previous' => 'Zoek vorige',
         'Find and replace' => 'Zoek en vervang',
-        'Find and replace all' => 'Zoek en vervang alle',
+        'Full Screen' => '',
+        'Exit full screen' => '',
         'XSLT Mapping' => 'XSLT-toewijzing',
         'XSLT stylesheet' => 'XSLT stylesheet',
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => 'De ingevoerde data is geen geldig XSLT stylesheet.',
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1236,6 +1316,9 @@ sub Data {
         'The user name to be used to access the remote system.' => 'De gebruikersnaam om toegang te krijgen tot het andere systeem.',
         'BasicAuth Password' => 'BasicAuth Wachtwoord',
         'The password for the privileged user.' => 'Wachtwoord',
+        'Kerberos User' => '',
+        'Kerberos keytab file' => '',
+        'The kerberos keytab file for the privileged user.' => '',
         'Use Proxy Options' => 'Gebruik Proxy Opties',
         'Show or hide Proxy options to connect to the remote system.' => '',
         'Proxy Server' => 'Proxy-server',
@@ -1311,7 +1394,6 @@ sub Data {
         'Usually .Net web services use "/" as separator.' => '',
         'SOAPAction free text' => '',
         'Text to be used to as SOAPAction.' => '',
-        'Namespace' => 'Namespace',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI om SOAP methods een context te geven.',
         'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
@@ -1345,9 +1427,9 @@ sub Data {
         # Template: AdminGenericInterfaceWebservice
         'Add Web Service' => 'Webservice toevoegen',
         'Edit Web Service' => 'Bewerk webservice',
+        'Include invalid webservices' => '',
         'Clone Web Service' => 'Kloon Webservice',
         'The name must be unique.' => 'De naam moet uniek zijn',
-        'Clone' => 'Kloon',
         'Export Web Service' => 'Exporteer Webservice',
         'Import web service' => 'Importeer webservice',
         'Configuration File' => 'Configuratiebestand',
@@ -1411,11 +1493,52 @@ sub Data {
         'Group Management' => 'Groepenbeheer',
         'Add Group' => 'Groep toevoegen',
         'Edit Group' => 'Bewerk groep',
+        'Include invalid groups' => '',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Leden van de groep Admin mogen in het administratie gedeelte, leden van de groep Stats hebben toegang tot het statistieken gedeelte.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             'Maak nieuwe groepen aan om tickets te kunnen scheiden en de juiste wachtrijen aan behandelaars te tonen (bijv. support, sales, management).',
         'It\'s useful for ASP solutions. ' => 'Bruikbaar voor ASP situaties.',
+
+        # Template: AdminImportExport
+        'Import/Export Management' => 'Import/Export beheer',
+        'Add template' => 'Nieuw sjabloon',
+        'Create a template to import and export object information.' => '',
+        'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.' =>
+            '',
+        'Number' => 'Nummer',
+        'Format' => 'Formaat',
+        'Start Import' => 'Import starten',
+        'Start Export' => 'Export starten',
+        'Delete this template' => '',
+        'Step 1 of 5 - Edit common information' => '',
+        'Name is required!' => '',
+        'Object is required!' => 'Object is verplicht.',
+        'Format is required!' => 'Formaat is verplicht.',
+        'Next' => 'Volgende',
+        'Step 2 of 5 - Edit object information' => '',
+        'Back' => 'Terug',
+        'Step 3 of 5 - Edit format information' => '',
+        'is required!' => 'is verplicht!',
+        'Step 4 of 5 - Edit mapping information' => '',
+        'No map elements found.' => 'Geen elementen gevonden.',
+        'Up' => 'Boven',
+        'Down' => 'Beneden',
+        'Add Mapping Element' => '',
+        'Step 5 of 5 - Edit search information' => '',
+        'Template Name' => 'Template naam',
+        'Restrict export per search' => 'Beperk export tot zoekopdracht',
+        'Finish' => 'Voltooien',
+        'Import information' => 'Import-informatie',
+        'Source File' => 'Bronbestand',
+        'Import summary for %s' => '',
+        'Records' => '',
+        'Success' => 'Succes',
+        'Failed' => 'Mislukt',
+        'Duplicate names' => '',
+        'Last processed line number of import file' => '',
+        'Ok' => 'OK',
+        'Do you really want to delete this template item?' => '',
 
         # Template: AdminLog
         'System Log' => 'Logboek',
@@ -1430,6 +1553,7 @@ sub Data {
         'Add Mail Account' => 'Mail account toevoegen',
         'Edit Mail Account for host' => '',
         'and user account' => 'en gebruikersaccount',
+        'Include invalid Mail Accounts' => '',
         'Filter for Mail Accounts' => '',
         'Filter for mail accounts' => '',
         'All incoming emails with one account will be dispatched in the selected queue.' =>
@@ -1465,6 +1589,7 @@ sub Data {
 
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => 'Ticket meldingen beheer',
+        'Include invalid notifications' => '',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             'Hier kunt u configuratie bestanden uploaden om Ticket meldingen te importeren. Het bestand moet in .yml format zijn zoals geëxporteerd door de Ticket meldingen module.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
@@ -1627,6 +1752,10 @@ sub Data {
         'Edit PostMaster Filter' => 'Bewerk e-mail filter',
         'Filter for PostMaster Filters' => '',
         'Filter for PostMaster filters' => '',
+        'Search through PostMaster filters' => '',
+        'Search all filter attributes' => '',
+        'Limit search to selected header fields' => '',
+        'Limit search to selected set fields' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Om inkomende e-mails te routeren op basis van e-mail headers. Matching op tekst of met behulp van regular expressions.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1655,6 +1784,7 @@ sub Data {
         'Priority Management' => 'Prioriteitenbeheer',
         'Add Priority' => 'Nieuwe prioriteit',
         'Edit Priority' => 'Bewerk prioriteit',
+        'Include invalid priorities' => '',
         'Filter for Priorities' => 'Filter voor Prioriteiten',
         'Filter for priorities' => 'Filter voor prioriteiten',
         'This priority is present in a SysConfig setting, confirmation for updating settings to point to the new priority is needed!' =>
@@ -1663,6 +1793,7 @@ sub Data {
 
         # Template: AdminProcessManagement
         'Process Management' => 'Procesbeheer',
+        'Include inactive processes' => '',
         'Filter for Processes' => 'Filter op processen',
         'Filter for processes' => 'Filter voor processen',
         'Create New Process' => 'Nieuw proces',
@@ -1718,6 +1849,10 @@ sub Data {
         'The selected required lock does not exist.' => 'De gekozen vergrendeling bestaat niet.',
         'Submit Advice Text' => 'Verstuur-advies tekst',
         'Submit Button Text' => 'Tekst op Verstuur-knop',
+        'Input Field Definition' => '',
+        'Direct submit' => '',
+        'This property won\'t take effect because there are fields configured as visible.' =>
+            '',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             'U kunt velden aan deze dialoog toevoegen door de elementen met de muis van links naar rechts te slepen.',
         'Filter available fields' => 'Filter beschikbare velden',
@@ -1821,6 +1956,7 @@ sub Data {
         'Queue Management' => 'Wachtrij Beheer',
         'Add Queue' => 'Nieuwe wachtrij',
         'Edit Queue' => 'Bewerk wachtrij',
+        'Include invalid queues' => '',
         'Filter for Queues' => 'Filter op wachtrijen',
         'Filter for queues' => 'Filter op wachtrijen',
         'A queue with this name already exists!' => 'Er bestaat al een wachtrij met deze naam',
@@ -1935,7 +2071,6 @@ sub Data {
         'Sign up now' => 'Gebruikersnaam registreren',
         'Forgot your password?' => 'Wachtwoord vergeten?',
         'Retrieve a new one' => 'Wachtwoord herstellen',
-        'Next' => 'Volgende',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
             '',
         'Attribute' => 'Attribuut',
@@ -1960,10 +2095,16 @@ sub Data {
         'System Registration Data' => 'Systeemregistratie gegevens',
         'Support Data' => 'Ondersteuningsgegevens',
 
+        # Template: AdminResponseTemplatesStatePreselection
+        'Manage ticket state pre-selections for response templates' => '',
+        'Edit Response' => '',
+        'Pre-selected ticket state' => '',
+
         # Template: AdminRole
         'Role Management' => 'Beheer rollen',
         'Add Role' => 'Nieuwe rol',
         'Edit Role' => 'Bewerk rol',
+        'Include invalid roles' => '',
         'Filter for Roles' => 'Filter op rollen',
         'Filter for roles' => '',
         'Create a role and put groups in it. Then add the role to the users.' =>
@@ -2003,6 +2144,7 @@ sub Data {
         'SLA Management' => 'SLA beheer',
         'Edit SLA' => 'Bewerk SLA',
         'Add SLA' => 'Nieuwe SLA',
+        'Include invalid SLAs' => '',
         'Filter for SLAs' => '',
         'Please write only numbers!' => 'Gebruik alleen cijfers.',
 
@@ -2050,6 +2192,7 @@ sub Data {
         'Salutation Management' => 'Beheer aanheffen',
         'Add Salutation' => 'Nieuwe aanhef',
         'Edit Salutation' => 'Bewerk aanhef',
+        'Include invalid salutations' => '',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'bijv.',
@@ -2085,6 +2228,7 @@ sub Data {
         'Service Management' => 'Service beheer',
         'Add Service' => 'Nieuwe service',
         'Edit Service' => 'Bewerk Service',
+        'Include invalid services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'Onderdeel van',
@@ -2109,6 +2253,7 @@ sub Data {
         'Signature Management' => 'Handtekening-beheer',
         'Add Signature' => 'Nieuwe handtekening',
         'Edit Signature' => 'Bewerk handtekening',
+        'Include invalid signatures' => '',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'Handtekening-voorbeeld',
@@ -2117,6 +2262,7 @@ sub Data {
         'State Management' => 'Status beheer',
         'Add State' => 'Nieuwe status',
         'Edit State' => 'Bewerk status',
+        'Include invalid states' => '',
         'Filter for States' => '',
         'Filter for states' => '',
         'Attention' => 'Let op',
@@ -2164,6 +2310,7 @@ sub Data {
         'System Email Addresses Management' => 'Systeem e-mailadressen beheer',
         'Add System Email Address' => 'Nieuw e-mailadres',
         'Edit System Email Address' => 'Bewerk e-mailadres',
+        'Include invalid system addresses' => '',
         'Add System Address' => 'Nieuw systeem adres',
         'Filter for System Addresses' => '',
         'Filter for system addresses' => '',
@@ -2283,6 +2430,7 @@ sub Data {
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Systeem onderhoudsbeheer.',
+        'Include invalid system maintenances' => '',
         'Schedule New System Maintenance' => 'Plan een nieuw systeem onderhoud.',
         'Filter for System Maintenances' => '',
         'Filter for system maintenances' => '',
@@ -2290,13 +2438,11 @@ sub Data {
             'Plan een systeem onderhoudsperiode om aan Agents en Klanten aan te kondigen dat het systeem voor een bepaalde periode down is.',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             'Een bepaalde tijd voordat het systeem onderhoud begint krijgen de gebruikers een melding op elk scherm waarin het onderhoud wordt aangekondigd.',
-        'Stop date' => 'Einddatum',
         'Delete System Maintenance' => 'Verwijder Systeemonderhoudstijdsvak.',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance' => '',
         'Edit System Maintenance Information' => '',
-        'Date invalid!' => 'Ongeldige datum.',
         'Login message' => 'Login bericht',
         'This field must have less then 250 characters.' => '',
         'Show login message' => 'Toon login bericht',
@@ -2311,6 +2457,7 @@ sub Data {
         'Template Management' => '',
         'Add Template' => 'Nieuw sjabloon',
         'Edit Template' => 'Bewerk sjabloon',
+        'Include invalid templates' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Een sjabloon is een standaardtext die uw behandelaars helpt sneller tickets aan te maken of te beantwoorden.',
         'Don\'t forget to add new templates to queues.' => 'Vergeet niet de sjablonen aan wachtrijen te koppelen.',
@@ -2336,10 +2483,48 @@ sub Data {
         'Toggle active for all' => 'Actief aan/uit voor alles',
         'Link %s to selected %s' => 'Koppel %s aan %s',
 
+        # Template: AdminTicketMask
+        'Ticket Mask Management' => '',
+        'Change mask definition' => '',
+        'Ticket Mask' => '',
+        'Change' => '',
+        'Definition' => '',
+
+        # Template: AdminTranslations
+        'Translation Management' => '',
+        'Add Translations' => '',
+        'Edit Translations' => '',
+        'Language' => 'Taal',
+        'Deploy Translations' => '',
+        'Translation States' => '',
+        'New Translation' => '',
+        'Editing Translation' => '',
+        'Translation Marked for Deletion' => '',
+        'Deployed Translation' => '',
+        'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
+            '',
+        'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.' =>
+            '',
+        'Edit active translations using provided text fields!' => '',
+        'List custom translations for' => '',
+        'Draft Translations' => '',
+        'Filter for Draft Translations' => '',
+        'Active Translations' => '',
+        'Filter for Active Translations' => '',
+        'Content' => 'Inhoud',
+        'Translation' => '',
+        'Marked for Deletion' => '',
+        'Edit Translation' => '',
+        'Overwrites OTOBO translation' => '',
+        'Undo Delete Translation' => '',
+        'Delete Translation' => '',
+        'Translations' => '',
+
         # Template: AdminType
         'Type Management' => 'Type beheer',
         'Add Type' => 'Nieuw type',
         'Edit Type' => 'Bewerk type',
+        'Include invalid types' => '',
         'Filter for Types' => 'Filter voor Types',
         'Filter for types' => 'Filter voor types',
         'A type with this name already exists!' => 'Er bestaat al een type met deze naam!',
@@ -2350,6 +2535,7 @@ sub Data {
         # Template: AdminUser
         'Agent Management' => 'Beheer behandelaars',
         'Edit Agent' => 'Bewerk behandelaar',
+        'Include invalid users' => '',
         'Edit personal preferences for this agent' => 'Persoonlijke instellingen voor deze behandelaar bewerken',
         'Agents will be needed to handle tickets.' => 'Behandelaar-accounts zijn nodig om te kunnen werken in het systeem.',
         'Don\'t forget to add a new agent to groups and/or roles!' => 'vergeet niet om een behandelaar aan groepen en/of rollen te koppelen.',
@@ -2589,7 +2775,6 @@ sub Data {
         'until' => 'tot',
 
         # Template: AgentDynamicFieldDBDetailedSearch
-        'Back' => 'Terug',
         'Detailed search' => '',
         'Add an additional attribute' => '',
 
@@ -2772,6 +2957,7 @@ sub Data {
         'Set Pending Time for %s%s%s' => '',
         'Change Priority of %s%s%s' => 'Wijzig de prioriteit van %s%s%s',
         'Change Responsible of %s%s%s' => 'Wijzig de verantwoordelijke van %s%s%s',
+        'Edit Article "%s" of %s%s%s' => '',
         'The ticket has been locked' => 'Het ticket is vergrendeld',
         'Undo & close' => 'Ongedaan maken & sluiten',
         'Ticket Settings' => 'Ticket instellingen',
@@ -2797,6 +2983,9 @@ sub Data {
         'Text Template' => 'Tekstsjabloon',
         'Setting a template will overwrite any text or attachment.' => 'Het instellen van een template overschrijft alle testen en bijlagen.',
         'Invalid time!' => 'Geen geldige tijd.',
+
+        # Template: AgentTicketArticleVersionView
+        'Viewing Article Version#%s of current Article: #%s %s' => '',
 
         # Template: AgentTicketBounce
         'Bounce %s%s%s' => '',
@@ -2991,12 +3180,14 @@ sub Data {
         'No.' => 'Nr.',
         'Unread articles' => 'Ongelezen interacties',
         'Via' => 'Via',
+        'Article Edited' => '',
         'Important' => 'Belangrijk',
         'Unread Article!' => 'Ongelezen interactie.',
         'Incoming message' => 'Binnenkomend bericht',
         'Outgoing message' => 'Uitgaand bericht',
         'Internal message' => 'Intern bericht',
         'Sending of this message has failed.' => 'Versturen van dit bericht is mislukt.',
+        'The article was edited' => '',
         'Resize' => 'Grootte wijzigen',
         'Mark this article as read' => 'Markeer het artikel als gelezen',
         'Show Full Text' => 'Geef volledige tekst weer',
@@ -3154,7 +3345,6 @@ sub Data {
         'Save Search as Template?' => 'Zoekopdracht opslaan als sjabloon?',
         'Save as Template?' => 'Bewaar als sjabloon?',
         'Save as Template' => 'Bewaar',
-        'Template Name' => 'Template naam',
         'Pick a profile name' => 'Naam voor dit sjabloon',
         'Output to' => 'Uitvoer naar',
 
@@ -3166,15 +3356,17 @@ sub Data {
         # Template: CustomerTicketZoom
         'Reply' => 'Beantwoord',
         'Discard' => '',
-        'Ticket Information' => 'Ticket-informatie',
-        'Categories' => '',
-        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Toon interactie',
 
         # Template: MIMEBase
         'Article Information' => '',
+
+        # Template: TicketInfo
+        'Ticket Information' => 'Ticket-informatie',
+        'Categories' => '',
+        'Further actions' => '',
 
         # Template: CustomerWarning
         'Warning' => 'Waarschuwing',
@@ -3218,7 +3410,6 @@ sub Data {
         'License' => 'Licentie',
         'Database Settings' => 'Database configuratie',
         'General Specifications and Mail Settings' => 'Algemene instellingen en mailconfiguratie',
-        'Finish' => 'Voltooien',
         'Welcome to %s' => 'Welkom bij %s',
         'Germany' => 'Duitsland',
         'Phone' => 'Telefoon',
@@ -3488,7 +3679,6 @@ sub Data {
             'Sta niet toe om dit element te wijzigen wanneer de statistiek wordt gegenereerd.',
 
         # Template: StatsParamsWidget
-        'Format' => 'Formaat',
         'Exchange Axis' => 'Wissel assen',
         'Configurable Params of Static Stat' => '',
         'No element selected.' => 'Geen element geselecteerd.',
@@ -3599,6 +3789,11 @@ sub Data {
         'Welcome %s %s' => 'Welkom %s %s',
         'Counter' => 'Teller',
 
+        # Template: TranslationsTable
+        'Filter Content' => '',
+        'Filter for Translations' => '',
+        'No content available to translate.' => '',
+
         # Template: Warning
         'Go back to the previous page' => 'Terug naar de vorige pagina',
 
@@ -3682,10 +3877,14 @@ sub Data {
         'Country' => 'Land',
         'Mr.' => 'Dhr.',
         'Mrs.' => 'Mevr.',
+        'Manager' => '',
         'Address' => 'Adres',
         'View system log messages.' => 'Bekijk het OTOBO logboek.',
         'Edit the system configuration settings.' => 'Bewerk de systeemconfiguratie.',
         'Update and extend your system with software packages.' => 'Voeg functies toe aan uw systeem door het installeren van pakketten.',
+
+        # Perl Module: Kernel/Language.pm
+        '(in process)' => '',
 
         # Perl Module: Kernel/Modules/AdminACL.pm
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
@@ -3735,6 +3934,7 @@ sub Data {
         '+15 minutes' => '+15 minuten',
         '+30 minutes' => '+30 minuten',
         '+1 hour' => '+1 uur',
+        '+1 day' => '',
 
         # Perl Module: Kernel/Modules/AdminAppointmentImport.pm
         'No permissions' => 'Geen rechten',
@@ -3765,6 +3965,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
+        'No permission to edit this attachment.' => '',
         'Attachment added!' => 'Bijlage toegevoegd.',
 
         # Perl Module: Kernel/Modules/AdminAutoResponse.pm
@@ -3783,7 +3984,6 @@ sub Data {
         'Invalid StartTime: %s!' => '',
         'Successful' => 'Succesvol',
         'Processing' => '',
-        'Failed' => 'Mislukt',
         'Invalid Filter: %s!' => '',
         'Less than a second' => 'Minder dan een seconde',
         'sorted descending' => '',
@@ -3821,6 +4021,24 @@ sub Data {
         'Customer Company %s already exists!' => 'Bedrijf %s bestaat al!',
         'Customer company added!' => 'Bedrijf toegevoegd!',
 
+        # Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+        'Start date shouldn\'t be defined after Stop date!' => 'Begindatum moet vóór de einddatum liggen!',
+        'Name is missing!' => '',
+        'Content is missing!' => '',
+        'ValidID is missing!' => '',
+        'Group is missing!' => '',
+        'There was an error creating the info tile entry' => '',
+        'Need ID!' => '',
+        'This Entry does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
+        'Could not get data for ID %s' => '',
+        'Info tile entry was added successfully!' => '',
+        'Info tile entry was updated successfully!' => '',
+        'Session has been killed!' => 'Sessie is beëindigd!',
+        'All sessions have been killed, except for your own.' => 'Alle sessies zijn beëindigd behalve die van uzelf.',
+        'There was an error updating the info tile entry' => '',
+        'It was not possible to delete the info tile entry: %s!' => '',
+
         # Perl Module: Kernel/Modules/AdminCustomerGroup.pm
         'No configuration for \'CustomerGroupPermissionContext\' found!' =>
             '',
@@ -3855,9 +4073,9 @@ sub Data {
         'Undefined subaction.' => 'Ongedefinieerde subactie.',
         'Need %s' => 'Heb %s nodig',
         'Add %s field' => '',
+        'The field must be numeric.' => 'Het veld moet numeriek zijn.',
         'The field does not contain only ASCII letters and numbers.' => 'Het veld bevat niet alleen maar ASCII letters en cijfers.',
         'There is another field with the same name.' => 'Er is een ander veld met dezelfde naam.',
-        'The field must be numeric.' => 'Het veld moet numeriek zijn.',
         'Need ValidID' => 'Heb ValidID nodig',
         'Could not create the new field' => 'Het nieuwe veld kon niet worden aangemaakt',
         'Need ID' => 'Heb ID nodig',
@@ -3885,12 +4103,39 @@ sub Data {
         'An element is used as parent element, but not included itself. Please include it.' =>
             '',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+        'The referenced dynamic field' => '',
+        'Select the dynamic field that references an object' => '',
+        'The attribute of the referenced object' => '',
+        'Select the attribute dynamic field that references an object' =>
+            '',
+        'Not a valid dynamic field.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => '',
         'System was not able to save the setting!' => '',
         'Setting is locked by another user!' => '',
         'System was not able to reset the setting!' => '',
         'Settings were reset.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+        'Need valid field driver.' => '',
+        'Bad value in RequiredArgs.' => '',
+        'Bad value in PreviewTriggers.' => '',
+        'Bad value in StorageTriggers.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+        'Missing Dynamic Field.' => '',
+        'No valid dynamic field "' => '',
+        'The dynamic field type "' => '',
+        'Misconfigured Grid - need Rows as Array!' => '',
+        'Misconfigured Grid - need Columns as integer > 0!' => '',
+        'Misconfigured Grid - Rows can\'t be empty!' => '',
+        'Misconfigured Grid - Rows must contain entries with key \'DF\'!' =>
+            '',
+        'Missing Dynamic Field or Grid.' => '',
+        'The field must be a valid YAML containing an array of dynamic fields.' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => 'Selecteer minimaal één ontvanger.',
@@ -4059,6 +4304,23 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGroup.pm
         'Group updated!' => 'Groep bijgewerkt.',
 
+        # Perl Module: Kernel/Modules/AdminImportExport.pm
+        'No object backend found!' => '',
+        'No format backend found!' => '',
+        'Template not found!' => '',
+        'Can\'t insert/update template!' => '',
+        'Needed TemplateID!' => '',
+        'Error occurred. Import impossible! See Syslog for details.' => '',
+        'Error occurred. Export impossible! See Syslog for details.' => '',
+        'Template List' => '',
+        'number' => '',
+        'number bigger than zero' => '',
+        'integer' => '',
+        'integer bigger than zero' => '',
+        'Element required, please insert data' => '',
+        'Invalid data, please insert a valid %s' => '',
+        'Format not found!' => '',
+
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'E-mailaccount toegevoegd.',
         'Email account fetch already fetched by another process. Please try again later!' =>
@@ -4067,6 +4329,8 @@ sub Data {
         'Dispatching by selected Queue.' => 'Toewijzen gebaseerd op geselecteerde wachtrij.',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+        'No permission to edit this ticket notification.' => '',
+        'You need %s permissions!' => 'Je hebt %s permissies nodig!',
         'Agent who created the ticket' => '',
         'Agent who owns the ticket' => 'Eigenaar van het ticket',
         'Agent who is responsible for the ticket' => 'Verantwoordelijke voor het ticket',
@@ -4079,6 +4343,8 @@ sub Data {
         'Customer user of the ticket' => 'Klantgebruiker van het ticket',
         'All recipients of the first article' => 'Alle ontvangers van het eerste artikel',
         'All recipients of the last article' => 'Alle ontvangers van het laatste artikel',
+        'Only send within working hours' => '',
+        'Only send outside working hours' => '',
         'Invisible to customer' => 'Onzichtbaar voor klant',
         'Visible to customer' => 'Zichtbaar voor klant',
 
@@ -4235,6 +4501,9 @@ sub Data {
         'Training' => 'Training',
         'Development' => 'Ontwikkeling',
 
+        # Perl Module: Kernel/Modules/AdminResponseTemplatesStatePreselection.pm
+        'Template updated!' => 'Sjabloon bijgewerkt!',
+
         # Perl Module: Kernel/Modules/AdminRole.pm
         'Role updated!' => 'Rol bijgewerkt.',
         'Role added!' => 'Rol toegevoegd.',
@@ -4328,24 +4597,37 @@ sub Data {
         'System was not able to delete the user setting values!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
-        'Start date shouldn\'t be defined after Stop date!' => 'Begindatum moet vóór de einddatum liggen!',
         'There was an error creating the System Maintenance' => 'Er is een fout opgetreden bij het aanmaken van het systeem onderhoudsvenster',
         'Need SystemMaintenanceID!' => 'Heb een SysteemOnderhoudsID nodig!',
         'Could not get data for SystemMaintenanceID %s' => 'Kon gegevens voor SystemOnderhoudID %s niet ophalen',
         'System Maintenance was added successfully!' => '',
         'System Maintenance was updated successfully!' => '',
-        'Session has been killed!' => 'Sessie is beëindigd!',
-        'All sessions have been killed, except for your own.' => 'Alle sessies zijn beëindigd behalve die van uzelf.',
         'There was an error updating the System Maintenance' => 'Er is een fout opgetreden bij het update van het Systeem Onderhoudsvenster',
         'Was not possible to delete the SystemMaintenance entry: %s!' => 'Het was niet mogelijk om het Systeem Onderhoudsvenster %s te verwijderen!',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
-        'Template updated!' => 'Sjabloon bijgewerkt!',
+        'No permission to edit this template.' => '',
         'Template added!' => 'Sjabloon toegevoegd!',
 
         # Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
         'Change Attachment Relations for Template' => 'Verander gekoppelde bijlagen voor sjabloon',
         'Change Template Relations for Attachment' => 'Verander gekoppelde sjablonen voor bijlage',
+
+        # Perl Module: Kernel/Modules/AdminTranslations.pm
+        'Translation unmarked for deletion!' => '',
+        'Error trying unmark translation for delete!' => '',
+        'Translations changed!' => '',
+        'No translations were changed!' => '',
+        'Errors trying to change translations!' => '',
+        'Translations added!' => '',
+        'No translations were given to add!' => '',
+        'Translation already exists!' => '',
+        'Translations deployed successfuly!' => '',
+        'Nothing to do!' => '',
+        'Errors ocurred when trying to deploy translation. Please check system logs!' =>
+            '',
+        'All Items' => '',
+        'Deployment Results' => '',
 
         # Perl Module: Kernel/Modules/AdminType.pm
         'Need Type!' => 'Heb Type nodig!',
@@ -4465,7 +4747,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
         'No TicketID is given!' => 'Heb geen TicketID!',
-        'You need %s permissions!' => 'Je hebt %s permissies nodig!',
         'Loading draft failed!' => '',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'U moet de eigenaar zijn om deze actie uit te voeren.',
@@ -4480,6 +4761,12 @@ sub Data {
         'wrote' => 'schreef',
         'Message from' => 'Bericht van',
         'End message' => 'Einde van het bericht',
+
+        # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+        'No ArticleID is given!' => '',
+
+        # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
+        'Can\'t set this Ticket option, no TicketID is given!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '%s is vereist!',
@@ -4518,9 +4805,6 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => '',
         'System Error!' => '',
-
-        # Perl Module: Kernel/Modules/AgentTicketEmailResend.pm
-        'No ArticleID is given!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
         'Next week' => 'Volgende week',
@@ -4618,13 +4902,13 @@ sub Data {
         'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => '',
-        'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            '',
         'Could not set PendingTime for Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '',
         'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!' =>
             '',
         'Could not set %s for Ticket with ID "%s" in ActivityDialog "%s"!' =>
+            '',
+        'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '',
         'Default Config for Process::Default%s missing!' => '',
         'Default Config for Process::Default%s invalid!' => '',
@@ -4717,8 +5001,6 @@ sub Data {
         'Can\'t get for ArticleID %s!' => '',
         'Article filter settings were saved.' => '',
         'Event type filter settings were saved.' => '',
-        'Need ArticleID!' => '',
-        'Invalid ArticleID!' => '',
         'Forward article via mail' => 'Stuur interactie naar een mailadres',
         'Forward' => 'Doorsturen',
         'Fields with no group' => 'Velden zonder groep',
@@ -4818,6 +5100,8 @@ sub Data {
             '',
         'Can\'t connect to database, read comment!' => '',
         'Database already contains data - it should be empty!' => 'Database bevat al data - deze moet leeg zijn!',
+        'Error: database version requirement not satisfied. Have version: %s Want version: %s' =>
+            '',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
@@ -4841,6 +5125,15 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Article/Chat.pm
         'Chat' => 'Chat',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleDelete.pm
+        'Delete this article' => '',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleEdit.pm
+        'Edit this article' => '',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleRestore.pm
+        'Restore this article' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
         'Bounce Article to a different mail address' => 'Artikel terugsturen naar een ander e-mailadres',
@@ -4873,6 +5166,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
         'Contact us at hello@otobo.de' => '',
         'Get Help' => '',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
+        'Mark article as unseen' => '',
+        'Mark as unseen' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
         'Mark' => 'Markeer',
@@ -4981,10 +5278,6 @@ sub Data {
         'd' => 'd',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
             '',
-        'This is a' => 'Dit is een',
-        'email' => 'e-mail',
-        'click here' => 'klik hier',
-        'to open it in a new window.' => 'om deze in een nieuw venster te openen.',
         'Year' => 'Jaar',
         'Hours' => 'Uren',
         'Minutes' => 'Minuten',
@@ -5062,9 +5355,6 @@ sub Data {
             'Zorg ervoor dat je minimaal één transportmethode hebt gekozen voor verplichtte notificaties.',
         'Preferences updated successfully!' => 'Uw voorkeuren zijn gewijzigd.',
 
-        # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
-        '(in process)' => '',
-
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => 'Geef een einddatum op die na de startdatum ligt.',
 
@@ -5125,11 +5415,16 @@ sub Data {
         'Cancel editing and unlock this setting' => '',
         'Reset this setting to its default value.' => '',
         'Unable to load %s!' => '',
-        'Content' => 'Inhoud',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
         'Unlock to give it back to the queue' => 'Ontgrendelen om dit ticket vrij te geven',
         'Lock it to work on it' => 'Vergrendel dit ticket',
+
+        # Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
+        'Hide deleted articles' => '',
+        'Click to hide deleted articles' => '',
+        'Show deleted articles' => '',
+        'Click to show deleted articles' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
         'Unwatch' => 'Stop met volgen',
@@ -5213,20 +5508,53 @@ sub Data {
         'This email address is already in use for another customer user.' =>
             '',
 
+        # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+        'Group of the agents' => '',
+        'Select the group of the agents' => '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
         'before/after' => 'voor/na',
         'between' => 'tussen',
 
-        # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
         'e.g. Text or Te*t' => '',
+        'Referenced object type' => '',
+        'Select the type of the referenced object' => '',
+        'Input mode of edit field' => '',
+        'Select the input mode for the edit field.' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '',
 
-        # Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
+        # Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+        'Attribute which will be searched on autocomplete' => '',
+        'Select the attribute which tickets will be searched by' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Dit veld is verplicht of ',
         'The field content is too long!' => 'De inhoud van het veld is te lang!',
         'Maximum size is %s characters.' => 'De maximumlengte bedraagt %s karakters.',
+        'Full %s Text' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Type of the ticket' => '',
+        'Select the type of the ticket' => '',
+        'Attribute which is displayed for values' => '',
+        'Select the type of display' => '',
+
+        # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+        'Column Separator' => 'Kolomscheidingsteken',
+        'Tabulator (TAB)' => 'Tab',
+        'Semicolon (;)' => 'Puntkomma (;)',
+        'Colon (:)' => 'Dubbele punt (:)',
+        'Dot (.)' => 'Punt (.)',
+        'Comma (,)' => '',
+        'Charset' => 'Karakterset',
+        'Include Column Headers' => '',
+        'Column' => 'Kolom',
+
+        # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
+        'Pretty print the exported concatenated JSON' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => '',
@@ -5356,8 +5684,6 @@ sub Data {
         'not installed' => '',
         'installed' => 'geïnstalleerd',
         'Unable to parse repository index document.' => 'Kan repository index document niet verwerken.',
-        'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
-            'Geen pakketten gevonden in deze repository voor de huidige framework versie. De repository bevaty alleen pakketten voor andere framework versies.',
         'File is not installed!' => '',
         'File is different!' => '',
         'Can\'t read file!' => '',
@@ -5390,13 +5716,20 @@ sub Data {
         'quarter' => 'kwartaal',
         'half-year' => 'half-jaar',
 
-        # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+        # Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
+        'unlimited' => '',
+        'Attributes to be printed' => 'Attributen om af te drukken',
+        'Sort sequence' => 'Sorteervolgorde',
+        'State Historic' => 'Historische status',
         'State Type' => 'Status type',
+        'State Type Historic' => 'Historische status type',
         'Created Priority' => 'Aangemaakt met prioriteit',
         'Created State' => 'Aangemaakt met status',
         'Create Time' => 'Aangemaakt op',
+        'Article Create Time' => '',
         'Pending until time' => '',
         'Close Time' => 'Afsluitingstijd',
+        'Historic Time Range' => 'Historische tijdsvenster',
         'Escalation' => 'Escalatie',
         'Escalation - First Response Time' => 'Escalatie - eerste reactietijd',
         'Escalation - Update Time' => 'Escalatie - tijd van bijwerken',
@@ -5404,6 +5737,7 @@ sub Data {
         'Agent/Owner' => 'Behandelaar/eigenaar',
         'Created by Agent/Owner' => 'Aangemaakt door behandelaar/eigenaar',
         'Assigned to Customer User Login' => '',
+        'Last Changed' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => 'Gebruik',
@@ -5420,16 +5754,6 @@ sub Data {
         'Article Min Time' => 'Minimumtijd voor interactie',
         'Article Max Time' => 'Maximumtijd voor interactie',
         'Number of Articles' => 'Aantal interacties',
-
-        # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-        'unlimited' => '',
-        'Attributes to be printed' => 'Attributen om af te drukken',
-        'Sort sequence' => 'Sorteervolgorde',
-        'State Historic' => 'Historische status',
-        'State Type Historic' => 'Historische status type',
-        'Historic Time Range' => 'Historische tijdsvenster',
-        'Number' => 'Nummer',
-        'Last Changed' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '',
@@ -5826,6 +6150,13 @@ sub Data {
         'Chat Participant' => '',
         'Chat Message Text' => '',
 
+        # Perl Module: Kernel/System/Ticket/Mask.pm
+        'Base structure is not valid. Please provide an array with data in YAML format.' =>
+            '',
+        'Error parsing dynamic fields.' => '',
+        'No dynamic field "%s".' => '',
+        'Dynamic field "%s" not valid.' => '',
+
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Too many failed login attempts, please retry in %s s.' => '',
         'Login failed! Your user name or password was entered incorrectly.' =>
@@ -6005,6 +6336,10 @@ sub Data {
             '',
         'Attachment was deleted successfully.' => '',
 
+        # JS File: Core.Agent.Admin.CustomerDashboardInfoTile
+        'Do you really want to delete this customer dashboard info tile entry?' =>
+            '',
+
         # JS File: Core.Agent.Admin.DynamicField
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
             'Wilt u dit veld definitief verwijderen? Alle data in dit veld wordt ook verwijderd!',
@@ -6176,6 +6511,12 @@ sub Data {
         'Deleting the template and its data. This may take a while...' =>
             '',
 
+        # JS File: Core.Agent.Admin.Translations
+        'Missing Translations' => '',
+        'At least one translation must be filled!' => '',
+        'All translations must be filled!' => '',
+        'Close' => 'Sluiten',
+
         # JS File: Core.Agent.AppointmentCalendar
         'Jump' => '',
         'Timeline Month' => '',
@@ -6201,6 +6542,16 @@ sub Data {
         'Restore default settings' => '',
         'Are you sure you want to delete this appointment? This operation cannot be undone.' =>
             '',
+
+        # JS File: Core.Agent.ArticleFeatures
+        'Article Delete' => '',
+        'Are you sure you want to delete this article?' => '',
+        'Article deleted successfully!' => '',
+        'Article already marked as deleted.' => '',
+        'Article Restore' => '',
+        'Are you sure you want to restore this article?' => '',
+        'Article restored successfully!' => '',
+        'Article not available for restoring.' => '',
 
         # JS File: Core.Agent.CustomerSearch
         'First select a customer user, then select a customer ID to assign to this ticket.' =>
@@ -6319,6 +6670,10 @@ sub Data {
         'Do you really want to revert this setting to its historical value?' =>
             '',
 
+        # JS File: Core.UI.CodeMirrorEditor
+        'Error trying to create CodeMirror instance, please check configuration!' =>
+            '',
+
         # JS File: Core.UI.Datepicker
         'Open date selection' => 'Open datumkiezer',
         'Invalid date (need a future date)!' => 'Ongeldig (datum kan niet in verleden zijn).',
@@ -6371,6 +6726,12 @@ sub Data {
         'Upload information' => '',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             '',
+
+        # JS File: ITSM.Admin.ImportExport
+        'Deleting template...' => '',
+        'There was an error deleting the template. Please check the logs for more information.' =>
+            '',
+        'Template was deleted successfully.' => '',
 
         # JS File: Core.Language.UnitTest
         'yes' => 'ja',
@@ -6512,6 +6873,7 @@ Het Helpdesk Team
         'Agent Name' => '',
         'Agent Name + FromSeparator + System Address Display Name' => '',
         'Agent Preferences.' => '',
+        'Agent Reference Dynamic Field With Data Search' => '',
         'Agent Statistics.' => '',
         'Agent User Search' => '',
         'Agent User Search.' => '',
@@ -6540,6 +6902,7 @@ Het Helpdesk Team
             '',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
+        'Agent reference dynamic field with data search.' => '',
         'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
             '',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
@@ -6654,11 +7017,16 @@ Het Helpdesk Team
         'Appointment notifications' => '',
         'Appointments' => '',
         'Arabic (Saudi Arabia)' => 'Arabisch (Saudi Arabië)',
+        'Article ID: %s was deleted by "%s" (%s)' => '',
+        'Article ID: %s was edited by "%s" (%s)' => '',
+        'Article ID: %s was restored by "%s" (%s)' => '',
+        'Article Version View' => '',
         'Article attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected).' =>
             '',
         'ArticleTree' => 'Interactie-boom',
+        'As soon as the move queue option dropdown is enabled for example in the AgentTicketZoom dialogue, it is possible to move tickets locked to other agents to another queue by activating this option.' =>
+            '',
         'Attachment Name' => 'Bijlage naam',
-        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
         'Automated line break in text messages after x number of chars.' =>
             '',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -6750,7 +7118,6 @@ Het Helpdesk Team
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Kerstavond',
-        'Close' => 'Sluiten',
         'Close this ticket' => 'Sluit dit ticket',
         'Closed Tickets' => '',
         'Closed tickets (customer user)' => 'Gesloten tickets (klant gebruiker)',
@@ -6828,10 +7195,12 @@ Het Helpdesk Team
         'Create Ticket' => '',
         'Create a new calendar appointment linked to this ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Aanmaken en beheren van Service Level Agreements (SLA\'s).',
+        'Create and manage advanced definitions for ticket masks.' => '',
         'Create and manage agents.' => 'Aanmaken en beheren van behandelaars.',
         'Create and manage appointment notifications.' => '',
         'Create and manage attachments.' => 'Aanmaken en beheren van bijlagen.',
         'Create and manage calendars.' => '',
+        'Create and manage custom translations.' => '',
         'Create and manage customer users.' => 'Aanmaken en beheren van klanten.',
         'Create and manage customers.' => 'Aanmaken en beheren van klanten.',
         'Create and manage dynamic fields.' => 'Aanmaken en beheren van dynamische velden.',
@@ -6874,6 +7243,7 @@ Het Helpdesk Team
         'Customer Information Center search.' => '',
         'Customer Information Center.' => '',
         'Customer Password.' => '',
+        'Customer Reference Dynamic Field With Data Search' => '',
         'Customer Ticket Print Module.' => '',
         'Customer User Administration' => 'Beheer klant gebruikers',
         'Customer User Information' => '',
@@ -6891,10 +7261,13 @@ Het Helpdesk Team
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer preferences.' => '',
+        'Customer reference dynamic field with data search.' => '',
         'Customer ticket overview' => 'Klant ticket overview',
         'Customer ticket search.' => '',
         'Customer ticket zoom' => '',
         'Customer user search' => '',
+        'CustomerCompany' => '',
+        'CustomerDashboard Info Tile' => '',
         'CustomerID search' => '',
         'CustomerName' => '',
         'CustomerUser' => '',
@@ -6941,6 +7314,7 @@ Het Helpdesk Team
             '',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
+        'Define possible namespaces for dynamic fields.' => '',
         'Define the max depth of queues.' => '',
         'Define the queue comment 2.' => '',
         'Define the service comment 2.' => '',
@@ -7005,7 +7379,7 @@ Het Helpdesk Team
         'Defines all the possible stats output formats.' => '',
         'Defines an alternate URL, where the login link refers to.' => '',
         'Defines an alternate URL, where the logout link refers to.' => '',
-        'Defines an alternate login URL for the customer panel..' => '',
+        'Defines an alternate login URL for the customer panel.' => '',
         'Defines an alternate logout URL for the customer panel.' => '',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
             '',
@@ -7027,6 +7401,8 @@ Het Helpdesk Team
         'Defines groups for preferences items.' => '',
         'Defines how many deployments the system should keep.' => '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
+            '',
+        'Defines if CSV-mappings are re-created on next package reinstallation or upgrade if already existent.' =>
             '',
         'Defines if a pre-sorting by priority should be done in the queue view.' =>
             '',
@@ -7103,11 +7479,15 @@ Het Helpdesk Team
             '',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
             '',
+        'Defines if the ticket info widget is displayed permanently on the left below the article list or is available via click on the \'Information\' button.' =>
+            '',
         'Defines if the values for filters should be retrieved from all available tickets. If enabled, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
             '',
-        'Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
+        'Defines if time accounting is mandatory in the agent interface, if a note is entered.' =>
             '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
+            '',
+        'Defines if user can modify all possible values/labels of dynamic fields in one data table.' =>
             '',
         'Defines internal communication channel.' => '',
         'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
@@ -7152,6 +7532,10 @@ Het Helpdesk Team
         'Defines the communication chanel for the quick close article action.' =>
             '',
         'Defines the config options for the autocompletion feature.' => '',
+        'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketSeenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
+            '',
+        'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketUnseenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
+            '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             '',
         'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -7161,9 +7545,11 @@ Het Helpdesk Team
         'Defines the connections for http/ftp, via a proxy.' => '',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'Definieert voor de klanten waar de gedeelde sleutel wordt opgeslagen.',
+        'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             '',
-        'Defines the default CSS used in rich text editors.' => '',
+        'Defines the default CSS for creating CKEditor articles.' => '',
+        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             '',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7172,10 +7558,10 @@ Het Helpdesk Team
             '',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
+        'Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
             '',
-        'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
-            'Definieert de standaard front-endtaal. Alle mogelijke waarden worden bepaald door de beschikbare taalbestanden op het systeem (zie de volgende instelling).',
+        'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
+            '',
         'Defines the default history type in the customer interface.' => '',
         'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
             '',
@@ -7471,6 +7857,8 @@ Het Helpdesk Team
             '',
         'Defines the module to display a notification in the customer interface, if the customer user has not yet selected a time zone.' =>
             '',
+        'Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info.' =>
+            '',
         'Defines the module to generate code for periodic page reloads.' =>
             '',
         'Defines the module to send emails. "DoNotSendEmail" doesn\'t send emails at all. Any of the "SMTP" mechanisms use a specified (external) mailserver. "Sendmail" directly uses the sendmail binary of your operating system. "Test" doesn\'t send emails, but writes them to $OTOBO_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes.' =>
@@ -7574,6 +7962,10 @@ Het Helpdesk Team
             '',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
             '',
+        'Defines the redirect URL for setting a ticket article to \'seen\'.' =>
+            '',
+        'Defines the redirect URL for setting a ticket article to \'unseen\'.' =>
+            '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '',
@@ -7644,6 +8036,8 @@ Het Helpdesk Team
             '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
+        'Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.' =>
+            '',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
             '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
@@ -7667,6 +8061,7 @@ Het Helpdesk Team
         'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
             '',
         'Delete expired cache from core modules.' => '',
+        'Delete expired form cache hourly.' => '',
         'Delete expired loader cache weekly (Sunday mornings).' => '',
         'Delete expired sessions.' => '',
         'Delete expired ticket draft entries.' => '',
@@ -7683,6 +8078,8 @@ Het Helpdesk Team
         'Determines if a button to delete a link should be displayed next to each link in each zoom mask.' =>
             '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
+            '',
+        'Determines if the statistics module may generate article lists.' =>
             '',
         'Determines if the statistics module may generate ticket lists.' =>
             '',
@@ -7714,6 +8111,8 @@ Het Helpdesk Team
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Dialog to show after marking a ticket as seen' => '',
+        'Dialog to show after marking a ticket as unseen' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -7728,26 +8127,41 @@ Het Helpdesk Team
             '',
         'Display communication log entries.' => '',
         'Display settings to override defaults for Process Tickets.' => '',
+        'Display settings to override defaults for dynamic field widget for Tickets.' =>
+            '',
+        'Displayable via click' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
         'Displays the number of all tickets with the same CustomerID as current ticket in the ticket zoom view.' =>
             '',
-        'Down' => 'Beneden',
         'Dropdown' => '',
         'Dutch' => '',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             '',
+        'Dynamic Field Contents' => '',
+        'Dynamic Field Information' => '',
+        'Dynamic Field Labels' => '',
+        'Dynamic Field Set' => '',
+        'Dynamic Field Set Backend GUI' => '',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Contact Data Backend GUI' => '',
         'Dynamic Fields Database Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',
         'Dynamic Fields GUI' => '',
+        'Dynamic Fields Lens Backend GUI' => '',
         'Dynamic Fields Multiselect Backend GUI' => '',
         'Dynamic Fields Overview Limit' => '',
+        'Dynamic Fields Reference Backend GUI' => '',
         'Dynamic Fields Text Backend GUI' => '',
         'Dynamic Fields Web Service Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
+            '',
+        'Dynamic field event module that deletes script field events if a dynamic field of type script gets deleted.' =>
+            '',
+        'Dynamic field event module that updates PartOfSet attributes of fields which are included in a set.' =>
+            '',
+        'Dynamic fields groups for dynamic field widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
@@ -7755,6 +8169,8 @@ Het Helpdesk Team
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
+            '',
+        'Dynamic fields shown in the dynamic field widget in ticket zoom screen of the agent interface.' =>
             '',
         'Dynamic fields shown in the email outbound screen of the agent interface.' =>
             '',
@@ -7840,6 +8256,7 @@ Het Helpdesk Team
         'Enables file upload in the package manager frontend.' => '',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             '',
+        'Enables or disables the debug mode for translations module.' => '',
         'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '',
@@ -7869,6 +8286,7 @@ Het Helpdesk Team
         'Escalation view' => 'Escalatieoverzicht',
         'EscalationTime' => 'EscalatieTijd',
         'Estonian' => 'Estlands',
+        'Evaluate all script fields.' => '',
         'Event module registration (store historical data in dynamic fields).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
@@ -7963,6 +8381,8 @@ Het Helpdesk Team
         'French stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Frontend' => '',
+        'Frontend module for dashboard info tile in customer interface.' =>
+            '',
         'Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).' =>
             '',
         'Frontend module registration (disable company link if no company feature is used).' =>
@@ -7981,6 +8401,7 @@ Het Helpdesk Team
         'Fulltext search using Elasticsearch.' => '',
         'FulltextES' => '',
         'Galician' => 'Galicische',
+        'General Label' => '',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'Generate HTML comment hooks for the specified blocks so that filters can use them.' =>
@@ -8100,6 +8521,8 @@ Het Helpdesk Team
             '',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             '',
+        'If activated, a clicked activity button will be hidden in the customer ticket zoom frontend.' =>
+            '',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             '',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -8160,7 +8583,9 @@ Het Helpdesk Team
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Ignores not ticket related attributes.' => '',
+        'Import and export object information.' => 'Import en export objectinformatie',
         'Import appointments screen.' => '',
+        'Import/Export' => 'Import/Export',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '',
         'Include unknown customers in ticket filter.' => '',
@@ -8194,7 +8619,7 @@ Het Helpdesk Team
         'JavaScript function for the search frontend.' => '',
         'Jump to OTOBO!' => '',
         'Korean' => '',
-        'Language' => 'Taal',
+        'Languages' => '',
         'Large' => 'Groot',
         'Last Screen Overview' => '',
         'Last customer subject' => '',
@@ -8204,7 +8629,9 @@ Het Helpdesk Team
         'Lastname, Firstname (UserLogin)' => 'Achternaam, Voornaam (Loginnaam)',
         'LastnameFirstname' => 'AchternaamVoornaam',
         'Latvian' => '',
+        'Lax' => '',
         'Left' => '',
+        'Lens' => '',
         'Link Object' => 'Koppel object',
         'Link Object.' => 'Koppel Object',
         'Link agents to groups.' => 'Koppel behandelaars aan groepen.',
@@ -8249,8 +8676,12 @@ Het Helpdesk Team
         'List of responsive CSS files to always be loaded for the customer interface.' =>
             '',
         'List of states for which escalations should be suspended.' => '',
+        'List of ticket masks which can be altered using AdminTicketMask.' =>
+            '',
         'List view' => '',
         'Lithuanian' => '',
+        'Loader module for dashboard info tile in customer interface.' =>
+            '',
         'Loader module registration for the agent interface.' => '',
         'Loader module registration for the customer interface.' => '',
         'Lock / unlock this ticket' => '',
@@ -8275,6 +8706,7 @@ Het Helpdesk Team
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
         'Malay' => '',
+        'Manage Customer Dashboard Info Tile Entries' => '',
         'Manage OTOBO Team cloud services.' => '',
         'Manage PGP keys for email encryption.' => 'Beheer PGP-sleutels voor encryptie van e-mail.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Beheer POP3 of IMAP accounts om e-mail op te halen en om te zetten naar tickets.',
@@ -8286,8 +8718,11 @@ Het Helpdesk Team
         'Manage support data.' => 'Beheer support gegevens.',
         'Manage system registration.' => 'Beheer systeemregistratie.',
         'Manage tasks triggered by event or time based execution.' => 'Beheer van taken op basis van events of tijdschema\'s',
+        'Manage ticket state pre-selections for response templates.' => '',
         'Mark as Spam!' => 'Markeer als spam',
         'Mark this ticket as junk!' => 'Markeer het ticket als junk!',
+        'Mark ticket as seen' => '',
+        'Mark ticket as unseen' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -8416,6 +8851,8 @@ Het Helpdesk Team
             '',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
+        'Object backend module registration for the import/export module.' =>
+            '',
         'Objects to search for, how many entries and which attributs to show.' =>
             '',
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
@@ -8533,6 +8970,7 @@ Het Helpdesk Team
         'People' => 'Personen',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>
             '',
+        'Permanent' => '',
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
         'Persian' => '',
@@ -8586,7 +9024,19 @@ Het Helpdesk Team
             '',
         'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => 'Interval',
+        'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>
+            '',
+        'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as unseen.' =>
+            '',
+        'Registers a link in the ticket menu to mark a ticket as seen.' =>
+            '',
+        'Registers a link in the ticket menu to mark a ticket as unseen.' =>
+            '',
         'Registers a log module, that can be used to log communication related information.' =>
+            '',
+        'Registration of the CSV format backend module for the ImportExport feature.' =>
+            '',
+        'Registration of the JSON format backend module for the ImportExport feature.' =>
             '',
         'Reminder Tickets' => 'Tickets met herinnering',
         'Removed subscription for user "%s".' => 'Removed subscription for user "%s".',
@@ -8648,6 +9098,7 @@ Het Helpdesk Team
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
+        'Richtext' => '',
         'Right' => '',
         'Roles ↔ Groups' => 'Rollen ↔ Groepen',
         'Romanian' => '',
@@ -8664,12 +9115,14 @@ Het Helpdesk Team
             'Voert het systeem uit in de "Demo" -modus. Indien ingeschakeld kunnen behandelaars voorkeuren wijzigen, taal en thema instellen via de webinterface van de behandelaar. Deze wijzigingen zijn alleen geldig voor de huidige sessie. Het is niet mogelijk voor behandelaars om hun wachtwoorden te wijzigen.',
         'Russian' => '',
         'S/MIME Certificates' => 'S/MIME Certificaten',
+        'SLAs' => '',
         'Salutations' => 'Aanheffen',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
             '',
         'Schedule a maintenance period.' => 'Plan een nieuw systeem onderhoudstijdsvak.',
         'Screen after new ticket' => 'Scherm na nieuw ticket',
+        'Script (Template Toolkit)' => '',
         'Search Customer' => 'Klanten zoeken',
         'Search Ticket.' => '',
         'Search Tickets.' => '',
@@ -8705,7 +9158,7 @@ Het Helpdesk Team
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '',
         'Sends customer notifications just to the mapped customer.' => '',
-        'Sends registration information to OTOBO group.' => '',
+        'Sends registration information to Rother OSS.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
@@ -8952,12 +9405,14 @@ Het Helpdesk Team
         'Show article as rich text even if rich text writing is disabled.' =>
             '',
         'Show command line output.' => '',
+        'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
         'Show the history for this ticket' => 'Toon de geschiedenis van dit ticket',
         'Show the ticket history' => 'Toon de ticket-geschiedenis',
         'Show various content.' => '',
+        'ShowHideDeletedArticles' => '',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             '',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -9021,6 +9476,8 @@ Het Helpdesk Team
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
+            '',
+        'Shows a link in the menu to show/hide deleted articles in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>
             '',
@@ -9211,6 +9668,7 @@ Het Helpdesk Team
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => 'Rapport#',
+        'State pre-selection for Templates' => '',
         'States' => 'Status',
         'Statistics overview.' => 'Statistieken overzicht.',
         'Statistics reports.' => '',
@@ -9219,6 +9677,7 @@ Het Helpdesk Team
         'Stopped solution time escalation.' => '',
         'Stopped update time escalation.' => '',
         'Stores cookies after the browser has been closed.' => '',
+        'Strict' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
@@ -9226,6 +9685,8 @@ Het Helpdesk Team
         'Suspend already escalated tickets.' => '',
         'Swahili' => '',
         'Swedish' => '',
+        'Switch deleted article status view' => '',
+        'Switch deleted article status view.' => '',
         'System Address Display Name' => '',
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
@@ -9317,6 +9778,8 @@ Het Helpdesk Team
         'This option defines the process tickets default priority.' => '',
         'This option defines the process tickets default queue.' => '',
         'This option defines the process tickets default state.' => '',
+        'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
+            '',
         'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
@@ -9333,6 +9796,7 @@ Het Helpdesk Team
         'Ticket FreeText.' => '',
         'Ticket History.' => '',
         'Ticket Lock.' => '',
+        'Ticket Masks' => '',
         'Ticket Merge.' => '',
         'Ticket Move.' => '',
         'Ticket Note.' => '',
@@ -9347,6 +9811,8 @@ Het Helpdesk Team
         'Ticket Priority.' => '',
         'Ticket Queue Overview' => 'Ticketwachtrij overzicht',
         'Ticket Responsible.' => '',
+        'Ticket States' => '',
+        'Ticket Types' => '',
         'Ticket Watcher' => '',
         'Ticket Zoom' => '',
         'Ticket Zoom.' => '',
@@ -9362,6 +9828,7 @@ Het Helpdesk Team
         'Ticket overview' => 'Ticketoverzicht',
         'Ticket plain view of an email.' => '',
         'Ticket split dialog.' => '',
+        'Ticket state pre-selection for response templates' => '',
         'Ticket title' => '',
         'Ticket zoom view.' => '',
         'TicketNumber' => '',
@@ -9369,6 +9836,8 @@ Het Helpdesk Team
             '',
         'Tickets.' => '',
         'Tile registration for the CustomerDashboard. Module is required.' =>
+            '',
+        'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -9378,6 +9847,10 @@ Het Helpdesk Team
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+            '',
+        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
@@ -9402,7 +9875,6 @@ Het Helpdesk Team
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             '',
         'Unlocked ticket.' => 'Ticket ontgrendeld.',
-        'Up' => 'Boven',
         'Upcoming Events' => 'Aankomende gebeurtenissen',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
@@ -9425,6 +9897,7 @@ Het Helpdesk Team
             'Gebruik richtext voor het weergeven en bewerken van: artikelen, aanheffen, ondertekeningen, standaard templates, auto antwoorden en notificaties.',
         'Vietnam' => 'Vietnam',
         'View performance benchmark results.' => 'Bekijk resultaten van de performance log.',
+        'View stored article version.' => '',
         'Watch this ticket' => 'Volg dit ticket',
         'Watched Tickets' => 'Gevolgde tickets',
         'Watched Tickets.' => '',
@@ -9433,7 +9906,7 @@ Het Helpdesk Team
             'Er vindt op dit moment gepland onderhoud plaats. Inloggen is momenteel niet mogelijk.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Er vindt op dit moment gepland onderhoud plaats. We zullen snel weer online zijn.',
-        'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS version 2-6 and OTOBO 10..' =>
+        'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
             '',
         'Web Service' => '',
         'Web Services' => 'Webservices',
@@ -9508,6 +9981,7 @@ Het Helpdesk Team
         'Add to favourites',
         'Agent',
         'All occurrences',
+        'All translations must be filled!',
         'All-day',
         'An error occurred during communication.',
         'An error occurred! Please check the browser error log for more details!',
@@ -9520,13 +9994,22 @@ Het Helpdesk Team
         'Apr',
         'April',
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
+        'Are you sure you want to delete this article?',
         'Are you sure you want to remove all user values?',
+        'Are you sure you want to restore this article?',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
+        'Article Delete',
+        'Article Restore',
+        'Article already marked as deleted.',
+        'Article deleted successfully!',
         'Article display',
         'Article filter',
+        'Article not available for restoring.',
+        'Article restored successfully!',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
         'Ascending sort applied, ',
+        'At least one translation must be filled!',
         'Attachment was deleted successfully.',
         'Attachments',
         'Aug',
@@ -9547,6 +10030,7 @@ Het Helpdesk Team
         'Click to select files or just drop them here.',
         'Click to select or drop files here.',
         'Clone web service',
+        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',
@@ -9576,8 +10060,10 @@ Het Helpdesk Team
         'Delete this Operation',
         'Delete this PostMasterFilter',
         'Delete this Template',
+        'Delete this template',
         'Delete web service',
         'Deleting attachment...',
+        'Deleting template...',
         'Deleting the field and its data. This may take a while...',
         'Deleting the mail account and its data. This may take a while...',
         'Deleting the postmaster filter and its data. This may take a while...',
@@ -9594,6 +10080,7 @@ Het Helpdesk Team
         'Do you really want to continue?',
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
+        'Do you really want to delete this customer dashboard info tile entry?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
@@ -9618,6 +10105,7 @@ Het Helpdesk Team
         'Error during AJAX communication',
         'Error during AJAX communication. Status: %s, Error: %s',
         'Error in the mail settings. Please correct and try again.',
+        'Error trying to create CodeMirror instance, please check configuration!',
         'Error: Browser Check failed!',
         'Event Type Filter',
         'Expanded',
@@ -9638,6 +10126,7 @@ Het Helpdesk Team
         'If you now leave this page, all open popup windows will be closed, too!',
         'Ignore',
         'Import web service',
+        'Information',
         'Information about the OTOBO Daemon',
         'Invalid date (need a future date)!',
         'Invalid date (need a past date)!',
@@ -9669,6 +10158,7 @@ Het Helpdesk Team
         'May',
         'May_long',
         'Migrate',
+        'Missing Translations',
         'Mo',
         'Mon',
         'Monday',
@@ -9793,6 +10283,7 @@ Het Helpdesk Team
         'Switch to mobile mode',
         'System Registration',
         'Team',
+        'Template was deleted successfully.',
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
@@ -9806,6 +10297,7 @@ Het Helpdesk Team
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',
+        'There was an error deleting the template. Please check the logs for more information.',
         'There was an error. Please save all settings you are editing and check the logs for more information.',
         'This Activity cannot be deleted because it is the Start Activity.',
         'This Activity is already used in the Process. You cannot add it twice!',

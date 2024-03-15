@@ -2124,27 +2124,27 @@ msgstr "Број колона"
 msgid "Specify the width (in characters) for this field in the edit mode."
 msgstr "Унеси ширину (у знаковима) за ово поље у моду уређивања."
 
-#. Template: AdminDynamicFieldText
+#. Template: AdminDynamicFieldScript
 msgid "Check RegEx"
 msgstr "Провери регуларне изразе"
 
-#. Template: AdminDynamicFieldText
+#. Template: AdminDynamicFieldScript
 msgid "Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms."
 msgstr "Овде можете да дефинишете регуларни израз за проверу вредности. Израз ће бити извршен са модификаторима за xms."
 
-#. Template: AdminDynamicFieldText
+#. Template: AdminDynamicFieldScript
 msgid "RegEx"
 msgstr "Регуларни израз"
 
-#. Template: AdminDynamicFieldText
+#. Template: AdminDynamicFieldScript
 msgid "Invalid RegEx"
 msgstr "Неважећи регуларни израз"
 
-#. Template: AdminDynamicFieldText
+#. Template: AdminDynamicFieldScript
 msgid "Error Message"
 msgstr "Порука о грешци"
 
-#. Template: AdminDynamicFieldText
+#. Template: AdminDynamicFieldScript
 msgid "Add RegEx"
 msgstr "Додај регуларни израз"
 
@@ -3920,7 +3920,7 @@ msgstr "SOAPAction слободан текст"
 msgid "Text to be used to as SOAPAction."
 msgstr "Текст који ће се користити као SOAPAction."
 
-#. Template: AdminGenericInterfaceTransportHTTPSOAP
+#. Template: AdminDynamicFieldCheckbox
 msgid "Namespace"
 msgstr "Врста захтева"
 
@@ -4020,7 +4020,7 @@ msgstr "Клонирај веб сервис"
 msgid "The name must be unique."
 msgstr "Назив мора бити јединствен."
 
-#. Template: AdminGenericInterfaceWebservice
+#. Template: AdminDynamicField
 msgid "Clone"
 msgstr "Клонирај"
 
@@ -5792,7 +5792,7 @@ msgstr "Заборавили сте лозинку?"
 msgid "Retrieve a new one"
 msgstr "Преузми нову"
 
-#. Template: AdminRegistration
+#. Template: AdminImportExport
 msgid "Next"
 msgstr "Следеће"
 
@@ -6768,7 +6768,7 @@ msgstr "Планирање периода одржавања система ра
 msgid "Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact."
 msgstr "Неко време пре него отпочне одржавање система, корисници ће добити обавештење које најављује овај догађај на сваки екран."
 
-#. Template: AdminSystemMaintenance
+#. Template: AdminCustomerDashboardInfoTile
 msgid "Stop date"
 msgstr "Датум завршетка"
 
@@ -6784,7 +6784,7 @@ msgstr "Уреди одржавање система"
 msgid "Edit System Maintenance Information"
 msgstr "Уреди одржавање система"
 
-#. Template: AdminSystemMaintenanceEdit
+#. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Date invalid!"
 msgstr "Неисправан датум"
 
@@ -7620,7 +7620,7 @@ msgstr "ван канцеларије"
 msgid "until"
 msgstr "dok"
 
-#. Template: AgentDynamicFieldDBDetailedSearch
+#. Template: AdminImportExport
 msgid "Back"
 msgstr "Назад"
 
@@ -9224,7 +9224,7 @@ msgstr "Сачувати као шаблон?"
 msgid "Save as Template"
 msgstr "Сачувај као шаблон"
 
-#. Template: CustomerTicketSearch
+#. Template: AdminImportExport
 msgid "Template Name"
 msgstr "Назив шаблона"
 
@@ -9256,15 +9256,15 @@ msgstr "Одговори"
 msgid "Discard"
 msgstr ""
 
-#. Template: CustomerTicketZoom
+#. Template: TicketInfo
 msgid "Ticket Information"
 msgstr "Информације о тикету"
 
-#. Template: CustomerTicketZoom
+#. Template: TicketInfo
 msgid "Categories"
 msgstr ""
 
-#. Template: CustomerTicketZoom
+#. Template: TicketInfo
 msgid "Further actions"
 msgstr ""
 
@@ -9360,7 +9360,7 @@ msgstr "Подешавање базе података"
 msgid "General Specifications and Mail Settings"
 msgstr "Опште спецификације и подешавање поште"
 
-#. Template: Installer
+#. Template: AdminImportExport
 msgid "Finish"
 msgstr "Заврши"
 
@@ -10060,7 +10060,7 @@ msgstr "Комплетна прошлост %s и комплетна трену�
 msgid "Do not allow changes to this element when the statistic is generated."
 msgstr "Онемогући промене овог елемента при генерисању статистике."
 
-#. Template: StatsParamsWidget
+#. Template: AdminImportExport
 msgid "Format"
 msgstr "Формат"
 
@@ -10844,7 +10844,7 @@ msgstr "Успешно"
 msgid "Processing"
 msgstr "У процесу"
 
-#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+#. Template: AdminImportExport
 msgid "Failed"
 msgstr "Неуспешно"
 
@@ -12364,7 +12364,7 @@ msgstr ""
 msgid "System was not able to delete the user setting values!"
 msgstr ""
 
-#. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Start date shouldn't be defined after Stop date!"
 msgstr "Датум почетка не би требало одредити после датума завршетка!"
 
@@ -12388,11 +12388,11 @@ msgstr "Системско одржавање је успешно додато!"
 msgid "System Maintenance was updated successfully!"
 msgstr "Системско одржавање је успешно ажурирано!"
 
-#. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Session has been killed!"
 msgstr "Сесија је прекинута!"
 
-#. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "All sessions have been killed, except for your own."
 msgstr "Све сесије су прекинуте, осим сопствене."
 
@@ -12404,7 +12404,7 @@ msgstr "Дошло је до грешке приликом ажурирања О
 msgid "Was not possible to delete the SystemMaintenance entry: %s!"
 msgstr "Није било могуће обрисати унос за системско одржавање: %s!"
 
-#. Perl Module: Kernel/Modules/AdminTemplate.pm
+#. Perl Module: Kernel/Modules/AdminResponseTemplatesStatePreselection.pm
 msgid "Template updated!"
 msgstr "Шаблон ажуриран!"
 
@@ -12768,7 +12768,7 @@ msgstr ""
 msgid "No TicketID is given!"
 msgstr "Није дат TicketID!"
 
-#. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "You need %s permissions!"
 msgstr "Неопходне су вам %s дозволе!"
 
@@ -12916,7 +12916,7 @@ msgstr "Нема TicketID!"
 msgid "System Error!"
 msgstr "Системска грешка!"
 
-#. Perl Module: Kernel/Modules/AgentTicketEmailResend.pm
+#. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
 msgid "No ArticleID is given!"
 msgstr "Није дат ArticleID!"
 
@@ -14272,7 +14272,7 @@ msgstr "Молимо вас да проверите да сте изабрали
 msgid "Preferences updated successfully!"
 msgstr "Поставке су успешно ажуриране!"
 
-#. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
+#. Perl Module: Kernel/Language.pm
 msgid "(in process)"
 msgstr "(у току)"
 
@@ -14424,7 +14424,7 @@ msgstr "Поништи ово подешавање на подразумеван
 msgid "Unable to load %s!"
 msgstr "Није могуће учитати %s!"
 
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
+#. Template: AdminTranslations
 msgid "Content"
 msgstr "Садржај"
 
@@ -14616,7 +14616,7 @@ msgstr "пре/после"
 msgid "between"
 msgstr "између"
 
-#. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "e.g. Text or Te*t"
 msgstr "нпр. Text или Te*t"
 
@@ -14624,15 +14624,15 @@ msgstr "нпр. Text или Te*t"
 msgid "Ignore this field."
 msgstr "Игнориши ово поље."
 
-#. Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
+#. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
 msgid "This field is required or"
 msgstr "Ово поље је обавезно или"
 
-#. Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
+#. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
 msgid "The field content is too long!"
 msgstr "Садржај поља је предугачак!"
 
-#. Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
+#. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
 msgid "Maximum size is %s characters."
 msgstr "Максимална величина је %s карактера."
 
@@ -15008,55 +15008,55 @@ msgstr "тромесечје"
 msgid "half-year"
 msgstr "полугодиште"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "State Type"
 msgstr "Тип статуса"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Created Priority"
 msgstr "Направљени приоритети"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Created State"
 msgstr "Креирани статус"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Create Time"
 msgstr "Време креирања"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Pending until time"
 msgstr "Време чекања"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Close Time"
 msgstr "Време затварања"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Escalation"
 msgstr "Ескалација"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Escalation - First Response Time"
 msgstr "Ескалација - време првог одзива"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Escalation - Update Time"
 msgstr "Ескалација - време ажурирања"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Escalation - Solution Time"
 msgstr "Ескалација - време решавања"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Agent/Owner"
 msgstr "Оператер/Власник"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Created by Agent/Owner"
 msgstr "Креирао Оператер/Власник"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Assigned to Customer User Login"
 msgstr "Додељени клијент корисник"
 
@@ -15116,35 +15116,35 @@ msgstr "Максимално време чланка"
 msgid "Number of Articles"
 msgstr "Број чланака"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "unlimited"
 msgstr "неограничено"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Attributes to be printed"
 msgstr "Атрибути за штампу"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Sort sequence"
 msgstr "Редослед сортирања"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "State Historic"
 msgstr "Историјат статуса"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "State Type Historic"
 msgstr "Историјат типа статуса"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Historic Time Range"
 msgstr "Временски опсег историјата"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+#. Template: AdminImportExport
 msgid "Number"
 msgstr "Број"
 
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Last Changed"
 msgstr "Последни пут промењено"
 
@@ -18330,7 +18330,7 @@ msgstr "Изаберите која обавештења желите да пр�
 msgid "Christmas Eve"
 msgstr "Бадње вече"
 
-#. SysConfig
+#. JS File: Core.Agent.Admin.Translations
 msgid "Close"
 msgstr "Затвори"
 
@@ -20670,7 +20670,7 @@ msgstr "Приказује обрачунато време за један чл�
 msgid "Displays the number of all tickets with the same CustomerID as current ticket in the ticket zoom view."
 msgstr "Приказује број свих тикета са истим ID клијента као тренутни тикет у детаљном прегледу тикета."
 
-#. SysConfig
+#. Template: AdminImportExport
 msgid "Down"
 msgstr "Доле"
 
@@ -21862,7 +21862,7 @@ msgstr ""
 msgid "Korean"
 msgstr "Корејски"
 
-#. SysConfig
+#. Template: AdminTranslations
 msgid "Language"
 msgstr "Језик"
 
@@ -25022,7 +25022,7 @@ msgstr "Откључавање тикета кад год се дода напо
 msgid "Unlocked ticket."
 msgstr "Откључано"
 
-#. SysConfig
+#. Template: AdminImportExport
 msgid "Up"
 msgstr "Горе"
 
@@ -26108,3 +26108,1236 @@ msgstr "Увоз/Извоз"
 
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "Контактирајте нас на sales@otrs.com"
+
+#. Template: AdminACL
+msgid "Filter by valid state"
+msgstr ""
+
+#. Template: AdminACL
+msgid "Include invalid ACLs"
+msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Include invalid calendars"
+msgstr ""
+
+#. Template: AdminAppointmentNotificationEvent
+msgid "Include invalid appointment notifications"
+msgstr ""
+
+#. Template: AdminAppointmentNotificationEvent
+msgid "Include invalid appoitnment notifications"
+msgstr ""
+
+#. Template: AdminAttachment
+msgid "Include invalid attachments"
+msgstr ""
+
+#. Template: AdminAutoResponse
+msgid "Include invalid auto responses"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "Include invalid customer companies"
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTile
+msgid "Customer Info"
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTile
+msgid "Customer Info Management"
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTile
+msgid "Create new info tile entry"
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTile
+msgid "Filter for info tile entries"
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTile
+msgid "Create a new entry to be displayed on the info tile on the customer dashboard."
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTile
+msgid "Delete info tile entry"
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTileEdit
+msgid "Edit customer dashboard info tile entry"
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTileEdit
+msgid "Tile content"
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTileEdit
+msgid "Content Body"
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTileEdit
+msgid "Marquee content"
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTileEdit
+msgid "Group Selection"
+msgstr ""
+
+#. Template: AdminCustomerDashboardInfoTileNew
+msgid "Create new customer dashboard info tile entry"
+msgstr ""
+
+#. Template: AdminCustomerUser
+msgid "Include invalid customer users"
+msgstr ""
+
+#. Template: AdminDynamicField
+msgid "Include invalid dynamic fields"
+msgstr ""
+
+#. Template: AdminDynamicField
+msgid "Filter field by object type"
+msgstr ""
+
+#. Template: AdminDynamicField
+msgid "Filter field by namespace"
+msgstr ""
+
+#. Template: AdminDynamicField
+msgid "Clone from this field"
+msgstr ""
+
+#. Template: AdminDynamicFieldCheckbox
+msgid "This is the namespace in which this field will be used as prefix with the name."
+msgstr ""
+
+#. Template: AdminDynamicFieldCheckbox
+msgid "Multiple Values"
+msgstr ""
+
+#. Template: AdminDynamicFieldCheckbox
+msgid "Activate this option to allow multiple values for this field."
+msgstr ""
+
+#. Template: AdminDynamicFieldReference
+msgid "Check ReferenceFilter"
+msgstr ""
+
+#. Template: AdminDynamicFieldReference
+msgid "Below you can configure filters to restrict the list of referenced objects. The filters compare an attribute of the referenced object either to an attribute of the mask you are currently editing or to a fixed string."
+msgstr ""
+
+#. Template: AdminDynamicFieldReference
+msgid "Object attribute"
+msgstr ""
+
+#. Template: AdminDynamicFieldReference
+msgid "Select an attribute of the referenced object by which the selectable entries will be filtered."
+msgstr ""
+
+#. Template: AdminDynamicFieldReference
+msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
+msgstr ""
+
+#. Template: AdminDynamicFieldReference
+msgid "matches mask attribute"
+msgstr ""
+
+#. Template: AdminDynamicFieldReference
+msgid "Select an attribute of the edit mask to compare the selected attribute of the referenced object against."
+msgstr ""
+
+#. Template: AdminDynamicFieldReference
+msgid "matches string"
+msgstr ""
+
+#. Template: AdminDynamicFieldReference
+msgid "Type a string to compare the selected attribute of the referenced object against."
+msgstr ""
+
+#. Template: AdminDynamicFieldReference
+msgid "Add ReferenceFilter"
+msgstr ""
+
+#. Template: AdminDynamicFieldScript
+msgid "Expression"
+msgstr ""
+
+#. Template: AdminDynamicFieldScript
+msgid "The function which will be evaluated."
+msgstr ""
+
+#. Template: AdminDynamicFieldScript
+msgid "Requirements"
+msgstr ""
+
+#. Template: AdminDynamicFieldScript
+msgid "If set, the function will only be evaluated if all chosen attributes are set."
+msgstr ""
+
+#. Template: AdminDynamicFieldScript
+msgid "Preview Triggers"
+msgstr ""
+
+#. Template: AdminDynamicFieldScript
+msgid "If set, the field will be recalculated upon AJAX updates in edit masks."
+msgstr ""
+
+#. Template: AdminDynamicFieldScript
+msgid "Storage Triggers (Events)"
+msgstr ""
+
+#. Template: AdminDynamicFieldScript
+msgid "If set, the field will be recalculated for the following events."
+msgstr ""
+
+#. Template: AdminDynamicFieldSet
+msgid "The YAML array of included dynamic fields. Syntax: '--- [{DF: Name},...]'"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Include invalid jobs"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Comment/Uncomment code"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Auto indent code"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Jump to line"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Autocomplete"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Full Screen"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Exit full screen"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Auto Indent Code"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Comment/Uncomment Code"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Search & Replace"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Select All"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Kerberos User"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Kerberos keytab file"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "The kerberos keytab file for the privileged user."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Include invalid webservices"
+msgstr ""
+
+#. Template: AdminGroup
+msgid "Include invalid groups"
+msgstr ""
+
+#. Template: AdminMailAccount
+msgid "Include invalid Mail Accounts"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Include invalid notifications"
+msgstr ""
+
+#. Template: AdminPostMasterFilter
+msgid "Search through PostMaster filters"
+msgstr ""
+
+#. Template: AdminPostMasterFilter
+msgid "Search all filter attributes"
+msgstr ""
+
+#. Template: AdminPostMasterFilter
+msgid "Limit search to selected header fields"
+msgstr ""
+
+#. Template: AdminPostMasterFilter
+msgid "Limit search to selected set fields"
+msgstr ""
+
+#. Template: AdminPriority
+msgid "Include invalid priorities"
+msgstr ""
+
+#. Template: AdminProcessManagement
+msgid "Include inactive processes"
+msgstr ""
+
+#. Template: AdminProcessManagementActivityDialog
+msgid "Input Field Definition"
+msgstr ""
+
+#. Template: AdminProcessManagementActivityDialog
+msgid "Direct submit"
+msgstr ""
+
+#. Template: AdminProcessManagementActivityDialog
+msgid "This property won't take effect because there are fields configured as visible."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Include invalid queues"
+msgstr ""
+
+#. Template: AdminResponseTemplatesStatePreselection
+msgid "Manage ticket state pre-selections for response templates"
+msgstr ""
+
+#. Template: AdminResponseTemplatesStatePreselection
+msgid "Edit Response"
+msgstr ""
+
+#. Template: AdminResponseTemplatesStatePreselection
+msgid "Pre-selected ticket state"
+msgstr ""
+
+#. Template: AdminRole
+msgid "Include invalid roles"
+msgstr ""
+
+#. Template: AdminSLA
+msgid "Include invalid SLAs"
+msgstr ""
+
+#. Template: AdminSalutation
+msgid "Include invalid salutations"
+msgstr ""
+
+#. Template: AdminService
+msgid "Include invalid services"
+msgstr ""
+
+#. Template: AdminSignature
+msgid "Include invalid signatures"
+msgstr ""
+
+#. Template: AdminState
+msgid "Include invalid states"
+msgstr ""
+
+#. Template: AdminSystemAddress
+msgid "Include invalid system addresses"
+msgstr ""
+
+#. Template: AdminSystemMaintenance
+msgid "Include invalid system maintenances"
+msgstr ""
+
+#. Template: AdminTemplate
+msgid "Include invalid templates"
+msgstr ""
+
+#. Template: AdminTicketMask
+msgid "Ticket Mask Management"
+msgstr ""
+
+#. Template: AdminTicketMask
+msgid "Change mask definition"
+msgstr ""
+
+#. Template: AdminTicketMask
+msgid "Ticket Mask"
+msgstr ""
+
+#. Template: AdminTicketMask
+msgid "Change"
+msgstr ""
+
+#. Template: AdminTicketMask
+msgid "Definition"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Translation Management"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Add Translations"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Edit Translations"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Deploy Translations"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Translation States"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "New Translation"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Editing Translation"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Translation Marked for Deletion"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Deployed Translation"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files."
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Select an object to start adding translations. Depending on your selection, single or multiple translations can be added."
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Edit active translations using provided text fields!"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "List custom translations for"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Draft Translations"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Filter for Draft Translations"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Active Translations"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Filter for Active Translations"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Translation"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Marked for Deletion"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Edit Translation"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Overwrites OTOBO translation"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Undo Delete Translation"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Delete Translation"
+msgstr ""
+
+#. Template: AdminTranslations
+msgid "Translations"
+msgstr ""
+
+#. Template: AdminType
+msgid "Include invalid types"
+msgstr ""
+
+#. Template: AdminUser
+msgid "Include invalid users"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Edit Article \"%s\" of %s%s%s"
+msgstr ""
+
+#. Template: AgentTicketArticleVersionView
+msgid "Viewing Article Version#%s of current Article: #%s %s"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Article Edited"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "The article was edited"
+msgstr ""
+
+#. Template: TranslationsTable
+msgid "Filter Content"
+msgstr ""
+
+#. Template: TranslationsTable
+msgid "Filter for Translations"
+msgstr ""
+
+#. Template: TranslationsTable
+msgid "No content available to translate."
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
+msgid "Manager"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
+msgid "+1 day"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminAttachment.pm
+msgid "No permission to edit this attachment."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "Name is missing!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "Content is missing!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "ValidID is missing!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "Group is missing!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "There was an error creating the info tile entry"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "Need ID!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "This Entry does not exist, or you don't have permissions to access it in its current state."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "Could not get data for ID %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "Info tile entry was added successfully!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "Info tile entry was updated successfully!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "There was an error updating the info tile entry"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+msgid "It was not possible to delete the info tile entry: %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "The referenced dynamic field"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "Select the dynamic field that references an object"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "The attribute of the referenced object"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "Select the attribute dynamic field that references an object"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "Not a valid dynamic field."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Need valid field driver."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Bad value in RequiredArgs."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Bad value in PreviewTriggers."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Bad value in StorageTriggers."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "Missing Dynamic Field."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "No valid dynamic field \""
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The dynamic field type \""
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "Misconfigured Grid - need Rows as Array!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "Misconfigured Grid - need Columns as integer > 0!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "Misconfigured Grid - Rows can't be empty!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "Misconfigured Grid - Rows must contain entries with key 'DF'!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "Missing Dynamic Field or Grid."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The field must be a valid YAML containing an array of dynamic fields."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "No permission to edit this ticket notification."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Only send within working hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Only send outside working hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTemplate.pm
+msgid "No permission to edit this template."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "Translation unmarked for deletion!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "Error trying unmark translation for delete!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "Translations changed!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "No translations were changed!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "Errors trying to change translations!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "Translations added!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "No translations were given to add!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "Translation already exists!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "Translations deployed successfuly!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "Nothing to do!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "Errors ocurred when trying to deploy translation. Please check system logs!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "All Items"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTranslations.pm
+msgid "Deployment Results"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
+msgid "Can't set this Ticket option, no TicketID is given!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Error: database version requirement not satisfied. Have version: %s Want version: %s"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleDelete.pm
+msgid "Delete this article"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleEdit.pm
+msgid "Edit this article"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleRestore.pm
+msgid "Restore this article"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
+msgid "Mark article as unseen"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
+msgid "Mark as unseen"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
+msgid "Hide deleted articles"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
+msgid "Click to hide deleted articles"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
+msgid "Show deleted articles"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
+msgid "Click to show deleted articles"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+msgid "Group of the agents"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+msgid "Select the group of the agents"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Referenced object type"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Select the type of the referenced object"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Input mode of edit field"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Select the input mode for the edit field."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+msgid "Attribute which will be searched on autocomplete"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+msgid "Select the attribute which tickets will be searched by"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
+msgid "Full %s Text"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Type of the ticket"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Select the type of the ticket"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Attribute which is displayed for values"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Select the type of display"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
+msgid "Pretty print the exported concatenated JSON"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
+msgid "Article Create Time"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Mask.pm
+msgid "Base structure is not valid. Please provide an array with data in YAML format."
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Mask.pm
+msgid "Error parsing dynamic fields."
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Mask.pm
+msgid "No dynamic field \"%s\"."
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Mask.pm
+msgid "Dynamic field \"%s\" not valid."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.CustomerDashboardInfoTile
+msgid "Do you really want to delete this customer dashboard info tile entry?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.Translations
+msgid "Missing Translations"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.Translations
+msgid "At least one translation must be filled!"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.Translations
+msgid "All translations must be filled!"
+msgstr ""
+
+#. JS File: Core.Agent.ArticleFeatures
+msgid "Article Delete"
+msgstr ""
+
+#. JS File: Core.Agent.ArticleFeatures
+msgid "Are you sure you want to delete this article?"
+msgstr ""
+
+#. JS File: Core.Agent.ArticleFeatures
+msgid "Article deleted successfully!"
+msgstr ""
+
+#. JS File: Core.Agent.ArticleFeatures
+msgid "Article already marked as deleted."
+msgstr ""
+
+#. JS File: Core.Agent.ArticleFeatures
+msgid "Article Restore"
+msgstr ""
+
+#. JS File: Core.Agent.ArticleFeatures
+msgid "Are you sure you want to restore this article?"
+msgstr ""
+
+#. JS File: Core.Agent.ArticleFeatures
+msgid "Article restored successfully!"
+msgstr ""
+
+#. JS File: Core.Agent.ArticleFeatures
+msgid "Article not available for restoring."
+msgstr ""
+
+#. JS File: Core.UI.CodeMirrorEditor
+msgid "Error trying to create CodeMirror instance, please check configuration!"
+msgstr ""
+
+#. SysConfig
+msgid "Agent Reference Dynamic Field With Data Search"
+msgstr ""
+
+#. SysConfig
+msgid "Agent reference dynamic field with data search."
+msgstr ""
+
+#. SysConfig
+msgid "Article ID: %s was deleted by \"%s\" (%s)"
+msgstr ""
+
+#. SysConfig
+msgid "Article ID: %s was edited by \"%s\" (%s)"
+msgstr ""
+
+#. SysConfig
+msgid "Article ID: %s was restored by \"%s\" (%s)"
+msgstr ""
+
+#. SysConfig
+msgid "Article Version View"
+msgstr ""
+
+#. SysConfig
+msgid "As soon as the move queue option dropdown is enabled for example in the AgentTicketZoom dialogue, it is possible to move tickets locked to other agents to another queue by activating this option."
+msgstr ""
+
+#. SysConfig
+msgid "Create and manage advanced definitions for ticket masks."
+msgstr ""
+
+#. SysConfig
+msgid "Create and manage custom translations."
+msgstr ""
+
+#. SysConfig
+msgid "Customer Reference Dynamic Field With Data Search"
+msgstr ""
+
+#. SysConfig
+msgid "Customer reference dynamic field with data search."
+msgstr ""
+
+#. SysConfig
+msgid "CustomerCompany"
+msgstr ""
+
+#. SysConfig
+msgid "CustomerDashboard Info Tile"
+msgstr ""
+
+#. SysConfig
+msgid "Define possible namespaces for dynamic fields."
+msgstr ""
+
+#. SysConfig
+msgid "Defines an alternate login URL for the customer panel."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if CSV-mappings are re-created on next package reinstallation or upgrade if already existent."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if the ticket info widget is displayed permanently on the left below the article list or is available via click on the 'Information' button."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if time accounting is mandatory in the agent interface, if a note is entered."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if user can modify all possible values/labels of dynamic fields in one data table."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the config parameters available in the preferences view. The default redirect URL from SysConfig 'MarkTicketSeenRedirectDefaultURL' is used if no selection is made by the agent."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the config parameters available in the preferences view. The default redirect URL from SysConfig 'MarkTicketUnseenRedirectDefaultURL' is used if no selection is made by the agent."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the data objects avaliable to be translated."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the default CSS for creating CKEditor articles."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the default CSS used for displaying articles."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the redirect URL for setting a ticket article to 'seen'."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the redirect URL for setting a ticket article to 'unseen'."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi."
+msgstr ""
+
+#. SysConfig
+msgid "Delete expired form cache hourly."
+msgstr ""
+
+#. SysConfig
+msgid "Determines if the statistics module may generate article lists."
+msgstr ""
+
+#. SysConfig
+msgid "Dialog to show after marking a ticket as seen"
+msgstr ""
+
+#. SysConfig
+msgid "Dialog to show after marking a ticket as unseen"
+msgstr ""
+
+#. SysConfig
+msgid "Display settings to override defaults for dynamic field widget for Tickets."
+msgstr ""
+
+#. SysConfig
+msgid "Displayable via click"
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic Field Contents"
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic Field Information"
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic Field Labels"
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic Field Set"
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic Field Set Backend GUI"
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic Fields Lens Backend GUI"
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic Fields Reference Backend GUI"
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic field event module that deletes script field events if a dynamic field of type script gets deleted."
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic field event module that updates PartOfSet attributes of fields which are included in a set."
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic fields groups for dynamic field widget. The key is the name of the group, the value contains the fields to be shown. Example: 'Key => My Group', 'Content: Name_X, NameY'."
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic fields shown in the dynamic field widget in ticket zoom screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Enables or disables the debug mode for translations module."
+msgstr ""
+
+#. SysConfig
+msgid "Evaluate all script fields."
+msgstr ""
+
+#. SysConfig
+msgid "Frontend module for dashboard info tile in customer interface."
+msgstr ""
+
+#. SysConfig
+msgid "General Label"
+msgstr ""
+
+#. SysConfig
+msgid "If activated, a clicked activity button will be hidden in the customer ticket zoom frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Languages"
+msgstr ""
+
+#. SysConfig
+msgid "Lax"
+msgstr ""
+
+#. SysConfig
+msgid "Lens"
+msgstr ""
+
+#. SysConfig
+msgid "List of ticket masks which can be altered using AdminTicketMask."
+msgstr ""
+
+#. SysConfig
+msgid "Loader module for dashboard info tile in customer interface."
+msgstr ""
+
+#. SysConfig
+msgid "Manage Customer Dashboard Info Tile Entries"
+msgstr ""
+
+#. SysConfig
+msgid "Manage ticket state pre-selections for response templates."
+msgstr ""
+
+#. SysConfig
+msgid "Mark ticket as seen"
+msgstr ""
+
+#. SysConfig
+msgid "Mark ticket as unseen"
+msgstr ""
+
+#. SysConfig
+msgid "Object backend module registration for the import/export module."
+msgstr ""
+
+#. SysConfig
+msgid "Permanent"
+msgstr ""
+
+#. SysConfig
+msgid "Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen."
+msgstr ""
+
+#. SysConfig
+msgid "Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as unseen."
+msgstr ""
+
+#. SysConfig
+msgid "Registers a link in the ticket menu to mark a ticket as seen."
+msgstr ""
+
+#. SysConfig
+msgid "Registers a link in the ticket menu to mark a ticket as unseen."
+msgstr ""
+
+#. SysConfig
+msgid "Registration of the CSV format backend module for the ImportExport feature."
+msgstr ""
+
+#. SysConfig
+msgid "Registration of the JSON format backend module for the ImportExport feature."
+msgstr ""
+
+#. SysConfig
+msgid "Richtext"
+msgstr ""
+
+#. SysConfig
+msgid "SLAs"
+msgstr ""
+
+#. SysConfig
+msgid "Script (Template Toolkit)"
+msgstr ""
+
+#. SysConfig
+msgid "Sends registration information to Rother OSS."
+msgstr ""
+
+#. SysConfig
+msgid "Show or Hide deleted articles."
+msgstr ""
+
+#. SysConfig
+msgid "ShowHideDeletedArticles"
+msgstr ""
+
+#. SysConfig
+msgid "Shows a link in the menu to show/hide deleted articles in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
+msgstr ""
+
+#. SysConfig
+msgid "State pre-selection for Templates"
+msgstr ""
+
+#. SysConfig
+msgid "Strict"
+msgstr ""
+
+#. SysConfig
+msgid "Switch deleted article status view"
+msgstr ""
+
+#. SysConfig
+msgid "Switch deleted article status view."
+msgstr ""
+
+#. SysConfig
+msgid "This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Masks"
+msgstr ""
+
+#. SysConfig
+msgid "Ticket States"
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Types"
+msgstr ""
+
+#. SysConfig
+msgid "Ticket state pre-selection for response templates"
+msgstr ""
+
+#. SysConfig
+msgid "Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value."
+msgstr ""
+
+#. SysConfig
+msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed."
+msgstr ""
+
+#. SysConfig
+msgid "Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed."
+msgstr ""
+
+#. SysConfig
+msgid "View stored article version."
+msgstr ""
+
+#. SysConfig
+msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0."
+msgstr ""
+

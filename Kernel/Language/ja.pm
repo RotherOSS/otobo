@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.784683684794673;
+    $Self->{Completeness}        = 0.750150330727601;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -46,6 +46,8 @@ sub Data {
 
         # Template: AdminACL
         'ACL Management' => 'ACL管理',
+        'Filter by valid state' => '',
+        'Include invalid ACLs' => '',
         'Actions' => '操作',
         'Create New ACL' => '新しいACLを作成',
         'Deploy ACLs' => 'ACLをデプロイ',
@@ -122,6 +124,7 @@ sub Data {
         'Calendar Management' => 'カレンダー管理',
         'Add Calendar' => 'カレンダーの登録',
         'Edit Calendar' => 'カレンダーを編集',
+        'Include invalid calendars' => '',
         'Calendar Overview' => 'カレンダー表示',
         'Add new Calendar' => 'カレンダーの登録',
         'Import Appointments' => '予約のインポート',
@@ -190,6 +193,8 @@ sub Data {
         'Appointment Notification Management' => '予約通知の管理',
         'Add Notification' => '通知の追加',
         'Edit Notification' => '通知の編集',
+        'Include invalid appointment notifications' => '',
+        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '通知をエクスポート',
         'Filter for Notifications' => '通知でフィルター',
         'Filter for notifications' => '通知でフィルター',
@@ -274,6 +279,7 @@ sub Data {
         'Attachment Management' => '添付ファイル管理',
         'Add Attachment' => '添付ファイルを追加',
         'Edit Attachment' => '添付ファイルを編集',
+        'Include invalid attachments' => '',
         'Filter for Attachments' => '添付ファイルでフィルタ',
         'Filter for attachments' => '添付ファイルのフィルター',
         'Filename' => 'ファイル名',
@@ -286,6 +292,7 @@ sub Data {
         'Auto Response Management' => '自動応答管理',
         'Add Auto Response' => '自動応答追加',
         'Edit Auto Response' => '自動応答編集',
+        'Include invalid auto responses' => '',
         'Filter for Auto Responses' => '自動応答でフィルタ',
         'Filter for auto responses' => '自動応答でフィルター',
         'Response' => '応答',
@@ -428,12 +435,34 @@ sub Data {
         'Customer Management' => '顧客管理',
         'Add Customer' => '顧客を追加',
         'Edit Customer' => '顧客を編集',
+        'Include invalid customer companies' => '',
         'List (only %s shown - more available)' => '一覧 ( %s 件のみ表示、他候補あり)',
         'total' => '合計',
         'Please enter a search term to look for customers.' => '顧客を検索するための条件を入力して下さい。',
         'Customer ID' => '顧客ID',
         'Please note' => '注意',
         'This customer backend is read only!' => 'この顧客情報は読み取り専用です！',
+
+        # Template: AdminCustomerDashboardInfoTile
+        'Customer Info' => '',
+        'Customer Info Management' => '',
+        'Create new info tile entry' => '',
+        'Filter for info tile entries' => '',
+        'Create a new entry to be displayed on the info tile on the customer dashboard.' =>
+            '',
+        'Stop date' => '終了日',
+        'Delete info tile entry' => '',
+
+        # Template: AdminCustomerDashboardInfoTileEdit
+        'Edit customer dashboard info tile entry' => '',
+        'Date invalid!' => '日時が無効です!',
+        'Tile content' => '',
+        'Content Body' => '',
+        'Marquee content' => '',
+        'Group Selection' => '',
+
+        # Template: AdminCustomerDashboardInfoTileNew
+        'Create new customer dashboard info tile entry' => '',
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => '顧客-グループ関連性管理',
@@ -469,6 +498,7 @@ sub Data {
         'Customer User Management' => '顧客ユーザー管理',
         'Add Customer User' => '顧客ユーザーを追加',
         'Edit Customer User' => '顧客ユーザーを編集',
+        'Include invalid customer users' => '',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '顧客ユーザーは顧客履歴の使用と顧客パネルからログインするために必要です。',
         'List (%s total)' => '一覧 (全 %s 件)',
@@ -533,9 +563,14 @@ sub Data {
 
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'ダイナミック・フィールド の管理',
-        'Add new field for object' => 'オブジェクトに新規領域を追加',
+        'Include invalid dynamic fields' => '',
         'Filter for Dynamic Fields' => 'ダイナミック・フィールドでフィルター',
         'Filter for dynamic fields' => 'ダイナミック・フィールドでフィルター',
+        'Filter field by object type' => '',
+        'Filter field by namespace' => '',
+        'Add new field for object' => 'オブジェクトに新規領域を追加',
+        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            '新しいフィールドを追加するには、オブジェクトのリストの1つからフィールドタイプを選択します。オブジェクトはフィールドの境界を定義し、フィールドの作成後は変更できません。',
         'New Dynamic Fields' => '新しいダイナミックフィールド',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             'ダイナミック・フィールドをもっと有効に活用したいですか? 以下の型を利用することができます:',
@@ -547,13 +582,13 @@ sub Data {
             '外部Webサービスをこの ダイナミック・フィールド のデータソースとして設定できます。',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             'この機能を使用すると、データを含む（複数の）連絡先をチケットに追加できます。',
-        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            '新しいフィールドを追加するには、オブジェクトのリストの1つからフィールドタイプを選択します。オブジェクトはフィールドの境界を定義し、フィールドの作成後は変更できません。',
         'Dynamic Fields List' => 'ダイナミック・フィールド 一覧',
         'Dynamic fields per page' => 'ページ毎の ダイナミック・フィールド',
         'Label' => 'ラベル',
         'Order' => '順序',
         'Object' => '対象',
+        'Clone' => '複製',
+        'Clone from this field' => '',
         'Delete this field' => 'この領域を削除',
 
         # Template: AdminDynamicFieldAdvanced
@@ -582,6 +617,9 @@ sub Data {
         'This field is required and must be numeric.' => 'この領域は必須かつ数値でなければなりません。',
         'This is the order in which this field will be shown on the screens where is active.' =>
             'これはこの領域がアクティブである画面で表示される順序です。',
+        'Namespace' => '名前空間',
+        'This is the namespace in which this field will be used as prefix with the name.' =>
+            '',
         'Tooltip message:' => 'ツールチップメッセージ:',
         'This is the tooltip message shown inside the customer interface.' =>
             'これは、カスタマーインターフェイス内に表示されるツールチップメッセージです。',
@@ -596,6 +634,9 @@ sub Data {
         'Field Settings' => '領域設定',
         'Default value' => 'デフォルト値',
         'This is the default value for this field.' => 'これはこの領域に対するデフォルト値です。',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '追加連絡先の追加もしくは編集',
@@ -696,6 +737,22 @@ sub Data {
         'Fields' => '領域',
         'Screens' => '画面',
 
+        # Template: AdminDynamicFieldReference
+        'Check ReferenceFilter' => '',
+        'Below you can configure filters to restrict the list of referenced objects. The filters compare an attribute of the referenced object either to an attribute of the mask you are currently editing or to a fixed string.' =>
+            '',
+        'Object attribute' => '',
+        'Select an attribute of the referenced object by which the selectable entries will be filtered.' =>
+            '',
+        'Invalid ReferenceFilter_ReferenceObjectAttribute' => '',
+        'matches mask attribute' => '',
+        'Select an attribute of the edit mask to compare the selected attribute of the referenced object against.' =>
+            '',
+        'matches string' => '',
+        'Type a string to compare the selected attribute of the referenced object against.' =>
+            '',
+        'Add ReferenceFilter' => '',
+
         # Template: AdminDynamicFieldScreen
         'Management of Dynamic Fields <-> Screens' => 'ダイナミック・フィールド ↔ 画面の管理',
         'Overview' => '一覧',
@@ -722,13 +779,18 @@ sub Data {
         'Assigned Required Elements' => '必須項目',
         'Reset' => 'リセット',
 
-        # Template: AdminDynamicFieldText
-        'Number of rows' => '行数',
-        'Specify the height (in lines) for this field in the edit mode.' =>
-            '編集画面におけるこの領域の高さ(列数)を指定します。',
-        'Number of cols' => '列数',
-        'Specify the width (in characters) for this field in the edit mode.' =>
-            '編集画面におけるこの領域の幅(文字数)を指定します。',
+        # Template: AdminDynamicFieldScript
+        'Expression' => '',
+        'The function which will be evaluated.' => '',
+        'Requirements' => '',
+        'If set, the function will only be evaluated if all chosen attributes are set.' =>
+            '',
+        'Preview Triggers' => '',
+        'If set, the field will be recalculated upon AJAX updates in edit masks.' =>
+            '',
+        'Storage Triggers (Events)' => '',
+        'If set, the field will be recalculated for the following events.' =>
+            '',
         'Check RegEx' => '正規表現をチェック',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
             '本項目で入力値に対する正規表現を設定可能です。　正規表現は モディファイXMSとともに実行されます。',
@@ -736,6 +798,18 @@ sub Data {
         'Invalid RegEx' => '無効な正規表現',
         'Error Message' => 'エラーメッセージ',
         'Add RegEx' => '正規表現を追加',
+
+        # Template: AdminDynamicFieldSet
+        'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
+            '',
+
+        # Template: AdminDynamicFieldText
+        'Number of rows' => '行数',
+        'Specify the height (in lines) for this field in the edit mode.' =>
+            '編集画面におけるこの領域の高さ(列数)を指定します。',
+        'Number of cols' => '列数',
+        'Specify the width (in characters) for this field in the edit mode.' =>
+            '編集画面におけるこの領域の幅(文字数)を指定します。',
 
         # Template: AdminDynamicFieldTitle
         'Template' => 'テンプレート',
@@ -781,6 +855,7 @@ sub Data {
         'Edit Job' => '管理用ジョブの編集',
         'Add Job' => '管理用ジョブの追加',
         'Run Job' => '管理用ジョブの実行',
+        'Include invalid jobs' => '',
         'Filter for Jobs' => '管理用ジョブのフィルタ',
         'Filter for jobs' => '管理用ジョブのフィルタ',
         'Last run' => '最終実行',
@@ -1134,17 +1209,22 @@ sub Data {
         # Template: AdminGenericInterfaceMappingXSLT
         'General Shortcuts' => '一般的なショートカット',
         'MacOS Shortcuts' => 'MacOSのショートカット',
-        'Comment code' => 'コメント・コード',
-        'Uncomment code' => 'コードのコメントを解除する',
-        'Auto format code' => '自動フォーマットコード',
-        'Expand/Collapse code block' => 'コードブロックを展開/折りたたみ',
+        'Comment/Uncomment code' => '',
+        'Auto indent code' => '',
+        'Jump to line' => '',
+        'Autocomplete' => '',
         'Find' => '探す',
         'Find next' => '次を探す',
         'Find previous' => '前の検索',
         'Find and replace' => '検索と置換',
-        'Find and replace all' => '全ての検索して置き換える',
+        'Full Screen' => '',
+        'Exit full screen' => '',
         'XSLT Mapping' => 'XSLTマッピング',
         'XSLT stylesheet' => 'XSLTスタイルシート',
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => '入力されたXSLTスタイルシートの形式が不正です。',
         'Here you can add or modify your XSLT mapping code.' => 'XSLTマッピングを追加・変更できます。',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1233,6 +1313,9 @@ sub Data {
         'The user name to be used to access the remote system.' => 'リモート・システムにアクセスするときに用いるユーザー名',
         'BasicAuth Password' => 'ベーシック認証のパスワード',
         'The password for the privileged user.' => '特権ユーザー用パスワード',
+        'Kerberos User' => '',
+        'Kerberos keytab file' => '',
+        'The kerberos keytab file for the privileged user.' => '',
         'Use Proxy Options' => 'プロキシオプションを使用する',
         'Show or hide Proxy options to connect to the remote system.' => '',
         'Proxy Server' => 'プロキシサーバ',
@@ -1308,7 +1391,6 @@ sub Data {
         'Usually .Net web services use "/" as separator.' => '通常 .NetのWebサービスはセパレータとして"/"を使用します。',
         'SOAPAction free text' => 'SOAPアクション・フリーテキスト',
         'Text to be used to as SOAPAction.' => '',
-        'Namespace' => '名前空間',
         'URI to give SOAP methods a context, reducing ambiguities.' => '',
         'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
@@ -1342,9 +1424,9 @@ sub Data {
         # Template: AdminGenericInterfaceWebservice
         'Add Web Service' => 'Webサービスを追加',
         'Edit Web Service' => 'Webサービスを修正',
+        'Include invalid webservices' => '',
         'Clone Web Service' => 'Webサービスをクローン',
         'The name must be unique.' => '名前は一意である必要があります。',
-        'Clone' => '複製',
         'Export Web Service' => 'Webサービスをエクスポート',
         'Import web service' => 'ウェブサービスのインポート',
         'Configuration File' => '設定ファイル',
@@ -1408,11 +1490,52 @@ sub Data {
         'Group Management' => 'グループ管理',
         'Add Group' => 'グループ追加',
         'Edit Group' => 'グループ編集',
+        'Include invalid groups' => '',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             '管理グループは管理エリアで取得します。統計グループは統計エリアを取得します',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             '統計グループは統計エリアを取得します。異なるエージェントグループへのアクセス許可を操作するには、グループを新規作成してください。（例：購買部、サポート部、営業部等） ',
         'It\'s useful for ASP solutions. ' => 'ASPソリューションが便利です。 ',
+
+        # Template: AdminImportExport
+        'Import/Export Management' => 'インポート/エクスポートの管理',
+        'Add template' => 'テンプレートを追加',
+        'Create a template to import and export object information.' => 'オブジェクトのインポート・エクスポート用のテンプレートを作成する。',
+        'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.' =>
+            'このモジュールを利用するには、 ITSMConfigurationManagement か、オブジェクトのインポートおよびエクスポートの機能を提供するパッケージをインストールする必要があります。',
+        'Number' => '番号',
+        'Format' => '書式',
+        'Start Import' => 'インポート開始',
+        'Start Export' => 'エクスポート開始',
+        'Delete this template' => 'このテンプレートを削除',
+        'Step 1 of 5 - Edit common information' => 'Step 1 of 5 - 基本情報の設定',
+        'Name is required!' => '名称は必須です!',
+        'Object is required!' => 'オブジェクトは必須です!',
+        'Format is required!' => 'フォーマットは必須です!',
+        'Next' => '次へ',
+        'Step 2 of 5 - Edit object information' => 'Step 2 of 5 - オブジェクト情報の設定',
+        'Back' => '戻る',
+        'Step 3 of 5 - Edit format information' => 'Step 3 of 5 - フォーマット情報の設定',
+        'is required!' => '必須とされています！',
+        'Step 4 of 5 - Edit mapping information' => 'Step 4 of 5 - マッピング情報の設定',
+        'No map elements found.' => 'マッピング要素が見つかりませんでした。',
+        'Up' => '昇順',
+        'Down' => '降順',
+        'Add Mapping Element' => 'マッピング要素の追加',
+        'Step 5 of 5 - Edit search information' => 'Step 5 of 5 - 検索情報の設定',
+        'Template Name' => 'テンプレート名',
+        'Restrict export per search' => '検索あたりの出力を制限',
+        'Finish' => '完了',
+        'Import information' => '情報をインポート',
+        'Source File' => 'ソースファイル',
+        'Import summary for %s' => '%sのインポート・サマリー',
+        'Records' => 'レコード',
+        'Success' => '成功',
+        'Failed' => '失敗',
+        'Duplicate names' => '名前が重複しています',
+        'Last processed line number of import file' => '読み込み済みファイルの最終実行行数',
+        'Ok' => 'Ok',
+        'Do you really want to delete this template item?' => '本当にこのテンプレートを削除してよろしいですか？',
 
         # Template: AdminLog
         'System Log' => 'システムログ',
@@ -1427,6 +1550,7 @@ sub Data {
         'Add Mail Account' => 'メールアカウント追加',
         'Edit Mail Account for host' => 'ホストのメールアカウントを編集',
         'and user account' => 'ユーザーアカウントと',
+        'Include invalid Mail Accounts' => '',
         'Filter for Mail Accounts' => 'メールアカウントでフィルター',
         'Filter for mail accounts' => 'メールアカウントでフィルター',
         'All incoming emails with one account will be dispatched in the selected queue.' =>
@@ -1462,6 +1586,7 @@ sub Data {
 
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => 'チケット通知管理',
+        'Include invalid notifications' => '',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             'チケット通知をインポートすることができます。設定ファイルは.ymlフォーマットで事前にエクスポートされたものが必要です。',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
@@ -1624,6 +1749,10 @@ sub Data {
         'Edit PostMaster Filter' => 'ポストマスター・フィルターを削除',
         'Filter for PostMaster Filters' => 'ポストマスター・フィルターの絞り込み',
         'Filter for PostMaster filters' => 'ポストマスター・フィルターの絞り込み',
+        'Search through PostMaster filters' => '',
+        'Search all filter attributes' => '',
+        'Limit search to selected header fields' => '',
+        'Limit search to selected set fields' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             '振り分けやメールヘッダを元に受信メールをフィルタします。正規表現を使用できます。',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1652,6 +1781,7 @@ sub Data {
         'Priority Management' => '優先度管理',
         'Add Priority' => '優先度を追加',
         'Edit Priority' => '優先度を編集',
+        'Include invalid priorities' => '',
         'Filter for Priorities' => '優先度でフィルター',
         'Filter for priorities' => '優先度でフィルター',
         'This priority is present in a SysConfig setting, confirmation for updating settings to point to the new priority is needed!' =>
@@ -1660,6 +1790,7 @@ sub Data {
 
         # Template: AdminProcessManagement
         'Process Management' => 'プロセス管理',
+        'Include inactive processes' => '',
         'Filter for Processes' => 'プロセスでフィルター',
         'Filter for processes' => 'プロセスでフィルター',
         'Create New Process' => '新しいプロセスを追加',
@@ -1715,6 +1846,10 @@ sub Data {
         'The selected required lock does not exist.' => '選択されたロックは存在しません。',
         'Submit Advice Text' => 'サブミットボタンのアドバイステキスト',
         'Submit Button Text' => 'サブミットボタン名',
+        'Input Field Definition' => '',
+        'Direct submit' => '',
+        'This property won\'t take effect because there are fields configured as visible.' =>
+            '',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             'マウスで左から右にドラッグ・アンド・ドロップすることで、アクティビティ・ダイアログにフィールドを関連付けることが出来ます',
         'Filter available fields' => '利用可能な領域をフィルタ',
@@ -1818,6 +1953,7 @@ sub Data {
         'Queue Management' => 'キュー管理',
         'Add Queue' => 'キューを追加',
         'Edit Queue' => 'キューを編集',
+        'Include invalid queues' => '',
         'Filter for Queues' => 'キューでフィルター',
         'Filter for queues' => 'キューのフィルター',
         'A queue with this name already exists!' => '同じ名前のキューが既に存在しています！',
@@ -1932,7 +2068,6 @@ sub Data {
         'Sign up now' => '新規登録する',
         'Forgot your password?' => 'パスワードを忘れましたか？',
         'Retrieve a new one' => '',
-        'Next' => '次へ',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
             'このシステムを登録すると、このデータは頻繁にOTOBOチームに転送されます。',
         'Attribute' => '属性',
@@ -1957,10 +2092,16 @@ sub Data {
         'System Registration Data' => 'システム登録データ',
         'Support Data' => 'サポートデータ',
 
+        # Template: AdminResponseTemplatesStatePreselection
+        'Manage ticket state pre-selections for response templates' => '',
+        'Edit Response' => '',
+        'Pre-selected ticket state' => '',
+
         # Template: AdminRole
         'Role Management' => 'ロール管理',
         'Add Role' => 'ロールを追加',
         'Edit Role' => 'ロールを編集',
+        'Include invalid roles' => '',
         'Filter for Roles' => 'ロールでフィルター',
         'Filter for roles' => 'ロールでフィルター',
         'Create a role and put groups in it. Then add the role to the users.' =>
@@ -2000,6 +2141,7 @@ sub Data {
         'SLA Management' => 'SLA管理',
         'Edit SLA' => 'SLAを編集',
         'Add SLA' => 'SLAを追加',
+        'Include invalid SLAs' => '',
         'Filter for SLAs' => 'SLAでフィルター',
         'Please write only numbers!' => '数字だけを書いて下さい！',
 
@@ -2047,6 +2189,7 @@ sub Data {
         'Salutation Management' => '挨拶文管理',
         'Add Salutation' => '挨拶文を追加',
         'Edit Salutation' => '挨拶文を編集',
+        'Include invalid salutations' => '',
         'Filter for Salutations' => '挨拶文でフィルター',
         'Filter for salutations' => '挨拶文でフィルター',
         'e. g.' => '例',
@@ -2082,6 +2225,7 @@ sub Data {
         'Service Management' => 'サービス管理',
         'Add Service' => 'サービスの追加',
         'Edit Service' => 'サービスの編集',
+        'Include invalid services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             'サービス名は、(サブサービス名を含めて) 半角200文字以内にする必要があります。',
         'Sub-service of' => '親サービス',
@@ -2106,6 +2250,7 @@ sub Data {
         'Signature Management' => '署名管理',
         'Add Signature' => '署名を追加',
         'Edit Signature' => '署名を編集',
+        'Include invalid signatures' => '',
         'Filter for Signatures' => '署名でフィルター',
         'Filter for signatures' => '署名でフィルター',
         'Example signature' => '署名の例',
@@ -2114,6 +2259,7 @@ sub Data {
         'State Management' => 'ステータス管理',
         'Add State' => 'ステータスを追加',
         'Edit State' => 'ステータスを編集',
+        'Include invalid states' => '',
         'Filter for States' => 'ステータスでフィルター',
         'Filter for states' => 'ステータスでフィルター',
         'Attention' => '注意',
@@ -2161,6 +2307,7 @@ sub Data {
         'System Email Addresses Management' => 'システムメールアドレスの管理',
         'Add System Email Address' => 'システムメールアドレスの追加',
         'Edit System Email Address' => 'システムメールアドレスの編集',
+        'Include invalid system addresses' => '',
         'Add System Address' => 'システムアドレスを追加',
         'Filter for System Addresses' => 'システムアドレスでフィルター',
         'Filter for system addresses' => 'システムアドレスでフィルター',
@@ -2280,6 +2427,7 @@ sub Data {
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'システムメンテナンス管理',
+        'Include invalid system maintenances' => '',
         'Schedule New System Maintenance' => '新しいシステムメンテナンスをスケジュール',
         'Filter for System Maintenances' => 'システムメンテナンスでフィルター',
         'Filter for system maintenances' => 'システムメンテナンスでフィルター',
@@ -2287,13 +2435,11 @@ sub Data {
             'このシステムメンテナンスが開始する前に、ユーザはシステムメンテナンスが行われることについてアナウンスする各画面上で通知を受け取ります。',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             'メンテナンス開始前に利用者はメンテナンス通知を受け取ります。',
-        'Stop date' => '終了日',
         'Delete System Maintenance' => 'システムメンテナンスを削除',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance' => 'システムメンテナンスを修正',
         'Edit System Maintenance Information' => 'システムメンテナンス情報を修正',
-        'Date invalid!' => '日時が無効です!',
         'Login message' => 'ログインメッセージ',
         'This field must have less then 250 characters.' => 'このフィールドは250文字未満にしてください。',
         'Show login message' => 'ログインメッセージを表示',
@@ -2308,6 +2454,7 @@ sub Data {
         'Template Management' => 'テンプレート管理',
         'Add Template' => 'テンプレートを追加',
         'Edit Template' => 'テンプレートを編集',
+        'Include invalid templates' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'テンプレートは担当者による高速なチケット作成、回答または転送を支援するデフォルトの本文です。',
         'Don\'t forget to add new templates to queues.' => '新しいテンプレートにキューを追加してください。',
@@ -2333,10 +2480,48 @@ sub Data {
         'Toggle active for all' => '全てを有効に切り替え',
         'Link %s to selected %s' => '%s を選択された %s へリンク',
 
+        # Template: AdminTicketMask
+        'Ticket Mask Management' => '',
+        'Change mask definition' => '',
+        'Ticket Mask' => '',
+        'Change' => '',
+        'Definition' => '',
+
+        # Template: AdminTranslations
+        'Translation Management' => '',
+        'Add Translations' => '',
+        'Edit Translations' => '',
+        'Language' => '言語',
+        'Deploy Translations' => '',
+        'Translation States' => '',
+        'New Translation' => '',
+        'Editing Translation' => '',
+        'Translation Marked for Deletion' => '',
+        'Deployed Translation' => '',
+        'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
+            '',
+        'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.' =>
+            '',
+        'Edit active translations using provided text fields!' => '',
+        'List custom translations for' => '',
+        'Draft Translations' => '',
+        'Filter for Draft Translations' => '',
+        'Active Translations' => '',
+        'Filter for Active Translations' => '',
+        'Content' => '内容',
+        'Translation' => '',
+        'Marked for Deletion' => '',
+        'Edit Translation' => '',
+        'Overwrites OTOBO translation' => '',
+        'Undo Delete Translation' => '',
+        'Delete Translation' => '',
+        'Translations' => '',
+
         # Template: AdminType
         'Type Management' => 'タイプ管理',
         'Add Type' => 'タイプの追加',
         'Edit Type' => 'タイプの編集',
+        'Include invalid types' => '',
         'Filter for Types' => 'タイプでフィルター',
         'Filter for types' => 'タイプでフィルター',
         'A type with this name already exists!' => 'この名前のタイプは既に存在します!',
@@ -2347,6 +2532,7 @@ sub Data {
         # Template: AdminUser
         'Agent Management' => '担当者管理',
         'Edit Agent' => '担当者の編集',
+        'Include invalid users' => '',
         'Edit personal preferences for this agent' => 'この担当者の個人設定を編集',
         'Agents will be needed to handle tickets.' => '担当者はチケットを処理するために必要です。',
         'Don\'t forget to add a new agent to groups and/or roles!' => '新しい担当者をグループやロールに追加することを忘れないで下さい!',
@@ -2586,7 +2772,6 @@ sub Data {
         'until' => '〜まで',
 
         # Template: AgentDynamicFieldDBDetailedSearch
-        'Back' => '戻る',
         'Detailed search' => '検索詳細',
         'Add an additional attribute' => '属性の追加',
 
@@ -2769,6 +2954,7 @@ sub Data {
         'Set Pending Time for %s%s%s' => '%s%s%sの保留時間を設定',
         'Change Priority of %s%s%s' => '%s%s%sの優先度を変更',
         'Change Responsible of %s%s%s' => '%s%s%sの責任者を変更',
+        'Edit Article "%s" of %s%s%s' => '',
         'The ticket has been locked' => 'チケットはロック済です',
         'Undo & close' => '元に戻して閉じる',
         'Ticket Settings' => 'チケット設定',
@@ -2794,6 +2980,9 @@ sub Data {
         'Text Template' => '本文テンプレート',
         'Setting a template will overwrite any text or attachment.' => 'テンプレートを設定すると作成中の本文または添付ファイルは上書きされます。',
         'Invalid time!' => '無効な時間です!',
+
+        # Template: AgentTicketArticleVersionView
+        'Viewing Article Version#%s of current Article: #%s %s' => '',
 
         # Template: AgentTicketBounce
         'Bounce %s%s%s' => '%s%s%sをバウンス',
@@ -2988,12 +3177,14 @@ sub Data {
         'No.' => '番号',
         'Unread articles' => '未読記事',
         'Via' => '経由',
+        'Article Edited' => '',
         'Important' => '重要',
         'Unread Article!' => '未読記事があります!',
         'Incoming message' => '受信メッセージ',
         'Outgoing message' => '送信メッセージ',
         'Internal message' => '内部メッセージ',
         'Sending of this message has failed.' => 'このメッセージの送信に失敗しました。',
+        'The article was edited' => '',
         'Resize' => 'リサイズ',
         'Mark this article as read' => 'この記事を既読にして下さい。',
         'Show Full Text' => '全文を表示する',
@@ -3151,7 +3342,6 @@ sub Data {
         'Save Search as Template?' => 'テンプレートとして検索を保存しますか？',
         'Save as Template?' => 'テンプレートを保存しますか？',
         'Save as Template' => 'テンプレートとして保存',
-        'Template Name' => 'テンプレート名',
         'Pick a profile name' => 'テンプレート名',
         'Output to' => '出力:',
 
@@ -3163,15 +3353,17 @@ sub Data {
         # Template: CustomerTicketZoom
         'Reply' => '返信',
         'Discard' => '破棄',
-        'Ticket Information' => 'チケット情報',
-        'Categories' => 'カテゴリー',
-        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => '記事を展開',
 
         # Template: MIMEBase
         'Article Information' => '記事情報',
+
+        # Template: TicketInfo
+        'Ticket Information' => 'チケット情報',
+        'Categories' => 'カテゴリー',
+        'Further actions' => '',
 
         # Template: CustomerWarning
         'Warning' => '警告',
@@ -3215,7 +3407,6 @@ sub Data {
         'License' => 'ライセンス',
         'Database Settings' => 'データベース設定',
         'General Specifications and Mail Settings' => '共通仕様とメール設定',
-        'Finish' => '完了',
         'Welcome to %s' => '%s にようこそ',
         'Germany' => 'ドイツ',
         'Phone' => '電話',
@@ -3485,7 +3676,6 @@ sub Data {
             'レポートが生成されたときにこの要素に変更を許可しないで下さい。',
 
         # Template: StatsParamsWidget
-        'Format' => '書式',
         'Exchange Axis' => '縦横軸の交換',
         'Configurable Params of Static Stat' => '',
         'No element selected.' => '要素が選択されていません。',
@@ -3596,6 +3786,11 @@ sub Data {
         'Welcome %s %s' => 'ようこそ %s %s',
         'Counter' => 'カウンター',
 
+        # Template: TranslationsTable
+        'Filter Content' => '',
+        'Filter for Translations' => '',
+        'No content available to translate.' => '',
+
         # Template: Warning
         'Go back to the previous page' => '前のページへ戻る',
 
@@ -3679,10 +3874,14 @@ sub Data {
         'Country' => '国',
         'Mr.' => '様',
         'Mrs.' => '様',
+        'Manager' => '',
         'Address' => 'アドレス',
         'View system log messages.' => 'システム・ログ・メッセージを見る。',
         'Edit the system configuration settings.' => 'システム設定の編集',
         'Update and extend your system with software packages.' => 'このシステムのソフトウェアパッケージの更新と展開',
+
+        # Perl Module: Kernel/Language.pm
+        '(in process)' => '(処理中)',
 
         # Perl Module: Kernel/Modules/AdminACL.pm
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
@@ -3732,6 +3931,7 @@ sub Data {
         '+15 minutes' => '+15分',
         '+30 minutes' => '+30分',
         '+1 hour' => '+1時間',
+        '+1 day' => '',
 
         # Perl Module: Kernel/Modules/AdminAppointmentImport.pm
         'No permissions' => '権限がありません',
@@ -3762,6 +3962,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
+        'No permission to edit this attachment.' => '',
         'Attachment added!' => '添付ファイルを追加しました!',
 
         # Perl Module: Kernel/Modules/AdminAutoResponse.pm
@@ -3780,7 +3981,6 @@ sub Data {
         'Invalid StartTime: %s!' => '開始時刻 %s が不正です!',
         'Successful' => '成功',
         'Processing' => '処理中',
-        'Failed' => '失敗',
         'Invalid Filter: %s!' => 'フィルターが不正です: %s',
         'Less than a second' => '1秒未満',
         'sorted descending' => '降順に並べ替え',
@@ -3818,6 +4018,24 @@ sub Data {
         'Customer Company %s already exists!' => '顧客企業 %s は、既に存在します！',
         'Customer company added!' => '顧客企業を追加しました。',
 
+        # Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+        'Start date shouldn\'t be defined after Stop date!' => '停止日の後に開始日を定義しないで下さい！',
+        'Name is missing!' => '',
+        'Content is missing!' => '',
+        'ValidID is missing!' => '',
+        'Group is missing!' => '',
+        'There was an error creating the info tile entry' => '',
+        'Need ID!' => '',
+        'This Entry does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
+        'Could not get data for ID %s' => '',
+        'Info tile entry was added successfully!' => '',
+        'Info tile entry was updated successfully!' => '',
+        'Session has been killed!' => 'セッションは削除されました！',
+        'All sessions have been killed, except for your own.' => '貴方自身のセッション以外のセッションは切断されました。',
+        'There was an error updating the info tile entry' => '',
+        'It was not possible to delete the info tile entry: %s!' => '',
+
         # Perl Module: Kernel/Modules/AdminCustomerGroup.pm
         'No configuration for \'CustomerGroupPermissionContext\' found!' =>
             '設定 \'CustomerGroupPermissionContext\'が存在しません!',
@@ -3852,9 +4070,9 @@ sub Data {
         'Undefined subaction.' => '未定義のサブアクションです。',
         'Need %s' => '%s の入力が必要です。',
         'Add %s field' => '%s を追加します',
+        'The field must be numeric.' => 'このフィールドは数字のみ入力可能です。',
         'The field does not contain only ASCII letters and numbers.' => 'このフィールドはASCII文字と数字のみ入力可能です。',
         'There is another field with the same name.' => '同じ名前の他のフィールドが存在します。',
-        'The field must be numeric.' => 'このフィールドは数字のみ入力可能です。',
         'Need ValidID' => 'ValidIDが必要です',
         'Could not create the new field' => '新しいフィールドを作成できませんでした。',
         'Need ID' => 'IDが必要',
@@ -3882,12 +4100,39 @@ sub Data {
         'An element is used as parent element, but not included itself. Please include it.' =>
             '',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+        'The referenced dynamic field' => '',
+        'Select the dynamic field that references an object' => '',
+        'The attribute of the referenced object' => '',
+        'Select the attribute dynamic field that references an object' =>
+            '',
+        'Not a valid dynamic field.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => '設定を保存しました。',
         'System was not able to save the setting!' => '',
         'Setting is locked by another user!' => '設定は他のユーザーによってロックされています！',
         'System was not able to reset the setting!' => 'システムが設定をリセットできませんでした！',
         'Settings were reset.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+        'Need valid field driver.' => '',
+        'Bad value in RequiredArgs.' => '',
+        'Bad value in PreviewTriggers.' => '',
+        'Bad value in StorageTriggers.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+        'Missing Dynamic Field.' => '',
+        'No valid dynamic field "' => '',
+        'The dynamic field type "' => '',
+        'Misconfigured Grid - need Rows as Array!' => '',
+        'Misconfigured Grid - need Columns as integer > 0!' => '',
+        'Misconfigured Grid - Rows can\'t be empty!' => '',
+        'Misconfigured Grid - Rows must contain entries with key \'DF\'!' =>
+            '',
+        'Missing Dynamic Field or Grid.' => '',
+        'The field must be a valid YAML containing an array of dynamic fields.' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => '',
@@ -4056,6 +4301,23 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGroup.pm
         'Group updated!' => 'グループを更新しました。',
 
+        # Perl Module: Kernel/Modules/AdminImportExport.pm
+        'No object backend found!' => '指定されたオブジェクトのバックエンドが見つかりません！',
+        'No format backend found!' => '指定されたフォーマットのバックエンドが見つかりません！',
+        'Template not found!' => 'テンプレートが見つかりません！',
+        'Can\'t insert/update template!' => 'テンプレートの挿入・更新ができません！',
+        'Needed TemplateID!' => 'テンプレートIDの入力が必要です！',
+        'Error occurred. Import impossible! See Syslog for details.' => 'エラーが発生しました。 インポートできません！ 詳細については、シスログを参照して下さい。',
+        'Error occurred. Export impossible! See Syslog for details.' => 'エラーが発生しました。 エクスポートできません！ 詳細については、シスログを参照して下さい。',
+        'Template List' => 'テンプレート・リスト',
+        'number' => '数値',
+        'number bigger than zero' => '0以上の数値',
+        'integer' => '整数値',
+        'integer bigger than zero' => '0以上の整数値',
+        'Element required, please insert data' => '要素が必要です。データを挿入してください',
+        'Invalid data, please insert a valid %s' => '無効なデータです。有効な％sを挿入して下さい。',
+        'Format not found!' => '指定されたフォーマットが見つかりません！',
+
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'メールアカウントを追加しました。',
         'Email account fetch already fetched by another process. Please try again later!' =>
@@ -4064,6 +4326,8 @@ sub Data {
         'Dispatching by selected Queue.' => '選択したキューで振り分け',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+        'No permission to edit this ticket notification.' => '',
+        'You need %s permissions!' => '許可 %sが必要です！',
         'Agent who created the ticket' => 'チケットを作成した担当者',
         'Agent who owns the ticket' => 'チケットを保有する担当者',
         'Agent who is responsible for the ticket' => 'チケットの責任者',
@@ -4076,6 +4340,8 @@ sub Data {
         'Customer user of the ticket' => 'チケットの顧客ユーザー',
         'All recipients of the first article' => '最初の記事の全ての受信者',
         'All recipients of the last article' => '最後の記事の全ての受信者',
+        'Only send within working hours' => '',
+        'Only send outside working hours' => '',
         'Invisible to customer' => '顧客には非表示',
         'Visible to customer' => '顧客に表示',
 
@@ -4232,6 +4498,9 @@ sub Data {
         'Training' => 'トレーニング',
         'Development' => 'デプロイ',
 
+        # Perl Module: Kernel/Modules/AdminResponseTemplatesStatePreselection.pm
+        'Template updated!' => 'テンプレートを更新しました！',
+
         # Perl Module: Kernel/Modules/AdminRole.pm
         'Role updated!' => 'ロールを更新しました。',
         'Role added!' => 'ロールを追加しました。',
@@ -4325,24 +4594,37 @@ sub Data {
         'System was not able to delete the user setting values!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
-        'Start date shouldn\'t be defined after Stop date!' => '停止日の後に開始日を定義しないで下さい！',
         'There was an error creating the System Maintenance' => 'システムメンテナンスを作成する際にエラーが発生しました',
         'Need SystemMaintenanceID!' => 'システムメンテナンスIDが必要です',
         'Could not get data for SystemMaintenanceID %s' => 'システムメンテナンスID %sから日付を取得できませんでした',
         'System Maintenance was added successfully!' => 'システムメンテナンスが正常に追加されました！',
         'System Maintenance was updated successfully!' => 'システムメンテナンスが正常に更新されました！',
-        'Session has been killed!' => 'セッションは削除されました！',
-        'All sessions have been killed, except for your own.' => '貴方自身のセッション以外のセッションは切断されました。',
         'There was an error updating the System Maintenance' => 'システムメンテナンス更新時にエラーが発生しました',
         'Was not possible to delete the SystemMaintenance entry: %s!' => 'システムメンテナンス %sは削除できませんでした！',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
-        'Template updated!' => 'テンプレートを更新しました！',
+        'No permission to edit this template.' => '',
         'Template added!' => 'テンプレートを追加しました！',
 
         # Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
         'Change Attachment Relations for Template' => 'テンプレートに対する添付ファイルの関連性を変更',
         'Change Template Relations for Attachment' => '添付ファイルに対するテンプレートの関連性を変更',
+
+        # Perl Module: Kernel/Modules/AdminTranslations.pm
+        'Translation unmarked for deletion!' => '',
+        'Error trying unmark translation for delete!' => '',
+        'Translations changed!' => '',
+        'No translations were changed!' => '',
+        'Errors trying to change translations!' => '',
+        'Translations added!' => '',
+        'No translations were given to add!' => '',
+        'Translation already exists!' => '',
+        'Translations deployed successfuly!' => '',
+        'Nothing to do!' => '',
+        'Errors ocurred when trying to deploy translation. Please check system logs!' =>
+            '',
+        'All Items' => '',
+        'Deployment Results' => '',
 
         # Perl Module: Kernel/Modules/AdminType.pm
         'Need Type!' => 'タイプが必要です！',
@@ -4462,7 +4744,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
         'No TicketID is given!' => 'TicketIDが存在しません！',
-        'You need %s permissions!' => '許可 %sが必要です！',
         'Loading draft failed!' => '下書きのロードに失敗しました！',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'この操作を行うには担当者または責任者になる必要があります。',
@@ -4477,6 +4758,12 @@ sub Data {
         'wrote' => '書き込みしました。',
         'Message from' => 'からのメッセージ',
         'End message' => 'End message',
+
+        # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+        'No ArticleID is given!' => 'ArticleIDは指定されていません！',
+
+        # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
+        'Can\'t set this Ticket option, no TicketID is given!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '%sが必要です！',
@@ -4515,9 +4802,6 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => 'チケットIDが取得できませんでした！',
         'System Error!' => 'システム・エラー！',
-
-        # Perl Module: Kernel/Modules/AgentTicketEmailResend.pm
-        'No ArticleID is given!' => 'ArticleIDは指定されていません！',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
         'Next week' => '翌週',
@@ -4615,14 +4899,14 @@ sub Data {
         'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
             'チケット \'%s%s%s\'でこのアクティビティは存在しません。他のユーザーが変更した可能性があります。このウィンドウを閉じてリロードしてください。',
         'Missing ProcessEntityID in Ticket %s!' => 'チケット %sの ProcessEntityID が入力されていません！',
-        'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            'ActivityDialog "％s"のID "％s"を持つチケットの％sのダイナミック・フィールドの値を設定できませんでした！',
         'Could not set PendingTime for Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'ActivityDialog "%s"にID "%s"のチケットのPendingTimeを設定できませんでした！',
         'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!' =>
             'アクティビティダイアログ%sの設定が不正です。正しい値は1:表示しない / 0:表示する / 2:必須で表示する です!',
         'Could not set %s for Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '%s をチケットID %sに設定できませんでした(アクティビティダイアログ%s)!',
+        'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
+            'ActivityDialog "％s"のID "％s"を持つチケットの％sのダイナミック・フィールドの値を設定できませんでした！',
         'Default Config for Process::Default%s missing!' => 'Process::Default%s のデフォルト値が未指定となっています！',
         'Default Config for Process::Default%s invalid!' => 'Process::Default%s のデフォルト値が未指定となっています！',
 
@@ -4714,8 +4998,6 @@ sub Data {
         'Can\'t get for ArticleID %s!' => 'ArticleID%sを取得できません！',
         'Article filter settings were saved.' => '記事フィルタの設定が保存されました。',
         'Event type filter settings were saved.' => 'イベントフィルター設定が保存されました。',
-        'Need ArticleID!' => 'ArticleIDが必要です！',
-        'Invalid ArticleID!' => 'ArticleIDが無効です！',
         'Forward article via mail' => 'メール経由で記事を転送',
         'Forward' => '転送',
         'Fields with no group' => '',
@@ -4815,6 +5097,8 @@ sub Data {
             'Perlモジュール DBD::%sがインストールされていないため、DBに接続できませんでした。',
         'Can\'t connect to database, read comment!' => 'データベースに接続できません、コメントを読んで下さい！',
         'Database already contains data - it should be empty!' => '既にデータベースにデータが含まれている場合、空にしなければなりません。',
+        'Error: database version requirement not satisfied. Have version: %s Want version: %s' =>
+            '',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'エラー: DB側で%s MB以上のパケットを受け付けるように設定してください(現在 %s MBです)。DB側のmax_allowed_packet設定を確認してください。',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
@@ -4838,6 +5122,15 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Article/Chat.pm
         'Chat' => 'チャット',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleDelete.pm
+        'Delete this article' => '',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleEdit.pm
+        'Edit this article' => '',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleRestore.pm
+        'Restore this article' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
         'Bounce Article to a different mail address' => '異なるメールアドレスに記事をバウンス',
@@ -4870,6 +5163,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
         'Contact us at hello@otobo.de' => '連絡先: hello@otobo.de',
         'Get Help' => 'ヘルプを得る',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
+        'Mark article as unseen' => '',
+        'Mark as unseen' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
         'Mark' => 'マーク',
@@ -4978,10 +5275,6 @@ sub Data {
         'd' => '日',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
             '',
-        'This is a' => 'これは',
-        'email' => 'メール',
-        'click here' => 'ここをクリック',
-        'to open it in a new window.' => '新規ウィンドウを開く',
         'Year' => '年',
         'Hours' => '時間',
         'Minutes' => '分',
@@ -5059,9 +5352,6 @@ sub Data {
             '',
         'Preferences updated successfully!' => '個人設定を更新しました',
 
-        # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
-        '(in process)' => '(処理中)',
-
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => '',
 
@@ -5122,11 +5412,16 @@ sub Data {
         'Cancel editing and unlock this setting' => 'この設定の編集をキャンセルしてアンロックする',
         'Reset this setting to its default value.' => 'この設定をデフォルトの値にリセットする',
         'Unable to load %s!' => '%sを読み込めません！',
-        'Content' => '内容',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
         'Unlock to give it back to the queue' => 'キューに戻すためチケットをロック解除',
         'Lock it to work on it' => '作業するためチケットをロック',
+
+        # Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
+        'Hide deleted articles' => '',
+        'Click to hide deleted articles' => '',
+        'Show deleted articles' => '',
+        'Click to show deleted articles' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
         'Unwatch' => '監視解除',
@@ -5210,20 +5505,53 @@ sub Data {
         'This email address is already in use for another customer user.' =>
             '',
 
+        # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+        'Group of the agents' => '',
+        'Select the group of the agents' => '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
         'before/after' => '前／後',
         'between' => '期間中',
 
-        # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
         'e.g. Text or Te*t' => '例: Text または Te*t',
+        'Referenced object type' => '',
+        'Select the type of the referenced object' => '',
+        'Input mode of edit field' => '',
+        'Select the input mode for the edit field.' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '',
 
-        # Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
+        # Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+        'Attribute which will be searched on autocomplete' => '',
+        'Select the attribute which tickets will be searched by' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'この領域は必須です。または、',
         'The field content is too long!' => 'その領域の内容が長すぎます。',
         'Maximum size is %s characters.' => '最大サイズは%s文字です。',
+        'Full %s Text' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Type of the ticket' => '',
+        'Select the type of the ticket' => '',
+        'Attribute which is displayed for values' => '',
+        'Select the type of display' => '',
+
+        # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+        'Column Separator' => '桁のセパレータ',
+        'Tabulator (TAB)' => 'タブ (TAB)',
+        'Semicolon (;)' => 'セミコロン (;)',
+        'Colon (:)' => 'コロン (:)',
+        'Dot (.)' => 'ドット(.)',
+        'Comma (,)' => 'カンマ (,)',
+        'Charset' => 'キャラクタセット',
+        'Include Column Headers' => 'ヘッダ情報を含む',
+        'Column' => '桁',
+
+        # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
+        'Pretty print the exported concatenated JSON' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => '',
@@ -5353,8 +5681,6 @@ sub Data {
         'not installed' => '未インストール',
         'installed' => 'インストール済',
         'Unable to parse repository index document.' => 'リポジトリインデックスドキュメントを解析できません。',
-        'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
-            'このリポジトリ中でご利用のフレームワークのバージョンに対するパッケージが見つかりません。他のフレームワークのバージョンに対するパッケージのみ含まれます。',
         'File is not installed!' => 'ファイルがインストールされていません！',
         'File is different!' => '',
         'Can\'t read file!' => 'ファイルを読み込めません！',
@@ -5387,13 +5713,20 @@ sub Data {
         'quarter' => '四半期',
         'half-year' => '半期',
 
-        # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+        # Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
+        'unlimited' => '無制限',
+        'Attributes to be printed' => '印刷する属性',
+        'Sort sequence' => '並べ替え順序',
+        'State Historic' => 'ステータスの履歴',
         'State Type' => 'ステータス・タイプ',
+        'State Type Historic' => 'ステータス・タイプの履歴',
         'Created Priority' => '作成時の優先度',
         'Created State' => '作成されたステータス',
         'Create Time' => '作成日時',
+        'Article Create Time' => '',
         'Pending until time' => 'ある時間まで保留中',
         'Close Time' => 'クローズ時間',
+        'Historic Time Range' => '',
         'Escalation' => 'エスカレーション',
         'Escalation - First Response Time' => '対応期限 - 初回応答期限',
         'Escalation - Update Time' => '対応期限 - 更新期限',
@@ -5401,6 +5734,7 @@ sub Data {
         'Agent/Owner' => '担当者／所有者',
         'Created by Agent/Owner' => '作成した担当者／所有者',
         'Assigned to Customer User Login' => '顧客ユーザログインに割り当てられました。',
+        'Last Changed' => '最終変更日時',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => '評価',
@@ -5417,16 +5751,6 @@ sub Data {
         'Article Min Time' => '記事最少時間',
         'Article Max Time' => '記事最大時間',
         'Number of Articles' => '記事の数',
-
-        # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-        'unlimited' => '無制限',
-        'Attributes to be printed' => '印刷する属性',
-        'Sort sequence' => '並べ替え順序',
-        'State Historic' => 'ステータスの履歴',
-        'State Type Historic' => 'ステータス・タイプの履歴',
-        'Historic Time Range' => '',
-        'Number' => '番号',
-        'Last Changed' => '最終変更日時',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '平均解決時間',
@@ -5823,6 +6147,13 @@ sub Data {
         'Chat Participant' => '',
         'Chat Message Text' => 'チャットメッセージ本文',
 
+        # Perl Module: Kernel/System/Ticket/Mask.pm
+        'Base structure is not valid. Please provide an array with data in YAML format.' =>
+            '',
+        'Error parsing dynamic fields.' => '',
+        'No dynamic field "%s".' => '',
+        'Dynamic field "%s" not valid.' => '',
+
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Too many failed login attempts, please retry in %s s.' => '',
         'Login failed! Your user name or password was entered incorrectly.' =>
@@ -6002,6 +6333,10 @@ sub Data {
             '添付ファイル削除時にエラーが発生しました。詳細はログを確認してください。',
         'Attachment was deleted successfully.' => '添付ファイルが正常に削除されました。',
 
+        # JS File: Core.Agent.Admin.CustomerDashboardInfoTile
+        'Do you really want to delete this customer dashboard info tile entry?' =>
+            '',
+
         # JS File: Core.Agent.Admin.DynamicField
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
             'このダイナミック・フィールドを本当に削除しますか？全てのデータが失われます。',
@@ -6173,6 +6508,12 @@ sub Data {
         'Deleting the template and its data. This may take a while...' =>
             '',
 
+        # JS File: Core.Agent.Admin.Translations
+        'Missing Translations' => '',
+        'At least one translation must be filled!' => '',
+        'All translations must be filled!' => '',
+        'Close' => 'クローズ',
+
         # JS File: Core.Agent.AppointmentCalendar
         'Jump' => 'カレンダー',
         'Timeline Month' => '月間タイムライン',
@@ -6198,6 +6539,16 @@ sub Data {
         'Restore default settings' => 'デフォルト値に戻す',
         'Are you sure you want to delete this appointment? This operation cannot be undone.' =>
             '',
+
+        # JS File: Core.Agent.ArticleFeatures
+        'Article Delete' => '',
+        'Are you sure you want to delete this article?' => '',
+        'Article deleted successfully!' => '',
+        'Article already marked as deleted.' => '',
+        'Article Restore' => '',
+        'Are you sure you want to restore this article?' => '',
+        'Article restored successfully!' => '',
+        'Article not available for restoring.' => '',
 
         # JS File: Core.Agent.CustomerSearch
         'First select a customer user, then select a customer ID to assign to this ticket.' =>
@@ -6316,6 +6667,10 @@ sub Data {
         'Do you really want to revert this setting to its historical value?' =>
             '本当に過去の値に戻しますか?',
 
+        # JS File: Core.UI.CodeMirrorEditor
+        'Error trying to create CodeMirror instance, please check configuration!' =>
+            '',
+
         # JS File: Core.UI.Datepicker
         'Open date selection' => '対応開始日を選択',
         'Invalid date (need a future date)!' => '無効な日付です。 (未来の日付が必要)',
@@ -6368,6 +6723,12 @@ sub Data {
         'Upload information' => 'アップロード情報',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             '添付ファイル削除時にエラーが発生しました。再度試みてください。解決しないようでしたら管理者に連絡してください。',
+
+        # JS File: ITSM.Admin.ImportExport
+        'Deleting template...' => 'テンプレートを削除中…',
+        'There was an error deleting the template. Please check the logs for more information.' =>
+            'テンプレートの削除中にエラーが発生しました。詳細はログを確認してください。',
+        'Template was deleted successfully.' => 'テンプレートが正常に削除されました。',
 
         # JS File: Core.Language.UnitTest
         'yes' => 'はい',
@@ -6509,6 +6870,7 @@ Thanks for your help!
         'Agent Name' => '',
         'Agent Name + FromSeparator + System Address Display Name' => '担当者名 + 区切り子 + システムアドレス表示名',
         'Agent Preferences.' => '担当者のプリファレンス。',
+        'Agent Reference Dynamic Field With Data Search' => '',
         'Agent Statistics.' => '担当者に関する統計',
         'Agent User Search' => '担当者の検索',
         'Agent User Search.' => '担当者の検索',
@@ -6537,6 +6899,7 @@ Thanks for your help!
             '担当者Webインタフェース通知モジュールを使用して、マイサービスのチケット数を確認します。 このリンクを表示するかどうかを示す追加のアクセス制御は、 "グループ"キーと "rw：group1; move_into：group2"のようなコンテンツを使用して行うことができます。',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
+        'Agent reference dynamic field with data search.' => '',
         'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
             '',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
@@ -6651,11 +7014,16 @@ Thanks for your help!
         'Appointment notifications' => '予約通知',
         'Appointments' => '予約',
         'Arabic (Saudi Arabia)' => '',
+        'Article ID: %s was deleted by "%s" (%s)' => '',
+        'Article ID: %s was edited by "%s" (%s)' => '',
+        'Article ID: %s was restored by "%s" (%s)' => '',
+        'Article Version View' => '',
         'Article attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected).' =>
             '',
         'ArticleTree' => '',
+        'As soon as the move queue option dropdown is enabled for example in the AgentTicketZoom dialogue, it is possible to move tickets locked to other agents to another queue by activating this option.' =>
+            '',
         'Attachment Name' => '添付ファイル名',
-        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
         'Automated line break in text messages after x number of chars.' =>
             'X個の文字型の後の、テキスト・メッセージにおける自動化されたライン・ブレイク。',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -6747,7 +7115,6 @@ Thanks for your help!
             '通知を受け取りたいチケット通知を選択します。 必須としてチェックされたチケット通知を無効にすることは出来ません。',
         'Choose which notifications you\'d like to receive.' => '受信する通知を選択します。',
         'Christmas Eve' => 'クリスマスイブ',
-        'Close' => 'クローズ',
         'Close this ticket' => 'このチケットをクローズ',
         'Closed Tickets' => '',
         'Closed tickets (customer user)' => 'クローズ・チケット(顧客ユーザー)',
@@ -6825,10 +7192,12 @@ Thanks for your help!
         'Create Ticket' => 'チケットを作成',
         'Create a new calendar appointment linked to this ticket' => 'このチケットにリンクされている新しい予定を作成',
         'Create and manage Service Level Agreements (SLAs).' => 'サービスレベル契約 (SLA) の作成と管理',
+        'Create and manage advanced definitions for ticket masks.' => '',
         'Create and manage agents.' => '担当者の作成と管理',
         'Create and manage appointment notifications.' => '予定通知の作成と管理',
         'Create and manage attachments.' => '添付ファイルの作成と管理',
         'Create and manage calendars.' => 'カレンダーの作成と管理',
+        'Create and manage custom translations.' => '',
         'Create and manage customer users.' => '顧客ユーザーの作成と管理',
         'Create and manage customers.' => '顧客の作成と管理',
         'Create and manage dynamic fields.' => 'ダイナミック・フィールドの作成と管理',
@@ -6871,6 +7240,7 @@ Thanks for your help!
         'Customer Information Center search.' => '',
         'Customer Information Center.' => '',
         'Customer Password.' => '',
+        'Customer Reference Dynamic Field With Data Search' => '',
         'Customer Ticket Print Module.' => '',
         'Customer User Administration' => '顧客ユーザー管理',
         'Customer User Information' => '顧客ユーザー情報',
@@ -6888,10 +7258,13 @@ Thanks for your help!
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer preferences.' => '',
+        'Customer reference dynamic field with data search.' => '',
         'Customer ticket overview' => '顧客チケット一覧',
         'Customer ticket search.' => '顧客チケットの検索',
         'Customer ticket zoom' => '顧客チケット・ズーム',
         'Customer user search' => '顧客ユーザーの検索',
+        'CustomerCompany' => '',
+        'CustomerDashboard Info Tile' => '',
         'CustomerID search' => '顧客IDの検索',
         'CustomerName' => '顧客名',
         'CustomerUser' => 'CustomerUser（顧客ユーザ）',
@@ -6938,6 +7311,7 @@ Thanks for your help!
             '開始時刻のダイナミックフィールド名を定義します。 このフィールドは、チケット「日付/時刻」としてシステムに手動で追加する必要があり、チケット作成画面やその他のチケットアクション画面でアクティブにする必要があります。',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '開始時刻のダイナミックフィールド名を定義します。 このフィールドは、チケット「日付/時刻」としてシステムに手動で追加する必要があり、チケット作成画面やその他のチケットアクション画面でアクティブにする必要があります。',
+        'Define possible namespaces for dynamic fields.' => '',
         'Define the max depth of queues.' => '',
         'Define the queue comment 2.' => '',
         'Define the service comment 2.' => '',
@@ -7002,7 +7376,7 @@ Thanks for your help!
         'Defines all the possible stats output formats.' => '全ての可能な統計アウトプットのフォーマットを定義します。',
         'Defines an alternate URL, where the login link refers to.' => 'ログイン・リンクが参照する、代替URLを定義します。',
         'Defines an alternate URL, where the logout link refers to.' => 'ログアウト・リンクが参照する、代替URLを定義します。',
-        'Defines an alternate login URL for the customer panel..' => '顧客パネルのための代替ログインURLを定義します。',
+        'Defines an alternate login URL for the customer panel.' => '',
         'Defines an alternate logout URL for the customer panel.' => '顧客パネルのための代替ログアウトURLを定義します。',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
             '',
@@ -7025,6 +7399,8 @@ Thanks for your help!
         'Defines how many deployments the system should keep.' => '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             'EメールのFromフィールドについて（回答およびEメールチケットからの目標）が、どのように見えるべきかを定義します。',
+        'Defines if CSV-mappings are re-created on next package reinstallation or upgrade if already existent.' =>
+            '',
         'Defines if a pre-sorting by priority should be done in the queue view.' =>
             '',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
@@ -7100,12 +7476,16 @@ Thanks for your help!
             '',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
             '',
+        'Defines if the ticket info widget is displayed permanently on the left below the article list or is available via click on the \'Information\' button.' =>
+            '',
         'Defines if the values for filters should be retrieved from all available tickets. If enabled, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
             '',
-        'Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
+        'Defines if time accounting is mandatory in the agent interface, if a note is entered.' =>
             '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'タイム・アカウンティングがバルク・アクションにおける全てのチケットに対して、必ず設定されるかどうかを定義します。',
+        'Defines if user can modify all possible values/labels of dynamic fields in one data table.' =>
+            '',
         'Defines internal communication channel.' => '内部コミュニケーション・チャネルを定義します。',
         'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
             '',
@@ -7149,6 +7529,10 @@ Thanks for your help!
         'Defines the communication chanel for the quick close article action.' =>
             '',
         'Defines the config options for the autocompletion feature.' => '',
+        'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketSeenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
+            '',
+        'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketUnseenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
+            '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             '本アイテムのコンフィグ・パラメータを、プレファレンス・ビューで表示されるように定義します。',
         'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -7158,9 +7542,11 @@ Thanks for your help!
         'Defines the connections for http/ftp, via a proxy.' => 'プロキシ経由で、http/ftpのための接続を定義します。',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             '',
+        'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'フォームで使用されるデータ・インプット・フォーマットを定義します（オプションまたはインプット・フィールド）。',
-        'Defines the default CSS used in rich text editors.' => 'リッチテキスト・エディターで使用されるデフォルトCSSを定義します。',
+        'Defines the default CSS for creating CKEditor articles.' => '',
+        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             '',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7169,10 +7555,10 @@ Thanks for your help!
             '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、メモのデフォルトの本文を定義します。',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '顧客ユーザーのアドレス帳の検索（CustomerUser又はCustomerCompany）のデフォルトのフィルターフィールドを定義します。 CustomerCompanyフィールドには、接頭辞 \'CustomerCompany_\'を追加する必要があります。',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
+        'Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
             '',
-        'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
-            'デフォルトのフロント・エンドの言語を設定します。全ての可能性ある値は、システムの利用可能な言語ファイルによって定義されます（次の設定を参照ください)。.',
+        'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
+            '',
         'Defines the default history type in the customer interface.' => '顧客インタフェースのデフォルトの履歴タイプを定義します。',
         'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
             '',
@@ -7477,6 +7863,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Defines the module to display a notification in the customer interface, if the customer user has not yet selected a time zone.' =>
             '',
+        'Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info.' =>
+            '',
         'Defines the module to generate code for periodic page reloads.' =>
             '',
         'Defines the module to send emails. "DoNotSendEmail" doesn\'t send emails at all. Any of the "SMTP" mechanisms use a specified (external) mailserver. "Sendmail" directly uses the sendmail binary of your operating system. "Test" doesn\'t send emails, but writes them to $OTOBO_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes.' =>
@@ -7580,6 +7968,10 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
             '',
+        'Defines the redirect URL for setting a ticket article to \'seen\'.' =>
+            '',
+        'Defines the redirect URL for setting a ticket article to \'unseen\'.' =>
+            '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '統計に関する検索のリミットを定義します。',
@@ -7650,6 +8042,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
+        'Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.' =>
+            '',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
             '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
@@ -7673,6 +8067,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
             '',
         'Delete expired cache from core modules.' => '',
+        'Delete expired form cache hourly.' => '',
         'Delete expired loader cache weekly (Sunday mornings).' => '',
         'Delete expired sessions.' => '期限切れのセッションデータを削除する。',
         'Delete expired ticket draft entries.' => '期限切れのチケット下書きエントリを削除します。',
@@ -7690,6 +8085,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'チケットへ移動していくであろう、可能性あるキューのリストが、担当者インタフェースにドロップ・ダウン・リストまたは新規ウィンドウとして表示されるべきかどうかを定義します。"New Window"を設定した場合、チケットに移動メモを追加することができます。',
+        'Determines if the statistics module may generate article lists.' =>
+            '',
         'Determines if the statistics module may generate ticket lists.' =>
             'レポート・モジュールがチケットリストを生成するかどうかを決定します。',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
@@ -7720,6 +8117,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '顧客インタフェースで、チケットの受信者としてどのキューを有効とするかを定義します。',
+        'Dialog to show after marking a ticket as seen' => '',
+        'Dialog to show after marking a ticket as unseen' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'HTTPヘッダ"Content-Security-Policy”を無効化し、外部のスクリプトコンテンツの読み込みを許可します。 このHTTPヘッダを無効にすることにより、セキュリティ上の問題が生じることがあります! 変更内容をよく理解している場合に限り無効化を実行してください!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -7734,33 +8133,50 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Display communication log entries.' => 'コミュニケーション・ログのエントリを表示します。',
         'Display settings to override defaults for Process Tickets.' => '',
+        'Display settings to override defaults for dynamic field widget for Tickets.' =>
+            '',
+        'Displayable via click' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'チケット・ズーム・ビューで、項目に関してアカウントされた時間を表示します。',
         'Displays the number of all tickets with the same CustomerID as current ticket in the ticket zoom view.' =>
             '',
-        'Down' => '降順',
         'Dropdown' => 'ドロップダウン',
         'Dutch' => 'オランダ語',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             '',
+        'Dynamic Field Contents' => '',
+        'Dynamic Field Information' => '',
+        'Dynamic Field Labels' => '',
+        'Dynamic Field Set' => '',
+        'Dynamic Field Set Backend GUI' => '',
         'Dynamic Fields Checkbox Backend GUI' => 'ダイナミックフィールド・チェックボックス・バックエンドGUI',
         'Dynamic Fields Contact Data Backend GUI' => '',
         'Dynamic Fields Database Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => 'ダイナミック・フィールド・日時バックエンドGUI',
         'Dynamic Fields Drop-down Backend GUI' => 'ダイナミック・フィールド・ドロップダウン・バックエンドGUI',
         'Dynamic Fields GUI' => 'ダイナミックフィーールドのGUI',
+        'Dynamic Fields Lens Backend GUI' => '',
         'Dynamic Fields Multiselect Backend GUI' => 'ダイナミック・フィールド複数選択バックエンドGUI',
         'Dynamic Fields Overview Limit' => 'ダイナミック・フィールド一覧の表示数',
+        'Dynamic Fields Reference Backend GUI' => '',
         'Dynamic Fields Text Backend GUI' => 'ダイナミックフィールド・テキストバックエンドGUI',
         'Dynamic Fields Web Service Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '検索結果をCSVフォーマットでエクスポートする際に利用するダイナミック・フィールドです。',
+        'Dynamic field event module that deletes script field events if a dynamic field of type script gets deleted.' =>
+            '',
+        'Dynamic field event module that updates PartOfSet attributes of fields which are included in a set.' =>
+            '',
+        'Dynamic fields groups for dynamic field widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
+            '',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview.' => 'ダイナミック・フィールド一覧内のダイナミック・フィールド表示上限数',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
+            '',
+        'Dynamic fields shown in the dynamic field widget in ticket zoom screen of the agent interface.' =>
             '',
         'Dynamic fields shown in the email outbound screen of the agent interface.' =>
             '担当者インタフェースの電子メール送信画面に表示するダイナミック・フィールド',
@@ -7846,6 +8262,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Enables file upload in the package manager frontend.' => 'パッケージ・マネジャー・フロントエンドでの、ファイル・アップロードを有効にします。',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             '',
+        'Enables or disables the debug mode for translations module.' => '',
         'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '所有者または責任者になること無くチケットのコールバックを続けるため、チケット監視機能を有効または無効にします。',
@@ -7875,6 +8292,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Escalation view' => '対応期限・ビュー',
         'EscalationTime' => '対応期限',
         'Estonian' => 'エストニア語',
+        'Evaluate all script fields.' => '',
         'Event module registration (store historical data in dynamic fields).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
@@ -7969,6 +8387,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'French stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Frontend' => 'フロントエンド',
+        'Frontend module for dashboard info tile in customer interface.' =>
+            '',
         'Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).' =>
             'フロントエンド・モジュールの登録 (チケット・サービス機能が使われていない場合、AgentTicketServiceリンクは無効)。',
         'Frontend module registration (disable company link if no company feature is used).' =>
@@ -7987,6 +8407,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Fulltext search using Elasticsearch.' => '',
         'FulltextES' => '',
         'Galician' => 'ガリシア語',
+        'General Label' => '',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'Generate HTML comment hooks for the specified blocks so that filters can use them.' =>
@@ -8106,6 +8527,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'もしログ・モジュールに関して"File"が選択されていた場合、ログ・ファイルが必ず特定されます。もしファイルが存在しなければ、システムにより作成されます。',
+        'If activated, a clicked activity button will be hidden in the customer ticket zoom frontend.' =>
+            '',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             '',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -8166,7 +8589,9 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Ignores not ticket related attributes.' => '',
+        'Import and export object information.' => 'オブジェクト情報のインポートとエクスポートをします。',
         'Import appointments screen.' => '予約画面をインポート',
+        'Import/Export' => 'インポート/エクスポート',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '',
         'Include unknown customers in ticket filter.' => '',
@@ -8200,7 +8625,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'JavaScript function for the search frontend.' => '',
         'Jump to OTOBO!' => '',
         'Korean' => '',
-        'Language' => '言語',
+        'Languages' => '',
         'Large' => '大',
         'Last Screen Overview' => '',
         'Last customer subject' => '',
@@ -8210,7 +8635,9 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Lastname, Firstname (UserLogin)' => '名, 姓 (ユーザー名)',
         'LastnameFirstname' => '',
         'Latvian' => 'ラトビア語',
+        'Lax' => '',
         'Left' => 'のこり',
+        'Lens' => '',
         'Link Object' => '連結対象',
         'Link Object.' => 'リンク・オブジェクト',
         'Link agents to groups.' => '担当者をグループへ連結',
@@ -8255,8 +8682,12 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'List of responsive CSS files to always be loaded for the customer interface.' =>
             '',
         'List of states for which escalations should be suspended.' => '対応期限を一時停止するステータス一覧。',
+        'List of ticket masks which can be altered using AdminTicketMask.' =>
+            '',
         'List view' => 'リストビュー',
         'Lithuanian' => 'リトアニア語',
+        'Loader module for dashboard info tile in customer interface.' =>
+            '',
         'Loader module registration for the agent interface.' => '担当者Webインタフェースのローダーモジュール登録',
         'Loader module registration for the customer interface.' => '',
         'Lock / unlock this ticket' => 'このチケットをロック/アンロックします',
@@ -8281,6 +8712,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'セッション管理に、htmlクッキーを使用させるようにします。htmlクッキーが無効にされている場合、またはクライアント・ブラウザがhtmlクッキーを無効にしている場合、システムは通常どおり動作し、またセッションIDをリンクに付け加えます。',
         'Malay' => 'マレー語',
+        'Manage Customer Dashboard Info Tile Entries' => '',
         'Manage OTOBO Team cloud services.' => 'OTOBOチームのクラウドサービスを管理します。',
         'Manage PGP keys for email encryption.' => 'メール暗号用のPGP鍵管理',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'メール受信用POP3/IMAPアカウント管理',
@@ -8292,8 +8724,11 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Manage support data.' => 'サポート情報の管理',
         'Manage system registration.' => 'システム登録の管理',
         'Manage tasks triggered by event or time based execution.' => 'イベントトリガーまたは時間ベースで実行されるタスクの管理',
+        'Manage ticket state pre-selections for response templates.' => '',
         'Mark as Spam!' => '迷惑メールにする',
         'Mark this ticket as junk!' => 'このチケットをジャンクとしてマークします!',
+        'Mark ticket as seen' => '',
+        'Mark ticket as unseen' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -8423,6 +8858,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             'OTOBOは、フルテキスト検索や統計生成などの高価な操作に、1つまたは複数の読み取り専用ミラーデータベースを使用できます。 ここでは、最初のミラーデータベースのDSNを指定できます。',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
+        'Object backend module registration for the import/export module.' =>
+            '',
         'Objects to search for, how many entries and which attributs to show.' =>
             '',
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
@@ -8540,6 +8977,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'People' => '担当者/顧客',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>
             '',
+        'Permanent' => '',
         'Permitted width for compose email windows.' => 'Eメール・ウィンドウを構成するために許容される幅です。',
         'Permitted width for compose note windows.' => 'メモ・ウィンドウを構成するために許容される幅です。',
         'Persian' => 'ペルシア語',
@@ -8593,7 +9031,19 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => '更新間隔',
+        'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>
+            '',
+        'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as unseen.' =>
+            '',
+        'Registers a link in the ticket menu to mark a ticket as seen.' =>
+            '',
+        'Registers a link in the ticket menu to mark a ticket as unseen.' =>
+            '',
         'Registers a log module, that can be used to log communication related information.' =>
+            '',
+        'Registration of the CSV format backend module for the ImportExport feature.' =>
+            '',
+        'Registration of the JSON format backend module for the ImportExport feature.' =>
             '',
         'Reminder Tickets' => '保留期限切れチケット',
         'Removed subscription for user "%s".' => 'Removed subscription for user "%s".',
@@ -8655,6 +9105,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
+        'Richtext' => '',
         'Right' => '権限',
         'Roles ↔ Groups' => 'ロールーグループ',
         'Romanian' => '',
@@ -8671,12 +9122,14 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Russian' => 'ロシア語',
         'S/MIME Certificates' => 'S/MIME証明書',
+        'SLAs' => '',
         'Salutations' => '挨拶文',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
             '',
         'Schedule a maintenance period.' => 'メンテナンス期間をスケジュール',
         'Screen after new ticket' => '新規チケット作成後の画面',
+        'Script (Template Toolkit)' => '',
         'Search Customer' => '顧客を検索します。',
         'Search Ticket.' => 'チケットを検索する。',
         'Search Tickets.' => 'チケットを検索する。',
@@ -8712,7 +9165,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Bccを経由して特定されたアドレスに送信Eメールを送ります。バックアップ目的のためにのみ使用してください。',
         'Sends customer notifications just to the mapped customer.' => '',
-        'Sends registration information to OTOBO group.' => '',
+        'Sends registration information to Rother OSS.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'リマインダ日付を迎えたら、アンロック・チケットのリマインダ通知を送信します（チケット所有者だけに送信されます）。',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
@@ -8959,12 +9412,14 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Show article as rich text even if rich text writing is disabled.' =>
             'リッチ・テキストのライティングが無効にされている場合でも、項目をリッチ・テキストで表示します。',
         'Show command line output.' => '',
+        'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
         'Show the history for this ticket' => 'このチケットの履歴を表示',
         'Show the ticket history' => 'チケットの履歴を表示',
         'Show various content.' => '',
+        'ShowHideDeletedArticles' => '',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             '',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -9029,6 +9484,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             '担当者インタフェースの全チケット一覧で、チケットの優先度を設定するためのリンクをメニューに表示します。',
+        'Shows a link in the menu to show/hide deleted articles in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>
             '担当者インタフェースの全チケット一覧で、チケットにズームするためのリンクをメニューに表示します。',
         'Shows a link to access article attachments via a html online viewer in the zoom view of the article in the agent interface.' =>
@@ -9218,6 +9675,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => '統計番号',
+        'State pre-selection for Templates' => '',
         'States' => 'ステータス',
         'Statistics overview.' => 'レポート一覧',
         'Statistics reports.' => '',
@@ -9226,6 +9684,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Stopped solution time escalation.' => '解決期限を停止しました。',
         'Stopped update time escalation.' => '更新期限を停止しました。',
         'Stores cookies after the browser has been closed.' => 'ブラウザが閉じられた後に、クッキーを格納します。',
+        'Strict' => '',
         'Strips empty lines on the ticket preview in the queue view.' => 'キュー画面で、チケット・プレビューの空の行を削除します。',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
@@ -9233,6 +9692,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Suspend already escalated tickets.' => '',
         'Swahili' => 'スワヒリ語',
         'Swedish' => 'スウェーデン語',
+        'Switch deleted article status view' => '',
+        'Switch deleted article status view.' => '',
         'System Address Display Name' => 'システムアドレスの表示名',
         'System Configuration Deployment' => 'システム設定のデプロイ',
         'System Configuration Group' => 'システム設定グループ',
@@ -9324,6 +9785,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'This option defines the process tickets default priority.' => 'このオプションは、プロセスチケットの標準重要度を定義します。',
         'This option defines the process tickets default queue.' => 'このオプションは、プロセスチケットの標準キューを定義します。',
         'This option defines the process tickets default state.' => 'このオプションは、プロセスチケットのデフォルトのステータスを定義します。',
+        'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
+            '',
         'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
@@ -9340,6 +9803,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Ticket FreeText.' => 'チケットのフリーテキスト',
         'Ticket History.' => 'チケット履歴を見る',
         'Ticket Lock.' => 'チケットをロックする',
+        'Ticket Masks' => '',
         'Ticket Merge.' => 'チケットを結合する',
         'Ticket Move.' => 'チケットを移動する',
         'Ticket Note.' => 'チケットに記事を残す',
@@ -9354,6 +9818,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Ticket Priority.' => 'チケットの優先度',
         'Ticket Queue Overview' => 'チケット・キュー一覧',
         'Ticket Responsible.' => 'チケット責任者',
+        'Ticket States' => '',
+        'Ticket Types' => '',
         'Ticket Watcher' => 'チケット監視者',
         'Ticket Zoom' => 'チケットのズーム',
         'Ticket Zoom.' => 'チケット・ズーム',
@@ -9369,6 +9835,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Ticket overview' => 'チケット一覧',
         'Ticket plain view of an email.' => 'メール用チケット簡易表示',
         'Ticket split dialog.' => 'チケット分割ダイアログ',
+        'Ticket state pre-selection for response templates' => '',
         'Ticket title' => 'チケットタイトル',
         'Ticket zoom view.' => 'チケット・ズーム・ビュー',
         'TicketNumber' => 'チケット番号',
@@ -9376,6 +9843,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '',
         'Tickets.' => 'チケット',
         'Tile registration for the CustomerDashboard. Module is required.' =>
+            '',
+        'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '保留中のステートを設定した場合、実際の時間に加えられる時間（秒）です。(default: 86400 = 1 day)',
@@ -9385,6 +9854,10 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+            '',
+        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
@@ -9409,7 +9882,6 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             'メモが追加され、所有者が外出中の場合は、チケットのロックを解除します。',
         'Unlocked ticket.' => 'Unlocked ticket.',
-        'Up' => '昇順',
         'Upcoming Events' => '直近のイベント',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '全ての項目が確認された、または新規のArticleが作成された場合に、チケット“Seen”フラグをアップデートします。',
@@ -9432,6 +9904,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '作成と表示確認にリッチテキストを利用します。: 記事、挨拶、署名、標準テンプレート、自動応答と通知',
         'Vietnam' => 'ベトナム',
         'View performance benchmark results.' => 'パフォーマンス・ベンチマーク結果を見る。',
+        'View stored article version.' => '',
         'Watch this ticket' => 'このチケットを見る。',
         'Watched Tickets' => '監視チケット',
         'Watched Tickets.' => '監視チケット',
@@ -9440,8 +9913,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             '定期メンテナンスを実施中です。ログインはしばらくお待ちください。',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             '定期メンテナンスを実施中です。',
-        'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS version 2-6 and OTOBO 10..' =>
-            'OTOBO 10.1からデフォルトのチケットをロック解除する動作が変更されました。これにより、チケットのロックが解除されるだけでなく、システムユーザーに再度渡されます。 動作はより明確になりましたが、チケットを最後に編集したのは誰かを読み取ることができなくなっています。OTRSの時の動作に戻したい場合は、このオプションを無効にして下さい。。',
+        'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
+            '',
         'Web Service' => 'Webサービス',
         'Web Services' => 'Webサービス',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
@@ -9515,6 +9988,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Add to favourites',
         'Agent',
         'All occurrences',
+        'All translations must be filled!',
         'All-day',
         'An error occurred during communication.',
         'An error occurred! Please check the browser error log for more details!',
@@ -9527,13 +10001,22 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Apr',
         'April',
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
+        'Are you sure you want to delete this article?',
         'Are you sure you want to remove all user values?',
+        'Are you sure you want to restore this article?',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
+        'Article Delete',
+        'Article Restore',
+        'Article already marked as deleted.',
+        'Article deleted successfully!',
         'Article display',
         'Article filter',
+        'Article not available for restoring.',
+        'Article restored successfully!',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
         'Ascending sort applied, ',
+        'At least one translation must be filled!',
         'Attachment was deleted successfully.',
         'Attachments',
         'Aug',
@@ -9554,6 +10037,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Click to select files or just drop them here.',
         'Click to select or drop files here.',
         'Clone web service',
+        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',
@@ -9583,8 +10067,10 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Delete this Operation',
         'Delete this PostMasterFilter',
         'Delete this Template',
+        'Delete this template',
         'Delete web service',
         'Deleting attachment...',
+        'Deleting template...',
         'Deleting the field and its data. This may take a while...',
         'Deleting the mail account and its data. This may take a while...',
         'Deleting the postmaster filter and its data. This may take a while...',
@@ -9601,6 +10087,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Do you really want to continue?',
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
+        'Do you really want to delete this customer dashboard info tile entry?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
@@ -9625,6 +10112,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Error during AJAX communication',
         'Error during AJAX communication. Status: %s, Error: %s',
         'Error in the mail settings. Please correct and try again.',
+        'Error trying to create CodeMirror instance, please check configuration!',
         'Error: Browser Check failed!',
         'Event Type Filter',
         'Expanded',
@@ -9645,6 +10133,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'If you now leave this page, all open popup windows will be closed, too!',
         'Ignore',
         'Import web service',
+        'Information',
         'Information about the OTOBO Daemon',
         'Invalid date (need a future date)!',
         'Invalid date (need a past date)!',
@@ -9676,6 +10165,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'May',
         'May_long',
         'Migrate',
+        'Missing Translations',
         'Mo',
         'Mon',
         'Monday',
@@ -9800,6 +10290,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Switch to mobile mode',
         'System Registration',
         'Team',
+        'Template was deleted successfully.',
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
@@ -9813,6 +10304,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',
+        'There was an error deleting the template. Please check the logs for more information.',
         'There was an error. Please save all settings you are editing and check the logs for more information.',
         'This Activity cannot be deleted because it is the Start Activity.',
         'This Activity is already used in the Process. You cannot add it twice!',

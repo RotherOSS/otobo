@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.87775487553512;
+    $Self->{Completeness}        = 0.829825616355983;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -43,6 +43,8 @@ sub Data {
 
         # Template: AdminACL
         'ACL Management' => 'ACL 관리',
+        'Filter by valid state' => '',
+        'Include invalid ACLs' => '',
         'Actions' => '행동',
         'Create New ACL' => '새 ACL',
         'Deploy ACLs' => 'ACL 배포',
@@ -119,6 +121,7 @@ sub Data {
         'Calendar Management' => '캘린더 관리',
         'Add Calendar' => '캘린더 추가',
         'Edit Calendar' => '캘린더 수정',
+        'Include invalid calendars' => '',
         'Calendar Overview' => '캘린더 개요',
         'Add new Calendar' => '새 캘린더 추가',
         'Import Appointments' => '예약 Import',
@@ -187,6 +190,8 @@ sub Data {
         'Appointment Notification Management' => '약속 알림 관리',
         'Add Notification' => '알림 추가',
         'Edit Notification' => '알림 수정',
+        'Include invalid appointment notifications' => '',
+        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '알림 Export',
         'Filter for Notifications' => '알림 필터',
         'Filter for notifications' => '알림 필터',
@@ -271,6 +276,7 @@ sub Data {
         'Attachment Management' => '첨부파일 관리',
         'Add Attachment' => '첨부파일 추가',
         'Edit Attachment' => '첨부파일 편집',
+        'Include invalid attachments' => '',
         'Filter for Attachments' => '첨부파일 필터링',
         'Filter for attachments' => '첨부파일 필터링',
         'Filename' => '파일 이름',
@@ -283,6 +289,7 @@ sub Data {
         'Auto Response Management' => '자동 응답 관리',
         'Add Auto Response' => '자동 응답 추가',
         'Edit Auto Response' => '자동 응답 수정',
+        'Include invalid auto responses' => '',
         'Filter for Auto Responses' => '자동 응답 필터링',
         'Filter for auto responses' => '자동 응답 필터링',
         'Response' => '응답',
@@ -425,12 +432,34 @@ sub Data {
         'Customer Management' => '고객 관리',
         'Add Customer' => '고객 추가',
         'Edit Customer' => '고객 편집',
+        'Include invalid customer companies' => '',
         'List (only %s shown - more available)' => '목록 ( %s 보여짐 - 더있음)',
         'total' => '총',
         'Please enter a search term to look for customers.' => '고객을 찾으려면 검색어를 입력하십시오.',
         'Customer ID' => '고객 ID',
         'Please note' => '주의 사항',
         'This customer backend is read only!' => '이 고객 백엔드는 읽기전용입니다!',
+
+        # Template: AdminCustomerDashboardInfoTile
+        'Customer Info' => '',
+        'Customer Info Management' => '',
+        'Create new info tile entry' => '',
+        'Filter for info tile entries' => '',
+        'Create a new entry to be displayed on the info tile on the customer dashboard.' =>
+            '',
+        'Stop date' => '종료 날짜',
+        'Delete info tile entry' => '',
+
+        # Template: AdminCustomerDashboardInfoTileEdit
+        'Edit customer dashboard info tile entry' => '',
+        'Date invalid!' => '날짜가 잘못 되었습니다!',
+        'Tile content' => '',
+        'Content Body' => '',
+        'Marquee content' => '',
+        'Group Selection' => '',
+
+        # Template: AdminCustomerDashboardInfoTileNew
+        'Create new customer dashboard info tile entry' => '',
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => '고객-그룹 관계 관리',
@@ -466,6 +495,7 @@ sub Data {
         'Customer User Management' => '고객 사용자 관리',
         'Add Customer User' => '고객 사용자 추가',
         'Edit Customer User' => '고객 사용자 편집',
+        'Include invalid customer users' => '',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '고객 사용자는 고객 기록을 보유하고 고객 패널을 통해 로그인해야 합니다.',
         'List (%s total)' => '목록 (%s 총)',
@@ -530,9 +560,14 @@ sub Data {
 
         # Template: AdminDynamicField
         'Dynamic Fields Management' => '동적 필드 관리',
-        'Add new field for object' => '객체에 대한 새 필드 추가',
+        'Include invalid dynamic fields' => '',
         'Filter for Dynamic Fields' => '동적 필드 필터링',
         'Filter for dynamic fields' => '동적 필드 필터링',
+        'Filter field by object type' => '',
+        'Filter field by namespace' => '',
+        'Add new field for object' => '객체에 대한 새 필드 추가',
+        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            '새 필드를 추가하려면 객체 목록 중 하나에서 필드 유형을 선택하십시오. 객체는 필드의 경계를 정의하며 필드 작성 후에는 변경할 수 없습니다.',
         'New Dynamic Fields' => '',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             '',
@@ -544,13 +579,13 @@ sub Data {
             '외부 웹 서비스는 이 동적 필드의 데이터 소스로 구성될 수 있습니다.',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             '이 기능을 사용하면 데이터가 있는 연락처를 티켓에 추가 할 수 있습니다.',
-        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            '새 필드를 추가하려면 객체 목록 중 하나에서 필드 유형을 선택하십시오. 객체는 필드의 경계를 정의하며 필드 작성 후에는 변경할 수 없습니다.',
         'Dynamic Fields List' => '동적 필드 목록',
         'Dynamic fields per page' => '페이지 당 동적 필드',
         'Label' => '상표',
         'Order' => '주문',
         'Object' => '목적',
+        'Clone' => '클론',
+        'Clone from this field' => '',
         'Delete this field' => '이 입력란을 삭제하십시오.',
 
         # Template: AdminDynamicFieldAdvanced
@@ -579,6 +614,9 @@ sub Data {
         'This field is required and must be numeric.' => '이 필드는 필수이며 숫자여야 합니다.',
         'This is the order in which this field will be shown on the screens where is active.' =>
             '이 필드가 활성화 된 화면에 표시되는 순서입니다.',
+        'Namespace' => '네임 스페이스',
+        'This is the namespace in which this field will be used as prefix with the name.' =>
+            '',
         'Tooltip message:' => '',
         'This is the tooltip message shown inside the customer interface.' =>
             '',
@@ -593,6 +631,9 @@ sub Data {
         'Field Settings' => '필드 설정',
         'Default value' => '기본값',
         'This is the default value for this field.' => '이 필드의 기본값입니다.',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -693,6 +734,22 @@ sub Data {
         'Fields' => '전지',
         'Screens' => '',
 
+        # Template: AdminDynamicFieldReference
+        'Check ReferenceFilter' => '',
+        'Below you can configure filters to restrict the list of referenced objects. The filters compare an attribute of the referenced object either to an attribute of the mask you are currently editing or to a fixed string.' =>
+            '',
+        'Object attribute' => '',
+        'Select an attribute of the referenced object by which the selectable entries will be filtered.' =>
+            '',
+        'Invalid ReferenceFilter_ReferenceObjectAttribute' => '',
+        'matches mask attribute' => '',
+        'Select an attribute of the edit mask to compare the selected attribute of the referenced object against.' =>
+            '',
+        'matches string' => '',
+        'Type a string to compare the selected attribute of the referenced object against.' =>
+            '',
+        'Add ReferenceFilter' => '',
+
         # Template: AdminDynamicFieldScreen
         'Management of Dynamic Fields <-> Screens' => '',
         'Overview' => '개요',
@@ -719,13 +776,18 @@ sub Data {
         'Assigned Required Elements' => '',
         'Reset' => '리셋',
 
-        # Template: AdminDynamicFieldText
-        'Number of rows' => '행 수',
-        'Specify the height (in lines) for this field in the edit mode.' =>
-            '편집 모드에서이 필드의 높이를 (줄 단위로) 지정하십시오.',
-        'Number of cols' => '열 수',
-        'Specify the width (in characters) for this field in the edit mode.' =>
-            '편집 모드에서이 필드의 너비 (문자)를 지정하십시오.',
+        # Template: AdminDynamicFieldScript
+        'Expression' => '',
+        'The function which will be evaluated.' => '',
+        'Requirements' => '',
+        'If set, the function will only be evaluated if all chosen attributes are set.' =>
+            '',
+        'Preview Triggers' => '',
+        'If set, the field will be recalculated upon AJAX updates in edit masks.' =>
+            '',
+        'Storage Triggers (Events)' => '',
+        'If set, the field will be recalculated for the following events.' =>
+            '',
         'Check RegEx' => 'RegEx 확인',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
             '여기서 정규 표현식을 지정하여 값을 확인할 수 있습니다. 정규 표현식은 xms 수정 자로 실행됩니다.',
@@ -733,6 +795,18 @@ sub Data {
         'Invalid RegEx' => '정규식이 잘못되었습니다.',
         'Error Message' => '에러 메시지',
         'Add RegEx' => '정규 표현식 추가',
+
+        # Template: AdminDynamicFieldSet
+        'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
+            '',
+
+        # Template: AdminDynamicFieldText
+        'Number of rows' => '행 수',
+        'Specify the height (in lines) for this field in the edit mode.' =>
+            '편집 모드에서이 필드의 높이를 (줄 단위로) 지정하십시오.',
+        'Number of cols' => '열 수',
+        'Specify the width (in characters) for this field in the edit mode.' =>
+            '편집 모드에서이 필드의 너비 (문자)를 지정하십시오.',
 
         # Template: AdminDynamicFieldTitle
         'Template' => '템플릿',
@@ -778,6 +852,7 @@ sub Data {
         'Edit Job' => '',
         'Add Job' => '',
         'Run Job' => '',
+        'Include invalid jobs' => '',
         'Filter for Jobs' => '',
         'Filter for jobs' => '',
         'Last run' => '마지막 실행',
@@ -1131,17 +1206,22 @@ sub Data {
         # Template: AdminGenericInterfaceMappingXSLT
         'General Shortcuts' => '일반 단축키',
         'MacOS Shortcuts' => 'MacOS 단축키',
-        'Comment code' => '주석 코드',
-        'Uncomment code' => '코드 주석 처리 해제',
-        'Auto format code' => '자동 형식 코드',
-        'Expand/Collapse code block' => '확장 / 축소 코드 블록',
+        'Comment/Uncomment code' => '',
+        'Auto indent code' => '',
+        'Jump to line' => '',
+        'Autocomplete' => '',
         'Find' => '찾기',
         'Find next' => '다음 찾기',
         'Find previous' => '이전 찾기',
         'Find and replace' => '찾기 및 바꾸기',
-        'Find and replace all' => '모두 찾기 및 바꾸기',
+        'Full Screen' => '',
+        'Exit full screen' => '',
         'XSLT Mapping' => 'XSLT 매핑',
         'XSLT stylesheet' => 'XSLT 스타일 시트',
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => '입력 한 데이터가 유효한 XSLT 스타일 시트가 아닙니다.',
         'Here you can add or modify your XSLT mapping code.' => '여기에서 XSLT 매핑 코드를 추가하거나 수정할 수 있습니다.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1230,6 +1310,9 @@ sub Data {
         'The user name to be used to access the remote system.' => '원격 시스템에 액세스하는 데 사용할 사용자 이름.',
         'BasicAuth Password' => 'BasicAuth 비밀번호',
         'The password for the privileged user.' => '권한있는 사용자의 암호입니다.',
+        'Kerberos User' => '',
+        'Kerberos keytab file' => '',
+        'The kerberos keytab file for the privileged user.' => '',
         'Use Proxy Options' => '프록시 옵션 사용',
         'Show or hide Proxy options to connect to the remote system.' => '원격 시스템에 연결하기위한 프록시 옵션 표시 또는 숨기기.',
         'Proxy Server' => '프록시 서버',
@@ -1305,7 +1388,6 @@ sub Data {
         'Usually .Net web services use "/" as separator.' => '일반적으로 .Net 웹 서비스는 구분 기호로 "/"를 사용합니다.',
         'SOAPAction free text' => 'SOAPAction 자유 텍스트',
         'Text to be used to as SOAPAction.' => 'SOAPAction로서 사용되는 텍스트.',
-        'Namespace' => '네임 스페이스',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI는 SOAP 메소드에 컨텍스트를 제공하여 모호성을 줄입니다.',
         'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
@@ -1339,9 +1421,9 @@ sub Data {
         # Template: AdminGenericInterfaceWebservice
         'Add Web Service' => '웹 서비스 추가',
         'Edit Web Service' => '웹 서비스 편집',
+        'Include invalid webservices' => '',
         'Clone Web Service' => '웹 서비스 복제',
         'The name must be unique.' => '이름은 고유해야 합니다.',
-        'Clone' => '클론',
         'Export Web Service' => '웹 서비스 내보내기',
         'Import web service' => '웹 서비스 가져오기',
         'Configuration File' => '구성 파일',
@@ -1405,11 +1487,52 @@ sub Data {
         'Group Management' => '그룹 관리',
         'Add Group' => '그룹 추가',
         'Edit Group' => '그룹 편집',
+        'Include invalid groups' => '',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             '관리자 그룹은 관리 영역과 통계 그룹을 가져 와서 통계 영역을 얻는 것입니다.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             '서로 다른 에이전트 그룹 (예 : 구매 부서, 지원 부서, 판매 부서 등)에 대한 액세스 권한을 처리 할 새 그룹을 만듭니다.',
         'It\'s useful for ASP solutions. ' => 'ASP 솔루션에 유용합니다.',
+
+        # Template: AdminImportExport
+        'Import/Export Management' => '',
+        'Add template' => '템플릿 추가',
+        'Create a template to import and export object information.' => '',
+        'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.' =>
+            '',
+        'Number' => '번호',
+        'Format' => '체재',
+        'Start Import' => '',
+        'Start Export' => '',
+        'Delete this template' => '',
+        'Step 1 of 5 - Edit common information' => '',
+        'Name is required!' => '',
+        'Object is required!' => '',
+        'Format is required!' => '',
+        'Next' => '다음',
+        'Step 2 of 5 - Edit object information' => '',
+        'Back' => '뒤',
+        'Step 3 of 5 - Edit format information' => '',
+        'is required!' => '',
+        'Step 4 of 5 - Edit mapping information' => '',
+        'No map elements found.' => '',
+        'Up' => '위',
+        'Down' => '하위',
+        'Add Mapping Element' => '',
+        'Step 5 of 5 - Edit search information' => '',
+        'Template Name' => '템플릿 이름',
+        'Restrict export per search' => '',
+        'Finish' => '끝',
+        'Import information' => '',
+        'Source File' => '',
+        'Import summary for %s' => '',
+        'Records' => '',
+        'Success' => '',
+        'Failed' => '실패한',
+        'Duplicate names' => '',
+        'Last processed line number of import file' => '',
+        'Ok' => '',
+        'Do you really want to delete this template item?' => '',
 
         # Template: AdminLog
         'System Log' => '시스템 로그',
@@ -1424,6 +1547,7 @@ sub Data {
         'Add Mail Account' => '메일 계정 추가',
         'Edit Mail Account for host' => '호스트용 메일 계정 편집',
         'and user account' => '및 사용자 계정',
+        'Include invalid Mail Accounts' => '',
         'Filter for Mail Accounts' => '메일 계정 필터링',
         'Filter for mail accounts' => '메일 계정 필터링',
         'All incoming emails with one account will be dispatched in the selected queue.' =>
@@ -1459,6 +1583,7 @@ sub Data {
 
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => '티켓 알림 관리',
+        'Include invalid notifications' => '',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '여기서 구성 파일을 업로드하여 시스템에 티켓 알림을 가져올 수 있습니다. 티켓 알림 모듈에서 내 보낸 파일은 .yml 형식이어야합니다.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
@@ -1621,6 +1746,10 @@ sub Data {
         'Edit PostMaster Filter' => '포스트 마스터 필터 편집',
         'Filter for PostMaster Filters' => '',
         'Filter for PostMaster filters' => '',
+        'Search through PostMaster filters' => '',
+        'Search all filter attributes' => '',
+        'Limit search to selected header fields' => '',
+        'Limit search to selected set fields' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             '전자 메일 헤더를 기반으로 수신 전자메일을 발송하거나 필터링합니다. 정규표현식을 사용하여 일치시킬 수도 있습니다.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1649,6 +1778,7 @@ sub Data {
         'Priority Management' => '우선 순위 관리',
         'Add Priority' => '우선 순위 추가',
         'Edit Priority' => '우선 순위 편집',
+        'Include invalid priorities' => '',
         'Filter for Priorities' => '우선 순위에 대한 필터링',
         'Filter for priorities' => '우선 순위에 대한 필터링',
         'This priority is present in a SysConfig setting, confirmation for updating settings to point to the new priority is needed!' =>
@@ -1657,6 +1787,7 @@ sub Data {
 
         # Template: AdminProcessManagement
         'Process Management' => '공정 관리',
+        'Include inactive processes' => '',
         'Filter for Processes' => '프로세스 필터링',
         'Filter for processes' => '',
         'Create New Process' => '새 프로세스 만들기',
@@ -1712,6 +1843,10 @@ sub Data {
         'The selected required lock does not exist.' => '선택한 필수 잠금이 없습니다.',
         'Submit Advice Text' => 'Submit Advice Text',
         'Submit Button Text' => '제출 버튼 텍스트',
+        'Input Field Definition' => '',
+        'Direct submit' => '',
+        'This property won\'t take effect because there are fields configured as visible.' =>
+            '',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             '마우스로 요소를 왼쪽 목록에서 오른쪽 목록으로 끌어서이 활동 대화 상자에 필드를 할당 할 수 있습니다.',
         'Filter available fields' => '사용 가능한 필드 필터링',
@@ -1815,6 +1950,7 @@ sub Data {
         'Queue Management' => '',
         'Add Queue' => '대기열 추가',
         'Edit Queue' => '대기열 편집',
+        'Include invalid queues' => '',
         'Filter for Queues' => '대기열 필터링',
         'Filter for queues' => '대기열 필터링',
         'A queue with this name already exists!' => '이 이름을 가진 대기열이 이미 있습니다!',
@@ -1929,7 +2065,6 @@ sub Data {
         'Sign up now' => '지금 등록하세요',
         'Forgot your password?' => '비밀번호를 잊어 버렸습니까?',
         'Retrieve a new one' => '새 항목 가져 오기',
-        'Next' => '다음',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
             '',
         'Attribute' => '속성',
@@ -1954,10 +2089,16 @@ sub Data {
         'System Registration Data' => '시스템 등록 데이터',
         'Support Data' => '지원 데이터',
 
+        # Template: AdminResponseTemplatesStatePreselection
+        'Manage ticket state pre-selections for response templates' => '',
+        'Edit Response' => '',
+        'Pre-selected ticket state' => '',
+
         # Template: AdminRole
         'Role Management' => '역할 관리',
         'Add Role' => '역할 추가',
         'Edit Role' => '역할 편집',
+        'Include invalid roles' => '',
         'Filter for Roles' => '역할 필터링',
         'Filter for roles' => '역할 필터링',
         'Create a role and put groups in it. Then add the role to the users.' =>
@@ -1997,6 +2138,7 @@ sub Data {
         'SLA Management' => 'SLA 관리',
         'Edit SLA' => 'SLA 편집',
         'Add SLA' => 'SLA 추가',
+        'Include invalid SLAs' => '',
         'Filter for SLAs' => 'SLA 필터링',
         'Please write only numbers!' => '숫자만 써주세요!',
 
@@ -2044,6 +2186,7 @@ sub Data {
         'Salutation Management' => '인사말 관리',
         'Add Salutation' => '인사말 추가',
         'Edit Salutation' => '인사말 편집',
+        'Include invalid salutations' => '',
         'Filter for Salutations' => '인사말 필터링',
         'Filter for salutations' => '인사말 필터링',
         'e. g.' => '예를들면',
@@ -2079,6 +2222,7 @@ sub Data {
         'Service Management' => '서비스 관리',
         'Add Service' => '서비스 추가',
         'Edit Service' => '서비스 편집',
+        'Include invalid services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '서비스 이름의 최대 길이는 200 자 (서브 서비스 포함)입니다.',
         'Sub-service of' => '의 서브 서비스',
@@ -2103,6 +2247,7 @@ sub Data {
         'Signature Management' => '시그니처 관리',
         'Add Signature' => '시그니처 추가',
         'Edit Signature' => '시그니처 편집',
+        'Include invalid signatures' => '',
         'Filter for Signatures' => '시그니처 필터링',
         'Filter for signatures' => '시그니처 필터링',
         'Example signature' => '서명의 예',
@@ -2111,6 +2256,7 @@ sub Data {
         'State Management' => '주 관리',
         'Add State' => '주 추가',
         'Edit State' => '주 편집',
+        'Include invalid states' => '',
         'Filter for States' => '주 필터링',
         'Filter for states' => '주 필터링',
         'Attention' => '주의',
@@ -2158,6 +2304,7 @@ sub Data {
         'System Email Addresses Management' => '시스템 전자 메일 주소 관리',
         'Add System Email Address' => '시스템 전자 메일 주소 추가',
         'Edit System Email Address' => '시스템 전자 메일 주소 편집',
+        'Include invalid system addresses' => '',
         'Add System Address' => '시스템 주소 추가',
         'Filter for System Addresses' => '시스템 주소 필터링',
         'Filter for system addresses' => '시스템 주소 필터링',
@@ -2277,6 +2424,7 @@ sub Data {
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => '시스템 유지 보수 관리',
+        'Include invalid system maintenances' => '',
         'Schedule New System Maintenance' => '새로운 시스템 유지 보수 일정 계획',
         'Filter for System Maintenances' => '시스템 유지 관리를 위한 필터',
         'Filter for system maintenances' => '시스템 유지 관리를 위한 필터',
@@ -2284,13 +2432,11 @@ sub Data {
             '상담원과 고객을 알리기 휘한 시스템 유지 보수 기간을 예약하면 일정 기간 시스템이 다운됩니다.',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             '이 시스템 유지 보수가 시작되기 전에 사용자는 각 화면에서 이 사실을 알리는 알림을 받게 됩니다.',
-        'Stop date' => '종료 날짜',
         'Delete System Maintenance' => '시스템 유지 보수 삭제',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance' => '시스템 유지 보수 편집',
         'Edit System Maintenance Information' => '시스템 유지 보수 정보 편집',
-        'Date invalid!' => '날짜가 잘못 되었습니다!',
         'Login message' => '로그인 메시지',
         'This field must have less then 250 characters.' => '이 입력란은 250자 미만이어야 합니다.',
         'Show login message' => '로그인 메시지 표시',
@@ -2305,6 +2451,7 @@ sub Data {
         'Template Management' => '',
         'Add Template' => '템플릿 추가',
         'Edit Template' => '템플릿 편집',
+        'Include invalid templates' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '템플릿은 에이전트가 티켓, 응답 또는 전달을 더 빨리 작성할 수 있도록 도와주는 기본 텍스트입니다.',
         'Don\'t forget to add new templates to queues.' => '대기열에 새 템플릿을 추가하는 것을 잊지 마십시오.',
@@ -2330,10 +2477,48 @@ sub Data {
         'Toggle active for all' => '모든 사용자에게 전환 사용',
         'Link %s to selected %s' => '%s를 선택한 %s에 연결',
 
+        # Template: AdminTicketMask
+        'Ticket Mask Management' => '',
+        'Change mask definition' => '',
+        'Ticket Mask' => '',
+        'Change' => '',
+        'Definition' => '',
+
+        # Template: AdminTranslations
+        'Translation Management' => '',
+        'Add Translations' => '',
+        'Edit Translations' => '',
+        'Language' => '언어',
+        'Deploy Translations' => '',
+        'Translation States' => '',
+        'New Translation' => '',
+        'Editing Translation' => '',
+        'Translation Marked for Deletion' => '',
+        'Deployed Translation' => '',
+        'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
+            '',
+        'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.' =>
+            '',
+        'Edit active translations using provided text fields!' => '',
+        'List custom translations for' => '',
+        'Draft Translations' => '',
+        'Filter for Draft Translations' => '',
+        'Active Translations' => '',
+        'Filter for Active Translations' => '',
+        'Content' => '만족',
+        'Translation' => '',
+        'Marked for Deletion' => '',
+        'Edit Translation' => '',
+        'Overwrites OTOBO translation' => '',
+        'Undo Delete Translation' => '',
+        'Delete Translation' => '',
+        'Translations' => '',
+
         # Template: AdminType
         'Type Management' => '유형 관리',
         'Add Type' => '유형 추가',
         'Edit Type' => '유형 편집',
+        'Include invalid types' => '',
         'Filter for Types' => '유형 필터',
         'Filter for types' => '유형 필터',
         'A type with this name already exists!' => '이 이름을 가진 유형이 이미 존재합니다!',
@@ -2344,6 +2529,7 @@ sub Data {
         # Template: AdminUser
         'Agent Management' => '상담원 관리',
         'Edit Agent' => '상담원 수정',
+        'Include invalid users' => '',
         'Edit personal preferences for this agent' => '이 상담원의 개인 설정 수정',
         'Agents will be needed to handle tickets.' => '티켓을 처리하려면 상담원이 필요합니다.',
         'Don\'t forget to add a new agent to groups and/or roles!' => '그룹이나 역할에 새 상담원을 추가하는 것을 잊지마세요.',
@@ -2583,7 +2769,6 @@ sub Data {
         'until' => '까지',
 
         # Template: AgentDynamicFieldDBDetailedSearch
-        'Back' => '뒤',
         'Detailed search' => '',
         'Add an additional attribute' => '',
 
@@ -2766,6 +2951,7 @@ sub Data {
         'Set Pending Time for %s%s%s' => '%s%s%s의 보류 시간 설정',
         'Change Priority of %s%s%s' => '%s%s%s의 우선 순위 변경',
         'Change Responsible of %s%s%s' => '%s%s%s의 책임 변경',
+        'Edit Article "%s" of %s%s%s' => '',
         'The ticket has been locked' => '티켓이 잠겼습니다.',
         'Undo & close' => '실행 취소 및 닫기',
         'Ticket Settings' => '티켓 설정',
@@ -2791,6 +2977,9 @@ sub Data {
         'Text Template' => '텍스트 템플릿',
         'Setting a template will overwrite any text or attachment.' => '템플릿을 설정하면 텍스트나 첨부파일을 덮어씁니다.',
         'Invalid time!' => '시간이 잘못 되었습니다!',
+
+        # Template: AgentTicketArticleVersionView
+        'Viewing Article Version#%s of current Article: #%s %s' => '',
 
         # Template: AgentTicketBounce
         'Bounce %s%s%s' => '바운스 %s%s%s',
@@ -2985,12 +3174,14 @@ sub Data {
         'No.' => '아니오.',
         'Unread articles' => '읽지 않은 기사',
         'Via' => '~를 이용해',
+        'Article Edited' => '',
         'Important' => '중대한',
         'Unread Article!' => '읽지 않은 기사!',
         'Incoming message' => '수신 메시지 ',
         'Outgoing message' => '보내는 메시지',
         'Internal message' => '내부 메시지',
         'Sending of this message has failed.' => '이 메시지를 보내지 못했습니다.',
+        'The article was edited' => '',
         'Resize' => '크기 조정',
         'Mark this article as read' => '이 기사를 읽음으로 표시 하십시오.',
         'Show Full Text' => '전체 텍스트 보기',
@@ -3148,7 +3339,6 @@ sub Data {
         'Save Search as Template?' => '검색을 템플릿으로 저장하시겠습니까?',
         'Save as Template?' => '템플릿으로 저장?',
         'Save as Template' => '템플릿으로 저장?',
-        'Template Name' => '템플릿 이름',
         'Pick a profile name' => '프로필 이름 선택',
         'Output to' => '출력',
 
@@ -3160,15 +3350,17 @@ sub Data {
         # Template: CustomerTicketZoom
         'Reply' => '댓글',
         'Discard' => '',
-        'Ticket Information' => '티켓 정보',
-        'Categories' => '',
-        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => '기사 펼치기',
 
         # Template: MIMEBase
         'Article Information' => '',
+
+        # Template: TicketInfo
+        'Ticket Information' => '티켓 정보',
+        'Categories' => '',
+        'Further actions' => '',
 
         # Template: CustomerWarning
         'Warning' => '경고',
@@ -3212,7 +3404,6 @@ sub Data {
         'License' => '특허',
         'Database Settings' => '데이터베이스 설정',
         'General Specifications and Mail Settings' => '일반 사양 및 메일 설정',
-        'Finish' => '끝',
         'Welcome to %s' => '%s에 오신 것을 환영합니다.',
         'Germany' => '',
         'Phone' => '전화',
@@ -3482,7 +3673,6 @@ sub Data {
             '통계가 생성될 때 이 요소에 대한 변경을 허용하지 마십시오.',
 
         # Template: StatsParamsWidget
-        'Format' => '체재',
         'Exchange Axis' => '교환 축',
         'Configurable Params of Static Stat' => '정적 통계의 구성 가능한 매개 변수',
         'No element selected.' => '선택된 요소가 없습니다.',
@@ -3593,6 +3783,11 @@ sub Data {
         'Welcome %s %s' => '환영합니다 %s %s',
         'Counter' => '계수기',
 
+        # Template: TranslationsTable
+        'Filter Content' => '',
+        'Filter for Translations' => '',
+        'No content available to translate.' => '',
+
         # Template: Warning
         'Go back to the previous page' => '이전 페이지로 돌아가기',
 
@@ -3676,10 +3871,14 @@ sub Data {
         'Country' => '국가',
         'Mr.' => 'Mr.',
         'Mrs.' => 'Mrs.',
+        'Manager' => '',
         'Address' => '주소',
         'View system log messages.' => '시스템 로그 메시지를 봅니다.',
         'Edit the system configuration settings.' => '시스템 구성 설정을 편집 하십시오.',
         'Update and extend your system with software packages.' => '소프트웨어 패키지로 시스템을 업데이트하고 확장하십시오.',
+
+        # Perl Module: Kernel/Language.pm
+        '(in process)' => '(과정에서)',
 
         # Perl Module: Kernel/Modules/AdminACL.pm
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
@@ -3729,6 +3928,7 @@ sub Data {
         '+15 minutes' => '+15분',
         '+30 minutes' => '+30분',
         '+1 hour' => '+1시간',
+        '+1 day' => '',
 
         # Perl Module: Kernel/Modules/AdminAppointmentImport.pm
         'No permissions' => '권한 없음',
@@ -3759,6 +3959,7 @@ sub Data {
             '약속 (캘린더)에 대한 쓰기 권한이있는 모든 상담원',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
+        'No permission to edit this attachment.' => '',
         'Attachment added!' => '첨부 파일이 추가되었습니다.',
 
         # Perl Module: Kernel/Modules/AdminAutoResponse.pm
@@ -3777,7 +3978,6 @@ sub Data {
         'Invalid StartTime: %s!' => '잘못된 시작 시간 : %s!',
         'Successful' => '성공한',
         'Processing' => '가공',
-        'Failed' => '실패한',
         'Invalid Filter: %s!' => '잘못된 필터 : %s!',
         'Less than a second' => '1초 미만',
         'sorted descending' => '내림차순 정렬',
@@ -3815,6 +4015,24 @@ sub Data {
         'Customer Company %s already exists!' => '고객 회사 %s가 이미 존재합니다!',
         'Customer company added!' => '고객 회사가 추가되었습니다!',
 
+        # Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+        'Start date shouldn\'t be defined after Stop date!' => '시작일은 종요일 이후에 정의되어서는 안됩니다!',
+        'Name is missing!' => '',
+        'Content is missing!' => '',
+        'ValidID is missing!' => '',
+        'Group is missing!' => '',
+        'There was an error creating the info tile entry' => '',
+        'Need ID!' => '',
+        'This Entry does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
+        'Could not get data for ID %s' => '',
+        'Info tile entry was added successfully!' => '',
+        'Info tile entry was updated successfully!' => '',
+        'Session has been killed!' => '세션이 종료되었습니다!',
+        'All sessions have been killed, except for your own.' => '모든 세션이 자신의 것을 제외한 모든 세션에서 종료되었습니다.',
+        'There was an error updating the info tile entry' => '',
+        'It was not possible to delete the info tile entry: %s!' => '',
+
         # Perl Module: Kernel/Modules/AdminCustomerGroup.pm
         'No configuration for \'CustomerGroupPermissionContext\' found!' =>
             '\'CustomerGroupPermissionContext\'에 대한 구성이 없습니다!',
@@ -3849,9 +4067,9 @@ sub Data {
         'Undefined subaction.' => '지정되지 않은 서브액션',
         'Need %s' => '%s 필요',
         'Add %s field' => '%s 필드 추가',
+        'The field must be numeric.' => '이 필드는 숫자여야 합니다.',
         'The field does not contain only ASCII letters and numbers.' => '입력란에는 ASCII 문자와 숫자 만 포함되지 않습니다.',
         'There is another field with the same name.' => '같은 이름의 다른 필드가 있습니다.',
-        'The field must be numeric.' => '이 필드는 숫자여야 합니다.',
         'Need ValidID' => 'ValidID 필요',
         'Could not create the new field' => '새 필드를 만들지 못했습니다.',
         'Need ID' => '신분증이 필요함',
@@ -3879,12 +4097,39 @@ sub Data {
         'An element is used as parent element, but not included itself. Please include it.' =>
             '',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+        'The referenced dynamic field' => '',
+        'Select the dynamic field that references an object' => '',
+        'The attribute of the referenced object' => '',
+        'Select the attribute dynamic field that references an object' =>
+            '',
+        'Not a valid dynamic field.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => '',
         'System was not able to save the setting!' => '',
         'Setting is locked by another user!' => '다른 사용자가 설정을 잠갔습니다!',
         'System was not able to reset the setting!' => '시스템에서 설정을 재설정 할 수 없었습니다!',
         'Settings were reset.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+        'Need valid field driver.' => '',
+        'Bad value in RequiredArgs.' => '',
+        'Bad value in PreviewTriggers.' => '',
+        'Bad value in StorageTriggers.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+        'Missing Dynamic Field.' => '',
+        'No valid dynamic field "' => '',
+        'The dynamic field type "' => '',
+        'Misconfigured Grid - need Rows as Array!' => '',
+        'Misconfigured Grid - need Columns as integer > 0!' => '',
+        'Misconfigured Grid - Rows can\'t be empty!' => '',
+        'Misconfigured Grid - Rows must contain entries with key \'DF\'!' =>
+            '',
+        'Missing Dynamic Field or Grid.' => '',
+        'The field must be a valid YAML containing an array of dynamic fields.' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => '받는 사람을 한 명 이상 선택하십시오.',
@@ -4053,6 +4298,23 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGroup.pm
         'Group updated!' => '그룹이 업데이트 되었습니다!',
 
+        # Perl Module: Kernel/Modules/AdminImportExport.pm
+        'No object backend found!' => '',
+        'No format backend found!' => '',
+        'Template not found!' => '',
+        'Can\'t insert/update template!' => '',
+        'Needed TemplateID!' => '',
+        'Error occurred. Import impossible! See Syslog for details.' => '',
+        'Error occurred. Export impossible! See Syslog for details.' => '',
+        'Template List' => '',
+        'number' => '',
+        'number bigger than zero' => '',
+        'integer' => '',
+        'integer bigger than zero' => '',
+        'Element required, please insert data' => '',
+        'Invalid data, please insert a valid %s' => '',
+        'Format not found!' => '',
+
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => '메일 계정이 추가되었습니다!',
         'Email account fetch already fetched by another process. Please try again later!' =>
@@ -4061,6 +4323,8 @@ sub Data {
         'Dispatching by selected Queue.' => '선택한 대기열로 발송.',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+        'No permission to edit this ticket notification.' => '',
+        'You need %s permissions!' => '%s의 권한이 필요합니다!',
         'Agent who created the ticket' => '티켓을 만든 에이전트',
         'Agent who owns the ticket' => '티켓을 소유한 에이전트',
         'Agent who is responsible for the ticket' => '티켓을 책임지는 요원',
@@ -4073,6 +4337,8 @@ sub Data {
         'Customer user of the ticket' => '티켓의 고객 사용자',
         'All recipients of the first article' => '첫 번째 기사의 모든 수신자',
         'All recipients of the last article' => '마지막 기사의 모든 수신자',
+        'Only send within working hours' => '',
+        'Only send outside working hours' => '',
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
@@ -4229,6 +4495,9 @@ sub Data {
         'Training' => '훈련',
         'Development' => '개발',
 
+        # Perl Module: Kernel/Modules/AdminResponseTemplatesStatePreselection.pm
+        'Template updated!' => '템플릿이 업데이트 되었습니다!',
+
         # Perl Module: Kernel/Modules/AdminRole.pm
         'Role updated!' => '역할이 업데이트 되었습니다!',
         'Role added!' => '역할이 추가되었습니다!',
@@ -4322,24 +4591,37 @@ sub Data {
         'System was not able to delete the user setting values!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
-        'Start date shouldn\'t be defined after Stop date!' => '시작일은 종요일 이후에 정의되어서는 안됩니다!',
         'There was an error creating the System Maintenance' => '시스템 유지 보수를 작성하는 중 오류가 발생했습니다.',
         'Need SystemMaintenanceID!' => 'SystemMaintenanceID가 필요합니다!',
         'Could not get data for SystemMaintenanceID %s' => 'SystemMaintenanceID %s에 대한 데이터를 가져올 수 없습니다.',
         'System Maintenance was added successfully!' => '시스템 유지 보수가 성공적으로 추가 되었습니다!',
         'System Maintenance was updated successfully!' => '시스템 유지 보수가 성공적으로 업데이트되었습니다!',
-        'Session has been killed!' => '세션이 종료되었습니다!',
-        'All sessions have been killed, except for your own.' => '모든 세션이 자신의 것을 제외한 모든 세션에서 종료되었습니다.',
         'There was an error updating the System Maintenance' => '시스템 유지 보수를 업데이트하는 중 오류가 발생했습니다.',
         'Was not possible to delete the SystemMaintenance entry: %s!' => 'SystemMaintenance 항목을 삭제할 수 없습니다 : %s',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
-        'Template updated!' => '템플릿이 업데이트 되었습니다!',
+        'No permission to edit this template.' => '',
         'Template added!' => '템플릿이 추가되었습니다!',
 
         # Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
         'Change Attachment Relations for Template' => '템플릿에 대한 첨부 파일 관계 변경',
         'Change Template Relations for Attachment' => '첨부 파일에 대한 템플릿 관계 변경',
+
+        # Perl Module: Kernel/Modules/AdminTranslations.pm
+        'Translation unmarked for deletion!' => '',
+        'Error trying unmark translation for delete!' => '',
+        'Translations changed!' => '',
+        'No translations were changed!' => '',
+        'Errors trying to change translations!' => '',
+        'Translations added!' => '',
+        'No translations were given to add!' => '',
+        'Translation already exists!' => '',
+        'Translations deployed successfuly!' => '',
+        'Nothing to do!' => '',
+        'Errors ocurred when trying to deploy translation. Please check system logs!' =>
+            '',
+        'All Items' => '',
+        'Deployment Results' => '',
 
         # Perl Module: Kernel/Modules/AdminType.pm
         'Need Type!' => '유형 필요!',
@@ -4459,7 +4741,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
         'No TicketID is given!' => 'TicketID가 주어지지 않았습니다!',
-        'You need %s permissions!' => '%s의 권한이 필요합니다!',
         'Loading draft failed!' => '초안로드 실패!',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             '죄송합니다. 이 작업을 수행하려면 티켓 소유자여야 합니다.',
@@ -4474,6 +4755,12 @@ sub Data {
         'wrote' => '쓴',
         'Message from' => '님의 메시지',
         'End message' => '메시지 끝내기',
+
+        # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+        'No ArticleID is given!' => 'ArticleID가 주어지지 않았습니다!',
+
+        # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
+        'Can\'t set this Ticket option, no TicketID is given!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '%s가 필요합니다!',
@@ -4512,9 +4799,6 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => 'TicketID가 없습니다!',
         'System Error!' => '시스템 오류!',
-
-        # Perl Module: Kernel/Modules/AgentTicketEmailResend.pm
-        'No ArticleID is given!' => 'ArticleID가 주어지지 않았습니다!',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
         'Next week' => '다음 주',
@@ -4612,14 +4896,14 @@ sub Data {
         'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
             '이 단계는 \'%s %s %s\'티켓의 진행중인 현재 활동에 더 이상 속하지 않습니다! 다른 사용자가이 티켓을 변경했습니다. 이 창을 닫고 티켓을 다시로드하십시오.',
         'Missing ProcessEntityID in Ticket %s!' => '티켓 %s에 ProcessEntityID가 누락되었습니다!',
-        'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            '%s의 DynamicField값 설정할 수 없음 - 티켓 ID "%s" - ActivityDialog "%s"!',
         'Could not set PendingTime for Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'PendingTime 설정할 수 없음 - 티켓 ID "%s" - ActivityDialog "%s"!',
         'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!' =>
             '잘못된 ActivityDialog 필드 설정 : %s는 표시 => 1 / 표시 필드 일 수 없습니다. (표시 => 0 / 필드 표시 안 함 또는 표시 => 2 / 표시 필드를 필수로 변경하십시오)!',
         'Could not set %s for Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '%s 설정할 수 없음 - 티켓 ID "%s" - ActivityDialog "%s"!',
+        'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
+            '%s의 DynamicField값 설정할 수 없음 - 티켓 ID "%s" - ActivityDialog "%s"!',
         'Default Config for Process::Default%s missing!' => 'Process::Default%s 의 기본 구성이 누락되었습니다!',
         'Default Config for Process::Default%s invalid!' => 'Process::Default%s 의 기본 구성이 잘못되었습니다!',
 
@@ -4711,8 +4995,6 @@ sub Data {
         'Can\'t get for ArticleID %s!' => 'ArticleID %s를 얻을 수 없습니다!',
         'Article filter settings were saved.' => '기사 필터 설정이 저장되었습니다.',
         'Event type filter settings were saved.' => '이벤트 유형 필터 설정이 저장되었습니다.',
-        'Need ArticleID!' => 'ArticleID가 필요합니다!',
-        'Invalid ArticleID!' => '잘못된 ArticleID!',
         'Forward article via mail' => '우편으로 기사 전달',
         'Forward' => '전달',
         'Fields with no group' => '그룹이 없는 필드',
@@ -4812,6 +5094,8 @@ sub Data {
             '데이터베이스에 연결할 수 없습니다. Perl 모듈 DBD :: %s이 설치되지 않았습니다!',
         'Can\'t connect to database, read comment!' => '데이터베이스에 연결할 수 없으므로 주석을 읽으십시오!',
         'Database already contains data - it should be empty!' => '데이터베이스에 이미 데이터가 있습니다. 비워두워야 합니다.',
+        'Error: database version requirement not satisfied. Have version: %s Want version: %s' =>
+            '',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '오류 : 데이터베이스가 크기가 %s를 넘는 패킷을 수락하는지 확인하십시오 (패키지는 현재 최대 %s MB 만 허용). 오류를 피하기 위해 데이터베이스의 max_allowed_packet 설정을 조정하십시오.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
@@ -4835,6 +5119,15 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Article/Chat.pm
         'Chat' => '~에게 말을 걸다',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleDelete.pm
+        'Delete this article' => '',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleEdit.pm
+        'Edit this article' => '',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleRestore.pm
+        'Restore this article' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
         'Bounce Article to a different mail address' => '다른 메일 주소로 기사 반송',
@@ -4867,6 +5160,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
         'Contact us at hello@otobo.de' => '',
         'Get Help' => '도움말 보기',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
+        'Mark article as unseen' => '',
+        'Mark as unseen' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
         'Mark' => '마크',
@@ -4975,10 +5272,6 @@ sub Data {
         'd' => '일',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
             '이 티켓이 없거나 현재 상태로 액세스 할 수 있는 권한이 없습니다. 다음 작업 중 하나를 수행할 수 있습니다.',
-        'This is a' => '이것은',
-        'email' => '이메일',
-        'click here' => '여기를 클릭',
-        'to open it in a new window.' => '새 창에서 열려면.',
         'Year' => '년',
         'Hours' => '시간',
         'Minutes' => '분',
@@ -5056,9 +5349,6 @@ sub Data {
             '필수 알림을 위한 전송 방법을 하나 이상 선택했는지 확인하십시오.',
         'Preferences updated successfully!' => '환경 설정이 성공적으로 업데이트 되었습니다!',
 
-        # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
-        '(in process)' => '(과정에서)',
-
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => '시작일 이후의 종료일을 지정 하십시오.',
 
@@ -5119,11 +5409,16 @@ sub Data {
         'Cancel editing and unlock this setting' => '이 설정 편집 및 잠금 해제를 취소하십시오.',
         'Reset this setting to its default value.' => '이 설정을 기본값으로 다시 설정하십시오.',
         'Unable to load %s!' => '%s를 로드 할 수 없습니다!',
-        'Content' => '만족',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
         'Unlock to give it back to the queue' => '잠금 해제하여 다시 대기열로 보냅니다.',
         'Lock it to work on it' => '잠금 기능',
+
+        # Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
+        'Hide deleted articles' => '',
+        'Click to hide deleted articles' => '',
+        'Show deleted articles' => '',
+        'Click to show deleted articles' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
         'Unwatch' => '언 워치',
@@ -5207,20 +5502,53 @@ sub Data {
         'This email address is already in use for another customer user.' =>
             '이 이메일 주소는 이미 다른 고객 사용자를 위해 사용 중입니다.',
 
+        # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+        'Group of the agents' => '',
+        'Select the group of the agents' => '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
         'before/after' => '전/후',
         'between' => '사이에',
 
-        # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
         'e.g. Text or Te*t' => '예 : 텍스트 또는 문자 *',
+        'Referenced object type' => '',
+        'Select the type of the referenced object' => '',
+        'Input mode of edit field' => '',
+        'Select the input mode for the edit field.' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '이 입력란을 무시하십시오.',
 
-        # Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
+        # Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+        'Attribute which will be searched on autocomplete' => '',
+        'Select the attribute which tickets will be searched by' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => '이 필드는 필수이거나',
         'The field content is too long!' => '입력란 내용이 너무 깁니다.',
         'Maximum size is %s characters.' => '최대 크기는%s자입니다.',
+        'Full %s Text' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Type of the ticket' => '',
+        'Select the type of the ticket' => '',
+        'Attribute which is displayed for values' => '',
+        'Select the type of display' => '',
+
+        # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+        'Column Separator' => '',
+        'Tabulator (TAB)' => '',
+        'Semicolon (;)' => '',
+        'Colon (:)' => '',
+        'Dot (.)' => '',
+        'Comma (,)' => '',
+        'Charset' => '',
+        'Include Column Headers' => '',
+        'Column' => '',
+
+        # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
+        'Pretty print the exported concatenated JSON' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => '',
@@ -5350,8 +5678,6 @@ sub Data {
         'not installed' => '설치되지 않았다.',
         'installed' => '설치된',
         'Unable to parse repository index document.' => '저장소 색인 문서를 구문 분석 할 수 없습니다.',
-        'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
-            '이 저장소에 있는 프레임 워크 버전의 패키지가 없으며 다른 프레임 워크 버전의 패키지만 포함합니다.',
         'File is not installed!' => '파일이 설치되지 않았습니다!',
         'File is different!' => '파일이 다릅니다!',
         'Can\'t read file!' => '파일을 읽을 수 없습니다!',
@@ -5384,13 +5710,20 @@ sub Data {
         'quarter' => '쿼터',
         'half-year' => '반년',
 
-        # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+        # Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
+        'unlimited' => '제한 없는',
+        'Attributes to be printed' => '인쇄할 속성',
+        'Sort sequence' => '정렬 순서',
+        'State Historic' => '주 역사',
         'State Type' => '상태 유형',
+        'State Type Historic' => '국가 유형 역사',
         'Created Priority' => '생성된 우선 순위',
         'Created State' => '생성된 주',
         'Create Time' => '시간 생성',
+        'Article Create Time' => '',
         'Pending until time' => '시간까지 보류 중입니다.',
         'Close Time' => '종료 시간',
+        'Historic Time Range' => '역사적인 시간 범위',
         'Escalation' => '단계적 확대',
         'Escalation - First Response Time' => '에스컬레이션 - 첫 번째 응답 시간',
         'Escalation - Update Time' => '에스컬레이션 - 업데이트 시간',
@@ -5398,6 +5731,7 @@ sub Data {
         'Agent/Owner' => '담당상담원',
         'Created by Agent/Owner' => '담당상담원이 만듬',
         'Assigned to Customer User Login' => '고객 사용자 로그인에 할당 됨',
+        'Last Changed' => '마지막 변경됨',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => '에 의한 평가',
@@ -5414,16 +5748,6 @@ sub Data {
         'Article Min Time' => '기사 최소 시간',
         'Article Max Time' => '기사 최대 시간',
         'Number of Articles' => '기사 수',
-
-        # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-        'unlimited' => '제한 없는',
-        'Attributes to be printed' => '인쇄할 속성',
-        'Sort sequence' => '정렬 순서',
-        'State Historic' => '주 역사',
-        'State Type Historic' => '국가 유형 역사',
-        'Historic Time Range' => '역사적인 시간 범위',
-        'Number' => '번호',
-        'Last Changed' => '마지막 변경됨',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '술루션 평균',
@@ -5820,6 +6144,13 @@ sub Data {
         'Chat Participant' => '',
         'Chat Message Text' => '',
 
+        # Perl Module: Kernel/System/Ticket/Mask.pm
+        'Base structure is not valid. Please provide an array with data in YAML format.' =>
+            '',
+        'Error parsing dynamic fields.' => '',
+        'No dynamic field "%s".' => '',
+        'Dynamic field "%s" not valid.' => '',
+
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Too many failed login attempts, please retry in %s s.' => '',
         'Login failed! Your user name or password was entered incorrectly.' =>
@@ -5999,6 +6330,10 @@ sub Data {
             '첨부 파일을 삭제하는 중 오류가 발생했습니다. 자세한 내용은 로그를 확인하십시오.',
         'Attachment was deleted successfully.' => '첨부 파일을 삭제했습니다.',
 
+        # JS File: Core.Agent.Admin.CustomerDashboardInfoTile
+        'Do you really want to delete this customer dashboard info tile entry?' =>
+            '',
+
         # JS File: Core.Agent.Admin.DynamicField
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
             '이 동적 필드를 정말로 삭제 하시겠습니까? 관련된 모든 데이터가 손실됩니다!',
@@ -6170,6 +6505,12 @@ sub Data {
         'Deleting the template and its data. This may take a while...' =>
             '템플릿 및 해당 데이터 삭제. 이 작업은 다소 시간이 걸릴 수 있습니다...',
 
+        # JS File: Core.Agent.Admin.Translations
+        'Missing Translations' => '',
+        'At least one translation must be filled!' => '',
+        'All translations must be filled!' => '',
+        'Close' => '닫기',
+
         # JS File: Core.Agent.AppointmentCalendar
         'Jump' => '도약',
         'Timeline Month' => '타임라인 달',
@@ -6195,6 +6536,16 @@ sub Data {
         'Restore default settings' => '기본 설정 복원',
         'Are you sure you want to delete this appointment? This operation cannot be undone.' =>
             '이 약속을 삭제 하시겠습니까? 이 작업은 실행 취소할 수 없습니다.',
+
+        # JS File: Core.Agent.ArticleFeatures
+        'Article Delete' => '',
+        'Are you sure you want to delete this article?' => '',
+        'Article deleted successfully!' => '',
+        'Article already marked as deleted.' => '',
+        'Article Restore' => '',
+        'Are you sure you want to restore this article?' => '',
+        'Article restored successfully!' => '',
+        'Article not available for restoring.' => '',
 
         # JS File: Core.Agent.CustomerSearch
         'First select a customer user, then select a customer ID to assign to this ticket.' =>
@@ -6313,6 +6664,10 @@ sub Data {
         'Do you really want to revert this setting to its historical value?' =>
             '이 설정을 이전 값으로 되돌리시겠습니까?',
 
+        # JS File: Core.UI.CodeMirrorEditor
+        'Error trying to create CodeMirror instance, please check configuration!' =>
+            '',
+
         # JS File: Core.UI.Datepicker
         'Open date selection' => '영업일 선택',
         'Invalid date (need a future date)!' => '날짜가 잘못 되었습니다 (미래 날짜 필요)!',
@@ -6365,6 +6720,12 @@ sub Data {
         'Upload information' => '정보 업로드',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             '첨부파일을 삭제할 때 알 수없는 오류가 발생했습니다. 다시 시도하십시오. 오류가 계속되면 시스템 관리자에게 문의하십시오.',
+
+        # JS File: ITSM.Admin.ImportExport
+        'Deleting template...' => '',
+        'There was an error deleting the template. Please check the logs for more information.' =>
+            '',
+        'Template was deleted successfully.' => '',
 
         # JS File: Core.Language.UnitTest
         'yes' => '예',
@@ -6506,6 +6867,7 @@ Thanks for your help!
         'Agent Name' => '에이전트 이름',
         'Agent Name + FromSeparator + System Address Display Name' => '에이전트 이름 + 발신자 + 시스템 주소 표시 이름',
         'Agent Preferences.' => '에이전트 환경 설정.',
+        'Agent Reference Dynamic Field With Data Search' => '',
         'Agent Statistics.' => '에이전트 통계.',
         'Agent User Search' => '에이전트 사용자 검색',
         'Agent User Search.' => '에이전트 사용자 검색.',
@@ -6534,6 +6896,7 @@ Thanks for your help!
             '내 서비스에서 티켓 수를 확인할 수있는 에이전트 인터페이스 알림 모듈 이 링크를 표시하거나 표시하지 않으려는 추가 액세스 제어는 키 "그룹"과 "rw : group1; move_into : group2"와 같은 내용을 사용하여 수행 할 수 있습니다.',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '감시 된 티켓 수를보기위한 에이전트 인터페이스 알림 모듈. 이 링크를 표시하거나 표시하지 않으려는 추가 액세스 제어는 키 "그룹"과 "rw : group1; move_into : group2"와 같은 내용을 사용하여 수행 할 수 있습니다.',
+        'Agent reference dynamic field with data search.' => '',
         'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
             '',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
@@ -6648,11 +7011,16 @@ Thanks for your help!
         'Appointment notifications' => '약속 알림',
         'Appointments' => '약속',
         'Arabic (Saudi Arabia)' => '아랍어 (사우디 아라비아)',
+        'Article ID: %s was deleted by "%s" (%s)' => '',
+        'Article ID: %s was edited by "%s" (%s)' => '',
+        'Article ID: %s was restored by "%s" (%s)' => '',
+        'Article Version View' => '',
         'Article attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected).' =>
             '',
         'ArticleTree' => 'ArticleTree',
+        'As soon as the move queue option dropdown is enabled for example in the AgentTicketZoom dialogue, it is possible to move tickets locked to other agents to another queue by activating this option.' =>
+            '',
         'Attachment Name' => '첨부명',
-        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
         'Automated line break in text messages after x number of chars.' =>
             'X 문자 수 후에 문자 메시지의 자동 줄바꿈',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -6744,7 +7112,6 @@ Thanks for your help!
             '알림을 수신할 티켓 변경 유형을 선택하십시오. 필수로 표시된 알림은 완전히 사용 중지할 수 없습니다.',
         'Choose which notifications you\'d like to receive.' => '수신할 알림을 선택하십시오.',
         'Christmas Eve' => '크리스마스 이브',
-        'Close' => '닫기',
         'Close this ticket' => '이 티켓을 닫습니다.',
         'Closed Tickets' => '',
         'Closed tickets (customer user)' => '폐쇄된 티켓 (고객 사용자)',
@@ -6822,10 +7189,12 @@ Thanks for your help!
         'Create Ticket' => '티켓 만들기',
         'Create a new calendar appointment linked to this ticket' => '이 티켓에 연결된 새 일정 약속을 만듭니다.',
         'Create and manage Service Level Agreements (SLAs).' => 'SLA (Service Level Agreements) 작성 및 관리',
+        'Create and manage advanced definitions for ticket masks.' => '',
         'Create and manage agents.' => '에이전트 생성 및 관리.',
         'Create and manage appointment notifications.' => '약속 알림을 작성하고 관리하십시오.',
         'Create and manage attachments.' => '첨부파일을 만들고 관리합니다.',
         'Create and manage calendars.' => '캘린더를 만들고 관리합니다.',
+        'Create and manage custom translations.' => '',
         'Create and manage customer users.' => '고객 사용자를 생성하고 관라하십시오.',
         'Create and manage customers.' => '고객 생성 및 관리.',
         'Create and manage dynamic fields.' => '동적 필드를 만들고 관리합니다.',
@@ -6868,6 +7237,7 @@ Thanks for your help!
         'Customer Information Center search.' => '고객 정보 센터 검색',
         'Customer Information Center.' => '고객 정보 센터',
         'Customer Password.' => '',
+        'Customer Reference Dynamic Field With Data Search' => '',
         'Customer Ticket Print Module.' => '고객 티켓 인쇄 모듈',
         'Customer User Administration' => '고객 사용자 관리',
         'Customer User Information' => '고객 사용자 정보',
@@ -6885,10 +7255,13 @@ Thanks for your help!
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '고객의 오픈 티켓을 정보 블록으로 보여주는 고객 아이템 (아이콘). CustomerUserLogin을 1로 설정하면 CustomerID가 아닌 로그인 이름을 기반으로하는 티켓이 검색됩니다.',
         'Customer preferences.' => '고객 환경설정',
+        'Customer reference dynamic field with data search.' => '',
         'Customer ticket overview' => '고객 티켓 개요',
         'Customer ticket search.' => '고객 티켓 검색',
         'Customer ticket zoom' => '고객 티켓 줌',
         'Customer user search' => '고객 사용자 검색',
+        'CustomerCompany' => '',
+        'CustomerDashboard Info Tile' => '',
         'CustomerID search' => '고객 ID 검색',
         'CustomerName' => '고객 이름',
         'CustomerUser' => '고객사용자',
@@ -6935,6 +7308,7 @@ Thanks for your help!
             '종료 시간의 동적 필드 이름을 정의하십시오. 이 필드는 티켓 : "날짜 / 시간"으로 시스템에 수동으로 추가되어야하며 티켓 생성 화면 및 / 또는 기타 티켓 동작 화면에서 활성화해야합니다.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '시작 시간의 동적 필드 이름을 정의하십시오. 이 필드는 티켓 : "날짜 / 시간"으로 시스템에 수동으로 추가되어야하며 티켓 생성 화면 및 / 또는 기타 티켓 동작 화면에서 활성화해야합니다.',
+        'Define possible namespaces for dynamic fields.' => '',
         'Define the max depth of queues.' => '대기열의 최대 깊이를 정의하십시오.',
         'Define the queue comment 2.' => '큐 설명 정의 2.',
         'Define the service comment 2.' => '서비스 주석 정의2.',
@@ -6999,7 +7373,7 @@ Thanks for your help!
         'Defines all the possible stats output formats.' => '가능한 모든 통계 출력형식을 정의합니다.',
         'Defines an alternate URL, where the login link refers to.' => '로그인 링크가 참조하는 대체 URL을 정의합니다.',
         'Defines an alternate URL, where the logout link refers to.' => '로그 아웃 링크가 참조하는 대체 URL을 정의합니다.',
-        'Defines an alternate login URL for the customer panel..' => '고객 패널에 대한 대체 로그인 URL을 정의합니다.',
+        'Defines an alternate login URL for the customer panel.' => '',
         'Defines an alternate logout URL for the customer panel.' => '고객 패널에 대한 대체 로그 아웃 URL을 정의합니다.',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
             '고객의 데이터베이스에 대한 외부 링크를 정의합니다 (예 : \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').',
@@ -7022,6 +7396,8 @@ Thanks for your help!
         'Defines how many deployments the system should keep.' => '시스템이 유지해야하는 배포 수를 정의합니다.',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             '보낸 사람(응답 및 전자 메일 티켓에서 보낸 전자 메일) 필드가 어떻게 표시되는지 정의합니다.',
+        'Defines if CSV-mappings are re-created on next package reinstallation or upgrade if already existent.' =>
+            '',
         'Defines if a pre-sorting by priority should be done in the queue view.' =>
             '대기열 뷰에서 우선 순위 별 사전 정렬을 수향해야하는지 여부를 정의합니다.',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
@@ -7097,12 +7473,16 @@ Thanks for your help!
             '에이전트 인터페이스의 티켓 담당 화면에 있는 노트가 기본적으로 고객에게 표시되는지 여부를 정의합니다.',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
             '이전에 유효한 토큰이 인증을 위해 수락되어야 하는지 여부를 정의합니다. 이는 보안이 다소 떨어지지만 사용자가 일회용 암호를 입력하는데 30초 이상 더 많은 시간을 줍니다.',
+        'Defines if the ticket info widget is displayed permanently on the left below the article list or is available via click on the \'Information\' button.' =>
+            '',
         'Defines if the values for filters should be retrieved from all available tickets. If enabled, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
             '사용 가능한 모든 티켓에서 필터 값을 검색해야하는지 여부를 정의합니다. 활성화 된 경우 실제로 티켓에서 사용되는 값만 필터링에 사용할 수 있습니다. 참고 : 고객 목록은 항상 이와 같이 검색됩니다.',
-        'Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
-            '상담원 인터페이스에서 시간 계산이 필수인지 정의합니다. 활성화 된 경우 모든 티켓 동작에 대해 노트를 입력해야 합니다 (노트 자체가 활성으로 구성되어 있거나 원래 개별 티켓 동작 화면에 필수적이든간에).',
+        'Defines if time accounting is mandatory in the agent interface, if a note is entered.' =>
+            '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             '일괄 처리로 시간 계산을 모든 티켓으로 설정해야하는지 여부를 정의합니다.',
+        'Defines if user can modify all possible values/labels of dynamic fields in one data table.' =>
+            '',
         'Defines internal communication channel.' => '내부 통신 채널을 정의합니다.',
         'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
             '부재 중 메시지 템플릿을 정의합니다. 사용 가능한 두 개의 문자열 매개 변수 (%s) : 종료 날짜 및 남은 일 수.',
@@ -7146,6 +7526,10 @@ Thanks for your help!
         'Defines the communication chanel for the quick close article action.' =>
             '',
         'Defines the config options for the autocompletion feature.' => '자동 완성 기능의 구성 옵션을 정의합니다.',
+        'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketSeenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
+            '',
+        'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketUnseenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
+            '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             '환경 설정 보기에 표시할 이 항목의 구성 매개 변수를 정의합니다.',
         'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -7155,9 +7539,11 @@ Thanks for your help!
         'Defines the connections for http/ftp, via a proxy.' => '프록시를 통해 http / ftp에 대한 연결을 정의합니다.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             '공유 비밀 키가 저장되는 고객 기본 설정 키를 정의합니다.',
+        'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             '양식 (옵션 또는 입력 필드)에 사용되는 날짜 입력 형식을 정의합니다.',
-        'Defines the default CSS used in rich text editors.' => '서식있는 텍스트 편집기에 사용되는 기본 CSS를 정의합니다.',
+        'Defines the default CSS for creating CKEditor articles.' => '',
+        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             '',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7166,10 +7552,10 @@ Thanks for your help!
             '에이전트 인터페이스의 티켓 비어있는 텍스트 화면에서 노트의 기본 본문을 정의합니다.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '고객 사용자 주소록 검색 (CustomerUser 또는 CustomerCompany)의 기본 필터 필드를 정의합니다. CustomerCompany 필드의 경우 접두사 \'CustomerCompany_\'를 추가해야합니다.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
+        'Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
             '',
-        'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
-            '기본 프런트 엔드 언어를 정의합니다. 가능한 모든 값은 시스템에서 사용 가능한 언어 파일에 의해 결정됩니다 (다음 설정 참조).',
+        'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
+            '',
         'Defines the default history type in the customer interface.' => '고객 인터페이스에서 기본 기록 유형을 정의합니다.',
         'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
             '',
@@ -7465,6 +7851,8 @@ Thanks for your help!
             '시스템 유지 보수가 활성화 된 상태에서 고객이 로그인 한 경우 고객 인터페이스에 알림을 표시 할 모듈을 정의합니다.',
         'Defines the module to display a notification in the customer interface, if the customer user has not yet selected a time zone.' =>
             '고객 사용자가 아직 시간대를 선택하지 않은 경우 고객 인터페이스에 알림을 표시할 모듈을 정의합니다.',
+        'Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info.' =>
+            '',
         'Defines the module to generate code for periodic page reloads.' =>
             '정기적 페이지 제로드를 위한 코드를 생성하는 모듈을 정의합니다.',
         'Defines the module to send emails. "DoNotSendEmail" doesn\'t send emails at all. Any of the "SMTP" mechanisms use a specified (external) mailserver. "Sendmail" directly uses the sendmail binary of your operating system. "Test" doesn\'t send emails, but writes them to $OTOBO_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes.' =>
@@ -7568,6 +7956,10 @@ Thanks for your help!
             '에이전트 티켓에서 전화 티켓의받는 사람 대상과 전자 메일 티켓의 보낸 사람을 정의합니다 ( "대기열"은 모든 대기열을 나타내며 "시스템 주소"는 모든 시스템 주소를 표시합니다).',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
             '티켓의 수신자 대상을 정의합니다 ( "대기열"은 모든 대기열을 나타내며 "시스템 주소"는 시스템 주소에 할당 된 대기열 만 표시 함).',
+        'Defines the redirect URL for setting a ticket article to \'seen\'.' =>
+            '',
+        'Defines the redirect URL for setting a ticket article to \'unseen\'.' =>
+            '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '에이전트 인터페이스의 에스컬레이션 보기에 티켓을 표시하는데 필요한 권한을 정의합니다.',
         'Defines the search limit for the stats.' => '통계에 대한 검색 제한을 정의합니다.',
@@ -7638,6 +8030,8 @@ Thanks for your help!
             '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '잠금 해제 된 티켓의 유효한 상태를 정의합니다. 티켓의 잠금을 해제하려면 "bin / otobo.Console.pl Maint :: Ticket :: UnlockTimeout"스크립트를 사용할 수 있습니다.',
+        'Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.' =>
+            '',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
             '티켓의 표시 가능 잠금을 정의합니다. 참고 :이 설정을 변경할 때 새 값을 사용하려면 캐시를 삭제해야합니다. 기본값 : 잠금 해제, tmp_lock.',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
@@ -7661,6 +8055,7 @@ Thanks for your help!
         'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
             '티켓 상태 유형이 링크된 티켓 목록에 나열되어서는 안되는 티켓을 정의합니다.',
         'Delete expired cache from core modules.' => '만료된 캐시를 코어 모듈에서 삭제하십시오.',
+        'Delete expired form cache hourly.' => '',
         'Delete expired loader cache weekly (Sunday mornings).' => '매주 만료된 로더 캐시를 삭제하십시오 (일요일 오전).',
         'Delete expired sessions.' => '만료된 세션을 삭제하십시오.',
         'Delete expired ticket draft entries.' => '만료된 티켓 초안 항목을 삭제하십시오.',
@@ -7678,6 +8073,8 @@ Thanks for your help!
             '링크를 삭제할 버튼이 각 줌 마스크의 각 링크 옆에 표시되어야 하는지 여부를 결정합니다.',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             '티켓으로 이동할 수있는 대기열 목록을 드롭 다운 목록이나 에이전트 인터페이스의 새 창에 표시할지 결정합니다. "새 창"이 설정되면 티켓에 이동 노트를 추가 할 수 있습니다.',
+        'Determines if the statistics module may generate article lists.' =>
+            '',
         'Determines if the statistics module may generate ticket lists.' =>
             '통계 모듈이 티켓 목록을 생성할 수 있는지 여부를 결정합니다.',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
@@ -7708,6 +8105,8 @@ Thanks for your help!
             '상담원 인터페이스에서 수신자 (전화 티켓) 및 발신자 (전자 메일 티켓)에 대해 유효한 옵션을 결정합니다.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '고객 인터페이스에서 티켓의 수신인에 대해 유효한 대기열을 결정합니다.',
+        'Dialog to show after marking a ticket as seen' => '',
+        'Dialog to show after marking a ticket as unseen' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '외부 스크립트 내용로드를 허용하려면 HTTP 헤더 "Content-Security-Policy"를 비활성화하십시오. 이 HTTP 헤더를 비활성화하면 보안 문제가 발생할 수 있습니다! 자신이하는 일을 아는 경우에만 사용을 중지하십시오!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -7722,27 +8121,42 @@ Thanks for your help!
             '전체 텍스트 검색 내에서 중지 단어를 사용할 때 경고를 표시하고 검색을 차단합니다.',
         'Display communication log entries.' => '통신 로그 항목을 표시하십시오.',
         'Display settings to override defaults for Process Tickets.' => '프로세스 티켓의 기본값을 대체하는 설정 표시.',
+        'Display settings to override defaults for dynamic field widget for Tickets.' =>
+            '',
+        'Displayable via click' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '티켓 확대보기에서 기사의 계정 시간을 표시합니다.',
         'Displays the number of all tickets with the same CustomerID as current ticket in the ticket zoom view.' =>
             '티켓 확대보기에서 현재 티켓과 동일한 CustomerID를 가진 모든 티켓 수를 표시합니다.',
-        'Down' => '하위',
         'Dropdown' => '쓰러지다',
         'Dutch' => '네덜란드 사람',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             '전체 텍스트 색인에 대한 네덜란드어 중지 단어. 이 단어는 검색 색인에서 제거됩니다.',
+        'Dynamic Field Contents' => '',
+        'Dynamic Field Information' => '',
+        'Dynamic Field Labels' => '',
+        'Dynamic Field Set' => '',
+        'Dynamic Field Set Backend GUI' => '',
         'Dynamic Fields Checkbox Backend GUI' => '동적 필드 확인란 백엔드 GUI',
         'Dynamic Fields Contact Data Backend GUI' => '',
         'Dynamic Fields Database Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '동적 필드 날짜 시간 백엔드 GUI',
         'Dynamic Fields Drop-down Backend GUI' => '동적 필드 드롭 다운 백엔드 GUI',
         'Dynamic Fields GUI' => '동적 필드 GUI',
+        'Dynamic Fields Lens Backend GUI' => '',
         'Dynamic Fields Multiselect Backend GUI' => '동적 필드 다중 선택 백엔드 GUI',
         'Dynamic Fields Overview Limit' => '동적 필드 개요 제한',
+        'Dynamic Fields Reference Backend GUI' => '',
         'Dynamic Fields Text Backend GUI' => '동적 필드 텍스트 백엔드 GUI',
         'Dynamic Fields Web Service Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '검색 결과를 CSV 형식으로 내보내는 데 사용되는 동적 필드입니다.',
+        'Dynamic field event module that deletes script field events if a dynamic field of type script gets deleted.' =>
+            '',
+        'Dynamic field event module that updates PartOfSet attributes of fields which are included in a set.' =>
+            '',
+        'Dynamic fields groups for dynamic field widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
+            '',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '프로세스 위젯의 동적 필드 그룹. 키는 그룹의 이름이고, 값은 표시 할 필드를 포함합니다. 예 : \'Key => My Group\', \'Content : Name_X, NameY\'.',
         'Dynamic fields limit per page for Dynamic Fields Overview.' => '동적 필드 개요에 대한 페이지 당 동적 필드 제한',
@@ -7750,6 +8164,8 @@ Thanks for your help!
             '동적 필드 옵션은 고객 인터페이스의 티켓 메시지 화면에 표시됩니다. 노트. 이러한 필드를 고객 인터페이스의 티켓 확대에도 표시하려면 CustomerTicketZoom ### DynamicField에서 활성화해야합니다.',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
             '동적 필드 옵션은 고객 인터페이스의 티켓 확대 / 축소 화면에서 티켓 응답 섹션에 표시됩니다.',
+        'Dynamic fields shown in the dynamic field widget in ticket zoom screen of the agent interface.' =>
+            '',
         'Dynamic fields shown in the email outbound screen of the agent interface.' =>
             '에이전트 인터페이스의 전자 메일 아웃바운드 화면에 표시되는 동적 필드입니다.',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface.' =>
@@ -7834,6 +8250,7 @@ Thanks for your help!
         'Enables file upload in the package manager frontend.' => '패키지 관리자 프론트 엔드에서 파일 업로드를 사용 가능하게 합니다.',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             '템플릿에 대한 캐싱을 사용하거나 사용하지 않도록 설정합니다. 경고 : 프로덕션 환경에서 템플릿 캐싱을 사용하지 않도록 설정하면 성능이 크게 떨어질 수 있습니다. 이 설정은 디버깅을 이유로 사용하지 않아야 합니다!',
+        'Enables or disables the debug mode for translations module.' => '',
         'Enables or disables the debug mode over frontend interface.' => '프론트 엔드 인터페이스에서 디버그 모드를 활성화 또는 비활성화합니다. ',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '티켓 워처 기능을 사용 또는 사용 중지하여 소유자 또는 책임자가 아닌 티켓을 추적합니다.',
@@ -7863,6 +8280,7 @@ Thanks for your help!
         'Escalation view' => 'Escalation 뷰',
         'EscalationTime' => '에스컬레이션 시간',
         'Estonian' => '에스토니아 사람',
+        'Evaluate all script fields.' => '',
         'Event module registration (store historical data in dynamic fields).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
@@ -7957,6 +8375,8 @@ Thanks for your help!
         'French stop words for fulltext index. These words will be removed from the search index.' =>
             '전체 텍스트 인덱스에 대한 프랑스어 중지 단어. 이 단어는 검색 색인에서 제거됩니다.',
         'Frontend' => '프론트 엔드',
+        'Frontend module for dashboard info tile in customer interface.' =>
+            '',
         'Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).' =>
             '프론트 엔드 모듈 등록 (티켓 서비스 기능을 사용하지 않는 경우 AgentTicketService 링크를 비활성화).',
         'Frontend module registration (disable company link if no company feature is used).' =>
@@ -7975,6 +8395,7 @@ Thanks for your help!
         'Fulltext search using Elasticsearch.' => '',
         'FulltextES' => '',
         'Galician' => '갈리시아 사람',
+        'General Label' => '',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '티켓 개요에 표시된 일반 티켓 데이터 (폴백). TicketNumber는 필요하므로 비활성화 할 수 없습니다.',
         'Generate HTML comment hooks for the specified blocks so that filters can use them.' =>
@@ -8094,6 +8515,8 @@ Thanks for your help!
             'CryptType에 대해 "bcrypt"를 선택한 경우 bcrypt 해싱에 여기에 지정된 비용을 사용하십시오. 현재 최대 지원 비용 값은 31입니다.',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'LogModule에 대해 "file"을 선택하면 로그 파일을 지정해야합니다. 파일이 없으면 시스템에 의해 작성됩니다.',
+        'If activated, a clicked activity button will be hidden in the customer ticket zoom frontend.' =>
+            '',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             '활성화되어 있는 경우 등록을 허용하는 정규 표현식이 사용자의 전자 메일 주소와 일치하지 않을 수 있습니다.',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -8154,7 +8577,9 @@ Thanks for your help!
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             'AgentTicketZoom에서 시스템 발신자 기사 유형 (예 : 자동 응답 또는 이메일 알림)을 \'읽지 않은 기사\'로 표시하거나 큰보기 화면에서 자동으로 확장하도록 무시합니다.',
         'Ignores not ticket related attributes.' => '',
+        'Import and export object information.' => '',
         'Import appointments screen.' => '약속 가져오기 화면.',
+        'Import/Export' => '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '큐를 선택할 때 기본값 당 서브 큐 티켓을 포함하십시오.',
         'Include unknown customers in ticket filter.' => '티켓 필터에 알 수없는 고객을 포함시킵니다.',
@@ -8188,7 +8613,7 @@ Thanks for your help!
         'JavaScript function for the search frontend.' => '검색 프론트 엔드 용 JavaScript 함수.',
         'Jump to OTOBO!' => '',
         'Korean' => '',
-        'Language' => '언어',
+        'Languages' => '',
         'Large' => '큰',
         'Last Screen Overview' => '마지막 화면 개요',
         'Last customer subject' => '마지막 고객 주제',
@@ -8198,7 +8623,9 @@ Thanks for your help!
         'Lastname, Firstname (UserLogin)' => '성, 이름 (UserLogin)',
         'LastnameFirstname' => '성 이름',
         'Latvian' => '라트비아 사람',
+        'Lax' => '',
         'Left' => '왼쪽',
+        'Lens' => '',
         'Link Object' => '링크 개체',
         'Link Object.' => '링크 개체.',
         'Link agents to groups.' => '에이전트를 그룹에 연결하십시오.',
@@ -8243,8 +8670,12 @@ Thanks for your help!
         'List of responsive CSS files to always be loaded for the customer interface.' =>
             '응답 성 CSS 파일 목록은 고객 인터페이스 용으로 항상로드됩니다.',
         'List of states for which escalations should be suspended.' => '',
+        'List of ticket masks which can be altered using AdminTicketMask.' =>
+            '',
         'List view' => '목록보기',
         'Lithuanian' => '리투아니아 사람',
+        'Loader module for dashboard info tile in customer interface.' =>
+            '',
         'Loader module registration for the agent interface.' => '에이전트 인터페이스에 대한 로더 모듈 등록.',
         'Loader module registration for the customer interface.' => '',
         'Lock / unlock this ticket' => '이 티켓 잠금 / 잠금 해제',
@@ -8269,6 +8700,7 @@ Thanks for your help!
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '세션 관리가 html 쿠키를 사용하게합니다. html 쿠키가 비활성화되거나 클라이언트 브라우저가 html 쿠키를 비활성화 한 경우 시스템은 평소와 같이 작동하고 링크에 세션 ID를 추가합니다.',
         'Malay' => '말레이 사람',
+        'Manage Customer Dashboard Info Tile Entries' => '',
         'Manage OTOBO Team cloud services.' => '',
         'Manage PGP keys for email encryption.' => '전자 메일 암호화를위한 PGP 키 관리.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'POP3 또는 IMAP 계정을 관리하여 전자 메일을 가져옵니다.',
@@ -8280,8 +8712,11 @@ Thanks for your help!
         'Manage support data.' => '지원 데이터를 관리합니다.',
         'Manage system registration.' => '시스템 등록을 관리합니다.',
         'Manage tasks triggered by event or time based execution.' => '이벤트 또는 시간 기반 실행에 의해 트리거된 작업을 관리합니다.',
+        'Manage ticket state pre-selections for response templates.' => '',
         'Mark as Spam!' => '스팸으로 표시하십시오!',
         'Mark this ticket as junk!' => '이 티켓을 정크로 표시하십시오!',
+        'Mark ticket as seen' => '',
+        'Mark ticket as unseen' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '작성 화면의 고객 정보 테이블 (전화 및 이메일)의 최대 크기 (문자 수).',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -8410,6 +8845,8 @@ Thanks for your help!
             'OTOBO는 전체 텍스트 검색이나 통계 생성과 같은 값 비싼 작업에 대해 하나 이상의 읽기 전용 미러 데이터베이스를 사용할 수 있습니다. 여기서 첫 번째 미러 데이터베이스에 대해 DSN을 지정할 수 있습니다.',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             'OTOBO는 끝 날짜 또는 반복 횟수가없는 되풀이 약속을 지원하지 않습니다. 가져 오기 프로세스 중에 ICS 파일에 이러한 약속이 포함될 수 있습니다. 대신, 시스템은 과거의 모든 약속과 다음 N 개월 (기본적으로 120 개월 / 10 년)의 약속을 작성합니다.',
+        'Object backend module registration for the import/export module.' =>
+            '',
         'Objects to search for, how many entries and which attributs to show.' =>
             '',
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
@@ -8527,6 +8964,7 @@ Thanks for your help!
         'People' => '사람들',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>
             '구성된 각 웹 서비스의 각 이벤트 (Invoker)에 대해 구성된 작업을 수행합니다.',
+        'Permanent' => '',
         'Permitted width for compose email windows.' => '전자 메일 작성용으로 허용된 너비.',
         'Permitted width for compose note windows.' => '노트 작성 윈도우의 너비 허용.',
         'Persian' => '페르시아인',
@@ -8580,8 +9018,20 @@ Thanks for your help!
             '',
         'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => '리프레쉬 간격',
+        'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>
+            '',
+        'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as unseen.' =>
+            '',
+        'Registers a link in the ticket menu to mark a ticket as seen.' =>
+            '',
+        'Registers a link in the ticket menu to mark a ticket as unseen.' =>
+            '',
         'Registers a log module, that can be used to log communication related information.' =>
             '통신 관련 정보를 기록하는데 사용할 수있는 로그 모듈을 등록합니다.',
+        'Registration of the CSV format backend module for the ImportExport feature.' =>
+            '',
+        'Registration of the JSON format backend module for the ImportExport feature.' =>
+            '',
         'Reminder Tickets' => '잊지 말아야 할 티켓',
         'Removed subscription for user "%s".' => '"%s" 사용자에 대한 가입이 삭제되었습니다.',
         'Removes old generic interface debug log entries created before the specified amount of days.' =>
@@ -8642,6 +9092,7 @@ Thanks for your help!
             '아카이브에서 티켓을 복원합니다(이벤트가 사용 가능한 열린 상태로 상태가 변경된 경우에만).',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '서비스가 잘못된 요소의 하위 항목인 경우에도 목록의 모든 서비스를 유지합니다.',
+        'Richtext' => '',
         'Right' => '권리',
         'Roles ↔ Groups' => '역할 ↔ 그룹',
         'Romanian' => '',
@@ -8658,12 +9109,14 @@ Thanks for your help!
             '시스템을 "데모"모드로 실행합니다. 이 옵션을 사용하면 상담원 웹 인터페이스를 통해 언어 및 테마 선택과 같은 기본 설정을 변경할 수 있습니다. 이러한 변경은 현재 세션에서만 유효합니다. 에이전트가 암호를 변경할 수는 없습니다.',
         'Russian' => '러시아인',
         'S/MIME Certificates' => 'S / MIME 인증서',
+        'SLAs' => '',
         'Salutations' => '인사말',
         'Sample command output' => '샘플 명령 출력',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
             '',
         'Schedule a maintenance period.' => '유지 보수 기간을 예약하십시오.',
         'Screen after new ticket' => '새로운 티켓 후에 화면',
+        'Script (Template Toolkit)' => '',
         'Search Customer' => '고객 검색',
         'Search Ticket.' => '티켓 검색.',
         'Search Tickets.' => '티켓 검색.',
@@ -8699,7 +9152,7 @@ Thanks for your help!
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '모든 발신 이메일을 bcc를 통해 지정된 주소로 보냅니다. 백업 목적으로 만 사용하십시오.',
         'Sends customer notifications just to the mapped customer.' => '매핑된 고객에게 고객 알림만 보냅니다.',
-        'Sends registration information to OTOBO group.' => 'OTOBO 그룹에 등록 정보를 보냅니다.',
+        'Sends registration information to Rother OSS.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '미리 알림 날짜에 도달 한 후 잠금 해제 된 티켓에 대한 미리 알림을 전송합니다 (티켓 소유자에게만 전송 됨).',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
@@ -8946,12 +9399,14 @@ Thanks for your help!
         'Show article as rich text even if rich text writing is disabled.' =>
             '리치 텍스트 쓰기가 비활성화된 경우에도 기사를 리치 텍스트로 표시하십시오.',
         'Show command line output.' => '명령 행 출력보기.',
+        'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => '잠긴 티켓만 있는 경우에도 대기열을 표시하십시오.',
         'Show the current owner in the customer interface.' => '고객 인터페이스에 현재 소유자를 표시하십시오.',
         'Show the current queue in the customer interface.' => '고객 인터페이스에 현재 대기열을 표시하십시오.',
         'Show the history for this ticket' => '이 티켓의 기록 표시',
         'Show the ticket history' => '티켓 기록보기',
         'Show various content.' => '',
+        'ShowHideDeletedArticles' => '',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             '기사에 첨부 파일이 있는 경우 티켓 확대 / 축소의 첨부 파일 수를 표시합니다.',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -9016,6 +9471,8 @@ Thanks for your help!
             '메뉴에 링크를 표시하여 에이전트 인터페이스의 티켓 확대보기에서 보류중인 티켓을 설정합니다. 이 링크를 표시하거나 표시하지 않으려는 추가 액세스 제어는 키 "그룹"과 "rw : group1; move_into : group2"와 같은 내용을 사용하여 수행 할 수 있습니다. 클러스터 항목 메뉴를 사용하려면 Key "ClusterName"에 사용하고 Content 이름에는 UI에 표시합니다. "ClusterPriority"를 사용하여 툴바에서 특정 클러스터의 순서를 구성하십시오.',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             '메뉴에 링크를 표시하여 에이전트 인터페이스의 모든 티켓 개요에 있는 티켓의 우선 순위를 설정합니다.',
+        'Shows a link in the menu to show/hide deleted articles in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>
             '메뉴에 링크를 표시하여 에이전트 인터페이스의 티켓 개요에서 티켓을 확대 / 축소합니다.',
         'Shows a link to access article attachments via a html online viewer in the zoom view of the article in the agent interface.' =>
@@ -9205,6 +9662,7 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '링크 개체 마스크가 시작된 후 활성 개체의 와일드 카드 검색을 시작합니다.',
         'Stat#' => '통계#',
+        'State pre-selection for Templates' => '',
         'States' => '상태',
         'Statistics overview.' => '통계 개요.',
         'Statistics reports.' => '',
@@ -9213,6 +9671,7 @@ Thanks for your help!
         'Stopped solution time escalation.' => '중지된 솔루션 시간 에스컬레이션.',
         'Stopped update time escalation.' => '업데이트 시간 에스컬레이션이 중지되었습니다.',
         'Stores cookies after the browser has been closed.' => '브라우저가 닫힌 후에 쿠키를 저장합니다.',
+        'Strict' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '대기열 보기의 티켓 미리보기에서 빈 줄을 제거합니다.',
         'Strips empty lines on the ticket preview in the service view.' =>
             '서비스보기의 티켓 미리보기에서 빈 줄을 제거합니다.',
@@ -9220,6 +9679,8 @@ Thanks for your help!
         'Suspend already escalated tickets.' => '',
         'Swahili' => '스와힐리어',
         'Swedish' => '스웨덴어',
+        'Switch deleted article status view' => '',
+        'Switch deleted article status view.' => '',
         'System Address Display Name' => '시스템 주소 표시 이름',
         'System Configuration Deployment' => '시스템 구성 배치',
         'System Configuration Group' => '시스템 구성 그룹',
@@ -9311,6 +9772,8 @@ Thanks for your help!
         'This option defines the process tickets default priority.' => '이 옵션은 프로세스 티켓의 기본 우선 순위를 정의합니다.',
         'This option defines the process tickets default queue.' => '이 옵션은 프로세스 티켓 기본 큐를 정의합니다.',
         'This option defines the process tickets default state.' => '이 옵션은 프로세스 티켓 기본 상태를 정의합니다.',
+        'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
+            '',
         'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
             '이 옵션은 고객 사용자가 생성하지 않은 고객 회사 티켓에 대한 액세스를 거부합니다.',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
@@ -9327,6 +9790,7 @@ Thanks for your help!
         'Ticket FreeText.' => 'Ticket FreeText.',
         'Ticket History.' => '티켓 기록.',
         'Ticket Lock.' => '티켓 잠금.',
+        'Ticket Masks' => '',
         'Ticket Merge.' => '표 병합.',
         'Ticket Move.' => '티켓 이동.',
         'Ticket Note.' => '티켓 메모.',
@@ -9341,6 +9805,8 @@ Thanks for your help!
         'Ticket Priority.' => '티켓 심각도',
         'Ticket Queue Overview' => '티켓 대기열 개요',
         'Ticket Responsible.' => '책임 티켓.',
+        'Ticket States' => '',
+        'Ticket Types' => '',
         'Ticket Watcher' => '티켓 워처',
         'Ticket Zoom' => '티켓 확대/축소',
         'Ticket Zoom.' => '티켓 확대/축소.',
@@ -9356,6 +9822,7 @@ Thanks for your help!
         'Ticket overview' => '티켓 개요',
         'Ticket plain view of an email.' => '전자 메일의 일반보기 티켓.',
         'Ticket split dialog.' => '티켓 분할 대화 상자.',
+        'Ticket state pre-selection for response templates' => '',
         'Ticket title' => '티켓 제목',
         'Ticket zoom view.' => '티켓 줌뷰',
         'TicketNumber' => '티켓번호',
@@ -9363,6 +9830,8 @@ Thanks for your help!
             '',
         'Tickets.' => '티켓',
         'Tile registration for the CustomerDashboard. Module is required.' =>
+            '',
+        'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '보류 중 상태 (기본값 : 86400 = 1 일)를 설정하면 실제 시간에 추가되는 시간 초입니다.',
@@ -9373,6 +9842,10 @@ Thanks for your help!
             'PackageManager의 OTOBO FeatureAddons 목록 표시를 토글합니다.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '도구 모음 단축키 항목입니다. 이 링크를 표시하거나 표시하지 않으려는 추가 액세스 제어는 키 "그룹"과 "rw : group1; move_into : group2"와 같은 내용을 사용하여 수행 할 수 있습니다.',
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+            '',
+        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+            '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '약속 알림을위한 전송 선택. 참고 : \'활성\'을 0으로 설정하면 상담원이이 그룹의 개인 환경 설정에서 설정을 편집하지 못하게되지만 관리자가 다른 사용자를 대신하여 설정을 편집 할 수 있습니다. \'PreferenceGroup\'을 사용하여 이러한 설정을 사용자 인터페이스에 표시 할 영역을 제어하십시오.',
         'Transport selection for ticket notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -9396,7 +9869,6 @@ Thanks for your help!
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             '메모가 추가되고 소유자가 부재할 때마다 티켓을 잠금 해제하십시오.',
         'Unlocked ticket.' => '잠금해제된 티켓',
-        'Up' => '위',
         'Upcoming Events' => '다가오는 이벤트',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '모든 기사가 보거나 새로운 기사가 생성되면 티켓을 읽습니다.',
@@ -9419,6 +9891,7 @@ Thanks for your help!
             '기사, 인사말, 서명, 표준 템플릿, 자동 응답 및 알림과 같은보기 및 편집을 위해 richtext를 사용합니다.',
         'Vietnam' => '베트남',
         'View performance benchmark results.' => '실적 벤치 마크 결과를 봅니다.',
+        'View stored article version.' => '',
         'Watch this ticket' => '티켓보기',
         'Watched Tickets' => '이미본티켓',
         'Watched Tickets.' => '이미본티켓',
@@ -9427,7 +9900,7 @@ Thanks for your help!
             '우리는 예정된 유지 보수를 수행하고 있습니다. 일시적으로 로그인 할 수 없습니다.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             '우리는 예정된 유지보수를 수행하고 있습니다. 우리는 곧 온라인으로 돌아와야 합니다.',
-        'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS version 2-6 and OTOBO 10..' =>
+        'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
             '',
         'Web Service' => '',
         'Web Services' => '웹서비스',
@@ -9502,6 +9975,7 @@ Thanks for your help!
         'Add to favourites',
         'Agent',
         'All occurrences',
+        'All translations must be filled!',
         'All-day',
         'An error occurred during communication.',
         'An error occurred! Please check the browser error log for more details!',
@@ -9514,13 +9988,22 @@ Thanks for your help!
         'Apr',
         'April',
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
+        'Are you sure you want to delete this article?',
         'Are you sure you want to remove all user values?',
+        'Are you sure you want to restore this article?',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
+        'Article Delete',
+        'Article Restore',
+        'Article already marked as deleted.',
+        'Article deleted successfully!',
         'Article display',
         'Article filter',
+        'Article not available for restoring.',
+        'Article restored successfully!',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
         'Ascending sort applied, ',
+        'At least one translation must be filled!',
         'Attachment was deleted successfully.',
         'Attachments',
         'Aug',
@@ -9541,6 +10024,7 @@ Thanks for your help!
         'Click to select files or just drop them here.',
         'Click to select or drop files here.',
         'Clone web service',
+        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',
@@ -9570,8 +10054,10 @@ Thanks for your help!
         'Delete this Operation',
         'Delete this PostMasterFilter',
         'Delete this Template',
+        'Delete this template',
         'Delete web service',
         'Deleting attachment...',
+        'Deleting template...',
         'Deleting the field and its data. This may take a while...',
         'Deleting the mail account and its data. This may take a while...',
         'Deleting the postmaster filter and its data. This may take a while...',
@@ -9588,6 +10074,7 @@ Thanks for your help!
         'Do you really want to continue?',
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
+        'Do you really want to delete this customer dashboard info tile entry?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
@@ -9612,6 +10099,7 @@ Thanks for your help!
         'Error during AJAX communication',
         'Error during AJAX communication. Status: %s, Error: %s',
         'Error in the mail settings. Please correct and try again.',
+        'Error trying to create CodeMirror instance, please check configuration!',
         'Error: Browser Check failed!',
         'Event Type Filter',
         'Expanded',
@@ -9632,6 +10120,7 @@ Thanks for your help!
         'If you now leave this page, all open popup windows will be closed, too!',
         'Ignore',
         'Import web service',
+        'Information',
         'Information about the OTOBO Daemon',
         'Invalid date (need a future date)!',
         'Invalid date (need a past date)!',
@@ -9663,6 +10152,7 @@ Thanks for your help!
         'May',
         'May_long',
         'Migrate',
+        'Missing Translations',
         'Mo',
         'Mon',
         'Monday',
@@ -9787,6 +10277,7 @@ Thanks for your help!
         'Switch to mobile mode',
         'System Registration',
         'Team',
+        'Template was deleted successfully.',
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
@@ -9800,6 +10291,7 @@ Thanks for your help!
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',
+        'There was an error deleting the template. Please check the logs for more information.',
         'There was an error. Please save all settings you are editing and check the logs for more information.',
         'This Activity cannot be deleted because it is the Start Activity.',
         'This Activity is already used in the Process. You cannot add it twice!',
