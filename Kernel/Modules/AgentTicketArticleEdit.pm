@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,10 +16,29 @@
 
 package Kernel::Modules::AgentTicketArticleEdit;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw( Kernel::Modules::AgentTicketActionCommon );
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language qw(Translatable);
+
+our @ObjectDependencies = qw(
+    Kernel::Config
+    Kernel::Output::HTML::Layout
+    Kernel::System::Log
+    Kernel::System::Ticket
+    Kernel::System::Ticket::Article
+    Kernel::System::Ticket::ArticleFeatures
+    Kernel::System::Web::Request
+);
 
 sub Run {
     my ( $Self, %Param ) = @_;
@@ -169,7 +188,8 @@ sub _ArticleDeletion {
             TicketID  => $Self->{TicketID}
         );
 
-        if ( $Success ) {
+        if ($Success) {
+
             # add history entry
             $TicketObject->HistoryAdd(
                 TicketID     => $Self->{TicketID},
@@ -181,8 +201,8 @@ sub _ArticleDeletion {
         }
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority    => 'error',
-                Message     => 'Error trying to restore article id: ' . $Self->{ArticleID}
+                Priority => 'error',
+                Message  => 'Error trying to restore article id: ' . $Self->{ArticleID}
             );
         }
     }
@@ -195,7 +215,8 @@ sub _ArticleDeletion {
             UserID    => $Self->{UserID}
         );
 
-        if ( $Success ) {
+        if ($Success) {
+
             # TODO: move history to System module
             # add history entry
             $TicketObject->HistoryAdd(
@@ -207,8 +228,8 @@ sub _ArticleDeletion {
         }
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority    => 'error',
-                Message     => 'Error trying to delete article id: ' . $Self->{ArticleID}
+                Priority => 'error',
+                Message  => 'Error trying to delete article id: ' . $Self->{ArticleID}
             );
 
             $TicketObject->_TicketCacheClear( TicketID => $Self->{TicketID} );
