@@ -1805,30 +1805,44 @@ sub Footer {
         )
         : ();
 
-    # Check if CKEditor translation exists
+    # JavaScript for rich text editor
     my $WebPath = $ConfigObject->Get('Frontend::WebPath');
-    $Param{RichTextSet}                 = $ConfigObject->Get('Frontend::RichText') || '';
-    $Param{LoadRichTextTranslationFile} = 0;
-    if ( $Param{RichTextSet} ) {
+    if ( $ConfigObject->Get('Frontend::RichText') ) {
+
+        # ckeditor.js is always loaded when rich text is enabled
+        $Self->Block(
+            Name => 'RichTextJS',
+            Data => {
+                JSDirectory => '',
+                Filename    => 'ckeditor.js',
+            },
+        );
 
         # assemble the path to the translation file based on the relevant URLs
         my $RichTextPath = $ConfigObject->Get('Frontend::RichTextPath');
         if ( $RichTextPath && $WebPath ) {
             my $Home = $ConfigObject->Get('Home');
             $RichTextPath =~ s/$WebPath//s;
-            my $RichTextTranslationFile = lc "$Self->{UserLanguage}.js";
-            $RichTextTranslationFile =~ s/_/-/g;
-            my $TranslationFile = File::Spec->catfile(
+            my $TranslationFile = lc "$Self->{UserLanguage}.js";
+            $TranslationFile =~ s/_/-/g;
+            my $TranslationFullPath = File::Spec->catfile(
                 $Home,
                 'var/httpd/htdocs',
                 $RichTextPath,
                 'translations',
-                $RichTextTranslationFile
+                $TranslationFile
             );
 
-            # set the template variables
-            $Param{RichTextTranslationFile}     = $RichTextTranslationFile;
-            $Param{LoadRichTextTranslationFile} = -f $TranslationFile ? 1 : 0;
+            # load the translation file only if it exists
+            if ( -f $TranslationFullPath ) {
+                $Self->Block(
+                    Name => 'RichTextTranslationJS',
+                    Data => {
+                        JSDirectory => 'translations/',
+                        Filename    => $TranslationFile,
+                    },
+                );
+            }
         }
     }
 
@@ -4496,31 +4510,44 @@ sub CustomerFooter {
             = $Self->{LanguageObject}->Translate( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
     }
 
-    # Check if CKEditor translation exists
+    # JavaScript for rich text editor
     my $WebPath = $ConfigObject->Get('Frontend::WebPath');
-    $Param{RichTextSet}                 = $ConfigObject->Get('Frontend::RichText') || '';
-    $Param{LoadRichTextTranslationFile} = 0;
-    if ( $Param{RichTextSet} ) {
+    if ( $ConfigObject->Get('Frontend::RichText') ) {
+
+        # ckeditor.js is always loaded when rich text is enabled
+        $Self->Block(
+            Name => 'RichTextJS',
+            Data => {
+                JSDirectory => '',
+                Filename    => 'ckeditor.js',
+            },
+        );
 
         # assemble the path to the translation file based on the relevant URLs
         my $RichTextPath = $ConfigObject->Get('Frontend::RichTextPath');
         if ( $RichTextPath && $WebPath ) {
             my $Home = $ConfigObject->Get('Home');
             $RichTextPath =~ s/$WebPath//s;
-            my $RichTextTranslationFile = lc "$Self->{UserLanguage}.js";
-            $RichTextTranslationFile =~ s/_/-/g;
-            $RichTextPath            =~ s/$WebPath//s;
-            my $TranslationFile = File::Spec->catfile(
+            my $TranslationFile = lc "$Self->{UserLanguage}.js";
+            $TranslationFile =~ s/_/-/g;
+            my $TranslationFullPath = File::Spec->catfile(
                 $Home,
                 'var/httpd/htdocs',
                 $RichTextPath,
                 'translations',
-                $RichTextTranslationFile
+                $TranslationFile
             );
 
-            # set the template variables
-            $Param{RichTextTranslationFile}     = $RichTextTranslationFile;
-            $Param{LoadRichTextTranslationFile} = -f $TranslationFile ? 1 : 0;
+            # load the translation file only if it exists
+            if ( -f $TranslationFullPath ) {
+                $Self->Block(
+                    Name => 'RichTextTranslationJS',
+                    Data => {
+                        JSDirectory => 'translations/',
+                        Filename    => $TranslationFile,
+                    },
+                );
+            }
         }
     }
 
@@ -5784,7 +5811,7 @@ sub _BuildSelectionDataRefCreate {
                 for my $Key ( keys %{$DataLocal} ) {
                     next KEY if !defined $DataLocal->{$Key};
 
-                    my @Translated     = map { $Self->{LanguageObject}->Translate( $_ ) } ( split /::/, $DataLocal->{$Key} );
+                    my @Translated = map { $Self->{LanguageObject}->Translate($_) } ( split /::/, $DataLocal->{$Key} );
                     $DataLocal->{$Key} = join '::', @Translated;
 
                     $List{ $DataLocal->{$Key} } = \@Translated;

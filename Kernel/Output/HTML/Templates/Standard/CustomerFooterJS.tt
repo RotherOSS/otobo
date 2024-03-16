@@ -15,12 +15,12 @@
 # --
 ## nofilter(TidyAll::Plugin::OTOBO::TT::ScriptUsage)
 
-[% IF Data.RichTextSet == "1" %]
-<script src="[% Config("Frontend::RichTextPath") _ "ckeditor.js" | html %]"></script>
-[% IF Data.LoadRichTextTranslationFile == "1" %]
-<script type="text/javascript" src="[% Config("Frontend::RichTextPath") _ "translations/" | html %][% Data.RichTextTranslationFile | html %]"></script>
-[% END %]
-[% END %]
+[% RenderBlockStart("RichTextJS") %]
+<script type="text/javascript" src="[% Config("Frontend::RichTextPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
+[% RenderBlockEnd("RichTextJS") %]
+[% RenderBlockStart("RichTextTranslationJS") %]
+<script type="text/javascript" src="[% Config("Frontend::RichTextPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
+[% RenderBlockEnd("RichTextTranslationJS") %]
 
 [% RenderBlockStart("CommonJS") %]
 <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
