@@ -16,10 +16,16 @@
 
 package Kernel::Output::HTML::ArticleAction::AgentTicketArticleVersion;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
-use Kernel::Language qw(Translatable);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
