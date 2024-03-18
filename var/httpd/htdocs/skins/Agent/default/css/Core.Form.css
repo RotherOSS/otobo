@@ -699,6 +699,10 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
     width: calc(100% - 40px);
 }
 
+fieldset.TableLike .Row.MultiColumn textarea {
+    width: 100%;
+}
+
 /* Dynamic Field Set */
 
 fieldset.TableLike .DFSetOuterField {
