@@ -579,12 +579,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: auto !important;
     }
 
-    fieldset.TableLike > label,
-    fieldset.TableLike > .Row > label,
-    fieldset.TableLike > .Row > .FieldCell > label,
-    .RTL fieldset.TableLike > label,
-    .RTL fieldset.TableLike > .Row > label,
-    .RTL fieldset.TableLike > .Row > .FieldCell > label {
+    fieldset.TableLike > label:not(.ck-label),
+    fieldset.TableLike > .Row > label:not(.ck-label),
+    fieldset.TableLike > .Row > .FieldCell > label:not(.ck-label),
+    .RTL fieldset.TableLike > label:not(.ck-label),
+    .RTL fieldset.TableLike > .Row > label:not(.ck-label),
+    .RTL fieldset.TableLike > .Row > .FieldCell > label:not(.ck-label) {
         float: none;
         width: auto;
         text-align: left;
