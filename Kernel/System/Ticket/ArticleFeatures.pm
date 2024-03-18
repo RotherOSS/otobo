@@ -198,11 +198,6 @@ sub ArticleDelete {
         Bind => [ \$Param{ArticleID} ]
     );
 
-    $DBObject->Do(
-        SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID} ]
-    );
-
     # also delete email stuff to prevent possible errors
     # even though this functionality is not intended for email tickets
     $DBObject->Do(
@@ -210,12 +205,6 @@ sub ArticleDelete {
         Bind => [ \$Param{ArticleID} ]
     );
 
-    $DBObject->Do(
-        SQL  => 'DELETE FROM article_data_mime_send_error WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID} ]
-    );
-
-    # TODO: store the time accounting values in the versioned articles
     $DBObject->Do(
         SQL  => 'DELETE FROM time_accounting WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ]
@@ -357,6 +346,14 @@ sub ArticleVersion {
         Bind => [ \$Param{ArticleID} ]
     );
 
+    $DBObject->Do(
+        SQL => "INSERT INTO time_accounting_version (article_id, ticket_id, time_unit, create_time, create_by, change_time, change_by)
+                SELECT $NewArticleVersion, ticket_id, time_unit, create_time, create_by, change_time, change_by
+                FROM time_accounting
+                WHERE article_id = ?",
+        Bind => [ \$Param{ArticleID} ]
+    );    
+
     return $NewArticleVersion;
 }
 
@@ -454,6 +451,14 @@ sub ArticleRestore {
         Bind => [ \$ArticleVersionID ]
     );
 
+    $DBObject->Do(
+        SQL => "INSERT INTO time_accounting (article_id, ticket_id, time_unit, create_time, create_by, change_time, change_by)
+                SELECT $ArticleID, ticket_id, time_unit, create_time, create_by, change_time, change_by
+                FROM time_accounting_version
+                WHERE article_id = ?",
+        Bind => [ \$ArticleVersionID ]
+    );      
+
     my $Success = $DBObject->Do(
         SQL  => "UPDATE ticket_history SET article_id = ? WHERE id IN (SELECT history_id FROM article_version_history WHERE article_id = ?) AND ticket_id = ?",
         Bind => [ \$ArticleID, \$ArticleID, \$Param{TicketID} ]
@@ -482,6 +487,11 @@ sub ArticleRestore {
         );
 
         $DBObject->Do(
+            SQL  => "DELETE FROM time_accounting_version WHERE article_id = ?",
+            Bind => [ \$ArticleVersionID ]
+        );
+
+        $DBObject->Do(
             SQL  => "DELETE FROM article_version WHERE id = ?",
             Bind => [ \$ArticleVersionID ]
         );
@@ -497,6 +507,84 @@ sub ArticleRestore {
     }
 
     return $Success;
+}
+
+=head2 DeleteVersionData()
+
+Delete all version data for an article.
+
+    my $Success = $ArticleFeaturesObject->DeleteVersionData(
+        ArticleID => 123,   # required
+    );
+
+Returns:
+
+    VersionIDs = [ 1, 2 ,3 ,4 ]; #Needed IDs for cleaning article directories
+
+=cut
+
+sub DeleteVersionData {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{TicketID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need TicketID!",
+        );
+        return;
+    }
+    
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my @VersionIDs;
+    my %ArticleIDs;
+
+    $DBObject->Prepare(
+        SQL  => "SELECT id, source_article_id FROM article_version WHERE ticket_id = ?",
+        Bind => [ \$Param{TicketID} ]
+    );
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        push @VersionIDs, $Row[0];
+        $ArticleIDs{$Row[1]} = $Row[1];
+    }
+
+    #Delete history ids for deleted articles
+    foreach my $ArticleID ( keys %ArticleIDs ) {
+        $DBObject->Do(
+            SQL  => "DELETE FROM article_version_history WHERE article_id = ?",
+            Bind => [ \$ArticleID ]
+        );  
+    }
+
+    #Delete version data
+    foreach my $ArticleVersionID (@VersionIDs) {
+        $DBObject->Do(
+            SQL  => "DELETE FROM article_data_mime_att_version WHERE article_id = ?",
+            Bind => [ \$ArticleVersionID ]
+        );
+
+        $DBObject->Do(
+            SQL  => "DELETE FROM article_data_mime_version WHERE article_id = ?",
+            Bind => [ \$ArticleVersionID ]
+        );
+
+        $DBObject->Do(
+            SQL  => "DELETE FROM article_flag_version WHERE article_id = ?",
+            Bind => [ \$ArticleVersionID ]
+        );
+
+        $DBObject->Do(
+            SQL  => "DELETE FROM time_accounting_version WHERE article_id = ?",
+            Bind => [ \$ArticleVersionID ]
+        );
+
+        $DBObject->Do(
+            SQL  => "DELETE FROM article_version WHERE id = ?",
+            Bind => [ \$ArticleVersionID ]
+        );   
+    }
+
+    return @VersionIDs;
 }
 
 =head2 ShowDeletedArticles()
