@@ -779,6 +779,11 @@ sub TicketDelete {
         TicketID => $Param{TicketID},
     );
 
+    #Delete article version data
+    my @VersionIDs = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->DeleteVersionData(
+        TicketID => $Param{TicketID}
+    );    
+    
     # delete ticket_history
     return if !$Self->HistoryDelete(
         TicketID => $Param{TicketID},
@@ -790,6 +795,7 @@ sub TicketDelete {
     for my $MetaArticle (@Articles) {
         return if !$ArticleObject->BackendForArticle( %{$MetaArticle} )->ArticleDelete(
             ArticleID => $MetaArticle->{ArticleID},
+            VersionIDs => \@VersionIDs,
             %Param,
         );
     }
@@ -6414,6 +6420,19 @@ sub TicketMerge {
     return if !$DBObject->Do(
         SQL => 'UPDATE article SET ticket_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE ticket_id = ?',
+        Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
+    );
+
+    # change ticket id of merge ticket to main ticket for article versions
+    return if !$DBObject->Do(
+        SQL => 'UPDATE article_version SET ticket_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE ticket_id = ?',
+        Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
+    );    
+
+    # change ticket id of merge ticket to main ticket for time_accounting versions
+    return if !$DBObject->Do(
+        SQL  => 'UPDATE time_accounting_version SET ticket_id = ? WHERE ticket_id = ?',
         Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
     );
 

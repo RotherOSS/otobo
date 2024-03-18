@@ -18,6 +18,7 @@ package Kernel::System::Ticket::Article::Backend::MIMEBase::Base;
 
 use strict;
 use warnings;
+use File::Path qw(remove_tree);
 
 our $ObjectManagerDisabled = 1;
 
@@ -301,7 +302,11 @@ sub _ArticleDeleteDirectory {
     );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
     if ( -d $Path ) {
-        if ( !rmdir $Path ) {
+        foreach my $VersionID (@{$Param{VersionIDs}}) {
+            remove_tree($Path . '/'. $VersionID, { safe => 1 });
+        }
+
+        if ( !rmdir($Path) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't remove '$Path': $!.",

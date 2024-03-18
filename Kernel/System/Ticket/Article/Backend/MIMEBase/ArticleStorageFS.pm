@@ -201,7 +201,8 @@ sub ArticleDelete {
     $Self->_ArticleDeleteDirectory(
         ArticleID        => $Param{ArticleID},
         UserID           => $Param{UserID},
-        DeletedVersionID => $Param{DeletedVersionID} || 0
+        DeletedVersionID => $Param{DeletedVersionID} || 0,
+        VersionIDs       => $Param{VersionIDs} || undef
     );
 
     # Delete special article storage cache.
