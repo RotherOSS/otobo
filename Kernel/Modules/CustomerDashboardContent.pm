@@ -106,27 +106,36 @@ sub Run {
 }
 
 sub _OrderTiles {
-
     my ( $Self, %Param ) = @_;
 
     my @Tiles        = @{ $Param{Tiles} };
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $UsedTiles      = $ConfigObject->Get('CustomerDashboard::Tiles');
+    my $UsedTiles = $ConfigObject->Get('CustomerDashboard::Tiles');
+    return unless defined $UsedTiles->{'InfoTile-01'};
+
     my $TileConfig     = $UsedTiles->{'InfoTile-01'}->{Config};
     my %TileEntryOrder = %{ $TileConfig->{Order} };
     my @Result;
     my @DateSort;
-    for my $TileRef (@Tiles) {
-        my %Tile = %{$TileRef};
-        if ( $TileEntryOrder{ $Tile{Name} } ) {
-            $Tile{Order} = $TileEntryOrder{ $Tile{Name} };
-            push @Result, \%Tile;
+
+    if (%TileEntryOrder) {
+        for my $TileRef (@Tiles) {
+            my %Tile = %{$TileRef};
+            if ( $TileEntryOrder{ $Tile{Name} } ) {
+                $Tile{Order} = $TileEntryOrder{ $Tile{Name} };
+                push @Result, \%Tile;
+            }
+            else {
+                push @DateSort, \%Tile;
+            }
         }
-        else {
-            push @DateSort, \%Tile;
-        }
+
     }
+    else {
+        @DateSort = @Tiles;
+    }
+
     @Result   = sort { $a->{Order} cmp $b->{Order} } @Result;
     @DateSort = sort { $b->{StartDate} cmp $a->{StartDate} || $b->{Changed} cmp $a->{Changed} || $b->{Created} cmp $a->{Created} } @DateSort;
 
