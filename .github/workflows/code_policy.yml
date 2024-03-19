@@ -15,7 +15,7 @@ jobs:
               uses: jitterbit/get-changed-files@v1
 
             - name: 'install dependencies'
-              run: sudo apt -y update && sudo apt install -y libxml2-utils libxslt-dev graphviz libqrencode-dev perlimports
+              run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev perlimports
 
             - name: 'checkout otobo'
               uses: actions/checkout@v2
