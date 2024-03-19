@@ -404,8 +404,9 @@ sub TableAlter {
                 $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
             }
 
-            # investigate the require
-            my $Required = ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) ? 1 : 0;
+            # investigate Required and AutoIncrement
+            my $Required      = ( $Tag->{Required}      && lc $Tag->{Required} eq 'true' )      ? 1 : 0;
+            my $AutoIncrement = ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) ? 1 : 0;
 
             # handle default and require
             if ( $Required || defined $Tag->{Default} ) {
@@ -420,13 +421,11 @@ sub TableAlter {
                     $SQLAlter .= " DEFAULT $Default";
                 }
 
-                # add require
-                if ($Required) {
-                    $SQLAlter .= ' NOT NULL';
-                }
-                else {
-                    $SQLAlter .= ' NULL';
-                }
+                # add Required
+                $SQLAlter .= $Required ? ' NOT NULL' : ' NULL';
+
+                # add AutoIncrement, assuming the AutoIncrement fields are marked as Required
+                $SQLAlter .= $AutoIncrement ? ' AUTO_INCREMENT' : '';
 
                 push @SQL, $SQLAlter;
             }
@@ -453,8 +452,9 @@ sub TableAlter {
                 $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
             }
 
-            # investigate the require
-            my $Required = ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) ? 1 : 0;
+            # investigate Required and AutoIncrement
+            my $Required      = ( $Tag->{Required}      && lc $Tag->{Required} eq 'true' )      ? 1 : 0;
+            my $AutoIncrement = ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) ? 1 : 0;
 
             # handle default and require
             if ( $Required || defined $Tag->{Default} ) {
@@ -470,13 +470,11 @@ sub TableAlter {
                     $SQLAlter .= " DEFAULT $Default";
                 }
 
-                # add require
-                if ($Required) {
-                    $SQLAlter .= ' NOT NULL';
-                }
-                else {
-                    $SQLAlter .= ' NULL';
-                }
+                # add Required
+                $SQLAlter .= $Required ? ' NOT NULL' : ' NULL';
+
+                # add AutoIncrement, assuming the AutoIncrement fields are marked as Required
+                $SQLAlter .= $AutoIncrement ? ' AUTO_INCREMENT' : '';
 
                 push @SQL, $SQLAlter;
             }
