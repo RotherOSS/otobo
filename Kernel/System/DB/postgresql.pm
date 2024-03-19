@@ -249,7 +249,7 @@ sub TableCreate {
         }
 
         # auto increment
-        if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
+        if ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) {
             $SQL = "    $Tag->{Name} serial";
             if ( $Tag->{Type} =~ /^bigint$/i ) {
                 $SQL = "    $Tag->{Name} bigserial";
