@@ -15,7 +15,7 @@ jobs:
               uses: jitterbit/get-changed-files@v1
 
             - name: 'install dependencies'
-              run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev perlimports
+              run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev
 
             - name: 'checkout otobo'
               uses: actions/checkout@v2
@@ -65,6 +65,7 @@ jobs:
                 install: |
                   Code::TidyAll
                   Perl::Critic
+                  App::perlimports
                 cpanfile: cpanfile.docker
                 global: false
                 tests: false
