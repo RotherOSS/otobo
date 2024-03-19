@@ -10,6 +10,8 @@ on:
 jobs:
     CacheLocalLib:
         runs-on: 'ubuntu-latest'
+        container:
+            image: perldocker/perl-tester:5.24
         env:
             PERL5LIB: local/lib/perl5
         steps:
@@ -66,8 +68,7 @@ jobs:
                 echo '${{steps.get-sha-doublecheck.outputs.ls}}'
 
             - name: 'install dependencies'
-              if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              run: sudo apt -y update && sudo apt install -y libxml2-utils libxslt-dev graphviz
+              run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc
 
 
             - name: 'install Perl modules from CPAN'
@@ -75,8 +76,7 @@ jobs:
               uses: perl-actions/install-with-cpm@v1
               with:
                 install: |
-                  Code::TidyAll
-                  Perl::Critic
+                  App::perlimports
                 cpanfile: cpanfile.docker
                 global: false
                 tests: false
