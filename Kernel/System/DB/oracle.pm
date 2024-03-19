@@ -683,6 +683,8 @@ EOF
 
                 push @SQL, $SQLAlter;
             }
+
+            # TODO: handle AutoIncrement
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
             my $SQLEnd = $SQLStart . " DROP COLUMN $Tag->{Name}";

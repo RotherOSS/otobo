@@ -492,6 +492,9 @@ sub TableAlter {
                 else {
                     $SQLAlter .= ' NULL';
                 }
+
+                # TODO: handle AutoIncrement fields
+
                 push @SQL, $Start . $SQLAlter;
 
                 # add default
