@@ -250,9 +250,11 @@ sub TableCreate {
 
         # auto increment
         if ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) {
-            $SQL = "    $Tag->{Name} serial";
-            if ( $Tag->{Type} =~ /^bigint$/i ) {
-                $SQL = "    $Tag->{Name} bigserial";
+            if ( lc $Tag->{Type} eq 'bigint' ) {
+                $SQL .= "    $Tag->{Name} bigserial";
+            }
+            else {
+                $SQL .= "    $Tag->{Name} serial";
             }
         }
 
