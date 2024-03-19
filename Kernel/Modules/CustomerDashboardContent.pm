@@ -111,10 +111,10 @@ sub _OrderTiles {
     my @Tiles        = @{ $Param{Tiles} };
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $UsedTiles = $ConfigObject->Get('CustomerDashboard::Tiles');
-    return unless defined $UsedTiles->{'InfoTile-01'};
+    my $UsedTiles  = $ConfigObject->Get('CustomerDashboard::Tiles');
+    my $TileConfig = $UsedTiles->{'InfoTile-01'}{Config};
+    return unless IsHashRefWithData($TileConfig);
 
-    my $TileConfig     = $UsedTiles->{'InfoTile-01'}->{Config};
     my %TileEntryOrder = %{ $TileConfig->{Order} };
     my @Result;
     my @DateSort;
