@@ -16,8 +16,10 @@
 
 package Kernel::System::DB::mysql;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 
