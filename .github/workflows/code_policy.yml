@@ -5,7 +5,9 @@ on: ['pull_request']
 # on: ['push', 'pull_request']
 jobs:
     CodePolicy:
-        runs-on: 'debian-latest'
+        runs-on: 'ubuntu-latest'
+        container:
+            image: debian:latest
         env:
             PERL5LIB: local/lib/perl5
         steps:
