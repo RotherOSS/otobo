@@ -160,12 +160,12 @@ sub TableCreate {
     my $SQLEnd   = '';
     my $SQL      = '';
     my @Column;
-    my $TableName  = '';
-    my $ForeignKey = ();
+    my $TableName = '';
+    my $ForeignKey;
     my %Foreign;
-    my $IndexCurrent = ();
+    my $IndexCurrent;
     my %Index;
-    my $UniqCurrent = ();
+    my $UniqCurrent;
     my %Uniq;
     my $PrimaryKey = '';
     my @Return;
@@ -269,10 +269,8 @@ sub TableCreate {
             my $Sequence = $Self->_SequenceName(
                 TableName => $TableName,
             );
-
             my $Trigger = $Sequence . '_t';
-
-            my $Shell = '';
+            my $Shell   = '';
             if ( $ConfigObject->Get('Database::ShellOutput') ) {
                 $Shell = "/\n--";
             }
@@ -318,7 +316,6 @@ BEGIN
 END;
 $Shell
 EOF
-
         }
     }
 
@@ -426,7 +423,7 @@ sub TableAlter {
     my $SQLStart = '';
     my @SQL;
     my @Index;
-    my $IndexName     = ();
+    my $IndexName;
     my $ForeignTable  = '';
     my $ReferenceName = '';
     my @Reference;

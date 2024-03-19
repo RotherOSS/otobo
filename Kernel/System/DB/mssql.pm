@@ -157,11 +157,11 @@ sub TableCreate {
     my @Column;
     my $TableName = '';
     my %Default;
-    my $ForeignKey = ();
+    my $ForeignKey;
     my %Foreign;
-    my $IndexCurrent = ();
+    my $IndexCurrent;
     my %Index;
-    my $UniqCurrent = ();
+    my $UniqCurrent;
     my %Uniq;
     my $PrimaryKey = '';
     my @Return;
@@ -359,7 +359,7 @@ sub TableAlter {
     my $SQLStart = '';
     my @SQL;
     my @Index;
-    my $IndexName     = ();
+    my $IndexName;
     my $ForeignTable  = '';
     my $ReferenceName = '';
     my @Reference;
