@@ -156,20 +156,20 @@ sub TableCreate {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
-    my $SQLStart     = '';
-    my $SQLEnd       = '';
-    my $SQL          = '';
-    my @Column       = ();
-    my $TableName    = '';
-    my $ForeignKey   = ();
-    my %Foreign      = ();
+    my $SQLStart = '';
+    my $SQLEnd   = '';
+    my $SQL      = '';
+    my @Column;
+    my $TableName  = '';
+    my $ForeignKey = ();
+    my %Foreign;
     my $IndexCurrent = ();
-    my %Index        = ();
-    my $UniqCurrent  = ();
-    my %Uniq         = ();
-    my $PrimaryKey   = '';
-    my @Return       = ();
-    my @Return2      = ();
+    my %Index;
+    my $UniqCurrent = ();
+    my %Uniq;
+    my $PrimaryKey = '';
+    my @Return;
+    my @Return2;
 
     for my $Tag (@Param) {
 
@@ -423,14 +423,14 @@ sub TableAlter {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SQLStart      = '';
-    my @SQL           = ();
-    my @Index         = ();
+    my $SQLStart = '';
+    my @SQL;
+    my @Index;
     my $IndexName     = ();
     my $ForeignTable  = '';
     my $ReferenceName = '';
-    my @Reference     = ();
-    my $Table         = '';
+    my @Reference;
+    my $Table = '';
 
     for my $Tag (@Param) {
 
@@ -1020,9 +1020,9 @@ sub Insert {
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-    my $SQL    = '';
-    my @Keys   = ();
-    my @Values = ();
+    my $SQL = '';
+    my @Keys;
+    my @Values;
     TAG:
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
