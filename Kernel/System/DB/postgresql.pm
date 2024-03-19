@@ -250,12 +250,8 @@ sub TableCreate {
 
         # auto increment
         if ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) {
-            if ( lc $Tag->{Type} eq 'bigint' ) {
-                $SQL .= "    $Tag->{Name} bigserial";
-            }
-            else {
-                $SQL .= "    $Tag->{Name} serial";
-            }
+            my $PseudoType = lc $Tag->{Type} eq 'bigint' ? 'bigserial' : 'serial';
+            $SQL .= "    $Tag->{Name} $PseudoType";
         }
 
         # normal data type
@@ -440,11 +436,10 @@ EOF
             # auto increment
             if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
 
-                my $PseudoType = 'serial';
-                if ( $Tag->{Type} =~ /^bigint$/i ) {
-                    $PseudoType = 'bigserial';
-                }
+                my $PseudoType = lc $Tag->{Type} eq 'bigint' ? 'bigserial' : 'serial';
                 push @SQL, $SQLStart . " ADD $Tag->{Name} $PseudoType NOT NULL";
+
+                # if there is an AutoIncrement column no other changes are needed
                 next TAG;
             }
 
@@ -489,10 +484,18 @@ EOF
             if ( $Tag->{NameOld} ne $Tag->{NameNew} ) {
                 push @SQL, $SQLStart . " RENAME $Tag->{NameOld} TO $Tag->{NameNew}";
             }
-            push @SQL, $SQLStart . " ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
 
-            # if there is an AutoIncrement column no other changes are needed
-            next TAG if $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i;
+            # auto increment
+            if ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) {
+                my $PseudoType = $Tag->{Type} =~ m/^bigint$/i ? 'bigserial' : 'serial';
+                push @SQL, $SQLStart . " ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
+
+                # if there is an AutoIncrement column no other changes are needed
+                next TAG;
+            }
+
+            # normal data type
+            push @SQL, $SQLStart . " ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
 
             # set default as null
             push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} DROP NOT NULL";
@@ -880,7 +883,7 @@ sub Insert {
 
             # do not use auto increment values, in other cases use something like
             # SELECT setval('table_id_seq', (SELECT max(id) FROM table));
-            if ( $Tag->{Type} && $Tag->{Type} =~ /^AutoIncrement$/i ) {
+            if ( $Tag->{Type} && $Tag->{Type} =~ m/^AutoIncrement$/i ) {
                 next TAG;
             }
             $Tag->{Key} = ${ $Self->Quote( \$Tag->{Key} ) };
