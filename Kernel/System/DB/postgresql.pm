@@ -176,12 +176,12 @@ sub TableCreate {
     my $SQLEnd   = '';
     my $SQL      = '';
     my @Column;
-    my $TableName  = '';
-    my $ForeignKey = ();
+    my $TableName = '';
+    my $ForeignKey;
     my %Foreign;
-    my $IndexCurrent = ();
+    my $IndexCurrent;
     my %Index;
-    my $UniqCurrent = ();
+    my $UniqCurrent;
     my %Uniq;
     my $PrimaryKey = '';
     my @Return;
