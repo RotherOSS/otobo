@@ -267,7 +267,7 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
             if ( NamespaceFilter ) {
                 URL += ';NamespaceFilter=' + encodeURIComponent(NamespaceFilter);
             }
-            if ( IncludeInvalid ) {
+            if ( IncludeInvalid !== undefined ) {
                 URL += ';IncludeInvalid=' + encodeURIComponent(IncludeInvalid);
             }
             window.location = URL;
