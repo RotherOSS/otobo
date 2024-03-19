@@ -114,21 +114,29 @@ sub _OrderTiles {
 
     my $UsedTiles  = $ConfigObject->Get('CustomerDashboard::Tiles');
     my $TileConfig = $UsedTiles->{'InfoTile-01'}{Config};
+
     return unless IsHashRefWithData($TileConfig);
 
     my %TileEntryOrder = %{ $TileConfig->{Order} };
     my @Result;
     my @DateSort;
-    for my $TileRef (@Tiles) {
-        my %Tile = %{$TileRef};
-        if ( $TileEntryOrder{ $Tile{Name} } ) {
-            $Tile{Order} = $TileEntryOrder{ $Tile{Name} };
-            push @Result, \%Tile;
-        }
-        else {
-            push @DateSort, \%Tile;
+
+    if (%TileEntryOrder) {
+        for my $TileRef (@Tiles) {
+            my %Tile = %{$TileRef};
+            if ( $TileEntryOrder{ $Tile{Name} } ) {
+                $Tile{Order} = $TileEntryOrder{ $Tile{Name} };
+                push @Result, \%Tile;
+            }
+            else {
+                push @DateSort, \%Tile;
+            }
         }
     }
+    else {
+        @DateSort = @Tiles;
+    }
+
     @Result   = sort { $a->{Order} cmp $b->{Order} } @Result;
     @DateSort = sort { $b->{StartDate} cmp $a->{StartDate} || $b->{Changed} cmp $a->{Changed} || $b->{Created} cmp $a->{Created} } @DateSort;
 
