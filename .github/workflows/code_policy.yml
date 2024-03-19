@@ -62,8 +62,6 @@ jobs:
               uses: perl-actions/install-with-cpm@v1
               with:
                 install: |
-                  Code::TidyAll
-                  Perl::Critic
                   App::perlimports
                 cpanfile: cpanfile.docker
                 global: false
