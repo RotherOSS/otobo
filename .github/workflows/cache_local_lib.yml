@@ -68,6 +68,7 @@ jobs:
                 echo '${{steps.get-sha-doublecheck.outputs.ls}}'
 
             - name: 'install dependencies'
+              if: steps.cache_local_lib.outputs.cache-hit != 'true'
               run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc
 
 
