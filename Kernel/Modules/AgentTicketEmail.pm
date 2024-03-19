@@ -3213,7 +3213,7 @@ sub _MaskEmailNew {
     $Param{OptionStrg} = $LayoutObject->BuildSelection(
         Data         => $Param{Users},
         SelectedID   => $Param{UserSelected},
-        Class        => 'Modernize',
+        Class        => 'Modernize FormUpdate',
         Translation  => 0,
         Name         => 'NewUserID',
         PossibleNone => 1,
@@ -3592,7 +3592,7 @@ sub _MaskEmailNew {
             Data       => $Param{ResponsibleUsers},
             SelectedID => $Param{ResponsibleUserSelected},
             Name       => 'NewResponsibleID',
-            Class      => 'Modernize',
+            Class      => 'Modernize FormUpdate',
         );
         $LayoutObject->Block(
             Name => 'ResponsibleSelection',
