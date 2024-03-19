@@ -113,6 +113,7 @@ sub _OrderTiles {
 
     my $UsedTiles  = $ConfigObject->Get('CustomerDashboard::Tiles');
     my $TileConfig = $UsedTiles->{'InfoTile-01'}{Config};
+
     return unless IsHashRefWithData($TileConfig);
 
     my %TileEntryOrder = %{ $TileConfig->{Order} };
@@ -130,7 +131,6 @@ sub _OrderTiles {
                 push @DateSort, \%Tile;
             }
         }
-
     }
     else {
         @DateSort = @Tiles;
