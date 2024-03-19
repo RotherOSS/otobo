@@ -6,6 +6,7 @@ on:
     branches:
       - rel-10_0
       - rel-10_1
+      - rel-11_0
 jobs:
     CacheLocalLib:
         runs-on: 'ubuntu-latest'
