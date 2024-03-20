@@ -84,7 +84,7 @@ jobs:
             # Therefore make sure that at least one argument is passed.
             # :: tells prove that whatever follows should be passed to the test script
             - name: compile-check
-              run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t :: Kernel/Config.pm ${{ steps.files.outputs.all_changed_files }}'
+              run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t :: Kernel/Config.pm ${{ steps.changed-files.outputs.all_changed_files }}'
 
             - name: 'checkout CodePolicy'
               uses: actions/checkout@v4
