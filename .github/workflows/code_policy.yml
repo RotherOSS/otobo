@@ -41,7 +41,7 @@ jobs:
             - name: 'Get SHA of cpanfile.docker'
               id: get-sha
               run: |
-                 echo "::set-output name=sha::$(git rev-parse :cpanfile.docker)"
+                 echo "sha=$(git rev-parse :cpanfile.docker)" >> $GITHUB_OUTPUT
 
             - name: 'Print SHA of cpanfile.docker'
               run: |
