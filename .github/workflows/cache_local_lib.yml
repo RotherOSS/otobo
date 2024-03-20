@@ -48,7 +48,7 @@ jobs:
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20210928n
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20240320a
 
             - name: 'checkout otobo'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'

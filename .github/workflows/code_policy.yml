@@ -49,7 +49,7 @@ jobs:
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20210928n
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20240320a
 
             # for debugging when there a problems installing a module
             # - name: 'XML::LibXSLT'
