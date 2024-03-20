@@ -30,7 +30,7 @@ jobs:
               id: get-sha
               with:
                 script: |
-                    var cpanfile_docker_content = await github.repos.getContent({
+                    var cpanfile_docker_content = await github.rest.repos.getContent({
                         owner: context.repo.owner,
                         repo:  context.repo.repo,
                         path:  'cpanfile.docker',
