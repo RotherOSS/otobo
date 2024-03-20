@@ -44,7 +44,7 @@ jobs:
               run: echo '${{steps.get-sha.outputs.result}}'
 
             - name: 'check cache for CPAN modules'
-              uses: actions/cache@v2
+              uses: actions/cache@v4
               id: cache_local_lib
               with:
                 path: local
