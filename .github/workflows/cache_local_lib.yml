@@ -26,7 +26,7 @@ jobs:
             # See https://docs.github.com/en/actions/advanced-guides/caching-dependencies-to-speed-up-workflows#restrictions-for-accessing-a-cache
 
             - name: Get SHA via the Github REST interface
-              uses: actions/github-script@v4
+              uses: actions/github-script@v7
               id: get-sha
               with:
                 script: |
