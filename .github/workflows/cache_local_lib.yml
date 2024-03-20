@@ -58,8 +58,8 @@ jobs:
               id: get-sha-doublecheck
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               run: |
-                 echo "::set-output name=sha::$(git rev-parse :cpanfile.docker)"
-                 echo "::set-output name=ls::$(ls -l cpanfile.docker)"
+                 echo "sha=$(git rev-parse :cpanfile.docker)" >> $GITHUB_OUTPUT
+                 echo "ls=$(ls -l cpanfile.docker)"           >> $GITHUB_OUTPUT
 
             - name: 'Print SHA of cpanfile.docker for doublechecking'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
