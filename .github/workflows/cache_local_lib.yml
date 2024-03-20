@@ -50,9 +50,9 @@ jobs:
                 path: local
                 key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20240320a
 
-            - name: 'checkout otobo'
+            - name: 'check out OTOBO'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: 'Get SHA of cpanfile.docker for doublechecking'
               id: get-sha-doublecheck

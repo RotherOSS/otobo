@@ -18,8 +18,9 @@ jobs:
 
             - name: 'install dependencies'
               run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc
-            - name: 'checkout otobo'
-              uses: actions/checkout@v2
+
+            - name: 'check out OTOBO'
+              uses: actions/checkout@v4
 
             # some diagnostics
             - name: diagnostics
@@ -85,8 +86,8 @@ jobs:
             - name: compile-check
               run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t :: Kernel/Config.pm ${{ steps.files.outputs.all_changed_files }}'
 
-            - name: 'checkout codepolicy'
-              uses: actions/checkout@v2
+            - name: 'checkout CodePolicy'
+              uses: actions/checkout@v4
               with:
                 repository: RotherOSS/codepolicy
                 ref: rel-11_0
