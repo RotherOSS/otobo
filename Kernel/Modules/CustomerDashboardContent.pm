@@ -114,7 +114,7 @@ sub _OrderTiles {
     my $UsedTiles  = $ConfigObject->Get('CustomerDashboard::Tiles');
     my $TileConfig = $UsedTiles->{'InfoTile-01'}{Config};
 
-    return unless IsHashRefWithData($TileConfig);
+    return () unless IsHashRefWithData($TileConfig);
 
     my %TileEntryOrder = %{ $TileConfig->{Order} };
     my @Result;
