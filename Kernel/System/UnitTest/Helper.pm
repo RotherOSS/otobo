@@ -1137,9 +1137,11 @@ END {
 
     # trigger Kernel::System::UnitTest::Helper::DESTROY()
     # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY()
-    $Kernel::OM->ObjectsDiscard(
-        Objects => ['Kernel::System::UnitTest::Helper'],
-    );
+    if ( defined $Kernel::OM ) {
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::UnitTest::Helper'],
+        );
+    }
 }
 
 1;

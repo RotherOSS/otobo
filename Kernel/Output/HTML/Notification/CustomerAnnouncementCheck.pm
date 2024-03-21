@@ -37,7 +37,7 @@ sub Run {
     my $CustomerDashboardInfoTileObject = $Kernel::OM->Get('Kernel::System::CustomerDashboard::InfoTile');
     my $HTMLUtilsObject                 = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
-    my $Segregation    = $Param{Config}->{Segregation} || '###';
+    my $Segregation    = $Param{Config}{Segregation} || '###';
     my $MarqueeContent = '';
     my $InfoTiles      = $CustomerDashboardInfoTileObject->InfoTileListGet(
         UserID => $Self->{UserID},
@@ -98,36 +98,47 @@ sub Run {
         );
 
         return $LayoutObject->Notify(
-            Priority  => $Param{Config}->{NotifyPriority},
+            Priority  => $Param{Config}{NotifyPriority},
             Data      => $Content,
-            Link      => $Param{Config}->{UseMarquee} ? '#' : '',    # Workaround to use classes.
+            Link      => $Param{Config}{UseMarquee} ? '#' : '',    # Workaround to use classes.
             LinkClass => 'oooMarquee'
         );
     }
+
+    return '';
 }
 
 sub _OrderTiles {
-
     my ( $Self, %Param ) = @_;
 
     my @Tiles        = @{ $Param{Tiles} };
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $UsedTiles      = $ConfigObject->Get('CustomerDashboard::Tiles');
-    my $TileConfig     = $UsedTiles->{'InfoTile-01'}->{Config};
+    my $UsedTiles  = $ConfigObject->Get('CustomerDashboard::Tiles');
+    my $TileConfig = $UsedTiles->{'InfoTile-01'}{Config};
+
+    return () unless IsHashRefWithData($TileConfig);
+
     my %TileEntryOrder = %{ $TileConfig->{Order} };
     my @Result;
     my @DateSort;
-    for my $TileRef (@Tiles) {
-        my %Tile = %{$TileRef};
-        if ( $TileEntryOrder{ $Tile{Name} } ) {
-            $Tile{Order} = $TileEntryOrder{ $Tile{Name} };
-            push @Result, \%Tile;
-        }
-        else {
-            push @DateSort, \%Tile;
+
+    if (%TileEntryOrder) {
+        for my $TileRef (@Tiles) {
+            my %Tile = %{$TileRef};
+            if ( $TileEntryOrder{ $Tile{Name} } ) {
+                $Tile{Order} = $TileEntryOrder{ $Tile{Name} };
+                push @Result, \%Tile;
+            }
+            else {
+                push @DateSort, \%Tile;
+            }
         }
     }
+    else {
+        @DateSort = @Tiles;
+    }
+
     @Result   = sort { $a->{Order} cmp $b->{Order} } @Result;
     @DateSort = sort { $b->{StartDate} cmp $a->{StartDate} || $b->{Changed} cmp $a->{Changed} || $b->{Created} cmp $a->{Created} } @DateSort;
 

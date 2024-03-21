@@ -16,8 +16,10 @@
 
 package Kernel::System::DB::postgresql;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 
@@ -170,19 +172,19 @@ sub TableCreate {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SQLStart     = '';
-    my $SQLEnd       = '';
-    my $SQL          = '';
-    my @Column       = ();
-    my $TableName    = '';
-    my $ForeignKey   = ();
-    my %Foreign      = ();
-    my $IndexCurrent = ();
-    my %Index        = ();
-    my $UniqCurrent  = ();
-    my %Uniq         = ();
-    my $PrimaryKey   = '';
-    my @Return       = ();
+    my $SQLStart = '';
+    my $SQLEnd   = '';
+    my $SQL      = '';
+    my @Column;
+    my $TableName = '';
+    my $ForeignKey;
+    my %Foreign;
+    my $IndexCurrent;
+    my %Index;
+    my $UniqCurrent;
+    my %Uniq;
+    my $PrimaryKey = '';
+    my @Return;
 
     for my $Tag (@Param) {
 
@@ -247,11 +249,9 @@ sub TableCreate {
         }
 
         # auto increment
-        if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
-            $SQL = "    $Tag->{Name} serial";
-            if ( $Tag->{Type} =~ /^bigint$/i ) {
-                $SQL = "    $Tag->{Name} bigserial";
-            }
+        if ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) {
+            my $PseudoType = lc $Tag->{Type} eq 'bigint' ? 'bigserial' : 'serial';
+            $SQL .= "    $Tag->{Name} $PseudoType";
         }
 
         # normal data type
@@ -367,14 +367,14 @@ sub TableAlter {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SQLStart      = '';
-    my @SQL           = ();
-    my @Index         = ();
+    my $SQLStart = '';
+    my @SQL;
+    my @Index;
     my $IndexName     = '';
     my $ForeignTable  = '';
     my $ReferenceName = '';
-    my @Reference     = ();
-    my $Table         = '';
+    my @Reference;
+    my $Table = '';
 
     # put two literal dollar characters in a string
     # this is needed for the postgres 'do' statement
@@ -436,11 +436,10 @@ EOF
             # auto increment
             if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
 
-                my $PseudoType = 'serial';
-                if ( $Tag->{Type} =~ /^bigint$/i ) {
-                    $PseudoType = 'bigserial';
-                }
+                my $PseudoType = lc $Tag->{Type} eq 'bigint' ? 'bigserial' : 'serial';
                 push @SQL, $SQLStart . " ADD $Tag->{Name} $PseudoType NOT NULL";
+
+                # if there is an AutoIncrement column no other changes are needed
                 next TAG;
             }
 
@@ -485,10 +484,18 @@ EOF
             if ( $Tag->{NameOld} ne $Tag->{NameNew} ) {
                 push @SQL, $SQLStart . " RENAME $Tag->{NameOld} TO $Tag->{NameNew}";
             }
-            push @SQL, $SQLStart . " ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
 
-            # if there is an AutoIncrement column no other changes are needed
-            next TAG if $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i;
+            # auto increment
+            if ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) {
+                my $PseudoType = $Tag->{Type} =~ m/^bigint$/i ? 'bigserial' : 'serial';
+                push @SQL, $SQLStart . " ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
+
+                # if there is an AutoIncrement column no other changes are needed
+                next TAG;
+            }
+
+            # normal data type
+            push @SQL, $SQLStart . " ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
 
             # set default as null
             push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} DROP NOT NULL";
@@ -857,9 +864,9 @@ sub Insert {
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-    my $SQL    = '';
-    my @Keys   = ();
-    my @Values = ();
+    my $SQL = '';
+    my @Keys;
+    my @Values;
     TAG:
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
@@ -876,7 +883,7 @@ sub Insert {
 
             # do not use auto increment values, in other cases use something like
             # SELECT setval('table_id_seq', (SELECT max(id) FROM table));
-            if ( $Tag->{Type} && $Tag->{Type} =~ /^AutoIncrement$/i ) {
+            if ( $Tag->{Type} && $Tag->{Type} =~ m/^AutoIncrement$/i ) {
                 next TAG;
             }
             $Tag->{Key} = ${ $Self->Quote( \$Tag->{Key} ) };

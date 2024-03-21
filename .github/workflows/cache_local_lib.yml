@@ -6,9 +6,12 @@ on:
     branches:
       - rel-10_0
       - rel-10_1
+      - rel-11_0
 jobs:
     CacheLocalLib:
         runs-on: 'ubuntu-latest'
+        container:
+            image: perldocker/perl-tester:5.24
         env:
             PERL5LIB: local/lib/perl5
         steps:
@@ -23,11 +26,11 @@ jobs:
             # See https://docs.github.com/en/actions/advanced-guides/caching-dependencies-to-speed-up-workflows#restrictions-for-accessing-a-cache
 
             - name: Get SHA via the Github REST interface
-              uses: actions/github-script@v4
+              uses: actions/github-script@v7
               id: get-sha
               with:
                 script: |
-                    var cpanfile_docker_content = await github.repos.getContent({
+                    var cpanfile_docker_content = await github.rest.repos.getContent({
                         owner: context.repo.owner,
                         repo:  context.repo.repo,
                         path:  'cpanfile.docker',
@@ -41,22 +44,22 @@ jobs:
               run: echo '${{steps.get-sha.outputs.result}}'
 
             - name: 'check cache for CPAN modules'
-              uses: actions/cache@v2
+              uses: actions/cache@v4
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20210928n
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20240320a
 
-            - name: 'checkout otobo'
+            - name: 'check out OTOBO'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: 'Get SHA of cpanfile.docker for doublechecking'
               id: get-sha-doublecheck
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               run: |
-                 echo "::set-output name=sha::$(git rev-parse :cpanfile.docker)"
-                 echo "::set-output name=ls::$(ls -l cpanfile.docker)"
+                 echo "sha=$(git rev-parse :cpanfile.docker)" >> $GITHUB_OUTPUT
+                 echo "ls=$(ls -l cpanfile.docker)"           >> $GITHUB_OUTPUT
 
             - name: 'Print SHA of cpanfile.docker for doublechecking'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
@@ -66,16 +69,14 @@ jobs:
 
             - name: 'install dependencies'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              run: sudo apt -y update && sudo apt install -y libxml2-utils libxslt-dev graphviz
-
+              run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc
 
             - name: 'install Perl modules from CPAN'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              uses: perl-actions/install-with-cpm@v1
+              uses: perl-actions/install-with-cpm@stable
               with:
                 install: |
-                  Code::TidyAll
-                  Perl::Critic
+                  App::perlimports
                 cpanfile: cpanfile.docker
                 global: false
                 tests: false

@@ -7523,7 +7523,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
 
-    <Setting Name="CustomerFrontend::NotifyModule###8-CustomerAnnouncement-Check" Required="1" Valid="1">
+    <Setting Name="CustomerFrontend::NotifyModule###8-CustomerAnnouncement-Check" Required="0" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info.</Description>
         <Navigation>Frontend::Customer::FrontendNotification</Navigation>
         <Value>

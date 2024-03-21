@@ -123,7 +123,7 @@ sub Run {
 
     # differentiate depending on whether field is multivalue
     my @FormDataObjectIDs = @ObjectIDs;
-    if ( $DynamicFieldConfig->{Config}{MultiValue} ) {
+    if ( $DynamicFieldConfig->{Config}{MultiValue} && $FormID ) {
 
         # if so, do GetFormData() and store value combined with ObjectIDs
         my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
@@ -142,12 +142,14 @@ sub Run {
     }
 
     # store all possible values for this field and form id for later verification
-    $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
-        LayoutObject => $LayoutObject,
-        FormID       => $FormID,
-        Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name} . ( defined $SetIndex ? "_$SetIndex" : '' ),
-        Value        => \@FormDataObjectIDs,
-    );
+    if ($FormID) {
+        $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+            LayoutObject => $LayoutObject,
+            FormID       => $FormID,
+            Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name} . ( defined $SetIndex ? "_$SetIndex" : '' ),
+            Value        => \@FormDataObjectIDs,
+        );
+    }
 
     my @Results;
     for my $ObjectID (@ObjectIDs) {

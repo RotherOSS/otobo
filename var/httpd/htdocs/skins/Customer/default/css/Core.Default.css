@@ -17,6 +17,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  * @subsection global CKEditor 5 fixes/improvements
  */
 
+ .ck.ck-content p {
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+ }
+
  .ck.ck-content h1 {
     font-size: 2em;
  } 
@@ -78,7 +83,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .ck.ck-content blockquote {
     font-style: normal !important;
-    border-left: solid blue 1.5pt !important; 
+    border-left: solid var(--colMainLight) 1.5pt !important; 
     padding: 0cm 0cm 0cm 4pt !important;    
 }
 

@@ -265,6 +265,32 @@ END_SQL
 END_SQL
 
     push @CreateTableXMLStrings, <<'END_SQL';
+<Table Name="time_accounting_version">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
+    <Column Name="article_id" Required="false" Type="BIGINT"/>
+    <Column Name="time_unit" Required="true" Size="10,2"  Type="DECIMAL"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Index Name="time_accounting_ticket_id">
+        <IndexColumn Name="ticket_id"/>
+    </Index>
+    <ForeignKey ForeignTable="ticket">
+        <Reference Local="ticket_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="article_version">
+        <Reference Local="article_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+END_SQL
+
+    push @CreateTableXMLStrings, <<'END_SQL';
 <Insert Table="ticket_history_type">
     <Data Key="id" Type="AutoIncrement">52</Data>
     <Data Key="name" Type="Quote">ArticleDynamicFieldUpdate</Data>

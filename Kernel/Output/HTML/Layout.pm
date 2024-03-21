@@ -3916,7 +3916,7 @@ sub BuildDateSelection {
     if ($Optional) {
         my $Checked = $Used ? ' checked' : '';
         $Output .=
-            qq{<input type="checkbox" name="${Prefix}Used" id="${Prefix}Used${Suffix}" value="1"}
+            qq{<input type="checkbox" name="${Prefix}Used" id="${Prefix}${Suffix}Used" value="1"}
             . $Checked
             . qq{ class="$Class"}
             . sprintf( ' title="%s" ', $Self->{LanguageObject}->Translate('Check to activate this date') )

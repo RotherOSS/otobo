@@ -16,8 +16,10 @@
 
 package Kernel::System::DB::mysql;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 
@@ -163,19 +165,19 @@ sub TableCreate {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SQLStart     = '';
-    my $SQLEnd       = '';
-    my $SQL          = '';
-    my @Column       = ();
-    my $TableName    = '';
-    my $ForeignKey   = ();
-    my %Foreign      = ();
-    my $IndexCurrent = ();
-    my %Index        = ();
-    my $UniqCurrent  = ();
-    my %Uniq         = ();
-    my $PrimaryKey   = '';
-    my @Return       = ();
+    my $SQLStart = '';
+    my $SQLEnd   = '';
+    my $SQL      = '';
+    my @Column;
+    my $TableName = '';
+    my $ForeignKey;
+    my %Foreign;
+    my $IndexCurrent;
+    my %Index;
+    my $UniqCurrent;
+    my %Uniq;
+    my $PrimaryKey = '';
+    my @Return;
 
     for my $Tag (@Param) {
 
@@ -255,7 +257,7 @@ sub TableCreate {
         }
 
         # auto increment
-        if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
+        if ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) {
             $SQL .= ' AUTO_INCREMENT';
         }
 
@@ -358,14 +360,14 @@ sub TableAlter {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SQLStart      = '';
-    my @SQL           = ();
-    my @Index         = ();
+    my $SQLStart = '';
+    my @SQL;
+    my @Index;
     my $IndexName     = '';
     my $ForeignTable  = '';
     my $ReferenceName = '';
-    my @Reference     = ();
-    my $Table         = '';
+    my @Reference;
+    my $Table = '';
 
     for my $Tag (@Param) {
 
@@ -402,8 +404,9 @@ sub TableAlter {
                 $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
             }
 
-            # investigate the require
-            my $Required = ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) ? 1 : 0;
+            # investigate Required and AutoIncrement
+            my $Required      = ( $Tag->{Required}      && lc $Tag->{Required} eq 'true' )      ? 1 : 0;
+            my $AutoIncrement = ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) ? 1 : 0;
 
             # handle default and require
             if ( $Required || defined $Tag->{Default} ) {
@@ -418,13 +421,11 @@ sub TableAlter {
                     $SQLAlter .= " DEFAULT $Default";
                 }
 
-                # add require
-                if ($Required) {
-                    $SQLAlter .= ' NOT NULL';
-                }
-                else {
-                    $SQLAlter .= ' NULL';
-                }
+                # add Required
+                $SQLAlter .= $Required ? ' NOT NULL' : ' NULL';
+
+                # add AutoIncrement, assuming the AutoIncrement fields are marked as Required
+                $SQLAlter .= $AutoIncrement ? ' AUTO_INCREMENT' : '';
 
                 push @SQL, $SQLAlter;
             }
@@ -451,8 +452,9 @@ sub TableAlter {
                 $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
             }
 
-            # investigate the require
-            my $Required = ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) ? 1 : 0;
+            # investigate Required and AutoIncrement
+            my $Required      = ( $Tag->{Required}      && lc $Tag->{Required} eq 'true' )      ? 1 : 0;
+            my $AutoIncrement = ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) ? 1 : 0;
 
             # handle default and require
             if ( $Required || defined $Tag->{Default} ) {
@@ -468,13 +470,11 @@ sub TableAlter {
                     $SQLAlter .= " DEFAULT $Default";
                 }
 
-                # add require
-                if ($Required) {
-                    $SQLAlter .= ' NOT NULL';
-                }
-                else {
-                    $SQLAlter .= ' NULL';
-                }
+                # add Required
+                $SQLAlter .= $Required ? ' NOT NULL' : ' NULL';
+
+                # add AutoIncrement, assuming the AutoIncrement fields are marked as Required
+                $SQLAlter .= $AutoIncrement ? ' AUTO_INCREMENT' : '';
 
                 push @SQL, $SQLAlter;
             }
