@@ -1398,6 +1398,11 @@ iframe.TextOption.CustomerUserAddressBook {
  * @subsection global CKEditor 5 fixes/improvements
  */
 
+ .ck.ck-content p {
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+ }
+
 .ck.ck-content h1 {
     font-size: 2em;
  } 
