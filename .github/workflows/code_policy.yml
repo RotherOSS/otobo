@@ -6,17 +6,21 @@ on: ['pull_request']
 jobs:
     CodePolicy:
         runs-on: 'ubuntu-latest'
+        container:
+            image: perldocker/perl-tester:5.24
         env:
             PERL5LIB: local/lib/perl5
         steps:
-            - id: files
-              uses: jitterbit/get-changed-files@v1
+
+            # list of added or changed files will be used in the 'compile-checcompile-check' step
+            - id: changed-files
+              uses: tj-actions/changed-files@v43
 
             - name: 'install dependencies'
-              run: sudo apt -y update && sudo apt install -y libxml2-utils libxslt-dev graphviz
+              run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc
 
-            - name: 'checkout otobo'
-              uses: actions/checkout@v2
+            - name: 'check out OTOBO'
+              uses: actions/checkout@v4
 
             # some diagnostics
             - name: diagnostics
@@ -37,18 +41,18 @@ jobs:
             - name: 'Get SHA of cpanfile.docker'
               id: get-sha
               run: |
-                 echo "::set-output name=sha::$(git rev-parse :cpanfile.docker)"
+                 echo "sha=$(git rev-parse :cpanfile.docker)" >> $GITHUB_OUTPUT
 
             - name: 'Print SHA of cpanfile.docker'
               run: |
                 echo '${{steps.get-sha.outputs.sha}}'
 
             - name: 'check cache for CPAN modules'
-              uses: actions/cache@v2
+              uses: actions/cache@v4
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20210928n
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20240320a
 
             # for debugging when there a problems installing a module
             # - name: 'XML::LibXSLT'
@@ -58,11 +62,10 @@ jobs:
 
             - name: 'install Perl modules from CPAN'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              uses: perl-actions/install-with-cpm@v1
+              uses: perl-actions/install-with-cpm@stable
               with:
                 install: |
-                  Code::TidyAll
-                  Perl::Critic
+                  App::perlimports
                 cpanfile: cpanfile.docker
                 global: false
                 tests: false
@@ -76,19 +79,19 @@ jobs:
 
             # The actual test steps. Check syntax and the CodePolicy.
 
-            # There are situations where there are no added or modidied files. But with an empty
+            # There are situations where there are no added or changed files. But with an empty
             # argument list all files would be checked, which can easily lead to errors with missing dependencies.
             # Therefore make sure that at least one argument is passed.
             # :: tells prove that whatever follows should be passed to the test script
-            - name: prove
-              run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t :: Kernel/Config.pm ${{ steps.files.outputs.added_modified }}'
+            - name: compile-check
+              run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t :: Kernel/Config.pm ${{ steps.changed-files.outputs.all_changed_files }}'
 
-            - name: 'checkout codepolicy'
-              uses: actions/checkout@v2
+            - name: 'checkout CodePolicy'
+              uses: actions/checkout@v4
               with:
                 repository: RotherOSS/codepolicy
                 ref: rel-10_0
                 path: codepolicy
 
             - name: 'run CodePolicy'
-              run: codepolicy/bin/otobo.CodePolicy.pl -l ${{ steps.files.outputs.added_modified }}
+              run: codepolicy/bin/otobo.CodePolicy.pl -l ${{ steps.changed-files.outputs.all_changed_files }}
