@@ -320,6 +320,11 @@ Core.UI.InputFields = (function (TargetNS) {
 
 
     TargetNS.InitCustomerField = function ( Element ) {
+
+        if ( $(Element).children('.DFSetOuterField').length > 0 ) {
+            return;
+        }
+
         var Label = $(Element).children('label').first(),
             Checkbox = $('.Field > input[type=checkbox]', Element),
             Select = $('.Field > select', Element),
