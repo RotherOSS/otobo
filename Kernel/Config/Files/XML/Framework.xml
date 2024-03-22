@@ -412,7 +412,7 @@
         <Description Translatable="1">Defines the default CSS for creating CKEditor articles.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">thirdparty/ckeditor5-build-classic/CKEditor.min.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/CKEditor.min.css</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::RichText::DefaultCSS" Required="1" Valid="1">
@@ -426,7 +426,7 @@
         <Description Translatable="1">Defines the default CSS for creating CKEditor articles.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">thirdparty/ckeditor5-build-classic/CKEditor.min.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/CKEditor.min.css</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">
