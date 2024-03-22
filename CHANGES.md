@@ -1,3 +1,44 @@
+
+# OTOBO 11.0.0 beta2 2024-03-22
+- 2023-12-18 16:37:07 +0100 [Enhanced] Docker image otobo.kerberos should be based on the image otobo (https://github.com/RotherOSS/otobo/issues/2278)
+- 2024-03-22 14:03:59 +0100 [Enhanced] Display reference df filter settings permanently in AdminDynamicFieldReference (https://github.com/RotherOSS/otobo/issues/3233)
+- 2024-03-22 13:38:33 +0100 [Bugfix]   Fix search param names in Reference df searches (https://github.com/RotherOSS/otobo/issues/3231)
+- 2024-03-22 11:20:12 +0100 [Enhanced] Change CustomerUser reference dynamic field to use configured name fields as object description (https://github.com/RotherOSS/otobo/issues/3229)
+- 2024-03-22 10:04:52 +0100 A bit of tidying.
+- 2024-03-22 09:30:06 +0100 Sync HTMLUtils.t with the current version of rel-11_0
+- 2024-03-22 09:25:30 +0100 Add Kernel::System::UnitTest::RegisterOM
+- 2024-01-30 16:59:01 +0100 Add the line number to the test description,
+- 2024-01-30 16:50:27 +0100 Start using subtests
+- 2024-01-30 17:08:17 +0100 [Enhanced] Update to CKEditor5 (https://github.com/RotherOSS/otobo/issues/3146) - in progress
+- 2024-03-21 15:01:42 +0100 [Enhanced] Article Edit and Delete feature. (https://github.com/RotherOSS/otobo/issues/3157) - in progress
+- 2024-03-18 17:53:35 -0400 Adjusments for Article Edit/Delete features
+- 2024-03-21 12:06:42 +0100 Issue: #3146: restructured ckeditor css files
+- 2024-03-21 11:59:55 +0100 [Tidied]   Update github actions for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/3221) - in progress
+- 2024-03-19 14:39:31 +0100 [Bugfix]   Enable AgentReferenceSearch autocompletion in search masks (https://github.com/RotherOSS/otobo/issues/3206)
+- 2024-03-21 11:29:28 +0100 [Enhanced] Include package ExtendedCDBInfoTile into core (https://github.com/RotherOSS/otobo/issues/3159)
+- 2024-03-20 13:59:26 +0100 [Tidied]   Warnings when the Github action code_policy is running (https://github.com/RotherOSS/otobo/issues/3213)
+- 2024-03-20 10:03:15 +0100 Upgrade the Github action perl-actions/install-with-cpm (https://github.com/RotherOSS/otobo/issues/3210)
+- 2024-03-19 16:40:48 +0100 [Bugfix]   The AutoIncrement attribute is considered when tables are created but not when tables are altered (https://github.com/RotherOSS/otobo/issues/3208)
+- 2024-03-19 13:44:02 +0100 Debian package muse be installed when there is a cache miss
+- 2024-03-19 11:27:56 +0100 [Bugfix]   Align Date field id with Date field label for attribute (https://github.com/RotherOSS/otobo/issues/3199)
+- 2024-03-19 13:02:15 +0100 Use same setup in cache_local_lib.yml and code_policy.yml
+- 2024-03-19 12:54:41 +0100 [Enhanced] Preserve IncludeInvalid in module subactions (https://github.com/RotherOSS/otobo/issues/2999)
+- 2024-03-19 12:32:39 +0100 Code::TidyAll and Perl::Critic are already in the perl-tester image
+- 2024-03-19 12:25:25 +0100 Try the ODBC packages as in otobo.web.dockerfile
+- 2024-03-19 12:09:24 +0100 Try installing DBD::ODBC as a Debian package
+- 2024-03-19 10:21:01 +0100 [Enhanced] Improve handling of FormUpdate elements (https://github.com/RotherOSS/otobo/issues/3070)
+- 2024-03-19 11:29:39 +0100 Try installing perlimports via cpm
+- 2024-03-19 10:46:59 +0100 Try the perldocker/perl-tester image
+- 2024-03-19 10:11:05 +0100 Specify debian-latest as the container
+- 2024-03-19 10:04:07 +0100 Try debian:latest as runner for CodePolicy
+- 2024-03-19 09:33:12 +0100 Use the latest release of Ubuntu: ubuntu-rolling.
+- 2024-03-18 21:47:07 +0100 Call $Kernel::OM->ObjectsDiscard() when the object manager exists
+- 2024-03-18 21:13:57 +0100 Turn perlimports on again.
+- 2024-03-18 19:17:23 +0100 Also install perlimports for the CodePolicy workflow,
+- 2024-03-17 13:01:39 +0100 No need to import Kernel::Language::Translatable()
+- 2024-03-17 12:58:41 +0100 No need to load File::Copy.
+- 2024-03-16 11:59:39 +0100 Issue #3155: no replacement on references (https://github.com/RotherOSS/otobo/issues/3156)
+
 # OTOBO 11.0.0.1 beta 2023-03-15
 - 2024-03-14 11:11:26 +0100 [Enhanced] Update to CKEditor5 (https://github.com/RotherOSS/otobo/issues/3146) - in progress
 - 2024-03-14 10:58:35 +0100 [Enhanced] Include package ExtendedCDBInfoTile into core (https://github.com/RotherOSS/otobo/issues/3159)
@@ -58,7 +99,7 @@
 - 2024-02-26 07:42:14 +0100 [Tidied]   Iterate over keys or values of hash, not hash itself (https://github.com/RotherOSS/otobo/issues/3037)
 - 2024-02-25 13:50:05 +0100 [Tidied]   No need to get $LayoutObject in the layout mixin classes (https://github.com/RotherOSS/otobo/issues/3049)
 - 2024-02-24 10:29:21 +0100 Admin user creates by quick_setup.pl should be able to see stats per default (https://github.com/RotherOSS/otobo/issues/3045)
-- 2024-01-31 07:46:52 +0000 Translated using Weblate (Norwegian Bokmål)
+- 2024-01-31 07:46:52 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
 - 2023-12-29 08:50:07 +0000 Translated using Weblate (Arabic (Saudi Arabia))
 - 2023-11-13 20:48:50 +0000 Translated using Weblate (Spanish)
 - 2024-02-23 15:46:29 +0100 [Enhanced] Saner filenames in export of statistics (https://github.com/RotherOSS/otobo/issues/3042)
@@ -340,7 +381,7 @@
 - 2023-08-15 11:11:17 +0000 Translated using Weblate (French)
 - 2023-08-11 04:45:00 +0000 Translated using Weblate (Russian)
 - 2023-07-19 14:11:19 +0000 Translated using Weblate (Arabic (Saudi Arabia))
-- 2023-07-10 06:28:57 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2023-07-10 06:28:57 +0000 Translated using Weblate (Norwegian BokmÃÂ¥l)
 - 2023-07-08 12:06:59 +0000 Translated using Weblate (Polish)
 - 2023-10-05 11:38:44 +0200 [Security] Fixed a XSS vulnerability in AdminCustomerUser. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2546)
 - 2023-10-04 17:40:33 +0200 AdminACL.t is not skipped and fails when Selenium testing is deactivated (https://github.com/RotherOSS/otobo/issues/2551)
@@ -398,7 +439,7 @@
 
 # OTOBO 10.1.7 2023-03-10
 - 2023-03-10 17:35:45 +0100 Create new OTOBO language files.
-- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian BokmÃÂ¥l)
+- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂ¥l)
 - 2023-03-09 16:24:25 +0000 Translated using Weblate (Arabic (Saudi Arabia))
 - 2023-02-13 17:05:43 +0000 Translated using Weblate (Portuguese (Brazil))
 - 2023-03-10 09:56:23 +0100 [Bugfix]   Fix warning if no key is selected for S/MIME encryption. (https://github.com/RotherOSS/otobo/issues/2222)
@@ -1888,3 +1929,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
