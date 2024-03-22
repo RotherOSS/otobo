@@ -40,18 +40,20 @@ sub Configure {
     $Self->Description('Execute unit test scripts in scripts/test using TAP::Harness.');
     $Self->AddOption(
         Name        => 'directory',
-        Description => 'Run only test files in the specified subdirectory of scripts/test.',
-        Required    => 0,
-        HasValue    => 1,
-        ValueRegex  => qr/.*/smx,
-    );
-    $Self->AddOption(
-        Name        => 'test',
-        Description => "Filter file list, allow to run test scripts matching a pattern, e.g. 'Ticket' or 'Ticket/ArchiveFlags' (can be specified several times).",
+        Description => 'Can be specified several times. Run only test files in the specified sub directories of scripts/test.',
         Required    => 0,
         HasValue    => 1,
         Multiple    => 1,
         ValueRegex  => qr/.*/smx,
+    );
+    $Self->AddOption(
+        Name        => 'test',
+        Description =>
+            "Run individual test files. The trailing '.t' is optional. E.g. 'Ticket' or 'Ticket.t'. Add parent dirs for disambiguation, e.g. 'GenericAgent/Run.t'. The option may be specified several times.",
+        Required   => 0,
+        HasValue   => 1,
+        Multiple   => 1,
+        ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
         Name        => 'sopm',
@@ -72,7 +74,19 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'verbose',
-        Description => 'Show details for all tests, not just failing.',
+        Description => 'Show details for all tests, not just for the failing tests.',
+        Required    => 0,
+        HasValue    => 0,
+    );
+    $Self->AddOption(
+        Name        => 'merge',
+        Description => 'merge STDOUT and STDERR together',
+        Required    => 0,
+        HasValue    => 0,
+    );
+    $Self->AddOption(
+        Name        => 'shuffle',
+        Description => 'Run the test scripts in random order.',
         Required    => 0,
         HasValue    => 0,
     );
@@ -83,6 +97,12 @@ sub Configure {
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
         Multiple    => 1
+    );
+    $Self->AddArgument(
+        Name        => 'test-script-path',
+        Description => "Path to a directory with test scripts or to a single test script. All other test selection options will be ignored.",
+        Required    => 0,
+        ValueRegex  => qr/.*/smx,
     );
 
     return;
@@ -103,16 +123,15 @@ sub Run {
         },
     );
 
-    # Allow specification of a default directory to limit test execution.
-    # TODO: eliminate this
-    my $DefaultDirectory = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::DefaultDirectory');
-
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
         Tests           => $Self->GetOption('test'),
-        Directory       => $Self->GetOption('directory') || $DefaultDirectory,
+        TestScriptPath  => $Self->GetArgument('test-script-path'),
+        Directory       => $Self->GetOption('directory'),
         SOPMFiles       => $Self->GetOption('sopm'),
         Packages        => $Self->GetOption('package'),
         Verbose         => $Self->GetOption('verbose'),
+        Merge           => $Self->GetOption('merge'),
+        Shuffle         => $Self->GetOption('shuffle'),
         PostTestScripts => $Self->GetOption('post-test-script'),
     );
 
