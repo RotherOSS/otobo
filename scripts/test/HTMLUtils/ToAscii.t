@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 my @Tests = (
     {
@@ -32,7 +36,7 @@ my @Tests = (
     {
         Input  => '<b>Some Text</b>',
         Result => 'Some Text',
-        Name   => 'ToAscii - simple'
+        Name   => 'ToAscii - with bold markup'
     },
     {
         Input  => '<b>Some Text</b><br/><a href="http://example.com">Some URL</a>',
@@ -41,7 +45,25 @@ my @Tests = (
 
 [1] http://example.com
 ',
-        Name => 'ToAscii - simple'
+        Name => 'ToAscii - replace URL'
+    },
+    {
+        Input  => '<b>Some Text</b><br/><a href="http://example.com<script>alert(\'JavaScript\')</script>">Some URL</a>',
+        Result => 'Some Text
+[1]Some URL
+
+[1] http://example.com
+',
+        Name => 'ToAscii -JavaScript in href will be removed.'
+    },
+    {
+        Input  => qq{<b>Some Text</b><br/><a href \n\n    =  \n \n  "http://example.com<script>alert('JavaScript')</script>">Some URL</a>},
+        Result => 'Some Text
+[1]Some URL
+
+[1] http://example.com
+',
+        Name => 'ToAscii -JavaScript in href will be removed, even with surrounding white space'
     },
     {
         Input  => '<b>Some Text</b><br/>More Text',
@@ -285,13 +307,11 @@ for my $Test (@Tests) {
         String => $Test->{Input},
     );
 
-    # this line is for Windows check-out
-    $Test->{Result} =~ s{\r\n}{\n}smxg;
-    $Self->Is(
+    is(
         $Ascii,
         $Test->{Result},
         $Test->{Name},
     );
 }
 
-$Self->DoneTesting();
+done_testing;
