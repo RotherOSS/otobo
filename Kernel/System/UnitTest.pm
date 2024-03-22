@@ -23,12 +23,10 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use File::stat;
-use Storable        ();
 use Term::ANSIColor ();
-use TAP::Harness;
-use List::Util    qw(any);
-use Sys::Hostname qw(hostname);
+use TAP::Harness    ();
+use List::Util      qw(any shuffle uniq);
+use Sys::Hostname   qw(hostname);
 
 # CPAN modules
 
@@ -43,7 +41,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::UnitTest - functions to run all or some OTOBO unit tests
+Kernel::System::UnitTest - functions to run all or some OTOBO unit test scripts
 
 =head1 DESCRIPTION
 
@@ -51,11 +49,13 @@ The considered test scripts can be set up as:
 
 =over 4
 
-=item a list of files
-
 =item a single directory
 
-=item a list of .sopm files
+=item multiple directories
+
+=item a list of filters that filter the list of test scripts
+
+=item a list of .sopm files that add the files referenced in FileList to the filter list
 
 =item a list of package names that add the files of the installed package to the filter list
 
@@ -89,20 +89,33 @@ run all or some tests located in C<scripts/test/**/*.t> and print the result.
 
     $UnitTestObject->Run(
         Tests           => ['JSON', 'User'],              # optional, execute certain test files only
+        TestScriptPath  => 'scripts/test/DB',             # optional, execute a single specific test script or scripts in dir
         Directory       => 'Selenium',                    # optional, execute only the tests in a subdirectory relative to scripts/test
         SOPMFiles       => ['FAQ.sopm', 'Fred.sopm' ],    # optional, execute only the tests in the Filelist of the .sopm files
         Packages        => ['Survey', 'TimeAccounting' ], # optional, execute only the tests in the Filelist of the installed package
                                                           # 'core' indicates the core files listed in ARCHIVE
         Verbose         => 1,                             # optional (default 0), only show result details for all tests, not just failing
+        Merge           => 1,                             # optional (default 0), merge STDERR and STDOUT of test scripts
         PostTestScripts => ['...'],                       # Script(s) to execute after a test has been run.
                                                           #   You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
+    );
+
+You can also specify multiple directories:
+
+    $UnitTestObject->Run(
+        Directory  => [ 'SysConfig/DB', 'Selenium' ]   # optional, run test scripts from multiple directories
+    );
+
+It is a goal that there are no dependencies between the test scripts. This can be tested
+by randomly ordering the test scripts.
+
+    $UnitTestObject->Run(
+        Shuffle  => 1, # randomly order the test scripts
     );
 
 Please note that the individual test files are not executed in the main process,
 but instead in separate forked child processes which are controlled by L<Kernel::System::UnitTest::Driver>.
 Their results will be transmitted to the main process via a local file.
-
-Tests listed in B<UnitTest::Blacklist> are not executed.
 
 Tests in F<Custom/scripts/test> take precedence over the tests in F<scripts/test>.
 
@@ -114,11 +127,21 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # handle parameters
-    my $Verbosity           = $Param{Verbose} // 0;
-    my $DirectoryParam      = $Param{Directory};
-    my @ExecuteTestPatterns = ( $Param{Tests}     // [] )->@*;
-    my @SOPMFiles           = ( $Param{SOPMFiles} // [] )->@*;
-    my @Packages            = ( $Param{Packages}  // [] )->@*;
+    my $Verbosity      = $Param{Verbose} // 0;    # print test results when set to 1
+    my $Merge          = $Param{Merge}   // 0;
+    my $DoShuffle      = $Param{Shuffle} // 0;
+    my $DirectoryParam = $Param{Directory};       # either a scalar or an array ref
+    my @SOPMFiles      = ( $Param{SOPMFiles} // [] )->@*;
+    my @Packages       = ( $Param{Packages}  // [] )->@*;
+    my $TestScriptPath = $Param{TestScriptPath};
+
+    # The tests specified with the option --test indicate the file name
+    # or optionally one or more parent directories.
+    # The trailing .t is appended unless it was already passed.
+    my @ExecuteTestPatterns =
+        map {qr!/\Q$_\E$!smx}
+        map { m/\.t$/ ? $_ : "$_.t" }
+        ( $Param{Tests} // [] )->@*;
 
     # some config stuff
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -126,147 +149,168 @@ sub Run {
     my $Product      = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version');
     my $Host         = hostname();
 
-    # run tests in a subdir when requested
-    my $Directory = "$Home/scripts/test";
-    if ($DirectoryParam) {
-        $Directory .= "/$DirectoryParam";
-        $Directory =~ s/\.//g;    # why ???
-    }
+    my @ActualTestScripts;
+    if ( defined $TestScriptPath ) {
 
-    # add the files from the .sopm files to the whitelist
-    if (@SOPMFiles) {
-        my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-        SOPM_FILE:
-        for my $SopmFile (@SOPMFiles) {
+        # every other option is ignored
+        if ( -f $TestScriptPath ) {
+            push @ActualTestScripts, $TestScriptPath;
+        }
+        elsif ( -d $TestScriptPath ) {
 
-            # for now we only consider local files
-            next SOPM_FILE unless -f $SopmFile;
-            next SOPM_FILE unless -r $SopmFile;
-
-            my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-                Location => $SopmFile,
-                Mode     => 'utf8',
-                Result   => 'SCALAR',
-            );
-
-            return $Self->ExitCodeError unless ref $ContentRef eq 'SCALAR';
-            return $Self->ExitCodeError unless length $ContentRef->$*;
-
-            # Parse package.
-            my %Structure = $PackageObject->PackageParse(
-                String => $ContentRef,
-            );
-
-            next SOPM_FILE unless IsArrayRefWithData( $Structure{Filelist} );
-
-            # for some reason the trailing .t is checked seperately
-            push @ExecuteTestPatterns,
-                map  {s/\.t$//r}
-                grep {m!^scripts/test/!}
-                map  { $_->{Location} }
-                $Structure{Filelist}->@*;
+            # no special handling of 'Custom' dir
+            push @ActualTestScripts,
+                $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                    Directory => $TestScriptPath,
+                    Filter    => '*.t',
+                    Recursive => 1,
+                );
+        }
+        else {
+            # do nothing
         }
     }
-
-    # add the files from the installed packages to the whitelist
-    if (@Packages) {
-
-        # get the details of all installed packages
-        my $PackageObject     = $Kernel::OM->Get('Kernel::System::Package');
-        my @PackageList       = $PackageObject->RepositoryList();
-        my %PackageListLookup = map { $_->{Name}->{Content} => $_ } @PackageList;
-
-        PACKAGE:
-        for my $Package (@Packages) {
-
-            # Special package name. Get test scripts in OTOBO core.
-            if ( $Package eq 'core' ) {
-                my $ChecksumFile = "$Home/ARCHIVE";
-                my $ChecksumFileArrayRef;
-                if ( -e $ChecksumFile ) {
-                    $ChecksumFileArrayRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-                        Location        => $ChecksumFile,
-                        Mode            => 'utf8',
-                        Type            => 'Local',
-                        Result          => 'ARRAY',
-                        DisableWarnings => 1,
-                    );
-                }
-
-                if ( $ChecksumFileArrayRef && @{$ChecksumFileArrayRef} ) {
-
-                    # for some reason the trailing .t is checked seperately
-                    push @ExecuteTestPatterns,
-                        map  {s/\.t$//r}
-                        map  {s/\s+$//r}
-                        grep {m!^scripts/test/!}
-                        map  {s/.*:://r}           # remove the leading MD5sum
-                        $ChecksumFileArrayRef->@*;
-                }
+    else {
+        # run tests in a subdir when requested
+        my $TestDirectory = "$Home/scripts/test";
+        my @Directories;
+        if ( !$DirectoryParam ) {
+            push @Directories, $TestDirectory;
+        }
+        elsif ( ref $DirectoryParam eq 'ARRAY' ) {
+            for my $Directory ( $DirectoryParam->@* ) {
+                push @Directories, "$TestDirectory/$Directory";
             }
-
-            # Silently ignore not installed packages
-            next PACKAGE unless $PackageListLookup{$Package};
-
-            # package is already parsed
-            my %Structure = $PackageListLookup{$Package}->%*;
-
-            next PACKAGE unless IsArrayRefWithData( $Structure{Filelist} );
-
-            # for some reason the trailing .t is checked seperately
-            push @ExecuteTestPatterns,
-                map  {s/\.t$//r}
-                grep {m!^scripts/test/!}
-                map  { $_->{Location} }
-                $Structure{Filelist}->@*;
         }
-    }
+        else {
+            push @Directories, "$TestDirectory/$DirectoryParam";
+        }
 
-    # Determine which tests should be skipped because of UnitTest::Blacklist
-    my ( @SkippedTests, @ActualTestScripts );
-    {
-        # Get patterns for blacklisted tests
-        my @BlacklistPatterns;
-        my $UnitTestBlacklist = $ConfigObject->Get('UnitTest::Blacklist');
-        if ( IsHashRefWithData($UnitTestBlacklist) ) {
+        # some cleanp, why ???
+        for my $Directory (@Directories) {
+            $Directory =~ s/\.//g;
+        }
 
-            CONFIGKEY:
-            for my $ConfigKey ( sort keys $UnitTestBlacklist->%* ) {
+        # add the files from the .sopm files to the whitelist
+        if (@SOPMFiles) {
+            my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+            SOPM_FILE:
+            for my $SopmFile (@SOPMFiles) {
 
-                # check sanity of configuration, skip in case of problems
-                next CONFIGKEY unless $ConfigKey;
-                next CONFIGKEY unless $UnitTestBlacklist->{$ConfigKey};
-                next CONFIGKEY unless IsArrayRefWithData( $UnitTestBlacklist->{$ConfigKey} );
+                # for now we only consider local files
+                next SOPM_FILE unless -f $SopmFile;
+                next SOPM_FILE unless -r $SopmFile;
 
-                # filter empty values
-                push @BlacklistPatterns, grep {$_} $UnitTestBlacklist->{$ConfigKey}->@*;
+                my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                    Location => $SopmFile,
+                    Mode     => 'utf8',
+                    Result   => 'SCALAR',
+                );
+
+                return $Self->ExitCodeError unless ref $ContentRef eq 'SCALAR';
+                return $Self->ExitCodeError unless length $ContentRef->$*;
+
+                # Parse package.
+                my %Structure = $PackageObject->PackageParse(
+                    String => $ContentRef,
+                );
+
+                next SOPM_FILE unless IsArrayRefWithData( $Structure{Filelist} );
+
+                # collect all test scripts below scripts/test
+                push @ExecuteTestPatterns,
+                    map  {qr!/\Q$_\E$!smx}
+                    grep {m!^scripts/test/!}
+                    map  { $_->{Location} }
+                    $Structure{Filelist}->@*;
             }
         }
 
-        # Collect the files in the passed directory.
+        # add the files from the installed packages to the whitelist
+        if (@Packages) {
+
+            # get the details of all installed packages
+            my $PackageObject     = $Kernel::OM->Get('Kernel::System::Package');
+            my @PackageList       = $PackageObject->RepositoryList();
+            my %PackageListLookup = map { $_->{Name}->{Content} => $_ } @PackageList;
+
+            PACKAGE:
+            for my $Package (@Packages) {
+
+                # Special package name. Get test scripts in OTOBO core.
+                if ( $Package eq 'core' ) {
+                    my $ChecksumFile = "$Home/ARCHIVE";
+                    my $ChecksumFileArrayRef;
+                    if ( -e $ChecksumFile ) {
+                        $ChecksumFileArrayRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                            Location        => $ChecksumFile,
+                            Mode            => 'utf8',
+                            Type            => 'Local',
+                            Result          => 'ARRAY',
+                            DisableWarnings => 1,
+                        );
+                    }
+
+                    if ( $ChecksumFileArrayRef && @{$ChecksumFileArrayRef} ) {
+
+                        # for some reason the trailing .t is checked seperately
+                        push @ExecuteTestPatterns,
+                            map  {qr!/\Q$_\E$!smx}
+                            grep {m!^scripts/test/!}
+                            map  {s/\s+$//r}
+                            map  {s/.*:://r}           # remove the leading MD5sum
+                            $ChecksumFileArrayRef->@*;
+                    }
+                }
+
+                # Silently ignore not installed packages
+                next PACKAGE unless $PackageListLookup{$Package};
+
+                # package is already parsed
+                my %Structure = $PackageListLookup{$Package}->%*;
+
+                next PACKAGE unless IsArrayRefWithData( $Structure{Filelist} );
+
+                # collect all test scripts below scripts/test
+                push @ExecuteTestPatterns,
+                    map  {qr!/\Q$_\E$!smx}
+                    grep {m!^scripts/test/!}
+                    map  { $_->{Location} }
+                    $Structure{Filelist}->@*;
+            }
+        }
+
+        # Collect the files in default directory or in the passed directories.
         # An empty list will be returned when $Directory is empty or when it does not exist.
-        my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-            Directory => $Directory,
-            Filter    => '*.t',
-            Recursive => 1,
-        );
+        my @Files;
+        for my $Directory (@Directories) {
+            push @Files,
+                $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                    Directory => $Directory,
+                    Filter    => '*.t',
+                    Recursive => 1,
+                );
+        }
 
+        # Weed out duplicate files.
+        @Files = uniq @Files;
+
+        # shuffle if requested
+        if ($DoShuffle) {
+            @Files = shuffle @Files;
+        }
+
+        # check if only some tests are requested
+        if (@ExecuteTestPatterns) {
+            @Files = grep {
+                my $File = $_;
+                any { $File =~ $_ } @ExecuteTestPatterns
+            } @Files;
+        }
+
+        # Check if a file with the same path and name exists in the Custom folder.
         FILE:
         for my $File (@Files) {
-
-            # check if only some tests are requested
-            if (@ExecuteTestPatterns) {
-                next FILE unless any { $File =~ /\/\Q$_\E\.t$/smx } @ExecuteTestPatterns;
-            }
-
-            # Check blacklisted files.
-            if ( any { $File =~ m{\Q$Directory/$_\E$}smx } @BlacklistPatterns ) {
-                push @SkippedTests, $File;
-
-                next FILE;
-            }
-
-            # Check if a file with the same path and name exists in the Custom folder.
             my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
             push @ActualTestScripts, -e $CustomFile ? $CustomFile : $File;
         }
@@ -279,12 +323,13 @@ sub Run {
         {
             timer     => 1,
             verbosity => $Verbosity,
+            merge     => $Merge,
 
             # try to color the output when we are in an ANSI terminal
             color => $Self->{ANSI},
 
             # these libs are additional, $ENV{PERL5LIB} is still honored
-            lib => [ $Home, "$Home/Kernel/cpan-lib", "$Home/Custom" ],
+            lib => [ "$Home/Custom", "$Home/Kernel/cpan-lib", $Home ],
         }
     );
 
@@ -326,13 +371,6 @@ sub Run {
     }
 
     my $Aggregate = $Harness->runtests(@ActualTestScripts);
-
-    if (@SkippedTests) {
-        say "Following blacklisted tests were skipped:";
-        for my $SkippedTest (@SkippedTests) {
-            say '  ', $Self->_Color( 'yellow', $SkippedTest );
-        }
-    }
 
     say sprintf
         'ran tests for product %s on host %s .',
