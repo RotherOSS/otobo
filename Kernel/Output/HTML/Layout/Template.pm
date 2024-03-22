@@ -16,22 +16,34 @@
 
 package Kernel::Output::HTML::Layout::Template;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
-use Scalar::Util qw();
-use Template;
-use Template::Stash::XS;
-use Template::Context;
-use Template::Plugins;
+# core modules
+use Scalar::Util qw(weaken);
 
-use Kernel::Output::Template::Provider;
+# CPAN modules
+use Template            ();
+use Template::Stash::XS ();
+use Template::Context   ();
+use Template::Plugins   ();
+
+# OTOBO modules
+use Kernel::Output::Template::Provider ();
 
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
 Kernel::Output::HTML::Layout::Template - template rendering engine based on Template::Toolkit
+
+=head1 SYNOPSIS
+
+    # No instances of this class should be created directly.
+    # Instead the module is loaded implicitly by Kernel::Output::HTML::Layout
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 =head1 PUBLIC INTERFACE
 
@@ -42,22 +54,26 @@ generates HTML output based on a template file.
 Using a template file:
 
     my $HTML = $LayoutObject->Output(
-        TemplateFile => 'AdminLog.tt',
-        Data         => \%Param,
+        TemplateFile => 'AdminLog',
+        Data         => \%TemplateData,
     );
 
 Using a template string:
 
     my $HTML = $LayoutObject->Output(
         Template => '<b>[% Data.SomeKey | html %]</b>',
-        Data     => \%Param,
+        Data     => \%TemplateData,
     );
 
-Additional parameters:
+=head3 Additional parameters:
 
-    AJAX - AJAX-specific adjustements: this causes [% WRAPPER JSOnDocumentComplete %] blocks NOT
-        to be replaced. This is important to be able to generate snippets which can be cached.
-        Also, JS data added with AddJSData() calls is appended to the output here.
+=over 4
+
+=item AJAX
+
+AJAX-specific adjustments, this causes [% WRAPPER JSOnDocumentComplete %] blocks NOT
+to be replaced. This is important to be able to generate snippets which can be cached.
+Also, JavaScript data added with AddJSData() or AddJSBoolean() calls is appended to the output here.
 
     my $HTML = $LayoutObject->Output(
         TemplateFile   => 'AdminLog.tt',
@@ -65,7 +81,7 @@ Additional parameters:
         AJAX           => 1,
     );
 
-    KeepScriptTags - DEPRECATED, please use the parameter "AJAX" instead
+=back
 
 =cut
 
@@ -80,7 +96,7 @@ sub Output {
             Priority => 'error',
             Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
         );
-        $Self->FatalError();
+        $Self->FatalError;
     }
 
     # asure compatibility with old KeepScriptTags parameter
@@ -144,7 +160,7 @@ sub Output {
             Priority => 'error',
             Message  => 'Need Template or TemplateFile Param!',
         );
-        $Self->FatalError();
+        $Self->FatalError;
     }
 
     if ( !$Self->{TemplateObject} ) {
@@ -176,7 +192,7 @@ sub Output {
         # Store a weak reference to the LayoutObject in the context
         #   to avoid ring references. We need it for the plugins.
         $Context->{LayoutObject} = $Self;
-        Scalar::Util::weaken( $Context->{LayoutObject} );
+        weaken( $Context->{LayoutObject} );
 
         my $Success = $Self->{TemplateObject} = Template->new(
             {
@@ -230,9 +246,13 @@ sub Output {
             my $Target  = $2;
             my $End     = $3;
             my $RealEnd = $4;
-            if ( lc($Target) =~ /^(http:|https:|#|ftp:)/ ||
-                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
-                $Target =~ /(\?|&|;)\Q$Self->{SessionName}\E=/) {
+            if (
+                lc($Target) =~ m/^(http:|https:|#|ftp:)/
+                ||
+                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/
+                ||
+                $Target =~ /(\?|&|;)\Q$Self->{SessionName}\E=/)
+            {
                 $AHref.$Target.$End.$RealEnd;
             }
             else {
@@ -245,12 +265,19 @@ sub Output {
             (<(?:img|iframe).+?src=")(.+?)(".+?>)
         }
         {
-            my $AHref = $1;
+            my $AHref  = $1;
             my $Target = $2;
-            my $End = $3;
-            if (lc($Target) =~ m{^http s? :}smx || !$Self->{SessionID} ||
-                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
-                $Target =~ /\Q$Self->{SessionName}\E=/) {
+            my $End    = $3;
+            if (
+                lc($Target) =~ m{^http s? :}smx
+                ||
+                !$Self->{SessionID}                               # don't add a session ID when there isn't one
+                ||
+                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/    # only dynamic HTML
+                ||
+                $Target =~ /\Q$Self->{SessionName}\E=/             # session ID not already included
+            )
+            {
                 $AHref.$Target.$End;
             }
             else {
@@ -300,9 +327,7 @@ sub Output {
         }
     }
 
-    #
     # AddJSData() handling
-    #
     if ( $Param{AJAX} ) {
         my %Data = %{ $Self->{_JSData} // {} };
         if (%Data) {
@@ -344,6 +369,10 @@ sub AddJSOnDocumentComplete {
 dynamically add JavaScript data that should be handed over to
 JavaScript via Core.Config.
 
+The booleans values C<true> and C<false> are not supported in the passed data structure.
+They would be serialized to C<"true"> and C<"false">, which are both true values.
+As a workaround, use C<"1"> for true and C<''> for false.
+
     $LayoutObject->AddJSData(
         Key   => 'Key1',  # the key to store this data
         Value => { ... }  # simple or complex data
@@ -354,7 +383,7 @@ JavaScript via Core.Config.
 sub AddJSData {
     my ( $Self, %Param ) = @_;
 
-    return if !$Param{Key};
+    return unless $Param{Key};
 
     $Self->{_JSData} //= {};
     $Self->{_JSData}->{ $Param{Key} } = $Param{Value};
