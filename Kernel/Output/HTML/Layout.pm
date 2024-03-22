@@ -32,9 +32,9 @@ use Plack::Response;
 use Plack::Util;
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::Web::Exception;
-use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck  qw(:all);
+use Kernel::System::Web::Exception ();
+use Kernel::Language               qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -64,6 +64,8 @@ our @ObjectDependencies = (
 
 Kernel::Output::HTML::Layout - all generic HTML functions
 
+=for stopwords samesite
+
 =head1 DESCRIPTION
 
 All generic HTML functions. E. g. to get options fields, template processing, ...
@@ -75,6 +77,7 @@ All generic HTML functions. E. g. to get options fields, template processing, ..
 create a new object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::Output::HTML::Layout' => {
             Lang    => 'de',
@@ -131,6 +134,7 @@ sub new {
                     # If Browser requests 'vi', also offer 'vi_VI' even though we don't have 'vi'
                     if ( $Language =~ m/^$BrowserLang/smxi ) {
                         $Self->{UserLanguage} = $Language;
+
                         last LANGUAGE;
                     }
                 }
@@ -152,15 +156,16 @@ sub new {
     }
 
     # set charset if there is no charset given
-    $Self->{UserCharset} = 'utf-8';                 # used directly by frontend modules
-    $Self->{Charset}     = $Self->{UserCharset};    # just for compat, used directly by frontend modules
-    $Self->{SessionID}   = $Param{SessionID}          || '';
-    $Self->{SessionName} = $Param{SessionName}        || 'SessionID';
-    $Self->{CGIHandle}   = $ParamObject->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
+    $Self->{UserCharset} = 'utf-8';                 # only utf-8 is supported, used directly by frontend modules
+    $Self->{Charset}     = $Self->{UserCharset};    # just for compatibility, used directly by frontend modules
+    $Self->{SessionID}   = $Param{SessionID}   || '';
+    $Self->{SessionName} = $Param{SessionName} || 'SessionID';
 
-    # baselink
-    $Self->{Baselink} = $Self->{CGIHandle} . '?';
-    $Self->{Time}     = $Self->{LanguageObject}->Time(
+    # Baselink is a local link like /otobo/index.pl?
+    $Self->{CGIHandle} = $ParamObject->ScriptName || 'No-$ENV{"SCRIPT_NAME"}';
+    $Self->{Baselink}  = $Self->{CGIHandle} . '?';
+
+    $Self->{Time} = $Self->{LanguageObject}->Time(
         Action => 'GET',
         Format => 'DateFormat',
     );
@@ -210,13 +215,13 @@ EOF
     $Self->{FilterText} = $ConfigObject->Get('Frontend::Output::FilterText');
 
     # check browser
-    $Self->{Browser}        = 'Unknown';
-    $Self->{BrowserVersion} = 0;
-    $Self->{Platform}       = '';
-    $Self->{IsMobile}       = 0;
+    $Self->{Browser}         = 'Unknown';
+    $Self->{BrowserVersion}  = 0;
+    $Self->{Platform}        = '';
+    $Self->{IsMobile}        = 0;
+    $Self->{BrowserRichText} = 1;
 
     $Self->{BrowserJavaScriptSupport} = 1;
-    $Self->{BrowserRichText}          = 1;
 
     my $HttpUserAgent = lc( $ParamObject->HTTP('USER_AGENT') // '' );
 
@@ -468,6 +473,12 @@ EOF
     return $Self;
 }
 
+=head2 SetEnv()
+
+Add additional data to the template environment before output is generated.
+
+=cut
+
 sub SetEnv {
     my ( $Self, %Param ) = @_;
 
@@ -477,7 +488,8 @@ sub SetEnv {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
     }
     $Self->{EnvNewRef}->{ $Param{Key} } = $Param{Value};
@@ -524,12 +536,30 @@ sub Block {
 
 =head2 JSONEncode()
 
-Encode perl data structure to JSON string
+Serialize a Perl data structure as JSON.
+The parameters C<SortKeys> and C<Pretty> are passed on to the method C<Kernel::System::JSON::Encode()>.
 
-    my $JSON = $LayoutObject->JSONEncode(
-        Data        => $Data,
-        NoQuotes    => 0|1, # optional: no double quotes at the start and the end of JSON string
+    my %Hash = (
+        Key1 => 'Something',
+        Key2 => [ "Foo", "Bar" ],
     );
+    my $JSON = $LayoutObject->JSONEncode(
+        Data     => \%Hash,
+        NoQuotes => 0, # optional: 0|1 no double quotes at the start and the end of JSON string, default is 0
+        SortKeys => 1,
+    );
+
+Returns:
+
+    $JSON = <<'END_JSON';
+    {
+       "Key1" : "Something",
+       "Key2" : [
+          "Foo",
+          "Bar"
+       ],
+    }
+    END_JSON
 
 =cut
 
@@ -537,7 +567,7 @@ sub JSONEncode {
     my ( $Self, %Param ) = @_;
 
     # check for needed data
-    return if !defined $Param{Data};
+    return unless defined $Param{Data};
 
     # get JSON encoded data
     my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
@@ -554,7 +584,8 @@ sub JSONEncode {
 
 =head2 Redirect()
 
-throw a L<Kernel::System::Web::Exception> that triggers a redirect to the redirect URL
+throw a L<Kernel::System::Web::Exception> that triggers a redirect. The target for the redirect
+can be given either with the parameter C<OP> or C<ExtURL>.
 
     # internal redirects
     $LayoutObject->Redirect(
@@ -1779,11 +1810,13 @@ sub Footer {
         )
         : ();
 
+    my $WebPath = $ConfigObject->Get('Frontend::WebPath');
+
     # add JS data
     my %JSConfig = (
         Baselink                       => $Self->{Baselink},
         CGIHandle                      => $Self->{CGIHandle},
-        WebPath                        => $ConfigObject->Get('Frontend::WebPath'),
+        WebPath                        => $WebPath,
         Action                         => $Self->{Action},
         Subaction                      => $Self->{Subaction},
         SessionIDCookie                => $Self->{SessionIDCookie},
@@ -1929,7 +1962,7 @@ sub ApplyOutputFilters {
 
 =head2 Ascii2Html()
 
-convert ASCII to html string
+convert ASCII to HTML string
 
     my $HTML = $LayoutObject->Ascii2Html(
         Text            => 'Some <> Test <font color="red">Test</font>',
@@ -1942,7 +1975,7 @@ convert ASCII to html string
         LinkFeature     => 0,        # do some URL detections
     );
 
-also string ref is possible
+A reference to a string can also be passed. In this cast the result will also be a reference to a string.
 
     my $HTMLStringRef = $LayoutObject->Ascii2Html(
         Text => \$String,
@@ -1954,14 +1987,12 @@ sub Ascii2Html {
     my ( $Self, %Param ) = @_;
 
     # check needed param
-    return '' if !defined $Param{Text};
+    return '' unless defined $Param{Text};
 
     # check text
-    my $TextScalar;
     my $Text;
     if ( !ref $Param{Text} ) {
-        $TextScalar = 1;
-        $Text       = \$Param{Text};
+        $Text = \$Param{Text};
     }
     elsif ( ref $Param{Text} eq 'SCALAR' ) {
         $Text = $Param{Text};
@@ -1971,6 +2002,7 @@ sub Ascii2Html {
             Priority => 'error',
             Message  => 'Invalid ref "' . ref( $Param{Text} ) . '" of Text param!',
         );
+
         return '';
     }
 
@@ -2105,6 +2137,7 @@ sub Ascii2Html {
         ${$Text} =~ s/'/\\'/g;
     }
 
+    # The input parameter Text determines the type of the returned value
     return $Text if ref $Param{Text};
     return ${$Text};
 }
@@ -2440,6 +2473,7 @@ sub BuildSelection {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -2460,7 +2494,8 @@ sub BuildSelection {
                 Priority => 'error',
                 Message  => 'Need Depend Param Ajax option!',
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
         if ( !$Param{Ajax}->{Update} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -2519,7 +2554,8 @@ sub BuildSelection {
                     Priority => 'error',
                     Message  => 'Each Filter must provide Name and Values!',
                 );
-                $Self->FatalError();
+
+                $Self->FatalError;
             }
             $Index++;
         }
@@ -2527,7 +2563,7 @@ sub BuildSelection {
     }
 
     # generate output
-    my $String = $Self->_BuildSelectionOutput(
+    return $Self->_BuildSelectionOutput(
         AttributeRef       => $AttributeRef,
         DataRef            => $DataRef,
         OptionTitle        => $Param{OptionTitle},
@@ -2538,7 +2574,6 @@ sub BuildSelection {
         ValidateDateAfter  => $Param{ValidateDateAfter},
         ValidateDateBefore => $Param{ValidateDateBefore},
     );
-    return $String;
 }
 
 sub NoPermission {
@@ -2607,7 +2642,8 @@ sub Permission {
                 Priority => 'error',
                 Message  => "Got no $Needed!",
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
     }
 
@@ -2715,7 +2751,7 @@ returns browser output to display/download a attachment.
                                                #   scripts, flash etc.
     );
 
-Or for AJAX html snippets:
+Or for AJAX HTML snippets:
 
     $HTML = $LayoutObject->Attachment(
         Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
@@ -2740,7 +2776,8 @@ sub Attachment {
                 Priority => 'error',
                 Message  => "Got no $_!",
             );
-            $Self->FatalError();
+
+            $Self->FatalError;
         }
     }
 
@@ -2785,7 +2822,7 @@ sub Attachment {
 
     if ( $Param{Sandbox} && !$Kernel::OM->Get('Kernel::Config')->Get('DisableContentSecurityPolicy') ) {
 
-        # Disallow external and inline scripts, active content, frames, but keep allowing inline styles
+        # Do not allow external and inline scripts, active content, frames, but keep allowing inline styles
         #   as this is a common use case in emails.
         # Also disallow referrer headers to prevent referrer leaks via old-style policy directive. Please note this has
         #   been deprecated and will be removed in future OTOBO versions in favor of a separate header (see below).
@@ -3771,6 +3808,7 @@ sub BuildDateSelection {
             . ( $Param{Disabled} ? 'readonly="readonly"' : '' ) . "/>";
 
     }
+
     if ( $Format eq 'DateInputFormatLong' ) {
 
         # hour
@@ -3849,7 +3887,7 @@ sub BuildDateSelection {
         $WeekDayStart = 1;
     }
 
-    my $Output;
+    my $Output = '';
 
     # optional checkbox
     if ($Optional) {
@@ -3943,7 +3981,7 @@ sub HumanReadableDataSize {
         else {
 
             # Get integer and decimal parts.
-            my ( $Integer, $Float ) = split( m{\.}, sprintf( "%.1f", $Number ) );
+            my ( $Integer, $Float ) = split( /\./, sprintf( "%.1f", $Number ) );
 
             my $Separator = $Self->{LanguageObject}->{DecimalSeparator} || '.';
 
@@ -4715,7 +4753,7 @@ sub CustomerNavigationBar {
 
             # load module
             if ( !$MainObject->Require( $Jobs{$Job}->{Module} ) ) {
-                $Self->FatalError();
+                $Self->FatalError;
             }
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
@@ -5343,7 +5381,6 @@ sub RichTextDocumentServe {
                     $Param{Data}->{Content} = $Message . $Param{Data}->{Content};
                 }
             }
-
         }
     }
 
@@ -5578,6 +5615,8 @@ create the attribute hash
     my $AttributeRef = $LayoutObject->_BuildSelectionAttributeRefCreate(
         %Param,
     );
+
+The result looks like:
 
     my $AttributeRef = {
         name     => 'TheName',
@@ -5996,7 +6035,7 @@ sub _BuildSelectionDataRefCreate {
         @{$DataRef} = reverse( @{$DataRef} );
     }
 
-    # PossibleNone option
+    # add an empty option as first option when PossibleNone is given
     if ( $OptionRef->{PossibleNone} ) {
         my %None;
         $None{Key}   = '';
@@ -6084,7 +6123,7 @@ sub _BuildSelectionDataRefCreate {
 
 =head2 _BuildSelectionOutput()
 
-create the html string
+create the HTML string for a selection:
 
     my $HTMLString = $LayoutObject->_BuildSelectionOutput(
         AttributeRef       => $AttributeRef,
@@ -6222,10 +6261,10 @@ Do this _just_ if the line, that should be wrapped, contains space characters at
 If you need more info to understand what it does, take a look at the UnitTest WrapPlainText.t to see
 use cases there.
 
-my $WrappedPlainText = $LayoutObject->WrapPlainText(
-    PlainText     => "Some Plain text that is longer than the amount stored in MaxCharacters",
-    MaxCharacters => 80,
-);
+    my $WrappedPlainText = $LayoutObject->WrapPlainText(
+        PlainText     => "Some Plain text that is longer than the amount stored in MaxCharacters",
+        MaxCharacters => 80,
+    );
 
 =cut
 
@@ -6239,13 +6278,12 @@ sub WrapPlainText {
             Priority => 'error',
             Message  => "Got no or invalid MaxCharacters!",
         );
+
         return;
     }
 
     # Return if we didn't get PlainText
-    if ( !defined $Param{PlainText} ) {
-        return;
-    }
+    return unless defined $Param{PlainText};
 
     # Return if we got no Scalar
     if ( ref $Param{PlainText} ) {
@@ -6253,19 +6291,19 @@ sub WrapPlainText {
             Priority => 'error',
             Message  => "Had no string in PlainText!",
         );
+
         return;
     }
 
     # Return PlainText if we have less than MaxCharacters
-    if ( length $Param{PlainText} < $Param{MaxCharacters} ) {
-        return $Param{PlainText};
-    }
+    return $Param{PlainText} if length $Param{PlainText} < $Param{MaxCharacters};
 
     my $WorkString = $Param{PlainText};
 
     # Normalize line endings to avoid problems with \r\n (bug#11078).
     $WorkString =~ s/\r\n?/\n/g;
     $WorkString =~ s/(^>.+|.{4,$Param{MaxCharacters}})(?:\s|\z)/$1\n/gm;
+
     return $WorkString;
 }
 
@@ -6290,7 +6328,8 @@ sub SetRichTextParameters {
             Priority => 'error',
             Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
         );
-        $Self->FatalError();
+
+        $Self->FatalError;
     }
 
     # get needed objects
@@ -6428,7 +6467,8 @@ sub CustomerSetRichTextParameters {
             Priority => 'error',
             Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
         );
-        $Self->FatalError();
+
+        $Self->FatalError;
     }
 
     # get needed objects
