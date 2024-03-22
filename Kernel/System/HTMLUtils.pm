@@ -702,10 +702,8 @@ sub DocumentComplete {
 
     my $CKEditorStyles
         = $Param{CustomerInterface} ? $ConfigObject->Get('CustomerFrontend::RichTextArticleStyles') : $ConfigObject->Get('Frontend::RichTextArticleStyles');
-    my $Interface = $Param{CustomerInterface} ? 'Customer' : 'Agent';
-
     my $CKEditorCSS = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-        Location        => $ConfigObject->Get('Home') . "/var/httpd/htdocs/skins/$Interface/default/css/$CKEditorStyles",
+        Location        => $ConfigObject->Get('Home') . "/var/httpd/htdocs/$CKEditorStyles",
         Type            => 'Local',
         DisableWarnings => 1,
     );
@@ -715,6 +713,7 @@ sub DocumentComplete {
         $Body .= "<style>" . ${$CKEditorCSS} . "</style>";
     }
     $Body .= '</head><body style="' . $Css . '">' . $Param{String} . '</body></html>';
+    
     return $Body;
 }
 
