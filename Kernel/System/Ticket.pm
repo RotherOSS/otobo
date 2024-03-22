@@ -782,8 +782,8 @@ sub TicketDelete {
     #Delete article version data
     my @VersionIDs = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->DeleteVersionData(
         TicketID => $Param{TicketID}
-    );    
-    
+    );
+
     # delete ticket_history
     return if !$Self->HistoryDelete(
         TicketID => $Param{TicketID},
@@ -794,7 +794,7 @@ sub TicketDelete {
     my @Articles = $ArticleObject->ArticleList( TicketID => $Param{TicketID} );
     for my $MetaArticle (@Articles) {
         return if !$ArticleObject->BackendForArticle( %{$MetaArticle} )->ArticleDelete(
-            ArticleID => $MetaArticle->{ArticleID},
+            ArticleID  => $MetaArticle->{ArticleID},
             VersionIDs => \@VersionIDs,
             %Param,
         );
@@ -6428,7 +6428,7 @@ sub TicketMerge {
         SQL => 'UPDATE article_version SET ticket_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE ticket_id = ?',
         Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
-    );    
+    );
 
     # change ticket id of merge ticket to main ticket for time_accounting versions
     return if !$DBObject->Do(
@@ -8299,13 +8299,13 @@ sub ObjectAttributesGet {
     # allow certain attributes only of corresponding sysconfig is activated
     my %TicketAttributes = (
         TicketID               => 1,
-        Queue                  => 1,
+        Queues                 => 1,
         QueueID                => 1,
-        State                  => 1,
+        States                 => 1,
         StateID                => 1,
-        Lock                   => 1,
+        Locks                  => 1,
         LockID                 => 1,
-        Priority               => 1,
+        Priorities             => 1,
         PriorityID             => 1,
         Created                => 1,
         TicketNumber           => 1,
@@ -8327,12 +8327,16 @@ sub ObjectAttributesGet {
     # check and set attributes which depend on sysconfig
     for my $Entity (qw(Responsible Service Type)) {
         if ( $ConfigObject->Get("Ticket::$Entity") ) {
-            $TicketAttributes{$Entity} = 1;
+
+            # Responsible can only be searched via IDs
+            if ( $Entity ne 'Responsible' ) {
+                $TicketAttributes{ $Entity . 's' } = 1;
+            }
             $TicketAttributes{"${Entity}ID"} = 1;
 
             # SLA depends on service
             if ( $Entity eq 'Service' ) {
-                $TicketAttributes{SLA}   = 1;
+                $TicketAttributes{SLAs}  = 1;
                 $TicketAttributes{SLAID} = 1;
             }
         }
