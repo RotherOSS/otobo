@@ -987,6 +987,131 @@ sub _ShowScreen {
         $ReadonlyInternalField = 'readonly';
     }
 
+    # render reference filter list only if enabled
+    if (
+        any {
+            $_->{ConfigParamName} eq 'ReferenceFilterList'
+        }
+        $Param{FieldTypeSettings}->@*
+        )
+    {
+
+        # attribute translation for ticket attributes
+        my %EqualsObjectAttributesMap;
+        if ( $Param{ObjectType} eq 'Ticket' ) {
+
+            # set standard attributes which are always present
+            $EqualsObjectAttributesMap{CustomerID}     = 'CustomerID';
+            $EqualsObjectAttributesMap{CustomerUserID} = 'CustomerUserID';
+            $EqualsObjectAttributesMap{Dest}           = 'QueueID';
+            $EqualsObjectAttributesMap{NewUserID}      = 'OwnerID';
+            $EqualsObjectAttributesMap{NextStateID}    = 'StateID';
+            $EqualsObjectAttributesMap{PriorityID}     = 'PriorityID';
+            $EqualsObjectAttributesMap{UserID}         = 'UserID';
+
+            # set sysconfig-depending attributes if present
+            # NOTE this relies upon the object attributes passed in $Param{EqualsObjectFilterableAttributes} to determine wether an attribute is present or not
+            for my $SysConfigAttribute (qw(ResponsibleID ServiceID SLAID TypeID)) {
+                if ( $Param{EqualsObjectFilterableAttributes}->{$SysConfigAttribute} ) {
+                    my $SysConfigAttributeName = $SysConfigAttribute eq 'ResponsibleID' ? "New$SysConfigAttribute" : $SysConfigAttribute;
+                    $EqualsObjectAttributesMap{$SysConfigAttributeName} = $SysConfigAttribute;
+                }
+            }
+
+            # set dynamic fields
+            for my $Attribute ( keys $Param{EqualsObjectFilterableAttributes}->%* ) {
+                if ( $Attribute =~ /^DynamicField_/ ) {
+                    $EqualsObjectAttributesMap{$Attribute} = $Attribute;
+                }
+            }
+        }
+
+        # build attributes selections for template filter row
+        $Param{'ReferenceFilter_EqualsObjectAttributeStrg'} = $LayoutObject->BuildSelection(
+            Data         => %EqualsObjectAttributesMap ? \%EqualsObjectAttributesMap : $Param{EqualsObjectFilterableAttributes},
+            Name         => 'ReferenceFilter_EqualsObjectAttribute',
+            PossibleNone => 1,
+            Translation  => 0,
+            Sort         => 'AlphanumericValue',
+            Class        => 'Modernize W75pc',
+        );
+        $Param{'ReferenceFilter_ReferenceObjectAttributeStrg'} = $LayoutObject->BuildSelection(
+            Data         => $Param{ReferenceObjectFilterableAttributes},
+            Name         => 'ReferenceFilter_ReferenceObjectAttribute',
+            PossibleNone => 1,
+            Translation  => 0,
+            Sort         => 'AlphanumericValue',
+            Class        => 'Modernize W75pc',
+        );
+
+        if ( !$Param{ReferenceFilterCounter} ) {
+
+            my $ReferenceFilterCounter = 0;
+            for my $ReferenceFilter ( @{ $Param{ReferenceFilterList} } ) {
+
+                $ReferenceFilterCounter++;
+                for my $FilterItem (qw(ReferenceObjectAttribute EqualsObjectAttribute EqualsString)) {
+                    $Param{ 'ReferenceFilter_' . $FilterItem . '_' . $ReferenceFilterCounter } = $ReferenceFilter->{$FilterItem};
+                }
+
+                # NOTE SelectedID is necessary because e.g. for tickets key and value are different
+                $Param{ 'ReferenceFilter_EqualsObjectAttributeStrg_' . $ReferenceFilterCounter } = $LayoutObject->BuildSelection(
+                    Data         => %EqualsObjectAttributesMap ? \%EqualsObjectAttributesMap : $Param{EqualsObjectFilterableAttributes},
+                    Name         => 'ReferenceFilter_EqualsObjectAttribute_' . $ReferenceFilterCounter,
+                    SelectedID   => $Param{ 'ReferenceFilter_EqualsObjectAttribute_' . $ReferenceFilterCounter } || '',
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    Sort         => 'AlphanumericValue',
+                    Class        => 'Modernize W75pc',
+                );
+                $Param{ 'ReferenceFilter_ReferenceObjectAttributeStrg_' . $ReferenceFilterCounter } = $LayoutObject->BuildSelection(
+                    Data         => $Param{ReferenceObjectFilterableAttributes},
+                    Name         => 'ReferenceFilter_ReferenceObjectAttribute_' . $ReferenceFilterCounter,
+                    SelectedID   => $Param{ 'ReferenceFilter_ReferenceObjectAttribute_' . $ReferenceFilterCounter } || '',
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    Sort         => 'AlphanumericValue',
+                    Class        => 'Modernize W75pc',
+                );
+            }
+
+            $Param{ReferenceFilterCounter} = $ReferenceFilterCounter;
+        }
+
+        $LayoutObject->Block(
+            Name => 'ReferenceFilterList',
+            Data => {
+                %Param,
+            },
+        );
+
+        if ( $Param{ReferenceFilterCounter} ) {
+
+            REFERENCEFILTERENTRY:
+            for my $CurrentReferenceFilterEntryID ( 1 .. $Param{ReferenceFilterCounter} ) {
+
+                # check existing filter
+                my %FilterRow;
+                my %Errors;
+                for my $FilterItem (qw(ReferenceObjectAttribute ReferenceObjectAttributeStrg EqualsObjectAttribute EqualsObjectAttributeStrg EqualsString)) {
+                    $FilterRow{ 'ReferenceFilter_' . $FilterItem } = $Param{ 'ReferenceFilter_' . $FilterItem . '_' . $CurrentReferenceFilterEntryID };
+                }
+
+                # skip if values are undef
+                next REFERENCEFILTERENTRY if !grep { defined $_ } values %FilterRow;
+
+                $LayoutObject->Block(
+                    Name => 'ReferenceFilterRow',
+                    Data => {
+                        %FilterRow,
+                        %Errors,
+                        EntryCounter => $CurrentReferenceFilterEntryID,
+                    }
+                );
+            }
+        }
+    }
+
     # get the dynamic field id
     my $FieldID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ID' );
 
@@ -997,133 +1122,6 @@ sub _ShowScreen {
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
             ID => $FieldID,
         );
-
-        my $FieldConfig = $DynamicField->{Config};
-
-        # render reference filter list only if enabled
-        if (
-            any {
-                $_->{ConfigParamName} eq 'ReferenceFilterList'
-            }
-            $Param{FieldTypeSettings}->@*
-            )
-        {
-
-            # attribute translation for ticket attributes
-            my %EqualsObjectAttributesMap;
-            if ( $Param{ObjectType} eq 'Ticket' ) {
-
-                # set standard attributes which are always present
-                $EqualsObjectAttributesMap{CustomerID}     = 'CustomerID';
-                $EqualsObjectAttributesMap{CustomerUserID} = 'CustomerUserID';
-                $EqualsObjectAttributesMap{Dest}           = 'QueueID';
-                $EqualsObjectAttributesMap{NewUserID}      = 'OwnerID';
-                $EqualsObjectAttributesMap{NextStateID}    = 'StateID';
-                $EqualsObjectAttributesMap{PriorityID}     = 'PriorityID';
-                $EqualsObjectAttributesMap{UserID}         = 'UserID';
-
-                # set sysconfig-depending attributes if present
-                # NOTE this relies upon the object attributes passed in $Param{EqualsObjectFilterableAttributes} to determine wether an attribute is present or not
-                for my $SysConfigAttribute (qw(ResponsibleID ServiceID SLAID TypeID)) {
-                    if ( $Param{EqualsObjectFilterableAttributes}->{$SysConfigAttribute} ) {
-                        my $SysConfigAttributeName = $SysConfigAttribute eq 'ResponsibleID' ? "New$SysConfigAttribute" : $SysConfigAttribute;
-                        $EqualsObjectAttributesMap{$SysConfigAttributeName} = $SysConfigAttribute;
-                    }
-                }
-
-                # set dynamic fields
-                for my $Attribute ( keys $Param{EqualsObjectFilterableAttributes}->%* ) {
-                    if ( $Attribute =~ /^DynamicField_/ ) {
-                        $EqualsObjectAttributesMap{$Attribute} = $Attribute;
-                    }
-                }
-            }
-
-            # build attributes selections for template filter row
-            $Param{'ReferenceFilter_EqualsObjectAttributeStrg'} = $LayoutObject->BuildSelection(
-                Data         => %EqualsObjectAttributesMap ? \%EqualsObjectAttributesMap : $Param{EqualsObjectFilterableAttributes},
-                Name         => 'ReferenceFilter_EqualsObjectAttribute',
-                PossibleNone => 1,
-                Translation  => 0,
-                Sort         => 'AlphanumericValue',
-                Class        => 'Modernize W75pc',
-            );
-            $Param{'ReferenceFilter_ReferenceObjectAttributeStrg'} = $LayoutObject->BuildSelection(
-                Data         => $Param{ReferenceObjectFilterableAttributes},
-                Name         => 'ReferenceFilter_ReferenceObjectAttribute',
-                PossibleNone => 1,
-                Translation  => 0,
-                Sort         => 'AlphanumericValue',
-                Class        => 'Modernize W75pc',
-            );
-
-            if ( !$Param{ReferenceFilterCounter} ) {
-
-                my $ReferenceFilterCounter = 0;
-                for my $ReferenceFilter ( @{ $FieldConfig->{ReferenceFilterList} } ) {
-
-                    $ReferenceFilterCounter++;
-                    for my $FilterItem (qw(ReferenceObjectAttribute EqualsObjectAttribute EqualsString)) {
-                        $Param{ 'ReferenceFilter_' . $FilterItem . '_' . $ReferenceFilterCounter } = $ReferenceFilter->{$FilterItem};
-                    }
-
-                    # NOTE SelectedID is necessary because e.g. for tickets key and value are different
-                    $Param{ 'ReferenceFilter_EqualsObjectAttributeStrg_' . $ReferenceFilterCounter } = $LayoutObject->BuildSelection(
-                        Data         => %EqualsObjectAttributesMap ? \%EqualsObjectAttributesMap : $Param{EqualsObjectFilterableAttributes},
-                        Name         => 'ReferenceFilter_EqualsObjectAttribute_' . $ReferenceFilterCounter,
-                        SelectedID   => $Param{ 'ReferenceFilter_EqualsObjectAttribute_' . $ReferenceFilterCounter } || '',
-                        PossibleNone => 1,
-                        Translation  => 0,
-                        Sort         => 'AlphanumericValue',
-                        Class        => 'Modernize W75pc',
-                    );
-                    $Param{ 'ReferenceFilter_ReferenceObjectAttributeStrg_' . $ReferenceFilterCounter } = $LayoutObject->BuildSelection(
-                        Data         => $Param{ReferenceObjectFilterableAttributes},
-                        Name         => 'ReferenceFilter_ReferenceObjectAttribute_' . $ReferenceFilterCounter,
-                        SelectedID   => $Param{ 'ReferenceFilter_ReferenceObjectAttribute_' . $ReferenceFilterCounter } || '',
-                        PossibleNone => 1,
-                        Translation  => 0,
-                        Sort         => 'AlphanumericValue',
-                        Class        => 'Modernize W75pc',
-                    );
-                }
-
-                $Param{ReferenceFilterCounter} = $ReferenceFilterCounter;
-            }
-
-            $LayoutObject->Block(
-                Name => 'ReferenceFilterList',
-                Data => {
-                    %Param,
-                },
-            );
-
-            if ( $Param{ReferenceFilterCounter} ) {
-
-                REFERENCEFILTERENTRY:
-                for my $CurrentReferenceFilterEntryID ( 1 .. $Param{ReferenceFilterCounter} ) {
-
-                    # check existing filter
-                    my %FilterRow;
-                    my %Errors;
-                    for my $FilterItem (qw(ReferenceObjectAttribute ReferenceObjectAttributeStrg EqualsObjectAttribute EqualsObjectAttributeStrg EqualsString)) {
-                        $FilterRow{ 'ReferenceFilter_' . $FilterItem } = $Param{ 'ReferenceFilter_' . $FilterItem . '_' . $CurrentReferenceFilterEntryID };
-                    }
-
-                    # skip if values are undef
-                    next REFERENCEFILTERENTRY if !grep { defined $_ } values %FilterRow;
-
-                    $LayoutObject->Block(
-                        Name => 'ReferenceFilterRow',
-                        Data => {
-                            %FilterRow,
-                            %Errors,
-                            EntryCounter => $CurrentReferenceFilterEntryID,
-                        }
-                    );
-                }
-            }
-        }
 
         my $DynamicFieldName = $DynamicField->{Name};
 
