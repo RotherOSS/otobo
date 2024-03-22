@@ -239,18 +239,18 @@ sub ObjectDescriptionGet {
         }
     }
 
-    my $CustomerUserName = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
-        UserLogin => $Param{ObjectID},
+    my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+        User => $Param{ObjectID},
     );
 
-    return unless $CustomerUserName;
+    return unless %CustomerUserData;
 
     my $Link;
 
     # create description
     return (
-        Normal => $CustomerUserName,
-        Long   => $CustomerUserName,
+        Normal => $CustomerUserData{UserMailString},
+        Long   => $CustomerUserData{UserMailString},
         Link   => $Link,
     );
 }
