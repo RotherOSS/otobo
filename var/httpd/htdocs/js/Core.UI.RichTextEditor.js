@@ -105,9 +105,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         // Common editor label
         const RichTextLabel = $('label[for="RichText"]');
 
-        //Change to new CKEditor format <br*> tags to Paragraphs
-        $($EditorArea).val($($EditorArea).val().replace(/<br[^>]*>/gi,'<p>&nbsp;</p>'));
-
         var ToolbarConfig;
         if ( CustomerInterface ) {
             ToolbarConfig = $EditorArea.width() < 454 ? Core.Config.Get('RichText.ToolbarMini') :
