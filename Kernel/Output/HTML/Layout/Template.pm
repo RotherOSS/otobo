@@ -241,9 +241,13 @@ sub Output {
             my $Target  = $2;
             my $End     = $3;
             my $RealEnd = $4;
-            if ( lc($Target) =~ /^(http:|https:|#|ftp:)/ ||
-                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
-                $Target =~ /(\?|&|;)\Q$Self->{SessionName}\E=/) {
+            if (
+                lc($Target) =~ m/^(http:|https:|#|ftp:)/
+                ||
+                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/
+                ||
+                $Target =~ /(\?|&|;)\Q$Self->{SessionName}\E=/)
+            {
                 $AHref.$Target.$End.$RealEnd;
             }
             else {
@@ -256,12 +260,19 @@ sub Output {
             (<(?:img|iframe).+?src=")(.+?)(".+?>)
         }
         {
-            my $AHref = $1;
+            my $AHref  = $1;
             my $Target = $2;
-            my $End = $3;
-            if (lc($Target) =~ m{^http s? :}smx || !$Self->{SessionID} ||
-                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
-                $Target =~ /\Q$Self->{SessionName}\E=/) {
+            my $End    = $3;
+            if (
+                lc($Target) =~ m{^http s? :}smx
+                ||
+                !$Self->{SessionID}                               # don't add a session ID when there isn't one
+                ||
+                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/    # only dynamic HTML
+                ||
+                $Target =~ /\Q$Self->{SessionName}\E=/             # session ID not already included
+            )
+            {
                 $AHref.$Target.$End;
             }
             else {

@@ -158,13 +158,14 @@ sub new {
 
     $Self->{UserCharset} = 'utf-8';                 # only utf-8 is supported, used directly by frontend modules
     $Self->{Charset}     = $Self->{UserCharset};    # just for compatibility, used directly by frontend modules
-    $Self->{SessionID}   = $Param{SessionID}          || '';
-    $Self->{SessionName} = $Param{SessionName}        || 'SessionID';
-    $Self->{CGIHandle}   = $ParamObject->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
+    $Self->{SessionID}   = $Param{SessionID}   || '';
+    $Self->{SessionName} = $Param{SessionName} || 'SessionID';
 
-    # baselink
-    $Self->{Baselink} = $Self->{CGIHandle} . '?';
-    $Self->{Time}     = $Self->{LanguageObject}->Time(
+    # Baselink is a local link like /otobo/index.pl?
+    $Self->{CGIHandle} = $ParamObject->ScriptName || 'No-$ENV{"SCRIPT_NAME"}';
+    $Self->{Baselink}  = $Self->{CGIHandle} . '?';
+
+    $Self->{Time} = $Self->{LanguageObject}->Time(
         Action => 'GET',
         Format => 'DateFormat',
     );
@@ -652,9 +653,6 @@ sub Redirect {
             && $Self->{SessionID}                                 # when we actually have a session
             )
         {
-
-            # TODO: think about using URI::query_form() for messing with the URL
-
             # look for the fragment part of the URL, the fragment part starts with an '#' and is always at the end of the URL
             my ( $Target, $Fragment );
             if ( $RedirectURL =~ m/^(.+?)#(|.+?)$/ ) {
@@ -5462,7 +5460,6 @@ sub RichTextDocumentServe {
                     $Param{Data}->{Content} = $Message . $Param{Data}->{Content};
                 }
             }
-
         }
     }
 

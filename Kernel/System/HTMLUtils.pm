@@ -60,7 +60,7 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    # get debug level from parent
+    # get debug level from caller
     $Self->{Debug} = $Param{Debug} || 0;
 
     return $Self;
@@ -690,9 +690,9 @@ sub DocumentComplete {
 
     # Use the HTML5 doctype because it is compatible with HTML4 and causes the browsers
     #   to render the content in standards mode, which is more safe than quirks mode.
-    my $Body = '<!DOCTYPE html><html><head>';
-    $Body
-        .= '<meta http-equiv="Content-Type" content="text/html; charset=' . $Param{Charset} . '"/>';
+    my $Body = join '',
+        q{<!DOCTYPE html><html><head>},
+        qq{<meta http-equiv="Content-Type" content="text/html; charset=$Param{Charset}"/>};
     if ( $Param{CustomerInterface} ) {
 
         # include quicksand and default css
@@ -713,7 +713,7 @@ sub DocumentComplete {
         $Body .= "<style>" . ${$CKEditorCSS} . "</style>";
     }
     $Body .= '</head><body style="' . $Css . '">' . $Param{String} . '</body></html>';
-    
+
     return $Body;
 }
 
@@ -977,7 +977,7 @@ sub LinkQuote {
 =head2 Safety()
 
 To remove/strip active html tags/addons (javascript, C<applet>s, C<embed>s and C<object>s)
-from HTML strings.
+from HTML strings. All options are turned off by default
 
     my %Safe = $HTMLUtilsObject->Safety(
         String         => $HTMLString,
@@ -1010,7 +1010,7 @@ returns
 
     my %Safe = (
         String  => $HTMLString, # modified html string (scalar or ref)
-        Replace => 1,           # info if something got replaced
+        Replace => 1,           # info if something got replaced (not really reliable)
     );
 
 =cut
