@@ -25,18 +25,19 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  * @note        Does not work in IE6, only partially in IE7 (no focus)
  */
 
+.FilterAvailableFields {
+    width: 96% !important;
+}
+
 input[type=text],
 input[type=password],
 input[type=email],
 textarea,
 select[multiple=multiple] {
-    border: 1px solid #C9C9C9;
-    border-top-color: #C0C0C0;
+    border: 1px solid var(--colBGDark);
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     /* Opera 10.5 has per default a grey background */
-    background-color: #FFF;
-    -webkit-box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
-    box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
+    background-color: var(--colBGLight);
 }
 
 select[multiple=multiple] {
@@ -326,7 +327,7 @@ button.Reset:active {
 }
 
 .ShowTreeSelection:focus {
-    color: var(--colHoverDark);
+    color: #fef235;
 }
 
 .Field .ShowTreeSelection, .WidgetSettingsForm .ShowTreeSelection {
@@ -391,12 +392,32 @@ button.Reset:active {
     font-style: italic;
 }
 
+body #ConfigTree .jstree-hovered,
+body #ConfigTree .jstree-wholerow-hovered {
+    background: var(--colBGLight) !important;
+    color: var(--colTextDark);
+}
+
+div.InputField_Selection div.Text,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked {
+    background: var(--colHoverLight) !important;
+    color: var(--colTextDark);
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover, .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered, .jstree-InputField .jstree-focused > .jstree-wholerow {
+    background-color: var(--colHoverLight);
+}
+
 .JSTreeField .jstree-search {
-    color: #E07006;
+    color: var(--colTextDark);
 }
 
 .JSTreeField .jstree-search.jstree-clicked {
-    color: #00023c;
+    color: var(--colTextDark);
+}
+
+.jstree-InputField .jstree-wholerow-clicked ~ .jstree-anchor {
+    color: var(--colTextDark);
 }
 
 .JSTreeField .jstree-clicked {
@@ -474,7 +495,7 @@ form fieldset > p.NoValue {
 }
 
 .FieldExplanation {
-    color: #888;
+    color: var(--colTextDark);
     margin: 5px 0;
 }
 
@@ -814,7 +835,7 @@ fieldset.TableLike select {
 fieldset.TableLike > .Field label,
 fieldset.TableLike > .Row > .Field label,
 fieldset.TableLike > .Row > .FieldCell label {
-    color: #929292;
+    color: var(--colTextLight) !important;
 }
 
 fieldset.TableLike .Row > .FieldCell > .Field > select,
@@ -1029,6 +1050,7 @@ fieldset.TableLike > label,
 fieldset.TableLike > .Row > label {
     word-wrap: break-word;
     overflow-wrap: break-word;
+    color: var(--colTextDark);
 }
 
 /* TODO: Temporary for TicketInfo in AgentTicketZoom; has to be more general; */

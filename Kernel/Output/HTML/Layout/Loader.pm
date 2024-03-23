@@ -91,7 +91,7 @@ sub LoaderCreateAgentCSSCalls {
     # 2. use HostBased skin setting, if available
     # 3. use default skin from configuration
 
-    my $SkinSelected = $Self->{'UserSkin'};
+    my $SkinSelected = $Param{Skin} || $Self->{'UserSkin'};
 
     # check if the skin is valid
     my $SkinValid = 0;
@@ -608,7 +608,7 @@ sub LoaderCreateCustomerCSSCalls {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SkinSelected = $ConfigObject->Get('Loader::Customer::SelectedSkin')
+    my $SkinSelected = $Self->{'UserSkin'} || $ConfigObject->Get('Loader::Customer::SelectedSkin')
         || 'default';
 
     # force a skin based on host name

@@ -122,7 +122,8 @@ div.Headline .Flag {
     overflow-y: auto;
     overflow-x: hidden;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--colBGDark);
+    border-radius: 8px;
 }
 
 #ArticleTableBody .Scroller::-webkit-scrollbar-track {
@@ -457,7 +458,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .ControlRow .Icons a i {
-    color: #777;
+    color: var(--colTextLight);
     font-size: 15px;
     margin-top: 5px;
     display: block;
@@ -473,6 +474,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
     height: 16px;
     text-indent: -9999px;
     display: block;
+    color: var(--colTextLight);
 }
 
 .ControlRow .ArticleFilter.Icons .Active span {
@@ -624,9 +626,9 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 
 .UseArticleColors tr.Active > td,
 .UseArticleColors tr:hover > td {
-    background-color: #e5e5e5 !important;
-    border-color: #e5e5e5;
-    border-right-color: #ccc !important;
+    background-color: var(--colBGLight) !important;
+    border-right-color: var(--colBGDark) !important;
+    color: var(--colTextDark) !important;
 }
 
 .UseArticleColors tr.NotVisibleForCustomer > td {
@@ -700,11 +702,15 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .UseArticleColors #ArticleTable a {
-    color: #00023c;
+    color: var(--colTextDark);
+}
+
+.UseArticleColors #ArticleTable a:hover {
+    color: var(--colTextLight);
 }
 
 .UseArticleColors #ArticleTable i.fa-spin {
-    color: #333;
+    color: var(--colTextDark);
 }
 
 /*
@@ -1050,7 +1056,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
     height: 15px;
     left: -34px;
     top: 4px;
-    background-color: var(--colMainDark);
+    background-color: #00023c;
 }
 
 .TimelineView ul:first-child li:hover h3 > span,
@@ -1306,7 +1312,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
     background: #e8e8e8;
     padding: 8px 45px 8px 12px;
     font-size: 11px;
-    color: #777;
+    color: var(--colTextDark);
     position: relative;
 }
 

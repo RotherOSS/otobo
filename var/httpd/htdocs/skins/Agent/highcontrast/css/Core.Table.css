@@ -43,13 +43,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     border-right: none;
 }
 
+.DataTable, .DataTable thead th, .DataTable tbody td, .TableSmall, .TableSmall thead th, 
+.TableSmall tbody td {
+    border-color: var(--colMainDark) !important;
+}
+
 .DataTable tbody tr:hover td,
 .TableSmall tbody tr:hover td,
 .DataTable tbody tr:active td.Clickable,
 .TableSmall tbody tr:active td.Clickable,
 .DataTable tr:nth-child(even):hover td.Highlight {
-/*    background: #f5af36;*/
-    background: var(--colBGLight);
+    background: var(--colBGDark) !important;
+    color: var(--colTextLight) !important;
 }
 
 /**
@@ -63,11 +68,20 @@ tbody tr.UnreadArticles td {
 .TableSmall td {
     line-height: 15px;
     vertical-align: middle;
+    border-bottom: 1px solid var(--colBGDark);
 }
 
-.DataTable tr:hover,
-.TableSmall tr:hover {
-    color: #00023c;
+.DataTable tbody tr:last-child td, .TableSmall tbody tr:last-child td {
+    border-bottom: 0px;
+}
+
+.DataTable tbody tr:hover td *,
+.TableSmall tbody tr:hover td *, 
+.DataTable tbody tr:active td.Clickable *, 
+.TableSmall tbody tr:active td.Clickable *, 
+.DataTable tr:nth-child(even):hover td.Highlight *, 
+.WidgetSimple.Setting.IsLockedByMe h2 label {
+    color: var(--colTextLight) !important;
 }
 
 table tr.MasterAction {
@@ -79,8 +93,8 @@ table tr.MasterAction {
  */
 .DataTable {
     width: 100%;
-    background-color: white;
-    border: 1px solid #f7f7f9;
+    background-color: var(--colBGTable);
+    border: 1px solid var(--colBGDark);
     clear: both;
     border-collapse: separate;
 }
@@ -94,15 +108,15 @@ table tr.MasterAction {
 }
 
 .DataTable thead {
-    background: #eeeeee;
+    background: var(--colBGDark);
 }
 
 .DataTable thead th {
     padding: 4px 10px 3px;
-    color: #00023c;
+    background: var(--colBGDark);
     font-size: 11px;
     text-transform: uppercase;
-    background: #f7f7f9;
+    color: var(--colTextLight);
     border-bottom: 1px solid #ccc;
     border-right: 1px dotted #CCC;
     vertical-align: bottom;
@@ -133,7 +147,7 @@ table tr.MasterAction {
 
 .DataTable thead th a {
     background-image: none;
-    color: #444;
+    color: var(--colTextLight) !important;
     font-size: 11px;
     height: 12px;
     line-height: 12px;
@@ -163,6 +177,7 @@ table tr.MasterAction {
     position: absolute;
     left: 2px;
     top: 3px;
+    color: var(--colTextDark);
 }
 
 .DataTable tbody tr.Invalid {
@@ -230,7 +245,7 @@ table tr.MasterAction {
 }
 
 .DataTable tr:hover td a {
-    color: #00023c;
+    color: var(--colTextLight);
 }
 
 .DataTable td:first-child input {
@@ -250,7 +265,7 @@ table tr.MasterAction {
 
 .DataTable .Row td.QueueOverviewTotals {
     text-transform: uppercase;
-    color: #7f809d;
+    color: var(--colTextDark);
     border-top: 1px dotted #CCCCCC;
 }
 
@@ -272,6 +287,7 @@ table tr.MasterAction {
 .Sortable.DataTable th.SortAscending a,
 .Sortable.DataTable th.SortDescending a {
     padding-left: 15px;
+    color: var(--colTextDark) !important;
 }
 
 .Sortable.DataTable .SortAscending,
@@ -335,7 +351,7 @@ td.Attachment {
     border-right: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     vertical-align: bottom;
-    background: #EEEEEE;
+    background: var(--colBGDark);
 }
 
 .TableSmall thead th:last-child {
@@ -457,12 +473,13 @@ thead .headerSortDown a {
 }
 
 .TableSmall td a {
-    color: #00023c;
+    color: var(--colTextDark) !important;
 }
 
 .TableSmall tr:hover td a,
+.TableSmall tr:hover td a,
 .TableSmall tr.Active td a {
-    color: #00023c;
+    color: var(--colTextLight);
 }
 
 .TableSmall td a.DynamicFieldLink {
@@ -471,7 +488,7 @@ thead .headerSortDown a {
 
 .TableSmall tr:hover td a.DynamicFieldLink,
 .TableSmall tr.Active td a.DynamicFieldLink {
-    color: #00023c;
+    color: var(--colTextLight);
 }
 
 .TableSmall tr:nth-child(even) td {
@@ -612,6 +629,10 @@ thead .headerSortDown a {
     background: linear-gradient(to bottom,  #f0f0f0 0%,#eaeaea 100%);
 }
 
+#ArticleTable tr:hover > a {
+    color: #fff !important;
+}
+
 #OverviewBody.Overview.TicketList {
     overflow-x: auto;
 }
@@ -655,7 +676,7 @@ thead .headerSortDown a {
  * @subsection  Table headers-filters
  */
  .TableSmall thead span.Gray {
-    color: #444;
+    color: var(--colTextLight);
 }
 
 .DataTable .ColumnFilter {
@@ -693,7 +714,7 @@ select.ColumnFilter {
     position: absolute;
     left: -6px;
     text-shadow: 1px 1px 0px #fff;
-    z-index: 1;
+    z-index: 1
 }
 
 thead .headerSortUp > a:before,
@@ -725,6 +746,8 @@ thead .tablesorter-headerAsc > div.tablesorter-header-inner > a:before {
     height: 16px;
     line-height: 16px;
     padding-left: 5px;
+    color: var(--colTextLight);
+    text-decoration: none; 
 }
 
 .DataTable thead th.DashboardHeader .ColumnSettingsTrigger,
@@ -742,7 +765,7 @@ thead .tablesorter-headerAsc > div.tablesorter-header-inner > a:before {
 
 .DataTable thead th.DashboardHeader .ColumnSettingsTrigger i,
 .TableSmall thead th.OverviewHeader .ColumnSettingsTrigger i {
-    color: #777777;
+    color: var(--colTextLight);
     margin-left: 4px;
     vertical-align: middle;
 }
@@ -762,7 +785,8 @@ thead .tablesorter-headerAsc > div.tablesorter-header-inner > a:before {
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     opacity: 1.0;
-    box-shadow: 1px 1px 1px #a9a9a9 inset, -1px -1px 1px #a9a9a9 inset;
+    color: var(--colTextLight);
+
 }
 
 .DataTable thead th.DashboardHeader.FilterActive .ColumnSettingsTrigger i,
@@ -770,7 +794,7 @@ thead .tablesorter-headerAsc > div.tablesorter-header-inner > a:before {
 .TableSmall thead th.OverviewHeader.FilterActive .ColumnSettingsTrigger i,
 .TableSmall thead th.OverviewHeader .ColumnSettingsTrigger.Active i {
 
-    color: #333333;
+    color: var(--colTextLight);
 }
 
 .DataTable thead th.DashboardHeader .ColumnSettingsTrigger:after,
@@ -785,7 +809,7 @@ thead .tablesorter-headerAsc > div.tablesorter-header-inner > a:before {
 
 .DataTable thead th.DashboardHeader .ColumnSettingsBox,
 .TableSmall thead th.OverviewHeader .ColumnSettingsBox {
-    background-color: #EEEEEE;
+    background: var(--colBGDark);
     border: 1px solid #BBBBBB;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -859,7 +883,7 @@ thead .tablesorter-headerAsc > div.tablesorter-header-inner > a:before {
 
 .DataTable thead th.DashboardHeader .ColumnSettingsBox span.SelectedValue a:hover,
 .TableSmall thead th.OverviewHeader .ColumnSettingsBox span.SelectedValue a:hover {
-    background: #888;
+    /* background: #888; */
 }
 
 .DataTable thead th.OverviewHeader .ColumnSettingsBox input[type="text"] ,
@@ -942,14 +966,14 @@ p.IntroInstall {
 
 td i,
 td a i {
-    color: #999;
+    color: var(--colTextDark);
     margin-right: 3px;
 }
 
 tr:hover td i,
 tr:hover td a i,
 td a:hover i {
-    color: #00023c;
+    color: var(--colTextLight) !important;
 }
 
 } /* end @media */

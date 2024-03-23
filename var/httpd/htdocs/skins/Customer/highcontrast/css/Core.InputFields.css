@@ -1,0 +1,1217 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Input Fields
+ */
+
+@media screen,projection,tv,handheld {
+
+/* TODO */
+.ARIAAlertMessage {
+    display: none;
+}
+
+/**
+ * @subsection  General
+ */
+
+.InputField_Container,
+.InputField_InputContainer,
+.InputField_ListContainer,
+.InputField_Container div,
+.InputField_InputContainer div,
+.InputField_ListContainer div,
+fieldset.Columns .Column .InputField_Container,
+fieldset.Columns .Column .InputField_InputContainer,
+fieldset.Columns .Column .InputField_ListContainer,
+fieldset.Columns .Column .InputField_Container div,
+fieldset.Columns .Column .InputField_InputContainer div,
+fieldset.Columns .Column .InputField_ListContainer div {
+    overflow: visible;
+}
+
+.oooACLHidden {
+    display: none !important;
+}
+
+.MultiValue_Template {
+    display: none !important;
+}
+
+.Row,
+.RichTextHolder {
+    margin-top: 40px;
+    white-space: nowrap;
+}
+
+.RichTextHolder {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--colBGLight);
+}
+
+.AddValueRow,
+.RemoveValueRow {
+    cursor: pointer;
+}
+
+.Row_DynamicField {
+    display: grid;
+    grid-column-gap: 40px;
+}
+
+.FieldTemplate {
+    display: none;
+}
+
+.AddButtonDynamicField,
+.RemoveButtonDynamicField {
+    cursor: pointer;
+}
+
+.FieldCell > div.Field,
+.FieldCell > div.InputField_Container,
+.FieldCell > select,
+.Row > div.Field,
+.Row > div.InputField_Container,
+.Row > select {
+    display: inline-block;
+    height: 56px;
+}
+
+
+#Subject,
+input.DynamicFieldText {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: var(--colTextDark);
+    border: 1px solid var(--colBGDark);
+}
+
+#Subject {
+    height: 56px;
+    padding: 0px;
+    padding-left: 32px;
+}
+/*#Subject:focus,
+.DynamicFieldText:focus {
+    color: #001bff; 
+}*/
+
+div.InputField_Container {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    display: inline-block;
+}
+
+div.InputField_InputContainer {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--colBGDark);
+    padding: 3px;
+}
+
+.InputField_Search::-ms-clear {
+    display: none;
+    width : 0;
+    height: 0;
+}
+
+.InputField_Search,
+input.DynamicFieldText:not([type=checkbox]),
+input.DynamicFieldDB,
+.InputField_Autocomplete {
+    /* overwrite js-generated width */
+    width: calc( 100% - 32px ) !important;
+    height: 100%;
+    border-radius: 10px;
+    padding: 0px;
+    padding-left: 32px;
+    border: 0px !important;
+/*    border: solid 1px rgba(247, 247, 249, 0);
+    background-color: #f7f7f9;
+-webkit-transition: border 0.2s ease;
+   -moz-transition: border 0.2s ease;
+     -o-transition: border 0.2s ease;
+        transition: border 0.2s ease; */
+}
+
+.FieldCell > select,
+.Row > select,
+#Subject {
+    border-radius: 10px;
+/*    border: none;
+    border: solid 1px rgba(247, 247, 249, 0);
+    background-color: #f7f7f9; */
+}
+
+textarea {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.35px;
+    color: #000;
+    color: var(--colTextDark);
+    border: 1px solid var(--colBGDark);
+    width: calc( 100% - 48px );
+    padding: 16px 24px 16px 24px;
+    border-radius: 10px;
+    outline: none;
+    resize: vertical;
+}
+
+label {
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 0px;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: #7f809d;
+    color: var(--colTextDark);
+}
+
+.RichTextHolder > label {
+    display: inline-block;
+    vertical-align: top;
+    top: 98px;
+}
+
+/* 
+ * colors and label repositioning
+ */
+
+/* default */
+input {
+    color: #7f809d;
+    color: var(--colTextDark);
+    border: solid 1px var(--colBGLight);
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+-webkit-transition: border 0.2s ease, color 0.2s ease;
+   -moz-transition: border 0.2s ease, color 0.2s ease;
+     -o-transition: border 0.2s ease, color 0.2s ease;
+        transition: border 0.2s ease, color 0.2s ease;
+}
+
+textarea {
+    font-family: inherit;
+    color: #7f809d;
+    color: var(--colTextDark);
+    border: solid 1px var(--colBGDark);
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+-webkit-transition: border 0.2s ease, color 0.2s ease;
+   -moz-transition: border 0.2s ease, color 0.2s ease;
+     -o-transition: border 0.2s ease, color 0.2s ease;
+        transition: border 0.2s ease, color 0.2s ease;
+}
+
+.FieldCell > label,
+.Row > label {
+    pointer-events: none;
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+-webkit-transition: color 0.2s ease;
+   -moz-transition: color 0.2s ease;
+     -o-transition: color 0.2s ease;
+        transition: color 0.2s ease;
+-webkit-transition: top 0.2s ease, color 0.2s ease;
+   -moz-transition: top 0.2s ease, color 0.2s ease;
+     -o-transition: top 0.2s ease, color 0.2s ease;
+        transition: top 0.2s ease, color 0.2s ease;
+}
+
+/* hover, selected and filled */
+input:not([readonly]):hover,
+input.oooFull,
+textarea:not([readonly]):hover,
+textarea.oooFull,
+.oooSelected input {
+    border: solid 1px #7f809d;
+    border: solid 1px var(--colTextDark);
+    background-color: #fff;
+}
+
+.FieldCell > input:not([readonly]):hover ~ label,
+.Row > input:not([readonly]):hover ~ label,
+textarea.oooFull ~ label,
+input.oooFull ~ label,
+.Field:hover:not([class*='RichTextField']) ~ label,
+.Field.oooFull ~ label,
+.oooSelected ~ label,
+.DynamicFieldDB:not([readonly]):hover ~ label,
+.InputField_Container:hover ~ label, 
+.Field.DFSetOuterField ~ label {
+    border-radius: 10px;
+    top: -29px;
+    font-size: 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    color: #7f809d;
+    color: var(--colTextDark);
+    background-color:#ffffff;
+}
+
+/* focus */
+input:not([readonly]):focus,
+input[aria-expanded="true"],
+input.oooFull[aria-expanded="true"],
+input.oooFull:focus,
+textarea:not([readonly]):focus,
+textarea.oooFull:focus,
+.oooSelected input:focus {
+    border: 0px;
+    background-color: #fff;
+}
+
+textarea:focus,
+textarea.oooFull:focus {
+    border: 1px solid var(--colBGDark);
+    background-color: #fff;    
+}
+
+.FieldCell > input:not([readonly]):focus ~ label,
+.Row > input:not([readonly]):focus ~ label,
+label.oooFocus,
+.Field ~ label.oooFocus,
+.DynamicFieldDB:hover ~ label.oooFocus,
+.InputField_Container ~ label.oooFocus {
+    top: -29px;
+    font-size: 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    color: var(--colTextDark);
+    background-color:#ffffff;
+}
+
+/* error */
+input.Error,
+textarea.Error,
+label.LabelError {
+    color: var(--colTextDark) !important;
+    background-color: #f9bcb2;
+    background-color: var(--colNotifyErr);
+}
+
+input.Error:hover,
+input.Error.oooFull,
+.oooSelected input.Error,
+input.Error.Error:focus,
+input.Error[aria-expanded="true"],
+input.Error.oooFull[aria-expanded="true"],
+input.Error.oooFull:focus,
+textarea.Error:hover,
+textarea.Error.oooFull,
+textarea.Error.Error:focus,
+.oooSelected input.Error:focus {
+    border: solid 1px #ea2400;
+    background-color: #fff;
+}
+
+input:hover ~ label.LabelError,
+input.oooFull ~ label.LabelError,
+.Field:hover ~ label.LabelError,
+.Field.oooFull ~ label.LabelError,
+.oooSelected ~ label.LabelError,
+.InputField_Container:hover ~ label.LabelError,
+input:focus ~ label.LabelError,
+label.oooFocus.LabelError {
+    background-color:#fff;
+}
+
+/* Title fields */
+.oooTitle {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 100%;
+    align-items: end;
+}
+
+.oooTitle > p {
+    white-space: normal;
+}
+
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    .oooTitle {
+        display: -ms-grid;
+        -ms-grid-rows: 100%;
+    }
+    
+    .oooTitle > p {
+        -ms-grid-row-align: end;
+    }
+
+    @supports (display: grid) {
+        .oooTitle {
+            display: grid;
+        }
+    }
+}
+
+/* RichText */
+.RichTextHolder > label.LabelError {
+    background-color: transparent;
+}
+
+/* Checkboxes & Date */
+.FieldCell > div.Field > div.oooDateContainer,
+.FieldCell > div.Field > div.oooCheckboxContainer,
+.Row > div.Field > div.oooDateContainer,
+.Row > div.Field > div.oooCheckboxContainer {
+    height: 38px;
+    padding-top: 16px;
+    padding-left: 16px;
+    font-size: 16px;
+    letter-spacing: 0.4px;
+    color: #7f809d;
+    color: var(--colTextLight);
+    white-space: nowrap;
+}
+
+.oooDateContainer > label,
+.oooCheckboxContainer > label {
+    display: inline-block;
+
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.FieldCell input[type='checkbox'],
+.Row input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    border: 0;
+    padding: 0;
+    margin: 0px -16px 0px 0px;
+    opacity: 0;
+}
+
+.oooAltCheck {
+    position: relative;
+    top: 1px;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+input[type='checkbox']:checked + .oooAltCheck:before,
+input[type='checkbox']:checked + .AJAXLoader + .oooAltCheck:before {
+    content: "\e908";
+    font-size: 16px;
+}
+
+input[type='checkbox']:not(:checked) + .oooAltCheck:before,
+input[type='checkbox']:not(:checked) + .AJAXLoader + .oooAltCheck:before {
+    content: "\e90b";
+    font-size: 16px;
+}
+
+input[type='checkbox']:focus + .oooAltCheck:before,
+input[type='checkbox']:focus + .AJAXLoader + .oooAltCheck:before {
+    color: #001bff;
+    color: var(--colMainLight);
+}
+
+/* Date */
+.oooDateContainer > input[type='checkbox']:checked ~ label {
+    position: relative;
+    top: -24px;
+    left: -16.8px;
+    padding: 0px;
+
+    display: inline-block;
+    width: 0px;
+
+    font-size: 10px;
+}
+
+.oooDateContainer select {
+    cursor: pointer;
+}
+
+.oooDate {
+    display: inline-block;
+}
+
+.DatepickerIcon {
+    padding-left: 8px;
+}
+
+input[type='checkbox']:not(:checked) ~ .oooDate {
+    display: none;
+}
+
+/* select fields (date/datetime) TODO: rework completely */
+select {
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    font-size: 16px;
+    letter-spacing: 0.4px;
+    color: #7f809d;
+    color: var(--colTextDark);
+    background-color: #fff;
+}
+
+div.InputField_ListContainer {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+div.InputField_TreeContainer {
+    width: auto !important;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    overflow-y: auto !important;
+    box-sizing: content-box;
+}
+
+div.InputField_ToolbarContainer {
+    display: none;
+}
+
+div.InputField_Selection,
+div.InputField_More {
+    position: absolute;
+    top: 13px;
+    height: 32px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+    color: var(--colTextDark);
+	width: auto;
+}
+
+div.InputField_Selection {
+    display: none;
+}
+
+div.InputField_Selection > div,
+div.InputField_More > a,
+div.InputField_More > div {
+    font-size: 12px;
+    font-weight: 500;
+    height: 32px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.92;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: #7f809d;
+    color: var(--colTextDark);
+    width: auto;
+}
+
+div.InputField_Selection > .Remove {
+    padding-bottom: 2px;
+}
+
+.InputField_Selection > div,
+.InputField_More > div {
+    display: inline-block;
+}
+
+.InputField_Selection > .Remove,
+.InputField_More > a {
+    margin-left: 8px;
+}
+
+.InputField_ListContainer > .oooClose {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border: 1px solid var(--colBGDark);
+    border-radius: 15px;
+    z-index: 100;
+    cursor: pointer;
+}
+
+.InputField_ListContainer > .oooClose > i {
+    position: relative;
+    top: 5.5px;
+    left: 8px;
+}
+
+/* readonly */
+input[readonly] {
+    border: none !important;
+    cursor: default !important;
+}
+
+.InputField_InputContainer > input[readonly],
+.Field > input[readonly] {
+    box-shadow: inset 0px 0px 8px 2px #bfbfce;
+}
+
+/* Tooltips */
+.oooTooltip {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    vertical-align: top;
+    position: relative;
+    top: 21px;
+    left: -32px;
+    margin-left: -22px; /* +4px for empty spaces */
+}
+
+.oooCheckboxContainer ~ .Tooltip,
+.oooDateContainer ~ .Tooltip {
+    left: -48px;
+}
+
+.Tooltip > .Content {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 24px 32px;
+    line-height: 1.4;
+    white-space: normal;
+    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+    box-shadow: 0 1px 4px 0 var(--colShadowDark);
+    max-width: 280px;
+}
+
+.oooTooltip i {
+    font-size: 18px;
+}
+
+.oooTooltip > .Content {
+    z-index: 1;
+    display: none;
+    color: #00023c;
+    color: var(--colTextDark);
+}
+
+.oooTooltip:hover > .Content {
+    display: inline;
+    position: absolute;
+    left: -260px;
+    top: -8px;
+    width: 280px;
+}
+
+.TooltipContainer {
+    position: absolute;
+    z-index: 6000;
+    display: none;
+}
+
+/* jstree stuff */
+
+.jstree-node > .jstree-wholerow {
+    height: 48px;
+}
+
+.jstree-anchor {
+    pointer-events: none;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: #00023c;
+    color: var(--colTextDark);
+    margin-top: 14px;
+    margin-bottom: 14px;
+    margin-left: 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 32px;
+}
+
+.jstree-InputField-NoTree .jstree-anchor {
+    margin-left: 32px;
+}
+
+/*.ActionRow .InputField_Search,
+.ActionRow .InputField_Autocomplete {
+    min-width: 200px;
+    box-shadow: none;
+}
+
+.InputField_Search[disabled="disabled"] {
+    color: #aaa;
+}
+
+.InputField_Search[readonly]:focus {
+    box-shadow: none;
+}
+
+a.InputField_Action {
+    position: absolute;
+    display: block;
+    color: #000;
+    top: 5px;
+}
+
+a.InputField_Action:hover {
+    color: #f92;
+}
+
+div.InputField_Selection {
+    display: none;
+    position: absolute;
+    top: 4px;
+    height: 17px;
+    line-height: 11px;
+}
+
+div.InputField_Selection div {
+    display: inline-block;
+    font-size: 11px;
+}
+
+div.InputField_Selection div.Text {
+    background: #ddd;
+    padding: 2px 4px !important;
+}
+
+div.InputField_Selection div.Remove {
+    background: #bbb;
+    color: #fff;
+    cursor: pointer;
+}
+
+.AlreadyDisabled div.InputField_Selection div.Text {
+    background: #f5f5f5;
+    cursor: default;
+}
+
+
+div.InputField_Selection div.Remove a {
+    color: #fff;
+    padding: 2px 4px;
+    display: block;
+}
+
+.AlreadyDisabled div.InputField_Selection div.Remove {
+    visibility: hidden;
+    display: none;
+}
+
+div.InputField_More {
+    position: absolute;
+    white-space: nowrap;
+    top: 6px;
+}
+
+div.InputField_ListContainer {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    text-shadow: none;
+}
+
+.ExpandToTop div.InputField_TreeContainer {
+    border-top: 1px solid #ccc;
+    border-bottom: none;
+}
+
+div.InputField_ToolbarContainer {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-top: none;
+    line-height: 21px;
+    box-sizing: content-box;
+    min-height: 21px;
+}
+
+.div.InputField_ToolbarContainer ul {
+    width:100%;
+}
+
+div.InputField_ToolbarContainer ul li {
+    display: table-cell;
+    width: 1%;
+    text-align: center;
+}
+
+div.InputField_ToolbarContainer ul li:after {
+    color: #bbb;
+    content: "|";
+    display: inline-block;
+    float: right;
+    cursor: default;
+    width: 0;
+}
+
+div.InputField_ToolbarContainer ul li:last-child:after {
+    display: none;
+}
+
+.RTL div.InputField_ToolbarContainer ul li:last-child:after {
+    display: inline-block;
+}
+
+.RTL div.InputField_ToolbarContainer ul li:first-child:after {
+    display: none;
+}
+
+div.InputField_ToolbarContainer ul li a {
+    color: #000;
+    display: inline-block;
+    width: 100%;
+    margin: 2px 0;
+    font-size: 11px;
+    line-height: 15px;
+}
+
+div.InputField_ToolbarContainer ul li a:hover {
+    border-bottom: 2px solid #f92;
+    margin-bottom: 0;
+}
+
+.InputField_Confirm,
+.InputField_Filters.Active {
+    font-weight: bold;
+}
+
+.InputField_FiltersList {
+    display: none;
+    background: #fff;
+    white-space: nowrap;
+    border-top: 1px solid #ccc;
+    z-index: 1500;
+    line-height: 1.5em;
+    width: 100%;
+    font-size: 11px;
+}
+
+.InputField_FiltersList span {
+    margin-right: 5px;
+    vertical-align: 15%;
+    cursor: default;
+}
+
+.InputField_FiltersList input[disabled="disabled"] + span {
+    font-style: italic;
+    color: #aaa;
+} */
+
+/**
+ * @subsection  DynamicFieldRichText
+ */
+
+.FieldCell > .Field > .RichTextHolder {
+    margin-top: 0px;
+    padding-top: 48px;
+    border-radius: 10px;
+}
+
+.FieldCell > .Field.RichTextField ~ label {
+    margin-top: 16px !important;
+    margin-bottom: auto;
+}
+
+.FieldCell > .Field ~ .DynamicFieldRichTextLabel {
+    border-radius: 10px;
+    top: -30px;
+    font-size: 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    color: #7f809d;
+    color: var(--colTextLight);
+    background-color:#ffffff;
+}
+
+.Field > .RichTextHolder > .cke {
+    width: 100% !important;
+    margin-left: 0;
+}
+
+/* Dynamic Field Sets */
+
+.FieldCell div.DFSetOuterField {
+    height: auto;
+    display: block;
+}
+
+.FieldCell .DFSetOuterField + label {
+    z-index: 1;
+    display: block;
+    top: calc(-100% + 28px);
+    left: 24px;
+    width: fit-content;
+}
+
+.FieldCell .DFSetOuterField ~ .AddRemoveValueRow {
+    position: relative;
+    left: calc(100% + 12px);
+    top: calc(-100% + 40px);
+}
+
+.DynamicFieldSet {
+    border: solid 1px var(--colTextLight);
+    border-radius: 10px;
+    padding-left: 40px;
+    padding-bottom: 40px;
+}
+
+.DynamicFieldSet .Row_DynamicField {
+    width: 100%;
+    margin-left: 0px;
+}
+
+.DynamicFieldSet .Row_DynamicField .Field {
+    width: calc(100% - 65px) !important; /* space for multivaluebuttons width 33px + 2 * 16px margin */
+}
+
+.DynamicFieldSet .Row_DynamicField label {
+    left: calc(-100% + 89px); /* label positioning with space for multivaluebuttons */
+}
+
+.DynamicFieldSet .Row_DynamicField .AddRemoveValueRow {
+    left: calc(83% - 81px); /* multivaluebutton positioning 65px to the left */
+}
+
+.DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell {
+    display: inline-grid;
+    grid-template-columns: 1fr 65px;
+}
+
+.DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell > label {
+    grid-column: 1;
+    grid-row: 1;
+    position: relative;
+    left: 24px;
+    width: fit-content;
+    height: fit-content;
+    place-self: center start;
+}
+
+.DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell .Field {
+    grid-column: 1;
+    grid-row: 1;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 100% !important;
+}
+
+.DynamicFieldSet .Row_DynamicField.MultiColumn .AddRemoveValueRow {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    left: 12px;
+    top: 0px;
+}
+
+
+/**
+ * @subsection  jsTree theme
+ */
+.jstree-InputField .jstree-node,
+.jstree-InputField .jstree-children,
+.jstree-InputField .jstree-container-ul {
+    display: block;
+    list-style-type: none;
+    list-style-image: none;
+}
+
+.jstree-children .jstree-children {
+    padding-left: 16px;
+}
+
+.jstree-InputField .jstree-node {
+    white-space: nowrap;
+}
+
+.jstree-InputField .jstree-node.jstree-hidden {
+    display: none;
+}
+
+.jstree-InputField .jstree-anchor {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.jstree-InputField .jstree-anchor:focus {
+    outline: 0;
+    background: transparent !important;
+}
+
+.jstree-InputField .jstree-anchor,
+.jstree-InputField .jstree-anchor:link,
+.jstree-InputField .jstree-anchor:visited,
+.jstree-InputField .jstree-anchor:active {
+    text-decoration: none;
+}
+
+.jstree-InputField .jstree-anchor:hover {
+    color: var(--colTextLight);
+}
+
+.jstree-InputField .jstree-icon {
+    display: inline-block;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    text-align: center;
+}
+
+.jstree-InputField .jstree-icon:empty {
+    display: inline-block;
+    text-decoration: none;
+    vertical-align: top;
+    text-align: center;
+}
+
+.jstree-InputField .jstree-ocl {
+    cursor: pointer;
+}
+
+.jstree-InputField .jstree-leaf > .jstree-ocl {
+    cursor: default;
+}
+
+.jstree-InputField .jstree .jstree-open > .jstree-children {
+    display: block;
+    padding-left: 16px;
+}
+
+.jstree-InputField .jstree .jstree-closed > .jstree-children,
+.jstree-InputField .jstree .jstree-leaf > .jstree-children {
+    display: none;
+}
+
+.jstree-InputField .jstree-no-icons .jstree-themeicon,
+.jstree-InputField .jstree-anchor > .jstree-themeicon-hidden {
+    display: none;
+}
+
+.jstree-InputField .jstree-hovered {
+    background-color: transparent !important;
+}
+
+.jstree-InputField .Disabled > .jstree-anchor {
+    color: #aaa !important;
+    font-style: italic;
+    cursor: default;
+}
+
+.jstree-InputField .jstree-open,
+.jstree-InputField .jstree-closed {
+    cursor: pointer;
+}
+
+.jstree-InputField .jstree-wholerow-ul {
+    position: relative;
+    display: inline-block;
+    min-width: 100%;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-leaf > .jstree-ocl {
+    cursor: pointer;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-anchor,
+.jstree-InputField .jstree-wholerow-ul .jstree-icon {
+    position: relative;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow {
+    width: 100%;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.jstree-InputField .Disabled > .jstree-wholerow:hover,
+.jstree-InputField .Disabled > .jstree-wholerow-hovered {
+    background-color: #eee;
+    cursor: default;
+}
+
+.jstree-InputField .Disabled.jstree-open > .jstree-anchor,
+.jstree-InputField .Disabled.jstree-closed > .jstree-anchor {
+    cursor: pointer !important;
+}
+
+.jstree-InputField .jstree-clicked {
+    background: transparent !important;
+    border: none !important;
+}
+
+.jstree-InputField.jstree-rtl .jstree-last {
+    background: transparent;
+}
+
+.jstree-InputField.jstree-rtl > .jstree-no-dots .jstree-node,
+.jstree-InputField.jstree-rtl > .jstree-no-dots .jstree-leaf > .jstree-ocl {
+    background: transparent;
+}
+
+.jstree-InputField .jstree-themeicon-custom {
+    background-color: transparent;
+    background-image: none;
+    background-position: 0 0;
+}
+
+.jstree-InputField.jstree-rtl .jstree-last {
+    background: transparent;
+}
+
+.jstree-InputField .jstree-search {
+    font-style: italic;
+}
+
+.jstree-InputField .jstree-no-match .jstree-ocl {
+    display: none;
+}
+
+/**
+ * @subsection  jsTree theme - Tree variant
+ */
+.jstree-InputField-Tree .jstree-anchor {
+    overflow-y: hidden;
+}
+
+.jstree-InputField-Tree .jstree-icon {
+    font-family: 'otobo' !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.jstree-InputField-Tree .jstree-icon {
+    height: 16px;
+    width: 16px;
+    margin-top: 16px;
+    margin-left: 16px
+}
+
+.jstree-InputField-Tree .jstree-icon:before {
+    font-size: 16px;
+}
+
+.jstree-open > .jstree-wholerow {
+    height: 40px;
+}
+
+.jstree-open > .jstree-anchor {
+    margin-bottom: 6px;
+}
+
+.jstree-InputField-Tree .jstree-children .jstree-children .jstree-icon {
+    margin-top: 8px;
+}
+
+.jstree-InputField-Tree .jstree-children .jstree-children .jstree-anchor,
+.jstree-InputField-Tree .jstree-children .jstree-children > .jstree-open > .jstree-anchor {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.jstree-InputField-Tree .jstree-children .jstree-children .jstree-wholerow,
+.jstree-InputField-Tree .jstree-children .jstree-children > .jstree-open > .jstree-wholerow {
+    height: 32px;
+}
+
+.jstree-closed > .jstree-icon:before {
+    content: "\e904";
+}
+
+.jstree-open > .jstree-icon:before {
+    content: "\e902";
+}
+
+.jstree-InputField-Tree .jstree-last {
+    background: transparent;
+}
+
+.jstree-InputField-Tree > .jstree-no-dots .jstree-node,
+.jstree-InputField-Tree > .jstree-no-dots .jstree-leaf > .jstree-ocl {
+    background: transparent;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked {
+    background-color: #c4cdfa;
+    background-color: var(--colNotifyOK);
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered,
+.jstree-InputField .jstree-focused > .jstree-wholerow {
+    background-color: #f7f7f9;
+    background-color: var(--colNotifyOK);
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-anchor:hover li > a {
+    color: var(--colTextLight);
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked:hover,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked.jstree-wholerow-hovered,
+.jstree-InputField .jstree-focused >.jstree-wholerow-clicked {
+    background-color: #6d83f2;
+    background-color: var(--colHoverLight);
+}
+
+/**
+ * @subsection  jsTree theme - No Tree variant
+ */
+.jstree-InputField-NoTree .jstree-anchor {
+    overflow-y: hidden;
+}
+
+.jstree-InputField-NoTree .jstree-icon {
+    display: none;
+}
+
+} /* end @media */

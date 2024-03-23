@@ -1,0 +1,110 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/* SearchBox */
+@media only screen and (max-width: 767px) {
+
+    #oooSearchBox {
+        white-space: nowrap;
+    }
+
+    #oooSearchBox i.ooofo-search {
+        position: absolute;
+        z-index: 200;
+        font-size: 16px;
+    }
+
+    #oooSearch {
+        display: inline-block;
+        width: calc( 100% - 3px );
+        padding-left: 32px;
+        height: 32px;
+        background-color: #f7f7f9;
+        background-color: var(--colBGLight);
+        border: solid 1px #f7f7f9;
+        border: solid 1px var(--colBGLight);
+        font-size: 16px;
+    }
+
+    #oooSearch.oooFull,
+    #oooSearch:focus {
+        background-color: #ffffff;
+        border: solid 1px #7f809d;
+        border: solid 1px var(--colBGDark);
+    }
+
+    #oooSearchLabel {
+        position: relative;
+        left: -100%;
+        font-size: 14px;
+    }
+
+}
+
+@media only screen and (min-width: 768px) {
+
+    #oooSearchBox {
+        padding-right: 72px;
+    }
+
+    #oooSearch {
+        display: none;
+        left: -32px;
+        padding-left: 32px;
+        width: 114px;
+        height: 40px;
+        font-size: 16px;
+        background-color: inherit;
+        border: solid 1px #7f809d;
+        border: solid 1px var(--colTextLight);
+    }
+
+    #oooSearch.oooFull,
+    #oooSearch:focus {
+        display: inline-block;
+        border: solid 1px #001bff;
+        border: solid 1px var(--colBGDark);
+    }
+    #oooSearch:focus {
+        width: 280px;
+    }
+
+}
+
+#oooSearchBox {
+    cursor: pointer;
+}
+
+#oooSearchLabel {
+    display: inline-block;
+}
+
+#oooSearch {
+    position: relative;
+    border-radius: 10px;
+
+        transition: width 0.2s ease;
+    -ms-transition: width 0.2s ease;
+   -moz-transition: width 0.2s ease;
+-webkit-transition: width 0.2s ease;
+}
+
+#oooSearch ~ span {
+    pointer-events: none;
+}
+
+#oooSearch.oooFull ~ #oooSearchLabel,
+#oooSearch:focus ~ #oooSearchLabel {
+    display: none;
+}
