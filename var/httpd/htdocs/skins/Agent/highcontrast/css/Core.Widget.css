@@ -59,19 +59,20 @@ ul.Tablelike li:nth-child(even) {
 }
 
 ul.Tablelike li:hover {
-    background: var(--colHoverLight);
+    background: var(--colBGDark);
+    color: var(--colTextLight);
 }
 
 ul.Tablelike li:hover a {
-    color: #000;
+    color: var(--colTextLight);
 }
 
 ul.Tablelike li.Header {
-    color: #4B4B4B;
+    color: var(--colTextLight);
     font-size: 11px;
     line-height: 20px;
     text-transform: uppercase;
-    background: #eeeeee;
+    background: var(--colBGDark);
     border-top: 1px solid #FFF;
 }
 
@@ -128,10 +129,14 @@ ul.Tablelike li.Header + li {
 .WidgetSimple.Collapsed.AnimationRunning > .Header {
     padding: 2px 5px 2px 5px;
     position: relative;
+    background: var(--colMainDark);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .WidgetSimple.Collapsed > .Header {
     border-bottom: none;
+    border-radius: 8px;
 }
 
 .WidgetSimple > .Header h2,
@@ -142,13 +147,21 @@ ul.Tablelike li.Header + li {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 13px;
-    text-shadow: 1px 1px #fff;
-    color: #00023c;
+    color: var(--colTextLight);
+    text-decoration: none !important;
+    text-shadow: none !important;
+}
+
+.ServiceOverview > .Content, .QueueOverview > .Content {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .WidgetSimple > .Content {
     padding: 8px 8px 10px;
     overflow: auto;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
     /**
      *   START IE9 Hover Bug Workaround
      *   The problem occurs when you have a container that has a fixed width set, an overflow set to
@@ -164,6 +177,9 @@ ul.Tablelike li.Header + li {
 
 .WidgetSimple > .Content.OverflowVisible {
     overflow: visible;
+    position: relative;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .WidgetSimple.QueueOverview > .Content {
@@ -227,7 +243,7 @@ ul.Tablelike li.Header + li {
     font-size: 11px;
     position: relative;
     padding-left: 10px;
-    color: #555;
+    color: var(--colTextLegend);
 }
 
 .RTL .WidgetSimple .Legend li,
@@ -297,13 +313,12 @@ ul.Tablelike li.Header + li {
  */
 
 .WidgetNotice {
-    background-color: #FFFCCC;
+    background-color: var(--colBGLight)
 }
 
 .WidgetNotice .Content {
-    border: 1px solid #FFFCCC;
-    border-radius: 10px;
-    color: #442A0B;
+    border: 1px solid var(--colBGBorder);
+    color: var(--colTextDark);
     font-weight: bold;
     padding-bottom: 8px;
     line-height: 140%;
@@ -478,7 +493,7 @@ ul.Tablelike li.Header + li {
     position: absolute;
     left: 7px;
     top: 2px;
-    color: #00023c !important;
+    color: var(--colTextLight) !important;
 }
 
 .RTL .WidgetAction.Toggle i {
@@ -522,15 +537,19 @@ ul.Tablelike li.Header + li {
 
 /* Settings */
 .WidgetAction i {
-    color: #bbb;
+    color: var(--colTextLight);
     display: block !important;
     margin: 2px 0px 0px 2px;
     vertical-align: middle;
 }
 
+.fa-cog:before {
+    color: var(--colTextDark) !important;
+}
+
 .WidgetAction:hover i,
 .WidgetAction a:focus i {
-    color: #00023c;
+    color: #000;
 }
 
 .WidgetTooltip {
@@ -650,31 +669,8 @@ ul.WidgetTooltip li a:hover i {
     background-color: var(--colBGDark);
     border-bottom: none;
     cursor: pointer;
-/*    display: block; */
     position: relative;
-    border-radius: 20px
-/*    padding: 0px;
-    background-color: var(--colBGHoverDark);
-    text-align: center;
-    color: #ffffff;
-    cursor: pointer;
-    font-family: 'Quicksand', sans-serif;
-    -webkit-transition: width 0.3s ease;
-    -moz-transition: width 0.3s ease;
-    -o-transition: width 0.3s ease;
-    transition: width 0.3s ease;
-    border: none;
     border-radius: 20px;
-    border-width: 10px 15px 10px 15px;
-    border-style: solid;
-    border-color: var(--colBGHoverDark);
-    border-radius: 20px;
-    width: 180px;
-    height: 35px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
-    letter-spacing: 0.4px */
 }
 
 .CallForAction.Inline {
@@ -735,12 +731,20 @@ ul.WidgetTooltip li a:hover i {
 
 .CallForAction:hover,
 .CallForAction:focus {
-    color: #00023c;
-    border-color: #aaa;
+    color: #000;
 }
 
+.CallForAction span:hover,
+.cke_dialog_footer_buttons td a.cke_dialog_ui_button span:hover {
+    color: var(--colTextDark);
+    background-color: var(--colBGLight);
+    border: 1px;
+}
+
+
 .CallForAction span,
-.cke_dialog_footer_buttons td a.cke_dialog_ui_button span {    min-height: 12px;
+.cke_dialog_footer_buttons td a.cke_dialog_ui_button span {    
+    min-height: 12px;
 /*    padding: 3px 7px 6px;
     line-height: 14px;
     vertical-align: middle;
@@ -768,14 +772,14 @@ ul.WidgetTooltip li a:hover i {
 }
 
 .CallForAction:disabled span {
-    color: rgba(200,200,200,0.5) !important;
+    color: var(--colTextLight) !important;
     cursor: default;
 }
 
 .cke_dialog_footer_buttons td a.cke_dialog_ui_button span {
     font-size: 11px;
     line-height: auto;
-    color: #fff;
+    color: #000;
     font-weight: bold;
 }
 
@@ -786,7 +790,7 @@ ul.WidgetTooltip li a:hover i {
     font-size: 13px;
     width: 15px;
     text-align: center;
-    color: #fef235 !important;
+    color: var(--colTextLight) !important;
 }
 
 .RTL .CallForAction span i {
@@ -797,6 +801,14 @@ ul.WidgetTooltip li a:hover i {
     position: absolute;
     left: 4px;
     top: 4px;
+}
+
+.CallForAction:active span, 
+.CallForAction:active span i, 
+.CallForAction:hover span,
+.CallForAction:hover span i,
+.CallForAction:focus span {
+    color: var(--colTextDark) !important;
 }
 
 .HeaderPopup {
@@ -820,16 +832,17 @@ ul.WidgetTooltip li a:hover i {
 .CallForAction:active,
 .CallForAction:hover,
 .CallForAction:focus {
-    background-color: var(--colBGHoverDark);
-    border-color: var(--colBGHoverDark);
-    color: white;
+    background-color: var(--colBGLight);
+    border-color: var(--colBGDark);
+    border-radius: 20px;
+    color: var(--colTextDark);
+    border-bottom: 1px solid var(--colBGDark);
 }
 
 .CallForAction.Disabled {
     background: #eee !important;
     border: 1px solid #ccc !important;
     border-bottom: 1px solid #bbb !important;
-    color: #c4cdfa !important;
 }
 
 .CallForAction.Disabled, .CallForAction.Disabled span {
@@ -1204,15 +1217,15 @@ input.FilterBox {
  */
 
 .CallForAction span i.fa-plus-square {
-    color: white;
+    color: #35A835;
 }
 
 .CallForAction span i.fa-rocket {
-    color: white;
+    color: #C4632F;
 }
 .CallForAction span i.fa-download,
 .CallForAction span i.fa-upload {
-    color: white;
+    color: #2D6F9E;
 }
 
 /**
@@ -1252,7 +1265,7 @@ input.FilterBox {
 }
 
 .UserStatusIcon.Offline i {
-    color: #00023c;
+    color: #000;
 }
 
 .UserStatusIcon.Unavailable i {
@@ -1285,20 +1298,20 @@ button.HighlightError {
     display: block;
     float: left;
     padding: 7px 9px;
-    color: #333;
+    color: var(--colTextLight);
 }
 
 .WidgetSimple.Tabs > .Header a.Disabled {
-    color: #999;
+    color: #919090;
     cursor: not-allowed;
-    text-shadow: 1px 1px 1px #fff;
+    text-shadow: none;
 }
 
 .WidgetSimple.Tabs > .Header a:not(.Disabled).Active,
 .WidgetSimple.Tabs > .Header a:not(.Disabled):hover,
 .WidgetSimple.Tabs > .Header a:not(.Disabled):active  {
     background: #777;
-    color: #fff;
+    color: var(--colTextLight);
 }
 
 .WidgetSimple.Tabs > .Content > div {

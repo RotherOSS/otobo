@@ -1,0 +1,483 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     OTOBO Framework - Skin "Default"
+ * @section     Customer
+ */
+
+/*
+ * @note    This will be displayed by Core.UI.Tooltips
+ */
+div.TooltipErrorMessage {
+    display: none;
+}
+
+/*
+ * @note    Special case: do display
+ *          ServerError message divs when JavaScript is not active,
+ *          otherwise the user will not see these messages
+ */
+.NoJavaScript .NoJavaScriptMessageServerError {
+    display: block;
+    padding: 2px 5px;
+}
+
+.NoJavaScript .NoJavaScriptMessageServerError,
+.NoJavaScript .NoJavaScriptMessageServerError * {
+    color: #ff505e;
+}
+
+/**
+ * @subsection AJAX Loader
+ */
+
+.AJAXLoader {
+    display: inline-block;
+    width: 0px;
+    height: 14px;
+    margin-bottom: 18px;
+    margin-left: 0px;
+    position: relative;
+    vertical-align: bottom;
+}
+
+.AJAXLoader:after {
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    position: absolute;
+    left: 16px;
+    top: 0px;
+    width: 14px;
+    height: 100%;
+    line-height: 14px;
+    content: "\f1ce";
+    font-family: FontAwesome;
+    font-size: 14px;
+    color: #7f809d;
+    color: var(--colTextLight);
+}
+
+/**
+ * @subsection    Tree selection icon and overlay for select boxes
+ */
+
+.ShowTreeSelection {
+    width: 16px;
+    height: 16px;
+    margin-left: 1px;
+    display: inline-block;
+    position: relative;
+    color: #333;
+}
+
+.ShowTreeSelection span {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+}
+
+.ShowTreeSelection:focus {
+    color: #f92;
+}
+
+fieldset .ShowTreeSelection {
+    display: inline-block;
+}
+
+#TreeContainer #TreeSearch {
+    position: relative;
+}
+
+#TreeContainer #TreeSearch span {
+    color: #AAAAAA;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    height: 12px;
+    position: absolute;
+    right: 9px;
+    top: 4px;
+    width: 16px;
+}
+
+#TreeContainer #TreeSearch input {
+    display: block;
+    margin: 10px 12px 0px 12px;
+    width: 92%;
+}
+
+.JSTreeField {
+    background-color: #FFFFFF;
+    border: 1px solid #ccc;
+    height: 72%;
+    margin: 10px 12px;
+    -moz-box-shadow: inset 0px 0px 6px #ccc;
+    -webkit-box-shadow: inset 0px 0px 6px #ccc;
+    box-shadow: inset 0px 0px 6px #ccc;
+    overflow: auto;
+    padding: 0px 10px 10px 10px;
+}
+
+.JSTreeField.InOverlay {
+    margin: 5px 5px 5px 0px;
+    width: 85%;
+    float: left;
+}
+
+.JSTreeField .Disabled > a {
+    color: #aaa;
+    font-style: italic;
+}
+
+.JSTreeField .jstree-search {
+    color: #E07006;
+}
+
+.JSTreeField .jstree-search.jstree-clicked {
+    color: #000;
+}
+
+.JSTreeField .jstree-clicked {
+    background: #f3960d;
+    background: -moz-linear-gradient(top,  #ffe7bd 0%, #fbba49 20%, #f6ad3e 51%, #f3960d 51%, #e98207 95%, #e07006 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe7bd), color-stop(20%,#fbba49), color-stop(51%,#f6ad3e), color-stop(51%,#f3960d), color-stop(95%,#e98207), color-stop(100%,#e07006));
+    background: -webkit-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: -o-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: -ms-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: linear-gradient(to bottom,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    border-color: #f3960d;
+    padding: 0px 3px;
+}
+
+.JSTreeField .jstree-hovered {
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.JSTreeField a:focus {
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+#SubmitTree {
+    display: block;
+    width: 120px;
+    margin: 0px auto;
+}
+
+.RTL .ShowTreeSelection {
+    margin: 0 3px 0 0;
+}
+
+.OverlayTreeSelector {
+    width: 400px;
+    height: 300px;
+    margin: -10px -15px;
+}
+
+/**
+ * @subsection  Drag & drop upload
+ */
+
+#oooAttachments {
+    height: auto;
+}
+
+@media only screen and (max-width: 599px) {
+
+    div.DnDUploadBox {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        grid-row-gap: 16px;
+    }
+
+    div.DnDUpload {
+        height: 98px;
+    }
+
+    div.DnDUpload i {
+        top: 12px;
+    }
+
+    div.DnDUpload span {
+        top: 18px;
+    }
+
+}
+
+@media only screen and (min-width: 600px) {
+
+    div.DnDUploadBox {
+        grid-template-columns: 1fr 2fr;
+        grid-column-gap: 16px;
+        grid-template-rows: auto;
+    }
+
+    div.DnDUpload {
+        height: 128px;
+    }
+
+    div.DnDUpload i {
+        top: 24px;
+    }
+
+    div.DnDUpload span {
+        top: 28px;
+    }
+
+}
+
+div.DnDUpload span {
+    position: relative;
+}
+
+div.DnDUploadBox {
+    overflow-y: hidden;
+    padding: 0 !important;
+    display: grid;
+}
+
+div.DnDUpload {
+    text-align: center;
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+    border-radius: 10px;
+    border: 1px solid var(--colBGDark);
+    white-space: normal;
+    padding: 8px;
+}
+
+input.AjaxDnDUpload.Error + div.DnDUpload {
+    color: #ff505e;
+    border-color: #ff505e;
+}
+
+div.DnDUpload.DragOver {
+    border-style: dashed;
+    background: #eee;
+    color: var(--colTextDark);
+}
+
+div.DnDUpload i {
+    display: block;
+    position: relative;
+}
+
+div.DnDUpload span {
+    position: relative;
+    width: 160px;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: #7f809d;
+    color: var(--colTextDark);
+}
+
+div.DnDUpload i.ooofo-save {
+    font-size: 28px;
+    color: #7f809d;
+    color: var(--colTextDark);
+}
+
+div.DnDUpload i.fa-spinner {
+    display: none;
+    font-size: 28px;
+    color: #7f809d;
+    color: var(--colTextDark);
+}
+
+div.DnDUpload.Uploading i.ooofo-save {
+    display: none;
+}
+
+div.DnDUpload.Uploading i.fa-spinner {
+    display: block;
+}
+
+div.DnDUpload .UploadRunning {
+    display: none;
+}
+
+div.DnDUpload.Uploading .ReadyForUpload {
+    display: none;
+}
+
+div.DnDUpload.Uploading .UploadRunning {
+    display: block;
+}
+
+.AttachmentListContainer {
+    border-radius: 10px;
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+    border: 1px solid var(--colBGDark);
+    min-height: 144px;
+}
+
+.AttachmentListContainer .Busy {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    background: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    box-sizing: border-box;
+    display: none;
+}
+
+.AttachmentListContainer .Busy i {
+    vertical-align: middle;
+    line-height: 100%;
+    position: absolute;
+    top: 50%;
+    font-size: 20px;
+    margin-top: -10px;
+}
+
+table.AttachmentList {
+    width: 100%;
+    table-layout: fixed;
+}
+
+table.AttachmentList tr {
+    height: 48px;
+}
+
+table.AttachmentList tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.35);
+}
+
+table.AttachmentList td {
+    vertical-align: middle;
+    padding-left: 8px;
+}
+
+table.AttachmentList .Filetype {
+    position: relative;
+    width: 16px;
+    padding-left: 16px;
+    color: var(--colTextDark);
+}
+
+table.AttachmentList .Filetype i {
+    position: relative;
+    top: 1px;
+    color: var(--colTextDark);
+}
+
+table.AttachmentList .Filename {
+    width: 75%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: var(--colTextDark);
+}
+
+table.AttachmentList .ProgressContainer {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    height: 4px;
+    width: 0px;
+}
+
+table.AttachmentList .Progress {
+    display: block;
+    height: 4px;
+    border-radius: 2px;
+    background-color: #001bff;
+    background-color: var(--colBGDark);
+    width: 0px;
+}
+
+table.AttachmentList .Filesize {
+    width: 25%;
+    text-align: right;
+    color: var(--colTextDark);
+}
+
+/* last box has class Center from js, or class Delete from HTML-template */
+table.AttachmentList .Center,
+table.AttachmentList .Delete {
+    vertical-align: middle;
+    /*color: #bfbfce;*/
+    width: 16px;
+    padding-right: 16px;
+    font-size: 16px;
+    color: var(--colTextDark);
+}
+
+table.AttachmentList > .oooRetracted > tr:not( .oooToggleML ):not( :nth-child(-n+2) ) {
+    display: none;
+}
+
+table.AttachmentList .ToggleML {
+    border-radius: 0px 0px 10px 10px;
+}
+
+table.AttachmentList > .oooRetracted .ToggleML {
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+}
+
+table.AttachmentList .oooMore,
+table.AttachmentList .oooLess {
+    cursor: pointer;
+    text-align: center;
+    margin-left: calc(33.33% + 20px);
+}
+
+table.AttachmentList > .oooRetracted .oooLess {
+    display: none;
+}
+
+table.AttachmentList > tbody:not( .oooRetracted ) .oooMore {
+    display: none;
+}
+
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    div.DnDUploadBox {
+        display: -ms-grid;
+        -ms-grid-columns: 1fr 2fr;
+        -ms-grid-rows: auto;
+    }
+
+    .oooDnD {
+        -ms-grid-column: 1 / 2;
+        margin-right: 16px;
+    }
+
+    .AttachmentListContainer {
+        -ms-grid-column: 2;
+    }
+
+    @supports (display: grid) {
+        div.DnDUploadBox {
+            display: grid;
+        }
+        .oooDnD {
+            margin-right: 0px;
+        }
+    }
+
+}

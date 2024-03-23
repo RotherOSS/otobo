@@ -102,7 +102,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #ToolBar li.UserAvatar i {
         display: block !important;
-        color: var(--colHoverDark);
+        color: #fef235;
     }
 
     #ToolBar li.UserAvatar div a:last-child {
@@ -136,7 +136,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     #ToolBar li i {
-        color: var(--colHoverDark);
+        color: #fef235;
         text-shadow: none;
         font-size: 20px;
         top: -15px;
@@ -210,7 +210,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     .ResponsiveHandle {
         font-size: 30px;
-        color: var(--colHoverDark);
+        color: var(--colTextLight);
         cursor: pointer;
         display: block;
         position: fixed;
@@ -219,7 +219,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         height: 30px;
         padding: 5px 10px;
         background: var(--colMainDark);
-        background-color: rgba(22, 22, 22, 0.5);
         text-align: center;
         z-index: 999;
     }
@@ -286,13 +285,26 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         margin-left: 5px;
     }
 
+    #Navigation > li:hover > a, #Navigation > li:active > a {
+        color: var(--colTextDark);
+    }
+
     #Navigation > li:first-child {
         border-top: 0px !important;
     }
 
-    #Navigation > .Selected,
+    #Navigation > .Active > ul > li {
+        opacity: none;
+    }
+
+    #Navigation > .Selected > a {
+        color: var(--colTextDark);
+        background: var(--colBGLight);
+    }
+
     #Navigation > li:hover {
-        color: var(--colHoverDark);
+        color: var(--colTextDark);
+        background: var(--colBGLight);
     }
 
     #Navigation > .Active > ul {
@@ -302,6 +314,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     #Navigation > .Active > ul li a {
+        color: var(--colTextLight);
         padding: 7px 10px;
         border: 0px;
     }
@@ -503,10 +516,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         grid-column: 1;
     }
 
-    fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet label {
-        text-align: left;
-    }
-
     fieldset.TableLike .DynamicFieldSet .Row > .FieldCell {
         columns: 2;
         grid-template-columns: 1fr 40px;
@@ -579,12 +588,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: auto !important;
     }
 
-    fieldset.TableLike > label:not(.ck-label),
-    fieldset.TableLike > .Row > label:not(.ck-label),
-    fieldset.TableLike > .Row > .FieldCell > label:not(.ck-label),
-    .RTL fieldset.TableLike > label:not(.ck-label),
-    .RTL fieldset.TableLike > .Row > label:not(.ck-label),
-    .RTL fieldset.TableLike > .Row > .FieldCell > label:not(.ck-label) {
+    fieldset.TableLike > label,
+    fieldset.TableLike > .Row > label,
+    fieldset.TableLike > .Row > .FieldCell > label,
+    .RTL fieldset.TableLike > label,
+    .RTL fieldset.TableLike > .Row > label,
+    .RTL fieldset.TableLike > .Row > .FieldCell > label {
         float: none;
         width: auto;
         text-align: left;
@@ -727,7 +736,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: 280px;
         right: -300px;
         overflow: auto;
-        background: var(--colMainDark);
+        background: #00023c;
         padding: 0px 10px;
     }
 
@@ -1270,6 +1279,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         background: none;
         box-shadow: none;
         min-width: 0px;
+        border: 0px;
     }
 
     .Cluster ul.Actions {
@@ -1283,7 +1293,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     .Cluster ul ul li a {
         display: inline-block;
-        padding: 5px 2px !important;
+        /* padding: 5px 2px !important; */
     }
 
     .Cluster ul ul li:after {
@@ -1295,6 +1305,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         background: none;
         border-bottom: 2px solid #ff9922;
         padding-bottom: 0px !important;
+        color: var(--colTextDark);
     }
 
     .Cluster .WidgetAction.ArticleView {

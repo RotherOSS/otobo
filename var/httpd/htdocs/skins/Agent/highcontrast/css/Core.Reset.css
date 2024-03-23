@@ -50,8 +50,8 @@ table, caption, tbody, tfoot, thead, tr, th, td, hr {
 
 body {
     line-height: 1;
-    color: var(--colTextBody);
-    background: var(--colMainLight);
+    color: var(--colTextDark);
+    background: var(--colBGLight);
     text-align: left;
     margin: 0;
     padding: 0;
@@ -86,7 +86,7 @@ blockquote, q {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 strong {
@@ -101,8 +101,35 @@ select {
     margin-top: -1px;
 }
 
+.CancelClosePopup {
+    text-decoration: underline;
+    color: var(--colTextDark) !important;
+}
+
+.UndoClosePopup {
+    text-decoration: underline;
+    color: var(--colTextDark) !important;
+}
+
 *:visited {
-    color: #001bff;
+    color: var(--colTextVisited);
+    font-weight: 600;
+}
+
+#LinkAddCloseLink {
+    text-decoration: underline;
+}
+
+.ClosePopup a,
+.ClosePopup,
+.GoBack
+{
+    text-decoration: underline;
+}
+
+#FilterAvailableActivityDialogs, 
+#FilterAvailableFields {
+    width: 90%;
 }
 
 } /* end @media */

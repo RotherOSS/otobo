@@ -102,7 +102,7 @@ body > .MessageBox,
 }
 
 a {
-    color:#000000;
+    color:var(--colTextDark);
     text-decoration:none;
 }
 
@@ -170,7 +170,7 @@ td:last-child{
 }
 
 .QueueOverviewList a {
-    color:#000000;
+    color:var(--colTextDark);
 }
 
 .Overview.FixedHeader thead tr th {
@@ -204,7 +204,7 @@ td:last-child{
 */
 
 .OverviewMedium h2 a {
-    color:#000000;
+    color:var(--colTextDark);
     display:block;
 }
 
@@ -257,7 +257,7 @@ td:last-child{
 .OverviewLarge > li > .Content {
     margin-bottom:15px;
     padding:12px;
-    border:1px solid #000000;
+    border:1px solid var(--colTextDark);
 }
 
 .OverviewLarge .Infos {

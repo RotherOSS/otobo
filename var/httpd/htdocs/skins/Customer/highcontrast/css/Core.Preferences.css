@@ -1,0 +1,207 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+@media only screen and (max-width: 767px) {
+
+    #oooHeader {
+        padding: 0px 16px 24px 16px;
+        border-radius: 20px 20px 0px 0px;
+        border-bottom: 0.6px solid #e5e5eb;
+        height: 121px;
+
+        /* text / ticket search */
+        grid-template-columns: calc( 100% - 32px);
+        grid-template-rows: 64px 57px 0px;
+        align-items: end;
+
+        overflow: hidden;
+    }
+
+	#oooHeaderButton span {
+        display: none;
+    }
+
+    #oooHeaderButton > button {
+        position: fixed;
+        bottom: 32px;
+        right: 16px;
+        width: 48px;
+        z-index: 600;
+        box-shadow: 0 12px 16px 0 rgba(0, 27, 255, 0.24);
+        box-shadow: 0 12px 16px 0 val(--colShadowMain);
+	}
+
+	#oooHeader i {
+        font-size: 20px;
+    	padding-bottom: 2px;
+	}
+
+    #oooSearchBox i.ooofo-search {
+        top: 152px;
+        left: 26px;
+    }
+
+    #oooMainBox {
+        background-color: #f7f7f9;
+        background-color: var(--colBGLight);
+        min-height: calc( 100vh - 265px );
+    }
+
+}
+
+@media only screen and (min-width: 768px) {
+    
+    #oooHeader {
+        height: 145px;
+        position: sticky;
+        top: 0;
+        border-bottom: 1.2px solid #e5e5eb;
+
+        /* text / ticket search / new ticket button */
+        grid-template-columns: 1fr auto auto;
+        grid-template-rows: 100%;
+        align-items: center;
+    }
+
+	#oooHeaderButton i {
+    	padding-right: 8px;
+	}
+
+	#oooHeader i {
+    	padding-bottom: 3px;
+	}
+
+}
+
+#oooHeader {
+    background-color: #ffffff;
+
+    display: grid;
+}
+
+#oooHeader i {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#oooCustomerNotifications {
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+}
+
+.Box {
+    border-radius: 20px;
+    box-shadow: none;
+    border: 1px solid var(--colBGDark);
+    background-color: #ffffff;
+    margin-bottom: 24px;
+    margin-top: 8px;
+    padding: 24px 40px;
+    overflow: hidden;
+}
+
+.Box button,
+.Box .Row,
+.Box .PWRow {
+    margin-top: 24px;
+}
+
+.Row > input {
+    display: inline-block;
+    height: 56px;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: var(--colTextDark);
+    width: calc( 100% - 32px );
+    border-radius: 10px;
+    padding: 0px;
+    padding-left: 32px;
+    border: solid 1px rgba(247, 247, 249, 0);
+    border: solid 1px var(--colBGDark);
+-webkit-transition: border 0.2s ease;
+   -moz-transition: border 0.2s ease;
+     -o-transition: border 0.2s ease;
+        transition: border 0.2s ease;
+}
+
+.Row > input:hover,
+.Row > input.oooFull {
+    border: solid 1px #7f809d;
+    border: solid 1px var(--colTextDark);
+    background-color: #fff;
+    color: var(--colTextDark);
+}
+
+.Row > input:focus,
+.Row > input.oooFull:focus {
+    border: solid 1px #001bff;
+    border: solid 1px var(--colBGDark);
+    background-color: #fff;
+    color: var(--colTextDark);
+}
+
+.Row > label {
+    left: calc( -100% + 24px );
+    color: var(--colTextDark);
+}
+
+.PWRow > span {
+    font-size: 16px;
+}
+
+.PWRow > input {
+    border: none;
+    background: none;
+    padding-left: 8px;
+    padding-top: 8px;
+    color: #00023c;
+    color: var(--colTextDark);
+}
+
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    #oooHeader {
+        display: -ms-grid;
+        /* text / ticket search */
+        -ms-grid-columns: 1fr auto auto;
+        -ms-grid-rows: 100%;
+    }
+
+    #oooHeader > h1 {
+        -ms-grid-column: 1;
+        -ms-grid-row-align: center;
+    }
+
+    #oooSearchBox {
+        -ms-grid-column: 2;
+        -ms-grid-row-align: center;
+    }
+
+    #oooHeader > a {
+        -ms-grid-column: 3;
+        -ms-grid-row-align: center;
+        display: block;
+    }
+
+    @supports (display: grid) {
+        #oooHeader {
+            display: grid;
+        }
+    }
+
+}

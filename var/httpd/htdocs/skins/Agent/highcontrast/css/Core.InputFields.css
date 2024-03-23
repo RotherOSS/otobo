@@ -180,6 +180,7 @@ div.InputField_InputContainer .InputField_Search {
 fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > select.Modernize,
 fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > input.W75pc,
 fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > input.W50pc,
+fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > input,
 fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer > input {
     min-width: 0 !important;
     width: calc( 100% - 7px ) !important;
@@ -245,8 +246,8 @@ fieldset.DynamicFieldSet {
 }
 
 .MultiValue .DFSetOuterField ~ .AddRemoveValueRow {
-    vertical-align: top;
-    padding-top: 16px;
+    vertical-align: bottom;
+    padding-bottom: 16px;
 }
 
 a.InputField_Action {
@@ -257,7 +258,7 @@ a.InputField_Action {
 }
 
 a.InputField_Action:hover {
-    color: var(--colHoverDark);
+    color: #fef235;
 }
 
 div.InputField_Selection {
@@ -351,7 +352,8 @@ div.InputField_ToolbarContainer ul li {
 div.InputField_ToolbarContainer ul li:after {
     color: #bbb;
     content: "|";
-    float: right; 
+    display: inline-block;
+    float: right;
     cursor: default;
 }
 
@@ -380,7 +382,7 @@ div.InputField_ToolbarContainer i {
 }
 
 div.InputField_ToolbarContainer ul li a:hover {
-    border-bottom: 2px solid #fef235;
+    border-bottom: 2px solid var(--colBGDark);
     margin-bottom: 0;
 }
 
@@ -578,13 +580,13 @@ div.InputField_ToolbarContainer ul li a:hover {
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused > .jstree-wholerow {
-    background-color: #fffccc;
+    background-color: var(--colHoverLight);
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked:hover,
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked.jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused > .jstree-wholerow-clicked {
-    background-color: var(--colHoverDark);
+    background-color: #fef235;
 }
 
 .jstree-InputField .Disabled > .jstree-wholerow:hover,
