@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otobo_config version="2.0" init="Config">
+    <!-- Configuration overrides when OTOBO is running as a Docker container -->
+
+    <!--
+    The CLDR project, https://cldr.unicode.org/, helps with internationalisation. It provides, among other things,
+    translation of language and country names. These translations are available in Perl via the Local::CLDR module.
+    https://metacpan.org/pod/Locale::CLDR. That module is not generally required, but is available in the Docker image.
+    Therefore activate the CLDR translations only in Docker based installations per default.
+    -->
+    <Setting Name="ReferenceData::TranslatedCountryNames" Required="0" Valid="1">
+        <Description Translatable="1">Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.</Description>
+        <Navigation>Core::ReferenceData</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="ReferenceData::TranslatedLanguageNames" Required="0" Valid="1">
+        <Description Translatable="1">Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.</Description>
+        <Navigation>Core::ReferenceData</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+
+</otobo_config>

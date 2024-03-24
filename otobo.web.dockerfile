@@ -157,6 +157,9 @@ USER $OTOBO_USER
 # to pick up the changed host and to check whether Elasticsearch is available.
 RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200}" scripts/database/otobo-initial_insert.xml
 
+# Activate SysConfig settings that should override that defaults when running in Docker.
+RUN cp Kernel/Config/Files/XML/DockerConfig.xml.dist Kernel/Config/Files/XML/DockerConfig.xml
+
 # Create dirs.
 # Enable bash completion.
 # Add a .vimrc.
