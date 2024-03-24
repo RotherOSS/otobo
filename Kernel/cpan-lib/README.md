@@ -18,14 +18,11 @@ Starting in the OTOBO root dir.
     gvim Kernel/System/Environment.pm                                       # update BundleModulesDeclarationGet() if there are changes
     bin/otobo.CheckModules.pl --bundled-cpanfile > Kernel/cpan-lib/cpanfile # in case BundleModulesDeclarationGet() list has changed
     cd Kernel/cpan-lib
-    cpanm --notest --installdeps . --local-lib local                        # install locally into local/lib/perl5
-    cpanm --notest --installdeps . --local-lib local                        # again, to see that the install was complete
 
 ### Shortcut when there are only version updates
 
 Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>.
 
-    cd Kernel/cpan-lib
     rm -rf local
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # install into local/lib/perl5
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # again, to see that the install was complete
@@ -36,6 +33,9 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
 Then examine the diffs and check in the verified changes.
 
 ### A fresh install of the bundled modules
+
+    cpanm --notest --installdeps . --local-lib local                        # install locally into local/lib/perl5
+    cpanm --notest --installdeps . --local-lib local                        # again, to see that the install was complete
 
 ### Remove files and directories that should not be bundled with OTOBO
 
