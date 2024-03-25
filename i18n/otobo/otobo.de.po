@@ -41,7 +41,7 @@
 # Harald Eisenmenger <harald.eisenmenger@otrs.com>, 2019
 # Michael Reuther <michael.reuther@otrs.com>, 2020
 # Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2020, 2021.
-# Grit Rother <mr@otobo.de>, 2020, 2021, 2022, 2023.
+# Grit Rother <mr@otobo.de>, 2020, 2021, 2022, 2023, 2024.
 # svo <svo@otrs.ch>, 2021.
 # Andreas Erhard <erhard@wor.net>, 2021, 2022.
 # Stefan Abel <sta@rother-oss.com>, 2022, 2023.
@@ -53,8 +53,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-10-05 11:20+0000\n"
-"PO-Revision-Date: 2024-03-05 11:45+0000\n"
-"Last-Translator: Emin Yazi <yazi@efflux.de>\n"
+"PO-Revision-Date: 2024-03-26 07:45+0000\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo/otobo-10/"
 "de/>\n"
 "Language: de\n"
@@ -12893,7 +12893,7 @@ msgid ""
 "Syntax is incorrect. Please provide a parent element name in front of the "
 "double colon."
 msgstr ""
-"Inkorrekte Syntax. Bitte geben Sie vor dem Doppelkolon den Namen eines "
+"Inkorrekte Syntax. Bitte geben Sie vor dem Doppelpunkt den Namen eines "
 "Elternelements ein."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
@@ -12901,8 +12901,8 @@ msgid ""
 "An element is used as parent element, but not included itself. Please "
 "include it."
 msgstr ""
-"Ein als Elternelement aufgeführtes Element ist selbst nicht enthalten. Bitte "
-"ergänzen."
+"Ein Element wird als Elternelement verwendet, ist aber selbst nicht "
+"enthalten. Bitte nehmen Sie es auf."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were saved."
