@@ -52,7 +52,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2024-03-25 07:28+0000\n"
+"PO-Revision-Date: 2024-03-26 08:45+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo/otobo-11/"
 "de/>\n"
@@ -25319,11 +25319,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
 msgid "Authentication error. Please contact the administrator."
-msgstr ""
+msgstr "Authentifizierungsfehler. Bitte wenden Sie sich an Ihren Administrator."
 
 #. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
 msgid "Authentication error."
-msgstr ""
+msgstr "Authentifizierungsfehler."
 
 #. Template: AdminImportExport
 msgid "Import/Export Management"
@@ -26272,119 +26272,122 @@ msgstr "Import/Export"
 
 #. Template: AdminACL
 msgid "Filter by valid state"
-msgstr ""
+msgstr "Nach gültigem Status filtern"
 
 #. Template: AdminACL
 msgid "Include invalid ACLs"
-msgstr ""
+msgstr "Ungültige ACLs einschließen"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Include invalid calendars"
-msgstr ""
+msgstr "Ungültige Kalender einschließen"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Include invalid appointment notifications"
-msgstr ""
+msgstr "Ungültige Terminbenachrichtigungen einschließen"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Include invalid appoitnment notifications"
-msgstr ""
+msgstr "Ungültige Terminbenachrichtigungen einschließen"
 
 #. Template: AdminAttachment
 msgid "Include invalid attachments"
-msgstr ""
+msgstr "Ungültige Anhänge einschließen"
 
 #. Template: AdminAutoResponse
 msgid "Include invalid auto responses"
-msgstr ""
+msgstr "Ungültige Automatische Antworten einschließen"
 
 #. Template: AdminCustomerCompany
 msgid "Include invalid customer companies"
-msgstr ""
+msgstr "Ungültige Kundenunternehmen einschließen"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Customer Info"
-msgstr ""
+msgstr "Kundeninformationen"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Customer Info Management"
-msgstr ""
+msgstr "Kundendatenverwaltung"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Create new info tile entry"
-msgstr ""
+msgstr "Neuen Infokachel-Eintrag erstellen"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Filter for info tile entries"
-msgstr ""
+msgstr "Nach Infokachel-Einträgen filtern"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Create a new entry to be displayed on the info tile on the customer dashboard."
 msgstr ""
+"Neuen Benachrichtigungstext für die Infokachel im Kundenbereich festlegen."
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Delete info tile entry"
-msgstr ""
+msgstr "Text Infokachel löschen"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Edit customer dashboard info tile entry"
 msgstr ""
+"Bearbeiten des Benachrichtigungstexts für die Infokachel im Kundenbereich"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Tile content"
-msgstr ""
+msgstr "Kachelinhalt"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Content Body"
-msgstr ""
+msgstr "Text Infokachel"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Marquee content"
-msgstr ""
+msgstr "Lauftext"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Group Selection"
-msgstr ""
+msgstr "Gruppenauswahl"
 
 #. Template: AdminCustomerDashboardInfoTileNew
 msgid "Create new customer dashboard info tile entry"
-msgstr ""
+msgstr "Neuen Eintrag für die Infokachel im Kundenbereich erstellen"
 
 #. Template: AdminCustomerUser
 msgid "Include invalid customer users"
-msgstr ""
+msgstr "Ungültige Kundenbenutzer einschließen"
 
 #. Template: AdminDynamicField
 msgid "Include invalid dynamic fields"
-msgstr ""
+msgstr "Ungültige dynamische Felder einschließen"
 
 #. Template: AdminDynamicField
 msgid "Filter field by object type"
-msgstr ""
+msgstr "Feld nach Objekttyp filtern"
 
 #. Template: AdminDynamicField
 msgid "Filter field by namespace"
-msgstr ""
+msgstr "Feld nach Namespace filtern"
 
 #. Template: AdminDynamicField
 msgid "Clone from this field"
-msgstr ""
+msgstr "Von diesem Feld clonen"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the namespace in which this field will be used as prefix with the name."
-msgstr ""
+msgstr "In diesem Namespace wird das Feld als Präfix zum Namen verwendet."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Multiple Values"
-msgstr ""
+msgstr "Mehrfachwerte"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Activate this option to allow multiple values for this field."
 msgstr ""
+"Aktivieren Sie diese Option, um mehrere Werte für dieses Feld zuzulassen."
 
 #. Template: AdminDynamicFieldReference
 msgid "Check ReferenceFilter"
-msgstr ""
+msgstr "Referenzfilter prüfen"
 
 #. Template: AdminDynamicFieldReference
 msgid "Below you can configure filters to restrict the list of referenced objects. The filters compare an attribute of the referenced object either to an attribute of the mask you are currently editing or to a fixed string."
