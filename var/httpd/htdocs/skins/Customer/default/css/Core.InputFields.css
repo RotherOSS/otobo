@@ -52,6 +52,10 @@ fieldset.Columns .Column .InputField_ListContainer div {
     display: none !important;
 }
 
+.DynamicFieldSet .FieldCell .RichTextField {
+    height: fit-content;
+}
+
 .Row,
 .RichTextHolder {
     margin-top: 40px;
@@ -92,7 +96,6 @@ fieldset.Columns .Column .InputField_ListContainer div {
     display: inline-block;
     height: 56px;
 }
-
 
 #Subject,
 input.DynamicFieldText {
@@ -367,10 +370,10 @@ label.oooFocus.LabelError {
 }
 
 /* Checkboxes & Date */
-.FieldCell div.oooDateContainer,
-.FieldCell div.oooCheckboxContainer,
+.FieldCell > div.Field > div.oooDateContainer,
+.FieldCell > div.Field.oooCheckboxContainer,
 .Row > div.Field > div.oooDateContainer,
-.Row > div.Field > div.oooCheckboxContainer {
+.Row > div.Field.oooCheckboxContainer {
     height: 38px;
     padding-top: 16px;
     padding-left: 16px;
@@ -825,19 +828,10 @@ div.InputField_ToolbarContainer ul li a:hover {
 }
 
 .FieldCell > .Field.RichTextField ~ label {
-    margin-top: 16px !important;
+    position: absolute;
     margin-bottom: auto;
-}
-
-.FieldCell > .Field ~ .DynamicFieldRichTextLabel {
-    border-radius: 10px;
-    top: -30px;
-    font-size: 10px;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-    color: #7f809d;
-    color: var(--colTextLight);
-    background-color:#ffffff;
+    top: 16px;
+    left: 32px;
 }
 
 .Field > .RichTextHolder > .cke {
@@ -852,10 +846,11 @@ div.InputField_ToolbarContainer ul li a:hover {
     display: block;
 }
 
-.FieldCell .DFSetOuterField + label {
+.FieldCell .Field.DFSetOuterField + label {
+    position: absolute;
     z-index: 1;
     display: block;
-    top: calc(-100% + 28px);
+    top: -6px;
     left: 24px;
     width: fit-content;
 }
@@ -869,40 +864,37 @@ div.InputField_ToolbarContainer ul li a:hover {
 .DynamicFieldSet {
     border: solid 1px var(--colTextLight);
     border-radius: 10px;
-    padding-left: 40px;
+    padding-left: 32px;
     padding-bottom: 40px;
+    padding-right: 32px;
 }
 
 .DynamicFieldSet .Row_DynamicField {
     width: 100%;
     margin-left: 0px;
+    height: fit-content;
 }
 
 .DynamicFieldSet .Row_DynamicField .Field {
-    width: calc(100% - 65px) !important; /* space for multivaluebuttons width 33px + 2 * 16px margin */
+    width: 100%;
 }
 
-.DynamicFieldSet .Row_DynamicField label {
-    left: calc(-100% + 89px); /* label positioning with space for multivaluebuttons */
-}
-
-.DynamicFieldSet .Row_DynamicField .AddRemoveValueRow {
-    left: calc(83% - 81px); /* multivaluebutton positioning 65px to the left */
-}
-
-.DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell {
+.DynamicFieldSet .Row_DynamicField .FieldCell {
     display: inline-grid;
     grid-template-columns: 1fr 65px;
+    width: 100%;
 }
 
-.DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell > label {
-    grid-column: 1;
-    grid-row: 1;
+.DynamicFieldSet .Row_DynamicField .oooDateContainer, 
+.DynamicFieldSet .Row_DynamicField .oooCheckboxContainer {
+    display: inline-flex;
+}
+
+.DynamicFieldSet .Row_DynamicField .oooDateContainer > label, 
+.DynamicFieldSet .Row_DynamicField .oooCheckboxContainer > label {
+    left: 4px;
+    top: 0px;
     position: relative;
-    left: 24px;
-    width: fit-content;
-    height: fit-content;
-    place-self: center start;
 }
 
 .DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell .Field {
@@ -917,9 +909,6 @@ div.InputField_ToolbarContainer ul li a:hover {
 .DynamicFieldSet .Row_DynamicField.MultiColumn .AddRemoveValueRow {
     grid-column: 2;
     grid-row: 1;
-    position: relative;
-    left: 12px;
-    top: 0px;
 }
 
 

@@ -328,7 +328,7 @@ Core.UI.InputFields = (function (TargetNS) {
         var Label = $(Element).children('label').first(),
             Checkbox = $('.Field > input[type=checkbox]', Element),
             Select = $('.Field > select', Element),
-            Textarea = $('textarea:not(.HasCKEInstance)', Element),
+            Textarea = $('.Field > textarea:not(.HasCKEInstance)', Element),
             // TODO suggestion, DB fields return two elements here (correct one and resultelementtext)
             TextInput = $('input[type="text"]', Element).first(),
             TextValue;

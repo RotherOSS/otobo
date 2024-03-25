@@ -171,10 +171,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         margin-left: 17%;
     }
 
-    .FieldCell > label {
-        left: calc( -100% + 24px );
-    }
-
     .Row > label,
     .RichTextHolder > label {
         left: calc( -66% + 24px );
@@ -182,12 +178,46 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 }
 
-@media only screen and (min-width: 1444px) {
+.FieldCell {
+    position: relative;
+}
 
-    .DynamicFieldSet .Row_DynamicField .AddRemoveValueRow {
-        left: calc(50% + 395px); /* multivaluebutton positioning 65px to the left */
-    }
+.FieldCell .AJAXLoader {
+    position: absolute;
+    right: 48px;
+}
 
+.FieldCell > label {
+    left: 24px;
+    top: 16px;
+    margin-top: 0px !important;
+    position: absolute;
+}
+
+.FieldCell .oooSelected ~ label,
+.FieldCell > input:not([readonly]):hover ~ label,
+.FieldCell textarea.oooFull ~ label,
+.FieldCell input.oooFull ~ label,
+.Field:hover:not([class*='RichTextField']) ~ label,
+.Field.oooFull ~ label,
+.FieldCell .oooSelected ~ label,
+.FieldCell .DynamicFieldDB:not([readonly]):hover ~ label,
+.FieldCell .InputField_Container:hover ~ label, 
+.Field.DFSetOuterField ~ label {
+    top: -6px;
+}
+
+.FieldCell > input:not([readonly]):focus ~ label,
+.Row > input:not([readonly]):focus ~ label,
+label.oooFocus,
+.Field ~ label.oooFocus,
+.DynamicFieldDB:hover ~ label.oooFocus,
+.InputField_Container ~ label.oooFocus {
+    top: -6px;
+}
+
+.DynamicFieldSet .Row_DynamicField .AddRemoveValueRow {
+    right: 12px;
 }
 
 .Row.MultiColumn .FieldCell {
@@ -197,7 +227,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .Row.MultiValue .FieldCell {
     position: relative;
-
 }
 
 .TicketCompose ~ #oooFooter {

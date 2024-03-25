@@ -40,7 +40,7 @@ Core.Customer.InputFields = (function (TargetNS) {
         // enable input css
         $('.Row').each( function() {
             var TextInput = $(this).find('input, textarea').first();
-            if ( TextInput.lenght === 0 ) {
+            if ( TextInput.length === 0 ) {
                 return 1;
             }
 
