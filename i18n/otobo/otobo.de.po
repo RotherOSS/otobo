@@ -52,9 +52,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2024-03-05 11:45+0000\n"
-"Last-Translator: Emin Yazi <yazi@efflux.de>\n"
-"Language-Team: German <https://translate.otobo.org/projects/otobo/otobo-11/de/>\n"
+"PO-Revision-Date: 2024-03-25 07:28+0000\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"Language-Team: German <https://translate.otobo.org/projects/otobo/otobo-11/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25307,10 +25308,14 @@ msgstr "Stats"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
 msgstr ""
+"Inkorrekte Syntax. Bitte geben Sie vor dem Doppelpunkt den Namen eines "
+"Elternelements ein."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "An element is used as parent element, but not included itself. Please include it."
 msgstr ""
+"Ein Element wird als Elternelement verwendet, ist aber selbst nicht "
+"enthalten. Bitte nehmen Sie es auf."
 
 #. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
 msgid "Authentication error. Please contact the administrator."
@@ -27496,4 +27501,3 @@ msgstr ""
 #. SysConfig
 msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0."
 msgstr ""
-
