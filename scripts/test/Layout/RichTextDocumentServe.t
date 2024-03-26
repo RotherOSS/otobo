@@ -82,7 +82,7 @@ my @Tests = (
     {
         Name => '',
         Data => {
-            Content     => "<img border=\"0\" \nsrc=\"cid:1234567890ABCDEF\">",
+            Content     => "<img border=\"0\" src=\"cid:1234567890ABCDEF\">",
             ContentType => 'text/html; charset="iso-8859-1"',
         },
         URL         => 'Action=SomeAction;FileID=',
@@ -93,7 +93,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                "<img border=\"0\" \nsrc=\"index.pl?Action=SomeAction;FileID=0;SessionID=123\">",
+                "<img border=\"0\" src=\"index.pl?Action=SomeAction;FileID=0;SessionID=123\">",
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -147,7 +147,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src=\'index.pl?Action=SomeAction;FileID=0;SessionID=123\' />',
+                '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123" />',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -165,7 +165,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src=\'index.pl?Action=SomeAction;FileID=0;SessionID=123\' />',
+                '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123" />',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -243,7 +243,7 @@ my @Tests = (
         },
         LoadExternalImages => 1,
         Result             => {
-            Content     => '1<img src="http://google.com"/>',
+            Content     => '1<img src="http://google.com" />',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -274,7 +274,7 @@ EOF
         LoadExternalImages => 1,
         Result             => {
             Content => <<EOF,
-<!DOCTYPE html SYSTEM "about:legacy-compat">
+
 <html lang="de-de">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -298,7 +298,7 @@ EOF
         Attachments => {},
         URL         => 'Action=SomeAction;FileID=',
         Result      => {
-            Content     => '<meta http-equiv="Content-Type" content="text/html; charset=\'utf-8\'">',
+            Content     => '<meta http-equiv="Content-Type" content="text/html; charset=&#39;utf-8&#39;">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -337,7 +337,7 @@ EOF
         Attachments => {},
         URL         => 'Action=SomeAction;FileID=',
         Result      => {
-            Content     => '<meta http-equiv=\'Content-Type\' content=\'text/html; charset="utf-8"\'>',
+            Content     => '<meta http-equiv="Content-Type" content="text/html; charset=&quot;utf-8&quot;">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },

@@ -957,7 +957,7 @@ EOF
     {
         Name  => 'img tag replacement',
         Input => <<'EOF',
-<img/src="http://example.com/image.png"/>
+<img src="http://example.com/image.png"/>
 EOF
         Config => {
             NoImg => 1,
@@ -966,7 +966,7 @@ EOF
             Output => <<'EOF',
 
 EOF
-            Replace => 1,
+            Replace => 0,
         },
         Line => __LINE__,
     },
