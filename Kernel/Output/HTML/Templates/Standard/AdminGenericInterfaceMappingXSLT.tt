@@ -233,7 +233,7 @@
                                 </div>
                             </div>
 
-                            <textarea id="Template" name="Template" rows="20" cols="80" class="Validate_Required [% Data.TemplateError | html %]">[% Data.Template | html %]</textarea>
+                            <textarea id="Template" name="Template" rows="20" cols="80" class="CodeMirrorEditor Validate_Required [% Data.TemplateError | html %]">[% Data.Template | html %]</textarea>
                             <div id="TemplateServerError" class="TooltipErrorMessage">
                                 <p>[% Translate("The entered data is not a valid XSLT style sheet.") | html %]</p>
                             </div>

@@ -36,17 +36,27 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
      *      This function initializes the codemirror plugin.
      */
     TargetNS.Init = function () {
-        var Editor;
+        var Editor,
+            EditorElement = $('.CodeMirrorEditor')[0];
 
-        //Return if RichText editor is disabled
-        if (!Core.Config.Get('RichTextSet')) {
+        if ( !EditorElement ) {
             return;
+        }
+
+        var Mode = Core.Config.Get('EditorLanguageMode') || 'htmlmixed';
+        var Extensions = [];
+        switch(Mode) {
+            case 'text/x-yaml':
+                Extensions = ['yaml'];
+                break;
+            default:
+                Extensions = [];
         }
 
         try {
             //Create CodeMirror instance
-            Editor = CodeMirror.fromTextArea(document.getElementById("Template"), {
-                mode: "htmlmixed",
+            Editor = CodeMirror.fromTextArea(EditorElement, {
+                mode: Mode,
                 lineNumbers: true,
                 lineWrapping: true,
                 matchBrackets: true,
@@ -67,6 +77,7 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
                     "F11": function () { TargetNS.ToogleFullScreen('Maximize'); },
                     "Esc": function () { TargetNS.ToogleFullScreen('Exit'); }
                 },
+                extensions: Extensions,
             });
 
             $("#CMToolbarContainer").removeClass("Hidden");
@@ -83,27 +94,30 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
 
         //Initializate events
         if (Editor) {
-            $('#Template').data('CodeMirrorInstance', Editor);
+            $(EditorElement).data('CodeMirrorInstance', Editor);
 
             //Assign XSLT standard tags to HTML mixed hint list
-            Object.assign(CodeMirror.htmlSchema, XSLT_Tags());
+            if ( Mode == 'htmlmixed' ) {
+                Object.assign(CodeMirror.htmlSchema, XSLT_Tags());
+            }
 
             Editor.on('change', (Editor) => {
-                const TemplateLabel = $('label[for="Template"]');
-                $('#Template').val(Editor.doc.getValue());
+                const EditorLabel = $('label[for="' + $(EditorElement).attr('id') + '"]');
+                const EditorServerError = $('#' + $(EditorElement).attr('id') + 'ServerError');
+                $(EditorElement).val(Editor.doc.getValue());
 
-                if ($('#Template').val()) {
-                    $('#Template').removeClass('Error');
-                    $('#Template').removeClass('ServerError');
-                    $(TemplateLabel).removeClass('LabelError');
-                    $("#TemplateServerError").hide();
+                if ($(EditorElement).val()) {
+                    $(EditorElement).removeClass('Error');
+                    $(EditorElement).removeClass('ServerError');
+                    $(EditorLabel).removeClass('LabelError');
+                    $(EditorServerError).hide();
                 }
             });
 
-            if ( $('#Template').hasClass('ServerError') ) {
-                $("#TemplateServerError").addClass('Error');
-                $("#TemplateServerError").css('margin', '15px 0');
-                $("#TemplateServerError").show();
+            if ( $(EditorElement).hasClass('ServerError') ) {
+                $(EditorServerError).addClass('Error');
+                $(EditorServerError).css('margin', '15px 0');
+                $(EditorServerError).show();
             }
         }
     };
@@ -118,7 +132,7 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
     */
 
     function getInstance() {
-        return $('#Template').data('CodeMirrorInstance');
+        return $('.CodeMirrorEditor').data('CodeMirrorInstance');
     }
 
     /**
