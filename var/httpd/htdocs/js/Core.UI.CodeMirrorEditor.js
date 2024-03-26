@@ -44,14 +44,6 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
         }
 
         var Mode = Core.Config.Get('EditorLanguageMode') || 'htmlmixed';
-        var Extensions = [];
-        switch(Mode) {
-            case 'text/x-yaml':
-                Extensions = ['yaml'];
-                break;
-            default:
-                Extensions = [];
-        }
 
         try {
             //Create CodeMirror instance
@@ -64,6 +56,7 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
                 autoCloseBrackets: true,
                 showTrailingSpace: true,
                 foldGutter: true,
+                smartIndent: true,
                 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
                 extraKeys: {
                     "'<'": TargetNS.completeAfter,
@@ -77,8 +70,23 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
                     "F11": function () { TargetNS.ToogleFullScreen('Maximize'); },
                     "Esc": function () { TargetNS.ToogleFullScreen('Exit'); }
                 },
-                extensions: Extensions,
             });
+
+            switch(Mode) {
+                case 'text/x-yaml':
+                    Editor.setOption("indentUnit", 2);
+                    Editor.setOption("extensions", ['yaml']);
+                    Editor.setOption("extraKeys", {
+                        "Tab": function(cm) {
+                            var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                            cm.replaceSelection(spaces);
+                        }
+                    });
+                    break;
+                case 'htmlmixed':
+                    Editor.setOption("indentUnit", 4);
+                    break;
+            }
 
             $("#CMToolbarContainer").removeClass("Hidden");
         } catch (error) {
