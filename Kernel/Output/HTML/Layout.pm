@@ -32,9 +32,9 @@ use Plack::Response;
 use Plack::Util;
 
 # OTOBO modules
-use Kernel::System::VariableCheck  qw(:all);
+use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Web::Exception ();
-use Kernel::Language               qw(Translatable);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',

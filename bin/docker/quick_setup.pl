@@ -112,12 +112,12 @@ use lib "$Bin/../../Custom";
 
 # core modules
 use Getopt::Long qw(GetOptions);
-use Pod::Usage   qw(pod2usage);
-use Sub::Util    qw(subname);
+use Pod::Usage qw(pod2usage);
+use Sub::Util qw(subname);
 
 # CPAN modules
 use Path::Class qw(dir);
-use DBI         ();
+use DBI ();
 use Const::Fast qw(const);
 
 # OTOBO modules
@@ -146,7 +146,13 @@ sub Main {
         'add-customer-user'      => \$AddCustomerUser,
         'add-calendar'           => \$AddCalendar,
         'activate-sync-with-S3'  => \$ActivateSyncWithS3,
-    ) || pod2usage( { -exitval => 1, -verbose => 1 } );
+        )
+        || pod2usage(
+            {
+                -exitval => 1,
+                -verbose => 1
+            }
+        );
 
     if ($HelpFlag) {
         pod2usage(
