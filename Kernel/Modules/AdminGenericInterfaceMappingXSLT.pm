@@ -274,6 +274,10 @@ sub _ShowEdit {
                 RichTextType   => 'CodeMirror',
             },
         );
+        $LayoutObject->AddJSData(
+            Key   => 'EditorLanguageMode',
+            Value => 'htmlmixed',
+        );
     }
 
     # Render pre regex filters.
