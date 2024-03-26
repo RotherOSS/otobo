@@ -943,6 +943,11 @@ sub _ShowEdit {
     $Param{InputFieldDefinition} = $Param{ActivityDialogData}->{Config}->{InputFieldDefinition};
     $Param{DirectSubmit}         = $Param{ActivityDialogData}->{Config}->{DirectSubmit} ? ' checked' : '';
 
+    $LayoutObject->AddJSData(
+        Key   => 'EditorLanguageMode',
+        Value => 'text/x-yaml',
+    );
+
     my $Output = $LayoutObject->Header(
         Value => $Param{Title},
         Type  => 'Small',
