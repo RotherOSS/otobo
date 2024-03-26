@@ -314,7 +314,7 @@ sub EditFieldRender {
 
         # The actual value is the techical ID of the referenced object.
         # This might be empty e.g. in a ticket creation mask.
-        my $VisibleValue;
+        my $ValueEscaped;
         my $ReferencedObjectID = $Value->[$ValueIndex];
         if ($ReferencedObjectID) {
 
@@ -324,7 +324,7 @@ sub EditFieldRender {
                 ObjectID           => $ReferencedObjectID,
                 UserID             => 1,                     # TODO: what about Permission check
             );
-            $VisibleValue = $Param{LayoutObject}->Ascii2Html(
+            $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
                 Text => $Description{Long},
             );
         }
@@ -336,7 +336,7 @@ sub EditFieldRender {
                 %Error,
                 FieldID       => $FieldID,
                 Value         => ( $Value->[$ValueIndex] // '' ),
-                VisibleValue  => ( $VisibleValue         // '' ),
+                ValueEscaped  => ( $ValueEscaped         // '' ),
                 SelectionHTML => ( $DFDetails->{EditFieldMode} ne 'AutoComplete' ? $SelectionHTML[$ValueIndex] : undef ),
             },
         );
