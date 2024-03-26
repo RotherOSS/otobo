@@ -25,8 +25,8 @@ use utf8;
 # core modules
 use Term::ANSIColor ();
 use TAP::Harness    ();
-use List::Util qw(any shuffle uniq);
-use Sys::Hostname qw(hostname);
+use List::Util      qw(any shuffle uniq);
+use Sys::Hostname   qw(hostname);
 
 # CPAN modules
 

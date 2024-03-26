@@ -352,7 +352,7 @@ sub ArticleVersion {
                 FROM time_accounting
                 WHERE article_id = ?",
         Bind => [ \$Param{ArticleID} ]
-    );    
+    );
 
     return $NewArticleVersion;
 }
@@ -457,7 +457,7 @@ sub ArticleRestore {
                 FROM time_accounting_version
                 WHERE article_id = ?",
         Bind => [ \$ArticleVersionID ]
-    );      
+    );
 
     my $Success = $DBObject->Do(
         SQL  => "UPDATE ticket_history SET article_id = ? WHERE id IN (SELECT history_id FROM article_version_history WHERE article_id = ?) AND ticket_id = ?",
@@ -533,7 +533,7 @@ sub DeleteVersionData {
         );
         return;
     }
-    
+
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     my @VersionIDs;
     my %ArticleIDs;
@@ -545,19 +545,19 @@ sub DeleteVersionData {
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
         push @VersionIDs, $Row[0];
-        $ArticleIDs{$Row[1]} = $Row[1];
+        $ArticleIDs{ $Row[1] } = $Row[1];
     }
 
     #Delete history ids for deleted articles
-    foreach my $ArticleID ( keys %ArticleIDs ) {
+    for my $ArticleID ( keys %ArticleIDs ) {
         $DBObject->Do(
             SQL  => "DELETE FROM article_version_history WHERE article_id = ?",
             Bind => [ \$ArticleID ]
-        );  
+        );
     }
 
     #Delete version data
-    foreach my $ArticleVersionID (@VersionIDs) {
+    for my $ArticleVersionID (@VersionIDs) {
         $DBObject->Do(
             SQL  => "DELETE FROM article_data_mime_att_version WHERE article_id = ?",
             Bind => [ \$ArticleVersionID ]
@@ -581,7 +581,7 @@ sub DeleteVersionData {
         $DBObject->Do(
             SQL  => "DELETE FROM article_version WHERE id = ?",
             Bind => [ \$ArticleVersionID ]
-        );   
+        );
     }
 
     return @VersionIDs;

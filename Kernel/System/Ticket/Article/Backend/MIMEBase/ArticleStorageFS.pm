@@ -202,7 +202,7 @@ sub ArticleDelete {
         ArticleID        => $Param{ArticleID},
         UserID           => $Param{UserID},
         DeletedVersionID => $Param{DeletedVersionID} || 0,
-        VersionIDs       => $Param{VersionIDs} || undef
+        VersionIDs       => $Param{VersionIDs}       || undef
     );
 
     # Delete special article storage cache.

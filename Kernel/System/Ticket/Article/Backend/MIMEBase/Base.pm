@@ -302,8 +302,8 @@ sub _ArticleDeleteDirectory {
     );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
     if ( -d $Path ) {
-        foreach my $VersionID (@{$Param{VersionIDs}}) {
-            remove_tree($Path . '/'. $VersionID, { safe => 1 });
+        for my $VersionID ( @{ $Param{VersionIDs} } ) {
+            remove_tree( $Path . '/' . $VersionID, { safe => 1 } );
         }
 
         if ( !rmdir($Path) ) {
