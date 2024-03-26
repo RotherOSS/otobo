@@ -1026,10 +1026,13 @@ sub _ShowScreen {
         }
     }
 
-    $LayoutObject->AddJSData(
-        Key   => 'EditorLanguageMode',
-        Value => 'text/x-yaml',
-    );
+    # Add code mirror language mode.
+    if ( $Param{LayoutObject}->{BrowserRichText} ) {
+        $LayoutObject->AddJSData(
+            Key   => 'EditorLanguageMode',
+            Value => 'text/x-yaml',
+        );
+    }
 
     # generate output
     $Output .= $LayoutObject->Output(
