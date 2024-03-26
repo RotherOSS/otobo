@@ -31,7 +31,7 @@ use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
 # Safety tests
-my @Tests = (
+my @TestsWithDefaultConfig = (
     {
         Input  => 'Some Text',
         Result => {
@@ -912,7 +912,9 @@ END_OUTPUT
     },
 );
 
-for my $Test (@Tests) {
+for my $Test (@TestsWithDefaultConfig) {
+
+    # pass the default config
     my %Result = $HTMLUtilsObject->Safety(
         String       => $Test->{Input},
         NoApplet     => 1,
@@ -935,9 +937,9 @@ for my $Test (@Tests) {
     };
 }
 
-my @TestsWithConfig = (
+my @TestsWithExplicitConfig = (
     {
-        Name  => 'img tag with img/src, passes as NoJavaScript is not passed',
+        Name  => 'strange img tag "img/src" passes as NoJavaScript is not passed',
         Input => <<'EOF',
 img/src:<img/src="http://example.com/image.png"/>
 EOF
@@ -955,16 +957,19 @@ EOF
         Line => __LINE__,
     },
     {
-        Name  => 'img tag replacement',
+        # Todo: that NoJavaScript is needed to filter out strange tags does not make sense
+        Name  => 'strange img tag "img/src" is filtered out as NoJavaScript is passed',
         Input => <<'EOF',
-<img/src="http://example.com/image.png"/>
+line1:<img/src="http://example.com/image.png"/>
+line2:
 EOF
         Config => {
-            NoImg => 1,
+            NoJavaScript => 1,
         },
         Result => {
             Output => <<'EOF',
-
+line1:
+line2:
 EOF
             Replace => 1,
         },
@@ -1296,7 +1301,9 @@ END_SVG
     },
 );
 
-for my $Test (@TestsWithConfig) {
+for my $Test (@TestsWithExplicitConfig) {
+
+    # pass the explicit config
     my %Result = $HTMLUtilsObject->Safety(
         String => $Test->{Input},
         $Test->{Config}->%*,
