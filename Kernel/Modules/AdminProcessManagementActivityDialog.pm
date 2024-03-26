@@ -944,7 +944,7 @@ sub _ShowEdit {
     $Param{DirectSubmit}         = $Param{ActivityDialogData}->{Config}->{DirectSubmit} ? ' checked' : '';
 
     # Add code mirror language mode.
-    if ( $Param{LayoutObject}->{BrowserRichText} ) {
+    if ( $LayoutObject->{BrowserRichText} ) {
         $LayoutObject->AddJSData(
             Key   => 'EditorLanguageMode',
             Value => 'text/x-yaml',

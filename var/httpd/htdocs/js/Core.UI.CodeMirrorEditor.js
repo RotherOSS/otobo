@@ -109,9 +109,10 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
                 Object.assign(CodeMirror.htmlSchema, XSLT_Tags());
             }
 
+            var EditorServerError;
             Editor.on('change', (Editor) => {
                 const EditorLabel = $('label[for="' + $(EditorElement).attr('id') + '"]');
-                const EditorServerError = $('#' + $(EditorElement).attr('id') + 'ServerError');
+                EditorServerError = $('#' + $(EditorElement).attr('id') + 'ServerError');
                 $(EditorElement).val(Editor.doc.getValue());
 
                 if ($(EditorElement).val()) {
@@ -122,7 +123,7 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
                 }
             });
 
-            if ( $(EditorElement).hasClass('ServerError') ) {
+            if ( $(EditorElement).hasClass('ServerError') && EditorServerError !== undefined ) {
                 $(EditorServerError).addClass('Error');
                 $(EditorServerError).css('margin', '15px 0');
                 $(EditorServerError).show();
