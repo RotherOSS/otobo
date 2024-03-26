@@ -26,13 +26,13 @@ use utf8;
 use Digest::MD5 qw(md5_hex);
 
 # CPAN modules
-use URI::Escape         qw(uri_escape_utf8);
-use HTTP::Headers::Fast ();                    # is available as Plack requires it
+use URI::Escape qw(uri_escape_utf8);
+use HTTP::Headers::Fast ();    # is available as Plack requires it
 
 # OTOBO modules
-use Kernel::System::VariableCheck  qw(:all);
+use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Web::Exception ();
-use Kernel::Language               qw(Translatable);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
