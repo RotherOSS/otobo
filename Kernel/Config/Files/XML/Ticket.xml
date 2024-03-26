@@ -10249,6 +10249,49 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Loader::Module::AdminTicketMask###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>thirdparty/codemirror-5.65.16/lib/codemirror.css</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/hint/show-hint.css</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldgutter.css</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/dialog/dialog.css</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>thirdparty/codemirror-5.65.16/lib/codemirror.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/mode/yaml/yaml.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/hint/show-hint.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/edit/matchtags.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/edit/matchbrackets.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/edit/closetag.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/edit/closebrackets.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/search/searchcursor.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/search/search.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldcode.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/edit/trailingspace.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/selection/selection-pointer.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldgutter.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/brace-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/indent-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/fold/comment-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/comment/comment.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/comment/continuecomment.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/dialog/dialog.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/search/jump-to-line.js</Item>
+                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.js</Item>
+                        <Item>Core.UI.CodeMirrorEditor.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Frontend::Navigation###AdminTemplateAttachment###002-Ticket" Required="0" Valid="0">
         <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>

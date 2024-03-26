@@ -186,6 +186,14 @@ sub _MaskChange {
         Name => 'ActionOverview',
     );
 
+    # Add code mirror language mode.
+    if ( $Param{LayoutObject}->{BrowserRichText} ) {
+        $Param{LayoutObject}->AddJSData(
+            Key   => 'EditorLanguageMode',
+            Value => 'text/x-yaml',
+        );
+    }
+
     my $DefinitionHTML = $Param{LayoutObject}->Ascii2Html(
         Text => $Param{Definition},
     );
