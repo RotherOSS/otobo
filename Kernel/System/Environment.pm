@@ -270,6 +270,7 @@ sub PerlInfoGet {
             File::Slurp
             File::Slurp::Tiny
             Font::TTF
+            HTML::Scrubber
             HTTP::Message
             IO::Interactive
             IO::String

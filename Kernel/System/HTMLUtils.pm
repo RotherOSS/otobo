@@ -26,6 +26,7 @@ use utf8;
 use MIME::Base64 qw(decode_base64);    ## no perlimports
 
 # CPAN modules
+use HTML::Scrubber 0.20 ();
 
 # OTOBO modules
 
@@ -988,7 +989,6 @@ from HTML strings. All options are turned off by default
         NoIntSrcLoad   => 0,
         NoExtSrcLoad   => 1,
         NoJavaScript   => 1,
-        ReplacementStr => 'string',          # optional, string to show instead of applet, object, embed, svg and img tags
     );
 
 also string ref is possible
@@ -1038,17 +1038,19 @@ sub Safety {
         $String       = \$StringNonref;
     }
 
-    my %Safety;
+    # Detection of UTF-7 encoded '<' and '>' is no longer needed,
+    # as only ancient versions of IE were vulnerable.
+    # See https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html#utf-7-encoding
+    # my $TagStart = '(?:<|[+]ADw-)';
+    # my $TagEnd   = '(?:>|[+]AD4-)';
 
-    my $Replaced;
-
-    # In UTF-7, < and > can be encoded to mask them from security filters like this one.
-    my $TagStart = '(?:<|[+]ADw-)';
-    my $TagEnd   = '(?:>|[+]AD4-)';
+    my %Safety = (
+        Replace => 0,
+    );
 
     # This can also be entity-encoded to hide it from the parser.
     #   Browsers seem to tolerate an omitted ";".
-    my $JavaScriptPrefixRegex = '
+    my $JavaScriptPrefixRegex = qr/
         (?: j | &\#106[;]? | &\#x6a[;]? )
         (?: a | &\#97[;]?  | &\#x61[;]? )
         (?: v | &\#118[;]? | &\#x76[;]? )
@@ -1059,188 +1061,198 @@ sub Safety {
         (?: i | &\#105[;]? | &\#x69[;]? )
         (?: p | &\#112[;]? | &\#x70[;]? )
         (?: t | &\#116[;]? | &\#x74[;]? )
-    ';
+    /ix;
 
-    my $ExpressionPrefixRegex = '
-        (?: e | &\#101[;]? | &\#x65[;]? )
-        (?: x | &\#120[;]? | &\#x78[;]? )
-        (?: p | &\#112[;]? | &\#x70[;]? )
-        (?: r | &\#114[;]? | &\#x72[;]? )
-        (?: e | &\#101[;]? | &\#x65[;]? )
-        (?: s | &\#115[;]? | &\#x73[;]? )
-        (?: s | &\#115[;]? | &\#x73[;]? )
-        (?: i | &\#105[;]? | &\#x69[;]? )
-        (?: o | &\#111[;]? | &\#x6f[;]? )
-        (?: n | &\#110[;]? | &\#x6e[;]? )
-    ';
+    # The scrubber can be used to remove tags and attributes. Using the module
+    # avoids using error prone regexes. However there are some downsides. HTML::Scrubber
+    # can't drop a tag based on the existence of an attribute.
+    # Also note that the scrupper normalizes the HTML, e.g. consistently double quotes,
+    # lower case tags and attr names.
 
-    # Replace as many times as it is needed to avoid nesting tag attacks.
-    do {
-        $Replaced = undef;
+    # Drop the attributes 'src' and 'poster' depending on NoIntSrcLoad and NoExtSrcLoad.
+    my $ScrubberReplaced = 0;
+    my $TagHandler       = sub {
+        my ( $Event, $Tag, $Attr, $AttrSeq, $Text ) = @_;
 
-        # remove script tags
-        if ( $Param{NoJavaScript} ) {
-            $Replaced += ${$String} =~ s{
-                $TagStart script.*? $TagEnd .*?  $TagStart /script \s* $TagEnd
-            }
-            {}sgxim;
-            $Replaced += ${$String} =~ s{
-                $TagStart script.*? $TagEnd .+? ($TagStart|$TagEnd)
-            }
-            {}sgxim;
+        # only inspect start tags
+        return unless $Event eq 'start';
 
-            # remove style/javascript parts
-            $Replaced += ${$String} =~ s{
-                $TagStart style[^>]+? $JavaScriptPrefixRegex (.+?|) $TagEnd (.*?) $TagStart /style \s* $TagEnd
-            }
-            {}sgxim;
+        if ( $Param{NoIntSrcLoad} || $Param{NoExtSrcLoad} ) {
+            BLACK_LISTED:
+            for my $Blacklisted (qw(src poster)) {
 
-            # remove MS CSS expressions (JavaScript embedded in CSS)
-            ${$String} =~ s{
-                ($TagStart style[^>]+? $TagEnd .*? $TagStart /style \s* $TagEnd)
-            }
-            {
-                if ( index($1, 'expression(' ) > -1 ) {
-                    $Replaced = 1;
-                    '';
+                next BLACK_LISTED unless $Attr->{$Blacklisted};
+
+                if ( $Param{NoIntSrcLoad} ) {
+
+                    # drop the start tag;
+                    $ScrubberReplaced++;
+
+                    return '';    # discard the tag
                 }
-                else {
-                    $1;
-                }
-            }egsxim;
-        }
 
-        # remove HTTP redirects
-        $Replaced += ${$String} =~ s{
-            $TagStart meta [^>]+? http-equiv=('|"|)refresh [^>]+? $TagEnd
-        }
-        {}sgxim;
-
-        my $ReplacementStr = $Param{ReplacementStr} // '';
-
-        # remove <applet> tags
-        if ( $Param{NoApplet} ) {
-            $Replaced += ${$String} =~ s{
-                $TagStart applet.*? $TagEnd (.*?) $TagStart /applet \s* $TagEnd
-            }
-            {$ReplacementStr}sgxim;
-        }
-
-        # remove <Object> tags
-        if ( $Param{NoObject} ) {
-            $Replaced += ${$String} =~ s{
-                $TagStart object.*? $TagEnd (.*?) $TagStart /object \s* $TagEnd
-            }
-            {$ReplacementStr}sgxim;
-        }
-
-        # remove <svg> tags
-        if ( $Param{NoSVG} ) {
-            $Replaced += ${$String} =~ s{
-                $TagStart svg.*? $TagEnd (.*?) $TagStart /svg \s* $TagEnd
-            }
-            {$ReplacementStr}sgxim;
-        }
-
-        # remove <img> tags
-        if ( $Param{NoImg} ) {
-            $Replaced += ${$String} =~ s{
-                $TagStart img.*? (.*?) \s* $TagEnd
-            }
-            {$ReplacementStr}sgxim;
-        }
-
-        # remove <embed> tags
-        if ( $Param{NoEmbed} ) {
-            $Replaced += ${$String} =~ s{
-                $TagStart embed.*? $TagEnd
-            }
-            {$ReplacementStr}sgxim;
-        }
-
-        # check each html tag
-        ${$String} =~ s{
-            ($TagStart.+?$TagEnd)
-        }
-        {
-            my $Tag = $1;
-            if ($Param{NoJavaScript}) {
-
-                # remove on action attributes
-                $Replaced += $Tag =~ s{
-                    (?:\s|/) on[a-z]+\s*=("[^"]+"|'[^']+'|.+?)($TagEnd|\s)
-                }
-                {$2}sgxim;
-
-                # remove javascript in a href links or src links
-                $Replaced += $Tag =~ s{
-                    ((?:\s|;|/)(?:background|url|src|href)\s*=\s*)
-                    ('|"|)                                  # delimiter, can be empty
-                    (?:\s* $JavaScriptPrefixRegex .*?)      # javascript, followed by anything but the delimiter
-                    \2                                      # delimiter again
-                    (\s|$TagEnd)
-                }
-                {
-                    "$1\"\"$3";
-                }sgxime;
-
-                # remove link javascript tags
-                $Replaced += $Tag =~ s{
-                    ($TagStart link .+? $JavaScriptPrefixRegex (.+?|) $TagEnd)
-                }
-                {}sgxim;
-
-                # remove MS CSS expressions (JavaScript embedded in CSS)
-                $Replaced += $Tag =~ s{
-                    \sstyle=("|')[^\1]*? $ExpressionPrefixRegex [(].*?\1($TagEnd|\s)
-                }
-                {
-                    $2;
-                }egsxim;
-            }
-
-            # Remove malicious CSS content
-            $Tag =~ s{
-                (\s)style=("|') (.*?) \2
-            }
-            {
-                my ($Space, $Delimiter, $Content) = ($1, $2, $3);
-
+                # the NoExtSrcLoad case
                 if (
-                    ($Param{NoIntSrcLoad} && $Content =~ m{url\(})
-                    || ($Param{NoExtSrcLoad} && $Content =~ m/(http|ftp|https):\//i)) {
-                    $Replaced = 1;
-                    '';
-                }
-                else {
-                    "${Space}style=${Delimiter}${Content}${Delimiter}";
-                }
-            }egsxim;
-
-            # remove load tags
-            if ($Param{NoIntSrcLoad} || $Param{NoExtSrcLoad}) {
-                $Tag =~ s{
-                    ($TagStart (.+?) (?: \s | /) (?:src|poster)=(.+?) (\s.+?|) $TagEnd)
-                }
+                    $Attr->{$Blacklisted} =~ m/(?:http|ftp|https):/i    # external URL
+                    ||
+                    $Attr->{$Blacklisted} =~ m!//!                      # protocol relative external URL
+                    )
                 {
-                    my $URL = $3;
-                    if ($Param{NoIntSrcLoad} || ($Param{NoExtSrcLoad} && $URL =~ /(http|ftp|https):\//i)) {
-                        $Replaced = 1;
-                        '';
-                    }
-                    else {
-                        $1;
-                    }
-                }segxim;
+                    # drop the start tag;
+                    # The replace count is used for confirmation of external source load
+                    $ScrubberReplaced++;
+
+                    return '';    # discard the tag
+                }
+            }
+        }
+
+        if ( $Param{NoJavaScript} ) {
+
+            # consider non-alpha, non-digit chars in the tag as suspicious
+            # e.g. <SCRIPT/XSS SRC="http://xss.rocks/xss.js"></SCRIPT>
+            if ( $Tag =~ m/[^a-zA-Z0-9]/ ) {
+                $ScrubberReplaced++;
+
+                return '';    # discard the tag
             }
 
-            # replace original tag with clean tag
-            $Tag;
-        }segxim;
+            # remove HTTP redirects in meta tags
+            if ( $Tag eq 'meta' && $Attr->{'http-equiv'} && $Attr->{'http-equiv'} =~ m/refresh/i ) {
+                $ScrubberReplaced++;
 
-        $Safety{Replace} += $Replaced;
+                return '';    # discard the tag
+            }
 
-    } while ($Replaced);
+            # <SCRIPT/SRC="http://ha.ckers.org/xss.js"></SCRIPT>
+            # is parsed by HTML::Parser as the tag "script/src=\"http://ha.ckers.org/xss.js\""
+            # but browser might interpret it as a script tag
+            if ( $Tag =~ m/script/i ) {
+                $ScrubberReplaced++;
+
+                return '';    # discard the tag
+            }
+
+            if ( $Tag =~ m/link/i && $Text =~ $JavaScriptPrefixRegex ) {
+                $ScrubberReplaced++;
+
+                return '';    # discard the tag
+            }
+        }
+
+        return;               # continue processing with the rule based scrubbing
+    };
+
+    # HTML::Scrubber works with callback subs. The callbacks for attributes
+    # receive the following arguments: the current object, tag name, attribute name, and attribute value.
+
+    my $DefaultAttributeHandler = sub {
+        my ( undef, undef, $AttrName, $AttrValue ) = @_;
+
+        # TODO: disregard strange attribute names like '-st\0range'
+
+        if ( $Param{NoJavaScript} ) {
+
+            # remove on event attributes, even when preceeded by nonsense
+            if ( $AttrName =~ m/^ [^a-zA-Z0-9]* on/ix ) {
+                $ScrubberReplaced++;
+
+                return ();    # empty list drops the attribute
+            }
+        }
+
+        # otherwise keep the unchanged value
+        return $AttrValue;
+    };
+
+    my $StyleHandler = sub {
+        my ( undef, undef, undef, $AttrValue ) = @_;
+
+        if (
+            ( $Param{NoIntSrcLoad} && $AttrValue =~ m{url\(}i )
+            ||
+            ( $Param{NoExtSrcLoad} && $AttrValue =~ m/(http|ftp|https):/i )    # external URLs
+            ||
+            ( $Param{NoExtSrcLoad} && $AttrValue =~ m!//!i )                   # protocol relative URLs
+            )
+        {
+            $ScrubberReplaced++;
+
+            return ();                                                         # empty list drops the attribute
+        }
+
+        # keep the unchanged value
+        return $AttrValue;
+    };
+
+    my $CheckJavaScriptHander = sub {
+        my ( undef, undef, undef, $AttrValue ) = @_;
+
+        if ( $Param{NoJavaScript} ) {
+
+            # javascript at beginning of attribute value
+            if ( $AttrValue =~ m/^\s* $JavaScriptPrefixRegex/ix ) {
+                $ScrubberReplaced++;
+
+                return '';    # return empty string as this reproduces the legacy behavior
+            }
+        }
+
+        # keep the unchanged value
+        return $AttrValue;
+    };
+
+    my $Scrubber = HTML::Scrubber->new(
+        preempt => $TagHandler,
+        default => [
+
+            # allow all tags per default
+            1,
+
+            # special handling for the 'style' attribute, otherwise keep all attributes
+            #
+            {
+                '*'        => $DefaultAttributeHandler,    # filter out the onEVENT handlers
+                style      => $StyleHandler,
+                background => $CheckJavaScriptHander,
+                url        => $CheckJavaScriptHander,
+                src        => $CheckJavaScriptHander,
+                href       => $CheckJavaScriptHander,
+            }
+        ],
+    );
+
+    # for some reason stype and script are not handled by new()
+    $Scrubber->style(1);                                  # style tags should not be filtered by HTML::Parser
+    $Scrubber->script( $Param{NoJavaScript} ? 0 : 1 );    # let HTML::Parser filter script tags
+
+    # remove <applet> tags
+    if ( $Param{NoApplet} ) {
+        $Scrubber->deny('applet');
+    }
+
+    # remove <Object> tags
+    if ( $Param{NoObject} ) {
+        $Scrubber->deny( 'object', 'param' );
+    }
+
+    # remove <svg> tags
+    if ( $Param{NoSVG} ) {
+        $Scrubber->deny('svg');
+    }
+
+    # remove <img> tags
+    if ( $Param{NoImg} ) {
+        $Scrubber->deny('img');
+    }
+
+    # remove <embed> tags
+    if ( $Param{NoEmbed} ) {
+        $Scrubber->deny('embed');
+    }
+
+    $String->$* = $Scrubber->scrub( $String->$* );
+    $Safety{Replace} += $ScrubberReplaced;    # total count
 
     # check ref && return result like called
     $Safety{String} = defined $StringNonref ? $String->$* : $String;
