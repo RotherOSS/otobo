@@ -27,8 +27,6 @@ use LWP::UserAgent ();
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
-our $Self;
-
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
 
@@ -66,40 +64,43 @@ my $FormID            = $UploadCacheObject->FormIDCreate();
 my $CheckUpload = sub {
     my %Param = @_;
 
-    $Self->Is(
-        $Response->code(),
-        200,
-        "Response status is successful",
-    );
+    my $Response = $Param{Response};
 
-    my $Method = $Param{Successful} ? 'True' : 'False';
-
-    $Self->$Method(
-        scalar $Response->content() =~ m{Action=PictureUpload},
-        "Response check for link to uploaded image",
-    );
+    is( $Response->code, 200, "Response status is successful" );
 
     if ( $Param{Successful} ) {
+        like(
+            scalar $Response->content,
+            qr{Action=PictureUpload},
+            "Response check for link to uploaded image",
+        );
         my ($ContentID) = $Response->content() =~ m{ContentID=(.*?)"};
 
-        $Response = $UserAgent->get("${BaseURL}Action=PictureUpload;FormID=$FormID;ContentID=$ContentID");
+        my $ContentResponse = $UserAgent->get("${BaseURL}Action=PictureUpload;FormID=$FormID;ContentID=$ContentID");
 
-        $Self->Is(
-            $Response->content(),
+        is(
+            $ContentResponse->content,
             $Param{Content},
             'Response content',
         );
 
-        $Self->Is(
-            substr( $Response->header('Content-Type'), 0, 6 ),
+        is(
+            substr( $ContentResponse->header('Content-Type'), 0, 6 ),
             'image/',
             'Response content type',
+        );
+    }
+    else {
+        unlike(
+            scalar $Response->content,
+            qr{Action=PictureUpload},
+            "Response check for link to uploaded image, no link is expected",
         );
     }
 };
 
 # Upload image correctly and verify it.
-$Response = $UserAgent->post(
+my $ResponseTest1 = $UserAgent->post(
     $BaseURL,
     Content_Type => 'form-data',
     Content      => {
@@ -114,12 +115,13 @@ $Response = $UserAgent->post(
 );
 
 $CheckUpload->(
+    Response   => $ResponseTest1,
     Successful => 1,
     Content    => '123'
 );
 
 # Upload image with wrong content-type, must fail.
-$Response = $UserAgent->post(
+my $ResponseTest2 = $UserAgent->post(
     $BaseURL,
     Content_Type => 'form-data',
     Content      => {
@@ -133,7 +135,10 @@ $Response = $UserAgent->post(
     }
 );
 
-$CheckUpload->( Successful => 0 );
+$CheckUpload->(
+    Response   => $ResponseTest2,
+    Successful => 0
+);
 
 # Store image with wrong content-type and verify that it is not served by the application.
 my $ContentID = 'inline695415.287823406.1544532925.8063442.1111111111@unittest.local';
@@ -146,10 +151,10 @@ $UploadCacheObject->FormIDAddFile(
     Disposition => 'inline',       # optional
 );
 
-$Response = $UserAgent->get("${BaseURL}Action=PictureUpload;FormID=$FormID;ContentID=$ContentID");
-$Self->True(
+my $ResponseTest3 = $UserAgent->get("${BaseURL}Action=PictureUpload;FormID=$FormID;ContentID=$ContentID");
+ok(
     index(
-        $Response->content(),
+        $ResponseTest3->content(),
         q|CKEDITOR.tools.callFunction(0, '', "The file is not an image that can be shown inline!"|
     ) > -1,
     'Response check for CKEditor error handler',
@@ -174,7 +179,7 @@ my $EscapedContentSVG = <<'EOF';
 EOF
 
 # Upload svg image with png file and script element.
-$Response = $UserAgent->post(
+my $ResponseTest4 = $UserAgent->post(
     $BaseURL,
     Content_Type => 'form-data',
     Content      => {
@@ -189,8 +194,9 @@ $Response = $UserAgent->post(
 );
 
 $CheckUpload->(
+    Response   => $ResponseTest4,
     Successful => 1,
     Content    => $EscapedContentSVG,
 );
 
-$Self->DoneTesting();
+done_testing;

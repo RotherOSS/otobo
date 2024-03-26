@@ -646,6 +646,10 @@ sub Redirect {
             $RedirectURL .= $Param{OP};
         }
 
+        # trimming, just to be on the safe side
+        $RedirectURL =~ s/^\s+//;
+        $RedirectURL =~ s/\s+$//;
+
         # add session id to the redirect URL when appropriate
         if (
             !$Self->{SessionIDCookie}                             # there in no session cookie yet

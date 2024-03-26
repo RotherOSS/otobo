@@ -16,8 +16,16 @@
 
 package Kernel::Modules::PictureUpload;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -25,10 +33,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -51,6 +56,7 @@ sub Run {
                 CKEditorFuncNum => $CKEditorFuncNum,
             },
         );
+
         return $LayoutObject->Attachment(
             ContentType => 'text/html; charset=' . $Charset,
             Content     => $LayoutObject->Output( TemplateFile => 'PictureUpload' ),
@@ -85,6 +91,7 @@ sub Run {
                         CKEditorFuncNum => $CKEditorFuncNum,
                     },
                 );
+
                 return $LayoutObject->Attachment(
                     ContentType => 'text/html; charset=' . $Charset,
                     Content     => $LayoutObject->Output( TemplateFile => 'PictureUpload' ),
@@ -131,6 +138,7 @@ sub Run {
                 CKEditorFuncNum => $CKEditorFuncNum,
             },
         );
+
         return $LayoutObject->Attachment(
             ContentType => 'text/html; charset=' . $Charset,
             Content     => $LayoutObject->Output( TemplateFile => 'PictureUpload' ),
@@ -147,6 +155,7 @@ sub Run {
                 CKEditorFuncNum => $CKEditorFuncNum,
             },
         );
+
         return $LayoutObject->Attachment(
             ContentType => 'text/html; charset=' . $Charset,
             Content     => $LayoutObject->Output( TemplateFile => 'PictureUpload' ),
@@ -251,6 +260,7 @@ sub Run {
             URL             => $URL,
         },
     );
+
     return $LayoutObject->Attachment(
         ContentType => 'text/html; charset=' . $Charset,
         Content     => $LayoutObject->Output( TemplateFile => 'PictureUpload' ),

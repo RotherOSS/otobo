@@ -371,6 +371,12 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.06',
         },
         {
+            'Comment'         => 'needed by HTMLUtils, contains adaption by OTOBO',
+            'Module'          => 'HTML::Scrubber',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.20',
+        },
+        {
             'Comment'         => 'needed by console commands',
             'Module'          => 'IO::Interactive',
             'Required'        => 1,
