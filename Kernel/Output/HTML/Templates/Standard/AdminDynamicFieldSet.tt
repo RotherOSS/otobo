@@ -192,7 +192,19 @@
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="Include"><span class="Marker">*</span>[% Translate("Dynamic Fields") | html %]:</label>
                         <div class="Field">
-                            <textarea id="Include" class="W50pc [% Data.IncludeServerError | html %]" rows="10" cols="60" name="Include">[% Data.Include | html %]</textarea>
+                            <div id="CMToolbarContainer" class="CMToolbarContainer Hidden">
+                                <div id="CMToolbarIcons" class="CMToolbarIcons">
+                                    <div title="[% Translate("Auto Indent Code") | html %]" class="CMIndent" onclick="Core.UI.CodeMirrorEditor.IndentCode();"></div>
+                                    <div title="[% Translate("Comment/Uncomment Code") | html %]" class="CMComment" onclick="Core.UI.CodeMirrorEditor.ToogleComment();"></div>
+                                    <div title="[% Translate("Search") | html %]" class="CMSearch" onclick="Core.UI.CodeMirrorEditor.Search();"></div>
+                                    <div title="[% Translate("Search & Replace") | html %]" class="CMSearchReplace" onclick="Core.UI.CodeMirrorEditor.SearchReplace();"></div>
+                                    <div title="[% Translate("Select All") | html %]" class="CMSelectAll" onclick="Core.UI.CodeMirrorEditor.SelectAll();"></div>
+                                    <div title="[% Translate("Full Screen") | html %]" class="CMMaximize" onclick="Core.UI.CodeMirrorEditor.ToogleFullScreen('Maximize');"></div>
+                                </div>
+                            </div>
+
+                            <textarea id="Include" class="CodeMirrorEditor W50pc [% Data.IncludeServerError | html %]" rows="10" cols="60" name="Include">[% Data.Include | html %]</textarea>
+
                             <div id="IncludeError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="IncludeServerError" class="TooltipErrorMessage"><p>[% Translate(Data.IncludeServerErrorMessage) | html %]</p></div>
                             <p class="FieldExplanation">[% Translate("The YAML array of included dynamic fields. Syntax: '--- [{DF: Name},...]'") | html %]</p>
