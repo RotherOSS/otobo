@@ -1026,6 +1026,11 @@ sub _ShowScreen {
         }
     }
 
+    $LayoutObject->AddJSData(
+        Key   => 'EditorLanguageMode',
+        Value => 'text/x-yaml',
+    );
+
     # generate output
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminDynamicFieldSet',
