@@ -732,16 +732,6 @@ sub _ShowScreen {
         Class         => 'Modernize W75pc Validate_Number',
     );
 
-    my $MultiValueStrg = $LayoutObject->BuildSelection(
-        Data => {
-            0 => Translatable('No'),
-            1 => Translatable('Yes'),
-        },
-        Name       => 'MultiValue',
-        SelectedID => $Param{MultiValue} || '0',
-        Class      => 'Modernize W50pc',
-    );
-
     my $NamespaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
     if ( IsArrayRefWithData($NamespaceList) ) {
         my $NamespaceStrg = $LayoutObject->BuildSelection(
@@ -931,7 +921,6 @@ sub _ShowScreen {
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             YearsPeriodStrg       => $YearsPeriodStrg,
             DateRestrictionStrg   => $DateRestrictionStrg,
-            MultiValueStrg        => $MultiValueStrg,
             ClassYearsPeriod      => $ClassYearsPeriod,
             DefaultValue          => $DefaultValue,
             YearsInFuture         => $YearsInFuture,

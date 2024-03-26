@@ -203,13 +203,6 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="MultiValue">[% Translate("Multiple Values") | html %]:</label>
-                        <div class="Field">
-                            [% Data.MultiValueStrg %]
-                            <p class="FieldExplanation">[% Translate("Activate this option to allow multiple values for this field.") | html %]</p>
-                        </div>
-                        <div class="Clear"></div>
-
                     </fieldset>
                 </div>
             </div>
