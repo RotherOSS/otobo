@@ -1260,6 +1260,40 @@ You should be able to continue reading these lessons, however.
         },
         Line => __LINE__,
     },
+    {
+        # svg attachments might contain XML declaration and DOCTYPE declaration
+        Name  => 'svg with XML and DOCTYPE declarations',
+        Todo  => 'it is not clear how to handle declarations in the PictureUpload frontend',
+        Input => <<'END_SVG',
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
+<polygon id="triangle" points="0,0 0,50 50,0" fill="#009900" stroke="#004400"/>
+</svg>
+END_SVG
+        Config => {
+            NoApplet     => 1,
+            NoObject     => 1,
+            NoEmbed      => 1,
+            NoSVG        => 0,
+            NoIntSrcLoad => 0,
+            NoExtSrcLoad => 0,
+            NoJavaScript => 1,
+        },
+        Result => {
+            Replace => 0,
+            Output  => <<'END_SVG',
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
+<polygon id="triangle" points="0,0 0,50 50,0" fill="#009900" stroke="#004400"/>
+</svg>
+END_SVG
+        },
+        Line => __LINE__,
+    },
 );
 
 for my $Test (@TestsWithConfig) {
@@ -1269,6 +1303,9 @@ for my $Test (@TestsWithConfig) {
     );
 
     subtest "$Test->{Name} (line @{[ $Test->{Line} // '???' ]})" => sub {
+
+        my $ToDo = $Test->{Todo} ? todo( $Test->{Todo} ) : undef;
+
         if ( $Test->{Result}->{Replace} ) {
             ok( $Result{Replace}, 'replaced' );
         }
