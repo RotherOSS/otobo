@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM and $main::Self
 
 # This setting will be picked up whenever an instance of Kernel::System::Web::Request is created.
 local $ENV{SCRIPT_NAME} = 'index.pl';
@@ -45,6 +49,7 @@ $Helper->ConfigSettingChange(
 
 my @Tests = (
     {
+        Line => __LINE__,
         Name => '',
         Data => {
             Content     => '<img src="cid:1234567890ABCDEF">',
@@ -62,6 +67,7 @@ my @Tests = (
         },
     },
     {
+        Line => __LINE__,
         Name => '',
         Data => {
             Content     => "<img border=\"0\" src=\"cid:1234567890ABCDEF\">",
@@ -80,6 +86,7 @@ my @Tests = (
         },
     },
     {
+        Line => __LINE__,
         Name => '',
         Data => {
             Content     => "<img border=\"0\" \nsrc=\"cid:1234567890ABCDEF\">",
@@ -98,6 +105,7 @@ my @Tests = (
         },
     },
     {
+        Line => __LINE__,
         Name => '',
         Data => {
             Content     => '<img src=cid:1234567890ABCDEF>',
@@ -116,6 +124,7 @@ my @Tests = (
         },
     },
     {
+        Line => __LINE__,
         Name => '',
         Data => {
             Content     => '<img src=cid:1234567890ABCDEF />',
@@ -134,6 +143,7 @@ my @Tests = (
         },
     },
     {
+        Line => __LINE__,
         Name => '',
         Data => {
             Content     => '<img src=\'cid:1234567890ABCDEF\' />',
@@ -152,6 +162,7 @@ my @Tests = (
         },
     },
     {
+        Line => __LINE__,
         Name => '',
         Data => {
             Content     => '<img src=\'Untitled%20Attachment\' />',
@@ -170,6 +181,7 @@ my @Tests = (
         },
     },
     {
+        Line => __LINE__,
         Name => 'drop script tag',
         Data => {
             Content     => '1<script></script>',
@@ -187,6 +199,7 @@ my @Tests = (
         },
     },
     {
+        Line => __LINE__,
         Name => 'keep script tag',
         Data => {
             Content     => '1<script></script>',
@@ -205,6 +218,7 @@ my @Tests = (
         },
     },
     {
+        Line => __LINE__,
         Name => 'drop external image',
         Data => {
             Content     => '1<img src="http://google.com"/>',
@@ -230,6 +244,7 @@ my @Tests = (
         },
     },
     {
+        Line => __LINE__,
         Name => 'keep external image',
         Data => {
             Content     => '1<img src="http://google.com"/>',
@@ -248,9 +263,10 @@ my @Tests = (
         },
     },
     {
+        Line => __LINE__,
         Name => 'transform content charset',
         Data => {
-            Content => <<EOF,
+            Content => <<'EOF',
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html lang="de-de">
 <head>
@@ -273,7 +289,7 @@ EOF
         },
         LoadExternalImages => 1,
         Result             => {
-            Content => <<EOF,
+            Content => <<'EOF',
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html lang="de-de">
 <head>
@@ -290,6 +306,7 @@ EOF
         },
     },
     {
+        Line => __LINE__,
         Name => 'Charset - iso-8859-1',
         Data => {
             Content     => '<meta http-equiv="Content-Type" content="text/html; charset=\'iso-8859-1\'">',
@@ -303,6 +320,7 @@ EOF
         },
     },
     {
+        Line => __LINE__,
         Name => 'Charset - Windows-1252',
         Data => {
             Content     => '<meta http-equiv="Content-Type" content="text/html;charset=Windows-1252">',
@@ -316,6 +334,7 @@ EOF
         },
     },
     {
+        Line => __LINE__,
         Name => 'Charset - utf-8',
         Data => {
             Content     => '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">',
@@ -329,6 +348,7 @@ EOF
         },
     },
     {
+        Line => __LINE__,
         Name => 'Charset - double quotes',
         Data => {
             Content     => '<meta http-equiv=\'Content-Type\' content=\'text/html; charset="utf-8"\'>',
@@ -342,6 +362,7 @@ EOF
         },
     },
     {
+        Line => __LINE__,
         Name => 'Charset - no charset defined, see bug#9610',
         Data => {
             Content     => '<meta http-equiv="Content-Type" content="text/html">',
@@ -355,6 +376,7 @@ EOF
         },
     },
     {
+        Line => __LINE__,
         Name => 'Empty Content-ID',
         Data => {
             Content     => 'Link <a href="http://test.example">http://test.example</a>',
@@ -375,19 +397,21 @@ EOF
 );
 
 for my $Test (@Tests) {
-    my %HTML = $LayoutObject->RichTextDocumentServe(
-        %{$Test},
-    );
-    $Self->Is(
-        $HTML{Content},
-        $Test->{Result}->{Content},
-        "$Test->{Name} - Content"
-    );
-    $Self->Is(
-        $HTML{ContentType},
-        $Test->{Result}->{ContentType},
-        "$Test->{Name} - ContentType"
-    );
+    subtest "$Test->{Name} (line @{[ $Test->{Line} // '???' ]})" => sub {
+        my %HTML = $LayoutObject->RichTextDocumentServe(
+            $Test->%*,
+        );
+        is(
+            $HTML{Content},
+            $Test->{Result}->{Content},
+            "Content"
+        );
+        is(
+            $HTML{ContentType},
+            $Test->{Result}->{ContentType},
+            'ContentType'
+        );
+    };
 }
 
-$Self->DoneTesting();
+done_testing;
