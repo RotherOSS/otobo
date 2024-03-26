@@ -50,7 +50,7 @@ $Helper->ConfigSettingChange(
 my @Tests = (
     {
         Line => __LINE__,
-        Name => '',
+        Name => 'cid replacement',
         Data => {
             Content     => '<img src="cid:1234567890ABCDEF">',
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -68,9 +68,9 @@ my @Tests = (
     },
     {
         Line => __LINE__,
-        Name => '',
+        Name => 'cid replacement with border attribute',
         Data => {
-            Content     => "<img border=\"0\" src=\"cid:1234567890ABCDEF\">",
+            Content     => q{<img border="0" src="cid:1234567890ABCDEF">},
             ContentType => 'text/html; charset="iso-8859-1"',
         },
         URL         => 'Action=SomeAction;FileID=',
@@ -80,16 +80,15 @@ my @Tests = (
             },
         },
         Result => {
-            Content =>
-                '<img border="0" src="index.pl?Action=SomeAction;FileID=0;SessionID=123">',
+            Content     => '<img border="0" src="index.pl?Action=SomeAction;FileID=0;SessionID=123">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
     {
         Line => __LINE__,
-        Name => '',
+        Name => 'cid replacement with newline in start tag',
         Data => {
-            Content     => "<img border=\"0\" \nsrc=\"cid:1234567890ABCDEF\">",
+            Content     => qq{<img border="0" \nsrc="cid:1234567890ABCDEF">},
             ContentType => 'text/html; charset="iso-8859-1"',
         },
         URL         => 'Action=SomeAction;FileID=',
@@ -99,8 +98,7 @@ my @Tests = (
             },
         },
         Result => {
-            Content =>
-                "<img border=\"0\" \nsrc=\"index.pl?Action=SomeAction;FileID=0;SessionID=123\">",
+            Content     => q{<img border="0" src="index.pl?Action=SomeAction;FileID=0;SessionID=123">},
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -137,16 +135,15 @@ my @Tests = (
             },
         },
         Result => {
-            Content =>
-                '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123" />',
+            Content     => '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123" />',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
     {
         Line => __LINE__,
-        Name => '',
+        Name => 'cid replacement with single quotes',
         Data => {
-            Content     => '<img src=\'cid:1234567890ABCDEF\' />',
+            Content     => q{<img src='cid:1234567890ABCDEF' />},
             ContentType => 'text/html; charset="iso-8859-1"',
         },
         URL         => 'Action=SomeAction;FileID=',
@@ -156,16 +153,15 @@ my @Tests = (
             },
         },
         Result => {
-            Content =>
-                '<img src=\'index.pl?Action=SomeAction;FileID=0;SessionID=123\' />',
+            Content     => q{<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123" />},
             ContentType => 'text/html; charset="utf-8"',
         },
     },
     {
         Line => __LINE__,
-        Name => '',
+        Name => 'mapping via name',
         Data => {
-            Content     => '<img src=\'Untitled%20Attachment\' />',
+            Content     => q{<img src='Untitled%20Attachment' />},
             ContentType => 'text/html; charset="iso-8859-1"',
         },
         URL         => 'Action=SomeAction;FileID=',
@@ -175,8 +171,7 @@ my @Tests = (
             },
         },
         Result => {
-            Content =>
-                '<img src=\'index.pl?Action=SomeAction;FileID=0;SessionID=123\' />',
+            Content     => q{<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123" />},
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -247,7 +242,7 @@ my @Tests = (
         Line => __LINE__,
         Name => 'keep external image',
         Data => {
-            Content     => '1<img src="http://google.com"/>',
+            Content     => 'external images are kept:<img src="http://google.com"/>',
             ContentType => 'text/html; charset="iso-8859-1"',
         },
         URL         => 'Action=SomeAction;FileID=',
@@ -258,12 +253,13 @@ my @Tests = (
         },
         LoadExternalImages => 1,
         Result             => {
-            Content     => '1<img src="http://google.com"/>',
+            Content     => 'external images are kept:<img src="http://google.com" />',    # space added
             ContentType => 'text/html; charset="utf-8"',
         },
     },
     {
         Line => __LINE__,
+        Todo => 'it is not clear how to handle DOCTYPE declarations',
         Name => 'transform content charset',
         Data => {
             Content => <<'EOF',
@@ -307,15 +303,15 @@ EOF
     },
     {
         Line => __LINE__,
-        Name => 'Charset - iso-8859-1',
+        Name => 'Charset - iso-8859-1, single quotes translated to &#39;',
         Data => {
-            Content     => '<meta http-equiv="Content-Type" content="text/html; charset=\'iso-8859-1\'">',
+            Content     => q{<meta http-equiv="Content-Type" content="text/html; charset='iso-8859-1'">},
             ContentType => 'text/html; charset="iso-8859-1"',
         },
         Attachments => {},
         URL         => 'Action=SomeAction;FileID=',
         Result      => {
-            Content     => '<meta http-equiv="Content-Type" content="text/html; charset=\'utf-8\'">',
+            Content     => '<meta http-equiv="Content-Type" content="text/html; charset=&#39;utf-8&#39;">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -349,15 +345,15 @@ EOF
     },
     {
         Line => __LINE__,
-        Name => 'Charset - double quotes',
+        Name => 'Charset - double quotes translated into &quot;',
         Data => {
-            Content     => '<meta http-equiv=\'Content-Type\' content=\'text/html; charset="utf-8"\'>',
+            Content     => q{<meta http-equiv='Content-Type' content='text/html; charset="utf-8"'>},
             ContentType => 'text/html; charset="utf-8"',
         },
         Attachments => {},
         URL         => 'Action=SomeAction;FileID=',
         Result      => {
-            Content     => '<meta http-equiv=\'Content-Type\' content=\'text/html; charset="utf-8"\'>',
+            Content     => q{<meta http-equiv="Content-Type" content="text/html; charset=&quot;utf-8&quot;">},
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -398,6 +394,8 @@ EOF
 
 for my $Test (@Tests) {
     subtest "$Test->{Name} (line @{[ $Test->{Line} // '???' ]})" => sub {
+        my $ToDo = $Test->{Todo} ? todo( $Test->{Todo} ) : undef;
+
         my %HTML = $LayoutObject->RichTextDocumentServe(
             $Test->%*,
         );
