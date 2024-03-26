@@ -76,7 +76,7 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
                 case 'text/x-yaml':
                     Editor.setOption("indentUnit", 2);
                     Editor.setOption("extensions", ['yaml']);
-                    Editor.setOption("extraKeys", {
+                    Object.assign(Editor.options.extraKeys, {
                         "Tab": function(cm) {
                             var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
                             cm.replaceSelection(spaces);
