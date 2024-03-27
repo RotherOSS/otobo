@@ -315,7 +315,7 @@ sub SearchObjects {
     my %SearchParams;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     if ( $ConfigObject->Get('Ticket::Type') ) {
-        if ( $DynamicFieldConfig->{Config}->{TicketType} ) {
+        if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}->{TicketType} ) ) {
             $SearchParams{TypeIDs} = $DynamicFieldConfig->{Config}->{TicketType};
         }
     }
