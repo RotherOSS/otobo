@@ -885,6 +885,7 @@ EOF
         Line => __LINE__,
     },
     {
+        Name  => 'external image with / in tab name will be filtered',
         Input => <<'EOF',
 <img/src="http://example.com/image.png"/>
 EOF
@@ -894,7 +895,6 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'external image with / separator',
         Line => __LINE__,
     },
     {
@@ -939,9 +939,9 @@ for my $Test (@TestsWithDefaultConfig) {
 
 my @TestsWithExplicitConfig = (
     {
-        Name  => 'strange img tag "img/src" passes as NoJavaScript is not passed',
+        Name  => 'tag "img/src" filtered out even when not recognized as image',
         Input => <<'EOF',
-img/src:<img/src="http://example.com/image.png"/>
+img/src:<img/src="http://example.com/image.png"/>filtered out
 EOF
         Config => {
             NoImg => 1,
@@ -950,17 +950,16 @@ EOF
 
             # note the inserted space befor '/>'
             Output => <<'EOF',
-img/src:<img/src="http://example.com/image.png" />
+img/src:filtered out
 EOF
-            Replace => 0,
+            Replace => 1,
         },
         Line => __LINE__,
     },
     {
-        # Todo: that NoJavaScript is needed to filter out strange tags does not make sense
-        Name  => 'strange img tag "img/src" is filtered out as NoJavaScript is passed',
+        Name  => 'tag "img/src" is filtered out when NoJavaScript is passed',
         Input => <<'EOF',
-line1:<img/src="http://example.com/image.png"/>
+line1:<img/src="http://example.com/image.png"/>filtered out
 line2:
 EOF
         Config => {
@@ -968,7 +967,24 @@ EOF
         },
         Result => {
             Output => <<'EOF',
-line1:
+line1:filtered out
+line2:
+EOF
+            Replace => 1,
+        },
+        Line => __LINE__,
+    },
+    {
+        Name  => 'tag "img/src" is filtered out even without parameters',
+        Input => <<'EOF',
+line1:<img/src="http://example.com/image.png"/>filtered out without parameters
+line2:
+EOF
+        Config => {
+        },
+        Result => {
+            Output => <<'EOF',
+line1:filtered out without parameters
 line2:
 EOF
             Replace => 1,
@@ -1268,13 +1284,12 @@ You should be able to continue reading these lessons, however.
     {
         # svg attachments might contain XML declaration and DOCTYPE declaration
         Name  => 'svg with XML and DOCTYPE declarations',
-        Todo  => 'it is not clear how to handle declarations in the PictureUpload frontend',
         Input => <<'END_SVG',
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 
 <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
-<polygon id="triangle" points="0,0 0,50 50,0" fill="#009900" stroke="#004400"/>
+<polygon id="triangle" points="0,0 0,50 50,0" fill='#009900' stroke="#004400"/>
 </svg>
 END_SVG
         Config => {
@@ -1289,11 +1304,11 @@ END_SVG
         Result => {
             Replace => 0,
             Output  => <<'END_SVG',
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 
-<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
-<polygon id="triangle" points="0,0 0,50 50,0" fill="#009900" stroke="#004400"/>
+
+
+<svg version="1.1" baseprofile="full" xmlns="http://www.w3.org/2000/svg">
+<polygon id="triangle" points="0,0 0,50 50,0" fill="#009900" stroke="#004400" />
 </svg>
 END_SVG
         },
