@@ -885,6 +885,7 @@ EOF
         Line => __LINE__,
     },
     {
+        Name  => 'external image with / in tab name will be filtered',
         Input => <<'EOF',
 <img/src="http://example.com/image.png"/>
 EOF
@@ -894,7 +895,6 @@ EOF
 EOF
             Replace => 1,
         },
-        Name => 'external image with / separator',
         Line => __LINE__,
     },
     {
@@ -939,9 +939,9 @@ for my $Test (@TestsWithDefaultConfig) {
 
 my @TestsWithExplicitConfig = (
     {
-        Name  => 'strange img tag "img/src" passes as NoJavaScript is not passed',
+        Name  => 'tag "img/src" filtered out even when not recognized as image',
         Input => <<'EOF',
-img/src:<img/src="http://example.com/image.png"/>
+img/src:<img/src="http://example.com/image.png"/>filtered out
 EOF
         Config => {
             NoImg => 1,
@@ -950,17 +950,16 @@ EOF
 
             # note the inserted space befor '/>'
             Output => <<'EOF',
-img/src:<img/src="http://example.com/image.png" />
+img/src:filtered out
 EOF
-            Replace => 0,
+            Replace => 1,
         },
         Line => __LINE__,
     },
     {
-        # Todo: that NoJavaScript is needed to filter out strange tags does not make sense
-        Name  => 'strange img tag "img/src" is filtered out as NoJavaScript is passed',
+        Name  => 'tag "img/src" is filtered out when NoJavaScript is passed',
         Input => <<'EOF',
-line1:<img/src="http://example.com/image.png"/>
+line1:<img/src="http://example.com/image.png"/>filtered out
 line2:
 EOF
         Config => {
@@ -968,7 +967,24 @@ EOF
         },
         Result => {
             Output => <<'EOF',
-line1:
+line1:filtered out
+line2:
+EOF
+            Replace => 1,
+        },
+        Line => __LINE__,
+    },
+    {
+        Name  => 'tag "img/src" is filtered out even without parameters',
+        Input => <<'EOF',
+line1:<img/src="http://example.com/image.png"/>filtered out without parameters
+line2:
+EOF
+        Config => {
+        },
+        Result => {
+            Output => <<'EOF',
+line1:filtered out without parameters
 line2:
 EOF
             Replace => 1,
