@@ -25,7 +25,7 @@
 - 2024-02-27 22:25:28 +0100 Support setting HttpType to either 'http' or 'https' (https://github.com/RotherOSS/otobo/issues/3071)
 - 2024-02-26 07:42:14 +0100 [Tidied]   Iterate over keys or values of hash, not hash itself (https://github.com/RotherOSS/otobo/issues/3037)
 - 2024-02-24 10:29:21 +0100 Admin user creates by quick_setup.pl should be able to see stats per default (https://github.com/RotherOSS/otobo/issues/3045)
-- 2024-01-31 07:46:52 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-01-31 07:46:52 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2023-12-29 08:50:07 +0000 Translated using Weblate (Arabic (Saudi Arabia))
 - 2023-11-13 20:48:50 +0000 Translated using Weblate (Spanish)
 - 2023-10-05 11:21:43 +0000 Update translation files
@@ -71,7 +71,7 @@
 - 2023-08-15 11:11:17 +0000 Translated using Weblate (French)
 - 2023-08-11 04:45:00 +0000 Translated using Weblate (Russian)
 - 2023-07-19 14:11:19 +0000 Translated using Weblate (Arabic (Saudi Arabia))
-- 2023-07-10 06:28:57 +0000 Translated using Weblate (Norwegian BokmÃÂ¥l)
+- 2023-07-10 06:28:57 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2023-07-08 12:06:59 +0000 Translated using Weblate (Polish)
 - 2023-10-05 11:38:44 +0200 [Security] Fixed a XSS vulnerability in AdminCustomerUser. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2546)
 - 2023-10-04 17:40:33 +0200 AdminACL.t is not skipped and fails when Selenium testing is deactivated (https://github.com/RotherOSS/otobo/issues/2551)
@@ -129,7 +129,7 @@
 
 # OTOBO 10.1.7 2023-03-10
 - 2023-03-10 17:35:45 +0100 Create new OTOBO language files.
-- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂ¥l)
+- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2023-03-09 16:24:25 +0000 Translated using Weblate (Arabic (Saudi Arabia))
 - 2023-02-13 17:05:43 +0000 Translated using Weblate (Portuguese (Brazil))
 - 2023-03-10 09:56:23 +0100 [Bugfix]   Fix warning if no key is selected for S/MIME encryption. (https://github.com/RotherOSS/otobo/issues/2222)
