@@ -1,11 +1,77 @@
 
+# OTOBO 10.1.9 2024-03-27
+- 2024-03-27 15:04:52 +0100 Create new OTOBO language files.
+- 2024-03-25 07:18:59 +0000 Translated using Weblate (German)
+- 2024-03-27 11:18:39 +0100 [Security] Base the Safety() method on HTML::Scrubber (https://github.com/RotherOSS/otobo/issues/3249)
+- 2024-03-26 18:59:55 +0100 Accept suggestions from CodePolicy 10.1
+- 2024-03-26 18:36:45 +0100 Accept suggestions from CodePolicy 10.0
+- 2024-03-26 11:47:56 +0100 Test failure in Customer/MultiAttachmentUpload/TicketMessage.t  (https://github.com/RotherOSS/otobo/issues/3250)
+- 2024-03-26 10:43:25 +0100 [Enhanced] Backport new features of the unit tests runner to rel-10_0 (https://github.com/RotherOSS/otobo/issues/3236)
+- 2024-01-30 17:06:33 +0100 Tidying, use a common set of parameters to the Safety() method
+- 2024-03-22 16:10:37 +0100 Declare merged output in bin/docker/run_test_suite.sh
+- 2023-12-18 16:37:07 +0100 [Enhanced] Docker image otobo.kerberos should be based on the image otobo (https://github.com/RotherOSS/otobo/issues/2278)
+- 2024-03-22 09:30:06 +0100 Sync HTMLUtils.t with the current version of rel-11_0
+- 2024-03-22 09:25:30 +0100 Add Kernel::System::UnitTest::RegisterOM
+- 2024-03-21 11:59:55 +0100 [Tidied]   Update github actions for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/3221)
+- 2024-03-12 15:26:09 +0100 Revert "Issue #3163: Restrict passing ticket params to GetParam."
+- 2024-03-12 15:26:09 +0100 Revert "Issue #3163: Removed mistake."
+- 2024-03-12 15:09:06 +0100 Restrict passing ticket attributes to GetParam in AgentTicketActionCommon (https://github.com/RotherOSS/otobo/issues/3163)
+- 2024-03-11 16:43:49 +0100 Use the HEAD of rel-10_1 for the CodePolicy checks
+- 2024-03-11 16:40:39 +0100 Use the HEAD of the rel-10_0 branch for CodePolicy
+- 2024-03-10 13:01:55 +0100 Hardcoded usage of /otobo-web in Framework.xml (https://github.com/RotherOSS/otobo/issues/3151)
+- 2024-03-09 13:52:38 +0100 Fix spelling: Fronend -> Frontend
+- 2024-03-09 13:38:22 +0100 Use Frontend::WebPath for Customer/default/css/Core.Icons.css font uris (https://github.com/RotherOSS/otobo/issues/2886)
+- 2024-03-07 14:47:16 +0100 [Enhanced] Update CKEditor to version 4.22.1 (https://github.com/RotherOSS/otobo/issues/2963)
+- 2024-02-27 22:25:28 +0100 Support setting HttpType to either 'http' or 'https' (https://github.com/RotherOSS/otobo/issues/3071)
+- 2024-02-26 07:42:14 +0100 [Tidied]   Iterate over keys or values of hash, not hash itself (https://github.com/RotherOSS/otobo/issues/3037)
+- 2024-02-24 10:29:21 +0100 Admin user creates by quick_setup.pl should be able to see stats per default (https://github.com/RotherOSS/otobo/issues/3045)
+- 2024-01-31 07:46:52 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2023-12-29 08:50:07 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2023-11-13 20:48:50 +0000 Translated using Weblate (Spanish)
+- 2023-10-05 11:21:43 +0000 Update translation files
+- 2024-02-22 15:23:53 +0100 [Bugfix]   hidden dynamic fields visible after ticket creation (https://github.com/RotherOSS/otobo/issues/3014)
+- 2024-02-21 14:38:27 +0100 Remove OTOBO "CommunityTM" from reports.
+- 2024-02-21 10:16:28 +0100 [Bugfix]   Use ValueLookup instead of ValueList to fetch ValidID by ValidName in AdminACL (https://github.com/RotherOSS/otobo/issues/3004)
+- 2023-12-07 13:08:48 +0100 [Bugfix]   Fix config level param handling in AdminSystemConfiguration -> ViewCustomGroup (https://github.com/RotherOSS/otobo/issues/2756)
+- 2024-02-14 14:57:12 +0100 [Bugfix]   Fix param name in AdminGroup module (https://github.com/RotherOSS/otobo/issues/2964)
+- 2024-02-06 08:47:18 +0100 Improve coloring of DynamicField links in table views of Tickets and ConfigItems in Agent interface (https://github.com/RotherOSS/otobo/issues/2915)
+- 2024-01-29 13:47:09 +0100 [Bugfix]   AdminDynamicFieldDB looses possible values config when submitting newly created field with errors (https://github.com/RotherOSS/otobo/issues/2899)
+- 2024-01-24 21:14:31 +0100 [Enhanced] Limit  unit tests to the tests that are provided in the core (https://github.com/RotherOSS/otobo/issues/2878)
+- 2024-01-16 17:52:32 +0100 Rating in CustomerFAQZoom overlaps with Torture. Please adjust the css. (https://github.com/RotherOSS/otobo/issues/2498)
+- 2024-01-15 19:56:33 +0100 Manually update cpanfile.docker.kerberos.
+- 2024-01-15 18:37:02 +0100 Issue #2897: Added configurable search attribute for df ticket reference. (https://github.com/RotherOSS/otobo/issues/2898)
+- 2024-01-15 17:35:06 +0100 Update code comment. VersionsNotSupported is gone.
+- 2024-01-13 15:29:54 +0100 Accept suggestions from CodePolicy
+- 2024-01-13 15:25:03 +0100 Update copyright year
+- 2024-01-13 14:54:44 +0100 [Tidied]   Update Copyright Year to 2024 (https://github.com/RotherOSS/otobo/issues/2824)
+- 2024-01-13 12:28:43 +0100 Improve sysconfig description for setting "DefaultLanguage" (https://github.com/RotherOSS/otobo/issues/2788)
+- 2024-01-12 12:03:47 +0100 [Bugfix]   Blacklist DBD::mysql 5.003 (https://github.com/RotherOSS/otobo/issues/2817)
+- 2024-01-11 10:12:21 +0100 [Bugfix]   DF default values do not work for article fields in masks based on ActionCommon. (https://github.com/RotherOSS/otobo/issues/2785)
+- 2023-12-05 12:44:51 +0100 Update Defaults.pm
+- 2023-11-27 15:29:07 +0100 [Enhanced] Add AddminLog to the Admin Favourites when system is set up with quick_setup.pl (https://github.com/RotherOSS/otobo/issues/2712)
+- 2023-11-22 13:59:47 +0100 [Bugfix]   AgentTicketEmailResend - js error (https://github.com/RotherOSS/otobo/issues/2701)
+- 2023-11-17 13:50:49 +0100 [Bugfix]   Enable restriction of activity dialogs via frontend action in AgentTicketZoom (https://github.com/RotherOSS/otobo/issues/2689)
+- 2023-11-13 10:06:35 +0100 [Bugfix]   AgentTicketService: Only search for tickets if service ids are present (https://github.com/RotherOSS/otobo/issues/2665)
+- 2023-11-06 15:18:50 +0100 Issue #2643: Fix data structure for param value LinkAs.
+- 2023-10-23 16:02:00 +0200 Issue #2584: Module::Load is no longer bundled
+- 2023-10-23 16:01:20 +0200 Issue #2584: minor cleanup
+- 2023-10-21 12:25:06 +0200 Issue #2579: fix spelling: avaids => avoids
+- 2023-10-21 11:21:19 +0200 Issue #2579: specify the Debian version of the base image
+- 2023-10-11 18:17:55 +0200 Issue #3568: add the option --merge
+- 2023-10-09 18:28:28 +0200 Issue #2563: set up the admin navigation favourites
+- 2023-02-09 22:14:13 +0100 Issue #1974: Changing background and border color of notification area.
+- 2022-10-17 08:27:03 +0200 Issue #1974: Adding border radius for WidgetNotice Content div
+- 2023-10-05 13:31:05 +0200 Issue #1946: Prevent comparison with undefined password value.
+- 2023-10-05 13:16:42 +0200 Update CHANGES.
+
+
 # OTOBO 10.1.8 2023-10-05
 - 2023-10-05 13:21:17 +0200 Create new OTOBO language files.
 - 2023-08-25 00:51:52 +0000 Translated using Weblate (Japanese)
 - 2023-08-15 11:11:17 +0000 Translated using Weblate (French)
 - 2023-08-11 04:45:00 +0000 Translated using Weblate (Russian)
 - 2023-07-19 14:11:19 +0000 Translated using Weblate (Arabic (Saudi Arabia))
-- 2023-07-10 06:28:57 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2023-07-10 06:28:57 +0000 Translated using Weblate (Norwegian BokmÃÂ¥l)
 - 2023-07-08 12:06:59 +0000 Translated using Weblate (Polish)
 - 2023-10-05 11:38:44 +0200 [Security] Fixed a XSS vulnerability in AdminCustomerUser. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2546)
 - 2023-10-04 17:40:33 +0200 AdminACL.t is not skipped and fails when Selenium testing is deactivated (https://github.com/RotherOSS/otobo/issues/2551)
@@ -63,7 +129,7 @@
 
 # OTOBO 10.1.7 2023-03-10
 - 2023-03-10 17:35:45 +0100 Create new OTOBO language files.
-- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian BokmÃÂ¥l)
+- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂ¥l)
 - 2023-03-09 16:24:25 +0000 Translated using Weblate (Arabic (Saudi Arabia))
 - 2023-02-13 17:05:43 +0000 Translated using Weblate (Portuguese (Brazil))
 - 2023-03-10 09:56:23 +0100 [Bugfix]   Fix warning if no key is selected for S/MIME encryption. (https://github.com/RotherOSS/otobo/issues/2222)
@@ -1553,3 +1619,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
