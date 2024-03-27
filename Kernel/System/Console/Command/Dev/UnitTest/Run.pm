@@ -100,9 +100,10 @@ sub Configure {
     );
     $Self->AddArgument(
         Name        => 'test-script-path',
-        Description => "Path to a directory with test scripts or to a single test script. All other test selection options will be ignored.",
+        Description => "Pathes to directories with test scripts or to single test scripts. All other test selection options will be ignored.",
         Required    => 0,
         ValueRegex  => qr/.*/smx,
+        Slurpy      => 1,
     );
 
     return;
@@ -124,15 +125,15 @@ sub Run {
     );
 
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
-        Tests           => $Self->GetOption('test'),
-        TestScriptPath  => $Self->GetArgument('test-script-path'),
-        Directory       => $Self->GetOption('directory'),
-        SOPMFiles       => $Self->GetOption('sopm'),
-        Packages        => $Self->GetOption('package'),
-        Verbose         => $Self->GetOption('verbose'),
-        Merge           => $Self->GetOption('merge'),
-        Shuffle         => $Self->GetOption('shuffle'),
-        PostTestScripts => $Self->GetOption('post-test-script'),
+        Tests            => $Self->GetOption('test'),
+        TestScriptPathes => $Self->GetArgument('test-script-path'),
+        Directory        => $Self->GetOption('directory'),
+        SOPMFiles        => $Self->GetOption('sopm'),
+        Packages         => $Self->GetOption('package'),
+        Verbose          => $Self->GetOption('verbose'),
+        Merge            => $Self->GetOption('merge'),
+        Shuffle          => $Self->GetOption('shuffle'),
+        PostTestScripts  => $Self->GetOption('post-test-script'),
     );
 
     return $Self->ExitCodeOk if $FunctionResult;
