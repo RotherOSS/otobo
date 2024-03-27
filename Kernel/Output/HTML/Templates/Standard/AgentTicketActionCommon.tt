@@ -21,11 +21,6 @@
     <input type="hidden" name="Subaction" value="Store"/>
     <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
     <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
-
-    [% IF Data.ArticleID != "" %]
-        <input type="hidden" name="IsEdited" value="1"/>
-    [% END %]
-
     <input type="hidden" name="ReplyToArticle" value="[% Data.ReplyToArticle | html %]"/>
     <input type="hidden" name="Expand" id="Expand" value=""/>
     <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
