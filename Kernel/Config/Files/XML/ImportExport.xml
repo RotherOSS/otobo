@@ -102,4 +102,23 @@
         </Value>
     </Setting>
 
+    <!-- specific settings for backend translations -->
+    <Setting Name="ImportExport::ObjectBackendRegistration###Translations" Required="1" Valid="1">
+        <Description Translatable="1">Object backend module registration for the import/export module.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::ImportExport::ObjectBackend::Translations</Item>
+                <Item Key="Name">Translations</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::TranslationsImportExport::ForceCSVMappingRecreation" Required="1" Valid="1">
+        <Description Translatable="1">Defines if CSV-mappings are re-created on next package reinstallation or upgrade if already existent.</Description>
+        <Navigation>Core::ImportExport::TranslationsImportExport</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+
 </otobo_config>
