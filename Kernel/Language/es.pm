@@ -136,14 +136,14 @@ sub Data {
         'Filter for Calendars' => 'Filtro para Calendarios',
         'Filter for calendars' => 'Filtro para Calendarios',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
-            'Dependiendo del campo de grupo, el sistema permite el acceso a usuarios al calendario de acuerdo a sus niveles de permisos.',
+            'Dependiendo del grupo, el sistema le permitirá a los usuarios acceder a los calendarios de acuerdo a su nivel de permisos.',
         'Read only: users can see and export all appointments in the calendar.' =>
-            'RO: usuarios que pueden ver y exportar todas las citas en el calendario.',
+            'Los usuarios con permisos de solo lectura: pueden ver y exportar todos los eventos en el calendario.',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
-            'Mover_A: usuarios que pueden modificar citas en el calendario, pero sin cambiar la selección de calendario.',
+            'Usuarios con privilegios Mover a: pueden modificar los eventos en el calendario, pero sin modificar la selección del calendario.',
         'Create: users can create and delete appointments in the calendar.' =>
-            'Crear: usuarios que pueden crear y borrar citas en el calendario.',
-        'Read/write: users can manage the calendar itself.' => 'RW: usuario que pueden gestionar el calendario en sí.',
+            'Usuarios con privilegios Crear: pueden crear y borrar los eventos en el calendario.',
+        'Read/write: users can manage the calendar itself.' => 'Usuarios con permiso Lectura/escritura pueden administrar el calendario mismo.',
         'Group' => 'Grupo',
         'Changed' => 'Modificado',
         'Created' => 'Creado',
@@ -161,8 +161,8 @@ sub Data {
         'Rule' => 'Regla',
         'Remove this entry' => 'Elimine esta entrada',
         'Remove' => 'Eliminar',
-        'Start date' => 'Fecha inicio',
-        'End date' => 'Fecha de término',
+        'Start date' => 'Fecha de Inicio',
+        'End date' => 'Fecha de Fin',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
             'Use las opciones mostradas abajo para acortar las citas de tickets que serán creadas automáticamente.',
         'Queues' => 'Colas',
@@ -182,7 +182,7 @@ sub Data {
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             'Si el Calendario deseado no aparece en la lista, por favor asegúrese de que tenga al menos el permiso de "crear".',
         'Upload' => 'Cargar',
-        'Update existing appointments?' => '¿Actualizar las citas existentes?',
+        'Update existing appointments?' => 'Actualizar citas existentes?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
             'Todas las citas existentes en el calendario con el mismo UniqueID se sobrescribirán.',
         'Upload calendar' => 'Cargar calendario',
@@ -2371,7 +2371,7 @@ sub Data {
 
         # Template: AgentAppointmentAgendaOverview
         'Agenda Overview' => 'Resumen de la Agenda',
-        'Manage Calendars' => 'Gestionar Calendarios',
+        'Manage Calendars' => 'Administrar Calendarios',
         'Add Appointment' => 'Añadir Cita',
         'Today' => 'Hoy',
         'All-day' => 'Todo el día',
@@ -7178,9 +7178,9 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
+        'Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
             '',
-        'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
+        'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
             '',
         'Defines the default history type in the customer interface.' => '',
         'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>

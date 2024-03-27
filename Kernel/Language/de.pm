@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999365784049469;
+    $Self->{Completeness}        = 0.999682892024734;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -58,7 +58,7 @@ sub Data {
         'Import ACL configuration(s)' => 'ACL-Konfiguration(en) importieren',
         'Description' => 'Beschreibung',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            'Wenn Sie eine ACL erstellen möchten, können Sie sie von einem anderen System importieren oder eine ganz neue erstellen.',
+            'Wenn Sie eine ACL erstellen möchten, können Sie diese aus einem anderen System importieren oder eine ganz neue erstellen.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Änderungen an den ACLs wirken sich erst aus, wenn Sie die Konfiguration in Betrieb nehmen. Dabei werden die Änderungen in der Konfiguration gespeichert.',
         'ACLs' => 'ACLs',
@@ -99,7 +99,7 @@ sub Data {
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            'Neue ACL durch Eingabe der Daten erstellen. Nach Erstellung der ACL ist es möglich, Konfigurationsparameter im Bearbeitungsmodus einzufügen.',
+            'Neue ACL auf Basis der eingegebenen Daten erstellen. Nach Erstellen der ACL können Konfigurationsparameter im Bearbeitungsmodus eingefügt werden.',
 
         # Template: AdminAbout
         'About' => 'Impressum',
@@ -3875,9 +3875,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
         'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
-            '',
+            'Inkorrekte Syntax. Bitte geben Sie vor dem Doppelpunkt den Namen eines Elternelements ein.',
         'An element is used as parent element, but not included itself. Please include it.' =>
-            '',
+            'Ein Element wird als Elternelement verwendet, ist aber selbst nicht enthalten. Bitte nehmen Sie es auf.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => 'Einstellungen wurden gespeichert.',
@@ -4408,7 +4408,7 @@ sub Data {
         'Can\'t get element data of %s!' => 'Konnte Daten zu Element %s nicht ermitteln!',
         'Can\'t get filter content data of %s!' => 'Kann Filter-Daten von %s nicht ermitteln!',
         'Customer Name' => 'Kundenname',
-        'Customer User Name' => 'Kundenbenutzer-Name',
+        'Customer User Name' => 'Kundenbenutzer Name',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Benötige SourceObject und SourceKey!',
@@ -5166,8 +5166,8 @@ sub Data {
             'Die Anmeldung ist derzeit aufgrund einer geplanten Systemwartung nicht verfügbar.',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-        'Authentication error. Please contact the administrator.' => '',
-        'Authentication error.' => '',
+        'Authentication error. Please contact the administrator.' => 'Authentifizierungsfehler. Bitte wenden Sie sich an Ihren Administrator.',
+        'Authentication error.' => 'Authentifizierungsfehler.',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             'Ungültige Antwort vom Authentifizierungsserver. Möglicherweise kam es zum Timeout. Bitte versuchen Sie es noch einmal.',
 
@@ -6322,7 +6322,7 @@ sub Data {
         'Not available' => 'Nicht verfügbar',
         'and %s more...' => 'und %s weitere...',
         'Show current selection' => 'Aktuelle Auswahl anzeigen',
-        'Current selection' => 'Aktuelle Auwahl',
+        'Current selection' => 'Aktuelle Auswahl',
         'Clear all' => 'Alles löschen',
         'Filters' => 'Filter',
         'Clear search' => 'Suche löschen',
@@ -7169,10 +7169,10 @@ Ihr Helpdesk-Team
             'Definiert den Standard-Inhalt einer Notiz in der TicketFreeText-Oberfläche im Agenten-Interface.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Definiert die Standard-Filterfelder in der Kundenbenutzer-Adressbuch-Suche (Kundenbenutzer oder Kundenunternehmen). Für Kundenunternehmen-Felder muss ein Präfix \'CustomerCompany_\' hinzugefügt werden.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
-            'Definiert das Standard-Frontend-Theme (HTML), das von Kunden und Agenten verwendet werden soll. Auf Wunsch können Sie hier ein eigenes Theme hinzufügen. Mehr dazu im Administrator Manual unter https://doc.otobo.org/.',
-        'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
-            'Definiert die Standard-Frontend-Sprache. Die möglichen Werte werden durch die verfügbaren Sprachdateien auf dem System bestimmt (siehe nächste Einstellung).',
+        'Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
+            '',
+        'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
+            '',
         'Defines the default history type in the customer interface.' => 'Definiert den Standard-Historientyp im Kunden-Interface.',
         'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
             'Definieren der Standardschnittstelle. Unbekannte Pfade unter dem Skript-Alias werden auf die ausgewählte Schnittstelle weitergeleitet.',
@@ -9417,9 +9417,9 @@ Ihr Helpdesk-Team
         'UserFirstname' => 'Benutzervorname',
         'UserLastname' => 'Benutzernachname',
         'Users, Groups & Roles' => 'Benutzer, Gruppen & Rollen',
-        'Uses richtext for viewing and editing ticket notification.' => 'Nutzt richtext zum betrachten und bearbeiten von Ticket-Benachrichtigungen.',
+        'Uses richtext for viewing and editing ticket notification.' => 'Nutzt Rich-Text zum Betrachten und Bearbeiten von Ticket-Benachrichtigungen.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
-            'Nutzt richtext zum betrachten und bearbeiten von: Artikeln, Begrüßungen, Signaturen, Standard Vorlagen, Automatische Antworten und Benachrichtigungen.',
+            'Nutzt Rich-Text zum Betrachten und Bearbeiten von: Artikeln, Begrüßungen, Signaturen, Standard Vorlagen, Automatische Antworten und Benachrichtigungen.',
         'Vietnam' => 'Vietnamesisch',
         'View performance benchmark results.' => 'Ergebnisse der Leistungsmessung ansehen.',
         'Watch this ticket' => 'Dieses Ticket beobachten',

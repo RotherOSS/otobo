@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.900586649754241;
+    $Self->{Completeness}        = 0.916124940542255;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -7171,10 +7171,10 @@ Thanks for your help!
             'يحدد المحتوى الافتراضي للملاحظة في شاشة النص الحر للتذكرة الخاصة في واجهة الوكيل.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'يحدد حقول التصفية الافتراضية في البحث في دفتر عناوين مستخدم العميل (مستخدم عميل أو شركة عميل). بالنسبة لحقول CustomerCompany، يجب إضافة بادئة "CustomerCompany_".',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
-            'يحدد نسق الواجهة الأمامية الافتراضية (HTML) ليتم استخدامه من قبل الوكلاء والعملاء. إذا أردت، يمكنك إضافة المظهر الخاص بك. يرجى الرجوع إلى دليل المسؤول الموجود في https://doc.otobo.org/.',
-        'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
-            'يحدد لغة الواجهة الأمامية الافتراضية. يتم تحديد القيم المحتملة من خلال ملفات اللغة المتاحة على النظام (راجع الإعداد التالي).',
+        'Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
+            '',
+        'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
+            '',
         'Defines the default history type in the customer interface.' => 'يحدد نوع المحفوظات الافتراضي في واجهة العميل.',
         'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
             'يحدد الواجهة الافتراضية. تتم إعادة توجيه المسارات غير المعروفة أسفل الاسم المستعار للبرنامج النصي إلى الواجهة المحددة.',
@@ -8506,155 +8506,155 @@ Thanks for your help!
         'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             'يحدد المعلمات لواجهة الخلفية لوحة المعلومات. يحدد "Limit" عدد العناصر التي يتم عرضها افتراضيًا. "Group" يحد من الوصول إلى المكوّن الإضافي المحدد (مثال: Group: admin;group1;group2). "Default" يحدد ما إذا كان المكوّن الإضافي يجب أن يكون نشطًا افتراضيًا أم يجب على المستخدم تفعيله يدويًا. "CacheTTLLocal" يحدد مدة التخزين المؤقت للمكوّن الإضافي بالدقائق. ملاحظة: يُسمح فقط بسمات التذاكر والحقول الديناميكية (DynamicField_NameX) كأعمدة افتراضية (DefaultColumns).',
         'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
-            '',
+            'المعلمات لواجهة الخلفية لتذكير البطاقة المعلقة في نظرة عامة على واجهة الوكيل. "الحد" هو عدد الإدخالات التي يتم عرضها افتراضيًا. يُستخدم "المجموعة" لتقييد الوصول إلى المكون الإضافي (على سبيل المثال: المجموعة: admin؛ group1؛ group2؛). "الافتراضي" يحدد ما إذا كان المكون الإضافي مُمكّنًا افتراضيًا أم إذا كان يحتاج المستخدم إلى تمكينه يدويًا. "CacheTTLLocal" هو وقت التخزين المؤقت في الدقائق للمكون الإضافي. ملاحظة: يُسمح فقط بسمات البطاقة والحقول الديناميكية (DynamicField_NameX) ل DefaultColumns.',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
-            '',
+            'المعلمات لواجهة الخلفية لإحصائيات التذاكر في واجهة الوكيل. "الحد" هو عدد الإدخالات التي يتم عرضها افتراضيًا. يُستخدم "المجموعة" لتقييد الوصول إلى المكون الإضافي (على سبيل المثال: المجموعة: admin؛ group1؛ group2؛). "الافتراضي" يحدد ما إذا كان المكون الإضافي مُمكّنًا افتراضيًا أم إذا كان يحتاج المستخدم إلى تمكينه يدويًا. "CacheTTLLocal" هو وقت التخزين المؤقت في الدقائق للمكون الإضافي. "الإلزامي" يحدد ما إذا كان يجب على المكون الإضافي أن يظهر دائمًا ولا يمكن إزالته بواسطة الوكلاء.',
         'Parameters for the dashboard backend of the upcoming events widget of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
-            '',
+            'المعلمات لواجهة الخلفية لويدجت الفعاليات القادمة في واجهة الوكيل. "الحد" هو عدد الإدخالات التي يتم عرضها افتراضيًا. يُستخدم "المجموعة" لتقييد الوصول إلى المكون الإضافي (على سبيل المثال: المجموعة: admin؛ group1؛ group2؛). "الافتراضي" يحدد ما إذا كان المكون الإضافي مُمكّنًا افتراضيًا أم إذا كان يحتاج المستخدم إلى تمكينه يدويًا. "CacheTTLLocal" هو وقت التخزين المؤقت في الدقائق للمكون الإضافي. "الإلزامي" يحدد ما إذا كان يجب على المكون الإضافي أن يظهر دائمًا ولا يمكن إزالته بواسطة الوكلاء.',
         'Parameters for the pages (in which the communication log entries are shown) of the communication log overview.' =>
-            '',
+            'المعلمات لصفحات نظرة عامة على سجل الاتصال (حيث يتم عرض إدخالات سجل الاتصال).',
         'Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            '',
+            'المعلمات لصفحات نظرة عامة على الحقول الديناميكية (حيث يتم عرض الحقول الديناميكية). يرجى ملاحظة: تعيين \'Active\' إلى 0 سيمنع الوكلاء فقط من تحرير إعدادات هذه المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين ما زالت بتحرير إعدادات مستخدم آخر نيابة عنه. استخدم \'PreferenceGroup\' للتحكم في المنطقة التي يجب عرض هذه الإعدادات في واجهة المستخدم.',
         'Parameters for the pages (in which the tickets are shown) of the medium ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            '',
+            'المعلمات لصفحات نظرة عامة على التذاكر (حيث يتم عرض التذاكر) لنظرة عامة على التذاكر. يرجى ملاحظة: تعيين \'Active\' إلى 0 سيمنع الوكلاء فقط من تحرير إعدادات هذه المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين بتحرير إعدادات مستخدم آخر نيابة عنه. استخدم \'PreferenceGroup\' للتحكم في المنطقة التي يجب عرض هذه الإعدادات في واجهة المستخدم.',
         'Parameters for the pages (in which the tickets are shown) of the small ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            '',
+            'المعلمات لصفحات نظرة عامة على التذاكر (حيث يتم عرض التذاكر) لنظرة عامة صغيرة على التذاكر. يرجى ملاحظة: تعيين \'Active\' إلى 0 سيمنع الوكلاء فقط من تحرير إعدادات هذه المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين بتحرير إعدادات مستخدم آخر نيابة عنه. استخدم \'PreferenceGroup\' للتحكم في المنطقة التي يجب عرض هذه الإعدادات في واجهة المستخدم.',
         'Parameters for the pages (in which the tickets are shown) of the ticket preview overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            '',
-        'Parameters of the example SLA attribute Comment2.' => '',
-        'Parameters of the example queue attribute Comment2.' => '',
-        'Parameters of the example service attribute Comment2.' => '',
-        'Parent' => 'أساس',
-        'ParentChild' => '',
+            'المعلمات لصفحات نظرة عامة على معاينة التذكرة (حيث يتم عرض التذاكر) لنظرة عامة على معاينة التذكرة. يرجى ملاحظة: تعيين \'Active\' إلى 0 سيمنع الوكلاء فقط من تحرير إعدادات هذه المجموعة في تفضيلاتهم الشخصية، ولكن سيسمح للمسؤولين بتحرير إعدادات مستخدم آخر نيابة عنه. استخدم \'PreferenceGroup\' للتحكم في المنطقة التي يجب عرض هذه الإعدادات في واجهة المستخدم.',
+        'Parameters of the example SLA attribute Comment2.' => 'معلمات سمة مستوى الخدمة (SLA) لسمة Comment2.',
+        'Parameters of the example queue attribute Comment2.' => 'معلمات سمة قائمة الانتظار (Queue) لسمة Comment2.',
+        'Parameters of the example service attribute Comment2.' => 'معلمات سمة الخدمة (Service) لسمة Comment2.',
+        'Parent' => 'أصل, أساس',
+        'ParentChild' => 'الوالد والطفل',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
-            '',
-        'Pending time' => '',
-        'People' => '',
+            'المسار لملف السجل (ينطبق فقط إذا تم اختيار "FS" ل LoopProtectionModule وهو إلزامي).',
+        'Pending time' => 'وقت الانتظار',
+        'People' => 'أشخاص',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>
-            '',
-        'Permitted width for compose email windows.' => '',
-        'Permitted width for compose note windows.' => '',
-        'Persian' => '',
-        'Phone Call Inbound' => '',
-        'Phone Call Outbound' => '',
-        'Phone Call.' => '',
+            'تنفّذ الإجراء المكون لكل حدث (كمُستَدعٍ "as an Invoker") لكل خدمة وِب مُكوّنة.',
+        'Permitted width for compose email windows.' => 'العرض المسموح به لنوافذ كتابة البريد الإلكتروني.',
+        'Permitted width for compose note windows.' => 'العرض المسموح به لنوافذ كتابة الملاحظات.',
+        'Persian' => 'فارسي',
+        'Phone Call Inbound' => 'مكالمة هاتفية واردة',
+        'Phone Call Outbound' => 'مكالمة هاتفية صادرة',
+        'Phone Call.' => 'مكالمة هاتفية.',
         'Phone call' => 'مكالمة هاتفية',
-        'Phone communication channel.' => '',
-        'Phone-Ticket' => 'بطاقة-هاتف',
-        'Picture Upload' => '',
-        'Picture upload module.' => '',
-        'Picture-Upload' => '',
-        'Please click the button below to create your first ticket.' => '',
-        'Plugin search' => '',
-        'Plugin search module for autocomplete.' => '',
-        'Polish' => '',
-        'Portuguese' => '',
-        'Portuguese (Brasil)' => '',
-        'PostMaster Filters' => '',
-        'PostMaster Mail Accounts' => '',
-        'Print this ticket' => '',
-        'Priorities' => 'أولوية',
-        'Process Management Activity Dialog GUI' => '',
-        'Process Management Activity GUI' => '',
-        'Process Management Path GUI' => '',
-        'Process Management Transition Action GUI' => '',
-        'Process Management Transition GUI' => '',
-        'Process pending tickets.' => '',
-        'ProcessID' => '',
-        'Processes & Automation' => '',
+        'Phone communication channel.' => 'قناة الاتصال الهاتفي.',
+        'Phone-Ticket' => 'تذكرة الهاتف',
+        'Picture Upload' => 'تحميل الصورة',
+        'Picture upload module.' => 'وحدة تحميل الصور.',
+        'Picture-Upload' => 'تحميل الصورة',
+        'Please click the button below to create your first ticket.' => 'الرجاء النقر على الزر أدناه لإنشاء تذكرتك الأولى.',
+        'Plugin search' => 'بحث المكون الإضافي',
+        'Plugin search module for autocomplete.' => 'وحدة البحث عن المكونات الإضافية للإكمال التلقائي.',
+        'Polish' => 'بُولَنْدِيّ',
+        'Portuguese' => 'برتغالي',
+        'Portuguese (Brasil)' => 'البرتغالية (البرازيل)',
+        'PostMaster Filters' => 'مرشح مدير البريد',
+        'PostMaster Mail Accounts' => 'حسابات البريد الإلكتروني لمدير البريد',
+        'Print this ticket' => 'اطبع هذه التذكرة',
+        'Priorities' => 'أولويات',
+        'Process Management Activity Dialog GUI' => 'واجهة المستخدم الرسومية لحوار نشاط إدارة العمليات',
+        'Process Management Activity GUI' => 'واجهة المستخدم الرسومية لنشاط إدارة العمليات',
+        'Process Management Path GUI' => 'واجهة المستخدم الرسومية لمسار إدارة العمليات',
+        'Process Management Transition Action GUI' => 'واجهة المستخدم الرسومية لإجراء انتقال إدارة العمليات',
+        'Process Management Transition GUI' => 'واجهة المستخدم الرسومية للانتقال في إدارة العمليات',
+        'Process pending tickets.' => 'معالجة التذاكر المعلقة في العمليات.',
+        'ProcessID' => 'معرف العملية',
+        'Processes & Automation' => 'العمليات والأتمتة',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            '',
+            'حماية ضد استغلال CSRF (Cross Site Request Forgery) (للمزيد من المعلومات انظر https://en.wikipedia.org/wiki/Cross-site_request_forgery).',
         'Protection against brute force attacks. MaxAttempt: How many login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
-            '',
+            'الحماية من هجمات القوة الغاشمة. MaxAttempt: عدد محاولات تسجيل الدخول المسموح بها قبل الحظر. BanDuration: مدة الحظر. KeepCacheDuration: كم من الوقت يتم تخزين محاولات تسجيل الدخول الفاشلة.',
         'Provides a matrix overview of the tickets per state per queue' =>
-            '',
+            'يوفر نظرة عامة مصفوفة على التذاكر لكل حالة في قوائم الانتظار',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
-            '',
-        'Public Calendar' => '',
-        'Public Interface' => '',
-        'Public calendar.' => '',
-        'Queue view' => '',
-        'Queues ↔ Auto Responses' => '',
-        'Quick Close' => '',
-        'Rebuild the ticket index for AgentTicketQueue.' => '',
+            'يمنح مستخدمي العملاء إمكانية الوصول إلى التذاكر حتى إذا لم يتم تعيينهم لمستخدم عميل له نفس رقم العميل، بناءً على حقوق المجموعة.',
+        'Public Calendar' => 'التقويم العام',
+        'Public Interface' => 'الواجهة العامة',
+        'Public calendar.' => 'التقويم العام.',
+        'Queue view' => 'عرض قائمة الانتظار',
+        'Queues ↔ Auto Responses' => 'قوائم الانتظار ↔ الردود التلقائية',
+        'Quick Close' => 'الإغلاق السريع',
+        'Rebuild the ticket index for AgentTicketQueue.' => 'إعادة بناء فهرس التذاكر ل AgentTicketQueue.',
         'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
-            '',
-        'Rebuilds the ACL preselection cache.' => '',
-        'Rebuilds the escalation index.' => '',
+            'يعيد بناء فهارس Elasticsearch. يمكن استخدامه على سبيل المثال، إذا تمت مصادقة مستخدمي العملاء عبر LDAP. ومع ذلك، فهو غير فعال إلى حد كبير، حيث تتم إعادة بناء الفهرس بأكمله في كل مرة.',
+        'Rebuilds the ACL preselection cache.' => 'يقوم بإعادة بناء ذاكرة التخزين المؤقت لاختيار القائمة المُسبقة لوحدة التحكم في الوصول (ACL).',
+        'Rebuilds the escalation index.' => 'يعيد بناء مؤشر التصعيد.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
-            '',
-        'Redis server address. Example: 127.0.0.1:6379.' => '',
-        'Refresh interval' => '',
+            'تعرف على ما إذا كانت التذكرة عبارة عن متابعة لتذكرة موجودة باستخدام رقم تذكرة خارجي. استخدام المجموعة التي تم التقاطها الأولى من تعبير \'NumberRegExp\' كقيمة لرقم التذكرة.',
+        'Redis server address. Example: 127.0.0.1:6379.' => 'عنوان خادم Redis. مثال: 127.0.0.1:6379.',
+        'Refresh interval' => 'فترة التحديث',
         'Registers a log module, that can be used to log communication related information.' =>
-            '',
-        'Reminder Tickets' => '',
-        'Removed subscription for user "%s".' => 'Removed subscription for user "%s".',
+            'يسجل وحدة السجل التي يمكن استخدامها لتسجيل المعلومات المتعلقة بالاتصالات.',
+        'Reminder Tickets' => 'تذاكر التذكير',
+        'Removed subscription for user "%s".' => 'تمت إزالة الاشتراك للمستخدم "%s".',
         'Removes old generic interface debug log entries created before the specified amount of days.' =>
-            '',
+            'يقوم بإزالة إدخالات سجل التصحيح القديمة لواجهة المستخدم العامة التي تم إنشاؤها قبل عدد معين من الأيام.',
         'Removes old system configuration deployments (Sunday mornings).' =>
-            '',
-        'Removes old ticket number counters (each 10 minutes).' => '',
+            'يقوم بإزالة نشرات تكوين النظام القديمة (صباح أيام الأحد).',
+        'Removes old ticket number counters (each 10 minutes).' => 'إزالة عدادات أرقام التذاكر القديمة (كل 10 دقائق).',
         'Removes the ticket watcher information when a ticket is archived.' =>
-            '',
+            'إزالة معلومات مراقب التذاكر عند أرشفة التذكرة.',
         'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
-            '',
+            'تجديد شهادات SMIME الحالية من خلال واجهة العميل. ملاحظة: يجب تمكين SMIME و SMIME::FetchFromCustomer في SysConfig، ويجب تكوين واجهة العميل لاسترجاع سمة UserSMIMECertificate.',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
-            '',
-        'Reports' => '',
+            'يستبدل المرسل الأصلي بعنوان البريد الإلكتروني الخاص بالعميل الحالي عند إنشاء الإجابة في شاشة إنشاء التذكرة بواجهة الوكيل.',
+        'Reports' => 'التقارير',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
-            '',
+            'إعادة معالجة الرسائل من دليل الاحتفاظ بالبريد(التخزين المؤقت) التي لم يمكن استيرادها في المرة الأولى.',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لتغيير عميل التذكرة في واجهة الوكيل.',
         'Required permissions to use quick close in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام الإغلاق السريع في واجهة الوكيل.',
         'Required permissions to use the close ticket screen in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة إغلاق التذكرة في واجهة الوكيل.',
         'Required permissions to use the email outbound screen in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة البريد الإلكتروني الصادرة في واجهة الوكيل.',
         'Required permissions to use the email resend screen in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة إعادة إرسال البريد الإلكتروني في واجهة الوكيل.',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة إرسال التذكرة في واجهة الوكيل.',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة إنشاء التذكرة في واجهة الوكيل.',
         'Required permissions to use the ticket forward screen in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة إعادة توجيه التذكرة في واجهة الوكيل.',
         'Required permissions to use the ticket free text screen in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة النص الحر في التذكرة في واجهة الوكيل.',
         'Required permissions to use the ticket merge screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة دمج التذاكر للتذكرة في واجهة الوكيل.',
         'Required permissions to use the ticket note screen in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة ملاحظة التذكرة في واجهة الوكيل.',
         'Required permissions to use the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة مالك التذكرة للتذكرة في واجهة الوكيل.',
         'Required permissions to use the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة "الانتظار" للتذكرة في واجهة الوكيل.',
         'Required permissions to use the ticket phone inbound screen in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة تذكرة الهاتف الواردة في واجهة الوكيل.',
         'Required permissions to use the ticket phone outbound screen in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة تذكرة الهاتف الصادرة في واجهة الوكيل.',
         'Required permissions to use the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'الحقوق المطلوبة للوصول إلى مربع حوار "الأولوية" في منطقة الوكيل.',
         'Required permissions to use the ticket responsible screen in the agent interface.' =>
-            '',
-        'Resend Ticket Email.' => '',
-        'Resent email to "%s".' => '',
+            'الحقوق المطلوبة لفتح مربع الحوار "المسؤول" في منطقة الوكيل.',
+        'Resend Ticket Email.' => 'إعادة إرسال البريد الإلكتروني للتذكرة.',
+        'Resent email to "%s".' => 'إعادة إرسال البريد الإلكتروني إلى "%s".',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
-            '',
-        'Responsible Tickets' => '',
-        'Responsible Tickets.' => '',
+            'يعيد تعيين مالك التذكرة ويقوم بإلغاء قفله إذا تم نقلها إلى قائمة انتظار أخرى.',
+        'Responsible Tickets' => 'التذاكر المسؤول عنها',
+        'Responsible Tickets.' => 'التذاكر المسؤول عنها.',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
-            '',
+            'استعادة تذكرة من الأرشيف (فقط إذا تم تغيير الحالة إلى إحدى الحالات المفتوحة المتاحة).',
         'Retains all services in listings even if they are children of invalid elements.' =>
-            '',
-        'Right' => '',
-        'Roles ↔ Groups' => '',
-        'Romanian' => '',
+            'يحتفظ بجميع الخدمات الموجودة في القوائم حتى لو كانت عناصر فرعية لعناصر غير صالحة.',
+        'Right' => 'يمين',
+        'Roles ↔ Groups' => 'الأدوار ↔ المجموعات',
+        'Romanian' => 'روماني',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
-            '',
-        'Running Process Tickets' => '',
+            'تشغيل وظائف الوكيل العام المستندة على الملفات (ملاحظة: يجب تحديد اسم الوحدة في معلمة -configuration-module، على سبيل المثال "Kernel::System::GenericAgent").',
+        'Running Process Tickets' => 'تشغيل التذاكر في العملية',
         'Runs an initial wildcard search of the existing contacts with data when accessing the AdminContactWD module.' =>
-            '',
+            'يُشغِّل بحثًا أوليًا باستخدام الرموز البارزة لجهات الاتصال الحالية عند الوصول إلى وحدة AdminContactWD.',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>

@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999365784049469;
+    $Self->{Completeness}        = 0.999682892024734;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -318,7 +318,7 @@ sub Data {
         'Currently support data is only shown in this system.' => 'For øyeblikket vises støttedata kun i dette systemet.',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
             'Noen ganger anbefales det å sende disse dataene til OTOBO-teamet for å få bedre støtte.',
-        'Configuration' => 'Backups;Eldre',
+        'Configuration' => 'Konfigurasjon',
         'Send support data' => 'Send support data',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
             'Dette vil tillate systemet å sende ytterligere støttedatainformasjon til OTOBO-teamet.',
@@ -822,7 +822,7 @@ sub Data {
         'Customer user ID' => 'Kundens bruker-ID',
         '(e. g. U5150)' => 'f.eks. U5150',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Fulltekst-søk i innlegg (f.eks. "Mar*in" eller "Baue*").',
-        'To' => 'Default;Tilbakestill',
+        'To' => 'Tilbakestill',
         'Cc' => 'Kopi',
         'Service' => 'Tjeneste',
         'Service Level Agreement' => 'Tjenestenivåavtale',
@@ -921,7 +921,7 @@ sub Data {
         'Do you really want to clear the debug log of this web service?' =>
             'Vil du virkelig tømme feilsøkerloggen for denne web tjenesten?',
         'Request List' => 'Forespørselsliste',
-        'Time' => 'Range;Historisk',
+        'Time' => 'Tid',
         'Communication ID' => 'Kommunikasjons-ID',
         'Remote IP' => 'Fjernstyrt IP',
         'Loading' => 'Laster',
@@ -1425,7 +1425,7 @@ sub Data {
         'Hide this message' => 'Skjul denne meldingen',
         'Recent Log Entries' => 'Siste Loggmeldinger',
         'Facility' => 'Innretning',
-        'Message' => 'Text;Chatmeldingstekst;;False;;;Perl',
+        'Message' => 'Melding',
 
         # Template: AdminMailAccount
         'Mail Account Management' => 'Administrasjon: E-postkontoer',
@@ -2072,7 +2072,7 @@ sub Data {
             'Her kan du skrive inn SQL for å sende den direkte til applikasjonsdatabasen. Det er ikke mulig å endre innholdet i tabellene, kun utvalgte spørringer er tillatt.',
         'Here you can enter SQL to send it directly to the application database.' =>
             'Her kan du skrive SQL for å sende kommandoer rett til OTOBO sin database.',
-        'Options' => 'Reference;Referanse',
+        'Options' => 'Valg',
         'Only select queries are allowed.' => 'Kun select spørringer er mulig.',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'SQL-spørringen har en syntaks-feil. Vennligst sjekk den.',
@@ -2153,7 +2153,7 @@ sub Data {
             'Støttepakken er for stor til å sende via e-post, dette alternativet er deaktivert.',
         'The email address for this user is invalid, this option has been disabled.' =>
             'E-postadressen til denne brukeren er ugyldig, dette alternativet er deaktivert.',
-        'Sending' => 'Queue;Sendingskø',
+        'Sending' => 'Sender',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
             'Støttepakken sendes automatisk til OTOBO Team via e-post.',
         'Download File' => 'Last ned fil',
@@ -2588,7 +2588,7 @@ sub Data {
         'out of office' => 'ikke på kontoret',
 
         # Template: AgentDashboardUserOutOfOffice
-        'until' => 'time;Venter',
+        'until' => 'fram til',
 
         # Template: AgentDynamicFieldDBDetailedSearch
         'Back' => 'Tilbake',
@@ -2671,7 +2671,7 @@ sub Data {
 
         # Template: AgentSplitSelection
         'Target' => 'Mål',
-        'Process' => 'configured!;Ingen',
+        'Process' => 'Prosess',
         'Split' => 'Del',
 
         # Template: AgentStatisticsAdd
@@ -2762,7 +2762,7 @@ sub Data {
         'Sum rows' => 'Summer rader',
         'Sum columns' => 'Summer kolonner',
         'Show as dashboard widget' => 'Vis som dashbord-widget',
-        'Cache' => 'cleanup.;OTOBO',
+        'Cache' => 'Cache',
         'This statistic contains configuration errors and can currently not be used.' =>
             'Denne statistikken inneholder konfigurasjonsfeil og kan for øyeblikket ikke brukes.',
 
@@ -3147,7 +3147,7 @@ sub Data {
         'Types' => 'Typer',
         'Time Restrictions' => 'Tidsbegrensninger',
         'No time settings' => 'Ingen tidsinnstillinger',
-        'All' => 'Packages;Oppdater',
+        'All' => 'Alle',
         'Specific date' => 'Spesifikk dato',
         'Only tickets created' => 'Kun saker opprettet',
         'Date range' => 'Datointervall',
@@ -3182,7 +3182,7 @@ sub Data {
         'Warning' => 'Advarsel',
 
         # Template: TileNewTicket
-        'Issue%sa ticket' => 'Utsted%sen sak',
+        'Issue%sa ticket' => 'Opprett%sen sak',
 
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Hendelsesinformasjon',
@@ -3626,7 +3626,7 @@ sub Data {
 
         # JS Template: UploadContainer
         'Click to select a file for upload.' => 'Klikk for å velge en fil for opplasting.',
-        'Click to select or drop files here.' => 'Klikk for å velge eller slippe filer her.',
+        'Click to select or drop files here.' => 'Klikk for å velge eller slipp filer her.',
         'Click to select files or just drop them here.' => 'Klikk for å velge filer eller bare slipp dem her.',
         'Click to select a file or just drop it here.' => 'Klikk for å velge en fil eller bare slipp den her.',
         'Uploading...' => 'Laster opp...',
@@ -3883,9 +3883,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
         'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
-            '',
+            'Feil i syntaks. Vennligst legg til et foreldreelement foran det doble kolonet.',
         'An element is used as parent element, but not included itself. Please include it.' =>
-            '',
+            'Et element blir brukt som foreldreelement, men er ikke inkludert selv. Vennligst legg det til.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => 'Innstillingene ble lagret.',
@@ -5174,8 +5174,8 @@ sub Data {
             'Det er for tiden ikke mulig å logge inn på grunn et planlagt vedlikehold.',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-        'Authentication error. Please contact the administrator.' => '',
-        'Authentication error.' => '',
+        'Authentication error. Please contact the administrator.' => 'Feil med autentisering. Vennligst kontakt administrator.',
+        'Authentication error.' => 'Feil med autentisering.',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             'Ugyldig svar fra autentiseringsserveren. Kanskje prosessen tok for lang tid. Prøv igjen én gang.',
 
@@ -5797,7 +5797,7 @@ sub Data {
         'All Settings' => 'Alle innstillinger',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
-        'Default' => 'Values;Ugyldige',
+        'Default' => 'Standard',
         'Value is not correct! Please, consider updating this field.' => 'Verdien er ikke riktig! Vennligst vurder å oppdatere dette feltet.',
         'Value doesn\'t satisfy regex (%s).' => 'Verdien tilfredsstiller ikke regulært uttrykk (%s).',
 
@@ -7176,10 +7176,10 @@ Ditt Helpdesk-team
             'Spesifiserer standardinnholdet for notiser i sakens fritekstdel for saksbehandlere.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Definerer standard filterfelt i kundebrukeradresseboksøket (CustomerUser eller CustomerCompany). For CustomerCompany-feltene må et prefiks \'CustomerCompany_\' legges til.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
-            'Definerer standard frontend-tema (HTML) som skal brukes av agenter og kunder. Hvis du vil, kan du legge til ditt eget tema. Vennligst se administratorhåndboken på https://doc.otobo.org/.',
-        'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
-            'Spesifiserer standardspråk for webdelen. De mulige valgene er bestemt av språkene som er tilgjengelige i løsningen (se neste innstilling).',
+        'Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
+            '',
+        'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
+            '',
         'Defines the default history type in the customer interface.' => 'Spesifiserer standard historikkvisning i kundeportalen.',
         'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
             'Definerer standardgrensesnittet. Ukjente stier under skriptaliaset blir omdirigert til det valgte grensesnittet.',
@@ -9472,7 +9472,7 @@ Ditt Helpdesk-team
             'Ditt tjenestevalg av dine foretrukne tjenester. Du blir også varslet om disse tjenestene via e-post hvis aktivert.',
         'Zoom' => 'Detaljer',
         'attachment' => 'vedlegg',
-        'bounce' => 'email!;Kan',
+        'bounce' => 'sprett tilbake',
         'compose' => 'komponere',
         'debug' => 'feilsøke',
         'error' => 'feil',
