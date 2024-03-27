@@ -1078,6 +1078,15 @@ sub Safety {
         # only inspect start tags
         return unless $Event eq 'start';
 
+        # Consider non-alpha, non-digit chars in the tag as suspicious
+        # e.g. <SCRIPT/XSS SRC="http://xss.rocks/xss.js"></SCRIPT>
+        # This filter is always active.
+        if ( $Tag =~ m/[^a-zA-Z0-9]/ ) {
+            $ScrubberReplaced++;
+
+            return '';    # discard the tag
+        }
+
         if ( $Param{NoIntSrcLoad} || $Param{NoExtSrcLoad} ) {
             BLACK_LISTED:
             for my $Blacklisted (qw(src poster)) {
@@ -1109,14 +1118,6 @@ sub Safety {
         }
 
         if ( $Param{NoJavaScript} ) {
-
-            # consider non-alpha, non-digit chars in the tag as suspicious
-            # e.g. <SCRIPT/XSS SRC="http://xss.rocks/xss.js"></SCRIPT>
-            if ( $Tag =~ m/[^a-zA-Z0-9]/ ) {
-                $ScrubberReplaced++;
-
-                return '';    # discard the tag
-            }
 
             # remove HTTP redirects in meta tags
             if ( $Tag eq 'meta' && $Attr->{'http-equiv'} && $Attr->{'http-equiv'} =~ m/refresh/i ) {
