@@ -91,7 +91,7 @@ sub GetConfig {
         )
     };
 
-    for my $Entry ( sort keys %ArticleVersionHistory ) {
+    for my $Entry ( sort { $a <=> $b } keys %ArticleVersionHistory ) {
         my %VersionData = %{ $ArticleVersionHistory{$Entry} };
 
         my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
@@ -124,6 +124,7 @@ sub GetConfig {
             Class        => 'Modernize',
             Data         => \%ArticleVersions,
             PossibleNone => 1,
+            Sort         => 'NumericKey'
         );
 
         push @MenuItems, {
