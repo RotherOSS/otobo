@@ -222,18 +222,20 @@
                     <fieldset class="TableLike FixedLabel">
                         <label class="Mandatory" for="Template"><span class="Marker">*</span>[% Translate("XSLT stylesheet") | html %]:</label>
                         <div class="Field">
-                            <div id="CMToolbarContainer" class="CMToolbarContainer Hidden">
-                                <div id="CMToolbarIcons" class="CMToolbarIcons">
-                                    <div title="[% Translate("Auto Indent Code") | html %]" class="CMIndent" onclick="Core.UI.CodeMirrorEditor.IndentCode();"></div>
-                                    <div title="[% Translate("Comment/Uncomment Code") | html %]" class="CMComment" onclick="Core.UI.CodeMirrorEditor.ToogleComment();"></div>
-                                    <div title="[% Translate("Search") | html %]" class="CMSearch" onclick="Core.UI.CodeMirrorEditor.Search();"></div>
-                                    <div title="[% Translate("Search & Replace") | html %]" class="CMSearchReplace" onclick="Core.UI.CodeMirrorEditor.SearchReplace();"></div>
-                                    <div title="[% Translate("Select All") | html %]" class="CMSelectAll" onclick="Core.UI.CodeMirrorEditor.SelectAll();"></div>
-                                    <div title="[% Translate("Full Screen") | html %]" class="CMMaximize" onclick="Core.UI.CodeMirrorEditor.ToogleFullScreen('Maximize');"></div>
+                            <div class="CodeMirrorContainer">
+                                <div id="CMToolbarContainer" class="CMToolbarContainer Hidden">
+                                    <div id="CMToolbarIcons" class="CMToolbarIcons">
+                                        <div title="[% Translate("Auto Indent Code") | html %]" class="CMIndent" onclick="Core.UI.CodeMirrorEditor.IndentCode();"></div>
+                                        <div title="[% Translate("Comment/Uncomment Code") | html %]" class="CMComment" onclick="Core.UI.CodeMirrorEditor.ToogleComment();"></div>
+                                        <div title="[% Translate("Search") | html %]" class="CMSearch" onclick="Core.UI.CodeMirrorEditor.Search();"></div>
+                                        <div title="[% Translate("Search & Replace") | html %]" class="CMSearchReplace" onclick="Core.UI.CodeMirrorEditor.SearchReplace();"></div>
+                                        <div title="[% Translate("Select All") | html %]" class="CMSelectAll" onclick="Core.UI.CodeMirrorEditor.SelectAll();"></div>
+                                        <div title="[% Translate("Full Screen") | html %]" class="CMMaximize" onclick="Core.UI.CodeMirrorEditor.ToogleFullScreen('Maximize');"></div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <textarea id="Template" name="Template" rows="20" cols="80" class="CodeMirrorEditor Validate_Required [% Data.TemplateError | html %]">[% Data.Template | html %]</textarea>
+                                <textarea id="Template" name="Template" rows="20" cols="80" class="CodeMirrorEditor Validate_Required [% Data.TemplateError | html %]">[% Data.Template | html %]</textarea>
+                            </div>
                             <div id="TemplateServerError" class="TooltipErrorMessage">
                                 <p>[% Translate("The entered data is not a valid XSLT style sheet.") | html %]</p>
                             </div>
