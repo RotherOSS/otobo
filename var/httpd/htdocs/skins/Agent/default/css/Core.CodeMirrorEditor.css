@@ -15,11 +15,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * @package     Skin "Default"
- * @section     Dialogs
+ * @section     CodeMirrorEditor
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  CodeMirrrorEditor
  */
 
 .CodeMirrorContainer {
-    width: 60%;
+    width: 80%;
 }
 
 /* div is neccessary to increase specifity */
@@ -27,3 +33,5 @@ div.CodeMirror-wrap {
     /* one line is 22.8 px of height, so this equals 10 lines plus 2 times 4px padding */
     height: 236px;
 }
+
+} /* end @media */
