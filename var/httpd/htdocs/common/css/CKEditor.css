@@ -309,12 +309,12 @@ blockquote {
     margin-left: 0;
     margin-right: 0;
     font-style: normal;
-    border-left: solid var(--colMainLight) 1.5pt
+    border-left: solid #001bff 1.5pt
 }
 
 .ck-content[dir=rtl] blockquote {
     border-left: 0;
-    border-right: solid var(--colMainLight) 1.5pt
+    border-right: solid #001bff 1.5pt
 }
 
 code {
