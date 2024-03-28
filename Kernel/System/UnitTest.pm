@@ -88,16 +88,27 @@ sub new {
 run all or some tests located in C<scripts/test/**/*.t> and print the result.
 
     $UnitTestObject->Run(
-        Tests           => ['JSON', 'User'],              # optional, execute certain test files only
-        TestScriptPath  => 'scripts/test/DB',             # optional, execute a single specific test script or scripts in dir
-        Directory       => 'Selenium',                    # optional, execute only the tests in a subdirectory relative to scripts/test
-        SOPMFiles       => ['FAQ.sopm', 'Fred.sopm' ],    # optional, execute only the tests in the Filelist of the .sopm files
-        Packages        => ['Survey', 'TimeAccounting' ], # optional, execute only the tests in the Filelist of the installed package
-                                                          # 'core' indicates the core files listed in ARCHIVE
-        Verbose         => 1,                             # optional (default 0), only show result details for all tests, not just failing
-        Merge           => 1,                             # optional (default 0), merge STDERR and STDOUT of test scripts
-        PostTestScripts => ['...'],                       # Script(s) to execute after a test has been run.
-                                                          #   You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
+        Tests           => [                    # optional, execute certain test files only
+            'JSON',
+            'User'
+        ],
+        TestScriptPathes => [                   # optional, execute specific test scripts or scripts in dir
+            'scripts/test/DB',
+            'scripts/test/NutsAndBolts.t'
+        ],
+        Directory       => 'Selenium',          # optional, execute only the tests in a subdirectory relative to scripts/test
+        SOPMFiles       => [                    # optional, execute only the tests in the Filelist of the .sopm files
+            'FAQ.sopm',
+            'Fred.sopm'
+        ],
+        Packages        => [                    # optional, execute only the tests in the Filelist of the installed package
+            'Survey',                           #   'core' indicates the core files listed in ARCHIVE
+            'TimeAccounting'
+        ],
+        Verbose         => 1,                   # optional (default 0), only show result details for all tests, not just failing
+        Merge           => 1,                   # optional (default 0), merge STDERR and STDOUT of test scripts
+        PostTestScripts => ['...'],             # Script(s) to execute after a test has been run.
+                                                #   You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
     );
 
 You can also specify multiple directories:
@@ -127,13 +138,13 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # handle parameters
-    my $Verbosity      = $Param{Verbose} // 0;    # print test results when set to 1
-    my $Merge          = $Param{Merge}   // 0;
-    my $DoShuffle      = $Param{Shuffle} // 0;
-    my $DirectoryParam = $Param{Directory};       # either a scalar or an array ref
-    my @SOPMFiles      = ( $Param{SOPMFiles} // [] )->@*;
-    my @Packages       = ( $Param{Packages}  // [] )->@*;
-    my $TestScriptPath = $Param{TestScriptPath};
+    my $Verbosity        = $Param{Verbose} // 0;    # print test results when set to 1
+    my $Merge            = $Param{Merge}   // 0;
+    my $DoShuffle        = $Param{Shuffle} // 0;
+    my $DirectoryParam   = $Param{Directory};       # either a scalar or an array ref
+    my @SOPMFiles        = ( $Param{SOPMFiles}        // [] )->@*;
+    my @Packages         = ( $Param{Packages}         // [] )->@*;
+    my @TestScriptPathes = ( $Param{TestScriptPathes} // [] )->@*;
 
     # The tests specified with the option --test indicate the file name
     # or optionally one or more parent directories.
@@ -150,27 +161,30 @@ sub Run {
     my $Host         = hostname();
 
     my @ActualTestScripts;
-    if ( defined $TestScriptPath ) {
+    if (@TestScriptPathes) {
 
-        # every other option is ignored
-        if ( -f $TestScriptPath ) {
-            push @ActualTestScripts, $TestScriptPath;
-        }
-        elsif ( -d $TestScriptPath ) {
+        # only the explicit list counts, all other options are ignored
+        for my $TestScriptPath (@TestScriptPathes) {
+            if ( -f $TestScriptPath ) {
+                push @ActualTestScripts, $TestScriptPath;
+            }
+            elsif ( -d $TestScriptPath ) {
 
-            # no special handling of 'Custom' dir
-            push @ActualTestScripts,
-                $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-                    Directory => $TestScriptPath,
-                    Filter    => '*.t',
-                    Recursive => 1,
-                );
-        }
-        else {
-            # do nothing
+                # no special handling of 'Custom' dir
+                push @ActualTestScripts,
+                    $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                        Directory => $TestScriptPath,
+                        Filter    => '*.t',
+                        Recursive => 1,
+                    );
+            }
+            else {
+                # do nothing
+            }
         }
     }
     else {
+
         # run tests in a subdir when requested
         my $TestDirectory = "$Home/scripts/test";
         my @Directories;

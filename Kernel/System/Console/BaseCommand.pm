@@ -178,9 +178,13 @@ indicate which arguments it can process.
         Description  => 'name of the file to be loaded',
         Required     => 1,
         ValueRegex   => qr{a-zA-Z0-9]\.txt},
+        Slurpy       => 1,   # optional, 0|1, the default is 0
     );
 
 Please note that required arguments have to be specified before any optional ones.
+
+When C<Slurpy> is passed then this argument will slurp up all remaining values.
+Argument declarations after a C<Slurpy> declaration are silently ignored.
 
 The information about known arguments and options (see below) will be used to generate
 usage help and also to automatically verify the data provided by the user on the command line.
@@ -999,21 +1003,48 @@ sub _ParseCommandlineArguments {
 
     my %ArgumentValues;
 
+    # handle the arguments that are not named options
     ARGUMENT:
     for my $Argument ( @{ $Self->{_Arguments} // [] } ) {
-        if ( !@{$Arguments} ) {
-            if ( !$Argument->{Required} ) {
-                next ARGUMENT;
-            }
 
+        if ( !@{$Arguments} ) {
+
+            # optional options are skipped when the argument array is exhausted
+            next ARGUMENT unless $Argument->{Required};
+
+            # missing required arguments trigger an error
             $Self->PrintError("please provide a value for argument '$Argument->{Name}'.");
+
             return;
         }
 
-        my $Value = shift @{$Arguments};
+        # slurpy unnamed option take the whole array
+        # any argument declaration after a slurpy argument is ignored
+        if ( $Argument->{Slurpy} ) {
+
+            # do the slurping
+            my $ValueList = $Arguments;
+            $Arguments = [];
+
+            for my $Value ( $ValueList->@* ) {
+                if ( $Value !~ $Argument->{ValueRegex} ) {
+                    $Self->PrintError("please provide a valid value for argument '$Argument->{Name}'.");
+
+                    return;
+                }
+            }
+
+            $ArgumentValues{ $Argument->{Name} } = $ValueList;
+
+            last ARGUMENT;
+        }
+
+        # single value when not slurpy
+        my $Value = shift $Arguments->@*;
 
         if ( $Value !~ $Argument->{ValueRegex} ) {
             $Self->PrintError("please provide a valid value for argument '$Argument->{Name}'.");
+
             return;
         }
 
@@ -1054,7 +1085,9 @@ sub _Color {
 
 sub _ReplaceColorTags {
     my ( $Self, $Text ) = @_;
+
     $Text =~ s{<(green|yellow|red)>(.*?)</\1>}{$Self->_Color($1, $2)}gsmxe;
+
     return $Text;
 }
 
