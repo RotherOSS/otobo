@@ -139,6 +139,12 @@ textarea {
     font-family: monospace,fixed;
 }
 
+.DynamicFieldSet textarea,
+.Row.MultiColumn textarea {
+    resize: vertical;
+    width: 100%;
+}
+
 
 /**
  * @subsection  Input Readonly
@@ -699,10 +705,6 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
     width: calc(100% - 40px);
 }
 
-fieldset.TableLike .Row.MultiColumn textarea {
-    width: 100%;
-}
-
 /* Dynamic Field Set */
 
 fieldset.TableLike .DFSetOuterField {
@@ -728,7 +730,6 @@ fieldset.TableLike .DynamicFieldSet .Row.MultiColumn > .FieldCell {
     display: grid;
     columns: 2;
     grid-template-columns: 1fr 32px;
-    grid-auto-rows: min-content minmax(min-content, 1fr);
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet label {
@@ -743,7 +744,9 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row.MultiColumn label {
+    padding-left: 10px;
     text-align: left;
+    text-overflow: ellipsis;
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field {
@@ -755,18 +758,9 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
     grid-column: 1;
 }
 
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, input[type='checkbox']) {
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 100% !important;
-}
-
-fieldset.TableLike >.Row .Field.DFSetOuterField [class*='cke_editor'] {
-    width: 100% !important;
-}
-
 /* multivalue sets. necessary because of competing CSS specificities*/
-fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, input[type='checkbox']) {
+fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, [type="checkbox"]),
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, [type="checkbox"]) {
     width: 100%;
     box-sizing: border-box;
 }
@@ -778,7 +772,7 @@ fieldset.TableLike .DynamicFieldSet .InputField_InputContainer {
 }
 
 /* TODO check if it makes sense to do this only if input is direct child */
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField input:not([type='checkbox']) {
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField input:not([type="checkbox"]) {
     min-width: 150px; /*kind of random, not ideal*/
     box-sizing: border-box;
     width: 100% !important;
@@ -839,10 +833,6 @@ fieldset.TableLike .Field > input,
 fieldset.TableLike .Row > .Field > input {
     max-width: 100%;
     border-radius: 4px;
-}
-
-fieldset.TableLike .Row.Row.MultiColumn > .FieldCell > .Field > input[type='checkbox'] {
-    width: fit-content !important;
 }
 
 /*fieldset.TableLike > .Field > select#ConfigFile,
