@@ -152,6 +152,7 @@
             <Hash>
                 <Item Key="CSS">
                     <Array>
+                        <Item>Core.CodeMirrorEditor.css</Item>
                         <Item>Core.Agent.Admin.ProcessManagement.css</Item>
                         <Item>Core.AllocationList.css</Item>
                         <Item>thirdparty/codemirror-5.65.16/lib/codemirror.css</Item>

@@ -610,6 +610,7 @@
                 <Item Key="CSS">
                     <Array>
                         <Item>Core.Agent.Admin.GenericInterface.css</Item>
+                        <Item>Core.CodeMirrorEditor.css</Item>
                         <Item>thirdparty/codemirror-5.65.16/lib/codemirror.css</Item>
                         <Item>thirdparty/codemirror-5.65.16/addon/hint/show-hint.css</Item>
                         <Item>thirdparty/codemirror-5.65.16/addon/fold/foldgutter.css</Item>
