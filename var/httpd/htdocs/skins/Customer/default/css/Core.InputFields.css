@@ -223,6 +223,10 @@ textarea {
         transition: border 0.2s ease, color 0.2s ease;
 }
 
+.FieldCell {
+    position: relative;
+}
+
 .FieldCell > label,
 .Row > label {
     pointer-events: none;
@@ -236,6 +240,12 @@ textarea {
    -moz-transition: top 0.2s ease, color 0.2s ease;
      -o-transition: top 0.2s ease, color 0.2s ease;
         transition: top 0.2s ease, color 0.2s ease;
+}
+
+.FieldCell .AJAXLoader {
+    position: absolute;
+    right: 42px;
+    top: 23px;
 }
 
 /* hover, selected and filled */
@@ -582,11 +592,6 @@ input[readonly] {
     margin-left: -22px; /* +4px for empty spaces */
 }
 
-.oooCheckboxContainer ~ .Tooltip,
-.oooDateContainer ~ .Tooltip {
-    left: -48px;
-}
-
 .Tooltip > .Content {
     background-color: #fff;
     border-radius: 15px;
@@ -855,60 +860,25 @@ div.InputField_ToolbarContainer ul li a:hover {
     width: fit-content;
 }
 
-.FieldCell .DFSetOuterField ~ .AddRemoveValueRow {
-    position: relative;
-    left: calc(100% + 12px);
-    top: calc(-100% + 40px);
-}
-
 .DynamicFieldSet {
     border: solid 1px var(--colTextLight);
     border-radius: 10px;
     padding-left: 32px;
     padding-bottom: 40px;
-    padding-right: 32px;
+    padding-right: 8px;
 }
 
 .DynamicFieldSet .Row_DynamicField {
-    width: 100%;
+    width: calc( 100% - 40px );
     margin-left: 0px;
-    height: fit-content;
+}
+
+.DynamicFieldSet .Row_DynamicField.MultiColumn {
+    width: 100%;
 }
 
 .DynamicFieldSet .Row_DynamicField .Field {
     width: 100%;
-}
-
-.DynamicFieldSet .Row_DynamicField .FieldCell {
-    display: inline-grid;
-    grid-template-columns: 1fr 65px;
-    width: 100%;
-}
-
-.DynamicFieldSet .Row_DynamicField .oooDateContainer, 
-.DynamicFieldSet .Row_DynamicField .oooCheckboxContainer {
-    display: inline-flex;
-}
-
-.DynamicFieldSet .Row_DynamicField .oooDateContainer > label, 
-.DynamicFieldSet .Row_DynamicField .oooCheckboxContainer > label {
-    left: 4px;
-    top: 0px;
-    position: relative;
-}
-
-.DynamicFieldSet .Row_DynamicField.MultiColumn .FieldCell .Field {
-    grid-column: 1;
-    grid-row: 1;
-    position: relative;
-    left: 0px;
-    top: 0px;
-    width: 100% !important;
-}
-
-.DynamicFieldSet .Row_DynamicField.MultiColumn .AddRemoveValueRow {
-    grid-column: 2;
-    grid-row: 1;
 }
 
 
