@@ -93,7 +93,6 @@ sub new {
     # allocate new hash for object
     # %Param often has a entry for 'SetCookies'
     my $Self = bless {%Param}, $Type;
-    my $HasRichTextEditor = $Self->{HasRichTextEditor} || 0;
 
     # set defaults
     $Self->{Debug} = 0;
@@ -375,13 +374,13 @@ EOF
     # check if rich text can be active
     if ( !$Self->{BrowserJavaScriptSupport} || !$Self->{BrowserRichText} ) {
         $ConfigObject->Set(
-            Key   => $HasRichTextEditor,
+            Key   => 'Frontend::RichText',
             Value => 0,
         );
     }
 
     # check if rich text is active
-    if ( !$ConfigObject->Get($HasRichTextEditor) ) {
+    if ( !$ConfigObject->Get('Frontend::RichText') ) {
         $Self->{BrowserRichText} = 0;
     }
 
