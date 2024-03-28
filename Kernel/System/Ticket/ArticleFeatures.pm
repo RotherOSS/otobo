@@ -144,7 +144,7 @@ Returns db success:
 sub ArticleDelete {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(ArticleID TicketID UserID)) {
+    for my $Needed (qw(ArticleID TicketID UserID UserLogin)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -222,6 +222,13 @@ sub ArticleDelete {
             Type => 'Article',
             Key  => $CacheKey,
         );
+
+        $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
+            TicketID     => $Param{TicketID},
+            HistoryType  => 'ArticleDelete',
+            Name         => "\%\%$Param{ArticleID}\%\%$Param{UserLogin}\%\%$Param{UserID}",
+            CreateUserID => $Param{UserID},
+        );        
     }
 
     return $Success;
@@ -375,7 +382,7 @@ Returns db success:
 sub ArticleRestore {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(ArticleID TicketID)) {
+    for my $Needed (qw(ArticleID TicketID UserID UserLogin)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -505,6 +512,17 @@ sub ArticleRestore {
 
         $Kernel::OM->Get('Kernel::System::Ticket')->_TicketCacheClear( TicketID => $Param{TicketID} );
     }
+
+    if ($Success) {
+        # add history entry
+        $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
+            TicketID     => $Param{TicketID},
+            ArticleID    => $Param{ArticleID},
+            HistoryType  => 'ArticleRestore',
+            Name         => "\%\%$Param{ArticleID}\%\%$Param{UserLogin}\%\%$Param{UserID}",
+            CreateUserID => $Param{UserID},
+        );
+    }    
 
     return $Success;
 }

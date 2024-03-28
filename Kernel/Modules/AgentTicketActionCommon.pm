@@ -376,7 +376,7 @@ sub Run {
     my %ArticleData;
 
     # if we are editing an article
-    if ( $Self->{ArticleID} && !$Self->{IsEdited} ) {
+    if ( $Self->{ArticleID} && !$Self->{Subaction} ) {
 
         my %Ticket = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
 
@@ -519,13 +519,9 @@ sub Run {
         )
     {
 
-        next PARAMETER if $Self->{ArticleID} && !$Self->{IsEdited} && ( $Key eq 'Body' || $Key eq 'Subject' );
+        next PARAMETER if $Self->{ArticleID} && !$Self->{Subaction} && ( $Key eq 'Body' || $Key eq 'Subject' );
 
         $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
-    }
-
-    if ( $Self->{ArticleID} && !$Self->{IsEdited} ) {
-        $Self->{IsEdited} = 1;
     }
 
     # ACL compatibility translation

@@ -57,7 +57,6 @@ sub Run {
 
     # set ArticleEdit specific params
     $Self->{ArticleID} = $ParamObject->GetParam( Param => 'ArticleID' );
-    $Self->{IsEdited}  = $ParamObject->GetParam( Param => 'IsEdited' );
 
     if ( !$Self->{ArticleID} ) {
         return $LayoutObject->ErrorScreen(
@@ -185,21 +184,12 @@ sub _ArticleDeletion {
 
         $Success = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ArticleRestore(
             ArticleID => $Self->{ArticleID},
-            TicketID  => $Self->{TicketID}
+            TicketID  => $Self->{TicketID},
+            UserID    => $Self->{UserID},
+            UserLogin => $Self->{UserLogin}
         );
 
-        if ($Success) {
-
-            # add history entry
-            $TicketObject->HistoryAdd(
-                TicketID     => $Self->{TicketID},
-                ArticleID    => $Self->{ArticleID},
-                HistoryType  => 'ArticleRestore',
-                Name         => "\%\%$Self->{ArticleID}\%\%$Self->{UserLogin}\%\%$Self->{UserID}",
-                CreateUserID => $Self->{UserID},
-            );
-        }
-        else {
+        if (!$Success) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Error trying to restore article id: ' . $Self->{ArticleID}
@@ -212,21 +202,11 @@ sub _ArticleDeletion {
         $Success = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ArticleDelete(
             ArticleID => $Self->{ArticleID},
             TicketID  => $Self->{TicketID},
-            UserID    => $Self->{UserID}
+            UserID    => $Self->{UserID},
+            UserLogin => $Self->{UserLogin}
         );
 
-        if ($Success) {
-
-            # TODO: move history to System module
-            # add history entry
-            $TicketObject->HistoryAdd(
-                TicketID     => $Self->{TicketID},
-                HistoryType  => 'ArticleDelete',
-                Name         => "\%\%$Self->{ArticleID}\%\%$Self->{UserLogin}\%\%$Self->{UserID}",
-                CreateUserID => $Self->{UserID},
-            );
-        }
-        else {
+        if (!$Success) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Error trying to delete article id: ' . $Self->{ArticleID}
