@@ -23,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use List::AllUtils qw(none);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -59,11 +60,14 @@ my @ConfigFiles = $MainObject->DirectoryRead(
     Filter    => '*.xml',
 );
 
+# Skip test when there non-standard XML files in the directory
 for my $ConfigFile (@ConfigFiles) {
 
     $ConfigFile =~ s{^${Home}/(.*/[^/]+.xml)$}{$1}xmsg;
 
-    if ( !grep { $_ =~ $ConfigFile } @{$ChecksumFileArrayRef} ) {
+    # This check also works for Kernel/Config/Files/XML/DockerConfig.xml
+    # as in Docker builds the DockerConfig,xml.dist is copied before ARCHIVE is generated.
+    if ( none { $_ =~ $ConfigFile } $ChecksumFileArrayRef->@* ) {
         skip_all("Custom configuration file found ($ConfigFile), skipping test...");
     }
 }
@@ -194,4 +198,4 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
     }
 }
 
-done_testing();
+done_testing;
