@@ -93,7 +93,7 @@ sub new {
     # allocate new hash for object
     # %Param often has a entry for 'SetCookies'
     my $Self = bless {%Param}, $Type;
-    my $HasRichTextEditor = $Self->{HasRichTextEditor} || 0;
+    my $HasRichText = $Self->{HasRichText} || 0;
 
     # set defaults
     $Self->{Debug} = 0;
@@ -375,14 +375,24 @@ EOF
     # check if rich text can be active
     if ( !$Self->{BrowserJavaScriptSupport} || !$Self->{BrowserRichText} ) {
         $ConfigObject->Set(
-            Key   => $HasRichTextEditor,
+            Key   => 'RichText',
             Value => 0,
         );
     }
 
     # check if rich text is active
-    if ( !$ConfigObject->Get($HasRichTextEditor) ) {
-        $Self->{BrowserRichText} = 0;
+    if (!$HasRichText) {
+        my $VacationDays  = $Self->DatepickerGetVacationDays();
+        my $TextDirection = $Self->{LanguageObject}->{TextDirection} || '';
+
+        # send data to JS
+        $Self->AddJSData(
+            Key   => 'RichText',
+            Value => {
+                $Self->{BrowserRichText} = 0;
+            },
+        );
+        $Self->{HasRichText} = 1;
     }
 
     # load theme
@@ -1742,7 +1752,7 @@ sub Footer {
     my ( $Self, %Param ) = @_;
 
     my $Type          = $Param{Type}           || '';
-    my $HasDatepicker = $Self->{HasDatepicker} || 0;
+    my $picker = $Self->{HasDatepicker} || 0;
 
     # generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentJSCalls();
