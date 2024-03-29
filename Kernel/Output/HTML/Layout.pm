@@ -93,7 +93,7 @@ sub new {
     # allocate new hash for object
     # %Param often has a entry for 'SetCookies'
     my $Self = bless {%Param}, $Type;
-    my $HasRichText = $Self->{'Frontend::RichText'} || 0;
+    my $HasRichTextEditor = $Self->{'Frontend::RichText'};
 
     # set defaults
     $Self->{Debug} = 0;
@@ -381,12 +381,9 @@ EOF
     }
 
     # check if rich text is active
-    if (!$HasRichText) {
-        # send data to JS
-        $Self->AddJSData(
-            Key   => 'RichText',
-            Value => $HasRichText,
-        );
+    if (!$HasRichTextEditor) {
+        $Self-> Footer()
+        $Self->{HasRichTextEditor} = 1;
     }
 
     # load theme
