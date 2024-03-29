@@ -27,11 +27,11 @@ use warnings;
 use utf8;
 
 # core modules
-use Digest::MD5 qw(md5_hex);
-use Exporter qw(import);
-use Fcntl qw(:flock); ## no perlimports
+use Digest::MD5    qw(md5_hex);
+use Exporter       qw(import);
+use Fcntl          qw(:flock); ## no perlimports
 use File::Basename qw(basename);
-use File::stat qw(stat);
+use File::stat     qw(stat);
 
 # CPAN modules
 use Try::Tiny;
