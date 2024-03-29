@@ -60,6 +60,9 @@ of L<Kernel::Config>, even though they are actually implemented here.
 loads the default values of settings that are required to run OTOBO even
 when it was not fully configured yet.
 
+These settings should be the same as the settings that are declared in
+the F<Kernel/Config/Files/XML/*.xml> files.
+
 =cut
 
 sub LoadDefaults {
@@ -1032,7 +1035,8 @@ sub LoadDefaults {
       'Core.Animations.css',
       'Core.Icons.css',
       'Core.Footer.css',
-      'Core.Items.css'
+      'Core.Items.css',
+      'ExtendedCDBInfo.Tile.css',
     ];
 
     # Agent Common CSS
@@ -1101,7 +1105,8 @@ sub LoadDefaults {
         'Core.Customer.js',
         'Core.Customer.Responsive.js',
         'Core.UI.NavigationBar.js',
-        'Core.UI.Elasticsearch.js'
+        'Core.UI.Elasticsearch.js',
+        'ExtendedCDBInfo.Tile.js',
     ];
 
     # Agent Common JS
