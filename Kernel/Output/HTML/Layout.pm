@@ -385,9 +385,7 @@ EOF
         # send data to JS
         $Self->AddJSData(
             Key   => 'RichText',
-            Value => {
-                 $Self->{HasRichText} => 1;
-            },
+            Value => $HasRichText,
         );
     }
 
