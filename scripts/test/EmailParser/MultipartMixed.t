@@ -21,17 +21,17 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 my @Tests = (
     {
+        Line     => __LINE__,
         Name     => "plain email with ascii and utf-8 part",
         RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedPlain.eml",
         Body     => 'first part
@@ -74,6 +74,7 @@ second part äöø',
         ],
     },
     {
+        Line     => __LINE__,
         Name     => "HTML email with ascii and utf-8 part",
         RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedHTML.eml",
         Body     => 'first part
@@ -133,6 +134,7 @@ second part äöø',
         ],
     },
     {
+        Line     => __LINE__,
         Name     => "mixed email with plain and HTML part",
         RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedPlainHTML.eml",
         Body     => 'Hello,
@@ -179,6 +181,7 @@ Erik
         ],
     },
     {
+        Line     => __LINE__,
         Name     => "mixed email with HTML and plain part",
         RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedHTMLPlain.eml",
         Body     => '    Hi,
@@ -259,10 +262,10 @@ for my $Test (@Tests) {
     my @Attachments = $EmailParserObject->GetAttachments();
     my $Body        = $EmailParserObject->GetMessageBody();
 
-    $Self->Is(
+    is(
         $Body,
         $Test->{Body},
-        "Test->{Name} - body",
+        "$Test->{Name} - body (line $Test->{Line})",
     );
 
     # Turn on utf-8 flag for parts that were not converted but are still utf-8 for correct comparison.
@@ -272,11 +275,11 @@ for my $Test (@Tests) {
         }
     }
 
-    $Self->IsDeeply(
+    is(
         \@Attachments,
         $Test->{Attachments},
-        "$Test->{Name} - attachments"
+        "$Test->{Name} - attachments (line $Test->{Line})"
     );
 }
 
-$Self->DoneTesting();
+done_testing;
