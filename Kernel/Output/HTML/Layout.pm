@@ -93,7 +93,7 @@ sub new {
     # allocate new hash for object
     # %Param often has a entry for 'SetCookies'
     my $Self = bless {%Param}, $Type;
-    my $HasRichText = $Self->{HasRichText} || 0;
+    my $HasRichText = $Self->{'Frontend::RichText'} || 0;
 
     # set defaults
     $Self->{Debug} = 0;
