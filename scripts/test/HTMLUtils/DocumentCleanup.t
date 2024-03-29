@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get HTMLUtils object
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
@@ -92,29 +96,25 @@ my @Tests = (
     {
         Input  => 'Some Tex<b>t</b>',
         Result => 'Some Tex<b>t</b>',
-        Name   => 'DocumentCleanup - blockquote'
+        Name   => 'DocumentCleanup - bold, no changes'
     },
     {
         Input  => '<blockquote>Some Tex<b>t</b></blockquote>',
-        Result =>
-            '<div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Some Tex<b>t</b></div>',
-        Name => 'DocumentCleanup - blockquote'
+        Result => '<blockquote>Some Tex<b>t</b></blockquote>',
+        Name   => 'DocumentCleanup - blockquote - not replaced'
     },
     {
         Input  => '<blockquote>Some Tex<b>t</b><blockquote>test</blockquote> </blockquote>',
-        Result =>
-            '<div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Some Tex<b>t</b><div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">test</div> </div>',
-        Name => 'DocumentCleanup - blockquote'
+        Result => '<blockquote>Some Tex<b>t</b><blockquote>test</blockquote> </blockquote>',
+        Name   => 'DocumentCleanup - nested blockquote - not replaced'
     },
     {
-        Input =>
-            '<head><base href=3D"file:///C:\Users\dol\AppData\Local\Temp\SnipFile-%7b102B7C0B-D396-440B-9DD6-DD3342805533%7d.HTML"></head>',
+        Input  => '<head><base href=3D"file:///C:\Users\dol\AppData\Local\Temp\SnipFile-%7b102B7C0B-D396-440B-9DD6-DD3342805533%7d.HTML"></head>',
         Result => '<head></head>',
         Name   => 'DocumentCleanup - base tag',
     },
     {
-        Input =>
-            '<head><baSe href=3D"file:///C:\Users\dol\AppData\Local\Temp\SnipFile-%7b102B7C0B-D396-440B-9DD6-DD3342805533%7d.HTML"></head>',
+        Input  => '<head><baSe href=3D"file:///C:\Users\dol\AppData\Local\Temp\SnipFile-%7b102B7C0B-D396-440B-9DD6-DD3342805533%7d.HTML"></head>',
         Result => '<head></head>',
         Name   => 'DocumentCleanup - baSe tag',
     },
@@ -140,11 +140,11 @@ for my $Test (@Tests) {
     my $HTML = $HTMLUtilsObject->DocumentCleanup(
         String => $Test->{Input},
     );
-    $Self->Is(
+    is(
         $HTML,
         $Test->{Result},
         $Test->{Name},
     );
 }
 
-$Self->DoneTesting();
+done_testing;
