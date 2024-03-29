@@ -247,16 +247,18 @@ Erik Thijs<br/>
 );
 
 for my $Test (@Tests) {
-    my @Array;
-    open my $IN, '<', $Test->{RawEmail};    ## no critic qw(OTOBO::ProhibitOpen)
-    while (<$IN>) {
-        push @Array, $_;
+    my @EmailLines;
+    {
+        open my $MailFH, '<', $Test->{RawEmail};    ## no critic qw(OTOBO::ProhibitOpen)
+        while ( my $l = <$MailFH> ) {
+            push @EmailLines, $l;
+        }
+        close $MailFH;
     }
-    close $IN;
 
     # create local object
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@EmailLines,
     );
 
     my @Attachments = $EmailParserObject->GetAttachments();
