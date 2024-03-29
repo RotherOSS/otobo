@@ -28,8 +28,6 @@ use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt );
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
-use Kernel::System::VariableCheck qw(:all);
-
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
