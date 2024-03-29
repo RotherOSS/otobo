@@ -382,7 +382,7 @@ EOF
 
     # check if rich text is active
     if (!$HasRichTextEditor) {
-        $Self-> Footer()
+        $Self-> Footer();
         $Self->{HasRichTextEditor} = 1;
     }
 
