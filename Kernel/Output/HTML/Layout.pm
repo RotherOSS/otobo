@@ -382,17 +382,13 @@ EOF
 
     # check if rich text is active
     if (!$HasRichText) {
-        my $VacationDays  = $Self->DatepickerGetVacationDays();
-        my $TextDirection = $Self->{LanguageObject}->{TextDirection} || '';
-
         # send data to JS
         $Self->AddJSData(
             Key   => 'RichText',
             Value => {
-                $Self->{BrowserRichText} = 0;
+                 $Self->{HasRichText} => 1;
             },
         );
-        $Self->{HasRichText} = 1;
     }
 
     # load theme
