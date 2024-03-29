@@ -755,15 +755,19 @@ sub DocumentStrip {
 
 perform some sanity checks on HTML content.
 
- -  Replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
-    it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;).
+=over 4
 
- -  Replace <blockquote> by using
-    "<div style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt" type="cite">"
-    because of cross mail client and browser compatibility.
+=item Replace MS Word 12 <p|div> with class "MsoNormal"
 
- -  If there is no HTML doctype present, inject the HTML5 doctype, because it is compatible with HTML4
-    and causes the browsers to render the content in standards mode, which is safer.
+By using <br/> because
+it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;).
+
+=item  If there is no HTML document type present, inject the HTML5 document type
+
+Because it is compatible with HTML4
+and causes the browsers to render the content in standards mode, which is safer.
+
+=back
 
     $HTMLBody = $HTMLUtilsObject->DocumentCleanup(
         String => $HTMLBody,
