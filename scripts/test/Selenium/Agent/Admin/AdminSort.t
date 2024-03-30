@@ -58,28 +58,18 @@ $Selenium->RunTest(
         # navigate to appropriate screen in the test
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=Admin");
 
-        my $NavigationModule = $ConfigObject->Get('Frontend::NavigationModule');
-        my @NavigationCheck;
+        my @NavigationChecks = (
+            'Dinamikus mezők',
+            'Dynamic Fields Screens',               # not yet translated to Hungarian
+            'Folyamatkezelés',
+            'Hozzáférés-vezérlési listák (ACL)',
+            'Ticket Masks',                         # not yet translated to Hungarian
+            'Webszolgáltatások',
+        );
 
         # Check if needed frontend module is registered in sysconfig.
         if ( $ConfigObject->Get('Frontend::Module')->{AdminGenericAgent} ) {
-            @NavigationCheck = (
-                'Általános ügyintéző',
-                'Dinamikus mezők',
-                'Dynamic Fields Screens',    # from Znuny4OTRS-AdvancedDynamicFields, not yet translated to Hungarian
-                'Folyamatkezelés',
-                'Hozzáférés-vezérlési listák (ACL)',
-                'Webszolgáltatások',
-            );
-        }
-        else {
-            @NavigationCheck = (
-                'Dinamikus mezők',
-                'Dynamic Fields Screens',    # from Znuny4OTRS-AdvancedDynamicFields, not yet translated to Hungarian
-                'Folyamatkezelés',
-                'Hozzáférés-vezérlési listák (ACL)',
-                'Webszolgáltatások',
-            );
+            unshift @NavigationChecks, 'Általános ügyintéző';
         }
 
         $Selenium->execute_script(
