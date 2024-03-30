@@ -24,10 +24,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 # get selenium object
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
@@ -60,10 +58,10 @@ $Selenium->RunTest(
 
         my @NavigationChecks = (
             'Dinamikus mezők',
-            'Dynamic Fields Screens',               # not yet translated to Hungarian
+            'Dynamic Fields Screens',    # not yet translated to Hungarian
             'Folyamatkezelés',
             'Hozzáférés-vezérlési listák (ACL)',
-            'Ticket Masks',                         # not yet translated to Hungarian
+            'Ticket Masks',              # not yet translated to Hungarian
             'Webszolgáltatások',
         );
 
@@ -106,7 +104,7 @@ $Selenium->RunTest(
                     "return typeof(\$) === 'function' && \$('li[data-module=\"$Favourite\"]').hasClass('IsFavourite');"
             );
 
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('li[data-module=\"$Favourite\"]').hasClass('IsFavourite');"
                 ),
@@ -122,7 +120,7 @@ $Selenium->RunTest(
         for my $Item (@NavigationCheck) {
 
             # Check order in favoutite list.
-            $Self->Is(
+            is(
                 $Selenium->execute_script(
                     "return \$('.Favourites tr:eq($Count) a').text()"
                 ),
@@ -132,7 +130,7 @@ $Selenium->RunTest(
 
             # Check order in Admin navigation menu.
             $Count++;
-            $Self->Is(
+            is(
                 $Selenium->execute_script(
                     "return \$('#nav-Admin ul li:eq($Count) a').text()"
                 ),
@@ -154,11 +152,11 @@ $Selenium->RunTest(
                     "return typeof(\$) === 'function' && \$('.DataTable .RemoveFromFavourites').length == $Count;"
             );
 
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('.DataTable .RemoveFromFavourites').length == $Count;"
                 ),
-                "$NavigationCheck[$Count-1] - admin navigation item is removed from favourite",
+                "$NavigationChecks[$Count-1] - admin navigation item is removed from favourite",
             );
 
             $Count--;
@@ -177,10 +175,7 @@ $Selenium->RunTest(
                 "AdminCustomerUser","AdminPriority","AdminProcessManagement","AdminRole","AdminSystemConfiguration",
                 "AdminLog","AdminAppointmentNotificationEvent","AdminTemplate","AdminEmail"]',
         );
-        $Self->True(
-            $Success,
-            "Set AdminNavigationBarFavourites for test user $SecondTestUserLogin."
-        );
+        ok( $Success, "Set AdminNavigationBarFavourites for test user $SecondTestUserLogin." );
 
         # Login second test created user.
         $Selenium->Login(
@@ -211,7 +206,7 @@ $Selenium->RunTest(
 
             # Check order in Admin navigation menu.
             $Count++;
-            $Self->Is(
+            is(
                 $Selenium->execute_script(
                     "return \$('#nav-Admin ul li:eq($Count) a').text()"
                 ),
@@ -222,4 +217,4 @@ $Selenium->RunTest(
     }
 );
 
-done_testing();
+done_testing;
