@@ -47,6 +47,15 @@ $Selenium->RunTest(
             Value => 1,
         );
 
+        # In Docker ReferenceData::TranslatedLanguageNames is activated per default.
+        # For this test turn it consistently off, so that we don't have to distinguish
+        # between Docker and non-Docker installations.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'ReferenceData::TranslatedLanguageNames',
+            Value => 0,
+        );
+
         # Create string which length is over 4000 characters.
         my $TooLongString = 'A' x 4001;
 
