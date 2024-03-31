@@ -69,7 +69,7 @@ $Selenium->RunTest(
                 'Input' =>
                     'This is a test text with <b>some</b> <i>formatting</i> and <a href=\"http://www.test.de\">a link</a>. Also, there is a list: <ul><li>Listitem 1</li><li>Listitem 2</li></ul>.',
                 'Expected' =>
-                    "<p>This is a test text with <strong>some</strong> <i>formatting</i> and <a href=\"\&quot;http://www.test.de\&quot;\">a link</a>. Also, there is a list:</p><ul><li>Listitem 1</li><li>Listitem 2</li></ul><p>.</p>",
+                    q{<p>This is a test text with <strong>some</strong> <i>formatting</i> and <a href="http://www.test.de">a link</a>. Also, there is a list:</p><ul><li>Listitem 1</li><li>Listitem 2</li></ul><p>.</p>},
             },
             {
                 'Name'  => '2: Remove invalid/forbidden tags',
