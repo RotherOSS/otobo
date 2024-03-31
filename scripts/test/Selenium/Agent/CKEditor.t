@@ -21,15 +21,13 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
 
 # get selenium object
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -111,7 +109,7 @@ $Selenium->RunTest(
         };
 
         # if the result is undef, the command succeeded (o_O)
-        $Self->Is(
+        is(
             $SetCKEContent,
             undef,
             "Successfully sent data to the CKE instance."
@@ -122,7 +120,7 @@ $Selenium->RunTest(
             JavaScript => "return CKEditorInstances['RichText'].getData() === \"This is a test text\";",
         );
 
-        $Self->Is(
+        is(
             $Selenium->execute_script('return CKEditorInstances[\'RichText\'].getData();'),
             'This is a test text',
             'Check plain text content.'
@@ -150,7 +148,7 @@ $Selenium->RunTest(
                 JavaScript => "return CKEditorInstances['RichText'].getData === \"$EscapedText\";",
             );
 
-            $Self->Is(
+            is(
                 $Selenium->execute_script('return CKEditorInstances[\'RichText\'].getData();'),
                 $TestCase->{Expected},
                 $TestCase->{Name}
@@ -159,4 +157,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;
