@@ -94,17 +94,14 @@ $Selenium->RunTest(
 
         # wait for the CKE to load
         $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('.ck-editor__editable').contents().length == 1"
+            JavaScript => "return typeof(\$) === 'function' && \$('.ck-editor__editable').contents().length == 1"
         );
 
         # send some text to the CKE's textarea (we cant do it with Selenium directly because the textarea is not visible)
         my $SetCKEContent = 1;
         eval {
             $SetCKEContent = $Selenium->execute_script(
-                q{
-                    return CKEditorInstances['RichText'].setData('This is a test text');
-                }
+                q{return CKEditorInstances['RichText'].setData('This is a test text'); }
             );
         };
 
@@ -117,39 +114,32 @@ $Selenium->RunTest(
 
         # Wait until CKEditor content is updated.
         $Selenium->WaitFor(
-            JavaScript => "return CKEditorInstances['RichText'].getData() === \"This is a test text\";",
+            JavaScript => q{return CKEditorInstances['RichText'].getData()},
         );
 
         is(
-            $Selenium->execute_script('return CKEditorInstances[\'RichText\'].getData();'),
-            'This is a test text',
+            $Selenium->execute_script(q{return CKEditorInstances['RichText'].getData()}),
+            '<p>This is a test text</p>',
             'Check plain text content.'
         );
 
         # now go through the test cases
         for my $TestCase (@TestCasesBasic) {
 
-            # wait for the CKE to load
+            # wait for the CKE to load, previous content might be more than a single line
             $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('.ck-editor__editable').contents().length == 1"
+                JavaScript => "return typeof(\$) === 'function' && \$('.ck-editor__editable').contents().length >= 1"
             );
 
-            $Selenium->execute_script( 'CKEditorInstances[\'RichText\'].setData("' . $TestCase->{Input} . '");' );
-
-            my $EscapedText = $TestCase->{Expected};
-
-            # Escape some chars for JS usage.
-            $EscapedText =~ s{\n}{\\n}g;
-            $EscapedText =~ s{"}{\\"}g;
+            $Selenium->execute_script(qq{CKEditorInstances['RichText'].setData("$TestCase->{Input}");});
 
             # Wait until CKEditor content is updated.
             $Selenium->WaitFor(
-                JavaScript => "return CKEditorInstances['RichText'].getData === \"$EscapedText\";",
+                JavaScript => q{return CKEditorInstances['RichText'].getData()},
             );
 
             is(
-                $Selenium->execute_script('return CKEditorInstances[\'RichText\'].getData();'),
+                $Selenium->execute_script(q{return CKEditorInstances['RichText'].getData();}),
                 $TestCase->{Expected},
                 $TestCase->{Name}
             );
