@@ -27,7 +27,7 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # install into local/lib/perl5
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # again, to see that the install was complete
     find local/ -name '*.pod' -delete                                       # POD files are kept out of Kernel/cpan-lib
-    rm -rf x86_64-linux-gnu-thread-multi/                                   # contains only perllocal.pod
+    rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi                    # contains only perllocal.pod
     cp -r local/lib/perl5/* .                                               # copy to actual destination
 
 Then examine the diffs and check in the verified changes.
