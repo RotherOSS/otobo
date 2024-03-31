@@ -6442,56 +6442,56 @@ sub SetRichTextParameters {
     my $PictureUploadAction  = $Param{Data}->{RichTextPictureUploadAction} || '';
     my $TextDir              = $Self->{TextDirection}                      || '';
 
-    my @Toolbar;
-    my @ToolbarWithoutImage;
+    # Declare different toolbars. These declarations will be used in JavaScript.
+    my ( @Toolbar, @ToolbarWithoutImage );
 
     if ( $ConfigObject->Get('Frontend::RichText::EnhancedMode') == 1 ) {
-        @Toolbar = [
+        @Toolbar = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       'selectAll',     '-',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
             'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
-        ];
+        );
 
-        @ToolbarWithoutImage = [
+        @ToolbarWithoutImage = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       'selectAll',     '-',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
             'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
-        ];
+        );
     }
     else {
-        @Toolbar = [
+        @Toolbar = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       'selectAll',     '-',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
             'heading',       'fontFamily',        'fontSize'
-        ];
+        );
 
-        @ToolbarWithoutImage = [
+        @ToolbarWithoutImage = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       'selectAll',     '-',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
             'heading',       'fontFamily',        'fontSize'
-        ];
+        );
     }
 
-    my @Plugins = [
+    my @Plugins = (
         'Alignment',    'Autoformat', 'BlockQuote', 'Bold', 'CodeBlock', 'DataFilter', 'DataSchema', 'FindAndReplace', 'FontColor',
         'FontFamily',   'FontSize',   'FontBackgroundColor', 'GeneralHtmlSupport', 'Heading', 'HorizontalLine', 'Image', 'ImageResize', 'ImageStyle', 'ImageUpload',
         'ImageToolbar', 'ImageInsert',
         'Indent',       'Italic', 'Link', 'List', 'Paragraph', 'RemoveFormat', 'SelectAll', 'SimpleUploadAdapter', 'SourceEditing', 'SpecialCharacters',
         'SpecialCharactersEssentials',
         'Strikethrough', 'Table', 'TableCellProperties', 'TableColumnResize', 'TableProperties', 'TableToolbar', 'Underline', 'Undo', 'PasteFromOffice'
-    ];
+    );
 
     # set data with AddJSData()
     $Self->AddJSData(
@@ -6504,9 +6504,9 @@ sub SetRichTextParameters {
                 SplitQuote  => $LanguageObject->Translate('Split Quote'),
                 RemoveQuote => $LanguageObject->Translate('Remove Quote'),
             },
-            Plugins             => @Plugins,
-            Toolbar             => @Toolbar,
-            ToolbarWithoutImage => @ToolbarWithoutImage,
+            Plugins             => \@Plugins,
+            Toolbar             => \@Toolbar,
+            ToolbarWithoutImage => \@ToolbarWithoutImage,
             PictureUploadAction => $PictureUploadAction,
             Type                => $RichTextType,
         },
@@ -6549,80 +6549,77 @@ sub CustomerSetRichTextParameters {
     my $TextDir              = $Self->{TextDirection}                      || '';
     my $PictureUploadAction  = $Param{Data}->{RichTextPictureUploadAction} || '';
 
-    my @ToolbarMidi;
-    my @ToolbarMini;
-    my @Toolbar;
-    my @ToolbarWithoutImage;
-
+    # Declare different toolbars. These declarations will be used in JavaScript.
+    my ( @Toolbar, @ToolbarWithoutImage, @ToolbarMidi, @ToolbarMini );
     if ( $ConfigObject->Get('Frontend::RichText::EnhancedMode::Customer') == 1 ) {
-        @Toolbar = [
+        @Toolbar = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       'selectAll',     '-',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
             'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
-        ];
+        );
 
-        @ToolbarWithoutImage = [
+        @ToolbarWithoutImage = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       'selectAll',     '-',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
             'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
-        ];
+        );
 
-        @ToolbarMidi = [
+        @ToolbarMidi = (
             'bold',     'italic', 'underline',      'strikethrough',       '|',            'numberedList', 'bulletedList', '|',
             'link',     '|',      'horizontalLine', '|',                   'undo',         'redo',         '-',
             'fontSize', '|',      'fontColor',      'fontBackgroundColor', 'removeFormat', '|',            'specialCharacters', 'blockQuote', '|', 'codeBlock'
-        ];
+        );
 
-        @ToolbarMini = [
+        @ToolbarMini = (
             'bold',     'italic', 'underline', 'strikethrough', '|', 'bulletedList', '|', 'link', '|', 'undo', 'redo', '-',
             'fontSize', '|',      'fontColor', 'removeFormat',  '|', 'blockQuote',   '|', 'codeBlock'
-        ];
+        );
     }
     else {
-        @Toolbar = [
+        @Toolbar = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       'selectAll',     '-',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
             'heading',       'fontFamily',        'fontSize'
-        ];
+        );
 
-        @ToolbarWithoutImage = [
+        @ToolbarWithoutImage = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       'selectAll',     '-',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
             'heading',       'fontFamily',        'fontSize'
-        ];
+        );
 
-        @ToolbarMidi = [
+        @ToolbarMidi = (
             'bold',     'italic', 'underline',      'strikethrough',       '|',            'numberedList', 'bulletedList', '|',
             'link',     '|',      'horizontalLine', '|',                   'undo',         'redo',         '-',
             'fontSize', '|',      'fontColor',      'fontBackgroundColor', 'removeFormat', '|',            'specialCharacters', 'blockQuote'
-        ];
+        );
 
-        @ToolbarMini = [
+        @ToolbarMini = (
             'bold',     'italic', 'underline', 'strikethrough', '|', 'bulletedList', '|', 'link', '|', 'undo', 'redo', '-',
             'fontSize', '|',      'fontColor', 'removeFormat',  '|', 'blockQuote'
-        ];
+        );
     }
 
-    my @Plugins = [
+    my @Plugins = (
         'Alignment',    'Autoformat', 'BlockQuote', 'Bold', 'CodeBlock', 'DataFilter', 'DataSchema', 'FindAndReplace', 'FontColor',
         'FontFamily',   'FontSize',   'FontBackgroundColor', 'GeneralHtmlSupport', 'Heading', 'HorizontalLine', 'Image', 'ImageResize', 'ImageStyle', 'ImageUpload',
         'ImageToolbar', 'ImageInsert',
         'Indent',       'Italic', 'Link', 'List', 'Paragraph', 'RemoveFormat', 'SelectAll', 'SimpleUploadAdapter', 'SourceEditing', 'SpecialCharacters',
         'SpecialCharactersEssentials',
         'Strikethrough', 'Table', 'TableCellProperties', 'TableColumnResize', 'TableProperties', 'TableToolbar', 'Underline', 'Undo', 'PasteFromOffice'
-    ];
+    );
 
     # set data with AddJSData()
     $Self->AddJSData(
@@ -6634,11 +6631,11 @@ sub CustomerSetRichTextParameters {
             Lang    => {
                 SplitQuote => $LanguageObject->Translate('Split Quote'),
             },
-            Plugins             => @Plugins,
-            Toolbar             => @Toolbar,
-            ToolbarWithoutImage => @ToolbarWithoutImage,
-            ToolbarMidi         => @ToolbarMidi,
-            ToolbarMini         => @ToolbarMini,
+            Plugins             => \@Plugins,
+            Toolbar             => \@Toolbar,
+            ToolbarWithoutImage => \@ToolbarWithoutImage,
+            ToolbarMidi         => \@ToolbarMidi,
+            ToolbarMini         => \@ToolbarMini,
             PictureUploadAction => $PictureUploadAction,
         },
     );
