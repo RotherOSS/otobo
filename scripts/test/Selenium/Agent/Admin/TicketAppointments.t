@@ -25,10 +25,8 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -45,7 +43,7 @@ $Selenium->RunTest(
             if ( !$DaemonExitCode ) {
                 `$^X $Daemon stop`;
 
-                $Self->True(
+                ok(
                     1,
                     'Stopped daemon started earlier'
                 );
@@ -103,7 +101,7 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
+        ok(
             $GroupID,
             'Test group created',
         );
@@ -125,7 +123,7 @@ $Selenium->RunTest(
             Comment             => 'Some comment',
             UserID              => 1,
         );
-        $Self->True(
+        ok(
             $QueueID,
             'Test queue created',
         );
@@ -157,7 +155,7 @@ $Selenium->RunTest(
             my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
                 %{$DynamicField},
             );
-            $Self->True(
+            ok(
                 $DynamicFieldID,
                 "DynamicFieldAdd - $DynamicField->{Name} ($DynamicFieldID)",
             );
@@ -172,7 +170,7 @@ $Selenium->RunTest(
             my $Success = $SchedulerDBObject->TaskDelete(
                 TaskID => $Task->{TaskID},
             );
-            $Self->True(
+            ok(
                 $Success,
                 "TaskDelete - Removed scheduled task $Task->{TaskID}",
             );
@@ -183,7 +181,7 @@ $Selenium->RunTest(
 
         # Daemon already running, do nothing.
         if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-            $Self->True(
+            ok(
                 1,
                 'Daemon already running'
             );
@@ -192,8 +190,8 @@ $Selenium->RunTest(
         # Daemon is not running, start it.
         else {
             $DaemonExitCode = system("$Daemon start > /dev/null");
-            $Self->False(
-                $DaemonExitCode,
+            ok(
+                !$DaemonExitCode,
                 'Daemon started successfully'
             );
         }
@@ -215,7 +213,7 @@ $Selenium->RunTest(
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
+        ok(
             $TicketID,
             "TicketCreate() - $TicketTitle ($TicketID)",
         );
@@ -240,7 +238,7 @@ $Selenium->RunTest(
             TicketID => $TicketID,
             UserID   => 1,
         );
-        $Self->True(
+        ok(
             $Success,
             'TicketEscalationIndexBuild',
         );
@@ -295,7 +293,7 @@ $Selenium->RunTest(
             TicketID => $TicketID,
             UserID   => 1,
         );
-        $Self->True(
+        ok(
             $Success,
             "TicketPendingTimeSet - Ticket $TicketID: " . $PendingTimeStartObject->ToString()
         );
@@ -306,17 +304,20 @@ $Selenium->RunTest(
             Hours => 1,
         );
 
-        # Calculate expected UntilTime.
-        my $UntilDateTimeObject = $Kernel::OM->Create(
-            'Kernel::System::DateTime',
-            ObjectParams => {
-                String => '2016-01-01 00:00:00',
-            },
-        );
-        my $UntilTimeDelta = $Kernel::OM->Create('Kernel::System::DateTime')->Delta(
-            DateTimeObject => $UntilDateTimeObject,
-        );
-        my $UntilTime = -$UntilTimeDelta->{AbsoluteSeconds};
+        # Calculate expected UntilTime in seconds, which is needed for the 'PendingTime' test case
+        my $UntilTime;
+        {
+            my $UntilDateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => '2016-01-01 00:00:00',
+                },
+            );
+            my $UntilTimeDelta = $Kernel::OM->Create('Kernel::System::DateTime')->Delta(
+                DateTimeObject => $UntilDateTimeObject,
+            );
+            $UntilTime = -$UntilTimeDelta->{AbsoluteSeconds};
+        }
 
         # Set dynamic field values.
         my $DynamicField1TimeObject = $Kernel::OM->Create(
@@ -335,10 +336,7 @@ $Selenium->RunTest(
             ],
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "ValueSet - $DynamicFields[0]->{DynamicFieldID} for ticket $TicketID",
-        );
+        ok( $Success, "ValueSet - $DynamicFields[0]->{DynamicFieldID} for ticket $TicketID" );
 
         my $DynamicField2TimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
@@ -356,10 +354,7 @@ $Selenium->RunTest(
             ],
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "ValueSet - $DynamicFields[1]->{DynamicFieldID} for ticket $TicketID",
-        );
+        ok( $Success, "ValueSet - $DynamicFields[1]->{DynamicFieldID} for ticket $TicketID" );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
@@ -400,7 +395,7 @@ $Selenium->RunTest(
         my %Calendar = $Kernel::OM->Get('Kernel::System::Calendar')->CalendarGet(
             CalendarName => $CalendarName,
         );
-        $Self->True(
+        ok(
             $Calendar{CalendarID},
             "CalendarGet - Found calendar $Calendar{CalendarID}",
         );
@@ -413,9 +408,7 @@ $Selenium->RunTest(
         my $AppointmentObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
         my $CacheObject       = $Kernel::OM->Get('Kernel::System::Cache');
 
-        #
         # Tests for ticket appointments
-        #
         my @Tests = (
             {
                 Name   => 'FirstResponseTime',
@@ -504,11 +497,11 @@ $Selenium->RunTest(
                     StartTime => $DynamicField1TimeObject->ToString(),
                     EndTime   => $DynamicField2TimeObject->ToString(),
                 },
-                Update => {
+                AppointmentUpdate => {
                     StartTime => '1953-06-28 10:20:00',
                     EndTime   => '2016-07-04 19:45:00',
                 },
-                UpdateResult => {
+                AppointmentUpdateResult => {
                     'DynamicField_' . $DynamicFields[0]->{Name} => '1953-06-28 10:20:00',
                     'DynamicField_' . $DynamicFields[1]->{Name} => '2016-07-04 19:45:00',
                 },
@@ -535,11 +528,11 @@ $Selenium->RunTest(
                     StartTime => $PendingTimeStartObject->ToString(),
                     EndTime   => $PendingTimeEndObject->ToString(),
                 },
-                Update => {
+                AppointmentUpdate => {
                     StartTime => '2016-01-01 00:00:00',
                     EndTime   => '2016-01-01 01:00:00',
                 },
-                UpdateResult => {
+                AppointmentUpdateResult => {
                     UntilTime => $UntilTime,
                 },
             },
@@ -598,7 +591,7 @@ $Selenium->RunTest(
             }
 
             $Selenium->find_element( 'form#CalendarFrom button#SubmitAndContinue', 'css' )->VerifiedClick();
-            $Self->True(
+            ok(
                 1,
                 "$Test->{Name} - Added ticket appointment rule",
             );
@@ -615,7 +608,7 @@ $Selenium->RunTest(
             my @Appointments = $AppointmentObject->AppointmentList(
                 CalendarID => $Calendar{CalendarID},
             );
-            $Self->Is(
+            is(
                 scalar @Appointments,
                 1,
                 "$Test->{Name} - Ticket appointment found"
@@ -632,7 +625,7 @@ $Selenium->RunTest(
                 $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
                 $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length;" );
 
-                $Self->True(
+                ok(
                     $Selenium->execute_script("return \$('.Dialog.Modal').length === 0;"),
                     "There was no error in dialog - it is closed successfully"
                 );
@@ -645,7 +638,7 @@ $Selenium->RunTest(
 
             # Check appointment data.
             for my $Field ( sort keys %{ $Test->{Result} || {} } ) {
-                $Self->Is(
+                is(
                     substr( $Appointment->{$Field},    0, -3 ),
                     substr( $Test->{Result}->{$Field}, 0, -3 ),
                     "$Test->{Name} - Appointment field $Field"
@@ -653,16 +646,13 @@ $Selenium->RunTest(
             }
 
             # Update appointment data.
-            if ( $Test->{Update} && $Test->{UpdateResult} ) {
+            if ( $Test->{AppointmentUpdate} && $Test->{AppointmentUpdateResult} ) {
                 my $Success = $AppointmentObject->AppointmentUpdate(
                     %{$Appointment},
-                    %{ $Test->{Update} },
+                    %{ $Test->{AppointmentUpdate} },
                     UserID => 1,
                 );
-                $Self->True(
-                    $Success,
-                    "$Test->{Name} - Appointment updated"
-                );
+                ok( $Success, "$Test->{Name} - Appointment updated" );
 
                 # Wait for daemon.
                 $WaitForDaemon->();
@@ -679,7 +669,7 @@ $Selenium->RunTest(
                     UserID        => 1,
                 );
                 FIELD:
-                for my $Field ( sort keys %{ $Test->{UpdateResult} || {} } ) {
+                for my $Field ( sort keys %{ $Test->{AppointmentUpdateResult} || {} } ) {
 
                     # In case of UntilTime, it can happen that there is an error of one second overall. This is
                     #   acceptable, so in this case calculate the difference and allow for this error.
@@ -693,9 +683,9 @@ $Selenium->RunTest(
                         next FIELD;
                     }
 
-                    $Self->Is(
+                    is(
                         $Ticket{$Field},
-                        $Test->{UpdateResult}->{$Field},
+                        $Test->{AppointmentUpdateResult}->{$Field},
                         "$Test->{Name} - Ticket field $Field"
                     );
                 }
@@ -709,7 +699,7 @@ $Selenium->RunTest(
             );
 
             $Selenium->find_element( 'form#CalendarFrom button#SubmitAndContinue', 'css' )->VerifiedClick();
-            $Self->True(
+            ok(
                 1,
                 "$Test->{Name} - Removed ticket appointment rule"
             );
@@ -726,8 +716,9 @@ $Selenium->RunTest(
             @Appointments = $Kernel::OM->Get('Kernel::System::Calendar::Appointment')->AppointmentList(
                 CalendarID => $Calendar{CalendarID},
             );
-            $Self->False(
+            is(
                 scalar @Appointments,
+                0,
                 "$Test->{Name} - No appointments found in the calendar"
             );
         }
@@ -746,7 +737,7 @@ $Selenium->RunTest(
             SQL  => 'DELETE FROM calendar WHERE name = ?',
             Bind => [ \$CalendarName, ],
         );
-        $Self->True(
+        ok(
             $Success,
             "Deleted test calendar - $CalendarName",
         );
@@ -764,7 +755,7 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
+        ok(
             $Success,
             "Deleted test ticket - $TicketID",
         );
@@ -774,7 +765,7 @@ $Selenium->RunTest(
             SQL  => 'DELETE FROM queue WHERE id = ?',
             Bind => [ \$QueueID, ],
         );
-        $Self->True(
+        ok(
             $Success,
             "Deleted test queue - $QueueID",
         );
@@ -783,7 +774,7 @@ $Selenium->RunTest(
         $Success = $DBObject->Do(
             SQL => "DELETE FROM group_user WHERE group_id = $GroupID",
         );
-        $Self->True(
+        ok(
             $Success,
             "GroupUserDelete - $GroupName",
         );
@@ -793,7 +784,7 @@ $Selenium->RunTest(
             SQL  => "DELETE FROM groups_table WHERE name = ?",
             Bind => [ \$GroupName ],
         );
-        $Self->True(
+        ok(
             $Success,
             "Deleted test group - $GroupID"
         );
