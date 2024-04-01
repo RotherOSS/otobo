@@ -674,10 +674,10 @@ $Selenium->RunTest(
                     # In case of UntilTime, it can happen that there is an error of one second overall. This is
                     #   acceptable, so in this case calculate the difference and allow for this error.
                     if ( $Field eq 'UntilTime' ) {
-                        $Self->True(
-                            abs( $Test->{UpdateResult}->{UntilTime} - $Ticket{UntilTime} ) < 2,
-                            $Test->{UpdateResult}->{$Field},
-                            "$Test->{Name} - Ticket field UntilTime"
+                        diag "expected: $Test->{AppointmentUpdateResult}->{UntilTime}, got $Ticket{UntilTime}";
+                        ok(
+                            abs( $Test->{AppointmentUpdateResult}->{UntilTime} - $Ticket{UntilTime} ) < 2,
+                            "$Test->{Name} - Ticket field UntilTime differs by less than two seconds"
                         );
 
                         next FIELD;
