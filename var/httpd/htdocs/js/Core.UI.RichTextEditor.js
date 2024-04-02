@@ -203,6 +203,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 window.editor = editor;
 
+                /* configure permissable html tags */
+                if (window.editor.plugins.has("DataFilter")) {
+                    let dataFilter = window.editor.plugins.get("DataFilter");
+                    dataFilter.allowElement( "style" );
+                }
+
                 /* Set Container size */
                 var domEditableElement = $($EditorArea).closest(".RichTextField");
 
@@ -253,6 +259,11 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 });
 
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);
+
+                // workaround for ckeditor not using data filter correctly on prefilled content
+                if (editor.ElementId == 'RichText') {
+                    editor.setData(editor.sourceElement.innerText);
+                }
 
                 //Update validation error tooltip while content is added to the editor
                 editor.model.document.on('change:data', () => {
