@@ -31,7 +31,7 @@ my $Home   = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $Daemon = $Home . '/bin/otobo.Daemon.pl';
 
 # get daemon status (stop if necessary)
-my $PreviousDaemonStatus = `perl $Daemon status`;
+my $PreviousDaemonStatus = `$^X $Daemon status`;
 
 if ( !$PreviousDaemonStatus ) {
     fail("Could not determine current daemon status!");
@@ -39,7 +39,7 @@ if ( !$PreviousDaemonStatus ) {
 }
 
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-    my $ResultMessage = system("perl $Daemon stop");
+    my $ResultMessage = system("$^X $Daemon stop");
 }
 else {
     pass("Daemon was already stopped.");
@@ -50,7 +50,7 @@ my $SleepTime = 120;
 note "Waiting at most $SleepTime s until daemon stops";
 ACTIVESLEEP:
 for my $Seconds ( 1 .. $SleepTime ) {
-    my $DaemonStatus = `perl $Daemon status`;
+    my $DaemonStatus = `$^X $Daemon status`;
     if ( $DaemonStatus =~ m{Daemon not running}i ) {
         last ACTIVESLEEP;
     }
@@ -58,7 +58,7 @@ for my $Seconds ( 1 .. $SleepTime ) {
     sleep 1;
 }
 
-my $CurrentDaemonStatus = `perl $Daemon status`;
+my $CurrentDaemonStatus = `$^X $Daemon status`;
 ok( $CurrentDaemonStatus =~ m{Daemon not running}i, "Daemon is not running" );
 
 if ( $CurrentDaemonStatus !~ m{Daemon not running}i ) {
@@ -179,7 +179,7 @@ for my $File (@FileRemember) {
 
 # start daemon if it was already running before this test
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-    system("perl $Daemon start");
+    system("$^X $Daemon start");
 }
 
 done_testing;

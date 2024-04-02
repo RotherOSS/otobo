@@ -57,7 +57,7 @@ my $Home   = $ConfigObject->Get('Home');
 my $Daemon = $Home . '/bin/otobo.Daemon.pl';
 
 # get daemon status (stop if necessary to reload configuration with planner daemon disabled)
-my $PreviousDaemonStatus = `perl $Daemon status`;
+my $PreviousDaemonStatus = `$^X $Daemon status`;
 
 if ( !$PreviousDaemonStatus ) {
     $Self->False(
@@ -69,7 +69,7 @@ if ( !$PreviousDaemonStatus ) {
 
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
 
-    my $ResultMessage = system("perl $Daemon stop");
+    my $ResultMessage = system("$^X $Daemon stop");
 }
 else {
     $Self->True(
@@ -83,7 +83,7 @@ my $SleepTime = 120;
 note "Waiting at most $SleepTime s until daemon stops";
 ACTIVESLEEP:
 for my $Seconds ( 1 .. $SleepTime ) {
-    my $DaemonStatus = `perl $Daemon status`;
+    my $DaemonStatus = `$^X $Daemon status`;
     if ( $DaemonStatus =~ m{Daemon not running}i ) {
         last ACTIVESLEEP;
     }
@@ -91,7 +91,7 @@ for my $Seconds ( 1 .. $SleepTime ) {
     sleep 1;
 }
 
-my $CurrentDaemonStatus = `perl $Daemon status`;
+my $CurrentDaemonStatus = `$^X $Daemon status`;
 
 $Self->True(
     int $CurrentDaemonStatus =~ m{Daemon not running}i,

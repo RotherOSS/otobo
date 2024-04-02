@@ -177,19 +177,16 @@ $Selenium->RunTest(
         }
 
         # Get current daemon status.
-        my $PreviousDaemonStatus = `$Daemon status`;
+        my $PreviousDaemonStatus = `$^X $Daemon status`;
 
         # Daemon already running, do nothing.
         if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-            ok(
-                1,
-                'Daemon already running'
-            );
+            note('Daemon already running');
         }
 
         # Daemon is not running, start it.
         else {
-            $DaemonExitCode = system("$Daemon start > /dev/null");
+            $DaemonExitCode = system("$^X $Daemon start > /dev/null");
             ok(
                 !$DaemonExitCode,
                 'Daemon started successfully'
