@@ -36,7 +36,7 @@ my $Home   = $ConfigObject->Get('Home');
 my $Daemon = $Home . '/bin/otobo.Daemon.pl';
 
 # get current daemon status
-my $PreviousDaemonStatus = `$Daemon status`;
+my $PreviousDaemonStatus = `$^X $Daemon status`;
 
 # stop daemon if it was already running before this test
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {

@@ -54,7 +54,6 @@ $Selenium->RunTest(
         );
 
         # Get needed variables.
-        my $Daemon   = $ConfigObject->Get('Home') . '/bin/otobo.Daemon.pl';
         my $RandomID = $Helper->GetRandomID();
 
         # Create test user and login.

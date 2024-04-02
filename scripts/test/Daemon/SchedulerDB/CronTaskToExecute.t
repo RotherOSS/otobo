@@ -35,7 +35,7 @@ my $Home   = $ConfigObject->Get('Home');
 my $Daemon = $Home . '/bin/otobo.Daemon.pl';
 
 # Get current daemon status.
-my $PreviousDaemonStatus = `$Daemon status`;
+my $PreviousDaemonStatus = `$^X $Daemon status`;
 
 # Check if there is permissions for daemon commands.
 if ( !defined $PreviousDaemonStatus ) {
