@@ -627,7 +627,6 @@ button.oooM.ActivitySubmitButton {
 .FieldCell input.oooFull ~ label,
 .Field:hover:not([class*='RichTextField']) ~ label,
 .Field.oooFull ~ label,
-.FieldCell .oooSelected ~ label,
 .FieldCell .InputField_Container:hover ~ label, 
 .Field.DFSetOuterField ~ label {
     top: -6px;
@@ -637,13 +636,6 @@ button.oooM.ActivitySubmitButton {
 label.oooFocus,
 .Field ~ label.oooFocus {
     top: -6px;
-}
-
-.Row > input:not([readonly]):focus ~ label, /* nicht DF - e.g. Subject */
-.InputField_Container ~ label.oooFocus, /* z.B. Next State  */
-.FieldCell .DynamicFieldDB:not([readonly]):hover ~ label,
-.DynamicFieldDB:not([readonly]):focus ~ label.oooFocus {
-    position: absolute;
 }
 
 .Row.MultiColumn .FieldCell {

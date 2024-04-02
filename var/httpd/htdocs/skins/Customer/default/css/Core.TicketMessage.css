@@ -208,27 +208,19 @@ fieldset .FieldCell textarea.oooFull ~ label,
 fieldset .FieldCell input.oooFull ~ label,
 fieldset .Field:hover:not([class*='RichTextField']) ~ label,
 fieldset .Field.oooFull ~ label,
-fieldset .FieldCell .DynamicFieldDB:not([readonly]):hover ~ label,
-fieldset .FieldCell .InputField_Container:hover ~ label, 
-fieldset .Field.DFSetOuterField ~ label,
-.FieldCell > input:not([readonly]):focus ~ label,
-.Row > input:not([readonly]):focus ~ label,
-label.oooFocus,
-.Field ~ label.oooFocus,
-.DynamicFieldDB:hover ~ label.oooFocus,
-.InputField_Container ~ label.oooFocus {
+fieldset .FieldCell .InputField_Container:hover ~ label,
+fieldset .Field.DFSetOuterField ~ label {
+    top: -6px;
+}
+
+fieldset .FieldCell > input:not([readonly]):focus ~ label,
+fieldset label.oooFocus,
+fieldset .Field ~ label.oooFocus {
     top: -6px;
 }
 
 fieldset .Field:hover:not([class*='RichTextField']) ~ label.oooFocus {
     color: var(--colMainLight)
-}
-
-.Row > input:not([readonly]):focus ~ label,
-.InputField_Container ~ label.oooFocus,
-.FieldCell .DynamicFieldDB:not([readonly]):hover ~ label,
-.DynamicFieldDB:not([readonly]):focus ~ label.oooFocus {
-    position: absolute;
 }
 
 .Row.MultiColumn .FieldCell {
