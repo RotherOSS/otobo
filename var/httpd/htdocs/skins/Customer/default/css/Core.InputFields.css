@@ -308,6 +308,15 @@ label.oooFocus,
     background-color:#ffffff;
 }
 
+.FieldCell input.DynamicFieldDB.oooFull ~ label {
+    border-radius: 10px;
+    top: -29px;
+    font-size: 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    background-color: #ffffff;
+}
+
 /* error */
 input.Error,
 textarea.Error,
