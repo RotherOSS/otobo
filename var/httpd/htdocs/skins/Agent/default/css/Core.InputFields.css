@@ -180,7 +180,6 @@ div.InputField_InputContainer .InputField_Search {
 fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > select.Modernize,
 fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > input.W75pc,
 fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > input.W50pc,
-fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > input,
 fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer > input {
     min-width: 0 !important;
     width: calc( 100% - 7px ) !important;
@@ -246,8 +245,8 @@ fieldset.DynamicFieldSet {
 }
 
 .MultiValue .DFSetOuterField ~ .AddRemoveValueRow {
-    vertical-align: bottom;
-    padding-bottom: 16px;
+    vertical-align: top;
+    padding-top: 16px;
 }
 
 a.InputField_Action {

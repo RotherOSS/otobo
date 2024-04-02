@@ -629,7 +629,7 @@ div.TooltipErrorMessage {
 
 fieldset.TableLike > label:not(.ck-label),
 fieldset.TableLike > .Row > label:not(.ck-label),
-fieldset.TableLike > .Row > .FieldCell label:not(.ck-label) {
+fieldset.TableLike .Row > .FieldCell label:not(.ck-label) {
     display: block;
     float: left;
     line-height: 1.9em;
@@ -642,7 +642,7 @@ fieldset.TableLike > .Row > .FieldCell label:not(.ck-label) {
     text-shadow: 0 1px 0 #FAFAFA;
 }
 
-fieldset.TableLike > .Row.MultiColumn > .FieldCell label {
+fieldset.TableLike .Row.MultiColumn > .FieldCell label {
     float: none;
     line-height: 1.9em;
     width: auto;
@@ -669,7 +669,7 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell label {
 
 fieldset.TableLike > .Field,
 fieldset.TableLike > .Row > .Field,
-fieldset.TableLike > .Row > .FieldCell > .Field {
+fieldset.TableLike .Row > .FieldCell > .Field {
     line-height: 1.9em;
     margin-left: 30%;
     margin-right: 0;
@@ -680,7 +680,7 @@ fieldset.TableLike > .Row > .FieldCell > .Field {
     min-height: 20px;
 }
 
-fieldset.TableLike > .Row.MultiValue {
+fieldset.TableLike .Row.MultiValue {
     grid-row-gap: 2px;
 }
 
@@ -690,15 +690,15 @@ fieldset.TableLike > .Row.MultiColumn {
     grid-column-gap: 16px;
 }
 
-fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field {
+fieldset.TableLike .Row.MultiValue > .FieldCell > .Field {
     display: inline-block;
 }
 
-fieldset.TableLike > .Row.MultiValue > .FieldCell.MultiValue_0 > .Field {
+fieldset.TableLike .Row.MultiValue > .FieldCell.MultiValue_0 > .Field {
     margin-left: 0;
 }
 
-fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
+fieldset.TableLike .Row.MultiColumn > .FieldCell > .Field {
     display: inline-block;
     margin-left: 0;
     padding-left: 0;
@@ -714,48 +714,34 @@ fieldset.TableLike .DFSetOuterField {
 }
 
 fieldset.TableLike .DynamicFieldSet {
+    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-fieldset.TableLike .DynamicFieldSet .Row > .FieldCell {
-    padding: 8px;
-    display: grid;
-    columns: 3;
-    grid-template-columns: 20% 1fr 32px;
+fieldset.TableLike .DynamicFieldSet > .Row > .FieldCell label:not(.ck-label) {
+    width: 24%;
 }
 
-fieldset.TableLike .DynamicFieldSet .Row.MultiColumn > .FieldCell {
-    padding: 8px;
-    display: grid;
-    columns: 2;
-    grid-template-columns: 1fr 32px;
+fieldset.TableLike .DynamicFieldSet > .Row > .FieldCell > .Field {
+    margin-left: 24%;
+    width: calc( 76% - 48px );
 }
 
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet label {
-    grid-column: 1;
-    padding-top: 0px;
-    padding-right: 10px;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: right;
-    text-overflow: ellipsis;
-    overflow: hidden;
+fieldset.TableLike .DynamicFieldSet > .Row.MultiValue > .FieldCell.MultiValue_0 > .Field {
+    margin-left: 0;
 }
 
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row.MultiColumn label {
-    padding-left: 10px;
-    text-align: left;
-    text-overflow: ellipsis;
+fieldset.TableLike .DynamicFieldSet > .Row.MultiColumn {
+    grid-column-gap: 8px;
+    padding-left: 8px;
 }
 
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field {
-    box-sizing: border-box;
-    grid-column: 2;
-}
-
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row.MultiColumn .Field {
-    grid-column: 1;
+fieldset.TableLike .DynamicFieldSet > .Row.MultiColumn > .FieldCell > .Field {
+    display: inline-block;
+    margin-left: 0;
+    padding-left: 0;
+    width: calc(100% - 40px);
 }
 
 /* multivalue sets. necessary because of competing CSS specificities*/
