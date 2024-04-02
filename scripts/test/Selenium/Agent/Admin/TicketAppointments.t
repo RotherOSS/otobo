@@ -56,19 +56,19 @@ $Selenium->RunTest(
             # Sleep up to 20 seconds - we tried with 10 seconds, but in some cases it's not enough.
             my $WaitTime = 20;
 
-            my @TaskList;
-
             # Wait for daemon to do it's magic.
             note "Waiting at most $WaitTime s until tasks are executed";
             ACTIVESLEEP:
             for my $Seconds ( 1 .. $WaitTime ) {
-                @TaskList = $SchedulerDBObject->TaskList();
-                last ACTIVESLEEP if !scalar @TaskList;
+                my @TaskList = $SchedulerDBObject->TaskList();
+
+                last ACTIVESLEEP unless @TaskList;
+
                 note "Sleeping for $Seconds seconds...";
                 sleep 1;
             }
 
-            @TaskList = $SchedulerDBObject->TaskList();
+            my @TaskList = $SchedulerDBObject->TaskList();
             if (@TaskList) {
                 my $Tasks = $Kernel::OM->Get('Kernel::System::Main')->Dump(
                     \@TaskList,
