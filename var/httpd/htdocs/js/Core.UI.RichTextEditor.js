@@ -210,30 +210,36 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 }
 
                 /* Set Container size */
-                var domEditableElement = $($EditorArea).closest(".RichTextField");
+                var $domEditableElement = $($EditorArea).closest(".RichTextField");
 
                 //Try use RichTextHolder for Customer Interface
-                if (!domEditableElement) {
-                    domEditableElement = $($EditorArea).closest(".RichTextHolder");
+                if (CustomerInterface) {
+                    $domEditableElement = $($EditorArea).closest(".RichTextHolder");
                 }
 
-                $(domEditableElement).css('max-width', Core.Config.Get('RichText.Width', 620) + 'px');
-                $(domEditableElement).css('min-height', Core.Config.Get('RichText.Height', 320) + 'px');
-
-                /* Set editing area size */
-                editor.editing.view.change(writer => {
-                    writer.setStyle('max-width', Core.Config.Get('RichText.Width', 620) + 'px', editor.editing.view.document.getRoot());
-                    writer.setStyle('max-height', Core.Config.Get('RichText.Height', 320) + 'px', editor.editing.view.document.getRoot());
-                    writer.setStyle('min-height', Core.Config.Get('RichText.Height', 320) + 'px', editor.editing.view.document.getRoot());
+                // Adjust Editor Size to match (resizable) container size
+                const resizeObserver = new ResizeObserver((entries) => {
+                    let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();
+                    let newEditorSize = entries[0].contentBoxSize[0].blockSize;
+                    let editingArea = $domEditableElement.find('.ck-content');
+                    let verticalPadding = parseFloat(editingArea.css("padding-top")) + parseFloat(editingArea.css("padding-bottom"));
+                    let newSize = newEditorSize-(toolbarHeight+verticalPadding)
+                    if (newSize <= 100) {
+                        newSize = 100;
+                        $domEditableElement.height(toolbarHeight + verticalPadding + 100);
+                    }
+                    editor.editing.view.change(writer => {
+                        writer.setStyle('height', newSize + 'px', editor.editing.view.document.getRoot());
+                    });
                 });
+                resizeObserver.observe($domEditableElement.first().get(0));
 
                 if (CustomerInterface) {
-                    if ($(domEditableElement).siblings('label[id*="DynamicField"]').length > 0) {
-                        $(domEditableElement).css('max-width', '100%');
+                    if ($domEditableElement.parent().siblings('label[id*="DynamicField"]').length > 0) {
+                        $domEditableElement.css('max-width', '100%');
                     } else {
-                        $(domEditableElement).css('max-width', '66%');
+                        $domEditableElement.css('max-width', '66%');
                     }
-                    //$(domEditableElement).css('margin', '0 auto');
 
                     editor.editing.view.document.getRoot('main').placeholder = RichTextLabel[0].innerText;
                     RichTextLabel.hide();

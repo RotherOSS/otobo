@@ -835,10 +835,20 @@ div.InputField_ToolbarContainer ul li a:hover {
  * @subsection  DynamicFieldRichText
  */
 
+.FieldCell > .Field.RichTextField {
+    height: auto;
+}
+
 .FieldCell > .Field > .RichTextHolder {
     margin-top: 0px;
     padding-top: 48px;
     border-radius: 10px;
+    resize: vertical;
+    overflow: hidden;
+    z-index: 10;
+    position: relative;
+    height: 320px;
+    padding-bottom: 2px;
 }
 
 .FieldCell > .Field.RichTextField ~ label {
@@ -846,6 +856,7 @@ div.InputField_ToolbarContainer ul li a:hover {
     margin-bottom: auto;
     top: 16px;
     left: 32px;
+    z-index: 20;
 }
 
 .Field > .RichTextHolder > .cke {
