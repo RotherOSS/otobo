@@ -14741,7 +14741,7 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::DefaultQuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::DefaultQuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View</Navigation>
         <Value>
@@ -14752,13 +14752,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBounce###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketBounce###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketBounce</Navigation>
         <Value>
@@ -14769,13 +14774,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBulk###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketBulk###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
@@ -14786,13 +14796,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
@@ -14803,13 +14818,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketCompose###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketCompose###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
         <Value>
@@ -14820,13 +14840,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmail###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketEmail###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketEmail</Navigation>
         <Value>
@@ -14837,13 +14862,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailOutbound</Navigation>
         <Value>
@@ -14854,13 +14884,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketForward###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketForward###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketForward</Navigation>
         <Value>
@@ -14871,13 +14906,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
@@ -14888,13 +14928,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMove###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketMove###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
@@ -14905,13 +14950,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
@@ -14922,13 +14972,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketOwner###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketOwner###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketOwner</Navigation>
         <Value>
@@ -14939,13 +14994,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPending###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketPending###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
@@ -14956,13 +15016,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhone###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketPhone###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketPhone</Navigation>
         <Value>
@@ -14973,13 +15038,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneInbound</Navigation>
         <Value>
@@ -14990,13 +15060,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneOutbound</Navigation>
         <Value>
@@ -15007,13 +15082,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPriority###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
         <Value>
@@ -15024,13 +15104,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketProcess###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketProcess###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketProcess</Navigation>
         <Value>
@@ -15041,13 +15126,18 @@ Thanks for your help!
                 </DefaultItem>
                 <Item>
                     <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="+1 week">+7</Item>
                     </Hash>
                 </Item>
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketResponsible###QuickDateButtons" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketResponsible###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
@@ -15056,6 +15146,11 @@ Thanks for your help!
                     <Hash>
                     </Hash>
                 </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
                 <Item>
                     <Hash>
                         <Item Key="+1 week">+7</Item>
