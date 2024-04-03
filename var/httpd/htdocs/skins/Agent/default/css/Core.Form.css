@@ -758,10 +758,13 @@ fieldset.TableLike .DynamicFieldSet .InputField_InputContainer {
 }
 
 /* TODO check if it makes sense to do this only if input is direct child */
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField input:not([type="checkbox"]) {
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField input:not([type="checkbox"]),
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField .RichTextField {
     min-width: 150px; /*kind of random, not ideal*/
     box-sizing: border-box;
     width: 100% !important;
+    margin-left: 0px;
+    padding-left: 0px;
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField .DynamicFieldDate > input {
@@ -848,10 +851,16 @@ fieldset.TableLike > .Row > .FloatingField {
     float: left;
 }
 
-fieldset.TableLike > .RichTextField {
-    padding-bottom: 10px;
+fieldset.TableLike .RichTextField {
+    resize: vertical;
+    overflow: hidden;
+    z-index: 10;
+    position: relative;
+    height: 320px;
+    width: 620px;
+    padding-bottom: 2px;
+    margin-bottom: 6px;
     padding-left: 10px;
-    padding-right: 10px;
     margin-left: 30%;
     margin-right: 0;
 }
