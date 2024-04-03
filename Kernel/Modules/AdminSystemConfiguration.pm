@@ -106,7 +106,7 @@ sub Run {
             my @SettingList = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationList();
 
             SETTING:
-            for my $Setting ( sort @SettingList ) {
+            for my $Setting ( sort { $a->{Name} cmp $b->{Name} } @SettingList ) {
 
                 # Skip setting if search term doesn't match.
                 next SETTING if $Setting->{Name} !~ m{\Q$Search\E}msi;
