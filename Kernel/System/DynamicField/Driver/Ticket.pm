@@ -148,7 +148,7 @@ sub GetFieldTypeSettings {
             SelectionData   => {
                 'TicketNumber'      => 'Ticket#<Ticket Number>',
                 'QueueTicketNumber' => '<Queue>: <Ticket Number>',
-                'TitleTicketNumber' => '<Ticket Title> (<Ticket Number>)',
+                'TicketNumberTitle' => '<Ticket Number>: <Ticket Title>',
             },
             PossibleNone => 1,
             Multiple     => 0,
@@ -255,9 +255,9 @@ sub ObjectDescriptionGet {
             $Descriptions{Normal} = "$Ticket{Queue}: $Ticket{TicketNumber}";
             $Descriptions{Long}   = "$Ticket{Queue}: $Ticket{TicketNumber}";
         }
-        elsif ( $DisplayType eq 'TitleTicketNumber' ) {
-            $Descriptions{Normal} = "$Ticket{Title} ($Ticket{TicketNumber})";
-            $Descriptions{Long}   = "$Ticket{Title} ($Ticket{TicketNumber})";
+        elsif ( $DisplayType eq 'TicketNumberTitle' ) {
+            $Descriptions{Normal} = "$Ticket{TicketNumber}: $Ticket{Title}";
+            $Descriptions{Long}   = "$Ticket{TicketNumber}: $Ticket{Title}";
         }
     }
     else {
