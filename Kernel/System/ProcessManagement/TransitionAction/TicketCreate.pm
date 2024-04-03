@@ -218,7 +218,7 @@ sub Params {
         },
         {
             Key      => 'StoreTicketIDDynamicField',
-            Value    => 'ChildID (name of DynamicField holding the id of the created ticket in the original ticket)',
+            Value    => 'NameX (name of DynamicField holding the id of the created ticket in the original ticket)',
             Optional => 1,
         },
     );
