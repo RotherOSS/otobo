@@ -331,6 +331,36 @@ sub SearchObjects {
         $SearchParams{$SearchAttribute} = "*$Param{Term}*";
     }
 
+    # prepare mapping of edit mask attribute names
+    my %AttributeNameMapping = (
+        CustomerUser => [
+
+            # AgentTicketEmail
+            'From',
+
+            # AgentTicketPhone
+            'To',
+        ],
+        ResponsibleID => [
+            'NewResponsibleID',
+        ],
+        OwnerID => [
+            'NewOwnerID',
+            'NewUserID',
+        ],
+        QueueID => [
+            'Dest',
+            'NewQueueID',
+        ],
+        StateID => [
+            'NewStateID',
+            'NextStateID',
+        ],
+        PriorityID => [
+            'NewPriorityID',
+        ],
+    );
+
     # incorporate referencefilterlist into search params
     if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) ) {
         FILTERITEM:
@@ -360,7 +390,44 @@ sub SearchObjects {
                         );
                     }
                     else {
-                        $EqualsObjectAttribute = $Param{ParamObject}->GetParam( Param => $FilterItem->{EqualsObjectAttribute} );
+
+                        # match standard ticket attribute names with edit mask attribute names
+                        my @ParamNames = $Param{ParamObject}->GetParamNames();
+
+                        # check if attribute name itself is in params
+                        # NOTE trying attribute itself is crucially important in case of QueueID
+                        #   because AgentTicketPhone does not provide QueueID, but puts the id in
+                        #   Dest, and AgentTicketEmail leaves Dest as a string but puts the id in QueueID
+                        my ($ParamName) = grep { $_ eq $FilterItem->{EqualsObjectAttribute} } @ParamNames;
+
+                        # if not, try to find a mapped attribute name
+                        if ( !$ParamName ) {
+
+                            # check if mapped attribute names exist at all
+                            my $MappedAttributes = $AttributeNameMapping{ $FilterItem->{EqualsObjectAttribute} };
+                            if ( ref $MappedAttributes eq 'ARRAY' ) {
+
+                                MAPPEDATTRIBUTE:
+                                for my $MappedAttribute ( $MappedAttributes->@* ) {
+                                    ($ParamName) = grep { $_ eq $MappedAttribute } @ParamNames;
+
+                                    last MAPPEDATTRIBUTE if $ParamName;
+                                }
+                            }
+                        }
+
+                        return unless $ParamName;
+
+                        $EqualsObjectAttribute = $Param{ParamObject}->GetParam( Param => $ParamName );
+
+                        # when called by AgentReferenceSearch, Dest is a string and we need to extract the QueueID
+                        if ( $ParamName eq 'Dest' ) {
+                            my $QueueID = '';
+                            if ( $EqualsObjectAttribute =~ /^(\d{1,100})\|\|.+?$/ ) {
+                                $QueueID = $1;
+                            }
+                            $EqualsObjectAttribute = $QueueID;
+                        }
                     }
                 }
                 return unless $EqualsObjectAttribute;
