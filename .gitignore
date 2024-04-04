@@ -18,6 +18,7 @@ var/log/ssl_request_log
 build.log
 otobo.iml
 *.out
+*.err
 git-*.txt
 tmp-cpan-lib
 
