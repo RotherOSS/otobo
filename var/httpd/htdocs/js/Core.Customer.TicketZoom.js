@@ -452,6 +452,13 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             Core.UI.Popup.OpenPopup($(this).attr('href'), 'TicketAction');
             return false;
         });
+
+        /*
+         * Set neccessary CSS values for TicketInfo
+         */
+        if ( $('#oooArticleList').children().length == 0 ) {
+            $('#oooTicketInfo.oooTicketInfoPermanent').css('margin-top', '0px').css('top', 'revert').css('max-height', 'revert');
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
