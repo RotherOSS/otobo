@@ -288,12 +288,16 @@ button.oooM.ActivitySubmitButton {
         top: 89px;
         height: auto;
         border-radius: 15px;
-        max-height: calc(50vh - 93px);
+        max-height: 80vh;
         background-color: rgba(255, 255, 255, 0.35);
         cursor: pointer;
         overflow-y: auto;
         overflow-x: hidden;
         -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+
+    #oooArticleList.oooTicketInfoPermanent {
+        max-height: calc(50vh - 93px);
     }
 
     #oooTicketInfo.oooTicketInfoPermanent {
