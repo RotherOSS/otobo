@@ -71,10 +71,9 @@ sub Run {
 
             # fetch field type filterable attributes
             my $FieldTypeObjectName =
-                $FieldType eq 'Agent'
-                ? 'User'
-                : $FieldType =~ /ConfigItem/ ? 'ITSMConfigItem'
-                :                              $FieldType;
+                $FieldType eq 'Agent'      ? 'User' :
+                $FieldType =~ /ConfigItem/ ? 'ITSMConfigItem' :
+                $FieldType;
             my $FieldTypeObject = $Kernel::OM->Get( 'Kernel::System::' . $FieldTypeObjectName );
 
             # try ObjectAttributesGet as Agent, ConfigItem and Ticket provide this method
@@ -95,15 +94,16 @@ sub Run {
 
             # fetch object type filterable attributes
             my $ObjectTypeObjectName =
-                $ObjectType eq 'Agent'
-                ? 'User'
-                : $ObjectType =~ /ConfigItem/ ? 'ITSMConfigItem'
-                :                               $ObjectType;
+                $ObjectType eq 'Agent'      ? 'User' :
+                $ObjectType =~ /ConfigItem/ ? 'ITSMConfigItem' :
+                $ObjectType eq 'Article'    ? 'Ticket' :
+                $ObjectType;
             my $ObjectTypeObject = $Kernel::OM->Get( 'Kernel::System::' . $ObjectTypeObjectName );
 
             # try ObjectAttributesGet as Agent, ConfigItem and Ticket provide this method
             if ( $ObjectTypeObject->can('ObjectAttributesGet') ) {
                 my %ObjectTypeAttributes = $ObjectTypeObject->ObjectAttributesGet(
+                    EditMask      => 1,
                     DynamicFields => 1,
                 );
                 %EqualsObjectFilterableAttributes = map { $ObjectTypeAttributes{$_} ? ( $_ => $_ ) : () } keys %ObjectTypeAttributes;
@@ -996,39 +996,9 @@ sub _ShowScreen {
         )
     {
 
-        # attribute translation for ticket attributes
-        my %EqualsObjectAttributesMap;
-        if ( $Param{ObjectType} eq 'Ticket' ) {
-
-            # set standard attributes which are always present
-            $EqualsObjectAttributesMap{CustomerID}     = 'CustomerID';
-            $EqualsObjectAttributesMap{CustomerUserID} = 'CustomerUserID';
-            $EqualsObjectAttributesMap{Dest}           = 'QueueID';
-            $EqualsObjectAttributesMap{NewUserID}      = 'OwnerID';
-            $EqualsObjectAttributesMap{NextStateID}    = 'StateID';
-            $EqualsObjectAttributesMap{PriorityID}     = 'PriorityID';
-            $EqualsObjectAttributesMap{UserID}         = 'UserID';
-
-            # set sysconfig-depending attributes if present
-            # NOTE this relies upon the object attributes passed in $Param{EqualsObjectFilterableAttributes} to determine wether an attribute is present or not
-            for my $SysConfigAttribute (qw(ResponsibleID ServiceID SLAID TypeID)) {
-                if ( $Param{EqualsObjectFilterableAttributes}->{$SysConfigAttribute} ) {
-                    my $SysConfigAttributeName = $SysConfigAttribute eq 'ResponsibleID' ? "New$SysConfigAttribute" : $SysConfigAttribute;
-                    $EqualsObjectAttributesMap{$SysConfigAttributeName} = $SysConfigAttribute;
-                }
-            }
-
-            # set dynamic fields
-            for my $Attribute ( keys $Param{EqualsObjectFilterableAttributes}->%* ) {
-                if ( $Attribute =~ /^DynamicField_/ ) {
-                    $EqualsObjectAttributesMap{$Attribute} = $Attribute;
-                }
-            }
-        }
-
         # build attributes selections for template filter row
         $Param{'ReferenceFilter_EqualsObjectAttributeStrg'} = $LayoutObject->BuildSelection(
-            Data         => %EqualsObjectAttributesMap ? \%EqualsObjectAttributesMap : $Param{EqualsObjectFilterableAttributes},
+            Data         => $Param{EqualsObjectFilterableAttributes},
             Name         => 'ReferenceFilter_EqualsObjectAttribute',
             PossibleNone => 1,
             Translation  => 0,
@@ -1056,7 +1026,7 @@ sub _ShowScreen {
 
                 # NOTE SelectedID is necessary because e.g. for tickets key and value are different
                 $Param{ 'ReferenceFilter_EqualsObjectAttributeStrg_' . $ReferenceFilterCounter } = $LayoutObject->BuildSelection(
-                    Data         => %EqualsObjectAttributesMap ? \%EqualsObjectAttributesMap : $Param{EqualsObjectFilterableAttributes},
+                    Data         => $Param{EqualsObjectFilterableAttributes},
                     Name         => 'ReferenceFilter_EqualsObjectAttribute_' . $ReferenceFilterCounter,
                     SelectedID   => $Param{ 'ReferenceFilter_EqualsObjectAttribute_' . $ReferenceFilterCounter } || '',
                     PossibleNone => 1,
