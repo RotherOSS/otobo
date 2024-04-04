@@ -8284,6 +8284,7 @@ returns the attributes a ticket can have on the system.
     my %Attributes = $TicketObject->ObjectAttributesGet(
         DynamicFields => (0|1),         # (optional) if dynamic field names are included, default 0
         Extended      => (0|1),         # (optional) if extended information is included, default 1
+        EditMask      => (0|1),         # (optional) if edit mask attributes are returned instead of backend attributes, default 0
     );
 
 =cut
@@ -8296,64 +8297,107 @@ sub ObjectAttributesGet {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # allow certain attributes only of corresponding sysconfig is activated
-    my %TicketAttributes = (
-        TicketID               => 1,
-        Queues                 => 1,
-        QueueID                => 1,
-        States                 => 1,
-        StateID                => 1,
-        Locks                  => 1,
-        LockID                 => 1,
-        Priorities             => 1,
-        PriorityID             => 1,
-        Created                => 1,
-        TicketNumber           => 1,
-        CustomerID             => 1,
-        CustomerUserID         => 1,
-        Owner                  => 1,
-        OwnerID                => 1,
-        Changed                => 1,
-        Title                  => 1,
-        EscalationUpdateTime   => 1,
-        UnlockTimeout          => 1,
-        EscalationResponseTime => 1,
-        EscalationSolutionTime => 1,
-        EscalationTime         => 1,
-        CreateBy               => 1,
-        ChangeBy               => 1,
-    );
+    my %TicketAttributes;
 
-    # check and set attributes which depend on sysconfig
-    for my $Entity (qw(Responsible Service Type)) {
-        if ( $ConfigObject->Get("Ticket::$Entity") ) {
+    if ( $Param{EditMask} ) {
 
-            # Responsible can only be searched via IDs
-            if ( $Entity ne 'Responsible' ) {
-                $TicketAttributes{ $Entity . 's' } = 1;
-            }
-            $TicketAttributes{"${Entity}ID"} = 1;
+        # allow certain attributes only of corresponding sysconfig is activated
+        %TicketAttributes = (
+            Queue                  => 1,
+            QueueID                => 1,
+            LinkTicketID           => 1,
+            Owner                  => 1,
+            OwnerID                => 1,
+            State                  => 1,
+            StateID                => 1,
+            Priority               => 1,
+            PriorityID             => 1,
+            Customer               => 1,
+            CustomerID             => 1,
+            CustomerUser           => 1,
+            CustomerUserID         => 1,
+            IsVisibleForCustomer   => 1,
+            ActivityDialogEntityID => 1,
+            ActivityEntityID       => 1,
+            ProcessEntityID        => 1,
+        );
 
-            # SLA depends on service
-            if ( $Entity eq 'Service' ) {
-                $TicketAttributes{SLAs}  = 1;
-                $TicketAttributes{SLAID} = 1;
+        # check and set attributes which depend on sysconfig
+        for my $Entity (qw(Responsible Service Type)) {
+            if ( $ConfigObject->Get("Ticket::$Entity") ) {
+
+                $TicketAttributes{"${Entity}ID"} = 1;
+
+                # SLA depends on service
+                if ( $Entity eq 'Service' ) {
+                    $TicketAttributes{SLAID} = 1;
+                }
             }
         }
-    }
 
-    # if requested, set extended attributes
-    if ( $Param{Extended} ) {
-        $TicketAttributes{FirstResponse}   = 1;
-        $TicketAttributes{FirstLock}       = 1;
-        $TicketAttributes{TicketGetClosed} = 1;
+    }
+    else {
+
+        # allow certain attributes only of corresponding sysconfig is activated
+        %TicketAttributes = (
+            TicketID               => 1,
+            Queues                 => 1,
+            QueueID                => 1,
+            States                 => 1,
+            StateID                => 1,
+            Locks                  => 1,
+            LockID                 => 1,
+            Priorities             => 1,
+            PriorityID             => 1,
+            Created                => 1,
+            TicketNumber           => 1,
+            CustomerID             => 1,
+            CustomerUserID         => 1,
+            Owner                  => 1,
+            OwnerID                => 1,
+            Changed                => 1,
+            Title                  => 1,
+            EscalationUpdateTime   => 1,
+            UnlockTimeout          => 1,
+            EscalationResponseTime => 1,
+            EscalationSolutionTime => 1,
+            EscalationTime         => 1,
+            CreateBy               => 1,
+            ChangeBy               => 1,
+        );
+
+        # check and set attributes which depend on sysconfig
+        for my $Entity (qw(Responsible Service Type)) {
+            if ( $ConfigObject->Get("Ticket::$Entity") ) {
+
+                # Responsible can only be searched via IDs
+                if ( $Entity ne 'Responsible' ) {
+                    $TicketAttributes{ $Entity . 's' } = 1;
+                }
+                $TicketAttributes{"${Entity}ID"} = 1;
+
+                # SLA depends on service
+                if ( $Entity eq 'Service' ) {
+                    $TicketAttributes{SLAs}  = 1;
+                    $TicketAttributes{SLAID} = 1;
+                }
+            }
+        }
+
+        # if requested, set extended attributes
+        if ( $Param{Extended} ) {
+            $TicketAttributes{FirstResponse}   = 1;
+            $TicketAttributes{FirstLock}       = 1;
+            $TicketAttributes{TicketGetClosed} = 1;
+        }
+
     }
 
     # check if dynamic fields need to be added
     if ( $Param{DynamicFields} ) {
         my $DynamicFields = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
             Valid      => 1,
-            ObjectType => 'Ticket',
+            ObjectType => [ 'Ticket', 'Article' ],
             ResultType => 'HASH',
         );
 
