@@ -78,7 +78,7 @@
             </div>
 [% RenderBlockEnd("NextActivities") %]
         </div>
-        <ul id='oooArticleList'>
+        <ul id='oooArticleList'[% IF Data.TicketInfoDisplayType == 'Permanent' %] class="oooTicketInfoPermanent"[% END %]>
         </ul>
         <ul id='oooArticleListExpanded'[% IF Data.TicketInfoDisplayType == 'Permanent' %] class="oooTicketInfoPermanent"[% END %]>
 [% RenderBlockStart("ProcessActivity") %]
