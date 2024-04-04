@@ -1697,7 +1697,7 @@ sub _Mask {
     # render ticket info head depending on sysconfig setting
     if ( $Config->{TicketInfoDisplayType} eq 'Header' ) {
         $LayoutObject->Block(
-            Name => 'Head',
+            Name => 'HeaderInfo',
         );
     }
 

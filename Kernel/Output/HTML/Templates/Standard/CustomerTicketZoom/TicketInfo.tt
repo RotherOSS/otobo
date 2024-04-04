@@ -15,12 +15,12 @@
 # --
 
             <div id='oooTicketInfo' class="oooWidget[% IF Data.TicketInfoDisplayType == 'Permanent' %] oooTicketInfoPermanent[% END %]">
-[% RenderBlockStart("Head") %]
+[% RenderBlockStart("HeaderInfo") %]
                 <div class='oooWHead'>
                     <h2>[% Translate('Information') | html %]</h2>
                     <i class='ooofo ooofo-close oooClose'></i>
                 </div>
-[% RenderBlockEnd("Head") %]
+[% RenderBlockEnd("HeaderInfo") %]
                 <div class="oooSection">
                     <h3>[% Translate('Ticket Information') | html %]</h3>
 [% RenderBlockStart("Type") %]
