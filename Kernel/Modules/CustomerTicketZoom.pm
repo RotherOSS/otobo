@@ -1694,6 +1694,13 @@ sub _Mask {
         );
     }
 
+    # render ticket info head depending on sysconfig setting
+    if ( $Config->{TicketInfoDisplayType} eq 'Header' ) {
+        $LayoutObject->Block(
+            Name => 'Head',
+        );
+    }
+
     # ticket type
     if ( $ConfigObject->Get('Ticket::Type') && $Config->{AttributesView}->{Type} ) {
 
