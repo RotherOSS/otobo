@@ -288,7 +288,7 @@ button.oooM.ActivitySubmitButton {
         top: 89px;
         height: auto;
         border-radius: 15px;
-        max-height: 80vh;
+        max-height: calc(50vh - 93px);
         background-color: rgba(255, 255, 255, 0.35);
         cursor: pointer;
         overflow-y: auto;
@@ -304,6 +304,10 @@ button.oooM.ActivitySubmitButton {
         max-width: unset;
         min-width: unset;
         box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+        top: calc(50vh + 29px);
+        max-height: calc(50vh - 93px);
+        overflow-y: auto;
+        box-sizing: border-box;
     }
     
     #oooArticleList > li {
