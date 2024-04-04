@@ -64,9 +64,6 @@
                     [% Translate('Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system.') | html %]
                 </p>
                 <div>
-                    <a class="CallForAction" href="[% Env("Baselink") %]Action=AdminSystemConfigurationGroup;RootNavigation=Core::PhantomJS">
-                        <span>[% Translate('Configure PhantomJS') | html %]</span>
-                    </a>
                     <a class="CallForAction" href="[% Env("Baselink") %]Action=AdminSystemConfigurationGroup;RootNavigation=Core::GoogleChrome">
                         <span>[% Translate('Configure GoogleChrome') | html %]</span>
                     </a>

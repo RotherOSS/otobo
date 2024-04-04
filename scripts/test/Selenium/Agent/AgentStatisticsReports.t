@@ -21,6 +21,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $Self
@@ -36,14 +37,6 @@ $Selenium->RunTest(
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $StatsObject  = $Kernel::OM->Get('Kernel::System::Stats');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-        $Helper->ConfigSettingChange(
-            Valid => 0,
-            Key   => 'PhantomJS::Bin',
-            Value => '',
-        );
 
         # Define needed variable.
         my $RandomID = $Helper->GetRandomID();
@@ -161,7 +154,7 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        my $BrowserFound = $ConfigObject->Get('PhantomJS::Bin') || $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
+        my $BrowserFound = $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
 
         if ($BrowserFound) {
             $Self->True(
@@ -190,12 +183,6 @@ $Selenium->RunTest(
             }
 
             # Verify button for 'Configure PhanotmJS' and 'Configure GoogleChrome'.
-            $Self->True(
-                $Selenium->find_element(
-                    "//a[contains(\@href, 'Action=AdminSystemConfigurationGroup;RootNavigation=Core::PhantomJS')]"
-                ),
-                "SidebarColumn note button for 'Configure PhantomJS' is found"
-            );
             $Self->True(
                 $Selenium->find_element(
                     "//a[contains(\@href, 'Action=AdminSystemConfigurationGroup;RootNavigation=Core::GoogleChrome')]"
@@ -571,4 +558,4 @@ JAVASCRIPT
 
 );
 
-$Self->DoneTesting();
+done_testing;

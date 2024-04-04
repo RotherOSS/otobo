@@ -40,20 +40,16 @@ our @ObjectDependencies = (
 );
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 sub GeneratePDF {
     my ( $Self, %Param ) = @_;
 
-    my %StatsReport = %{ $Param{StatsReport} };
-
+    my %StatsReport  = %{ $Param{StatsReport} };
     my $UserLanguage = $Param{UserLanguage};
 
     my $LayoutObject      = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -65,9 +61,8 @@ sub GeneratePDF {
     my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $PhantomJSBinary    = $Kernel::OM->Get('Kernel::Config')->Get('PhantomJS::Bin');
-    my $GoogleChromeBinary = $Kernel::OM->Get('Kernel::Config')->Get('GoogleChrome::Bin');
-    my $BrowserFound       = ( $PhantomJSBinary || $GoogleChromeBinary ) ? 1 : 0;
+    my $GoogleChromeBinary = $ConfigObject->Get('GoogleChrome::Bin');
+    my $BrowserFound       = $GoogleChromeBinary ? 1 : 0;
 
     my $Page = $LayoutObject->{LanguageObject}->Translate('Page');
     my $Time = $LayoutObject->{Time};
@@ -381,15 +376,15 @@ sub GeneratePDF {
 
         }
 
-        # D3 charts; load in Chrome or PhantomJS and generate PNG to embed in PDF.
+        # D3 charts; load in Chrome and generate PNG to embed in PDF.
         else {
-            my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+            my $Home = $ConfigObject->Get('Home');
 
             # This is needed because we run this function also from a console commands where
             #   there is no Action initially.
             local $LayoutObject->{Action} = 'AgentStatisticsReports';
 
-            # Generate local file URLs for Chrome or PhantomJS (ok, this is a hack).
+            # Generate local file URLs for Chrome (ok, this is a hack).
             local $ConfigObject->{'Frontend::WebPath'}        = "file://$Home/var/httpd/htdocs/";
             local $ConfigObject->{'Frontend::JavaScriptPath'} = "file://$Home/var/httpd/htdocs/js/";
             my $Output = $LayoutObject->Header( Type => 'Small' );
@@ -426,7 +421,6 @@ sub GeneratePDF {
             my $TempPNGFilename = "$TempPNGDir/screenshot.png";                              # Chrome requires this file name
 
             my $CommandOutput;
-
             if ($GoogleChromeBinary) {
 
                 # Chrome outputs with a fixed "screenshot.png" file name in the current folder.
@@ -434,15 +428,11 @@ sub GeneratePDF {
                 #
                 #   FIXME: If --disable-gpu is used in the command below (or if GPU acceleration is not supported),
                 #   subsequent call to $PDFObject->Image() <PDF::API2::image_png() internally> will be extremely slow.
-                #   The real reason is still unknown, but consider using PhantomJS only in this case.
+                #   The real reason is still unknown, but consider finding a work around for this case.
                 $CommandOutput
                     = `cd $TempPNGDir; '$GoogleChromeBinary' --headless --virtual-time-budget=2500 --window-size=1200,900 --screenshot $TempHTMLFilename 2>&1`;
             }
-            else {
-                $CommandOutput
-                    = `'$PhantomJSBinary' $Home/var/httpd/htdocs/js/thirdparty/phantomjs/rasterize_delayed.js $TempHTMLFilename $TempPNGFilename 1200px 2>&1`
-                    // '';
-            }
+            $CommandOutput //= '';
             if ($!) {
                 $CommandOutput .= "$!";
             }
