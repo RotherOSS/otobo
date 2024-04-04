@@ -8088,7 +8088,7 @@
         <Description Translatable="1">Defines if the ticket info widget is displayed permanently on the left below the article list or is available via click on the 'Information' button.</Description>
         <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
         <Value>
-            <Item ValueType="Select" SelectedID="Header">
+            <Item ValueType="Select" SelectedID="Permanent">
                 <Item ValueType="Option" Value="Header" Translatable="1">Displayable via click</Item>
                 <Item ValueType="Option" Value="Permanent" Translatable="1">Permanent</Item>
             </Item>
