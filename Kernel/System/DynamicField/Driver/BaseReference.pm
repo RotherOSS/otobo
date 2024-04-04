@@ -960,7 +960,7 @@ sub GetFieldTypeSettings {
     }
 
     # set up the field type specific settings
-    # This dynamic field support multiple values.
+    # This dynamic field supports multiple values.
     {
         my %MultiValueSelectionData = (
             0 => Translatable('No'),

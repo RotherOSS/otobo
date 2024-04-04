@@ -76,7 +76,7 @@ sub new {
 
 =head2 PossibleTypesList()
 
-return a hash of all possible types
+return a hash of all possible link types
 
     my %PossibleTypesList = $LinkObject->PossibleTypesList(
         Object1 => 'Ticket',
@@ -107,9 +107,9 @@ sub PossibleTypesList {
     }
 
     # get possible link list
-    my %PossibleLinkList = $Self->PossibleLinkList();
+    my %PossibleLinkList = $Self->PossibleLinkList;
 
-    # remove not needed entries
+    # remove not matching entries
     POSSIBLELINK:
     for my $PossibleLink ( sort keys %PossibleLinkList ) {
 
@@ -117,9 +117,9 @@ sub PossibleTypesList {
         my $Object1 = $PossibleLinkList{$PossibleLink}->{Object1};
         my $Object2 = $PossibleLinkList{$PossibleLink}->{Object2};
 
-        next POSSIBLELINK
-            if ( $Object1 eq $Param{Object1} && $Object2 eq $Param{Object2} )
-            || ( $Object2 eq $Param{Object1} && $Object1 eq $Param{Object2} );
+        # keep this this link when the passed in objects are covered in any direction
+        next POSSIBLELINK if ( $Object1 eq $Param{Object1} && $Object2 eq $Param{Object2} );
+        next POSSIBLELINK if ( $Object2 eq $Param{Object1} && $Object1 eq $Param{Object2} );
 
         # remove entry from list if objects don't match
         delete $PossibleLinkList{$PossibleLink};
@@ -1604,14 +1604,14 @@ sub ObjectLookup {
 
 look up a link type
 
-    $TypeID = $LinkObject->TypeLookup(
+    my $TypeID = $LinkObject->TypeLookup(
         Name   => 'Normal',
         UserID => 1,
     );
 
 or
 
-    $Name = $LinkObject->TypeLookup(
+    my $Name = $LinkObject->TypeLookup(
         TypeID => 56,
         UserID => 1,
     );
@@ -1627,6 +1627,7 @@ sub TypeLookup {
             Priority => 'error',
             Message  => 'Need TypeID or Name!',
         );
+
         return;
     }
 
@@ -1636,6 +1637,7 @@ sub TypeLookup {
             Priority => 'error',
             Message  => 'Need UserID!'
         );
+
         return;
     }
 
@@ -1647,13 +1649,14 @@ sub TypeLookup {
             Type => $Self->{CacheType},
             Key  => $CacheKey,
         );
+
         return $Cache if $Cache;
 
         # get database object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # ask the database
-        return if !$DBObject->Prepare(
+        return unless $DBObject->Prepare(
             SQL   => 'SELECT name FROM link_type WHERE id = ?',
             Bind  => [ \$Param{TypeID} ],
             Limit => 1,
@@ -1671,6 +1674,7 @@ sub TypeLookup {
                 Priority => 'error',
                 Message  => "Link type id '$Param{TypeID}' not found in the database!",
             );
+
             return;
         }
 
@@ -1686,6 +1690,8 @@ sub TypeLookup {
     }
     else {
 
+        # the name of a link type was given
+
         # get check item object
         my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
@@ -1700,6 +1706,7 @@ sub TypeLookup {
             Type => $Self->{CacheType},
             Key  => $CacheKey,
         );
+
         return $Cache if $Cache;
 
         # get database object
@@ -1711,7 +1718,7 @@ sub TypeLookup {
         for my $Try ( 1 .. 2 ) {
 
             # ask the database
-            return if !$DBObject->Prepare(
+            return unless $DBObject->Prepare(
                 SQL   => 'SELECT id FROM link_type WHERE name = ?',
                 Bind  => [ \$Param{Name} ],
                 Limit => 1,
@@ -1730,11 +1737,12 @@ sub TypeLookup {
                     Priority => 'error',
                     Message  => "Invalid type name '$Param{Name}' is given!",
                 );
+
                 return;
             }
 
             # insert the new type
-            return if !$DBObject->Do(
+            return unless $DBObject->Do(
                 SQL => '
                     INSERT INTO link_type
                     (name, valid_id, create_time, create_by, change_time, change_by)
@@ -1749,6 +1757,7 @@ sub TypeLookup {
                 Priority => 'error',
                 Message  => "Link type '$Param{Name}' not found in the database!",
             );
+
             return;
         }
 
@@ -1766,7 +1775,7 @@ sub TypeLookup {
 
 =head2 TypeGet()
 
-get a link type
+get data about a link type from the link type id
 
     my %TypeData = $LinkObject->TypeGet(
         TypeID => 444,
@@ -1796,6 +1805,7 @@ sub TypeGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1806,13 +1816,14 @@ sub TypeGet {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
+
     return %{$Cache} if $Cache;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # ask the database
-    return if !$DBObject->Prepare(
+    # ask the database for the name
+    return unless $DBObject->Prepare(
         SQL => '
             SELECT id, name, create_time, create_by, change_time, change_by
             FROM link_type
@@ -1841,6 +1852,7 @@ sub TypeGet {
             Priority => 'error',
             Message  => "Linktype '$Type{Name}' does not exist!",
         );
+
         return;
     }
 
@@ -1864,9 +1876,9 @@ sub TypeGet {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  =>
-                "The $Argument '$Type{$Argument}' is invalid in SysConfig (LinkObject::Type)!",
+            Message  => "The $Argument '$Type{$Argument}' is invalid in SysConfig (LinkObject::Type)!",
         );
+
         return;
     }
 
