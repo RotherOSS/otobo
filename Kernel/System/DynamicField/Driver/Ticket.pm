@@ -504,6 +504,8 @@ sub SearchObjects {
                         push @TypeIDs, $TypeID;
                     }
                 }
+
+                TYPE:
                 for my $Type ( $SearchParams{Types}->@* ) {
                     my $TypeID = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( Type => $Type );
                     next TYPE unless $TypeID;
@@ -525,6 +527,35 @@ sub SearchObjects {
     else {
         delete $SearchParams{TypeIDs};
         delete $SearchParams{Types};
+    }
+
+    # Support restriction by ticket type when the Ticket::Queue feature is activated.
+    if ( $DynamicFieldConfig->{Config}{Queue} ) {
+        if ( $SearchParams{QueueIDs} || $SearchParams{Queues} ) {
+            my @QueueIDs;
+            for my $QueueID ( $SearchParams{QueueIDs}->@* ) {
+                if ( any { $_ eq $QueueID } $DynamicFieldConfig->{Config}{Queue}->@* ) {
+                    push @QueueIDs, $QueueID;
+                }
+            }
+
+            QUEUE:
+            for my $Queue ( $SearchParams{Queues}->@* ) {
+                my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $Queue );
+                next QUEUE unless $QueueID;
+                if ( ( any { $_ eq $QueueID } $DynamicFieldConfig->{Config}{Queue}->@* ) && ( none { $_ eq $QueueID } @QueueIDs ) ) {
+                    push @QueueIDs, $QueueID;
+                }
+            }
+
+            return unless @QueueIDs;
+
+            $SearchParams{QueueIDs} = \@QueueIDs;
+            delete $SearchParams{Queues};
+        }
+        else {
+            $SearchParams{QueueIDs} = $DynamicFieldConfig->{Config}->{Queue};
+        }
     }
 
     # return a list of ticket IDs
