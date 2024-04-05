@@ -40,6 +40,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
+    'Kernel::System::Queue',
     'Kernel::System::Ticket',
     'Kernel::System::Type',
 );
@@ -107,6 +108,19 @@ sub GetFieldTypeSettings {
     my @FieldTypeSettings = $Self->SUPER::GetFieldTypeSettings(
         %Param,
     );
+
+    # Support restriction by ticket queue.
+    my %QueueID2Name = $Kernel::OM->Get('Kernel::System::Queue')->QueueList;
+    push @FieldTypeSettings,
+        {
+            ConfigParamName => 'Queue',
+            Label           => Translatable('Queue of the ticket'),
+            Explanation     => Translatable('Select the queue of the ticket'),
+            InputType       => 'Selection',
+            SelectionData   => \%QueueID2Name,
+            PossibleNone    => 1,
+            Multiple        => 1,
+        };
 
     # Support restriction by ticket type when the Ticket::Type feature is activated.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -479,8 +493,6 @@ sub SearchObjects {
         }
     }
 
-    # TODO build queue restriction analogously to type restriction
-    # TODO compare and merge with possible custom type id filtering
     # Support restriction by ticket type when the Ticket::Type feature is activated.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     if ( $ConfigObject->Get('Ticket::Type') ) {
