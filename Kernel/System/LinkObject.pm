@@ -1602,7 +1602,11 @@ sub ObjectLookup {
 
 =head2 TypeLookup()
 
-look up a link type
+look up either a link type id or a link type name.
+
+A passed in name is checked whether it is UTF-8 valid and leading and trailing
+white space is trimmed. A new id is created when a name is looked up
+for the first time. In this case a new row is inserted into the database table B<link_type>.
 
     my $TypeID = $LinkObject->TypeLookup(
         Name   => 'Normal',
