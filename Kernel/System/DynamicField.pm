@@ -898,11 +898,14 @@ Additional restrictions can be applied:
         Valid        => 0,            # optional, defaults to 1
 
         # object  type (optional) as STRING or as ARRAYREF
-        # The special object type 'All' places no restriction on the object type.
+        # The special object type 'All' places no restriction on the object type when
+        # it is passed as a single string.
         ObjectType => 'Ticket',
         ObjectType => ['Ticket', 'Article'],
 
-        FieldFilter => {        # optional, filter by name of the dynamic field
+        # optional, filter by name of the dynamic field
+        # only the fields where there the field name has a true value are returned
+        FieldFilter => {
             nameforfield => 1,
             fieldname    => 2,
             other        => 0,
@@ -952,19 +955,24 @@ sub DynamicFieldListGet {
     }
 
     # set cache key object type component depending on the ObjectType parameter
-    my $ObjectType = 'All';
+    my @ObjectTypes;
+    my $ObjectTypeCacheKey = 'All';
     if ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-        $ObjectType = join '_', sort @{ $Param{ObjectType} };
+        @ObjectTypes        = sort $Param{ObjectType}->@*;
+        $ObjectTypeCacheKey = join '_', @ObjectTypes;
     }
     elsif ( IsStringWithData( $Param{ObjectType} ) ) {
-        $ObjectType = $Param{ObjectType};
+        @ObjectTypes        = $Param{ObjectType} eq 'All' ? () : ( $Param{ObjectType} );
+        $ObjectTypeCacheKey = $Param{ObjectType};
     }
 
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheKey = 'DynamicFieldListGet::Valid::' . $Valid . '::ObjectType::' . $ObjectType;
-    my $Cache    = $CacheObject->Get(
+    my $CacheKey = join '::', 'DynamicFieldListGet',
+        Valid      => $Valid,
+        ObjectType => $ObjectTypeCacheKey;
+    my $Cache = $CacheObject->Get(
         Type => 'DynamicField',
         Key  => $CacheKey,
     );
@@ -986,65 +994,59 @@ sub DynamicFieldListGet {
             return;
         }
 
-        my $FilteredData;
+        my @FilteredData;
 
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$Cache} ) {
-            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-            next DYNAMICFIELD if !$Param{FieldFilter}->{ $DynamicFieldConfig->{Name} };
+        for my $DynamicFieldConfig ( $Cache->@* ) {
+            next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD unless $DynamicFieldConfig->{Name};
+            next DYNAMICFIELD unless $Param{FieldFilter}->{ $DynamicFieldConfig->{Name} };
 
-            push @{$FilteredData}, $DynamicFieldConfig;
+            push @FilteredData, $DynamicFieldConfig;
         }
 
         # return filtered data from cache
-        return $FilteredData;
+        return \@FilteredData;
     }
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $SQL = 'SELECT id, name, field_order FROM dynamic_field';
-
+    # assemble SQL
+    my ( @WhereClauses, @Binds );
     if ($Valid) {
-
-        # get valid object
         my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
-        $SQL .= ' WHERE valid_id IN (' . join ', ', $ValidObject->ValidIDsGet() . ')';
-
-        if ( $Param{ObjectType} ) {
-            if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
-                $SQL .=
-                    " AND object_type = '" . $DBObject->Quote( $Param{ObjectType} ) . "'";
-            }
-            elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-                my $ObjectTypeString =
-                    join ',',
-                    map { "'" . $DBObject->Quote($_) . "'" } @{ $Param{ObjectType} };
-                $SQL .= " AND object_type IN ($ObjectTypeString)";
-
-            }
-        }
-    }
-    else {
-        if ( $Param{ObjectType} ) {
-            if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
-                $SQL .=
-                    " WHERE object_type = '" . $DBObject->Quote( $Param{ObjectType} ) . "'";
-            }
-            elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-                my $ObjectTypeString =
-                    join ',',
-                    map { "'" . $DBObject->Quote($_) . "'" } @{ $Param{ObjectType} };
-                $SQL .= " WHERE object_type IN ($ObjectTypeString)";
-            }
-        }
+        push @WhereClauses, sprintf 'valid_id IN (%s)', join ', ', $ValidObject->ValidIDsGet;
     }
 
-    $SQL .= " ORDER BY field_order, id";
+    if (@ObjectTypes) {
+        my %QueryCondition = $DBObject->QueryInCondition(
+            Key      => 'object_type',
+            Values   => \@ObjectTypes,
+            BindMode => 1,
+        );
 
-    return if !$DBObject->Prepare( SQL => $SQL );
+        push @WhereClauses, $QueryCondition{SQL};
+        push @Binds,        $QueryCondition{Values}->@*;
+    }
+
+    my $WhereSQL = '';
+    if (@WhereClauses) {
+        $WhereSQL = 'WHERE ' . join ' AND ', @WhereClauses;
+    }
+
+    my $SQL = <<"END_SQL";
+SELECT id, name, field_order
+  FROM dynamic_field
+  $WhereSQL
+  ORDER BY field_order, id
+END_SQL
+
+    return unless $DBObject->Prepare(
+        SQL  => $SQL,
+        Bind => \@Binds,
+    );
 
     # Fetch first the list of IDs,
     # as DynamicFieldGet() might use Kernell::System::DB as well
@@ -1073,6 +1075,7 @@ sub DynamicFieldListGet {
             Priority => 'error',
             Message  => 'FieldFilter must be a HASH reference!',
         );
+
         return;
     }
 
@@ -1080,9 +1083,9 @@ sub DynamicFieldListGet {
     my $FilteredData;
     DYNAMICFIELD:
     for my $DynamicFieldConfig (@Data) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-        next DYNAMICFIELD if !$Param{FieldFilter}->{ $DynamicFieldConfig->{Name} };
+        next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD unless $DynamicFieldConfig->{Name};
+        next DYNAMICFIELD unless $Param{FieldFilter}->{ $DynamicFieldConfig->{Name} };
 
         push @{$FilteredData}, $DynamicFieldConfig;
     }
