@@ -1014,14 +1014,16 @@ sub PossibleValuesGet {
         %PossibleValues = ( '' => '-' );
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # passing $Param{ParamObject} or $Param{Object} to SearchObjects()
     my @SearchResult = $Self->SearchObjects(
         %Param,
+        UserID => $LayoutObject->{UserID},
     );
 
     # if we are in an edit mask, FormID and SessionID will be provided by the LayoutObject
     # in this case we store the possible values for later verification
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     if ( $LayoutObject->{FormID} && $LayoutObject->{SessionID} ) {
         $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
             LayoutObject => $LayoutObject,

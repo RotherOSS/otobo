@@ -3025,7 +3025,7 @@ This is used in auto completion when searching for possible object IDs.
         DynamicFieldConfig => $DynamicFieldConfig,
         Term               => $Term,
         MaxResults         => $MaxResults,
-        UserID             => 1,
+        UserID             => $Self->{UserID},
         ParamObject        => $ParamObject,
         LayoutObject       => $LayoutObject,
     );
