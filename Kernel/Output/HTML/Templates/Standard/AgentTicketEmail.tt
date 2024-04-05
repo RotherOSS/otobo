@@ -429,7 +429,7 @@
                     <div class="Clear"></div>
 
                     <label for="Signature">[% Translate("Signature") | html %]:</label>
-                    <div class="RichTextField">
+                    <div>
                         <input type="hidden" name="Signature" value="[% Data.Signature | html %]"/>
                         <iframe height="140" width="620" frameborder="0" id="Signature" class="Signature" src="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Signature;QueueID=[% Data.QueueID | html %]"></iframe>
                     </div>
