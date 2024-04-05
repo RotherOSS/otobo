@@ -271,8 +271,8 @@ sub StringClean {
     }
 
     # set default values
-    $Param{TrimLeft}  = defined $Param{TrimLeft}  ? $Param{TrimLeft}  : 1;
-    $Param{TrimRight} = defined $Param{TrimRight} ? $Param{TrimRight} : 1;
+    $Param{TrimLeft}  //= 1;
+    $Param{TrimRight} //= 1;
 
     my %TrimAction = (
         RemoveAllNewlines => qr{ [\n\r\f] }xms,
@@ -284,7 +284,7 @@ sub StringClean {
 
     ACTION:
     for my $Action ( sort keys %TrimAction ) {
-        next ACTION if !$Param{$Action};
+        next ACTION unless $Param{$Action};
 
         ${ $Param{StringRef} } =~ s{ $TrimAction{$Action} }{}xmsg;
     }
