@@ -115,7 +115,7 @@ sub Run {
         DynamicFieldConfig => $DynamicFieldConfig,    # this might contain search restrictions
         Term               => $Term,
         MaxResults         => $MaxResults,
-        UserID             => 1,
+        UserID             => $Self->{UserID},
         ParamObject        => $ParamObject,
     );
 
