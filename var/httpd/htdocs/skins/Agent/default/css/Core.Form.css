@@ -864,6 +864,10 @@ fieldset.TableLike .RichTextField {
     margin-right: 0;
 }
 
+fieldset.TableLike > .RichTextField {
+    height: 400px;
+}
+
 body.Popup fieldset.TableLike > .Row > .RichTextField,
 body.Popup fieldset.TableLike > .FloatingField,
 body.Popup fieldset.TableLike > .Row > .FloatingField {
