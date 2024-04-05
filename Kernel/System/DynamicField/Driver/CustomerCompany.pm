@@ -33,13 +33,13 @@ use List::Util qw(any);
 
 # OTOBO modules
 use Kernel::Language              qw(Translatable);
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
+    'Kernel::System::CustomerCompany',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
-    'Kernel::System::CustomerCompany',
 );
 
 =head1 NAME
@@ -207,7 +207,6 @@ sub ObjectDescriptionGet {
         Long   => $CustomerCompanyData{CustomerCompanyName},
         Link   => $Link,
     );
-
 }
 
 =head2 SearchObjects()
