@@ -235,11 +235,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 resizeObserver.observe($domEditableElement.first().get(0));
 
                 if (CustomerInterface) {
-                    if ($domEditableElement.parent().siblings('label[id*="DynamicField"]').length > 0) {
-                        $domEditableElement.css('max-width', '100%');
-                    } else {
-                        $domEditableElement.css('max-width', '66%');
-                    }
 
                     editor.editing.view.document.getRoot('main').placeholder = RichTextLabel[0].innerText;
                     RichTextLabel.hide();

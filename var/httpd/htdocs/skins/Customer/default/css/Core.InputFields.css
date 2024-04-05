@@ -839,7 +839,7 @@ div.InputField_ToolbarContainer ul li a:hover {
     height: auto;
 }
 
-.FieldCell > .Field > .RichTextHolder {
+fieldset .RichTextHolder {
     margin-top: 0px;
     padding-top: 48px;
     border-radius: 10px;
@@ -849,6 +849,18 @@ div.InputField_ToolbarContainer ul li a:hover {
     position: relative;
     height: 320px;
     padding-bottom: 2px;
+    
+}
+
+fieldset > .RichTextHolder {
+    height: 450px;
+    width: 66%;
+    margin-top: 48px;
+    padding-top: 0px;
+}
+
+.Messenger fieldset > .RichTextHolder {
+    width: 100%;
 }
 
 .FieldCell > .Field.RichTextField ~ label {
