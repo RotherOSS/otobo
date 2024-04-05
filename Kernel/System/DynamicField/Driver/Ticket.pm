@@ -27,6 +27,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::BaseReference);
 
 # core modules
+use List::Util qw(any none);
 
 # CPAN modules
 
@@ -295,7 +296,7 @@ This is used in auto completion when searching for possible object IDs.
         ObjectID           => $ObjectID,                # (optional) if given, takes precedence over Term
         Term               => $Term,                    # (optional) defaults to wildcard search with empty string
         MaxResults         => $MaxResults,
-        UserID             => 1,
+        UserID             => $Self->{UserID},
         Object             => {
             %Data,
         },
@@ -311,14 +312,7 @@ sub SearchObjects {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    # Support restriction by ticket type when the Ticket::Type feature is activated.
     my %SearchParams;
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    if ( $ConfigObject->Get('Ticket::Type') ) {
-        if ( $DynamicFieldConfig->{Config}->{TicketType} ) {
-            $SearchParams{TypeIDs} = $DynamicFieldConfig->{Config}->{TicketType};
-        }
-    }
 
     if ( $Param{ObjectID} ) {
         $SearchParams{TicketID} = $Param{ObjectID};
@@ -365,6 +359,12 @@ sub SearchObjects {
     if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) ) {
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
+
+            # map ID to IDs if neccessary
+            my $AttributeName = $FilterItem->{ReferenceObjectAttribute};
+            if ( any { $_ eq $AttributeName } qw(QueueID TypeID StateID PriorityID ServiceID SLAID OwnerID ResponsibleID ) ) {
+                $AttributeName .= 's';
+            }
 
             # check filter config
             next FILTERITEM unless $FilterItem->{ReferenceObjectAttribute};
@@ -430,24 +430,30 @@ sub SearchObjects {
                         }
                     }
                 }
+
+                # ensure that for EqualsObjectAttribute UserID always $Self->{UserID} is used in the end
+                if ( $FilterItem->{EqualsObjectAttribute} eq 'UserID' ) {
+                    $EqualsObjectAttribute = $Param{UserID};
+                }
+
                 return unless $EqualsObjectAttribute;
                 return if ( ref $EqualsObjectAttribute eq 'ARRAY' && !$EqualsObjectAttribute->@* );
 
                 # config item attribute
                 if ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Con}i ) {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = $EqualsObjectAttribute;
+                    $SearchParams{$AttributeName} = $EqualsObjectAttribute;
                 }
 
                 # dynamic field attribute
                 elsif ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Dyn}i ) {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = {
+                    $SearchParams{$AttributeName} = {
                         Equals => $EqualsObjectAttribute,
                     };
                 }
 
                 # array attribute
                 else {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = [$EqualsObjectAttribute];
+                    $SearchParams{$AttributeName} = [$EqualsObjectAttribute];
                 }
             }
             elsif ( $FilterItem->{EqualsString} ) {
@@ -455,29 +461,65 @@ sub SearchObjects {
                 # config item attribute
                 # TODO check if this has to be adapted for ticket search
                 if ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Con}i ) {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = $FilterItem->{EqualsString};
+                    $SearchParams{$AttributeName} = $FilterItem->{EqualsString};
                 }
 
                 # dynamic field attribute
                 elsif ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Dyn}i ) {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = {
+                    $SearchParams{$AttributeName} = {
                         Equals => $FilterItem->{EqualsString},
                     };
                 }
 
                 # array attribute
                 else {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = [ $FilterItem->{EqualsString} ];
+                    $SearchParams{$AttributeName} = [ $FilterItem->{EqualsString} ];
                 }
             }
         }
+    }
+
+    # TODO build queue restriction analogously to type restriction
+    # TODO compare and merge with possible custom type id filtering
+    # Support restriction by ticket type when the Ticket::Type feature is activated.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    if ( $ConfigObject->Get('Ticket::Type') ) {
+        if ( $DynamicFieldConfig->{Config}{TicketType} ) {
+            if ( $SearchParams{TypeIDs} || $SearchParams{Types} ) {
+                my @TypeIDs;
+                for my $TypeID ( $SearchParams{TypeIDs}->@* ) {
+                    if ( any { $_ eq $TypeID } $DynamicFieldConfig->{Config}{TicketType}->@* ) {
+                        push @TypeIDs, $TypeID;
+                    }
+                }
+                for my $Type ( $SearchParams{Types}->@* ) {
+                    my $TypeID = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( Type => $Type );
+                    next TYPE unless $TypeID;
+                    if ( ( any { $_ eq $TypeID } $DynamicFieldConfig->{Config}{TicketType}->@* ) && ( none { $_ eq $TypeID } @TypeIDs ) ) {
+                        push @TypeIDs, $TypeID;
+                    }
+                }
+
+                return unless @TypeIDs;
+
+                $SearchParams{TypeIDs} = \@TypeIDs;
+                delete $SearchParams{Types};
+            }
+            else {
+                $SearchParams{TypeIDs} = $DynamicFieldConfig->{Config}->{TicketType};
+            }
+        }
+    }
+    else {
+        delete $SearchParams{TypeIDs};
+        delete $SearchParams{Types};
     }
 
     # return a list of ticket IDs
     return $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
         Limit   => $Param{MaxResults},
         Result  => 'ARRAY',
-        UserID  => $Param{UserID} // 1,
+        UserID  => 1,
         SortBy  => 'TicketNumber',
         OrderBy => 'Down',
         %SearchParams,

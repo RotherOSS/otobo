@@ -27,6 +27,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::BaseReference);
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -247,10 +248,46 @@ sub SearchObjects {
         $SearchParams{$SearchAttribute} = "*$Param{Term}*";
     }
 
+    # prepare mapping of edit mask attribute names
+    my %AttributeNameMapping = (
+        CustomerUser => [
+
+            # AgentTicketEmail
+            'From',
+
+            # AgentTicketPhone
+            'To',
+        ],
+        ResponsibleID => [
+            'NewResponsibleID',
+        ],
+        OwnerID => [
+            'NewOwnerID',
+            'NewUserID',
+        ],
+        QueueID => [
+            'Dest',
+            'NewQueueID',
+        ],
+        StateID => [
+            'NewStateID',
+            'NextStateID',
+        ],
+        PriorityID => [
+            'NewPriorityID',
+        ],
+    );
+
     # incorporate referencefilterlist into search params
-    if ( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) {
+    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) ) {
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
+
+            # map ID to IDs if neccessary
+            my $AttributeName = $FilterItem->{ReferenceObjectAttribute};
+            if ( any { $_ eq $AttributeName } qw(QueueID TypeID StateID PriorityID ServiceID SLAID OwnerID ResponsibleID ) ) {
+                $AttributeName .= 's';
+            }
 
             # check filter config
             next FILTERITEM unless $FilterItem->{ReferenceObjectAttribute};
@@ -276,27 +313,70 @@ sub SearchObjects {
                         );
                     }
                     else {
-                        $EqualsObjectAttribute = $Param{ParamObject}->GetParam( Param => $FilterItem->{EqualsObjectAttribute} );
+
+                        # match standard ticket attribute names with edit mask attribute names
+                        my @ParamNames = $Param{ParamObject}->GetParamNames();
+
+                        # check if attribute name itself is in params
+                        # NOTE trying attribute itself is crucially important in case of QueueID
+                        #   because AgentTicketPhone does not provide QueueID, but puts the id in
+                        #   Dest, and AgentTicketEmail leaves Dest as a string but puts the id in QueueID
+                        my ($ParamName) = grep { $_ eq $FilterItem->{EqualsObjectAttribute} } @ParamNames;
+
+                        # if not, try to find a mapped attribute name
+                        if ( !$ParamName ) {
+
+                            # check if mapped attribute names exist at all
+                            my $MappedAttributes = $AttributeNameMapping{ $FilterItem->{EqualsObjectAttribute} };
+                            if ( ref $MappedAttributes eq 'ARRAY' ) {
+
+                                MAPPEDATTRIBUTE:
+                                for my $MappedAttribute ( $MappedAttributes->@* ) {
+                                    ($ParamName) = grep { $_ eq $MappedAttribute } @ParamNames;
+
+                                    last MAPPEDATTRIBUTE if $ParamName;
+                                }
+                            }
+                        }
+
+                        return unless $ParamName;
+
+                        $EqualsObjectAttribute = $Param{ParamObject}->GetParam( Param => $ParamName );
+
+                        # when called by AgentReferenceSearch, Dest is a string and we need to extract the QueueID
+                        if ( $ParamName eq 'Dest' ) {
+                            my $QueueID = '';
+                            if ( $EqualsObjectAttribute =~ /^(\d{1,100})\|\|.+?$/ ) {
+                                $QueueID = $1;
+                            }
+                            $EqualsObjectAttribute = $QueueID;
+                        }
                     }
                 }
+
+                # ensure that for EqualsObjectAttribute UserID always $Self->{UserID} is used in the end
+                if ( $FilterItem->{EqualsObjectAttribute} eq 'UserID' ) {
+                    $EqualsObjectAttribute = $Param{UserID};
+                }
+
                 return unless $EqualsObjectAttribute;
                 return if ( ref $EqualsObjectAttribute eq 'ARRAY' && !$EqualsObjectAttribute->@* );
 
                 # config item attribute
                 if ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Con}i ) {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = $EqualsObjectAttribute;
+                    $SearchParams{$AttributeName} = $EqualsObjectAttribute;
                 }
 
                 # dynamic field attribute
                 elsif ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Dyn}i ) {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = {
+                    $SearchParams{$AttributeName} = {
                         Equals => $EqualsObjectAttribute,
                     };
                 }
 
                 # array attribute
                 else {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = [$EqualsObjectAttribute];
+                    $SearchParams{$AttributeName} = [$EqualsObjectAttribute];
                 }
             }
             elsif ( $FilterItem->{EqualsString} ) {
@@ -304,19 +384,19 @@ sub SearchObjects {
                 # config item attribute
                 # TODO check if this has to be adapted for ticket search
                 if ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Con}i ) {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = $FilterItem->{EqualsString};
+                    $SearchParams{$AttributeName} = $FilterItem->{EqualsString};
                 }
 
                 # dynamic field attribute
                 elsif ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Dyn}i ) {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = {
+                    $SearchParams{$AttributeName} = {
                         Equals => $FilterItem->{EqualsString},
                     };
                 }
 
                 # array attribute
                 else {
-                    $SearchParams{ $FilterItem->{ReferenceObjectAttribute} } = [ $FilterItem->{EqualsString} ];
+                    $SearchParams{$AttributeName} = [ $FilterItem->{EqualsString} ];
                 }
             }
         }
