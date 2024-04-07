@@ -311,7 +311,7 @@ sub BundleModulesDeclarationGet {
         {
             'Module'          => 'CPAN::Audit',
             'Required'        => 1,
-            'VersionRequired' => '== 20240329.002',
+            'VersionRequired' => '== 20240401.002',
         },
         {
             'Comment'         => 'needed by CPAN::Audit',
