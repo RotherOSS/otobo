@@ -1,4 +1,66 @@
 
+# OTOBO 11.0.0 beta3 2024-04-08
+- 2024-04-08 17:58:30 +0200 Create new OTOBO language files.
+- 2024-04-08 17:54:41 +0200 [Tidied]   Add package translations. (https://github.com/RotherOSS/otobo/issues/3304)
+- 2024-04-08 08:41:04 +0200 [Enhanced] Update to CKEditor5 (https://github.com/RotherOSS/otobo/issues/3146) - in progress
+- 2024-04-05 13:10:36 +0200 [Tidied]   Small tidying for ticket modules (https://github.com/RotherOSS/otobo/issues/3296)
+- 2024-04-05 13:41:36 +0200 [Enhanced] Add queue restriction for dynamic field ticket reference (https://github.com/RotherOSS/otobo/issues/3299)
+- 2024-04-07 10:29:53 +0200 Update CPAN::Audit to 20240401.002
+- 2024-04-05 18:55:56 +0200 Accept suggestion from CodePolicy
+- 2024-04-05 16:57:22 +0200 Enhance POD of TypeLookup()
+- 2024-04-05 16:56:09 +0200 Tidying: no need for a ternary op
+- 2024-04-05 16:52:00 +0200 Add missing imports of IsArrayRefWithData()
+- 2024-04-05 14:41:21 +0200 [Tidied]   Use bind variables in DynamicFieldListGet() (https://github.com/RotherOSS/otobo/issues/3301)
+- 2024-04-05 12:04:16 +0200 [Bugfix]   Improve Reference DF filter behavior and edit mask attribute handling (https://github.com/RotherOSS/otobo/issues/3293)
+- 2024-04-04 17:27:18 +0200 Let git ignore *.err files.
+- 2024-04-04 16:37:18 +0200 [Enhanced] Improve behavior of Ticket Information widget in CustomerTicketZoom (https://github.com/RotherOSS/otobo/issues/3289)
+- 2024-04-04 16:32:45 +0200 Limit the scope of some variables,
+- 2024-04-04 16:28:10 +0200 A bit of tidying.
+- 2024-04-04 15:33:29 +0200 [Bugfix]   Fix reference DFs for object type Article (https://github.com/RotherOSS/otobo/issues/3287)
+- 2024-04-04 07:22:57 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-04-03 11:53:11 +0200 [Tidied]   Merge Kernel/Config/Files/XML/ArticleFeatures.xml into Kernel/Config/Files/XML/Ticket.xml (https://github.com/RotherOSS/otobo/issues/3283)
+- 2024-04-03 10:41:07 +0200 [Bugfix]   Enable sorting for SysConfig Search to work correctly (https://github.com/RotherOSS/otobo/issues/3277)
+- 2024-04-03 10:33:33 +0200 [Enhanced] Introduce quick date buttons for ticket masks (https://github.com/RotherOSS/otobo/issues/2925)
+- 2024-04-03 10:30:53 +0200 [Enhanced] Small enhancements for TransitionActions TicketCreate, -StateSet and DynamicFieldSet. (https://github.com/RotherOSS/otobo/issues/3136)
+- 2024-04-03 10:15:37 +0200 [Enhanced] Enable cloning dynamic fields in AdminDynamicField (https://github.com/RotherOSS/otobo/issues/2909)
+- 2024-04-03 10:09:39 +0200 [Enhanced] Add configurable search attribute for reference fields Ticket and ConfigItem (https://github.com/RotherOSS/otobo/issues/2897)
+- 2024-04-02 16:29:40 +0200 [Enhanced] Dynamic Field Sets (https://github.com/RotherOSS/otobo/issues/2313) - in progress
+- 2024-03-28 09:42:31 +0100 Issue #2313 further customer ticket mask improvements
+- 2024-03-18 11:00:08 +0100 css fixes for agentui ticketmasks
+- 2024-03-05 12:14:59 +0100 agent ui dfset css adjustments
+- 2024-04-03 08:27:45 +0200 [Bugfix]   Ticket has no title in the View CustomerTicketOverview (https://github.com/RotherOSS/otobo/issues/2015)
+- 2024-04-02 11:48:24 +0200 [Bugfix]   Fix UnitTest Failures (https://github.com/RotherOSS/otobo/issues/3100) - in progress
+- 2024-03-31 13:46:27 +0200 Update the update instructions for Kernel/cpan-lib
+- 2024-03-31 12:10:34 +0200 Upgrade CPNA::Audit to version 20240329.002
+- 2024-03-28 22:51:31 -0500 Issue RotherOSS#3264: Remove duplicate use statement on VariableCheck
+- 2024-03-28 17:20:00 +0100 Revert "Load ckeditor.js only when needed"
+- 2024-03-27 18:02:47 +0100 [Enhanced] Allow to pass several scripts to Dev::UnitTest::Run (https://github.com/RotherOSS/otobo/issues/3255)
+- 2024-03-28 10:28:20 -0400 Load ckeditor.js only when needed
+- 2024-03-28 10:24:29 +0100 [Enhanced] Adapt CodeMirror editor for usage with YAML inputs (https://github.com/RotherOSS/otobo/issues/3243)
+- 2024-03-27 15:11:40 +0100 Tidied.
+- 2024-03-27 15:07:19 +0100 Update CHANGES.
+- 2024-03-27 15:05:56 +0100 Tidied.
+- 2024-03-27 15:04:52 +0100 Create new OTOBO language files.
+- 2024-03-27 14:54:16 +0100 Update CHANGES.
+- 2024-03-27 10:31:20 +0100 [Enhanced] Include package for custom translations into rel-11_0 (https://github.com/RotherOSS/otobo/issues/2948)
+- 2024-03-25 07:18:59 +0000 Translated using Weblate (German)
+- 2024-03-27 11:18:39 +0100 [Security] Base the Safety() method on HTML::Scrubber (https://github.com/RotherOSS/otobo/issues/3249)
+- 2024-03-26 19:18:36 +0100 Accept suggestions from CodePolicy 11.0
+- 2024-03-26 18:59:55 +0100 Accept suggestions from CodePolicy 10.1
+- 2024-03-26 18:36:45 +0100 Accept suggestions from CodePolicy 10.0
+- 2024-03-26 11:47:56 +0100 Test failure in Customer/MultiAttachmentUpload/TicketMessage.t  (https://github.com/RotherOSS/otobo/issues/3250)
+- 2024-03-26 10:43:25 +0100 [Enhanced] Backport new features of the unit tests runner to rel-10_0 (https://github.com/RotherOSS/otobo/issues/3236)
+- 2024-03-26 09:39:21 +0100 [Bugfix]   Align value escaping for reference df edit fields with text df edit fields (https://github.com/RotherOSS/otobo/issues/3247)
+- 2024-03-26 08:26:48 +0100 [Tidied]   Disable MultiValue in Frontend for DFs checkbox and date(time) (https://github.com/RotherOSS/otobo/issues/3245)
+- 2024-03-25 17:54:48 +0100 [Enhanced] Article Edit and Delete feature. (https://github.com/RotherOSS/otobo/issues/3157) - in progress
+- 2024-03-24 17:15:28 +0100 Fix upgrade instructions for Kernel/cpan-lib
+- 2024-03-24 17:14:37 +0100 Upgrade to CPAN::Audit 20240318.001
+- 2024-03-24 11:36:00 +0100 [Enhanced] Activate CLDR translation in Docker based installations (https://github.com/RotherOSS/otobo/issues/3238)
+- 2024-03-23 17:40:27 +0100 [Enhanced] Integrate ImportExport into OTOBO core (https://github.com/RotherOSS/otobo/issues/2711)
+- 2024-01-30 17:06:33 +0100 Tidying, use a common set of parameters to the Safety() method
+- 2024-03-22 16:10:37 +0100 Declare merged output in bin/docker/run_test_suite.sh
+
+
 # OTOBO 11.0.0 beta2 2024-03-22
 - 2023-12-18 16:37:07 +0100 [Enhanced] Docker image otobo.kerberos should be based on the image otobo (https://github.com/RotherOSS/otobo/issues/2278)
 - 2024-03-22 14:03:59 +0100 [Enhanced] Display reference df filter settings permanently in AdminDynamicFieldReference (https://github.com/RotherOSS/otobo/issues/3233)
@@ -99,7 +161,7 @@
 - 2024-02-26 07:42:14 +0100 [Tidied]   Iterate over keys or values of hash, not hash itself (https://github.com/RotherOSS/otobo/issues/3037)
 - 2024-02-25 13:50:05 +0100 [Tidied]   No need to get $LayoutObject in the layout mixin classes (https://github.com/RotherOSS/otobo/issues/3049)
 - 2024-02-24 10:29:21 +0100 Admin user creates by quick_setup.pl should be able to see stats per default (https://github.com/RotherOSS/otobo/issues/3045)
-- 2024-01-31 07:46:52 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-01-31 07:46:52 +0000 Translated using Weblate (Norwegian BokmÃÂ¥l)
 - 2023-12-29 08:50:07 +0000 Translated using Weblate (Arabic (Saudi Arabia))
 - 2023-11-13 20:48:50 +0000 Translated using Weblate (Spanish)
 - 2024-02-23 15:46:29 +0100 [Enhanced] Saner filenames in export of statistics (https://github.com/RotherOSS/otobo/issues/3042)
@@ -381,7 +443,7 @@
 - 2023-08-15 11:11:17 +0000 Translated using Weblate (French)
 - 2023-08-11 04:45:00 +0000 Translated using Weblate (Russian)
 - 2023-07-19 14:11:19 +0000 Translated using Weblate (Arabic (Saudi Arabia))
-- 2023-07-10 06:28:57 +0000 Translated using Weblate (Norwegian BokmÃÂ¥l)
+- 2023-07-10 06:28:57 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂ¥l)
 - 2023-07-08 12:06:59 +0000 Translated using Weblate (Polish)
 - 2023-10-05 11:38:44 +0200 [Security] Fixed a XSS vulnerability in AdminCustomerUser. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2546)
 - 2023-10-04 17:40:33 +0200 AdminACL.t is not skipped and fails when Selenium testing is deactivated (https://github.com/RotherOSS/otobo/issues/2551)
@@ -439,7 +501,7 @@
 
 # OTOBO 10.1.7 2023-03-10
 - 2023-03-10 17:35:45 +0100 Create new OTOBO language files.
-- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂ¥l)
+- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂÃÂÃÂ¥l)
 - 2023-03-09 16:24:25 +0000 Translated using Weblate (Arabic (Saudi Arabia))
 - 2023-02-13 17:05:43 +0000 Translated using Weblate (Portuguese (Brazil))
 - 2023-03-10 09:56:23 +0100 [Bugfix]   Fix warning if no key is selected for S/MIME encryption. (https://github.com/RotherOSS/otobo/issues/2222)
@@ -1929,3 +1991,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
