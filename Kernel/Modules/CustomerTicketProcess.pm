@@ -778,15 +778,6 @@ sub _GetParam {
             $ValuesGotten{Article} = 1 if ( $GetParam{Subject} && $GetParam{Body} );
         }
 
-        if ( $CurrentField eq 'CustomerID' ) {
-            $GetParam{Customer} = $ParamObject->GetParam(
-                Param => 'SelectedCustomerUser',
-            ) || '';
-            $GetParam{CustomerUserID} = $ParamObject->GetParam(
-                Param => 'SelectedCustomerUser',
-            ) || '';
-        }
-
         # Non DynamicFields
         # 1. try to get the required param
         my $Value = $ParamObject->GetParam( Param => $Self->{NameToID}{$CurrentField} );
@@ -811,9 +802,8 @@ sub _GetParam {
         }
 
         # if no Submitted nore Ticket Param get ActivityDialog Config's Param
-        if ( $CurrentField ne 'CustomerID' ) {
-            $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
-        }
+        $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
+
         if ($Value) {
             $ValuesGotten{ $Self->{NameToID}{$CurrentField} } = 1;
             $GetParam{$CurrentField} = $Value;

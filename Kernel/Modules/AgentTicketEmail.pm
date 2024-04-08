@@ -2760,12 +2760,6 @@ sub Run {
             }
         }
 
-        # convert Signature to ASCII, if RichText is on
-        if ( $LayoutObject->{BrowserRichText} ) {
-
-            #            $Signature = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii( String => $Signature, );
-        }
-
         my $JSON = $LayoutObject->BuildSelectionJSON(
             [
                 {
