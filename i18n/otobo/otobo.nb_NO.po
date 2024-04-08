@@ -19,8 +19,7 @@ msgstr ""
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
 "PO-Revision-Date: 2024-04-04 08:31+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
-"Language-Team: Norwegian Bokmål <http://weblate.otobo.org/projects/otobo/"
-"otobo-11/nb_NO/>\n"
+"Language-Team: Norwegian Bokmål <http://weblate.otobo.org/projects/otobo/otobo-11/nb_NO/>\n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4028,7 +4027,7 @@ msgstr "Klon nettjeneste"
 msgid "The name must be unique."
 msgstr "Dette navnet må være unikt."
 
-#. Template: AdminDynamicField
+#. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
 msgstr "Duplisere"
 
@@ -25272,9 +25271,7 @@ msgstr "statistikk"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
-msgstr ""
-"Feil i syntaks. Vennligst legg til et foreldreelement foran det doble "
-"kolonet."
+msgstr "Feil i syntaks. Vennligst legg til et foreldreelement foran det doble kolonet."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "An element is used as parent element, but not included itself. Please include it."
@@ -25808,11 +25805,11 @@ msgstr ""
 msgid "This is the namespace in which this field will be used as prefix with the name."
 msgstr ""
 
-#. Template: AdminDynamicFieldCheckbox
+#. Template: AdminDynamicFieldDB
 msgid "Multiple Values"
 msgstr ""
 
-#. Template: AdminDynamicFieldCheckbox
+#. Template: AdminDynamicFieldDB
 msgid "Activate this option to allow multiple values for this field."
 msgstr ""
 
@@ -25912,7 +25909,7 @@ msgstr ""
 msgid "Autocomplete"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Full Screen"
 msgstr ""
 
@@ -25920,19 +25917,19 @@ msgstr ""
 msgid "Exit full screen"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Auto Indent Code"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Comment/Uncomment Code"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Search & Replace"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Select All"
 msgstr ""
 
@@ -26674,17 +26671,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
-msgstr ""
-"Definerer standard frontend (HTML)-temaet som skal brukes av agenter og "
-"kunder. Hvis ønskelig, kan du legge til ditt eget tema. Vennligst se "
-"administratormanualen som ligger på https://doc.otobo.org/."
+msgstr "Definerer standard frontend (HTML)-temaet som skal brukes av agenter og kunder. Hvis ønskelig, kan du legge til ditt eget tema. Vennligst se administratormanualen som ligger på https://doc.otobo.org/."
 
 #. SysConfig
 msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
-msgstr ""
-"Definerer standard frontend-språket. Alle mulige verdier bestemmes av de "
-"tilgjengelige språkfilene på systemet. Disse verdiene er oppført som nøklene "
-"i innstillingen 'DefaultUsedLanguages'."
+msgstr "Definerer standard frontend-språket. Alle mulige verdier bestemmes av de tilgjengelige språkfilene på systemet. Disse verdiene er oppført som nøklene i innstillingen 'DefaultUsedLanguages'."
 
 #. SysConfig
 msgid "Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info."
@@ -26941,3 +26932,24 @@ msgstr ""
 #. SysConfig
 msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0."
 msgstr ""
+
+#. Template: AdminDynamicField
+msgid "Copy this field"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Queue of the ticket"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Select the queue of the ticket"
+msgstr ""
+
+#. SysConfig
+msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed."
+msgstr ""
+
+#. SysConfig
+msgid "Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed."
+msgstr ""
+

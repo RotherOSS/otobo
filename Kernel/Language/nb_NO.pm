@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.948887552615755;
+    $Self->{Completeness}        = 0.949346159627236;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -592,8 +592,7 @@ sub Data {
         'Label' => 'Etikett',
         'Order' => 'Sortering',
         'Object' => 'Objekt',
-        'Clone' => 'Duplisere',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'Fjern dette feltet',
 
         # Template: AdminDynamicFieldAdvanced
@@ -639,9 +638,6 @@ sub Data {
         'Field Settings' => 'Felt Innstillinger',
         'Default value' => 'Standardverdi',
         'This is the default value for this field.' => 'Dette er standardverdien for dette feltet.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => 'Legg til eller rediger kontakter',
@@ -704,6 +700,9 @@ sub Data {
         'Searchsuffix' => 'Søkesuffiks',
         'Result Limit' => 'Resultatgrense',
         'Case Sensitive' => 'Skiller mellom store og små bokstaver',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Standard dato forskjeller',
@@ -805,6 +804,11 @@ sub Data {
         'Add RegEx' => 'Legg til RegEx',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1222,14 +1226,9 @@ sub Data {
         'Find next' => 'Finn neste',
         'Find previous' => 'Finn forrige',
         'Find and replace' => 'Finn og erstatt',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => 'XSLT-kartlegging',
         'XSLT stylesheet' => 'XSLT-stilark',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => 'De angitte dataene er ikke et gyldig XSLT-stilark.',
         'Here you can add or modify your XSLT mapping code.' => 'Her kan du legge til eller endre din XSLT-tilordningskode.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1432,6 +1431,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => 'Klon nettjeneste',
         'The name must be unique.' => 'Dette navnet må være unikt.',
+        'Clone' => 'Duplisere',
         'Export Web Service' => 'Eksporter webtjeneste',
         'Import web service' => 'Importer webtjeneste',
         'Configuration File' => 'Konfigurasjons-fil',
@@ -4101,7 +4101,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
         'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
-            '',
+            'Feil i syntaks. Vennligst legg til et foreldreelement foran det doble kolonet.',
         'An element is used as parent element, but not included itself. Please include it.' =>
             '',
 
@@ -5048,7 +5048,6 @@ sub Data {
         'Need CustomerID!' => 'Trenger kundeID!',
         'My Tickets' => 'Mine saker',
         'Company Tickets' => 'Bedriftsaker',
-        'Untitled!' => 'Uten navn!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'Kundens navn',
@@ -5469,8 +5468,8 @@ sub Data {
             'Det er for tiden ikke mulig å logge inn på grunn et planlagt vedlikehold.',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-        'Authentication error. Please contact the administrator.' => '',
-        'Authentication error.' => '',
+        'Authentication error. Please contact the administrator.' => 'Feil med autentisering. Vennligst kontakt administrator.',
+        'Authentication error.' => 'Feil med autentisering.',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             'Ugyldig svar fra autentiseringsserveren. Kanskje prosessen tok for lang tid. Prøv igjen én gang.',
 
@@ -5539,6 +5538,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -7564,9 +7565,9 @@ Ditt Helpdesk-team
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Definerer standard filterfelt i kundebrukeradresseboksøket (CustomerUser eller CustomerCompany). For CustomerCompany-feltene må et prefiks \'CustomerCompany_\' legges til.',
         'Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
-            '',
+            'Definerer standard frontend (HTML)-temaet som skal brukes av agenter og kunder. Hvis ønskelig, kan du legge til ditt eget tema. Vennligst se administratormanualen som ligger på https://doc.otobo.org/.',
         'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
-            '',
+            'Definerer standard frontend-språket. Alle mulige verdier bestemmes av de tilgjengelige språkfilene på systemet. Disse verdiene er oppført som nøklene i innstillingen \'DefaultUsedLanguages\'.',
         'Defines the default history type in the customer interface.' => 'Spesifiserer standard historikkvisning i kundeportalen.',
         'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
             'Definerer standardgrensesnittet. Ukjente stier under skriptaliaset blir omdirigert til det valgte grensesnittet.',
@@ -9853,9 +9854,9 @@ Ditt Helpdesk-team
             'Bytter visning av OTOBO FeatureAddons-liste i PackageManager.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Verktøylinjeelement for en snarvei. Ytterligere tilgangskontroll for å vise eller ikke vise denne koblingen kan gjøres ved å bruke nøkkelen "Gruppe" og innhold som "rw:gruppe1;move_into:group2".',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Transportvalg for avtalemeldinger. Vennligst merk: å sette \'Aktiv\' til 0 vil bare forhindre agenter fra å redigere innstillingene for denne gruppen i sine personlige preferanser, men vil fortsatt tillate administratorer å redigere innstillingene til en annen brukers vegne. Bruk \'PreferenceGroup\' for å kontrollere i hvilket område disse innstillingene skal vises i brukergrensesnittet.',
@@ -9962,77 +9963,6 @@ Ditt Helpdesk-team
         'stats' => 'statistikk',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'Administrasjon av Import/Eksport';
-    $Self->{Translation}->{'Add template'} = 'Legg til mal';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'Opprett en mal for å eksportere og importere informasjon';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '';
-    $Self->{Translation}->{'Start Import'} = 'Start import';
-    $Self->{Translation}->{'Start Export'} = 'Start eksport';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = '';
-    $Self->{Translation}->{'Name is required!'} = 'Navn er påkrevd!';
-    $Self->{Translation}->{'Object is required!'} = 'Objekt er påkrevd!';
-    $Self->{Translation}->{'Format is required!'} = 'Format er påkrevd!';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = '';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = '';
-    $Self->{Translation}->{'is required!'} = 'er påkrevd!';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = '';
-    $Self->{Translation}->{'No map elements found.'} = 'Ingen elementer funnet.';
-    $Self->{Translation}->{'Add Mapping Element'} = 'Legg til mapping-element';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = '';
-    $Self->{Translation}->{'Restrict export per search'} = 'Begrens eksport per søk';
-    $Self->{Translation}->{'Import information'} = 'Import-informasjon';
-    $Self->{Translation}->{'Source File'} = 'Kildefil';
-    $Self->{Translation}->{'Import summary for %s'} = '';
-    $Self->{Translation}->{'Records'} = 'Rader';
-    $Self->{Translation}->{'Success'} = 'Vellykket';
-    $Self->{Translation}->{'Duplicate names'} = 'Duplikate navn';
-    $Self->{Translation}->{'Last processed line number of import file'} = 'Siste prosesserte linjenummer av importfil';
-    $Self->{Translation}->{'Ok'} = 'Ok';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = '';
-    $Self->{Translation}->{'No format backend found!'} = '';
-    $Self->{Translation}->{'Template not found!'} = '';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = '';
-    $Self->{Translation}->{'Needed TemplateID!'} = '';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = '';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = '';
-    $Self->{Translation}->{'Template List'} = '';
-    $Self->{Translation}->{'number'} = '';
-    $Self->{Translation}->{'number bigger than zero'} = '';
-    $Self->{Translation}->{'integer'} = '';
-    $Self->{Translation}->{'integer bigger than zero'} = '';
-    $Self->{Translation}->{'Element required, please insert data'} = '';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = '';
-    $Self->{Translation}->{'Format not found!'} = '';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'Kolonneseparator';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulator (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'Semikolon (;)';
-    $Self->{Translation}->{'Colon (:)'} = 'Kolon (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'Punktum (.)';
-    $Self->{Translation}->{'Comma (,)'} = '';
-    $Self->{Translation}->{'Charset'} = 'Tegnsett';
-    $Self->{Translation}->{'Include Column Headers'} = 'Inkluder kolonneoverskrifter';
-    $Self->{Translation}->{'Column'} = 'Kolonne';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        'Baksidemodul-registrering for formatet til import/eksport-modulen';
-    $Self->{Translation}->{'Import and export object information.'} = 'Informasjon for import- og eksport-objekt';
-    $Self->{Translation}->{'Import/Export'} = 'Import/Eksport';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

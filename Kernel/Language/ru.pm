@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.829524954900782;
+    $Self->{Completeness}        = 0.829249962422967;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -595,8 +595,7 @@ sub Data {
         'Label' => 'Название',
         'Order' => 'Порядок',
         'Object' => 'Объект',
-        'Clone' => 'Скопировать',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'Удалить это поле',
 
         # Template: AdminDynamicFieldAdvanced
@@ -642,9 +641,6 @@ sub Data {
         'Field Settings' => 'Настройки поля',
         'Default value' => 'Значение по умолчанию',
         'This is the default value for this field.' => 'Это значение по умолчанию для данного поля.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => 'Добавление или редактирование контактов',
@@ -707,6 +703,9 @@ sub Data {
         'Searchsuffix' => 'Суффикс поиска',
         'Result Limit' => 'Лимит результатов',
         'Case Sensitive' => 'Зависит от регистра',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Диапазон дат по умолчанию',
@@ -808,6 +807,11 @@ sub Data {
         'Add RegEx' => 'Добавить регулярное выражение',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1225,14 +1229,9 @@ sub Data {
         'Find next' => 'Найти следующее',
         'Find previous' => 'Найти предыдущее',
         'Find and replace' => 'Найти и заменить',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => 'Отображение XSLT',
         'XSLT stylesheet' => 'Таблица стилей XSLT',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => 'Указана не допустимая таблица стилей XSLT.',
         'Here you can add or modify your XSLT mapping code.' => 'Здесь можно добавить или изменить ваш XSLT код.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1435,6 +1434,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => 'Клонировать Веб-сервис.',
         'The name must be unique.' => 'Имя должно быть уникальным',
+        'Clone' => 'Скопировать',
         'Export Web Service' => 'Экспортировать веб-сервис',
         'Import web service' => 'Импорт Веб-сервиса',
         'Configuration File' => 'Файл конфигурации',
@@ -5051,7 +5051,6 @@ sub Data {
         'Need CustomerID!' => 'Требуется CustomerID!',
         'My Tickets' => 'Мои заявки',
         'Company Tickets' => 'Заявки компании',
-        'Untitled!' => 'Без заголовка!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'ФИО клиента',
@@ -5542,6 +5541,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9853,9 +9854,9 @@ Thanks for your help!
             'Переключает отображение списка OTOBO FeatureAddons в Управлении пакетами.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Элемент панели навигации для иконки.Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа "Group/Группа" и Content/Содержание, например - "rw:group1;move_into:group2"',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
@@ -9962,77 +9963,6 @@ Thanks for your help!
         'stats' => 'отчеты',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'Управление Импортом/Экспортом';
-    $Self->{Translation}->{'Add template'} = 'Добавить шаблон';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'Создайте шаблон для импорта и экспорта информации объектов';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '';
-    $Self->{Translation}->{'Start Import'} = 'Начать импорт';
-    $Self->{Translation}->{'Start Export'} = 'Начать экспорт';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Шаг 1 из 5 - Редактировать общую информацию';
-    $Self->{Translation}->{'Name is required!'} = 'Требуется имя!';
-    $Self->{Translation}->{'Object is required!'} = 'Объект обязателен!';
-    $Self->{Translation}->{'Format is required!'} = 'Формат обязателен!';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = 'Шаг 2 из 5 - Редактировать информацию об объекте';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = 'Шаг 3 из 5 - Редактировать формат информации';
-    $Self->{Translation}->{'is required!'} = 'обязателен!';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = 'Шаг 4 из 5 - Редактировать информацию сопоставления';
-    $Self->{Translation}->{'No map elements found.'} = 'Нет элементов сопоставления.';
-    $Self->{Translation}->{'Add Mapping Element'} = 'Добавьте элемент сопоставления';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = 'Шаг 5 из 5 - Редактировать информацию поиска';
-    $Self->{Translation}->{'Restrict export per search'} = 'Ограничить экспорт поиском';
-    $Self->{Translation}->{'Import information'} = 'Информация об импорте';
-    $Self->{Translation}->{'Source File'} = 'Исходный файл';
-    $Self->{Translation}->{'Import summary for %s'} = 'Импорт содержания для %s';
-    $Self->{Translation}->{'Records'} = 'Записей';
-    $Self->{Translation}->{'Success'} = 'Успешно';
-    $Self->{Translation}->{'Duplicate names'} = 'Дублирующие имена';
-    $Self->{Translation}->{'Last processed line number of import file'} = 'Номер последней обработанной строки импортируемого файла';
-    $Self->{Translation}->{'Ok'} = 'Ok';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = 'Объект не найден!';
-    $Self->{Translation}->{'No format backend found!'} = 'Бэкэнд не найден!';
-    $Self->{Translation}->{'Template not found!'} = 'Шаблон не найден!';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = 'Невозможно добавить/обновить шаблон!';
-    $Self->{Translation}->{'Needed TemplateID!'} = 'Требуется ID Шаблона!';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = 'Ошибка. Импорт невозможен! Смотри подробности в Syslog.';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = 'Ошибка. Экспорт невозможен! Смотри подробности в Syslog.';
-    $Self->{Translation}->{'Template List'} = 'Список шаблонов';
-    $Self->{Translation}->{'number'} = 'номер';
-    $Self->{Translation}->{'number bigger than zero'} = 'номер больше нуля';
-    $Self->{Translation}->{'integer'} = 'целое число';
-    $Self->{Translation}->{'integer bigger than zero'} = 'целое число больше нуля';
-    $Self->{Translation}->{'Element required, please insert data'} = 'Обязательные элемент, пожалуйста введите данные.';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = 'Неверные данные, пожалуйста, укажите верные %s';
-    $Self->{Translation}->{'Format not found!'} = 'Формат не найден!';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'Разделитель';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Табуляция (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'Точка с запятой (;)';
-    $Self->{Translation}->{'Colon (:)'} = 'Двоеточие (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'Точка (.)';
-    $Self->{Translation}->{'Comma (,)'} = 'Запятая (,)';
-    $Self->{Translation}->{'Charset'} = 'Кодировка';
-    $Self->{Translation}->{'Include Column Headers'} = 'Включить заголовки столбцов';
-    $Self->{Translation}->{'Column'} = 'Столбец ';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        'Format backend module registration для модуля import/export.';
-    $Self->{Translation}->{'Import and export object information.'} = 'Импорт и экспорт информации об объектах';
-    $Self->{Translation}->{'Import/Export'} = 'Импорт/Экспорт';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

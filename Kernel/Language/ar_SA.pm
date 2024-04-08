@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.851172579675286;
+    $Self->{Completeness}        = 0.850894333383436;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -586,8 +586,7 @@ sub Data {
         'Label' => 'تَسْمية',
         'Order' => 'مَوْضِع',
         'Object' => 'كائن',
-        'Clone' => 'اِسْتِنْساخٌ',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'حذف هذا الحقل',
 
         # Template: AdminDynamicFieldAdvanced
@@ -633,9 +632,6 @@ sub Data {
         'Field Settings' => 'إعدادات الحقل',
         'Default value' => 'القيمة الافتراضية',
         'This is the default value for this field.' => 'هذه هي القيمة الافتراضية لهذا الحقل.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => 'إضافة أو تحرير جهات الاتصال',
@@ -698,6 +694,9 @@ sub Data {
         'Searchsuffix' => 'لاحقة البحث',
         'Result Limit' => 'قيود النتائج',
         'Case Sensitive' => 'يميز بين الأحرف الكبيرة والصغيرة',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'فرق التاريخ الافتراضي',
@@ -799,6 +798,11 @@ sub Data {
         'Add RegEx' => 'أضف RegEx',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1216,14 +1220,9 @@ sub Data {
         'Find next' => 'البحث عن التالي',
         'Find previous' => 'البحث عن السابق',
         'Find and replace' => 'البحث والاستبدال',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => 'تعيين XSLT',
         'XSLT stylesheet' => 'ورقة الأنماط XSLT',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => 'البيانات التي تدخلها ليست ورقة أنماط XSLT صالحة.',
         'Here you can add or modify your XSLT mapping code.' => 'هنا يمكنك إضافة أو تعديل كود تعيين XSLT.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1426,6 +1425,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => 'استنساخ خدمة الويب',
         'The name must be unique.' => 'يجب أن يكون الاسم فريدا.',
+        'Clone' => 'اِسْتِنْساخٌ',
         'Export Web Service' => 'تصدير خدمة الويب',
         'Import web service' => 'استيراد خدمة الويب',
         'Configuration File' => 'ملف التكوين',
@@ -5042,7 +5042,6 @@ sub Data {
         'Need CustomerID!' => 'تحتاج إلى معرف العميل!',
         'My Tickets' => 'تذاكري',
         'Company Tickets' => 'تذاكر الشركة',
-        'Untitled!' => 'بدون عنوان!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'اسم العميل',
@@ -5533,6 +5532,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9847,9 +9848,9 @@ Thanks for your help!
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',

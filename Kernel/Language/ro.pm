@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.232862297053518;
+    $Self->{Completeness}        = 0.232827295956711;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -584,8 +584,7 @@ sub Data {
         'Label' => 'Etichetă',
         'Order' => 'Comandă',
         'Object' => 'Obiect',
-        'Clone' => 'Clonează',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'Șterge acest câmp',
 
         # Template: AdminDynamicFieldAdvanced
@@ -631,9 +630,6 @@ sub Data {
         'Field Settings' => 'Setările câmpului',
         'Default value' => 'Valoare implicită',
         'This is the default value for this field.' => 'Aceasta este valoarea implicită a acestui câmp.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -696,6 +692,9 @@ sub Data {
         'Searchsuffix' => '',
         'Result Limit' => '',
         'Case Sensitive' => '',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Interval de timp implicit',
@@ -797,6 +796,11 @@ sub Data {
         'Add RegEx' => 'Adaugă o RegEx (expresie regulată)',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1214,14 +1218,9 @@ sub Data {
         'Find next' => '',
         'Find previous' => '',
         'Find and replace' => '',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1424,6 +1423,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => '',
         'The name must be unique.' => 'Numele trenuie să fie unic.',
+        'Clone' => 'Clonează',
         'Export Web Service' => '',
         'Import web service' => 'Importă un serviciu web',
         'Configuration File' => 'Fișierul de configurare',
@@ -5040,7 +5040,6 @@ sub Data {
         'Need CustomerID!' => '',
         'My Tickets' => '',
         'Company Tickets' => '',
-        'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'Numele clientului',
@@ -5531,6 +5530,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9831,9 +9832,9 @@ Thanks for your help!
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
@@ -9940,75 +9941,6 @@ Thanks for your help!
         'stats' => '',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'Management import/export';
-    $Self->{Translation}->{'Add template'} = '';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'Crează un șablon pentru import/export informații obiecte.';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '';
-    $Self->{Translation}->{'Start Import'} = 'Start Import';
-    $Self->{Translation}->{'Start Export'} = 'Start Export';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Pasul 1 din 5 - Editează informații generale';
-    $Self->{Translation}->{'Name is required!'} = 'Este necesara introducerea numelui!';
-    $Self->{Translation}->{'Object is required!'} = 'Obiectul este cerut!';
-    $Self->{Translation}->{'Format is required!'} = 'Formatul este cerut!';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = 'Pasul 2 din 5 - Editează informații despre obiect';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = 'Pasul 3 din 5 - Editeaza informații despre format';
-    $Self->{Translation}->{'is required!'} = 'este obligatoriu!';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = 'Pasul 4 din 5 - Editează informații despre asocieri';
-    $Self->{Translation}->{'No map elements found.'} = 'Nu au fost găsite elemente de asociere.';
-    $Self->{Translation}->{'Add Mapping Element'} = 'Adaugă element de asociere';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = 'Pasul 5 din 5 - Editează informații de căutare';
-    $Self->{Translation}->{'Restrict export per search'} = 'Limitează exportul la rezultatele căutarii';
-    $Self->{Translation}->{'Import information'} = 'Importă informațiile';
-    $Self->{Translation}->{'Source File'} = 'Fișier sursă';
-    $Self->{Translation}->{'Import summary for %s'} = 'Rezumat import pentru %s';
-    $Self->{Translation}->{'Records'} = 'Înregistrări';
-    $Self->{Translation}->{'Success'} = 'Succes';
-    $Self->{Translation}->{'Duplicate names'} = 'Nume duplicate';
-    $Self->{Translation}->{'Last processed line number of import file'} = 'Numărul ultimei linii procesate din fișierul de import';
-    $Self->{Translation}->{'Ok'} = '确定';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = '';
-    $Self->{Translation}->{'No format backend found!'} = '';
-    $Self->{Translation}->{'Template not found!'} = '';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = 'Nu se poate introduce/actualiza șablon!';
-    $Self->{Translation}->{'Needed TemplateID!'} = 'Necesar ID Șablon!';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = 'Eroare. Import imposibil! Vezi Syslog pentru detalii.';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = 'Eroare. Export imposibil! Vezi Syslog pentru detalii.';
-    $Self->{Translation}->{'Template List'} = 'Listă Șabloane';
-    $Self->{Translation}->{'number'} = 'numar';
-    $Self->{Translation}->{'number bigger than zero'} = 'numar mai mare ca zero';
-    $Self->{Translation}->{'integer'} = 'întreg';
-    $Self->{Translation}->{'integer bigger than zero'} = 'întreg mai mare ca zero';
-    $Self->{Translation}->{'Element required, please insert data'} = 'Element necesar, te rog sa introduci datele';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = 'Date invalide, introdu date valide %s';
-    $Self->{Translation}->{'Format not found!'} = 'Formatul nu a fost gasit!';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'Separator de coloană';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulator (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'Punct și virgulă (;)';
-    $Self->{Translation}->{'Colon (:)'} = 'Două puncte (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'Punct (.)';
-    $Self->{Translation}->{'Comma (,)'} = 'Virgulă (,)';
-    $Self->{Translation}->{'Charset'} = 'Set de caractere';
-    $Self->{Translation}->{'Include Column Headers'} = 'Include capul de tabel';
-    $Self->{Translation}->{'Column'} = 'Coloană';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '';
-
-    # SysConfig
-    $Self->{Translation}->{'Import and export object information.'} = 'Informații de import/export ale obiectului.';
-    $Self->{Translation}->{'Import/Export'} = 'Import/Export';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.303367408298256;
+    $Self->{Completeness}        = 0.303321809709905;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -591,8 +591,7 @@ sub Data {
         'Label' => 'Étiquette ',
         'Order' => 'Ordre',
         'Object' => 'Objet ',
-        'Clone' => 'Cloner',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'Effacer ce champ',
 
         # Template: AdminDynamicFieldAdvanced
@@ -638,9 +637,6 @@ sub Data {
         'Field Settings' => ': Réglage du champ',
         'Default value' => 'Valeur par défaut ',
         'This is the default value for this field.' => 'La valeur par défaut est spécifiquement pour ce champ.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -703,6 +699,9 @@ sub Data {
         'Searchsuffix' => '',
         'Result Limit' => '',
         'Case Sensitive' => '',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Différence entre la date actuelle et le date affichée ',
@@ -804,6 +803,11 @@ sub Data {
         'Add RegEx' => '',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1221,14 +1225,9 @@ sub Data {
         'Find next' => '',
         'Find previous' => '',
         'Find and replace' => '',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1431,6 +1430,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => '',
         'The name must be unique.' => 'Le nom doit être unique.',
+        'Clone' => 'Cloner',
         'Export Web Service' => '',
         'Import web service' => 'Importer un service Web',
         'Configuration File' => 'Fichier de configuration ',
@@ -5047,7 +5047,6 @@ sub Data {
         'Need CustomerID!' => '',
         'My Tickets' => 'Mes demandes',
         'Company Tickets' => 'Demandes de l\'entreprise',
-        'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => '',
@@ -5538,6 +5537,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9838,9 +9839,9 @@ Thanks for your help!
             'Permet de basculer dans l\'affichage de la liste des fonctions des compagnons de OTOBO dans le gestionnaire de paquets.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',

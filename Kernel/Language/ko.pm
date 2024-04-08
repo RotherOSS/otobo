@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.829825616355983;
+    $Self->{Completeness}        = 0.829550578686307;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -584,8 +584,7 @@ sub Data {
         'Label' => '상표',
         'Order' => '주문',
         'Object' => '목적',
-        'Clone' => '클론',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => '이 입력란을 삭제하십시오.',
 
         # Template: AdminDynamicFieldAdvanced
@@ -631,9 +630,6 @@ sub Data {
         'Field Settings' => '필드 설정',
         'Default value' => '기본값',
         'This is the default value for this field.' => '이 필드의 기본값입니다.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -696,6 +692,9 @@ sub Data {
         'Searchsuffix' => '',
         'Result Limit' => '',
         'Case Sensitive' => '',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => '기본 날짜 차이',
@@ -797,6 +796,11 @@ sub Data {
         'Add RegEx' => '정규 표현식 추가',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1214,14 +1218,9 @@ sub Data {
         'Find next' => '다음 찾기',
         'Find previous' => '이전 찾기',
         'Find and replace' => '찾기 및 바꾸기',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => 'XSLT 매핑',
         'XSLT stylesheet' => 'XSLT 스타일 시트',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => '입력 한 데이터가 유효한 XSLT 스타일 시트가 아닙니다.',
         'Here you can add or modify your XSLT mapping code.' => '여기에서 XSLT 매핑 코드를 추가하거나 수정할 수 있습니다.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1424,6 +1423,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => '웹 서비스 복제',
         'The name must be unique.' => '이름은 고유해야 합니다.',
+        'Clone' => '클론',
         'Export Web Service' => '웹 서비스 내보내기',
         'Import web service' => '웹 서비스 가져오기',
         'Configuration File' => '구성 파일',
@@ -5040,7 +5040,6 @@ sub Data {
         'Need CustomerID!' => '고객 ID가 필요합니다!',
         'My Tickets' => '내 티켓',
         'Company Tickets' => '회사 티켓',
-        'Untitled!' => '제목없는!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => '고객 실명',
@@ -5531,6 +5530,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9842,9 +9843,9 @@ Thanks for your help!
             'PackageManager의 OTOBO FeatureAddons 목록 표시를 토글합니다.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '도구 모음 단축키 항목입니다. 이 링크를 표시하거나 표시하지 않으려는 추가 액세스 제어는 키 "그룹"과 "rw : group1; move_into : group2"와 같은 내용을 사용하여 수행 할 수 있습니다.',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '약속 알림을위한 전송 선택. 참고 : \'활성\'을 0으로 설정하면 상담원이이 그룹의 개인 환경 설정에서 설정을 편집하지 못하게되지만 관리자가 다른 사용자를 대신하여 설정을 편집 할 수 있습니다. \'PreferenceGroup\'을 사용하여 이러한 설정을 사용자 인터페이스에 표시 할 영역을 제어하십시오.',
@@ -9951,8 +9952,6 @@ Thanks for your help!
         'stats' => '통계',
 
     };
-
-    $Self->{Translation}->{'Add template'} = '템플릿 추가';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.520144317498497;
+    $Self->{Completeness}        = 0.520066135577935;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -583,8 +583,7 @@ sub Data {
         'Label' => 'Label',
         'Order' => 'Menyusun',
         'Object' => 'Objek',
-        'Clone' => 'Klon',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'Padam bidang ini',
 
         # Template: AdminDynamicFieldAdvanced
@@ -630,9 +629,6 @@ sub Data {
         'Field Settings' => 'Aturan bidang',
         'Default value' => 'Nilai sedia ada',
         'This is the default value for this field.' => 'Ini adalah nilai lalai untuk bidang ini',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -695,6 +691,9 @@ sub Data {
         'Searchsuffix' => '',
         'Result Limit' => '',
         'Case Sensitive' => '',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Perbezaan tarikh sedia ada',
@@ -796,6 +795,11 @@ sub Data {
         'Add RegEx' => 'Tambah UngkapanBiasa',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1213,14 +1217,9 @@ sub Data {
         'Find next' => '',
         'Find previous' => '',
         'Find and replace' => '',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1423,6 +1422,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => '',
         'The name must be unique.' => 'Nama perlu unik',
+        'Clone' => 'Klon',
         'Export Web Service' => '',
         'Import web service' => 'Import perkhidmatan web',
         'Configuration File' => 'Fail Konfigurasi',
@@ -5039,7 +5039,6 @@ sub Data {
         'Need CustomerID!' => '',
         'My Tickets' => 'Tiket Saya',
         'Company Tickets' => 'Tiket Syarikat',
-        'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'Nama sebenar pelanggan',
@@ -5530,6 +5529,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9844,9 +9845,9 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Bertukar-tukar paparan senarai OTOBO FeatureAddons dalam PackageManager.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
@@ -9953,77 +9954,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'stats' => '',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'Pengurusan Import/Eksport';
-    $Self->{Translation}->{'Add template'} = 'Tambah templat';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'Cipta templat untuk import dan eksport informasi objek.';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '';
-    $Self->{Translation}->{'Start Import'} = 'Mula import';
-    $Self->{Translation}->{'Start Export'} = 'Mula eksport';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = '';
-    $Self->{Translation}->{'Name is required!'} = 'Nama dikehendaki!';
-    $Self->{Translation}->{'Object is required!'} = 'Objek adalah diperlukan!';
-    $Self->{Translation}->{'Format is required!'} = 'Format adalah diperlukan!';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = '';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = '';
-    $Self->{Translation}->{'is required!'} = 'diperlukan!';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = '';
-    $Self->{Translation}->{'No map elements found.'} = 'Tiada elemen peta ditemui.';
-    $Self->{Translation}->{'Add Mapping Element'} = 'Tambah elemen peta';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = '';
-    $Self->{Translation}->{'Restrict export per search'} = 'Dilarang eksport per carian';
-    $Self->{Translation}->{'Import information'} = 'Informasi import';
-    $Self->{Translation}->{'Source File'} = 'Sumber fail';
-    $Self->{Translation}->{'Import summary for %s'} = '';
-    $Self->{Translation}->{'Records'} = 'Rekod-rekod';
-    $Self->{Translation}->{'Success'} = 'Berjaya';
-    $Self->{Translation}->{'Duplicate names'} = 'Menyalin nama-nama';
-    $Self->{Translation}->{'Last processed line number of import file'} = 'Nombor baris terakhir diproses fail import';
-    $Self->{Translation}->{'Ok'} = 'Ok';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = '';
-    $Self->{Translation}->{'No format backend found!'} = '';
-    $Self->{Translation}->{'Template not found!'} = '';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = '';
-    $Self->{Translation}->{'Needed TemplateID!'} = '';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = '';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = '';
-    $Self->{Translation}->{'Template List'} = '';
-    $Self->{Translation}->{'number'} = '';
-    $Self->{Translation}->{'number bigger than zero'} = '';
-    $Self->{Translation}->{'integer'} = '';
-    $Self->{Translation}->{'integer bigger than zero'} = '';
-    $Self->{Translation}->{'Element required, please insert data'} = '';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = '';
-    $Self->{Translation}->{'Format not found!'} = '';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'Kolum pemisah';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulator (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'Semikolon (;)';
-    $Self->{Translation}->{'Colon (:)'} = 'Titik bertindih (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'Titik (.)';
-    $Self->{Translation}->{'Comma (,)'} = '';
-    $Self->{Translation}->{'Charset'} = 'Set karakter';
-    $Self->{Translation}->{'Include Column Headers'} = 'Termasuk Kolum Kepala';
-    $Self->{Translation}->{'Column'} = 'Kolum';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        'Format backend modul pendaftaran untuk modul import/eksport.';
-    $Self->{Translation}->{'Import and export object information.'} = 'Informasi objek import dan eksport.';
-    $Self->{Translation}->{'Import/Export'} = 'Import/Eksport';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

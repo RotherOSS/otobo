@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.928141912206855;
+    $Self->{Completeness}        = 0.927852096798437;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -584,8 +584,7 @@ sub Data {
         'Label' => 'Etiqueta',
         'Order' => 'Orden',
         'Object' => 'Objeto',
-        'Clone' => 'Clon',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'Eliminar este campo',
 
         # Template: AdminDynamicFieldAdvanced
@@ -631,9 +630,6 @@ sub Data {
         'Field Settings' => 'Configuración del Campo',
         'Default value' => 'Valor por defecto',
         'This is the default value for this field.' => 'Este es el valor predefinido para este campo.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => 'Añadir o editar contactos',
@@ -696,6 +692,9 @@ sub Data {
         'Searchsuffix' => 'Sufijo de búsqueda',
         'Result Limit' => 'Límite de resultados',
         'Case Sensitive' => 'Caso Sensible',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Diferencia de fechas predeterminada',
@@ -797,6 +796,11 @@ sub Data {
         'Add RegEx' => 'Agregar RedEx',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1214,14 +1218,9 @@ sub Data {
         'Find next' => 'Buscar siguiente',
         'Find previous' => 'Buscar hacia atrás',
         'Find and replace' => 'Buscar y reemplazar',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => 'Mapeo XSLT',
         'XSLT stylesheet' => 'Hoja de estilos XSLT',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => 'Los datos introducidos no son una hoja de estilo XSLT válida.',
         'Here you can add or modify your XSLT mapping code.' => 'Aquí puede añadir o modificar su código de mapeo XSLT.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1424,6 +1423,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => 'Clonar un Servicio Web',
         'The name must be unique.' => 'El nombre debe ser único.',
+        'Clone' => 'Clon',
         'Export Web Service' => 'Exportar un Servicio Web',
         'Import web service' => 'Importar web service',
         'Configuration File' => 'Archivo de configuración',
@@ -5040,7 +5040,6 @@ sub Data {
         'Need CustomerID!' => '¡Necesita la identificación del cliente!',
         'My Tickets' => 'Mis Tickets',
         'Company Tickets' => 'Tickets de la Empresa',
-        'Untitled!' => '¡Sin título!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'Nombre Real del Cliente',
@@ -5531,6 +5530,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9842,9 +9843,9 @@ Gracias por su ayuda.
             'Activa la visualización de la lista de FeatureAddons de OTOBO en el PackageManager.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Elemento de la barra de herramientas para un acceso directo. El control de acceso adicional para mostrar o no este enlace se puede hacer utilizando la clave "Grupo" y el contenido como "rw:grupo1;move_into:grupo2".',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Selección de transporte para las notificaciones de citas. Por favor, tenga en cuenta que si establece \'Activo\' a 0 sólo impedirá que los agentes editen los ajustes de este grupo en sus preferencias personales, pero seguirá permitiendo a los administradores editar los ajustes de otro usuario en su nombre. Utilice \'PreferenceGroup\' para controlar en qué área deben mostrarse estos ajustes en la interfaz de usuario.',
@@ -9951,77 +9952,6 @@ Gracias por su ayuda.
         'stats' => 'estadísticas',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'Gestión de Importación/Exportación';
-    $Self->{Translation}->{'Add template'} = 'Agregar plantilla';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'Crear una plantilla para importar y exportar información de objetos.';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '';
-    $Self->{Translation}->{'Start Import'} = 'Iniciar Importación';
-    $Self->{Translation}->{'Start Export'} = 'Iniciar Exportación';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Paso 1 de 5 - Editar la información común';
-    $Self->{Translation}->{'Name is required!'} = 'Es requerido un nombre!';
-    $Self->{Translation}->{'Object is required!'} = 'Es requerido un objeto!';
-    $Self->{Translation}->{'Format is required!'} = 'Es requerido un formato.';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = 'Paso 2 de 5 - Editar la información del objeto';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = 'Paso 3 de 5 - Editar la información de formato';
-    $Self->{Translation}->{'is required!'} = 'es requerido!';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = 'Paso 4 de 5 - Editar la información de mapeo';
-    $Self->{Translation}->{'No map elements found.'} = 'No se han encontrado mapas.';
-    $Self->{Translation}->{'Add Mapping Element'} = 'Agregar un Elemento de Mapeo';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = 'Paso 5 de 5 - Editar información de búsqueda';
-    $Self->{Translation}->{'Restrict export per search'} = 'Restringir la exportación a la búsqueda';
-    $Self->{Translation}->{'Import information'} = 'Información de importación';
-    $Self->{Translation}->{'Source File'} = 'Archivo Fuente';
-    $Self->{Translation}->{'Import summary for %s'} = 'Resumen de importación para %s';
-    $Self->{Translation}->{'Records'} = 'Registros';
-    $Self->{Translation}->{'Success'} = 'Éxito';
-    $Self->{Translation}->{'Duplicate names'} = 'Nombres duplicados';
-    $Self->{Translation}->{'Last processed line number of import file'} = 'Último número de línea procesada del archivo a importar';
-    $Self->{Translation}->{'Ok'} = 'Aceptar';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = '¡No se encontró un \'backend\' para el objeto!';
-    $Self->{Translation}->{'No format backend found!'} = '¡No se encontró un \'backend\' para el formato!';
-    $Self->{Translation}->{'Template not found!'} = '¡No se encontró la plantilla!';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = '¡No fue posible insertar/actualizar la plantilla!';
-    $Self->{Translation}->{'Needed TemplateID!'} = '¡Se necesita \'TemplateID\'!';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = 'Ha ocurrido un error. ¡Imposible de Importar¡ Revise las trazas del sistema para obtener los detalles.';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = 'Ha ocurrido un error. ¡Imposible de Exportar¡ Revise las trazas del sistema para obtener los detalles.';
-    $Self->{Translation}->{'Template List'} = 'Lista de Plantillas';
-    $Self->{Translation}->{'number'} = 'número';
-    $Self->{Translation}->{'number bigger than zero'} = 'número mayor a cero';
-    $Self->{Translation}->{'integer'} = 'entero';
-    $Self->{Translation}->{'integer bigger than zero'} = 'entero mayor a cero';
-    $Self->{Translation}->{'Element required, please insert data'} = 'Elemento requerido, por favor inserte el dato';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = 'Datos inválidos, por favor oeste un %s válido';
-    $Self->{Translation}->{'Format not found!'} = '¡No se encontró el Formato!';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'Separador de Columna';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulador (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'Punto y coma (;)';
-    $Self->{Translation}->{'Colon (:)'} = 'Dos Puntos (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'Punto (.)';
-    $Self->{Translation}->{'Comma (,)'} = 'Coma (,)';
-    $Self->{Translation}->{'Charset'} = 'Conjunto de Caracteres';
-    $Self->{Translation}->{'Include Column Headers'} = 'Incluir Cabecera de Columnas';
-    $Self->{Translation}->{'Column'} = 'Calumna';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        'Formato del módulo administrativo de registro para el módulo de importación/exportación.';
-    $Self->{Translation}->{'Import and export object information.'} = 'Importar y exportar información de un objeto.';
-    $Self->{Translation}->{'Import/Export'} = 'Importar/Exportar';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

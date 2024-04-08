@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.862146722790138;
+    $Self->{Completeness}        = 0.86291898391703;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -589,8 +589,7 @@ sub Data {
         'Label' => 'Címke',
         'Order' => 'Sorrend',
         'Object' => 'Objektum',
-        'Clone' => 'Klónozás',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'Mező törlése',
 
         # Template: AdminDynamicFieldAdvanced
@@ -636,9 +635,6 @@ sub Data {
         'Field Settings' => 'mezőbeállítások',
         'Default value' => 'Alapértelmezett érték',
         'This is the default value for this field.' => 'Ez az alapértelmezett érték ehhez a mezőhöz.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -701,6 +697,9 @@ sub Data {
         'Searchsuffix' => '',
         'Result Limit' => '',
         'Case Sensitive' => '',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Alapértelmezett dátumkülönbség',
@@ -802,6 +801,11 @@ sub Data {
         'Add RegEx' => 'Reguláris kifejezés hozzáadása',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1219,14 +1223,9 @@ sub Data {
         'Find next' => 'Következő keresése',
         'Find previous' => 'Előző keresése',
         'Find and replace' => 'Keresés és csere',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => 'XSLT leképezés',
         'XSLT stylesheet' => 'XSLT-stíluslap',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => 'A megadott adat nem érvényes XSLT-stíluslap.',
         'Here you can add or modify your XSLT mapping code.' => 'Itt adhatja hozzá vagy módosíthatja az XSLT leképezés kódját.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1429,6 +1428,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => 'Webszolgáltatás klónozása',
         'The name must be unique.' => 'A névnek egyedinek kell lennie.',
+        'Clone' => 'Klónozás',
         'Export Web Service' => 'Webszolgáltatás exportálása',
         'Import web service' => 'Webszolgáltatás importálása',
         'Configuration File' => 'Beállítófájl',
@@ -2095,9 +2095,9 @@ sub Data {
         'Support Data' => 'Támogatási adatok',
 
         # Template: AdminResponseTemplatesStatePreselection
-        'Manage ticket state pre-selections for response templates' => '',
-        'Edit Response' => '',
-        'Pre-selected ticket state' => '',
+        'Manage ticket state pre-selections for response templates' => 'Jegyállapot előre kiválasztásainak kezelése a válaszsablonoknál',
+        'Edit Response' => 'Válasz szerkesztése',
+        'Pre-selected ticket state' => 'Előre kiválasztott jegyállapot',
 
         # Template: AdminRole
         'Role Management' => 'Szerepkezelés',
@@ -5045,7 +5045,6 @@ sub Data {
         'Need CustomerID!' => 'Ügyfél-azonosító szükséges!',
         'My Tickets' => 'Saját jegyek',
         'Company Tickets' => 'Vállalati jegyek',
-        'Untitled!' => 'Névtelen!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'Ügyfél valódi neve',
@@ -5536,6 +5535,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -8390,7 +8391,7 @@ Az Ön segélyszolgálat csapata
             'Előtétprogram-modul regisztráció (az új folyamatjegy képernyő letiltása, ha nincs elérhető folyamat).',
         'Frontend module registration (show personal favorites as sub navigation items of \'Admin\').' =>
             'Előtétprogram-modul regisztráció (személyes kedvencek megjelenítése az „Adminisztráció” alnavigációs elemeiként).',
-        'Frontend module registration for the admin interface.' => '',
+        'Frontend module registration for the admin interface.' => 'Előtétprogram-modul regisztráció az adminisztrátori felülethez.',
         'Frontend module registration for the agent interface.' => 'Előtétprogram-modul regisztráció az ügyintézői felülethez.',
         'Frontend module registration for the customer interface.' => 'Előtétprogram-modul regisztráció az ügyfélfelülethez.',
         'Frontend module registration for the public interface.' => 'Előtétprogram-modul regisztráció a nyilvános felülethez.',
@@ -8717,7 +8718,7 @@ Az Ön segélyszolgálat csapata
         'Manage support data.' => 'Támogatási adatok kezelése.',
         'Manage system registration.' => 'Rendszer regisztráció kezelése.',
         'Manage tasks triggered by event or time based execution.' => 'Esemény vagy időalapú végrehajtás által aktivált feladatok kezelése.',
-        'Manage ticket state pre-selections for response templates.' => '',
+        'Manage ticket state pre-selections for response templates.' => 'Jegyállapot előre kiválasztásainak kezelése a válaszsablonoknál.',
         'Mark as Spam!' => 'Megjelölés szemétként!',
         'Mark this ticket as junk!' => 'Jegy megjelölése szemétként!',
         'Mark ticket as seen' => '',
@@ -9667,7 +9668,7 @@ Az Ön segélyszolgálat csapata
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             'Elindítja az aktív objektum helyettesítő karakter keresését, miután a hivatkozás objektum maszk elindult.',
         'Stat#' => 'Stat#',
-        'State pre-selection for Templates' => '',
+        'State pre-selection for Templates' => 'Állapot előre kiválasztása a sablonoknál',
         'States' => 'Állapotok',
         'Statistics overview.' => 'Statisztikák áttekintője.',
         'Statistics reports.' => '',
@@ -9827,7 +9828,7 @@ Az Ön segélyszolgálat csapata
         'Ticket overview' => 'Jegyáttekintő',
         'Ticket plain view of an email.' => 'Egy e-mail egyszerű jegynézete.',
         'Ticket split dialog.' => 'Jegyfelosztás párbeszédablak.',
-        'Ticket state pre-selection for response templates' => '',
+        'Ticket state pre-selection for response templates' => 'Jegyállapot előre kiválasztása a válaszsablonoknál',
         'Ticket title' => 'Jegycím',
         'Ticket zoom view.' => 'Jegynagyítás nézet.',
         'TicketNumber' => 'Jegyszám',
@@ -9847,9 +9848,9 @@ Az Ön segélyszolgálat csapata
             'Ki- és bekapcsolja az OTOBO szolgáltatás-bővítmény listájának megjelenítését a csomagkezelőben.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Eszköztárelem egy gyorshivatkozáshoz. A hivatkozás megjelenítéséhez vagy elrejtéséhez további hozzáférés vezérlő készíthető a „Group” kulcs és az „rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával.',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Átvitelkiválasztás az időpont-értesítésekhez. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen.',
@@ -9956,89 +9957,6 @@ Az Ön segélyszolgálat csapata
         'stats' => 'statisztikák',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'Importálás/exportálás kezelés';
-    $Self->{Translation}->{'Add template'} = 'Sablon hozzáadása';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'Sablon létrehozása objektuminformációk importálásához és exportálásához.';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        'A modul használatához telepítenie kell az ITSMConfigurationManagement csomagot vagy bármilyen egyéb csomagot, amely háttérprogramot biztosít az objektumok importálásához és exportálásához.';
-    $Self->{Translation}->{'Start Import'} = 'Importálás indítása';
-    $Self->{Translation}->{'Start Export'} = 'Exportálás indítása';
-    $Self->{Translation}->{'Delete this template'} = 'Sablon törlése';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = '1. lépés az 5-ből - közös információk szerkesztése';
-    $Self->{Translation}->{'Name is required!'} = 'A név kötelező!';
-    $Self->{Translation}->{'Object is required!'} = 'Az objektum kötelező!';
-    $Self->{Translation}->{'Format is required!'} = 'A formátum kötelező!';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = '2. lépés az 5-ből - objektuminformációk szerkesztése';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = '3. lépés az 5-ből - formátuminformációk szerkesztése';
-    $Self->{Translation}->{'is required!'} = 'kötelező!';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = '4. lépés az 5-ből - leképezési információk szerkesztése';
-    $Self->{Translation}->{'No map elements found.'} = 'Nem találhatók térképelemek.';
-    $Self->{Translation}->{'Add Mapping Element'} = 'Leképezési elemek hozzáadása';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = '5. lépés az 5-ből - keresési információk szerkesztése';
-    $Self->{Translation}->{'Restrict export per search'} = 'Exportálás korlátozása keresésenként';
-    $Self->{Translation}->{'Import information'} = 'Importálási információk';
-    $Self->{Translation}->{'Source File'} = 'Forrásfájl';
-    $Self->{Translation}->{'Import summary for %s'} = '%s importálási összegzése';
-    $Self->{Translation}->{'Records'} = 'Rekordok';
-    $Self->{Translation}->{'Success'} = 'Sikeres';
-    $Self->{Translation}->{'Duplicate names'} = 'Nevek kettőzése';
-    $Self->{Translation}->{'Last processed line number of import file'} = 'Az importfájl utolsó feldolgozott sorszáma';
-    $Self->{Translation}->{'Ok'} = 'OK';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = 'Valóban törölni szeretné ezt a sablonelemet?';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = 'Nem található objektum-háttérprogram!';
-    $Self->{Translation}->{'No format backend found!'} = 'Nem található formátum-háttérprogram!';
-    $Self->{Translation}->{'Template not found!'} = 'Sablon nem található!';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = 'Nem lehet beszúrni vagy frissíteni a sablont!';
-    $Self->{Translation}->{'Needed TemplateID!'} = 'Sablon-azonosító szükséges!';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = 'Hiba történt. Az importálás lehetetlen! Nézze meg a rendszernaplót a részletekért.';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = 'Hiba történt. Az exportálás lehetetlen! Nézze meg a rendszernaplót a részletekért.';
-    $Self->{Translation}->{'Template List'} = 'Sablonlista';
-    $Self->{Translation}->{'number'} = 'szám';
-    $Self->{Translation}->{'number bigger than zero'} = 'nullánál nagyobb szám';
-    $Self->{Translation}->{'integer'} = 'egész';
-    $Self->{Translation}->{'integer bigger than zero'} = 'nullánál nagyobb egész';
-    $Self->{Translation}->{'Element required, please insert data'} = 'Elem szükséges, szúrjon be adatokat';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = 'Érvénytelen adatok, egy érvényes %s beszúrása szükséges';
-    $Self->{Translation}->{'Format not found!'} = 'Formátum nem található!';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'Oszlopelválasztó';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulátor (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'Pontosvessző (;)';
-    $Self->{Translation}->{'Colon (:)'} = 'Kettőspont (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'Pont (.)';
-    $Self->{Translation}->{'Comma (,)'} = 'Vessző (,)';
-    $Self->{Translation}->{'Charset'} = 'Karakterkészlet';
-    $Self->{Translation}->{'Include Column Headers'} = 'Oszlopfejlécek felvétele';
-    $Self->{Translation}->{'Column'} = 'Oszlop';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = 'Sablon törlése…';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        'Hiba történt a sablon törlésekor. További információkért nézze meg a naplókat.';
-    $Self->{Translation}->{'Template was deleted successfully.'} = 'A sablon sikeresen törölve lett.';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        'Formátum háttérprogram modul regisztráció az importálás/exportálás modulhoz.';
-    $Self->{Translation}->{'Import and export object information.'} = 'Objektuminformációk importálása és exportálása.';
-    $Self->{Translation}->{'Import/Export'} = 'Importálás/exportálás';
-
-    # Template: AdminResponseTicketStatePreSelection
-    $Self->{Translation}->{'Manage ticket state pre-selections for response templates'} = 'Jegyállapot előre kiválasztásainak kezelése a válaszsablonoknál';
-    $Self->{Translation}->{'Edit Response'} = 'Válasz szerkesztése';
-    $Self->{Translation}->{'Pre-selected ticket state'} = 'Előre kiválasztott jegyállapot';
-
-    # SysConfig
-    $Self->{Translation}->{'Frontend module registration for the admin interface.'} = 'Előtétprogram-modul regisztráció az adminisztrátori felülethez.';
-    $Self->{Translation}->{'Manage ticket state pre-selections for response templates.'} = 'Jegyállapot előre kiválasztásainak kezelése a válaszsablonoknál.';
-    $Self->{Translation}->{'Provides state preselection functionality for responses.'} = 'Állapot előre kiválasztásának funkcionalitását nyújtja a válaszoknál.';
-    $Self->{Translation}->{'State pre-selection for Templates'} = 'Állapot előre kiválasztása a sablonoknál';
-    $Self->{Translation}->{'Ticket state pre-selection for response templates'} = 'Jegyállapot előre kiválasztása a válaszsablonoknál';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

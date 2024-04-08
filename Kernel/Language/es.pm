@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.591852074564041;
+    $Self->{Completeness}        = 0.600480986021344;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -589,8 +589,7 @@ sub Data {
         'Label' => 'Etiqueta',
         'Order' => 'Orden',
         'Object' => 'Objeto',
-        'Clone' => 'Clonar',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'Borrar este campo',
 
         # Template: AdminDynamicFieldAdvanced
@@ -636,9 +635,6 @@ sub Data {
         'Field Settings' => 'Ajustes del campo',
         'Default value' => 'Valor predeterminado',
         'This is the default value for this field.' => 'Éste es valor predeterminado para este campo.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => 'Añadir o editar contactos',
@@ -701,6 +697,9 @@ sub Data {
         'Searchsuffix' => 'Sufijo de búsqueda',
         'Result Limit' => 'Límite de resultados',
         'Case Sensitive' => 'Sensible a mayúsculas',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Diferencia de fechas predeterminada',
@@ -802,6 +801,11 @@ sub Data {
         'Add RegEx' => 'Añadir RegEx',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1219,14 +1223,9 @@ sub Data {
         'Find next' => 'Buscar siguiente',
         'Find previous' => 'Buscar anterior',
         'Find and replace' => 'Buscar y reemplazar',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => 'Mapeo XSLT',
         'XSLT stylesheet' => 'hoja de estilos XSLT',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => 'Los datos introducidos no son un formato de hoja XSLT válido',
         'Here you can add or modify your XSLT mapping code.' => 'Aquí puede añadir o midificar su código de mapeo',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1429,6 +1428,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => 'Duplicar Servicio Web',
         'The name must be unique.' => 'El nombre debe ser unico.',
+        'Clone' => 'Clonar',
         'Export Web Service' => 'Exportar Servicio Web',
         'Import web service' => 'Importar servicio web',
         'Configuration File' => 'Archivo de Configuración',
@@ -2369,7 +2369,7 @@ sub Data {
         'Deployment History' => '',
         'Filter for Deployments' => '',
         'Recent Deployments' => '',
-        'Restore' => '',
+        'Restore' => 'Restaurar',
         'View Details' => '',
         'Restore this deployment.' => '',
         'Export this deployment.' => '',
@@ -2490,34 +2490,34 @@ sub Data {
         'Definition' => '',
 
         # Template: AdminTranslations
-        'Translation Management' => '',
-        'Add Translations' => '',
-        'Edit Translations' => '',
+        'Translation Management' => 'Administración de Traducciones',
+        'Add Translations' => 'Añadir Traducciones',
+        'Edit Translations' => 'Editar Traducciones',
         'Language' => 'Idioma',
-        'Deploy Translations' => '',
-        'Translation States' => '',
-        'New Translation' => '',
-        'Editing Translation' => '',
-        'Translation Marked for Deletion' => '',
-        'Deployed Translation' => '',
+        'Deploy Translations' => 'Desplegar Traducciones',
+        'Translation States' => 'Estados de Traducciones',
+        'New Translation' => 'Nueva Traducción',
+        'Editing Translation' => 'Cambio en Traducción',
+        'Translation Marked for Deletion' => 'Traducción marcada para borrar',
+        'Deployed Translation' => 'Traducción Desplegada',
         'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
-            '',
+            'Los cambios realizados aquí solo afectarán el comportamiento del sistema, una vez que se realice el despliegue de las traducciones.',
         'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.' =>
-            '',
-        'Edit active translations using provided text fields!' => '',
-        'List custom translations for' => '',
-        'Draft Translations' => '',
+            'Seleccione un objeto de datos para comenzar a escribir las traducciones. Se podrán agregar una o muchas traducciones dependiendo de la selección.',
+        'Edit active translations using provided text fields!' => 'Edite las traducciones utilizando los campos de texto en la pantalla!',
+        'List custom translations for' => 'Mostrando traducciones personalizadas para',
+        'Draft Translations' => 'Traducciones Preliminares',
         'Filter for Draft Translations' => '',
-        'Active Translations' => '',
-        'Filter for Active Translations' => '',
+        'Active Translations' => 'Traducciones Desplegadas',
+        'Filter for Active Translations' => 'Filtrar Traducciones Desplegadas',
         'Content' => 'Contenido',
-        'Translation' => '',
-        'Marked for Deletion' => '',
+        'Translation' => 'Traducción',
+        'Marked for Deletion' => 'Marcada para borrar',
         'Edit Translation' => '',
-        'Overwrites OTOBO translation' => '',
-        'Undo Delete Translation' => '',
-        'Delete Translation' => '',
-        'Translations' => '',
+        'Overwrites OTOBO translation' => 'Sobrescribe una traducción de OTOBO',
+        'Undo Delete Translation' => 'Deshacer borrar traducción',
+        'Delete Translation' => 'Borrar traducción',
+        'Translations' => 'Traducciones',
 
         # Template: AdminType
         'Type Management' => 'Gestión de tipos',
@@ -2956,7 +2956,7 @@ sub Data {
         'Set Pending Time for %s%s%s' => 'Establecer Tiempo en Espera para %s%s',
         'Change Priority of %s%s%s' => 'Cambiar Prioridad de %s%s',
         'Change Responsible of %s%s%s' => 'Cambiar Responsable de %s%s',
-        'Edit Article "%s" of %s%s%s' => '',
+        'Edit Article "%s" of %s%s%s' => 'Editar Artículo "%s" de %s%s%s',
         'The ticket has been locked' => 'El ticket ha sido bloqueado',
         'Undo & close' => 'Deshacer y cerrar',
         'Ticket Settings' => 'Ajustes de los tickets',
@@ -2984,7 +2984,7 @@ sub Data {
         'Invalid time!' => '¡Hora no válida!',
 
         # Template: AgentTicketArticleVersionView
-        'Viewing Article Version#%s of current Article: #%s %s' => '',
+        'Viewing Article Version#%s of current Article: #%s %s' => 'Visualizando Versión#%s del Artículo actual: #%s %s',
 
         # Template: AgentTicketBounce
         'Bounce %s%s%s' => 'Rebotar %s%s',
@@ -3179,14 +3179,14 @@ sub Data {
         'No.' => 'Nº',
         'Unread articles' => 'Artículos no leídos',
         'Via' => '',
-        'Article Edited' => '',
+        'Article Edited' => 'Artículo Editado',
         'Important' => 'Importante',
         'Unread Article!' => 'Artículo no leído',
         'Incoming message' => 'Mensaje entrante',
         'Outgoing message' => 'Mensaje saliente',
         'Internal message' => 'Mensaje interno',
         'Sending of this message has failed.' => '',
-        'The article was edited' => '',
+        'The article was edited' => 'El artículo fue editado',
         'Resize' => 'Redimensionar',
         'Mark this article as read' => 'Marcar este artículo como leído',
         'Show Full Text' => 'Mostrar Texto Completo',
@@ -3789,9 +3789,9 @@ sub Data {
         'Counter' => 'Contador',
 
         # Template: TranslationsTable
-        'Filter Content' => '',
+        'Filter Content' => 'Filtrar Contenido',
         'Filter for Translations' => '',
-        'No content available to translate.' => '',
+        'No content available to translate.' => 'No hay contenido disponible para traducir.',
 
         # Template: Warning
         'Go back to the previous page' => 'Volver a la página anterior',
@@ -4613,20 +4613,20 @@ sub Data {
         'Change Template Relations for Attachment' => 'Cambiar las relaciones de Plantilla para Archivos adjuntos',
 
         # Perl Module: Kernel/Modules/AdminTranslations.pm
-        'Translation unmarked for deletion!' => '',
-        'Error trying unmark translation for delete!' => '',
-        'Translations changed!' => '',
-        'No translations were changed!' => '',
+        'Translation unmarked for deletion!' => 'Traducción descmarcada para borrar!',
+        'Error trying unmark translation for delete!' => 'Error al intentar desmarcar para borrar la traducción!',
+        'Translations changed!' => 'Traducciones modificadas!',
+        'No translations were changed!' => 'No se realizaron cambios en las traducciones!',
         'Errors trying to change translations!' => '',
-        'Translations added!' => '',
-        'No translations were given to add!' => '',
-        'Translation already exists!' => '',
-        'Translations deployed successfuly!' => '',
-        'Nothing to do!' => '',
+        'Translations added!' => 'Traducciones agregadas!',
+        'No translations were given to add!' => 'No se ingresó el valor de nuevas traducciones!',
+        'Translation already exists!' => 'La traducción ya existe!',
+        'Translations deployed successfuly!' => 'Traducciones desplegadas exitosamente!',
+        'Nothing to do!' => 'No hay traducciones para desplegar!',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
-            '',
+            'Ocurrio un error al desplegar las traducciones. Por favor revise el log del sistema!',
         'All Items' => '',
-        'Deployment Results' => '',
+        'Deployment Results' => 'Resultados del Despliegue',
 
         # Perl Module: Kernel/Modules/AdminType.pm
         'Need Type!' => '¡Se requiere el Tipo!',
@@ -5045,7 +5045,6 @@ sub Data {
         'Need CustomerID!' => '¡Se necesita la ID del cliente!',
         'My Tickets' => 'Mis Tickets',
         'Company Tickets' => 'Tickets de Empresa',
-        'Untitled!' => '¡Sin título!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'Nombre real del Cliente',
@@ -5421,9 +5420,9 @@ sub Data {
         'Lock it to work on it' => 'Bloquear para trabajar en él',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
-        'Hide deleted articles' => '',
+        'Hide deleted articles' => 'Ocultar artículos borrados',
         'Click to hide deleted articles' => '',
-        'Show deleted articles' => '',
+        'Show deleted articles' => 'Mostrar artículos borrados',
         'Click to show deleted articles' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
@@ -5537,6 +5536,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -6512,9 +6513,9 @@ sub Data {
             '',
 
         # JS File: Core.Agent.Admin.Translations
-        'Missing Translations' => '',
-        'At least one translation must be filled!' => '',
-        'All translations must be filled!' => '',
+        'Missing Translations' => 'Faltan datos',
+        'At least one translation must be filled!' => 'Al menos una de las traducciones de la tabla debe ser ingresada!',
+        'All translations must be filled!' => 'Todas las traducciones deben ser ingresadas!',
         'Close' => 'Cerrar',
 
         # JS File: Core.Agent.AppointmentCalendar
@@ -6544,13 +6545,13 @@ sub Data {
             '¿Está seguro de que desea eliminar esta cita? Esta operación no se puede deshacer.',
 
         # JS File: Core.Agent.ArticleFeatures
-        'Article Delete' => '',
-        'Are you sure you want to delete this article?' => '',
-        'Article deleted successfully!' => '',
+        'Article Delete' => 'Borrar Artículo',
+        'Are you sure you want to delete this article?' => 'Está seguro(a) de borrar el artículo?',
+        'Article deleted successfully!' => 'Artículo borrado exitosamente!',
         'Article already marked as deleted.' => '',
-        'Article Restore' => '',
-        'Are you sure you want to restore this article?' => '',
-        'Article restored successfully!' => '',
+        'Article Restore' => 'Restaurar Artículo',
+        'Are you sure you want to restore this article?' => 'Está seguro(a) de restaurar el artículo?',
+        'Article restored successfully!' => 'Artículo restaurado exitosamente!',
         'Article not available for restoring.' => '',
 
         # JS File: Core.Agent.CustomerSearch
@@ -7206,7 +7207,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Create and manage appointment notifications.' => 'Crea y gestiona las notificaciones de citas.',
         'Create and manage attachments.' => 'Crear y gestionar archivos adjuntos.',
         'Create and manage calendars.' => '',
-        'Create and manage custom translations.' => '',
+        'Create and manage custom translations.' => 'Crear y gestionar traducciones personalizadas.',
         'Create and manage customer users.' => 'Crea y gestiona usuarios clientes.',
         'Create and manage customers.' => 'Crea y gestiona clientes.',
         'Create and manage dynamic fields.' => 'Crea y gestiona campos dinámicos.',
@@ -8144,9 +8145,9 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Dutch' => 'Holandés ',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'Palabras vacías en holandés para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
-        'Dynamic Field Contents' => '',
+        'Dynamic Field Contents' => 'Campos Dinámicos (Valores)',
         'Dynamic Field Information' => '',
-        'Dynamic Field Labels' => '',
+        'Dynamic Field Labels' => 'Campos Dinámicos (Etiquetas)',
         'Dynamic Field Set' => '',
         'Dynamic Field Set Backend GUI' => '',
         'Dynamic Fields Checkbox Backend GUI' => '',
@@ -8407,7 +8408,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Fulltext search using Elasticsearch.' => '',
         'FulltextES' => '',
         'Galician' => 'Gallego',
-        'General Label' => '',
+        'General Label' => 'Etiquetas Generales',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'Generate HTML comment hooks for the specified blocks so that filters can use them.' =>
@@ -8625,7 +8626,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'JavaScript function for the search frontend.' => '',
         'Jump to OTOBO!' => '',
         'Korean' => '',
-        'Languages' => '',
+        'Languages' => 'Lenguajes',
         'Large' => 'Grande',
         'Last Screen Overview' => '',
         'Last customer subject' => 'Último asunto del cliente',
@@ -9121,7 +9122,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Russian' => 'Ruso',
         'S/MIME Certificates' => 'Certificados S/MIME',
-        'SLAs' => '',
+        'SLAs' => 'Acuerdos de Niveles de Servicio',
         'Salutations' => 'Saludos',
         'Sample command output' => 'Ejemplo de comando de salida.',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9817,8 +9818,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Ticket Priority.' => 'Prioridad del ticket.',
         'Ticket Queue Overview' => 'Resumen de Tickets por Cola',
         'Ticket Responsible.' => 'Responsable del Ticket.',
-        'Ticket States' => '',
-        'Ticket Types' => '',
+        'Ticket States' => 'Estados de Tickets',
+        'Ticket Types' => 'Tipos de Tickets',
         'Ticket Watcher' => '',
         'Ticket Zoom' => '',
         'Ticket Zoom.' => 'Vista detallada del Ticket.',
@@ -9854,9 +9855,9 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
@@ -9963,216 +9964,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'stats' => 'estadísticas',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'Gestión de Importación/Exportación';
-    $Self->{Translation}->{'Add template'} = 'Agregar plantilla';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'Crear una plantilla para importar y exportar información de objetos.';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '';
-    $Self->{Translation}->{'Start Import'} = 'Iniciar Importación';
-    $Self->{Translation}->{'Start Export'} = 'Iniciar Exportación';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Paso 1 de 5 - Editar la información común';
-    $Self->{Translation}->{'Name is required!'} = 'Es requerido un nombre!';
-    $Self->{Translation}->{'Object is required!'} = 'Es requerido un objeto!';
-    $Self->{Translation}->{'Format is required!'} = 'Es requerido un formato.';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = 'Paso 2 de 5 - Editar la información del objeto';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = 'Paso 3 de 5 - Editar la información de formato';
-    $Self->{Translation}->{'is required!'} = 'es requerido!';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = 'Paso 4 de 5 - Editar la información de mapeo';
-    $Self->{Translation}->{'No map elements found.'} = 'No se han encontrado mapas.';
-    $Self->{Translation}->{'Add Mapping Element'} = 'Agregar un Elemento de Mapeo';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = 'Paso 5 de 5 - Editar información de búsqueda';
-    $Self->{Translation}->{'Restrict export per search'} = 'Restringir la exportación a la búsqueda';
-    $Self->{Translation}->{'Import information'} = 'Información de importación';
-    $Self->{Translation}->{'Source File'} = 'Archivo Fuente';
-    $Self->{Translation}->{'Import summary for %s'} = 'Resumen de importación para %s';
-    $Self->{Translation}->{'Records'} = 'Registros';
-    $Self->{Translation}->{'Success'} = 'Éxito';
-    $Self->{Translation}->{'Duplicate names'} = 'Nombres duplicados';
-    $Self->{Translation}->{'Last processed line number of import file'} = 'Último número de línea procesada del archivo a importar';
-    $Self->{Translation}->{'Ok'} = 'Aceptar';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = '¡No se encontró un \'backend\' para el objeto!';
-    $Self->{Translation}->{'No format backend found!'} = '¡No se encontró un \'backend\' para el formato!';
-    $Self->{Translation}->{'Template not found!'} = '¡No se encontró la plantilla!';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = '¡No fue posible insertar/actualizar la plantilla!';
-    $Self->{Translation}->{'Needed TemplateID!'} = '¡Se necesita \'TemplateID\'!';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = 'Ha ocurrido un error. ¡Imposible de Importar¡ Revise las trazas del sistema para obtener los detalles.';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = 'Ha ocurrido un error. ¡Imposible de Exportar¡ Revise las trazas del sistema para obtener los detalles.';
-    $Self->{Translation}->{'Template List'} = 'Lista de Plantillas';
-    $Self->{Translation}->{'number'} = 'número';
-    $Self->{Translation}->{'number bigger than zero'} = 'número mayor a cero';
-    $Self->{Translation}->{'integer'} = 'entero';
-    $Self->{Translation}->{'integer bigger than zero'} = 'entero mayor a cero';
-    $Self->{Translation}->{'Element required, please insert data'} = 'Elemento requerido, por favor inserte el dato';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = 'Datos inválidos, por favor oeste un %s válido';
-    $Self->{Translation}->{'Format not found!'} = '¡No se encontró el Formato!';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'Separador de Columna';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulador (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'Punto y coma (;)';
-    $Self->{Translation}->{'Colon (:)'} = 'Dos Puntos (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'Punto (.)';
-    $Self->{Translation}->{'Comma (,)'} = 'Coma (,)';
-    $Self->{Translation}->{'Charset'} = 'Conjunto de Caracteres';
-    $Self->{Translation}->{'Include Column Headers'} = 'Incluir Cabecera de Columnas';
-    $Self->{Translation}->{'Column'} = 'Calumna';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        'Formato del módulo administrativo de registro para el módulo de importación/exportación.';
-    $Self->{Translation}->{'Import and export object information.'} = 'Importar y exportar información de un objeto.';
-    $Self->{Translation}->{'Import/Export'} = 'Importar/Exportar';
-
-    $Self->{Translation}->{'Languages'} = 'Lenguajes';
-    $Self->{Translation}->{'Translations'} = 'Traducciones';
-    $Self->{Translation}->{'Translation'} = 'Traducción';
-    $Self->{Translation}->{'Create and manage custom translations.'} = 'Crear y gestionar traducciones personalizadas.';
-    $Self->{Translation}->{'Translation Management'} = 'Administración de Traducciones';
-    $Self->{Translation}->{'Add Translations'} = 'Añadir Traducciones';
-    $Self->{Translation}->{'Edit Translations'} = 'Editar Traducciones';
-    $Self->{Translation}->{'Deploy Translations'} = 'Desplegar Traducciones';
-    $Self->{Translation}->{'Filter for Current Translations'} = 'Filtrar Traducciones Desplegadas';
-    $Self->{Translation}->{'Current Translations'} = 'Traducciones Desplegadas';
-    $Self->{Translation}->{'Draft Translations'} = 'Traducciones Preliminares';
-    $Self->{Translation}->{'Translation States'} = 'Estados de Traducciones';
-    $Self->{Translation}->{'New Translation'} = 'Nueva Traducción';
-    $Self->{Translation}->{'Editing Translation'} = 'Cambio en Traducción';
-    $Self->{Translation}->{'Deployed Translation'} = 'Traducción Desplegada';
-    $Self->{Translation}->{'Marked for Deletion'} = 'Marcada para borrar';
-    $Self->{Translation}->{'Translation Marked for Deletion'} = 'Traducción marcada para borrar';
-    $Self->{Translation}->{'Delete Translation'} = 'Borrar traducción';
-    $Self->{Translation}->{'Undo Delete Translation'} = 'Deshacer borrar traducción';
-    $Self->{Translation}->{'Translation unmarked for deletion!'} = 'Traducción descmarcada para borrar!';
-    $Self->{Translation}->{'Translation marked for deletion!'} = 'Traducción marcada para borrar!';
-    $Self->{Translation}->{'Draft translation deleted!'} = 'Traducción preliminar borrada!';
-    $Self->{Translation}->{'Translation it\'s already on draft translations table!'} = 'La traducción se encuentra en la tabla de traducciones preliminares!';
-    $Self->{Translation}->{'Error trying to mark translation for deletion!'} = 'Error al intentar marcar la traducción para borrarla!';
-    $Self->{Translation}->{'Error trying to delete draft translation!'} = 'Error al intentar borrar la traducción preliminar!';
-    $Self->{Translation}->{'Error trying unmark translation for delete!'} = 'Error al intentar desmarcar para borrar la traducción!';
-    $Self->{Translation}->{'Changes to the translations here only affect the behaviour of the system, if you deploy the translations afterwards. By deploying the translation data, the newly made changes will be written to the configuration.'} = 
-    'Los cambios realizados aquí solo afectarán el comportamiento del sistema, una vez que se realice el despliegue de las traducciones.';
-    $Self->{Translation}->{'List custom translations for'} = 'Mostrando traducciones personalizadas para';
-
-    $Self->{Translation}->{'Dynamic Field Labels'} = 'Campos Dinámicos (Etiquetas)';
-    $Self->{Translation}->{'Dynamic Field Contents'} = 'Campos Dinámicos (Valores)';
-    $Self->{Translation}->{'General Label'} = 'Etiquetas Generales';
-    $Self->{Translation}->{'Priorities'} = 'Prioridades';
-    $Self->{Translation}->{'Queues'} = 'Colas';
-    $Self->{Translation}->{'Services'} = 'Servicios';
-    $Self->{Translation}->{'SLAs'} = 'Acuerdos de Niveles de Servicio';
-    $Self->{Translation}->{'Template Names'} = 'Nombre de Plantillas';
-    $Self->{Translation}->{'Ticket States'} = 'Estados de Tickets';
-    $Self->{Translation}->{'Ticket Types'} = 'Tipos de Tickets';
-    $Self->{Translation}->{'- List all possible values from all Dynamic Fields -'} = '- Mostrar todos los valores de todos los campos dinámicos -';
-    $Self->{Translation}->{'- List all possible labels from all Dynamic Fields -'} = '- Mostrar todas las etiquetas de todos los campos dinámicos -';
-    $Self->{Translation}->{'Translations added!'} = 'Traducciones agregadas!';
-    $Self->{Translation}->{'No translations were given to add!'} = 'No se ingresó el valor de nuevas traducciones!';
-    $Self->{Translation}->{'No content available to translate.'} = 'No hay contenido disponible para traducir.';
-    $Self->{Translation}->{'Translation already exists!'} = 'La traducción ya existe!';
-
-    $Self->{Translation}->{'Missing Translations'} = 'Faltan datos';
-    $Self->{Translation}->{'At least one translation must be filled!'} = 'Al menos una de las traducciones de la tabla debe ser ingresada!';    
-
-    $Self->{Translation}->{'Edit current translations using provided text fields!'} = 'Edite las traducciones actuales utilizando los campos de texto en la pantalla!';
-
-    $Self->{Translation}->{'Select an object to start writting translations. Single or multiple translations could be added depending on selections!'} = 
-    'Seleccione un objeto de datos para comenzar a escribir las traducciones. Se podrán agregar una o muchas traducciones dependiendo de la selección.';    
-
-    $Self->{Translation}->{'Edit'} = 'Editar';
-    $Self->{Translation}->{'Restore'} = 'Restaurar';
-    $Self->{Translation}->{'Show deleted articles'} = 'Mostrar artículos borrados';
-    $Self->{Translation}->{'Hide deleted articles'} = 'Ocultar artículos borrados';
-    $Self->{Translation}->{'Are you sure you want to delete this article?'} = 'Está seguro(a) de borrar el artículo?';
-    $Self->{Translation}->{'Article Delete'} = 'Borrar Artículo';
-    $Self->{Translation}->{'Article deleted successfully!'} = 'Artículo borrado exitosamente!';
-    $Self->{Translation}->{'Information'} = 'Información';
-    $Self->{Translation}->{'Article Restore'} = 'Restaurar Artículo';
-    $Self->{Translation}->{'Are you sure you want to restore this article?'} = 'Está seguro(a) de restaurar el artículo?';
-    $Self->{Translation}->{'Article restored successfully!'} = 'Artículo restaurado exitosamente!';
-    $Self->{Translation}->{'Edit Article "%s" of %s%s%s'} = 'Editar Artículo "%s" de %s%s%s';
-    $Self->{Translation}->{'Viewing Article Version#%s of current Article: #%s %s'} = 'Visualizando Versión#%s del Artículo actual: #%s %s';
-    $Self->{Translation}->{'Article Edited'} = 'Artículo Editado';
-    $Self->{Translation}->{'The article was edited'} = 'El artículo fue editado';
-
-    $Self->{Translation}->{'Languages'} = 'Lenguajes';
-    $Self->{Translation}->{'Translations'} = 'Traducciones';
-    $Self->{Translation}->{'Translation'} = 'Traducción';
-    $Self->{Translation}->{'Create and manage custom translations.'} = 'Crear y gestionar traducciones personalizadas.';
-    $Self->{Translation}->{'Translation Management'} = 'Administración de Traducciones';
-    $Self->{Translation}->{'Add Translations'} = 'Añadir Traducciones';
-    $Self->{Translation}->{'Edit Translations'} = 'Editar Traducciones';
-    $Self->{Translation}->{'Deploy Translations'} = 'Desplegar Traducciones';
-    $Self->{Translation}->{'Filter for Active Translations'} = 'Filtrar Traducciones Desplegadas';
-    $Self->{Translation}->{'Filter Content'} = 'Filtrar Contenido';
-    $Self->{Translation}->{'Active Translations'} = 'Traducciones Desplegadas';
-    $Self->{Translation}->{'Draft Translations'} = 'Traducciones Preliminares';
-    $Self->{Translation}->{'Translation States'} = 'Estados de Traducciones';
-    $Self->{Translation}->{'New Translation'} = 'Nueva Traducción';
-    $Self->{Translation}->{'Editing Translation'} = 'Cambio en Traducción';
-    $Self->{Translation}->{'Deployed Translation'} = 'Traducción Desplegada';
-    $Self->{Translation}->{'Marked for Deletion'} = 'Marcada para borrar';
-    $Self->{Translation}->{'Translation Marked for Deletion'} = 'Traducción marcada para borrar';
-    $Self->{Translation}->{'Delete Translation'} = 'Borrar traducción';
-    $Self->{Translation}->{'Undo Delete Translation'} = 'Deshacer borrar traducción';
-    $Self->{Translation}->{'Translation unmarked for deletion!'} = 'Traducción descmarcada para borrar!';
-    $Self->{Translation}->{'Translation marked for deletion!'} = 'Traducción marcada para borrar!';
-    $Self->{Translation}->{'Draft translation deleted!'} = 'Traducción preliminar borrada!';
-    $Self->{Translation}->{'Translation is already in the draft translations table!'} = 'La traducción se encuentra en la tabla de traducciones preliminares!';
-    $Self->{Translation}->{'Error trying to mark translation for deletion!'} = 'Error al intentar marcar la traducción para borrarla!';
-    $Self->{Translation}->{'Error trying to delete draft translation!'} = 'Error al intentar borrar la traducción preliminar!';
-    $Self->{Translation}->{'Error trying unmark translation for delete!'} = 'Error al intentar desmarcar para borrar la traducción!';
-    $Self->{Translation}->{'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.'} = 
-    'Los cambios realizados aquí solo afectarán el comportamiento del sistema, una vez que se realice el despliegue de las traducciones.';
-    $Self->{Translation}->{'List custom translations for'} = 'Mostrando traducciones personalizadas para';
-
-    $Self->{Translation}->{'Dynamic Field Labels'} = 'Campos Dinámicos (Etiquetas)';
-    $Self->{Translation}->{'Dynamic Field Contents'} = 'Campos Dinámicos (Valores)';
-    $Self->{Translation}->{'General Label'} = 'Etiquetas Generales';
-    $Self->{Translation}->{'Priorities'} = 'Prioridades';
-    $Self->{Translation}->{'Queues'} = 'Colas';
-    $Self->{Translation}->{'Services'} = 'Servicios';
-    $Self->{Translation}->{'SLAs'} = 'Acuerdos de Niveles de Servicio';
-    $Self->{Translation}->{'Template Names'} = 'Nombre de Plantillas';
-    $Self->{Translation}->{'Ticket States'} = 'Estados de Tickets';
-    $Self->{Translation}->{'Ticket Types'} = 'Tipos de Tickets';
-    $Self->{Translation}->{'- List all possible values from all Dynamic Fields -'} = '- Mostrar todos los valores de todos los campos dinámicos -';
-    $Self->{Translation}->{'- List all possible labels from all Dynamic Fields -'} = '- Mostrar todas las etiquetas de todos los campos dinámicos -';
-    $Self->{Translation}->{'Translations added!'} = 'Traducciones agregadas!';
-    $Self->{Translation}->{'No translations were given to add!'} = 'No se ingresó el valor de nuevas traducciones!';
-    $Self->{Translation}->{'No content available to translate.'} = 'No hay contenido disponible para traducir.';
-    $Self->{Translation}->{'Translation already exists!'} = 'La traducción ya existe!';
-    $Self->{Translation}->{'All Translations'} = 'Todas las traducciones';
-    $Self->{Translation}->{'Target Language'} = 'Lenguaje de Trabajo';
-    $Self->{Translation}->{'Overwrites OTOBO translation'} = 'Sobrescribe una traducción de OTOBO';
-
-    $Self->{Translation}->{'Missing Translations'} = 'Faltan datos';
-    $Self->{Translation}->{'At least one translation must be filled!'} = 'Al menos una de las traducciones de la tabla debe ser ingresada!';
-    $Self->{Translation}->{'All translations must be filled!'} = 'Todas las traducciones deben ser ingresadas!';
-    $Self->{Translation}->{'No translations were changed!'} = 'No se realizaron cambios en las traducciones!';
-    $Self->{Translation}->{'Translations changed!'} = 'Traducciones modificadas!';
-    $Self->{Translation}->{'Deployment Results'} = 'Resultados del Despliegue';
-    $Self->{Translation}->{'Translations deployed successfuly!'} = 'Traducciones desplegadas exitosamente!';
-    $Self->{Translation}->{'Nothing to do!'} = 'No hay traducciones para desplegar!';
-    $Self->{Translation}->{'Export Untranslated strings of'} = 'Exportar valores no traducidos de';
-    $Self->{Translation}->{'Errors ocurred when trying to deploy translation. Please check system logs!'} = 
-    'Ocurrio un error al desplegar las traducciones. Por favor revise el log del sistema!';    
-
-    $Self->{Translation}->{'Edit active translations using provided text fields!'} = 'Edite las traducciones utilizando los campos de texto en la pantalla!';
-
-    $Self->{Translation}->{'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.'} = 
-    'Seleccione un objeto de datos para comenzar a escribir las traducciones. Se podrán agregar una o muchas traducciones dependiendo de la selección.';    
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

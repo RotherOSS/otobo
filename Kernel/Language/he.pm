@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.210914010823812;
+    $Self->{Completeness}        = 0.210882308732902;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -590,8 +590,7 @@ sub Data {
         'Label' => 'תווית',
         'Order' => 'סדר',
         'Object' => 'אובייקט',
-        'Clone' => 'שכפל',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'מחק שדה זה',
 
         # Template: AdminDynamicFieldAdvanced
@@ -637,9 +636,6 @@ sub Data {
         'Field Settings' => 'הגדרות שדה',
         'Default value' => 'ערך ברירת מחדל',
         'This is the default value for this field.' => 'זהו ערך ברירת המחדל עבור שדה זה.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -702,6 +698,9 @@ sub Data {
         'Searchsuffix' => '',
         'Result Limit' => '',
         'Case Sensitive' => '',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'ברירת מחדל להפרש תאריך',
@@ -803,6 +802,11 @@ sub Data {
         'Add RegEx' => '',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1220,14 +1224,9 @@ sub Data {
         'Find next' => '',
         'Find previous' => '',
         'Find and replace' => '',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1430,6 +1429,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => '',
         'The name must be unique.' => '',
+        'Clone' => 'שכפל',
         'Export Web Service' => '',
         'Import web service' => 'ייבא Webservice',
         'Configuration File' => '',
@@ -5046,7 +5046,6 @@ sub Data {
         'Need CustomerID!' => '',
         'My Tickets' => 'Meine Tickets',
         'Company Tickets' => 'פניות של החברה',
-        'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => '',
@@ -5537,6 +5536,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9837,9 +9838,9 @@ Thanks for your help!
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
@@ -9946,8 +9947,6 @@ Thanks for your help!
         'stats' => '',
 
     };
-
-    $Self->{Translation}->{'Add template'} = 'הוסף תבנית';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

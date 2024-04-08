@@ -1139,7 +1139,7 @@ msgstr "Módulo"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Information"
-msgstr ""
+msgstr "Información"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "No log entries found."
@@ -4021,7 +4021,7 @@ msgstr ""
 msgid "The name must be unique."
 msgstr "El nombre debería ser único"
 
-#. Template: AdminDynamicField
+#. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
 msgstr "Clonar"
 
@@ -6603,7 +6603,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Restore"
-msgstr ""
+msgstr "Restaurar"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "View Details"
@@ -25663,11 +25663,11 @@ msgstr ""
 msgid "This is the namespace in which this field will be used as prefix with the name."
 msgstr ""
 
-#. Template: AdminDynamicFieldCheckbox
+#. Template: AdminDynamicFieldDB
 msgid "Multiple Values"
 msgstr ""
 
-#. Template: AdminDynamicFieldCheckbox
+#. Template: AdminDynamicFieldDB
 msgid "Activate this option to allow multiple values for this field."
 msgstr ""
 
@@ -25767,7 +25767,7 @@ msgstr ""
 msgid "Autocomplete"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Full Screen"
 msgstr ""
 
@@ -25775,19 +25775,19 @@ msgstr ""
 msgid "Exit full screen"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Auto Indent Code"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Comment/Uncomment Code"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Search & Replace"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Select All"
 msgstr ""
 
@@ -25929,59 +25929,59 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Translation Management"
-msgstr ""
+msgstr "Administración de Traducciones"
 
 #. Template: AdminTranslations
 msgid "Add Translations"
-msgstr ""
+msgstr "Añadir Traducciones"
 
 #. Template: AdminTranslations
 msgid "Edit Translations"
-msgstr ""
+msgstr "Editar Traducciones"
 
 #. Template: AdminTranslations
 msgid "Deploy Translations"
-msgstr ""
+msgstr "Desplegar Traducciones"
 
 #. Template: AdminTranslations
 msgid "Translation States"
-msgstr ""
+msgstr "Estados de Traducciones"
 
 #. Template: AdminTranslations
 msgid "New Translation"
-msgstr ""
+msgstr "Nueva Traducción"
 
 #. Template: AdminTranslations
 msgid "Editing Translation"
-msgstr ""
+msgstr "Cambio en Traducción"
 
 #. Template: AdminTranslations
 msgid "Translation Marked for Deletion"
-msgstr ""
+msgstr "Traducción marcada para borrar"
 
 #. Template: AdminTranslations
 msgid "Deployed Translation"
-msgstr ""
+msgstr "Traducción Desplegada"
 
 #. Template: AdminTranslations
 msgid "Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files."
-msgstr ""
+msgstr "Los cambios realizados aquí solo afectarán el comportamiento del sistema, una vez que se realice el despliegue de las traducciones."
 
 #. Template: AdminTranslations
 msgid "Select an object to start adding translations. Depending on your selection, single or multiple translations can be added."
-msgstr ""
+msgstr "Seleccione un objeto de datos para comenzar a escribir las traducciones. Se podrán agregar una o muchas traducciones dependiendo de la selección."
 
 #. Template: AdminTranslations
 msgid "Edit active translations using provided text fields!"
-msgstr ""
+msgstr "Edite las traducciones utilizando los campos de texto en la pantalla!"
 
 #. Template: AdminTranslations
 msgid "List custom translations for"
-msgstr ""
+msgstr "Mostrando traducciones personalizadas para"
 
 #. Template: AdminTranslations
 msgid "Draft Translations"
-msgstr ""
+msgstr "Traducciones Preliminares"
 
 #. Template: AdminTranslations
 msgid "Filter for Draft Translations"
@@ -25989,19 +25989,19 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Active Translations"
-msgstr ""
+msgstr "Traducciones Desplegadas"
 
 #. Template: AdminTranslations
 msgid "Filter for Active Translations"
-msgstr ""
+msgstr "Filtrar Traducciones Desplegadas"
 
 #. Template: AdminTranslations
 msgid "Translation"
-msgstr ""
+msgstr "Traducción"
 
 #. Template: AdminTranslations
 msgid "Marked for Deletion"
-msgstr ""
+msgstr "Marcada para borrar"
 
 #. Template: AdminTranslations
 msgid "Edit Translation"
@@ -26009,19 +26009,19 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Overwrites OTOBO translation"
-msgstr ""
+msgstr "Sobrescribe una traducción de OTOBO"
 
 #. Template: AdminTranslations
 msgid "Undo Delete Translation"
-msgstr ""
+msgstr "Deshacer borrar traducción"
 
 #. Template: AdminTranslations
 msgid "Delete Translation"
-msgstr ""
+msgstr "Borrar traducción"
 
 #. Template: AdminTranslations
 msgid "Translations"
-msgstr ""
+msgstr "Traducciones"
 
 #. Template: AdminType
 msgid "Include invalid types"
@@ -26033,23 +26033,23 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Edit Article \"%s\" of %s%s%s"
-msgstr ""
+msgstr "Editar Artículo \"%s\" de %s%s%s"
 
 #. Template: AgentTicketArticleVersionView
 msgid "Viewing Article Version#%s of current Article: #%s %s"
-msgstr ""
+msgstr "Visualizando Versión#%s del Artículo actual: #%s %s"
 
 #. Template: AgentTicketZoom
 msgid "Article Edited"
-msgstr ""
+msgstr "Artículo Editado"
 
 #. Template: AgentTicketZoom
 msgid "The article was edited"
-msgstr ""
+msgstr "El artículo fue editado"
 
 #. Template: TranslationsTable
 msgid "Filter Content"
-msgstr ""
+msgstr "Filtrar Contenido"
 
 #. Template: TranslationsTable
 msgid "Filter for Translations"
@@ -26057,7 +26057,7 @@ msgstr ""
 
 #. Template: TranslationsTable
 msgid "No content available to translate."
-msgstr ""
+msgstr "No hay contenido disponible para traducir."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Manager"
@@ -26209,19 +26209,19 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translation unmarked for deletion!"
-msgstr ""
+msgstr "Traducción descmarcada para borrar!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Error trying unmark translation for delete!"
-msgstr ""
+msgstr "Error al intentar desmarcar para borrar la traducción!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations changed!"
-msgstr ""
+msgstr "Traducciones modificadas!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "No translations were changed!"
-msgstr ""
+msgstr "No se realizaron cambios en las traducciones!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Errors trying to change translations!"
@@ -26229,27 +26229,27 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations added!"
-msgstr ""
+msgstr "Traducciones agregadas!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "No translations were given to add!"
-msgstr ""
+msgstr "No se ingresó el valor de nuevas traducciones!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translation already exists!"
-msgstr ""
+msgstr "La traducción ya existe!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations deployed successfuly!"
-msgstr ""
+msgstr "Traducciones desplegadas exitosamente!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Nothing to do!"
-msgstr ""
+msgstr "No hay traducciones para desplegar!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Errors ocurred when trying to deploy translation. Please check system logs!"
-msgstr ""
+msgstr "Ocurrio un error al desplegar las traducciones. Por favor revise el log del sistema!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "All Items"
@@ -26257,7 +26257,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Deployment Results"
-msgstr ""
+msgstr "Resultados del Despliegue"
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
 msgid "Can't set this Ticket option, no TicketID is given!"
@@ -26289,7 +26289,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Hide deleted articles"
-msgstr ""
+msgstr "Ocultar artículos borrados"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Click to hide deleted articles"
@@ -26297,7 +26297,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Show deleted articles"
-msgstr ""
+msgstr "Mostrar artículos borrados"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Click to show deleted articles"
@@ -26385,27 +26385,27 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "Missing Translations"
-msgstr ""
+msgstr "Faltan datos"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "At least one translation must be filled!"
-msgstr ""
+msgstr "Al menos una de las traducciones de la tabla debe ser ingresada!"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "All translations must be filled!"
-msgstr ""
+msgstr "Todas las traducciones deben ser ingresadas!"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article Delete"
-msgstr ""
+msgstr "Borrar Artículo"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Are you sure you want to delete this article?"
-msgstr ""
+msgstr "Está seguro(a) de borrar el artículo?"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article deleted successfully!"
-msgstr ""
+msgstr "Artículo borrado exitosamente!"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article already marked as deleted."
@@ -26413,15 +26413,15 @@ msgstr ""
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article Restore"
-msgstr ""
+msgstr "Restaurar Artículo"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Are you sure you want to restore this article?"
-msgstr ""
+msgstr "Está seguro(a) de restaurar el artículo?"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article restored successfully!"
-msgstr ""
+msgstr "Artículo restaurado exitosamente!"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article not available for restoring."
@@ -26465,7 +26465,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create and manage custom translations."
-msgstr ""
+msgstr "Crear y gestionar traducciones personalizadas."
 
 #. SysConfig
 msgid "Customer Reference Dynamic Field With Data Search"
@@ -26577,7 +26577,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic Field Contents"
-msgstr ""
+msgstr "Campos Dinámicos (Valores)"
 
 #. SysConfig
 msgid "Dynamic Field Information"
@@ -26585,7 +26585,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic Field Labels"
-msgstr ""
+msgstr "Campos Dinámicos (Etiquetas)"
 
 #. SysConfig
 msgid "Dynamic Field Set"
@@ -26633,7 +26633,7 @@ msgstr ""
 
 #. SysConfig
 msgid "General Label"
-msgstr ""
+msgstr "Etiquetas Generales"
 
 #. SysConfig
 msgid "If activated, a clicked activity button will be hidden in the customer ticket zoom frontend."
@@ -26641,7 +26641,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Languages"
-msgstr ""
+msgstr "Lenguajes"
 
 #. SysConfig
 msgid "Lax"
@@ -26713,7 +26713,7 @@ msgstr ""
 
 #. SysConfig
 msgid "SLAs"
-msgstr ""
+msgstr "Acuerdos de Niveles de Servicio"
 
 #. SysConfig
 msgid "Script (Template Toolkit)"
@@ -26761,11 +26761,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket States"
-msgstr ""
+msgstr "Estados de Tickets"
 
 #. SysConfig
 msgid "Ticket Types"
-msgstr ""
+msgstr "Tipos de Tickets"
 
 #. SysConfig
 msgid "Ticket state pre-selection for response templates"
@@ -26789,5 +26789,25 @@ msgstr ""
 
 #. SysConfig
 msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0."
+msgstr ""
+
+#. Template: AdminDynamicField
+msgid "Copy this field"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Queue of the ticket"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Select the queue of the ticket"
+msgstr ""
+
+#. SysConfig
+msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed."
+msgstr ""
+
+#. SysConfig
+msgid "Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed."
 msgstr ""
 

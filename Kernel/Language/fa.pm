@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.595610342754059;
+    $Self->{Completeness}        = 0.595370509544566;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -589,8 +589,7 @@ sub Data {
         'Label' => 'برچسب',
         'Order' => 'ترتیب',
         'Object' => 'مورد',
-        'Clone' => 'کلون',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'حذف این قسمت',
 
         # Template: AdminDynamicFieldAdvanced
@@ -636,9 +635,6 @@ sub Data {
         'Field Settings' => 'تنظیمات درست',
         'Default value' => 'مقدار پیش‌فرض',
         'This is the default value for this field.' => 'این مقدار پیش فرض برای این رشته است.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -701,6 +697,9 @@ sub Data {
         'Searchsuffix' => '',
         'Result Limit' => '',
         'Case Sensitive' => '',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'تفاوت تاریخ به طور پیش فرض',
@@ -802,6 +801,11 @@ sub Data {
         'Add RegEx' => 'اضافه کردن عبارت منظم',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1219,14 +1223,9 @@ sub Data {
         'Find next' => '',
         'Find previous' => '',
         'Find and replace' => '',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1429,6 +1428,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => '',
         'The name must be unique.' => 'این نام باید منحصر به فرد باشد.',
+        'Clone' => 'کلون',
         'Export Web Service' => '',
         'Import web service' => 'وب سرویس واردات',
         'Configuration File' => 'فایل پیکربندی',
@@ -5045,7 +5045,6 @@ sub Data {
         'Need CustomerID!' => 'نیاز CustomerID!',
         'My Tickets' => 'درخواست‌های من',
         'Company Tickets' => 'درخواست‌های سازمانی/شرکتی',
-        'Untitled!' => 's',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'نام واقعی مشترک',
@@ -5536,6 +5535,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9847,9 +9848,9 @@ Thanks for your help!
             'نمایش پستی از لیست FeatureAddons OTOBO در سامانه مدیریت بسته.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'مورد نوار ابزار برای یک میانبر. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود.',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
@@ -9956,77 +9957,6 @@ Thanks for your help!
         'stats' => '',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'مدیریت ورود/صدور';
-    $Self->{Translation}->{'Add template'} = 'اضافه کردن قالب';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'ساخت قالبی برای ورود و صدور اطلاعات آبجکت';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '';
-    $Self->{Translation}->{'Start Import'} = 'شروع عملیات ورود';
-    $Self->{Translation}->{'Start Export'} = 'شروع عملیات صدور';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = '';
-    $Self->{Translation}->{'Name is required!'} = '';
-    $Self->{Translation}->{'Object is required!'} = 'آبجکت مورد نیاز است!';
-    $Self->{Translation}->{'Format is required!'} = 'قالب‌بندی مورد نیاز است!';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = '';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = '';
-    $Self->{Translation}->{'is required!'} = '';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = '';
-    $Self->{Translation}->{'No map elements found.'} = 'هیچ عنصر نگاشتی یافت نشد.';
-    $Self->{Translation}->{'Add Mapping Element'} = 'افزودن عنصر نگاشت';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = '';
-    $Self->{Translation}->{'Restrict export per search'} = 'محدودسازی عملیات صدور به ازای جستجو';
-    $Self->{Translation}->{'Import information'} = 'ورود اطلاعات';
-    $Self->{Translation}->{'Source File'} = 'فایل منبع';
-    $Self->{Translation}->{'Import summary for %s'} = '';
-    $Self->{Translation}->{'Records'} = '';
-    $Self->{Translation}->{'Success'} = '';
-    $Self->{Translation}->{'Duplicate names'} = '';
-    $Self->{Translation}->{'Last processed line number of import file'} = '';
-    $Self->{Translation}->{'Ok'} = 'تایید';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = '';
-    $Self->{Translation}->{'No format backend found!'} = '';
-    $Self->{Translation}->{'Template not found!'} = '';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = '';
-    $Self->{Translation}->{'Needed TemplateID!'} = '';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = '';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = '';
-    $Self->{Translation}->{'Template List'} = '';
-    $Self->{Translation}->{'number'} = '';
-    $Self->{Translation}->{'number bigger than zero'} = '';
-    $Self->{Translation}->{'integer'} = '';
-    $Self->{Translation}->{'integer bigger than zero'} = '';
-    $Self->{Translation}->{'Element required, please insert data'} = '';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = '';
-    $Self->{Translation}->{'Format not found!'} = '';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'جداکننده ستون‌ها';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'جدول ساز (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'سمی کالن (;)';
-    $Self->{Translation}->{'Colon (:)'} = 'دونقطه (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'نقطه (.)';
-    $Self->{Translation}->{'Comma (,)'} = '';
-    $Self->{Translation}->{'Charset'} = 'کدبندی اطلاعات';
-    $Self->{Translation}->{'Include Column Headers'} = '';
-    $Self->{Translation}->{'Column'} = 'ستون';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        'قالب‌بندی ثبت ماژول برای ماژول ورود/صدور';
-    $Self->{Translation}->{'Import and export object information.'} = 'ورود و صدور اطلاعات آبجکت';
-    $Self->{Translation}->{'Import/Export'} = 'ورود/صدور';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

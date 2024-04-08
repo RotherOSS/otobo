@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.86049308478653;
+    $Self->{Completeness}        = 0.860213437546971;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -584,8 +584,7 @@ sub Data {
         'Label' => 'Ознака',
         'Order' => 'Сортирање',
         'Object' => 'Објекат',
-        'Clone' => 'Клонирај',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'Обриши ово поље',
 
         # Template: AdminDynamicFieldAdvanced
@@ -631,9 +630,6 @@ sub Data {
         'Field Settings' => 'Подешавање поља',
         'Default value' => 'Подразумевана вредност',
         'This is the default value for this field.' => 'Ово је подразумевана вредност за ово поље.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -696,6 +692,9 @@ sub Data {
         'Searchsuffix' => '',
         'Result Limit' => '',
         'Case Sensitive' => '',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Подразумевана разлика датума',
@@ -797,6 +796,11 @@ sub Data {
         'Add RegEx' => 'Додај регуларни израз',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1214,14 +1218,9 @@ sub Data {
         'Find next' => 'Пронађи следеће',
         'Find previous' => 'Пронађи претходно',
         'Find and replace' => 'Пронађи и замени',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => 'XSLT мапирање',
         'XSLT stylesheet' => 'XSLT опис стилова',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => 'Унети подаци нису исправан XSLT опис стилова.',
         'Here you can add or modify your XSLT mapping code.' => 'Овде може додати и изменити код XSLT мапирања.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1424,6 +1423,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => 'Клонирај веб сервис',
         'The name must be unique.' => 'Назив мора бити јединствен.',
+        'Clone' => 'Клонирај',
         'Export Web Service' => 'Извези веб сервис',
         'Import web service' => 'Увези веб сервис',
         'Configuration File' => 'Конфигурациона датотека',
@@ -5040,7 +5040,6 @@ sub Data {
         'Need CustomerID!' => 'Неопходан CustomerID!',
         'My Tickets' => 'Моји тикети',
         'Company Tickets' => 'Тикети фирми',
-        'Untitled!' => 'Нема наслов!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'Право име клијента',
@@ -5531,6 +5530,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9842,9 +9843,9 @@ Thanks for your help!
             'Искључује/укључује приказ листе пакета за проширење могућности у екрану за управљање пакетима.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Ставка алатне линије за пречицу. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Избор транспорта за обавештења о термину. Напомена: подешавање \'Active\' на 0 ће само онемогућити оператерима да мењају своја лична подешавања из ове групе, али ће администратори и даље моћи да их мењају у њихово име. Подесите \'PreferenceGroup\' да бисте одредили у ком делу интерфејса ова подешавања треба да буду приказана.',
@@ -9951,77 +9952,6 @@ Thanks for your help!
         'stats' => 'статистика',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'Увоз/Извоз управљање';
-    $Self->{Translation}->{'Add template'} = 'Додај шаблон';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'Креирај шаблон за увоз и извоз информација о објекту.';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        'За коришћење овог модула, морате инсталирати ITSMConfigurationManagement или неки други пакет који обезбеђује позадинске модуле за ентитете увоза и извоза.';
-    $Self->{Translation}->{'Start Import'} = 'Почни увоз';
-    $Self->{Translation}->{'Start Export'} = 'Почни извоз';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Корак 1 од 5 - Уреди заједничке информације';
-    $Self->{Translation}->{'Name is required!'} = 'Име је обавезно!';
-    $Self->{Translation}->{'Object is required!'} = 'Објект је обавезан!';
-    $Self->{Translation}->{'Format is required!'} = 'Формат је обавезан!';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = 'Корак 2 од 5 - Уреди информације о објекту';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = 'Корак 3 од 5 - Уреди информације о формату';
-    $Self->{Translation}->{'is required!'} = 'је обавезно!';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = 'Корак 4 од 5 - Уреди информације о мапирању';
-    $Self->{Translation}->{'No map elements found.'} = 'Ниједан елемент мапе није пронађен.';
-    $Self->{Translation}->{'Add Mapping Element'} = 'Додај елемент за мапирање';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = 'Корак 5 од 5 - Уреди информације за претрагу';
-    $Self->{Translation}->{'Restrict export per search'} = 'Ограничење извоза по претрази';
-    $Self->{Translation}->{'Import information'} = 'Увоз информација';
-    $Self->{Translation}->{'Source File'} = 'Изворна датотека';
-    $Self->{Translation}->{'Import summary for %s'} = 'Резиме увоза за %s';
-    $Self->{Translation}->{'Records'} = 'Записи';
-    $Self->{Translation}->{'Success'} = 'Успешно';
-    $Self->{Translation}->{'Duplicate names'} = 'Дупликат имена';
-    $Self->{Translation}->{'Last processed line number of import file'} = 'Број последње обрађене линије увезене датотеке';
-    $Self->{Translation}->{'Ok'} = 'У реду';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = 'Да ли стварно желите да обришете овај шаблон?';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = 'Није пронађен позадински модул објекта!';
-    $Self->{Translation}->{'No format backend found!'} = 'Није пронађен позадински модул формата!';
-    $Self->{Translation}->{'Template not found!'} = 'Шаблон није пронађен!';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = 'Шаблон се не може унети/ажурирати!';
-    $Self->{Translation}->{'Needed TemplateID!'} = 'Потребан ИД шаблона!';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = 'Догодила се грешка. Увоз је немогућ! За детаље погледајте у системски дневник.';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = 'Догодила се грешка. Извоз је немогућ! За детаље погледајте у системски дневник.';
-    $Self->{Translation}->{'Template List'} = 'Листа шаблона';
-    $Self->{Translation}->{'number'} = 'број';
-    $Self->{Translation}->{'number bigger than zero'} = 'број већи од нула';
-    $Self->{Translation}->{'integer'} = 'цео број';
-    $Self->{Translation}->{'integer bigger than zero'} = 'цео број већи од нула';
-    $Self->{Translation}->{'Element required, please insert data'} = 'Неопходан елемент, молимо унесите податке';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = 'Неисправни подаци, унесете важећи %s';
-    $Self->{Translation}->{'Format not found!'} = 'Формат није пронађен!';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'Сепаратор колона';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Табулатор (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'Тачка и запета (;)';
-    $Self->{Translation}->{'Colon (:)'} = 'Двотачка (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'Тачка (.)';
-    $Self->{Translation}->{'Comma (,)'} = 'Зарез (,)';
-    $Self->{Translation}->{'Charset'} = 'Карактерсет';
-    $Self->{Translation}->{'Include Column Headers'} = 'Укључи наслове колона';
-    $Self->{Translation}->{'Column'} = 'Колона';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = 'Брисање шаблона...';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        'Грешка приликом брисања шаблона. Молимо проверите лог датотеку за више информација.';
-    $Self->{Translation}->{'Template was deleted successfully.'} = 'Шаблон је успешно обрисан.';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        'Формат регистрације „backend” модула за увоз/извоз модул.';
-    $Self->{Translation}->{'Import and export object information.'} = 'Информације о увозу и извозу објеката';
-    $Self->{Translation}->{'Import/Export'} = 'Увоз/Извоз';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

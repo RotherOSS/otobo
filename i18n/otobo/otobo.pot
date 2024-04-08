@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-03-15 13:16+0000\n"
+"POT-Creation-Date: 2024-04-08 15:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1711,11 +1711,7 @@ msgid "Object"
 msgstr ""
 
 #. Template: AdminDynamicField
-msgid "Clone"
-msgstr ""
-
-#. Template: AdminDynamicField
-msgid "Clone from this field"
+msgid "Copy this field"
 msgstr ""
 
 #. Template: AdminDynamicField
@@ -1836,14 +1832,6 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the default value for this field."
-msgstr ""
-
-#. Template: AdminDynamicFieldCheckbox
-msgid "Multiple Values"
-msgstr ""
-
-#. Template: AdminDynamicFieldCheckbox
-msgid "Activate this option to allow multiple values for this field."
 msgstr ""
 
 #. Template: AdminDynamicFieldContactWD
@@ -2036,6 +2024,14 @@ msgstr ""
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
+msgstr ""
+
+#. Template: AdminDynamicFieldDB
+msgid "Multiple Values"
+msgstr ""
+
+#. Template: AdminDynamicFieldDB
+msgid "Activate this option to allow multiple values for this field."
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
@@ -2320,6 +2316,26 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScript
 msgid "Add RegEx"
+msgstr ""
+
+#. Template: AdminDynamicFieldSet
+msgid "Auto Indent Code"
+msgstr ""
+
+#. Template: AdminDynamicFieldSet
+msgid "Comment/Uncomment Code"
+msgstr ""
+
+#. Template: AdminDynamicFieldSet
+msgid "Search & Replace"
+msgstr ""
+
+#. Template: AdminDynamicFieldSet
+msgid "Select All"
+msgstr ""
+
+#. Template: AdminDynamicFieldSet
+msgid "Full Screen"
 msgstr ""
 
 #. Template: AdminDynamicFieldSet
@@ -3619,10 +3635,6 @@ msgid "Find and replace"
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
-msgid "Full Screen"
-msgstr ""
-
-#. Template: AdminGenericInterfaceMappingXSLT
 msgid "Exit full screen"
 msgstr ""
 
@@ -3632,22 +3644,6 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT stylesheet"
-msgstr ""
-
-#. Template: AdminGenericInterfaceMappingXSLT
-msgid "Auto Indent Code"
-msgstr ""
-
-#. Template: AdminGenericInterfaceMappingXSLT
-msgid "Comment/Uncomment Code"
-msgstr ""
-
-#. Template: AdminGenericInterfaceMappingXSLT
-msgid "Search & Replace"
-msgstr ""
-
-#. Template: AdminGenericInterfaceMappingXSLT
-msgid "Select All"
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
@@ -4248,6 +4244,10 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Clone"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -14454,10 +14454,6 @@ msgstr ""
 msgid "Company Tickets"
 msgstr ""
 
-#. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
-msgid "Untitled!"
-msgstr ""
-
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid "Customer Realname"
 msgstr ""
@@ -15564,6 +15560,14 @@ msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
 msgid "Full %s Text"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Queue of the ticket"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Select the queue of the ticket"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
@@ -26330,11 +26334,11 @@ msgid "Toolbar Item for a shortcut. Additional access control to show or not sho
 msgstr ""
 
 #. SysConfig
-msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed."
+msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed."
 msgstr ""
 
 #. SysConfig
-msgid "Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed."
+msgid "Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed."
 msgstr ""
 
 #. SysConfig

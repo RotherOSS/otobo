@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.953096812988575;
+    $Self->{Completeness}        = 0.969036524875996;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -43,8 +43,8 @@ sub Data {
 
         # Template: AdminACL
         'ACL Management' => 'ACL-Verwaltung',
-        'Filter by valid state' => '',
-        'Include invalid ACLs' => '',
+        'Filter by valid state' => 'Nach gültigem Status filtern',
+        'Include invalid ACLs' => 'Ungültige ACLs einschließen',
         'Actions' => 'Aktionen',
         'Create New ACL' => 'Neue ACL erstellen',
         'Deploy ACLs' => 'ACLs in Betrieb nehmen',
@@ -121,7 +121,7 @@ sub Data {
         'Calendar Management' => 'Kalenderverwaltung',
         'Add Calendar' => 'Kalender hinzufügen',
         'Edit Calendar' => 'Kalender bearbeiten',
-        'Include invalid calendars' => '',
+        'Include invalid calendars' => 'Ungültige Kalender einschließen',
         'Calendar Overview' => 'Kalenderübersicht',
         'Add new Calendar' => 'Einen neuen Kalender hinzufügen',
         'Import Appointments' => 'Termine importieren',
@@ -190,8 +190,8 @@ sub Data {
         'Appointment Notification Management' => 'Verwaltung von Terminbenachrichtigungen',
         'Add Notification' => 'Benachrichtigung hinzufügen',
         'Edit Notification' => 'Benachrichtigung bearbeiten',
-        'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
+        'Include invalid appointment notifications' => 'Ungültige Terminbenachrichtigungen einschließen',
+        'Include invalid appoitnment notifications' => 'Ungültige Terminbenachrichtigungen einschließen',
         'Export Notifications' => 'Benachrichtigungen exportieren',
         'Filter for Notifications' => 'Filter für Benachrichtigungen',
         'Filter for notifications' => 'Filter für Benachrichtigungen',
@@ -276,7 +276,7 @@ sub Data {
         'Attachment Management' => 'Verwaltung von Anhängen',
         'Add Attachment' => 'Anhang hinzufügen',
         'Edit Attachment' => 'Anhang bearbeiten',
-        'Include invalid attachments' => '',
+        'Include invalid attachments' => 'Ungültige Anhänge einschließen',
         'Filter for Attachments' => 'Filter für Anhänge',
         'Filter for attachments' => 'Filter für Anhänge',
         'Filename' => 'Dateiname',
@@ -289,7 +289,7 @@ sub Data {
         'Auto Response Management' => 'Verwaltung automatischer Antworten',
         'Add Auto Response' => 'Automatische Antwort hinzufügen',
         'Edit Auto Response' => 'Automatische Antwort bearbeiten',
-        'Include invalid auto responses' => '',
+        'Include invalid auto responses' => 'Ungültige Automatische Antworten einschließen',
         'Filter for Auto Responses' => 'Filter für automatische Antworten',
         'Filter for auto responses' => 'Filter für automatische Antworten',
         'Response' => 'Antwort',
@@ -432,7 +432,7 @@ sub Data {
         'Customer Management' => 'Kundenverwaltung',
         'Add Customer' => 'Kunde hinzufügen',
         'Edit Customer' => 'Kunde bearbeiten',
-        'Include invalid customer companies' => '',
+        'Include invalid customer companies' => 'Ungültige Kundenunternehmen einschließen',
         'List (only %s shown - more available)' => 'Liste (nur %s angezeigt - mehr verfügbar)',
         'total' => 'gesamt',
         'Please enter a search term to look for customers.' => 'Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen.',
@@ -441,25 +441,25 @@ sub Data {
         'This customer backend is read only!' => 'Dieses Kunden-Backend kann nicht bearbeitet werden!',
 
         # Template: AdminCustomerDashboardInfoTile
-        'Customer Info' => '',
-        'Customer Info Management' => '',
-        'Create new info tile entry' => '',
-        'Filter for info tile entries' => '',
+        'Customer Info' => 'Kundeninformationen',
+        'Customer Info Management' => 'Kundendatenverwaltung',
+        'Create new info tile entry' => 'Neuen Infokachel-Eintrag erstellen',
+        'Filter for info tile entries' => 'Nach Infokachel-Einträgen filtern',
         'Create a new entry to be displayed on the info tile on the customer dashboard.' =>
-            '',
+            'Neuen Benachrichtigungstext für die Infokachel im Kundenbereich festlegen.',
         'Stop date' => 'Endzeitpunkt',
-        'Delete info tile entry' => '',
+        'Delete info tile entry' => 'Text Infokachel löschen',
 
         # Template: AdminCustomerDashboardInfoTileEdit
-        'Edit customer dashboard info tile entry' => '',
+        'Edit customer dashboard info tile entry' => 'Bearbeiten des Benachrichtigungstexts für die Infokachel im Kundenbereich',
         'Date invalid!' => 'Ungültiges Datum!',
-        'Tile content' => '',
-        'Content Body' => '',
-        'Marquee content' => '',
-        'Group Selection' => '',
+        'Tile content' => 'Kachelinhalt',
+        'Content Body' => 'Text Infokachel',
+        'Marquee content' => 'Lauftext',
+        'Group Selection' => 'Gruppenauswahl',
 
         # Template: AdminCustomerDashboardInfoTileNew
-        'Create new customer dashboard info tile entry' => '',
+        'Create new customer dashboard info tile entry' => 'Neuen Eintrag für die Infokachel im Kundenbereich erstellen',
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => 'Kunden-Gruppen-Zuordnungen verwalten',
@@ -495,7 +495,7 @@ sub Data {
         'Customer User Management' => 'Kundenbenutzer-Verwaltung',
         'Add Customer User' => 'Kundenbenutzer hinzufügen',
         'Edit Customer User' => 'Kundenbenutzer bearbeiten',
-        'Include invalid customer users' => '',
+        'Include invalid customer users' => 'Ungültige Kundenbenutzer einschließen',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'Kundenbenutzer werden für die Bereitstellung einer Kundenhistorie und für die Anmeldung über den Kundenzugang benötigt.',
         'List (%s total)' => 'Liste (%s insgesamt)',
@@ -560,11 +560,11 @@ sub Data {
 
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Verwaltung Dynamischer Felder',
-        'Include invalid dynamic fields' => '',
+        'Include invalid dynamic fields' => 'Ungültige dynamische Felder einschließen',
         'Filter for Dynamic Fields' => 'Filter für Dynamische Felder',
         'Filter for dynamic fields' => 'Filter für Dynamische Felder',
-        'Filter field by object type' => '',
-        'Filter field by namespace' => '',
+        'Filter field by object type' => 'Feld nach Objekttyp filtern',
+        'Filter field by namespace' => 'Feld nach Namespace filtern',
         'Add new field for object' => 'Neues Feld hinzufügen für Objekt',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             'Um ein neues Feld hinzuzufügen, wählen Sie den Typ des Feldes aus der Liste der verfügbaren Typen für das jeweilige Objekt aus. Die Objekt-Auswahl ist bindend und kann nicht nachträglich verändert werden.',
@@ -584,8 +584,7 @@ sub Data {
         'Label' => 'Beschriftung',
         'Order' => 'Position',
         'Object' => 'Objekt',
-        'Clone' => 'Klonen',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'Dieses Feld löschen',
 
         # Template: AdminDynamicFieldAdvanced
@@ -616,7 +615,7 @@ sub Data {
             'Die Feldreihenfolge steuert die Ausgabe der Felder auf den Bildschirmen.',
         'Namespace' => 'Namensraum',
         'This is the namespace in which this field will be used as prefix with the name.' =>
-            '',
+            'In diesem Namespace wird das Feld als Präfix zum Namen verwendet.',
         'Tooltip message:' => 'Tooltip-Text:',
         'This is the tooltip message shown inside the customer interface.' =>
             'Dieser Text wird als Tooltip im Kundenbereich eingeblendet.',
@@ -631,9 +630,6 @@ sub Data {
         'Field Settings' => 'Feldeinstellungen',
         'Default value' => 'Standardwert',
         'This is the default value for this field.' => 'Dies ist der Standardwert für dieses Feld.',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => 'Kontakte hinzufügen oder bearbeiten',
@@ -696,6 +692,9 @@ sub Data {
         'Searchsuffix' => 'Suchsuffix',
         'Result Limit' => 'Anzahl angezeigter Ergebnisse',
         'Case Sensitive' => 'Groß-/Kleinschreibung unterscheiden',
+        'Multiple Values' => 'Mehrfachwerte',
+        'Activate this option to allow multiple values for this field.' =>
+            'Aktivieren Sie diese Option, um mehrere Werte für dieses Feld zuzulassen.',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Standard-Datumsunterschied',
@@ -735,7 +734,7 @@ sub Data {
         'Screens' => 'Oberflächen',
 
         # Template: AdminDynamicFieldReference
-        'Check ReferenceFilter' => '',
+        'Check ReferenceFilter' => 'Referenzfilter prüfen',
         'Below you can configure filters to restrict the list of referenced objects. The filters compare an attribute of the referenced object either to an attribute of the mask you are currently editing or to a fixed string.' =>
             '',
         'Object attribute' => '',
@@ -797,6 +796,11 @@ sub Data {
         'Add RegEx' => 'RegEx hinzufügen',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1214,14 +1218,9 @@ sub Data {
         'Find next' => 'Nächste suchen',
         'Find previous' => 'Vorherige suchen',
         'Find and replace' => 'Suchen und ersetzen',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => 'XSLT-Mapping',
         'XSLT stylesheet' => 'XSLT-Stylesheet',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => 'Die eingegebenen Daten sind kein gültiges XSLT-Stylesheet.',
         'Here you can add or modify your XSLT mapping code.' => 'Hier können Sie Ihren XSLT-Mapping-Code hinzufügen oder bearbeiten.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1424,6 +1423,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => 'Webservice klonen',
         'The name must be unique.' => 'Der Name muss eindeutig sein.',
+        'Clone' => 'Klonen',
         'Export Web Service' => 'Webservice exportieren',
         'Import web service' => 'Webservices importieren',
         'Configuration File' => 'Konfigurationsdatei',
@@ -2090,9 +2090,9 @@ sub Data {
         'Support Data' => 'Supportdaten',
 
         # Template: AdminResponseTemplatesStatePreselection
-        'Manage ticket state pre-selections for response templates' => '',
+        'Manage ticket state pre-selections for response templates' => 'Ticketstatus-Vorauswahl für Antwortvorlagen verwalten',
         'Edit Response' => '',
-        'Pre-selected ticket state' => '',
+        'Pre-selected ticket state' => 'Ticketstatus für Vorauswahl',
 
         # Template: AdminRole
         'Role Management' => 'Verwaltung von Rollen',
@@ -2485,34 +2485,34 @@ sub Data {
         'Definition' => '',
 
         # Template: AdminTranslations
-        'Translation Management' => '',
-        'Add Translations' => '',
-        'Edit Translations' => '',
+        'Translation Management' => 'Übersetzungsverwaltung',
+        'Add Translations' => 'Übersetzungen hinzufügen',
+        'Edit Translations' => 'Übersetzungen anpassen',
         'Language' => 'Sprache',
-        'Deploy Translations' => '',
-        'Translation States' => '',
-        'New Translation' => '',
-        'Editing Translation' => '',
-        'Translation Marked for Deletion' => '',
-        'Deployed Translation' => '',
+        'Deploy Translations' => 'Änderungen übernehmen',
+        'Translation States' => 'Übersetzungsstatus',
+        'New Translation' => 'Neue Übersetzung',
+        'Editing Translation' => 'Übersetzung editieren',
+        'Translation Marked for Deletion' => 'Zum Löschen markierte Übersetzung',
+        'Deployed Translation' => 'Aktive Übersetzung',
         'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
             '',
         'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.' =>
-            '',
+            'Wählen Sie eine Objektklasse aus, um mit dem Übersetzen zu beginnen. Abhängig von der Wahl können einzelne oder mehrere Übersetzungen gleichzeitig zugefügt werden.',
         'Edit active translations using provided text fields!' => '',
-        'List custom translations for' => '',
-        'Draft Translations' => '',
+        'List custom translations for' => 'Auflistung eigener Übersetzungen für',
+        'Draft Translations' => 'Übersetzungsentwürfe',
         'Filter for Draft Translations' => '',
-        'Active Translations' => '',
-        'Filter for Active Translations' => '',
+        'Active Translations' => 'Aktive Übersetzungen',
+        'Filter for Active Translations' => 'Nach aktiven Übersetzungen filtern',
         'Content' => 'Inhalt',
-        'Translation' => '',
-        'Marked for Deletion' => '',
+        'Translation' => 'Übersetzung',
+        'Marked for Deletion' => 'Zum Löschen vorgemerkt',
         'Edit Translation' => '',
-        'Overwrites OTOBO translation' => '',
-        'Undo Delete Translation' => '',
-        'Delete Translation' => '',
-        'Translations' => '',
+        'Overwrites OTOBO translation' => 'Überschreibt die OTOBO-Übersetzung',
+        'Undo Delete Translation' => 'Übersetzung wiederherstellen',
+        'Delete Translation' => 'Übersetzung löschen',
+        'Translations' => 'Übersetzungen',
 
         # Template: AdminType
         'Type Management' => 'Typverwaltung',
@@ -3784,9 +3784,9 @@ sub Data {
         'Counter' => 'Zähler',
 
         # Template: TranslationsTable
-        'Filter Content' => '',
+        'Filter Content' => 'Inhalt filtern',
         'Filter for Translations' => '',
-        'No content available to translate.' => '',
+        'No content available to translate.' => 'Kein übersetzbarer Inhalt verfügbar.',
 
         # Template: Warning
         'Go back to the previous page' => 'Zurück zur vorhergehenden Seite',
@@ -3959,7 +3959,7 @@ sub Data {
             'Alle Agenten mit Schreibberechtigung für den Termin(kalender)',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
-        'No permission to edit this attachment.' => '',
+        'No permission to edit this attachment.' => 'Sie haben keine Berechtigung, diesen Anhang zu bearbeiten.',
         'Attachment added!' => 'Anhang hinzugefügt!',
 
         # Perl Module: Kernel/Modules/AdminAutoResponse.pm
@@ -4017,20 +4017,20 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
         'Start date shouldn\'t be defined after Stop date!' => 'Das Startdatum sollte nicht nach dem Enddatum liegen!',
-        'Name is missing!' => '',
-        'Content is missing!' => '',
-        'ValidID is missing!' => '',
-        'Group is missing!' => '',
-        'There was an error creating the info tile entry' => '',
+        'Name is missing!' => 'Name fehlt!',
+        'Content is missing!' => 'Inhalt fehlt!',
+        'ValidID is missing!' => 'ValidID fehlt!',
+        'Group is missing!' => 'Gruppenauswahl fehlt!',
+        'There was an error creating the info tile entry' => 'Beim Erstellen des Info-Kachel-Eintrags ist ein Problem aufgetreten',
         'Need ID!' => '',
         'This Entry does not exist, or you don\'t have permissions to access it in its current state.' =>
-            '',
+            'Der Eintrag existiert nicht, oder Sie haben nicht die notwendigen Berechtigungen, um ihn in seiner aktuellen Konfiguration aufzurufen.',
         'Could not get data for ID %s' => '',
-        'Info tile entry was added successfully!' => '',
-        'Info tile entry was updated successfully!' => '',
+        'Info tile entry was added successfully!' => 'Info-Kachel-Eintrag wurde erfolgreich erstellt!',
+        'Info tile entry was updated successfully!' => 'Info-Kachel-Eintrag wurde erfolgreich bearbeitet!',
         'Session has been killed!' => 'Sitzung wurde beendet!',
         'All sessions have been killed, except for your own.' => 'Alle Sitzungen wurden beendet, außer Ihrer eigenen.',
-        'There was an error updating the info tile entry' => '',
+        'There was an error updating the info tile entry' => 'Beim Bearbeiten des Info-Kachel-Eintrags ist ein Problem aufgetreten',
         'It was not possible to delete the info tile entry: %s!' => '',
 
         # Perl Module: Kernel/Modules/AdminCustomerGroup.pm
@@ -4093,9 +4093,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
         'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
-            '',
+            'Inkorrekte Syntax. Bitte geben Sie vor dem Doppelpunkt den Namen eines Elternelements ein.',
         'An element is used as parent element, but not included itself. Please include it.' =>
-            '',
+            'Ein Element wird als Elternelement verwendet, ist aber selbst nicht enthalten. Bitte nehmen Sie es auf.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
         'The referenced dynamic field' => '',
@@ -4323,7 +4323,7 @@ sub Data {
         'Dispatching by selected Queue.' => 'Verteilung nach ausgewählter Queue.',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-        'No permission to edit this ticket notification.' => '',
+        'No permission to edit this ticket notification.' => 'Sie haben keine Berechtigung, diese Ticket-Benachrichtigung zu bearbeiten.',
         'You need %s permissions!' => 'Sie benötigen die %s-Berechtigung!',
         'Agent who created the ticket' => 'Agent, der das Ticket erstellt hat',
         'Agent who owns the ticket' => 'Agent, der Besitzer des Tickets ist',
@@ -4337,8 +4337,8 @@ sub Data {
         'Customer user of the ticket' => 'Kundenbenutzer des Tickets',
         'All recipients of the first article' => 'Alle Empfänger des ersten Artikels',
         'All recipients of the last article' => 'Alle Empfänger des letzten Artikels',
-        'Only send within working hours' => '',
-        'Only send outside working hours' => '',
+        'Only send within working hours' => 'Nur innerhalb der Arbeitszeit senden',
+        'Only send outside working hours' => 'Nur außerhalb der Arbeitszeit senden',
         'Invisible to customer' => 'Unsichtbar für Kunde',
         'Visible to customer' => 'Sichtbar für Kunde',
 
@@ -4600,7 +4600,7 @@ sub Data {
         'Was not possible to delete the SystemMaintenance entry: %s!' => 'Eintrag %s für Systemwartung konnte nicht gelöscht werden!',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
-        'No permission to edit this template.' => '',
+        'No permission to edit this template.' => 'Sie haben keine Berechtigung, diese Vorlage zu bearbeiten.',
         'Template added!' => 'Vorlage hinzugefügt!',
 
         # Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
@@ -4608,20 +4608,20 @@ sub Data {
         'Change Template Relations for Attachment' => 'Vorlagen-Zuordnungen für Anhang verändern',
 
         # Perl Module: Kernel/Modules/AdminTranslations.pm
-        'Translation unmarked for deletion!' => '',
-        'Error trying unmark translation for delete!' => '',
-        'Translations changed!' => '',
-        'No translations were changed!' => '',
+        'Translation unmarked for deletion!' => 'Übersetzung wiederhergestellt!',
+        'Error trying unmark translation for delete!' => 'Fehler beim Wiederherstellungsversuch!',
+        'Translations changed!' => 'Übersetzungen geändert!',
+        'No translations were changed!' => 'Keine Übersetzung wurde geändert!',
         'Errors trying to change translations!' => '',
-        'Translations added!' => '',
-        'No translations were given to add!' => '',
-        'Translation already exists!' => '',
-        'Translations deployed successfuly!' => '',
-        'Nothing to do!' => '',
+        'Translations added!' => 'Übersetzungen hinzugefügt!',
+        'No translations were given to add!' => 'Es wurden keine Übersetzungen übergeben!',
+        'Translation already exists!' => 'Übersetzung bereits vorhanden!',
+        'Translations deployed successfuly!' => 'Übersetzungen erfolgreich übernommen!',
+        'Nothing to do!' => 'Nichts zu tun!',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
-            '',
+            'Fehler beim Versuch eine Übersetzung zu übernehmen. Bitte überprüfen Sie das Systemprotokoll.',
         'All Items' => '',
-        'Deployment Results' => '',
+        'Deployment Results' => 'Inbetriebnahme-Ergebnisse',
 
         # Perl Module: Kernel/Modules/AdminType.pm
         'Need Type!' => 'Typ benötigt!',
@@ -5040,7 +5040,6 @@ sub Data {
         'Need CustomerID!' => 'Benötige CustomerID!',
         'My Tickets' => 'Meine Tickets',
         'Company Tickets' => 'Firmen-Tickets',
-        'Untitled!' => 'Unbenannt!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'Kundenname',
@@ -5162,8 +5161,8 @@ sub Data {
         'Get Help' => 'Hilfe',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
-        'Mark article as unseen' => '',
-        'Mark as unseen' => '',
+        'Mark article as unseen' => 'Artikel als ungelesen markieren',
+        'Mark as unseen' => 'Als ungelesen markieren',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
         'Mark' => 'Markieren',
@@ -5461,8 +5460,8 @@ sub Data {
             'Die Anmeldung ist derzeit aufgrund einer geplanten Systemwartung nicht verfügbar.',
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
-        'Authentication error. Please contact the administrator.' => '',
-        'Authentication error.' => '',
+        'Authentication error. Please contact the administrator.' => 'Authentifizierungsfehler. Bitte wenden Sie sich an Ihren Administrator.',
+        'Authentication error.' => 'Authentifizierungsfehler.',
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
             'Ungültige Antwort vom Authentifizierungsserver. Möglicherweise kam es zum Timeout. Bitte versuchen Sie es noch einmal.',
 
@@ -5531,6 +5530,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -6506,9 +6507,9 @@ sub Data {
             'Lösche das Template und die zugehörigen Daten. Dies kann etwas dauern...',
 
         # JS File: Core.Agent.Admin.Translations
-        'Missing Translations' => '',
-        'At least one translation must be filled!' => '',
-        'All translations must be filled!' => '',
+        'Missing Translations' => 'Fehlende Übersetzungen',
+        'At least one translation must be filled!' => 'Mindestens eine Übersetzung muss eingetragen sein!',
+        'All translations must be filled!' => 'Alle Übersetzungen müssen eingetragen sein!',
         'Close' => 'Schließen',
 
         # JS File: Core.Agent.AppointmentCalendar
@@ -7197,7 +7198,7 @@ Ihr Helpdesk-Team
         'Create and manage appointment notifications.' => 'Terminbenachrichtigungen erstellen und verwalten.',
         'Create and manage attachments.' => 'Anhänge erstellen und verwalten.',
         'Create and manage calendars.' => 'Kalender erstellen und verwalten.',
-        'Create and manage custom translations.' => '',
+        'Create and manage custom translations.' => 'Erstellen und Verwalten eigener Übersetzungen.',
         'Create and manage customer users.' => 'Kundenbenutzer erstellen und verwalten.',
         'Create and manage customers.' => 'Kunden erstellen und verwalten.',
         'Create and manage dynamic fields.' => 'Dynamische Felder erstellen und verwalten.',
@@ -7530,9 +7531,9 @@ Ihr Helpdesk-Team
             'Definiert den Kommunikationskanal für die Artikelaktion "Sofort schließen".',
         'Defines the config options for the autocompletion feature.' => 'Definiert die Konfigurationsoptionen für die Autovervollständigung.',
         'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketSeenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
-            '',
+            'Definiert die zur Verfügung stehenden Konfigurationsparameter in der Einstellungsansicht. Der Standard-Umleitungs-URL der SysConfig-Einstellung \'MarkTicketSeenRedirectDefaultURL\' wird verwendet, falls der Agent keine Auswahl getroffen hat.',
         'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketUnseenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
-            '',
+            'Definiert die zur Verfügung stehenden Konfigurationsparameter in der Einstellungsansicht. Der Standard-Umleitungs-URL der SysConfig-Einstellung \'MarkTicketUnseenRedirectDefaultURL\' wird verwendet, falls der Agent keine Auswahl getroffen hat.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Definiert die Konfigurationsparamenter des Eintrages, der in der Benutzereinstellung angezeigt wird.',
         'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -7960,7 +7961,7 @@ Ihr Helpdesk-Team
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
             'Legt die Art des Empfängers für Tickets im Kunden-Bereich fest ("Queue" zeigt alle Queues, "System address" nur die Queues, die System-Adressen zugewiesen sind).',
         'Defines the redirect URL for setting a ticket article to \'seen\'.' =>
-            '',
+            'Definiert den URL, zu dem umgeleitet wird, nachdem ein Artikel auf \'gelesen\' gesetzt wurde.',
         'Defines the redirect URL for setting a ticket article to \'unseen\'.' =>
             '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
@@ -8108,8 +8109,8 @@ Ihr Helpdesk-Team
             'Definiert, welche Optionen für den Empfänger (Telefon-Ticket) und den Absender (E-Mail-Ticket) im Agenten-Interface gültig sind.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Definiert, welche Queues für Ticket-Empfänger im Kunden-Interface gültig sind.',
-        'Dialog to show after marking a ticket as seen' => '',
-        'Dialog to show after marking a ticket as unseen' => '',
+        'Dialog to show after marking a ticket as seen' => 'Dialog, der angezeigt wird, nachdem ein Ticket als gelesen markiert wurde.',
+        'Dialog to show after marking a ticket as unseen' => 'Dialog, der angezeigt wird, nachdem ein Ticket als ungelesen markiert wurde.',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Wenn HTTP-Header "Content-Security-Policy" ausgeschaltet ist, können externe Scripts geladen werden. Dies stellt eine Sicherheitslücke dar! Daher sollte diese Einstellung nur deaktivieren werden, wenn Sie sich über die Konsequenzen im Klaren sind!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -8135,9 +8136,9 @@ Ihr Helpdesk-Team
         'Dutch' => 'Niederländisch',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'Niederländische Stoppwörter für den Volltext-Index. Diese Wörter werden vom Suchindex entfernt.',
-        'Dynamic Field Contents' => '',
+        'Dynamic Field Contents' => 'Dynamische Feld-Inhalte',
         'Dynamic Field Information' => '',
-        'Dynamic Field Labels' => '',
+        'Dynamic Field Labels' => 'Dynamische Feld-Label',
         'Dynamic Field Set' => '',
         'Dynamic Field Set Backend GUI' => '',
         'Dynamic Fields Checkbox Backend GUI' => 'Dynamic Fields-Oberfläche für Checkboxen',
@@ -8398,7 +8399,7 @@ Ihr Helpdesk-Team
         'Fulltext search using Elasticsearch.' => 'Volltextsuche mit Elasticsearch.',
         'FulltextES' => 'FulltextES',
         'Galician' => 'Galizisch',
-        'General Label' => '',
+        'General Label' => 'Allgemeine Übersetzungen',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             'Anzeige von allgemeinen Ticket-Daten in Ticket-Übersichten (Fallback). Beachten Sie, dass die Ticket-Nummer nicht abgeschaltet werden kann.',
         'Generate HTML comment hooks for the specified blocks so that filters can use them.' =>
@@ -8616,7 +8617,7 @@ Ihr Helpdesk-Team
         'JavaScript function for the search frontend.' => 'JavaScript-Funktion für das Suche-Frontend.',
         'Jump to OTOBO!' => 'Link zu OTOBO!',
         'Korean' => 'Koreanisch',
-        'Languages' => '',
+        'Languages' => 'Sprachen',
         'Large' => 'Groß',
         'Last Screen Overview' => 'Letzte Masken-Übersicht',
         'Last customer subject' => 'Letzter Kunden-Betreff',
@@ -8703,7 +8704,7 @@ Ihr Helpdesk-Team
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'Benutzt für das Session-Management HTML-Cookies. Wenn HTML-Cookies deaktiviert sind oder im Browser HTML-Cookies deaktiviert sind, arbeitet das System wie immer und fügt die Session-ID and Links an.',
         'Malay' => 'Malaysisch',
-        'Manage Customer Dashboard Info Tile Entries' => '',
+        'Manage Customer Dashboard Info Tile Entries' => 'Verwaltung der Info-Kachel-Eintraege fuer das Kunden-Dashboard',
         'Manage OTOBO Team cloud services.' => 'Cloud Services des OTOBO Team managen.',
         'Manage PGP keys for email encryption.' => 'PGP-Schlüssel für E-Mail-Verschlüsselung verwalten.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'POP3- oder IMAP-Konten für das Abholen von E-Mail verwalten.',
@@ -8715,11 +8716,11 @@ Ihr Helpdesk-Team
         'Manage support data.' => 'Supportdaten verwalten.',
         'Manage system registration.' => 'Systemregistrierung verwalten.',
         'Manage tasks triggered by event or time based execution.' => 'Verwaltung von event- oder zeitbasierten Aufgaben.',
-        'Manage ticket state pre-selections for response templates.' => '',
+        'Manage ticket state pre-selections for response templates.' => 'Ticketstatus-Vorauswahl für Antwortvorlagen verwalten.',
         'Mark as Spam!' => 'Als Spam makieren!',
         'Mark this ticket as junk!' => 'Dieses Ticket als Junk markieren!',
-        'Mark ticket as seen' => '',
-        'Mark ticket as unseen' => '',
+        'Mark ticket as seen' => 'Ticket als gelesen markieren',
+        'Mark ticket as unseen' => 'Ticket als ungelesen markieren',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Maximale Größe (Buchstaben) der Kundeninformationen (Telefon und E-Mail) in der Erfassungs-Oberfläche.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -9022,13 +9023,13 @@ Ihr Helpdesk-Team
         'Redis server address. Example: 127.0.0.1:6379.' => 'Adresse des Redis-Servers. Beispiel: 127.0.0.1:6379.',
         'Refresh interval' => 'Aktualisierungsintervall',
         'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>
-            '',
+            'Registriert einen Link im Ticketmenü von Ticketübersichten, um ein Ticket als gelesen zu markieren.',
         'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as unseen.' =>
-            '',
+            'Registriert einen Link im Ticketmenü von Ticketübersichten, um ein Ticket als ungelesen zu markieren.',
         'Registers a link in the ticket menu to mark a ticket as seen.' =>
-            '',
+            'Registriert einen Link im Ticketmenü, um ein Ticket als gelesen zu markieren.',
         'Registers a link in the ticket menu to mark a ticket as unseen.' =>
-            '',
+            'Registriert einen Link im Ticketmenü, um ein Ticket als ungelesen zu markieren.',
         'Registers a log module, that can be used to log communication related information.' =>
             'Registriert ein Protokoll-Modul, um Informationen zu Verbindungen zu protokollieren.',
         'Registration of the CSV format backend module for the ImportExport feature.' =>
@@ -9665,7 +9666,7 @@ Ihr Helpdesk-Team
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             'Startet eine Wildcard-Suche innerhalb des aktiven Objekts, nachdem der Verknüpfungs-Bildschirm geöffnet wurde.',
         'Stat#' => 'Stat#',
-        'State pre-selection for Templates' => '',
+        'State pre-selection for Templates' => 'Vorlagen <-> Status',
         'States' => 'Status',
         'Statistics overview.' => 'Statistik-Übersicht.',
         'Statistics reports.' => 'Statistik-Berichte.',
@@ -9808,8 +9809,8 @@ Ihr Helpdesk-Team
         'Ticket Priority.' => 'Ticket-Priorität.',
         'Ticket Queue Overview' => 'Ticket-Übersicht nach Queues',
         'Ticket Responsible.' => 'Ticket-Verantwortlicher.',
-        'Ticket States' => '',
-        'Ticket Types' => '',
+        'Ticket States' => 'Ticketstatus',
+        'Ticket Types' => 'Tickettypen',
         'Ticket Watcher' => 'Ticket-Beobachter',
         'Ticket Zoom' => 'Ticket-Zoom',
         'Ticket Zoom.' => 'Ticket-Detailansicht.',
@@ -9825,7 +9826,7 @@ Ihr Helpdesk-Team
         'Ticket overview' => 'Ticket-Übersicht',
         'Ticket plain view of an email.' => 'Nur-Text-Ansicht für Ticket-E-Mails.',
         'Ticket split dialog.' => 'Ticket teilen-Dialog.',
-        'Ticket state pre-selection for response templates' => '',
+        'Ticket state pre-selection for response templates' => 'Ticketstatus-Vorauswahl für Antwortvorlagen',
         'Ticket title' => 'Ticket-Titel',
         'Ticket zoom view.' => 'Ticket-Detailansicht.',
         'TicketNumber' => 'Ticketnummer',
@@ -9845,9 +9846,9 @@ Ihr Helpdesk-Team
             'Schaltet die Anzeige der OTOBO FeatureAddon-Liste in der Paket-Verwaltung um.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Symbol in der Toolbar, um schnell zur entsprechenden Funktion zu gelangen. Die Gruppenspezifische Sichtbarkeit dieses Links kann durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Transportselektion der Terminbenachrichtigungen. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.',
@@ -9954,245 +9955,6 @@ Ihr Helpdesk-Team
         'stats' => 'Stats',
 
     };
-
-    $Self->{Translation}->{'Customer Dashboard Info Tile'} = 'Info-Kachel Kunden-Dashboard';
-    $Self->{Translation}->{'Create new info tile entry'}   = 'Neuen Info-Kachel-Eintrag erstellen';
-    $Self->{Translation}->{'Filter for info tile entries'} = 'Filter fuer die Info-Kachel-Eintraege';
-    $Self->{Translation}->{'Create a new entry to be displayed on the info tile on the customer dashboard.'}
-        = 'Erstellen Sie einen neuen Info-Kachel-Eintrag fuer die Info-Kachel auf dem Kunden-Dashboard.';
-    $Self->{Translation}->{'Customer Dashboard Info Tile Management'}          = 'Kunden-Dashboard-Info-Kachel-Verwaltung';
-    $Self->{Translation}->{'Edit customer dashboard info tile entry'}          = 'Info-Kachel-Eintrag bearbeiten';
-    $Self->{Translation}->{'Start date shouldn\'t be defined afer Stop date!'} = 'Das Startdatum muss vor dem Enddatum liegen!';
-    $Self->{Translation}->{'Name is missing!'}                                 = 'Name fehlt!';
-    $Self->{Translation}->{'Tile content'}                                     = 'Kachel-Inhalt';
-    $Self->{Translation}->{'Marquee content'}                                  = 'Lauftext-Inhalt';
-    $Self->{Translation}->{'Content is missing!'}                              = 'Inhalt fehlt!';
-    $Self->{Translation}->{'ValidID is missing!'}                              = 'ValidID fehlt!';
-    $Self->{Translation}->{'Group is missing!'}                                = 'Gruppenauswahl fehlt!';
-    $Self->{Translation}->{'There was an error creating the info tile entry'}  = 'Beim Erstellen des Info-Kachel-Eintrags ist ein Problem aufgetreten';
-    $Self->{Translation}->{'This Entry does not exist, or you don\'t have permissions to access it in its current state.'}
-        = 'Der Eintrag existiert nicht, oder Sie haben nicht die notwendigen Berechtigungen, um ihn in seiner aktuellen Konfiguration aufzurufen.';
-    $Self->{Translation}->{'Could not get data for ID'}                           = 'Die Daten fuer folgende ID konnten nicht abgerufen werden: ';
-    $Self->{Translation}->{'Info tile entry was added successfully!'}             = 'Info-Kachel-Eintrag wurde erfolgreich erstellt!';
-    $Self->{Translation}->{'Info tile entry was updated successfully!'}           = 'Info-Kachel-Eintrag wurde erfolgreich bearbeitet!';
-    $Self->{Translation}->{'Session has been killed!'}                            = 'Die Session wurde beendet!';
-    $Self->{Translation}->{'All sessions have been killed, except for your own.'} = 'Alle Sessions wurden beendet bis auf Ihre eigene.';
-    $Self->{Translation}->{'There was an error updating the info tile entry'}     = 'Beim Bearbeiten des Info-Kachel-Eintrags ist ein Problem aufgetreten';
-    $Self->{Translation}->{'No Customer Dashboard Info Tile ID'}                  = 'Es konnte kein Info-Kachel-Eintrag mit folgender ID gefunden werden: ';
-    $Self->{Translation}->{'It was not possible to delete the info tile entry'}   = 'Der Info-Kachel-Eintrag konnte nicht geloescht werden';
-    $Self->{Translation}->{'Manage Customer Dashboard Info Tile Entries'}         = 'Verwaltung der Info-Kachel-Eintraege fuer das Kunden-Dashboard';
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'Import/Export-Verwaltung';
-    $Self->{Translation}->{'Add template'} = 'Vorlage hinzufügen';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'Erstellen einer Vorlage zum Importieren und Exportieren von Objektinformationen.';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        'Damit Sie dieses Modul nutzen können, müssen Sie das Paket ITSM Configuration Management oder jedes andere Paket installieren, das ein Backend für zu exportierende und importierende Objekte bereitstellt.';
-    $Self->{Translation}->{'Start Import'} = 'Import starten';
-    $Self->{Translation}->{'Start Export'} = 'Export starten';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Schritt 1 von 5 - Allgemeine Informationen bearbeiten';
-    $Self->{Translation}->{'Name is required!'} = 'Name wird benötigt!';
-    $Self->{Translation}->{'Object is required!'} = 'Objekt ist erforderlich!';
-    $Self->{Translation}->{'Format is required!'} = 'Format ist erforderlich!';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = 'Schritt 2 von 5 - Objektinformationen bearbeiten';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = 'Schritt 3 von 5 - Formatinformationen bearbeiten';
-    $Self->{Translation}->{'is required!'} = 'wird benötigt!';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = 'Schritt 4 von 5 - Mapping-Informationen bearbeiten';
-    $Self->{Translation}->{'No map elements found.'} = 'Keine Mapping-Elemente gefunden.';
-    $Self->{Translation}->{'Add Mapping Element'} = 'Mapping-Element hinzufügen';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = 'Schritt 5 von 5 - Suchinformationen bearbeiten';
-    $Self->{Translation}->{'Restrict export per search'} = 'Export per Suche einschränken';
-    $Self->{Translation}->{'Import information'} = 'Import-Informationen';
-    $Self->{Translation}->{'Source File'} = 'Quell-Datei';
-    $Self->{Translation}->{'Import summary for %s'} = 'Import-Zusammenfassung für %s';
-    $Self->{Translation}->{'Records'} = 'Datensätze';
-    $Self->{Translation}->{'Success'} = 'Erfolgreich';
-    $Self->{Translation}->{'Duplicate names'} = 'Doppelte Namen';
-    $Self->{Translation}->{'Last processed line number of import file'} = 'Zuletzt verarbeitete Zeilennummer der Import-Datei';
-    $Self->{Translation}->{'Ok'} = 'Ok';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = 'Möchten Sie dieses Vorlagenelement wirklich löschen?';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = 'Kein Backend für das Objekt verfügbar!';
-    $Self->{Translation}->{'No format backend found!'} = 'Kein Backend für das Format verfügbar!';
-    $Self->{Translation}->{'Template not found!'} = 'Vorlage nicht verfügbar!';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = 'Die Vorlage konnte nicht eingefügt oder aktualisiert werden!';
-    $Self->{Translation}->{'Needed TemplateID!'} = 'Die ID der Vorlage wird benötigt!';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = 'Fehler aufgetreten. Importieren unmöglich! Für Details siehe Systemprotokoll.';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = 'Fehler aufgetreten. Exportieren unmöglich! Für Details siehe Systemprotokoll.';
-    $Self->{Translation}->{'Template List'} = 'Vorlagenliste';
-    $Self->{Translation}->{'number'} = 'Zahl';
-    $Self->{Translation}->{'number bigger than zero'} = 'Zahl größer als Null';
-    $Self->{Translation}->{'integer'} = 'Ganzzahl';
-    $Self->{Translation}->{'integer bigger than zero'} = 'Ganzzahl größer als Null';
-    $Self->{Translation}->{'Element required, please insert data'} = 'Element erforderlich, bitte fügen Sie Daten ein';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = 'Ungültige Daten, bitte geben Sie ein gültiges %s ein';
-    $Self->{Translation}->{'Format not found!'} = 'Format nicht gefunden!';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'Spaltentrenner';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulator (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'Semikolon (;)';
-    $Self->{Translation}->{'Colon (:)'} = 'Doppelpunkt (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'Punkt (.)';
-    $Self->{Translation}->{'Comma (,)'} = 'Komma (,)';
-    $Self->{Translation}->{'Charset'} = 'Zeichensatz';
-    $Self->{Translation}->{'Include Column Headers'} = 'Mit Spaltenüberschriften';
-    $Self->{Translation}->{'Column'} = 'Spalte';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = 'Lösche Vorlage...';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        'Beim Löschen der Vorlage ist ein Fehler aufgetreten. Bitte schauen Sie im Systemprotokoll für mehr Informationen.';
-    $Self->{Translation}->{'Template was deleted successfully.'} = 'Vorlage wurde erfolgreich gelöscht.';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        'Format-Backend Modul-Registration des Import/Export Moduls.';
-    $Self->{Translation}->{'Import and export object information.'} = 'Importieren und Exportieren von Objekt-Informationen.';
-    $Self->{Translation}->{'Import/Export'} = 'Import/Export';
-
-    # Template: AdminNotificationEvent
-    $Self->{Translation}->{'Only send within working hours'} = 'Nur innerhalb der Arbeitszeit senden';
-    $Self->{Translation}->{'Only send outside working hours'} = 'Nur außerhalb der Arbeitszeit senden';
-    $Self->{Translation}->{'No permission to edit this ticket notification.'} = 'Sie haben keine Berechtigung, diese Ticket-Benachrichtigung zu bearbeiten.';
-
-    # Template: AdminAttachment
-    $Self->{Translation}->{'No permission to edit this attachment.'} = 'Sie haben keine Berechtigung, diesen Anhang zu bearbeiten.';
-    
-    # Template: AdminTemplate
-    $Self->{Translation}->{'No permission to edit this template.'} = 'Sie haben keine Berechtigung, diese Vorlage zu bearbeiten.';
-
-    # SysConfig
-    $Self->{Translation}->{
-        "Defines the config parameters available in the preferences view. The default redirect URL from SysConfig 'MarkTicketUnseenRedirectDefaultURL' is used if no selection is made by the agent."
-        }
-        = "Definiert die zur Verfügung stehenden Konfigurationsparameter in der Einstellungsansicht. Der Standard-Umleitungs-URL der SysConfig-Einstellung 'MarkTicketUnseenRedirectDefaultURL' wird verwendet, falls der Agent keine Auswahl getroffen hat.";
-    $Self->{Translation}->{"Defines the redirect URL for setting a ticket article to 'unseen."}
-        = "Definiert den URL, zu dem umgeleitet wird, nachdem ein Artikel auf 'ungelesen' gesetzt wurde.";
-    $Self->{Translation}->{
-        "Defines the config parameters available in the preferences view. The default redirect URL from SysConfig 'MarkTicketSeenRedirectDefaultURL' is used if no selection is made by the agent."
-        }
-        = "Definiert die zur Verfügung stehenden Konfigurationsparameter in der Einstellungsansicht. Der Standard-Umleitungs-URL der SysConfig-Einstellung 'MarkTicketSeenRedirectDefaultURL' wird verwendet, falls der Agent keine Auswahl getroffen hat.";
-    $Self->{Translation}->{"Defines the redirect URL for setting a ticket article to 'seen'."}
-        = "Definiert den URL, zu dem umgeleitet wird, nachdem ein Artikel auf 'gelesen' gesetzt wurde.";
-    $Self->{Translation}->{'Registers a link in the ticket menu to mark a ticket as unseen.'}
-        = 'Registriert einen Link im Ticketmenü, um ein Ticket als ungelesen zu markieren.';
-    $Self->{Translation}->{'Registers a link in the ticket menu to mark a ticket as seen.'}
-        = 'Registriert einen Link im Ticketmenü, um ein Ticket als gelesen zu markieren.';
-    $Self->{Translation}->{'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as unseen.'}
-        = 'Registriert einen Link im Ticketmenü von Ticketübersichten, um ein Ticket als ungelesen zu markieren.';
-    $Self->{Translation}->{'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.'}
-        = 'Registriert einen Link im Ticketmenü von Ticketübersichten, um ein Ticket als gelesen zu markieren.';
-    $Self->{Translation}->{"Registers an output filter that adds a 'Mark article as unseen' link to the article menu."}
-        = 'Registriert einen Output-Filter, der einen Link zur Markierung eines Artikels als ungelesen zum Artikelmenü hinzufügt.';
-    $Self->{Translation}->{"Registers an output filter that adds the 'Mark tickets as unseen' selection to the bulk view."}
-        = 'Registriert einen Output-Filter, der die Auswahl für als ungelesen zu markierende Tickets zur Sammelaktion-Ansicht hinzufügt.';
-    $Self->{Translation}->{'Mark ticket article(s) as (un)seen'}
-        = 'Ticketartikel als (un)gelesen markieren';
-    $Self->{Translation}->{'Mark ticket as (un)seen'}
-        = 'Ticket als (un)gelesen markieren';
-    $Self->{Translation}->{'Dialog to show after marking a ticket as unseen'}
-        = 'Dialog, der angezeigt wird, nachdem ein Ticket als ungelesen markiert wurde.';
-    $Self->{Translation}->{'Dialog to show after marking a ticket as seen'} = 'Dialog, der angezeigt wird, nachdem ein Ticket als gelesen markiert wurde.';
-    $Self->{Translation}->{'Mark as unseen'}                                = 'Als ungelesen markieren';
-    $Self->{Translation}->{'Mark as seen'}                                  = 'Als gelesen markieren';
-    $Self->{Translation}->{'Mark ticket as unseen'}                         = 'Ticket als ungelesen markieren';
-    $Self->{Translation}->{'Mark ticket as seen'}                           = 'Ticket als gelesen markieren';
-
-    # Templates and output filters
-    $Self->{Translation}->{'Mark article as unseen'} = 'Artikel als ungelesen markieren';
-    $Self->{Translation}->{'Mark tickets as seen'}   = 'Tickets als gelesen markieren';
-    $Self->{Translation}->{'Mark tickets as unseen'} = 'Tickets als ungelesen markieren';
-    $Self->{Translation}->{'Mark as (un)seen'}       = 'Ticket (un)gelesen';
-
-    # Template: AdminResponseTicketStatePreSelection
-    $Self->{Translation}->{'Manage ticket state pre-selections for response templates'} = 'Ticketstatus-Vorauswahl für Antwortvorlagen verwalten';
-    $Self->{Translation}->{'Edit Response'} = '';
-    $Self->{Translation}->{'Pre-selected ticket state'} = 'Ticketstatus für Vorauswahl';
-
-    # SysConfig
-    $Self->{Translation}->{'Frontend module registration for the admin interface.'} = '';
-    $Self->{Translation}->{'Manage ticket state pre-selections for response templates.'} = 'Ticketstatus-Vorauswahl für Antwortvorlagen verwalten.';
-    $Self->{Translation}->{'Provides state preselection functionality for responses.'} = 'Stellt die Funktionalität der Ticketstatus-Vorauswahl für Antwortvorlagen zur Verfügung.';
-    $Self->{Translation}->{'State pre-selection for Templates'} = 'Vorlagen <-> Status';
-    $Self->{Translation}->{'Ticket state pre-selection for response templates'} = 'Ticketstatus-Vorauswahl für Antwortvorlagen';
-
-    # Template: AdminNotificationEvent
-    $Self->{Translation}->{'Only send within working hours'} = 'Nur innerhalb der Arbeitszeit senden';
-    $Self->{Translation}->{'Only send outside working hours'} = 'Nur außerhalb der Arbeitszeit senden';
-    $Self->{Translation}->{'No permission to edit this ticket notification.'} = 'Sie haben keine Berechtigung, diese Ticket-Benachrichtigung zu bearbeiten.';
-
-    # Template: AdminAttachment
-    $Self->{Translation}->{'No permission to edit this attachment.'} = 'Sie haben keine Berechtigung, diesen Anhang zu bearbeiten.';
-    
-    # Template: AdminTemplate
-    $Self->{Translation}->{'No permission to edit this template.'} = 'Sie haben keine Berechtigung, diese Vorlage zu bearbeiten.';
-
-    $Self->{Translation}->{'Languages'} = 'Sprachen';
-    $Self->{Translation}->{'Translations'} = 'Übersetzungen';
-    $Self->{Translation}->{'Translation'} = 'Übersetzung';
-    $Self->{Translation}->{'Create and manage custom translations.'} = 'Erstellen und Verwalten eigener Übersetzungen.';
-    $Self->{Translation}->{'Translation Management'} = 'Übersetzungsverwaltung';
-    $Self->{Translation}->{'Add Translations'} = 'Übersetzungen hinzufügen';
-    $Self->{Translation}->{'Edit Translations'} = 'Übersetzungen anpassen';
-    $Self->{Translation}->{'Deploy Translations'} = 'Änderungen übernehmen';
-    $Self->{Translation}->{'Filter for Active Translations'} = 'Nach aktiven Übersetzungen filtern';
-    $Self->{Translation}->{'Filter Content'} = 'Inhalt filtern';
-    $Self->{Translation}->{'Active Translations'} = 'Aktive Übersetzungen';
-    $Self->{Translation}->{'Draft Translations'} = 'Übersetzungsentwürfe';
-    $Self->{Translation}->{'Translation States'} = 'Übersetzungsstatus';
-    $Self->{Translation}->{'New Translation'} = 'Neue Übersetzung';
-    $Self->{Translation}->{'Editing Translation'} = 'Übersetzung editieren';
-    $Self->{Translation}->{'Deployed Translation'} = 'Aktive Übersetzung';
-    $Self->{Translation}->{'Marked for Deletion'} = 'Zum Löschen vorgemerkt';
-    $Self->{Translation}->{'Translation Marked for Deletion'} = 'Zum Löschen markierte Übersetzung';
-    $Self->{Translation}->{'Delete Translation'} = 'Übersetzung löschen';
-    $Self->{Translation}->{'Undo Delete Translation'} = 'Übersetzung wiederherstellen';
-    $Self->{Translation}->{'Translation unmarked for deletion!'} = 'Übersetzung wiederhergestellt!';
-    $Self->{Translation}->{'Translation marked for deletion!'} = 'Übersetzung zum Löschen vorgemerkt!';
-    $Self->{Translation}->{'Draft translation deleted!'} = 'Entwurf gelöscht!';
-    $Self->{Translation}->{'Translation is already in the draft translations table!'} = 'Es existiert bereits ein Übersetzungsentwurf!';
-    $Self->{Translation}->{'Error trying to mark translation for deletion!'} = 'Fehler beim Vormerken zum Löschen!';
-    $Self->{Translation}->{'Error trying to delete draft translation!'} = 'Fehler beim Versuch den Übersetzungsentwurf zu entfernen!';
-    $Self->{Translation}->{'Error trying unmark translation for delete!'} = 'Fehler beim Wiederherstellungsversuch!';
-    $Self->{Translation}->{'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, new translations will be added to the system language files.'} = 
-    'Änderungen an den Übersetzungen treten erst in Kraft, nachdem die Entwürfe übernommen werden. Beim Übernehmen wird eine entsprechende Sprachdatei im System abgelegt.';
-    $Self->{Translation}->{'List custom translations for'} = 'Auflistung eigener Übersetzungen für';
-
-    $Self->{Translation}->{'Dynamic Field Labels'} = 'Dynamische Feld-Label';
-    $Self->{Translation}->{'Dynamic Field Contents'} = 'Dynamische Feld-Inhalte';
-    $Self->{Translation}->{'General Label'} = 'Allgemeine Übersetzungen';
-    $Self->{Translation}->{'Template Names'} = 'Namen von Standardvorlagen';
-    $Self->{Translation}->{'Ticket States'} = 'Ticketstatus';
-    $Self->{Translation}->{'Ticket Types'} = 'Tickettypen';
-    $Self->{Translation}->{'- List all possible values from all Dynamic Fields -'} = '- Zeige alle möglichen Werte aller dynamischer Felder -';
-    $Self->{Translation}->{'- List all possible labels from all Dynamic Fields -'} = '- Zeige alle möglichen Label aller dynamischer Felder -';
-    $Self->{Translation}->{'Translations added!'} = 'Übersetzungen hinzugefügt!';
-    $Self->{Translation}->{'No translations were given to add!'} = 'Es wurden keine Übersetzungen übergeben!';
-    $Self->{Translation}->{'No content available to translate.'} = 'Kein übersetzbarer Inhalt verfügbar.';
-    $Self->{Translation}->{'Translation already exists!'} = 'Übersetzung bereits vorhanden!';
-    $Self->{Translation}->{'All Translations'} = 'Alle Übersetzungen';
-    $Self->{Translation}->{'Target Language'} = 'Zielsprache';
-    $Self->{Translation}->{'Overwrites OTOBO translation'} = 'Überschreibt die OTOBO-Übersetzung';    
-
-    $Self->{Translation}->{'Missing Translations'} = 'Fehlende Übersetzungen';
-    $Self->{Translation}->{'At least one translation must be filled!'} = 'Mindestens eine Übersetzung muss eingetragen sein!';
-    $Self->{Translation}->{'All translations must be filled!'} = 'Alle Übersetzungen müssen eingetragen sein!';
-    $Self->{Translation}->{'No translations were changed!'} = 'Keine Übersetzung wurde geändert!';
-    $Self->{Translation}->{'Translations changed!'} = 'Übersetzungen geändert!';
-    $Self->{Translation}->{'Deployment Results'} = 'Inbetriebnahme-Ergebnisse';
-    $Self->{Translation}->{'Translations deployed successfuly!'} = 'Übersetzungen erfolgreich übernommen!';
-    $Self->{Translation}->{'Nothing to do!'} = 'Nichts zu tun!';
-    $Self->{Translation}->{'Export Untranslated strings of'} = 'Exportieren Sie nicht übersetzte Zeichenfolgen von';
-    $Self->{Translation}->{'Errors ocurred when trying to deploy translation. Please check system logs!'} = 
-    'Fehler beim Versuch eine Übersetzung zu übernehmen. Bitte überprüfen Sie das Systemprotokoll.';    
-
-    $Self->{Translation}->{'Edit current translations using provided text fields!'} = 'Vorhandene Übersetzungen in den angegebenen Textfeldern editieren!';
-
-    $Self->{Translation}->{'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.'} = 
-    'Wählen Sie eine Objektklasse aus, um mit dem Übersetzen zu beginnen. Abhängig von der Wahl können einzelne oder mehrere Übersetzungen gleichzeitig zugefügt werden.';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

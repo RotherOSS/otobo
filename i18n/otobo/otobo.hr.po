@@ -4020,7 +4020,7 @@ msgstr ""
 msgid "The name must be unique."
 msgstr ""
 
-#. Template: AdminDynamicField
+#. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
 msgstr ""
 
@@ -25620,11 +25620,11 @@ msgstr ""
 msgid "This is the namespace in which this field will be used as prefix with the name."
 msgstr ""
 
-#. Template: AdminDynamicFieldCheckbox
+#. Template: AdminDynamicFieldDB
 msgid "Multiple Values"
 msgstr ""
 
-#. Template: AdminDynamicFieldCheckbox
+#. Template: AdminDynamicFieldDB
 msgid "Activate this option to allow multiple values for this field."
 msgstr ""
 
@@ -25724,7 +25724,7 @@ msgstr ""
 msgid "Autocomplete"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Full Screen"
 msgstr ""
 
@@ -25732,19 +25732,19 @@ msgstr ""
 msgid "Exit full screen"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Auto Indent Code"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Comment/Uncomment Code"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Search & Replace"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Select All"
 msgstr ""
 
@@ -26746,5 +26746,25 @@ msgstr ""
 
 #. SysConfig
 msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0."
+msgstr ""
+
+#. Template: AdminDynamicField
+msgid "Copy this field"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Queue of the ticket"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Select the queue of the ticket"
+msgstr ""
+
+#. SysConfig
+msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed."
+msgstr ""
+
+#. SysConfig
+msgid "Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed."
 msgstr ""
 

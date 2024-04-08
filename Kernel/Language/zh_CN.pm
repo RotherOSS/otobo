@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.922579675285628;
+    $Self->{Completeness}        = 0.92229069592665;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -590,8 +590,7 @@ sub Data {
         'Label' => '标签',
         'Order' => '订单',
         'Object' => '对象',
-        'Clone' => '克隆',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => '删除这个字段',
 
         # Template: AdminDynamicFieldAdvanced
@@ -637,9 +636,6 @@ sub Data {
         'Field Settings' => '字段设置',
         'Default value' => '默认值',
         'This is the default value for this field.' => '这是该字段的默认值。',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '增加或编辑联系人',
@@ -702,6 +698,9 @@ sub Data {
         'Searchsuffix' => '搜索后缀',
         'Result Limit' => '结果列表',
         'Case Sensitive' => '大小写敏感',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => '默认的日期差',
@@ -803,6 +802,11 @@ sub Data {
         'Add RegEx' => '添加正则表达式',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1220,14 +1224,9 @@ sub Data {
         'Find next' => '查找下一个',
         'Find previous' => '查找上一个',
         'Find and replace' => '查找并替换',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => 'XSLT映射',
         'XSLT stylesheet' => 'XSLT样式表',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => '输入的数据不是有效的XSLT样式表。',
         'Here you can add or modify your XSLT mapping code.' => '您可以在此添加或修改XSLT映射代码。',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1430,6 +1429,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => '克隆Web服务',
         'The name must be unique.' => '名称必须是唯一的。',
+        'Clone' => '克隆',
         'Export Web Service' => '导出Web服务',
         'Import web service' => '导入Web服务',
         'Configuration File' => '配置文件',
@@ -5046,7 +5046,6 @@ sub Data {
         'Need CustomerID!' => '需要客户ID！',
         'My Tickets' => '我的工单',
         'Company Tickets' => '单位工单',
-        'Untitled!' => '未命名！',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => '客户用户真实姓名',
@@ -5537,6 +5536,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9846,9 +9847,9 @@ Thanks for your help!
             '在软件包管理器中显示/不显示OTOBO扩展功能。',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '工具栏条目的快捷键。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '预约通知的传输选项。 请注意：将\'Active（激活）\'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用\'PreferenceGroup\'来控制这些设置应该显示在用户界面的哪个区域。',
@@ -9955,77 +9956,6 @@ Thanks for your help!
         'stats' => 'stats（统计）',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = '导入/导出管理';
-    $Self->{Translation}->{'Add template'} = '添加模板';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = '创建模板导入和导出对象信息。';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '要使用此模块，您需要安装ITSMConfigurationManagement或为要导入和导出的对象提供后端的任何其它包。';
-    $Self->{Translation}->{'Start Import'} = '开始导入';
-    $Self->{Translation}->{'Start Export'} = '开始导出';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = '步骤 1/5 - 编辑通用信息';
-    $Self->{Translation}->{'Name is required!'} = '命名是必需的！';
-    $Self->{Translation}->{'Object is required!'} = '对象是必需的！';
-    $Self->{Translation}->{'Format is required!'} = '格式是必需的！';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = '步骤 2/5 - 编辑目标信息';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = '步骤 3/5 - 编辑格式信息';
-    $Self->{Translation}->{'is required!'} = '是必需的！';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = '步骤 4/5 - 编辑映射信息';
-    $Self->{Translation}->{'No map elements found.'} = '没有找到映射的字段';
-    $Self->{Translation}->{'Add Mapping Element'} = '添加映射字段';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = '步骤 5/5 - 编辑搜索信息';
-    $Self->{Translation}->{'Restrict export per search'} = '按搜索限制导出';
-    $Self->{Translation}->{'Import information'} = '导入信息';
-    $Self->{Translation}->{'Source File'} = '源文件';
-    $Self->{Translation}->{'Import summary for %s'} = '%s的导入摘要';
-    $Self->{Translation}->{'Records'} = '记录';
-    $Self->{Translation}->{'Success'} = '成功';
-    $Self->{Translation}->{'Duplicate names'} = '重复的名称';
-    $Self->{Translation}->{'Last processed line number of import file'} = '导入文件最后处理的行数';
-    $Self->{Translation}->{'Ok'} = '确定';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '您真的想要删除这个模板条目吗？';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = '没有找到对象的后端！';
-    $Self->{Translation}->{'No format backend found!'} = '没有找到格式的后端！';
-    $Self->{Translation}->{'Template not found!'} = '没有找到模板！';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = '不能插入/更新模板！';
-    $Self->{Translation}->{'Needed TemplateID!'} = '需要TemplateID！';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = '出现错误。不能导入！查看Syslog获取详细信息。';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = '出现错误。不能导出！查看Syslog获取详细信息。';
-    $Self->{Translation}->{'Template List'} = '模板清单';
-    $Self->{Translation}->{'number'} = '数字';
-    $Self->{Translation}->{'number bigger than zero'} = '数字大于0';
-    $Self->{Translation}->{'integer'} = '整数';
-    $Self->{Translation}->{'integer bigger than zero'} = '整数大于0';
-    $Self->{Translation}->{'Element required, please insert data'} = '需要元素，请插入数据';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = '无效的数据，请插入一个有效的%s';
-    $Self->{Translation}->{'Format not found!'} = '没有找到格式！';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = '列分隔符';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'TAB键 (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = '分号 (;)';
-    $Self->{Translation}->{'Colon (:)'} = '冒号 (:)';
-    $Self->{Translation}->{'Dot (.)'} = '句号 (.)';
-    $Self->{Translation}->{'Comma (,)'} = '逗号（,）';
-    $Self->{Translation}->{'Charset'} = '字符集';
-    $Self->{Translation}->{'Include Column Headers'} = '包括列标题';
-    $Self->{Translation}->{'Column'} = '列';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '正在删除模板……';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '删除模板时出错，请检查日志以获取更多信息。';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '模板已成功删除。';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        '为导入/导出模块的格式后端模块注册。';
-    $Self->{Translation}->{'Import and export object information.'} = '导入和导出对象信息。';
-    $Self->{Translation}->{'Import/Export'} = '导入/导出';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

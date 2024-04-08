@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.50631389055923;
+    $Self->{Completeness}        = 0.506237787464302;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -584,8 +584,7 @@ sub Data {
         'Label' => 'ฉลาก',
         'Order' => 'ลำดับ',
         'Object' => 'ออบเจค',
-        'Clone' => 'โคลนนิ่ง',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'ลบฟิลด์นี้',
 
         # Template: AdminDynamicFieldAdvanced
@@ -631,9 +630,6 @@ sub Data {
         'Field Settings' => 'การตั้งค่าฟิลด์',
         'Default value' => 'ค่าเริ่มต้น',
         'This is the default value for this field.' => 'นี่คือค่าเริ่มต้นสำหรับข้อมูลนี้',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -696,6 +692,9 @@ sub Data {
         'Searchsuffix' => '',
         'Result Limit' => '',
         'Case Sensitive' => '',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'วันที่เริ่มต้นที่แตกต่างกัน',
@@ -797,6 +796,11 @@ sub Data {
         'Add RegEx' => 'เพิ่มRegEx',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1214,14 +1218,9 @@ sub Data {
         'Find next' => '',
         'Find previous' => '',
         'Find and replace' => '',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1424,6 +1423,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => '',
         'The name must be unique.' => 'ชื่อต้องไม่ซ้ำกัน.',
+        'Clone' => 'โคลนนิ่ง',
         'Export Web Service' => '',
         'Import web service' => 'นำเข้า web service',
         'Configuration File' => 'ไฟล์การกำหนดค่า',
@@ -5043,7 +5043,6 @@ sub Data {
         'Need CustomerID!' => 'ต้องการ CustomerID!',
         'My Tickets' => 'ตั๋วของฉัน',
         'Company Tickets' => 'ตั๋วของบริษัท',
-        'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'ชื่อจริงของลูกค้า',
@@ -5534,6 +5533,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9848,9 +9849,9 @@ Thanks for your help!
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
@@ -9957,77 +9958,6 @@ Thanks for your help!
         'stats' => '',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'การจัดการ นำเข้า/ส่งออก';
-    $Self->{Translation}->{'Add template'} = 'เพิ่มแม่แบบ';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'สร้างแม่แบบเพื่อนำเข้าและส่งออกข้อมูลออบเจกต์';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '';
-    $Self->{Translation}->{'Start Import'} = 'เริ่มนำเข้า';
-    $Self->{Translation}->{'Start Export'} = 'เริ่มส่งออก';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = '';
-    $Self->{Translation}->{'Name is required!'} = 'ต้องระบุชื่อ!';
-    $Self->{Translation}->{'Object is required!'} = 'ต้องระบุออบเจกต์!';
-    $Self->{Translation}->{'Format is required!'} = 'ต้องระบุรูปแบบ!';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = '';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = '';
-    $Self->{Translation}->{'is required!'} = 'ต้องระบุ!';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = '';
-    $Self->{Translation}->{'No map elements found.'} = 'ไม่พบองค์ประกอบแผนที่';
-    $Self->{Translation}->{'Add Mapping Element'} = 'เพิ่มองค์ประกอบของการทำแผนที่';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = '';
-    $Self->{Translation}->{'Restrict export per search'} = 'การจำกัดการส่งออกตามการค้นหา';
-    $Self->{Translation}->{'Import information'} = 'ข้อมูลนำเข้า';
-    $Self->{Translation}->{'Source File'} = 'แหล่งไฟล์';
-    $Self->{Translation}->{'Import summary for %s'} = '';
-    $Self->{Translation}->{'Records'} = 'การบันทึก';
-    $Self->{Translation}->{'Success'} = 'ความสำเร็จ';
-    $Self->{Translation}->{'Duplicate names'} = 'ชื่อซ้ำ';
-    $Self->{Translation}->{'Last processed line number of import file'} = 'หมายเลขของการประมวลครั้งสุดท้ายของการนำไฟล์เข้า';
-    $Self->{Translation}->{'Ok'} = 'โอเค';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = '';
-    $Self->{Translation}->{'No format backend found!'} = '';
-    $Self->{Translation}->{'Template not found!'} = '';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = '';
-    $Self->{Translation}->{'Needed TemplateID!'} = '';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = '';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = '';
-    $Self->{Translation}->{'Template List'} = '';
-    $Self->{Translation}->{'number'} = '';
-    $Self->{Translation}->{'number bigger than zero'} = '';
-    $Self->{Translation}->{'integer'} = '';
-    $Self->{Translation}->{'integer bigger than zero'} = '';
-    $Self->{Translation}->{'Element required, please insert data'} = '';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = '';
-    $Self->{Translation}->{'Format not found!'} = '';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'ตัวคั่นคอลัมน์';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'ตัวทำตาราง(แท็บ)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'เครื่องหมายอัฒภาค(;)';
-    $Self->{Translation}->{'Colon (:)'} = 'เครื่องหมายทวิภาค (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'จุด(.)';
-    $Self->{Translation}->{'Comma (,)'} = '';
-    $Self->{Translation}->{'Charset'} = 'เซตคาเรกเตอร์';
-    $Self->{Translation}->{'Include Column Headers'} = 'รวมทั้งส่วนหัวของคอลัมน์';
-    $Self->{Translation}->{'Column'} = 'คอลัมน์';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        'รูปแบบการลงทะเบียนโมดูล backend สำหรับโมดูลการนำเข้า / ส่งออก';
-    $Self->{Translation}->{'Import and export object information.'} = 'การนำเข้าหรือส่งออกข้อมูลออบเจกต์';
-    $Self->{Translation}->{'Import/Export'} = 'การนำเข้า/ส่งออก';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',

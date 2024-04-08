@@ -54,8 +54,7 @@ msgstr ""
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
 "PO-Revision-Date: 2024-03-26 08:45+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
-"Language-Team: German <https://translate.otobo.org/projects/otobo/otobo-11/"
-"de/>\n"
+"Language-Team: German <https://translate.otobo.org/projects/otobo/otobo-11/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4063,7 +4062,7 @@ msgstr "Webservice klonen"
 msgid "The name must be unique."
 msgstr "Der Name muss eindeutig sein."
 
-#. Template: AdminDynamicField
+#. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
 msgstr "Klonen"
 
@@ -25307,15 +25306,11 @@ msgstr "Stats"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "Syntax is incorrect. Please provide a parent element name in front of the double colon."
-msgstr ""
-"Inkorrekte Syntax. Bitte geben Sie vor dem Doppelpunkt den Namen eines "
-"Elternelements ein."
+msgstr "Inkorrekte Syntax. Bitte geben Sie vor dem Doppelpunkt den Namen eines Elternelements ein."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "An element is used as parent element, but not included itself. Please include it."
-msgstr ""
-"Ein Element wird als Elternelement verwendet, ist aber selbst nicht "
-"enthalten. Bitte nehmen Sie es auf."
+msgstr "Ein Element wird als Elternelement verwendet, ist aber selbst nicht enthalten. Bitte nehmen Sie es auf."
 
 #. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
 msgid "Authentication error. Please contact the administrator."
@@ -26320,8 +26315,7 @@ msgstr "Nach Infokachel-Einträgen filtern"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Create a new entry to be displayed on the info tile on the customer dashboard."
-msgstr ""
-"Neuen Benachrichtigungstext für die Infokachel im Kundenbereich festlegen."
+msgstr "Neuen Benachrichtigungstext für die Infokachel im Kundenbereich festlegen."
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Delete info tile entry"
@@ -26329,8 +26323,7 @@ msgstr "Text Infokachel löschen"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Edit customer dashboard info tile entry"
-msgstr ""
-"Bearbeiten des Benachrichtigungstexts für die Infokachel im Kundenbereich"
+msgstr "Bearbeiten des Benachrichtigungstexts für die Infokachel im Kundenbereich"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Tile content"
@@ -26376,14 +26369,13 @@ msgstr "Von diesem Feld clonen"
 msgid "This is the namespace in which this field will be used as prefix with the name."
 msgstr "In diesem Namespace wird das Feld als Präfix zum Namen verwendet."
 
-#. Template: AdminDynamicFieldCheckbox
+#. Template: AdminDynamicFieldDB
 msgid "Multiple Values"
 msgstr "Mehrfachwerte"
 
-#. Template: AdminDynamicFieldCheckbox
+#. Template: AdminDynamicFieldDB
 msgid "Activate this option to allow multiple values for this field."
-msgstr ""
-"Aktivieren Sie diese Option, um mehrere Werte für dieses Feld zuzulassen."
+msgstr "Aktivieren Sie diese Option, um mehrere Werte für dieses Feld zuzulassen."
 
 #. Template: AdminDynamicFieldReference
 msgid "Check ReferenceFilter"
@@ -26481,7 +26473,7 @@ msgstr ""
 msgid "Autocomplete"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Full Screen"
 msgstr ""
 
@@ -26489,19 +26481,19 @@ msgstr ""
 msgid "Exit full screen"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Auto Indent Code"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Comment/Uncomment Code"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Search & Replace"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingXSLT
+#. Template: AdminDynamicFieldSet
 msgid "Select All"
 msgstr ""
 
@@ -26575,7 +26567,7 @@ msgstr ""
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Manage ticket state pre-selections for response templates"
-msgstr ""
+msgstr "Ticketstatus-Vorauswahl für Antwortvorlagen verwalten"
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Edit Response"
@@ -26583,7 +26575,7 @@ msgstr ""
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Pre-selected ticket state"
-msgstr ""
+msgstr "Ticketstatus für Vorauswahl"
 
 #. Template: AdminRole
 msgid "Include invalid roles"
@@ -26643,39 +26635,39 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Translation Management"
-msgstr ""
+msgstr "Übersetzungsverwaltung"
 
 #. Template: AdminTranslations
 msgid "Add Translations"
-msgstr ""
+msgstr "Übersetzungen hinzufügen"
 
 #. Template: AdminTranslations
 msgid "Edit Translations"
-msgstr ""
+msgstr "Übersetzungen anpassen"
 
 #. Template: AdminTranslations
 msgid "Deploy Translations"
-msgstr ""
+msgstr "Änderungen übernehmen"
 
 #. Template: AdminTranslations
 msgid "Translation States"
-msgstr ""
+msgstr "Übersetzungsstatus"
 
 #. Template: AdminTranslations
 msgid "New Translation"
-msgstr ""
+msgstr "Neue Übersetzung"
 
 #. Template: AdminTranslations
 msgid "Editing Translation"
-msgstr ""
+msgstr "Übersetzung editieren"
 
 #. Template: AdminTranslations
 msgid "Translation Marked for Deletion"
-msgstr ""
+msgstr "Zum Löschen markierte Übersetzung"
 
 #. Template: AdminTranslations
 msgid "Deployed Translation"
-msgstr ""
+msgstr "Aktive Übersetzung"
 
 #. Template: AdminTranslations
 msgid "Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files."
@@ -26683,7 +26675,7 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Select an object to start adding translations. Depending on your selection, single or multiple translations can be added."
-msgstr ""
+msgstr "Wählen Sie eine Objektklasse aus, um mit dem Übersetzen zu beginnen. Abhängig von der Wahl können einzelne oder mehrere Übersetzungen gleichzeitig zugefügt werden."
 
 #. Template: AdminTranslations
 msgid "Edit active translations using provided text fields!"
@@ -26691,11 +26683,11 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "List custom translations for"
-msgstr ""
+msgstr "Auflistung eigener Übersetzungen für"
 
 #. Template: AdminTranslations
 msgid "Draft Translations"
-msgstr ""
+msgstr "Übersetzungsentwürfe"
 
 #. Template: AdminTranslations
 msgid "Filter for Draft Translations"
@@ -26703,19 +26695,19 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Active Translations"
-msgstr ""
+msgstr "Aktive Übersetzungen"
 
 #. Template: AdminTranslations
 msgid "Filter for Active Translations"
-msgstr ""
+msgstr "Nach aktiven Übersetzungen filtern"
 
 #. Template: AdminTranslations
 msgid "Translation"
-msgstr ""
+msgstr "Übersetzung"
 
 #. Template: AdminTranslations
 msgid "Marked for Deletion"
-msgstr ""
+msgstr "Zum Löschen vorgemerkt"
 
 #. Template: AdminTranslations
 msgid "Edit Translation"
@@ -26723,19 +26715,19 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Overwrites OTOBO translation"
-msgstr ""
+msgstr "Überschreibt die OTOBO-Übersetzung"
 
 #. Template: AdminTranslations
 msgid "Undo Delete Translation"
-msgstr ""
+msgstr "Übersetzung wiederherstellen"
 
 #. Template: AdminTranslations
 msgid "Delete Translation"
-msgstr ""
+msgstr "Übersetzung löschen"
 
 #. Template: AdminTranslations
 msgid "Translations"
-msgstr ""
+msgstr "Übersetzungen"
 
 #. Template: AdminType
 msgid "Include invalid types"
@@ -26763,7 +26755,7 @@ msgstr ""
 
 #. Template: TranslationsTable
 msgid "Filter Content"
-msgstr ""
+msgstr "Inhalt filtern"
 
 #. Template: TranslationsTable
 msgid "Filter for Translations"
@@ -26771,7 +26763,7 @@ msgstr ""
 
 #. Template: TranslationsTable
 msgid "No content available to translate."
-msgstr ""
+msgstr "Kein übersetzbarer Inhalt verfügbar."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Manager"
@@ -26783,27 +26775,27 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminAttachment.pm
 msgid "No permission to edit this attachment."
-msgstr ""
+msgstr "Sie haben keine Berechtigung, diesen Anhang zu bearbeiten."
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Name is missing!"
-msgstr ""
+msgstr "Name fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Content is missing!"
-msgstr ""
+msgstr "Inhalt fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "ValidID is missing!"
-msgstr ""
+msgstr "ValidID fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Group is missing!"
-msgstr ""
+msgstr "Gruppenauswahl fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "There was an error creating the info tile entry"
-msgstr ""
+msgstr "Beim Erstellen des Info-Kachel-Eintrags ist ein Problem aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Need ID!"
@@ -26811,7 +26803,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "This Entry does not exist, or you don't have permissions to access it in its current state."
-msgstr ""
+msgstr "Der Eintrag existiert nicht, oder Sie haben nicht die notwendigen Berechtigungen, um ihn in seiner aktuellen Konfiguration aufzurufen."
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Could not get data for ID %s"
@@ -26819,15 +26811,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Info tile entry was added successfully!"
-msgstr ""
+msgstr "Info-Kachel-Eintrag wurde erfolgreich erstellt!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Info tile entry was updated successfully!"
-msgstr ""
+msgstr "Info-Kachel-Eintrag wurde erfolgreich bearbeitet!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "There was an error updating the info tile entry"
-msgstr ""
+msgstr "Beim Bearbeiten des Info-Kachel-Eintrags ist ein Problem aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "It was not possible to delete the info tile entry: %s!"
@@ -26907,35 +26899,35 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "No permission to edit this ticket notification."
-msgstr ""
+msgstr "Sie haben keine Berechtigung, diese Ticket-Benachrichtigung zu bearbeiten."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Only send within working hours"
-msgstr ""
+msgstr "Nur innerhalb der Arbeitszeit senden"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Only send outside working hours"
-msgstr ""
+msgstr "Nur außerhalb der Arbeitszeit senden"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "No permission to edit this template."
-msgstr ""
+msgstr "Sie haben keine Berechtigung, diese Vorlage zu bearbeiten."
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translation unmarked for deletion!"
-msgstr ""
+msgstr "Übersetzung wiederhergestellt!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Error trying unmark translation for delete!"
-msgstr ""
+msgstr "Fehler beim Wiederherstellungsversuch!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations changed!"
-msgstr ""
+msgstr "Übersetzungen geändert!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "No translations were changed!"
-msgstr ""
+msgstr "Keine Übersetzung wurde geändert!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Errors trying to change translations!"
@@ -26943,27 +26935,27 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations added!"
-msgstr ""
+msgstr "Übersetzungen hinzugefügt!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "No translations were given to add!"
-msgstr ""
+msgstr "Es wurden keine Übersetzungen übergeben!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translation already exists!"
-msgstr ""
+msgstr "Übersetzung bereits vorhanden!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations deployed successfuly!"
-msgstr ""
+msgstr "Übersetzungen erfolgreich übernommen!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Nothing to do!"
-msgstr ""
+msgstr "Nichts zu tun!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Errors ocurred when trying to deploy translation. Please check system logs!"
-msgstr ""
+msgstr "Fehler beim Versuch eine Übersetzung zu übernehmen. Bitte überprüfen Sie das Systemprotokoll."
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "All Items"
@@ -26971,7 +26963,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Deployment Results"
-msgstr ""
+msgstr "Inbetriebnahme-Ergebnisse"
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
 msgid "Can't set this Ticket option, no TicketID is given!"
@@ -26995,11 +26987,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
 msgid "Mark article as unseen"
-msgstr ""
+msgstr "Artikel als ungelesen markieren"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
 msgid "Mark as unseen"
-msgstr ""
+msgstr "Als ungelesen markieren"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Hide deleted articles"
@@ -27099,15 +27091,15 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "Missing Translations"
-msgstr ""
+msgstr "Fehlende Übersetzungen"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "At least one translation must be filled!"
-msgstr ""
+msgstr "Mindestens eine Übersetzung muss eingetragen sein!"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "All translations must be filled!"
-msgstr ""
+msgstr "Alle Übersetzungen müssen eingetragen sein!"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article Delete"
@@ -27179,7 +27171,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create and manage custom translations."
-msgstr ""
+msgstr "Erstellen und Verwalten eigener Übersetzungen."
 
 #. SysConfig
 msgid "Customer Reference Dynamic Field With Data Search"
@@ -27223,11 +27215,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the config parameters available in the preferences view. The default redirect URL from SysConfig 'MarkTicketSeenRedirectDefaultURL' is used if no selection is made by the agent."
-msgstr ""
+msgstr "Definiert die zur Verfügung stehenden Konfigurationsparameter in der Einstellungsansicht. Der Standard-Umleitungs-URL der SysConfig-Einstellung 'MarkTicketSeenRedirectDefaultURL' wird verwendet, falls der Agent keine Auswahl getroffen hat."
 
 #. SysConfig
 msgid "Defines the config parameters available in the preferences view. The default redirect URL from SysConfig 'MarkTicketUnseenRedirectDefaultURL' is used if no selection is made by the agent."
-msgstr ""
+msgstr "Definiert die zur Verfügung stehenden Konfigurationsparameter in der Einstellungsansicht. Der Standard-Umleitungs-URL der SysConfig-Einstellung 'MarkTicketUnseenRedirectDefaultURL' wird verwendet, falls der Agent keine Auswahl getroffen hat."
 
 #. SysConfig
 msgid "Defines the data objects avaliable to be translated."
@@ -27255,7 +27247,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the redirect URL for setting a ticket article to 'seen'."
-msgstr ""
+msgstr "Definiert den URL, zu dem umgeleitet wird, nachdem ein Artikel auf 'gelesen' gesetzt wurde."
 
 #. SysConfig
 msgid "Defines the redirect URL for setting a ticket article to 'unseen'."
@@ -27275,11 +27267,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Dialog to show after marking a ticket as seen"
-msgstr ""
+msgstr "Dialog, der angezeigt wird, nachdem ein Ticket als gelesen markiert wurde."
 
 #. SysConfig
 msgid "Dialog to show after marking a ticket as unseen"
-msgstr ""
+msgstr "Dialog, der angezeigt wird, nachdem ein Ticket als ungelesen markiert wurde."
 
 #. SysConfig
 msgid "Display settings to override defaults for dynamic field widget for Tickets."
@@ -27291,7 +27283,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic Field Contents"
-msgstr ""
+msgstr "Dynamische Feld-Inhalte"
 
 #. SysConfig
 msgid "Dynamic Field Information"
@@ -27299,7 +27291,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic Field Labels"
-msgstr ""
+msgstr "Dynamische Feld-Label"
 
 #. SysConfig
 msgid "Dynamic Field Set"
@@ -27347,7 +27339,7 @@ msgstr ""
 
 #. SysConfig
 msgid "General Label"
-msgstr ""
+msgstr "Allgemeine Übersetzungen"
 
 #. SysConfig
 msgid "If activated, a clicked activity button will be hidden in the customer ticket zoom frontend."
@@ -27355,7 +27347,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Languages"
-msgstr ""
+msgstr "Sprachen"
 
 #. SysConfig
 msgid "Lax"
@@ -27375,19 +27367,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Manage Customer Dashboard Info Tile Entries"
-msgstr ""
+msgstr "Verwaltung der Info-Kachel-Eintraege fuer das Kunden-Dashboard"
 
 #. SysConfig
 msgid "Manage ticket state pre-selections for response templates."
-msgstr ""
+msgstr "Ticketstatus-Vorauswahl für Antwortvorlagen verwalten."
 
 #. SysConfig
 msgid "Mark ticket as seen"
-msgstr ""
+msgstr "Ticket als gelesen markieren"
 
 #. SysConfig
 msgid "Mark ticket as unseen"
-msgstr ""
+msgstr "Ticket als ungelesen markieren"
 
 #. SysConfig
 msgid "Object backend module registration for the import/export module."
@@ -27399,19 +27391,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen."
-msgstr ""
+msgstr "Registriert einen Link im Ticketmenü von Ticketübersichten, um ein Ticket als gelesen zu markieren."
 
 #. SysConfig
 msgid "Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as unseen."
-msgstr ""
+msgstr "Registriert einen Link im Ticketmenü von Ticketübersichten, um ein Ticket als ungelesen zu markieren."
 
 #. SysConfig
 msgid "Registers a link in the ticket menu to mark a ticket as seen."
-msgstr ""
+msgstr "Registriert einen Link im Ticketmenü, um ein Ticket als gelesen zu markieren."
 
 #. SysConfig
 msgid "Registers a link in the ticket menu to mark a ticket as unseen."
-msgstr ""
+msgstr "Registriert einen Link im Ticketmenü, um ein Ticket als ungelesen zu markieren."
 
 #. SysConfig
 msgid "Registration of the CSV format backend module for the ImportExport feature."
@@ -27451,7 +27443,7 @@ msgstr ""
 
 #. SysConfig
 msgid "State pre-selection for Templates"
-msgstr ""
+msgstr "Vorlagen <-> Status"
 
 #. SysConfig
 msgid "Strict"
@@ -27475,15 +27467,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket States"
-msgstr ""
+msgstr "Ticketstatus"
 
 #. SysConfig
 msgid "Ticket Types"
-msgstr ""
+msgstr "Tickettypen"
 
 #. SysConfig
 msgid "Ticket state pre-selection for response templates"
-msgstr ""
+msgstr "Ticketstatus-Vorauswahl für Antwortvorlagen"
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value."
@@ -27504,3 +27496,24 @@ msgstr ""
 #. SysConfig
 msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0."
 msgstr ""
+
+#. Template: AdminDynamicField
+msgid "Copy this field"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Queue of the ticket"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+msgid "Select the queue of the ticket"
+msgstr ""
+
+#. SysConfig
+msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed."
+msgstr ""
+
+#. SysConfig
+msgid "Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed."
+msgstr ""
+

@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.288334335538184;
+    $Self->{Completeness}        = 0.288140688411243;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -585,8 +585,7 @@ sub Data {
         'Label' => 'Etiqueta',
         'Order' => 'Ordenar',
         'Object' => 'Objeto',
-        'Clone' => '',
-        'Clone from this field' => '',
+        'Copy this field' => '',
         'Delete this field' => 'Apagar este campo',
 
         # Template: AdminDynamicFieldAdvanced
@@ -632,9 +631,6 @@ sub Data {
         'Field Settings' => 'Configurações de campo',
         'Default value' => 'Valor por omissão',
         'This is the default value for this field.' => 'Este é o valor por omissão deste campo',
-        'Multiple Values' => '',
-        'Activate this option to allow multiple values for this field.' =>
-            '',
 
         # Template: AdminDynamicFieldContactWD
         'Add or edit contacts' => '',
@@ -697,6 +693,9 @@ sub Data {
         'Searchsuffix' => '',
         'Result Limit' => '',
         'Case Sensitive' => '',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Diferença de data por defeito',
@@ -798,6 +797,11 @@ sub Data {
         'Add RegEx' => 'Adicionar RegEx',
 
         # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
         'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
             '',
 
@@ -1215,14 +1219,9 @@ sub Data {
         'Find next' => 'Procurar o seguinte',
         'Find previous' => 'Encontrar o anterior',
         'Find and replace' => 'Encontrar e substituir',
-        'Full Screen' => '',
         'Exit full screen' => '',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
-        'Auto Indent Code' => '',
-        'Comment/Uncomment Code' => '',
-        'Search & Replace' => '',
-        'Select All' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
@@ -1425,6 +1424,7 @@ sub Data {
         'Include invalid webservices' => '',
         'Clone Web Service' => '',
         'The name must be unique.' => '',
+        'Clone' => '',
         'Export Web Service' => '',
         'Import web service' => '',
         'Configuration File' => 'Ficheiro de Configuração',
@@ -5041,7 +5041,6 @@ sub Data {
         'Need CustomerID!' => 'É necessário o ID de utilizador',
         'My Tickets' => 'Os meus Tickets',
         'Company Tickets' => 'Tickets da Organização',
-        'Untitled!' => 'Sem título',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'Nome Real do Cliente',
@@ -5532,6 +5531,8 @@ sub Data {
         'Full %s Text' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
         'Attribute which is displayed for values' => '',
@@ -9832,9 +9833,9 @@ Thanks for your help!
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
-        'Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed.' =>
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
@@ -9943,77 +9944,6 @@ Devemos voltar a estar online dentro de momentos.',
         'stats' => 'estatística',
 
     };
-
-    # Template: AdminImportExport
-    $Self->{Translation}->{'Import/Export Management'} = 'Gestão de Importação/Exportação';
-    $Self->{Translation}->{'Add template'} = '';
-    $Self->{Translation}->{'Create a template to import and export object information.'} = 'Criar um modelo para importar e exportar informações de objeto.';
-    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '';
-    $Self->{Translation}->{'Start Import'} = 'Iniciar Importação';
-    $Self->{Translation}->{'Start Export'} = 'Iniciar Exportação';
-    $Self->{Translation}->{'Delete this template'} = '';
-    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = '';
-    $Self->{Translation}->{'Name is required!'} = 'Nome é obrigatório!';
-    $Self->{Translation}->{'Object is required!'} = 'Objeto é obrigatório!';
-    $Self->{Translation}->{'Format is required!'} = 'O formato é obrigatório!';
-    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = '';
-    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = '';
-    $Self->{Translation}->{'is required!'} = 'é obrigatório!';
-    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = 'Passo 4 de 5 - Editar informação de mapeamento';
-    $Self->{Translation}->{'No map elements found.'} = 'Não há elementos mapa encontrado.';
-    $Self->{Translation}->{'Add Mapping Element'} = 'Adicionar elemento de mapeamento';
-    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = 'Passo 5 de 5 - Editar informação de procura';
-    $Self->{Translation}->{'Restrict export per search'} = 'Restringir exportação por pesquisa';
-    $Self->{Translation}->{'Import information'} = 'Informações de importação';
-    $Self->{Translation}->{'Source File'} = 'Arquivo de Origem';
-    $Self->{Translation}->{'Import summary for %s'} = '';
-    $Self->{Translation}->{'Records'} = 'Registos';
-    $Self->{Translation}->{'Success'} = 'Sucesso';
-    $Self->{Translation}->{'Duplicate names'} = 'Nomes duplicados';
-    $Self->{Translation}->{'Last processed line number of import file'} = 'Último número de linha processada do arquivo de importação';
-    $Self->{Translation}->{'Ok'} = 'Ok';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '';
-
-    # Perl Module: Kernel/Modules/AdminImportExport.pm
-    $Self->{Translation}->{'No object backend found!'} = '';
-    $Self->{Translation}->{'No format backend found!'} = '';
-    $Self->{Translation}->{'Template not found!'} = '';
-    $Self->{Translation}->{'Can\'t insert/update template!'} = '';
-    $Self->{Translation}->{'Needed TemplateID!'} = '';
-    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = 'Ocorreu um erro.Importação impossível!Verificar Syslog para detalhes.';
-    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = 'Ocorreu um erro.Exportação impossível!Verificar Syslog para detalhes.';
-    $Self->{Translation}->{'Template List'} = '';
-    $Self->{Translation}->{'number'} = '';
-    $Self->{Translation}->{'number bigger than zero'} = '';
-    $Self->{Translation}->{'integer'} = '';
-    $Self->{Translation}->{'integer bigger than zero'} = '';
-    $Self->{Translation}->{'Element required, please insert data'} = '';
-    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = '';
-    $Self->{Translation}->{'Format not found!'} = '';
-
-    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-    $Self->{Translation}->{'Column Separator'} = 'Separador de Colunas';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulação (TAB)';
-    $Self->{Translation}->{'Semicolon (;)'} = 'Ponto e Vírgula (;)';
-    $Self->{Translation}->{'Colon (:)'} = 'Dois Pontos (:)';
-    $Self->{Translation}->{'Dot (.)'} = 'Ponto (.)';
-    $Self->{Translation}->{'Comma (,)'} = '';
-    $Self->{Translation}->{'Charset'} = 'Codificação de Caracteres';
-    $Self->{Translation}->{'Include Column Headers'} = 'Incluir Cabeçalhos de Colunas';
-    $Self->{Translation}->{'Column'} = 'Coluna';
-
-    # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '';
-    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '';
-
-    # SysConfig
-    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
-        'Formatar módulo de registo backend do módulo de importação / exportação.';
-    $Self->{Translation}->{'Import and export object information.'} = 'Importar e exportar informações de objeto.';
-    $Self->{Translation}->{'Import/Export'} = 'Importar/Exportar';
 
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',
