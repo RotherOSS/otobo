@@ -273,6 +273,9 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             }
             // set the position of the RTE label (Core.UI.RichTextEditor.js)
             $(window).trigger('resize');
+
+            //set correct initial size after show()
+            $RTE.parent().css("height", "450px");
         });
 
         $('.ActivityStartButton').on('click', function(Event){
