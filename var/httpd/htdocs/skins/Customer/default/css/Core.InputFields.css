@@ -834,6 +834,10 @@ div.InputField_ToolbarContainer ul li a:hover {
 /**
  * @subsection  DynamicFieldRichText
  */
+ .RichTextHolder {
+    --RTE-init-size-small: 320px;
+    --RTE-init-size-large: 450px;
+ }
 
 .FieldCell > .Field.RichTextField {
     height: auto;
@@ -847,13 +851,13 @@ fieldset .RichTextHolder {
     overflow: hidden;
     z-index: 10;
     position: relative;
-    height: 320px;
+    height: var(--RTE-init-size-small);
     padding-bottom: 2px;
     
 }
 
 fieldset > .RichTextHolder {
-    height: 450px;
+    height: var(--RTE-init-size-large);
     width: 66%;
     margin-top: 48px;
     padding-top: 0px;

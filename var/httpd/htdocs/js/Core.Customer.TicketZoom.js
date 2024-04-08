@@ -275,7 +275,8 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             $(window).trigger('resize');
 
             //set correct initial size after show()
-            $RTE.parent().css("height", "450px");
+            let initialRTESize = window.getComputedStyle(document.querySelector(".RichTextHolder")).getPropertyValue("--RTE-init-size-large");
+            $RTE.parent().css("height", initialRTESize);
         });
 
         $('.ActivityStartButton').on('click', function(Event){
