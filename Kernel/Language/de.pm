@@ -9955,6 +9955,245 @@ Ihr Helpdesk-Team
 
     };
 
+    $Self->{Translation}->{'Customer Dashboard Info Tile'} = 'Info-Kachel Kunden-Dashboard';
+    $Self->{Translation}->{'Create new info tile entry'}   = 'Neuen Info-Kachel-Eintrag erstellen';
+    $Self->{Translation}->{'Filter for info tile entries'} = 'Filter fuer die Info-Kachel-Eintraege';
+    $Self->{Translation}->{'Create a new entry to be displayed on the info tile on the customer dashboard.'}
+        = 'Erstellen Sie einen neuen Info-Kachel-Eintrag fuer die Info-Kachel auf dem Kunden-Dashboard.';
+    $Self->{Translation}->{'Customer Dashboard Info Tile Management'}          = 'Kunden-Dashboard-Info-Kachel-Verwaltung';
+    $Self->{Translation}->{'Edit customer dashboard info tile entry'}          = 'Info-Kachel-Eintrag bearbeiten';
+    $Self->{Translation}->{'Start date shouldn\'t be defined afer Stop date!'} = 'Das Startdatum muss vor dem Enddatum liegen!';
+    $Self->{Translation}->{'Name is missing!'}                                 = 'Name fehlt!';
+    $Self->{Translation}->{'Tile content'}                                     = 'Kachel-Inhalt';
+    $Self->{Translation}->{'Marquee content'}                                  = 'Lauftext-Inhalt';
+    $Self->{Translation}->{'Content is missing!'}                              = 'Inhalt fehlt!';
+    $Self->{Translation}->{'ValidID is missing!'}                              = 'ValidID fehlt!';
+    $Self->{Translation}->{'Group is missing!'}                                = 'Gruppenauswahl fehlt!';
+    $Self->{Translation}->{'There was an error creating the info tile entry'}  = 'Beim Erstellen des Info-Kachel-Eintrags ist ein Problem aufgetreten';
+    $Self->{Translation}->{'This Entry does not exist, or you don\'t have permissions to access it in its current state.'}
+        = 'Der Eintrag existiert nicht, oder Sie haben nicht die notwendigen Berechtigungen, um ihn in seiner aktuellen Konfiguration aufzurufen.';
+    $Self->{Translation}->{'Could not get data for ID'}                           = 'Die Daten fuer folgende ID konnten nicht abgerufen werden: ';
+    $Self->{Translation}->{'Info tile entry was added successfully!'}             = 'Info-Kachel-Eintrag wurde erfolgreich erstellt!';
+    $Self->{Translation}->{'Info tile entry was updated successfully!'}           = 'Info-Kachel-Eintrag wurde erfolgreich bearbeitet!';
+    $Self->{Translation}->{'Session has been killed!'}                            = 'Die Session wurde beendet!';
+    $Self->{Translation}->{'All sessions have been killed, except for your own.'} = 'Alle Sessions wurden beendet bis auf Ihre eigene.';
+    $Self->{Translation}->{'There was an error updating the info tile entry'}     = 'Beim Bearbeiten des Info-Kachel-Eintrags ist ein Problem aufgetreten';
+    $Self->{Translation}->{'No Customer Dashboard Info Tile ID'}                  = 'Es konnte kein Info-Kachel-Eintrag mit folgender ID gefunden werden: ';
+    $Self->{Translation}->{'It was not possible to delete the info tile entry'}   = 'Der Info-Kachel-Eintrag konnte nicht geloescht werden';
+    $Self->{Translation}->{'Manage Customer Dashboard Info Tile Entries'}         = 'Verwaltung der Info-Kachel-Eintraege fuer das Kunden-Dashboard';
+
+    # Template: AdminImportExport
+    $Self->{Translation}->{'Import/Export Management'} = 'Import/Export-Verwaltung';
+    $Self->{Translation}->{'Add template'} = 'Vorlage hinzufügen';
+    $Self->{Translation}->{'Create a template to import and export object information.'} = 'Erstellen einer Vorlage zum Importieren und Exportieren von Objektinformationen.';
+    $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
+        'Damit Sie dieses Modul nutzen können, müssen Sie das Paket ITSM Configuration Management oder jedes andere Paket installieren, das ein Backend für zu exportierende und importierende Objekte bereitstellt.';
+    $Self->{Translation}->{'Start Import'} = 'Import starten';
+    $Self->{Translation}->{'Start Export'} = 'Export starten';
+    $Self->{Translation}->{'Delete this template'} = '';
+    $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Schritt 1 von 5 - Allgemeine Informationen bearbeiten';
+    $Self->{Translation}->{'Name is required!'} = 'Name wird benötigt!';
+    $Self->{Translation}->{'Object is required!'} = 'Objekt ist erforderlich!';
+    $Self->{Translation}->{'Format is required!'} = 'Format ist erforderlich!';
+    $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = 'Schritt 2 von 5 - Objektinformationen bearbeiten';
+    $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = 'Schritt 3 von 5 - Formatinformationen bearbeiten';
+    $Self->{Translation}->{'is required!'} = 'wird benötigt!';
+    $Self->{Translation}->{'Step 4 of 5 - Edit mapping information'} = 'Schritt 4 von 5 - Mapping-Informationen bearbeiten';
+    $Self->{Translation}->{'No map elements found.'} = 'Keine Mapping-Elemente gefunden.';
+    $Self->{Translation}->{'Add Mapping Element'} = 'Mapping-Element hinzufügen';
+    $Self->{Translation}->{'Step 5 of 5 - Edit search information'} = 'Schritt 5 von 5 - Suchinformationen bearbeiten';
+    $Self->{Translation}->{'Restrict export per search'} = 'Export per Suche einschränken';
+    $Self->{Translation}->{'Import information'} = 'Import-Informationen';
+    $Self->{Translation}->{'Source File'} = 'Quell-Datei';
+    $Self->{Translation}->{'Import summary for %s'} = 'Import-Zusammenfassung für %s';
+    $Self->{Translation}->{'Records'} = 'Datensätze';
+    $Self->{Translation}->{'Success'} = 'Erfolgreich';
+    $Self->{Translation}->{'Duplicate names'} = 'Doppelte Namen';
+    $Self->{Translation}->{'Last processed line number of import file'} = 'Zuletzt verarbeitete Zeilennummer der Import-Datei';
+    $Self->{Translation}->{'Ok'} = 'Ok';
+    $Self->{Translation}->{'Do you really want to delete this template item?'} = 'Möchten Sie dieses Vorlagenelement wirklich löschen?';
+
+    # Perl Module: Kernel/Modules/AdminImportExport.pm
+    $Self->{Translation}->{'No object backend found!'} = 'Kein Backend für das Objekt verfügbar!';
+    $Self->{Translation}->{'No format backend found!'} = 'Kein Backend für das Format verfügbar!';
+    $Self->{Translation}->{'Template not found!'} = 'Vorlage nicht verfügbar!';
+    $Self->{Translation}->{'Can\'t insert/update template!'} = 'Die Vorlage konnte nicht eingefügt oder aktualisiert werden!';
+    $Self->{Translation}->{'Needed TemplateID!'} = 'Die ID der Vorlage wird benötigt!';
+    $Self->{Translation}->{'Error occurred. Import impossible! See Syslog for details.'} = 'Fehler aufgetreten. Importieren unmöglich! Für Details siehe Systemprotokoll.';
+    $Self->{Translation}->{'Error occurred. Export impossible! See Syslog for details.'} = 'Fehler aufgetreten. Exportieren unmöglich! Für Details siehe Systemprotokoll.';
+    $Self->{Translation}->{'Template List'} = 'Vorlagenliste';
+    $Self->{Translation}->{'number'} = 'Zahl';
+    $Self->{Translation}->{'number bigger than zero'} = 'Zahl größer als Null';
+    $Self->{Translation}->{'integer'} = 'Ganzzahl';
+    $Self->{Translation}->{'integer bigger than zero'} = 'Ganzzahl größer als Null';
+    $Self->{Translation}->{'Element required, please insert data'} = 'Element erforderlich, bitte fügen Sie Daten ein';
+    $Self->{Translation}->{'Invalid data, please insert a valid %s'} = 'Ungültige Daten, bitte geben Sie ein gültiges %s ein';
+    $Self->{Translation}->{'Format not found!'} = 'Format nicht gefunden!';
+
+    # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+    $Self->{Translation}->{'Column Separator'} = 'Spaltentrenner';
+    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulator (TAB)';
+    $Self->{Translation}->{'Semicolon (;)'} = 'Semikolon (;)';
+    $Self->{Translation}->{'Colon (:)'} = 'Doppelpunkt (:)';
+    $Self->{Translation}->{'Dot (.)'} = 'Punkt (.)';
+    $Self->{Translation}->{'Comma (,)'} = 'Komma (,)';
+    $Self->{Translation}->{'Charset'} = 'Zeichensatz';
+    $Self->{Translation}->{'Include Column Headers'} = 'Mit Spaltenüberschriften';
+    $Self->{Translation}->{'Column'} = 'Spalte';
+
+    # JS File: ITSM.Admin.ImportExport
+    $Self->{Translation}->{'Deleting template...'} = 'Lösche Vorlage...';
+    $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
+        'Beim Löschen der Vorlage ist ein Fehler aufgetreten. Bitte schauen Sie im Systemprotokoll für mehr Informationen.';
+    $Self->{Translation}->{'Template was deleted successfully.'} = 'Vorlage wurde erfolgreich gelöscht.';
+
+    # SysConfig
+    $Self->{Translation}->{'Format backend module registration for the import/export module.'} =
+        'Format-Backend Modul-Registration des Import/Export Moduls.';
+    $Self->{Translation}->{'Import and export object information.'} = 'Importieren und Exportieren von Objekt-Informationen.';
+    $Self->{Translation}->{'Import/Export'} = 'Import/Export';
+
+    # Template: AdminNotificationEvent
+    $Self->{Translation}->{'Only send within working hours'} = 'Nur innerhalb der Arbeitszeit senden';
+    $Self->{Translation}->{'Only send outside working hours'} = 'Nur außerhalb der Arbeitszeit senden';
+    $Self->{Translation}->{'No permission to edit this ticket notification.'} = 'Sie haben keine Berechtigung, diese Ticket-Benachrichtigung zu bearbeiten.';
+
+    # Template: AdminAttachment
+    $Self->{Translation}->{'No permission to edit this attachment.'} = 'Sie haben keine Berechtigung, diesen Anhang zu bearbeiten.';
+    
+    # Template: AdminTemplate
+    $Self->{Translation}->{'No permission to edit this template.'} = 'Sie haben keine Berechtigung, diese Vorlage zu bearbeiten.';
+
+    # SysConfig
+    $Self->{Translation}->{
+        "Defines the config parameters available in the preferences view. The default redirect URL from SysConfig 'MarkTicketUnseenRedirectDefaultURL' is used if no selection is made by the agent."
+        }
+        = "Definiert die zur Verfügung stehenden Konfigurationsparameter in der Einstellungsansicht. Der Standard-Umleitungs-URL der SysConfig-Einstellung 'MarkTicketUnseenRedirectDefaultURL' wird verwendet, falls der Agent keine Auswahl getroffen hat.";
+    $Self->{Translation}->{"Defines the redirect URL for setting a ticket article to 'unseen."}
+        = "Definiert den URL, zu dem umgeleitet wird, nachdem ein Artikel auf 'ungelesen' gesetzt wurde.";
+    $Self->{Translation}->{
+        "Defines the config parameters available in the preferences view. The default redirect URL from SysConfig 'MarkTicketSeenRedirectDefaultURL' is used if no selection is made by the agent."
+        }
+        = "Definiert die zur Verfügung stehenden Konfigurationsparameter in der Einstellungsansicht. Der Standard-Umleitungs-URL der SysConfig-Einstellung 'MarkTicketSeenRedirectDefaultURL' wird verwendet, falls der Agent keine Auswahl getroffen hat.";
+    $Self->{Translation}->{"Defines the redirect URL for setting a ticket article to 'seen'."}
+        = "Definiert den URL, zu dem umgeleitet wird, nachdem ein Artikel auf 'gelesen' gesetzt wurde.";
+    $Self->{Translation}->{'Registers a link in the ticket menu to mark a ticket as unseen.'}
+        = 'Registriert einen Link im Ticketmenü, um ein Ticket als ungelesen zu markieren.';
+    $Self->{Translation}->{'Registers a link in the ticket menu to mark a ticket as seen.'}
+        = 'Registriert einen Link im Ticketmenü, um ein Ticket als gelesen zu markieren.';
+    $Self->{Translation}->{'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as unseen.'}
+        = 'Registriert einen Link im Ticketmenü von Ticketübersichten, um ein Ticket als ungelesen zu markieren.';
+    $Self->{Translation}->{'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.'}
+        = 'Registriert einen Link im Ticketmenü von Ticketübersichten, um ein Ticket als gelesen zu markieren.';
+    $Self->{Translation}->{"Registers an output filter that adds a 'Mark article as unseen' link to the article menu."}
+        = 'Registriert einen Output-Filter, der einen Link zur Markierung eines Artikels als ungelesen zum Artikelmenü hinzufügt.';
+    $Self->{Translation}->{"Registers an output filter that adds the 'Mark tickets as unseen' selection to the bulk view."}
+        = 'Registriert einen Output-Filter, der die Auswahl für als ungelesen zu markierende Tickets zur Sammelaktion-Ansicht hinzufügt.';
+    $Self->{Translation}->{'Mark ticket article(s) as (un)seen'}
+        = 'Ticketartikel als (un)gelesen markieren';
+    $Self->{Translation}->{'Mark ticket as (un)seen'}
+        = 'Ticket als (un)gelesen markieren';
+    $Self->{Translation}->{'Dialog to show after marking a ticket as unseen'}
+        = 'Dialog, der angezeigt wird, nachdem ein Ticket als ungelesen markiert wurde.';
+    $Self->{Translation}->{'Dialog to show after marking a ticket as seen'} = 'Dialog, der angezeigt wird, nachdem ein Ticket als gelesen markiert wurde.';
+    $Self->{Translation}->{'Mark as unseen'}                                = 'Als ungelesen markieren';
+    $Self->{Translation}->{'Mark as seen'}                                  = 'Als gelesen markieren';
+    $Self->{Translation}->{'Mark ticket as unseen'}                         = 'Ticket als ungelesen markieren';
+    $Self->{Translation}->{'Mark ticket as seen'}                           = 'Ticket als gelesen markieren';
+
+    # Templates and output filters
+    $Self->{Translation}->{'Mark article as unseen'} = 'Artikel als ungelesen markieren';
+    $Self->{Translation}->{'Mark tickets as seen'}   = 'Tickets als gelesen markieren';
+    $Self->{Translation}->{'Mark tickets as unseen'} = 'Tickets als ungelesen markieren';
+    $Self->{Translation}->{'Mark as (un)seen'}       = 'Ticket (un)gelesen';
+
+    # Template: AdminResponseTicketStatePreSelection
+    $Self->{Translation}->{'Manage ticket state pre-selections for response templates'} = 'Ticketstatus-Vorauswahl für Antwortvorlagen verwalten';
+    $Self->{Translation}->{'Edit Response'} = '';
+    $Self->{Translation}->{'Pre-selected ticket state'} = 'Ticketstatus für Vorauswahl';
+
+    # SysConfig
+    $Self->{Translation}->{'Frontend module registration for the admin interface.'} = '';
+    $Self->{Translation}->{'Manage ticket state pre-selections for response templates.'} = 'Ticketstatus-Vorauswahl für Antwortvorlagen verwalten.';
+    $Self->{Translation}->{'Provides state preselection functionality for responses.'} = 'Stellt die Funktionalität der Ticketstatus-Vorauswahl für Antwortvorlagen zur Verfügung.';
+    $Self->{Translation}->{'State pre-selection for Templates'} = 'Vorlagen <-> Status';
+    $Self->{Translation}->{'Ticket state pre-selection for response templates'} = 'Ticketstatus-Vorauswahl für Antwortvorlagen';
+
+    # Template: AdminNotificationEvent
+    $Self->{Translation}->{'Only send within working hours'} = 'Nur innerhalb der Arbeitszeit senden';
+    $Self->{Translation}->{'Only send outside working hours'} = 'Nur außerhalb der Arbeitszeit senden';
+    $Self->{Translation}->{'No permission to edit this ticket notification.'} = 'Sie haben keine Berechtigung, diese Ticket-Benachrichtigung zu bearbeiten.';
+
+    # Template: AdminAttachment
+    $Self->{Translation}->{'No permission to edit this attachment.'} = 'Sie haben keine Berechtigung, diesen Anhang zu bearbeiten.';
+    
+    # Template: AdminTemplate
+    $Self->{Translation}->{'No permission to edit this template.'} = 'Sie haben keine Berechtigung, diese Vorlage zu bearbeiten.';
+
+    $Self->{Translation}->{'Languages'} = 'Sprachen';
+    $Self->{Translation}->{'Translations'} = 'Übersetzungen';
+    $Self->{Translation}->{'Translation'} = 'Übersetzung';
+    $Self->{Translation}->{'Create and manage custom translations.'} = 'Erstellen und Verwalten eigener Übersetzungen.';
+    $Self->{Translation}->{'Translation Management'} = 'Übersetzungsverwaltung';
+    $Self->{Translation}->{'Add Translations'} = 'Übersetzungen hinzufügen';
+    $Self->{Translation}->{'Edit Translations'} = 'Übersetzungen anpassen';
+    $Self->{Translation}->{'Deploy Translations'} = 'Änderungen übernehmen';
+    $Self->{Translation}->{'Filter for Active Translations'} = 'Nach aktiven Übersetzungen filtern';
+    $Self->{Translation}->{'Filter Content'} = 'Inhalt filtern';
+    $Self->{Translation}->{'Active Translations'} = 'Aktive Übersetzungen';
+    $Self->{Translation}->{'Draft Translations'} = 'Übersetzungsentwürfe';
+    $Self->{Translation}->{'Translation States'} = 'Übersetzungsstatus';
+    $Self->{Translation}->{'New Translation'} = 'Neue Übersetzung';
+    $Self->{Translation}->{'Editing Translation'} = 'Übersetzung editieren';
+    $Self->{Translation}->{'Deployed Translation'} = 'Aktive Übersetzung';
+    $Self->{Translation}->{'Marked for Deletion'} = 'Zum Löschen vorgemerkt';
+    $Self->{Translation}->{'Translation Marked for Deletion'} = 'Zum Löschen markierte Übersetzung';
+    $Self->{Translation}->{'Delete Translation'} = 'Übersetzung löschen';
+    $Self->{Translation}->{'Undo Delete Translation'} = 'Übersetzung wiederherstellen';
+    $Self->{Translation}->{'Translation unmarked for deletion!'} = 'Übersetzung wiederhergestellt!';
+    $Self->{Translation}->{'Translation marked for deletion!'} = 'Übersetzung zum Löschen vorgemerkt!';
+    $Self->{Translation}->{'Draft translation deleted!'} = 'Entwurf gelöscht!';
+    $Self->{Translation}->{'Translation is already in the draft translations table!'} = 'Es existiert bereits ein Übersetzungsentwurf!';
+    $Self->{Translation}->{'Error trying to mark translation for deletion!'} = 'Fehler beim Vormerken zum Löschen!';
+    $Self->{Translation}->{'Error trying to delete draft translation!'} = 'Fehler beim Versuch den Übersetzungsentwurf zu entfernen!';
+    $Self->{Translation}->{'Error trying unmark translation for delete!'} = 'Fehler beim Wiederherstellungsversuch!';
+    $Self->{Translation}->{'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, new translations will be added to the system language files.'} = 
+    'Änderungen an den Übersetzungen treten erst in Kraft, nachdem die Entwürfe übernommen werden. Beim Übernehmen wird eine entsprechende Sprachdatei im System abgelegt.';
+    $Self->{Translation}->{'List custom translations for'} = 'Auflistung eigener Übersetzungen für';
+
+    $Self->{Translation}->{'Dynamic Field Labels'} = 'Dynamische Feld-Label';
+    $Self->{Translation}->{'Dynamic Field Contents'} = 'Dynamische Feld-Inhalte';
+    $Self->{Translation}->{'General Label'} = 'Allgemeine Übersetzungen';
+    $Self->{Translation}->{'Template Names'} = 'Namen von Standardvorlagen';
+    $Self->{Translation}->{'Ticket States'} = 'Ticketstatus';
+    $Self->{Translation}->{'Ticket Types'} = 'Tickettypen';
+    $Self->{Translation}->{'- List all possible values from all Dynamic Fields -'} = '- Zeige alle möglichen Werte aller dynamischer Felder -';
+    $Self->{Translation}->{'- List all possible labels from all Dynamic Fields -'} = '- Zeige alle möglichen Label aller dynamischer Felder -';
+    $Self->{Translation}->{'Translations added!'} = 'Übersetzungen hinzugefügt!';
+    $Self->{Translation}->{'No translations were given to add!'} = 'Es wurden keine Übersetzungen übergeben!';
+    $Self->{Translation}->{'No content available to translate.'} = 'Kein übersetzbarer Inhalt verfügbar.';
+    $Self->{Translation}->{'Translation already exists!'} = 'Übersetzung bereits vorhanden!';
+    $Self->{Translation}->{'All Translations'} = 'Alle Übersetzungen';
+    $Self->{Translation}->{'Target Language'} = 'Zielsprache';
+    $Self->{Translation}->{'Overwrites OTOBO translation'} = 'Überschreibt die OTOBO-Übersetzung';    
+
+    $Self->{Translation}->{'Missing Translations'} = 'Fehlende Übersetzungen';
+    $Self->{Translation}->{'At least one translation must be filled!'} = 'Mindestens eine Übersetzung muss eingetragen sein!';
+    $Self->{Translation}->{'All translations must be filled!'} = 'Alle Übersetzungen müssen eingetragen sein!';
+    $Self->{Translation}->{'No translations were changed!'} = 'Keine Übersetzung wurde geändert!';
+    $Self->{Translation}->{'Translations changed!'} = 'Übersetzungen geändert!';
+    $Self->{Translation}->{'Deployment Results'} = 'Inbetriebnahme-Ergebnisse';
+    $Self->{Translation}->{'Translations deployed successfuly!'} = 'Übersetzungen erfolgreich übernommen!';
+    $Self->{Translation}->{'Nothing to do!'} = 'Nichts zu tun!';
+    $Self->{Translation}->{'Export Untranslated strings of'} = 'Exportieren Sie nicht übersetzte Zeichenfolgen von';
+    $Self->{Translation}->{'Errors ocurred when trying to deploy translation. Please check system logs!'} = 
+    'Fehler beim Versuch eine Übersetzung zu übernehmen. Bitte überprüfen Sie das Systemprotokoll.';    
+
+    $Self->{Translation}->{'Edit current translations using provided text fields!'} = 'Vorhandene Übersetzungen in den angegebenen Textfeldern editieren!';
+
+    $Self->{Translation}->{'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.'} = 
+    'Wählen Sie eine Objektklasse aus, um mit dem Übersetzen zu beginnen. Abhängig von der Wahl können einzelne oder mehrere Übersetzungen gleichzeitig zugefügt werden.';
+
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',
         ' ...show less',

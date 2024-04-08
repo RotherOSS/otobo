@@ -9941,6 +9941,90 @@ Thanks for your help!
 
     };
 
+    $Self->{Translation}->{'Edit'} = 'Editar';
+    $Self->{Translation}->{'Restore'} = 'Restaurar';
+    $Self->{Translation}->{'Show deleted articles'} = 'Mostrar artículos borrados';
+    $Self->{Translation}->{'Hide deleted articles'} = 'Ocultar artículos borrados';
+    $Self->{Translation}->{'Are you sure you want to delete this article?'} = 'Está seguro(a) de borrar el artículo?';
+    $Self->{Translation}->{'Article Delete'} = 'Borrar Artículo';
+    $Self->{Translation}->{'Article deleted successfully!'} = 'Artículo borrado exitosamente!';
+    $Self->{Translation}->{'Information'} = 'Información';
+    $Self->{Translation}->{'Article Restore'} = 'Restaurar Artículo';
+    $Self->{Translation}->{'Are you sure you want to restore this article?'} = 'Está seguro(a) de restaurar el artículo?';
+    $Self->{Translation}->{'Article restored successfully!'} = 'Artículo restaurado exitosamente!';
+    $Self->{Translation}->{'Edit Article "%s" of %s%s%s'} = 'Editar Artículo "%s" de %s%s%s';
+    $Self->{Translation}->{'Viewing Article Version#%s of current Article: #%s %s'} = 'Visualizando Versión#%s del Artículo actual: #%s %s';
+    $Self->{Translation}->{'Article Edited'} = 'Artículo Editado';
+    $Self->{Translation}->{'The article was edited'} = 'El artículo fue editado';
+
+    $Self->{Translation}->{'Languages'} = 'Lenguajes';
+    $Self->{Translation}->{'Translations'} = 'Traducciones';
+    $Self->{Translation}->{'Translation'} = 'Traducción';
+    $Self->{Translation}->{'Create and manage custom translations.'} = 'Crear y gestionar traducciones personalizadas.';
+    $Self->{Translation}->{'Translation Management'} = 'Administración de Traducciones';
+    $Self->{Translation}->{'Add Translations'} = 'Añadir Traducciones';
+    $Self->{Translation}->{'Edit Translations'} = 'Editar Traducciones';
+    $Self->{Translation}->{'Deploy Translations'} = 'Desplegar Traducciones';
+    $Self->{Translation}->{'Filter for Active Translations'} = 'Filtrar Traducciones Desplegadas';
+    $Self->{Translation}->{'Filter Content'} = 'Filtrar Contenido';
+    $Self->{Translation}->{'Active Translations'} = 'Traducciones Desplegadas';
+    $Self->{Translation}->{'Draft Translations'} = 'Traducciones Preliminares';
+    $Self->{Translation}->{'Translation States'} = 'Estados de Traducciones';
+    $Self->{Translation}->{'New Translation'} = 'Nueva Traducción';
+    $Self->{Translation}->{'Editing Translation'} = 'Cambio en Traducción';
+    $Self->{Translation}->{'Deployed Translation'} = 'Traducción Desplegada';
+    $Self->{Translation}->{'Marked for Deletion'} = 'Marcada para borrar';
+    $Self->{Translation}->{'Translation Marked for Deletion'} = 'Traducción marcada para borrar';
+    $Self->{Translation}->{'Delete Translation'} = 'Borrar traducción';
+    $Self->{Translation}->{'Undo Delete Translation'} = 'Deshacer borrar traducción';
+    $Self->{Translation}->{'Translation unmarked for deletion!'} = 'Traducción descmarcada para borrar!';
+    $Self->{Translation}->{'Translation marked for deletion!'} = 'Traducción marcada para borrar!';
+    $Self->{Translation}->{'Draft translation deleted!'} = 'Traducción preliminar borrada!';
+    $Self->{Translation}->{'Translation is already in the draft translations table!'} = 'La traducción se encuentra en la tabla de traducciones preliminares!';
+    $Self->{Translation}->{'Error trying to mark translation for deletion!'} = 'Error al intentar marcar la traducción para borrarla!';
+    $Self->{Translation}->{'Error trying to delete draft translation!'} = 'Error al intentar borrar la traducción preliminar!';
+    $Self->{Translation}->{'Error trying unmark translation for delete!'} = 'Error al intentar desmarcar para borrar la traducción!';
+    $Self->{Translation}->{'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.'} = 
+    'Los cambios realizados aquí solo afectarán el comportamiento del sistema, una vez que se realice el despliegue de las traducciones.';
+    $Self->{Translation}->{'List custom translations for'} = 'Mostrando traducciones personalizadas para';
+
+    $Self->{Translation}->{'Dynamic Field Labels'} = 'Campos Dinámicos (Etiquetas)';
+    $Self->{Translation}->{'Dynamic Field Contents'} = 'Campos Dinámicos (Valores)';
+    $Self->{Translation}->{'General Label'} = 'Etiquetas Generales';
+    $Self->{Translation}->{'Priorities'} = 'Prioridades';
+    $Self->{Translation}->{'Queues'} = 'Colas';
+    $Self->{Translation}->{'Services'} = 'Servicios';
+    $Self->{Translation}->{'SLAs'} = 'Acuerdos de Niveles de Servicio';
+    $Self->{Translation}->{'Template Names'} = 'Nombre de Plantillas';
+    $Self->{Translation}->{'Ticket States'} = 'Estados de Tickets';
+    $Self->{Translation}->{'Ticket Types'} = 'Tipos de Tickets';
+    $Self->{Translation}->{'- List all possible values from all Dynamic Fields -'} = '- Mostrar todos los valores de todos los campos dinámicos -';
+    $Self->{Translation}->{'- List all possible labels from all Dynamic Fields -'} = '- Mostrar todas las etiquetas de todos los campos dinámicos -';
+    $Self->{Translation}->{'Translations added!'} = 'Traducciones agregadas!';
+    $Self->{Translation}->{'No translations were given to add!'} = 'No se ingresó el valor de nuevas traducciones!';
+    $Self->{Translation}->{'No content available to translate.'} = 'No hay contenido disponible para traducir.';
+    $Self->{Translation}->{'Translation already exists!'} = 'La traducción ya existe!';
+    $Self->{Translation}->{'All Translations'} = 'Todas las traducciones';
+    $Self->{Translation}->{'Target Language'} = 'Lenguaje de Trabajo';
+    $Self->{Translation}->{'Overwrites OTOBO translation'} = 'Sobrescribe una traducción de OTOBO';    
+
+    $Self->{Translation}->{'Missing Translations'} = 'Faltan datos';
+    $Self->{Translation}->{'At least one translation must be filled!'} = 'Al menos una de las traducciones de la tabla debe ser ingresada!';
+    $Self->{Translation}->{'All translations must be filled!'} = 'Todas las traducciones deben ser ingresadas!';
+    $Self->{Translation}->{'No translations were changed!'} = 'No se realizaron cambios en las traducciones!';
+    $Self->{Translation}->{'Translations changed!'} = 'Traducciones modificadas!';
+    $Self->{Translation}->{'Deployment Results'} = 'Resultados del Despliegue';
+    $Self->{Translation}->{'Translations deployed successfuly!'} = 'Traducciones desplegadas exitosamente!';
+    $Self->{Translation}->{'Nothing to do!'} = 'No hay traducciones para desplegar!';
+    $Self->{Translation}->{'Export Untranslated strings of'} = 'Exportar valores no traducidos de';
+    $Self->{Translation}->{'Errors ocurred when trying to deploy translation. Please check system logs!'} = 
+    'Ocurrio un error al desplegar las traducciones. Por favor revise el log del sistema!';
+
+    $Self->{Translation}->{'Edit active translations using provided text fields!'} = 'Edite las traducciones utilizando los campos de texto en la pantalla!';
+
+    $Self->{Translation}->{'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.'} = 
+    'Seleccione un objeto de datos para comenzar a escribir las traducciones. Se podrán agregar una o muchas traducciones dependiendo de la selección.';    
+
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',
         ' ...show less',

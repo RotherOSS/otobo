@@ -9947,6 +9947,8 @@ Thanks for your help!
 
     };
 
+    $Self->{Translation}->{'Add template'} = 'הוסף תבנית';
+
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',
         ' ...show less',
