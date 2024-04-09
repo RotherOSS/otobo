@@ -23,7 +23,7 @@
             <Hash>
                 <Item Key="MainDark">#00023c</Item>
                 <Item Key="MainLight">#f7f7f9</Item>
-                <Item Key="BGLight">#fef899</Item>
+                <Item Key="BGLight">#ffffff</Item>
                 <Item Key="BGDark">#000099</Item>
                 <Item Key="BGHoverDark">#0000fc</Item>
                 <Item Key="BGBorder">#000033</Item>
