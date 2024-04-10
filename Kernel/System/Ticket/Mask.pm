@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -102,7 +103,10 @@ sub DefinitionSet {
 
     # TODO: Introduce some checks on $DefinitionRef syntax
 
-    my $DynamicFieldReturn = $Self->_DefinitionDynamicFieldGet( Definition => $Param{DefinitionString} );
+    my $DynamicFieldReturn = $Self->_DefinitionDynamicFieldGet(
+        Definition => $Param{DefinitionString},
+        Mask       => $Param{Mask},
+    );
 
     return {
         Success => 0,
@@ -272,7 +276,10 @@ sub _DefinitionDynamicFieldGet {
         elsif ( ref $ContentHash{$Key} ) {
             %DynamicFields = (
                 %DynamicFields,
-                $Self->_DefinitionDynamicFieldGet( DefinitionPerl => $ContentHash{$Key} ),
+                $Self->_DefinitionDynamicFieldGet(
+                    DefinitionPerl => $ContentHash{$Key},
+                    Mask           => $Param{Mask},
+                ),
             );
         }
     }
@@ -281,7 +288,10 @@ sub _DefinitionDynamicFieldGet {
         if ( ref $Entry ) {
             %DynamicFields = (
                 %DynamicFields,
-                $Self->_DefinitionDynamicFieldGet( DefinitionPerl => $Entry ),
+                $Self->_DefinitionDynamicFieldGet(
+                    DefinitionPerl => $Entry,
+                    Mask           => $Param{Mask},
+                ),
             );
         }
     }
@@ -290,6 +300,20 @@ sub _DefinitionDynamicFieldGet {
         my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
         my %ReturnDynamicFields;
+
+        my @Masks = $Self->ConfiguredMasksList();
+        my @MaskDynamicFields;
+
+        MASK:
+        for my $Mask (@Masks) {
+
+            next MASK if $Mask eq $Param{Mask};
+
+            my $Definition = $Self->DefinitionGet(
+                Mask => $Mask,
+            );
+            push @MaskDynamicFields, keys $Definition->{DynamicFields}->%*;
+        }
 
         DYNAMICFIELD:
         for my $Name ( keys %DynamicFields ) {
@@ -304,6 +328,16 @@ sub _DefinitionDynamicFieldGet {
                 Success => 0,
                 Error   => sprintf( Translatable('Dynamic field "%s" not valid.'), $Name ),
             } if !$DynamicField->{ValidID} eq '1';
+
+            return {
+                Success => 0,
+                Error   => sprintf( Translatable('Dynamic field "%s" already in use in a Set.'), $Name ),
+            } if $DynamicField->{Config}{PartOfSet};
+
+            return {
+                Success => 0,
+                Error   => sprintf( Translatable('Dynamic field "%s" already in use in another mask definition.'), $Name ),
+            } if any { $_ eq $DynamicField->{Name} } @MaskDynamicFields;
 
             # Dynamic field has to be listed even without parameters
             $ReturnDynamicFields{$Name} = undef;
