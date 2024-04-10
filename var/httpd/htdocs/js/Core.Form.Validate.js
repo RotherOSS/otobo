@@ -165,6 +165,12 @@ Core.Form.Validate = (function (TargetNS) {
                     Core.Form.ErrorTooltips.InitRTETooltip($Element, InputErrorMessageHTML);
                 });
             }
+            else if ($Element.hasClass('CodeMirrorEditor')) {
+                Core.App.Subscribe('Event.UI.CodeMirrorEditor.InstanceReady', function () {
+                    var Editor = arguments[0];
+                    Core.Form.ErrorTooltips.InitCMETooltip(Editor, InputErrorMessageHTML);
+                });
+            }
             else {
                 Core.Form.ErrorTooltips.InitTooltip($Element, InputErrorMessageHTML);
             }
@@ -223,7 +229,11 @@ Core.Form.Validate = (function (TargetNS) {
             // if error field is a RTE, it is a little bit more difficult
             if ( $Element.hasClass('RichText') ) {
                 Core.Form.ErrorTooltips.RemoveRTETooltip($Element);
-            } else {
+            }
+            else if ( $Element.hasClass('CodeMirrorEditor') ) {
+                Core.Form.ErrorTooltips.RemoveCMETooltip();
+            }
+            else {
                Core.Form.ErrorTooltips.RemoveTooltip($Element);
             }
         }

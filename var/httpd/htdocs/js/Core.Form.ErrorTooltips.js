@@ -292,5 +292,32 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         TargetNS.HideTooltip();
     };
 
+    /**
+     * @name InitCMETooltip
+     * @memberof Core.Form.ErrorTooltips
+     * @function
+     * @param {jQueryObject} Editor - The CME instance for whom the tooltips are initialized.
+     * @param {String} Message - The string content that will be show in tooltip.
+     * @description
+     *      This function initializes the necessary stuff for a tooltip in a code mirror editor.
+     */
+    TargetNS.InitCMETooltip = function (Editor, Message) {
+
+        Editor.on('focus', function() {
+            TargetNS.ShowTooltip($(Editor.getWrapperElement()), Message);
+        });
+    };
+
+    /**
+     * @name RemoveCMETooltip
+     * @memberof Core.Form.ErrorTooltips
+     * @function
+     * @description
+     *      This function removes the tooltip in a code mirror editor.
+     */
+    TargetNS.RemoveCMETooltip = function () {
+        TargetNS.HideTooltip();
+    };
+
     return TargetNS;
 }(Core.Form.ErrorTooltips || {}));

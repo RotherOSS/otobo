@@ -121,7 +121,11 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
                     $(EditorLabel).removeClass('LabelError');
                     $(EditorServerError).hide();
                 }
+
+                Core.Form.ErrorTooltips.RemoveCMETooltip();
             });
+
+            Core.App.Publish('Event.UI.CodeMirrorEditor.InstanceReady', [Editor]);
 
             if ( $(EditorElement).hasClass('ServerError') && EditorServerError !== undefined ) {
                 $(EditorServerError).addClass('Error');
