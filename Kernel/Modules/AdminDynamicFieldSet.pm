@@ -213,16 +213,8 @@ sub _CheckInclude {
         if ( !$IsSetCapable ) {
             $Errors{IncludeServerError} = 'ServerError';
             $Errors{IncludeServerErrorMessage}
-                = Translatable( 'The dynamic field type "' . $DynamicField->{FieldType} . '" of dynamic field "' . $DFElement . '" can not be used in sets.' );
-
-            return;
-        }
-
-        # DF may already be in use in a set
-        if ( $DynamicField->{Config}{PartOfSet} ) {
-            $Errors{IncludeServerError} = 'ServerError';
-            $Errors{IncludeServerErrorMessage}
-                = $LayoutObject->{LanguageObject}->Translate( 'The dynamic field "%s" is already in use in another Set.', $DFElement );
+                = $LayoutObject->{LanguageObject}
+                ->Translate( 'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.', $DynamicField->{FieldType}, $DFElement );
 
             return;
         }

@@ -30,6 +30,7 @@ use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::Log',
@@ -296,24 +297,12 @@ sub _DefinitionDynamicFieldGet {
         }
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     if ( $Param{Definition} ) {
         my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
         my %ReturnDynamicFields;
-
-        my @Masks = $Self->ConfiguredMasksList();
-        my @MaskDynamicFields;
-
-        MASK:
-        for my $Mask (@Masks) {
-
-            next MASK if $Mask eq $Param{Mask};
-
-            my $Definition = $Self->DefinitionGet(
-                Mask => $Mask,
-            );
-            push @MaskDynamicFields, keys $Definition->{DynamicFields}->%*;
-        }
 
         DYNAMICFIELD:
         for my $Name ( keys %DynamicFields ) {
@@ -321,23 +310,18 @@ sub _DefinitionDynamicFieldGet {
 
             return {
                 Success => 0,
-                Error   => sprintf( Translatable('No dynamic field "%s".'), $Name ),
+                Error   => $LayoutObject->{LanguageObject}->Translate( 'No dynamic field "%s".', $Name ),
             } if !$DynamicField;
 
             return {
                 Success => 0,
-                Error   => sprintf( Translatable('Dynamic field "%s" not valid.'), $Name ),
+                Error   => $LayoutObject->{LanguageObject}->Translate( 'Dynamic field "%s" not valid.', $Name ),
             } if !$DynamicField->{ValidID} eq '1';
 
             return {
                 Success => 0,
-                Error   => sprintf( Translatable('Dynamic field "%s" already in use in a Set.'), $Name ),
+                Error   => $LayoutObject->{LanguageObject}->Translate( 'Dynamic field "%s" already in use in a Set.', $Name ),
             } if $DynamicField->{Config}{PartOfSet};
-
-            return {
-                Success => 0,
-                Error   => sprintf( Translatable('Dynamic field "%s" already in use in another mask definition.'), $Name ),
-            } if any { $_ eq $DynamicField->{Name} } @MaskDynamicFields;
 
             # Dynamic field has to be listed even without parameters
             $ReturnDynamicFields{$Name} = undef;
