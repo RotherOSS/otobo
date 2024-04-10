@@ -19,6 +19,8 @@ package Kernel::Modules::AdminDynamicFieldSet;
 use strict;
 use warnings;
 
+use List::Util qw(any);
+
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
@@ -166,6 +168,19 @@ sub _CheckInclude {
 
     my $DynamicFieldObject        = $Param{DynamicFieldObject};
     my $DynamicFieldBackendObject = $Param{DynamicFieldBackendObject};
+    my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketMaskObject          = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
+
+    my @Masks = $TicketMaskObject->ConfiguredMasksList();
+    my @MaskDynamicFields;
+
+    MASK:
+    for my $Mask (@Masks) {
+        my $Definition = $TicketMaskObject->DefinitionGet(
+            Mask => $Mask,
+        );
+        push @MaskDynamicFields, keys $Definition->{DynamicFields}->%*;
+    }
 
     # returns 1 if Dynamic Field entry is valid to be used in a set, undef otherwise
     my $CheckDFElement = sub {
@@ -185,7 +200,7 @@ sub _CheckInclude {
         );
         if ( !IsHashRefWithData($DynamicField) ) {
             $Errors{IncludeServerError}        = 'ServerError';
-            $Errors{IncludeServerErrorMessage} = Translatable( 'No valid dynamic field "' . $DFElement . '".' );
+            $Errors{IncludeServerErrorMessage} = sprintf( Translatable('No valid dynamic field "%s."'), $DFElement );
 
             return;
         }
@@ -198,7 +213,15 @@ sub _CheckInclude {
         if ( !$IsSetCapable ) {
             $Errors{IncludeServerError} = 'ServerError';
             $Errors{IncludeServerErrorMessage}
-                = Translatable( 'The dynamic field type "' . $DynamicField->{FieldType} . '" of dynamic field "' . $DFElement . '" can not be used in sets.' );
+                = sprintf( Translatable('The dynamic field type "%s" of dynamic field "%s" can not be used in sets.'), $DynamicField->{FieldType}, $DFElement );
+
+            return;
+        }
+
+        # DF may already be in use in a ticket mask
+        if ( any { $_ eq $DynamicField->{Name} } @MaskDynamicFields ) {
+            $Errors{IncludeServerError}        = 'ServerError';
+            $Errors{IncludeServerErrorMessage} = sprintf( Translatable('The dynamic field "%s" is already in use in a ticket mask.'), $DFElement );
 
             return;
         }
