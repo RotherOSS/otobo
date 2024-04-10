@@ -122,7 +122,7 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
                     $(EditorServerError).hide();
                 }
 
-                Core.Form.ErrorTooltips.RemoveCMETooltip(Editor);
+                Core.Form.ErrorTooltips.RemoveCMETooltip();
             });
 
             Core.App.Publish('Event.UI.CodeMirrorEditor.InstanceReady', [Editor]);
