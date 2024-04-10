@@ -305,6 +305,11 @@ sub _DefinitionDynamicFieldGet {
                 Error   => sprintf( Translatable('Dynamic field "%s" not valid.'), $Name ),
             } if !$DynamicField->{ValidID} eq '1';
 
+            return {
+                Success => 0,
+                Error   => sprintf( Translatable('Dynamic field "%s" already in use in a Set.'), $Name ),
+            } if $DynamicField->{Config}{PartOfSet};
+
             # Dynamic field has to be listed even without parameters
             $ReturnDynamicFields{$Name} = undef;
 
