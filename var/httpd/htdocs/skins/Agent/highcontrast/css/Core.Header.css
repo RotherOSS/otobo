@@ -14,133 +14,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 /**
- * @package     Skin "Default"
+ * @package     Skin "High Contrast"
  * @section     Header
  */
 
 @media screen,projection,tv,handheld {
 
 /**
- * @subsection  Header
- */
-#Header {
-    height: 72px;
-    padding: 10px 0 12px;
-    background: var(--colMainDark);
-    color: #FFF;
-    position: relative;
-}
-
-/**
- * @subsection  Logo
- */
-#Logo {
-    top: 25px;
-    right: 24px;
-    width: 300px;
-    height: 55px;
-    background: url(../img/logo_bg.png) no-repeat;
-    background-size: contain;
-    position: absolute;
-}
-
-.RTL #Header #Logo {
-    right: auto;
-    left: 38px;
-}
-
-
-/**
  * @subsection  Toolbar
  */
-#ToolBar {
-    left: 10px;
-    top: 15px;
-    position: absolute;
-}
-
-#ToolBar:last-child {
-    margin-left: 0px;
-}
-
-.RTL #ToolBar {
-    left: auto;
-    right: 10px;
-}
-
-#ToolBar li {
-    width: 24px;
-    height: 34px;
-    margin: 0 5px;
-    float: left;
-    position: relative;
-}
-
-.RTL #ToolBar li {
-    float: right;
-}
-
-#ToolBar li.ToolBarItemSeparator {
-    width: 0px;
-    height: 20px;
-    margin: 3px 20px 0 20px;
-    border-right: 1px solid #fff;
-    opacity: 0.35;
-    float: left;
-    position: relative;
-}
-
-#ToolBar li.Extended {
-    width: auto;
-}
-
-#ToolBar li.Extended form * {
-    float: left;
-}
-
-#ToolBar li.Extended form select {
-    margin-top: 1px;
-}
-
-#ToolBar li.UserAvatar {
-    margin: -5px 25px 0px 10px;
-}
-
 #ToolBar li.UserAvatar .Initials {
-    background: #777;
-    display: block;
-    height: 35px;
-    width: 35px;
-    border-radius: 50px;
-    color: #ccc;
-    text-indent: 0px;
-    text-align: center;
-    line-height: 37px;
     text-shadow: 1px 1px 1px var(--colBGDark);
-    border: 1px solid transparent;
-}
-
-#ToolBar li.UserAvatar i {
-    display: none !important;
-}
-
-#ToolBar li.UserAvatar > a {
-    display: block;
-    width: 37px;
-    height: 37px;
-    border-radius: 50px;
-    border: 2px solid transparent;
-    padding: 0px;
-    margin-top: -3px;
-    transition: border-color ease 0.3s;
-}
-
-body.Visible-ScreenXL #ToolBar li.UserAvatar:hover > a,
-body.Visible-ScreenXL #ToolBar li.UserAvatar > a.Active {
-    animation-name: border-fill;
-    animation-duration: 0.3s;
-    animation-timing-function: ease;
-    animation-fill-mode: forwards;
 }
 
 @keyframes border-fill {
@@ -148,20 +32,6 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar > a.Active {
     25%  { border-bottom: 2px solid var(--colBGLight); border-left: 2px solid var(--colBGLight); }
     50%  { border-bottom: 2px solid var(--colBGLight); border-left: 2px solid var(--colBGLight); border-top: 2px solid var(--colBGLight); }
     100% { border-bottom: 2px solid var(--colBGLight); border-left: 2px solid var(--colBGLight); border-top: 2px solid var(--colBGLight); border-right: 2px solid var(--colBGLight); }
-}
-
-#ToolBar form[name="SearchFulltext"],
-#ToolBar form[name="SearchProfile"] {
-    margin-left: 10px;
-}
-
-#ToolBar li.UserAvatar img {
-    width: 35px;
-    height: 35px;
-    border: 1px solid transparent;
-    display: block;
-    border-radius: 50px;
-    cursor: pointer;
 }
 
 #ToolBar li.UserAvatar div {
@@ -173,33 +43,16 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar > a.Active {
     top: 100%;
     left: -10px;
     margin-top: 22px;
-    background-color: var(--colBGDark);
+    background-color: var(--colMainDark);
 }
 
 #ToolBar li.UserAvatar div:after {
-	bottom: 100%;
-	left: 15px;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	border-color: rgba(85, 85, 85, 0);
 	border-bottom-color: var(--colBGDark);
-	border-width: 15px;
 }
 
 #ToolBar li.UserAvatar div a,
 #ToolBar li.UserAvatar div span {
-    text-indent: 0px;
-    height: auto;
-    width: auto;
-    line-height: 18px;
     color: var(--colTextLight);
-    display: block;
-    padding: 5px 10px;
-    white-space: nowrap;
     background-color: var(--colBGDark);
 }
 
@@ -208,132 +61,29 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     color: var(--colTextDark) !important;
 }
 
-#ToolBar li.UserAvatar div a:last-child {
-    padding-bottom: 10px;
-}
-
 #ToolBar li.UserAvatar div span {
-    color: white;
-    font-size: 12px;
     border-bottom: 1px solid var(--colBGLight);
-    padding-bottom: 5px;
-    margin-bottom: 5px;
-    padding-top: 10px;
     background-color: var(--colBGDark);
 }
 
-#ToolBar li.UserAvatar div strong {
-    font-weight: normal;
-}
-
 #ToolBar a {
-    height: 20px;
-    width: 24px;
-    text-indent: -9999px;
-    position: relative;
-    display: block;
     color: var(--colTextLight) !important;
 }
 
 #ToolBar a i {
-    display: block !important;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: normal !important;
-    padding: 0;
-    text-align: center;
-    text-indent: 0;
     text-shadow: 1px 1px 0 #000000;
-    width: 24px;
-    position: relative;
-    top: -9px;
     color: var(--colTextLight) !important;
 }
 
-#ToolBar a i.icon-small {
-    font-size: 12px !important;
-    position: absolute;
-    right: -7px;
-    text-align: center;
-    top: -3px;
-    width: 15px;
-    display: none !important;
-}
-
-#ToolBar .New .icon-small.icon-show-new {
-    display: block !important;
-}
-
-#ToolBar .Reached .icon-small.icon-show-reached {
-    display: block !important;
-}
-
-#ToolBar a span.Counter {
-    bottom: -14px;
-    color: #FFFFFF;
-    display: block;
-    font-size: 11px;
-    left: 50%;
-    margin-left: -12px;
-    position: absolute;
-    text-align: center;
-    text-indent: 0 !important;
-    width: 24px;
-}
-
-#ToolBar .Extended.SearchProfile {
-    position: relative;
-}
-
-#ToolBar .Extended.SearchProfile input[type=text] {
-    margin-right: 0px;
-}
-
 #ToolBar .Extended input[type=text] {
-    padding: 4px 15px 4px 29px;
     background: var(--colBGDark);
     border: 1px solid var(--colBGDark);
     box-shadow: none;
-    position: relative;
-    text-overflow: ellipsis;
-    font-size: 11px;
-    transition: all ease 0.3s;
     color: var(--colTextLight);
-    border-radius: 4px;
-}
-
-#ToolBar .Extended input[type=text]:focus {
-    background: var(--colBGDark);
-}
-
-#ToolBar .Extended input[type=text]:not(.InputField_Search) {
-    width: 90px !important;
-}
-
-#ToolBar .Extended.SearchFulltext {
-    position: relative;
 }
 
 #ToolBar .Extended.SearchFulltext:before {
-    content: "\f002";
-    font-family: FontAwesome;
-    font-size: 11px;
-    display: inline-block;
-    position: absolute;
-    left: 20px;
-    z-index: 2;
     color: var(--colTextLight);
-    top: 6px;
-}
-
-#ToolBar .Extended input[type=text]:focus {
-    position: relative;
-    z-index: 3;
-}
-
-#ToolBar .Extended input[type=text]:not(.InputField_Search):focus {
-    padding-left: 7px;
-    width: 120px !important;
 }
 
 #ToolBar .Extended input[type=text]::-webkit-input-placeholder { /* WebKit, Blink, Edge */
@@ -379,129 +129,21 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 /**
  * @subsection      Navigation Level-0
  */
-
-#NavigationContainer {
-    position: absolute;
-    top: 55px;
-    left: 10px;
-    z-index: 20;
-    width: 98%;
-    height: 34px;
-    overflow: hidden;
-}
-
-.NavContainerZIndex{
-    z-index: 5500 !important;
-}
-
-#NavigationContainer #Navigation {
-    left: 0px;
-    position: absolute;
-}
-
-.RTL #NavigationContainer {
-    left: auto;
-    right: 10px;
-}
-
 #NavigationContainer > a {
     background: var(--colMainDark);
     color: var(--colTextLight);
-    font-weight: bold;
-    font-size: 13px;
-    height: 34px;
-    line-height: 28px;
-    position: absolute;
-    text-align: center;
-    width: 20px;
-    z-index: 100;
-}
-
-#NavigationContainer > a.NavigationBarNavigateRight {
-    right: 0px;
-}
-
-#NavigationContainer > a.NavigationBarNavigateLeft {
-    left: 0px;
-}
-
-#NavigationContainer > a:hover {
-    padding-top: 1px;
-    padding-left: 1px;
-    width: 19px;
-    height: 33px;
-}
-
-#NavigationContainer > a i {
-    margin-top: 10px;
-    display: block;
-}
-
-#NavigationContainer > .fa-check {
-    position: absolute;
-    font-size: 15px;
-    top: 8px;
-    color: #777;
-    display: none;
 }
 
 /**
  * @subsection      Main hover effect
  */
-#Navigation > li {
-    float: left;
-    position: relative;
-}
-
 #Navigation > li > a {
-    display: block;
-    height: 21px;
-    padding: 8px 10px 4px 10px;
-    font-size: 12px;
-    line-height: 12px;
     color: var(--colTextLight);
     background-color: var(--colBGDark);
-    position: relative;
 }
 
 #Navigation > li > a:after {
-    width: 100%;
-    height: 3px;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
     background: var(--colTextLight);
-    content: "";
-    transform: scale(0, 1);
-    transform-origin: 0;
-    transition: transform 300ms ease;
-    will-change: transform;
-}
-
-#Navigation > li > a#GlobalSearchNav {
-    padding-right: 21px;
-}
-
-#Navigation > li > a#GlobalSearchNav i {
-    font-size: 15px;
-    margin-top: 5px;
-}
-
-.RTL #Navigation > li {
-    float: right;
-}
-
-.RTL #Navigation > li > a {
-    padding: 4px 4px 3px 15px;
-}
-
-.RTL #Navigation > li > a#GlobalSearchNav {
-    padding-right: 4px;
-    padding-left: 26px;
-}
-
-#Navigation > li:hover {
-    cursor: pointer;
 }
 
 #Navigation > li:hover > a,
@@ -510,19 +152,6 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 }
 
 
-#Navigation > li:hover > a:after,
-#Navigation > li:active > a:after,
-#Navigation > li > a:hover:after,
-#Navigation > li > a:active:after,
-#Navigation > li > a:focus:after,
-#Navigation > li.Selected > a:after {
-    transform: scale(1, 1);
-}
-
-#Navigation > .Selected {
-    z-index: 90;
-}
-
 #Navigation > .Selected > a {
     color: var(--colTextLight);
 }
@@ -530,53 +159,13 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 /**
  * @subsection      Search icon
  */
-#Navigation .Search {
-    width: 16px;
-}
-
 #Navigation a i {
-    top: 2px;
-    left: 15px;
-    font-size: 20px;
-    position: absolute;
     color: var(--colTextLight);
-}
-
-#Navigation a i.fa.fa-search {
-    color: white !important;
 }
 
 /**
  * @subsection      Navigation Second level
  */
-
-#Navigation > li > ul {
-    display: none;
-}
-
-#Navigation > .Active > ul {
-    position: absolute;
-    top: 34px;
-    left: 0px;
-    display: block;
-    z-index: 99;
-    background: var(--colMainDark);
-    min-width: 100%;
-}
-
-.RTL #Navigation > .Active > ul {
-    left: auto;
-    right: -9px;
-}
-
-#Navigation > .Active > ul > li {
-    font-size: 11px;
-    line-height: 11px;
-    margin-top: -1px;
-    position: relative;
-    white-space: nowrap;
-}
-
 #Navigation > .Active > ul > li:hover {
     background: var(--colBGLight);
 }
@@ -586,25 +175,14 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 }
 
 #Navigation > .Active > ul > li > a {
-    display: block;
-    position: relative;
-    color: #fffeea;
-    padding: 8px 10px;
     border-bottom: 1px solid #000033;
     background-color: var(--colBGDark);
 }
 
 #Navigation > .Active > ul > li > a:hover {
-    display: block;
-    position: relative;
     color: var(--colTextDark);
-    padding: 8px 10px;
     border-bottom: 1px solid #000033;
     background-color: var(--colBGLight);
-}
-
-#Navigation > .Active > ul > li:last-child > a {
-    border-bottom: none;
 }
 
 } /* end @media */

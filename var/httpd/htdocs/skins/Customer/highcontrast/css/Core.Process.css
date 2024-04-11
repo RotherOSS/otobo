@@ -14,65 +14,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 /**
- * @package     Skin "Default"
+ * @package     Skin "High Contrast"
  * @section     Process ticket
  */
 
-/* Layout */
-
-.DescriptionLong {
-    padding-top: 4px;
-}
-
-.AdviceText {
-    padding-bottom: 16px;
-}
-
-#oooArticleListExpanded > li > div + form {
-    position: relative;
-    top: -24px;
-}
-
 /* icons, buttons,... */
-
-.Activity button.oooXS {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: auto;
-    min-width: 106px;
-    max-width: 300px;
-    padding: 1px 16px;
-}
-
 .Activity button.oooXS:hover {
     background-color: var(--colBGLight);
     color: var(--colTextDark);
 }
 
 /* Fields */
-
- .FieldExplanation {
-    padding-left: 24px;
-    padding-top: 4px;
-    height: 18px;
-    margin-bottom: -22px;
- }
-
 .Row input[name=Subject] {
-    display: inline-block;
-    font-size: 16px;
-    line-height: 1.25;
-    letter-spacing: 0.4px;
-    text-align: left;
-    height: 56px;
-    padding: 0px;
-    padding-left: 32px;
-    border-radius: 10px;
-    width: calc( 100% - 32px);
     border: 1px solid var(--colBGDark);
-}
-
-.DnDUploadContainer {
-    height: auto !important;
 }

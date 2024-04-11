@@ -13,105 +13,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-/**
- * @subsection global CKEditor 5 fixes/improvements
- */
-
- .ck.ck-content h1 {
-    font-size: 2em;
- } 
-
- .ck.ck-content h2 {
-    font-size: 1.5em;
- }
-
- .ck.ck-content h3 {
-    font-size: 1.17em;
- }
-
- .ck.ck-content h5 {
-    font-size: 0.83em;
- } 
-
- .ck.ck-content h6 {
-    font-size: 0.67em;
- }  
-
-.ck.ck-editor__editable_inline {
-    padding: 15px !important;
-    line-height: 1.6;
- }
-
- .ck.ck-editor__editable_inline ul,
- .ck.ck-editor__editable_inline ol  
- {
-    padding: 0 50px !important;
- }
- 
-.ck-source-editing-area {
-    width: 100% !important;
-    height: 320px !important;
-}
-
-.ck-source-editing-area > textarea {
-    overflow: auto !important;
-    position: relative;
-    width: 100% !important;
-    height: 320px !important;
-}
-
-.ck.ck-editor__editable > .ck-placeholder::before {
-    font-size: 16px;
-}
-
-.ck.ck-editor__editable > .ck-placeholder.error::before {
-    font-size: 16px;
-    color: #ea2400;
-}
-
-.ck.ck-toolbar {
-    border-top-left-radius: 10px !important;
-    border-top-right-radius: 10px !important;
-    background: #f8f8f8 !important;
-    border: none !important;
-}
-
-.ck.ck-content blockquote {
-    font-style: normal !important;
-    border-left: solid blue 1.5pt !important; 
-    padding: 0cm 0cm 0cm 4pt !important;    
-}
-
-.ck-content {
-    border: solid 1px #e5e5eb !important;
-}
-
-.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
-    box-shadow: none !important;
-}
-
-/**
- * end @subsection global CKEditor 5 fixes/improvements
-*/
-
 body {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.5;
-    letter-spacing: 0.35px;
     color: #000;
-    color: var(--colTextDark);
     background-color: var(--colBGLight);
-}
-
-p,
-span,
-h1,
-h3 {
-    color: inherit;
 }
 
 #oooTile01 h1 {
@@ -120,85 +24,32 @@ h3 {
 
 @media only screen and (max-width: 767px) {
 
-    h1 {
-        font-size: 24px;
-        font-weight: 500;
-        letter-spacing: 0.58px;
-    }
-
     .ooog {
         color: var(--colTextLight) !important;
     }
 
 }
 
-@media only screen and (min-width: 768px) {
-
-    h1 {
-        font-size: 32px;
-        font-weight: 500;
-        letter-spacing: 0.64px;
-    }
-
-}
-
-h2 {
-    font-size: 20px;
-    font-weight: 500;
-	letter-spacing: 0.5px;
-}
-
-h3 {
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0.4px;
-}
-
-.ooo10 {
-    font-size: 10px;
-    letter-spacing: 0.25px;
-}
 .ooo10g {
-    font-size: 10px;
-    letter-spacing: 0.25px;
-    color: #7f809d;
     color: var(--colTextDark);
 }
 
-.ooo12 {
-    font-size: 12px;
-    letter-spacing: 0.3px;
-}
 .ooo12g {
-    font-size: 12px;
-    letter-spacing: 0.3px;
-    color: #7f809d;
     color: var(--colTextDark);
 }
 
 .ooog {
-    color: #7f809d;
     color: var(--colTextDark);
 }
 
 .oool {
-    color: #2626bf;
     color: var(--colTextDark);
 }
 
 button {
     background-color: #000;
     background-color: var(--colBGDark);
-    text-align: center;
-    color: #ffffff;
     color: var(--colTextLight);
-    border: none;
-    cursor: pointer;
-    font-family: 'Quicksand', sans-serif;
--webkit-transition: width 0.3s ease;
-   -moz-transition: width 0.3s ease;
-     -o-transition: width 0.3s ease;
-        transition: width 0.3s ease;
 }
 
 button:hover,
@@ -206,104 +57,4 @@ button:focus {
     background-color: var(--colBGLight);
     color: var(--colTextDark);
     border: 1px solid var(--colBGDark);
-}
-
-button,
-button.oooL {
-    width: 180px;
-    height: 48px;
-    border-radius: 24px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.5;
-    letter-spacing: 0.4px;
-}
-
-button.oooM {
-    width: 162px;
-    height: 40px;
-    border-radius: 20px;
-}
-
-button.oooS {
-    width: 151px;
-    height: 36px;
-    border-radius: 18px;
-    font-size: 12px;
-    letter-spacing: 0.3px;
-}
-
-button.oooXS {
-    width: 106px;
-    height: 36px;
-    border-radius: 18px;
-    font-size: 12px;
-    letter-spacing: 0.3px;
-}
-
-/**
- * @subsection  Text
- */
-.Center {
-    text-align: center;
-}
-
-.Hidden {
-    display: none;
-}
-
-/**
- * @subsection jQuery autocomplete
- */
-ul.ui-autocomplete {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
-    overflow-x: hidden;
-    overflow-y: none;
-}
-
-.ui-autocomplete .ui-widget-content,
-.ui-autocomplete .ui-menu-item {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.5;
-    letter-spacing: 0.35px;
-    color: #00023c;
-    color: var(--colTextDark);
-}
-
-.ui-autocomplete .ui-menu-item {
-    padding: 4px 0px 4px 24px !important;
-}
-
-.ui-autocomplete .ui-menu-item:first-child {
-    padding-top: 8px !important;
-}
-
-.ui-autocomplete .ui-menu-item:last-child {
-    padding-bottom: 8px !important;
-}
-
-.ui-autocomplete .ui-menu-item-wrapper {
-    padding: 4px 8px 4px 8px;
-    border-radius: 5px;
-}
-
-.ui-autocomplete .ui-menu-item:hover,
-.ui-autocomplete .ui-menu-item:focus,
-.ui-autocomplete .ui-menu-item:active {
-    background: #fff;
-    border: none;
-    margin: 0;
-}
-
-.ui-autocomplete .ui-menu-item-wrapper.ui-state-active {
-    background: #f7f7f9;
-    background: var(--colBGLight);
-    border: none;
-    margin: 0;
 }
