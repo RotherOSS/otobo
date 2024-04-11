@@ -125,6 +125,10 @@ div.InputField_More > div {
     border: 1px solid var(--colBGDark);
 }
 
+.oooTooltip > .Content {
+    border: 1px solid var(--colBGDark);
+}
+
 /**
  * @subsection  DynamicFieldRichText
  */
