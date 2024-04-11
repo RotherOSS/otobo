@@ -92,12 +92,16 @@ label.LabelError {
 }
 
 /* Checkboxes & Date */
+.FieldCell > div.Field > div.oooDateContainer,
+.FieldCell > div.Field.oooCheckboxContainer,
+.Row > div.Field > div.oooDateContainer,
+.Row > div.Field.oooCheckboxContainer {
+    color: var(--colTextDark);
+}
+
 /* select fields (date/datetime) */
 select {
     color: var(--colTextDark);
-    border: solid 1px var(--colTextDark);
-    padding: 4px;
-    border-radius: 5px;
 }
 
 div.InputField_ListContainer {
@@ -119,11 +123,6 @@ div.InputField_More > div {
 
 .InputField_ListContainer > .oooClose {
     border: 1px solid var(--colBGDark);
-}
-
-.oooCheckboxContainer ~ .Tooltip,
-.oooDateContainer ~ .Tooltip {
-    left: -48px;
 }
 
 /**
