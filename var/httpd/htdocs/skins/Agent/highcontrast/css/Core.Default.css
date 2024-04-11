@@ -14,7 +14,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 /**
- * @package     Skin "Default"
+ * @package     Skin "High Contrast"
  * @section     Default Settings
  */
 
@@ -23,163 +23,20 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 /**
  * @subsection  Fonts
  */
-
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    text-align: left;
-    position: relative;
     background-color: var(--colBGLight) !important;
 }
 
-.RTL {
-    text-align: right;
-    /* this will inherit to all elemtents because of reset.css */
-    direction: rtl;
-}
-
-#ViewModeSwitch {
-    margin: 5px 0px;
-}
-
-#AjaxErrorDialog {
-    display: none;
-}
-
-#AjaxErrorDialogInner {
-    width: 550px;
-    text-align: center;
-}
-
 #AjaxErrorDialogInner .Icon {
-    text-align: center;
-    display: block;
-    width: 30px;
-    height: 30px;
-    margin: 0px auto 20px auto;
-    line-height: 30px;
-    border-radius: 50px;
     background: #f92;
-    color: #fff;
-    transition: background 2s ease;
-    float: none;
-}
-
-#AjaxErrorDialogInner .Icon + p {
-    margin: 0px auto 5px auto;
-    width: 90%;
-}
-
-#AjaxErrorDialogInner .Icon i {
-    font-size: 18px;
-    vertical-align: middle;
-    margin-top: -3px;
-}
-
-#AjaxErrorDialogInner .CommunicationError .Icon {
-    background: #b8384e;
-}
-
-#AjaxErrorDialogInner .Icon.Green {
-    background: green;
-}
-
-#AjaxErrorDialogInner .FullErrorMessage {
-    color: red;
-    margin: 5px 0px;
-}
-
-/**
- * @subsection  Loading Dialog
- */
-
-.DialogWaiting {
-    text-align: center;
-}
-
-.DialogWaiting i {
-    display: block;
-    margin: 10px 0px;
-}
-
-.DialogWaiting p {
-    padding: 0px 10px 10px 10px;
-}
-
-.Dialog .InnerContent .Waiting {
-    display: none;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    background: #fff;
-    z-index: 999;
-    line-height: 100%;
-}
-
-.Dialog .InnerContent .Waiting i {
-    font-size: 14px;
-    position: absolute;
-    top: 50%;
-    margin-top: -7px;
-    left: 50%;
-    margin-left: -7px;
-}
-
-/**
- * @subsection  Print elements - Only show when page is printed
- */
-.PrintOnly {
-    display: none;
-}
-
-/**
- * @subsection  Hidden elements - Elements that are hidden at first
- */
-.Hidden {
-    display: none;
-}
-
-.Invisible {
-    visibility: hidden;
-}
-
-/**
- * @subsection      ARIA (Accessibility)
- * @subsubsection   AlertMessage
- * @note            This definition allows to create text on the page
- *                  which is not seen, but will be read by the screen reader.
- *                  display: none; cannot be used in this case.
- */
-
-.ARIAAlertMessage {
-    position: absolute !important;
-    left: -10000px;
-    right: auto;
-    top: -10000px;
-}
-
-.RTL .ARIAAlertMessage {
-    left: auto;
-    right: -10000px;
-}
-
-/**
- * @subsection  ElementPool - Hide elements for later use with JavaScript
- */
-#UIElementPool {
-    display: none;
 }
 
 /**
  * @subsection  Links
  */
-
 a {
-    text-decoration: none;
     color: var(--colTextDark);
+    text-decoration: none;
 }
 
 a:hover,
@@ -188,141 +45,17 @@ a:focus {
 }
 
 /**
- * @subsection  Headings
- */
-h1 {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-h2 {
-    font-size: 14px;
-    color: #474747;
-    margin-bottom: 10px;
-}
-
-h3 {
-    font-size: 14px;
-    color: #00023c;
-    margin-bottom: 5px;
-}
-
-h4 {
-    color: #00023c;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-h5 {
-    color: #00023c;
-    margin-bottom: 5px;
-}
-
-/**
- * @subsection  Paragraphs
- * @note        Use paragraphs instead of <div>s for text-only, multiline content!
- */
-p {
-    /* increase line-height for readability */
-    line-height: 1.3em;
-}
-
-/**
- * @subsection  Code Examples
- */
-code {
-    font-family: monospace;
-}
-
-/**
- * @subsection  Text modifiers
- */
-strong {
-    font-weight: bold;
-}
-
-em {
-    font-style: italic;
-}
-
-/**
- * @subsection  Regular lists
- * @note        List elements (ul, ol) are being reset by default to avoid browser styling, so we
-                need to define our own 'default' lists using a class.
- */
-
-ul.Default {
-    list-style-type: square;
-    margin: 5px 0px;
-    padding-left: 20px;
-}
-
-ul.Default li {
-    line-height: 130%;
-    margin-bottom: 3px;
-}
-
-/**
- * @subsection  Definition lists
- */
-dl {
-    margin: 5px 0;
-}
-
-dt {
-    font-size: 13px;
-    font-weight: bold;
-    line-height: 1.3em;
-    margin-top: 5px;
-}
-
-dd {
-    line-height: 1.3em;
-    margin-left: 15px;
-    margin-right: 0;
-}
-
-.RTL dd {
-    margin-left: 0;
-    margin-right: 15px;
-}
-
-/**
  * @subsection  Text
  */
-.Center {
-    text-align: center;
-}
-
-.Left {
-    text-align: left;
-}
-
-.FloatLeft {
-    text-align: left;
-}
-
-.Right {
-    text-align: right;
-}
-
-.FloatRight {
-    float: right;
-}
-
 .Error {
-    color: var(--colTextErr);
     font-weight: bold;
 }
 
 .Warning {
-    color: var(--NotifyWarn);
     font-weight: bold;
 }
 
 .Notice {
-    color: var(--colTextDark);
     font-weight: bold;
 }
 
@@ -331,42 +64,22 @@ dd {
     font-weight: bold;
 }
 
-.Small {
-    font-size: 90%;
-}
-
 /**
  * @subsection  Errors
  * @note        Error fields for forms
  */
-
-.ErrorBox,
-.SuccessBox {
-    display: block;
-    padding: 5px 8px 4px;
-    cursor: default;
-}
-
-.ErrorBox.Hidden,
-.SuccessBox.Hidden {
-    display: none;
-}
-
 .ErrorBox {
     color: rgba(255, 255, 255, 0.9);
     background: #B83850;
 }
 
 .SuccessBox {
-    color: #FFF;
     background: #8FB738;
 }
 
 .ErrorBox span a,
 .SuccessBox span a {
     color: #fff;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    transition: all ease 0.2s;
 }
 
 .ErrorBox span a:hover,
@@ -377,27 +90,9 @@ dd {
 /**
  * @subsection  Drag & drop upload
  */
-
-div.DnDUploadBox {
-    overflow-y: hidden;
-    width: 622px;
-    padding: 0 !important;
-}
-
 div.DnDUpload {
     border: 1px solid var(--colBGDark);
     color: var(--colTextDark);
-    min-height: 60px;
-    text-align: center;
-    position: relative;
-    margin-bottom: 5px;
-    max-width: 622px;
-    box-sizing: border-box;
-}
-
-span.ReadyForUpload {
-    padding: 30px 0px 5px;
-    display: block;
 }
 
 div.DnDUpload:focus {
@@ -405,120 +100,8 @@ div.DnDUpload:focus {
     color: #000;
 }
 
-input.AjaxDnDUpload.Error + div.DnDUpload {
-    color: #ea2400;
-    border-color: #ea2400;
-}
-
-div.DnDUpload.DragOver {
-    border-style: dashed;
-    background: #eee;
-    color: #444;
-}
-
-div.DnDUpload i {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    margin-left: -20px;
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-div.DnDUpload i.fa-spinner {
-    display: none;
-}
-
-div.DnDUpload.Uploading i.fa-download {
-    display: none;
-}
-
-div.DnDUpload.Uploading i.fa-spinner {
-    display: block;
-}
-
-div.DnDUpload .UploadRunning {
-    display: none;
-}
-
-div.DnDUpload.Uploading .ReadyForUpload {
-    display: none;
-}
-
-div.DnDUpload.Uploading .UploadRunning {
-    display: block;
-}
-
-.AttachmentListContainer {
-    position: relative;
-    max-width: 622px;
-}
-
-.AttachmentListContainer .Busy {
-    position: absolute;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    background: rgba(255, 255, 255, 0.5);
-    text-align: center;
-    box-sizing: border-box;
-    display: none;
-}
-
-.AttachmentListContainer .Busy i {
-    vertical-align: middle;
-    line-height: 100%;
-    position: absolute;
-    top: 50%;
-    font-size: 20px;
-    margin-top: -10px;
-}
-
-table.AttachmentList {
-    clear: none;
-    margin-bottom: 10px;
-    margin-top: 0px;
-    max-width: 622px;
-    table-layout: fixed;
-}
-
-table.AttachmentList .Filename {
-    width: 40%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-table.AttachmentList .Progress {
-    display: block;
-    height: 4px;
-    margin: 3px 0px;
-    background: #f92;
-    width: 0px;
-}
-
-table.AttachmentList .Filetype {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-table.AttachmentList .Filesize {
-    width: 15%;
-}
-
-table.AttachmentList .Delete {
-    width: 15px;
-    text-align: center;
-}
-
 table.AttachmentList .AttachmentDelete:focus i {
     color: #000;
-}
-
-table.AttachmentList.DataTable thead th {
-    line-height: 12px;
 }
 
 /**
@@ -526,210 +109,21 @@ table.AttachmentList.DataTable thead th {
  *          while it is still recognized and read by screen readers.
  */
 .InvisibleText {
-    width: 0;
-    height: 0;
-    display: inline-block;
-    text-indent: -9999px;
-    white-space: nowrap;
-    position: absolute !important;
     color: var(--colTextLight);
-}
-
-/**
- * @subsection  Spacings
- */
-.Spacing {
-    margin: 13px;
-}
-
-.SpacingTop {
-    margin-top: 13px;
-}
-
-.SpacingTopSmall {
-    margin-top: 8px;
-}
-
-.SpacingTopLarge {
-    margin-top: 89px;
-}
-
-.SpacingBottom {
-    margin-bottom: 13px;
-}
-
-.SpacingBottomMedium {
-    margin-bottom: 34px !important;
-}
-
-.SpacingBottomLarge {
-    margin-bottom: 89px;
-}
-
-.SpacingLeft {
-    margin-left: 10px;
-}
-
-.SpacingRight {
-    margin-right: 10px;
-}
-
-/**
- * @subsection  Indents
- */
-.Indent {
-    padding-left: 13px !important;
-}
-
-/**
- * @subsection  Box alignment
- */
-.CenterBox {
-    margin-left: auto !important;
-    margin-right: auto !important;
-}
-
-/**
- * @subsection  Controlling the display: value
- * @note        This is especially helpful for links. When
- *              they have this class, the entire block will be clickable.
- */
-.AsBlock {
-    display: block;
-}
-
-/**
- * @subsection  Clear
- */
-.Clear {
-    float: none !important;
-    clear: both !important;
-}
-
-.ClearNone {
-    clear: none !important;
-}
-
-.ClearLeft,
-.RTL .ClearRight {
-    float: none !important;
-    clear: left !important;
-}
-
-.ClearRight,
-.RTL .ClearLeft {
-    float: none !important;
-    clear: right !important;
-}
-
-/**
- * @subsection  MainBox
- */
-.MainBox {
-    position: relative;
-    padding: 16px 10px 7px 10px;
-}
-
-.RTL .MainBox {
-    padding: 4px 8px 8px 16px;
-}
-
-.OverviewBox {
-    position: relative;
-}
-
-.MainBox > h1 {
-    margin: 0;
-    padding: 10px 8px 15px 8px;
-    position: relative;
-}
-
-.MainBox > .AsteriskExplanation {
-    padding-left: 8px;
-    margin-bottom: 10px;
-}
-
-.RTL .MainBox > .AsteriskExplanation {
-    padding-left: 0px;
-    padding-right: 8px;
-}
-
-.AsteriskExplanation {
-    color: #999;
-}
-
-.MainBox.FormScreen > h1,
-.MainBox.FormScreen > .AsteriskExplanation {
-    margin-left: 24%;
-}
-
-.MainBox.FormScreen.NoSidebar > h1,
-.MainBox.FormScreen.NoSidebar > .AsteriskExplanation {
-    margin-left: 30%;
-}
-
-.RTL .MainBox.FormScreen > h1,
-.RTL .MainBox.FormScreen > .AsteriskExplanation {
-    margin-right: 24%;
-}
-
-.RTL .MainBox.FormScreen.NoSidebar > h1,
-.RTL .MainBox.FormScreen.NoSidebar > .AsteriskExplanation {
-    margin-right: 30%;
-}
-
-.OverviewBox > h1 {
-    margin: 10px 0px;
-    padding: 8px 11px 7px;
-    position: relative;
 }
 
 /**
  * @subsection  Bread crumb
  */
-
 .BreadCrumb {
-    list-style-type: none;
-    margin: 0px 2px 15px 0px;
-    padding: 7px 15px 4px 0px;
     background: var(--colBGPath);
-    position: relative;
-    padding-left: 0px;
-    padding-right: 15px;
-    overflow-y: hidden;
-    overflow-x: auto;
-    white-space: nowrap;
-    box-shadow: 1px 1px 0px #e9e9e9;
-}
-
-.RTL .BreadCrumb {
-    padding-right: 10px;
-    padding-left: 15px;
 }
 
 .BreadCrumb li {
-    display: inline-block;
-    margin: 0px 2px 0px 2px;
-    padding-left: 35px;
     color: var(--colTextDark);
-    position: relative;
-    white-space: nowrap;
-    vertical-align: middle;
-}
-
-.BreadCrumb li > a,
-.BreadCrumb li > span {
-    line-height: 14px;
-    display: inline-block;
-    padding: 0px 2px 3px 2px;
-}
-
-.BreadCrumb li:first-child {
-    padding-left: 20px;
 }
 
 .BreadCrumb li:first-child a i {
-    font-size: 16px;
     color: var(--colTextLinkPath);
 }
 
@@ -737,178 +131,32 @@ table.AttachmentList.DataTable thead th {
     color: var(--colTextLight);
 }
 
-.RTL .BreadCrumb li {
-    padding-left: 0px;
-    padding-right: 35px;
-}
-
-.RTL .BreadCrumb li:first-child {
-    padding-right: 20px;
-}
-
-.BreadCrumb li:first-child:after,
-.BreadCrumb li:first-child:before {
-    display: none;
-}
-
 .BreadCrumb a {
     color: var(--colTextLinkPath);
-    position: relative;
 }
 
 .BreadCrumb a:after {
-    position: absolute;
-    left: 0px;
-    width: 0px;
-    content: "";
-    bottom: 0px;
     border-bottom: 1px solid #bbb;
-    transition: all ease 0.3s;
-}
-
-.BreadCrumb a:hover:after,
-.BreadCrumb a:focus:after,
-.BreadCrumb a:active:after {
-    width: 100%;
-}
-
-.BreadCrumb li:before,
-.BreadCrumb li:after {
-    top: 50%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-width: 22px;
-    margin-top: -24px;
-}
-
-.BreadCrumb li:after {
-    left: 0px;
-    border-color: rgba(255, 255, 255, 0);
-    border-left-color: #fff;
-}
-
-.RTL .BreadCrumb li:after {
-    border-left-color: transparent;
-    border-right-color: #fff;
-    left: auto;
-    right: 0px;
 }
 
 .BreadCrumb li:before {
-    left: -5px;
-    border-color: rgba(238, 238, 238, 0);
     border-left-color: var(--colBGPath);
-    z-index: 2;
-}
-
-.RTL .BreadCrumb li:before {
-    left: auto;
-    right: -5px;
-    border-right-color: #f5f5f5;
-    border-left-color: transparent;
-}
-
-/**
- * @subsection  Standard Widths
- */
-.W10pc {
-    width: 10%;
-}
-
-.W20pc {
-    width: 20%;
-}
-
-.W25pc {
-    width: 25%;
-}
-
-.W33pc {
-    width: 33%;
-}
-
-.W50pc {
-    width: 50%;
-}
-
-.W60pc {
-    width: 60%;
-}
-
-.W70pc {
-    width: 70%;
-}
-
-.W75pc {
-    width: 75%;
-}
-
-.W80pc {
-    width: 80%;
-}
-
-.W90pc {
-    width: 90%;
-}
-
-.W95pc {
-    width: 95%;
-}
-
-.W100pc {
-    width: 100%;
-}
-
-.W50px {
-    width: 50px;
-}
-
-.W950px {
-    width: 950px;
 }
 
 /**
  * @subsection  MessageBox
  */
-
 .MessageBox {
     background: var(--colBGLight) !important;
     border-top: 1px solid var(--colTextDark);
-    border-bottom: 1px solid var(--colTextDark);    
-    margin: 0px;
-    position: relative;
-    z-index: 1;
-}
-
-.MessageBox.WithIcon {
-    padding-left: 20px;
-}
-
-.MessageBox.WithIcon > i {
-    position: absolute;
-    left: 12px;
-    top: 12px;
-}
-
-.MessageBox p {
-    padding: 10px 10px 10px 19px;
+    border-bottom: 1px solid var(--colTextDark);
 }
 
 .MessageBox p,
-.MessageBox a {
+.MessageBox a, 
+.MessageBox.Confirmation p,
+.MessageBox.Confirmation a {
     color: var(--colTextDark);
-}
-
-.MessageBox a:hover {
-    text-decoration: none;
-}
-
-.MessageBox > p + p {
-    margin-top: 2px;
 }
 
 .MessageBox.Error {
@@ -917,20 +165,6 @@ table.AttachmentList.DataTable thead th {
 
 .MessageBox.Confirmation {
     background: #049E35;
-}
-
-.MessageBox.Error p,
-.MessageBox.Error a,
-.MessageBox.Confirmation p,
-.MessageBox.Confirmation a {
-    color: var(--colTextDark);
-}
-
-.MessageBox p a:after {
-    content: "\2192";
-    display: inline-block;
-    font-size: 15px;
-    transition: margin ease 0.3s;
 }
 
 .MessageBox p a:hover:after {
@@ -956,19 +190,6 @@ table.AttachmentList.DataTable thead th {
     font-weight: 600;
 }
 
-.MessageBox a.Button:after {
-    content: "";
-}
-
-.MessageBox a.Button {
-    display: inline;
-    padding: 3px 7px;
-}
-
-.MessageBox a.Button:hover {
-    text-decoration: none;
-}
-
 .MessageBox.Info a.Button {
     background-color: #3E6C7C;
 }
@@ -981,100 +202,17 @@ table.AttachmentList.DataTable thead th {
     color: #89C6D1;
 }
 
-form .MessageBox{
-    margin-left: 0px;
-    margin-right: 0px;
-    margin-top: 0px;
-}
-
-/**
- * @subsection  Flag
- */
-
-.Flag.Small {
-    width: 17px;
-    height: 8px;
-    margin: 0px auto;
-}
-
-.Flag span {
-    display: block;
-    height: 100%;
-    text-indent: -9999px;
-    cursor: pointer;
-    /* set a default color for priorities */
-    background-color: #cdcdcd;
-}
-
-.Flag span.Escalated {
-    background-color:#ea2400;
-}
-
-.Flag span.New {
-    background-color: #8bef4d;
-}
-
-.Flag span.Warning {
-    background-color: #ffdd50;
-}
-
-.Flag span.PriorityID-1 {
-    background-color:#03c4f0;
-}
-
-.Flag span.PriorityID-2 {
-    background-color:#83bfc8;
-}
-
-.Flag span.PriorityID-3 {
-    background-color:#cdcdcd;
-}
-
-.Flag span.PriorityID-4 {
-    background-color:#ffaaaa;
-}
-
-.Flag span.PriorityID-5 {
-    background-color:#ea2400;
-}
-
 /**
  * @subsection  "Unread" star
  */
-span.UnreadArticles,
-div.UnreadArticles {
-    display: block;
-    width: 16px;
-    height: 15px;
-    margin-left: 6px;
-    font-weight: normal;
-    position: relative;
-    padding: 0px 3px !important;
-}
-
 span.UnreadArticles i,
 div.UnreadArticles i {
-    display: block;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    z-index: 2;
-    font-size: 14px;
     color: #bfbfce;
-}
-
-span.UnreadArticles em,
-div.UnreadArticles em {
-    display: none;
 }
 
 span.UnreadArticles i:first-child,
 div.UnreadArticles i:first-child {
     color: #777 !important;
-    font-size: 16px;
-    z-index: 1;
-    left: -1px;
-    top: -1px;
 }
 
 span.UnreadArticles.Remarkable i,
@@ -1082,27 +220,12 @@ div.UnreadArticles.Remarkable i {
     color: #F2BD0E;
 }
 
-span.UnreadArticles.Ordinary,
-div.UnreadArticles.Ordinary {
-    color: #bfbfce;
-}
-
 tbody tr:hover span.UnreadArticles i {
     color: #fff;
 }
 
 span.ImportantArticles {
-    display: block;
-    width: 16px;
-    height: 16px;
-    float: right;
-    margin: -2px 0px 0px 23px;
     color: #C10505;
-    font-size: 13px;
-}
-
-span.ImportantArticles em {
-    display: none;
 }
 
 span.ImportantArticles i {
@@ -1110,637 +233,11 @@ span.ImportantArticles i {
 }
 
 /**
- * @subsection  Charts
- */
-.Chart {
-    width: 240px;
-    height: 200px;
-}
-
-#ChartTooltip {
-    padding: 2px 8px 3px;
-    background: #000;
-    color: #FFF;
-    font-size: 11px;
-    opacity: 0.8;
-    border-radius: 8px;
-    position: absolute;
-}
-
-/**
- * @subsection  Datepicker
- */
-.DatepickerIcon {
-    margin: 1px 0 0 4px;
-    height: 16px;
-    width: 16px;
-    display: inline-block;
-    vertical-align: top;
-    color: #00023c;
-}
-
-.RTL .DatepickerIcon {
-    margin: 0 4px 0 0;
-}
-
-/* Vacation Days */
-td.Highlight a.ui-state-default {
-    border: 1px solid #fad42e;
-    background: #ffe45c !important;
-    background: -moz-linear-gradient(top,  #fff0a5 0%, #ffe45c 100%) !important;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff0a5), color-stop(100%,#ffe45c)) !important;
-    background: -webkit-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%) !important;
-    background: -o-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%) !important;
-    background: -ms-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%) !important;
-    background: linear-gradient(to bottom,  #fff0a5 0%,#ffe45c 100%) !important;
-}
-
-/* Today */
-.ui-datepicker-current-day {
-}
-
-/*Weekend*/
-.ui-datepicker-week-end {
-}
-
-/**
- * @subsection  Autocompletion
- */
-
-.ui-autocomplete {
-    /*
-     * z-index for autocomplete dropdowns has the same value as z-index for modernized select dropdowns
-     * compare Core.InputFields.css line 305
-     * important is necessary because it would otherwise be overwritten by jquery-ui css
-     * */
-    z-index: 6100 !important;
-    max-height: 200px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
-
-.ui-autocomplete .ui-menu-item {
-    font-size: 11px;
-}
-
-.ui-overlay-autocomplete {
-    z-index: 6100 !important;
-}
-
-.ui-autocomplete .ui-menu-item-wrapper.ui-state-active {
-    border: 0px;
-    margin: 0px;
-}
-
-.ui-menu-item:hover,
-.ui-menu-item:focus,
-.ui-menu-item:active,
-.ui-autocomplete .ui-menu-item-wrapper.ui-state-active {
-    background: #eee;
-}
-
-/**
- * @subsection  Icons
- */
-.IconInline {
-    display: inline-block;
-}
-
-.IconReady {
-    width: 16px;
-    height: 16px;
-    background-image: url(../img/icons/tick.png);
-}
-
-.IconNotReady {
-    width: 16px;
-    height: 16px;
-    background-image: url(../img/icons/cross.png);
-}
-
-.IconNotReadyGrey {
-    width: 16px;
-    height: 16px;
-    background-image: url(../img/icons/cross_sw.png);
-}
-
-/**
- * @subsection  Dialog popup width
- */
-iframe.TextOption {
-    width: 500px;
-    height: 400px;
-}
-
-iframe.TextOption.Customer {
-    width: 800px;
-}
-
-iframe.TextOption.CustomerUserAddressBook {
-    width: 960px;
-    min-height: 65vh;
-    max-height: 80vh;
-}
-
-/**
- * @subsection global search
- */
-#SearchForm,
-#AgentCustomerInformationCenterSearchForm, #AgentCustomerUserInformationCenterSearchForm,
-#AgentTicketCustomerIDSelection {
-    width: 760px;
-    padding-right: 20px;
-}
-
-#SearchForm #SearchProfile,
-#AgentCustomerInformationCenterSearchForm #SearchProfile {
-    max-width: 350px;
-}
-
-#ArticleFilterDialogForm {
-    width: 480px;
-    max-height: 300px;
-}
-
-#ContextSettingsDialog {
-    width: 450px;
-    max-height: 100px;
-}
-
-/**
- * @subsection global message format
- */
-.ArticleBody {
-    font-family: monospace,fixed;
-    word-wrap: break-word;
-    background: #FFF;
-    padding: 10px;
-    min-height: 70px;
-}
-
-.ArticleHTML {
-    padding: 2px 5px;
-    font-size: 11px;
-    max-height: 100px;
-    background: #FFF;
-    min-height: 70px;
-}
-
-.ArticleMailContent .ArticleHTML {
-    max-height: none;
-    font-size: 12px;
-    padding: 10px;
-}
-
-/**
- * @subsection  Chat
- */
-
-.ArticleChat .Name {
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.ArticleChat .Time {
-    padding-right: 5px;
-    color: #888;
-    white-space: nowrap;
-}
-
-.ArticleChat .SystemGenerated .Name {
-    display: none;
-}
-
-.ArticleChat .SystemGenerated .Text {
-    font-style: italic;
-    color: #888;
-}
-
-.ArticleChat .Own .Name {
-    color: red;
-}
-
-.ArticleChat > div {
-    display: table;
-}
-
-.ArticleChat > div > div {
-    display: table-row;
-}
-
-.ArticleChat > div > div > span {
-    display: table-cell;
-}
-
-#ChatStartDialog {
-    width: 500px;
-    position: relative;
-}
-
-#ChatStartDialog form {
-    display: block;
-    padding: 10px;
-}
-
-#ChatStartDialog form textarea {
-    width: 380px;
-    height: 30px;
-    font-family: Arial, sans-serif;
-    padding: 3px;
-}
-
-#ChatStartDialog form .Primary {
-    position: absolute;
-    right: 20px;
-    top: 11px;
-}
-
-#ChatStartDialog form .Primary span {
-    line-height: 26px;
-    height: 26px;
-}
-
-#ChatStartDialog form .Primary:focus {
-    border-color: #00023c;
-}
-
-.ChatProtocol {
-    border: 1px solid #ccc;
-    padding: 2px;
-    overflow-y: auto;
-    max-height: 150px;
-    width: 617px;
-}
-
-/**
- * @subsection global jQuery UI optimizations
- */
-/*
-* Bug #8288: Autocomplete search results show up in Times font when using Internet Explorer
-*/
-.ui-menu-item {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.ui-menu .ui-menu-item a {
-    display: block;
-    padding: 2px;
-    border: 0px;
-}
-
-.ui-corner-all {
-    border-radius: 0px !important;
-}
-
-.ui-widget-header {
-    background: #eee !important;
-    border: 0px !important;
-    font-weight: normal !important;
-}
-
-.ui-state-default,
-.ui-widget-content .ui-state-default,
-.ui-widget-header .ui-state-default {
-    background: #f2f2f2 !important;
-}
-
-.ui-state-hover,
-.ui-widget-content .ui-state-hover,
-.ui-widget-header .ui-state-hover,
-.ui-state-focus,
-.ui-widget-content .ui-state-focus,
-.ui-widget-header .ui-state-focus {
-    background: #ddd !important;
-}
-
-/**
  * @subsection global CKEditor 5 fixes/improvements
  */
-
-.ck.ck-content h1 {
-    font-size: 2em;
- } 
-
-.ck.ck-content h2 {
-    font-size: 1.5em;
- }
-
-.ck.ck-content h3 {
-    font-size: 1.17em;
- }
-
-.ck.ck-content h5 {
-    font-size: 0.83em;
- } 
-
-.ck.ck-content h6 {
-    font-size: 0.67em;
- } 
-
-.ck.ck-content blockquote {
-    font-style: normal !important;
-    border-left: solid blue 1.5pt !important; 
-    padding: 0cm 0cm 0cm 4pt !important;    
-}
-
-.ck.ck-editor__editable_inline {
-    padding: 15px !important;
-    line-height: 1.6;
- }
-
-.ck.ck-editor__editable_inline ul,
-.ck.ck-editor__editable_inline ol  
- {
-    padding: 0 50px !important;
- }
- 
-.ck-source-editing-area {
-    width: 100% !important;
-    height: 320px !important;
-}
-
-.ck-source-editing-area > textarea {
-    overflow: auto !important;
-    position: relative;
-    width: 100% !important;
-    height: 320px !important;
-}
-
-
-/**
- * end @subsection global CKEditor 5 fixes/improvements
-*/
-
-/**
- * @subsection global nvd3 improvements/fixes
- */
-
-.nvtooltip {
-    font-size: 11px !important;
-    border: 0px !important;
-}
-
-/*
- * @subsection Popup-Iframe (for responsive)
- */
-iframe.PopupIframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-}
-
-/**
- * @subsection  Floaters
- */
-
-body > div.MetaFloater {
-    width: 600px;
-    height: 400px;
-    background: #fff;
-    box-shadow: 2px 1px 3px #aaa;
-    position: absolute;
-    box-sizing: border-box;
-    z-index: 999;
-    margin-top: -5px;
-    border: 1px solid #eee;
-    border-top: 30px solid #eee;
-}
-
-body > div.MetaFloater:after,
-body > div.MetaFloater:before {
-    bottom: 399px;
-    left: 50%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-}
-
-body > div.MetaFloater.Left:after,
-body > div.MetaFloater.Left:before {
-    left: 15px;
-    margin-top: -1px;
-}
-
-body > div.MetaFloater.Right:after,
-body > div.MetaFloater.Right:before {
-    left: auto;
-    right: 15px;
-}
-
-body > div.MetaFloater.Bottom:after,
-body > div.MetaFloater.Bottom:before {
-    bottom: auto;
-    top: 100%;
-}
-
-body > div.MetaFloater:after {
-    border-bottom-color: #eee;
-    border-width: 15px;
-    margin-left: -15px;
-}
-
-body > div.MetaFloater.Bottom:after {
-    border-color: rgba(255, 255, 255, 0);
-    border-top-color: #fff;
-}
-
-body > div.MetaFloater:before {
-    border-color: rgba(170, 170, 170, 0);
-    border-bottom-color: #aaa;
-    border-width: 16px;
-    margin-left: -16px;
-}
-
-body > div.MetaFloater.Bottom:before {
-    border-color: rgba(170, 170, 170, 0);
-    border-top-color: #aaa;
-}
-
-body > div.MetaFloater > i.fa-spin {
-    position: absolute;
-    left: 50%;
-    font-size: 20px;
-    top: 50%;
-    margin-left: -10px;
-    margin-top: -10px;
-}
-
-body > div.MetaFloater > div.Content > iframe {
-    height: 200%;
-    left: -50%;
-    position: absolute;
-    top: -50%;
-    transform: scale(0.5);
-    width: 200%;
-}
-
-body > div.MetaFloater > div.Content > iframe.NoScale {
-    height: 100%;
-    left: 0px;
-    top: 0px;
-    transform: scale(1.0);
-    width: 100%;
-}
-
-body > div.MetaFloater > a {
-    font-size: 15px;
-    padding: 8px 10px;
-    display: block;
-    position: absolute;
-    top: -30px;
-    text-align: right;
-    box-sizing: border-box;
-    height: 30px;
-    color: #555;
-}
-
-body > div.MetaFloater > div.Content {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    overflow: hidden;
-}
-
-body > div.MetaFloater > div.NoPreview {
-    display: none;
-    text-align: center;
-    width: 50%;
-    margin: 23% auto;
-    line-height: 150%;
-    color: #777;
-}
-
-body > div.MetaFloater > div.NoPreview i {
-    display: block;
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #777;
-}
-
-body > div.MetaFloater > a.Scale {
-    left: 0px;
-}
-
-body > div.MetaFloater > a.Open {
-    left: 25px;
-}
-
-body > div.MetaFloater > a.Close {
-    right: 0px;
-}
-
-/**
- * @subsection CodeMirror (CKEditor 5 Package)
- */
-
-.CMToolbarContainer {
-    width: 100%; 
-    border: 1px solid #d1d1d1; 
-    border-bottom: none; 
-    height: 35px; 
-    background-color: #f7f7f7;
-}
-
-.CMToolbarIcons {
-    position: relative; 
-    display: table;
-    border-collapse: separate;
-    border-spacing: 8px;
-    left: 15px; 
-    background-color: #f7f7f7; 
-    font-size: 16px;
-}
-
-.CMToolbarIcons div {
-    cursor: pointer;
-    display: table-cell;
-    background-repeat: no-repeat;
-    background-size: contain;    
-}
-
-.CMToolbarIcons div:hover {
-    border-bottom: 2px solid red;
-}
-
-.CMIndent {
-    width: 20px;
-    height: 20px;
-    background-image: url(../img/icons/CM-Indent.png);
-}
-
-.CMComment {
-    width: 20px;
-    height: 20px;
-    background-image: url(../img/icons/CM-Comment.png);
-}
-
-.CMSearch {
-    width: 20px;
-    height: 20px;
-    background-image: url(../img/icons/CM-Search.png);
-}
-
-.CMSearchReplace {
-    width: 20px;
-    height: 20px;
-    background-image: url(../img/icons/CM-SearchReplace.png);
-}
-
-.CMSelectAll {
-    width: 20px;
-    height: 20px;
-    background-image: url(../img/icons/CM-SelectAll.png);
-}
-
-.CMMaximize {
-    width: 20px;
-    height: 20px;
-    background: url(../img/icons/CM-Maximize.png);
-}
-
-/**
- * end @subsection CodeMirror (CKEditor 5 Package)
- */
-
-/**
- * @subsection AJAX Loader
- */
-
-.AJAXLoader {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    margin: 4px;
-    position: relative;
-    vertical-align: bottom;
-}
-
-.AJAXLoader:after,
-#Canvas .Activity .Loader:after,
-.Loading > .Header h2:after,
-.OverviewControl.Loading .ControlRow:after {
-    -webkit-animation: fa-spin 2s infinite linear;
-    animation: fa-spin 2s infinite linear;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    line-height: 14px;
-    content: "\f1ce";
-    font-family: FontAwesome;
-    font-size: 14px;
-    color: #777;
-}
-
+.ck.ck-content p {
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
 }
 
 /*
@@ -1748,63 +245,7 @@ body > div.MetaFloater > a.Close {
  */
 @media only screen and (min-width: 1025px) {
 
-    /*
-     * @subsection Responsive classes
-     */
-    .ScreenXL {
-        display: block !important;
-    }
-
-    .SmallerOrEqualScreenXL {
-        display: block !important;
-    }
-
-    .ScreenL, .ScreenM, .ScreenS, .ScreenXS,
-    .SmallerOrEqualScreenL, .SmallerOrEqualScreenM,
-    .SmallerOrEqualScreenS, .SmallerOrEqualScreenXS {
-        display: none !important;
-    }
-
-    /*
-     * @subsection Responsive footer classes
-     * @description Used to determinethe active screen size in JavaScript
-     */
-    #ResponsiveFooter .Visible-ScreenXL {
-        display: block !important;
-    }
-
-    #ResponsiveFooter .Visible-ScreenL,
-    #ResponsiveFooter .Visible-ScreenM,
-    #ResponsiveFooter .Visible-ScreenS,
-    #ResponsiveFooter .Visible-ScreenXS {
-        display: none !important;
-    }
-
-    .ResponsiveHandle {
-        display: none !important;
-    }
-
-    .ErrorBox, .SuccessBox {
-        margin: 0px 0px 20px 0px;
-        line-height: 150%;
-    }
-
     /* Filters */
-
-    .TableFilterContainer {
-        position: relative;
-    }
-
-    .TableFilterContainer .FilterRemove {
-        position: absolute;
-        right: 6px;
-        top: 50%;
-        font-size: 12px;
-        margin-top: -6px;
-        display: none;
-        color: #aaa;
-        transition: color ease 0.3s;
-    }
 
     .TableFilterContainer .FilterRemove:focus,
     .TableFilterContainer .FilterRemove:hover,
@@ -1812,10 +253,6 @@ body > div.MetaFloater > a.Close {
         color: #000;
     }
 
-    .TableFilterContainer input,
-    .TableFilterContainer input.FilterBox {
-        padding: 7px !important;
-        box-sizing: border-box;
-        width: 100%;
-    }
+}
+
 }
