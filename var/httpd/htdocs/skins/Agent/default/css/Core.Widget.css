@@ -63,7 +63,7 @@ ul.Tablelike li:hover {
 }
 
 ul.Tablelike li:hover a {
-    color: #000;
+    color: var(--colMainDark);
 }
 
 ul.Tablelike li.Header {
@@ -95,9 +95,9 @@ ul.Tablelike li.Header + li {
     margin-bottom: 15px;
     background: var(--colBGLight);
     border-radius: 10px;
-    border-width: 1px;
-    border-color: var(--colBGDark);
-    border-style: solid;
+    box-shadow: 0 1px 4px 0 var(--colShadowWidget);
+    margin-right: 2px;
+    margin-left: 2px;
 }
 
 .WidgetSimple.WidgetLoading i {
