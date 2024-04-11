@@ -13,44 +13,12 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-body {
-    color: #000;
-    background-color: var(--colBGLight);
+/* New Ticket */
+.oooTile_NewTicket > h1 {
+    color: var(--colTextDark) !important;
 }
 
-@media only screen and (max-width: 767px) {
-
-    .ooog {
-        color: var(--colTextLight) !important;
-    }
-
-}
-
-.ooo10g {
-    color: var(--colTextDark);
-}
-
-.ooo12g {
-    color: var(--colTextDark);
-}
-
-.ooog {
-    color: var(--colTextDark);
-}
-
-.oool {
-    color: var(--colTextDark);
-}
-
-button {
-    background-color: #000;
-    background-color: var(--colBGDark);
-    color: var(--colTextLight);
-}
-
-button:hover,
-button:focus {
-    background-color: var(--colBGLight);
-    color: var(--colTextDark);
-    border: 1px solid var(--colBGDark);
+/* TicketList */
+#oooMainBox > .oooTile.oooTile_TicketList {
+    border: none;
 }
