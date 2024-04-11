@@ -23,7 +23,7 @@
             <Hash>
                 <Item Key="MainDark">#00023c</Item>
                 <Item Key="MainLight">#f7f7f9</Item>
-                <Item Key="BGLight">#ffffff</Item>
+                <Item Key="BGLight">#fef899</Item>
                 <Item Key="BGDark">#000099</Item>
                 <Item Key="BGHoverDark">#0000fc</Item>
                 <Item Key="BGBorder">#000033</Item>
@@ -41,6 +41,7 @@
                 <Item Key="HoverLight">#00023c</Item>
                 <Item Key="HoverDark">#fef235</Item>
                 <Item Key="ShadowWidget">rgba(4,0,71,0.16)</Item>
+                <Item Key="WidgetBackground">#ffffff</Item>
             </Hash>
         </Value>
     </Setting>    
@@ -68,7 +69,8 @@
                 <Item Key="NotifyWarn">#fffccc</Item>
                 <Item Key="NotifyErr">#ea2400</Item>
                 <Item Key="HoverLight">#e0e0e0</Item>
-                <Item Key="HoverDark">#b5b5b5</Item>                
+                <Item Key="HoverDark">#b5b5b5</Item>
+                <Item Key="WidgetBackground">#ffffff</Item>                
             </Hash>
         </Value>
     </Setting>

@@ -28,4 +28,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     background: var(--colBGTable);
 }
 
+.Preferences .WidgetSimple.Setting.IsLockedByMe {
+    border-left: 1px solid;
+}
 } /* end @media*/
