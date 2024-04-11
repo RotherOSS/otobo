@@ -49,8 +49,9 @@ ul.Tablelike li.Header {
 
 .WidgetSimple > .Header,
 .WidgetSimple.Collapsed.AnimationRunning > .Header {
-    padding: 2px 5px 2px 5px;
-    position: relative;
+    background: var(--colMainDark);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .WidgetSimple.Collapsed > .Header {
