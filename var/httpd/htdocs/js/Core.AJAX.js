@@ -272,7 +272,7 @@ Core.AJAX = (function (TargetNS) {
             Range,
             StartRange = 0,
             NewPosition = 0,
-            CKEditorObj = window.editor;
+            CKEditorObj;
 
         if ($Element.length) {
             $ParentBody = $Element;
@@ -287,7 +287,9 @@ Core.AJAX = (function (TargetNS) {
             }
 
             // add the text to the RichText editor
-            if (CKEditorObj && CKEditorObj.instances.RichText) {
+            if (CKEditorInstances && CKEditorInstances['RichText']) {
+                CKEditorObj = CKEditorInstances['RichText'];
+
                 // TODO: probably reintroduce 75c5b5bfe3673279c03dba2f57350e6c79e7ae84
                 CKEditorObj.editing.view.focus();
                 window.setTimeout(function () {

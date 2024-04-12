@@ -297,8 +297,8 @@ Core.Agent.TicketAction = (function (TargetNS) {
         Content = $('#' + FieldName).val();
 
         // get RTE content
-        if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances[FieldName]) {
-            Content = CKEDITOR.instances[FieldName].getData();
+        if (typeof CKEditorInstances !== 'undefined' && CKEditorInstances[FieldName]) {
+            Content = CKEditorInstances[FieldName].getData();
         }
 
         // if content already exists let user confirm to really overwrite that content with a template

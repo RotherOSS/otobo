@@ -19,7 +19,7 @@
 
 var Core = Core || {};
 Core.UI = Core.UI || {};
-var CKEditorInstances = [];
+var CKEditorInstances = {};
 
 /**
  * @namespace Core.UI.RichTextEditor
