@@ -130,6 +130,16 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         ClassicEditor.create($($EditorArea).get(0), {
+            ui: {
+                poweredBy: {
+                    position: 'inside',
+                    side: 'left',
+                    label: '',
+                    forceVisible: true,
+                    verticalOffset: 2,
+                    horizontalOffset: 2
+                }
+            },
             heading: {
                 options: [
                     { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
@@ -216,6 +226,11 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 if (CustomerInterface) {
                     $domEditableElement = $($EditorArea).closest(".RichTextHolder");
                 }
+
+                //Add Editor Theme Styles
+                let editorStyles = $domEditableElement.get(0).style;
+                editorStyles.setProperty("--ck-border-radius", "5px");
+                editorStyles.setProperty("--ck-font-size-base", "11px");
 
                 // Adjust Editor Size to match (resizable) container size
                 const resizeObserver = new ResizeObserver((entries) => {

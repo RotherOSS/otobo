@@ -6449,18 +6449,18 @@ sub SetRichTextParameters {
         @Toolbar = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       'selectAll',     '-',
+            'link',          'undo',              'redo',       '|',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
-            'sourceEditing', 'specialCharacters', '-',
+            'sourceEditing', 'specialCharacters', '|',
             'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
         );
 
         @ToolbarWithoutImage = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       'selectAll',     '-',
+            'link',          'undo',              'redo',       '|',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
-            'sourceEditing', 'specialCharacters', '-',
+            'sourceEditing', 'specialCharacters', '|',
             'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
         );
     }
@@ -6468,18 +6468,18 @@ sub SetRichTextParameters {
         @Toolbar = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       'selectAll',     '-',
+            'link',          'undo',              'redo',       '|',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
-            'sourceEditing', 'specialCharacters', '-',
+            'sourceEditing', 'specialCharacters', '|',
             'heading',       'fontFamily',        'fontSize'
         );
 
         @ToolbarWithoutImage = (
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       'selectAll',     '-',
+            'link',          'undo',              'redo',       '|',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
-            'sourceEditing', 'specialCharacters', '-',
+            'sourceEditing', 'specialCharacters', '|',
             'heading',       'fontFamily',        'fontSize'
         );
     }
