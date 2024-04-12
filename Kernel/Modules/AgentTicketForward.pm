@@ -571,7 +571,7 @@ sub Form {
     );
 
     # check some values
-    for my $Recipient (qw(To Cc Bcc Subject)) {
+    for my $Recipient (qw(To Cc Bcc)) {
         if ( $Data{$Recipient} ) {
             delete $Data{$Recipient};
         }
