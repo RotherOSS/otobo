@@ -22,6 +22,7 @@ use warnings;
 use CGI ();
 use CGI::Carp;
 use File::Path qw();
+use File::Basename qw(basename);
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -271,7 +272,7 @@ sub GetUploadAll {
     # get real file name
     my $UploadFilenameOrig = $Self->GetParam( Param => $Param{Param} ) || 'unknown';
 
-    my $NewFileName = "$UploadFilenameOrig";    # use "" to get filename of anony. object
+    my $NewFileName = basename("$UploadFilenameOrig");    # use "" to get filename of anony. object
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$NewFileName );
 
     # replace all devices like c: or d: and dirs for IE!
