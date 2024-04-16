@@ -19,8 +19,6 @@ package Kernel::Modules::AdminDynamicFieldSet;
 use strict;
 use warnings;
 
-use List::Util qw(any);
-
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
@@ -172,14 +170,17 @@ sub _CheckInclude {
     my $TicketMaskObject          = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
 
     my @Masks = $TicketMaskObject->ConfiguredMasksList();
-    my @MaskDynamicFields;
+    my %MaskDynamicFields;
 
     MASK:
     for my $Mask (@Masks) {
         my $Definition = $TicketMaskObject->DefinitionGet(
             Mask => $Mask,
         );
-        push @MaskDynamicFields, keys $Definition->{DynamicFields}->%*;
+        %MaskDynamicFields = (
+            %MaskDynamicFields,
+            map { $_ => 1 } keys $Definition->{DynamicFields}->%*,
+        );
     }
 
     # returns 1 if Dynamic Field entry is valid to be used in a set, undef otherwise
@@ -219,7 +220,7 @@ sub _CheckInclude {
         }
 
         # DF may already be in use in a ticket mask
-        if ( any { $_ eq $DynamicField->{Name} } @MaskDynamicFields ) {
+        if ( $MaskDynamicFields{ $DynamicField->{Name} } ) {
             $Errors{IncludeServerError}        = 'ServerError';
             $Errors{IncludeServerErrorMessage} = sprintf( Translatable('The dynamic field "%s" is already in use in a ticket mask.'), $DFElement );
 
