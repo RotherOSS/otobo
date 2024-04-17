@@ -6459,28 +6459,65 @@ sub SetRichTextParameters {
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       '|',
-            'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+            'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '|',
             'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
         );
     }
     else {
         @Toolbar = (
-            'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       '|',
-            'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
-            'sourceEditing', 'specialCharacters', '|',
-            'heading',       'fontFamily',        'fontSize'
+            'heading',
+            'fontSize',
+            'fontFamily',
+            '|',
+            'fontBackgroundColor',
+            'fontColor',
+            '|',
+            'bold',
+            'underline',
+            'italic',
+            'strikethrough',
+            '|',
+            'bulletedList',
+            'numberedList',
+            '|',
+            'outdent',
+            'indent',
+            'link',
+            'blockQuote',
+            'removeFormat',
+            '|',
+            'imageInsert',
+            'insertTable',
+            '|',
+            'sourceEditing'
         );
 
         @ToolbarWithoutImage = (
-            'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       '|',
-            'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
-            'sourceEditing', 'specialCharacters', '|',
-            'heading',       'fontFamily',        'fontSize'
+            'heading',
+            'fontSize',
+            'fontFamily',
+            '|',
+            'fontBackgroundColor',
+            'fontColor',
+            '|',
+            'bold',
+            'underline',
+            'italic',
+            'strikethrough',
+            '|',
+            'bulletedList',
+            'numberedList',
+            '|',
+            'outdent',
+            'indent',
+            'link',
+            'blockQuote',
+            'removeFormat',
+            '|',
+            'insertTable',
+            '|',
+            'sourceEditing'
         );
     }
 
@@ -6565,7 +6602,7 @@ sub CustomerSetRichTextParameters {
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       'selectAll',     '-',
-            'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+            'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
             'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
         );
@@ -6583,21 +6620,58 @@ sub CustomerSetRichTextParameters {
     }
     else {
         @Toolbar = (
-            'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       'selectAll',     '-',
-            'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
-            'sourceEditing', 'specialCharacters', '-',
-            'heading',       'fontFamily',        'fontSize'
+            'heading',
+            'fontSize',
+            'fontFamily',
+            '|',
+            'fontBackgroundColor',
+            'fontColor',
+            '|',
+            'bold',
+            'underline',
+            'italic',
+            'strikethrough',
+            '|',
+            'bulletedList',
+            'numberedList',
+            '|',
+            'outdent',
+            'indent',
+            '|',
+            'link',
+            'blockQuote',
+            'removeFormat',
+            'imageInsert',
+            'insertTable',
+            '|',
+            'sourceEditing'
         );
 
         @ToolbarWithoutImage = (
-            'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       'selectAll',     '-',
-            'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
-            'sourceEditing', 'specialCharacters', '-',
-            'heading',       'fontFamily',        'fontSize'
+            'heading',
+            'fontSize',
+            'fontFamily',
+            '|',
+            'fontBackgroundColor',
+            'fontColor',
+            '|',
+            'bold',
+            'underline',
+            'italic',
+            'strikethrough',
+            '|',
+            'bulletedList',
+            'numberedList',
+            '|',
+            'outdent',
+            'indent',
+            'link',
+            'blockQuote',
+            'removeFormat',
+            '|',
+            'insertTable',
+            '|',
+            'sourceEditing'
         );
 
         @ToolbarMidi = (
