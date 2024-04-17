@@ -234,21 +234,21 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     editorStyles.setProperty("--ck-font-size-base", "14px");
                     let stickyPanelStyle = $(".ck.ck-sticky-panel").get(0).style;
                     stickyPanelStyle.setProperty("margin-left", "4px");
-                    stickyPanelStyle.setProperty("margin-right", "4px");
+                    stickyPanelStyle.setProperty("margin-right", "0px");
                     let $textdropdown = $(".ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label");
                     if ($textdropdown.length > 0 ) {
                         $textdropdown.get(0).style.setProperty("width", "7.8em");
                         $textdropdown.parent().get(0).style.setProperty("padding-left", "4px");
                     }
                     $(".ck.ck-toolbar__items")
-                        .get(0).style.setProperty("gap", "2.5px");
+                        .get(0).style.setProperty("gap", "1px");
                 } else {
                     editorStyles.setProperty("--ck-border-radius", "5px");
                     editorStyles.setProperty("--ck-font-size-base", "11.5px");
                     $(".ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label")
-                        .get(0).style.setProperty("width", "9.1em");
+                        .get(0).style.setProperty("width", "7.5em");
                     $(".ck.ck-toolbar__items")
-                        .get(0).style.setProperty("gap", "2.5px");
+                        .get(0).style.setProperty("gap", "1px");
                 }
                 
 

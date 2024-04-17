@@ -6483,6 +6483,7 @@ sub SetRichTextParameters {
             '|',
             'outdent',
             'indent',
+            'alignment',
             'link',
             'blockQuote',
             'removeFormat',
@@ -6511,6 +6512,7 @@ sub SetRichTextParameters {
             '|',
             'outdent',
             'indent',
+            'alignment',
             'link',
             'blockQuote',
             'removeFormat',
@@ -6637,14 +6639,15 @@ sub CustomerSetRichTextParameters {
             '|',
             'outdent',
             'indent',
+            'alignment',
             '|',
+            'sourceEditing',
             'link',
             'blockQuote',
             'removeFormat',
-            'imageInsert',
-            'insertTable',
             '|',
-            'sourceEditing'
+            'imageInsert',
+            'insertTable'
         );
 
         @ToolbarWithoutImage = (
@@ -6665,13 +6668,14 @@ sub CustomerSetRichTextParameters {
             '|',
             'outdent',
             'indent',
+            'alignment',
+            '|',
+            'sourceEditing',
             'link',
             'blockQuote',
             'removeFormat',
             '|',
-            'insertTable',
-            '|',
-            'sourceEditing'
+            'insertTable'
         );
 
         @ToolbarMidi = (
