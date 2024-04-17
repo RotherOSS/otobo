@@ -2401,7 +2401,10 @@ sub AutoloadPerlPackages {
                 my $FileName = $Package =~ s{::}{/}smxgr;
 
                 require $FileName . '.pm'; ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-            };
+            }
+            catch {
+                print STDERR "ERROR: $_!\n";
+            }
         }
     }
 
