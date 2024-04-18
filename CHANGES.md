@@ -1,7 +1,7 @@
 
 # OTOBO 10.1.10 2024-04-18
 - 2024-04-18 10:53:22 +0200 Create new OTOBO language files.
-- 2024-04-04 07:23:01 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-04-04 07:23:01 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2024-03-27 14:05:19 +0000 Update translation files
 - 2024-04-17 15:07:02 +0200 [Security] Prohibit path traversal in file upload. (Thanks to the Znuny team and Martino Spagnuolo.) (https://github.com/RotherOSS/otobo/issues/3309)
 - 2024-04-05 13:10:36 +0200 [Tidied]   Small tidying for ticket modules (https://github.com/RotherOSS/otobo/issues/3296)
