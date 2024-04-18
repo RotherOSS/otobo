@@ -24,6 +24,7 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
+use File::Basename qw(basename);
 
 # CPAN modules
 use CGI;    # must be loaded before $CGI::POST_MAX is set
@@ -313,7 +314,7 @@ sub GetUploadAll {
     # get real file name
     my $UploadFilenameOrig = $Self->GetParam( Param => $Param{Param} ) || 'unknown';
 
-    my $NewFileName = "$UploadFilenameOrig";    # use "" to get filename of anony. object
+    my $NewFileName = basename("$UploadFilenameOrig");    # use "" to get filename of anony. object
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$NewFileName );
 
     # replace all devices like c: or d: and dirs for IE!
