@@ -1628,12 +1628,24 @@ sub _DynamicFieldsCreate {
         $DynamicFieldLookup{ $DynamicField->{Name} } = $DynamicField;
     }
 
-    # performance improvement for the FieldOrderAfterField functionality
-    my $FieldOrderAfterFieldActive = grep { $_->{FieldOrderAfterField} || $_->{FieldOrderAfterFieldUpdate} } @DynamicFields;
+    # sort dynamic fields with respect to dependencies between them (currently only affects FieldType Lens)
+    my $DynamicFieldDependenciesSort = sub {
+
+        if ( $a->{FieldType} eq 'Lens' && $b->{FieldType} eq 'Lens' ) {
+
+            # if there are nested lenses, sort them accordingly (assuming that there is no circular lense structure)
+            my $ADependsOnB = ( $a->{Config}{AttributeDF} eq $b->{Name} || $a->{Config}{ReferenceDF} eq $b->{Name} );
+            my $BDependsOnA = ( $b->{Config}{AttributeDF} eq $a->{Name} || $b->{Config}{ReferenceDF} eq $a->{Name} );
+            return $ADependsOnB <=> $BDependsOnA;
+        }
+
+        # sort lens fields to the end
+        return ( $a->{FieldType} eq 'Lens' ) <=> ( $b->{FieldType} eq 'Lens' );
+    };
 
     # create or update dynamic fields
     DYNAMICFIELD:
-    for my $NewDynamicField (@DynamicFields) {
+    for my $NewDynamicField ( sort $DynamicFieldDependenciesSort @DynamicFields ) {
 
         my $CreateDynamicField;
 
@@ -1684,6 +1696,18 @@ sub _DynamicFieldsCreate {
         my $FieldOrderAdd = $Self->DynamicFieldFieldOrderAfterFieldGet(
             Name => $NewDynamicField->{FieldOrderAfterField},
         ) || $NextOrderNumber;
+
+        # translate names into IDs for Lens field configs
+        if ( $NewDynamicField->{FieldType} eq 'Lens' ) {
+            my $AttributeDF = $DynamicFieldObject->DynamicFieldGet(
+                Name => $NewDynamicField->{Config}{AttributeDF},
+            );
+            $NewDynamicField->{Config}{AttributeDF} = $AttributeDF->{ID};
+            my $ReferenceDF = $DynamicFieldObject->DynamicFieldGet(
+                Name => $NewDynamicField->{Config}{ReferenceDF},
+            );
+            $NewDynamicField->{Config}{ReferenceDF} = $ReferenceDF->{ID};
+        }
 
         # create a new field
         my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -1916,13 +1940,20 @@ sub _DynamicFieldsConfigExport {
         @DynamicFieldConfigs = grep { !$_->{InternalField} } @DynamicFieldConfigs;
     }
 
-    # Remove hash keys
+    # Remove hash keys and translate IDs to names
     my $IncludeAllConfigKeys = $Param{IncludeAllConfigKeys} // 1;
-    if ( !$IncludeAllConfigKeys ) {
-        for my $DynamicField (@DynamicFieldConfigs) {
+    for my $DynamicField (@DynamicFieldConfigs) {
+        if ( !$IncludeAllConfigKeys ) {
             for my $Key (qw(ChangeTime CreateTime ID InternalField ValidID)) {
                 delete $DynamicField->{$Key};
             }
+        }
+
+        if ( $DynamicField->{FieldType} eq 'Lens' ) {
+            my ($AttributeDF) = grep { $DynamicField->{Config}{AttributeDF} eq $_->{ID} } @DynamicFieldConfigs;
+            $DynamicField->{Config}{AttributeDF} = $AttributeDF->{Name};
+            my ($ReferenceDF) = grep { $DynamicField->{Config}{ReferenceDF} eq $_->{ID} } @DynamicFieldConfigs;
+            $DynamicField->{Config}{ReferenceDF} = $ReferenceDF->{Name};
         }
     }
 
@@ -1986,8 +2017,6 @@ sub _DynamicFieldsScreenConfigExport {
     my ( $Self, %Param ) = @_;
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 
     my $ValidDynamicFieldScreenList = $Self->_ValidDynamicFieldScreenListGet();
 
@@ -2067,8 +2096,7 @@ Returns:
 sub _DynamicFieldsScreenConfigImport {
     my ( $Self, %Param ) = @_;
 
-    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
     # check needed stuff
     NEEDED:
@@ -3132,7 +3160,6 @@ sub _GeneralCatalogItemCreateIfNotExists {
     my ( $Self, %Param ) = @_;
 
     my $LogObject            = $Kernel::OM->Get('Kernel::System::Log');
-    my $DBObject             = $Kernel::OM->Get('Kernel::System::DB');
     my $GroupObject          = $Kernel::OM->Get('Kernel::System::Group');
     my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
     my $ValidObject          = $Kernel::OM->Get('Kernel::System::Valid');
@@ -3752,9 +3779,8 @@ Returns:
 sub _ITSMConfigItemVersionGet {
     my ( $Self, %Param ) = @_;
 
-    my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
-    my $ConfigItemObject     = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
-    my $GeneralCatalogObject = $Kernel::OM->Get('Kernel::System::GeneralCatalog');
+    my $MainObject       = $Kernel::OM->Get('Kernel::System::Main');
+    my $ConfigItemObject = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
 
     # check if general catalog module is installed
     my $GeneralCatalogLoaded = $MainObject->Require(
@@ -3856,7 +3882,6 @@ sub _ParseXML2Data {
 
     my $Result          = $Param{Result};
     my $XMLDataMultiple = $Param{XMLDataMultiple};
-    my $Parent          = $Param{Parent} || '';
     my %Data            = %{ $Param{Data} || {} };
 
     FIELD:
@@ -3935,7 +3960,6 @@ sub _ParseData2XML {
             $Result->{$ItemID} = [undef];
 
             for my $Index ( 0 .. $#{$Item} ) {
-                my $ItemData = $Item->[$Index];
 
                 push @{ $Result->{$ItemID} }, {
                     'Content' => $Item->[$Index]->{Content},
@@ -4581,7 +4605,6 @@ sub _ProcessWidgetDynamicFieldGroupsGet {
     my ( $Self, %Param ) = @_;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
 
     my $AgentTicketZoomConfig           = $ConfigObject->Get('Ticket::Frontend::AgentTicketZoom');
     my %ProcessWidgetDynamicFieldGroups = %{ $AgentTicketZoomConfig->{ProcessWidgetDynamicFieldGroups} };
@@ -4623,7 +4646,6 @@ sub _ProcessWidgetDynamicFieldGroupsAdd {
     my ( $Self, %Groups ) = @_;
 
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     my %ProcessWidgetDynamicFieldGroups = $Self->_ProcessWidgetDynamicFieldGroupsGet();
@@ -4708,8 +4730,6 @@ gets ProcessWidgetDynamicFieldGroups
 sub _ProcessWidgetDynamicFieldGroupsRemove {
     my ( $Self, %Groups ) = @_;
 
-    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     my %ProcessWidgetDynamicFieldGroups = $Self->_ProcessWidgetDynamicFieldGroupsGet();
