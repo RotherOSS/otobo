@@ -19462,12 +19462,12 @@ msgid "Defines the default filter fields in the customer user address book searc
 msgstr "고객 사용자 주소록 검색 (CustomerUser 또는 CustomerCompany)의 기본 필터 필드를 정의합니다. CustomerCompany 필드의 경우 접두사 'CustomerCompany_'를 추가해야합니다."
 
 #. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
+msgid "Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting)."
-msgstr "기본 프런트 엔드 언어를 정의합니다. 가능한 모든 값은 시스템에서 사용 가능한 언어 파일에 의해 결정됩니다 (다음 설정 참조)."
+msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the default history type in the customer interface."

@@ -19515,12 +19515,12 @@ msgid "Defines the default filter fields in the customer user address book searc
 msgstr "Define os campos de filtro padrão na pesquisa de caderno de endereço de usuário cliente  (Usuário Cliente ou Empresa Cliente). Para campos de Empresa Cliente um prefixo 'CustomerCompany_' deve ser adicionado."
 
 #. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
+msgid "Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting)."
-msgstr "Define o idioma padrão do frontend. Todos os valores possíveis são determinados pelos arquivos de idioma disponíveis no sistema (veja a próxima definição)."
+msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the default history type in the customer interface."

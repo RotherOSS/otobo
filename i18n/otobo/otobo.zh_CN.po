@@ -19476,12 +19476,12 @@ msgid "Defines the default filter fields in the customer user address book searc
 msgstr "定义客户用户通讯录搜索（客户用户或客户单位）中的默认过滤器字段。 对于客户单位字段，必须添加一个前缀“CustomerCompany_”。"
 
 #. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
+msgid "Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting)."
-msgstr "定义默认的前端语言。所有可能的值由系统中可用的语言文件确定（查看下一个设置）。"
+msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the default history type in the customer interface."
