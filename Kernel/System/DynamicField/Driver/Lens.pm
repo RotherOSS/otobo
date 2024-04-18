@@ -310,9 +310,8 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value
     my $Value = $Param{DefaultValue} // '';
@@ -911,6 +910,45 @@ sub _GetReferencedObjectID {
     }
 
     return $ObjectID->[0];
+}
+
+sub TransformConfig {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Action DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+    if ( $Param{Action} eq 'Import' ) {
+        my $AttributeDF = $DynamicFieldObject->DynamicFieldGet(
+            Name => $Param{DynamicFieldConfig}{Config}{AttributeDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{ID};
+        my $ReferenceDF = $DynamicFieldObject->DynamicFieldGet(
+            Name => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{ID};
+    }
+    elsif ( $Param{Action} eq 'Export' ) {
+        my $AttributeDF = $DynamicFieldObject->DynamicFieldGet(
+            ID => $Param{DynamicFieldConfig}{Config}{AttributeDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{Name};
+        my $ReferenceDF = $DynamicFieldObject->DynamicFieldGet(
+            ID => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{Name};
+    }
+
+    return $Param{DynamicFieldConfig};
 }
 
 1;

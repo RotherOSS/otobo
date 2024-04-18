@@ -1649,6 +1649,20 @@ sub _DynamicFieldsCreate {
 
         my $CreateDynamicField;
 
+        my $DriverObject = $Kernel::OM->Get("Kernel::System::DynamicField::Driver::$NewDynamicField->{FieldType}");
+
+        # TODO perhaps discuss
+        # skip field if driver is not present
+        next DYNAMICFIELD unless $DriverObject;
+
+        # if needed, let driver perform neccessary transformations
+        if ( $DriverObject->can('TransformConfig') ) {
+            $NewDynamicField = $DriverObject->TransformConfig(
+                DynamicFieldConfig => $NewDynamicField,
+                Action             => 'Import',
+            );
+        }
+
         # check if the dynamic field already exists
         if ( !IsHashRefWithData( $DynamicFieldLookup{ $NewDynamicField->{Name} } ) ) {
             $CreateDynamicField = 1;
@@ -1696,18 +1710,6 @@ sub _DynamicFieldsCreate {
         my $FieldOrderAdd = $Self->DynamicFieldFieldOrderAfterFieldGet(
             Name => $NewDynamicField->{FieldOrderAfterField},
         ) || $NextOrderNumber;
-
-        # translate names into IDs for Lens field configs
-        if ( $NewDynamicField->{FieldType} eq 'Lens' ) {
-            my $AttributeDF = $DynamicFieldObject->DynamicFieldGet(
-                Name => $NewDynamicField->{Config}{AttributeDF},
-            );
-            $NewDynamicField->{Config}{AttributeDF} = $AttributeDF->{ID};
-            my $ReferenceDF = $DynamicFieldObject->DynamicFieldGet(
-                Name => $NewDynamicField->{Config}{ReferenceDF},
-            );
-            $NewDynamicField->{Config}{ReferenceDF} = $ReferenceDF->{ID};
-        }
 
         # create a new field
         my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -1949,11 +1951,18 @@ sub _DynamicFieldsConfigExport {
             }
         }
 
-        if ( $DynamicField->{FieldType} eq 'Lens' ) {
-            my ($AttributeDF) = grep { $DynamicField->{Config}{AttributeDF} eq $_->{ID} } @DynamicFieldConfigs;
-            $DynamicField->{Config}{AttributeDF} = $AttributeDF->{Name};
-            my ($ReferenceDF) = grep { $DynamicField->{Config}{ReferenceDF} eq $_->{ID} } @DynamicFieldConfigs;
-            $DynamicField->{Config}{ReferenceDF} = $ReferenceDF->{Name};
+        my $DriverObject = $Kernel::OM->Get("Kernel::System::DynamicField::Driver::$DynamicField->{FieldType}");
+
+        # TODO perhaps discuss
+        # skip field if driver is not present
+        next DYNAMICFIELD unless $DriverObject;
+
+        # if needed, let driver perform neccessary transformations
+        if ( $DriverObject->can('TransformConfig') ) {
+            $DynamicField = $DriverObject->TransformConfig(
+                DynamicFieldConfig => $DynamicField,
+                Action             => 'Export',
+            );
         }
     }
 

@@ -38,6 +38,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::DB',
+    'Kernel::System::DynamicField',
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
     'Kernel::System::Web::FormCache',
@@ -180,9 +181,8 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $DFDetails  = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName  = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
+    my $DFDetails = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
     my $Value = '';
 
@@ -511,7 +511,6 @@ sub DisplayValueRender {
     my @LongObjectDescriptions;
     my $Link;
     {
-        my $DFDetails = $Param{DynamicFieldConfig}->{Config};
         for my $ObjectID (@ObjectIDs) {
             if ($ObjectID) {
                 my %Description = $Self->ObjectDescriptionGet(
@@ -613,7 +612,6 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $DFDetails  = $Param{DynamicFieldConfig}->{Config};
     my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
@@ -1112,6 +1110,77 @@ sub GetFieldState {
     }
 
     return %Return;
+}
+
+sub TransformConfig {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Action DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    # fetch settings for iteration
+    my @FieldTypeSettings = $Self->GetFieldTypeSettings();
+
+    # skip settings which are not directly related to objects
+    my %SkipSettings = (
+        DisplayType          => 1,
+        EditFieldMode        => 1,
+        MultiValue           => 1,
+        PossibleNone         => 1,
+        ReferenceFilterList  => 1,
+        ReferencedObjectType => 1,
+        SearchAttribute      => 1,
+    );
+
+    # needed transformation: Name -> ID
+    if ( $Param{Action} eq 'Import' ) {
+
+        SETTING:
+        for my $Setting (@FieldTypeSettings) {
+
+            next SETTING if $SkipSettings{ $Setting->{ConfigParamName} };
+            next SETTING unless $Param{DynamicFieldConfig}{Config}{ $Setting->{ConfigParamName} };
+
+            my @TransformedValues;
+            my @CurrentValues     = $Param{DynamicFieldConfig}{Config}{ $Setting->{ConfigParamName} }->@*;
+            my %SettingDataLookup = reverse $Setting->{SelectionData}->%*;
+            for my $Value (@CurrentValues) {
+                if ( $SettingDataLookup{$Value} ) {
+                    push @TransformedValues, $SettingDataLookup{$Value};
+                }
+            }
+            $Param{DynamicFieldConfig}{Config}{ $Setting->{ConfigParamName} } = \@TransformedValues;
+        }
+    }
+
+    # needed transformation: ID -> Name
+    elsif ( $Param{Action} eq 'Export' ) {
+
+        SETTING:
+        for my $Setting (@FieldTypeSettings) {
+
+            next SETTING if $SkipSettings{ $Setting->{ConfigParamName} };
+            next SETTING unless $Param{DynamicFieldConfig}{Config}{ $Setting->{ConfigParamName} };
+
+            my @TransformedValues;
+            my @CurrentValues = $Param{DynamicFieldConfig}{Config}{ $Setting->{ConfigParamName} }->@*;
+            for my $Value (@CurrentValues) {
+                if ( $Setting->{SelectionData}{$Value} ) {
+                    push @TransformedValues, $Setting->{SelectionData}{$Value};
+                }
+            }
+            $Param{DynamicFieldConfig}{Config}{ $Setting->{ConfigParamName} } = \@TransformedValues;
+        }
+    }
+
+    return $Param{DynamicFieldConfig};
 }
 
 1;
