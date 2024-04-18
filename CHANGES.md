@@ -1,4 +1,12 @@
 
+# OTOBO 10.0.21 2024-04-18
+- 2024-04-17 15:07:02 +0200 [Security] Prohibit path traversal in file upload. (Thanks to the Znuny team and Martino Spagnuolo.) (https://github.com/RotherOSS/otobo/issues/3309)
+- 2024-04-05 13:07:35 +0200 [Tidied]   Small tidying for ticket modules (https://github.com/RotherOSS/otobo/issues/3296)
+- 2024-04-03 10:41:07 +0200 [Bugfix]   Enable sorting for SysConfig Search to work correctly (https://github.com/RotherOSS/otobo/issues/3277)
+- 2024-03-27 18:02:47 +0100 [Enhanced] Allow to pass several scripts to Dev::UnitTest::Run (https://github.com/RotherOSS/otobo/issues/3255)
+- 2024-03-27 15:05:56 +0100 Tidied.
+
+
 # OTOBO 10.0.20 2024-03-27
 - 2024-03-27 11:18:39 +0100 [Security] Base the Safety() method on HTML::Scrubber (https://github.com/RotherOSS/otobo/issues/3249)
 - 2024-03-26 18:36:45 +0100 Accept suggestions from CodePolicy 10.0
@@ -1008,4 +1016,5 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
