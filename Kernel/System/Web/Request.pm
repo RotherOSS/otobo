@@ -24,6 +24,7 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
+use File::Basename qw(basename);
 use List::Util qw(uniq);
 
 # CPAN modules
@@ -443,7 +444,7 @@ sub GetUploadAll {
     # get real file name from the Plack::Request::Upload object
     my $UploadFilenameOrig = $Upload->filename;
 
-    my $NewFileName = "$UploadFilenameOrig";    # use "" to get filename of anony. object
+    my $NewFileName = basename("$UploadFilenameOrig");    # use "" to get filename of anony. object
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$NewFileName );
 
     # replace all devices like c: or d: and dirs for IE!

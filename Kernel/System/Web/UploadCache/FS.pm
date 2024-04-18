@@ -19,6 +19,8 @@ package Kernel::System::Web::UploadCache::FS;
 use strict;
 use warnings;
 
+use File::Basename qw(basename);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
@@ -100,6 +102,8 @@ sub FormIDAddFile {
 
     return if !$Self->_FormIDValidate( $Param{FormID} );
 
+    my $Filename = basename( $Param{Filename} );
+
     $Param{Content} = '' if !defined( $Param{Content} );
 
     # create content id
@@ -136,7 +140,7 @@ sub FormIDAddFile {
     # files must readable for creator
     return if !$MainObject->FileWrite(
         Directory  => $Directory,
-        Filename   => "$Param{Filename}",
+        Filename   => "$Filename",
         Content    => \$Param{Content},
         Mode       => 'binmode',
         Permission => '640',
@@ -144,7 +148,7 @@ sub FormIDAddFile {
     );
     return if !$MainObject->FileWrite(
         Directory  => $Directory,
-        Filename   => "$Param{Filename}.ContentType",
+        Filename   => "$Filename.ContentType",
         Content    => \$Param{ContentType},
         Mode       => 'binmode',
         Permission => '640',
@@ -152,7 +156,7 @@ sub FormIDAddFile {
     );
     return if !$MainObject->FileWrite(
         Directory  => $Directory,
-        Filename   => "$Param{Filename}.ContentID",
+        Filename   => "$Filename.ContentID",
         Content    => \$ContentID,
         Mode       => 'binmode',
         Permission => '640',
@@ -160,7 +164,7 @@ sub FormIDAddFile {
     );
     return if !$MainObject->FileWrite(
         Directory  => $Directory,
-        Filename   => "$Param{Filename}.Disposition",
+        Filename   => "$Filename.Disposition",
         Content    => \$Disposition,
         Mode       => 'binmode',
         Permission => '644',
