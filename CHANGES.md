@@ -1,4 +1,20 @@
 
+# OTOBO 10.1.10 2024-04-18
+- 2024-04-18 10:53:22 +0200 Create new OTOBO language files.
+- 2024-04-04 07:23:01 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-03-27 14:05:19 +0000 Update translation files
+- 2024-04-17 15:07:02 +0200 [Security] Prohibit path traversal in file upload. (Thanks to the Znuny team and Martino Spagnuolo.) (https://github.com/RotherOSS/otobo/issues/3309)
+- 2024-04-05 13:10:36 +0200 [Tidied]   Small tidying for ticket modules (https://github.com/RotherOSS/otobo/issues/3296)
+- 2024-04-03 10:41:07 +0200 [Bugfix]   Enable sorting for SysConfig Search to work correctly (https://github.com/RotherOSS/otobo/issues/3277)
+- 2024-03-28 22:51:31 -0500 Issue RotherOSS#3264: Remove duplicate use statement on VariableCheck
+- 2024-03-28 17:20:00 +0100 Revert "Load ckeditor.js only when needed"
+- 2024-03-27 18:02:47 +0100 [Enhanced] Allow to pass several scripts to Dev::UnitTest::Run (https://github.com/RotherOSS/otobo/issues/3255)
+- 2024-03-28 10:28:20 -0400 Load ckeditor.js only when needed
+- 2024-03-27 15:11:40 +0100 Tidied.
+- 2024-03-27 15:05:56 +0100 Tidied.
+- 2024-03-27 14:54:16 +0100 Update CHANGES.
+
+
 # OTOBO 10.1.9 2024-03-27
 - 2024-03-27 15:04:52 +0100 Create new OTOBO language files.
 - 2024-03-25 07:18:59 +0000 Translated using Weblate (German)
@@ -1619,4 +1635,5 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
