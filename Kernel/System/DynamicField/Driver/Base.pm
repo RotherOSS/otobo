@@ -30,6 +30,7 @@ use utf8;
 use Kernel::System::VariableCheck qw(DataIsDifferent IsHashRefWithData IsArrayRefWithData IsPositiveInteger);
 
 our @ObjectDependencies = (
+    'Kernel::System::DynamicField',
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
 );
@@ -420,6 +421,43 @@ sub ValueStructureToDB {
     return [
         { $Param{ValueKey} => $Param{Value} },
     ];
+}
+
+sub TransformConfig {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Action DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    # needed transformation: Name -> ID
+    if ( $Param{DynamicFieldConfig}{Config}{PartOfSet} ) {
+
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+        if ( $Param{Action} eq 'Import' ) {
+            my $SetField = $DynamicFieldObject->DynamicFieldGet(
+                Name => $Param{DynamicFieldConfig}{Config}{PartOfSet},
+            );
+            $Param{DynamicFieldConfig}{Config}{PartOfSet} = $SetField->{ID};
+        }
+
+        # needed transformation: ID -> Name
+        elsif ( $Param{Action} eq 'Export' ) {
+            my $SetField = $DynamicFieldObject->DynamicFieldGet(
+                ID => $Param{DynamicFieldConfig}{Config}{PartOfSet},
+            );
+            $Param{DynamicFieldConfig}{Config}{PartOfSet} = $SetField->{Name};
+        }
+    }
+
+    return $Param{DynamicFieldConfig};
 }
 
 1;
