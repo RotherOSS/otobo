@@ -1628,19 +1628,28 @@ sub _DynamicFieldsCreate {
         $DynamicFieldLookup{ $DynamicField->{Name} } = $DynamicField;
     }
 
-    # sort dynamic fields with respect to dependencies between them (currently only affects FieldType Lens)
+    # sort dynamic fields with respect to dependencies between them (currently affects FieldType Lens and Set)
     my $DynamicFieldDependenciesSort = sub {
 
-        if ( $a->{FieldType} eq 'Lens' && $b->{FieldType} eq 'Lens' ) {
+        if (
+            ( $a->{FieldType} eq 'Lens' || $a->{FieldType} eq 'Set' )
+            && ( $b->{FieldType} eq 'Lens' || $b->{FieldType} eq 'Set' )
+            )
+        {
 
-            # if there are nested lenses, sort them accordingly (assuming that there is no circular lense structure)
+            # check for lens dependencies (assuming that there is no circular lense structure)
             my $ADependsOnB = ( $a->{Config}{AttributeDF} eq $b->{Name} || $a->{Config}{ReferenceDF} eq $b->{Name} );
             my $BDependsOnA = ( $b->{Config}{AttributeDF} eq $a->{Name} || $b->{Config}{ReferenceDF} eq $a->{Name} );
+
+            # check set dependencies
+            $ADependsOnB ||= $b->{Config}{PartOfSet} && $b->{Config}{PartOfSet} eq $a->{Name};
+            $BDependsOnA ||= $a->{Config}{PartOfSet} && $a->{Config}{PartOfSet} eq $b->{Name};
+
             return $ADependsOnB <=> $BDependsOnA;
         }
 
-        # sort lens fields to the end
-        return ( $a->{FieldType} eq 'Lens' ) <=> ( $b->{FieldType} eq 'Lens' );
+        # sort lens and set fields to the end
+        return ( $a->{FieldType} eq 'Lens' || $a->{FieldType} eq 'Set' ) <=> ( $b->{FieldType} eq 'Lens' || $b->{FieldType} eq 'Set' );
     };
 
     # create or update dynamic fields
