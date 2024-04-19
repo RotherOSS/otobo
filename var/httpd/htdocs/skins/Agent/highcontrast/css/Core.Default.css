@@ -116,7 +116,7 @@ table.AttachmentList .AttachmentDelete:focus i {
  * @subsection  Bread crumb
  */
 .BreadCrumb {
-    background: var(--colBGPath);
+    background: var(--colBGDark);
 }
 
 .BreadCrumb li {
@@ -124,7 +124,7 @@ table.AttachmentList .AttachmentDelete:focus i {
 }
 
 .BreadCrumb li:first-child a i {
-    color: var(--colTextLinkPath);
+    color: var(--colTextLight);
 }
 
 .BreadCrumb li:first-child a:hover i {
@@ -132,7 +132,7 @@ table.AttachmentList .AttachmentDelete:focus i {
 }
 
 .BreadCrumb a {
-    color: var(--colTextLinkPath);
+    color: var(--colTextLight);
 }
 
 .BreadCrumb a:after {
@@ -140,7 +140,7 @@ table.AttachmentList .AttachmentDelete:focus i {
 }
 
 .BreadCrumb li:before {
-    border-left-color: var(--colBGPath);
+    border-left-color: var(--colBGDark);
 }
 
 /**
@@ -157,10 +157,6 @@ table.AttachmentList .AttachmentDelete:focus i {
 .MessageBox.Confirmation p,
 .MessageBox.Confirmation a {
     color: var(--colTextDark);
-}
-
-.MessageBox.Error {
-    border-left: 15px solid var(--colBGErr);
 }
 
 .MessageBox.Confirmation {

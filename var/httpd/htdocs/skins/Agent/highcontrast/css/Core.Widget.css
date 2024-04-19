@@ -84,7 +84,7 @@ ul.Tablelike li.Header {
 /* Legend & Shortcuts */
 .WidgetSimple .Legend li,
 .WidgetSimple .ShortCuts li {
-    color: var(--colTextLegend);
+    color: var(--colTextDark);
 }
 
 /**

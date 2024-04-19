@@ -32,6 +32,14 @@ select[multiple=multiple] {
     border: 1px solid var(--colBGDark);
     background-color: var(--colBGLight);
 }
+
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+textarea:focus {
+    border-color: var(--colTextDark);
+}
+
 /**
  * @subsection    Tree selection icon and overlay for select boxes
  */

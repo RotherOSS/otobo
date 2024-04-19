@@ -349,27 +349,25 @@
         <Value>
             <Hash>
                 <Item Key="MainDark">#333</Item>
-                <Item Key="MainLight">#001bff</Item>
+                <Item Key="MainLight">#333</Item>
+                <Item Key="MainHover">#fff</Item>
+                <Item Key="BGElement">#ffffff</Item>
                 <Item Key="BGLight">#ffffff</Item>
+                <Item Key="BGLightMedium">#fff</Item>
+                <Item Key="BGMedium">#ccc</Item>
+                <Item Key="BGMediumDark">#ccc</Item>
                 <Item Key="BGDark">#000000</Item>
-                <Item Key="BGTable">#ffffff</Item>
-                <Item Key="BGPath">#000000</Item>
-                <Item Key="TextLinkPath">#ffffff</Item>
-                <Item Key="TextDark">#000000</Item>
                 <Item Key="TextLight">#ffffff</Item>
-                <Item Key="Highlight">#fef235</Item>
-                <Item Key="TextLegend">#000000</Item>
-                <Item Key="TextIcon">#c4c3c2</Item>
-                <Item Key="TextVisited">#000000</Item>
+                <Item Key="TextMedium">#777</Item>
+                <Item Key="TextDark">#000000</Item>
                 <Item Key="TextErr">#000000</Item>
-                <Item Key="BGErr">#ff0000</Item>
+                <Item Key="Highlight">#fef235</Item>
                 <Item Key="Highlight">#fef235</Item>
                 <Item Key="NotifyOK">#c4cdfa</Item>
                 <Item Key="NotifyWarn">#fffccc</Item>
                 <Item Key="NotifyErr">#ea2400</Item>
-                <Item Key="HoverLight">#e0e0e0</Item>
-                <Item Key="HoverDark">#b5b5b5</Item>
-                <Item Key="WidgetBackground">#ffffff</Item>                
+                <Item Key="HoverLight">#ccc</Item>
+                <Item Key="HoverDark">#000</Item>
             </Hash>
         </Value>
     </Setting>
