@@ -1637,13 +1637,25 @@ sub _DynamicFieldsCreate {
             )
         {
 
-            # check for lens dependencies (assuming that there is no circular lense structure)
-            my $ADependsOnB = ( $a->{Config}{AttributeDF} eq $b->{Name} || $a->{Config}{ReferenceDF} eq $b->{Name} );
-            my $BDependsOnA = ( $b->{Config}{AttributeDF} eq $a->{Name} || $b->{Config}{ReferenceDF} eq $a->{Name} );
+            # sort regarding dependencies (assuming that there is no circular lense structure)
+            my $ADependsOnB = (
 
-            # check set dependencies
-            $ADependsOnB ||= $b->{Config}{PartOfSet} && $b->{Config}{PartOfSet} eq $a->{Name};
-            $BDependsOnA ||= $a->{Config}{PartOfSet} && $a->{Config}{PartOfSet} eq $b->{Name};
+                # check lens dependencies
+                ( ( $a->{Config}{AttributeDF} // '' ) eq $b->{Name} )
+                || ( ( $a->{Config}{ReferenceDF} // '' ) eq $b->{Name} )
+
+                # check set dependencies
+                || ( $b->{Config}{PartOfSet} && $b->{Config}{PartOfSet} eq $a->{Name} )
+            );
+            my $BDependsOnA = (
+
+                # check lens dependencies
+                ( ( $b->{Config}{AttributeDF} // '' ) eq $a->{Name} )
+                || ( ( $b->{Config}{ReferenceDF} // '' ) eq $a->{Name} )
+
+                # check set dependencies
+                || ( $a->{Config}{PartOfSet} && $a->{Config}{PartOfSet} eq $b->{Name} )
+            );
 
             return $ADependsOnB <=> $BDependsOnA;
         }
