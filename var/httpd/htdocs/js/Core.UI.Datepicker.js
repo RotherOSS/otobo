@@ -336,6 +336,10 @@ Core.UI.Datepicker = (function (TargetNS) {
             return false;
         });
 
+        //adjust z-index of date picker to prevent overlapping with richtexteditors
+        $DatepickerElement.css('position', 'relative');
+        $DatepickerElement.css('z-index', 20);
+
         // prevent click events on date picker from bubbling to supress unintended closing
         $('#ui-datepicker-div').on('click', function (event) {
             event.stopPropagation();
