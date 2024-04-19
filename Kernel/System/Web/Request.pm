@@ -25,7 +25,7 @@ use namespace::autoclean;
 
 # core modules
 use File::Basename qw(basename);
-use List::Util qw(uniq);
+use List::Util     qw(uniq);
 
 # CPAN modules
 use HTTP::Message::PSGI   qw(req_to_psgi);
