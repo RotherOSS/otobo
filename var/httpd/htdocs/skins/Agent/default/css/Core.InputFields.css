@@ -51,11 +51,11 @@ div.InputField_InputContainer {
 }
 
 .InputField_Search[readonly]:focus {
-    border-color: #C0C0C0;
+    border-color: var(--colBGDark);
 }
 
 .InputField_Search[readonly].Error:focus {
-    border-color: #ff505e;
+    border-color: var(--colTextErr);
 }
 
 .SidebarColumn .WidgetSimple .InputField_Search,
@@ -139,7 +139,7 @@ div.InputField_InputContainer {
 }
 
 #Header div.InputField_Container {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 #ToolBar li.Extended form div.InputField_Container * {
@@ -252,12 +252,12 @@ fieldset.DynamicFieldSet {
 a.InputField_Action {
     position: absolute;
     display: block;
-    color: #00023c;
+    color: var(--colTextDark);
     top: 5px;
 }
 
 a.InputField_Action:hover {
-    color: var(--colHoverDark);
+    color: var(--colHighlight);
 }
 
 div.InputField_Selection {
@@ -275,18 +275,18 @@ div.InputField_Selection div {
 }
 
 div.InputField_Selection div.Text {
-    background: #ddd;
+    background: var(--colBGMedium);
     padding: 2px 4px;
 }
 
 div.InputField_Selection div.Remove {
-    background: #bbb;
+    background: var(--colBGDark);
     color: #fff;
     cursor: pointer;
 }
 
 .AlreadyDisabled div.InputField_Selection div.Text {
-    background: #f5f5f5;
+    background: var(--colBGLight);
     cursor: default;
 }
 
@@ -317,7 +317,7 @@ div.InputField_ListContainer {
 
 div.InputField_TreeContainer {
     background-color: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid var(--colBGDark);
     border-top: none;
     overflow-y: auto;
     box-sizing: content-box;
@@ -330,8 +330,8 @@ div.InputField_TreeContainer {
 }
 
 div.InputField_ToolbarContainer {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
+    background-color: var(--colBGLight);
+    border: 1px solid var(--colBGMedium);
     border-top: none;
     line-height: 21px;
     box-sizing: content-box;
@@ -368,7 +368,7 @@ div.InputField_ToolbarContainer ul li:last-child:after {
 }
 
 div.InputField_ToolbarContainer ul li a {
-    color: #00023c;
+    color: var(--colTextDark);
     display: inline-block;
     margin: 2px 5px;
     font-size: 11px;
@@ -376,11 +376,11 @@ div.InputField_ToolbarContainer ul li a {
 }
 
 div.InputField_ToolbarContainer i {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 div.InputField_ToolbarContainer ul li a:hover {
-    border-bottom: 2px solid #fef235;
+    border-bottom: 2px solid var(--colHighlight);
     margin-bottom: 0;
 }
 
@@ -392,7 +392,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 .InputField_FiltersList {
     background: #fff;
     white-space: nowrap;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--colBGDark);
     z-index: 1500;
     line-height: 1.5em;
     width: 100%;
@@ -406,7 +406,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .InputField_FiltersList input[disabled="disabled"] + span {
     font-style: italic;
-    color: #aaa;
+    color: var(--colTextLight);
 }
 
 /**
@@ -448,7 +448,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .jstree-InputField .jstree-anchor {
     display: inline-block;
-    color: #00023c;
+    color: var(--colTextDark);
     white-space: nowrap;
     padding: 0 4px 0 1px;
     margin: 0;
@@ -535,7 +535,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 }
 
 .jstree-InputField .Disabled > .jstree-anchor {
-    color: #aaa !important;
+    color: var(--colTextLight) !important;
     font-style: italic;
     cursor: default;
 }
@@ -572,13 +572,13 @@ div.InputField_ToolbarContainer ul li a:hover {
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked {
-    background-color: #ddd;
+    background-color: var(--colBGMedium);
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused > .jstree-wholerow {
-    background-color: #fffccc;
+    background-color: var(--colHoverLight);
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked:hover,
@@ -589,7 +589,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .jstree-InputField .Disabled > .jstree-wholerow:hover,
 .jstree-InputField .Disabled > .jstree-wholerow-hovered {
-    background-color: #eee;
+    background-color: var(--colBGDark);
     cursor: default;
 }
 

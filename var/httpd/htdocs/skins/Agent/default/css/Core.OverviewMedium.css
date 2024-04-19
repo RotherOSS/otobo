@@ -38,20 +38,20 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #EmptyMessageMedium {
    padding: 7px;
-   border: 1px solid #DDD;
+   border: 1px solid var(--colBGMediumDark);
    min-height: 0px;
 }
 
 .OverviewMedium li {
     position: relative;
-    border-bottom: 1px solid #C5C5C5;
+    border-bottom: 1px solid var(--colBGDark);
     min-height: 105px;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+    border-left: 1px solid var(--colBGMediumDark);
+    border-right: 1px solid var(--colBGMediumDark);
 }
 
 .OverviewMedium li:first-child {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--colBGMediumDark);
 }
 
 .OverviewMedium li ul.InlineActions {
@@ -59,7 +59,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     top: -35px;
     right: 0px;
     height: 35px;
-    background-color: #777;
+    background-color: var(--colTextLight);
     margin-right: 0px;
     padding-left: 5px;
     cursor: auto;
@@ -135,7 +135,7 @@ body.TouchDevice .OverviewMedium li ul.InlineActions li.ResponsiveActionMenu {
 
 .OverviewMedium li:hover div.Content,
 .OverviewMedium li:hover {
-    border-left-color: #F6A72B !important;
+    border-left-color: var(--colHighlight) !important;
 }
 
 .OverviewMedium li:last-child {

@@ -254,7 +254,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 	background-size: cover;
     border-radius: 5px;
     box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
-    box-shadow: 0 12px 16px 0 val(--colShadowDark);
+    box-shadow: 0 12px 16px 0 var(--colShadowDark);
 }
 
 /* IE */

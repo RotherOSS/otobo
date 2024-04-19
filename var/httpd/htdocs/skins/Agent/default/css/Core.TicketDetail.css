@@ -106,7 +106,7 @@ div.Headline .Flag {
 }
 
 #ArticleItems .WidgetMenu .LightRow {
-    background: #E8E8E8;
+    background: var(--colBGMedium);
     border-bottom: none;
 }
 
@@ -126,17 +126,17 @@ div.Headline .Flag {
 }
 
 #ArticleTableBody .Scroller::-webkit-scrollbar-track {
-	background-color: #F5F5F5;
-    border-left: 1px solid #ccc;
+	background-color: var(--colBGLight);
+    border-left: 1px solid var(--colBGDark);
 }
 
 #ArticleTableBody .Scroller::-webkit-scrollbar {
 	width: 8px;
-	background-color: #F5F5F5;
+	background-color: var(--colBGLight);
 }
 
 #ArticleTableBody .Scroller::-webkit-scrollbar-thumb {
-	background-color: #bbb;
+	background-color: var(--colBGDark);
 }
 
 #ArticleTableBody .Scroller .DataTable {
@@ -209,13 +209,13 @@ div.Headline .Flag {
 }
 
 .ArticleMailContent .ArticleMeta {
-    background: #fff;
+    background: var(--colElement);
     padding: 12px 12px 4px 12px;
     text-align: right;
     box-sizing: border-box;
     margin-left: 75px;
     margin-top: -9px;
-    border-top: 1px solid #ddd !important;
+    border-top: 1px solid var(--colBGMediumDark) !important;
     position: relative;
     z-index: 2;
 }
@@ -227,7 +227,7 @@ div.Headline .Flag {
 
 .ArticleMailContent .ArticleMeta h2 {
     font-size: 12px;
-    color: #999;
+    color: var(--colTextLight);
     display: inline-block;
     margin-right: 10px;
 }
@@ -243,15 +243,15 @@ div.Headline .Flag {
 .ArticleMailContent .ArticleMeta ul li a {
     white-space: nowrap;
     display: block;
-    background: #eee;
-    color: #333;
+    background: var(--colBGLightMedium);
+    color: var(--colTextMedium);
     font-size: 11px;
     padding: 3px 7px;
     margin-bottom: 4px;
 }
 
 .Avatar {
-    border: 1px solid #eee;
+    border: 1px solid var(--colTextMedium);
     border-radius: 10px;
     position: absolute;
     top: 30px;
@@ -344,7 +344,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 .Outgoing .ArticleMailContentHTMLWrapper:after,
 .Outgoing .ArticleHTML:after,
 .Outgoing .ArticleBody:after {
-	border-right-color: #eee;
+	border-right-color: var(--colBGLightMedium);
 }
 
 .Incoming .ArticleMailContentHTMLWrapper:after,
@@ -352,7 +352,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 .Incoming .ArticleBody:after {
 	left: auto;
     right: -24px;
-	border-left-color: #eee;
+	border-left-color: var(--colBGLightMedium);
 }
 
 .Incoming .ArticleBody:after {
@@ -402,7 +402,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 .ArticleSenderInitials span {
     font-size: 22px;
     line-height: 50px;
-    color: #CCC;
+    color: var(--colBGDark);
 }
 
 .ArticleMailContent iframe {
@@ -445,11 +445,11 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .ControlRow .Icons a.Active {
-    background: #5D5D5D;
+    background: var(--colTextMedium);
 }
 
 .ControlRow .Icons a:hover {
-    background-color: #ccc;
+    background-color: var(--colBGDark);
 }
 
 .ControlRow .Icons a {
@@ -457,7 +457,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .ControlRow .Icons a i {
-    color: #777;
+    color: var(--colTextLight);
     font-size: 15px;
     margin-top: 5px;
     display: block;
@@ -496,7 +496,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 
 .AttachmentElement {
     margin: 5px 9px;
-    border-bottom: 1px solid #E6E6E6;
+    border-bottom: 1px solid var(--colBGMedium);
     padding-bottom: 2px;
 }
 
@@ -507,10 +507,10 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 .AttachmentPreview {
     height: 80px;
     width: 60px;
-    border: 1px solid #DDD;
+    border: 1px solid var(--colBGMediumDark);
     float: left;
     margin-right: 15px;
-    background-color: #E6E6E6;
+    background-color: var(--colBGMedium);
     background-position: center;
     background-repeat: no-repeat;
     clear: left;
@@ -551,12 +551,12 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 
 .ItemRow a {
     line-height: 14px;
-    color: #00023c;
+    color: var(--colTextDark);
     text-decoration: underline;
 }
 
 .ItemRow a:hover {
-    color: #001bff;
+    color: var(--colMainHover);
 }
 
 /**
@@ -576,7 +576,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 
 .MessageBrowser p {
      padding: 5px 25px 5px 25px;
-     background-color: #DDD;
+     background-color: var(--colBGMediumDark);
      font-size: 11px;
      text-align: center;
 }
@@ -594,11 +594,11 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
     position: absolute;
     right: 4px;
     top: 4px;
-    color: #5D5D5D;
+    color: var(--colTextMedium);
 }
 
 .MessageBrowser a.Close:hover {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 /**
@@ -617,16 +617,16 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 .UseArticleColors td,
 .UseArticleColors tr:nth-child(even) td {
     transition: background ease 0.3s;
-    background: #fff;
-    border-color: #ccc;
-    border-bottom: 1px solid #eee;
+    background: var(--colElement);
+    border-color: var(--colBGDark);
+    border-bottom: 1px solid var(--colBGLightMedium);
 }
 
 .UseArticleColors tr.Active > td,
 .UseArticleColors tr:hover > td {
-    background-color: #e5e5e5 !important;
-    border-color: #e5e5e5;
-    border-right-color: #ccc !important;
+    background-color: var(--colBGMedium) !important;
+    border-color: var(--colBGMedium);
+    border-right-color: var(--colBGDark) !important;
 }
 
 .UseArticleColors tr.NotVisibleForCustomer > td {
@@ -657,7 +657,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 .ArticleMailContent .ArticleBody,
 .ArticleMailContent .ArticleHTML,
 .ArticleMailContent .ArticleMeta {
-    border: 2px solid #eee;
+    border: 2px solid var(--colBGLightMedium);
     border-radius: 3px;
 }
 
@@ -700,11 +700,11 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .UseArticleColors #ArticleTable a {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .UseArticleColors #ArticleTable i.fa-spin {
-    color: #333;
+    color: var(--colTextMedium);
 }
 
 /*
@@ -796,7 +796,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
     content: ' ';
     width: 4px;
     height: 20px;
-    background-color: #F5F5F5;
+    background-color: var(--colBGLight);
     display: block;
     position: absolute;
     left: 50%;
@@ -809,14 +809,14 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
     width: 49.9%;
     float: left;
     margin-top: 20px;
-    border-left: 1px solid #aaa;
+    border-left: 1px solid var(--colBGDark);
     margin-left: -1px;
     padding-bottom: 65px;
 }
 
 .TimelineView > ul:first-child {
     margin-right: 0px;
-    border-right: 1px solid #aaa;
+    border-right: 1px solid var(--colBGDark);
     border-left: 0px;
 }
 
@@ -1214,8 +1214,8 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
     cursor: default;
     position: relative;
     overflow: hidden;
-    background: #EEEEEE;
-    border-bottom: 1px solid #CCC;
+    background: var(--colBGLightMedium);
+    border-bottom: 1px solid var(--colBGDark);
 }
 
 /* Define colors for different event types */
@@ -1303,16 +1303,16 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 .ArticleAttachments li {
     float: left;
     margin: 0px 10px 10px 0px;
-    background: #e8e8e8;
+    background: var(--colBGMedium);
     padding: 8px 45px 8px 12px;
     font-size: 11px;
-    color: #777;
+    color: var(--colTextLight);
     position: relative;
 }
 
 .ArticleAttachments li h5 {
     font-size: 12px;
-    color: #00023c;
+    color: var(--colTextDark);
     margin-bottom: 1px;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -1332,10 +1332,10 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 .ArticleAttachments li div a {
     height: 50%;
     display: block;
-    background: #eee;
+    background: var(--colBGLightMedium);
     line-height: 250%;
     text-align: center;
-    color: #aaa;
+    color: var(--colTextLight);
     transition: all ease 0.3s;
 }
 
@@ -1345,11 +1345,11 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .ArticleAttachments li div a:hover {
-    color: #333;
+    color: var(--colTextMedium);
 }
 
 .ArticleAttachments li div a + a {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--colBGDark);
     margin-top: -1px;
 }
 

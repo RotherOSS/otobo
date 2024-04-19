@@ -155,7 +155,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 .LayoutPopup > .Header {
     padding: 7px 20px;
-    background-color: #f6f6f6;
+    background-color: var(--colBGLight);
 }
 
 .RTL .LayoutPopup > .Header {
@@ -191,7 +191,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .LayoutPopup > .Content {
     padding: 20px;
-    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 }
 
 .RTL .LayoutPopup > .Content {
@@ -239,7 +239,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     height: auto;
     line-height: 90%;
     margin: -7px 0px 3px 5px;
-    color: #777;
+    color: var(--colTextLight);
 }
 
 .ItemListGrid > li.FilterMessage.Hidden {
@@ -251,10 +251,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     text-align: center;
     display: block;
     height: 100%;
-    background: #eee;
+    background: var(--colBGLightMedium);
     box-sizing: border-box;
     text-align: center;
-    border: 1px solid #eee;
+    border: 1px solid var(--colBGLightMedium);
     position: relative;
 }
 
@@ -272,12 +272,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ItemListGrid > li > a:not(.Disabled):active,
 .ItemListGrid > li > a:not(.Disabled):focus,
 .ItemListGrid > li > a.Active {
-    background: #e9e9e9;
-    border-color: #ccc;
+    background: var(--colBGMedium);
+    border-color: var(--colBGDark);
 }
 
 .ItemListGrid > li span.Icons {
-    border: 1px solid #ccc;
+    border: 1px solid var(--colBGDark);
     border-radius: 30px;
     height: 20px;
     left: 50%;
@@ -293,17 +293,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ItemListGrid.WithIcons > li a.Active span.Icons,
 .ItemListGrid.WithIcons > li a:not(.Disabled):hover span.Icons i.Icon2,
 .ItemListGrid.WithIcons > li a.Active span.Icons i.Icon2 {
-    background: #ddd;
+    background: var(--colBGMediumDark);
 }
 
 .ItemListGrid.WithIcons > li span.Icons i {
-    color: #7f809d;
+    color: var(--colTextLight);
     font-size: 20px;
 }
 
 .ItemListGrid.WithIcons > li span.Icons i.Icon2 {
-    background: #eee;
-    border: 1px solid #bbb;
+    background: var(--colBGLightMedium);
+    border: 1px solid var(--colBGDark);
     border-radius: 20px;
     font-size: 12px;
     height: 15px;
@@ -334,7 +334,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 

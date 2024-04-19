@@ -58,7 +58,7 @@ body {
     margin: 0px auto 20px auto;
     line-height: 30px;
     border-radius: 50px;
-    background: #fef235;
+    background: var(--colHighlight);
     color: #fff;
     transition: background 2s ease;
     float: none;
@@ -182,7 +182,7 @@ a {
 
 a:hover,
 a:focus {
-    color: var(--colHoverLight);
+    color: var(--colTextDark);
 }
 
 /**
@@ -196,24 +196,24 @@ h1 {
 
 h2 {
     font-size: 14px;
-    color: #474747;
+    color: var(--colTextMedium);
     margin-bottom: 10px;
 }
 
 h3 {
     font-size: 14px;
-    color: #00023c;
+    color: var(--colTextDark);
     margin-bottom: 5px;
 }
 
 h4 {
-    color: #00023c;
+    color: var(--colTextDark);
     margin-bottom: 5px;
     font-weight: bold;
 }
 
 h5 {
-    color: #00023c;
+    color: var(--colTextDark);
     margin-bottom: 5px;
 }
 
@@ -318,7 +318,7 @@ dd {
 }
 
 .Notice {
-    color: var(--colTextBody);
+    color: var(--colTextDark);
 }
 
 .Confirmation {
@@ -347,7 +347,7 @@ dd {
 }
 
 .ErrorBox {
-    color: var(--colTextLight);
+    color: var(--colTextMedium);
     background: var(--colNotifyErr);
 }
 
@@ -358,7 +358,7 @@ dd {
 
 .ErrorBox span a,
 .SuccessBox span a {
-    color: var(--colTextLight);
+    color: var(--colTextMedium);
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
     transition: all ease 0.2s;
 }
@@ -379,9 +379,9 @@ div.DnDUploadBox {
 }
 
 div.DnDUpload {
-    border: 1px solid #ccc;
+    border: 1px solid var(--colBGDark);
     border-radius: 10px;
-    color: #aaa;
+    color: var(--colTextLight);
     min-height: 60px;
     text-align: center;
     position: relative;
@@ -397,19 +397,19 @@ span.ReadyForUpload {
 }
 
 div.DnDUpload:focus {
-    border-color: #00023c;
-    color: #00023c;
+    border-color: var(--colTextDark);
+    color: var(--colTextDark);
 }
 
 input.AjaxDnDUpload.Error + div.DnDUpload {
-    color: #ea2400;
-    border-color: #ea2400;
+    color: var(--colTextErr);
+    border-color: var(--colTextErr);
 }
 
 div.DnDUpload.DragOver {
     border-style: dashed;
-    background: #eee;
-    color: #444;
+    background: var(--colBGMediumDark);
+    color: var(--colTextMedium);
 }
 
 div.DnDUpload i {
@@ -490,7 +490,7 @@ table.AttachmentList .Progress {
     display: block;
     height: 4px;
     margin: 3px 0px;
-    background: #fef235;
+    background: var(--colHighlight);
     width: 0px;
 }
 
@@ -510,7 +510,7 @@ table.AttachmentList .Delete {
 }
 
 table.AttachmentList .AttachmentDelete:focus i {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 table.AttachmentList.DataTable thead th {
@@ -650,7 +650,7 @@ table.AttachmentList.DataTable thead th {
 }
 
 .AsteriskExplanation {
-    color: #999;
+    color: var(--colTextLight);
 }
 
 .MainBox.FormScreen > h1,
@@ -687,14 +687,14 @@ table.AttachmentList.DataTable thead th {
     list-style-type: none;
     margin: 0px 2px 15px 0px;
     padding: 7px 15px 4px 0px;
-    background: #f5f5f5;
+    background: var(--colBGLight);
     position: relative;
     padding-left: 0px;
     padding-right: 15px;
     overflow-y: hidden;
     overflow-x: auto;
     white-space: nowrap;
-    box-shadow: 1px 1px 0px #e9e9e9;
+    box-shadow: 1px 1px 0px var(--colShadowDark);
 }
 
 .RTL .BreadCrumb {
@@ -706,7 +706,7 @@ table.AttachmentList.DataTable thead th {
     display: inline-block;
     margin: 0px 2px 0px 2px;
     padding-left: 35px;
-    color: #777;
+    color: var(--colTextMedium);
     position: relative;
     white-space: nowrap;
     vertical-align: middle;
@@ -725,11 +725,11 @@ table.AttachmentList.DataTable thead th {
 
 .BreadCrumb li:first-child a i {
     font-size: 16px;
-    color: #777;
+    color: var(--colTextMedium);
 }
 
 .BreadCrumb li:first-child a:hover i {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .RTL .BreadCrumb li {
@@ -747,7 +747,7 @@ table.AttachmentList.DataTable thead th {
 }
 
 .BreadCrumb a {
-    color: #00023c;
+    color: var(--colTextDark);
     position: relative;
 }
 
@@ -757,7 +757,7 @@ table.AttachmentList.DataTable thead th {
     width: 0px;
     content: "";
     bottom: 0px;
-    border-bottom: 1px solid #bfbfce;
+    border-bottom: 1px solid var(--colBGDark);
     transition: all ease 0.3s;
 }
 
@@ -796,14 +796,14 @@ table.AttachmentList.DataTable thead th {
 .BreadCrumb li:before {
     left: -5px;
     border-color: rgba(238, 238, 238, 0);
-    border-left-color: #f5f5f5;
+    border-left-color: var(--colBGLight);
     z-index: 2;
 }
 
 .RTL .BreadCrumb li:before {
     left: auto;
     right: -5px;
-    border-right-color: #f5f5f5;
+    border-right-color: var(--colBGLight);
     border-left-color: transparent;
 }
 
@@ -872,7 +872,7 @@ table.AttachmentList.DataTable thead th {
 
 .MessageBox {
     margin: 0px;
-    background: var(--colNotifyMsg);
+    background: var(--colNotifyWarn);
     position: relative;
     z-index: 1;
 }
@@ -903,7 +903,7 @@ table.AttachmentList.DataTable thead th {
 
 .MessageBox a:hover,
 .MessageBox a:hover {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .MessageBox a:hover {
@@ -919,7 +919,7 @@ table.AttachmentList.DataTable thead th {
 }
 
 .MessageBox.Confirmation {
-    background: #c4cdfa;
+    background: var(--colNotifyOK);
 }
 
 .MessageBox p a:after {
@@ -934,7 +934,7 @@ table.AttachmentList.DataTable thead th {
 }
 
 .MessageBox.Info {
-    background-color: #c4cdfa;
+    background-color: var(--colNotifyOK);
 }
 
 .MessageBox a.Button:after {
@@ -951,15 +951,15 @@ table.AttachmentList.DataTable thead th {
 }
 
 .MessageBox.Info a.Button {
-    background-color: var(--colBGDark);
+    background-color: var(--colMainLight);
 }
 
 .MessageBox.Info a.Button:hover {
-    background-color: #001bff;
+    background-color: var(--colMainHover);
 }
 
 .MessageBox.Info a.Button i {
-    color: var(--colHoverDark);
+    color: var(--colHighlight);
 }
 
 form .MessageBox{
@@ -984,19 +984,19 @@ form .MessageBox{
     text-indent: -9999px;
     cursor: pointer;
     /* set a default color for priorities */
-    background-color: #cdcdcd;
+    background-color: var(--colBGDark);
 }
 
 .Flag span.Escalated {
-    background-color:#ea2400;
+    background-color:var(--colTextErr);
 }
 
 .Flag span.New {
-    background-color: #8bef4d;
+    background-color: var(--colNotifyOK);
 }
 
 .Flag span.Warning {
-    background-color: #ffdd50;
+    background-color: var(--colNotifyWarn);
 }
 
 .Flag span.PriorityID-1 {
@@ -1041,7 +1041,7 @@ div.UnreadArticles i {
     top: 0px;
     z-index: 2;
     font-size: 14px;
-    color: #e5e5eb;
+    color: var(--colBGMedium);
 }
 
 span.UnreadArticles em,
@@ -1051,7 +1051,7 @@ div.UnreadArticles em {
 
 span.UnreadArticles i:first-child,
 div.UnreadArticles i:first-child {
-    color: #bfbfce !important;
+    color: var(--colBGDark) !important;
     font-size: 16px;
     z-index: 1;
     left: -1px;
@@ -1060,16 +1060,16 @@ div.UnreadArticles i:first-child {
 
 span.UnreadArticles.Remarkable i,
 div.UnreadArticles.Remarkable i {
-    color: var(--colBGDark);
+    color: var(--colHoverDark);
 }
 
 span.UnreadArticles.Ordinary,
 div.UnreadArticles.Ordinary {
-    color: #bfbfce;
+    color: var(--colBGDark);
 }
 
 tbody tr:hover span.UnreadArticles i {
-    color: #c4cdfa;
+    color: var(--colNotifyOK);
 }
 
 span.ImportantArticles {
@@ -1078,7 +1078,7 @@ span.ImportantArticles {
     height: 16px;
     float: right;
     margin: -2px 0px 0px 23px;
-    color: #ea2400;
+    color: var(--colTextErr);
     font-size: 13px;
 }
 
@@ -1087,7 +1087,7 @@ span.ImportantArticles em {
 }
 
 span.ImportantArticles i {
-    color: #ea2400;
+    color: var(--colTextErr);
 }
 
 /**
@@ -1100,8 +1100,8 @@ span.ImportantArticles i {
 
 #ChartTooltip {
     padding: 2px 8px 3px;
-    background: #000;
-    color: #FFF;
+    background: var(--colTextDark);
+    color: var(--colBGLight);
     font-size: 11px;
     opacity: 0.8;
     border-radius: 8px;
@@ -1117,7 +1117,7 @@ span.ImportantArticles i {
     width: 16px;
     display: inline-block;
     vertical-align: top;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .RTL .DatepickerIcon {
@@ -1126,18 +1126,13 @@ span.ImportantArticles i {
 
 /* Vacation Days */
 td.Highlight a.ui-state-default {
-    border: 1px solid #fad42e;
-    background: #ffe45c !important;
-    background: -moz-linear-gradient(top,  #fff0a5 0%, #ffe45c 100%) !important;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff0a5), color-stop(100%,#ffe45c)) !important;
-    background: -webkit-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%) !important;
-    background: -o-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%) !important;
-    background: -ms-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%) !important;
-    background: linear-gradient(to bottom,  #fff0a5 0%,#ffe45c 100%) !important;
+    border: 1px solid var(--colHighlight);
+    background: var(--colHighlight) !important;
 }
 
 /* Today */
 .ui-datepicker-current-day {
+    opacity: var(--colBGMedium) !important;
 }
 
 /*Weekend*/
@@ -1177,7 +1172,7 @@ td.Highlight a.ui-state-default {
 .ui-menu-item:focus,
 .ui-menu-item:active,
 .ui-autocomplete .ui-menu-item-wrapper.ui-state-active {
-    background: #eee;
+    background: var(--colBGLightMedium);
 }
 
 /**
@@ -1254,7 +1249,7 @@ iframe.TextOption.CustomerUserAddressBook {
 .ArticleBody {
     font-family: monospace,fixed;
     word-wrap: break-word;
-    background: #FFF;
+    background: var(--colElement);
     padding: 10px;
     min-height: 70px;
 }
@@ -1263,7 +1258,7 @@ iframe.TextOption.CustomerUserAddressBook {
     padding: 2px 5px;
     font-size: 11px;
     max-height: 100px;
-    background: #FFF;
+    background: var(--colElement);
     min-height: 70px;
 }
 
@@ -1284,7 +1279,7 @@ iframe.TextOption.CustomerUserAddressBook {
 
 .ArticleChat .Time {
     padding-right: 5px;
-    color: #888;
+    color: var(--colTextLight);
     white-space: nowrap;
 }
 
@@ -1294,7 +1289,7 @@ iframe.TextOption.CustomerUserAddressBook {
 
 .ArticleChat .SystemGenerated .Text {
     font-style: italic;
-    color: #888;
+    color: var(--colTextLight);
 }
 
 .ArticleChat .Own .Name {
@@ -1342,11 +1337,11 @@ iframe.TextOption.CustomerUserAddressBook {
 }
 
 #ChatStartDialog form .Primary:focus {
-    border-color: #00023c;
+    border-color: var(--colTextDark);
 }
 
 .ChatProtocol {
-    border: 1px solid #ccc;
+    border: 1px solid var(--colBGDark);
     padding: 2px;
     overflow-y: auto;
     max-height: 150px;
@@ -1374,7 +1369,7 @@ iframe.TextOption.CustomerUserAddressBook {
 }
 
 .ui-widget-header {
-    background: #eee !important;
+    background: var(--colBGLightMedium)!important;
     border: 0px !important;
     font-weight: normal !important;
 }
@@ -1382,7 +1377,7 @@ iframe.TextOption.CustomerUserAddressBook {
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
-    background: #f2f2f2 !important;
+    background: var(--colBGLight) !important;
 }
 
 .ui-state-hover,
@@ -1391,7 +1386,7 @@ iframe.TextOption.CustomerUserAddressBook {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-    background: #ddd !important;
+    background: var(--colBGMediumDark) !important;
 }
 
 /**
@@ -1425,7 +1420,7 @@ iframe.TextOption.CustomerUserAddressBook {
 
 .ck.ck-content blockquote {
     font-style: normal !important;
-    border-left: solid #001bff 1.5pt !important; 
+    border-left: solid var(--colMainLight) 1.5pt !important; 
     padding: 0cm 0cm 0cm 4pt !important;    
 }
 
@@ -1485,14 +1480,14 @@ iframe.PopupIframe {
 body > div.MetaFloater {
     width: 600px;
     height: 400px;
-    background: #fff;
-    box-shadow: 2px 1px 3px #aaa;
+    background: var(--colElement);
+    box-shadow: 2px 1px 3px var(--colBGDark);
     position: absolute;
     box-sizing: border-box;
     z-index: 999;
     margin-top: -5px;
-    border: 1px solid #eee;
-    border-top: 30px solid #eee;
+    border: 1px solid var(--colBGLightMedium);
+    border-top: 30px solid var(--colBGLightMedium);
 }
 
 body > div.MetaFloater:after,
@@ -1526,7 +1521,7 @@ body > div.MetaFloater.Bottom:before {
 }
 
 body > div.MetaFloater:after {
-    border-bottom-color: #eee;
+    border-bottom-color: var(--colBGLightMedium);
     border-width: 15px;
     margin-left: -15px;
 }
@@ -1538,14 +1533,14 @@ body > div.MetaFloater.Bottom:after {
 
 body > div.MetaFloater:before {
     border-color: rgba(170, 170, 170, 0);
-    border-bottom-color: #aaa;
+    border-bottom-color: var(--colBGDark);
     border-width: 16px;
     margin-left: -16px;
 }
 
 body > div.MetaFloater.Bottom:before {
     border-color: rgba(170, 170, 170, 0);
-    border-top-color: #aaa;
+    border-top-color: var(--colBGDark);
 }
 
 body > div.MetaFloater > i.fa-spin {
@@ -1583,7 +1578,7 @@ body > div.MetaFloater > a {
     text-align: right;
     box-sizing: border-box;
     height: 30px;
-    color: #555;
+    color: var(--colTextMedium);
 }
 
 body > div.MetaFloater > div.Content {
@@ -1601,14 +1596,14 @@ body > div.MetaFloater > div.NoPreview {
     width: 50%;
     margin: 23% auto;
     line-height: 150%;
-    color: #777;
+    color: var(--colTextLight);
 }
 
 body > div.MetaFloater > div.NoPreview i {
     display: block;
     font-size: 20px;
     margin-bottom: 10px;
-    color: #777;
+    color: var(--colTextLight);
 }
 
 body > div.MetaFloater > a.Scale {
@@ -1629,10 +1624,10 @@ body > div.MetaFloater > a.Close {
 
 .CMToolbarContainer {
     width: 100%; 
-    border: 1px solid #d1d1d1; 
+    border: 1px solid var(--colBGDark); 
     border-bottom: none; 
     height: 35px; 
-    background-color: #f7f7f7;
+    background-color: var(--colBGLight);
 }
 
 .CMToolbarIcons {
@@ -1641,7 +1636,7 @@ body > div.MetaFloater > a.Close {
     border-collapse: separate;
     border-spacing: 8px;
     left: 15px; 
-    background-color: #f7f7f7; 
+    background-color: var(--colBGLight); 
     font-size: 16px;
 }
 
@@ -1724,7 +1719,7 @@ body > div.MetaFloater > a.Close {
     content: "\f1ce";
     font-family: FontAwesome;
     font-size: 14px;
-    color: #777;
+    color: var(--colTextLight);
 }
 
 }
@@ -1788,14 +1783,14 @@ body > div.MetaFloater > a.Close {
         font-size: 12px;
         margin-top: -6px;
         display: none;
-        color: #aaa;
+        color: var(--colTextLight);
         transition: color ease 0.3s;
     }
 
     .TableFilterContainer .FilterRemove:focus,
     .TableFilterContainer .FilterRemove:hover,
     .TableFilterContainer .FilterRemove:active {
-        color: #00023c;
+        color: var(--colTextDark);
     }
 
     .TableFilterContainer input,
@@ -1807,6 +1802,6 @@ body > div.MetaFloater > a.Close {
     }
 
     .fa {
-        color: #00023c;
+        color: var(--colTextDark);
     }
 }

@@ -30,13 +30,12 @@ input[type=password],
 input[type=email],
 textarea,
 select[multiple=multiple] {
-    border: 1px solid #C9C9C9;
-    border-top-color: #C0C0C0;
+    border: 1px solid var(--colBGDark);
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     /* Opera 10.5 has per default a grey background */
     background-color: #FFF;
-    -webkit-box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
-    box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
+    -webkit-box-shadow: inset 1px 1px 3px var(--colBGLight), inset -1px -1px 3px var(--colBGLight);
+    box-shadow: inset 1px 1px 3px var(--colBGLight), inset -1px -1px 3px var(--colBGLight);
 }
 
 select[multiple=multiple] {
@@ -54,7 +53,7 @@ select[multiple=multiple] option {
 }
 
 select[multiple=multiple] option:nth-child(odd) {
-    background-color: #f9f9f9;
+    background-color: var(--colBGLight);
 }
 
 input#Subject {
@@ -69,66 +68,66 @@ input[type=email],
 textarea {
     padding: 3px;
     font-size: 12px;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 input[type=text]:focus,
 input[type=password]:focus,
 input[type=email]:focus,
 textarea:focus {
-    border-color: #777;
+    border-color: var(--colTextLight);
     outline: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: #555;
+    color: var(--colTextMedium);
     transition: color ease 0.3s;
 }
 
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color: #555;
+   color: var(--colTextMedium);
    transition: color ease 0.3s;
    opacity: 1;
 }
 
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color: #555;
+   color: var(--colTextMedium);
    transition: color ease 0.3s;
    opacity: 1;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color: #555;
+   color: var(--colTextMedium);
    transition: color ease 0.3s;
 }
 
 ::-ms-input-placeholder { /* Microsoft Edge */
-   color: #555;
+   color: var(--colTextMedium);
    transition: color ease 0.3s;
 }
 
 :focus::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: #ccc;
+    color: var(--colBGDark);
 }
 
 :focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color: #ccc;
+   color: var(--colBGDark);
    opacity: 1;
 }
 
 :focus::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color: #ccc;
+   color: var(--colBGDark);
    opacity: 1;
 }
 
 :focus:-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color: #ccc;
+   color: var(--colBGDark);
 }
 
 :focus::-ms-input-placeholder { /* Microsoft Edge */
-   color: #ccc;
+   color: var(--colBGDark);
 }
 
 /**
@@ -153,7 +152,7 @@ input[type=text][readonly],
 input[type=password][readonly],
 input[type=email][readonly],
 textarea[readonly] {
-    background-color: #DDD;
+    background-color: var(--colBGMedium);
 }
 
 /**
@@ -240,7 +239,7 @@ a.Reset{
 
 .AddButton,
 .RemoveButton {
-    color: #00023c;
+    color: var(--colTextDark);
     font-size: 14px;
     vertical-align: middle;
 }
@@ -265,7 +264,7 @@ button.Reset:active {
     height: 16px;
     margin-left: 3px;
     display: inline-block;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .GetAllAJAX span {
@@ -283,7 +282,7 @@ button.Reset:active {
     height: 16px;
     margin-left: 3px;
     display: inline-block;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .AdditionlFieldIcon span {
@@ -304,7 +303,7 @@ button.Reset:active {
     width: 16px;
     height: 16px;
     margin-left: 3px;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .GenericAgentClearSelect span {
@@ -322,7 +321,7 @@ button.Reset:active {
     height: 16px;
     margin-left: 3px;
     display: none;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .ShowTreeSelection span {
@@ -332,7 +331,7 @@ button.Reset:active {
 }
 
 .ShowTreeSelection:focus {
-    color: var(--colHoverDark);
+    color: var(--colHighlight);
 }
 
 .Field .ShowTreeSelection, .WidgetSettingsForm .ShowTreeSelection {
@@ -349,7 +348,7 @@ button.Reset:active {
 }
 
 #TreeContainer #TreeSearch span {
-    color: #AAAAAA;
+    color: var(--colTextLight);
     cursor: pointer;
     font-size: 12px;
     font-weight: bold;
@@ -361,7 +360,7 @@ button.Reset:active {
 }
 
 .DialogTreeSearch span {
-    color: #AAAAAA;
+    color: var(--colTextLight);
     cursor: pointer;
     font-weight: bold;
     position: relative;
@@ -376,12 +375,12 @@ button.Reset:active {
 
 .JSTreeField {
     background-color: #FFFFFF;
-    border: 1px solid #ccc;
+    border: 1px solid var(--colBGDark);
     height: 72%;
     margin: 10px 12px;
-    -moz-box-shadow: inset 0px 0px 6px #ccc;
-    -webkit-box-shadow: inset 0px 0px 6px #ccc;
-    box-shadow: inset 0px 0px 6px #ccc;
+    -moz-box-shadow: inset 0px 0px 6px var(--colBGDark);
+    -webkit-box-shadow: inset 0px 0px 6px var(--colBGDark);
+    box-shadow: inset 0px 0px 6px var(--colBGDark);
     overflow: auto;
     padding: 0px 10px 10px 10px;
 }
@@ -393,7 +392,7 @@ button.Reset:active {
 }
 
 .JSTreeField .Disabled > a {
-    color: #aaa;
+    color: var(--colTextLight);
     font-style: italic;
 }
 
@@ -402,7 +401,7 @@ button.Reset:active {
 }
 
 .JSTreeField .jstree-search.jstree-clicked {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .JSTreeField .jstree-clicked {
@@ -418,13 +417,13 @@ button.Reset:active {
 }
 
 .JSTreeField .jstree-hovered {
-    background-color: #eee;
-    border-color: #ddd;
+    background-color: var(--colBGLightMedium);
+    border-color: var(--colBGMediumDark);
 }
 
 .JSTreeField a:focus {
-    background-color: #eee;
-    border-color: #ddd;
+    background-color: var(--colBGLightMedium);
+    border-color: var(--colBGMediumDark);
 }
 
 #SubmitTree {
@@ -466,7 +465,7 @@ fieldset > legend {
 }
 
 fieldset > legend > span {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--colBGMediumDark);
     display: block;
     font-weight: bold;
     padding: 5px 0px 5px 30%;
@@ -480,20 +479,20 @@ form fieldset > p.NoValue {
 }
 
 .FieldExplanation {
-    color: #888;
+    color: var(--colTextLight);
     margin: 5px 0;
 }
 
 .SidebarColumn .FieldExplanation.Error {
-    border: 1px solid #F03432;
-    color: #F03432;
+    border: 1px solid var(--colTextErr);
+    color: var(--colTextErr);
     line-height: 150%;
     margin: 7px 0px;
     padding: 7px 10px;
 }
 
 form label.Mandatory {
-    color: #00023c !important;
+    color: var(--colTextDark) !important;
 }
 
 form label.Mandatory span.Marker {
@@ -518,11 +517,11 @@ form label.LabelError {
 .CustomerContainer,
 .CcCustomerContainer,
 .BccCustomerContainer {
-    background-color: #F2F2F2;
-    border: 1px solid #CCCCCC;
-    -moz-box-shadow: inset 1px 1px 5px #ccc;
-    -webkit-box-shadow: inset 1px 1px 5px #ccc;
-    box-shadow: inset 1px 1px 5px #ccc;
+    background-color: var(--colBGLight);
+    border: 1px solid var(--colBGDark);
+    -moz-box-shadow: inset 1px 1px 5px var(--colBGDark);
+    -webkit-box-shadow: inset 1px 1px 5px var(--colBGDark);
+    box-shadow: inset 1px 1px 5px var(--colBGDark);
     padding: 5px 7px 10px 6px;
     width: 74%;
     position: relative;
@@ -549,8 +548,8 @@ form label.LabelError {
 }
 
 .CustomerContainer .CustomerTicketText.MainCustomer {
-    background-color: #fffccc;
-    border: 1px solid #e5e5eb;
+    background-color: var(--colHoverLight);
+    border: 1px solid var(--colBGMedium);
 }
 
 .CustomerContainer .CustomerTicketText.Radio {
@@ -561,7 +560,7 @@ form label.LabelError {
 .CustomerContainer .BoxLabel,
 .CcCustomerContainer .BoxLabel,
 .BccCustomerContainer .BoxLabel {
-    background-color: #CCCCCC;
+    background-color: var(--colBGDark);
     font-size: 11px;
     right: 100%;
     top: 10px;
@@ -570,7 +569,7 @@ form label.LabelError {
     text-align: center;
     text-shadow: 1px 1px 1px #FFFFFF;
     min-width: 20px;
-    color: #555;
+    color: var(--colTextMedium);
 }
 
 #EmailRecipientsList span,
@@ -588,7 +587,7 @@ form label.LabelError {
     font-size: 7px;
     padding: 0.4px 0.8px;
     border-radius: 3px;
-    color: #00023c;
+    color: var(--colTextDark);
     display: inline-block;
     vertical-align: middle;
     line-height: 8.5px;
@@ -612,7 +611,7 @@ form input.Error,
 form textarea.Error,
 form input.Error:focus,
 form textarea.Error:focus {
-    border-color: #ea2400;
+    border-color: var(--colTextErr);
 }
 
 /*
@@ -635,11 +634,11 @@ fieldset.TableLike .Row > .FieldCell label:not(.ck-label) {
     line-height: 1.9em;
     width: 30%;
     text-align: right;
-    color: #929292;
+    color: var(--colTextLight);
     min-height: 17px;
     padding-top: 0.3em;
     padding-bottom: 1px;
-    text-shadow: 0 1px 0 #FAFAFA;
+    text-shadow: 0 1px 0 var(--colBGLightMedium);
 }
 
 fieldset.TableLike .Row.MultiColumn > .FieldCell label {
@@ -664,7 +663,7 @@ fieldset.TableLike .Row.MultiColumn > .FieldCell label {
     padding-top: 3px;
     padding-bottom: 3px;
     min-height: 20px;
-    text-shadow: 0 1px 0 #FAFAFA;
+    text-shadow: 0 1px 0 var(--colBGLightMedium);
 }
 
 fieldset.TableLike > .Field,
@@ -715,7 +714,7 @@ fieldset.TableLike .DFSetOuterField {
 
 fieldset.TableLike .DynamicFieldSet {
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--colBGDark);
     border-radius: 4px;
 }
 
@@ -810,7 +809,7 @@ fieldset.TableLike select {
 fieldset.TableLike > .Field label,
 fieldset.TableLike > .Row > .Field label,
 fieldset.TableLike > .Row > .FieldCell label {
-    color: #929292;
+    color: var(--colTextLight);
 }
 
 fieldset.TableLike .Row > .FieldCell > .Field > select,
@@ -1044,11 +1043,11 @@ fieldset.TableLike .SetDisplayValue > label {
   line-height: 1.3em;
   width: 126px;
   text-align: right;
-  color: #929292;
+  color: var(--colTextLight);
   min-height: 17px;
   padding-top: 0.3em;
   padding-bottom: 1px;
-  text-shadow: 0 1px 0 #FAFAFA;
+  text-shadow: 0 1px 0 var(--colBGLight);
   overflow-wrap: break-word;
 }
 fieldset.TableLike .SetDisplayValue > .Value {
@@ -1064,7 +1063,7 @@ fieldset.TableLike .SetDisplayValue {
 /* EO Temporary */
 
 iframe.Signature {
-    border: 1px solid #888;
+    border: 1px solid var(--colTextLight);
 }
 
 /**
