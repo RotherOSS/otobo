@@ -1,0 +1,254 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "High Contrast"
+ * @section     Default Settings
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Fonts
+ */
+body {
+    background-color: var(--colBGLight) !important;
+}
+
+#AjaxErrorDialogInner .Icon {
+    background: #f92;
+}
+
+/**
+ * @subsection  Links
+ */
+a {
+    color: var(--colTextDark);
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    color: var(--colTextDark);
+}
+
+/**
+ * @subsection  Text
+ */
+.Error {
+    font-weight: bold;
+}
+
+.Warning {
+    font-weight: bold;
+}
+
+.Notice {
+    font-weight: bold;
+}
+
+.Confirmation {
+    color: var(--NotifyOK);
+    font-weight: bold;
+}
+
+/**
+ * @subsection  Errors
+ * @note        Error fields for forms
+ */
+.ErrorBox {
+    color: rgba(255, 255, 255, 0.9);
+    background: #B83850;
+}
+
+.SuccessBox {
+    background: #8FB738;
+}
+
+.ErrorBox span a,
+.SuccessBox span a {
+    color: #fff;
+}
+
+.ErrorBox span a:hover,
+.SuccessBox span a:hover {
+    border-color: #fff;
+}
+
+/**
+ * @subsection  Drag & drop upload
+ */
+div.DnDUpload {
+    border: 1px solid var(--colBGDark);
+    color: var(--colTextDark);
+}
+
+div.DnDUpload:focus {
+    border-color: #000;
+    color: #000;
+}
+
+table.AttachmentList .AttachmentDelete:focus i {
+    color: #000;
+}
+
+/**
+ * @note    Use the class InvisibleText to hide text from the screen,
+ *          while it is still recognized and read by screen readers.
+ */
+.InvisibleText {
+    color: var(--colTextLight);
+}
+
+/**
+ * @subsection  Bread crumb
+ */
+.BreadCrumb {
+    background: var(--colBGDark);
+}
+
+.BreadCrumb li {
+    color: var(--colTextDark);
+}
+
+.BreadCrumb li:first-child a i {
+    color: var(--colTextLight);
+}
+
+.BreadCrumb li:first-child a:hover i {
+    color: var(--colTextLight);
+}
+
+.BreadCrumb a {
+    color: var(--colTextLight);
+}
+
+.BreadCrumb a:after {
+    border-bottom: 1px solid #bbb;
+}
+
+.BreadCrumb li:before {
+    border-left-color: var(--colBGDark);
+}
+
+/**
+ * @subsection  MessageBox
+ */
+.MessageBox {
+    background: var(--colBGLight) !important;
+    border-top: 1px solid var(--colTextDark);
+    border-bottom: 1px solid var(--colTextDark);
+}
+
+.MessageBox p,
+.MessageBox a, 
+.MessageBox.Confirmation p,
+.MessageBox.Confirmation a {
+    color: var(--colTextDark);
+}
+
+.MessageBox.Confirmation {
+    background: #049E35;
+}
+
+.MessageBox p a:hover:after {
+    margin-left: 5px;
+}
+
+.MessageBox.Info {
+    background-color: #2A5464;
+}
+
+.MessageBox.Info p,
+.MessageBox.Info a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.MessageBox.Info a,
+.MessageBox.Error a {
+    transition: color ease 0.3s;
+}
+
+.MessageBox.Info a:hover,
+.MessageBox.Error a:hover {
+    font-weight: 600;
+}
+
+.MessageBox.Info a.Button {
+    background-color: #3E6C7C;
+}
+
+.MessageBox.Info a.Button:hover {
+    background-color: #4B7C8E;
+}
+
+.MessageBox.Info a.Button i {
+    color: #89C6D1;
+}
+
+/**
+ * @subsection  "Unread" star
+ */
+span.UnreadArticles i,
+div.UnreadArticles i {
+    color: #bfbfce;
+}
+
+span.UnreadArticles i:first-child,
+div.UnreadArticles i:first-child {
+    color: #777 !important;
+}
+
+span.UnreadArticles.Remarkable i,
+div.UnreadArticles.Remarkable i {
+    color: #F2BD0E;
+}
+
+tbody tr:hover span.UnreadArticles i {
+    color: #fff;
+}
+
+span.ImportantArticles {
+    color: #C10505;
+}
+
+span.ImportantArticles i {
+    color: #C10505;
+}
+
+/**
+ * @subsection global CKEditor 5 fixes/improvements
+ */
+.ck.ck-content p {
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+}
+
+/*
+ * @subsection Media Query Reset-CSS (for desktop screen resolutions)
+ */
+@media only screen and (min-width: 1025px) {
+
+    /* Filters */
+
+    .TableFilterContainer .FilterRemove:focus,
+    .TableFilterContainer .FilterRemove:hover,
+    .TableFilterContainer .FilterRemove:active {
+        color: #000;
+    }
+
+}
+
+}

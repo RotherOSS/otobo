@@ -757,7 +757,7 @@ sub Login {
     }
 
     # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateAgentCSSCalls();
+    $Self->LoaderCreateAgentCSSCalls( Skin => 'default' );
     $Self->LoaderCreateAgentJSCalls();
     $Self->LoaderCreateJavaScriptTranslationData();
     $Self->LoaderCreateJavaScriptTemplateData();
@@ -923,6 +923,12 @@ sub Login {
         Key   => 'LoginFailed',
         Value => $Param{LoginFailed},
     );
+
+    # define color scheme
+    my $ColorDefinitions = $ConfigObject->Get('AgentColorDefinitions');
+    for my $Color ( sort keys %{$ColorDefinitions} ) {
+        $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
+    }
 
     # declare headers including the X-OTOBO-Login header field
     $Self->_AddHeadersToResponseObject(
@@ -1639,6 +1645,15 @@ sub Header {
         ContentDisposition            => $Param{ContentDisposition},
         DisableIFrameOriginRestricted => $Param{DisableIFrameOriginRestricted},
     );
+
+    # Load colors based on Skin selection
+    $Self->{SkinSelected} ||= 'default';
+
+    my $ColorDefinitions = $Self->{SkinSelected} eq 'default' ?  $ConfigObject->Get("AgentColorDefinitions") : $ConfigObject->Get("SkinColorDefinition::$Self->{SkinSelected}");
+
+    for my $Color ( sort keys %{$ColorDefinitions} ) {
+        $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
+    }
 
     # create & return output
     return $Self->Output(
@@ -4420,8 +4435,11 @@ sub CustomerHeader {
     # and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateCustomerCSSCalls();
 
+    # Load colors based on Skin selection   
     # define color scheme
-    my $ColorDefinitions = $ConfigObject->Get('CustomerColorDefinitions');
+    $Self->{UserSkin} ||= 'default';
+    my $ColorDefinitions = $Self->{UserSkin} eq 'default' ? $ConfigObject->Get('CustomerColorDefinitions') : $ConfigObject->Get("CustomerSkinColorDefinition::$Self->{UserSkin}");
+
     for my $Color ( sort keys %{$ColorDefinitions} ) {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
     }

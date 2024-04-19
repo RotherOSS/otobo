@@ -1,0 +1,72 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     OTOBO Framework - Skin "High Contrast"
+ * @section     Customer
+ */
+
+/**
+ * @subsection  Drag & drop upload
+ */
+div.DnDUpload {
+    border: 1px solid var(--colBGDark);
+}
+
+div.DnDUpload.DragOver {
+    color: var(--colTextDark);
+}
+
+div.DnDUpload span {
+    color: var(--colTextDark);
+}
+
+div.DnDUpload i.ooofo-save {
+    color: var(--colTextDark);
+}
+
+div.DnDUpload i.fa-spinner {
+    color: var(--colTextDark);
+}
+
+.AttachmentListContainer {
+    border: 1px solid var(--colBGDark);
+}
+
+table.AttachmentList .Filetype {
+    color: var(--colTextDark);
+}
+
+table.AttachmentList .Filetype i {
+    color: var(--colTextDark);
+}
+
+table.AttachmentList .Filename {
+    color: var(--colTextDark);
+}
+
+table.AttachmentList .Progress {
+    background-color: var(--colBGDark);
+}
+
+table.AttachmentList .Filesize {
+    color: var(--colTextDark);
+}
+
+/* last box has class Center from js, or class Delete from HTML-template */
+table.AttachmentList .Center,
+table.AttachmentList .Delete {
+    color: var(--colTextDark);
+}

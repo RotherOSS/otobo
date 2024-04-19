@@ -48,8 +48,8 @@ div.Tooltip.TongueRight {
 }
 
 div.Tooltip > div.Content {
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: var(--colElement);
+    border: 1px solid var(--colBGDark);
     padding: 5px;
     position: relative;
 }
@@ -111,7 +111,7 @@ div.Tooltip.TongueTop > div.Content:after {
 }
 
 div.Tooltip.TongueTop > div.Content:before {
-    border-top-color: #ccc;
+    border-top-color: var(--colBGDark);
     border-width: 7px;
 }
 
@@ -121,7 +121,7 @@ div.Tooltip.TongueBottom > div.Content:after {
 }
 
 div.Tooltip.TongueBottom > div.Content:before {
-    border-bottom-color: #ccc;
+    border-bottom-color: var(--colBGDark);
     border-width: 7px;
 }
 

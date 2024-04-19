@@ -1,0 +1,209 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "High Contrast"
+ * @section     Widgets
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Widget Tablelike list
+ */
+ul.Tablelike li:hover {
+    background: var(--colBGDark);
+    color: var(--colTextLight);
+}
+
+ul.Tablelike li:hover a {
+    color: var(--colTextLight);
+}
+
+ul.Tablelike li.Header {
+    color: var(--colTextLight);
+    background: var(--colBGDark);
+}
+
+/**
+ * @subsection  WidgetSimple
+ */
+.WidgetSimple {
+    border-width: 1px;
+    border-color: var(--colBGDark);
+    border-style: solid;
+    box-shadow: none;
+}
+
+.WidgetSimple > .Header,
+.WidgetSimple.Collapsed.AnimationRunning > .Header {
+    background: var(--colMainDark);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.WidgetSimple.Collapsed > .Header {
+    border-bottom: none;
+}
+
+.WidgetSimple > .Header h2,
+.WidgetSimple > .Header h3 {
+    color: var(--colTextLight);
+    text-decoration: none !important;
+    text-shadow: none !important;
+}
+
+.ServiceOverview > .Content, .QueueOverview > .Content {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.WidgetSimple > .Content {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.WidgetSimple > .Content.OverflowVisible {
+    position: relative;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Legend & Shortcuts */
+.WidgetSimple .Legend li,
+.WidgetSimple .ShortCuts li {
+    color: var(--colTextDark);
+}
+
+/**
+ * @subsection Widgets as notices
+ */
+.WidgetNotice {
+    background-color: var(--colBGLight)
+}
+
+.WidgetNotice .Content {
+    border: 1px solid var(--colBGBorder);
+    color: var(--colTextDark);
+}
+
+/**
+ * @subsection  WidgetActions
+ */
+.WidgetAction.Toggle i {
+    color: var(--colTextLight) !important;
+}
+
+/* Settings */
+.WidgetAction i {
+    color: var(--colTextLight);
+}
+
+.WidgetAction:hover i,
+.WidgetAction a:focus i {
+    color: #000;
+}
+
+/**
+ * @subsection      Call for action buttons and search form
+ */
+
+.CallForAction:visited {
+    color: var(--colTextLight);
+}
+
+.CallForAction:hover,
+.CallForAction:focus {
+    color: #000;
+}
+
+.CallForAction span:hover,
+.cke_dialog_footer_buttons td a.cke_dialog_ui_button span:hover {
+    color: var(--colTextDark);
+    background-color: var(--colBGLight);
+    border: 1px;
+}
+
+.CallForAction:disabled span {
+    color: var(--colTextLight) !important;
+}
+
+.cke_dialog_footer_buttons td a.cke_dialog_ui_button span {
+    color: #000;
+}
+
+.CallForAction span i {
+    color: var(--colTextLight) !important;
+}
+
+.CallForAction:active span, 
+.CallForAction:active span i, 
+.CallForAction:hover span,
+.CallForAction:hover span i,
+.CallForAction:focus span {
+    color: var(--colTextDark) !important;
+}
+
+.CallForAction:active,
+.CallForAction:hover,
+.CallForAction:focus {
+    background-color: var(--colBGLight);
+    border-color: var(--colBGDark);
+    border-radius: 20px;
+    color: var(--colTextDark);
+    border-bottom: 1px solid var(--colBGDark);
+}
+
+/**
+ * @subsection      Icon colors
+ */
+.CallForAction span i.fa-plus-square {
+    color: #35A835;
+}
+
+.CallForAction span i.fa-rocket {
+    color: #C4632F;
+}
+.CallForAction span i.fa-download,
+.CallForAction span i.fa-upload {
+    color: #2D6F9E;
+}
+
+/**
+ * @subsection      Chat icons
+ */
+.UserStatusIcon.Offline i {
+    color: #000;
+}
+
+/**
+ * @subsection      Tabs
+ */
+.WidgetSimple.Tabs > .Header a {
+    color: var(--colTextLight);
+}
+
+.WidgetSimple.Tabs > .Header a.Disabled {
+    color: #919090;
+    text-shadow: none;
+}
+
+.WidgetSimple.Tabs > .Header a:not(.Disabled).Active,
+.WidgetSimple.Tabs > .Header a:not(.Disabled):hover,
+.WidgetSimple.Tabs > .Header a:not(.Disabled):active  {
+    color: var(--colTextLight);
+}
+
+} /* end @media */

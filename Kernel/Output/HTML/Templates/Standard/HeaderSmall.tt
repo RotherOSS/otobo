@@ -17,6 +17,6 @@
 <html>
 [% InsertTemplate("Copyright.tt") %]
 [% InsertTemplate("HTMLHead.tt") %]
-<body class="[% Data.BodyClass | html %]">
+<body class="[% Data.BodyClass | html %]" style="[% Data.ColorDefinitions | html %]">
     <a name="Top"></a>
     <div id="AppWrapper">

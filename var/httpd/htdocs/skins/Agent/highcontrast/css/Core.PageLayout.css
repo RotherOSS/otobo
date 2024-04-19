@@ -1,0 +1,60 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "High Contrast"
+ * @section     Grid
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  LayoutPopup
+ */
+.LayoutPopup > .Header {
+    padding: 7px 20px;
+    background-color: var(--colBGLight);
+}
+
+.LayoutPopup > .Content {
+    padding: 20px;
+    background-color: var(--colBGLight);
+}
+
+/**
+ * @subsection  ItemListGrid
+ */
+.ItemListGrid > li > a {
+    background-color: var(--colBGLight);
+    color: var(--colTextDark);
+    border: 1px solid var(--colBGDark);
+}
+
+.ItemListGrid > li > a:not(.Disabled):hover,
+.ItemListGrid > li > a:not(.Disabled):active,
+.ItemListGrid > li > a:not(.Disabled):focus,
+.ItemListGrid > li > a.Active {
+    background: var(--colBGDark);
+    color: var(--colTextLight);
+}
+
+.ItemListGrid > li > a:not(.Disabled):hover span.Description,
+.ItemListGrid > li > a:not(.Disabled):active span.Description,
+.ItemListGrid > li > a:not(.Disabled):focus span.Description,
+.ItemListGrid > li > a.Active span.Description {
+    color: var(--colTextLight);
+}
+
+} /* end @media */

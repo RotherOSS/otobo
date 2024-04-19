@@ -26,11 +26,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 .DynamicFieldDBContainer {
-    background-color: #F2F2F2;
-    border: 1px solid #CCCCCC;
-    -moz-box-shadow: inset 1px 1px 5px #ccc;
-    -webkit-box-shadow: inset 1px 1px 5px #ccc;
-    box-shadow: inset 1px 1px 5px #ccc;
+    background-color: var(--colBGLight);
+    border: 1px solid var(--colBGDark);
+    -moz-box-shadow: inset 1px 1px 5px var(--colBGDark);
+    -webkit-box-shadow: inset 1px 1px 5px var(--colBGDark);
+    box-shadow: inset 1px 1px 5px var(--colBGDark);
     padding: 5px 7px 10px 6px;
     width: 60%;
     position: relative;
@@ -54,8 +54,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .DynamicFieldDBContainer .ResultElementText.MainCustomer {
-    background-color: #F7ECC3;
-    border: 1px solid #E8CC8B;
+    background-color: var(--colBGLightMedium);
+    border: 1px solid var(--colBGMedium);
 }
 
 .DynamicFieldDBContainer .ResultElementText.Radio {
@@ -66,14 +66,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 #EntityUpdate .ValueRow.Card {
     display: block;
     float: left;
-    background: #eee;
+    background: var(--colBGLightMedium);
     padding: 15px;
     width: 260px;
-    box-shadow: 1px 1px 0px #ccc;
+    box-shadow: 1px 1px 0px var(--colBGDark);
     position: relative;
     margin-right: 10px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--colBGMediumDark);
 }
 
 #EntityUpdate .ValueRow.Card .RemoveButton {
@@ -84,12 +84,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     width: 25px;
     line-height: 25px;
     text-align: center;
-    color: #999;
+    color: var(--colTextLight);
     transition: all ease 0.3s;
 }
 
 #EntityUpdate .ValueRow.Card .RemoveButton:hover {
-    color: #333;
+    color: var(--colTextMedium);
 }
 
 #EntityUpdate .ValueRow.Card label {

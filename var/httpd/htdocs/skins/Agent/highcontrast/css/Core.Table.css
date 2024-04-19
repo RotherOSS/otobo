@@ -1,0 +1,199 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "High Contrast"
+ * @section     Tables
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  General stuff
+ */
+
+.DataTable, .DataTable thead th, .DataTable tbody td, .TableSmall, .TableSmall thead th, 
+.TableSmall tbody td {
+    border-color: var(--colMainDark) !important;
+}
+
+.DataTable tbody tr:hover td,
+.TableSmall tbody tr:hover td,
+.DataTable tbody tr:active td.Clickable,
+.TableSmall tbody tr:active td.Clickable,
+.DataTable tr:nth-child(even):hover td.Highlight {
+    background: var(--colBGDark) !important;
+    color: var(--colTextLight) !important;
+}
+
+/**
+ * @subsection  Generic table elements
+ */
+.DataTable td,
+.TableSmall td {
+    border-bottom: 1px solid var(--colBGDark);
+}
+
+.DataTable tbody tr:last-child td, .TableSmall tbody tr:last-child td {
+    border-bottom: 0px;
+}
+
+.DataTable tbody tr:hover td *,
+.TableSmall tbody tr:hover td *, 
+.DataTable tbody tr:active td.Clickable *, 
+.TableSmall tbody tr:active td.Clickable *, 
+.DataTable tr:nth-child(even):hover td.Highlight *, 
+.WidgetSimple.Setting.IsLockedByMe h2 label {
+    color: var(--colTextLight) !important;
+}
+
+/**
+ * @subsection  Standard DataTable
+ */
+.DataTable {
+    background-color: var(--colBGTable);
+    border: 1px solid var(--colBGDark);
+}
+
+.DataTable thead {
+    background: var(--colBGDark);
+}
+
+.DataTable thead th {
+    background: var(--colBGDark);
+    color: var(--colTextLight);
+}
+
+.DataTable thead th a {
+    color: var(--colTextLight) !important;
+}
+
+.DataTable thead .SortAscending > a:after,
+.TableSmall thead .SortAscending > a:after {
+    color: var(--colTextDark);
+}
+
+.DataTable tr:hover td a {
+    color: var(--colTextLight);
+}
+
+/**
+ * @subsection  QueueOverviewTotals DataTable
+ */
+
+.DataTable .Row td.QueueOverviewTotals {
+    color: var(--colTextDark);
+}
+
+/**
+ * @subsection  Sortable DataTable
+ */
+
+.Sortable.DataTable th.SortAscending a,
+.Sortable.DataTable th.SortDescending a {
+    color: var(--colTextDark) !important;
+}
+
+/**
+ * @subsection  Overview Small View Table
+ */
+.TableSmall thead th {
+    background: var(--colBGDark);
+}
+
+.TableSmall td a {
+    color: var(--colTextDark) !important;
+}
+
+.TableSmall tr:hover td a,
+.TableSmall tr:hover td a,
+.TableSmall tr.Active td a {
+    color: var(--colTextLight);
+}
+
+.TableSmall tr:hover td a.DynamicFieldLink,
+.TableSmall tr.Active td a.DynamicFieldLink {
+    color: var(--colTextLight);
+}
+
+/**
+ * @subsection  Ticket List Tables
+ */
+#ArticleTable tr:hover > a {
+    color: #fff !important;
+}
+
+/**
+ * @subsection  Table headers-filters
+ */
+ .TableSmall thead span.Gray {
+    color: var(--colTextLight);
+}
+
+.DataTable thead th.DashboardHeader a,
+.TableSmall thead th.OverviewHeader a,
+.DataTable thead th.DashboardHeader span.Gray {
+    color: var(--colTextLight);
+    text-decoration: none; 
+}
+
+.DataTable thead th.DashboardHeader .ColumnSettingsTrigger i,
+.TableSmall thead th.OverviewHeader .ColumnSettingsTrigger i {
+    color: var(--colTextLight);
+}
+
+.DataTable thead th.DashboardHeader.FilterActive .ColumnSettingsTrigger,
+.DataTable thead th.DashboardHeader .ColumnSettingsTrigger:hover,
+.DataTable thead th.DashboardHeader .ColumnSettingsTrigger.Active,
+.TableSmall thead th.OverviewHeader.FilterActive .ColumnSettingsTrigger,
+.TableSmall thead th.OverviewHeader .ColumnSettingsTrigger:hover,
+.TableSmall thead th.OverviewHeader .ColumnSettingsTrigger.Active {
+    color: var(--colTextLight);
+
+}
+
+.DataTable thead th.DashboardHeader.FilterActive .ColumnSettingsTrigger i,
+.DataTable thead th.DashboardHeader .ColumnSettingsTrigger.Active i,
+.TableSmall thead th.OverviewHeader.FilterActive .ColumnSettingsTrigger i,
+.TableSmall thead th.OverviewHeader .ColumnSettingsTrigger.Active i {
+
+    color: var(--colTextLight);
+}
+
+.DataTable thead th.DashboardHeader .ColumnSettingsBox,
+.TableSmall thead th.OverviewHeader .ColumnSettingsBox {
+    background: var(--colBGDark);
+}
+
+.DataTable thead th.DashboardHeader .ColumnSettingsBox span.SelectedValue a:hover,
+.TableSmall thead th.OverviewHeader .ColumnSettingsBox span.SelectedValue a:hover {
+    background: unset;
+}
+
+/**
+ * @subsection  Icons in tables
+ */
+td i,
+td a i {
+    color: var(--colTextDark);
+}
+
+tr:hover td i,
+tr:hover td a i,
+td a:hover i {
+    color: var(--colTextLight) !important;
+}
+
+} /* end @media */

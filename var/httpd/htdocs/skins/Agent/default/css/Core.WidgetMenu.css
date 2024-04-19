@@ -27,17 +27,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     position: relative;
     overflow: hidden;
     min-height: 24px;
-    background-color: #ddd;
+    background-color: var(--colBGMediumDark);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
 
 .ControlRow a {
-    color: #555;
+    color: var(--colTextMedium);
 }
 
 .ControlRow a:hover {
-    color: #333;
+    color: var(--colTextDark);
 }
 
 .ControlRow a.Active {
@@ -64,19 +64,19 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .ControlRow li:hover {
-    background: #bbb;
+    background: var(--colBGDark);
 }
 
 .ControlRow li.Active,
 .ControlRow li.Active:hover,
 .ControlRow li.Active:active {
-    background: #5D5D5D;
+    background: var(--colTextMedium);
     padding-left: 2px;
 }
 
 .ControlRow li > a {
     padding: 7px 12px 7px 11px;
-    color: #111;
+    color: var(--colTextDark);
     font-size: 11px;
     display: block;
 }
@@ -86,7 +86,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .ControlRow li:hover > a {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .ControlRow li.Active > a,
@@ -166,8 +166,8 @@ ul.ContextFunctions li:last-child:hover > a {
     font-size: 13px;
     line-height: 24px;
     font-weight: bold;
-    color: #00023c;
-    text-shadow: 0 1px 0 #D4D4D4;
+    color: var(--colTextDark);
+    text-shadow: 0 1px 0 var(--colBGDark);
     margin-bottom: 2px;
 }
 
@@ -209,7 +209,7 @@ ul.ContextFunctions li:last-child:hover > a {
 .ActionRow {
     position: relative;
     overflow: hidden;
-    background: #eeeeee;
+    background: var(--colBGLightMedium);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 /*    border-left: 1px solid #ccc;
@@ -241,7 +241,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Actions li:after {
-    color: #BBBBBB;
+    color: var(--colBGDark);
     content: " | ";
     display: block;
     float: right;
@@ -287,7 +287,7 @@ ul.ContextFunctions li:last-child:hover > a {
 .Actions li a,
 .Actions li span {
     padding: 5px 2px 0;
-    color: #00023c;
+    color:  var(--colTextDark);
     display: inline-block;
     border-bottom: 1px solid transparent;
 }
@@ -302,11 +302,11 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Actions li a.NextActivityDialog:hover {
-    border-color: #0000fc;
+    border-color: var(--colMainLight);
 }
 
 .Actions li a.NextActivityDialog > span {
-    color: #ffffff;
+    color: #fff;
     padding: 0;
     border: 0;
 }
@@ -314,7 +314,7 @@ ul.ContextFunctions li:last-child:hover > a {
 .Actions li a:hover,
 .Actions li span:hover,
 .OverviewZoom a:hover {
-    border-color: #bfbfce;
+    border-color:  var(--colBGDark);
 }
 
 .Actions li.NoHover:hover a {
@@ -334,7 +334,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Actions li.Inactive a {
-    color: #999;
+    color:  var(--colTextLight);
     text-shadow: 1px 1px #FFF;
     cursor: default;
 }
@@ -372,7 +372,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Tab.Actions li:after {
-    color: #bbb;
+    color:  var(--colBGDark);
 }
 
 .Tab.Actions li:first-child a {
@@ -385,11 +385,11 @@ ul.ContextFunctions li:last-child:hover > a {
 
 .Tab.Actions li a {
     padding: 5px 5px 8px 2px;
-    color: #999;
+    color: var(--colTextLight);
 }
 
 .Tab.Actions li a:hover {
-    color: #777;
+    color: var(--colTextLight);
     background: none;
     text-decoration: underline;
     border-bottom: 0px;
@@ -400,7 +400,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Tab.Actions li.Selected a {
-    color: #474747;
+    color: var(--colTextMedium);
     font-weight: bold;
 }
 
@@ -412,7 +412,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .LightRow.Header {
-    background: #ddd;
+    background: var(--colBGMediumDark);
     padding-right: 5px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
@@ -427,13 +427,13 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Collapsed .LightRow.Header {
-    border-bottom-color: #C6C5C4;
+    border-bottom-color: var(--colBGDark);
     border-radius: 2px;
 }
 
 .LightRow.Bottom {
-    background: #F7F7F7;
-    border-bottom: 1px solid #ccc;
+    background: var(--colBGLight);
+    border-bottom: 1px solid var(--colBGDark);
 }
 
 .Collapsed .LightRow.Bottom {
@@ -444,13 +444,13 @@ ul.ContextFunctions li:last-child:hover > a {
     margin: 0;
     padding: 4px 0 5px;
     font-weight: normal;
-    color: #171717;
+    color: var(--colTextDark);
 }
 
 .Collapsed .LightRow.Header {
-    -webkit-box-shadow: 0 -1px 0 #DDD inset;
-    box-shadow: 0 -1px 0 #DDD inset;
-    border-bottom-color: #AAA;
+    -webkit-box-shadow: 0 -1px 0 var(--colBGMediumDark) inset;
+    box-shadow: 0 -1px 0 var(--colBGMediumDark) inset;
+    border-bottom-color: var(--colBGDark);
 }
 
 .LightRow .WidgetAction.Toggle {
@@ -546,11 +546,11 @@ form.Pagination a {
 }
 
 span.Pagination a {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 span.Pagination a:hover {
-    color: #F92;
+    color: var(--colHoverDark);
 }
 
 span.Pagination a.Selected {
@@ -558,7 +558,7 @@ span.Pagination a.Selected {
 }
 
 span.Pagination span.PaginationLimit {
-    color: #FF0000;
+    color: var(--colTextErr);
 }
 
 .Pagination a span {

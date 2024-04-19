@@ -1,0 +1,188 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "High Contrast"
+ * @section     Header
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Toolbar
+ */
+#ToolBar li.UserAvatar .Initials {
+    text-shadow: 1px 1px 1px var(--colBGDark);
+}
+
+@keyframes border-fill {
+    0%   { border-bottom: 2px solid var(--colBGLight); }
+    25%  { border-bottom: 2px solid var(--colBGLight); border-left: 2px solid var(--colBGLight); }
+    50%  { border-bottom: 2px solid var(--colBGLight); border-left: 2px solid var(--colBGLight); border-top: 2px solid var(--colBGLight); }
+    100% { border-bottom: 2px solid var(--colBGLight); border-left: 2px solid var(--colBGLight); border-top: 2px solid var(--colBGLight); border-right: 2px solid var(--colBGLight); }
+}
+
+#ToolBar li.UserAvatar div {
+    display: none;
+    min-width: 180px;
+    background: #555;
+    z-index: 999;
+    position: absolute;
+    top: 100%;
+    left: -10px;
+    margin-top: 22px;
+    background-color: var(--colMainDark);
+}
+
+#ToolBar li.UserAvatar div:after {
+	border-bottom-color: var(--colBGDark);
+}
+
+#ToolBar li.UserAvatar div a,
+#ToolBar li.UserAvatar div span {
+    color: var(--colTextLight);
+    background-color: var(--colBGDark);
+}
+
+body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
+    background: var(--colBGLight);
+    color: var(--colTextDark) !important;
+}
+
+#ToolBar li.UserAvatar div span {
+    border-bottom: 1px solid var(--colBGLight);
+    background-color: var(--colBGDark);
+}
+
+#ToolBar a {
+    color: var(--colTextLight) !important;
+}
+
+#ToolBar a i {
+    text-shadow: 1px 1px 0 #000000;
+    color: var(--colTextLight) !important;
+}
+
+#ToolBar .Extended input[type=text] {
+    background: var(--colBGDark);
+    border: 1px solid var(--colBGDark);
+    box-shadow: none;
+    color: var(--colTextLight);
+}
+
+#ToolBar .Extended.SearchFulltext:before {
+    color: var(--colTextLight);
+}
+
+#ToolBar .Extended input[type=text]::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: var(--colTextLight);
+}
+
+#ToolBar .Extended input[type=text]:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: var(--colTextLight);
+}
+
+#ToolBar .Extended input[type=text]::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: var(--colTextLight);
+}
+
+#ToolBar .Extended input[type=text]:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: var(--colTextLight);
+}
+
+#ToolBar .Extended input[type=text]::-ms-input-placeholder { /* Microsoft Edge */
+    color: var(--colTextLight);
+}
+
+#ToolBar .Extended input[type=text]:focus::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: var(--colTextLight);
+}
+
+#ToolBar .Extended input[type=text]:focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: var(--colTextLight);
+}
+
+#ToolBar .Extended input[type=text]:focus::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: var(--colTextLight);
+}
+
+#ToolBar .Extended input[type=text]:focus:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: var(--colTextLight);
+}
+
+#ToolBar .Extended input[type=text]:focus::-ms-input-placeholder { /* Microsoft Edge */
+    color: var(--colTextLight);
+}
+
+/**
+ * @subsection      Navigation Level-0
+ */
+#NavigationContainer > a {
+    background: var(--colMainDark);
+    color: var(--colTextLight);
+}
+
+/**
+ * @subsection      Main hover effect
+ */
+#Navigation > li > a {
+    color: var(--colTextLight);
+    background-color: var(--colBGDark);
+}
+
+#Navigation > li > a:after {
+    background: var(--colTextLight);
+}
+
+#Navigation > li:hover > a,
+#Navigation > li:active > a {
+    color: var(--colTextLight);
+}
+
+
+#Navigation > .Selected > a {
+    color: var(--colTextLight);
+}
+
+/**
+ * @subsection      Search icon
+ */
+#Navigation a i {
+    color: var(--colTextLight);
+}
+
+/**
+ * @subsection      Navigation Second level
+ */
+#Navigation > .Active > ul > li:hover {
+    background: var(--colBGLight);
+}
+
+#Navigation > .Active > ul > li:hover > a {
+    color: var(--colTextLight);
+}
+
+#Navigation > .Active > ul > li > a {
+    border-bottom: 1px solid #000033;
+    background-color: var(--colBGDark);
+}
+
+#Navigation > .Active > ul > li > a:hover {
+    color: var(--colTextDark);
+    border-bottom: 1px solid #000033;
+    background-color: var(--colBGLight);
+}
+
+} /* end @media */

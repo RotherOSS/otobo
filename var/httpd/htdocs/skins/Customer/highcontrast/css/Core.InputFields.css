@@ -1,0 +1,170 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "High Contrast"
+ * @section     Input Fields
+ */
+
+@media screen,projection,tv,handheld {
+
+#Subject,
+input.DynamicFieldText {
+    color: var(--colTextDark);
+    border: 1px solid var(--colBGDark);
+}
+
+textarea {
+    color: #000;
+    border: 1px solid var(--colBGDark);
+}
+
+label {
+    color: var(--colTextDark);
+}
+
+/* default */
+input,
+textarea {
+    color: var(--colTextDark);
+    border: solid 1px var(--colTextDark);
+}
+
+/* hover, selected and filled */
+input:not([readonly]):hover,
+input.oooFull,
+textarea:not([readonly]):hover,
+textarea.oooFull,
+.oooSelected input {
+    border: solid 1px var(--colTextDark);
+}
+
+.FieldCell > input:not([readonly]):hover ~ label,
+.Row > input:not([readonly]):hover ~ label,
+textarea.oooFull ~ label,
+input.oooFull ~ label,
+.Field:hover:not([class*='RichTextField']) ~ label,
+.Field.oooFull ~ label,
+.oooSelected ~ label,
+.DynamicFieldDB:not([readonly]):hover ~ label,
+.InputField_Container:hover ~ label, 
+.Field.DFSetOuterField ~ label {
+    color: var(--colTextDark);
+}
+
+/* focus */
+input:not([readonly]):focus,
+input[aria-expanded="true"],
+input.oooFull[aria-expanded="true"],
+input.oooFull:focus,
+textarea:not([readonly]):focus,
+textarea.oooFull:focus,
+.oooSelected input:focus {
+    border: solid 1px var(--colTextDark);
+}
+
+.FieldCell > input:not([readonly]):focus ~ label,
+.Row > input:not([readonly]):focus ~ label,
+label.oooFocus,
+.Field ~ label.oooFocus,
+.DynamicFieldDB:hover ~ label.oooFocus,
+.InputField_Container ~ label.oooFocus {
+    color: var(--colMainLight);
+}
+
+/* error */
+input.Error,
+textarea.Error,
+label.LabelError {
+    color: var(--colTextDark) !important;
+}
+
+/* Checkboxes & Date */
+.FieldCell > div.Field > div.oooDateContainer,
+.FieldCell > div.Field.oooCheckboxContainer,
+.Row > div.Field > div.oooDateContainer,
+.Row > div.Field.oooCheckboxContainer {
+    color: var(--colTextDark);
+}
+
+/* select fields (date/datetime) */
+select {
+    color: var(--colTextDark);
+}
+
+div.InputField_ListContainer {
+    border: solid 1px var(--colTextDark);
+}
+
+div.InputField_Selection,
+div.InputField_More {
+    color: var(--colTextDark);
+    border: solid 1px var(--colTextDark);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+div.InputField_Selection > div,
+div.InputField_More > a,
+div.InputField_More > div {
+    color: var(--colTextDark);
+}
+
+.InputField_ListContainer > .oooClose {
+    border: 1px solid var(--colBGDark);
+}
+
+.oooTooltip > .Content {
+    border: 1px solid var(--colBGDark);
+}
+
+/**
+ * @subsection  DynamicFieldRichText
+ */
+
+.FieldCell > .Field ~ .DynamicFieldRichTextLabel {
+    border-radius: 10px;
+    top: -30px;
+    font-size: 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    color: #7f809d;
+    color: var(--colTextLight);
+    background-color:#ffffff;
+}
+
+/* Dynamic Field Sets */
+
+.DynamicFieldSet {
+    border: solid 1px var(--colTextDark);
+}
+
+/**
+ * @subsection  jsTree theme
+ */
+.jstree-InputField .jstree-anchor:hover {
+    color: var(--colTextLight);
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered,
+.jstree-InputField .jstree-focused > .jstree-wholerow {
+    background-color: var(--colNotifyOK);
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-anchor:hover li > a {
+    color: var(--colTextLight);
+}
+
+} /* end @media */

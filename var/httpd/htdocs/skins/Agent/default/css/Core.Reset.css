@@ -50,8 +50,8 @@ table, caption, tbody, tfoot, thead, tr, th, td, hr {
 
 body {
     line-height: 1;
-    color: #00023c;
-    background: #f7f7f9;
+    color: var(--colTextDark);
+    background: var(--colBGLight);
     text-align: left;
     margin: 0;
     padding: 0;
@@ -102,7 +102,7 @@ select {
 }
 
 *:visited {
-    color: #001bff;
+    color: var(--colMainLight);
 }
 
 } /* end @media */

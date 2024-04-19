@@ -71,7 +71,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     width: 12px;
     right: 8px;
     top: 7px;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .RTL .Dialog > .Header .Close {
@@ -93,7 +93,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .Dialog > .Content > .InnerContent {
     padding: 10px 25px 10px 10px;
-    background: #FFF;
+    background: var(--colElement);
     overflow-y: auto;
     overflow-x: auto;
     max-height: 200px;
@@ -137,7 +137,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     display: block;
     font-size: 25px;
     text-align: center;
-    color: #ff505e;
+    color: var(--colTextErr);
     margin-bottom: 10px;
 }
 
@@ -188,8 +188,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .Dialog .Buttons {
-    background: #ddd;
-    border-top: 1px solid #ccc;
+    background: var(--colBGMediumDark);
+    border-top: 1px solid var(--colBGDark);
     margin: 15px -8px -8px;
     padding: 10px 10px 9px 10px;
     text-align: center;
@@ -210,9 +210,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .FilterInputContainer {
     width: 98%;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    background-color: #eee;
+    border-left: 1px solid var(--colBGDark);
+    border-right: 1px solid var(--colBGDark);
+    background-color: var(--colBGLightMedium);
 }
 
 .FilterInputContainer input {

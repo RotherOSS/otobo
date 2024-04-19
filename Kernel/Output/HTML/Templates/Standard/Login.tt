@@ -80,7 +80,7 @@
 
 </head>
 <!-- end header -->
-<body class="[% Data.BodyClass | html %] LoginScreen">
+<body class="[% Data.BodyClass | html %] LoginScreen" style="[% Data.ColorDefinitions | html %]">
     <div id="AppWrapper">
     <div id="Header" class="ARIARoleBanner">
         <div id="Logo"></div>

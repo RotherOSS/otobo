@@ -1,0 +1,110 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "High Contrast"
+ * @section     Forms
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Input focus
+ * @note        Does not work in IE6, only partially in IE7 (no focus)
+ */
+input[type=text],
+input[type=password],
+input[type=email],
+textarea,
+select[multiple=multiple] {
+    border: 1px solid var(--colBGDark);
+    background-color: var(--colBGLight);
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+textarea:focus {
+    border-color: var(--colTextDark);
+}
+
+/**
+ * @subsection    Tree selection icon and overlay for select boxes
+ */
+.ShowTreeSelection:focus {
+    color: #fef235;
+}
+
+body #ConfigTree .jstree-hovered,
+body #ConfigTree .jstree-wholerow-hovered {
+    background: var(--colBGLight) !important;
+    color: var(--colTextDark);
+}
+
+div.InputField_Selection div.Text,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked {
+    background: var(--colHoverLight) !important;
+    color: var(--colTextDark);
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover, .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered, .jstree-InputField .jstree-focused > .jstree-wholerow {
+    background-color: var(--colHoverLight);
+}
+
+.JSTreeField .jstree-search {
+    color: var(--colTextDark);
+}
+
+.JSTreeField .jstree-search.jstree-clicked {
+    color: var(--colTextDark);
+}
+
+.jstree-InputField .jstree-wholerow-clicked ~ .jstree-anchor {
+    color: var(--colTextDark);
+}
+
+/**
+ * @subsection  Form
+ */
+.FieldExplanation {
+    color: var(--colTextDark);
+}
+
+/**
+ * @subsection  TableLike
+ * @description Provides a table-like, aligned label-value structure
+ */
+
+/* Dynamic Field Set */
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField .DynamicFieldDate > input {
+    width: unset;
+}
+
+fieldset.TableLike > .Field label,
+fieldset.TableLike > .Row > .Field label,
+fieldset.TableLike > .Row > .FieldCell label {
+    color: var(--colTextLight) !important;
+}
+
+fieldset.TableLike.Narrow > label,
+fieldset.TableLike.Narrow > .Row > label,
+fieldset.TableLike.Narrow > .Value,
+fieldset.TableLike.Narrow > .Row > .Value,
+fieldset.TableLike > label,
+fieldset.TableLike > .Row > label {
+    color: var(--colTextDark);
+}
+
+} /* end @media */

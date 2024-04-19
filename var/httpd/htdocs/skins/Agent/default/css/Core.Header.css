@@ -26,8 +26,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 #Header {
     height: 72px;
     padding: 10px 0 12px;
-    background: #00023c;
-    color: #FFF;
+    background: var(--colMainDark);
+    color: var(--colElement);
     position: relative;
 }
 
@@ -85,7 +85,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     height: 20px;
     margin: 3px 20px 0 20px;
     border-right: 1px solid #fff;
-    opacity: 0.35;
+    opacity: 0.4;
     float: left;
     position: relative;
 }
@@ -107,16 +107,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 #ToolBar li.UserAvatar .Initials {
-    background: #777;
+    background: var(--colTextLight);
     display: block;
     height: 35px;
     width: 35px;
     border-radius: 50px;
-    color: #ccc;
+    color: var(--colBGDark);
     text-indent: 0px;
     text-align: center;
     line-height: 37px;
-    text-shadow: 1px 1px 1px #00023c;
+    text-shadow: 1px 1px 1px var(--colTextDark);
     border: 1px solid transparent;
 }
 
@@ -144,10 +144,10 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar > a.Active {
 }
 
 @keyframes border-fill {
-    0%   { border-bottom: 2px solid #fef235; }
-    25%  { border-bottom: 2px solid #fef235; border-left: 2px solid #fef235; }
-    50%  { border-bottom: 2px solid #fef235; border-left: 2px solid #fef235; border-top: 2px solid #fef235; }
-    100% { border-bottom: 2px solid #fef235; border-left: 2px solid #fef235; border-top: 2px solid #fef235; border-right: 2px solid #fef235; }
+    0%   { border-bottom: 2px solid var(--colHighlight); }
+    25%  { border-bottom: 2px solid var(--colHighlight); border-left: 2px solid var(--colHighlight); }
+    50%  { border-bottom: 2px solid var(--colHighlight); border-left: 2px solid var(--colHighlight); border-top: 2px solid var(--colHighlight); }
+    100% { border-bottom: 2px solid var(--colHighlight); border-left: 2px solid var(--colHighlight); border-top: 2px solid var(--colHighlight); border-right: 2px solid var(--colHighlight); }
 }
 
 #ToolBar form[name="SearchFulltext"],
@@ -167,13 +167,13 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar > a.Active {
 #ToolBar li.UserAvatar div {
     display: none;
     min-width: 180px;
-    background: #555;
+    background: var(--colTextMedium);
     z-index: 999;
     position: absolute;
     top: 100%;
     left: -10px;
     margin-top: 22px;
-    background-color: #00023c;
+    background-color: var(--colMainDark);
 }
 
 #ToolBar li.UserAvatar div:after {
@@ -186,7 +186,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar > a.Active {
 	position: absolute;
 	pointer-events: none;
 	border-color: rgba(85, 85, 85, 0);
-	border-bottom-color: #00023c;
+	border-bottom-color: var(--colMainDark);
 	border-width: 15px;
 }
 
@@ -196,16 +196,16 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar > a.Active {
     height: auto;
     width: auto;
     line-height: 18px;
-    color: #fff;
+    color: var(--colBGLight);
     display: block;
     padding: 5px 10px;
     white-space: nowrap;
-    background-color: #00023c;
+    background-color: var(--colMainDark);
 }
 
 body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
-    background: #00023c;
-    color: #fef235;
+    background: var(--colMainDark);
+    color: var(--colHighlight);
 }
 
 #ToolBar li.UserAvatar div a:last-child {
@@ -215,11 +215,11 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 #ToolBar li.UserAvatar div span {
     color: white;
     font-size: 12px;
-    border-bottom: 1px solid #fef235;
+    border-bottom: 1px solid var(--colHighlight);
     padding-bottom: 5px;
     margin-bottom: 5px;
     padding-top: 10px;
-    background-color: #00023c;
+    background-color: var(--colMainDark);
 }
 
 #ToolBar li.UserAvatar div strong {
@@ -242,11 +242,10 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     padding: 0;
     text-align: center;
     text-indent: 0;
-    text-shadow: 1px 1px 0 #000000;
     width: 24px;
     position: relative;
     top: -9px;
-    color: #fef235 !important;
+    color: var(--colHighlight) !important;
 }
 
 #ToolBar a i.icon-small {
@@ -269,7 +268,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 
 #ToolBar a span.Counter {
     bottom: -14px;
-    color: #FFFFFF;
+    color: var(--colBGLight);
     display: block;
     font-size: 11px;
     left: 50%;
@@ -290,8 +289,8 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 
 #ToolBar .Extended input[type=text] {
     padding: 4px 15px 4px 29px;
-    background: #00023c;
-    border: 1px solid #fef899;
+    background: var(--colMainDark);
+    border: 1px solid var(--colHighlight);
     box-shadow: none;
     position: relative;
 /*    top: -1px;
@@ -299,12 +298,12 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     text-overflow: ellipsis;
     font-size: 11px;
     transition: all ease 0.3s;
-    color: #5069e6;
+    color: var(--colNotifyOK);
     border-radius: 4px;
 }
 
 #ToolBar .Extended input[type=text]:focus {
-    background: #fef899;
+    background: var(--colHoverLight);
 }
 
 #ToolBar .Extended input[type=text]:not(.InputField_Search) {
@@ -323,7 +322,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     position: absolute;
     left: 20px;
     z-index: 2;
-    color: #fef899;
+    color: var(--colHighlight);
     top: 6px;
 }
 
@@ -338,43 +337,43 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 }
 
 #ToolBar .Extended input[type=text]::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: #999;
+    color: var(--colTextLight);
 }
 
 #ToolBar .Extended input[type=text]:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: #999;
+    color: var(--colTextLight);
 }
 
 #ToolBar .Extended input[type=text]::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: #999;
+    color: var(--colTextLight);
 }
 
 #ToolBar .Extended input[type=text]:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: #999;
+    color: var(--colTextLight);
 }
 
 #ToolBar .Extended input[type=text]::-ms-input-placeholder { /* Microsoft Edge */
-    color: #999;
+    color: var(--colTextLight);
 }
 
 #ToolBar .Extended input[type=text]:focus::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: #555;
+    color: var(--colTextMedium);
 }
 
 #ToolBar .Extended input[type=text]:focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: #555;
+    color: var(--colTextMedium);
 }
 
 #ToolBar .Extended input[type=text]:focus::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: #555;
+    color: var(--colTextMedium);
 }
 
 #ToolBar .Extended input[type=text]:focus:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: #555;
+    color: var(--colTextMedium);
 }
 
 #ToolBar .Extended input[type=text]:focus::-ms-input-placeholder { /* Microsoft Edge */
-    color: #555;
+    color: var(--colTextMedium);
 }
 
 /**
@@ -442,7 +441,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     position: absolute;
     font-size: 15px;
     top: 8px;
-    color: #777;
+    color: var(--colTextLight);
     display: none;
 }
 
@@ -460,7 +459,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     padding: 8px 10px 4px 10px;
     font-size: 12px;
     line-height: 12px;
-    color: #fffeea;
+    color: var(--colBGLight);
     position: relative;
 }
 
@@ -470,7 +469,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     position: absolute;
     bottom: 0px;
     left: 0px;
-    background: #fef235;
+    background: var(--colHighlight);
     content: "";
     transform: scale(0, 1);
     transform-origin: 0;
@@ -506,7 +505,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 
 #Navigation > li:hover > a,
 #Navigation > li:active > a {
-    color: #fef235;
+    color: var(--colHighlight);
 }
 
 
@@ -539,7 +538,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     left: 15px;
     font-size: 20px;
     position: absolute;
-    color: #fef235;
+    color: var(--colHighlight);
 }
 
 #Navigation a i.fa.fa-search {
@@ -560,7 +559,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     left: 0px;
     display: block;
     z-index: 99;
-    background: #00023c;
+    background: var(--colMainDark);
     min-width: 100%;
 }
 
@@ -578,29 +577,29 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 }
 
 #Navigation > .Active > ul > li:hover {
-    background: #fef235;
+    background: var(--colHighlight);
 }
 
 #Navigation > .Active > ul > li:hover > a {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 #Navigation > .Active > ul > li > a {
     display: block;
     position: relative;
-    color: #fffeea;
+    color: var(--colBGLight);
     padding: 8px 10px;
-    border-bottom: 1px solid #000033;
-    background-color: #000033;
+    border-bottom: 1px solid var(--colMainDark);
+    background-color: var(--colMainDark);
 }
 
 #Navigation > .Active > ul > li > a:hover {
     display: block;
     position: relative;
-    color: #fef235;
+    color: var(--colHighlight);
     padding: 8px 10px;
-    border-bottom: 1px solid #000033;
-    background-color: #000033;
+    border-bottom: 1px solid var(--colMainDark);
+    background-color: var(--colMainDark);
 }
 
 #Navigation > .Active > ul > li:last-child > a {

@@ -66,7 +66,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         white-space: nowrap;
         overflow-x: scroll;
         border: 0px;
-        background: #00023c;
+        background: var(--colMainDark);
         overflow: auto;
         height: 0px;
     }
@@ -92,7 +92,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         display: inline-block;
         float: none;
         display: inline-block;
-        background-color: #444;
+        background-color: var(--colTextMedium);
         padding: 8px;
         margin-bottom: 10px;
         margin-top: 10px;
@@ -102,7 +102,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #ToolBar li.UserAvatar i {
         display: block !important;
-        color: #fef235;
+        color: var(--colHighlight);
     }
 
     #ToolBar li.UserAvatar div a:last-child {
@@ -136,7 +136,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     #ToolBar li i {
-        color: #fef235;
+        color: var(--colHighlight);
         text-shadow: none;
         font-size: 20px;
         top: -15px;
@@ -210,7 +210,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     .ResponsiveHandle {
         font-size: 30px;
-        color: #fef235;
+        color: var(--colHighlight);
         cursor: pointer;
         display: block;
         position: fixed;
@@ -218,7 +218,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: 25px;
         height: 30px;
         padding: 5px 10px;
-        background: #00023c;
+        background: var(--colMainDark);
         background-color: rgba(22, 22, 22, 0.5);
         text-align: center;
         z-index: 999;
@@ -236,7 +236,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         top: 60px;
         left: -45px;
         display: none;
-        color: #ccc;
+        color: var(--colBGDark);
         cursor: default;
     }
 
@@ -247,7 +247,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         top: 0px;
         height: 100%;
         position: fixed;
-        background: #00023c;
+        background: var(--colMainDark);
         width: 280px;
         overflow: auto;
     }
@@ -267,7 +267,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         float: none;
         box-shadow: none !important;
         border: 0px !important;
-        border-top: 1px solid #444 !important;
+        border-top: 1px solid var(--colTextMedium) !important;
     }
 
     #Navigation > li > a {
@@ -292,7 +292,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #Navigation > .Selected,
     #Navigation > li:hover {
-        color: #fef235;
+        color: var(--colHighlight);
     }
 
     #Navigation > .Active > ul {
@@ -335,7 +335,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .WidgetSimple span.Pagination a,
     .OverviewActions span.Pagination a {
         display: inline-block;
-        background-color: #aaa;
+        background-color: var(--colTextLight);
         color: #fff;
         font-size: 12px;
         padding: 5px 7px;
@@ -345,7 +345,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .WidgetSimple span.Pagination a.Selected,
     .OverviewActions span.Pagination a.Selected {
         font-weight: normal;
-        background-color: #555;
+        background-color: var(--colTextMedium);
     }
 
     .WidgetSimple > .Header h2,
@@ -727,7 +727,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: 280px;
         right: -300px;
         overflow: auto;
-        background: #00023c;
+        background: var(--colMainDark);
         padding: 0px 10px;
     }
 
@@ -988,7 +988,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     .PreferencesScreen .Size1of3 > .WidgetSimple > .Header {
-        background: #E8E8E8;
+        background: var(--colBGMedium);
         border-bottom: 0px;
         margin: 10px 0px 0px 0px;
         padding: 5px 0px;
@@ -1069,7 +1069,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     .Admin .WidgetSimple > .Content li {
-        border-top: 1px solid #ccc;
+        border-top: 1px solid var(--colBGDark);
         padding: 5px 10px;
     }
 
@@ -1252,7 +1252,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #ActivityDialogContent .LayoutPopup > .Content {
         padding: 0px;
-        border-top: 1px solid #ccc;
+        border-top: 1px solid var(--colBGDark);
     }
 
     /* Cluster */
@@ -1293,14 +1293,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     .Cluster ul ul li a:hover {
         background: none;
-        border-bottom: 2px solid #ff9922;
+        border-bottom: 2px solid var(--colHoverDark);
         padding-bottom: 0px !important;
     }
 
     .Cluster .WidgetAction.ArticleView {
         z-index: 100;
-        background: #f5f5f5;
-        background: #f5f5f5;
+        background: var(--colBGLight);
+        background: var(--colBGLight);
         width: 35px;
         text-align: center;
         margin: 0px !important;

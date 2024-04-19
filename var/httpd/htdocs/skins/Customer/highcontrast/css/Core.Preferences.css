@@ -1,0 +1,43 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+.Box {
+    box-shadow: none;
+    border: 1px solid var(--colBGDark);
+}
+
+.Row > input {
+    color: var(--colTextDark);
+    background-color: unset;
+    background-color: unset;
+    border: solid 1px var(--colBGDark);
+}
+
+.Row > input:hover,
+.Row > input.oooFull {
+    border: solid 1px var(--colTextDark);
+    color: var(--colTextDark);
+}
+
+.Row > input:focus,
+.Row > input.oooFull:focus {
+    border: solid 1px var(--colBGDark);
+    background-color: #fff;
+    color: var(--colTextDark);
+}
+
+.Row > label {
+    color: var(--colTextDark);
+}

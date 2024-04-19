@@ -198,7 +198,7 @@ button {
 button:hover,
 button:focus {
     background-color: #000099;
-    background-color: var(--colHoverDark);
+    background-color: var(--colMainHover);
 }
 
 button,

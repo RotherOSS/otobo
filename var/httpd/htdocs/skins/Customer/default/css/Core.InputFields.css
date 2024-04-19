@@ -1155,7 +1155,7 @@ fieldset > .RichTextHolder {
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked {
     background-color: #c4cdfa;
-    background-color: var(--colNotifyOK);
+    background-color: var(--colHoverLight);
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
@@ -1169,7 +1169,7 @@ fieldset > .RichTextHolder {
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked.jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused >.jstree-wholerow-clicked {
     background-color: #6d83f2;
-    background-color: var(--colHoverLight);
+    background-color: var(--colHoverDark);
 }
 
 /**

@@ -1,0 +1,83 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*  All devices capable of OTOBO minimum solution. Used to hide elements for mobile devices. */
+/* This code has been moved to Core.Defaults.css */
+
+/*  All devices with a smaller resolution than the current OTOBO minimum solution */
+@media only screen and (min-width: 0px) and (max-width: 1024px) {
+
+    #ToolBar li.UserAvatar i {
+        display: block !important;
+        color: #fef235;
+    }
+
+    #ToolBar li i {
+        color: #fef235;
+    }
+
+    .ResponsiveHandle {
+        color: var(--colTextLight);
+        background: var(--colMainDark);
+    }
+
+    #Navigation > li:hover > a, #Navigation > li:active > a {
+        color: var(--colTextDark);
+    }
+
+    #Navigation > .Active > ul > li {
+        opacity: none;
+    }
+
+    #Navigation > .Selected > a {
+        color: var(--colTextDark);
+        background: var(--colBGLight);
+    }
+
+    #Navigation > li:hover {
+        color: var(--colTextDark);
+        background: var(--colBGLight);
+    }
+
+    #Navigation > .Active > ul li a {
+        color: var(--colTextLight);
+    }
+
+    /* Widget Actions */
+
+    .LayoutFixedSidebar.SidebarLast .ResponsiveSidebarContainer > .SidebarColumn,
+    .LayoutFixedSidebar.SidebarFirst .ResponsiveSidebarContainer > .SidebarColumn {
+        background: #00023c;
+    }
+
+    /*
+     * @subsection Ticket Overview Medium
+     */
+    
+     /* Cluster */
+
+    .Cluster ul ul {
+        border: 0px;
+    }
+
+    .Cluster ul ul li a {
+        padding: 5px 2px !important;
+    }
+
+    .Cluster ul ul li a:hover {
+        color: var(--colTextDark);
+    }
+    
+}

@@ -1,0 +1,121 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "High Contrast"
+ * @section     Application
+ * @subsection  Admin
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection      General
+ */
+
+#ConfigTree .jstree-hovered:not(.jstree-disabled),
+#ConfigTree .jstree-wholerow-hovered:not(.jstree-disabled) {
+    background: var(--colBGLight) !important;
+    color: var(--colTextDark) !important;
+}
+
+/**
+ * @subsubsection     Widgets
+ */
+
+.WidgetSimple.Setting input,
+.WidgetSimple.Setting textarea,
+.WidgetSimple.Setting label {
+    color: var(--colTextDark) !important;
+}
+
+.fa-external-link:before {
+    color: var(--colTextLight);
+}
+
+.fa-exchange:before {
+    color: var(--colTextLight);
+}
+
+.WidgetSimple.Setting.IsDirty,
+.Legend span.IsDirty {
+    border-left: 5px solid var(--colBGDark);
+}
+
+.RTL .WidgetSimple.Setting.IsDirty,
+.RTL .Legend span.IsDirty {
+    border-right: 5px solid var(--colBGDark);
+}
+
+.WidgetSimple.Setting.IsLockedByAnotherUser,
+.Legend span.IsLockedByAnotherUser {
+    border-left: 5px solid var(--colHoverLight);
+}
+
+.RTL .WidgetSimple.Setting.IsLockedByAnotherUser,
+.RTL .Legend span.IsLockedByAnotherUser {
+    border-right: 5px solid var(--colHoverLight);
+}
+
+.WidgetSimple.Setting.IsLockedByMe,
+.Legend span.IsLockedByMe {
+    border-left: 5px solid var(--colHoverDark);
+}
+
+.RTL .WidgetSimple.Setting.IsLockedByMe,
+.RTL .Legend span.IsLockedByMe {
+    border-right: 5px solid var(--colBGDark);
+}
+
+.WidgetSimple.Setting .Header a {
+    color: var(--colTextLight) !important;
+}
+
+.WidgetSimple.Setting .Header .HeaderMessage {
+    color: var(--colTextLight);
+}
+
+.WidgetSimple.Setting .Header .HeaderMessage a {
+    color: var(--colTextLight);
+}
+
+.WidgetSimple.Setting .Header .HeaderMessage a:hover {
+    color: var(--colTextLight);
+}
+
+.WidgetSimple.Setting .Header .HeaderMessage a,
+.WidgetSimple.Setting .Header .HeaderMessage span {
+    color: var(--colTextLight);
+}
+
+.WidgetSimple.Setting .Header .HeaderMessage span {
+    color: var(--colTextLight);
+}
+
+.WidgetSimple.Setting .Header .HeaderMessage span + span:before {
+    color: var(--colTextLight);
+}
+
+.WidgetSimple.Setting .SettingWrapper > .SettingDescription,
+.WidgetSimple.Setting .SettingWrapper > form {
+    color: var(--colTextDark);
+}
+
+.WidgetSimple p.WidgetInformation {
+    color: var(--colTextLight);
+    background: var(--colBGDark);
+}
+
+} /* end @media */
