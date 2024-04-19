@@ -107,8 +107,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         var ToolbarConfig;
         if ( CustomerInterface ) {
-            ToolbarConfig = $EditorArea.width() < 454 ? Core.Config.Get('RichText.ToolbarMini') :
-                            $EditorArea.width() < 622 ? Core.Config.Get('RichText.ToolbarMidi') :
+            ToolbarConfig = /*$EditorArea.width() < 454 ? Core.Config.Get('RichText.ToolbarMini') :
+                            $EditorArea.width() < 622 ? Core.Config.Get('RichText.ToolbarMidi') :*/
                             CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
         }
         else {
@@ -130,6 +130,16 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         ClassicEditor.create($($EditorArea).get(0), {
+            ui: {
+                poweredBy: {
+                    position: 'inside',
+                    side: 'left',
+                    label: '',
+                    forceVisible: true,
+                    verticalOffset: 2,
+                    horizontalOffset: 2
+                }
+            },
             heading: {
                 options: [
                     { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
@@ -217,6 +227,31 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     $domEditableElement = $($EditorArea).closest(".RichTextHolder");
                 }
 
+                //Add Editor Theme Styles
+                let editorStyles = $domEditableElement.get(0).style;
+                if (CustomerInterface) {
+                    editorStyles.setProperty("--ck-border-radius", "10px");
+                    editorStyles.setProperty("--ck-font-size-base", "14px");
+                    let stickyPanelStyle = $(".ck.ck-sticky-panel").get(0).style;
+                    stickyPanelStyle.setProperty("margin-left", "4px");
+                    stickyPanelStyle.setProperty("margin-right", "0px");
+                    let $textdropdown = $(".ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label");
+                    if ($textdropdown.length > 0 ) {
+                        $textdropdown.get(0).style.setProperty("width", "7.8em");
+                        $textdropdown.parent().get(0).style.setProperty("padding-left", "4px");
+                    }
+                    $(".ck.ck-toolbar__items")
+                        .get(0).style.setProperty("gap", "1px");
+                } else {
+                    editorStyles.setProperty("--ck-border-radius", "5px");
+                    editorStyles.setProperty("--ck-font-size-base", "11.5px");
+                    $(".ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label")
+                        .get(0).style.setProperty("width", "7.5em");
+                    $(".ck.ck-toolbar__items")
+                        .get(0).style.setProperty("gap", "1px");
+                }
+                
+
                 // Adjust Editor Size to match (resizable) container size
                 const resizeObserver = new ResizeObserver((entries) => {
                     let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();
@@ -224,6 +259,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     let editingArea = $domEditableElement.find('.ck-content');
                     let verticalPadding = parseFloat(editingArea.css("padding-top")) + parseFloat(editingArea.css("padding-bottom"));
                     let newSize = newEditorSize-(toolbarHeight+verticalPadding)
+                    if (CustomerInterface) {
+                        newSize -= 2;
+                    }
                     if (newSize <= 100) {
                         newSize = 100;
                         $domEditableElement.height(toolbarHeight + verticalPadding + 100);
