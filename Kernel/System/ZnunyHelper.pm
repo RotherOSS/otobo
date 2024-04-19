@@ -1672,7 +1672,6 @@ sub _DynamicFieldsCreate {
 
         my $DriverObject = $Kernel::OM->Get("Kernel::System::DynamicField::Driver::$NewDynamicField->{FieldType}");
 
-        # TODO perhaps discuss
         # skip field if driver is not present
         next DYNAMICFIELD unless $DriverObject;
 
@@ -1974,7 +1973,6 @@ sub _DynamicFieldsConfigExport {
 
         my $DriverObject = $Kernel::OM->Get("Kernel::System::DynamicField::Driver::$DynamicField->{FieldType}");
 
-        # TODO perhaps discuss
         # skip field if driver is not present
         next DYNAMICFIELD unless $DriverObject;
 
