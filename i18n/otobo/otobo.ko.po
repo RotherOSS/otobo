@@ -19462,10 +19462,6 @@ msgid "Defines the default filter fields in the customer user address book searc
 msgstr "고객 사용자 주소록 검색 (CustomerUser 또는 CustomerCompany)의 기본 필터 필드를 정의합니다. CustomerCompany 필드의 경우 접두사 'CustomerCompany_'를 추가해야합니다."
 
 #. SysConfig
-msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
-msgstr ""
-
-#. SysConfig
 msgid "Defines the default history type in the customer interface."
 msgstr "고객 인터페이스에서 기본 기록 유형을 정의합니다."
 

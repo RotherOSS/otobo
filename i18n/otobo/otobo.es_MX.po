@@ -19481,10 +19481,6 @@ msgid "Defines the default filter fields in the customer user address book searc
 msgstr "Define los campos de filtro por defecto en la búsqueda de la libreta de direcciones del usuario cliente (CustomerUser o CustomerCompany). Para los campos ClienteEmpresa hay que añadir un prefijo 'ClienteEmpresa_'."
 
 #. SysConfig
-msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
-msgstr ""
-
-#. SysConfig
 msgid "Defines the default history type in the customer interface."
 msgstr "Define el tipo de historia por defecto en la interfaz del cliente."
 
