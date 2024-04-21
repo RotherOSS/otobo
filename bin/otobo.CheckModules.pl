@@ -1706,9 +1706,7 @@ sub PrintCpanfile {
             }
 
             if ( $Module->{VersionsRecommended} ) {
-                my $VersionsRecommended = 0;
-                ITEM:
-                for my $Item ( @{ $Module->{VersionsRecommended} } ) {
+                for my $Item ( $Module->{VersionsRecommended}->@* ) {
                     say $Indent, "# Please consider updating to version $Item->{Version} or higher: $Item->{Comment}";
                 }
             }
