@@ -45,16 +45,22 @@ performs user or customer user authorization
             UserLogin         => 'Agent',                   # if no SessionID is given UserLogin or
                                                             #   CustomerUserLogin is required
             CustomerUserLogin => 'Customer',
-            Password  => 'some password',                   # user password
+            Password          => 'some password',           # user password
         },
     );
 
-returns
+returns in case of successful authentication:
 
     (
-        1,                                              # the UserID from login or session data
-        'Agent',                                        # || 'Customer', the UserType.
+        1,       # the UserID from login or session data
+        'Agent', # 'Agent' or 'Customer', the UserType.
     );
+
+returns in case of failed authentication:
+
+    (
+        0, # indicate that the user was not authenticated
+    )
 
 =cut
 
@@ -73,7 +79,8 @@ sub Auth {
         if ($SessionID) {
             $ValidSessionID = $SessionObject->CheckSessionID( SessionID => $SessionID );
         }
-        return 0 if !$ValidSessionID;
+
+        return 0 unless $ValidSessionID;
 
         # get session data
         my %UserData = $SessionObject->GetSessionIDData(
@@ -89,10 +96,11 @@ sub Auth {
             # if UserCustomerLogin
             return ( $UserData{UserLogin}, $UserData{UserType} );
         }
+
         return 0;
     }
 
-    if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
+    if ( $Param{Data}->{UserLogin} ) {
 
         my $UserID = $Self->_AuthUser(%Param);
 
@@ -101,7 +109,7 @@ sub Auth {
             return ( $UserID, 'User' );
         }
     }
-    elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
+    elsif ( $Param{Data}->{CustomerUserLogin} ) {
 
         my $CustomerUserID = $Self->_AuthCustomerUser(%Param);
 
