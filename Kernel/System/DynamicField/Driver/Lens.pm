@@ -925,8 +925,6 @@ sub TransformConfig {
         }
     }
 
-    $Param{DynamicFieldConfig} = $Self->SUPER::TransformConfig(%Param);
-
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     if ( $Param{Action} eq 'Import' ) {

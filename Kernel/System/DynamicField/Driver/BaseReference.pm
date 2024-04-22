@@ -1125,8 +1125,6 @@ sub TransformConfig {
         }
     }
 
-    $Param{DynamicFieldConfig} = $Self->SUPER::TransformConfig(%Param);
-
     # fetch settings for iteration
     my @FieldTypeSettings = $Self->GetFieldTypeSettings();
 
