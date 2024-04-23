@@ -117,22 +117,24 @@ sub GetConfig {
         $Count++;
     }
 
-    my $ArticleVersionStrg = $LayoutObject->BuildSelection(
-        Name         => 'ArticleVersion',
-        ID           => 'ArticleVersion',
-        Class        => 'Modernize',
-        Data         => \%ArticleVersions,
-        PossibleNone => 1,
-    );
+    if (%ArticleVersions) {
+        my $ArticleVersionStrg = $LayoutObject->BuildSelection(
+            Name         => 'ArticleVersion',
+            ID           => 'ArticleVersion',
+            Class        => 'Modernize',
+            Data         => \%ArticleVersions,
+            PossibleNone => 1,
+        );
 
-    push @MenuItems, {
-        ItemType           => 'Dropdown',
-        DropdownType       => 'Version',
-        ArticleVersionStrg => $ArticleVersionStrg,
-        FormID             => 'Version' . $Param{Article}->{ArticleID},
-        Class              => 'AsPopup PopupType_TicketAction',
-        Action             => 'AgentTicketArticleEdit',
-    };
+        push @MenuItems, {
+            ItemType           => 'Dropdown',
+            DropdownType       => 'Version',
+            ArticleVersionStrg => $ArticleVersionStrg,
+            FormID             => 'Version' . $Param{Article}->{ArticleID},
+            Class              => 'AsPopup PopupType_TicketAction',
+            Action             => 'AgentTicketArticleEdit',
+        };
+    }
 
     return @MenuItems;
 }
