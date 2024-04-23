@@ -756,6 +756,7 @@ sub HandleResponse {
                     DynamicFieldConfig => $DynamicFieldConfig,
                     ObjectID           => $Self->{RequestData}->{Data}->{TicketID},
                     Value              => $DynamicFieldData{$DynamicFieldName},
+                    ExternalSource     => 1,
                     UserID             => 1,
                 );
 
@@ -809,6 +810,7 @@ sub HandleResponse {
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $Self->{RequestData}->{Data}->{TicketID},
                 Value              => $Param{Data}->{TicketID},
+                ExternalSource     => 1,
                 UserID             => 1,
             );
 
