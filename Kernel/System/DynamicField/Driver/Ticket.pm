@@ -153,6 +153,20 @@ sub GetFieldTypeSettings {
             Multiple     => 0,
         };
 
+    # Support configurable import search attribute
+    push @FieldTypeSettings,
+        {
+            ConfigParamName => 'ImportSearchAttribute',
+            Label           => Translatable('Attribute which will be searched on external value set'),
+            Explanation     => Translatable('Select the attribute which tickets will be searched by'),
+            InputType       => 'Selection',
+            SelectionData   => {
+                'Number' => 'Number',
+            },
+            PossibleNone => 1,
+            Multiple     => 0,
+        };
+
     # Support various display options
     push @FieldTypeSettings,
         {

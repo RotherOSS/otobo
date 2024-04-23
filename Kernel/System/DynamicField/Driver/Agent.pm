@@ -122,6 +122,21 @@ sub GetFieldTypeSettings {
             Multiple        => 1,
         };
 
+    # Support configurable import search attribute
+    push @FieldTypeSettings,
+        {
+            ConfigParamName => 'ImportSearchAttribute',
+            Label           => Translatable('Attribute which will be searched on external value set'),
+            Explanation     => Translatable('Select the attribute which agents will be searched by'),
+            InputType       => 'Selection',
+            SelectionData   => {
+                'Login' => 'Login',
+                'Email' => 'E-Mail',
+            },
+            PossibleNone => 1,
+            Multiple     => 0,
+        };
+
     return @FieldTypeSettings;
 }
 
