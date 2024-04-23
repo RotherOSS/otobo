@@ -35,8 +35,7 @@ use Kernel::System::VariableCheck qw(:all);
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $ZnunyHelperObject  = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
@@ -65,7 +64,6 @@ sub Run {
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LanguageObject     = $Kernel::OM->Get('Kernel::Language');
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
 
@@ -76,8 +74,8 @@ sub Run {
     # check needed stuff
     NEEDED:
     for my $Needed (qw(Element Type)) {
-
         $Param{$Needed} = $ParamObject->GetParam( Param => $Needed );
+
         next NEEDED if $Param{$Needed};
     }
 
@@ -87,7 +85,6 @@ sub Run {
     # Edit
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Edit' ) {
-
         return $Self->_ShowEdit(
             %Param,
             Data => \%Config,

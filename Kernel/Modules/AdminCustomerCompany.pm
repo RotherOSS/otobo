@@ -219,8 +219,6 @@ sub Run {
                 my $SetDFError;
 
                 # set dynamic field values
-                my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-
                 ENTRY:
                 for my $Entry (@CustomerCompanyMap) {
                     next ENTRY if $Entry->[5] ne 'dynamic_field';
@@ -232,8 +230,9 @@ sub Run {
                             Info => $LayoutObject->{LanguageObject}->Translate(
                                 'Dynamic field %s not found!',
                                 $Entry->[2],
-                            )
+                            ),
                         );
+
                         next ENTRY;
                     }
 
@@ -245,13 +244,13 @@ sub Run {
                     );
 
                     if ( !$ValueSet ) {
-                        $SetDFError
-                            .= $LayoutObject->Notify(
-                                Info => $LayoutObject->{LanguageObject}->Translate(
-                                    'Unable to set value for dynamic field %s!',
-                                    $Entry->[2],
-                                ),
-                            );
+                        $SetDFError .= $LayoutObject->Notify(
+                            Info => $LayoutObject->{LanguageObject}->Translate(
+                                'Unable to set value for dynamic field %s!',
+                                $Entry->[2],
+                            ),
+                        );
+
                         next ENTRY;
                     }
                 }
@@ -466,8 +465,6 @@ sub Run {
                     );
 
                 # set dynamic field values
-                my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-
                 ENTRY:
                 for my $Entry ( @{ $ConfigObject->Get( $GetParam{Source} )->{Map} } ) {
                     next ENTRY if $Entry->[5] ne 'dynamic_field';
@@ -481,6 +478,7 @@ sub Run {
                                 $Entry->[2],
                             ),
                         );
+
                         next ENTRY;
                     }
 
@@ -492,13 +490,13 @@ sub Run {
                     );
 
                     if ( !$ValueSet ) {
-                        $Output
-                            .= $LayoutObject->Notify(
-                                Info => $LayoutObject->{LanguageObject}->Translate(
-                                    'Unable to set value for dynamic field %s!',
-                                    $Entry->[2],
-                                ),
-                            );
+                        $Output .= $LayoutObject->Notify(
+                            Info => $LayoutObject->{LanguageObject}->Translate(
+                                'Unable to set value for dynamic field %s!',
+                                $Entry->[2],
+                            ),
+                        );
+
                         next ENTRY;
                     }
                 }
@@ -508,6 +506,7 @@ sub Run {
                     Data         => \%Param,
                 );
                 $Output .= $LayoutObject->Footer();
+
                 return $Output;
             }
         }

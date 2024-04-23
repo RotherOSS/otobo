@@ -402,8 +402,6 @@ sub Run {
             if ( $UpdateSuccess || $UpdateOnlyPreferences ) {
 
                 # set dynamic field values
-                my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-
                 ENTRY:
                 for my $Entry ( @{ $ConfigObject->Get($Source)->{Map} } ) {
                     next ENTRY if $Entry->[5] ne 'dynamic_field';
@@ -655,12 +653,9 @@ sub Run {
             );
             if ($User) {
 
-                # set dynamic field values
-                my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-
                 ENTRY:
                 for my $Entry ( @{ $ConfigObject->Get($Source)->{Map} } ) {
-                    next ENTRY if $Entry->[5] ne 'dynamic_field';
+                    next ENTRY unless $Entry->[5] eq 'dynamic_field';
 
                     my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Entry->[2] };
 
@@ -671,6 +666,7 @@ sub Run {
                                 $Entry->[2],
                             ),
                         );
+
                         next ENTRY;
                     }
 
@@ -688,6 +684,7 @@ sub Run {
                                 $Entry->[2],
                             ),
                         );
+
                         next ENTRY;
                     }
                 }
