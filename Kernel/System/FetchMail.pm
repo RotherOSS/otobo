@@ -297,8 +297,8 @@ sub Fetch {
 
     if ($ProcessID) {
 
-        while (<$ERRFH>) {
-            $ErrorMessage .= $_;
+        while (my $Line = <$ERRFH>) {
+            $ErrorMessage .= $Line;
         }
         waitpid( $ProcessID, 0 );
         $ExitCode = $? >> 8;

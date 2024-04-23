@@ -174,8 +174,8 @@ sub CleanLicenseHeader {
             $NewContent .= $Parse->{New}[1];
         }
     }
-    while (<$FileHandle>) {
-        $NewContent .= $_;
+    while (my $Line = <$FileHandle>) {
+        $NewContent .= $Line;
     }
 
     my $ContentRefNew = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(

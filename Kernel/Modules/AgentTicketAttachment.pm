@@ -174,6 +174,7 @@ sub Run {
         close $FHContent;
 
         # generate HTML
+        # TODO: use Capture::Tiny
         my $GeneratedHTML = '';
         if ( open my $ViewerFH, '-|', "$Viewer $FilenameContent" ) {    ## no critic qw(OTOBO::ProhibitOpen)
             while (<$ViewerFH>) {

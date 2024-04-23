@@ -39,8 +39,8 @@ sub Run {
     my $Output;
     open( my $FH, '-|', "perl $Home/bin/otobo.CheckModules.pl nocolors --all" );    ## no critic qw(OTOBO::ProhibitOpen)
 
-    while (<$FH>) {
-        $Output .= $_;
+    while (my $Line = <$FH>) {
+        $Output .= $Line;
     }
     close($FH);
 

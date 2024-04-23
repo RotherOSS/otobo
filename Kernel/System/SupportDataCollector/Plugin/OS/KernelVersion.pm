@@ -38,8 +38,8 @@ sub Run {
     my $KernelVersion = "";
     my $KernelInfo;
     if ( open( $KernelInfo, '-|', "uname -a" ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
-        while (<$KernelInfo>) {
-            $KernelVersion .= $_;
+        while (my $Line = <$KernelInfo>) {
+            $KernelVersion .= $Line;
         }
         close($KernelInfo);
         if ($KernelVersion) {

@@ -3910,8 +3910,8 @@ sub _AutomaticSampleImport {
             }
 
             my $Content = '';
-            while (<$Filehandle>) {
-                $Content .= $_;
+            while (my $Line = <$Filehandle>) {
+                $Content .= $Line;
             }
             close $Filehandle;
 
