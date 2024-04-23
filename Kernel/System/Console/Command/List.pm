@@ -117,6 +117,7 @@ sub ListAllCommands {
     }
 
     # Sort first by directory, then by File
+    ## no critic qw(Community::DollarAB)
     my $Sort = sub {
         my ( $DirA, $FileA ) = split( /::(?=[^:]+$)/smx, $a );
         my ( $DirB, $FileB ) = split( /::(?=[^:]+$)/smx, $b );
