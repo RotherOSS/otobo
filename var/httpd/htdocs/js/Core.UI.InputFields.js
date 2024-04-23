@@ -242,7 +242,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
             // initialize FormUpdate fields
             $('.FormUpdate', $Context).each(function(Index, Element) {
-                $(this).off('change').on('change', function () {
+                $(this).on('change', function () {
                     Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', $(this).attr('name'));
                 });
             });
@@ -2724,7 +2724,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                 // initialize FormUpdate
                 if ( $SelectObj.hasClass('FormUpdate') ) {
-                    $SelectObj.off('change').on('change', function () {
+                    $SelectObj.on('change', function () {
                         Core.AJAX.FormUpdate($SelectObj.parents('form'), 'AJAXUpdate', $SelectObj.attr('name'));
                     });
                 }
