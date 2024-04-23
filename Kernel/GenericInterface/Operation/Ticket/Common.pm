@@ -1377,6 +1377,7 @@ sub SetDynamicFieldValue {
         DynamicFieldConfig => $DynamicFieldConfig,
         ObjectID           => $ObjectID,
         Value              => $Param{Value},
+        ExternalSource     => 1,
         UserID             => $Param{UserID},
     );
 
