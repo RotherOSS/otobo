@@ -17,6 +17,7 @@
 package Kernel::System::DateTime;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
+## no critic qw(Community::OverloadOptions)
 
 use v5.24;
 use strict;
