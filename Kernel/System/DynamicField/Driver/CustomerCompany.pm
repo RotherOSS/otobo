@@ -117,7 +117,7 @@ sub GetFieldTypeSettings {
         {
             ConfigParamName => 'SearchAttribute',
             Label           => Translatable('Attribute which will be searched on autocomplete'),
-            Explanation     => Translatable('Select the attribute which tickets will be searched by'),
+            Explanation     => Translatable('Select the attribute which customer companies will be searched by'),
             InputType       => 'Selection',
             SelectionData   => {
                 'CustomerID'          => 'Customer ID',
