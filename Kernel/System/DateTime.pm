@@ -765,7 +765,7 @@ sub Subtract {
     $Self->{CPANDateTimeObject}->set_time_zone('UTC');
     $Self->ToTimeZone( TimeZone => $DateTimeValues->{TimeZone} );
 
-    return if $@;
+    return if $Error;
 
     return 1;
 }
