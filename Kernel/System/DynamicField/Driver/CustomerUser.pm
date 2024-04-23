@@ -157,8 +157,8 @@ sub GetFieldTypeSettings {
             Explanation     => Translatable('Select the attribute which customer user will be searched by'),
             InputType       => 'Selection',
             SelectionData   => {
-                'Login' => 'Login',
-                'Email' => 'E-Mail',
+                'UserLogin' => 'Login',
+                'UserEmail' => 'E-Mail',
             },
             PossibleNone => 1,
             Multiple     => 0,
@@ -294,6 +294,9 @@ sub SearchObjects {
     $Param{Term} //= '';
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
+    # include configured search param if present
+    my $SearchAttribute = ( $Param{ExternalSource} ? $DynamicFieldConfig->{Config}{ImportSearchAttribute} : '' ) || 'UserLogin';
 
     my %SearchParams;
 
