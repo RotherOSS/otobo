@@ -132,29 +132,31 @@ sub GetConfig {
     # use this array twice (also for Reply All), so copy it first
     my @StandardResponseArrayReplyAll = @StandardResponseArray;
 
-    # build HTML string
-    my $StandardResponsesStrg = $LayoutObject->BuildSelection(
-        Name         => 'ResponseID',
-        ID           => 'ResponseID' . $Param{Article}->{ArticleID},
-        Class        => 'Modernize Small',
-        Data         => \@StandardResponseArray,
-        PossibleNone => 1,
-        Translation  => 1,
-    );
-
     my @MenuItems;
+    if (@StandardResponseArray) {
 
-    push @MenuItems, {
-        ItemType              => 'Dropdown',
-        DropdownType          => 'Reply',
-        StandardResponsesStrg => $StandardResponsesStrg,
-        Name                  => Translatable('Reply'),
-        Class                 => 'AsPopup PopupType_TicketAction',
-        Action                => 'AgentTicketCompose',
-        FormID                => 'Reply' . $Param{Article}->{ArticleID},
-        ResponseElementID     => 'ResponseID' . $Param{Article}->{ArticleID},
-        Type                  => $Param{Type},
-    };
+        # build HTML string
+        my $StandardResponsesStrg = $LayoutObject->BuildSelection(
+            Name         => 'ResponseID',
+            ID           => 'ResponseID' . $Param{Article}->{ArticleID},
+            Class        => 'Modernize Small',
+            Data         => \@StandardResponseArray,
+            PossibleNone => 1,
+            Translation  => 1,
+        );
+
+        push @MenuItems, {
+            ItemType              => 'Dropdown',
+            DropdownType          => 'Reply',
+            StandardResponsesStrg => $StandardResponsesStrg,
+            Name                  => Translatable('Reply'),
+            Class                 => 'AsPopup PopupType_TicketAction',
+            Action                => 'AgentTicketCompose',
+            FormID                => 'Reply' . $Param{Article}->{ArticleID},
+            ResponseElementID     => 'ResponseID' . $Param{Article}->{ArticleID},
+            Type                  => $Param{Type},
+        };
+    }
 
     # check if reply all is needed
     my $Recipients = '';
@@ -184,9 +186,9 @@ sub GetConfig {
             $RecipientCount++;
         }
     }
-    if ( $RecipientCount > 1 ) {
+    if ( @StandardResponseArrayReplyAll && $RecipientCount > 1 ) {
 
-        $StandardResponsesStrg = $LayoutObject->BuildSelection(
+        my $StandardResponsesStrg = $LayoutObject->BuildSelection(
             Name         => 'ResponseID',
             ID           => 'ResponseIDAll' . $Param{Article}->{ArticleID},
             Class        => 'Modernize Small',
