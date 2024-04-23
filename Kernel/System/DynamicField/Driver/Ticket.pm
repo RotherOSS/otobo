@@ -348,7 +348,8 @@ sub SearchObjects {
     else {
 
         # include configured search param if present
-        my $SearchAttribute = $DynamicFieldConfig->{Config}{SearchAttribute} || 'Title';
+        my $SearchAttribute
+            = ( $Param{ExternalSource} ? $DynamicFieldConfig->{Config}{ImportSearchAttribute} : $DynamicFieldConfig->{Config}{SearchAttribute} ) || 'Title';
 
         $SearchParams{$SearchAttribute} = "*$Param{Term}*";
     }
