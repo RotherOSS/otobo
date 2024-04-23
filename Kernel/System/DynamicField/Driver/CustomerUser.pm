@@ -149,6 +149,21 @@ sub GetFieldTypeSettings {
             };
     }
 
+    # Support configurable import search attribute
+    push @FieldTypeSettings,
+        {
+            ConfigParamName => 'ImportSearchAttribute',
+            Label           => Translatable('Attribute which will be searched on external value set'),
+            Explanation     => Translatable('Select the attribute which customer user will be searched by'),
+            InputType       => 'Selection',
+            SelectionData   => {
+                'Login' => 'Login',
+                'Email' => 'E-Mail',
+            },
+            PossibleNone => 1,
+            Multiple     => 0,
+        };
+
     # This dynamic field support multiple values.
     {
         my %MultiValueSelectionData = (
