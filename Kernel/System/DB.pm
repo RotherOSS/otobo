@@ -428,7 +428,7 @@ sub Quote {
     my ( $Self, $Text, $Type ) = @_;
 
     # return undef if undef
-    return if !defined $Text;
+    return unless defined $Text;
 
     # quote strings
     if ( !defined $Type ) {
@@ -2016,10 +2016,7 @@ sub QueryInCondition {
     $Param{BindMode} //= 0;
 
     # Set the flag for string because of the other handling in the sql statement with strings.
-    my $IsString;
-    if ( !$Param{QuoteType} ) {
-        $IsString = 1;
-    }
+    my $IsString = $Param{QuoteType} ? 0 : 1;
 
     my @Values = @{ $Param{Values} };
 
