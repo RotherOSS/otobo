@@ -250,7 +250,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     $(".ck.ck-toolbar__items")
                         .get(0).style.setProperty("gap", "1px");
                 }
-                
+
 
                 // Adjust Editor Size to match (resizable) container size
                 const resizeObserver = new ResizeObserver((entries) => {

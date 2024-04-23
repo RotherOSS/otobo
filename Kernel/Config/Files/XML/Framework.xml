@@ -319,7 +319,7 @@
                 <Item Key="ShadowDark">rgba(0,2,71,0.16)</Item>
             </Hash>
         </Value>
-    </Setting>    
+    </Setting>
     <Setting Name="CustomerColorDefinitions" Required="1" Valid="1">
         <Description Translatable="1">Color definitions for the customer interface.</Description>
         <Navigation>Frontend::Customer</Navigation>
@@ -382,7 +382,7 @@
                 <Item Key="HomePage">www.otobo.org</Item>
             </Hash>
         </Value>
-    </Setting>     
+    </Setting>
    <Setting Name="CustomerSkinColorDefinition::highcontrast" Required="1" Valid="1">
         <Description Translatable="1">Color definitions for Customer Interface highcontrast skin.</Description>
         <Navigation>Frontend::Customer</Navigation>
