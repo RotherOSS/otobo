@@ -84,7 +84,7 @@ sub Check {
     else {
 
         # open old log file
-        while (my $Line = <$In>) {
+        while ( my $Line = <$In> ) {
             my @Data = split /;/, $Line;
             if ( $Data[0] eq $To ) {
                 $Count++;

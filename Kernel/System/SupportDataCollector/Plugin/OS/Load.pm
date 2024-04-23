@@ -43,7 +43,7 @@ sub Run {
         # linux systems
         if ( -e '/proc/loadavg' ) {
             open( my $LoadFile, '<', '/proc/loadavg' );    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-            while (my $Line = <$LoadFile>) {
+            while ( my $Line = <$LoadFile> ) {
                 @Loads = split " ", $Line;
             }
         }

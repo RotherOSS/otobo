@@ -297,7 +297,7 @@ sub Fetch {
 
     if ($ProcessID) {
 
-        while (my $Line = <$ERRFH>) {
+        while ( my $Line = <$ERRFH> ) {
             $ErrorMessage .= $Line;
         }
         waitpid( $ProcessID, 0 );
