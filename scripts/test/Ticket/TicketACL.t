@@ -62,12 +62,15 @@ my ( $UserLogin, $UserID ) = $Helper->TestUserCreate(
 my %UserData = $UserObject->GetUserData(
     UserID => $UserID,
 );
+ok( scalar %UserData, 'first user created' );
+
 my ( $NewUserLogin, $NewUserID ) = $Helper->TestUserCreate(
     Groups => ['admin'],
 );
 my %NewUserData = $UserObject->GetUserData(
     UserID => $NewUserID,
 );
+ok( scalar %NewUserData, 'second user created' );
 
 # set customer user options
 my $CustomerUserLogin = $Helper->TestCustomerUserCreate()
@@ -998,8 +1001,6 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-
-    my $Config     = $Test->{Config};
     my $ACLSuccess = $TicketObject->TicketAcl( %{ $Test->{Config} } );
 
     if ( !$Test->{SuccessMatch} ) {
@@ -2928,7 +2929,6 @@ my $ExecuteTests = sub {
             "$Test->{Name} ACLs Set and Get from sysconfig",
         );
 
-        my $Config     = $Test->{Config};
         my $ACLSuccess = $TicketObject->TicketAcl( %{ $Test->{Config} } );
 
         # get the data from ACL

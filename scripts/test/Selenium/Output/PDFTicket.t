@@ -126,7 +126,7 @@ $Selenium->RunTest(
         # Create Users.
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
         my @Users;
-        for my $UserCount ( 1 .. 2 ) {
+        for ( 1 .. 2 ) {
 
             # Create test User and login.
             my $TestUserLogin = $Helper->TestUserCreate(

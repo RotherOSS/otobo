@@ -42,7 +42,6 @@ sub WaitForAJAX {
 
 $Selenium->RunTest(
     sub {
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
         my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
         my $ServiceObject   = $Kernel::OM->Get('Kernel::System::Service');

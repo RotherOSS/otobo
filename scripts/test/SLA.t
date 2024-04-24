@@ -82,14 +82,11 @@ my @UserIDs;
 }
 
 # create needed random service names
-my @SLAName;
-for my $Counter ( 1 .. 10 ) {
-    push @SLAName, 'UnitTest' . $Helper->GetRandomID();
-}
+my @SLAName = map { 'UnitTest' . $Helper->GetRandomID } ( 1 .. 10 );
 
 # create some test services
 my @ServiceIDs;
-for my $Counter ( 1 .. 3 ) {
+for ( 1 .. 3 ) {
 
     # add a service
     my $ServiceID = $ServiceObject->ServiceAdd(

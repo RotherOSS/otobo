@@ -66,6 +66,7 @@ $Selenium->RunTest(
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
+        ok( $TestUserID, 'found user' );
 
         # get service object
         my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
