@@ -452,7 +452,7 @@ sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
     if (
-        ( !defined $Param{GetParam}{DynamicField} || !defined $Param{GetParam}{DynamicField}{"DynamicField_$Param{DynamicField}{Name}"} )
+        ( !defined $Param{GetParam}{DynamicField} || !defined $Param{GetParam}{DynamicField}{"DynamicField_$Param{DynamicFieldConfig}{Name}"} )
         && !$Param{Mandatory}
         )
     {
@@ -467,7 +467,7 @@ sub EditFieldValueValidate {
 
     my $IndexMax = 0;
 
-    my $SetDFConfig = $Param{DynamicField};
+    my $SetDFConfig = $Param{DynamicFieldConfig};
 
     if ( $SetDFConfig->{Config}{MultiValue} ) {
         my @DataAll = $Param{ParamObject}->GetArray(
