@@ -24,7 +24,6 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData);
 our @ObjectDependencies = (
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::HTMLUtils',
-    'Kernel::System::Time',
     'Kernel::System::CSV',
     'Kernel::System::User',
     'Kernel::System::Group',
@@ -56,8 +55,7 @@ sub new {
 sub ObjectAttributesGet {
     my ( $Self, %Param ) = @_;
 
-    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
-    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
     # check needed object
     if ( !$Param{UserID} ) {
@@ -206,7 +204,6 @@ sub ExportDataGet {
 
     my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
     my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
-    my $HTMLUtilsObject    = $Kernel::OM->Get('Kernel::System::HTMLUtils');
     my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
 
     # check needed stuff
@@ -470,7 +467,6 @@ sub ImportDataSave {
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
     my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
     my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
-    my $HTMLUtilsObject    = $Kernel::OM->Get('Kernel::System::HTMLUtils');
     my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
 
     # check needed stuff
