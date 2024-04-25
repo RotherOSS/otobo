@@ -711,7 +711,11 @@ sub _ShowEdit {
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
-    my $ACLKeysLevel1Match = $ConfigObject->Get('ACLKeysLevel1Match') || {};
+    # for compatability with ITSMConfigurationManagement
+    $Param{ObjectType} = 'Ticket';
+    my $ConfigPrefix = $Param{ObjectType} eq 'ConfigItem' ? 'ITSMConfigItem' : '';
+
+    my $ACLKeysLevel1Match = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel1Match' ) || {};
     $Param{ACLKeysLevel1Match} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel1Match,
         Name         => 'ItemAdd',
@@ -722,7 +726,7 @@ sub _ShowEdit {
         Translation  => 0,
     );
 
-    my $ACLKeysLevel1Change = $ConfigObject->Get('ACLKeysLevel1Change') || {};
+    my $ACLKeysLevel1Change = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel1Change' ) || {};
     $Param{ACLKeysLevel1Change} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel1Change,
         Name         => 'ItemAdd',
@@ -733,7 +737,7 @@ sub _ShowEdit {
         Translation  => 0,
     );
 
-    my $ACLKeysLevel2Possible = $ConfigObject->Get('ACLKeysLevel2::Possible') || {};
+    my $ACLKeysLevel2Possible = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel2::Possible' ) || {};
     $Param{ACLKeysLevel2Possible} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2Possible,
         Name         => 'ItemAdd',
@@ -743,7 +747,7 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2PossibleAdd = $ConfigObject->Get('ACLKeysLevel2::PossibleAdd') || {};
+    my $ACLKeysLevel2PossibleAdd = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel2::PossibleAdd' ) || {};
     $Param{ACLKeysLevel2PossibleAdd} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2PossibleAdd,
         Name         => 'ItemAdd',
@@ -753,7 +757,7 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2PossibleNot = $ConfigObject->Get('ACLKeysLevel2::PossibleNot') || {};
+    my $ACLKeysLevel2PossibleNot = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel2::PossibleNot' ) || {};
     $Param{ACLKeysLevel2PossibleNot} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2PossibleNot,
         Name         => 'ItemAdd',
@@ -763,7 +767,7 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2Properties = $ConfigObject->Get('ACLKeysLevel2::Properties') || {};
+    my $ACLKeysLevel2Properties = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel2::Properties' ) || {};
     $Param{ACLKeysLevel2Properties} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2Properties,
         Name         => 'ItemAdd',
@@ -773,7 +777,7 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2PropertiesDatabase = $ConfigObject->Get('ACLKeysLevel2::PropertiesDatabase') || {};
+    my $ACLKeysLevel2PropertiesDatabase = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel2::PropertiesDatabase' ) || {};
     $Param{ACLKeysLevel2PropertiesDatabase} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2PropertiesDatabase,
         Name         => 'ItemAdd',
@@ -803,7 +807,7 @@ sub _ShowEdit {
 
     # get list of all possible dynamic fields
     my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
-        ObjectType => 'Ticket',
+        ObjectType => $Param{ObjectType},
         ResultType => 'HASH',
     );
     my %DynamicFieldNames = reverse %{$DynamicFieldList};
@@ -870,6 +874,9 @@ sub _ShowEdit {
         Key   => 'PossibleActionsList',
         Value => \@ACLEditPossibleActionsList,
     );
+
+    # for compatability with ITSMConfigurationManagement
+    delete $Param{ObjectType};
 
     $Output .= $LayoutObject->Output(
         TemplateFile => "AdminACL$Param{Action}",
