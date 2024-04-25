@@ -101,7 +101,13 @@ sub Run {
     if ( $Self->{UserTimeZone} ) {
         $DateTimeObject->ToTimeZone( TimeZone => $Self->{UserTimeZone} );
     }
-    my $Filename = 'Ticket_' . $Ticket{TicketNumber} . '_';
+
+    my $CleanedTicketNumber = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+        Filename => $Ticket{TicketNumber},
+        Type     => 'Attachment',
+    );
+
+    my $Filename = 'Ticket_' . $CleanedTicketNumber . '_';
     $Filename .= $DateTimeObject->Format( Format => '%Y-%m-%d_%H:%M' );
     $Filename .= '.pdf';
 

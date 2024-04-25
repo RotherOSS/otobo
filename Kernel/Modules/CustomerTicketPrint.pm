@@ -91,9 +91,15 @@ sub Run {
 
     # Assemble file name.
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $Filename       = sprintf(
+
+    my $CleanedTicketNumber = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+        Filename => $Ticket{TicketNumber},
+        Type     => 'Attachment',
+    );
+
+    my $Filename = sprintf(
         'Ticket_%s_%s.pdf',
-        $Ticket{TicketNumber},
+        $CleanedTicketNumber,
         $DateTimeObject->Format( Format => '%Y-%m-%d_%H-%M' ),
     );
 
