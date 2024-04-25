@@ -745,7 +745,7 @@ sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
     return    unless defined $Param{Key};
-    return '' unless ref $Param{Key} eq 'ARRAY';
+    return [] unless ref $Param{Key} eq 'ARRAY';
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -771,18 +771,15 @@ sub ValueLookup {
         for my $SetIndex ( 0 .. $#{ $Param{Key} } ) {
             next VALUE unless defined $Param{Key}[$SetIndex]{$Name};
 
-            my $Element = $BackendObject->ValueLookup(
+            $Param{Key}[$SetIndex]{$Name} = $BackendObject->ValueLookup(
                 %Param,
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Value              => $Param{Key}[$SetIndex]{$Name},
             );
-
-            # TODO: why concatenate to an undefined variable ?
-            $SetValue[$SetIndex] .= " $DynamicField->{Label}: $Element;";
         }
     }
 
-    return join ' - ', @SetValue;
+    return $Param{Key};
 }
 
 sub SearchFieldPreferences {
