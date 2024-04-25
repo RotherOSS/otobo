@@ -101,15 +101,14 @@ sub Run {
     if ( $Self->{UserTimeZone} ) {
         $DateTimeObject->ToTimeZone( TimeZone => $Self->{UserTimeZone} );
     }
-
-    my $CleanedTicketNumber = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
-        Filename => $Ticket{TicketNumber},
-        Type     => 'Attachment',
-    );
-
-    my $Filename = 'Ticket_' . $CleanedTicketNumber . '_';
+    my $Filename = 'Ticket_' . $Ticket{TicketNumber} . '_';
     $Filename .= $DateTimeObject->Format( Format => '%Y-%m-%d_%H:%M' );
     $Filename .= '.pdf';
+
+    my $CleanedFilename = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+        Filename => $Filename,
+        Type     => 'Attachment',
+    );
 
     # Return the PDF document.
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -122,7 +121,7 @@ sub Run {
     );
 
     return $LayoutObject->Attachment(
-        Filename    => $Filename,
+        Filename    => $CleanedFilename,
         ContentType => "application/pdf",
         Content     => $PDFString,
         Type        => 'inline',
