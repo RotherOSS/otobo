@@ -42,11 +42,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::LinkObject - to link objects like tickets, faq entries, config items ...
+Kernel::System::LinkObject - to link objects like tickets, FAQ entries, config items ...
 
 =head1 DESCRIPTION
 
-All functions to link objects like tickets, faq entries, config items ...
+All functions to link objects like tickets, FAQ entries, config items ...
 
 =head1 PUBLIC INTERFACE
 
@@ -1464,15 +1464,17 @@ sub LinkKeyListWithData {
 
 =head2 ObjectLookup()
 
-look up a link object
+look up a link object per name or ID.
 
-    $ObjectID = $LinkObject->ObjectLookup(
+An ID is generated when ObjectLookup() is called the first time with that name.
+
+    my $ObjectID = $LinkObject->ObjectLookup(
         Name => 'Ticket',
     );
 
-or
+An empty list is returned when the ID does not exist:
 
-    $Name = $LinkObject->ObjectLookup(
+    my $Name = $LinkObject->ObjectLookup(
         ObjectID => 12,
     );
 
