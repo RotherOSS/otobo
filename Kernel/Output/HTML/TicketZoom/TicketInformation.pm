@@ -435,6 +435,7 @@ sub Run {
                 Label                       => $Label,
                 Link                        => $ValueStrg->{Link},
                 LinkPreview                 => $ValueStrg->{LinkPreview},
+                FieldType                   => $DynamicFieldConfig->{FieldType},
                 TitleFieldConfig            => ( $DynamicFieldConfig->{FieldType} eq 'Title' ) ? $DynamicFieldConfig->{Config} : undef,
 
                 # Include unique parameter with dynamic field name in case of collision with others.
@@ -484,6 +485,19 @@ sub Run {
                     Text       => $Field->{Label},
                     Style      => $Style,
                     TitleField => 1,
+                },
+            );
+
+            next FIELD;
+        }
+        elsif ( $Field->{FieldType} eq 'Set' ) {
+
+            $LayoutObject->Block(
+                Name => 'TicketDynamicField',
+                Data => {
+                    Label    => $Field->{Label},
+                    Value    => $Field->{Value},
+                    SetField => 1,
                 },
             );
 
