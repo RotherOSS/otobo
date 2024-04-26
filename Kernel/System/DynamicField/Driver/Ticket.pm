@@ -496,7 +496,7 @@ sub SearchObjects {
     # Support restriction by ticket type when the Ticket::Type feature is activated.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     if ( $ConfigObject->Get('Ticket::Type') ) {
-        if ( $DynamicFieldConfig->{Config}{TicketType} ) {
+        if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{TicketType} ) ) {
             if ( $SearchParams{TypeIDs} || $SearchParams{Types} ) {
                 my @TypeIDs;
                 for my $TypeID ( $SearchParams{TypeIDs}->@* ) {
@@ -530,7 +530,7 @@ sub SearchObjects {
     }
 
     # Support restriction by ticket type when the Ticket::Queue feature is activated.
-    if ( $DynamicFieldConfig->{Config}{Queue} ) {
+    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{Queue} ) ) {
         if ( $SearchParams{QueueIDs} || $SearchParams{Queues} ) {
             my @QueueIDs;
             for my $QueueID ( $SearchParams{QueueIDs}->@* ) {
