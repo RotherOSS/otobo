@@ -251,7 +251,7 @@ div.Headline .Flag {
 }
 
 .Avatar {
-    border: 1px solid var(--colTextMedium);
+    border: 1px solid var(--colBGLightMedium);
     border-radius: 10px;
     position: absolute;
     top: 30px;
@@ -576,7 +576,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 
 .MessageBrowser p {
      padding: 5px 25px 5px 25px;
-     background-color: var(--colBGMediumDark);
+     background-color: var(--colBGMedium);
      font-size: 11px;
      text-align: center;
 }
