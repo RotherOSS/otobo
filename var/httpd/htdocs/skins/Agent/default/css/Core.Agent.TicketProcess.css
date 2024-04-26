@@ -157,11 +157,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     text-align: center;
 }
 
-textarea {
-    font-family: Quicksand, "Helvetica Neue",Helvetica,Arial,sans-serif;
-    padding: 5px;
-}
-
 .FieldHelpContainer {
     position: relative;
 }
