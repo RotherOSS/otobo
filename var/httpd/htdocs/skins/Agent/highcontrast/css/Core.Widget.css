@@ -56,6 +56,8 @@ ul.Tablelike li.Header {
 
 .WidgetSimple.Collapsed > .Header {
     border-bottom: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 .WidgetSimple > .Header h2,
