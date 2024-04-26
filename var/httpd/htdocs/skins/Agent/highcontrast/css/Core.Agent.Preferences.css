@@ -25,7 +25,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  * @subsubsection     General
  */
 .Preferences .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox {
-    background: var(--colBGElement);
+    background: unset;
 }
 
 .Preferences .WidgetSimple.Setting.IsLockedByMe {

@@ -118,4 +118,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     background: var(--colBGDark);
 }
 
+.WidgetSimple.Setting .Content .SettingUpdateBox {
+    background-color: unset;
+}
+
 } /* end @media */
