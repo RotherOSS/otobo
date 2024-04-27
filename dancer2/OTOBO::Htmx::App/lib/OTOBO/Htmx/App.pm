@@ -17,18 +17,26 @@ use Dancer2;
 my $h = HTML::Tiny->new( mode => 'html' );
 
 get '/show_table' => sub {
-    return "\n" . $h->div(
-        { 'hx-get' => "htmx/empty", 'hx-swap' => 'outerHTML' },
-        [
-            \'table',
+    return join "\n",
+        '',
+        $h->div(
+            { id => 'breadcrumbs', 'hx-swap-oob' => "true" },
             [
-                \'tr',
-                [ \'th', { id => 'sample_head' },  'Key', 'Value' ],
-                [ \'th', { id => 'sample_col_1' }, 'App', 'OTOBO::Htmx::App' ],
-                [ \'th', { id => 'sample_col_2' }, 'Time', (scalar localtime) ],
+                \'pre', 'Breadcrumbs updated: ' . localtime,
             ],
-        ],
-    );
+        ),
+        $h->div(
+            { 'hx-get' => "htmx/empty", 'hx-swap' => 'outerHTML' },
+            [
+                \'table',
+                [
+                    \'tr',
+                    [ \'th', { id => 'sample_head' },  'Key', 'Value' ],
+                    [ \'th', { id => 'sample_col_1' }, 'App', 'OTOBO::Htmx::App' ],
+                    [ \'th', { id => 'sample_col_2' }, 'Time', (scalar localtime) ],
+                ],
+            ],
+        );
 };
 
 get '/empty' => sub {

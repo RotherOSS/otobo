@@ -39,6 +39,9 @@
 
     [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
 
+    <div id="breadcrumbs">
+       This will contain breadcrumbs from hx-swap-oob.
+    </div>
     <div class="Clear"></div>
     <div class="SidebarColumn">
 
