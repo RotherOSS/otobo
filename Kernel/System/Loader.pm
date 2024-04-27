@@ -375,7 +375,12 @@ sub GetMinifiedFile {
         $Result = $Self->MinifyCSS( Code => $$FileContents );
     }
     elsif ( $Param{Type} eq 'JavaScript' ) {
-        $Result = $Self->MinifyJavaScript( Code => $$FileContents );
+        if ( $Location =~ m/htmx\.min\.js$/ ) {
+            $Result = $FileContents->$*;
+        }
+        else {
+            $Result = $Self->MinifyJavaScript( Code => $$FileContents );
+        }
     }
 
     # and put it in the cache
