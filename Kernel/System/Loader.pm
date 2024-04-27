@@ -426,15 +426,6 @@ Warning: this function may cause a die() if there are errors in the file,
 protect against that with eval().
 
 This function internally uses the CPAN module JavaScript::Minifier::XS.
-As of version 1.05 of that module, there is an issue with regular expressions:
-
-This will cause a die:
-
-    function test(s) { return /\d{1,2}/.test(s); }
-
-A workaround is to enclose the regular expression in parentheses:
-
-    function test(s) { return (/\d{1,2}/).test(s); }
 
 =cut
 
@@ -447,6 +438,7 @@ sub MinifyJavaScript {
             Priority => 'error',
             Message  => 'Need Code Param!',
         );
+
         return;
     }
 
@@ -557,8 +549,7 @@ sub CacheDelete {
 
     # now go through the cache folders and delete all .js and .css files
     my @Result;
-    my @FileTypes    = ( '*.js', '*.css' );
-    my $TotalCounter = 0;
+    my @FileTypes = ( '*.js', '*.css' );
     FOLDERTODELETE:
     for my $FolderToDelete (@CacheFoldersList) {
         next FOLDERTODELETE unless -d $FolderToDelete;
