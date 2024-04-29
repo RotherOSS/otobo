@@ -239,6 +239,9 @@ sub SearchObjects {
     if ( $Param{ObjectID} ) {
         $SearchParams{CustomerID} = $Param{ObjectID};
     }
+    elsif ( $Param{ExternalSource} ) {
+        $SearchParams{CustomerCompanyName} = "$Param{Term}";
+    }
     else {
 
         # include configured search param if present
@@ -278,7 +281,7 @@ sub SearchObjects {
     );
 
     # incorporate referencefilterlist into search params
-    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) ) {
+    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) && !$Param{ExternalSource} ) {
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
 

@@ -118,163 +118,38 @@ sub ValueSet {
     my $ValueKey = $Self->{ValueKey} // 'ValueText';
 
     # perform search if neccessary
-    if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} ) {
+    if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
 
-        # check with can because GeneralCatalog is based on BaseEntity instead of BaseReference and thus does not provide the SearchObjects sub
-        if ( $Self->can('SearchObjects') ) {
+        my @Values;
+        for my $ValueItem ( $Param{Value} ) {
 
-            # fetch object data to pass them on to SearchObjects
-            my %ObjectData;
-            if ( $Param{DynamicFieldConfig}{ObjectType} eq 'Article' ) {
-                my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-                my $TicketID      = $ArticleObject->TicketIDLookup(
-                    ArticleID => $Param{ObjectID},
+            # perform search based on value and previously fetched data
+            my @ObjectIDs = $Self->SearchObjects(
+                DynamicFieldConfig => $Param{DynamicFieldConfig},
+                Term               => $ValueItem,
+                ExternalSource     => 1,
+                UserID             => $Param{UserID},
+            );
+
+            if ( !@ObjectIDs ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'notice',
+                    Message  => "No objects found for $Param{DynamicFieldConfig}{Name}, search term $ValueItem.",
                 );
-                my $ArticleBackendObject = $ArticleObject->BackendForArticle(
-                    TicketID  => $TicketID,
-                    ArticleID => $Param{ObjectID},
-                );
-                %ObjectData = $ArticleBackendObject->ArticleGet(
-                    TicketID      => $TicketID,
-                    ArticleID     => $Param{ObjectID},
-                    DynamicFields => 1,
-                );
+                return;
             }
-            elsif ( $Param{DynamicFieldConfig}{ObjectType} eq 'CustomerCompany' ) {
-
-                # map ObjectID to ObjectName
-                my $ObjectName;
-                my $ObjectNames = $Kernel::OM->Get('Kernel::System::DynamicField')->ObjectMappingGet(
-                    ObjectID   => $Param{ObjectID},
-                    ObjectType => $Param{DynamicFieldConfig}{ObjectType},
+            elsif ( @ObjectIDs > 1 ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'notice',
+                    Message  => "Ambiguous result found for $Param{DynamicFieldConfig}{Name}, search term $ValueItem.",
                 );
-
-                if ( IsHashRefWithData($ObjectNames) && $ObjectNames->{ $Param{ObjectID} } ) {
-                    $ObjectName = $ObjectNames->{ $Param{ObjectID} };
-                }
-                else {
-                    $ObjectName = $Kernel::OM->Get('Kernel::System::DynamicField')->ObjectMappingCreate(
-                        ObjectID   => $Param{ObjectID},
-                        ObjectType => $Param{DynamicFieldConfig}{ObjectType},
-                    );
-
-                    if ( !$ObjectName ) {
-                        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                            Priority => 'error',
-                            Message  => "Unable to create object mapping for object id $Param{ObjectID} and type $Param{DynamicFieldConfig}{ObjectType}!"
-                        );
-
-                        return;
-                    }
-                }
-
-                %ObjectData = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyGet(
-                    CustomerID => $ObjectName,
-                );
+                return;
             }
-            elsif ( $Param{DynamicFieldConfig}{ObjectType} eq 'CustomerUser' ) {
-
-                # map ObjectID to ObjectName
-                my $ObjectName;
-                my $ObjectNames = $Kernel::OM->Get('Kernel::System::DynamicField')->ObjectMappingGet(
-                    ObjectID   => $Param{ObjectID},
-                    ObjectType => $Param{DynamicFieldConfig}{ObjectType},
-                );
-
-                if ( IsHashRefWithData($ObjectNames) && $ObjectNames->{ $Param{ObjectID} } ) {
-                    $ObjectName = $ObjectNames->{ $Param{ObjectID} };
-                }
-                else {
-                    $ObjectName = $Kernel::OM->Get('Kernel::System::DynamicField')->ObjectMappingCreate(
-                        ObjectID   => $Param{ObjectID},
-                        ObjectType => $Param{DynamicFieldConfig}{ObjectType},
-                    );
-
-                    if ( !$ObjectName ) {
-                        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                            Priority => 'error',
-                            Message  => "Unable to create object mapping for object id $Param{ObjectID} and type $Param{DynamicFieldConfig}{ObjectType}!"
-                        );
-
-                        return;
-                    }
-                }
-
-                %ObjectData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-                    User => $ObjectName,
-                );
+            else {
+                push @Values, $ObjectIDs[0];
             }
-            elsif ( $Param{DynamicFieldConfig}{ObjectType} eq 'FAQ' ) {
-                %ObjectData = $Kernel::OM->Get('Kernel::System::FAQ')->FAQGet(
-                    ItemID        => $Param{ObjectID},
-                    DynamicFields => 1,
-                    UserID        => 1,
-                );
-            }
-            elsif ( $Param{DynamicFieldConfig}{ObjectType} eq 'ITSMConfigItem' ) {
-                %ObjectData = (
-                    $Kernel::OM->Get('Kernel::System::ITSMConfigItem')->ConfigItemGet(
-                        ConfigItemID  => $Param{ObjectID},
-                        DynamicFields => 1,
-                    )
-                )->%*;
-            }
-            elsif ( $Param{DynamicFieldConfig}{ObjectType} eq 'Service' ) {
-                %ObjectData = $Kernel::OM->Get('Kernel::System::Service')->ServiceGet(
-                    ServiceID     => $Param{ObjectID},
-                    IncidentState => 1,
-                    UserID        => $Param{UserID},
-                );
-
-                # fetch dynamic field values because ServiceGet does not offer a DynamicFields param
-                my $ServiceDynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-                    ObjectType => ['Service'],
-                    Valid      => 1,
-                );
-
-                my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-                SERVICEFIELDCONFIG:
-                for my $ServiceFieldConfig ( $ServiceDynamicFieldList->@* ) {
-
-                    next SERVICEFIELDCONFIG unless IsHashRefWithData($ServiceFieldConfig);
-
-                    $ObjectData{"DynamicField_$ServiceFieldConfig->{Name}"} = $DynamicFieldBackendObject->ValueGet(
-                        DynamicFieldConfig => $ServiceFieldConfig,
-                        ObjectID           => $ObjectData{ServiceID},
-                        UserID             => $Param{UserID},
-                    );
-
-                }
-            }
-            elsif ( $Param{DynamicFieldConfig}{ObjectType} eq 'Ticket' ) {
-                %ObjectData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
-                    TicketID      => $Param{ObjectID},
-                    DynamicFields => 1,
-                    UserID        => $Param{UserID},
-                );
-            }
-
-            my @Values;
-            for my $ValueItem ( $Param{Value} ) {
-
-                # perform search based on value and previously fetched data
-                my @ObjectIDs = $Self->SearchObjects(
-                    DynamicFieldConfig => $Param{DynamicFieldConfig},
-                    Term               => $ValueItem,
-                    ExternalSource     => 1,
-                    UserID             => $Param{UserID},
-                    Object             => \%ObjectData,
-                );
-
-                # TODO what if only one / few of more values generate a result?
-                # keep result if exactly one value was returned
-                if ( scalar(@ObjectIDs) == 1 ) {
-                    push @Values, $ObjectIDs[0];
-                }
-            }
-            $Param{Value} = @Values ? \@Values : $Param{Value};
         }
+        $Param{Value} = @Values ? \@Values : $Param{Value};
     }
 
     # for multiselect no set or multivalue structures
@@ -899,8 +774,6 @@ sub ObjectMatch {
 
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
-
-    my $Value = $Param{Key} // '';
 
     my @Keys;
     if ( ref $Param{Key} eq 'ARRAY' ) {

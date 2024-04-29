@@ -345,11 +345,17 @@ sub SearchObjects {
     if ( $Param{ObjectID} ) {
         $SearchParams{TicketID} = $Param{ObjectID};
     }
+    elsif ( $Param{ExternalSource} ) {
+
+        # include configured search param if present
+        my $SearchAttribute = $DynamicFieldConfig->{Config}{ImportSearchAttribute} || 'Title';
+
+        $SearchParams{$SearchAttribute} = "$Param{Term}";
+    }
     else {
 
         # include configured search param if present
-        my $SearchAttribute
-            = ( $Param{ExternalSource} ? $DynamicFieldConfig->{Config}{ImportSearchAttribute} : $DynamicFieldConfig->{Config}{SearchAttribute} ) || 'Title';
+        my $SearchAttribute = $DynamicFieldConfig->{Config}{SearchAttribute} || 'Title';
 
         $SearchParams{$SearchAttribute} = "*$Param{Term}*";
     }
@@ -385,7 +391,7 @@ sub SearchObjects {
     );
 
     # incorporate referencefilterlist into search params
-    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) ) {
+    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) && !$Param{ExternalSource} ) {
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
 
@@ -510,7 +516,7 @@ sub SearchObjects {
 
     # Support restriction by ticket type when the Ticket::Type feature is activated.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    if ( $ConfigObject->Get('Ticket::Type') ) {
+    if ( $ConfigObject->Get('Ticket::Type') && !$Param{ExternalSource} ) {
         if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{TicketType} ) ) {
             if ( $SearchParams{TypeIDs} || $SearchParams{Types} ) {
                 my @TypeIDs;
@@ -544,8 +550,8 @@ sub SearchObjects {
         delete $SearchParams{Types};
     }
 
-    # Support restriction by ticket type when the Ticket::Queue feature is activated.
-    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{Queue} ) ) {
+    # Support restriction by ticket queue.
+    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{Queue} ) && !$Param{ExternalSource} ) {
         if ( $SearchParams{QueueIDs} || $SearchParams{Queues} ) {
             my @QueueIDs;
             for my $QueueID ( $SearchParams{QueueIDs}->@* ) {
