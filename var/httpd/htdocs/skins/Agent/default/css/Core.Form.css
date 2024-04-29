@@ -1057,9 +1057,6 @@ fieldset.TableLike .SetDisplayValue > .Value {
   padding: 0.3em 0 3px 8px;
   line-height: 1.3em;
 }
-fieldset.TableLike .SetDisplayValue {
-  margin-top: 24px;
-}
 /* EO Temporary */
 
 iframe.Signature {
