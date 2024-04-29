@@ -206,7 +206,6 @@ sub EditFieldRender {
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldSet';
@@ -245,7 +244,6 @@ sub EditFieldRender {
         : 'DynamicField/Agent/Set';
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     my $Include      = $Param{DynamicFieldConfig}{Config}{Include};
     my $DynamicField = $Self->_GetIncludedDynamicFields(
@@ -591,7 +589,7 @@ sub DisplayValueRender {
             next VALUE if !defined $Element->{Value} || $Element->{Value} eq '';
 
             if ($HTMLOutput) {
-                $SetValue{Value}[$SetIndex] .= "<label>$Label</label><p class='Value'><span title='$Element->{Title}'>$Element->{Value}</span></p>";
+                $SetValue{Value}[$SetIndex] .= "<label>$Label</label><p class='Value'><span title='$Element->{Title}'>$Element->{Value}</span></p><div class='Clear'></div>";
             }
             else {
                 $SetValue{Value}[$SetIndex] .= "$Label: $Element->{Value}\n";
@@ -611,7 +609,7 @@ sub DisplayValueRender {
 
     my %Value;
     if ($HTMLOutput) {
-        $Value{Value} = '<div class="SetDisplayValue">'
+        $Value{Value} = '<div class="Clear"></div><div class="SetDisplayValue">'
             . join( '</div><div class="SetDisplayValue">', $SetValue{Value}->@* )
             . '</div>';
         $Value{Title} = '';
@@ -702,7 +700,6 @@ sub TemplateValueTypeGet {
 sub RandomValueSet {
     my ( $Self, %Param ) = @_;
 
-    my $Success = 1;
     my @Value;
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -798,8 +795,7 @@ sub GetFieldState {
     my $SetConfig = $Param{DynamicFieldConfig};
     my @SetValue  = $DFParam{"DynamicField_$SetConfig->{Name}"} ? $DFParam{"DynamicField_$SetConfig->{Name}"}->@* : ( {} );
 
-    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     my $Include      = $Param{DynamicFieldConfig}{Config}{Include};
     my $DynamicField = $Self->_GetIncludedDynamicFields(
