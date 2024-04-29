@@ -119,7 +119,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .WidgetSimple.Setting .Content .SettingUpdateBox {
-    background-color: unset;
+    background: unset;
 }
 
 } /* end @media */
