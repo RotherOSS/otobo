@@ -34,18 +34,8 @@ use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::CustomerCompany',
-    'Kernel::System::CustomerUser',
-    'Kernel::System::DynamicField',
-    'Kernel::System::DynamicField::Backend',
     'Kernel::System::DynamicFieldValue',
-    'Kernel::System::FAQ',
-    'Kernel::System::ITSMConfigItem',
     'Kernel::System::Log',
-    'Kernel::System::Service',
-    'Kernel::System::Ticket',
-    'Kernel::System::Ticket::Article',
 );
 
 =head1 NAME
