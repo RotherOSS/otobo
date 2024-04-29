@@ -295,9 +295,6 @@ sub SearchObjects {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    # include configured search param if present
-    my $SearchAttribute = ( $Param{ExternalSource} ? $DynamicFieldConfig->{Config}{ImportSearchAttribute} : '' ) || 'UserLogin';
-
     my %SearchParams;
 
     # prepare mapping of edit mask attribute names
@@ -331,7 +328,7 @@ sub SearchObjects {
     );
 
     # incorporate referencefilterlist into search params
-    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) ) {
+    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) && !$Param{ExternalSource} ) {
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
 
@@ -493,6 +490,11 @@ sub SearchObjects {
             }
         }
         return ( $CustomerUserData{UserLogin} );
+    }
+    elsif ( $Param{ExternalSource} ) {
+        my $SearchAttribute = $DynamicFieldConfig->{Config}{ImportSearchAttribute} || 'UserLogin';
+
+        $SearchParams{$SearchAttribute} = "$Param{Term}";
     }
     else {
         $SearchParams{Search} = "*$Param{Term}*";

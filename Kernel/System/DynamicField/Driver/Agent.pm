@@ -262,12 +262,15 @@ sub SearchObjects {
         );
         $SearchParams{UserLogin} = $UserLogin;
     }
+    elsif ( $Param{ExternalSource} ) {
+        $SearchParams{Search} = "$Param{Term}";
+    }
     else {
         $SearchParams{Search} = "*$Param{Term}*";
     }
 
     # incorporate referencefilterlist into search params
-    if ( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) {
+    if ( $DynamicFieldConfig->{Config}{ReferenceFilterList} && !$Param{ExternalSource} ) {
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
 
@@ -350,7 +353,7 @@ sub SearchObjects {
     );
 
     my $GroupFilter = $Param{DynamicFieldConfig}{Config}{Group};
-    if ( IsArrayRefWithData($GroupFilter) ) {
+    if ( IsArrayRefWithData($GroupFilter) && !$Param{ExternalSource} ) {
         for my $GroupID ( $GroupFilter->@* ) {
             my %GroupAgents = $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupGet(
                 GroupID => $GroupID,
