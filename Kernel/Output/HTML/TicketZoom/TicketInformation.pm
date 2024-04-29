@@ -495,9 +495,9 @@ sub Run {
             $LayoutObject->Block(
                 Name => 'TicketDynamicField',
                 Data => {
-                    Label    => $Field->{Label},
-                    Value    => $Field->{Value},
-                    SetField => 1,
+                    Label     => $Field->{Label},
+                    Value     => $Field->{Value},
+                    HTMLValue => 1,
                 },
             );
 
