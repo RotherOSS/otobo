@@ -52,9 +52,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2024-03-26 08:45+0000\n"
+"PO-Revision-Date: 2024-05-01 05:13+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
-"Language-Team: German <https://translate.otobo.org/projects/otobo/otobo-11/de/>\n"
+"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-11/de/>"
+"\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26259,35 +26260,35 @@ msgstr "Import/Export"
 
 #. Template: AdminACL
 msgid "Filter by valid state"
-msgstr "Nach gültigem Status filtern"
+msgstr "Nach Gültigkeit filtern"
 
 #. Template: AdminACL
 msgid "Include invalid ACLs"
-msgstr "Ungültige ACLs einschließen"
+msgstr "Ungültige ACLs anzeigen"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Include invalid calendars"
-msgstr "Ungültige Kalender einschließen"
+msgstr "Ungültige Kalender anzeigen"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Include invalid appointment notifications"
-msgstr "Ungültige Terminbenachrichtigungen einschließen"
+msgstr "Ungültige Terminbenachrichtigungen anzeigen"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Include invalid appoitnment notifications"
-msgstr "Ungültige Terminbenachrichtigungen einschließen"
+msgstr "Ungültige Terminbenachrichtigungen anzeigen"
 
 #. Template: AdminAttachment
 msgid "Include invalid attachments"
-msgstr "Ungültige Anhänge einschließen"
+msgstr "Ungültige Anhänge anzeigen"
 
 #. Template: AdminAutoResponse
 msgid "Include invalid auto responses"
-msgstr "Ungültige Automatische Antworten einschließen"
+msgstr "Ungültige Automatische Antworten anzeigen"
 
 #. Template: AdminCustomerCompany
 msgid "Include invalid customer companies"
-msgstr "Ungültige Kundenunternehmen einschließen"
+msgstr "Ungültige Kundenunternehmen anzeigen"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Customer Info"
@@ -26339,11 +26340,11 @@ msgstr "Neuen Eintrag für die Infokachel im Kundenbereich erstellen"
 
 #. Template: AdminCustomerUser
 msgid "Include invalid customer users"
-msgstr "Ungültige Kundenbenutzer einschließen"
+msgstr "Ungültige Kundenbenutzer anzeigen"
 
 #. Template: AdminDynamicField
 msgid "Include invalid dynamic fields"
-msgstr "Ungültige dynamische Felder einschließen"
+msgstr "Ungültige dynamische Felder anzeigen"
 
 #. Template: AdminDynamicField
 msgid "Filter field by object type"
@@ -26376,186 +26377,203 @@ msgstr "Referenzfilter prüfen"
 #. Template: AdminDynamicFieldReference
 msgid "Below you can configure filters to restrict the list of referenced objects. The filters compare an attribute of the referenced object either to an attribute of the mask you are currently editing or to a fixed string."
 msgstr ""
+"Unten können Sie Filter definieren, um die Liste der referenzierten Objekte "
+"einzuschränken. Die Filter vergleichen ein Attribut des referenzierten "
+"Objektes entweder mit einem Attribut der Maske, die Sie aktuell bearbeiten "
+"oder mit einem feststehenden String."
 
 #. Template: AdminDynamicFieldReference
 msgid "Object attribute"
-msgstr ""
+msgstr "Objekt-Attribut"
 
 #. Template: AdminDynamicFieldReference
 msgid "Select an attribute of the referenced object by which the selectable entries will be filtered."
 msgstr ""
+"Wählen Sie ein Attribut des referenzierten Objektes, nach dem die "
+"auszuwählenden Einträge gefiltert werden sollen."
 
 #. Template: AdminDynamicFieldReference
 msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
+msgstr "Ungültiges ReferenceFilter_ReferenceObjectAttribute"
 
 #. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
-msgstr ""
+msgstr "entspricht dem Attribut der Maske"
 
 #. Template: AdminDynamicFieldReference
 msgid "Select an attribute of the edit mask to compare the selected attribute of the referenced object against."
 msgstr ""
+"Wählen Sie ein Attribut der bearbeiteten Maske, mit dem das ausgewählte "
+"Attribut des referenzierten Objektes verglichen werden soll."
 
 #. Template: AdminDynamicFieldReference
 msgid "matches string"
-msgstr ""
+msgstr "entspricht dem String"
 
 #. Template: AdminDynamicFieldReference
 msgid "Type a string to compare the selected attribute of the referenced object against."
 msgstr ""
+"Geben Sie einen String ein, mit dem das gewählte Attribut des referenzierten "
+"Objekts verglichen werden soll."
 
 #. Template: AdminDynamicFieldReference
 msgid "Add ReferenceFilter"
-msgstr ""
+msgstr "ReferenceFilter hinzufügen"
 
 #. Template: AdminDynamicFieldScript
 msgid "Expression"
-msgstr ""
+msgstr "Ausdruck"
 
 #. Template: AdminDynamicFieldScript
 msgid "The function which will be evaluated."
-msgstr ""
+msgstr "Die zu evaluierende Funktion."
 
 #. Template: AdminDynamicFieldScript
 msgid "Requirements"
-msgstr ""
+msgstr "Anforderungen"
 
 #. Template: AdminDynamicFieldScript
 msgid "If set, the function will only be evaluated if all chosen attributes are set."
 msgstr ""
+"Bei aktiver Auswahl wird die Funktion nur evaluiert, wenn alle gewählten "
+"Attribute gesetzt sind."
 
 #. Template: AdminDynamicFieldScript
 msgid "Preview Triggers"
-msgstr ""
+msgstr "Ausführen in Vorschau"
 
 #. Template: AdminDynamicFieldScript
 msgid "If set, the field will be recalculated upon AJAX updates in edit masks."
 msgstr ""
+"Bei aktiver Auswahl wird der Feldwert bei AJAX Updates in Bearbeiten-Masken "
+"neu berechnet."
 
 #. Template: AdminDynamicFieldScript
 msgid "Storage Triggers (Events)"
-msgstr ""
+msgstr "Ausführen beim Speichern (Events)"
 
 #. Template: AdminDynamicFieldScript
 msgid "If set, the field will be recalculated for the following events."
-msgstr ""
+msgstr "Bei aktiver Auswahl wird das Feld bei folgenden Events neu berechnet."
 
 #. Template: AdminDynamicFieldSet
 msgid "The YAML array of included dynamic fields. Syntax: '--- [{DF: Name},...]'"
 msgstr ""
+"YAML Array der enthaltenen dynamischen Felder. Syntax: '--- [{DF: Name},...]'"
 
 #. Template: AdminGenericAgent
 msgid "Include invalid jobs"
-msgstr ""
+msgstr "Ungültige Jobs anzeigen"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment/Uncomment code"
-msgstr ""
+msgstr "Code kommentieren/Kommentierung entfernen"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Auto indent code"
-msgstr ""
+msgstr "Code automatisch einrücken"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Jump to line"
-msgstr ""
+msgstr "Zu Zeile springen"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Autocomplete"
-msgstr ""
+msgstr "Autocomplete"
 
 #. Template: AdminDynamicFieldSet
 msgid "Full Screen"
-msgstr ""
+msgstr "Vollbild"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Exit full screen"
-msgstr ""
+msgstr "Vollbild verlassen"
 
 #. Template: AdminDynamicFieldSet
 msgid "Auto Indent Code"
-msgstr ""
+msgstr "Code automatisch einrücken"
 
 #. Template: AdminDynamicFieldSet
 msgid "Comment/Uncomment Code"
-msgstr ""
+msgstr "Code kommentieren/Kommentierung entfernen"
 
 #. Template: AdminDynamicFieldSet
 msgid "Search & Replace"
-msgstr ""
+msgstr "Suchen & Ersetzen"
 
 #. Template: AdminDynamicFieldSet
 msgid "Select All"
-msgstr ""
+msgstr "Alles markieren"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Kerberos User"
-msgstr ""
+msgstr "Kerberos User"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Kerberos keytab file"
-msgstr ""
+msgstr "Kerberos Keytab-Datei"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The kerberos keytab file for the privileged user."
-msgstr ""
+msgstr "Die Kerberos Keytab-Datei für den privilegierten User."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Include invalid webservices"
-msgstr ""
+msgstr "Ungültige Webservices anzeigen"
 
 #. Template: AdminGroup
 msgid "Include invalid groups"
-msgstr ""
+msgstr "Ungültige Gruppen anzeigen"
 
 #. Template: AdminMailAccount
 msgid "Include invalid Mail Accounts"
-msgstr ""
+msgstr "Ungültige Mailkonten anzeigen"
 
 #. Template: AdminNotificationEvent
 msgid "Include invalid notifications"
-msgstr ""
+msgstr "Ungültige Benachrichtigungen anzeigen"
 
 #. Template: AdminPostMasterFilter
 msgid "Search through PostMaster filters"
-msgstr ""
+msgstr "Postmaster-Filter durchsuchen"
 
 #. Template: AdminPostMasterFilter
 msgid "Search all filter attributes"
-msgstr ""
+msgstr "Alle Filter-Attribute durchsuchen"
 
 #. Template: AdminPostMasterFilter
 msgid "Limit search to selected header fields"
-msgstr ""
+msgstr "Suche auf ausgewählte Header-Felder beschränken"
 
 #. Template: AdminPostMasterFilter
 msgid "Limit search to selected set fields"
-msgstr ""
+msgstr "Suche auf gewählte Set-Felder beschränken"
 
 #. Template: AdminPriority
 msgid "Include invalid priorities"
-msgstr ""
+msgstr "Ungültige Prioritäten anzeigen"
 
 #. Template: AdminProcessManagement
 msgid "Include inactive processes"
-msgstr ""
+msgstr "Inaktive Prozess aufnehmen"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Input Field Definition"
-msgstr ""
+msgstr "Definition Eingabefeld"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Direct submit"
-msgstr ""
+msgstr "Direkt absenden"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "This property won't take effect because there are fields configured as visible."
 msgstr ""
+"Diese Eigenschaft wird nicht aktiv, weil Felder als sichtbar konfiguriert "
+"sind."
 
 #. Template: AdminQueue
 msgid "Include invalid queues"
-msgstr ""
+msgstr "Ungültige Queues anzeigen"
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Manage ticket state pre-selections for response templates"
@@ -26563,7 +26581,7 @@ msgstr "Ticketstatus-Vorauswahl für Antwortvorlagen verwalten"
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Edit Response"
-msgstr ""
+msgstr "Antwort bearbeiten"
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Pre-selected ticket state"
@@ -26571,59 +26589,59 @@ msgstr "Ticketstatus für Vorauswahl"
 
 #. Template: AdminRole
 msgid "Include invalid roles"
-msgstr ""
+msgstr "Ungültige Rollen anzeigen"
 
 #. Template: AdminSLA
 msgid "Include invalid SLAs"
-msgstr ""
+msgstr "Ungültige SLAs anzeigen"
 
 #. Template: AdminSalutation
 msgid "Include invalid salutations"
-msgstr ""
+msgstr "Ungültige Anreden anzeigen"
 
 #. Template: AdminService
 msgid "Include invalid services"
-msgstr ""
+msgstr "Ungültige Services anzeigen"
 
 #. Template: AdminSignature
 msgid "Include invalid signatures"
-msgstr ""
+msgstr "Ungültige Signaturen anzeigen"
 
 #. Template: AdminState
 msgid "Include invalid states"
-msgstr ""
+msgstr "Ungültige Status anzeigen"
 
 #. Template: AdminSystemAddress
 msgid "Include invalid system addresses"
-msgstr ""
+msgstr "Ungültige Systemadressen anzeigen"
 
 #. Template: AdminSystemMaintenance
 msgid "Include invalid system maintenances"
-msgstr ""
+msgstr "Ungültige Systemwartungen anzeigen"
 
 #. Template: AdminTemplate
 msgid "Include invalid templates"
-msgstr ""
+msgstr "Ungültige Vorlagen anzeigen"
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask Management"
-msgstr ""
+msgstr "Verwaltung der Ticketmasken"
 
 #. Template: AdminTicketMask
 msgid "Change mask definition"
-msgstr ""
+msgstr "Maskendefinition anpassen"
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask"
-msgstr ""
+msgstr "Ticketmaske"
 
 #. Template: AdminTicketMask
 msgid "Change"
-msgstr ""
+msgstr "Change"
 
 #. Template: AdminTicketMask
 msgid "Definition"
-msgstr ""
+msgstr "Definition"
 
 #. Template: AdminTranslations
 msgid "Translation Management"
@@ -26671,7 +26689,7 @@ msgstr "Wählen Sie eine Objektklasse aus, um mit dem Übersetzen zu beginnen. A
 
 #. Template: AdminTranslations
 msgid "Edit active translations using provided text fields!"
-msgstr ""
+msgstr "Bearbeiten Sie aktive Übersetzungen in den zugehörigen Textfeldern!"
 
 #. Template: AdminTranslations
 msgid "List custom translations for"
@@ -26683,7 +26701,7 @@ msgstr "Übersetzungsentwürfe"
 
 #. Template: AdminTranslations
 msgid "Filter for Draft Translations"
-msgstr ""
+msgstr "Nach Übersetzungsentwürfen filtern"
 
 #. Template: AdminTranslations
 msgid "Active Translations"
@@ -26703,7 +26721,7 @@ msgstr "Zum Löschen vorgemerkt"
 
 #. Template: AdminTranslations
 msgid "Edit Translation"
-msgstr ""
+msgstr "Übersetzung bearbeiten"
 
 #. Template: AdminTranslations
 msgid "Overwrites OTOBO translation"
@@ -26723,15 +26741,15 @@ msgstr "Übersetzungen"
 
 #. Template: AdminType
 msgid "Include invalid types"
-msgstr ""
+msgstr "Ungültige Typen anzeigen"
 
 #. Template: AdminUser
 msgid "Include invalid users"
-msgstr ""
+msgstr "Ungültige Benutzer anzeigen"
 
 #. Template: AgentTicketActionCommon
 msgid "Edit Article \"%s\" of %s%s%s"
-msgstr ""
+msgstr "Artikel \"%s\" von %s%s%s bearbeiten"
 
 #. Template: AgentTicketArticleVersionView
 msgid "Viewing Article Version#%s of current Article: #%s %s"
@@ -26743,7 +26761,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "The article was edited"
-msgstr ""
+msgstr "Der Artikel wurde bearbeitet"
 
 #. Template: TranslationsTable
 msgid "Filter Content"
@@ -26751,7 +26769,7 @@ msgstr "Inhalt filtern"
 
 #. Template: TranslationsTable
 msgid "Filter for Translations"
-msgstr ""
+msgstr "Nach Übersetzungen filtern"
 
 #. Template: TranslationsTable
 msgid "No content available to translate."
@@ -26759,11 +26777,11 @@ msgstr "Kein übersetzbarer Inhalt verfügbar."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Manager"
-msgstr ""
+msgstr "Manager"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+1 day"
-msgstr ""
+msgstr "+1 Tag"
 
 #. Perl Module: Kernel/Modules/AdminAttachment.pm
 msgid "No permission to edit this attachment."
@@ -26791,7 +26809,7 @@ msgstr "Beim Erstellen des Info-Kachel-Eintrags ist ein Problem aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Need ID!"
-msgstr ""
+msgstr "ID benötigt!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "This Entry does not exist, or you don't have permissions to access it in its current state."
@@ -26799,7 +26817,7 @@ msgstr "Der Eintrag existiert nicht, oder Sie haben nicht die notwendigen Berech
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Could not get data for ID %s"
-msgstr ""
+msgstr "Keine Daten für ID %s gefunden"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Info tile entry was added successfully!"
@@ -26815,79 +26833,84 @@ msgstr "Beim Bearbeiten des Info-Kachel-Eintrags ist ein Problem aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "It was not possible to delete the info tile entry: %s!"
-msgstr ""
+msgstr "Infokachel-Eintrag konnte nicht gelöscht werden: %s!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "The referenced dynamic field"
-msgstr ""
+msgstr "Das dynamische Feld auf das verwiesen wird"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Select the dynamic field that references an object"
-msgstr ""
+msgstr "Wählen Sie das dynamische Feld aus, das auf ein Objekt verweist"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "The attribute of the referenced object"
-msgstr ""
+msgstr "Das Attribut des referenzierten Objektes"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Select the attribute dynamic field that references an object"
 msgstr ""
+"Wählen Sie das dynamische Feld Attribut aus, das auf ein Objekt verweist"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Not a valid dynamic field."
-msgstr ""
+msgstr "Kein gültiges dynamisches Feld."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Need valid field driver."
-msgstr ""
+msgstr "Gültiger Feld-Treiber benötigt."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Bad value in RequiredArgs."
-msgstr ""
+msgstr "Ungültiger Wert in RequiredArgs."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Bad value in PreviewTriggers."
-msgstr ""
+msgstr "Ungültiger Wert in PreviewTriggers."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Bad value in StorageTriggers."
-msgstr ""
+msgstr "Ungültiger Wert in StorageTriggers."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Missing Dynamic Field."
-msgstr ""
+msgstr "Fehlendes dynamisches Feld."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "No valid dynamic field \""
-msgstr ""
+msgstr "Kein gültiges dynamisches Feld \""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field type \""
-msgstr ""
+msgstr "Der dynamische Feld Typ \""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Misconfigured Grid - need Rows as Array!"
-msgstr ""
+msgstr "Fehlkonfiguriertes Grid - Zeilen als Array angeben!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Misconfigured Grid - need Columns as integer > 0!"
-msgstr ""
+msgstr "Fehlkonfiguriertes Grid – Spalten als ganze Zahl >0 angeben!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Misconfigured Grid - Rows can't be empty!"
-msgstr ""
+msgstr "Fehlkonfiguriertes Grid – Zeilen können nicht leer sein!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Misconfigured Grid - Rows must contain entries with key 'DF'!"
 msgstr ""
+"Fehlkonfiguriertes Grid – Zeilen müssen Einträge mit Schlüssel 'DF' "
+"enthalten!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Missing Dynamic Field or Grid."
-msgstr ""
+msgstr "Fehlendes dynamisches Feld oder Grid."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The field must be a valid YAML containing an array of dynamic fields."
 msgstr ""
+"Die Felder müssen in gültigem YAML übergeben werden, das ein Array "
+"dynamischer Felder enthält."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "No permission to edit this ticket notification."
@@ -26923,7 +26946,7 @@ msgstr "Keine Übersetzung wurde geändert!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Errors trying to change translations!"
-msgstr ""
+msgstr "Fehler beim Ändern der Übersetzungen!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations added!"
@@ -26951,7 +26974,7 @@ msgstr "Fehler beim Versuch eine Übersetzung zu übernehmen. Bitte überprüfen
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "All Items"
-msgstr ""
+msgstr "Alle Elemente"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Deployment Results"
@@ -26959,23 +26982,25 @@ msgstr "Inbetriebnahme-Ergebnisse"
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
 msgid "Can't set this Ticket option, no TicketID is given!"
-msgstr ""
+msgstr "Kann diese Ticketoption nicht setzen, keine TicketID angegeben!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Error: database version requirement not satisfied. Have version: %s Want version: %s"
 msgstr ""
+"Fehler: Anforderungen an die Datenbankversion nicht erfüllt. Vorhandene "
+"Version: %s Benötigt: %s"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleDelete.pm
 msgid "Delete this article"
-msgstr ""
+msgstr "Artikel löschen"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleEdit.pm
 msgid "Edit this article"
-msgstr ""
+msgstr "Artikel bearbeiten"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleRestore.pm
 msgid "Restore this article"
-msgstr ""
+msgstr "Artikel wiederherstellen"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
 msgid "Mark article as unseen"
@@ -26987,63 +27012,63 @@ msgstr "Als ungelesen markieren"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Hide deleted articles"
-msgstr ""
+msgstr "Gelöschte Artikel ausblenden"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Click to hide deleted articles"
-msgstr ""
+msgstr "Aktivieren, um gelöschte Artikel auszublenden"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Show deleted articles"
-msgstr ""
+msgstr "Gelöschte Artikel anzeigen"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Click to show deleted articles"
-msgstr ""
+msgstr "Anklicken, um gelöschte Artikel anzuzeigen"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "Group of the agents"
-msgstr ""
+msgstr "Agenten-Gruppe"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "Select the group of the agents"
-msgstr ""
+msgstr "Wählen Sie die Gruppe der Agenten aus"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Referenced object type"
-msgstr ""
+msgstr "Referenzierter Objekt-Typ"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Select the type of the referenced object"
-msgstr ""
+msgstr "Wählen Sie den Typ des referenzierten Objekts aus"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Input mode of edit field"
-msgstr ""
+msgstr "Eingabemodus des Editierfelds"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Select the input mode for the edit field."
-msgstr ""
+msgstr "Wählen Sie den Eingabemodus des Editierfeldes aus."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
 msgid "Attribute which will be searched on autocomplete"
-msgstr ""
+msgstr "Beim Autocomplete durchsuchtes Attribut"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
 msgid "Select the attribute which tickets will be searched by"
-msgstr ""
+msgstr "Wählen Sie aus, nach welchem Attribut die Ticket gesucht werden sollen"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
 msgid "Full %s Text"
-msgstr ""
+msgstr "Vollständiger %s Text"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Type of the ticket"
-msgstr ""
+msgstr "Ticket-Typ"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Select the type of the ticket"
-msgstr ""
+msgstr "Wählen Sie den Ticket-Typ aus"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Attribute which is displayed for values"
@@ -27508,4 +27533,3 @@ msgstr ""
 #. SysConfig
 msgid "Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed."
 msgstr ""
-
