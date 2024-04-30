@@ -263,7 +263,8 @@ sub SearchObjects {
         $SearchParams{UserLogin} = $UserLogin;
     }
     elsif ( $Param{ExternalSource} ) {
-        $SearchParams{Search} = "$Param{Term}";
+        my $SearchAttribute = $DynamicFieldConfig->{Config}{ImportSearchAttribute} || 'Search';
+        $SearchParams{$SearchAttribute} = "$Param{Term}";
     }
     else {
         $SearchParams{Search} = "*$Param{Term}*";
