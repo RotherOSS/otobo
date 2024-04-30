@@ -654,12 +654,29 @@ sub ConfigItemSearch {
 
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::ConfigItemSearchFields');
         my @SearchFields   = (
-            @{ $FulltextFields->{Basic}        // [] },
-            @{ $FulltextFields->{DynamicField} // [] },
+            @{ $FulltextFields->{Basic} // [] },
         );
 
         if ( $FulltextFields->{Attachments} ) {
             push @SearchFields, ( 'Attachments.Content', 'Attachments.Filename' );
+        }
+
+        # handle dynamic fields
+        if ( $FulltextFields->{DynamicField} ) {
+            my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+            DYNAMICFIELD:
+            for my $DynamicFieldName ( @{ $FulltextFields->{DynamicField} } ) {
+                my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DynamicFieldName,
+                );
+                next DYNAMICFIELD unless IsHashRefWithData($DynamicField);
+
+                # add all config item dynamic fields
+                if ( $DynamicField->{ObjectType} eq 'ITSMConfigItem' ) {
+                    push @SearchFields, "DynamicField_$DynamicFieldName";
+                }
+            }
         }
 
         push @Musts, {
