@@ -126,12 +126,12 @@ sub GetFieldTypeSettings {
     push @FieldTypeSettings,
         {
             ConfigParamName => 'ImportSearchAttribute',
-            Label           => Translatable('Attribute which will be searched on external value set'),
-            Explanation     => Translatable('Select the attribute which agents will be searched by'),
+            Label           => Translatable('External-source key'),
+            Explanation     => Translatable('When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.'),
             InputType       => 'Selection',
             SelectionData   => {
-                'Login' => 'Login',
-                'Email' => 'E-Mail',
+                'UserLogin'        => 'Login',
+                'PostMasterSearch' => 'E-Mail',
             },
             PossibleNone => 1,
             Multiple     => 0,
