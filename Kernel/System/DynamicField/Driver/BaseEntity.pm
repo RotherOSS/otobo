@@ -111,7 +111,7 @@ sub ValueSet {
     if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
 
         my @Values;
-        for my $ValueItem ( $Param{Value} ) {
+        for my $ValueItem ( $Param{Value}->@* ) {
 
             # perform search based on value and previously fetched data
             my @ObjectIDs = $Self->SearchObjects(
