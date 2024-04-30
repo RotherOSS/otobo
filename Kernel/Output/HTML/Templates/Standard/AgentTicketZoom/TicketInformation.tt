@@ -213,7 +213,8 @@
                         <p title="[% Data.Text | html %]" style="[% Data.Style | html %]">[% Data.Text | html %]</p>
 [% ELSIF Data.HTMLValue %]
                         <label>[% Translate(Data.Label) | html %]:</label>
-                            [% Data.Value %]
+                        <div class="Clear"></div>
+                        [% Data.Value %]
                         <div class="Clear"></div>
 [% ELSE %]
                         <label>[% Translate(Data.Label) | html %]:</label>

@@ -609,7 +609,7 @@ sub DisplayValueRender {
 
     my %Value;
     if ($HTMLOutput) {
-        $Value{Value} = '<div class="Clear"></div><div class="SetDisplayValue">'
+        $Value{Value} = '<div class="SetDisplayValue">'
             . join( '</div><div class="SetDisplayValue">', $SetValue{Value}->@* )
             . '</div>';
         $Value{Title} = '';
@@ -746,8 +746,6 @@ sub ValueLookup {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-    my @SetValue;
 
     my $Include      = $Param{DynamicFieldConfig}{Config}{Include};
     my $DynamicField = $Self->_GetIncludedDynamicFields(
