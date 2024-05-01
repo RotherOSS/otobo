@@ -907,14 +907,17 @@ sub _ShowScreen {
         next SETTING unless $Setting->{InputType};
 
         if ( $Setting->{InputType} eq 'Selection' ) {
-            my $Name      = $Setting->{ConfigParamName};
+            my $Name       = $Setting->{ConfigParamName};
+            my @CssClasses = qw(Modernize W50pc);
+            push @CssClasses, $Setting->{Mandatory}           ? 'Validate_Required' : ();
+            push @CssClasses, $Param{ $Name . 'ServerError' } ? 'ServerError'       : ();
             my $FieldStrg = $LayoutObject->BuildSelection(
                 Name         => $Name,
                 Data         => $Setting->{SelectionData},
                 PossibleNone => ( $Setting->{PossibleNone} // 0 ),
                 Disabled     => ( $Setting->{Disabled}     // 0 ),
                 SelectedID   => $Param{$Name} || '0',
-                Class        => 'Modernize W50pc' . ( $Setting->{Mandatory} ? ' Validate_Required' : '' ) . ( $Param{ $Name . 'ServerError' } ? ' ServerError' : '' ),
+                Class        => ( join ' ', @CssClasses ),
                 Multiple     => ( $Setting->{Multiple} // 0 ),
             );
             $LayoutObject->Block(
