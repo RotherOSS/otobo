@@ -1182,7 +1182,6 @@ sub _GetParamReferenceFilterList {
     my ( $Self, %Param ) = @_;
 
     my $GetParam = $Param{GetParam};
-    my $Errors   = $Param{Errors};
     my @ReferenceFilterList;
 
     # Check reference filter list
