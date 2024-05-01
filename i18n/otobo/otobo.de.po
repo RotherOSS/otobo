@@ -52,7 +52,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2024-05-01 05:13+0000\n"
+"PO-Revision-Date: 2024-05-02 15:13+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-11/de/>"
 "\n"
@@ -9761,7 +9761,9 @@ msgstr "Bereinigen und Abschließen"
 
 #. Template: Finish
 msgid "The migration is complete, thank you for trying out OTOBO - we hope you will like it."
-msgstr "Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden – wir hoffen, Sie mögen es!"
+msgstr ""
+"Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden – wir "
+"hoffen, Sie mögen es!"
 
 #. Template: Finish
 msgid "To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root."
@@ -17770,6 +17772,7 @@ msgid "Agent dynamic field database detailed search."
 msgstr "Detailsuche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
+#, fuzzy
 msgid "Agent dynamic field database details."
 msgstr "Agent dynamic field database details."
 
@@ -26682,6 +26685,9 @@ msgstr "Aktive Übersetzung"
 #. Template: AdminTranslations
 msgid "Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files."
 msgstr ""
+"Hier vorgenommene Änderungen wirken sich erst nach deren Inbetriebnahme im "
+"System aus. Erst mit dieser werden sie in die Übersetzungsdateien "
+"geschrieben."
 
 #. Template: AdminTranslations
 msgid "Select an object to start adding translations. Depending on your selection, single or multiple translations can be added."
@@ -26753,11 +26759,11 @@ msgstr "Artikel \"%s\" von %s%s%s bearbeiten"
 
 #. Template: AgentTicketArticleVersionView
 msgid "Viewing Article Version#%s of current Article: #%s %s"
-msgstr ""
+msgstr "Anzeige von Artikel-Version#%s des aktuellen Artikels: #%s %s"
 
 #. Template: AgentTicketZoom
 msgid "Article Edited"
-msgstr ""
+msgstr "Artikel bearbeitet"
 
 #. Template: AgentTicketZoom
 msgid "The article was edited"
@@ -27072,39 +27078,39 @@ msgstr "Wählen Sie den Ticket-Typ aus"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Attribute which is displayed for values"
-msgstr ""
+msgstr "Für die Werte angezeigtes Attribut"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Select the type of display"
-msgstr ""
+msgstr "Wählen Sie die Anzeigeart aus"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
 msgid "Pretty print the exported concatenated JSON"
-msgstr ""
+msgstr "Druckausgabe des exportierten verknüpften JSON"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Article Create Time"
-msgstr ""
+msgstr "Erstellzeit Artikel"
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Base structure is not valid. Please provide an array with data in YAML format."
-msgstr ""
+msgstr "Grundstruktur ungültig. Bitte verwenden Sie ein Arry im YAML-Format."
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Error parsing dynamic fields."
-msgstr ""
+msgstr "Fehler beim Parsen der dynamischen Felder."
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "No dynamic field \"%s\"."
-msgstr ""
+msgstr "Kein dynamisches Feld \"%s\"."
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Dynamic field \"%s\" not valid."
-msgstr ""
+msgstr "Ungültiges dynamisches Feld \"%s\"."
 
 #. JS File: Core.Agent.Admin.CustomerDashboardInfoTile
 msgid "Do you really want to delete this customer dashboard info tile entry?"
-msgstr ""
+msgstr "Möchten Sie diesen Kacheleintrag wirklich löschen?"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "Missing Translations"
@@ -27120,71 +27126,76 @@ msgstr "Alle Übersetzungen müssen eingetragen sein!"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article Delete"
-msgstr ""
+msgstr "Artikel Löschen"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Are you sure you want to delete this article?"
-msgstr ""
+msgstr "Möchten Sie diesen Artikel wirklich löschen?"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article deleted successfully!"
-msgstr ""
+msgstr "Artikel gelöscht!"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article already marked as deleted."
-msgstr ""
+msgstr "Artikel ist bereits als gelöscht markiert."
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article Restore"
-msgstr ""
+msgstr "Artikel Wiederherstellen"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Are you sure you want to restore this article?"
-msgstr ""
+msgstr "Möchten Sie diesen Artikel wirklich wiederherstellen?"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article restored successfully!"
-msgstr ""
+msgstr "Artikel wiederhergestellt!"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article not available for restoring."
-msgstr ""
+msgstr "Artikel kann nicht wiederhergestellt werden."
 
 #. JS File: Core.UI.CodeMirrorEditor
 msgid "Error trying to create CodeMirror instance, please check configuration!"
 msgstr ""
+"Fehler beim Erstellen der CodeMirror-Instanz, bitte überprüfen Sie die "
+"Konfiguration!"
 
 #. SysConfig
 msgid "Agent Reference Dynamic Field With Data Search"
-msgstr ""
+msgstr "Agent Reference Dynamic Field With Data Search"
 
 #. SysConfig
 msgid "Agent reference dynamic field with data search."
-msgstr ""
+msgstr "Dynamisches Feld Referenz für Agenten mit Datensuche."
 
 #. SysConfig
 msgid "Article ID: %s was deleted by \"%s\" (%s)"
-msgstr ""
+msgstr "Article ID: %s wurde gelöscht von \"%s\" (%s)"
 
 #. SysConfig
 msgid "Article ID: %s was edited by \"%s\" (%s)"
-msgstr ""
+msgstr "Article ID: %s wurde bearbeitet von \"%s\" (%s)"
 
 #. SysConfig
 msgid "Article ID: %s was restored by \"%s\" (%s)"
-msgstr ""
+msgstr "Article ID: %s wurde wiederhergestellt von \"%s\" (%s)"
 
 #. SysConfig
 msgid "Article Version View"
-msgstr ""
+msgstr "Ansicht Artikelversionen"
 
 #. SysConfig
 msgid "As soon as the move queue option dropdown is enabled for example in the AgentTicketZoom dialogue, it is possible to move tickets locked to other agents to another queue by activating this option."
 msgstr ""
+"Sobald das Dropdown mit den Optionen zum Verschieben in eine andere Queue z. "
+"B. im AgentTicketZoom Dialog aktiv ist, können nach Aktivieren dieser Option "
+"auf andere Agenten gesperrte Tickets verschoben werden."
 
 #. SysConfig
 msgid "Create and manage advanced definitions for ticket masks."
-msgstr ""
+msgstr "Erstellen und verwalten Sie erweiterte Ticketmasken-Definitionen."
 
 #. SysConfig
 msgid "Create and manage custom translations."
@@ -27192,43 +27203,52 @@ msgstr "Erstellen und Verwalten eigener Übersetzungen."
 
 #. SysConfig
 msgid "Customer Reference Dynamic Field With Data Search"
-msgstr ""
+msgstr "Customer Reference Dynamic Field With Data Search"
 
 #. SysConfig
 msgid "Customer reference dynamic field with data search."
-msgstr ""
+msgstr "Dynamisches Feld Referenz für Kunden mit Datensuche."
 
 #. SysConfig
 msgid "CustomerCompany"
-msgstr ""
+msgstr "Kundenunternehmen"
 
 #. SysConfig
 msgid "CustomerDashboard Info Tile"
-msgstr ""
+msgstr "KundenDashboard Infokachel"
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields."
-msgstr ""
+msgstr "Definieren Sie Namespaces für dynamische Felder."
 
 #. SysConfig
 msgid "Defines an alternate login URL for the customer panel."
-msgstr ""
+msgstr "Definiert eine alternative Login-URL für das Serviceportal."
 
 #. SysConfig
 msgid "Defines if CSV-mappings are re-created on next package reinstallation or upgrade if already existent."
 msgstr ""
+"Definiert, ob vorhandene CSV-Mappings bei der nächsten Installation des "
+"Paketes oder einem Upgrade neu erstellt werden sollen."
 
 #. SysConfig
 msgid "Defines if the ticket info widget is displayed permanently on the left below the article list or is available via click on the 'Information' button."
 msgstr ""
+"Definiert, ob das Widget Ticket-Informationen dauerhaft links neben der "
+"Artikelliste angezeigt oder via Klick auf den Informationen-Button "
+"eingeblendet werden soll."
 
 #. SysConfig
 msgid "Defines if time accounting is mandatory in the agent interface, if a note is entered."
 msgstr ""
+"Definiert, ob beim Eingeben einer Notiz zwingend eine Zeiterfassung erfolgen "
+"muss."
 
 #. SysConfig
 msgid "Defines if user can modify all possible values/labels of dynamic fields in one data table."
 msgstr ""
+"Definiert, ob Anwender alle möglichen Werte/Label dynamischer Felder in "
+"einer Datentabelle anpassen können."
 
 #. SysConfig
 msgid "Defines the config parameters available in the preferences view. The default redirect URL from SysConfig 'MarkTicketSeenRedirectDefaultURL' is used if no selection is made by the agent."
@@ -27240,27 +27260,37 @@ msgstr "Definiert die zur Verfügung stehenden Konfigurationsparameter in der Ei
 
 #. SysConfig
 msgid "Defines the data objects avaliable to be translated."
-msgstr ""
+msgstr "Legt fest, welche Datenobjekte zur Übersetzung angeboten werden."
 
 #. SysConfig
 msgid "Defines the default CSS for creating CKEditor articles."
 msgstr ""
+"Legt das Standard-CSS für die Erstellung neuer Artikel im CKEditor fest."
 
 #. SysConfig
 msgid "Defines the default CSS used for displaying articles."
-msgstr ""
+msgstr "Definiert das Standard-CSS zur Anzeige von Artikeln."
 
 #. SysConfig
 msgid "Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
 msgstr ""
+"Definiert das Standard (HTML) Frontend Theme für Agenten und Kunden. Sie "
+"können ein eigenes Theme hinzufügen. Weitere Informationen dazu im Admin "
+"Handbuch unter https://doc.otobo.org/."
 
 #. SysConfig
 msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
 msgstr ""
+"Legt die Standardsprache für das Frontend fest. Welche Sprachen zur "
+"Verfügung stehen, ergibt sich durch die im System verfügbaren Sprachdateien. "
+"Diese Werte werden als Schlüssel in der Einstellung 'DefaultUsedLanguages' "
+"angezeigt."
 
 #. SysConfig
 msgid "Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info."
 msgstr ""
+"Definiert das Infomodul für den Kundenbereich. Optionen für den Newsticker "
+"UseMarquee: 1/0. Optionen für NotifyPriority: Hinweis/Fehler/Erfolg/Info."
 
 #. SysConfig
 msgid "Defines the redirect URL for setting a ticket article to 'seen'."
@@ -27269,18 +27299,22 @@ msgstr "Definiert den URL, zu dem umgeleitet wird, nachdem ein Artikel auf 'gele
 #. SysConfig
 msgid "Defines the redirect URL for setting a ticket article to 'unseen'."
 msgstr ""
+"Definiert, welche Seite nach dem Setzen eines Ticketartikels auf \"ungelesen"
+"\" aufgerufen wird."
 
 #. SysConfig
 msgid "Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi."
 msgstr ""
+"Definiert den Wert des SameSite Attributs des OTOBO Session Cookies. Wird in "
+"otobo.psgi verwendet."
 
 #. SysConfig
 msgid "Delete expired form cache hourly."
-msgstr ""
+msgstr "Abgelaufenen Formular-Cache stündlich löschen."
 
 #. SysConfig
 msgid "Determines if the statistics module may generate article lists."
-msgstr ""
+msgstr "Legt fest, ob das Statistikmodul Artikellisten generieren kann."
 
 #. SysConfig
 msgid "Dialog to show after marking a ticket as seen"
@@ -27293,10 +27327,12 @@ msgstr "Dialog, der angezeigt wird, nachdem ein Ticket als ungelesen markiert wu
 #. SysConfig
 msgid "Display settings to override defaults for dynamic field widget for Tickets."
 msgstr ""
+"Einstellungen zum Überschreiben der Standardwerte für dynamischen Felder in "
+"Tickets."
 
 #. SysConfig
 msgid "Displayable via click"
-msgstr ""
+msgstr "Anzeige via Klick"
 
 #. SysConfig
 msgid "Dynamic Field Contents"
@@ -27304,7 +27340,7 @@ msgstr "Dynamische Feld-Inhalte"
 
 #. SysConfig
 msgid "Dynamic Field Information"
-msgstr ""
+msgstr "Dynamisches Feld Informationen"
 
 #. SysConfig
 msgid "Dynamic Field Labels"
@@ -27312,47 +27348,56 @@ msgstr "Dynamische Feld-Label"
 
 #. SysConfig
 msgid "Dynamic Field Set"
-msgstr ""
+msgstr "Dynamic Field Set"
 
 #. SysConfig
 msgid "Dynamic Field Set Backend GUI"
-msgstr ""
+msgstr "Backend-Oberfläche für Dynamic Field Set"
 
 #. SysConfig
 msgid "Dynamic Fields Lens Backend GUI"
-msgstr ""
+msgstr "Backend-Oberfläche für Linsenfelder"
 
 #. SysConfig
 msgid "Dynamic Fields Reference Backend GUI"
-msgstr ""
+msgstr "Backend-Oberfläche für Referenzfelder"
 
 #. SysConfig
 msgid "Dynamic field event module that deletes script field events if a dynamic field of type script gets deleted."
 msgstr ""
+"Event-Modul für dynamische Felder, das Skriptfeld-Events löscht, wenn ein "
+"Skriptfeld gelöscht wird."
 
 #. SysConfig
 msgid "Dynamic field event module that updates PartOfSet attributes of fields which are included in a set."
 msgstr ""
+"Event-Modul für dynamische Felder, das PartOfSet-Attribute anpasst, wenn "
+"Felder zu einem Set hinzugefügt werden."
 
 #. SysConfig
 msgid "Dynamic fields groups for dynamic field widget. The key is the name of the group, the value contains the fields to be shown. Example: 'Key => My Group', 'Content: Name_X, NameY'."
 msgstr ""
+"Dynamische-Feld-Gruppen für das dynamische Felder Widget. Schlüssel ist der "
+"Name der Gruppe, der Wert enthält die anzuzeigenden Felder. Beispiel: "
+"'Schlüssel => Meine Gruppe', 'Inhalt: Name_X, NameY'."
 
 #. SysConfig
 msgid "Dynamic fields shown in the dynamic field widget in ticket zoom screen of the agent interface."
 msgstr ""
+"Die im Dynamic Field Widget in der TicketZoom-Ansicht im Agentenbereich "
+"angezeigten dynamischen Felder."
 
 #. SysConfig
 msgid "Enables or disables the debug mode for translations module."
-msgstr ""
+msgstr "Aktiviert oder deaktiviert den Debug-Modus für das Übersetzungsmodul."
 
 #. SysConfig
 msgid "Evaluate all script fields."
-msgstr ""
+msgstr "Evaluiert alle Skriptfelder."
 
 #. SysConfig
 msgid "Frontend module for dashboard info tile in customer interface."
-msgstr ""
+msgstr "Frontend-Modul für die Dashboard Infokachel im Kundenbereich."
 
 #. SysConfig
 msgid "General Label"
@@ -27361,6 +27406,8 @@ msgstr "Allgemeine Übersetzungen"
 #. SysConfig
 msgid "If activated, a clicked activity button will be hidden in the customer ticket zoom frontend."
 msgstr ""
+"Bei aktivierter Funktion wird ein geklickter Aktivitäts-Button in der "
+"TicketZoom-Ansicht im Kundenbereich ausgeblendet."
 
 #. SysConfig
 msgid "Languages"
@@ -27368,19 +27415,19 @@ msgstr "Sprachen"
 
 #. SysConfig
 msgid "Lax"
-msgstr ""
+msgstr "Lax"
 
 #. SysConfig
 msgid "Lens"
-msgstr ""
+msgstr "Linse"
 
 #. SysConfig
 msgid "List of ticket masks which can be altered using AdminTicketMask."
-msgstr ""
+msgstr "Liste der Ticketmasken, die via AdminTicketMask geändert werden können."
 
 #. SysConfig
 msgid "Loader module for dashboard info tile in customer interface."
-msgstr ""
+msgstr "Lademodul für die Dashboard Infokachel im Kundenbereich."
 
 #. SysConfig
 msgid "Manage Customer Dashboard Info Tile Entries"
@@ -27400,11 +27447,11 @@ msgstr "Ticket als ungelesen markieren"
 
 #. SysConfig
 msgid "Object backend module registration for the import/export module."
-msgstr ""
+msgstr "Objekt-Backend-Modulregistrierung für das Import-/Export-Modul."
 
 #. SysConfig
 msgid "Permanent"
-msgstr ""
+msgstr "Permanent"
 
 #. SysConfig
 msgid "Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen."
@@ -27424,39 +27471,47 @@ msgstr "Registriert einen Link im Ticketmenü, um ein Ticket als ungelesen zu ma
 
 #. SysConfig
 msgid "Registration of the CSV format backend module for the ImportExport feature."
-msgstr ""
+msgstr "Registrierung des CSV-Backendmoduls für das Import-/Export-Feature."
 
 #. SysConfig
 msgid "Registration of the JSON format backend module for the ImportExport feature."
-msgstr ""
+msgstr "Registrierung des JSON-Backendmoduls für das Import-/Export-Feature."
 
 #. SysConfig
 msgid "Richtext"
-msgstr ""
+msgstr "Richtext"
 
 #. SysConfig
 msgid "SLAs"
-msgstr ""
+msgstr "SLAs"
 
 #. SysConfig
 msgid "Script (Template Toolkit)"
-msgstr ""
+msgstr "Skript (Template Toolkit)"
 
 #. SysConfig
 msgid "Sends registration information to Rother OSS."
-msgstr ""
+msgstr "Sendet Registrierungsinformationen an Rother OSS."
 
 #. SysConfig
 msgid "Show or Hide deleted articles."
-msgstr ""
+msgstr "Gelöschte Artikel anzeigen oder verbergen."
 
 #. SysConfig
 msgid "ShowHideDeletedArticles"
-msgstr ""
+msgstr "ShowHideDeletedArticles"
 
 #. SysConfig
 msgid "Shows a link in the menu to show/hide deleted articles in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Zeigt im Menü einen Link zum Anzeigen/Verbergen gelöschter Artikel in der "
+"Ticket-Zoom-Ansicht im Agentenbereich an. Eine weitere Möglichkeit zum "
+"Steuern des Zugangs zu dieser Funktionalität bietet die Verwendung des Keys "
+"\"Group\" und eines Inhalts wie \"rw:group1;move_into:group2\". Um "
+"Menüelemente zu clustern, verwenden Sie den Key \"ClusterName\" und als "
+"Content eine beliebige Bezeichnung, die im Menü angezeigt werden soll. "
+"Verwenden Sie \"ClusterPriority\" um anzugeben, wo in der Menüzeile ein "
+"Cluster angezeigt werden soll."
 
 #. SysConfig
 msgid "State pre-selection for Templates"
@@ -27464,23 +27519,28 @@ msgstr "Vorlagen <-> Status"
 
 #. SysConfig
 msgid "Strict"
-msgstr ""
+msgstr "Strikt"
 
 #. SysConfig
 msgid "Switch deleted article status view"
-msgstr ""
+msgstr "Statusanzeige gelöschter Artikel ändern"
 
 #. SysConfig
 msgid "Switch deleted article status view."
-msgstr ""
+msgstr "Statusanzeige gelöschter Artikel ändern."
 
 #. SysConfig
 msgid "This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them."
 msgstr ""
+"Hier können Sie zusätzliche QuickDate Buttons für die Warten-Option "
+"definieren. Zur geordneten Anzeige muss ein Hash-Eintrag pro Array-Segment "
+"definiert werden. Als Key wird der Name des Buttons eingegeben, als Wert "
+"dessen Wert. Dabei setzt eine einzelne Zahl n das Warten-Datum auf n Tage ab "
+"jetzt, ein +n fügt n Tage zum aktuellen Datum hinzu, -n zieht sie ab."
 
 #. SysConfig
 msgid "Ticket Masks"
-msgstr ""
+msgstr "Ticketmasken"
 
 #. SysConfig
 msgid "Ticket States"
@@ -27497,39 +27557,59 @@ msgstr "Ticketstatus-Vorauswahl für Antwortvorlagen"
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value."
 msgstr ""
+"Kachelregistrierung für das Kunden-Dashboard. Das Modul wird benötigt. "
+"Optional kann eine Element-Reihenfolge definiert werden. Die Reihenfolge "
+"muss den Name des Elementes als Key und die gewünschte Position als ganze "
+"Zahl enthalten."
 
 #. SysConfig
 msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed."
 msgstr ""
+"Übersetzung der Ländernamen in der Länderauswahl. Die CLDR Ländercodes "
+"werden in der Datenbank hinterlegt. Setzt voraus, dass Locale::CLDR 0.40.0 "
+"und die relevanten Sprachpakete installiert sind."
 
 #. SysConfig
 msgid "Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed."
 msgstr ""
+"Übersetzt die Sprachen in der Sprachauswahl. Setzt voraus, dass Locale::CLDR "
+"0.40.0 und die relevanten Sprachpakete installiert sind."
 
 #. SysConfig
 msgid "View stored article version."
-msgstr ""
+msgstr "Gespeicherte Artikelversion ansehen."
 
 #. SysConfig
 msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0."
 msgstr ""
+"In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht "
+"nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So "
+"entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der "
+"Besitzer-Information nicht mehr ersehen werden, wer ein Ticket zuletzt "
+"bearbeitet hat. Deaktivieren Sie die Option, um das Verhalten der OTRS-"
+"Versionen 2 bis 6 und von OTOBO 10.0 wiederherzustellen."
 
 #. Template: AdminDynamicField
 msgid "Copy this field"
-msgstr ""
+msgstr "Dieses Feld kopieren"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Queue of the ticket"
-msgstr ""
+msgstr "Ticket-Queue"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Select the queue of the ticket"
-msgstr ""
+msgstr "Wählen Sie die Ticket-Queue aus"
 
 #. SysConfig
 msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed."
 msgstr ""
+"Übersetzung der Ländernamen in der Länderauswahl. Die CLDR Ländercodes "
+"werden in der Datenbank hinterlegt. Setzt voraus, dass Locale::CLDR und die "
+"relevanten Sprachpakete installiert sind."
 
 #. SysConfig
 msgid "Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed."
 msgstr ""
+"Übersetzt die Sprachen in der Sprachwahl. Setzt voraus, dass Locale::CLDR "
+"und die relevanten Sprachpakete installiert sind."
