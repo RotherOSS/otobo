@@ -53,9 +53,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2024-03-26 07:45+0000\n"
+"PO-Revision-Date: 2024-05-01 18:06+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
-"Language-Team: German <https://translate.otobo.org/projects/otobo/otobo-10/de/>\n"
+"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-10/de/>"
+"\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12665,7 +12666,7 @@ msgstr "Kundenname"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer User Name"
-msgstr "Kundenbenutzer Name"
+msgstr "Kundenbenutzer-Name"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
@@ -17786,6 +17787,7 @@ msgid "Agent dynamic field database detailed search."
 msgstr "Detailsuche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
+#, fuzzy
 msgid "Agent dynamic field database details."
 msgstr "Agent dynamic field database details."
 
@@ -19532,10 +19534,17 @@ msgstr "Definiert die Standard-Filterfelder in der Kundenbenutzer-Adressbuch-Suc
 #. SysConfig
 msgid "Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
 msgstr ""
+"Definiert das Standard (HTML) Frontend Theme für Agenten und Kunden. Sie "
+"können ein eigenes Theme hinzufügen. Weitere Informationen dazu im Admin "
+"Handbuch unter https://doc.otobo.org/."
 
 #. SysConfig
 msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
 msgstr ""
+"Legt die Standardsprache für das Frontend fest. Welche Sprachen zur "
+"Verfügung stehen, ergibt sich durch die im System verfügbaren Sprachdateien. "
+"Diese Werte werden als Schlüssel in der Einstellung 'DefaultUsedLanguages' "
+"angezeigt."
 
 #. SysConfig
 msgid "Defines the default history type in the customer interface."
@@ -26039,4 +26048,3 @@ msgstr "Stats"
 
 #~ msgid "This module is part of the admin area of OTOBO Community Edition."
 #~ msgstr "Diese Modul ist Teil des Admin-Bereichs von OTOBO."
-
