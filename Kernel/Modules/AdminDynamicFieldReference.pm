@@ -918,7 +918,10 @@ sub _ShowScreen {
                 Disabled     => ( $Setting->{Disabled}     // 0 ),
                 SelectedID   => $Param{$Name} || '0',
                 Class        => ( join ' ', @CssClasses ),
-                Multiple     => ( $Setting->{Multiple} // 0 ),
+                Multiple     => ( $Setting->{Multiple}    // 0 ),
+                TreeView     => ( $Setting->{TreeView}    // 0 ),
+                Sort         => ( $Setting->{Sort}        // 0 ),
+                SortReverse  => ( $Setting->{SortReverse} // 0 ),
             );
             $LayoutObject->Block(
                 Name => 'ConfigParamRow',
