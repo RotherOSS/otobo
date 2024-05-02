@@ -274,7 +274,7 @@ sub _CheckOTRSRelease {
         };
     }
 
-    if ( $ReleaseInfo->{Version} !~ m/^6\.0(.*)$/ ) {
+    if ( $ReleaseInfo->{Version} !~ m/^6|7\.0(.*)$/ ) {
         return {
             Message    => $Message,
             Comment    => $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $ReleaseInfo->{Version} ),
