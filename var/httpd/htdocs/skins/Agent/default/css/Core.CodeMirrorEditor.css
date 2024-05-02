@@ -32,6 +32,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 div.CodeMirror-wrap {
     /* one line is 22.8 px of height, so this equals 10 lines plus 2 times 4px padding */
     height: 236px;
+    resize: vertical;
 }
 
 } /* end @media */
