@@ -140,21 +140,6 @@ sub _GetIncludedDynamicFields {
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my %DynamicField;
 
-    # This subroutine takes a DFEntry and the DynamicFieldObject as arguments
-    # It retrieves the dynamic field definition for the given DFEntry
-    # If the definition is not available, it retrieves it from the DynamicFieldObject
-    # Returns the dynamic field definition
-    my $GetDynamicField = sub {
-
-        my ($DFEntry) = @_;
-
-        my $DynamicField = $DFEntry->{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $DFEntry->{DF},
-        );
-
-        return $DynamicField;
-    };
-
     ITEM:
     for my $IncludeItem ( @{ $Param{InputFieldDefinition} } ) {
 
@@ -165,7 +150,9 @@ sub _GetIncludedDynamicFields {
                 DFENTRY:
                 for my $DFEntry ( $Row->@* ) {
 
-                    my $DynamicField = $GetDynamicField->($DFEntry);
+                    my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+                        Name => $DFEntry->{DF},
+                    );
                     if ( IsHashRefWithData($DynamicField) ) {
                         $DynamicField->{Mandatory}      = $DFEntry->{Mandatory};
                         $DynamicField->{Readonly}       = $DFEntry->{Readonly};
@@ -184,7 +171,9 @@ sub _GetIncludedDynamicFields {
         }
         elsif ( $IncludeItem->{DF} ) {
 
-            my $DynamicField = $GetDynamicField->($IncludeItem);
+            my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+                Name => $IncludeItem->{DF},
+            );
             if ($DynamicField) {
                 $DynamicField->{Mandatory}          = $IncludeItem->{Mandatory};
                 $DynamicField->{Readonly}           = $IncludeItem->{Readonly};
