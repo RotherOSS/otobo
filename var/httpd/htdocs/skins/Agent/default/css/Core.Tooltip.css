@@ -48,7 +48,7 @@ div.Tooltip.TongueRight {
 }
 
 div.Tooltip > div.Content {
-    background-color: var(--colElement);
+    background-color: var(--colBGElement);
     border: 1px solid var(--colBGDark);
     padding: 5px;
     position: relative;
