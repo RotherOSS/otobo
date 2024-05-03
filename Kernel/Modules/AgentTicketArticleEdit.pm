@@ -189,7 +189,7 @@ sub _ArticleDeletion {
             UserLogin => $Self->{UserLogin}
         );
 
-        if (!$Success) {
+        if ( !$Success ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Error trying to restore article id: ' . $Self->{ArticleID}
@@ -206,7 +206,7 @@ sub _ArticleDeletion {
             UserLogin => $Self->{UserLogin}
         );
 
-        if (!$Success) {
+        if ( !$Success ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Error trying to delete article id: ' . $Self->{ArticleID}
