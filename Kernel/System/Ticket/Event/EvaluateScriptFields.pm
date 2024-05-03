@@ -85,9 +85,6 @@ sub Run {
             my $SetConfig = $DynamicFieldObject->DynamicFieldGet(
                 ID => $DynamicField->{Config}{PartOfSet},
             );
-            my $IncludedFields = $Self->_GetIncludedDynamicFields(
-                InputFieldDefinition => $SetConfig->{Config}{Include},
-            );
 
             for my $SetValue ( $Ticket{"DynamicField_$SetConfig->{Name}"}->@* ) {
                 my %SetValuesMapped = map { ( "DynamicField_$_" => $SetValue->{$_} ) } keys $SetValue->%*;
@@ -119,78 +116,6 @@ sub Run {
     }
 
     return 1;
-}
-
-sub _GetIncludedDynamicFields {
-    my ( $Self, %Param ) = @_;
-
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my %DynamicField;
-
-    # This subroutine takes a DFEntry and the DynamicFieldObject as arguments
-    # It retrieves the dynamic field definition for the given DFEntry
-    # If the definition is not available, it retrieves it from the DynamicFieldObject
-    # Returns the dynamic field definition
-    my $GetDynamicField = sub {
-
-        my ($DFEntry) = @_;
-
-        my $DynamicField = $DFEntry->{Definition} // $DynamicFieldObject->DynamicFieldGet(
-            Name => $DFEntry->{DF},
-        );
-
-        return $DynamicField;
-    };
-
-    ITEM:
-    for my $IncludeItem ( @{ $Param{InputFieldDefinition} } ) {
-
-        if ( $IncludeItem->{Grid} ) {
-
-            for my $Row ( @{ $IncludeItem->{Grid}{Rows} } ) {
-
-                DFENTRY:
-                for my $DFEntry ( $Row->@* ) {
-
-                    my $DynamicField = $GetDynamicField->($DFEntry);
-                    if ( IsHashRefWithData($DynamicField) ) {
-                        $DynamicField->{Mandatory}      = $DFEntry->{Mandatory};
-                        $DynamicField->{Readonly}       = $DFEntry->{Readonly};
-                        $DynamicField{ $DFEntry->{DF} } = $DynamicField;
-                    }
-                    else {
-                        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                            Priority => 'error',
-                            Message  => "DynamicFieldConfig missing for field: $DFEntry->{DF}, or is not a Ticket Dynamic Field!",
-                        );
-
-                        next DFENTRY;
-                    }
-                }
-            }
-        }
-        elsif ( $IncludeItem->{DF} ) {
-
-            my $DynamicField = $GetDynamicField->($IncludeItem);
-            if ($DynamicField) {
-                $DynamicField->{Mandatory}          = $IncludeItem->{Mandatory};
-                $DynamicField->{Readonly}           = $IncludeItem->{Readonly};
-                $DynamicField{ $IncludeItem->{DF} } = $DynamicField;
-            }
-            else {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "DynamicFieldConfig missing for field: $IncludeItem->{DF}, or is not a Ticket Dynamic Field!",
-                );
-                next ITEM;
-            }
-        }
-        else {
-            next ITEM;
-        }
-    }
-
-    return \%DynamicField;
 }
 
 1;
