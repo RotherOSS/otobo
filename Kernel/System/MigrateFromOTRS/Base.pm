@@ -1299,6 +1299,38 @@ sub DBSkipTables {
         sessions
         system_data
         web_upload_cache
+        access_token
+        access_token_key
+        acl_deployment
+        article_customer_flag
+        article_data_mime_send_error
+        article_data_otrs_sms
+        chat
+        chat_channel
+        chat_flag
+        chat_invite
+        chat_message
+        chat_participant
+        chat_video
+        custom_page
+        custom_page_content
+        dtt
+        dtt_attachment
+        dtt_dynamic_field
+        dtt_group
+        dtt_service
+        external_frontend_config
+        notification_view
+        queue_sms_template
+        sc_category
+        sc_item
+        sc_item_content
+        sc_item_content_category
+        search_state
+        sms_template
+        ticket_customer_flag
+        workflow_task_template
+        workflow_template
     );
 }
 
@@ -1310,6 +1342,8 @@ sub DBRenameTables {
         article_data_otrs_chat => 'article_data_otobo_chat',
         groups                 => 'groups_table',              # OTRS 6.0, Znuny 6.0
         permission_groups      => 'groups_table',              # Znuny 6.1
+        pm_sequence_flow       => 'pm_transition',                 # OTRS 7
+        pm_sequence_flow_action       => 'pm_transition_action',   # OTRS 7
     };
 }
 
