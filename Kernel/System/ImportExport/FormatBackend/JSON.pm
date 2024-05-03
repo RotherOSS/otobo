@@ -280,6 +280,7 @@ sub ExportDataSave {
     return $JSONObject->Encode(
         Data   => $Param{ExportDataRow},
         Pretty => $Pretty,
+        Sort   => 1,
     );
 
 }
