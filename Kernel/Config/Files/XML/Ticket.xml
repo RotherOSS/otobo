@@ -4759,7 +4759,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::MoveType::Dropdown::MoveTicketEvenItIsLocked" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::MoveType::Dropdown::MoveEvenIfLocked" Required="1" Valid="1">
         <Description Translatable="1">As soon as the move queue option dropdown is enabled for example in the AgentTicketZoom dialogue, it is possible to move tickets locked to other agents to another queue by activating this option.</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>

@@ -180,39 +180,33 @@ sub Run {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # check if lock check is needed or disabled
-    my $MoveTicketEvenItIsLocked = $ConfigObject->Get('Ticket::Frontend::MoveType::Dropdown::MoveTicketEvenItIsLocked');
+    # check if ticket is locked
+    if ( !$ConfigObject->Get('Ticket::Frontend::MoveType::Dropdown::MoveEvenIfLocked') && $TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
+        my $AccessOk = $TicketObject->OwnerCheck(
+            TicketID => $Self->{TicketID},
+            OwnerID  => $Self->{UserID},
+        );
 
-    if ( !$MoveTicketEvenItIsLocked ) {
-
-        # check if ticket is locked
-        if ( $TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
-            my $AccessOk = $TicketObject->OwnerCheck(
-                TicketID => $Self->{TicketID},
-                OwnerID  => $Self->{UserID},
+        if ( !$AccessOk ) {
+            my $Output = $LayoutObject->Header(
+                Type      => 'Small',
+                BodyClass => 'Popup',
+            );
+            $Output .= $LayoutObject->Warning(
+                Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                Comment => Translatable('Please change the owner first.'),
             );
 
-            if ( !$AccessOk ) {
-                my $Output = $LayoutObject->Header(
-                    Type      => 'Small',
-                    BodyClass => 'Popup',
-                );
-                $Output .= $LayoutObject->Warning(
-                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => Translatable('Please change the owner first.'),
-                );
+            # show back link
+            $LayoutObject->Block(
+                Name => 'TicketBack',
+                Data => { %Param, TicketID => $Self->{TicketID} },
+            );
 
-                # show back link
-                $LayoutObject->Block(
-                    Name => 'TicketBack',
-                    Data => { %Param, TicketID => $Self->{TicketID} },
-                );
-
-                $Output .= $LayoutObject->Footer(
-                    Type => 'Small',
-                );
-                return $Output;
-            }
+            $Output .= $LayoutObject->Footer(
+                Type => 'Small',
+            );
+            return $Output;
         }
     }
 
