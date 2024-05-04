@@ -72,7 +72,7 @@ The result will be Perl string that may have code points greater 255.
 
     my $JSONString = $JSONObject->Encode(
         Data          => $Data,
-        SortKeys      => 1, # (optional) (0|1) default 0, to sort the keys of the json data
+        SortKeys      => 1, # (optional) (0|1) default 0, to sort the keys of the JSON data
         Pretty        => 1, # (optional) (0|1) default 0, to pretty print
     );
 
@@ -136,14 +136,15 @@ sub Encode {
     # Special handling of problematic unicode code points:
     #   U+02028 - LINE SEPARATOR
     #   U+02029 - PARAGRAPH SEPARATOR
-    # They are allowed in JSON but not in JavaScript.
-    # See: http://timelessrepo.com/json-isnt-a-javascript-subset
-    # Of course using raw JSON as JavaScript can be considered as a bug too.
+    # These two characters are valid in JSON but not in JavaScript.
+    # See http://timelessrepo.com/json-isnt-a-javascript-subset or
+    # https://www.cnblogs.com/rubylouvre/archive/2011/05/16/2048198.html
     #
-    # A relevant bug report is still open as of 2020-08-28.
-    # See: https://rt.cpan.org/Public/Bug/Display.html?id=75755
+    # In Kernel::System::JSON the stance is that the generated JSON should
+    # be both valid JSON and valid JavaScript. Therefore the two characters
+    # are coded as \u escapes.
     #
-    # Therefore they must be encoded manually.
+    # Nevertheless, using the generated JSON as JavaScript is strongly discouraged.
     $JSONEncoded =~ s/\x{2028}/\\u2028/xmsg;
     $JSONEncoded =~ s/\x{2029}/\\u2029/xmsg;
 
