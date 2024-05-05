@@ -26,7 +26,6 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
     rm -rf local
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # install into local/lib/perl5
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # again, to see that the install was complete
-    find local/ -name '*.pod' -delete                                       # POD files are kept out of Kernel/cpan-lib
     rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi                    # contains only perllocal.pod
     cp -r local/lib/perl5/* .                                               # copy to actual destination
 
@@ -56,7 +55,7 @@ The reason why specific files are not included in the bundle is not always evide
     rm local/lib/perl5/SOAP/Transport/POP3.pm
     rm local/lib/perl5/SOAP/Transport/TCP.pm
     rm local/lib/perl5/Test/LongString.pm
-    find . \( -name "*.pl" -o -name "*.pod" \) -delete                      # just because this is the tradition
+    find . \( -name "*.pl" \) -delete                      # just because this is the tradition
     find . -type d -empty -delete                                     # empty dirs are not needed, usually dirs with documentation only
 
 ### Add files that do no originate from CPAN.
@@ -84,7 +83,7 @@ current situation on the development machine.
 Clean up again when module were installed
 
     rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi              # or a similar dir, depending on the devel machine
-    find . \( -name "*.pl" -o -name "*.pod" \) -delete                # just because this is the tradition
+    find . \( -name "*.pl" \) -delete                # just because this is the tradition
     find . -type d -empty -delete                                     # empty dirs are not needed, usually dirs with documentation only
 
 ### Finalize
