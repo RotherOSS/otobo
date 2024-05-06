@@ -21,10 +21,38 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 @media screen,projection,tv,handheld {
 
 /**
+ * @subsection  Control Row
+ */
+.ControlRow {
+    background-color: var(--colBGLight);
+    border: 1px solid var(--colTextDark);
+}
+
+/**
+ * @subsection  Control Row Tabs
+ */
+.ControlRow li:hover {
+    background: var(--colHoverLight);
+}
+
+.ControlRow li.Active,
+.ControlRow li.Active:hover,
+.ControlRow li.Active:active {
+    background: var(--colBGDark);
+}
+
+/**
  * @subsection  Control Row Action Row
  */
+
+.ActionRow {
+    border-left: 1px solid var(--colTextDark);
+    border-bottom: 1px solid var(--colTextDark);
+    border-right: 1px solid var(--colTextDark);
+}
+
 .Actions li.Inactive a {
-    color: var(--colTextDark);
+    color: var(--colTextMedium);
 }
 
 .Tab.Actions li a {
