@@ -278,9 +278,9 @@ sub ExportDataSave {
     my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
     return $JSONObject->Encode(
-        Data   => $Param{ExportDataRow},
-        Pretty => $Pretty,
-        Sort   => 1,
+        Data     => $Param{ExportDataRow},
+        Pretty   => $Pretty,
+        SortKeys => 1,
     );
 
 }
