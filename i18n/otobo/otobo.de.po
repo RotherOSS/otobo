@@ -53,7 +53,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2024-05-01 18:06+0000\n"
+"PO-Revision-Date: 2024-05-06 11:38+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-10/de/>"
 "\n"
@@ -17787,9 +17787,8 @@ msgid "Agent dynamic field database detailed search."
 msgstr "Detailsuche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
-#, fuzzy
 msgid "Agent dynamic field database details."
-msgstr "Agent dynamic field database details."
+msgstr "Datenbankdetails für dynamische Felder im Agentenbereich."
 
 #. SysConfig
 msgid "Agent dynamic field database search."
@@ -24700,7 +24699,12 @@ msgstr "Erkenner für Tickets, z. B. Ticket#, Anruf#, MeinTicket#."
 
 #. SysConfig
 msgid "The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)"
-msgstr "Logo und Signet, die im Header des Kundenbereichs angezeigt werden. Die URL zur Grafik kann eine relative URL zum Skin-Image-Verzeichnis oder eine vollständige URL sein, die auf einen anderen Webserver zeigt. Das Signet wird auf 32px*32px skaliert, das Logo auf 196px*32px. (In der Mobile-Version werden beide mit einer Höhe von 24px und variabler Länge angezeigt.)"
+msgstr ""
+"Logo und Signet, die im Header des Kundenbereichs angezeigt werden. Die URL "
+"zur Grafik kann eine relative URL zum Skin-Image-Verzeichnis oder eine "
+"vollständige URL sein, die auf einen anderen Webserver zeigt. Das Signet "
+"wird auf 32px*32px skaliert, das Logo auf 196px*32px. (In der mobilen "
+"Version werden beide mit einer Höhe von 24px und variabler Länge angezeigt.)"
 
 #. SysConfig
 msgid "The logo shown in the header of the agent interface for the skin \"default\". See \"AgentLogo\" for further description."
