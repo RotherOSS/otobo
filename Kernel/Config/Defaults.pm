@@ -313,6 +313,31 @@ sub LoadDefaults {
     # (URL CSS path.)
     $Self->{'Frontend::CSSPath'} = '<OTOBO_CONFIG_Frontend::WebPath>css/';
 
+    # AgentColorDefinitions
+    $Self->{'AgentColorDefinitions'} = {
+        MainDark      => '#00023c',
+        MainLight     => '#000099',
+        MainHover     => '#001bff',
+        BGElement     => '#fff',
+        BGLight       => '#f7f7f9',
+        BGLightMedium => '#eeeef2',
+        BGMedium      => '#e5e5eb',
+        BGMediumDark  => '#cdcdd8',
+        BGDark        => '#bfc0ce',
+        TextLight     => '#7f809d',
+        TextMedium    => '#54557c',
+        TextDark      => '#00023c',
+        TextErr       => '#ea2400',
+        TextWarn      => '#f5af36',
+        Highlight     => '#fef235',
+        NotifyOK      => '#c4cdfa',
+        NotifyWarn    => '#fffccc',
+        NotifyErr     => '#f9bcb2',
+        HoverLight    => '#fffccc',
+        HoverDark     => '#fef235',
+        ShadowDark    => 'rgba(0,2,71,0.16)',
+    };
+
     # Frontend::ImagePath
     # (URL image path of icons for navigation.)
     $Self->{'Frontend::ImagePath'} = '<OTOBO_CONFIG_Frontend::WebPath>skins/Agent/default/img/';

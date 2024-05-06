@@ -1649,32 +1649,12 @@ sub Header {
     # Load colors based on Skin selection
     $Self->{SkinSelected} ||= 'default';
 
-    my $ColorDefinitions
-        = $Self->{SkinSelected} eq 'default' ? $ConfigObject->Get("AgentColorDefinitions") : $ConfigObject->Get("SkinColorDefinition::$Self->{SkinSelected}");
-
-    if ( !IsHashRefWithData($ColorDefinitions) ) {
-        $ColorDefinitions = {
-            MainDark      => '#00023c',
-            MainLight     => '#000099',
-            MainHover     => '#001bff',
-            BGElement     => '#fff',
-            BGLight       => '#f7f7f9',
-            BGLightMedium => '#eeeef2',
-            BGMedium      => '#e5e5eb',
-            BGMediumDark  => '#cdcdd8',
-            BGDark        => '#bfc0ce',
-            TextLight     => '#7f809d',
-            TextMedium    => '#54557c',
-            TextDark      => '#00023c',
-            TextErr       => '#ea2400',
-            Highlight     => '#fef235',
-            NotifyOK      => '#c4cdfa',
-            NotifyWarn    => '#fffccc',
-            NotifyErr     => '#f9bcb2',
-            HoverLight    => '#fffccc',
-            HoverDark     => '#fef235',
-            ShadowDark    => 'rgba(0,2,71,0.16)',
-        };
+    my $ColorDefinitions;
+    if ( $Self->{SkinSelected} // $Self->{SkinSelected} ne 'default' ) {
+        $ColorDefinitions = $ConfigObject->Get("SkinColorDefinition::$Self->{SkinSelected}") // $ConfigObject->Get('AgentColorDefinitions');
+    }
+    else {
+        $ColorDefinitions = $ConfigObject->Get('AgentColorDefinitions');
     }
 
     for my $Color ( sort keys %{$ColorDefinitions} ) {
