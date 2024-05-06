@@ -1,21 +1,23 @@
 # Translators:
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Mohammed AlGarni <mjalgarni@gmail.com>, 2018
-# khh <khh@rother-oss.com>, 2022, 2023.
+# khh <khh@rother-oss.com>, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2023-12-30 01:56+0000\n"
+"PO-Revision-Date: 2024-05-06 11:38+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
-"Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/otobo10/otobo/ar_SA/>\n"
+"Language-Team: Arabic (Saudi Arabia) <http://weblate.otobo.org/projects/"
+"otobo/otobo-10/ar_SA/>\n"
 "Language: ar_SA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 4.4.2\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -23194,6 +23196,8 @@ msgstr "يُشغِّل بحثًا أوليًا باستخدام الرموز ا�
 #. SysConfig
 msgid "Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module."
 msgstr ""
+"يُشغِّل بحثًا أوليًا باستخدام الرموز البارزة لشركة العميل الحالية عند الوصول "
+"إلى وحدة AdminCustomerCompany."
 
 #. SysConfig
 msgid "Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module."
@@ -25325,4 +25329,3 @@ msgstr "إحصائيات"
 
 #~ msgid "An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!"
 #~ msgstr "يوجد تحديث ل %s ، ولكن هناك تعارض مع نسخة الفريم وورك خاصتك! فضلاً قم بتحديث الفريم وورك خاصتك!"
-
