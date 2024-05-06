@@ -1060,7 +1060,7 @@ div.UnreadArticles i:first-child {
 
 span.UnreadArticles.Remarkable i,
 div.UnreadArticles.Remarkable i {
-    color: var(--colHoverDark);
+    color: var(--colMainLight);
 }
 
 span.UnreadArticles.Ordinary,
