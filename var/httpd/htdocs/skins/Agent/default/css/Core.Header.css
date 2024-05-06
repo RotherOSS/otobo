@@ -304,6 +304,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 
 #ToolBar .Extended input[type=text]:focus {
     background: var(--colHoverLight);
+    color: var(--colTextDark)
 }
 
 #ToolBar .Extended input[type=text]:not(.InputField_Search) {
