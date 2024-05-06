@@ -49,8 +49,11 @@ sub Run {
         Name => 'CustomerColorDefinitions',
     );
 
-    return   if !%ColorSetting;
+    return if !%ColorSetting;
+
+    # return if the setting is unmodified or MainHover is already present
     return 1 if !$ColorSetting{IsModified};
+    return 1 if $ColorSetting{EffectiveValue}{MainHover};
 
     my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
         UserID    => 1,
