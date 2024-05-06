@@ -86,6 +86,10 @@ sub Run {
             Name   => 'Add article version tables and add article edit ticket history types.',
             Module => 'DBHandleArticleEditTables',
         },
+        {
+            Name   => 'Update Customer color definitions.',
+            Module => 'SysConfigUpdateCustomerColors',
+        },
     );
 
     TASK:
