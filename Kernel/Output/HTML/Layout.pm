@@ -1650,7 +1650,7 @@ sub Header {
     $Self->{SkinSelected} ||= 'default';
 
     my $ColorDefinitions;
-    if ( $Self->{SkinSelected} // $Self->{SkinSelected} ne 'default' ) {
+    if ( $Self->{SkinSelected} && $Self->{SkinSelected} ne 'default' ) {
         $ColorDefinitions = $ConfigObject->Get("SkinColorDefinition::$Self->{SkinSelected}") // $ConfigObject->Get('AgentColorDefinitions');
     }
     else {
@@ -4444,8 +4444,13 @@ sub CustomerHeader {
     # Load colors based on Skin selection
     # define color scheme
     $Self->{UserSkin} ||= 'default';
-    my $ColorDefinitions
-        = $Self->{UserSkin} eq 'default' ? $ConfigObject->Get('CustomerColorDefinitions') : $ConfigObject->Get("CustomerSkinColorDefinition::$Self->{UserSkin}");
+    my $ColorDefinitions;
+    if ( $Self->{UserSkin} && $Self->{UserSkin} ne 'default' ) {
+        $ColorDefinitions = $ConfigObject->Get("CustomerSkinColorDefinition::$Self->{UserSkin}") // $ConfigObject->Get('CustomerColorDefinitions');
+    }
+    else {
+        $ColorDefinitions = $ConfigObject->Get('CustomerColorDefinitions');
+    }
 
     for my $Color ( sort keys %{$ColorDefinitions} ) {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
