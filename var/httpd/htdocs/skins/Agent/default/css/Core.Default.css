@@ -314,7 +314,7 @@ dd {
 }
 
 .Warning {
-    color: var(--colNotifyWarn);
+    color: var(--colTextErr);
 }
 
 .Notice {
