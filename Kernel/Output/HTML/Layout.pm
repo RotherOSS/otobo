@@ -1649,7 +1649,33 @@ sub Header {
     # Load colors based on Skin selection
     $Self->{SkinSelected} ||= 'default';
 
-    my $ColorDefinitions = $Self->{SkinSelected} eq 'default' ?  $ConfigObject->Get("AgentColorDefinitions") : $ConfigObject->Get("SkinColorDefinition::$Self->{SkinSelected}");
+    my $ColorDefinitions
+        = $Self->{SkinSelected} eq 'default' ? $ConfigObject->Get("AgentColorDefinitions") : $ConfigObject->Get("SkinColorDefinition::$Self->{SkinSelected}");
+
+    if ( !IsHashRefWithData($ColorDefinitions) ) {
+        $ColorDefinitions = {
+            MainDark      => '#00023c',
+            MainLight     => '#000099',
+            MainHover     => '#001bff',
+            BGElement     => '#fff',
+            BGLight       => '#f7f7f9',
+            BGLightMedium => '#eeeef2',
+            BGMedium      => '#e5e5eb',
+            BGMediumDark  => '#cdcdd8',
+            BGDark        => '#bfc0ce',
+            TextLight     => '#7f809d',
+            TextMedium    => '#54557c',
+            TextDark      => '#00023c',
+            TextErr       => '#ea2400',
+            Highlight     => '#fef235',
+            NotifyOK      => '#c4cdfa',
+            NotifyWarn    => '#fffccc',
+            NotifyErr     => '#f9bcb2',
+            HoverLight    => '#fffccc',
+            HoverDark     => '#fef235',
+            ShadowDark    => 'rgba(0,2,71,0.16)',
+        };
+    }
 
     for my $Color ( sort keys %{$ColorDefinitions} ) {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
@@ -4435,10 +4461,11 @@ sub CustomerHeader {
     # and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateCustomerCSSCalls();
 
-    # Load colors based on Skin selection   
+    # Load colors based on Skin selection
     # define color scheme
     $Self->{UserSkin} ||= 'default';
-    my $ColorDefinitions = $Self->{UserSkin} eq 'default' ? $ConfigObject->Get('CustomerColorDefinitions') : $ConfigObject->Get("CustomerSkinColorDefinition::$Self->{UserSkin}");
+    my $ColorDefinitions
+        = $Self->{UserSkin} eq 'default' ? $ConfigObject->Get('CustomerColorDefinitions') : $ConfigObject->Get("CustomerSkinColorDefinition::$Self->{UserSkin}");
 
     for my $Color ( sort keys %{$ColorDefinitions} ) {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
