@@ -76,17 +76,28 @@ sub Run {
     #   [...]_FieldName_0a1b2c_0   (process suffix with set or multivalue)
     #   [...]_FieldName_0a1b2c_0_0 (process suffix with set and multivalue)
 
-    # attempt match without process suffix
-    if ( $Field && $Field =~ m{ \A (?: Autocomplete (?: _Search )? ) _DynamicField_ ([A-Za-z0-9\-]*?) (?:_[0-9]+){0,2} \z }xms ) {
-        $FieldName = $1;    # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
+    my $Error = 1;
+    if ($Field) {
+
+        # match with activity dialog entity id is needed
+        if ( $ActivityDialogEntityID && $LayoutObject->{SessionSource} eq 'CustomerInterface' ) {
+            if ( $Field && $Field =~ m{ \A (?: Autocomplete (?: _Search )? ) _DynamicField_ ([A-Za-z0-9\-]*?) (_$ActivityDialogEntityID) (?:_[0-9]+){0,2} \z }xms ) {
+                $FieldName     = $1;    # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
+                $ProcessSuffix = $2;
+                $Error         = 0;
+            }
+        }
+
+        # match without activity dialog entity id is needed
+        else {
+            if ( $Field =~ m{ \A (?: Autocomplete (?: _Search )? ) _DynamicField_ ([A-Za-z0-9\-]*?) (?:_[0-9]+){0,2} \z }xms ) {
+                $FieldName = $1;        # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
+                $Error     = 0;
+            }
+        }
     }
 
-    # attempt match with process suffix
-    elsif ( $Field && $Field =~ m{ \A (?: Autocomplete (?: _Search )? ) _DynamicField_ ([A-Za-z0-9\-]*?) (_$ActivityDialogEntityID) (?:_[0-9]+){0,2} \z }xms ) {
-        $FieldName     = $1;    # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
-        $ProcessSuffix = $2;
-    }
-    else {
+    if ($Error) {
         return $LayoutObject->JSONReply(
             Data => {
                 Success  => 0,
