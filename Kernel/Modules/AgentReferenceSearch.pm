@@ -56,6 +56,14 @@ sub Run {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $Field       = $ParamObject->GetParam( Param => 'Field' );
     my $FieldName;
+
+    # check if we deal with process and if so, retrieve activity dialog id
+    my $ActivityDialogEntityID;
+    my $ActivityDialogEntityIDParam = $ParamObject->GetParam( Param => 'ActivityDialogEntityID' ) || '';
+    if ( $ActivityDialogEntityIDParam =~ /^ActivityDialog-([0-9a-f]+)/ ) {
+        $ActivityDialogEntityID = $1;
+    }
+
     if (
         !$Field
         ||
@@ -70,7 +78,7 @@ sub Run {
         #   [...]_FieldName_0a1b2c     (process suffix)
         #   [...]_FieldName_0a1b2c_0   (process suffix with set or multivalue)
         #   [...]_FieldName_0a1b2c_0_0 (process suffix with set and multivalue)
-        $Field !~ m{ \A (?: Autocomplete (?: _Search )? ) _DynamicField_ (.*?) (?:_[0-9a-f]+){0,3} \z }xms
+        $Field !~ m{ \A (?: Autocomplete (?: _Search )? ) _DynamicField_ (.*?) (_$ActivityDialogEntityID)? (?:_[0-9]+){0,2} \z }xms
         )
     {
         return $LayoutObject->JSONReply(
@@ -81,7 +89,8 @@ sub Run {
         );
     }
     else {
-        $FieldName = $1;    # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
+        $FieldName              = $1;                                   # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
+        $ActivityDialogEntityID = $2 ? $ActivityDialogEntityID : '';    # empty activity dialog id match indicates agent interface, set variable to empty string
     }
 
     # Get config for the dynamic field and check the sanity.
@@ -129,7 +138,7 @@ sub Run {
         my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
             LayoutObject => $LayoutObject,
             FormID       => $FormID,
-            Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
+            Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name} . ( $ActivityDialogEntityID ? "_$ActivityDialogEntityID" : '' ),
         );
 
         if ($LastSearchResults) {
@@ -146,8 +155,11 @@ sub Run {
         $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
             LayoutObject => $LayoutObject,
             FormID       => $FormID,
-            Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name} . ( defined $SetIndex ? "_$SetIndex" : '' ),
-            Value        => \@FormDataObjectIDs,
+            Key          => 'PossibleValues_DynamicField_'
+                . $DynamicFieldConfig->{Name}
+                . ( $ActivityDialogEntityID ? "_$ActivityDialogEntityID" : '' )
+                . ( defined $SetIndex       ? "_$SetIndex"               : '' ),
+            Value => \@FormDataObjectIDs,
         );
     }
 
