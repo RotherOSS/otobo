@@ -286,7 +286,7 @@ sub EditFieldRender {
         my %Value;
         for my $Name ( sort keys $DynamicField->%* ) {
             $Value{"DynamicField_$Name"} = $SetValue[$SetIndex]{$Name};
-            $DynamicField->{$Name}{Name} = $Name . '_' . $SetIndex;
+            $DynamicField->{$Name}{Name} = $Name . ( $Param{DynamicFieldConfig}{ProcessSuffix} // '' ) . '_' . $SetIndex;
         }
 
         my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
@@ -422,7 +422,7 @@ sub EditFieldValueGet {
             my $DynamicFieldConfig = $DynamicField->{$Name};
 
             for my $SetIndex ( 0 .. $IndexMax ) {
-                $DynamicFieldConfig->{Name} = $Name . '_' . $SetIndex;
+                $DynamicFieldConfig->{Name} = $Name . ( $Param{DynamicFieldConfig}{ProcessSuffix} // '' ) . '_' . $SetIndex;
 
                 $SetData[$SetIndex]{$Name} = $BackendObject->EditFieldValueGet(
                     %Param,
@@ -508,7 +508,7 @@ sub EditFieldValueValidate {
 
         for my $Name ( sort keys $DynamicField->%* ) {
             my $DynamicFieldConfig = $DynamicField->{$Name};
-            $DynamicFieldConfig->{Name} = $Name . '_' . $SetIndex;
+            $DynamicFieldConfig->{Name} = $Name . ( $SetDFConfig->{ProcessSuffix} // '' ) . '_' . $SetIndex;
 
             $Result->{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldValueValidate(
                 %Param,
