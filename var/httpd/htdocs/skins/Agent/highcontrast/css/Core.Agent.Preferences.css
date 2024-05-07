@@ -24,9 +24,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 /**
  * @subsubsection     General
  */
-.Preferences .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox {
-    background: unset;
-}
 
 .Preferences .WidgetSimple.Setting.IsLockedByMe {
     border-left: 1px solid;
