@@ -90,6 +90,10 @@ sub Run {
             Name   => 'Update Customer color definitions.',
             Module => 'SysConfigUpdateCustomerColors',
         },
+        {
+            Name   => 'Try integrating the new customer dashboard info tile.',
+            Module => 'SysConfigMigrateCustomerDashboardTileMotD',
+        },
     );
 
     TASK:

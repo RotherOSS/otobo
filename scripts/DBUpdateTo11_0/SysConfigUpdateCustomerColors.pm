@@ -98,6 +98,22 @@ sub Run {
         return;
     }
 
+    my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+        Comments      => "UpgradeTo11 - Adapt CustomerColorDefinitions.",
+        UserID        => 1,
+        Force         => 1,
+        DirtySettings => [ 'CustomerColorDefinitions' ],
+    );
+
+    if ( !$DeploymentResult{Success} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Deployment failed.",
+        );
+
+        return;
+    }
+
     return 1;
 }
 
