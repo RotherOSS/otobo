@@ -818,9 +818,9 @@ sub GetFieldState {
 
 Methods that are used only internally.
 
-=head2 _GetReferencedObjectID()
+=head2 _GetReferenceDFConfig()
 
-The ID of the referenced object.
+A dynamic field configuration that can be used as a delegate.
 
 =cut
 
