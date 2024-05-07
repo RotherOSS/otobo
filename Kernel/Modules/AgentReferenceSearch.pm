@@ -59,38 +59,40 @@ sub Run {
 
     # check if we deal with process and if so, retrieve activity dialog id
     my $ActivityDialogEntityID;
+    my $ProcessSuffix               = '';
     my $ActivityDialogEntityIDParam = $ParamObject->GetParam( Param => 'ActivityDialogEntityID' ) || '';
     if ( $ActivityDialogEntityIDParam =~ /^ActivityDialog-([0-9a-f]+)/ ) {
         $ActivityDialogEntityID = $1;
     }
 
-    if (
-        !$Field
-        ||
+    # possible prefix constellations:
+    #   Autocomplete_DynamicField_Fieldname
+    #   Autocomplete_Search_DynamicField_Fieldname
+    # possible suffix constellations:
+    #   [...]_FieldName
+    #   [...]_FieldName_0          (set or multivalue)
+    #   [...]_FieldName_0_0        (set and multivalue)
+    #   [...]_FieldName_0a1b2c     (process suffix)
+    #   [...]_FieldName_0a1b2c_0   (process suffix with set or multivalue)
+    #   [...]_FieldName_0a1b2c_0_0 (process suffix with set and multivalue)
 
-        # possible prefix constellations:
-        #   Autocomplete_DynamicField_Fieldname
-        #   Autocomplete_Search_DynamicField_Fieldname
-        # possible suffix constellations:
-        #   [...]_FieldName
-        #   [...]_FieldName_0          (set or multivalue)
-        #   [...]_FieldName_0_0        (set and multivalue)
-        #   [...]_FieldName_0a1b2c     (process suffix)
-        #   [...]_FieldName_0a1b2c_0   (process suffix with set or multivalue)
-        #   [...]_FieldName_0a1b2c_0_0 (process suffix with set and multivalue)
-        $Field !~ m{ \A (?: Autocomplete (?: _Search )? ) _DynamicField_ (.*?) (_$ActivityDialogEntityID)? (?:_[0-9]+){0,2} \z }xms
-        )
-    {
+    # attempt match without process suffix
+    if ( $Field && $Field =~ m{ \A (?: Autocomplete (?: _Search )? ) _DynamicField_ ([A-Za-z0-9\-]*?) (?:_[0-9]+){0,2} \z }xms ) {
+        $FieldName = $1;    # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
+    }
+
+    # attempt match with process suffix
+    elsif ( $Field && $Field =~ m{ \A (?: Autocomplete (?: _Search )? ) _DynamicField_ ([A-Za-z0-9\-]*?) (_$ActivityDialogEntityID) (?:_[0-9]+){0,2} \z }xms ) {
+        $FieldName     = $1;    # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
+        $ProcessSuffix = $2;
+    }
+    else {
         return $LayoutObject->JSONReply(
             Data => {
                 Success  => 0,
                 Messsage => 'Need Field!',
             },
         );
-    }
-    else {
-        $FieldName              = $1;                                   # remove either the prefix 'Autocomplete_DynamicField_' or the prefix 'Search_DynamicField_'
-        $ActivityDialogEntityID = $2 ? $ActivityDialogEntityID : '';    # empty activity dialog id match indicates agent interface, set variable to empty string
     }
 
     # Get config for the dynamic field and check the sanity.
@@ -138,7 +140,7 @@ sub Run {
         my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
             LayoutObject => $LayoutObject,
             FormID       => $FormID,
-            Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name} . ( $ActivityDialogEntityID ? "_$ActivityDialogEntityID" : '' ),
+            Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name} . $ProcessSuffix,
         );
 
         if ($LastSearchResults) {
@@ -155,11 +157,8 @@ sub Run {
         $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
             LayoutObject => $LayoutObject,
             FormID       => $FormID,
-            Key          => 'PossibleValues_DynamicField_'
-                . $DynamicFieldConfig->{Name}
-                . ( $ActivityDialogEntityID ? "_$ActivityDialogEntityID" : '' )
-                . ( defined $SetIndex       ? "_$SetIndex"               : '' ),
-            Value => \@FormDataObjectIDs,
+            Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name} . $ProcessSuffix . ( defined $SetIndex ? "_$SetIndex" : '' ),
+            Value        => \@FormDataObjectIDs,
         );
     }
 
