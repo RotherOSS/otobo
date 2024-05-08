@@ -266,6 +266,8 @@ Core.Installer = (function (TargetNS) {
 
         // show Log File Location field (only if log module File is selected)
         InitLogModuleSelection();
+
+        Core.UI.InputFields.InitSelect($('select.Modernize'));
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
