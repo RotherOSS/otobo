@@ -95,7 +95,7 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
 fieldset.TableLike > .Field label,
 fieldset.TableLike > .Row > .Field label,
 fieldset.TableLike > .Row > .FieldCell label {
-    color: var(--colTextLight) !important;
+    color: var(--colTextDark) !important;
 }
 
 fieldset.TableLike.Narrow > label,
@@ -105,6 +105,12 @@ fieldset.TableLike.Narrow > .Row > .Value,
 fieldset.TableLike > label,
 fieldset.TableLike > .Row > label {
     color: var(--colTextDark);
+}
+
+fieldset.TableLike > label:not(.ck-label), 
+fieldset.TableLike > .Row > label:not(.ck-label), 
+fieldset.TableLike .Row > .FieldCell label:not(.ck-label) {
+    color: var(--colTextDark)
 }
 
 } /* end @media */
