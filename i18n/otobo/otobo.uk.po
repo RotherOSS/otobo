@@ -9,19 +9,25 @@
 # Олексій Ворошило <john.silver.heart@gmail.com>, 2018
 # Oleg Sydorenko <oleg.sidorenko@gmail.com>, 2019
 # Bohdan Melnychuk <base-w@yandex.ru>, 2019
-#
+# Oleksandr Mykhailov <o.mykhailov@etg.ua>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Bohdan Melnychuk <base-w@yandex.ru>, 2019\n"
-"Language-Team: Ukrainian (https://translate.otobo.org/projects/otobo10/otobo/uk/)\n"
+"PO-Revision-Date: 2024-05-09 08:13+0000\n"
+"Last-Translator: Oleksandr Mykhailov <o.mykhailov@etg.ua>\n"
+"Language-Team: Ukrainian <http://weblate.otobo.org/projects/otobo/otobo-10/"
+"uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 "
+"? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > "
+"14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % "
+"100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"X-Generator: Weblate 5.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -9145,7 +9151,7 @@ msgstr ""
 
 #. Template: CustomerTicketMessage
 msgid "Issue a new Ticket"
-msgstr ""
+msgstr "Створити новий запит"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -9285,7 +9291,7 @@ msgstr "Попередження"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
-msgstr ""
+msgstr "Створити %sзапит"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
@@ -25553,4 +25559,3 @@ msgstr ""
 
 #~ msgid "Resource Overview (OTOBO Business Solution™)"
 #~ msgstr "Перегляд ресурів (OTOBO Business Solution™)"
-
