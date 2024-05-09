@@ -64,4 +64,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-weight: bold;
 }
 
+/**
+* @subsection  Standalone Action Row
+*/
+
+.WidgetSimple .Content .ActionRow {
+    border: none;
+}
+
+.AdditionalInformation.ControlRow {
+    border: none;
+}
+
 } /* end @media */
