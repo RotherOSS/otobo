@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2024-05-09 08:13+0000\n"
+"PO-Revision-Date: 2024-05-09 15:15+0000\n"
 "Last-Translator: Oleksandr Mykhailov <o.mykhailov@etg.ua>\n"
 "Language-Team: Ukrainian <http://weblate.otobo.org/projects/otobo/otobo-10/"
 "uk/>\n"
@@ -167,7 +167,7 @@ msgstr "Установіть що Ви хочете змінити, якщо є 
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Перевірте офіційну %sdocumentation%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -175,7 +175,7 @@ msgstr "Відобразити або сховати вміст"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Редагувати інформацію ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -187,7 +187,7 @@ msgstr "Припинити перевірку після збігу"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Редагувати структуру ACL"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
@@ -219,7 +219,7 @@ msgstr "Створити новий ACL шляхом надсилання дан
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "Про систему"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -228,10 +228,12 @@ msgstr "Приховати цей віджет"
 #. Template: AdminAbout
 msgid "This language is not present or enabled on the system. This text could be deleted if it is not needed anymore."
 msgstr ""
+"Ця мова відсутня або ввімкнена в системі. Цей текст можна видалити, якщо він "
+"більше не потрібен."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Видалити мову"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -243,15 +245,15 @@ msgstr "Тіло повідомлення"
 
 #. Template: AdminAbout
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "Це поле є обов’язковим і має містити менше 4000 символів."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "Видалити Про мову"
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Додати нову мову"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -303,7 +305,7 @@ msgstr "Імпорт календаря"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Фільтр для календарів"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -447,7 +449,7 @@ msgstr "Імпортувати Подію"
 
 #. Template: AdminAppointmentImport
 msgid "Go back"
-msgstr ""
+msgstr "Назад"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
@@ -495,15 +497,18 @@ msgstr "Експортувати Сповіщень"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Фільтр сповіщень"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Фільтр для сповіщень"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module."
 msgstr ""
+"Тут ви можете завантажити файл конфігурації, щоб імпортувати сповіщення про "
+"зустріч у вашу систему. Файл має бути у форматі .yml, експортований модулем "
+"сповіщень про зустрічі."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -552,6 +557,9 @@ msgstr "Подія"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria."
 msgstr ""
+"Тут ви можете вибрати, які події ініціюватимуть це сповіщення. Нижче можна "
+"застосувати додатковий фільтр зустрічей, щоб надсилати лише записи за "
+"певними критеріями."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -591,7 +599,7 @@ msgstr "Надіслати цим агентам"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Надіслати всім учасникам групи (лише агентам)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -651,7 +659,7 @@ msgstr "Оновити до %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr ""
+msgstr "Будь ласка, активуйте цей транспорт, щоб ним користуватися."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
@@ -727,11 +735,11 @@ msgstr "Додаткові адреси електронної пошти оде
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Це поле має містити менше 200 символів."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Відповідь доступна клієнту"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "An article will be created if the notification is sent to the customer or an additional email address."
@@ -779,7 +787,7 @@ msgstr "Фільтр для Прикріплень"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Фільтр для вкладень"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -819,7 +827,7 @@ msgstr "Фільтр для Авто-Відповідей"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "Фільтр для автоматичних відповідей"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -904,6 +912,8 @@ msgstr "Наразі дані підтримки показуються лише
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "It is sometimes recommended to send this data to the OTOBO team in order to get better support."
 msgstr ""
+"Іноді рекомендується надсилати ці дані команді OTOBO, щоб отримати кращу "
+"підтримку."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -915,7 +925,7 @@ msgstr "Надсилати дані підтримки"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "This will allow the system to send additional support data information to the OTOBO team."
-msgstr ""
+msgstr "Це дозволить системі надсилати додаткові дані підтримки команді OTOBO."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -928,6 +938,9 @@ msgstr "Реєстрація системи"
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the 'send support data' option.)"
 msgstr ""
+"Щоб увімкнути надсилання даних, зареєструйте свою систему в команді OTOBO "
+"або оновіть реєстраційну інформацію системи (переконайтеся, що активована "
+"опція «надсилати дані підтримки»)."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -939,7 +952,7 @@ msgstr "Реєстрація системи вимкнена у Вашій си�
 
 #. Template: AdminCloudServices
 msgid "System registration is a service of OTOBO team, which provides a lot of advantages!"
-msgstr ""
+msgstr "Реєстрація в системі - послуга команди OTOBO, яка надає масу переваг!"
 
 #. Template: AdminCloudServices
 msgid "Please note that the use of OTOBO cloud services requires the system to be registered."
@@ -959,67 +972,72 @@ msgstr "Доступні хмарні сервіси"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Журнал зв'язку"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Часовий діапазон"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
-msgstr ""
+msgstr "Показувати лише журнали спілкування, створені за певний проміжок часу."
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Фільтр для комунікацій"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "Фільтр для комунікацій"
 
 #. Template: AdminCommunicationLog
 msgid "In this screen you can see an overview about incoming and outgoing communications."
 msgstr ""
+"На цьому екрані ви можете побачити огляд вхідних і вихідних повідомлень."
 
 #. Template: AdminCommunicationLog
 msgid "You can change the sort and order of the columns by clicking on the column header."
 msgstr ""
+"Ви можете змінити сортування та порядок стовпців, натиснувши на заголовок "
+"стовпця."
 
 #. Template: AdminCommunicationLog
 msgid "If you click on the different entries, you will get redirected to a detailed screen about the message."
 msgstr ""
+"Якщо ви клацнете на різних записах, ви перейдете на детальний екран "
+"повідомлення."
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
-msgstr ""
+msgstr "Статус для: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
-msgstr ""
+msgstr "Облікові записи, що не працюють"
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
-msgstr ""
+msgstr "Деякі проблеми з обліковим записом"
 
 #. Template: AdminCommunicationLog
 msgid "No account problems"
-msgstr ""
+msgstr "Проблем з обліковим записом немає"
 
 #. Template: AdminCommunicationLog
 msgid "No account activity"
-msgstr ""
+msgstr "Немає активності в обліковому записі"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with problems: %s"
-msgstr ""
+msgstr "Кількість облікових записів із проблемами: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with warnings: %s"
-msgstr ""
+msgstr "Кількість облікових записів із попередженнями: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing communications"
-msgstr ""
+msgstr "Збій комунікацій"
 
 #. Template: AdminCommunicationLog
 msgid "No communication problems"
@@ -8987,7 +9005,7 @@ msgstr ""
 
 #. Template: CustomerDashboard
 msgid "Ticket Search"
-msgstr ""
+msgstr "Пошук запитів"
 
 #. Template: CustomerDashboard
 msgid "New Ticket"
