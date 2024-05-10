@@ -40,7 +40,7 @@
         </div>
         <p class="oooTicketItemOwner ooo10g">[% Data.CustomerName | html %]</p>
         <p class="oooTicketItemAge ooo10g">[% Data.CustomerAge | html %]</p>
-        <h3 class="oooTicketItemInfo"><i class="ooofo ooofo-more_v ooog"></i></h3>
+        <h3 class="oooTicketItemInfo"></h3>
     </a>
 [% RenderBlockEnd("Ticket") %]
 # no Tickets present:
