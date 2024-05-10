@@ -199,8 +199,8 @@ sub DocumentNew {
 Create a new, blank Page
 
     $True = $PDFObject->PageBlankNew(
-        Width           => 200,          # (optional) default 595 (Din A4) - _ both or nothing
-        Height          => 300,          # (optional) default 842 (Din A4) -
+        Width           => 200,          # (optional) range between 1 and 10_000, default 595 (Din A4) - _ both or nothing
+        Height          => 300,          # (optional) range between 1 and 10_000, default 842 (Din A4) -
         PageOrientation => 'landscape',  # (optional) default normal (normal|landscape)
         MarginTop       => 40,           # (optional) default 0 -
         MarginRight     => 40,           # (optional) default 0  |_ all or nothing
@@ -286,8 +286,8 @@ sub PageBlankNew {
 Create a new Page
 
     $PDFObject->PageNew(
-        Width           => 200,                 # (optional) default 595 (Din A4)
-        Height          => 300,                 # (optional) default 842 (Din A4)
+        Width           => 200,                 # (optional) range between 1 and 10_000, default 595 (Din A4)
+        Height          => 300,                 # (optional) range between 1 and 10_000, default 842 (Din A4)
         PageOrientation => 'landscape',         # (optional) default normal (normal|landscape)
         MarginTop       => 40,                  # (optional) default 0
         MarginRight     => 40,                  # (optional) default 0
@@ -3028,8 +3028,8 @@ sub _CurPageNumberSet {
 Set current Page Dimension
 
    $PDFObject->_CurPageDimSet(
-       Width           => 123,          # (optional) default 595 (Din A4)
-       Height          => 321,          # (optional) default 842 (Din A4)
+       Width           => 123,          # (optional) range between 1 and 10_000, default 595 (Din A4)
+       Height          => 321,          # (optional) range between 1 and 10_000, default 842 (Din A4)
        PageOrientation => 'landscape',  # (optional) (normal|landscape)
    );
 
@@ -3056,13 +3056,13 @@ sub _CurPageDimSet {
     my $NewValue;
 
     # set CurPageWidth
-    if ( defined( $Param{Width} ) && $Param{Width} >= 100 && $Param{Width} <= 10000 ) {
+    if ( defined( $Param{Width} ) && $Param{Width} >= 1 && $Param{Width} <= 10000 ) {
         $Self->{Current}->{PageWidth} = int( $Param{Width} );
         $NewValue = 1;
     }
 
     # set CurPageHeight
-    if ( defined( $Param{Height} ) && $Param{Height} >= 100 && $Param{Height} <= 10000 ) {
+    if ( defined( $Param{Height} ) && $Param{Height} >= 1 && $Param{Height} <= 10000 ) {
         $Self->{Current}->{PageHeight} = int( $Param{Height} );
         $NewValue = 1;
     }
