@@ -207,8 +207,8 @@ Core.UI.Dialog = (function (TargetNS) {
      * @param {Boolean} Params.Modal - Shows a dark background overlay behind the dialog (default: false)
      * @param {String} Params.Type - Alert|Search (default: undefined) Defines a special type of dialog.
      * @param {String} Params.Title - Defines the title of the dialog window (default: undefined).
-     * @param {String} Params.Headline - Defines a special headline within the dialog window (default: undefined).
-     * @param {String} Params.Text - The text which is outputtet in the dialog window (default: undefined).
+     * @param {String} Params.Headline - Defines a special headline within the dialog window (default: undefined). Only used for Type Alert.
+     * @param {String} Params.Text - The text which is outputtet in the dialog window (default: undefined). Only used for Type Alert.
      * @param {String} Params.HTML - Used for content dialog windows. Contains a complete HTML snippet or an jQuery object with containing HTML (default: undefined).
      * @param {Number} Params.PositionTop - Defines the top position of the dialog window (default: undefined).
      * @param {Number} Params.PositionBottom - Defines the bottom position of the dialog window (default: undefined).
