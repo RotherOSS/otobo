@@ -144,6 +144,9 @@ textarea {
     width: 100%;
 }
 
+.Row_DynamicField textarea {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
 /**
  * @subsection  Input Readonly
