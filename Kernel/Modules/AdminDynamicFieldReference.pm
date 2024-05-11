@@ -58,16 +58,19 @@ sub Run {
 
     # Get the field specific settings and attributes during the runtime as the
     # complete list depends on the previous selection of ReferencedObjectType.
-    # TODO: this is specifc to the dynamic field type Reference
-    # TODO: add GetFieldTypeSettings() to the backend object
     my @FieldTypeSettings;
     my %EqualsObjectFilterableAttributes;
     my %ReferenceObjectFilterableAttributes;
     {
-        my $FieldType = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FieldType' );
+        my $ObjectType = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ObjectType' );
+        my $FieldType  = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FieldType' );
         if ($FieldType) {
             my $DriverObject = $Kernel::OM->Get( 'Kernel::System::DynamicField::Driver::' . $FieldType );
-            @FieldTypeSettings = $DriverObject->GetFieldTypeSettings();
+
+            # The available settings may depend on the type of the referencing object.
+            @FieldTypeSettings = $DriverObject->GetFieldTypeSettings(
+                ObjectType => $ObjectType,
+            );
 
             # fetch field type filterable attributes
             my $FieldTypeObjectName =
@@ -89,7 +92,6 @@ sub Run {
         }
 
         # fetch reference object attributes depending on df object type
-        my $ObjectType = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ObjectType' );
         if ($ObjectType) {
 
             # fetch object type filterable attributes
