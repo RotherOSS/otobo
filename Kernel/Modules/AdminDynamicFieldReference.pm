@@ -901,7 +901,8 @@ sub _ShowScreen {
     $Param{EditFieldMode} //= '';
     $Param{EditFieldMode} = $Param{EditFieldMode} eq 'AutoComplete' ? 'AutoComplete' : ( $Param{Multiselect} ? 'Multiselect' : 'Dropdown' );
 
-    # Selections may be set up in a declaritive way
+    # Add field type specific inputs. Currently only Selections are supported.
+    # Selections may be set up in a declarative way.
     SETTING:
     for my $Setting ( $Param{FieldTypeSettings}->@* ) {
         next SETTING unless $Setting->{InputType};
@@ -912,16 +913,17 @@ sub _ShowScreen {
             push @CssClasses, $Setting->{Mandatory}           ? 'Validate_Required' : ();
             push @CssClasses, $Param{ $Name . 'ServerError' } ? 'ServerError'       : ();
             my $FieldStrg = $LayoutObject->BuildSelection(
-                Name         => $Name,
-                Data         => $Setting->{SelectionData},
-                PossibleNone => ( $Setting->{PossibleNone} // 0 ),
-                Disabled     => ( $Setting->{Disabled}     // 0 ),
-                SelectedID   => $Param{$Name} || '0',
-                Class        => ( join ' ', @CssClasses ),
-                Multiple     => ( $Setting->{Multiple}    // 0 ),
-                TreeView     => ( $Setting->{TreeView}    // 0 ),
-                Sort         => ( $Setting->{Sort}        // 0 ),
-                SortReverse  => ( $Setting->{SortReverse} // 0 ),
+                Name           => $Name,
+                Data           => $Setting->{SelectionData},
+                PossibleNone   => ( $Setting->{PossibleNone} // 0 ),
+                Disabled       => ( $Setting->{Disabled}     // 0 ),
+                SelectedID     => $Param{$Name} || '0',
+                Class          => ( join ' ', @CssClasses ),
+                Multiple       => ( $Setting->{Multiple}    // 0 ),
+                TreeView       => ( $Setting->{TreeView}    // 0 ),
+                Sort           => ( $Setting->{Sort}        // 0 ),
+                SortReverse    => ( $Setting->{SortReverse} // 0 ),
+                SortIndividual => $Setting->{SortIndividual},
             );
             $LayoutObject->Block(
                 Name => 'ConfigParamRow',
@@ -933,7 +935,11 @@ sub _ShowScreen {
                     ServerErrorMessage => $Param{ $Name . 'ServerErrorMessage' },
                 },
             );
+
+            next SETTING;
         }
+
+        # more input types might be supported in future
     }
 
     my $NamespaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
