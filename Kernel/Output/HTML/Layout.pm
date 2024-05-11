@@ -5806,8 +5806,6 @@ sub _BuildSelectionDataRefCreate {
     my $OptionRef    = $Param{OptionRef};
     my $DataRef      = [];
 
-    my $Counter = 0;
-
     # for HashRef and ArrayRef only
     my %DisabledElements;
 
@@ -5930,6 +5928,7 @@ sub _BuildSelectionDataRefCreate {
         }
 
         # create DataRef
+        my $Counter = 0;
         for my $Row (@SortKeys) {
             $DataRef->[$Counter]->{Key}   = $Row;
             $DataRef->[$Counter]->{Value} = $DataLocal->{$Row};
@@ -5995,6 +5994,7 @@ sub _BuildSelectionDataRefCreate {
         }
 
         # create DataRef
+        my $Counter = 0;
         for my $Row ( @{$DataLocal} ) {
             if ( ref $Row eq 'HASH' && defined $Row->{Key} ) {
                 $DataRef->[$Counter]->{Key}   = $Row->{Key};
@@ -6099,6 +6099,7 @@ sub _BuildSelectionDataRefCreate {
         }
 
         # create DataRef
+        my $Counter = 0;
         for my $Row ( @{$DataLocal} ) {
             $DataRef->[$Counter]->{Key}   = $ReverseHash{$Row};
             $DataRef->[$Counter]->{Value} = $Row;
