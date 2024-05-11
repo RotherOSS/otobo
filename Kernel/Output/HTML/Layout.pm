@@ -2219,8 +2219,7 @@ also string ref is possible
 sub LinkQuote {
     my ( $Self, %Param ) = @_;
 
-    my $Text   = $Param{Text}   || '';
-    my $Target = $Param{Target} || 'NewPage' . int( rand(199) );
+    my $Text = $Param{Text} || '';    # either a string or a reference to a string
 
     # check ref
     my $TextScalar;
@@ -3033,8 +3032,6 @@ sub PageNavBar {
 
         # over window ">>" and ">|"
         elsif ( $i > ( $WindowStart + $WindowSize ) ) {
-            my $StartWindow        = $WindowStart + $WindowSize + 1;
-            my $LastStartWindow    = int( $Pages / $WindowSize );
             my $BaselinkOneForward = $Baselink . "StartHit=" . ( ( $i - 1 ) * $Param{PageShown} + 1 );
             my $BaselinkAllForward = $Baselink . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
 
@@ -3077,7 +3074,6 @@ sub PageNavBar {
 
         # over window "<<" and "|<"
         elsif ( $i < $WindowStart && ( $i - 1 ) < $Pages ) {
-            my $StartWindow     = $WindowStart - $WindowSize - 1;
             my $BaselinkAllBack = $Baselink . 'StartHit=1;StartWindow=1';
             my $BaselinkOneBack = $Baselink . 'StartHit=' . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
 
@@ -3612,9 +3608,7 @@ Depending on the SysConfig settings the controls to set the date could be multip
                                                   #   if the values should be saved or not
         <Prefix>Used     => 1,                    # optional, default 0, used to set the initial state of the checkbox
                                                   #   mentioned above
-        <Prefix>Required => 1,                    # optional, default 0 (Deprecated)
         <prefix>Class    => 'some class',         # optional, specify an additional class to the HTML elements
-        Area     => 'some area',                  # optional, default 'Agent' (Deprecated)
         DiffTime => 123,                          # optional, default 0, used to set the initial time influencing the
                                                   #   current time (in seconds)
         OverrideTimeZone => 1,                    # optional (1 or 0), when active the time is not translated to the user
@@ -3662,9 +3656,7 @@ sub BuildDateSelection {
     my $Suffix         = $Param{Suffix}   || '';
     my $DiffTime       = $Param{DiffTime} || 0;
     my $Format         = $Param{Format} // 'DateInputFormatLong';
-    my $Area           = $Param{Area}                   || 'Agent';
     my $Optional       = $Param{ $Prefix . 'Optional' } || 0;
-    my $Required       = $Param{ $Prefix . 'Required' } || 0;
     my $Used           = $Param{ $Prefix . 'Used' }     || 0;
     my $Class          = $Param{ $Prefix . 'Class' }    || '';
 
@@ -3699,10 +3691,10 @@ sub BuildDateSelection {
         return map { $Details{$_} } (qw(Second Minute Hour Day Month Year));
     };
 
-    my ( $s, $m, $h, $D, $M, $Y ) = $GetCurSysDTUnitFromLowest->(
+    my ( undef, $m, $h, $D, $M, $Y ) = $GetCurSysDTUnitFromLowest->(
         AddSeconds => $DiffTime,
     );
-    my ( $Cs, $Cm, $Ch, $CD, $CM, $CY ) = $GetCurSysDTUnitFromLowest->();
+    my ( undef, undef, undef, undef, undef, $CY ) = $GetCurSysDTUnitFromLowest->();
 
     # time zone translation
     if (
@@ -4888,13 +4880,6 @@ sub CustomerNavigationBar {
         }
     }
 
-    my $Total   = keys %NavBarModule;
-    my $Counter = 0;
-
-    if ( $NavBarModule{Sub} ) {
-        $Total = int($Total) - 1;
-    }
-
     # Only highlight the first matched navigation entry. If there are several entries
     #   with the same Action and Subaction, it cannot be determined which one was used.
     #   Therefore we just highlight the first one.
@@ -5802,9 +5787,8 @@ create the data hash
 sub _BuildSelectionDataRefCreate {
     my ( $Self, %Param ) = @_;
 
-    my $AttributeRef = $Param{AttributeRef};
-    my $OptionRef    = $Param{OptionRef};
-    my $DataRef      = [];
+    my $OptionRef = $Param{OptionRef};
+    my $DataRef   = [];
 
     # for HashRef and ArrayRef only
     my %DisabledElements;
@@ -6481,18 +6465,18 @@ sub SetRichTextParameters {
             'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       '|',
-            'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+            'insertImage',   'horizontalLine',    'blockQuote', '|', 'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '|',
             'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
         );
 
         @ToolbarWithoutImage = (
-            'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       '|',
-            'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
-            'sourceEditing', 'specialCharacters', '|',
-            'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
+            'bold',           'italic',            'underline', 'strikethrough', '|',         'bulletedList', 'numberedList', '|',
+            'insertTable',    '|',                 'indent',    'outdent',       'alignment', '|',
+            'link',           'undo',              'redo',      '|',
+            'horizontalLine', 'blockQuote',        '|',         'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+            'sourceEditing',  'specialCharacters', '|',
+            'heading',        'fontFamily',        'fontSize', '|', 'codeBlock'
         );
     }
     else {
@@ -6632,12 +6616,12 @@ sub CustomerSetRichTextParameters {
         );
 
         @ToolbarWithoutImage = (
-            'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       'selectAll',     '-',
-            'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
-            'sourceEditing', 'specialCharacters', '-',
-            'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
+            'bold',           'italic',            'underline', 'strikethrough',  '|',         'bulletedList', 'numberedList', '|',
+            'insertTable',    '|',                 'indent',    'outdent',        'alignment', '|',
+            'link',           'undo',              'redo',      'selectAll',      '-',
+            'horizontalLine', 'blockQuote',        '|',         'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+            'sourceEditing',  'specialCharacters', '-',
+            'heading',        'fontFamily',        'fontSize', '|', 'codeBlock'
         );
 
         @ToolbarMidi = (
