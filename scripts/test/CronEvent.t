@@ -864,9 +864,9 @@ my @TestsGenericAgentSchedule2CronTab = (
     {
         Name   => 'Wrong ScheduleHours lower limit',
         Config => {
-            ScheduleMinutes => [5],
+            ScheduleMinutes => [ 5],
             ScheduleHours   => [-1],
-            ScheduleDays    => [6],
+            ScheduleDays    => [ 6],
         },
         Success => 0,
     },

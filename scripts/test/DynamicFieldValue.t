@@ -494,7 +494,7 @@ for my $Test (@Tests) {
             ObjectType => 'Ticket',
         },
         ObjectID => -1,
-        UserID   => 1,
+        UserID   =>  1,
     },
 );
 
