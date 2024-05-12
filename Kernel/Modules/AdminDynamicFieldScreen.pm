@@ -57,13 +57,13 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get objects
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
-    my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
-    my $ZnunyHelperObject  = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
-    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LanguageObject     = $Kernel::OM->Get('Kernel::Language');
+    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
+    my $LogObject         = $Kernel::OM->Get('Kernel::System::Log');
+    my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $ZnunyHelperObject = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+    my $LayoutObject      = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject       = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LanguageObject    = $Kernel::OM->Get('Kernel::Language');
 
     $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
 

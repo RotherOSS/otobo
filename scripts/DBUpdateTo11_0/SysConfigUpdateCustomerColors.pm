@@ -102,7 +102,7 @@ sub Run {
         Comments      => "UpgradeTo11 - Adapt CustomerColorDefinitions.",
         UserID        => 1,
         Force         => 1,
-        DirtySettings => [ 'CustomerColorDefinitions' ],
+        DirtySettings => ['CustomerColorDefinitions'],
     );
 
     if ( !$DeploymentResult{Success} ) {

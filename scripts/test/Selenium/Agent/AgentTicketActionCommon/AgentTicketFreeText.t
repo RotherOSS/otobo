@@ -42,13 +42,13 @@ sub WaitForAJAX {
 
 $Selenium->RunTest(
     sub {
-        my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
-        my $ServiceObject   = $Kernel::OM->Get('Kernel::System::Service');
-        my $SLAObject       = $Kernel::OM->Get('Kernel::System::SLA');
-        my $StateObject     = $Kernel::OM->Get('Kernel::System::State');
-        my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
-        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
+        my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+        my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
+        my $StateObject   = $Kernel::OM->Get('Kernel::System::State');
+        my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
+        my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $RandomID = $Helper->GetRandomID();
         my $Success;

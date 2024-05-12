@@ -33,7 +33,7 @@ use Kernel::System::VariableCheck                               qw(IsArrayRefWit
 our $Self;
 
 # get needed objects
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # Skip SSL certificate verification.
 $Kernel::OM->ObjectParamAdd(
