@@ -174,7 +174,7 @@ sub CleanLicenseHeader {
             $NewContent .= $Parse->{New}[1];
         }
     }
-    while (my $Line = <$FileHandle>) {
+    while ( my $Line = <$FileHandle> ) {
         $NewContent .= $Line;
     }
 
@@ -1339,11 +1339,11 @@ sub DBRenameTables {
 
     # the tables must be lower case
     return {
-        article_data_otrs_chat => 'article_data_otobo_chat',
-        groups                 => 'groups_table',              # OTRS 6.0, Znuny 6.0
-        permission_groups      => 'groups_table',              # Znuny 6.1
-        pm_sequence_flow       => 'pm_transition',                 # OTRS 7
-        pm_sequence_flow_action       => 'pm_transition_action',   # OTRS 7
+        article_data_otrs_chat  => 'article_data_otobo_chat',
+        groups                  => 'groups_table',              # OTRS 6.0, Znuny 6.0
+        permission_groups       => 'groups_table',              # Znuny 6.1
+        pm_sequence_flow        => 'pm_transition',             # OTRS 7
+        pm_sequence_flow_action => 'pm_transition_action',      # OTRS 7
     };
 }
 

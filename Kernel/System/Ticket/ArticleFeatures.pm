@@ -228,7 +228,7 @@ sub ArticleDelete {
             HistoryType  => 'ArticleDelete',
             Name         => "\%\%$Param{ArticleID}\%\%$Param{UserLogin}\%\%$Param{UserID}",
             CreateUserID => $Param{UserID},
-        );        
+        );
     }
 
     return $Success;
@@ -514,6 +514,7 @@ sub ArticleRestore {
     }
 
     if ($Success) {
+
         # add history entry
         $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
             TicketID     => $Param{TicketID},
@@ -522,7 +523,7 @@ sub ArticleRestore {
             Name         => "\%\%$Param{ArticleID}\%\%$Param{UserLogin}\%\%$Param{UserID}",
             CreateUserID => $Param{UserID},
         );
-    }    
+    }
 
     return $Success;
 }
