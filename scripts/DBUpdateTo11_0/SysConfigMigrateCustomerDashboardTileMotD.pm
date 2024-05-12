@@ -32,6 +32,9 @@ use parent qw(scripts::DBUpdateTo11_0::Base);
 our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::SysConfig',
+    'Kernel::Config',
+    'Kernel::System::CustomerDashboard::InfoTile',
+    'Kernel::System::Package',
 );
 
 =head1 NAME
@@ -77,14 +80,14 @@ sub Run {
     }
 
     # if the info tile is already modified in some way, return
-    if ( $TileSetting{'InfoTile-01'}{IsModified} ){
+    if ( $TileSetting{'InfoTile-01'}{IsModified} ) {
         print "\t  Info tile already modified - nothing to do.\n";
 
         return 1;
     }
 
     # deactivate the new info tile on highly customized systems
-    if ( $ModifiedCSS ) {
+    if ($ModifiedCSS) {
         print "\t  Core.Dashboard.Default.css is part of a package - deactivating the new info tile to keep the dashboard unchanged.\n";
 
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
@@ -129,7 +132,7 @@ sub Run {
             Comments      => "UpgradeTo11 - Deactivate new Customer Dashboard InfoTile.",
             UserID        => 1,
             Force         => 1,
-            DirtySettings => [ 'CustomerDashboard::Tiles###InfoTile-01' ],
+            DirtySettings => ['CustomerDashboard::Tiles###InfoTile-01'],
         );
 
         if ( !$DeploymentResult{Success} ) {
@@ -157,7 +160,7 @@ sub Run {
         }
     }
 
-    if ( !%ToDeactivate ){
+    if ( !%ToDeactivate ) {
         print "\t  No activated tiles of order 4, 6 or 7 - skipping.\n";
 
         return 1;
@@ -168,9 +171,9 @@ sub Run {
     # else - we will use the new Dashboard layout - copy the plaintext text and deactivate now unused tiles 04 and 06
     if ( $TileConfigs->{'PlainText-01'} ) {
         my $NewBody = $TileConfigs->{'PlainText-01'}{Config}{HeaderText} ? "<h3>$TileConfigs->{'PlainText-01'}{Config}{HeaderText}</h3>\n" : '';
-        $NewBody   .= $TileConfigs->{'PlainText-01'}{Config}{MainText}   ? "<p>$TileConfigs->{'PlainText-01'}{Config}{MainText}</p>" : '';
+        $NewBody .= $TileConfigs->{'PlainText-01'}{Config}{MainText} ? "<p>$TileConfigs->{'PlainText-01'}{Config}{MainText}</p>" : '';
 
-        if ( $NewBody ) {
+        if ($NewBody) {
             my $InfoTileObject = $Kernel::OM->Get('Kernel::System::CustomerDashboard::InfoTile');
 
             print "\t  - copy the content of the tile PlainText-01 to the InfoTile (see Admin->Customer Info)\n";
@@ -240,7 +243,7 @@ sub Run {
         Comments      => "UpgradeTo11 - Integrate new InfoTile to CustomerDashboard.",
         UserID        => 1,
         Force         => 1,
-        DirtySettings => [ @Dirty ],
+        DirtySettings => [@Dirty],
     );
 
     if ( !$DeploymentResult{Success} ) {
