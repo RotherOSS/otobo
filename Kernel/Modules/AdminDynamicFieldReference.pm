@@ -1148,7 +1148,7 @@ sub _ShowScreen {
         if ($IsDirtyConfig) {
             $LayoutObject->Block(
                 Name => 'DynamicFieldInSysConfigDirty',
-                ,
+
             );
         }
     }

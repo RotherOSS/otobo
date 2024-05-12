@@ -137,7 +137,7 @@ for my $Test (@Tests) {
     my $SalutationID = $SalutationObject->SalutationAdd(
         Name => $Helper->GetRandomID() . '-Salutation',
         Text => $Test->{Salutation},
-        ,
+
         ContentType => 'text/plain; charset=utf-8',
         Comment     => 'some comment',
         ValidID     => 1,

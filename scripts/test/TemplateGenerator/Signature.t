@@ -120,7 +120,7 @@ for my $Test (@Tests) {
     # add signature
     my $SignatureID = $SignatureObject->SignatureAdd(
         Name => $Helper->GetRandomID() . '-Signature',
-        ,
+
         Text        => $Test->{Signature},
         ContentType => 'text/plain; charset=iso-8859-1',
         Comment     => 'some comment',
