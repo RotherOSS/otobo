@@ -509,7 +509,7 @@ for my $TestConfig (@StringTestConfigs) {
 
     is(
         $DateTimeObject->Get(),
-        \%ExpectedResult,,
+        \%ExpectedResult,
         "$Description: Creation of DateTime",
     );
 
@@ -517,7 +517,7 @@ for my $TestConfig (@StringTestConfigs) {
 
     is(
         $DateTimeObject->Get(),
-        \%ExpectedResult,,
+        \%ExpectedResult,
         "$Description: after changing the year in the source",
     );
 }

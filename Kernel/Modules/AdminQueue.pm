@@ -963,7 +963,7 @@ sub _Edit {
     if ($IsDirtyConfig) {
         $LayoutObject->Block(
             Name => 'QueueInSysConfigDirty',
-            ,
+
         );
     }
 
