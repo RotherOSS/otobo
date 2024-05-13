@@ -206,6 +206,10 @@ ul.Tablelike li.Header + li {
     list-style: decimal inside;
 }
 
+#FormDraftTable .DraftName {
+    border-right: none;
+}
+
 #FormDraftTable td:nth-child(2) {
     width: 10px;
 }
