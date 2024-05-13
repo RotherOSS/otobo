@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.595370509544566;
+    $Self->{Completeness}        = 0.594655457138568;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4125,8 +4125,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
-        'No valid dynamic field "' => '',
-        'The dynamic field type "' => '',
+        'No valid dynamic field "%s."' => '',
+        'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
+            '',
+        'The dynamic field "%s" is already in use in a ticket mask.' => '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -5509,6 +5511,9 @@ sub Data {
         # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
         'Group of the agents' => '',
         'Select the group of the agents' => '',
+        'External-source key' => '',
+        'When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.' =>
+            '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
         'before/after' => 'قبل/بعد',
@@ -5526,7 +5531,8 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
         'Attribute which will be searched on autocomplete' => '',
-        'Select the attribute which tickets will be searched by' => '',
+        'Select the attribute which customer companies will be searched by' =>
+            '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'این فیلد اجباری یا',
@@ -5539,6 +5545,7 @@ sub Data {
         'Select the queue of the ticket' => '',
         'Type of the ticket' => '',
         'Select the type of the ticket' => '',
+        'Select the attribute which tickets will be searched by' => '',
         'Attribute which is displayed for values' => '',
         'Select the type of display' => '',
 
@@ -6156,6 +6163,7 @@ sub Data {
         'Error parsing dynamic fields.' => '',
         'No dynamic field "%s".' => '',
         'Dynamic field "%s" not valid.' => '',
+        'Dynamic field "%s" already in use in a Set.' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Too many failed login attempts, please retry in %s s.' => '',
@@ -7126,6 +7134,10 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             'ابر مدیر خدمات ثبت نام ماژول برای لایه حمل و نقل.',
         'Collect support data for asynchronous plug-in modules.' => 'جمع آوری داده ها پشتیبانی از پلاگین در ماژول ناهمزمان.',
+        'Color definitions for Agent interface highcontrast skin.' => '',
+        'Color definitions for Customer Interface highcontrast skin.' => '',
+        'Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications.' =>
+            '',
         'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => 'فیلتر درخواست ستون برای نوع درخواست مروری \ "کوچک ".',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>

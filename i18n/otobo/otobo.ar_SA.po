@@ -9,14 +9,12 @@ msgstr ""
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
 "PO-Revision-Date: 2024-05-06 11:38+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
-"Language-Team: Arabic (Saudi Arabia) <http://weblate.otobo.org/projects/"
-"otobo/otobo-11/ar_SA/>\n"
+"Language-Team: Arabic (Saudi Arabia) <http://weblate.otobo.org/projects/otobo/otobo-11/ar_SA/>\n"
 "Language: ar_SA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 "X-Generator: Weblate 5.4.2\n"
 
 #. Template: AdminACL
@@ -23172,9 +23170,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module."
-msgstr ""
-"يُشغِّل بحثًا أوليًا باستخدام الرموز البارزة لشركة العميل الحالية عند الوصول "
-"إلى وحدة AdminCustomerCompany."
+msgstr "يُشغِّل بحثًا أوليًا باستخدام الرموز البارزة لشركة العميل الحالية عند الوصول إلى وحدة AdminCustomerCompany."
 
 #. SysConfig
 msgid "Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module."
@@ -26321,7 +26317,7 @@ msgstr ""
 msgid "Attribute which will be searched on autocomplete"
 msgstr ""
 
-#. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Select the attribute which tickets will be searched by"
 msgstr ""
 
@@ -26800,3 +26796,44 @@ msgstr ""
 #. SysConfig
 msgid "Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed."
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "No valid dynamic field \"%s.\""
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The dynamic field type \"%s\" of dynamic field \"%s\" can not be used in sets."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The dynamic field \"%s\" is already in use in a ticket mask."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+msgid "External-source key"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+msgid "When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+msgid "Select the attribute which customer companies will be searched by"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Mask.pm
+msgid "Dynamic field \"%s\" already in use in a Set."
+msgstr ""
+
+#. SysConfig
+msgid "Color definitions for Agent interface highcontrast skin."
+msgstr ""
+
+#. SysConfig
+msgid "Color definitions for Customer Interface highcontrast skin."
+msgstr ""
+
+#. SysConfig
+msgid "Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications."
+msgstr ""
+

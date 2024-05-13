@@ -16,16 +16,12 @@ msgstr ""
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
 "PO-Revision-Date: 2024-05-09 14:40+0000\n"
 "Last-Translator: Oleksandr Mykhailov <o.mykhailov@etg.ua>\n"
-"Language-Team: Ukrainian <http://weblate.otobo.org/projects/otobo/otobo-11/"
-"uk/>\n"
+"Language-Team: Ukrainian <http://weblate.otobo.org/projects/otobo/otobo-11/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 "
-"? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > "
-"14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % "
-"100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 "X-Generator: Weblate 5.4.2\n"
 
 #. Template: AdminACL
@@ -226,9 +222,7 @@ msgstr "Приховати цей віджет"
 
 #. Template: AdminAbout
 msgid "This language is not present or enabled on the system. This text could be deleted if it is not needed anymore."
-msgstr ""
-"Ця мова відсутня або ввімкнена в системі. Цей текст можна видалити, якщо він "
-"більше не потрібен."
+msgstr "Ця мова відсутня або ввімкнена в системі. Цей текст можна видалити, якщо він більше не потрібен."
 
 #. Template: AdminAbout
 msgid "Remove Language"
@@ -504,10 +498,7 @@ msgstr "Фільтр для сповіщень"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module."
-msgstr ""
-"Тут ви можете завантажити файл конфігурації, щоб імпортувати сповіщення про "
-"зустріч у вашу систему. Файл має бути у форматі .yml, експортований модулем "
-"сповіщень про зустрічі."
+msgstr "Тут ви можете завантажити файл конфігурації, щоб імпортувати сповіщення про зустріч у вашу систему. Файл має бути у форматі .yml, експортований модулем сповіщень про зустрічі."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -555,10 +546,7 @@ msgstr "Подія"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria."
-msgstr ""
-"Тут ви можете вибрати, які події ініціюватимуть це сповіщення. Нижче можна "
-"застосувати додатковий фільтр зустрічей, щоб надсилати лише записи за "
-"певними критеріями."
+msgstr "Тут ви можете вибрати, які події ініціюватимуть це сповіщення. Нижче можна застосувати додатковий фільтр зустрічей, щоб надсилати лише записи за певними критеріями."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -910,9 +898,7 @@ msgstr "Наразі дані підтримки показуються лише
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "It is sometimes recommended to send this data to the OTOBO team in order to get better support."
-msgstr ""
-"Іноді рекомендується надсилати ці дані команді OTOBO, щоб отримати кращу "
-"підтримку."
+msgstr "Іноді рекомендується надсилати ці дані команді OTOBO, щоб отримати кращу підтримку."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -936,10 +922,7 @@ msgstr "Реєстрація системи"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the 'send support data' option.)"
-msgstr ""
-"Щоб увімкнути надсилання даних, зареєструйте свою систему в команді OTOBO "
-"або оновіть реєстраційну інформацію системи (переконайтеся, що активована "
-"опція «надсилати дані підтримки»)."
+msgstr "Щоб увімкнути надсилання даних, зареєструйте свою систему в команді OTOBO або оновіть реєстраційну інформацію системи (переконайтеся, що активована опція «надсилати дані підтримки»)."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -991,20 +974,15 @@ msgstr "Фільтр для комунікацій"
 
 #. Template: AdminCommunicationLog
 msgid "In this screen you can see an overview about incoming and outgoing communications."
-msgstr ""
-"На цьому екрані ви можете побачити огляд вхідних і вихідних повідомлень."
+msgstr "На цьому екрані ви можете побачити огляд вхідних і вихідних повідомлень."
 
 #. Template: AdminCommunicationLog
 msgid "You can change the sort and order of the columns by clicking on the column header."
-msgstr ""
-"Ви можете змінити сортування та порядок стовпців, натиснувши на заголовок "
-"стовпця."
+msgstr "Ви можете змінити сортування та порядок стовпців, натиснувши на заголовок стовпця."
 
 #. Template: AdminCommunicationLog
 msgid "If you click on the different entries, you will get redirected to a detailed screen about the message."
-msgstr ""
-"Якщо ви клацнете на різних записах, ви перейдете на детальний екран "
-"повідомлення."
+msgstr "Якщо ви клацнете на різних записах, ви перейдете на детальний екран повідомлення."
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
@@ -26573,7 +26551,7 @@ msgstr ""
 msgid "Attribute which will be searched on autocomplete"
 msgstr ""
 
-#. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Select the attribute which tickets will be searched by"
 msgstr ""
 
@@ -27052,3 +27030,44 @@ msgstr ""
 #. SysConfig
 msgid "Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed."
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "No valid dynamic field \"%s.\""
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The dynamic field type \"%s\" of dynamic field \"%s\" can not be used in sets."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The dynamic field \"%s\" is already in use in a ticket mask."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+msgid "External-source key"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+msgid "When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+msgid "Select the attribute which customer companies will be searched by"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Mask.pm
+msgid "Dynamic field \"%s\" already in use in a Set."
+msgstr ""
+
+#. SysConfig
+msgid "Color definitions for Agent interface highcontrast skin."
+msgstr ""
+
+#. SysConfig
+msgid "Color definitions for Customer Interface highcontrast skin."
+msgstr ""
+
+#. SysConfig
+msgid "Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications."
+msgstr ""
+

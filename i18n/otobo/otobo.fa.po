@@ -26648,7 +26648,7 @@ msgstr ""
 msgid "Attribute which will be searched on autocomplete"
 msgstr ""
 
-#. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+#. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Select the attribute which tickets will be searched by"
 msgstr ""
 
@@ -27126,5 +27126,45 @@ msgstr ""
 
 #. SysConfig
 msgid "Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "No valid dynamic field \"%s.\""
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The dynamic field type \"%s\" of dynamic field \"%s\" can not be used in sets."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The dynamic field \"%s\" is already in use in a ticket mask."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+msgid "External-source key"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+msgid "When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+msgid "Select the attribute which customer companies will be searched by"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Mask.pm
+msgid "Dynamic field \"%s\" already in use in a Set."
+msgstr ""
+
+#. SysConfig
+msgid "Color definitions for Agent interface highcontrast skin."
+msgstr ""
+
+#. SysConfig
+msgid "Color definitions for Customer Interface highcontrast skin."
+msgstr ""
+
+#. SysConfig
+msgid "Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications."
 msgstr ""
 
