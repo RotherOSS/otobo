@@ -207,7 +207,7 @@ else {
     for my $Cmd (@Cmds) {
         my $IsInstalled = 0;
         open my $In, '-|', "which $Cmd";    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-        while (<$In>) {
+        while ( my $s = <$In> ) {
             $IsInstalled = 1;
         }
         if ( !$IsInstalled ) {

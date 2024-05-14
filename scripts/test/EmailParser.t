@@ -35,12 +35,9 @@ my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test #1
-my @Array = ();
-open( my $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+my @Array = <$IN>;
+close $IN;
 
 # create local object
 my $EmailParserObject = Kernel::System::EmailParser->new(
@@ -130,10 +127,8 @@ $Self->Is(
 # test #3
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -159,9 +154,7 @@ $Self->Is(
 # test #4
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test4.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
+@Array = <$IN>;
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
@@ -228,10 +221,8 @@ for my $Key ( sort keys %MatchNot ) {
 # test #5
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test5.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -284,10 +275,8 @@ $Self->Is(
 # test #6
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test6.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -337,10 +326,8 @@ $Self->Is(
 # test #7
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -388,10 +375,8 @@ $Self->Is(
 # test #8
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test8.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -420,10 +405,8 @@ $Self->True(
 # test #9
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test9.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -456,10 +439,8 @@ $Self->True(
 # test #10
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test10.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -508,10 +489,8 @@ $Self->True(
 # test #11
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test11.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -538,10 +517,8 @@ $Self->True(
 # test #12
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test12.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -642,10 +619,8 @@ $Self->True(
 # test #13
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test13.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -670,10 +645,8 @@ $Self->Is(
 # test #14
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test14.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -703,10 +676,8 @@ $Self->Is(
 # test #15
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test16.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -803,10 +774,8 @@ for my $Test (@Tests) {
 # test #17
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test19.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -831,10 +800,8 @@ $Self->Is(
 # test #20
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test20.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -858,10 +825,8 @@ $Self->Is(
 # test #21
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test21.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -881,10 +846,8 @@ $Self->Is(
 # test #22
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test22.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -904,10 +867,8 @@ $Self->Is(
 # test #23
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -922,10 +883,8 @@ $Self->Is(
 # test #24
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
@@ -940,10 +899,8 @@ $Self->Is(
 # test #25 (bug #12108)
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push( @Array, $_ );
-}
-close($IN);
+@Array = <$IN>;
+close $IN;
 
 my $Parser = MIME::Parser->new();
 

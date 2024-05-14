@@ -1102,14 +1102,14 @@ sub ReConfigure {
     open( my $In, '<', $ConfigFile )                                                ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         or $LayoutObject->FatalError( Message => "Can't open $ConfigFile: $!" );    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     my $Config = '';
-    while (<$In>) {
+    while ( my $s = <$In> ) {
 
-        # Skip empty lines or comments.
-        if ( !$_ || $_ =~ /^\s*#/ || $_ =~ /^\s*$/ ) {
-            $Config .= $_;
+        # no need to adapt empty lines or comments.
+        if ( !$s || $s =~ /^\s*#/ || $s =~ /^\s*$/ ) {
+            $Config .= $s;
         }
         else {
-            my $NewConfig = $_;
+            my $NewConfig = $s;
 
             # Replace config with %Param.
             for my $Key ( sort keys %Param ) {
@@ -1117,12 +1117,10 @@ sub ReConfigure {
                 # Database passwords can contain characters like '@' or '$' and should be single-quoted
                 #   same goes for database hosts which can be like 'myserver\instance name' for MS SQL.
                 if ( $Key eq 'DatabasePw' || $Key eq 'DatabaseHost' ) {
-                    $NewConfig =~
-                        s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
+                    $NewConfig =~ s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
                 }
                 else {
-                    $NewConfig =~
-                        s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
+                    $NewConfig =~ s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
                 }
             }
             $Config .= $NewConfig;

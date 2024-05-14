@@ -31,11 +31,8 @@ our $Self;
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test for bug#9989
-my @Array;
 open my $IN, '<', "$Home/scripts/test/sample/EmailParser/UTF8Filename.box";    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push @Array, $_;
-}
+my @Array = <$IN>;
 close $IN;
 
 # create local object

@@ -82,8 +82,8 @@ if ( $Action eq 'create' ) {
 }
 else {
     open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";      ## no critic qw(OTOBO::ProhibitOpen)
-    while (<$In>) {
-        my @Row = split /::/, $_;
+    while ( my $s = <$In> ) {
+        my @Row = split /::/, $s;
         chomp $Row[1];
         $Compare{ $Row[1] } = $Row[0];
     }
