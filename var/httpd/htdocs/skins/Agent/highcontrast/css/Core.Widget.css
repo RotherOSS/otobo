@@ -168,6 +168,22 @@ ul.Tablelike li.Header {
     border-bottom: 1px solid var(--colBGDark);
 }
 
+.SearchBox input[type='text'] {
+    border-color: var(--colTextMedium);
+}
+
+.RTL .SearchBox input[type='text'] {
+    border-right: 1px solid var(--colTextMedium);
+}
+
+.SearchBox input:focus {
+    border-color: var(--colTextDark);
+}
+
+.SearchBox button {
+    border-color: var(--colTextDark)
+}
+
 /**
  * @subsection      Icon colors
  */
