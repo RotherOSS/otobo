@@ -988,6 +988,8 @@ EOF
     else {
 
         open( my $In, '<', $Param{LanguageFile} ) || die "Can't open: $Param{LanguageFile}\n";    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+        ## no critic qw(Community::WhileDiamondDefaultAssignment)
+        # TODO: it is not obvious why both $Line and $_ are used in this block
         while (<$In>) {
             my $Line = $_;
             $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Line );

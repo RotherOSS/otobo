@@ -40,11 +40,8 @@ See also: http://bugs.otrs.org/show_bug.cgi?id=8092
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test for bug#1970
-my @Array;
 open my $IN, '<', "$Home/scripts/test/sample/EmailParser/Win7SnippingTool.box";    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push @Array, $_;
-}
+my @Array = <$IN>;
 close $IN;
 
 # create local object

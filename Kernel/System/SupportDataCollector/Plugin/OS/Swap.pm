@@ -40,8 +40,7 @@ sub Run {
 
     # If used OS is a linux system
     if ( -e "/proc/meminfo" && open( $MemInfoFile, '<', "/proc/meminfo" ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
-        while (<$MemInfoFile>) {
-            my $TmpLine = $_;
+        while ( my $TmpLine = <$MemInfoFile> ) {
             if ( $TmpLine =~ m/MemTotal/ ) {
                 $TmpLine =~ s/^.*?(\d+).*$/$1/;
                 $MemTotal = int($TmpLine);

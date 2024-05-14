@@ -34,11 +34,8 @@ our $Self;
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test for bug#1970
-my @Array;
 open my $IN, '<', "$Home/scripts/test/sample/EmailParser/FilenameWithNewline.box";    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push @Array, $_;
-}
+my @Array = <$IN>;
 close $IN;
 
 # create local object

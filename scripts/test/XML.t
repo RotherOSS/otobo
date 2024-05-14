@@ -1106,10 +1106,10 @@ $Path .= "/scripts/test/sample/XML/";
 my $File = 'XML-Test-file.xml';
 $String = '';
 if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
-    while (<$DATA>) {
-        $String .= $_;
+    while ( my $s = <$DATA> ) {
+        $String .= $s;
     }
-    close($DATA);
+    close $DATA;
 
     # charset test - use file from the filesystem and parse it
     @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
