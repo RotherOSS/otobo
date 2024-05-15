@@ -1774,7 +1774,7 @@ via the Preferences button after logging in.
 #        CustomerUserExcludePrimaryCustomerID => 0,
 #        # add a ldap filter for valid users (expert setting)
 #        # CustomerUserValidFilter => '(!(description=gesperrt))',
-#        # Translate manager flag in mapping to mail, uid, SamAccountName etc...
+#        # Translate manager flag in mapping from its Distinguished Name to cn, sAMAccountName, uid, mail, etc.
 #        TranslateManagerTo => 'sAMAccountName',
 #        # admin can't change customer preferences
 #        AdminSetPreferences => 0,
@@ -1790,16 +1790,16 @@ via the Preferences button after logging in.
 #            [ 'UserEmail',       Translatable('Email'),               'mail',                1, 1, 'var', '', 1, undef, undef ],
 #            [ 'UserCustomerID',  Translatable('CustomerID'),          'mail',                0, 1, 'var', '', 1, undef, undef ],
 #            # [ 'UserCustomerIDs', Translatable('CustomerIDs'),         'second_customer_ids', 1, 0, 'var', '', 1, undef, undef ],
-#            # [ 'UserManager',       Translatable('Manager'),               'manager',     1, 0, 'var', '', 1, undef, undef ],
+#            # [ 'UserManager',       Translatable('Manager'),           'manager',             1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserPhone',       Translatable('Phone'),               'telephonenumber',     1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserAddress',     Translatable('Address'),             'postaladdress',       1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserComment',     Translatable('Comment'),             'description',         1, 0, 'var', '', 1, undef, undef ],
 #
 #            # this is needed, if "SMIME::FetchFromCustomer" is active
-#            # [ 'UserSMIMECertificate', 'SMIMECertificate', 'userSMIMECertificate', 0, 1, 'var', '', 1, undef, undef ],
+#            # [ 'UserSMIMECertificate', 'SMIMECertificate',             'userSMIMECertificate', 0, 1, 'var', '', 1, undef, undef ],
 #
 #            # Dynamic field example
-#            # [ 'DynamicField_Name_X', undef, 'Name_X', 0, 0, 'dynamic_field', undef, 0, undef, undef ],
+#            # [ 'DynamicField_Name_X',   undef,                          'Name_X',              0, 0, 'dynamic_field', undef, 0, undef, undef ],
 #        ],
 #    };
 
