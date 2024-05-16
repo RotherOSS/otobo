@@ -532,6 +532,8 @@ sub EditFieldValueValidate {
     # TODO: check whether EditFieldValueGet returns ('first','second','','','fifth','') in case of added but unfilled multivalue fields
     for my $ValueItem ( @{$Value} ) {
 
+        $ValueItem //= '';
+
         # perform necessary validations
         if ( $Param{Mandatory} && $ValueItem eq '' ) {
             $ServerError = 1;
