@@ -24,15 +24,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-04-16 00:31+0000\n"
+"PO-Revision-Date: 2024-05-18 01:16+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
-"Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/otobo10/otobo/es_MX/>\n"
+"Language-Team: Spanish (Mexico) <http://weblate.otobo.org/projects/otobo/"
+"otobo-11/es_MX/>\n"
 "Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -3216,7 +3217,7 @@ msgstr "Datos generales del invocador"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for outgoing request data"
-msgstr ""
+msgstr "Configuración para datos de solicitudes salientes"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket fields"
@@ -3225,46 +3226,59 @@ msgstr "Campos del ticket"
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected ticket fields will be considered for the request data."
 msgstr ""
+"Sólo los campos del ticket seleccionados serán considerados para los datos "
+"de la solicitud."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article fields"
-msgstr ""
+msgstr "Campos del artículo"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected article fields will be considered for the request data."
 msgstr ""
+"Sólo los campos del artículo seleccionado serán considerados para los datos "
+"de la solicitud."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket dynamic fields"
-msgstr ""
+msgstr "Campos dinámicos del ticket"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected ticket dynamic fields will be considered for the request data."
 msgstr ""
+"Solo se considerarán los campos dinámicos del ticket seleccionados para los "
+"datos de la solicitud."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article dynamic fields"
-msgstr ""
+msgstr "Campos dinámicos del artículo"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected article dynamic fields will be considered for the request data."
 msgstr ""
+"Sólo los campos dinámicos del artículo seleccionado serán considerados para "
+"los datos de la solicitud."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Number of articles"
-msgstr ""
+msgstr "Número de artículos"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "The outgoing request data will only contain the configured number of articles. If left empty, only 1 article will be sent."
 msgstr ""
+"Los datos de la solicitud saliente solo contendrán el número configurado de "
+"artículos. Si se deja vacío, solo se enviará 1 artículo."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Communication channels"
-msgstr ""
+msgstr "Canales de comunicación"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "The outgoing request data will only consider articles of the selected communication channels. If left empty, articles created by all communication channels will be used."
 msgstr ""
+"Los datos de la solicitud saliente considerarán únicamente artículos de los "
+"canales de comunicación seleccionados. Si se deja vacío, se utilizarán los "
+"artículos creados por todos los canales de comunicación."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Customer visibility"
@@ -17386,7 +17400,7 @@ msgstr ""
 "\n"
 "Gracias por su ayuda.\n"
 "\n"
-" Su equipo de asistencia técnica\n"
+"Su equipo de asistencia técnica\n"
 
 #. SysConfig
 msgid " (work units)"
@@ -27091,4 +27105,3 @@ msgstr ""
 #. SysConfig
 msgid "Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications."
 msgstr ""
-
