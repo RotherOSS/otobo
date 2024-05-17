@@ -1437,14 +1437,14 @@ iframe.TextOption.CustomerUserAddressBook {
  
 .ck-source-editing-area {
     width: 100% !important;
-    height: 320px !important;
+    height: 320px;
 }
 
 .ck-source-editing-area > textarea {
     overflow: auto !important;
     position: relative;
     width: 100% !important;
-    height: 320px !important;
+    height: 100% !important;
 }
 
 
