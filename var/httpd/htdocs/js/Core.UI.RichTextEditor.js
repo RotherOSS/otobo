@@ -256,19 +256,25 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 const resizeObserver = new ResizeObserver((entries) => {
                     let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();
                     let newEditorSize = entries[0].contentBoxSize[0].blockSize;
-                    let editingArea = $domEditableElement.find('.ck-content');
-                    let verticalPadding = parseFloat(editingArea.css("padding-top")) + parseFloat(editingArea.css("padding-bottom"));
+                    let $editingArea = $domEditableElement.find('.ck-content');
+                    let sourceEditingActive = false;
+                    if ($editingArea.hasClass("ck-hidden")) {
+                        $editingArea = $domEditableElement.find('.ck-source-editing-area');
+                        sourceEditingActive = true;
+                    }
+                    let verticalPadding = parseFloat($editingArea.css("padding-top")) + parseFloat($editingArea.css("padding-bottom"));
                     let newSize = newEditorSize-(toolbarHeight+verticalPadding)
                     if (CustomerInterface) {
                         newSize -= 2;
                     }
-                    if (newSize <= 100) {
-                        newSize = 100;
-                        $domEditableElement.height(toolbarHeight + verticalPadding + 100);
+                    if (sourceEditingActive) {
+                        $editingArea.height(newSize);
+                        editor.editing.view.forceRender();
+                    } else {
+                        editor.editing.view.change(writer => {
+                            writer.setStyle('height', newSize + 'px', editor.editing.view.document.getRoot());
+                        });
                     }
-                    editor.editing.view.change(writer => {
-                        writer.setStyle('height', newSize + 'px', editor.editing.view.document.getRoot());
-                    });
                 });
                 resizeObserver.observe($domEditableElement.first().get(0));
 
