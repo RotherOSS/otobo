@@ -217,19 +217,11 @@ sub LoaderCreateAgentJSCalls {
     my $DoMinify = $ConfigObject->Get('Loader::Enabled::JS');
 
     {
-        my @FileList;
-
-        # get global js
+        # get JS files from the SysConfig setting Loader::Agent::CommonJS
         my $CommonJSList = $ConfigObject->Get('Loader::Agent::CommonJS');
+        my @FileList     = map { $CommonJSList->{$_}->@* } ( sort keys $CommonJSList->%* );
 
-        KEY:
-        for my $Key ( sort keys %{$CommonJSList} ) {
-            next KEY if $Key eq '100-CKEditor' && !$ConfigObject->Get('Frontend::RichText');
-
-            push @FileList, @{ $CommonJSList->{$Key} };
-        }
-
-        # get toolbar module js
+        # get toolbar module JS
         my $ToolbarModuleSettings = $ConfigObject->Get('Frontend::ToolBarModule');
         for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
             if ( $ToolbarModuleSettings->{$Key}->{JavaScript} ) {
@@ -243,7 +235,6 @@ sub LoaderCreateAgentJSCalls {
             BlockName => 'CommonJS',
             JSHome    => $JSHome,
         );
-
     }
 
     # now handle module specific JavaScript
@@ -259,7 +250,7 @@ sub LoaderCreateAgentJSCalls {
         for my $Module ( sort keys %{$Setting} ) {
             next MODULE unless ref $Setting->{$Module}->{JavaScript} eq 'ARRAY';
 
-            @FileList = ( @FileList, @{ $Setting->{$Module}->{JavaScript} || [] } );
+            push @FileList, $Setting->{$Module}->{JavaScript}->@*;
         }
 
         $Self->_HandleJSList(
@@ -268,7 +259,6 @@ sub LoaderCreateAgentJSCalls {
             BlockName => 'ModuleJS',
             JSHome    => $JSHome,
         );
-
     }
 
     return 1;
@@ -720,16 +710,9 @@ sub LoaderCreateCustomerJSCalls {
     my $DoMinify = $ConfigObject->Get('Loader::Enabled::JS');
 
     {
+        # get JS files from the SysConfig setting Loader::Customer::CommonJS
         my $CommonJSList = $ConfigObject->Get('Loader::Customer::CommonJS');
-
-        my @FileList;
-
-        KEY:
-        for my $Key ( sort keys %{$CommonJSList} ) {
-            next KEY if $Key eq '100-CKEditor' && !$ConfigObject->Get('Frontend::RichText');
-
-            push @FileList, @{ $CommonJSList->{$Key} };
-        }
+        my @FileList     = map { $CommonJSList->{$_}->@* } ( sort keys $CommonJSList->%* );
 
         $Self->_HandleJSList(
             List      => \@FileList,
@@ -737,7 +720,6 @@ sub LoaderCreateCustomerJSCalls {
             BlockName => 'CommonJS',
             JSHome    => $JSHome,
         );
-
     }
 
     # now handle module specific JS
@@ -751,9 +733,9 @@ sub LoaderCreateCustomerJSCalls {
 
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
-            next MODULE if ref $Setting->{$Module}->{JavaScript} ne 'ARRAY';
+            next MODULE unless ref $Setting->{$Module}->{JavaScript} eq 'ARRAY';
 
-            @FileList = ( @FileList, @{ $Setting->{$Module}->{JavaScript} || [] } );
+            push @FileList, $Setting->{$Module}->{JavaScript}->@*;
         }
 
         $Self->_HandleJSList(
