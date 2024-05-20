@@ -82,6 +82,10 @@ div.InputField_Selection div.Text,
     color: var(--colTextDark);
 }
 
+iframe.Signature {
+    border-color: var(--colTextDark);
+}
+
 /**
  * @subsection  TableLike
  * @description Provides a table-like, aligned label-value structure
