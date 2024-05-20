@@ -837,6 +837,7 @@ div.InputField_ToolbarContainer ul li a:hover {
  .RichTextHolder {
     --RTE-init-size-small: 320px;
     --RTE-init-size-large: 450px;
+    min-height: 150px;
  }
 
 .FieldCell > .Field.RichTextField {

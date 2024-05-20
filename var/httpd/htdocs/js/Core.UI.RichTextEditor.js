@@ -251,35 +251,46 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         .get(0).style.setProperty("gap", "1px");
                 }
 
-
+                var sourceEditingActive = false;
+                
                 // Adjust Editor Size to match (resizable) container size
-                const resizeObserver = new ResizeObserver((entries) => {
+                var adjustEditorSize = function() {
                     let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();
-                    let newEditorSize = entries[0].contentBoxSize[0].blockSize;
+                    let newEditorSize = $domEditableElement.innerHeight();
                     let $editingArea = $domEditableElement.find('.ck-content');
-                    let sourceEditingActive = false;
-                    if ($editingArea.hasClass("ck-hidden")) {
+                    if (sourceEditingActive) {
                         $editingArea = $domEditableElement.find('.ck-source-editing-area');
-                        sourceEditingActive = true;
                     }
                     let verticalPadding = parseFloat($editingArea.css("padding-top")) + parseFloat($editingArea.css("padding-bottom"));
                     let newSize = newEditorSize-(toolbarHeight+verticalPadding)
-                    if (CustomerInterface) {
-                        newSize -= 2;
-                    }
                     if (sourceEditingActive) {
                         $editingArea.height(newSize);
                         editor.editing.view.forceRender();
                     } else {
+                        newSize -= 2;
                         editor.editing.view.change(writer => {
                             writer.setStyle('height', newSize + 'px', editor.editing.view.document.getRoot());
                         });
                     }
+                };
+
+                //resize editor on mode change
+                if ( editor.plugins.has( 'SourceEditing' ) ) {
+                    const sourceEditing = editor.plugins.get( 'SourceEditing' );
+                
+                    editor.listenTo( sourceEditing, 'change:isSourceEditingMode', () => {
+                        sourceEditingActive = sourceEditing.isSourceEditingMode;
+                        adjustEditorSize();
+                    } );
+                }
+
+                // bind editor resize to container($domEditableElement) size change
+                const resizeObserver = new ResizeObserver((entries) => {
+                    adjustEditorSize();
                 });
                 resizeObserver.observe($domEditableElement.first().get(0));
 
                 if (CustomerInterface) {
-
                     editor.editing.view.document.getRoot('main').placeholder = RichTextLabel[0].innerText;
                     RichTextLabel.hide();
 
