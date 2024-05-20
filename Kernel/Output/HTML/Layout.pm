@@ -97,7 +97,9 @@ sub new {
 
     # set defaults
     $Self->{Debug} = 0;
-    $Self->{SetCookies} //= {};    # is also set in SetCookie()
+    $Self->{SetCookies}        //= {};    # is also set in SetCookie()
+    $Self->{HasDatepicker}     //= 0;
+    $Self->{HasRichTextEditor} //= 0;
 
     # reset block data
     delete $Self->{BlockData};
@@ -1829,9 +1831,10 @@ sub Footer {
         )
         : ();
 
-    # JavaScript for rich text editor
     my $WebPath = $ConfigObject->Get('Frontend::WebPath');
-    if ( $ConfigObject->Get('Frontend::RichText') ) {
+
+    # Load rich text libraries only when a RTE has been set up
+    if ( $Self->{HasRichTextEditor} ) {
 
         # ckeditor.js is always loaded when rich text is enabled
         $Self->Block(
@@ -4535,9 +4538,10 @@ sub CustomerFooter {
             = $Self->{LanguageObject}->Translate( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
     }
 
-    # JavaScript for rich text editor
     my $WebPath = $ConfigObject->Get('Frontend::WebPath');
-    if ( $ConfigObject->Get('Frontend::RichText') ) {
+
+    # Load rich text libraries only when a RTE has been set up
+    if ( $Self->{HasRichTextEditor} ) {
 
         # ckeditor.js is always loaded when rich text is enabled
         $Self->Block(
@@ -6423,11 +6427,14 @@ sub WrapPlainText {
 
 =head2 SetRichTextParameters()
 
-set properties for rich text editor and send them to JavaScript via AddJSData()
+sets properties for rich text editor and sends them to JavaScript via AddJSData().
 
-$LayoutObject->SetRichTextParameters(
-    Data => \%Param,
-);
+    $LayoutObject->SetRichTextParameters(
+        Data => \%Param,
+    );
+
+As a side effect activated the flag C<HasRichTextEditor> so that the footer generating methods
+can include the rich text editor libraries.
 
 =cut
 
@@ -6445,6 +6452,9 @@ sub SetRichTextParameters {
 
         $Self->FatalError;
     }
+
+    # tell the footer methods that rich text libraries are needed
+    $Self->{HasRichTextEditor} = 1;
 
     # get needed objects
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
@@ -6571,11 +6581,14 @@ sub SetRichTextParameters {
 
 =head2 CustomerSetRichTextParameters()
 
-set properties for customer rich text editor and send them to JavaScript via AddJSData()
+sets properties for customer rich text editor and sends them to JavaScript via AddJSData().
 
-$LayoutObject->CustomerSetRichTextParameters(
-    Data => \%Param,
-);
+    $LayoutObject->CustomerSetRichTextParameters(
+        Data => \%Param,
+    );
+
+As a side effect activated the flag C<HasRichTextEditor> so that the footer generating methods
+can include the rich text editor libraries.
 
 =cut
 
@@ -6593,6 +6606,9 @@ sub CustomerSetRichTextParameters {
 
         $Self->FatalError;
     }
+
+    # tell the footer methods that rich text libraries are needed
+    $Self->{HasRichTextEditor} = 1;
 
     # get needed objects
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
