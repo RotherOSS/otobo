@@ -18,26 +18,25 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');    ## no critic qw(Variables::ProhibitUnusedVarsStricter)
 
 my $Cleanup = $Kernel::OM->Get('Kernel::System::DB')->Do(
     SQL => 'DELETE from package_repository',
 );
-
-$Self->True(
-    $Cleanup,
-    "Removed possibly pre-existing packages from the database (transaction)."
-);
+ok( $Cleanup, "Removed possibly pre-existing packages from the database (transaction)." );
 
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
@@ -232,19 +231,13 @@ for my $Test (@Tests) {
         if ($ContentRef) {
             $FileString = ${$ContentRef};
         }
-        $Self->True(
-            $FileString,
-            "FileRead() - for package $PackageName",
-        );
+        ok( $FileString, "FileRead() - for package $PackageName" );
 
         my $Success = $PackageObject->PackageInstall(
             String => $FileString,
             Force  => 1,
         );
-        $Self->True(
-            $Success,
-            "PackageInstall() - for package $PackageName",
-        );
+        ok( $Success, "PackageInstall() - for package $PackageName" );
     }
 
     $Kernel::OM->ObjectsDiscard(
@@ -264,6 +257,7 @@ for my $Test (@Tests) {
             Mode     => 'utf8',
             Result   => 'SCALAR',
         );
+
         return ${$ContentRef};
     };
     use warnings;
@@ -276,14 +270,14 @@ for my $Test (@Tests) {
         Result => 'short',
     );
     my %InstalledList = map { $_->{Name} => $_->{Version} } grep { !defined $OrigInstalledList{ $_->{Name} } } @PackageInstalledList;
-    $Self->IsDeeply(
+    is(
         \%InstalledList,
         $Test->{RepositoryListBefore},
         'RepositoryList() - before upgrade',
     );
 
     my %Result = $PackageObject->PackageUpgradeAll();
-    $Self->IsDeeply(
+    is(
         \%Result,
         $Test->{ExpectedResult},
         'PackageUpgradeAll() - result',
@@ -294,7 +288,7 @@ for my $Test (@Tests) {
         Result => 'short',
     );
     %InstalledList = map { $_->{Name} => $_->{Version} } grep { !defined $OrigInstalledList{ $_->{Name} } } @PackageInstalledList;
-    $Self->IsDeeply(
+    is(
         \%InstalledList,
         $Test->{RepositoryListAfter},
         'RepositoryList() - after upgrade',
@@ -307,10 +301,7 @@ for my $Test (@Tests) {
             Name    => $PackageName,
             Version => $PackageVersion,
         );
-        $Self->True(
-            $Success,
-            "RepositoryRemove() - $PackageName $PackageVersion",
-        );
+        ok( $Success, "RepositoryRemove() - $PackageName $PackageVersion" );
     }
 
 }
@@ -320,4 +311,4 @@ continue {
     );
 }
 
-$Self->DoneTesting();
+done_testing;
