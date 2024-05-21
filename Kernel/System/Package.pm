@@ -474,7 +474,7 @@ sub RepositoryRemove {
 
 =head2 PackageInstall()
 
-install a package
+installs a package when it is not installed yet. Upgrades a package when it is already installed.
 
     $PackageObject->PackageInstall(
         String    => $FileString,
@@ -493,6 +493,7 @@ sub PackageInstall {
             Priority => 'error',
             Message  => 'String not defined!',
         );
+
         return;
     }
 
@@ -513,6 +514,7 @@ sub PackageInstall {
                 Priority => 'notice',
                 Message  => 'Package already installed, try upgrade!',
             );
+
             return $Self->PackageUpgrade(%Param);
         }
     }
@@ -552,7 +554,7 @@ sub PackageInstall {
     # check merged packages
     if ( $Structure{PackageMerge} ) {
 
-        # upgrade merged packages (no files)
+        # upgrade merged packages (no files), remove from package list
         return if !$Self->_MergedPackages(
             %Param,
             Structure => \%Structure,
@@ -571,7 +573,7 @@ sub PackageInstall {
 
     # check if one of this files is already intalled by an other package
     if ( %Structure && !$Param{Force} ) {
-        return if !$Self->_PackageFileCheck(
+        return unless $Self->_PackageFileCheck(
             Structure => \%Structure,
         );
     }
@@ -609,7 +611,7 @@ sub PackageInstall {
     );
 
     # update package status
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+    return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE package_repository SET install_status = \''
             . Translatable('installed') . '\''
             . ' WHERE name = ? AND version = ?',
@@ -779,7 +781,7 @@ sub PackageReinstall {
 
 =head2 PackageUpgrade()
 
-upgrade a package
+upgrades a package. Installs the package when it is not installed yet.
 
     $PackageObject->PackageUpgrade(
         String => $FileString,
@@ -797,6 +799,7 @@ sub PackageUpgrade {
             Priority => 'error',
             Message  => 'String not defined!',
         );
+
         return;
     }
 
@@ -828,6 +831,7 @@ sub PackageUpgrade {
             Priority => 'notice',
             Message  => 'Package is not installed, try a installation!',
         );
+
         return $Self->PackageInstall(%Param);
     }
 
@@ -868,7 +872,7 @@ sub PackageUpgrade {
     # check merged packages
     if ( $Structure{PackageMerge} ) {
 
-        # upgrade merged packages (no files)
+        # upgrade merged packages (no files), remove from package list
         return if !$Self->_MergedPackages(
             %Param,
             Structure => \%Structure,
@@ -906,7 +910,7 @@ sub PackageUpgrade {
 
     # check if one of this files is already installed by an other package
     if ( %Structure && !$Param{Force} ) {
-        return if !$Self->_PackageFileCheck(
+        return unless $Self->_PackageFileCheck(
             Structure => \%Structure,
         );
     }
@@ -1346,7 +1350,9 @@ sub PackageOnlineRepositories {
 
     return if !$XML;
 
-    my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XML );
+    my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
+        String => $XML
+    );
 
     my %List;
     my $Name = '';
@@ -3229,12 +3235,14 @@ sub PackageUpgradeAll {
     for my $PackageName ( sort { $InstallOrder{$b} <=> $InstallOrder{$a} } keys %InstallOrder ) {
 
         my $MetaPackage = $PackageSourceLookup{$PackageName};
-        next PACKAGENAME if !$MetaPackage;
+
+        next PACKAGENAME unless $MetaPackage;
 
         if ( $MetaPackage->{Version} eq ( $InstalledVersions{$PackageName} || '' ) ) {
 
             if ( $Param{SkipDeployCheck} ) {
                 $AlreadyUpdated{$PackageName} = 1;
+
                 next PACKAGENAME;
             }
 
@@ -3245,9 +3253,12 @@ sub PackageUpgradeAll {
             );
             if ( !$CheckSuccess ) {
                 $Undeployed{$PackageName} = 1;
+
                 next PACKAGENAME;
             }
+
             $AlreadyUpdated{$PackageName} = 1;
+
             next PACKAGENAME;
         }
 
@@ -3265,9 +3276,12 @@ sub PackageUpgradeAll {
             if ( !$InstallSuccess ) {
                 $Success = 0;
                 $Failed{InstallError}->{$PackageName} = 1;
+
                 next PACKAGENAME;
             }
+
             $Installed{$PackageName} = 1;
+
             next PACKAGENAME;
         }
 
@@ -3278,9 +3292,12 @@ sub PackageUpgradeAll {
         if ( !$UpdateSuccess ) {
             $Success = 0;
             $Failed{UpdateError}->{$PackageName} = 1;
+
             next PACKAGENAME;
         }
+
         $Updated{$PackageName} = 1;
+
         next PACKAGENAME;
     }
     continue {
@@ -3957,6 +3974,12 @@ sub _CheckPackageDepends {
     return 1;
 }
 
+=head2 _PackageFileCheck()
+
+checks if none of the files in a package is already installed by another package.
+
+=cut
+
 sub _PackageFileCheck {
     my ( $Self, %Param ) = @_;
 
@@ -3966,6 +3989,7 @@ sub _PackageFileCheck {
             Priority => 'error',
             Message  => 'Structure not defined!',
         );
+
         return;
     }
 
@@ -3973,6 +3997,7 @@ sub _PackageFileCheck {
     PACKAGE:
     for my $Package ( $Self->RepositoryList() ) {
 
+        # skip the package that is currently being checked
         next PACKAGE if $Param{Structure}->{Name}->{Content} eq $Package->{Name}->{Content};
 
         for my $FileNew ( @{ $Param{Structure}->{Filelist} } ) {
@@ -3991,11 +4016,13 @@ sub _PackageFileCheck {
                         . "used in package $Package->{Name}->{Content}-$Package->{Version}->{Content}!",
                 );
 
+                # found a conflict
                 return;
             }
         }
     }
 
+    # no conflict was found
     return 1;
 }
 
@@ -4363,12 +4390,18 @@ sub _FileSystemCheck {
     return 1;
 }
 
+=head2 _Encode()
+
+a helper for generating XML. Encode characters that are special in XML as XML entities.
+
+=cut
+
 sub _Encode {
     my ( $Self, $Text ) = @_;
 
-    return $Text if !defined $Text;
+    return $Text unless defined $Text;
 
-    $Text =~ s/&/&amp;/g;
+    $Text =~ s/&/&amp;/g;    # must be the first replacement
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
     $Text =~ s/"/&quot;/g;
@@ -4524,6 +4557,13 @@ sub _PackageUninstallMerged {
     return $PackageRemove;
 }
 
+=head2 _MergedPackages
+
+handle packages that were subsumed by another package. Potentially run updates.
+Potentially remove the subsumed packages from the list of installed packages.
+
+=cut
+
 sub _MergedPackages {
     my ( $Self, %Param ) = @_;
 
@@ -4544,11 +4584,11 @@ sub _MergedPackages {
     my @RepositoryList    = $Self->RepositoryList();
     my %PackageListLookup = map { $_->{Name}->{Content} => $_ } @RepositoryList;
 
-    # check required packages
+    # check merged packages
     PACKAGE:
     for my $Package ( @{ $Param{Structure}->{PackageMerge} } ) {
 
-        next PACKAGE if !$Package;
+        next PACKAGE unless $Package;
 
         my $Installed        = 0;
         my $InstalledVersion = 0;
@@ -4561,7 +4601,7 @@ sub _MergedPackages {
         );
 
         # do nothing if package is not installed
-        next PACKAGE if !$PackageInstalled;
+        next PACKAGE unless $PackageInstalled;
 
         # get complete package info
         %PackageDetails = %{ $PackageListLookup{ $Package->{Name} } };
