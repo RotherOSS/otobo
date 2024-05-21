@@ -26,6 +26,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use List::Util qw(uniq);
 
 # OTOBO modules
 
@@ -54,20 +55,18 @@ sub Run {
     }
 
     # Uninstall, without running DatabaseUninstall and CodeUninstall
-    my @MergedPackages = qw(
-        Ayte-CustomTranslations
-        ExtendedCDBInfoTile
-        ImportExport
-        LightAdmin
-        MarkTicketSeenUnseen
-        QuickDateButtons
-        ResponseTemplatesStatePreselection
-        RotherOSS-LightAdmin
-        RotherOSS-InternalTransitionActions
-    );
+    # Get the complete list, irrespective of major or minor version
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+    my @IntegratedPackages =
+        uniq
+        sort
+        map { $_->@* }
+        map { values $_->%* }                          # all minor versions
+        map { values $_->%* }                          # all major versions
+        ( $PackageObject->_GetIntegratedPackages );    # nested hashref
+
     PACKAGENAME:
-    for my $PackageName (@MergedPackages) {
+    for my $PackageName (@IntegratedPackages) {
         my $Success = $PackageObject->_PackageUninstallMerged(
             Name => $PackageName,
         );

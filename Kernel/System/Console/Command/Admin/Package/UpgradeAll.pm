@@ -204,7 +204,6 @@ sub Run {
         NotFound       => 'could not be found in the on-line repositories...',
         WrongVersion   => 'require a version higher than the one found in the on-line repositories...',
         DependencyFail => 'fail to upgrade/install their package dependencies...'
-
     );
 
     if ( IsHashRefWithData( $Result{Failed} ) ) {
