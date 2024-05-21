@@ -3165,23 +3165,11 @@ sub PackageUpgradeAll {
         Result => 'short',
     );
 
-    # TODO: update the single packages, not the bundle
-    # Modify @PackageInstalledList if ITSM packages are installed from Bundle (see bug#13778).
-    if ( grep { $_->{Name} eq 'ITSM' } @PackageInstalledList && grep { $_->{Name} eq 'ITSM' } @PackageOnlineList ) {
-        my %IsITSMPackage = map { $_ => 1 } (
-            'GeneralCatalog',
-            'ITSMCore',
-            'ITSMChangeManagement',
-            'ITSMConfigurationManagement',
-            'ITSMIncidentProblemManagement',
-            'ITSMServiceLevelManagement',
-            'ImportExport'
-        );
-        @PackageInstalledList = grep { !$IsITSMPackage{ $_->{Name} } } @PackageInstalledList;
-    }
-
     # Do not upgrade the packages that are integrated in OTOBO core now.
     # This is relevant for upgrading from OTOBO 10 to OTOBO 11.
+    #
+    # The special case of the 'ITSM' bundle package is also handled here. This means
+    # that 'ITSM' in not upgraded, but the individual parts are updated.
     {
         # Get the complete list, irrespective of major or minor version
         my %IsIntegrated =
@@ -3351,6 +3339,7 @@ sub _GetIntegratedPackages {
     return {
         11 => {
             0 => [
+                'ITSM',    # the ITSM bundle is no longer supported in 11.0.x, can be considered as integrated
                 'Ayte-CustomTranslations',
                 'ExtendedCDBInfoTile',
                 'ImportExport',
