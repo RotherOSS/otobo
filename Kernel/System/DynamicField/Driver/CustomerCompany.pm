@@ -37,6 +37,7 @@ use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::System::CustomerCompany',
+    'Kernel::System::Group',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
@@ -200,6 +201,22 @@ sub ObjectDescriptionGet {
     return if !%CustomerCompanyData;
 
     my $Link;
+
+    # Add Link to CustomerUser
+    if ( $Param{LayoutObject}{SessionSource} eq 'AgentInterface' ) {
+
+        # TODO: Why is the UserID not transferred here? I think UserID should be mandatory.
+        # TODO: Does it make sense to get the UserID from the LayoutObject if it is not passed in $Param?
+        my $FrontendModul = 'AdminCustomerCompany';
+        my $UserID = $Param{LayoutObject}{UserID} || 1;
+
+        $Link = $Self->_GetHTTPLink(
+            FrontendModul => $FrontendModul,
+            ObjectID     => $Param{LayoutObject}->LinkEncode( $Param{ObjectID} ),
+            UserID => $UserID,
+        );
+
+    }
 
     # create description
     return (
@@ -418,6 +435,104 @@ sub SearchObjects {
     );
 
     return $CustomerCompanyIDs->@*;
+}
+
+=head2 _GetHTTPLink()
+
+return a http link to the customeruser edit mask, if permission is given.
+
+    my $Link = $BackendObject->_GetHTTPLink(
+        FrontendModul      => $FrontendModul,
+        ObjectID           => $EncodedCustomerID
+        UserID             => $UserID,
+    );
+
+Return
+
+    $Link = 'index.pl?Action=AdminCustomerCompany;Subaction=Change;CustomerID=$customerid'
+
+=cut
+
+sub _GetHTTPLink {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument ( qw(UserID FrontendModul ObjectID) ) {
+        if ( !$Param{$Argument} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+
+            return;
+        }
+    }
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{ $Param{FrontendModul} };
+    my $Link;
+
+    # module permission check for action
+    if (
+        ref $ModuleReg->{GroupRo} eq 'ARRAY'
+        && !scalar @{ $ModuleReg->{GroupRo} }
+        && ref $ModuleReg->{Group} eq 'ARRAY'
+        && !scalar @{ $ModuleReg->{Group} }
+        )
+    {
+        $Param{AccessRo} = 1;
+        $Param{AccessRw} = 1;
+    }
+    else {
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+        PERMISSION:
+        for my $Permission (qw(GroupRo Group)) {
+            my $AccessOk = 0;
+            my $Group    = $ModuleReg->{$Permission};
+            next PERMISSION if !$Group;
+            if ( ref $Group eq 'ARRAY' ) {
+                INNER:
+                for my $GroupName ( @{$Group} ) {
+                    next INNER if !$GroupName;
+                    next INNER if !$GroupObject->PermissionCheck(
+                        UserID    => $Param{UserID},
+                        GroupName => $GroupName,
+                        Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                    );
+                    $AccessOk = 1;
+                    last INNER;
+                }
+            }
+            else {
+                my $HasPermission = $GroupObject->PermissionCheck(
+                    UserID    => $Param{UserID},
+                    GroupName => $Group,
+                    Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                );
+                if ($HasPermission) {
+                    $AccessOk = 1;
+                }
+            }
+            if ( $Permission eq 'Group' && $AccessOk ) {
+                $Param{AccessRo} = 1;
+                $Param{AccessRw} = 1;
+            }
+            elsif ( $Permission eq 'GroupRo' && $AccessOk ) {
+                $Param{AccessRo} = 1;
+            }
+        }
+        if ( $Param{AccessRo} || $Param{AccessRw} ) {
+
+            $Link       = 'index.pl?Action=' . $Param{FrontendModul} . ';Subaction=Change;';
+            $Link         .= 'CustomerID=' . $Param{ObjectID};
+            return $Link;
+        }
+        return;
+    }
 }
 
 1;
