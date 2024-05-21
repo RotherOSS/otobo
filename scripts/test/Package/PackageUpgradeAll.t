@@ -22,6 +22,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Test2::Tools::Compare qw(array D);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -310,5 +311,17 @@ continue {
         Objects => ['Kernel::System::Package'],
     );
 }
+
+# sanity test of the internal method _GetIntegratedPackages
+my $IntegratedPackages = $Kernel::OM->Get('Kernel::System::Package')->_GetIntegratedPackages;
+like(
+    $IntegratedPackages,
+    {
+        11 => {
+            0 => array { item D(); },    # at least one item, must be defined
+        }
+    },
+    'list of integrated packages',
+);
 
 done_testing;

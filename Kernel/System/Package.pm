@@ -1502,7 +1502,7 @@ sub PackageOnlineList {
         );
 
         # check result structure
-        return if !IsHashRefWithData($ListResult);
+        return unless IsHashRefWithData($ListResult);
 
         my $CurrentFramework = $Kernel::OM->Get('Kernel::Config')->Get('Version');
         FRAMEWORKVERSION:
@@ -1687,11 +1687,7 @@ sub PackageOnlineGet {
             },
         );
 
-        if (
-            IsHashRefWithData($PackageResult)
-            && $PackageResult->{Package}
-            )
-        {
+        if ( IsHashRefWithData($PackageResult) && $PackageResult->{Package} ) {
             $PackageFromCloud = $PackageResult->{Package};
         }
         elsif ( IsStringWithData($PackageResult) ) {
@@ -3126,9 +3122,10 @@ sub PackageUpgradeAll {
     );
     if (%SystemData) {
         KEY:
-        for my $Key (qw(StartTime UpdateTime InstalledPackages UpgradeResult Status Success))
-        {    # remove any existing information
-            next KEY if !defined $SystemData{$Key};
+        for my $Key (qw(StartTime UpdateTime InstalledPackages UpgradeResult Status Success)) {
+
+            # remove any existing information
+            next KEY unless defined $SystemData{$Key};
 
             my $Success = $SystemDataObject->SystemDataDelete(
                 Key    => "${DataGroup}::${Key}",
@@ -3168,9 +3165,10 @@ sub PackageUpgradeAll {
         Result => 'short',
     );
 
+    # TODO: update the single packages, not the bundle
     # Modify @PackageInstalledList if ITSM packages are installed from Bundle (see bug#13778).
     if ( grep { $_->{Name} eq 'ITSM' } @PackageInstalledList && grep { $_->{Name} eq 'ITSM' } @PackageOnlineList ) {
-        my @TmpPackages = (
+        my %IsITSMPackage = map { $_ => 1 } (
             'GeneralCatalog',
             'ITSMCore',
             'ITSMChangeManagement',
@@ -3179,8 +3177,20 @@ sub PackageUpgradeAll {
             'ITSMServiceLevelManagement',
             'ImportExport'
         );
-        my %Values = map { $_ => 1 } @TmpPackages;
-        @PackageInstalledList = grep { !$Values{ $_->{Name} } } @PackageInstalledList;
+        @PackageInstalledList = grep { !$IsITSMPackage{ $_->{Name} } } @PackageInstalledList;
+    }
+
+    # Do not upgrade the packages that are integrated in OTOBO core now.
+    # This is relevant for upgrading from OTOBO 10 to OTOBO 11.
+    {
+        # Get the complete list, irrespective of major or minor version
+        my %IsIntegrated =
+            map { $_ => 1 }
+            map { $_->@* }
+            map { values $_->%* }                 # all minor versions
+            map { values $_->%* }                 # all major versions
+            ( $Self->_GetIntegratedPackages );    # nested hashref
+        @PackageInstalledList = grep { !$IsIntegrated{ $_->{Name} } } @PackageInstalledList;
     }
 
     my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
@@ -3327,6 +3337,35 @@ sub PackageUpgradeAll {
         Undeployed     => \%Undeployed,
         Failed         => \%Failed,
     );
+}
+
+=head2 _GetIntegratedPackages()
+
+List of packages the were integrated into OTOBO core. Categorized by major and minor versions.
+
+=cut
+
+sub _GetIntegratedPackages {
+    my ($Self) = @_;
+
+    return {
+        11 => {
+            0 => [
+                'Ayte-CustomTranslations',
+                'ExtendedCDBInfoTile',
+                'ImportExport',
+                'LightAdmin',
+                'MarkTicketSeenUnseen',
+                'QuickDateButtons',
+                'ResponseTemplatesStatePreselection',
+                'RotherOSS-LightAdmin',
+                'RotherOSS-InternalTransitionActions',
+            ],
+
+            # future releases
+            1 => [],
+        }
+    };
 }
 
 =head2 PackageInstallOrderListGet()
@@ -5070,9 +5109,10 @@ sub _PackageInstallOrderListGet {
         my $OnlinePackage = $Param{OnlinePackageLookup}->{$PackageName};
 
         # Check if the package can be obtained on-line.
-        if ( !$OnlinePackage || !IsHashRefWithData($OnlinePackage) ) {
+        if ( !IsHashRefWithData($OnlinePackage) ) {
             $Param{Failed}->{NotFound}->{$PackageName} = 1;
             $Success = 0;
+
             next PACKAGENAME;
         }
 
