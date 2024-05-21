@@ -561,16 +561,6 @@ sub PackageInstall {
         );
     }
 
-    # check files
-    my $FileCheckOk = 1;
-    if ( !$FileCheckOk && !$Param{Force} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'File conflict, can\'t install package!',
-        );
-        return;
-    }
-
     # check if one of this files is already intalled by an other package
     if ( %Structure && !$Param{Force} ) {
         return unless $Self->_PackageFileCheck(
@@ -1261,7 +1251,6 @@ sub PackageUninstall {
     }
 
     # files
-    my $FileCheckOk = 1;
     if ( $Structure{Filelist} && ref $Structure{Filelist} eq 'ARRAY' ) {
         for my $File ( @{ $Structure{Filelist} } ) {
 
@@ -2595,9 +2584,6 @@ sub PackageParse {
             # get attachment size
             {
                 if ( $Tag->{Content} ) {
-
-                    my $ContentPlain = 0;
-
                     if ( $Tag->{Encode} && $Tag->{Encode} eq 'Base64' ) {
                         $Tag->{Encode}  = '';
                         $Tag->{Content} = decode_base64( $Tag->{Content} );
@@ -2744,7 +2730,7 @@ sub PackageIsInstalled {
     );
 
     my $Flag = 0;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {    ## no critic qw(Variables::ProhibitUnusedVarsStricter)
         $Flag = 1;
     }
 
@@ -3403,7 +3389,7 @@ sub PackageInstallOrderListGet {
     my %InstallOrder;
     my %Failed;
 
-    my $DependenciesSuccess = $Self->_PackageInstallOrderListGet(
+    my $DependenciesSuccess = $Self->_PackageInstallOrderListGet(    ## no critic qw(Variables::ProhibitUnusedVarsStricter)
         Callers             => {},
         InstalledVersions   => \%InstalledVersions,
         TargetPackages      => \%InstalledVersions,
@@ -4586,14 +4572,11 @@ sub _MergedPackages {
 
     # check merged packages
     PACKAGE:
-    for my $Package ( @{ $Param{Structure}->{PackageMerge} } ) {
+    for my $Package ( $Param{Structure}->{PackageMerge}->@* ) {
 
         next PACKAGE unless $Package;
 
-        my $Installed        = 0;
-        my $InstalledVersion = 0;
-        my $TargetVersion    = $Package->{TargetVersion};
-        my %PackageDetails;
+        my $TargetVersion = $Package->{TargetVersion};
 
         # check if the package is installed, otherwise go next package (nothing to do)
         my $PackageInstalled = $Self->PackageIsInstalled(
@@ -4604,10 +4587,10 @@ sub _MergedPackages {
         next PACKAGE unless $PackageInstalled;
 
         # get complete package info
-        %PackageDetails = %{ $PackageListLookup{ $Package->{Name} } };
+        my %PackageDetails = %{ $PackageListLookup{ $Package->{Name} } };
 
         # verify package version
-        $InstalledVersion = $PackageDetails{Version}->{Content};
+        my $InstalledVersion = $PackageDetails{Version}->{Content};
 
         # store package name and version for
         # use it on code and database installation
@@ -5212,10 +5195,7 @@ Returns:
 =cut
 
 sub _PackageOnlineListGet {
-
     my ( $Self, %Param ) = @_;
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %RepositoryList = $Self->_ConfiguredRepositoryDefinitionGet();
 
