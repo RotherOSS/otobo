@@ -265,7 +265,7 @@ sub ObjectDescriptionGet {
     my $Link;
 
     # Add Link to CustomerUser
-    if ( $Param{LayoutObject}{SessionSource} eq 'AgentInterface' ) {
+    if ( $Param{LayoutObject}{SessionSource} && $Param{LayoutObject}{SessionSource} eq 'AgentInterface' ) {
 
         # TODO: Why is the UserID not transferred here? I think UserID should be mandatory.
         # TODO: Does it make sense to get the UserID from the LayoutObject if it is not passed in $Param?
