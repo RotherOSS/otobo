@@ -64,7 +64,7 @@ END_XML
     # column type changed from INT to BIGINT
     push @XMLStrings, <<'END_XML';
 <TableAlter Name="dynamic_field_value">
-  <ColumnChange NameOld="id" NameNew="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+  <ColumnChange NameOld="id" NameNew="id" Required="true" NoDefault="true" AutoIncrement="true" Type="BIGINT" />
 </TableAlter>
 END_XML
 
