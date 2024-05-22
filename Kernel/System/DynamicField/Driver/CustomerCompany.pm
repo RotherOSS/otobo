@@ -36,6 +36,7 @@ use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::CustomerCompany',
     'Kernel::System::Group',
     'Kernel::System::DynamicField',
@@ -208,12 +209,12 @@ sub ObjectDescriptionGet {
         # TODO: Why is the UserID not transferred here? I think UserID should be mandatory.
         # TODO: Does it make sense to get the UserID from the LayoutObject if it is not passed in $Param?
         my $FrontendModul = 'AdminCustomerCompany';
-        my $UserID = $Param{LayoutObject}{UserID} || 1;
+        my $UserID        = $Param{LayoutObject}{UserID} || 1;
 
         $Link = $Self->_GetHTTPLink(
             FrontendModul => $FrontendModul,
-            ObjectID     => $Param{LayoutObject}->LinkEncode( $Param{ObjectID} ),
-            UserID => $UserID,
+            ObjectID      => $Param{LayoutObject}->LinkEncode( $Param{ObjectID} ),
+            UserID        => $UserID,
         );
 
     }
@@ -439,7 +440,7 @@ sub SearchObjects {
 
 =head2 _GetHTTPLink()
 
-return a http link to the customeruser edit mask, if permission is given.
+return a HTTP link to the customer company edit mask, if permission is given.
 
     my $Link = $BackendObject->_GetHTTPLink(
         FrontendModul      => $FrontendModul,
@@ -457,7 +458,7 @@ sub _GetHTTPLink {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument ( qw(UserID FrontendModul ObjectID) ) {
+    for my $Argument (qw(UserID FrontendModul ObjectID)) {
         if ( !$Param{$Argument} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -527,12 +528,15 @@ sub _GetHTTPLink {
         }
         if ( $Param{AccessRo} || $Param{AccessRw} ) {
 
-            $Link       = 'index.pl?Action=' . $Param{FrontendModul} . ';Subaction=Change;';
-            $Link         .= 'CustomerID=' . $Param{ObjectID};
+            $Link = 'index.pl?Action=' . $Param{FrontendModul} . ';Subaction=Change;';
+            $Link .= 'CustomerID=' . $Param{ObjectID};
             return $Link;
         }
         return;
     }
+
+    # both GroupRo nor Group are empty arrayrefs
+    return;
 }
 
 1;
