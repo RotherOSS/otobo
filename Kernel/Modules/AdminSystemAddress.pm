@@ -94,7 +94,6 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $Note = '';
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Realname QueueID Comment ValidID)) {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
@@ -209,7 +208,6 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $Note = '';
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Realname QueueID Comment ValidID)) {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
@@ -374,7 +372,6 @@ sub _Overview {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $Output       = '';
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -420,6 +417,7 @@ sub _Overview {
             },
         );
     }
+
     return 1;
 }
 

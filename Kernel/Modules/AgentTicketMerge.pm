@@ -37,7 +37,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
     my %Error;
     my %GetParam;
 

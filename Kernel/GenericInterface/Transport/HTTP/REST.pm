@@ -959,8 +959,6 @@ sub RequesterPerformRequest {
     else {
         $ResponseError = _AssessResponse(
             RestClient   => $RestClient,
-            RestCommand  => $RestCommand,
-            Controller   => $Controller,
             ErrorMessage => $ErrorMessage,
         );
     }
@@ -1069,12 +1067,13 @@ Inspect the response immediately after the request.
 sub _AssessResponse {
     my %Param = @_;
 
-    my ( $RestClient, $RestCommand, $Controller, $ErrorMessage ) = @Param{qw(RestClient RestCommand Controller ErrorMessage)};
+    my ( $RestClient, $ErrorMessage ) = @Param{qw(RestClient ErrorMessage)};
 
     my $ResponseCode    = $RestClient->responseCode;
     my $ResponseContent = $RestClient->responseContent;
 
-    my $ResponseError;
+    my $ResponseError;    # will be returned
+
     if ( !IsStringWithData($ResponseCode) ) {
         $ResponseError = $ErrorMessage;
     }

@@ -37,7 +37,6 @@ sub new {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
     if ( !$Self->{RequestedURL} ) {
         $Self->{RequestedURL} = 'Action=';
     }
@@ -51,7 +50,10 @@ sub PreRun {
             Key       => 'UserRequestedURL',
             Value     => $Self->{RequestedURL},
         );
-        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect( OP => 'Action=CustomerAccept' );
+
+        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect(
+            OP => 'Action=CustomerAccept'
+        );
     }
     else {
         return;

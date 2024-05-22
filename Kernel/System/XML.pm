@@ -1095,8 +1095,6 @@ sub _XMLHash2D {
 sub _XMLStructure2XMLHash {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
     if ( !defined $Param{Item} ) {
         return;
     }

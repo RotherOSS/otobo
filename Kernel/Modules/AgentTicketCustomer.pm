@@ -38,8 +38,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -224,13 +222,11 @@ sub Run {
 sub Form {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # print header
-    $Output .= $LayoutObject->Header(
+    my $Output = $LayoutObject->Header(
         Type => 'Small',
     );
     my $TicketCustomerID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'CustomerID' ) || '';
@@ -281,11 +277,10 @@ sub Form {
         );
     }
 
-    $Output
-        .= $LayoutObject->Output(
-            TemplateFile => 'AgentTicketCustomer',
-            Data         => \%Param
-        );
+    $Output .= $LayoutObject->Output(
+        TemplateFile => 'AgentTicketCustomer',
+        Data         => \%Param
+    );
     $Output .= $LayoutObject->Footer(
         Type => 'Small',
     );

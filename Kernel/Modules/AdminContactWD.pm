@@ -484,8 +484,6 @@ sub _Overview {
 sub _Edit {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     $LayoutObject->Block(
         Name => 'Overview',

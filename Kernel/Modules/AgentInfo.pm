@@ -38,7 +38,6 @@ sub new {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
     if ( !$Self->{RequestedURL} ) {
         $Self->{RequestedURL} = 'Action=';
     }
@@ -52,6 +51,7 @@ sub PreRun {
             Key       => 'UserRequestedURL',
             Value     => $Self->{RequestedURL},
         );
+
         return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect( OP => "Action=AgentInfo" );
     }
     else {
@@ -62,13 +62,11 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
     if ( !$Self->{RequestedURL} ) {
         $Self->{RequestedURL} = 'Action=';
     }
 
     my $Accept        = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Accept' ) || '';
-    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
@@ -113,13 +111,14 @@ sub Run {
     else {
 
         # show info
-        $Output = $LayoutObject->Header();
+        my $Output = $LayoutObject->Header();
         $Output
             .= $LayoutObject->Output(
                 TemplateFile => $Self->{InfoFile},
                 Data         => \%Param
             );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 }

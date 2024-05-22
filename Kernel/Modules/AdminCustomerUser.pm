@@ -223,7 +223,6 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Download' ) {
         my $Group = $ParamObject->GetParam( Param => 'Group' ) || '';
         my $User  = $ParamObject->GetParam( Param => 'ID' )    || '';
-        my $File  = $ParamObject->GetParam( Param => 'File' )  || '';
 
         # get user data
         my %UserData    = $CustomerUserObject->CustomerUserDataGet( User => $User );
@@ -1081,8 +1080,6 @@ sub _Edit {
     # Get layout object.
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $Output = '';
-
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -1119,7 +1116,11 @@ sub _Edit {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # update user
-    if ( $ConfigObject->Get( $Param{Source} )->{ReadOnly} || $ConfigObject->Get( $Param{Source} )->{Module} =~ /LDAP/i )
+    if (
+        $ConfigObject->Get( $Param{Source} )->{ReadOnly}
+        ||
+        $ConfigObject->Get( $Param{Source} )->{Module} =~ /LDAP/i
+        )
     {
         $UpdateOnlyPreferences = 1;
     }
@@ -1452,8 +1453,7 @@ sub _Edit {
                 next PRIO;
             }
 
-            my $Module = $Preference{Module}
-                || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
+            my $Module = $Preference{Module} || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
 
             # load module
             if ( $Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
