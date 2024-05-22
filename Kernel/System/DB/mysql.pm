@@ -435,21 +435,30 @@ sub TableAlter {
             # Type translation
             $Tag = $Self->_TypeTranslation($Tag);
 
-            # normal data type
-            push @SQL, $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type} NULL";
+            # When the altered column is a primary key then 'NOT NULL' is sensible,
+            # and 'NULL' is not sensible. Setting the column to 'NULL' is only
+            # useful for supporting default values. But default values are not needed
+            # for primary keys anyways. So, for supporting altering primary keyse we
+            # have the flag 'NoDefault' which evades all handling of default values.
+            my $WithDefault = ( $Tag->{NoDefault} && lc $Tag->{NoDefault} eq 'true' ) ? 0 : 1;
+            my $Default;
 
-            # set default as NULL (not on TEXT/BLOB/LONGBLOB type, not supported by mysql)
-            if ( $Tag->{Type} !~ /^(TEXT|MEDIUMTEXT|BLOB|LONGBLOB)$/i ) {
-                push @SQL, "ALTER TABLE $Table CHANGE $Tag->{NameNew} $Tag->{NameNew} $Tag->{Type} DEFAULT NULL";
-            }
+            # normal data type with NULL values allowed
+            if ($WithDefault) {
+                push @SQL, $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type} NULL";
 
-            # investigate the default value
-            my $Default = '';
-            if ( $Tag->{Type} =~ /int/i ) {
-                $Default = defined $Tag->{Default} ? $Tag->{Default} : 0;
-            }
-            else {
-                $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
+                # set default as NULL (not on TEXT/BLOB/LONGBLOB type, not supported by mysql)
+                if ( $Tag->{Type} !~ /^(TEXT|MEDIUMTEXT|BLOB|LONGBLOB)$/i ) {
+                    push @SQL, "ALTER TABLE $Table CHANGE $Tag->{NameNew} $Tag->{NameNew} $Tag->{Type} DEFAULT NULL";
+                }
+
+                # investigate the default value
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $Default = defined $Tag->{Default} ? $Tag->{Default} : 0;
+                }
+                else {
+                    $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
+                }
             }
 
             # investigate Required and AutoIncrement
@@ -457,16 +466,19 @@ sub TableAlter {
             my $AutoIncrement = ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) ? 1 : 0;
 
             # handle default and require
-            if ( $Required || defined $Tag->{Default} ) {
+            if ( !$WithDefault || $Required || defined $Tag->{Default} ) {
 
                 # fill up empty rows
-                push @SQL,
-                    "UPDATE $Table SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
+                if ($WithDefault) {
+                    push @SQL, "UPDATE $Table SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
+                }
 
                 my $SQLAlter = "ALTER TABLE $Table CHANGE $Tag->{NameNew} $Tag->{NameNew} $Tag->{Type}";
 
                 # add default
-                $SQLAlter .= defined $Tag->{Default} ? " DEFAULT $Default" : '';
+                if ($WithDefault) {
+                    $SQLAlter .= defined $Tag->{Default} ? " DEFAULT $Default" : '';
+                }
 
                 # add Required
                 $SQLAlter .= $Required ? ' NOT NULL' : ' NULL';
