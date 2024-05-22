@@ -45,17 +45,28 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # one statement per column, so that an already existing column does not abort the update
-    my @XMLStrings = (
-        '<TableAlter Name="dynamic_field_value">
-            <ColumnAdd    Name="index_value" Required="false" Type="SMALLINT" />
-        </TableAlter>',
-        '<TableAlter Name="dynamic_field_value">
-            <ColumnAdd    Name="index_set" Required="false" Type="SMALLINT" />
-        </TableAlter>',
-        '<TableAlter Name="dynamic_field_value">
-            <ColumnChange NameOld="id" NameNew="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
-        </TableAlter>',
-    );
+    my @XMLStrings;
+
+    # new column
+    push @XMLStrings, <<'END_XML';
+<TableAlter Name="dynamic_field_value">
+  <ColumnAdd Name="index_value" Required="false" Type="SMALLINT" />
+</TableAlter>
+END_XML
+
+    # new column
+    push @XMLStrings, <<'END_XML';
+<TableAlter Name="dynamic_field_value">
+  <ColumnAdd Name="index_set" Required="false" Type="SMALLINT" />
+</TableAlter>
+END_XML
+
+    # column type changed from INT to BIGINT
+    push @XMLStrings, <<'END_XML';
+<TableAlter Name="dynamic_field_value">
+  <ColumnChange NameOld="id" NameNew="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+</TableAlter>
+END_XML
 
     return unless $Self->ExecuteXMLDBArray(
         XMLArray => \@XMLStrings,

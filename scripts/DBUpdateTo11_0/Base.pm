@@ -19,6 +19,8 @@ package scripts::DBUpdateTo11_0::Base;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -41,10 +43,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 RebuildConfig()
@@ -156,7 +155,7 @@ sub CacheCleanup {
 
 =head2 ExecuteXMLDBArray()
 
-Parse and execute an XML array. Tables are not created when they already exist.
+Parse and execute an XML array. Tables and columns are not created when they already exist.
 
     my $Success = $DBUpdateObject->ExecuteXMLDBArray(
         XMLArray          => \@XMLArray,
@@ -373,13 +372,11 @@ sub ExecuteXMLDBArray {
 
 Parse and execute an XML string.
 
-    $DBUpdateObject->ExecuteXMLDBString(
-        XMLString => '
-            <TableAlter Name="gi_webservice_config">
-                <ColumnDrop Name="config_md5"/>
-            </TableAlter>
-        ',
-    );
+    $DBUpdateObject->ExecuteXMLDBString( XMLString => <<'END_XML' );
+    <TableAlter Name="gi_webservice_config">
+      <ColumnDrop Name="config_md5"/>
+    </TableAlter>
+    END_XML
 
 =cut
 

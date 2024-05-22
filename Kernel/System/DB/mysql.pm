@@ -466,9 +466,7 @@ sub TableAlter {
                 my $SQLAlter = "ALTER TABLE $Table CHANGE $Tag->{NameNew} $Tag->{NameNew} $Tag->{Type}";
 
                 # add default
-                if ( defined $Tag->{Default} ) {
-                    $SQLAlter .= " DEFAULT $Default";
-                }
+                $SQLAlter .= defined $Tag->{Default} ? " DEFAULT $Default" : '';
 
                 # add Required
                 $SQLAlter .= $Required ? ' NOT NULL' : ' NULL';
