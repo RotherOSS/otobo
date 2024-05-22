@@ -214,7 +214,7 @@ sub ObjectDescriptionGet {
     my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences( UserID => $Param{ObjectID} );
 
     if ( $Preferences{UserEmail} ) {
-        $UserName = "\"$UserName\" <$Preferences{UserEmail}>";
+        $UserName = qq{"$UserName" <$Preferences{UserEmail}>};
     }
 
     my $Link;
