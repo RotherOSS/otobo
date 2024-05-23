@@ -41,7 +41,9 @@ requires 'HTTP::Message', '>= 6.18';
 # A JavaScript minifier written in XS
 requires 'JavaScript::Minifier::XS';
 
-requires 'List::AllUtils';
+requires 'List::Util', '>= 1.45';
+
+requires 'List::AllUtils', '>= 0.11';
 
 requires 'LWP::UserAgent';
 

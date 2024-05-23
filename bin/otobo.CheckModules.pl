@@ -490,11 +490,26 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'List::AllUtils',
-        Required  => 1,
-        InstTypes => {
+
+        # List::Util is a core module and has a double life
+        # in the Scalar::List::Utils distribution.
+        Module          => 'List::Util',
+        Required        => 1,
+        VersionRequired => '>= 1.45',
+        InstTypes       => {
+            aptget => 'libscalar-list-utils-perl',
+            emerge => 'perl-core/Scalar-List-Utils',
+            zypper => 'perl-Scalar-List-Utils',
+            ports  => 'devel/p5-Scalar-List-Utils',
+        },
+    },
+    {
+        Module          => 'List::AllUtils',
+        Required        => 1,
+        VersionRequired => '>= 0.11',
+        InstTypes       => {
             aptget => 'liblist-allutils-perl',
-            emerge => 'dev-perl/List-Allutils',
+            emerge => 'dev-perl/Scalar-List-Utils',
             zypper => 'perl-List-AllUtils',
             ports  => 'devel/p5-List-AllUtils',
         },
