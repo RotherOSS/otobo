@@ -389,6 +389,18 @@ sub DynamicFieldUpdate {
 
     my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
+    # get the old dynamic field data
+    my $OldDynamicField = $Self->DynamicFieldGet(
+        ID => $Param{ID},
+    );
+
+    # keep PartOfSet if present, or delete it if explicitly deactivated
+    if ( $OldDynamicField->{Config}{PartOfSet} ) {
+        $Param{Config}{PartOfSet} //= $OldDynamicField->{Config}{PartOfSet};
+
+        delete $Param{Config}{PartOfSet} if !$Param{Config}{PartOfSet};
+    }
+
     # dump config as string
     my $Config = $YAMLObject->Dump( Data => $Param{Config} );
 
@@ -435,11 +447,6 @@ sub DynamicFieldUpdate {
         );
         return;
     }
-
-    # get the old dynamic field data
-    my $OldDynamicField = $Self->DynamicFieldGet(
-        ID => $Param{ID},
-    );
 
     # check if FieldOrder is changed
     my $ChangedOrder;
