@@ -23,8 +23,7 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 my $TestPackage = 'scripts::test::Main::Test';
 my $TestPM      = 'scripts/test/Main/Test.pm';

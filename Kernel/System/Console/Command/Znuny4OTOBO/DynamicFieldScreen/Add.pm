@@ -71,8 +71,6 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $ZnunyHelperObject  = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
@@ -142,7 +140,7 @@ sub Run {
             $Screens{$Screen}->{$DynamicField} = $DynamicFieldState;
         }
     }
-    my $Success = $ZnunyHelperObject->_DynamicFieldsScreenEnable(%Screens);
+    $ZnunyHelperObject->_DynamicFieldsScreenEnable(%Screens);
     $Self->Print("\n<green>Done.</green>\n");
 
     return $Self->ExitCodeOk();

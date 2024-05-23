@@ -433,8 +433,7 @@ sub ArticleEdit {
     }
 
     # Read original article Content Path
-    my $Location
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir') . '/' . $ArticleContentPath . '/' . $Param{ArticleID};
+    my $Location = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir') . '/' . $ArticleContentPath . '/' . $Param{ArticleID};
 
     $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleMoveFiles(
         ArticleID         => $ArticleID,

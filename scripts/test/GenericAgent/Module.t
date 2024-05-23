@@ -26,7 +26,6 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
-my $ConfigObject                 = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject                 = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject                = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $InternalArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );

@@ -47,7 +47,6 @@ $Selenium->RunTest(
         );
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # Get RandomID.
         my $RandomID = $Helper->GetRandomID();

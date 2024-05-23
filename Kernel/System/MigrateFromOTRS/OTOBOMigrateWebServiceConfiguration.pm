@@ -81,7 +81,6 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get config object
-    my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
     # Set cache object with taskinfo and starttime to show current state in frontend

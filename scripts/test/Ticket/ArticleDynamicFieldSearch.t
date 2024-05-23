@@ -24,7 +24,6 @@ use Kernel::System::UnitTest::RegisterDriver;
 our $Self;
 
 # get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 

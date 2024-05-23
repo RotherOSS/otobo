@@ -36,7 +36,6 @@ $Kernel::OM->ObjectParamAdd(
 );
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $ErrorObject  = $Kernel::OM->Get('Kernel::GenericInterface::ErrorHandling::RequestRetry');
 
 # set fixed time

@@ -961,8 +961,6 @@ sub AddCalendar {
         return 0, "$SubName: the parameter '$Key' is required";
     }
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # create a calendar
     my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
     my $CalendarName   = 'Quick Setup Calendar 🚄';

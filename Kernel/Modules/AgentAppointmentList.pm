@@ -67,7 +67,6 @@ sub Run {
         $GetParam{$Key} = $SafeGetParam{String};
     }
 
-    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject      = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $CalendarObject    = $Kernel::OM->Get('Kernel::System::Calendar');
     my $AppointmentObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');

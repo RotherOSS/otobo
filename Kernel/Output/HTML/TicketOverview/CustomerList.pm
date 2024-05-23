@@ -61,11 +61,10 @@ sub Run {
     }
 
     # get needed object
-    my $ConfigObject               = $Kernel::OM->Get('Kernel::Config');
-    my $LayoutObject               = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject               = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject              = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # generate empty message
     if ( scalar @{ $Param{TicketIDs} } == 0 ) {
@@ -124,7 +123,8 @@ sub Run {
         );
 
         my $Subject;
-        my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
+
+        # TODO: get config oútside the loop
         my $SmallViewColumnHeader = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{ColumnHeader};
 
         # Check if the last customer subject or ticket title should be shown.

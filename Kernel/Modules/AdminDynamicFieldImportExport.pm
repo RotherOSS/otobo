@@ -291,8 +291,6 @@ sub _Mask {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     $LayoutObject->Block( Name => 'ActionOverview' );
@@ -448,8 +446,6 @@ sub _DynamicFieldShow {
 
             next DYNAMICFIELDSCREEN if grep { $DynamicField eq $_ } @DynamicFieldsAlreadyUsed;
             next DYNAMICFIELDSCREEN if !IsHashRefWithData( $Param{Data}->{DynamicFieldsScreens}->{$DynamicField} );
-
-            my $DynamicFieldsScreensData = $Param{Data}->{DynamicFieldsScreens}->{$DynamicField};
 
             my %DynamicFieldData = (
                 Name  => $DynamicField,

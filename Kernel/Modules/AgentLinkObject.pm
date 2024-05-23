@@ -47,9 +47,8 @@ sub Run {
         # save user preferences (shown columns)
 
         # Needed objects
-        my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-        my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+        my $JSONObject  = $Kernel::OM->Get('Kernel::System::JSON');
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
@@ -88,7 +87,7 @@ sub Run {
         if ($AdditionalLinkListWithDataJSON) {
 
             # decode JSON string
-            my $AdditionalLinkListWithData = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
+            my $AdditionalLinkListWithData = $JSONObject->Decode(
                 Data => $AdditionalLinkListWithDataJSON,
             );
 
@@ -343,7 +342,7 @@ sub Run {
             }
 
             # delete link from database
-            my $Success = $LinkObject->LinkDelete(
+            $LinkObject->LinkDelete(
                 Object1 => $Form{SourceObject},
                 Key1    => $Form{SourceKey},
                 Object2 => $Target[0],

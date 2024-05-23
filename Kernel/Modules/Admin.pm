@@ -25,25 +25,20 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
     # get needed object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # build output
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Footer();
-
-    return $Output;
+    # build output, all the content is in the NavigationBar
+    return join '',
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar,
+        $LayoutObject->Footer;
 }
 
 1;

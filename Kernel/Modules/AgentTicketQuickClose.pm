@@ -101,7 +101,7 @@ sub Run {
         ChannelName => $Config->{CommunicationChannel} || 'Internal',
     );
 
-    my $ArticleID = $ArticleBackendObject->ArticleCreate(
+    $ArticleBackendObject->ArticleCreate(
         TicketID             => $Self->{TicketID},
         SenderType           => $Config->{SenderType} || 'agent',
         Subject              => $Config->{Subject}    || 'Ticket closed',
@@ -120,7 +120,6 @@ sub Run {
 sub _SetState {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my $State = $Param{Config}{State};
@@ -133,7 +132,7 @@ sub _SetState {
         UserID   => $Self->{UserID},
     );
 
-    return if !$Success;
+    return unless $Success;
 
     $TicketObject->TicketLockSet(
         TicketID => $Self->{TicketID},

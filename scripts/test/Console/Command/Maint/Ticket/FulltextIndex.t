@@ -29,7 +29,6 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::FulltextIndex');
 
 for my $Argument (qw(--status --rebuild)) {

@@ -28,8 +28,6 @@ our $Self;
 # tickets with stale entries in article_search can still be deleted (see bug#11677).
 #
 
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,

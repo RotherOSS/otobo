@@ -57,8 +57,6 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get objects
-    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject         = $Kernel::OM->Get('Kernel::System::Log');
     my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $ZnunyHelperObject = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
     my $LayoutObject      = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -66,10 +64,6 @@ sub Run {
     my $LanguageObject    = $Kernel::OM->Get('Kernel::Language');
 
     $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
-
-    my %DynamicFields         = %{ $Self->{DynamicFields} };
-    my %DynamicFieldScreens   = %{ $Self->{DynamicFieldScreens} };
-    my %DefaultColumnsScreens = %{ $Self->{DefaultColumnsScreens} };
 
     # check needed stuff
     NEEDED:
@@ -275,7 +269,6 @@ sub _ShowOverview {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %DynamicFields         = %{ $Self->{DynamicFields} };
     my %DynamicFieldScreens   = %{ $Self->{DynamicFieldScreens} };

@@ -24,7 +24,6 @@ use Kernel::System::UnitTest::RegisterDriver;
 our $Self;
 
 # get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
 # get helper object

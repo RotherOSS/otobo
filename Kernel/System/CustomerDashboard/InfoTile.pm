@@ -222,7 +222,6 @@ sub InfoTileGet {
     }
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
     my $CacheKey = "InfoTileGet::ID::$Param{ID}";
 
@@ -312,8 +311,7 @@ sub InfoTileListGet {
 
     my @SearchResult;
 
-    my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     my $CacheKey = "InfoTileListGet::XMLSearch";
 

@@ -35,7 +35,6 @@ sub PreRun {
     my ( $Self, %Param ) = @_;
 
     my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
     my $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # cancel password action if an AgentInfo should be shown
@@ -87,7 +86,6 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject      = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $MainObject        = $Kernel::OM->Get('Kernel::System::Main');
     my $ParamObject       = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -171,7 +169,6 @@ sub Run {
 sub _Screen {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
 

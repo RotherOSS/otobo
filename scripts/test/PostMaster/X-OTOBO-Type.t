@@ -29,7 +29,6 @@ use Kernel::System::PostMaster ();
 our $Self;
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # get helper object

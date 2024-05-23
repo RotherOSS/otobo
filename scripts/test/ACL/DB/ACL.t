@@ -31,9 +31,8 @@ use Kernel::System::VariableCheck qw(:all);
 our $Self;
 
 # get needed singletons
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
-my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
+my $ACLObject   = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
+my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,

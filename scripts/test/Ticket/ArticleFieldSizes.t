@@ -23,7 +23,6 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
-my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
 my $MainObject            = $Kernel::OM->Get('Kernel::System::Main');
 my $ArticleInternalObject = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal');
 

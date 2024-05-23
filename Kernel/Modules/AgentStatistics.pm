@@ -108,9 +108,9 @@ sub Run {
 sub OverviewScreen {
     my ( $Self, %Param ) = @_;
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Get Params
     $Param{SearchPageShown} = $ConfigObject->Get('Stats::SearchPageShown')   || 50;
@@ -325,7 +325,6 @@ sub EditScreen {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get param
     if ( !( $Param{StatID} = $ParamObject->GetParam( Param => 'StatID' ) ) ) {
@@ -385,7 +384,6 @@ sub EditAction {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %Errors;
 
@@ -697,7 +695,6 @@ sub ViewScreen {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my @Errors;
     if ( ref $Param{Errors} eq 'ARRAY' ) {
@@ -765,6 +762,7 @@ sub ViewScreen {
 sub AddScreen {
     my ( $Self, %Param ) = @_;
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
@@ -811,7 +809,7 @@ sub AddScreen {
 
     # generate version for links to the manual,
     # only major and minor version are relevant, like 11.0 for version 11.0.1
-    my ($ManualVersion) = $Kernel::OM->Get('Kernel::Config')->Get('Version') =~ m/^(\d{2}\.\d+)/;
+    my ($ManualVersion) = $ConfigObject->Get('Version') =~ m/^(\d{2}\.\d+)/;
 
     # build output
     return join '',
@@ -836,7 +834,6 @@ sub AddAction {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %Errors;
 
@@ -931,7 +928,6 @@ sub RunAction {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     for my $Name (qw(Format StatID Name Cached)) {
         $Param{$Name} = $ParamObject->GetParam( Param => $Name );

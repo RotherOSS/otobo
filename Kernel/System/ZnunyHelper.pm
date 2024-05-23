@@ -1987,7 +1987,6 @@ sub _DynamicFieldsScreenConfigExport {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 
     my $ValidDynamicFieldScreenList = $Self->_ValidDynamicFieldScreenListGet();
 
@@ -2067,8 +2066,7 @@ Returns:
 sub _DynamicFieldsScreenConfigImport {
     my ( $Self, %Param ) = @_;
 
-    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
     # check needed stuff
     NEEDED:
@@ -4708,7 +4706,6 @@ gets ProcessWidgetDynamicFieldGroups
 sub _ProcessWidgetDynamicFieldGroupsRemove {
     my ( $Self, %Groups ) = @_;
 
-    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 

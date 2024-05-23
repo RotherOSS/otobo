@@ -135,9 +135,6 @@ sub Run {
         },
     );
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # show change customer relations button if the agent has permission
     my $ChangeCustomerReleationsAccess = $LayoutObject->Permission(
         Action => 'AdminCustomerUserCustomer',

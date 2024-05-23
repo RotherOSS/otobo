@@ -32,7 +32,6 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
-my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
 # Basic tests
