@@ -592,7 +592,12 @@ sub DisplayValueRender {
             next VALUE if !defined $Element->{Value} || $Element->{Value} eq '';
 
             if ($HTMLOutput) {
-                $SetValue{Value}[$SetIndex] .= "<label>$Label</label><p class='Value'><span title='$Element->{Title}'>$Element->{Value}</span></p><div class='Clear'></div>";
+                if ( $Element->{Link} ) {
+                    $SetValue{Value}[$SetIndex] .= "<label>$Label</label><p class=\"Value\"><a href=\"$Element->{Link}\" title=\"$Element->{Title}\">$Element->{Value}</a></p><div class=\"Clear\"></div>";
+                }
+                else {
+                    $SetValue{Value}[$SetIndex] .= "<label>$Label</label><p class=\"Value\"><span title=\"$Element->{Title}\">$Element->{Value}</span></p><div class=\"Clear\"></div>";
+                }
             }
             else {
                 $SetValue{Value}[$SetIndex] .= "$Label: $Element->{Value}\n";
