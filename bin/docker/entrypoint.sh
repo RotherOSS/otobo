@@ -124,6 +124,23 @@ function exec_web() {
 # preserve added files in the previous
 function copy_otobo_next() {
 
+    # The directory Kernel/cpan-lib is a special case. Perl modules
+    # from previous OTOBO versions should not override the modules
+    # that are provided in /opt/otobo_install/local. So we move
+    # the entire directory out of the way when it already exists.
+    if [ -d  "$OTOBO_HOME/Kernel/cpan-lib" ]; then
+        source_dir="$OTOBO_HOME/Kernel/cpan-lib"
+        target_dir="$OTOBO_HOME/var/backup_cpan_lib/$(date +%Y-%m-%d-%H%M%S)_$RANDOM/Kernel"
+        mkdir --parents $target_dir
+        mv  $source_dir $target_dir
+        {
+            date
+            echo "Moved $source_dir to $target_dir"
+            echo
+        } >> $update_log
+    fi
+
+
     # Copy files recursively.
     # Changed files are overwritten, new files are not deleted.
     # File attributes are preserved.
@@ -228,7 +245,8 @@ if [ "$1" = "web" ]; then
     exec_web
 fi
 
-# copy /opt/otobo_install/otobo_next without checking docker_firsttime
+# Copy /opt/otobo_install/otobo_next without checking docker_firsttime.
+# This is used for updates of OTOBO.
 if [ "$1" = "copy_otobo_next" ]; then
     copy_otobo_next
 
