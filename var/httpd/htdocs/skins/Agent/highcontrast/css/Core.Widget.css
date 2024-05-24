@@ -128,7 +128,7 @@ ul.Tablelike li.Header {
 
 .CallForAction:hover,
 .CallForAction:focus {
-    color: #000;
+    color: var(--colTextDark);
 }
 
 .CallForAction span:hover,
@@ -138,8 +138,12 @@ ul.Tablelike li.Header {
     border: 1px;
 }
 
-.CallForAction:disabled span {
-    color: var(--colTextLight) !important;
+.CallForAction.Disabled span,
+.CallForAction.Disabled span i,
+.CallForAction.Disabled:hover span,
+.CallForAction.Disabled:hover span i
+{
+    color: var(--colTextMedium) !important;
 }
 
 .cke_dialog_footer_buttons td a.cke_dialog_ui_button span {
