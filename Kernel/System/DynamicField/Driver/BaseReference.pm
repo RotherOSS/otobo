@@ -273,7 +273,7 @@ sub EditFieldRender {
                     SelectedID   => $Value->[$ValueIndex],
                     Class        => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
                     HTMLQuote    => 1,
-                    PossibleNone => 0,
+                    PossibleNone => $DFDetails->{PossibleNone} // 0,
                 );
             }
         }
@@ -288,7 +288,7 @@ sub EditFieldRender {
                 Class        => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
                 HTMLQuote    => 1,
                 Multiple     => $DFDetails->{Multiselect},
-                PossibleNone => 0,
+                PossibleNone => $DFDetails->{PossibleNone} // 0,
             );
         }
     }
