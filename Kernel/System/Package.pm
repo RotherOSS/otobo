@@ -4952,7 +4952,6 @@ sub CloudFileGet {
 
     # return repo list
     return $OperationResult->{Data};
-
 }
 
 sub _ConfigurationDeploy {

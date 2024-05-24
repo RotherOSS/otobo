@@ -103,8 +103,9 @@ sub Run {
 
         $Self->Print("  Cloud repositories... <green>Done</green>\n\n");
     }
+    $RepositoryCloudList ||= {};
 
-    my %RepositoryListAll = ( %RepositoryList, %{ $RepositoryCloudList || {} } );
+    my %RepositoryListAll = ( %RepositoryList, $RepositoryCloudList->%* );
 
     $Self->Print("<yellow>Fetching on-line repositories...</yellow>\n");
 

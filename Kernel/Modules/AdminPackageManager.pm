@@ -17,13 +17,19 @@
 package Kernel::Modules::AdminPackageManager;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
+use v5.24;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::AsynchronousExecutor);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
-
-use parent('Kernel::System::AsynchronousExecutor');
 
 our $ObjectManagerDisabled = 1;
 
@@ -31,8 +37,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # check if cloud services are disabled
     $Self->{CloudServicesDisabled} = $Kernel::OM->Get('Kernel::Config')->Get('CloudServices::Disabled') || 0;
@@ -1514,19 +1519,20 @@ sub Run {
 
     # show cloud repo if system is registered
     my $RepositoryCloudList;
-    my $RegistrationState = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
-        Key => 'Registration::State',
-    ) || '';
-    if ( $RegistrationState eq 'registered' && !$Self->{CloudServicesDisabled} ) {
-
-        $RepositoryCloudList =
-            $PackageObject->RepositoryCloudList( NoCache => 1 );
+    if ( !$Self->{CloudServicesDisabled} ) {
+        my $RegistrationState = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
+            Key => 'Registration::State',
+        ) || '';
+        if ( $RegistrationState eq 'registered' ) {
+            $RepositoryCloudList = $PackageObject->RepositoryCloudList( NoCache => 1 );
+        }
     }
+    $RepositoryCloudList //= {};
 
     # In case Source is present on repository cloud list
     #   the call for retrieving data about it, should be performed
     #   using the CloudService backend.
-    my $FromCloud = ( $RepositoryCloudList->{$Source} ? 1 : 0 );
+    my $FromCloud = $RepositoryCloudList->{$Source} ? 1 : 0;
 
     # Get the list of the installed packages early to be able to show or not the Upgrade All button
     #   in the layout block.
@@ -2166,6 +2172,7 @@ sub _InstallHandling {
     if ( !$Self->{CloudServicesDisabled} ) {
         $RepositoryCloudList = $PackageObject->RepositoryCloudList();
     }
+    $RepositoryCloudList //= {};
 
     # in case Source is present on repository cloud list
     # the package should be retrieved using the CloudService backend
