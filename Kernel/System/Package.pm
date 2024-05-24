@@ -330,11 +330,10 @@ sub RepositoryGet {
 
 =head2 RepositoryAdd()
 
-add a package to local repository
+add a package to the local repository, that is the database table I<package_repository>.
 
     $PackageObject->RepositoryAdd(
         String    => $FileString,
-        FromCloud => 0,             # optional 1 or 0, it indicates if package came from Cloud or not
     );
 
 =cut
@@ -351,9 +350,6 @@ sub RepositoryAdd {
         return;
     }
 
-    # get from cloud flag
-    $Param{FromCloud} //= 0;
-
     # get package attributes
     my %Structure = $Self->PackageParse(%Param);
 
@@ -362,6 +358,7 @@ sub RepositoryAdd {
             Priority => 'error',
             Message  => 'Invalid Package!',
         );
+
         return;
     }
     if ( !$Structure{Name} ) {
@@ -479,7 +476,6 @@ installs a package when it is not installed yet. Upgrades a package when it is a
     $PackageObject->PackageInstall(
         String    => $FileString,
         Force     => 1,             # optional 1 or 0, for to install package even if validation fails
-        FromCloud => 1,             # optional 1 or 0, it indicates if package's origin is Cloud or not
     );
 
 =cut
@@ -500,9 +496,6 @@ sub PackageInstall {
     # Cleanup the repository cache before the package installation to have the current state
     #   during the installation.
     $Self->_RepositoryCacheClear();
-
-    # get from cloud flag
-    my $FromCloud = $Param{FromCloud} || 0;
 
     # conflict check
     my %Structure = $Self->PackageParse(%Param);
@@ -595,9 +588,8 @@ sub PackageInstall {
     }
 
     # add package
-    return if !$Self->RepositoryAdd(
-        String    => $Param{String},
-        FromCloud => $FromCloud,
+    return unless $Self->RepositoryAdd(
+        String => $Param{String},
     );
 
     # update package status
@@ -909,7 +901,7 @@ sub PackageUpgrade {
     return if !$Self->RepositoryRemove( Name => $Structure{Name}->{Content} );
 
     # add new package
-    return if !$Self->RepositoryAdd( String => $Param{String} );
+    return unless $Self->RepositoryAdd( String => $Param{String} );
 
     # update package status
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
@@ -3253,9 +3245,8 @@ sub PackageUpgradeAll {
 
         if ( !$InstalledVersions{$PackageName} ) {
             my $InstallSuccess = $Self->PackageInstall(
-                String    => $Package,
-                FromCloud => $MetaPackage->{FromCloud},
-                Force     => $Param{Force} || 0,
+                String => $Package,
+                Force  => $Param{Force} || 0,
             );
             if ( !$InstallSuccess ) {
                 $Success = 0;

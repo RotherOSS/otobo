@@ -169,7 +169,9 @@ for my $Test (@Tests) {
     );
 
     if ( $Test->{RepositoryAdd} ) {
-        my $RepositoryAdd = $PackageObject->RepositoryAdd( String => $Test->{RepositoryAdd}->{String} );
+        my $RepositoryAdd = $PackageObject->RepositoryAdd(
+            String => $Test->{RepositoryAdd}->{String}
+        );
         $Self->True(
             $RepositoryAdd,
             "RepositoryAdd() $Test->{RepositoryAdd}->{PackageName}",

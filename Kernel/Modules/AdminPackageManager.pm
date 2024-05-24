@@ -2170,13 +2170,6 @@ sub _InstallHandling {
     }
     $RepositoryCloudList //= {};
 
-    # in case Source is present on repository cloud list
-    # the package should be retrieved using the CloudService backend
-    my $FromCloud = 0;
-    if ( $Param{Source} && $RepositoryCloudList->{ $Param{Source} } ) {
-        $FromCloud = 1;
-    }
-
     my %Response = $PackageObject->AnalyzePackageFrameworkRequirements(
         Framework => $Structure{Framework},
         NoLog     => 1,
@@ -2257,8 +2250,7 @@ sub _InstallHandling {
     # install package
     elsif (
         $PackageObject->PackageInstall(
-            String    => $Param{Package},
-            FromCloud => $FromCloud
+            String => $Param{Package},
         )
         )
     {
