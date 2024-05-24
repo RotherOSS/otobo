@@ -130,7 +130,7 @@ function copy_otobo_next() {
     # the entire directory out of the way when it already exists.
     if [ -d  "$OTOBO_HOME/Kernel/cpan-lib" ]; then
         source_dir="$OTOBO_HOME/Kernel/cpan-lib"
-        target_dir="$OTOBO_HOME/var/backup_cpan_lib/$(date +%Y-%m-%d-%H%M%S)_$RANDOM/Kernel"
+        target_dir="$OTOBO_HOME/backup/$(date +%Y-%m-%d-%H%M%S)_$RANDOM/Kernel"
         mkdir --parents $target_dir
         mv  $source_dir $target_dir
         {
