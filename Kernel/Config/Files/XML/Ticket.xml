@@ -12641,7 +12641,7 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="PostMaster::PreFilterModule###000-DetectAttachment" Required="0" Valid="1">
+    <Setting Name="PostMaster::PreFilterModule###000-DetectAttachment" Required="0" Valid="0">
         <Description Translatable="1">Module used to detect if attachments are present.</Description>
         <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
