@@ -117,9 +117,9 @@ sub Run {
         my $FromCloud = 0;
         if ( $RepositoryCloudList->{$URL} ) {
             $FromCloud = 1;
-
         }
 
+        # TODO: is this still useful ?
         my @OnlineList = $PackageObject->PackageOnlineList(
             URL       => $URL,
             Lang      => 'en',

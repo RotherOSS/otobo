@@ -211,10 +211,6 @@ sub Run {
             },
         );
 
-        my @RepositoryList = $PackageObject->RepositoryList(
-            Result => 'short',
-        );
-
         # if visible property is not enable, return error screen
         if (
             defined $Structure{PackageIsVisible}
