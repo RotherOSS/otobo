@@ -302,7 +302,7 @@ sub _ShowOverview {
         PossibleNone => 1,
         Sort         => 'AlphanumericValue',
         SelectedID   => $ObjectTypeFilter,
-        Class        => 'Modernize W95pc',
+        Class        => 'Modernize',
     );
 
     $LayoutObject->Block(
@@ -326,7 +326,7 @@ sub _ShowOverview {
             PossibleNone => 1,
             Translation  => 0,
             Sort         => 'AlphanumericValue',
-            Class        => 'Modernize W95pc',
+            Class        => 'Modernize',
         );
 
         $LayoutObject->Block(

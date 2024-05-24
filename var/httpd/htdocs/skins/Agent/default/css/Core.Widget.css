@@ -853,14 +853,14 @@ input.FilterBox {
 }
 
 .SearchBox input[type='text'] {
-    height: 15px;
     margin: 0px;
     padding: 4px 5px;
     font: normal 12px/15px "Helvetica Neue",Helvetica,Arial,sans-serif;
     border-color: var(--colTextLight);
     border-right: none;
     vertical-align: bottom;
-    width: 213px;
+    width: calc(100% - 25px);
+    box-sizing: border-box;
 }
 
 .RTL .SearchBox input[type='text']{

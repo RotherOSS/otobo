@@ -1444,7 +1444,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 }
 
                 // Set width of search field to that of the select field
-                $SearchObj.width(SelectWidth);
+                $SearchObj.outerWidth(SelectWidth);
 
                 // Subscribe on window resize event
                 Core.App.Subscribe('Event.UI.InputFields.Resize', function() {
@@ -1453,7 +1453,16 @@ Core.UI.InputFields = (function (TargetNS) {
                     $SearchObj.blur().hide();
                     SelectWidth = $SelectObj.show().outerWidth();
                     $SelectObj.hide();
-                    $SearchObj.width(SelectWidth).show();
+                    $SearchObj.outerWidth(SelectWidth).show();
+                });
+
+                // set width after page and layout are fully loaded
+                window.addEventListener = ("load", (event) => {
+                    // Set width of search field to that of the select field
+                    $SearchObj.blur().hide();
+                    SelectWidth = $SelectObj.show().outerWidth();
+                    $SelectObj.hide();
+                    $SearchObj.outerWidth(SelectWidth).show();
                 });
 
                 // Handle clicks on related label

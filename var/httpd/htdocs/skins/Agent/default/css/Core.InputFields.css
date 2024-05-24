@@ -61,6 +61,13 @@ div.InputField_InputContainer {
 .SidebarColumn .WidgetSimple .InputField_Search,
 .SidebarColumn .WidgetSimple .InputField_Autocomplete {
     min-width: 80px;
+    box-sizing: border-box;
+}
+
+.SidebarColumn .WidgetSimple .InputField_Container,
+.SidebarColumn .WidgetSimple .InputField_Container .InputField_InputContainer,
+.SidebarColumn .WidgetSimple select.Modernize {
+    width: 100%;
 }
 
 .WidgetSettingsForm .InputField_Search,
