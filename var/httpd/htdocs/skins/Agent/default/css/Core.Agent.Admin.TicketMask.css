@@ -29,4 +29,8 @@ fieldset > .Field .CodeMirror-wrap {
     height: calc(100vh - 500px);
     min-height: 320px;
 }
+
+.SidebarColumn .WidgetSimple form .CallForAction {
+    margin-top: 8px;
+}
 }/* end @media */

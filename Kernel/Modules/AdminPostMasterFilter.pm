@@ -268,7 +268,7 @@ sub Run {
         my $SearchFilterStrg = $LayoutObject->BuildSelection(
             Data         => \%Header,
             Name         => 'SearchFilter',
-            Class        => 'Modernize W50pc FilterBox',
+            Class        => 'Modernize W100pc FilterBox',
             SelectedID   => $SearchItems{SearchFilter},
             Translation  => 0,
             HTMLQuote    => 1,
@@ -280,7 +280,7 @@ sub Run {
         my $SearchValueStrg = $LayoutObject->BuildSelection(
             Data         => \%SetHeader,
             Name         => 'SearchValue',
-            Class        => 'Modernize W50pc FilterBox',
+            Class        => 'Modernize W100pc FilterBox',
             SelectedID   => $SearchItems{SearchValue},
             Translation  => 0,
             HTMLQuote    => 1,

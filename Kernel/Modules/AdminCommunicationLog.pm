@@ -143,7 +143,7 @@ sub _ShowOverview {
         PossibleNone => 0,
         Translation  => 1,
         Sort         => 'NumericKey',
-        Class        => 'Modernize W75pc',
+        Class        => 'Modernize W100pc',
     );
 
     $LayoutObject->Block(
