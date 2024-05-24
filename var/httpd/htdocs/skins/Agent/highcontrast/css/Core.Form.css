@@ -78,7 +78,7 @@ div.InputField_Selection div.Text,
 /**
  * @subsection  Form
  */
-.FieldExplanation {
+.SidebarColumn .FieldExplanation {
     color: var(--colTextDark);
 }
 
