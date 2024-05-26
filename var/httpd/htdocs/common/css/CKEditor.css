@@ -59,6 +59,10 @@ img.image_resized {
     display: table
 }
 
+table {
+    font-size: inherit;
+}
+
 .table table td,
 .table table th {
     min-width: 2em;
