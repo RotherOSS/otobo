@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.85002251914127;
+    $Self->{Completeness}        = 0.849894926448514;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -65,6 +65,8 @@ sub Data {
             'إذا كنت تريد إنشاء قائمة ACL، فيمكنك استيرادها من نظام آخر أو إنشاء ACL جديد بالكامل.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'تسري التغييرات على قوائم ACLs فقط عندما تقوم بتشغيل ACLs. هنا يتم حفظ التغييرات في ملف التكوين.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'ملاحظة: يمثل هذا الجدول ترتيب تنفيذ قائمة ACLs. إذا كنت تريد تغيير الترتيب، فيرجى تغيير أسماء قوائم ACLs ذات الصلة.',
@@ -7326,7 +7328,8 @@ Thanks for your help!
             'تعريف اسم الحقل الديناميكي لوقت الانتهاء. يجب إضافة هذا الحقل يدويا إلى النظام كتذكرة: "التاريخ / الوقت" ويجب تنشيطه في شاشات إنشاء التذكرة و/أو في أي شاشات أخرى لإجراءات التذكرة.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'تعريف اسم الحقل الديناميكي لوقت البدء. يجب إضافة هذا الحقل يدويا إلى النظام كتذكرة: "التاريخ / الوقت" ويجب تنشيطه في شاشات إنشاء التذكرة و/أو في أي شاشات أخرى لإجراءات التذكرة.',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => 'حدد الحد الأقصى لعمق قوائم الانتظار.',
         'Define the queue comment 2.' => 'يحدد تعليق قائمة الانتظار 2.',
         'Define the service comment 2.' => 'حدد تعليق الخدمة 2.',

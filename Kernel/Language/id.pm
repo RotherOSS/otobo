@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.583095631286594;
+    $Self->{Completeness}        = 0.583008105673972;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -63,6 +63,8 @@ sub Data {
             'Untuk membuat ACL baru, anda dapat mengimpor ACL yang telah di ekspor dari sistem lain ataupun membuat baru dari awal.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Pengubahan terhadap ACL disini hanya berpengaruh kepada perilaku sistem ini, Jika anda menyebarkan data ACL setelahnya. Dengan penyebaran data ACL, pengubahan terbaru akan tercatat pada konfigurasinya.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Harap dicatat: Tabel ini menunjukan urutan eksekusi ACL. Jika anda perlu mengubah urutan eksekusi ACL, Mohon ubah nama-nama dari ACL yang terpengaruh.',
@@ -7323,7 +7325,8 @@ Helpdesk Team Anda
             'Menentukan nama field dinamis untuk waktu akhir. Bidang ini harus secara manual ditambahkan ke sistem sebagai Tiket: "Date / Time" dan harus diaktifkan dalam layar pembuatan tiket dan/atau dalam layar tindakan tiket lainnya.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Menentukan nama field dinamis untuk waktu mulai. Bidang ini harus secara manual ditambahkan ke sistem sebagai Ticket: "Date/Time" dan harus diaktifkan dalam layar pembuatan tiket dan / atau dalam layar tindakan tiket lainnya.',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => 'Tentukan max kedalaman antrian.',
         'Define the queue comment 2.' => 'Tentukan max kedalaman antrian.',
         'Define the service comment 2.' => 'Mendefinisikan layanan komentar 2.',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.204173547515388;
+    $Self->{Completeness}        = 0.204142900030021;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -63,6 +63,8 @@ sub Data {
             'Norėdami sukurti naują ACL taisyklę, galite arba importuoti ACL taisykles, eksportuotas iš kitos sistemos, arba sukurti visiškai naują taisyklę.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'ACL pakeitimai čia keičia sistemos elgesį tik jei ACL duomenys yra aktyvuojami vėliau. Aktyvuojant ACL duomenis, nauji pakeitimai bus įrašomi į konfigūraciją.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL taisyklės',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Svarbu: Ši lentelė apibrėžia ACL taisyklių eiliškumą. Norėdami pakeisti šį eiliškumą, pakeiskite susijusių ACL taisyklių pavadinimus.',
@@ -7310,7 +7312,8 @@ Thanks for your help!
             '',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => '',
         'Define the queue comment 2.' => '',
         'Define the service comment 2.' => '',

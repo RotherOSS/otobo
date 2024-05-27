@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.244557874193064;
+    $Self->{Completeness}        = 0.244521164815371;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -70,6 +70,8 @@ sub Data {
             'Pro vytvoření nového ACL můžete buď importovat ACL, která byla vytvořena na jiném systému, nebo vytvořit úplně nové.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Zde provedené změny ACL ovlivňují chování systému pouze tehdy, když poté ACL data nasadíte. Nasazením dat ACL se nově provedené změny zapíšou do konfigurace.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Poznámka: Tato tabulka představuje pořadí vykonávání ACL. Pokud potřebujete změnit pořadí, ve kterém jsou ACL vykonávána, změňte prosím názvy daných ACL.',
@@ -7317,7 +7319,8 @@ Thanks for your help!
             '',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => '',
         'Define the queue comment 2.' => '',
         'Define the service comment 2.' => '',

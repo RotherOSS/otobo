@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.921183005554722;
+    $Self->{Completeness}        = 0.921044731311918;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -69,6 +69,8 @@ sub Data {
             '为了创建ACL，你可以导入ACL配置或从头创建一个全新的ACL。',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '在这里的任何ACL的修改，仅将其保存在系统中。只有在部署ACL后，它才会起作用。',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '注意：列表中的ACL名称排序顺序决定了ACL的执行顺序。如果需要更改ACL的执行顺序，请修改相应的ACL名称。',
@@ -7325,7 +7327,8 @@ Thanks for your help!
             '定义结束时间的动态字段名称。这个字段需要手动加入到系统作为工单的一种“日期/时间”，并且要在工单创建屏幕和/或其它任何工单操作屏幕激活。',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '定义开始时间的动态字段名称。这个字段需要手动加入到系统作为工单的一种“日期/时间”，并且要在工单创建屏幕和/或其它任何工单操作屏幕激活。',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => '定义队列的最大深度。',
         'Define the queue comment 2.' => '定义队列注释2。',
         'Define the service comment 2.' => '定义服务注释2。',

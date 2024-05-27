@@ -27408,3 +27408,11 @@ msgstr ""
 msgid "Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications."
 msgstr ""
 
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
+msgstr ""
+
+#. SysConfig
+msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters."
+msgstr ""
+

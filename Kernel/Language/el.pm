@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.125957063503978;
+    $Self->{Completeness}        = 0.125938156709697;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -64,6 +64,8 @@ sub Data {
             'Για τη δημιουργία ενός νέου ACL μπορείτε είτε να εισάγετε τα ACL τα οποία έχουν εξαχθεί από κάποιο άλλο σύστημα ή να δημιουργήσετε καινούριο εξαρχής.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Οι αλλαγές στα ACL θα επηρεάσουν τη συμπεριφορά μόνο του τρέχοντος συστήματος, εάν γίνει ανάπτυξη των ACL αργότερα. Αναπτύσσοντας τα δεδομένα των ACL, οι νέες αλλαγές θα αποθηκευθούν στις υπάρχουσες ρυθμίσεις σας.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Σημείωση: Αυτός ο πίνακας αναπαριστά τη σειρά εκτέλεσης των ACL. Εάν επιθυμείτε να τροποποιήσετε τη σειρά με την οποία εκτελούνται τα ACL, παρακαλούμε αλλάξτε τα ονόματα των επηρεαζόμενων ACL.',
@@ -7316,7 +7318,8 @@ Thanks for your help!
             '',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => '',
         'Define the queue comment 2.' => '',
         'Define the service comment 2.' => '',

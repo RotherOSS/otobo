@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.50562978531752;
+    $Self->{Completeness}        = 0.505553887721405;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -63,6 +63,8 @@ sub Data {
             'เพื่อสร้างACLใหม่คุณสามารถสร้างโดยนำเข้าACLsที่ถูกส่งเข้ามาจากระบบอื่นหรือสร้างใหม่',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'การเปลี่ยนแปลง ACLs ที่นี่จะส่งผลกระทบต่อการทำงานของระบบเท่านั้น ถ้าหากคุณปรับใช้ข้อมูล ACL ในภายหลัง จะทำให้การเปลี่ยนแปลครั้งใหม่นั้นถูกเขียนที่การกำหนดค่าเนื่องการปรับใช้ข้อมูล ACL',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'โปรดทราบ: ตารางนี้แสดงถึงลำดับการดำเนินการของ ACLsถ้าคุณต้องการที่จะเปลี่ยนลำดับดำเนินการของ ACLs โปรดเปลี่ยนชื่อ ACLs ที่ ได้รับผลกระทบ',
@@ -7324,7 +7326,8 @@ Thanks for your help!
             'กำหนดชื่อฟิลด์แบบไดนามิกสำหรับเวลาสิ้นสุด ข้อมูลนี้จะต้องมีการเพิ่มด้วยตนเองในระบบเป็นตั๋ว: "วันที่ / เวลา" และจะต้องเปิดใช้งานในหน้าจอการสร้างตั๋ว และ/หรือ ในหน้าจอการดำเนินการตั๋วอื่นๆ ',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'กำหนดชื่อฟิลด์แบบไดนามิกสำหรับเวลาเริ่มต้น ข้อมูลนี้จะต้องมีการเพิ่มด้วยตนเองในระบบเป็นตั๋ว: "วันที่ / เวลา" และจะต้องเปิดใช้งานในหน้าจอการสร้างตั๋ว และ/หรือ ในหน้าจอการดำเนินการตั๋วอื่นๆ ',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => 'กำหนดความลึกสูงสุดของคิว',
         'Define the queue comment 2.' => 'กำหนดการแสดงความคิดเห็นเกี่ยวกับคิวที่ 2',
         'Define the service comment 2.' => 'กำหนดการแสดงความคิดเห็นเกี่ยวกับการบริการที่ 2',

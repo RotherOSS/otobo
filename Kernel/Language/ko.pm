@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.828554271130461;
+    $Self->{Completeness}        = 0.828429900930651;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -63,6 +63,8 @@ sub Data {
             '새 ACL을 만들려면 다음에서 내 보낸 ACL을 가져올 수 있습니다.다른 시스템을 만들거나 완전한 새 시스템을 만드십시오.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '이후 ACL 데이터를 배포하는 경우 여기에서 ACL을 변경하면 시스템의 동작에만 영향을줍니다. ACL 데이터를 배포하면 새로 변경된 내용이 구성에 기록됩니다.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '이 테이블은 ACL의 실행 순서를 나타냅니다. ACL이 실행되는 순서를 변경해야하는 경우 영향을받는 ACL의 이름을 변경하십시오',
@@ -7321,7 +7323,8 @@ Thanks for your help!
             '종료 시간의 동적 필드 이름을 정의하십시오. 이 필드는 티켓 : "날짜 / 시간"으로 시스템에 수동으로 추가되어야하며 티켓 생성 화면 및 / 또는 기타 티켓 동작 화면에서 활성화해야합니다.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '시작 시간의 동적 필드 이름을 정의하십시오. 이 필드는 티켓 : "날짜 / 시간"으로 시스템에 수동으로 추가되어야하며 티켓 생성 화면 및 / 또는 기타 티켓 동작 화면에서 활성화해야합니다.',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => '대기열의 최대 깊이를 정의하십시오.',
         'Define the queue comment 2.' => '큐 설명 정의 2.',
         'Define the service comment 2.' => '서비스 주석 정의2.',

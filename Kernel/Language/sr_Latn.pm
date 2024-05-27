@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.859180303257769;
+    $Self->{Completeness}        = 0.859051335935155;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -69,6 +69,8 @@ sub Data {
             'Da biste kreirali novu ACL možete ili uvesti ACL liste koje su izvezene iz drugog sistema ili napraviti kompletno novu.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Promene na ACL listama ovde samo utiču na ponašanje sistema, ukoliko naknadno upotrebite sve ACL podatke.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL liste',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Napomena: Ova tabela predstavlja redosled izvršavanja u ACL listama. Ako je potrebno da promenite redosled kojim se izvršavaju ACL liste, molimo promenite imena tih ACL lista.',
@@ -7327,7 +7329,8 @@ Vaša tehnička podrška
             'Definiše naziv dinamičkog polja za krajnje vreme. Ovo polje mora biti manuelno dodato sistemu kao tiket: "Datum / Vreme" i mora biti aktivirano u ekranima za kreiranje tiketa i/ili u bilo kom drugom ekranu sa tiket akcijama.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definiše naziv dinamičkog polja za početno vreme. Ovo polje mora biti manuelno dodato sistemu kao tiket: "Datum / Vreme" i mora biti aktivirano u ekranima za kreiranje tiketa i/ili u bilo kom drugom ekranu sa tiket akcijama.',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => 'Definiši maksimalnu dubinu za redove.',
         'Define the queue comment 2.' => 'Definiše komentar reda 2.',
         'Define the service comment 2.' => 'Definiše servisni komentar 2.',

@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.287794625431617;
+    $Self->{Completeness}        = 0.287751425998199;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -64,6 +64,8 @@ sub Data {
             'Para criar uma nova Lista de Controle de Acesso (ACL) pode importar uma lista exportada de outro programa ou criar uma nova completa.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'As alterações na Lista de Controle de Acesso (ACL) aqui só afectam o comportamento do sistema, se instalar os dados Lista de Controle de Acesso (ACL) depois. Ao instalar os dados da Lista de Controle de Acesso (ACL), as alterações mais recentes serão gravadas na configuração.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Atenção: Esta tabela representa a ordem de execução das Listas de Controle de Acesso (ACLs). Se precisar de alterar a ordem em que as Listas de Controle de Acesso (ACL) são executadas, por favor, altere os nomes das Lista de Controle de Acesso (ACL).',
@@ -7311,7 +7313,8 @@ Thanks for your help!
             '',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => '',
         'Define the queue comment 2.' => '',
         'Define the service comment 2.' => '',

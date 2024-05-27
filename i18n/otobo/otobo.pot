@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-05-13 13:13+0000\n"
+"POT-Creation-Date: 2024-05-27 13:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,6 +80,10 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration."
+msgstr ""
+
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
 msgstr ""
 
 #. Template: AdminACL
@@ -20066,7 +20070,7 @@ msgid "Define dynamic field name for start time. This field has to be manually a
 msgstr ""
 
 #. SysConfig
-msgid "Define possible namespaces for dynamic fields."
+msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters."
 msgstr ""
 
 #. SysConfig

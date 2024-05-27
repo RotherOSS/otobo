@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.948205975078817;
+    $Self->{Completeness}        = 0.948063644551186;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -71,6 +71,8 @@ sub Data {
             'For å opprette en ny ACL kan du enten importere ACLer som ble eksportert fra et annet system eller opprettet en helt ny ACL.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Endringer i ACLene her påvirker bare systemets oppførsel dersom du distribuerer ACL-dataene etterpå. Ved å distribuere ACL-dataene, vil de nye endringene bli skrevet til konfigurasjonen.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACLer',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Obs! Denne tabellen representerer eksekveringssekvensen på ACL\'ene. Dersom du trenger å endre på sekvensen på hvilke ACL\'er som utføres, vær vennlig å endre navnet på de berørte ACL\'ene.',
@@ -7332,7 +7334,8 @@ Ditt Helpdesk-team
             'Definer dynamisk feltnavn for sluttid. Dette feltet må manuelt legges til systemet som sak: "Dato / klokkeslett" og må aktiveres i saksopprettingsskjermer og/eller i andre sakshandlingsskjermer.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definer dynamisk feltnavn for starttid. Dette feltet må manuelt legges til systemet som sak: "Dato / klokkeslett" og må aktiveres i saksopprettingsskjermer og/eller i andre sakshandlingsskjermer.',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => 'Definer maksimal dybde på køer.',
         'Define the queue comment 2.' => 'Definer køkommentaren 2.',
         'Define the service comment 2.' => 'Definer tjenestekommentaren 2.',

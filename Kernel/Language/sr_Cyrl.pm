@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.859180303257769;
+    $Self->{Completeness}        = 0.859051335935155;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -63,6 +63,8 @@ sub Data {
             'Да бисте креирали нову ACL можете или увести ACL листе које су извезене из другог система или направити комплетно нову.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Промене на ACL листама овде само утичу на понашање система, уколико накнадно употребите све ACL податке.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL листе',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Напомена: Ова табела представља редослед извршавања у ACL листама. Ако је потребно да промените редослед којим се извршавају ACL листе, молимо промените имена тих ACL листа.',
@@ -7321,7 +7323,8 @@ Thanks for your help!
             'Дефинишe назив динамичког поља за крајње време. Ово поље мора бити мануелно додато систему као тикет: "Датум / Време" и мора бити активиранo у екранима за креирање тикета и/или у било ком другом екрану са тикет акцијама.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Дефинише назив динамичког поља за почетно време. Ово поље мора бити мануелно додато систему као тикет: "Датум / Време" и мора бити активирано у екранима за креирање тикета и/или у било ком другом екрану са тикет акцијама.',
-        'Define possible namespaces for dynamic fields.' => '',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+            '',
         'Define the max depth of queues.' => 'Дефиниши максималну дубину за редове.',
         'Define the queue comment 2.' => 'Дефинише коментар реда 2.',
         'Define the service comment 2.' => 'Дефинише сервисни коментар 2.',
