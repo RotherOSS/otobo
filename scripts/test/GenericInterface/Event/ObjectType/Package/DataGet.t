@@ -41,7 +41,7 @@ my $FileString = $MainObject->FileRead(
 );
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 my $Success       = $PackageObject->RepositoryAdd(
-    String    => ${$FileString},
+    String => ${$FileString},
 );
 $Self->True(
     $Success,
