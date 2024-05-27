@@ -2294,6 +2294,19 @@ sub _InstallHandling {
                 );
             }
 
+            # load the ITSM repo after installing ITSMCore
+            if ( $Structure{Name}->{Content} eq 'ITSMCore' ) {
+                my $NewOnlineRepoList = $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') // {};
+
+                if ( $NewOnlineRepoList->{'https://ftp.otobo.org/pub/otobo/packages-itsm/'} ) {
+                    $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
+                        SessionID => $Self->{SessionID},
+                        Key       => 'UserRepository',
+                        Value     => 'https://ftp.otobo.org/pub/otobo/packages-itsm/',
+                    );
+                }
+            }
+
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
             $Output .= $LayoutObject->Output(
