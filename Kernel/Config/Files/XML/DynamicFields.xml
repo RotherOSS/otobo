@@ -2080,10 +2080,11 @@
 
     <!-- Namespaces -->
     <Setting Name="DynamicField::Namespaces" Required="0" Valid="0">
-        <Description Translatable="1">Define possible namespaces for dynamic fields.</Description>
+        <Description Translatable="1">Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.</Description>
         <Navigation>Core::DynamicFields</Navigation>
         <Value>
             <Array>
+                <Item ValueType="String" ValueRegex="^[a-zA-Z0-9]+$"></Item>
             </Array>
         </Value>
     </Setting>
