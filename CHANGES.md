@@ -106,7 +106,7 @@
 - 2024-04-18 10:54:45 +0200 Update CHANGES.
 - 2024-04-18 10:53:22 +0200 Create new OTOBO language files.
 - 2024-04-18 10:32:51 +0200 Update CHANGES.
-- 2024-04-04 07:23:01 +0000 Translated using Weblate (Norwegian BokmÃÂ¥l)
+- 2024-04-04 07:23:01 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2024-03-27 14:05:19 +0000 Update translation files
 - 2024-04-17 15:07:02 +0200 Issue #3309: Added basename sanitizing also to FS module of UploadCache.
 - 2024-04-15 15:52:10 +0200 Issue #3309: Use basename to sanitize file names.
@@ -155,7 +155,7 @@
 - 2024-04-04 16:32:45 +0200 Limit the scope of some variables,
 - 2024-04-04 16:28:10 +0200 A bit of tidying.
 - 2024-04-04 15:33:29 +0200 [Bugfix]   Fix reference DFs for object type Article (https://github.com/RotherOSS/otobo/issues/3287)
-- 2024-04-04 07:22:57 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂ¥l)
+- 2024-04-04 07:22:57 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2024-04-03 11:53:11 +0200 [Tidied]   Merge Kernel/Config/Files/XML/ArticleFeatures.xml into Kernel/Config/Files/XML/Ticket.xml (https://github.com/RotherOSS/otobo/issues/3283)
 - 2024-04-03 10:41:07 +0200 [Bugfix]   Enable sorting for SysConfig Search to work correctly (https://github.com/RotherOSS/otobo/issues/3277)
 - 2024-04-03 10:33:33 +0200 [Enhanced] Introduce quick date buttons for ticket masks (https://github.com/RotherOSS/otobo/issues/2925)
@@ -299,7 +299,7 @@
 - 2024-02-26 07:42:14 +0100 [Tidied]   Iterate over keys or values of hash, not hash itself (https://github.com/RotherOSS/otobo/issues/3037)
 - 2024-02-25 13:50:05 +0100 [Tidied]   No need to get $LayoutObject in the layout mixin classes (https://github.com/RotherOSS/otobo/issues/3049)
 - 2024-02-24 10:29:21 +0100 Admin user creates by quick_setup.pl should be able to see stats per default (https://github.com/RotherOSS/otobo/issues/3045)
-- 2024-01-31 07:46:52 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂÃÂÃÂ¥l)
+- 2024-01-31 07:46:52 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2023-12-29 08:50:07 +0000 Translated using Weblate (Arabic (Saudi Arabia))
 - 2023-11-13 20:48:50 +0000 Translated using Weblate (Spanish)
 - 2024-02-23 15:46:29 +0100 [Enhanced] Saner filenames in export of statistics (https://github.com/RotherOSS/otobo/issues/3042)
@@ -581,7 +581,7 @@
 - 2023-08-15 11:11:17 +0000 Translated using Weblate (French)
 - 2023-08-11 04:45:00 +0000 Translated using Weblate (Russian)
 - 2023-07-19 14:11:19 +0000 Translated using Weblate (Arabic (Saudi Arabia))
-- 2023-07-10 06:28:57 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¥l)
+- 2023-07-10 06:28:57 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2023-07-08 12:06:59 +0000 Translated using Weblate (Polish)
 - 2023-10-05 11:38:44 +0200 [Security] Fixed a XSS vulnerability in AdminCustomerUser. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2546)
 - 2023-10-04 17:40:33 +0200 AdminACL.t is not skipped and fails when Selenium testing is deactivated (https://github.com/RotherOSS/otobo/issues/2551)
@@ -639,7 +639,7 @@
 
 # OTOBO 10.1.7 2023-03-10
 - 2023-03-10 17:35:45 +0100 Create new OTOBO language files.
-- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¥l)
+- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2023-03-09 16:24:25 +0000 Translated using Weblate (Arabic (Saudi Arabia))
 - 2023-02-13 17:05:43 +0000 Translated using Weblate (Portuguese (Brazil))
 - 2023-03-10 09:56:23 +0100 [Bugfix]   Fix warning if no key is selected for S/MIME encryption. (https://github.com/RotherOSS/otobo/issues/2222)
