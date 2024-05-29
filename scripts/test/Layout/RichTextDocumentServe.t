@@ -231,8 +231,8 @@ my @Tests = (
         Result => {
             Content => '
 
-<div style="margin: 5px 0; padding: 0px; border: 1px solid #999; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px;">
-    <div style="padding: 5px; background-color: #DDD; font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 11px; text-align: center;">
+<div style="margin: 5px 0; padding: 0px; border: 1px solid #bfc0ce; border-radius: 2px;">
+    <div style="padding: 5px; background-color: #e5e5eb; font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 11px; text-align: center; border-radius: 2px;">
         Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert.
         <a href="index.pl?;LoadExternalImages=1;SessionID=123">Blockierte Inhalte laden.</a>
     </div>
