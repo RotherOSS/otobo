@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get HTMLUtils object
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
@@ -46,11 +50,11 @@ for my $Test (@Tests) {
         Charset => 'iso-8859-1',
         String  => $Test->{Input},
     );
-    $Self->Is(
+    is(
         $Ascii,
         $Test->{Result},
         $Test->{Name},
     );
 }
 
-$Self->DoneTesting();
+done_testing;
