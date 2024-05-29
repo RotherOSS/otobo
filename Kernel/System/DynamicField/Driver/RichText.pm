@@ -388,7 +388,6 @@ EOF
     # add needed HTML headers
     $Value = $HTMLUtilsObject->DocumentComplete(
         String  => $Value,
-        Charset => 'utf-8',
     );
 
     # add js to call ShowContentDialog()

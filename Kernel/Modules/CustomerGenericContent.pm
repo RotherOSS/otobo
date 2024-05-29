@@ -123,7 +123,6 @@ sub Run {
 
         $Content = $HTMLUtilsObject->DocumentComplete(
             String            => $Content,
-            Charset           => 'utf-8',
             CustomerInterface => 1,
         );
 

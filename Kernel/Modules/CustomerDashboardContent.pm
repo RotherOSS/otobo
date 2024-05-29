@@ -93,7 +93,6 @@ sub Run {
 
         my $Content = $HTMLUtilsObject->DocumentComplete(
             String            => $InfoTileContent,
-            Charset           => 'utf-8',
             CustomerInterface => 1,
         );
 

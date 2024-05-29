@@ -650,12 +650,14 @@ sub ToHTML {
 
 =head2 DocumentComplete()
 
-check and e. g. add <html> and <body> tags to given html string
+check and e. g. add <html> and <body> tags to given HTML string
 
     my $HTMLDocument = $HTMLUtilsObject->DocumentComplete(
-        String  => $String,
-        Charset => $Charset,
+        String            => $String,
+        CustomerInterface => 0, # optional 0|1, default is 0
     );
+
+The input is return unchanged if it already looks like a complete HTML document.
 
 =cut
 
@@ -663,7 +665,7 @@ sub DocumentComplete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(String Charset)) {
+    for my $Needed (qw(String)) {
         if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -674,7 +676,8 @@ sub DocumentComplete {
         }
     }
 
-    return $Param{String} if $Param{String} =~ /<html>/i;
+    # TODO: the regex would also match the string q{<b id='<HTML>'>HTML</b>}
+    return $Param{String} if $Param{String} =~ m/<html>/i;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $Css          = 'font-size: 12px; font-family:Courier,monospace,fixed;';
@@ -693,7 +696,7 @@ sub DocumentComplete {
     #   to render the content in standards mode, which is more safe than quirks mode.
     my $Body = join '',
         q{<!DOCTYPE html><html><head>},
-        qq{<meta http-equiv="Content-Type" content="text/html; charset=$Param{Charset}"/>};
+        q{<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>};
     if ( $Param{CustomerInterface} ) {
 
         # include quicksand and default css
@@ -703,6 +706,8 @@ sub DocumentComplete {
 
     my $CKEditorStyles
         = $Param{CustomerInterface} ? $ConfigObject->Get('CustomerFrontend::RichTextArticleStyles') : $ConfigObject->Get('Frontend::RichTextArticleStyles');
+
+    # TODO: avoid reading the file every time this method is called
     my $CKEditorCSS = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location        => $ConfigObject->Get('Home') . "/var/httpd/htdocs/$CKEditorStyles",
         Type            => 'Local',

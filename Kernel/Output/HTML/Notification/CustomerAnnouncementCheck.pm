@@ -93,7 +93,6 @@ sub Run {
     if ($MarqueeContent) {
         my $Content = $HTMLUtilsObject->DocumentComplete(
             String            => $MarqueeContent,
-            Charset           => 'utf-8',
             CustomerInterface => 1,
         );
 
