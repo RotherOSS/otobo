@@ -158,9 +158,11 @@ sub new {
         $Self->{LanguageObject} = $Kernel::OM->Get('Kernel::Language');
     }
 
-    # set charset if there is no charset given
-    $Self->{UserCharset} = 'utf-8';                 # only utf-8 is supported, used directly by frontend modules
+    # only utf-8 is supported and it is used directly by frontend modules
+    $Self->{UserCharset} = 'utf-8';
     $Self->{Charset}     = $Self->{UserCharset};    # just for compatibility, used directly by frontend modules
+
+    # session related attributes
     $Self->{SessionID}   = $Param{SessionID}   || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
 
@@ -5295,8 +5297,7 @@ sub RichTextDocumentComplete {
 
     # verify html document
     $Param{String} = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentComplete(
-        String  => ${$StringRef},
-        Charset => $Self->{UserCharset},
+        String => ${$StringRef},
     );
 
     # do correct direction

@@ -860,8 +860,7 @@ sub AutoResponse {
         );
 
         $AutoResponse{Text} = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentComplete(
-            Charset => 'utf-8',
-            String  => $AutoResponse{Text},
+            String => $AutoResponse{Text},
         );
     }
 

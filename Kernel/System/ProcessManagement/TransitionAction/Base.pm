@@ -336,11 +336,10 @@ sub _ReplaceAdditionalAttributes {
                     String => $ConfigValue,
                 );
 
-                # For body, create a completed html doc for correct displaying.
+                # For body, create a completed HTML doc for correct displaying.
                 if ( $Attribute eq 'Body' ) {
                     $ConfigValue = $HTMLUtilsObject->DocumentComplete(
-                        String  => $ConfigValue,
-                        Charset => 'utf-8',
+                        String => $ConfigValue,
                     );
                 }
             }
