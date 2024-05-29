@@ -158,7 +158,6 @@ sub EditFieldRender {
     my $ErrorMessage3 = $Param{LayoutObject}->{LanguageObject}->Translate( "Maximum size is %s characters.", $MaxLength );
 
     # TODO ask about column config
-    my $ColsTextAreaNote  = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::TextAreaNote');
     my %FieldTemplateData = (
         FieldClass        => $FieldClass,
         FieldName         => $FieldName,
@@ -387,7 +386,7 @@ EOF
 
     # add needed HTML headers
     $Value = $HTMLUtilsObject->DocumentComplete(
-        String  => $Value,
+        String => $Value,
     );
 
     # add js to call ShowContentDialog()
@@ -416,9 +415,8 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value
     my $Value = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
