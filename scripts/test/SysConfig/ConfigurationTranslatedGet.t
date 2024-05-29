@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -38,10 +42,11 @@ my $LanguageObject  = $Kernel::OM->Get('Kernel::Language');
 my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-my %Result = $SysConfigObject->ConfigurationTranslatedGet();
+my %Result = $SysConfigObject->ConfigurationTranslatedGet;
 
 my @Tests = (
     {
+        Line => __LINE__,
         Name          => 'Ticket::Frontend::AgentTicketQueue###SortBy::Default',
         ExpectedValue => {
             'Category'    => 'OTOBO',
@@ -51,6 +56,7 @@ definiert die standardmäßig eingestellten sortierkriterien für alle in der qu
         },
     },
     {
+        Line => __LINE__,
         Name          => 'Ticket::Frontend::AgentTicketQueue###Order::Default',
         ExpectedValue => {
             'Category'    => 'OTOBO',
@@ -60,6 +66,7 @@ definiert die standardmäßig eingestellten sortierkriterien für alle in der qu
         },
     },
     {
+        Line => __LINE__,
         Name          => 'Ticket::Frontend::AgentTicketService###SortBy::Default',
         ExpectedValue => {
             'Category'    => 'OTOBO',
@@ -69,6 +76,7 @@ definiert die standardmäßig eingestellten sortierkriterien für alle in der se
         },
     },
     {
+        Line => __LINE__,
         Name          => 'Ticket::Frontend::AgentTicketSearch###SearchCSVData',
         ExpectedValue => {
             'Category'    => 'OTOBO',
@@ -101,6 +109,7 @@ daten die verwendet werden um das suchergebnis im csv-format zu exportieren.'
         },
     },
     {
+        Line => __LINE__,
         Name          => 'Ticket::Frontend::AgentTicketPhone###SplitLinkType',
         ExpectedValue => {
             'Category'    => 'OTOBO',
@@ -112,13 +121,18 @@ bestimmt den standard-linktyp für geteilte tickets im agentenbereich.'
         },
     },
     {
+        Line => __LINE__,
         Name          => 'Ticket::Frontend::HistoryTypes###000-Framework',
         ExpectedValue => {
             'Category'    => 'OTOBO',
             'IsInvisible' => 0,
-            'Metadata'    => 'ticket::frontend::historytypes###000-framework---
+            'Metadata'    => q{ticket::frontend::historytypes###000-framework---
 addnote: added note (%s).
 archiveflagupdate: changed archive state to "%s".
+articledelete: 'article id: %s was deleted by "%s" (%s)'
+articledynamicfieldupdate: changed dynamic field %s from "%s" to "%s".
+articleedit: 'article id: %s was edited by "%s" (%s)'
+articlerestore: 'article id: %s was restored by "%s" (%s)'
 bounce: bounced to "%s".
 customerupdate: changed customer to "%s".
 emailagent: sent email to customer.
@@ -136,16 +150,16 @@ escalationupdatetimestop: stopped update time escalation.
 followup: added follow-up to ticket [%s]. %s
 forward: forwarded to "%s".
 lock: locked ticket.
-loopprotection: \'loop protection: no auto-response sent to "%s".\'
+loopprotection: 'loop protection: no auto-response sent to "%s".'
 merged: merged ticket (%s/%s) to (%s/%s).
-misc: \'%s\'
+misc: '%s'
 move: changed queue to "%s" (%s) from "%s" (%s).
 newticket: created ticket [%s] in "%s" with priority "%s" and state "%s".
 ownerupdate: changed owner to "%s" (%s).
 phonecallagent: added phone call to customer.
 phonecallcustomer: added phone call from customer.
 priorityupdate: changed priority from "%s" (%s) to "%s" (%s).
-remove: \'%s\'
+remove: '%s'
 responsibleupdate: changed responsible to "%s" (%s).
 slaupdate: changed sla to "%s" (%s).
 sendagentnotification: sent "%s" notification to "%s" via "%s".
@@ -168,17 +182,17 @@ typeupdate: changed type from "%s" (%s) to "%s" (%s).
 unlock: unlocked ticket.
 unsubscribe: removed subscription for user "%s".
 webrequestcustomer: added web request from customer.
-kontrolliert wie die ticket-historie in lesbaren werten dargestellt wird.'
+kontrolliert wie die ticket-historie in lesbaren werten dargestellt wird.},
         },
     },
 );
 
 for my $Test (@Tests) {
 
-    $Self->IsDeeply(
+    is(
         $Result{ $Test->{Name} },
         $Test->{ExpectedValue},
-        "ConfigurationTranslatedGet() - Check $Test->{Name}",
+        "$Test->{Name} (line $Test->{Line})",
     );
 }
 
@@ -201,4 +215,4 @@ for my $Language ( sort keys %Languages ) {
     );
 }
 
-$Self->DoneTesting();
+done_testing;
