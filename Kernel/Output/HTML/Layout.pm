@@ -5270,7 +5270,7 @@ sub RichText2Ascii {
 1) add html, body, ... tags to be a valid html document
 2) replace links of inline content e. g. images to <img src="cid:xxxx" />
 
-    $HTMLBody = $LayoutObject->RichTextDocumentComplete(
+    my $CompleteHTMLBody = $LayoutObject->RichTextDocumentComplete(
         String => $HTMLBody,
     );
 
@@ -5286,6 +5286,7 @@ sub RichTextDocumentComplete {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -5295,20 +5296,20 @@ sub RichTextDocumentComplete {
         String => \$Param{String},
     );
 
-    # verify html document
-    $Param{String} = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentComplete(
-        String => ${$StringRef},
+    # verify HTML document
+    my $HTMLString = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentComplete(
+        String => $StringRef->$*,
     );
 
     # do correct direction
     if ( $Self->{TextDirection} ) {
-        $Param{String} =~ s/<body/<body dir="$Self->{TextDirection}"/i;
+        $HTMLString =~ s/<body/<body dir="$Self->{TextDirection}"/i;
     }
 
     # filter links in response
-    $Param{String} = $Self->HTMLLinkQuote( String => $Param{String} );
+    $HTMLString = $Self->HTMLLinkQuote( String => $HTMLString );
 
-    return $Param{String};
+    return $HTMLString;
 }
 
 =begin Internal:

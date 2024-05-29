@@ -68,15 +68,12 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get debug level from parent
     $Self->{Debug} = $Param{Debug} || 0;
 
-    if ( $Param{Mode} && $Param{Mode} eq 'Standalone' ) {
-        return $Self;
-    }
+    return $Self if ( $Param{Mode} && $Param{Mode} eq 'Standalone' );
 
     # check needed objects
     if ( !$Param{Email} && !$Param{Entity} ) {
@@ -86,7 +83,7 @@ sub new {
     # if email is given
     if ( $Param{Email} ) {
 
-        # check if Email is an array ref
+        # check if Email is a reference to a string
         if ( ref $Param{Email} eq 'SCALAR' ) {
             my @Content = split /\n/, ${ $Param{Email} };
             for my $Line (@Content) {
@@ -95,7 +92,7 @@ sub new {
             $Param{Email} = \@Content;
         }
 
-        # check if Email is an array ref
+        # check if Email is a plain string
         if ( ref $Param{Email} eq '' ) {
             my @Content = split /\n/, $Param{Email};
             for my $Line (@Content) {
@@ -104,7 +101,7 @@ sub new {
             $Param{Email} = \@Content;
         }
 
-        $Self->{OriginalEmail} = join( '', @{ $Param{Email} } );
+        $Self->{OriginalEmail} = join '', @{ $Param{Email} };
 
         # create Mail::Internet object
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
@@ -574,8 +571,7 @@ sub GetMessageBody {
             if ( $Self->{Debug} > 0 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
-                    Message  =>
-                        'No attachments returned from GetAttachments(), just an empty attachment!?',
+                    Message  => 'No attachments returned from GetAttachments(), just an empty attachment!?',
                 );
             }
 
