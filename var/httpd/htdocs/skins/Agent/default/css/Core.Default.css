@@ -178,6 +178,8 @@ body {
 
 a {
     text-decoration: none;
+    color: #001bff;
+    color: var(--colTextLink);
 }
 
 a:hover,

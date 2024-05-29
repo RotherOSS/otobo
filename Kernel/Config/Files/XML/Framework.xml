@@ -311,6 +311,7 @@
                 <Item Key="TextDark">#00023c</Item>
                 <Item Key="TextErr">#ea2400</Item>
                 <Item Key="TextWarn">#f5af36</Item>
+                <Item Key="TextLink">#001bff</Item>
                 <Item Key="Highlight">#fef235</Item>
                 <Item Key="NotifyOK">#c4cdfa</Item>
                 <Item Key="NotifyWarn">#fffccc</Item>
@@ -363,6 +364,7 @@
                 <Item Key="TextDark">#000000</Item>
                 <Item Key="TextErr">#000000</Item>
                 <Item Key="TextWarn">#000000</Item>
+                <Item Key="TextLink">#001bff</Item>
                 <Item Key="Highlight">#fef235</Item>
                 <Item Key="NotifyOK">#c4cdfa</Item>
                 <Item Key="NotifyWarn">#fffccc</Item>
