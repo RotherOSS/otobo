@@ -872,7 +872,7 @@ sub PartsAttachments {
                         String => $PartData{Content},
                     );
                     $PartData{Content} = $HTMLUtilsObject->DocumentComplete(
-                        String  => $HTMLContent,
+                        String => $HTMLContent,
                     );
                 }
                 else {
@@ -941,7 +941,8 @@ sub GetReferences {
 sub GetContentTypeParams {
     my ( $Self, %Param ) = @_;
 
-    my $ContentType = $Param{ContentType} || return;
+    return unless $Param{ContentType};
+
     if ( $Param{ContentType} =~ /charset\s*=.+?/i ) {
         $Param{Charset} = $Param{ContentType};
         $Param{Charset} =~ s/.*?charset\s*=\s*(.*?)/$1/i;
@@ -971,6 +972,7 @@ sub GetContentTypeParams {
         $Param{MimeType} = $1;
         $Param{MimeType} =~ s/"|'//g;
     }
+
     return %Param;
 }
 
@@ -1105,14 +1107,13 @@ sub _MailAddressParse {
     my ( $Self, %Param ) = @_;
 
     my $Email = $Param{Email};
+
     my $Cache = $Self->{EmailCache};
 
-    if ( $Self->{EmailCache}->{$Email} ) {
-        return @{ $Self->{EmailCache}->{$Email} };
-    }
+    return $Cache->{$Email}->@* if $Cache->{$Email};
 
     my @Chunks = Mail::Address->parse($Email);
-    $Self->{EmailCache}->{$Email} = \@Chunks;
+    $Cache->{$Email} = \@Chunks;
 
     return @Chunks;
 }
