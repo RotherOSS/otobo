@@ -35,6 +35,7 @@ ul.Tablelike li:hover a {
 ul.Tablelike li.Header {
     color: var(--colTextLight);
     background: var(--colBGDark);
+    border-top: none;
 }
 
 /**

@@ -147,7 +147,6 @@ ul#ProcessElements li.AccordionElement div.Content {
 }
 
 ul#ProcessElements li.AccordionElement div.Content .ProcessElementFilter {
-    width: 228px;
     margin-top: 1px;
     margin-bottom: -5px;
 }
@@ -199,7 +198,6 @@ ul#ProcessElements li.AccordionElement div.Content ul li > span a {
 }
 
 ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
-    width: 234px;
     display: block;
     margin: -5px auto 2px auto;
 }
