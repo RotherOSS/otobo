@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,6 +22,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
@@ -148,10 +150,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@id='MappingInboundConfigureButton']")->VerifiedClick();
 
         # Check screen.
-        $Self->True(
-            $Selenium->find_element( "#Template", 'css' ),
-            "Input field for XSLT data is found"
-        );
+        $Selenium->find_element_by_css_ok('#Template');
 
         # Check for breadcrumb on screen.
         my $Count = 1;
@@ -172,31 +171,49 @@ $Selenium->RunTest(
         }
 
         # Submit empty form and check client side validation.
-        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->find_element( "#Submit", 'css' )->click;
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('#Template.Error').length"
         );
 
-        $Self->Is(
+        is(
             $Selenium->execute_script(
-                "return \$('#Template').hasClass('Error')"
+                q{return $('#Template').hasClass('Error')}
             ),
             '1',
-            'Client side validation correctly detected missing input value',
+            'Client side validation correctly detected missing input value for #Template',
         );
 
         # Input invalid XSLT data.
-        $Selenium->find_element( "#Template", 'css' )->send_keys($RandomID);
+        # first find the editable element (throws exception when it can't found)
+        #$Selenium->find_element( "#Template", 'css' )->send_keys($RandomID);
+        my $TemplateElement = $Selenium->find_element(
+            q{//textarea[@id="Template"]},
+            'xpath'
+        );
+        is(
+            $TemplateElement->execute_script(
+                q{return arguments[0].classList.contains('CodeMirrorEditor')},
+            ),
+            '1',
+            'The textarea has the class CodeMirrorEditor',
+        );
+
+        # Get the CodeMirror instance and set the content.
+        # Note that the method 'data' is jQuery specific, hence the $(...)
+        $TemplateElement->execute_script(
+            q{$(arguments[0]).data('CodeMirrorInstance').setValue(arguments[1]);},
+            $RandomID
+        );
 
         # Submit invalid XSLT.
-        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->find_element( "#Submit", 'css' )->click;
         $Selenium->WaitFor(
-            JavaScript =>
-                'return $(".Dialog.Modal #DialogButton1").length'
+            JavaScript => 'return $(".Dialog.Modal #DialogButton1").length'
         );
 
         # Click to confirm error and verify it.
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->find_element( "#DialogButton1", 'css' )->click;
         $Selenium->WaitFor(
             JavaScript =>
                 'return !$(".Dialog.Modal").length'
@@ -216,44 +233,50 @@ $Selenium->RunTest(
 </xsl:template>
 </xsl:stylesheet>';
 
-        $Selenium->find_element( "#Template", 'css' )->clear();
-        $Selenium->find_element( "#Template", 'css' )->send_keys($XSLTData);
+        my $TemplateElement2 = $Selenium->find_element(
+            q{//textarea[@id="Template"]},
+            'xpath'
+        );
+        $TemplateElement2->execute_script(
+            q{$(arguments[0]).data('CodeMirrorInstance').setValue(arguments[1]);},
+            $XSLTData
+        );
 
         # Add invalid pre XSLT regex.
-        $Selenium->find_element( '#WidgetRegExFiltersPre', 'css' )->click();
+        $Selenium->find_element( '#WidgetRegExFiltersPre', 'css' )->click;
         $Selenium->WaitFor(
             JavaScript => "return \$('#WidgetRegExFiltersPre.Expanded').length"
         );
-        $Selenium->find_element( "#PreAddValue", 'css' )->click();
+        $Selenium->find_element( "#PreAddValue", 'css' )->click;
         $Selenium->WaitFor(
             JavaScript => "return \$('.PreValueInsert .ValueRow #PreKey_1').length"
         );
 
         # Submit invalid pre XSLT regex.
-        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->find_element( "#Submit", 'css' )->click;
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('#PreKey_1.Error').length"
         );
 
         # Check client side validation.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
-                "return \$('#PreKey_1').hasClass('Error')"
+                q{return $('#PreKey_1').hasClass('Error')},
             ),
             '1',
-            'Client side validation correctly detected missing input value',
+            'Client side validation correctly detected missing input value for #PreKey_1',
         );
 
         # Add correct pre XSLT regex.
         $Selenium->find_element( "#PreKey_1",   'css' )->send_keys( $RandomID . 'PreKey_1' );
         $Selenium->find_element( "#PreValue_1", 'css' )->send_keys( $RandomID . 'PreValue_1' );
 
-        $Selenium->find_element( "#PreAddValue", 'css' )->click();
+        $Selenium->find_element( "#PreAddValue", 'css' )->click;
         $Selenium->WaitFor(
             JavaScript => "return \$('.PreValueInsert .ValueRow #PreKey_2').length"
         );
 
-        $Selenium->find_element( "#PreAddValue", 'css' )->click();
+        $Selenium->find_element( "#PreAddValue", 'css' )->click;
         $Selenium->WaitFor(
             JavaScript => "return \$('.PreValueInsert .ValueRow #PreKey_3').length"
         );
@@ -263,12 +286,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "#PreValue_3", 'css' )->send_keys( $RandomID . 'PreValue_3' );
 
         # Add post XSLT regex.
-        $Selenium->find_element( '#WidgetRegExFiltersPost', 'css' )->click();
+        $Selenium->find_element( '#WidgetRegExFiltersPost', 'css' )->click;
         $Selenium->WaitFor(
             JavaScript => "return \$('#WidgetRegExFiltersPost.Expanded').length"
         );
 
-        $Selenium->find_element( '#PostAddValue', 'css' )->click();
+        $Selenium->find_element( '#PostAddValue', 'css' )->click;
         $Selenium->WaitFor(
             JavaScript => "return \$('.PostValueInsert .ValueRow #PostKey_1').length"
         );
@@ -372,9 +395,7 @@ $Selenium->RunTest(
 
         # Make sure cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Webservice' );
-
     }
-
 );
 
-$Self->DoneTesting();
+done_testing;
