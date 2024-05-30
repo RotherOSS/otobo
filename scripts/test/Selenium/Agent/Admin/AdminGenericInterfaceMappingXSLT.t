@@ -25,11 +25,9 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::GenericInterface::Debugger ();
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -66,7 +64,7 @@ $Selenium->RunTest(
             UserID  => 1,
         );
 
-        $Self->True(
+        ok(
             $WebserviceID,
             "Web service ID $WebserviceID is created"
         );
@@ -81,7 +79,7 @@ $Selenium->RunTest(
             CommunicationType => 'Provider',
         );
 
-        $Self->Is(
+        is(
             ref $DebuggerObject,
             'Kernel::GenericInterface::Debugger',
             'DebuggerObject instantiate correctly',
@@ -107,7 +105,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
         # Check breadcrumb on Overview screen.
-        $Self->True(
+        ok(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
@@ -140,7 +138,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Verify ticket data option.
-        $Self->Is(
+        is(
             $Selenium->find_element( '#IncludeTicketData', 'css' )->get_value(),
             '1',
             'Include ticket data set to Yes'
@@ -161,7 +159,7 @@ $Selenium->RunTest(
             "XSLT Mapping for Incoming Data"
             )
         {
-            $Self->Is(
+            is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $Breadcrumb,
                 "Breadcrumb text '$Breadcrumb' is found on screen"
@@ -219,7 +217,7 @@ $Selenium->RunTest(
                 'return !$(".Dialog.Modal").length'
         );
 
-        $Self->True(
+        ok(
             $Selenium->find_element( "#Accessibility_AlertMessage", 'css' ),
             "Error for invalid XSLT data is found"
         );
@@ -310,7 +308,7 @@ $Selenium->RunTest(
         # Click on 'Save and finish' test JS redirection.
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        $Self->True(
+        ok(
             index( $Selenium->get_current_url(), 'AdminGenericInterfaceOperationDefault' ) > -1,
             'JS redirection is successful to AdminGenericInterfaceOperationDefault screen'
         );
@@ -323,61 +321,61 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@id='MappingInboundConfigureButton']")->VerifiedClick();
 
         # Verify saved data.
-        $Self->Is(
+        is(
             $Selenium->find_element( "#Template", 'css' )->get_value(),
             $XSLTData,
             "XSLT data is successfully saved"
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#DataInclude', 'css' )->get_value(),
             'ProviderRequestInput',
             "#DataInclude stored value",
         );
 
         # Verify saved regex data.
-        $Self->Is(
+        is(
             $Selenium->find_element( "#PreKey_1", 'css' )->get_value(),
             $RandomID . 'PreKey_1',
             "Pre RegEx data is successfully saved"
         );
 
-        $Self->Is(
+        is(
             $Selenium->find_element( "#PreValue_1", 'css' )->get_value(),
             $RandomID . 'PreValue_1',
             "Pre RegEx data is successfully saved"
         );
 
-        $Self->Is(
+        is(
             $Selenium->find_element( "#PreKey_2", 'css' )->get_value(),
             $RandomID . 'PreKey_2',
             "Pre RegEx data is successfully saved"
         );
 
-        $Self->Is(
+        is(
             $Selenium->find_element( "#PreValue_2", 'css' )->get_value(),
             '',
             "Pre RegEx data is successfully saved"
         );
 
-        $Self->Is(
+        is(
             $Selenium->find_element( "#PreKey_3", 'css' )->get_value(),
             $RandomID . 'PreKey_3',
             "Pre RegEx data is successfully saved"
         );
 
-        $Self->Is(
+        is(
             $Selenium->find_element( "#PreValue_3", 'css' )->get_value(),
             $RandomID . 'PreValue_3',
             "Pre RegEx data is successfully saved"
         );
 
-        $Self->Is(
+        is(
             $Selenium->find_element( "#PostKey_1", 'css' )->get_value(),
             $RandomID . 'PostKey_1',
             "Post RegEx data is successfully saved"
         );
 
-        $Self->Is(
+        is(
             $Selenium->find_element( "#PostValue_1", 'css' )->get_value(),
             $RandomID . 'PostValue_1',
             "Post RegEx data is successfully saved"
@@ -388,7 +386,7 @@ $Selenium->RunTest(
             ID     => $WebserviceID,
             UserID => 1,
         );
-        $Self->True(
+        ok(
             $Success,
             "Web service ID $WebserviceID is deleted"
         );
