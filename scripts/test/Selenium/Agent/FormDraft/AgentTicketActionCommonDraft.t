@@ -339,8 +339,7 @@ $Selenium->RunTest(
 
                     # wait for the CKE to load
                     $Selenium->WaitFor(
-                        JavaScript =>
-                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1;"
+                        JavaScript => q{ $("#RichText").classList.contains('HasCKEInstance') }
                     );
 
                     $Selenium->execute_script(
@@ -513,8 +512,7 @@ $Selenium->RunTest(
 
                     # wait for the CKE to load
                     $Selenium->WaitFor(
-                        JavaScript =>
-                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1;"
+                        JavaScript => q{ $("#RichText").classList.contains('HasCKEInstance') }
                     );
 
                     $Self->Is(
