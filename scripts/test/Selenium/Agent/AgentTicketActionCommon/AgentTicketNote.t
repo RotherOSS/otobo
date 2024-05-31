@@ -125,7 +125,8 @@ $Selenium->RunTest(
         # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users', $GroupName ],
-        ) || die "Did not get test user";
+        );
+        bail_out('test user could npt be created') unless $TestUserLogin;
 
         # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
@@ -157,7 +158,7 @@ $Selenium->RunTest(
         );
 
         # Create test user.
-        my ( $TestUserLogin2, $TestUserID2 ) = $Helper->TestUserCreate(
+        my ( undef, $TestUserID2 ) = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users', $GroupName ],
         );
 
@@ -385,9 +386,31 @@ $Selenium->RunTest(
             JavaScript => "return typeof(\$) === 'function';"
         );
 
-        # Wait for the CKE to load.
+        # find <textarea id="RichText" class="RichText Validate  Validate_Required" name="Body" rows="15" cols="78"></textarea>
+        # This element is there even if CKEditor is not ready yet
+        my $RichTextElement = $Selenium->find_element(
+            q{//textarea[@id="RichText"]},
+            'xpath'
+        );
+
+        # Wait for the CKEditor to load.
         $Selenium->WaitFor(
-            JavaScript => "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1;"
+            JavaScript => [
+                <<'END_JS',
+// do a simple check. HasCKEInstance is set in Core.UT.RichTextEditor.js
+return arguments[0].classList.contains('HasCKEInstance');
+
+// The saner check for the state of the Editor does not seem to work here.
+/*
+const editableElement = arguments[0].closest('.ck-editor__editable_inline');
+const editorInstance  = editableElements.ckeditorInstance;
+const editorState     = editorInstance.state;
+return editorState  == 'ready';
+*/
+
+END_JS
+                $RichTextElement,
+            ]
         );
 
         # Submit note.
@@ -514,60 +537,61 @@ $Selenium->RunTest(
         );
 
         $Selenium->WaitFor(
-            JavaScript => "return CKEDITOR.instances.RichText.getData() == '$TemplateText';"
+            JavaScript => q{return CKEditorInstances['RichText'].getData()},
         );
 
         my $CKEditorValue = $Selenium->execute_script(
-            "return CKEDITOR.instances.RichText.getData()"
+            "return CKEditorInstances['RichText'].getData()"
         );
-        sleep 1;
 
+        my $TemplateTextInParagraph = qq{<p>$TemplateText</p>};
         is(
             $CKEditorValue,
-            $TemplateText,
-            "RichText contains the correct value from the selected template",
-        ) || die;
+            $TemplateTextInParagraph,
+            'CKEditor seems to put plain lines into paragraphs',
+        );
+        bail_out('unexpected content in RichText field') unless $CKEditorValue eq $TemplateTextInParagraph;
 
         # Delete template.
-        $Success = $StandardTemplateObject->StandardTemplateDelete(
+        my $TemplateDeleteSuccess = $StandardTemplateObject->StandardTemplateDelete(
             ID => $TemplateID,
         );
-        ok( $Success, "Template ID $TemplateID is deleted." );
+        ok( $TemplateDeleteSuccess, "Template ID $TemplateID is deleted." );
 
         # Delete created test tickets.
-        $Success = $TicketObject->TicketDelete(
+        my $TicketDeleteSuccess = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $TestUserID,
         );
 
         # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
-        if ( !$Success ) {
+        if ( !$TicketDeleteSuccess ) {
             sleep 3;
-            $Success = $TicketObject->TicketDelete(
+            $TicketDeleteSuccess = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
             );
         }
-        ok( $Success, "Ticket ID $TicketID is deleted." );
+        ok( $TicketDeleteSuccess, "Ticket ID $TicketID is deleted." );
 
         # Delete test created queue.
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-        $Success = $DBObject->Do(
+        my $DBObject           = $Kernel::OM->Get('Kernel::System::DB');
+        my $GroupDeleteSuccess = $DBObject->Do(
             SQL  => "DELETE FROM queue WHERE id = ?",
             Bind => [ \$QueueID ],
         );
-        ok( $Success, "QueueID $QueueID is deleted." );
+        ok( $GroupDeleteSuccess, "QueueID $QueueID is deleted." );
 
         # Delete group-user relations.
-        $Success = $DBObject->Do(
+        my $GroupUserDeleteSuccess = $DBObject->Do(
             SQL  => "DELETE FROM group_user WHERE group_id = ?",
             Bind => [ \$GroupID ],
         );
-        ok( $Success, "Relation for group ID $GroupID is deleted." );
+        ok( $GroupUserDeleteSuccess, "Relation for group ID $GroupID is deleted." );
 
         # Delete test created users.
         for my $UserID (@CreatedUserIDs) {
-            $Success = $DBObject->Do(
+            my $Success = $DBObject->Do(
                 SQL  => "DELETE FROM user_preferences WHERE user_id = ?",
                 Bind => [ \$UserID ],
             );
@@ -581,11 +605,11 @@ $Selenium->RunTest(
         }
 
         # Delete test created groups.
-        $Success = $DBObject->Do(
+        my $GroupsTableDeleteSuccess = $DBObject->Do(
             SQL  => "DELETE FROM groups_table WHERE id = ?",
             Bind => [ \$GroupID ],
         );
-        ok( $Success, "GroupID $GroupID is deleted." );
+        ok( $GroupsTableDeleteSuccess, "GroupID $GroupID is deleted." );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
