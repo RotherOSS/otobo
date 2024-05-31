@@ -238,7 +238,7 @@ sub BUILD {
     return;
 }
 
-=head2 PUBLIC INTERFACE
+=head1 PUBLIC INTERFACE
 
 =head2 RunTest()
 
