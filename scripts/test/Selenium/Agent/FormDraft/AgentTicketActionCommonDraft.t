@@ -343,11 +343,11 @@ $Selenium->RunTest(
                     );
 
                     $Selenium->execute_script(
-                        "return CKEDITOR.instances.RichText.setData('$Test->{Fields}->{$Field}->{Value}');"
+                        qq{ return CKEditorInstances['RichText'].setData('$Test->{Fields}->{$Field}->{Value}'); }
                     );
 
                     $Selenium->execute_script(
-                        "return CKEDITOR.instances.RichText.updateElement();"
+                        q{ return CKEditorInstances['RichText'].updateElement(); }
                     );
                 }
                 else {
@@ -516,17 +516,17 @@ $Selenium->RunTest(
                     );
 
                     $Self->Is(
-                        $Selenium->execute_script('return CKEDITOR.instances.RichText.getData();'),
+                        $Selenium->execute_script(q{ return CKEditorInstances['RichText'].getData();}),
                         $Test->{Fields}->{$FieldValue}->{Value},
                         "Initial Draft value for $Test->{Module} field $FieldValue is correct"
                     );
 
                     $Selenium->execute_script(
-                        "return CKEDITOR.instances.RichText.setData('$Test->{Fields}->{$FieldValue}->{Update}');"
+                        qq{ return CKEditorInstances['RichText'].setData('$Test->{Fields}->{$FieldValue}->{Update}'); }
                     );
 
                     $Selenium->execute_script(
-                        "return CKEDITOR.instances.RichText.updateElement();"
+                        q{ return CKEditorInstances['RichText'].updateElement(); }
                     );
                 }
                 else {
