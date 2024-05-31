@@ -1071,6 +1071,7 @@ Sometimes a longer timeout is needed.
         Value   => 3,                           # (optional) Value
         Time    => 60,                          # (optional) timeout in seconds
     );
+
 =cut
 
 sub InputFieldValueSet {
