@@ -495,10 +495,20 @@ Exactly one condition (JavaScript or WindowCount) must be specified.
         AlertPresent   => 1,                                 # Wait until an alert, confirm or prompt dialog is present
         Callback       => sub { ... }                        # Wait until function returns true
         ElementExists  => 'xpath-selector'                   # Wait until an element is present
-        ElementExists  => ['css-selector', 'css'],
+        ElementExists  => [
+            'css-selector',
+            'css'
+        ],
         ElementMissing => 'xpath-selector',                  # Wait until an element is not present
-        ElementMissing => ['css-selector', 'css'],
+        ElementMissing => [
+            'css-selector',
+            'css'
+        ],
         JavaScript     => 'return $(".someclass").length',   # Javascript code that checks condition
+        JavaScript     => [                                  # pass an arrayref when arguments are needed
+            q{return arguments[0].length},
+            $SomeElement
+        ],
         WindowCount    => 2,                                 # Wait until this many windows are open
         Time           => 20,                                # optional, wait time in seconds (default 20)
     );
@@ -538,10 +548,11 @@ sub WaitFor {
     while ( $WaitedSeconds <= $TimeOut ) {
 
         if ( $Param{JavaScript} ) {
+            my @Arguments                   = ref $Param{JavaScript} eq 'ARRAY' ? $Param{JavaScript}->@* : $Param{JavaScript};
             my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
             $Self->LogExecuteCommandActive(0);
 
-            my $Ret = $Self->execute_script( $Param{JavaScript} );
+            my $Ret = $Self->execute_script(@Arguments);
 
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
@@ -596,7 +607,7 @@ sub WaitFor {
             }
         }
         elsif ( $Param{ElementExists} ) {
-            my @Arguments = ref( $Param{ElementExists} ) eq 'ARRAY' ? @{ $Param{ElementExists} } : $Param{ElementExists};
+            my @Arguments = ref $Param{ElementExists} eq 'ARRAY' ? $Param{ElementExists}->@* : $Param{ElementExists};
 
             my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
             $Self->LogExecuteCommandActive(0);
@@ -614,7 +625,7 @@ sub WaitFor {
             }
         }
         elsif ( $Param{ElementMissing} ) {
-            my @Arguments = ref( $Param{ElementMissing} ) eq 'ARRAY' ? @{ $Param{ElementMissing} } : $Param{ElementMissing};
+            my @Arguments = ref $Param{ElementMissing} eq 'ARRAY' ? $Param{ElementMissing}->@* : $Param{ElementMissing};
 
             my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
             $Self->LogExecuteCommandActive(0);
