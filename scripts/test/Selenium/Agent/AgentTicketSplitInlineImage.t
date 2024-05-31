@@ -238,8 +238,7 @@ $Selenium->RunTest(
 
         # Wait for the CKE to load.
         $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+            JavaScript => q{ $("#RichText").classList.contains('HasCKEInstance') }
         );
 
         my $CKEditorValue = $Selenium->execute_script(
