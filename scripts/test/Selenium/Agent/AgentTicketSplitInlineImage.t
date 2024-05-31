@@ -242,7 +242,7 @@ $Selenium->RunTest(
         );
 
         my $CKEditorValue = $Selenium->execute_script(
-            "return CKEDITOR.instances.RichText.getData()"
+            q{ return CKEditorInstances['RichText'].getData() }
         );
 
         # Check if there is inline image in process screen.
