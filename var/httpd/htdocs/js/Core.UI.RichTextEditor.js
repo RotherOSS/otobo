@@ -232,9 +232,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 if (CustomerInterface) {
                     editorStyles.setProperty("--ck-border-radius", "10px");
                     editorStyles.setProperty("--ck-font-size-base", "14px");
-                    let stickyPanelStyle = $(".ck.ck-sticky-panel").get(0).style;
-                    stickyPanelStyle.setProperty("margin-left", "4px");
-                    stickyPanelStyle.setProperty("margin-right", "0px");
+                    let toolBarStyle = $(".ck.ck-toolbar").get(0).style;
+                    toolBarStyle.setProperty("padding-left", "14px");
+                    toolBarStyle.setProperty("padding-right", "0px");
                     let $textdropdown = $(".ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label");
                     if ($textdropdown.length > 0 ) {
                         $textdropdown.get(0).style.setProperty("width", "7.8em");
