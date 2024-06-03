@@ -13,9 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
+
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -24,7 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
 
 # get selenium object
@@ -32,7 +33,6 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
 
 $Selenium->RunTest(
     sub {
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Enable change owner to everyone feature.
@@ -76,10 +76,10 @@ $Selenium->RunTest(
 
         # Create test users and login first.
         my @TestUser;
-        for my $User ( 1 .. 2 ) {
+        for my $Count ( 1 .. 2 ) {
             my $TestUserLogin = $Helper->TestUserCreate(
                 Groups => [ 'admin', 'users' ],
-            ) || die "Did not get test user";
+            ) || die "Did not get test user $Count";
 
             push @TestUser, $TestUserLogin;
         }
@@ -93,16 +93,9 @@ $Selenium->RunTest(
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
         # Get test users ID.
-        my @UserID;
-        for my $UserID (@TestUser) {
-            my $TestUserID = $UserObject->UserLookup(
-                UserLogin => $UserID,
-            );
+        my @UserID = map { $UserObject->UserLookup( UserLogin => $_ ) } @TestUser;
 
-            push @UserID, $TestUserID;
-        }
-
-        my $DateTimeSettings = $Kernel::OM->Create('Kernel::System::DateTime')->Get();
+        my $DateTimeSettings = $Kernel::OM->Create('Kernel::System::DateTime')->Get;
         my %Values           = (
             'OutOfOffice'           => 'on',
             'OutOfOfficeStartYear'  => $DateTimeSettings->{Year},
@@ -149,8 +142,7 @@ $Selenium->RunTest(
 
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple").length;'
+            JavaScript => 'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
         # Check page.
@@ -159,11 +151,12 @@ $Selenium->RunTest(
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
-            $Element->is_enabled();
-            $Element->is_displayed();
+            $Element->is_enabled;
+            $Element->is_displayed;
         }
 
         # Check out of office user message without filter.
+        # Note that there is no leading '1: '
         is(
             $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').text();"),
             $UserData{UserFullname},
@@ -180,21 +173,25 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.InputField_Filters').click();");
 
         # Enable 'Previous Owner' filter.
-        $Selenium->execute_script("\$('.InputField_FiltersList').children('input').click();");
+        # Only one previous owner should be available.
+        $Selenium->execute_script(qq{ \$('.InputField_FiltersList').children('input')[0].click(); });
 
         # Check out of office user message with filter.
+        # Note that the prefix '1: ' is added
+        my $UserSelectionElement = $Selenium->find_element( qq{#NewOwnerID option[value="$UserID[1]"]}, 'css' );
         is(
-            $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').text();"),
+            $UserSelectionElement->execute_script(q{ return $(arguments[0]).text(); }),
             "1: $UserData{UserFullname}",
-            "Out of office message is found for the user - $TestUser[1]"
+            "Out of office message is found for the user $TestUser[1]"
         );
 
         # Change ticket user owner by clicking
-        $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').click();");
+        # TODO: this does not actually select the user 1 and the test script fails
+        $UserSelectionElement->execute_script(q{ $(arguments[0]).click() });
 
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick;
 
         # Navigate to AgentTicketHistory of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
@@ -224,7 +221,7 @@ $Selenium->RunTest(
         # Create Note article.
         $Selenium->find_element( "#Subject",        'css' )->send_keys('TestSubject');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('TestBody');
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick;
 
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
@@ -340,7 +337,7 @@ $Selenium->RunTest(
         );
 
         # Submit.
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick;
 
         $SendEmails->();
 
