@@ -521,7 +521,6 @@ sub SearchObjects {
     }
 
     # Support restriction by ticket type when the Ticket::Type feature is activated.
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     if ( $ConfigObject->Get('Ticket::Type') && !$Param{ExternalSource} ) {
         if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{TicketType} ) ) {
             if ( $SearchParams{TypeIDs} || $SearchParams{Types} ) {

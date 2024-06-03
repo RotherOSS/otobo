@@ -1068,7 +1068,11 @@ sub GetFieldState {
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     return () if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
-    return () if none { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
+    return ()
+        if (
+            ( none { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* )
+            && !$Param{Lens}
+        );
 
     my $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
 

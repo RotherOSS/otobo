@@ -472,6 +472,33 @@ Core.AJAX = (function (TargetNS) {
                     $Element.val( '' );
                     $ReferenceElement.val( '' );
                 }
+
+                // trigger reference search if autocomplete
+                if ( $Element.is('input') ) {
+
+                    var $AutocompleteElement = $Element.parent().find('.DynamicFieldReference');
+
+                    // check for surrounding set and if so, send setindex as request param
+                    var SetIndexStrg = '';
+                    var SetOuterFieldList = $Element.parents('.DFSetOuterField');
+                    if ( SetOuterFieldList.length ) {
+                        var MultiValueClass = Array.from(SetOuterFieldList[0].parentElement.classList).find(c => c.startsWith('MultiValue'));
+                        if (MultiValueClass !== undefined && MultiValueClass != '') {
+                            var SetIndexRegExp = new RegExp(/^MultiValue_(\d+)$/);
+                            var MatchResults = SetIndexRegExp.exec(MultiValueClass);
+                            SetIndexStrg = ';SetIndex=' + MatchResults[1];
+                        }
+                    }
+
+                    var URL = Core.Config.Get('Baselink'),
+                        QueryString = "Action=AgentReferenceSearch;ObjectID=" + DataValue[0][0]
+                            + ";Field=" + $AutocompleteElement.attr('id')
+                            + SetIndexStrg + ';';
+
+                    QueryString += Core.AJAX.SerializeForm($Element.closest('form'), {'Action': 1, 'Subaction': 1, 'Term': 1, 'Field': 1, 'MaxResults': 1});
+                    TargetNS.FunctionCall(URL, QueryString, function (Result) {
+                    });
+                }
                 return;
             }
 
