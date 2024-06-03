@@ -402,10 +402,10 @@ return arguments[0].classList.contains('HasCKEInstance');
 
 // The saner check for the state of the Editor does not seem to work here.
 /*
-const editableElement = arguments[0].closest('.ck-editor__editable_inline');
-const editorInstance  = editableElements.ckeditorInstance;
-const editorState     = editorInstance.state;
-return editorState  == 'ready';
+const editableElements = arguments[0].closest('.ck-editor__editable_inline');
+const editorInstance   = editableElements[0].ckeditorInstance;
+const editorState      = editorInstance.state;
+return editorState == 'ready';
 */
 
 END_JS
