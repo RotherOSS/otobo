@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,12 +22,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -48,30 +48,21 @@ my $Success = $ConfigObject->Set(
     Key   => 'Frontend::RichText',
     Value => 1,
 );
-$Self->True(
-    $Success,
-    'Force RichText with true',
-);
+ok( $Success, 'Force RichText with true' );
 
 # Use DoNotSendEmail email backend.
 $Success = $ConfigObject->Set(
     Key   => 'SendmailModule',
     Value => 'Kernel::System::Email::DoNotSendEmail',
 );
-$Self->True(
-    $Success,
-    'Set DoNotSendEmail backend with true',
-);
+ok( $Success, 'Set DoNotSendEmail backend with true' );
 
 # Set Default Language.
 $Success = $ConfigObject->Set(
     Key   => 'DefaultLanguage',
     Value => 'en',
 );
-$Self->True(
-    $Success,
-    'Set default language to English',
-);
+ok( $Success, 'Set default language to English' );
 
 my $RandomID = $Helper->GetRandomID();
 
@@ -98,11 +89,7 @@ my %QueueTemplate = (
     UserID          => 1,
 );
 my $QueueID = $QueueObject->QueueAdd(%QueueTemplate);
-$Self->IsNot(
-    $QueueID,
-    undef,
-    'QueueAdd() - QueueID should not be undef',
-);
+ok( defined $QueueID, 'QueueAdd() - QueueID should be defined' );
 
 my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
 
@@ -119,11 +106,7 @@ my %AutoResponseTemplate = (
     UserID      => 1,
 );
 my $AutoResponseID = $AutoResponseObject->AutoResponseAdd(%AutoResponseTemplate);
-$Self->IsNot(
-    $AutoResponseID,
-    undef,
-    'AutoResponseAdd() - AutoResonseID should not be undef',
-);
+ok( defined $AutoResponseID, 'AutoResponseAdd() - AutoResonseID should not be undef' );
 
 # Assign auto response to queue.
 $Success = $AutoResponseObject->AutoResponseQueue(
@@ -131,10 +114,7 @@ $Success = $AutoResponseObject->AutoResponseQueue(
     AutoResponseIDs => [$AutoResponseID],
     UserID          => 1,
 );
-$Self->True(
-    $Success,
-    "AutoResponseQueue() - assigned auto response - $AutoResonseName to queue - $QueueName",
-);
+ok( $Success, "AutoResponseQueue() - assigned auto response - $AutoResonseName to queue - $QueueName" );
 
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
@@ -189,10 +169,7 @@ for my $Test (@Tests) {
         TicketID => $TicketID,
         UserID   => 1,
     );
-    $Self->True(
-        $Success,
-        "$Test->{Name} TicketCustomerSet() - for customer $Test->{CustomerUser} with true",
-    );
+    ok( $Success, "$Test->{Name} TicketCustomerSet() - for customer $Test->{CustomerUser} with true" );
 
     # Get assigned auto response.
     my %AutoResponse = $TemplateGeneratorObject->AutoResponse(
@@ -201,7 +178,7 @@ for my $Test (@Tests) {
         AutoResponseType => 'auto reply/new ticket',
         UserID           => 1,
     );
-    $Self->Is(
+    is(
         $AutoResponse{Text},
         $Test->{ExpectedResult},
         "$Test->{Name} AutoResponse() - Text"
@@ -217,11 +194,7 @@ for my $Test (@Tests) {
         IsVisibleForCustomer => 1,
         UserID               => 1,
     );
-    $Self->IsNot(
-        $ArticleID,
-        undef,
-        "$Test->{Name} SendAutoResponse() - ArticleID should not be undef"
-    );
+    ok( defined $ArticleID, "$Test->{Name} SendAutoResponse() - ArticleID should not be undef" );
 }
 
 # Check replacing time attribute tags (see bug#13865 - https://bugs.otrs.org/show_bug.cgi?id=13865).
@@ -238,10 +211,7 @@ my $DynamicFieldID     = $DynamicFieldObject->DynamicFieldAdd(
     ValidID    => 1,
     UserID     => 1,
 );
-$Self->True(
-    $DynamicFieldID,
-    "DynamicFieldID $DynamicFieldID is created",
-);
+ok( $DynamicFieldID, "DynamicFieldID $DynamicFieldID is created" );
 
 my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
     ID => $DynamicFieldID,
@@ -258,10 +228,7 @@ my $TestQueueID = $QueueObject->QueueAdd(
     Comment         => 'Some comment',
     UserID          => 1,
 );
-$Self->True(
-    $TestQueueID,
-    "TestQueueID $TestQueueID is created",
-);
+ok( $TestQueueID, "TestQueueID $TestQueueID is created" );
 
 my $TestAutoResponse = '<!DOCTYPE html><html>' .
     '<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head>'
@@ -292,10 +259,7 @@ my $TestAutoResponseID = $AutoResponseObject->AutoResponseAdd(
     TypeID      => 1,
     UserID      => 1,
 );
-$Self->True(
-    $TestAutoResponseID,
-    "TestAutoResponseID $TestAutoResponseID is created",
-);
+ok( $TestAutoResponseID, "TestAutoResponseID $TestAutoResponseID is created" );
 
 # Assign auto response to queue.
 $Success = $AutoResponseObject->AutoResponseQueue(
@@ -303,10 +267,7 @@ $Success = $AutoResponseObject->AutoResponseQueue(
     AutoResponseIDs => [$TestAutoResponseID],
     UserID          => 1,
 );
-$Self->True(
-    $Success,
-    "Auto response ID $TestAutoResponseID is assigned to QueueID $TestQueueID",
-);
+ok( $Success, "Auto response ID $TestAutoResponseID is assigned to QueueID $TestQueueID" );
 
 # Set fixed time.
 FixedTimeSet(
@@ -315,7 +276,7 @@ FixedTimeSet(
         ObjectParams => {
             String => '2018-12-06 12:00:00',
         },
-    )->ToEpoch()
+    )->ToEpoch
 );
 
 # Create test customer user.
@@ -333,10 +294,7 @@ my $TestTicketID = $TicketObject->TicketCreate(
     OwnerID      => 1,
     UserID       => 1,
 );
-$Self->True(
-    $TestTicketID,
-    "TestTicketID $TestTicketID is created",
-);
+ok( $TestTicketID, "TestTicketID $TestTicketID is created" );
 
 # Get ticket number.
 my $TicketNumber = $TicketObject->TicketNumberLookup(
@@ -350,10 +308,7 @@ $Success = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
     UserID             => 1,
     ObjectID           => $TestTicketID,
 );
-$Self->True(
-    $Success,
-    "Dynamic field value is set successfully",
-);
+ok( $Success, "Dynamic field value is set successfully" );
 
 @Tests = (
     {
@@ -416,14 +371,14 @@ for my $Test (@Tests) {
     );
 
     # Check replaced subject.
-    $Self->Is(
+    is(
         $TestAutoResponse{Subject},
         $Test->{ExpectedSubject},
         "AutoResponse subject - Language: $Test->{Language}, Timezone: $Test->{Timezone} - tags are replaced correctly"
     );
 
     # Check replaced text.
-    $Self->Is(
+    is(
         $TestAutoResponse{Text},
         $Test->{ExpectedText},
         "AutoResponse text - Language: $Test->{Language}, Timezone: $Test->{Timezone} - tags are replaced correctly"
@@ -432,4 +387,4 @@ for my $Test (@Tests) {
 
 # Cleanup is done by RestoreDatabase.
 
-$Self->DoneTesting();
+done_testing;
