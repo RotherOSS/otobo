@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 # Default configuration for OTOBO. All changes to this file will be lost after an
 # update, please use AdminSystemConfiguration to configure your system.
 
@@ -22,7 +21,7 @@
 
 package Kernel::Config::Defaults;
 
-use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
+use v5.24;    # Perl 5.24.0 is the required minimum version to use OTOBO.
 use strict;
 use warnings;
 use utf8;
@@ -33,11 +32,11 @@ use Digest::MD5;
 use Exporter qw(import);
 
 # CPAN modules
-use Module::Refresh; # located in Kernel/cpan-lib
+use Module::Refresh;    # located in Kernel/cpan-lib
 
 # OTOBO modules
 
-our @EXPORT = qw(Translatable); ## no critic qw(Modules::ProhibitAutomaticExportation)
+our @EXPORT = qw(Translatable);    ## no critic qw(Modules::ProhibitAutomaticExportation)
 
 our @ObjectDependencies = ();
 
@@ -572,7 +571,6 @@ sub LoadDefaults {
     # Net::LDAP::start_tls verify type (if needed - for more info see Net::LDAP::start_tls)
 #    $Self->{'AuthSyncModule::LDAP::StartTLS'} = 'required';
 
-
     # Die if backend can't work, e. g. can't connect to server.
 #    $Self->{'AuthSyncModule::LDAP::Die'} = 1;
 
@@ -727,7 +725,7 @@ sub LoadDefaults {
             Module => 'Kernel::Output::HTML::Notification::UIDCheck',
         },
         '2500-AgentSessionLimit' => {
-          'Module' => 'Kernel::Output::HTML::Notification::AgentSessionLimit',
+            'Module' => 'Kernel::Output::HTML::Notification::AgentSessionLimit',
         },
         '5000-SystemConfigurationIsDirty-Check' => {
             Group  => 'admin',
@@ -743,8 +741,8 @@ sub LoadDefaults {
         '6000-SystemMaintenance-Check' => {
             Module => 'Kernel::Output::HTML::Notification::SystemMaintenanceCheck',
         },
-        '6050-SystemConfiguration-OutOfSync-Check' =>  {
-            Module => 'Kernel::Output::HTML::Notification::SystemConfigurationOutOfSyncCheck',
+        '6050-SystemConfiguration-OutOfSync-Check' => {
+            Module              => 'Kernel::Output::HTML::Notification::SystemConfigurationOutOfSyncCheck',
             AllowedDelayMinutes => '5',
         },
         '7000-AgentTimeZone-Check' => {
@@ -756,8 +754,8 @@ sub LoadDefaults {
     };
 
     # Make sure the daemon is able to deploy the configuration to all cluster nodes that have no ZZZAAuto.pm yet.
-    $Self->{DaemonModules}->{SystemConfigurationSyncManager} =  {
-      Module => 'Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager'
+    $Self->{DaemonModules}->{SystemConfigurationSyncManager} = {
+        Module => 'Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager'
     };
 
     # --------------------------------------------------- #
@@ -943,47 +941,47 @@ sub LoadDefaults {
     # --------------------------------------------------- #
 
     # Customer Common CSS
-    $Self->{'Loader::Customer::CommonCSS'}->{'000-Framework'} =  [
-      'Core.Layout.css',
-      'Core.NavigationBar.css',
-      'Core.Reset.css',
-      'Core.Default.css',
-      'Core.Form.css',
-      'Core.Dialog.css',
-      'Core.Tooltip.css',
-      'Core.Control.css',
-      'Core.Table.css',
-      'Core.InputFields.css',
-      'Core.Print.css',
-      'Core.Animations.css',
-      'Core.Icons.css',
-      'Core.Footer.css',
-      'Core.Items.css'
+    $Self->{'Loader::Customer::CommonCSS'}->{'000-Framework'} = [
+        'Core.Layout.css',
+        'Core.NavigationBar.css',
+        'Core.Reset.css',
+        'Core.Default.css',
+        'Core.Form.css',
+        'Core.Dialog.css',
+        'Core.Tooltip.css',
+        'Core.Control.css',
+        'Core.Table.css',
+        'Core.InputFields.css',
+        'Core.Print.css',
+        'Core.Animations.css',
+        'Core.Icons.css',
+        'Core.Footer.css',
+        'Core.Items.css'
     ];
 
     # Agent Common CSS
-    $Self->{'Loader::Agent::CommonCSS'}->{'000-Framework'} =  [
-      'Core.Reset.css',
-      'Core.Default.css',
-      'Core.Header.css',
-      'Core.OverviewControl.css',
-      'Core.OverviewSmall.css',
-      'Core.OverviewMedium.css',
-      'Core.OverviewLarge.css',
-      'Core.Footer.css',
-      'Core.PageLayout.css',
-      'Core.Form.css',
-      'Core.Table.css',
-      'Core.Login.css',
-      'Core.Widget.css',
-      'Core.WidgetMenu.css',
-      'Core.TicketDetail.css',
-      'Core.Tooltip.css',
-      'Core.Dialog.css',
-      'Core.InputFields.css',
-      'Core.Print.css',
-      'Core.Animations.css',
-      'Core.Icons.css'
+    $Self->{'Loader::Agent::CommonCSS'}->{'000-Framework'} = [
+        'Core.Reset.css',
+        'Core.Default.css',
+        'Core.Header.css',
+        'Core.OverviewControl.css',
+        'Core.OverviewSmall.css',
+        'Core.OverviewMedium.css',
+        'Core.OverviewLarge.css',
+        'Core.Footer.css',
+        'Core.PageLayout.css',
+        'Core.Form.css',
+        'Core.Table.css',
+        'Core.Login.css',
+        'Core.Widget.css',
+        'Core.WidgetMenu.css',
+        'Core.TicketDetail.css',
+        'Core.Tooltip.css',
+        'Core.Dialog.css',
+        'Core.InputFields.css',
+        'Core.Print.css',
+        'Core.Animations.css',
+        'Core.Icons.css'
     ];
 
     # --------------------------------------------------- #
@@ -1080,6 +1078,7 @@ sub LoadDefaults {
         'Core.UI.Elasticsearch.js',
         'Core.Agent.Responsive.js',
     ];
+
     # --------------------------------------------------- #
     #                                                     #
     #            package management options               #
@@ -1179,39 +1178,39 @@ sub LoadDefaults {
         'Desc'                              => 'Set a new password by filling in your current password and a new one.',
     };
     $Self->{PreferencesGroups}->{Comment} = {
-        'Active'  => '0',
-        'Block'   => 'Input',
+        'Active'          => '0',
+        'Block'           => 'Input',
         'PreferenceGroup' => 'Miscellaneous',
-        'Data'    => '[% Env("UserComment") %]',
-        'Desc'    => 'This is a Description for Comment on Framework.',
-        'Key'     => 'Comment',
-        'Label'   => 'Comment',
-        'Module'  => 'Kernel::Output::HTML::Preferences::Generic',
-        'PrefKey' => 'UserComment',
-        'Prio'    => '6000',
+        'Data'            => '[% Env("UserComment") %]',
+        'Desc'            => 'This is a Description for Comment on Framework.',
+        'Key'             => 'Comment',
+        'Label'           => 'Comment',
+        'Module'          => 'Kernel::Output::HTML::Preferences::Generic',
+        'PrefKey'         => 'UserComment',
+        'Prio'            => '6000',
     };
 
     $Self->{PreferencesGroups}->{Language} = {
-        'Active'  => '1',
-        'PreferenceGroup'  => 'UserProfile',
-        'Key'     => '',
-        'Label'   => 'Language',
-        'Desc'    => 'Select the main interface language.',
-        'Module'  => 'Kernel::Output::HTML::Preferences::Language',
-        'PrefKey' => 'UserLanguage',
-        'Prio'    => '1000',
-        'NeedsReload' => 1,
+        'Active'          => '1',
+        'PreferenceGroup' => 'UserProfile',
+        'Key'             => '',
+        'Label'           => 'Language',
+        'Desc'            => 'Select the main interface language.',
+        'Module'          => 'Kernel::Output::HTML::Preferences::Language',
+        'PrefKey'         => 'UserLanguage',
+        'Prio'            => '1000',
+        'NeedsReload'     => 1,
     };
     $Self->{PreferencesGroups}->{Theme} = {
-        'Active'  => '1',
-        'PreferenceGroup'  => 'Miscellaneous',
-        'Key'     => '',
-        'Label'   => 'Theme',
-        'Desc'    => 'Select your preferred theme for OTOBO.',
-        'Module'  => 'Kernel::Output::HTML::Preferences::Theme',
-        'PrefKey' => 'UserTheme',
-        'Prio'    => '3000',
-        'NeedsReload' => 1,
+        'Active'          => '1',
+        'PreferenceGroup' => 'Miscellaneous',
+        'Key'             => '',
+        'Label'           => 'Theme',
+        'Desc'            => 'Select your preferred theme for OTOBO.',
+        'Module'          => 'Kernel::Output::HTML::Preferences::Theme',
+        'PrefKey'         => 'UserTheme',
+        'Prio'            => '3000',
+        'NeedsReload'     => 1,
     };
 
     # --------------------------------------------------- #
@@ -1519,8 +1518,10 @@ via the Preferences button after logging in.
 #        AdminSetPreferences => 1,
         # use customer company support (reference to company, See CustomerCompany settings)
         CustomerCompanySupport => 1,
+
         # cache time to live in sec. - cache any database queries
         CacheTTL => 60 * 60 * 24,
+
 #        # Consider this source read only.
 #        ReadOnly => 1,
         Map => [
@@ -1646,6 +1647,7 @@ via the Preferences button after logging in.
         Name   => Translatable('Database Backend'),
         Module => 'Kernel::System::CustomerCompany::DB',
         Params => {
+
             # if you want to use an external database, add the
             # required settings
 #            DSN  => 'DBI:odbc:yourdsn',
@@ -1678,9 +1680,10 @@ via the Preferences button after logging in.
         CustomerCompanySearchPrefix    => '*',
         CustomerCompanySearchSuffix    => '*',
         CustomerCompanySearchListLimit => 250,
-        CacheTTL                       => 60 * 60 * 24, # use 0 to turn off cache
+        CacheTTL                       => 60 * 60 * 24,    # use 0 to turn off cache
 
         Map => [
+
             # Info about dynamic fields:
             #
             # Dynamic Fields of type CustomerCompany can be used within the mapping (see example below).
@@ -1750,7 +1753,7 @@ via the Preferences button after logging in.
         Group       => [
             'admin',
         ],
-        GroupRo     => [],
+        GroupRo    => [],
         NavBarName => 'Admin',
         Title      => '',
     };
@@ -1766,7 +1769,7 @@ via the Preferences button after logging in.
     };
     $Self->{'Frontend::Navigation'}->{Admin}->{'001-Framework'} = [
         {
-            Group       => [
+            Group => [
                 'admin',
             ],
             GroupRo     => [],
@@ -1782,16 +1785,16 @@ via the Preferences button after logging in.
         },
     ];
     $Self->{'Frontend::NavigationModule'}->{Admin} = {
-        Group       => [
+        Group => [
             'admin',
         ],
         GroupRo     => [],
-        Module => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
+        Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
         Description => 'Admin modules overview.',
-        IconBig => '',
-        IconSmall => '',
-        Name => '',
-        Block => '',
+        IconBig     => '',
+        IconSmall   => '',
+        Name        => '',
+        Block       => '',
     };
 
     $Self->{'Frontend::Module'}->{AdminInit} = {
@@ -1799,7 +1802,7 @@ via the Preferences button after logging in.
         Group       => [
             'admin',
         ],
-        GroupRo     => [],
+        GroupRo    => [],
         NavBarName => '',
         Title      => 'Init',
     };
@@ -1808,18 +1811,18 @@ via the Preferences button after logging in.
         Group       => [
             'admin',
         ],
-        GroupRo     => [],
+        GroupRo    => [],
         NavBarName => 'Admin',
         Title      => 'System Log',
     };
     $Self->{'Loader::Module::AdminLog'}->{'000-Defaults'} = {
         JavaScript => [
-          'Core.Agent.Admin.Log.js'
+            'Core.Agent.Admin.Log.js'
         ],
     };
     $Self->{'Frontend::NavigationModule'}->{AdminLog} = {
-        GroupRo     => [],
-        Group       => [
+        GroupRo => [],
+        Group   => [
             'admin',
         ],
         Description => Translatable('View system log messages.'),
@@ -1827,15 +1830,15 @@ via the Preferences button after logging in.
         IconSmall   => '',
         Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
         Name        => Translatable('System Log'),
-        Block => 'Administration',
+        Block       => 'Administration',
     };
 
     $Self->{'Frontend::Module'}->{AdminSystemConfiguration} = {
-        Group        => ['admin'],
+        Group       => ['admin'],
         GroupRo     => [],
-        Description  => 'Admin.',
-        Title        => 'System Configuration',
-        NavBarName   => 'Admin',
+        Description => 'Admin.',
+        Title       => 'System Configuration',
+        NavBarName  => 'Admin',
     };
     $Self->{'Loader::Module::AdminSystemConfiguration'}->{'000-Defaults'} = {
         CSS => [
@@ -1849,15 +1852,15 @@ via the Preferences button after logging in.
         ],
     };
     $Self->{'Frontend::NavigationModule'}->{AdminSystemConfiguration} = {
-        Group        => ['admin'],
-        GroupRo      => [],
+        Group       => ['admin'],
+        GroupRo     => [],
         Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
         Name        => Translatable('System Configuration'),
         Description => Translatable('Edit the system configuration settings.'),
         Block       => 'System',
         IconBig     => '',
-        IconSmall    => '',
-        Block => 'Administration',
+        IconSmall   => '',
+        Block       => 'Administration',
     };
 
     $Self->{'Frontend::Module'}->{AdminPackageManager} = {
@@ -1865,21 +1868,21 @@ via the Preferences button after logging in.
         Group       => [
             'admin',
         ],
-        GroupRo     => [],
+        GroupRo    => [],
         NavBarName => 'Admin',
         Title      => 'Package Manager',
     };
     $Self->{'Frontend::NavigationModule'}->{AdminPackageManager} = {
-        Group       => [
+        Group => [
             'admin',
         ],
-        GroupRo      => [],
+        GroupRo     => [],
         IconBig     => 'fa-plug',
-        IconSmall => '',
+        IconSmall   => '',
         Description => Translatable('Update and extend your system with software packages.'),
         Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
         Name        => Translatable('Package Manager'),
-        Block => 'Administration',
+        Block       => 'Administration',
     };
 
     # specify Loader settings for Login screens
@@ -1920,8 +1923,8 @@ via the Preferences button after logging in.
     # for a single index  simply add a corresponding definition with the index name
     # ('Customer', 'CustomerUser' or 'Ticket') instead of 'Default'.
     $Self->{'Elasticsearch::ArticleIndexCreationSettings'} = {
-        'NS'          => '1',
-        'NR'          => '0',
+        'NS' => '1',
+        'NR' => '0',
     };
 
     # Elasticsearch index definition template
@@ -1962,7 +1965,7 @@ via the Preferences button after logging in.
 
 # Please see the documentation in Kernel/Config.pod.dist.
 sub new {
-    my ($Type, %Param) = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
@@ -2034,7 +2037,7 @@ sub new {
 
                 # This also adds $RelativeFile to %Module::Refresh::CACHE.
                 if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
-                    Module::Refresh->refresh_module_if_modified( $RelativeFile );
+                    Module::Refresh->refresh_module_if_modified($RelativeFile);
                 }
 
                 # Try to load file.
@@ -2043,7 +2046,7 @@ sub new {
                 }
 
                 # Check if package has loaded and has a Load() method.
-                if (!$Package->can('Load')) {
+                if ( !$Package->can('Load') ) {
                     die "$Package has no Load() method.";
                 }
 
@@ -2051,7 +2054,7 @@ sub new {
                 $Package->Load($Self);
             };
 
-            if ( $@ ) {
+            if ($@) {
                 my $ErrorMessage = $@;
                 print STDERR $@;
 
@@ -2068,7 +2071,7 @@ sub new {
     }
 
     # Don't use the MainObject here to parse the RELEASE file
-    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) { ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         while ( my $Line = <$Product> ) {
 
             # filtering of comment lines
@@ -2222,7 +2225,7 @@ sub AutoloadPerlPackages {
     my %AutoloadConfiguration = $Self->{AutoloadPerlPackages}->%*;
 
     CONFIGKEY:
-    for my $ConfigKey (sort keys %AutoloadConfiguration) {
+    for my $ConfigKey ( sort keys %AutoloadConfiguration ) {
 
         my $ConfigValue = $AutoloadConfiguration{$ConfigKey};
 
@@ -2233,7 +2236,7 @@ sub AutoloadPerlPackages {
 
             next PACKAGE if !$Package;
 
-            if ( substr($Package, 0, 16) ne 'Kernel::Autoload' ) {
+            if ( substr( $Package, 0, 16 ) ne 'Kernel::Autoload' ) {
                 print STDERR "Error: Autoload packages must be located in Kernel/Autoload, skipping $Package\n";
 
                 next PACKAGE;
@@ -2242,7 +2245,7 @@ sub AutoloadPerlPackages {
             # Don't use the MainObject here to load the file.
             eval {
                 my $FileName = $Package =~ s{::}{/}smxgr;
-                require $FileName . '.pm'; ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
+                require $FileName . '.pm';    ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
             };
         }
     }
