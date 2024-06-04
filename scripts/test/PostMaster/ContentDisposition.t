@@ -46,7 +46,7 @@ my @Tests = (
             'ceeibejd.png' => {
                 Filename           => 'ceeibejd.png',
                 ContentType        => 'image/png; name="ceeibejd.png"',
-                ContentID          => '<part1.02040705.00020608@otobo.org>',
+                ContentID          => '<part1.02040705.00020608@otobo.io>',
                 ContentAlternative => '1',
                 Disposition        => 'inline',
             },
@@ -72,7 +72,7 @@ my @Tests = (
             'ceeibejd.png' => {
                 Filename           => 'ceeibejd.png',
                 ContentType        => 'image/png; name="ceeibejd.png"',
-                ContentID          => '<part1.02040705.00020608@otobo.org>',
+                ContentID          => '<part1.02040705.00020608@otobo.io>',
                 ContentAlternative => '1',
                 Disposition        => 'inline',
             },
@@ -98,7 +98,7 @@ my @Tests = (
             'ceeibejd.png' => {
                 Filename           => 'ceeibejd.png',
                 ContentType        => 'image/png; name="ceeibejd.png"',
-                ContentID          => '<part1.02040705.00020608@otobo.org>',
+                ContentID          => '<part1.02040705.00020608@otobo.io>',
                 ContentAlternative => '1',
                 Disposition        => 'inline',
             },
@@ -112,7 +112,7 @@ my @Tests = (
             'testing.pdf' => {
                 Filename           => 'testing.pdf',
                 ContentType        => 'application/pdf; name="testing.pdf"',
-                ContentID          => '<part1.02040705.0001234@otobo.org>',
+                ContentID          => '<part1.02040705.0001234@otobo.io>',
                 ContentAlternative => '',
                 Disposition        => 'attachment',
             },
@@ -124,7 +124,7 @@ my @Tests = (
             'ceeibejd.png' => {
                 Filename           => 'ceeibejd.png',
                 ContentType        => 'image/png; name="ceeibejd.png"',
-                ContentID          => '<part1.02040705.00020608@otobo.org>',
+                ContentID          => '<part1.02040705.00020608@otobo.io>',
                 ContentAlternative => '1',
                 Disposition        => 'attachment',
             },

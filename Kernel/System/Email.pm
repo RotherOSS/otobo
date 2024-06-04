@@ -1100,7 +1100,7 @@ sub _CreateMimeEntity {
     }
     else {
         $Header{'X-Mailer'}     = "$Product Mail Service ($Version)";
-        $Header{'X-Powered-By'} = 'OTOBO (https://otobo.org/)';
+        $Header{'X-Powered-By'} = 'OTOBO (https://otobo.io/)';
     }
     $Header{Type} = $Param{MimeType} || 'text/plain';
 

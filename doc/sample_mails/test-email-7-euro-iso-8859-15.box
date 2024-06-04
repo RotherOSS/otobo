@@ -13,8 +13,8 @@ Message-Id: <1035215772.663659.044054076.8.1@yourhost.example.com>
 Subject: Show me your =?ISO-8859-15?Q?=A4?=!
 From: Euro Tester <anakin@example.com>
 X-Mimetools: 5.411
-To: darthvader@otobo.org
-Cc: skywalker@otobo.org
+To: darthvader@otobo.io
+Cc: skywalker@otobo.io
 In-Reply-To: <3CFDCF81.5000409@example.com>
 Date: Mon, 21 Oct 2002 17:56:13 +0200 (CEST)
 X-OTOBO-CustomerNo: example7

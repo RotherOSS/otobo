@@ -1,7 +1,7 @@
 <!--                                                                           -->
 <!--         OTRS: Copyright (C) 2001-2020 OTRS AG, https://otrs.com/          -->
 <!--     OTOBO: Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/     -->
-<!--         Web: https://otobo.de/ - Forum: https://forum.otobo.org/          -->
+<!--         Web: https://otobo.io/ - Forum: https://forum.otobo.io/           -->
 <!--    GNU General Public License: https://www.gnu.org/licenses/gpl-3.0.txt   -->
 <!--                                                                           -->
 ## nofilter(TidyAll::Plugin::OTOBO::Common::HeaderlineFilename)

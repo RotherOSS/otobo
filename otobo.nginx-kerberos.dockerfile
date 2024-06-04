@@ -1,7 +1,7 @@
 # This is the build file for the OTOBO nginx Docker image including Kerberos Single Sign On tools.
 
 # See bin/docker/build_docker_images.sh for how to create local builds.
-# See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
+# See also https://doc.otobo.io/manual/installation/10.0/en/content/installation-docker.html
 
 # I have found no better way than to first compile NGINX in a BUILDER container and then copy the
 # finished ngx_http_auth_spnego_module.so into the NGINX container.
@@ -111,10 +111,10 @@ RUN sed '4 i\load_module modules/ngx_http_auth_spnego_module.so;' -i /etc/nginx/
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
 # The labels are compliant with https://github.com/opencontainers/image-spec/blob/master/annotations.md .
 # For the standard build args passed by hub.docker.com see https://docs.docker.com/docker-hub/builds/advanced/.
-LABEL maintainer='Team OTOBO <dev@otobo.org>'
-LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
+LABEL maintainer='Team OTOBO <dev@otobo.io>'
+LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.io>'
 LABEL org.opencontainers.image.description='OTOBO is the new open source ticket system with strong functionality AND a great look'
-LABEL org.opencontainers.image.documentation='https://otobo.org'
+LABEL org.opencontainers.image.documentation='https://otobo.io'
 LABEL org.opencontainers.image.licenses='GNU General Public License v3.0 or later'
 LABEL org.opencontainers.image.title='OTOBO nginx Kerberos SSO'
 LABEL org.opencontainers.image.url=https://github.com/RotherOSS/otobo

@@ -50,7 +50,7 @@
                 </p>
             [% END %]
                 <p class="FieldExplanation">
-                    [% Translate("Here you can configure available cloud services that communicate securely with %s.", "cloud.otobo.ch") | html %]
+                    [% Translate("Here you can configure available cloud services that communicate securely with %s.", "cloud.otobo.io") | html %]
                 </p>
             </div>
         </div>

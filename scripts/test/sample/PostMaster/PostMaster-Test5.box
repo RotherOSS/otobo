@@ -1,19 +1,19 @@
-Return-Path: <han.solo@otobo.org>
-X-Original-To: skywalker@osser.otobo.org
-Delivered-To: skywalker@osser.otobo.org
+Return-Path: <han.solo@otobo.io>
+X-Original-To: skywalker@osser.otobo.io
+Delivered-To: skywalker@osser.otobo.io
 Received: from localhost (localhost [127.0.0.1])
-	by osser.otobo.org (Postfix) with ESMTP id B436B5BE51
-	for <skywalker@osser.otobo.org>; Thu, 12 Apr 2007 15:25:51 +0200 (CEST)
-Received: from osser.otobo.org ([127.0.0.1])
- by localhost (osser.otobo.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 23300-08 for <skywalker@osser.otobo.org>;
+	by osser.otobo.io (Postfix) with ESMTP id B436B5BE51
+	for <skywalker@osser.otobo.io>; Thu, 12 Apr 2007 15:25:51 +0200 (CEST)
+Received: from osser.otobo.io ([127.0.0.1])
+ by localhost (osser.otobo.io [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 23300-08 for <skywalker@osser.otobo.io>;
  Thu, 12 Apr 2007 15:25:37 +0200 (CEST)
 Date: Thu, 12 Apr 2007 15:25:43 +0200
-From: Han Solo <han.solo@otobo.org>
-To: skywalker@otobo.org
+From: Han Solo <han.solo@otobo.io>
+To: skywalker@otobo.io
 Subject: 2nd try: Again some stuff =?iso-8859-1?B?aPxi?=
 	=?iso-8859-1?Q?sches_z=FCm_t=E4sten=5D?=
-Message-ID: <20070412132542.GB29977@tuxbrett.hq.otobo.org>
+Message-ID: <20070412132542.GB29977@tuxbrett.hq.otobo.io>
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="J/dobhs11T7y2rNN"
 X-OTOBO-DynamicField-TicketFreeKey1: Test
@@ -43,7 +43,7 @@ Sie m�chten �mlaute, sie kr�gen �mlaute.
 --
 Han Solo
  OTOBO :: RotherOSS Open Source Services :: Oberwalting 31 :: 94335 Leiblfing
-    http://www.otobo.org/ :: open source for real
+    http://otobo.io/ :: open source for real
 
 --J/dobhs11T7y2rNN
 Content-Type: text/plain; charset=iso-8859-1

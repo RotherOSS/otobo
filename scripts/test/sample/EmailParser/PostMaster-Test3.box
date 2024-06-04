@@ -1,22 +1,22 @@
-Return-Path: <skywalker@otobo.org>
+Return-Path: <skywalker@otobo.io>
 Received: from localhost (localhost [127.0.0.1])
-	by osser.otobo.org (Postfix) with ESMTP id 788A45BB35
-	for <skywalker@otobo.org>; Thu,  5 Apr 2007 10:46:18 +0200 (CEST)
-Received: from osser.otobo.org ([127.0.0.1])
- by localhost (osser.otobo.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 23059-03 for <skywalker@otobo.org>;
+	by osser.otobo.io (Postfix) with ESMTP id 788A45BB35
+	for <skywalker@otobo.io>; Thu,  5 Apr 2007 10:46:18 +0200 (CEST)
+Received: from osser.otobo.io ([127.0.0.1])
+ by localhost (osser.otobo.io [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 23059-03 for <skywalker@otobo.io>;
  Thu,  5 Apr 2007 10:46:13 +0200 (CEST)
 Received: from [10.161.134.230] (gprs-pool-1-027.eplus-online.de [212.23.126.27])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(Client did not present a certificate)
-	by osser.otobo.org (Postfix) with ESMTP id 380185BB20
-	for <darthvader@otobo.org>; Thu,  5 Apr 2007 10:46:12 +0200 (CEST)
-Message-ID: <4614B72A.9020509@otobo.org>
+	by osser.otobo.io (Postfix) with ESMTP id 380185BB20
+	for <darthvader@otobo.io>; Thu,  5 Apr 2007 10:46:12 +0200 (CEST)
+Message-ID: <4614B72A.9020509@otobo.io>
 Date: Thu, 05 Apr 2007 10:45:30 +0200
-From: Skywalker <skywalker@otobo.org>
+From: Skywalker <skywalker@otobo.io>
 User-Agent: Thunderbird 1.5.0.10 (X11/20070221)
 MIME-Version: 1.0
-To:  darthvader@otobo.org
+To:  darthvader@otobo.io
 X-Enigmail-Version: 0.93.1.0
 Content-Type: multipart/mixed;
  boundary="------------080804020005020704090006"
@@ -32,7 +32,7 @@ UTF-8 Test äöü 顧客コンタクト管理
   Darthvader
 
 --
-System Tester II - <darthvader@otobo.org>
+System Tester II - <darthvader@otobo.io>
 --
 "The number of Unix installations has grown to 10, with more expected."
                     The Unix Programmer's Manual, 2nd Edition, June 1972

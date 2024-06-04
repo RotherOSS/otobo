@@ -420,8 +420,8 @@ $Selenium->RunTest(
 
         # Input fields.
         my %RequesterInputData = (
-            Endpoint             => 'http://local.otobo.org:8000/Selenium/' . $RandomID,
-            NameSpace            => 'http://www.otobo.org/GenericInterface/' . $RandomID,
+            Endpoint             => 'http://local.otobo.io:8000/Selenium/' . $RandomID,
+            NameSpace            => 'http://otobo.io/GenericInterface/' . $RandomID,
             RequestNameFreeText  => 'RequestName' . $RandomID,
             ResponseNameFreeText => 'ResponseName' . $RandomID,
             Encoding             => 'utf-8',

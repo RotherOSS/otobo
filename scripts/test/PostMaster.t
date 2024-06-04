@@ -216,7 +216,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         },
                         {
                             Key   => 'To',
-                            Value => 'EMAILADDRESS:darthvader@otobo.org',
+                            Value => 'EMAILADDRESS:darthvader@otobo.io',
                         },
                     ],
                     Not => [
@@ -254,7 +254,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         },
                         {
                             Key   => 'To',
-                            Value => 'EMAILADDRESS:darthvader2@otobo.org',
+                            Value => 'EMAILADDRESS:darthvader2@otobo.io',
                         },
                     ],
                     Not => [
@@ -288,7 +288,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         },
                         {
                             Key   => 'To',
-                            Value => 'otobo.org',
+                            Value => 'otobo.io',
                         },
                     ],
                     Not => [
@@ -322,7 +322,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         },
                         {
                             Key   => 'To',
-                            Value => 'darthvader@otobo.org',
+                            Value => 'darthvader@otobo.io',
                         },
                     ],
                     Not => [

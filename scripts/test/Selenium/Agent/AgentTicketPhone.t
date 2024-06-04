@@ -42,7 +42,7 @@ $Selenium->RunTest(
             1,
             1,
             'var',
-            'http://www.otobo.org',
+            'http://otobo.io',
             0,
             '',
             'AsPopup OTOBOPopup_TicketAction',

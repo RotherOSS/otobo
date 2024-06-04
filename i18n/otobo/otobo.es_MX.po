@@ -21,11 +21,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: translate@otobo.org\n"
+"Report-Msgid-Bugs-To: translate@otobo.io\n"
 "POT-Creation-Date: 2021-10-08 14:22+0000\n"
 "PO-Revision-Date: 2021-09-08 15:36+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
-"Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
+"Language-Team: Spanish (Mexico) <https://translate.otobo.io/projects/"
 "otobo10/otobo/es_MX/>\n"
 "Language: es_MX\n"
 "MIME-Version: 1.0\n"
@@ -4139,9 +4139,9 @@ msgstr ""
 "URI para indicar la ubicación específica para acceder a un servicio web."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
+msgid "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
-"Por ejemplo, https://www.otobo.de:10745/api/v1.0 (sin barra invertida al "
+"Por ejemplo, https://otobo.io:10745/api/v1.0 (sin barra invertida al "
 "final)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -4353,8 +4353,8 @@ msgid "The default HTTP command to use for the requests."
 msgstr "El comando HTTP predeterminado para usar con las peticiones."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
-msgstr "ejemplo: https://local.otobo.de:8000/Webservice/Example"
+msgid "e.g. https://local.otobo.io:8000/Webservice/Example"
+msgstr "ejemplo: https://local.otobo.io:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
@@ -4431,10 +4431,10 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
-"e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
+"e.g urn:otobo-com:soap:functions or http://otobo.io/GenericInterface/"
 "actions"
 msgstr ""
-"ejemplo: urn:otobo-com:soap:functions or http://www.otobo.de/"
+"ejemplo: urn:otobo-com:soap:functions or http://otobo.io/"
 "GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -15333,8 +15333,8 @@ msgid "Print this article"
 msgstr "Imprimir este artículo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
-msgstr "Póngase en contacto con nosotros en hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
+msgstr "Póngase en contacto con nosotros en hello@otobo.io"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -16423,11 +16423,11 @@ msgstr "Los siguientes paquetes sólo se instalan en OTRS:"
 msgid ""
 "Please install (or uninstall) the packages before migration. If a package "
 "doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\"
-"\\@otobo.org. We will find a solution."
+"\\@otobo.io. We will find a solution."
 msgstr ""
 "Por favor, instale (o desinstale) los paquetes antes de la migración. Si un "
 "paquete no existe para OTOBO, por favor contacte con el equipo de OTOBO en "
-"bugs\\\\@otobo.org. Encontraremos una solución."
+"bugs\\\\@otobo.io. Encontraremos una solución."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The same packages are installed on both systems, perfect!"
@@ -20932,12 +20932,12 @@ msgid ""
 "Configures a default TicketDynamicField setting. \"Name\" defines the "
 "dynamic field which should be used, \"Value\" is the data that will be set, "
 "and \"Event\" defines the trigger event. Please check the developer manual "
-"(https://doc.otobo.org/), chapter \"Ticket Event Module\"."
+"(https://doc.otobo.io/), chapter \"Ticket Event Module\"."
 msgstr ""
 "Configura un ajuste TicketDynamicField por defecto. \"Nombre\" define el "
 "campo dinámico que debe utilizarse, \"Valor\" es el dato que se establecerá, "
 "y \"Evento\" define el evento desencadenante. Consulte el manual del "
-"desarrollador (https://doc.otobo.org/), capítulo \"Módulo de eventos de "
+"desarrollador (https://doc.otobo.io/), capítulo \"Módulo de eventos de "
 "tickets\"."
 
 #. SysConfig
@@ -22591,11 +22591,11 @@ msgstr ""
 msgid ""
 "Defines the default front-end (HTML) theme to be used by the agents and "
 "customers. If you like, you can add your own theme. Please refer the "
-"administrator manual located at https://doc.otobo.org/."
+"administrator manual located at https://doc.otobo.io/."
 msgstr ""
 "Define el tema por defecto del front-end (HTML) que utilizarán los agentes y "
 "los clientes. Si lo desea, puede añadir su propio tema. Consulte el manual "
-"del administrador que se encuentra en https://doc.otobo.org/."
+"del administrador que se encuentra en https://doc.otobo.io/."
 
 #. SysConfig
 msgid ""
@@ -32754,11 +32754,11 @@ msgstr "estadísticas"
 #~ "innumerables ventajas!"
 
 #~ msgid ""
-#~ "e.g https://www.otobo.com:10745/api/v1.0 (without trailing backslash)"
-#~ msgstr "ej. https://www.otobo.com:10745/api/v1.0 (sin la barra invertida)"
+#~ "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
+#~ msgstr "ej. https://otobo.io:10745/api/v1.0 (sin la barra invertida)"
 
-#~ msgid "e.g. https://local.otobo.com:8000/Webservice/Example"
-#~ msgstr "p.e. https://local.otobo.com:8000/Webservice/Example"
+#~ msgid "e.g. https://local.otobo.io:8000/Webservice/Example"
+#~ msgstr "p.e. https://local.otobo.io:8000/Webservice/Example"
 
 #~ msgid "Manage %s"
 #~ msgstr "Administrar %s"

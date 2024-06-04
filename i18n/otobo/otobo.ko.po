@@ -8,7 +8,7 @@ msgstr ""
 "POT-Creation-Date: 2021-10-08 14:22+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
-"Language-Team: Korean (https://translate.otobo.org/projects/otobo10/otobo/"
+"Language-Team: Korean (https://translate.otobo.io/projects/otobo10/otobo/"
 "ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -3920,7 +3920,7 @@ msgid "URI to indicate specific location for accessing a web service."
 msgstr "웹 서비스에 액세스하기위한 특정 위치를 나타내는 URI."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
+msgid "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -4121,7 +4121,7 @@ msgid "The default HTTP command to use for the requests."
 msgstr "요청에 사용할 기본 HTTP 명령입니다."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
+msgid "e.g. https://local.otobo.io:8000/Webservice/Example"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -4194,7 +4194,7 @@ msgstr "URI는 SOAP 메소드에 컨텍스트를 제공하여 모호성을 줄�
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
-"e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
+"e.g urn:otobo-com:soap:functions or http://otobo.io/GenericInterface/"
 "actions"
 msgstr ""
 
@@ -14685,7 +14685,7 @@ msgid "Print this article"
 msgstr "이 기사 인쇄"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -15719,7 +15719,7 @@ msgstr ""
 msgid ""
 "Please install (or uninstall) the packages before migration. If a package "
 "doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\"
-"\\@otobo.org. We will find a solution."
+"\\@otobo.io. We will find a solution."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
@@ -19936,7 +19936,7 @@ msgid ""
 "Configures a default TicketDynamicField setting. \"Name\" defines the "
 "dynamic field which should be used, \"Value\" is the data that will be set, "
 "and \"Event\" defines the trigger event. Please check the developer manual "
-"(https://doc.otobo.org/), chapter \"Ticket Event Module\"."
+"(https://doc.otobo.io/), chapter \"Ticket Event Module\"."
 msgstr ""
 
 #. SysConfig
@@ -21470,7 +21470,7 @@ msgstr ""
 msgid ""
 "Defines the default front-end (HTML) theme to be used by the agents and "
 "customers. If you like, you can add your own theme. Please refer the "
-"administrator manual located at https://doc.otobo.org/."
+"administrator manual located at https://doc.otobo.io/."
 msgstr ""
 
 #. SysConfig
@@ -30585,17 +30585,17 @@ msgstr "통계"
 #~ "에 액세스하려면 %s로 업그레이드하십시오."
 
 #~ msgid ""
-#~ "e.g https://www.otobo.com:10745/api/v1.0 (without trailing backslash)"
-#~ msgstr "예 : https://www.otobo.com:10745/api/v1.0( 후행 백 슬래시 없음)"
+#~ "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
+#~ msgstr "예 : https://otobo.io:10745/api/v1.0( 후행 백 슬래시 없음)"
 
-#~ msgid "e.g. https://local.otobo.com:8000/Webservice/Example"
-#~ msgstr "예 : https://local.otobo.com:8000/Webservice/Example"
+#~ msgid "e.g. https://local.otobo.io:8000/Webservice/Example"
+#~ msgstr "예 : https://local.otobo.io:8000/Webservice/Example"
 
 #~ msgid ""
-#~ "e.g urn:otobo-com:soap:functions or http://www.otobo.com/GenericInterface/"
+#~ "e.g urn:otobo-com:soap:functions or http://otobo.io/GenericInterface/"
 #~ "actions"
 #~ msgstr ""
-#~ "예 : urn : otobo-com : soap : 함수 또는 http://www.otobo.com/"
+#~ "예 : urn : otobo-com : soap : 함수 또는 http://otobo.io/"
 #~ "GenericInterface/actions"
 
 #~ msgid "Manage %s"
@@ -30605,10 +30605,10 @@ msgstr "통계"
 #~ msgstr "설명서 읽기"
 
 #~ msgid ""
-#~ "%s makes contact regularly with cloud.otobo.com to check on available "
+#~ "%s makes contact regularly with cloud.otobo.io to check on available "
 #~ "updates and the validity of the underlying contract."
 #~ msgstr ""
-#~ "%s는 cloud.otobo.com과 정기적으로 접속하여 사용 가능한 업데이트 및 기본 계"
+#~ "%s는 cloud.otobo.io과 정기적으로 접속하여 사용 가능한 업데이트 및 기본 계"
 #~ "약의 유효성을 확인합니다."
 
 #~ msgid "Unauthorized Usage Detected"
@@ -30677,11 +30677,11 @@ msgstr "통계"
 #~ msgstr "%s의 혜택을 누리려면 %s로 연락해  %s계약을 획득하세요."
 
 #~ msgid ""
-#~ "Connection to cloud.otobo.com via HTTPS couldn't be established. Please "
-#~ "make sure that your OTOBO can connect to cloud.otobo.com via port 443."
+#~ "Connection to cloud.otobo.io via HTTPS couldn't be established. Please "
+#~ "make sure that your OTOBO can connect to cloud.otobo.io via port 443."
 #~ msgstr ""
-#~ "HTTPS를 통해 cloud.otobo.com에 연결할 수 없습니다. OTOBO가 포트 443을 통"
-#~ "해 cloud.otobo.com에 연결할 수 있는지 확인하십시오."
+#~ "HTTPS를 통해 cloud.otobo.io에 연결할 수 없습니다. OTOBO가 포트 443을 통"
+#~ "해 cloud.otobo.io에 연결할 수 있는지 확인하십시오."
 
 #~ msgid "Package installation requires patch level update of OTOBO."
 #~ msgstr "패키지를 설치하려면 OTOBO의 패치 레벨 업데이트가 필요합니다."
@@ -30933,8 +30933,8 @@ msgstr "통계"
 #~ msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
 #~ msgstr "잘못된 데이터베이스 정렬 (%s는 %s이지만 utf8이어야합니다)."
 
-#~ msgid "Contact us at hallo@otobo.de"
-#~ msgstr "hallo@otobo.de으로 문의하십시오."
+#~ msgid "Contact us at hallo@otobo.io"
+#~ msgstr "hallo@otobo.io으로 문의하십시오."
 
 #~ msgid "Upgrade to OTOBO Business Solution™"
 #~ msgstr "OTOBO Business Solution ™으로 업그레이드하십시오."
@@ -30973,17 +30973,17 @@ msgstr "통계"
 #~ msgid ""
 #~ "You have exceeded the number of concurrent agents - contact hallo@otobo."
 #~ "de."
-#~ msgstr "동시 상담원 수를 초과했습니다. hallo@otobo.de으로 문의하십시오."
+#~ msgstr "동시 상담원 수를 초과했습니다. hallo@otobo.io으로 문의하십시오."
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "세션 한도에 거의 도달했음을 유의하십시오."
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "로그인이 거부되었습니다! 최대 동시 상담원 수를 초과했습니다! 즉시 "
-#~ "sales@otobo.com에 문의하십시오! "
+#~ "sales@otobo.io에 문의하십시오! "
 
 #~ msgid ""
 #~ "<p>If you continue to install this package, the following issues may "

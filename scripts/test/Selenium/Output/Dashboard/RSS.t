@@ -59,9 +59,9 @@ $Selenium->RunTest(
               xmlns:sy=\"http://purl.org/rss/1.0/modules/syndication/\"
               xmlns:slash=\"http://purl.org/rss/1.0/modules/slash/\"  >
               <channel>
-                  <title>Press Releases &#8211;otobo.de| OTOBO Simple Service Management</title>
-                  <atom:link href=\"https://www.otobo.org/feed/?cat=112%2C254%2C111\" rel=\"self\" type=\"application/rss+xml\" />
-                  <link>https://www.otobo.org</link>
+                  <title>Press Releases &#8211;otobo.io| OTOBO Simple Service Management</title>
+                  <atom:link href=\"https://otobo.io/feed/?cat=112%2C254%2C111\" rel=\"self\" type=\"application/rss+xml\" />
+                  <link>https://otobo.io</link>
                   <description>Simple service management</description>
                   <lastBuildDate>Fri, 26 Jan 2018 13:37:52 +0000</lastBuildDate>
                   <language>en-EN</language>
@@ -70,12 +70,12 @@ $Selenium->RunTest(
                   <generator>https://wordpress.org/?v=4.9.2</generator>
                   <item>
                       <title>$RandomRSSTitle</title>
-                      <link>https://www.otobo.org/$RandomRSSTitle</link>
+                      <link>https://otobo.io/$RandomRSSTitle</link>
                       <pubDate>Tue, 16 Jan 2018 09:00:07 +0000</pubDate>
                       <dc:creator><![CDATA[Marketing OTOBO]]></dc:creator>
                       <category><![CDATA[Release and Security Notes]]></category>
                       <category><![CDATA[Release Notes: OTOBO Community Solution]]></category>
-                      <guid isPermaLink=\"false\">https://www.otobo.org/?p=61580</guid>
+                      <guid isPermaLink=\"false\">https://otobo.io/?p=61580</guid>
                       <description><![CDATA[&#160; January 16, 2018 — OTOBO, test]]></description>
                       <content:encoded><![CDATA[<div class=\"row box-space-md\"> <div class=\"col-lg-12 col-md-12 col-sm-12 column1\"></div> </div>]]></content:encoded>
                   </item>
@@ -113,7 +113,7 @@ $Selenium->RunTest(
         # Test if RSS feed is shown.
         $Self->True(
             $Selenium->execute_script(
-                "return \$('#Dashboard0410-RSS tbody a[href*=\"www.otobo.org/$RandomRSSTitle\"]').text().trim() === '$RandomRSSTitle'"
+                "return \$('#Dashboard0410-RSS tbody a[href*=\"otobo.io/$RandomRSSTitle\"]').text().trim() === '$RandomRSSTitle'"
             ),
             "RSS feed '$RandomRSSTitle' - found",
         );

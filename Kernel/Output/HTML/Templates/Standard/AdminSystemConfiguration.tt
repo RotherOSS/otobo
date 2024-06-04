@@ -16,7 +16,7 @@
 
 [%
     SET DocumentationLinkText  = Translate('online administrator documentation');
-    SET DocumentationLink      = "<a href='https://doc.otobo.org/manual/admin/10.0/en/content/administration/system-configuration.html' target='_blank'>" _ DocumentationLinkText.html() _ "</a>";
+    SET DocumentationLink      = "<a href='https://doc.otobo.io/manual/admin/10.0/en/content/administration/system-configuration.html' target='_blank'>" _ DocumentationLinkText.html() _ "</a>";
 %]
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">

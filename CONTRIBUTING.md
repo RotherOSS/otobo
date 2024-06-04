@@ -1,1 +1,1 @@
-Please see [the instructions at doc.otobo.org](https://doc.otobo.org/).
+Please see [the instructions at doc.otobo.io](https://doc.otobo.io/).

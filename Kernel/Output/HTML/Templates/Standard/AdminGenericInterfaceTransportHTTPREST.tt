@@ -173,7 +173,7 @@
                                 <p class="FieldExplanation">
                                     [% Translate("URI to indicate specific location for accessing a web service.") | html %]
                                     <br/>
-                                    [% Translate("e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)") | html %]
+                                    [% Translate("e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)") | html %]
                                 </p>
                             </div>
                             <div class="Clear"></div>

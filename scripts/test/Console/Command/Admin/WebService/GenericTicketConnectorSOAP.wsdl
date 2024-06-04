@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions name="GenericTicketConnectorSOAP" targetNamespace="http://www.otobo.org/TicketConnector/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.otobo.org/TicketConnector/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions name="GenericTicketConnectorSOAP" targetNamespace="http://otobo.io/TicketConnector/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://otobo.io/TicketConnector/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
     <wsdl:documentation>
 The Generic Ticket Connector web service for SOAP protocol
 
 WARNING: This WSDL file is for Development and Test purposes ONLY!
 </wsdl:documentation>
-    <wsdl:types><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.otobo.org/TicketConnector/">
+    <wsdl:types><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://otobo.io/TicketConnector/">
     <xsd:element name="TicketCreate">
         <xsd:complexType>
             <xsd:sequence>
@@ -2279,7 +2279,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
             transport="http://schemas.xmlsoap.org/soap/http" />
         <wsdl:operation name="TicketCreate">
             <soap:operation
-                soapAction="http://www.otobo.org/TicketConnector/TicketCreate" />
+                soapAction="http://otobo.io/TicketConnector/TicketCreate" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>
@@ -2289,7 +2289,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
         </wsdl:operation>
         <wsdl:operation name="TicketUpdate">
             <soap:operation
-                soapAction="http://www.otobo.org/TicketConnector/TicketUpdate" />
+                soapAction="http://otobo.io/TicketConnector/TicketUpdate" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>
@@ -2299,7 +2299,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
         </wsdl:operation>
         <wsdl:operation name="TicketGet">
             <soap:operation
-                soapAction="http://www.otobo.org/TicketConnector/TicketGet" />
+                soapAction="http://otobo.io/TicketConnector/TicketGet" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>
@@ -2309,7 +2309,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
         </wsdl:operation>
         <wsdl:operation name="TicketSearch">
             <soap:operation
-                soapAction="http://www.otobo.org/TicketConnector/TicketSearch" />
+                soapAction="http://otobo.io/TicketConnector/TicketSearch" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>
@@ -2319,7 +2319,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
         </wsdl:operation>
         <wsdl:operation name="SessionCreate">
             <soap:operation
-                soapAction="http://www.otobo.org/TicketConnector/SessionCreate" />
+                soapAction="http://otobo.io/TicketConnector/SessionCreate" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>

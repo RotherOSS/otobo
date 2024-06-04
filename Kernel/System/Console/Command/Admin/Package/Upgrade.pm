@@ -40,7 +40,7 @@ sub Configure {
     $Self->AddArgument(
         Name        => 'location',
         Description =>
-            "Specify a file path, a remote repository (http://ftp.otobo.org/pub/otobo/packages/:Package-1.0.0.opm) or just any online repository (online:Package).",
+            "Specify a file path, a remote repository (http://ftp.otobo.io/pub/otobo/packages/:Package-1.0.0.opm) or just any online repository (online:Package).",
         Required   => 1,
         ValueRegex => qr/.*/smx,
     );

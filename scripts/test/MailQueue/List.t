@@ -119,8 +119,8 @@ my $CreateTestData = sub {
 
     my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
     my %ElementData     = (
-        Sender    => 'mailqueue.test@otobo.org',
-        Recipient => 'mailqueue.test@otobo.org',
+        Sender    => 'mailqueue.test@otobo.io',
+        Recipient => 'mailqueue.test@otobo.io',
         Message   => {
             'Key1' => 'Value1',
             'Key2' => 'Value2',
@@ -139,9 +139,9 @@ my $CreateTestData = sub {
             Attempts => 3,
         },
 
-        'Recipient::mailqueue.test2@otobo.org' => {
+        'Recipient::mailqueue.test2@otobo.io' => {
             %ElementData,
-            Recipient => 'mailqueue.test2@otobo.org',
+            Recipient => 'mailqueue.test2@otobo.io',
         }
     );
 
@@ -164,7 +164,7 @@ my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
 my $Result;
 
 my %BaseSearch = (
-    Sender => 'mailqueue.test@otobo.org',
+    Sender => 'mailqueue.test@otobo.io',
 );
 
 my $TestMessage = sub {
@@ -179,10 +179,10 @@ $Self->True(
 );
 
 # Get all the records for the sender X and recipient Y
-$Result = $MailQueueObject->List( %BaseSearch, Recipient => 'mailqueue.test2@otobo.org' );
+$Result = $MailQueueObject->List( %BaseSearch, Recipient => 'mailqueue.test2@otobo.io' );
 $Self->True(
     $Result && scalar( @{$Result} ) == 1,
-    $TestMessage->(q{ and recipient 'mailqueue.test2@otobo.org'}),
+    $TestMessage->(q{ and recipient 'mailqueue.test2@otobo.io'}),
 );
 
 # Get all the records for the sender X and attempts 3
@@ -199,11 +199,11 @@ $Self->True(
     $TestMessage->(" and article-id '$ArticleID'"),
 );
 
-# Get all the records for the sender X and recipent that match '@otobo.org'
-$Result = $MailQueueObject->List( %BaseSearch, Recipient => '@otobo.org' );
+# Get all the records for the sender X and recipent that match '@otobo.io'
+$Result = $MailQueueObject->List( %BaseSearch, Recipient => '@otobo.io' );
 $Self->True(
     $Result && scalar( @{$Result} ) == $TotalTestRecords,
-    $TestMessage->(q{ and recipent that match '@otobo.org'}),
+    $TestMessage->(q{ and recipent that match '@otobo.io'}),
 );
 
 # Get all the records for the sender that match 'mailqueue.test'

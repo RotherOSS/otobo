@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -55,7 +55,7 @@ my $TicketID = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'closed successful',
     CustomerNo   => '123465',
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -152,7 +152,7 @@ my $TicketIDCreatedBy = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'closed successful',
     CustomerNo   => '123465',
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OwnerID      => 1,
     UserID       => $TestUserID,
 );
@@ -1563,7 +1563,7 @@ my $TicketIDSortOrder1 = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'new',
     CustomerNo   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -1583,7 +1583,7 @@ my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'new',
     CustomerNo   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -1615,7 +1615,7 @@ my @TicketIDsSortOrder = $TicketObject->TicketSearch(
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OrderBy      => [ 'Down',     'Up' ],
     SortBy       => [ 'Priority', 'Age' ],
     UserID       => 1,
@@ -1634,7 +1634,7 @@ $Self->Is(
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OrderBy      => [ 'Down',     'Down' ],
     SortBy       => [ 'Priority', 'Age' ],
     UserID       => 1,
@@ -1652,7 +1652,7 @@ $Self->Is(
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OrderBy      => [ 'Down', ],
     SortBy       => ['Changed'],
     UserID       => 1,
@@ -1671,7 +1671,7 @@ $Self->Is(
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OrderBy      => [ 'Up', ],
     SortBy       => [ 'Changed', ],
     UserID       => 1,
@@ -1691,7 +1691,7 @@ my $TicketIDSortOrder3 = $TicketObject->TicketCreate(
     Priority     => '4 high',
     State        => 'new',
     CustomerNo   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -1706,7 +1706,7 @@ my $TicketIDSortOrder4 = $TicketObject->TicketCreate(
     Priority     => '4 high',
     State        => 'new',
     CustomerNo   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -1721,7 +1721,7 @@ my $TicketIDSortOrder5 = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'new',
     CustomerNo   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -1732,7 +1732,7 @@ my $TicketIDSortOrder5 = $TicketObject->TicketCreate(
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OrderBy      => [ 'Down',     'Down' ],
     SortBy       => [ 'Priority', 'Age' ],
     UserID       => 1,
@@ -1750,7 +1750,7 @@ $Self->Is(
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OrderBy      => [ 'Up',       'Down' ],
     SortBy       => [ 'Priority', 'Age' ],
     UserID       => 1,
@@ -1768,7 +1768,7 @@ $Self->Is(
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OrderBy      => 'Down',
     SortBy       => 'Age',
     UserID       => 1,
@@ -1786,7 +1786,7 @@ $Self->Is(
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OrderBy      => 'Up',
     SortBy       => 'Age',
     UserID       => 1,
@@ -1804,7 +1804,7 @@ $Self->Is(
     Title        => '%sort/order by test%',
     Queues       => [ 'Misc', 'Raw' ],
     CustomerID   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OrderBy      => 'Up',
     SortBy       => 'Queue',
     UserID       => 1,
@@ -1821,7 +1821,7 @@ $Count = $TicketObject->TicketSearch(
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     UserID       => 1,
     Limit        => 1,
 );
@@ -1873,7 +1873,7 @@ $TicketID = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'new',
     CustomerID   => '123465',
-    CustomerUser => 'unittest@otobo.org',
+    CustomerUser => 'unittest@otobo.io',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -2299,7 +2299,7 @@ for my $QueueID (@QueueIDs) {
         Priority     => '3 normal',
         State        => 'new',
         CustomerID   => '123465',
-        CustomerUser => 'bugtest@otobo.org',
+        CustomerUser => 'bugtest@otobo.io',
         OwnerID      => 1,
         UserID       => 1,
     );
@@ -2389,7 +2389,7 @@ my @Tests = (
 for my $Test (@Tests) {
     my @Tickets = $TicketObject->TicketSearch(
         Result            => 'ARRAY',
-        CustomerUserLogin => 'bugtest@otobo.org',
+        CustomerUserLogin => 'bugtest@otobo.io',
         UserID            => 1,
         %{ $Test->{Config} },
     );
@@ -2403,7 +2403,7 @@ for my $Test (@Tests) {
 # cleanup is done by RestoreDatabase but we need to delete the tickets to cleanup the filesystem too
 my @DeleteTicketList = $TicketObject->TicketSearch(
     Result            => 'ARRAY',
-    CustomerUserLogin => [ 'unittest@otobo.org', 'bugtest@otobo.org' ],
+    CustomerUserLogin => [ 'unittest@otobo.io', 'bugtest@otobo.io' ],
     UserID            => 1,
 );
 for my $TicketID (@DeleteTicketList) {
@@ -2424,7 +2424,7 @@ my $FulltextTicketID = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'open',
     CustomerID   => '123465',
-    CustomerUser => 'bugtest@otobo.org',
+    CustomerUser => 'bugtest@otobo.io',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -2691,7 +2691,7 @@ for my $Test (@Tests) {
         %{$Test},
         Title        => 'Unit Test ticket',
         CustomerNo   => 'Unit Test customer',
-        CustomerUser => 'unittest@otobo.org',
+        CustomerUser => 'unittest@otobo.io',
         Lock         => 'unlock',
         OwnerID      => 1,
         UserID       => 1,

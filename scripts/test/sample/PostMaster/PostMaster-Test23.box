@@ -1,21 +1,21 @@
-Return-Path: <R2.D2@otobo.org>
-X-Original-To: skywalker@osser.otobo.org
-Delivered-To: skywalker@osser.otobo.org
+Return-Path: <R2.D2@otobo.io>
+X-Original-To: skywalker@osser.otobo.io
+Delivered-To: skywalker@osser.otobo.io
 Received: from localhost (localhost [127.0.0.1])
-	by osser.otobo.org (Postfix) with ESMTP id ADD945BDA1
-	for <skywalker@osser.otobo.org>; Thu, 12 Apr 2007 16:03:22 +0200 (CEST)
-Received: from osser.otobo.org ([127.0.0.1])
- by localhost (osser.otobo.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 25141-07 for <skywalker@osser.otobo.org>;
+	by osser.otobo.io (Postfix) with ESMTP id ADD945BDA1
+	for <skywalker@osser.otobo.io>; Thu, 12 Apr 2007 16:03:22 +0200 (CEST)
+Received: from osser.otobo.io ([127.0.0.1])
+ by localhost (osser.otobo.io [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 25141-07 for <skywalker@osser.otobo.io>;
  Thu, 12 Apr 2007 16:03:19 +0200 (CEST)
-Received: from ana (lancelot.otobo.org [217.64.92.7])
-	by osser.otobo.org (Postfix) with ESMTP id 0CA4F5BE17
-	for <skywalker@otobo.org>; Thu, 12 Apr 2007 16:03:19 +0200 (CEST)
-From: "R2 D2" <R2.D2@otobo.org>
-To: Skywalker <darthvader@otobo.org>
+Received: from ana (lancelot.otobo.io [217.64.92.7])
+	by osser.otobo.io (Postfix) with ESMTP id 0CA4F5BE17
+	for <skywalker@otobo.io>; Thu, 12 Apr 2007 16:03:19 +0200 (CEST)
+From: "R2 D2" <R2.D2@otobo.io>
+To: Skywalker <darthvader@otobo.io>
 Subject: =?iso-8859-1?Q?_NOT_REGEX_=DC=C4=D6?=
 Date: Thu, 12 Apr 2007 16:03:35 +0200
-Message-ID: <006001c77d0b$5c89de80$159d9b80$@D2@otobo.org>
+Message-ID: <006001c77d0b$5c89de80$159d9b80$@D2@otobo.io>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
 	boundary="----=_NextPart_000_0061_01C77D1C.2012AE80"
@@ -39,7 +39,7 @@ N=FCcht mal vor Anh=E4ngen machen Umlaute halt:
   R2 D2
 =20
  OTOBO :: RotherOSS Open Source Services :: Oberwalting 31 :: 94335 Leiblfing
-    http://www.otobo.org/ :: open source for real
+    http://otobo.io/ :: open source for real
 
 ------=_NextPart_000_0061_01C77D1C.2012AE80
 Content-Type: application/pdf;

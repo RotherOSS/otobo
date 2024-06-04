@@ -4,7 +4,7 @@
     <Version>99.0.1</Version>
     <Framework>99.0.x</Framework>
     <Vendor></Vendor>
-    <URL>http://otobo.org/</URL>
+    <URL>http://otobo.io/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 2, June 199</License>
     <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
     <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>

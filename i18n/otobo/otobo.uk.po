@@ -16,7 +16,7 @@ msgstr ""
 "POT-Creation-Date: 2021-10-08 14:22+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Bohdan Melnychuk <base-w@yandex.ru>, 2019\n"
-"Language-Team: Ukrainian (https://translate.otobo.org/projects/otobo10/otobo/"
+"Language-Team: Ukrainian (https://translate.otobo.io/projects/otobo10/otobo/"
 "uk/)\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -3908,7 +3908,7 @@ msgid "URI to indicate specific location for accessing a web service."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
+msgid "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -4109,7 +4109,7 @@ msgid "The default HTTP command to use for the requests."
 msgstr "Типова HTTP команда для використання у запитах."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
+msgid "e.g. https://local.otobo.io:8000/Webservice/Example"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -4180,7 +4180,7 @@ msgstr "URI, щоб дати контекст методів SOAP, зменшу�
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
-"e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
+"e.g urn:otobo-com:soap:functions or http://otobo.io/GenericInterface/"
 "actions"
 msgstr ""
 
@@ -14745,7 +14745,7 @@ msgid "Print this article"
 msgstr "Роздрукувати це повідомлення"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -15779,7 +15779,7 @@ msgstr ""
 msgid ""
 "Please install (or uninstall) the packages before migration. If a package "
 "doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\"
-"\\@otobo.org. We will find a solution."
+"\\@otobo.io. We will find a solution."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
@@ -19797,7 +19797,7 @@ msgid ""
 "Configures a default TicketDynamicField setting. \"Name\" defines the "
 "dynamic field which should be used, \"Value\" is the data that will be set, "
 "and \"Event\" defines the trigger event. Please check the developer manual "
-"(https://doc.otobo.org/), chapter \"Ticket Event Module\"."
+"(https://doc.otobo.io/), chapter \"Ticket Event Module\"."
 msgstr ""
 
 #. SysConfig
@@ -21087,7 +21087,7 @@ msgstr ""
 msgid ""
 "Defines the default front-end (HTML) theme to be used by the agents and "
 "customers. If you like, you can add your own theme. Please refer the "
-"administrator manual located at https://doc.otobo.org/."
+"administrator manual located at https://doc.otobo.io/."
 msgstr ""
 
 #. SysConfig
@@ -28761,15 +28761,15 @@ msgstr ""
 #~ "Реєстрація системи — це сервіс групи OTOBO, який надає багато переваг!"
 
 #~ msgid ""
-#~ "e.g https://www.otobo.com:10745/api/v1.0 (without trailing backslash)"
+#~ "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
 #~ msgstr ""
-#~ "наприклад https://www.otobo.com:10745/api/v1.0 (без оберненої косої межі)"
+#~ "наприклад https://otobo.io:10745/api/v1.0 (без оберненої косої межі)"
 
 #~ msgid ""
-#~ "e.g urn:otobo-com:soap:functions or http://www.otobo.com/GenericInterface/"
+#~ "e.g urn:otobo-com:soap:functions or http://otobo.io/GenericInterface/"
 #~ "actions"
 #~ msgstr ""
-#~ "наприклад urn:otobo-com:soap:functions or http://www.otobo.com/"
+#~ "наприклад urn:otobo-com:soap:functions or http://otobo.io/"
 #~ "GenericInterface/actions"
 
 #~ msgid "Manage %s"
@@ -28779,10 +28779,10 @@ msgstr ""
 #~ msgstr "Читайте документацію"
 
 #~ msgid ""
-#~ "%s makes contact regularly with cloud.otobo.com to check on available "
+#~ "%s makes contact regularly with cloud.otobo.io to check on available "
 #~ "updates and the validity of the underlying contract."
 #~ msgstr ""
-#~ "%s регулярно контактує з  cloud.otobo.com, щоб перевірити наявність "
+#~ "%s регулярно контактує з  cloud.otobo.io, щоб перевірити наявність "
 #~ "оновлень і терміну дії основної угоди."
 
 #~ msgid "Unauthorized Usage Detected"
@@ -28856,12 +28856,12 @@ msgstr ""
 #~ "Перш ніж скористатися %s, зв'яжіться із %s щоб отримати вашу %s угоду."
 
 #~ msgid ""
-#~ "Connection to cloud.otobo.com via HTTPS couldn't be established. Please "
-#~ "make sure that your OTOBO can connect to cloud.otobo.com via port 443."
+#~ "Connection to cloud.otobo.io via HTTPS couldn't be established. Please "
+#~ "make sure that your OTOBO can connect to cloud.otobo.io via port 443."
 #~ msgstr ""
-#~ "Неможливо встановити з'єднання із cloud.otobo.com за допомогою HTTPS. "
+#~ "Неможливо встановити з'єднання із cloud.otobo.io за допомогою HTTPS. "
 #~ "Будь ласка, переконайтеся в тому, що ваш OTOBO може під'єднатися до cloud."
-#~ "otobo.com використовуючи порт 443."
+#~ "otobo.io використовуючи порт 443."
 
 #~ msgid "Package installation requires patch level update of OTOBO."
 #~ msgstr "Встановлення пакунка потребує оновлення рівня виправлень OTOBO."
@@ -29102,17 +29102,17 @@ msgstr ""
 #~ "de."
 #~ msgstr ""
 #~ "Ви перевищили кількість одночасних агентів - зверніться за адресою "
-#~ "hallo@otobo.de"
+#~ "hallo@otobo.io"
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "Зверніть увагу будь ласка, що обмеження сеансу майже досягнуто."
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "У вході відмовлено! Ви перевищили максимальну кількість одночасно "
-#~ "підключених Агентів! Негайно зверніться за адресою hallo@otobo.de!"
+#~ "підключених Агентів! Негайно зверніться за адресою hallo@otobo.io!"
 
 #~ msgid "Free Fields"
 #~ msgstr "Вільні поля"

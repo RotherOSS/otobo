@@ -1047,12 +1047,12 @@ BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
 
         # insert the common content
         $CertInfo{ 'SmimeTest_' . $Number }->{Subject} =
-            'C= MX ST= Jalisco L= Guadalajara O= OTRS OU= Research and Development CN= otobo.org emailAddress= smime@test.com';
+            'C= MX ST= Jalisco L= Guadalajara O= OTRS OU= Research and Development CN= otobo.io emailAddress= smime@test.com';
         $CertInfo{ 'SmimeTest_' . $Number }->{Hash}    = $CommonHash;
         $CertInfo{ 'SmimeTest_' . $Number }->{Private} = 'No';
         $CertInfo{ 'SmimeTest_' . $Number }->{Type}    = 'cert';
         $CertInfo{ 'SmimeTest_' . $Number }->{Issuer} =
-            'C= MX/ST= Jalisco/L= Guadalajara/O= OTRS/OU= Research and Development/CN= otobo.org/emailAddress= smime@test.com';
+            'C= MX/ST= Jalisco/L= Guadalajara/O= OTRS/OU= Research and Development/CN= otobo.io/emailAddress= smime@test.com';
         $CertInfo{ 'SmimeTest_' . $Number }->{Email} = 'smime@test.com';
 
         # add every SmimeTest_N certificate

@@ -218,7 +218,7 @@
                                     [% Translate(Data.Desc) | html %]
 # Rother OSS / TODO
 #                                [% IF Data.Label == 'Language' %]
-#                                    [% Translate("Did you know? You can help translating OTOBO at %s.") | html | ReplacePlaceholders('<a href="https://translate.otobo.org" target="_blank">translate.otobo.org</a>') %]
+#                                    [% Translate("Did you know? You can help translating OTOBO at %s.") | html | ReplacePlaceholders('<a href="https://translate.otobo.io" target="_blank">translate.otobo.io</a>') %]
 #                                [% END %]
 # EO Rother OSS
                                 </div>

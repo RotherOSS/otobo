@@ -93,8 +93,8 @@
             </div>
             <div class="Clear"></div>
             <div class="LayoutGrid Content">
-                <p>[% Translate("Web site") | html %]: <a href="http://otobo.de" target="_blank">www.otobo.de</a></p>
-                <p>[% Translate("Email") | html %]: <a href="mailto:hello@otobo.de">hello@otobo.de</a></p>
+                <p>[% Translate("Web site") | html %]: <a href="http://otobo.io" target="_blank">otobo.io</a></p>
+                <p>[% Translate("Email") | html %]: <a href="mailto:hello@otobo.io">hello@otobo.io</a></p>
             </div>
             <div class="Clear"></div>
         </div>

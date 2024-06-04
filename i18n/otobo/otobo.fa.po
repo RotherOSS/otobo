@@ -13,7 +13,7 @@ msgstr ""
 "POT-Creation-Date: 2021-10-08 14:22+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: saeedi <mohsen.saeedi@gmail.com>, 2019\n"
-"Language-Team: Persian (https://translate.otobo.org/projects/otobo10/otobo/"
+"Language-Team: Persian (https://translate.otobo.io/projects/otobo10/otobo/"
 "fa/)\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
@@ -3877,7 +3877,7 @@ msgid "URI to indicate specific location for accessing a web service."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
+msgid "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -4074,7 +4074,7 @@ msgid "The default HTTP command to use for the requests."
 msgstr "دستور HTTP به طور پیش فرض برای استفاده از درخواست."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
+msgid "e.g. https://local.otobo.io:8000/Webservice/Example"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -4145,7 +4145,7 @@ msgstr "URI به روش SOAP زمینه ای، کاهش ابهامات."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
-"e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
+"e.g urn:otobo-com:soap:functions or http://otobo.io/GenericInterface/"
 "actions"
 msgstr ""
 
@@ -14639,7 +14639,7 @@ msgid "Print this article"
 msgstr "چاپ این نوشته "
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -15665,7 +15665,7 @@ msgstr ""
 msgid ""
 "Please install (or uninstall) the packages before migration. If a package "
 "doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\"
-"\\@otobo.org. We will find a solution."
+"\\@otobo.io. We will find a solution."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
@@ -19831,7 +19831,7 @@ msgid ""
 "Configures a default TicketDynamicField setting. \"Name\" defines the "
 "dynamic field which should be used, \"Value\" is the data that will be set, "
 "and \"Event\" defines the trigger event. Please check the developer manual "
-"(https://doc.otobo.org/), chapter \"Ticket Event Module\"."
+"(https://doc.otobo.io/), chapter \"Ticket Event Module\"."
 msgstr ""
 
 #. SysConfig
@@ -21304,7 +21304,7 @@ msgstr ""
 msgid ""
 "Defines the default front-end (HTML) theme to be used by the agents and "
 "customers. If you like, you can add your own theme. Please refer the "
-"administrator manual located at https://doc.otobo.org/."
+"administrator manual located at https://doc.otobo.io/."
 msgstr ""
 
 #. SysConfig
@@ -30100,15 +30100,15 @@ msgstr ""
 #~ "است!"
 
 #~ msgid ""
-#~ "e.g https://www.otobo.com:10745/api/v1.0 (without trailing backslash)"
+#~ "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
 #~ msgstr ""
-#~ "به عنوان مثال https://www.otobo.com:10745/api/v1.0 (بدون دنباله بک اسلش)"
+#~ "به عنوان مثال https://otobo.io:10745/api/v1.0 (بدون دنباله بک اسلش)"
 
 #~ msgid ""
-#~ "e.g urn:otobo-com:soap:functions or http://www.otobo.com/GenericInterface/"
+#~ "e.g urn:otobo-com:soap:functions or http://otobo.io/GenericInterface/"
 #~ "actions"
 #~ msgstr ""
-#~ "به عنوان مثال کوزه: OTOBO-COM: صابون: توابع و یا http://www.otobo.com/"
+#~ "به عنوان مثال کوزه: OTOBO-COM: صابون: توابع و یا http://otobo.io/"
 #~ "GenericInterface/actions"
 
 #~ msgid "Manage %s"
@@ -30118,10 +30118,10 @@ msgstr ""
 #~ msgstr "خواندن اسناد"
 
 #~ msgid ""
-#~ "%s makes contact regularly with cloud.otobo.com to check on available "
+#~ "%s makes contact regularly with cloud.otobo.io to check on available "
 #~ "updates and the validity of the underlying contract."
 #~ msgstr ""
-#~ "%s باعث می شود تماس به طور منظم با cloud.otobo.com برای بررسی در دسترس به "
+#~ "%s باعث می شود تماس به طور منظم با cloud.otobo.io برای بررسی در دسترس به "
 #~ "روز رسانی و اعتبار قرارداد زمینه ای است."
 
 #~ msgid "Unauthorized Usage Detected"
@@ -30193,11 +30193,11 @@ msgstr ""
 #~ "قرارداد."
 
 #~ msgid ""
-#~ "Connection to cloud.otobo.com via HTTPS couldn't be established. Please "
-#~ "make sure that your OTOBO can connect to cloud.otobo.com via port 443."
+#~ "Connection to cloud.otobo.io via HTTPS couldn't be established. Please "
+#~ "make sure that your OTOBO can connect to cloud.otobo.io via port 443."
 #~ msgstr ""
-#~ "اتصال به cloud.otobo.com از طریق HTTPS برقرار نشد. لطفا مطمئن شوید که "
-#~ "OTOBO خود را می توانید به cloud.otobo.com از طریق پورت 443 متصل کنید .  "
+#~ "اتصال به cloud.otobo.io از طریق HTTPS برقرار نشد. لطفا مطمئن شوید که "
+#~ "OTOBO خود را می توانید به cloud.otobo.io از طریق پورت 443 متصل کنید .  "
 
 #~ msgid "With your existing contract you can only use a small part of the %s."
 #~ msgstr ""
@@ -30400,14 +30400,14 @@ msgstr ""
 #~ msgid ""
 #~ "You have exceeded the number of concurrent agents - contact hallo@otobo."
 #~ "de."
-#~ msgstr "شما بیش از تعدادی از عوامل همزمان - تماس hallo@otobo.de."
+#~ msgstr "شما بیش از تعدادی از عوامل همزمان - تماس hallo@otobo.io."
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "لطفا توجه داشته باشید که حد جلسه است که تقریبا رسیده است."
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "ورود را رد کرد! شما از حداکثر تعدادی از عوامل همزمان! تماس با hallo@otobo."
 #~ "de بلافاصله!"

@@ -84,7 +84,7 @@
                                 <p class="FieldExplanation">
                                     [% Translate("URI to indicate specific location for accessing a web service.") | html %]
                                     <br/>
-                                    [% Translate("e.g. https://local.otobo.de:8000/Webservice/Example") | html %]
+                                    [% Translate("e.g. https://local.otobo.io:8000/Webservice/Example") | html %]
                                 </p>
                             </div>
                             <div class="Clear"></div>
@@ -189,7 +189,7 @@
                                 <p class="FieldExplanation">
                                     [% Translate("URI to give SOAP methods a context, reducing ambiguities.") | html %]
                                     <br/>
-                                    [% Translate("e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions") | html %]
+                                    [% Translate("e.g urn:otobo-com:soap:functions or http://otobo.io/GenericInterface/actions") | html %]
                                 </p>
                             </div>
                             <div class="Clear"></div>

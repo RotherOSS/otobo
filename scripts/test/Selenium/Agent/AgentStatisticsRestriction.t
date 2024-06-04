@@ -65,7 +65,7 @@ $Selenium->RunTest(
                 Priority     => '3 normal',
                 State        => 'closed successful',
                 CustomerID   => $CustomerID,
-                CustomerUser => 'unittest@otobo.org',
+                CustomerUser => 'unittest@otobo.io',
                 OwnerID      => 1,
                 UserID       => 1,
             );

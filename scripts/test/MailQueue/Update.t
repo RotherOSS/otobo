@@ -119,8 +119,8 @@ my $CreateTestData = sub {
 
     my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
     my %ElementData     = (
-        Sender    => 'mailqueue.test@otobo.org',
-        Recipient => 'mailqueue.test@otobo.org',
+        Sender    => 'mailqueue.test@otobo.io',
+        Recipient => 'mailqueue.test@otobo.io',
         Message   => {
             'Key1' => 'Value1',
             'Key2' => 'Value2',
@@ -277,10 +277,10 @@ $Test->(
 # Change the Recipient for more than one record
 $Test->(
     Data => {
-        Recipient => 'mailqueue.test3@otobo.org',
+        Recipient => 'mailqueue.test3@otobo.io',
     },
     Filters => {
-        Sender => 'mailqueue.test@otobo.org',
+        Sender => 'mailqueue.test@otobo.io',
     },
     NumberOfRowsToUpdate => scalar( keys %Elements ),
 );
@@ -288,10 +288,10 @@ $Test->(
 # Change the Recipient (arrayref) for more than one record
 $Test->(
     Data => {
-        Recipient => [ 'mailqueue.test3@otobo.org', 'mailqueue.test4@otobo.org' ],
+        Recipient => [ 'mailqueue.test3@otobo.io', 'mailqueue.test4@otobo.io' ],
     },
     Filters => {
-        Sender => 'mailqueue.test@otobo.org',
+        Sender => 'mailqueue.test@otobo.io',
     },
     NumberOfRowsToUpdate => scalar( keys %Elements ),
 );

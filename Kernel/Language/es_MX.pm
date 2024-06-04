@@ -1183,8 +1183,8 @@ sub Data {
         'Endpoint'                                                       => 'Punto final',
         'URI to indicate specific location for accessing a web service.' =>
             'URI para indicar la ubicación específica para acceder a un servicio web.',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
-            'Por ejemplo, https://www.otobo.de:10745/api/v1.0 (sin barra invertida al final)',
+        'e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)' =>
+            'Por ejemplo, https://otobo.io:10745/api/v1.0 (sin barra invertida al final)',
         'Timeout'                                                           => 'Tiempo de espera',
         'Timeout value for requests.'                                       => 'Valor de tiempo de espera para las solicitudes.',
         'Authentication'                                                    => 'Autenticación',
@@ -1241,7 +1241,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'El comando HTTP predeterminado para usar con las peticiones.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otobo.de:8000/Webservice/Example'                           => 'ejemplo: https://local.otobo.de:8000/Webservice/Example',
+        'e.g. https://local.otobo.io:8000/Webservice/Example'                           => 'ejemplo: https://local.otobo.io:8000/Webservice/Example',
         'Set SOAPAction'                                                                => 'Establecer la acción SOAP',
         'Set to "Yes" in order to send a filled SOAPAction header.'                     => 'Establecer como "Sí" para enviar una cabecera de acción SOAP llena.',
         'Set to "No" in order to send an empty SOAPAction header.'                      => 'Establezca el valor "No" para enviar una cabecera de acción SOAP vacía.',
@@ -1261,8 +1261,8 @@ sub Data {
         'Text to be used to as SOAPAction.'                         => 'Texto que se utilizará como Acción SOAP.',
         'Namespace'                                                 => 'Namespace',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI para dar a los métodos SOAP un contexto, reduciendo las ambigüedades.',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
-            'ejemplo: urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions',
+        'e.g urn:otobo-com:soap:functions or https://otobo.io/GenericInterface/actions' =>
+            'ejemplo: urn:otobo-com:soap:functions or https://otobo.io/GenericInterface/actions',
         'Request name scheme'                                             => 'Solicitar nombre de esquema',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Seleccione cómo debe construirse la envoltura de la función de solicitud SOAP.',
@@ -4781,7 +4781,7 @@ sub Data {
         'Print this article' => 'Imprimir este artículo',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => 'Póngase en contacto con nosotros en hello@otobo.de',
+        'Contact us at hello@otobo.io' => 'Póngase en contacto con nosotros en hello@otobo.io',
         'Get Help'                     => 'Obtener ayuda',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5209,9 +5209,9 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
         'Check if all necessary packages are installed.'     => 'Compruebe si todos los paquetes necesarios están instalados.',
         'The following packages are only installed in OTRS:' => 'Los siguientes paquetes sólo se instalan en OTRS:',
-        'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.'
+        'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.io. We will find a solution.'
             =>
-            'Por favor, instale (o desinstale) los paquetes antes de la migración. Si un paquete no existe para OTOBO, por favor contacte con el equipo de OTOBO en bugs\@otobo.org. Encontraremos una solución.',
+            'Por favor, instale (o desinstale) los paquetes antes de la migración. Si un paquete no existe para OTOBO, por favor contacte con el equipo de OTOBO en bugs\@otobo.io. Encontraremos una solución.',
         'The same packages are installed on both systems, perfect!' => 'Los mismos paquetes están instalados en ambos sistemas, ¡perfecto!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
@@ -6728,9 +6728,9 @@ Gracias por su ayuda.
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Configure qué pantalla debe mostrarse tras la creación de un nuevo ticket.',
         'Configure your own log text for PGP.' => 'Configure su propio texto largo para PGP.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".'
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.io/), chapter "Ticket Event Module".'
             =>
-            'Configura un ajuste TicketDynamicField por defecto. "Nombre" define el campo dinámico que debe utilizarse, "Valor" es el dato que se establecerá, y "Evento" define el evento desencadenante. Consulte el manual del desarrollador (https://doc.otobo.org/), capítulo "Módulo de eventos de tickets".',
+            'Configura un ajuste TicketDynamicField por defecto. "Nombre" define el campo dinámico que debe utilizarse, "Valor" es el dato que se establecerá, y "Evento" define el evento desencadenante. Consulte el manual del desarrollador (https://doc.otobo.io/), capítulo "Módulo de eventos de tickets".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Controla cómo mostrar las entradas del historial de tickets como valores de lectura.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -7145,9 +7145,9 @@ Gracias por su ayuda.
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.'
             =>
             'Define los campos de filtro por defecto en la búsqueda de la libreta de direcciones del usuario cliente (CustomerUser o CustomerCompany). Para los campos ClienteEmpresa hay que añadir un prefijo \'ClienteEmpresa_\'.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.'
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.io/.'
             =>
-            'Define el tema por defecto del front-end (HTML) que utilizarán los agentes y los clientes. Si lo desea, puede añadir su propio tema. Consulte el manual del administrador que se encuentra en https://doc.otobo.org/.',
+            'Define el tema por defecto del front-end (HTML) que utilizarán los agentes y los clientes. Si lo desea, puede añadir su propio tema. Consulte el manual del administrador que se encuentra en https://doc.otobo.io/.',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Define el lenguaje por defecto del front-end. Todos los valores posibles se determinan por los archivos de idiomas disponible en el sistema (vea la siguiente configuración).',
         'Defines the default history type in the customer interface.'                 => 'Define el tipo de historia por defecto en la interfaz del cliente.',

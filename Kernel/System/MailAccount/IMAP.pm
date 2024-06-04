@@ -463,7 +463,7 @@ sub _Fetch {
                             Priority      => 'Error',
                             Key           => 'Kernel::System::MailAccount::IMAP',
                             Value         =>
-                                "Could not process message. Raw mail saved ($File, report it on http://bugs.otobo.org/)!",
+                                "Could not process message. Raw mail saved ($File, report it on http://bugs.otobo.io/)!",
                         );
 
                         $MessageStatus = 'Failed';

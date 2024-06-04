@@ -1074,7 +1074,7 @@ my $WebserviceConfig = {
             Type   => 'HTTP::SOAP',
             Config => {
                 MaxLength => 10000000,
-                NameSpace => 'http://otobo.org/SoapTestInterface/',
+                NameSpace => 'http://otobo.io/SoapTestInterface/',
                 Endpoint  => $RemoteSystem,
             },
         },
@@ -1091,7 +1091,7 @@ my $WebserviceConfig = {
         Transport => {
             Type   => 'HTTP::SOAP',
             Config => {
-                NameSpace => 'http://otobo.org/SoapTestInterface/',
+                NameSpace => 'http://otobo.io/SoapTestInterface/',
                 Encoding  => 'UTF-8',
                 Endpoint  => $RemoteSystem,
                 Timeout   => 120,

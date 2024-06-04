@@ -1188,8 +1188,8 @@ sub Data {
         'Endpoint'                                                       => 'Endpoint',
         'URI to indicate specific location for accessing a web service.' =>
             'URI que indica a localização específica para acessar um webservice.',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
-            'exemplo: https://www.otobo.de:10745/api/v1.0 (sem barra invertida)',
+        'e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)' =>
+            'exemplo: https://otobo.io:10745/api/v1.0 (sem barra invertida)',
         'Timeout'                                                           => 'Expiração',
         'Timeout value for requests.'                                       => 'Valor de timeout para requisições.',
         'Authentication'                                                    => 'Autenticação',
@@ -1246,7 +1246,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'O comando HTTP padrão para usar para as requisições.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otobo.de:8000/Webservice/Example'       => 'exemplo: https://local.otobo.de:8000/Webservice/Example',
+        'e.g. https://local.otobo.io:8000/Webservice/Example'       => 'exemplo: https://local.otobo.io:8000/Webservice/Example',
         'Set SOAPAction'                                            => 'Configurar SOAPAction',
         'Set to "Yes" in order to send a filled SOAPAction header.' => 'Defina para "Sim" em ordem para enviar um cabeçalho SOAPAction preenchido.',
         'Set to "No" in order to send an empty SOAPAction header.'  => 'Defina para "Não" em ordem para enviar um cabeçalho SOAPAction vazio.',
@@ -1266,8 +1266,8 @@ sub Data {
         'Text to be used to as SOAPAction.'                                                => 'Texto a ser usado no SOAPAction',
         'Namespace'                                                                        => 'Namespace',
         'URI to give SOAP methods a context, reducing ambiguities.'                        => 'URI de contexto dos métodos SOAP, reduzindo ambiguidades.',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
-            'ex. urn:otobo-com:soap:functions ou http://www.otobo.de/GenericInterface/actions',
+        'e.g urn:otobo-com:soap:functions or https://otobo.io/GenericInterface/actions' =>
+            'ex. urn:otobo-com:soap:functions ou https://otobo.io/GenericInterface/actions',
         'Request name scheme'                                             => 'Solicita esquema de nome',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Seleciona como o encapsulador da função de solicitação SOAP precisa ser construído.',
@@ -4785,7 +4785,7 @@ sub Data {
         'Print this article' => 'Imprimir este artigo',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => 'Contacte-nos em hello@otobo.de',
+        'Contact us at hello@otobo.io' => 'Contacte-nos em hello@otobo.io',
         'Get Help'                     => 'Solicitar Ajuda',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5213,7 +5213,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
         'Check if all necessary packages are installed.'     => '',
         'The following packages are only installed in OTRS:' => '',
-        'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.'
+        'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.io. We will find a solution.'
             =>
             '',
         'The same packages are installed on both systems, perfect!' => '',
@@ -6730,7 +6730,7 @@ Obrigado pela ajuda!
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Configure qual tela deve ser mostrada após criar um novo chamado.',
         'Configure your own log text for PGP.' => 'Configure o seu próprio texto de registro para PGP.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".'
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.io/), chapter "Ticket Event Module".'
             =>
             '',
         'Controls how to display the ticket history entries as readable values.' =>
@@ -7147,7 +7147,7 @@ Obrigado pela ajuda!
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.'
             =>
             'Define os campos de filtro padrão na pesquisa de caderno de endereço de usuário cliente  (Usuário Cliente ou Empresa Cliente). Para campos de Empresa Cliente um prefixo \'CustomerCompany_\' deve ser adicionado.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.'
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.io/.'
             =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>

@@ -55,11 +55,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: translate@otobo.org\n"
+"Report-Msgid-Bugs-To: translate@otobo.io\n"
 "POT-Creation-Date: 2021-10-08 14:22+0000\n"
 "PO-Revision-Date: 2021-05-03 21:50+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
-"Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
+"Language-Team: Portuguese (Brazil) <https://translate.otobo.io/projects/"
 "otobo10/otobo/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -4146,8 +4146,8 @@ msgid "URI to indicate specific location for accessing a web service."
 msgstr "URI que indica a localização específica para acessar um webservice."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
-msgstr "exemplo: https://www.otobo.de:10745/api/v1.0 (sem barra invertida)"
+msgid "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
+msgstr "exemplo: https://otobo.io:10745/api/v1.0 (sem barra invertida)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
@@ -4355,8 +4355,8 @@ msgid "The default HTTP command to use for the requests."
 msgstr "O comando HTTP padrão para usar para as requisições."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
-msgstr "exemplo: https://local.otobo.de:8000/Webservice/Example"
+msgid "e.g. https://local.otobo.io:8000/Webservice/Example"
+msgstr "exemplo: https://local.otobo.io:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
@@ -4432,10 +4432,10 @@ msgstr "URI de contexto dos métodos SOAP, reduzindo ambiguidades."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
-"e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
+"e.g urn:otobo-com:soap:functions or http://otobo.io/GenericInterface/"
 "actions"
 msgstr ""
-"ex. urn:otobo-com:soap:functions ou http://www.otobo.de/GenericInterface/"
+"ex. urn:otobo-com:soap:functions ou http://otobo.io/GenericInterface/"
 "actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -15266,8 +15266,8 @@ msgid "Print this article"
 msgstr "Imprimir este artigo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
-msgstr "Contacte-nos em hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
+msgstr "Contacte-nos em hello@otobo.io"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -16325,7 +16325,7 @@ msgstr ""
 msgid ""
 "Please install (or uninstall) the packages before migration. If a package "
 "doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\"
-"\\@otobo.org. We will find a solution."
+"\\@otobo.io. We will find a solution."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
@@ -20741,7 +20741,7 @@ msgid ""
 "Configures a default TicketDynamicField setting. \"Name\" defines the "
 "dynamic field which should be used, \"Value\" is the data that will be set, "
 "and \"Event\" defines the trigger event. Please check the developer manual "
-"(https://doc.otobo.org/), chapter \"Ticket Event Module\"."
+"(https://doc.otobo.io/), chapter \"Ticket Event Module\"."
 msgstr ""
 
 #. SysConfig
@@ -22332,7 +22332,7 @@ msgstr ""
 msgid ""
 "Defines the default front-end (HTML) theme to be used by the agents and "
 "customers. If you like, you can add your own theme. Please refer the "
-"administrator manual located at https://doc.otobo.org/."
+"administrator manual located at https://doc.otobo.io/."
 msgstr ""
 
 #. SysConfig
@@ -31636,18 +31636,18 @@ msgstr "estatísticas"
 #~ "negócios? Atualize para %s e tenha acesso aos seguintes tipos de campos:"
 
 #~ msgid ""
-#~ "e.g https://www.otobo.com:10745/api/v1.0 (without trailing backslash)"
+#~ "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
 #~ msgstr ""
-#~ "ex: https://www.otobo.com:10745/api/v1.0 (sem fuga da barra invertida)"
+#~ "ex: https://otobo.io:10745/api/v1.0 (sem fuga da barra invertida)"
 
-#~ msgid "e.g. https://local.otobo.com:8000/Webservice/Example"
-#~ msgstr "ex. https://local.otobo.com:8000/Webservice/Example"
+#~ msgid "e.g. https://local.otobo.io:8000/Webservice/Example"
+#~ msgstr "ex. https://local.otobo.io:8000/Webservice/Example"
 
 #~ msgid ""
-#~ "e.g urn:otobo-com:soap:functions or http://www.otobo.com/GenericInterface/"
+#~ "e.g urn:otobo-com:soap:functions or http://otobo.io/GenericInterface/"
 #~ "actions"
 #~ msgstr ""
-#~ "ex.: urn:otobo-com:soap:functions or http://www.otobo.com/"
+#~ "ex.: urn:otobo-com:soap:functions or http://otobo.io/"
 #~ "GenericInterface/actions"
 
 #~ msgid "Manage %s"
@@ -31660,10 +31660,10 @@ msgstr "estatísticas"
 #~ msgstr "Leia a documentação"
 
 #~ msgid ""
-#~ "%s makes contact regularly with cloud.otobo.com to check on available "
+#~ "%s makes contact regularly with cloud.otobo.io to check on available "
 #~ "updates and the validity of the underlying contract."
 #~ msgstr ""
-#~ "%s faz contato regular com cloud.otobo.com para verificar as atualizações "
+#~ "%s faz contato regular com cloud.otobo.io para verificar as atualizações "
 #~ "disponíveis e a validade do contrato subjacente."
 
 #~ msgid "Unauthorized Usage Detected"
@@ -31748,11 +31748,11 @@ msgstr "estatísticas"
 #~ "%s para o obter seu contrato de %s."
 
 #~ msgid ""
-#~ "Connection to cloud.otobo.com via HTTPS couldn't be established. Please "
-#~ "make sure that your OTOBO can connect to cloud.otobo.com via port 443."
+#~ "Connection to cloud.otobo.io via HTTPS couldn't be established. Please "
+#~ "make sure that your OTOBO can connect to cloud.otobo.io via port 443."
 #~ msgstr ""
-#~ "Conexão com cloud.otobo.com via HTTPS não pôde ser estabelecida. Por "
-#~ "favor, certifique-se de que seu OTOBO pode se conectar a cloud.otobo.com "
+#~ "Conexão com cloud.otobo.io via HTTPS não pôde ser estabelecida. Por "
+#~ "favor, certifique-se de que seu OTOBO pode se conectar a cloud.otobo.io "
 #~ "através da porta 443."
 
 #~ msgid "Package installation requires patch level update of OTOBO."
@@ -32057,8 +32057,8 @@ msgstr "estatísticas"
 #~ msgstr ""
 #~ "Collation de banco de dados incorreto (%s é %s, mas precisa ser utf8)."
 
-#~ msgid "Contact us at hallo@otobo.de"
-#~ msgstr "Contacte-nos em hallo@otobo.de"
+#~ msgid "Contact us at hallo@otobo.io"
+#~ msgstr "Contacte-nos em hallo@otobo.io"
 
 #~ msgid "Upgrade to OTOBO Business Solution™"
 #~ msgstr "Atualizar para OTOBO Business Solution™"
@@ -32109,17 +32109,17 @@ msgstr "estatísticas"
 #~ "You have exceeded the number of concurrent agents - contact hallo@otobo."
 #~ "de."
 #~ msgstr ""
-#~ "Você excedeu o número de agentes concorrentes - contactar hallo@otobo.de."
+#~ "Você excedeu o número de agentes concorrentes - contactar hallo@otobo.io."
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "Por favor note que o limite da sessão está quase alcançado."
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "Login recusado! Você excedeu  o número máximo de Agentes concorrentes! "
-#~ "Entre em contato com hallo@otobo.de imediatamente!"
+#~ "Entre em contato com hallo@otobo.io imediatamente!"
 
 #~ msgid ""
 #~ "<p>If you continue to install this package, the following issues may "

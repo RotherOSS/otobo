@@ -712,7 +712,7 @@
 - 2020-07-13 12:04:42 +0200 PSGI: disable the devel middlewares in production (https://github.com/RotherOSS/otobo/issues/201)
 - 2020-07-13 11:22:46 +0200 Another set of color changes.
 - 2020-07-13 11:06:03 +0200 Change otobo verify logos.
-- 2020-07-14 16:52:39 +0200 Fix bug for MariaDB https://otobo.de/de/forums/topic/otobo-10-0-1-installer-db-user-setup-schlaegt-fehl/, thanks to Sago.
+- 2020-07-14 16:52:39 +0200 Fix bug for MariaDB https://otobo.io/de/forums/topic/otobo-10-0-1-installer-db-user-setup-schlaegt-fehl/, thanks to Sago.
 - 2020-07-13 15:23:18 +0200 Update CHANGES.
 
 

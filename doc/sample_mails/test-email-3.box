@@ -1,7 +1,7 @@
-From skywalker@otobo.org Sat Jun  8 21:30:55 2002
+From skywalker@otobo.io Sat Jun  8 21:30:55 2002
 Date: Sat, 8 Jun 2002 21:30:55 +0200
-From: Skywalker Attachment <skywalker@otobo.org>
-To: darthvader@otobo.org
+From: Skywalker Attachment <skywalker@otobo.io>
+To: darthvader@otobo.io
 Subject: Attachment Test
 Message-ID: <20020608193055.GA4593@sex-on-the-beach.my123.de>
 Mime-Version: 1.0
@@ -29,19 +29,19 @@ Hi!
 
 just a email with an attachment and an very long http link in this body.
 
- o http://otobo.org/?Example=ThisIsAVeryShortLink
+ o http://otobo.io/?Example=ThisIsAVeryShortLink
 
- o http://otobo.org/?Example=ThisIsAVeryShortLink And a following text over 80 chars.
+ o http://otobo.io/?Example=ThisIsAVeryShortLink And a following text over 80 chars.
 
- o A leading text http://otobo.org/?Example=ThisIsAVeryShortLink and a following text over 80 chars.
+ o A leading text http://otobo.io/?Example=ThisIsAVeryShortLink and a following text over 80 chars.
 
- o A leading text following by a link http://otobo.org/?Example=ThisIsAVeryShortLink and a following text over 80 chars.
+ o A leading text following by a link http://otobo.io/?Example=ThisIsAVeryShortLink and a following text over 80 chars.
 
- o http://otobo.org/?Example=First http://otobo.org/?Example=Second http://otobo.org/?Example=Third
+ o http://otobo.io/?Example=First http://otobo.io/?Example=Second http://otobo.io/?Example=Third
 
- o http://otobo.org/?Example=ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication1ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication2ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication3 And a following text.
+ o http://otobo.io/?Example=ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication1ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication2ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication3 And a following text.
 
- o http://otobo.org/?Example=ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication1ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication2ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication3
+ o http://otobo.io/?Example=ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication1ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication2ThisIsAVeryLongLinkWhichShouldBeShownInShortFormInTheApplication3
 
   Martin
 

@@ -1,22 +1,22 @@
 Return-Path: <>
-Received: from mail.otobo.org ([unix socket])   by mail.otobo.org (Cyrus v2.2.12-Invoca-RPM-2.2.12-8.1.RHEL4) with LMTPA; Fri, 06 Jul 2007 12:17:38 +0200
+Received: from mail.otobo.io ([unix socket])   by mail.otobo.io (Cyrus v2.2.12-Invoca-RPM-2.2.12-8.1.RHEL4) with LMTPA; Fri, 06 Jul 2007 12:17:38 +0200
 X-Sieve: CMU Sieve 2.2
-Received: by mail.otobo.org (Postfix)  id DD8A632C83C; Fri, 6 Jul 2007 12:17:38 +0200 (CEST)
+Received: by mail.otobo.io (Postfix)  id DD8A632C83C; Fri, 6 Jul 2007 12:17:38 +0200 (CEST)
 Date: Fri,  6 Jul 2007 12:17:38 +0200 (CEST)
-From: MAILER-DAEMON@mail.otobo.org (Mail Delivery System)
+From: MAILER-DAEMON@mail.otobo.io (Mail Delivery System)
 Subject: Undelivered Mail Returned to Sender
-To: skywalker@otobo.org
+To: skywalker@otobo.io
 MIME-Version: 1.0
-Content-Type: multipart/report; report-type=delivery-status; boundary="AB35D32CDC7.1183717058/mail.otobo.org"
-Message-ID: <20070706101738.DD8A632C83C@mail.otobo.org>
+Content-Type: multipart/report; report-type=delivery-status; boundary="AB35D32CDC7.1183717058/mail.otobo.io"
+Message-ID: <20070706101738.DD8A632C83C@mail.otobo.io>
 
 This is a MIME-encapsulated message.
 
---AB35D32CDC7.1183717058/mail.otobo.org
+--AB35D32CDC7.1183717058/mail.otobo.io
 Content-Description: Notification
 Content-Type: text/plain
 
-This is the Postfix program at host mail.otobo.org.
+This is the Postfix program at host mail.otobo.io.
 
 I'm sorry to have to inform you that your message could not
 be delivered to one or more recipients. It's attached below.
@@ -32,13 +32,13 @@ delete your own text from the attached returned message.
     550 <asdfasdfasdfasd@example.com>: invalid address (in reply to RCPT TO
     command)
 
---AB35D32CDC7.1183717058/mail.otobo.org
+--AB35D32CDC7.1183717058/mail.otobo.io
 Content-Description: Delivery report
 Content-Type: message/delivery-status
 
-Reporting-MTA: dns; mail.otobo.org
+Reporting-MTA: dns; mail.otobo.io
 X-Postfix-Queue-ID: AB35D32CDC7
-X-Postfix-Sender: rfc822; skywalker@otobo.org
+X-Postfix-Sender: rfc822; skywalker@otobo.io
 Arrival-Date: Fri,  6 Jul 2007 12:17:33 +0200 (CEST)
 
 Final-Recipient: rfc822; asdfasdfasdfasd@example.com
@@ -48,32 +48,32 @@ Diagnostic-Code: X-Postfix; host mx00.XXXund.de[127.0.227.15.169] said: 550
     <asdfasdfasdfasd@example.com>: invalid address (in reply to RCPT TO
     command)
 
---AB35D32CDC7.1183717058/mail.otobo.org
+--AB35D32CDC7.1183717058/mail.otobo.io
 Content-Description: Undelivered Message
 Content-Type: message/rfc822
 
-Received: by mail.otobo.org (Postfix, from userid 99)
+Received: by mail.otobo.io (Postfix, from userid 99)
 id AB35D32CDC7; Fri,  6 Jul 2007 12:17:33 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.1.8 (2007-02-13) on mail.otobo.org
+X-Spam-Checker-Version: SpamAssassin 3.1.8 (2007-02-13) on mail.otobo.io
 X-Spam-Level:
 X-Spam-Status: No, score=-4.2 required=5.0 tests=ALL_TRUSTED,AWL,BAYES_00,
 MIME_BASE64_NO_NAME autolearn=ham version=3.1.8
-Received: from otobo.otobo.org (otobo.otobo.org [10.20.30.23])
-by mail.otobo.org (Postfix) with ESMTP id C248A32CD98;
+Received: from otobo.otobo.io (otobo.otobo.io [10.20.30.23])
+by mail.otobo.io (Postfix) with ESMTP id C248A32CD98;
 Fri,  6 Jul 2007 12:17:31 +0200 (CEST)
-Received: by otobo.otobo.org (Postfix, from userid 30)
+Received: by otobo.otobo.io (Postfix, from userid 30)
 id AB9E183B01; Fri,  6 Jul 2007 12:17:31 +0200 (CEST)
 Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 Subject: [Ticket#2007070610001801] test mail
-X-Powered-BY: OTOBO - Open Ticket Request System (http://otobo.org/)
+X-Powered-BY: OTOBO - Open Ticket Request System (http://otobo.io/)
 X-Mailer: OTOBO Mail Service (2.1.7)
 Date: Fri, 6 Jul 2007 12:17:31 +0200
-Message-ID: <1183717051.586927.929001308.97809.36@otobo.otobo.org>
+Message-ID: <1183717051.586927.929001308.97809.36@otobo.otobo.io>
 To: asdfasdfasdfasd@example.com
-From: Skywalker <skywalker@otobo.org>
+From: Skywalker <skywalker@otobo.io>
 
 YXNkZgoKLS0gCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
 LS0tLS0tLS0tLS0tLS0KVGhvbWFzIFNjaHdlaWdlciwgU3VwcG9ydApPcGVu
@@ -85,4 +85,4 @@ Yy4sIDMwMyBTLiBCcm9hZHdheSBTdGUuIDIyNApUYXJyeXRvd24sIE5ZIDEw
 NTkxClBob25lOiArMSA5MTQgMzMyIDU3MjAKRmF4OiAgICsxIDkxNCAzMzIg
 MTYyMApXZWJzaXRlOiBodHRwOi8vd3d3Lm9wZW4teGNoYW5nZS5jb20K
 
---AB35D32CDC7.1183717058/mail.otobo.org--
+--AB35D32CDC7.1183717058/mail.otobo.io--

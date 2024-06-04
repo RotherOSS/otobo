@@ -18,7 +18,7 @@ Content-Type: text/html; charset=utf-8;
 Content-Disposition: [% Data.ContentDisposition %]
 [% END -%]
 [% IF !Config('Secure::DisableBanner') -%]
-X-Powered-By: [% Config("Product") %] [% Config("Version") %] (https://www.otobo.de/)
+X-Powered-By: [% Config("Product") %] [% Config("Version") %] (https://otobo.io/)
 [% END -%]
 X-UA-Compatible: IE=edge,chrome=1
 [% IF !Config("DisableIFrameOriginRestricted") && !Data.DisableIFrameOriginRestricted -%]

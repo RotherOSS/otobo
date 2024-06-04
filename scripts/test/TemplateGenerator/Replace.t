@@ -503,13 +503,13 @@ my @Tests = (
         },
         RichText => 1,
         Template =>
-            'mailto-Link <a href="mailto:skywalker@otobo.org?subject=From%3A%20%3COTOBO_CUSTOMER_From%3E&amp;body=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Subject und Body</a><br />
+            'mailto-Link <a href="mailto:skywalker@otobo.io?subject=From%3A%20%3COTOBO_CUSTOMER_From%3E&amp;body=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Subject und Body</a><br />
 <br />
-mailto-Link <a href="mailto:skywalker@otobo.org?subject=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Subject</a><br />
+mailto-Link <a href="mailto:skywalker@otobo.io?subject=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Subject</a><br />
 <br />
-mailto-Link <a href="mailto:skywalker@otobo.org?body=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Body</a><br />',
+mailto-Link <a href="mailto:skywalker@otobo.io?body=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Body</a><br />',
         Result =>
-            'mailto-Link <a href="mailto:skywalker@otobo.org?subject=From%3A%20test%40home.com&amp;body=From%3A%20test%40home.com">E-Mail mit Subject und Body</a><br /><br />mailto-Link <a href="mailto:skywalker@otobo.org?subject=From%3A%20test%40home.com">E-Mail mit Subject</a><br /><br />mailto-Link <a href="mailto:skywalker@otobo.org?body=From%3A%20test%40home.com">E-Mail mit Body</a><br />',
+            'mailto-Link <a href="mailto:skywalker@otobo.io?subject=From%3A%20test%40home.com&amp;body=From%3A%20test%40home.com">E-Mail mit Subject und Body</a><br /><br />mailto-Link <a href="mailto:skywalker@otobo.io?subject=From%3A%20test%40home.com">E-Mail mit Subject</a><br /><br />mailto-Link <a href="mailto:skywalker@otobo.io?body=From%3A%20test%40home.com">E-Mail mit Body</a><br />',
     },
     {
         Name => 'mailto-Links',
@@ -518,17 +518,17 @@ mailto-Link <a href="mailto:skywalker@otobo.org?body=From%3A%20%3COTOBO_CUSTOMER
         },
         RichText => 0,
         Template =>
-            'mailto-Link <a href="mailto:skywalker@otobo.org?subject=From%3A%20%3COTOBO_CUSTOMER_From%3E&amp;body=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Subject und Body</a><br />
+            'mailto-Link <a href="mailto:skywalker@otobo.io?subject=From%3A%20%3COTOBO_CUSTOMER_From%3E&amp;body=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Subject und Body</a><br />
 <br />
-mailto-Link <a href="mailto:skywalker@otobo.org?subject=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Subject</a><br />
+mailto-Link <a href="mailto:skywalker@otobo.io?subject=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Subject</a><br />
 <br />
-mailto-Link <a href="mailto:skywalker@otobo.org?body=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Body</a><br />',
+mailto-Link <a href="mailto:skywalker@otobo.io?body=From%3A%20%3COTOBO_CUSTOMER_From%3E">E-Mail mit Body</a><br />',
         Result =>
-            'mailto-Link <a href="mailto:skywalker@otobo.org?subject=From%3A%20test%40home.com&amp;body=From%3A%20test%40home.com">E-Mail mit Subject und Body</a><br />
+            'mailto-Link <a href="mailto:skywalker@otobo.io?subject=From%3A%20test%40home.com&amp;body=From%3A%20test%40home.com">E-Mail mit Subject und Body</a><br />
 <br />
-mailto-Link <a href="mailto:skywalker@otobo.org?subject=From%3A%20test%40home.com">E-Mail mit Subject</a><br />
+mailto-Link <a href="mailto:skywalker@otobo.io?subject=From%3A%20test%40home.com">E-Mail mit Subject</a><br />
 <br />
-mailto-Link <a href="mailto:skywalker@otobo.org?body=From%3A%20test%40home.com">E-Mail mit Body</a><br />',
+mailto-Link <a href="mailto:skywalker@otobo.io?body=From%3A%20test%40home.com">E-Mail mit Body</a><br />',
     },
     {
         Name => 'OTOBO AGENT + CUSTOMER FROM',    # <OTOBO_TICKET_DynamicField_*_Value>

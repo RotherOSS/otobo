@@ -3,7 +3,7 @@
     <Name>TestITSMServiceLevelManagement</Name>
     <Version>6.0.1</Version>
     <Vendor>Rother OSS GmbH</Vendor>
-    <URL>http://otobo.org/</URL>
+    <URL>http://otobo.io/</URL>
     <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
     <Framework>6.0.x</Framework>
 </otobo_package>

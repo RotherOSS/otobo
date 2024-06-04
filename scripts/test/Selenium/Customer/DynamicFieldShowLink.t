@@ -72,7 +72,7 @@ $Selenium->RunTest(
             ObjectType => 'Ticket',
             Config     => {
                 Link        => $DynamicFieldLink,
-                LinkPreview => 'https://www.otobo.org',
+                LinkPreview => 'https://otobo.io',
             },
             ValidID => 1,
             UserID  => 1,

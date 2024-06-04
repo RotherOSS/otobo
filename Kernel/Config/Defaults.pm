@@ -1088,7 +1088,7 @@ sub LoadDefaults {
     # Package::RepositoryRoot
     # (get online repository list, use the fist availabe result)
     $Self->{'Package::RepositoryRoot'} = [
-        'https://ftp.otobo.org/pub/otobo/misc/packages/repository.xml',
+        'https://ftp.otobo.io/pub/otobo/misc/packages/repository.xml',
     ];
 
     # Package::RepositoryList

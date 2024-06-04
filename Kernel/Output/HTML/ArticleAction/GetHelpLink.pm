@@ -69,9 +69,9 @@ sub GetConfig {
 
     my %MenuItem = (
         ItemType    => 'Link',
-        Description => Translatable('Contact us at hello@otobo.de'),
+        Description => Translatable('Contact us at hello@otobo.io'),
         Name        => Translatable('Get Help'),
-        Link        => 'mailto:hello@otobo.de',
+        Link        => 'mailto:hello@otobo.io',
     );
 
     return ( \%MenuItem );

@@ -1191,7 +1191,7 @@ sub Data {
         'Endpoint'                                                       => 'Point d\'extrémité',
         'URI to indicate specific location for accessing a web service.' =>
             '',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout'                                                           => '',
         'Timeout value for requests.'                                       => '',
@@ -1249,7 +1249,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'La commande HTTP par défaut à utiliser pour les requêtes.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otobo.de:8000/Webservice/Example'                           => '',
+        'e.g. https://local.otobo.io:8000/Webservice/Example'                           => '',
         'Set SOAPAction'                                                                => '',
         'Set to "Yes" in order to send a filled SOAPAction header.'                     => '',
         'Set to "No" in order to send an empty SOAPAction header.'                      => '',
@@ -1270,7 +1270,7 @@ sub Data {
         'Namespace'                                                 => 'Espace de nommage',
         'URI to give SOAP methods a context, reducing ambiguities.' =>
             'Identifiant uniforme de ressource (URI) pour offrir un contexte aux méthodes du protocole SOAP et réduire ainsi les ambiguïtés.',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
+        'e.g urn:otobo-com:soap:functions or https://otobo.io/GenericInterface/actions' =>
             '',
         'Request name scheme'                                             => '',
         'Select how SOAP request function wrapper should be constructed.' =>
@@ -4789,7 +4789,7 @@ sub Data {
         'Print this article' => 'Imprimer cet article',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => 'Contactez nous à hello@otobo.de',
+        'Contact us at hello@otobo.io' => 'Contactez nous à hello@otobo.io',
         'Get Help'                     => 'Obtenir de l\'aide',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5217,7 +5217,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
         'Check if all necessary packages are installed.'     => '',
         'The following packages are only installed in OTRS:' => '',
-        'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.'
+        'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.io. We will find a solution.'
             =>
             '',
         'The same packages are installed on both systems, perfect!' => '',
@@ -6724,7 +6724,7 @@ Thanks for your help!
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Sélectionnez l\'écran qui doit être affiché après la création d\'un nouveau ticket.',
         'Configure your own log text for PGP.' => '',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".'
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.io/), chapter "Ticket Event Module".'
             =>
             '',
         'Controls how to display the ticket history entries as readable values.' =>
@@ -7141,7 +7141,7 @@ Thanks for your help!
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.'
             =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.'
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.io/.'
             =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>

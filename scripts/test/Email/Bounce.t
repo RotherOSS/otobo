@@ -66,7 +66,7 @@ my @Tests = (
             'Message-ID' => '<bounce@mail>',
             Email        => <<'EOF',
 From: test@home.com
-To: test@otobo.org
+To: test@otobo.io
 Message-ID: <original@mail>
 Subject: Bounce test
 
@@ -75,7 +75,7 @@ EOF
         },
         Result => <<'EOF',
 From: test@home.com
-To: test@otobo.org
+To: test@otobo.io
 Message-ID: <original@mail>
 Subject: Bounce test
 Resent-Message-ID: <bounce@mail>

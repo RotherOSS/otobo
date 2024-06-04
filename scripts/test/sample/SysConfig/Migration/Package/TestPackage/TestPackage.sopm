@@ -3,7 +3,7 @@
     <Name>TestPackage</Name>
     <Version>0.0.0</Version>
     <Vendor></Vendor>
-    <URL>https://otobo.org/</URL>
+    <URL>https://otobo.io/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">Test package.</Description>
     <Filelist>

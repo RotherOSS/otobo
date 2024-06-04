@@ -1,21 +1,21 @@
-Return-Path: <R2.D2@otobo.org>
-X-Original-To: skywalker@osser.otobo.org
-Delivered-To: skywalker@osser.otobo.org
+Return-Path: <R2.D2@otobo.io>
+X-Original-To: skywalker@osser.otobo.io
+Delivered-To: skywalker@osser.otobo.io
 Received: from localhost (localhost [127.0.0.1])
-	by osser.otobo.org (Postfix) with ESMTP id 8A85D5BDA1
-	for <skywalker@osser.otobo.org>; Thu, 12 Apr 2007 16:02:37 +0200 (CEST)
-Received: from osser.otobo.org ([127.0.0.1])
- by localhost (osser.otobo.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 25141-03 for <skywalker@osser.otobo.org>;
+	by osser.otobo.io (Postfix) with ESMTP id 8A85D5BDA1
+	for <skywalker@osser.otobo.io>; Thu, 12 Apr 2007 16:02:37 +0200 (CEST)
+Received: from osser.otobo.io ([127.0.0.1])
+ by localhost (osser.otobo.io [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 25141-03 for <skywalker@osser.otobo.io>;
  Thu, 12 Apr 2007 16:02:33 +0200 (CEST)
-Received: from ana (lancelot.otobo.org [217.64.92.7])
-	by osser.otobo.org (Postfix) with ESMTP id 15FF05B9C6
-	for <skywalker@otobo.org>; Thu, 12 Apr 2007 16:02:33 +0200 (CEST)
-From: "R2 D2" <R2.D2@otobo.org>
-To: <skywalker@otobo.org>
+Received: from ana (lancelot.otobo.io [217.64.92.7])
+	by osser.otobo.io (Postfix) with ESMTP id 15FF05B9C6
+	for <skywalker@otobo.io>; Thu, 12 Apr 2007 16:02:33 +0200 (CEST)
+From: "R2 D2" <R2.D2@otobo.io>
+To: <skywalker@otobo.io>
 Subject: =?utf-8?Q?Und_hier_das_UTF-8_Mail___=C3=9C=C3=84=C3=96?=
 Date: Thu, 12 Apr 2007 16:02:44 +0200
-Message-ID: <005c01c77d0b$3e44b170$bace1450$@D2@otobo.org>
+Message-ID: <005c01c77d0b$3e44b170$bace1450$@D2@otobo.io>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
 	boundary="----=_NextPart_000_005D_01C77D1C.01CD8170"
@@ -39,7 +39,7 @@ N=C3=BCcht mal vor Anh=C3=A4ngen machen Umlaute halt:
   R2 D2
 =20
  OTOBO :: RotherOSS Open Source Services :: Oberwalting 31 :: 94335 Leiblfing
-    http://www.otobo.org/ :: open source for real
+    http://otobo.io/ :: open source for real
 
 ------=_NextPart_000_005D_01C77D1C.01CD8170
 Content-Type: application/pdf;

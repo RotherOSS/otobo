@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -49,7 +49,7 @@ $Selenium->RunTest(
             CustomerCompanyZIP     => $RandomID,
             CustomerCompanyCity    => $RandomID,
             CustomerCompanyCountry => 'Germany',
-            CustomerCompanyURL     => 'http://www.otobo.org',
+            CustomerCompanyURL     => 'http://otobo.io',
             CustomerCompanyComment => $RandomID,
             ValidID                => 1,
             UserID                 => 1,
@@ -68,7 +68,7 @@ $Selenium->RunTest(
             CustomerCompanyZIP     => $RandomID2,
             CustomerCompanyCity    => $RandomID2,
             CustomerCompanyCountry => 'Germany',
-            CustomerCompanyURL     => 'http://www.otobo.org',
+            CustomerCompanyURL     => 'http://otobo.io',
             CustomerCompanyComment => $RandomID2,
             ValidID                => 1,
             UserID                 => 1,

@@ -34,7 +34,7 @@ Provider:
   Transport:
     Config:
       MaxLength: 100000000
-      NameSpace: http://www.otobo.org/TicketConnector/
+      NameSpace: http://otobo.io/TicketConnector/
     Type: HTTP::SOAP
 RemoteSystem: ''
 Requester:

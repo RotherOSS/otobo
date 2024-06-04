@@ -57,7 +57,7 @@ Older versions are not supported and have known vulnerabilities.
 ## How to report a security vulnerability?
 If you believe you’ve found a security vulnerability in one of our
 products or platforms please send it to us by emailing
-security@otobo.org. Please include the following details with your report:
+security@otobo.io. Please include the following details with your report:
 
 - Description of the location and potential impact of the vulnerability;
 - A detailed description of the steps required to reproduce the

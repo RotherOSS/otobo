@@ -2203,7 +2203,7 @@ build an opm package
             Content => 'Rother OSS GmbH ',
         },
         URL => {
-            Content => 'L<http://otobo.org/>',
+            Content => 'L<http://otobo.io/>',
         },
         License => {
             Content => 'GNU GENERAL PUBLIC LICENSE Version 3, November 2007',
@@ -5189,14 +5189,14 @@ Returns:
                         # ... ,
                     },
                 ],
-                URL => 'http://otobo.org/',
+                URL => 'http://otobo.io/',
                 Vendor => 'Rother OSS GmbH ',
             },
             # ...
         ];
         PackageLookup  => {
             Test => {
-                   URL        => 'http://otobo.org/',
+                   URL        => 'http://otobo.io/',
                     FromCloud => 1,                     # 1 or 0,
                     Version   => '6.0.20',
                     File      => 'Test-6.0.20.opm',
@@ -5274,7 +5274,7 @@ framework version.
 Returns:
 
     %RepositoryList = (
-        'http://ftp.otobo.org/pub/otobo/packages' => 'OTOBO Freebie Features',
+        'http://ftp.otobo.io/pub/otobo/packages' => 'OTOBO Freebie Features',
         # ...,
     );
 
@@ -5303,7 +5303,7 @@ sub _ConfiguredRepositoryDefinitionGet {
     my @FrameworkVersionParts = split /\./, $Self->{ConfigObject}->Get('Version');
     my $FrameworkVersion      = $FrameworkVersionParts[0];
 
-    my $CurrentITSMRepository = "http://ftp.otobo.org/pub/otobo/itsm/packages$FrameworkVersion/";
+    my $CurrentITSMRepository = "http://ftp.otobo.io/pub/otobo/itsm/packages$FrameworkVersion/";
 
     # Delete all old ITSM repositories, but leave the current if exists
     for my $Repository (@Matches) {

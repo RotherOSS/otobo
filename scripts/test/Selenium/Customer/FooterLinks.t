@@ -43,8 +43,8 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         my @ExpectedLinks = (
-            q{https://otobo.de},    # powered by Rother OSS © 2019-2020
-            q{https://otobo.de},    # OTOBO logo
+            q{https://otobo.io},    # powered by Rother OSS © 2019-2020
+            q{https://otobo.io},    # OTOBO logo
         );
 
         # look for the footer links in the customer and in the public interface

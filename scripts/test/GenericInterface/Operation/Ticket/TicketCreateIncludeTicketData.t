@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -441,7 +441,7 @@ my $WebserviceConfig = {
             Type   => 'HTTP::SOAP',
             Config => {
                 MaxLength => 10000000,
-                NameSpace => 'http://otobo.org/SoapTestInterface/',
+                NameSpace => 'http://otobo.io/SoapTestInterface/',
                 Endpoint  => $RemoteSystem,
             },
         },
@@ -459,7 +459,7 @@ my $WebserviceConfig = {
         Transport => {
             Type   => 'HTTP::SOAP',
             Config => {
-                NameSpace => 'http://otobo.org/SoapTestInterface/',
+                NameSpace => 'http://otobo.io/SoapTestInterface/',
                 Encoding  => 'UTF-8',
                 Endpoint  => $RemoteSystem,
                 Timeout   => 120,
@@ -559,7 +559,7 @@ my @Tests        = (
                 SenderTypeID                    => 1,
                 IsVisibleForCustomer            => 1,
                 CommunicationChannel            => 'Email',
-                From                            => 'hello@otobo.org',
+                From                            => 'hello@otobo.io',
                 ContentType                     => 'text/plain; charset=UTF8',
                 HistoryType                     => 'NewTicket',
                 HistoryComment                  => '% % ',

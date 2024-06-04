@@ -243,7 +243,7 @@
         </Value>
     </Setting>
     <Setting Name="DefaultTheme" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.</Description>
+        <Description Translatable="1">Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.io/.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">Standard</Item>
@@ -2627,7 +2627,7 @@
         <Navigation>Core::Package</Navigation>
         <Value>
             <Array>
-                <Item>https://ftp.otobo.org/pub/otobo/misc/packages/repository.xml</Item>
+                <Item>https://ftp.otobo.io/pub/otobo/misc/packages/repository.xml</Item>
             </Array>
         </Value>
     </Setting>
@@ -7062,7 +7062,7 @@ via the Preferences button after logging in.
                         <Item Key="HeaderText">That's new in OTOBO 10</Item>
                         <Item Key="MainText">Highlights: Brand new customer portal, Elasticsearch, flexible forms, more safety, better performance</Item>
                         <Item Key="FooterText">Explore &gt;</Item>
-                        <Item Key="Link">https://otobo.de/en/launch-otobo-helpdesk/</Item>
+                        <Item Key="Link">https://otobo.io/en/launch-otobo-helpdesk/</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -7282,7 +7282,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Public</Navigation>
         <Value>
             <Hash>
-                <Item Key="https://www.otobo.org">OTOBO Homepage</Item>
+                <Item Key="https://otobo.io">OTOBO Homepage</Item>
             </Hash>
         </Value>
     </Setting>
@@ -7720,8 +7720,8 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::RSS</Item>
                 <Item Key="Title" Translatable="1">Custom RSS Feed</Item>
                 <Item Key="Description" Translatable="1">OTOBO News</Item>
-                <Item Key="URL">https://otobo.de/en/feed/</Item>
-                <Item Key="URL_de">https://otobo.de/de/feed/</Item>
+                <Item Key="URL">https://otobo.io/en/feed/</Item>
+                <Item Key="URL_de">https://otobo.io/de/feed/</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
                 <Item Key="Group"></Item>
@@ -7757,11 +7757,11 @@ via the Preferences button after logging in.
                 <Item Key="Title" Translatable="1">A picture</Item>
                 <Item Key="Description" Translatable="1">Some picture description!</Item>
                 <Item Key="Block">ContentLarge</Item>
-                <Item Key="URL">https://otobo.de/wp-content/uploads/2020/11/OTOBO-Rother-OSS-1.jpg</Item>
+                <Item Key="URL">https://otobo.io/wp-content/uploads/2020/11/OTOBO-Rother-OSS-1.jpg</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="Link">https://otobo.org/</Item>
-                <Item Key="LinkTitle">https://otobo.org/</Item>
+                <Item Key="Link">https://otobo.io/</Item>
+                <Item Key="LinkTitle">https://otobo.io/</Item>
                 <Item Key="Width">198</Item>
                 <Item Key="Height">140</Item>
                 <Item Key="Mandatory">0</Item>
@@ -7791,10 +7791,10 @@ via the Preferences button after logging in.
                 <Item Key="Title" Translatable="1">A Website</Item>
                 <Item Key="Description" Translatable="1">Some description!</Item>
                 <Item Key="Block">ContentLarge</Item>
-                <Item Key="URL">https://www.otobo.org/</Item>
+                <Item Key="URL">https://otobo.io/</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="Link">https://otobo.org/</Item>
+                <Item Key="Link">https://otobo.io/</Item>
                 <Item Key="LinkTitle">OTOBO.org/</Item>
                 <Item Key="Width">1024</Item>
                 <Item Key="Height">800</Item>
@@ -8266,7 +8266,7 @@ via the Preferences button after logging in.
                 <Item Key="InternalName">default</Item>
                 <Item Key="VisibleName" Translatable="1">Default</Item>
                 <Item Key="Description" Translatable="1">This is the default orange - black skin.</Item>
-                <Item Key="HomePage">www.otobo.org</Item>
+                <Item Key="HomePage">otobo.io</Item>
             </Hash>
         </Value>
     </Setting>
@@ -8278,7 +8278,7 @@ via the Preferences button after logging in.
                 <Item Key="InternalName">slim</Item>
                 <Item Key="VisibleName" Translatable="1">Default (Slim)</Item>
                 <Item Key="Description" Translatable="1">"Slim" skin which tries to save screen space for power users.</Item>
-                <Item Key="HomePage">www.otobo.org</Item>
+                <Item Key="HomePage">otobo.io</Item>
             </Hash>
         </Value>
     </Setting>
@@ -8343,7 +8343,7 @@ via the Preferences button after logging in.
                 <Item Key="InternalName">default</Item>
                 <Item Key="VisibleName" Translatable="1">Default</Item>
                 <Item Key="Description" Translatable="1">This is the default orange - black skin for the customer interface.</Item>
-                <Item Key="HomePage">www.otobo.org</Item>
+                <Item Key="HomePage">otobo.io</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9561,7 +9561,7 @@ via the Preferences button after logging in.
                         </Item>
                         <Item Key="Description" Translatable="1">Open the OTOBO home page in a new window</Item>
                         <Item Key="Name" Translatable="1">Jump to OTOBO!</Item>
-                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.de/</Item>
+                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.io/</Item>
                         <Item Key="LinkOption">target="_blank"</Item>
                         <Item Key="NavBar">JumptoExternalURL</Item>
                         <Item Key="Type">Menu</Item>
@@ -9615,7 +9615,7 @@ via the Preferences button after logging in.
                         </Item>
                         <Item Key="Description" Translatable="1">Open the OTOBO home page in a new window</Item>
                         <Item Key="Name" Translatable="1">Jump to OTOBO!</Item>
-                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.de/</Item>
+                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.io/</Item>
                         <Item Key="LinkOption">target="_blank"</Item>
                         <Item Key="NavBar"></Item>
                         <Item Key="Type"></Item>

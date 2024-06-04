@@ -76,7 +76,7 @@ $Selenium->RunTest(
         # Create test dynamic field.
         my $RandomNumber     = $Helper->GetRandomNumber();
         my $DynamicFieldName = 'LinkPreview';
-        my $DynamicFieldLink = "http://bugs.otobo.org/show_bug.cgi?id=[% Data.TicketID | uri %]";
+        my $DynamicFieldLink = "http://bugs.otobo.io/show_bug.cgi?id=[% Data.TicketID | uri %]";
         my $DynamicFieldID   = $DynamicFieldObject->DynamicFieldAdd(
             Name       => $DynamicFieldName,
             Label      => $DynamicFieldName,
@@ -157,7 +157,7 @@ $Selenium->RunTest(
         );
 
         # Check dynamic field link.
-        $DynamicFieldLink = "http://bugs.otobo.org/show_bug.cgi?id=$TicketID";
+        $DynamicFieldLink = "http://bugs.otobo.io/show_bug.cgi?id=$TicketID";
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.SidebarColumn a.DynamicFieldLink').attr('href');"

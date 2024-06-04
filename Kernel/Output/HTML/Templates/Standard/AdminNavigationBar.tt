@@ -58,7 +58,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="https://doc.otobo.org/manual/admin/10.0/en/content/index.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("View the admin manual") | html %]</span></a>
+                        <a href="https://doc.otobo.io/manual/admin/10.0/en/content/index.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("View the admin manual") | html %]</span></a>
                     </li>
                 </ul>
             </div>

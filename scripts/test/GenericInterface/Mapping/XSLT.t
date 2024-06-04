@@ -144,7 +144,7 @@ my @MappingTests = (
             Template => qq{<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
- xmlns:otobo="http://otobo.org"
+ xmlns:otobo="http://otobo.io"
  extension-element-prefixes="otobo">
 <xsl:import href="$Home/Kernel/GenericInterface/Mapping/OTOBOFunctions.xsl" />
 <xsl:output method="xml" encoding="utf-8" indent="yes"/>
@@ -219,7 +219,7 @@ my @MappingTests = (
             Template => qq{<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
- xmlns:otobo="http://otobo.org"
+ xmlns:otobo="http://otobo.io"
  extension-element-prefixes="otobo">
 <xsl:import href="$Home/Kernel/GenericInterface/Mapping/OTOBOFunctions.xsl" />
 <xsl:output method="xml" encoding="utf-8" indent="yes"/>
@@ -290,7 +290,7 @@ my @MappingTests = (
             Template => qq{<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
- xmlns:otobo="http://otobo.org"
+ xmlns:otobo="http://otobo.io"
  extension-element-prefixes="otobo">
 <xsl:import href="$Home/Kernel/GenericInterface/Mapping/OTOBOFunctions.xsl" />
 <xsl:output method="xml" encoding="utf-8" indent="yes"/>

@@ -18,7 +18,7 @@
     <div>
         <div id='oooCopyright'>
             <p class='ooo10g'>© 2019-2024 </p>
-            <a href="https://otobo.de" target="_blank">
+            <a href="https://otobo.io" target="_blank">
                 <svg
                    xmlns:dc="http://purl.org/dc/elements/1.1/"
                    xmlns:cc="http://creativecommons.org/ns#"
@@ -103,7 +103,7 @@
             </a>
         </div>
         <div id='ooo'>
-            <p class='ooo10g'>powered by <a href="https://otobo.de" target="_blank">Rother OSS</a></p>
+            <p class='ooo10g'>powered by <a href="https://otobo.io" target="_blank">Rother OSS</a></p>
         </div>
     </div>
 </div>
@@ -121,7 +121,7 @@
 #[% END %]
 
 #[% IF !Config("Secure::DisableBanner") %]
-#    <a href="[% IF !Data.IsLoginPage %]https://www.otobo.org[% ELSE %]https://www.otobo.org[% END %]" title="[% Config("Product") | html %][% IF !Data.IsLoginPage %] [% Config("Version") | html %][% END %]" target="_blank">
+#    <a href="[% IF !Data.IsLoginPage %]https://otobo.io[% ELSE %]https://otobo.io[% END %]" title="[% Config("Product") | html %][% IF !Data.IsLoginPage %] [% Config("Version") | html %][% END %]" target="_blank">
 #        <span></span>
 #        [% Translate("Powered by %s", "Harry") | html %]
 #    </a>

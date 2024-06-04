@@ -9,11 +9,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: translate@otobo.org\n"
+"Report-Msgid-Bugs-To: translate@otobo.io\n"
 "POT-Creation-Date: 2021-10-08 14:22+0000\n"
 "PO-Revision-Date: 2021-04-21 08:44+0000\n"
 "Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
-"Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/"
+"Language-Team: Danish <https://translate.otobo.io/projects/otobo10/otobo/da/"
 ">\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -3901,7 +3901,7 @@ msgid "URI to indicate specific location for accessing a web service."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
+msgid "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -4097,8 +4097,8 @@ msgid "The default HTTP command to use for the requests."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
-msgstr "f.eks. https://local.otobo.de:8000/Webservice/Example"
+msgid "e.g. https://local.otobo.io:8000/Webservice/Example"
+msgstr "f.eks. https://local.otobo.io:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
@@ -4168,7 +4168,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
-"e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
+"e.g urn:otobo-com:soap:functions or http://otobo.io/GenericInterface/"
 "actions"
 msgstr ""
 
@@ -14518,7 +14518,7 @@ msgid "Print this article"
 msgstr "Udskriv dette indlæg"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -15535,7 +15535,7 @@ msgstr ""
 msgid ""
 "Please install (or uninstall) the packages before migration. If a package "
 "doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\"
-"\\@otobo.org. We will find a solution."
+"\\@otobo.io. We will find a solution."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
@@ -19536,7 +19536,7 @@ msgid ""
 "Configures a default TicketDynamicField setting. \"Name\" defines the "
 "dynamic field which should be used, \"Value\" is the data that will be set, "
 "and \"Event\" defines the trigger event. Please check the developer manual "
-"(https://doc.otobo.org/), chapter \"Ticket Event Module\"."
+"(https://doc.otobo.io/), chapter \"Ticket Event Module\"."
 msgstr ""
 
 #. SysConfig
@@ -20821,7 +20821,7 @@ msgstr ""
 msgid ""
 "Defines the default front-end (HTML) theme to be used by the agents and "
 "customers. If you like, you can add your own theme. Please refer the "
-"administrator manual located at https://doc.otobo.org/."
+"administrator manual located at https://doc.otobo.io/."
 msgstr ""
 
 #. SysConfig
@@ -28539,9 +28539,9 @@ msgstr ""
 #~ "fordele!"
 
 #~ msgid ""
-#~ "e.g https://www.otobo.com:10745/api/v1.0 (without trailing backslash)"
+#~ "e.g https://otobo.io:10745/api/v1.0 (without trailing backslash)"
 #~ msgstr ""
-#~ "f.eks. https://www.otobo.com:10745/api/v1.0 (uden efterfølgende backslash)"
+#~ "f.eks. https://otobo.io:10745/api/v1.0 (uden efterfølgende backslash)"
 
 #~ msgid "Manage %s"
 #~ msgstr "Administrer %s"
@@ -28550,10 +28550,10 @@ msgstr ""
 #~ msgstr "Læs dokumentation"
 
 #~ msgid ""
-#~ "%s makes contact regularly with cloud.otobo.com to check on available "
+#~ "%s makes contact regularly with cloud.otobo.io to check on available "
 #~ "updates and the validity of the underlying contract."
 #~ msgstr ""
-#~ "%s kontakter cloud.otobo.com med jævne mellemrum for at søge efter "
+#~ "%s kontakter cloud.otobo.io med jævne mellemrum for at søge efter "
 #~ "opdateringer og tjekke validiteten af din kontrakt."
 
 #~ msgid "Unauthorized Usage Detected"
@@ -28620,11 +28620,11 @@ msgstr ""
 #~ msgstr "Kig på %s for yderligere information."
 
 #~ msgid ""
-#~ "Connection to cloud.otobo.com via HTTPS couldn't be established. Please "
-#~ "make sure that your OTOBO can connect to cloud.otobo.com via port 443."
+#~ "Connection to cloud.otobo.io via HTTPS couldn't be established. Please "
+#~ "make sure that your OTOBO can connect to cloud.otobo.io via port 443."
 #~ msgstr ""
-#~ "Forbindelse til cloud.otobo.com via HTTPS kunne ikke etableres. Sørg "
-#~ "venligst for, at din OTOBO kan forbinde sig til cloud.otobo.com via port "
+#~ "Forbindelse til cloud.otobo.io via HTTPS kunne ikke etableres. Sørg "
+#~ "venligst for, at din OTOBO kan forbinde sig til cloud.otobo.io via port "
 #~ "443."
 
 #~ msgid "Cancel downgrade and go back"

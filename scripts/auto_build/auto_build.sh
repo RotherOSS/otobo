@@ -18,7 +18,7 @@
 # auto_build.sh - build automatically OTOBO tar, rpm and src-rpm
 
 echo "auto_build.sh - build OTOBO release files"
-echo "Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/";
+echo "Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.io/";
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTOBO
@@ -187,7 +187,7 @@ find . -name "*$PACKAGE*" | xargs ls -lo
 echo "-----------------------------------------------------------------";
 if which md5sum >> /dev/null; then
     echo "MD5 message digest (128-bit) checksums in wiki table format";
-    find . -name "*$PACKAGE*" | xargs md5sum | sed -e "s/^/| /" -e "s/\.\//| http:\/\/ftp.otobo.ch\/pub\/otobo\//" -e "s/$/ |/"
+    find . -name "*$PACKAGE*" | xargs md5sum | sed -e "s/^/| /" -e "s/\.\//| http:\/\/ftp.otobo.io\/pub\/otobo\//" -e "s/$/ |/"
 else
     echo "No md5sum found in \$PATH!"
 fi

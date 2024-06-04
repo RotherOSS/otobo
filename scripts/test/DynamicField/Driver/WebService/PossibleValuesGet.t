@@ -134,7 +134,7 @@ my $WebserviceConfig = {
             Type   => 'HTTP::SOAP',
             Config => {
                 MaxLength         => 100000000,
-                NameSpace         => 'http://www.otobo.org/TicketConnector/',
+                NameSpace         => 'http://otobo.io/TicketConnector/',
                 RequestNameScheme => 'Request',
             },
         },
@@ -162,7 +162,7 @@ my $WebserviceConfig = {
             Config => {
                 Encoding  => 'UTF-8',
                 Endpoint  => $RemoteSystem,
-                NameSpace => 'http://www.otobo.org/TicketConnector/',
+                NameSpace => 'http://otobo.io/TicketConnector/',
             },
         },
     },

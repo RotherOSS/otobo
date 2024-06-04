@@ -134,7 +134,7 @@ If you need to set credentials
             User     => 'otobo_user',
             Password => 'otobo_password',
             Realm    => 'OTOBO Unittests',
-            Location => 'ftp.otobo.org:80',
+            Location => 'ftp.otobo.io:80',
         },
         SkipSSLVerification => 1, # (optional)
         NoLog               => 1, # (optional)

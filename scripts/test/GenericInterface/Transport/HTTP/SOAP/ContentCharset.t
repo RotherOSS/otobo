@@ -38,7 +38,7 @@ my $SOAPObject = Kernel::GenericInterface::Transport::HTTP::SOAP->new(
     TransportConfig => {
         Config => {
             MaxLength            => 100000000,
-            NameSpace            => 'http://www.otobo.org/TicketConnector/',
+            NameSpace            => 'http://otobo.io/TicketConnector/',
             RequestNameFreeText  => '',
             RequestNameScheme    => 'Plain',
             ResponseNameFreeText => '',
@@ -94,7 +94,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     my $Request = << "EOF";
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tic="http://www.otobo.org/TicketConnector/">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tic="http://otobo.io/TicketConnector/">
    <soapenv:Header/>
    <soapenv:Body>
       <tic:Test>
