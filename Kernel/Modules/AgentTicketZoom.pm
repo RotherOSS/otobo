@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1758,6 +1758,9 @@ sub MaskAgentZoom {
             }
         }
 
+        # build dynamic field lookup hash for widget groups
+        my %DynamicFieldLookup = map { ( $_->{Name} => $_ ) } $DynamicField->@*;
+
         # output dynamic fields registered for a group in the overview widget
         my @FieldsInAGroup;
         for my $GroupName (
@@ -1790,7 +1793,7 @@ sub MaskAgentZoom {
                             },
                         );
 
-                        my $DFConfig = grep { $_->{Name} eq $Field->{Name} } $DynamicField->@*;
+                        my $DFConfig = $DynamicFieldLookup{ $Field->{Name} };
 
                         # set field
                         if ( $DFConfig->{FieldType} eq 'Set' ) {
