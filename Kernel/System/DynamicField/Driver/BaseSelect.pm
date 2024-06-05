@@ -354,16 +354,15 @@ sub EditFieldRender {
         );
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
-            Data         => $DataValues || {},
-            Disabled     => $Param{Readonly},
-            Name         => $FieldName,
-            ID           => $FieldID,
-            SelectedID   => $Value->[$ValueIndex],
-            Translation  => $FieldConfig->{TranslatableValues} || 0,
-            Class        => $FieldClass,
-            Size         => $Size,
-            HTMLQuote    => 1,
-            PossibleNone => $FieldConfig->{PossibleNone} || 0,
+            Data        => $DataValues || {},
+            Disabled    => $Param{Readonly},
+            Name        => $FieldName,
+            ID          => $FieldID,
+            SelectedID  => $Value->[$ValueIndex],
+            Translation => $FieldConfig->{TranslatableValues} || 0,
+            Class       => $FieldClass,
+            Size        => $Size,
+            HTMLQuote   => 1,
         );
 
         push @ResultHTML, $Param{LayoutObject}->Output(
@@ -387,14 +386,13 @@ sub EditFieldRender {
         );
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
-            Data         => $DataValues || {},
-            Name         => $FieldName,
-            ID           => $FieldID,
-            Translation  => $FieldConfig->{TranslatableValues} || 0,
-            Class        => $FieldClass,
-            Size         => $Size,
-            HTMLQuote    => 1,
-            PossibleNone => $FieldConfig->{PossibleNone} || 0,
+            Data        => $DataValues || {},
+            Name        => $FieldName,
+            ID          => $FieldID,
+            Translation => $FieldConfig->{TranslatableValues} || 0,
+            Class       => $FieldClass,
+            Size        => $Size,
+            HTMLQuote   => 1,
         );
 
         $TemplateHTML = $Param{LayoutObject}->Output(
@@ -1149,6 +1147,14 @@ sub PossibleValuesGet {
     }
     else {
         $FieldPossibleNone = $Param{DynamicFieldConfig}->{Config}->{PossibleNone} || 0;
+    }
+
+    # set none value if defined on field config
+    #   NOTE  this is done here instead of passing it to $LayoutObject->BuildSelection() in $Self->EditFieldRender() on purpose.
+    #         The reason is that some ACL mechanisms only work when the empty value is present in the PossibleValues data,
+    #         e.g. removing it via ACL.
+    if ($FieldPossibleNone) {
+        %PossibleValues = ( '' => '-' );
     }
 
     # set all other possible values if defined on field config

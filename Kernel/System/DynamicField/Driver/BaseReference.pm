@@ -265,30 +265,28 @@ sub EditFieldRender {
             for my $ValueIndex ( 0 .. $#{$Value} ) {
                 my $FieldID = $FieldName . '_' . $ValueIndex;
                 push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
-                    Data         => $PossibleValues || {},
-                    Sort         => 'AlphanumericValue',
-                    Disabled     => $Param{Readonly},
-                    Name         => $FieldName,
-                    ID           => $FieldID,
-                    SelectedID   => $Value->[$ValueIndex],
-                    Class        => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
-                    HTMLQuote    => 1,
-                    PossibleNone => $DFDetails->{PossibleNone} // 0,
+                    Data       => $PossibleValues || {},
+                    Sort       => 'AlphanumericValue',
+                    Disabled   => $Param{Readonly},
+                    Name       => $FieldName,
+                    ID         => $FieldID,
+                    SelectedID => $Value->[$ValueIndex],
+                    Class      => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
+                    HTMLQuote  => 1,
                 );
             }
         }
         else {
             my @SelectedIDs = grep {$_} $Value->@*;
             push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
-                Data         => $PossibleValues || {},
-                Sort         => 'AlphanumericValue',
-                Disabled     => $Param{Readonly},
-                Name         => $FieldName,
-                SelectedID   => \@SelectedIDs,
-                Class        => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
-                HTMLQuote    => 1,
-                Multiple     => $DFDetails->{Multiselect},
-                PossibleNone => $DFDetails->{PossibleNone} // 0,
+                Data       => $PossibleValues || {},
+                Sort       => 'AlphanumericValue',
+                Disabled   => $Param{Readonly},
+                Name       => $FieldName,
+                SelectedID => \@SelectedIDs,
+                Class      => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
+                HTMLQuote  => 1,
+                Multiple   => $DFDetails->{Multiselect},
             );
         }
     }
@@ -1007,6 +1005,14 @@ sub PossibleValuesGet {
     }
     else {
         $FieldPossibleNone = $Param{DynamicFieldConfig}->{Config}->{PossibleNone} || 0;
+    }
+
+    # set none value if defined on field config
+    #   NOTE  this is done here instead of passing it to $LayoutObject->BuildSelection() in $Self->EditFieldRender() on purpose.
+    #         The reason is that some ACL mechanisms only work when the empty value is present in the PossibleValues data,
+    #         e.g. removing it via ACL.
+    if ($FieldPossibleNone) {
+        %PossibleValues = ( '' => '-' );
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
