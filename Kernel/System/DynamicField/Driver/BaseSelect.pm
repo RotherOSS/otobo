@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -354,15 +354,16 @@ sub EditFieldRender {
         );
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
-            Data        => $DataValues || {},
-            Disabled    => $Param{Readonly},
-            Name        => $FieldName,
-            ID          => $FieldID,
-            SelectedID  => $Value->[$ValueIndex],
-            Translation => $FieldConfig->{TranslatableValues} || 0,
-            Class       => $FieldClass,
-            Size        => $Size,
-            HTMLQuote   => 1,
+            Data         => $DataValues || {},
+            Disabled     => $Param{Readonly},
+            Name         => $FieldName,
+            ID           => $FieldID,
+            SelectedID   => $Value->[$ValueIndex],
+            Translation  => $FieldConfig->{TranslatableValues} || 0,
+            Class        => $FieldClass,
+            Size         => $Size,
+            HTMLQuote    => 1,
+            PossibleNone => $FieldConfig->{PossibleNone} || 0,
         );
 
         push @ResultHTML, $Param{LayoutObject}->Output(
@@ -386,13 +387,14 @@ sub EditFieldRender {
         );
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
-            Data        => $DataValues || {},
-            Name        => $FieldName,
-            ID          => $FieldID,
-            Translation => $FieldConfig->{TranslatableValues} || 0,
-            Class       => $FieldClass,
-            Size        => $Size,
-            HTMLQuote   => 1,
+            Data         => $DataValues || {},
+            Name         => $FieldName,
+            ID           => $FieldID,
+            Translation  => $FieldConfig->{TranslatableValues} || 0,
+            Class        => $FieldClass,
+            Size         => $Size,
+            HTMLQuote    => 1,
+            PossibleNone => $FieldConfig->{PossibleNone} || 0,
         );
 
         $TemplateHTML = $Param{LayoutObject}->Output(
@@ -1147,11 +1149,6 @@ sub PossibleValuesGet {
     }
     else {
         $FieldPossibleNone = $Param{DynamicFieldConfig}->{Config}->{PossibleNone} || 0;
-    }
-
-    # set none value if defined on field config
-    if ($FieldPossibleNone) {
-        %PossibleValues = ( '' => '-' );
     }
 
     # set all other possible values if defined on field config
