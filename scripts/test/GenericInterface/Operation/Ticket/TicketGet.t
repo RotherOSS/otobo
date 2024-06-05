@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -513,6 +513,7 @@ my $ArticleID41 = $ArticleBackendObject->ArticleCreate(
     UserID               => 1,
     NoAgentNotify        => 1,
 );
+sleep(1);
 my $Success = $TicketObject->TicketAccountTime(
     TicketID  => $TicketID4,
     ArticleID => $ArticleID41,
@@ -537,6 +538,7 @@ my $ArticleID42 = $ArticleBackendObject->ArticleCreate(
     UserID               => 1,
     NoAgentNotify        => 1,
 );
+sleep(1);
 $Success = $TicketObject->TicketAccountTime(
     TicketID  => $TicketID4,
     ArticleID => $ArticleID42,
@@ -561,6 +563,7 @@ my $ArticleID43 = $ArticleBackendObject->ArticleCreate(
     UserID               => 1,
     NoAgentNotify        => 1,
 );
+sleep(1);
 
 # Helper method to retrieve article content for supplied list of articles.
 #
@@ -968,6 +971,7 @@ my $ArticleID51 = $ArticleBackendObject->ArticleCreate(
     UserID         => 1,
     NoAgentNotify  => 1,
 );
+sleep(1);
 my $ArticleID52 = $ArticleBackendObject->ArticleCreate(
     TicketID             => $TicketID5,
     SenderType           => 'agent',
@@ -984,6 +988,7 @@ my $ArticleID52 = $ArticleBackendObject->ArticleCreate(
     UserID               => 1,
     NoAgentNotify        => 1,
 );
+sleep(1);
 
 for my $File (qw(txt)) {
     my $Location = $ConfigObject->Get('Home')
