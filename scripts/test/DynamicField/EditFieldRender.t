@@ -99,7 +99,7 @@ my %UserLookup = map {
     $_ => $LayoutObject->Ascii2Html( Text => qq{"$UserName" <$Preferences{UserEmail}>} )
 } keys %UserList;
 
-my $UserSelectionString;
+my $UserSelectionString               = '';
 my $UserSelectionSelectedString       = '  <option value="" selected="selected">-</option>';
 my $UserSelectionSelectedAgent1String = '  <option value="">-</option>';
 my $UserSelectionSelectedAgent2String = '  <option value="">-</option>';
@@ -124,9 +124,6 @@ for my $UserID ( sort { $UserLookup{$a} cmp $UserLookup{$b} } keys %UserLookup )
     }
 }
 $UserSelectionString =~ s/^\n//;
-$UserSelectionString               .= "\n  <option value=\"\">-</option>";
-$UserSelectionSelectedAgent1String .= "\n  <option value=\"\">-</option>";
-$UserSelectionSelectedAgent2String .= "\n  <option value=\"\">-</option>";
 
 # use a fixed year to compare the time selection results
 FixedTimeSet(
@@ -1310,6 +1307,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText Modernize MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
+  <option value="">-</option>
   <option value="2" selected="selected">Value2</option>
 EOF
             Label => <<"EOF",
@@ -1323,7 +1321,13 @@ EOF
     {
         Name   => 'Dropdown: No Possible None',
         Config => {
-            DynamicFieldConfig   => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig => {
+                $DynamicFieldConfigs{Dropdown}->%*,
+                Config => {
+                    $DynamicFieldConfigs{Dropdown}{Config}->%*,
+                    PossibleNone => 0,
+                },
+            },
             LayoutObject         => $LayoutObject,
             ParamObject          => $ParamObject,
             Value                => 1,
@@ -1688,6 +1692,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText Modernize MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
+  <option value="">-</option>
   <option value="2" selected="selected">Value2</option>
 EOF
             Label => <<"EOF",
@@ -1701,7 +1706,13 @@ EOF
     {
         Name   => 'Multiselect: No Possible None',
         Config => {
-            DynamicFieldConfig   => $DynamicFieldConfigs{Multiselect},
+            DynamicFieldConfig => {
+                $DynamicFieldConfigs{Multiselect}->%*,
+                Config => {
+                    $DynamicFieldConfigs{Multiselect}{Config}->%*,
+                    PossibleNone => 0,
+                },
+            },
             LayoutObject         => $LayoutObject,
             ParamObject          => $ParamObject,
             Value                => 1,
