@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -394,14 +394,15 @@ sub EditFieldRender {
     );
 
     my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
-        Data        => $DataValues || {},
-        Name        => $FieldName,
-        SelectedID  => $SelectedValuesArrayRef,
-        Translation => $FieldConfig->{TranslatableValues} || 0,
-        Class       => $FieldClass,
-        HTMLQuote   => 1,
-        Multiple    => 1,
-        Disabled    => $Param{Readonly},
+        Data         => $DataValues || {},
+        Name         => $FieldName,
+        SelectedID   => $SelectedValuesArrayRef,
+        Translation  => $FieldConfig->{TranslatableValues} || 0,
+        Class        => $FieldClass,
+        HTMLQuote    => 1,
+        Multiple     => 1,
+        Disabled     => $Param{Readonly},
+        PossibleNone => $FieldConfig->{PossibleNone} || 0,
     );
 
     my %FieldTemplateData = (
