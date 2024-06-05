@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -59,6 +59,8 @@ $Self->True( $FirstUserID, 'Creation of first agent' );
 my $FirstUserName = $UserObject->UserName(
     UserID => $FirstUserID,
 );
+my %FirstUserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences( UserID => $FirstUserID );
+my $FirstUserNameStrg    = qq{"$FirstUserName" <$FirstUserPreferences{UserEmail}>};
 
 my $SecondUserID = $UserObject->UserAdd(
     UserFirstname => 'Test',
@@ -74,6 +76,8 @@ $Self->True( $SecondUserID, 'Creation of second agent' );
 my $SecondUserName = $UserObject->UserName(
     UserID => $SecondUserID,
 );
+my %SecondUserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences( UserID => $SecondUserID );
+my $SecondUserNameStrg    = qq{"$SecondUserName" <$SecondUserPreferences{UserEmail}>};
 
 # create customer companies
 my $FirstCustomerCompanyID = $CustomerCompanyObject->CustomerCompanyAdd(
@@ -105,9 +109,10 @@ my $FirstCustomerUserLogin = $CustomerUserObject->CustomerUserAdd(
 );
 $Self->True( $FirstCustomerUserLogin, 'Creation of first customer user' );
 
-my $FirstCustomerUserName = $CustomerUserObject->CustomerName(
-    UserLogin => $FirstCustomerUserLogin,
+my %FirstCustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+    User => $FirstCustomerUserLogin,
 );
+my $FirstCustomerUserStrg = $FirstCustomerUserData{UserMailString};
 
 my $SecondCustomerUserLogin = $CustomerUserObject->CustomerUserAdd(
     Source         => 'CustomerUser',
@@ -121,9 +126,10 @@ my $SecondCustomerUserLogin = $CustomerUserObject->CustomerUserAdd(
 );
 $Self->True( $SecondCustomerUserLogin, 'Creation of second customer user' );
 
-my $SecondCustomerUserName = $CustomerUserObject->CustomerName(
-    UserLogin => $SecondCustomerUserLogin,
+my %SecondCustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+    User => $SecondCustomerUserLogin,
 );
+my $SecondCustomerUserStrg = $SecondCustomerUserData{UserMailString};
 
 # prepare information for building ticket description
 my $ParamHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook')      || 'Ticket#';
@@ -929,8 +935,8 @@ my @Tests = (
             Value              => $FirstUserID,
         },
         ExpectedResults => {
-            Value => $FirstUserName,
-            Title => $FirstUserName,
+            Value => $FirstUserNameStrg,
+            Title => $FirstUserNameStrg,
         },
         Success => 1,
     },
@@ -941,8 +947,8 @@ my @Tests = (
             Value              => [$FirstUserID],
         },
         ExpectedResults => {
-            Value => $FirstUserName,
-            Title => $FirstUserName,
+            Value => $FirstUserNameStrg,
+            Title => $FirstUserNameStrg,
         },
         Success => 1,
     },
@@ -979,8 +985,8 @@ my @Tests = (
             Value              => $FirstUserID,
         },
         ExpectedResults => {
-            Value => $FirstUserName,
-            Title => $FirstUserName,
+            Value => $FirstUserNameStrg,
+            Title => $FirstUserNameStrg,
         },
         Success => 1,
     },
@@ -991,8 +997,8 @@ my @Tests = (
             Value              => [$FirstUserID],
         },
         ExpectedResults => {
-            Value => $FirstUserName,
-            Title => $FirstUserName,
+            Value => $FirstUserNameStrg,
+            Title => $FirstUserNameStrg,
         },
         Success => 1,
     },
@@ -1003,8 +1009,8 @@ my @Tests = (
             Value              => [ $FirstUserID, $SecondUserID ],
         },
         ExpectedResults => {
-            Value => "$FirstUserName, $SecondUserName",
-            Title => "$FirstUserName, $SecondUserName",
+            Value => "$FirstUserNameStrg, $SecondUserNameStrg",
+            Title => "$FirstUserNameStrg, $SecondUserNameStrg",
         },
         Success => 1,
     },
@@ -1041,8 +1047,8 @@ my @Tests = (
             Value              => $FirstUserID,
         },
         ExpectedResults => {
-            Value => $FirstUserName,
-            Title => $FirstUserName,
+            Value => $FirstUserNameStrg,
+            Title => $FirstUserNameStrg,
         },
         Success => 1,
     },
@@ -1053,8 +1059,8 @@ my @Tests = (
             Value              => [$FirstUserID],
         },
         ExpectedResults => {
-            Value => $FirstUserName,
-            Title => $FirstUserName,
+            Value => $FirstUserNameStrg,
+            Title => $FirstUserNameStrg,
         },
         Success => 1,
     },
@@ -1065,8 +1071,8 @@ my @Tests = (
             Value              => [ $FirstUserID, $SecondUserID ],
         },
         ExpectedResults => {
-            Value => "$FirstUserName, $SecondUserName",
-            Title => "$FirstUserName, $SecondUserName",
+            Value => "$FirstUserNameStrg, $SecondUserNameStrg",
+            Title => "$FirstUserNameStrg, $SecondUserNameStrg",
         },
         Success => 1,
     },
@@ -1089,8 +1095,8 @@ my @Tests = (
             Value              => [ $FirstUserID, undef, $SecondUserID ],
         },
         ExpectedResults => {
-            Value => "$FirstUserName, , $SecondUserName",
-            Title => "$FirstUserName, , $SecondUserName",
+            Value => "$FirstUserNameStrg, , $SecondUserNameStrg",
+            Title => "$FirstUserNameStrg, , $SecondUserNameStrg",
         },
         Success => 1,
     },
@@ -1171,8 +1177,8 @@ my @Tests = (
             Value              => $FirstCustomerUserLogin,
         },
         ExpectedResults => {
-            Value => $FirstCustomerUserName,
-            Title => $FirstCustomerUserName,
+            Value => $FirstCustomerUserStrg,
+            Title => $FirstCustomerUserStrg,
         },
         Success => 1,
     },
@@ -1183,8 +1189,8 @@ my @Tests = (
             Value              => [$FirstCustomerUserLogin],
         },
         ExpectedResults => {
-            Value => $FirstCustomerUserName,
-            Title => $FirstCustomerUserName,
+            Value => $FirstCustomerUserStrg,
+            Title => $FirstCustomerUserStrg,
         },
         Success => 1,
     },
@@ -1221,8 +1227,8 @@ my @Tests = (
             Value              => $FirstCustomerUserLogin,
         },
         ExpectedResults => {
-            Value => $FirstCustomerUserName,
-            Title => $FirstCustomerUserName,
+            Value => $FirstCustomerUserStrg,
+            Title => $FirstCustomerUserStrg,
         },
         Success => 1,
     },
@@ -1233,8 +1239,8 @@ my @Tests = (
             Value              => [$FirstCustomerUserLogin],
         },
         ExpectedResults => {
-            Value => $FirstCustomerUserName,
-            Title => $FirstCustomerUserName,
+            Value => $FirstCustomerUserStrg,
+            Title => $FirstCustomerUserStrg,
         },
         Success => 1,
     },
@@ -1245,8 +1251,8 @@ my @Tests = (
             Value              => [ $FirstCustomerUserLogin, $SecondCustomerUserLogin ],
         },
         ExpectedResults => {
-            Value => "$FirstCustomerUserName, $SecondCustomerUserName",
-            Title => "$FirstCustomerUserName, $SecondCustomerUserName",
+            Value => "$FirstCustomerUserStrg, $SecondCustomerUserStrg",
+            Title => "$FirstCustomerUserStrg, $SecondCustomerUserStrg",
         },
         Success => 1,
     },
@@ -1269,8 +1275,8 @@ my @Tests = (
             Value              => [ $FirstCustomerUserLogin, undef, $SecondCustomerUserLogin ],
         },
         ExpectedResults => {
-            Value => "$FirstCustomerUserName, , $SecondCustomerUserName",
-            Title => "$FirstCustomerUserName, , $SecondCustomerUserName",
+            Value => "$FirstCustomerUserStrg, , $SecondCustomerUserStrg",
+            Title => "$FirstCustomerUserStrg, , $SecondCustomerUserStrg",
         },
         Success => 1,
     },
