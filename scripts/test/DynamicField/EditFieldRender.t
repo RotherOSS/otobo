@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -79,18 +79,27 @@ my $SecondUserID = $UserObject->UserAdd(
 );
 ok( $SecondUserID, 'Creation of second agent' );
 
+my $LayoutObject = Kernel::Output::HTML::Layout->new(
+    Lang         => 'en',
+    UserTimeZone => 'UTC',
+);
+
 # collect user data and build string for html selection comparison
 my %UserList = $UserObject->UserSearch(
     Search => '*',
     Valid  => 1,
 );
 my %UserLookup = map {
-    $_ => $UserObject->UserName(
+    my $UserName = $UserObject->UserName(
         UserID => $_,
-    )
+    );
+    my %Preferences = $UserObject->GetPreferences(
+        UserID => $_
+    );
+    $_ => $LayoutObject->Ascii2Html( Text => qq{"$UserName" <$Preferences{UserEmail}>} )
 } keys %UserList;
 
-my $UserSelectionString               = '  <option value="">-</option>';
+my $UserSelectionString;
 my $UserSelectionSelectedString       = '  <option value="" selected="selected">-</option>';
 my $UserSelectionSelectedAgent1String = '  <option value="">-</option>';
 my $UserSelectionSelectedAgent2String = '  <option value="">-</option>';
@@ -114,6 +123,10 @@ for my $UserID ( sort { $UserLookup{$a} cmp $UserLookup{$b} } keys %UserLookup )
             = join( "\n", ( $UserSelectionSelectedAgent2String, '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
     }
 }
+$UserSelectionString =~ s/^\n//;
+$UserSelectionString               .= "\n  <option value=\"\">-</option>";
+$UserSelectionSelectedAgent1String .= "\n  <option value=\"\">-</option>";
+$UserSelectionSelectedAgent2String .= "\n  <option value=\"\">-</option>";
 
 # use a fixed year to compare the time selection results
 FixedTimeSet(
@@ -123,11 +136,6 @@ FixedTimeSet(
             String => '2013-12-12 00:00:00',
         },
     )->ToEpoch()
-);
-
-my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    Lang         => 'en',
-    UserTimeZone => 'UTC',
 );
 
 # prepare dynamic fields to include in set
