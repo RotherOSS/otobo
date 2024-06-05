@@ -18,19 +18,25 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $main::Self
 
 our $Self;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
 
-        my $Helper             = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper             = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');    # TODO: activate RestoreDatabase
         my $GroupObject        = $Kernel::OM->Get('Kernel::System::Group');
         my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
         my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
@@ -115,7 +121,7 @@ $Selenium->RunTest(
         }
 
         # Defined user language for testing if message is being translated correctly.
-        my $Language = "de";
+        my $Language = 'de';
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -196,10 +202,7 @@ $Selenium->RunTest(
                 Comment         => 'Comment',
                 UserID          => $TestUserID,
             );
-            $Self->True(
-                $QueueID,
-                "QueueID $QueueID is created",
-            );
+            ok( $QueueID, "QueueID $QueueID is created" );
             push @QueueIDs, $QueueID;
         }
 
@@ -215,11 +218,8 @@ $Selenium->RunTest(
                 Comment         => 'Comment',
                 UserID          => $TestUserID,
             );
-            $Self->True(
-                $QueueID,
-                "QueueID $QueueID is created",
-            );
         }
+        ok( $QueueID, "Queue with name 'Frontend' and ID $QueueID is available",);
         push @QueueIDs, $QueueID;
 
         my $TestCustomerUser      = 'User-' . $RandomNumber;
@@ -385,7 +385,7 @@ $Selenium->RunTest(
             UserLanguage => $Language,
         );
 
-        # Check data.
+        # Check translated messages.
         my @ExpectedMessages = (
             $LanguageObject->Translate(
                 "The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.",
@@ -394,18 +394,16 @@ $Selenium->RunTest(
             $LanguageObject->Translate( "The following tickets were locked: %s.", $Tickets[1]->{TicketNumber} ),
         );
         for my $ExpectedMessage (@ExpectedMessages) {
-            $Self->True(
-                index( $Selenium->get_page_source(), $ExpectedMessage ) > -1,
-                $ExpectedMessage,
-            ) || die;
+            $Selenium->content_contains($ExpectedMessage);
         }
 
-        # Check if ticket type is not translated.
-        # For more information see bug #14030.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#TypeID option[value=1]').text();"),
-            "Unclassified",
-            "On load - Ticket type is not translated",
+        # Check if ticket type is translated.
+        # For more information see https://github.com/RotherOSS/otobo/issues/3145
+        my $TypeIDOptionElement = $Selenium->find_element( '#TypeID option[value="1"]', 'css' );
+        is(
+            $TypeIDOptionElement->execute_script('return $(arguments[0]).text()'),
+            'Unclassified',
+            'Ticket type is translated into German',
         );
 
         $Selenium->InputFieldValueSet(
@@ -422,10 +420,10 @@ $Selenium->RunTest(
             "On form update - Queue is not selected",
         );
 
-        $Self->Is(
-            $Selenium->execute_script("return \$('#TypeID option[value=1]').text();"),
-            "Unclassified",
-            "After change - Ticket type is not translated",
+        is(
+            $Selenium->execute_script(q{ return $('#TypeID option[value=1]').text() }),
+            'Unclassified',
+            'After change - Ticket type is translated',
         );
 
         # Check if ticket queue is not translated.
@@ -434,11 +432,10 @@ $Selenium->RunTest(
             Element => '#QueueID',
             Value   => $QueueID,
         );
-        $Self->True(
-            $Selenium->find_element('//select[@id="QueueID"]/option[contains(.,"Frontend")]'),
-            "On update - Ticket queue is not translated",
+        $Selenium->find_element_by_xpath_ok(
+            '//select[@id="QueueID"]/option[contains(.,"Frontend")]',
+            "On update - Ticket queue 'Frontend' is not translated to 'Oberfläche'",
         );
-
         $Selenium->WaitForjQueryEventBound(
             CSSSelector => ".UndoClosePopup",
         );
@@ -802,4 +799,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;
