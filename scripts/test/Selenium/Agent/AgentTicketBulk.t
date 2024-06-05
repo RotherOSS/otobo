@@ -219,7 +219,7 @@ $Selenium->RunTest(
                 UserID          => $TestUserID,
             );
         }
-        ok( $QueueID, "Queue with name 'Frontend' and ID $QueueID is available",);
+        ok( $QueueID, "Queue with name 'Frontend' and ID $QueueID is available", );
         push @QueueIDs, $QueueID;
 
         my $TestCustomerUser      = 'User-' . $RandomNumber;
@@ -402,7 +402,7 @@ $Selenium->RunTest(
         my $TypeIDOptionElement = $Selenium->find_element( '#TypeID option[value="1"]', 'css' );
         is(
             $TypeIDOptionElement->execute_script('return $(arguments[0]).text()'),
-            'Unclassified',
+            'Unklassifiziert',
             'Ticket type is translated into German',
         );
 
@@ -422,7 +422,7 @@ $Selenium->RunTest(
 
         is(
             $Selenium->execute_script(q{ return $('#TypeID option[value=1]').text() }),
-            'Unclassified',
+            'Unklassifiziert',
             'After change - Ticket type is translated',
         );
 
@@ -433,8 +433,8 @@ $Selenium->RunTest(
             Value   => $QueueID,
         );
         $Selenium->find_element_by_xpath_ok(
-            '//select[@id="QueueID"]/option[contains(.,"Frontend")]',
-            "On update - Ticket queue 'Frontend' is not translated to 'Oberfläche'",
+            '//select[@id="QueueID"]/option[contains(.,"Oberfläche")]',
+            "On update - Ticket queue 'Frontend' is translated to 'Oberfläche'",
         );
         $Selenium->WaitForjQueryEventBound(
             CSSSelector => ".UndoClosePopup",
