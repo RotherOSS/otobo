@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -3898,28 +3898,30 @@ my @Tests = (
             ReturnValueStructure    => 0,
             ReturnTemplateStructure => 1,
         },
-        ExpectedResults => [
-            {
-                "Text5$RandomID" => {
-                    'DynamicField_Text5' . $RandomID . '_0' => 'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN'
+        ExpectedResults => {
+            "DynamicField_SetOfAgentsAndTexts" => [
+                {
+                    "Text5$RandomID" => {
+                        'DynamicField_Text5' . $RandomID . '_0' => 'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN'
+                    },
+                    "Text6$RandomID" => {
+                        'DynamicField_Text6' . $RandomID . '_0' => [
+                            'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                            'Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                        ],
+                    },
+                    "Agent1$RandomID" => {
+                        'DynamicField_Agent1' . $RandomID . '_0' => [$FirstUserID],
+                    },
+                    "Agent2$RandomID" => {
+                        'DynamicField_Agent2' . $RandomID . '_0' => [
+                            $FirstUserID,
+                            $SecondUserID,
+                        ],
+                    },
                 },
-                "Text6$RandomID" => {
-                    'DynamicField_Text6' . $RandomID . '_0' => [
-                        'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
-                        'Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
-                    ],
-                },
-                "Agent1$RandomID" => {
-                    'DynamicField_Agent1' . $RandomID . '_0' => [$FirstUserID],
-                },
-                "Agent2$RandomID" => {
-                    'DynamicField_Agent2' . $RandomID . '_0' => [
-                        $FirstUserID,
-                        $SecondUserID,
-                    ],
-                },
-            },
-        ],
+            ],
+        },
         Success => 1,
     },
 );
