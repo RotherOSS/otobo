@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1133,13 +1133,13 @@ sub ArticleCreate {
 Returns single article data.
 
     my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID      => 123,     # (required)
-        ArticleID     => 123,     # (required)
-        DynamicFields => 1,       # (optional) To include the dynamic field values for this article on the return structure.
-        RealNames     => 1,       # (optional) To include the From/To/Cc/Bcc fields with real names.
-        ShowDeletedArticles => 1, # (optional) To get deleted articles.
-        VersionView    => 1,      # (optional) To get edited version info.
-        ArticleDeleted => 1,      # (optional) To evaluate if article is deleted.
+        TicketID            => 123,     # (required)
+        ArticleID           => 123,     # (required)
+        DynamicFields       => 1,       # (optional) To include the dynamic field values for this article on the return structure.
+        RealNames           => 1,       # (optional) To include the From/To/Cc/Bcc fields with real names.
+        ShowDeletedArticles => 1,       # (optional) To get deleted articles.
+        VersionView         => 1,       # (optional) To get edited version info.
+        ArticleDeleted      => 1,       # (optional) To evaluate if article is deleted.
     );
 
 Returns:
@@ -1198,7 +1198,7 @@ sub ArticleGet {
     my %Article = $Self->_MetaArticleGet(
         ArticleID           => $Param{ArticleID},
         TicketID            => $Param{TicketID},
-        ShowDeletedArticles => 1,
+        ShowDeletedArticles => $Param{ShowDeletedArticles},
         VersionView         => $Param{VersionView}
     );
     return if !%Article;

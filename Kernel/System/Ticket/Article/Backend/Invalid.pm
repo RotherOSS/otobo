@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -78,9 +78,10 @@ sub ArticleUpdate {
 Returns article meta data as also returned by L<Kernel::System::Ticket::Article::ArticleList()>.
 
     my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID      => 123,
-        ArticleID     => 123,
-        DynamicFields => 1,
+        ArticleID           => 42,      # (required)
+        TicketID            => 23,      # (required)
+        ShowDeletedArticles => 1,       # (optional) To get deleted articles.
+        VersionView         => 1,       # (optional) To get edited version info.
     );
 
 =cut
