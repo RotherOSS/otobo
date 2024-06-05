@@ -394,15 +394,14 @@ sub EditFieldRender {
     );
 
     my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
-        Data         => $DataValues || {},
-        Name         => $FieldName,
-        SelectedID   => $SelectedValuesArrayRef,
-        Translation  => $FieldConfig->{TranslatableValues} || 0,
-        Class        => $FieldClass,
-        HTMLQuote    => 1,
-        Multiple     => 1,
-        Disabled     => $Param{Readonly},
-        PossibleNone => $FieldConfig->{PossibleNone} || 0,
+        Data        => $DataValues || {},
+        Name        => $FieldName,
+        SelectedID  => $SelectedValuesArrayRef,
+        Translation => $FieldConfig->{TranslatableValues} || 0,
+        Class       => $FieldClass,
+        HTMLQuote   => 1,
+        Multiple    => 1,
+        Disabled    => $Param{Readonly},
     );
 
     my %FieldTemplateData = (
