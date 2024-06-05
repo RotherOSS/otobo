@@ -101,8 +101,8 @@ my %UserLookup = map {
 
 my $UserSelectionString               = '';
 my $UserSelectionSelectedString       = '  <option value="" selected="selected">-</option>';
-my $UserSelectionSelectedAgent1String = '  <option value="">-</option>';
-my $UserSelectionSelectedAgent2String = '  <option value="">-</option>';
+my $UserSelectionSelectedAgent1String = '';
+my $UserSelectionSelectedAgent2String = '';
 for my $UserID ( sort { $UserLookup{$a} cmp $UserLookup{$b} } keys %UserLookup ) {
     $UserSelectionString         = join( "\n", ( $UserSelectionString,         '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
     $UserSelectionSelectedString = join( "\n", ( $UserSelectionSelectedString, '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
@@ -123,7 +123,16 @@ for my $UserID ( sort { $UserLookup{$a} cmp $UserLookup{$b} } keys %UserLookup )
             = join( "\n", ( $UserSelectionSelectedAgent2String, '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
     }
 }
-$UserSelectionString =~ s/^\n//;
+
+# remove preceding newline which is created due to initialization with empty string
+$UserSelectionString               =~ s/^\n//;
+$UserSelectionSelectedAgent1String =~ s/^\n//;
+$UserSelectionSelectedAgent2String =~ s/^\n//;
+
+# add empty value to the end
+$UserSelectionString               .= "\n  <option value=\"\">-</option>";
+$UserSelectionSelectedAgent1String .= "\n  <option value=\"\">-</option>";
+$UserSelectionSelectedAgent2String .= "\n  <option value=\"\">-</option>";
 
 # use a fixed year to compare the time selection results
 FixedTimeSet(
@@ -1307,7 +1316,6 @@ EOF
         ExpectedResults => {
             Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText Modernize MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
-  <option value="">-</option>
   <option value="2" selected="selected">Value2</option>
 EOF
             Label => <<"EOF",
@@ -1692,7 +1700,6 @@ EOF
         ExpectedResults => {
             Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText Modernize MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-  <option value="">-</option>
   <option value="2" selected="selected">Value2</option>
 EOF
             Label => <<"EOF",
