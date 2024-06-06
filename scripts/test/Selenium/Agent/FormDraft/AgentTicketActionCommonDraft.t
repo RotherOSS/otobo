@@ -18,8 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $main::Self
 
 our $Self;
 
@@ -337,17 +342,20 @@ $Selenium->RunTest(
                 }
                 elsif ( $Test->{Fields}->{$Field}->{Type} eq 'RichText' ) {
 
-                    # wait for the CKE to load
+                    # Wait for the CKEditor to load.
+                    my $RichTextElement = $Selenium->find_element( '#RichText', 'css' );
                     $Selenium->WaitFor(
-                        JavaScript => q{ $("#RichText").classList.contains('HasCKEInstance') }
+                        JavaScript => [
+                            q{ return arguments[0].classList.contains('HasCKEInstance') },
+                            $RichTextElement,
+                        ],
                     );
 
                     $Selenium->execute_script(
                         qq{ return CKEditorInstances['RichText'].setData('$Test->{Fields}->{$Field}->{Value}'); }
                     );
-
                     $Selenium->execute_script(
-                        q{ return CKEditorInstances['RichText'].updateElement(); }
+                        q{ return CKEditorInstances['RichText'].updateSourceElement(); }
                     );
                 }
                 else {
@@ -510,23 +518,25 @@ $Selenium->RunTest(
                 }
                 elsif ( $Test->{Fields}->{$FieldValue}->{Type} eq 'RichText' ) {
 
-                    # wait for the CKE to load
+                    # Wait for the CKEditor to load.
+                    my $RichTextElement = $Selenium->find_element( '#RichText', 'css' );
                     $Selenium->WaitFor(
-                        JavaScript => q{ $("#RichText").classList.contains('HasCKEInstance') }
+                        JavaScript => [
+                            q{ return arguments[0].classList.contains('HasCKEInstance') },
+                            $RichTextElement,
+                        ],
                     );
 
-                    $Self->Is(
+                    is(
                         $Selenium->execute_script(q{ return CKEditorInstances['RichText'].getData();}),
                         $Test->{Fields}->{$FieldValue}->{Value},
                         "Initial Draft value for $Test->{Module} field $FieldValue is correct"
                     );
-
                     $Selenium->execute_script(
                         qq{ return CKEditorInstances['RichText'].setData('$Test->{Fields}->{$FieldValue}->{Update}'); }
                     );
-
                     $Selenium->execute_script(
-                        q{ return CKEditorInstances['RichText'].updateElement(); }
+                        q{ return CKEditorInstances['RichText'].updateSourceElement(); }
                     );
                 }
                 else {
@@ -683,4 +693,4 @@ $Selenium->RunTest(
 
 );
 
-$Self->DoneTesting();
+done_testing;
