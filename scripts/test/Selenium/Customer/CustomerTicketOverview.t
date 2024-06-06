@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -284,7 +284,10 @@ $Selenium->RunTest(
                 qq{div[id='oooTile03'] a[href*='Action=CustomerTicketZoom;TicketNumber=$TicketNumber'] div.oooTicketItemDesc h3.oooTIDTitle}
             );
             ok( $TitleElement, "Customer Ticket Overview table title element found" );
-            $TitleElement->text_like( qr{\QUntitled!\E}, "Customer Ticket Overview table contains 'Untitled!' as ticket title part" );
+            $TitleElement->text_like(
+                qr{\QSome Ticket Title\E},
+                "Customer Ticket Overview table contains 'Some Ticket Title' as ticket title part"
+            );
 
             # No check whether the table contains article as the customer interface has been changed.
         }
@@ -460,8 +463,7 @@ $Selenium->RunTest(
         {
             $CacheObject->CleanUp( Type => $Cache );
         }
-
     }
 );
 
-done_testing();
+done_testing;
