@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -31,7 +32,6 @@ our $Self;
 
 my $HelperObject   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SeleniumObject = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
-my $OTOBOHelper    = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
 my $TicketObject   = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
@@ -113,21 +113,23 @@ my $SeleniumTest = sub {
     # Navigate to zoom view of created test ticket.
     $SeleniumObject->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-    $SeleniumObject->find_element( 'li#nav-Mark-as-\(un\)seen', 'css' )->click();
+    # open the dropdown menu, sleep in order to be sure that the menu has opened
+    $SeleniumObject->find_element( 'li#nav-Mark-as-\(un\)seen', 'css' )->click;
+    sleep 1;
 
-    # check for elements
-    $Self->True(
-        $SeleniumObject->find_element( 'li#nav-Mark-as-seen a', 'css' )->is_displayed(),
+    # check for elements in the dropdown
+    ok(
+        $SeleniumObject->find_element( 'li#nav-Mark-as-seen a', 'css' )->is_displayed,
         '"Mark ticket as seen" link is visible',
     );
 
-    $Self->True(
-        $SeleniumObject->find_element( 'li#nav-Mark-as-unseen a', 'css' )->is_displayed(),
+    ok(
+        $SeleniumObject->find_element( 'li#nav-Mark-as-unseen a', 'css' )->is_displayed,
         '"Mark ticket as unseen" link is visible',
     );
 
-    $Self->True(
-        $SeleniumObject->find_element( 'a.AgentTicketMarkSeenUnseenArticle', 'css' )->is_displayed(),
+    ok(
+        $SeleniumObject->find_element( 'a.AgentTicketMarkSeenUnseenArticle', 'css' )->is_displayed,
         '"Mark article as unseen" link is visible',
     );
 
