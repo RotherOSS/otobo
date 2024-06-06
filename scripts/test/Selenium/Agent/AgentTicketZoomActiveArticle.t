@@ -106,10 +106,12 @@ $Selenium->RunTest(
                 UserID               => 1,
                 NoAgentNotify        => 1,
             );
-            $Self->True(
-                $ArticleID,
-                "ArticleID $ArticleID is created",
-            );
+
+            # make sure that articles are not created in the same second,
+            # as sorting seems to be based on the create time
+            sleep 1;
+
+            ok( $ArticleID, "ArticleID $ArticleID is created" );
             push @ArticleIDs, $ArticleID;
 
             # Set first page articles to 'seen'.
