@@ -236,9 +236,13 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
 
-        # Wait for the CKE to load.
+        # Wait for the CKEditor to load.
+        my $RichTextElement = $Selenium->find_element( '#RichText', 'css' );
         $Selenium->WaitFor(
-            JavaScript => q{ $("#RichText").classList.contains('HasCKEInstance') }
+            JavaScript => [
+                q{ return arguments[0].classList.contains('HasCKEInstance') },
+                $RichTextElement,
+            ],
         );
 
         my $CKEditorValue = $Selenium->execute_script(
@@ -437,4 +441,4 @@ $Selenium->RunTest(
     },
 );
 
-done_testing();
+done_testing;
