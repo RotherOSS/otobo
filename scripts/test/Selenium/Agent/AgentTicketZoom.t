@@ -113,7 +113,8 @@ $Selenium->RunTest(
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups   => [ 'admin', 'users' ],
             Language => $Language,
-        ) || die "Did not get test user";
+        );
+        ok( $TestUserLogin, 'created a test user' );
 
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
@@ -129,10 +130,7 @@ $Selenium->RunTest(
             Value  => 'highcontrast',
             UserID => $UserID,
         );
-        $Self->True(
-            $Success,
-            "High Contrast skin is set.",
-        );
+        ok( $Success, 'High Contrast skin is set.' );
 
         $Selenium->Login(
             Type     => 'Agent',
@@ -140,18 +138,15 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $LanguageObject = Kernel::Language->new(
-            UserLanguage => $Language,
-        );
-
         # Create test customer.
-        my $TestCustomerUser = $Helper->TestCustomerUserCreate(
-        ) || die "Did not get test customer user";
+        my $TestCustomerUser = $Helper->TestCustomerUserCreate;
+        ok( $TestCustomerUser, 'created a test customer user' );
 
         # Get test customer user ID.
-        my %TestCustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+        my %TestCustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
             User => $TestCustomerUser,
         );
+        ok( $TestCustomerUserData{UserCustomerID}, 'got a customer id' );
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -165,7 +160,7 @@ $Selenium->RunTest(
             Lock         => 'unlock',
             Priority     => '3 normal',
             State        => 'open',
-            CustomerID   => $TestCustomerUserID{UserCustomerID},
+            CustomerID   => $TestCustomerUserData{UserCustomerID},
             CustomerUser => $TestCustomerUser,
             OwnerID      => 1,
             UserID       => 1,
@@ -414,4 +409,4 @@ $Selenium->RunTest(
     }
 );
 
-done_testing();
+done_testing;
