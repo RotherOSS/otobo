@@ -449,11 +449,10 @@ $Selenium->RunTest(
                     my $Value = $Test->{Fields}->{$FieldValue}->{Value};
 
                     $Selenium->WaitFor(
-                        JavaScript =>
-                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$Value';"
+                        JavaScript => "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$Value';"
                     );
 
-                    $Self->Is(
+                    is(
                         $Selenium->execute_script("return \$('#$ID').val();"),
                         $Value,
                         "Initial Draft value for $Test->{Module} field $FieldValue is correct - $Value"
@@ -529,7 +528,7 @@ $Selenium->RunTest(
 
                     is(
                         $Selenium->execute_script(q{ return CKEditorInstances['RichText'].getData();}),
-                        $Test->{Fields}->{$FieldValue}->{Value},
+                        "<p>$Test->{Fields}->{$FieldValue}->{Value}</p>",
                         "Initial Draft value for $Test->{Module} field $FieldValue is correct"
                     );
                     $Selenium->execute_script(
