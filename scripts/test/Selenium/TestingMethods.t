@@ -22,6 +22,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test::LongString lcss => 0;
 use Test2::V0;
 
 # OTOBO modules
