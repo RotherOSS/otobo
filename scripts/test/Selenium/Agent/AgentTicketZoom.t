@@ -242,8 +242,8 @@ $Selenium->RunTest(
                 Selector => '.UseArticleColors #ArticleTable thead a',
             },
             {
-                Name     => "Article color",
-                Color    => '#000',
+                Name     => 'Article color',
+                Color    => '#00023c',
                 Selector => '.UseArticleColors #ArticleTable tbody a',
             }
         );
@@ -263,11 +263,7 @@ $Selenium->RunTest(
             }
 
             my $Color = $Element->get_css_attribute('color');
-            {
-                my $ToDo = todo('skin highcontrast does not exist in OTOBO, issue #678');
-
-                is( $Color, $ExpectedRGBColor, "$Item->{Name} is correct - $Item->{Color}" );
-            }
+            is( $Color, $ExpectedRGBColor, "$Item->{Name} is correct - $Item->{Color}" );
         }
 
         $Self->Is(
