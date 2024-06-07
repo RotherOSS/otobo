@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -3738,57 +3738,65 @@ EOF
 # execute tests
 for my $Test (@Tests) {
 
-    my $FieldHTML;
+    subtest $Test->{Name} => sub {
 
-    if ( IsHashRefWithData( $Test->{Config} ) ) {
-        my %Config = %{ $Test->{Config} };
+        my $FieldHTML;
 
-        if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
+        if ( IsHashRefWithData( $Test->{Config} ) ) {
+            my %Config = $Test->{Config}->%*;
 
-            # create a new HTTP::Request object to simulate a web request
-            my $HTTPRequest = POST( '/', [ $Test->{Config}->{CGIParam}->%* ] );
-            $Config{ParamObject} = Kernel::System::Web::Request->new(
-                HTTPRequest => $HTTPRequest,
-            );
+            if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
+
+                # create a new HTTP::Request object to simulate a web request
+                my $HTTPRequest = POST( '/', [ $Test->{Config}->{CGIParam}->%* ] );
+                $Config{ParamObject} = Kernel::System::Web::Request->new(
+                    HTTPRequest => $HTTPRequest,
+                );
+            }
+            $FieldHTML = $DFBackendObject->EditFieldRender(%Config);
         }
-        $FieldHTML = $DFBackendObject->EditFieldRender(%Config);
-    }
-    else {
-        $FieldHTML = $DFBackendObject->EditFieldRender;
-    }
+        else {
+            $FieldHTML = $DFBackendObject->EditFieldRender;
+        }
 
-    if ( $Test->{Success} ) {
-
-        # TODO Have a look at the newlines produced during template rendering. See Issue #1135
-        $FieldHTML->{Field} =~ s/^\n+//;
-        $FieldHTML->{Field} =~ s/\n+$//;
-        $FieldHTML->{Field} =~ s/\n{2,}/\n/g;
-
-        # Remove lines which consist only of whitespace
-        $FieldHTML->{Field} =~ s/^\s+\n//gm;
-
-        # Heredocs always have the newline, even if it is not expected
-        if ( $FieldHTML->{Field} !~ m{\n$} ) {
-
-            # chomp $Test->{ExpectedResults}->{Field};
+        if ( $Test->{Success} ) {
 
             # TODO Have a look at the newlines produced during template rendering. See Issue #1135
-            $Test->{ExpectedResults}->{Field} =~ s/^\n+//;
-            $Test->{ExpectedResults}->{Field} =~ s/\n+$//;
-        }
+            $FieldHTML->{Field} =~ s/^\n+//;
+            $FieldHTML->{Field} =~ s/\n+$//;
+            $FieldHTML->{Field} =~ s/\n{2,}/\n/g;
 
-        is(
-            $FieldHTML,
-            $Test->{ExpectedResults},
-            "$Test->{Name} | EditFieldRender()",
-        );
-    }
-    else {
-        ok(
-            !defined $FieldHTML,
-            "$Test->{Name} | EditFieldRender() (should be undef)"
-        );
-    }
+            # Remove lines which consist only of whitespace
+            $FieldHTML->{Field} =~ s/^\s+\n//gm;
+
+            # Heredocs always have the newline, even if it is not expected
+            if ( $FieldHTML->{Field} !~ m{\n$} ) {
+
+                # chomp $Test->{ExpectedResults}->{Field};
+
+                # TODO Have a look at the newlines produced during template rendering. See Issue #1135
+                $Test->{ExpectedResults}->{Field} =~ s/^\n+//;
+                $Test->{ExpectedResults}->{Field} =~ s/\n+$//;
+            }
+
+            is(
+                $FieldHTML,
+                {
+                    Field => T(),
+                    Label => T(),
+                },
+                "EditFieldRender() gave the expected structure",
+            );
+            is(
+                $FieldHTML,
+                $Test->{ExpectedResults},
+                "EditFieldRender() gave the expected content",
+            );
+        }
+        else {
+            is( $FieldHTML, undef, 'EditFieldRender failed, as expected' );
+        }
+    };
 }
 
 done_testing;
