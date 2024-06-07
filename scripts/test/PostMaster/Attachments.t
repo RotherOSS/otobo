@@ -37,25 +37,28 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $MainObject         = $Kernel::OM->Get('Kernel::System::Main');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
 # ensure that the appropriate X-Headers are available in the config
-my %NeededXHeaders = (
-    'X-OTOBO-AttachmentExists' => 1,
-    'X-OTOBO-AttachmentCount'  => 1,
-);
+{
+    my %NeededXHeaders = (
+        'X-OTOBO-AttachmentExists' => 1,
+        'X-OTOBO-AttachmentCount'  => 1,
+    );
 
-my $XHeaders          = $ConfigObject->Get('PostmasterX-Header');
-my @PostmasterXHeader = @{$XHeaders};
+    my $XHeaders          = $ConfigObject->Get('PostmasterX-Header');
+    my @PostmasterXHeader = @{$XHeaders};
 
-HEADER:
-for my $Header ( sort keys %NeededXHeaders ) {
+    HEADER:
+    for my $Header ( sort keys %NeededXHeaders ) {
 
-    # Verify header is already part of the config
-    my $IsInConfig = any { $_ eq $Header } @PostmasterXHeader;
+        # Verify header is already part of the config
+        my $IsInConfig = any { $_ eq $Header } @PostmasterXHeader;
 
-    ok( $IsInConfig, "Headermight be in config already: $Header." );
+        ok( $IsInConfig, "Headermight be in config already: $Header." );
+    }
 }
 
 my @DynamicfieldIDs;
@@ -67,7 +70,7 @@ my %NeededDynamicfields = (
 );
 
 # list available dynamic fields
-my $DynamicFields = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
+my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
     Valid      => 0,
     ResultType => 'HASH',
 );
@@ -78,7 +81,7 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
     if ( !$DynamicFields->{$FieldName} ) {
 
         # create a dynamic field
-        my $FieldID = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldAdd(
+        my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
             Name       => $FieldName,
             Label      => $FieldName . "_test",
             FieldOrder => 9991,
@@ -97,12 +100,12 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
         push @DynamicfieldIDs, $FieldID;
     }
     else {
-        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
+        my $DynamicField = $DynamicFieldObject->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
 
         if ( $DynamicField->{ValidID} > 1 ) {
             push @DynamicFieldUpdate, $DynamicField;
             $DynamicField->{ValidID} = 1;
-            my $SuccessUpdate = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldUpdate(
+            my $SuccessUpdate = $DynamicFieldObject->DynamicFieldUpdate(
                 %{$DynamicField},
                 Reorder => 0,
                 UserID  => 1,
