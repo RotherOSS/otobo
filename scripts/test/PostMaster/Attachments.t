@@ -123,6 +123,15 @@ $ConfigObject->Set(
     Key => 'Ticket::EventModulePost###9600-TicketDynamicFieldDefault',
 );
 
+# enable the Post master filter DetectAttachment. This filter is inactive per default,
+# see  https://github.com/RotherOSS/otobo/issues/3419
+$ConfigObject->Set(
+    Key   => 'PostMaster::PreFilterModule###000-DetectAttachment',
+    Value => {
+        Module => 'Kernel::System::PostMaster::Filter::DetectAttachment',
+    },
+);
+
 # Read email content (from a file).
 my $EmailAttachment = $MainObject->FileRead(
     Location => $ConfigObject->Get('Home') . '/scripts/test/sample/EmailParser/MultipartMixedPlain.eml',
