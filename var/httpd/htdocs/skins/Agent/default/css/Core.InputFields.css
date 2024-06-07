@@ -114,6 +114,7 @@ div.InputField_InputContainer {
     fieldset.TableLike .Row > .FieldCell > .Field > select.Modernize,
     fieldset.TableLike .Row > .FieldCell > .Field > input.W75pc,
     fieldset.TableLike .Row > .FieldCell > .Field > input.W50pc,
+    fieldset.TableLike .Row > .FieldCell > .Field > input[type="text"],
     fieldset.TableLike .FieldCell > .Field > div.InputField_Container > div.InputField_InputContainer > .InputField_Search,
     fieldset.TableLike .FieldCell > .Field > div.InputField_Container > div.InputField_InputContainer > .InputField_Autocomplete {
         min-width: 300px;
@@ -189,7 +190,12 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > input.W75pc,
 fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field > input.W50pc,
 fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer > input {
     min-width: 0 !important;
-    width: calc( 100% - 7px ) !important;
+    width: calc( 100% - 7px );
+}
+
+.DynamicFieldDB {
+    width: calc(100% - 12px) !important;
+    box-sizing: border-box;
 }
 
 fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_Container,
