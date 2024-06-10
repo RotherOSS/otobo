@@ -1203,9 +1203,9 @@ sub _MetaArticleList {
     my $CacheKey
         = '_MetaArticleList::'
         . $Param{TicketID}
-        . '::ShowDeletedArticles::'
+        . '::Deleted::'
         . $ShowDeletedArticles
-        . '::VersionView::'
+        . '::Version::'
         . $VersionView;
 
     my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
@@ -1319,7 +1319,7 @@ sub _ArticleCacheClear {
         for my $ShowDeletedArticles ( 0 .. 1 ) {
             $Kernel::OM->Get('Kernel::System::Cache')->Delete(
                 Type => $Self->{CacheType},
-                Key  => '_MetaArticleList::' . $Param{TicketID} . '::ShowDeletedArticles::' . $ShowDeletedArticles . '::VersionView::' . $VersionView,
+                Key  => '_MetaArticleList::' . $Param{TicketID} . '::Deleted::' . $ShowDeletedArticles . '::Version::' . $VersionView,
             );
         }
     }
