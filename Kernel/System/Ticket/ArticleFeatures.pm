@@ -222,7 +222,7 @@ sub ArticleDelete {
             for my $ShowDeletedArticles ( 0 .. 1 ) {
                 $Kernel::OM->Get('Kernel::System::Cache')->Delete(
                     Type => 'Article',
-                    Key  => $CacheKey . '::ShowDeletedArticles::' . $ShowDeletedArticles . '::VersionView::' . $VersionView,
+                    Key  => $CacheKey . '::Deleted::' . $ShowDeletedArticles . '::Version::' . $VersionView,
                 );
             }
         }
@@ -513,7 +513,7 @@ sub ArticleRestore {
             for my $ShowDeletedArticles ( 0 .. 1 ) {
                 $Kernel::OM->Get('Kernel::System::Cache')->Delete(
                     Type => 'Article',
-                    Key  => $CacheKey . '::ShowDeletedArticles::' . $ShowDeletedArticles . '::VersionView::' . $VersionView,
+                    Key  => $CacheKey . '::Deleted::' . $ShowDeletedArticles . '::Version::' . $VersionView,
                 );
             }
         }
