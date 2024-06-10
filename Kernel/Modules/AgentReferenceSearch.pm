@@ -111,7 +111,14 @@ sub Run {
     my $InitialDynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         Name => $FieldName,
     );
-    return unless IsHashRefWithData($InitialDynamicFieldConfig);
+    if ( !IsHashRefWithData($InitialDynamicFieldConfig) ) {
+        return $LayoutObject->JSONReply(
+            Data => {
+                Success  => 0,
+                Messsage => qq{Error reading the dynamic field '$FieldName'!},
+            },
+        );
+    }
 
     # Check if we deal with a reference field
     my $IsReferenceField = $DynamicFieldBackendObject->HasBehavior(
@@ -129,7 +136,14 @@ sub Run {
             $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
                 ID => $InitialDynamicFieldConfig->{Config}{AttributeDF},
             );
-            return unless IsHashRefWithData($DynamicFieldConfig);
+            if ( !IsHashRefWithData($InitialDynamicFieldConfig) ) {
+                return $LayoutObject->JSONReply(
+                    Data => {
+                        Success  => 0,
+                        Messsage => qq{Error reading the dynamic field '$FieldName'!},
+                    },
+                );
+            }
 
             $IsReferenceField = $DynamicFieldBackendObject->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -141,7 +155,7 @@ sub Run {
                     Data => {
                         Success  => 0,
                         Messsage => qq{Error reading the dynamic field '$FieldName'!},
-                    }
+                    },
                 );
             }
         }
