@@ -1197,13 +1197,16 @@ sub _MetaArticleList {
         return;
     }
 
+    my $ShowDeletedArticles = $Param{ShowDeletedArticles} ? 1 : 0;
+    my $VersionView         = $Param{VersionView}         ? 1 : 0;
+
     my $CacheKey
         = '_MetaArticleList::'
         . $Param{TicketID}
         . '::ShowDeletedArticles::'
-        . int( $Param{ShowDeletedArticles} || 0 )
+        . $ShowDeletedArticles
         . '::VersionView::'
-        . int( $Param{VersionView} || 0 );
+        . $VersionView;
 
     my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => $Self->{CacheType},
@@ -1217,7 +1220,7 @@ sub _MetaArticleList {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    if ( !$Param{ShowDeletedArticles} && !$Param{VersionView} ) {
+    if ( !$ShowDeletedArticles && !$VersionView ) {
         return if !$DBObject->Prepare(
             SQL => "
                 SELECT a.id, a.ticket_id, a.communication_channel_id, a.article_sender_type_id, a.is_visible_for_customer,
@@ -1226,7 +1229,7 @@ sub _MetaArticleList {
             Bind => [ \$Param{TicketID} ],
         );
     }
-    elsif ( $Param{VersionView} ) {
+    elsif ($VersionView) {
         return if !$DBObject->Prepare(
             SQL => "
                     SELECT av.id, av.ticket_id, av.communication_channel_id, av.article_sender_type_id, av.is_visible_for_customer,
