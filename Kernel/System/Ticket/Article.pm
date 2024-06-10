@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1197,17 +1197,21 @@ sub _MetaArticleList {
         return;
     }
 
-    my $CacheKey = '_MetaArticleList::' . $Param{TicketID};
+    my $CacheKey
+        = '_MetaArticleList::'
+        . $Param{TicketID}
+        . '::ShowDeletedArticles::'
+        . int( $Param{ShowDeletedArticles} || 0 )
+        . '::VersionView::'
+        . int( $Param{VersionView} || 0 );
 
-    if ( !$Param{ShowDeletedArticles} && !$Param{VersionView} ) {
-        my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
-            Type => $Self->{CacheType},
-            Key  => $CacheKey,
-        );
+    my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
 
-        if ( ref $Cached eq 'ARRAY' ) {
-            return @{$Cached};
-        }
+    if ( ref $Cached eq 'ARRAY' ) {
+        return @{$Cached};
     }
 
     # get database object
@@ -1227,7 +1231,8 @@ sub _MetaArticleList {
             SQL => "
                     SELECT av.id, av.ticket_id, av.communication_channel_id, av.article_sender_type_id, av.is_visible_for_customer,
                     av.create_by, av.create_time, av.change_by, av.change_time, av.article_delete
-                    FROM article_version av WHERE av.ticket_id = ? AND av.article_delete <> 1 ",
+                    FROM article_version av WHERE av.ticket_id = ? AND av.article_delete <> 1
+                    ORDER BY av.id",
             Bind => [ \$Param{TicketID} ],
         );
     }
@@ -1242,7 +1247,7 @@ sub _MetaArticleList {
                         av.create_by, av.create_time, av.change_by, av.change_time, av.article_delete
                         FROM article_version av WHERE av.ticket_id = ? AND av.article_delete = 1
                     ) at
-                    ORDER BY at.create_time ASC",
+                    ORDER BY at.create_time ASC, at.id DESC",
             Bind => [ \$Param{TicketID}, \$Param{TicketID} ],
         );
     }
@@ -1270,14 +1275,12 @@ sub _MetaArticleList {
         push @Index, \%Result;
     }
 
-    if ( !$Param{ShowDeletedArticles} && !$Param{VersionView} ) {
-        $Kernel::OM->Get('Kernel::System::Cache')->Set(
-            Type  => $Self->{CacheType},
-            TTL   => $Self->{CacheTTL},
-            Key   => $CacheKey,
-            Value => \@Index,
-        );
-    }
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \@Index,
+    );
 
     return @Index;
 }
@@ -1309,10 +1312,14 @@ sub _ArticleCacheClear {
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # MetaArticleIndex()
-    $CacheObject->Delete(
-        Type => $Self->{CacheType},
-        Key  => '_MetaArticleList::' . $Param{TicketID},
-    );
+    for my $VersionView ( 0 .. 1 ) {
+        for my $ShowDeletedArticles ( 0 .. 1 ) {
+            $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+                Type => $Self->{CacheType},
+                Key  => '_MetaArticleList::' . $Param{TicketID} . '::ShowDeletedArticles::' . $ShowDeletedArticles . '::VersionView::' . $VersionView,
+            );
+        }
+    }
 
     return 1;
 }
