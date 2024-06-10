@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -218,10 +218,14 @@ sub ArticleDelete {
     if ($Success) {
         my $CacheKey = '_MetaArticleList::' . $Param{TicketID};
 
-        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-            Type => 'Article',
-            Key  => $CacheKey,
-        );
+        for my $VersionView ( 0 .. 1 ) {
+            for my $ShowDeletedArticles ( 0 .. 1 ) {
+                $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+                    Type => 'Article',
+                    Key  => $CacheKey . '::ShowDeletedArticles::' . $ShowDeletedArticles . '::VersionView::' . $VersionView,
+                );
+            }
+        }
 
         $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
             TicketID     => $Param{TicketID},
@@ -505,10 +509,14 @@ sub ArticleRestore {
 
         my $CacheKey = '_MetaArticleList::' . $Param{TicketID};
 
-        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-            Type => 'Article',
-            Key  => $CacheKey,
-        );
+        for my $VersionView ( 0 .. 1 ) {
+            for my $ShowDeletedArticles ( 0 .. 1 ) {
+                $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+                    Type => 'Article',
+                    Key  => $CacheKey . '::ShowDeletedArticles::' . $ShowDeletedArticles . '::VersionView::' . $VersionView,
+                );
+            }
+        }
 
         $Kernel::OM->Get('Kernel::System::Ticket')->_TicketCacheClear( TicketID => $Param{TicketID} );
     }
