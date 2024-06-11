@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -794,17 +794,20 @@ sub _ChangeAction {
 sub _ShowScreen {
     my ( $Self, %Param ) = @_;
 
+    my $Namespace = $Param{Namespace};
     $Param{DisplayFieldName} = 'New';
 
-    my $Namespace = $Param{Namespace};
-    if ( $Param{Mode} eq 'Change' || ( $Param{Name} && !$Param{CloneFieldID} ) ) {
-        $Param{ShowWarning}      = 'ShowWarning';
-        $Param{DisplayFieldName} = $Param{Name};
+    if ( $Param{Mode} eq 'Change' || $Param{Name} ) {
+
+        if ( !$Param{CloneFieldID} ) {
+            $Param{ShowWarning}      = 'ShowWarning';
+            $Param{DisplayFieldName} = $Param{Name};
+        }
 
         # check for namespace
         if ( $Param{Name} =~ /(.*)-(.*)/ ) {
             $Namespace = $1;
-            $Param{PlainFieldName} = $2;
+            $Param{PlainFieldName} = $2 unless $Param{CloneFieldID};
         }
         else {
             $Param{PlainFieldName} = $Param{Name};

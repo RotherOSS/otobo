@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2023 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -39,13 +39,6 @@ sub new {
 
     # Some setup
     $Self->{TemplateFile} = 'AdminDynamicFieldLens';
-
-    # set up the field type specific settings
-    # This dynamic field support multiple values.
-    my %MultiValueSelectionData = (
-        0 => Translatable('No'),
-        1 => Translatable('Yes'),
-    );
 
     # declare the field type specific settings
     $Self->{FieldTypeSettings} = {
@@ -733,17 +726,20 @@ sub _ChangeAction {
 sub _ShowScreen {
     my ( $Self, %Param ) = @_;
 
+    my $Namespace = $Param{Namespace};
     $Param{DisplayFieldName} = 'New';
 
-    my $Namespace;
-    if ( $Param{Mode} eq 'Change' || ( $Param{Name} && !$Param{CloneFieldID} ) ) {
-        $Param{ShowWarning}      = 'ShowWarning';
-        $Param{DisplayFieldName} = $Param{Name};
+    if ( $Param{Mode} eq 'Change' || $Param{Name} ) {
+
+        if ( !$Param{CloneFieldID} ) {
+            $Param{ShowWarning}      = 'ShowWarning';
+            $Param{DisplayFieldName} = $Param{Name};
+        }
 
         # check for namespace
         if ( $Param{Name} =~ /(.*)-(.*)/ ) {
             $Namespace = $1;
-            $Param{PlainFieldName} = $2;
+            $Param{PlainFieldName} = $2 unless $Param{CloneFieldID};
         }
         else {
             $Param{PlainFieldName} = $Param{Name};
@@ -914,8 +910,6 @@ sub _ShowScreen {
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
             ID => $FieldID,
         );
-
-        my $FieldConfig = $DynamicField->{Config};
 
         my $DynamicFieldName = $DynamicField->{Name};
 
