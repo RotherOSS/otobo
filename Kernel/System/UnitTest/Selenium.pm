@@ -532,15 +532,15 @@ sub WaitFor {
         $Context->throw("Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent.");
     }
 
-    my $TimeOut                 = $Param{Time} // 20;             # time span after which WaitFor() gives up
-    my $WaitedSeconds           = 0;                              # counting up to $TimeOut
-                                                                  # Apparently some WaitFor() call fail because some elements show up only briefly.
-                                                                  # This might cause heisenbugs.
-                                                                  # Therefore fine tune the initial sleep times.
-    my @Intervals               = ( 0.025, 0.050, 0.075, 0.1 );
-    my $DefaultInterval         = 0.1;
-    my $Interval                = $DefaultInterval;
-    my $FindElementSleepSeconds = 0.5;                            # sleep after a successful find_element(), no idea why this is useful
+    my $TimeOut                 = $Param{Time} // 20;              # time span after which WaitFor() gives up
+    my $WaitedSeconds           = 0;                               # counting up to $TimeOut
+                                                                   # Apparently some WaitFor() call fail because some elements show up only briefly.
+                                                                   # This might cause heisenbugs.
+                                                                   # Therefore fine tune the initial sleep times.
+    my $Interval                = 0.1;                             # starting value of intervals, except for find_element()
+    my @FindElementIntervals    = ( 0.025, 0.050, 0.075, 0.1 );    # shorter initials intervals for find_element()
+    my $IntervalIncrement       = 0.1;                             # make the intervals larger the longer the wait time is
+    my $FindElementSleepSeconds = 0.5;                             # sleep after a successful find_element(), no idea why this is useful
 
     my $Success = 0;
 
@@ -644,12 +644,12 @@ sub WaitFor {
         }
 
         # Interval timing is solely trial and error
-        if ( @Intervals && ( $Param{ElementExists} || $Param{ElementMissing} ) ) {
-            $Interval = shift @Intervals;
+        if ( @FindElementIntervals && ( $Param{ElementExists} || $Param{ElementMissing} ) ) {
+            $Interval = shift @FindElementIntervals;
         }
         Time::HiRes::sleep($Interval);
         $WaitedSeconds += $Interval;
-        $Interval      += 0.1;
+        $Interval      += $IntervalIncrement;
 
         $Context->note("waited for $WaitedSeconds s");
     }
