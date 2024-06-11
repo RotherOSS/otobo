@@ -2101,7 +2101,7 @@
 
     <!-- Namespaces -->
     <Setting Name="DynamicField::Namespaces" Required="0" Valid="0">
-        <Description Translatable="1">Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters.</Description>
+        <Description Translatable="1">Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.</Description>
         <Navigation>Core::DynamicFields</Navigation>
         <Value>
             <Array>
