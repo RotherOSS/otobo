@@ -1121,11 +1121,12 @@ my @NeededModules = (
     # Feature devel:encoding
     {
         Module    => 'Data::Peek',
-        Features  => ['devel:encoding'],
+        Features  => ['devel:encoding', 'devel:test'],
         Comment   => 'for deeply inspecting scalars, especially strings',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libdata-peek-perl',
             emerge => undef,
+            yum    => 'perl-Data-Peek',
             zypper => undef,
             ports  => undef,
         },
