@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -608,14 +608,17 @@ sub _ShowScreen {
     my $Namespace = $Param{Namespace};
     $Param{DisplayFieldName} = 'New';
 
-    if ( $Param{Mode} eq 'Change' || ( $Param{Name} && !$Param{CloneFieldID} ) ) {
-        $Param{ShowWarning}      = 'ShowWarning';
-        $Param{DisplayFieldName} = $Param{Name};
+    if ( $Param{Mode} eq 'Change' || $Param{Name} ) {
+
+        if ( !$Param{CloneFieldID} ) {
+            $Param{ShowWarning}      = 'ShowWarning';
+            $Param{DisplayFieldName} = $Param{Name};
+        }
 
         # check for namespace
         if ( $Param{Name} =~ /(.*)-(.*)/ ) {
             $Namespace = $1;
-            $Param{PlainFieldName} = $2;
+            $Param{PlainFieldName} = $2 unless $Param{CloneFieldID};
         }
         else {
             $Param{PlainFieldName} = $Param{Name};
@@ -705,9 +708,6 @@ sub _ShowScreen {
         Translation  => 1,
         Class        => 'Modernize W50pc',
     );
-
-    # define config field specific settings
-    my $DefaultValue = $Param{DefaultValue} || '';
 
     # create the default value select
     my $DefaultValueStrg = $LayoutObject->BuildSelection(
