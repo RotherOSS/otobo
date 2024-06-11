@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -96,7 +96,13 @@ my %UserLookup = map {
     my %Preferences = $UserObject->GetPreferences(
         UserID => $_
     );
-    $_ => $LayoutObject->Ascii2Html( Text => qq{"$UserName" <$Preferences{UserEmail}>} )
+    my $TextEscaped = $LayoutObject->Ascii2Html(
+        Text => qq{"$UserName" <$Preferences{UserEmail}>},
+    );
+    if ( length $TextEscaped > 100 ) {
+        $TextEscaped = substr( $TextEscaped, 0, 95 ) . '[...]';
+    }
+    $_ => $TextEscaped
 } keys %UserList;
 
 my $UserSelectionString               = '';
