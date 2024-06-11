@@ -1426,6 +1426,19 @@ sub _OutputActivityDialog {
     my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
 
+    # add rich text editor
+    if ( $LayoutObject->{BrowserRichText} ) {
+
+        # use height/width defined for this screen
+        $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
+        $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
+
+        # set up rich text editor
+        $LayoutObject->SetRichTextParameters(
+            Data => \%Param,
+        );
+    }
+
     if ( !$TicketID || $Self->{IsProcessEnroll} ) {
         $ActivityActivityDialog = $ProcessObject->ProcessStartpointGet(
             ProcessEntityID => $Param{ProcessEntityID},
@@ -1585,19 +1598,6 @@ sub _OutputActivityDialog {
         && IsHashRefWithData( \%Error )
         )
     {
-
-        # add rich text editor
-        if ( $LayoutObject->{BrowserRichText} ) {
-
-            # use height/width defined for this screen
-            $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
-            $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
-
-            # set up rich text editor
-            $LayoutObject->SetRichTextParameters(
-                Data => \%Param,
-            );
-        }
 
         # display complete header and navigation bar in AJAX dialogs when there is a server error
         #    unless we are in a process enrollment (only when IsMainWindow is active)
