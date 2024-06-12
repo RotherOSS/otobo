@@ -1153,8 +1153,8 @@ td.Highlight a.ui-state-default {
      * */
     z-index: 6100 !important;
     max-height: 200px;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-x: scroll;
+    overflow-y: auto;
 }
 
 .ui-autocomplete .ui-menu-item {
@@ -1364,6 +1364,7 @@ iframe.TextOption.CustomerUserAddressBook {
     display: block;
     padding: 2px;
     border: 0px;
+    text-wrap: nowrap;
 }
 
 .ui-corner-all {
