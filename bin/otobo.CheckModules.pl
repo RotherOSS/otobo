@@ -1185,6 +1185,7 @@ my @NeededModules = (
         InstTypes => {
             aptget => undef,
             emerge => undef,
+            yum    => 'perl-Test2-Harness',
             zypper => undef,
             ports  => undef,
         },
