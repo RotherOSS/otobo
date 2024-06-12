@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -711,13 +711,13 @@ sub GetFieldState {
         }
 
         # if a search has already been performed for this form id
-        my $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;
+        my $Allowed = ( grep { $_ eq ( $ReferenceID // '' ) } ( $LastSearchResults->@*, '' ) ) ? 1 : 0;
 
-        if ($Allowed) {
-            $Return{NewValue} = $AttributeFieldValue;
+        if ( defined $Allowed ) {
+            $Return{NewValue} = $AttributeFieldValue // '';
 
             # already write the new value to DFParam, for possible values check further down
-            $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $AttributeFieldValue;
+            $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $AttributeFieldValue // '';
         }
     }
 
