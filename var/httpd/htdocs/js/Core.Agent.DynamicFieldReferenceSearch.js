@@ -108,6 +108,9 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
             $Element.autocomplete({
                 minLength: AutoCompleteActive ? AutoCompleteConfig.MinQueryLength : 500,
                 delay: AutoCompleteConfig.QueryDelay,
+                open: function() {
+                    $(this).autocomplete("widget").width($(this).innerWidth());
+                },
                 source: function(Request, Response) {
 
                     // check for surrounding set and if so, send setindex as request param
