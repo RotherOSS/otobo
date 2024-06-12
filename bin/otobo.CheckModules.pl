@@ -46,6 +46,10 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     # Print the console command to install all missing packages belonging to at least one of the listed features via the system package manager.
     bin/otobo.CheckModules.pl --finst <features>
 
+    # Install packages that are needed for running the test suite
+    bin/otobo.CheckModules.pl --flist devel:test
+    bin/otobo.CheckModules.pl --finst devel:test
+
     # Print a cpanfile with the required modules regardless whether they are already available.
     bin/otobo.CheckModules.pl --cpanfile > cpanfile
 
@@ -1121,7 +1125,7 @@ my @NeededModules = (
     # Feature devel:encoding
     {
         Module    => 'Data::Peek',
-        Features  => ['devel:encoding', 'devel:test'],
+        Features  => [ 'devel:encoding', 'devel:test' ],
         Comment   => 'for deeply inspecting scalars, especially strings',
         InstTypes => {
             aptget => 'libdata-peek-perl',
