@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -450,7 +450,7 @@ sub _RenderAjax {
     my %ChangedElements = $Param{GetParam}{ElementChanged} ? ( $Param{GetParam}{ElementChanged} => 1 ) : ();
 
     # build hash of field configs without suffix attached to name
-    my %FieldConfigsPlain = map { $_ => { $Self->{DynamicField}{$_}->%*, Name => $_ } } keys $Self->{DynamicField}->%*;
+    my %FieldConfigsPlain = map { ( $_ => { $Self->{DynamicField}{$_}->%*, Name => $_ } ) } keys $Self->{DynamicField}->%*;
 
     # get values and visibility of dynamic fields
     my %DynFieldStates = $FieldRestrictionsObject->GetFieldStates(
@@ -470,7 +470,7 @@ sub _RenderAjax {
 
     # set new values
     my $DFParam = {
-        $Param{GetParam}{DynamicField}->%*,
+        %{ $Param{GetParam}{DynamicField} // {} },
         $DynFieldStates{NewValues}->%*,
     };
 
