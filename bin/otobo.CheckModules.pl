@@ -46,6 +46,10 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     # Print the console command to install all missing packages belonging to at least one of the listed features via the system package manager.
     bin/otobo.CheckModules.pl --finst <features>
 
+    # Install packages that are needed for running the test suite
+    bin/otobo.CheckModules.pl --flist devel:test
+    bin/otobo.CheckModules.pl --finst devel:test
+
     # Print a cpanfile with the required modules regardless whether they are already available.
     bin/otobo.CheckModules.pl --cpanfile > cpanfile
 
@@ -66,24 +70,22 @@ use warnings;
 use utf8;
 
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 # core modules
-use ExtUtils::MakeMaker;
-use File::Path;
-use Getopt::Long;
-use Term::ANSIColor;
-use Pod::Usage;
-use Module::Metadata 1.000031;
-use CPAN::Meta::Requirements 2.140;
+use Getopt::Long                   qw(GetOptions);
+use Term::ANSIColor                qw(color);
+use Pod::Usage                     qw(pod2usage);
+use Module::Metadata 1.000031      ();
+use CPAN::Meta::Requirements 2.140 ();
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::Environment;
+use Kernel::System::Environment   ();
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 my %InstTypeToCMD = (
@@ -1055,7 +1057,7 @@ for my $Module (@NeededModules) {
     }
 
     if ( !defined $Module->{Required} && !defined $Module->{Features} ) {
-        die "One of 'Required' and 'Features' may be set for $Module->{Module}!";
+        die "One of 'Required' or 'Features' must be set for $Module->{Module}!";
     }
 }
 
@@ -1509,9 +1511,7 @@ sub PrintCpanfile {
             }
 
             if ( $Module->{VersionsRecommended} ) {
-                my $VersionsRecommended = 0;
-                ITEM:
-                for my $Item ( @{ $Module->{VersionsRecommended} } ) {
+                for my $Item ( $Module->{VersionsRecommended}->@* ) {
                     say $Indent, "# Please consider updating to version $Item->{Version} or higher: $Item->{Comment}";
                 }
             }
