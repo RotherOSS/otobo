@@ -692,6 +692,10 @@ fieldset.TableLike > .Row.MultiColumn {
     grid-column-gap: 16px;
 }
 
+fieldset.TableLike .Row.MultiColumn .FieldCell {
+    white-space: normal;
+}
+
 fieldset.TableLike .Row.MultiValue > .FieldCell > .Field {
     display: inline-block;
 }
