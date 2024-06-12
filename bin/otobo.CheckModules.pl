@@ -119,6 +119,8 @@ my %InstTypeToCMD = (
         SubCMD    => 'perl(%s)',
         UseModule => 1,
     },
+
+    # for a Perl package list see https://packagehub.suse.com/package-categories/perl/
     zypper => {
         CMD       => 'zypper install %s',
         UseModule => 0,
@@ -1076,10 +1078,11 @@ my @NeededModules = (
         Features  => ['devel:test'],
         Comment   => 'an alternative test runner',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libtest2-harness-perl',
             emerge => undef,
+            yum    => 'perl-Test2-Harness',
             zypper => undef,
-            ports  => undef,
+            ports  => 'devel/p5-Test2-Harness',
         },
     },
     {
