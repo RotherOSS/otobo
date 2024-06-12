@@ -144,6 +144,9 @@ feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
 };
 
 feature 'devel:test', 'Modules for running the test suite' => sub {
+    # for deeply inspecting scalars, especially strings
+    requires 'Data::Peek';
+
     # used by Kernel::System::UnitTest::Selenium
     requires 'Selenium::Remote::Driver', '>= 1.40';
 
