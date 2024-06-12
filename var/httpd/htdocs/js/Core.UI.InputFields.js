@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -3130,6 +3130,35 @@ Core.UI.InputFields = (function (TargetNS) {
             return true;
         }
         return false;
+    };
+
+    /**
+     * @name SetDate
+     * @memberof Core.UI.InputFields
+     * @function
+     * @returns {Boolean} false
+     * @param {$Parent} jQuery div element containing a date selection
+     * @param {DateString} string with date to set
+     * @description
+     *      This function sets a given date for a given date selection
+     */
+    TargetNS.SetDate = function ($Parent, DateString) {
+        var DateObj = new Date(DateString);
+        var $YearElement = $Parent.find('select[id$=Year]');
+        $YearElement.val(DateObj.getFullYear());
+        var $MonthElement = $Parent.find('select[id$=Month]');
+        $MonthElement.val(DateObj.getMonth() + 1);
+        var $DayElement = $Parent.find('select[id$=Day]');
+        $DayElement.val(DateObj.getDate());
+        var $HourElement = $Parent.find('select[id$=Hour]');
+        if ( $HourElement.length ) {
+            $HourElement.val(DateObj.getHours());
+        }
+        var $MinuteElement = $Parent.find('select[id$=Minute]');
+        if ( $MinuteElement.length ) {
+            $MinuteElement.val(DateObj.getMinutes());
+        }
+        return true;
     };
 
     // jsTree plugin for multi selection without modifier key

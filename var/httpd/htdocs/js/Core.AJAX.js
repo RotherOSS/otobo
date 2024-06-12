@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -375,8 +375,15 @@ Core.AJAX = (function (TargetNS) {
             var $Element = $('#' + DataKey);
 
             if ((!$Element.length || typeof DataValue == 'undefined') && !$Element.is('textarea')) {
+
                 // catch multivalue case where DataKey is present in attribute name
                 $Element = $('[name=' + DataKey + ']');
+
+                // date time elements
+                if ( !$Element.length ) {
+                    $Element = $('[name=' + DataKey +  'Used]').parent();
+                }
+
                 if ((!$Element.length || typeof DataValue == 'undefined')) {
                     return;
                 }
@@ -420,6 +427,12 @@ Core.AJAX = (function (TargetNS) {
             // check box elements
             if ( $Element.is(':checkbox') && $Element.val() == 1 ) {
                 $Element.prop('checked', (DataValue == 1 ? true : false));
+                return;
+            }
+
+            // date time
+            if ( $Element.hasClass('DynamicFieldDate') ) {
+                Core.UI.InputFields.SetDate($Element, DataValue);
                 return;
             }
 
