@@ -55,8 +55,12 @@ sub Run {
 
             my $CurrentDate = $Kernel::OM->Create('Kernel::System::DateTime');
 
+            ENTRY:
             for my $InfoTileRef (@TilesSorted) {
                 my %InfoTile = %{$InfoTileRef};
+
+                next ENTRY if $InfoTile{ValidID} ne 1;
+
                 my $StartDate;
                 if ( $InfoTile{StartDateUsed} ) {
                     $StartDate = $Kernel::OM->Create(
@@ -77,9 +81,8 @@ sub Run {
                 }
 
                 if (
-                    ( ( $StartDate && $CurrentDate->Compare( DateTimeObject => $StartDate ) > 0 ) || !$StartDate )
-                    && ( ( $StopDate && $StopDate->Compare( DateTimeObject => $CurrentDate ) > 0 ) || !$StopDate )
-                    && $InfoTile{ValidID} eq '1'
+                    ( !$StartDate || $CurrentDate->Compare( DateTimeObject => $StartDate ) > 0 )
+                    && ( !$StopDate || $StopDate->Compare( DateTimeObject => $CurrentDate ) > 0 )
                     )
                 {
                     if ($InfoTileContent) {
