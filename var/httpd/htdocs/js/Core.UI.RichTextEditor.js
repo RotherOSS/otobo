@@ -262,12 +262,13 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         $editingArea = $domEditableElement.find('.ck-source-editing-area');
                     }
                     let verticalPadding = parseFloat($editingArea.css("padding-top")) + parseFloat($editingArea.css("padding-bottom"));
+                    let borderWidth = parseFloat($editingArea.css("border-top")) + parseFloat($editingArea.css("border-bottom"));
                     let newSize = newEditorSize-(toolbarHeight+verticalPadding)
                     if (sourceEditingActive) {
                         $editingArea.height(newSize);
                         editor.editing.view.forceRender();
                     } else {
-                        newSize -= 2;
+                        newSize -= borderWidth;
                         editor.editing.view.change(writer => {
                             writer.setStyle('height', newSize + 'px', editor.editing.view.document.getRoot());
                         });

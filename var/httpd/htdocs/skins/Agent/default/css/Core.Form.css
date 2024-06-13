@@ -682,6 +682,11 @@ fieldset.TableLike .Row > .FieldCell > .Field {
     min-height: 20px;
 }
 
+fieldset.TableLike .Row > .FieldCell > .Field.RichTextField {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
 fieldset.TableLike .Row.MultiValue {
     grid-row-gap: 2px;
 }
@@ -858,7 +863,6 @@ fieldset.TableLike > .Row > .FloatingField {
 
 fieldset.TableLike .RichTextField {
     resize: vertical;
-    overflow: hidden;
     z-index: 10;
     position: relative;
     min-height: 150px !important;
