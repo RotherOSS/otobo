@@ -1074,18 +1074,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Test2::Harness',
-        Features  => ['devel:test'],
-        Comment   => 'an alternative test runner',
-        InstTypes => {
-            aptget => 'libtest2-harness-perl',
-            emerge => undef,
-            yum    => 'perl-Test2-Harness',
-            zypper => undef,
-            ports  => 'devel/p5-Test2-Harness',
-        },
-    },
-    {
         Module    => 'Test::Simple',
         Features  => ['devel:test'],
         Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
