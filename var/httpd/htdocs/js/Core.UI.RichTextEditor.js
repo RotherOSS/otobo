@@ -252,18 +252,20 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 }
 
                 var sourceEditingActive = false;
-                
+
                 // Adjust Editor Size to match (resizable) container size
                 var adjustEditorSize = function() {
                     let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();
-                    let newEditorSize = $domEditableElement.innerHeight();
+                    let fieldPadding = parseFloat($domEditableElement.css("padding-top"))
+                        + parseFloat($domEditableElement.css("padding-bottom"));
+                    let newEditorSize = $domEditableElement.innerHeight() - fieldPadding;
                     let $editingArea = $domEditableElement.find('.ck-content');
                     if (sourceEditingActive) {
                         $editingArea = $domEditableElement.find('.ck-source-editing-area');
                     }
                     let verticalPadding = parseFloat($editingArea.css("padding-top")) + parseFloat($editingArea.css("padding-bottom"));
                     let borderWidth = parseFloat($editingArea.css("border-top")) + parseFloat($editingArea.css("border-bottom"));
-                    let newSize = newEditorSize-(toolbarHeight+verticalPadding)
+                    let newSize = newEditorSize - (toolbarHeight + verticalPadding)
                     if (sourceEditingActive) {
                         $editingArea.height(newSize);
                         editor.editing.view.forceRender();
