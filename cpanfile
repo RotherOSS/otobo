@@ -187,9 +187,6 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
     # basic test functions
     requires 'Test2::Suite';
 
-    # an alternative test runner
-    requires 'Test2::Harness';
-
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver
     requires 'Test::Simple';
 
@@ -429,9 +426,6 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # basic test functions
     requires 'Test2::Suite';
-
-    # an alternative test runner
-    requires 'Test2::Harness';
 
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver
     requires 'Test::Simple';
