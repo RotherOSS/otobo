@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -647,13 +647,6 @@ $Selenium->RunTest(
 
         # Submit empty form to check validation.
         $Selenium->find_element( "#submitRichText", 'css' )->click();
-
-        # Wait error Dialog to be visible.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;' );
-
-        # Close error Dialog.
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
 
         # Check validation.
         $Self->Is(
