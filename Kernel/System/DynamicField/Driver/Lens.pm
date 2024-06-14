@@ -699,6 +699,10 @@ sub GetFieldState {
             UseReferenceEditField => 1,
         );
     }
+    else {
+        $Allowed             = 1;
+        $AttributeFieldValue = '';
+    }
 
     # set the new value if it differs
     if (
@@ -710,10 +714,10 @@ sub GetFieldState {
         )
     {
         if ($Allowed) {
-            $Return{NewValue} = $AttributeFieldValue // '';
+            $Return{NewValue} = $AttributeFieldValue;
 
             # already write the new value to DFParam, for possible values check further down
-            $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $AttributeFieldValue // '';
+            $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $AttributeFieldValue;
         }
     }
 
