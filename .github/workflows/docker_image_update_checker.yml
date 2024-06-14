@@ -1,12 +1,12 @@
 %YAML 1.1
 ---
+name: 'DockerImageUpdateChecker'
 # Adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
-name: Docker Image Update Checker
 
 # run daily, time is in UTC, scheduled jobs run only on the default branch
 on:
   schedule:
-    - cron: '52 9 * * *'
+    - cron: '2 10 * * *'
 
 jobs:
   docker:
