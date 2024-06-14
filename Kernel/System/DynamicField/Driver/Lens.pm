@@ -310,9 +310,8 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value
     my $Value = $Param{DefaultValue} // '';
@@ -647,41 +646,18 @@ sub GetFieldState {
         Behavior           => 'IsACLReducible',
     );
 
+    my %Return;
+    my $Allowed;
     my $ReferenceID = $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } ? $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} }[0] : undef;
 
     # get the current value of the referenced attribute field if an object is referenced
     if ($ReferenceID) {
 
-        if ( defined $Param{SetIndex} ) {
-            $DynamicFieldConfig->{SetIndex} = $Param{SetIndex};
-        }
-
-        $AttributeFieldValue = $Self->ValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-
-            # TODO: Instead we could just send $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } as ObjectID
-            # but we would need to interpret it later (from ConfigItemID to LastVersionID, e.g.)
-            # TODO: Validate the Reference ObjectID here, or earlier, to prevent data leaks!
-            ObjectID              => 1,    # will not be used;
-            UseReferenceEditField => 1,
-        );
-    }
-
-    my %Return;
-
-    # set the new value if it differs
-    if (
-        $Self->ValueIsDifferent(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Value1             => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"},
-            Value2             => $AttributeFieldValue,
-        )
-        )
-    {
         my $ReferenceDFName = $DynamicFieldConfig->{Config}{ReferenceDFName};
 
         if ( defined $Param{SetIndex} ) {
             $ReferenceDFName .= "_$Param{SetIndex}";
+            $DynamicFieldConfig->{SetIndex} = $Param{SetIndex};
         }
 
         # if the value would change, we need to verify that the user is really allowed
@@ -711,9 +687,29 @@ sub GetFieldState {
         }
 
         # if a search has already been performed for this form id
-        my $Allowed = ( grep { $_ eq ( $ReferenceID // '' ) } ( $LastSearchResults->@*, '' ) ) ? 1 : 0;
+        $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;
 
-        if ( defined $Allowed ) {
+        $AttributeFieldValue = $Self->ValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+
+            # TODO: Instead we could just send $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } as ObjectID
+            # but we would need to interpret it later (from ConfigItemID to LastVersionID, e.g.)
+            # TODO: Validate the Reference ObjectID here, or earlier, to prevent data leaks!
+            ObjectID              => 1,    # will not be used;
+            UseReferenceEditField => 1,
+        );
+    }
+
+    # set the new value if it differs
+    if (
+        $Self->ValueIsDifferent(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Value1             => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"},
+            Value2             => $AttributeFieldValue,
+        )
+        )
+    {
+        if ($Allowed) {
             $Return{NewValue} = $AttributeFieldValue // '';
 
             # already write the new value to DFParam, for possible values check further down
