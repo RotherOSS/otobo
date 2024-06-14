@@ -118,7 +118,7 @@ USER root
 # No further Debian or CPAN packages are needed,
 # so we only need to do the cleanup
 RUN rm -rf /var/lib/apt/lists/*\
- && rm -rf "$HOME/.cpanm"
+ && rm -rf "/root/.cpanm"
 
 # Copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir.
 # The files that are set up in .dockerignore. This means that a potentially existing Kernel/Config.pm
@@ -214,7 +214,7 @@ RUN apt-get update\
 WORKDIR /opt/otobo_install
 RUN cpanm --local-lib local Authen::Krb5::Simple\
  && cpanm --local-lib local LWP::Authen::Negotiate\
- && rm -rf "$HOME/.cpanm"
+ && rm -rf "/root/.cpanm"
 
 # perform build steps that can be done as the user otobo.
 USER $OTOBO_USER
