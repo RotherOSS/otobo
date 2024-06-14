@@ -1,0 +1,23 @@
+%YAML 1.1
+---
+# Adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
+name: Docker Image Update Checker
+
+# run daily, time is in UTC, scheduled jobs run only on the default branch
+on:
+  schedule:
+    - cron: '52 9 * * *'
+
+jobs:
+  docker:
+    steps:
+
+      - name: Check if update available
+        id: check
+        uses: lucacome/docker-image-update-checker@v1
+        with:
+          base-image: perl:5.38-bookworm
+          image: rotheross/otobo:latest-11_0
+
+      - name: Report check result
+        run: 'echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"'
