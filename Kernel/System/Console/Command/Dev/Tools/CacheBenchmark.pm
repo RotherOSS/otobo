@@ -89,9 +89,8 @@ sub Run {
         );
 
         # create unique ID for this session
-        my @Dictionary = ( "A" .. "Z" );
-        my $SID;
-        $SID .= $Dictionary[ rand @Dictionary ] for 1 .. 8;
+        my @Dictionary = ( 'A' .. 'Z' );
+        my $SID        = join '', map { $Dictionary[ rand @Dictionary ] } ( 1 .. 8 );
 
         my $Result;
         my $SetOK;
