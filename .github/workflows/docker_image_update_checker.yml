@@ -6,12 +6,13 @@ name: 'DockerImageUpdateChecker'
 # run daily, time is in UTC, scheduled jobs run only on the default branch
 on:
   schedule:
-    - cron: '2 10 * * *'
+    - cron: '6 10 * * *'
 
 jobs:
-  docker:
+  CheckDockerImageUpdate:
+    runs-on: 'ubuntu-latest'
     steps:
-
+      
       - name: Check if update available
         id: check
         uses: lucacome/docker-image-update-checker@v1
