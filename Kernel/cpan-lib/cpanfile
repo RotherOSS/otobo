@@ -19,7 +19,7 @@ requires 'Class::Inspector', '== 1.31';
 # needed by Data::ICal
 requires 'Class::ReturnValue', '== 0.55';
 
-requires 'CPAN::Audit', '== 20240503.001';
+requires 'CPAN::Audit', '== 20240615.002';
 
 # needed by CPAN::Audit
 requires 'CPAN::DistnameInfo', '== 0.12';
