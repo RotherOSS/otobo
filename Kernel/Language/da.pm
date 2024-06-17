@@ -4,7 +4,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
