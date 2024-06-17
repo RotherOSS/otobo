@@ -54,7 +54,7 @@ $Selenium->RunTest(
         # This test is a leftover from the old costomer login page,
         # as in the current version there is no check for Secure::DisabledBanner.
         my %SourceChecks = (
-            PoweredBy => qr{powered by.{5,30}https://otobo\.de}s,
+            PoweredBy => qr{powered by.{5,30}https://otobo\.io}s,
         );
         my $Product = $Kernel::OM->Get('Kernel::Config')->Get('Product');
         my $Version = $Kernel::OM->Get('Kernel::Config')->Get('Version');
