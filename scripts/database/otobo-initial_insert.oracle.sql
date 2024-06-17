@@ -836,17 +836,17 @@ INSERT INTO article_data_mime (article_id, a_from, a_to, a_subject, a_body, a_me
 
 Thank you for installing OTOBO, the next world’s most popular open source service management software. It’s available in 40 languages and used by more than 170,000 companies worldwide.
 
-Please be aware that we offer free support for OTOBO at https://forum.otobo.de/ and commercial support at https://otobo.de/de/angebot/support/.
+Please be aware that we offer free support for OTOBO at https://otobo.io/de/forums/otobo/otobo-forum/ and commercial support at https://otobo.io/de/services/support/#angebot-support.
 
 Resources for OTOBO Users
 
-You can find updates and patches for OTOBO at https://otobo.de/de/download/.
+You can find updates and patches for OTOBO at https://otobo.io/de/service-management-plattform/otobo-download/.
 
-Find help and exchange ideas in our knowledge base at https://forum.otobo.de/. Here, you’ll be able to take part of the OTOBO Team’s Community and take advantage of our blog posts. You can report a bug, suggest a feature or discover online documentation.
+Find help and exchange ideas in our knowledge base at https://otobo.io/de/forums/otobo/otobo-forum/. Here, you’ll be able to take part of the OTOBO Team’s Community and take advantage of our blog posts. You can report a bug, suggest a feature or discover online documentation.
 
 Interested in OTOBO? We offer professional service too.
 
-To get the most up-to-date version of OTOBO and to receive the best possible support for your business, we recommend a OTOBO support contract https://otobo.de/de/angebot/support/.
+To get the most up-to-date version of OTOBO and to receive the best possible support for your business, we recommend a OTOBO support contract https://otobo.io/de/services/support/#angebot-support.
 
 With this version, you’ll gain access to:
 
@@ -856,7 +856,7 @@ With this version, you’ll gain access to:
 
 Find more information about OTOBO support and consulting by visiting https://otobo.de/.
 
-Ready to get started with fully-managed OTOBO instead? -> Contact Sales: https://otobo.de/en/kontakt/
+Ready to get started with fully-managed OTOBO instead? -> Contact Sales: https://otobo.io/en/company/contact-us/
 
 Best regards,
 
@@ -877,17 +877,17 @@ Welcome to the OTOBO community!
 
 Thank you for installing OTOBO, the next world’s most popular open source service management software. It’s available in 40 languages and used by more than 170,000 companies worldwide.
 
-Please be aware that we offer free support for OTOBO at https://forum.otobo.de/ and commercial support at https://otobo.de/de/angebot/support/.
+Please be aware that we offer free support for OTOBO at https://otobo.io/de/forums/otobo/otobo-forum/ and commercial support at https://otobo.io/de/services/supprt/#angebot-support.
 
 Resources for OTOBO Users
 
-You can find updates and patches for OTOBO at https://otobo.de/de/download/.
+You can find updates and patches for OTOBO at https://otobo.io/de/service-management-plattform/otobo-download/.
 
-Find help and exchange ideas in our knowledge base at https://forum.otobo.de/. Here, you’ll be able to take part of the OTOBO Team’s Community and take advantage of our blog posts. You can report a bug, suggest a feature or discover online documentation.
+Find help and exchange ideas in our knowledge base at https://otobo.io/de/forums/otobo-forum/. Here, you’ll be able to take part of the OTOBO Team’s Community and take advantage of our blog posts. You can report a bug, suggest a feature or discover online documentation.
 
 Interested in OTOBO? We offer professional service too.
 
-To get the most up-to-date version of OTOBO and to receive the best possible support for your business, we recommend a OTOBO support contract https://otobo.de/de/angebot/support/.
+To get the most up-to-date version of OTOBO and to receive the best possible support for your business, we recommend a OTOBO support contract https://otobo.io/de/services/supprt/#angebot-support.
 
 With this version, you’ll gain access to:
 
@@ -897,7 +897,7 @@ With this version, you’ll gain access to:
 
 Find more information about OTOBO support and consulting by visiting https://otobo.de/.
 
-Ready to get started with fully-managed OTOBO instead? -> Contact Sales: https://otobo.de/en/kontakt/
+Ready to get started with fully-managed OTOBO instead? -> Contact Sales: https://otobo.io/en/company/contact-us/
 
 Best regards,
 

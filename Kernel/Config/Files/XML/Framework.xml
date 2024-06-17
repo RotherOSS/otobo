@@ -7062,7 +7062,7 @@ via the Preferences button after logging in.
                         <Item Key="HeaderText">That's new in OTOBO 10</Item>
                         <Item Key="MainText">Highlights: Brand new customer portal, Elasticsearch, flexible forms, more safety, better performance</Item>
                         <Item Key="FooterText">Explore &gt;</Item>
-                        <Item Key="Link">https://otobo.de/en/launch-otobo-helpdesk/</Item>
+                        <Item Key="Link">https://otobo.io/en/service-management-plattform/helpdesk/</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -7720,8 +7720,8 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::RSS</Item>
                 <Item Key="Title" Translatable="1">Custom RSS Feed</Item>
                 <Item Key="Description" Translatable="1">OTOBO News</Item>
-                <Item Key="URL">https://otobo.de/en/feed/</Item>
-                <Item Key="URL_de">https://otobo.de/de/feed/</Item>
+                <Item Key="URL">https://otobo.io/en/feed/</Item>
+                <Item Key="URL_de">https://otobo.io/de/feed/</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
                 <Item Key="Group"></Item>

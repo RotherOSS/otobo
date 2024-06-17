@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -597,7 +597,7 @@ Message
             Key           => 'Kernel::System::PostMaster::NewTicket',
             Value         => "Can't process email with MessageID <$GetParam{'Message-ID'}>! "
                 . "Please create a bug report with this email (From: $GetParam{From}, Located "
-                . "under var/spool/problem-email*) on http://bugs.otobo.org/!",
+                . "under var/spool/problem-email*) on https://github.com/RotherOSS/otobo/issues/!",
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
