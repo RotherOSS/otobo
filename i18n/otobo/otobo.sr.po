@@ -14933,7 +14933,7 @@ msgid "Print this article"
 msgstr "Одштампај овај чланак"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -31819,8 +31819,8 @@ msgstr "статистика"
 #~ msgstr ""
 #~ "Неисправно подешена база података (%s је %s, а требало би да буде utf8)."
 
-#~ msgid "Contact us at hallo@otobo.de"
-#~ msgstr "Контактирајте нас на hallo@otobo.de"
+#~ msgid "Contact us at hallo@otobo.io"
+#~ msgstr "Контактирајте нас на hallo@otobo.io"
 
 #~ msgid "Upgrade to OTOBO Business Solution™"
 #~ msgstr "Унапредите на OTOBO Business Solution™"
@@ -31871,17 +31871,17 @@ msgstr "статистика"
 #~ "de."
 #~ msgstr ""
 #~ "Прекорачили сте број истовремено пријављених оператера - контактирајте "
-#~ "hallo@otobo.de."
+#~ "hallo@otobo.io."
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "Имајте у виду да је ограничење сесија скоро достигнуто."
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "Пријава одбијена! Прекорачили сте дозвољени број истовремено пријављених "
-#~ "оператера! Под хитно контактирајте hallo@otobo.de!"
+#~ "оператера! Под хитно контактирајте hallo@otobo.io!"
 
 #~ msgid ""
 #~ "<p>If you continue to install this package, the following issues may "

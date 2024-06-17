@@ -15037,7 +15037,7 @@ msgid "Print this article"
 msgstr "Imprimir este artículo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -29889,8 +29889,8 @@ msgstr "estadísticas"
 #~ "¡Paquete no verificado por el grupo OTOBO! Se recomienda que no use este "
 #~ "paquete."
 
-#~ msgid "Contact us at hallo@otobo.de"
-#~ msgstr "Contactamos en hallo@otobo.de"
+#~ msgid "Contact us at hallo@otobo.io"
+#~ msgstr "Contactamos en hallo@otobo.io"
 
 #~ msgid "Upgrade"
 #~ msgstr "Actualizar"
@@ -29928,17 +29928,17 @@ msgstr "estadísticas"
 #~ "de."
 #~ msgstr ""
 #~ "Ha superado el número máximo de agentes concurrentes  - póngase en "
-#~ "contacto con hallo@otobo.de."
+#~ "contacto con hallo@otobo.io."
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "Tenga en cuenta que el límite de sesión casi se ha alcanzado."
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "¡Inicio de sesión rechazado! Ha superado el número máximo de agentes "
-#~ "concurrentes. ¡Póngase en contacto con hallo@otobo.de inmediatamente!"
+#~ "concurrentes. ¡Póngase en contacto con hallo@otobo.io inmediatamente!"
 
 #~ msgid ""
 #~ "Some packages are not verified by the Rother OSS GmbH! It is recommended "

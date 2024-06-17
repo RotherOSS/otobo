@@ -1744,7 +1744,7 @@ sub _ChangeFileInfo {
         {
             FileType => 'All',
             Search   => 'sales@otrs.com',
-            Change   => 'hallo@otobo.de'
+            Change   => 'hallo@otobo.io'
         },
         {
             FileType => 'All',

@@ -14685,7 +14685,7 @@ msgid "Print this article"
 msgstr "이 기사 인쇄"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -30933,8 +30933,8 @@ msgstr "통계"
 #~ msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
 #~ msgstr "잘못된 데이터베이스 정렬 (%s는 %s이지만 utf8이어야합니다)."
 
-#~ msgid "Contact us at hallo@otobo.de"
-#~ msgstr "hallo@otobo.de으로 문의하십시오."
+#~ msgid "Contact us at hallo@otobo.io"
+#~ msgstr "hallo@otobo.io으로 문의하십시오."
 
 #~ msgid "Upgrade to OTOBO Business Solution™"
 #~ msgstr "OTOBO Business Solution ™으로 업그레이드하십시오."
@@ -30973,14 +30973,14 @@ msgstr "통계"
 #~ msgid ""
 #~ "You have exceeded the number of concurrent agents - contact hallo@otobo."
 #~ "de."
-#~ msgstr "동시 상담원 수를 초과했습니다. hallo@otobo.de으로 문의하십시오."
+#~ msgstr "동시 상담원 수를 초과했습니다. hallo@otobo.io으로 문의하십시오."
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "세션 한도에 거의 도달했음을 유의하십시오."
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "로그인이 거부되었습니다! 최대 동시 상담원 수를 초과했습니다! 즉시 "
 #~ "sales@otobo.com에 문의하십시오! "

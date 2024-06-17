@@ -523,12 +523,12 @@
 #                <div class="Header">
 #                    <h2>
 #                        [% Translate("Features for %s customers only") | html | ReplacePlaceholders(OTOBOCommunityLabel) %]
-#                        → <a href="mailto:hallo@otobo.de">hallo@otobo.de</a>
+#                        → <a href="mailto:hallo@otobo.io">hallo@otobo.io</a>
 #                    </h2>
 #                </div>
 #                <div class="Content ">
 #                    <p>
-#                        [% Translate("With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.") | html | ReplacePlaceholders(OTOBOCommunityLabel, '<a href="mailto:hallo@otobo.de">hallo@otobo.de</a>') %]
+#                        [% Translate("With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.") | html | ReplacePlaceholders(OTOBOCommunityLabel, '<a href="mailto:hallo@otobo.io">hallo@otobo.io</a>') %]
 #                    </p>
 #                    <table class="DataTable SpacingTop">
 #                        <thead>

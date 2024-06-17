@@ -14639,7 +14639,7 @@ msgid "Print this article"
 msgstr "چاپ این نوشته "
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -30400,14 +30400,14 @@ msgstr ""
 #~ msgid ""
 #~ "You have exceeded the number of concurrent agents - contact hallo@otobo."
 #~ "de."
-#~ msgstr "شما بیش از تعدادی از عوامل همزمان - تماس hallo@otobo.de."
+#~ msgstr "شما بیش از تعدادی از عوامل همزمان - تماس hallo@otobo.io."
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "لطفا توجه داشته باشید که حد جلسه است که تقریبا رسیده است."
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "ورود را رد کرد! شما از حداکثر تعدادی از عوامل همزمان! تماس با hallo@otobo."
 #~ "de بلافاصله!"

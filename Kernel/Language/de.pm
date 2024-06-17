@@ -4711,7 +4711,7 @@ sub Data {
         'Print this article' => 'Diesen Artikel drucken',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => 'Schreiben Sie uns an hello@otobo.de',
+        'Contact us at hello@otobo.io' => 'Schreiben Sie uns an hello@otobo.io',
         'Get Help' => 'Hilfe',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm

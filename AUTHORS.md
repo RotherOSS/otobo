@@ -22,7 +22,7 @@ The following persons contributed to OTOBO:
 * dennis-dko <dk@rother-oss.com>
 * Jens Pfeifer <jens.pfeifer@znuny.com>
 * Helmut Wollmersdorfer <helmut@wollmersdorfer.at>
-* Lars Dɪᴇᴄᴋᴏᴡ <lad@otobo.de>
+* Lars Dɪᴇᴄᴋᴏᴡ <lad@otobo.io>
 * Philipp Kesler <philipp.kesler@hein.de>
 * Przemysław Wilkosz <office@wilkosz.net>
 * Intalio <intalio@intalio.pl>

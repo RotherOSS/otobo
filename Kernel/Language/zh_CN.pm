@@ -4717,7 +4717,7 @@ sub Data {
         'Print this article' => '打印信件',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => '通过 hello@otobo.de 联系我们',
+        'Contact us at hello@otobo.io' => '通过 hello@otobo.io 联系我们',
         'Get Help' => '获取帮助',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
