@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -155,7 +155,7 @@ $Selenium->RunTest(
                     Priority      => 'Error',
                     Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
                     Value         =>
-                        "Could not process message. Raw mail saved (report it on http://bugs.otobo.org/)!",
+                        "Could not process message. Raw mail saved (report it on https://github.com/RotherOSS/otobo/issues/)!",
                 );
 
                 $MessageStatus = 'Failed';
