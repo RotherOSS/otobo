@@ -381,7 +381,7 @@ Core.AJAX = (function (TargetNS) {
 
                 // date time elements
                 if ( !$Element.length ) {
-                    $Element = $('[name=' + DataKey +  'Used]').parent();
+                    $Element = $('[name=' + DataKey +  'Year]').parent();
                 }
 
                 if ((!$Element.length || typeof DataValue == 'undefined')) {
