@@ -14741,8 +14741,8 @@ msgid "Print this article"
 msgstr "この記事を印刷"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
-msgstr "連絡先: hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
+msgstr "連絡先: hello@otobo.io"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -30138,8 +30138,8 @@ msgstr "stats"
 #~ "パッケージはOTOBOグループによって検証されていません。このパッケージの利用"
 #~ "を推奨しません。"
 
-#~ msgid "Contact us at hallo@otobo.de"
-#~ msgstr "hallo@otobo.deまでご連絡下さい。"
+#~ msgid "Contact us at hallo@otobo.io"
+#~ msgstr "hallo@otobo.ioまでご連絡下さい。"
 
 #~ msgid "Upgrade to OTOBO Business Solution™"
 #~ msgstr "OTOBO Business Solution™ にアップグレードします。"
@@ -30178,7 +30178,7 @@ msgstr "stats"
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "同時接続ユーザ数の上限に達したため、ログインできませんでした。hallo@otobo."
 #~ "deに連絡してください。"

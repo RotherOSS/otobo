@@ -15179,7 +15179,7 @@ msgid "Print this article"
 msgstr "Bejegyzés nyomtatása"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -32651,8 +32651,8 @@ msgstr "statisztikák"
 #~ "Hibás adatbázis egyeztetés (a %s értéke %s, de utf8 értékűnek kell "
 #~ "lennie)."
 
-#~ msgid "Contact us at hallo@otobo.de"
-#~ msgstr "Vegye fel velünk a kapcsolatot a hallo@otobo.de címen"
+#~ msgid "Contact us at hallo@otobo.io"
+#~ msgstr "Vegye fel velünk a kapcsolatot a hallo@otobo.io címen"
 
 #~ msgid "Upgrade to OTOBO Business Solution™"
 #~ msgstr "Frissítés az OTOBO Business Solution™ szoftverre"
@@ -32704,17 +32704,17 @@ msgstr "statisztikák"
 #~ "de."
 #~ msgstr ""
 #~ "Túllépte az egyidejű ügyintézők számát – vegye fel a kapcsolatot velünk a "
-#~ "hallo@otobo.de e-mail címen."
+#~ "hallo@otobo.io e-mail címen."
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "Ne feledje, hogy a munkamenet-korlátot majdnem elérte."
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "Belépés elutasítva! Túllépte az egyidejű ügyintézők számát! Azonnal vegye "
-#~ "fel a kapcsolatot velünk a hallo@otobo.de e-mail címen!"
+#~ "fel a kapcsolatot velünk a hallo@otobo.io e-mail címen!"
 
 #~ msgid ""
 #~ "<p>If you continue to install this package, the following issues may "

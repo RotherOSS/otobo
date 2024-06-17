@@ -15005,7 +15005,7 @@ msgid "Print this article"
 msgstr "Напечатать это сообщение"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -31464,8 +31464,8 @@ msgstr "отчеты"
 #~ msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
 #~ msgstr "Неверный collation базы данных (%s - %s, а требуется utf8)"
 
-#~ msgid "Contact us at hallo@otobo.de"
-#~ msgstr "Свяжитесь с нами по hallo@otobo.de"
+#~ msgid "Contact us at hallo@otobo.io"
+#~ msgstr "Свяжитесь с нами по hallo@otobo.io"
 
 #~ msgid "Upgrade to OTOBO Business Solution™"
 #~ msgstr "Обновление до OTOBO Business Solution™"
@@ -31517,7 +31517,7 @@ msgstr "отчеты"
 #~ "You have exceeded the number of concurrent agents - contact hallo@otobo."
 #~ "de."
 #~ msgstr ""
-#~ "Превышено количество одновременных агентов - свяжитесь с hallo@otobo.de"
+#~ "Превышено количество одновременных агентов - свяжитесь с hallo@otobo.io"
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr ""
@@ -31525,10 +31525,10 @@ msgstr "отчеты"
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "Вход отклонён! Превышено максимальное количество одновременных агентов! "
-#~ "Срочно свяжитесь с hallo@otobo.de!"
+#~ "Срочно свяжитесь с hallo@otobo.io!"
 
 #~ msgid ""
 #~ "<p>If you continue to install this package, the following issues may "

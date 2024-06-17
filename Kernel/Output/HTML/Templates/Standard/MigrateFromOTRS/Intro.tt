@@ -36,7 +36,7 @@
             </div>
             <div class="Clear"></div>
             <div class="LayoutGrid Content">
-                <p>[% Translate("If you need support, just ask our experts – either at") | html %] <a href="https://otobo.io/de/forums/otobo/otobo-forum/" target="_blank">[% Translate("OTOBO forum") | html %]</a> [% Translate("or directly via mail to") | html %] <a href="mailto:sales@otobo.de">sales@otobo.de</a>.</p>
+                <p>[% Translate("If you need support, just ask our experts – either at") | html %] <a href="https://otobo.io/de/forums/otobo/otobo-forum/" target="_blank">[% Translate("OTOBO forum") | html %]</a> [% Translate("or directly via mail to") | html %] <a href="mailto:sales@otobo.io">sales@otobo.io</a>.</p>
             </div>
             <div class="Clear"></div>
         </div>

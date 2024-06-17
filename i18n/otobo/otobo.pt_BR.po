@@ -15266,8 +15266,8 @@ msgid "Print this article"
 msgstr "Imprimir este artigo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
-msgstr "Contacte-nos em hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
+msgstr "Contacte-nos em hello@otobo.io"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -32057,8 +32057,8 @@ msgstr "estatísticas"
 #~ msgstr ""
 #~ "Collation de banco de dados incorreto (%s é %s, mas precisa ser utf8)."
 
-#~ msgid "Contact us at hallo@otobo.de"
-#~ msgstr "Contacte-nos em hallo@otobo.de"
+#~ msgid "Contact us at hallo@otobo.io"
+#~ msgstr "Contacte-nos em hallo@otobo.io"
 
 #~ msgid "Upgrade to OTOBO Business Solution™"
 #~ msgstr "Atualizar para OTOBO Business Solution™"
@@ -32109,17 +32109,17 @@ msgstr "estatísticas"
 #~ "You have exceeded the number of concurrent agents - contact hallo@otobo."
 #~ "de."
 #~ msgstr ""
-#~ "Você excedeu o número de agentes concorrentes - contactar hallo@otobo.de."
+#~ "Você excedeu o número de agentes concorrentes - contactar hallo@otobo.io."
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "Por favor note que o limite da sessão está quase alcançado."
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "Login recusado! Você excedeu  o número máximo de Agentes concorrentes! "
-#~ "Entre em contato com hallo@otobo.de imediatamente!"
+#~ "Entre em contato com hallo@otobo.io imediatamente!"
 
 #~ msgid ""
 #~ "<p>If you continue to install this package, the following issues may "

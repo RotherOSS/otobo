@@ -14449,7 +14449,7 @@ msgid "Print this article"
 msgstr "Отпечатайте статията."
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm

@@ -4714,7 +4714,7 @@ sub Data {
         'Print this article' => 'この記事を印刷',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => '連絡先: hello@otobo.de',
+        'Contact us at hello@otobo.io' => '連絡先: hello@otobo.io',
         'Get Help' => 'ヘルプを得る',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm

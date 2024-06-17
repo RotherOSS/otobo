@@ -41,7 +41,7 @@
 # Harald Eisenmenger <harald.eisenmenger@otrs.com>, 2019
 # Michael Reuther <michael.reuther@otrs.com>, 2020
 # Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2020, 2021.
-# Grit Rother <mr@otobo.de>, 2020, 2021.
+# Grit Rother <mr@otobo.io>, 2020, 2021.
 # svo <svo@otrs.ch>, 2021.
 # Andreas Erhard <erhard@wor.net>, 2021.
 msgid ""
@@ -15352,8 +15352,8 @@ msgid "Print this article"
 msgstr "Diesen Artikel drucken"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
-msgstr "Schreiben Sie uns an hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
+msgstr "Schreiben Sie uns an hello@otobo.io"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -33037,8 +33037,8 @@ msgstr "Stats"
 #~ msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
 #~ msgstr "Falsche Datenbank-Sortierfolge (%s ist %s, muss aber utf8 sein)."
 
-#~ msgid "Contact us at hallo@otobo.de"
-#~ msgstr "Kontaktieren Sie uns unter hallo@otobo.de"
+#~ msgid "Contact us at hallo@otobo.io"
+#~ msgstr "Kontaktieren Sie uns unter hallo@otobo.io"
 
 #~ msgid "Upgrade to OTOBO Business Solution™"
 #~ msgstr "Upgraden zur OTOBO Business Solution™"
@@ -33092,17 +33092,17 @@ msgstr "Stats"
 #~ "de."
 #~ msgstr ""
 #~ "Sie haben die Anzahl der gleichzeitig angemeldeten Agenten überschritten "
-#~ "- kontaktieren Sie umgehend hallo@otobo.de."
+#~ "- kontaktieren Sie umgehend hallo@otobo.io."
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "Bitte beachten Sie, dass das Sitzungslimit fast erreicht ist."
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
+#~ "Agents! Contact hallo@otobo.io immediately!"
 #~ msgstr ""
 #~ "Anmeldung verweigert! Sie haben die maximale Anzahl an gleichzeitig "
-#~ "angemeldeten Agents überschritten! Jetzt hallo@otobo.de kontaktieren!"
+#~ "angemeldeten Agents überschritten! Jetzt hallo@otobo.io kontaktieren!"
 
 #~ msgid ""
 #~ "<p>If you continue to install this package, the following issues may "

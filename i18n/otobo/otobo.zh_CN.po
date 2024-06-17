@@ -14479,8 +14479,8 @@ msgid "Print this article"
 msgstr "打印信件"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
-msgstr "通过 hello@otobo.de 联系我们"
+msgid "Contact us at hello@otobo.io"
+msgstr "通过 hello@otobo.io 联系我们"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -29946,8 +29946,8 @@ msgstr "stats（统计）"
 #~ msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
 #~ msgstr "错误的数据库排序规则（%s是%s，但需要是utf8）。"
 
-#~ msgid "Contact us at hallo@otobo.de"
-#~ msgstr "请通过hallo@otobo.de联系我们"
+#~ msgid "Contact us at hallo@otobo.io"
+#~ msgstr "请通过hallo@otobo.io联系我们"
 
 #~ msgid "Upgrade to OTOBO Business Solution™"
 #~ msgstr "更新到OTOBO商业版"
@@ -29990,15 +29990,15 @@ msgstr "stats（统计）"
 #~ msgid ""
 #~ "You have exceeded the number of concurrent agents - contact hallo@otobo."
 #~ "de."
-#~ msgstr "你已经超出了并发服务人员的最大数，请联系hallo@otobo.de。"
+#~ msgstr "你已经超出了并发服务人员的最大数，请联系hallo@otobo.io。"
 
 #~ msgid "Please note that the session limit is almost reached."
 #~ msgstr "请注意，会话数即将达到极限。"
 
 #~ msgid ""
 #~ "Login rejected! You have exceeded the maximum number of concurrent "
-#~ "Agents! Contact hallo@otobo.de immediately!"
-#~ msgstr "登录被拒绝！已经达到服务人员最大并发数！请立即联系hallo@otobo.de！"
+#~ "Agents! Contact hallo@otobo.io immediately!"
+#~ msgstr "登录被拒绝！已经达到服务人员最大并发数！请立即联系hallo@otobo.io！"
 
 #~ msgid ""
 #~ "<p>If you continue to install this package, the following issues may "

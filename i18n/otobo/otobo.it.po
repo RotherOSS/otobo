@@ -15064,7 +15064,7 @@ msgid "Print this article"
 msgstr "Stampa questo articolo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm

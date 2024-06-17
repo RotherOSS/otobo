@@ -525,7 +525,7 @@ sub _SendSupportBundle {
 
             my $Result = $Kernel::OM->Get('Kernel::System::Email')->Send(
                 From          => $SenderAddress,
-                To            => 'supportbundle@otobo.de',
+                To            => 'supportbundle@otobo.io',
                 Subject       => 'Support::Bundle::Email',
                 Type          => 'text/plain',
                 Charset       => 'utf-8',

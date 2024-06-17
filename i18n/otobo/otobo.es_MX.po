@@ -15333,8 +15333,8 @@ msgid "Print this article"
 msgstr "Imprimir este artículo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
-msgstr "Póngase en contacto con nosotros en hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
+msgstr "Póngase en contacto con nosotros en hello@otobo.io"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
