@@ -647,7 +647,6 @@ sub GetFieldState {
     );
 
     my %Return;
-    my $Allowed;
     my $ReferenceID = $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } ? $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} }[0] : undef;
 
     # get the current value of the referenced attribute field if an object is referenced
@@ -687,7 +686,10 @@ sub GetFieldState {
         }
 
         # if a search has already been performed for this form id
-        $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;
+        my $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;
+
+        # abort if requested value is not allowed
+        return () unless $Allowed;
 
         $AttributeFieldValue = $Self->ValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
@@ -700,7 +702,6 @@ sub GetFieldState {
         );
     }
     else {
-        $Allowed             = 1;
         $AttributeFieldValue = '';
     }
 
@@ -713,12 +714,10 @@ sub GetFieldState {
         )
         )
     {
-        if ($Allowed) {
-            $Return{NewValue} = $AttributeFieldValue;
+        $Return{NewValue} = $AttributeFieldValue;
 
-            # already write the new value to DFParam, for possible values check further down
-            $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $AttributeFieldValue;
-        }
+        # already write the new value to DFParam, for possible values check further down
+        $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $AttributeFieldValue;
     }
 
     # if this field is non ACL reducible, set the field values
