@@ -9561,7 +9561,7 @@ via the Preferences button after logging in.
                         </Item>
                         <Item Key="Description" Translatable="1">Open the OTOBO home page in a new window</Item>
                         <Item Key="Name" Translatable="1">Jump to OTOBO!</Item>
-                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.de/</Item>
+                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.io/</Item>
                         <Item Key="LinkOption">target="_blank"</Item>
                         <Item Key="NavBar">JumptoExternalURL</Item>
                         <Item Key="Type">Menu</Item>
@@ -9615,7 +9615,7 @@ via the Preferences button after logging in.
                         </Item>
                         <Item Key="Description" Translatable="1">Open the OTOBO home page in a new window</Item>
                         <Item Key="Name" Translatable="1">Jump to OTOBO!</Item>
-                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.de/</Item>
+                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.io/</Item>
                         <Item Key="LinkOption">target="_blank"</Item>
                         <Item Key="NavBar"></Item>
                         <Item Key="Type"></Item>

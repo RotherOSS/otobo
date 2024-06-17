@@ -18,7 +18,7 @@
 # auto_build.sh - build automatically OTOBO tar, rpm and src-rpm
 
 echo "auto_build.sh - build OTOBO release files"
-echo "Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/";
+echo "Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/";
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTOBO
