@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -2203,114 +2203,6 @@ sub Ascii2Html {
     # The input parameter Text determines the type of the returned value
     return $Text if ref $Param{Text};
     return ${$Text};
-}
-
-=head2 LinkQuote()
-
-detect links in text
-
-    my $HTMLWithLinks = $LayoutObject->LinkQuote(
-        Text => $HTMLWithOutLinks,
-    );
-
-also string ref is possible
-
-    my $HTMLWithLinksRef = $LayoutObject->LinkQuote(
-        Text => \$HTMLWithOutLinksRef,
-    );
-
-=cut
-
-sub LinkQuote {
-    my ( $Self, %Param ) = @_;
-
-    my $Text = $Param{Text} || '';    # either a string or a reference to a string
-
-    # check ref
-    my $TextScalar;
-    if ( !ref $Text ) {
-        $TextScalar = $Text;
-        $Text       = \$TextScalar;
-    }
-
-    # run output filter text
-    my @Filters;
-    if ( $Self->{FilterText} && ref $Self->{FilterText} eq 'HASH' ) {
-
-        # extract filter list
-        my %FilterList = %{ $Self->{FilterText} };
-
-        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-        FILTER:
-        for my $Filter ( sort keys %FilterList ) {
-
-            # extract filter config
-            my $FilterConfig = $FilterList{$Filter};
-
-            next FILTER if !$FilterConfig;
-            next FILTER if ref $FilterConfig ne 'HASH';
-
-            # extract template list
-            my $TemplateList = $FilterConfig->{Templates};
-
-            # check template list
-            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
-
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
-                );
-            }
-
-            # check template list
-            if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
-                next FILTER if !$TemplateList->{ $Param{TemplateFile} };
-            }
-
-            $Self->FatalDie() if !$MainObject->Require( $FilterConfig->{Module} );
-
-            # create new instance
-            my $Object = $FilterConfig->{Module}->new(
-                %{$Self},
-                LayoutObject => $Self,
-            );
-
-            next FILTER if !$Object;
-
-            push @Filters, {
-                Object => $Object,
-                Filter => $FilterConfig,
-            };
-        }
-    }
-
-    for my $Filter (@Filters) {
-        $Text = $Filter->{Object}->Pre(
-            Filter => $Filter->{Filter},
-            Data   => $Text
-        );
-    }
-    for my $Filter (@Filters) {
-        $Text = $Filter->{Object}->Post(
-            Filter => $Filter->{Filter},
-            Data   => $Text
-        );
-    }
-
-    # do mail to quote
-    ${$Text} =~ s/(mailto:.+?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
-
-    # check ref && return result like called
-    if ($TextScalar) {
-        return ${$Text};
-    }
-    else {
-        return $Text;
-    }
 }
 
 =head2 HTMLLinkQuote()
