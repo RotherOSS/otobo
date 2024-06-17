@@ -853,7 +853,7 @@ With this version, you’ll gain access to:
 - Included professional services – training, support and consulting
 - Implementation and configuration by our experts
 
-Find more information about OTOBO support and consulting by visiting https://otobo.de/.
+Find more information about OTOBO support and consulting by visiting https://otobo.io/.
 
 Ready to get started with fully-managed OTOBO instead? -> Contact Sales: https://otobo.io/en/company/contact-us/
 
@@ -894,7 +894,7 @@ With this version, you’ll gain access to:
 - Included professional services – training, support and consulting
 - Implementation and configuration by our experts
 
-Find more information about OTOBO support and consulting by visiting https://otobo.de/.
+Find more information about OTOBO support and consulting by visiting https://otobo.io/.
 
 Ready to get started with fully-managed OTOBO instead? -> Contact Sales: https://otobo.io/en/company/contact-us/
 

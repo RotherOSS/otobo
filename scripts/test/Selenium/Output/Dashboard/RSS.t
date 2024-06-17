@@ -59,7 +59,7 @@ $Selenium->RunTest(
               xmlns:sy=\"http://purl.org/rss/1.0/modules/syndication/\"
               xmlns:slash=\"http://purl.org/rss/1.0/modules/slash/\"  >
               <channel>
-                  <title>Press Releases &#8211;otobo.de| OTOBO Simple Service Management</title>
+                  <title>Press Releases &#8211;otobo.io| OTOBO Simple Service Management</title>
                   <atom:link href=\"https://www.otobo.org/feed/?cat=112%2C254%2C111\" rel=\"self\" type=\"application/rss+xml\" />
                   <link>https://www.otobo.org</link>
                   <description>Simple service management</description>

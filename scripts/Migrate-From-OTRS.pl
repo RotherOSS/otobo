@@ -56,7 +56,7 @@ Getopt::Long::GetOptions(
         print <<"EOF";
 
 Migrate-From-OTRS.pl - Upgrade script for OTRS 5 to 6 migration.
-Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 
 Usage: $0
     Options are as follows:
