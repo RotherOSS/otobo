@@ -1687,7 +1687,7 @@ sub _AddHeadersToResponseObject {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
-        $Headers{'X-Powered-By'} = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version'), '(https://www.otobo.de/)';
+        $Headers{'X-Powered-By'} = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version'), '(https://otobo.io/)';
     }
 
     if (
