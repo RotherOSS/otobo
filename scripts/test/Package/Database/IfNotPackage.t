@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -145,7 +145,7 @@ my %Packages = (
     <Name>Package1$RandomID</Name>
     <Version>1.0.1</Version>
     <Vendor>Rother OSS GmbH</Vendor>
-    <URL>https://otobo.de/</URL>
+    <URL>https://otobo.io/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">OTOBO Community Edition. For more information, please have a look at the official documentation at https://doc.otobo.org/doc/manual/otobo-business-solution/6.0/en/html/.</Description>
     <Framework>$OTOBOVersion</Framework>
@@ -169,7 +169,7 @@ EOF
     <Name>Package2$RandomID</Name>
     <Version>1.0.1</Version>
     <Vendor>Rother OSS GmbH</Vendor>
-    <URL>https://otobo.de/</URL>
+    <URL>https://otobo.io/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">OTOBO Community Edition. For more information, please have a look at the official documentation at https://doc.otobo.org/doc/manual/otobo-business-solution/6.0/en/html/.</Description>
     <Framework>$OTOBOVersion</Framework>

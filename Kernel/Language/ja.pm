@@ -6,7 +6,7 @@
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # Copyright (C) 2014 Norihiro Tanaka NTT Data Intellilink Corp.
 # Copyright (C) 2014 Toshihiro Takehara Cloud ASIA Co., Ltd.
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5164,7 +5164,7 @@ sub Data {
         'Print this article' => 'この記事を印刷',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => '連絡先: hello@otobo.de',
+        'Contact us at hello@otobo.io' => '連絡先: hello@otobo.io',
         'Get Help' => 'ヘルプを得る',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm

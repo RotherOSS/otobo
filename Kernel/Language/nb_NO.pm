@@ -10,7 +10,7 @@
 # Copyright (C) 2011 Espen Stefansen <libbe at stefansen dot net>
 # Copyright (C) 2012 Lars Magnus Herland <lars.magnus at herland.priv.no>
 # Copyright (C) 2013 Espen Stefansen <libbe at stefansen dot net>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5169,7 +5169,7 @@ sub Data {
         'Print this article' => 'Skriv ut denne artikkelen',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => 'Kontakt oss på hello@otobo.de',
+        'Contact us at hello@otobo.io' => 'Kontakt oss på hello@otobo.io',
         'Get Help' => 'Få hjelp',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
