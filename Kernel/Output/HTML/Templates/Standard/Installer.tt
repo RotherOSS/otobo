@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -93,8 +93,8 @@
             </div>
             <div class="Clear"></div>
             <div class="LayoutGrid Content">
-                <p>[% Translate("Web site") | html %]: <a href="http://otobo.de" target="_blank">www.otobo.de</a></p>
-                <p>[% Translate("Email") | html %]: <a href="mailto:hello@otobo.de">hello@otobo.de</a></p>
+                <p>[% Translate("Web site") | html %]: <a href="http://otobo.io" target="_blank">otobo.io</a></p>
+                <p>[% Translate("Email") | html %]: <a href="mailto:hello@otobo.io">hello@otobo.io</a></p>
             </div>
             <div class="Clear"></div>
         </div>
