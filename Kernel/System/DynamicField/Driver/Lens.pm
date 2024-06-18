@@ -689,7 +689,13 @@ sub GetFieldState {
         my $Allowed = ( grep { $_ eq $ReferenceID } $LastSearchResults->@* ) ? 1 : 0;
 
         # abort if requested value is not allowed
-        return () unless $Allowed;
+        if ( !$Allowed ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "Value $ReferenceID for lens field $DynamicFieldConfig->{Name} is not allowed.",
+            );
+            return;
+        }
 
         $AttributeFieldValue = $Self->ValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
