@@ -3144,12 +3144,19 @@ Core.UI.InputFields = (function (TargetNS) {
      */
     TargetNS.SetDate = function ($Parent, DateString) {
         var DateObj = new Date(DateString);
+
+        // set used checkbox
+        $Parent.find('input[type=checkbox][id$=Used]').attr('checked', DateString ? true : false);
+
+        // set date elements
         var $YearElement = $Parent.find('select[id$=Year]');
         $YearElement.val(DateObj.getFullYear());
         var $MonthElement = $Parent.find('select[id$=Month]');
         $MonthElement.val(DateObj.getMonth() + 1);
         var $DayElement = $Parent.find('select[id$=Day]');
         $DayElement.val(DateObj.getDate());
+
+        // set time elements
         var $HourElement = $Parent.find('select[id$=Hour]');
         if ( $HourElement.length ) {
             $HourElement.val(DateObj.getHours());
