@@ -240,7 +240,7 @@ $Selenium->RunTest(
             'EMBED tag is stripped from the quoted content'
         );
         $Self->False(
-            $Selenium->execute_script(qq{ return CKEditorInstances['RichText'].getData().indexOf('<svg') > -1;} ),
+            $Selenium->execute_script(qq{ return CKEditorInstances['RichText'].getData().indexOf('<svg') > -1;}),
             'SVG tag is stripped from the quoted content'
         );
         $Self->False(

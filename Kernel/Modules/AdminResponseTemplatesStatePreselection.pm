@@ -1,6 +1,6 @@
 # --
 # Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/

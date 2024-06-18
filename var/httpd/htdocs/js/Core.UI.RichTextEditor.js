@@ -280,7 +280,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 //resize editor on mode change
                 if ( editor.plugins.has( 'SourceEditing' ) ) {
                     const sourceEditing = editor.plugins.get( 'SourceEditing' );
-                
+
                     editor.listenTo( sourceEditing, 'change:isSourceEditingMode', () => {
                         sourceEditingActive = sourceEditing.isSourceEditingMode;
                         adjustEditorSize();
