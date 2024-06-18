@@ -865,6 +865,7 @@ fieldset.TableLike .RichTextField {
     resize: vertical;
     z-index: 10;
     position: relative;
+    overflow: hidden;
     min-height: 150px !important;
     height: 320px;
     max-width: 620px;
