@@ -71,7 +71,7 @@ my $XML      = <<'END_XML';
 <otrs_repository_list version="1.0">
 <Repository>
     <Name>OTOBO Addons</Name>
-    <URL>https://otobo.de/</URL>
+    <URL>https://otobo.io/</URL>
 </Repository>
 </otrs_repository_list>
 END_XML
