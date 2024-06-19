@@ -689,9 +689,8 @@ sub EditFieldValueValidate {
     # on normal basis Used field could be empty but if there was no value from EditFieldValueGet()
     # it must be an error
     if ( !defined $Value ) {
-        return {
-            ServerError  => 1,
-            ErrorMessage => 'Invalid Date!'
+        $Value = {
+            Used => 0,
         };
     }
 
