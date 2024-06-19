@@ -3140,7 +3140,13 @@ Core.UI.InputFields = (function (TargetNS) {
      *      This function sets a given date for a given date selection
      */
     TargetNS.SetDate = function ($Parent, DateString) {
-        var DateObj = new Date(DateString);
+        var DateObj;
+        if ( DateString ) {
+            DateObj = new Date(DateString);
+        }
+        else {
+            DateObj = new Date();
+        }
 
         // set used checkbox
         $Parent.find('input[type=checkbox][id$=Used]').attr('checked', DateString ? true : false);

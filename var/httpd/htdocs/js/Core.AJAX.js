@@ -712,7 +712,7 @@ Core.AJAX = (function (TargetNS) {
             Ignore = {};
         }
         if (isJQueryObject($Element) && $Element.length) {
-            $Element.closest('form').find('input:not(:file), textarea, select').filter(':not([disabled=disabled])').each(function () {
+            $Element.closest('form').find('input:not(:file), textarea, select').each(function () {
                 var Name = $(this).attr('name') || '';
 
                 // only look at fields with name
