@@ -713,7 +713,8 @@ sub GetFieldState {
 
     # set the new value if it differs
     if (
-        $Self->ValueIsDifferent(
+        !defined $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}
+        || $Self->ValueIsDifferent(
             DynamicFieldConfig => $DynamicFieldConfig,
             Value1             => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"},
             Value2             => $AttributeFieldValue,
