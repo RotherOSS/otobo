@@ -5298,15 +5298,12 @@ sub _ConfiguredRepositoryDefinitionGet {
 
     return () if !%RepositoryList;
 
-    # Make sure ITSM repository matches the current framework version.
-    my @Matches = grep { $_ =~ m{http://ftp\.otobo\.org/pub/otobo/itsm/packages\d+/}msxi } sort keys %RepositoryList;
+    # we will not provide individual repos per version starting with OTOBO 11.0 - this section can be removed with OTOBO 11.1
+    my @Matches = grep { $_ =~ m{https://ftp\.otobo\.org/pub/otobo/packages-itsm/bundle\d}msxi } sort keys %RepositoryList;
 
     return %RepositoryList if !@Matches;
 
-    my @FrameworkVersionParts = split /\./, $Self->{ConfigObject}->Get('Version');
-    my $FrameworkVersion      = $FrameworkVersionParts[0];
-
-    my $CurrentITSMRepository = "http://ftp.otobo.org/pub/otobo/itsm/packages$FrameworkVersion/";
+    my $CurrentITSMRepository = "https://ftp.otobo.org/pub/otobo/packages-itsm/";
 
     # Delete all old ITSM repositories, but leave the current if exists
     for my $Repository (@Matches) {
@@ -5318,7 +5315,7 @@ sub _ConfiguredRepositoryDefinitionGet {
     return %RepositoryList if exists $RepositoryList{$CurrentITSMRepository};
 
     # Make sure that current ITSM repository is in the list.
-    $RepositoryList{$CurrentITSMRepository} = "OTOBO::ITSM $FrameworkVersion Master";
+    $RepositoryList{$CurrentITSMRepository} = "OTOBO::ITSM Addons";
 
     return %RepositoryList;
 }
