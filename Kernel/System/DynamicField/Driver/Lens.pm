@@ -285,7 +285,10 @@ sub EditFieldValueValidate {
     # call attribute df config validation
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueValidate(
         %Param,
-        DynamicFieldConfig => $AttributeDFConfig,
+        DynamicFieldConfig => {
+            $AttributeDFConfig->%*,
+            Name => $Param{DynamicFieldConfig}{Name},
+        },
     );
 }
 
