@@ -736,6 +736,30 @@ Core.AJAX = (function (TargetNS) {
                     QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
                 }
             });
+            $Element.closest('form').find('.DynamicFieldText').each(function () {
+                var Name = $(this).attr('name') || '';
+
+                // only look at fields with name
+                // only add element to the string, if there is no key in the data hash with the same name
+                if (!Name.length || typeof Ignore[Name] !== 'undefined'){
+                    return;
+                }
+
+                // TODO MultiValue Think about a solution to transfer unchecked value
+                if ($(this).is(':checkbox, :radio')) {
+                    if ($(this).is(':checked')) {
+                        QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || 'on') + ";";
+                    }
+                }
+                else if ($(this).is('select')) {
+                    $.each($(this).find('option:selected'), function(){
+                        QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
+                    });
+                }
+                else {
+                    QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
+                }
+            });
         }
         return QueryString;
     };
