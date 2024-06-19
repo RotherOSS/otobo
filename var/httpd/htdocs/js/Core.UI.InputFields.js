@@ -525,9 +525,6 @@ Core.UI.InputFields = (function (TargetNS) {
         // Give up if field is expanded
         if ($SearchObj.attr('aria-expanded')) return;
 
-        // Give up is field is disabled
-        if ($SearchObj.attr('readonly')) return;
-
         // Remove any existing boxes in supplied container
         $InputContainerObj.find('.InputField_Selection').remove();
         $InputContainerObj.find('.InputField_SelectionFilter').remove();
