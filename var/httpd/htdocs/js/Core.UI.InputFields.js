@@ -316,6 +316,10 @@ Core.UI.InputFields = (function (TargetNS) {
                 TargetNS.InitCustomerField( this );
             });
         }
+
+        $('form').on('submit', function() {
+            $('.DynamicFieldText').attr('disabled', false);
+        });
     };
 
 
