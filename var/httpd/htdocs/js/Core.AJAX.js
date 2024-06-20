@@ -440,8 +440,14 @@ Core.AJAX = (function (TargetNS) {
             // both hidden and visible input element need to be set
             var $ReferenceElement = $Element.parent().find('.DynamicFieldReference');
             if ( $ReferenceElement.length ) {
-                $Element.val( typeof DataValue == 'object' ? DataValue[0][0] : '');
-                $ReferenceElement.val( typeof DataValue == 'object' ? DataValue[0][1] : '' );
+                if ( typeof DataValue == 'object' && DataValue[0] ) {
+                    $Element.val( DataValue[0][0] );
+                    $ReferenceElement.val( DataValue[0][1] );
+                }
+                else {
+                    $Element.val( '' );
+                    $ReferenceElement.val( '' );
+                }
                 return;
             }
 
