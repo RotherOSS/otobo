@@ -736,7 +736,7 @@ Core.AJAX = (function (TargetNS) {
                     QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
                 }
             });
-            $Element.closest('form').find('.DynamicFieldText').each(function () {
+            $Element.closest('form').find('.DynamicFieldText').filter('[disabled=disabled]').each(function () {
                 var Name = $(this).attr('name') || '';
 
                 // only look at fields with name
