@@ -6432,7 +6432,8 @@ sub TicketMerge {
 
     # change ticket id of merge ticket to main ticket for time_accounting versions
     return if !$DBObject->Do(
-        SQL  => 'UPDATE time_accounting_version SET ticket_id = ? WHERE ticket_id = ?',
+        SQL => 'UPDATE time_accounting_version SET ticket_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE ticket_id = ?',
         Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
     );
 
