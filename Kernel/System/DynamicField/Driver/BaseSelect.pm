@@ -355,6 +355,7 @@ sub EditFieldRender {
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
             Data        => $DataValues || {},
+            Sort        => 'AlphanumericKey',
             Disabled    => $Param{Readonly},
             Name        => $FieldName,
             ID          => $FieldID,
@@ -387,6 +388,7 @@ sub EditFieldRender {
 
         my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
             Data        => $DataValues || {},
+            Sort        => 'AlphanumericKey',
             Name        => $FieldName,
             ID          => $FieldID,
             Translation => $FieldConfig->{TranslatableValues} || 0,
@@ -693,6 +695,7 @@ sub SearchFieldRender {
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
         Data         => $SelectionData,
+        Sort         => 'AlphanumericKey',
         Name         => $FieldName,
         SelectedID   => $Value,
         Translation  => $FieldConfig->{TranslatableValues} || 0,
