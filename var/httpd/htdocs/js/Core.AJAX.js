@@ -381,7 +381,7 @@ Core.AJAX = (function (TargetNS) {
 
                 // date time elements
                 if ( !$Element.length ) {
-                    $Element = $('[name=' + DataKey +  'Year]').parent();
+                    $Element = $('[name=' + DataKey +  'Used]').parent('div.DynamicFieldDate');
                 }
 
                 if ((!$Element.length || typeof DataValue == 'undefined')) {
