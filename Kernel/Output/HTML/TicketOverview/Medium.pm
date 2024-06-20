@@ -937,10 +937,11 @@ sub _Show {
             $LayoutObject->Block(
                 Name => 'DynamicFieldTableRowRecordLink',
                 Data => {
-                    Value                       => $ValueStrg->{Value},
-                    Title                       => $ValueStrg->{Title},
-                    Link                        => $ValueStrg->{Link},
-                    $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+                    %Ticket,
+                    Value                                      => $ValueStrg->{Value},
+                    Title                                      => $ValueStrg->{Title},
+                    Link                                       => $ValueStrg->{Link},
+                    "DynamicField_$DynamicFieldConfig->{Name}" => $ValueStrg->{Title},
                 },
             );
         }
@@ -976,10 +977,11 @@ sub _Show {
             $LayoutObject->Block(
                 Name => 'DynamicFieldTableRowRecord' . $DynamicFieldConfig->{Name} . 'Link',
                 Data => {
-                    Value                       => $ValueStrg->{Value},
-                    Title                       => $ValueStrg->{Title},
-                    Link                        => $ValueStrg->{Link},
-                    $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+                    %Ticket,
+                    Value                                      => $ValueStrg->{Value},
+                    Title                                      => $ValueStrg->{Title},
+                    Link                                       => $ValueStrg->{Link},
+                    "DynamicField_$DynamicFieldConfig->{Name}" => $ValueStrg->{Title},
                 },
             );
         }
