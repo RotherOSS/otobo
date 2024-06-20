@@ -124,9 +124,11 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get ACL restrictions
-    # NOTE TicketAcl() checks whether any ACL matches and returns 1 or undef
+    my %PossibleActions = ( 1 => $Self->{Action} );
+
     my $ACL = $TicketObject->TicketAcl(
-        Data          => '-',
+        Data          => \%PossibleActions,
+        Action        => $Self->{Action},
         TicketID      => $Self->{TicketID},
         ReturnType    => 'Action',
         ReturnSubType => '-',
