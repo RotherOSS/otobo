@@ -1455,24 +1455,25 @@ iframe.TextOption.CustomerUserAddressBook {
  */
 
 div.ui-resizable-s {
+    position: relative;
     bottom: 0px;
-    width: calc(100% - 10px);
+    width: 30px;
     box-sizing: border-box;
-    height: 5px;
-    margin-left: 10px;
-    margin-top: -3px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    height: 4px;
+    margin: auto;
+    margin-top: -2px;
+    border-radius: 5px;
     background-color: var(--colBGDark);
     cursor: s-resize;
+    overflow: hidden;
 
     i {
         display: block;
         margin: auto;
-        margin-top: -1px;
-        font-size: 8px;
-        color: var(--colTextDark);
+        margin-top: -2px;
+        color: var(--colTextLight);
         text-align: center;
+        font-size: 9px;
     }
 }
 

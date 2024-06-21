@@ -99,6 +99,37 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  * end @subsection global CKEditor 5 fixes/improvements
 */
 
+/**
+ * @subsection CKEditorResizeHandle
+ */
+
+div.ui-resizable-s {
+    position: relative;
+    bottom: 0px;
+    width: 50px;
+    box-sizing: border-box;
+    height: 5px;
+    margin: auto;
+    margin-top: -2px;
+    border-radius: 5px;
+    background-color: var(--colBGDark);
+    cursor: s-resize;
+    overflow: hidden;
+
+    i {
+        display: block;
+        margin: auto;
+        color: var(--colTextLight);
+        text-align: center;
+        font-size: 10px;
+        margin-top: -2.5px;
+    }
+}
+
+/**
+ * end @subsection CKEditorResizeHandle
+ */
+
 body {
     font-family: 'Quicksand', sans-serif;
     font-size: 14px;
