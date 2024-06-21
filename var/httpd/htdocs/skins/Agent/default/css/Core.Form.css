@@ -756,8 +756,8 @@ fieldset.TableLike .DynamicFieldSet > .Row.MultiColumn > .FieldCell > .Field {
 }
 
 /* multivalue sets. necessary because of competing CSS specificities*/
-fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, [type="checkbox"]),
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, .ck-editor, [type="checkbox"]) {
+fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, [type="checkbox"], .ui-resizable-s),
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, .ck-editor, [type="checkbox"], .ui-resizable-s) {
     width: 100%;
     box-sizing: border-box;
 }
@@ -862,10 +862,8 @@ fieldset.TableLike > .Row > .FloatingField {
 }
 
 fieldset.TableLike .RichTextField {
-    resize: vertical;
     z-index: 10;
     position: relative;
-    overflow: hidden;
     min-height: 150px !important;
     height: 320px;
     max-width: 620px;

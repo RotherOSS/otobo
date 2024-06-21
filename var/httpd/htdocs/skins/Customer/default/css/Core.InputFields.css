@@ -848,13 +848,10 @@ fieldset .RichTextHolder {
     margin-top: 0px;
     padding-top: 48px;
     border-radius: 10px;
-    resize: vertical;
-    overflow: hidden;
     z-index: 10;
     position: relative;
     height: var(--RTE-init-size-small);
     padding-bottom: 2px;
-    
 }
 
 fieldset > .RichTextHolder {

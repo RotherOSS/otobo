@@ -255,7 +255,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 $domEditableElement.resizable();
                 $domEditableElement.resizable("option", "handles", "s");
-                $(".ui-resizable-s", $domEditableElement).append("<i class='fa fa-angle-down'></i>");
+                $(".ui-resizable-s", $domEditableElement).append("<i class='ooofo ooofo-more_h'></i>");
 
                 $domEditableElement.on('resize', function() {
                     adjustEditorSize();
