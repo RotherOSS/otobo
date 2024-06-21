@@ -27494,3 +27494,11 @@ msgstr ""
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters."
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.io"
+msgstr "通过 hello@otobo.io 联系我们"
+
+#. SysConfig
+msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters."
+msgstr ""
+

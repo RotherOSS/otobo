@@ -7328,7 +7328,7 @@ Thanks for your help!
             'تعریف نام زمینه پویا برای زمان پایان. این فیلد به صورت دستی به سیستم به عنوان بلیط افزود: \ "تاریخ / زمان " و باید در صفحه نمایش ایجاد بلیط و / یا در هر صفحه نمایش عمل بلیط دیگر فعال شود.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'تعریف نام زمینه پویا برای زمان شروع. این فیلد به صورت دستی به سیستم به عنوان بلیط افزود: \ "تاریخ / زمان " و باید در صفحه نمایش ایجاد بلیط و / یا در هر صفحه نمایش عمل بلیط دیگر فعال شود.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'تعریف عمق حداکثر صف.',
         'Define the queue comment 2.' => 'تعریف نظر صف 2.',

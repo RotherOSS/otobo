@@ -7328,7 +7328,7 @@ Thanks for your help!
             'تعريف اسم الحقل الديناميكي لوقت الانتهاء. يجب إضافة هذا الحقل يدويا إلى النظام كتذكرة: "التاريخ / الوقت" ويجب تنشيطه في شاشات إنشاء التذكرة و/أو في أي شاشات أخرى لإجراءات التذكرة.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'تعريف اسم الحقل الديناميكي لوقت البدء. يجب إضافة هذا الحقل يدويا إلى النظام كتذكرة: "التاريخ / الوقت" ويجب تنشيطه في شاشات إنشاء التذكرة و/أو في أي شاشات أخرى لإجراءات التذكرة.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'حدد الحد الأقصى لعمق قوائم الانتظار.',
         'Define the queue comment 2.' => 'يحدد تعليق قائمة الانتظار 2.',

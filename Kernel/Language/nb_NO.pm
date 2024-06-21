@@ -7334,7 +7334,7 @@ Ditt Helpdesk-team
             'Definer dynamisk feltnavn for sluttid. Dette feltet må manuelt legges til systemet som sak: "Dato / klokkeslett" og må aktiveres i saksopprettingsskjermer og/eller i andre sakshandlingsskjermer.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definer dynamisk feltnavn for starttid. Dette feltet må manuelt legges til systemet som sak: "Dato / klokkeslett" og må aktiveres i saksopprettingsskjermer og/eller i andre sakshandlingsskjermer.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'Definer maksimal dybde på køer.',
         'Define the queue comment 2.' => 'Definer køkommentaren 2.',

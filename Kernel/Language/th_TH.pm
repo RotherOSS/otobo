@@ -7326,7 +7326,7 @@ Thanks for your help!
             'กำหนดชื่อฟิลด์แบบไดนามิกสำหรับเวลาสิ้นสุด ข้อมูลนี้จะต้องมีการเพิ่มด้วยตนเองในระบบเป็นตั๋ว: "วันที่ / เวลา" และจะต้องเปิดใช้งานในหน้าจอการสร้างตั๋ว และ/หรือ ในหน้าจอการดำเนินการตั๋วอื่นๆ ',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'กำหนดชื่อฟิลด์แบบไดนามิกสำหรับเวลาเริ่มต้น ข้อมูลนี้จะต้องมีการเพิ่มด้วยตนเองในระบบเป็นตั๋ว: "วันที่ / เวลา" และจะต้องเปิดใช้งานในหน้าจอการสร้างตั๋ว และ/หรือ ในหน้าจอการดำเนินการตั๋วอื่นๆ ',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'กำหนดความลึกสูงสุดของคิว',
         'Define the queue comment 2.' => 'กำหนดการแสดงความคิดเห็นเกี่ยวกับคิวที่ 2',
