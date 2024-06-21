@@ -9113,27 +9113,6 @@
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Module###AgentZoom" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
-        <Value>
-            <Item ValueType="FrontendRegistration">
-                <Hash>
-                    <Item Key="Group">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="GroupRo">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="Description" Translatable="1">Compat module for AgentZoom to AgentTicketZoom.</Item>
-                    <Item Key="NavBarName">Ticket</Item>
-                    <Item Key="Title"></Item>
-                </Hash>
-            </Item>
-        </Value>
-    </Setting>
     <Setting Name="Frontend::Module###AgentTicketZoom" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
