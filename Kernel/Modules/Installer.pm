@@ -1249,7 +1249,7 @@ sub CheckDBRequirements {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # Version checks are only active for some database systems.
-    # See https://doc.otobo.org/manual/installation/11.0/en/content/requirements.html#software-requirements
+    # See https://doc.otobo.org/manual/installation/11.1/en/content/requirements.html#software-requirements
     my %RequiredVersion = (
         mysql   => '5.6',
         mariadb => '10.0',

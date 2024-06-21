@@ -61,7 +61,7 @@
                     <strong>[% Translate("Change settings") | html %]</strong>: [% Translate("Set up what you want to change if the criteria match. Keep in mind that 'Possible' is a white list, 'PossibleNot' a black list.") | html %]
                 </p>
                 <p class="FieldExplanation">
-                    [% Translate("Check the official %sdocumentation%s.") | html | ReplacePlaceholders('<a href="https://doc.otobo.org/manual/admin/11.0/en/content/processes-automation/access-control-lists.html" target="_blank">', '</a>')  %]
+                    [% Translate("Check the official %sdocumentation%s.") | html | ReplacePlaceholders('<a href="https://doc.otobo.org/manual/admin/11.1/en/content/processes-automation/access-control-lists.html" target="_blank">', '</a>')  %]
                 </p>
             </div>
         </div>

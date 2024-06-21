@@ -56,7 +56,7 @@ Or directly [get in touch](https://otobo.io/en/company/contact-us/).
 
 Software requirements
 =====================
-The software and hardware requirements [can be found in our documentation.](https://doc.otobo.org/manual/installation/11.0/en/content/requirements.html)
+The software and hardware requirements [can be found in our documentation.](https://doc.otobo.org/manual/installation/11.1/en/content/requirements.html)
 
 
 How to contribute

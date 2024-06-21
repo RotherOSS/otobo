@@ -43,7 +43,7 @@
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="https://doc.otobo.org/manual/user/11.0/en/content/reports/statistics.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("Read more about statistics in OTOBO") | html %]</span></a>
+                        <a href="https://doc.otobo.org/manual/user/11.1/en/content/reports/statistics.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("Read more about statistics in OTOBO") | html %]</span></a>
                     </li>
                 </ul>
             </div>
