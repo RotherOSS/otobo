@@ -136,8 +136,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     side: 'left',
                     label: '',
                     forceVisible: true,
-                    verticalOffset: 2,
-                    horizontalOffset: 2
+                    verticalOffset: 3,
+                    horizontalOffset: 3
                 }
             },
             heading: {
@@ -252,6 +252,14 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 }
 
                 var sourceEditingActive = false;
+
+                $domEditableElement.resizable();
+                $domEditableElement.resizable("option", "handles", "s");
+                $(".ui-resizable-s", $domEditableElement).append("<i class='fa fa-angle-down'></i>");
+
+                $domEditableElement.on('resize', function() {
+                    adjustEditorSize();
+                });
 
                 // Adjust Editor Size to match (resizable) container size
                 var adjustEditorSize = function() {
