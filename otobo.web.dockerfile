@@ -6,7 +6,8 @@
 # See also https://docs.docker.com/docker-hub/builds/advanced/
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Use the latest maintainance release of the Perl 5.38.x series as the base.
+# Use the latest maintainance release of the Perl 5.40.x series as the base.
+# This assures that bug and security fixes are applied when rebuilding the image.
 #
 # The Debian version is explicitly set to bookworm, that is Debian 12.
 # This avoids a surprising change of the version of Debian when the image
@@ -14,7 +15,7 @@
 # Note that the minor version of Debian may change between builds.
 #
 # The individual build targets may add additional Debian or CPAN packages.
-FROM perl:5.38-bookworm AS base
+FROM perl:5.40-bookworm AS base
 
 # First there is some initial setup that needs to be done by root.
 USER root
