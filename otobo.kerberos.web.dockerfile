@@ -14,4 +14,4 @@
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
 # just to have a valid Dockerfile
-FROM perl:5.38-bookworm
+FROM scratch
