@@ -7415,7 +7415,7 @@ via the Preferences button after logging in.
                     <Hash>
                         <Item Key="TextColor">#ffffff</Item>
                         <Item Key="BackgroundImage">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/Dashboard/dashboard_bgfl.png</Item>
-                        <Item Key="HeaderText">That's new in OTOBO 11.1</Item>
+                        <Item Key="HeaderText">OTOBO 11.1 | Evolution</Item>
                         <Item Key="MainText">to be determined</Item>
                         <Item Key="FooterText">Explore &gt;</Item>
                         <Item Key="Link">https://otobo.io/en/service-management-plattform/helpdesk/</Item>

@@ -7329,7 +7329,7 @@ Vaša tehnička podrška
             'Definiše naziv dinamičkog polja za krajnje vreme. Ovo polje mora biti manuelno dodato sistemu kao tiket: "Datum / Vreme" i mora biti aktivirano u ekranima za kreiranje tiketa i/ili u bilo kom drugom ekranu sa tiket akcijama.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definiše naziv dinamičkog polja za početno vreme. Ovo polje mora biti manuelno dodato sistemu kao tiket: "Datum / Vreme" i mora biti aktivirano u ekranima za kreiranje tiketa i/ili u bilo kom drugom ekranu sa tiket akcijama.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'Definiši maksimalnu dubinu za redove.',
         'Define the queue comment 2.' => 'Definiše komentar reda 2.',

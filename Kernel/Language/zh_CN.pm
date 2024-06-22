@@ -7327,7 +7327,7 @@ Thanks for your help!
             '定义结束时间的动态字段名称。这个字段需要手动加入到系统作为工单的一种“日期/时间”，并且要在工单创建屏幕和/或其它任何工单操作屏幕激活。',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '定义开始时间的动态字段名称。这个字段需要手动加入到系统作为工单的一种“日期/时间”，并且要在工单创建屏幕和/或其它任何工单操作屏幕激活。',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => '定义队列的最大深度。',
         'Define the queue comment 2.' => '定义队列注释2。',

@@ -7312,7 +7312,7 @@ Thanks for your help!
             'Defina nome de campo dinámico para tempo de fin. Este campo ten que ser manualmente engadido ao sistema como Ticket: "Data / Tempo" e debe ser activado en pantallas de creación de ticket e/ou en calquera outras pantallas de acción de ticket.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Defina nome de campo dinámico para tempo de comezo. Este campo ten que ser manualmente engadido ao sistema como Ticket: "Data / Tempo" e debe ser activado en pantallas de creación de ticket e/ou en calquera outras pantallas de acción de ticket.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'Defina a máx profundidade das colas.',
         'Define the queue comment 2.' => 'Defina o comentario de cola 2.',

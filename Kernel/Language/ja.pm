@@ -7326,7 +7326,7 @@ Thanks for your help!
             '開始時刻のダイナミックフィールド名を定義します。 このフィールドは、チケット「日付/時刻」としてシステムに手動で追加する必要があり、チケット作成画面やその他のチケットアクション画面でアクティブにする必要があります。',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '開始時刻のダイナミックフィールド名を定義します。 このフィールドは、チケット「日付/時刻」としてシステムに手動で追加する必要があり、チケット作成画面やその他のチケットアクション画面でアクティブにする必要があります。',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => '',
         'Define the queue comment 2.' => '',
