@@ -6,13 +6,13 @@ name: 'DockerImageUpdateChecker'
 # run daily, time is in UTC, scheduled jobs run only on the default branch
 on:
   schedule:
-    - cron: '20 11 * * *'
+    - cron: '10 11 * * *'
 
 jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
     steps:
-      
+
       - name: Check if update available
         id: check
         uses: lucacome/docker-image-update-checker@v1
@@ -21,4 +21,9 @@ jobs:
           image: rotheross/otobo:latest-11_0
 
       - name: Report check result
-        run: 'echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"'
+        run: |
+            if [ "${{ steps.check.outputs.needs-updating }}" == "true" ]; then
+                echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
+            else
+                echo "::error:: The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
+            fi
