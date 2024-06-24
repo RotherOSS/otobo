@@ -52,9 +52,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2024-06-11 19:34+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
-"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-11/de/>\n"
+"PO-Revision-Date: 2024-06-25 11:13+0000\n"
+"Last-Translator: Markus Hlinka <mah@rother-oss.com>\n"
+"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-11/de/>"
+"\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -9760,7 +9761,9 @@ msgstr "Bereinigen und Abschließen"
 
 #. Template: Finish
 msgid "The migration is complete, thank you for trying out OTOBO - we hope you will like it."
-msgstr "Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden – wir hoffen, Sie mögen es!"
+msgstr ""
+"Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden - wir "
+"hoffen, Sie mögen es."
 
 #. Template: Finish
 msgid "To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root."
@@ -26947,7 +26950,9 @@ msgstr "Nichts zu tun!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Errors ocurred when trying to deploy translation. Please check system logs!"
-msgstr "Fehler beim Versuch die Übersetzung zu übernehmen. Bitte überprüfen Sie das Systemprotokoll."
+msgstr ""
+"Fehler beim Versuch, die Übersetzung zu übernehmen. Bitte überprüfen Sie das "
+"Systemprotokoll!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "All Items"
@@ -27564,4 +27569,3 @@ msgstr "Schreiben Sie uns an hello@otobo.io"
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters."
 msgstr ""
-
