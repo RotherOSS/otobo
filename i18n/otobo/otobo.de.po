@@ -48,13 +48,14 @@
 # svo <svo@rother-oss.com>, 2022.
 # sr <sr@rother-oss.com>, 2022.
 # Emin Yazi <yazi@efflux.de>, 2024.
+# Markus Hlinka <mah@rother-oss.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2024-05-06 11:38+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"PO-Revision-Date: 2024-06-25 11:13+0000\n"
+"Last-Translator: Markus Hlinka <mah@rother-oss.com>\n"
 "Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-10/de/>"
 "\n"
 "Language: de\n"
@@ -9762,7 +9763,9 @@ msgstr "Bereinigen und Abschließen"
 
 #. Template: Finish
 msgid "The migration is complete, thank you for trying out OTOBO - we hope you will like it."
-msgstr "Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden – wir hoffen, Sie mögen es!"
+msgstr ""
+"Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden - wir "
+"hoffen, Sie mögen es."
 
 #. Template: Finish
 msgid "To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root."
