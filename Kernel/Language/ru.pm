@@ -13,7 +13,7 @@
 # Copyright (C) 2013 Alexey Gluhov <glalexnn at yandex.ru>
 # Copyright (C) 2013 Andrey N. Burdin <BurdinAN at it-sakh.net>
 # Copyright (C) 2013 Yuriy Kolesnikov <ynkolesnikov at gmail.com>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5172,7 +5172,7 @@ sub Data {
         'Print this article' => 'Напечатать это сообщение',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => '',
+        'Contact us at hello@otobo.io' => '',
         'Get Help' => 'Получить помощь/Help',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
@@ -7334,7 +7334,7 @@ Thanks for your help!
             'Задайте имя динамического поля для конца периода. Это поле надо создать как Тип "Заявка": "Date / Time" и активировать для экранов создания заявки и/или любого другого действия с заявкой.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Задайте имя динамического поля для начала периода. Это поле надо создать как Тип "Заявка": "Date / Time" и активировать для экранов создания заявки и/или любого другого действия с заявкой.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'Задайте максимальный уровень вложенности для очередей',
         'Define the queue comment 2.' => 'Внести Комментарий 2 для очереди.',

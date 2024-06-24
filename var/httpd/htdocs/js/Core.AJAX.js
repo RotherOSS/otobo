@@ -381,7 +381,7 @@ Core.AJAX = (function (TargetNS) {
 
                 // date time elements
                 if ( !$Element.length ) {
-                    $Element = $('[name=' + DataKey +  'Used]').parent();
+                    $Element = $('[name=' + DataKey +  'Used]').parent('div.DynamicFieldDate');
                 }
 
                 if ((!$Element.length || typeof DataValue == 'undefined')) {
@@ -440,8 +440,14 @@ Core.AJAX = (function (TargetNS) {
             // both hidden and visible input element need to be set
             var $ReferenceElement = $Element.parent().find('.DynamicFieldReference');
             if ( $ReferenceElement.length ) {
-                $Element.val( typeof DataValue == 'object' ? DataValue[0][0] : '');
-                $ReferenceElement.val( typeof DataValue == 'object' ? DataValue[0][1] : '' );
+                if ( typeof DataValue == 'object' && DataValue[0] ) {
+                    $Element.val( DataValue[0][0] );
+                    $ReferenceElement.val( DataValue[0][1] );
+                }
+                else {
+                    $Element.val( '' );
+                    $ReferenceElement.val( '' );
+                }
                 return;
             }
 
@@ -713,6 +719,30 @@ Core.AJAX = (function (TargetNS) {
         }
         if (isJQueryObject($Element) && $Element.length) {
             $Element.closest('form').find('input:not(:file), textarea, select').filter(':not([disabled=disabled])').each(function () {
+                var Name = $(this).attr('name') || '';
+
+                // only look at fields with name
+                // only add element to the string, if there is no key in the data hash with the same name
+                if (!Name.length || typeof Ignore[Name] !== 'undefined'){
+                    return;
+                }
+
+                // TODO MultiValue Think about a solution to transfer unchecked value
+                if ($(this).is(':checkbox, :radio')) {
+                    if ($(this).is(':checked')) {
+                        QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || 'on') + ";";
+                    }
+                }
+                else if ($(this).is('select')) {
+                    $.each($(this).find('option:selected'), function(){
+                        QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
+                    });
+                }
+                else {
+                    QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
+                }
+            });
+            $Element.closest('form').find('.DynamicFieldText').filter('[disabled=disabled]').each(function () {
                 var Name = $(this).attr('name') || '';
 
                 // only look at fields with name

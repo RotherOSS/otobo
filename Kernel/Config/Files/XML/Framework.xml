@@ -7415,10 +7415,10 @@ via the Preferences button after logging in.
                     <Hash>
                         <Item Key="TextColor">#ffffff</Item>
                         <Item Key="BackgroundImage">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/Dashboard/dashboard_bgfl.png</Item>
-                        <Item Key="HeaderText">That's new in OTOBO 11.0</Item>
-                        <Item Key="MainText">Highlights: Processes in the service portal, S3, modern authentication with OpenID Connect, enhanced S/MIME functionality</Item>
-                        <Item Key="FooterText">Explore &gt;</Item>
-                        <Item Key="Link">https://otobo.de/en/otobo-10-1/</Item>
+                        <Item Key="HeaderText">OTOBO 11.0 | Service Management</Item>
+                        <Item Key="MainText">OTOBO 11.0 takes your service management to the next level with enhanced flexibility. And, with the simultaneous release of CMDB 11.0, you'll get seamless integration between your asset management and service management workflows.</Item>
+                        <Item Key="FooterText">Learn more &gt;</Item>
+                        <Item Key="Link">https://otobo.io/en/otobo-11-0-2-major-release/</Item>
                         <Item Key="NewTab">0</Item>
                     </Hash>
                 </Item>
@@ -8246,8 +8246,8 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::RSS</Item>
                 <Item Key="Title" Translatable="1">Custom RSS Feed</Item>
                 <Item Key="Description" Translatable="1">OTOBO News</Item>
-                <Item Key="URL">https://otobo.de/en/feed/</Item>
-                <Item Key="URL_de">https://otobo.de/de/feed/</Item>
+                <Item Key="URL">https://otobo.io/en/feed/</Item>
+                <Item Key="URL_de">https://otobo.io/de/feed/</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
                 <Item Key="Group"></Item>
@@ -8283,7 +8283,7 @@ via the Preferences button after logging in.
                 <Item Key="Title" Translatable="1">A picture</Item>
                 <Item Key="Description" Translatable="1">Some picture description!</Item>
                 <Item Key="Block">ContentLarge</Item>
-                <Item Key="URL">https://otobo.de/wp-content/uploads/2020/11/OTOBO-Rother-OSS-1.jpg</Item>
+                <Item Key="URL">https://otobo.io/wp-content/uploads/2024/06/Tile-OTOBO-Self-Service-Portal.jpg</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="Link">https://otobo.org/</Item>
@@ -10089,7 +10089,7 @@ via the Preferences button after logging in.
                         </Item>
                         <Item Key="Description" Translatable="1">Open the OTOBO home page in a new window</Item>
                         <Item Key="Name" Translatable="1">Jump to OTOBO!</Item>
-                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.de/</Item>
+                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.io/</Item>
                         <Item Key="LinkOption">target="_blank"</Item>
                         <Item Key="NavBar">JumptoExternalURL</Item>
                         <Item Key="Type">Menu</Item>
@@ -10143,7 +10143,7 @@ via the Preferences button after logging in.
                         </Item>
                         <Item Key="Description" Translatable="1">Open the OTOBO home page in a new window</Item>
                         <Item Key="Name" Translatable="1">Jump to OTOBO!</Item>
-                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.de/</Item>
+                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.io/</Item>
                         <Item Key="LinkOption">target="_blank"</Item>
                         <Item Key="NavBar">Ticket</Item>
                         <Item Key="Type">Menu</Item>

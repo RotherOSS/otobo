@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5163,7 +5163,7 @@ sub Data {
         'Print this article' => 'طباعة هذه المقالة',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => 'اكتب لنا على hello@otobo.de',
+        'Contact us at hello@otobo.io' => 'اكتب لنا على hello@otobo.io',
         'Get Help' => 'الحصول على المساعدة',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
@@ -7328,7 +7328,7 @@ Thanks for your help!
             'تعريف اسم الحقل الديناميكي لوقت الانتهاء. يجب إضافة هذا الحقل يدويا إلى النظام كتذكرة: "التاريخ / الوقت" ويجب تنشيطه في شاشات إنشاء التذكرة و/أو في أي شاشات أخرى لإجراءات التذكرة.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'تعريف اسم الحقل الديناميكي لوقت البدء. يجب إضافة هذا الحقل يدويا إلى النظام كتذكرة: "التاريخ / الوقت" ويجب تنشيطه في شاشات إنشاء التذكرة و/أو في أي شاشات أخرى لإجراءات التذكرة.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'حدد الحد الأقصى لعمق قوائم الانتظار.',
         'Define the queue comment 2.' => 'يحدد تعليق قائمة الانتظار 2.',

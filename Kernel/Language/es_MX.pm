@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5161,7 +5161,7 @@ sub Data {
         'Print this article' => 'Imprimir este artículo',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => 'Póngase en contacto con nosotros en hello@otobo.de',
+        'Contact us at hello@otobo.io' => 'Póngase en contacto con nosotros en hello@otobo.io',
         'Get Help' => 'Obtener ayuda',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
@@ -7323,7 +7323,7 @@ Su equipo de asistencia técnica
             'Definir el nombre del campo dinámico para la hora de finalización. Este campo debe añadirse manualmente al sistema como Ticket: "Fecha / Hora" y debe activarse en las pantallas de creación de tickets y/o en cualquier otra pantalla de acción del ticket.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definir el nombre del campo dinámico para la hora de inicio. Este campo debe añadirse manualmente al sistema como Ticket: "Fecha / Hora" y debe activarse en las pantallas de creación de tickets y/o en cualquier otra pantalla de acción del ticket.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'Define la profundidad máxima de las colas.',
         'Define the queue comment 2.' => 'Definir el comentario de la cola 2.',

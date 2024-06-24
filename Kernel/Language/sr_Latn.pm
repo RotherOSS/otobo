@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5167,7 +5167,7 @@ sub Data {
         'Print this article' => 'Odštampaj ovaj članak',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => '',
+        'Contact us at hello@otobo.io' => '',
         'Get Help' => 'Traži pomoć',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
@@ -7329,7 +7329,7 @@ Vaša tehnička podrška
             'Definiše naziv dinamičkog polja za krajnje vreme. Ovo polje mora biti manuelno dodato sistemu kao tiket: "Datum / Vreme" i mora biti aktivirano u ekranima za kreiranje tiketa i/ili u bilo kom drugom ekranu sa tiket akcijama.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definiše naziv dinamičkog polja za početno vreme. Ovo polje mora biti manuelno dodato sistemu kao tiket: "Datum / Vreme" i mora biti aktivirano u ekranima za kreiranje tiketa i/ili u bilo kom drugom ekranu sa tiket akcijama.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'Definiši maksimalnu dubinu za redove.',
         'Define the queue comment 2.' => 'Definiše komentar reda 2.',

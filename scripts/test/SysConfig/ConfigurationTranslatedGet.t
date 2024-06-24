@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -46,7 +46,7 @@ my %Result = $SysConfigObject->ConfigurationTranslatedGet;
 
 my @Tests = (
     {
-        Line => __LINE__,
+        Line          => __LINE__,
         Name          => 'Ticket::Frontend::AgentTicketQueue###SortBy::Default',
         ExpectedValue => {
             'Category'    => 'OTOBO',
@@ -56,7 +56,7 @@ definiert die standardmäßig eingestellten sortierkriterien für alle in der qu
         },
     },
     {
-        Line => __LINE__,
+        Line          => __LINE__,
         Name          => 'Ticket::Frontend::AgentTicketQueue###Order::Default',
         ExpectedValue => {
             'Category'    => 'OTOBO',
@@ -66,7 +66,7 @@ definiert die standardmäßig eingestellten sortierkriterien für alle in der qu
         },
     },
     {
-        Line => __LINE__,
+        Line          => __LINE__,
         Name          => 'Ticket::Frontend::AgentTicketService###SortBy::Default',
         ExpectedValue => {
             'Category'    => 'OTOBO',
@@ -76,7 +76,7 @@ definiert die standardmäßig eingestellten sortierkriterien für alle in der se
         },
     },
     {
-        Line => __LINE__,
+        Line          => __LINE__,
         Name          => 'Ticket::Frontend::AgentTicketSearch###SearchCSVData',
         ExpectedValue => {
             'Category'    => 'OTOBO',
@@ -109,7 +109,7 @@ daten die verwendet werden um das suchergebnis im csv-format zu exportieren.'
         },
     },
     {
-        Line => __LINE__,
+        Line          => __LINE__,
         Name          => 'Ticket::Frontend::AgentTicketPhone###SplitLinkType',
         ExpectedValue => {
             'Category'    => 'OTOBO',
@@ -121,7 +121,7 @@ bestimmt den standard-linktyp für geteilte tickets im agentenbereich.'
         },
     },
     {
-        Line => __LINE__,
+        Line          => __LINE__,
         Name          => 'Ticket::Frontend::HistoryTypes###000-Framework',
         ExpectedValue => {
             'Category'    => 'OTOBO',

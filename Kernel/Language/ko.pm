@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5161,7 +5161,7 @@ sub Data {
         'Print this article' => '이 기사 인쇄',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => '',
+        'Contact us at hello@otobo.io' => '',
         'Get Help' => '도움말 보기',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
@@ -7323,7 +7323,7 @@ Thanks for your help!
             '종료 시간의 동적 필드 이름을 정의하십시오. 이 필드는 티켓 : "날짜 / 시간"으로 시스템에 수동으로 추가되어야하며 티켓 생성 화면 및 / 또는 기타 티켓 동작 화면에서 활성화해야합니다.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '시작 시간의 동적 필드 이름을 정의하십시오. 이 필드는 티켓 : "날짜 / 시간"으로 시스템에 수동으로 추가되어야하며 티켓 생성 화면 및 / 또는 기타 티켓 동작 화면에서 활성화해야합니다.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => '대기열의 최대 깊이를 정의하십시오.',
         'Define the queue comment 2.' => '큐 설명 정의 2.',

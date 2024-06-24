@@ -4,7 +4,7 @@
 # Copyright (C) 2006-2009 Amir Shams Parsa <a.parsa at gmail.com>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5166,7 +5166,7 @@ sub Data {
         'Print this article' => 'چاپ این نوشته ',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => '',
+        'Contact us at hello@otobo.io' => '',
         'Get Help' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
@@ -7328,7 +7328,7 @@ Thanks for your help!
             'تعریف نام زمینه پویا برای زمان پایان. این فیلد به صورت دستی به سیستم به عنوان بلیط افزود: \ "تاریخ / زمان " و باید در صفحه نمایش ایجاد بلیط و / یا در هر صفحه نمایش عمل بلیط دیگر فعال شود.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'تعریف نام زمینه پویا برای زمان شروع. این فیلد به صورت دستی به سیستم به عنوان بلیط افزود: \ "تاریخ / زمان " و باید در صفحه نمایش ایجاد بلیط و / یا در هر صفحه نمایش عمل بلیط دیگر فعال شود.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'تعریف عمق حداکثر صف.',
         'Define the queue comment 2.' => 'تعریف نظر صف 2.',

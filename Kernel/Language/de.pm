@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998198739117382;
+    $Self->{Completeness}        = 0.999099369558691;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -64,7 +64,7 @@ sub Data {
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Änderungen an den ACLs wirken sich erst aus, wenn Sie die Konfiguration in Betrieb nehmen. Dabei werden die Änderungen in der Konfiguration gespeichert.',
         'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
-            '',
+            'Um eine bestehende ACL zu löschen müssen Sie die Gültigkeit auf ungültig setzen und sie speichern. Danach taucht ein neuer Knopf auf, mit dem man die ACL löschen kann.',
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Hinweis: Diese Tabelle stellt die Ausführungsreihenfolge der ACLs dar. Wenn Sie die Reihenfolge ändern möchten, ändern Sie bitte die Namen der jeweiligen ACLs.',
@@ -4122,10 +4122,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => 'Fehlendes dynamisches Feld.',
-        'No valid dynamic field "%s."' => '',
+        'No valid dynamic field "%s."' => 'Kein gültiges Dynamisches Feld "%s."',
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
-            '',
-        'The dynamic field "%s" is already in use in a ticket mask.' => '',
+            'Der Dynamische Feld-Typ "%s" des Dynamischen Felds "%s" kann in Sets nicht verwendet werden.',
+        'The dynamic field "%s" is already in use in a ticket mask.' => 'Das Dynamische Feld "%s" wird bereits in einer Ticketmaske verwendet.',
         'Misconfigured Grid - need Rows as Array!' => 'Fehlkonfiguriertes Grid - Zeilen als Array angeben!',
         'Misconfigured Grid - need Columns as integer > 0!' => 'Fehlkonfiguriertes Grid – Spalten als ganze Zahl >0 angeben!',
         'Misconfigured Grid - Rows can\'t be empty!' => 'Fehlkonfiguriertes Grid – Zeilen können nicht leer sein!',
@@ -5161,7 +5161,7 @@ sub Data {
         'Print this article' => 'Diesen Artikel drucken',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => 'Schreiben Sie uns an hello@otobo.de',
+        'Contact us at hello@otobo.io' => 'Schreiben Sie uns an hello@otobo.io',
         'Get Help' => 'Hilfe',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
@@ -5510,7 +5510,7 @@ sub Data {
         'Select the group of the agents' => 'Wählen Sie die Gruppe der Agenten aus',
         'External-source key' => '',
         'When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.' =>
-            '',
+            'Sofern durch eine externe Quelle (z.B. Webservice oder Import / Export) gesetzt, wird der Wert als dieses Attribut interpretiert.',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
         'before/after' => 'vor/nach',
@@ -6160,7 +6160,7 @@ sub Data {
         'Error parsing dynamic fields.' => 'Fehler beim Parsen der dynamischen Felder.',
         'No dynamic field "%s".' => 'Kein dynamisches Feld "%s".',
         'Dynamic field "%s" not valid.' => 'Ungültiges dynamisches Feld "%s".',
-        'Dynamic field "%s" already in use in a Set.' => '',
+        'Dynamic field "%s" already in use in a Set.' => 'Dynamisches Feld "%s" bereits in einem Set verwendet.',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Too many failed login attempts, please retry in %s s.' => 'Zu viele fehlgeschlagene Anmeldungen, bitte versuchen Sie es in %s s noch einmal.',
@@ -7326,7 +7326,7 @@ Ihr Helpdesk-Team
             'Definiert dynamische Feldnamen für die Endzeit. Dieses Feld muss manuell im System als Ticket: "Datum / Uhrzeit" hinzugefügt werden und muss in Ticketerstellungsoberflächen und / oder in anderen Ticket-Aktionsoberflächen aktiviert werden.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definiert dynamische Feldnamen für die Startzeit. Dieses Feld muss manuell im System als Ticket: "Datum / Uhrzeit" hinzugefügt werden und muss in Ticketerstellungsoberflächen und / oder in anderen Ticket-Aktionsoberflächen aktiviert werden.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'Definiert die maximale Tiefe von Queues.',
         'Define the queue comment 2.' => 'Definiert den 2. Queue-Kommentar.',

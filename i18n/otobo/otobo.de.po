@@ -54,8 +54,7 @@ msgstr ""
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
 "PO-Revision-Date: 2024-06-11 19:34+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
-"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-11/de/>"
-"\n"
+"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-11/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27516,9 +27515,7 @@ msgstr "Kein gültiges Dynamisches Feld \"%s.\""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field type \"%s\" of dynamic field \"%s\" can not be used in sets."
-msgstr ""
-"Der Dynamische Feld-Typ \"%s\" des Dynamischen Felds \"%s\" kann in Sets "
-"nicht verwendet werden."
+msgstr "Der Dynamische Feld-Typ \"%s\" des Dynamischen Felds \"%s\" kann in Sets nicht verwendet werden."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field \"%s\" is already in use in a ticket mask."
@@ -27530,9 +27527,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute."
-msgstr ""
-"Sofern durch eine externe Quelle (z.B. Webservice oder Import / Export) "
-"gesetzt, wird der Wert als dieses Attribut interpretiert."
+msgstr "Sofern durch eine externe Quelle (z.B. Webservice oder Import / Export) gesetzt, wird der Wert als dieses Attribut interpretiert."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
 msgid "Select the attribute which customer companies will be searched by"
@@ -27556,13 +27551,17 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
-msgstr ""
-"Um eine bestehende ACL zu löschen müssen Sie die Gültigkeit auf ungültig "
-"setzen und sie speichern. Danach taucht ein neuer Knopf auf, mit dem man die "
-"ACL löschen kann."
+msgstr "Um eine bestehende ACL zu löschen müssen Sie die Gültigkeit auf ungültig setzen und sie speichern. Danach taucht ein neuer Knopf auf, mit dem man die ACL löschen kann."
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters."
+msgstr "Defnition von möglichen Namensräumen für Dynamische Felder. Darf nur alphanumerische Zeichen beinhalten."
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.io"
+msgstr "Schreiben Sie uns an hello@otobo.io"
+
+#. SysConfig
+msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters."
 msgstr ""
-"Defnition von möglichen Namensräumen für Dynamische Felder. Darf nur "
-"alphanumerische Zeichen beinhalten."
+

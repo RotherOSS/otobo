@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5164,7 +5164,7 @@ sub Data {
         'Print this article' => 'Chapa makala hii',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => '',
+        'Contact us at hello@otobo.io' => '',
         'Get Help' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
@@ -7318,7 +7318,7 @@ Mfano:
             'Fafanua jina la uga wenye nguvu kwa ajili ya muda wa kuisha. Uga huu unabidi uongezwe kwa mkono katika mfumo kama tiketi: "Tarehe / Muda" na lazima iamilishwe katika skrini ya utengenezaji wa tiketi na/au katika skrini nyingine za kitendo cha tiketi.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Fafanua jina la uga wenye nguvu kwa ajili ya muda wa kuanza. Uga huu unabidi uongezwe kwa mkono katika mfumo kama tiketi: "Tarehe / Muda" na lazima iamilishwe katika skrini ya utengenezaji wa tiketi na/au katika skrini nyingine za kitendo cha tiketi.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'inafafanua upeo wa juu wa kina wa foleni.',
         'Define the queue comment 2.' => '',

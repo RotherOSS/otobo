@@ -1,4 +1,48 @@
 
+# OTOBO 11.0.3 2024-06-21
+- 2024-06-21 16:04:01 +0200 Create new OTOBO language files.
+- 2024-06-21 15:53:27 +0200 Change Featured Link default text.
+- 2024-06-20 14:37:40 +0200 [Bugfix]   Ticketmerge DB error on versioned articles (https://github.com/RotherOSS/otobo/issues/3520)
+- 2024-06-20 10:39:30 +0200 [Bugfix]   Fix using wrong itsm repo during upgrade to 11. (https://github.com/RotherOSS/otobo/issues/3513)
+- 2024-06-20 13:21:00 +0200 [Bugfix]   Fix reference df handling in Core.AJAX.js (https://github.com/RotherOSS/otobo/issues/3518)
+- 2024-06-20 11:45:09 +0200 [Bugfix]   Enable DF Date(Time) value set on AJAX update (https://github.com/RotherOSS/otobo/issues/3483)
+- 2024-06-20 11:04:51 +0200 Properly pass action to TicketAcl in AgentTicketEmailOutbound.
+- 2024-06-20 07:59:04 +0200 [Bugfix]   TicketOverview: DynamicField with Link and Value Replacement did not add Value (https://github.com/RotherOSS/otobo/issues/805)
+- 2024-06-19 07:43:20 +0200 [Bugfix]   Allow js-side handling of readonly select fields (https://github.com/RotherOSS/otobo/issues/3506)
+- 2024-06-18 14:08:54 +0200 Update otobo url. (https://github.com/RotherOSS/otobo/issues/3425)
+- 2024-06-18 12:17:06 +0100 OTOBO 11 Quick Issues (https://github.com/RotherOSS/otobo/issues/3359) - in progress
+- 2024-06-18 12:08:25 +0100 Revert "Issue #3359: ckeditor dropdown fix for customer ui"
+- 2024-06-18 08:56:52 +0200 [Bugfix]   Allow lens field to get cleared (https://github.com/RotherOSS/otobo/issues/3473)
+- 2024-06-16 12:19:20 +0200 Upgrade CPAN::Audit to version 20240615.002
+- 2024-06-14 16:19:12 +0200 Tidying: avoid a postfix 'for' statement
+- 2024-06-14 12:17:06 +0200 Update docker_image_update_checker.yml
+- 2024-06-14 12:11:46 +0200 Update docker_image_update_checker.yml
+- 2024-06-14 12:04:07 +0200 Update docker_image_update_checker.yml
+- 2024-06-14 11:59:29 +0200 Use workflow name without space
+- 2024-06-14 11:48:04 +0200 [Enhanced] Check for update in base images (https://github.com/RotherOSS/otobo/issues/3448) - in progress
+- 2024-06-12 12:31:28 +0200 [Bugfix]   CustomerTicketProcess has a bug if no dynamic fields are used (https://github.com/RotherOSS/otobo/issues/3479)
+- 2024-06-11 15:36:36 +0200 [Bugfix]   Enable Dynamic Field Clone / Copy to also preserve Namespace (https://github.com/RotherOSS/otobo/issues/3470)
+- 2024-06-13 09:44:37 +0200 [Bugfix]   Add default table sorting to AgentTicketZoom ArticleList (https://github.com/RotherOSS/otobo/issues/3488)
+- 2024-06-13 10:14:28 +0200 [Enhanced] Provide OS package names for Test2::Harness (https://github.com/RotherOSS/otobo/issues/3476)
+- 2024-06-13 09:40:44 +0200 [Bugfix]   Fix UnitTest Failures (https://github.com/RotherOSS/otobo/issues/3100) - in progress
+- 2024-06-12 15:53:35 +0200 Grap the setup for Devel::Peek from rel-11_0
+- 2024-06-12 15:53:35 +0200 Grap the setup for Devel::Peek from rel-11_0
+- 2024-06-12 15:48:25 +0200 Grab some minor changes from rel-11_0
+- 2024-06-12 11:00:00 +0200 Add example commands for devel:test to the SYNOPSIS
+- 2024-06-12 09:46:56 +0200 Tidied. (InfoTile)
+- 2024-06-11 09:36:36 +0000 Translated using Weblate (German)
+- 2024-06-11 16:57:18 +0200 Tidying: saner variable names for sleep intervals
+- 2024-06-11 15:10:28 +0200 [Tidied]   Define meaningful length restrictionfor dynamic field namespaces (https://github.com/RotherOSS/otobo/issues/3460)
+- 2024-06-11 14:25:49 +0200 Add Data::Peek to feature devel:test in bin/otobo.CheckModules.pm (https://github.com/RotherOSS/otobo/issues/3461)
+- 2024-06-10 12:25:59 +0200 [Bugfix]   ticket type empty in "ticket change" event though one is defined (https://github.com/RotherOSS/otobo/issues/3447)
+- 2024-06-10 13:41:50 +0200 [Enhanced] Enable dynamic field restriction by object type (https://github.com/RotherOSS/otobo/issues/2770)
+- 2024-06-04 13:24:40 +0200 [Bugfix]   AgentTicketZoom 500 when opening a process ticket (https://github.com/RotherOSS/otobo/issues/3436)
+- 2024-06-03 10:22:30 +0200 Fix syntax in commented out JavaScript.
+- 2024-05-31 13:33:10 +0200 Allow to pass additional arguments when calling WaitFor() with JavaScript  (https://github.com/RotherOSS/otobo/issues/3432)
+- 2024-05-29 12:53:08 +0200 [Tidied]   Eliminate the parameter 'Charset' to the method 'DocumentComplete' (https://github.com/RotherOSS/otobo/issues/3428)
+- 2024-05-27 15:36:56 +0200 Fix CHANGES.
+
+
 # OTOBO 11.0.2 2024-05-27
 - 2024-05-27 15:20:43 +0200 Create new OTOBO language files.
 - 2024-05-17 14:50:49 +0000 Translated using Weblate (Spanish (Mexico))
@@ -1825,7 +1869,7 @@
 - 2020-07-13 12:04:42 +0200 PSGI: disable the devel middlewares in production (https://github.com/RotherOSS/otobo/issues/201)
 - 2020-07-13 11:22:46 +0200 Another set of color changes.
 - 2020-07-13 11:06:03 +0200 Change otobo verify logos.
-- 2020-07-14 16:52:39 +0200 Fix bug for MariaDB https://otobo.de/de/forums/topic/otobo-10-0-1-installer-db-user-setup-schlaegt-fehl/, thanks to Sago.
+- 2020-07-14 16:52:39 +0200 Fix bug for MariaDB https://otobo.io/de/forums/topic/otobo-10-0-1-installer-db-user-setup-schlaegt-fehl/, thanks to Sago.
 - 2020-07-13 15:23:18 +0200 Update CHANGES.
 
 

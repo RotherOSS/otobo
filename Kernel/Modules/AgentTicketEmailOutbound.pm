@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -124,9 +124,11 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get ACL restrictions
-    # NOTE TicketAcl() checks whether any ACL matches and returns 1 or undef
+    my %PossibleActions = ( 1 => $Self->{Action} );
+
     my $ACL = $TicketObject->TicketAcl(
-        Data          => '-',
+        Data          => \%PossibleActions,
+        Action        => $Self->{Action},
         TicketID      => $Self->{TicketID},
         ReturnType    => 'Action',
         ReturnSubType => '-',

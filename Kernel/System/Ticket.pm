@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -6432,7 +6432,8 @@ sub TicketMerge {
 
     # change ticket id of merge ticket to main ticket for time_accounting versions
     return if !$DBObject->Do(
-        SQL  => 'UPDATE time_accounting_version SET ticket_id = ? WHERE ticket_id = ?',
+        SQL => 'UPDATE time_accounting_version SET ticket_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE ticket_id = ?',
         Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
     );
 

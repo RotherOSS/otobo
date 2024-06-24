@@ -1,7 +1,7 @@
 /* OTOBO is a web-based ticketing system for service organisations.
 
 Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -865,6 +865,7 @@ fieldset.TableLike .RichTextField {
     resize: vertical;
     z-index: 10;
     position: relative;
+    overflow: hidden;
     min-height: 150px !important;
     height: 320px;
     max-width: 620px;
@@ -1021,10 +1022,6 @@ fieldset.TableLike.FixedLabelSmall > .Row > .Value {
     margin-right: 100px;
 }
 
-fieldset.TableLike.FixedLabelSmall > .FixedValueSmall,
-fieldset.TableLike.FixedLabelSmall > .Row > .FixedValueSmall {
-    width: 143px;
-}
 fieldset.TableLike.FixedLabelSmall > p.FixedValueSmall > em.Error {
     display: block;
     font-size: 11px;

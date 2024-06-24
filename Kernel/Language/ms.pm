@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5160,7 +5160,7 @@ sub Data {
         'Print this article' => 'Cetak tiket ini',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => '',
+        'Contact us at hello@otobo.io' => '',
         'Get Help' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
@@ -7324,7 +7324,7 @@ dalaman.',
             'Tentukan nama medan dinamik untuk masa akhir. Bidang ini perlu secara manual ditambah ke dalam sistem sebagai tiket: "Tarikh / Masa" dan mesti diaktifkan dalam skrin penciptaan tiket dan/atau dalam mana-mana skrin tindakan tiket lain.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Tentukan nama medan dinamik untuk masa mula. Bidang ini perlu secara manual ditambah ke dalam sistem sebagai tiket: "Tarikh / Masa" dan mesti diaktifkan dalam skrin penciptaan tiket dan/atau dalam mana-mana skrin tindakan tiket lain.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'Menentukan kedalaman maksimum barisan.',
         'Define the queue comment 2.' => 'Tentukan barisan komen 2.',

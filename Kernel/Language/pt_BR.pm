@@ -8,7 +8,7 @@
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira 60kg gmail.com>
 # Copyright (C) 2013 Alexandre <matrixworkstation@gmail.com>
 # Copyright (C) 2013-2014 Murilo Moreira de Oliveira <murilo.moreira 60kg gmail.com>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5166,7 +5166,7 @@ sub Data {
         'Print this article' => 'Imprimir este artigo',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => 'Contacte-nos em hello@otobo.de',
+        'Contact us at hello@otobo.io' => 'Contacte-nos em hello@otobo.io',
         'Get Help' => 'Solicitar Ajuda',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
@@ -7328,7 +7328,7 @@ Obrigado pela ajuda!
             'Definir um nome de campo dinâmico para tempo de término. Este campo deve ser adicionado manualmente ao sistema com Ticket "Data / Hora" e deve ser ativado nas telas de criação de ticket e/ou em quaisquer outras telas de ação de ticket.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definir um nome de campo dinâmico para horário de início. Este campo deve ser adicionado manualmente ao sistema com Ticket "Data / Hora" e deve ser ativado nas telas de criação de ticket e/ou em quaisquer outras telas de ação de ticket.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'Define a profundidade máxima das filas.',
         'Define the queue comment 2.' => 'Defina o comentário 2 de fila.',

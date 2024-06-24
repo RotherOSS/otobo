@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -523,12 +523,12 @@
 #                <div class="Header">
 #                    <h2>
 #                        [% Translate("Features for %s customers only") | html | ReplacePlaceholders(OTOBOCommunityLabel) %]
-#                        → <a href="mailto:hallo@otobo.de">hallo@otobo.de</a>
+#                        → <a href="mailto:hallo@otobo.io">hallo@otobo.io</a>
 #                    </h2>
 #                </div>
 #                <div class="Content ">
 #                    <p>
-#                        [% Translate("With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.") | html | ReplacePlaceholders(OTOBOCommunityLabel, '<a href="mailto:hallo@otobo.de">hallo@otobo.de</a>') %]
+#                        [% Translate("With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.") | html | ReplacePlaceholders(OTOBOCommunityLabel, '<a href="mailto:hallo@otobo.io">hallo@otobo.io</a>') %]
 #                    </p>
 #                    <table class="DataTable SpacingTop">
 #                        <thead>

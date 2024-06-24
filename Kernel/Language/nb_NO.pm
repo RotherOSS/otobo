@@ -10,7 +10,7 @@
 # Copyright (C) 2011 Espen Stefansen <libbe at stefansen dot net>
 # Copyright (C) 2012 Lars Magnus Herland <lars.magnus at herland.priv.no>
 # Copyright (C) 2013 Espen Stefansen <libbe at stefansen dot net>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -5169,7 +5169,7 @@ sub Data {
         'Print this article' => 'Skriv ut denne artikkelen',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => 'Kontakt oss på hello@otobo.de',
+        'Contact us at hello@otobo.io' => 'Kontakt oss på hello@otobo.io',
         'Get Help' => 'Få hjelp',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
@@ -7334,7 +7334,7 @@ Ditt Helpdesk-team
             'Definer dynamisk feltnavn for sluttid. Dette feltet må manuelt legges til systemet som sak: "Dato / klokkeslett" og må aktiveres i saksopprettingsskjermer og/eller i andre sakshandlingsskjermer.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definer dynamisk feltnavn for starttid. Dette feltet må manuelt legges til systemet som sak: "Dato / klokkeslett" og må aktiveres i saksopprettingsskjermer og/eller i andre sakshandlingsskjermer.',
-        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters.' =>
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
         'Define the max depth of queues.' => 'Definer maksimal dybde på køer.',
         'Define the queue comment 2.' => 'Definer køkommentaren 2.',
