@@ -5,8 +5,9 @@ name: 'DockerImageUpdateChecker'
 
 # run daily, time is in UTC, scheduled jobs run only on the default branch
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '10 11 * * *'
+    - cron: '12 12 * * *'
 
 jobs:
   CheckDockerImageUpdate:
