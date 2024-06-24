@@ -22,8 +22,10 @@ jobs:
           image: rotheross/otobo:latest-11_0
 
       - name: Report the check result
-        run: echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
+        run: |
+          echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
 
       - name: Notify that images need to be rebuilt
         if: steps.check.outputs.needs-updating == 'true'
-        run: echo "::error:: Please update the latest OTOBO images for rel-10_0, rel-10_1. rel-11_0"
+        run: |
+          echo "::error:: Please update the latest OTOBO images for rel-10_0, rel-10_1. rel-11_0"
