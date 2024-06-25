@@ -87,7 +87,8 @@ COPY cpanfile.docker cpanfile
 ENV PERL5LIB "/opt/otobo_install/local/lib/perl5"
 ENV PATH "/opt/otobo_install/local/bin:${PATH}"
 RUN cpanm --local-lib local Carton\
- && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
+ && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install\
+ && rm -rf "/root/.cpanm"
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
@@ -109,7 +110,7 @@ ENV OTOBO_RUNS_UNDER_DOCKER 1
 # the entrypoint is not in the volume
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
 
-# The regular build target, without Kerberop
+# The regular build target, without Kerberos
 FROM base AS otobo-web
 
 # First there is some initial setup that needs to be done by root.
@@ -117,8 +118,7 @@ USER root
 
 # No further Debian or CPAN packages are needed,
 # so we only need to do the cleanup
-RUN rm -rf /var/lib/apt/lists/*\
- && rm -rf "/root/.cpanm"
+RUN rm -rf /var/lib/apt/lists/*
 
 # Copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir.
 # The files that are set up in .dockerignore. This means that a potentially existing Kernel/Config.pm
@@ -211,6 +211,8 @@ RUN apt-get update\
  && rm -rf /var/lib/apt/lists/*
 
 # append extra modules needed for Kerberos
+# Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
+# and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
 RUN cpanm --local-lib local Authen::Krb5::Simple\
  && cpanm --local-lib local LWP::Authen::Negotiate\
@@ -239,4 +241,3 @@ LABEL org.opencontainers.image.revision=$GIT_COMMIT
 LABEL org.opencontainers.image.source=$GIT_REPO
 ARG DOCKER_TAG=unspecified
 LABEL org.opencontainers.image.version=$DOCKER_TAG
-
