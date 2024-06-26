@@ -73,7 +73,6 @@ current situation on the development machine.
 
     diff -r . local/lib/perl5/ | grep -v cpanfile | grep -v README.md      # the goal is to see only 'local'
     cpanm --notest --reinstall --local-lib local CPAN::DistnameInfo@0.12
-    cpanm --notest --reinstall --local-lib local File::Slurp@9999.32
     cpanm --notest --reinstall --local-lib local Font::TTF@1.06
     cpanm --notest --reinstall --local-lib local IO::String@1.08
     cpanm --notest --reinstall --local-lib local Module::CPANfile@1.1004
