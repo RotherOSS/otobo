@@ -76,6 +76,7 @@ sub new {
     $Self->{FieldCSSClass} = 'DynamicFieldLens';
 
     # set field behaviors
+    #   NOTE behaviors IsACLReducible and IsCustomerInterfaceCapable get overridden with the attribute fields behaviors in sub HasBehavior
     $Self->{Behaviors} = {
         'IsACLReducible'               => 0,
         'IsNotificationEventCondition' => 1,
