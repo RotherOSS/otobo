@@ -81,3 +81,6 @@ var/tmp/
 !scripts/test/sample/SMIME/SMIME*.pem
 !scripts/test/sample/SSL/*.pem
 **/*.chain
+
+# The Photoshop source file, the *.psd files, are not needed in the Docker image
+./var/httpd/htdocs/skins/Agent/default/img/source/
