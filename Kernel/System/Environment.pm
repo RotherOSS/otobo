@@ -551,12 +551,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.44',
         },
         {
-            'Comment'         => 'needed by Kernel::System::Diff',
-            'Module'          => 'Text::Diff::FormattedHTML',
-            'Required'        => 1,
-            'VersionRequired' => '== 0.08',
-        },
-        {
             'Comment'         => 'needed by Crypt::Random::Source',
             'Module'          => 'Type::Tiny',
             'Required'        => 1,
