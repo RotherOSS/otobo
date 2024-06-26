@@ -137,9 +137,6 @@ requires 'Sys::Hostname::Long', '== 1.5';
 # needed by Kernel::System::Diff
 requires 'Text::Diff', '== 1.44';
 
-# needed by Kernel::System::Diff
-requires 'Text::Diff::FormattedHTML', '== 0.08';
-
 # needed by Crypt::Random::Source
 requires 'Type::Tiny', '== 1.010000';
 
