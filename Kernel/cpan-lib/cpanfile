@@ -42,9 +42,6 @@ requires 'Excel::Writer::XLSX', '== 0.95';
 # needed by Type::Tiny
 requires 'Exporter::Tiny', '== 1.002001';
 
-# needed by Text::Diff::FormattedHTML 
-requires 'File::Slurp', '== 9999.32';
-
 # needed by PDF::API2
 requires 'Font::TTF', '== 1.06';
 
