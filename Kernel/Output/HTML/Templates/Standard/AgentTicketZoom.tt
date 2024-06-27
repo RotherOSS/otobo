@@ -426,6 +426,9 @@
                                         <i class="fa fa-paperclip"></i>
                                     </a>
                                 </th>
+[% RenderBlockStart("TimeUnitHeader") %]
+                                <th class="TimeUnit"><a href="#">[% Translate("Time Units") | html %]</a></th>
+[% RenderBlockEnd("TimeUnitHeader") %]
                             </tr>
                         </thead>
                         <tbody>
@@ -518,6 +521,11 @@
                                     <span class="NoContent"></span>
 [% RenderBlockEnd("TreeItemNoAttachment") %]
                                 </td>
+                                [% IF Data.ShowTimeUnits %]
+                                <td class="No">
+                                    [% Data.TimeUnit | html %]
+                                </td>
+                                [% END %]
                             </tr>
 [% RenderBlockEnd("TreeItem") %]
                         </tbody>
