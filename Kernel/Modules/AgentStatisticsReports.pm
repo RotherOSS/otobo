@@ -290,7 +290,7 @@ sub EditScreen {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    $Frontend{BrowserFound} = $ConfigObject->Get('PhantomJS::Bin') || $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
+    $Frontend{BrowserFound} = ( $ConfigObject->Get('PhantomJS::Bin') || $ConfigObject->Get('GoogleChrome::Bin') ) ? 1 : 0;
 
     my %Format = %{ $ConfigObject->Get('Stats::Format') || {} };
 
@@ -819,7 +819,7 @@ sub StatsAddWidgetAJAX {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $BrowserFound = $ConfigObject->Get('PhantomJS::Bin') || $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
+    my $BrowserFound = ( $ConfigObject->Get('PhantomJS::Bin') || $ConfigObject->Get('GoogleChrome::Bin') ) ? 1 : 0;
     my %Format       = %{ $ConfigObject->Get('Stats::Format') || {} };
 
     my %FilteredFormats;
