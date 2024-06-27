@@ -13787,7 +13787,6 @@ Thanks for your help!
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
                 <Item Key="AccountedTime" SelectedID="1"></Item>
-                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
