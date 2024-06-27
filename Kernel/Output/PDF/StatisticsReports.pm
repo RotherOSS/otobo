@@ -392,22 +392,21 @@ sub GeneratePDF {
             # Generate local file URLs for Chrome or PhantomJS (ok, this is a hack).
             local $ConfigObject->{'Frontend::WebPath'}        = "file://$Home/var/httpd/htdocs/";
             local $ConfigObject->{'Frontend::JavaScriptPath'} = "file://$Home/var/httpd/htdocs/js/";
-            my $Output = $LayoutObject->Header( Type => 'Small' );
-            $Output .= $LayoutObject->Output(
-                Data => {
-                    %{$Stat},
-                    RawData => [
-                        [$Title],
-                        $HeadArrayRef,
-                        @StatArray,
-                    ],
-                    Format => $Format,
-                },
-                TemplateFile => 'StatisticsReports/Graph2PNG',
-            );
-            $Output .= $LayoutObject->Footer(
-                Type => 'Small',
-            );
+            my $Output = join '',
+                $LayoutObject->Header( Type => 'Small' ),
+                $LayoutObject->Output(
+                    Data => {
+                        %{$Stat},
+                        RawData => [
+                            [$Title],
+                            $HeadArrayRef,
+                            @StatArray,
+                        ],
+                        Format => $Format,
+                    },
+                    TemplateFile => 'StatisticsReports/Graph2PNG',
+                ),
+                $LayoutObject->Footer( Type => 'Small' );
 
             # Remove HTTP headers
             $Output =~ s{\A.*?(<!DOCTYPE)}{$1}smx;
