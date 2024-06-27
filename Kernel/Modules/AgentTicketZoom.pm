@@ -2391,18 +2391,21 @@ sub _ArticleTree {
 
         # fetching accounted times of all articles to check if we display the column
         my %ArticleAccountedTimes;
-        for my $ArticleTmp (@ArticleBox) {
+        my $ShowTimeUnits = 0;
+        if ( $Self->{Config}{ArticleListShowTimeUnits} ) {
+            for my $ArticleTmp (@ArticleBox) {
 
-            # Get accounted time for article using ArticleAccountedTimeGet
-            $ArticleAccountedTimes{ $ArticleTmp->{ArticleID} } = $ArticleObject->ArticleAccountedTimeGet(
-                ArticleID => $ArticleTmp->{ArticleID},
-            );
-        }
-        my $ShowTimeUnits = ( any { $_ != 0 } values %ArticleAccountedTimes ) ? 1 : 0;
-        if ($ShowTimeUnits) {
-            $LayoutObject->Block(
-                Name => 'TimeUnitHeader',
-            );
+                # Get accounted time for article using ArticleAccountedTimeGet
+                $ArticleAccountedTimes{ $ArticleTmp->{ArticleID} } = $ArticleObject->ArticleAccountedTimeGet(
+                    ArticleID => $ArticleTmp->{ArticleID},
+                );
+            }
+            $ShowTimeUnits = ( any { $_ != 0 } values %ArticleAccountedTimes ) ? 1 : 0;
+            if ($ShowTimeUnits) {
+                $LayoutObject->Block(
+                    Name => 'TimeUnitHeader',
+                );
+            }
         }
 
         ARTICLE:

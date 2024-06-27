@@ -13101,6 +13101,13 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###ArticleListShowTimeUnits" Required="0" Valid="1">
+        <Description Translatable="1">If the accounted time units for articles are shown in the article list. Only showing if at least one article has any accounted time.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation" Required="0" Valid="1">
         <Description Translatable="1">AgentTicketZoom widget that displays ticket data in the side bar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
