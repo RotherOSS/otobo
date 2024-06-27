@@ -202,6 +202,12 @@
                             <div title="[% Translate("Service Time") | html %]: [% Data.SolutionTimeWorkingTime | html %]" class="[% Data.SolutionTimeClass | html %]">[% Data.SolutionTimeHuman | html %] / [% Data.SolutionTimeDestinationDate | Localize("TimeShort") %]</div>
 [% RenderBlockEnd("SolutionTime") %]
                         </td>
+                        <td>
+                            <label>[% Translate("Accounted Time") | html %]</label>
+[% RenderBlockStart("AccountedTime") %]
+                            <div title="[% Translate("Accounted Time") | html %]: [% Data.AccountedTime | html %]" class="[% Data.SolutionTimeClass | html %]">[% Data.AccountedTime | html %]</div>
+[% RenderBlockEnd("AccountedTime") %]
+                        </td>
                     </tr>
                 </tbody>
             </table>
