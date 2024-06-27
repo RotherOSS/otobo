@@ -16,8 +16,10 @@
 
 package Kernel::Output::PDF::StatisticsReports;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 use File::stat qw(stat);
@@ -65,9 +67,8 @@ sub GeneratePDF {
     my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $PhantomJSBinary    = $Kernel::OM->Get('Kernel::Config')->Get('PhantomJS::Bin');
     my $GoogleChromeBinary = $Kernel::OM->Get('Kernel::Config')->Get('GoogleChrome::Bin');
-    my $BrowserFound       = ( $PhantomJSBinary || $GoogleChromeBinary ) ? 1 : 0;
+    my $BrowserFound       = $GoogleChromeBinary ? 1 : 0;
 
     my $Page = $LayoutObject->{LanguageObject}->Translate('Page');
     my $Time = $LayoutObject->{Time};
@@ -381,7 +382,7 @@ sub GeneratePDF {
 
         }
 
-        # D3 charts; load in Chrome or PhantomJS and generate PNG to embed in PDF.
+        # D3 charts; load in Chrome and generate PNG to embed in PDF.
         else {
             my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
@@ -389,7 +390,7 @@ sub GeneratePDF {
             #   there is no Action initially.
             local $LayoutObject->{Action} = 'AgentStatisticsReports';
 
-            # Generate local file URLs for Chrome or PhantomJS (ok, this is a hack).
+            # Generate local file URLs for Chrome or (ok, this is a hack).
             local $ConfigObject->{'Frontend::WebPath'}        = "file://$Home/var/httpd/htdocs/";
             local $ConfigObject->{'Frontend::JavaScriptPath'} = "file://$Home/var/httpd/htdocs/js/";
             my $Output = join '',
@@ -433,22 +434,17 @@ sub GeneratePDF {
                 #
                 #   FIXME: If --disable-gpu is used in the command below (or if GPU acceleration is not supported),
                 #   subsequent call to $PDFObject->Image() <PDF::API2::image_png() internally> will be extremely slow.
-                #   The real reason is still unknown, but consider using PhantomJS only in this case.
+                #   The real reason is still unknown.
                 $CommandOutput
                     = `cd $TempPNGDir; '$GoogleChromeBinary' --headless --virtual-time-budget=2500 --window-size=1200,900 --screenshot $TempHTMLFilename 2>&1`;
-            }
-            else {
-                $CommandOutput
-                    = `'$PhantomJSBinary' $Home/var/httpd/htdocs/js/thirdparty/phantomjs/rasterize_delayed.js $TempHTMLFilename $TempPNGFilename 1200px 2>&1`
-                    // '';
             }
             if ($!) {
                 $CommandOutput .= "$!";
             }
             chomp $CommandOutput;
 
-            my $Stat = stat $TempPNGFilename;
-            if ( $Stat && $Stat->size() ) {
+            my $TmpPNGStat = stat $TempPNGFilename;
+            if ( $TmpPNGStat && $TmpPNGStat->size ) {
                 $PDFObject->Image(
                     File   => $TempPNGFilename,
                     Width  => 1200 * ( 300 / 72 ),

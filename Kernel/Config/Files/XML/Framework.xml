@@ -10256,15 +10256,8 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="PhantomJS::Bin" Required="0" Valid="0">
-        <Description Translatable="1">Defines the path to the PhantomJS binary. You can use a static build from http://phantomjs.org/download.html for an easy installation process.</Description>
-        <Navigation>Core::PhantomJS</Navigation>
-        <Value>
-            <Item ValueRegex="" ValueType="File">/usr/bin/phantomjs</Item>
-        </Value>
-    </Setting>
     <Setting Name="GoogleChrome::Bin" Required="0" Valid="0">
-        <Description Translatable="1">Defines the path to the Google Chrome or Chromium binary. If set, this binary will be used instead of PhantomJS::Bin.</Description>
+        <Description Translatable="1">Defines the path to the Google Chrome or Chromium binary.</Description>
         <Navigation>Core::GoogleChrome</Navigation>
         <Value>
             <Item ValueRegex="" ValueType="File">/usr/bin/chromium</Item>

@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -36,12 +37,6 @@ $Selenium->RunTest(
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $StatsObject  = $Kernel::OM->Get('Kernel::System::Stats');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-        $Helper->ConfigSettingChange(
-            Valid => 0,
-            Key   => 'PhantomJS::Bin',
-            Value => '',
-        );
 
         # Define needed variable.
         my $RandomID = $Helper->GetRandomID();
@@ -159,7 +154,7 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        my $BrowserFound = $ConfigObject->Get('PhantomJS::Bin') || $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
+        my $BrowserFound = $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
 
         if ($BrowserFound) {
             $Self->True(
@@ -187,13 +182,7 @@ $Selenium->RunTest(
                 $Count++;
             }
 
-            # Verify button for 'Configure PhanotmJS' and 'Configure GoogleChrome'.
-            $Self->True(
-                $Selenium->find_element(
-                    "//a[contains(\@href, 'Action=AdminSystemConfigurationGroup;RootNavigation=Core::PhantomJS')]"
-                ),
-                "SidebarColumn note button for 'Configure PhantomJS' is found"
-            );
+            # Verify button for 'Configure GoogleChrome'.
             $Self->True(
                 $Selenium->find_element(
                     "//a[contains(\@href, 'Action=AdminSystemConfigurationGroup;RootNavigation=Core::GoogleChrome')]"
