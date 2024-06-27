@@ -168,6 +168,7 @@ sub new {
         'EscalationUpdateTime'   => 1,
         'EscalationResponseTime' => 1,
         'EscalationSolutionTime' => 1,
+        'AccountedTime'          => 1,
     };
 
     $Self->{AvailableFilterableColumns} = {
@@ -1626,6 +1627,13 @@ sub Run {
 
                     $DataValue = $ResponsibleInfo{'UserFullname'};
                 }
+                elsif ( $TicketColumn eq 'AccountedTime' ) {
+
+                    # get ticket object
+                    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+                    my $TimeUnits    = $ConfigObject->Get("AccountedTime::UsedUnits");
+                    $DataValue = $TicketObject->TicketAccountedTimeGet( TicketID => $Article{TicketID} ) . ' ' . $TimeUnits;
+                }
                 else {
                     $DataValue = $Article{$TicketColumn}
                         || $UserInfo{$TicketColumn}
@@ -2104,6 +2112,7 @@ sub _DefaultColumnSort {
         Service                => 191,
         SLA                    => 192,
         Priority               => 193,
+        AccountedTime          => 194,
     );
 
     # dynamic fields can not be on the DefaultColumns sorting hash
