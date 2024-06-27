@@ -243,21 +243,16 @@ sub GeneratePDF {
             );
         };
 
-        if ($@) {
-            next STAT_CONFIG;
-        }
+        next STAT_CONFIG if $@;
 
         # Check available formats from stat
-        my @Formats = @{ $Stat->{Format} // [] };
-        @Formats = grep { $_ =~ m{^D3|Print} } @Formats;
+        my ($FirstFoundFormat) = grep {m/^D3|Print/} ( $Stat->{Format} // [] )->@*;
 
         # Use the format selected by the user or the first available format.
-        my $Format = $StatConfig->{StatGetParams}->{Format} || $Formats[0];
+        my $Format = $StatConfig->{StatGetParams}->{Format} || $FirstFoundFormat;
 
         # Skip stat if format is wrong.
-        if ( $Format !~ m{^D3|Print} ) {
-            next STAT_CONFIG;
-        }
+        next STAT_CONFIG unless $Format =~ m/^D3|Print/;
 
         if ( $StatCounter++ > 0 ) {
             $PDFObject->PageNew(
@@ -287,13 +282,11 @@ sub GeneratePDF {
             $Caption .= " ($TranslateTimeZone $StatConfig->{StatGetParams}->{TimeZone})";
         }
 
-        push(
-            @Chapters,
+        push @Chapters,
             {
                 Caption => $Caption,
                 Page    => $PageCounter - 1
-            }
-        );
+            };
         $PDFObject->Text(
             Text     => $Caption,
             FontSize => 13,
