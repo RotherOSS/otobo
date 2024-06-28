@@ -865,13 +865,13 @@ fieldset.TableLike .RichTextField {
     z-index: 10;
     position: relative;
     min-height: 150px !important;
-    height: 320px;
-    max-width: 620px;
+    max-width: 70%;
     padding-bottom: 2px;
     margin-bottom: 6px;
     padding-left: 10px;
     margin-left: 30%;
     margin-right: 0;
+    box-sizing: border-box;
 }
 
 fieldset.TableLike > .RichTextField {
