@@ -60,8 +60,8 @@ ENV LANG=C.UTF-8
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
 COPY cpanfile.docker cpanfile
-ENV PERL5LIB "/opt/otobo_install/local/lib/perl5"
-ENV PATH "/opt/otobo_install/local/bin:${PATH}"
+ENV PERL5LIB="/opt/otobo_install/local/lib/perl5"
+ENV PATH="/opt/otobo_install/local/bin:${PATH}"
 RUN cpanm --local-lib local Carton \
     && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install \
     && rm -rf "$HOME/.cpanm"
@@ -89,8 +89,8 @@ WORKDIR /opt/otobo_install/otobo_next
 # /opt/otobo/local must be prepolulated with architecture and version dependent subdirs. These subdirs
 # are added to @INC when a Perl process starts up.
 RUN perl -Mlocal::lib=local
-ENV PERL5LIB "/opt/otobo/local/lib/perl5:${PERL5LIB}"
-ENV PATH "/opt/otobo/local/bin:${PATH}"
+ENV PERL5LIB="/opt/otobo/local/lib/perl5:${PERL5LIB}"
+ENV PATH="/opt/otobo/local/bin:${PATH}"
 
 # uncomment these steps when strange behavior must be investigated
 #RUN echo "'$OTOBO_HOME'"
