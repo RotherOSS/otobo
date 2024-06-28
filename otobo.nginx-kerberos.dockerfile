@@ -75,22 +75,22 @@ EXPOSE 8080/tcp
 EXPOSE 8443/tcp
 
 # We want an UTF-8 console
-ENV LC_ALL C.UTF-8
-ENV LANG C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 
 # This setting works in the devel environment.
 # In the general case OTOBO_NGINX_WEB_HOST can be set when starting the container:
 #   docker run -e OTOBO_NGINX_WEB_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') -p 443:443 otobo_nginx
 # Attention: specify OTOBO_WEB_PORT to 5000 in .env when
 # starting HTTP with 'docker-compose -f docker-compose.yml up'
-ENV OTOBO_NGINX_WEB_HOST          172.17.0.1
-ENV OTOBO_NGINX_WEB_PORT          5000
-ENV OTOBO_WEB_HTTPS_PORT          443
+ENV OTOBO_NGINX_WEB_HOST=172.17.0.1
+ENV OTOBO_NGINX_WEB_PORT=5000
+ENV OTOBO_WEB_HTTPS_PORT=443
 
 # Not that these file need to be copied into a container.
 # Alternatively /etc/ssl can be exported as a volume to the host.
-ENV OTOBO_NGINX_SSL_CERTIFICATE      /etc/nginx/ssl/otobo_nginx-selfsigned.crt
-ENV OTOBO_NGINX_SSL_CERTIFICATE_KEY  /etc/nginx/ssl/otobo_nginx-selfsigned.key
+ENV OTOBO_NGINX_SSL_CERTIFICATE=/etc/nginx/ssl/otobo_nginx-selfsigned.crt
+ENV OTOBO_NGINX_SSL_CERTIFICATE_KEY=/etc/nginx/ssl/otobo_nginx-selfsigned.key
 
 WORKDIR /etc/nginx
 
