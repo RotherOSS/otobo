@@ -22,8 +22,8 @@ RUN bin/elasticsearch-plugin install --batch ingest-attachment
 RUN bin/elasticsearch-plugin install --batch analysis-icu
 
 # We want an UTF-8 console
-ENV LC_ALL C.UTF-8
-ENV LANG C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
