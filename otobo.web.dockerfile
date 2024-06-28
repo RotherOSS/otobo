@@ -39,13 +39,13 @@ RUN apt-get update\
  && install -d /opt/otobo_install
 
 # We want an UTF-8 console
-ENV LC_ALL C.UTF-8
-ENV LANG C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 
 # required modules are installed in /opt/otobo_install/local
 # additional local modules might be installed in /opt/otobo/local
-ENV PERL5LIB "/opt/otobo/local/lib/perl5:/opt/otobo_install/local/lib/perl5"
-ENV PATH "/opt/otobo/local/bin:/opt/otobo_install/local/bin:${PATH}"
+ENV PERL5LIB="/opt/otobo/local/lib/perl5:/opt/otobo_install/local/lib/perl5"
+ENV PATH="/opt/otobo/local/bin:/opt/otobo_install/local/bin:${PATH}"
 
 # Install packages from CPAN into the local lib /opt/otobo_install/local.
 #
@@ -68,9 +68,9 @@ RUN cpanm --local-lib local Carton \
 #   --create-home           create /opt/otobo
 #   --shell /bin/bash       set the login shell, not used here because otobo is system user
 #   --comment 'OTOBO user'  complete name of the user
-ENV OTOBO_USER  otobo
-ENV OTOBO_GROUP otobo
-ENV OTOBO_HOME  /opt/otobo
+ENV OTOBO_USER=otobo
+ENV OTOBO_GROUP=otobo
+ENV OTOBO_HOME=/opt/otobo
 RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER
 
 # copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir
@@ -135,7 +135,7 @@ WORKDIR $OTOBO_HOME
 
 # Tell the web application and bin/otobo.SetPermissions.pl that it runs in a container.
 # Note that this setting is essential for a correct migration from OTRS 6.
-ENV OTOBO_RUNS_UNDER_DOCKER 1
+ENV OTOBO_RUNS_UNDER_DOCKER=1
 
 # the entrypoint is not in the volume
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
