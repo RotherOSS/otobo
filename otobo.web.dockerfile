@@ -40,9 +40,9 @@ USER root
 #   --comment 'OTOBO user'  complete name of the user
 #
 # Also create /opt/otobo_install and /opt/otobo
-ENV OTOBO_USER  otobo
-ENV OTOBO_GROUP otobo
-ENV OTOBO_HOME  /opt/otobo
+ENV OTOBO_USER=otobo
+ENV OTOBO_GROUP=otobo
+ENV OTOBO_HOME=/opt/otobo
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
  "build-essential"\
@@ -78,8 +78,8 @@ RUN apt-get update\
  && install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME
 
 # We want an UTF-8 console
-ENV LC_ALL C.UTF-8
-ENV LANG C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 
 # Install CPAN distributions that are required by OTOBO into the local lib /opt/otobo_install/local.
 # The Perl module installer 'cpanm' is already available via the base image.
@@ -93,8 +93,8 @@ ENV LANG C.UTF-8
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
 COPY cpanfile.docker cpanfile
-ENV PERL5LIB "/opt/otobo_install/local/lib/perl5"
-ENV PATH "/opt/otobo_install/local/bin:${PATH}"
+ENV PERL5LIB="/opt/otobo_install/local/lib/perl5"
+ENV PATH="/opt/otobo_install/local/bin:${PATH}"
 RUN cpanm --local-lib local Carton\
  && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install\
  && rm -rf "/root/.cpanm"
@@ -114,7 +114,7 @@ LABEL org.opencontainers.image.vendor='Rother OSS GmbH'
 
 # Tell the web application and bin/otobo.SetPermissions.pl that it runs in a container.
 # Note that this setting is essential for a correct migration from OTRS 6.
-ENV OTOBO_RUNS_UNDER_DOCKER 1
+ENV OTOBO_RUNS_UNDER_DOCKER=1
 
 # the entrypoint is not in the volume
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
@@ -141,8 +141,8 @@ WORKDIR /opt/otobo_install/otobo_next
 # /opt/otobo/local must be prepolulated with architecture and version dependent subdirs. These subdirs
 # are added to @INC when a Perl process starts up.
 RUN perl -Mlocal::lib=local
-ENV PERL5LIB "/opt/otobo/local/lib/perl5:${PERL5LIB}"
-ENV PATH "/opt/otobo/local/bin:${PATH}"
+ENV PERL5LIB="/opt/otobo/local/lib/perl5:${PERL5LIB}"
+ENV PATH="/opt/otobo/local/bin:${PATH}"
 
 # Make sure that /opt/otobo exists and is writable by $OTOBO_USER.
 # set up entrypoint.sh and docker_firsttime
