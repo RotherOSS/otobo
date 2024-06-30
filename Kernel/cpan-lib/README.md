@@ -31,6 +31,10 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
 
 Then examine the diffs and check in the verified changes.
 
+Finally clean up the temporary dir again:
+
+    rm -rf local
+
 ### A fresh install of the bundled modules
 
     cpanm --notest --installdeps . --local-lib local                        # install locally into local/lib/perl5
