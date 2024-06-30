@@ -164,20 +164,41 @@ $Selenium->RunTest(
         );
 
         # The convoluted way of getting the focus seems to work.
-        my $SearchElement = $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' );
+        # Focussing in the NewOwner input field should open a dropdown with user selection.
+        # Also a clickable area, labeled as 'Filters', should be shown below the list.
+        my $SearchElement = $Selenium->find_element_by_css('#NewOwnerID_Search');
         ok( $SearchElement, '#NewOwnerID_Search found' );
         $SearchElement->execute_script(q{arguments[0].focus();});
         $Selenium->find_element_by_css_ok( '#NewOwnerID_Search', 'element with id=NewOwnerID_Search still exists' );
 
-        # Click on filter button in input fileld.
-        $Selenium->execute_script("\$('.InputField_Filters').click();");
+        # Click on the button 'Filters' below the owner selection.
+        $Selenium->execute_script(q{ $('.InputField_Filters').click(); });
 
         # Enable 'Previous Owner' filter.
-        # Only one previous owner should be available.
-        $Selenium->execute_script(qq{ \$('.InputField_FiltersList').children('input')[0].click(); });
+        # This filters the selection list of new owners.
+        my $PreviousOwnerElement = $Selenium->find_element_by_css(q{.InputField_FiltersList > input[type='checkbox'] });
+        is(
+            $PreviousOwnerElement->execute_script(q{ return $(arguments[0]).next('span').text(); }),
+            'Previous Owner',
+            q{Checkbox labelled as 'Previous Owner'},
+        );
+        is(
+            $PreviousOwnerElement->execute_script(q{ return $(arguments[0]).prop('checked'); }),
+            0,
+            'Filter checkbox initially unchecked',
+        );
 
-        # Check out of office user message with filter.
-        # Note that the prefix '1: ' is added
+        # TODO: but the list of users is not changed in the remote controlled browser
+        $PreviousOwnerElement->execute_script(q{ $(arguments[0]).click() });
+        is(
+            $PreviousOwnerElement->execute_script(q{ return $(arguments[0]).prop('checked'); }),
+            1,
+            'Filter checkbox checked after clicking',
+        );
+
+        # Only one previous owner, the user $UserID[1] should be available.
+        # Verify the label for that owner. $UserData{UserFullname} included the out-of-office message.
+        # Also note that the prefix '1: ' has been added to the label.
         my $UserSelectionElement = $Selenium->find_element( qq{#NewOwnerID option[value="$UserID[1]"]}, 'css' );
         is(
             $UserSelectionElement->execute_script(q{ return $(arguments[0]).text(); }),
@@ -185,7 +206,7 @@ $Selenium->RunTest(
             "Out of office message is found for the user $TestUser[1]"
         );
 
-        # Change ticket user owner by clicking
+        # Change ticket owner by clicking.
         # TODO: this does not actually select the user 1 and the test script fails
         $UserSelectionElement->execute_script(q{ $(arguments[0]).click() });
 
