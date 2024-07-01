@@ -1426,15 +1426,7 @@ sub Run {
 
                 # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
                 my %Check = (
-                    Dest               => 'QueueID',
-                    NewUserID          => 'NewUserID',
-                    NewResponsibleID   => 'NewResponsibleID',
-                    NextStateID        => 'NextStateID',
-                    PriorityID         => 'PriorityID',
-                    ServiceID          => 'ServiceID',
-                    SLAID              => 'SLAID',
-                    StandardTemplateID => 'StandardTemplateID',
-                    TypeID             => 'TypeID',
+                    NextStateID => 'NextStateID',
                 );
                 if ($ACLPreselection) {
                     FIELD:
@@ -2275,14 +2267,7 @@ sub Run {
 
                 # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
                 my %Check = (
-                    Dest             => 'QueueID',
-                    NewUserID        => 'NewUserID',
-                    NewResponsibleID => 'NewResponsibleID',
-                    NextStateID      => 'NextStateID',
-                    PriorityID       => 'PriorityID',
-                    ServiceID        => 'ServiceID',
-                    SLAID            => 'SLAID',
-                    TypeID           => 'TypeID',
+                    NextStateID => 'NextStateID',
                 );
                 if ( $ACLPreselection && !$InitialRun ) {
                     FIELD:
