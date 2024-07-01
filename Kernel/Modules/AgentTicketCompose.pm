@@ -2516,6 +2516,14 @@ sub _Mask {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    if ( $Param{HideAutoselected} ) {
+
+        # add Autoselect JS
+        $LayoutObject->AddJSOnDocumentComplete(
+            Code => "Core.Form.InitHideAutoselected({ FieldIDs: $Param{HideAutoselected} });",
+        );
+    }
+
     # get config for frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
