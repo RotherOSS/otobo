@@ -1072,6 +1072,7 @@ sub Run {
                 %GetParam,
                 DFPossibleValues => \%DynamicFieldPossibleValues,
                 DFErrors         => \%DynamicFieldValidationResult,
+                DynamicField     => $GetParam{DynamicField},
                 Visibility       => \%Visibility,
             );
             $Output .= $LayoutObject->Footer(
@@ -2241,6 +2242,20 @@ sub Run {
 
         my $InitialRun = 1;
 
+        # handle default values for standard fields
+        if ( $Config->{StateDefault} ) {
+
+            my $NextStates = $Self->_GetNextStates(
+                %GetParam,
+            );
+
+            $GetParam{StateID} //= { reverse $NextStates->%* }->{ $Config->{StateDefault} };
+        }
+        if ( $Config->{IsVisibleForCustomerDefault} ) {
+
+            $GetParam{IsVisibleForCustomer} //= $Config->{IsVisibleForCustomerDefault};
+        }
+
         until ( $Convergence{Fields} ) {
 
             # determine standard field input
@@ -2470,6 +2485,7 @@ sub Run {
             References       => "$References",
             TicketBackType   => $TicketBackType,
             DFPossibleValues => \%DynamicFieldPossibleValues,
+            DynamicField     => $GetParam{DynamicField},
             Visibility       => $DynFieldStates{Visibility},
         );
         $Output .= $LayoutObject->Footer(
@@ -2778,6 +2794,7 @@ sub _Mask {
         $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
             Content              => $Self->{MaskDefinition},
             DynamicFields        => $Self->{DynamicField},
+            Visibility           => $Param{Visibility},
             LayoutObject         => $LayoutObject,
             ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
             DynamicFieldValues   => $Param{DynamicField},
