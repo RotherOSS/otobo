@@ -53,6 +53,7 @@ RUN apt-get update\
  "libexpat-dev"\
  "default-libmysqlclient-dev"\
  "gpg"\
+ "gpg-agent"\
  "ack"\
  "cron"\
  "default-mysql-client"\
