@@ -90,5 +90,8 @@ bin/Cron.sh
 !scripts/test/sample/SSL/*.pem
 **/*.chain
 
+# do not keep temporary files from Perl module installation
+!Kernel/cpan-lib/local
+
 # The Photoshop source file, the *.psd files, are not needed in the Docker image
 ./var/httpd/htdocs/skins/Agent/default/img/source/
