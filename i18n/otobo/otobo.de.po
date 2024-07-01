@@ -44,7 +44,7 @@
 # Grit Rother <mr@otobo.de>, 2020, 2021, 2022, 2023, 2024.
 # svo <svo@otrs.ch>, 2021.
 # Andreas Erhard <erhard@wor.net>, 2021, 2022.
-# Stefan Abel <sta@rother-oss.com>, 2022, 2023.
+# Stefan Abel <sta@rother-oss.com>, 2022, 2023, 2024.
 # svo <svo@rother-oss.com>, 2022.
 # sr <sr@rother-oss.com>, 2022.
 # Emin Yazi <yazi@efflux.de>, 2024.
@@ -54,8 +54,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2024-06-25 11:13+0000\n"
-"Last-Translator: Markus Hlinka <mah@rother-oss.com>\n"
+"PO-Revision-Date: 2024-07-01 14:05+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-10/de/>"
 "\n"
 "Language: de\n"
@@ -25203,7 +25203,13 @@ msgstr "Wir führen eine geplante Wartung durch. Wir werden bald wieder online s
 
 #. SysConfig
 msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS version 2-6 and OTOBO 10.."
-msgstr "In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der Besitzerinformation nicht mehr ersehen werden, wer ein Ticket zuletzt bearbeitet hat. Deaktivieren Sie die Optiopn, um das Verhalten der OTRS-Versionen 2 bis 6 und von OTOBO 10 wiederherstellen."
+msgstr ""
+"In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht "
+"nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So "
+"entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der "
+"Besitzerinformation nicht mehr ersehen werden, wer ein Ticket zuletzt "
+"bearbeitet hat. Deaktivieren Sie die Option, um das Verhalten der OTRS-"
+"Versionen 2 bis 6 und von OTOBO 10 wiederherstellen."
 
 #. SysConfig
 msgid "Web Service"
