@@ -1376,6 +1376,9 @@ sub Run {
         my @DynamicFieldAJAX;
 
         my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' ) || '';
+        if ( $ElementChanged eq 'StateID' ) {
+            $ElementChanged = 'NextStateID';
+        }
 
         # get list type
         my $TreeView = 0;
@@ -1477,19 +1480,19 @@ sub Run {
                 if ( $GetParam{StateID} && !$NextStates->{ $GetParam{StateID} } ) {
 
                     # if not empty the field
-                    $GetParam{StateID}           = '';
-                    $NewChangedElements{StateID} = 1;
-                    $ChangedStdFields{StateID}   = 1;
+                    $GetParam{StateID}               = '';
+                    $NewChangedElements{NextStateID} = 1;
+                    $ChangedStdFields{NextStateID}   = 1;
                 }
 
                 # autoselect
-                elsif ( !$GetParam{StateID} && $Autoselect && $Autoselect->{StateID} ) {
+                elsif ( !$GetParam{StateID} && $Autoselect && $Autoselect->{NextStateID} ) {
                     $GetParam{StateID} = $FieldRestrictionsObject->Autoselect(
                         PossibleValues => $NextStates,
                     ) || '';
                     if ( $GetParam{StateID} ) {
-                        $NewChangedElements{StateID} = 1;
-                        $ChangedStdFields{StateID}   = 1;
+                        $NewChangedElements{NextStateID} = 1;
+                        $ChangedStdFields{NextStateID}   = 1;
                     }
                 }
 
@@ -1534,7 +1537,8 @@ sub Run {
                     CustomerUser              => $Selected || '',
                     GetParam                  => {
                         %GetParam,
-                        OwnerID => $GetParam{NewUserID},
+                        NextStateID => $GetParam{StateID},
+                        StateID     => undef,
                     },
                     Autoselect      => $Autoselect,
                     ACLPreselection => $ACLPreselection,
@@ -2196,6 +2200,12 @@ sub Run {
         my $HideAutoselectedJSON;
         if ($Autoselect) {
             my @HideAutoselected = grep { !ref( $Autoselect->{$_} ) && $Autoselect->{$_} == 2 } keys %{$Autoselect};
+            AUTOSELECT:
+            for my $Item (@HideAutoselected) {
+                next AUTOSELECT if $Item ne 'NextStateID';
+                $Item = 'StateID';
+                last AUTOSELECT;
+            }
             if ( $Autoselect->{DynamicField} ) {
                 push @HideAutoselected,
                     map { "DynamicField_" . $_ }
@@ -2318,19 +2328,19 @@ sub Run {
                 if ( $GetParam{StateID} && !$NextStates->{ $GetParam{StateID} } ) {
 
                     # if not empty the field
-                    $GetParam{StateID}           = '';
-                    $NewChangedElements{StateID} = 1;
-                    $ChangedStdFields{StateID}   = 1;
+                    $GetParam{StateID}               = '';
+                    $NewChangedElements{NextStateID} = 1;
+                    $ChangedStdFields{NextStateID}   = 1;
                 }
 
                 # autoselect
-                elsif ( !$GetParam{StateID} && $Autoselect && $Autoselect->{StateID} ) {
+                elsif ( !$GetParam{StateID} && $Autoselect && $Autoselect->{NextStateID} ) {
                     $GetParam{StateID} = $FieldRestrictionsObject->Autoselect(
                         PossibleValues => $NextStates,
                     ) || '';
                     if ( $GetParam{StateID} ) {
-                        $NewChangedElements{StateID} = 1;
-                        $ChangedStdFields{StateID}   = 1;
+                        $NewChangedElements{NextStateID} = 1;
+                        $ChangedStdFields{NextStateID}   = 1;
                     }
                 }
 
@@ -2374,10 +2384,14 @@ sub Run {
                     TicketID                  => $Self->{TicketID},
                     FormID                    => $Self->{FormID},
                     CustomerUser              => $Ticket{CustomerUser} || '',
-                    GetParam                  => \%GetParam,
-                    Autoselect                => $Autoselect,
-                    ACLPreselection           => $ACLPreselection,
-                    LoopProtection            => \$LoopProtection,
+                    GetParam                  => {
+                        %GetParam,
+                        NextStateID => $GetParam{StateID},
+                        StateID     => undef,
+                    },
+                    Autoselect      => $Autoselect,
+                    ACLPreselection => $ACLPreselection,
+                    LoopProtection  => \$LoopProtection,
                 );
 
                 # combine FieldStates
@@ -2486,6 +2500,8 @@ sub Run {
             TicketBackType   => $TicketBackType,
             DFPossibleValues => \%DynamicFieldPossibleValues,
             DynamicField     => $GetParam{DynamicField},
+            NextState        => $GetParam{StateID} ? $StdFieldValues{NextStateID}{ $GetParam{StateID} } : '',
+            HideAutoselected => $HideAutoselectedJSON,
             Visibility       => $DynFieldStates{Visibility},
         );
         $Output .= $LayoutObject->Footer(
