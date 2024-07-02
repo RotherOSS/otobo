@@ -9550,7 +9550,8 @@ via the Preferences button after logging in.
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Array>
-                <Item>Junk</Item>
+                <DefaultItem ValueType="Entity" ValueEntityType="Queue" ValueRegex=""></DefaultItem>
+                <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Junk</Item>
             </Array>
         </Value>
     </Setting>
