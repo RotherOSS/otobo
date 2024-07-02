@@ -2651,7 +2651,9 @@
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
-            <Array></Array>
+            <Array>
+                <DefaultItem ValueType="Entity" ValueEntityType="Queue" ValueRegex=""></DefaultItem>
+            </Array>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###ServiceIDs" Required="0" Valid="0">
@@ -6977,7 +6979,8 @@
         <Navigation>Frontend::Agent::View::Dashboard::EventsTicketCalendar</Navigation>
         <Value>
             <Array>
-                <Item>Raw</Item>
+                <DefaultItem ValueType="Entity" ValueEntityType="Queue" ValueRegex=""></DefaultItem>
+                <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Raw</Item>
             </Array>
         </Value>
     </Setting>
