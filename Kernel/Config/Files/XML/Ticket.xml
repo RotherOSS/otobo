@@ -2644,7 +2644,10 @@
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
-            <Array></Array>
+            <Array>
+                <DefaultItem ValueType="Entity" ValueEntityType="State" ValueRegex=""></DefaultItem>
+                <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">new</Item>
+            </Array>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###QueueIDs" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
@@ -14797,9 +14800,10 @@ Thanks for your help!
         <Navigation>Core</Navigation>
         <Value>
             <Array>
-                <Item>pending auto close+</Item>
-                <Item>pending auto close-</Item>
-                <Item>pending reminder</Item>
+                <DefaultItem ValueType="Entity" ValueEntityType="State" ValueRegex=""></DefaultItem>
+                <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">pending auto close+</Item>
+                <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">pending auto close-</Item>
+                <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">pending reminder</Item>
             </Array>
         </Value>
     </Setting>
