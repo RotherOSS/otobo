@@ -419,14 +419,14 @@
         <Description Translatable="1">This option defines the dynamic field in which a Process Management process entity id is stored.</Description>
         <Navigation>Core::ProcessManagement</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">ProcessManagementProcessID</Item>
+            <Item ValueType="Entity" ValueEntityType="DynamicField" ValueRegex="">ProcessManagementProcessID</Item>
         </Value>
     </Setting>
     <Setting Name="Process::DynamicFieldProcessManagementActivityID" Required="1" Valid="1">
         <Description Translatable="1">This option defines the dynamic field in which a Process Management activity entity id is stored.</Description>
         <Navigation>Core::ProcessManagement</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">ProcessManagementActivityID</Item>
+            <Item ValueType="Entity" ValueEntityType="DynamicField" ValueRegex="">ProcessManagementActivityID</Item>
         </Value>
     </Setting>
     <Setting Name="Process::DefaultQueue" Required="1" Valid="1">
