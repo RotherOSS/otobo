@@ -592,7 +592,7 @@ Your OTOBO Team
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="type_id">2</Data>
         <Data Key="system_address_id">1</Data>
-        <Data Key="name" Type="Quote" Translatable="1">default reject (after follow-up and rejected of a closed ticket)</Data>
+        <Data Key="name" Type="Quote" Translatable="1">default reject (after follow-up and rejection of a closed ticket)</Data>
         <Data Key="text0" Type="Quote">Your previous ticket is closed.
 
 -- Your follow-up has been rejected. --
