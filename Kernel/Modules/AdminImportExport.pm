@@ -164,8 +164,8 @@ sub Run {
         }
         else {
             $Success = $ImportExportObject->TemplateUpdate(
-                UserID => $Self->{UserID},
                 %{$TemplateData},
+                UserID => $Self->{UserID},
             );
         }
 
