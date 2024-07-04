@@ -369,7 +369,8 @@ sub FormatTimeString {
 
         # output time zone only if it differs from OTOBO' time zone
         if (
-            $Config ne 'DateFormatShort'
+            $Kernel::OM->Get('Kernel::Config')->Get('TimeShowAlwaysLocalization')
+            && $Config ne 'DateFormatShort'
             && $Self->{TimeZone}
             && $Self->{TimeZone} ne OTOBOTimeZoneGet()
             )
