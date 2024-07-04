@@ -243,7 +243,7 @@ sub Run {
                 my $Text = $Conf->{Text} // $ValueStrg->{Value};
 
                 $Conf->{ColorSelection} //= {};
-                my $Color = $Conf->{ColorSelection}{ $ValueStrg->{Value} } // $Conf->{ColorDefault};
+                my $Color = $Conf->{ColorSelection}{$Value} // $Conf->{ColorDefault};
 
                 push @{ $Categories{ $Conf->{Order} } }, {
                     Text   => $Text,
