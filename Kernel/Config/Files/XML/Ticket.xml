@@ -51,7 +51,7 @@
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Array>
-                <DefaultItem ValueType="Entity" ValueEntityType="DynamicField" ValueRegex=""></DefaultItem>
+                <DefaultItem ValueType="Entity" ValueEntityType="DynamicField" ValueEntitySubType="Ticket" ValueRegex=""></DefaultItem>
             </Array>
         </Value>
     </Setting>
