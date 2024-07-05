@@ -1010,11 +1010,12 @@ sub CustomerUserUpdate {
     }
 
     # check if user exists
-    my %User = $Self->CustomerUserDataGet( User => $Param{ID} || $Param{UserLogin} );
+    my $UserLogin = $Param{ID} || $Param{UserLogin};
+    my %User      = $Self->CustomerUserDataGet( User => $UserLogin );
     if ( !%User ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "No such user '$Param{UserLogin}'!",
+            Message  => "No such user '$UserLogin'!",
         );
         return;
     }
