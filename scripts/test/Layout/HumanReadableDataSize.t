@@ -78,7 +78,6 @@ my @Tests = (
         Size     => 58626123,
         Result   => "\N{U+200E}55.9 ميغابايت (MB)",
         Language => 'ar_SA',
-        Todo     => "translation should be update to say: (MB)",
     },
     {
         Size   => 34359738368,
@@ -139,8 +138,6 @@ for my $Test (@Tests) {
     my $Result = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->HumanReadableDataSize(
         Size => $Test->{Size},
     );
-
-    my $Todo = defined $Test->{Todo} ? todo( $Test->{Todo} ) : undef;
 
     is(
         $Result,
