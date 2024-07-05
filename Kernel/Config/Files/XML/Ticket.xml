@@ -13575,6 +13575,20 @@ Thanks for your help!
             <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+        <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPriority###RichTextWidth" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
@@ -15036,6 +15050,28 @@ Thanks for your help!
     <Setting Name="Ticket::Frontend::DefaultQuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="+1 day">+1</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="+1 week">+7</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###QuickDateButtons" Required="0" Valid="1">
+        <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Array>
                 <DefaultItem>
