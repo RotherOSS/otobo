@@ -138,7 +138,12 @@ sub Run {
 
             my @DynamicFieldsImport;
             DYNAMICFIELD:
-            for my $DynamicField ( sort keys %{ $ImportData->{DynamicFields} } ) {
+            for my $DynamicField (
+                sort {
+                    ( $ImportData->{DynamicFields}{$a}{FieldOrder} || 0 ) <=> ( $ImportData->{DynamicFields}{$b}{FieldOrder} || 0 )
+                } keys %{ $ImportData->{DynamicFields} }
+                )
+            {
 
                 my $Selected = grep { $ImportData->{DynamicFields}->{$DynamicField}->{Name} eq $_ } @DynamicFieldsSelected;
                 next DYNAMICFIELD if !$Selected;
@@ -352,7 +357,12 @@ sub _DynamicFieldShow {
         my @DynamicFieldsAlreadyUsed;
 
         DYNAMICFIELD:
-        for my $DynamicField ( sort keys %{ $Param{Data}->{DynamicFields} } ) {
+        for my $DynamicField (
+            sort {
+                ( $Param{Data}->{DynamicFields}{$a}{FieldOrder} || 0 ) <=> ( $Param{Data}->{DynamicFields}{$b}{FieldOrder} || 0 )
+            } keys %{ $Param{Data}->{DynamicFields} }
+            )
+        {
 
             push @DynamicFieldsAlreadyUsed, $DynamicField;
 
