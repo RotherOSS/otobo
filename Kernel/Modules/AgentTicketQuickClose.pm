@@ -135,11 +135,29 @@ sub _SetState {
 
     return if !$Success;
 
-    $TicketObject->TicketLockSet(
-        TicketID => $Self->{TicketID},
-        Lock     => 'unlock',
-        UserID   => $Self->{UserID},
-    );
+    if ( $Param{Config}{RequiredLock} ) {
+        my $Lock = $TicketObject->TicketLockSet(
+            TicketID => $Self->{TicketID},
+            Lock     => 'lock',
+            UserID   => $Self->{UserID},
+        );
+
+        if ($Lock) {
+            $TicketObject->TicketOwnerSet(
+                TicketID  => $Self->{TicketID},
+                UserID    => $Self->{UserID},
+                NewUserID => $Self->{UserID},
+            );
+        }
+    }
+    else {
+        $TicketObject->TicketLockSet(
+            TicketID => $Self->{TicketID},
+            Lock     => 'unlock',
+            UserID   => $Self->{UserID},
+        );
+
+    }
 
     return 1;
 }
