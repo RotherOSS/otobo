@@ -664,6 +664,44 @@ sub Print {
     return;
 }
 
+=head2 PrintWarning()
+
+this method will print the given text and a newline to STDOUT.
+
+The text will be colored in yellow if the terminal supports it (see L</ANSI()>).
+No other color markup will be handled.
+
+=cut
+
+sub PrintWarning {
+    my ( $Self, $Text ) = @_;
+
+    if ( !$Self->{Quiet} ) {
+        say $Self->_Color( 'yellow', $Text );
+    }
+
+    return;
+}
+
+=head2 PrintOk()
+
+this method will print the given text and a newline to STDOUT.
+
+The text will be colored in green if the terminal supports it (see L</ANSI()>).
+No other color markup will be handled.
+
+=cut
+
+sub PrintOk {
+    my ( $Self, $Text ) = @_;
+
+    if ( !$Self->{Quiet} ) {
+        say $Self->_Color( 'green', $Text );
+    }
+
+    return;
+}
+
 =head2 TableOutput()
 
 this method generates an ascii table of headers and column content
