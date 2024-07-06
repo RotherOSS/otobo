@@ -21,8 +21,8 @@ use strict;
 use warnings;
 
 # core modules
-use Getopt::Long();
-use Term::ANSIColor();
+use Getopt::Long    qw();
+use Term::ANSIColor qw(colored);
 
 # CPAN modules
 use IO::Interactive();
@@ -630,6 +630,7 @@ shorthand method to print an error message to STDERR.
 
 It will be prefixed with 'Error: ' and colored in red,
 if the terminal supports it (see L</ANSI()>).
+No other color markup will be handled.
 A trailing newline will be added.
 
 =cut
@@ -1091,9 +1092,9 @@ ANSI output is available and active, otherwise the text stays unchanged.
 sub _Color {
     my ( $Self, $Color, $Text ) = @_;
 
-    return $Text if !$Self->{ANSI};
+    return $Text unless $Self->{ANSI};
     return $Text if $SuppressANSI;
-    return Term::ANSIColor::color($Color) . $Text . Term::ANSIColor::color('reset');
+    return colored( $Text, $Color );
 }
 
 sub _ReplaceColorTags {
