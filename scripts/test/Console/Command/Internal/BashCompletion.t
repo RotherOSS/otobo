@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my @Tests = (
     {
@@ -62,18 +66,17 @@ for my $Test (@Tests) {
         $ExitCode = $CommandObject->Execute( @{ $Test->{Arguments} } );
     }
 
-    $Self->Is(
+    is(
         $ExitCode,
         0,
         "$Test->{Name} exit code",
     );
 
-    $Self->Is(
+    is(
         $Result,
         $Test->{Result},
         "$Test->{Name} result",
     );
-
 }
 
-$Self->DoneTesting();
+done_testing;
