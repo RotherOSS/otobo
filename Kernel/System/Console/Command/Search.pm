@@ -84,11 +84,13 @@ sub HandleSearch {
     }
 
     if ( !$UsageText ) {
-        $Self->Print("<yellow>No commands found.</yellow>\n");
+        $Self->PrintWarning('No commands found.');
+
         return $Self->ExitCodeOk();
     }
 
     $Self->Print($UsageText);
+
     return $Self->ExitCodeOk();
 }
 

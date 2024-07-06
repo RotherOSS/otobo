@@ -30,6 +30,8 @@ use Term::ANSIColor qw(color);
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::Console::BaseCommand;
 
+diag 'Testing the Print support of Kernel::System::Console::BaseCommand';
+
 # initially ANSI is off, because we are not in interactive mode
 subtest 'ANSI' => sub {
     my $BaseCommand = Kernel::System::Console::BaseCommand->new;
@@ -69,6 +71,54 @@ subtest 'Print() ANSI=1' => sub {
     is( $RetVal, undef,                                                           'returning undef' );
 };
 
+subtest 'PrintWarning() ANSI=0' => sub {
+    my $BaseCommand = Kernel::System::Console::BaseCommand->new;
+    $BaseCommand->ANSI(0);
+    my ( $Out, $Error, $RetVal ) = capture {
+        return $BaseCommand->PrintWarning(q{<green>green 🌲</green> and <yellow>yellow 🌞</yellow>});
+    };
+
+    is( $Out,    qq{<green>green 🌲</green> and <yellow>yellow 🌞</yellow>\n}, q{color tags kept} );
+    is( $Error,  '',                                                               'nothing printed on STDOUT' );
+    is( $RetVal, undef,                                                            'returning undef' );
+};
+
+subtest 'PrintWarning() ANSI=1' => sub {
+    my $BaseCommand = Kernel::System::Console::BaseCommand->new;
+    $BaseCommand->ANSI(1);
+    my ( $Out, $Error, $RetVal ) = capture {
+        return $BaseCommand->PrintWarning(q{<green>green 🌲</green> and <yellow>yellow 🌞</yellow>});
+    };
+
+    is( $Out,    qq{${Yellow}<green>green 🌲</green> and <yellow>yellow 🌞</yellow>${Reset}\n}, q{'Error:' added, color tags kept} );
+    is( $Error,  '',                                                                                'nothing printed on STERR' );
+    is( $RetVal, undef,                                                                             'returning undef' );
+};
+
+subtest 'PrintOk() ANSI=0' => sub {
+    my $BaseCommand = Kernel::System::Console::BaseCommand->new;
+    $BaseCommand->ANSI(0);
+    my ( $Out, $Error, $RetVal ) = capture {
+        return $BaseCommand->PrintOk(q{<green>green 🌲</green> and <yellow>yellow 🌞</yellow>});
+    };
+
+    is( $Out,    qq{<green>green 🌲</green> and <yellow>yellow 🌞</yellow>\n}, q{color tags kept} );
+    is( $Error,  '',                                                               'nothing printed on STDERR' );
+    is( $RetVal, undef,                                                            'returning undef' );
+};
+
+subtest 'PrintOk() ANSI=1' => sub {
+    my $BaseCommand = Kernel::System::Console::BaseCommand->new;
+    $BaseCommand->ANSI(1);
+    my ( $Out, $Error, $RetVal ) = capture {
+        return $BaseCommand->PrintOk(q{<green>green 🌲</green> and <yellow>yellow 🌞</yellow>});
+    };
+
+    is( $Out,    qq{${Green}<green>green 🌲</green> and <yellow>yellow 🌞</yellow>${Reset}\n}, q{color tags kept} );
+    is( $Error,  '',                                                                               'nothing printed on STDERR' );
+    is( $RetVal, undef,                                                                            'returning undef' );
+};
+
 subtest 'PrintError() ANSI=0' => sub {
     my $BaseCommand = Kernel::System::Console::BaseCommand->new;
     $BaseCommand->ANSI(0);
@@ -92,8 +142,5 @@ subtest 'PrintError() ANSI=1' => sub {
     is( $Error,  qq{${Red}Error: <green>green 🌲</green> and <yellow>yellow 🌞</yellow>\n${Reset}}, q{'Error:' added, color tags kept} );
     is( $RetVal, undef,                                                                                 'returning undef' );
 };
-
-# TODO: test PrintWarning()
-# TODO: test PrintOk()
 
 done_testing;
