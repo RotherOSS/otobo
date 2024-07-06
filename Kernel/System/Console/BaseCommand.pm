@@ -60,8 +60,7 @@ override L</Configure()> instead if you need to.
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # for usage help
     $Self->{Name} = $Type;
@@ -237,6 +236,7 @@ sub GetArgument {
 
     if ( !$Self->{_ArgumentSeen}->{$Argument} ) {
         $Self->PrintError("Argument '$Argument' was not configured and cannot be accessed.");
+
         return;
     }
 
@@ -335,6 +335,7 @@ sub GetOption {
 
     if ( !$Self->{_OptionSeen}->{$Option} ) {
         $Self->PrintError("Option '--$Option' was not configured and cannot be accessed.");
+
         return;
     }
 
@@ -426,6 +427,7 @@ sub Execute {
     # Only run if the command was setup ok.
     if ( !$Self->{_ConfigureSuccessful} ) {
         $Self->PrintError("Aborting because the command was not successfully configured.");
+
         return $Self->ExitCodeError();
     }
 
@@ -436,6 +438,7 @@ sub Execute {
 
     if ( $ParsedGlobalOptions->{help} ) {
         print "\n" . $Self->GetUsageHelp();
+
         return $Self->ExitCodeOk();
     }
 
@@ -448,6 +451,7 @@ sub Execute {
     $Self->{_ParsedARGV} = $Self->_ParseCommandlineArguments( \@CommandlineArguments );
     if ( !%{ $Self->{_ParsedARGV} // {} } ) {
         print STDERR "\n" . $Self->GetUsageHelp();
+
         return $Self->ExitCodeError();
     }
 
@@ -616,6 +620,7 @@ sub ANSI {
     my ( $Self, $ANSI ) = @_;
 
     $Self->{ANSI} = $ANSI if defined $ANSI;
+
     return $Self->{ANSI};
 }
 
@@ -625,6 +630,7 @@ shorthand method to print an error message to STDERR.
 
 It will be prefixed with 'Error: ' and colored in red,
 if the terminal supports it (see L</ANSI()>).
+A trailing newline will be added.
 
 =cut
 
@@ -633,6 +639,7 @@ sub PrintError {
 
     chomp $Text;
     print STDERR $Self->_Color( 'red', "Error: $Text\n" );
+
     return;
 }
 
@@ -652,6 +659,7 @@ sub Print {
     if ( !$Self->{Quiet} ) {
         print $Self->_ReplaceColorTags($Text);
     }
+
     return;
 }
 
@@ -960,12 +968,14 @@ sub _ParseCommandlineArguments {
                 }
 
                 $Self->PrintError("please provide option '--$Option->{Name}'.");
+
                 return;
             }
 
             for my $Value (@Values) {
                 if ( $Option->{HasValue} && $Value !~ $Option->{ValueRegex} ) {
                     $Self->PrintError("please provide a valid value for option '--$Option->{Name}'.");
+
                     return;
                 }
             }
@@ -989,11 +999,13 @@ sub _ParseCommandlineArguments {
                 }
 
                 $Self->PrintError("please provide option '--$Option->{Name}'.");
+
                 return;
             }
 
             if ( $Option->{HasValue} && $Value !~ $Option->{ValueRegex} ) {
                 $Self->PrintError("please provide a valid value for option '--$Option->{Name}'.");
+
                 return;
             }
 
@@ -1057,6 +1069,7 @@ sub _ParseCommandlineArguments {
         $Error .= join "', '", @{$Arguments};
         $Error .= "').\n";
         $Self->PrintError($Error);
+
         return;
     }
 
