@@ -233,13 +233,13 @@ my @Tests = (
             Value   => 'Option',
             Message => 'Set TimeInputFormat to Option',
         },
-        ExpectedValue => '<select disabled="disabled" id="Month" name="Month" title="Month">
+        ExpectedValue => '<select disabled id="Month" name="Month" title="Month">
   <option value="6" selected="selected">06</option>
 </select>
-<select class=" " disabled="disabled" id="Day" name="Day" title="Day">
+<select class=" " disabled id="Day" name="Day" title="Day">
   <option value="8" selected="selected">08</option>
 </select>
-<select disabled="disabled" id="Year" name="Year" title="Year">
+<select disabled id="Year" name="Year" title="Year">
   <option value="2016" selected="selected">2016</option>
 </select>',
     },
@@ -252,19 +252,19 @@ my @Tests = (
             Format   => 'DateInputFormatLong',
             Disabled => 1,
         },
-        ExpectedValue => '<select disabled="disabled" id="Month" name="Month" title="Month">
+        ExpectedValue => '<select disabled id="Month" name="Month" title="Month">
   <option value="6" selected="selected">06</option>
 </select>
-<select class=" " disabled="disabled" id="Day" name="Day" title="Day">
+<select class=" " disabled id="Day" name="Day" title="Day">
   <option value="9" selected="selected">09</option>
 </select>
-<select disabled="disabled" id="Year" name="Year" title="Year">
+<select disabled id="Year" name="Year" title="Year">
   <option value="2014" selected="selected">2014</option>
 </select>
-<select disabled="disabled" id="Hour" name="Hour" title="Hours">
+<select disabled id="Hour" name="Hour" title="Hours">
   <option value="1" selected="selected">01</option>
 </select>
-<select disabled="disabled" id="Minute" name="Minute" title="Minutes">
+<select disabled id="Minute" name="Minute" title="Minutes">
   <option value="24" selected="selected">24</option>
 </select>',
     },
@@ -279,14 +279,14 @@ my @Tests = (
             Disabled     => 1,
         },
         ExpectedValue =>
-            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled="disabled">
-<select disabled="disabled" id="TestMonth" name="TestMonth" title="Month">
+            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled>
+<select disabled id="TestMonth" name="TestMonth" title="Month">
   <option value="6" selected="selected">06</option>
 </select>
-<select class=" " disabled="disabled" id="TestDay" name="TestDay" title="Day">
+<select class=" " disabled id="TestDay" name="TestDay" title="Day">
   <option value="8" selected="selected">08</option>
 </select>
-<select disabled="disabled" id="TestYear" name="TestYear" title="Year">
+<select disabled id="TestYear" name="TestYear" title="Year">
   <option value="2014" selected="selected">2014</option>
 </select>',
     },
@@ -369,7 +369,7 @@ my @Tests = (
             Disabled     => 1,
         },
         ExpectedValue =>
-            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled="disabled">
+            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled>
 <input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" readonly>
 <input type="text" class="" name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="08" readonly>
 <input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2014" readonly>',
@@ -385,7 +385,7 @@ my @Tests = (
             Disabled     => 1,
         },
         ExpectedValue =>
-            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled="disabled">
+            '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled>
 <input type="text" class="" name="TestMonth" id="TestMonth" size="2" maxlength="2" title="Month" value="06" readonly>
 <input type="text" class="" name="TestDay" id="TestDay" size="2" maxlength="2" title="Day" value="09" readonly>
 <input type="text" class="" name="TestYear" id="TestYear" size="4" maxlength="4" title="Year" value="2014" readonly>',

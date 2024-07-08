@@ -499,17 +499,17 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1" data-tree="true">
   <option value="1">Object1</option>
-  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="-" disabled>' . "\xA0\xA0" . 'AttributeA</option>
   <option value="3">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
-  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="-" disabled>' . "\xA0\xA0" . 'AttributeB</option>
   <option value="6">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="7">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
-  <option value="-" disabled="disabled">Object2</option>
-  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="-" disabled>Object2</option>
+  <option value="-" disabled>' . "\xA0\xA0" . 'AttributeA</option>
   <option value="10">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="11">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
-  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="-" disabled>' . "\xA0\xA0" . 'AttributeB</option>
   <option value="13">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="14">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
@@ -618,7 +618,7 @@ my @Tests = (
   <option value="6">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="7">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="8">Object2</option>
-  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="-" disabled>' . "\xA0\xA0" . 'AttributeB</option>
   <option value="14">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
         Success      => 1,
@@ -824,17 +824,17 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1" data-tree="true">
   <option value="Object1">Object1</option>
-  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="-" disabled>' . "\xA0\xA0" . 'AttributeA</option>
   <option value="Object1::AttributeA::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="Object1::AttributeA::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
-  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="-" disabled>' . "\xA0\xA0" . 'AttributeB</option>
   <option value="Object1::AttributeB::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="Object1::AttributeB::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
-  <option value="-" disabled="disabled">Object2</option>
-  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="-" disabled>Object2</option>
+  <option value="-" disabled>' . "\xA0\xA0" . 'AttributeA</option>
   <option value="Object2::AttributeA::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="Object2::AttributeA::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
-  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="-" disabled>' . "\xA0\xA0" . 'AttributeB</option>
   <option value="Object2::AttributeB::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="Object2::AttributeB::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
@@ -944,7 +944,7 @@ my @Tests = (
   <option value="Object1::AttributeB::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="Object1::AttributeB::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="Object2">Object2</option>
-  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="-" disabled>' . "\xA0\xA0" . 'AttributeB</option>
   <option value="Object2::AttributeB::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="Object2::AttributeB::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
@@ -1485,7 +1485,7 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="DeleteFilter">DELETE</option>
-  <option value="-" disabled="disabled">-</option>
+  <option value="-" disabled>-</option>
   <option value="1">Object1</option>
   <option value="2" selected="selected">Objec[...]</option>
   <option value="3">Objec[...]</option>
@@ -1715,12 +1715,12 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1" data-tree="true">
   <option value="1">Object1</option>
-  <option value="Object1::AttributeA_Disabled" disabled="disabled">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="Object1::AttributeA_Disabled" disabled>' . "\xA0\xA0" . 'AttributeA</option>
   <option value="3" selected="selected">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
-  <option value="Object1::AttributeB_Disabled" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="Object1::AttributeB_Disabled" disabled>' . "\xA0\xA0" . 'AttributeB</option>
   <option value="6">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
-  <option value="7" disabled="disabled">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="7" disabled>' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
         Success      => 1,
         ExecuteJSON  => 1,
