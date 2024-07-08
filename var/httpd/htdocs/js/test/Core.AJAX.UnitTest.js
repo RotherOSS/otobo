@@ -115,19 +115,19 @@ Core.AJAX = (function (Namespace) {
 
              },
              {
-                 HTML: '<select name="Element" multiple="multiple"><option value="1" selected="selected">one</option><option value="2" selected="selected">two</option></select>',
+                 HTML: '<select name="Element" multiple><option value="1" selected="selected">one</option><option value="2" selected="selected">two</option></select>',
                  Result: 'Element=1;Element=2;',
                  Name: 'Multi-select with multiple values'
 
              },
              {
-                 HTML: '<select name="Element" multiple="multiple"><option value="1" selected="selected">one</option><option value="2">two</option></select>',
+                 HTML: '<select name="Element" multiple><option value="1" selected="selected">one</option><option value="2">two</option></select>',
                  Result: 'Element=1;',
                  Name: 'Multi-Select with one value'
 
              },
              {
-                 HTML: '<select name="Element" multiple="multiple"><option value="1">one</option><option value="2">two</option></select>',
+                 HTML: '<select name="Element" multiple><option value="1">one</option><option value="2">two</option></select>',
                  Result: '',
                  Name: 'Multi-select, empty'
 

@@ -1018,7 +1018,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: auto;
     }
 
-    .PreferencesScreen .Content form .Field.NoMargin select[multiple="multiple"] {
+    .PreferencesScreen .Content form .Field.NoMargin select[multiple] {
         height: auto;
     }
 
