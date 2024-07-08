@@ -108,7 +108,7 @@
 [% RenderBlockEnd("AuthTwoFactor") %]
 
                     <div class="Row">
-                        <button type="submit" value="[% Translate("Log In") | html %]" disabled="disabled">[% Translate("Log In") | html %]</button>
+                        <button type="submit" value="[% Translate("Log In") | html %]" disabled>[% Translate("Log In") | html %]</button>
                     </div>
                     <div class="Clear"></div>
                 </form>
@@ -129,7 +129,7 @@
                         <label for="ResetUser">[% Translate("User name") | html %]</label>
                     </div>
                     <div class="Row">
-                        <button type="submit" value="[% Translate("Submit") | html %]" disabled="disabled">[% Translate("Submit") | html %]</button>
+                        <button type="submit" value="[% Translate("Submit") | html %]" disabled>[% Translate("Submit") | html %]</button>
                     </div>
                     <div class="Clear"></div>
                 </form>
@@ -164,7 +164,7 @@
                         <div id="EmailError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                     </div>
                     <div class="Row">
-                        <button id="CreateAccount" type="submit" value="[% Translate("Create") | html %]" disabled="disabled">[% Translate("Create") | html %]</button>
+                        <button id="CreateAccount" type="submit" value="[% Translate("Create") | html %]" disabled>[% Translate("Create") | html %]</button>
                     </div>
                     <div class="Clear"></div>
                 </form>

@@ -603,7 +603,7 @@ sub AgentQueueListOption {
                             $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
                         }
                         $Param{MoveQueuesStrg}
-                            .= '<option value="-" disabled="disabled"'
+                            .= '<option value="-" disabled'
                             . $OptionTitleHTMLValue
                             . '>'
                             . $DSpace
@@ -644,7 +644,7 @@ sub AgentQueueListOption {
             elsif ( $CurrentQueueID eq $_ )
             {
                 $Param{MoveQueuesStrg}
-                    .= '<option value="-" disabled="disabled"'
+                    .= '<option value="-" disabled'
                     . $OptionTitleHTMLValue . '>'
                     . ( $TreeView ? $Self->{LanguageObject}->Translate($String) : $String )
                     . "</option>\n";

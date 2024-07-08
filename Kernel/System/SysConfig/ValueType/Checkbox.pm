@@ -206,7 +206,7 @@ sub SettingRender {
     }
 
     if ( !$Param{RW} ) {
-        $HTML .= "disabled='disabled' ";
+        $HTML .= "disabled ";
     }
     $HTML .= ">";
 

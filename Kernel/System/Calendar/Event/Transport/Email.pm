@@ -293,7 +293,7 @@ sub TransportSettingsDisplayGet {
     }
 
     if ( !IsHashRefWithData( \%SecuritySignEncryptOptions ) ) {
-        $Param{EmailSecuritySettings} = 'disabled="disabled"';
+        $Param{EmailSecuritySettings} = 'disabled';
         $Param{EmailSecurityInfo}     = Translatable('PGP and SMIME not enabled.');
     }
 

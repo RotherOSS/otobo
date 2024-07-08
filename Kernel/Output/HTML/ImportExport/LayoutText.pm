@@ -128,7 +128,7 @@ sub FormInputCreate {
 
     # add readonly
     if ( $Param{Item}->{Input}->{Readonly} ) {
-        $String .= 'readonly="readonly" ';
+        $String .= 'readonly ';
     }
 
     $String .= "/> ";
