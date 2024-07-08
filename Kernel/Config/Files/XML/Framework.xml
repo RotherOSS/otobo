@@ -7781,13 +7781,6 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::CommonParam###Action" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default value for the action parameter.</Description>
-        <Navigation>Frontend::Agent</Navigation>
-        <Value>
-            <Item ValueType="String" ValueRegex="">AdminInit</Item>
-        </Value>
-    </Setting>
     <Setting Name="PublicFrontend::Active" Required="1" Valid="1">
         <Description Translatable="1">Activate the public frontend.</Description>
         <Navigation>Frontend::Public</Navigation>
