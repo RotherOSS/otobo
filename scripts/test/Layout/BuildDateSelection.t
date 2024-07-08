@@ -57,13 +57,13 @@ my @Tests = (
         DateTimeString => '2016-02-10 09:04:23',                            # in OTOBO time zone
         Config         => {},
         ExpectedValue  => '<select id="Month" name="Month" title="Month">
-  <option value="2" selected="selected">02</option>
+  <option value="2" selected>02</option>
 </select>
 <select class=" " id="Day" name="Day" title="Day">
-  <option value="10" selected="selected">10</option>
+  <option value="10" selected>10</option>
 </select>
 <select id="Year" name="Year" title="Year">
-  <option value="2016" selected="selected">2016</option>
+  <option value="2016" selected>2016</option>
 </select>',
     },
     {
@@ -73,13 +73,13 @@ my @Tests = (
         DateTimeString => '2016-02-10 23:04:23',                            # in OTOBO time zone
         Config         => {},
         ExpectedValue  => '<select id="Month" name="Month" title="Month">
-  <option value="2" selected="selected">02</option>
+  <option value="2" selected>02</option>
 </select>
 <select class=" " id="Day" name="Day" title="Day">
-  <option value="11" selected="selected">11</option>
+  <option value="11" selected>11</option>
 </select>
 <select id="Year" name="Year" title="Year">
-  <option value="2016" selected="selected">2016</option>
+  <option value="2016" selected>2016</option>
 </select>',
     },
     {
@@ -91,19 +91,19 @@ my @Tests = (
             Format => 'DateInputFormatLong',
         },
         ExpectedValue => '<select id="Month" name="Month" title="Month">
-  <option value="2" selected="selected">02</option>
+  <option value="2" selected>02</option>
 </select>
 <select class=" " id="Day" name="Day" title="Day">
-  <option value="10" selected="selected">10</option>
+  <option value="10" selected>10</option>
 </select>
 <select id="Year" name="Year" title="Year">
-  <option value="2016" selected="selected">2016</option>
+  <option value="2016" selected>2016</option>
 </select>
 <select id="Hour" name="Hour" title="Hours">
-  <option value="9" selected="selected">09</option>
+  <option value="9" selected>09</option>
 </select>
 <select id="Minute" name="Minute" title="Minutes">
-  <option value="4" selected="selected">04</option>
+  <option value="4" selected>04</option>
 </select>',
     },
     {
@@ -115,19 +115,19 @@ my @Tests = (
             Format => 'DateInputFormatLong',
         },
         ExpectedValue => '<select id="Month" name="Month" title="Month">
-  <option value="4" selected="selected">04</option>
+  <option value="4" selected>04</option>
 </select>
 <select class=" " id="Day" name="Day" title="Day">
-  <option value="30" selected="selected">30</option>
+  <option value="30" selected>30</option>
 </select>
 <select id="Year" name="Year" title="Year">
-  <option value="2016" selected="selected">2016</option>
+  <option value="2016" selected>2016</option>
 </select>
 <select id="Hour" name="Hour" title="Hours">
-  <option value="22" selected="selected">22</option>
+  <option value="22" selected>22</option>
 </select>
 <select id="Minute" name="Minute" title="Minutes">
-  <option value="24" selected="selected">24</option>
+  <option value="24" selected>24</option>
 </select>',
     },
     {
@@ -142,13 +142,13 @@ my @Tests = (
         ExpectedValue =>
             '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" >
 <select id="TestMonth" name="TestMonth" title="Month">
-  <option value="10" selected="selected">10</option>
+  <option value="10" selected>10</option>
 </select>
 <select class=" " id="TestDay" name="TestDay" title="Day">
-  <option value="2" selected="selected">02</option>
+  <option value="2" selected>02</option>
 </select>
 <select id="TestYear" name="TestYear" title="Year">
-  <option value="2016" selected="selected">2016</option>
+  <option value="2016" selected>2016</option>
 </select>',
     },
     {
@@ -163,13 +163,13 @@ my @Tests = (
         ExpectedValue =>
             '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" >
 <select id="TestMonth" name="TestMonth" title="Month">
-  <option value="10" selected="selected">10</option>
+  <option value="10" selected>10</option>
 </select>
 <select class=" " id="TestDay" name="TestDay" title="Day">
-  <option value="2" selected="selected">02</option>
+  <option value="2" selected>02</option>
 </select>
 <select id="TestYear" name="TestYear" title="Year">
-  <option value="2016" selected="selected">2016</option>
+  <option value="2016" selected>2016</option>
 </select>',
     },
     {
@@ -234,13 +234,13 @@ my @Tests = (
             Message => 'Set TimeInputFormat to Option',
         },
         ExpectedValue => '<select disabled id="Month" name="Month" title="Month">
-  <option value="6" selected="selected">06</option>
+  <option value="6" selected>06</option>
 </select>
 <select class=" " disabled id="Day" name="Day" title="Day">
-  <option value="8" selected="selected">08</option>
+  <option value="8" selected>08</option>
 </select>
 <select disabled id="Year" name="Year" title="Year">
-  <option value="2016" selected="selected">2016</option>
+  <option value="2016" selected>2016</option>
 </select>',
     },
     {
@@ -253,19 +253,19 @@ my @Tests = (
             Disabled => 1,
         },
         ExpectedValue => '<select disabled id="Month" name="Month" title="Month">
-  <option value="6" selected="selected">06</option>
+  <option value="6" selected>06</option>
 </select>
 <select class=" " disabled id="Day" name="Day" title="Day">
-  <option value="9" selected="selected">09</option>
+  <option value="9" selected>09</option>
 </select>
 <select disabled id="Year" name="Year" title="Year">
-  <option value="2014" selected="selected">2014</option>
+  <option value="2014" selected>2014</option>
 </select>
 <select disabled id="Hour" name="Hour" title="Hours">
-  <option value="1" selected="selected">01</option>
+  <option value="1" selected>01</option>
 </select>
 <select disabled id="Minute" name="Minute" title="Minutes">
-  <option value="24" selected="selected">24</option>
+  <option value="24" selected>24</option>
 </select>',
     },
     {
@@ -281,13 +281,13 @@ my @Tests = (
         ExpectedValue =>
             '<input type="checkbox" name="TestUsed" id="TestUsed" value="1" class="" title="Check to activate this date" disabled>
 <select disabled id="TestMonth" name="TestMonth" title="Month">
-  <option value="6" selected="selected">06</option>
+  <option value="6" selected>06</option>
 </select>
 <select class=" " disabled id="TestDay" name="TestDay" title="Day">
-  <option value="8" selected="selected">08</option>
+  <option value="8" selected>08</option>
 </select>
 <select disabled id="TestYear" name="TestYear" title="Year">
-  <option value="2014" selected="selected">2014</option>
+  <option value="2014" selected>2014</option>
 </select>',
     },
     {

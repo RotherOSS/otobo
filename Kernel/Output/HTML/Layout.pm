@@ -6377,7 +6377,7 @@ sub _BuildSelectionOutput {
         my $Value            = $Row->{Value} // '';
         my $SelectedDisabled = '';
         if ( $Row->{Selected} ) {
-            $SelectedDisabled = ' selected="selected"';
+            $SelectedDisabled = ' selected';
         }
         elsif ( $Row->{Disabled} ) {
             $SelectedDisabled = ' disabled';

@@ -84,7 +84,7 @@
   <widgets xsi:type="model:Label" id="65" x="406" y="352" text="Queue" measuredWidth="42" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Checkbox" id="66" x="464" y="425" text="Fixed?" measuredWidth="58" measuredHeight="23" selected="true">
+  <widgets xsi:type="model:Checkbox" id="66" x="464" y="425" text="Fixed?" measuredWidth="58" measuredHeight="23" selected>
     <font/>
   </widgets>
   <widgets xsi:type="model:HLine" id="67" x="221" y="457" width="612" measuredWidth="612" measuredHeight="6" foreground="#cccccc"/>
@@ -97,7 +97,7 @@
   <widgets xsi:type="model:Label" id="69" x="406" y="476" text="Priority" measuredWidth="45" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Checkbox" id="70" x="464" y="549" text="Fixed?" measuredWidth="58" measuredHeight="23" selected="true">
+  <widgets xsi:type="model:Checkbox" id="70" x="464" y="549" text="Fixed?" measuredWidth="58" measuredHeight="23" selected>
     <font/>
   </widgets>
   <hRuler/>
