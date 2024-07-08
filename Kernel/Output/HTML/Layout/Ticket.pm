@@ -635,7 +635,7 @@ sub AgentQueueListOption {
                 )
             {
                 $Param{MoveQueuesStrg}
-                    .= '<option selected="selected" value="'
+                    .= '<option selected value="'
                     . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
                     . ( $TreeView ? $Self->{LanguageObject}->Translate($String) : $String )

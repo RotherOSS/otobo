@@ -262,7 +262,7 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1" data-tree="true">
   <option value="1">Object1</option>
-  <option value="2" selected="selected">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="2" selected>' . "\xA0\xA0" . 'AttributeA</option>
   <option value="3">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="5">' . "\xA0\xA0" . 'AttributeB</option>
@@ -374,7 +374,7 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="1">Object1</option>
-  <option value="2" selected="selected">Object1::AttributeA</option>
+  <option value="2" selected>Object1::AttributeA</option>
   <option value="3">Object1::AttributeA::Value1</option>
   <option value="4">Object1::AttributeA::Value2</option>
   <option value="5">Object1::AttributeB</option>
@@ -445,7 +445,7 @@ my @Tests = (
         },
         Response => '<select id="Select1ID" name="Select1">
   <option value="a &amp; b">a &amp; b</option>
-  <option value="c &amp; d" selected="selected">c &amp; d</option>
+  <option value="c &amp; d" selected>c &amp; d</option>
 </select>',
         Success      => 1,
         ExecuteJSON  => 1,
@@ -611,7 +611,7 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1" data-tree="true">
   <option value="1">Object1</option>
-  <option value="2" selected="selected">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="2" selected>' . "\xA0\xA0" . 'AttributeA</option>
   <option value="3">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="5">' . "\xA0\xA0" . 'AttributeB</option>
@@ -711,7 +711,7 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1" data-tree="true">
   <option value="Object1">Object1</option>
-  <option value="Object1::AttributeA" selected="selected">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="Object1::AttributeA" selected>' . "\xA0\xA0" . 'AttributeA</option>
   <option value="Object1::AttributeA::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="Object1::AttributeA::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="Object1::AttributeB">' . "\xA0\xA0" . 'AttributeB</option>
@@ -937,7 +937,7 @@ my @Tests = (
         Response =>
             '<select autocomplete="off" id="Select1ID" name="Select1" onchange="onchangeJS" onclick="onclickJS" title="Title&quot;\'&lt;&gt;" data-tree="true">
   <option value="Object1">Object1</option>
-  <option value="Object1::AttributeA" selected="selected">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="Object1::AttributeA" selected>' . "\xA0\xA0" . 'AttributeA</option>
   <option value="Object1::AttributeA::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="Object1::AttributeA::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="Object1::AttributeB">' . "\xA0\xA0" . 'AttributeB</option>
@@ -1033,7 +1033,7 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="1">Object1</option>
-  <option value="2" selected="selected">Objec[...]</option>
+  <option value="2" selected>Objec[...]</option>
   <option value="3">Objec[...]</option>
   <option value="4">Objec[...]</option>
   <option value="5">Objec[...]</option>
@@ -1110,7 +1110,7 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="Object1">Object1</option>
-  <option value="Object1::AttributeA" selected="selected">Objec[...]</option>
+  <option value="Object1::AttributeA" selected>Objec[...]</option>
   <option value="Object1::AttributeA::Value1">Objec[...]</option>
   <option value="Object1::AttributeA::Value2">Objec[...]</option>
   <option value="Object1::AttributeB">Objec[...]</option>
@@ -1215,7 +1215,7 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="1">Object1</option>
-  <option value="2" selected="selected">Objec[...]</option>
+  <option value="2" selected>Objec[...]</option>
   <option value="3">Objec[...]</option>
   <option value="4">Objec[...]</option>
   <option value="5">Objec[...]</option>
@@ -1292,7 +1292,7 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1" data-tree="true">
   <option value="1">Object1</option>
-  <option value="2" selected="selected">' . "\xA0\xA0" . 'Attr[...]</option>
+  <option value="2" selected>' . "\xA0\xA0" . 'Attr[...]</option>
   <option value="3">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="5">' . "\xA0\xA0" . 'Attr[...]</option>
@@ -1369,7 +1369,7 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1" data-tree="true">
   <option value="1">Object1&lt;test1&gt;</option>
-  <option value="2" selected="selected">' . "\xA0\xA0" . 'AttributeA[...]</option>
+  <option value="2" selected>' . "\xA0\xA0" . 'AttributeA[...]</option>
   <option value="3">' . "\xA0\xA0\xA0\xA0" . 'Value1&lt;test3&gt;</option>
   <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2&lt;test3&gt;</option>
   <option value="5">' . "\xA0\xA0" . 'AttributeB[...]</option>
@@ -1487,7 +1487,7 @@ my @Tests = (
   <option value="DeleteFilter">DELETE</option>
   <option value="-" disabled>-</option>
   <option value="1">Object1</option>
-  <option value="2" selected="selected">Objec[...]</option>
+  <option value="2" selected>Objec[...]</option>
   <option value="3">Objec[...]</option>
   <option value="4">Objec[...]</option>
   <option value="5">Objec[...]</option>
@@ -1611,7 +1611,7 @@ my @Tests = (
   <option value="DeleteFilter">DELETE</option>
   <option value="-">-</option>
   <option value="1">Object1</option>
-  <option value="2" selected="selected">Objec[...]</option>
+  <option value="2" selected>Objec[...]</option>
   <option value="3">Objec[...]</option>
   <option value="4">Objec[...]</option>
   <option value="5">Objec[...]</option>
@@ -1716,7 +1716,7 @@ my @Tests = (
             '<select id="Select1ID" name="Select1" data-tree="true">
   <option value="1">Object1</option>
   <option value="Object1::AttributeA_Disabled" disabled>' . "\xA0\xA0" . 'AttributeA</option>
-  <option value="3" selected="selected">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="3" selected>' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
   <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="Object1::AttributeB_Disabled" disabled>' . "\xA0\xA0" . 'AttributeB</option>
   <option value="6">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>

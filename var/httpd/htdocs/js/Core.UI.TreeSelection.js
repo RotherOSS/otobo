@@ -553,7 +553,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
             SelectedAttr = '';
             if (Selected) {
-                SelectedAttr = ' selected="selected"';
+                SelectedAttr = ' selected';
             }
 
             DisabledAttr = '';
