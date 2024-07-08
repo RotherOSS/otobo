@@ -28,7 +28,7 @@ input[type=text],
 input[type=password],
 input[type=email],
 textarea,
-select[multiple=multiple] {
+select[multiple] {
     border: 1px solid var(--colBGDark);
     background-color: var(--colBGLight);
 }
