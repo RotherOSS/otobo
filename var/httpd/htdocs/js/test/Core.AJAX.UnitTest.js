@@ -43,7 +43,7 @@ Core.AJAX = (function (Namespace) {
 
              },
              {
-                 HTML: '<input type="checkbox" value="test" checked="checked"/>',
+                 HTML: '<input type="checkbox" value="test" checked/>',
                  Result: '',
                  Name: 'Checkbox without name'
 
@@ -55,7 +55,7 @@ Core.AJAX = (function (Namespace) {
 
              },
              {
-                 HTML: '<input type="checkbox" value="test" name="Element" checked="checked"/>',
+                 HTML: '<input type="checkbox" value="test" name="Element" checked/>',
                  Result: 'Element=test;',
                  Name: 'Checkbox with custom value, checked'
 
@@ -67,19 +67,19 @@ Core.AJAX = (function (Namespace) {
 
              },
              {
-                 HTML: '<input type="checkbox" value="test" name="Element@" checked="checked"/>',
+                 HTML: '<input type="checkbox" value="test" name="Element@" checked/>',
                  Result: 'Element%40=test;',
                  Name: 'Checkbox funky name, checked'
 
              },
              {
-                 HTML: '<input type="checkbox" name="Element" checked="checked"/>',
+                 HTML: '<input type="checkbox" name="Element" checked/>',
                  Result: 'Element=on;',
                  Name: 'Checkbox with custom value, checked'
 
              },
              {
-                 HTML: '<input type="checkbox" name="Element" value="test" checked="checked"/><input type="checkbox" name="Element" value="test2" checked="checked"/><input type="checkbox" name="Element" value="test3"/>',
+                 HTML: '<input type="checkbox" name="Element" value="test" checked/><input type="checkbox" name="Element" value="test2" checked/><input type="checkbox" name="Element" value="test3"/>',
                  Result: 'Element=test;Element=test2;',
                  Name: 'Multiple checkboxes with the same name'
 
@@ -91,19 +91,19 @@ Core.AJAX = (function (Namespace) {
 
              },
              {
-                 HTML: '<input type="radio" value="test" name="Element" checked="checked"/>',
+                 HTML: '<input type="radio" value="test" name="Element" checked/>',
                  Result: 'Element=test;',
                  Name: 'Radio with custom value, checked'
 
              },
              {
-                 HTML: '<input type="radio" value="test" name="Element" /><input type="radio" value="test2" name="Element" checked="checked"/><input type="radio" value="test3" name="Element"/>',
+                 HTML: '<input type="radio" value="test" name="Element" /><input type="radio" value="test2" name="Element" checked/><input type="radio" value="test3" name="Element"/>',
                  Result: 'Element=test2;',
                  Name: 'Radio with custom value, checked'
 
              },
              {
-                 HTML: '<input type="Radio" name="Element" checked="checked"/>',
+                 HTML: '<input type="Radio" name="Element" checked/>',
                  Result: 'Element=on;',
                  Name: 'Multiple radios with custom value, checked'
 

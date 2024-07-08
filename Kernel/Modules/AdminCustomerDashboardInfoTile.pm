@@ -661,7 +661,7 @@ sub _ShowEdit {
         && $CustomerDashboardInfoTileData->{ShowLoginMessage} == '1'
         )
     {
-        $Param{Checked} = 'checked="checked"';
+        $Param{Checked} = 'checked';
     }
 
     my $Output = $LayoutObject->Header();
