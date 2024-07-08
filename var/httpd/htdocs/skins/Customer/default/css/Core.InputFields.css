@@ -672,7 +672,7 @@ input[readonly] {
     box-shadow: none;
 }
 
-.InputField_Search[disabled="disabled"] {
+.InputField_Search[disabled] {
     color: #aaa;
 }
 
@@ -826,7 +826,7 @@ div.InputField_ToolbarContainer ul li a:hover {
     cursor: default;
 }
 
-.InputField_FiltersList input[disabled="disabled"] + span {
+.InputField_FiltersList input[disabled] + span {
     font-style: italic;
     color: #aaa;
 } */
