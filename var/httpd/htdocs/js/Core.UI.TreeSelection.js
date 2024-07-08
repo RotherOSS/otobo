@@ -558,7 +558,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
             DisabledAttr = '';
             if (Disabled) {
-                DisabledAttr = ' disabled="disabled"';
+                DisabledAttr = ' disabled';
             }
 
             SelectData.push({

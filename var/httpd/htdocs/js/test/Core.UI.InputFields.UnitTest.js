@@ -36,10 +36,10 @@ Core.UI.InputFields = (function (Namespace) {
         * Create a form with few sample fields for the tests
         */
         $TestForm = $('<form id="TestForm" style="visibility: hidden;"></form>');
-        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="MultipleSelect" multiple name="MultipleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
-        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="Multiple&apos;Sel&quot;ect" multiple name="MultipleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
-        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelect" name="SingleSelect" data-tree="true"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
-        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelect2" name="SingleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="Test&quot;Value" selected>Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
+        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="MultipleSelect" multiple name="MultipleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled>Entry 3</option><option value="4">Entry 4</option><option value="-" disabled>Entry 5</option><option value="6">Entry 6</option></select></div>');
+        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="Multiple&apos;Sel&quot;ect" multiple name="MultipleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled>Entry 3</option><option value="4">Entry 4</option><option value="-" disabled>Entry 5</option><option value="6">Entry 6</option></select></div>');
+        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelect" name="SingleSelect" data-tree="true"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled>Entry 3</option><option value="4">Entry 4</option><option value="-" disabled>Entry 5</option><option value="6">Entry 6</option></select></div>');
+        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelect2" name="SingleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled>Entry 3</option><option value="Test&quot;Value" selected>Entry 4</option><option value="-" disabled>Entry 5</option><option value="6">Entry 6</option></select></div>');
         $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelectQuoting" name="SingleSelectQuoting"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="you give &apos; love a &quot;bad&quot; name" selected>Bad entry</option><option value="6">Entry 6</option></select></div>');
         $('body').append($TestForm);
 
@@ -75,7 +75,7 @@ Core.UI.InputFields = (function (Namespace) {
                     $Nodes,
                     Selection = ['1', '2', '4'],
                     OptionNumber = $SelectObj.find('option').not("[value='']").length,
-                    SelectableOptionNumber = $SelectObj.find('option').not('[value=""],[disabled="disabled"]').length,
+                    SelectableOptionNumber = $SelectObj.find('option').not('[value=""],[disabled]').length,
                     ListNumber,
                     ExpandSubscription,
                     Done1 = Assert.async();
@@ -285,7 +285,7 @@ Core.UI.InputFields = (function (Namespace) {
         /*
         * Check disabled field
         */
-        $TestForm.append('<div class="Field"><select class="Modernize" id="UnavailableSelect" name="UnavailableSelect"><option value="">-</option><option value="Disabled" disabled="disabled">Disabled entry</option></select></div>');
+        $TestForm.append('<div class="Field"><select class="Modernize" id="UnavailableSelect" name="UnavailableSelect"><option value="">-</option><option value="Disabled" disabled>Disabled entry</option></select></div>');
 
         // Also initialize new field
         Core.UI.InputFields.Activate('*');
@@ -301,7 +301,7 @@ Core.UI.InputFields = (function (Namespace) {
             Assert.equal($SearchObj.attr('title'), Core.Language.Translate('Not available'), 'Check if field has appropriate title');
         });
 
-        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelectClear" name="SingleSelectClear"><option value="">-</option><option value="1" selected>Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
+        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelectClear" name="SingleSelectClear"><option value="">-</option><option value="1" selected>Entry 1</option><option value="2">Entry 2</option><option value="-" disabled>Entry 3</option><option value="4">Entry 4</option><option value="-" disabled>Entry 5</option><option value="6">Entry 6</option></select></div>');
 
         // Also initialize new field
         Core.UI.InputFields.Activate('*');
