@@ -56,8 +56,8 @@ button.ArrowDown:active {
     margin-bottom: 0;
 }
 
-button.ArrowUp[disabled="disabled"]:active,
-button.ArrowDown[disabled="disabled"]:active {
+button.ArrowUp[disabled]:active,
+button.ArrowDown[disabled]:active {
     margin-top: 0px;
     margin-bottom: 1px;
 }
@@ -66,7 +66,7 @@ button.ArrowUp {
     background: url(../img/icons/importexport_arrow_up.png);
 }
 
-button.ArrowUp[disabled="disabled"] {
+button.ArrowUp[disabled] {
     background: url(../img/icons/importexport_arrow_up_disabled.png);
     cursor: default;
 }
@@ -75,7 +75,7 @@ button.ArrowDown {
     background: url(../img/icons/importexport_arrow_down.png);
 }
 
-button.ArrowDown[disabled="disabled"]{
+button.ArrowDown[disabled]{
     background: url(../img/icons/importexport_arrow_down_disabled.png);
     cursor: default;
 }
