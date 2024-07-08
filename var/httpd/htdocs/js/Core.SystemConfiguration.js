@@ -336,7 +336,7 @@ var Core = Core || {};
             .find('form')
             .find('input:not(:checkbox):not(:file):not([name=SettingName]):not(.Key):not(.InputField_Search),' +
                 ' textarea, select, div.Array, div.Hash, .AddArrayItem, .AddHashKey, div.WorkingHoursItem input')
-            .filter(':not([disabled=disabled])')
+            .filter(':not([disabled])')
             .each(function () {
 
             var FullName = $(this).attr('id'),
