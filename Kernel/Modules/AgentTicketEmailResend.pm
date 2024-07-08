@@ -229,7 +229,7 @@ sub Run {
                 my $CustomerDisabled = '';
                 my $CountAux         = $CustomerCounter++;
                 if ( $CustomerError ne '' ) {
-                    $CustomerDisabled = 'disabled="disabled"';
+                    $CustomerDisabled = 'disabled';
                     $CountAux         = $Count . 'Error';
                 }
 
@@ -293,7 +293,7 @@ sub Run {
                 my $CustomerDisabledCc = '';
                 my $CountAuxCc         = $CustomerCounterCc++;
                 if ( $CustomerErrorCc ne '' ) {
-                    $CustomerDisabledCc = 'disabled="disabled"';
+                    $CustomerDisabledCc = 'disabled';
                     $CountAuxCc         = $Count . 'Error';
                 }
 
@@ -356,7 +356,7 @@ sub Run {
                 my $CustomerDisabledBcc = '';
                 my $CountAuxBcc         = $CustomerCounterBcc++;
                 if ( $CustomerErrorBcc ne '' ) {
-                    $CustomerDisabledBcc = 'disabled="disabled"';
+                    $CustomerDisabledBcc = 'disabled';
                     $CountAuxBcc         = $Count . 'Error';
                 }
 

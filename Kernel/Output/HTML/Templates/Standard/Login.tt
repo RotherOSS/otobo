@@ -190,7 +190,7 @@
                                 -->
 
                                 <div class="Field">
-                                    <button type="submit" id="LoginButton" class="Primary CallForAction Fullsize Center" value="[% Translate("Login") | html %]" disabled="disabled"><span>[% Translate("Login") | html %]</span></button>
+                                    <button type="submit" id="LoginButton" class="Primary CallForAction Fullsize Center" value="[% Translate("Login") | html %]" disabled><span>[% Translate("Login") | html %]</span></button>
                                 </div>
                                 <div class="Clear"></div>
                             </fieldset>
@@ -226,7 +226,7 @@
                                 <div class="Clear"></div>
 
                                 <div>
-                                    <button type="submit" Class="Primary CallForAction Fullsize Center" value="[% Translate("Request New Password") | html %]" disabled="disabled"><span>[% Translate("Request New Password") | html %]</span></button>
+                                    <button type="submit" Class="Primary CallForAction Fullsize Center" value="[% Translate("Request New Password") | html %]" disabled><span>[% Translate("Request New Password") | html %]</span></button>
                                 </div>
                                 <div class="Clear"></div>
                             </fieldset>

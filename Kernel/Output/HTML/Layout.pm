@@ -3941,7 +3941,7 @@ sub BuildDateSelection {
             . $Checked
             . qq{ class="$Class"}
             . sprintf( ' title="%s" ', $Self->{LanguageObject}->Translate('Check to activate this date') )
-            . ( $Param{Disabled} ? 'disabled="disabled"' : '' )
+            . ( $Param{Disabled} ? 'disabled' : '' )
             . ">&nbsp;";
     }
 
@@ -6344,7 +6344,7 @@ sub _BuildSelectionOutput {
             $SelectedDisabled = ' selected="selected"';
         }
         elsif ( $Row->{Disabled} ) {
-            $SelectedDisabled = ' disabled="disabled"';
+            $SelectedDisabled = ' disabled';
         }
         my $OptionTitle = $Param{OptionTitle} ? qq{ title="$Value"} : '';
 

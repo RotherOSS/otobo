@@ -952,7 +952,7 @@ sub _Element {
         # Mandatory widgets are displayed as read-only.
         my $Readonly = '';
         if ( $Configs->{$Name}->{Mandatory} ) {
-            $Readonly = 'disabled="disabled"';
+            $Readonly = 'disabled';
         }
 
         $LayoutObject->Block(

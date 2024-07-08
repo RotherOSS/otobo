@@ -390,7 +390,7 @@
                                     <button class="ArrowUp"type="submit" name="MappingUp::[% Data.MappingID | html %]" value="[% Translate("Up") | html %]"> [% Translate("Up") | html %] </button>
 [% RenderBlockEnd("TemplateEdit4UpButton") %]
 [% RenderBlockStart("TemplateEdit4NoUpButton") %]
-                                    <button class="ArrowUp" type="submit" disabled="disabled"> [% Translate("Up") | html %]</button>
+                                    <button class="ArrowUp" type="submit" disabled> [% Translate("Up") | html %]</button>
 [% RenderBlockEnd("TemplateEdit4NoUpButton") %]
                                 </td>
                                 <td class="Center">
@@ -398,7 +398,7 @@
                                     <button class="ArrowDown" type="submit" name="MappingDown::[% Data.MappingID | html %]" value="[% Translate("Down") | html %]"> [% Translate("Down") | html %]</button>
 [% RenderBlockEnd("TemplateEdit4DownButton") %]
 [% RenderBlockStart("TemplateEdit4NoDownButton") %]
-                                    <button class="ArrowDown" type="submit" disabled="disabled"> [% Translate("Down") | html %]</button>
+                                    <button class="ArrowDown" type="submit" disabled> [% Translate("Down") | html %]</button>
 [% RenderBlockEnd("TemplateEdit4NoDownButton") %]
                                 </td>
 
