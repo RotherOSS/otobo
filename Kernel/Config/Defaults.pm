@@ -1880,7 +1880,7 @@ via the Preferences button after logging in.
 
         # param => default value
 #        SomeParam => 'DefaultValue',
-        Action => 'AdminInit',
+        Action => 'AgentDashboard',
     };
 
     $Self->{'CustomerFrontend::CommonParam'} = {
@@ -1956,15 +1956,6 @@ via the Preferences button after logging in.
         Block => '',
     };
 
-    $Self->{'Frontend::Module'}->{AdminInit} = {
-        Description => 'Admin',
-        Group       => [
-            'admin',
-        ],
-        GroupRo     => [],
-        NavBarName => '',
-        Title      => 'Init',
-    };
     $Self->{'Frontend::Module'}->{AdminLog} = {
         Description => 'Admin',
         Group       => [
