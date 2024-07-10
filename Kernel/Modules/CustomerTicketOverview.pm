@@ -588,19 +588,6 @@ sub Run {
             Result => 'ARRAY',
         );
 
-        # show tickets
-        #       $Counter = 0;
-        #       for my $TicketID (@ViewableTickets) {
-        #           $Counter++;
-        #           if (
-        #               $Counter >= $StartHit
-        #               && $Counter < ( $PageShown + $StartHit )
-        #               )
-        #           {
-        #               $Self->ShowTicketStatus( TicketID => $TicketID );
-        #           }
-        #       }
-
         my $TicketListObject = $Kernel::OM->Get('Kernel::Output::HTML::TicketOverview::CustomerList');
         $TicketListHTML = $TicketListObject->Run(
             StartHit  => $StartHit,
@@ -658,9 +645,15 @@ sub Run {
     return $Output;
 }
 
+# NOTE Deprecated, will be removed in a future release
 # ShowTicket
 sub ShowTicketStatus {
     my ( $Self, %Param ) = @_;
+
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'notice',
+        Message  => 'The sub ShowTicketStatus is deprecated and will be removed in a future release.',
+    );
 
     my $LayoutObject               = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $TicketObject               = $Kernel::OM->Get('Kernel::System::Ticket');
