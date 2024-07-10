@@ -328,8 +328,9 @@ sub DisplayValueRender {
         # HTML Output transformation
         if ($HTMLOutput) {
             $ValueItem = $Param{LayoutObject}->Ascii2Html(
-                Text => $ValueItem,
-                Max  => $Param{ValueMaxChars},
+                Text           => $ValueItem,
+                HTMLResultMode => 1,
+                Max            => $Param{ValueMaxChars},
             );
         }
         else {
