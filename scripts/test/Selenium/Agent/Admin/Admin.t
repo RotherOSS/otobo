@@ -26,10 +26,8 @@ use File::Path qw(mkpath rmtree);
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 # get selenium object
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
@@ -151,7 +149,7 @@ $Selenium->RunTest(
             # Skip test for unregistered modules (e.g. OTOBO Business)
             if ( !$FrontendModules->{$AdminModule} ) {
 
-                $Self->True(
+                ok(
                     index(
                         $Selenium->get_page_source(),
                         "Module Kernel::Modules::$AdminModule not registered in Kernel/Config.pm!"
@@ -177,7 +175,7 @@ $Selenium->RunTest(
         # Delete needed test directories.
         for my $Directory ( $CertPath, $PrivatePath ) {
             my $Success = rmtree( [$Directory] );
-            $Self->True(
+            ok(
                 $Success,
                 "Directory deleted - '$Directory'",
             );
@@ -203,7 +201,7 @@ $Selenium->RunTest(
         );
 
         # Checks if Add as Favourite star is visible again.
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('span[data-module=AdminACL]').length === 1"
             ),
@@ -226,7 +224,7 @@ $Selenium->RunTest(
         );
 
         # Check if AddAsFavourite on list view has IsFavourite class, false is expected.
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return !\$('tr[data-module=\"AdminACL\"] a.AddAsFavourite').hasClass('IsFavourite')"
             ),
@@ -275,7 +273,7 @@ $Selenium->RunTest(
 
             return if !$ContainerTitle || !$ExpectedTileCount;
 
-            $Self->Is(
+            is(
                 $Selenium->execute_script(
                     "return \$('.Header h2:contains(\"$ContainerTitle\")').parents('.WidgetSimple').find('.ItemListGrid li:visible').length;"
                 ),
@@ -306,4 +304,4 @@ $Selenium->RunTest(
     }
 );
 
-done_testing();
+done_testing;
