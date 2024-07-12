@@ -295,7 +295,9 @@
 
                     <label>[% Translate("Attachments") | html %]:</label>
                     <div class="Field">
-[% INCLUDE "FormElements/AttachmentList.tt" %]
+[% INCLUDE "FormElements/AttachmentList.tt"
+    MaxSizePerFile=Config("WebMaxFileSize")
+%]
                     </div>
                     <div class="Clear"></div>
 

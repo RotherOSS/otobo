@@ -62,7 +62,9 @@
 <label>[% Translate("Attachments") | html %]:</label>
     <div class="Field">
         <div class="DnDUploadBox">
-[% INCLUDE "FormElements/AttachmentList.tt" %]
+[% INCLUDE "FormElements/AttachmentList.tt"
+    MaxSizePerFile=Config("WebMaxFileSize")
+%]
         </div>
     </div>
 <div class="Clear"></div>

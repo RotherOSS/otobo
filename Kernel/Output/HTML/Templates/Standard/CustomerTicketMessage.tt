@@ -144,7 +144,9 @@
                 <div class="Row">
                     <div id="oooAttachments" class="Field">
                         <div class="DnDUploadBox">
-[% INCLUDE "FormElements/CustomerAttachmentList.tt" %]
+[% INCLUDE "FormElements/CustomerAttachmentList.tt"
+    MaxSizePerFile=Config("WebMaxFileSize")
+%]
                         </div>
                     </div>
                     <div class="Clear"></div>
