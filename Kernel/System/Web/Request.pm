@@ -86,7 +86,7 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # max 5 MB posts
-    $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
+    $CGI::POST_MAX = $ConfigObject->Get('WebMaxUploadSize') || 1024 * 1024 * 5;
 
     # The query is usually constructed from the CGI relevant environment variables, e.g. QUERY_STRING,
     # and from reading STDIN.

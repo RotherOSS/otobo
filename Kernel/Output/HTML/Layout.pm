@@ -1748,7 +1748,8 @@ sub Footer {
         ChallengeToken                 => $Self->{UserChallengeToken},
         CustomerPanelSessionName       => $ConfigObject->Get('CustomerPanelSessionName'),
         UserLanguage                   => $Self->{UserLanguage},
-        WebMaxFileUpload               => $ConfigObject->Get('WebMaxFileUpload'),
+        WebMaxFileSize                 => $ConfigObject->Get('WebMaxFileSize'),
+        WebMaxUploadSize               => $ConfigObject->Get('WebMaxUploadSize'),
         RichTextSet                    => $ConfigObject->Get('Frontend::RichText'),
         CheckEmailAddresses            => $ConfigObject->Get('CheckEmailAddresses'),
         MenuDragDropEnabled            => $ConfigObject->Get('Frontend::MenuDragDropEnabled'),
@@ -4417,7 +4418,8 @@ sub CustomerFooter {
         InputFieldsActivated     => 1,
         Autocomplete             => $AutocompleteConfig,
         VideoChatEnabled         => $Param{VideoChatEnabled},
-        WebMaxFileUpload         => $ConfigObject->Get('WebMaxFileUpload'),
+        WebMaxFileSize           => $ConfigObject->Get('WebMaxFileSize'),
+        WebMaxUploadSize         => $ConfigObject->Get('WebMaxUploadSize'),
         CustomerChatPermission   => $CustomerChatPermission,
     );
 
