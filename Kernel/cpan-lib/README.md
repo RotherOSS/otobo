@@ -64,8 +64,11 @@ The reason why specific files are not included in the bundle is not always evide
 
 ### Add files that do no originate from CPAN.
 
+These are Perl modules that belong to OTOBO but have to be in a specific namespace.
+
     cp -r Devel/REPL local/lib/perl5/Devel         # the plugins Devel::REPL::Plugin::OTOBO is not on CPAN
     cp -r Plack local/lib/perl5/Plack              # the Plack plugins are not on CPAN
+    cp -r Test2 local/lib/perl5/Test2              # the OTOBO specific Test2::Require modules
 
 ### Install missing modules
 
