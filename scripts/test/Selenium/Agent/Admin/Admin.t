@@ -78,7 +78,7 @@ my $TestUserLogin = $Helper->TestUserCreate(
 $Selenium->Login(
     Type     => 'Agent',
     User     => $TestUserLogin,
-    Password => $TestUserLogin . 'XXXX',
+    Password => $TestUserLogin,
 );
 
 # get script alias
