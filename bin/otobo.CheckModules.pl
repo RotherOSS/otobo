@@ -358,18 +358,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'JSON::XS',
-        Required  => 1,
-        Comment   => 'JSON parsing and generation',
-        InstTypes => {
-            aptget => 'libjson-xs-perl',
-            emerge => 'dev-perl/JSON-XS',
-            yum    => 'perl-JSON-XS',
-            zypper => 'perl-JSON-XS',
-            ports  => 'converters/p5-JSON-XS',
-        },
-    },
-    {
         Module    => 'Date::Format',
         Required  => 1,
         InstTypes => {
@@ -493,6 +481,18 @@ my @NeededModules = (
             emerge => 'dev-perl/JavaScript-Minifier-XS',
             zypper => 'perl-JavaScript-Minifier-XS',
             ports  => 'textproc/p5-JavaScript-Minifier-XS',
+        },
+    },
+    {
+        Module    => 'JSON::XS',
+        Required  => 1,
+        Comment   => 'JSON parsing and generation',
+        InstTypes => {
+            aptget => 'libjson-xs-perl',
+            emerge => 'dev-perl/JSON-XS',
+            yum    => 'perl-JSON-XS',
+            zypper => 'perl-JSON-XS',
+            ports  => 'converters/p5-JSON-XS',
         },
     },
     {
