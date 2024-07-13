@@ -687,6 +687,19 @@ my @NeededModules = (
         },
     },
     {
+        # This module is a requirement for JSON::XS. It is listed
+        # here explicitly because it is also unded independently
+        # from JSON::XS
+        Module    => 'Types::Serialiser',
+        Required  => 1,
+        InstTypes => {
+            aptget => 'libtypes-serialiser-perl',
+            emerge => 'dev-perl/Types-Serialiser',
+            zypper => 'perl-Types-Serialiser',
+            ports  => 'devel/p5-Types-Serialiser',
+        },
+    },
+    {
         Module    => 'URI',
         Required  => 1,
         Comment   => 'for generating properly escaped URLs',

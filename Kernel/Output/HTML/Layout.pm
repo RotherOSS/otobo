@@ -28,9 +28,10 @@ use Scalar::Util   qw(blessed);
 use File::Basename qw(fileparse);
 
 # CPAN modules
-use URI::Escape     qw(uri_escape_utf8);
-use Plack::Response ();
-use Plack::Util     ();
+use URI::Escape       qw(uri_escape_utf8);
+use Plack::Response   ();
+use Plack::Util       ();
+use Types::Serialiser ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck  qw(:all);
@@ -541,7 +542,7 @@ sub Block {
 
 =head2 JSONEncode()
 
-Serialize a Perl data structure as JSON.
+Serialise a Perl data structure as JSON.
 The parameters C<SortKeys> and C<Pretty> are passed on to the method C<Kernel::System::JSON::Encode()>.
 
     my %Hash = (
@@ -2574,10 +2575,14 @@ sub BuildSelection {
     }
 
     # create OptionRef
-    my $OptionRef = $Self->_BuildSelectionOptionRefCreate(%Param);
+    my $OptionRef = $Self->_BuildSelectionOptionRefCreate(
+        %Param
+    );
 
     # create AttributeRef
-    my $AttributeRef = $Self->_BuildSelectionAttributeRefCreate(%Param);
+    my $AttributeRef = $Self->_BuildSelectionAttributeRefCreate(
+        %Param
+    );
 
     # create DataRef
     my $DataRef = $Self->_BuildSelectionDataRefCreate(
@@ -5718,8 +5723,18 @@ sub _BuildSelectionOptionRefCreate {
 
 =head2 _BuildSelectionAttributeRefCreate()
 
-create the attribute hash
+create the attribute hashref. Only specific attributes are added.
+Boolean attributes receive the boolean values from L<Types::Serialiser> as
+values.
 
+    my %Param = (
+        ID       => 0,           # will be ignored as the value is false
+        Name     => 'TheName',   # will also set the attribute id
+        Multiple => 1,
+        Disabled => 0,
+        Size     => 5,
+        Width    => 100_000_000, # will be ignored
+    );
     my $AttributeRef = $LayoutObject->_BuildSelectionAttributeRefCreate(
         %Param,
     );
@@ -5728,7 +5743,8 @@ The result looks like:
 
     my $AttributeRef = {
         name     => 'TheName',
-        multiple => undef,
+        id       => 'TheName',
+        multiple => $Types::Serialiser::true,
         size     => 5,
     }
 
@@ -5739,7 +5755,7 @@ sub _BuildSelectionAttributeRefCreate {
 
     my %Attributes;
 
-    # check params with key and value
+    # check non-boolean HTML attributes, that is attributes with values
     for (qw(Name ID Size Class OnChange OnClick AutoComplete)) {
         if ( $Param{$_} ) {
             $Attributes{ lc $_ } = $Param{$_};
@@ -5756,10 +5772,10 @@ sub _BuildSelectionAttributeRefCreate {
         }
     }
 
-    # check HTML params, TODO: the values are not really needed
+    # check boolean HTML attributes
     for (qw(Multiple Disabled)) {
         if ( $Param{$_} ) {
-            $Attributes{ lc $_ } = lc $_;
+            $Attributes{ lc $_ } = $Types::Serialiser::true;
         }
     }
 
@@ -6242,11 +6258,17 @@ sub _BuildSelectionDataRefCreate {
 
 =head2 _BuildSelectionOutput()
 
-create the HTML string for a selection:
+create the HTML string for a selection.
+
+For boolean attributes please use the boolean values provided by L<Types::Serialiser>.
+Passing C<undef> as the value for a true boolean attribute is still supported.
+
+    use Types::Serialiser;
 
     my %Attributes = {
         name     => 'TheName',
-        multiple => undef,
+        multiple => $Types::Serialiser::true,
+        # multiple => undef,    # passing undef is still allowed
         size     => 5,
     }
     my @Data = (
@@ -6288,11 +6310,25 @@ sub _BuildSelectionOutput {
     my @Attributes;
     {
         for my $Key ( sort grep {$_} keys $Param{AttributeRef}->%* ) {
-            if ( defined $Param{AttributeRef}->{$Key} ) {
-                push @Attributes, qq{$Key="$Param{AttributeRef}->{$Key}"};    # TODO: what if the value contains double quotes ?
+            my $Value = $Param{AttributeRef}->{$Key};
+            if ( !defined $Value ) {
+
+                # Legacy way of indicating a boolean true attribute
+                push @Attributes, $Key;
+            }
+            elsif ( Types::Serialiser::is_bool($Value) ) {
+
+                # Boolean HTML attributes are specified with Types::Serialiser.
+                # Boolean true adds the attribute without a value.
+                # Boolean false adds nothing.
+                if ( Types::Serialiser::is_true($Value) ) {
+                    push @Attributes, $Key;
+                }
             }
             else {
-                push @Attributes, $Key;
+
+                # TODO: what if the value contains double quotes ?
+                push @Attributes, qq{$Key="$Value"};
             }
         }
 

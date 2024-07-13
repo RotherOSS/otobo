@@ -85,6 +85,8 @@ requires 'Time::HiRes';
 
 requires 'Try::Tiny';
 
+requires 'Types::Serialiser';
+
 # for generating properly escaped URLs
 requires 'URI';
 
