@@ -14,9 +14,6 @@ requires 'Const::Fast';
 # Neater interface for capturing STDOUT and STDERR.
 requires 'Capture::Tiny';
 
-# JSON parsing and generation
-requires 'JSON::XS';
-
 requires 'Date::Format';
 
 requires 'DateTime', '>= 1.08';
@@ -40,6 +37,9 @@ requires 'HTTP::Message', '>= 6.18';
 
 # A JavaScript minifier written in XS
 requires 'JavaScript::Minifier::XS';
+
+# JSON parsing and generation
+requires 'JSON::XS';
 
 requires 'List::Util', '>= 1.45';
 
