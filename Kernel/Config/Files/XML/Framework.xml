@@ -2482,15 +2482,15 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="WebMaxFileSize" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the maximal size (in bytes) per file for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).</Description>
+    <Setting Name="WebMaxFileUpload" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines the maximal size (in bytes) combined for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,11}$">48000000</Item>
         </Value>
     </Setting>
-    <Setting Name="WebMaxUploadSize" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the maximal size (in bytes) combined for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).</Description>
+    <Setting Name="WebMaxFileSize" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines the maximal size (in bytes) per file for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,11}$">48000000</Item>

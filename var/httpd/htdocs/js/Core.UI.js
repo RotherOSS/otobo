@@ -561,7 +561,7 @@ Core.UI = (function (TargetNS) {
                 NoSpaceLeft = [],
                 NoSpaceLeftText,
                 UsedSpace = 0,
-                WebMaxUploadSize = Core.Config.Get('WebMaxUploadSize'),
+                WebMaxFileUpload = Core.Config.Get('WebMaxFileUpload'),
                 CGIHandle = Core.Config.Get('CGIHandle'),
                 SessionToken = '',
                 SessionName,
@@ -646,8 +646,8 @@ Core.UI = (function (TargetNS) {
                     }),
                     FileExist;
 
-                // check combined uploaded file size
-                if (File.size > (WebMaxUploadSize - UsedSpace)) {
+                // check uploaded file size
+                if (File.size > (WebMaxFileUpload - UsedSpace)) {
                     NoSpaceLeft.push(
                         File.name + ' (' + Core.App.HumanReadableDataSize(File.size) + ')'
                     );
@@ -846,8 +846,8 @@ Core.UI = (function (TargetNS) {
                         + '<br><br>'
                         + Core.Language.Translate(
                             'Available space %s of %s.',
-                            Core.App.HumanReadableDataSize(WebMaxUploadSize - UsedSpace),
-                            Core.App.HumanReadableDataSize(WebMaxUploadSize)
+                            Core.App.HumanReadableDataSize(WebMaxFileUpload - UsedSpace),
+                            Core.App.HumanReadableDataSize(WebMaxFileUpload)
                         );
                 }
                 Core.UI.Dialog.ShowAlert(Core.Language.Translate('Upload information'), FileTypeNotAllowedText + FilesTooBigText + AttemptedToUploadAgainText + NoSpaceLeftText);

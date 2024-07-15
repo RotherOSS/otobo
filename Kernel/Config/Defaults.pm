@@ -875,13 +875,13 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # Web Settings
     # --------------------------------------------------- #
+    # WebMaxFileUpload
+    # (Max size for combined browser file uploads - default ~ 48 MB)
+    $Self->{WebMaxFileUpload} = 48000000;
+
     # WebMaxFileSize
     # (Max size for browser file uploads per file - default ~ 48 MB)
     $Self->{WebMaxFileSize} = 48000000;
-
-    # WebMaxUploadSize
-    # (Max size for browser file uploads combined - default ~ 48 MB)
-    $Self->{WebMaxUploadSize} = 48000000;
 
     # WebUploadCacheModule
     # (select you WebUploadCacheModule module, default DB [DB|FS])
