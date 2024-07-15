@@ -29,7 +29,7 @@
   <widgets xsi:type="model:Table" x="295" y="175" width="358" text="Type, Time, Remote IP&#xA;Provider, 2011-03-23 12:23, 182.32.213.2&#xA;Provider, 2011-03-23 12:24, 182.32.213.2&#xA;Provider, 2011-03-23 12:25, 182.32.213.2&#xA;Provider, 2011-03-23 12:28, 182.32.213.2&#xA;Provider, 2011-03-23 12:30, 182.32.213.2" measuredWidth="358" measuredHeight="124" selection="0" verticalScrollbar="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Checkbox" x="694" y="194" text="Provider" measuredWidth="65" measuredHeight="21" selected>
+  <widgets xsi:type="model:Checkbox" x="694" y="194" text="Provider" measuredWidth="65" measuredHeight="21" selected="true">
     <font/>
   </widgets>
   <widgets xsi:type="model:Checkbox" x="694" y="214" text="Requester" measuredWidth="75" measuredHeight="21">
