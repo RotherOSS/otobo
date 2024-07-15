@@ -94,6 +94,9 @@ sub new {
     # take time zone
     $Self->{TimeZone} = $Param{UserTimeZone} || $Param{TimeZone} || OTOBOTimeZoneGet();
 
+    # fetch localization setting
+    $Self->{TimeShowLocalization} = $ConfigObject->Get('TimeShowLocalization') || 0;
+
     # Debug
     if ( $Self->{Debug} > 0 ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -369,7 +372,7 @@ sub FormatTimeString {
 
         # output time zone only if it differs from OTOBO' time zone
         if (
-            $Kernel::OM->Get('Kernel::Config')->Get('TimeShowAlwaysLocalization')
+            $Self->{'TimeShowLocalization'}
             && $Config ne 'DateFormatShort'
             && $Self->{TimeZone}
             && $Self->{TimeZone} ne OTOBOTimeZoneGet()
