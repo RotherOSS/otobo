@@ -626,11 +626,11 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="TimeShowAlwaysLocalization" Required="1" Valid="1">
+    <Setting Name="TimeShowLocalization" Required="1" Valid="1">
         <Description Translatable="1">Shows time with localization indicator (01.01.1970 00:01 (Europe/Berlin)), if enabled; or without (01.01.1970 00:01), if not enabled.</Description>
         <Navigation>Core::Time</Navigation>
         <Value>
-            <Item ValueType="Checkbox">0</Item>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="AttachmentDownloadType" Required="1" Valid="1">
