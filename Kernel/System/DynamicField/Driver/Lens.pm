@@ -656,7 +656,7 @@ sub GetFieldState {
     # get the current value of the referenced attribute field if an object is referenced
     if ($ReferenceID) {
 
-        my $ReferenceDFName = $DynamicFieldConfig->{Config}{ReferenceDFName};
+        my $ReferenceDFName = $DynamicFieldConfig->{Config}{ReferenceDFName} . ( $DynamicFieldConfig->{ProcessSuffix} // '' );
 
         if ( defined $Param{SetIndex} ) {
             $ReferenceDFName .= "_$Param{SetIndex}";
