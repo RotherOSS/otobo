@@ -651,7 +651,7 @@ sub ShowTicketStatus {
     my ( $Self, %Param ) = @_;
 
     $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => 'The sub ShowTicketStatus is deprecated and will be removed in a future release.',
     );
 
