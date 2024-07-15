@@ -3099,8 +3099,8 @@
 <Table Name="translation_item">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
     <Column Name="language" Required="true" Size="50" Type="VARCHAR" />
-    <Column Name="content" Required="true" Size="600" Type="VARCHAR" />
-    <Column Name="translation" Required="true" Size="600" Type="VARCHAR" />
+    <Column Name="content" Required="true" Size="3800" Type="VARCHAR" />
+    <Column Name="translation" Required="true" Size="3800" Type="VARCHAR" />
     <Column Name="flag" Required="true" Size="1" Type="VARCHAR" />
     <Column Name="create_by" Required="true" Type="INTEGER" />
     <Column Name="create_time" Required="true" Type="DATE" />
