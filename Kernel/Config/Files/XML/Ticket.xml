@@ -1998,6 +1998,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2015,6 +2016,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2032,6 +2034,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2049,6 +2052,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2066,6 +2070,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2083,6 +2088,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2100,6 +2106,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2117,6 +2124,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2134,6 +2142,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2151,6 +2160,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2168,6 +2178,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2185,6 +2196,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2202,6 +2214,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2219,6 +2232,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
