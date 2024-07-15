@@ -298,6 +298,6 @@ $CheckTileCount->( 'Users, Groups & Roles', 6 );
 $ApplyFilter->('Communication Log');
 
 # Verify only one tile from affected category is shown.
-$CheckTileCount->( 'Communication & Notifications', 1000 );
+$CheckTileCount->( 'Communication & Notifications', 1 );
 
 done_testing;
