@@ -104,8 +104,9 @@ sub Run {
             );
 
             my $Age = $LayoutObject->CustomerAge(
-                Age   => $TicketParam->{Age},
-                Space => ' ',
+                Age       => $TicketParam->{Age},
+                Space     => ' ',
+                CreatedAt => $TicketParam->{Created},
             );
 
             $LayoutObject->Block(

@@ -628,8 +628,9 @@ sub Run {
                 }
 
                 $Data{Age} = $LayoutObject->CustomerAge(
-                    Age   => $Data{Age},
-                    Space => ' '
+                    Age       => $Data{Age},
+                    Space     => ' ',
+                    CreatedAt => $Data{Created},
                 );
 
                 # get whole article (if configured!)
@@ -1244,8 +1245,9 @@ sub Run {
                         Subject      => $Data{Subject} || '',
                     );
                     $Data{CustomerAge} = $LayoutObject->CustomerAge(
-                        Age   => $Data{Age},
-                        Space => ' ',
+                        Age       => $Data{Age},
+                        Space     => ' ',
+                        CreatedAt => $Data{Created},
                     );
 
                     # customer info string
