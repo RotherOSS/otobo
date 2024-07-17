@@ -34,6 +34,7 @@ TARGET_OPTION=$(case $DOCKERFILE_PATH in
 esac)
 
 # build the Docker image
+# add the option '--progress plain' for seeing the printed output
 docker build\
  --build-arg "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"\
  --build-arg "DOCKER_TAG=$DOCKER_TAG"\

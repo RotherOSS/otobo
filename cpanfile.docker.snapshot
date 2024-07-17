@@ -3239,7 +3239,6 @@ DISTRIBUTIONS
       Parse::RecDescent::Token 1.967015
       Parse::RecDescent::UncondReject 1.967015
     requirements:
-      ExtUtils::MakeMaker 6.5702
       Test::More 0
       Text::Balanced 1.95
   Path-Class-0.37
