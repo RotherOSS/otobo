@@ -527,7 +527,7 @@ sub Run {
             $Article{Created} = $Ticket{Created};
 
             # create human age
-            $Article{Age} = $LayoutObject->CustomerAge(
+            $Article{Age} = $LayoutObject->FormatAge(
                 Age   => $Article{Age},
                 Space => ' ',
             );
@@ -1408,12 +1408,12 @@ sub Run {
 
         # escalation human times
         if ( $Article{EscalationTime} ) {
-            $Article{EscalationTimeHuman} = $LayoutObject->CustomerAge(
+            $Article{EscalationTimeHuman} = $LayoutObject->FormatAge(
                 Age                => $Article{EscalationTime},
                 TimeShowAlwaysLong => 1,
                 Space              => ' ',
             );
-            $Article{EscalationTimeWorkingTime} = $LayoutObject->CustomerAge(
+            $Article{EscalationTimeWorkingTime} = $LayoutObject->FormatAge(
                 Age                => $Article{EscalationTimeWorkingTime},
                 TimeShowAlwaysLong => 1,
                 Space              => ' ',
@@ -1538,12 +1538,12 @@ sub Run {
                     $EscalationData{EscalationTime}            = $Article{EscalationTime};
                     $EscalationData{EscalationDestinationDate} = $Article{EscalationDestinationDate};
 
-                    $EscalationData{EscalationTimeHuman} = $LayoutObject->CustomerAge(
+                    $EscalationData{EscalationTimeHuman} = $LayoutObject->FormatAge(
                         Age                => $EscalationData{EscalationTime},
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
                     ) || '-';
-                    $EscalationData{EscalationTimeWorkingTime} = $LayoutObject->CustomerAge(
+                    $EscalationData{EscalationTimeWorkingTime} = $LayoutObject->FormatAge(
                         Age                => $EscalationData{EscalationTimeWorkingTime},
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1566,7 +1566,7 @@ sub Run {
                 my $CSSClass  = '';
                 if ( $TicketColumn eq 'EscalationSolutionTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->CustomerAge(
+                    $DataValue = $LayoutObject->FormatAge(
                         Age                => $Article{SolutionTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1577,7 +1577,7 @@ sub Run {
                 }
                 elsif ( $TicketColumn eq 'EscalationResponseTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->CustomerAge(
+                    $DataValue = $LayoutObject->FormatAge(
                         Age                => $Article{FirstResponseTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1592,7 +1592,7 @@ sub Run {
                 }
                 elsif ( $TicketColumn eq 'EscalationUpdateTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->CustomerAge(
+                    $DataValue = $LayoutObject->FormatAge(
                         Age                => $Article{UpdateTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1603,7 +1603,7 @@ sub Run {
                 }
                 elsif ( $TicketColumn eq 'PendingTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->CustomerAge(
+                    $DataValue = $LayoutObject->FormatAge(
                         Age   => $Article{'UntilTime'},
                         Space => ' '
                     );

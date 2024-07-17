@@ -415,7 +415,7 @@ sub _Show {
     );
 
     # create human age
-    $Article{Age} = $LayoutObject->CustomerAge(
+    $Article{Age} = $LayoutObject->FormatAge(
         Age   => $Article{Age},
         Space => ' ',
     );
@@ -795,12 +795,12 @@ sub _Show {
 
     # show first response time if needed
     if ( defined $Article{FirstResponseTime} ) {
-        $Article{FirstResponseTimeHuman} = $LayoutObject->CustomerAge(
+        $Article{FirstResponseTimeHuman} = $LayoutObject->FormatAge(
             Age                => $Article{FirstResponseTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Article{FirstResponseTimeWorkingTime} = $LayoutObject->CustomerAge(
+        $Article{FirstResponseTimeWorkingTime} = $LayoutObject->FormatAge(
             Age                => $Article{FirstResponseTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
@@ -819,12 +819,12 @@ sub _Show {
 
     # show update time if needed
     if ( defined $Article{UpdateTime} ) {
-        $Article{UpdateTimeHuman} = $LayoutObject->CustomerAge(
+        $Article{UpdateTimeHuman} = $LayoutObject->FormatAge(
             Age                => $Article{UpdateTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Article{UpdateTimeWorkingTime} = $LayoutObject->CustomerAge(
+        $Article{UpdateTimeWorkingTime} = $LayoutObject->FormatAge(
             Age                => $Article{UpdateTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
@@ -843,12 +843,12 @@ sub _Show {
 
     # show solution time if needed
     if ( defined $Article{SolutionTime} ) {
-        $Article{SolutionTimeHuman} = $LayoutObject->CustomerAge(
+        $Article{SolutionTimeHuman} = $LayoutObject->FormatAge(
             Age                => $Article{SolutionTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Article{SolutionTimeWorkingTime} = $LayoutObject->CustomerAge(
+        $Article{SolutionTimeWorkingTime} = $LayoutObject->FormatAge(
             Age                => $Article{SolutionTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',

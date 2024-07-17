@@ -145,7 +145,7 @@ sub Run {
             my $CurSystemDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
             $Ago = $CurSystemDateTimeObject->ToEpoch() - $SystemDateTimeObject->ToEpoch();
-            $Ago = $LayoutObject->CustomerAge(
+            $Ago = $LayoutObject->FormatAge(
                 Age   => $Ago,
                 Space => ' ',
             );

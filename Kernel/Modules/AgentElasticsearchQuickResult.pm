@@ -190,7 +190,7 @@ sub Run {
 
                     # prepare special attributes
                     if ( $Attr eq 'Age' ) {
-                        $TicketParam->{Age} = $LayoutObject->CustomerAge(
+                        $TicketParam->{Age} = $LayoutObject->FormatAge(
                             Age   => $TicketParam->{Age},
                             Space => ' ',
                         );

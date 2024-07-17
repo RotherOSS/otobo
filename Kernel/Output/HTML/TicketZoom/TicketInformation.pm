@@ -94,12 +94,12 @@ sub Run {
 
     # show first response time if needed
     if ( defined $Ticket{FirstResponseTime} ) {
-        $Ticket{FirstResponseTimeHuman} = $LayoutObject->CustomerAge(
+        $Ticket{FirstResponseTimeHuman} = $LayoutObject->FormatAge(
             Age                => $Ticket{FirstResponseTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Ticket{FirstResponseTimeWorkingTime} = $LayoutObject->CustomerAge(
+        $Ticket{FirstResponseTimeWorkingTime} = $LayoutObject->FormatAge(
             Age                => $Ticket{FirstResponseTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
@@ -115,12 +115,12 @@ sub Run {
 
     # show update time if needed
     if ( defined $Ticket{UpdateTime} ) {
-        $Ticket{UpdateTimeHuman} = $LayoutObject->CustomerAge(
+        $Ticket{UpdateTimeHuman} = $LayoutObject->FormatAge(
             Age                => $Ticket{UpdateTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Ticket{UpdateTimeWorkingTime} = $LayoutObject->CustomerAge(
+        $Ticket{UpdateTimeWorkingTime} = $LayoutObject->FormatAge(
             Age                => $Ticket{UpdateTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
@@ -136,12 +136,12 @@ sub Run {
 
     # show solution time if needed
     if ( defined $Ticket{SolutionTime} ) {
-        $Ticket{SolutionTimeHuman} = $LayoutObject->CustomerAge(
+        $Ticket{SolutionTimeHuman} = $LayoutObject->FormatAge(
             Age                => $Ticket{SolutionTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Ticket{SolutionTimeWorkingTime} = $LayoutObject->CustomerAge(
+        $Ticket{SolutionTimeWorkingTime} = $LayoutObject->FormatAge(
             Age                => $Ticket{SolutionTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
@@ -194,7 +194,7 @@ sub Run {
             },
         )->ToString();
 
-        $Ticket{PendingUntil} .= $LayoutObject->CustomerAge(
+        $Ticket{PendingUntil} .= $LayoutObject->FormatAge(
             Age   => $Ticket{UntilTime},
             Space => ' '
         );

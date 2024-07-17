@@ -1352,7 +1352,7 @@ sub _Replace {
             )
         {
             if ( $Ticket{$TimeInSeconds} ) {
-                $Ticket{$TimeInSeconds} = $LocalLayoutObject->CustomerAge(
+                $Ticket{$TimeInSeconds} = $LocalLayoutObject->FormatAge(
                     Age   => $Ticket{$TimeInSeconds},
                     Space => ' '
                 );

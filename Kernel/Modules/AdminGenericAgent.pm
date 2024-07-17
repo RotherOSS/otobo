@@ -1639,7 +1639,7 @@ sub _MaskRun {
                 $Data{Subject} = $Data{Title};
             }
 
-            $Data{Age} = $LayoutObject->CustomerAge(
+            $Data{Age} = $LayoutObject->FormatAge(
                 Age   => $Data{Age},
                 Space => ' ',
             );

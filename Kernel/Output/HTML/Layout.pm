@@ -2398,6 +2398,37 @@ sub CustomerAge {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
+    if ( $Age =~ /^-(.*)/ ) {
+        $Age = $1;
+    }
+
+    # expected to be an integer number
+    my $TimeShowCreatedAt = $ConfigObject->Get('TimeShowCreatedAt');
+    if ( IsPositiveInteger($TimeShowCreatedAt) ) {
+
+        # check if age transformation should be applied
+        if ( $Age >= ( $TimeShowCreatedAt * 86400 ) ) {
+
+            my $CreatedAtDateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Param{CreatedAt},
+                },
+            );
+
+            return $CreatedAtDateTimeObject->ToString();
+        }
+    }
+
+    return $Self->FormatAge(%Param);
+}
+
+sub FormatAge {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     my $Age       = defined( $Param{Age} ) ? $Param{Age} : return;
     my $Space     = $Param{Space} || '<br/>';
     my $AgeStrg   = '';

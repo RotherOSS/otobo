@@ -1668,14 +1668,14 @@ sub Run {
 
         # create human age
         if ( $Self->{Config}->{Time} ne 'Age' ) {
-            $Ticket{Time} = $LayoutObject->CustomerAge(
+            $Ticket{Time} = $LayoutObject->FormatAge(
                 Age                => $Ticket{ $Self->{Config}->{Time} },
                 TimeShowAlwaysLong => 1,
                 Space              => ' ',
             );
         }
         else {
-            $Ticket{Time} = $LayoutObject->CustomerAge(
+            $Ticket{Time} = $LayoutObject->FormatAge(
                 Age   => $Ticket{ $Self->{Config}->{Time} },
                 Space => ' ',
             );
@@ -1752,12 +1752,12 @@ sub Run {
                     $EscalationData{EscalationTime}            = $Ticket{EscalationTime};
                     $EscalationData{EscalationDestinationDate} = $Ticket{EscalationDestinationDate};
 
-                    $EscalationData{EscalationTimeHuman} = $LayoutObject->CustomerAge(
+                    $EscalationData{EscalationTimeHuman} = $LayoutObject->FormatAge(
                         Age                => $EscalationData{EscalationTime},
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
                     ) || '-';
-                    $EscalationData{EscalationTimeWorkingTime} = $LayoutObject->CustomerAge(
+                    $EscalationData{EscalationTimeWorkingTime} = $LayoutObject->FormatAge(
                         Age                => $EscalationData{EscalationTimeWorkingTime},
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1772,14 +1772,14 @@ sub Run {
                     next COLUMN;
                 }
                 elsif ( $Column eq 'Age' ) {
-                    $DataValue = $LayoutObject->CustomerAge(
+                    $DataValue = $LayoutObject->FormatAge(
                         Age   => $Ticket{Age},
                         Space => ' ',
                     );
                 }
                 elsif ( $Column eq 'EscalationSolutionTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->CustomerAge(
+                    $DataValue = $LayoutObject->FormatAge(
                         Age                => $Ticket{SolutionTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1790,7 +1790,7 @@ sub Run {
                 }
                 elsif ( $Column eq 'EscalationResponseTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->CustomerAge(
+                    $DataValue = $LayoutObject->FormatAge(
                         Age                => $Ticket{FirstResponseTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1805,7 +1805,7 @@ sub Run {
                 }
                 elsif ( $Column eq 'EscalationUpdateTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->CustomerAge(
+                    $DataValue = $LayoutObject->FormatAge(
                         Age                => $Ticket{UpdateTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1816,7 +1816,7 @@ sub Run {
                 }
                 elsif ( $Column eq 'PendingTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->CustomerAge(
+                    $DataValue = $LayoutObject->FormatAge(
                         Age   => $Ticket{'UntilTime'},
                         Space => ' ',
                     );

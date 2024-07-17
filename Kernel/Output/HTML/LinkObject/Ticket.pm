@@ -488,20 +488,20 @@ sub TableCreateComplex {
                     }
                     elsif ( $Column eq 'EscalationTime' ) {
 
-                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
+                        $Hash{'Content'} = $Self->{LayoutObject}->FormatAge(
                             Age   => $Ticket->{'EscalationTime'},
                             Space => ' '
                         );
                     }
                     elsif ( $Column eq 'Age' ) {
-                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
+                        $Hash{'Content'} = $Self->{LayoutObject}->FormatAge(
                             Age   => $Ticket->{Age},
                             Space => ' ',
                         );
                     }
                     elsif ( $Column eq 'EscalationSolutionTime' ) {
 
-                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
+                        $Hash{'Content'} = $Self->{LayoutObject}->FormatAge(
                             Age                => $Ticket->{SolutionTime} || 0,
                             TimeShowAlwaysLong => 1,
                             Space              => ' ',
@@ -509,21 +509,21 @@ sub TableCreateComplex {
                     }
                     elsif ( $Column eq 'EscalationResponseTime' ) {
 
-                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
+                        $Hash{'Content'} = $Self->{LayoutObject}->FormatAge(
                             Age                => $Ticket->{FirstResponseTime} || 0,
                             TimeShowAlwaysLong => 1,
                             Space              => ' ',
                         );
                     }
                     elsif ( $Column eq 'EscalationUpdateTime' ) {
-                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
+                        $Hash{'Content'} = $Self->{LayoutObject}->FormatAge(
                             Age                => $Ticket->{UpdateTime} || 0,
                             TimeShowAlwaysLong => 1,
                             Space              => ' ',
                         );
                     }
                     elsif ( $Column eq 'PendingTime' ) {
-                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
+                        $Hash{'Content'} = $Self->{LayoutObject}->FormatAge(
                             Age   => $Ticket->{'UntilTime'},
                             Space => ' '
                         );
