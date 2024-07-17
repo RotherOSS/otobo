@@ -88,17 +88,31 @@ ENV LANG=C.UTF-8
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 #
-# carton install will create cpanfile.snapshot. Currently this file is only used for documentation.
+# 'carton install' will update cpanfile.snapshot.
+# 'carton install --deployment' will install the exact versions from cpanfile.snapshot.
+#
+# Note that the variable $DOCKER_TAG is already substituted by Docker.
 #
 # Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
 COPY cpanfile.docker cpanfile
+COPY cpanfile.docker.snapshot cpanfile.snapshot
 ENV PERL5LIB="/opt/otobo_install/local/lib/perl5"
 ENV PATH="/opt/otobo_install/local/bin:${PATH}"
-RUN cpanm --local-lib local Carton\
- && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install\
- && rm -rf "/root/.cpanm"
+ARG DOCKER_TAG=unspecified
+RUN <<END_BASH bash
+    set -eux
+    PERL_CPANM_OPT="--local-lib /opt/otobo_install/local"
+    cpanm --local-lib local Carton
+    if [[ $DOCKER_TAG == local-* ]]
+    then
+        carton install
+    else
+        carton install --deployment
+    fi
+    rm -rf "/root/.cpanm"
+END_BASH
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
@@ -200,7 +214,6 @@ ARG BUILD_DATE=unspecified
 LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.revision=$GIT_COMMIT
 LABEL org.opencontainers.image.source=$GIT_REPO
-ARG DOCKER_TAG=unspecified
 LABEL org.opencontainers.image.version=$DOCKER_TAG
 
 # This Dockerfile also provides for building images with additional support for Kerberos.
