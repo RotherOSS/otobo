@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 use File::Basename qw(basename);
+use List::Util qw(sum);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -109,7 +110,33 @@ sub FormIDAddFile {
 
     return if !$Self->_FormIDValidate( $Param{FormID} );
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     my $Filename = basename( $Param{Filename} );
+
+    # perform file size check
+    {
+        my $WebMaxFileUpload = $ConfigObject->Get('WebMaxFileUpload');
+
+        # get file size
+        my $Filesize = bytes::length( $Param{Content} );
+
+        # get size of already uploaded file
+        my $Data = $Self->FormIDGetAllFilesMeta(
+            FormID => $Param{FormID},
+        );
+
+        # calculate space used within this form
+        my $SpaceTaken = ( sum( map { $_->{Filesize} } $Data->@* ) ) // 0;
+
+        if ( ( $SpaceTaken + $Filesize ) > $WebMaxFileUpload ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Upload of file $Param{Filename} exceeds WebMaxFileUpload limit!"
+            );
+            return;
+        }
+    }
 
     $Param{Content} = '' if !defined( $Param{Content} );
 
@@ -119,7 +146,7 @@ sub FormIDAddFile {
     if ( !$ContentID && lc $Disposition eq 'inline' ) {
 
         my $Random = rand 999999;
-        my $FQDN   = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
+        my $FQDN   = $ConfigObject->Get('FQDN');
 
         $ContentID = "$Disposition$Random.$Param{FormID}\@$FQDN";
     }
