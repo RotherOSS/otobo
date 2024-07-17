@@ -1094,4 +1094,104 @@ input[type=text].ArticleFreeKey {
     width: 50%;
 }
 
+/**
+ * @subsection  New Form CSS
+ */
+
+fieldset.TicketMask {
+
+    --max-field-width: 620px;
+    --max-content-size: min( var(--max-field-width), calc( 70% - 40px ) );
+
+    position: relative;
+    display: grid;
+    grid-template-areas:    "label  field                    buttons remainingspace";
+    grid-template-columns:  30%     var(--max-content-size)   40px    1fr;
+    width: 100%;
+    box-sizing: border-box;
+    grid-row-gap: 6px;
+    grid-column-gap: 5px;
+}
+
+    fieldset.TicketMask div.Field {
+        grid-column: field;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    fieldset.TicketMask label {
+        grid-column: label;
+        text-align: right;
+        padding: 4px;
+    }
+
+    fieldset.TicketMask div.Row {
+        /* row containing one or more dynamic fields, has to span all columns */
+        grid-column-start: label;
+        grid-column-end: remainingspace;
+        grid-row-gap: 4px;
+    }
+
+        /* surrounding div of dynamic fields */
+        fieldset.TicketMask div.Row > div.FieldCell {
+            display: grid;
+            position: relative;
+            grid-template-areas:    "label  field                                    buttons remainingspace";
+            grid-template-columns:  30%     fit-content( var(--max-content-size) )   40px    1fr;
+            grid-column-gap: 5px;
+            overflow: hidden;
+        }
+
+        /* +- button div for multivalue rows */
+        fieldset.TicketMask div.Row div.AddRemoveValueRow {
+            grid-column: buttons;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            column-gap: 3px;
+            padding: 4px;
+        }
+
+        fieldset.TicketMask div.Row fieldset.DynamicFieldSet {
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+            border: 1px solid var(--colBGDark);
+            border-radius: 4px;
+            row-gap: 4px;
+        }
+
+        fieldset.TicketMask > div.Row.MultiColumn {
+            margin-left: 10%;
+        }
+
+        fieldset.TicketMask div.Row.MultiColumn div.FieldCell {
+            display: grid;
+            grid-template-areas:    "label                  .       ."
+                                    "field                  buttons remainingspace";
+            grid-template-columns:  fit-content( var(--max-field-width) )    40px    1fr;
+            grid-template-rows: min-content 1fr;
+            grid-column-gap: 5px;
+            overflow: hidden;
+            vertical-align: top;
+        }
+
+        fieldset.TicketMask div.Row.MultiColumn div.FieldCell label {
+            text-align: left;
+        }
+
+    fieldset.TicketMask .RichTextField {
+    resize: vertical;
+    z-index: 10;
+    position: relative;
+    overflow: hidden;
+    min-height: 150px !important;
+    height: 320px;
+    max-width: var(--max-field-width);
+    }
+
+/**
+ * end @subsection New Form CSS
+ */
+
 } /* end @media */
