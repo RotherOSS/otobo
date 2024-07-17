@@ -936,6 +936,9 @@ Core.UI = (function (TargetNS) {
                 .hide()
                 .on('change', function(Event) {
                     UploadFiles(Event.target.files, $(this).next('.DnDUpload'));
+
+                    // clear value to not erroneously upload rejected files with form submit
+                    $(this).val('');
                 })
                 .after($(UploadContainer))
                 .next('.DnDUpload')
