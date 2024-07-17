@@ -19,6 +19,7 @@ package Kernel::System::Web::UploadCache::DB;
 use strict;
 use warnings;
 
+use List::Util qw(sum);
 use MIME::Base64;
 
 our @ObjectDependencies = (
@@ -82,10 +83,33 @@ sub FormIDAddFile {
         }
     }
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     $Param{Content} = '' if !defined( $Param{Content} );
 
     # get file size
     $Param{Filesize} = bytes::length( $Param{Content} );
+
+    # perform file size check
+    {
+        my $WebMaxFileUpload = $ConfigObject->Get('WebMaxFileUpload');
+
+        # get size of already uploaded file
+        my $Data = $Self->FormIDGetAllFilesMeta(
+            FormID => $Param{FormID},
+        ) || ();
+
+        # calculate space used within this form
+        my $SpaceTaken = ( sum( map { $_->{Filesize} } $Data->@* ) ) // 0;
+
+        if ( ( $SpaceTaken + $Param{Filesize} ) > $WebMaxFileUpload ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Upload of file $Param{Filename} exceeds WebMaxFileUpload limit!"
+            );
+            return;
+        }
+    }
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -104,7 +128,7 @@ sub FormIDAddFile {
     if ( !$ContentID && lc $Disposition eq 'inline' ) {
 
         my $Random = rand 999999;
-        my $FQDN   = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
+        my $FQDN   = $ConfigObject->Get('FQDN');
 
         $ContentID = "$Disposition$Random.$Param{FormID}\@$FQDN";
     }
