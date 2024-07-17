@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.4
+
 # This is the build file for the OTOBO web docker image.
 # The services OTOBO web and OTOBO daemon use the same image.
 # There is also an extra build target otobo-web-kerberos that adds support for Kerberos.
