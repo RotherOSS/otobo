@@ -32,6 +32,7 @@ use URI::Escape       qw(uri_escape_utf8);
 use Plack::Response   ();
 use Plack::Util       ();
 use Types::Serialiser ();
+use HTTP::Status      qw(is_client_error is_server_error);
 
 # OTOBO modules
 use Kernel::System::VariableCheck  qw(:all);
@@ -2916,6 +2917,50 @@ sub JSONReply {
         Content     => $Content // '',
         Type        => 'inline',
         NoCache     => 1,
+    );
+}
+
+=head2 CustomException()
+
+=for stopwords customizable
+
+Throws an exception with customizable status code and body. Status can either be a client error (400-499) or a server error (500-599), see L<HTTP::Status> for details.
+
+    $LayoutObject->CustomException(
+        StatusCode => 500,           # optional, default: 500
+        Body       => 'Some text',   # optional, data to pass as response body
+    );
+
+=cut
+
+sub CustomException {
+    my ( $Self, %Param ) = @_;
+
+    # if given, check validity of status code
+    # allowed are client errors (400-499) and server errors (500-599)
+    my $StatusCode;
+    if ( $Param{StatusCode} ) {
+        if ( !is_client_error( $Param{StatusCode} ) && !is_server_error( $Param{StatusCode} ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Status code $Param{StatusCode} is not a valid HTTP status!",
+            );
+            return;
+        }
+        $StatusCode = $Param{StatusCode};
+    }
+    $StatusCode ||= 500;
+
+    # create Plack response
+    my $ServerErrorResponse = Plack::Response->new(
+        $StatusCode,
+        [],
+        $Param{Body} // '',
+    );
+
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $ServerErrorResponse
     );
 }
 
