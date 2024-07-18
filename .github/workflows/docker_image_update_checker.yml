@@ -32,6 +32,11 @@ jobs:
         run: |
           echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
 
+      # TODO: early exit when nothing has to be done
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       -
         # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
         name: Build and not push
@@ -39,12 +44,13 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: otobo.web.dockerfile
           load: true
           tags: ${{ env.TEST_TAG }}
 
       - name: Test
         run: |
-          docker run --rm ${{ env.TEST_TAG }}
+          docker run --rm ${{ env.TEST_TAG }} cat RELEASE
 
       -
         # indicate an error when the base image has changed
