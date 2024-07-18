@@ -82,9 +82,9 @@ jobs:
         name: Build and push
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
-          with:
-            push: true
-            tags: ${{ env.LATEST_TAG }}
+        with:
+          push: true
+          tags: ${{ env.LATEST_TAG }}
 
       #-
       #  # indicate an error when the base image has changed
