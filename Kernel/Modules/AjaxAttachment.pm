@@ -37,9 +37,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get params
-    my %GetParam;
-
     # get param object
     my $ParamObject       = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
@@ -63,11 +60,12 @@ sub Run {
             Param => 'Files',
         );
 
-        $UploadCacheObject->FormIDAddFile(
+        my $Success = $UploadCacheObject->FormIDAddFile(
             FormID      => $Self->{FormID},
             Disposition => 'attachment',
             %UploadStuff,
         );
+        return unless $Success;
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
