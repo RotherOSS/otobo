@@ -60,11 +60,12 @@ sub Run {
             Param => 'Files',
         );
 
-        $UploadCacheObject->FormIDAddFile(
+        my $Success = $UploadCacheObject->FormIDAddFile(
             FormID      => $Self->{FormID},
             Disposition => 'attachment',
             %UploadStuff,
         );
+        return unless $Success;
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
