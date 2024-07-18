@@ -432,7 +432,31 @@ Core.AJAX = (function (TargetNS) {
 
             // date time
             if ( $Element.hasClass('DynamicFieldDate') ) {
-                Core.UI.InputFields.SetDate($Element, DataValue);
+
+                // empty value, set current date and used unchecked
+                if ( !DataValue ) {
+                    Core.UI.InputFields.SetDate($Element);
+                }
+
+                // unknown, expected to be valid date
+                else if ( isNaN(DataValue) ) {
+                    Core.UI.InputFields.SetDate($Element, DataValue);
+                }
+
+                // integer value, which represents an offset
+                else {
+
+                    // get timestamp of current date
+                    var CurrentDate = new Date();
+                    var Timestamp = CurrentDate.valueOf();
+
+                    // add or subtract offset
+                    // NOTE Timestamp is in milliseconds and offset in seconds, therefor we have to multiply offset by 1000
+                    Timestamp += ( parseInt(DataValue) * 1000 );
+
+                    // Date constructor is able to deal with timestamps, no need to pass a date string
+                    Core.UI.InputFields.SetDate($Element, Timestamp);
+                }
                 return;
             }
 
