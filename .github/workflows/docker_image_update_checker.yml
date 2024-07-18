@@ -66,12 +66,30 @@ jobs:
         name: Info
         if: steps.check.outputs.needs-updating == 'true'
         run: |
-          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash ${{ env.TEST_TAG }} -c "pwd; more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
+          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash ${{ env.TEST_TAG }} -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
       -
-        # indicate an error when the base image has changed
-        name: Exit with an error
+        # login to Docker Hub only after the build
+        name: Login to Docker Hub
         if: steps.check.outputs.needs-updating == 'true'
-        run: |
-          echo "::error:: Please update the latest OTOBO images for rel-10_0, rel-10_1. rel-11_0, and rel-11_1"
-          exit 1;
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      -
+        # finally upload, the build should be already cached
+        name: Build and push
+        if: steps.check.outputs.needs-updating == 'true'
+        uses: docker/build-push-action@v6
+          with:
+            push: true
+            tags: ${{ env.LATEST_TAG }}
+
+      #-
+      #  # indicate an error when the base image has changed
+      #  name: Exit with an error
+      #  if: steps.check.outputs.needs-updating == 'true'
+      #  run: |
+      #    echo "::error:: Please update the latest OTOBO images for rel-10_0, rel-10_1. rel-11_0, and rel-11_1"
+      #    exit 1;
