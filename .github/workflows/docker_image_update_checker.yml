@@ -84,7 +84,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ env.LATEST_TAG }}
+          tags: ${{ env.TEST_TAG }}
 
       #-
       #  # indicate an error when the base image has changed
