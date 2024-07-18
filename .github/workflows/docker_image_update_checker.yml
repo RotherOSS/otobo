@@ -34,6 +34,12 @@ jobs:
 
       # TODO: early exit when nothing has to be done
       -
+        # needed for BUILD_DATE
+        name: Get the current date and time
+        id: get_build_date
+        run: echo "{build_date}={$(date -u +'%Y-%m-%dT%H:%M:%SZ')}" > $GITHUB_OUTPUT
+
+      -
         name: Set up Docker Buildx
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/setup-buildx-action@v3
@@ -46,6 +52,12 @@ jobs:
         with:
           file: otobo.web.dockerfile
           load: true
+          build-args: |
+            BUILD_DATE=${{ steps.get_build_date.outputs.build_date }}
+            DOCKER_TAG=${{ env.TEST_TAG }}
+            GIT_REPO=${{ github.repository }}
+            GIT_BRANCH=${{ github.ref_name }}
+            GIT_COMMIT=${{ github.sha }}
           tags: ${{ env.TEST_TAG }}
 
       - name: Info
