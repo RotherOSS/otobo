@@ -32,10 +32,12 @@ use URI::Escape       qw(uri_escape_utf8);
 use Plack::Response   ();
 use Plack::Util       ();
 use Types::Serialiser ();
+use HTTP::Status      qw(is_redirect is_server_error status_codes);
 
 # OTOBO modules
 use Kernel::System::VariableCheck  qw(:all);
 use Kernel::System::Web::Exception ();
+use Kernel::System::Web::Response  ();
 use Kernel::Language               qw(Translatable);
 
 our @ObjectDependencies = (
@@ -2917,6 +2919,74 @@ sub JSONReply {
         Type        => 'inline',
         NoCache     => 1,
     );
+}
+
+=head2 CustomReply()
+
+=for stopwords customizable
+
+Returns a Plack response with customizable status code and message. Status can either be set as numerical status code or as status message, see L<HTTP::Status> for details. If status code indicates a redirect (300-399) or a server error (500-599), an exception is thrown.
+
+    $LayoutObject->CustomReply(
+        StatusCode    => 200,           # optional, default: 200
+        StatusMessage => 'OK',          # optional, will be transitioned into status code
+        Body          => 'Some text',   # optional, data to pass as response body
+    );
+
+=cut
+
+sub CustomReply {
+    my ( $Self, %Param ) = @_;
+
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
+    # build lookup mappings for status codes and messages
+    my %Code2Status = HTTP::Status::status_codes();
+    my %Status2Code = reverse %Code2Status;
+
+    # if given, check validity of status code or status message
+    my $StatusCode;
+    if ( $Param{StatusCode} ) {
+        if ( !$Code2Status{ $Param{StatusCode} } ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Status code $Param{StatusCode} is not a valid HTTP status!",
+            );
+            return;
+        }
+        $StatusCode = $Param{StatusCode};
+    }
+    elsif ( $Param{StatusMessage} ) {
+        if ( !$Status2Code{ $Param{StatusMessage} } ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Status code $Param{StatusCode} is not a valid HTTP status!",
+            );
+            return;
+        }
+        $StatusCode = $Status2Code{ $Param{StatusMessage} };
+    }
+    $StatusCode ||= 200;
+
+    # throw exception if status code indicates redirect (300-399) or server error (500-599)
+    if ( is_redirect($StatusCode) || is_server_error($StatusCode) ) {
+        my $ServerErrorResponse = Plack::Response->new(
+            $StatusCode,
+            [],
+            $Param{Body} // '',
+        );
+
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $ServerErrorResponse
+        );
+    }
+
+    # else, use normal response
+    my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
+    $ResponseObject->Code($StatusCode);
+    my $Content = $Self->ApplyOutputFilters( Output => $Param{Body} // '' );
+    return $ResponseObject->Finalize( Content => $Content );
 }
 
 =head2 PageNavBar()
