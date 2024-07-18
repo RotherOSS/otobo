@@ -48,10 +48,10 @@ jobs:
           load: true
           tags: ${{ env.TEST_TAG }}
 
-      - name: Test
+      - name: Info
         if: steps.check.outputs.needs-updating == 'true'
         run: |
-          docker run --rm ${{ env.TEST_TAG }} cat RELEASE
+          docker run --rm ${{ env.TEST_TAG }} more git-repo.txt git-branch.txt git-commit.txt /opt/otobo_install/otobo_next/RELEASE | cat
 
       -
         # indicate an error when the base image has changed
