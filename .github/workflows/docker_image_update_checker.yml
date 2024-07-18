@@ -83,7 +83,15 @@ jobs:
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
         with:
+          file: otobo.web.dockerfile
           push: true
+          build-args: |
+            BUILD_DATE=${{ steps.get_build_date.outputs.build_date }}
+            DOCKER_TAG=${{ env.TEST_TAG }}
+            GIT_REPO=${{ github.repository }}
+            GIT_BRANCH=${{ github.ref_name }}
+            GIT_COMMIT=${{ github.sha }}
+          target: otobo-web
           tags: ${{ env.TEST_TAG }}
 
       #-
