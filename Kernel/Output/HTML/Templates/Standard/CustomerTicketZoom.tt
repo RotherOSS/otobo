@@ -60,7 +60,7 @@
 [% RenderBlockStart("NextActivities") %]
             <div id="NextActivities">
 [% RenderBlockStart("ActivityDialog") %]
-                <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Data.Name | html %]" class="oooM ActivityStartButton">[% Data.Name | html %]</button>
+                <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Translate(Data.Name) | html %]" class="oooM ActivityStartButton">[% Translate(Data.Name) | html %]</button>
 [% RenderBlockEnd("ActivityDialog") %]
             </div>
 [% RenderBlockEnd("NextActivities") %]
