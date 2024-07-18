@@ -209,14 +209,13 @@ sub Run {
     }
 
     # add uploaded file to upload cache
-    my $Success = $UploadCacheObject->FormIDAddFile(
+    $UploadCacheObject->FormIDAddFile(
         FormID      => $FormID,
         Filename    => $FilenameTmp,
         Content     => $File{Content},
         ContentType => $File{ContentType} . '; name="' . $FilenameTmp . '"',
         Disposition => 'inline',
     );
-    return unless $Success;
 
     # get new content id
     my $ContentIDNew = '';
