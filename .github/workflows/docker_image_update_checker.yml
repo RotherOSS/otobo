@@ -35,9 +35,8 @@ jobs:
       # TODO: early exit when nothing has to be done
       -
         name: Set up Docker Buildx
+        if: steps.check.outputs.needs-updating == 'true'
         uses: docker/setup-buildx-action@v3
-        with:
-          file: otobo.web.dockerfile
 
       -
         # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
@@ -46,10 +45,12 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: otobo.web.dockerfile
           load: true
           tags: ${{ env.TEST_TAG }}
 
       - name: Test
+        if: steps.check.outputs.needs-updating == 'true'
         run: |
           docker run --rm ${{ env.TEST_TAG }} cat RELEASE
 
