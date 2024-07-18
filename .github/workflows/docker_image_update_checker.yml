@@ -37,7 +37,7 @@ jobs:
         # needed for BUILD_DATE
         name: Get the current date and time
         id: get_build_date
-        run: echo "{build_date}={$(date -u +'%Y-%m-%dT%H:%M:%SZ')}" > $GITHUB_OUTPUT
+        run: echo "build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
 
       -
         name: Set up Docker Buildx
