@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: otobo.web.dockerfile
+          file: {context}/otobo.web.dockerfile
           load: true
           tags: ${{ env.TEST_TAG }}
 
