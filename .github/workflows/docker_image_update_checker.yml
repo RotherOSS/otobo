@@ -58,6 +58,7 @@ jobs:
             GIT_REPO=${{ github.repository }}
             GIT_BRANCH=${{ github.ref_name }}
             GIT_COMMIT=${{ github.sha }}
+          target: otobo-web
           tags: ${{ env.TEST_TAG }}
 
       -
