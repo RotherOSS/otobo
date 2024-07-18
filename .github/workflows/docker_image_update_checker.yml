@@ -9,6 +9,9 @@ on:
   schedule:
     - cron: '4 8 * * *'
 
+env:
+  TEST_TAG: rotheross/otobo:devel-11_0_test
+
 jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
@@ -30,7 +33,22 @@ jobs:
           echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
 
       -
+        # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
+        name: Build and not push
+        if: steps.check.outputs.needs-updating == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: ${{ env.TEST_TAG }}
+
+      - name: Test
+        run: |
+          docker run --rm ${{ env.TEST_TAG }}
+
+      -
         # indicate an error when the base image has changed
+        name: Exit with an error
         if: steps.check.outputs.needs-updating == 'true'
         run: |
           echo "::error:: Please update the latest OTOBO images for rel-10_0, rel-10_1. rel-11_0, and rel-11_1"
