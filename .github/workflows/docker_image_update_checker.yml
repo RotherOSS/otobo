@@ -60,10 +60,12 @@ jobs:
             GIT_COMMIT=${{ github.sha }}
           tags: ${{ env.TEST_TAG }}
 
-      - name: Info
+      -
+        # otobo_first_time hasn't run yet, so /opt/otobo is still empty
+        name: Info
         if: steps.check.outputs.needs-updating == 'true'
         run: |
-          docker run --rm --entrypoint /bin/bash ${{ env.TEST_TAG }} -c "pwd; cd /opt/otobo; ls -l; more git-repo.txt git-branch.txt git-commit.txt /opt/otobo_install/otobo_next/RELEASE | cat"
+          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash ${{ env.TEST_TAG }} -c "pwd; more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
       -
         # indicate an error when the base image has changed
