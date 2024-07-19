@@ -3,7 +3,7 @@
 name: 'DockerImageUpdateChecker'
 # Adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
 
-# TODO: check rel-10_0, rel-10_1, rel-11_0 and trigger rebuilds in these branches
+# TODO: check the relevant tags in rel-10_0, rel-10_1, rel-11_0 and trigger rebuilds in these commits
 
 on:
 
@@ -24,8 +24,12 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
 
+      - name: Set the branch rel-11_1
+        run: echo "otobo_branch=rel-11_1" >> $GITHUB_ENV
+
       -
         # this step sets ${{ steps.check.outputs.needs-updating }}
+        # TODO: check the relevant branch
         name: Check whether base image was updated
         id: check
         uses: lucacome/docker-image-update-checker@v1
@@ -42,21 +46,26 @@ jobs:
       # TODO: early exit when nothing has to be done
 
       -
-        # needed for BUILD_DATE
+        # needed for the build arg BUILD_DATE
         name: Get the current date and time
         id: get_build_date
-        run: echo "build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+        run: echo "otobo_build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
 
       -
         name: Set up Docker Buildx
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/setup-buildx-action@v3
 
-      - name: 'check out OTOBO rel-11_1'
+      - name: 'check out the relevant OTOBO branch'
         if: steps.check.outputs.needs-updating == 'true'
         uses: actions/checkout@v4
         with:
-          ref: 'rel-11_1'
+          ref: ${{ env.otobo_branch }}
+
+      -
+        # needed for build arg GIT_COMMIT
+        name: 'get SHA if the current checkout'
+        run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
 
       -
         # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
@@ -71,11 +80,11 @@ jobs:
           file: otobo.web.dockerfile
           pull: true
           build-args: |
-            BUILD_DATE=${{ steps.get_build_date.outputs.build_date }}
+            BUILD_DATE=${{ env.otobo_build_date }}
             DOCKER_TAG=${{ env.TEST_TAG }}
             GIT_REPO=${{ github.repository }}
-            GIT_BRANCH=${{ github.ref_name }}
-            GIT_COMMIT=${{ github.sha }}
+            GIT_BRANCH=${{ env.otobo_branch }}
+            GIT_COMMIT=${{ env.otobo_commit }}
           target: otobo-web
           tags: ${{ env.TEST_TAG }}
           cache-from: type=gha
@@ -109,11 +118,11 @@ jobs:
           file: otobo.web.dockerfile
           pull: true
           build-args: |
-            BUILD_DATE=${{ steps.get_build_date.outputs.build_date }}
+            BUILD_DATE=${{ env.otobo_build_date }}
             DOCKER_TAG=${{ env.TEST_TAG }}
             GIT_REPO=${{ github.repository }}
-            GIT_BRANCH=${{ github.ref_name }}
-            GIT_COMMIT=${{ github.sha }}
+            GIT_BRANCH=${{ env.otobo_branch }}
+            GIT_COMMIT=${{ env.otobo_commit }}
           target: otobo-web
           tags: ${{ env.TEST_TAG }}
           cache-from: type=gha
