@@ -4,6 +4,7 @@ name: 'DockerImageUpdateChecker'
 # Adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
 
 # TODO: check the relevant tags in rel-10_0, rel-10_1, rel-11_0 and trigger rebuilds in these commits
+# TODO: saner setup which branch uses which base image
 
 on:
 
@@ -16,26 +17,25 @@ on:
   schedule:
     - cron: '37 6 * * *'
 
-env:
-  TEST_TAG: rotheross/otobo:devel-11_1_test
-
 jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
     steps:
 
-      - name: Set the branch rel-11_1
-        run: echo "otobo_branch=rel-11_1" >> $GITHUB_ENV
+      - name: Setup for the branch rel-11_1
+        run: |
+         echo "otobo_branch=rel-11_1"                              >> $GITHUB_ENV
+         echo "otobo_base_image=perl:5.40-bookworm"                >> $GITHUB_ENV
+         echo "otobo_ref=${{ github.repository }}:devel-11_1_test" >> $GITHUB_ENV
 
       -
         # this step sets ${{ steps.check.outputs.needs-updating }}
-        # TODO: check the relevant branch
         name: Check whether base image was updated
         id: check
         uses: lucacome/docker-image-update-checker@v1
         with:
-          base-image: perl:5.38-bookworm
-          image: rotheross/otobo:latest-11_0
+          base-image: ${{ env.otobo_base_image }}
+          image: ${{ env.otobo_ref }}
 
       -
         # print the result in any case
@@ -43,11 +43,10 @@ jobs:
         run: |
           echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
 
-      # TODO: early exit when nothing has to be done
-
       -
         # needed for the build arg BUILD_DATE
         name: Get the current date and time
+        if: steps.check.outputs.needs-updating == 'true'
         id: get_build_date
         run: echo "otobo_build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
 
@@ -64,7 +63,8 @@ jobs:
 
       -
         # needed for build arg GIT_COMMIT
-        name: 'get SHA if the current checkout'
+        name: 'get the commit SHA of the current checkout'
+        if: steps.check.outputs.needs-updating == 'true'
         run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
 
       -
@@ -81,12 +81,12 @@ jobs:
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.TEST_TAG }}
+            DOCKER_TAG=${{ env.otobo_ref }}
             GIT_REPO=${{ github.repository }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           target: otobo-web
-          tags: ${{ env.TEST_TAG }}
+          tags: ${{ env.otobo_ref }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
 
@@ -95,7 +95,7 @@ jobs:
         name: Info
         if: steps.check.outputs.needs-updating == 'true'
         run: |
-          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $TEST_TAG -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
+          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
       -
         # login to Docker Hub only after the build
@@ -119,11 +119,18 @@ jobs:
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.TEST_TAG }}
+            DOCKER_TAG=${{ env.otobo_ref }}
             GIT_REPO=${{ github.repository }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           target: otobo-web
-          tags: ${{ env.TEST_TAG }}
+          tags: ${{ env.otobo_ref }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
+      -
+        # indicate an error when the base image has changed
+        name: Exit with an error
+        if: steps.check.outputs.needs-updating == 'true'
+        run: |
+          echo "::error:: Please check automatic update for ${{ env.otobo_branch }}"
+          exit 1;
