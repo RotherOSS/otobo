@@ -10,7 +10,7 @@ on:
     - cron: '4 8 * * *'
 
 env:
-  TEST_TAG: rotheross/otobo:devel-11_0_test
+  TEST_TAG: rotheross/otobo:devel-11_1_test
 
 jobs:
   CheckDockerImageUpdate:
