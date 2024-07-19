@@ -3,11 +3,18 @@
 name: 'DockerImageUpdateChecker'
 # Adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
 
-# run daily, time is in UTC, scheduled jobs run only on the default branch
+# TODO: check rel-10_0, rel-10_1, rel-11_0 and trigger rebuilds in these branches
+
 on:
+
+  # The trigger on 'workflow_dispatch' allows manual start
+  # on https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_checker.yml
   workflow_dispatch:
+
+  # The trigger on 'schedule' allows to run daily. Time is in UTC declared in cron syntax.
+  # The scheduled jobs run only on the default branch.
   schedule:
-    - cron: '4 8 * * *'
+    - cron: '37 6 * * *'
 
 env:
   TEST_TAG: rotheross/otobo:devel-11_1_test
@@ -16,8 +23,6 @@ jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
     steps:
-
-      # TODO: check rel-10_0, rel-10_1, rel-11_0 and trigger rebuilds in these branches
 
       -
         # this step sets ${{ steps.check.outputs.needs-updating }}
@@ -35,6 +40,7 @@ jobs:
           echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
 
       # TODO: early exit when nothing has to be done
+
       -
         # needed for BUILD_DATE
         name: Get the current date and time
@@ -46,16 +52,24 @@ jobs:
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/setup-buildx-action@v3
 
+      - name: 'check out OTOBO rel-11_1'
+        if: steps.check.outputs.needs-updating == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: 'rel-11_1'
+
       -
         # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
         # Caching with Github Actions Cache, limited to 10 GB
+        # context: .  indicates that the current checkout is used
         name: Build
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
         with:
+          load: true
+          context: .
           file: otobo.web.dockerfile
           pull: true
-          load: true
           build-args: |
             BUILD_DATE=${{ steps.get_build_date.outputs.build_date }}
             DOCKER_TAG=${{ env.TEST_TAG }}
@@ -72,7 +86,7 @@ jobs:
         name: Info
         if: steps.check.outputs.needs-updating == 'true'
         run: |
-          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash ${{ env.TEST_TAG }} -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
+          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $TEST_TAG -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
       -
         # login to Docker Hub only after the build
@@ -90,9 +104,10 @@ jobs:
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
         with:
+          push: true
+          context: .
           file: otobo.web.dockerfile
           pull: true
-          push: true
           build-args: |
             BUILD_DATE=${{ steps.get_build_date.outputs.build_date }}
             DOCKER_TAG=${{ env.TEST_TAG }}
