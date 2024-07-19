@@ -872,10 +872,8 @@ fieldset.TableLike .RichTextField {
     margin-left: 30%;
     margin-right: 0;
     box-sizing: border-box;
-}
-
-fieldset.TableLike > .RichTextField {
-    height: 400px;
+    height: min-content;    /* used as minimum by Core.UI.RichTextEditor.js! */
+    width: 70%;             /* used as maximum by Core.UI.RichTextEditor.js! */
 }
 
 body.Popup fieldset.TableLike > .Row > .RichTextField,
