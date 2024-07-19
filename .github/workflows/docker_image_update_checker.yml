@@ -17,6 +17,8 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
 
+      # TODO: check rel-10_0, rel-10_1, rel-11_0 and trigger rebuilds in these branches
+
       -
         # this step sets ${{ steps.check.outputs.needs-updating }}
         name: Check whether base image was updated
@@ -47,11 +49,12 @@ jobs:
       -
         # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
         # Caching with Github Actions Cache, limited to 10 GB
-        name: Build and not push
+        name: Build
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
         with:
           file: otobo.web.dockerfile
+          pull: true
           load: true
           build-args: |
             BUILD_DATE=${{ steps.get_build_date.outputs.build_date }}
@@ -83,11 +86,12 @@ jobs:
       -
         # finally upload to DockerHub
         # the built image is already available in the job
-        name: Build and push
+        name: Push to DockerHub
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
         with:
           file: otobo.web.dockerfile
+          pull: true
           push: true
           build-args: |
             BUILD_DATE=${{ steps.get_build_date.outputs.build_date }}
@@ -99,11 +103,3 @@ jobs:
           tags: ${{ env.TEST_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
-
-      #-
-      #  # indicate an error when the base image has changed
-      #  name: Exit with an error
-      #  if: steps.check.outputs.needs-updating == 'true'
-      #  run: |
-      #    echo "::error:: Please update the latest OTOBO images for rel-10_0, rel-10_1. rel-11_0, and rel-11_1"
-      #    exit 1;
