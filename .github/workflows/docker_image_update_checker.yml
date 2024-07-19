@@ -28,7 +28,7 @@ jobs:
           lowercased_repository="${mixed_case_repository,,}"
           (
             echo "otobo_branch=rel-11_1"
-            echo "otobo_base_image=perl:5.40-bookworm"
+            echo "otobo_base_image=perl:5.40-slim-bookworm"
             echo "otobo_ref=$lowercased_repository:devel-11_1_test"
           ) >> $GITHUB_ENV
 
