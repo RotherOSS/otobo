@@ -2920,20 +2920,20 @@ sub JSONReply {
     );
 }
 
-=head2 CustomException()
+=head2 AJAXException()
 
 =for stopwords customizable
 
 Throws an exception with customizable status code and body. Status can either be a client error (400-499) or a server error (500-599), see L<HTTP::Status> for details.
 
-    $LayoutObject->CustomException(
+    $LayoutObject->AJAXException(
         StatusCode => 500,           # optional, default: 500
         Body       => 'Some text',   # optional, data to pass as response body
     );
 
 =cut
 
-sub CustomException {
+sub AJAXException {
     my ( $Self, %Param ) = @_;
 
     # if given, check validity of status code
@@ -2943,7 +2943,7 @@ sub CustomException {
         if ( !is_client_error( $Param{StatusCode} ) && !is_server_error( $Param{StatusCode} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Status code $Param{StatusCode} is not a valid HTTP status!",
+                Message  => "Status code $Param{StatusCode} is not a valid HTTP error status!",
             );
             return;
         }
