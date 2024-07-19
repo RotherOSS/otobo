@@ -325,10 +325,14 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }
                 });
 
-                //Set initial Editor size as defined by System Configuration
-                $domEditableElement.css("height", Core.Config.Get("RichText.Height"));
-                $domEditableElement.css("width", Core.Config.Get("RichText.Width"));
-
+                if (!CustomerInterface) {
+                    //Set initial Editor size as defined by System Configuration
+                    let editorMinHeight = $domEditableElement.height()
+                    let editorMaxWidth = $domEditableElement.width();
+                    $domEditableElement.css("height", Math.max(editorMinHeight, Core.Config.Get("RichText.Height")));
+                    $domEditableElement.css("width", Math.min(editorMaxWidth, Core.Config.Get("RichText.Width")));
+                }
+                
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);
 
                 // workaround for ckeditor not using data filter correctly on prefilled content
