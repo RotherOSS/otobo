@@ -24,9 +24,9 @@ jobs:
 
       - name: Setup for the branch rel-11_1
         run: |
-         echo "otobo_branch=rel-11_1"                              >> $GITHUB_ENV
-         echo "otobo_base_image=perl:5.40-bookworm"                >> $GITHUB_ENV
-         echo "otobo_ref=${{ github.repository }}:devel-11_1_test" >> $GITHUB_ENV
+         echo "otobo_branch=rel-11_1"                     >> $GITHUB_ENV
+         echo "otobo_base_image=perl:5.40-bookworm"       >> $GITHUB_ENV
+         echo "otobo_ref=rotheross/otobo:devel-11_1_test" >> $GITHUB_ENV
 
       -
         # this step sets ${{ steps.check.outputs.needs-updating }}
