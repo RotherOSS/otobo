@@ -46,6 +46,7 @@ jobs:
 
       -
         # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
+        # Caching with Github Actions Cache, limited to 10 GB
         name: Build and not push
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
@@ -60,6 +61,8 @@ jobs:
             GIT_COMMIT=${{ github.sha }}
           target: otobo-web
           tags: ${{ env.TEST_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max`
 
       -
         # otobo_first_time hasn't run yet, so /opt/otobo is still empty
@@ -78,7 +81,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       -
-        # finally upload, the build should be already cached
+        # finally upload to DockerHub
+        # the built image is already available in the job
         name: Build and push
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
@@ -93,6 +97,8 @@ jobs:
             GIT_COMMIT=${{ github.sha }}
           target: otobo-web
           tags: ${{ env.TEST_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max`
 
       #-
       #  # indicate an error when the base image has changed
