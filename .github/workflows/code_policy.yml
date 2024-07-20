@@ -63,7 +63,7 @@ jobs:
             #     sudo apt install -y cpanminus
             #     cpanm -l local --notest XML::LibXSLT || sh -xc 'cat ~/.cpanm/work/*/build.log'
 
-            - name: 'install App::perlimports from CPAN'
+            - name: 'install App::perlimports from CPAN with App::cpm'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: perl-actions/install-with-cpm@stable
               with:
@@ -77,10 +77,11 @@ jobs:
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               run: cp cpanfile.docker.snapshot cpanfile.snapshot
 
-            - name: 'install Perl modules from CPAN'
+            - name: 'install Perl modules from CPAN with App::cpm'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: perl-actions/install-with-cpm@stable
               with:
+                args: "--installdeps ."
                 global: false
                 tests: false
                 sudo: false
