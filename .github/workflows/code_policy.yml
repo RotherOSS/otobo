@@ -83,7 +83,6 @@ jobs:
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: perl-actions/install-with-cpm@stable
               with:
-                args: "--installdeps ."
                 global: false
                 tests: false
                 sudo: false
