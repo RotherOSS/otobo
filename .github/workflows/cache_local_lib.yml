@@ -87,13 +87,14 @@ jobs:
 
             - name: 'move cpanfile.snapshot in place'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              run: cp cpanfile.docker.snapshot cpanfile.snapshot
+              run: |
+                cp cpanfile.docker cpanfile
+                cp cpanfile.docker.snapshot cpanfile.snapshot
 
             - name: 'install Perl modules from CPAN with App::cpm'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: perl-actions/install-with-cpm@stable
               with:
-                args: "--installdeps ."
                 global: false
                 tests: false
                 sudo: false
