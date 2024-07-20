@@ -73,7 +73,7 @@ jobs:
                 tests: false
                 sudo: false
 
-            - name: 'move cpanfile.snapshot in place'
+            - name: 'move cpanfile and cpanfile.snapshot in place'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               run: |
                 cp cpanfile.docker cpanfile
@@ -83,6 +83,7 @@ jobs:
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: perl-actions/install-with-cpm@stable
               with:
+                args: '--verbose'
                 global: false
                 tests: false
                 sudo: false

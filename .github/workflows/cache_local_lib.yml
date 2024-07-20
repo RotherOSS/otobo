@@ -95,6 +95,7 @@ jobs:
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: perl-actions/install-with-cpm@stable
               with:
+                args: '--verbose'
                 global: false
                 tests: false
                 sudo: false
