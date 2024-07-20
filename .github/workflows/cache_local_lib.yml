@@ -99,14 +99,3 @@ jobs:
                 global: false
                 tests: false
                 sudo: false
-
-            - name: 'install Perl modules from CPAN'
-              if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              uses: perl-actions/install-with-cpm@stable
-              with:
-                install: |
-                  App::perlimports
-                cpanfile: cpanfile.docker.snapshot
-                global: false
-                tests: false
-                sudo: false
