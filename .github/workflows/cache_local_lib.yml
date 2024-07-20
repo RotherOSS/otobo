@@ -75,6 +75,28 @@ jobs:
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc
 
+            - name: 'install App::perlimports from CPAN'
+              if: steps.cache_local_lib.outputs.cache-hit != 'true'
+              uses: perl-actions/install-with-cpm@stable
+              with:
+                install: |
+                  App::perlimports
+                global: false
+                tests: false
+                sudo: false
+
+            - name: 'move cpanfile.snapshot in place'
+              if: steps.cache_local_lib.outputs.cache-hit != 'true'
+              run: cp cpanfile.docker.snapshot cpanfile.snapshot
+
+            - name: 'install Perl modules from CPAN'
+              if: steps.cache_local_lib.outputs.cache-hit != 'true'
+              uses: perl-actions/install-with-cpm@stable
+              with:
+                global: false
+                tests: false
+                sudo: false
+
             - name: 'install Perl modules from CPAN'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: perl-actions/install-with-cpm@stable
