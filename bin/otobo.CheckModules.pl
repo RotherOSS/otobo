@@ -1230,6 +1230,8 @@ my @NeededModules = (
             ports  => undef,
         },
     },
+
+    # Feature devel:i18n
     {
         Module    => 'Locale::PO',
         Features  => ['devel:i18n'],
