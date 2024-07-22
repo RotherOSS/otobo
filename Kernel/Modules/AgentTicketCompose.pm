@@ -536,14 +536,6 @@ sub Run {
         );
     }
 
-    # rewrap body if no rich text is used
-    if ( $GetParam{Body} && !$LayoutObject->{BrowserRichText} ) {
-        $GetParam{Body} = $LayoutObject->WrapPlainText(
-            MaxCharacters => $ConfigObject->Get('Ticket::Frontend::TextAreaNote'),
-            PlainText     => $GetParam{Body},
-        );
-    }
-
     # get upload cache object
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
