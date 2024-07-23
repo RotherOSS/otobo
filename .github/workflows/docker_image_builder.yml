@@ -21,7 +21,7 @@ jobs:
           # e.g rel-10_0
           branch="${{ github.ref_name }}"
           # e.g. 10_0
-          branch_without_rel="${docker_branch:4}"
+          branch_without_rel="${branch:4}"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
             echo "otobo_branch=$branch_without_rel"
