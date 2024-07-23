@@ -50,7 +50,7 @@ jobs:
                 path: local
                 key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20240320a
 
-            - name: 'check out OTOBO'
+            - name: 'check out the relevant OTOBO branch'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: actions/checkout@v4
 
