@@ -74,7 +74,7 @@ sub Run {
         my $MaintenanceStartDateTime = $LayoutObject->{LanguageObject}->FormatTimeString(
             $MaintenanceStartDateTimeObject->ToString(),
             'DateFormat',
-            1,
+            'NoSeconds',
         );
 
         my $MaintenanceStopDateTimeObject = $Kernel::OM->Create(
@@ -86,7 +86,7 @@ sub Run {
         my $MaintenanceStopDateTime = $LayoutObject->{LanguageObject}->FormatTimeString(
             $MaintenanceStopDateTimeObject->ToString(),
             'DateFormat',
-            1,
+            'NoSeconds',
         );
 
         return $LayoutObject->Notify(
