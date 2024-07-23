@@ -24,12 +24,14 @@ jobs:
 
       - name: Setup for the branch rel-11_1
         run: |
+          docker_tag="devel-11_1_test"
           mixed_case_repository="${{ github.repository }}"
           lowercased_repository="${mixed_case_repository,,}"
           (
             echo "otobo_branch=rel-11_1"
             echo "otobo_base_image=perl:5.40-slim-bookworm"
-            echo "otobo_ref=$lowercased_repository:devel-11_1_test"
+            echo "otobo_docker_tag=$docker_tag"
+            echo "otobo_ref=$lowercased_repository:$docker_tag"
           ) >> $GITHUB_ENV
 
       -
@@ -85,8 +87,8 @@ jobs:
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.otobo_ref }}
-            GIT_REPO=${{ github.repository }}
+            DOCKER_TAG=${{ env.otobo_docker_tag }}
+            GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           target: otobo-web
@@ -123,8 +125,8 @@ jobs:
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.otobo_ref }}
-            GIT_REPO=${{ github.repository }}
+            DOCKER_TAG=${{ env.otobo_docker_tag }}
+            GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           target: otobo-web
