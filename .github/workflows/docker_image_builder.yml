@@ -22,11 +22,15 @@ jobs:
           branch="${{ github.ref_name }}"
           # e.g. 10_0
           branch_without_rel="${branch:4}"
+          mixed_case_repository="${{ github.repository }}"
+          lowercased_repository="${mixed_case_repository,,}"
+          docker_tag="devel-$branch_without_rel"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
             echo "otobo_branch=$branch_without_rel"
+            echo "otobo_docker_tag=$docker_tag"
+            echo "otobo_ref=$lowercased_repository:$docker_tag"
             echo "otobo_build_date=$build_date"
-            echo "otobo_docker_tag=devel-$branch_without_rel"
             echo "otobo_commit=${{ github.sha }}"
           ) >> $GITHUB_ENV
 
