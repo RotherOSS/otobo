@@ -34,6 +34,9 @@ quick_setup.pl - a quick OTOBO setup script for development
     # note that this only affect the message printed by this script
     bin/docker/quick_setup.pl --db-password 'some-pass' --http-port 81
 
+    # set FQDN, the default is yourhost.example.com
+    bin/docker/quick_setup.pl --db-password 'some-pass' --fqdn 'localhost'
+
     # also activate Elasticsearch
     bin/docker/quick_setup.pl --db-password 'some-pass' --activate-elasticsearch
 
@@ -48,7 +51,7 @@ quick_setup.pl - a quick OTOBO setup script for development
 
 It might be convenient the call this script via an alias.
 
-    alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch --add-user --add-admin-user --add-customer-user --add-calendar --http-type http"'
+    alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch --add-user --add-admin-user --add-customer-user --add-calendar --http-type http" --fqdn localhost'
 
 =head1 DESCRIPTION
 
@@ -78,6 +81,10 @@ Set the SysConfig setting 'HttpType'. The value is either 'http' or 'https'. The
 
 Only used for the message where the newly configured system is available.
 The default value is 80
+
+=item fqdn
+
+Set the SysConfig setting 'FQDN'. The value is expected to be a string. The default is 'yourhost.example.com'.
 
 =item activate-elasticsearch
 
@@ -124,22 +131,24 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager ();
 
 sub Main {
-    my $HelpFlag;                           # print help
-    my $DBPassword;                         # required
-    my $HTTPPort              = 80;         # only used for success message
-    my $ActivateElasticsearch = 0;          # must be explicitly enabled
-    my $AddUser               = 0;          # must be explicitly enabled
-    my $AddAdminUser          = 0;          # must be explicitly enabled
-    my $AddCustomerUser       = 0;          # must be explicitly enabled
-    my $AddCalendar           = 0;          # must be explicitly enabled
-    my $HttpType              = 'https';    # the SysConfig setting HttpType
-    my $ActivateSyncWithS3    = 0;          # activate S3 in the SysConfig, still experimental
+    my $HelpFlag;                                          # print help
+    my $DBPassword;                                        # required
+    my $HTTPPort              = 80;                        # only used for success message
+    my $ActivateElasticsearch = 0;                         # must be explicitly enabled
+    my $AddUser               = 0;                         # must be explicitly enabled
+    my $AddAdminUser          = 0;                         # must be explicitly enabled
+    my $AddCustomerUser       = 0;                         # must be explicitly enabled
+    my $AddCalendar           = 0;                         # must be explicitly enabled
+    my $HttpType              = 'https';                   # the SysConfig setting HttpType
+    my $FQDN                  = 'yourhost.example.com';    # the SysConfig setting HttpType
+    my $ActivateSyncWithS3    = 0;                         # activate S3 in the SysConfig, still experimental
 
     GetOptions(
         'help'                   => \$HelpFlag,
         'db-password=s'          => \$DBPassword,
         'http-port=i'            => \$HTTPPort,
         'http-type=s'            => \$HttpType,
+        'fqdn=s'                 => \$FQDN,
         'activate-elasticsearch' => \$ActivateElasticsearch,
         'add-user'               => \$AddUser,
         'add-admin-user'         => \$AddAdminUser,
@@ -251,6 +260,7 @@ sub Main {
         my @Settings = (
             [ DefaultLanguage        => 'en' ],
             [ HttpType               => $HttpType ],
+            [ FQDN                   => $FQDN ],
             [ SecureMode             => 1 ],
             [ CheckEmailValidAddress => '^(?:root@localhost|admin@localhost|tina@example.com)$' ],
         );

@@ -1,80 +1,50 @@
 %YAML 1.1
 ---
-name: 'DockerImageUpdateChecker'
-# Adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
-
-# TODO: check the relevant tags in rel-10_0, rel-10_1, rel-11_0 and trigger rebuilds in these commits
-# TODO: saner setup which branch uses which base image
+name: 'DockerImageBuilder'
 
 on:
 
-  # The trigger on 'workflow_dispatch' allows manual start
-  # on https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_checker.yml
-  workflow_dispatch:
-
-  # The trigger on 'schedule' allows to run daily. Time is in UTC declared in cron syntax.
-  # The scheduled jobs run only on the default branch.
-  schedule:
-    - cron: '37 6 * * *'
+  # build a devel Docker image whenever there is a push into the listed branches
+  push:
+    branches:
+      - rel-10_0
 
 jobs:
-  CheckDockerImageUpdate:
+  BuildDockerImage:
+
     runs-on: 'ubuntu-latest'
+
     steps:
 
-      - name: Setup for the branch rel-11_1
+      - name: Setup
         run: |
-          docker_tag="devel-11_1_test"
+          # e.g rel-10_0
+          branch="${{ github.ref_name }}"
+          # e.g. 10_0
+          branch_without_rel="${branch:4}"
           mixed_case_repository="${{ github.repository }}"
           lowercased_repository="${mixed_case_repository,,}"
+          docker_tag="devel-$branch_without_rel"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
-            echo "otobo_branch=rel-11_1"
-            echo "otobo_base_image=perl:5.40-slim-bookworm"
+            echo "otobo_branch=$branch_without_rel"
             echo "otobo_docker_tag=$docker_tag"
             echo "otobo_ref=$lowercased_repository:$docker_tag"
             echo "otobo_build_date=$build_date"
+            echo "otobo_commit=${{ github.sha }}"
           ) >> $GITHUB_ENV
 
-      -
-        # this step sets ${{ steps.check.outputs.needs-updating }}
-        name: Check whether base image was updated
-        id: check
-        uses: lucacome/docker-image-update-checker@v1
-        with:
-          base-image: ${{ env.otobo_base_image }}
-          image: ${{ env.otobo_ref }}
-
-      -
-        # print the result in any case
-        name: Report the check result
-        run: |
-          echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
-
-      -
-        name: Set up Docker Buildx
-        if: steps.check.outputs.needs-updating == 'true'
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: 'check out the relevant OTOBO branch'
-        if: steps.check.outputs.needs-updating == 'true'
         uses: actions/checkout@v4
-        with:
-          ref: ${{ env.otobo_branch }}
-
-      -
-        # needed for build arg GIT_COMMIT
-        # can't use github.sha here as we need the commit of the checked out branch
-        name: 'get the commit SHA of the current checkout'
-        if: steps.check.outputs.needs-updating == 'true'
-        run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
 
       -
         # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
         # Caching with Github Actions Cache, limited to 10 GB
         # context: .  indicates that the current checkout is used
         name: Build
-        if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
         with:
           load: true
@@ -87,7 +57,6 @@ jobs:
             GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
-          target: otobo-web
           tags: ${{ env.otobo_ref }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
@@ -95,14 +64,12 @@ jobs:
       -
         # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
-        if: steps.check.outputs.needs-updating == 'true'
         run: |
           docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
       -
         # login to Docker Hub only after the build
         name: Login to Docker Hub
-        if: steps.check.outputs.needs-updating == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -112,7 +79,6 @@ jobs:
         # finally upload to DockerHub
         # the built image is already available in the job
         name: Push to DockerHub
-        if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
         with:
           push: true
@@ -125,7 +91,6 @@ jobs:
             GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
-          target: otobo-web
           tags: ${{ env.otobo_ref }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
