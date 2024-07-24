@@ -27,11 +27,13 @@ jobs:
           docker_tag="devel-11_1_test"
           mixed_case_repository="${{ github.repository }}"
           lowercased_repository="${mixed_case_repository,,}"
+          build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
             echo "otobo_branch=rel-11_1"
             echo "otobo_base_image=perl:5.40-slim-bookworm"
             echo "otobo_docker_tag=$docker_tag"
             echo "otobo_ref=$lowercased_repository:$docker_tag"
+            echo "otobo_build_date=$build_date"
           ) >> $GITHUB_ENV
 
       -
@@ -50,13 +52,6 @@ jobs:
           echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
 
       -
-        # needed for the build arg BUILD_DATE
-        name: Get the current date and time
-        if: steps.check.outputs.needs-updating == 'true'
-        id: get_build_date
-        run: echo "otobo_build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
-
-      -
         name: Set up Docker Buildx
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/setup-buildx-action@v3
@@ -69,6 +64,7 @@ jobs:
 
       -
         # needed for build arg GIT_COMMIT
+        # can't use github.sha here as we need the commit of the checked out branch
         name: 'get the commit SHA of the current checkout'
         if: steps.check.outputs.needs-updating == 'true'
         run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
