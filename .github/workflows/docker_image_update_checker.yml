@@ -129,10 +129,3 @@ jobs:
           tags: ${{ env.otobo_ref }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
-      -
-        # indicate an error when the base image has changed
-        name: Exit with an error
-        if: steps.check.outputs.needs-updating == 'true'
-        run: |
-          echo "::error:: Please check automatic update for ${{ env.otobo_branch }}"
-          exit 1;
