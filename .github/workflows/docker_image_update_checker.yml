@@ -20,20 +20,32 @@ on:
 jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
+    strategy:
+
+      # set up a loop over OTOBO branches
+      matrix:
+        major_minor: [ '11_0', '11_1', ]
+        include:
+          - major_minor: '11_0'
+            base_image: 'perl:5.38-bookworm'
+          - major_minor: '11_1'
+            base_image: 'perl:5.40-slim-bookworm'
+
     steps:
 
-      - name: Setup for the branch rel-11_1
+      - name: Setting up the environment file
         run: |
-          docker_tag="devel-11_1_test"
+          major_minor="${{ matrix.major_minor }}"
+          docker_tag="devel-${major_minor}_test"
           mixed_case_repository="${{ github.repository }}"
           lowercased_repository="${mixed_case_repository,,}"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
-            echo "otobo_branch=rel-11_1"
-            echo "otobo_base_image=perl:5.40-slim-bookworm"
-            echo "otobo_docker_tag=$docker_tag"
-            echo "otobo_ref=$lowercased_repository:$docker_tag"
-            echo "otobo_build_date=$build_date"
+            echo "otobo_branch=rel-${major_minor}"
+            echo "otobo_base_image=${{ matrix.base_image }}"
+            echo "otobo_docker_tag=${docker_tag}"
+            echo "otobo_image=${lowercased_repository}:${docker_tag}"
+            echo "otobo_build_date=${build_date}"
           ) >> $GITHUB_ENV
 
       -
@@ -43,7 +55,7 @@ jobs:
         uses: lucacome/docker-image-update-checker@v1
         with:
           base-image: ${{ env.otobo_base_image }}
-          image: ${{ env.otobo_ref }}
+          image:      ${{ env.otobo_image }}
 
       -
         # print the result in any case
@@ -56,7 +68,8 @@ jobs:
         if: steps.check.outputs.needs-updating == 'true'
         uses: docker/setup-buildx-action@v3
 
-      - name: 'check out the relevant OTOBO branch'
+      -
+        name: 'check out the relevant OTOBO branch'
         if: steps.check.outputs.needs-updating == 'true'
         uses: actions/checkout@v4
         with:
@@ -88,7 +101,7 @@ jobs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           target: otobo-web
-          tags: ${{ env.otobo_ref }}
+          tags: ${{ env.otobo_image }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
 
@@ -97,7 +110,7 @@ jobs:
         name: Info
         if: steps.check.outputs.needs-updating == 'true'
         run: |
-          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
+          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_image -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
       -
         # login to Docker Hub only after the build
@@ -126,6 +139,6 @@ jobs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           target: otobo-web
-          tags: ${{ env.otobo_ref }}
+          tags: ${{ env.otobo_image }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
