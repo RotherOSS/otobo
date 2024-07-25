@@ -2105,7 +2105,7 @@
         <Navigation>Core::DynamicFields</Navigation>
         <Value>
             <Array>
-                <Item ValueType="String" ValueRegex="^[a-zA-Z0-9]{,64}$"></Item>
+                <Item ValueType="String" ValueRegex="^[a-zA-Z0-9]{1,64}$"></Item>
             </Array>
         </Value>
     </Setting>
