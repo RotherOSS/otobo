@@ -24,10 +24,12 @@ jobs:
 
       # set up a loop over OTOBO branches
       matrix:
-        major_minor: [ '11_1', ]
+        major_minor: [ '11_0', '11_1', ]
         include:
+          - major_minor: '11_0'
+            base_image: 'perl:5.38-bookworm'
           - major_minor: '11_1'
-          - base_image: 'perl:5.40-slim-bookworm'
+            base_image: 'perl:5.40-slim-bookworm'
 
     steps:
 
