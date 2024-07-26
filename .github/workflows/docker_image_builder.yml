@@ -7,11 +7,13 @@ name: 'DockerImageBuilder'
 
 on:
 
-  # build a devel Docker image whenever there is a push into the listed branches
+  # Build a devel Docker image whenever there is a push into the listed branches.
   push:
     branches:
       - rel-10_0
       - rel-10_1
+      - rel-11_0
+      - rel-11_1
 
 jobs:
   BuildDockerImage:
@@ -27,7 +29,7 @@ jobs:
         run: |
           branch="${{ github.ref_name }}"                     # e.g rel-10_0
           branch_without_rel="${branch:4}"                    # e.g. 10_0
-          docker_tag="devel-$branch_without_rel"
+          docker_tag="devel-$branch_without_rel"              # TODO: devel-rel-DD_D
           mixed_case_repository="${{ github.repository }}"    # e.g. RotherOSS/otobo
           lowercased_repository="${mixed_case_repository,,}"  # e.g. rotheross/otobo
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
