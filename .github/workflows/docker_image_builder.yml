@@ -34,7 +34,7 @@ jobs:
           lowercased_repository="${mixed_case_repository,,}"  # e.g. rotheross/otobo
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
-            echo "otobo_branch=$branch_without_rel"
+            echo "otobo_branch=$branch"
             echo "otobo_docker_tag=$docker_tag"
             echo "otobo_ref=$lowercased_repository:$docker_tag"
             echo "otobo_build_date=$build_date"
