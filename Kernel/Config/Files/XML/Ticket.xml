@@ -11936,7 +11936,7 @@
         </Value>
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###3-NewTicketReject" Required="0" Valid="0">
-        <Description Translatable="1">Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.</Description>
+        <Description Translatable="1">Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address. The ticket number is being looked up automatically, so you don't have to create a RegEx for that. The Ticket Hook (e.g. Ticket#) and the Ticket Number Generator (how the ticketnumber looks) are taken into consideration automatically.</Description>
         <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
