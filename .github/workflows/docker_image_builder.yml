@@ -20,6 +20,19 @@ jobs:
 
     runs-on: 'ubuntu-latest'
 
+    strategy:
+
+      # create two different images
+      matrix:
+        target: [ 'otobo-web', 'otobo-kerberos-web', ]
+        include:
+          - target:     'otobo-web'
+            dockerfile: 'otobo.web.dockerfile'
+            tag_prefix: 'devel'
+          - target:     'otobo-kerberos-web'
+            dockerfile: 'otobo.kerberos.web.dockerfile'
+            tag_prefix: 'devel-kerberos'
+
     steps:
 
       -
@@ -28,7 +41,7 @@ jobs:
         name: Setup
         run: |
           branch="${{ github.ref_name }}"                     # e.g rel-10_0
-          docker_tag="devel-$branch"
+          docker_tag="${{ matrix.tag_prefix }}-$branch"
           mixed_case_repository="${{ github.repository }}"    # e.g. RotherOSS/otobo
           lowercased_repository="${mixed_case_repository,,}"  # e.g. rotheross/otobo
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
@@ -55,7 +68,7 @@ jobs:
         with:
           load: true
           context: .
-          file: otobo.web.dockerfile
+          file: ${{ matrix.dockerfile }}
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
@@ -64,7 +77,7 @@ jobs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           tags: ${{ env.otobo_ref }}
-          target: otobo-web
+          target: ${{ matrix.target }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
 
@@ -91,7 +104,7 @@ jobs:
         with:
           push: true
           context: .
-          file: otobo.web.dockerfile
+          file: ${{ matrix.dockerfile }}
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
@@ -100,6 +113,6 @@ jobs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           tags: ${{ env.otobo_ref }}
-          target: otobo-web
+          target: ${{ matrix.target }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
