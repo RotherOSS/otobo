@@ -11,14 +11,20 @@
 # This avoids a surprising change of the version of Debian when the image
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
-FROM perl:5.36-bookworm
+FROM perl:5.36-bookworm AS otobo-web
 
 # First there is some initial setup that needs to be done by root.
 USER root
 
 # Install some required and optional Debian packages.
+#
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
 # For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
+#
+# The webserver needs to connect to MariaDB service using DBD::mysql. For that purpose
+# 'default-mysql-client' is installed. This allows the building
+# of the Perl module DBD::mysql. It also installs the command line program 'mysql'.
+#
 # Create /opt/otobo_install already here, in order to reduce the number of build layers.
 # hadolint ignore=DL3008
 RUN apt-get update\

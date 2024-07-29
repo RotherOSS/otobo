@@ -65,6 +65,7 @@ jobs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           tags: ${{ env.otobo_ref }}
+          target: otobo-web
           cache-from: type=gha
           cache-to: type=gha,mode=max`
 
@@ -100,5 +101,6 @@ jobs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           tags: ${{ env.otobo_ref }}
+          target: otobo-web
           cache-from: type=gha
           cache-to: type=gha,mode=max`

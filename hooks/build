@@ -17,7 +17,15 @@
 #docker -v
 #printenv
 
+# Specify the target in order to stay compatible with newer versions of OTOBO.
+# In newer version different image are built with the same Dockerfile.
+TARGET_OPTION=$(case $DOCKERFILE_PATH in
+    "otobo.web.dockerfile")                  echo "--target=otobo-web" ;;
+    *)                                       echo "" ;;
+esac)
+
 # build the Docker image
+# add the option '--progress plain' for seeing the printed output
 docker build\
  --build-arg "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"\
  --build-arg "DOCKER_TAG=$DOCKER_TAG"\
@@ -26,4 +34,5 @@ docker build\
  --build-arg "GIT_REPO=$(git config --get remote.origin.url)"\
  -f ./$BUILD_PATH/$DOCKERFILE_PATH\
  -t $IMAGE_NAME\
+ $TARGET_OPTION\
  ./$BUILD_PATH
