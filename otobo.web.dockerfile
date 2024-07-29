@@ -11,7 +11,7 @@
 # The Debian version is explicitly set to buster, that is Debian 10.
 #
 # The Perl module installer 'cpanm' is already installed.
-FROM perl:5.32-buster
+FROM perl:5.32-buster AS otobo-web
 
 # First there is some initial setup that needs to be done by root.
 USER root
