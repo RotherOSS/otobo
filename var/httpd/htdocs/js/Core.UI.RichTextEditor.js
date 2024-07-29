@@ -136,8 +136,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     side: 'left',
                     label: '',
                     forceVisible: true,
-                    verticalOffset: 2,
-                    horizontalOffset: 2
+                    verticalOffset: 3,
+                    horizontalOffset: 3
                 }
             },
             heading: {
@@ -253,6 +253,14 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 var sourceEditingActive = false;
 
+                $domEditableElement.resizable();
+                $domEditableElement.resizable("option", "handles", "s");
+                $(".ui-resizable-s", $domEditableElement).append("<i class='ooofo ooofo-more_h'></i>");
+
+                $domEditableElement.on('resize', function() {
+                    adjustEditorSize();
+                });
+
                 // Adjust Editor Size to match (resizable) container size
                 var adjustEditorSize = function() {
                     let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();
@@ -317,6 +325,14 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }
                 });
 
+                if (!CustomerInterface) {
+                    //Set initial Editor size as defined by System Configuration
+                    let editorMinHeight = $domEditableElement.height()
+                    let editorMaxWidth = $domEditableElement.width();
+                    $domEditableElement.css("height", Math.max(editorMinHeight, Core.Config.Get("RichText.Height")));
+                    $domEditableElement.css("width", Math.min(editorMaxWidth, Core.Config.Get("RichText.Width")));
+                }
+                
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);
 
                 // workaround for ckeditor not using data filter correctly on prefilled content

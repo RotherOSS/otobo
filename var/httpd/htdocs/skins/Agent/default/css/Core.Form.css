@@ -756,8 +756,8 @@ fieldset.TableLike .DynamicFieldSet > .Row.MultiColumn > .FieldCell > .Field {
 }
 
 /* multivalue sets. necessary because of competing CSS specificities*/
-fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, [type="checkbox"]),
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, .ck-editor, [type="checkbox"]) {
+fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, [type="checkbox"], .ui-resizable-s),
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, .ck-editor, [type="checkbox"], .ui-resizable-s) {
     width: 100%;
     box-sizing: border-box;
 }
@@ -862,22 +862,18 @@ fieldset.TableLike > .Row > .FloatingField {
 }
 
 fieldset.TableLike .RichTextField {
-    resize: vertical;
     z-index: 10;
     position: relative;
-    overflow: hidden;
     min-height: 150px !important;
-    height: 320px;
-    max-width: 620px;
+    max-width: 70%;
     padding-bottom: 2px;
     margin-bottom: 6px;
     padding-left: 10px;
     margin-left: 30%;
     margin-right: 0;
-}
-
-fieldset.TableLike > .RichTextField {
-    height: 400px;
+    box-sizing: border-box;
+    height: min-content;    /* used as minimum by Core.UI.RichTextEditor.js! */
+    width: 70%;             /* used as maximum by Core.UI.RichTextEditor.js! */
 }
 
 body.Popup fieldset.TableLike > .Row > .RichTextField,

@@ -52,10 +52,6 @@ fieldset.Columns .Column .InputField_ListContainer div {
     display: none !important;
 }
 
-.DynamicFieldSet .FieldCell .RichTextField {
-    height: fit-content;
-}
-
 .Row,
 .RichTextHolder {
     margin-top: 40px;
@@ -63,6 +59,8 @@ fieldset.Columns .Column .InputField_ListContainer div {
 }
 
 .RichTextHolder {
+    height: 400px;
+    width: 66%;
     margin-left: auto;
     margin-right: auto;
     background-color: var(--colBGLight);
@@ -834,32 +832,21 @@ div.InputField_ToolbarContainer ul li a:hover {
 /**
  * @subsection  DynamicFieldRichText
  */
- .RichTextHolder {
-    --RTE-init-size-small: 320px;
-    --RTE-init-size-large: 450px;
-    min-height: 150px;
- }
-
-.FieldCell > .Field.RichTextField {
-    height: auto;
+.FieldCell .Field.RichTextField {
+    height: 200px;
+    width: 66%;
 }
 
 fieldset .RichTextHolder {
     margin-top: 0px;
     padding-top: 48px;
     border-radius: 10px;
-    resize: vertical;
-    overflow: hidden;
     z-index: 10;
     position: relative;
-    height: var(--RTE-init-size-small);
     padding-bottom: 2px;
-    
 }
 
 fieldset > .RichTextHolder {
-    height: var(--RTE-init-size-large);
-    width: 66%;
     margin-top: 48px;
     padding-top: 0px;
 }

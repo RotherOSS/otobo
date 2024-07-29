@@ -1451,6 +1451,37 @@ iframe.TextOption.CustomerUserAddressBook {
 */
 
 /**
+ * @subsection CKEditorResizeHandle
+ */
+
+div.ui-resizable-s {
+    position: relative;
+    bottom: 0px;
+    width: 30px;
+    box-sizing: border-box;
+    height: 4px;
+    margin: auto;
+    margin-top: -2px;
+    border-radius: 5px;
+    background-color: var(--colBGDark);
+    cursor: s-resize;
+    overflow: hidden;
+
+    i {
+        display: block;
+        margin: auto;
+        margin-top: -2px;
+        color: var(--colTextLight);
+        text-align: center;
+        font-size: 9px;
+    }
+}
+
+/**
+ * end @subsection CKEditorResizeHandle
+ */
+
+/**
  * @subsection global nvd3 improvements/fixes
  */
 
