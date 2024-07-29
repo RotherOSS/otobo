@@ -24,12 +24,12 @@ jobs:
 
       # create two different images
       matrix:
-        target: [ 'otobo-web', 'otobo-kerberos-web', ]
+        target: [ 'otobo-web', 'otobo-web-kerberos', ]
         include:
           - target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
             tag_prefix: 'devel'
-          - target:     'otobo-kerberos-web'
+          - target:     'otobo-web-kerberos'
             dockerfile: 'otobo.kerberos.web.dockerfile'
             tag_prefix: 'devel-kerberos'
 

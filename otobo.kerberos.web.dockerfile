@@ -11,7 +11,7 @@
 # This avoids a surprising change of the version of Debian when the image
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
-FROM perl:5.36-bookworm AS otobo-kerberos-web
+FROM perl:5.36-bookworm AS otobo-web-kerberos
 
 # First there is some initial setup that needs to be done by root.
 USER root

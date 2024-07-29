@@ -21,7 +21,7 @@
 # In newer version different image are built with the same Dockerfile.
 TARGET_OPTION=$(case $DOCKERFILE_PATH in
     "otobo.web.dockerfile")                  echo "--target=otobo-web" ;;
-    "otobo.kerberos.web.dockerfile")         echo "--target=otobo-kerberos-web" ;;
+    "otobo.kerberos.web.dockerfile")         echo "--target=otobo-web-kerberos" ;;
     *)                                       echo "" ;;
 esac)
 
