@@ -4681,12 +4681,15 @@ DISTRIBUTIONS
       File::Basename 0
       File::Compare 0
       File::Path 0
+      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
       JSON 0
+      LWP 0
       LWP::MediaTypes 0
+      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
