@@ -30,7 +30,7 @@ jobs:
             dockerfile: 'otobo.web.dockerfile'
             tag_prefix: 'devel'
           - target:     'otobo-web-kerberos'
-            dockerfile: 'otobo.kerberos.web.dockerfile'
+            dockerfile: 'otobo.web.dockerfile'
             tag_prefix: 'devel-kerberos'
 
     steps:
