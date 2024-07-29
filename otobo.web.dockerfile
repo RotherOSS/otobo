@@ -1,20 +1,30 @@
 # This is the build file for the OTOBO web docker image.
+# The services OTOBO web and OTOBO daemon use the same image.
 
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
 
-# Use the latest maintainance release of the Perl 5.32.x series.
-# As of 2021-01-23 this is Perl 5.32.1. See https://perldoc.perl.org/perl5321delta.
-# This image is based on Debian 10 (Buster). The user is root.
+# Use the latest maintainance release of the Perl 5.32.x series as the base.
+# As of 2024-07-29 this is Perl 5.32.1.
+# This assures that bug and security fixes are applied when rebuilding the image.
+#
+# The Debian version is explicitly set to buster, that is Debian 10.
+#
 # The Perl module installer 'cpanm' is already installed.
 FROM perl:5.32-buster
 
-# Some initial setup that needs to be done by root.
+# First there is some initial setup that needs to be done by root.
 USER root
 
-# install some required and optional Debian packages
+# Install some required and optional Debian packages.
+#
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
 # For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
+#
+# The webserver needs to connect to MariaDB service using DBD::mysql. For that purpose
+# 'default-mysql-client' is installed. This allows the building
+# of the Perl module DBD::mysql. It also installs the command line program 'mysql'.
+#
 # Create /opt/otobo_install already here, in order to reduce the number of build layers.
 # hadolint ignore=DL3008
 RUN apt-get update\
