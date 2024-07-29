@@ -4685,6 +4685,7 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
       LWP::MediaTypes 0
       MIME::Base64 0
       Test::More 0
