@@ -28,8 +28,7 @@ jobs:
         name: Setup
         run: |
           branch="${{ github.ref_name }}"                     # e.g rel-10_0
-          branch_without_rel="${branch:4}"                    # e.g. 10_0
-          docker_tag="devel-$branch_without_rel"              # TODO: devel-rel-DD_D
+          docker_tag="devel-$branch"
           mixed_case_repository="${{ github.repository }}"    # e.g. RotherOSS/otobo
           lowercased_repository="${mixed_case_repository,,}"  # e.g. rotheross/otobo
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
