@@ -4,7 +4,7 @@
 # See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
 
 # note that selenium/standalone-chrome-debug:3.141.59-20210607 has changed behavior
-FROM selenium/standalone-chrome-debug:3.141.59-20210422
+FROM selenium/standalone-chrome-debug:3.141.59-20210422 AS otobo-selenium-chrome
 
 # For the VNC-viewer, e.g. Remmina
 EXPOSE 5900/tcp
