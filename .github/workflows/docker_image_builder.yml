@@ -22,16 +22,28 @@ jobs:
 
     strategy:
 
-      # create two different images
+      # create different images
       matrix:
-        target: [ 'otobo-web', 'otobo-web-kerberos', ]
+        target: [ 'otobo-web', 'otobo-web-kerberos', 'otobo-elasticsearch', ]
         include:
-          - target:     'otobo-web'
+          -
+            target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
+            context:    '.'
             tag_prefix: 'devel'
-          - target:     'otobo-web-kerberos'
+            repository: 'rotheross/otobo'
+          -
+            target:     'otobo-web-kerberos'
             dockerfile: 'otobo.kerberos.web.dockerfile'
+            context:    '.'
             tag_prefix: 'devel-kerberos'
+            repository: 'rotheross/otobo'
+          -
+            target:     'otobo-elasticsearch'
+            dockerfile: 'otobo.elasticsearch.dockerfile'
+            context:    'scripts/elasticsearch'
+            tag_prefix: 'devel'
+            repository: 'rotheross/otobo-elasticsearch'
 
     steps:
 
@@ -42,13 +54,11 @@ jobs:
         run: |
           branch="${{ github.ref_name }}"                     # e.g rel-10_0
           docker_tag="${{ matrix.tag_prefix }}-$branch"
-          mixed_case_repository="${{ github.repository }}"    # e.g. RotherOSS/otobo
-          lowercased_repository="${mixed_case_repository,,}"  # e.g. rotheross/otobo
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
             echo "otobo_branch=$branch"
             echo "otobo_docker_tag=$docker_tag"
-            echo "otobo_ref=$lowercased_repository:$docker_tag"
+            echo "otobo_ref=${{ matrix.repository }}:$docker_tag"
             echo "otobo_build_date=$build_date"
             echo "otobo_commit=${{ github.sha }}"
           ) >> $GITHUB_ENV
@@ -67,7 +77,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           load: true
-          context: .
+          context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           pull: true
           build-args: |
@@ -85,6 +95,7 @@ jobs:
         # Show some files in the image just to check sanity.
         # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
+        if: ${{ matrix.dockerfile == 'otobo.web.dockerfile' }}
         run: |
           docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
@@ -103,7 +114,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: .
+          context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           pull: true
           build-args: |
