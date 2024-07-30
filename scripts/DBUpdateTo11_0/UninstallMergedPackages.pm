@@ -71,6 +71,21 @@ sub Run {
             Name => $PackageName,
         );
 
+        if ( $PackageName eq 'Ayte-CustomTranslations' ) {
+
+            # rename column 'import' to 'import_param'
+            my @XMLStrings;
+            push @XMLStrings, <<'END_XML';
+<TableAlter Name="translation_item">
+    <ColumnChange NameOld="import" NameNew="import_param" Required="false" Type="SMALLINT" />
+</TableAlter>
+END_XML
+
+            return unless $Self->ExecuteXMLDBArray(
+                XMLArray => \@XMLStrings,
+            );
+        }
+
         next PACKAGENAME if $Success;
 
         print "\n    Error uninstalling package $PackageName\n\n";

@@ -5,7 +5,7 @@
 
 # Use 7.17.3, because latest flag is not available
 # This image is based on Ubuntu 20.04. The User is root.
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.3
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.3 AS otobo-elasticsearch
 
 # Install system tools
 # Hadolint ignore=DL3008

@@ -126,18 +126,10 @@ sub new {
         $Self->{ZoomTimeline} = 0;
     }
 
-    if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
-        if ( $UserPreferences{UserAgentDoNotShowBrowserLinkMessage} ) {
-            $Self->{DoNotShowBrowserLinkMessage} = 1;
-        }
-        else {
-            $Self->{DoNotShowBrowserLinkMessage} = 0;
-        }
-    }
+    # whether the message "To open links in the following article, ..." is shown
+    $Self->{DoNotShowBrowserLinkMessage} //= $UserPreferences{UserAgentDoNotShowBrowserLinkMessage};
 
-    if ( !defined $Self->{ZoomExpandSort} ) {
-        $Self->{ZoomExpandSort} = $ConfigObject->Get('Ticket::Frontend::ZoomExpandSort');
-    }
+    $Self->{ZoomExpandSort} //= $ConfigObject->Get('Ticket::Frontend::ZoomExpandSort');
 
     $Self->{ArticleFilterActive} = $ConfigObject->Get('Ticket::Frontend::TicketArticleFilter');
 

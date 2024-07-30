@@ -75,12 +75,12 @@ sub new {
 add translation items
 
     my $Success = $TranslationsObject->DraftTranslationsAdd(
-        Language     => 'en',
-        Content      => 'Red',
-        Translation  => 'Rojo',
-        UserID       => 1,
-        Edit         => 0,
-        ImportParam  => (1|0),
+        Language    => 'en',
+        Content     => 'Red',
+        Translation => 'Rojo',
+        UserID      => 1,
+        Edit        => 0,
+        Import      => (1|0),
     );
 
 Returns:
@@ -103,14 +103,14 @@ sub DraftTranslationsAdd {
         }
     }
 
-    $Param{Edit}        ||= '';
-    $Param{ImportParam} ||= 0;
+    $Param{Edit}   ||= '';
+    $Param{Import} ||= 0;
     my $Flag = $Param{Edit} ? 'e' : 'n';
 
     my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL =>
             "INSERT INTO translation_item (language, content, translation, flag, create_by, create_time, change_by, change_time, import_param) VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
-        Bind => [ \$Param{Language}, \$Param{Content}, \$Param{Translation}, \$Flag, \$Param{UserID}, \$Param{UserID}, \$Param{ImportParam} ]
+        Bind => [ \$Param{Language}, \$Param{Content}, \$Param{Translation}, \$Flag, \$Param{UserID}, \$Param{UserID}, \$Param{Import} ]
     );
 
     return $Success;
@@ -163,23 +163,23 @@ get all draft translation items
     my $DraftTranslations = $TranslationsObject->DraftTranslationsGet(
         Language => 'en',
         Active   => 1, #1: Active, #0: Draft
-        ImportParam => (0|1),
+        Import   => (0|1),
     );
 
 Returns:
 
     $DraftTranslations = [
         {
-            ID               => 32,
-            Language         => 'en',
-            Content          => 'Earth',
-            Translation      => 'Tierra',
-            Flag             => 'n', #n: New, #d: Marked for deletion, #e: Editing
-            CreateBy         => 1,
-            CreateTime       => '2023-01-01 07:00:00',
-            ChangeBy         => 1,
-            ChangeTime       => '2023-01-01 07:00:00',
-            ImportParam      => 1,
+            ID          => 32,
+            Language    => 'en',
+            Content     => 'Earth',
+            Translation => 'Tierra',
+            Flag        => 'n', #n: New, #d: Marked for deletion, #e: Editing
+            CreateBy    => 1,
+            CreateTime  => '2023-01-01 07:00:00',
+            ChangeBy    => 1,
+            ChangeTime  => '2023-01-01 07:00:00',
+            Import      => 1,
         },
         ...
     ]
@@ -201,14 +201,14 @@ sub DraftTranslationsGet {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     my @DraftItems;
 
-    $Param{ImportParam} ||= 0;
+    $Param{Import} ||= 0;
     my $Flag = $Param{Active} ? "'a'" : "'n','e','d'";
 
     return \@DraftItems
         if !$DBObject->Prepare(
             SQL =>
             "SELECT id, language, content, translation, flag, create_by, create_time, change_by, change_time FROM translation_item WHERE language = ? and import_param = ? and flag in($Flag) ORDER BY flag, content ASC",
-            Bind => [ \$Param{Language}, \$Param{ImportParam} ]
+            Bind => [ \$Param{Language}, \$Param{Import} ]
         );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -595,7 +595,7 @@ write translation file
     my $Success = $TranslationsObject->WriteTranslationFile(
         UserLanguage => 'en',
         Data         => { .. } #Hash of Content/Translation values,
-        ImportParam  => (0|1),
+        Import       => (0|1),
     );
 
 Returns:
@@ -620,14 +620,14 @@ sub WriteTranslationFile {
     my $Data                = '';
     my $BreakLineAfterChars = 60;
     my $Home                = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    $Param{ImportParam} ||= 0;
+    $Param{Import} ||= 0;
 
     #Check if there are draft translations to write
     my @DraftTranslations = @{
         $Self->DraftTranslationsGet(
-            Language    => $Param{UserLanguage},
-            ImportParam => $Param{ImportParam},
-            Active      => 0
+            Language => $Param{UserLanguage},
+            Import   => $Param{Import},
+            Active   => 0
         )
     };
 
@@ -647,9 +647,9 @@ sub WriteTranslationFile {
 
     my @LanguageData = @{
         $Self->DraftTranslationsGet(
-            Language    => $Param{UserLanguage},
-            ImportParam => 0,
-            Active      => 1
+            Language => $Param{UserLanguage},
+            Import   => 0,
+            Active   => 1
         )
     };
 
