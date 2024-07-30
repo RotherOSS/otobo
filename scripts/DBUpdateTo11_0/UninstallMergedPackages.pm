@@ -77,7 +77,7 @@ sub Run {
             my @XMLStrings;
             push @XMLStrings, <<'END_XML';
 <TableAlter Name="translation_item">
-    <ColumnChange NameOld="import" NameNew="import_param" Required="false" Type="INTEGER" />
+    <ColumnChange NameOld="import" NameNew="import_param" Required="false" Type="SMALLINT" />
 </TableAlter>
 END_XML
 
