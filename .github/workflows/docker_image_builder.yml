@@ -87,6 +87,7 @@ jobs:
         # Show some files in the image just to check sanity.
         # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
+        if: ${{ matrix.dockerfile == 'otobo.web.dockerfile' }}
         run: |
           docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
