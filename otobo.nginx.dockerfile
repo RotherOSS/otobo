@@ -107,7 +107,7 @@ LABEL org.opencontainers.image.licenses='GNU General Public License v3.0 or late
 LABEL org.opencontainers.image.url='https://github.com/RotherOSS/otobo'
 LABEL org.opencontainers.image.vendor='Rother OSS GmbH'
 
-FROM base AS otobo-nginx
+FROM base AS otobo-nginx-webproxy
 
 # Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
 # Kerberos support. The not needed template is moved out of the way.
@@ -126,7 +126,7 @@ ARG DOCKER_TAG=unspecified
 LABEL org.opencontainers.image.version=$DOCKER_TAG
 
 # Build target with Kerboros support.
-FROM base AS otobo-nginx-kerberos
+FROM base AS otobo-nginx-kerberos-webproxy
 
 # Copy the nginx module ngx_http_auth_spnego_module.so to the official nginx container
 COPY --from=builder-for-kerberos /usr/lib/nginx/modules/ngx_http_auth_spnego_module.so /usr/lib/nginx/modules
