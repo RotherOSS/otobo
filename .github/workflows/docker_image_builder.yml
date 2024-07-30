@@ -39,7 +39,7 @@ jobs:
             tag_prefix: 'devel'
             repository: 'rotheross/otobo-elasticsearch'
           -
-            target:     'otobo-ngingx-webproxy'
+            target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
             tag_prefix: 'devel'
