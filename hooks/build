@@ -21,6 +21,7 @@
 # In newer version different image are built with the same Dockerfile.
 TARGET_OPTION=$(case $DOCKERFILE_PATH in
     "otobo.web.dockerfile")                  echo "--target=otobo-web" ;;
+    "otobo.elasticsearch.dockerfile")        echo "--target=otobo-elasticsearch" ;;
     *)                                       echo "" ;;
 esac)
 

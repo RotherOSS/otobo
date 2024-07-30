@@ -20,6 +20,23 @@ jobs:
 
     runs-on: 'ubuntu-latest'
 
+    strategy:
+
+      # create different images
+      matrix:
+        target: [ 'otobo-web', 'otobo-elasticsearch', ]
+        include:
+          - target:     'otobo-web'
+            dockerfile: 'otobo.web.dockerfile'
+            context:    '.'
+            tag_prefix: 'devel'
+            repository: 'rotheross/otobo'
+          - target:     'otobo-elasticsearch'
+            dockerfile: 'otobo.elasticsearch.dockerfile'
+            context:    'scripts/elasticsearch'
+            tag_prefix: 'devel'
+            repository: 'rotheross/otobo-elasticsearch'
+
     steps:
 
       -
@@ -28,14 +45,12 @@ jobs:
         name: Setup
         run: |
           branch="${{ github.ref_name }}"                     # e.g rel-10_0
-          docker_tag="devel-$branch"
-          mixed_case_repository="${{ github.repository }}"    # e.g. RotherOSS/otobo
-          lowercased_repository="${mixed_case_repository,,}"  # e.g. rotheross/otobo
+          docker_tag="${{ matrix.tag_prefix }}-$branch"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
             echo "otobo_branch=$branch"
             echo "otobo_docker_tag=$docker_tag"
-            echo "otobo_ref=$lowercased_repository:$docker_tag"
+            echo "otobo_ref=${{ matrix.repository }}:$docker_tag"
             echo "otobo_build_date=$build_date"
             echo "otobo_commit=${{ github.sha }}"
           ) >> $GITHUB_ENV
@@ -54,8 +69,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           load: true
-          context: .
-          file: otobo.web.dockerfile
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
@@ -64,7 +79,7 @@ jobs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           tags: ${{ env.otobo_ref }}
-          target: otobo-web
+          target: ${{ matrix.target }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
 
@@ -90,8 +105,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: .
-          file: otobo.web.dockerfile
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
@@ -100,6 +115,6 @@ jobs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           tags: ${{ env.otobo_ref }}
-          target: otobo-web
+          target: ${{ matrix.target }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
