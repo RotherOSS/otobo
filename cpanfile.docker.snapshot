@@ -4675,7 +4675,6 @@ DISTRIBUTIONS
       Net::LDAPS 0.06
     requirements:
       Convert::ASN1 0.2
-      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
