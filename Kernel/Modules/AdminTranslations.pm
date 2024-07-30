@@ -523,6 +523,93 @@ sub Run {
             UserLanguage => $Param{UserLanguage}
         ) || 0;
 
+        my %Queues = $Kernel::OM->Get('Kernel::System::Queue')->QueueList(
+            Valid  => 0,
+            UserID => $Self->{UserID},
+        );
+
+        my $LocalLanguageObject = $Kernel::OM->Create(
+            'Kernel::Language',
+            ObjectParams => {
+                UserLanguage => $Param{UserLanguage},
+            },
+        );
+        my $Translations = $TranslationsObject->GetTranslationUniqueValues(
+            LanguageID => $Param{UserLanguage},
+        );
+        my $DeployLanguage = 0;
+
+        QUEUE:
+        for my $QueueName ( values %Queues ) {
+            my @NameElements = split /::/, $QueueName;
+            my @TranslatedElements;
+            for my $NameElement (@NameElements) {
+                push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
+            }
+
+            my $TranslatedString = join( '::', @TranslatedElements );
+            if ( !$Translations->{$QueueName} || $TranslatedString ne $Translations->{$QueueName} ) {
+
+                my $Success = $TranslationsObject->DraftTranslationsAdd(
+                    Language    => $Param{UserLanguage},
+                    Content     => $QueueName,
+                    Translation => $TranslatedString,
+                    UserID      => $Self->{UserID},
+                    Edit        => 1,
+                );
+                if ( !$Success ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "Not able to add translation for queue $QueueName in language $Param{UserLanguage}!",
+                    );
+                    next SERVICE;
+                }
+                $DeployLanguage = 1;
+            }
+        }
+
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') ) {
+            my %Services = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
+                Valid  => 0,
+                UserID => $Self->{UserID},
+            );
+
+            SERVICE:
+            for my $ServiceName ( values %Services ) {
+                my @NameElements = split /::/, $ServiceName;
+                my @TranslatedElements;
+                for my $NameElement (@NameElements) {
+                    push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
+                }
+
+                my $TranslatedString = join( '::', @TranslatedElements );
+                if ( !$Translations->{$ServiceName} || $TranslatedString ne $Translations->{$ServiceName} ) {
+
+                    my $Success = $TranslationsObject->DraftTranslationsAdd(
+                        Language    => $Param{UserLanguage},
+                        Content     => $ServiceName,
+                        Translation => $TranslatedString,
+                        UserID      => $Self->{UserID},
+                        Edit        => 1,
+                    );
+                    if ( !$Success ) {
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
+                            Priority => 'error',
+                            Message  => "Not able to add translation for service $ServiceName in language $Param{UserLanguage}!",
+                        );
+                        next SERVICE;
+                    }
+                    $DeployLanguage = 1;
+                }
+            }
+        }
+
+        if ($DeployLanguage) {
+            my $DeploySuccess = $TranslationsObject->WriteTranslationFile(
+                UserLanguage => $Param{UserLanguage},
+            );
+        }
+
         if ( $Success == 1 ) {
             $Message = $LayoutObject->{LanguageObject}->Translate('Translations deployed successfuly!');
         }
@@ -1155,6 +1242,9 @@ sub _GetDraftTable {
         }
         elsif ( $Param{Object} eq 'Queue' ) {
             %ObjectList = $Kernel::OM->Get('Kernel::System::Queue')->QueueList();
+            for my $Key ( keys %ObjectList ) {
+                $ObjectList{$Key} =~ s/^(.+::)*//;
+            }
         }
         elsif ( $Param{Object} eq 'State' ) {
             %ObjectList = $Kernel::OM->Get('Kernel::System::State')->StateList( UserID => $Self->{UserID} );
@@ -1170,6 +1260,9 @@ sub _GetDraftTable {
                 Valid  => 0,
                 UserID => 1
             );
+            for my $Key ( keys %ObjectList ) {
+                $ObjectList{$Key} =~ s/^(.+::)*//;
+            }
         }
         elsif ( $Param{Object} eq 'Type' ) {
             %ObjectList = $Kernel::OM->Get('Kernel::System::Type')->TypeList( Valid => 0 );

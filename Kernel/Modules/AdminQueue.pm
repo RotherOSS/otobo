@@ -343,6 +343,65 @@ sub Run {
                     );
                 }
 
+                if ( $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::Translations') ) {
+
+                    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
+                    my %SystemLanguages    = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
+
+                    my %Queues = $QueueObject->QueueList(
+                        Valid  => 0,
+                        UserID => $Self->{UserID},
+                    );
+
+                    for my $LanguageID ( sort keys %SystemLanguages ) {
+
+                        my $LocalLanguageObject = $Kernel::OM->Create(
+                            'Kernel::Language',
+                            ObjectParams => {
+                                UserLanguage => $LanguageID,
+                            },
+                        );
+                        my $Translations = $TranslationsObject->GetTranslationUniqueValues(
+                            LanguageID => $LanguageID,
+                        );
+                        my $DeployLanguage = 0;
+
+                        SERVICE:
+                        for my $QueueName ( values %Queues ) {
+                            my @NameElements = split /::/, $QueueName;
+                            my @TranslatedElements;
+                            for my $NameElement (@NameElements) {
+                                push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
+                            }
+
+                            my $TranslatedString = join( '::', @TranslatedElements );
+                            if ( !$Translations->{$QueueName} || $TranslatedString ne $Translations->{$QueueName} ) {
+
+                                my $Success = $TranslationsObject->DraftTranslationsAdd(
+                                    Language    => $LanguageID,
+                                    Content     => $QueueName,
+                                    Translation => $TranslatedString,
+                                    UserID      => $Self->{UserID},
+                                    Edit        => 1,
+                                );
+                                if ( !$Success ) {
+                                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                                        Priority => 'error',
+                                        Message  => "Not able to add translation for queue $QueueName in language $LanguageID!",
+                                    );
+                                    next SERVICE;
+                                }
+                                $DeployLanguage = 1;
+                            }
+                        }
+                        if ($DeployLanguage) {
+                            my $DeploySuccess = $TranslationsObject->WriteTranslationFile(
+                                UserLanguage => $LanguageID,
+                            );
+                        }
+                    }
+                }
+
                 # if $Note has some notify, create output with $Note
                 # otherwise redirect depending on what button ('Save' or 'Save and Finish') is clicked
                 if ( $Note ne '' ) {
@@ -499,6 +558,65 @@ sub Run {
             );
 
             if ($ID) {
+
+                if ( $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::Translations') ) {
+
+                    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
+                    my %SystemLanguages    = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
+
+                    my %Queues = $QueueObject->QueueList(
+                        Valid  => 0,
+                        UserID => $Self->{UserID},
+                    );
+
+                    for my $LanguageID ( sort keys %SystemLanguages ) {
+
+                        my $LocalLanguageObject = $Kernel::OM->Create(
+                            'Kernel::Language',
+                            ObjectParams => {
+                                UserLanguage => $LanguageID,
+                            },
+                        );
+                        my $Translations = $TranslationsObject->GetTranslationUniqueValues(
+                            LanguageID => $LanguageID,
+                        );
+                        my $DeployLanguage = 0;
+
+                        SERVICE:
+                        for my $QueueName ( values %Queues ) {
+                            my @NameElements = split /::/, $QueueName;
+                            my @TranslatedElements;
+                            for my $NameElement (@NameElements) {
+                                push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
+                            }
+
+                            my $TranslatedString = join( '::', @TranslatedElements );
+                            if ( !$Translations->{$QueueName} || $TranslatedString ne $Translations->{$QueueName} ) {
+
+                                my $Success = $TranslationsObject->DraftTranslationsAdd(
+                                    Language    => $LanguageID,
+                                    Content     => $QueueName,
+                                    Translation => $TranslatedString,
+                                    UserID      => $Self->{UserID},
+                                    Edit        => 1,
+                                );
+                                if ( !$Success ) {
+                                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                                        Priority => 'error',
+                                        Message  => "Not able to add translation for queue $QueueName in language $LanguageID!",
+                                    );
+                                    next SERVICE;
+                                }
+                                $DeployLanguage = 1;
+                            }
+                        }
+                        if ($DeployLanguage) {
+                            my $DeploySuccess = $TranslationsObject->WriteTranslationFile(
+                                UserLanguage => $LanguageID,
+                            );
+                        }
+                    }
+                }
 
                 # update preferences
                 my %QueueData = $QueueObject->QueueGet( ID => $ID );

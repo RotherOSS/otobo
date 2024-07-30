@@ -145,6 +145,65 @@ sub Run {
                 }
             }
 
+            if ( $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::Translations') ) {
+
+                my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
+                my %SystemLanguages    = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
+
+                my %Services = $ServiceObject->ServiceList(
+                    Valid  => 0,
+                    UserID => $Self->{UserID},
+                );
+
+                for my $LanguageID ( sort keys %SystemLanguages ) {
+
+                    my $LocalLanguageObject = $Kernel::OM->Create(
+                        'Kernel::Language',
+                        ObjectParams => {
+                            UserLanguage => $LanguageID,
+                        },
+                    );
+                    my $Translations = $TranslationsObject->GetTranslationUniqueValues(
+                        LanguageID => $LanguageID,
+                    );
+                    my $DeployLanguage = 0;
+
+                    SERVICE:
+                    for my $ServiceName ( values %Services ) {
+                        my @NameElements = split /::/, $ServiceName;
+                        my @TranslatedElements;
+                        for my $NameElement (@NameElements) {
+                            push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
+                        }
+
+                        my $TranslatedString = join( '::', @TranslatedElements );
+                        if ( !$Translations->{$ServiceName} || $TranslatedString ne $Translations->{$ServiceName} ) {
+
+                            my $Success = $TranslationsObject->DraftTranslationsAdd(
+                                Language    => $LanguageID,
+                                Content     => $ServiceName,
+                                Translation => $TranslatedString,
+                                UserID      => $Self->{UserID},
+                                Edit        => 1,
+                            );
+                            if ( !$Success ) {
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                                    Priority => 'error',
+                                    Message  => "Not able to add translation for service $ServiceName in language $LanguageID!",
+                                );
+                                next SERVICE;
+                            }
+                            $DeployLanguage = 1;
+                        }
+                    }
+                    if ($DeployLanguage) {
+                        my $DeploySuccess = $TranslationsObject->WriteTranslationFile(
+                            UserLanguage => $LanguageID,
+                        );
+                    }
+                }
+            }
+
             if ( !%Error ) {
 
                 # update preferences
