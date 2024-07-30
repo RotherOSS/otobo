@@ -523,11 +523,13 @@ sub Run {
             UserLanguage => $Param{UserLanguage}
         ) || 0;
 
+        # generate chained translations for queues automatically
         my %Queues = $Kernel::OM->Get('Kernel::System::Queue')->QueueList(
             Valid  => 0,
             UserID => $Self->{UserID},
         );
 
+        # create local language object
         my $LocalLanguageObject = $Kernel::OM->Create(
             'Kernel::Language',
             ObjectParams => {
@@ -568,6 +570,7 @@ sub Run {
             }
         }
 
+        # generate chained translations for services automatically
         if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') ) {
             my %Services = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
                 Valid  => 0,

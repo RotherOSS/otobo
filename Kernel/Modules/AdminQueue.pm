@@ -343,62 +343,62 @@ sub Run {
                     );
                 }
 
-                if ( $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::Translations') ) {
+                # generate chained translations automatically
+                my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
+                my %SystemLanguages    = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
 
-                    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
-                    my %SystemLanguages    = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
+                my %Queues = $QueueObject->QueueList(
+                    Valid  => 0,
+                    UserID => $Self->{UserID},
+                );
 
-                    my %Queues = $QueueObject->QueueList(
-                        Valid  => 0,
-                        UserID => $Self->{UserID},
+                # iterate over languages
+                for my $LanguageID ( sort keys %SystemLanguages ) {
+
+                    # create local language object
+                    my $LocalLanguageObject = $Kernel::OM->Create(
+                        'Kernel::Language',
+                        ObjectParams => {
+                            UserLanguage => $LanguageID,
+                        },
                     );
+                    my $Translations = $TranslationsObject->GetTranslationUniqueValues(
+                        LanguageID => $LanguageID,
+                    );
+                    my $DeployLanguage = 0;
 
-                    for my $LanguageID ( sort keys %SystemLanguages ) {
-
-                        my $LocalLanguageObject = $Kernel::OM->Create(
-                            'Kernel::Language',
-                            ObjectParams => {
-                                UserLanguage => $LanguageID,
-                            },
-                        );
-                        my $Translations = $TranslationsObject->GetTranslationUniqueValues(
-                            LanguageID => $LanguageID,
-                        );
-                        my $DeployLanguage = 0;
-
-                        SERVICE:
-                        for my $QueueName ( values %Queues ) {
-                            my @NameElements = split /::/, $QueueName;
-                            my @TranslatedElements;
-                            for my $NameElement (@NameElements) {
-                                push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
-                            }
-
-                            my $TranslatedString = join( '::', @TranslatedElements );
-                            if ( !$Translations->{$QueueName} || $TranslatedString ne $Translations->{$QueueName} ) {
-
-                                my $Success = $TranslationsObject->DraftTranslationsAdd(
-                                    Language    => $LanguageID,
-                                    Content     => $QueueName,
-                                    Translation => $TranslatedString,
-                                    UserID      => $Self->{UserID},
-                                    Edit        => 1,
-                                );
-                                if ( !$Success ) {
-                                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                                        Priority => 'error',
-                                        Message  => "Not able to add translation for queue $QueueName in language $LanguageID!",
-                                    );
-                                    next SERVICE;
-                                }
-                                $DeployLanguage = 1;
-                            }
+                    SERVICE:
+                    for my $QueueName ( values %Queues ) {
+                        my @NameElements = split /::/, $QueueName;
+                        my @TranslatedElements;
+                        for my $NameElement (@NameElements) {
+                            push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
                         }
-                        if ($DeployLanguage) {
-                            my $DeploySuccess = $TranslationsObject->WriteTranslationFile(
-                                UserLanguage => $LanguageID,
+
+                        my $TranslatedString = join( '::', @TranslatedElements );
+                        if ( !$Translations->{$QueueName} || $TranslatedString ne $Translations->{$QueueName} ) {
+
+                            my $Success = $TranslationsObject->DraftTranslationsAdd(
+                                Language    => $LanguageID,
+                                Content     => $QueueName,
+                                Translation => $TranslatedString,
+                                UserID      => $Self->{UserID},
+                                Edit        => 1,
                             );
+                            if ( !$Success ) {
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                                    Priority => 'error',
+                                    Message  => "Not able to add translation for queue $QueueName in language $LanguageID!",
+                                );
+                                next SERVICE;
+                            }
+                            $DeployLanguage = 1;
                         }
+                    }
+                    if ($DeployLanguage) {
+                        my $DeploySuccess = $TranslationsObject->WriteTranslationFile(
+                            UserLanguage => $LanguageID,
+                        );
                     }
                 }
 
@@ -559,62 +559,62 @@ sub Run {
 
             if ($ID) {
 
-                if ( $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::Translations') ) {
+                # generate chained translations automatically
+                my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
+                my %SystemLanguages    = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
 
-                    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
-                    my %SystemLanguages    = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
+                my %Queues = $QueueObject->QueueList(
+                    Valid  => 0,
+                    UserID => $Self->{UserID},
+                );
 
-                    my %Queues = $QueueObject->QueueList(
-                        Valid  => 0,
-                        UserID => $Self->{UserID},
+                # iterate over languages
+                for my $LanguageID ( sort keys %SystemLanguages ) {
+
+                    # generate local language object
+                    my $LocalLanguageObject = $Kernel::OM->Create(
+                        'Kernel::Language',
+                        ObjectParams => {
+                            UserLanguage => $LanguageID,
+                        },
                     );
+                    my $Translations = $TranslationsObject->GetTranslationUniqueValues(
+                        LanguageID => $LanguageID,
+                    );
+                    my $DeployLanguage = 0;
 
-                    for my $LanguageID ( sort keys %SystemLanguages ) {
-
-                        my $LocalLanguageObject = $Kernel::OM->Create(
-                            'Kernel::Language',
-                            ObjectParams => {
-                                UserLanguage => $LanguageID,
-                            },
-                        );
-                        my $Translations = $TranslationsObject->GetTranslationUniqueValues(
-                            LanguageID => $LanguageID,
-                        );
-                        my $DeployLanguage = 0;
-
-                        SERVICE:
-                        for my $QueueName ( values %Queues ) {
-                            my @NameElements = split /::/, $QueueName;
-                            my @TranslatedElements;
-                            for my $NameElement (@NameElements) {
-                                push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
-                            }
-
-                            my $TranslatedString = join( '::', @TranslatedElements );
-                            if ( !$Translations->{$QueueName} || $TranslatedString ne $Translations->{$QueueName} ) {
-
-                                my $Success = $TranslationsObject->DraftTranslationsAdd(
-                                    Language    => $LanguageID,
-                                    Content     => $QueueName,
-                                    Translation => $TranslatedString,
-                                    UserID      => $Self->{UserID},
-                                    Edit        => 1,
-                                );
-                                if ( !$Success ) {
-                                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                                        Priority => 'error',
-                                        Message  => "Not able to add translation for queue $QueueName in language $LanguageID!",
-                                    );
-                                    next SERVICE;
-                                }
-                                $DeployLanguage = 1;
-                            }
+                    SERVICE:
+                    for my $QueueName ( values %Queues ) {
+                        my @NameElements = split /::/, $QueueName;
+                        my @TranslatedElements;
+                        for my $NameElement (@NameElements) {
+                            push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
                         }
-                        if ($DeployLanguage) {
-                            my $DeploySuccess = $TranslationsObject->WriteTranslationFile(
-                                UserLanguage => $LanguageID,
+
+                        my $TranslatedString = join( '::', @TranslatedElements );
+                        if ( !$Translations->{$QueueName} || $TranslatedString ne $Translations->{$QueueName} ) {
+
+                            my $Success = $TranslationsObject->DraftTranslationsAdd(
+                                Language    => $LanguageID,
+                                Content     => $QueueName,
+                                Translation => $TranslatedString,
+                                UserID      => $Self->{UserID},
+                                Edit        => 1,
                             );
+                            if ( !$Success ) {
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                                    Priority => 'error',
+                                    Message  => "Not able to add translation for queue $QueueName in language $LanguageID!",
+                                );
+                                next SERVICE;
+                            }
+                            $DeployLanguage = 1;
                         }
+                    }
+                    if ($DeployLanguage) {
+                        my $DeploySuccess = $TranslationsObject->WriteTranslationFile(
+                            UserLanguage => $LanguageID,
+                        );
                     }
                 }
 
