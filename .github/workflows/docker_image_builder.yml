@@ -24,7 +24,7 @@ jobs:
 
       # create different images
       matrix:
-        target: [ 'otobo-web', 'otobo-web-kerberos', 'otobo-elasticsearch', ]
+        target: [ 'otobo-web', 'otobo-web-kerberos', 'otobo-elasticsearch', 'otobo-nginx-webproxy' ]
         include:
           -
             target:     'otobo-web'
@@ -44,6 +44,12 @@ jobs:
             context:    'scripts/elasticsearch'
             tag_prefix: 'devel'
             repository: 'rotheross/otobo-elasticsearch'
+          -
+            target:     'otobo-nginx-webproxy'
+            dockerfile: 'otobo.nginx.dockerfile'
+            context:    'scripts/nginx'
+            tag_prefix: 'devel'
+            repository: 'rotheross/otobo-nginx-webproxy'
 
     steps:
 

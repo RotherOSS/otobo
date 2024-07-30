@@ -5,7 +5,7 @@
 
 # Use the latest nginx.
 # This image is based on Debian 10 (Buster). The User is root.
-FROM nginx:mainline
+FROM nginx:mainline AS otobo-nginx-webproxy
 
 # install some required and optional Debian packages
 # hadolint ignore=DL3008

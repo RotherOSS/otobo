@@ -23,6 +23,7 @@ TARGET_OPTION=$(case $DOCKERFILE_PATH in
     "otobo.web.dockerfile")                  echo "--target=otobo-web" ;;
     "otobo.kerberos.web.dockerfile")         echo "--target=otobo-web-kerberos" ;;
     "otobo.elasticsearch.dockerfile")        echo "--target=otobo-elasticsearch" ;;
+    "otobo.nginx.dockerfile")                echo "--target=otobo-nginx-webproxy" ;;
     *)                                       echo "" ;;
 esac)
 
