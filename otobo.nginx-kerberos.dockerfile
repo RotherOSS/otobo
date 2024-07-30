@@ -46,7 +46,7 @@ RUN cd /usr/src && \
 
 # Use the latest nginx.
 # This image is based on Debian 10 (Buster). The User is root.
-FROM nginx:mainline
+FROM nginx:mainline AS otobo-nginx-kerberos-webproxy
 
 # Copy the nginx module ngx_http_auth_spnego_module.so to the official nginx container
 COPY --from=builder /usr/lib/nginx/modules/ngx_http_auth_spnego_module.so /usr/lib/nginx/modules
