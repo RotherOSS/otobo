@@ -933,7 +933,6 @@ sub QueueAdd {
         );
     }
 
-    # NOTE valid defaults to 1
     my %Queues = $Self->QueueList();
 
     # generate chained translations automatically
@@ -1268,7 +1267,6 @@ sub QueueUpdate {
         }
     }
 
-    # NOTE valid defaults to 1
     my %Queues = $Self->QueueList();
 
     # generate chained translations automatically

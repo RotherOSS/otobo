@@ -526,8 +526,7 @@ sub Run {
 
         my $Message;
         my $Success = $TranslationsObject->WriteTranslationFile(
-            UserLanguage         => $Param{UserLanguage},
-            TranslateParentChild => 1,
+            UserLanguage => $Param{UserLanguage},
         ) || 0;
 
         if ( $Success == 1 ) {
@@ -1195,7 +1194,6 @@ sub _GetDraftTable {
             %ObjectList = $Kernel::OM->Get('Kernel::System::Type')->TypeList( Valid => 0 );
         }
 
-        # NOTE it is important that uniq is placed outside of sort because else sort will mistake it as sorting function
         ROW:
         for my $Row ( uniq sort values %ObjectList ) {
 
