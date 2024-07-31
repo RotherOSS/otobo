@@ -526,7 +526,8 @@ sub Run {
 
         my $Message;
         my $Success = $TranslationsObject->WriteTranslationFile(
-            UserLanguage => $Param{UserLanguage}
+            UserLanguage         => $Param{UserLanguage},
+            TranslateParentChild => 1,
         ) || 0;
 
         if ( $Success == 1 ) {

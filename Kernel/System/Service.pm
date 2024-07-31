@@ -678,22 +678,15 @@ sub ServiceAdd {
         Type => $Self->{CacheType},
     );
 
-    # generate chained translations automatically
-    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
-    my %SystemLanguages    = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
-
     # NOTE valid defaults to 1
     my %Services = $Self->ServiceList(
         UserID => $Param{UserID},
     );
 
-    # iterate over all languages
-    for my $LanguageID ( sort keys %SystemLanguages ) {
-        $TranslationsObject->TranslateParentChildElements(
-            LanguageID => $LanguageID,
-            Strings    => [ values %Services ],
-        );
-    }
+    # generate chained translations automatically
+    $Kernel::OM->Get('Kernel::System::Translations')->TranslateParentChildElements(
+        Strings => [ values %Services ],
+    );
 
     return $ServiceID;
 }
@@ -852,22 +845,15 @@ sub ServiceUpdate {
         Type => $Self->{CacheType},
     );
 
-    # generate chained translations automatically
-    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
-    my %SystemLanguages    = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
-
     # NOTE valid defaults to 1
     my %Services = $Self->ServiceList(
         UserID => $Param{UserID},
     );
 
-    # iterate over all languages
-    for my $LanguageID ( sort keys %SystemLanguages ) {
-        $TranslationsObject->TranslateParentChildElements(
-            LanguageID => $LanguageID,
-            Strings    => [ values %Services ],
-        );
-    }
+    # generate chained translations automatically
+    $Kernel::OM->Get('Kernel::System::Translations')->TranslateParentChildElements(
+        Strings => [ values %Services ],
+    );
 
     return 1;
 }
