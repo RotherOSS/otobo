@@ -1038,7 +1038,10 @@ sub LoadDefaults {
     # article dir
     $Self->{'Ticket::Article::Backend::MIMEBase::ArticleDataDir'} = '<OTOBO_CONFIG_Home>/var/article';
 
-    # html template dirs
+    # HTML template dirs
+    #
+    # TemplateDir is also used for assembling the path Kernel/Output/HMTL/Layout/,
+    # which holds the base classes of the Kernel::Output::HTML::Layout module
     $Self->{TemplateDir}       = '<OTOBO_CONFIG_Home>/Kernel/Output';
     $Self->{CustomTemplateDir} = '<OTOBO_CONFIG_Home>/Custom/Kernel/Output';
 
