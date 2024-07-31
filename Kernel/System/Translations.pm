@@ -949,6 +949,8 @@ generate chained translations automatically based on translations of single elem
 sub TranslateParentChildElements {
     my ( $Self, %Param ) = @_;
 
+    return 1 unless $Kernel::OM->Get('Kernel::Config')->Get('Translations::TranslateParentChild');
+
     # check needed parameters
     for my $Needed (qw(Strings)) {
         if ( !$Param{$Needed} ) {
