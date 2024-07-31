@@ -31,12 +31,14 @@ use Kernel::System::ModuleRefresh ();
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DateTime',
-    'Kernel::System::DynamicField::Backend',
-    'Kernel::System::Encode',
-    'Kernel::System::Main',
-    'Kernel::System::Log',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Queue',
+    'Kernel::System::Service',
 );
 
 =head1 NAME
@@ -907,6 +909,87 @@ sub GetTranslationUniqueValues {
 
     return \%UniqueValues;
 
+}
+
+=head2 TranslateChainedElements()
+
+generate chained translations automatically based on translations of single elements
+
+    my $Success = $TranslationsObject->TranslateChainedElements(
+        LanguageID => 'en',
+        Strings    => [
+            'Test1',
+            'Test1::Test2',
+        ],
+    );
+
+=cut
+
+sub TranslateChainedElements {
+    my ( $Self, %Param ) = @_;
+
+    # check needed parameters
+    for my $Needed (qw(LanguageID Strings)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    # create local language object
+    my $LocalLanguageObject = $Kernel::OM->Create(
+        'Kernel::Language',
+        ObjectParams => {
+            UserLanguage => $Param{LanguageID},
+        },
+    );
+    my $DeployLanguage = 0;
+
+    STRING:
+    for my $String ( $Param{Strings}->@* ) {
+
+        # split chained strings into individual elements
+        my @NameElements = split /::/, $String;
+        my @TranslatedElements;
+        for my $NameElement (@NameElements) {
+
+            # translate individual elements
+            push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
+        }
+        my $TranslatedString = join( '::', @TranslatedElements );
+
+        # check if translation has changed to prevent recursive deployment
+        if ( $TranslatedString ne $LocalLanguageObject->Translate($String) ) {
+
+            my $Success = $Self->DraftTranslationsAdd(
+                Language    => $Param{LanguageID},
+                Content     => $String,
+                Translation => $TranslatedString,
+                UserID      => 1,
+                Edit        => 1,
+            );
+            if ( !$Success ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Not able to add translation for string $String in language $Param{LanguageID}!",
+                );
+                next STRING;
+            }
+            $DeployLanguage = 1;
+        }
+    }
+
+    # check if language need to be deployed to prevent recursive deployment
+    if ($DeployLanguage) {
+        my $DeploySuccess = $Self->WriteTranslationFile(
+            UserLanguage => $Param{LanguageID},
+        );
+    }
+
+    return 1;
 }
 
 1;
