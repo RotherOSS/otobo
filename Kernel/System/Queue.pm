@@ -933,20 +933,13 @@ sub QueueAdd {
         );
     }
 
-    # generate chained translations automatically
-    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
-    my %SystemLanguages    = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
-
     # NOTE valid defaults to 1
     my %Queues = $Self->QueueList();
 
-    # iterate over all languages
-    for my $LanguageID ( sort keys %SystemLanguages ) {
-        $TranslationsObject->TranslateParentChildElements(
-            LanguageID => $LanguageID,
-            Strings    => [ values %Queues ],
-        );
-    }
+    # generate chained translations automatically
+    $Kernel::OM->Get('Kernel::System::Translations')->TranslateParentChildElements(
+        Strings => [ values %Queues ],
+    );
 
     return $QueueID;
 }
@@ -1275,20 +1268,13 @@ sub QueueUpdate {
         }
     }
 
-    # generate chained translations automatically
-    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
-    my %SystemLanguages    = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
-
     # NOTE valid defaults to 1
     my %Queues = $Self->QueueList();
 
-    # iterate over all languages
-    for my $LanguageID ( sort keys %SystemLanguages ) {
-        $TranslationsObject->TranslateParentChildElements(
-            LanguageID => $LanguageID,
-            Strings    => [ values %Queues ],
-        );
-    }
+    # generate chained translations automatically
+    $Kernel::OM->Get('Kernel::System::Translations')->TranslateParentChildElements(
+        Strings => [ values %Queues ],
+    );
 
     return 1;
 }
