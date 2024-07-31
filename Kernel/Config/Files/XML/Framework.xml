@@ -10383,5 +10383,12 @@ via the Preferences button after logging in.
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+    <Setting Name="Translations::TranslateParentChild" Required="0" Valid="1">
+        <Description Translatable="1">Defines if parent-child translations for queues and services should be generated automatically.</Description>
+        <Navigation>Core::Translations</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
 
 </otobo_config>
