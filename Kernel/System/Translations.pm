@@ -595,10 +595,10 @@ sub ReadExistingTranslationFile {
 write translation file
 
     my $Success = $TranslationsObject->WriteTranslationFile(
-        UserLanguage         => 'en',
-        Data                 => { .. } #Hash of Content/Translation values,
-        Import               => (0|1),
-        TranslateParentChild => (0|1),      # if automatic translation of parent-child strings should be performed. Default is 1
+        UserLanguage  => 'en',
+        Data          => { .. }     # Hash of Content/Translation values,
+        Import        => (0|1),
+        NoParentChild => (0|1),     # if automatic translation of parent-child strings should be performed. Default is 0
     );
 
 Returns:
@@ -623,10 +623,8 @@ sub WriteTranslationFile {
     my $Data                = '';
     my $BreakLineAfterChars = 60;
     my $Home                = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    $Param{Import} ||= 0;
-
-    # NOTE intentionally using undef or
-    $Param{TranslateParentChild} //= 1;
+    $Param{Import}        ||= 0;
+    $Param{NoParentChild} ||= 0;
 
     #Check if there are draft translations to write
     my @DraftTranslations = @{
@@ -856,15 +854,13 @@ EOF
         $Success = 1;
     }
 
-    if ( $Param{TranslateParentChild} ) {
+    if ( !$Param{NoParentChild} ) {
 
-        # NOTE valid defaults to 1
         my %Queues  = $Kernel::OM->Get('Kernel::System::Queue')->QueueList();
         my @Strings = values %Queues;
 
         if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') ) {
 
-            # NOTE valid defaults to 1
             my %Services = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
                 UserID => 1,
             );
@@ -967,8 +963,6 @@ sub TranslateParentChildElements {
     # use given language, else use all system languages
     my @Languages = $Param{LanguageID} ? ( $Param{LanguageID} ) : ( keys %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') } );
 
-    return unless @Languages;
-
     # iterate over languages
     for my $LanguageID (@Languages) {
 
@@ -1018,8 +1012,8 @@ sub TranslateParentChildElements {
         # check if language need to be deployed to prevent recursive deployment
         if ($DeployLanguage) {
             my $DeploySuccess = $Self->WriteTranslationFile(
-                UserLanguage         => $LanguageID,
-                TranslateParentChild => 0,
+                UserLanguage  => $LanguageID,
+                NoParentChild => 1,
             );
         }
 

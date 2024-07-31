@@ -678,7 +678,6 @@ sub ServiceAdd {
         Type => $Self->{CacheType},
     );
 
-    # NOTE valid defaults to 1
     my %Services = $Self->ServiceList(
         UserID => $Param{UserID},
     );
@@ -845,7 +844,6 @@ sub ServiceUpdate {
         Type => $Self->{CacheType},
     );
 
-    # NOTE valid defaults to 1
     my %Services = $Self->ServiceList(
         UserID => $Param{UserID},
     );
