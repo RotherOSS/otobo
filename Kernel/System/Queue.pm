@@ -918,6 +918,13 @@ sub QueueAdd {
         UserID => $Param{UserID},
     );
 
+    my %Queues = $Self->QueueList();
+
+    # generate chained translations automatically
+    $Kernel::OM->Get('Kernel::System::Translations')->TranslateParentChildElements(
+        Strings => [ values %Queues ],
+    );
+
     return $QueueID if !$StandardTemplateID2QueueByCreating;
     return $QueueID if ref $StandardTemplateID2QueueByCreating ne 'ARRAY';
     return $QueueID if !@{$StandardTemplateID2QueueByCreating};
@@ -932,13 +939,6 @@ sub QueueAdd {
             UserID             => $Param{UserID},
         );
     }
-
-    my %Queues = $Self->QueueList();
-
-    # generate chained translations automatically
-    $Kernel::OM->Get('Kernel::System::Translations')->TranslateParentChildElements(
-        Strings => [ values %Queues ],
-    );
 
     return $QueueID;
 }
