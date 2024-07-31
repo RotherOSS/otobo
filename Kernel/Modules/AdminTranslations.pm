@@ -20,6 +20,11 @@ use strict;
 use warnings;
 use utf8;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 
@@ -1154,10 +1159,23 @@ sub _GetDraftTable {
             %ObjectList = $Kernel::OM->Get('Kernel::System::SLA')->SLAList( UserID => 1 );
         }
         elsif ( $Param{Object} eq 'Queue' ) {
-            %ObjectList = $Kernel::OM->Get('Kernel::System::Queue')->QueueList();
+            %ObjectList = $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 0 );
+
+            # remove parent elements from queue name
+            for my $Key ( keys %ObjectList ) {
+                $ObjectList{$Key} =~ s/^(.+::)*//;
+            }
+
+            # remove duplicated names (possible if child queues of different parents have same name)
+            #   NOTE double reversing hash, as queue ids do not matter later on
+            #        new inner variable needed because reverse builds an entire new hash
+            %ObjectList = ( reverse my %ReversedList = ( reverse %ObjectList ) );
         }
         elsif ( $Param{Object} eq 'State' ) {
-            %ObjectList = $Kernel::OM->Get('Kernel::System::State')->StateList( UserID => $Self->{UserID} );
+            %ObjectList = $Kernel::OM->Get('Kernel::System::State')->StateList(
+                UserID => $Self->{UserID},
+                Valid  => 0,
+            );
         }
         elsif ( $Param{Object} eq 'Template' ) {
             %ObjectList = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateList( Valid => 0 );
@@ -1170,6 +1188,16 @@ sub _GetDraftTable {
                 Valid  => 0,
                 UserID => 1
             );
+
+            # remove parent elements from service name
+            for my $Key ( keys %ObjectList ) {
+                $ObjectList{$Key} =~ s/^(.+::)*//;
+            }
+
+            # remove duplicated names (possible if child services of different parents have same name)
+            #   NOTE double reversing hash, as service ids do not matter later on
+            #        new inner variable needed because reverse builds an entire new hash
+            %ObjectList = ( reverse my %ReversedList = ( reverse %ObjectList ) );
         }
         elsif ( $Param{Object} eq 'Type' ) {
             %ObjectList = $Kernel::OM->Get('Kernel::System::Type')->TypeList( Valid => 0 );
