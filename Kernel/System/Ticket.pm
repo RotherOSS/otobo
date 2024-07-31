@@ -6334,14 +6334,33 @@ sub TicketAccountTime {
     $Param{TimeUnit} = $DBObject->Quote( $Param{TimeUnit}, 'Number' );
 
     # db update
-    return if !$DBObject->Do(
-        SQL => "INSERT INTO time_accounting "
-            . " (ticket_id, article_id, time_unit, create_time, create_by, change_time, change_by) "
-            . " VALUES (?, ?, $Param{TimeUnit}, current_timestamp, ?, current_timestamp, ?)",
-        Bind => [
-            \$Param{TicketID}, \$Param{ArticleID}, \$Param{UserID}, \$Param{UserID},
-        ],
+
+    $DBObject->Prepare(
+        SQL   => 'SELECT id, time_unit FROM time_accounting WHERE article_id = ?',
+        Bind  => [ \$Param{ArticleID} ],
+        Limit => 1
     );
+
+    # fetch the data
+    if ( my @Row = $DBObject->FetchrowArray() ) {
+        my $ID = $Row[0];
+        my $NewTimeUnit = $Row[1] + $Param{TimeUnit};
+        return if !$DBObject->Do(
+            SQL => 'UPDATE time_accounting SET time_unit = ?, change_time = current_timestamp, change_by = ? WHERE id = ?',
+            Bind => [ \$NewTimeUnit, \$Param{UserID}, \$ID ],
+        );
+    }
+    else {
+        return if !$DBObject->Do(
+            SQL => "INSERT INTO time_accounting "
+                . " (ticket_id, article_id, time_unit, create_time, create_by, change_time, change_by) "
+                . " VALUES (?, ?, $Param{TimeUnit}, current_timestamp, ?, current_timestamp, ?)",
+            Bind => [
+                \$Param{TicketID}, \$Param{ArticleID}, \$Param{UserID}, \$Param{UserID},
+            ],
+        );
+    }
+
 
     # clear ticket cache
     $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
@@ -6362,6 +6381,7 @@ sub TicketAccountTime {
         Data  => {
             TicketID  => $Param{TicketID},
             ArticleID => $Param{ArticleID},
+            TimeUnits => $Param{TimeUnit}
         },
         UserID => $Param{UserID},
     );
