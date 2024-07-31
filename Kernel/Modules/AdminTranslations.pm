@@ -21,6 +21,7 @@ use warnings;
 use utf8;
 
 # core modules
+use List::Util qw(uniq);
 
 # CPAN modules
 
@@ -1165,11 +1166,6 @@ sub _GetDraftTable {
             for my $Key ( keys %ObjectList ) {
                 $ObjectList{$Key} =~ s/^(.+::)*//;
             }
-
-            # remove duplicated names (possible if child queues of different parents have same name)
-            #   NOTE double reversing hash, as queue ids do not matter later on
-            #        new inner variable needed because reverse builds an entire new hash
-            %ObjectList = ( reverse my %ReversedList = ( reverse %ObjectList ) );
         }
         elsif ( $Param{Object} eq 'State' ) {
             %ObjectList = $Kernel::OM->Get('Kernel::System::State')->StateList(
@@ -1193,28 +1189,23 @@ sub _GetDraftTable {
             for my $Key ( keys %ObjectList ) {
                 $ObjectList{$Key} =~ s/^(.+::)*//;
             }
-
-            # remove duplicated names (possible if child services of different parents have same name)
-            #   NOTE double reversing hash, as service ids do not matter later on
-            #        new inner variable needed because reverse builds an entire new hash
-            %ObjectList = ( reverse my %ReversedList = ( reverse %ObjectList ) );
         }
         elsif ( $Param{Object} eq 'Type' ) {
             %ObjectList = $Kernel::OM->Get('Kernel::System::Type')->TypeList( Valid => 0 );
         }
 
-        if ( keys %ObjectList ) {
-            for my $Row ( sort keys %ObjectList ) {
-                if ( !$UniqueValues{ $ObjectList{$Row} } ) {
-                    my $Reference = {
-                        ID      => $IDs,
-                        Content => $ObjectList{$Row},
-                        Value   => ''
-                    };
-                    push @DataValues, $Reference;
-                    $IDs++;
-                }
-            }
+        # NOTE it is important that uniq is placed outside of sort because else sort will mistake it as sorting function
+        ROW:
+        for my $Row ( uniq sort values %ObjectList ) {
+
+            next ROW if $UniqueValues{$Row};
+
+            push @DataValues, {
+                ID      => $IDs,
+                Content => $Row,
+                Value   => ''
+            };
+            $IDs++;
         }
     }
 
