@@ -595,9 +595,10 @@ sub ReadExistingTranslationFile {
 write translation file
 
     my $Success = $TranslationsObject->WriteTranslationFile(
-        UserLanguage => 'en',
-        Data         => { .. } #Hash of Content/Translation values,
-        Import       => (0|1),
+        UserLanguage         => 'en',
+        Data                 => { .. } #Hash of Content/Translation values,
+        Import               => (0|1),
+        TranslateParentChild => (0|1),      # if automatic translation of parent-child strings should be performed. Default is 1
     );
 
 Returns:
@@ -623,6 +624,9 @@ sub WriteTranslationFile {
     my $BreakLineAfterChars = 60;
     my $Home                = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     $Param{Import} ||= 0;
+
+    # NOTE intentionally using undef or
+    $Param{TranslateParentChild} //= 1;
 
     #Check if there are draft translations to write
     my @DraftTranslations = @{
@@ -852,26 +856,23 @@ EOF
         $Success = 1;
     }
 
-    # # generate chained translations for queues and services automatically
-    my %SystemLanguages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
-
-    # NOTE valid defaults to 1
-    my %Queues  = $Kernel::OM->Get('Kernel::System::Queue')->QueueList();
-    my @Strings = values %Queues;
-
-    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') ) {
+    if ( $Param{TranslateParentChild} ) {
 
         # NOTE valid defaults to 1
-        my %Services = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
-            UserID => 1,
-        );
-        push @Strings, values %Services;
-    }
+        my %Queues  = $Kernel::OM->Get('Kernel::System::Queue')->QueueList();
+        my @Strings = values %Queues;
 
-    # iterate over all languages
-    for my $LanguageID ( sort keys %SystemLanguages ) {
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') ) {
+
+            # NOTE valid defaults to 1
+            my %Services = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
+                UserID => 1,
+            );
+            push @Strings, values %Services;
+        }
+
         $Self->TranslateParentChildElements(
-            LanguageID => $LanguageID,
+            LanguageID => $Param{UserLanguage},
             Strings    => \@Strings,
         );
     }
@@ -940,7 +941,7 @@ sub GetTranslationUniqueValues {
 generate chained translations automatically based on translations of single elements
 
     my $Success = $TranslationsObject->TranslateParentChildElements(
-        LanguageID => 'en',
+        LanguageID => 'en',         # optional, defaults to all languages
         Strings    => [
             'Test1',
             'Test1::Test2',
@@ -953,7 +954,7 @@ sub TranslateParentChildElements {
     my ( $Self, %Param ) = @_;
 
     # check needed parameters
-    for my $Needed (qw(LanguageID Strings)) {
+    for my $Needed (qw(Strings)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -963,54 +964,65 @@ sub TranslateParentChildElements {
         }
     }
 
-    # create local language object
-    my $LocalLanguageObject = $Kernel::OM->Create(
-        'Kernel::Language',
-        ObjectParams => {
-            UserLanguage => $Param{LanguageID},
-        },
-    );
-    my $DeployLanguage = 0;
+    # use given language, else use all system languages
+    my @Languages = $Param{LanguageID} ? ( $Param{LanguageID} ) : ( keys %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') } );
 
-    STRING:
-    for my $String ( $Param{Strings}->@* ) {
+    return unless @Languages;
 
-        # split chained strings into individual elements
-        my @NameElements = split /::/, $String;
-        my @TranslatedElements;
-        for my $NameElement (@NameElements) {
+    # iterate over languages
+    for my $LanguageID (@Languages) {
 
-            # translate individual elements
-            push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
-        }
-        my $TranslatedString = join( '::', @TranslatedElements );
-
-        # check if translation has changed to prevent recursive deployment
-        if ( $TranslatedString ne $LocalLanguageObject->Translate($String) ) {
-
-            my $Success = $Self->DraftTranslationsAdd(
-                Language    => $Param{LanguageID},
-                Content     => $String,
-                Translation => $TranslatedString,
-                UserID      => 1,
-                Edit        => 1,
-            );
-            if ( !$Success ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Not able to add translation for string $String in language $Param{LanguageID}!",
-                );
-                next STRING;
-            }
-            $DeployLanguage = 1;
-        }
-    }
-
-    # check if language need to be deployed to prevent recursive deployment
-    if ($DeployLanguage) {
-        my $DeploySuccess = $Self->WriteTranslationFile(
-            UserLanguage => $Param{LanguageID},
+        # create local language object
+        my $LocalLanguageObject = $Kernel::OM->Create(
+            'Kernel::Language',
+            ObjectParams => {
+                UserLanguage => $LanguageID,
+            },
         );
+        my $DeployLanguage = 0;
+
+        STRING:
+        for my $String ( $Param{Strings}->@* ) {
+
+            # split chained strings into individual elements
+            my @NameElements = split /::/, $String;
+            my @TranslatedElements;
+            for my $NameElement (@NameElements) {
+
+                # translate individual elements
+                push @TranslatedElements, $LocalLanguageObject->Translate($NameElement);
+            }
+            my $TranslatedString = join( '::', @TranslatedElements );
+
+            # check if translation has changed to prevent recursive deployment
+            if ( $TranslatedString ne $LocalLanguageObject->Translate($String) ) {
+
+                my $Success = $Self->DraftTranslationsAdd(
+                    Language    => $LanguageID,
+                    Content     => $String,
+                    Translation => $TranslatedString,
+                    UserID      => 1,
+                    Edit        => 1,
+                );
+                if ( !$Success ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "Not able to add translation for string $String in language $Param{LanguageID}!",
+                    );
+                    next STRING;
+                }
+                $DeployLanguage = 1;
+            }
+        }
+
+        # check if language need to be deployed to prevent recursive deployment
+        if ($DeployLanguage) {
+            my $DeploySuccess = $Self->WriteTranslationFile(
+                UserLanguage         => $LanguageID,
+                TranslateParentChild => 0,
+            );
+        }
+
     }
 
     return 1;
