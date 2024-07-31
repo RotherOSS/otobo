@@ -852,6 +852,30 @@ EOF
         $Success = 1;
     }
 
+    # # generate chained translations for queues and services automatically
+    my %SystemLanguages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
+
+    # NOTE valid defaults to 1
+    my %Queues  = $Kernel::OM->Get('Kernel::System::Queue')->QueueList();
+    my @Strings = values %Queues;
+
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') ) {
+
+        # NOTE valid defaults to 1
+        my %Services = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
+            UserID => 1,
+        );
+        push @Strings, values %Services;
+    }
+
+    # iterate over all languages
+    for my $LanguageID ( sort keys %SystemLanguages ) {
+        $Self->TranslateChainedElements(
+            LanguageID => $LanguageID,
+            Strings    => \@Strings,
+        );
+    }
+
     return $Success;
 }
 
