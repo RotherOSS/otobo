@@ -942,7 +942,7 @@ sub QueueAdd {
 
     # iterate over all languages
     for my $LanguageID ( sort keys %SystemLanguages ) {
-        $TranslationsObject->TranslateChainedElements(
+        $TranslationsObject->TranslateParentChildElements(
             LanguageID => $LanguageID,
             Strings    => [ values %Queues ],
         );
@@ -1284,7 +1284,7 @@ sub QueueUpdate {
 
     # iterate over all languages
     for my $LanguageID ( sort keys %SystemLanguages ) {
-        $TranslationsObject->TranslateChainedElements(
+        $TranslationsObject->TranslateParentChildElements(
             LanguageID => $LanguageID,
             Strings    => [ values %Queues ],
         );
