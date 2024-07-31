@@ -870,7 +870,7 @@ EOF
 
     # iterate over all languages
     for my $LanguageID ( sort keys %SystemLanguages ) {
-        $Self->TranslateChainedElements(
+        $Self->TranslateParentChildElements(
             LanguageID => $LanguageID,
             Strings    => \@Strings,
         );
@@ -935,11 +935,11 @@ sub GetTranslationUniqueValues {
 
 }
 
-=head2 TranslateChainedElements()
+=head2 TranslateParentChildElements()
 
 generate chained translations automatically based on translations of single elements
 
-    my $Success = $TranslationsObject->TranslateChainedElements(
+    my $Success = $TranslationsObject->TranslateParentChildElements(
         LanguageID => 'en',
         Strings    => [
             'Test1',
@@ -949,7 +949,7 @@ generate chained translations automatically based on translations of single elem
 
 =cut
 
-sub TranslateChainedElements {
+sub TranslateParentChildElements {
     my ( $Self, %Param ) = @_;
 
     # check needed parameters

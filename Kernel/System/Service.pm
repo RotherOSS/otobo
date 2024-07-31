@@ -689,7 +689,7 @@ sub ServiceAdd {
 
     # iterate over all languages
     for my $LanguageID ( sort keys %SystemLanguages ) {
-        $TranslationsObject->TranslateChainedElements(
+        $TranslationsObject->TranslateParentChildElements(
             LanguageID => $LanguageID,
             Strings    => [ values %Services ],
         );
@@ -863,7 +863,7 @@ sub ServiceUpdate {
 
     # iterate over all languages
     for my $LanguageID ( sort keys %SystemLanguages ) {
-        $TranslationsObject->TranslateChainedElements(
+        $TranslationsObject->TranslateParentChildElements(
             LanguageID => $LanguageID,
             Strings    => [ values %Services ],
         );
