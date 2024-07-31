@@ -832,11 +832,6 @@ div.InputField_ToolbarContainer ul li a:hover {
 /**
  * @subsection  DynamicFieldRichText
  */
-.FieldCell .Field.RichTextField {
-    height: 200px;
-    width: 66%;
-}
-
 fieldset .RichTextHolder {
     margin-top: 0px;
     padding-top: 48px;
@@ -844,11 +839,13 @@ fieldset .RichTextHolder {
     z-index: 10;
     position: relative;
     padding-bottom: 2px;
+    width: 100%;
 }
 
 fieldset > .RichTextHolder {
     margin-top: 48px;
     padding-top: 0px;
+    width: 66%;
 }
 
 .Messenger fieldset > .RichTextHolder {
