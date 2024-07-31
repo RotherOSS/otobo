@@ -597,6 +597,7 @@ input[readonly] {
     top: 21px;
     left: -32px;
     margin-left: -22px; /* +4px for empty spaces */
+    z-index: 1001;
 }
 
 .Tooltip > .Content {
