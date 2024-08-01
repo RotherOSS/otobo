@@ -119,6 +119,7 @@ use lib "$Bin/../../Custom";
 
 # core modules
 use Getopt::Long qw(GetOptions);
+use Net::Domain qw(hostfqdn);
 use Pod::Usage qw(pod2usage);
 use Sub::Util qw(subname);
 
@@ -131,16 +132,16 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager ();
 
 sub Main {
-    my $HelpFlag;                                          # print help
-    my $DBPassword;                                        # required
-    my $HTTPPort              = 80;                        # only used for success message
-    my $ActivateElasticsearch = 0;                         # must be explicitly enabled
-    my $AddUser               = 0;                         # must be explicitly enabled
-    my $AddAdminUser          = 0;                         # must be explicitly enabled
-    my $AddCustomerUser       = 0;                         # must be explicitly enabled
-    my $AddCalendar           = 0;                         # must be explicitly enabled
-    my $HttpType              = 'https';                   # the SysConfig setting HttpType
-    my $FQDN                  = 'yourhost.example.com';    # the SysConfig setting HttpType
+    my $HelpFlag;                              # print help
+    my $DBPassword;                            # required
+    my $HTTPPort              = 80;            # only used for success message
+    my $ActivateElasticsearch = 0;             # must be explicitly enabled
+    my $AddUser               = 0;             # must be explicitly enabled
+    my $AddAdminUser          = 0;             # must be explicitly enabled
+    my $AddCustomerUser       = 0;             # must be explicitly enabled
+    my $AddCalendar           = 0;             # must be explicitly enabled
+    my $HttpType              = 'https';       # the SysConfig setting HttpType
+    my $FQDN                  = hostfqdn();    # the SysConfig setting FQDN
 
     GetOptions(
         'help'                   => \$HelpFlag,
