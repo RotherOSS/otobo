@@ -112,7 +112,7 @@ use strict;
 use warnings;
 use utf8;
 
-use FindBin qw($Bin);
+use FindBin qw($Bin);    ## no critic qw(Community::DiscouragedModules Freenode::DiscouragedModules)
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
