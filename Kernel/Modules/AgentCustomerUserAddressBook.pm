@@ -115,11 +115,21 @@ sub Run {
         ObjectType  => [ 'CustomerUser', ],
         FieldFilter => \%LookupCustomerUserDynamicFields,
     );
+
+    # filter out lens fields
+    if ( IsArrayRefWithData( $Self->{DynamicFieldCustomerUser} ) ) {
+        $Self->{DynamicFieldCustomerUser} = [ grep { $_->{FieldType} ne 'Lens' } $Self->{DynamicFieldCustomerUser}->@* ];
+    }
     $Self->{DynamicFieldCustomerCompany} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid       => 1,
         ObjectType  => [ 'CustomerCompany', ],
         FieldFilter => \%LookupCustomerCompanyDynamicFields,
     );
+
+    # filter out lens fields
+    if ( IsArrayRefWithData( $Self->{DynamicFieldCustomerCompany} ) ) {
+        $Self->{DynamicFieldCustomerCompany} = [ grep { $_->{FieldType} ne 'Lens' } $Self->{DynamicFieldCustomerCompany}->@* ];
+    }
 
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $SearchProfileObject       = $Kernel::OM->Get('Kernel::System::SearchProfile');

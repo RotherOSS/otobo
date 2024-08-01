@@ -215,6 +215,11 @@ sub Run {
         FieldFilter => $DynamicFieldFilter || {},
     );
 
+    # filter out lens fields
+    if ( IsArrayRefWithData($DynamicField) ) {
+        $DynamicField = [ grep { $_->{FieldType} ne 'Lens' } $DynamicField->@* ];
+    }
+
     # collect all searchable article field definitions and add the fields to the attributes array
     my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
 

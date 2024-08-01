@@ -58,6 +58,11 @@ sub Run {
         ObjectType => ['Ticket'],
     );
 
+    # filter out lens fields
+    if ( IsArrayRefWithData($DynamicField) ) {
+        $DynamicField = [ grep { $_->{FieldType} ne 'Lens' } $DynamicField->@* ];
+    }
+
     if ( $RichText && !$ConfigObject->Get("Frontend::Admin::$Self->{Action}")->{RichText} ) {
         $RichText = 0;
     }

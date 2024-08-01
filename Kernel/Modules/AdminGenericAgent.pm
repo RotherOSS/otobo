@@ -248,6 +248,7 @@ sub Run {
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if $DynamicFieldConfig->{FieldType} eq 'Lens';
 
             # get search field preferences
             my $SearchFieldPreferences = $DynamicFieldBackendObject->SearchFieldPreferences(
@@ -404,6 +405,8 @@ sub Run {
         my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
             ID => $DynamicFieldID,
         );
+
+        return if $DynamicFieldConfig->{FieldType} eq 'Lens';
 
         my %JobData;
         if ( $Self->{Profile} ) {
@@ -1161,6 +1164,7 @@ sub _MaskUpdate {
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if $DynamicFieldConfig->{FieldType} eq 'Lens';
 
         # get search field preferences
         my $SearchFieldPreferences = $DynamicFieldBackendObject->SearchFieldPreferences(
@@ -1510,6 +1514,7 @@ sub _MaskRun {
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if $DynamicFieldConfig->{FieldType} eq 'Lens';
 
         # get search field preferences
         my $SearchFieldPreferences = $DynamicFieldBackendObject->SearchFieldPreferences(

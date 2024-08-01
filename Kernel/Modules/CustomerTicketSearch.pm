@@ -57,6 +57,11 @@ sub Run {
         FieldFilter => $DynamicFieldFilter || {},
     );
 
+    # filter out lens fields
+    if ( IsArrayRefWithData($DynamicField) ) {
+        $DynamicField = [ grep { $_->{FieldType} ne 'Lens' } $DynamicField->@* ];
+    }
+
     # get backend object
     my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
@@ -1956,6 +1961,11 @@ sub MaskForm {
         ObjectType  => ['Ticket'],
         FieldFilter => $DynamicFieldFilter || {},
     );
+
+    # filter out lens fields
+    if ( IsArrayRefWithData($DynamicField) ) {
+        $DynamicField = [ grep { $_->{FieldType} ne 'Lens' } $DynamicField->@* ];
+    }
 
     # get backend object
     my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
