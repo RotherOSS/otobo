@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::Console::Command::Admin::ImportExport::FixImportColumn;
+package Kernel::System::Console::Command::Admin::FixTranslationImportColumn;
 
 use strict;
 use warnings;
