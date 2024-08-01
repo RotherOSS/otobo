@@ -1,4 +1,47 @@
 
+# OTOBO 11.0.4 2024-08-01
+- 2024-08-01 14:22:31 +0200 Create new OTOBO language files.
+- 2024-08-01 14:07:43 +0200 Remove wrong labels in AgentTicketSearch (and AgentITSMConfigItemSearch). (https://github.com/RotherOSS/otobo/issues/3522)
+- 2024-08-01 10:50:37 +0200 [Bugfix]   Fix misalignment of resize element in AdminDynamicFieldText (https://github.com/RotherOSS/otobo/issues/3664)
+- 2024-08-01 10:38:31 +0200 Check for relevant changes before building devel images on Github (https://github.com/RotherOSS/otobo/issues/3654) - in progress
+- 2024-08-01 09:46:35 +0200 [Bugfix]   Provide console script to rename translation_item column import to import_param (https://github.com/RotherOSS/otobo/issues/3661)
+- 2024-07-31 15:25:45 +0200 [Enhanced] Improve functionality of custom translations (https://github.com/RotherOSS/otobo/issues/3658)
+- 2024-07-31 09:23:53 +0100 OTOBO 11 Quick Issues (https://github.com/RotherOSS/otobo/issues/3359) - in progress
+- 2024-07-31 09:23:58 +0200 Build the devel images on Github (https://github.com/RotherOSS/otobo/issues/3628) - in progress
+- 2024-07-30 14:15:57 +0200 Slight simplification using the 'defined or' operator
+- 2024-07-30 09:25:13 +0200 [Bugfix]   Fix Translation column import_param for upgrade (https://github.com/RotherOSS/otobo/issues/3650)
+- 2024-06-28 09:43:57 +0100 Allow adjustment of Richtext settings in Otobo 11 (https://github.com/RotherOSS/otobo/issues/3492) - in progress
+- 2024-07-25 15:47:35 +0200 Fiddle with the README.
+- 2024-07-25 13:56:21 +0200 [Bugfix]   Error when storing namespaces a second time. (https://github.com/RotherOSS/otobo/issues/3641)
+- 2024-07-25 10:40:15 +0200 [Enhanced] Check for update in base images (https://github.com/RotherOSS/otobo/issues/3448) - in progress
+- 2024-07-24 11:27:04 +0200 Update otobo url. (https://github.com/RotherOSS/otobo/issues/3425)
+- 2024-07-24 07:47:20 +0200 [Enhanced] Enable docker quick setup to set FQDN sysconfig (https://github.com/RotherOSS/otobo/issues/3637)
+- 2024-07-18 14:27:04 +0200 [Bugfix]   Enable DF Date(Time) value set on AJAX update (https://github.com/RotherOSS/otobo/issues/3483)
+- 2024-07-18 11:04:59 +0200 [Bugfix]   General translations in the processes will only work on the agent side in version 10.1. (https://github.com/RotherOSS/otobo/issues/3624)
+- 2024-07-18 08:26:40 +0200 [Bugfix]   Align WebMaxFileUpload in Frontend and Backend (https://github.com/RotherOSS/otobo/issues/3602) - in progress
+- 2024-07-17 09:56:11 +0200 Exit code 1 when base image has changed
+- 2024-07-10 22:59:21 +0200 [Bugfix]   Allow js-side handling of readonly select fields (https://github.com/RotherOSS/otobo/issues/3506)
+- 2024-07-10 10:40:10 +0200 [Bugfix]   CMDB Textarea Dynamic Field fails to render line breaks (https://github.com/RotherOSS/otobo/issues/3591)
+- 2024-07-05 08:45:10 +0200 [Enhanced] Complete standard fields which can be changed in the various forms. (https://github.com/RotherOSS/otobo/issues/1713) - in progress
+- 2024-07-05 08:34:20 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2024-07-05 09:16:19 +0200 Remove Todo in scripts/test/Layout/HumanReadableDataSize.t and adapt translation (https://github.com/RotherOSS/otobo/issues/3577)
+- 2024-07-04 12:13:43 +0200 [Enhanced] Integrate ImportExport into OTOBO core (https://github.com/RotherOSS/otobo/issues/2711)
+- 2024-07-03 09:45:50 +0200 Update AdminRoleGroup.tt
+- 2024-07-01 07:20:16 +0000 Translated using Weblate (German)
+- 2024-07-01 16:04:03 +0200 Do not add Kernel/cpan-lib/local to the Docker image
+- 2024-06-30 10:59:25 +0200 Upgrade CPAN::Audit to version 20240626.001
+- 2024-06-28 17:43:26 +0200 [Bugfix]   Fix UnitTest Failures (https://github.com/RotherOSS/otobo/issues/3100)
+- 2024-06-28 14:26:58 +0200 [Tidied]   Do not use legacy version of the ENV command (https://github.com/RotherOSS/otobo/issues/3553)
+- 2024-06-26 15:46:23 +0200 [Bugfix]   Make Lens field customerinterface-capable respectively fetch behavior IsCustomerInterfaceCapable from AttributeDF (https://github.com/RotherOSS/otobo/issues/3076)
+- 2024-06-26 11:55:48 +0200 Should the Photoshop sources be included in Docker images and the installation packages? (https://github.com/RotherOSS/otobo/issues/3529) - in progress
+- 2024-06-25 13:34:41 +0200 [Enhanced] Hardcode /root/.cpanm in cleanup command in Dockerfile (https://github.com/RotherOSS/otobo/issues/3494)
+- 2024-06-24 13:36:00 +0200 Fix the cron sped: first the minutes, then the hours
+- 2024-06-24 13:34:28 +0200 Quote the run commands
+- 2024-06-24 13:30:41 +0200 Use a workflow 'if' for printing a notification
+- 2024-06-24 13:17:57 +0200 Also trigged the base image check on 'workflow_dispatch'
+- 2024-06-24 12:57:48 +0200 Print to the '::error' output when a base image has changed
+
+
 # OTOBO 11.0.3 2024-06-21
 - 2024-06-21 16:04:01 +0200 Create new OTOBO language files.
 - 2024-06-21 15:53:27 +0200 Change Featured Link default text.
@@ -2173,4 +2216,5 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
