@@ -243,7 +243,8 @@ sub Main {
 
     {
         my ( $Success, $Message ) = SetRootAtLocalhostPassword(
-            HTTPPort => $HTTPPort
+            HTTPPort => $HTTPPort,
+            FQDN     => $FQDN,
         );
 
         say $Message if defined $Message;
@@ -292,7 +293,8 @@ sub Main {
 
     if ($AddUser) {
         my ( $Success, $Message ) = AddUser(
-            HTTPPort => $HTTPPort
+            HTTPPort => $HTTPPort,
+            FQDN     => $FQDN,
         );
 
         say $Message if defined $Message;
@@ -302,7 +304,8 @@ sub Main {
 
     if ($AddAdminUser) {
         my ( $Success, $Message ) = AddAdminUser(
-            HTTPPort => $HTTPPort
+            HTTPPort => $HTTPPort,
+            FQDN     => $FQDN,
         );
 
         say $Message if defined $Message;
@@ -312,7 +315,8 @@ sub Main {
 
     if ($AddCustomerUser) {
         my ( $Success, $Message ) = AddCustomerUser(
-            HTTPPort => $HTTPPort
+            HTTPPort => $HTTPPort,
+            FQDN     => $FQDN,
         );
 
         say $Message if defined $Message;
@@ -602,7 +606,7 @@ sub SetRootAtLocalhostPassword {
     return 0, 'Password for root@localhost could not be set' unless $Success;
 
     # Protocol http is fine, as there is an automatic redirect
-    return 1, "Agent: http://localhost:$Param{HTTPPort}/otobo/index.pl user: root\@localhost pw: $Password";
+    return 1, "Agent: http://$Param{FQDN}:$Param{HTTPPort}/otobo/index.pl user: root\@localhost pw: $Password";
 }
 
 # update sysconfig settings in the database and deploy these settings
@@ -794,7 +798,7 @@ sub AddUser {
     }
 
     # looks good
-    return 1, "Sample user: http://localhost:$Param{HTTPPort}/otobo/index.pl user: $Login pw: $Login";
+    return 1, "Sample user: http://$Param{FQDN}:$Param{HTTPPort}/otobo/index.pl user: $Login pw: $Login";
 }
 
 sub AddAdminUser {
@@ -866,7 +870,7 @@ sub AddAdminUser {
     );
 
     # looks good
-    return 1, "Admin user: http://localhost:$Param{HTTPPort}/otobo/index.pl user: $Login pw: $Login";
+    return 1, "Admin user: http://$Param{FQDN}:$Param{HTTPPort}/otobo/index.pl user: $Login pw: $Login";
 }
 
 sub AddCustomerUser {
@@ -929,7 +933,7 @@ sub AddCustomerUser {
     return 0, "Could not set the password for $Login" unless $PasswordSetSuccess;
 
     # looks good
-    return 1, "Customer: http://localhost:$Param{HTTPPort}/otobo/customer.pl user: $Login pw: $Login";
+    return 1, "Customer: http://$Param{FQDN}:$Param{HTTPPort}/otobo/customer.pl user: $Login pw: $Login";
 }
 
 sub AddCalendar {
