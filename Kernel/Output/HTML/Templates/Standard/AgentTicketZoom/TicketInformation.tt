@@ -77,7 +77,7 @@
 
 [% RenderBlockStart("Service") %]
                         <label>[% Translate("Service") | html %]:</label>
-                        <p class="Value" title="[% Data.Service | html %]">[% Data.Service | html %]</p>
+                        <p class="Value" title="[% Translate(Data.Service) | html %]">[% Translate(Data.Service) | html %]</p>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Service") %]
 [% RenderBlockStart("SLA") %]
