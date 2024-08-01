@@ -39,7 +39,7 @@
                     <p class='ooo12'><span class='ooo12g'>[% Translate('Priority') | html %]:</span> [% Translate(Data.Priority) | html %]</p>
 [% RenderBlockEnd("Priority") %]
 [% RenderBlockStart("Queue") %]
-                    <p class='ooo12'><span class='ooo12g'>[% Translate('Queue') | html %]:</span> [% Data.Queue | html %]</p>
+                    <p class='ooo12'><span class='ooo12g'>[% Translate('Queue') | html %]:</span> [% Translate(Data.Queue) | html %]</p>
 [% RenderBlockEnd("Queue") %]
 [% RenderBlockStart("TicketTimeUnits") %]
                     <p class='ooo12'><span class='ooo12g'>[% Translate('Accounted time') | html %]:</span> [% Data.TicketTimeUnits | html %]</p>
