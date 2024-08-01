@@ -20,6 +20,12 @@ use strict;
 use warnings;
 use utf8;
 
+# core modules
+use List::Util qw(uniq);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 
@@ -520,7 +526,7 @@ sub Run {
 
         my $Message;
         my $Success = $TranslationsObject->WriteTranslationFile(
-            UserLanguage => $Param{UserLanguage}
+            UserLanguage => $Param{UserLanguage},
         ) || 0;
 
         if ( $Success == 1 ) {
@@ -1154,10 +1160,18 @@ sub _GetDraftTable {
             %ObjectList = $Kernel::OM->Get('Kernel::System::SLA')->SLAList( UserID => 1 );
         }
         elsif ( $Param{Object} eq 'Queue' ) {
-            %ObjectList = $Kernel::OM->Get('Kernel::System::Queue')->QueueList();
+            %ObjectList = $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 0 );
+
+            # remove parent elements from queue name
+            for my $Key ( keys %ObjectList ) {
+                $ObjectList{$Key} =~ s/^(.+::)*//;
+            }
         }
         elsif ( $Param{Object} eq 'State' ) {
-            %ObjectList = $Kernel::OM->Get('Kernel::System::State')->StateList( UserID => $Self->{UserID} );
+            %ObjectList = $Kernel::OM->Get('Kernel::System::State')->StateList(
+                UserID => $Self->{UserID},
+                Valid  => 0,
+            );
         }
         elsif ( $Param{Object} eq 'Template' ) {
             %ObjectList = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateList( Valid => 0 );
@@ -1170,23 +1184,27 @@ sub _GetDraftTable {
                 Valid  => 0,
                 UserID => 1
             );
+
+            # remove parent elements from service name
+            for my $Key ( keys %ObjectList ) {
+                $ObjectList{$Key} =~ s/^(.+::)*//;
+            }
         }
         elsif ( $Param{Object} eq 'Type' ) {
             %ObjectList = $Kernel::OM->Get('Kernel::System::Type')->TypeList( Valid => 0 );
         }
 
-        if ( keys %ObjectList ) {
-            for my $Row ( sort keys %ObjectList ) {
-                if ( !$UniqueValues{ $ObjectList{$Row} } ) {
-                    my $Reference = {
-                        ID      => $IDs,
-                        Content => $ObjectList{$Row},
-                        Value   => ''
-                    };
-                    push @DataValues, $Reference;
-                    $IDs++;
-                }
-            }
+        ROW:
+        for my $Row ( uniq sort values %ObjectList ) {
+
+            next ROW if $UniqueValues{$Row};
+
+            push @DataValues, {
+                ID      => $IDs,
+                Content => $Row,
+                Value   => ''
+            };
+            $IDs++;
         }
     }
 

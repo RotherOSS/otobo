@@ -637,7 +637,7 @@ sub ImportDataSave {
 
         $Success = $TranslationsObject->WriteTranslationFile(
             UserLanguage => $Language,
-            Deployed     => 0,
+            Import       => 1,
         ) || 0;
 
         if ( !$Success ) {

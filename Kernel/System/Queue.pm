@@ -32,6 +32,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::StandardTemplate',
     'Kernel::System::SysConfig',
+    'Kernel::System::Translations',
     'Kernel::System::Valid',
 );
 
@@ -917,6 +918,13 @@ sub QueueAdd {
         UserID => $Param{UserID},
     );
 
+    my %Queues = $Self->QueueList();
+
+    # generate chained translations automatically
+    $Kernel::OM->Get('Kernel::System::Translations')->TranslateParentChildElements(
+        Strings => [ values %Queues ],
+    );
+
     return $QueueID if !$StandardTemplateID2QueueByCreating;
     return $QueueID if ref $StandardTemplateID2QueueByCreating ne 'ARRAY';
     return $QueueID if !@{$StandardTemplateID2QueueByCreating};
@@ -1258,6 +1266,13 @@ sub QueueUpdate {
             }
         }
     }
+
+    my %Queues = $Self->QueueList();
+
+    # generate chained translations automatically
+    $Kernel::OM->Get('Kernel::System::Translations')->TranslateParentChildElements(
+        Strings => [ values %Queues ],
+    );
 
     return 1;
 }
