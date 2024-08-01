@@ -207,23 +207,29 @@ sub ValueValidate {
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    if ( $Param{Operator} eq 'Like' ) {
-
-        # TODO: also search ConfigItemID when an integer is given
-        return $DBObject->QueryCondition(
-            Key   => "$Param{TableAlias}.value_text",
-            Value => $Param{SearchTerm},
-        );
-    }
-
-    # TODO: should other operators be supported ??
+    # Currently, it is technically not possible to use lens fields as search fields
     $Kernel::OM->Get('Kernel::System::Log')->Log(
-        'Priority' => 'error',
-        'Message'  => "Unsupported Operator $Param{Operator}",
+        Prioritiy => 'error',
+        Message   => 'Lens fields are not able to perform a search at the moment, so the corresponding methods should never be called.',
     );
+
+    # # get database object
+    # my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # if ( $Param{Operator} eq 'Like' ) {
+
+    #     # TODO: also search ConfigItemID when an integer is given
+    #     return $DBObject->QueryCondition(
+    #         Key   => "$Param{TableAlias}.value_text",
+    #         Value => $Param{SearchTerm},
+    #     );
+    # }
+
+    # # TODO: should other operators be supported ??
+    # $Kernel::OM->Get('Kernel::System::Log')->Log(
+    #     'Priority' => 'error',
+    #     'Message'  => "Unsupported Operator $Param{Operator}",
+    # );
 
     return;
 }
@@ -231,8 +237,13 @@ sub SearchSQLGet {
 sub SearchSQLOrderFieldGet {
     my ( $Self, %Param ) = @_;
 
-    # TODO
-    return '';
+    # Currently, it is technically not possible to use lens fields as search fields
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Prioritiy => 'error',
+        Message   => 'Lens fields are not able to perform a search at the moment, so the corresponding methods should never be called.',
+    );
+
+    return;
 }
 
 sub EditFieldRender {
@@ -313,105 +324,127 @@ sub DisplayValueRender {
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
-    # take config from field config
-    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
-
-    # set the field value
-    my $Value = $Param{DefaultValue} // '';
-
-    # get the field value, this function is always called after the profile is loaded
-    my $FieldValue = $Self->SearchFieldValueGet(%Param);
-
-    # set values from profile if present
-    if ( defined $FieldValue ) {
-        $Value = $FieldValue;
-    }
-
-    # check if value is an array reference (GenericAgent Jobs and NotificationEvents)
-    if ( IsArrayRefWithData($Value) ) {
-        $Value = @{$Value}[0];
-    }
-
-    # check and set class if necessary
-    my $FieldClass = $Self->{FieldCSSClass};    # for field specific JS
-
-    my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $Value,
+    # Currently, it is technically not possible to use lens fields as search fields
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Prioritiy => 'error',
+        Message   => 'Lens fields are not able to perform a search at the moment, so the corresponding methods should never be called.',
     );
+    return;
 
-    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
-    );
+    # # take config from field config
+    # my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    # my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
-    my $HTMLString = <<"EOF";
-<input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" value="$ValueEscaped" />
-EOF
+    # # set the field value
+    # my $Value = $Param{DefaultValue} // '';
 
-    # call EditLabelRender on the common Driver
-    my $LabelString = $Self->EditLabelRender(
-        %Param,
-        FieldName => $FieldName,
-    );
+    # # get the field value, this function is always called after the profile is loaded
+    # my $FieldValue = $Self->SearchFieldValueGet(%Param);
 
-    return {
-        Field => $HTMLString,
-        Label => $LabelString,
-    };
+    # # set values from profile if present
+    # if ( defined $FieldValue ) {
+    #     $Value = $FieldValue;
+    # }
+
+    # # check if value is an array reference (GenericAgent Jobs and NotificationEvents)
+    # if ( IsArrayRefWithData($Value) ) {
+    #     $Value = @{$Value}[0];
+    # }
+
+    # # check and set class if necessary
+    # my $FieldClass = $Self->{FieldCSSClass};    # for field specific JS
+
+    # my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
+    #     Text => $Value,
+    # );
+
+    # my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+    #     Text => $FieldLabel,
+    # );
+
+    # my $HTMLString = <<"EOF";
+    # <input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" value="$ValueEscaped" />
+    # EOF
+
+    # # call EditLabelRender on the common Driver
+    # my $LabelString = $Self->EditLabelRender(
+    #     %Param,
+    #     FieldName      => $FieldName,
+    #     AdditionalText => $AdditionalText,
+    # );
+
+    # return {
+    #     Field => $HTMLString,
+    #     Label => $LabelString,
+    # };
 }
 
 sub SearchFieldValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $Value;
+    # Currently, it is technically not possible to use lens fields as search fields
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Prioritiy => 'error',
+        Message   => 'Lens fields are not able to perform a search at the moment, so the corresponding methods should never be called.',
+    );
+    return;
 
-    # get dynamic field value from param object
-    if ( defined $Param{ParamObject} ) {
-        $Value = $Param{ParamObject}->GetParam(
-            Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name}
-        );
-    }
+    # my $Value;
 
-    # otherwise get the value from the profile
-    elsif ( defined $Param{Profile} ) {
-        $Value = $Param{Profile}->{ 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} };
-    }
-    else {
-        return;
-    }
+    # # get dynamic field value from param object
+    # if ( defined $Param{ParamObject} ) {
+    #     $Value = $Param{ParamObject}->GetParam(
+    #         Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name}
+    #     );
+    # }
 
-    if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq 1 ) {
-        return {
-            'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
-        };
-    }
+    # # otherwise get the value from the profile
+    # elsif ( defined $Param{Profile} ) {
+    #     $Value = $Param{Profile}->{ 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} };
+    # }
+    # else {
+    #     return;
+    # }
 
-    return $Value;
+    # if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq 1 ) {
+    #     return {
+    #         'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
+    #     };
+    # }
+
+    # return $Value;
 }
 
 sub SearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
-    # get field value
-    my $Value = $Self->SearchFieldValueGet(%Param);
+    # Currently, it is technically not possible to use lens fields as search fields
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Prioritiy => 'error',
+        Message   => 'Lens fields are not able to perform a search at the moment, so the corresponding methods should never be called.',
+    );
+    return;
 
-    # set operator
-    my $Operator = 'Equals';
+    # # get field value
+    # my $Value = $Self->SearchFieldValueGet(%Param);
 
-    # search for a wild card in the value
-    if ( $Value && ( $Value =~ m{\*} || $Value =~ m{\|\|} ) ) {
+    # # set operator
+    # my $Operator = 'Equals';
 
-        # change operator
-        $Operator = 'Like';
-    }
+    # # search for a wild card in the value
+    # if ( $Value && ( $Value =~ m{\*} || $Value =~ m{\|\|} ) ) {
 
-    # return search parameter structure
-    return {
-        Parameter => {
-            $Operator => $Value,
-        },
-        Display => $Value,
-    };
+    #     # change operator
+    #     $Operator = 'Like';
+    # }
+
+    # # return search parameter structure
+    # return {
+    #     Parameter => {
+    #         $Operator => $Value,
+    #     },
+    #     Display => $Value,
+    # };
 }
 
 sub StatsFieldParameterBuild {
@@ -575,7 +608,7 @@ sub HasBehavior {
 
     # TODO: Think about additional behaviors we can just adopt from the attribute field
     # for certain behaviors instead use the attribute field behaviors
-    if ( grep { $Param{Behavior} eq $_ } qw/IsACLReducible IsCustomerInterfaceCapable/ ) {
+    if ( grep { $Param{Behavior} eq $_ } qw/IsACLReducible IsCustomerInterfaceCapable IsLikeOperatorCapable/ ) {
         my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
             LensDynamicFieldConfig => $Param{DynamicFieldConfig},
         );
