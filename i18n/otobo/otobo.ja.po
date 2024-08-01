@@ -5927,7 +5927,7 @@ msgstr "全ての %s の権限を切り替え"
 msgid "move_into"
 msgstr "移転"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to move tickets into this group/queue."
 msgstr "このグループ／キューにチケットの移転権限を付与"
 
@@ -5935,7 +5935,7 @@ msgstr "このグループ／キューにチケットの移転権限を付与"
 msgid "create"
 msgstr "作成"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to create tickets in this group/queue."
 msgstr "このグループ／キューにチケットの作成権限を付与"
 
@@ -5943,7 +5943,7 @@ msgstr "このグループ／キューにチケットの作成権限を付与"
 msgid "note"
 msgstr "メモ"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to add notes to tickets in this group/queue."
 msgstr "このグループ／キューにチケットへメモ追加権限を付与"
 
@@ -5951,7 +5951,7 @@ msgstr "このグループ／キューにチケットへメモ追加権限を付
 msgid "owner"
 msgstr "所有者"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
 msgstr "このグループ／キューにチケットへ所有者変更権限を付与"
 
@@ -5959,7 +5959,7 @@ msgstr "このグループ／キューにチケットへ所有者変更権限を
 msgid "priority"
 msgstr "優先度（priority）"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to change the ticket priority in this group/queue."
 msgstr "このグループ／キューにチケットの優先度変更権限を付与"
 
@@ -14623,7 +14623,7 @@ msgstr "前／後"
 msgid "between"
 msgstr "期間中"
 
-#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
 msgid "e.g. Text or Te*t"
 msgstr "例: Text または Te*t"
 
@@ -27257,5 +27257,49 @@ msgstr "連絡先: hello@otobo.io"
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the 'Inform Agents' section in the Notes."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to open the priority action in this group/queue."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
+msgid "Notice: search in lens fields is currently disabled"
+msgstr ""
+
+#. SysConfig
+msgid "Defines if parent-child translations for queues and services should be generated automatically."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the initial height for the rich text editor component in pixels."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the initial height in pixels for the rich text editor component for this screen."
 msgstr ""
 

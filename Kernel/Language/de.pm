@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999099369558691;
+    $Self->{Completeness}        = 0.997451656423325;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2115,18 +2115,25 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             'Wenn nichts ausgewählt ist, hat die Rolle in dieser Gruppe keine Berechtigungen (und kann nicht auf Tickets zugreifen).',
         'Toggle %s permission for all' => 'Berechtigung %s für alle umschalten',
+        'Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar.' =>
+            '',
         'move_into' => 'Verschieben in',
-        'Permissions to move tickets into this group/queue.' => 'Berechtigungen, um Tickets in eine Gruppe/Queue zu verschieben.',
+        'Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection.' =>
+            '',
         'create' => 'Erstellen',
-        'Permissions to create tickets in this group/queue.' => 'Berechtigungen, um in einer Gruppe/Queue Tickets zu erstellen.',
+        'Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar.' =>
+            '',
         'note' => 'Notiz',
-        'Permissions to add notes to tickets in this group/queue.' => 'Berechtigungen zum Hinzufügen von Notizen zu Tickets dieser Gruppe/Queue.',
+        'Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the \'Inform Agents\' section in the Notes.' =>
+            '',
         'owner' => 'Besitzer',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Berechtigungen zum Ändern des Besitzers von Tickets dieser Gruppe/Queue.',
+        'Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket.' =>
+            '',
         'priority' => 'Priorität',
-        'Permissions to change the ticket priority in this group/queue.' =>
-            'Berechtigungen, um die Priorität eines Tickets in einer Gruppe/Queue zu ändern.',
+        'Permissions to open the priority action in this group/queue.' =>
+            '',
+        'Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself.' =>
+            '',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Zuordnungen von Agenten und Rollen verwalten',
@@ -2551,6 +2558,13 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'Zuordnungen von Agenten und Gruppe verwalten',
+        'Permissions to move tickets into this group/queue.' => 'Berechtigungen, um Tickets in eine Gruppe/Queue zu verschieben.',
+        'Permissions to create tickets in this group/queue.' => 'Berechtigungen, um in einer Gruppe/Queue Tickets zu erstellen.',
+        'Permissions to add notes to tickets in this group/queue.' => 'Berechtigungen zum Hinzufügen von Notizen zu Tickets dieser Gruppe/Queue.',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Berechtigungen zum Ändern des Besitzers von Tickets dieser Gruppe/Queue.',
+        'Permissions to change the ticket priority in this group/queue.' =>
+            'Berechtigungen, um die Priorität eines Tickets in einer Gruppe/Queue zu ändern.',
 
         # Template: AgentAppointmentAgendaOverview
         'Agenda Overview' => 'Agenda-Übersicht',
@@ -3528,7 +3542,7 @@ sub Data {
 
         # Template: Finish
         'The migration is complete, thank you for trying out OTOBO - we hope you will like it.' =>
-            'Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden – wir hoffen, Sie mögen es!',
+            'Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden - wir hoffen, Sie mögen es.',
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
             'Um OTOBO nutzen zu können, müssen Sie die folgenden Zeilen als root in die Befehlszeile (Terminal/Shell) eingeben.',
         'Restart your webserver' => 'Starten Sie ihren Webserver neu',
@@ -4623,7 +4637,7 @@ sub Data {
         'Translations deployed successfuly!' => 'Übersetzungen erfolgreich übernommen!',
         'Nothing to do!' => 'Nichts zu tun!',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
-            'Fehler beim Versuch die Übersetzung zu übernehmen. Bitte überprüfen Sie das Systemprotokoll.',
+            'Fehler beim Versuch, die Übersetzung zu übernehmen. Bitte überprüfen Sie das Systemprotokoll!',
         'All Items' => 'Alle Elemente',
         'Deployment Results' => 'Inbetriebnahme-Ergebnisse',
 
@@ -5517,11 +5531,13 @@ sub Data {
         'between' => 'zwischen',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
-        'e.g. Text or Te*t' => 'z.B. Text oder Te*t',
         'Referenced object type' => 'Referenzierter Objekt-Typ',
         'Select the type of the referenced object' => 'Wählen Sie den Typ des referenzierten Objekts aus',
         'Input mode of edit field' => 'Eingabemodus des Editierfelds',
         'Select the input mode for the edit field.' => 'Wählen Sie den Eingabemodus des Editierfeldes aus.',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
+        'e.g. Text or Te*t' => 'z.B. Text oder Te*t',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => 'Dieses Feld ignorieren.',
@@ -5530,6 +5546,9 @@ sub Data {
         'Attribute which will be searched on autocomplete' => 'Beim Autocomplete durchsuchtes Attribut',
         'Select the attribute which customer companies will be searched by' =>
             '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
+        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Dieses Feld ist ein Pflichtfeld oder',
@@ -7458,6 +7477,8 @@ Ihr Helpdesk-Team
             'Steuert, ob Agenten, die kein gemeinsames Geheimnis in ihren Einstellungen hinterlegt haben und folglich die Zweifaktor-Authentifizierung nicht nutzen, sich im System einloggen dürfen.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Steuert, ob Kunden, die kein gemeinsames Geheimnis in ihren Einstellungen hinterlegt haben und folglich die Zweifaktor-Authentifizierung nicht nutzen, sich im System einloggen dürfen.',
+        'Defines if parent-child translations for queues and services should be generated automatically.' =>
+            '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             'Legt fest, ob eine Kommunikation zwischen diesem System und den Servern, über die Cloud Services angeboten werden, möglich ist. Deaktivieren Sie hier die Cloud Services, geht ein Teil der Funktionalität wie der Versand von Supportdaten, Package Verify™ und das "Produkt-Neuigkeiten"-Dashboard-Widget verloren.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
@@ -7746,10 +7767,6 @@ Ihr Helpdesk-Team
             'Steuert die Gruppen, in denen sich ein Kunde standardmäßig befinden soll (wenn CustomerGroupSupport aktiviert ist und Sie nicht jede Gruppenbeziehung für die Kunden einzeln steuern möchten).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             'Definiert die Header, die für allgemeine Inhalte für den angefragten Wert angezeigt werden.',
-        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
-            'Definiert die Höhe der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
-        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Steuert die Höhe der Richtext-Editor-Komponente. Geben Sie eine Zahl (für die Höhe in Pixeln) oder einen prozentualen Wert (für eine relative Höhe) an.',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Steuert den Historien-Kommentar für die Ticket schließen-Aktion im Agentenbereich.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7805,6 +7822,10 @@ Ihr Helpdesk-Team
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Definiert die Stunden und Wochentage des angegebenen Kalenders um die Arbeitszeit zu messen.',
         'Defines the hours and week days to count the working time.' => 'Definiert den Zeitraum und die Wochentage welche als Arbeitszeit zählen.',
+        'Defines the initial height for the rich text editor component in pixels.' =>
+            '',
+        'Defines the initial height in pixels for the rich text editor component for this screen.' =>
+            '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
             'Definiert den Schlüssel, der mit dem Modul Kernel::Modules::AgentInfo geprüft wird. Wenn dieser Nutzer-Einstellungs-Schlüssel "wahr" ist, wird die Nachricht vom System akzeptiert.',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>

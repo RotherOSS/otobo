@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.921044731311918;
+    $Self->{Completeness}        = 0.919502323489732;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2121,18 +2121,25 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             '如果没有选择，角色就不会具有任何权限 (任何工单都看不见)。',
         'Toggle %s permission for all' => '全部授予/取消 %s 权限',
+        'Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar.' =>
+            '',
         'move_into' => '转移到',
-        'Permissions to move tickets into this group/queue.' => '将工单转移到这个组/队列的权限。',
+        'Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection.' =>
+            '',
         'create' => 'create（创建）',
-        'Permissions to create tickets in this group/queue.' => '在这个组/队列具有创建工单的权限。',
+        'Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar.' =>
+            '',
         'note' => 'note（备注）',
-        'Permissions to add notes to tickets in this group/queue.' => '在这个组/队列具有添加备注的权限。',
+        'Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the \'Inform Agents\' section in the Notes.' =>
+            '',
         'owner' => 'owner（所有者）',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            '在这个组/队列具有变更工单所有者的权限。',
+        'Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket.' =>
+            '',
         'priority' => '优先级',
-        'Permissions to change the ticket priority in this group/queue.' =>
-            '在这个组/队列具有更改工单优先级的权限。',
+        'Permissions to open the priority action in this group/queue.' =>
+            '',
+        'Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself.' =>
+            '',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => '管理服务人员与角色的关系',
@@ -2557,6 +2564,13 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => '管理服务人员的组权限',
+        'Permissions to move tickets into this group/queue.' => '将工单转移到这个组/队列的权限。',
+        'Permissions to create tickets in this group/queue.' => '在这个组/队列具有创建工单的权限。',
+        'Permissions to add notes to tickets in this group/queue.' => '在这个组/队列具有添加备注的权限。',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            '在这个组/队列具有变更工单所有者的权限。',
+        'Permissions to change the ticket priority in this group/queue.' =>
+            '在这个组/队列具有更改工单优先级的权限。',
 
         # Template: AgentAppointmentAgendaOverview
         'Agenda Overview' => '日程概览',
@@ -5523,11 +5537,13 @@ sub Data {
         'between' => '在...之间',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
-        'e.g. Text or Te*t' => '如：Text或Te*t',
         'Referenced object type' => '',
         'Select the type of the referenced object' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
+        'e.g. Text or Te*t' => '如：Text或Te*t',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '忽略该字段。',
@@ -5536,6 +5552,9 @@ sub Data {
         'Attribute which will be searched on autocomplete' => '',
         'Select the attribute which customer companies will be searched by' =>
             '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
+        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => '这个字段是必填的',
@@ -7459,6 +7478,8 @@ Thanks for your help!
             '定义是否允许因在个人偏好设置中没有存储共享密钥而不能使用双因素身份验证的服务人员登录。',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             '定义是否允许因在个人偏好设置中没有存储共享密钥而不能使用双因素身份验证的客户用户登录。',
+        'Defines if parent-child translations for queues and services should be generated automatically.' =>
+            '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '定义此系统与提供云服务的服务器之间是否可以进行通信。如果设置为“禁用云服务”，则某些功能将丢失，例如支持数据发送，Package Verify™和产品新闻仪表板小部件等。',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
@@ -7747,10 +7768,6 @@ Thanks for your help!
             '定义每个客户都会在其中的组（如果启用了CustomerGroupSupport-客户组支持，并且你不想管理这些组的每个客户）。',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
-        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
-            '定义本屏幕富文本编辑器组件的高度。输入数值（像素值）或百分比值（相对值）。',
-        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            '定义富文本编辑器组件的高度。输入数值（像素值）或百分比值（相对值）。',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             '为工单关闭操作屏幕定义历史注释信息，以用于服务人员界面的工单历史。',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7806,6 +7823,10 @@ Thanks for your help!
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             '定义指定日历每周天数和小时数，以便计算工作时间。',
         'Defines the hours and week days to count the working time.' => '定义每周天数和小时数，以便计算工作时间。',
+        'Defines the initial height for the rich text editor component in pixels.' =>
+            '',
+        'Defines the initial height in pixels for the rich text editor component for this screen.' =>
+            '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
             '定义与Kernel::Modules::AgentInfo模块一起检查的键。如果这个用户偏好键设置为真，这个消息是被系统接受的。',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>

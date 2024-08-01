@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.849894926448514;
+    $Self->{Completeness}        = 0.848448508469495;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2117,18 +2117,25 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             'إذا لم يتم تحديد أي شيء، فإن الدور في تلك المجموعة ليس لديه أذونات (ولا يمكنه الوصول إلى التذاكر).',
         'Toggle %s permission for all' => 'تبديل إذن٪ s للجميع',
+        'Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar.' =>
+            '',
         'move_into' => 'الانتقال إلى',
-        'Permissions to move tickets into this group/queue.' => 'أذونات لنقل التذاكر إلى هذه المجموعة/قائمة الانتظار.',
+        'Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection.' =>
+            '',
         'create' => 'أَنْشَأَ',
-        'Permissions to create tickets in this group/queue.' => 'أذونات لإنشاء تذاكر في هذه المجموعة / قائمة الانتظار.',
+        'Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar.' =>
+            '',
         'note' => 'مُلاحَظَة',
-        'Permissions to add notes to tickets in this group/queue.' => 'أذونات لإضافة ملاحظات إلى التذاكر في هذه المجموعة / قائمة الانتظار.',
+        'Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the \'Inform Agents\' section in the Notes.' =>
+            '',
         'owner' => 'مَالِك',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'أذونات لتغيير مالك التذاكر في هذه المجموعة / قائمة الانتظار.',
+        'Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket.' =>
+            '',
         'priority' => 'أَوْلَوِيَّةٌ',
-        'Permissions to change the ticket priority in this group/queue.' =>
-            'أذونات لتغيير أولوية التذكرة في هذه المجموعة / قائمة الانتظار.',
+        'Permissions to open the priority action in this group/queue.' =>
+            '',
+        'Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself.' =>
+            '',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'إدارة العلاقات بين الوكيل والدور',
@@ -2553,6 +2560,13 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'إدارة العلاقات بين الوكيل والمجموعة',
+        'Permissions to move tickets into this group/queue.' => 'أذونات لنقل التذاكر إلى هذه المجموعة/قائمة الانتظار.',
+        'Permissions to create tickets in this group/queue.' => 'أذونات لإنشاء تذاكر في هذه المجموعة / قائمة الانتظار.',
+        'Permissions to add notes to tickets in this group/queue.' => 'أذونات لإضافة ملاحظات إلى التذاكر في هذه المجموعة / قائمة الانتظار.',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'أذونات لتغيير مالك التذاكر في هذه المجموعة / قائمة الانتظار.',
+        'Permissions to change the ticket priority in this group/queue.' =>
+            'أذونات لتغيير أولوية التذكرة في هذه المجموعة / قائمة الانتظار.',
 
         # Template: AgentAppointmentAgendaOverview
         'Agenda Overview' => 'استعراض الأجندة',
@@ -5283,7 +5297,7 @@ sub Data {
         'Check to activate this date' => 'حدد لتمكين هذا التاريخ',
         '%s TB' => '‎%s تيرابايت (TB)',
         '%s GB' => '‎%s غيغابايت (GB)',
-        '%s MB' => '‎%s ميغابايت (MG)',
+        '%s MB' => 'ميغابايت (MB) ‎%s',
         '%s KB' => '‎%s كيلوبايت (KB)',
         '%s B' => '‎%s بايت (B)',
         'No Permission!' => 'لا توجد صلاحيات!',
@@ -5519,11 +5533,13 @@ sub Data {
         'between' => 'بين',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
-        'e.g. Text or Te*t' => 'على سبيل المثال، Text أو Te*t',
         'Referenced object type' => '',
         'Select the type of the referenced object' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
+        'e.g. Text or Te*t' => 'على سبيل المثال، Text أو Te*t',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => 'تجاهل هذا الحقل.',
@@ -5532,6 +5548,9 @@ sub Data {
         'Attribute which will be searched on autocomplete' => '',
         'Select the attribute which customer companies will be searched by' =>
             '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
+        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'هذا الحقل مطلوب أو',
@@ -7460,6 +7479,8 @@ Thanks for your help!
             'يتحكم في ما إذا كان الوكلاء الذين لم يخزنوا سرًا مشتركًا في إعداداتهم وبالتالي لا يستخدمون المصادقة الثنائية مسموح لهم بتسجيل الدخول إلى النظام.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'يتحكم في ما إذا كان يُسمح للعملاء الذين لم يخزنوا سرًا مشتركًا في إعداداتهم وبالتالي لا يستخدمون المصادقة الثنائية بتسجيل الدخول إلى النظام.',
+        'Defines if parent-child translations for queues and services should be generated automatically.' =>
+            '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             'يحدد ما إذا كان هذا النظام يمكنه الاتصال بالخوادم التي تقدم خدمات سحابية. إذا قمت بإلغاء تنشيط الخدمات السحابية هنا، فستفقد بعض الوظائف مثل إرسال بيانات الدعم والتحقق™ من الحزمة وأداة لوحة معلومات "أخبار المنتج".',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
@@ -7748,10 +7769,6 @@ Thanks for your help!
             'يتحكم في المجموعات التي تريد أن يكون العميل فيها بشكل افتراضي (إذا تم تمكين CustomerGroupSupport ولا تريد التحكم في كل علاقة مجموعة للعملاء بشكل فردي).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             'يحدد الرؤوس التي يتم عرضها للمحتوى العام للقيمة المطلوبة.',
-        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
-            'يحدد ارتفاع مكون محرر النص المنسق. حدد قيمة رقمية (بكسل) أو نسبة مئوية (نسبية).',
-        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'يتحكم في ارتفاع مكون محرر النص المنسق. أدخل رقمًا (للارتفاع بالبكسل) أو نسبة مئوية (لارتفاع نسبي).',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'يتحكم في تعليق محفوظات إجراءات إغلاق التذاكر في واجهة الوكيل.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7807,6 +7824,10 @@ Thanks for your help!
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'يحدد ساعات وأيام الأسبوع من التقويم المحدد لقياس وقت العمل.',
         'Defines the hours and week days to count the working time.' => 'يحدد فترة وأيام الأسبوع التي يتم احتسابها كوقت عمل.',
+        'Defines the initial height for the rich text editor component in pixels.' =>
+            '',
+        'Defines the initial height in pixels for the rich text editor component for this screen.' =>
+            '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
             'يحدد المفتاح الذي تم تحديده باستخدام الوحدة النمطية Kernel::Modules::AgentInfo. إذا كان مفتاح تفضيلات المستخدم هذا "صحيح"، فسيتم قبول الرسالة من قبل النظام.',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>

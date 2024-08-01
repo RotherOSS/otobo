@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.828129690783548;
+    $Self->{Completeness}        = 0.826712636786089;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2126,18 +2126,25 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             'Если ничего не выбрано, тогда в этой группе нет прав (для этой роли заявки не будут доступны).',
         'Toggle %s permission for all' => 'Переключить разрешение «%s» для всех',
+        'Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar.' =>
+            '',
         'move_into' => 'переместить',
-        'Permissions to move tickets into this group/queue.' => 'Права на перемещение заявок в эту группу/очередь.',
+        'Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection.' =>
+            '',
         'create' => 'создание',
-        'Permissions to create tickets in this group/queue.' => 'Права на создание заявок в этой группе/очереди',
+        'Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar.' =>
+            '',
         'note' => 'заметка',
-        'Permissions to add notes to tickets in this group/queue.' => 'Права на добавление заметок в заявки в этой группе/очереди.',
+        'Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the \'Inform Agents\' section in the Notes.' =>
+            '',
         'owner' => 'владелец',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Права на смену владельца заявок в этой группе/очереди.',
+        'Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket.' =>
+            '',
         'priority' => 'приоритет',
-        'Permissions to change the ticket priority in this group/queue.' =>
-            'Права на смену приоритета заявок в этой группе/очереди',
+        'Permissions to open the priority action in this group/queue.' =>
+            '',
+        'Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself.' =>
+            '',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Связь агентов с ролями',
@@ -2562,6 +2569,13 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'Связь агентов с группами',
+        'Permissions to move tickets into this group/queue.' => 'Права на перемещение заявок в эту группу/очередь.',
+        'Permissions to create tickets in this group/queue.' => 'Права на создание заявок в этой группе/очереди',
+        'Permissions to add notes to tickets in this group/queue.' => 'Права на добавление заметок в заявки в этой группе/очереди.',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Права на смену владельца заявок в этой группе/очереди.',
+        'Permissions to change the ticket priority in this group/queue.' =>
+            'Права на смену приоритета заявок в этой группе/очереди',
 
         # Template: AgentAppointmentAgendaOverview
         'Agenda Overview' => 'Обзор повестки дня',
@@ -5528,11 +5542,13 @@ sub Data {
         'between' => 'между',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
-        'e.g. Text or Te*t' => 'например Text или Te*t',
         'Referenced object type' => '',
         'Select the type of the referenced object' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
+        'e.g. Text or Te*t' => 'например Text или Te*t',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => 'Игнорировать это поле.',
@@ -5541,6 +5557,9 @@ sub Data {
         'Attribute which will be searched on autocomplete' => '',
         'Select the attribute which customer companies will be searched by' =>
             '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
+        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Это поле обязательно.',
@@ -7466,6 +7485,8 @@ Thanks for your help!
             'Задает возможность входа для агента, если для него не задан секретный ключ хранимый в его личных настройках, т.е. не используется двух-факторная аутентификация.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Задает возможность входа для клиента, если для него не задан секретный ключ хранимый в его личных настройках, т.е. не используется двух-факторная аутентификация.',
+        'Defines if parent-child translations for queues and services should be generated automatically.' =>
+            '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
@@ -7754,10 +7775,6 @@ Thanks for your help!
             'Задает список групп, в которые включаются все клиенты/компании (если CustomerGroupSupport включена и вы не желаете делать это для каждого клиента/компании по отдельности).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
-        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
-            'Задает высоту окна текстового редактора на этом экране. Введите число пикселей и значение в процентах.',
-        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Задает высоту окна текстового редактора. Введите число пикселей и значение в процентах.',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Задает текст комментария в записи истории при закрытии заявки, в интерфейсе агента.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7813,6 +7830,10 @@ Thanks for your help!
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Задает часы и дни недели в выбранном календаре для подсчета рабочего времени',
         'Defines the hours and week days to count the working time.' => 'Задает часы и дни недели для подсчета рабочего времени',
+        'Defines the initial height for the rich text editor component in pixels.' =>
+            '',
+        'Defines the initial height in pixels for the rich text editor component for this screen.' =>
+            '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
             'Задает ключ, который проверяется модулем Kernel::Modules::AgentInfo. Если этот ключ личных настроек верен, сообщение принимается системой.',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>
