@@ -350,7 +350,7 @@ EOF
 
     my $AdditionalText;
     if ( $Param{UseLabelHints} ) {
-        $AdditionalText = Translatable('e.g. Text or Te*t');
+        $AdditionalText = Translatable('Notice: search in lens fields is currently disabled');
     }
 
     # call EditLabelRender on the common Driver
