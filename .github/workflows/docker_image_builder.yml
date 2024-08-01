@@ -83,6 +83,7 @@ jobs:
         uses: dorny/paths-filter@v3
         id: changes
         with:
+          path: "${{ github.ref_name }}"                     # e.g rel-10_0
           filters: |
             context:
               - '${{ matrix.context }}/**'
