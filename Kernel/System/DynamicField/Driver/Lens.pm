@@ -348,16 +348,10 @@ sub SearchFieldRender {
 <input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" value="$ValueEscaped" />
 EOF
 
-    my $AdditionalText;
-    if ( $Param{UseLabelHints} ) {
-        $AdditionalText = Translatable('e.g. Text or Te*t');
-    }
-
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
-        FieldName      => $FieldName,
-        AdditionalText => $AdditionalText,
+        FieldName => $FieldName,
     );
 
     return {
