@@ -2936,20 +2936,16 @@ Throws an exception with customizable status code and body. Status can either be
 sub AJAXException {
     my ( $Self, %Param ) = @_;
 
-    # if given, check validity of status code
+    # check validity of status code
     # allowed are client errors (400-499) and server errors (500-599)
-    my $StatusCode;
-    if ( $Param{StatusCode} ) {
-        if ( !is_client_error( $Param{StatusCode} ) && !is_server_error( $Param{StatusCode} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Status code $Param{StatusCode} is not a valid HTTP error status!",
-            );
-            return;
-        }
-        $StatusCode = $Param{StatusCode};
+    my $StatusCode = $Param{StatusCode} || 500;
+    if ( !is_client_error($StatusCode) && !is_server_error($StatusCode) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Status code $StatusCode is not a valid HTTP error status!",
+        );
+        return;
     }
-    $StatusCode ||= 500;
 
     # create Plack response
     my $ServerErrorResponse = Plack::Response->new(
