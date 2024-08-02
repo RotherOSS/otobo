@@ -54,8 +54,7 @@ msgstr ""
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
 "PO-Revision-Date: 2024-07-02 05:27+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
-"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-11/de/>"
-"\n"
+"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-11/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5963,7 +5962,7 @@ msgstr "Berechtigung %s für alle umschalten"
 msgid "move_into"
 msgstr "Verschieben in"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to move tickets into this group/queue."
 msgstr "Berechtigungen, um Tickets in eine Gruppe/Queue zu verschieben."
 
@@ -5971,7 +5970,7 @@ msgstr "Berechtigungen, um Tickets in eine Gruppe/Queue zu verschieben."
 msgid "create"
 msgstr "Erstellen"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to create tickets in this group/queue."
 msgstr "Berechtigungen, um in einer Gruppe/Queue Tickets zu erstellen."
 
@@ -5979,7 +5978,7 @@ msgstr "Berechtigungen, um in einer Gruppe/Queue Tickets zu erstellen."
 msgid "note"
 msgstr "Notiz"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to add notes to tickets in this group/queue."
 msgstr "Berechtigungen zum Hinzufügen von Notizen zu Tickets dieser Gruppe/Queue."
 
@@ -5987,7 +5986,7 @@ msgstr "Berechtigungen zum Hinzufügen von Notizen zu Tickets dieser Gruppe/Queu
 msgid "owner"
 msgstr "Besitzer"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
 msgstr "Berechtigungen zum Ändern des Besitzers von Tickets dieser Gruppe/Queue."
 
@@ -5995,7 +5994,7 @@ msgstr "Berechtigungen zum Ändern des Besitzers von Tickets dieser Gruppe/Queue
 msgid "priority"
 msgstr "Priorität"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to change the ticket priority in this group/queue."
 msgstr "Berechtigungen, um die Priorität eines Tickets in einer Gruppe/Queue zu ändern."
 
@@ -9761,9 +9760,7 @@ msgstr "Bereinigen und Abschließen"
 
 #. Template: Finish
 msgid "The migration is complete, thank you for trying out OTOBO - we hope you will like it."
-msgstr ""
-"Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden - wir "
-"hoffen, Sie mögen es."
+msgstr "Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden - wir hoffen, Sie mögen es."
 
 #. Template: Finish
 msgid "To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root."
@@ -14661,7 +14658,7 @@ msgstr "vor/nach"
 msgid "between"
 msgstr "zwischen"
 
-#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
 msgid "e.g. Text or Te*t"
 msgstr "z.B. Text oder Te*t"
 
@@ -25165,13 +25162,7 @@ msgstr "Wir führen eine geplante Wartung durch. Wir werden bald wieder online s
 
 #. SysConfig
 msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS version 2-6 and OTOBO 10.."
-msgstr ""
-"In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht "
-"nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So "
-"entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der "
-"Besitzerinformation nicht mehr ersehen werden, wer ein Ticket zuletzt "
-"bearbeitet hat. Deaktivieren Sie die Option, um das Verhalten der OTRS-"
-"Versionen 2 bis 6 und von OTOBO 10 wiederherstellen."
+msgstr "In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der Besitzerinformation nicht mehr ersehen werden, wer ein Ticket zuletzt bearbeitet hat. Deaktivieren Sie die Option, um das Verhalten der OTRS-Versionen 2 bis 6 und von OTOBO 10 wiederherstellen."
 
 #. SysConfig
 msgid "Web Service"
@@ -26956,9 +26947,7 @@ msgstr "Nichts zu tun!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Errors ocurred when trying to deploy translation. Please check system logs!"
-msgstr ""
-"Fehler beim Versuch, die Übersetzung zu übernehmen. Bitte überprüfen Sie das "
-"Systemprotokoll!"
+msgstr "Fehler beim Versuch, die Übersetzung zu übernehmen. Bitte überprüfen Sie das Systemprotokoll!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "All Items"
@@ -27575,3 +27564,48 @@ msgstr "Schreiben Sie uns an hello@otobo.io"
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters."
 msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the 'Inform Agents' section in the Notes."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to open the priority action in this group/queue."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
+msgid "Notice: search in lens fields is currently disabled"
+msgstr ""
+
+#. SysConfig
+msgid "Defines if parent-child translations for queues and services should be generated automatically."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the initial height for the rich text editor component in pixels."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the initial height in pixels for the rich text editor component for this screen."
+msgstr ""
+
