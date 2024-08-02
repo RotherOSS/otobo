@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use File::Basename qw(basename);
-use List::Util qw(sum);
+use List::Util     qw(sum);
 
 our @ObjectDependencies = (
     'Kernel::Config',
