@@ -716,6 +716,12 @@ fieldset.TableLike .Row.MultiColumn > .FieldCell > .Field {
     width: calc(100% - 40px);
 }
 
+fieldset.TableLike .Row.MultiColumn > .FieldCell > .RichTextField,
+fieldset.TableLike .DynamicFieldSet > .Row.MultiColumn > .FieldCell > .RichTextField { /* has to override normal sets */
+    width: calc(100% - 40px) !important;
+    max-width: calc(100% - 40px);
+}
+
 /* Dynamic Field Set */
 
 fieldset.TableLike .DFSetOuterField {
@@ -737,6 +743,11 @@ fieldset.TableLike .DynamicFieldSet > .Row > .FieldCell label:not(.ck-label) {
 fieldset.TableLike .DynamicFieldSet > .Row > .FieldCell > .Field {
     margin-left: 24%;
     width: calc( 76% - 48px );
+}
+
+fieldset.TableLike .DynamicFieldSet > .Row > .FieldCell > .RichTextField {
+    width: calc( 76% - 38px ) !important;
+    max-width: calc( 76% - 38px );
 }
 
 fieldset.TableLike .DynamicFieldSet > .Row.MultiValue > .FieldCell.MultiValue_0 > .Field {
@@ -872,8 +883,8 @@ fieldset.TableLike .RichTextField {
     margin-left: 30%;
     margin-right: 0;
     box-sizing: border-box;
-    height: min-content;    /* used as minimum by Core.UI.RichTextEditor.js! */
-    width: 70%;             /* used as maximum by Core.UI.RichTextEditor.js! */
+    height: min-content;    /* overwritten by Core.UI.RichTextEditor.js! */
+    width: 70%;             /* overwritten by Core.UI.RichTextEditor.js! */
 }
 
 body.Popup fieldset.TableLike > .Row > .RichTextField,
