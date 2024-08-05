@@ -320,12 +320,15 @@ sub DisplayValueRender {
     my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     # get agents preferences
-    my %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
-        UserID => $Param{LayoutObject}->{UserID},
-    );
+    my %UserPreferences;
+    if ( $Param{LayoutObject}{SessionSource} eq 'AgentInterface' ) {
+        %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+            UserID => $Param{LayoutObject}->{UserID},
+        );
+    }
 
     # remember if user already closed message about links in iframes
-    if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
+    if ( %UserPreferences && !defined $Self->{DoNotShowBrowserLinkMessage} ) {
         if ( $UserPreferences{UserAgentDoNotShowBrowserLinkMessage} ) {
             $Self->{DoNotShowBrowserLinkMessage} = 1;
         }
