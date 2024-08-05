@@ -24,7 +24,7 @@
         </span>
 [% RenderBlockEnd("rw:DynamicField:DescriptionLong") %]
         [% Data.Label %]
-        <div class="Field">
+        <div class="[% Data.FieldClasses %]">
             [% Data.Content %]
         </div>
         <div class="Clear"></div>
