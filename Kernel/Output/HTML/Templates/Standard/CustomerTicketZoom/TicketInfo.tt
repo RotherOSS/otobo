@@ -27,7 +27,7 @@
                     <p class='ooo12'><span class='ooo12g'>[% Translate('Type') | html %]:</span> [% Data.Type | html %]</p>
 [% RenderBlockEnd("Type") %]
 [% RenderBlockStart("Service") %]
-                    <p class='ooo12'><span class='ooo12g'>[% Translate('Service') | html %]:</span> [% Translate(Data.Service) | html %]</p>
+                    <p class='ooo12'><span class='ooo12g'>[% Translate('Service') | html %]:</span> [% Translate(Data.Service) | html | replace('::', '<wbr>::<wbr>') %]</p>
 [% RenderBlockEnd("Service") %]
 [% RenderBlockStart("SLA") %]
                     <p class='ooo12'><span class='ooo12g'>[% Translate('SLA') | html %]:</span> [% Translate(Data.SLA) | html %]</p>
@@ -39,7 +39,7 @@
                     <p class='ooo12'><span class='ooo12g'>[% Translate('Priority') | html %]:</span> [% Translate(Data.Priority) | html %]</p>
 [% RenderBlockEnd("Priority") %]
 [% RenderBlockStart("Queue") %]
-                    <p class='ooo12'><span class='ooo12g'>[% Translate('Queue') | html %]:</span> [% Translate(Data.Queue) | html %]</p>
+                    <p class='ooo12'><span class='ooo12g'>[% Translate('Queue') | html %]:</span> [% Translate(Data.Queue) | html | replace('::', '<wbr>::<wbr>') %]</p>
 [% RenderBlockEnd("Queue") %]
 [% RenderBlockStart("TicketTimeUnits") %]
                     <p class='ooo12'><span class='ooo12g'>[% Translate('Accounted time') | html %]:</span> [% Data.TicketTimeUnits | html %]</p>
