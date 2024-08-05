@@ -328,7 +328,7 @@ sub DisplayValueRender {
     }
 
     # remember if user already closed message about links in iframes
-    if ( %UserPreferences && !defined $Self->{DoNotShowBrowserLinkMessage} ) {
+    if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
         if ( $UserPreferences{UserAgentDoNotShowBrowserLinkMessage} ) {
             $Self->{DoNotShowBrowserLinkMessage} = 1;
         }
