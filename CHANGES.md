@@ -1,4 +1,16 @@
 
+# OTOBO 11.0.5 2024-08-05
+- 2024-08-05 15:49:28 +0200 [Bugfix]   DF RichText: Use UserPreferences only for Agent Interface when rendering DisplayValue (https://github.com/RotherOSS/otobo/issues/3676)
+- 2024-08-05 15:01:08 +0200 [Bugfix]   Allow wrapping in CKEditor5 inputs. (https://github.com/RotherOSS/otobo/issues/3571) - in progress
+- 2024-08-05 14:04:11 +0200 Do not use CodePolicy on minified files.
+- 2024-08-05 12:05:39 +0200 [Bugfix]   CKEditor layout broken in AgentTicketBulk and AgentTicketFreeText (https://github.com/RotherOSS/otobo/issues/3672)
+- 2024-08-05 08:27:34 +0200 [Enhanced] Translate Service in AgentTicketZoom TicketInformation widget (https://github.com/RotherOSS/otobo/issues/3669)
+- 2024-08-04 12:08:13 +0200 Update CPAN::Audit to version 20240718.001
+- 2024-08-02 10:10:59 +0200 Accept suggestions from CodePolicy
+- 2024-08-02 09:44:46 +0200 Replace otobo.de with otobo.io in dot-files
+- 2024-08-01 14:23:55 +0200 [Enhanced] Enable docker quick setup to set FQDN sysconfig (https://github.com/RotherOSS/otobo/issues/3637)
+
+
 # OTOBO 11.0.4 2024-08-01
 - 2024-08-01 14:22:31 +0200 Create new OTOBO language files.
 - 2024-08-01 14:07:43 +0200 Remove wrong labels in AgentTicketSearch (and AgentITSMConfigItemSearch). (https://github.com/RotherOSS/otobo/issues/3522)
@@ -2216,3 +2228,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
