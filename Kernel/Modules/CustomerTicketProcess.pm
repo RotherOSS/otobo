@@ -1776,10 +1776,13 @@ sub _RenderDynamicField {
         Object               => $Param{Object},
     );
 
+    my $FieldClasses = 'Field' . ( $DynamicFieldConfig->{FieldType} eq 'RichText' ? ' RichTextField' : '' );
+
     my %Data = (
-        Name        => $DynamicFieldConfig->{Name},
-        Label       => $DynamicFieldHTML->{Label},
-        HiddenClass => !$Param{Visibility} ? ' oooACLHidden' : '',
+        Name         => $DynamicFieldConfig->{Name},
+        Label        => $DynamicFieldHTML->{Label},
+        HiddenClass  => !$Param{Visibility} ? ' oooACLHidden' : '',
+        FieldClasses => $FieldClasses,
     );
 
     # handle multivalue field

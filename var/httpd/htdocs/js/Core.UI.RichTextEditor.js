@@ -326,11 +326,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 });
 
                 if (!CustomerInterface) {
-                    //Set initial Editor size as defined by System Configuration
-                    let editorMinHeight = $domEditableElement.height()
-                    let editorMaxWidth = $domEditableElement.width();
-                    $domEditableElement.css("height", Math.max(editorMinHeight, Core.Config.Get("RichText.Height")));
-                    $domEditableElement.css("width", Math.min(editorMaxWidth, Core.Config.Get("RichText.Width")));
+                    // set initial Editor size as defined by System Configuration
+                    // add 10 px of padding to the editor width
+                    let EditorWidth = Number( Core.Config.Get("RichText.Width",  620) ) + 10;
+
+                    $domEditableElement.css("height", Core.Config.Get("RichText.Height", 320));
+                    $domEditableElement.css("width", EditorWidth);
                 }
 
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);

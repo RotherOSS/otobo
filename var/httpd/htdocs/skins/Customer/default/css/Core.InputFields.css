@@ -58,6 +58,11 @@ fieldset.Columns .Column .InputField_ListContainer div {
     white-space: nowrap;
 }
 
+.RichTextHolder > div,
+.RichTextHolder > textarea {
+    white-space: wrap;
+}
+
 .RichTextHolder {
     height: 400px;
     width: 66%;

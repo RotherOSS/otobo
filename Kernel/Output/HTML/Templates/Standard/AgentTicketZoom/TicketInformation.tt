@@ -72,12 +72,12 @@
                         <div class="Clear"></div>
 
                         <label>[% Translate("Queue") | html %]:</label>
-                        <p class="Value" title="[% Data.Queue | html %]">[% Data.Queue | html | replace('::', '<wbr>::<wbr>') %]</p>
+                        <p class="Value" title="[% Translate(Data.Queue) | html %]">[% Translate(Data.Queue) | html | replace('::', '<wbr>::<wbr>') %]</p>
                         <div class="Clear"></div>
 
 [% RenderBlockStart("Service") %]
                         <label>[% Translate("Service") | html %]:</label>
-                        <p class="Value" title="[% Data.Service | html %]">[% Data.Service | html %]</p>
+                        <p class="Value" title="[% Translate(Data.Service) | html %]">[% Translate(Data.Service) | html | replace('::', '<wbr>::<wbr>') %]</p>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Service") %]
 [% RenderBlockStart("SLA") %]
