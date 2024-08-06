@@ -471,7 +471,7 @@ sub EditFieldValueGet {
         ITEM:
         for my $Item ( sort @Data ) {
 
-            if ( !$Item ) {
+            if ( !defined $Item || !length $Item ) {
                 splice( @Data, $Index, 1 );
                 next ITEM;
             }
@@ -524,7 +524,7 @@ sub EditFieldValueValidate {
 
         # validate if value is in possible values list (but let pass empty values)
         for my $Item ( @{$Values} ) {
-            if ( !$PossibleValues->{$Item} ) {
+            if ( !exists $PossibleValues->{$Item} ) {
                 $ServerError  = 1;
                 $ErrorMessage = 'The field content is invalid';
             }
@@ -575,11 +575,11 @@ sub DisplayValueRender {
 
     VALUEITEM:
     for my $Item (@Values) {
-        next VALUEITEM if !$Item;
+        next VALUEITEM if !defined $Item;
 
         my $ReadableValue = $Item;
 
-        if ( $PossibleValues->{$Item} ) {
+        if ( defined $PossibleValues->{$Item} ) {
             $ReadableValue = $PossibleValues->{$Item};
             if ($TranslatableValues) {
                 $ReadableValue = $Param{LayoutObject}->{LanguageObject}->Translate($ReadableValue);

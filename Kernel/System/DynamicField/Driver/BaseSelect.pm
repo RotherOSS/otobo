@@ -365,7 +365,7 @@ sub EditFieldValueValidate {
     my $ErrorMessage;
 
     # perform necessary validations
-    if ( $Param{Mandatory} && !$Value ) {
+    if ( $Param{Mandatory} && !( defined $Value && length $Value ) ) {
         return {
             ServerError => 1,
         };
