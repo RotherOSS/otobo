@@ -32,6 +32,7 @@ use List::Util qw(uniq);
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
+    'Kernel::System::DB',
     'Kernel::System::Package',
 );
 
@@ -73,17 +74,33 @@ sub Run {
 
         if ( $PackageName eq 'Ayte-CustomTranslations' ) {
 
-            # rename column 'import' to 'import_param'
-            my @XMLStrings;
-            push @XMLStrings, <<'END_XML';
+            my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+            # check if table translation_item exists
+            my %TableNames = map { lc $_ => 1 } $DBObject->ListTables;
+            if ( $TableNames{translation_item} ) {
+
+                # check if column import exists and thus needs to be renamed
+                $DBObject->Prepare(
+                    SQL   => "SELECT * FROM translation_item",
+                    Limit => 1,
+                );
+                my %ColumnNames = map { lc $_ => 1 } $DBObject->GetColumnNames();
+                if ( $ColumnNames{import} ) {
+
+                    # rename column 'import' to 'import_param'
+                    my @XMLStrings;
+                    push @XMLStrings, <<'END_XML';
 <TableAlter Name="translation_item">
     <ColumnChange NameOld="import" NameNew="import_param" Required="false" Type="SMALLINT" />
 </TableAlter>
 END_XML
 
-            return unless $Self->ExecuteXMLDBArray(
-                XMLArray => \@XMLStrings,
-            );
+                    return unless $Self->ExecuteXMLDBArray(
+                        XMLArray => \@XMLStrings,
+                    );
+                }
+            }
         }
 
         next PACKAGENAME if $Success;
