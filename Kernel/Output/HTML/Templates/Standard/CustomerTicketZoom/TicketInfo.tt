@@ -24,7 +24,7 @@
                 <div class="oooSection">
                     <h3>[% Translate('Ticket Information') | html %]</h3>
 [% RenderBlockStart("Type") %]
-                    <p class='ooo12'><span class='ooo12g'>[% Translate('Type') | html %]:</span> [% Data.Type | html %]</p>
+                    <p class='ooo12'><span class='ooo12g'>[% Translate('Type') | html %]:</span> [% Translate(Data.Type) | html %]</p>
 [% RenderBlockEnd("Type") %]
 [% RenderBlockStart("Service") %]
                     <p class='ooo12'><span class='ooo12g'>[% Translate('Service') | html %]:</span> [% Translate(Data.Service) | html | replace('::', '<wbr>::<wbr>') %]</p>
