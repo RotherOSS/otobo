@@ -30,7 +30,7 @@ jobs:
                 printenv | sort
 
             # Use caching for not needing to reinstall modules from CPAN for every check.
-            # Packages are reinstalled when cpanfile.docker.snapshot changes or when
+            # Packages are reinstalled when cpanfile.docker changes or when
             # cache key is manually changed.
             # Set current date for forcing a rebuild. In this case, make sure that
             # code_policy.yml, syntax_check.yml, and cache_local_lib.yml are kept in sync.
@@ -38,12 +38,12 @@ jobs:
             # For that there is cache_local_lib.yml.
             # See https://docs.github.com/en/actions/advanced-guides/caching-dependencies-to-speed-up-workflows#restrictions-for-accessing-a-cache
 
-            - name: 'Get SHA of cpanfile.docker.snapshot'
+            - name: 'Get SHA of cpanfile.docker'
               id: get-sha
               run: |
-                 echo "sha=$(git rev-parse :cpanfile.docker.snapshot)" >> $GITHUB_OUTPUT
+                 echo "sha=$(git rev-parse :cpanfile.docker)" >> $GITHUB_OUTPUT
 
-            - name: 'Print SHA of cpanfile.docker.snapshot'
+            - name: 'Print SHA of cpanfile.docker'
               run: |
                 echo '${{steps.get-sha.outputs.sha}}'
 
@@ -55,7 +55,7 @@ jobs:
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20240720a
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20240808a
 
             # for debugging when there a problems installing a module
             # - name: 'XML::LibXSLT'

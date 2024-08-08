@@ -18,7 +18,7 @@ jobs:
         steps:
 
             # Use caching for not needing to reinstall modules from CPAN for every check.
-            # Packages are reinstalled when cpanfile.docker.snapshot changes or when
+            # Packages are reinstalled when cpanfile.docker changes or when
             # cache key is manually changed.
             # Set current date for forcing a rebuild. In this case, make sure that
             # code_policy.yml, syntax_check.yml, and cache_local_lib.yml are kept in sync.
@@ -34,14 +34,14 @@ jobs:
                     var cpanfile_content = await github.rest.repos.getContent({
                         owner: context.repo.owner,
                         repo:  context.repo.repo,
-                        path:  'cpanfile.docker.snapshot',
+                        path:  'cpanfile.docker',
                         ref:   context.ref,
                     });
 
                     return cpanfile_content.data.sha;
                 result-encoding: string
 
-            - name: 'Print SHA of cpanfile.docker.snapshot'
+            - name: 'Print SHA of cpanfile.docker'
               run: echo '${{steps.get-sha.outputs.result}}'
 
             -
@@ -52,7 +52,7 @@ jobs:
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20240720a
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20240808a
 
             - name: 'check out the relevant OTOBO branch'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
