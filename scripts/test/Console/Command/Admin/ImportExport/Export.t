@@ -45,7 +45,8 @@ use Test2::V0;
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::ImportExport::Export');
+my $CommandObject      = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::ImportExport::Export');
+my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -67,9 +68,6 @@ is(
     "No --template-number  - exit code",
 );
 
-# get ImportExport object
-my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
-
 # add test template
 my $TemplateID = $ImportExportObject->TemplateAdd(
     Object  => 'Translations',
@@ -82,7 +80,8 @@ my $TemplateID = $ImportExportObject->TemplateAdd(
 ok( $TemplateID, "Import/Export template is created" );
 diag("TemplateID: $TemplateID");
 
-# no object data for test template is needed
+# no object data is needed for test template
+
 # add the format data of the test template
 my %FormatData = (
     Charset              => 'UTF-8',

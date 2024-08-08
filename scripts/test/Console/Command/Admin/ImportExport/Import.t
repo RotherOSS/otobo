@@ -14,6 +14,25 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+=head1 NAME
+
+Console/Command/Admin/ImportExport/Import.t - testing the Import console command
+
+=head1 SYNOPSIS
+
+    # a test script
+    prove --verbose scripts/test/Console/Command/Admin/ImportExport/Import.t
+
+=head1 DESCRIPTION
+
+A sanity for exporting data. Custom translations are used in the test script
+as this is the only object type that is supported out of the box.
+
+Not that this is only a sanity test whether the command completes. The effect
+of the import is not checked.
+
+=cut
+
 use v5.24;
 use strict;
 use warnings;
@@ -37,7 +56,10 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $RandomID = $Helper->GetRandomID();
+ok( $RandomID, 'got a random ID' );
+diag("RandomID: $RandomID");
 
 # test command without --template-number option
 my $ExitCode = $CommandObject->Execute;
@@ -50,22 +72,61 @@ is(
 
 # add test template
 my $TemplateID = $ImportExportObject->TemplateAdd(
-    Object  => 'Dummy',
+    Object  => 'Translations',
     Format  => 'CSV',
-    Name    => 'Template' . $Helper->GetRandomID(),
+    Name    => 'Template' . $RandomID,
     ValidID => 1,
     Comment => 'Comment',
     UserID  => 1,
 );
-ok( $TemplateID, "Import/Export template is created - $TemplateID" );
+ok( $TemplateID, "Import/Export template is created" );
+diag("TemplateID: $TemplateID");
 
-# test command without Source argument
+# no object data is needed for test template
+
+# add the format data of the test template
+my %FormatData = (
+    Charset              => 'UTF-8',
+    ColumnSeparator      => 'Dot',
+    IncludeColumnHeaders => 1,
+);
+my $FormatDataSaveSuccess = $ImportExportObject->FormatDataSave(
+    TemplateID => $TemplateID,
+    FormatData => \%FormatData,
+    UserID     => 1,
+);
+ok( $FormatDataSaveSuccess, "format data for test template is added" );
+
+# use same sample file as in Export.t
+my $SourcePath = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/ImportExport/ExportTranslations_de.csv";
+
+# test command with wrong template number
+$ExitCode = $CommandObject->Execute( '--template-number', $Helper->GetRandomID(), $SourcePath . 'TemplateExport.csv' );
+
+is(
+    $ExitCode,
+    1,
+    "Command with wrong template number - exit code",
+);
+
+# test command without source argument
 $ExitCode = $CommandObject->Execute( '--template-number', $TemplateID );
 
 is(
     $ExitCode,
     1,
-    "No Source argument - exit code",
+    "No source argument - exit code",
 );
+
+# test command with --template-number option and Source argument
+$ExitCode = $CommandObject->Execute( '--template-number', $TemplateID, $SourcePath );
+
+is(
+    $ExitCode,
+    0,
+    "Option - --template-number option and Source argument",
+);
+
+# TODO: test the effect of the import
 
 done_testing;
