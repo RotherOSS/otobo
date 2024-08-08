@@ -16,6 +16,7 @@
 
 package Kernel::System::Translations;
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -47,7 +48,7 @@ Kernel::System::Translations -  Translations lib
 
 =head1 DESCRIPTION
 
-All Translations functions. E. g. to add Translations or to get Translations.
+All Translations functions. E. g. to add translations or to get translations.
 
 =head1 PUBLIC INTERFACE
 
@@ -64,8 +65,7 @@ create an object. Do not use it directly, instead use:
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{Debug} = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::TranslationsDebug') || 0;
 
@@ -204,12 +204,12 @@ sub DraftTranslationsGet {
     my @DraftItems;
 
     $Param{Import} ||= 0;
-    my $Flag = $Param{Active} ? "'a'" : "'n','e','d'";
+    my $Flag = $Param{Active} ? q{'a'} : q{'n', 'e', 'd'};
 
     return \@DraftItems
         if !$DBObject->Prepare(
             SQL =>
-            "SELECT id, language, content, translation, flag, create_by, create_time, change_by, change_time FROM translation_item WHERE language = ? and import_param = ? and flag in($Flag) ORDER BY flag, content ASC",
+            "SELECT id, language, content, translation, flag, create_by, create_time, change_by, change_time FROM translation_item WHERE language = ? AND import_param = ? AND flag IN ($Flag) ORDER BY flag, content ASC",
             Bind => [ \$Param{Language}, \$Param{Import} ]
         );
 
@@ -284,11 +284,11 @@ sub DraftTranslationsExport {
         return \@DraftItems;
     }
 
-    my $SQLIn = "'" . join( "', '", @LanguageIDsQuoted ) . "'";
+    my $SQLIn = join ', ', map {qq{'$_'}} @LanguageIDsQuoted;
 
     return \@DraftItems
         if !$DBObject->Prepare(
-            SQL => "SELECT distinct(content) FROM translation_item WHERE language in ($SQLIn) and import_param = 0 and flag = 'a' ORDER BY 1 ASC",
+            SQL => "SELECT distinct(content) FROM translation_item WHERE language IN ($SQLIn) AND import_param = 0 AND flag = 'a' ORDER BY 1 ASC",
         );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -301,7 +301,7 @@ sub DraftTranslationsExport {
 
         for my $DestLang ( @{ $Param{Language} } ) {
             $DBObject->Prepare(
-                SQL  => "SELECT translation FROM translation_item WHERE language = ? and content = ? and import_param = 0 and flag = 'a' ORDER BY content ASC",
+                SQL  => "SELECT translation FROM translation_item WHERE language = ? AND content = ? AND import_param = 0 AND flag = 'a' ORDER BY content ASC",
                 Bind => [ \$DestLang, \$Content ]
             );
 
@@ -328,9 +328,9 @@ delete a draft translation item
     my $Success = $TranslationsObject->DraftTranslationDelete(
         Language     => 'en'
         ID           => 100,
-        Mark         => '1',    #Optional
-        Content     => 'White', #Optional
-        Translation => 'Blanco' #Optional
+        Mark         => '1',    # optional
+        Content     => 'White', # optional
+        Translation => 'Blanco' # optional
     );
 
 Returns:
@@ -372,7 +372,7 @@ sub DraftTranslationDelete {
 
         #Check if item ID/Language exists in db
         $DBObject->Prepare(
-            SQL  => "SELECT id FROM translation_item WHERE language = ? AND id = ? and flag in ('n','e')",
+            SQL  => "SELECT id FROM translation_item WHERE language = ? AND id = ? AND flag IN ('n', 'e')",    # new and edited
             Bind => [ \$Param{Language}, \$Param{ID} ]
         );
 
@@ -400,7 +400,7 @@ sub DraftTranslationDelete {
 
         #Check if item Language/Content exists in db
         $DBObject->Prepare(
-            SQL  => "SELECT id FROM translation_item WHERE language = ? AND content = ? and flag <> 'a' ",
+            SQL  => "SELECT id FROM translation_item WHERE language = ? AND content = ? AND flag <> 'a'",
             Bind => [ \$Param{Language}, \$Param{Content} ]
         );
 
@@ -451,7 +451,7 @@ sub DraftTranslationUndoDelete {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     my $Success = $DBObject->Do(
-        SQL  => "DELETE FROM translation_item WHERE language = ? AND content = ? AND flag ='d'",
+        SQL  => "DELETE FROM translation_item WHERE language = ? AND content = ? AND flag = 'd'",
         Bind => [ \$Param{Language}, \$Param{Content} ]
     );
 
@@ -693,7 +693,7 @@ sub WriteTranslationFile {
             my ( $CreateBy, $CreateTime ) = '';
 
             $Kernel::OM->Get('Kernel::System::DB')->Prepare(
-                SQL  => "SELECT create_by, create_time FROM translation_item WHERE language = ? and content = ? and flag = 'a'",
+                SQL  => "SELECT create_by, create_time FROM translation_item WHERE language = ? AND content = ? AND flag = 'a'",
                 Bind => [ \$Param{UserLanguage}, \$Source ]
             );
 
@@ -704,20 +704,20 @@ sub WriteTranslationFile {
 
             if ($CreateBy) {
                 $Kernel::OM->Get('Kernel::System::DB')->Do(
-                    SQL  => "DELETE FROM translation_item WHERE language = ? and content = ? and flag = 'a'",
+                    SQL  => "DELETE FROM translation_item WHERE language = ? AND content = ? AND flag = 'a'",
                     Bind => [ \$Param{UserLanguage}, \$Source ]
                 );
 
                 $Kernel::OM->Get('Kernel::System::DB')->Do(
                     SQL =>
                         "UPDATE translation_item SET content = ?, translation = ?, import_param = 0, change_time = current_timestamp, create_by = ?, create_time = ?, flag = 'a'
-                            WHERE language = ? and content = ? and flag in('e','n')",
+                            WHERE language = ? AND content = ? AND flag IN ('e', 'n')",
                     Bind => [ \$Item{Content}, \$Item{Translation}, \$CreateBy, \$CreateTime, \$Param{UserLanguage}, \$Source ]
                 );
             }
             else {
                 $Kernel::OM->Get('Kernel::System::DB')->Do(
-                    SQL  => "UPDATE translation_item SET content = ?, translation = ?, import_param = 0, flag = 'a' WHERE language = ? and content = ? and flag in('e','n')",
+                    SQL  => "UPDATE translation_item SET content = ?, translation = ?, import_param = 0, flag = 'a' WHERE language = ? AND content = ? AND flag IN ('e', 'n')",
                     Bind => [ \$Item{Content}, \$Item{Translation}, \$Param{UserLanguage}, \$Source ]
                 );
             }
@@ -726,7 +726,7 @@ sub WriteTranslationFile {
             delete $Collected{ $Item{Content} };
 
             $Kernel::OM->Get('Kernel::System::DB')->Do(
-                SQL  => "DELETE FROM translation_item WHERE language = ? and content = ?",
+                SQL  => "DELETE FROM translation_item WHERE language = ? AND content = ?",
                 Bind => [ \$Param{UserLanguage}, \$Source ]
             );
         }
