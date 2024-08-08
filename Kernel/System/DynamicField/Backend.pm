@@ -532,6 +532,9 @@ sub ValueSet {
         return;
     }
 
+    # do not set value for script fields automatically; check this directly
+    return 1 if $Self->{$DynamicFieldBackend}{Behaviors}{IsScriptField} && !$Param{Store};
+
     my $OldValue = $Self->ValueGet(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         ObjectID           => $Param{ObjectID},
