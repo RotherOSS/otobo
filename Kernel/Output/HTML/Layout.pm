@@ -2953,6 +2953,7 @@ sub AJAXException {
         [],
         $Param{Body} // '',
     );
+    $ServerErrorResponse->content_type('text/html');
 
     # The exception is caught be Plack::Middleware::HTTPExceptions
     die Kernel::System::Web::Exception->new(
