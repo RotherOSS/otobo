@@ -65,7 +65,12 @@ sub Run {
             Disposition => 'attachment',
             %UploadStuff,
         );
-        return unless $Success;
+        if ( !$Success ) {
+            $LayoutObject->AJAXException(
+                StatusCode => '400',
+                Body       => 'File exceeds upload size limit!',
+            );
+        }
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
