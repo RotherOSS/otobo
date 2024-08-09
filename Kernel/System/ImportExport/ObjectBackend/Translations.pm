@@ -16,8 +16,17 @@
 
 package Kernel::System::ImportExport::ObjectBackend::Translations;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
@@ -41,6 +50,22 @@ our @ObjectDependencies = (
     'Kernel::System::Type'
 );
 
+=head1 NAME
+
+Kernel::System::ImportExport::ObjectBackend::Translations - import/export backend for translations
+
+=head1 DESCRIPTION
+
+All functions to import and export custom translations.
+
+=head1 PUBLIC INTERFACE
+
+=head2 new()
+
+create an object
+
+=cut
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -51,6 +76,16 @@ sub new {
     return $Self;
 
 }
+
+=head2 ObjectAttributesGet()
+
+get the object attributes of an object as a ref to an array of hash references
+
+    my $Attributes = $ObjectBackend->ObjectAttributesGet(
+        UserID => 1,
+    );
+
+=cut
 
 sub ObjectAttributesGet {
     my ( $Self, %Param ) = @_;
@@ -63,6 +98,7 @@ sub ObjectAttributesGet {
             Priority => 'error',
             Message  => 'Need UserID!',
         );
+
         return;
     }
 
@@ -94,22 +130,50 @@ sub ObjectAttributesGet {
     return $Attributes;
 }
 
+=head2 MappingObjectAttributesGet()
+
+gets the mapping attributes of an object as reference to an array of hash references.
+
+    my $Attributes = $ObjectBackend->MappingObjectAttributesGet(
+        TemplateID => 123,
+        UserID     => 1,
+    );
+
+Returns:
+
+    # TODO
+    my $Attributes = [
+        {
+            Input => {
+                Data => [
+                    [...]
+                ],
+            },
+        },
+    ];
+
+=cut
+
 sub MappingObjectAttributesGet {
     my ( $Self, %Param ) = @_;
 
     #Load defined Languages for the system
     my %SystemLanguages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
 
-    #Fill hash data for language Dropdown
+    # Fill hash data for language Dropdown
     my @ElementList = (
         {
             Key   => 'Content',
             Value => 'Source String',
         },
-        ( map { { Key => $_, Value => "Translation $SystemLanguages{$_} ($_)" } } sort keys %SystemLanguages ),
+        (
+            map { { Key => $_, Value => "Translation $SystemLanguages{$_} ($_)" } }
+                sort
+                keys %SystemLanguages
+        ),
     );
 
-    my $Attributes = [
+    return [
         {
             Key   => 'Key',
             Name  => 'Key',
@@ -122,8 +186,6 @@ sub MappingObjectAttributesGet {
             },
         },
     ];
-
-    return $Attributes;
 }
 
 =head2 SearchAttributesGet()
@@ -149,6 +211,7 @@ sub SearchAttributesGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -169,7 +232,7 @@ sub SearchAttributesGet {
         );
     }
 
-    my $AttributeList = [
+    return [
         {
             Key   => 'Untranslated',
             Name  => 'Export Untranslated strings of',
@@ -184,13 +247,11 @@ sub SearchAttributesGet {
             },
         },
     ];
-
-    return $AttributeList;
 }
 
 =head2 ExportDataGet()
 
-get export data as 2ND-array-hash reference
+get export data as two dimensional table. That is a reference to an array of array references.
 
     my $ExportData = $ObjectBackend->ExportDataGet(
         TemplateID => 123,
@@ -229,6 +290,7 @@ sub ExportDataGet {
             Priority => 'error',
             Message  => "No object data found for the template id $Param{TemplateID}",
         );
+
         return;
     }
 
@@ -245,6 +307,7 @@ sub ExportDataGet {
             Priority => 'error',
             Message  => "No valid mapping list found for the template id $Param{TemplateID}",
         );
+
         return;
     }
 
@@ -266,6 +329,7 @@ sub ExportDataGet {
                 Priority => 'error',
                 Message  => "No valid mapping list found for the template id $Param{TemplateID}",
             );
+
             return;
         }
 
