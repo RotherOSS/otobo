@@ -101,7 +101,9 @@ sub Run {
 
     if ($DestinationFile) {
 
-        my $FileContent = join "\n", @{ $Result->{DestinationContent} };
+        # Make sure that there is a line break after the last line.
+        # This unconfuses `wc -l`.
+        my $FileContent = join '', map { $_ . "\n" } $Result->{DestinationContent}->@*;
 
         # save destination content to file
         my $Success = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
