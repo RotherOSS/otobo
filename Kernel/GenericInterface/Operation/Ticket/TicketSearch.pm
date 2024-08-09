@@ -555,7 +555,7 @@ sub _GetDynamicFields {
 
         # Compatibility with older versions of the web service.
         for my $ParameterName ( sort keys %Param ) {
-            if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d\-]+ ) \z}xms ) {
+            if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z[0-9]\-]+ ) \z}xms ) {
                 $DynamicFieldsRaw{$1} = $Param{$ParameterName};
             }
         }
