@@ -1,9 +1,10 @@
 %YAML 1.1
 ---
 
-# Workflow for building Docker images. For now only devel images are built
-# and pushed to Docker Hub.
-name: 'DockerImageBuilder'
+# Workflow for building devel Docker images and pushing them to Docker hub.
+# See docker_image_builder_rel.yml for the workflow that builds
+# the release Docker images.
+name: 'DockerImageBuilderDevel'
 
 on:
 
