@@ -102,22 +102,7 @@ sub ObjectAttributesGet {
         return;
     }
 
-    my %FormatList = (
-        "plain" => "PlainText"
-    );
-
-    my $Attributes = [
-        {
-            Key   => 'Format',
-            Name  => 'Format',
-            Input => {
-                Type         => 'Selection',
-                Data         => \%FormatList,
-                Required     => 1,
-                Translation  => 1,
-                PossibleNone => 0,
-            },
-        },
+    return [
         {
             Key   => 'EmptyFieldsLeaveTheOldValues',
             Name  => 'Empty fields indicate that the current values are kept',
@@ -126,8 +111,6 @@ sub ObjectAttributesGet {
             },
         },
     ];
-
-    return $Attributes;
 }
 
 =head2 MappingObjectAttributesGet()
