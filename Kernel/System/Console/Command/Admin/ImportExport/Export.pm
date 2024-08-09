@@ -20,6 +20,7 @@ use v5.24;
 use strict;
 use warnings;
 use utf8;
+use re '/aa';
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
@@ -37,13 +38,13 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('The tool for exporting generic items');
+    $Self->Description('This is a tool for exporting items. The specifics are defined in an ImportExport template.');
     $Self->AddOption(
         Name        => 'template-number',
-        Description => "Specify a template number to be exported.",
+        Description => 'The number of the ImportExport template that specifies the export.',
         Required    => 1,
         HasValue    => 1,
-        ValueRegex  => qr/\d+/smx,
+        ValueRegex  => qr/^\d+$/,
     );
     $Self->AddArgument(
         Name        => 'destination',
