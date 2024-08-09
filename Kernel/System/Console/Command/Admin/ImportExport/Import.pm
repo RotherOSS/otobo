@@ -49,7 +49,7 @@ sub Configure {
     );
     $Self->AddArgument(
         Name        => 'source',
-        Description => "Specify the path to the file which contains the data for importing.",
+        Description => "Specify the path to the file or directory which contains the data for importing.",
         Required    => 1,
         ValueRegex  => qr/.*/,
     );
@@ -60,9 +60,21 @@ sub Configure {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    my $SourcePath = $Self->GetArgument('source');
-    if ( $SourcePath && !-r $SourcePath ) {
-        die "File $SourcePath does not exist, can not be read.\n";
+    my $Source = $Self->GetArgument('source');
+    if ( !$Source ) {
+
+        # source is optional, even if an import without source is unsatisfying
+    }
+    elsif ( -d $Source ) {
+
+        # a directory is fine
+    }
+    elsif ( -r $Source ) {
+
+        # a readable file is fine
+    }
+    else {
+        die "The source $Source does not exist or can not be read.";
     }
 
     return;
@@ -86,66 +98,110 @@ sub Run {
         return $Self->ExitCodeError;
     }
 
-    $Self->Print("<yellow>Importing config items...</yellow>\n");
+    $Self->Print("<yellow>Importing items...</yellow>\n");
     $Self->Print( "<yellow>" . ( '=' x 69 ) . "</yellow>\n" );
 
-    my $SourceContent;
-    my $SourceFile = $Self->GetArgument('source');
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    my ( @SourceFiles, $IsChunked );
+    {
+        my $Source = $Self->GetArgument('source');
+        if ( -d $Source ) {
+            @SourceFiles = $MainObject->DirectoryRead(
+                Directory => $Source,
+                Filter    => 'chunk_[0-9][0-9][0-9][0-9][0-9][0-9]*.csv',    # a fancy glob pattern
+            );
+            $IsChunked = 1;
+        }
+        else {
 
-    if ($SourceFile) {
+            # the source is a single file
+            push @SourceFiles, $Source;
+        }
+    }
 
-        $Self->Print("<yellow>Read File $SourceFile.</yellow>\n");
+    # for summing up the chunks
+    my %Total = (
+        Success => 0,
+        Failed  => 0,
+    );
+
+    # importing
+    SOURCE_FILE:
+    for my $SourceFile (@SourceFiles) {
+
+        next SOURCE_FILE unless $SourceFile;
+
+        $Self->PrintWarning("Read File $SourceFile.");
 
         # read source file
-        $SourceContent = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+        my $SourceContent = $MainObject->FileRead(
             Location => $SourceFile,
             Result   => 'SCALAR',
             Mode     => 'binmode',
         );
 
+        # bail out when a file is not readable
+        # even though other files might already have been imported
         if ( !$SourceContent ) {
-            $Self->PrintError("Can't read file $SourceFile.\nImport aborted.\n") if !$SourceContent;
+            $Self->PrintError("Can't read file $SourceFile.\nImport aborted.\n");
 
             return $Self->ExitCodeError;
         }
 
+        # import data
+        my $Result = $Kernel::OM->Get('Kernel::System::ImportExport')->Import(
+            TemplateID    => $TemplateID,
+            SourceContent => $SourceContent,
+            UserID        => 1,
+        );
+
+        if ( !$Result ) {
+            $Self->PrintError("\nError occurred. Import impossible! See the OTOBO log for details.\n");
+
+            return $Self->ExitCodeError;
+        }
+
+        # print result
+        $Self->PrintOk("\nImport of $Result->{Counter} $Result->{Object} records:");
+        $Self->Print( ( '-' x 69 ) . "\n" );
+        $Self->PrintOk("Success: $Result->{Success} succeeded");
+        if ( $Result->{Failed} ) {
+            $Self->PrintError("$Result->{Failed} failed.\n");
+        }
+        else {
+            $Self->PrintOk("Error: $Result->{Failed} failed.");
+        }
+
+        # sum up the total
+        $Total{Success} += $Result->{Success} // 0;
+        $Total{Failed}  += $Result->{Failed}  // 0;
+
+        for my $RetCode ( sort keys %{ $Result->{RetCode} } ) {
+            my $Count = $Result->{RetCode}->{$RetCode} || 0;
+            $Self->Print("<green>Import of $Result->{Counter} $Result->{Object} records: $Count $RetCode</green>\n");
+        }
+        if ( $Result->{Failed} ) {
+            $Self->Print("<green>Last processed line number of import file: $Result->{Counter}</green>\n");
+        }
+
+        $Self->Print("<green>Import complete.</green>\n");
+        $Self->Print( "<green>" . ( '-' x 69 ) . "</green>\n" );
     }
 
-    # import data
-    my $Result = $Kernel::OM->Get('Kernel::System::ImportExport')->Import(
-        TemplateID    => $TemplateID,
-        SourceContent => $SourceContent,
-        UserID        => 1,
-    );
-
-    if ( !$Result ) {
-        $Self->PrintError("\nError occurred. Import impossible! See the OTOBO log for details.\n");
-
-        return $Self->ExitCodeError;
+    # report the total
+    if ($IsChunked) {
+        my $ChunkCounter = @SourceFiles;
+        $Self->Print(
+            join '',
+            "\n",
+            "Total after importing $ChunkCounter chunk(s):\n",
+            "Success: $Total{Success}\n",
+            "Failed : $Total{Failed}\n",
+            "\n"
+        );
     }
 
-    # print result
-    $Self->Print("\n<green>Import of $Result->{Counter} $Result->{Object} records:</green>\n");
-    $Self->Print( "<green>" . ( '-' x 69 ) . "</green>\n" );
-    $Self->Print("<green>Success: $Result->{Success} succeeded</green>\n");
-    if ( $Result->{Failed} ) {
-        $Self->PrintError("$Result->{Failed} failed.\n");
-    }
-    else {
-        $Self->Print("<green>Error: $Result->{Failed} failed.</green>\n");
-    }
-
-    for my $RetCode ( sort keys %{ $Result->{RetCode} } ) {
-        my $Count = $Result->{RetCode}->{$RetCode} || 0;
-        $Self->Print("<green>Import of $Result->{Counter} $Result->{Object} records: $Count $RetCode</green>\n");
-    }
-    if ( $Result->{Failed} ) {
-        $Self->Print("<green>Last processed line number of import file: $Result->{Counter}</green>\n");
-    }
-
-    $Self->Print("<green>Import complete.</green>\n");
-    $Self->Print( "<green>" . ( '-' x 69 ) . "</green>\n" );
-    $Self->Print("<green>Done.</green>\n");
+    $Self->PrintOk('Done.');
 
     return $Self->ExitCodeOk;
 }

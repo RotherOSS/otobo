@@ -2378,7 +2378,7 @@ sub Import {
         return;
     }
 
-    # load object backend
+    # load object backend, instance variables are kept
     my $ObjectBackend = $Kernel::OM->Get(
         'Kernel::System::ImportExport::ObjectBackend::' . $TemplateData->{Object}
     );
