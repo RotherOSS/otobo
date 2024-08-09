@@ -20,6 +20,7 @@ use v5.24;
 use strict;
 use warnings;
 use utf8;
+use re '/aa';
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
@@ -37,19 +38,20 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('The tool for importing generic items');
+    $Self->Description('This is a tool for importing items. The specifics are defined in an ImportExport template.');
     $Self->AddOption(
         Name        => 'template-number',
-        Description => "Specify a template number to be impoerted.",
+        Description => 'Specify a template number to be imported.',
+        Description => 'the number of the ImportExport template that specifies the import',
         Required    => 1,
         HasValue    => 1,
-        ValueRegex  => qr/\d+/smx,
+        ValueRegex  => qr/^\d+$/,
     );
     $Self->AddArgument(
         Name        => 'source',
         Description => "Specify the path to the file which contains the data for importing.",
         Required    => 1,
-        ValueRegex  => qr/.*/smx,
+        ValueRegex  => qr/.*/,
     );
 
     return;
@@ -81,7 +83,7 @@ sub Run {
         $Self->PrintError("Template $TemplateID not found!.\n");
         $Self->PrintError("Export aborted..\n");
 
-        return $Self->ExitCodeError();
+        return $Self->ExitCodeError;
     }
 
     $Self->Print("<yellow>Importing config items...</yellow>\n");
@@ -104,7 +106,7 @@ sub Run {
         if ( !$SourceContent ) {
             $Self->PrintError("Can't read file $SourceFile.\nImport aborted.\n") if !$SourceContent;
 
-            return $Self->ExitCodeError();
+            return $Self->ExitCodeError;
         }
 
     }
@@ -119,7 +121,7 @@ sub Run {
     if ( !$Result ) {
         $Self->PrintError("\nError occurred. Import impossible! See the OTOBO log for details.\n");
 
-        return $Self->ExitCodeError();
+        return $Self->ExitCodeError;
     }
 
     # print result
@@ -145,7 +147,7 @@ sub Run {
     $Self->Print( "<green>" . ( '-' x 69 ) . "</green>\n" );
     $Self->Print("<green>Done.</green>\n");
 
-    return $Self->ExitCodeOk();
+    return $Self->ExitCodeOk;
 }
 
 1;
