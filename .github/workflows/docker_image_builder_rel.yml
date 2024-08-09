@@ -21,6 +21,7 @@ jobs:
     strategy:
 
       # create different images
+      # note that there is no otobo-web-kerberos target
       matrix:
         target:     [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         tag_prefix: 'test'
