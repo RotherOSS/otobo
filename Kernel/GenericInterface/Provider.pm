@@ -95,7 +95,7 @@ sub _Content {
     if (
         $RequestURI
         &&
-        $RequestURI =~ m{ nph-genericinterface[.]pl/ (?: WebserviceID/ (?<ID> \d+ ) | Webservice/ (?<Name> [^/?]+ ) ) }smx
+        $RequestURI =~ m{ nph-genericinterface[.]pl/ (?: WebserviceID/ (?<ID> [0-9]+ ) | Webservice/ (?<Name> [^/?]+ ) ) }smx
         )
     {
         %WebserviceGetData = (

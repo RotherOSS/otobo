@@ -303,7 +303,7 @@ sub HandleResponse {
 
         # fix ExecutrionTime param
         if ( $QueryParams{ExecutionTime} ) {
-            $QueryParams{ExecutionTime} =~ s{(\d+)\+(\d+)}{$1 $2};
+            $QueryParams{ExecutionTime} =~ s{([0-9]+)\+([0-9]+)}{$1 $2};
         }
 
         return {
