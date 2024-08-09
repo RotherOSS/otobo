@@ -70,11 +70,11 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
-
+    return bless {
+        AllRows          => undef,    # will be initialized in first call to ExportDataGet()
+        LastHandledIndex => -1,       # used for chunking
+        ChunkingFinished =>  1,       # indicate that chunking is finished
+    }, $Type;
 }
 
 =head2 ObjectAttributesGet()
@@ -150,7 +150,8 @@ sub MappingObjectAttributesGet {
             Value => 'Source String',
         },
         (
-            map { { Key => $_, Value => "Translation $SystemLanguages{$_} ($_)" } }
+            map
+            { { Key => $_, Value => "Translation $SystemLanguages{$_} ($_)" } }
                 sort
                 keys %SystemLanguages
         ),
@@ -246,9 +247,7 @@ get export data as two dimensional table. That is a reference to an array of arr
 sub ExportDataGet {
     my ( $Self, %Param ) = @_;
 
-    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
-    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
-    my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
     # check needed stuff
     for my $Argument (qw(TemplateID UserID)) {
@@ -257,9 +256,282 @@ sub ExportDataGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
+
+    # no chunking per default
+    my $ChunkSize = $Param{ChunkSize} // 0;
+
+    if ( $ChunkSize >= 1 ) {
+
+        # chunked mode,
+        $Self->{ChunkingFinished} = 0;
+
+        # get the complete data only on the first invocation
+        $DB::single = 1;
+        $Self->{AllRows} //= $Self->_GetTranslations(
+            TemplateID => $Param{TemplateID},
+            UserID     => $Param{UserID},
+        );
+
+        # do the chunking
+        my $EndIndex            = $#{ $Self->{AllRows} };
+        my $OldLastHandledIndex = $Self->{LastHandledIndex};
+        my $NewLastHandledIndex = $Self->{LastHandledIndex} + $ChunkSize;
+        if ( $NewLastHandledIndex >= $EndIndex ) {
+            $Self->{ChunkingFinished} = 1;
+            $NewLastHandledIndex = $EndIndex;
+        }
+
+        # let the next chunk know where to start
+        $Self->{LastHandledIndex} = $NewLastHandledIndex;
+
+        return [
+            @{ $Self->{AllRows} }[ $OldLastHandledIndex + 1 .. $NewLastHandledIndex ]
+        ];
+    }
+
+    # non-cunked mode, return all found translations
+    return $Self->_GetTranslations(
+        TemplateID => $Param{TemplateID},
+        UserID     => $Param{UserID},
+    );
+}
+
+=head2 ImportDataSave()
+
+import one row of the import data
+
+    my $ConfigItemID = $ObjectBackend->ImportDataSave(
+        TemplateID    => 123,
+        ImportDataRow => $ArrayRef,
+        UserID        => 1,
+    );
+
+=cut
+
+sub ImportDataSave {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
+    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
+    my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
+
+    # check needed stuff
+    for my $Argument (qw(TemplateID ImportDataRow UserID)) {
+        if ( !$Param{$Argument} ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+
+            return ( undef, 'Failed' );
+        }
+    }
+
+    # check import data row
+    if ( ref $Param{ImportDataRow} ne 'ARRAY' ) {
+        $LogObject->Log(
+            Priority => 'error',
+            Message  => 'ImportDataRow must be an array reference',
+        );
+
+        return ( undef, 'Failed' );
+    }
+
+    # get object data
+    my $ObjectData = $ImportExportObject->ObjectDataGet(
+        TemplateID => $Param{TemplateID},
+        UserID     => $Param{UserID},
+    );
+
+    # check object data
+    if ( !$ObjectData || ref $ObjectData ne 'HASH' ) {
+        $LogObject->Log(
+            Priority => 'error',
+            Message  => "No object data found for the template id $Param{TemplateID}",
+        );
+
+        return ( undef, 'Failed' );
+    }
+
+    # get the mapping list
+    my $MappingList = $ImportExportObject->MappingList(
+        TemplateID => $Param{TemplateID},
+        UserID     => $Param{UserID},
+    );
+
+    # check the mapping list
+    if ( !$MappingList || ref $MappingList ne 'ARRAY' || !@{$MappingList} ) {
+
+        $LogObject->Log(
+            Priority => 'error',
+            Message  => "No valid mapping list found for the template id $Param{TemplateID}",
+        );
+
+        return ( undef, 'Failed' );
+    }
+
+    # create the mapping object list
+    my $SourceString;
+    my %NewTranslation;
+    for my $i ( 0 .. $#{$MappingList} ) {
+        my $ImportData = $Param{ImportDataRow}[$i];
+        my $MappingID  = $MappingList->[$i];
+
+        # get mapping object data
+        my $MappingObjectData =
+            $ImportExportObject->MappingObjectDataGet(
+                MappingID => $MappingID,
+                UserID    => $Param{UserID},
+            );
+
+        # check mapping object data
+        if ( !$MappingObjectData || ref $MappingObjectData ne 'HASH' ) {
+
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "No valid mapping list found for the template id $Param{TemplateID}",
+            );
+
+            return;
+        }
+
+        if ( $MappingObjectData->{Key} eq 'Content' ) {
+            $SourceString = $ImportData;
+        }
+        else {
+            $NewTranslation{ $MappingObjectData->{Key} } = $ImportData;
+        }
+    }
+
+    if ( !$SourceString ) {
+        $LogObject->Log(
+            Priority => 'error',
+            Message  => "Can't import entity $Param{Counter}: "
+                . "Need source string in import data.",
+        );
+
+        return ( undef, 'Failed' );
+    }
+
+    my %SystemLanguages = %{ $ConfigObject->Get('DefaultUsedLanguages') // {} };
+    my $ReturnCode      = 'Skipped';
+
+    LANGUAGE:
+    for my $Language ( keys %NewTranslation ) {
+
+        if ( !$SystemLanguages{$Language} ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Can't import entity $Param{Counter}: "
+                    . "Language: '$Language' ins't defined on DefaultUsedLanguages!",
+            );
+
+            return ( undef, 'Failed' );
+        }
+
+        # skip empty translations if configured
+        if (
+            ( !defined $NewTranslation{$Language} || $NewTranslation{$Language} eq '' || $NewTranslation{$Language} eq '-' )
+            && $ObjectData->{EmptyFieldsLeaveTheOldValues}
+            )
+        {
+            next LANGUAGE;
+        }
+
+        if ( !defined $Self->{DraftTranslations}{$Language} ) {
+            my $DraftTranslations = $TranslationsObject->DraftTranslationsGet(
+                Language => $Language,
+            );
+            my $ActiveTranslations = $TranslationsObject->DraftTranslationsGet(
+                Language => $Language,
+                Active   => 1
+            );
+
+            $Self->{DraftTranslations}{$Language}  = { map { $_->{Content} => $_->{Translation} } $DraftTranslations->@* };
+            $Self->{ActiveTranslations}{$Language} = { map { $_->{Content} => $_->{Translation} } $ActiveTranslations->@* };
+        }
+
+        # skip if nothing changed
+        next LANGUAGE if ( $Self->{ActiveTranslations}{$Language}{$SourceString} // '' ) eq $NewTranslation{$Language};
+
+        if ( $Self->{DraftTranslations}{$Language}{$SourceString} ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Could not update translation content: '$SourceString' in "
+                    . "line $Param{Counter}, because is being edited by an Agent!",
+            );
+
+            $ReturnCode = "Failed";
+
+            next LANGUAGE;
+        }
+
+        my $Success = $TranslationsObject->DraftTranslationsAdd(
+            Language    => $Language,
+            Content     => $SourceString,
+            Translation => $NewTranslation{$Language},
+            Edit        => $Self->{ActiveTranslations}{$Language}{$SourceString} ? 1 : 0,
+            Deployed    => 0,
+            UserID      => 1,
+        );
+
+        if ( !$Success ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Could not update translation content: '$SourceString' in "
+                    . "line $Param{Counter}, error storing the draft",
+            );
+
+            $ReturnCode = "Failed";
+
+            next LANGUAGE;
+        }
+
+        $Success = $TranslationsObject->WriteTranslationFile(
+            UserLanguage => $Language,
+            Import       => 1,
+        ) || 0;
+
+        if ( !$Success ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Could not update translation content: '$SourceString' in "
+                    . "line $Param{Counter}, error writing the translation file",
+            );
+
+            $ReturnCode = "Failed";
+
+            next LANGUAGE;
+        }
+
+        $ReturnCode = $ReturnCode eq 'Failed'
+            ? 'Failed'
+            : $Self->{ActiveTranslations}{$Language}{$SourceString} || $ReturnCode eq 'Updated' ? 'Updated'
+            :                                                                                     'Added';
+    }
+
+    return ( 1, $ReturnCode );
+}
+
+=head1 Internal Subroutines
+
+=head2 _GetTranslations
+
+get complete list of translations even in chunked mode.
+
+=cut
+
+sub _GetTranslations {
+    my ( $Self, %Param ) = @_;
+
+    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
+    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
+    my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
 
     # get object data
     my $ObjectData = $ImportExportObject->ObjectDataGet(
@@ -494,218 +766,6 @@ sub ExportDataGet {
     $IncludeInExport->( sort keys %TranslatedStrings );
 
     return \@ExportData;
-}
-
-=head2 ImportDataSave()
-
-import one row of the import data
-
-    my $ConfigItemID = $ObjectBackend->ImportDataSave(
-        TemplateID    => 123,
-        ImportDataRow => $ArrayRef,
-        UserID        => 1,
-    );
-
-=cut
-
-sub ImportDataSave {
-    my ( $Self, %Param ) = @_;
-
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
-    my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
-    my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
-
-    # check needed stuff
-    for my $Argument (qw(TemplateID ImportDataRow UserID)) {
-        if ( !$Param{$Argument} ) {
-            $LogObject->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!",
-            );
-            return ( undef, 'Failed' );
-        }
-    }
-
-    # check import data row
-    if ( ref $Param{ImportDataRow} ne 'ARRAY' ) {
-        $LogObject->Log(
-            Priority => 'error',
-            Message  => 'ImportDataRow must be an array reference',
-        );
-        return ( undef, 'Failed' );
-    }
-
-    # get object data
-    my $ObjectData = $ImportExportObject->ObjectDataGet(
-        TemplateID => $Param{TemplateID},
-        UserID     => $Param{UserID},
-    );
-
-    # check object data
-    if ( !$ObjectData || ref $ObjectData ne 'HASH' ) {
-        $LogObject->Log(
-            Priority => 'error',
-            Message  => "No object data found for the template id $Param{TemplateID}",
-        );
-        return ( undef, 'Failed' );
-    }
-
-    # get the mapping list
-    my $MappingList = $ImportExportObject->MappingList(
-        TemplateID => $Param{TemplateID},
-        UserID     => $Param{UserID},
-    );
-
-    # check the mapping list
-    if ( !$MappingList || ref $MappingList ne 'ARRAY' || !@{$MappingList} ) {
-
-        $LogObject->Log(
-            Priority => 'error',
-            Message  => "No valid mapping list found for the template id $Param{TemplateID}",
-        );
-        return ( undef, 'Failed' );
-    }
-
-    # create the mapping object list
-    my $SourceString;
-    my %NewTranslation;
-    for my $i ( 0 .. $#{$MappingList} ) {
-        my $ImportData = $Param{ImportDataRow}[$i];
-        my $MappingID  = $MappingList->[$i];
-
-        # get mapping object data
-        my $MappingObjectData =
-            $ImportExportObject->MappingObjectDataGet(
-                MappingID => $MappingID,
-                UserID    => $Param{UserID},
-            );
-
-        # check mapping object data
-        if ( !$MappingObjectData || ref $MappingObjectData ne 'HASH' ) {
-
-            $LogObject->Log(
-                Priority => 'error',
-                Message  => "No valid mapping list found for the template id $Param{TemplateID}",
-            );
-            return;
-        }
-
-        if ( $MappingObjectData->{Key} eq 'Content' ) {
-            $SourceString = $ImportData;
-        }
-        else {
-            $NewTranslation{ $MappingObjectData->{Key} } = $ImportData;
-        }
-    }
-
-    if ( !$SourceString ) {
-        $LogObject->Log(
-            Priority => 'error',
-            Message  => "Can't import entity $Param{Counter}: "
-                . "Need source string in import data.",
-        );
-
-        return ( undef, 'Failed' );
-    }
-
-    my %SystemLanguages = %{ $ConfigObject->Get('DefaultUsedLanguages') // {} };
-    my $ReturnCode      = 'Skipped';
-
-    LANGUAGE:
-    for my $Language ( keys %NewTranslation ) {
-
-        if ( !$SystemLanguages{$Language} ) {
-            $LogObject->Log(
-                Priority => 'error',
-                Message  => "Can't import entity $Param{Counter}: "
-                    . "Language: '$Language' ins't defined on DefaultUsedLanguages!",
-            );
-            return ( undef, 'Failed' );
-        }
-
-        # skip empty translations if configured
-        if (
-            ( !defined $NewTranslation{$Language} || $NewTranslation{$Language} eq '' || $NewTranslation{$Language} eq '-' )
-            && $ObjectData->{EmptyFieldsLeaveTheOldValues}
-            )
-        {
-            next LANGUAGE;
-        }
-
-        if ( !defined $Self->{DraftTranslations}{$Language} ) {
-            my $DraftTranslations = $TranslationsObject->DraftTranslationsGet(
-                Language => $Language,
-            );
-            my $ActiveTranslations = $TranslationsObject->DraftTranslationsGet(
-                Language => $Language,
-                Active   => 1
-            );
-
-            $Self->{DraftTranslations}{$Language}  = { map { $_->{Content} => $_->{Translation} } $DraftTranslations->@* };
-            $Self->{ActiveTranslations}{$Language} = { map { $_->{Content} => $_->{Translation} } $ActiveTranslations->@* };
-        }
-
-        # skip if nothing changed
-        next LANGUAGE if ( $Self->{ActiveTranslations}{$Language}{$SourceString} // '' ) eq $NewTranslation{$Language};
-
-        if ( $Self->{DraftTranslations}{$Language}{$SourceString} ) {
-            $LogObject->Log(
-                Priority => 'error',
-                Message  => "Could not update translation content: '$SourceString' in "
-                    . "line $Param{Counter}, because is being edited by an Agent!",
-            );
-
-            $ReturnCode = "Failed";
-
-            next LANGUAGE;
-        }
-
-        my $Success = $TranslationsObject->DraftTranslationsAdd(
-            Language    => $Language,
-            Content     => $SourceString,
-            Translation => $NewTranslation{$Language},
-            Edit        => $Self->{ActiveTranslations}{$Language}{$SourceString} ? 1 : 0,
-            Deployed    => 0,
-            UserID      => 1,
-        );
-
-        if ( !$Success ) {
-            $LogObject->Log(
-                Priority => 'error',
-                Message  => "Could not update translation content: '$SourceString' in "
-                    . "line $Param{Counter}, error storing the draft",
-            );
-
-            $ReturnCode = "Failed";
-
-            next LANGUAGE;
-        }
-
-        $Success = $TranslationsObject->WriteTranslationFile(
-            UserLanguage => $Language,
-            Import       => 1,
-        ) || 0;
-
-        if ( !$Success ) {
-            $LogObject->Log(
-                Priority => 'error',
-                Message  => "Could not update translation content: '$SourceString' in "
-                    . "line $Param{Counter}, error writing the translation file",
-            );
-
-            $ReturnCode = "Failed";
-
-            next LANGUAGE;
-        }
-
-        $ReturnCode = $ReturnCode eq 'Failed'
-            ? 'Failed'
-            : $Self->{ActiveTranslations}{$Language}{$SourceString} || $ReturnCode eq 'Updated' ? 'Updated'
-            :                                                                                     'Added';
-    }
-
-    return ( 1, $ReturnCode );
 }
 
 1;

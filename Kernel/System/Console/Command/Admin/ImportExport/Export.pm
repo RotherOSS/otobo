@@ -25,6 +25,7 @@ use re '/aa';
 use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
+use File::Path qw(mkpath);
 
 # CPAN modules
 
@@ -41,16 +42,28 @@ sub Configure {
     $Self->Description('This is a tool for exporting items. The specifics are defined in an ImportExport template.');
     $Self->AddOption(
         Name        => 'template-number',
-        Description => 'The number of the ImportExport template that specifies the export.',
+        Description => 'the number of the ImportExport template that specifies the export',
         Required    => 1,
+        HasValue    => 1,
+        ValueRegex  => qr/^\d+$/,
+    );
+    $Self->AddOption(
+        Name        => 'chunk-size',
+        Description => 'Activate chunked export by specifying the chunk size.',
+        Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/,
     );
     $Self->AddArgument(
         Name        => 'destination',
-        Description => "Specify the path to a file where config item data should be exported.",
-        Required    => 1,
-        ValueRegex  => qr/.*/smx,
+        Description => (
+            join ' ',
+            'The path to a file or directory where data should be exported.',
+            'For chunked exports specify a directory.',
+            'For non-chunked exports specify a file.'
+        ),
+        Required   => 1,
+        ValueRegex => qr/.*/,
     );
 
     return;
@@ -71,62 +84,117 @@ sub Run {
         $Self->PrintError("Template $TemplateID not found!.\n");
         $Self->PrintError("Export aborted..\n");
 
-        return $Self->ExitCodeError();
+        return $Self->ExitCodeError;
     }
 
-    $Self->Print("<yellow>Exporting config items...</yellow>\n");
-    $Self->Print( "<yellow>" . ( '=' x 69 ) . "</yellow>\n" );
+    # Setup for chunking.
+    # The ChunkSize is optional. An undefined ChunkSize indicates a single file export
+    my $ChunkSize    = $Self->GetOption('chunk-size');
+    my $IsChunked    = defined $ChunkSize ? 1 : 0;
+    my $ChunkCounter = 1;
+
+    $Self->PrintWarning('Exporting ...');
+    $Self->Print( ( '=' x 69 ) . "\n" );
+
+    # either file or dir
+    my $Destination = $Self->GetArgument('destination');
+
+    # create output dir if needed
+    if ( $Destination && $IsChunked ) {
+        mkpath( $Destination, 0, 0775 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+    }
 
     # export data
-    my $Result = $Kernel::OM->Get('Kernel::System::ImportExport')->Export(
-        TemplateID => $TemplateID,
-        UserID     => 1,
+    my %Total = (
+        Success => 0,
+        Failed  => 0,
     );
 
-    if ( !$Result ) {
-        $Self->PrintError("Error occurred. Export impossible! See Syslog for details.\n");
+    CHUNKING:
+    while (1) {
 
-        return $Self->ExitCodeError();
-    }
-
-    $Self->Print( "<green>" . ( '-' x 69 ) . "</green>\n" );
-    $Self->Print("<green>Success: $Result->{Success} succeeded</green>\n");
-    if ( $Result->{Failed} ) {
-        $Self->PrintError("$Result->{Failed} failed.\n");
-    }
-    else {
-        $Self->Print("<green>Error: $Result->{Failed} failed.</green>\n");
-    }
-
-    my $DestinationFile = $Self->GetArgument('destination');
-
-    if ($DestinationFile) {
-
-        # Make sure that there is a line break after the last line.
-        # This unconfuses `wc -l`.
-        my $FileContent = join '', map { $_ . "\n" } $Result->{DestinationContent}->@*;
-
-        # save destination content to file
-        my $Success = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-            Location => $DestinationFile,
-            Content  => \$FileContent,
-        );
-
-        if ( !$Success ) {
-            $Self->PrintError("Can't write file $DestinationFile.\nExport aborted.\n");
-
-            return $Self->ExitCodeError();
+        $Self->Print( ( '-' x 69 ) . "\n" );
+        if ($IsChunked) {
+            $Self->Print("Exporting chunk $ChunkCounter...\n");
         }
 
-        $Self->Print("<green>File $DestinationFile saved.</green>\n");
+        my $Result = $Kernel::OM->Get('Kernel::System::ImportExport')->Export(
+            ChunkSize  => $ChunkSize,
+            TemplateID => $TemplateID,
+            UserID     => 1,
+        );
 
+        if ( !$Result ) {
+            $Self->PrintError("Error occurred. Export impossible! See Syslog for details.\n");
+
+            return $Self->ExitCodeError;
+        }
+
+        $Self->PrintOk("Success: $Result->{Success} succeeded");
+        if ( $Result->{Failed} ) {
+            $Self->PrintError("$Result->{Failed} failed.\n");
+        }
+        else {
+            $Self->Print("Error: $Result->{Failed} failed.\n");
+        }
+
+        # sum up the total
+        $Total{Success} += $Result->{Success} // 0;
+        $Total{Failed}  += $Result->{Failed}  // 0;
+
+        if ($Destination) {
+
+            # Concatenate the lines, making sure that there is a line break after the last line.
+            # This makes `wc -l` report the actual number of lines in a file.
+            my $FileContent = join '', map { $_ . "\n" } $Result->{DestinationContent}->@*;
+
+            # save destination content to file
+            # add some leading 0s in order to have simple alphabetical ordering
+            my $FormattedChunkCounter = sprintf '%06d', $ChunkCounter;
+            my $Location              = $IsChunked
+                ?
+                File::Spec->catfile( $Destination, "chunk_$FormattedChunkCounter.csv" )
+                :
+                $Destination;
+            my $Success = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+                Location => $Location,
+                Content  => \$FileContent,
+            );
+
+            if ( !$Success ) {
+                $Self->PrintError("Can't write file $Destination.\nExport aborted.\n");
+
+                return $Self->ExitCodeError;
+            }
+
+            $Self->PrintOk("File $Destination saved.");
+        }
+
+        # not all backends support chunking
+        last CHUNKING unless defined $Result->{ChunkingFinished};
+        last CHUNKING if $Result->{ChunkingFinished};
+    }
+    continue {
+        $ChunkCounter++;
     }
 
-    $Self->Print("<green>Export complete.</green>\n");
-    $Self->Print( "<green>" . ( '-' x 69 ) . "</green>\n" );
-    $Self->Print("<green>Done.</green>\n");
+    # report the total
+    if ($IsChunked) {
+        $Self->Print(
+            join '',
+            "\n",
+            "Total after exporting $ChunkCounter chunk(s):\n",
+            "Success: $Total{Success}\n",
+            "Failed : $Total{Failed}\n",
+            "\n"
+        );
+    }
 
-    return $Self->ExitCodeOk();
+    $Self->PrintOk('Export complete.');
+    $Self->Print( ( '-' x 69 ) . "\n" );
+    $Self->PrintOk('Done.');
+
+    return $Self->ExitCodeOk;
 }
 
 1;

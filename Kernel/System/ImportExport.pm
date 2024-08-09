@@ -2158,6 +2158,7 @@ Export function
     my $ResultRef = $ImportExportObject->Export(
         TemplateID => 123,
         UserID     => 1,
+        ChunkSize  => 1_000, # optional, for chunked export
     );
 
 returns something like
@@ -2170,6 +2171,8 @@ returns something like
             [ 'Attr_2a', 'Attr_2b', 'Attr_3c', ],
         ],
     };
+
+This method will be called several times when the export is meant to be in chunks.
 
 =cut
 
@@ -2221,10 +2224,12 @@ sub Export {
 
     return unless $FormatBackend;
 
-    # get export data,
+    # get export data
+    # Only the current chunk, when ChunkSize is passed
     # passing the template ID gives the backend access to the mapping list
     # and to the export format.
     my $ExportData = $ObjectBackend->ExportDataGet(
+        ChunkSize  => $Param{ChunkSize},
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},
     );
@@ -2277,6 +2282,7 @@ sub Export {
         Success            => 0,
         Failed             => 0,
         DestinationContent => [],
+        ChunkingFinished   => $ObjectBackend->{ChunkingFinished},    # TODO: this is not nice
     );
 
     EXPORTDATAROW:
