@@ -2944,16 +2944,14 @@ sub AJAXException {
             Priority => 'error',
             Message  => "Status code $StatusCode is not a valid HTTP error status!",
         );
+
         return;
     }
 
     # create Plack response
-    my $ServerErrorResponse = Plack::Response->new(
-        $StatusCode,
-        [],
-        $Param{Body} // '',
-    );
+    my $ServerErrorResponse = Plack::Response->new($StatusCode);
     $ServerErrorResponse->content_type('text/html');
+    $ServerErrorResponse->body( $Param{Body} // '' );
 
     # The exception is caught be Plack::Middleware::HTTPExceptions
     die Kernel::System::Web::Exception->new(
