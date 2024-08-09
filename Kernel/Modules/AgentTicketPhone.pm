@@ -373,8 +373,8 @@ sub Run {
         # store last queue screen
         if (
             $Self->{LastScreenOverview}
-            && $Self->{LastScreenOverview} !~ /Action=AgentTicketPhone/
-            && $Self->{RequestedURL}       !~ /Action=AgentTicketPhone.*LinkTicketID=/
+            && $Self->{LastScreenOverview} !~ /Action=AgentTicketPhone/a
+            && $Self->{RequestedURL}       !~ /Action=AgentTicketPhone.*LinkTicketID=/a
             )
         {
             $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
@@ -578,7 +578,7 @@ sub Run {
                 for my $UserLogin ( sort keys %List ) {
 
                     # Set right one if there is more than one customer user with the same email address.
-                    if ( $Phrase && $List{$UserLogin} =~ /$Phrase/ ) {
+                    if ( $Phrase && $List{$UserLogin} =~ /$Phrase/a ) {
                         $CustomerKey = $UserLogin;
                     }
                 }
@@ -657,7 +657,7 @@ sub Run {
             $SplitTicketParam{ToSelected} = $SplitTicketData{QueueID} . '||' . $SplitTicketData{Queue};
 
             for my $Key ( sort keys %SplitTicketData ) {
-                if ( $Key =~ /DynamicField\_(.*)/ ) {
+                if ( $Key =~ /DynamicField\_(.*)/a ) {
                     $SplitTicketParam{DynamicField}{$1} = $SplitTicketData{$Key};
                     delete $SplitTicketParam{$Key};
                 }
@@ -680,7 +680,7 @@ sub Run {
 
         # Get predefined QueueID (if no queue from split ticket is set).
         elsif ( !$Self->{QueueID} && $GetParam{Dest} ) {
-            my @QueueParts = split( /\|\|/, $GetParam{Dest} );
+            my @QueueParts = split( /\|\|/a, $GetParam{Dest} );
             $GetParam{QueueID} = $QueueParts[0];
         }
 
@@ -1093,7 +1093,7 @@ sub Run {
         my $Dest      = $ParamObject->GetParam( Param => 'Dest' ) || '';
 
         # see if only a name has been passed
-        if ( $Dest && $Dest !~ m{ \A (\d+)? \| \| .+ \z }xms ) {
+        if ( $Dest && $Dest !~ m{ \A (\d+)? \| \| .+ \z }axms ) {
 
             # see if we can get an ID for this queue name
             my $DestID = $QueueObject->QueueLookup(
@@ -1108,7 +1108,7 @@ sub Run {
             }
         }
 
-        my ( $NewQueueID, $To ) = split( /\|\|/, $Dest );
+        my ( $NewQueueID, $To ) = split( /\|\|/a, $Dest );
         $GetParam{QueueID} = $NewQueueID;
 
         my $CustomerUser = $ParamObject->GetParam( Param => 'CustomerUser' )
@@ -1156,7 +1156,7 @@ sub Run {
         }
 
         # check pending date
-        if ( !$ExpandCustomerName && $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
+        if ( !$ExpandCustomerName && $StateData{TypeName} && $StateData{TypeName} =~ /^pending/ai ) {
 
             # create a datetime object based on pending date
             my $PendingDateTimeObject = $Kernel::OM->Create(
@@ -1613,7 +1613,7 @@ sub Run {
             next DYNAMICFIELD if $DynamicFieldConfig->{Readonly};
 
             # set the value
-            my $Success = $DynamicFieldBackendObject->ValueSet(
+            my $Success = $DynamicFieldBackendObject->ValueSet(    ## no critic qw(Variables::ProhibitUnusedVarsStricter)
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $TicketID,
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
@@ -1645,7 +1645,7 @@ sub Run {
                 my $ContentID = $Attachment->{ContentID};
                 if (
                     $ContentID
-                    && ( $Attachment->{ContentType} =~ /image/i )
+                    && ( $Attachment->{ContentType} =~ /image/ai )
                     && ( $Attachment->{Disposition} eq 'inline' )
                     )
                 {
@@ -1655,11 +1655,11 @@ sub Run {
 
                     # workaround for link encode of rich text editor, see bug#5053
                     my $ContentIDLinkEncode = $LayoutObject->LinkEncode($ContentID);
-                    $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
+                    $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/ag;
 
                     # ignore attachment if not linked in body
                     next ATTACHMENT
-                        if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                        if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/ai;
                 }
 
                 # remember inline images and normal attachments
@@ -1726,7 +1726,7 @@ sub Run {
             next DYNAMICFIELD if $DynamicFieldConfig->{Readonly};
 
             # set the value
-            my $Success = $DynamicFieldBackendObject->ValueSet(
+            my $Success = $DynamicFieldBackendObject->ValueSet(    ## no critic qw(Variables::ProhibitUnusedVarsStricter)
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $ArticleID,
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
@@ -1736,10 +1736,7 @@ sub Run {
 
         # Permissions check were done earlier
         if ( $GetParam{FromChatID} ) {
-            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
-            my %Chat       = $ChatObject->ChatGet(
-                ChatID => $GetParam{FromChatID},
-            );
+            my $ChatObject      = $Kernel::OM->Get('Kernel::System::Chat');
             my @ChatMessageList = $ChatObject->ChatMessageList(
                 ChatID => $GetParam{FromChatID},
             );
@@ -1955,7 +1952,7 @@ sub Run {
         }
 
         # closed tickets get unlocked
-        if ( $StateData{TypeName} =~ /^close/i ) {
+        if ( $StateData{TypeName} =~ /^close/ai ) {
 
             # set lock
             $TicketObject->TicketLockSet(
@@ -1966,7 +1963,7 @@ sub Run {
         }
 
         # set pending time
-        elsif ( $StateData{TypeName} =~ /^pending/i ) {
+        elsif ( $StateData{TypeName} =~ /^pending/ai ) {
 
             # set pending time
             $TicketObject->TicketPendingTimeSet(
@@ -1989,7 +1986,7 @@ sub Run {
         my $CustomerUser   = $ParamObject->GetParam( Param => 'SelectedCustomerUser' );
         my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' ) || '';
         my $QueueID        = '';
-        if ( $Dest =~ /^(\d{1,100})\|\|.+?$/ ) {
+        if ( $Dest =~ /^(\d{1,100})\|\|.+?$/a ) {
             $QueueID = $1;
         }
         $GetParam{Dest}    = $Dest;
@@ -2033,7 +2030,7 @@ sub Run {
             }
         }
         my %ChangedElementsDFStart = %ChangedElements;
-        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? %ChangedElements : ();
+        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/a ? %ChangedElements : ();
 
         my $LoopProtection = 100;
         my %StdFieldValues;
@@ -2798,20 +2795,20 @@ sub _GetTos {
 
             my $String = $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionString')
                 || '<Realname> <<Email>> - Queue: <Queue>';
-            $String =~ s/<Queue>/$QueueData{Name}/g;
-            $String =~ s/<QueueComment>/$QueueData{Comment}/g;
+            $String =~ s/<Queue>/$QueueData{Name}/ag;
+            $String =~ s/<QueueComment>/$QueueData{Comment}/ag;
 
             # remove trailing spaces
             if ( !$QueueData{Comment} ) {
-                $String =~ s{\s+\z}{};
+                $String =~ s{\s+\z}{}a;
             }
 
             if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' ) {
                 my %SystemAddressData = $SystemAddressObject->SystemAddressGet(
                     ID => $Tos{$QueueID},
                 );
-                $String =~ s/<Realname>/$SystemAddressData{Realname}/g;
-                $String =~ s/<Email>/$SystemAddressData{Name}/g;
+                $String =~ s/<Realname>/$SystemAddressData{Realname}/ag;
+                $String =~ s/<Email>/$SystemAddressData{Name}/ag;
             }
             $NewTos{$QueueID} = $String;
         }
@@ -3279,7 +3276,7 @@ sub _MaskPhoneNew {
         if (
             $Attachment->{ContentID}
             && $LayoutObject->{BrowserRichText}
-            && ( $Attachment->{ContentType} =~ /image/i )
+            && ( $Attachment->{ContentType} =~ /image/ai )
             && ( $Attachment->{Disposition} eq 'inline' )
             )
         {
