@@ -79,4 +79,5 @@ jobs:
           echo 'env.otobo_commit: ${{ env.otobo_commit }}'
           echo 'github.ref: ${{ github.ref }}'
           echo 'github.ref_name: ${{ github.ref_name }}'
+          echo 'github.ref_type: ${{ github.ref_type }}'
           echo 'github.event_name: ${{ github.event_name }}'
