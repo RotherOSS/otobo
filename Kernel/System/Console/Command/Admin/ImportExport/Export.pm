@@ -104,12 +104,13 @@ sub Run {
         mkpath( $Destination, 0, 0775 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
     }
 
-    # export data
+    # for summing up the chunks
     my %Total = (
         Success => 0,
         Failed  => 0,
     );
 
+    # export data
     CHUNKING:
     while (1) {
 
@@ -135,7 +136,7 @@ sub Run {
             $Self->PrintError("$Result->{Failed} failed.\n");
         }
         else {
-            $Self->Print("Error: $Result->{Failed} failed.\n");
+            $Self->PrintOk("Error: $Result->{Failed} failed.");
         }
 
         # sum up the total
