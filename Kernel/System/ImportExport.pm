@@ -1077,7 +1077,7 @@ sub FormatDataDelete {
 
 =head2 MappingList()
 
-Return a list of mapping ids sorted by position as array reference
+Return a list of mapping IDs sorted by position as array reference
 
     my $MappingIDs = $ImportExportObject->MappingList(
         TemplateID => 123,
@@ -2270,7 +2270,7 @@ sub Export {
         }
 
         # add column headers as first row
-        unshift @{$ExportData}, \@ColumnNames;
+        unshift $ExportData->@*, \@ColumnNames;
     }
 
     my %Result = (
@@ -2298,6 +2298,11 @@ sub Export {
         # add row to destination content
         push @{ $Result{DestinationContent} }, $DestinationContentRow;
         $Result{Success}++;
+    }
+
+    # writing the header line does not count a success
+    if ( $FormatData->{IncludeColumnHeaders} ) {
+        $Result{Success}--;
     }
 
     # log result
