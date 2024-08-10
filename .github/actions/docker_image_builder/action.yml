@@ -1,0 +1,29 @@
+%YAML 1.1
+---
+
+# Local composite action for building Docker images and pushing them to Docker Hub.
+# Intended to be uses by the workflows docker_image_builder_rel.yml and
+# docker_image_builder_devel.yml
+name: 'DockerImageBuilder'
+
+description: 'Composite action for building Docker images and pushing them to Docker Hub'
+
+inputs:
+  dummy-input:
+    description: 'only as a test'
+    required: true
+
+outputs:
+
+runs:
+
+  using: 'composite'
+
+  steps:
+
+      - name: 'devel output'
+        run: |
+          echo 'inputs.dummy-input: ${{ inputs.dummy-input }}'
+
+      - name: 'Set up Docker Buildx'
+        uses: docker/setup-buildx-action@v3

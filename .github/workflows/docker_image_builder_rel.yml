@@ -81,3 +81,15 @@ jobs:
           echo 'github.ref_name: ${{ github.ref_name }}'
           echo 'github.ref_type: ${{ github.ref_type }}'
           echo 'github.event_name: ${{ github.event_name }}'
+
+      - name: 'check out the relevant OTOBO branch'
+        uses: actions/checkout@v4
+
+      -
+        # Uses a local composite action.
+        # The repository must already be checked out.
+        name: 'Run local composite action'
+        #if:   steps.changes.outputs.context == 'true'
+        uses: ./.github/actions/docker_image_builder
+        with:
+          dummy-input: 'just testing, rel'

@@ -96,9 +96,13 @@ jobs:
               - '${{ matrix.context }}/**'
 
       -
-        name: Set up Docker Buildx
+        # Uses a local composite action.
+        # The repository must already be checked out.
+        name: 'Run local composite action'
         if:   steps.changes.outputs.context == 'true'
-        uses: docker/setup-buildx-action@v3
+        uses: ./.github/actions/docker_image_builder
+        with:
+          dummy-input: 'just testing. devel'
 
       -
         # Build the image but do not push it to Docker Hub yet.
