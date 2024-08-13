@@ -60,7 +60,7 @@ sub Run {
     my $ObjectType = $Param{ObjectType} || $ParamObject->GetParam( Param => 'ObjectType' );
 
     # check if we clone from an existing field
-    my $CloneFieldID = $ParamObject->GetParam( Param => "ID" );
+    my $CloneFieldID = $ParamObject->GetParam( Param => "CloneFieldID" );
     if ($CloneFieldID) {
         my $FieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
             ID => $CloneFieldID,
@@ -97,6 +97,7 @@ sub Run {
         }
         $Param{CloneFieldID} = $CloneFieldID;
     }
+
     my $Config = $FieldType ? $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver')->{$FieldType} : {};
 
     # Check module validity
