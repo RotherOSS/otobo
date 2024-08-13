@@ -27,7 +27,6 @@ jobs:
       # note that there is no otobo-web-kerberos target
       matrix:
         target:     [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
-        tag_prefix: [ 'test' ]
         include:
           -
             target:     'otobo-web'
@@ -63,7 +62,7 @@ jobs:
         name: Setup
         run: |
           branch="${{ github.ref_name }}"                     # e.g rel-10_0_22
-          docker_tag="${{ matrix.tag_prefix }}-$branch"
+          docker_tag="$branch"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
             echo "otobo_branch=$branch"
