@@ -10,8 +10,8 @@ on:
 
   # Build a devel Docker image whenever there is a push into the listed branches.
   # This is triggered by running the commands:
-  #   git tag test-1_22_333_AAA
-  #   git push origin test-1_22_333_AAA
+  #   git tag test-1_22_333_DD
+  #   git push origin test-1_22_333_DD
   push:
     tags:
       - test-[0-9]+_[0-9]+_[0-9]+_*
@@ -73,28 +73,20 @@ jobs:
             echo "otobo_commit=${{ github.sha }}"
           ) >> $GITHUB_ENV
 
-      - name: 'devel output'
-        run: |
-          echo 'matrix.target: ${{ matrix.target }}'
-          echo 'matrix.tag_prefix: ${{ matrix.tag_prefix }}'
-          echo 'env.otobo_branch: ${{ env.otobo_branch }}'
-          echo 'env.otobo_build_date: ${{ env.otobo_build_date }}'
-          echo 'env.otobo_commit: ${{ env.otobo_commit }}'
-          echo 'github.ref: ${{ github.ref }}'
-          echo 'github.ref_name: ${{ github.ref_name }}'
-          echo 'github.ref_type: ${{ github.ref_type }}'
-          echo 'github.event_name: ${{ github.event_name }}'
-
       - name: 'check out the relevant OTOBO branch'
         uses: actions/checkout@v4
+
+      -
+        # login to Docker Hub before the composite action
+        # this avoids that secrets have to be passed
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       -
         # Uses a local composite action.
         # The repository must already be checked out.
         name: 'Run local composite action'
-        #if:   steps.changes.outputs.context == 'true'
         uses: ./.github/actions/docker_image_builder
-        with:
-          context:    ${{ matrix.context }}
-          dockerfile: ${{ matrix.dockerfile }}
-          target:     ${{ matrix.target }}
