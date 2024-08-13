@@ -9,6 +9,9 @@ name: 'DockerImageBuilderRel'
 on:
 
   # Build a devel Docker image whenever there is a push into the listed branches.
+  # This is triggered by running the commands:
+  #   git tag test-1_22_333_AAA
+  #   git push origin test-1_22_333_AAA
   push:
     tags:
       - test-[0-9]+_[0-9]+_[0-9]+_*
@@ -94,3 +97,4 @@ jobs:
         with:
           context:    ${{ matrix.context }}
           dockerfile: ${{ matrix.dockerfile }}
+          target:     ${{ matrix.target }}

@@ -9,8 +9,14 @@ name: 'DockerImageBuilder'
 description: 'Composite action for building Docker images and pushing them to Docker Hub'
 
 inputs:
-  dummy-input:
-    description: 'only as a test'
+  context:
+    description: 'the build context'
+    required: true
+  dockerfile:
+    description: 'the relevant dockerfile'
+    required: true
+  target:
+    description: 'target within the dockerfile'
     required: true
 
 #outputs:
@@ -25,14 +31,16 @@ runs:
         # Print some info that is useful for development and verification.
         # Use environment variables as the generated JSON may contain
         # unescapted quotes which mess up bash syntax.
-        name: 'devel output'
+        name: 'print devel output as JSON'
         shell: bash
         run: |
           echo 'env: '    $ENV_AS_JSON
+          echo 'matrix: ' $MATRIX_AS_JSON
           echo 'inputs: ' $INPUTS_AS_JSON
-          echo 'inputs: ' $GITHUB_AS_JSON
+          echo 'github: ' $GITHUB_AS_JSON
         env:
           ENV_AS_JSON:    ${{ toJSON(env) }}
+          MATRIX_AS_JSON: ${{ toJSON(matrix) }}
           INPUTS_AS_JSON: ${{ toJSON(inputs) }}
           GITHUB_AS_JSON: ${{ toJSON(github) }}
 
