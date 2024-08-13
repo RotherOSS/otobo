@@ -21,10 +21,20 @@ runs:
 
   steps:
 
-      - name: 'devel output'
+      -
+        # Print some info that is useful for development and verification.
+        # Use environment variables as the generated JSON may contain
+        # unescapted quotes which mess up bash syntax.
+        name: 'devel output'
         shell: bash
         run: |
-          echo 'inputs.dummy-input: ${{ inputs.dummy-input }}'
+          echo 'env: '    $ENV_AS_JSON
+          echo 'inputs: ' $INPUTS_AS_JSON
+          echo 'inputs: ' $GITHUB_AS_JSON
+        env:
+          ENV_AS_JSON:    ${{ toJSON(env) }}
+          INPUTS_AS_JSON: ${{ toJSON(inputs) }}
+          GITHUB_AS_JSON: ${{ toJSON(github) }}
 
       - name: 'Set up Docker Buildx'
         uses: docker/setup-buildx-action@v3

@@ -92,4 +92,5 @@ jobs:
         #if:   steps.changes.outputs.context == 'true'
         uses: ./.github/actions/docker_image_builder
         with:
-          dummy-input: 'just testing, rel'
+          context:    ${{ matrix.context }}
+          dockerfile: ${{ matrix.dockerfile }}
