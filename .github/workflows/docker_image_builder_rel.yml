@@ -52,7 +52,7 @@ jobs:
             target:     'otobo-selenium-chrome'
             dockerfile: 'otobo.selenium-chrome.dockerfile'
             context:    'scripts/test/sample'
-            repository: 'rotheross/otobo-nginx-kerberos-webproxy'
+            repository: 'rotheross/otobo-selenium-chrome'
 
     steps:
 
