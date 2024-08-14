@@ -54,6 +54,14 @@ sub Configure {
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/,
     );
+    $Self->AddOption(
+        Name        => 'prefix',
+        Description => 'Prefix of the export files when in chunked mode',
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/^\w+$/,                                           # "\w" matches the 63 characters [a-zA-Z0-9_] as the "/a" modifier is in effect
+    );
+
     $Self->AddArgument(
         Name        => 'destination',
         Description => (
@@ -90,6 +98,7 @@ sub Run {
     # Setup for chunking.
     # The ChunkSize is optional. An undefined ChunkSize indicates a single file export
     my $ChunkSize    = $Self->GetOption('chunk-size');
+    my $Prefix       = $Self->GetOption('prefix') // '';
     my $IsChunked    = defined $ChunkSize ? 1 : 0;
     my $ChunkCounter = 1;
 
@@ -154,7 +163,7 @@ sub Run {
             my $FormattedChunkCounter = sprintf '%06d', $ChunkCounter;
             my $Location              = $IsChunked
                 ?
-                File::Spec->catfile( $Destination, "chunk_$FormattedChunkCounter.csv" )
+                File::Spec->catfile( $Destination, "${Prefix}${FormattedChunkCounter}.csv" )
                 :
                 $Destination;
             my $Success = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(

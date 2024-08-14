@@ -47,6 +47,13 @@ sub Configure {
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/,
     );
+    $Self->AddOption(
+        Name        => 'prefix',
+        Description => 'Prefix of the import files when a directory was passed as source',
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/^\w+$/,    # "\w" matches the 63 characters [a-zA-Z0-9_] as the "/a" modifier is in effect
+    );
     $Self->AddArgument(
         Name        => 'source',
         Description => "Specify the path to the file or directory which contains the data for importing.",
@@ -106,9 +113,10 @@ sub Run {
     {
         my $Source = $Self->GetArgument('source');
         if ( -d $Source ) {
+            my $Prefix = $Self->GetArgument('prefix') // '';
             @SourceFiles = $MainObject->DirectoryRead(
                 Directory => $Source,
-                Filter    => 'chunk_[0-9][0-9][0-9][0-9][0-9][0-9]*.csv',    # a fancy glob pattern
+                Filter    => "${Prefix}[0-9][0-9][0-9][0-9][0-9][0-9].csv",    # a fancy glob pattern
             );
             $IsChunked = 1;
         }
