@@ -1,0 +1,88 @@
+%YAML 1.1
+---
+
+# Local composite action for building Docker images and pushing them to Docker Hub.
+# Intended to be uses by the workflows docker_image_builder_rel.yml and
+# docker_image_builder_devel.yml
+name: 'DockerImageBuilder'
+
+description: 'Composite action for building Docker images and pushing them to Docker Hub'
+
+#inputs:
+#outputs:
+
+runs:
+
+  using: 'composite'
+
+  steps:
+
+      -
+        # Print some info that is useful for development and verification.
+        # Use environment variables as the generated JSON may contain
+        # unescapted quotes which mess up bash syntax.
+        name: 'print devel output as JSON'
+        shell: bash
+        run: |
+          echo 'env: '    $ENV_AS_JSON
+          echo 'matrix: ' $MATRIX_AS_JSON
+          echo 'github: ' $GITHUB_AS_JSON
+        env:
+          ENV_AS_JSON:    ${{ toJSON(env) }}
+          MATRIX_AS_JSON: ${{ toJSON(matrix) }}
+          GITHUB_AS_JSON: ${{ toJSON(github) }}
+
+      - name: 'Set up Docker Buildx'
+        uses: docker/setup-buildx-action@v3
+
+      -
+        # Build the image but do not push it to Docker Hub yet.
+        # Enable caching with Github Actions Cache, which is limited to 10 GB.
+        # context: .  indicates that the current checkout is used
+        name: Build
+        uses: docker/build-push-action@v6
+        with:
+          load: true
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          pull: true
+          build-args: |
+            BUILD_DATE=${{ env.otobo_build_date }}
+            DOCKER_TAG=${{ env.otobo_docker_tag }}
+            GIT_REPO=${{ github.repositoryUrl }}
+            GIT_BRANCH=${{ env.otobo_branch }}
+            GIT_COMMIT=${{ env.otobo_commit }}
+          tags: ${{ env.otobo_ref }}
+          target: ${{ matrix.target }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max`
+
+      -
+        # Show some files in the image just to check sanity.
+        # otobo_first_time hasn't run yet, so /opt/otobo is still empty
+        name: Info
+        if:   ${{ matrix.dockerfile == 'otobo.web.dockerfile' }}
+        shell: bash
+        run: |
+          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
+
+      -
+        # finally upload to DockerHub
+        # the built image is already available in the job
+        name: Push to DockerHub
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          pull: true
+          build-args: |
+            BUILD_DATE=${{ env.otobo_build_date }}
+            DOCKER_TAG=${{ env.otobo_docker_tag }}
+            GIT_REPO=${{ github.repositoryUrl }}
+            GIT_BRANCH=${{ env.otobo_branch }}
+            GIT_COMMIT=${{ env.otobo_commit }}
+          tags: ${{ env.otobo_ref }}
+          target: ${{ matrix.target }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max`
