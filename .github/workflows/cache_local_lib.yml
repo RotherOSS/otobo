@@ -30,33 +30,36 @@ jobs:
               id: get-sha
               with:
                 script: |
-                    var cpanfile_docker_content = await github.rest.repos.getContent({
+                    var cpanfile_content = await github.rest.repos.getContent({
                         owner: context.repo.owner,
                         repo:  context.repo.repo,
                         path:  'cpanfile.docker',
                         ref:   context.ref,
                     });
 
-                    return cpanfile_docker_content.data.sha;
+                    return cpanfile_content.data.sha;
                 result-encoding: string
 
             - name: 'Print SHA of cpanfile.docker'
               run: echo '${{steps.get-sha.outputs.result}}'
 
-            - name: 'check cache for CPAN modules'
+            -
+              # The cache key contains the checksum of the cpanfile,
+              # therefore the branch does not have to be included in the key.
+              name: 'check cache for CPAN modules'
               uses: actions/cache@v4
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20240320a
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20240808a
 
             - name: 'check out the relevant OTOBO branch'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: actions/checkout@v4
 
             - name: 'Get SHA of cpanfile.docker for doublechecking'
-              id: get-sha-doublecheck
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
+              id: get-sha-doublecheck
               run: |
                  echo "sha=$(git rev-parse :cpanfile.docker)" >> $GITHUB_OUTPUT
                  echo "ls=$(ls -l cpanfile.docker)"           >> $GITHUB_OUTPUT
@@ -71,13 +74,26 @@ jobs:
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc
 
-            - name: 'install Perl modules from CPAN'
+            - name: 'install App::perlimports from CPAN with App::cpm'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: perl-actions/install-with-cpm@stable
               with:
                 install: |
                   App::perlimports
-                cpanfile: cpanfile.docker
+                global: false
+                tests: false
+                sudo: false
+
+            - name: 'move cpanfile in place'
+              if: steps.cache_local_lib.outputs.cache-hit != 'true'
+              run: |
+                cp cpanfile.docker cpanfile
+
+            - name: 'install Perl modules from CPAN with App::cpm'
+              if: steps.cache_local_lib.outputs.cache-hit != 'true'
+              uses: perl-actions/install-with-cpm@stable
+              with:
+                args: '--verbose'
                 global: false
                 tests: false
                 sudo: false

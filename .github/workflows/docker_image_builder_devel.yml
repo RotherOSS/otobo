@@ -1,9 +1,10 @@
 %YAML 1.1
 ---
 
-# Workflow for building Docker images. For now only devel images are built
-# and pushed to Docker Hub.
-name: 'DockerImageBuilder'
+# Workflow for building devel Docker images and pushing them to Docker hub.
+# See docker_image_builder_rel.yml for the workflow that builds
+# the release Docker images.
+name: 'DockerImageBuilderDevel'
 
 on:
 
@@ -61,7 +62,7 @@ jobs:
             dockerfile: 'otobo.selenium-chrome.dockerfile'
             context:    'scripts/test/sample'
             tag_prefix: 'devel'
-            repository: 'rotheross/otobo-nginx-kerberos-webproxy'
+            repository: 'rotheross/otobo-selenium-chrome'
 
     steps:
 
@@ -95,43 +96,8 @@ jobs:
               - '${{ matrix.context }}/**'
 
       -
-        name: Set up Docker Buildx
-        if:   steps.changes.outputs.context == 'true'
-        uses: docker/setup-buildx-action@v3
-
-      -
-        # Build the image but do not push it to Docker Hub yet.
-        # Enable caching with Github Actions Cache, which is limited to 10 GB.
-        # context: .  indicates that the current checkout is used
-        name: Build
-        if:   steps.changes.outputs.context == 'true'
-        uses: docker/build-push-action@v6
-        with:
-          load: true
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          pull: true
-          build-args: |
-            BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.otobo_docker_tag }}
-            GIT_REPO=${{ github.repositoryUrl }}
-            GIT_BRANCH=${{ env.otobo_branch }}
-            GIT_COMMIT=${{ env.otobo_commit }}
-          tags: ${{ env.otobo_ref }}
-          target: ${{ matrix.target }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max`
-
-      -
-        # Show some files in the image just to check sanity.
-        # otobo_first_time hasn't run yet, so /opt/otobo is still empty
-        name: Info
-        if:   ${{ steps.changes.outputs.context == 'true' && matrix.dockerfile == 'otobo.web.dockerfile' }}
-        run: |
-          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
-
-      -
-        # login to Docker Hub before pushing to Docker Hub
+        # login to Docker Hub before the composite action
+        # this avoids that secrets have to be passed
         name: Login to Docker Hub
         if:   steps.changes.outputs.context == 'true'
         uses: docker/login-action@v3
@@ -140,23 +106,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       -
-        # finally upload to DockerHub
-        # the built image is already available in the job
-        name: Push to DockerHub
+        # Uses a local composite action.
+        # The repository must already be checked out.
+        name: 'Run local composite action'
         if:   steps.changes.outputs.context == 'true'
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          pull: true
-          build-args: |
-            BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.otobo_docker_tag }}
-            GIT_REPO=${{ github.repositoryUrl }}
-            GIT_BRANCH=${{ env.otobo_branch }}
-            GIT_COMMIT=${{ env.otobo_commit }}
-          tags: ${{ env.otobo_ref }}
-          target: ${{ matrix.target }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max`
+        uses: ./.github/actions/docker_image_builder

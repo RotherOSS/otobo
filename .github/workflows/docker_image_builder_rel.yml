@@ -1,0 +1,91 @@
+%YAML 1.1
+---
+
+# Workflow for building release Docker images and pushing them to Docker hub.
+# See docker_image_builder_devel.yml for the workflow that builds
+# the devel Docker images.
+name: 'DockerImageBuilderRel'
+
+on:
+
+  # Build a devel Docker image whenever there is a push into the listed branches.
+  # This is triggered by running the commands:
+  #   git tag test-1_22_333_DD
+  #   git push origin test-1_22_333_DD
+  push:
+    tags:
+      - test-[0-9]+_[0-9]+_[0-9]+_*
+
+jobs:
+  BuildDockerImage:
+
+    runs-on: 'ubuntu-latest'
+
+    strategy:
+
+      # create different images
+      # note that there is no otobo-web-kerberos target
+      matrix:
+        target:     [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        include:
+          -
+            target:     'otobo-web'
+            dockerfile: 'otobo.web.dockerfile'
+            context:    '.'
+            repository: 'rotheross/otobo'
+          -
+            target:     'otobo-elasticsearch'
+            dockerfile: 'otobo.elasticsearch.dockerfile'
+            context:    'scripts/elasticsearch'
+            repository: 'rotheross/otobo-elasticsearch'
+          -
+            target:     'otobo-nginx-webproxy'
+            dockerfile: 'otobo.nginx.dockerfile'
+            context:    'scripts/nginx'
+            repository: 'rotheross/otobo-nginx-webproxy'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            dockerfile: 'otobo.nginx.dockerfile'
+            context:    'scripts/nginx'
+            repository: 'rotheross/otobo-nginx-kerberos-webproxy'
+          -
+            target:     'otobo-selenium-chrome'
+            dockerfile: 'otobo.selenium-chrome.dockerfile'
+            context:    'scripts/test/sample'
+            repository: 'rotheross/otobo-selenium-chrome'
+
+    steps:
+
+      -
+        # Store some variables in an environment file so that
+        # they can be used in the later steps.
+        name: Setup
+        run: |
+          branch="${{ github.ref_name }}"                     # e.g rel-10_0_22
+          docker_tag="$branch"
+          build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          (
+            echo "otobo_branch=$branch"
+            echo "otobo_docker_tag=$docker_tag"
+            echo "otobo_ref=${{ matrix.repository }}:$docker_tag"
+            echo "otobo_build_date=$build_date"
+            echo "otobo_commit=${{ github.sha }}"
+          ) >> $GITHUB_ENV
+
+      - name: 'check out the relevant OTOBO branch'
+        uses: actions/checkout@v4
+
+      -
+        # login to Docker Hub before the composite action
+        # this avoids that secrets have to be passed
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      -
+        # Uses a local composite action.
+        # The repository must already be checked out.
+        name: 'Run local composite action'
+        uses: ./.github/actions/docker_image_builder
