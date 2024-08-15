@@ -2377,7 +2377,8 @@ sub _ArticleTree {
             Name => 'ArticleList',
             Data => {
                 %Param,
-                TableClasses => $TableClasses,
+                ZoomExpandSortOrder => $Self->{ZoomExpandSort} eq 'reverse' ? 'Descending' : 'Ascending',
+                TableClasses        => $TableClasses,
             },
         );
 
