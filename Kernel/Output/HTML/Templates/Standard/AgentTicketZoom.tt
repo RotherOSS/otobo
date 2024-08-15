@@ -402,7 +402,7 @@
                     <table id="ArticleTable" class="DataTable [% Data.TableClasses | html %]">
                         <thead>
                             <tr>
-                                <th class="No Sortable InitialSorting Descending"><a href="#">[% Translate("No.") | html %]</a></th>
+                                <th class="No Sortable InitialSorting [% Data.ZoomExpandSortOrder %]"><a href="#">[% Translate("No.") | html %]</a></th>
                                 <th class="UnreadArticles">
                                     <a class="UnreadArticles" href="#" title="[% Translate("Unread articles") | html %]">
                                         <span class="UnreadArticles">
