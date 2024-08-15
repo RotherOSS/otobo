@@ -47,12 +47,15 @@ jobs:
               run: |
                 echo '${{steps.get-sha.outputs.sha}}'
 
-            - name: 'check cache for CPAN modules'
+            -
+              # The cache key contains the checksum of the cpanfile,
+              # therefore the branch does not have to be included in the key.
+              name: 'check cache for CPAN modules'
               uses: actions/cache@v4
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20240320a
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20240808a
 
             # for debugging when there a problems installing a module
             # - name: 'XML::LibXSLT'
@@ -60,13 +63,26 @@ jobs:
             #     sudo apt install -y cpanminus
             #     cpanm -l local --notest XML::LibXSLT || sh -xc 'cat ~/.cpanm/work/*/build.log'
 
-            - name: 'install Perl modules from CPAN'
+            - name: 'install App::perlimports from CPAN with App::cpm'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: perl-actions/install-with-cpm@stable
               with:
                 install: |
                   App::perlimports
-                cpanfile: cpanfile.docker
+                global: false
+                tests: false
+                sudo: false
+
+            - name: 'move cpanfile in place'
+              if: steps.cache_local_lib.outputs.cache-hit != 'true'
+              run: |
+                cp cpanfile.docker cpanfile
+
+            - name: 'install Perl modules from CPAN with App::cpm'
+              if: steps.cache_local_lib.outputs.cache-hit != 'true'
+              uses: perl-actions/install-with-cpm@stable
+              with:
+                args: '--verbose'
                 global: false
                 tests: false
                 sudo: false
