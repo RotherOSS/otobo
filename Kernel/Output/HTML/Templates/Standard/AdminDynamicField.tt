@@ -210,7 +210,7 @@
                             </td>
                             <td class="Center">
 [% RenderBlockStart("CloneLink") %]
-                                <a class="DynamicFieldClone" href="[% Env("Baselink") %]Action=[% Data.ConfigDialog %];Subaction=Add;ID=[% Data.ID | uri %][% Data.FilterStrg %];FieldType=[% Data.FieldTypeName | uri %];ObjectType=[% Data.ObjectTypeName | uri %]" title="[% Translate("Copy this field") | html %]">
+                                <a class="DynamicFieldClone" href="[% Env("Baselink") %]Action=[% Data.ConfigDialog %];Subaction=Add;CloneFieldID=[% Data.ID | uri %][% Data.FilterStrg %];FieldType=[% Data.FieldType | uri %];ObjectType=[% Data.ObjectTypeName | uri %]" title="[% Translate("Copy this field") | html %]">
                                     <i class="fa fa-copy"></i>
                                 </a>
 [% RenderBlockEnd("CloneLink") %]

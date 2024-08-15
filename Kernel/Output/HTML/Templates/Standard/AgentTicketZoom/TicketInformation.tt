@@ -30,7 +30,7 @@
 [% RenderBlockEnd("ArchiveFlag") %]
 [% RenderBlockStart("Type") %]
                         <label>[% Translate("Type") | html %]:</label>
-                        <p class="Value FixedValueSmall" title="[% Data.Type | html %]">[% Data.Type | html %]
+                        <p class="Value FixedValueSmall" title="[% Data.Type | html %]">[% Translate(Data.Type) | html %]
                             [% IF Data.Valid != 1 %] <em class="Error">[% Translate("Note: Type is invalid!") | html %]</em> [% END %]
                         </p>
                         <div class="Clear"></div>

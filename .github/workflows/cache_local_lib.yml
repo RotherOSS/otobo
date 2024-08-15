@@ -58,14 +58,14 @@ jobs:
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: actions/checkout@v4
 
-            - name: 'Get SHA of cpanfile.docker.snapshot for doublechecking'
+            - name: 'Get SHA of cpanfile.docker for doublechecking'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               id: get-sha-doublecheck
               run: |
-                 echo "sha=$(git rev-parse :cpanfile.docker.snapshot)" >> $GITHUB_OUTPUT
-                 echo "ls=$(ls -l cpanfile.docker.snapshot)"           >> $GITHUB_OUTPUT
+                 echo "sha=$(git rev-parse :cpanfile.docker)" >> $GITHUB_OUTPUT
+                 echo "ls=$(ls -l cpanfile.docker)"           >> $GITHUB_OUTPUT
 
-            - name: 'Print SHA of cpanfile.docker.snapshot for doublechecking'
+            - name: 'Print SHA of cpanfile.docker for doublechecking'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               run: |
                 echo '${{steps.get-sha-doublecheck.outputs.sha}}'
@@ -85,11 +85,10 @@ jobs:
                 tests: false
                 sudo: false
 
-            - name: 'move cpanfile and cpanfile.snapshot in place'
+            - name: 'move cpanfile in place'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               run: |
                 cp cpanfile.docker cpanfile
-                cp cpanfile.docker.snapshot cpanfile.snapshot
 
             - name: 'install Perl modules from CPAN with App::cpm'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
