@@ -680,7 +680,7 @@ sub DocumentComplete {
     return $Param{String} if $Param{String} =~ m/<html>/i;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Css          = 'font-size: 12px; font-family:Courier,monospace,fixed;';
+    my $Css          = '';
 
     if ( $Param{CustomerInterface} ) {
         $Css = $ConfigObject->Get('CustomerFrontend::RichText::DefaultCSS') // $Css;
@@ -702,23 +702,70 @@ sub DocumentComplete {
         # include quicksand and default css
         $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'common/css/quicksand.css">';
         $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'skins/Customer/default/css/Core.Default.css">';
+
     }
 
-    my $CKEditorStyles
+    my $CKEditorContentStylesPath
         = $Param{CustomerInterface} ? $ConfigObject->Get('CustomerFrontend::RichTextArticleStyles') : $ConfigObject->Get('Frontend::RichTextArticleStyles');
 
-    # TODO: avoid reading the file every time this method is called
-    my $CKEditorCSS = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-        Location        => $ConfigObject->Get('Home') . "/var/httpd/htdocs/$CKEditorStyles",
-        Type            => 'Local',
-        DisableWarnings => 1,
+    my $ArticleContentStylesPath
+        = $Param{CustomerInterface} ? "skins/Customer/default/css/RichTextArticleContent.css" : "skins/Agent/default/css/RichTextArticleContent.css";
+
+    my $TargetDirectory = "var/httpd/htdocs/common/css/cache/";
+    my $TargetFilename = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
+        List  => [
+            "var/httpd/htdocs/$CKEditorContentStylesPath",
+            "var/httpd/htdocs/$ArticleContentStylesPath",
+        ],
+        Type                 => 'CSS',
+        TargetDirectory      => $TargetDirectory,
+        TargetFilenamePrefix => 'RichTextCSS',
     );
 
-    if ($CKEditorCSS) {
-        ${$CKEditorCSS} = $Self->ToHTML( String => ${$CKEditorCSS} );
-        $Body .= "<style>" . ${$CKEditorCSS} . "</style>";
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $RichTextContentCSSFilename = $CacheObject->Get(
+        Type => 'HTMLUtils',
+        Key  => 'RichTextContentCSSPath',
+    );
+
+    if (!$TargetFilename) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'error minifying content css files, trying to load from cache',
+        );
+        $TargetFilename = $RichTextContentCSSFilename;
     }
-    $Body .= '</head><body style="' . $Css . '">' . $Param{String} . '</body></html>';
+
+    if ($TargetFilename ne $RichTextContentCSSFilename) {
+        if ($RichTextContentCSSFilename) {
+            $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
+                Location        => "$TargetDirectory/$RichTextContentCSSFilename",
+                Type            => 'Local',
+                DisableWarnings => 1,
+            )
+        }
+        $CacheObject->Set(
+            Type => 'HTMLUtils',
+            Key  => 'RichTextContentCSSPath',
+            Value => $TargetFilename
+        )
+    }
+
+    # TODO: avoid reading the file every time this method is called
+    if ($TargetFilename) {
+        my $ArticleStyles = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+        Location        => "$TargetDirectory/$TargetFilename",
+        Type            => 'Local',
+        DisableWarnings => 1,
+        );
+
+        if ($ArticleStyles) {
+            #${$ArticleStyles} = $Self->ToHTML( String => ${$ArticleStyles} );
+            $Body .= "<style>" . ${$ArticleStyles} . "</style>";
+        }
+    }
+
+    $Body .= '</head><body class="ck-content" style="' . $Css . '">' . $Param{String} . '</body></html>';
 
     return $Body;
 }

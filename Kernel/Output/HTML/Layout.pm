@@ -1838,12 +1838,15 @@ sub Footer {
     # Load rich text libraries only when a RTE has been set up
     if ( $Self->{HasRichTextEditor} ) {
 
-        # ckeditor.js is always loaded when rich text is enabled
+        my $JSDirectoryPath = $WebPath . 'js/';
+
+        # ckeditor.js is always loaded when richtext is enabled
         $Self->Block(
             Name => 'RichTextJS',
             Data => {
-                JSDirectory => '',
-                Filename    => 'ckeditor.js',
+                JSDirectory => $JSDirectoryPath,
+                Filename    => 'ckeditor5.js',
+                WrapperFileName => 'Core.UI.CKEditor5Wrapper.js',
             },
         );
 
@@ -4545,12 +4548,15 @@ sub CustomerFooter {
     # Load rich text libraries only when a RTE has been set up
     if ( $Self->{HasRichTextEditor} ) {
 
+        my $JSDirectoryPath = $WebPath . 'js/';
+
         # ckeditor.js is always loaded when rich text is enabled
         $Self->Block(
             Name => 'RichTextJS',
             Data => {
-                JSDirectory => '',
-                Filename    => 'ckeditor.js',
+                JSDirectory => $JSDirectoryPath,
+                Filename    => 'ckeditor5.js',
+                WrapperFileName => 'Core.UI.CKEditor5Wrapper.js',
             },
         );
 
@@ -6558,7 +6564,7 @@ sub SetRichTextParameters {
         'SpecialCharactersEssentials',
         'Strikethrough', 'Table', 'TableCellProperties', 'TableColumnResize', 'TableProperties', 'TableToolbar', 'Underline', 'Undo', 'PasteFromOffice'
     );
-
+    
     # set data with AddJSData()
     $Self->AddJSData(
         Key   => 'RichText',
