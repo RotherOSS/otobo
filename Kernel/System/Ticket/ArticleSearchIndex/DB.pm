@@ -16,9 +16,15 @@
 
 package Kernel::System::Ticket::ArticleSearchIndex::DB;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -42,10 +48,7 @@ The methods are currently documented in L<Kernel::System::Ticket::Article>.
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 sub ArticleSearchIndexBuild {
@@ -57,6 +60,7 @@ sub ArticleSearchIndexBuild {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -72,7 +76,7 @@ sub ArticleSearchIndexBuild {
         UserID    => $Param{UserID},
     );
 
-    return 1 if !%ArticleSearchableContent;
+    return 1 unless %ArticleSearchableContent;
 
     # clear old data from search index table
     my $Success = $Self->ArticleSearchIndexDelete(
@@ -85,6 +89,7 @@ sub ArticleSearchIndexBuild {
             Priority => 'error',
             Message  => "Could not delete ArticleID '$Param{ArticleID}' from article search index!"
         );
+
         return;
     }
 
@@ -153,7 +158,7 @@ sub ArticleSearchIndexBuild {
 
     $SQL .= $SQLEnd;
 
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL  => $SQL,
         Bind => \@Bind,
     );
@@ -169,6 +174,7 @@ sub ArticleSearchIndexDelete {
             Priority => 'error',
             Message  => 'Need UserID!',
         );
+
         return;
     }
 
@@ -177,18 +183,19 @@ sub ArticleSearchIndexDelete {
             Priority => 'error',
             Message  => 'Need either ArticleID or TicketID!',
         );
+
         return;
     }
 
     # Delete articles.
     if ( $Param{ArticleID} ) {
-        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+        return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL  => 'DELETE FROM article_search_index WHERE article_id = ?',
             Bind => [ \$Param{ArticleID} ],
         );
     }
     elsif ( $Param{TicketID} ) {
-        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+        return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL  => 'DELETE FROM article_search_index WHERE ticket_id = ?',
             Bind => [ \$Param{TicketID} ],
         );
@@ -205,6 +212,7 @@ sub ArticleSearchIndexSQLJoinNeeded {
             Priority => 'error',
             Message  => 'Need SearchParams!',
         );
+
         return;
     }
 
@@ -219,6 +227,7 @@ sub ArticleSearchIndexSQLJoinNeeded {
         )
     {
         if ( IsStringWithData( $Param{SearchParams}->{$Field} ) ) {
+
             return 1;
         }
     }
@@ -234,6 +243,7 @@ sub ArticleSearchIndexSQLJoin {
             Priority => 'error',
             Message  => 'Need SearchParams!',
         );
+
         return;
     }
 
@@ -254,7 +264,7 @@ sub ArticleSearchIndexSQLJoin {
     ARTICLEFIELD:
     for my $ArticleField ( sort keys %SearchableFields ) {
 
-        next ARTICLEFIELD if !IsStringWithData( $Param{SearchParams}->{$ArticleField} );
+        next ARTICLEFIELD unless IsStringWithData( $Param{SearchParams}->{$ArticleField} );
 
         my $Label = $ArticleField;
         $ArticleField = $DBObject->Quote($ArticleField);
@@ -274,6 +284,7 @@ sub ArticleSearchIndexWhereCondition {
             Priority => 'error',
             Message  => 'Need SearchParams!',
         );
+
         return;
     }
 
@@ -291,7 +302,7 @@ sub ArticleSearchIndexWhereCondition {
     FIELD:
     for my $Field (@Fields) {
 
-        next FIELD if !IsStringWithData( $Param{SearchParams}->{$Field} );
+        next FIELD unless IsStringWithData( $Param{SearchParams}->{$Field} );
 
         # replace * by % for SQL like
         $Param{SearchParams}->{$Field} =~ s/\*/%/gi;
@@ -360,6 +371,7 @@ sub SearchStringStopWordsFind {
                 Priority => 'error',
                 Message  => "Need $Key!",
             );
+
             return;
         }
     }
@@ -394,7 +406,8 @@ sub SearchStringStopWordsFind {
         WORD:
         for my $Word ( @{ $StopWordRaw->{$Language} } ) {
 
-            next WORD if !defined $Word || !length $Word;
+            next WORD unless defined $Word;
+            next WORD unless length $Word;
 
             $Word = lc $Word;
 
@@ -416,7 +429,9 @@ sub SearchStringStopWordsFind {
             'BindMode' => 1,
         );
 
-        next SEARCHSTRING if !%Result || ref $Result{Values} ne 'ARRAY' || !@{ $Result{Values} };
+        next SEARCHSTRING unless %Result;
+        next SEARCHSTRING unless ref $Result{Values} eq 'ARRAY';
+        next SEARCHSTRING unless $Result{Values}->@*;
 
         my %Words;
         for my $Value ( @{ $Result{Values} } ) {
@@ -438,7 +453,6 @@ sub SearchStringStopWordsUsageWarningActive {
     my $WarnOnStopWordUsage = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::WarnOnStopWordUsage') || 0;
 
     return 1 if $WarnOnStopWordUsage;
-
     return 0;
 }
 
@@ -450,6 +464,7 @@ sub _ArticleSearchIndexString {
             Priority => 'error',
             Message  => "Need String!",
         );
+
         return;
     }
 
@@ -466,7 +481,7 @@ sub _ArticleSearchIndexString {
         );
     };
 
-    return if !$ListOfWords;
+    return unless $ListOfWords;
 
     # find ranking of words
     my %List;
@@ -509,15 +524,14 @@ sub _ArticleSearchIndexStringToWord {
             Priority => 'error',
             Message  => "Need String!",
         );
+
         return;
     }
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SearchIndexAttributes = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
-    my @Filters               = @{ $ConfigObject->Get('Ticket::SearchIndex::Filters') || [] };
-    my $StopWordRaw           = $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {};
+    my $StopWordRaw = $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {};
 
     # error handling
     if ( !$StopWordRaw || ref $StopWordRaw ne 'HASH' ) {
@@ -549,7 +563,8 @@ sub _ArticleSearchIndexStringToWord {
         WORD:
         for my $Word ( @{ $StopWordRaw->{$Language} } ) {
 
-            next WORD if !defined $Word || !length $Word;
+            next WORD unless defined $Word;
+            next WORD unless length $Word;
 
             $Word = lc $Word;
 
@@ -558,8 +573,10 @@ sub _ArticleSearchIndexStringToWord {
     }
 
     # get words
-    my $LengthMin = $Param{WordLengthMin} || $SearchIndexAttributes->{WordLengthMin} || 3;
-    my $LengthMax = $Param{WordLengthMax} || $SearchIndexAttributes->{WordLengthMax} || 30;
+    my @Filters               = @{ $ConfigObject->Get('Ticket::SearchIndex::Filters') || [] };
+    my $SearchIndexAttributes = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
+    my $LengthMin             = $Param{WordLengthMin} || $SearchIndexAttributes->{WordLengthMin} || 3;
+    my $LengthMax             = $Param{WordLengthMax} || $SearchIndexAttributes->{WordLengthMax} || 30;
     my @ListOfWords;
 
     WORD:
@@ -568,11 +585,14 @@ sub _ArticleSearchIndexStringToWord {
         # apply filters
         FILTER:
         for my $Filter (@Filters) {
-            next FILTER if !defined $Word || !length $Word;
+            next FILTER unless defined $Word;
+            next FILTER unless length $Word;
+
             $Word =~ s/$Filter//g;
         }
 
-        next WORD if !defined $Word || !length $Word;
+        next WORD unless defined $Word;
+        next WORD unless length $Word;
 
         # convert to lowercase to avoid LOWER()/LCASE() in the DB query
         $Word = lc $Word;
