@@ -494,7 +494,7 @@
         <Description Translatable="1">Defines the URL rich text editor path.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor5-build-classic/</Item>
+            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor5-42.0.1/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -505,38 +505,38 @@
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextHeight" Required="1" Valid="1">
-        <Description Translatable="1">Defines the initial height for the rich text editor component in pixels.</Description>
+        <Description Translatable="1">Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
+            <Item ValueType="String" ValueRegex="^\d+%?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::DefaultCSS" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default CSS used for displaying articles.</Description>
+        <Description Translatable="1">Custom CSS styles for RichText articles.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;</Item>
+            <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextArticleStyles" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the default CSS for creating CKEditor articles.</Description>
+        <Description Translatable="1">Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/CKEditor.min.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-42.0.1-content.css</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::RichText::DefaultCSS" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default CSS used for displaying articles.</Description>
+        <Description Translatable="1">Custom CSS styles for RichText articles.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">font-family:'Quicksand', sans-serif; font-size: 14px; line-height: 1.5; color: #00023c;</Item>
+            <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::RichTextArticleStyles" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the default CSS for creating CKEditor articles.</Description>
+        <Description Translatable="1">Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/CKEditor.min.css</Item>
+            <Item ValueType="String" ValueRegex="">ckeditor5-42.0.1-content.css</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">
@@ -10381,13 +10381,6 @@ via the Preferences button after logging in.
         <Navigation>Core::Translations</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
-        </Value>
-    </Setting>
-    <Setting Name="Translations::TranslateParentChild" Required="0" Valid="1">
-        <Description Translatable="1">Defines if parent-child translations for queues and services should be generated automatically.</Description>
-        <Navigation>Core::Translations</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
 

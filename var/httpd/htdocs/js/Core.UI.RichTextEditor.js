@@ -29,6 +29,7 @@ var CKEditorInstances = {};
  *      Richtext Editor.
  */
 Core.UI.RichTextEditor = (function (TargetNS) {
+
     /**
      * @private
      * @name $FormID
@@ -78,14 +79,14 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     TargetNS.InitEditor = function ($EditorArea) {
         var EditorID = '',
             UserLanguage,
-            EnabledPlugins = Core.Config.Get('RichText.Plugins'),
+            PluginList = Core.Config.Get('RichText.Plugins'),
             CustomerInterface = (Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'));
 
         // The format for the language is different between OTOBO and CKEditor (see bug#8024)
         // To correct this, we replace "_" with "-" in the language (e.g. zh_CN becomes zh-cn)
         UserLanguage = Core.Config.Get('UserLanguage').replace(/_/, '-').toLowerCase();
 
-        if (typeof ClassicEditor === 'undefined') {
+        if (!window.CKEditor5Wrapper) {
             return false;
         }
 
@@ -129,6 +130,17 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             removedPlugins = [ 'SimpleUploadAdapter' ];
         }
 
+        var ClassicEditor = CKEditor5Wrapper.ClassicEditor;
+        let EnabledPlugins = [];
+        for (let pluginName of PluginList) {
+            let Plugin = CKEditor5Plugins[pluginName];
+            if (Plugin) {
+                EnabledPlugins.push(CKEditor5Plugins[pluginName]);
+            } else {
+                console.log('Couldnt find plugin: ' + pluginName);
+            }
+        }
+
         ClassicEditor.create($($EditorArea).get(0), {
             ui: {
                 poweredBy: {
@@ -136,8 +148,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     side: 'left',
                     label: '',
                     forceVisible: true,
-                    verticalOffset: 3,
-                    horizontalOffset: 3
+                    verticalOffset: 2,
+                    horizontalOffset: 2
                 }
             },
             heading: {
@@ -253,14 +265,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 var sourceEditingActive = false;
 
-                $domEditableElement.resizable();
-                $domEditableElement.resizable("option", "handles", "s");
-                $(".ui-resizable-s", $domEditableElement).append("<i class='ooofo ooofo-more_h'></i>");
-
-                $domEditableElement.on('resize', function() {
-                    adjustEditorSize();
-                });
-
                 // Adjust Editor Size to match (resizable) container size
                 var adjustEditorSize = function() {
                     let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();
@@ -325,15 +329,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }
                 });
 
-                if (!CustomerInterface) {
-                    // set initial Editor size as defined by System Configuration
-                    // add 10 px of padding to the editor width
-                    let EditorWidth = Number( Core.Config.Get("RichText.Width",  620) ) + 10;
-
-                    $domEditableElement.css("height", Core.Config.Get("RichText.Height", 320));
-                    $domEditableElement.css("width", EditorWidth);
-                }
-
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);
 
                 // workaround for ckeditor not using data filter correctly on prefilled content
@@ -390,7 +385,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      */
     TargetNS.InitAllEditors = function () {
 
-        if (typeof ClassicEditor === 'undefined') {
+        if (!window.CKEditor5Wrapper) {
             return;
         }
 
@@ -408,10 +403,21 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        if (typeof ClassicEditor === 'undefined' || Core.Config.Get('Action') == 'AdminGenericInterfaceMappingXSLT') {
+        if (!window.CKEditor5Wrapper || Core.Config.Get('Action') == 'AdminGenericInterfaceMappingXSLT') {
             return;
         }
 
+        var CustomerInterface = (Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'));
+
+        $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + 'common/css/ckeditor5-42.0.1-editor.css">');
+        $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + 'common/css/ckeditor5-42.0.1-content.css">');
+        if (CustomerInterface) {
+            $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Customer/default/css/CKEditorCustomStyles.css">');
+            $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Customer/default/css/RichTextArticleContent.css">');
+        } else {
+            $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Agent/default/css/CKEditorCustomStyles.css">');
+            $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Agent/default/css/RichTextArticleContent.css">');
+        }
         TargetNS.InitAllEditors();
     };
 
