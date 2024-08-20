@@ -574,6 +574,7 @@ sub _ArticleSearchIndexStringToWord {
 
     # get words
     my @Filters               = @{ $ConfigObject->Get('Ticket::SearchIndex::Filters') || [] };
+    my @FilterRegexes         = map {qr/$_/} @Filters;
     my $SearchIndexAttributes = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
     my $LengthMin             = $Param{WordLengthMin} || $SearchIndexAttributes->{WordLengthMin} || 3;
     my $LengthMax             = $Param{WordLengthMax} || $SearchIndexAttributes->{WordLengthMax} || 30;
@@ -584,11 +585,11 @@ sub _ArticleSearchIndexStringToWord {
 
         # apply filters
         FILTER:
-        for my $Filter (@Filters) {
-            next FILTER unless defined $Word;
-            next FILTER unless length $Word;
+        for my $FilterRegex (@FilterRegexes) {
+            last FILTER unless defined $Word;
+            last FILTER unless length $Word;
 
-            $Word =~ s/$Filter//g;
+            $Word =~ s/$FilterRegex//g;
         }
 
         next WORD unless defined $Word;
