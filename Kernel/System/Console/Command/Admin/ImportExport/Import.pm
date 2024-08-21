@@ -113,7 +113,7 @@ sub Run {
     {
         my $Source = $Self->GetArgument('source');
         if ( -d $Source ) {
-            my $Prefix = $Self->GetArgument('prefix') // '';
+            my $Prefix = $Self->GetOption('prefix') // '';
             @SourceFiles = $MainObject->DirectoryRead(
                 Directory => $Source,
                 Filter    => "${Prefix}[0-9][0-9][0-9][0-9][0-9][0-9].csv",    # a fancy glob pattern

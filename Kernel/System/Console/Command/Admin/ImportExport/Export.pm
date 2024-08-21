@@ -177,7 +177,7 @@ sub Run {
                 return $Self->ExitCodeError;
             }
 
-            $Self->PrintOk("File $Destination saved.");
+            $Self->PrintOk("File $Location saved.");
         }
 
         # not all backends support chunking

@@ -23,15 +23,14 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
+use Encode;
+use MIME::Base64 qw(encode_base64 decode_base64);
 
 # CPAN modules
 
 # OTOBO modules
 use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
-
-use Encode;
-use MIME::Base64 qw(encode_base64 decode_base64);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -55,7 +54,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::ImportExport::ObjectBackend::Ticket - import/export backend for Tickets
+Kernel::System::ImportExport::ObjectBackend::Ticket - import/export backend for tickets
 
 =head1 DESCRIPTION
 
@@ -70,7 +69,7 @@ create an object
     use Kernel::System::ObjectManager;
 
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $BackendObject = $Kernel::OM->Get('Kernel::System::ImportExport::ObjectBackend::ITSMConfigItem');
+    my $BackendObject = $Kernel::OM->Get('Kernel::System::ImportExport::ObjectBackend::Ticket');
 
 =cut
 
@@ -78,11 +77,13 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {
+    my $Self = bless {
         TicketIDRelation       => {},
         TicketNumberIDRelation => {},
-    };
-    bless( $Self, $Type );
+        AllFoundTicketIDs      => undef,    # will be initialized in first call to ExportDataGet()
+        LastHandledIndex       => -1,       # used for chunking
+        ChunkingFinished       =>  0,       # indicate that chunking is finished
+    }, $Type;
 
     return $Self;
 }
@@ -417,7 +418,8 @@ sub MappingObjectAttributesGet {
     return [] unless $ObjectData;
     return [] unless ref $ObjectData eq 'HASH';
 
-    my @ElementList = map { { Key => $_, Value => $_ } }
+    my @ElementList =
+        map { { Key => $_, Value => $_ } }
         qw( TicketID TicketNumber Title Type TypeID Queue QueueID Service ServiceID SLA
         SLAID State StateID Priority PriorityID CustomerID CustomerUserID Owner OwnerID Lock
         LockID Responsible ResponsibleID ArchiveFlag Created );
@@ -708,6 +710,11 @@ get export data as a reference to an array for array references, that is a C<2D-
         UserID     => 1,
     );
 
+When the parameter C<ChunkSize> is passed then chunked export mode is assumed.
+On the first invocation the complete search result list is retrieved
+and stored in the instance. Then the detailed data for first chunk is returned.
+Each subsequent invocation only gets the detailed data for the next chunk.
+
 =cut
 
 sub ExportDataGet {
@@ -783,30 +790,36 @@ sub ExportDataGet {
         push @MappingObjectList, $MappingObjectData;
     }
 
-    # get search data
-    my $SearchData = $ImportExportObject->SearchDataGet(
-        TemplateID => $Param{TemplateID},
-        UserID     => $Param{UserID},
-    );
+    # List of IDs for tickets that are to be exported.
+    # In chunked mode this is only chunk. In non-chunked mode these are all relevant IDs.
+    my @TicketIDs;
+    {
+        # Search all Ticket_IDs.
+        # When in chunked mode then get the complete list in the first invocation and store it as instance data.
+        # For simplicities sake assume that the template ID does not change in subsequent calls.
+        my %TicketSearchParam = (
+            TemplateID => $Param{TemplateID},
+            UserID     => $Param{UserID},
+        );
+        if ( $Param{ChunkSize} >= 1 ) {
 
-    my %IsSelection = map { $_ => 1 } qw( TypeIDs QueueIDs ServiceIDs SLAIDs StateIDs PriorityIDs CustomerID );
+            # search only on the first invocation
+            $Self->{AllFoundTicketIDs} //= [ $Self->_TicketSearch(%TicketSearchParam) ];
 
-    my %SearchDataPrepared;
-    KEY:
-    for my $Key ( keys $SearchData->%* ) {
-        next KEY if !defined $SearchData->{$Key};
-
-        $SearchDataPrepared{$Key} = $IsSelection{$Key} ? [ split /#####/, $SearchData->{$Key} ] : $SearchData->{$Key};
+            # do the chunking
+            my $NewLastHandledIndex = $Self->{LastHandledIndex} + $Param{ChunkSize};
+            my $EndIndex            = $#{ $Self->{AllFoundTicketIDs} };
+            if ( $NewLastHandledIndex >= $EndIndex ) {
+                $Self->{ChunkingFinished} = 1;
+                $NewLastHandledIndex = $EndIndex;
+            }
+            @TicketIDs = @{ $Self->{AllFoundTicketIDs} }[ $Self->{LastHandledIndex} + 1 .. $NewLastHandledIndex ];
+            $Self->{LastHandledIndex} = $NewLastHandledIndex;
+        }
+        else {
+            @TicketIDs = $Self->_TicketSearch(%TicketSearchParam);
+        }
     }
-
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-    # Search all Ticket_IDs
-    my @TicketIDs = sort { $a <=> $b } $TicketObject->TicketSearch(
-        %SearchDataPrepared,
-        Result => 'ARRAY',
-        UserID => 1,
-    );
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
@@ -852,10 +865,10 @@ sub ExportDataGet {
             $TicketMapping[$i] = $MappingObjectList[$i];
             $TicketMappingLast = $i;
         }
-
     }
 
     # export tickets ...
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     for my $TicketID (@TicketIDs) {
 
         %TicketData = $TicketObject->TicketGet(
@@ -1241,6 +1254,46 @@ sub ImportDataSave {
     }
 
     return ( $Self->{LastTicketID}, $Status );
+}
+
+=head1 Internal Subroutines
+
+=head2 _TicketSearch
+
+just a wrapper around C<Kernel::System::Ticket::TicketSearch()>
+
+=cut
+
+sub _TicketSearch {
+    my ( $Self, %Param ) = @_;
+
+    my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
+    my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    # get search data
+    my $SearchData = $ImportExportObject->SearchDataGet(
+        TemplateID => $Param{TemplateID},
+        UserID     => $Param{UserID},
+    );
+
+    my %IsSelection = map { $_ => 1 } qw( TypeIDs QueueIDs ServiceIDs SLAIDs StateIDs PriorityIDs CustomerID );
+
+    my %SearchDataPrepared;
+    KEY:
+    for my $Key ( keys %{$SearchData} ) {
+        next KEY unless defined $SearchData->{$Key};
+
+        $SearchDataPrepared{$Key} = $IsSelection{$Key} ? [ split /#####/, $SearchData->{$Key} ] : $SearchData->{$Key};
+    }
+
+    # make sure that sort is not called in scalar context
+    my @SortedTicketIDs = sort { $a <=> $b } $TicketObject->TicketSearch(
+        %SearchDataPrepared,
+        Result => 'ARRAY',
+        UserID => 1,
+    );
+
+    return @SortedTicketIDs;
 }
 
 sub _ImportTicket {
