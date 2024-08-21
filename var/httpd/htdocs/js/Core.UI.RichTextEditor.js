@@ -184,12 +184,37 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             },
             image: {
                 resizeUnit: 'px',
+                resizeOptions: [ 
+                    {
+                        name: 'resizeImage:original',
+                        label: 'Original Image Size',
+                        value: null,
+                        icon: 'original'
+                    },
+                    {
+                        name: 'resizeImage:custom',
+                        label: 'Scale Image',
+                        value: 'custom',
+                        icon: 'custom'
+                    }
+                ],
+                toolbar: [
+                    {
+                        name: 'imageStyle:imagePositioningDropdown',
+                        title: 'Image Positioning',
+                        items: [
+                            'imageStyle:alignLeft', 
+                            'imageStyle:alignCenter', 
+                            'imageStyle:alignRight', 
+                            'imageStyle:alignBlockLeft', 
+                            'imageStyle:alignBlockRight'
+                        ],
+                        defaultItem: 'imageStyle:alignBlockLeft'
+                    },
+                    'resizeImage'
+                ],
                 insert: {
-                    type: 'inline'
-                },
-                toolbar: ['imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight'],
-                insert: {
-                    // Expose only needed dropdown options
+                    type: 'block',
                     integrations: Integrations
                 }
             },
@@ -239,31 +264,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     $domEditableElement = $($EditorArea).closest(".RichTextHolder");
                 }
 
-                //Add Editor Theme Styles
-                let editorStyles = $domEditableElement.get(0).style;
-                if (CustomerInterface) {
-                    editorStyles.setProperty("--ck-border-radius", "10px");
-                    editorStyles.setProperty("--ck-font-size-base", "14px");
-                    let toolBarStyle = $(".ck.ck-toolbar").get(0).style;
-                    toolBarStyle.setProperty("padding-left", "14px");
-                    toolBarStyle.setProperty("padding-right", "0px");
-                    let $textdropdown = $(".ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label");
-                    if ($textdropdown.length > 0 ) {
-                        $textdropdown.get(0).style.setProperty("width", "7.8em");
-                        $textdropdown.parent().get(0).style.setProperty("padding-left", "4px");
-                    }
-                    $(".ck.ck-toolbar__items")
-                        .get(0).style.setProperty("gap", "1px");
-                } else {
-                    editorStyles.setProperty("--ck-border-radius", "5px");
-                    editorStyles.setProperty("--ck-font-size-base", "11.5px");
-                    $(".ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label")
-                        .get(0).style.setProperty("width", "7.5em");
-                    $(".ck.ck-toolbar__items")
-                        .get(0).style.setProperty("gap", "1px");
-                }
-
                 var sourceEditingActive = false;
+
+                $domEditableElement.resizable();
+                $domEditableElement.resizable("option", "handles", "s");
+                $(".ui-resizable-s", $domEditableElement).append("<i class='ooofo ooofo-more_h'></i>");
+
+                $domEditableElement.on('resize', function() {
+                    adjustEditorSize();
+                });
 
                 // Adjust Editor Size to match (resizable) container size
                 var adjustEditorSize = function() {
@@ -328,6 +337,16 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         }
                     }
                 });
+
+                if (!CustomerInterface) {
+                    // set initial Editor size as defined by System Configuration
+                    // add 10 px of padding to the editor width
+                    let EditorWidth = Number( Core.Config.Get("RichText.Width", 620) ) + 10;
+
+                    $domEditableElement.css("height", Core.Config.Get("RichText.Height", 320));
+                    $domEditableElement.css("width", EditorWidth);
+                    adjustEditorSize();
+                }
 
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);
 
