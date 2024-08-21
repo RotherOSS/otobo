@@ -1249,7 +1249,7 @@ sub _ImportTicket {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my %Ticket = $Param{Ticket}->%*;
-    my %DBTicket;
+    my %DBTicket;    # Ticket as retrieved from the database
     my $Status = 'Skipped';
 
     if ( $Param{Identifier} ) {
@@ -1340,12 +1340,13 @@ sub _ImportTicket {
         }
     }
 
-    # verify whether we really got the right ticket
+    # verify whether we really got the right ticket, all identifiers must match
     if (%DBTicket) {
         ATTR:
         for my $Attr ( keys $Param{Identifier}->%* ) {
             if ( $DBTicket{$Attr} ne $Ticket{$Attr} ) {
                 %DBTicket = ();
+
                 last ATTR;
             }
         }
@@ -1391,9 +1392,10 @@ sub _ImportTicket {
         }
 
         # title
-        $Ticket{Title} ||= $Ticket{Title} eq '0' ? '0' :
-            $SkipEmpty                  ? $DBTicket{Title} :
-            $Param{ObjectData}{Subject} ? $Param{ObjectData}{Subject} : '';
+        $Ticket{Title} ||=
+            ( defined $Ticket{Title} && $Ticket{Title} eq '0' ) ? '0' :
+            $SkipEmpty                                          ? $DBTicket{Title} :
+            $Param{ObjectData}{Subject}                         ? $Param{ObjectData}{Subject} : '';
 
         if ( $Ticket{Title} ne $DBTicket{Title} ) {
             $Status = 'Updated';
