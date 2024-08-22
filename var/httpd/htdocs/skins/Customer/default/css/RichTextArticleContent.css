@@ -20,9 +20,41 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-size: 14px;
     line-height: 1.5;
     color: #00023c;
+    border: solid 1px #e5e5eb !important;
 }
 
 .ck-content figure.table {
     float: left;
     margin: 0 0 0 0;
+}
+
+.ck-content p {
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+ }
+
+.ck-content h1 {
+    font-size: 2em;
+ } 
+
+.ck-content h2 {
+    font-size: 1.5em;
+ }
+
+.ck-content h3 {
+    font-size: 1.17em;
+ }
+
+.ck-content h5 {
+    font-size: 0.83em;
+ } 
+
+.ck-content h6 {
+    font-size: 0.67em;
+ }  
+
+.ck-content blockquote {
+    font-style: normal !important;
+    border-left: solid var(--colMainLight) 1.5pt !important; 
+    padding: 0cm 0cm 0cm 4pt !important;    
 }

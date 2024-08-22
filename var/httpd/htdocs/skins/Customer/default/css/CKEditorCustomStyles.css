@@ -16,6 +16,28 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 :root {
     --ck-border-radius: 10px;
     --ck-font-size-base: 14px;
+    --ck-color-toolbar-background: #f7f7f9;
+    --ck-color-toolbar-background: var(--colBGLight);
+    --ck-color-text: #00023c;
+    --ck-color-text: var(--colTextDark);
+    --ck-color-base-text: #00023c;
+    --ck-color-text: var(--colTextDark);
+    --ck-color-base-active: #001bff;
+    --ck-color-base-active: var(--colMainHover);
+    --ck-color-base-active-focus: #001bff;
+    --ck-color-base-active-focus: var(--colMainHover);
+    --ck-color-button-on-color: #001bff;
+    --ck-color-button-on-color: var(--colMainHover);
+    --ck-color-button-on-background: #f7f7f9;
+    --ck-color-button-on-background: var(--colBGLight);
+    --ck-color-button-on-hover-background: #eeeef2;
+    --ck-color-button-on-hover-background: var(--colBGLightMedium);
+    --ck-color-button-on-active-background: #e5e5eb;
+    --ck-color-button-on-active-background: var(--colBGMedium);
+    --ck-color-widget-hover-border: #fef235;
+    --ck-color-widget-hover-border: var(--colHighlight);
+    --ck-color-focus-border: #001bff;
+    --ck-color-focus-border: var(--colMainHover);
 }
 
 .ck.ck-toolbar {
@@ -30,4 +52,47 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .ck.ck-toolbar__items {
     gap: 1px;
+}
+
+.ck.ck-editor__editable_inline {
+    padding: 15px !important;
+    line-height: 1.6;
+ }
+
+ .ck.ck-editor__editable_inline ul,
+ .ck.ck-editor__editable_inline ol  
+ {
+    padding: 0 50px !important;
+ }
+ 
+.ck-source-editing-area {
+    width: 100% !important;
+    height: 320px;
+}
+
+.ck-source-editing-area > textarea {
+    overflow: auto !important;
+    position: relative;
+    width: 100% !important;
+    height: 100%;
+}
+
+.ck.ck-editor__editable > .ck-placeholder::before {
+    font-size: 16px;
+}
+
+.ck.ck-editor__editable > .ck-placeholder.error::before {
+    font-size: 16px;
+    color: #ea2400;
+}
+
+.ck.ck-toolbar {
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    background: #f8f8f8 !important;
+    border: none !important;
+}
+
+.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+    box-shadow: none !important;
 }
