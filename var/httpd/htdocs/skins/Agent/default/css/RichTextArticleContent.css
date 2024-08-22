@@ -19,3 +19,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-family:Geneva,Helvetica,Arial,sans-serif; 
     font-size: 12px;
 }
+
+.ck-content figure.table {
+    float: left;
+    margin: 0 0 0 0;
+}

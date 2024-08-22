@@ -21,3 +21,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     line-height: 1.5;
     color: #00023c;
 }
+
+.ck-content figure.table {
+    float: left;
+    margin: 0 0 0 0;
+}

@@ -214,7 +214,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     'resizeImage'
                 ],
                 insert: {
-                    type: 'block',
+                    type: 'auto',
                     integrations: Integrations
                 }
             },
@@ -224,7 +224,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         horizontalAlignment: 'left',
                         verticalAlignment: 'top',
                     }
-                }
+                },
+                tableProperties: {
+                    defaultProperties: {
+                        alignment: 'left',
+                    }
+                },
+                contentToolbar: [
+                    'tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties'
+                ]
             },
             simpleUpload: {
                 // build URL for image upload
