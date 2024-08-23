@@ -779,7 +779,7 @@ sub ValidatePendingTime {
     # if only the Diff attribute is present, check if it's a valid number and return.
     # Nothing else needs to be checked in that case.
     if ( keys %{ $Param{PendingTime} } == 1 && defined $Param{PendingTime}->{Diff} ) {
-        return if $Param{PendingTime}->{Diff} !~ m{\A \d+ \z}msx;
+        return if $Param{PendingTime}->{Diff} !~ m{\A [0-9]+ \z}msx;
         return 1;
     }
     elsif ( defined $Param{PendingTime}->{Diff} ) {
@@ -1146,7 +1146,7 @@ sub ValidateTimeUnit {
     return if !$Param{TimeUnit};
 
     # TimeUnit must be positive
-    return if $Param{TimeUnit} !~ m{\A \d+([.,]\d+)? \z}xms;
+    return if $Param{TimeUnit} !~ m{\A [0-9]+([.,][0-9]+)? \z}xms;
 
     return 1;
 }

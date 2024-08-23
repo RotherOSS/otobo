@@ -654,7 +654,7 @@ sub _ConditionCheck {
                     next FIELDLNAME;
                 }
 
-                my @ArrayFields = grep { $_ =~ m{ \A \Q$FieldName\E _ \d+ \z }xms } keys %{ $Param{Data} };
+                my @ArrayFields = grep { $_ =~ m{ \A \Q$FieldName\E _ [0-9]+ \z }xms } keys %{ $Param{Data} };
 
                 if ( @ArrayFields && defined $ActualCondition->{Fields}->{$FieldName}->{Match} ) {
                     ARRAYFIELD:
@@ -866,7 +866,7 @@ sub _ConditionCheck {
                     next FIELDLNAME;
                 }
 
-                my @ArrayFields = grep { $_ =~ m{ \A \Q$FieldName\E _ \d+ \z }xms } keys %{ $Param{Data} };
+                my @ArrayFields = grep { $_ =~ m{ \A \Q$FieldName\E _ [0-9]+ \z }xms } keys %{ $Param{Data} };
 
                 if ( @ArrayFields && defined $ActualCondition->{Fields}->{$FieldName}->{Match} ) {
                     ARRAYFIELD:
