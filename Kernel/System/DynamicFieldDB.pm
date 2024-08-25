@@ -229,11 +229,15 @@ sub DatabaseSearchByConfig {
                             Name => $DFName,
                         );
 
-                        # get the current dynamic field value to process
-                        my $DynamicFieldValue = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
-                            DynamicFieldConfig => $DFConfig,
-                            ObjectID           => $Param{TicketID},
-                        );
+                        my $DynamicFieldValue = $Param{$Param{Config}->{PossibleValues}->{$Key}};
+
+                        if ( !$DynamicFieldValue ) {
+                            # get the current dynamic field value to process
+                            $DynamicFieldValue = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
+                                DynamicFieldConfig => $DFConfig,
+                                ObjectID           => $Param{TicketID},
+                            );
+                        }
 
                         $PreparedPossibleValues->{$SequenceNumber}->{$Key} = $DynamicFieldValue || '';
                     }
