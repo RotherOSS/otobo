@@ -145,8 +145,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             ui: {
                 poweredBy: {
                     position: 'inside',
-                    side: 'left',
-                    label: '',
+                    side: 'right',
+                    label: null,
                     forceVisible: true,
                     verticalOffset: 2,
                     horizontalOffset: 2
