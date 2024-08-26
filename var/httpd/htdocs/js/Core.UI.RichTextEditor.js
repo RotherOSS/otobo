@@ -365,15 +365,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 //Update validation error tooltip while content is added to the editor
                 editor.model.document.on('change:data', () => {
-                    if (editor.getData() != "") {
-                        $("#" + editor.ElementId).val(editor.getData());
-                    }
-
                     window.clearTimeout(TimeOutRTEOnChange);
                     TimeOutRTEOnChange = window.setTimeout(function () {
+                        let EditorAreaContent = editor.getData();
+                        if (EditorAreaContent != "") {
+                            $("#" + editor.ElementId).val(EditorAreaContent);
+                        }
                         Core.Form.Validate.ValidateElement($EditorArea);
                         Core.App.Publish('Event.UI.RichTextEditor.ChangeValidationComplete', [editor]);
-                    }, 250);
+                    }, 500);
                 });
 
                 editor.ui.focusTracker.on('change:isFocused', (evt, name, isFocused) => {
