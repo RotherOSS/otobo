@@ -106,7 +106,7 @@ sub Auth {
     if ( $Self->{Debug} > 0 ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "User: '$User' tried to authenticate with Pw: '$Pw' ($RemoteAddr)",
+            Message  => "CustomerUser: $User tried to authenticate (REMOTE_ADDR: $RemoteAddr)",
         );
     }
 
@@ -151,7 +151,7 @@ sub Auth {
     if ( defined($AuthResult) && $AuthResult == 1 ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "User: $User Authentication ok (REMOTE_ADDR: $RemoteAddr).",
+            Message  => "CustomerUser: $User Authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
         return $User;
     }
@@ -160,7 +160,7 @@ sub Auth {
     else {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "User: $User Authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+            Message  => "CustomerUser: $User Authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }
