@@ -116,6 +116,7 @@ sub Auth {
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     my $UserID     = '';
     my $GetPw      = '';
+    my $Method      = '';
 
     # sql query
     $Self->{DBObject}->Prepare(
@@ -150,6 +151,7 @@ sub Auth {
 
     if ( $Self->{CryptType} eq 'plain' ) {
         $CryptedPw = $Pw;
+        $Method    = 'plain';
     }
 
     # md5 or sha pw
@@ -168,9 +170,11 @@ sub Auth {
 
             if ( $Magic eq '$apr1$' ) {
                 $CryptedPw = apache_md5_crypt( $Pw, $Salt );
+                $Method    = 'apache_md5_crypt';
             }
             else {
                 $CryptedPw = unix_md5_crypt( $Pw, $Salt );
+                $Method    = 'unix_md5_crypt';
             }
             $EncodeObject->EncodeInput( \$CryptedPw );
         }
@@ -183,6 +187,7 @@ sub Auth {
             $SHAObject->add($Pw);
             $CryptedPw = $SHAObject->hexdigest();
             $EncodeObject->EncodeInput( \$CryptedPw );
+            $Method = 'sha256';
         }
 
         # sha512 pw
@@ -193,6 +198,7 @@ sub Auth {
             $SHAObject->add($Pw);
             $CryptedPw = $SHAObject->hexdigest();
             $EncodeObject->EncodeInput( \$CryptedPw );
+            $Method = 'sha512';
         }
 
         elsif ( $GetPw =~ m{^BCRYPT:} ) {
@@ -202,8 +208,8 @@ sub Auth {
             {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  =>
-                        "User: '$User' tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                    Message =>
+                        "CustomerUser: $User tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
                 );
                 return;
             }
@@ -225,6 +231,7 @@ sub Auth {
             );
 
             $CryptedPw = "BCRYPT:$Cost:$Salt:" . Crypt::Eksblowfish::Bcrypt::en_base64($Octets);
+            $Method    = 'bcrypt';
         }
 
         # sha1 pw
@@ -238,6 +245,7 @@ sub Auth {
             $SHAObject->add($Pw);
             $CryptedPw = $SHAObject->hexdigest();
             $EncodeObject->EncodeInput( \$CryptedPw );
+            $Method = 'sha1';
         }
 
         # No-13-chars-long crypt pw (e.g. in Fedora28).
@@ -249,6 +257,7 @@ sub Auth {
             # Encode output, needed by crypt() only non utf8 signs.
             $CryptedPw = crypt( $Pw, $SaltUser );
             $EncodeObject->EncodeInput( \$CryptedPw );
+            $Method = 'crypt';
         }
     }
 
@@ -266,14 +275,24 @@ sub Auth {
         # encode output, needed by crypt() only non utf8 signs
         $CryptedPw = crypt( $Pw, $Salt );
         $EncodeObject->EncodeInput( \$CryptedPw );
+        $Method = 'crypt';
     }
 
     # just in case!
     if ( $Self->{Debug} > 0 ) {
+        my $EnteredPw  = $CryptedPw;
+        my $ExpectedPw = $GetPw;
+
+        # Don't log plaintext passwords.
+        if ( $Self->{CryptType} eq 'plain' ) {
+            $EnteredPw  = 'xxx';
+            $ExpectedPw = 'xxx';
+        }
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "CustomerUser: '$User' tried to authenticate with Pw: '$Pw' "
-                . "($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
+            Message  =>
+                "CustomerUser: $User tried to authenticate (User ID: $UserID, method: $Method, entered password: $EnteredPw, expected password: $ExpectedPw, salt: $Salt, remote address: $RemoteAddr)",
         );
     }
 
