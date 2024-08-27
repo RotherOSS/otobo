@@ -161,7 +161,7 @@ sub Auth {
         if ( $Self->{Debug} > 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message  => "CustomerUser: ($Param{User}) added $Self->{UserSuffix} to username!",
+                Message  => "CustomerUser: $Param{User} added $Self->{UserSuffix} to username!",
             );
         }
     }
@@ -170,8 +170,7 @@ sub Auth {
     if ( $Self->{Debug} > 0 ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "CustomerUser: '$Param{User}' tried to authenticate with Pw: '$Param{Pw}' "
-                . "(REMOTE_ADDR: $RemoteAddr)",
+            Message  => "CustomerUser: $Param{User} tried to authenticate (REMOTE_ADDR: $RemoteAddr)",
         );
     }
 
@@ -273,7 +272,7 @@ sub Auth {
         if ( $Self->{Debug} > 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message  => 'check for groupdn!',
+                Message  => 'Checking for GroupDN.',
             );
         }
 
