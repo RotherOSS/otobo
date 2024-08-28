@@ -189,14 +189,14 @@ sub Run {
 
             my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
                 Title        => RandomSubject(),
-                QueueID      => $QueueIDs[ int( rand($#QueueIDs) ) ],
+                QueueID      => $QueueIDs[ int( rand( scalar @QueueIDs ) ) ],
                 Lock         => 'unlock',
                 Priority     => PriorityGet(),
                 State        => 'new',
                 CustomerNo   => int( rand(1_000) ),                             # 0 .. 999
                 CustomerUser => RandomAddress(),
-                OwnerID      => $UserIDs[ int( rand($#UserIDs) ) ],
-                UserID       => $UserIDs[ int( rand($#UserIDs) ) ],
+                OwnerID      => $UserIDs[ int( rand( scalar @UserIDs ) ) ],
+                UserID       => $UserIDs[ int( rand( scalar @UserIDs ) ) ],
             );
 
         if ( $Self->GetOption('mark-tickets-as-seen') ) {
@@ -232,8 +232,8 @@ sub Run {
                     ContentType          => 'text/plain; charset=ISO-8859-15',
                     HistoryType          => 'AddNote',
                     HistoryComment       => 'Some free text!',
-                    UserID               => $UserIDs[ int( rand($#UserIDs) ) ],
-                    NoAgentNotify        => 1,                                    # if you don't want to send agent notifications
+                    UserID               => $UserIDs[ int( rand( scalar @UserIDs ) ) ],
+                    NoAgentNotify        => 1,                                            # if you don't want to send agent notifications
                 );
 
                 if ( $Self->GetOption('mark-tickets-as-seen') ) {
@@ -259,7 +259,7 @@ sub Run {
                     my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         ObjectID           => $ArticleID,
-                        UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
+                        UserID             => $UserIDs[ int( rand( scalar @UserIDs ) ) ],
                     );
 
                     if ( $Result->{Success} ) {
@@ -281,7 +281,7 @@ sub Run {
                 my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     ObjectID           => $TicketID,
-                    UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
+                    UserID             => $UserIDs[ int( rand( scalar @UserIDs ) ) ],
                 );
 
                 if ( $Result->{Success} ) {
@@ -414,7 +414,8 @@ sub PriorityGet {
     for my $PriorityID ( sort keys %PriorityList ) {
         push @Priorities, $PriorityList{$PriorityID};
     }
-    return $Priorities[ int( rand( $#Priorities + 1 ) ) ];
+
+    return $Priorities[ int( rand( scalar @Priorities ) ) ];
 }
 
 sub QueueGet {
