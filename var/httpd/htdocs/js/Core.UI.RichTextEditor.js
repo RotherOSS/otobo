@@ -316,11 +316,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     } );
                 }
 
-                // bind editor resize to container($domEditableElement) size change
-                const resizeObserver = new ResizeObserver((entries) => {
+                // bind editor resize to container($domEditableElement) size change (ie. when changing window size)
+                const resizeObserver = new ResizeObserver(() => {
                     adjustEditorSize();
                 });
                 resizeObserver.observe($domEditableElement.first().get(0));
+
+                //make sure editor size is adjusted whenever the toolbar changes size
+                //otherwise editor size can behave weirdly right after loading page
+                resizeObserver.observe(editor.ui.view.toolbar.element);
 
                 if (CustomerInterface) {
                     editor.editing.view.document.getRoot('main').placeholder = RichTextLabel[0].innerText;
@@ -353,7 +357,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                     $domEditableElement.css("height", Core.Config.Get("RichText.Height", 320));
                     $domEditableElement.css("width", EditorWidth);
-                    adjustEditorSize();
                 }
 
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);
@@ -384,6 +387,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         Core.Form.ErrorTooltips.RemoveRTETooltip($EditorArea);
                     }
                 });
+
             })
             .catch(error => {
                 console.error(error);

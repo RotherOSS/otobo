@@ -86,13 +86,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     color: #ea2400;
 }
 
-.ck.ck-toolbar {
-    border-top-left-radius: 10px !important;
-    border-top-right-radius: 10px !important;
-    background: #f8f8f8 !important;
-    border: none !important;
-}
-
 .ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
     box-shadow: none !important;
 }
