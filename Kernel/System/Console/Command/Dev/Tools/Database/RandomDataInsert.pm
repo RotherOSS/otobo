@@ -16,12 +16,18 @@
 
 package Kernel::System::Console::Command::Dev::Tools::Database::RandomDataInsert;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -187,7 +193,7 @@ sub Run {
                 Lock         => 'unlock',
                 Priority     => PriorityGet(),
                 State        => 'new',
-                CustomerNo   => int( rand(1000) ),
+                CustomerNo   => int( rand(1_000) ),                             # 0 .. 999
                 CustomerUser => RandomAddress(),
                 OwnerID      => $UserIDs[ int( rand($#UserIDs) ) ],
                 UserID       => $UserIDs[ int( rand($#UserIDs) ) ],
@@ -301,8 +307,8 @@ sub Run {
 # Helper functions below
 #
 sub RandomAddress {
-    my $Name   = int( rand(1_000) );
-    my @Domain = (
+    my $Name    = int( rand(1_000) );    # 0 - 999
+    my @Domains = (
         'example.com',
         'example-sales.com',
         'example-service.com',
@@ -320,11 +326,11 @@ sub RandomAddress {
         'slow-company-example-service.com',
     );
 
-    return $Name . '@' . $Domain[ int( rand( $#Domain + 1 ) ) ];
+    return join '@', $Name, $Domains[ int( rand( scalar @Domains ) ) ];
 }
 
 sub RandomSubject {
-    my @Text = (
+    my @Texts = (
         'some subject alalal',
         'Re: subject alalal 1234',
         'Re: Some Problem with my ...',
@@ -341,12 +347,13 @@ sub RandomSubject {
         'What a wonderful day!',
         '1237891234123412784 2314 test testsetsetset set set',
     );
-    return $Text[ int( rand( $#Text + 1 ) ) ];
+
+    return $Texts[ int( rand( scalar @Texts ) ) ];
 }
 
 sub RandomBody {
-    my $Body = '';
-    my @Text = (
+    my $Body  = '';
+    my @Texts = (
         'some body  alalal',
         'Re: body alalal 1234',
         'and we go an very long way to home',
@@ -392,8 +399,9 @@ sub RandomBody {
         'is usually localised resulting in talents.[citation needed]',
     );
     for ( 1 .. 50 ) {
-        $Body .= $Text[ int( rand( $#Text + 1 ) ) ] . "\n";
+        $Body .= $Texts[ int( rand( scalar @Texts ) ) ] . "\n";
     }
+
     return $Body;
 }
 
@@ -415,6 +423,7 @@ sub QueueGet {
     for ( sort keys %Queues ) {
         push @QueueIDs, $_;
     }
+
     return @QueueIDs;
 }
 
@@ -424,7 +433,7 @@ sub QueueCreate {
 
     my @QueueIDs;
     for ( 1 .. $Count ) {
-        my $Name = 'fill-up-queue' . int( rand(100_000_000) );
+        my $Name = 'fill-up-queue' . int( rand(100_000_000) );            # 0 .. 99_999_999
         my $ID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
             Name              => $Name,
             ValidID           => 1,
@@ -464,7 +473,7 @@ sub GroupCreate {
 
     my @GroupIDs;
     for ( 1 .. $Count ) {
-        my $Name = 'fill-up-group' . int( rand(100_000_000) );
+        my $Name = 'fill-up-group' . int( rand(100_000_000) );            # 0 .. 99_999_999
         my $ID   = $Kernel::OM->Get('Kernel::System::Group')->GroupAdd(
             Name    => $Name,
             ValidID => 1,
@@ -511,7 +520,7 @@ sub UserCreate {
 
     my @UserIDs;
     for ( 1 .. $Count ) {
-        my $Name = 'fill-up-user' . int( rand(100_000_000) );
+        my $Name = 'fill-up-user' . int( rand(100_000_000) );           # 0 .. 99_999_999
         my $ID   = $Kernel::OM->Get('Kernel::System::User')->UserAdd(
             UserFirstname => "$Name-Firstname",
             UserLastname  => "$Name-Lastname",
@@ -524,7 +533,7 @@ sub UserCreate {
             print "User '$Name' with ID '$ID' created.\n";
             push( @UserIDs, $ID );
             for my $GroupID (@GroupIDs) {
-                my $GroupAdd = int( rand(3) );
+                my $GroupAdd = int( rand(3) );    # 0 .. 2
                 if ( $GroupAdd == 2 ) {
                     $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupUserAdd(
                         GID        => $GroupID,
@@ -558,6 +567,7 @@ sub UserCreate {
             }
         }
     }
+
     return @UserIDs;
 }
 
@@ -565,9 +575,9 @@ sub CustomerCreate {
     my $Count = shift || return;
 
     for ( 1 .. $Count ) {
-        my $Name      = 'fill-up-user' . int( rand(100_000_000) );
+        my $Name      = 'fill-up-user' . int( rand(100_000_000) );                           # 0 .. 99_999_999
         my $UserLogin = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-            Source         => 'CustomerUser',            # CustomerUser source config
+            Source         => 'CustomerUser',                                                # CustomerUser source config
             UserFirstname  => $Name,
             UserLastname   => $Name,
             UserCustomerID => $Name,
@@ -578,6 +588,7 @@ sub CustomerCreate {
         );
         print "CustomerUser '$Name' created.\n";
     }
+
     return;
 }
 
@@ -586,9 +597,9 @@ sub CompanyCreate {
 
     for ( 1 .. $Count ) {
 
-        my $Name       = 'fill-up-company' . int( rand(100_000_000) );
+        my $Name       = 'fill-up-company' . int( rand(100_000_000) );                              # 0 .. 99_999_999
         my $CustomerID = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
-            Source                 => 'CustomerCompany',          # CustomerCompany source config
+            Source                 => 'CustomerCompany',                                            # CustomerCompany source config
             CustomerID             => $Name . '_CustomerID',
             CustomerCompanyName    => $Name,
             CustomerCompanyStreet  => '5201 Blue Lagoon Drive',
@@ -603,6 +614,7 @@ sub CompanyCreate {
 
         print "CustomerCompany '$Name' created.\n";
     }
+
     return;
 }
 
