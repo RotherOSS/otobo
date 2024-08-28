@@ -456,15 +456,15 @@ sub QueueCreate {
             push( @QueueIDs, $ID );
         }
     }
+
     return @QueueIDs;
 }
 
 sub GroupGet {
-    my @GroupIDs;
     my %Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
-    for ( sort keys %Groups ) {
-        push @GroupIDs, $_;
-    }
+
+    my @GroupIDs = sort keys %Groups;
+
     return @GroupIDs;
 }
 
@@ -499,18 +499,18 @@ sub GroupCreate {
             );
         }
     }
+
     return @GroupIDs;
 }
 
 sub UserGet {
-    my @UserIDs;
     my %Users = $Kernel::OM->Get('Kernel::System::User')->UserList(
         Type  => 'Short',    # Short|Long
         Valid => 1,          # not required
     );
-    for ( sort keys %Users ) {
-        push @UserIDs, $_;
-    }
+
+    my @UserIDs = sort keys %Users;
+
     return @UserIDs;
 }
 
