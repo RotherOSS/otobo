@@ -981,8 +981,7 @@ imports a single entity of the import data. The C<TemplateID> points to the defi
 of the current import. C<ImportDataRow> holds the data. C<Counter> is only used in
 error messages, for indicating which item was not imported successfully.
 
-The decision what constitute an empty value is a bit hairy.
-Here are the rules.
+The decision what constitute an empty value is a bit hairy. Here are the rules.
 Fields that are not even mentioned in the Import definition are empty. These are the 'not defined' fields.
 Empty strings and undefined values constitute empty fields.
 Fields with with only one or more whitespace characters are not empty.
@@ -1075,7 +1074,7 @@ sub ImportDataSave {
     # create the mapping object list
     # TODO: why is this called for every row of the import file ?
     my @MappingObjectList;
-    for my $MappingID ( @{$MappingList} ) {
+    for my $MappingID ( $MappingList->@* ) {
 
         # get mapping object data
         my $MappingObjectData = $ImportExportObject->MappingObjectDataGet(
@@ -1153,7 +1152,6 @@ sub ImportDataSave {
             $Article{Attachments} = [ @{ $Param{ImportDataRow} }[ $i .. $#{ $Param{ImportDataRow} } ] ];
         }
     }
-
     else {
         MAPPINGOBJECTDATA:
         for my $i ( 0 .. $#MappingObjectList ) {
@@ -1173,7 +1171,7 @@ sub ImportDataSave {
                 $Ticket{ $MappingObjectData->{Key} } = $Value;
             }
 
-            next MAPPINGOBJECTDATA if !$MappingObjectData->{Identifier};
+            next MAPPINGOBJECTDATA unless $MappingObjectData->{Identifier};
 
             if ( !$Value ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1182,6 +1180,7 @@ sub ImportDataSave {
                         "Can't import entity $Param{Counter}: "
                         . "'$MappingObjectData->{Key}' can not be empty or 0 when used as identifier.",
                 );
+
                 return;
             }
 
@@ -1195,6 +1194,7 @@ sub ImportDataSave {
                         "Can't import entity $Param{Counter}: "
                         . "Currently only Article_ArticleID is a valid identifier for articles (not '$MappingObjectData->{Key}').",
                 );
+
                 return;
             }
             else {
@@ -1953,7 +1953,7 @@ sub _ImportArticle {
     return $Self->_ImportError(
         %Param,
         Message => "'$ChannelName' is (currently) not a supported ArticleBackend",
-    ) if !$ValidImportChannel{$ChannelName};
+    ) unless $ValidImportChannel{$ChannelName};
 
     my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
     my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => $ChannelName );
