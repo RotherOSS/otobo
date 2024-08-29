@@ -30,13 +30,8 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
-
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get config

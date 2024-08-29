@@ -16,11 +16,17 @@
 
 package Kernel::System::CustomerAuth::DB;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
+# core modules
 use Digest::SHA;
+
+# CPAN modules
+use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -34,8 +40,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get database object
     $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
@@ -116,7 +121,7 @@ sub Auth {
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     my $UserID     = '';
     my $GetPw      = '';
-    my $Method      = '';
+    my $Method     = '';
 
     # sql query
     $Self->{DBObject}->Prepare(
@@ -208,7 +213,7 @@ sub Auth {
             {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         "CustomerUser: $User tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
                 );
                 return;
