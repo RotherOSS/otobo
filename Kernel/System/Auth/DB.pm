@@ -18,6 +18,7 @@ package Kernel::System::Auth::DB;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -45,11 +46,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -263,8 +260,10 @@ sub Auth {
         $Method    = 'crypt';
     }
 
-    # just in case for debug!
-    if ( $Self->{Debug} > 0 ) {
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
+    if ($Debug) {
         my $EnteredPw  = $CryptedPw;
         my $ExpectedPw = $GetPw;
 
@@ -287,6 +286,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
+
         return;
     }
 
@@ -297,6 +297,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User authentication ok (Method: $Method, REMOTE_ADDR: $RemoteAddr).",
         );
+
         return $User;
     }
 
@@ -307,6 +308,7 @@ sub Auth {
             Message  =>
                 "User: $User authentication with wrong Pw!!! (Method: $Method, REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 
@@ -316,6 +318,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 }

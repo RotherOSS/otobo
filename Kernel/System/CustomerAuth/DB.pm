@@ -18,6 +18,7 @@ package Kernel::System::CustomerAuth::DB;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -44,14 +45,10 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get database object
     $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
-
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -216,7 +213,7 @@ sub Auth {
             {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         "CustomerUser: $User tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
                 );
                 return;
@@ -286,8 +283,10 @@ sub Auth {
         $Method = 'crypt';
     }
 
-    # just in case!
-    if ( $Self->{Debug} > 0 ) {
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
+    if ($Debug) {
         my $EnteredPw  = $CryptedPw;
         my $ExpectedPw = $GetPw;
 

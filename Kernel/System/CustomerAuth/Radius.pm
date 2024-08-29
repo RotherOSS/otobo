@@ -18,6 +18,7 @@ package Kernel::System::CustomerAuth::Radius;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -40,11 +41,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -102,8 +99,10 @@ sub Auth {
     my $UserID      = '';
     my $GetPw       = '';
 
-    # just in case for debug!
-    if ( $Self->{Debug} > 0 ) {
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
+    if ($Debug) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "CustomerUser: $User tried to authenticate (REMOTE_ADDR: $RemoteAddr)",
@@ -116,6 +115,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "No User given!!! (REMOTE_ADDR: $RemoteAddr)",
         );
+
         return;
     }
 
@@ -125,6 +125,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User Authentication without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
+
         return;
     }
 
@@ -142,6 +143,7 @@ sub Auth {
                 Priority => 'error',
                 Message  => "Can't connect to $Self->{RadiusHost}: $@",
             );
+
             return;
         }
     }
@@ -153,6 +155,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "CustomerUser: $User Authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
+
         return $User;
     }
 
@@ -162,6 +165,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "CustomerUser: $User Authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 }
