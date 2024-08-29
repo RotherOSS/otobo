@@ -149,9 +149,7 @@
 
                 <div class="RichTextHolder RichTextField [% Data.BodyHiddenClass | html %]">
                     <textarea id="RichText" class="RichText [% Data.BodyValidate | html %] [% Data.BodyInvalid | html %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
-                    <label for="RichText" class="Mandatory">
-                        [% Translate("Text") | html %] <span class="Marker">*</span>
-                    </label>
+                    <label for="RichText" class="Mandatory">[% Translate("Text") | html %] <span class="Marker">*</span></label>
                     <div id="RichTextError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                     <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.BodyInvalid | html %]" ><p>[% Translate("This field is required.") | html %]</p></div>
                     <div class="Clear"></div>
