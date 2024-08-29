@@ -18,11 +18,17 @@ package Kernel::System::CustomerAuth::LDAP;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Net::LDAP;
 use Net::LDAP::Util qw(escape_filter_value);
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -37,11 +43,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -159,25 +161,28 @@ sub Auth {
     $Param{User} =~ s/^\s+//;
     $Param{User} =~ s/\s+$//;
 
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
+
     # add user suffix
     if ( $Self->{UserSuffix} ) {
         $Param{User} .= $Self->{UserSuffix};
 
         # just in case for debug
-        if ( $Self->{Debug} > 0 ) {
+        if ($Debug) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message  => "CustomerUser: ($Param{User}) added $Self->{UserSuffix} to username!",
+                Message  => "CustomerUser: $Param{User} added $Self->{UserSuffix} to username!",
             );
         }
     }
 
     # just in case for debug!
-    if ( $Self->{Debug} > 0 ) {
+    if ($Debug) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "CustomerUser: '$Param{User}' tried to authenticate with Pw: '$Param{Pw}' "
-                . "(REMOTE_ADDR: $RemoteAddr)",
+            Message  => "CustomerUser: $Param{User} tried to authenticate (REMOTE_ADDR: $RemoteAddr)",
         );
     }
 
@@ -276,10 +281,10 @@ sub Auth {
     if ( $Self->{AccessAttr} && $Self->{GroupDN} ) {
 
         # just in case for debug
-        if ( $Self->{Debug} > 0 ) {
+        if ($Debug) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message  => 'check for groupdn!',
+                Message  => 'Checking for GroupDN.',
             );
         }
 

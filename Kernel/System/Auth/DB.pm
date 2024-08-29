@@ -18,11 +18,17 @@ package Kernel::System::Auth::DB;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
 
-use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
+# core modules
 use Digest::SHA;
+
+# CPAN modules
+use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -40,11 +46,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -102,7 +104,7 @@ sub Auth {
     my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
     my $UserID      = '';
     my $GetPw       = '';
-    my $Method;
+    my $Method     = '';
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -180,7 +182,7 @@ sub Auth {
             $EncodeObject->EncodeOutput( \$Pw );
             $SHAObject->add($Pw);
             $CryptedPw = $SHAObject->hexdigest();
-            $Method    = 'sha256';
+            $Method    = 'sha512';
         }
 
         elsif ( $GetPw =~ m{^BCRYPT:} ) {
@@ -191,7 +193,7 @@ sub Auth {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  =>
-                        "User: '$User' tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                        "User: $User tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
                 );
                 return;
             }
@@ -256,12 +258,23 @@ sub Auth {
         $Method    = 'crypt';
     }
 
-    # just in case for debug!
-    if ( $Self->{Debug} > 0 ) {
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
+    if ($Debug) {
+        my $EnteredPw  = $CryptedPw;
+        my $ExpectedPw = $GetPw;
+
+        # Don't log plaintext passwords.
+        if ( $Method eq 'plain' ) {
+            $EnteredPw  = 'xxx';
+            $ExpectedPw = 'xxx';
+        }
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  =>
-                "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$Method/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
+                "User: $User tried to authenticate (User ID: $UserID, method: $Method, entered password: $EnteredPw, expected password: $ExpectedPw, salt: $Salt, remote address: $RemoteAddr)",
         );
     }
 
@@ -271,6 +284,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
+
         return;
     }
 
@@ -281,6 +295,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User authentication ok (Method: $Method, REMOTE_ADDR: $RemoteAddr).",
         );
+
         return $User;
     }
 
@@ -291,6 +306,7 @@ sub Auth {
             Message  =>
                 "User: $User authentication with wrong Pw!!! (Method: $Method, REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 
@@ -300,6 +316,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 }
