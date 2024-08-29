@@ -40,13 +40,8 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
-
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get config
@@ -99,11 +94,13 @@ sub Auth {
     my $UserID      = '';
     my $GetPw       = '';
 
-    # just in case for debug!
-    if ( $Self->{Debug} > 0 ) {
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
+    if ($Debug) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "User: '$User' tried to authenticate with Pw: '$Pw' ($RemoteAddr)",
+            Message  => "User: $User tried to authenticate (REMOTE_ADDR: $RemoteAddr)",
         );
     }
 
