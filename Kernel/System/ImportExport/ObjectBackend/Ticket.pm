@@ -1807,6 +1807,12 @@ sub _ImportTicket {
         # archive flag
         $DBTicket{ArchiveFlag} = $Ticket{ArchiveFlag} || $Param{ObjectData}{ArchiveFlag};
 
+        # Handle pending transaction events of the previously created ticket
+        # before creating a new ticket.
+        $TicketObject->EventHandlerTransaction;
+
+        # Create a new ticket. The transaction events generated here will be handled
+        # before the next ticket creation or during global destruction.
         $DBTicket{TicketID} = $TicketObject->TicketCreate(
             %DBTicket,
             TN     => $Ticket{TicketNumber} // '',
