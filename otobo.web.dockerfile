@@ -105,6 +105,7 @@ ENV PATH="/opt/otobo_install/local/bin:${PATH}"
 ARG DOCKER_TAG=unspecified
 RUN <<END_BASH bash
     set -eux
+
     PERL_CPANM_OPT="--local-lib /opt/otobo_install/local"
     cpanm --local-lib local Carton
     if [[ $DOCKER_TAG == local-* ]]
@@ -194,13 +195,26 @@ RUN cp Kernel/Config/Files/XML/DockerConfig.xml.dist Kernel/Config/Files/XML/Doc
 ARG GIT_REPO=unspecified
 ARG GIT_BRANCH=unspecified
 ARG GIT_COMMIT=unspecified
-RUN install -d var/stats var/packages var/article var/tmp \
-    && (echo ". ~/.bash_completion" >> .bash_aliases ) \
-    && install -m u=rw,g=r,o=r scripts/vim/.vimrc .vimrc \
-    && (echo $GIT_REPO   > git-repo.txt) \
-    && (echo $GIT_BRANCH > git-branch.txt) \
-    && (echo $GIT_COMMIT > git-commit.txt) \
-    && bin/otobo.CheckSum.pl -a create
+RUN <<END_BASH bash
+    set -eux
+
+    install -d var/stats var/packages var/article var/tmp
+    (
+        echo "# File created by Dockerfile"
+        echo ""
+        echo "# set up bash completion"
+        echo ". ~/.bash_completion"
+        echo ""
+        echo "# helpers"
+        echo "alias ..='cd ..'"
+        echo "alias ...='cd ../..'"
+    ) >> .bash_aliases
+    install -m u=rw,g=r,o=r scripts/vim/.vimrc .vimrc
+    (echo $GIT_REPO   > git-repo.txt)
+    (echo $GIT_BRANCH > git-branch.txt)
+    (echo $GIT_COMMIT > git-commit.txt)
+    bin/otobo.CheckSum.pl -a create
+END_BASH
 
 # Up to now we have prepared /opt/otobo_install/otobo_next.
 # Merging /opt/otobo_install/otobo_next and /opt/otobo is left to /opt/otobo_install/entrypoint.sh.
