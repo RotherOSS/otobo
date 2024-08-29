@@ -16,11 +16,17 @@
 
 package Kernel::System::Auth::DB;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
+# core modules
 use Digest::SHA;
+
+# CPAN modules
+use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -35,11 +41,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -274,6 +276,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
+
         return;
     }
 
@@ -284,6 +287,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User authentication ok (Method: $Method, REMOTE_ADDR: $RemoteAddr).",
         );
+
         return $User;
     }
 
@@ -294,6 +298,7 @@ sub Auth {
             Message  =>
                 "User: $User authentication with wrong Pw!!! (Method: $Method, REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 
@@ -303,6 +308,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 }

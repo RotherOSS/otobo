@@ -16,10 +16,16 @@
 
 package Kernel::System::CustomerAuth::Radius;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Authen::Radius;
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -30,11 +36,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -105,6 +107,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "No User given!!! (REMOTE_ADDR: $RemoteAddr)",
         );
+
         return;
     }
 
@@ -114,6 +117,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User Authentication without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
+
         return;
     }
 
@@ -131,6 +135,7 @@ sub Auth {
                 Priority => 'error',
                 Message  => "Can't connect to $Self->{RadiusHost}: $@",
             );
+
             return;
         }
     }
@@ -142,6 +147,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "CustomerUser: $User Authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
+
         return $User;
     }
 
@@ -151,6 +157,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "CustomerUser: $User Authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 }
