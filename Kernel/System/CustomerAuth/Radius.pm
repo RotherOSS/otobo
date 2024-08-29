@@ -93,8 +93,10 @@ sub Auth {
     my $UserID     = '';
     my $GetPw      = '';
 
-    # just in case for debug!
-    if ( $Self->{Debug} > 0 ) {
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
+    if ($Debug) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "CustomerUser: $User tried to authenticate (REMOTE_ADDR: $RemoteAddr)",

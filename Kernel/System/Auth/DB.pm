@@ -252,8 +252,10 @@ sub Auth {
         $Method    = 'crypt';
     }
 
-    # just in case for debug!
-    if ( $Self->{Debug} > 0 ) {
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
+    if ($Debug) {
         my $EnteredPw  = $CryptedPw;
         my $ExpectedPw = $GetPw;
 

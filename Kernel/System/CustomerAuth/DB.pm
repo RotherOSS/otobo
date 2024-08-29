@@ -45,9 +45,6 @@ sub new {
     # get database object
     $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
 
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
-
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -283,8 +280,10 @@ sub Auth {
         $Method = 'crypt';
     }
 
-    # just in case!
-    if ( $Self->{Debug} > 0 ) {
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
+    if ($Debug) {
         my $EnteredPw  = $CryptedPw;
         my $ExpectedPw = $GetPw;
 

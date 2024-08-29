@@ -155,12 +155,16 @@ sub Auth {
     $Param{User} =~ s/^\s+//;
     $Param{User} =~ s/\s+$//;
 
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
+
     # add user suffix
     if ( $Self->{UserSuffix} ) {
         $Param{User} .= $Self->{UserSuffix};
 
         # just in case for debug
-        if ( $Self->{Debug} > 0 ) {
+        if ($Debug) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => "CustomerUser: $Param{User} added $Self->{UserSuffix} to username!",
@@ -169,7 +173,7 @@ sub Auth {
     }
 
     # just in case for debug!
-    if ( $Self->{Debug} > 0 ) {
+    if ($Debug) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "CustomerUser: $Param{User} tried to authenticate (REMOTE_ADDR: $RemoteAddr)",
@@ -271,7 +275,7 @@ sub Auth {
     if ( $Self->{AccessAttr} && $Self->{GroupDN} ) {
 
         # just in case for debug
-        if ( $Self->{Debug} > 0 ) {
+        if ($Debug) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => 'Checking for GroupDN.',
