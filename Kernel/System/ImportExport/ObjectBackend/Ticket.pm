@@ -77,15 +77,13 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = bless {
+    return bless {
         TicketIDRelation       => {},
         TicketNumberIDRelation => {},
         AllFoundTicketIDs      => undef,    # will be initialized in first call to ExportDataGet()
         LastHandledIndex       => -1,       # used for chunking
         ChunkingFinished       =>  0,       # indicate that chunking is finished
     }, $Type;
-
-    return $Self;
 }
 
 =head2 ObjectAttributesGet()
@@ -1719,7 +1717,7 @@ sub _ImportTicket {
         }
     }
 
-    # create a new ticket
+    # A new ticket will be created. Collect the input for TicketCreate in %DBTicket.
     else {
         $Status = 'Created';
 
@@ -1818,7 +1816,7 @@ sub _ImportTicket {
         return $Self->_ImportError(
             %Param,
             Message => 'Could not create new ticket',
-        ) if !$DBTicket{TicketID};
+        ) unless $DBTicket{TicketID};
 
         $DBTicket{TicketNumber} = $TicketObject->TicketNumberLookup(
             TicketID => $DBTicket{TicketID},
@@ -1827,12 +1825,13 @@ sub _ImportTicket {
         if ( $Ticket{Created} ) {
             $Self->{DBObject} //= $Kernel::OM->Get('Kernel::System::DB');
 
-            return if !$Self->{DBObject}->Do(
+            return unless $Self->{DBObject}->Do(
                 SQL  => "UPDATE ticket SET create_time = ? WHERE id = ?",
                 Bind => [ \$Ticket{Created}, \$DBTicket{TicketID} ],
             );
         }
 
+        # Fetch additional data from the source installation if configured.
         my $SyncDBConfig = $ConfigObject->Get('ImportExport::Ticket::SynchronizeWithForeignDB');
         if ($SyncDBConfig) {
             my $Success = $Self->_SynchronizeExtendedDBEntries(
@@ -1844,7 +1843,7 @@ sub _ImportTicket {
             return $Self->_ImportError(
                 %Param,
                 Message => "Could not synchronize extended DB entries for ticket $DBTicket{TicketID}",
-            ) if !$Success;
+            ) unless $Success;
         }
     }
 
@@ -1855,15 +1854,13 @@ sub _ImportTicket {
     # dynamic fields
     DYNAMICFIELD:
     for my $Attr ( keys %Ticket ) {
-        my $DynamicFieldConfig;
-        if ( $Attr =~ /^DynamicField_(.+)$/ ) {
-            $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
-                Name => $1,
-            );
-        }
-        else {
-            next DYNAMICFIELD;
-        }
+
+        # only handle dynamic fields
+        next DYNAMICFIELD unless $Attr =~ m/^DynamicField_(.+)$/;
+
+        my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+            Name => $1,
+        );
 
         # get the current value
         my $DBValue = $DynamicFieldBackendObject->ValueGet(
@@ -1877,7 +1874,7 @@ sub _ImportTicket {
             $Ticket{$Attr} = $Ticket{$Attr} ? [ map { decode( 'UTF-8', decode_base64($_) ) } split( /###/, $Ticket{$Attr} ) ] : [];
         }
 
-        next DYNAMICFIELD if !$DynamicFieldBackendObject->ValueIsDifferent(
+        next DYNAMICFIELD unless $DynamicFieldBackendObject->ValueIsDifferent(
             DynamicFieldConfig => $DynamicFieldConfig,
             Value1             => $Ticket{$Attr},
             Value2             => $DBValue,
@@ -1908,7 +1905,7 @@ sub _ImportTicket {
         return $Self->_ImportError(
             %Param,
             Message => "Could not update $Attr to '$Ticket{$Attr}' for TicketID $DBTicket{TicketID}",
-        ) if !$Success;
+        ) unless $Success;
     }
 
     if ( $Param{Identifier}{TicketID} || $Param{ObjectData}{IncludeArticles} ) {
@@ -1917,6 +1914,8 @@ sub _ImportTicket {
     if ( $Param{Identifier}{TicketNumber} ) {
         $Self->{TicketNumberIDRelation}{ $Ticket{TicketNumber} } = $DBTicket{TicketID};
     }
+
+    # remember the ticket ID so that articles can be attached to it
     $Self->{LastTicketID} = $DBTicket{TicketID};
 
     return $Status;
