@@ -17,7 +17,7 @@
     <h2 style="color: [% Data.TextColor | html %]">[% Translate(Data.Text) | html %]</h2>
     <div>
 [% RenderBlockStart("Link") %]
-        <a href="[% Data.Link | html %]" style="background-image: url([% Data.Image | html %])" target="_blank"></a>
+        <a href="[% Data.Link | html %]" title="[% Data.Title | html %]" style="background-image: url([% Data.Image | html %])" target="_blank"></a>
 [% RenderBlockEnd("Link") %]
     </div>
 </div>
