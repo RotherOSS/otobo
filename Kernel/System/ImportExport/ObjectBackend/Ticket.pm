@@ -76,6 +76,32 @@ create an object
 sub new {
     my ( $Type, %Param ) = @_;
 
+    # Changing the config
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # Fiddling with SysConfig in the constructor is a bit hackish.
+    # It should be fine as the ImportExport object is only used in console commands
+    # and in a single frontend module. The changed config object in the frontend module
+    # is fine as the config object is recreated for each request.
+    $ConfigObject->Set(
+        Key   => 'SendmailModule',
+        Value => 'Kernel::System::Email::DoNotSendEmail',
+    );
+    $ConfigObject->Set(
+        Key   => 'CheckEmailAddresses',
+        Value => 0,
+    );
+
+    # turn off some event handlers
+    $ConfigObject->Set(
+        Key   => 'Ticket::EventModulePost###950-TicketAppointments',
+        Value => undef,
+    );
+    $ConfigObject->Set(
+        Key   => 'Ticket::EventModulePost###8000-GenericInterface',
+        Value => undef,
+    );
+
     # allocate new hash for object
     return bless {
         TicketIDRelation       => {},

@@ -106,29 +106,6 @@ sub Run {
         return $Self->ExitCodeError;
     }
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # fiddle with some settings
-    # TODO: this should be part of the object backend
-    $ConfigObject->Set(
-        Key   => 'SendmailModule',
-        Value => 'Kernel::System::Email::DoNotSendEmail',
-    );
-    $ConfigObject->Set(
-        Key   => 'CheckEmailAddresses',
-        Value => 0,
-    );
-
-    # turn off some event handlers
-    $ConfigObject->Set(
-        Key   => 'Ticket::EventModulePost###950-TicketAppointments',
-        Value => undef,
-    );
-    $ConfigObject->Set(
-        Key   => 'Ticket::EventModulePost###8000-GenericInterface',
-        Value => undef,
-    );
-
     $Self->Print("<yellow>Importing items...</yellow>\n");
     $Self->Print( "<yellow>" . ( '=' x 69 ) . "</yellow>\n" );
 
