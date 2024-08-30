@@ -17,15 +17,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-08-25 11:42+0000\n"
+"PO-Revision-Date: 2024-08-29 12:05+0000\n"
 "Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
-"Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/ja/>\n"
+"Language-Team: Japanese <http://weblate.otobo.org/projects/otobo/otobo-11/ja/"
+">\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -217,7 +218,7 @@ msgstr "フォームを送信することにより、新規にACLを作成する
 
 #. Template: AdminAbout
 msgid "About"
-msgstr "約"
+msgstr "About"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -3001,7 +3002,8 @@ msgstr "さらなる再試行の要因"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "If a request returns an error even after a first retry, define if subsequent retries are triggered using the same interval or in increasing intervals."
-msgstr ""
+msgstr "最初の再試行後もリクエストがエラーを返す場合、後続の再試行を同じ間隔でトリガ"
+"ーするか、間隔を増やしてトリガーするかを定義します。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Example: If a request is initially triggered at 10:00 with initial interval at '1 minute' and retry factor at '2', retries would be triggered at 10:01 (1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 minutes), ..."
@@ -3037,11 +3039,12 @@ msgstr "例: トリガーを 10:00 、インターバルを1分間隔にあら�
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier."
-msgstr ""
+msgstr "注意: 最大再試行期間も設定されていて、早く到達した場合、最大再試行回数に達し"
+"ない可能性があります。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This field must be empty or contain a positive number."
-msgstr ""
+msgstr "このフィールドは空であるか、正の数値を入力する必要があります。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
@@ -3049,19 +3052,25 @@ msgstr "再試行の最大期間"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum period of time for retries of failing requests before they are discarded (based on the error handling module execution time for the initial request)."
-msgstr ""
+msgstr "失敗したリクエストが破棄されるまでの再試行の最大期間 "
+"(最初のリクエストのエラー処理モジュールの実行時間に基づきます)。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Retries that would normally be triggered after maximum period is elapsed (according to retry interval calculation) will automatically be triggered at maximum period exactly."
-msgstr ""
+msgstr "通常は最大期間が経過した後にトリガーされる再試行 (再試行間隔の計算による) "
+"は、最大期間が経過すると自動的にトリガーされます。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Example: If a request is initially triggered at 10:00 with initial interval at '1 minute', retry factor at '2' and maximum retry period at '30 minutes', retries would be triggered at 10:01, 10:03, 10:07, 10:15 and finally at 10:31=>10:30."
 msgstr ""
+"例: リクエストが最初に 10:00 にトリガーされ、初期間隔が「1 "
+"分」、再試行係数が「2」、最大再試行期間が「30 分」の場合、再試行は "
+"10:01、10:03、10:07、10:15、最後に 10:31=>10:30 にトリガーされます。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Note: Maximum retry period might not be reached if a maximum retry count is configured as well and reached earlier."
-msgstr ""
+msgstr "注意: 最大再試行回数も設定されていて、早く最大再試行期間に達した場合は、最大"
+"再試行期間に達しない可能性があります。"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add Invoker"
@@ -3145,7 +3154,7 @@ msgstr "同期型イベントトリガーは直接Web画面上のリクエスト
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "GenericInterface Invoker Event Settings for Web Service %s"
-msgstr ""
+msgstr "Web サービス %s の GenericInterface 呼び出しイベント設定"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Go back to"
@@ -3205,7 +3214,7 @@ msgstr "新しい条件を追加"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "General invoker data"
-msgstr ""
+msgstr "一般的な呼び出し元データ"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for outgoing request data"
@@ -3217,23 +3226,24 @@ msgstr "チケット・フィールド"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected ticket fields will be considered for the request data."
-msgstr ""
+msgstr "リクエスト データには、選択されたチケット フィールドのみが考慮されます。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article fields"
-msgstr ""
+msgstr "記事フィールド"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected article fields will be considered for the request data."
-msgstr ""
+msgstr "リクエストデータには、選択された記事フィールドのみが考慮されます。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket dynamic fields"
-msgstr ""
+msgstr "チケットのダイナミックフィールド"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected ticket dynamic fields will be considered for the request data."
-msgstr ""
+msgstr "リクエスト "
+"データには、選択されたチケットダイナミックフィールドのみが考慮されます。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article dynamic fields"
@@ -3277,19 +3287,20 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Mapping"
-msgstr ""
+msgstr "マッピング"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for incoming response data"
-msgstr ""
+msgstr "受信応答データの設定"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Remote TicketID dynamic field"
-msgstr ""
+msgstr "リモート TicketID ダイナミックフィールド"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "The selected ticket dynamic field is being used to store the remote TicketID."
-msgstr ""
+msgstr "選択されたチケットのダイナミックフィールドは、リモート TicketID "
+"を保存するために使用されています。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "If left empty, the remote TicketID will not be stored, unless you define a system configuration value for this web service."
@@ -7361,7 +7372,7 @@ msgstr "全選択"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "The customer user is already selected in the ticket mask."
-msgstr ""
+msgstr "顧客ユーザーはチケットマスクですでに選択されています。"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Select this customer user"
@@ -8961,7 +8972,7 @@ msgstr "直前のページに戻る"
 
 #. Template: CustomerAccept
 msgid "Click to accept"
-msgstr ""
+msgstr "クリックして同意"
 
 #. Template: TicketCustomerIDSelection
 msgid "The customer ID is not changeable, no other customer ID can be assigned to this ticket."
@@ -9289,7 +9300,7 @@ msgstr "警告"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
-msgstr ""
+msgstr "%のチケットの作成"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
@@ -13525,11 +13536,15 @@ msgstr "エラー: このファイルは削除できません。管理者に連�
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid "Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed."
-msgstr ""
+msgstr "CustomerDashboard のタイル %s "
+"の登録が無効です。モジュールまたはテンプレートが必要です。"
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid "Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number."
 msgstr ""
+"Perl モジュール: Kernel/Modules/CustomerDashboardCommon.pm\n"
+"CustomerDashboard のタイル %s "
+"の登録が無効です。注文は一意の番号である必要があります。"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Need Key!"
@@ -13942,6 +13957,8 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one."
 msgstr ""
+"キー/証明書は、複数のキー/証明書を持つ受信者にのみ表示されます。最初に見つか"
+"ったキー/証明書が事前に選択されます。必ず正しいものを選択してください。"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "Email security"
@@ -13994,6 +14011,9 @@ msgstr "署名"
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Keys/certificates will only be shown for a sender with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one."
 msgstr ""
+"キー/証明書は、複数のキー/証明書を持つ送信者に対してのみ表示されます。最初に"
+"見つかったキー/証明書が事前に選択されます。正しいキー/証明書を選択してくださ"
+"い。"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/AppointmentCalendar.pm
 msgid "Shown"
@@ -18479,11 +18499,11 @@ msgstr "サポートを改善するために、OTOBOチームへのサポート�
 
 #. SysConfig
 msgid "Configure the About information."
-msgstr ""
+msgstr "About情報を設定します。"
 
 #. SysConfig
 msgid "Configure the privacy policy."
-msgstr ""
+msgstr "プライバシー ポリシーを設定します。"
 
 #. SysConfig
 msgid "Configure which screen should be shown after a new ticket has been created."
@@ -18723,11 +18743,11 @@ msgstr "顧客情報センターの検索"
 
 #. SysConfig
 msgid "Customer Information Center search."
-msgstr ""
+msgstr "カスタマーインフォメーションセンター検索。"
 
 #. SysConfig
 msgid "Customer Information Center."
-msgstr ""
+msgstr "カスタマーインフォメーションセンター。"
 
 #. SysConfig
 msgid "Customer Password."
@@ -18751,11 +18771,11 @@ msgstr "顧客ユーザー情報センターの検索"
 
 #. SysConfig
 msgid "Customer User Information Center search."
-msgstr ""
+msgstr "顧客ユーザー情報センター検索。"
 
 #. SysConfig
 msgid "Customer User Information Center."
-msgstr ""
+msgstr "顧客ユーザー情報センター。"
 
 #. SysConfig
 msgid "Customer Users ↔ Customers"
@@ -18784,10 +18804,16 @@ msgstr ""
 #. SysConfig
 msgid "Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID."
 msgstr ""
+"この顧客のクローズ済みチケットを情報ブロックとして表示する顧客項目 "
+"(アイコン)。CustomerUserLogin を 1 に設定すると、CustomerID "
+"ではなくログイン名に基づいてチケットが検索されます。"
 
 #. SysConfig
 msgid "Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID."
 msgstr ""
+"この顧客のオープンチケットを情報ブロックとして表示する顧客項目 (アイコン)。"
+"CustomerUserLogin を 1 に設定すると、CustomerID "
+"ではなくログイン名に基づいてチケットが検索されます。"
 
 #. SysConfig
 msgid "Customer preferences."
@@ -20274,6 +20300,8 @@ msgstr "PDFドキュメントのプロポーショナル・フォントを扱う
 #. SysConfig
 msgid "Defines the path of the shown info file, that is located under Kernel/Output/HTML/Templates/Standard/CustomerAccept.tt."
 msgstr ""
+"表示される情報ファイルのパスを定義します。このファイルは、Kernel/Output/HTML/"
+"Templates/Standard/CustomerAccept.tt の下にあります。"
 
 #. SysConfig
 msgid "Defines the path to PGP binary."
@@ -24946,7 +24974,7 @@ msgstr "チケット"
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required."
-msgstr ""
+msgstr "CustomerDashboard のタイル登録。モジュールが必要です。"
 
 #. SysConfig
 msgid "Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day)."
@@ -25985,35 +26013,35 @@ msgstr ""
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Customer Info"
-msgstr ""
+msgstr "顧客情報"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Customer Info Management"
-msgstr ""
+msgstr "顧客情報管理"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Create new info tile entry"
-msgstr ""
+msgstr "新しい情報タイルエントリを作成する"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Filter for info tile entries"
-msgstr ""
+msgstr "情報タイルのエントリをフィルターする"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Create a new entry to be displayed on the info tile on the customer dashboard."
-msgstr ""
+msgstr "顧客ダッシュボードの情報タイルに表示される新しいエントリを作成します。"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Delete info tile entry"
-msgstr ""
+msgstr "情報タイルのエントリを削除"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Edit customer dashboard info tile entry"
-msgstr ""
+msgstr "顧客ダッシュボード情報タイルのエントリを編集する"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Tile content"
-msgstr ""
+msgstr "タイルコンテンツ"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Content Body"
@@ -26025,11 +26053,11 @@ msgstr ""
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Group Selection"
-msgstr ""
+msgstr "グループ選択"
 
 #. Template: AdminCustomerDashboardInfoTileNew
 msgid "Create new customer dashboard info tile entry"
-msgstr ""
+msgstr "新しい顧客ダッシュボード情報タイルエントリを作成する"
 
 #. Template: AdminCustomerUser
 msgid "Include invalid customer users"
@@ -26253,15 +26281,15 @@ msgstr ""
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Manage ticket state pre-selections for response templates"
-msgstr ""
+msgstr "応答テンプレートのチケット状態の事前選択を管理する"
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Edit Response"
-msgstr ""
+msgstr "応答の編集"
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Pre-selected ticket state"
-msgstr ""
+msgstr "事前に選択されたチケットのステータス"
 
 #. Template: AdminRole
 msgid "Include invalid roles"
@@ -26301,15 +26329,15 @@ msgstr ""
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask Management"
-msgstr ""
+msgstr "チケットマスク管理"
 
 #. Template: AdminTicketMask
 msgid "Change mask definition"
-msgstr ""
+msgstr "マスク定義を変更する"
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask"
-msgstr ""
+msgstr "チケットマスク"
 
 #. Template: AdminTicketMask
 msgid "Change"
@@ -26325,15 +26353,15 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Add Translations"
-msgstr ""
+msgstr "翻訳を追加する"
 
 #. Template: AdminTranslations
 msgid "Edit Translations"
-msgstr ""
+msgstr "翻訳を編集する"
 
 #. Template: AdminTranslations
 msgid "Deploy Translations"
-msgstr ""
+msgstr "翻訳を展開する"
 
 #. Template: AdminTranslations
 msgid "Translation States"
@@ -26358,34 +26386,37 @@ msgstr ""
 #. Template: AdminTranslations
 msgid "Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files."
 msgstr ""
+"ここで行った変更は、ドラフト翻訳がデプロイされた後のシステムの動作にのみ影響"
+"します。デプロイすると、すべての変更が言語ファイルに書き込まれます。"
 
 #. Template: AdminTranslations
 msgid "Select an object to start adding translations. Depending on your selection, single or multiple translations can be added."
-msgstr ""
+msgstr "翻訳を追加するには、オブジェクトを選択します。選択内容に応じて、1 "
+"つまたは複数の翻訳を追加できます。"
 
 #. Template: AdminTranslations
 msgid "Edit active translations using provided text fields!"
-msgstr ""
+msgstr "提供されたテキスト フィールドを使用して有効な翻訳を編集します。"
 
 #. Template: AdminTranslations
 msgid "List custom translations for"
-msgstr ""
+msgstr "カスタム翻訳の一覧"
 
 #. Template: AdminTranslations
 msgid "Draft Translations"
-msgstr ""
+msgstr "翻訳ドラフト"
 
 #. Template: AdminTranslations
 msgid "Filter for Draft Translations"
-msgstr ""
+msgstr "翻訳ドラフトのフィルター"
 
 #. Template: AdminTranslations
 msgid "Active Translations"
-msgstr ""
+msgstr "有効な翻訳"
 
 #. Template: AdminTranslations
 msgid "Filter for Active Translations"
-msgstr ""
+msgstr "有効な翻訳をフィルターする"
 
 #. Template: AdminTranslations
 msgid "Translation"
@@ -26413,7 +26444,7 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Translations"
-msgstr ""
+msgstr "翻訳"
 
 #. Template: AdminType
 msgid "Include invalid types"
@@ -26445,7 +26476,7 @@ msgstr ""
 
 #. Template: TranslationsTable
 msgid "Filter for Translations"
-msgstr ""
+msgstr "翻訳のフィルター"
 
 #. Template: TranslationsTable
 msgid "No content available to translate."
@@ -26481,7 +26512,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "There was an error creating the info tile entry"
-msgstr ""
+msgstr "情報タイルのエントリの作成中にエラーが発生しました"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Need ID!"
@@ -26497,19 +26528,19 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Info tile entry was added successfully!"
-msgstr ""
+msgstr "情報タイルのエントリが正常に追加されました！"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Info tile entry was updated successfully!"
-msgstr ""
+msgstr "情報タイルのエントリが正常に更新されました。"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "There was an error updating the info tile entry"
-msgstr ""
+msgstr "情報タイルのエントリの更新中にエラーが発生しました"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "It was not possible to delete the info tile entry: %s!"
-msgstr ""
+msgstr "情報タイルのエントリを削除できませんでした: %s!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "The referenced dynamic field"
@@ -26609,23 +26640,23 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations changed!"
-msgstr ""
+msgstr "翻訳が変更されました!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "No translations were changed!"
-msgstr ""
+msgstr "翻訳は変更されませんでした。"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Errors trying to change translations!"
-msgstr ""
+msgstr "翻訳を変更しようとしてエラーが発生しました!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations added!"
-msgstr ""
+msgstr "翻訳を追加しました!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "No translations were given to add!"
-msgstr ""
+msgstr "追加する翻訳は提供されませんでした。"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translation already exists!"
@@ -26633,7 +26664,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations deployed successfuly!"
-msgstr ""
+msgstr "翻訳が正常に展開されました!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Nothing to do!"
@@ -26773,11 +26804,11 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.CustomerDashboardInfoTile
 msgid "Do you really want to delete this customer dashboard info tile entry?"
-msgstr ""
+msgstr "この顧客ダッシュボード情報タイルのエントリを本当に削除しますか?"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "Missing Translations"
-msgstr ""
+msgstr "翻訳が見つかりません"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "At least one translation must be filled!"
@@ -26785,7 +26816,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "All translations must be filled!"
-msgstr ""
+msgstr "すべての翻訳を記入する必要があります。"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article Delete"
@@ -26853,11 +26884,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Create and manage advanced definitions for ticket masks."
-msgstr ""
+msgstr "チケット マスクの高度な定義を作成および管理します。"
 
 #. SysConfig
 msgid "Create and manage custom translations."
-msgstr ""
+msgstr "カスタム翻訳を作成および管理します。"
 
 #. SysConfig
 msgid "Customer Reference Dynamic Field With Data Search"
@@ -26873,7 +26904,7 @@ msgstr ""
 
 #. SysConfig
 msgid "CustomerDashboard Info Tile"
-msgstr ""
+msgstr "顧客ダッシュボード情報タイル"
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields."
@@ -26930,6 +26961,8 @@ msgstr ""
 #. SysConfig
 msgid "Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info."
 msgstr ""
+"顧客インターフェイスに通知を表示するモジュールを定義します。UseMarquee "
+"オプション: 1/0。NotifyPriority オプション: Notice/Error/Success/Info。"
 
 #. SysConfig
 msgid "Defines the redirect URL for setting a ticket article to 'seen'."
@@ -27013,7 +27046,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enables or disables the debug mode for translations module."
-msgstr ""
+msgstr "翻訳モジュールのデバッグ モードを有効または無効にします。"
 
 #. SysConfig
 msgid "Evaluate all script fields."
@@ -27021,7 +27054,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Frontend module for dashboard info tile in customer interface."
-msgstr ""
+msgstr "顧客インターフェイスのダッシュボード情報タイルのフロントエンド モジュール。"
 
 #. SysConfig
 msgid "General Label"
@@ -27045,19 +27078,19 @@ msgstr ""
 
 #. SysConfig
 msgid "List of ticket masks which can be altered using AdminTicketMask."
-msgstr ""
+msgstr "AdminTicketMask を使用して変更できるチケット マスクのリスト。"
 
 #. SysConfig
 msgid "Loader module for dashboard info tile in customer interface."
-msgstr ""
+msgstr "顧客インターフェイスのダッシュボード情報タイルのローダー モジュール。"
 
 #. SysConfig
 msgid "Manage Customer Dashboard Info Tile Entries"
-msgstr ""
+msgstr "顧客ダッシュボード情報タイルのエントリを管理する"
 
 #. SysConfig
 msgid "Manage ticket state pre-selections for response templates."
-msgstr ""
+msgstr "応答テンプレートのチケット状態の事前選択を管理します。"
 
 #. SysConfig
 msgid "Mark ticket as seen"
@@ -27129,7 +27162,7 @@ msgstr ""
 
 #. SysConfig
 msgid "State pre-selection for Templates"
-msgstr ""
+msgstr "テンプレートのステータスの事前選択"
 
 #. SysConfig
 msgid "Strict"
@@ -27149,7 +27182,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Masks"
-msgstr ""
+msgstr "チケットマスク"
 
 #. SysConfig
 msgid "Ticket States"
@@ -27161,11 +27194,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket state pre-selection for response templates"
-msgstr ""
+msgstr "応答テンプレートのチケット・ステータスの事前選択"
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value."
 msgstr ""
+"CustomerDashboard のタイル登録。モジュールが必要です。オプションで、アイテム"
+"の順序を設定できます。順序には、アイテムの名前をキーとして、目的の位置を整数"
+"値として指定する必要があります。"
 
 #. SysConfig
 msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed."
@@ -27213,7 +27249,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field \"%s\" is already in use in a ticket mask."
-msgstr ""
+msgstr "ダイナミックフィールド「%s」はチケットマスクで既に使用されています。"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "External-source key"
@@ -27266,6 +27302,8 @@ msgstr ""
 #. Template: AdminRoleGroup
 msgid "Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection."
 msgstr ""
+"チケットをこのグループ/キューに移動する権限。カレンダーに使用する場合、ユーザ"
+"ーはカレンダーの選択を変更せずに、カレンダー内の予定を変更できます。"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar."
@@ -27293,7 +27331,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines if parent-child translations for queues and services should be generated automatically."
-msgstr ""
+msgstr "キューとサービスの親子変換を自動的に生成するかどうかを定義します。"
 
 #. SysConfig
 msgid "Defines the initial height for the rich text editor component in pixels."
@@ -27302,4 +27340,3 @@ msgstr ""
 #. SysConfig
 msgid "Defines the initial height in pixels for the rich text editor component for this screen."
 msgstr ""
-

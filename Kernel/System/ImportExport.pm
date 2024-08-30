@@ -2341,9 +2341,11 @@ sub Import {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # Disable the cache for faster import.
-    # This seems to be safe in persistent web environment, as the object manager is discarded
-    # after each request.
+    # Get the current cache configurations before import.
+    my $PrevConfigCacheInMemory  = $CacheObject->{CacheInMemory};
+    my $PrevConfigCacheInBackend = $CacheObject->{CacheInBackend};
+
+    # Temporarily disable the cache configurations for faster import.
     $CacheObject->Configure(
         CacheInMemory  => 0,
         CacheInBackend => 0,
@@ -2448,6 +2450,12 @@ sub Import {
             $Result{Success}++;
         }
     }
+
+    # Re-configure the cache after import.
+    $CacheObject->Configure(
+        CacheInMemory  => $PrevConfigCacheInMemory,
+        CacheInBackend => $PrevConfigCacheInBackend,
+    );
 
     # log result
     $LogObject->Log(
