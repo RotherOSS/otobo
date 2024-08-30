@@ -88,7 +88,7 @@ sub Run {
         UserID     => 1,
     );
 
-    if ( !$TemplateData->{TemplateID} ) {
+    if ( ref $TemplateData ne 'HASH' || !$TemplateData->{TemplateID} ) {
         $Self->PrintError("Template $TemplateID not found!.\n");
         $Self->PrintError("Export aborted..\n");
 
