@@ -2003,6 +2003,11 @@ sub _ImportArticle {
         $HistoryComment .= $Article{ArticleID} ? " AID: $Article{ArticleID};" : '';
     }
 
+    # Handle pending transaction events of the previously created article
+    # before creating a new article.
+    $ArticleBackendObject->EventHandlerTransaction;
+    $ArticleObject->EventHandlerTransaction;
+
     my $ArticleID = $ArticleBackendObject->ArticleCreate(
         NoAgentNotify        => 1,
         TicketID             => $TicketID,
