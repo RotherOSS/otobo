@@ -284,16 +284,22 @@ sub EventHandlerTransaction {
     my $OuterOM = $Kernel::OM;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-    # keep some objects for performance and compatibility reasons
-    # the aim of instantiating a new $Kernel::OM is to have new
-    # objects of all EventHandler-objects to set up fresh pipes
+    # The aim of instantiating a new $Kernel::OM is to have new
+    # objects of all EventHandler-objects to set up fresh pipes.
+    # But keep some objects for performance and compatibility reasons.
+    #
+    # The reason for keeping the Encode object is special. Keeping Kernel::System::Encode
+    # avoids that binmode is called in the constructor.
+    # This is important for batch processes as binmode increments the stack.
+    # The large stack size causes core dumps when the unlimit for the stack size, usually 8192 kB,
+    # is reached.
     my @KeepObjects = (
         'Kernel::System::Cache',
         'Kernel::System::DB',
         'Kernel::Config',
         'Kernel::System::Log',
+        'Kernel::System::Encode',
     );
-
     for my $Object (@KeepObjects) {
         $Kernel::OM->{Objects}{$Object}            = $OuterOM->{Objects}{$Object};
         $Kernel::OM->{ObjectDependencies}{$Object} = $OuterOM->{ObjectDependencies}{$Object};
