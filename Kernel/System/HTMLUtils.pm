@@ -712,6 +712,10 @@ sub DocumentComplete {
         = $Param{CustomerInterface} ? "skins/Customer/default/css/RichTextArticleContent.css" : "skins/Agent/default/css/RichTextArticleContent.css";
 
     my $TargetDirectory = "var/httpd/htdocs/common/css/cache/";
+
+    my $FilePrefix = $Param{CustomerInterface} ? 'CustomerRichTextCSS' : 'AgentRichTextCSS';
+
+    # minify files uses caching internally, so files are really only minified again if needed
     my $TargetFilename = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
         List  => [
             "var/httpd/htdocs/$CKEditorContentStylesPath",
@@ -719,48 +723,56 @@ sub DocumentComplete {
         ],
         Type                 => 'CSS',
         TargetDirectory      => $TargetDirectory,
-        TargetFilenamePrefix => 'RichTextCSS',
+        TargetFilenamePrefix => $FilePrefix,
     );
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $RichTextContentCSSFilename = $CacheObject->Get(
+    my $CachedFilename = $CacheObject->Get(
         Type => 'HTMLUtils',
-        Key  => 'RichTextContentCSSPath',
+        Key  => $FilePrefix .'Filename',
     );
+    my $ArticleStyles = "";
 
     if (!$TargetFilename) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'error minifying content css files, trying to load from cache',
+            Message  => 'error minifying content css files',
         );
-        $TargetFilename = $RichTextContentCSSFilename;
-    }
-
-    if ($TargetFilename ne $RichTextContentCSSFilename) {
-        if ($RichTextContentCSSFilename) {
-            $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
-                Location        => "$TargetDirectory/$RichTextContentCSSFilename",
+    } else {
+        # file not cached, old or changed
+        if (!$CachedFilename || $TargetFilename ne $CachedFilename) {
+            $CacheObject->Set(
+                Type => 'HTMLUtils',
+                Key  => $FilePrefix .'Filename',
+                Value => $TargetFilename
+            );
+            $ArticleStyles = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            Location        => "$TargetDirectory/$TargetFilename",
+            Type            => 'Local',
+            DisableWarnings => 1,
+            );
+            $CacheObject->Set(
+                Type => 'HTMLUtils',
+                Key  => $FilePrefix,
+                Value => $ArticleStyles
+            );
+            if ($CachedFilename) {
+                $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
+                Location        => "$TargetDirectory/$CachedFilename",
                 Type            => 'Local',
                 DisableWarnings => 1,
-            )
+                );
+            }
+            
+        # file in cache
+        } else {
+            $ArticleStyles = $CacheObject->Get(
+                Type => 'HTMLUtils',
+                Key  => $FilePrefix
+            );
         }
-        $CacheObject->Set(
-            Type => 'HTMLUtils',
-            Key  => 'RichTextContentCSSPath',
-            Value => $TargetFilename
-        )
-    }
 
-    # TODO: avoid reading the file every time this method is called
-    if ($TargetFilename) {
-        my $ArticleStyles = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-        Location        => "$TargetDirectory/$TargetFilename",
-        Type            => 'Local',
-        DisableWarnings => 1,
-        );
-
-        if ($ArticleStyles) {
-            #${$ArticleStyles} = $Self->ToHTML( String => ${$ArticleStyles} );
+        if ($ArticleStyles ne "") {
             $Body .= "<style>" . ${$ArticleStyles} . "</style>";
         }
     }
