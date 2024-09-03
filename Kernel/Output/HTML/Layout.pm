@@ -6479,21 +6479,23 @@ sub SetRichTextParameters {
 
     if ( $ConfigObject->Get('Frontend::RichText::EnhancedMode') == 1 ) {
         @Toolbar = (
-            'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
+            'heading',       'bold',          'italic',            'underline',  'strikethrough', '|',
+            'bulletedList',  'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       '|',
             'insertImage',   'horizontalLine',    'blockQuote', '|', 'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '|',
-            'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
+            'fontFamily',    'fontSize', '|', 'codeBlock'
         );
 
         @ToolbarWithoutImage = (
-            'bold',           'italic',            'underline', 'strikethrough', '|',         'bulletedList', 'numberedList', '|',
+            'heading',        'bold',           'italic',            'underline', 'strikethrough', '|', 
+            'bulletedList', 'numberedList', '|',
             'insertTable',    '|',                 'indent',    'outdent',       'alignment', '|',
             'link',           'undo',              'redo',      '|',
             'horizontalLine', 'blockQuote',        '|',         'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing',  'specialCharacters', '|',
-            'heading',        'fontFamily',        'fontSize', '|', 'codeBlock'
+            'fontFamily',        'fontSize', '|', 'codeBlock'
         );
     }
     else {
@@ -6628,21 +6630,21 @@ sub CustomerSetRichTextParameters {
     my ( @Toolbar, @ToolbarWithoutImage, @ToolbarMidi, @ToolbarMini );
     if ( $ConfigObject->Get('Frontend::RichText::EnhancedMode::Customer') == 1 ) {
         @Toolbar = (
-            'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
+            'heading',       'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
             'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
             'link',          'undo',              'redo',       'selectAll',     '-',
             'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
-            'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
+            'fontFamily',        'fontSize', '|', 'codeBlock'
         );
 
         @ToolbarWithoutImage = (
-            'bold',           'italic',            'underline', 'strikethrough',  '|',         'bulletedList', 'numberedList', '|',
+            'heading',        'bold',           'italic',            'underline', 'strikethrough',  '|',         'bulletedList', 'numberedList', '|',
             'insertTable',    '|',                 'indent',    'outdent',        'alignment', '|',
             'link',           'undo',              'redo',      'selectAll',      '-',
             'horizontalLine', 'blockQuote',        '|',         'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing',  'specialCharacters', '-',
-            'heading',        'fontFamily',        'fontSize', '|', 'codeBlock'
+            'fontFamily',        'fontSize', '|', 'codeBlock'
         );
 
         @ToolbarMidi = (
