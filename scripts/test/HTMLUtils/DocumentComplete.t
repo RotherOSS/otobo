@@ -58,7 +58,7 @@ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
-*/.ck-content{text-wrap:wrap;white-space:pre-wrap;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px}.ck-content figure.table{float:left;margin:0 0 0 0}.ck-content p{margin-top:.8em;margin-bottom:.8em}.ck-content h1{font-size:2em}.ck-content h2{font-size:1.5em}.ck-content h3{font-size:1.17em}.ck-content h5{font-size:.83em}.ck-content h6{font-size:.67em}.ck-content blockquote{font-style:normal!important;border-left:solid var(--colMainLight) 1.5pt!important;padding:0 0 0 4pt!important}p{color:pink}
+*/.ck-content{text-wrap:wrap;white-space:pre-wrap;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px}.ck-content figure.table{float:left;margin:0 0 0 0}.ck-content p{margin-top:.8em;margin-bottom:.8em}.ck-content h1{font-size:2em}.ck-content h2{font-size:1.5em}.ck-content h3{font-size:1.17em}.ck-content h5{font-size:.83em}.ck-content h6{font-size:.67em}.ck-content blockquote{font-style:normal!important;border-left:solid var(--colMainLight) 1.5pt!important;padding:0 0 0 4pt!important}
 END_CSS
 
 
