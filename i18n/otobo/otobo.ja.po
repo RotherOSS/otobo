@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2024-09-03 06:25+0000\n"
+"PO-Revision-Date: 2024-09-04 09:13+0000\n"
 "Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
 "Language-Team: Japanese <http://weblate.otobo.org/projects/otobo/otobo-11/ja/"
 ">\n"
@@ -1154,7 +1154,7 @@ msgstr "ログ・エントリは見つかりませんでした。"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr "詳細ビューは%sから%sのコミュニケーションが開始されました。"
+msgstr "詳細ビューは%sから%sのコミュニケーションが開始されました"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for Log Entries"
@@ -1310,11 +1310,12 @@ msgstr "グループでフィルタ"
 
 #. Template: AdminCustomerGroup
 msgid "Select the customer:group permissions."
-msgstr "顧客：グループ権限を選択"
+msgstr "顧客：グループ権限を選択。"
 
 #. Template: AdminCustomerGroup
 msgid "If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer)."
-msgstr "何も選択しない場合、このグループは権限がありません。 (チケットは顧客が使用できません。)"
+msgstr "何も選択しない場合、このグループは権限がありません "
+"(チケットは顧客が使用できません)。"
 
 #. Template: AdminCustomerGroup
 msgid "Search Results"
@@ -1474,7 +1475,7 @@ msgstr "顧客ユーザー - 顧客の関係を管理"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
-msgstr "顧客ユーザー - 顧客の関係を選択"
+msgstr "顧客ユーザー - 顧客の関係を選択。"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Customer Users"
@@ -1526,11 +1527,12 @@ msgstr "グループでフィルタ"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr "顧客ユーザーを選択 - グループ・パーミッション"
+msgstr "顧客ユーザーを選択 - グループ・パーミッション。"
 
 #. Template: AdminCustomerUserGroup
 msgid "If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user)."
-msgstr "何も選択しない場合、このグループは権限がありません。 (チケットは 顧客ユーザー が使用できません。)"
+msgstr "何も選択しない場合、このグループは権限がありません (チケットは 顧客ユーザー "
+"が使用できません。)。"
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
@@ -1858,7 +1860,9 @@ msgstr "例"
 
 #. Template: AdminDynamicFieldDB
 msgid "You can reference the field with its own field name. You can also refer to other fields, e.g. with 'DynamicField_OtherFieldName'."
-msgstr "独自のフィールド名を使用してフィールドを参照できます。 他のフィールドを参照することもできます。 例）DynamicField_OtherFieldName"
+msgstr ""
+"独自のフィールド名を使用してフィールドを参照できます。 "
+"他のフィールドを参照することもできます。 例）DynamicField_OtherFieldName。"
 
 #. Template: AdminDynamicFieldDB
 msgid "Link for preview"
@@ -2354,7 +2358,7 @@ msgstr "現在この一般担当者のジョブは自動実行されません。
 
 #. Template: AdminGenericAgent
 msgid "To enable automatic execution select at least one value from minutes, hours and days!"
-msgstr "自動実行を有効にするには、分、時間、日から少なくとも1つの値を選択して下さい。"
+msgstr "自動実行を有効にするには、分、時間、日から少なくとも1つの値を選択して下さい！"
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
@@ -2718,7 +2722,8 @@ msgstr "チケット削除"
 
 #. Template: AdminGenericAgent
 msgid "Warning: All affected tickets will be removed from the database and cannot be restored!"
-msgstr "警告: 影響を受ける全てのチケットがデータベースから削除されます。復元することはできません。"
+msgstr "警告: 影響を受けるすべてのチケットはデータベースから削除され、復元することは"
+"できません！"
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
@@ -2742,7 +2747,7 @@ msgstr "%s チケットは影響を受けます。どうしますか？"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr "警告: 削除オプションを使用します。削除された全てのチケットは消失します。"
+msgstr "警告: 削除オプションを使用しました。削除されたチケットはすべて失われます！"
 
 #. Template: AdminGenericAgent
 msgid "Warning: There are %s tickets affected but only %s may be modified during one job execution!"
@@ -4809,7 +4814,7 @@ msgstr "権限"
 
 #. Template: AdminPackageManager
 msgid "Download file from package!"
-msgstr "パッケージからファイルをダウンロードしてください。"
+msgstr "パッケージからファイルをダウンロードしてください！"
 
 #. Template: AdminPackageManager
 msgid "Required"
@@ -8419,7 +8424,7 @@ msgstr "TOに移動"
 
 #. Template: AgentTicketCompose
 msgid "Bcc"
-msgstr "Bcc"
+msgstr "bcc"
 
 #. Template: AgentTicketCompose
 msgid "Remove Bcc"
@@ -11529,7 +11534,7 @@ msgstr "このサブアクションは無効です"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "xor"
-msgstr "xor"
+msgstr "Xor"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "String"
@@ -13617,9 +13622,7 @@ msgstr "CustomerDashboard のタイル %s "
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid "Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number."
-msgstr ""
-"Perl モジュール: Kernel/Modules/CustomerDashboardCommon.pm\n"
-"CustomerDashboard のタイル %s "
+msgstr "CustomerDashboard のタイル %s "
 "の登録が無効です。注文は一意の番号である必要があります。"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
@@ -15594,7 +15597,7 @@ msgstr "スワップが存在していません。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Used Swap Space (MB)"
-msgstr "利用 Swap 領域 (MB) "
+msgstr "使用Swap領域 (MB)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "There should be more than 60% free swap space."
@@ -17004,7 +17007,7 @@ msgstr "デプロイメントはすでに実行中です。"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deployment successful. You're being redirected..."
-msgstr "デプロイに成功しました。 "
+msgstr "デプロイに成功しました。リダイレクト中です..."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "There was an error. Please save all settings you are editing and check the logs for more information."
@@ -17376,7 +17379,8 @@ msgstr "検索条件をクリア"
 
 #. JS File: Core.UI.Popup
 msgid "If you now leave this page, all open popup windows will be closed, too!"
-msgstr "このページから移動します。全てのポップアップウィンドウを閉じてもよろしいですか？"
+msgstr "今このページを離れると、開いているポップアップ "
+"ウィンドウもすべて閉じられます！"
 
 #. JS File: Core.UI.Popup
 msgid "A popup of this screen is already open. Do you want to close it and load this one instead?"
@@ -17568,7 +17572,7 @@ msgstr "%s"
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
-msgstr "(ユーザー名) 姓 名 "
+msgstr "(ユーザー名) 姓名"
 
 #. SysConfig
 msgid "(UserLogin) Lastname Firstname"
@@ -18319,6 +18323,10 @@ msgstr "バルク・アクションのために選択した後に、所有者を
 #. SysConfig
 msgid "Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface."
 msgstr ""
+"チケットの所有者をそのチケットの責任者として自動的に設定します (チケット責任"
+"者機能が有効になっている場合)。これは、ログインしたユーザーの手動アクションに"
+"よってのみ機能します。GenericAgent、Postmaster、GenericInterface "
+"などの自動アクションでは機能しません。"
 
 #. SysConfig
 msgid "Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update."
@@ -18330,7 +18338,7 @@ msgstr "アバター"
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas (slim version)."
-msgstr ""
+msgstr "フェリックス・ニクラスによるバランスのとれた白い肌（スリムバージョン）。"
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas."
@@ -18338,11 +18346,13 @@ msgstr "Felix Niklasによるバランスト・ホワイト・スキンです。
 
 #. SysConfig
 msgid "Based on global RichText setting"
-msgstr ""
+msgstr "グローバルリッチテキスト設定に基づく"
 
 #. SysConfig
 msgid "Basic fulltext index settings. Execute \"bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
+"基本的なフルテキスト インデックス設定。新しいインデックスを生成するには、「"
+"bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild」を実行します。"
 
 #. SysConfig
 msgid "Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address."
@@ -18370,23 +18380,23 @@ msgstr "CSV区切り文字"
 
 #. SysConfig
 msgid "Cache time in seconds for agent authentication in the GenericInterface."
-msgstr ""
+msgstr "GenericInterface での担当者の認証のキャッシュ時間 (秒単位)。"
 
 #. SysConfig
 msgid "Cache time in seconds for customer authentication in the GenericInterface."
-msgstr ""
+msgstr "GenericInterface での顧客認証のキャッシュ時間 (秒単位)。"
 
 #. SysConfig
 msgid "Cache time in seconds for the DB ACL backend."
-msgstr ""
+msgstr "DB ACL バックエンドのキャッシュ時間（秒単位）。"
 
 #. SysConfig
 msgid "Cache time in seconds for the DB process backend."
-msgstr ""
+msgstr "DB プロセス バックエンドのキャッシュ時間 (秒単位)。"
 
 #. SysConfig
 msgid "Cache time in seconds for the SSL certificate attributes."
-msgstr ""
+msgstr "SSL 証明書属性のキャッシュ時間 (秒単位)。"
 
 #. SysConfig
 msgid "Cache time in seconds for the ticket process navigation bar output module."
@@ -18394,7 +18404,7 @@ msgstr "チケットプロセスナビゲーションバー出力モジュール
 
 #. SysConfig
 msgid "Cache time in seconds for the web service config backend."
-msgstr ""
+msgstr "Web サービス構成バックエンドのキャッシュ時間 (秒単位)。"
 
 #. SysConfig
 msgid "Calendar manage screen."
@@ -18403,14 +18413,23 @@ msgstr "カレンダー管理の画面"
 #. SysConfig
 msgid "Cancel whole escalation if ticket is in configured suspend state (EscalationSuspendStates). Ticket will not escalate at all in configured suspend state. No escalation times are shown. Ticket will not be shown in escalation view."
 msgstr ""
+"チケットが設定された一時停止状態 (EscalationSuspendStates) にある場合、エスカ"
+"レーション全体をキャンセルします。設定された一時停止状態では、チケットはまっ"
+"たくエスカレーションされません。エスカレーション時間は表示されません。"
+"チケットはエスカレーション ビューに表示されません。"
 
 #. SysConfig
 msgid "Catalan"
-msgstr ""
+msgstr "カタロニア語"
 
 #. SysConfig
 msgid "Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^.+::') %]\"). Link can be used the same way."
 msgstr ""
+"チケットの表示に使用されるカテゴリ。デフォルトの色が指定されていない場合、"
+"カラー ハッシュで選択が定義されていないと、項目は表示されません。"
+"オプションで属性 Text を追加してフィールド値を上書きしたり、テンプレート "
+"メソッドを使用したりできます (例: \"Text\" => \"[% Data.Value | "
+"remove('^.+::') %]\")。リンクも同様に使用できます。"
 
 #. SysConfig
 msgid "Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^.+::') %]\"). Link can be used the same way."
@@ -18710,7 +18729,7 @@ msgstr "サポートを改善するために、OTOBOチームへのサポート�
 
 #. SysConfig
 msgid "Configure the About information."
-msgstr "About情報を設定します。"
+msgstr "アバウト情報を設定します。"
 
 #. SysConfig
 msgid "Configure the privacy policy."
@@ -19624,11 +19643,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to agents, about new password."
-msgstr ""
+msgstr "新しいパスワードについて担当者に送信される通知メールの本文テキストを定義しま"
+"す。"
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to agents, with token about new requested password."
-msgstr ""
+msgstr "新しく要求されたパスワードに関するトークンを含む、担当者に送信される通知メー"
+"ルの本文テキストを定義します。"
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to customers, about new account."
@@ -19841,16 +19862,25 @@ msgstr "チケット検索画面で、デフォルトの表示されるチケッ
 #. SysConfig
 msgid "Defines the default shown ticket search attribute for ticket search screen. Example: \"Key\" must have the name of the Dynamic Field in this case 'X', \"Content\" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: 'a text', Dropdown: '1', Date/Time: 'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or 'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';."
 msgstr ""
-"デフォルトで表示するチケット検索条件を定義します。\n"
-"Keyはダイナミック・フィールドの名前（この例の場合は\"X\"）を指定します。\n"
-"Contentはダイナミック・フィールドの形式によって設定内容が異なります。\n"
-"例）\n"
-"[テキスト]\n"
-"’文字列’ （任意の文字列）\n"
-"[ドロップダウン]\n"
-"'1' （項目の順番）\n"
-"[日時]\n"
-"Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';"
+"チケット検索画面に表示されるデフォルトのチケット検索属性を定義します。例: "
+"「キー」には動的フィールドの名前 (この場合は 'X') が必要です。「コンテンツ」"
+"には動的フィールドの種類に応じた動的フィールドの値が必要です。テキスト: 'a "
+"text'、ドロップダウン: '1'、日付/時刻: "
+"'Search_DynamicField_XTimeSlotStartYear=1974; "
+"Search_DynamicField_XTimeSlotStartMonth=01; "
+"Search_DynamicField_XTimeSlotStartDay=26; "
+"Search_DynamicField_XTimeSlotStartHour=00; "
+"Search_DynamicField_XTimeSlotStartMinute=00; "
+"Search_DynamicField_XTimeSlotStartSecond=00; "
+"Search_DynamicField_XTimeSlotStopYear=2013; "
+"Search_DynamicField_XTimeSlotStopMonth=01; "
+"Search_DynamicField_XTimeSlotStopDay=26; "
+"Search_DynamicField_XTimeSlotStopHour=23; "
+"Search_DynamicField_XTimeSlotStopMinute=59; "
+"Search_DynamicField_XTimeSlotStopSecond=59;' および "
+"'Search_DynamicField_XTimePointFormat=week; "
+"Search_DynamicField_XTimePointStart=Before; "
+"Search_DynamicField_XTimePointValue=7';。"
 
 #. SysConfig
 msgid "Defines the default sort criteria for all queues displayed in the queue view."
@@ -21188,7 +21218,11 @@ msgstr "フィルターを有効にする"
 
 #. SysConfig
 msgid "Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder."
-msgstr "PGPを有効化します。PGPサポートでメールの署名と暗号化が有効になっている場合は、.gnupgフォルダにアクセスする際の権限問題を回避するため、WebサーバーをOTOBOユーザーとして実行することを強くお勧めします。 "
+msgstr ""
+"PGP サポートを有効にします。メールの署名と暗号化に PGP "
+"サポートを有効にする場合は、Web サーバーを OTOBO "
+"ユーザーとして実行することを強くお勧めします。そうしないと、.gnupg "
+"フォルダーにアクセスするときに権限に問題が発生します。"
 
 #. SysConfig
 msgid "Enables S/MIME support."
@@ -22576,8 +22610,10 @@ msgstr "受信メッセージについてフィルターし操作するための
 
 #. SysConfig
 msgid "Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () as [***] in Set =>."
-msgstr "受信メッセージについてフィルターし操作するためのモジュールです。チケットのフリーテキストに対して4桁の数字を得て、「Match」において正規表現を使用します。\n"
-"（例：From / '(.+?)@.+?'とし、「Set」にて「[***]」として後方参照を使用します。）"
+msgstr ""
+"受信メッセージをフィルタリングおよび操作するモジュール。"
+"チケットのフリーテキストに 4 桁の数字を取得し、Match で正規表現を使用します "
+"(例: From => '(.+?)@.+?')。Set => で () を [***] として使用します。"
 
 #. SysConfig
 msgid "Module to filter encrypted bodies of incoming messages."
