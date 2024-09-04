@@ -435,6 +435,10 @@ sub EditFieldValueValidate {
             Key          => 'RenderedValue_DynamicField_' . $DFName,
         );
 
+        if ( $DynamicFieldConfig->{Config}{PossibleNone} ) {
+            push $LastSearchResults->@*, '';
+        }
+
         # in set case, we fetch the template values and either concat them to the search results
         #   or, if no search results are present, use the template values entirely
         if ( defined $Param{SetIndex} ) {
