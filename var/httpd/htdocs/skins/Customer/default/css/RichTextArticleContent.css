@@ -55,6 +55,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .ck-content blockquote {
     font-style: normal !important;
-    border-left: solid var(--colMainLight) 1.5pt !important; 
+    border-left: solid #000099 1.5pt !important; 
     padding: 0cm 0cm 0cm 4pt !important;    
 }

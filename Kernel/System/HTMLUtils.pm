@@ -709,17 +709,17 @@ sub DocumentComplete {
         = $Param{CustomerInterface} ? $ConfigObject->Get('CustomerFrontend::RichTextArticleStyles') : $ConfigObject->Get('Frontend::RichTextArticleStyles');
 
     my $ArticleContentStylesPath
-        = $Param{CustomerInterface} ? "skins/Customer/default/css/RichTextArticleContent.css" : "skins/Agent/default/css/RichTextArticleContent.css";
+        = $Param{CustomerInterface} ? 'skins/Customer/default/css/RichTextArticleContent.css' : 'skins/Agent/default/css/RichTextArticleContent.css';
 
-    my $TargetDirectory = "var/httpd/htdocs/common/css/cache/";
+    my $TargetDirectory = $Param{CustomerInterface} ? $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Customer/default/css-cache/' : $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Agent/default/css-cache/';
 
     my $FilePrefix = $Param{CustomerInterface} ? 'CustomerRichTextCSS' : 'AgentRichTextCSS';
 
     # minify files uses caching internally, so files are really only minified again if needed
     my $TargetFilename = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
         List  => [
-            "var/httpd/htdocs/$CKEditorContentStylesPath",
-            "var/httpd/htdocs/$ArticleContentStylesPath",
+            $ConfigObject->Get('Home') . "/var/httpd/htdocs/$CKEditorContentStylesPath",
+            $ConfigObject->Get('Home') . "/var/httpd/htdocs/$ArticleContentStylesPath",
         ],
         Type                 => 'CSS',
         TargetDirectory      => $TargetDirectory,
