@@ -292,8 +292,8 @@ sub EventHandlerTransaction {
         'Kernel::System::DB',
         'Kernel::Config',
         'Kernel::System::Log',
+        'Kernel::System::Encode',
     );
-
     for my $Object (@KeepObjects) {
         $Kernel::OM->{Objects}{$Object}            = $OuterOM->{Objects}{$Object};
         $Kernel::OM->{ObjectDependencies}{$Object} = $OuterOM->{ObjectDependencies}{$Object};
