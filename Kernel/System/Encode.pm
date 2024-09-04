@@ -94,7 +94,7 @@ sub new {
             binmode STDOUT, ":encoding(console_out)";
         }
         if ( is_interactive(*STDERR) ) {
-            binmode STDOUT;
+            binmode STDERR;
             binmode STDERR, ":encoding(console_out)";
         }
     }
