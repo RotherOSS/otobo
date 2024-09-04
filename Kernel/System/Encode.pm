@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 # core modules
-use Encode ();
+use Encode;
 
 # CPAN modules
 use Encode::Locale;
