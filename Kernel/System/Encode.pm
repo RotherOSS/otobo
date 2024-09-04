@@ -16,12 +16,18 @@
 
 package Kernel::System::Encode;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Encode;
+# core modules
+use Encode ();
+
+# CPAN modules
 use Encode::Locale;
 use IO::Interactive qw(is_interactive);
+
+# OTOBO modules
 
 our %ObjectManagerFlags = (
     IsSingleton => 1,
@@ -34,7 +40,7 @@ Kernel::System::Encode - character encodings
 
 =head1 DESCRIPTION
 
-This module will use Perl's Encode module (Perl 5.8.0 or higher is required).
+This module will use Perl's Encode module.
 
 =head1 PUBLIC INTERFACE
 
@@ -44,14 +50,25 @@ Don't use the constructor directly, use the ObjectManager instead:
 
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
+The constructor also changes some global settings as a side effect:
+
+=over 4
+
+=item decode the command line parameters
+
+=item configure STDOUT
+
+=item configure STDERR
+
+=back
+
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # 0=off; 1=on;
     $Self->{Debug} = 0;
@@ -106,13 +123,14 @@ sub Convert {
     my ( $Self, %Param ) = @_;
 
     # return if no text is given
-    return    if !defined $Param{Text};
+    return unless defined $Param{Text};
     return '' if $Param{Text} eq '';
 
     # check needed stuff
     for (qw(From To)) {
         if ( !defined $Param{$_} ) {
             print STDERR "Need $_!\n";
+
             return;
         }
     }
@@ -175,8 +193,7 @@ sub Convert {
 
         # require module, print error if module was not found
         if ( !eval "require Encode::HanExtra" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
-            print STDERR
-                "Charset '$Param{From}' requires Encode::HanExtra, which is not installed!\n";
+            print STDERR "Charset '$Param{From}' requires Encode::HanExtra, which is not installed!\n";
         }
     }
 
@@ -249,11 +266,12 @@ Should be used on all I/O interfaces.
 sub Convert2CharsetInternal {
     my ( $Self, %Param ) = @_;
 
-    return if !defined $Param{Text};
+    return unless defined $Param{Text};
 
     # check needed stuff
     if ( !defined $Param{From} ) {
         print STDERR "Need From!\n";
+
         return;
     }
 
@@ -262,12 +280,16 @@ sub Convert2CharsetInternal {
 
 =head2 EncodeInput()
 
-Convert internal used charset (e. g. utf-8) into given charset (utf-8).
+Assume that the incoming data is binary data containing UTF-8 encoded strings. Turn the data
+into Perl strings with the proper semantics.
 
-Should be used on all I/O interfaces if data is already utf-8 to set the utf-8 stamp.
+Should be used on all I/O interfaces if data is already utf-8 to set the UTF8 flag.
+
+Note that the method name is a misnomer. The method should be called C<DecodeInput()>.
 
     $EncodeObject->EncodeInput( \$String );
 
+    # @Array may contain only undef and strings
     $EncodeObject->EncodeInput( \@Array );
 
 =cut
@@ -275,11 +297,14 @@ Should be used on all I/O interfaces if data is already utf-8 to set the utf-8 s
 sub EncodeInput {
     my ( $Self, $What ) = @_;
 
-    return if !defined $What;
+    return unless defined $What;
 
     if ( ref $What eq 'SCALAR' ) {
-        return $What if !defined ${$What};
+        return $What unless defined ${$What};
+
+        # assuming the the incoming string is already encoded in UTF-8
         Encode::_utf8_on( ${$What} );
+
         return $What;
     }
 
@@ -288,11 +313,16 @@ sub EncodeInput {
         ROW:
         for my $Row ( @{$What} ) {
             next ROW if !defined $Row;
+
+            # assuming the the incoming string is already encoded in UTF-8
             Encode::_utf8_on($Row);
         }
+
         return $What;
     }
 
+    # assuming the the incoming string is already encoded in UTF-8
+    # TODO: It is not documented that strings can be passed in directly.
     Encode::_utf8_on($What);
 
     return $What;
@@ -307,6 +337,8 @@ This should be used in for output of utf-8 chars.
 
     $EncodeObject->EncodeOutput( \$String );
 
+    # @Array may contain only undef and references to strings
+    # Note that this is a different type of array as supported in EncodeInput().
     $EncodeObject->EncodeOutput( \@Array );
 
 =cut
@@ -317,7 +349,9 @@ sub EncodeOutput {
     if ( ref $What eq 'SCALAR' ) {
         return $What if !defined ${$What};
         return $What if !Encode::is_utf8( ${$What} );
+
         ${$What} = Encode::encode_utf8( ${$What} );
+
         return $What;
     }
 
@@ -327,13 +361,19 @@ sub EncodeOutput {
         for my $Row ( @{$What} ) {
             next ROW if !defined $Row;
             next ROW if !Encode::is_utf8( ${$Row} );
+
             ${$Row} = Encode::encode_utf8( ${$Row} );
         }
+
         return $What;
     }
 
-    return $What if !Encode::is_utf8( \$What );
+    # TODO: it is not documented that anything but scalar or array refs can be passed as argument
+    # TODO: it is not obvious what is_utf8() or encode_utf8() do with references
+    return $What unless Encode::is_utf8( \$What );
+
     Encode::encode_utf8( \$What );
+
     return $What;
 }
 
@@ -348,7 +388,7 @@ switch output file handle to utf-8 output.
 sub ConfigureOutputFileHandle {
     my ( $Self, %Param ) = @_;
 
-    return if !defined $Param{FileHandle};
+    return unless defined $Param{FileHandle};
     return if ref $Param{FileHandle} ne 'GLOB';
 
     # http://www.perlmonks.org/?node_id=644786
@@ -371,17 +411,22 @@ codepoints from 0 to 127 the same way as ASCII.
 
 sub EncodingIsAsciiSuperset {
     my ( $Self, %Param ) = @_;
+
     if ( !defined $Param{Encoding} ) {
         print STDERR "Need Encoding!\n";
+
         return;
     }
+
     if ( !defined Encode::find_encoding( $Param{Encoding} ) ) {
         print STDERR "Unsupported Encoding $Param{Encoding}!\n";
+
         return;
     }
+
     my $Test = join '', map {chr} 0 .. 127;
-    return Encode::encode( $Param{Encoding}, $Test )
-        eq Encode::encode( 'ASCII',          $Test );
+
+    return Encode::encode( $Param{Encoding}, $Test ) eq Encode::encode( 'ASCII', $Test );
 }
 
 =head2 FindAsciiSupersetEncoding()
@@ -397,17 +442,22 @@ is a super-set of ASCII. If none matches, C<ASCII> is returned.
 
 sub FindAsciiSupersetEncoding {
     my ( $Self, %Param ) = @_;
+
     if ( !defined $Param{Encodings} ) {
         print STDERR "Need Encodings!\n";
+
         return;
     }
+
     ENCODING:
     for my $Encoding ( @{ $Param{Encodings} } ) {
-        next ENCODING if !$Encoding;
+        next ENCODING unless $Encoding;
+
         if ( $Self->EncodingIsAsciiSuperset( Encoding => $Encoding ) ) {
             return $Encoding;
         }
     }
+
     return 'ASCII';
 }
 
