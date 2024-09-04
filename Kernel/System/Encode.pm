@@ -86,10 +86,15 @@ sub new {
     }
     else {
 
+        # There is no guarantee that this method won't be called many times in a batch script.
+        # In order to avoid the IO layers are piling up, clear the previous layers before
+        # adding a new layer.
         if ( is_interactive(*STDOUT) ) {
+            binmode STDOUT;
             binmode STDOUT, ":encoding(console_out)";
         }
         if ( is_interactive(*STDERR) ) {
+            binmode STDOUT;
             binmode STDERR, ":encoding(console_out)";
         }
     }
@@ -389,11 +394,14 @@ sub ConfigureOutputFileHandle {
     my ( $Self, %Param ) = @_;
 
     return unless defined $Param{FileHandle};
-    return if ref $Param{FileHandle} ne 'GLOB';
+    return unless ref $Param{FileHandle} eq 'GLOB';
 
     # http://www.perlmonks.org/?node_id=644786
-    # http://bugs.otrs.org/show_bug.cgi?id=12100
-    binmode( $Param{FileHandle}, ':utf8' );    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    # There is no guarantee that this method won't be called many times in a batch script.
+    # In order to avoid the IO layers are piling up, clear the previous layers before
+    # adding a new layer.
+    binmode $Param{FileHandle};
+    binmode $Param{FileHandle}, ':utf8';    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
 
     return 1;
 }
