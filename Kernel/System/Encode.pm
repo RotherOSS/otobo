@@ -16,12 +16,18 @@
 
 package Kernel::System::Encode;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
 use Encode;
+
+# CPAN modules
 use Encode::Locale;
 use IO::Interactive qw(is_interactive);
+
+# OTOBO modules
 
 our %ObjectManagerFlags = (
     IsSingleton => 1,
@@ -34,7 +40,7 @@ Kernel::System::Encode - character encodings
 
 =head1 DESCRIPTION
 
-This module will use Perl's Encode module (Perl 5.8.0 or higher is required).
+This module will use Perl's Encode module.
 
 =head1 PUBLIC INTERFACE
 
@@ -44,14 +50,25 @@ Don't use the constructor directly, use the ObjectManager instead:
 
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
+The constructor also changes some global settings as a side effect:
+
+=over 4
+
+=item decode the command line parameters
+
+=item configure STDOUT
+
+=item configure STDERR
+
+=back
+
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # 0=off; 1=on;
     $Self->{Debug} = 0;
@@ -69,10 +86,15 @@ sub new {
     }
     else {
 
+        # There is no guarantee that this method won't be called many times in a batch script.
+        # In order to avoid the IO layers are piling up, clear the previous layers before
+        # adding a new layer.
         if ( is_interactive(*STDOUT) ) {
+            binmode STDOUT;
             binmode STDOUT, ":encoding(console_out)";
         }
         if ( is_interactive(*STDERR) ) {
+            binmode STDERR;
             binmode STDERR, ":encoding(console_out)";
         }
     }
@@ -106,13 +128,14 @@ sub Convert {
     my ( $Self, %Param ) = @_;
 
     # return if no text is given
-    return    if !defined $Param{Text};
+    return unless defined $Param{Text};
     return '' if $Param{Text} eq '';
 
     # check needed stuff
     for (qw(From To)) {
         if ( !defined $Param{$_} ) {
             print STDERR "Need $_!\n";
+
             return;
         }
     }
@@ -175,8 +198,7 @@ sub Convert {
 
         # require module, print error if module was not found
         if ( !eval "require Encode::HanExtra" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
-            print STDERR
-                "Charset '$Param{From}' requires Encode::HanExtra, which is not installed!\n";
+            print STDERR "Charset '$Param{From}' requires Encode::HanExtra, which is not installed!\n";
         }
     }
 
@@ -249,11 +271,12 @@ Should be used on all I/O interfaces.
 sub Convert2CharsetInternal {
     my ( $Self, %Param ) = @_;
 
-    return if !defined $Param{Text};
+    return unless defined $Param{Text};
 
     # check needed stuff
     if ( !defined $Param{From} ) {
         print STDERR "Need From!\n";
+
         return;
     }
 
@@ -370,12 +393,15 @@ switch output file handle to utf-8 output.
 sub ConfigureOutputFileHandle {
     my ( $Self, %Param ) = @_;
 
-    return if !defined $Param{FileHandle};
-    return if ref $Param{FileHandle} ne 'GLOB';
+    return unless defined $Param{FileHandle};
+    return unless ref $Param{FileHandle} eq 'GLOB';
 
     # http://www.perlmonks.org/?node_id=644786
-    # http://bugs.otrs.org/show_bug.cgi?id=12100
-    binmode( $Param{FileHandle}, ':utf8' );    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    # There is no guarantee that this method won't be called many times in a batch script.
+    # In order to avoid the IO layers are piling up, clear the previous layers before
+    # adding a new layer.
+    binmode $Param{FileHandle};
+    binmode $Param{FileHandle}, ':utf8';    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
 
     return 1;
 }
@@ -393,17 +419,22 @@ codepoints from 0 to 127 the same way as ASCII.
 
 sub EncodingIsAsciiSuperset {
     my ( $Self, %Param ) = @_;
+
     if ( !defined $Param{Encoding} ) {
         print STDERR "Need Encoding!\n";
+
         return;
     }
+
     if ( !defined Encode::find_encoding( $Param{Encoding} ) ) {
         print STDERR "Unsupported Encoding $Param{Encoding}!\n";
+
         return;
     }
+
     my $Test = join '', map {chr} 0 .. 127;
-    return Encode::encode( $Param{Encoding}, $Test )
-        eq Encode::encode( 'ASCII',          $Test );
+
+    return Encode::encode( $Param{Encoding}, $Test ) eq Encode::encode( 'ASCII', $Test );
 }
 
 =head2 FindAsciiSupersetEncoding()
@@ -419,17 +450,22 @@ is a super-set of ASCII. If none matches, C<ASCII> is returned.
 
 sub FindAsciiSupersetEncoding {
     my ( $Self, %Param ) = @_;
+
     if ( !defined $Param{Encodings} ) {
         print STDERR "Need Encodings!\n";
+
         return;
     }
+
     ENCODING:
     for my $Encoding ( @{ $Param{Encodings} } ) {
-        next ENCODING if !$Encoding;
+        next ENCODING unless $Encoding;
+
         if ( $Self->EncodingIsAsciiSuperset( Encoding => $Encoding ) ) {
             return $Encoding;
         }
     }
+
     return 'ASCII';
 }
 
