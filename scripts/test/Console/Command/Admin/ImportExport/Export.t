@@ -163,7 +163,6 @@ ok( -e $ExportFilename, 'export file was finally generated' );
     my @ExpectedLines      = map {s/<<RANDOM_ID>>/$RandomID/r} $ExpectedResultFile->slurp;
     is( scalar @ExpectedLines, 22, 'got some expected content' );
     my @Lines = file($ExportFilename)->slurp;
-    $Lines[-1] .= "\n";
     is(
         \@Lines,
         \@ExpectedLines,
