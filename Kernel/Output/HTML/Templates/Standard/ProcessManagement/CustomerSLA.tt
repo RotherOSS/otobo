@@ -33,7 +33,7 @@
         [% Data.Label | html %]
     </label>
 [% RenderBlockStart("rw:SLA:DescriptionShort") %]
-    <p class="FieldExplanation ooo12g">[% Data.DescriptionShort %]</p>
+    <p class="FieldExplanation ooo12g">[% Data.DescriptionShort | html %]</p>
 [% RenderBlockEnd("rw:SLA:DescriptionShort") %]
     <div id="[% Data.FieldID | html %][% Data.IDSuffix | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="[% Data.FieldID | html %][% Data.IDSuffix | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
