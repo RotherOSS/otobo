@@ -4275,11 +4275,13 @@
             <Item ValueType="String" ValueRegex="">%%Pending</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::RestorePendingTime" Required="0" Valid="1">
-        <Description Translatable="1">Restore last pending time in input masks based on AgentTicketActionCommon, if pending state is set.</Description>
-        <Navigation>Frontend::Agent</Navigation>
+    <Setting Name="Ticket::Frontend::RestorePendingInformation###Actions" Required="0" Valid="1">
+        <Description Translatable="1">Interfaces for which the restoring of pending information is activated.</Description>
+        <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
-            <Item ValueType="Checkbox">0</Item>
+            <Hash>
+                <Item Key="AgentTicketPending">1</Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPriority###Permission" Required="1" Valid="1">

@@ -2771,24 +2771,30 @@ sub _Mask {
 
                 my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
 
-                # fetch and check potentially set pending time
+                # fetch actions to perform prefilling for
+                my $RestorePendingConfig = $ConfigObject->Get("Ticket::Frontend::RestorePendingInformation");
+
+                # only prefill pending information for actions defined in the corresponding system configuration setting
                 my %PendingTimeSettings = ();
+                if ( $RestorePendingConfig->{Actions}->{ $Self->{Action} } ) {
 
-                # try restoring pending time only if pending time exists and responsible config option is set
-                if ( $Ticket{RealTillTimeNotUsed} && $ConfigObject->Get('Ticket::Frontend::RestorePendingTime') ) {
+                    # try restoring pending time only if pending time exists and responsible config option is set
+                    if ( $Ticket{RealTillTimeNotUsed} ) {
 
-                    my $PendingTimeObj = $Kernel::OM->Create(
-                        'Kernel::System::DateTime',
-                        ObjectParams => {
-                            Epoch => $Ticket{RealTillTimeNotUsed},
-                        },
-                    );
+                        my $PendingTimeObj = $Kernel::OM->Create(
+                            'Kernel::System::DateTime',
+                            ObjectParams => {
+                                Epoch => $Ticket{RealTillTimeNotUsed},
+                            },
+                        );
 
-                    my $CurrentTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+                        my $CurrentTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
 
-                    # set pending time only if it is later than now
-                    if ( $CurrentTimeObj->Compare( DateTimeObject =>  $PendingTimeObj ) < 0 ) {
-                        %PendingTimeSettings = %{ $PendingTimeObj->Get() };
+                        # set pending time only if it is later than now
+                        if ( $CurrentTimeObj->Compare( DateTimeObject => $PendingTimeObj ) < 0 ) {
+                            %PendingTimeSettings = %{ $PendingTimeObj->Get() };
+                        }
+
                     }
 
                 }
