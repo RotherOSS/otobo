@@ -2243,6 +2243,16 @@ sub CustomerAgeInHours {
 sub CustomerAge {
     my ( $Self, %Param ) = @_;
 
+    if ( $Param{DisplayCreateDate} && $Param{Age} >= (60 * 60 * 24) ) {
+        # Display full date if it's older than 24 hours.
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        $DateTimeObject->Subtract( Seconds => $Param{Age} );
+
+        my $DateTimeString = $DateTimeObject->ToString();
+        my $DateStrg = $Self->{LanguageObject}->FormatTimeString( $DateTimeString, 'DateFormat', 'NoSeconds' );
+        return $DateStrg;
+    }
+
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $Age       = defined( $Param{Age} ) ? $Param{Age} : return;

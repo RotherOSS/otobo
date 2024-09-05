@@ -132,7 +132,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .oooTicketList h3,
-.oooTicketList p {
+.oooTicketList p:not(.oooTicketItemAge) {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
