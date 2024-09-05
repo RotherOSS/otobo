@@ -3344,7 +3344,8 @@ sub _GetIntegratedPackages {
 
             # future releases
             1 => [
-                'ImportExportTicket', # integrated when ImportExport console commands were added
+                'ImportExportTicket',    # integrated when ImportExport console commands were added
+                'RestorePendingInformation',
             ],
         }
     };
