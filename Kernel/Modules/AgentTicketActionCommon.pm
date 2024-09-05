@@ -2779,7 +2779,7 @@ sub _Mask {
                 if ( $RestorePendingConfig->{Actions}->{ $Self->{Action} } ) {
 
                     # try restoring pending time only if pending time exists and responsible config option is set
-                    if ( $Ticket{RealTillTimeNotUsed} ) {
+                    if ( $Ticket{StateType} =~ /pending/ && $Ticket{RealTillTimeNotUsed} ) {
 
                         my $PendingTimeObj = $Kernel::OM->Create(
                             'Kernel::System::DateTime',
