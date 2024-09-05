@@ -2799,19 +2799,15 @@ sub _Mask {
 
                 }
 
-                # set DiffTime only if no pending time is present
-                my $DiffTime = 0;
-                if ( !%PendingTimeSettings ) {
-                    $DiffTime = $ConfigObject->Get('Ticket::Frontend::PendingDiffTime') || 0;
-                }
-
                 $Param{DateString} = $LayoutObject->BuildDateSelection(
                     %Param,
-                    Format               => 'DateInputFormatLong',
-                    YearPeriodPast       => 0,
-                    YearPeriodFuture     => 5,
-                    DiffTime             => $DiffTime,
-                    Class                => $Param{DateInvalid} || ' ',
+                    Format           => 'DateInputFormatLong',
+                    YearPeriodPast   => 0,
+                    YearPeriodFuture => 5,
+
+                    # NOTE DiffTime only takes effect if no PendingTime is passed
+                    DiffTime             => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime') || 0,
+                    Class                => $Param{DateInvalid}                                     || ' ',
                     Validate             => 1,
                     ValidateDateInFuture => 1,
                     Calendar             => $Calendar,
