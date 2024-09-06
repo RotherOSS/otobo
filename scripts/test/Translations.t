@@ -44,113 +44,116 @@ sub TestAdminTranslation {
 
     my %Params = @_;
 
-    # see if there is an existing translation
-    my $OldTranslation = _GetExistingAdminTranslation(
-        Content    => $Params{Content},
-        LanguageId => $Params{LanguageId},
-    );
+    subtest $Params{Description} => sub {
 
-    # set userid to translation owner, or use admin if new
-    my $UserId = $OldTranslation ? $OldTranslation->{CreateBy} : 1;
+        # see if there is an existing translation
+        my $OldTranslation = _GetExistingAdminTranslation(
+            Content    => $Params{Content},
+            LanguageId => $Params{LanguageId},
+        );
 
-    # delete any existing Translations for this $Content key
-    if ($OldTranslation) {
+        # set userid to translation owner, or use admin if new
+        my $UserId = $OldTranslation ? $OldTranslation->{CreateBy} : 1;
+
+        # delete any existing Translations for this $Content key
+        if ($OldTranslation) {
+            _DeleteTranslation(
+                TranslationId => $OldTranslation->{Id},
+                UserId        => $UserId,
+                LanguageId    => $Params{LanguageId},
+                Content       => $Params{Content},
+                Translation   => $Params{Translation}
+            );
+        }
+
+        # add a Translation Draft for the new translation key
+        my $Result = $TranslationsObject->DraftTranslationsAdd(
+            Language    => $Params{LanguageId},
+            Content     => $Params{Content},
+            Translation => $Params{Translation},
+            UserID      => $UserId,
+        );
+
+        # is it expected to fail?
+        if ( !defined $Params{ExpectedResult} ) {
+
+            is(
+                $Result,
+                undef,
+                "Translation ($Params{LanguageId}) draft for <$Params{Content}> failed as intended."
+            );
+
+            # cleanup
+            if ($OldTranslation) {
+                _RestoreOldTranslation($OldTranslation);
+            }
+            return;
+        }
+
+        # should have a valid Translation draft now
+        is(
+            $Result,
+            1,
+            "Translation ($Params{LanguageId}) draft for <$Params{Content}> added successfully."
+        );
+
+        # deploy Translation draft
+        $Result = $TranslationsObject->WriteTranslationFile(
+            UserLanguage => $Params{LanguageId},
+        );
+
+        is(
+            $Result,
+            1,
+            "Translation ($Params{LanguageId}) draft for <$Params{Content}> deployed successfully."
+        );
+
+        # fetch the new translation so that we can clean it up later
+        my $NewTranslation = _GetExistingAdminTranslation(
+            Content    => $Params{Content},
+            LanguageId => $Params{LanguageId},
+        );
+        ok( $NewTranslation, "have new Translation." );
+
+        # re-fetch Language object from OM after update
+        $Kernel::OM->ObjectsDiscard();
+
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::Language' => {
+                UserTimeZone => $Tz,
+                UserLanguage => $Params{LanguageId},
+                Action       => '',
+                Debug        => 1
+            },
+        );
+        my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
+        isa_ok(
+            $LanguageObject,
+            ['Kernel::Language'], 'got a Language object'
+        );
+
+        # test for the new translation to be actually applied
+        my $Translated = $LanguageObject->Translate( $Params{Content} );
+        is(
+            $Translated,
+            $Params{Translation},
+            "Translation ($Params{LanguageId})  <$Params{Translation}> for <$Params{Content}> applied successfully."
+        );
+
+        # cleanup
         _DeleteTranslation(
-            TranslationId => $OldTranslation->{Id},
+            TranslationId => $NewTranslation->{Id},
             UserId        => $UserId,
             LanguageId    => $Params{LanguageId},
             Content       => $Params{Content},
             Translation   => $Params{Translation}
         );
-    }
 
-    # add a Translation Draft for the new translation key
-    my $Result = $TranslationsObject->DraftTranslationsAdd(
-        Language    => $Params{LanguageId},
-        Content     => $Params{Content},
-        Translation => $Params{Translation},
-        UserID      => $UserId,
-    );
-
-    # is it expected to fail?
-    if ( !defined $Params{ExpectedResult} ) {
-
-        is(
-            $Result,
-            undef,
-            "Translation ($Params{LanguageId}) draft for <$Params{Content}> failed as intended."
-        );
-
-        # cleanup
         if ($OldTranslation) {
             _RestoreOldTranslation($OldTranslation);
         }
-        return;
-    }
-
-    # should have a valid Translation draft now
-    is(
-        $Result,
-        1,
-        "Translation ($Params{LanguageId}) draft for <$Params{Content}> added successfully."
-    );
-
-    # deploy Translation draft
-    $Result = $TranslationsObject->WriteTranslationFile(
-        UserLanguage => $Params{LanguageId},
-    );
-
-    is(
-        $Result,
-        1,
-        "Translation ($Params{LanguageId}) draft for <$Params{Content}> deployed successfully."
-    );
-
-    # fetch the new translation so that we can clean it up later
-    my $NewTranslation = _GetExistingAdminTranslation(
-        Content    => $Params{Content},
-        LanguageId => $Params{LanguageId},
-    );
-    ok( $NewTranslation, "have new Translation." );
-
-    # re-fetch Language object from OM after update
-    $Kernel::OM->ObjectsDiscard();
-
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::Language' => {
-            UserTimeZone => $Tz,
-            UserLanguage => $Params{LanguageId},
-            Action       => '',
-            Debug        => 1
-        },
-    );
-    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
-
-    isa_ok(
-        $LanguageObject,
-        ['Kernel::Language'], 'got a Language object'
-    );
-
-    # test for the new translation to be actually applied
-    my $Translated = $LanguageObject->Translate( $Params{Content} );
-    is(
-        $Translated,
-        $Params{Translation},
-        "Translation ($Params{LanguageId})  <$Params{Translation}> for <$Params{Content}> applied successfully."
-    );
-
-    # cleanup
-    _DeleteTranslation(
-        TranslationId => $NewTranslation->{Id},
-        UserId        => $UserId,
-        LanguageId    => $Params{LanguageId},
-        Content       => $Params{Content},
-        Translation   => $Params{Translation}
-    );
-
-    if ($OldTranslation) {
-        _RestoreOldTranslation($OldTranslation);
-    }
+    };
 
     return;
 }
@@ -159,59 +162,98 @@ sub TestAdminTranslation {
 
 my @AdminTranslationTestCases = (
     {
+        Description    => 'Translation without leading or trailing whitespace still works.',
         LanguageId     => 'en',
         Content        => 'Tickets',
         Translation    => 'TheWonderfulTranslationForTicket',
         ExpectedResult => 1
     },
     {
+        Description    => 'Leading whitespace in translation value is preserved.',
         LanguageId     => 'de',
         Content        => 'Tickets',
         Translation    => ' Tickets++',
         ExpectedResult => 1
     },
     {
+        Description    => 'Trailing whitespace in translation value is preserved.',
         LanguageId     => 'de',
         Content        => 'Tickets',
         Translation    => 'Tickets++ ',
         ExpectedResult => 1
     },
     {
+        Description    => 'Surrounding whitespace in translation value is preserved.',
         LanguageId     => 'de',
         Content        => 'Tickets',
         Translation    => ' Tickets++ ',
         ExpectedResult => 1
     },
     {
+        Description    => 'Leading whitespace in translation content key is preserved.',
         LanguageId     => 'en',
         Content        => ' Tickets',
         Translation    => 'TheWonderfulTranslationForTicket',
         ExpectedResult => 1
     },
     {
+        Description    => 'Trailing whitespace in translation content key is preserved.',
+        LanguageId     => 'en',
+        Content        => 'Tickets ',
+        Translation    => 'TheWonderfulTranslationForTicket',
+        ExpectedResult => 1
+    },
+    {
+        Description    => 'Surrounding whitespace in translation content key is preserved',
         LanguageId     => 'en',
         Content        => ' Tickets ',
         Translation    => 'TheWonderfulTranslationForTicket',
         ExpectedResult => 1
     },
+
+    # invalid tests
     {
+        Description    => 'Empty translation content key is not supported.',
         LanguageId     => 'en',
-        Content        => ' Tickets ',
-        Translation    => 'TheWonderfulTranslationForTicket',
-        ExpectedResult => 1
-    },
-    {
-        LanguageId     => 'en',
-        Content        => '',                                   # invalid
+        Content        => '',                                                  # invalid
         Translation    => 'TheWonderfulTranslationForTicket',
         ExpectedResult => undef
     },
     {
+        Description    => 'Empty translation value is not supported',
         LanguageId     => 'en',
         Content        => 'Tickets',
-        Translation    => '',                                   # invalid
+        Translation    => '',                                                  # invalid
         ExpectedResult => undef
-    }
+    },
+
+    # a bit of umlaut and special char fuzzing
+    {
+        Description    => 'German Umlauts, no surrounding whitespace in translation value.',
+        LanguageId     => 'de',
+        Content        => 'Tickets',
+        Translation    => '  Falsches Üben von Xylophonmusik quält jeden größeren Zwerg',
+        ExpectedResult => 1
+    },
+    {
+        Description    => 'Francophonia with trailing whitespace in translation value.',
+        LanguageId     => 'fr',
+        Content        => 'Tickets',
+        Translation    => 'Voix ambiguë d\'un cœur qui, au zéphyr, préfère les jattes de kiwis ',
+        ExpectedResult => 1
+
+        # French for: Ambiguous voice of a heart that prefers bowls of kiwis to the zephyr
+    },
+    {
+        Description    => 'Russian with surrounding whitespace is supported.',
+        LanguageId     => 'ru',
+        Content        => 'Tickets',
+        Translation    => ' Съешь ещё этих мягких французских булок, да выпей чаю ',
+        ExpectedResult => 1
+
+        # Russian for: Eat some more of these soft French rolls and drink some tea
+    },
+
 );
 
 for my $TestCase (@AdminTranslationTestCases) {
