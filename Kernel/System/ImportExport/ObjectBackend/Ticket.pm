@@ -135,7 +135,6 @@ sub ObjectAttributesGet {
         return;
     }
 
-    my %QueueList = $Kernel::OM->Get('Kernel::System::Queue')->QueueList();
     my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
         UserID => 1,
     );
@@ -145,23 +144,27 @@ sub ObjectAttributesGet {
     my %LockList = $Kernel::OM->Get('Kernel::System::Lock')->LockList(
         UserID => 1,
     );
-    my %UserList = $Kernel::OM->Get('Kernel::System::User')->UserList();
-
-    my @Attributes = (
-        {
-            Key   => 'QueueID',
-            Name  => 'Default Queue',
-            Input => {
-                Type        => 'Selection',
-                Data        => \%QueueList,
-                Required    => 1,
-                Translation => 0,
-                Class       => 'Modernize',
-            },
-        },
-    );
+    my %UserList = $Kernel::OM->Get('Kernel::System::User')->UserList;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my @Attributes;    # will be returned
+
+    # queue
+    {
+        my %QueueList = $Kernel::OM->Get('Kernel::System::Queue')->QueueList;
+        push @Attributes,
+            {
+                Key   => 'QueueID',
+                Name  => 'Default Queue',
+                Input => {
+                    Type        => 'Selection',
+                    Data        => \%QueueList,
+                    Required    => 1,
+                    Translation => 0,
+                    Class       => 'Modernize',
+                },
+            };
+    }
 
     if ( $ConfigObject->Get('Ticket::Type') ) {
         my %TypeList = $Kernel::OM->Get('Kernel::System::Type')->TypeList(
@@ -217,9 +220,7 @@ sub ObjectAttributesGet {
         };
     }
 
-    my %SenderType = map { $_ => $_ } qw(agent customer system);
-
-    push @Attributes, (
+    push @Attributes,
         {
             Key   => 'StateID',
             Name  => 'Default state',
@@ -252,19 +253,25 @@ sub ObjectAttributesGet {
                 Translation => 0,
                 Class       => 'Modernize',
             },
-        },
-        {
-            Key   => 'ResponsibleID',
-            Name  => 'Default responsible',
-            Input => {
-                Type         => 'Selection',
-                Data         => \%UserList,
-                Required     => 0,
-                PossibleNone => 1,
-                Translation  => 0,
-                Class        => 'Modernize',
-            },
-        },
+        };
+
+    if ( $ConfigObject->Get('Ticket::Responsible') ) {
+        push @Attributes,
+            {
+                Key   => 'ResponsibleID',
+                Name  => 'Default responsible',
+                Input => {
+                    Type         => 'Selection',
+                    Data         => \%UserList,
+                    Required     => 0,
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    Class        => 'Modernize',
+                },
+            };
+    }
+
+    push @Attributes,
         {
             Key   => 'LockID',
             Name  => 'Default lock',
@@ -353,8 +360,11 @@ sub ObjectAttributesGet {
             Key   => 'SenderType',
             Name  => 'Default sender type',
             Input => {
-                Type     => 'Selection',
-                Data     => \%SenderType,
+                Type => 'Selection',
+                Data => {
+                    agent    => 'agent',
+                    customer => 'customer',
+                },
                 Required => 1,
                 Class    => 'Modernize',
             },
@@ -387,7 +397,16 @@ sub ObjectAttributesGet {
                 Type => 'Checkbox',
             },
         },
-    );
+        {
+            Key   => 'AllowedOwnerInTarget',
+            Name  => 'Only update tickets of this user in the target system',
+            Input => {
+                Type      => 'Text',
+                Required  => 0,
+                Size      => 50,
+                MaxLength => 191,      # length of users.login field in the database
+            },
+        };
 
     return \@Attributes;
 }
@@ -442,20 +461,36 @@ sub MappingObjectAttributesGet {
     return [] unless $ObjectData;
     return [] unless ref $ObjectData eq 'HASH';
 
+    # the possible mappings depend on the activated feature set
+    my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
+    my @TypeElements        = $ConfigObject->Get('Ticket::Type')        ? qw( Type TypeID )                 : ();
+    my @ServiceElements     = $ConfigObject->Get('Ticket::Service')     ? qw( Service ServiceID SLA SLAID ) : ();
+    my @ResponsibleElements = $ConfigObject->Get('Ticket::Responsible') ? qw( Responsible ResponsibleID )   : ();
     my @ElementList =
         map { { Key => $_, Value => $_ } }
-        qw( TicketID TicketNumber Title Type TypeID Queue QueueID Service ServiceID SLA
-        SLAID State StateID Priority PriorityID CustomerID CustomerUserID Owner OwnerID Lock
-        LockID Responsible ResponsibleID ArchiveFlag Created );
+        (
+            qw( TicketID TicketNumber Title ),
+            @TypeElements,
+            qw( Queue QueueID ),
+            @ServiceElements,
+            qw( StateID Priority PriorityID CustomerID CustomerUserID Owner OwnerID Lock LockID ),
+            @ResponsibleElements,
+            qw( ArchiveFlag Created )
+        );
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     # columns for dynamic fields
-    my $DynFieldList = $DynamicFieldObject->DynamicFieldList(
-        ObjectType => 'Ticket',
-        ResultType => 'HASH',
-    );
-    push @ElementList, map { { Key => "DynamicField_$_", Value => "DynamicField_$_" } } sort values %{$DynFieldList};
+    {
+        my $DynFieldList = $DynamicFieldObject->DynamicFieldList(
+            ObjectType => 'Ticket',
+            ResultType => 'HASH',
+        );
+        push @ElementList,
+            map { { Key => "DynamicField_$_", Value => "DynamicField_$_" } }
+            sort
+            values $DynFieldList->%*;
+    }
 
     if ( $ObjectData->{IncludeArticles} ) {
         if ( $ObjectData->{ArticleSeparateLines} ) {
@@ -475,7 +510,10 @@ sub MappingObjectAttributesGet {
             ObjectType => 'Article',
             ResultType => 'HASH',
         );
-        push @ElementList, map { { Key => "Article_DynamicField_$_", Value => "Article_DynamicField_$_" } } values %{$DynFieldList};
+        push @ElementList,
+            map { { Key => "Article_DynamicField_$_", Value => "Article_DynamicField_$_" } }
+            sort
+            values $DynFieldList->%*;
     }
 
     return [
@@ -510,10 +548,13 @@ get the search object attributes of an object as array/hash reference
         UserID     => 1,
     );
 
+
 =cut
 
 sub SearchAttributesGet {
     my ( $Self, %Param ) = @_;
+
+    #  note that there is no search by owner or responsible
 
     # check needed stuff
     for my $Argument (qw(TemplateID UserID)) {
@@ -527,10 +568,10 @@ sub SearchAttributesGet {
         }
     }
 
-    my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
-
+    # TODO: why is the ObjectData needed here?
     # get object data
-    my $ObjectData = $ImportExportObject->ObjectDataGet(
+    my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
+    my $ObjectData         = $ImportExportObject->ObjectDataGet(
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},
     );
@@ -952,7 +993,7 @@ sub ExportDataGet {
                 for my $i ( 0 .. $ArticleMappingLast ) {
 
                     # empty fields are done in the ticket part
-                    next ARTICLEMAP if !$ArticleMapping[$i];
+                    next ARTICLEMAP unless $ArticleMapping[$i];
 
                     # extract key
                     my $Key = $ArticleMapping[$i]{Key};
@@ -1073,16 +1114,11 @@ sub ImportDataSave {
         return;
     }
 
-    # just for convenience
-    my $EmptyFieldsLeaveTheOldValues = $ObjectData->{EmptyFieldsLeaveTheOldValues};
-
-    # get the mapping list
+    # get and check the mapping list
     my $MappingList = $ImportExportObject->MappingList(
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},
     );
-
-    # check the mapping list
     if ( !$MappingList || ref $MappingList ne 'ARRAY' || !@{$MappingList} ) {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1129,10 +1165,15 @@ sub ImportDataSave {
 
     my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
     my $MappingConfig = $ConfigObject->Get('ImportExport::Ticket::ImportValueMap') // {};
-    my %ValueMap      = map { $_->{Key} => $_->{Map} } values $MappingConfig->%*;
+    my %ValueMap =
+        map { $_->{Key} => $_->{Map} }
+        values $MappingConfig->%*;
 
     # handle a separate article
+    # TODO: what about "0" ?
     if ( $ObjectData->{IncludeArticles} && $ObjectData->{ArticleSeparateLines} && !$Param{ImportDataRow}[0] ) {
+
+        # handling an article an a separate line
         my $i = 1;
         MAPPINGOBJECTDATA:
         for my $MappingObjectData (@MappingObjectList) {
@@ -1146,7 +1187,7 @@ sub ImportDataSave {
                 next MAPPINGOBJECTDATA;
             }
 
-            next MAPPINGOBJECTDATA if !$MappingObjectData->{Identifier};
+            next MAPPINGOBJECTDATA unless $MappingObjectData->{Identifier};
 
             if ( $MappingObjectData->{Key} ne 'Article_ArticleID' ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1177,6 +1218,8 @@ sub ImportDataSave {
         }
     }
     else {
+
+        # handling a ticket line
         MAPPINGOBJECTDATA:
         for my $i ( 0 .. $#MappingObjectList ) {
 
@@ -1186,8 +1229,9 @@ sub ImportDataSave {
             $Value = defined $Value && $ValueMap{ $MappingObjectData->{Key} } && defined $ValueMap{ $MappingObjectData->{Key} }{$Value}
                 ? $ValueMap{ $MappingObjectData->{Key} }{$Value} : $Value;
 
-            if ( $MappingObjectData->{Key} =~ /^Article_(.+)$/ ) {
-                next MAPPINGOBJECTDATA if $ObjectData->{ArticleSeparateLines} || !$ObjectData->{IncludeArticles};
+            if ( $MappingObjectData->{Key} =~ m/^Article_(.+)$/ ) {
+                next MAPPINGOBJECTDATA if $ObjectData->{ArticleSeparateLines};
+                next MAPPINGOBJECTDATA unless $ObjectData->{IncludeArticles};
 
                 $Article{$1} = $Value;
             }
@@ -1195,6 +1239,7 @@ sub ImportDataSave {
                 $Ticket{ $MappingObjectData->{Key} } = $Value;
             }
 
+            # identifiers are usually TicketID or TicketNumber
             next MAPPINGOBJECTDATA unless $MappingObjectData->{Identifier};
 
             if ( !$Value ) {
@@ -1235,7 +1280,12 @@ sub ImportDataSave {
 
     my $Status = 'Skipped';
     $Self->{Error} = '';
-    if ( %Ticket && !exists $Self->{TicketIDRelation}{ $Ticket{TicketID} } ) {
+    if (
+        %Ticket
+        &&
+        ( !$Ticket{TicketID} || !exists $Self->{TicketIDRelation}{ $Ticket{TicketID} } )
+        )
+    {
         $Status = $Self->_ImportTicket(
             Ticket     => \%Ticket,
             Identifier => $Identifier{Ticket},
@@ -1324,9 +1374,10 @@ sub _ImportTicket {
     my ( $Self, %Param ) = @_;
 
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
 
-    my %Ticket = $Param{Ticket}->%*;
-    my %DBTicket;    # Ticket as retrieved from the database
+    my %Ticket = $Param{Ticket}->%*;    # data from the import file
+    my %DBTicket;                       # Ticket as retrieved from the database
     my $Status = 'Skipped';
 
     if ( $Param{Identifier} ) {
@@ -1343,11 +1394,12 @@ sub _ImportTicket {
                 # for the sake of consistency, we treat other situations the same, although they are less clear
                 my $Prio = !$Param{ObjectData}{ArticleSeparateLines}
                     && $Self->{LastTicketID} == $Self->{TicketIDRelation}{ $Ticket{TicketID} } ? 'debug' : 'info';
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                $LogObject->Log(
                     Priority => $Prio,
                     Message  => "Skipping ticket creation for entity $Param{Counter} (TicketID $Ticket{TicketID}) as it was handled before."
                 );
                 $Self->{LastTicketID} = $Self->{TicketIDRelation}{ $Ticket{TicketID} };
+
                 return $Status;
             }
 
@@ -1364,7 +1416,6 @@ sub _ImportTicket {
                 $DBTicketID = $Ticket{TicketID};
             }
         }
-
         elsif ( $Param{Identifier}{TicketNumber} ) {
 
             # check previously imported tickets of this run
@@ -1375,7 +1426,7 @@ sub _ImportTicket {
                 # for the sake of consistency, we treat other situations the same, although they are less clear
                 my $Prio = !$Param{ObjectData}{ArticleSeparateLines}
                     && $Self->{LastTicketID} == $Self->{TicketNumberIDRelation}{ $Ticket{TicketNumber} } ? 'debug' : 'info';
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                $LogObject->Log(
                     Priority => $Prio,
                     Message  => "Skipping ticket creation for entity $Param{Counter} (TicketNumber $Ticket{TicketNumber}) as it was handled before."
                 );
@@ -1392,13 +1443,13 @@ sub _ImportTicket {
             }
 
             # exclude tickets which were created in this run and by chance got the current TicketNumber
+            # TODO: how is CreatedNumbers provided with content ?
             elsif ( !$Self->{CreatedNumbers}{ $Ticket{TicketNumber} } ) {
                 $DBTicketID = $TicketObject->TicketIDLookup(
-                    Tn => $Ticket{TicketNumber},
+                    TicketNumber => $Ticket{TicketNumber},
                 );
             }
         }
-
         else {
             return $Self->_ImportError(
                 %Param,
@@ -1432,6 +1483,16 @@ sub _ImportTicket {
     # just update the ticket if it is already present
     if (%DBTicket) {
         $Status = 'Skipped';
+
+        # There are cases when a ticket update should not take place. Currently one
+        # one of these cases is supported. This case is for updating owners of tickets.
+        # Only tickets that are not owned by a specific agent. Usually this special agent
+        # is the default agent of a previous import.
+        if ( $Param{ObjectData}->{AllowedOwnerInTarget} ) {
+            return 'Skipped' unless $DBTicket{Owner} eq $Param{ObjectData}->{AllowedOwnerInTarget};
+        }
+
+        # decide whether the old values should be kept
         my $SkipEmpty = $Param{ObjectData}{EmptyFieldsLeaveTheOldValues};
 
         # customer
@@ -1441,7 +1502,7 @@ sub _ImportTicket {
         $DBTicket{CustomerUserID} //= '';
 
         if ( ( !$Ticket{CustomerID} && $DBTicket{CustomerID} ) || ( !$Ticket{CustomerUserID} && $DBTicket{CustomerUserID} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'notice',
                 Message  => "Unexpected state encountered for existing TicketID $Ticket{TicketID} (Entity $Param{Counter}): "
                     . "Ticket customer can not be emptied - not a real chronological update; ignoring this, and keeping Customer(User)ID.",
@@ -1464,7 +1525,7 @@ sub _ImportTicket {
                 return $Self->_ImportError(
                     %Param,
                     Message => "Could not update Customer(User) for TicketID $DBTicket{TicketID}",
-                ) if !$Success;
+                ) unless $Success;
             }
         }
 
@@ -1485,7 +1546,7 @@ sub _ImportTicket {
             return $Self->_ImportError(
                 %Param,
                 Message => "Could not update Title for TicketID $DBTicket{TicketID}",
-            ) if !$Success;
+            ) unless $Success;
         }
 
         # queue
@@ -1507,32 +1568,36 @@ sub _ImportTicket {
             return $Self->_ImportError(
                 %Param,
                 Message => "Could not update Queue for TicketID $DBTicket{TicketID}",
-            ) if !$Success;
+            ) unless $Success;
         }
+
+        # need for checking the activated features: Ticket::Type, Ticket::Responsible, Ticket::Service
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # type
-        if ( !$Ticket{TypeID} && $Ticket{Type} ) {
-            $Ticket{TypeID} = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup(
-                Type => $Ticket{Type},
-            );
+        if ( $ConfigObject->Get('Ticket::Type') ) {
+            if ( !$Ticket{TypeID} && $Ticket{Type} ) {
+                $Ticket{TypeID} = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup(
+                    Type => $Ticket{Type},
+                );
+            }
+            $Ticket{TypeID} ||= $SkipEmpty ? $DBTicket{TypeID} : $Param{ObjectData}{TypeID};
+
+            if ( $Ticket{TypeID} ne $DBTicket{TypeID} ) {
+                $Status = 'Updated';
+                my $Success = $TicketObject->TicketTypeSet(
+                    TypeID   => $Ticket{TypeID},
+                    TicketID => $DBTicket{TicketID},
+                    UserID   => 1,
+                );
+
+                return $Self->_ImportError(
+                    %Param,
+                    Message => "Could not update Type for TicketID $DBTicket{TicketID}",
+                ) unless $Success;
+            }
         }
-        $Ticket{TypeID} ||= $SkipEmpty ? $DBTicket{TypeID} : $Param{ObjectData}{TypeID};
 
-        if ( $Ticket{TypeID} ne $DBTicket{TypeID} ) {
-            $Status = 'Updated';
-            my $Success = $TicketObject->TicketTypeSet(
-                TypeID   => $Ticket{TypeID},
-                TicketID => $DBTicket{TicketID},
-                UserID   => 1,
-            );
-
-            return $Self->_ImportError(
-                %Param,
-                Message => "Could not update Type for TicketID $DBTicket{TicketID}",
-            ) if !$Success;
-        }
-
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         if ( $ConfigObject->Get('Ticket::Service') ) {
 
             # service
@@ -1545,7 +1610,7 @@ sub _ImportTicket {
             $DBTicket{ServiceID} //= '';
 
             if ( !$Ticket{ServiceID} && $DBTicket{ServiceID} ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                $LogObject->Log(
                     Priority => 'notice',
                     Message  => "Unexpected state encountered for existing TicketID $Ticket{TicketID} (Entity $Param{Counter}): "
                         . "Services can not be emptied - not a real chronological update; ignoring this, and keeping the Service.",
@@ -1563,10 +1628,10 @@ sub _ImportTicket {
                 return $Self->_ImportError(
                     %Param,
                     Message => "Could not update Service for TicketID $DBTicket{TicketID}",
-                ) if !$Success;
+                ) unless $Success;
             }
 
-            # sla
+            # SLA
             if ( !$Ticket{SLAID} && $Ticket{SLA} ) {
                 $Ticket{SLAID} = $Kernel::OM->Get('Kernel::System::SLA')->SLALookup(
                     SLA => $Ticket{SLA},
@@ -1576,7 +1641,7 @@ sub _ImportTicket {
             $DBTicket{SLAID} //= '';
 
             if ( !$Ticket{SLAID} && $DBTicket{SLAID} ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                $LogObject->Log(
                     Priority => 'notice',
                     Message  => "Unexpected state encountered for existing TicketID $Ticket{TicketID} (Entity $Param{Counter}): "
                         . "SLAs can not be emptied - not a real chronological update; ignoring this, and keeping the SLA.",
@@ -1594,7 +1659,7 @@ sub _ImportTicket {
                 return $Self->_ImportError(
                     %Param,
                     Message => "Could not update SLA for TicketID $DBTicket{TicketID}",
-                ) if !$Success;
+                ) unless $Success;
             }
         }
 
@@ -1607,7 +1672,7 @@ sub _ImportTicket {
         $Ticket{OwnerID} ||= $SkipEmpty ? $DBTicket{OwnerID} : $Param{ObjectData}{OwnerID};
 
         if ( !$Ticket{OwnerID} && $DBTicket{OwnerID} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'notice',
                 Message  => "Unexpected state encountered for existing TicketID $Ticket{TicketID} (Entity $Param{Counter}): "
                     . "Owners can not be emptied - not a real chronological update; ignoring this, and keeping the Owner.",
@@ -1625,7 +1690,7 @@ sub _ImportTicket {
             return $Self->_ImportError(
                 %Param,
                 Message => "Could not update Owner for TicketID $DBTicket{TicketID}",
-            ) if !$Success;
+            ) unless $Success;
         }
 
         # lock
@@ -1648,37 +1713,39 @@ sub _ImportTicket {
             return $Self->_ImportError(
                 %Param,
                 Message => "Could not update Lock for TicketID $DBTicket{TicketID}",
-            ) if !$Success;
+            ) unless $Success;
         }
 
         # responsible
-        if ( !$Ticket{ResponsibleID} && $Ticket{Responsible} ) {
-            $Ticket{ResponsibleID} = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-                UserLogin => $Ticket{Responsible},
-            );
-        }
-        $Ticket{ResponsibleID} ||= $SkipEmpty ? $DBTicket{ResponsibleID} : $Param{ObjectData}{ResponsibleID};
+        if ( $ConfigObject->Get('Ticket::Responsible') ) {
+            if ( !$Ticket{ResponsibleID} && $Ticket{Responsible} ) {
+                $Ticket{ResponsibleID} = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+                    UserLogin => $Ticket{Responsible},
+                );
+            }
+            $Ticket{ResponsibleID} ||= $SkipEmpty ? $DBTicket{ResponsibleID} : $Param{ObjectData}{ResponsibleID};
 
-        if ( !$Ticket{ResponsibleID} && $DBTicket{ResponsibleID} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'notice',
-                Message  => "Unexpected state encountered for existing TicketID $Ticket{TicketID} (Entity $Param{Counter}): "
-                    . "Responsibles can not be emptied - not a real chronological update; ignoring this, and keeping the Responsible.",
-            );
-        }
+            if ( !$Ticket{ResponsibleID} && $DBTicket{ResponsibleID} ) {
+                $LogObject->Log(
+                    Priority => 'notice',
+                    Message  => "Unexpected state encountered for existing TicketID $Ticket{TicketID} (Entity $Param{Counter}): "
+                        . "Responsibles can not be emptied - not a real chronological update; ignoring this, and keeping the Responsible.",
+                );
+            }
 
-        if ( $Ticket{ResponsibleID} && $Ticket{ResponsibleID} ne $DBTicket{ResponsibleID} ) {
-            $Status = 'Updated';
-            my $Success = $TicketObject->TicketResponsibleSet(
-                NewUserID => $Ticket{ResponsibleID},
-                TicketID  => $DBTicket{TicketID},
-                UserID    => 1,
-            );
+            if ( $Ticket{ResponsibleID} && $Ticket{ResponsibleID} ne $DBTicket{ResponsibleID} ) {
+                $Status = 'Updated';
+                my $Success = $TicketObject->TicketResponsibleSet(
+                    NewUserID => $Ticket{ResponsibleID},
+                    TicketID  => $DBTicket{TicketID},
+                    UserID    => 1,
+                );
 
-            return $Self->_ImportError(
-                %Param,
-                Message => "Could not update Responsible for TicketID $DBTicket{TicketID}",
-            ) if !$Success;
+                return $Self->_ImportError(
+                    %Param,
+                    Message => "Could not update Responsible for TicketID $DBTicket{TicketID}",
+                ) unless $Success;
+            }
         }
 
         # priority
@@ -1700,7 +1767,7 @@ sub _ImportTicket {
             return $Self->_ImportError(
                 %Param,
                 Message => "Could not update Priority for TicketID $DBTicket{TicketID}",
-            ) if !$Success;
+            ) unless $Success;
         }
 
         # state
@@ -1722,7 +1789,7 @@ sub _ImportTicket {
             return $Self->_ImportError(
                 %Param,
                 Message => "Could not update State for TicketID $DBTicket{TicketID}",
-            ) if !$Success;
+            ) unless $Success;
         }
 
         # archive flag
@@ -1739,7 +1806,7 @@ sub _ImportTicket {
             return $Self->_ImportError(
                 %Param,
                 Message => "Could not update ArchiveFlag for TicketID $DBTicket{TicketID}",
-            ) if !$Success;
+            ) unless $Success;
         }
     }
 
@@ -1752,7 +1819,11 @@ sub _ImportTicket {
         $DBTicket{CustomerUser} = $Ticket{CustomerUserID} || $Param{ObjectData}{CustomerUserID};
 
         # title
-        $DBTicket{Title} = $Ticket{Title} || $Ticket{Title} eq '0' ? $Ticket{Title} : $Param{ObjectData}{Subject};
+        $DBTicket{Title} = ( $Ticket{Title} || ( defined $Ticket{Title} && $Ticket{Title} eq '0' ) )
+            ?
+            $Ticket{Title}
+            :
+            $Param{ObjectData}{Subject};
 
         # queue
         if ( !$Ticket{QueueID} && $Ticket{Queue} ) {
@@ -1762,15 +1833,19 @@ sub _ImportTicket {
         }
         $DBTicket{QueueID} = $Ticket{QueueID} || $Param{ObjectData}{QueueID};
 
-        # type
-        if ( !$Ticket{TypeID} && $Ticket{Type} ) {
-            $Ticket{TypeID} = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup(
-                Type => $Ticket{Type},
-            );
-        }
-        $DBTicket{TypeID} = $Ticket{TypeID} || $Param{ObjectData}{TypeID};
-
+        # need for checking the activated features: Ticket::Type, Ticket::Responsible, Ticket::Service
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # type
+        if ( $ConfigObject->Get('Ticket::Type') ) {
+            if ( !$Ticket{TypeID} && $Ticket{Type} ) {
+                $Ticket{TypeID} = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup(
+                    Type => $Ticket{Type},
+                );
+            }
+            $DBTicket{TypeID} = $Ticket{TypeID} || $Param{ObjectData}{TypeID};
+        }
+
         if ( $ConfigObject->Get('Ticket::Service') ) {
 
             # service
@@ -1807,12 +1882,14 @@ sub _ImportTicket {
         $DBTicket{LockID} = $Ticket{LockID} || $Param{ObjectData}{LockID};
 
         # responsible
-        if ( !$Ticket{ResponsibleID} && $Ticket{Responsible} ) {
-            $Ticket{ResponsibleID} = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-                UserLogin => $Ticket{Responsible},
-            );
+        if ( $ConfigObject->Get('Ticket::Responsible') ) {
+            if ( !$Ticket{ResponsibleID} && $Ticket{Responsible} ) {
+                $Ticket{ResponsibleID} = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+                    UserLogin => $Ticket{Responsible},
+                );
+            }
+            $DBTicket{ResponsibleID} = $Ticket{ResponsibleID} || $Param{ObjectData}{ResponsibleID};
         }
-        $DBTicket{ResponsibleID} = $Ticket{ResponsibleID} || $Param{ObjectData}{ResponsibleID};
 
         # priority
         if ( !$Ticket{PriorityID} && $Ticket{Priority} ) {
@@ -1941,7 +2018,11 @@ sub _ImportTicket {
     }
 
     if ( $Param{Identifier}{TicketID} || $Param{ObjectData}{IncludeArticles} ) {
-        $Self->{TicketIDRelation}{ $Ticket{TicketID} } = $DBTicket{TicketID};
+
+        # TODO: why the check on IncludeArticles
+        if ( $Ticket{TicketID} ) {
+            $Self->{TicketIDRelation}{ $Ticket{TicketID} } = $DBTicket{TicketID};
+        }
     }
     if ( $Param{Identifier}{TicketNumber} ) {
         $Self->{TicketNumberIDRelation}{ $Ticket{TicketNumber} } = $DBTicket{TicketID};
@@ -1965,7 +2046,7 @@ sub _ImportArticle {
     return $Self->_ImportError(
         %Param,
         Message => "Could not find new TicketID for Article",
-    ) if !$TicketID;
+    ) unless $TicketID;
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
@@ -2034,12 +2115,12 @@ sub _ImportArticle {
     return $Self->_ImportError(
         %Param,
         Message => "Could not create the article",
-    ) if !$ArticleID;
+    ) unless $ArticleID;
 
     if ( $Article{CreateTime} ) {
         $Self->{DBObject} //= $Kernel::OM->Get('Kernel::System::DB');
 
-        return if !$Self->{DBObject}->Do(
+        return unless $Self->{DBObject}->Do(
             SQL  => "UPDATE article SET create_time = ? WHERE id = ?",
             Bind => [ \$Article{CreateTime}, \$ArticleID ],
         );
@@ -2057,7 +2138,7 @@ sub _ImportArticle {
         return $Self->_ImportError(
             %Param,
             Message => "Could not synchronize extended DB entries for ticket $ArticleID",
-        ) if !$Success;
+        ) unless $Success;
     }
 
     # attachments
@@ -2071,7 +2152,7 @@ sub _ImportArticle {
 
             KEY:
             for my $Key (qw( Filename ContentType Disposition )) {
-                next KEY if !$Attachment{$Key};
+                next KEY unless $Attachment{$Key};
 
                 $Attachment{$Key} = Encode::decode( 'UTF-8', $Attachment{$Key} );
             }
@@ -2085,7 +2166,7 @@ sub _ImportArticle {
             return $Self->_ImportError(
                 %Param,
                 Message => "Error with importing an attachment for article $ArticleID",
-            ) if !$Success;
+            ) unless $Success;
         }
     }
 
@@ -2100,7 +2181,7 @@ sub _ImportArticle {
         return $Self->_ImportError(
             %Param,
             Message => "Error with importing the plain email for article $ArticleID",
-        ) if !$Success;
+        ) unless $Success;
     }
 
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -2132,7 +2213,7 @@ sub _ImportArticle {
             $Article{$Attr} = $Article{$Attr} ? [ map { decode( 'UTF-8', decode_base64($_) ) } split( /###/, $Article{$Attr} ) ] : [];
         }
 
-        next DYNAMICFIELD if !$DynamicFieldBackendObject->ValueIsDifferent(
+        next DYNAMICFIELD unless $DynamicFieldBackendObject->ValueIsDifferent(
             DynamicFieldConfig => $DynamicFieldConfig,
             Value1             => $Article{$Attr},
             Value2             => $DBValue,
@@ -2159,7 +2240,7 @@ sub _ImportArticle {
         return $Self->_ImportError(
             %Param,
             Message => "Could not update $Attr for ArticleID $ArticleID",
-        ) if !$Success;
+        ) unless $Success;
     }
 
     return 'Created';
@@ -2223,13 +2304,13 @@ sub _SynchronizeExtendedDBEntries {
     if ( $Param{ArticleID} ) {
 
         # article_flag
-        return if !$Self->{FDBObject}->Prepare(
+        return unless $Self->{FDBObject}->Prepare(
             SQL  => 'SELECT create_by FROM article_flag WHERE article_id = ? AND article_key = ? AND article_value = ?',
             Bind => [ \$Param{ForeignArticleID}, \'Seen', \1 ],
         );
 
         while ( my @Row = $Self->{FDBObject}->FetchrowArray() ) {
-            return if !$Self->{DBObject}->Do(
+            return unless $Self->{DBObject}->Do(
                 SQL => 'INSERT INTO article_flag (article_id, article_key, article_value, create_time, create_by)' .
                     'VALUES (?, ?, ?, current_timestamp, ?)',
                 Bind => [ \$Param{ArticleID}, \'Seen', \1, \$Row[0] ],
@@ -2237,14 +2318,14 @@ sub _SynchronizeExtendedDBEntries {
         }
 
         # article_history
-        return if !$Self->{FDBObject}->Prepare(
+        return unless $Self->{FDBObject}->Prepare(
             SQL => 'SELECT name, history_type_id, type_id, queue_id, owner_id, priority_id, state_id, create_time, create_by, change_time, change_by ' .
                 'FROM ticket_history WHERE article_id = ?',
             Bind => [ \$Param{ForeignArticleID} ],
         );
 
         while ( my @Row = $Self->{FDBObject}->FetchrowArray() ) {
-            return if !$Self->{DBObject}->Do(
+            return unless $Self->{DBObject}->Do(
                 SQL =>
                     'INSERT INTO ticket_history (ticket_id, article_id, name, history_type_id, type_id, queue_id, owner_id, priority_id, state_id, create_time, create_by, change_time, change_by)'
                     .
@@ -2257,13 +2338,13 @@ sub _SynchronizeExtendedDBEntries {
     }
 
     # ticket_flag
-    return if !$Self->{FDBObject}->Prepare(
+    return unless $Self->{FDBObject}->Prepare(
         SQL  => 'SELECT create_by FROM ticket_flag WHERE ticket_id = ? AND ticket_key = ? AND ticket_value = ?',
         Bind => [ \$Param{ForeignTicketID}, \'Seen', \1 ],
     );
 
     while ( my @Row = $Self->{FDBObject}->FetchrowArray() ) {
-        return if !$Self->{DBObject}->Do(
+        return unless $Self->{DBObject}->Do(
             SQL => 'INSERT INTO ticket_flag (ticket_id, ticket_key, ticket_value, create_time, create_by)' .
                 'VALUES (?, ?, ?, current_timestamp, ?)',
             Bind => [ \$Param{TicketID}, \'Seen', \1, \$Row[0] ],
@@ -2271,7 +2352,7 @@ sub _SynchronizeExtendedDBEntries {
     }
 
     # ticket_history
-    return if !$Self->{DBObject}->Do(
+    return unless $Self->{DBObject}->Do(
         SQL  => 'DELETE FROM ticket_history WHERE ticket_id = ? AND (article_id IS NULL OR article_id = 0)',
         Bind => [ \$Param{TicketID} ],
     );
@@ -2283,14 +2364,14 @@ sub _SynchronizeExtendedDBEntries {
         CreateUserID => 1,
     );
 
-    return if !$Self->{FDBObject}->Prepare(
+    return unless $Self->{FDBObject}->Prepare(
         SQL => 'SELECT name, history_type_id, type_id, queue_id, owner_id, priority_id, state_id, create_time, create_by, change_time, change_by ' .
             'FROM ticket_history WHERE ticket_id = ? AND (article_id IS NULL OR article_id = 0)',
         Bind => [ \$Param{ForeignTicketID} ],
     );
 
     while ( my @Row = $Self->{FDBObject}->FetchrowArray() ) {
-        return if !$Self->{DBObject}->Do(
+        return unless $Self->{DBObject}->Do(
             SQL =>
                 'INSERT INTO ticket_history (ticket_id, name, history_type_id, type_id, queue_id, owner_id, priority_id, state_id, create_time, create_by, change_time, change_by)'
                 .
@@ -2306,7 +2387,7 @@ sub _SynchronizeExtendedDBEntries {
     my %ForeignLinkObjects;
     my %LObjectIDs;
 
-    return if !$Self->{FDBObject}->Prepare(
+    return unless $Self->{FDBObject}->Prepare(
         SQL  => "SELECT id,name FROM link_object ",
         Bind => [],
     );
@@ -2324,7 +2405,7 @@ sub _SynchronizeExtendedDBEntries {
     my %ForeignLinkTypes;
     my %LTypeIDs;
 
-    return if !$Self->{FDBObject}->Prepare(
+    return unless $Self->{FDBObject}->Prepare(
         SQL  => "SELECT id,name FROM link_type ",
         Bind => [],
     );
@@ -2343,7 +2424,7 @@ sub _SynchronizeExtendedDBEntries {
 
     for my $Key ( keys %Direction ) {
 
-        return if !$Self->{FDBObject}->Prepare(
+        return unless $Self->{FDBObject}->Prepare(
             SQL => "SELECT $Key" . "_object_id, $Key" . "_key, type_id, state_id FROM link_relation " .
                 "WHERE $Direction{$Key}_object_id = ? AND $Direction{$Key}_key = ?",
             Bind => [ \$ForeignTicketObjectID, \$Param{ForeignTicketID} ],
@@ -2362,7 +2443,7 @@ sub _SynchronizeExtendedDBEntries {
                 $Row[1] = exists $Self->{TicketIDRelation}{ $Row[1] } ? $Self->{TicketIDRelation}{ $Row[1] } : $Row[1];
             }
 
-            return if !$Self->{DBObject}->Do(
+            return unless $Self->{DBObject}->Do(
                 SQL =>
                     "INSERT INTO link_relation ($Direction{$Key}_object_id, $Direction{$Key}_key, $Key\_object_id, $Key\_key, type_id, state_id, create_time, create_by) " .
                     "VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?)",
