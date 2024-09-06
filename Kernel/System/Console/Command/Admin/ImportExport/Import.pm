@@ -53,7 +53,7 @@ sub Configure {
         Description => 'Prefix of the import files when a directory was passed as source',
         Required    => 0,
         HasValue    => 1,
-        ValueRegex  => qr/^\w+$/,    # "\w" matches the 63 characters [a-zA-Z0-9_] as the "/a" modifier is in effect
+        ValueRegex  => qr/^[\w-]+$/,    # "\w" matches the 63 characters [a-zA-Z0-9_] as the "/a" modifier is in effect
     );
     $Self->AddArgument(
         Name        => 'source',
