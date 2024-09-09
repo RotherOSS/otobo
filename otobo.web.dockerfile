@@ -170,6 +170,8 @@ ARG GIT_BRANCH=unspecified
 ARG GIT_COMMIT=unspecified
 RUN install -d var/stats var/packages var/article var/tmp \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
+    && (echo "alias ..='cd ..'"     >> .bash_aliases ) \
+    && (echo "alias ...='cd ../..'" >> .bash_aliases ) \
     && install -m u=rw,g=r,o=r scripts/vim/.vimrc .vimrc \
     && (echo $GIT_REPO   > git-repo.txt) \
     && (echo $GIT_BRANCH > git-branch.txt) \
