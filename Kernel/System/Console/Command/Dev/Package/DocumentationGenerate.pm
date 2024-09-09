@@ -157,9 +157,11 @@ sub Run {
     );
 
     my $Success = $MainObject->FileWrite(
-        Location => "$Home/doc/content/index.rst",
-        Content  => \$RST,
-        Mode     => 'utf8',
+        Directory => "$Home/doc/content",
+        Filename  => 'index.rst',
+        Content   => \$RST,
+        Mode      => 'utf8',
+        Parents   => 1,
     );
 
     if ( !$Success ) {
