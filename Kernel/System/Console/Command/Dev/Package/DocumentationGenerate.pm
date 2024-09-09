@@ -161,7 +161,7 @@ sub Run {
         Filename  => 'index.rst',
         Content   => \$RST,
         Mode      => 'utf8',
-        Parents   => 1,
+        MakePath  => 1,
     );
 
     if ( !$Success ) {
