@@ -26,6 +26,7 @@ use namespace::autoclean;    # hide md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN,
 # core modules
 use Digest::MD5  qw(md5_hex);
 use Data::Dumper qw(Dumper);    ## no critic qw(Modules::ProhibitEvilModules)
+use File::Path   qw(mkpath);
 use File::stat   qw(stat);
 use List::Util   qw(first);
 use Fcntl        qw(:flock);    ## no perlimports
@@ -541,7 +542,7 @@ to write data to file system
         Mode       => 'binmode', # binmode|utf8
         Type       => 'Local',   # optional - Local|Attachment|MD5
         Permission => '644',     # optional - unix file permissions
-        Parents    => (1|0),     # optional - create parent directories if neccessary, default 0
+        MakePath   => (1|0),     # optional - create given directories if neccessary, default 0
                                  #      does only take effect if Directory and Filename are provided
     );
 
@@ -553,7 +554,7 @@ and DirectoryRead() will also report them as C<NFD>.
 sub FileWrite {
     my ( $Self, %Param ) = @_;
 
-    $Param{Parents} = $Param{Parents} ? 1 : 0;
+    $Param{MakePath} = $Param{MakePath} ? 1 : 0;
 
     if ( $Param{Filename} && $Param{Directory} ) {
 
@@ -567,10 +568,10 @@ sub FileWrite {
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
 
         # create directory structure if neccessary and allowed
-        if ( $Param{Parents} && !-d $Param{Directory} ) {
+        if ( $Param{MakePath} && !-d $Param{Directory} ) {
 
             # create directory
-            File::Path::mkpath( $Param{Directory}, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+            mkpath( $Param{Directory}, 0, 0770 );          ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
             if ( !-d $Param{Directory} ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
