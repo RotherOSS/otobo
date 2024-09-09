@@ -541,6 +541,8 @@ to write data to file system
         Mode       => 'binmode', # binmode|utf8
         Type       => 'Local',   # optional - Local|Attachment|MD5
         Permission => '644',     # optional - unix file permissions
+        Parents    => (1|0),     # optional - create parent directories if neccessary, default 0
+                                 #      does only take effect if Directory and Filename are provided
     );
 
 Platform note: MacOS (HFS+) stores filenames as Unicode C<NFD> internally,
@@ -550,6 +552,8 @@ and DirectoryRead() will also report them as C<NFD>.
 
 sub FileWrite {
     my ( $Self, %Param ) = @_;
+
+    $Param{Parents} = $Param{Parents} ? 1 : 0;
 
     if ( $Param{Filename} && $Param{Directory} ) {
 
@@ -561,6 +565,21 @@ sub FileWrite {
             NoReplace       => $Param{NoReplace},
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
+
+        # create directory structure if neccessary and allowed
+        if ( $Param{Parents} && !-d $Param{Directory} ) {
+
+            # create directory
+            File::Path::mkpath( $Param{Directory}, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+
+            if ( !-d $Param{Directory} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Can't create directory '$Param{Directory}': $!",
+                );
+                return;
+            }
+        }
     }
     elsif ( $Param{Location} ) {
 
