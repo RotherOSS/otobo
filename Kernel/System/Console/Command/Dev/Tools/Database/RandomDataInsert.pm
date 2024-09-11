@@ -38,6 +38,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Group',
+    'Kernel::System::Main',
     'Kernel::System::Queue',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
@@ -49,6 +50,7 @@ sub Configure {
     my ( $Self, %Param ) = @_;
 
     $Self->Description('Insert random data into the OTOBO database for testing purposes.');
+
     $Self->AddOption(
         Name        => 'generate-tickets',
         Description => "Specify how many tickets should be generated.",
@@ -62,6 +64,13 @@ sub Configure {
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,
+    );
+    $Self->AddOption(
+        Name        => 'attachments-per-article',
+        Description => "Specify how many attachments should be generated per article.",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/^[0-9]+$/smx,
     );
     $Self->AddOption(
         Name        => 'generate-users',
@@ -180,6 +189,25 @@ sub Run {
         CompanyCreate( $Self->GetOption('generate-customer-companies') );
     }
 
+    # rather arbitrarily generate 16 articles of 16 kb
+    my @RandomTextAttachments;
+    if ( $Self->GetOption('attachments-per-article') ) {
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+        for my $Count ( 1 .. 16 ) {
+            my $String = $MainObject->GenerateRandomString(
+                Length => 15,
+            );
+
+            # The content should be 16 kB = (15+1)*1024 B
+            push @RandomTextAttachments,
+                {
+                    Content     => ( "$String\n" x 1024 ),
+                    ContentType => 'text/plain',
+                    Filename    => ( sprintf '%02d_%s.txt', $Count, ${String} ),
+                };
+        }
+    }
+
     my $Counter = 1;
 
     # create tickets
@@ -220,6 +248,12 @@ sub Run {
                 my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
                     ChannelName => 'Internal',
                 );
+                my @Attachments = $Self->GetOption('attachments-per-article')
+                    ?
+                    ( map { $RandomTextAttachments[ int rand scalar @RandomTextAttachments ] } ( 1 .. $Self->GetOption('attachments-per-article') ) )
+                    :
+                    ();
+
                 my $ArticleID = $ArticleBackendObject->ArticleCreate(
                     TicketID             => $TicketID,
                     IsVisibleForCustomer => 1,
@@ -234,6 +268,7 @@ sub Run {
                     HistoryComment       => 'Some free text!',
                     UserID               => $UserIDs[ int( rand( scalar @UserIDs ) ) ],
                     NoAgentNotify        => 1,                                            # if you don't want to send agent notifications
+                    Attachment           => \@Attachments,
                 );
 
                 if ( $Self->GetOption('mark-tickets-as-seen') ) {

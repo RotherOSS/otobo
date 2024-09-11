@@ -263,9 +263,14 @@ sub EditFieldRender {
 
         if ( $DFDetails->{MultiValue} ) {
             for my $ValueIndex ( 0 .. $#{$Value} ) {
+                my $DataValues = $Self->BuildSelectionDataGet(
+                    DynamicFieldConfig => $Param{DynamicFieldConfig},
+                    PossibleValues     => $PossibleValues,
+                    Value              => $Value->[$ValueIndex],
+                );
                 my $FieldID = $FieldName . '_' . $ValueIndex;
                 push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
-                    Data       => $PossibleValues || {},
+                    Data       => $DataValues,
                     Sort       => 'AlphanumericValue',
                     Disabled   => $Param{Readonly},
                     Name       => $FieldName,
@@ -278,8 +283,13 @@ sub EditFieldRender {
         }
         else {
             my @SelectedIDs = grep {$_} $Value->@*;
+            my $DataValues  = $Self->BuildSelectionDataGet(
+                DynamicFieldConfig => $Param{DynamicFieldConfig},
+                PossibleValues     => $PossibleValues,
+                Value              => \@SelectedIDs,
+            );
             push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
-                Data       => $PossibleValues || {},
+                Data       => $DataValues,
                 Sort       => 'AlphanumericValue',
                 Disabled   => $Param{Readonly},
                 Name       => $FieldName,
@@ -434,6 +444,10 @@ sub EditFieldValueValidate {
             LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
             Key          => 'RenderedValue_DynamicField_' . $DFName,
         );
+
+        if ( $DynamicFieldConfig->{Config}{PossibleNone} ) {
+            push $LastSearchResults->@*, '';
+        }
 
         # in set case, we fetch the template values and either concat them to the search results
         #   or, if no search results are present, use the template values entirely
