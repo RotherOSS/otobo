@@ -16,12 +16,18 @@
 
 package Kernel::System::Console::Command::Dev::Tools::Database::RandomDataInsert;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -32,6 +38,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Group',
+    'Kernel::System::Main',
     'Kernel::System::Queue',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
@@ -43,6 +50,7 @@ sub Configure {
     my ( $Self, %Param ) = @_;
 
     $Self->Description('Insert random data into the OTOBO database for testing purposes.');
+
     $Self->AddOption(
         Name        => 'generate-tickets',
         Description => "Specify how many tickets should be generated.",
@@ -56,6 +64,13 @@ sub Configure {
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,
+    );
+    $Self->AddOption(
+        Name        => 'attachments-per-article',
+        Description => "Specify how many attachments should be generated per article.",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/^[0-9]+$/smx,
     );
     $Self->AddOption(
         Name        => 'generate-users',
@@ -174,6 +189,25 @@ sub Run {
         CompanyCreate( $Self->GetOption('generate-customer-companies') );
     }
 
+    # rather arbitrarily generate 16 articles of 16 kb
+    my @RandomTextAttachments;
+    if ( $Self->GetOption('attachments-per-article') ) {
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+        for my $Count ( 1 .. 16 ) {
+            my $String = $MainObject->GenerateRandomString(
+                Length => 15,
+            );
+
+            # The content should be 16 kB = (15+1)*1024 B
+            push @RandomTextAttachments,
+                {
+                    Content     => ( "$String\n" x 1024 ),
+                    ContentType => 'text/plain',
+                    Filename    => ( sprintf '%02d_%s.txt', $Count, ${String} ),
+                };
+        }
+    }
+
     my $Counter = 1;
 
     # create tickets
@@ -214,6 +248,12 @@ sub Run {
                 my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
                     ChannelName => 'Internal',
                 );
+                my @Attachments = $Self->GetOption('attachments-per-article')
+                    ?
+                    ( map { $RandomTextAttachments[ int rand scalar @RandomTextAttachments ] } ( 1 .. $Self->GetOption('attachments-per-article') ) )
+                    :
+                    ();
+
                 my $ArticleID = $ArticleBackendObject->ArticleCreate(
                     TicketID             => $TicketID,
                     IsVisibleForCustomer => 1,
@@ -228,6 +268,7 @@ sub Run {
                     HistoryComment       => 'Some free text!',
                     UserID               => $UserIDs[ int( rand($#UserIDs) ) ],
                     NoAgentNotify        => 1,                                    # if you don't want to send agent notifications
+                    Attachment           => \@Attachments,
                 );
 
                 if ( $Self->GetOption('mark-tickets-as-seen') ) {
@@ -415,6 +456,7 @@ sub QueueGet {
     for ( sort keys %Queues ) {
         push @QueueIDs, $_;
     }
+
     return @QueueIDs;
 }
 
@@ -447,15 +489,15 @@ sub QueueCreate {
             push( @QueueIDs, $ID );
         }
     }
+
     return @QueueIDs;
 }
 
 sub GroupGet {
-    my @GroupIDs;
     my %Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
-    for ( sort keys %Groups ) {
-        push @GroupIDs, $_;
-    }
+
+    my @GroupIDs = sort keys %Groups;
+
     return @GroupIDs;
 }
 
@@ -490,18 +532,18 @@ sub GroupCreate {
             );
         }
     }
+
     return @GroupIDs;
 }
 
 sub UserGet {
-    my @UserIDs;
     my %Users = $Kernel::OM->Get('Kernel::System::User')->UserList(
         Type  => 'Short',    # Short|Long
         Valid => 1,          # not required
     );
-    for ( sort keys %Users ) {
-        push @UserIDs, $_;
-    }
+
+    my @UserIDs = sort keys %Users;
+
     return @UserIDs;
 }
 
@@ -558,6 +600,7 @@ sub UserCreate {
             }
         }
     }
+
     return @UserIDs;
 }
 
@@ -578,6 +621,7 @@ sub CustomerCreate {
         );
         print "CustomerUser '$Name' created.\n";
     }
+
     return;
 }
 
@@ -603,6 +647,7 @@ sub CompanyCreate {
 
         print "CustomerCompany '$Name' created.\n";
     }
+
     return;
 }
 
