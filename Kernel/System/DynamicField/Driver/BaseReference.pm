@@ -1004,6 +1004,12 @@ A wrapper for SearchObjects method.
 sub PossibleValuesGet {
     my ( $Self, %Param ) = @_;
 
+    # if no ParamObject and no Object data are present, we assume existing possible values as valid
+    #   this prevents performing a search with empty result and thus overwriting of valid values in FormCache
+    if ( $Param{PossibleValues} && !( $Param{ParamObject} || $Param{Object} ) ) {
+        return $Param{PossibleValues};
+    }
+
     my %PossibleValues;
 
     # set PossibleNone attribute
@@ -1105,7 +1111,7 @@ sub GetFieldState {
         Object             => {
 
             # ticket specific
-            CustomerUserID => $Param{GetParam}->{CustomerUser},
+            CustomerUserID => $Param{CustomerUser} || $Param{GetParam}{CustomerUserID},
 
             # general
             $Param{GetParam}->%*,
