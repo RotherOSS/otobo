@@ -30,9 +30,6 @@ otobo.psgi - OTOBO PSGI application
     # new process for every request , useful for development
     plackup --server Shotgun bin/psgi-bin/otobo.psgi
 
-    # with profiling (untested)
-    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
-
 =head1 DESCRIPTION
 
 A PSGI application.
@@ -48,16 +45,11 @@ in F<otobo.web.dockerfile>.
 
 =head1 Profiling
 
-To profile single requests, install Devel::NYTProf and start this script as:
+In order to activate profiling install L<Plack::Middleware::Profiler::NYTProf>
+and activate profiling by assigning C<$ProfilingIsActive> a true value. There is no need
+to start Plack with special options or with a special environment.
 
-    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
-
-For actual profiling append C<&NYTProf=mymarker> to a request.
-This creates a file called nytprof-mymarker.out, which you can process with
-
-    nytprofhtml -f nytprof-mymarker.out
-
-Then point your browser at nytprof/index.html.
+See L<https://metacpan.org/pod/Plack::Middleware::Profiler::NYTProf> for the available options.
 
 =cut
 
@@ -92,6 +84,7 @@ use Plack::Builder;
 use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
+use Plack::App::Directory;
 
 #use Data::Peek; # for development
 
@@ -106,6 +99,9 @@ use Kernel::System::Web::App;
 eval {
     require Net::DNS;
 };
+
+# for activating profiling
+my $ProfilingIsActive = 0;
 
 # The OTOBO home is determined from the location of otobo.psgi.
 my $Home = abs_path("$Bin/../..");
@@ -128,30 +124,6 @@ my ( $S3Active, $ClearConfigObject );
 ################################################################################
 # Middlewares
 ################################################################################
-
-# conditionally enable profiling, UNTESTED
-my $NYTProfMiddleware = sub {
-    my $App = shift;
-
-    return sub {
-        my $Env = shift;
-
-        # check whether this request runs under Devel::NYTProf
-        my $ProfilingIsOn = 0;
-        if ( $ENV{NYTPROF} && $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
-            $ProfilingIsOn = 1;
-            DB::enable_profile("nytprof-$1.out");
-        }
-
-        # do the work
-        my $Res = $App->($Env);
-
-        # clean up profiling, write the output file
-        DB::finish_profile() if $ProfilingIsOn;
-
-        return $Res;
-    };
-};
 
 # Set a single entry in %ENV.
 # $ENV{GATEWAY_INTERFACE} is used for determining whether a command runs in a web context.
@@ -556,8 +528,14 @@ my $OTOBOApp = builder {
     # a simplistic detection whether we are behinde a reverse proxy
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
 
-    # conditionally enable profiling
-    enable $NYTProfMiddleware;
+    # enable profiling only when Plack::Middleware::Profiler::NYTProf is installed
+    if ($ProfilingIsActive) {
+        enable 'Profiler::NYTProf',
+
+            #enable_profile => sub { return $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ? 1 : 0; }, # untested
+            report_dir => sub { return 'var/httpd/htdocs/nytprof' },
+            ;
+    }
 
     # Check every 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
@@ -672,6 +650,11 @@ builder {
     # some static pages, '/' is already translate to '/index.html'
     mount "/robots.txt" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/robots.txt" )->to_app;
     mount "/index.html" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/index.html" )->to_app;
+
+    # only useful for profiling
+    if ($ProfilingIsActive) {
+        mount '/nytprof' => Plack::App::Directory->new( root => "$Home/var/httpd/htdocs/nytprof" )->to_app();
+    }
 
     # otherwise an error 404 it thrown, which is handled by Plack::Middleware::ErrorDocument
 };
