@@ -158,6 +158,7 @@ sub Run {
                     },
                 );
             }
+            $DynamicFieldConfig->{Name} = $FieldName;
         }
     }
     else {
