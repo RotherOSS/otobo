@@ -21,6 +21,8 @@ package Kernel::Modules::BasePassword;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
@@ -161,6 +163,14 @@ sub Run {
             Key       => 'UserRequestedURL',
             Value     => '',
         );
+
+        # clear *all* sessions for this user (issue #3440)
+        if ( !$AuthSessionObject->RemoveSessionByUser( UserLogin => $UserData{UserLogin} ) ) {
+            $LayoutObject->FatalError(
+                Message => Translatable('Can`t remove SessionID.'),
+                Comment => Translatable('Please contact the administrator.'),
+            );    # throws a Kernel::System::Web::Exception
+        }
 
         # redirect to original requested url
         return $LayoutObject->Redirect( OP => "$Self->{UserRequestedURL}" );
