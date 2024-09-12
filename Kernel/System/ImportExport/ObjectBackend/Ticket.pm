@@ -316,25 +316,6 @@ sub ObjectAttributesGet {
             },
         },
         {
-            Key   => 'IncludeArticles',
-            Name  => 'Import/Export articles',
-            Input => {
-                Type => 'Checkbox',
-            },
-        },
-        {
-            Key   => 'ArticleBackend',
-            Name  => 'Default Backend',
-            Input => {
-                Type         => 'Selection',
-                Data         => { map { $_ => $_ } qw( Email Phone Internal ) },
-                Required     => 1,
-                Translation  => 0,
-                Class        => 'Modernize',
-                ValueDefault => 'n',
-            },
-        },
-        {
             Key   => 'Subject',
             Name  => 'Default subject',
             Input => {
@@ -377,20 +358,6 @@ sub ObjectAttributesGet {
             },
         },
         {
-            Key   => 'ArticleSeparateLines',
-            Name  => 'Store articles on separate lines indicated by a blank first entry',
-            Input => {
-                Type => 'Checkbox',
-            },
-        },
-        {
-            Key   => 'IncludeAttachments',
-            Name  => 'Import/Export attachments (as the last entries per line)',
-            Input => {
-                Type => 'Checkbox',
-            },
-        },
-        {
             Key   => 'EmptyFieldsLeaveTheOldValues',
             Name  => 'Empty fields indicate that the current values are kept',
             Input => {
@@ -405,6 +372,42 @@ sub ObjectAttributesGet {
                 Required  => 0,
                 Size      => 50,
                 MaxLength => 191,      # length of users.login field in the database
+            },
+        };
+
+    # article related options
+    push @Attributes,
+        {
+            Key   => 'IncludeArticles',
+            Name  => 'Import/Export articles',
+            Input => {
+                Type => 'Checkbox',
+            },
+        },
+        {
+            Key   => 'ArticleBackend',
+            Name  => 'Default Backend',
+            Input => {
+                Type         => 'Selection',
+                Data         => { map { $_ => $_ } qw( Email Phone Internal ) },
+                Required     => 1,
+                Translation  => 0,
+                Class        => 'Modernize',
+                ValueDefault => 'n',
+            },
+        },
+        {
+            Key   => 'ArticleSeparateLines',
+            Name  => 'Store articles on separate lines indicated by a blank first entry',
+            Input => {
+                Type => 'Checkbox',
+            },
+        },
+        {
+            Key   => 'IncludeAttachments',
+            Name  => 'Import/Export attachments (as the last entries per line)',
+            Input => {
+                Type => 'Checkbox',
             },
         };
 
@@ -669,7 +672,7 @@ sub SearchAttributesGet {
         };
     }
 
-    push @Attributes, (
+    push @Attributes,
         {
             Key   => 'StateIDs',
             Name  => 'State',
@@ -706,61 +709,53 @@ sub SearchAttributesGet {
                 Size      => 50,
                 MaxLength => 250,
             },
-        },
-        {
-            Key   => 'TicketCreateTimeOlderMinutes',
-            Name  => 'Ticket Create Time (older) [min]',
-            Input => {
-                Type      => 'Text',
-                Size      => 50,
-                MaxLength => 250,
-            },
-        },
-        {
-            Key   => 'TicketCreateTimeNewerMinutes',
-            Name  => 'Ticket Create Time (newer) [min]',
-            Input => {
-                Type      => 'Text',
-                Size      => 50,
-                MaxLength => 250,
-            },
-        },
-        {
-            Key   => 'TicketChangeTimeOlderMinutes',
-            Name  => 'Ticket Change Time (older) [min]',
-            Input => {
-                Type      => 'Text',
-                Size      => 50,
-                MaxLength => 50,
-            },
-        },
-        {
-            Key   => 'TicketChangeTimeNewerMinutes',
-            Name  => 'Ticket Change Time (newer) [min]',
-            Input => {
-                Type      => 'Text',
-                Size      => 50,
-                MaxLength => 50,
-            },
-        },
-    );
-
-    my %DateRestrictions = (
-        TicketCreateTimeOlderDate     => 'Ticket Create Time (before)',
-        TicketCreateTimeNewerDate     => 'Ticket Create Time (after)',
-        TicketLastChangeTimeOlderDate => 'Ticket Last Change Time (before)',
-        TicketLastChangeTimeNewerDate => 'Ticket Last Change Time (after)',
-    );
-
-    for my $Key ( keys %DateRestrictions ) {
-        push @Attributes, {
-            Key   => $Key,
-            Name  => $DateRestrictions{$Key},
-            Input => {
-                Type     => 'DateTime',
-                Optional => 1,
-            },
         };
+
+    # Filter by create or change time, specify in minutes
+    {
+        my @KeyAndNames = (
+            [ TicketCreateTimeNewerMinutes => 'Ticket Create Time (newer) [min]' ],
+            [ TicketCreateTimeOlderMinutes => 'Ticket Create Time (older) [min]' ],
+            [ TicketChangeTimeNewerMinutes => 'Ticket Change Time (newer) [min]' ],
+            [ TicketChangeTimeOlderMinutes => 'Ticket Change Time (older) [min]' ],
+        );
+        for my $ArrRef (@KeyAndNames) {
+            my ( $Key, $Name ) = $ArrRef->@*;
+            push @Attributes,
+                {
+                    Key   => $Key,
+                    Name  => $Name,
+                    Input => {
+                        Type      => 'Text',
+                        Size      => 50,
+                        MaxLength => 50,
+                    },
+                },
+                ;
+        }
+    }
+
+    # Filter by create or change time, specify by date and time
+    {
+        my @KeyAndNames = (
+            [ TicketCreateTimeNewerDate     => 'Ticket Create Time (after)' ],
+            [ TicketCreateTimeOlderDate     => 'Ticket Create Time (before)' ],
+            [ TicketLastChangeTimeNewerDate => 'Ticket Last Change Time (after)' ],
+            [ TicketLastChangeTimeOlderDate => 'Ticket Last Change Time (before)' ],
+        );
+        for my $ArrRef (@KeyAndNames) {
+            my ( $Key, $Name ) = $ArrRef->@*;
+            push @Attributes,
+                {
+                    Key   => $Key,
+                    Name  => $Name,
+                    Input => {
+                        Type     => 'DateTime',
+                        Optional => 1,
+                    },
+                },
+                ;
+        }
     }
 
     return \@Attributes;
