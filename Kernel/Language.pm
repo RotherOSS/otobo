@@ -16,16 +16,21 @@
 
 package Kernel::Language;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Exporter qw(import);
-our @EXPORT_OK = qw(Translatable);    ## no critic qw(OTOBO::RequireCamelCase)
+# core modules
+use Exporter    qw(import);
+use File::stat  qw(stat);
+use Digest::MD5 qw(md5_hex);
 
-use File::stat;
-use Digest::MD5;
+# CPAN modules
 
+# OTOBO modules
 use Kernel::System::DateTime;
+
+our @EXPORT_OK = qw(Translatable);    ## no critic qw(OTOBO::RequireCamelCase)
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -48,6 +53,7 @@ All language functions.
 create a language object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::Language' => {
             UserLanguage => 'de',
@@ -61,13 +67,12 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
     $Self->{Debug} = 0;
 
-    # get needed object
+    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -250,6 +255,8 @@ sub new {
 =head2 Translatable()
 
 this is a no-op to mark a text as translatable in the Perl code.
+
+Returns the first parameter.
 
 =cut
 
@@ -557,17 +564,17 @@ sub LanguageChecksum {
     for my $File ( @{ $Self->{LanguageFiles} } ) {
 
         # get file metadata
-        my $Stat = stat($File);
+        my $Stat = stat $File;
 
         if ( !$Stat ) {
             print STDERR "Error: cannot stat file '$File': $!";
             return;
         }
 
-        $LanguageString .= $File . $Stat->mtime();
+        $LanguageString .= $File . $Stat->mtime;
     }
 
-    return Digest::MD5::md5_hex($LanguageString);
+    return md5_hex($LanguageString);
 }
 
 1;

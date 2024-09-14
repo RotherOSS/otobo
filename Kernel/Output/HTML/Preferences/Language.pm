@@ -16,9 +16,15 @@
 
 package Kernel::Output::HTML::Preferences::Language;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -32,8 +38,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     for my $Needed (qw(UserID UserObject ConfigItem)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
@@ -45,8 +50,15 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $SelectedLanguageID =
+        $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UserLanguage' )
+        ||
+        $Param{UserData}->{UserLanguage}
+        ||
+        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage}
+        ||
+        $ConfigObject->Get('DefaultLanguage');
 
     # get names of languages in English
     my %DefaultUsedLanguages = %{ $ConfigObject->Get('DefaultUsedLanguages') || {} };
@@ -93,24 +105,17 @@ sub Param {
         $Languages{$LanguageID} = $Text;
     }
 
-    my @Params;
-    push(
-        @Params,
+    return
         {
             %Param,
             Name       => $Self->{ConfigItem}->{PrefKey},
             Data       => \%Languages,
             HTMLQuote  => 0,
-            SelectedID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UserLanguage' )
-                || $Param{UserData}->{UserLanguage}
-                || $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage}
-                || $ConfigObject->Get('DefaultLanguage'),
-            Block => 'Option',
-            Class => 'W70pc',
-            Max   => 200,
-        },
-    );
-    return @Params;
+            SelectedID => $SelectedLanguageID,
+            Block      => 'Option',
+            Class      => 'W70pc',
+            Max        => 200,
+        };
 }
 
 sub Run {
@@ -140,6 +145,7 @@ sub Run {
         }
     }
     $Self->{Message} = Translatable('Preferences updated successfully!');
+
     return 1;
 }
 
