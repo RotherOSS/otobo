@@ -97,7 +97,7 @@ eval {
 };
 
 # for activating profiling
-my $ProfilingIsActive = 1;
+my $ProfilingIsActive = 0;
 
 # Put the modules in %INC into %Module::Refresh::CACHE.
 # This is important for Kernel/Config.pm as that file might be modified by installer.pl
