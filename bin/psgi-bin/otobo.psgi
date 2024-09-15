@@ -96,7 +96,7 @@ eval {
     require Net::DNS;
 };
 
-# for activating profiling
+# Activate profiling only when Plack::Middleware::Profiler::NYTProf is installed.
 my $ProfilingIsActive = 0;
 
 # Put the modules in %INC into %Module::Refresh::CACHE.
@@ -495,6 +495,7 @@ my $HtdocsApp = builder {
     }
     $SyncFromS3Middleware;
 
+    # serve static files without directory listing
     Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app();
 };
 
@@ -513,10 +514,40 @@ my $OTOBOApp = builder {
 
     # enable profiling only when Plack::Middleware::Profiler::NYTProf is installed
     if ($ProfilingIsActive) {
+
+        # Store the profile id also in a closed over variable,
+        # so that it is available in report_dir
+        my $ProfileID;
+
         enable 'Profiler::NYTProf',
 
+            # in case that only specific pages should be profiled
             #enable_profile => sub { return $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ? 1 : 0; }, # untested
-            report_dir => sub { return 'var/httpd/htdocs/nytprof' },
+
+            # Order by time, in order to make it easier looking at the latest report.
+            # Add a human readable timestamp.
+            # Add the process ID in order to see whether requests ran in the same process.
+            generate_profile_id => sub {
+                my ( $Minute, $Hour, $MonthDay, $MonthZeroBased ) = (gmtime)[ 1, 2, 3, 4 ];
+
+                $ProfileID = sprintf '%02d-%02d-%02d:%02d-%f-%d',
+                $MonthZeroBased + 1,
+                $MonthDay,
+                $Hour,
+                $Minute,
+                Time::HiRes::time(),
+                $$;
+
+                return $ProfileID;
+            },
+
+            # generate a new directory for each report
+            report_dir => sub {
+                my $ReportDir = "var/httpd/htdocs/nytprof/$ProfileID";
+                make_path($ReportDir);
+
+                return "var/httpd/htdocs/nytprof/$ProfileID";
+            },
             ;
     }
 
@@ -615,6 +646,9 @@ builder {
     # fixing PATH_INFO
     enable_if { ( $_[0]->{FCGI_ROLE} // '' ) eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
+    # directory listing for the nytprof directory
+    mount '/otobo-web/nytprof' => Plack::App::Directory->new( root => "$Home/var/httpd/htdocs/nytprof" )->to_app();
+
     # Server the static assets in var/httpd/htdocs.
     mount '/otobo-web' => $HtdocsApp;
 
@@ -634,11 +668,6 @@ builder {
     mount "/robots.txt" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/robots.txt" )->to_app;
     mount "/index.html" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/index.html" )->to_app;
     mount "/health"     => Plack::App::File->new( file => "$Home/var/httpd/htdocs/health" )->to_app;
-
-    # only useful for profiling
-    if ($ProfilingIsActive) {
-        mount '/nytprof' => Plack::App::Directory->new( root => "$Home/var/httpd/htdocs/nytprof" )->to_app();
-    }
 
     # otherwise an error 404 it thrown, which is handled by Plack::Middleware::ErrorDocument
 };
