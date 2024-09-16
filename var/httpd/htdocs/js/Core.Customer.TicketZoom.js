@@ -362,6 +362,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
 
         // info button toggle info on click
         $('#oooHeader .oooInfo').on('click', function() {
+            $('#oooMore').hide();
             if ( $(window).width() > 519 ) {
                 $('#oooTicketInfo').css({top: 80, right: 40}).toggle();
             }
@@ -372,6 +373,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
 
         // more button toggle further actions on click
         $('#oooHeader .ooofo-more_v').on('click', function() {
+            $('#oooTicketInfo').hide();
             if ( $(window).width() > 519 ) {
                 $('#oooMore').css({top: 80, right: 40}).toggle();
             }
