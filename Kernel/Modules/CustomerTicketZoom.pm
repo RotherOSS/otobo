@@ -1713,15 +1713,6 @@ sub _Mask {
             ActivityEntityID => $Param{$ActivityEntityIDField},
         );
 
-        # output process information in the sidebar
-        $LayoutObject->Block(
-            Name => 'ProcessData',
-            Data => {
-                Process  => $ProcessData->{Name}  || '',
-                Activity => $ActivityData->{Name} || '',
-            },
-        );
-
         # output the process widget the the main screen
         $LayoutObject->Block(
             Name => 'ProcessWidget',
@@ -1732,20 +1723,11 @@ sub _Mask {
 
         # get next activity dialogs
         my $NextActivityDialogs;
-        if ( $Param{$ActivityEntityIDField} ) {
-            $NextActivityDialogs = $ActivityData;
+        if ( $Param{$ActivityEntityIDField} && IsHashRefWithData( $ActivityData ) && IsHashRefWithData( $ActivityData->{ActivityDialog} ) ) {
+            $NextActivityDialogs = $ActivityData->{ActivityDialog} || {};
         }
 
         if ( IsHashRefWithData($NextActivityDialogs) ) {
-
-            # we don't need the whole Activity config,
-            # just the Activity Dialogs of the current Activity
-            if ( IsHashRefWithData( $NextActivityDialogs->{ActivityDialog} ) ) {
-                %{$NextActivityDialogs} = %{ $NextActivityDialogs->{ActivityDialog} };
-            }
-            else {
-                $NextActivityDialogs = {};
-            }
 
             if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess") ) {
                 return $LayoutObject->FatalError(
@@ -1799,9 +1781,6 @@ sub _Mask {
                 $PermissionActivityDialogList{$Index} = $CurrentActivityDialogEntityID;
             }
 
-            # reduce next activity dialogs to the ones that have permissions
-            $NextActivityDialogs = \%PermissionActivityDialogList;
-
             # get ACL restrictions
             my $ACL = $TicketObject->TicketAcl(
                 Data           => \%PermissionActivityDialogList,
@@ -1812,9 +1791,8 @@ sub _Mask {
                 CustomerUserID => $Self->{UserID},
             );
 
-            if ($ACL) {
-                %{$NextActivityDialogs} = $TicketObject->TicketAclData();
-            }
+            # filter activity dialogs according to permission and acl
+            %{ $NextActivityDialogs } = $ACL ? $TicketObject->TicketAclData() : %PermissionActivityDialogList;
 
             $LayoutObject->Block(
                 Name => 'NextActivities',
