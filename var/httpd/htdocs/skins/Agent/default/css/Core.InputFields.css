@@ -198,6 +198,12 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer > 
     box-sizing: border-box;
 }
 
+.DynamicFieldDB ~ a {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
 fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_Container,
 fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer {
     padding-left: 0;
