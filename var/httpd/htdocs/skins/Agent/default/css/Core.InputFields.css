@@ -83,7 +83,7 @@ div.InputField_InputContainer {
     display: none !important;
 }
 
-.Row_DynamicField {
+.TableLike .Row_DynamicField {
     display: grid;
 }
 
@@ -194,8 +194,14 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer > 
 }
 
 .DynamicFieldDB {
-    width: calc(100% - 12px) !important;
+    width: calc(100% - 12px);
     box-sizing: border-box;
+}
+
+.DynamicFieldDB ~ a {
+    display: flex;
+    height: 100%;
+    align-items: center;
 }
 
 fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_Container,

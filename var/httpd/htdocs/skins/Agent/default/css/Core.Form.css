@@ -134,19 +134,13 @@ textarea:focus {
  * @subsection  Textarea
  * @note        Fixed font needed in textareas because otherwise the line wrapping is incorrect.
  */
-textarea {
+/*textarea {
     font-family: monospace,fixed;
-}
+}*/
 
-.DynamicFieldSet textarea,
-.Row.MultiColumn textarea {
-    resize: vertical;
-    width: 100%;
-}
-
-.Row_DynamicField textarea {
+/*.Row_DynamicField textarea {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
+}*/
 
 /**
  * @subsection  Input Readonly
@@ -1098,53 +1092,120 @@ input[type=text].ArticleFreeKey {
  * @subsection  New Form CSS
  */
 
-fieldset.TicketMask {
-
+fieldset.ModularForm {
     --max-field-width: 620px;
-    --max-content-size: min( var(--max-field-width), calc( 70% - 40px ) );
+    --multivalue-buttons-width: 40px;
 
     position: relative;
-    display: grid;
-    grid-template-areas:    "label  field                    buttons remainingspace";
-    grid-template-columns:  30%     var(--max-content-size)   40px    1fr;
     width: 100%;
     box-sizing: border-box;
-    grid-row-gap: 6px;
-    grid-column-gap: 5px;
+    display: grid;
+    row-gap: 4px;
 }
 
-    fieldset.TicketMask div.Field {
+    fieldset.ModularForm .AJAXLoader {
+        margin: 3px;
+    }
+
+    fieldset.ModularForm * {
+        box-sizing: border-box;
+    }
+
+    fieldset.ModularForm div.Field {
+        position: relative;
         grid-column: field;
         overflow: hidden;
         width: 100%;
     }
 
-    fieldset.TicketMask label {
+    fieldset.ModularForm div.DnDUpload {
+        width: 100%;
+    }
+
+    fieldset.ModularForm label {
         grid-column: label;
         text-align: right;
         padding: 4px;
     }
 
-    fieldset.TicketMask div.Row {
-        /* row containing one or more dynamic fields, has to span all columns */
-        grid-column-start: label;
-        grid-column-end: remainingspace;
-        grid-row-gap: 4px;
+    fieldset.ModularForm input[type=text] {
+        border-radius: 4px;
+        width: 100%
+    }
+
+    fieldset.ModularForm textarea {
+        resize: vertical;
+        width: 100%;
+        border-radius: 4px;
+    }
+    
+    fieldset.ModularForm .RichTextField {
+        flex-direction: column;
+        resize: vertical;
+        z-index: 10;
+        position: relative;
+        overflow: hidden;
+        min-height: 150px !important;
+        height: 320px;
+        max-width: 100%
+    }
+
+    fieldset.ModularForm .RichTextField > .RichTextField_resizeHandle {
+        --handle-width: 30px;
+        position: absolute;
+        bottom: 0px;
+        width: var( --handle-width );
+        box-sizing: border-box;
+        height: 4px;
+        left: calc( 50% - var( --handle-width ) / 2 );
+        border-radius: 5px;
+        background-color: var(--colBGDark);
+        cursor: s-resize;
+        overflow: hidden;
+
+        i {
+            display: block;
+            margin: auto;
+            margin-top: -2px;
+            color: var(--colTextLight);
+            text-align: center;
+            font-size: 9px;
+        }
+    }
+
+    fieldset.ModularForm .InputField_Container {
+        width: 100%
+    }
+
+    fieldset.ModularForm .InputField_InputContainer {
+        width: 100%;
+    }
+
+    fieldset.ModularForm .Field:not(.Hidden) {
+        display: flex;
+        align-items: start;
+        flex-direction: row;
+        justify-content: flex-start;
+        column-gap: 3px;
+    }
+
+    fieldset.ModularForm div.Row {
+        width: 100%;
     }
 
         /* surrounding div of dynamic fields */
-        fieldset.TicketMask div.Row > div.FieldCell {
+        fieldset.ModularForm div.Row > div.FieldCell {
             display: grid;
             position: relative;
-            grid-template-areas:    "label  field                                    buttons remainingspace";
-            grid-template-columns:  30%     fit-content( var(--max-content-size) )   40px    1fr;
+            grid-template-areas:    "label  field                                                                               multivaluebuttons";
+            grid-template-columns:  30%     min( calc( 70% - var( --multivalue-buttons-width ) ), var( --max-field-width ) )    var( --multivalue-buttons-width );
             grid-column-gap: 5px;
             overflow: hidden;
         }
 
         /* +- button div for multivalue rows */
-        fieldset.TicketMask div.Row div.AddRemoveValueRow {
-            grid-column: buttons;
+        fieldset.ModularForm div.AddRemoveValueRow {
+            grid-area: multivaluebuttons;
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
@@ -1152,7 +1213,7 @@ fieldset.TicketMask {
             padding: 4px;
         }
 
-        fieldset.TicketMask div.Row fieldset.DynamicFieldSet {
+        fieldset.ModularForm div.Row fieldset.DynamicFieldSet {
             display: flex;
             flex-direction: column;
             padding: 8px;
@@ -1161,34 +1222,44 @@ fieldset.TicketMask {
             row-gap: 4px;
         }
 
-        fieldset.TicketMask > div.Row.MultiColumn {
-            margin-left: 10%;
+        fieldset.ModularForm div.Row.MultiColumn {
+            display: grid;
         }
 
-        fieldset.TicketMask div.Row.MultiColumn div.FieldCell {
-            display: grid;
-            grid-template-areas:    "label                  .       ."
-                                    "field                  buttons remainingspace";
-            grid-template-columns:  fit-content( var(--max-field-width) )    40px    1fr;
+        fieldset.ModularForm > div.Row.MultiColumn {
+            --left-margin: 10%;
+            margin-left: var( --left-margin);
+            width: calc( 100% - var( --left-margin ) );
+            column-gap: 10px;
+        }
+
+        fieldset.ModularForm .DynamicFieldSet {
+            width: 100%;
+        }
+
+        fieldset.ModularForm div.Row.MultiColumn div.FieldCell {
+            --column-gap-width: 5px;
+            grid-template-areas:    "label ."
+                                    "field multivaluebuttons";
             grid-template-rows: min-content 1fr;
-            grid-column-gap: 5px;
+            grid-template-columns: min(calc( 100% - ( var(--multivalue-buttons-width) + var(--column-gap-width) )), var(--max-field-width))  var( --multivalue-buttons-width );
+            grid-column-gap: var(--column-gap-width);
             overflow: hidden;
             vertical-align: top;
         }
 
-        fieldset.TicketMask div.Row.MultiColumn div.FieldCell label {
+        fieldset.ModularForm div.Row.MultiColumn div.FieldCell label {
             text-align: left;
         }
 
-    fieldset.TicketMask .RichTextField {
-    resize: vertical;
-    z-index: 10;
-    position: relative;
-    overflow: hidden;
-    min-height: 150px !important;
-    height: 320px;
-    max-width: var(--max-field-width);
-    }
+        fieldset.ModularForm .InputField_Container ~ a.GetAllAJAX {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
 
 /**
  * end @subsection New Form CSS
