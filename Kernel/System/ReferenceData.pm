@@ -292,18 +292,37 @@ sub LanguageCode2Name {
     # The target language
     my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
 
-    # No fallback when the language pack is not available
+    # No explicit check whether a language pack is available because object creation
+    # will fail in the bad case.
 
-    return unless $MainObject->Require( 'Locale::CLDR::Locales::' . ucfirst($LanguageID) );
-
-    my $Locale = try {
+    # Cache the Locale, because $LanguageID is not changed when Kernel::Language::LanguageList()
+    # calls this method.
+    state $LocaleCache = {};
+    $LocaleCache->{$LanguageID} //= try {
         Locale::CLDR->new( language_id => $LanguageID );
     };
+    my $Locale = $LocaleCache->{$LanguageID};
 
     # no fall back to English
     return unless $Locale;
 
-    return $Locale->language_name($Code);
+    # consider possible aliases
+    my $NormalizedCode = $Locale->language_aliases->{$Code} // $Code;
+
+    # trick language name into accepting the code without creating a new instance of Locale::CLDR
+    $Self->language_id($NormalizedCode);
+
+    return $Locale->language_name($Self);
+}
+
+sub language_id {    ## no critic qw(OTOBO::RequireCamelCase)
+    my ( $Self, $LanguageID ) = @_;
+
+    if ( defined $LanguageID ) {
+        $Self->{LanguageID} = $LanguageID;
+    }
+
+    return $Self->{LanguageID};
 }
 
 1;
