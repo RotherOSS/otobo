@@ -781,7 +781,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                                     // Refresh the field and get focus
                                     $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized')));
-                                    $SearchObj.width($SelectObj.outerWidth())
+                                    $SearchObj/*.width($SelectObj.outerWidth())*/
                                         .trigger('blur');
                                     CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
                                     setTimeout(function () {
@@ -1101,7 +1101,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // Refresh the field and get focus
                     $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized')));
-                    $SearchObj.width($SelectObj.outerWidth())
+                    $SearchObj/*.width($SelectObj.outerWidth())*/
                         .trigger('blur');
                     CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
                     setTimeout(function () {
@@ -1386,9 +1386,9 @@ Core.UI.InputFields = (function (TargetNS) {
 
                 // Get width now, since we will hide the element
                 // TODO: Angucken
-                if (!$SelectObj.closest('.Row').hasClass('Row_DynamicField')) {
+                /*if (!$SelectObj.closest('.Row').hasClass('Row_DynamicField')) {
                     SelectWidth = $SelectObj.outerWidth();
-                }
+                }*/
 
                 // Hide original field
                 $SelectObj.hide();
@@ -1445,25 +1445,25 @@ Core.UI.InputFields = (function (TargetNS) {
                 }
 
                 // Set width of search field to that of the select field
-                $SearchObj.outerWidth(SelectWidth);
+                //$SearchObj.outerWidth(SelectWidth);
 
                 // Subscribe on window resize event
-                Core.App.Subscribe('Event.UI.InputFields.Resize', function() {
+                /*Core.App.Subscribe('Event.UI.InputFields.Resize', function() {
 
                     // Set width of search field to that of the select field
                     $SearchObj.blur().hide();
                     SelectWidth = $SelectObj.show().outerWidth();
                     $SelectObj.hide();
                     $SearchObj.outerWidth(SelectWidth).show();
-                });
+                });*/
 
                 // set width after page and layout are fully loaded
                 window.addEventListener = ("load", (event) => {
                     // Set width of search field to that of the select field
-                    $SearchObj.blur().hide();
+                    /*$SearchObj.blur().hide();
                     SelectWidth = $SelectObj.show().outerWidth();
                     $SelectObj.hide();
-                    $SearchObj.outerWidth(SelectWidth).show();
+                    $SearchObj.outerWidth(SelectWidth).show();*/
                 });
 
                 // Handle clicks on related label
@@ -2709,9 +2709,9 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // before fetching the outer width, the select element has to be displayed
                     // because outerWidth() does not work correctly on hidden elements
-                    SelectWidth = $SelectObj.show().outerWidth();
+                    /*SelectWidth = $SelectObj.show().outerWidth();
                     $SelectObj.hide();
-                    $SearchObj.width(SelectWidth);
+                    $SearchObj.width(SelectWidth);*/
                     ShowSelectionBoxes($SelectObj, $InputContainerObj);
                 })
 
@@ -2790,10 +2790,11 @@ Core.UI.InputFields = (function (TargetNS) {
         // set correct grid row
         $Cell.css('grid-row-start', CellGridPosition.Row+1);
 
-        $( '.AddValueRow', $Cell.children('.AddRemoveValueRow') ).off('click').on('click', function() {
+        let $AddRemoveValueRow = $('.AddRemoveValueRow', $Cell.children('.Field'));
+        $( '.AddValueRow', $AddRemoveValueRow ).off('click').on('click', function() {
             AddCell($Cell)
         });
-        $( '.RemoveValueRow', $Cell.children('.AddRemoveValueRow') ).off('click').on('click', function() {
+        $( '.RemoveValueRow', $AddRemoveValueRow ).off('click').on('click', function() {
             RemoveCell($Cell)
         });
 
