@@ -304,57 +304,20 @@ sub DisplayValueRender {
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
-    # take config from field config
-    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
+    my $LensDFConfig = $Param{DynamicFieldConfig};
 
-    # set the field value
-    my $Value = $Param{DefaultValue} // '';
-
-    # get the field value, this function is always called after the profile is loaded
-    my $FieldValue = $Self->SearchFieldValueGet(%Param);
-
-    # set values from profile if present
-    if ( defined $FieldValue ) {
-        $Value = $FieldValue;
-    }
-
-    # check if value is an array reference (GenericAgent Jobs and NotificationEvents)
-    if ( IsArrayRefWithData($Value) ) {
-        $Value = @{$Value}[0];
-    }
-
-    # check and set class if necessary
-    my $FieldClass = $Self->{FieldCSSClass};    # for field specific JS
-
-    my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $Value,
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
     );
 
-    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
-    );
-
-    my $HTMLString = <<"EOF";
-<input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" value="$ValueEscaped" />
-EOF
-
-    my $AdditionalText;
-    if ( $Param{UseLabelHints} ) {
-        $AdditionalText = Translatable('Notice: search in lens fields is currently disabled');
-    }
-
-    # call EditLabelRender on the common Driver
-    my $LabelString = $Self->EditLabelRender(
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->SearchFieldRender(
         %Param,
-        FieldName      => $FieldName,
-        AdditionalText => $AdditionalText,
+        DynamicFieldConfig => {
+            $AttributeDFConfig->%*,
+            Name  => $LensDFConfig->{Name},
+            Label => $LensDFConfig->{Label},
+        }
     );
-
-    return {
-        Field => $HTMLString,
-        Label => $LabelString,
-    };
 }
 
 sub SearchFieldValueGet {
