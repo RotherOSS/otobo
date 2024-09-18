@@ -2310,7 +2310,7 @@ sub Get {
 
     # debug
     if ( $Self->{Debug} > 1 ) {
-        my $Value = defined $Self->{$What} ? $Self->{$What} : '<undef>';
+        my $Value = $Self->{$What} // '<undef>';
         print STDERR "Debug: Config.pm ->Get('$What') --> $Value\n";
     }
 
