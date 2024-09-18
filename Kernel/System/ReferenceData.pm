@@ -82,7 +82,6 @@ Don't use the constructor directly, use the ObjectManager instead:
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     return bless {}, $Type;
 }
 
@@ -219,7 +218,7 @@ sub CLDRCountryList {
     return \%CountryName2Code;
 }
 
-=head1 CountryCode2Name()
+=head2 CountryCode2Name()
 
 Get a translated country name for a country code.
 
@@ -262,7 +261,7 @@ sub CountryCode2Name {
     return code2country($Code);
 }
 
-=head1 LanguageCode2Name()
+=head2 LanguageCode2Name()
 
 Get a translated language name for a language code.
 
