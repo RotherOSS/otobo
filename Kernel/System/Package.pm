@@ -3330,7 +3330,6 @@ sub _GetIntegratedPackages {
     return {
         11 => {
             0 => [
-                'ITSM',    # the ITSM bundle is no longer supported in 11.0.x, can be considered as integrated
                 'Ayte-CustomTranslations',
                 'ExtendedCDBInfoTile',
                 'ImportExport',
