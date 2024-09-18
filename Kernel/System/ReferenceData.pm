@@ -291,8 +291,10 @@ sub LanguageCode2Name {
     # The target language
     my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
 
-    # No explicit check whether a language pack is available because object creation
-    # will fail in the bad case.
+    # Load the language pack for the currently active language.
+    # Give up when it isn't available. This means that there is
+    # no fallback to English.
+    return unless $MainObject->Require( 'Locale::CLDR::Locales::' . ucfirst($LanguageID) );
 
     # Cache the Locale, because $LanguageID is not changed when Kernel::Language::LanguageList()
     # calls this method.
