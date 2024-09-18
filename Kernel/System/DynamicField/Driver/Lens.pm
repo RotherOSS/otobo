@@ -207,25 +207,16 @@ sub ValueValidate {
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $LensDFConfig = $Param{DynamicFieldConfig};
 
-    if ( $Param{Operator} eq 'Like' ) {
-
-        # TODO: also search ConfigItemID when an integer is given
-        return $DBObject->QueryCondition(
-            Key   => "$Param{TableAlias}.value_text",
-            Value => $Param{SearchTerm},
-        );
-    }
-
-    # TODO: should other operators be supported ??
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        'Priority' => 'error',
-        'Message'  => "Unsupported Operator $Param{Operator}",
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
     );
 
-    return;
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->SearchSQLGet(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
 }
 
 sub SearchSQLOrderFieldGet {
