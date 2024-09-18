@@ -316,6 +316,15 @@ sub LanguageCode2Name {
     return $Locale->language_name($Self);
 }
 
+=head2 language_id
+
+This method exists only so that L<Kernel::System::ReferenceData> can act
+like a <Locale::CLDR> locale in a very specific instance. The instance is
+when C<language_name()> is called. The reason for that special case
+is purely for optimizing performance.
+
+=cut
+
 sub language_id {    ## no critic qw(OTOBO::RequireCamelCase)
     my ( $Self, $LanguageID ) = @_;
 
