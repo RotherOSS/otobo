@@ -3340,6 +3340,7 @@ sub _GetIntegratedPackages {
                 'ResponseTemplatesStatePreselection',
                 'RotherOSS-LightAdmin',
                 'RotherOSS-InternalTransitionActions',
+                'TicketTimeUnitsMandatoryOnlyWithArticle',
             ],
 
             # future releases
