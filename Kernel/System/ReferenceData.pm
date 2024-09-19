@@ -82,7 +82,6 @@ Don't use the constructor directly, use the ObjectManager instead:
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     return bless {}, $Type;
 }
 
@@ -219,7 +218,7 @@ sub CLDRCountryList {
     return \%CountryName2Code;
 }
 
-=head1 CountryCode2Name()
+=head2 CountryCode2Name()
 
 Get a translated country name for a country code.
 
@@ -262,7 +261,7 @@ sub CountryCode2Name {
     return code2country($Code);
 }
 
-=head1 LanguageCode2Name()
+=head2 LanguageCode2Name()
 
 Get a translated language name for a language code.
 
@@ -292,18 +291,48 @@ sub LanguageCode2Name {
     # The target language
     my $LanguageID = lc substr $Param{Language}, 0, 2;    # for now ignore the region
 
-    # No fallback when the language pack is not available
-
+    # Load the language pack for the currently active language.
+    # Give up when it isn't available. This means that there is
+    # no fallback to English.
     return unless $MainObject->Require( 'Locale::CLDR::Locales::' . ucfirst($LanguageID) );
 
-    my $Locale = try {
+    # Cache the Locale, because $LanguageID is not changed when Kernel::Language::LanguageList()
+    # calls this method.
+    state $LocaleCache = {};
+    $LocaleCache->{$LanguageID} //= try {
         Locale::CLDR->new( language_id => $LanguageID );
     };
+    my $Locale = $LocaleCache->{$LanguageID};
 
     # no fall back to English
     return unless $Locale;
 
-    return $Locale->language_name($Code);
+    # consider possible aliases
+    my $NormalizedCode = $Locale->language_aliases->{$Code} // $Code;
+
+    # trick language name into accepting the code without creating a new instance of Locale::CLDR
+    $Self->language_id($NormalizedCode);
+
+    return $Locale->language_name($Self);
+}
+
+=head2 language_id
+
+This method exists only so that L<Kernel::System::ReferenceData> can act
+like a <Locale::CLDR> locale in a very specific instance. The instance is
+when C<language_name()> is called. The reason for that special case
+is purely for optimizing performance.
+
+=cut
+
+sub language_id {    ## no critic qw(OTOBO::RequireCamelCase)
+    my ( $Self, $LanguageID ) = @_;
+
+    if ( defined $LanguageID ) {
+        $Self->{LanguageID} = $LanguageID;
+    }
+
+    return $Self->{LanguageID};
 }
 
 1;

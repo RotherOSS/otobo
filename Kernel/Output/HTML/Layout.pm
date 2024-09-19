@@ -4048,7 +4048,7 @@ sub BuildDateSelection {
                 $Val =~ s/^\s*-// ? 'SubtractDays' : 'SetDate';
 
             $Output .= $Self->Output(
-                Template => "<a class='CallForAction oooQuickDate $Method' data-days='[% Data.Val | html %]'><span>[% Data.Name | html %]</span></a>\n",
+                Template => "<a class='CallForAction oooQuickDate $Method' data-days='[% Data.Val | html %]'><span>[% Translate(Data.Name) | html %]</span></a>\n",
                 Data     => {
                     Val  => $Val,
                     Name => $Name,
