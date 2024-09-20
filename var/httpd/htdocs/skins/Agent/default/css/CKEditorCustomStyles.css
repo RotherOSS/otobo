@@ -46,17 +46,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     gap: 1px;
 }
 
-.ck.ck-editor__editable_inline {
-    padding: 15px !important;
-    line-height: 1.6;
- }
-
-.ck.ck-editor__editable_inline ul,
-.ck.ck-editor__editable_inline ol  
- {
-    padding: 0 50px !important;
- }
- 
 .ck-source-editing-area {
     width: 100% !important;
     height: 320px;

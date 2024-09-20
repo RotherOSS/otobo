@@ -18,6 +18,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     white-space: pre-wrap;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 12px;
+    line-height: 1.6;
+}
+
+.ck-content.ck-editor__editable_inline {
+    padding: 15px;
 }
 
 .ck-content figure.table {
@@ -54,4 +59,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-style: normal !important;
     border-left: solid #000099 1.5pt !important; 
     padding: 0cm 0cm 0cm 4pt !important;    
+}
+
+.ck-content ul,
+.ck-content ol  
+{
+    padding: 0 50px;
 }
