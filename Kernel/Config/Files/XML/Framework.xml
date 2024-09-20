@@ -525,6 +525,13 @@
             <Item ValueType="String" ValueRegex="">common/css/ckeditor5-42.0.1-content.css</Item>
         </Value>
     </Setting>
+    <Setting Name="Frontend::RichTextEditorStyles" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-42.0.1-editor.css</Item>
+        </Value>
+    </Setting>
     <Setting Name="CustomerFrontend::RichText::DefaultCSS" Required="1" Valid="1">
         <Description Translatable="1">Custom CSS styles for RichText articles.</Description>
         <Navigation>Frontend::Base</Navigation>
@@ -536,7 +543,14 @@
         <Description Translatable="1">Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">ckeditor5-42.0.1-content.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-42.0.1-content.css</Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::RichTextEditorStyles" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-42.0.1-editor.css</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">

@@ -137,7 +137,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             if (Plugin) {
                 EnabledPlugins.push(CKEditor5Plugins[pluginName]);
             } else {
-                console.log('Couldnt find plugin: ' + pluginName);
+                Core.Exception.ShowError('Couldnt find plugin: ' + pluginName, 'JavaScriptError');
             }
         }
 
@@ -184,7 +184,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             },
             image: {
                 resizeUnit: 'px',
-                resizeOptions: [ 
+                resizeOptions: [
                     {
                         name: 'resizeImage:original',
                         label: 'Original Image Size',
@@ -203,10 +203,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         name: 'imageStyle:imagePositioningDropdown',
                         title: 'Image Positioning',
                         items: [
-                            'imageStyle:alignLeft', 
-                            'imageStyle:alignCenter', 
-                            'imageStyle:alignRight', 
-                            'imageStyle:alignBlockLeft', 
+                            'imageStyle:alignLeft',
+                            'imageStyle:alignCenter',
+                            'imageStyle:alignRight',
+                            'imageStyle:alignBlockLeft',
                             'imageStyle:alignBlockRight'
                         ],
                         defaultItem: 'imageStyle:alignBlockLeft'
@@ -440,8 +440,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         var CustomerInterface = (Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'));
 
-        $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + 'common/css/ckeditor5-42.0.1-editor.css">');
-        $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + 'common/css/ckeditor5-42.0.1-content.css">');
+        $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + Core.Config.Get('RichText.EditorStylesPath') + '">');
+        $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + Core.Config.Get('RichText.ContentStylesPath') + '">');
         if (CustomerInterface) {
             $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Customer/default/css/CKEditorCustomStyles.css">');
             $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Customer/default/css/RichTextArticleContent.css">');
