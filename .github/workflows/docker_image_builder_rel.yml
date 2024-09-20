@@ -15,7 +15,7 @@ on:
   # But usually the release tagging is done in an automated process.
   push:
     tags:
-      - test-[0-9]+_[0-9]+_[0-9]+_*
+      - rel-[0-9]+_[0-9]+_[0-9]+_*
 
 jobs:
   BuildDockerImage:
