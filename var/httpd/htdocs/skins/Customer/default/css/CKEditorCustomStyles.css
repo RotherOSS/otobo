@@ -53,17 +53,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck.ck-toolbar__items {
     gap: 1px;
 }
-
-.ck.ck-editor__editable_inline {
-    padding: 15px !important;
-    line-height: 1.6;
- }
-
- .ck.ck-editor__editable_inline ul,
- .ck.ck-editor__editable_inline ol  
- {
-    padding: 0 50px !important;
- }
  
 .ck-source-editing-area {
     width: 100% !important;
@@ -77,15 +66,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     height: 100%;
 }
 
-.ck.ck-editor__editable > .ck-placeholder::before {
-    font-size: 16px;
-}
-
-.ck.ck-editor__editable > .ck-placeholder.error::before {
-    font-size: 16px;
-    color: #ea2400;
-}
-
 .ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
     box-shadow: none !important;
+}
+
+.ck-content > .ck-placeholder::before {
+    font-size: 16px;
+}
+
+.ck-content > .ck-placeholder.error::before {
+    font-size: 16px;
+    color: #ea2400;
 }
