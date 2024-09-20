@@ -3333,6 +3333,7 @@ sub _GetIntegratedPackages {
                 'Ayte-CustomTranslations',
                 'ExtendedCDBInfoTile',
                 'ImportExport',
+                'KluehCustomerTicketInfo',
                 'LightAdmin',
                 'MarkTicketSeenUnseen',
                 'QuickDateButtons',
